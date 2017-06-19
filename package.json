@@ -1,0 +1,32 @@
+{
+  "name": "MessagingApp",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "eslint": "^4.0.0",
+    "eslint-plugin-react": "^7.1.0",
+    "jest-expo": "~1.0.1",
+    "react-test-renderer": "16.0.0-alpha.12"
+  },
+  "scripts": {
+    "start": "react-native start",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "test": "node node_modules/jest/bin/jest.js --watch"
+  },
+  "jest": {
+    "preset": "jest-expo"
+  },
+  "dependencies": {
+    "moment": "^2.18.1",
+    "prop-types": "^15.5.10",
+    "react": "16.0.0-alpha.12",
+    "react-native": "^0.45.1",
+    "react-navigation": "^1.0.0-beta.11",
+    "react-redux": "^5.0.5",
+    "redux": "^3.7.0",
+    "redux-thunk": "^2.2.0",
+    "styled-components": "^2.1.0"
+  }
+}
