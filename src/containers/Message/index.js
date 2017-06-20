@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { View, Button } from 'react-native';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { Text, Flex } from '../../components/common';
 
 class Message extends Component {
-  static navigationOptions = {
-    title: 'Chat',
-  };
+  static navigationOptions = ({ navigation }) => ({
+    title: navigation.state.params.name,
+  });
   render() {
     const { id, messages = [] } = this.props.navigation.state.params;
     const { goBack } = this.props.navigation;
@@ -28,4 +30,9 @@ class Message extends Component {
     );
   }
 }
-export default Message;
+
+Message.propTypes = {
+  dispatch: PropTypes.func.isRequired, // Redux
+};
+
+export default connect()(Message);

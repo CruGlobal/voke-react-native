@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text } from 'react-native';
 
+import theme from '../../theme';
+
 class MyText extends Component {
   setNativeProps(nativeProps) {
     this._text.setNativeProps(nativeProps);
@@ -20,7 +22,7 @@ MyText.defaultProps = { ...Text.defaultProps };
 
 const styles = StyleSheet.create({
   text: {
-    // fontFamily: 'Lato',
+    color: theme.textColor,
   },
 });
 

@@ -3,14 +3,20 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 
+import theme from './theme';
 import Routes from './routes';
 
+// See https://reactnavigation.org/docs/navigators/stack
 export const AppNavigator = StackNavigator(Routes, {
   navigationOptions: {
-    title: ({ state }) => {
-      if (state.params) {
-        return `${state.params.title}`;
-      }
+    // title: ({ state }) => {
+    //   if (state.params) {
+    //     return `${state.params.title}`;
+    //   }
+    // },
+    headerTintColor: theme.headerTextColor,
+    headerStyle: {
+      backgroundColor: theme.headerBackground,
     },
   },
 });
