@@ -3,6 +3,7 @@ import { Button } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import styles from './styles';
 import { loginAction } from '../../actions/auth';
 
 import { Flex, Text } from '../../components/common';
@@ -14,7 +15,7 @@ class Login extends Component {
   render() {
     const { dispatch } = this.props;
     return (
-      <Flex value={1} align="center" justify="center">
+      <Flex style={styles.container} value={1} align="center" justify="center">
         <Text>Hello, please login to continue!</Text>
         <Button
           title="Login to app"

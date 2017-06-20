@@ -12,6 +12,7 @@ export const COLORS = {
   OFF_WHITE: '#fdfdfe',
   GREY: '#98a6b1',
   GREY_FADE: 'rgba(152, 166, 177, 0.25)',
+  WHITE_FADE: 'rgba(245, 250, 255, 0.5)',
   DARK_GREY: '#5f686f',
   CHARCOAL: '#434a50',
   SILVER: '#dce1e4',
@@ -23,7 +24,14 @@ export const COLORS = {
 
 export default {
   // base theme
-  textColor: COLORS.DEEP_BLACK,
+  backgroundColor: COLORS.BLUE,
+  textColor: COLORS.WHITE,
+  iconColor: COLORS.WHITE,
+  buttonBackgroundColor: COLORS.BLACK,
+  buttonTextColor: COLORS.WHITE,
+  buttonIconColor: COLORS.WHITE,
+  separatorColor: COLORS.WHITE_FADE,
+  separatorHeight: 0.5,
   // header
   headerBackgroundColor: COLORS.SILVER,
   headerTextColor: COLORS.GREEN,
