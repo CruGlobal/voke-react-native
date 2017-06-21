@@ -1,6 +1,7 @@
 
 export const COLORS = {
-  BLUE: '#478aef',
+  BLUE: '#44c8e8',
+  DARK_BLUE: '#1194bf',
   ORANGE: '#f96332',
   RED: '#ee2f2f',
   PINK: '#dd4499',
@@ -20,14 +21,18 @@ export const COLORS = {
   LIGHTEST_GREY: '#ebebeb',
   BACKGROUND: '#FFFFFF',
   PRIMARY: '#637076',
+  TRANSPARENT: 'rgba(0, 0, 0, 0)',
 };
 
 export default {
   // base theme
   backgroundColor: COLORS.BLUE,
+  secondaryColor: COLORS.DARK_BLUE,
   textColor: COLORS.WHITE,
   iconColor: COLORS.WHITE,
-  buttonBackgroundColor: COLORS.BLACK,
+  buttonBackgroundColor: COLORS.TRANSPARENT,
+  buttonBorderColor: COLORS.WHITE,
+  buttonBorderWidth: 1,
   buttonTextColor: COLORS.WHITE,
   buttonIconColor: COLORS.WHITE,
   separatorColor: COLORS.WHITE_FADE,
@@ -37,5 +42,5 @@ export default {
   headerTextColor: COLORS.GREEN,
   // message
   messageHeaderTextColor: COLORS.ORANGE,
-  
+
 };

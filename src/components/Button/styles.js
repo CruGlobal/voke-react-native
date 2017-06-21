@@ -1,6 +1,8 @@
 
 import { StyleSheet } from 'react-native';
 import theme from '../../theme';
+import COLORS from '../../theme';
+
 
 module.exports = StyleSheet.create({
   button: {
@@ -8,19 +10,24 @@ module.exports = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'center',
+    borderColor: theme.buttonBorderColor,
+    borderWidth: theme.buttonBorderWidth,
   },
   disabled: {
     opacity: 0.6,
   },
   buttonText: {
     color: theme.buttonTextColor,
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 16,
   },
   icon: {
     color: theme.buttonIconColor,
     fontSize: 24,
+    paddingRight: 10,
+  },
+  transparent: {
+    backgroundColor: COLORS.TRANSPARENT,
   },
 });
