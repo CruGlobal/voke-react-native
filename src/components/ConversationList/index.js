@@ -1,7 +1,7 @@
 
-import React, { Component, PropTypes } from 'react';
-import { ListView, TouchableOpacity, TouchableHighlight, View} from 'react-native';
-import { connect } from 'react-redux';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { ListView, View } from 'react-native';
 import styles from './styles';
 
 // import { navigateAction } from '../../actions/navigation';
@@ -35,7 +35,7 @@ class ConversationList extends Component { // eslint-disable-line
   handleRefresh() {
     this.setState({ refreshing: true });
     setTimeout(() => {
-      // this.props.dispatch(newSuggestionAction());
+      // this.props.onRefresh();
       this.setState({ refreshing: false });
     }, 500);
   }
@@ -80,11 +80,9 @@ class ConversationList extends Component { // eslint-disable-line
 }
 
 ConversationList.propTypes = {
-  dispatch: PropTypes.func.isRequired, // Redux
+  onRefresh: PropTypes.func.isRequired, // Redux
   onSelect: PropTypes.func.isRequired, // Redux
   items: PropTypes.object.isRequired, // Redux
 };
 
-const mapStateToProps = () => ({});
-
-export default connect(mapStateToProps)(ConversationList);
+export default ConversationList;

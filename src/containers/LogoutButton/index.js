@@ -8,7 +8,7 @@ function LogoutButton({ dispatch }) {
   return (
     <Button
       text="Logout"
-      type="transparent"
+      type="header"
       style={{ paddingRight: 10 }}
       onPress={() => dispatch(logoutAction())}
     />

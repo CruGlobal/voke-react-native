@@ -3,7 +3,7 @@ import { StyleSheet, Text } from 'react-native';
 
 import theme from '../../theme';
 
-class MyText extends Component {
+export default class MyText extends Component {
   setNativeProps(nativeProps) {
     this._text.setNativeProps(nativeProps);
   }
@@ -25,5 +25,3 @@ const styles = StyleSheet.create({
     color: theme.textColor,
   },
 });
-
-export default MyText;

@@ -1,9 +1,13 @@
-import React, { PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { View, StyleSheet } from 'react-native';
 import theme from '../../theme';
 
-export default function Separator({ style, ...rest }) {
-  return <View {...rest} style={[styles.separator, style]} />;
+export default class Separator extends Component {
+  render() {
+    const { style, ...rest } = this.props;
+    return <View {...rest} style={[styles.separator, style]} />;
+  }
 }
 
 Separator.propTypes = {

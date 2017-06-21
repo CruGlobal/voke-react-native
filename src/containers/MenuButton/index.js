@@ -8,7 +8,7 @@ function MenuButton({ dispatch }) {
   return (
     <Button
       text="Menu"
-      type="transparent"
+      type="header"
       style={{ paddingLeft: 10 }}
       onPress={() => dispatch(navigateAction('Menu'))}
     />

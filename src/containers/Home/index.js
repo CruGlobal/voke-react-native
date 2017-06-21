@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 import styles from './styles';
 import { navigateAction } from '../../actions/navigation';
 
-import { Text } from '../../components/common';
 import ConversationList from '../../components/ConversationList';
+import StatusBar from '../../components/StatusBar';
 
 const CONVERSATIONS = {
   id1: {
@@ -48,16 +48,15 @@ const CONVERSATIONS = {
 };
 
 class Home extends Component {
-  static navigationOptions = {
-    title: 'Home',
-  };
   render() {
     const { dispatch } = this.props;
     return (
       <View style={styles.container}>
+        <StatusBar />
         <ConversationList
           items={CONVERSATIONS}
           onSelect={(c) => dispatch(navigateAction('Message', c))}
+          onRefresh={() => {}}
         />
       </View>
     );

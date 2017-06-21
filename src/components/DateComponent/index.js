@@ -1,14 +1,18 @@
-import React, { PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import Text from '../Text';
 
-export default function DateComponent({ date, format, ...rest }) {
-  const text = moment(date).format(format);
-  return (
-    <Text {...rest}>
-      {text}
-    </Text>
-  );
+export default class DateComponent extends Component {
+  render() {
+    const { date, format, ...rest } = this.props;
+    const text = moment(date).format(format);
+    return (
+      <Text {...rest}>
+        {text}
+      </Text>
+    );
+  }
 }
 
 DateComponent.propTypes = {

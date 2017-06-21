@@ -1,12 +1,17 @@
 import React from 'react';
-import LogoutButton from './containers/LogoutButton';
-import MenuButton from './containers/MenuButton';
-import theme from './theme';
 
 import Login from './containers/Login';
 import Home from './containers/Home';
 import Menu from './containers/Menu';
+import About from './containers/About';
+import Acknowledgements from './containers/Acknowledgements';
 import Message from './containers/Message';
+
+import LogoutButton from './containers/LogoutButton';
+import BackNavButton from './containers/BackNavButton';
+import MenuButton from './containers/MenuButton';
+import HeaderLogo from './components/HeaderLogo';
+import theme from './theme';
 
 // See https://reactnavigation.org/docs/navigators/stack
 const Routes = {
@@ -19,14 +24,29 @@ const Routes = {
   Home: {
     screen: Home,
     navigationOptions: {
+      headerTitle: <HeaderLogo />,
       headerRight: <LogoutButton />,
       headerLeft: <MenuButton />,
+      headerBackTitle: 'Back',
     },
   },
   Menu: {
     screen: Menu,
     navigationOptions: {
-      headerRight: <LogoutButton />,
+      headerRight: <BackNavButton text="Done" />,
+      headerLeft: null,
+    },
+  },
+  About: {
+    screen: About,
+    navigationOptions: {
+      title: 'About',
+    },
+  },
+  Acknowledgements: {
+    screen: Acknowledgements,
+    navigationOptions: {
+      title: 'Acknowledgements',
     },
   },
   Message: {

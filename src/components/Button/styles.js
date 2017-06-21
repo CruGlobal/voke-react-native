@@ -1,7 +1,6 @@
 
 import { StyleSheet } from 'react-native';
-import theme from '../../theme';
-import COLORS from '../../theme';
+import theme, { COLORS } from '../../theme';
 
 export default StyleSheet.create({
   button: {
@@ -28,5 +27,11 @@ export default StyleSheet.create({
   },
   transparent: {
     backgroundColor: COLORS.TRANSPARENT,
+  },
+  textHeader: {
+    color: theme.headerTextColor,
+  },
+  iconHeader: {
+    color: theme.headerTextColor,
   },
 });

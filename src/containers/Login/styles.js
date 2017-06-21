@@ -4,7 +4,7 @@ import theme from '../../theme';
 
 const { width: deviceWidth } = Dimensions.get('window');
 
-module.exports = StyleSheet.create({
+export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.backgroundColor,

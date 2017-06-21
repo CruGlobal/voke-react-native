@@ -1,31 +1,19 @@
 
 import { StyleSheet } from 'react-native';
+import theme from '../../theme';
 
-module.exports = StyleSheet.create({
-  content: {
-    flex: 1,
-  },
+export default StyleSheet.create({
   container: {
-    paddingVertical: 10,
-    // paddingBottom: 30,
+    flex: 1,
+    backgroundColor: theme.lightBackgroundColor,
   },
-  conversationName: {
-    fontWeight: 'bold',
-    fontSize: 15,
+  row: {
+    flex: 1,
+    marginHorizontal: 15,
+    marginVertical: 10,
   },
-  messagePreviewText: {
-    fontSize: 14,
-  },
-  avatarWrapper: {
-    padding: 2,
-  },
-  avatar: {
-    height: 25,
-    width: 25,
-    borderRadius: 15,
-    backgroundColor: 'white',
-  },
-  conversationArrow: {
-    padding: 2,
+  link: {
+    color: theme.darkText,
+    fontSize: 16,
   },
 });
