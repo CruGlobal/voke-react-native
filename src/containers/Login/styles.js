@@ -25,7 +25,8 @@ module.exports = StyleSheet.create({
     fontSize: 15,
   },
   imageLogo: {
-    // height: 50,
+    height: 50,
+    width: 150,
   },
   signIn: {
     fontSize: 14,

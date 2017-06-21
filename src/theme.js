@@ -1,7 +1,7 @@
 
 export const COLORS = {
   BLUE: '#44c8e8',
-  DARK_BLUE: '#1194bf',
+  DARK_BLUE: '#186078',
   ORANGE: '#f96332',
   RED: '#ee2f2f',
   PINK: '#dd4499',
@@ -35,11 +35,11 @@ export default {
   buttonBorderWidth: 1,
   buttonTextColor: COLORS.WHITE,
   buttonIconColor: COLORS.WHITE,
-  separatorColor: COLORS.WHITE_FADE,
+  separatorColor: COLORS.DARK_BLUE,
   separatorHeight: 0.5,
   // header
-  headerBackgroundColor: COLORS.SILVER,
-  headerTextColor: COLORS.GREEN,
+  headerBackgroundColor: COLORS.DARK_BLUE,
+  headerTextColor: COLORS.BLUE,
   // message
   messageHeaderTextColor: COLORS.ORANGE,
 

@@ -5,47 +5,48 @@ import styles from './styles';
 
 import { Touchable, Text, Icon, Flex } from '../common';
 
+function getTypeStyle(type) {
+  if (type === 'transparent') {
+    return styles.transparent;
+  }
+  return styles.button;
+}
+
 export default function Button({ onPress, type, text, icon, children, disabled, style = {}, buttonTextStyle = {}, iconStyle = {}, ...rest }) {
   let content = children;
   if (!children) {
-    if (text && !icon) {
-      content = (
+    let textComp = null;
+    let iconComp = null;
+    if (text) {
+      textComp = (
         <Text style={[styles.buttonText, buttonTextStyle]}>
           {text}
         </Text>
       );
-    } else if (icon && !text) {
-      content = (
+    }
+    if (icon) {
+      iconComp = (
         <Icon name={icon} style={[styles.icon, iconStyle]} />
       );
-    } else if (icon && text) {
+    }
+    if (icon && text) {
       content = (
         <Flex direction="row" align="center" justify="start">
-          <Icon name={icon} style={[styles.icon, iconStyle]} />
-          <Text style={[styles.buttonText, buttonTextStyle]}>
-            {text}
-          </Text>
+          {iconComp}
+          {textComp}
         </Flex>
       );
+    } else {
+      content = textComp || iconComp;
     }
   }
-  if (type === 'transparent') {
-    return (
-      <Touchable onPress={disabled ? undefined : onPress} {...rest}>
-        <View style={[styles.transparent, disabled ? styles.disabled : null, style]}>
-          {content}
-        </View>
-      </Touchable>
-    );
-  } else {
-    return (
-      <Touchable onPress={disabled ? undefined : onPress} {...rest}>
-        <View style={[styles.button, disabled ? styles.disabled : null, style]}>
-          {content}
-        </View>
-      </Touchable>
-    );
-  }
+  return (
+    <Touchable onPress={disabled ? undefined : onPress} {...rest}>
+      <View style={[getTypeStyle(type), disabled ? styles.disabled : null, style]}>
+        {content}
+      </View>
+    </Touchable>
+  );
 }
 
 Button.propTypes = {

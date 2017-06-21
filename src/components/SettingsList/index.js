@@ -1,18 +1,18 @@
 
 import React, { Component, PropTypes } from 'react';
-import { ListView, TouchableOpacity, TouchableHighlight, View} from 'react-native';
+import { ListView, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import styles from './styles';
 
 // import { navigateAction } from '../../actions/navigation';
 
-import { Flex, Icon, Text, Touchable, Separator, RefreshControl } from '../../components/common';
+import { Flex, Icon, Text, Separator, RefreshControl } from '../../components/common';
 
 function formatConversations(c) {
   return Object.keys(c).map((k) => c[k]);
 }
 
-class ConversationList extends Component { // eslint-disable-line
+class SettingsList extends Component { // eslint-disable-line
 
   constructor(props) {
     super(props);
@@ -40,27 +40,23 @@ class ConversationList extends Component { // eslint-disable-line
     }, 500);
   }
 
-  renderRow(conversation) {
-    const latestMessage = conversation.messages[conversation.messages.length - 1] || {};
+  renderRow(setting) {
     return (
-      <Touchable highlight={true} activeOpacity={0.6} onPress={() => this.props.onSelect(conversation)}>
-        <View>
-          <Flex style={styles.container} direction="row" align="center" justify="center">
-            <Flex value={2} style={styles.avatarWrapper} align="center" justify="start">
-              <Flex style={styles.avatar}></Flex>
-            </Flex>
-            <Flex value={15}>
-              <Flex direction="column">
-                <Text style={styles.conversationName}>{conversation.name}</Text>
-                <Text style={styles.messagePreviewText} numberOfLines={2}>Latest Message: {latestMessage.text}</Text>
-              </Flex>
-            </Flex>
-            <Flex value={1} style={styles.conversationArrow} align="center" justify="center">
-              <Icon name="arrow-right" size={15} />
+      <TouchableOpacity activeOpacity={0.6} onPress={setting.onPress}>
+        <Flex style={styles.container} direction="row" align="center" justify="center">
+          <Flex value={2} style={styles.avatarWrapper} align="center" justify="start">
+            <Flex style={styles.avatar}></Flex>
+          </Flex>
+          <Flex value={15}>
+            <Flex value={1} direction="column">
+              <Text style={styles.conversationName}>{setting.name}</Text>
             </Flex>
           </Flex>
-        </View>
-      </Touchable>
+          <Flex value={1} style={styles.conversationArrow} align="center" justify="center">
+            <Icon name="arrow-right" size={15} />
+          </Flex>
+        </Flex>
+      </TouchableOpacity>
     );
   }
 
@@ -79,7 +75,7 @@ class ConversationList extends Component { // eslint-disable-line
   }
 }
 
-ConversationList.propTypes = {
+SettingsList.propTypes = {
   dispatch: PropTypes.func.isRequired, // Redux
   onSelect: PropTypes.func.isRequired, // Redux
   items: PropTypes.object.isRequired, // Redux
@@ -87,4 +83,4 @@ ConversationList.propTypes = {
 
 const mapStateToProps = () => ({});
 
-export default connect(mapStateToProps)(ConversationList);
+export default connect(mapStateToProps)(SettingsList);

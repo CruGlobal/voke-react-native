@@ -1,26 +1,29 @@
 import React from 'react';
 import {
   TouchableOpacity,
-  // TouchableHighlight,
+  TouchableHighlight,
   TouchableNativeFeedback,
   Platform,
 } from 'react-native';
 
 function TouchableIOS(props) {
-  return (
-    <TouchableOpacity
-      accessibilityTraits="button"
-      activeOpacity={0.6}
-      {...props}
-    />
-  );
-  // return (
-  //   <TouchableHighlight
-  //     accessibilityTraits="button"
-  //     underlayColor="#3C5EAE"
-  //     {...props}
-  //   />
-  // );
+  if (props.highlight) {
+    return (
+      <TouchableHighlight
+        accessibilityTraits="button"
+        underlayColor="#3C5EAE"
+        {...props}
+      />
+    );
+  } else {
+    return (
+      <TouchableOpacity
+        accessibilityTraits="button"
+        activeOpacity={0.6}
+        {...props}
+      />
+    );
+  }
 }
 
 function TouchableAndroid(props) {

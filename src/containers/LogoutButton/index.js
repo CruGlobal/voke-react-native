@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'react-native';
+import Button from '../../components/Button';
 import { connect } from 'react-redux';
 
 import { logoutAction } from '../../actions/auth';
@@ -7,7 +7,9 @@ import { logoutAction } from '../../actions/auth';
 function LogoutButton({ dispatch }) {
   return (
     <Button
-      title="Logout"
+      text="Logout"
+      type="transparent"
+      style={{ paddingRight: 10 }}
       onPress={() => dispatch(logoutAction())}
     />
   );

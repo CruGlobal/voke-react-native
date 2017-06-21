@@ -18,7 +18,7 @@ class Login extends Component {
     return (
       <Flex style={styles.container} value={1} align="center" justify="center">
         <Flex direction="column" value={3} align="center" justify="center" style={styles.logoWrapper}>
-          <Image source={LOGO} style={styles.imageLogo} />
+          <Image resizeMode="contain" source={LOGO} style={styles.imageLogo} />
           <Text style={styles.headerText}>A free chat app that helps kickstart deeper conversations using thought-provoking videos</Text>
         </Flex>
         <Flex value={1} align="center" justify="center" style={styles.actions}>
