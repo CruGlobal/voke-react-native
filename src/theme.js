@@ -1,16 +1,17 @@
 import Color from 'color';
+import { exists } from './utils/common';
 
 // See https://github.com/qix-/color for help
 function colorConvert({ color, alpha, lighten, darken, negate, rotate, whiten, blacken }) {
   let col = Color(color);
   // Lots of things you can do with color stuff
-  if (typeof alpha !== 'undefined') col = Color(col).alpha(alpha);
-  if (typeof lighten !== 'undefined') col = Color(col).lighten(lighten);
-  if (typeof darken !== 'undefined') col = Color(col).darken(darken);
-  if (typeof negate !== 'undefined') col = Color(col).negate();
-  if (typeof rotate !== 'undefined') col = Color(col).rotate(rotate);
-  if (typeof whiten !== 'undefined') col = Color(col).whiten(whiten);
-  if (typeof blacken !== 'undefined') col = Color(col).blacken(blacken);
+  if (exists(alpha)) col = Color(col).alpha(alpha);
+  if (exists(lighten)) col = Color(col).lighten(lighten);
+  if (exists(darken)) col = Color(col).darken(darken);
+  if (exists(negate)) col = Color(col).negate();
+  if (exists(rotate)) col = Color(col).rotate(rotate);
+  if (exists(whiten)) col = Color(col).whiten(whiten);
+  if (exists(blacken)) col = Color(col).blacken(blacken);
   return col.rgb().toString();
 }
 

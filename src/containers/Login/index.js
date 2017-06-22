@@ -7,16 +7,15 @@ import styles from './styles';
 import { loginAction } from '../../actions/auth';
 
 import { Flex, Text, Button } from '../../components/common';
+import StatusBar from '../../components/StatusBar';
 import LOGO from '../../../images/vokeLogo.png';
 
 class Login extends Component {
-  static navigationOptions = {
-    title: 'Login',
-  };
   render() {
     const { dispatch } = this.props;
     return (
       <Flex style={styles.container} value={1} align="center" justify="center">
+        <StatusBar />
         <Flex direction="column" value={3} align="center" justify="center" style={styles.logoWrapper}>
           <Image resizeMode="contain" source={LOGO} style={styles.imageLogo} />
           <Text style={styles.headerText}>A free chat app that helps kickstart deeper conversations using thought-provoking videos</Text>

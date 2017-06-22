@@ -7,7 +7,7 @@ export default class MyRefreshControl extends Component {
     return (
       <RefreshControl
         progressBackgroundColor={COLORS.WHITE}
-        colors={[COLORS.BLUE, COLORS.RED, COLORS.GREEN]}
+        colors={[COLORS.DARK_BLUE, COLORS.BLUE]}
         tintColor={COLORS.WHITE}
         title="Refreshing"
         titleColor={COLORS.WHITE}

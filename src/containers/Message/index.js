@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, Button } from 'react-native';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { View } from 'react-native';
+import { connect } from 'react-redux';
 
 import styles from './styles';
 import { Text, Flex } from '../../components/common';
@@ -17,7 +17,9 @@ class Message extends Component {
         <Flex value={1} direction="column" align="end" justify="end">
           {
             messages.map((m) => (
-              <Text key={m.id}>{m.text}</Text>
+              <Flex direction="row" key={m.id}>
+                <Text>{m.text}</Text>
+              </Flex>
             ))
           }
         </Flex>

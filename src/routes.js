@@ -1,4 +1,5 @@
 import React from 'react';
+import { Platform } from 'react-native';
 
 import Login from './containers/Login';
 import Home from './containers/Home';
@@ -25,8 +26,8 @@ const Routes = {
     screen: Home,
     navigationOptions: {
       headerTitle: <HeaderLogo />,
-      headerRight: <LogoutButton />,
-      headerLeft: <MenuButton />,
+      headerRight: Platform.OS === 'android' ? <MenuButton /> : <LogoutButton />,
+      headerLeft: Platform.OS === 'android' ? null : <MenuButton />,
       headerBackTitle: 'Back',
     },
   },

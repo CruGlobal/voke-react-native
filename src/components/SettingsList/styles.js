@@ -9,8 +9,8 @@ export default StyleSheet.create({
   },
   row: {
     flex: 1,
-    marginHorizontal: 15,
-    marginVertical: 10,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
   },
   link: {
     color: theme.darkText,
