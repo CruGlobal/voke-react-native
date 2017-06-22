@@ -8,9 +8,10 @@ import { Text, Flex } from '../../components/common';
 
 class VideoDetails extends Component {
   static navigationOptions = ({ navigation }) => ({
-    title: navigation.state.params.name,
+    title: navigation.state.params.video.title || 'test',
   });
   render() {
+    const video = this.props.navigation.state.params.video;
     return (
       <View style={styles.container}>
         <Flex value={1} direction="column" align="center" justify="start">

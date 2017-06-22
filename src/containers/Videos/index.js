@@ -27,7 +27,7 @@ class Videos extends Component {
         <StatusBar />
         <VideoList
           items={VIDEOS}
-          onSelect={(c) => dispatch(navigateAction('VideoDetails', c))}
+          onSelect={(c) => dispatch(navigateAction('VideoDetails', { video: c }))}
           onRefresh={() => {}}
         />
       </View>

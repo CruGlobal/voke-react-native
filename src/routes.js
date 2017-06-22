@@ -44,6 +44,12 @@ const Routes = {
   Videos: {
     screen: Videos,
     navigationOptions: {
+      headerStyle: {
+        backgroundColor: theme.headerBackgroundColor,
+        borderBottomWidth: 0,
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0,
+      },
       headerTitle: <HeaderLogo />,
       headerLeft: <BackNavButton icon="home" iconStyle={{fontSize: 30}} style={{paddingLeft: 10}} />,
     },
