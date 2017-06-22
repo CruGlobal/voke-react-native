@@ -4,17 +4,16 @@ import { connect } from 'react-redux';
 
 import { navigateAction } from '../../actions/navigation';
 
-// iOS uses a button to navigate to 'Menu'
-function MenuButton({ dispatch }) {
+function VideosButton({ dispatch }) {
   return (
     <Button
-      icon="menu"
+      icon="video-library"
       iconStyle={{fontSize: 30}}
       type="header"
-      style={{ paddingLeft: 10 }}
-      onPress={() => dispatch(navigateAction('Menu'))}
+      style={{ paddingRight: 10 }}
+      onPress={() => dispatch(navigateAction('Videos'))}
     />
   );
 }
 
-export default connect()(MenuButton);
+export default connect()(VideosButton);

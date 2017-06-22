@@ -7,9 +7,11 @@ import { backAction } from '../../actions/navigation';
 function BackNavButton({ dispatch, ...rest }) {
   return (
     <Button
-      text="Back"
+      text=""
       type="header"
+      icon=""
       style={{ paddingRight: 10 }}
+      iconStyle={{}}
       {...rest}
       onPress={() => dispatch(backAction())}
     />

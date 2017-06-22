@@ -1,6 +1,6 @@
 
 import { StyleSheet } from 'react-native';
-import theme from '../../theme';
+import theme, { COLORS }  from '../../theme';
 
 export default StyleSheet.create({
   container: {
@@ -14,6 +14,10 @@ export default StyleSheet.create({
   },
   link: {
     color: theme.darkText,
-    fontSize: 16,
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  settingsSeparator: {
+    backgroundColor: COLORS.LIGHT_GREY,
   },
 });

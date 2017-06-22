@@ -54,9 +54,8 @@ class SettingsList extends Component { // eslint-disable-line
     return (
       <View style={styles.container}>
         <ListView
-          refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this.handleRefresh} />}
           style={{ flex: 1 }}
-          renderSeparator={(sectionID, rowID) => <Separator key={rowID} />}
+          renderSeparator={(sectionID, rowID) => <Separator style={styles.settingsSeparator} key={rowID} />}
           enableEmptySections={true}
           contentContainerStyle={styles.content}
           dataSource={this.state.dataSource}

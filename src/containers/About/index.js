@@ -12,6 +12,7 @@ class About extends Component {
     Linking.openURL(url);
   }
   render() {
+    const versionBuild = '1.0';
     return (
       <SettingsList
         items={[
@@ -20,8 +21,20 @@ class About extends Component {
             onPress: () => this.handleLink('https://www.vokeapp.com'),
           },
           {
-            name: 'Like Us on Facebook',
+            name: 'Follow us on Facebook',
             onPress: () => this.handleLink('https://www.facebook.com'),
+          },
+          {
+            name: 'Terms of Service',
+            onPress: () => this.handleLink('https://www.facebook.com'),
+          },
+          {
+            name: 'Privacy Policy',
+            onPress: () => this.handleLink('https://www.facebook.com'),
+          },
+          {
+            name: `Version: ${versionBuild}`,
+            onPress: () => {},
           },
         ]}
       />
