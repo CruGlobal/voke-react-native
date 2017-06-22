@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import styles from './styles';
 import { navigateAction } from '../../actions/navigation';
 
+import FloatingButton from '../FloatingButton';
 import ConversationList from '../../components/ConversationList';
 import StatusBar from '../../components/StatusBar';
 
@@ -58,6 +59,7 @@ class Home extends Component {
           onSelect={(c) => dispatch(navigateAction('Message', c))}
           onRefresh={() => {}}
         />
+        <FloatingButton />
       </View>
     );
   }

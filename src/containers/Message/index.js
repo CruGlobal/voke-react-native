@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import styles from './styles';
 import { Text, Flex } from '../../components/common';
+import ShareButton from '../../components/ShareButton';
 
 class Message extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -19,6 +20,7 @@ class Message extends Component {
             messages.map((m) => (
               <Flex direction="row" key={m.id}>
                 <Text>{m.text}</Text>
+                <ShareButton message="Share this with you" title="Hey!" url="https://www.facebook.com" />
               </Flex>
             ))
           }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   TouchableOpacity,
   TouchableHighlight,
@@ -28,17 +29,34 @@ class TouchableIOS extends Component {
     );
   }
 }
+TouchableIOS.propTypes = {
+  highlight: PropTypes.bool,
+};
 
 class TouchableAndroid extends Component {
   render() {
+    const { borderless = false, ...rest } = this.props;
+    let background;
+    // Android > 5.0 support
+    if (Platform.Version >= 21) {
+      background = TouchableNativeFeedback.Ripple(COLORS.convert({
+        color: COLORS.GREY,
+        alpha: 0.5,
+      }), borderless);
+    } else {
+      background = TouchableNativeFeedback.SelectableBackground();
+    }
     return (
       <TouchableNativeFeedback
-        background={TouchableNativeFeedback.Ripple(COLORS.GREY_FADE, false)}
-        {...this.props}
+        background={background}
+        {...rest}
       />
     );
   }
 }
+TouchableAndroid.propTypes = {
+  borderless: PropTypes.bool,
+};
 
 const Touchable = Platform.OS === 'android' ? TouchableAndroid : TouchableIOS;
 

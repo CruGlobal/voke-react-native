@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { navigateAction } from '../../actions/navigation';
 
+// iOS uses a button to navigate to 'Menu'
 function MenuButton({ dispatch }) {
   return (
     <Button

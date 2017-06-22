@@ -56,7 +56,7 @@ class ConversationList extends Component { // eslint-disable-line
               </Flex>
             </Flex>
             <Flex value={1} style={styles.conversationArrow} align="center" justify="center">
-              <Icon name="arrow-right" size={15} />
+              <Icon name="arrow-right" size={20} />
             </Flex>
           </Flex>
         </View>

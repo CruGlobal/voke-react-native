@@ -6,6 +6,7 @@ import { exists, isFunction } from '../../utils/common';
 
 import { Flex, Touchable, Icon } from '../../components/common';
 
+// Android only component
 class PopupMenu extends Component {
 
   constructor(props) {
@@ -21,7 +22,6 @@ class PopupMenu extends Component {
   }
 
   handleItemPress(e, i) {
-    console.warn('e, i', e, i);
     if (exists(i) && i >= 0) {
       const action = this.props.actions[i] || {};
       if (action.onPress && isFunction(action.onPress)) {
@@ -42,10 +42,8 @@ class PopupMenu extends Component {
 
   render() {
     return (
-      <Touchable onPress={this.handlePress}>
-        <Flex self="end" style={{
-          paddingHorizontal: 10,
-        }}>
+      <Touchable onPress={this.handlePress} borderless={true}>
+        <Flex self="end" style={{ paddingHorizontal: 10 }}>
           <Icon
             ref={(c) => this.menu = c}
             name="more-vert"
@@ -58,8 +56,10 @@ class PopupMenu extends Component {
 }
 
 PopupMenu.propTypes = {
-  actions: PropTypes.array.isRequired,
-  onPress: PropTypes.func.isRequired,
+  actions: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    onPress: PropTypes.func.isRequired,
+  })).isRequired,
 };
 
 export default PopupMenu;

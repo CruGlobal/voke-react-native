@@ -1,4 +1,6 @@
+import { StyleSheet } from 'react-native';
 import Color from 'color';
+
 import { exists } from './utils/common';
 
 // See https://github.com/qix-/color for help
@@ -39,11 +41,15 @@ export const COLORS = {
   convert: colorConvert,
 };
 
+const PRIMARY = COLORS.BLUE;
+const SECONDARY = COLORS.DARK_BLUE;
+
 export default {
   // base theme
-  backgroundColor: COLORS.BLUE,
+  primaryColor: PRIMARY,
+  secondaryColor: SECONDARY,
+  backgroundColor: PRIMARY,
   lightBackgroundColor: COLORS.LIGHTEST_GREY,
-  secondaryColor: COLORS.DARK_BLUE,
   textColor: COLORS.WHITE,
   darkText: COLORS.BLACK,
   iconColor: COLORS.WHITE,
@@ -52,10 +58,10 @@ export default {
   buttonBorderWidth: 1,
   buttonTextColor: COLORS.WHITE,
   buttonIconColor: COLORS.WHITE,
-  separatorColor: COLORS.DARK_BLUE,
-  separatorHeight: 0.5,
+  separatorColor: SECONDARY,
+  separatorHeight: StyleSheet.hairlineWidth,
   // header
-  headerBackgroundColor: COLORS.DARK_BLUE,
+  headerBackgroundColor: SECONDARY,
   headerTextColor: COLORS.WHITE,
   // message
   messageHeaderTextColor: COLORS.GREEN,
