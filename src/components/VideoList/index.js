@@ -82,7 +82,7 @@ class VideoList extends Component { // eslint-disable-line
 VideoList.propTypes = {
   onRefresh: PropTypes.func.isRequired, // Redux
   onSelect: PropTypes.func.isRequired, // Redux
-  items: PropTypes.object.isRequired, // Redux
+  items: PropTypes.array.isRequired, // Redux
 };
 
 export default VideoList;

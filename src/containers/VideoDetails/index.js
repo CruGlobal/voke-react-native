@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import styles from './styles';
+import WebviewVideo from '../../components/WebviewVideo';
 import { Text, Flex } from '../../components/common';
 
 class VideoDetails extends Component {
@@ -16,6 +17,7 @@ class VideoDetails extends Component {
       <View style={styles.container}>
         <Flex value={1} direction="column" align="center" justify="start">
           <Flex style={styles.video}>
+            <WebviewVideo />
           </Flex>
           <Flex>
           </Flex>
