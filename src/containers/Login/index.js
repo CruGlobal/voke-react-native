@@ -1,16 +1,25 @@
 import React, { Component } from 'react';
 import { Image } from 'react-native';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+
 
 import styles from './styles';
 import { loginAction } from '../../actions/auth';
+import nav, { NavPropTypes } from '../../actions/navigation_new';
 
 import { Flex, Text, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import LOGO from '../../../images/vokeLogo.png';
 
 class Login extends Component {
+
+  login() {
+    this.props.dispatch(loginAction('123', {
+      id: '1',
+      name: 'Bryan Eaton',
+    }));
+    this.props.navigateResetHome();
+  }
   render() {
     const { dispatch } = this.props;
     return (
@@ -27,10 +36,7 @@ class Login extends Component {
               icon="mail-outline"
               buttonTextStyle={styles.signInButton}
               style={styles.actionButton}
-              onPress={() => dispatch(loginAction('123', {
-                id: '1',
-                name: 'Bryan Eaton',
-              }))}
+              onPress={() => this.login()}
             />
           </Flex>
           <Flex style={styles.buttonWrapper}>
@@ -39,10 +45,7 @@ class Login extends Component {
               buttonTextStyle={styles.signInButton}
               icon="account-box"
               style={styles.actionButton}
-              onPress={() => dispatch(loginAction('123', {
-                id: '1',
-                name: 'Bryan Eaton',
-              }))}
+              onPress={() => this.login()}
             />
           </Flex>
           <Flex direction="row" align="center" justify="center" style={styles.haveAccount}>
@@ -51,10 +54,7 @@ class Login extends Component {
               text="Sign In"
               type="transparent"
               buttonTextStyle={styles.signInButton}
-              onPress={() => dispatch(loginAction('123', {
-                id: '1',
-                name: 'Bryan Eaton',
-              }))}
+              onPress={() => this.login()}
             />
           </Flex>
         </Flex>
@@ -64,7 +64,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  dispatch: PropTypes.func.isRequired, // Redux
+  ...NavPropTypes,
 };
 
-export default connect()(Login);
+export default connect(null, nav)(Login);

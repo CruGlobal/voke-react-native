@@ -1,33 +1,47 @@
 // import React from 'react';
 // import { Platform } from 'react-native';
 //
-// import Login from './containers/Login';
 // import Home from './containers/Home';
 // import Menu from './containers/Menu';
-// import About from './containers/About';
-// import Profile from './containers/Profile';
-// import Acknowledgements from './containers/Acknowledgements';
-// import Message from './containers/Message';
 //
 // import VideosButton from './containers/VideosButton';
 // import BackNavButton from './containers/BackNavButton';
 // import Videos from './containers/Videos';
-// import VideoDetails from './containers/VideoDetails';
 // import MenuButton from './containers/MenuButton';
 // import HeaderLogo from './components/HeaderLogo';
 // import theme from './theme';
-//
-import {Navigation} from 'react-native-navigation';
 
+import { Navigation } from 'react-native-navigation';
+
+import Login from './containers/Login';
 import Home from './containers/Home';
 import Videos from './containers/Videos';
 import Menu from './containers/Menu';
+import About from './containers/About';
+import Profile from './containers/Profile';
+import Acknowledgements from './containers/Acknowledgements';
+import Message from './containers/Message';
+import VideoDetails from './containers/VideoDetails';
 
+
+// TODO: Wrap each of these in a HoC where we inject the navigation actions
 export default function(store, Provider) {
+  Navigation.registerComponent('voke.Login', () => Login, store, Provider);
   Navigation.registerComponent('voke.Home', () => Home, store, Provider);
-  Navigation.registerComponent('voke.Videos', () => Videos, store, Provider);
   Navigation.registerComponent('voke.Menu', () => Menu, store, Provider);
+  Navigation.registerComponent('voke.Message', () => Message, store, Provider);
+  Navigation.registerComponent('voke.About', () => About, store, Provider);
+  Navigation.registerComponent('voke.Profile', () => Profile, store, Provider);
+  Navigation.registerComponent('voke.Acknowledgements', () => Acknowledgements, store, Provider);
+  Navigation.registerComponent('voke.Videos', () => Videos, store, Provider);
+  Navigation.registerComponent('voke.VideoDetails', () => VideoDetails, store, Provider);
 }
+
+
+
+
+
+
 // See https://reactnavigation.org/docs/navigators/stack
 // const Routes = {
 //   Login: {

@@ -9,9 +9,12 @@ import { Icon, Flex, Touchable } from '../../components/common';
 import { backAction } from '../../actions/navigation';
 
 class VideoDetails extends Component {
-  static navigationOptions = ({ navigation }) => ({
-    title: navigation.state.params.video.title || 'test',
-  });
+  // static navigationOptions = ({ navigation }) => ({
+  //   title: navigation.state.params.video.title || 'test',
+  // });
+  static navigatorStyle = {
+    navBarHidden: true,
+  };
   render() {
     // const video = this.props.navigation.state.params.video;
     return (

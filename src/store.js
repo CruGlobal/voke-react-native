@@ -8,7 +8,7 @@ import reducers from './reducers';
 export default function getStore(onCompletion) {
   const store = createStore(
     reducers,
-    applyMiddleware(thunk)
+    applyMiddleware(thunk),
   );
   persistStore(store, { storage: AsyncStorage }, onCompletion);
 

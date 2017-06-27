@@ -1,5 +1,5 @@
 import { LOGIN, LOGOUT } from '../constants';
-import { resetLoginAction, resetHomeAction } from './navigation';
+// import { resetLoginAction, resetHomeAction } from './navigation';
 
 export function loginAction(token, user = {}) {
   return (dispatch) => {
@@ -8,13 +8,13 @@ export function loginAction(token, user = {}) {
       token,
       user,
     });
-    dispatch(resetHomeAction());
+    // dispatch(resetHomeAction());
   };
 }
 
 export function logoutAction() {
   return (dispatch) => {
     dispatch({ type: LOGOUT });
-    dispatch(resetLoginAction());
+    // dispatch(resetLoginAction());
   };
 }

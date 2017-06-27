@@ -1,9 +1,9 @@
-import { Component } from 'react';
+import theme from './theme';
+
 // import PropTypes from 'prop-types';
 // import { connect } from 'react-redux';
 // import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 //
-// import theme from './theme';
 // import Routes from './routes';
 //
 // // TODO: Look into switching to this navigator for more control:
@@ -43,9 +43,9 @@ import { Component } from 'react';
 //
 // export default connect(mapStateToProps)(AppWithNavState);
 
-import {Platform} from 'react-native';
-import {Provider} from 'react-redux';
-import {Navigation} from 'react-native-navigation';
+import { Platform } from 'react-native';
+import { Provider } from 'react-redux';
+import { Navigation } from 'react-native-navigation';
 import registerScreens from './routes';
 import getStore from './store';
 
@@ -70,49 +70,85 @@ registerScreens(store, Provider);
 //     title: 'Navigation Transitions',
 //   });
 // }
-const screen = {
+
+// TODO: Figure out how to put this in ./routes
+const homeScreen = {
   label: 'Navigation',
   screen: 'voke.Home',
   title: 'Navigation Types',
+  navigatorStyle: {
+    navBarButtonColor: theme.lightText,
+    navBarTextColor: theme.headerTextColor,
+    // navigationBarColor: theme.headerBackgroundColor,
+    navBarBackgroundColor: theme.headerBackgroundColor,
+  },
 };
+const loginScreen = {
+  screen: 'voke.Login',
+  // navigatorStyle: {
+  //   navBarButtonColor: theme.lightText,
+  //   navBarTextColor: theme.headerTextColor,
+  //   // navigationBarColor: theme.headerBackgroundColor,
+  //   navBarBackgroundColor: theme.headerBackgroundColor,
+  // },
+};
+
 export default class App {
   constructor() {
     this.startApp();
   }
 
   startApp() {
-    // if (store.getState().auth.isLoggedIn) {
-    // this will start our app
-    Navigation.startSingleScreenApp({
-      screen,
-      animationType: Platform.OS === 'ios' ? 'slide-down' : 'fade',
-      tabsStyle: {
-        tabBarBackgroundColor: '#003a66',
-        navBarButtonColor: '#ffffff',
-        tabBarButtonColor: '#ffffff',
-        navBarTextColor: '#ffffff',
-        tabBarSelectedButtonColor: '#ff505c',
-        navigationBarColor: '#003a66',
-        navBarBackgroundColor: '#003a66',
-        statusBarColor: '#002b4c',
-        tabFontFamily: 'BioRhyme-Bold',
-      },
-      appStyle: {
-        tabBarBackgroundColor: '#003a66',
-        navBarButtonColor: '#ffffff',
-        tabBarButtonColor: '#ffffff',
-        navBarTextColor: '#ffffff',
-        tabBarSelectedButtonColor: '#ff505c',
-        navigationBarColor: '#003a66',
-        navBarBackgroundColor: '#003a66',
-        statusBarColor: '#002b4c',
-        tabFontFamily: 'BioRhyme-Bold',
-      },
-      drawer: {
-        left: {
-          screen: 'voke.Menu',
+    if (store.getState().auth.isLoggedIn) {
+      Navigation.startSingleScreenApp({
+        screen: loginScreen,
+        passProps: {
+          // navigatePush: () => store.dispatch()
         },
-      },
-    });
+        animationType: Platform.OS === 'ios' ? 'slide-down' : 'fade',
+        // tabsStyle: {
+        //   tabBarBackgroundColor: '#003a66',
+        //   navBarButtonColor: '#ffffff',
+        //   tabBarButtonColor: '#ffffff',
+        //   navBarTextColor: '#ffffff',
+        //   tabBarSelectedButtonColor: '#ff505c',
+        //   navigationBarColor: '#003a66',
+        //   navBarBackgroundColor: '#003a66',
+        //   statusBarColor: '#002b4c',
+        //   tabFontFamily: 'BioRhyme-Bold',
+        // },
+        // drawer: {
+        //   left: {
+        //     screen: 'voke.Menu',
+        //   },
+        // },
+      });
+    } else {
+
+      // this will start our app
+      Navigation.startSingleScreenApp({
+        screen: homeScreen,
+        passProps: {
+          // navigatePush: () => store.dispatch()
+        },
+        animationType: Platform.OS === 'ios' ? 'slide-down' : 'fade',
+        // tabsStyle: {
+        //   tabBarBackgroundColor: '#003a66',
+        //   navBarButtonColor: '#ffffff',
+        //   tabBarButtonColor: '#ffffff',
+        //   navBarTextColor: '#ffffff',
+        //   tabBarSelectedButtonColor: '#ff505c',
+        //   navigationBarColor: '#003a66',
+        //   navBarBackgroundColor: '#003a66',
+        //   statusBarColor: '#002b4c',
+        //   tabFontFamily: 'BioRhyme-Bold',
+        // },
+        // drawer: {
+        //   left: {
+        //     screen: 'voke.Menu',
+        //   },
+        // },
+      });
+    }
   }
 }

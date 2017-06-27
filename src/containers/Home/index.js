@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import styles from './styles';
-// import { navigateAction } from '../../actions/navigation';
+import nav, { NavPropTypes } from '../../actions/navigation_new';
 
 import FloatingButton from '../FloatingButton';
 import ConversationList from '../../components/ConversationList';
@@ -50,27 +49,50 @@ const CONVERSATIONS = {
 
 
 class Home extends Component {
+  static navigatorButtons = {
+    leftButtons: [{
+      title: 'Menu', // for a textual button, provide the button title (label)
+      id: 'menu', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+      // buttonColor: 'blue', // Optional, iOS only. Set color for the button (can also be used in setButtons function to set different button style programatically)
+      // buttonFontSize: 14, // Set font size for the button (can also be used in setButtons function to set different button style programatically)
+      // buttonFontWeight: '600', // Set font weight for the button (can also be used in setButtons function to set different button style programatically)
+    }],
+    rightButtons: [{
+      title: 'Videos', // for a textual button, provide the button title (label)
+      id: 'video', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+    }],
+  };
   constructor(props) {
     super(props);
-    // this.props.navigator = this.props.navigator.bind(this);
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
   componentDidMount() {
-    this.props.navigator.push({
-      screen: 'voke.Menu',
-      title: 'Menu',
-    });
+    // this.props.navigator.push({
+    //   screen: 'voke.Menu',
+    //   title: 'Menu',
+    // });
   }
-  render() {
-    // const { dispatch } = this.props;
-    // onSelect={(c) => dispatch(navigateAction('Message', c))}
 
+  onNavigatorEvent(event) {
+    if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
+      if (event.id == 'menu') {
+        this.props.navigatePush('voke.Menu', {}, { animationType: 'fade' });
+      }
+      if (event.id == 'video') {
+        this.props.navigatePush('voke.Videos');
+      }
+    }
+  }
+  
+  render() {
     return (
       <View style={styles.container}>
         <StatusBar />
         <ConversationList
           items={CONVERSATIONS}
           onRefresh={() => {}}
+          onSelect={(c) => this.props.navigatePush('voke.Message', c)}
         />
         <FloatingButton />
       </View>
@@ -79,8 +101,9 @@ class Home extends Component {
 }
 
 
+// Check out actions/navigation_new.js to see the prop types and mapDispatchToProps
 Home.propTypes = {
-  dispatch: PropTypes.func.isRequired, // Redux
+  ...NavPropTypes,
 };
 
-export default connect()(Home);
+export default connect(null, nav)(Home);

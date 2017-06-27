@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 
 
@@ -36,13 +37,13 @@ export function resetLoginAction() {
   };
 }
 
-export function backAction(key) {
-  return (dispatch) => {
-    dispatch(NavigationActions.back({
-      key: key || null,
-    }));
-  };
-}
+// export function backAction(key) {
+//   return (dispatch) => {
+//     dispatch(NavigationActions.back({
+//       key: key || null,
+//     }));
+//   };
+// }
 
 export function setParamsAction(key, params = {}) {
   return (dispatch) => {

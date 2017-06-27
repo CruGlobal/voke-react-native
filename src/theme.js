@@ -52,6 +52,7 @@ export default {
   backgroundColor: PRIMARY,
   lightBackgroundColor: COLORS.LIGHTEST_GREY,
   textColor: COLORS.WHITE,
+  lightText: COLORS.WHITE,
   darkText: COLORS.BLACK,
   iconColor: COLORS.WHITE,
   buttonBackgroundColor: COLORS.TRANSPARENT,
