@@ -54,12 +54,12 @@ function setButtons() {
     leftButtons: [{
       title: 'Menu', // for a textual button, provide the button title (label)
       id: 'menu', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-      icon: iconsMap['ios-close'], // for icon button, provide the local image asset name
+      icon: iconsMap['ios-menu-outline'], // for icon button, provide the local image asset name
     }],
     rightButtons: [{
       title: 'Videos', // for a textual button, provide the button title (label)
       id: 'video',
-      icon: iconsMap['ios-close'], // for icon button, provide the local image asset name
+      icon: iconsMap['ios-film-outline'], // for icon button, provide the local image asset name
     }],
   };
 }

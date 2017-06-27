@@ -16,7 +16,7 @@ export function navigateBack(navigator, options = {}) {
   return () => {
     navigator.pop({
       animated: true,
-      animationType: 'fade', // Or 'slide-horizontal'
+      animationType: 'slide-horizontal', // Or 'slide-horizontal'
       ...options,
     });
   };
