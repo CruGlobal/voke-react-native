@@ -110,7 +110,8 @@ export default class App {
         passProps: {
           // navigatePush: () => store.dispatch()
         },
-        animationType: Platform.OS === 'ios' ? 'slide-down' : 'fade',
+        // animationType: Platform.OS === 'ios' ? 'slide-down' : 'fade',
+        animationType: 'slide-down',
         // tabsStyle: {
         //   tabBarBackgroundColor: '#003a66',
         //   navBarButtonColor: '#ffffff',

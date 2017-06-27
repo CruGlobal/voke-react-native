@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
+import { navMenuOptions } from '../../utils/menu';
 
 import VOKE_LOGO from '../../../images/vokeLogo.png';
 
-import FloatingButton from '../FloatingButton';
+import FloatingButton from '../../components/FloatingButton';
 import { iconsMap } from '../../utils/iconMap';
 import ConversationList from '../../components/ConversationList';
 import StatusBar from '../../components/StatusBar';
@@ -57,6 +58,17 @@ const CONVERSATIONS = {
 };
 
 function setButtons() {
+  if (Platform.OS === 'android') {
+    const menu = navMenuOptions().map((m) => ({
+      title: m.name,
+      id: m.id,
+      showAsAction: 'never',
+    })).reverse();
+    return {
+      rightButtons: menu,
+    };
+  }
+
   return {
     leftButtons: [{
       title: 'Menu', // for a textual button, provide the button title (label)
@@ -78,12 +90,19 @@ class Home extends Component {
   }
 
   componentWillMount() {
-    this.props.navigator.setButtons(setButtons());
+    this.props.navigator.setButtons(setButtons(this.props.dispatch, this.props.navigatePush));
   }
 
   onNavigatorEvent(event) {
-    if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
-      if (event.id == 'menu') {
+    if (event.type === 'NavBarButtonPress') { // this is the event type for button presses
+      if (Platform.OS === 'android') {
+        // Get the selected event from the menu
+        const selected = navMenuOptions(this.props.dispatch, this.props.navigatePush).find((m) => m.id === event.id);
+        if (selected && selected.onPress) {
+          selected.onPress();
+        }
+      }
+      if (event.id === 'menu') {
         Navigation.showModal({
           screen: 'voke.Menu', // unique ID registered with Navigation.registerScreen
           title: 'Settings', // title of the screen as appears in the nav bar (optional)
@@ -108,7 +127,7 @@ class Home extends Component {
           onRefresh={() => {}}
           onSelect={(c) => this.props.navigatePush('voke.Message', c, {titleImage: VOKE_LOGO})}
         />
-        <FloatingButton />
+        <FloatingButton onSelect={(to) => this.props.navigatePush(to)} />
       </View>
     );
   }

@@ -39,7 +39,7 @@ class Menu extends Component {
   }
 
   render() {
-    return <SettingsList items={navMenuOptions(this.props.dispatch)} />;
+    return <SettingsList items={navMenuOptions(this.props.dispatch, this.props.navigatePush)} />;
   }
 }
 
