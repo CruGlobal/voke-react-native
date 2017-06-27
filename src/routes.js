@@ -57,6 +57,7 @@ const Routes = {
   VideoDetails: {
     screen: VideoDetails,
     navigationOptions: {
+      header: null,
       headerLeft: <BackNavButton text="Back" style={{paddingLeft: 10}} />,
     },
   },

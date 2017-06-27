@@ -1,12 +1,9 @@
-import { Dimensions } from 'react-native';
 import common from './common';
-
-const { width: deviceWidth } = Dimensions.get('window');
 
 export default function(id, options = {}) {
   const HTML = `
     <html>
-    <body style="padding: 0; margin: 0">
+    <body style="padding: 0; margin: 0; background-color: black">
       <div id="player"></div>
       <script>
         var tag = document.createElement('script');
@@ -20,8 +17,8 @@ export default function(id, options = {}) {
         
         function onYouTubeIframeAPIReady() {
           player = new YT.Player('player', {
-            height: '200',
-            width: '${deviceWidth}',
+            height: '${common.height}',
+            width: '${common.width}',
             videoId: '${id}',
             playerVars: {
               start: ${options.start || undefined},

@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
-import { WebView } from 'react-native';
+import PropTypes from 'prop-types';
+import { WebView, StyleSheet } from 'react-native';
+
+import { Flex, Text } from '../common';
+import { COLORS } from '../../theme';
+
+import common from './common';
 
 const FIX_POSTMESSAGE = `(function() {
   var originalPostMessage = window.postMessage;
@@ -15,6 +20,7 @@ const FIX_POSTMESSAGE = `(function() {
 
 import YoutubeHTML from './youtube';
 import VimeoHTML from './vimeo';
+import html5HTML from './html5';
 
 export default class WebviewVideo extends Component {
   constructor(props) {
@@ -25,37 +31,49 @@ export default class WebviewVideo extends Component {
     this.handleMessage = this.handleMessage.bind(this);
   }
 
-  // Stop the component from updating if the id is the same
+  // Stop the component from updating if the url is the same
   shouldComponentUpdate(nextProps) {
-    if (nextProps.id !== this.props.id) {
+    if (nextProps.url !== this.props.url) {
       return true;
     }
     return false;
   }
 
   handleMessage(event) {
-    console.warn('On Message', event.nativeEvent.data);
+    this.props.onChangeState(event.nativeEvent.data);
   }
 
-  // sendPostMessage() {
-  //   console.warn('send message to webview');
-  //   this.webView.postMessage('Post message from react native');
-  // }
-
   getHtml() {
-    return YoutubeHTML('cUYSGojUuAU', { start: '' });
-    // Vimeo is the worst...you can't play videos inline
-    // return VimeoHTML('214496885', { start: '' });
+    if (this.props.type === 'youtube') {
+      const id = common.getYoutubeId(this.props.url);
+      if (!id) { return null; }
+      return YoutubeHTML(id, { start: this.props.start, end: this.props.end });
+    } else if (this.props.type === 'vimeo') {
+      // Vimeo is the worst...you can't play videos inline
+      const id = common.getVimeoId(this.props.url);
+      if (!id) { return null; }
+      return VimeoHTML(id, { start: this.props.start, end: this.props.end });
+    } else if (this.props.type === 'arclight') {
+      return html5HTML(this.props.url, { thumbnail: this.props.thumbnail });
+    }
+    return null;
   }
 
   render() {
+    const html = this.getHtml();
+    if (!html) {
+      return (
+        <Flex value={1} align="center" justify="center" style={styles.errorWrap}>
+          <Text style={styles.errorText}>We had trouble finding that video</Text>
+        </Flex>
+      );
+    }
     return (
       <WebView
         ref={(c) => this.webview = c}
-        source={{
-          html: this.getHtml(),
-        }}
-        style={{marginTop: 0}}
+        source={{ html }}
+        style={{}}
+        mediaPlaybackRequiresUserAction={true}
         allowsInlineMediaPlayback={true}
         scrollEnabled={false}
         bounces={false}
@@ -68,5 +86,21 @@ export default class WebviewVideo extends Component {
 }
 
 WebviewVideo.propTypes = {
-  // video: PropTypes.object.isRequired,
+  type: PropTypes.oneOf(['youtube', 'arclight', 'vimeo']).isRequired,
+  url: PropTypes.string.isRequired,
+  onChangeState: PropTypes.func.isRequired,
+  thumbnail: PropTypes.string,
+  start: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
+
+const styles = StyleSheet.create({
+  errorWrap: {
+    paddingHorizontal: 25,
+    backgroundColor: COLORS.DEEP_BLACK,
+  },
+  errorText: {
+    color: COLORS.WHITE,
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+});

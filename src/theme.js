@@ -5,6 +5,7 @@ import { exists } from './utils/common';
 
 // See https://github.com/qix-/color for help
 function colorConvert({ color, alpha, lighten, darken, negate, rotate, whiten, blacken }) {
+  if (!color) console.warn('Pass in a color!');
   let col = Color(color);
   // Lots of things you can do with color stuff
   if (exists(alpha)) col = Color(col).alpha(alpha);

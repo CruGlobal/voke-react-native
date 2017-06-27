@@ -1,9 +1,8 @@
 
-import { StyleSheet, Dimensions } from 'react-native';
-import theme, { COLORS } from '../../theme';
+import { StyleSheet } from 'react-native';
+import { COLORS } from '../../theme';
 
-const { width: deviceWidth } = Dimensions.get('window');
-
+import videoUtils from '../../utils/video';
 
 export default StyleSheet.create({
   container: {
@@ -11,8 +10,17 @@ export default StyleSheet.create({
     backgroundColor: COLORS.WHITE,
   },
   video: {
-    height: 200,
-    width: deviceWidth,
-    backgroundColor: 'red',
+    height: videoUtils.HEIGHT,
+    width: videoUtils.WIDTH,
+  },
+  backHeader: {
+    position: 'absolute',
+    top: 9,
+    left: 9,
+    borderRadius: 14,
+    backgroundColor: COLORS.convert({ color: COLORS.WHITE, alpha: 0.8 }),
+  },
+  backIcon: {
+    color: COLORS.convert({ color: COLORS.BLACK, alpha: 0.4 }),
   },
 });

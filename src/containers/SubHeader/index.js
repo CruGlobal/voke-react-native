@@ -16,12 +16,14 @@ class SubHeader extends Component {
             <Button
               text="All"
               type="transparent"
+              onPress={() => {}}
             />
           </Flex>
           <Flex align="center" value={1}>
             <Button
               text="Featured"
               type="transparent"
+              onPress={() => {}}
             />
           </Flex>
         </Flex>
