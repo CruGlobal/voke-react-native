@@ -41,6 +41,7 @@ class Videos extends Component {
       }
     }
   }
+
   static navigatorStyle = {
     navBarNoBorder: true,
   };

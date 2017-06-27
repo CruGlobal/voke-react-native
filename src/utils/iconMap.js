@@ -12,7 +12,7 @@ const icons = {
   'ios-close': [40],
   'chevron-right': [40],
   'chevron-left': [40],
-  'ios-plus-empty': [40],
+  'ios-add': [40],
   'android-add': [40],
 };
 

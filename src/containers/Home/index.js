@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 
+import VOKE_LOGO from '../../../images/vokeLogo.png';
+
 import FloatingButton from '../FloatingButton';
 import { iconsMap } from '../../utils/iconMap';
 import ConversationList from '../../components/ConversationList';
@@ -16,10 +18,15 @@ const CONVERSATIONS = {
     id: 'id1',
     name: 'Asher',
     messages: [
-      { id: '1', text: 'test 1 fdsajklfd sajfkld sajflkds ajfdlksaj fdlskajf dslkajf dslakfj das' },
-      { id: '2', text: 'test 2 fdsajklfd sajfkld sajflkds ajfdlksaj fdlskajf dslkajf dslakfj das' },
-      { id: '3', text: 'test 3 fdsajklfd sajfkld sajflkds ajfdlksaj fdlskajf dslkajf dslakfj das' },
-      { id: '4', text: 'test 4 fdsajklfd sajfkld sajflkds ajfdlksaj fdlskajf dslkajf dslakfj das' },
+      { id: '1', sender: '1', text: 'test 1 one sajfkld sajflkds ajfdlksaj fdlskajf dslkajf dslakfj das' },
+      { id: '2', sender: '2', text: 'test 2 two sajfkld sajflkds ajfdlksaj fdlskajf dslkajf dslakfj das' },
+      { id: '3', sender: '1', text: 'test 3 fdsajklfd sajfkld sajflkds ajfdlksaj fdlskajf dslkajf dslakfj das' },
+      { id: '4', sender: '2', text: 'test 4 fdsajklfd sajfkld sajflkds ajfdlksaj fdlskajf dslkajf dslakfj das' },
+      { id: '5', sender: '3', text: 'test 4 fdsajklfd sajfkld sajflkds ajfdlksaj fdlskajf dslkajf dslakfj das' },
+      { id: '4', sender: '2', text: 'test 4 fdsajklfd sajfkld sajflkds ajfdlksaj fdlskajf dslkajf dslakfj das' },
+      { id: '5', sender: '3', text: 'test 4 fdsajklfd sajfkld sajflkds ajfdlksaj fdlskajf dslkajf dslakfj das' },
+      { id: '4', sender: '2', text: 'test 4 fdsajklfd sajfkld sajflkds ajfdlksaj fdlskajf dslkajf dslakfj das' },
+      { id: '5', sender: '3', text: 'test 4 fdsajklfd sajfkld sajflkds ajfdlksaj fdlskajf dslkajf dslakfj das' },
     ],
   },
   id2: {
@@ -79,7 +86,7 @@ class Home extends Component {
       if (event.id == 'menu') {
         Navigation.showModal({
           screen: 'voke.Menu', // unique ID registered with Navigation.registerScreen
-          title: 'Menu', // title of the screen as appears in the nav bar (optional)
+          title: 'Settings', // title of the screen as appears in the nav bar (optional)
           passProps: {}, // simple serializable object that will pass as props to the modal (optional)
           navigatorStyle: {}, // override the navigator style for the screen, see "Styling the navigator" below (optional)
           animationType: 'slide-up', // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
@@ -87,7 +94,7 @@ class Home extends Component {
         // this.props.navigatePush('voke.Menu', {}, { animationType: 'slide-up' });
       }
       if (event.id == 'video') {
-        this.props.navigatePush('voke.Videos');
+        this.props.navigatePush('voke.Videos', {}, {titleImage: VOKE_LOGO});
       }
     }
   }
@@ -99,7 +106,7 @@ class Home extends Component {
         <ConversationList
           items={CONVERSATIONS}
           onRefresh={() => {}}
-          onSelect={(c) => this.props.navigatePush('voke.Message', c)}
+          onSelect={(c) => this.props.navigatePush('voke.Message', c, {titleImage: VOKE_LOGO})}
         />
         <FloatingButton />
       </View>

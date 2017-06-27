@@ -4,33 +4,54 @@ import { View } from 'react-native';
 import { connect } from 'react-redux';
 
 import nav, { NavPropTypes } from '../../actions/navigation_new';
+import { iconsMap } from '../../utils/iconMap';
 
 import styles from './styles';
 import { Text, Flex } from '../../components/common';
 import ShareButton from '../../components/ShareButton';
+import MessagesList from '../../components/MessagesList';
+
+function setButtons() {
+  return {
+    leftButtons: [{
+      title: 'Home', // for a textual button, provide the button title (label)
+      id: 'back', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+      icon: iconsMap['ios-home-outline'], // for icon button, provide the local image asset name
+    }],
+    rightButtons: [{
+      title: 'add',
+      id: 'add',
+      icon: iconsMap['ios-add'],
+    }],
+  };
+}
+
+// <ShareButton message="Share this with you" title="Hey!" url="https://www.facebook.com" />
 
 class Message extends Component {
-  // static navigationOptions = ({ navigation }) => ({
-  //   title: navigation.state.params.name,
-  // });
+  constructor(props) {
+    super(props);
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+  }
+
+  onNavigatorEvent(event) {
+    if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
+      if (event.id == 'back') {
+        this.props.navigateBack();
+      }
+    }
+  }
+
+  componentWillMount() {
+    this.props.navigator.setButtons(setButtons());
+  }
+
   render() {
     // const { messages = [] } = this.props.navigation.state.params;
     const { messages = [] } = this.props;
     return (
       <View style={styles.container}>
-        <Flex value={1} direction="column" align="end" justify="end">
-          {
-            messages.map((m) => (
-              <Flex direction="row" key={m.id}>
-                <Text>{m.text}</Text>
-                <ShareButton message="Share this with you" title="Hey!" url="https://www.facebook.com" />
-              </Flex>
-            ))
-          }
-        </Flex>
-        <Flex align="center">
-          <Text>Input box</Text>
-        </Flex>
+        <MessagesList items={messages} />
       </View>
     );
   }

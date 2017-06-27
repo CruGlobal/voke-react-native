@@ -4,15 +4,23 @@ import { connect } from 'react-redux';
 import { navMenuOptions } from '../../utils/menu';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { Navigation } from 'react-native-navigation';
-
+import theme from '../../theme'
 import SettingsList from '../../components/SettingsList';
 
 class Menu extends Component {
+
   static navigatorButtons = {
     rightButtons: [{
       title: 'Done',
       id: 'home',
     }],
+  };
+
+  static navigatorStyle = {
+    navBarBackgroundColor: theme.backgroundColor,
+    navBarTextColor: theme.textColor,
+    navBarRightButtonColor: theme.textColor,
+    navBarRightButtonFontSize: 14,
   };
 
   constructor(props) {
