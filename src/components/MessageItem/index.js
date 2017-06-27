@@ -35,7 +35,7 @@ class MessageItem extends Component { // eslint-disable-line
             ]}
             direction="row"
             align="center"
-            justify="center"
+            justify="start"
           >
             <Text
               style={[
