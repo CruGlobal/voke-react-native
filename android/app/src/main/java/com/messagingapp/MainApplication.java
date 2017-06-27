@@ -2,12 +2,12 @@ package com.messagingapp;
 
 import android.app.Application;
 
-import com.facebook.react.ReactApplication;
+// import com.facebook.react.ReactApplication;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.facebook.react.ReactNativeHost;
+// import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
-import com.facebook.soloader.SoLoader;
+// import com.facebook.soloader.SoLoader;
 import com.reactnativenavigation.NavigationApplication;
 
 import java.util.Arrays;
@@ -20,26 +20,16 @@ public class MainApplication extends NavigationApplication {
       // Make sure you are using BuildConfig from your own application
       return BuildConfig.DEBUG;
   }
-    @Override
-    protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new VectorIconsPackage()
-      );
-    }
-  };
 
-  @Override
-  public ReactNativeHost getReactNativeHost() {
-    return mReactNativeHost;
+  protected List<ReactPackage> getPackages() {
+    return Arrays.<ReactPackage>asList(
+        new MainReactPackage(),
+        new VectorIconsPackage()
+    );
   }
+
   @Override
   public List<ReactPackage> createAdditionalReactPackages() {
       return getPackages();
   }
-
-  @Override
-  public void onCreate() {
-    super.onCreate();
-    SoLoader.init(this, /* native exopackage */ false);
-}
+};
