@@ -1,44 +1,118 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { addNavigationHelpers, StackNavigator } from 'react-navigation';
+import { Component } from 'react';
+// import PropTypes from 'prop-types';
+// import { connect } from 'react-redux';
+// import { addNavigationHelpers, StackNavigator } from 'react-navigation';
+//
+// import theme from './theme';
+// import Routes from './routes';
+//
+// // TODO: Look into switching to this navigator for more control:
+// // https://wix.github.io/react-native-navigation/#/
+//
+//
+// // See https://reactnavigation.org/docs/navigators/stack
+// export const AppNavigator = StackNavigator(Routes, {
+//   cardStyle: {
+//     backgroundColor: theme.backgroundColor,
+//   },
+//   navigationOptions: {
+//     headerTintColor: theme.headerTextColor,
+//     headerStyle: {
+//       backgroundColor: theme.headerBackgroundColor,
+//     },
+//   },
+// });
+//
+// const AppWithNavState = ({ dispatch, navigationState }) => (
+//   <AppNavigator
+//     navigation={addNavigationHelpers({
+//       dispatch,
+//       state: navigationState,
+//     })}
+//   />
+// );
+//
+// AppWithNavState.propTypes = {
+//   dispatch: PropTypes.func.isRequired,
+//   navigationState: PropTypes.object.isRequired,
+// };
+//
+// const mapStateToProps = ({ navigation }) => ({
+//   navigationState: navigation,
+// });
+//
+// export default connect(mapStateToProps)(AppWithNavState);
 
-import theme from './theme';
-import Routes from './routes';
+import {Platform} from 'react-native';
+import {Provider} from 'react-redux';
+import {Navigation} from 'react-native-navigation';
+import registerScreens from './routes';
+import getStore from './store';
 
-// TODO: Look into switching to this navigator for more control:
-// https://wix.github.io/react-native-navigation/#/
+const store = getStore();
+// screen related book keeping
+registerScreens(store, Provider);
 
-
-// See https://reactnavigation.org/docs/navigators/stack
-export const AppNavigator = StackNavigator(Routes, {
-  cardStyle: {
-    backgroundColor: theme.backgroundColor,
-  },
-  navigationOptions: {
-    headerTintColor: theme.headerTextColor,
-    headerStyle: {
-      backgroundColor: theme.headerBackgroundColor,
-    },
-  },
-});
-
-const AppWithNavState = ({ dispatch, navigationState }) => (
-  <AppNavigator
-    navigation={addNavigationHelpers({
-      dispatch,
-      state: navigationState,
-    })}
-  />
-);
-
-AppWithNavState.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  navigationState: PropTypes.object.isRequired,
+// const tabs = [{
+//   label: 'Navigation',
+//   screen: 'voke.Home',
+//   title: 'Navigation Types',
+// }, {
+//   label: 'Actions',
+//   screen: 'voke.Videos',
+//   title: 'Navigation Actions',
+// }];
+//
+// if (Platform.OS === 'android') {
+//   tabs.push({
+//     label: 'Transitions',
+//     screen: 'voke.Home',
+//     title: 'Navigation Transitions',
+//   });
+// }
+const screen = {
+  label: 'Navigation',
+  screen: 'voke.Home',
+  title: 'Navigation Types',
 };
+export default class App {
+  constructor() {
+    this.startApp();
+  }
 
-const mapStateToProps = ({ navigation }) => ({
-  navigationState: navigation,
-});
-
-export default connect(mapStateToProps)(AppWithNavState);
+  startApp() {
+    // if (store.getState().auth.isLoggedIn) {
+    // this will start our app
+    Navigation.startSingleScreenApp({
+      screen,
+      animationType: Platform.OS === 'ios' ? 'slide-down' : 'fade',
+      tabsStyle: {
+        tabBarBackgroundColor: '#003a66',
+        navBarButtonColor: '#ffffff',
+        tabBarButtonColor: '#ffffff',
+        navBarTextColor: '#ffffff',
+        tabBarSelectedButtonColor: '#ff505c',
+        navigationBarColor: '#003a66',
+        navBarBackgroundColor: '#003a66',
+        statusBarColor: '#002b4c',
+        tabFontFamily: 'BioRhyme-Bold',
+      },
+      appStyle: {
+        tabBarBackgroundColor: '#003a66',
+        navBarButtonColor: '#ffffff',
+        tabBarButtonColor: '#ffffff',
+        navBarTextColor: '#ffffff',
+        tabBarSelectedButtonColor: '#ff505c',
+        navigationBarColor: '#003a66',
+        navBarBackgroundColor: '#003a66',
+        statusBarColor: '#002b4c',
+        tabFontFamily: 'BioRhyme-Bold',
+      },
+      drawer: {
+        left: {
+          screen: 'voke.Menu',
+        },
+      },
+    });
+  }
+}

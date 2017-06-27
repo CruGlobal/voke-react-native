@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import styles from './styles';
-import { navigateAction } from '../../actions/navigation';
+// import { navigateAction } from '../../actions/navigation';
 
 import FloatingButton from '../FloatingButton';
 import ConversationList from '../../components/ConversationList';
@@ -48,15 +48,28 @@ const CONVERSATIONS = {
   },
 };
 
+
 class Home extends Component {
+  constructor(props) {
+    super(props);
+    // this.props.navigator = this.props.navigator.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.navigator.push({
+      screen: 'voke.Menu',
+      title: 'Menu',
+    });
+  }
   render() {
-    const { dispatch } = this.props;
+    // const { dispatch } = this.props;
+    // onSelect={(c) => dispatch(navigateAction('Message', c))}
+
     return (
       <View style={styles.container}>
         <StatusBar />
         <ConversationList
           items={CONVERSATIONS}
-          onSelect={(c) => dispatch(navigateAction('Message', c))}
           onRefresh={() => {}}
         />
         <FloatingButton />
@@ -64,6 +77,7 @@ class Home extends Component {
     );
   }
 }
+
 
 Home.propTypes = {
   dispatch: PropTypes.func.isRequired, // Redux
