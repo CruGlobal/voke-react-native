@@ -1,10 +1,26 @@
 import React, { Component } from 'react';
-import { Linking } from 'react-native';
-
-import SettingsList from '../../components/SettingsList';
+import { Linking, Image } from 'react-native';
+import styles from './styles'
+import { Flex, Text, Icon } from '../../components/common';
 import ImagePicker from '../../components/ImagePicker';
+import { iconsMap } from '../../utils/iconMap'
+
+function setButtons() {
+  return {
+    leftButtons: [{
+      title: 'Menu', // for a textual button, provide the button title (label)
+      id: 'menu', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+      icon: iconsMap['ios-arrow-back'], // for icon button, provide the local image asset name
+    }],
+  };
+}
 
 class Profile extends Component {
+
+  static navigatorStyle = {
+    navBarNoBorder: true,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -20,9 +36,20 @@ class Profile extends Component {
     Linking.openURL(url);
   }
 
+  componentWillMount() {
+    this.props.navigator.setButtons(setButtons());
+  }
+
   renderImagePicker() {
     return (
       <ImagePicker onSelectImage={this.handleImageChange}>
+        <Flex align="center" justify="center" style={styles.imageSelect}>
+          <Image source={require('../../../images/vokeLogo.png')}>
+          </Image>
+          <Flex align="center" justify="center" style={styles.imageCover}>
+            <Icon name="camera-alt" style={styles.imageIcon} size={30} />
+          </Flex>
+        </Flex>
       </ImagePicker>
     );
   }
@@ -36,18 +63,14 @@ class Profile extends Component {
 
   render() {
     return (
-      <SettingsList
-        items={[
-          {
-            name: 'Change Photo',
-            onPress: () => this.renderImagePicker(),
-          },
-          {
-            name: 'Change Name',
-            onPress: () => {},
-          },
-        ]}
-      />
+      <Flex direction="column" style={styles.container}>
+        <Flex value={1} align="center" justify="center" style={styles.imageWrapper}>
+          {this.renderImagePicker()}
+        </Flex>
+        <Flex value={2} style={styles.infoWrapper}>
+
+        </Flex>
+      </Flex>
     );
   }
 }
