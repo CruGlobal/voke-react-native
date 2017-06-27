@@ -6,8 +6,10 @@ import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 
 import FloatingButton from '../FloatingButton';
+import { iconsMap } from '../../utils/iconMap';
 import ConversationList from '../../components/ConversationList';
 import StatusBar from '../../components/StatusBar';
+import { Navigation } from 'react-native-navigation';
 
 const CONVERSATIONS = {
   id1: {
@@ -47,44 +49,49 @@ const CONVERSATIONS = {
   },
 };
 
-
-class Home extends Component {
-  static navigatorButtons = {
+function setButtons() {
+  return {
     leftButtons: [{
       title: 'Menu', // for a textual button, provide the button title (label)
       id: 'menu', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-      // buttonColor: 'blue', // Optional, iOS only. Set color for the button (can also be used in setButtons function to set different button style programatically)
-      // buttonFontSize: 14, // Set font size for the button (can also be used in setButtons function to set different button style programatically)
-      // buttonFontWeight: '600', // Set font weight for the button (can also be used in setButtons function to set different button style programatically)
+      icon: iconsMap['ios-close'], // for icon button, provide the local image asset name
     }],
     rightButtons: [{
       title: 'Videos', // for a textual button, provide the button title (label)
-      id: 'video', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+      id: 'video',
+      icon: iconsMap['ios-close'], // for icon button, provide the local image asset name
     }],
   };
+}
+
+class Home extends Component {
   constructor(props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
-  componentDidMount() {
-    // this.props.navigator.push({
-    //   screen: 'voke.Menu',
-    //   title: 'Menu',
-    // });
+  componentWillMount() {
+    this.props.navigator.setButtons(setButtons());
   }
 
   onNavigatorEvent(event) {
     if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
       if (event.id == 'menu') {
-        this.props.navigatePush('voke.Menu', {}, { animationType: 'fade' });
+        Navigation.showModal({
+          screen: 'voke.Menu', // unique ID registered with Navigation.registerScreen
+          title: 'Menu', // title of the screen as appears in the nav bar (optional)
+          passProps: {}, // simple serializable object that will pass as props to the modal (optional)
+          navigatorStyle: {}, // override the navigator style for the screen, see "Styling the navigator" below (optional)
+          animationType: 'slide-up', // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
+        });
+        // this.props.navigatePush('voke.Menu', {}, { animationType: 'slide-up' });
       }
       if (event.id == 'video') {
         this.props.navigatePush('voke.Videos');
       }
     }
   }
-  
+
   render() {
     return (
       <View style={styles.container}>

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import nav, { NavPropTypes } from '../../actions/navigation_new';
 
 import styles from './styles';
-import { navigateAction } from '../../actions/navigation';
 
 import SubHeader from '../SubHeader';
 import VideoList from '../../components/VideoList';
@@ -19,15 +18,18 @@ const VIDEOS = [
 ];
 
 class Videos extends Component {
+  static navigatorStyle = {
+    navBarNoBorder: true,
+  };
+
   render() {
-    const { dispatch } = this.props;
     return (
       <View style={styles.container}>
         <SubHeader />
         <StatusBar />
         <VideoList
           items={VIDEOS}
-          onSelect={(c) => dispatch(navigateAction('VideoDetails', { video: c }))}
+          onSelect={(c) => this.props.navigatePush('voke.VideoDetails', { video: c })}
           onRefresh={() => {}}
         />
       </View>
@@ -36,7 +38,7 @@ class Videos extends Component {
 }
 
 Videos.propTypes = {
-  dispatch: PropTypes.func.isRequired, // Redux
+  ...NavPropTypes,
 };
 
-export default connect()(Videos);
+export default connect(null, nav)(Videos);

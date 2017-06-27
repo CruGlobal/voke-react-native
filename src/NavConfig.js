@@ -49,6 +49,8 @@ import { Navigation } from 'react-native-navigation';
 import registerScreens from './routes';
 import getStore from './store';
 
+import { iconsMap, iconsLoaded } from './utils/iconMap';
+
 const store = getStore();
 // screen related book keeping
 registerScreens(store, Provider);
@@ -75,7 +77,8 @@ registerScreens(store, Provider);
 const homeScreen = {
   label: 'Navigation',
   screen: 'voke.Home',
-  title: 'Navigation Types',
+  title: 'Home',
+  titleImage: require('../images/vokeLogo.png'),
   navigatorStyle: {
     navBarButtonColor: theme.lightText,
     navBarTextColor: theme.headerTextColor,
@@ -95,7 +98,9 @@ const loginScreen = {
 
 export default class App {
   constructor() {
-    this.startApp();
+    iconsLoaded.then(() => {
+      this.startApp();
+    });
   }
 
   startApp() {
