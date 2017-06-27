@@ -10,4 +10,16 @@ export default StyleSheet.create({
   content: {
     justifyContent: 'flex-end',
   },
+  inputWrap: {
+    height: 60,
+    backgroundColor: theme.secondaryColor,
+    padding: 5,
+  },
+  chatBox: {
+    height: 40,
+    color: theme.textColor,
+    backgroundColor: COLORS.convert({ color: theme.primaryColor, alpha: 0.4, lighten: 0.3 }),
+    borderRadius: 3,
+    fontSize: 15,
+  },
 });

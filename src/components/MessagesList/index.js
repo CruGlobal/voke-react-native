@@ -1,10 +1,11 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, ListView } from 'react-native';
+import { View, ListView, TextInput, KeyboardAvoidingView } from 'react-native';
 import { connect } from 'react-redux';
 import styles from './styles';
 import MessageItem from '../MessageItem';
+import theme from '../../theme';
 
 // import { navigateAction } from '../../actions/navigation';
 
@@ -25,10 +26,15 @@ class MessagesList extends Component { // eslint-disable-line
 
     this.handleRefresh = this.handleRefresh.bind(this);
     this.renderRow = this.renderRow.bind(this);
+    this.scrollEnd = this.scrollEnd.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({ dataSource: this.state.dataSource.cloneWithRows(nextProps.items) });
+  }
+
+  componentDidMount() {
+    this.scrollEnd(false);
   }
 
   handleRefresh() {
@@ -43,19 +49,37 @@ class MessagesList extends Component { // eslint-disable-line
     return  <MessageItem item={message} />;
   }
 
+  scrollEnd(isAnimated) {
+    // Somehow check if the listview is in the middle
+    // if (this.listView) {
+    //   setTimeout(() => this.listView.scrollToEnd({ animated: isAnimated }), 50);
+    // }
+    setTimeout(() => this.listView.scrollToEnd({ animated: isAnimated }), 50);
+  }
+
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={60}>
         <ListView
-          style={{ flex: 1 }}
+          ref={(c) => this.listView = c}
+          style={{ flex: undefined }}
           enableEmptySections={true}
           contentContainerStyle={styles.content}
           dataSource={this.state.dataSource}
           renderRow={this.renderRow}
-          inverted={true}
         />
-        <Flex style={{ height: 50 }}><Text>KEYBOARD!</Text></Flex>
-      </View>
+        <Flex style={styles.inputWrap}>
+          <TextInput
+            onFocus={() => this.scrollEnd(true)}
+            onBlur={() => this.scrollEnd(true)}
+            multiline={true}
+            placeholder="New Message"
+            placeholderTextColor={theme.primaryColor}
+            style={styles.chatBox}
+            autoCorrect={true}
+          />
+        </Flex>
+      </KeyboardAvoidingView>
     );
   }
 }
