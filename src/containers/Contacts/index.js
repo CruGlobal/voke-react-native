@@ -9,8 +9,9 @@ import { getContacts, searchContacts } from '../../actions/contacts';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import theme, { COLORS } from '../../theme';
 
-import { Flex } from '../../components/common';
+import { Flex, Icon } from '../../components/common';
 import ContactsList from '../../components/ContactsList';
+import SearchBarIos from '../../components/SearchBarIos';
 
 
 function setButtons() {
@@ -28,7 +29,8 @@ class Contacts extends Component {
   static navigatorStyle = {
     navBarButtonColor: theme.lightText,
     navBarTextColor: theme.headerTextColor,
-    navBarBackgroundColor: theme.headerBackgroundColor,
+    navBarBackgroundColor: theme.primaryColor,
+    navBarNoBorder: Platform.OS !== 'android',
   };
   constructor(props) {
     super(props);
@@ -82,19 +84,10 @@ class Contacts extends Component {
   renderIOSSearch() {
     if (Platform.OS === 'android') return null;
     return (
-      <Flex style={styles.inputWrap}>
-        <TextInput
-          value={this.state.searchText}
-          placeholder="Search"
-          placeholderTextColor={COLORS.GREY}
-          style={styles.searchBox}
-          autoCorrect={true}
-          onChangeText={this.changeText}
-        />
-      </Flex>
+      <SearchBarIos onChange={this.changeText} value={this.state.searchText}/>
     );
   }
-  
+
   render() {
     return (
       <View style={styles.container}>
