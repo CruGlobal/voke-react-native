@@ -28,7 +28,7 @@ export default function(id, options = {}) {
             },
             events: {
               'onReady': onPlayerReady,
-              'onStateChange': onPlayerStateChange
+              'onStateChange': onPlayerStateChange,
               'onError': onError
             }
           });

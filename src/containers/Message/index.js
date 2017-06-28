@@ -5,11 +5,11 @@ import { connect } from 'react-redux';
 
 import theme, { COLORS } from '../../theme';
 
-import { Flex } from '../../components/common';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { iconsMap } from '../../utils/iconMap';
 
 import styles from './styles';
+import { Flex, Icon } from '../../components/common';
 import MessagesList from '../../components/MessagesList';
 
 function setButtons() {
@@ -48,7 +48,7 @@ class Message extends Component {
 
   componentWillMount() {
     this.props.navigator.setButtons(setButtons());
-    this.props.navigator.setTitle({ title: this.props.name || 'Message' });
+    // this.props.navigator.setTitle({ title: this.props.name || 'Message' });
   }
 
   render() {
@@ -61,7 +61,7 @@ class Message extends Component {
         keyboardVerticalOffset={Platform.OS === 'android' ? undefined : 60}
       >
         <MessagesList ref={(c) => this.list = c} items={messages} />
-        <Flex style={styles.inputWrap}>
+        <Flex direction="row" style={styles.inputWrap} align="center">
           <TextInput
             onFocus={() => this.list.scrollEnd(true)}
             onBlur={() => this.list.scrollEnd(true)}
@@ -72,6 +72,7 @@ class Message extends Component {
             style={styles.chatBox}
             autoCorrect={true}
           />
+          <Icon name="send" size={22} style={styles.sendIcon} />
         </Flex>
       </KeyboardAvoidingView>
     );

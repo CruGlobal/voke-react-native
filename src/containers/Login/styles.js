@@ -1,19 +1,18 @@
 
-import { StyleSheet, Dimensions } from 'react-native';
-import theme from '../../theme';
-
-const { width: deviceWidth } = Dimensions.get('window');
+import { StyleSheet } from 'react-native';
+import theme, { DEFAULT } from '../../theme';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.backgroundColor,
+    backgroundColor: theme.darkBackgroundColor,
+    // backgroundColor: theme.primaryColor,
   },
   actions: {
     paddingBottom: 50,
   },
   logoWrapper: {
-    width: deviceWidth,
+    width: DEFAULT.FULL_WIDTH,
   },
   buttonWrapper: {
     padding: 5,
@@ -31,6 +30,7 @@ export default StyleSheet.create({
   signIn: {
     fontSize: 14,
     color: theme.secondaryColor,
+    // color: theme.primaryColor,
     paddingRight: 5,
   },
   haveAccount: {
@@ -40,6 +40,6 @@ export default StyleSheet.create({
     fontSize: 14,
   },
   actionButton: {
-    width: deviceWidth - 110,
+    width: DEFAULT.FULL_WIDTH - 110,
   },
 });

@@ -5,11 +5,10 @@ import { Navigation } from 'react-native-navigation';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import { toastAction } from '../../actions/auth';
+// import { toastAction } from '../../actions/auth';
 import { navMenuOptions } from '../../utils/menu';
 
-import VOKE_LOGO from '../../../images/vokeLogo.png';
-// import theme from '../../theme';
+import theme from '../../theme';
 import FloatingButton from '../../components/FloatingButton';
 import { iconsMap } from '../../utils/iconMap';
 import ConversationList from '../../components/ConversationList';
@@ -116,6 +115,11 @@ function setButtons() {
 }
 
 class Home extends Component {
+  static navigatorStyle = {
+    navBarButtonColor: theme.lightText,
+    navBarTextColor: theme.headerTextColor,
+    navBarBackgroundColor: theme.headerBackgroundColor,
+  };
   constructor(props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
@@ -129,7 +133,7 @@ class Home extends Component {
     if (event.type === 'NavBarButtonPress') { // this is the event type for button presses
       if (Platform.OS === 'android') {
         // Get the selected event from the menu
-        const selected = navMenuOptions(this.props.dispatch, this.props.navigatePush).find((m) => m.id === event.id);
+        const selected = navMenuOptions(this.props).find((m) => m.id === event.id);
         if (selected && selected.onPress) {
           selected.onPress();
         }
@@ -157,7 +161,7 @@ class Home extends Component {
         <ConversationList
           items={CONVERSATIONS}
           onRefresh={() => {}}
-          onSelect={(c) => this.props.navigatePush('voke.Message', c, {titleImage: VOKE_LOGO})}
+          onSelect={(c) => this.props.navigatePush('voke.Message', c)}
         />
         <FloatingButton onSelect={(to) => this.props.navigatePush(to)} />
       </View>

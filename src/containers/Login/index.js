@@ -12,16 +12,25 @@ import StatusBar from '../../components/StatusBar';
 import LOGO from '../../../images/vokeLogo.png';
 
 class Login extends Component {
+  static navigatorStyle = {
+    navBarHidden: true,
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.login = this.login.bind(this);
+  }
 
   login() {
     this.props.dispatch(loginAction('123', {
       id: '1',
       name: 'Bryan Eaton',
-    }));
-    this.props.navigateResetHome();
+    })).then(() => {
+      this.props.navigateResetHome();
+    });
   }
   render() {
-    const { dispatch } = this.props;
     return (
       <Flex style={styles.container} value={1} align="center" justify="center">
         <StatusBar />
@@ -36,7 +45,7 @@ class Login extends Component {
               icon="mail-outline"
               buttonTextStyle={styles.signInButton}
               style={styles.actionButton}
-              onPress={() => this.login()}
+              onPress={this.login}
             />
           </Flex>
           <Flex style={styles.buttonWrapper}>
@@ -45,7 +54,7 @@ class Login extends Component {
               buttonTextStyle={styles.signInButton}
               icon="account-box"
               style={styles.actionButton}
-              onPress={() => this.login()}
+              onPress={this.login}
             />
           </Flex>
           <Flex direction="row" align="center" justify="center" style={styles.haveAccount}>
@@ -54,7 +63,7 @@ class Login extends Component {
               text="Sign In"
               type="transparent"
               buttonTextStyle={styles.signInButton}
-              onPress={() => this.login()}
+              onPress={this.login}
             />
           </Flex>
         </Flex>

@@ -59,6 +59,7 @@ export default {
   secondaryColor: SECONDARY,
   backgroundColor: PRIMARY,
   lightBackgroundColor: COLORS.WHITE,
+  darkBackgroundColor: COLORS.BLACK,
   textColor: COLORS.WHITE,
   lightText: COLORS.WHITE,
   darkText: COLORS.BLACK,

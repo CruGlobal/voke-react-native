@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, TextInput, Platform } from 'react-native';
+import { View, Platform } from 'react-native';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import debounce from 'lodash/debounce';
 
@@ -8,9 +9,8 @@ import styles from './styles';
 import { toastAction } from '../../actions/auth';
 import { getContacts, searchContacts } from '../../actions/contacts';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import theme, { COLORS } from '../../theme';
+import theme from '../../theme';
 
-import { Flex, Icon } from '../../components/common';
 import ContactsList from '../../components/ContactsList';
 import SearchBarIos from '../../components/SearchBarIos';
 
@@ -87,7 +87,7 @@ class Contacts extends Component {
   renderIOSSearch() {
     if (Platform.OS === 'android') return null;
     return (
-      <SearchBarIos onChange={this.changeText} value={this.state.searchText}/>
+      <SearchBarIos onChange={this.changeText} value={this.state.searchText} />
     );
   }
 
@@ -97,8 +97,9 @@ class Contacts extends Component {
         {this.renderIOSSearch()}
         <ContactsList
           items={this.state.searchText ? this.state.searchResults : this.props.all}
-          onSelect={(contact) => {
-            console.warn('selected', contact);
+          onSelect={(c) => {
+            this.props.onSelect(c);
+            this.props.navigateBack();
           }}
         />
       </View>
@@ -110,6 +111,7 @@ class Contacts extends Component {
 // Check out actions/navigation_new.js to see the prop types and mapDispatchToProps
 Contacts.propTypes = {
   ...NavPropTypes,
+  onSelect: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ contacts }) => ({

@@ -7,6 +7,7 @@ import nav, { NavPropTypes } from '../../actions/navigation_new';
 import theme from '../../theme';
 
 import { Flex, Text, Loading, Button } from '../../components/common';
+import StatusBar from '../../components/StatusBar';
 
 class SelectFriend extends Component {
   static navigatorStyle = {
@@ -20,10 +21,22 @@ class SelectFriend extends Component {
     this.state = {
       isLoading: true,
     };
+
+    this.selectContact = this.selectContact.bind(this);
   }
 
   componentDidMount() {
     setTimeout(() => this.setState({ isLoading: false }), 500);
+  }
+
+  selectContact(c) {
+    if (c.isVoke) {
+      console.warn('voke contact selected');
+    } else {
+      console.warn('normal contact selected');
+    }
+    // TODO: API call to create a link
+    // const URL = 'https://my.vokeapp.com/CEHpHyo';
   }
 
   renderContent() {
@@ -46,19 +59,19 @@ class SelectFriend extends Component {
           <Flex style={styles.vokeBot}>
           </Flex>
           <Button
-            onPress={() => {}}
+            onPress={() => this.selectContact({ name: 'Ben G'})}
             text="Ben G"
             style={styles.randomButton}
             buttonTextStyle={styles.randomText}
           />
           <Button
-            onPress={() => {}}
+            onPress={() => this.selectContact({ name: 'Billy Boy'})}
             text="Bill Boy"
             style={styles.randomButton}
             buttonTextStyle={styles.randomText}
           />
           <Button
-            onPress={() => {}}
+            onPress={() => this.selectContact({ name: 'Susan Sucka'})}
             text="Susan Sucka"
             style={styles.randomButton}
             buttonTextStyle={styles.randomText}
@@ -73,7 +86,9 @@ class SelectFriend extends Component {
         </Flex>
         <Flex value={1.2}>
           <Button
-            onPress={() => this.props.navigatePush('voke.Contacts')}
+            onPress={() => this.props.navigatePush('voke.Contacts', {
+              onSelect: this.selectContact,
+            })}
             text="Search Contacts"
             style={styles.randomButton}
             buttonTextStyle={styles.randomText}
@@ -86,6 +101,7 @@ class SelectFriend extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <StatusBar />
         {this.state.isLoading ? <Loading /> : this.renderContent()}
       </View>
     );

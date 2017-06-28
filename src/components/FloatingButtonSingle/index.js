@@ -15,8 +15,10 @@ class FloatingButtonSingle extends Component {
       <ActionButton
         buttonColor={theme.primaryColor}
         useNativeFeedback={true}
-        icon={<Icon size={ICON_SIZE} name={icon} style={{ color: theme.lightText }} />}
+        icon={<Icon size={ICON_SIZE} name={icon || 'share'} style={{ color: theme.lightText }} />}
         onPress={onSelect}
+        offsetX={25}
+        offsetY={25}
       />
     );
   }
@@ -24,7 +26,7 @@ class FloatingButtonSingle extends Component {
 
 FloatingButtonSingle.propTypes = {
   onSelect: PropTypes.func.isRequired,
-  icon: PropTypes.string.isRequired,
+  icon: PropTypes.string,
 };
 
 export default FloatingButtonSingle;

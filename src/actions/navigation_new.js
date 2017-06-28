@@ -10,23 +10,27 @@ const DEFAULT_PROPS = {
     title: 'Select Friend',
     titleImage: require('../../images/vokeLogo.png'),
   },
+  // 'voke.Message': {},
   'voke.Contacts': { title: 'Contacts' },
   'voke.Profile': { title: 'Profile' },
   'voke.Acknowledgements': { title: 'Acknowledgements' },
   'voke.About': { title: 'About' },
 };
 // Handle default screen things
-function defaultProps(screen, props) {
-  const newProps = {
+function defaultProps(screen, props, passProps) {
+  let newProps = {
     ...(DEFAULT_PROPS[screen] || {}),
     ...props,
   };
+  if (screen === 'voke.Message' && passProps.name) {
+    newProps.title = passProps.name;
+  }
   return newProps;
 }
 // Wix navigation actions
 export function navigatePush(navigator, screen, passProps = {}, screenProps = {}) {
   return () => {
-    let newScreenProps = defaultProps(screen, screenProps);
+    let newScreenProps = defaultProps(screen, screenProps, passProps);
     navigator.push({
       screen,
       ...newScreenProps,

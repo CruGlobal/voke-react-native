@@ -10,8 +10,23 @@ export default StyleSheet.create({
     backgroundColor: theme.lightBackgroundColor,
   },
   video: {
+    backgroundColor: COLORS.DEEP_BLACK,
     height: videoUtils.HEIGHT,
     width: videoUtils.WIDTH,
+  },
+  content: {
+    flex: 1,
+    padding: 15,
+  },
+  label: {
+    color: theme.primaryColor,
+    fontSize: 16,
+    marginBottom: 6,
+  },
+  detail: {
+    color: theme.darkText,
+    fontSize: 13,
+    marginBottom: 3,
   },
   backHeader: {
     position: 'absolute',

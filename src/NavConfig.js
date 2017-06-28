@@ -51,10 +51,6 @@ import getStore from './store';
 
 import { iconsMap, iconsLoaded } from './utils/iconMap';
 
-const store = getStore();
-// screen related book keeping
-registerScreens(store, Provider);
-
 // const tabs = [{
 //   label: 'Navigation',
 //   screen: 'voke.Home',
@@ -78,34 +74,35 @@ const homeScreen = {
   screen: 'voke.Home',
   title: 'Home',
   titleImage: require('../images/vokeLogo.png'),
-  navigatorStyle: {
-    navBarButtonColor: theme.lightText,
-    navBarTextColor: theme.headerTextColor,
-    // navigationBarColor: theme.headerBackgroundColor,
-    navBarBackgroundColor: theme.headerBackgroundColor,
-  },
 };
 const loginScreen = {
   screen: 'voke.Login',
-  // navigatorStyle: {
-  //   navBarButtonColor: theme.lightText,
-  //   navBarTextColor: theme.headerTextColor,
-  //   // navigationBarColor: theme.headerBackgroundColor,
-  //   navBarBackgroundColor: theme.headerBackgroundColor,
-  // },
 };
 
 export default class App {
   constructor() {
     this.isLoading = true;
-    iconsLoaded.then(() => {
-      this.isLoading = false;
-      this.startApp();
+    // this.loadingState();
+    this.store = getStore(() => {
+      iconsLoaded.then(() => {
+        this.isLoading = false;
+        this.startApp();
+      });
+    });
+    registerScreens(this.store, Provider);
+    // screen related book keeping
+  }
+
+  loadingState() {
+    Navigation.startSingleScreenApp({
+      screen: loginScreen,
+      animationType: 'none',
     });
   }
 
   startApp() {
-    if (store.getState().auth.isLoggedIn) {
+    console.warn('this.store.getState()', this.store.getState());
+    if (!this.store.getState().auth.isLoggedIn) {
       Navigation.startSingleScreenApp({
         screen: loginScreen,
         passProps: {},

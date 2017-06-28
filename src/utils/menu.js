@@ -2,7 +2,7 @@
 import { logoutAction } from '../actions/auth';
 
 // This is used by the android <MenuButton /> and the iOS <Menu />
-export function navMenuOptions(dispatch, navigatePush) {
+export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin }) {
   return [
     {
       id: 'profile',
@@ -32,17 +32,16 @@ export function navMenuOptions(dispatch, navigatePush) {
     {
       id: 'signout',
       name: 'Sign Out',
-      onPress: () => dispatch && dispatch(logoutAction()),
+      onPress: () => {
+        dispatch && dispatch(logoutAction()).then(() => {
+          navigateResetLogin && navigateResetLogin();
+        });
+      },
     },
     {
       id: 'select',
       name: 'Select Friend',
       onPress: () => navigatePush && navigatePush('voke.SelectFriend'),
-    },
-    {
-      id: 'contacts',
-      name: 'Contacts',
-      onPress: () => navigatePush && navigatePush('voke.Contacts'),
     },
   ];
 }

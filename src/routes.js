@@ -5,9 +5,7 @@
 // import Menu from './containers/Menu';
 //
 // import VideosButton from './containers/VideosButton';
-// import BackNavButton from './containers/BackNavButton';
 // import Videos from './containers/Videos';
-// import MenuButton from './containers/MenuButton';
 // import HeaderLogo from './components/HeaderLogo';
 // import theme from './theme';
 
