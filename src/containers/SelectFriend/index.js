@@ -19,7 +19,6 @@ class SelectFriend extends Component {
 
     this.state = {
       isLoading: true,
-      contacts: [],
     };
   }
 
@@ -29,20 +28,57 @@ class SelectFriend extends Component {
 
   renderContent() {
     return (
-      <Flex direction="column">
-        <Text style={styles.header}>
-          Select a friend
-        </Text>
-        <Text style={styles.info}>
-          Vokebot found 3 friends in your contacts.
-        </Text>
-        <Text style={styles.info}>
-          Select 1 to kickstart a deeper conversation.
-        </Text>
-        <Button
-          onPress={() => this.props.navigatePush('voke.Contacts')}
-          text="Search Contacts"
-        />
+      <Flex style={styles.container} direction="column" align="center" justify="center">
+        <Flex justify="center" value={1}>
+          <Text style={styles.header}>
+            Select a Friend
+          </Text>
+        </Flex>
+        <Flex align="center" value={.5}>
+          <Text style={styles.info}>
+            Vokebot found 3 friends in your contacts.
+          </Text>
+          <Text style={styles.info}>
+            Select 1 to kickstart a deeper conversation.
+          </Text>
+        </Flex>
+        <Flex justify="start" align="center" value={2}>
+          <Flex style={styles.vokeBot}>
+          </Flex>
+          <Button
+            onPress={() => {}}
+            text="Ben G"
+            style={styles.randomButton}
+            buttonTextStyle={styles.randomText}
+          />
+          <Button
+            onPress={() => {}}
+            text="Bill Boy"
+            style={styles.randomButton}
+            buttonTextStyle={styles.randomText}
+          />
+          <Button
+            onPress={() => {}}
+            text="Susan Sucka"
+            style={styles.randomButton}
+            buttonTextStyle={styles.randomText}
+          />
+          <Flex direction="row" align="center" justify="center" style={styles.orSeparatorWrapper}>
+            <Flex value={2} style={styles.orSeparator} />
+            <Flex value={.5} align="center">
+              <Text style={styles.orText}>OR</Text>
+            </Flex>
+            <Flex value={2} style={styles.orSeparator} />
+          </Flex>
+        </Flex>
+        <Flex value={1.2}>
+          <Button
+            onPress={() => this.props.navigatePush('voke.Contacts')}
+            text="Search Contacts"
+            style={styles.randomButton}
+            buttonTextStyle={styles.randomText}
+          />
+        </Flex>
       </Flex>
     );
   }

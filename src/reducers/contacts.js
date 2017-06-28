@@ -4,6 +4,7 @@ import { SET_ALL_CONTACTS, SET_VOKE_CONTACTS } from '../constants';
 const initialState = {
   all: [],
   voke: [],
+  random: [],
 };
 
 export default function contacts(state = initialState, action) {
@@ -19,6 +20,7 @@ export default function contacts(state = initialState, action) {
       return {
         ...state,
         all: action.all || [],
+        random: action.random || [],
       };
     case SET_VOKE_CONTACTS:
       return {
