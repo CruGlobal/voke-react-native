@@ -23,32 +23,40 @@ function getFirstLetter(str) {
 export function getContacts() {
   return (dispatch) => (
     new Promise((resolve, reject) => {
-      Contacts.getAll((err, contacts) => {
-        if (err === 'denied') {
-          reject();
-        } else {
-          const all = lodashFilter(lodashMap(contacts, (c) => {
-            // Android doesn't have familyName, just givenName
-            const name = `${c.givenName} ${c.familyName}`.trim();
-            let firstNameLetter = getFirstLetter(c.givenName) || getFirstLetter(name);
-            let lastNameLetter = getFirstLetter(c.familyName) || firstNameLetter;
-            return {
-              name,
-              phone: lodashMap(c.phoneNumbers, 'number'),
-              key: c.recordID,
-              id: c.recordID,
-              // Helper fields
-              nameLower: name.toLowerCase(),
-              lastNameLetter,
-              firstNameLetter, 
-            };
-          }), (c) => c.phone.length > 0 && !!c.name);
-          dispatch(setAllContacts(all));
+      Contacts.checkPermission( (err, permission) => {
+        if (permission === 'undefined' || permission === 'authorized') {
+          Contacts.getAll((err, contacts) => {
+            if (err === 'denied') {
+              reject();
+            } else {
+              const all = lodashFilter(lodashMap(contacts, (c) => {
+                // Android doesn't have familyName, just givenName
+                const name = `${c.givenName || ''} ${c.familyName || ''}`.trim();
+                let firstNameLetter = getFirstLetter(c.givenName) || getFirstLetter(name);
+                let lastNameLetter = getFirstLetter(c.familyName) || firstNameLetter;
+                return {
+                  name,
+                  phone: lodashMap(c.phoneNumbers, 'number'),
+                  key: c.recordID,
+                  id: c.recordID,
+                  // Helper fields
+                  nameLower: name.toLowerCase(),
+                  lastNameLetter,
+                  firstNameLetter, 
+                };
+              }), (c) => c.phone.length > 0 && !!c.name);
+              console.warn('all', all.length, all);
+              dispatch(setAllContacts(all));
 
-          // API call to find out who matches voke
-          dispatch(getVokeContacts(all))
-            .then(() => resolve(true))
-            .catch(() => reject());
+              // API call to find out who matches voke
+              dispatch(getVokeContacts(all))
+                .then(() => resolve(true))
+                .catch(() => reject());
+            }
+          });
+        }
+        if (permission === 'denied') {
+          reject();
         }
       });
     })

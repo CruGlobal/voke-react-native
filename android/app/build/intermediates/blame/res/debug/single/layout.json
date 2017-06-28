@@ -92,6 +92,10 @@
         "source": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/layout/abc_list_menu_item_checkbox.xml"
     },
     {
+        "merged": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/res/merged/debug/layout/list_item.xml",
+        "source": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-image-picker/unspecified/res/layout/list_item.xml"
+    },
+    {
         "merged": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/res/merged/debug/layout/abc_search_dropdown_item_icons_2line.xml",
         "source": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/layout/abc_search_dropdown_item_icons_2line.xml"
     },
@@ -116,12 +120,12 @@
         "source": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/layout/abc_action_bar_view_list_nav_layout.xml"
     },
     {
-        "merged": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/res/merged/debug/layout/abc_screen_content_include.xml",
-        "source": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/layout/abc_screen_content_include.xml"
-    },
-    {
         "merged": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/res/merged/debug/layout/select_dialog_singlechoice_material.xml",
         "source": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/layout/select_dialog_singlechoice_material.xml"
+    },
+    {
+        "merged": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/res/merged/debug/layout/abc_screen_content_include.xml",
+        "source": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/layout/abc_screen_content_include.xml"
     },
     {
         "merged": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/res/merged/debug/layout/bottom_navigation_small_item.xml",

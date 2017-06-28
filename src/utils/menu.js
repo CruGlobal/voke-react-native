@@ -7,7 +7,7 @@ export function navMenuOptions(dispatch, navigatePush) {
     {
       id: 'profile',
       name: 'Profile',
-      onPress: () => navigatePush && navigatePush('voke.Profile', {}, { title: 'Profile' }),
+      onPress: () => navigatePush && navigatePush('voke.Profile'),
     },
     {
       id: 'about',
@@ -37,16 +37,12 @@ export function navMenuOptions(dispatch, navigatePush) {
     {
       id: 'select',
       name: 'Select Friend',
-      onPress: () => navigatePush && navigatePush('voke.SelectFriend', {}, {
-        titleImage: require('../../images/vokeLogo.png'),
-      }),
+      onPress: () => navigatePush && navigatePush('voke.SelectFriend'),
     },
     {
       id: 'contacts',
       name: 'Contacts',
-      onPress: () => navigatePush && navigatePush('voke.Contacts', {}, {
-        title: 'Contacts',
-      }),
+      onPress: () => navigatePush && navigatePush('voke.Contacts'),
     },
   ];
 }

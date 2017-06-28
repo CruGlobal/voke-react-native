@@ -1,13 +1,9 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { ListView, TextInput, KeyboardAvoidingView } from 'react-native';
+import { ListView, Platform } from 'react-native';
 import styles from './styles';
 import MessageItem from '../MessageItem';
-import theme from '../../theme';
-
-import { Flex } from '../../components/common';
-
 
 class MessagesList extends Component {
   constructor(props) {
@@ -50,32 +46,20 @@ class MessagesList extends Component {
     // if (this.listView) {
     //   setTimeout(() => this.listView.scrollToEnd({ animated: isAnimated }), 50);
     // }
-    setTimeout(() => this.listView.scrollToEnd({ animated: isAnimated }), 50);
+    setTimeout(() => {
+      this.listView.scrollToEnd({ animated: isAnimated });
+    }, Platform.OS === 'ios' ? 50 : 250);
   }
 
   render() {
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={60}>
-        <ListView
-          ref={(c) => this.listView = c}
-          style={{ flex: undefined }}
-          enableEmptySections={true}
-          contentContainerStyle={styles.content}
-          dataSource={this.state.dataSource}
-          renderRow={this.renderRow}
-        />
-        <Flex style={styles.inputWrap}>
-          <TextInput
-            onFocus={() => this.scrollEnd(true)}
-            onBlur={() => this.scrollEnd(true)}
-            multiline={true}
-            placeholder="New Message"
-            placeholderTextColor={theme.primaryColor}
-            style={styles.chatBox}
-            autoCorrect={true}
-          />
-        </Flex>
-      </KeyboardAvoidingView>
+      <ListView
+        ref={(c) => this.listView = c}
+        enableEmptySections={true}
+        contentContainerStyle={styles.content}
+        dataSource={this.state.dataSource}
+        renderRow={this.renderRow}
+      />
     );
   }
 }

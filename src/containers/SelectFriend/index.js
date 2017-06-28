@@ -4,10 +4,16 @@ import { connect } from 'react-redux';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
+import theme from '../../theme';
 
 import { Flex, Text, Loading, Button } from '../../components/common';
 
 class SelectFriend extends Component {
+  static navigatorStyle = {
+    navBarButtonColor: theme.lightText,
+    navBarTextColor: theme.headerTextColor,
+    navBarBackgroundColor: theme.headerBackgroundColor,
+  };
   constructor(props) {
     super(props);
 

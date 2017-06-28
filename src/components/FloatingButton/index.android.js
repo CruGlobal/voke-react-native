@@ -28,7 +28,7 @@ class FloatingButton extends Component {
         </ActionButton.Item>
         <ActionButton.Item
           title="Invite Friends"
-          onPress={() => onSelect('voke.About')}
+          onPress={() => onSelect('voke.SelectFriend')}
         >
           <Icon size={ICON_SIZE} name="person-add" style={styles.actionButtonIcon} />
         </ActionButton.Item>

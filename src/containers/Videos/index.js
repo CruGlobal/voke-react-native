@@ -5,6 +5,7 @@ import nav, { NavPropTypes } from '../../actions/navigation_new';
 
 import styles from './styles';
 import { iconsMap } from '../../utils/iconMap';
+import theme from '../../theme';
 
 import SubHeader from '../SubHeader';
 import VideoList from '../../components/VideoList';
@@ -21,14 +22,18 @@ const VIDEOS = [
 function setButtons() {
   return {
     leftButtons: [{
-      title: 'Home', // for a textual button, provide the button title (label)
-      id: 'back', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-      icon: iconsMap['ios-home-outline'], // for icon button, provide the local image asset name
+      id: 'back', // Android implements this already
+      icon: iconsMap['ios-home-outline'], // For iOS only
     }],
   };
 }
 
 class Videos extends Component {
+  static navigatorStyle = {
+    navBarButtonColor: theme.lightText,
+    navBarTextColor: theme.headerTextColor,
+    navBarBackgroundColor: theme.headerBackgroundColor,
+  };
   constructor(props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
@@ -41,10 +46,6 @@ class Videos extends Component {
       }
     }
   }
-
-  static navigatorStyle = {
-    navBarNoBorder: true,
-  };
 
   componentWillMount() {
     this.props.navigator.setButtons(setButtons());

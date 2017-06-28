@@ -19750,9 +19750,30 @@
                     "startLine": 1763,
                     "startColumn": 4,
                     "startOffset": 127206,
-                    "endLine": 1766,
+                    "endLine": 1770,
+                    "endColumn": 12,
+                    "endOffset": 127612
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-image-picker/unspecified/res/values/values.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endLine": 9,
+                        "endColumn": 12,
+                        "endOffset": 461
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 1771,
+                    "startColumn": 4,
+                    "startOffset": 127617,
+                    "endLine": 1774,
                     "endColumn": 10,
-                    "endOffset": 127385
+                    "endOffset": 127796
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.45.1/res/values/values.xml",
@@ -19768,12 +19789,12 @@
             },
             {
                 "to": {
-                    "startLine": 1767,
+                    "startLine": 1775,
                     "startColumn": 4,
-                    "startOffset": 127390,
-                    "endLine": 1770,
+                    "startOffset": 127801,
+                    "endLine": 1778,
                     "endColumn": 10,
-                    "endOffset": 127573
+                    "endOffset": 127984
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.45.1/res/values/values.xml",
@@ -19789,12 +19810,12 @@
             },
             {
                 "to": {
-                    "startLine": 1771,
+                    "startLine": 1779,
                     "startColumn": 4,
-                    "startOffset": 127578,
-                    "endLine": 1774,
+                    "startOffset": 127989,
+                    "endLine": 1782,
                     "endColumn": 12,
-                    "endOffset": 127850
+                    "endOffset": 128261
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-navigation/unspecified/res/values/values.xml",
@@ -19810,12 +19831,12 @@
             },
             {
                 "to": {
-                    "startLine": 1775,
+                    "startLine": 1783,
                     "startColumn": 4,
-                    "startOffset": 127855,
-                    "endLine": 1778,
+                    "startOffset": 128266,
+                    "endLine": 1786,
                     "endColumn": 12,
-                    "endOffset": 128124
+                    "endOffset": 128535
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-navigation/unspecified/res/values/values.xml",
@@ -19831,12 +19852,12 @@
             },
             {
                 "to": {
-                    "startLine": 1779,
+                    "startLine": 1787,
                     "startColumn": 4,
-                    "startOffset": 128129,
-                    "endLine": 1820,
+                    "startOffset": 128540,
+                    "endLine": 1828,
                     "endColumn": 12,
-                    "endOffset": 131310
+                    "endOffset": 131721
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -19852,12 +19873,12 @@
             },
             {
                 "to": {
-                    "startLine": 1821,
+                    "startLine": 1829,
                     "startColumn": 4,
-                    "startOffset": 131315,
-                    "endLine": 1863,
+                    "startOffset": 131726,
+                    "endLine": 1871,
                     "endColumn": 12,
-                    "endOffset": 134639
+                    "endOffset": 135050
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -19873,11 +19894,11 @@
             },
             {
                 "to": {
-                    "startLine": 1864,
+                    "startLine": 1872,
                     "startColumn": 4,
-                    "startOffset": 134644,
+                    "startOffset": 135055,
                     "endColumn": 61,
-                    "endOffset": 134701
+                    "endOffset": 135112
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -19892,12 +19913,12 @@
             },
             {
                 "to": {
-                    "startLine": 1865,
+                    "startLine": 1873,
                     "startColumn": 4,
-                    "startOffset": 134706,
-                    "endLine": 1874,
+                    "startOffset": 135117,
+                    "endLine": 1882,
                     "endColumn": 12,
-                    "endOffset": 135331
+                    "endOffset": 135742
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -19913,12 +19934,12 @@
             },
             {
                 "to": {
-                    "startLine": 1875,
+                    "startLine": 1883,
                     "startColumn": 4,
-                    "startOffset": 135336,
-                    "endLine": 1883,
+                    "startOffset": 135747,
+                    "endLine": 1891,
                     "endColumn": 12,
-                    "endOffset": 135945
+                    "endOffset": 136356
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -19934,11 +19955,11 @@
             },
             {
                 "to": {
-                    "startLine": 1884,
+                    "startLine": 1892,
                     "startColumn": 4,
-                    "startOffset": 135950,
+                    "startOffset": 136361,
                     "endColumn": 85,
-                    "endOffset": 136031
+                    "endOffset": 136442
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -19953,12 +19974,12 @@
             },
             {
                 "to": {
-                    "startLine": 1885,
+                    "startLine": 1893,
                     "startColumn": 4,
-                    "startOffset": 136036,
-                    "endLine": 1886,
+                    "startOffset": 136447,
+                    "endLine": 1894,
                     "endColumn": 12,
-                    "endOffset": 136144
+                    "endOffset": 136555
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -19974,12 +19995,12 @@
             },
             {
                 "to": {
-                    "startLine": 1887,
+                    "startLine": 1895,
                     "startColumn": 4,
-                    "startOffset": 136149,
-                    "endLine": 1890,
+                    "startOffset": 136560,
+                    "endLine": 1898,
                     "endColumn": 12,
-                    "endOffset": 136373
+                    "endOffset": 136784
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -19995,12 +20016,12 @@
             },
             {
                 "to": {
-                    "startLine": 1891,
+                    "startLine": 1899,
                     "startColumn": 4,
-                    "startOffset": 136378,
-                    "endLine": 1893,
+                    "startOffset": 136789,
+                    "endLine": 1901,
                     "endColumn": 12,
-                    "endOffset": 136533
+                    "endOffset": 136944
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20016,12 +20037,12 @@
             },
             {
                 "to": {
-                    "startLine": 1894,
+                    "startLine": 1902,
                     "startColumn": 4,
-                    "startOffset": 136538,
-                    "endLine": 1896,
+                    "startOffset": 136949,
+                    "endLine": 1904,
                     "endColumn": 12,
-                    "endOffset": 136685
+                    "endOffset": 137096
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20037,12 +20058,12 @@
             },
             {
                 "to": {
-                    "startLine": 1897,
+                    "startLine": 1905,
                     "startColumn": 4,
-                    "startOffset": 136690,
-                    "endLine": 1899,
+                    "startOffset": 137101,
+                    "endLine": 1907,
                     "endColumn": 12,
-                    "endOffset": 136856
+                    "endOffset": 137267
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20058,12 +20079,12 @@
             },
             {
                 "to": {
-                    "startLine": 1900,
+                    "startLine": 1908,
                     "startColumn": 4,
-                    "startOffset": 136861,
-                    "endLine": 1902,
+                    "startOffset": 137272,
+                    "endLine": 1910,
                     "endColumn": 12,
-                    "endOffset": 137023
+                    "endOffset": 137434
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20079,12 +20100,12 @@
             },
             {
                 "to": {
-                    "startLine": 1903,
+                    "startLine": 1911,
                     "startColumn": 4,
-                    "startOffset": 137028,
-                    "endLine": 1906,
+                    "startOffset": 137439,
+                    "endLine": 1914,
                     "endColumn": 12,
-                    "endOffset": 137266
+                    "endOffset": 137677
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20100,12 +20121,12 @@
             },
             {
                 "to": {
-                    "startLine": 1907,
+                    "startLine": 1915,
                     "startColumn": 4,
-                    "startOffset": 137271,
-                    "endLine": 1909,
+                    "startOffset": 137682,
+                    "endLine": 1917,
                     "endColumn": 12,
-                    "endOffset": 137436
+                    "endOffset": 137847
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20121,12 +20142,12 @@
             },
             {
                 "to": {
-                    "startLine": 1910,
+                    "startLine": 1918,
                     "startColumn": 4,
-                    "startOffset": 137441,
-                    "endLine": 1912,
+                    "startOffset": 137852,
+                    "endLine": 1920,
                     "endColumn": 12,
-                    "endOffset": 137609
+                    "endOffset": 138020
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20142,12 +20163,12 @@
             },
             {
                 "to": {
-                    "startLine": 1913,
+                    "startLine": 1921,
                     "startColumn": 4,
-                    "startOffset": 137614,
-                    "endLine": 1915,
+                    "startOffset": 138025,
+                    "endLine": 1923,
                     "endColumn": 12,
-                    "endOffset": 137780
+                    "endOffset": 138191
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20163,12 +20184,12 @@
             },
             {
                 "to": {
-                    "startLine": 1916,
+                    "startLine": 1924,
                     "startColumn": 4,
-                    "startOffset": 137785,
-                    "endLine": 1919,
+                    "startOffset": 138196,
+                    "endLine": 1927,
                     "endColumn": 12,
-                    "endOffset": 138054
+                    "endOffset": 138465
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20184,12 +20205,12 @@
             },
             {
                 "to": {
-                    "startLine": 1920,
+                    "startLine": 1928,
                     "startColumn": 4,
-                    "startOffset": 138059,
-                    "endLine": 1922,
+                    "startOffset": 138470,
+                    "endLine": 1930,
                     "endColumn": 12,
-                    "endOffset": 138253
+                    "endOffset": 138664
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20205,12 +20226,12 @@
             },
             {
                 "to": {
-                    "startLine": 1923,
+                    "startLine": 1931,
                     "startColumn": 4,
-                    "startOffset": 138258,
-                    "endLine": 1926,
+                    "startOffset": 138669,
+                    "endLine": 1934,
                     "endColumn": 12,
-                    "endOffset": 138458
+                    "endOffset": 138869
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20226,12 +20247,12 @@
             },
             {
                 "to": {
-                    "startLine": 1927,
+                    "startLine": 1935,
                     "startColumn": 4,
-                    "startOffset": 138463,
-                    "endLine": 1930,
+                    "startOffset": 138874,
+                    "endLine": 1938,
                     "endColumn": 12,
-                    "endOffset": 138788
+                    "endOffset": 139199
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20247,12 +20268,12 @@
             },
             {
                 "to": {
-                    "startLine": 1931,
+                    "startLine": 1939,
                     "startColumn": 4,
-                    "startOffset": 138793,
-                    "endLine": 1933,
+                    "startOffset": 139204,
+                    "endLine": 1941,
                     "endColumn": 12,
-                    "endOffset": 138989
+                    "endOffset": 139400
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.45.1/res/values/values.xml",
@@ -20268,12 +20289,12 @@
             },
             {
                 "to": {
-                    "startLine": 1934,
+                    "startLine": 1942,
                     "startColumn": 4,
-                    "startOffset": 138994,
-                    "endLine": 1936,
+                    "startOffset": 139405,
+                    "endLine": 1944,
                     "endColumn": 12,
-                    "endOffset": 139178
+                    "endOffset": 139589
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.45.1/res/values/values.xml",
@@ -20289,11 +20310,11 @@
             },
             {
                 "to": {
-                    "startLine": 1937,
+                    "startLine": 1945,
                     "startColumn": 4,
-                    "startOffset": 139183,
+                    "startOffset": 139594,
                     "endColumn": 83,
-                    "endOffset": 139262
+                    "endOffset": 139673
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20308,11 +20329,11 @@
             },
             {
                 "to": {
-                    "startLine": 1938,
+                    "startLine": 1946,
                     "startColumn": 4,
-                    "startOffset": 139267,
+                    "startOffset": 139678,
                     "endColumn": 95,
-                    "endOffset": 139358
+                    "endOffset": 139769
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20327,11 +20348,11 @@
             },
             {
                 "to": {
-                    "startLine": 1939,
+                    "startLine": 1947,
                     "startColumn": 4,
-                    "startOffset": 139363,
+                    "startOffset": 139774,
                     "endColumn": 95,
-                    "endOffset": 139454
+                    "endOffset": 139865
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20346,11 +20367,11 @@
             },
             {
                 "to": {
-                    "startLine": 1940,
+                    "startLine": 1948,
                     "startColumn": 4,
-                    "startOffset": 139459,
+                    "startOffset": 139870,
                     "endColumn": 97,
-                    "endOffset": 139552
+                    "endOffset": 139963
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20365,11 +20386,11 @@
             },
             {
                 "to": {
-                    "startLine": 1941,
+                    "startLine": 1949,
                     "startColumn": 4,
-                    "startOffset": 139557,
+                    "startOffset": 139968,
                     "endColumn": 99,
-                    "endOffset": 139652
+                    "endOffset": 140063
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20384,11 +20405,11 @@
             },
             {
                 "to": {
-                    "startLine": 1942,
+                    "startLine": 1950,
                     "startColumn": 4,
-                    "startOffset": 139657,
+                    "startOffset": 140068,
                     "endColumn": 101,
-                    "endOffset": 139754
+                    "endOffset": 140165
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20403,11 +20424,11 @@
             },
             {
                 "to": {
-                    "startLine": 1943,
+                    "startLine": 1951,
                     "startColumn": 4,
-                    "startOffset": 139759,
+                    "startOffset": 140170,
                     "endColumn": 101,
-                    "endOffset": 139856
+                    "endOffset": 140267
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20422,11 +20443,11 @@
             },
             {
                 "to": {
-                    "startLine": 1944,
+                    "startLine": 1952,
                     "startColumn": 4,
-                    "startOffset": 139861,
+                    "startOffset": 140272,
                     "endColumn": 101,
-                    "endOffset": 139958
+                    "endOffset": 140369
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20441,11 +20462,11 @@
             },
             {
                 "to": {
-                    "startLine": 1945,
+                    "startLine": 1953,
                     "startColumn": 4,
-                    "startOffset": 139963,
+                    "startOffset": 140374,
                     "endColumn": 101,
-                    "endOffset": 140060
+                    "endOffset": 140471
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20460,11 +20481,11 @@
             },
             {
                 "to": {
-                    "startLine": 1946,
+                    "startLine": 1954,
                     "startColumn": 4,
-                    "startOffset": 140065,
+                    "startOffset": 140476,
                     "endColumn": 101,
-                    "endOffset": 140162
+                    "endOffset": 140573
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20479,11 +20500,11 @@
             },
             {
                 "to": {
-                    "startLine": 1947,
+                    "startLine": 1955,
                     "startColumn": 4,
-                    "startOffset": 140167,
+                    "startOffset": 140578,
                     "endColumn": 99,
-                    "endOffset": 140262
+                    "endOffset": 140673
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20498,11 +20519,11 @@
             },
             {
                 "to": {
-                    "startLine": 1948,
+                    "startLine": 1956,
                     "startColumn": 4,
-                    "startOffset": 140267,
+                    "startOffset": 140678,
                     "endColumn": 95,
-                    "endOffset": 140358
+                    "endOffset": 140769
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20517,11 +20538,11 @@
             },
             {
                 "to": {
-                    "startLine": 1949,
+                    "startLine": 1957,
                     "startColumn": 4,
-                    "startOffset": 140363,
+                    "startOffset": 140774,
                     "endColumn": 111,
-                    "endOffset": 140470
+                    "endOffset": 140881
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20536,11 +20557,11 @@
             },
             {
                 "to": {
-                    "startLine": 1950,
+                    "startLine": 1958,
                     "startColumn": 4,
-                    "startOffset": 140475,
+                    "startOffset": 140886,
                     "endColumn": 128,
-                    "endOffset": 140599
+                    "endOffset": 141010
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20555,11 +20576,11 @@
             },
             {
                 "to": {
-                    "startLine": 1951,
+                    "startLine": 1959,
                     "startColumn": 4,
-                    "startOffset": 140604,
+                    "startOffset": 141015,
                     "endColumn": 122,
-                    "endOffset": 140722
+                    "endOffset": 141133
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20574,11 +20595,11 @@
             },
             {
                 "to": {
-                    "startLine": 1952,
+                    "startLine": 1960,
                     "startColumn": 4,
-                    "startOffset": 140727,
+                    "startOffset": 141138,
                     "endColumn": 130,
-                    "endOffset": 140853
+                    "endOffset": 141264
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20593,11 +20614,11 @@
             },
             {
                 "to": {
-                    "startLine": 1953,
+                    "startLine": 1961,
                     "startColumn": 4,
-                    "startOffset": 140858,
+                    "startOffset": 141269,
                     "endColumn": 130,
-                    "endOffset": 140984
+                    "endOffset": 141395
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20612,11 +20633,11 @@
             },
             {
                 "to": {
-                    "startLine": 1954,
+                    "startLine": 1962,
                     "startColumn": 4,
-                    "startOffset": 140989,
+                    "startOffset": 141400,
                     "endColumn": 97,
-                    "endOffset": 141082
+                    "endOffset": 141493
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20631,11 +20652,11 @@
             },
             {
                 "to": {
-                    "startLine": 1955,
+                    "startLine": 1963,
                     "startColumn": 4,
-                    "startOffset": 141087,
+                    "startOffset": 141498,
                     "endColumn": 113,
-                    "endOffset": 141196
+                    "endOffset": 141607
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20650,11 +20671,11 @@
             },
             {
                 "to": {
-                    "startLine": 1956,
+                    "startLine": 1964,
                     "startColumn": 4,
-                    "startOffset": 141201,
+                    "startOffset": 141612,
                     "endColumn": 93,
-                    "endOffset": 141290
+                    "endOffset": 141701
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20669,12 +20690,12 @@
             },
             {
                 "to": {
-                    "startLine": 1957,
+                    "startLine": 1965,
                     "startColumn": 4,
-                    "startOffset": 141295,
-                    "endLine": 1960,
+                    "startOffset": 141706,
+                    "endLine": 1968,
                     "endColumn": 12,
-                    "endOffset": 141489
+                    "endOffset": 141900
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20690,12 +20711,12 @@
             },
             {
                 "to": {
-                    "startLine": 1961,
+                    "startLine": 1969,
                     "startColumn": 4,
-                    "startOffset": 141494,
-                    "endLine": 1964,
+                    "startOffset": 141905,
+                    "endLine": 1972,
                     "endColumn": 12,
-                    "endOffset": 141693
+                    "endOffset": 142104
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20711,11 +20732,11 @@
             },
             {
                 "to": {
-                    "startLine": 1965,
+                    "startLine": 1973,
                     "startColumn": 4,
-                    "startOffset": 141698,
+                    "startOffset": 142109,
                     "endColumn": 68,
-                    "endOffset": 141762
+                    "endOffset": 142173
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20730,11 +20751,11 @@
             },
             {
                 "to": {
-                    "startLine": 1966,
+                    "startLine": 1974,
                     "startColumn": 4,
-                    "startOffset": 141767,
+                    "startOffset": 142178,
                     "endColumn": 115,
-                    "endOffset": 141878
+                    "endOffset": 142289
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20749,11 +20770,11 @@
             },
             {
                 "to": {
-                    "startLine": 1967,
+                    "startLine": 1975,
                     "startColumn": 4,
-                    "startOffset": 141883,
+                    "startOffset": 142294,
                     "endColumn": 127,
-                    "endOffset": 142006
+                    "endOffset": 142417
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20768,11 +20789,11 @@
             },
             {
                 "to": {
-                    "startLine": 1968,
+                    "startLine": 1976,
                     "startColumn": 4,
-                    "startOffset": 142011,
+                    "startOffset": 142422,
                     "endColumn": 63,
-                    "endOffset": 142070
+                    "endOffset": 142481
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20787,12 +20808,12 @@
             },
             {
                 "to": {
-                    "startLine": 1969,
+                    "startLine": 1977,
                     "startColumn": 4,
-                    "startOffset": 142075,
-                    "endLine": 1972,
+                    "startOffset": 142486,
+                    "endLine": 1980,
                     "endColumn": 12,
-                    "endOffset": 142274
+                    "endOffset": 142685
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20808,11 +20829,11 @@
             },
             {
                 "to": {
-                    "startLine": 1973,
+                    "startLine": 1981,
                     "startColumn": 4,
-                    "startOffset": 142279,
+                    "startOffset": 142690,
                     "endColumn": 68,
-                    "endOffset": 142343
+                    "endOffset": 142754
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20827,12 +20848,12 @@
             },
             {
                 "to": {
-                    "startLine": 1974,
+                    "startLine": 1982,
                     "startColumn": 4,
-                    "startOffset": 142348,
-                    "endLine": 1977,
+                    "startOffset": 142759,
+                    "endLine": 1985,
                     "endColumn": 12,
-                    "endOffset": 142546
+                    "endOffset": 142957
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20848,11 +20869,11 @@
             },
             {
                 "to": {
-                    "startLine": 1978,
+                    "startLine": 1986,
                     "startColumn": 4,
-                    "startOffset": 142551,
+                    "startOffset": 142962,
                     "endColumn": 69,
-                    "endOffset": 142616
+                    "endOffset": 143027
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20867,12 +20888,12 @@
             },
             {
                 "to": {
-                    "startLine": 1979,
+                    "startLine": 1987,
                     "startColumn": 4,
-                    "startOffset": 142621,
-                    "endLine": 1980,
+                    "startOffset": 143032,
+                    "endLine": 1988,
                     "endColumn": 12,
-                    "endOffset": 142756
+                    "endOffset": 143167
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20888,12 +20909,12 @@
             },
             {
                 "to": {
-                    "startLine": 1981,
+                    "startLine": 1989,
                     "startColumn": 4,
-                    "startOffset": 142761,
-                    "endLine": 1982,
+                    "startOffset": 143172,
+                    "endLine": 1990,
                     "endColumn": 12,
-                    "endOffset": 142890
+                    "endOffset": 143301
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20909,11 +20930,11 @@
             },
             {
                 "to": {
-                    "startLine": 1983,
+                    "startLine": 1991,
                     "startColumn": 4,
-                    "startOffset": 142895,
+                    "startOffset": 143306,
                     "endColumn": 95,
-                    "endOffset": 142986
+                    "endOffset": 143397
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20928,11 +20949,11 @@
             },
             {
                 "to": {
-                    "startLine": 1984,
+                    "startLine": 1992,
                     "startColumn": 4,
-                    "startOffset": 142991,
+                    "startOffset": 143402,
                     "endColumn": 111,
-                    "endOffset": 143098
+                    "endOffset": 143509
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20947,11 +20968,11 @@
             },
             {
                 "to": {
-                    "startLine": 1985,
+                    "startLine": 1993,
                     "startColumn": 4,
-                    "startOffset": 143103,
+                    "startOffset": 143514,
                     "endColumn": 99,
-                    "endOffset": 143198
+                    "endOffset": 143609
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20966,11 +20987,11 @@
             },
             {
                 "to": {
-                    "startLine": 1986,
+                    "startLine": 1994,
                     "startColumn": 4,
-                    "startOffset": 143203,
+                    "startOffset": 143614,
                     "endColumn": 115,
-                    "endOffset": 143314
+                    "endOffset": 143725
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -20985,11 +21006,11 @@
             },
             {
                 "to": {
-                    "startLine": 1987,
+                    "startLine": 1995,
                     "startColumn": 4,
-                    "startOffset": 143319,
+                    "startOffset": 143730,
                     "endColumn": 95,
-                    "endOffset": 143410
+                    "endOffset": 143821
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21004,11 +21025,11 @@
             },
             {
                 "to": {
-                    "startLine": 1988,
+                    "startLine": 1996,
                     "startColumn": 4,
-                    "startOffset": 143415,
+                    "startOffset": 143826,
                     "endColumn": 111,
-                    "endOffset": 143522
+                    "endOffset": 143933
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21023,12 +21044,12 @@
             },
             {
                 "to": {
-                    "startLine": 1989,
+                    "startLine": 1997,
                     "startColumn": 4,
-                    "startOffset": 143527,
-                    "endLine": 1990,
+                    "startOffset": 143938,
+                    "endLine": 1998,
                     "endColumn": 12,
-                    "endOffset": 143662
+                    "endOffset": 144073
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21044,11 +21065,11 @@
             },
             {
                 "to": {
-                    "startLine": 1991,
+                    "startLine": 1999,
                     "startColumn": 4,
-                    "startOffset": 143667,
+                    "startOffset": 144078,
                     "endColumn": 135,
-                    "endOffset": 143798
+                    "endOffset": 144209
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21063,12 +21084,12 @@
             },
             {
                 "to": {
-                    "startLine": 1992,
+                    "startLine": 2000,
                     "startColumn": 4,
-                    "startOffset": 143803,
-                    "endLine": 1993,
+                    "startOffset": 144214,
+                    "endLine": 2001,
                     "endColumn": 12,
-                    "endOffset": 143962
+                    "endOffset": 144373
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21084,11 +21105,11 @@
             },
             {
                 "to": {
-                    "startLine": 1994,
+                    "startLine": 2002,
                     "startColumn": 4,
-                    "startOffset": 143967,
+                    "startOffset": 144378,
                     "endColumn": 129,
-                    "endOffset": 144092
+                    "endOffset": 144503
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21103,12 +21124,12 @@
             },
             {
                 "to": {
-                    "startLine": 1995,
+                    "startLine": 2003,
                     "startColumn": 4,
-                    "startOffset": 144097,
-                    "endLine": 1996,
+                    "startOffset": 144508,
+                    "endLine": 2004,
                     "endColumn": 12,
-                    "endOffset": 144250
+                    "endOffset": 144661
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21124,12 +21145,12 @@
             },
             {
                 "to": {
-                    "startLine": 1997,
+                    "startLine": 2005,
                     "startColumn": 4,
-                    "startOffset": 144255,
-                    "endLine": 1998,
+                    "startOffset": 144666,
+                    "endLine": 2006,
                     "endColumn": 12,
-                    "endOffset": 144400
+                    "endOffset": 144811
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21145,11 +21166,11 @@
             },
             {
                 "to": {
-                    "startLine": 1999,
+                    "startLine": 2007,
                     "startColumn": 4,
-                    "startOffset": 144405,
+                    "startOffset": 144816,
                     "endColumn": 140,
-                    "endOffset": 144541
+                    "endOffset": 144952
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21164,12 +21185,12 @@
             },
             {
                 "to": {
-                    "startLine": 2000,
+                    "startLine": 2008,
                     "startColumn": 4,
-                    "startOffset": 144546,
-                    "endLine": 2001,
+                    "startOffset": 144957,
+                    "endLine": 2009,
                     "endColumn": 12,
-                    "endOffset": 144685
+                    "endOffset": 145096
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21185,11 +21206,11 @@
             },
             {
                 "to": {
-                    "startLine": 2002,
+                    "startLine": 2010,
                     "startColumn": 4,
-                    "startOffset": 144690,
+                    "startOffset": 145101,
                     "endColumn": 134,
-                    "endOffset": 144820
+                    "endOffset": 145231
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21204,11 +21225,11 @@
             },
             {
                 "to": {
-                    "startLine": 2003,
+                    "startLine": 2011,
                     "startColumn": 4,
-                    "startOffset": 144825,
+                    "startOffset": 145236,
                     "endColumn": 111,
-                    "endOffset": 144932
+                    "endOffset": 145343
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21223,11 +21244,11 @@
             },
             {
                 "to": {
-                    "startLine": 2004,
+                    "startLine": 2012,
                     "startColumn": 4,
-                    "startOffset": 144937,
+                    "startOffset": 145348,
                     "endColumn": 149,
-                    "endOffset": 145082
+                    "endOffset": 145493
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21242,11 +21263,11 @@
             },
             {
                 "to": {
-                    "startLine": 2005,
+                    "startLine": 2013,
                     "startColumn": 4,
-                    "startOffset": 145087,
+                    "startOffset": 145498,
                     "endColumn": 127,
-                    "endOffset": 145210
+                    "endOffset": 145621
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21261,11 +21282,11 @@
             },
             {
                 "to": {
-                    "startLine": 2006,
+                    "startLine": 2014,
                     "startColumn": 4,
-                    "startOffset": 145215,
+                    "startOffset": 145626,
                     "endColumn": 127,
-                    "endOffset": 145338
+                    "endOffset": 145749
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21280,12 +21301,12 @@
             },
             {
                 "to": {
-                    "startLine": 2007,
+                    "startLine": 2015,
                     "startColumn": 4,
-                    "startOffset": 145343,
-                    "endLine": 2008,
+                    "startOffset": 145754,
+                    "endLine": 2016,
                     "endColumn": 12,
-                    "endOffset": 145474
+                    "endOffset": 145885
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21301,11 +21322,11 @@
             },
             {
                 "to": {
-                    "startLine": 2009,
+                    "startLine": 2017,
                     "startColumn": 4,
-                    "startOffset": 145479,
+                    "startOffset": 145890,
                     "endColumn": 131,
-                    "endOffset": 145606
+                    "endOffset": 146017
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21320,11 +21341,11 @@
             },
             {
                 "to": {
-                    "startLine": 2010,
+                    "startLine": 2018,
                     "startColumn": 4,
-                    "startOffset": 145611,
+                    "startOffset": 146022,
                     "endColumn": 129,
-                    "endOffset": 145736
+                    "endOffset": 146147
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21339,11 +21360,11 @@
             },
             {
                 "to": {
-                    "startLine": 2011,
+                    "startLine": 2019,
                     "startColumn": 4,
-                    "startOffset": 145741,
+                    "startOffset": 146152,
                     "endColumn": 129,
-                    "endOffset": 145866
+                    "endOffset": 146277
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21358,11 +21379,11 @@
             },
             {
                 "to": {
-                    "startLine": 2012,
+                    "startLine": 2020,
                     "startColumn": 4,
-                    "startOffset": 145871,
+                    "startOffset": 146282,
                     "endColumn": 111,
-                    "endOffset": 145978
+                    "endOffset": 146389
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21377,11 +21398,11 @@
             },
             {
                 "to": {
-                    "startLine": 2013,
+                    "startLine": 2021,
                     "startColumn": 4,
-                    "startOffset": 145983,
+                    "startOffset": 146394,
                     "endColumn": 139,
-                    "endOffset": 146118
+                    "endOffset": 146529
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21396,12 +21417,12 @@
             },
             {
                 "to": {
-                    "startLine": 2014,
+                    "startLine": 2022,
                     "startColumn": 4,
-                    "startOffset": 146123,
-                    "endLine": 2016,
+                    "startOffset": 146534,
+                    "endLine": 2024,
                     "endColumn": 12,
-                    "endOffset": 146319
+                    "endOffset": 146730
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/values/values.xml",
@@ -21417,11 +21438,11 @@
             },
             {
                 "to": {
-                    "startLine": 2017,
+                    "startLine": 2025,
                     "startColumn": 4,
-                    "startOffset": 146324,
+                    "startOffset": 146735,
                     "endColumn": 91,
-                    "endOffset": 146411
+                    "endOffset": 146822
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/values/values.xml",
@@ -21436,12 +21457,12 @@
             },
             {
                 "to": {
-                    "startLine": 2018,
+                    "startLine": 2026,
                     "startColumn": 4,
-                    "startOffset": 146416,
-                    "endLine": 2020,
+                    "startOffset": 146827,
+                    "endLine": 2028,
                     "endColumn": 12,
-                    "endOffset": 146590
+                    "endOffset": 147001
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/values/values.xml",
@@ -21457,12 +21478,12 @@
             },
             {
                 "to": {
-                    "startLine": 2021,
+                    "startLine": 2029,
                     "startColumn": 4,
-                    "startOffset": 146595,
-                    "endLine": 2023,
+                    "startOffset": 147006,
+                    "endLine": 2031,
                     "endColumn": 12,
-                    "endOffset": 146758
+                    "endOffset": 147169
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/values/values.xml",
@@ -21478,12 +21499,12 @@
             },
             {
                 "to": {
-                    "startLine": 2024,
+                    "startLine": 2032,
                     "startColumn": 4,
-                    "startOffset": 146763,
-                    "endLine": 2026,
+                    "startOffset": 147174,
+                    "endLine": 2034,
                     "endColumn": 12,
-                    "endOffset": 146933
+                    "endOffset": 147344
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/values/values.xml",
@@ -21499,12 +21520,12 @@
             },
             {
                 "to": {
-                    "startLine": 2027,
+                    "startLine": 2035,
                     "startColumn": 4,
-                    "startOffset": 146938,
-                    "endLine": 2030,
+                    "startOffset": 147349,
+                    "endLine": 2038,
                     "endColumn": 12,
-                    "endOffset": 147186
+                    "endOffset": 147597
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/values/values.xml",
@@ -21520,12 +21541,12 @@
             },
             {
                 "to": {
-                    "startLine": 2031,
+                    "startLine": 2039,
                     "startColumn": 4,
-                    "startOffset": 147191,
-                    "endLine": 2035,
+                    "startOffset": 147602,
+                    "endLine": 2043,
                     "endColumn": 12,
-                    "endOffset": 147477
+                    "endOffset": 147888
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/values/values.xml",
@@ -21541,11 +21562,11 @@
             },
             {
                 "to": {
-                    "startLine": 2036,
+                    "startLine": 2044,
                     "startColumn": 4,
-                    "startOffset": 147482,
+                    "startOffset": 147893,
                     "endColumn": 67,
-                    "endOffset": 147545
+                    "endOffset": 147956
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21560,11 +21581,11 @@
             },
             {
                 "to": {
-                    "startLine": 2037,
+                    "startLine": 2045,
                     "startColumn": 4,
-                    "startOffset": 147550,
+                    "startOffset": 147961,
                     "endColumn": 72,
-                    "endOffset": 147618
+                    "endOffset": 148029
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21579,11 +21600,11 @@
             },
             {
                 "to": {
-                    "startLine": 2038,
+                    "startLine": 2046,
                     "startColumn": 4,
-                    "startOffset": 147623,
+                    "startOffset": 148034,
                     "endColumn": 73,
-                    "endOffset": 147692
+                    "endOffset": 148103
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21598,11 +21619,11 @@
             },
             {
                 "to": {
-                    "startLine": 2039,
+                    "startLine": 2047,
                     "startColumn": 4,
-                    "startOffset": 147697,
+                    "startOffset": 148108,
                     "endColumn": 72,
-                    "endOffset": 147765
+                    "endOffset": 148176
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21617,11 +21638,11 @@
             },
             {
                 "to": {
-                    "startLine": 2040,
+                    "startLine": 2048,
                     "startColumn": 4,
-                    "startOffset": 147770,
+                    "startOffset": 148181,
                     "endColumn": 73,
-                    "endOffset": 147839
+                    "endOffset": 148250
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21636,12 +21657,12 @@
             },
             {
                 "to": {
-                    "startLine": 2041,
+                    "startLine": 2049,
                     "startColumn": 4,
-                    "startOffset": 147844,
-                    "endLine": 2042,
+                    "startOffset": 148255,
+                    "endLine": 2050,
                     "endColumn": 12,
-                    "endOffset": 147985
+                    "endOffset": 148396
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21657,12 +21678,12 @@
             },
             {
                 "to": {
-                    "startLine": 2043,
+                    "startLine": 2051,
                     "startColumn": 4,
-                    "startOffset": 147990,
-                    "endLine": 2044,
+                    "startOffset": 148401,
+                    "endLine": 2052,
                     "endColumn": 12,
-                    "endOffset": 148129
+                    "endOffset": 148540
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21678,12 +21699,12 @@
             },
             {
                 "to": {
-                    "startLine": 2045,
+                    "startLine": 2053,
                     "startColumn": 4,
-                    "startOffset": 148134,
-                    "endLine": 2046,
+                    "startOffset": 148545,
+                    "endLine": 2054,
                     "endColumn": 12,
-                    "endOffset": 148267
+                    "endOffset": 148678
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21699,11 +21720,11 @@
             },
             {
                 "to": {
-                    "startLine": 2047,
+                    "startLine": 2055,
                     "startColumn": 4,
-                    "startOffset": 148272,
+                    "startOffset": 148683,
                     "endColumn": 25,
-                    "endOffset": 148293
+                    "endOffset": 148704
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.45.1/res/values/values.xml",
@@ -21718,11 +21739,11 @@
             },
             {
                 "to": {
-                    "startLine": 2048,
+                    "startLine": 2056,
                     "startColumn": 4,
-                    "startOffset": 148298,
+                    "startOffset": 148709,
                     "endColumn": 65,
-                    "endOffset": 148359
+                    "endOffset": 148770
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21737,11 +21758,11 @@
             },
             {
                 "to": {
-                    "startLine": 2049,
+                    "startLine": 2057,
                     "startColumn": 4,
-                    "startOffset": 148364,
+                    "startOffset": 148775,
                     "endColumn": 89,
-                    "endOffset": 148449
+                    "endOffset": 148860
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21756,11 +21777,11 @@
             },
             {
                 "to": {
-                    "startLine": 2050,
+                    "startLine": 2058,
                     "startColumn": 4,
-                    "startOffset": 148454,
+                    "startOffset": 148865,
                     "endColumn": 75,
-                    "endOffset": 148525
+                    "endOffset": 148936
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21775,11 +21796,11 @@
             },
             {
                 "to": {
-                    "startLine": 2051,
+                    "startLine": 2059,
                     "startColumn": 4,
-                    "startOffset": 148530,
+                    "startOffset": 148941,
                     "endColumn": 103,
-                    "endOffset": 148629
+                    "endOffset": 149040
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21794,11 +21815,11 @@
             },
             {
                 "to": {
-                    "startLine": 2052,
+                    "startLine": 2060,
                     "startColumn": 4,
-                    "startOffset": 148634,
+                    "startOffset": 149045,
                     "endColumn": 89,
-                    "endOffset": 148719
+                    "endOffset": 149130
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21813,11 +21834,11 @@
             },
             {
                 "to": {
-                    "startLine": 2053,
+                    "startLine": 2061,
                     "startColumn": 4,
-                    "startOffset": 148724,
+                    "startOffset": 149135,
                     "endColumn": 101,
-                    "endOffset": 148821
+                    "endOffset": 149232
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21832,11 +21853,11 @@
             },
             {
                 "to": {
-                    "startLine": 2054,
+                    "startLine": 2062,
                     "startColumn": 4,
-                    "startOffset": 148826,
+                    "startOffset": 149237,
                     "endColumn": 107,
-                    "endOffset": 148929
+                    "endOffset": 149340
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21851,11 +21872,11 @@
             },
             {
                 "to": {
-                    "startLine": 2055,
+                    "startLine": 2063,
                     "startColumn": 4,
-                    "startOffset": 148934,
+                    "startOffset": 149345,
                     "endColumn": 107,
-                    "endOffset": 149037
+                    "endOffset": 149448
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21870,11 +21891,11 @@
             },
             {
                 "to": {
-                    "startLine": 2056,
+                    "startLine": 2064,
                     "startColumn": 4,
-                    "startOffset": 149042,
+                    "startOffset": 149453,
                     "endColumn": 99,
-                    "endOffset": 149137
+                    "endOffset": 149548
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21889,11 +21910,11 @@
             },
             {
                 "to": {
-                    "startLine": 2057,
+                    "startLine": 2065,
                     "startColumn": 4,
-                    "startOffset": 149142,
+                    "startOffset": 149553,
                     "endColumn": 79,
-                    "endOffset": 149217
+                    "endOffset": 149628
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21908,11 +21929,11 @@
             },
             {
                 "to": {
-                    "startLine": 2058,
+                    "startLine": 2066,
                     "startColumn": 4,
-                    "startOffset": 149222,
+                    "startOffset": 149633,
                     "endColumn": 91,
-                    "endOffset": 149309
+                    "endOffset": 149720
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21927,11 +21948,11 @@
             },
             {
                 "to": {
-                    "startLine": 2059,
+                    "startLine": 2067,
                     "startColumn": 4,
-                    "startOffset": 149314,
+                    "startOffset": 149725,
                     "endColumn": 97,
-                    "endOffset": 149407
+                    "endOffset": 149818
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21946,12 +21967,12 @@
             },
             {
                 "to": {
-                    "startLine": 2060,
+                    "startLine": 2068,
                     "startColumn": 4,
-                    "startOffset": 149412,
-                    "endLine": 2061,
+                    "startOffset": 149823,
+                    "endLine": 2069,
                     "endColumn": 12,
-                    "endOffset": 149517
+                    "endOffset": 149928
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21967,11 +21988,11 @@
             },
             {
                 "to": {
-                    "startLine": 2062,
+                    "startLine": 2070,
                     "startColumn": 4,
-                    "startOffset": 149522,
+                    "startOffset": 149933,
                     "endColumn": 77,
-                    "endOffset": 149595
+                    "endOffset": 150006
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -21986,11 +22007,11 @@
             },
             {
                 "to": {
-                    "startLine": 2063,
+                    "startLine": 2071,
                     "startColumn": 4,
-                    "startOffset": 149600,
+                    "startOffset": 150011,
                     "endColumn": 105,
-                    "endOffset": 149701
+                    "endOffset": 150112
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22005,11 +22026,11 @@
             },
             {
                 "to": {
-                    "startLine": 2064,
+                    "startLine": 2072,
                     "startColumn": 4,
-                    "startOffset": 149706,
+                    "startOffset": 150117,
                     "endColumn": 91,
-                    "endOffset": 149793
+                    "endOffset": 150204
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22024,11 +22045,11 @@
             },
             {
                 "to": {
-                    "startLine": 2065,
+                    "startLine": 2073,
                     "startColumn": 4,
-                    "startOffset": 149798,
+                    "startOffset": 150209,
                     "endColumn": 103,
-                    "endOffset": 149897
+                    "endOffset": 150308
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22043,11 +22064,11 @@
             },
             {
                 "to": {
-                    "startLine": 2066,
+                    "startLine": 2074,
                     "startColumn": 4,
-                    "startOffset": 149902,
+                    "startOffset": 150313,
                     "endColumn": 109,
-                    "endOffset": 150007
+                    "endOffset": 150418
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22062,12 +22083,12 @@
             },
             {
                 "to": {
-                    "startLine": 2067,
+                    "startLine": 2075,
                     "startColumn": 4,
-                    "startOffset": 150012,
-                    "endLine": 2068,
+                    "startOffset": 150423,
+                    "endLine": 2076,
                     "endColumn": 12,
-                    "endOffset": 150129
+                    "endOffset": 150540
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22083,12 +22104,12 @@
             },
             {
                 "to": {
-                    "startLine": 2069,
+                    "startLine": 2077,
                     "startColumn": 4,
-                    "startOffset": 150134,
-                    "endLine": 2072,
+                    "startOffset": 150545,
+                    "endLine": 2080,
                     "endColumn": 12,
-                    "endOffset": 150292
+                    "endOffset": 150703
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22104,12 +22125,12 @@
             },
             {
                 "to": {
-                    "startLine": 2073,
+                    "startLine": 2081,
                     "startColumn": 4,
-                    "startOffset": 150297,
-                    "endLine": 2076,
+                    "startOffset": 150708,
+                    "endLine": 2084,
                     "endColumn": 12,
-                    "endOffset": 150449
+                    "endOffset": 150860
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22125,11 +22146,11 @@
             },
             {
                 "to": {
-                    "startLine": 2077,
+                    "startLine": 2085,
                     "startColumn": 4,
-                    "startOffset": 150454,
+                    "startOffset": 150865,
                     "endColumn": 34,
-                    "endOffset": 150484
+                    "endOffset": 150895
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.45.1/res/values/values.xml",
@@ -22144,12 +22165,12 @@
             },
             {
                 "to": {
-                    "startLine": 2078,
+                    "startLine": 2086,
                     "startColumn": 4,
-                    "startOffset": 150489,
-                    "endLine": 2084,
+                    "startOffset": 150900,
+                    "endLine": 2092,
                     "endColumn": 10,
-                    "endOffset": 150950
+                    "endOffset": 151361
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.45.1/res/values/values.xml",
@@ -22165,12 +22186,12 @@
             },
             {
                 "to": {
-                    "startLine": 2085,
+                    "startLine": 2093,
                     "startColumn": 4,
-                    "startOffset": 150955,
-                    "endLine": 2087,
+                    "startOffset": 151366,
+                    "endLine": 2095,
                     "endColumn": 12,
-                    "endOffset": 151104
+                    "endOffset": 151515
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/values/values.xml",
@@ -22186,12 +22207,12 @@
             },
             {
                 "to": {
-                    "startLine": 2088,
+                    "startLine": 2096,
                     "startColumn": 4,
-                    "startOffset": 151109,
-                    "endLine": 2092,
+                    "startOffset": 151520,
+                    "endLine": 2100,
                     "endColumn": 12,
-                    "endOffset": 151462
+                    "endOffset": 151873
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/values/values.xml",
@@ -22207,12 +22228,12 @@
             },
             {
                 "to": {
-                    "startLine": 2093,
+                    "startLine": 2101,
                     "startColumn": 4,
-                    "startOffset": 151467,
-                    "endLine": 2095,
+                    "startOffset": 151878,
+                    "endLine": 2103,
                     "endColumn": 12,
-                    "endOffset": 151629
+                    "endOffset": 152040
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/values/values.xml",
@@ -22228,12 +22249,12 @@
             },
             {
                 "to": {
-                    "startLine": 2096,
+                    "startLine": 2104,
                     "startColumn": 4,
-                    "startOffset": 151634,
-                    "endLine": 2100,
+                    "startOffset": 152045,
+                    "endLine": 2108,
                     "endColumn": 12,
-                    "endOffset": 151999
+                    "endOffset": 152410
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/values/values.xml",
@@ -22249,12 +22270,12 @@
             },
             {
                 "to": {
-                    "startLine": 2101,
+                    "startLine": 2109,
                     "startColumn": 4,
-                    "startOffset": 152004,
-                    "endLine": 2104,
+                    "startOffset": 152415,
+                    "endLine": 2112,
                     "endColumn": 12,
-                    "endOffset": 152159
+                    "endOffset": 152570
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/values/values.xml",
@@ -22270,12 +22291,12 @@
             },
             {
                 "to": {
-                    "startLine": 2105,
+                    "startLine": 2113,
                     "startColumn": 4,
-                    "startOffset": 152164,
-                    "endLine": 2108,
+                    "startOffset": 152575,
+                    "endLine": 2116,
                     "endColumn": 12,
-                    "endOffset": 152313
+                    "endOffset": 152724
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/values/values.xml",
@@ -22291,12 +22312,12 @@
             },
             {
                 "to": {
-                    "startLine": 2109,
+                    "startLine": 2117,
                     "startColumn": 4,
-                    "startOffset": 152318,
-                    "endLine": 2115,
+                    "startOffset": 152729,
+                    "endLine": 2123,
                     "endColumn": 10,
-                    "endOffset": 152691
+                    "endOffset": 153102
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.45.1/res/values/values.xml",
@@ -22312,12 +22333,12 @@
             },
             {
                 "to": {
-                    "startLine": 2116,
+                    "startLine": 2124,
                     "startColumn": 4,
-                    "startOffset": 152696,
-                    "endLine": 2118,
+                    "startOffset": 153107,
+                    "endLine": 2126,
                     "endColumn": 10,
-                    "endOffset": 152868
+                    "endOffset": 153279
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.45.1/res/values/values.xml",
@@ -22333,12 +22354,12 @@
             },
             {
                 "to": {
-                    "startLine": 2119,
+                    "startLine": 2127,
                     "startColumn": 4,
-                    "startOffset": 152873,
-                    "endLine": 2121,
+                    "startOffset": 153284,
+                    "endLine": 2129,
                     "endColumn": 10,
-                    "endOffset": 153047
+                    "endOffset": 153458
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.45.1/res/values/values.xml",
@@ -22354,12 +22375,12 @@
             },
             {
                 "to": {
-                    "startLine": 2122,
+                    "startLine": 2130,
                     "startColumn": 4,
-                    "startOffset": 153052,
-                    "endLine": 2124,
+                    "startOffset": 153463,
+                    "endLine": 2132,
                     "endColumn": 12,
-                    "endOffset": 153230
+                    "endOffset": 153641
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.45.1/res/values/values.xml",
@@ -22375,12 +22396,12 @@
             },
             {
                 "to": {
-                    "startLine": 2125,
+                    "startLine": 2133,
                     "startColumn": 4,
-                    "startOffset": 153235,
-                    "endLine": 2130,
+                    "startOffset": 153646,
+                    "endLine": 2138,
                     "endColumn": 12,
-                    "endOffset": 153595
+                    "endOffset": 154006
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.45.1/res/values/values.xml",
@@ -22396,11 +22417,11 @@
             },
             {
                 "to": {
-                    "startLine": 2131,
+                    "startLine": 2139,
                     "startColumn": 4,
-                    "startOffset": 153600,
+                    "startOffset": 154011,
                     "endColumn": 79,
-                    "endOffset": 153675
+                    "endOffset": 154086
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22415,11 +22436,11 @@
             },
             {
                 "to": {
-                    "startLine": 2132,
+                    "startLine": 2140,
                     "startColumn": 4,
-                    "startOffset": 153680,
+                    "startOffset": 154091,
                     "endColumn": 99,
-                    "endOffset": 153775
+                    "endOffset": 154186
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22434,11 +22455,11 @@
             },
             {
                 "to": {
-                    "startLine": 2133,
+                    "startLine": 2141,
                     "startColumn": 4,
-                    "startOffset": 153780,
+                    "startOffset": 154191,
                     "endColumn": 89,
-                    "endOffset": 153865
+                    "endOffset": 154276
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22453,11 +22474,11 @@
             },
             {
                 "to": {
-                    "startLine": 2134,
+                    "startLine": 2142,
                     "startColumn": 4,
-                    "startOffset": 153870,
+                    "startOffset": 154281,
                     "endColumn": 109,
-                    "endOffset": 153975
+                    "endOffset": 154386
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22472,11 +22493,11 @@
             },
             {
                 "to": {
-                    "startLine": 2135,
+                    "startLine": 2143,
                     "startColumn": 4,
-                    "startOffset": 153980,
+                    "startOffset": 154391,
                     "endColumn": 93,
-                    "endOffset": 154069
+                    "endOffset": 154480
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22491,11 +22512,11 @@
             },
             {
                 "to": {
-                    "startLine": 2136,
+                    "startLine": 2144,
                     "startColumn": 4,
-                    "startOffset": 154074,
+                    "startOffset": 154485,
                     "endColumn": 105,
-                    "endOffset": 154175
+                    "endOffset": 154586
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22510,11 +22531,11 @@
             },
             {
                 "to": {
-                    "startLine": 2137,
+                    "startLine": 2145,
                     "startColumn": 4,
-                    "startOffset": 154180,
+                    "startOffset": 154591,
                     "endColumn": 91,
-                    "endOffset": 154267
+                    "endOffset": 154678
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22529,12 +22550,12 @@
             },
             {
                 "to": {
-                    "startLine": 2138,
+                    "startLine": 2146,
                     "startColumn": 4,
-                    "startOffset": 154272,
-                    "endLine": 2139,
+                    "startOffset": 154683,
+                    "endLine": 2147,
                     "endColumn": 12,
-                    "endOffset": 154367
+                    "endOffset": 154778
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22550,12 +22571,12 @@
             },
             {
                 "to": {
-                    "startLine": 2140,
+                    "startLine": 2148,
                     "startColumn": 4,
-                    "startOffset": 154372,
-                    "endLine": 2141,
+                    "startOffset": 154783,
+                    "endLine": 2149,
                     "endColumn": 12,
-                    "endOffset": 154479
+                    "endOffset": 154890
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22571,12 +22592,12 @@
             },
             {
                 "to": {
-                    "startLine": 2142,
+                    "startLine": 2150,
                     "startColumn": 4,
-                    "startOffset": 154484,
-                    "endLine": 2143,
+                    "startOffset": 154895,
+                    "endLine": 2151,
                     "endColumn": 12,
-                    "endOffset": 154593
+                    "endOffset": 155004
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22592,12 +22613,12 @@
             },
             {
                 "to": {
-                    "startLine": 2144,
+                    "startLine": 2152,
                     "startColumn": 4,
-                    "startOffset": 154598,
-                    "endLine": 2145,
+                    "startOffset": 155009,
+                    "endLine": 2153,
                     "endColumn": 12,
-                    "endOffset": 154709
+                    "endOffset": 155120
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22613,12 +22634,12 @@
             },
             {
                 "to": {
-                    "startLine": 2146,
+                    "startLine": 2154,
                     "startColumn": 4,
-                    "startOffset": 154714,
-                    "endLine": 2147,
+                    "startOffset": 155125,
+                    "endLine": 2155,
                     "endColumn": 12,
-                    "endOffset": 154825
+                    "endOffset": 155236
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22634,11 +22655,11 @@
             },
             {
                 "to": {
-                    "startLine": 2148,
+                    "startLine": 2156,
                     "startColumn": 4,
-                    "startOffset": 154830,
+                    "startOffset": 155241,
                     "endColumn": 93,
-                    "endOffset": 154919
+                    "endOffset": 155330
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22653,11 +22674,11 @@
             },
             {
                 "to": {
-                    "startLine": 2149,
+                    "startLine": 2157,
                     "startColumn": 4,
-                    "startOffset": 154924,
+                    "startOffset": 155335,
                     "endColumn": 113,
-                    "endOffset": 155033
+                    "endOffset": 155444
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22672,11 +22693,11 @@
             },
             {
                 "to": {
-                    "startLine": 2150,
+                    "startLine": 2158,
                     "startColumn": 4,
-                    "startOffset": 155038,
+                    "startOffset": 155449,
                     "endColumn": 111,
-                    "endOffset": 155145
+                    "endOffset": 155556
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22691,12 +22712,12 @@
             },
             {
                 "to": {
-                    "startLine": 2151,
+                    "startLine": 2159,
                     "startColumn": 4,
-                    "startOffset": 155150,
-                    "endLine": 2152,
+                    "startOffset": 155561,
+                    "endLine": 2160,
                     "endColumn": 12,
-                    "endOffset": 155247
+                    "endOffset": 155658
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22712,12 +22733,12 @@
             },
             {
                 "to": {
-                    "startLine": 2153,
+                    "startLine": 2161,
                     "startColumn": 4,
-                    "startOffset": 155252,
-                    "endLine": 2154,
+                    "startOffset": 155663,
+                    "endLine": 2162,
                     "endColumn": 12,
-                    "endOffset": 155367
+                    "endOffset": 155778
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22733,12 +22754,12 @@
             },
             {
                 "to": {
-                    "startLine": 2155,
+                    "startLine": 2163,
                     "startColumn": 4,
-                    "startOffset": 155372,
-                    "endLine": 2156,
+                    "startOffset": 155783,
+                    "endLine": 2164,
                     "endColumn": 12,
-                    "endOffset": 155489
+                    "endOffset": 155900
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22754,11 +22775,11 @@
             },
             {
                 "to": {
-                    "startLine": 2157,
+                    "startLine": 2165,
                     "startColumn": 4,
-                    "startOffset": 155494,
+                    "startOffset": 155905,
                     "endColumn": 81,
-                    "endOffset": 155571
+                    "endOffset": 155982
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22773,11 +22794,11 @@
             },
             {
                 "to": {
-                    "startLine": 2158,
+                    "startLine": 2166,
                     "startColumn": 4,
-                    "startOffset": 155576,
+                    "startOffset": 155987,
                     "endColumn": 103,
-                    "endOffset": 155675
+                    "endOffset": 156086
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22792,11 +22813,11 @@
             },
             {
                 "to": {
-                    "startLine": 2159,
+                    "startLine": 2167,
                     "startColumn": 4,
-                    "startOffset": 155680,
+                    "startOffset": 156091,
                     "endColumn": 119,
-                    "endOffset": 155795
+                    "endOffset": 156206
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22811,11 +22832,11 @@
             },
             {
                 "to": {
-                    "startLine": 2160,
+                    "startLine": 2168,
                     "startColumn": 4,
-                    "startOffset": 155800,
+                    "startOffset": 156211,
                     "endColumn": 125,
-                    "endOffset": 155921
+                    "endOffset": 156332
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22830,11 +22851,11 @@
             },
             {
                 "to": {
-                    "startLine": 2161,
+                    "startLine": 2169,
                     "startColumn": 4,
-                    "startOffset": 155926,
+                    "startOffset": 156337,
                     "endColumn": 97,
-                    "endOffset": 156019
+                    "endOffset": 156430
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22849,11 +22870,11 @@
             },
             {
                 "to": {
-                    "startLine": 2162,
+                    "startLine": 2170,
                     "startColumn": 4,
-                    "startOffset": 156024,
+                    "startOffset": 156435,
                     "endColumn": 93,
-                    "endOffset": 156113
+                    "endOffset": 156524
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22868,11 +22889,11 @@
             },
             {
                 "to": {
-                    "startLine": 2163,
+                    "startLine": 2171,
                     "startColumn": 4,
-                    "startOffset": 156118,
+                    "startOffset": 156529,
                     "endColumn": 87,
-                    "endOffset": 156201
+                    "endOffset": 156612
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22887,11 +22908,11 @@
             },
             {
                 "to": {
-                    "startLine": 2164,
+                    "startLine": 2172,
                     "startColumn": 4,
-                    "startOffset": 156206,
+                    "startOffset": 156617,
                     "endColumn": 111,
-                    "endOffset": 156313
+                    "endOffset": 156724
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22906,11 +22927,11 @@
             },
             {
                 "to": {
-                    "startLine": 2165,
+                    "startLine": 2173,
                     "startColumn": 4,
-                    "startOffset": 156318,
+                    "startOffset": 156729,
                     "endColumn": 115,
-                    "endOffset": 156429
+                    "endOffset": 156840
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22925,11 +22946,11 @@
             },
             {
                 "to": {
-                    "startLine": 2166,
+                    "startLine": 2174,
                     "startColumn": 4,
-                    "startOffset": 156434,
+                    "startOffset": 156845,
                     "endColumn": 121,
-                    "endOffset": 156551
+                    "endOffset": 156962
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22944,11 +22965,11 @@
             },
             {
                 "to": {
-                    "startLine": 2167,
+                    "startLine": 2175,
                     "startColumn": 4,
-                    "startOffset": 156556,
+                    "startOffset": 156967,
                     "endColumn": 111,
-                    "endOffset": 156663
+                    "endOffset": 157074
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22963,12 +22984,12 @@
             },
             {
                 "to": {
-                    "startLine": 2168,
+                    "startLine": 2176,
                     "startColumn": 4,
-                    "startOffset": 156668,
-                    "endLine": 2170,
+                    "startOffset": 157079,
+                    "endLine": 2178,
                     "endColumn": 12,
-                    "endOffset": 156838
+                    "endOffset": 157249
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -22984,11 +23005,11 @@
             },
             {
                 "to": {
-                    "startLine": 2171,
+                    "startLine": 2179,
                     "startColumn": 4,
-                    "startOffset": 156843,
+                    "startOffset": 157254,
                     "endColumn": 115,
-                    "endOffset": 156954
+                    "endOffset": 157365
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23003,11 +23024,11 @@
             },
             {
                 "to": {
-                    "startLine": 2172,
+                    "startLine": 2180,
                     "startColumn": 4,
-                    "startOffset": 156959,
+                    "startOffset": 157370,
                     "endColumn": 85,
-                    "endOffset": 157040
+                    "endOffset": 157451
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23022,11 +23043,11 @@
             },
             {
                 "to": {
-                    "startLine": 2173,
+                    "startLine": 2181,
                     "startColumn": 4,
-                    "startOffset": 157045,
+                    "startOffset": 157456,
                     "endColumn": 91,
-                    "endOffset": 157132
+                    "endOffset": 157543
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23041,12 +23062,12 @@
             },
             {
                 "to": {
-                    "startLine": 2174,
+                    "startLine": 2182,
                     "startColumn": 4,
-                    "startOffset": 157137,
-                    "endLine": 2175,
+                    "startOffset": 157548,
+                    "endLine": 2183,
                     "endColumn": 12,
-                    "endOffset": 157244
+                    "endOffset": 157655
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23062,12 +23083,12 @@
             },
             {
                 "to": {
-                    "startLine": 2176,
+                    "startLine": 2184,
                     "startColumn": 4,
-                    "startOffset": 157249,
-                    "endLine": 2177,
+                    "startOffset": 157660,
+                    "endLine": 2185,
                     "endColumn": 12,
-                    "endOffset": 157368
+                    "endOffset": 157779
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23083,11 +23104,11 @@
             },
             {
                 "to": {
-                    "startLine": 2178,
+                    "startLine": 2186,
                     "startColumn": 4,
-                    "startOffset": 157373,
+                    "startOffset": 157784,
                     "endColumn": 66,
-                    "endOffset": 157435
+                    "endOffset": 157846
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23102,12 +23123,12 @@
             },
             {
                 "to": {
-                    "startLine": 2179,
+                    "startLine": 2187,
                     "startColumn": 4,
-                    "startOffset": 157440,
-                    "endLine": 2180,
+                    "startOffset": 157851,
+                    "endLine": 2188,
                     "endColumn": 12,
-                    "endOffset": 157561
+                    "endOffset": 157972
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23123,11 +23144,11 @@
             },
             {
                 "to": {
-                    "startLine": 2181,
+                    "startLine": 2189,
                     "startColumn": 4,
-                    "startOffset": 157566,
+                    "startOffset": 157977,
                     "endColumn": 67,
-                    "endOffset": 157629
+                    "endOffset": 158040
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23142,12 +23163,12 @@
             },
             {
                 "to": {
-                    "startLine": 2182,
+                    "startLine": 2190,
                     "startColumn": 4,
-                    "startOffset": 157634,
-                    "endLine": 2183,
+                    "startOffset": 158045,
+                    "endLine": 2191,
                     "endColumn": 12,
-                    "endOffset": 157757
+                    "endOffset": 158168
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23163,12 +23184,12 @@
             },
             {
                 "to": {
-                    "startLine": 2184,
+                    "startLine": 2192,
                     "startColumn": 4,
-                    "startOffset": 157762,
-                    "endLine": 2185,
+                    "startOffset": 158173,
+                    "endLine": 2193,
                     "endColumn": 12,
-                    "endOffset": 157901
+                    "endOffset": 158312
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23184,12 +23205,12 @@
             },
             {
                 "to": {
-                    "startLine": 2186,
+                    "startLine": 2194,
                     "startColumn": 4,
-                    "startOffset": 157906,
-                    "endLine": 2187,
+                    "startOffset": 158317,
+                    "endLine": 2195,
                     "endColumn": 12,
-                    "endOffset": 158029
+                    "endOffset": 158440
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23205,11 +23226,11 @@
             },
             {
                 "to": {
-                    "startLine": 2188,
+                    "startLine": 2196,
                     "startColumn": 4,
-                    "startOffset": 158034,
+                    "startOffset": 158445,
                     "endColumn": 68,
-                    "endOffset": 158098
+                    "endOffset": 158509
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23224,11 +23245,11 @@
             },
             {
                 "to": {
-                    "startLine": 2189,
+                    "startLine": 2197,
                     "startColumn": 4,
-                    "startOffset": 158103,
+                    "startOffset": 158514,
                     "endColumn": 94,
-                    "endOffset": 158193
+                    "endOffset": 158604
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23243,11 +23264,11 @@
             },
             {
                 "to": {
-                    "startLine": 2190,
+                    "startLine": 2198,
                     "startColumn": 4,
-                    "startOffset": 158198,
+                    "startOffset": 158609,
                     "endColumn": 114,
-                    "endOffset": 158308
+                    "endOffset": 158719
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23262,11 +23283,11 @@
             },
             {
                 "to": {
-                    "startLine": 2191,
+                    "startLine": 2199,
                     "startColumn": 4,
-                    "startOffset": 158313,
+                    "startOffset": 158724,
                     "endColumn": 112,
-                    "endOffset": 158421
+                    "endOffset": 158832
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23281,11 +23302,11 @@
             },
             {
                 "to": {
-                    "startLine": 2192,
+                    "startLine": 2200,
                     "startColumn": 4,
-                    "startOffset": 158426,
+                    "startOffset": 158837,
                     "endColumn": 98,
-                    "endOffset": 158520
+                    "endOffset": 158931
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23300,11 +23321,11 @@
             },
             {
                 "to": {
-                    "startLine": 2193,
+                    "startLine": 2201,
                     "startColumn": 4,
-                    "startOffset": 158525,
+                    "startOffset": 158936,
                     "endColumn": 108,
-                    "endOffset": 158629
+                    "endOffset": 159040
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23319,11 +23340,11 @@
             },
             {
                 "to": {
-                    "startLine": 2194,
+                    "startLine": 2202,
                     "startColumn": 4,
-                    "startOffset": 158634,
+                    "startOffset": 159045,
                     "endColumn": 110,
-                    "endOffset": 158740
+                    "endOffset": 159151
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23338,11 +23359,11 @@
             },
             {
                 "to": {
-                    "startLine": 2195,
+                    "startLine": 2203,
                     "startColumn": 4,
-                    "startOffset": 158745,
+                    "startOffset": 159156,
                     "endColumn": 110,
-                    "endOffset": 158851
+                    "endOffset": 159262
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23357,11 +23378,11 @@
             },
             {
                 "to": {
-                    "startLine": 2196,
+                    "startLine": 2204,
                     "startColumn": 4,
-                    "startOffset": 158856,
+                    "startOffset": 159267,
                     "endColumn": 100,
-                    "endOffset": 158952
+                    "endOffset": 159363
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23376,11 +23397,11 @@
             },
             {
                 "to": {
-                    "startLine": 2197,
+                    "startLine": 2205,
                     "startColumn": 4,
-                    "startOffset": 158957,
+                    "startOffset": 159368,
                     "endColumn": 104,
-                    "endOffset": 159057
+                    "endOffset": 159468
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23395,11 +23416,11 @@
             },
             {
                 "to": {
-                    "startLine": 2198,
+                    "startLine": 2206,
                     "startColumn": 4,
-                    "startOffset": 159062,
+                    "startOffset": 159473,
                     "endColumn": 99,
-                    "endOffset": 159157
+                    "endOffset": 159568
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23414,12 +23435,12 @@
             },
             {
                 "to": {
-                    "startLine": 2199,
+                    "startLine": 2207,
                     "startColumn": 4,
-                    "startOffset": 159162,
-                    "endLine": 2200,
+                    "startOffset": 159573,
+                    "endLine": 2208,
                     "endColumn": 12,
-                    "endOffset": 159287
+                    "endOffset": 159698
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23435,11 +23456,11 @@
             },
             {
                 "to": {
-                    "startLine": 2201,
+                    "startLine": 2209,
                     "startColumn": 4,
-                    "startOffset": 159292,
+                    "startOffset": 159703,
                     "endColumn": 90,
-                    "endOffset": 159378
+                    "endOffset": 159789
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23454,11 +23475,11 @@
             },
             {
                 "to": {
-                    "startLine": 2202,
+                    "startLine": 2210,
                     "startColumn": 4,
-                    "startOffset": 159383,
+                    "startOffset": 159794,
                     "endColumn": 122,
-                    "endOffset": 159501
+                    "endOffset": 159912
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23473,11 +23494,11 @@
             },
             {
                 "to": {
-                    "startLine": 2203,
+                    "startLine": 2211,
                     "startColumn": 4,
-                    "startOffset": 159506,
+                    "startOffset": 159917,
                     "endColumn": 93,
-                    "endOffset": 159595
+                    "endOffset": 160006
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23492,12 +23513,12 @@
             },
             {
                 "to": {
-                    "startLine": 2204,
+                    "startLine": 2212,
                     "startColumn": 4,
-                    "startOffset": 159600,
-                    "endLine": 2205,
+                    "startOffset": 160011,
+                    "endLine": 2213,
                     "endColumn": 12,
-                    "endOffset": 159707
+                    "endOffset": 160118
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23513,11 +23534,11 @@
             },
             {
                 "to": {
-                    "startLine": 2206,
+                    "startLine": 2214,
                     "startColumn": 4,
-                    "startOffset": 159712,
+                    "startOffset": 160123,
                     "endColumn": 85,
-                    "endOffset": 159793
+                    "endOffset": 160204
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23532,11 +23553,11 @@
             },
             {
                 "to": {
-                    "startLine": 2207,
+                    "startLine": 2215,
                     "startColumn": 4,
-                    "startOffset": 159798,
+                    "startOffset": 160209,
                     "endColumn": 103,
-                    "endOffset": 159897
+                    "endOffset": 160308
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23551,11 +23572,11 @@
             },
             {
                 "to": {
-                    "startLine": 2208,
+                    "startLine": 2216,
                     "startColumn": 4,
-                    "startOffset": 159902,
+                    "startOffset": 160313,
                     "endColumn": 95,
-                    "endOffset": 159993
+                    "endOffset": 160404
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23570,11 +23591,11 @@
             },
             {
                 "to": {
-                    "startLine": 2209,
+                    "startLine": 2217,
                     "startColumn": 4,
-                    "startOffset": 159998,
+                    "startOffset": 160409,
                     "endColumn": 74,
-                    "endOffset": 160068
+                    "endOffset": 160479
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23589,11 +23610,11 @@
             },
             {
                 "to": {
-                    "startLine": 2210,
+                    "startLine": 2218,
                     "startColumn": 4,
-                    "startOffset": 160073,
+                    "startOffset": 160484,
                     "endColumn": 69,
-                    "endOffset": 160138
+                    "endOffset": 160549
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23608,11 +23629,11 @@
             },
             {
                 "to": {
-                    "startLine": 2211,
+                    "startLine": 2219,
                     "startColumn": 4,
-                    "startOffset": 160143,
+                    "startOffset": 160554,
                     "endColumn": 87,
-                    "endOffset": 160226
+                    "endOffset": 160637
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23627,12 +23648,12 @@
             },
             {
                 "to": {
-                    "startLine": 2212,
+                    "startLine": 2220,
                     "startColumn": 4,
-                    "startOffset": 160231,
-                    "endLine": 2213,
+                    "startOffset": 160642,
+                    "endLine": 2221,
                     "endColumn": 12,
-                    "endOffset": 160344
+                    "endOffset": 160755
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23648,12 +23669,12 @@
             },
             {
                 "to": {
-                    "startLine": 2214,
+                    "startLine": 2222,
                     "startColumn": 4,
-                    "startOffset": 160349,
-                    "endLine": 2215,
+                    "startOffset": 160760,
+                    "endLine": 2223,
                     "endColumn": 12,
-                    "endOffset": 160448
+                    "endOffset": 160859
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23669,12 +23690,12 @@
             },
             {
                 "to": {
-                    "startLine": 2216,
+                    "startLine": 2224,
                     "startColumn": 4,
-                    "startOffset": 160453,
-                    "endLine": 2217,
+                    "startOffset": 160864,
+                    "endLine": 2225,
                     "endColumn": 12,
-                    "endOffset": 160552
+                    "endOffset": 160963
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23690,12 +23711,12 @@
             },
             {
                 "to": {
-                    "startLine": 2218,
+                    "startLine": 2226,
                     "startColumn": 4,
-                    "startOffset": 160557,
-                    "endLine": 2219,
+                    "startOffset": 160968,
+                    "endLine": 2227,
                     "endColumn": 12,
-                    "endOffset": 160678
+                    "endOffset": 161089
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23711,11 +23732,11 @@
             },
             {
                 "to": {
-                    "startLine": 2220,
+                    "startLine": 2228,
                     "startColumn": 4,
-                    "startOffset": 160683,
+                    "startOffset": 161094,
                     "endColumn": 87,
-                    "endOffset": 160766
+                    "endOffset": 161177
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23730,11 +23751,11 @@
             },
             {
                 "to": {
-                    "startLine": 2221,
+                    "startLine": 2229,
                     "startColumn": 4,
-                    "startOffset": 160771,
+                    "startOffset": 161182,
                     "endColumn": 107,
-                    "endOffset": 160874
+                    "endOffset": 161285
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23749,11 +23770,11 @@
             },
             {
                 "to": {
-                    "startLine": 2222,
+                    "startLine": 2230,
                     "startColumn": 4,
-                    "startOffset": 160879,
+                    "startOffset": 161290,
                     "endColumn": 99,
-                    "endOffset": 160974
+                    "endOffset": 161385
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23768,11 +23789,11 @@
             },
             {
                 "to": {
-                    "startLine": 2223,
+                    "startLine": 2231,
                     "startColumn": 4,
-                    "startOffset": 160979,
+                    "startOffset": 161390,
                     "endColumn": 89,
-                    "endOffset": 161064
+                    "endOffset": 161475
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23787,11 +23808,11 @@
             },
             {
                 "to": {
-                    "startLine": 2224,
+                    "startLine": 2232,
                     "startColumn": 4,
-                    "startOffset": 161069,
+                    "startOffset": 161480,
                     "endColumn": 109,
-                    "endOffset": 161174
+                    "endOffset": 161585
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23806,11 +23827,11 @@
             },
             {
                 "to": {
-                    "startLine": 2225,
+                    "startLine": 2233,
                     "startColumn": 4,
-                    "startOffset": 161179,
+                    "startOffset": 161590,
                     "endColumn": 83,
-                    "endOffset": 161258
+                    "endOffset": 161669
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23825,11 +23846,11 @@
             },
             {
                 "to": {
-                    "startLine": 2226,
+                    "startLine": 2234,
                     "startColumn": 4,
-                    "startOffset": 161263,
+                    "startOffset": 161674,
                     "endColumn": 101,
-                    "endOffset": 161360
+                    "endOffset": 161771
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23844,11 +23865,11 @@
             },
             {
                 "to": {
-                    "startLine": 2227,
+                    "startLine": 2235,
                     "startColumn": 4,
-                    "startOffset": 161365,
+                    "startOffset": 161776,
                     "endColumn": 83,
-                    "endOffset": 161444
+                    "endOffset": 161855
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23863,11 +23884,11 @@
             },
             {
                 "to": {
-                    "startLine": 2228,
+                    "startLine": 2236,
                     "startColumn": 4,
-                    "startOffset": 161449,
+                    "startOffset": 161860,
                     "endColumn": 53,
-                    "endOffset": 161498
+                    "endOffset": 161909
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23882,11 +23903,11 @@
             },
             {
                 "to": {
-                    "startLine": 2229,
+                    "startLine": 2237,
                     "startColumn": 4,
-                    "startOffset": 161503,
+                    "startOffset": 161914,
                     "endColumn": 63,
-                    "endOffset": 161562
+                    "endOffset": 161973
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23901,11 +23922,11 @@
             },
             {
                 "to": {
-                    "startLine": 2230,
+                    "startLine": 2238,
                     "startColumn": 4,
-                    "startOffset": 161567,
+                    "startOffset": 161978,
                     "endColumn": 105,
-                    "endOffset": 161668
+                    "endOffset": 162079
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23920,11 +23941,11 @@
             },
             {
                 "to": {
-                    "startLine": 2231,
+                    "startLine": 2239,
                     "startColumn": 4,
-                    "startOffset": 161673,
+                    "startOffset": 162084,
                     "endColumn": 109,
-                    "endOffset": 161778
+                    "endOffset": 162189
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23939,11 +23960,11 @@
             },
             {
                 "to": {
-                    "startLine": 2232,
+                    "startLine": 2240,
                     "startColumn": 4,
-                    "startOffset": 161783,
+                    "startOffset": 162194,
                     "endColumn": 83,
-                    "endOffset": 161862
+                    "endOffset": 162273
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23958,11 +23979,11 @@
             },
             {
                 "to": {
-                    "startLine": 2233,
+                    "startLine": 2241,
                     "startColumn": 4,
-                    "startOffset": 161867,
+                    "startOffset": 162278,
                     "endColumn": 119,
-                    "endOffset": 161982
+                    "endOffset": 162393
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values/values.xml",
@@ -23977,12 +23998,12 @@
             },
             {
                 "to": {
-                    "startLine": 2234,
+                    "startLine": 2242,
                     "startColumn": 4,
-                    "startOffset": 161987,
-                    "endLine": 2235,
+                    "startOffset": 162398,
+                    "endLine": 2243,
                     "endColumn": 12,
-                    "endOffset": 162082
+                    "endOffset": 162493
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/values/values.xml",
@@ -23998,12 +24019,12 @@
             },
             {
                 "to": {
-                    "startLine": 2236,
+                    "startLine": 2244,
                     "startColumn": 4,
-                    "startOffset": 162087,
-                    "endLine": 2239,
+                    "startOffset": 162498,
+                    "endLine": 2247,
                     "endColumn": 12,
-                    "endOffset": 162323
+                    "endOffset": 162734
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/values/values.xml",
@@ -24019,12 +24040,12 @@
             },
             {
                 "to": {
-                    "startLine": 2240,
+                    "startLine": 2248,
                     "startColumn": 4,
-                    "startOffset": 162328,
-                    "endLine": 2246,
+                    "startOffset": 162739,
+                    "endLine": 2254,
                     "endColumn": 12,
-                    "endOffset": 162758
+                    "endOffset": 163169
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/values/values.xml",
@@ -24040,12 +24061,12 @@
             },
             {
                 "to": {
-                    "startLine": 2247,
+                    "startLine": 2255,
                     "startColumn": 4,
-                    "startOffset": 162763,
-                    "endLine": 2250,
+                    "startOffset": 163174,
+                    "endLine": 2258,
                     "endColumn": 12,
-                    "endOffset": 162965
+                    "endOffset": 163376
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/values/values.xml",
@@ -24061,12 +24082,12 @@
             },
             {
                 "to": {
-                    "startLine": 2251,
+                    "startLine": 2259,
                     "startColumn": 4,
-                    "startOffset": 162970,
-                    "endLine": 2253,
+                    "startOffset": 163381,
+                    "endLine": 2261,
                     "endColumn": 12,
-                    "endOffset": 163124
+                    "endOffset": 163535
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/values/values.xml",
@@ -24082,12 +24103,12 @@
             },
             {
                 "to": {
-                    "startLine": 2254,
+                    "startLine": 2262,
                     "startColumn": 4,
-                    "startOffset": 163129,
-                    "endLine": 2262,
+                    "startOffset": 163540,
+                    "endLine": 2270,
                     "endColumn": 12,
-                    "endOffset": 163689
+                    "endOffset": 164100
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/values/values.xml",
@@ -24103,12 +24124,12 @@
             },
             {
                 "to": {
-                    "startLine": 2263,
+                    "startLine": 2271,
                     "startColumn": 4,
-                    "startOffset": 163694,
-                    "endLine": 2268,
+                    "startOffset": 164105,
+                    "endLine": 2276,
                     "endColumn": 12,
-                    "endOffset": 164050
+                    "endOffset": 164461
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/values/values.xml",
@@ -24124,12 +24145,12 @@
             },
             {
                 "to": {
-                    "startLine": 2269,
+                    "startLine": 2277,
                     "startColumn": 4,
-                    "startOffset": 164055,
-                    "endLine": 2271,
+                    "startOffset": 164466,
+                    "endLine": 2279,
                     "endColumn": 12,
-                    "endOffset": 164179
+                    "endOffset": 164590
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/values/values.xml",
@@ -24145,12 +24166,12 @@
             },
             {
                 "to": {
-                    "startLine": 2272,
+                    "startLine": 2280,
                     "startColumn": 4,
-                    "startOffset": 164184,
-                    "endLine": 2280,
+                    "startOffset": 164595,
+                    "endLine": 2288,
                     "endColumn": 12,
-                    "endOffset": 164846
+                    "endOffset": 165257
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/values/values.xml",
@@ -24166,12 +24187,12 @@
             },
             {
                 "to": {
-                    "startLine": 2281,
+                    "startLine": 2289,
                     "startColumn": 4,
-                    "startOffset": 164851,
-                    "endLine": 2284,
+                    "startOffset": 165262,
+                    "endLine": 2292,
                     "endColumn": 12,
-                    "endOffset": 165026
+                    "endOffset": 165437
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/values/values.xml",
@@ -24187,12 +24208,12 @@
             },
             {
                 "to": {
-                    "startLine": 2285,
+                    "startLine": 2293,
                     "startColumn": 4,
-                    "startOffset": 165031,
-                    "endLine": 2293,
+                    "startOffset": 165442,
+                    "endLine": 2301,
                     "endColumn": 12,
-                    "endOffset": 165735
+                    "endOffset": 166146
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/values/values.xml",
@@ -24208,12 +24229,12 @@
             },
             {
                 "to": {
-                    "startLine": 2294,
+                    "startLine": 2302,
                     "startColumn": 4,
-                    "startOffset": 165740,
-                    "endLine": 2296,
+                    "startOffset": 166151,
+                    "endLine": 2304,
                     "endColumn": 12,
-                    "endOffset": 165856
+                    "endOffset": 166267
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-navigation/unspecified/res/values/values.xml",

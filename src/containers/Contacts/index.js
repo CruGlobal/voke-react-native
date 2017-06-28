@@ -6,12 +6,17 @@ import debounce from 'lodash/debounce';
 import styles from './styles';
 import { getContacts, searchContacts } from '../../actions/contacts';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import { COLORS } from '../../theme';
+import theme, { COLORS } from '../../theme';
 
 import { Flex } from '../../components/common';
 import ContactsList from '../../components/ContactsList';
 
 class Contacts extends Component {
+  static navigatorStyle = {
+    navBarButtonColor: theme.lightText,
+    navBarTextColor: theme.headerTextColor,
+    navBarBackgroundColor: theme.headerBackgroundColor,
+  };
   constructor(props) {
     super(props);
 

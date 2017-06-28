@@ -1,27 +1,26 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { View } from 'react-native';
+// import PropTypes from 'prop-types';
+import { TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { connect } from 'react-redux';
 
+import theme, { COLORS } from '../../theme';
+
+import { Flex } from '../../components/common';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { iconsMap } from '../../utils/iconMap';
 
 import styles from './styles';
-import { Text, Flex } from '../../components/common';
-import ShareButton from '../../components/ShareButton';
 import MessagesList from '../../components/MessagesList';
 
 function setButtons() {
   return {
     leftButtons: [{
-      title: 'Home', // for a textual button, provide the button title (label)
-      id: 'back', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-      icon: iconsMap['ios-home-outline'], // for icon button, provide the local image asset name
+      id: 'back', // Android handles back already
+      icon: iconsMap['ios-home-outline'], // This is just for iOS
     }],
     rightButtons: [{
-      title: 'add',
       id: 'add',
-      icon: iconsMap['ios-add'],
+      icon: Platform.OS === 'android' ? iconsMap['md-add'] : iconsMap['ios-add'],
     }],
   };
 }
@@ -29,6 +28,11 @@ function setButtons() {
 // <ShareButton message="Share this with you" title="Hey!" url="https://www.facebook.com" />
 
 class Message extends Component {
+  static navigatorStyle = {
+    navBarButtonColor: theme.lightText,
+    navBarTextColor: theme.headerTextColor,
+    navBarBackgroundColor: theme.headerBackgroundColor,
+  };
   constructor(props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
@@ -44,15 +48,32 @@ class Message extends Component {
 
   componentWillMount() {
     this.props.navigator.setButtons(setButtons());
+    this.props.navigator.setTitle({ title: this.props.name || 'Message' });
   }
 
   render() {
     // const { messages = [] } = this.props.navigation.state.params;
     const { messages = [] } = this.props;
     return (
-      <View style={styles.container}>
-        <MessagesList items={messages} />
-      </View>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === 'android' ? undefined : 'padding'}
+        keyboardVerticalOffset={Platform.OS === 'android' ? undefined : 60}
+      >
+        <MessagesList ref={(c) => this.list = c} items={messages} />
+        <Flex style={styles.inputWrap}>
+          <TextInput
+            onFocus={() => this.list.scrollEnd(true)}
+            onBlur={() => this.list.scrollEnd(true)}
+            multiline={true}
+            placeholder="New Message"
+            placeholderTextColor={theme.primaryColor}
+            underlineColorAndroid={COLORS.TRANSPARENT}
+            style={styles.chatBox}
+            autoCorrect={true}
+          />
+        </Flex>
+      </KeyboardAvoidingView>
     );
   }
 }

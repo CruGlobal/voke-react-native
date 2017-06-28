@@ -7,7 +7,7 @@ import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { navMenuOptions } from '../../utils/menu';
 
 import VOKE_LOGO from '../../../images/vokeLogo.png';
-
+import theme from '../../theme';
 import FloatingButton from '../../components/FloatingButton';
 import { iconsMap } from '../../utils/iconMap';
 import ConversationList from '../../components/ConversationList';
@@ -55,6 +55,32 @@ const CONVERSATIONS = {
       { id: '19', text: 'test message 2 - 19' },
     ],
   },
+  id3: { id: 'id3', name: 'Ben', messages: [] },
+  id4: { id: 'id4', name: 'Ben', messages: [] },
+  id5: { id: 'id5', name: 'Ben', messages: [] },
+  id6: { id: 'id6', name: 'Ben', messages: [] },
+  id7: { id: 'id7', name: 'Ben', messages: [] },
+  id8: { id: 'id8', name: 'Ben', messages: [] },
+  id9: { id: 'id9', name: 'Ben', messages: [] },
+  id10: { id: 'id10', name: 'Ben', messages: [] },
+  id11: { id: 'id11', name: 'Ben', messages: [] },
+  id12: { id: 'id12', name: 'Ben', messages: [] },
+  id13: { id: 'id13', name: 'Ben', messages: [] },
+  id14: { id: 'id14', name: 'Ben', messages: [] },
+  id15: { id: 'id15', name: 'Ben', messages: [] },
+  id16: { id: 'id16', name: 'Ben', messages: [] },
+  id17: { id: 'id17', name: 'Ben', messages: [] },
+  id18: { id: 'id18', name: 'Ben', messages: [] },
+  id19: { id: 'id19', name: 'Ben', messages: [] },
+  id20: { id: 'id20', name: 'Ben', messages: [] },
+  id21: { id: 'id21', name: 'Ben', messages: [] },
+  id22: { id: 'id22', name: 'Ben', messages: [] },
+  id23: { id: 'id23', name: 'Ben', messages: [] },
+  id24: { id: 'id24', name: 'Ben', messages: [] },
+  id25: { id: 'id25', name: 'Ben', messages: [] },
+  id26: { id: 'id26', name: 'Ben', messages: [] },
+  id27: { id: 'id27', name: 'Ben', messages: [] },
+  id28: { id: 'id28', name: 'Ben', messages: [] },
 };
 
 function setButtons() {
@@ -66,6 +92,11 @@ function setButtons() {
     })).reverse();
     return {
       rightButtons: menu,
+      // leftButtons: [{
+      //   title: 'Voke',
+      //   id: 'logo',
+      //   icon: require('../../../images/vokeLogo.png'),
+      // }],
     };
   }
 
@@ -113,7 +144,7 @@ class Home extends Component {
         // this.props.navigatePush('voke.Menu', {}, { animationType: 'slide-up' });
       }
       if (event.id == 'video') {
-        this.props.navigatePush('voke.Videos', {}, {titleImage: VOKE_LOGO});
+        this.props.navigatePush('voke.Videos');
       }
     }
   }
