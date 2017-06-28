@@ -16,6 +16,10 @@ export function setVokeContacts(voke) {
   };
 }
 
+function getFirstLetter(str) {
+  return str && str[0] ? str[0].toUpperCase() : '';
+}
+
 export function getContacts() {
   return (dispatch) => (
     new Promise((resolve, reject) => {
@@ -23,11 +27,22 @@ export function getContacts() {
         if (err === 'denied') {
           reject();
         } else {
-          const all = lodashFilter(lodashMap(contacts, (c) => ({
-            name: `${c.givenName} ${c.familyName}`.trim(),
-            phone: lodashMap(c.phoneNumbers, 'number'),
-            id: c.recordID,
-          })), (c) => c.phone.length > 0);
+          const all = lodashFilter(lodashMap(contacts, (c) => {
+            // Android doesn't have familyName, just givenName
+            const name = `${c.givenName} ${c.familyName}`.trim();
+            let firstNameLetter = getFirstLetter(c.givenName) || getFirstLetter(name);
+            let lastNameLetter = getFirstLetter(c.familyName) || firstNameLetter;
+            return {
+              name,
+              phone: lodashMap(c.phoneNumbers, 'number'),
+              key: c.recordID,
+              id: c.recordID,
+              // Helper fields
+              nameLower: name.toLowerCase(),
+              lastNameLetter,
+              firstNameLetter, 
+            };
+          }), (c) => c.phone.length > 0 && !!c.name);
           dispatch(setAllContacts(all));
 
           // API call to find out who matches voke
@@ -50,3 +65,22 @@ export function getVokeContacts(all) {
     })
   );
 }
+
+export function searchContacts(text, onlyVoke = false) {
+  return (dispatch, getState) => (
+    new Promise((resolve) => {
+      const contacts = onlyVoke ? getState().contacts.voke : getState().contacts.all;
+      const searchTextLower = text.toLowerCase();
+      const searchTextUpper = text.toUpperCase();
+      const isOneLetter = text.length === 1;
+      const results = contacts.filter((c) => {
+        if (isOneLetter) {
+          return c.lastNameLetter === searchTextUpper || c.firstNameLetter === searchTextUpper;
+        }
+        return c.nameLower.indexOf(searchTextLower) >= 0;
+      });
+      resolve(results);
+    })
+  );
+}
+

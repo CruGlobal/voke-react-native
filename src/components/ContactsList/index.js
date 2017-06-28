@@ -1,12 +1,12 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, SectionList } from 'react-native';
+import { View, SectionList, Platform } from 'react-native';
 import ContactItem from '../ContactItem';
 
 import styles from './styles';
-import { Touchable, Text } from '../common';
-import theme from '../../theme';
+import { Touchable, Text, Flex } from '../common';
+// import theme from '../../theme';
 
 const CONTACT_HEIGHT = 50;
 
@@ -14,8 +14,14 @@ const CONTACT_HEIGHT = 50;
 function formatContacts(items) {
   const ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
   const sections = items.reduce((p, n) => {
-    const letterIndex = ALPHA.findIndex((a) => n.name && a === n.name[0].toUpperCase());
-    if (letterIndex) {
+    const letterIndex = ALPHA.findIndex((a) => {
+      if (Platform.OS === 'ios' && n.lastNameLetter) {
+        return a === n.lastNameLetter;
+      } else {
+        return n.firstNameLetter && a === n.firstNameLetter;
+      }
+    });
+    if (letterIndex >= 0) {
       n.key = n.id;
       if (p[letterIndex]) {
         p[letterIndex].data.push(n);
@@ -55,10 +61,20 @@ class ContactsList extends Component {
   }
 
   render() {
+    // Don't do a length check, it can be taxing on large arrays
+    if (!this.props.items[0]) {
+      return (
+        <Flex align="center" justify="center">
+          <Text style={styles.noResultsText}>No results to display</Text>
+        </Flex>
+      );
+    }
     const formattedSections = formatContacts(this.props.items);
     // ItemSeparatorComponent={() => <Separator />}
     return (
       <SectionList
+        initialNumToRender={15}
+        stickySectionHeadersEnabled={true}
         sections={formattedSections}
         renderSectionHeader={this.renderHeader}
         renderItem={({ item }) => (
@@ -73,7 +89,6 @@ class ContactsList extends Component {
           offset: CONTACT_HEIGHT * index,
           index,
         })}
-        initialNumToRender={10}
       />
     );
   }

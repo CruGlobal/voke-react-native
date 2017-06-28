@@ -1,5 +1,5 @@
 import { REHYDRATE } from 'redux-persist/constants';
-import { SET_CONTACTS } from '../constants';
+import { SET_ALL_CONTACTS, SET_VOKE_CONTACTS } from '../constants';
 
 const initialState = {
   all: [],
@@ -15,10 +15,14 @@ export default function contacts(state = initialState, action) {
         ...state,
         ...incoming,
       };
-    case SET_CONTACTS:
+    case SET_ALL_CONTACTS:
       return {
         ...state,
         all: action.all || [],
+      };
+    case SET_VOKE_CONTACTS:
+      return {
+        ...state,
         voke: action.voke || [],
       };
     default:

@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, TextInput } from 'react-native';
 import { connect } from 'react-redux';
+import debounce from 'lodash/debounce';
 
 import styles from './styles';
-import { getContacts } from '../../actions/contacts';
+import { getContacts, searchContacts } from '../../actions/contacts';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
+import { COLORS } from '../../theme';
 
+import { Flex } from '../../components/common';
 import ContactsList from '../../components/ContactsList';
 
 class Contacts extends Component {
@@ -13,23 +16,58 @@ class Contacts extends Component {
     super(props);
 
     this.state = {
+      searchResults: [],
+      searchText: '',
       isLoading: true,
     };
+
+    this.search = debounce(this.search.bind(this), 10);
+    this.changeText = this.changeText.bind(this);
   }
+  
   componentDidMount() {
-    // Make sure the transition is complete before loading the contacts
-    setTimeout(() => {
+    // TODO: Make sure the transition is complete before loading the contacts
+    this.timeout = setTimeout(() => {
       this.props.dispatch(getContacts()).then(() => {
         this.setState({ isLoading: false });
       });
     }, 1000);
   }
+
+  componentWillUnmount() {
+    // Always clear timeout when we unmount
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+    }
+  }
+  
+
+  search(text) {
+    this.props.dispatch(searchContacts(text)).then((results) => {
+      this.setState({ searchResults: results });
+    });
+  }
+
+  changeText(text) {
+    this.setState({ searchText: text });
+    this.search(text);
+  }
   
   render() {
     return (
       <View style={styles.container}>
+        <Flex style={styles.inputWrap}>
+          <TextInput
+            value={this.state.searchText}
+            placeholder="Search"
+            placeholderTextColor={COLORS.GREY}
+            style={styles.searchBox}
+            autoCorrect={true}
+            onChangeText={this.changeText}
+          />
+        </Flex>
         <ContactsList
-          items={this.props.all}
+          items={this.state.searchText ? this.state.searchResults : this.props.all}
           onSelect={(contact) => {
             console.warn('selected', contact);
           }}
