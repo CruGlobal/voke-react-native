@@ -45,7 +45,7 @@ export function getContacts() {
                   firstNameLetter, 
                 };
               }), (c) => c.phone.length > 0 && !!c.name);
-              console.warn('all', all.length, all);
+              // console.warn('all', all.length, all);
               dispatch(setAllContacts(all));
 
               // API call to find out who matches voke

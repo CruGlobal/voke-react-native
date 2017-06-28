@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { View, Platform } from 'react-native';
 import { connect } from 'react-redux';
+import { Navigation } from 'react-native-navigation';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { navMenuOptions } from '../../utils/menu';
 
 import VOKE_LOGO from '../../../images/vokeLogo.png';
-import theme from '../../theme';
+// import theme from '../../theme';
 import FloatingButton from '../../components/FloatingButton';
 import { iconsMap } from '../../utils/iconMap';
 import ConversationList from '../../components/ConversationList';
 import StatusBar from '../../components/StatusBar';
-import { Navigation } from 'react-native-navigation';
 
 const CONVERSATIONS = {
   id1: {

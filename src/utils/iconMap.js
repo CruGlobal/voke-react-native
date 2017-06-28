@@ -20,6 +20,7 @@ const icons = {
   'md-add': [navIconSize, theme.primaryColor],
   'md-person-add': [navIconSize, theme.primaryColor],
   'md-close': [navIconSize, theme.primaryColor],
+  'md-search': [navIconSize, theme.lightText],
 };
 
 const iconsMap = {};

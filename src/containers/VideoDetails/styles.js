@@ -1,13 +1,13 @@
 
 import { StyleSheet } from 'react-native';
-import { COLORS } from '../../theme';
+import theme, { COLORS } from '../../theme';
 
 import videoUtils from '../../utils/video';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.WHITE,
+    backgroundColor: theme.lightBackgroundColor,
   },
   video: {
     height: videoUtils.HEIGHT,

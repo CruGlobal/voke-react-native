@@ -1,22 +1,30 @@
 import React, { Component } from 'react';
 import { View, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+
+import nav, { NavPropTypes } from '../../actions/navigation_new';
 
 import styles from './styles';
 import WebviewVideo from '../../components/WebviewVideo';
-import { Icon, Flex, Touchable } from '../../components/common';
-import { backAction } from '../../actions/navigation';
+import FloatingButtonSingle from '../../components/FloatingButtonSingle';
+import { Icon, Flex, Touchable, Text } from '../../components/common';
 
 class VideoDetails extends Component {
-  // static navigationOptions = ({ navigation }) => ({
-  //   title: navigation.state.params.video.title || 'test',
-  // });
   static navigatorStyle = {
     navBarHidden: true,
   };
+
+  constructor(props) {
+    super(props);
+    
+    this.selectContact = this.selectContact.bind(this);
+  }
+
+  selectContact(contact) {
+    console.warn('contact selected', contact);
+  }
+
   render() {
-    // const video = this.props.navigation.state.params.video;
     return (
       <View style={styles.container}>
         <StatusBar hidden={true} />
@@ -28,20 +36,24 @@ class VideoDetails extends Component {
             onChangeState={(videoState) => console.warn(videoState)}
           />
           <View style={styles.backHeader}>
-            <Touchable onPress={() => this.props.dispatch(backAction())}>
+            <Touchable onPress={() => this.props.navigateBack()}>
               <Icon name="arrow-back" size={28} style={styles.backIcon} />
             </Touchable>
           </View>
         </Flex>
-        <Flex>
+        <Flex value={1} style={{ backgroundColor: 'green' }}>
+          <Text>HEY!</Text>
         </Flex>
+        <FloatingButtonSingle onSelect={() => this.props.navigatePush('voke.SelectFriend', {
+          onSelect: this.selectContact,
+        })} />
       </View>
     );
   }
 }
 
 VideoDetails.propTypes = {
-  dispatch: PropTypes.func.isRequired, // Redux
+  ...NavPropTypes,
 };
 
-export default connect()(VideoDetails);
+export default connect(null, nav)(VideoDetails);
