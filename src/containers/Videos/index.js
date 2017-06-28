@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
 import nav, { NavPropTypes } from '../../actions/navigation_new';
@@ -8,9 +8,10 @@ import styles from './styles';
 import { iconsMap } from '../../utils/iconMap';
 import theme from '../../theme';
 
-import SubHeader from '../SubHeader';
+import PillButton from '../../components/PillButton';
 import VideoList from '../../components/VideoList';
 import StatusBar from '../../components/StatusBar';
+import { Flex } from '../../components/common';
 
 const VIDEOS = [
   {title: 'The odds of you explained...', description: 'The fact that we are on this planet right now is almost statistically impossible.'},
@@ -37,6 +38,10 @@ class Videos extends Component {
   };
   constructor(props) {
     super(props);
+    this.state = {
+      selectedFilter: 'all',
+    };
+
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
@@ -53,9 +58,35 @@ class Videos extends Component {
   }
 
   render() {
+    const { selectedFilter } = this.state;
     return (
       <View style={styles.container}>
-        <SubHeader />
+        <Flex style={{height: 50}} align="center" justify="center">
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <Flex direction="row" style={{padding: 10}}>
+              <PillButton
+                text="All"
+                filled={selectedFilter === 'all'}
+                onPress={()=> this.setState({selectedFilter: 'all'})}
+              />
+              <PillButton
+                text="Featured"
+                filled={selectedFilter === 'featured'}
+                onPress={()=> this.setState({selectedFilter: 'featured'})}
+              />
+              <PillButton
+                text="Popular"
+                filled={selectedFilter === 'popular'}
+                onPress={()=> this.setState({selectedFilter: 'popular'})}
+              />
+              <PillButton
+                text="Themes"
+                filled={selectedFilter === 'themes'}
+                onPress={()=> this.setState({selectedFilter: 'themes'})}
+              />
+            </Flex>
+          </ScrollView>
+        </Flex>
         <StatusBar />
         <VideoList
           items={VIDEOS}
