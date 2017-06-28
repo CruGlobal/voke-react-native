@@ -31,6 +31,7 @@ export default function(id, options = {}) {
               'onStateChange': onPlayerStateChange
             }
           });
+          player.mute();
         }
 
         /* Autoplay videos */

@@ -22,6 +22,8 @@ import Profile from './containers/Profile';
 import Acknowledgements from './containers/Acknowledgements';
 import Message from './containers/Message';
 import VideoDetails from './containers/VideoDetails';
+import SelectFriend from './containers/SelectFriend';
+import Contacts from './containers/Contacts';
 
 
 // TODO: Wrap each of these in a HoC where we inject the navigation actions
@@ -35,6 +37,8 @@ export default function(store, Provider) {
   Navigation.registerComponent('voke.Acknowledgements', () => Acknowledgements, store, Provider);
   Navigation.registerComponent('voke.Videos', () => Videos, store, Provider);
   Navigation.registerComponent('voke.VideoDetails', () => VideoDetails, store, Provider);
+  Navigation.registerComponent('voke.SelectFriend', () => SelectFriend, store, Provider);
+  Navigation.registerComponent('voke.Contacts', () => Contacts, store, Provider);
 }
 
 

@@ -1,19 +1,15 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, ListView, TextInput, KeyboardAvoidingView } from 'react-native';
-import { connect } from 'react-redux';
+import { ListView, TextInput, KeyboardAvoidingView } from 'react-native';
 import styles from './styles';
 import MessageItem from '../MessageItem';
 import theme from '../../theme';
 
-// import { navigateAction } from '../../actions/navigation';
-
-import { Flex, Touchable, Text, Separator, RefreshControl } from '../../components/common';
+import { Flex } from '../../components/common';
 
 
-class MessagesList extends Component { // eslint-disable-line
-
+class MessagesList extends Component {
   constructor(props) {
     super(props);
     const ds = new ListView.DataSource({
@@ -85,10 +81,7 @@ class MessagesList extends Component { // eslint-disable-line
 }
 
 MessagesList.propTypes = {
-  dispatch: PropTypes.func.isRequired, // Redux
   items: PropTypes.array.isRequired, // Redux
 };
 
-const mapStateToProps = () => ({});
-
-export default connect(mapStateToProps)(MessagesList);
+export default MessagesList;

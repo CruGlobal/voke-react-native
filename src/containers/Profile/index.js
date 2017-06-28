@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
-import { Linking, Image } from 'react-native';
-import styles from './styles'
-import { Flex, Text, Icon } from '../../components/common';
+import { Image } from 'react-native';
+import { connect } from 'react-redux';
+import styles from './styles';
+import { Flex, Icon } from '../../components/common';
 import ImagePicker from '../../components/ImagePicker';
-import { iconsMap } from '../../utils/iconMap'
+import { iconsMap } from '../../utils/iconMap';
+
+import VOKE_LOGO from '../../../images/vokeLogo.png';
+import nav, { NavPropTypes } from '../../actions/navigation_new';
 
 function setButtons() {
   return {
     leftButtons: [{
-      title: 'Menu', // for a textual button, provide the button title (label)
-      id: 'menu', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+      id: 'back', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
       icon: iconsMap['ios-arrow-back'], // for icon button, provide the local image asset name
     }],
   };
@@ -24,27 +27,39 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      imageSource: null,
-      imageData: null,
+      imageUri: null,
     };
 
-    this.handleLink = this.handleLink.bind(this);
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.renderImagePicker = this.renderImagePicker.bind(this);
     this.handleImageChange = this.handleImageChange.bind(this);
-  }
-  handleLink(url) {
-    Linking.openURL(url);
   }
 
   componentWillMount() {
     this.props.navigator.setButtons(setButtons());
   }
 
+  onNavigatorEvent(event) {
+    if (event.type === 'NavBarButtonPress') {
+      if (event.id === 'back') {
+        this.props.navigateBack();
+      }
+    }
+  }
+
+  handleImageChange(data) {
+    // TODO: Make API call to update image
+    this.setState({
+      imageUri: data.uri,
+    });
+  }
+
   renderImagePicker() {
+    const image = this.state.imageUri ? { uri: this.state.imageUri } : VOKE_LOGO;
     return (
       <ImagePicker onSelectImage={this.handleImageChange}>
         <Flex align="center" justify="center" style={styles.imageSelect}>
-          <Image source={require('../../../images/vokeLogo.png')}>
+          <Image source={image}>
           </Image>
           <Flex align="center" justify="center" style={styles.imageCover}>
             <Icon name="camera-alt" style={styles.imageIcon} size={30} />
@@ -52,13 +67,6 @@ class Profile extends Component {
         </Flex>
       </ImagePicker>
     );
-  }
-
-  handleImageChange(data) {
-    this.setState({
-      imageSource: null,
-      imageData: data,
-    });
   }
 
   render() {
@@ -75,4 +83,10 @@ class Profile extends Component {
   }
 }
 
-export default Profile;
+
+// Check out actions/navigation_new.js to see the prop types and mapDispatchToProps
+Profile.propTypes = {
+  ...NavPropTypes,
+};
+
+export default connect(null, nav)(Profile);

@@ -20,11 +20,13 @@
   },
   "dependencies": {
     "color": "^1.0.3",
+    "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "prop-types": "^15.5.10",
     "react": "16.0.0-alpha.12",
     "react-native": "^0.45.1",
     "react-native-action-button": "^2.6.10",
+    "react-native-contacts": "^0.8.2",
     "react-native-image-picker": "^0.26.3",
     "react-native-navigation": "^1.1.114",
     "react-native-vector-icons": "^4.2.0",

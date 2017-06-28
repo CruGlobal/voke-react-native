@@ -75,7 +75,6 @@ registerScreens(store, Provider);
 
 // TODO: Figure out how to put this in ./routes
 const homeScreen = {
-  label: 'Navigation',
   screen: 'voke.Home',
   title: 'Home',
   titleImage: require('../images/vokeLogo.png'),
@@ -98,7 +97,9 @@ const loginScreen = {
 
 export default class App {
   constructor() {
+    this.isLoading = true;
     iconsLoaded.then(() => {
+      this.isLoading = false;
       this.startApp();
     });
   }
@@ -107,11 +108,9 @@ export default class App {
     if (store.getState().auth.isLoggedIn) {
       Navigation.startSingleScreenApp({
         screen: loginScreen,
-        passProps: {
-          // navigatePush: () => store.dispatch()
-        },
+        passProps: {},
         // animationType: Platform.OS === 'ios' ? 'slide-down' : 'fade',
-        animationType: 'slide-down',
+        animationType: 'none',
         // tabsStyle: {
         //   tabBarBackgroundColor: '#003a66',
         //   navBarButtonColor: '#ffffff',
@@ -135,9 +134,13 @@ export default class App {
       Navigation.startSingleScreenApp({
         screen: homeScreen,
         passProps: {
-          // navigatePush: () => store.dispatch()
+          hello: () => {
+            console.warn('hello!');
+            return store.dispatch({ type: 'HEY' });
+          },
         },
-        animationType: Platform.OS === 'ios' ? 'slide-down' : 'fade',
+        // animationType: Platform.OS === 'ios' ? 'slide-down' : 'fade',
+        animationType: 'none',
         // tabsStyle: {
         //   tabBarBackgroundColor: '#003a66',
         //   navBarButtonColor: '#ffffff',

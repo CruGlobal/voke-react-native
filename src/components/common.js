@@ -4,6 +4,7 @@ import Button from './Button';
 import DateComponent from './DateComponent';
 import Flex from './Flex';
 import Icon from './Icon';
+import Loading from './Loading';
 import Text from './Text';
 import Touchable from './Touchable';
 import Separator from './Separator';
@@ -14,6 +15,7 @@ export {
   DateComponent,
   Flex,
   Icon,
+  Loading,
   Text,
   Touchable,
   Separator,

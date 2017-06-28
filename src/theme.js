@@ -47,6 +47,7 @@ const SECONDARY = COLORS.DARK_BLUE;
 
 export default {
   // base theme
+  loadingColor: COLORS.WHITE,
   primaryColor: PRIMARY,
   secondaryColor: SECONDARY,
   backgroundColor: PRIMARY,

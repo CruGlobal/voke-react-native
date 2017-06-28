@@ -3316,6 +3316,10 @@ react-native-action-button@^2.6.10:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/react-native-action-button/-/react-native-action-button-2.7.1.tgz#89a0380fb91150b89ca21f3a5ea33d28b068ba7a"
 
+react-native-contacts@^0.8.2:
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/react-native-contacts/-/react-native-contacts-0.8.2.tgz#9cf8a0b4afb411163999762effb2dfdf4febc2a6"
+
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-dismiss-keyboard/-/react-native-dismiss-keyboard-1.0.0.tgz#32886242b3f2317e121f3aeb9b0a585e2b879b49"
@@ -3331,6 +3335,10 @@ react-native-drawer-layout@1.3.1:
   resolved "https://registry.yarnpkg.com/react-native-drawer-layout/-/react-native-drawer-layout-1.3.1.tgz#eb976df8fc43844811acebeed109029395406fe9"
   dependencies:
     react-native-dismiss-keyboard "1.0.0"
+
+react-native-image-picker@^0.26.3:
+  version "0.26.3"
+  resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-0.26.3.tgz#0ad2eede49501a7046d8046a73813696539c3dcd"
 
 react-native-navigation@^1.1.114:
   version "1.1.114"
