@@ -3,9 +3,11 @@ import { View, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 
 import nav, { NavPropTypes } from '../../actions/navigation_new';
+import { toastAction } from '../../actions/auth';
 
 import styles from './styles';
 import WebviewVideo from '../../components/WebviewVideo';
+import webviewStates from '../../components/WebviewVideo/common';
 import FloatingButtonSingle from '../../components/FloatingButtonSingle';
 import { Icon, Flex, Touchable, Text } from '../../components/common';
 
@@ -18,10 +20,18 @@ class VideoDetails extends Component {
     super(props);
     
     this.selectContact = this.selectContact.bind(this);
+    this.handleVideoChange = this.handleVideoChange.bind(this);
   }
 
   selectContact(contact) {
     console.warn('contact selected', contact);
+  }
+
+  handleVideoChange(videoState) {
+    console.warn(videoState);
+    if (videoState === webviewStates.ERROR) {
+      this.props.dispatch(toastAction('There was an error playing the video.'));
+    }
   }
 
   render() {
@@ -33,7 +43,7 @@ class VideoDetails extends Component {
             type="youtube"
             url="https://www.youtube.com/watch?v=cUYSGojUuAU"
             start={5}
-            onChangeState={(videoState) => console.warn(videoState)}
+            onChangeState={this.handleVideoChange}
           />
           <View style={styles.backHeader}>
             <Touchable onPress={() => this.props.navigateBack()}>

@@ -5,6 +5,7 @@ import { Navigation } from 'react-native-navigation';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
+import { toastAction } from '../../actions/auth';
 import { navMenuOptions } from '../../utils/menu';
 
 import VOKE_LOGO from '../../../images/vokeLogo.png';

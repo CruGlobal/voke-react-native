@@ -38,6 +38,7 @@ export default function(id, options = {}) {
             window.postMessage('${common.PAUSED}');
           });
           player.on('end', function() { window.postMessage('${common.FINISHED}'); });
+          player.on('error', function() { window.postMessage('${common.ERROR}'); });
         })();
       </script>
     </body>

@@ -1,17 +1,11 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, ListView } from 'react-native';
-import { connect } from 'react-redux';
+
 import styles from './styles';
+import { Flex, Text } from '../../components/common';
 
-// import { navigateAction } from '../../actions/navigation';
-
-import { Flex, Touchable, Text, Separator, RefreshControl } from '../../components/common';
-
-
-class MessageItem extends Component { // eslint-disable-line
-
+class MessageItem extends Component {
   render() {
     const message = this.props.item;
     const isVoke = message.sender === '3';
@@ -64,4 +58,4 @@ MessageItem.propTypes = {
   item: PropTypes.object.isRequired, // Redux
 };
 
-export default (MessageItem);
+export default MessageItem;

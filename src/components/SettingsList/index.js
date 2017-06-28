@@ -2,16 +2,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, ListView } from 'react-native';
-import { connect } from 'react-redux';
+
 import styles from './styles';
+import { Flex, Touchable, Text, Separator } from '../../components/common';
 
-// import { navigateAction } from '../../actions/navigation';
-
-import { Flex, Touchable, Text, Separator, RefreshControl } from '../../components/common';
-
-
-class SettingsList extends Component { // eslint-disable-line
-
+class SettingsList extends Component {
   constructor(props) {
     super(props);
     const ds = new ListView.DataSource({
@@ -22,20 +17,11 @@ class SettingsList extends Component { // eslint-disable-line
       dataSource: ds.cloneWithRows(props.items),
     };
 
-    this.handleRefresh = this.handleRefresh.bind(this);
     this.renderRow = this.renderRow.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({ dataSource: this.state.dataSource.cloneWithRows(nextProps.items) });
-  }
-
-  handleRefresh() {
-    this.setState({ refreshing: true });
-    setTimeout(() => {
-      // this.props.dispatch(newSuggestionAction());
-      this.setState({ refreshing: false });
-    }, 500);
   }
 
   renderRow(setting) {
@@ -51,6 +37,7 @@ class SettingsList extends Component { // eslint-disable-line
   }
 
   render() {
+    // TODO: Change this to a FlatList
     return (
       <View style={styles.container}>
         <ListView
@@ -67,10 +54,7 @@ class SettingsList extends Component { // eslint-disable-line
 }
 
 SettingsList.propTypes = {
-  dispatch: PropTypes.func.isRequired, // Redux
-  items: PropTypes.array.isRequired, // Redux
+  items: PropTypes.array.isRequired,
 };
 
-const mapStateToProps = () => ({});
-
-export default connect(mapStateToProps)(SettingsList);
+export default SettingsList;

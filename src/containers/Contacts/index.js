@@ -5,6 +5,7 @@ import debounce from 'lodash/debounce';
 
 import { iconsMap } from '../../utils/iconMap';
 import styles from './styles';
+import { toastAction } from '../../actions/auth';
 import { getContacts, searchContacts } from '../../actions/contacts';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import theme, { COLORS } from '../../theme';
@@ -53,6 +54,8 @@ class Contacts extends Component {
   getContacts() {
     this.props.dispatch(getContacts()).then(() => {
       this.setState({ isLoading: false });
+    }).catch(() => {
+      this.props.dispatch(toastAction('There was a problem loading contacts.'));
     });
   }
 

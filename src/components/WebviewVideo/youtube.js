@@ -29,14 +29,19 @@ export default function(id, options = {}) {
             events: {
               'onReady': onPlayerReady,
               'onStateChange': onPlayerStateChange
+              'onError': onError
             }
           });
-          player.mute();
         }
 
         /* Autoplay videos */
         function onPlayerReady(event) {
           event.target.playVideo();
+          event.target.mute();
+        }
+        /* Error playing video */
+        function onError(event) {
+          window.postMessage('${common.ERROR}');
         }
 
         function onPlayerStateChange(event) {

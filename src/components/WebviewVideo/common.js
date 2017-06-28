@@ -7,6 +7,7 @@ export default {
   RESUMED: 'resumed',
   PAUSED: 'paused',
   FINISHED: 'finished',
+  ERROR: 'error',
   getYoutubeId: function(url) {
     var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
     var match = url.match(regExp);

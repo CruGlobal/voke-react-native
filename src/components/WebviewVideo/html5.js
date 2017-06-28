@@ -28,6 +28,7 @@ export default function(url, options = {}) {
           /* Setup the play/pause listeners */
           video.onplay = onPlay;
           video.onpause = onPaused;
+          video.onerror = onError;
 
           /* Setup the source tag for the video */
           var source = document.createElement("source"); 
@@ -50,6 +51,9 @@ export default function(url, options = {}) {
         function onPaused() {
           paused = true;
           window.postMessage('${common.PAUSED}');
+        }
+        function onError() {
+          window.postMessage('${common.ERROR}');
         }
       </script>
     </body>

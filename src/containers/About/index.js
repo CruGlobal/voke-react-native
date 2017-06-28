@@ -1,16 +1,25 @@
 import React, { Component } from 'react';
 import { Linking } from 'react-native';
 
+import theme from '../../theme';
 import SettingsList from '../../components/SettingsList';
 
 class About extends Component {
+  static navigatorStyle = {
+    navBarButtonColor: theme.lightText,
+    navBarTextColor: theme.headerTextColor,
+    navBarBackgroundColor: theme.headerBackgroundColor,
+  };
+
   constructor(props) {
     super(props);
     this.handleLink = this.handleLink.bind(this);
   }
+
   handleLink(url) {
     Linking.openURL(url);
   }
+  
   render() {
     const versionBuild = '1.0';
     return (
