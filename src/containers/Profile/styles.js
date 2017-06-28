@@ -5,6 +5,9 @@ import theme, { COLORS, DEFAULT } from '../../theme';
 export default StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: theme.backgroundColor,
+  },
+  content: {
     backgroundColor: theme.lightBackgroundColor,
   },
   imageWrapper: {
@@ -12,6 +15,7 @@ export default StyleSheet.create({
   },
   infoWrapper: {
     backgroundColor: theme.lightBackgroundColor,
+    padding: 0,
   },
   imageSelect: {
     height: 125,
@@ -29,18 +33,38 @@ export default StyleSheet.create({
     color: COLORS.convert({color: COLORS.WHITE, alpha: 0.6}),
   },
   inputButton: {
-    width: DEFAULT.FULL_WIDTH,
-    borderRadius: 0,
-    borderWidth: 0,
-    borderBottomWidth: 1,
-    borderColor: COLORS.LIGHT_GREY,
-    height: 50,
+    // width: 40,
+    height: 40,
     backgroundColor: COLORS.TRANSPARENT,
   },
   buttonText: {
-    color: theme.darkText,
+    paddingLeft: 10,
+    fontSize: 16,
+    color: theme.primaryColor,
+  },
+  changeTitle: {
+    fontSize: 16,
+    color: COLORS.DARK_GREY,
+    padding: 10,
+  },
+  editText: {
+    color: COLORS.GREY,
+    fontSize: 14,
   },
   inputIcon: {
     color: COLORS.GREY,
+    fontSize: 20,
+  },
+  inputRow: {
+    padding: 20,
+  },
+  inputBox: {
+    height: 40,
+    margin: 5,
+    borderWidth: 1,
+    borderColor: COLORS.LIGHTEST_GREY,
+    borderRadius: 3,
+    fontSize: 14,
+    // width: DEFAULT.FULL_WIDTH - 30,
   },
 });
