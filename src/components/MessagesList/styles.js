@@ -11,12 +11,12 @@ export default StyleSheet.create({
     justifyContent: 'flex-end',
   },
   inputWrap: {
-    height: 60,
+    height: 50,
     backgroundColor: theme.secondaryColor,
-    padding: 5,
   },
   chatBox: {
     height: 40,
+    margin: 5,
     color: theme.textColor,
     backgroundColor: COLORS.convert({ color: theme.primaryColor, alpha: 0.4, lighten: 0.3 }),
     borderRadius: 3,
