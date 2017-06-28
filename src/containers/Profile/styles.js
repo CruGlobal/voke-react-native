@@ -1,6 +1,6 @@
 
 import { StyleSheet } from 'react-native';
-import theme, { COLORS } from '../../theme';
+import theme, { COLORS, DEFAULT } from '../../theme';
 
 export default StyleSheet.create({
   container: {
@@ -27,5 +27,20 @@ export default StyleSheet.create({
   },
   imageIcon: {
     color: COLORS.convert({color: COLORS.WHITE, alpha: 0.6}),
+  },
+  inputButton: {
+    width: DEFAULT.FULL_WIDTH,
+    borderRadius: 0,
+    borderWidth: 0,
+    borderBottomWidth: 1,
+    borderColor: COLORS.LIGHT_GREY,
+    height: 50,
+    backgroundColor: COLORS.TRANSPARENT,
+  },
+  buttonText: {
+    color: theme.darkText,
+  },
+  inputIcon: {
+    color: COLORS.GREY,
   },
 });

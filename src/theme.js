@@ -1,7 +1,9 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import Color from 'color';
 
 import { exists } from './utils/common';
+
+const { width: deviceWidth, height: deviceHeight } = Dimensions.get('window');
 
 // See https://github.com/qix-/color for help
 function colorConvert({ color, alpha, lighten, darken, negate, rotate, whiten, blacken }) {
@@ -17,6 +19,11 @@ function colorConvert({ color, alpha, lighten, darken, negate, rotate, whiten, b
   if (exists(blacken)) col = Color(col).blacken(blacken);
   return col.rgb().toString();
 }
+
+export const DEFAULT = {
+  FULL_WIDTH: deviceWidth,
+  FULL_HEIGHT: deviceHeight,
+};
 
 export const COLORS = {
   BLUE: '#44c8e8',
