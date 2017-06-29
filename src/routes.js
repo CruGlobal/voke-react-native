@@ -11,6 +11,7 @@
 
 import { Navigation } from 'react-native-navigation';
 
+import LoadingScreen from './containers/LoadingScreen';
 import Login from './containers/Login';
 import Home from './containers/Home';
 import Videos from './containers/Videos';
@@ -26,6 +27,7 @@ import Contacts from './containers/Contacts';
 
 // TODO: Wrap each of these in a HoC where we inject the navigation actions
 export default function(store, Provider) {
+  Navigation.registerComponent('voke.Loading', () => LoadingScreen, store, Provider);
   Navigation.registerComponent('voke.Login', () => Login, store, Provider);
   Navigation.registerComponent('voke.Home', () => Home, store, Provider);
   Navigation.registerComponent('voke.Menu', () => Menu, store, Provider);

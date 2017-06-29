@@ -37,7 +37,6 @@ export function getContacts() {
                 return {
                   name,
                   phone: lodashMap(c.phoneNumbers, 'number'),
-                  key: c.recordID,
                   id: c.recordID,
                   // Helper fields
                   nameLower: name.toLowerCase(),

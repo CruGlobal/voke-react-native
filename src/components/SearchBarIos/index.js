@@ -2,27 +2,31 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, TextInput } from 'react-native';
-import { connect } from 'react-redux';
 import styles from './styles';
-import theme, { COLORS } from '../../theme';
-// import { navigateAction } from '../../actions/navigation';
+import theme from '../../theme';
 
-import { Flex, Touchable, Text, Icon, RefreshControl } from '../../components/common';
-
+import { Flex, Icon } from '../common';
 
 class SearchBarIos extends Component { // eslint-disable-line
   constructor(props) {
     super(props);
 
     this.state = {
+      text: '',
       isFocus: false,
     };
 
+    this.changeText = this.changeText.bind(this);
   }
-  render() {
 
+  changeText(text) {
+    this.setState({ text });
+    this.props.onChange(text);
+  }
+
+  render() {
     return (
-      <Flex style={styles.inputWrap} align="center" >
+      <Flex style={styles.inputWrap} align="center">
         <TextInput
           value={this.props.value}
           onFocus={() => this.setState({ isFocus: true })}
@@ -30,12 +34,12 @@ class SearchBarIos extends Component { // eslint-disable-line
           placeholder=""
           placeholderTextColor={theme.textColor}
           style={styles.searchBox}
-          autoCorrect={true}
-          onChangeText={this.props.onChange}
+          autoCorrect={false}
+          onChangeText={this.changeText}
           clearButtonMode="always"
         />
         {
-          this.state.isFocus ? null : (
+          this.state.isFocus || this.state.text ? null : (
             <View style={styles.searchIconWrap} pointerEvents="none">
               <Icon style={styles.searchIcon} name="search" size={22} />
             </View>
@@ -51,4 +55,4 @@ SearchBarIos.propTypes = {
   value: PropTypes.string.isRequired,
 };
 
-export default (SearchBarIos);
+export default SearchBarIos;

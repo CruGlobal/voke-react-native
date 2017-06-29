@@ -7,7 +7,7 @@ export default class Flex extends Component {
     this._view.setNativeProps(nativeProps);
   }
   render() {
-    const { value, direction, align, justify, self, grow, wrap, children, style = {}, ...rest } = this.props;
+    const { value, direction, align, justify, self: flexSelf, grow, wrap, children, style = {}, ...rest } = this.props;
     let styleObj = {};
     if (value) styleObj.flex = value;
     if (direction) styleObj.flexDirection = direction;
@@ -20,11 +20,11 @@ export default class Flex extends Component {
       else if (align === 'end') styleObj.alignItems = 'flex-end';
       else if (align === 'stretch') styleObj.alignItems = 'stretch';
     }
-    if (self) {
-      if (self === 'center') styleObj.alignSelf = 'center';
-      else if (self === 'start') styleObj.alignSelf = 'flex-start';
-      else if (self === 'end') styleObj.alignSelf = 'flex-end';
-      else if (self === 'stretch') styleObj.alignSelf = 'stretch';
+    if (flexSelf) {
+      if (flexSelf === 'center') styleObj.alignSelf = 'center';
+      else if (flexSelf === 'start') styleObj.alignSelf = 'flex-start';
+      else if (flexSelf === 'end') styleObj.alignSelf = 'flex-end';
+      else if (flexSelf === 'stretch') styleObj.alignSelf = 'stretch';
     }
     if (justify) {
       if (justify === 'center') styleObj.justifyContent = 'center';

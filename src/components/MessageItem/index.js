@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import styles from './styles';
-import { Flex, Text } from '../../components/common';
+import { Flex, Text } from '../common';
 
 class MessageItem extends Component {
   render() {

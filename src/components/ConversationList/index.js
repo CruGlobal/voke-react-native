@@ -4,10 +4,9 @@ import PropTypes from 'prop-types';
 import { FlatList, View } from 'react-native';
 import styles from './styles';
 
-// import { navigateAction } from '../../actions/navigation';
 import theme from '../../theme';
 
-import { Flex, Icon, Text, Touchable, Separator } from '../../components/common';
+import { Flex, Icon, Text, Touchable, Separator } from '../common';
 
 function formatConversations(c) {
   return Object.keys(c).map((k) => c[k]);
@@ -20,7 +19,6 @@ class ConversationList extends Component { // eslint-disable-line
     super(props);
     this.state = {
       refreshing: false,
-      // dataSource: ds.cloneWithRows(formatConversations(props.items)),
     };
 
     this.handleRefresh = this.handleRefresh.bind(this);
@@ -66,7 +64,6 @@ class ConversationList extends Component { // eslint-disable-line
       <FlatList
         ItemSeparatorComponent={() => <Separator />}
         initialNumToRender={15}
-        stickySectionHeadersEnabled={true}
         data={conversations}
         renderItem={this.renderRow}
         keyExtractor={(item) => item.id}

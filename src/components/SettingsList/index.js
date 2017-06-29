@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { View, ListView } from 'react-native';
 
 import styles from './styles';
-import { Flex, Touchable, Text, Separator } from '../../components/common';
+import { Flex, Touchable, Text, Separator } from '../common';
 
 class SettingsList extends Component {
   constructor(props) {

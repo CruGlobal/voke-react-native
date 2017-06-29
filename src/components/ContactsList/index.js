@@ -22,7 +22,6 @@ function formatContacts(items) {
       }
     });
     if (letterIndex >= 0) {
-      n.key = n.id;
       if (p[letterIndex]) {
         p[letterIndex].data.push(n);
       } else {
@@ -74,6 +73,7 @@ class ContactsList extends Component {
     return (
       <SectionList
         initialNumToRender={15}
+        keyExtractor={(item) => item.id}
         stickySectionHeadersEnabled={true}
         sections={formattedSections}
         renderSectionHeader={this.renderHeader}

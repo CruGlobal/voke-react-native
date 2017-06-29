@@ -5,7 +5,7 @@ import { Navigation } from 'react-native-navigation';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-// import { toastAction } from '../../actions/auth';
+import { swapi, swapi2 } from '../../actions/auth';
 import { navMenuOptions } from '../../utils/menu';
 
 import theme from '../../theme';
@@ -119,6 +119,7 @@ class Home extends Component {
     navBarButtonColor: theme.lightText,
     navBarTextColor: theme.headerTextColor,
     navBarBackgroundColor: theme.headerBackgroundColor,
+    screenBackgroundColor: theme.primaryColor,
   };
   constructor(props) {
     super(props);
@@ -126,7 +127,16 @@ class Home extends Component {
   }
 
   componentWillMount() {
-    this.props.navigator.setButtons(setButtons(this.props.dispatch, this.props.navigatePush));
+    this.props.navigator.setButtons(setButtons());
+    this.props.navigator.setTitle({
+      title: 'Home',
+      titleImage: require('../../../images/vokeLogo.png'),
+    });
+  }
+
+  componentDidMount() {
+    // this.props.dispatch(swapi());
+    // this.props.dispatch(swapi2());
   }
 
   onNavigatorEvent(event) {

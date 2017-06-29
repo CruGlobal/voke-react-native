@@ -1,6 +1,8 @@
 // import { Platform } from 'react-native';
 import PropTypes from 'prop-types';
 
+import theme from '../theme';
+
 const DEFAULT_PROPS = {
   'voke.Videos': {
     title: 'Videos',
@@ -54,6 +56,9 @@ export function navigateResetHome(navigator, options = {}) {
     navigator.resetTo({
       screen: 'voke.Home',
       animated: false,
+      navigatorStyle: {
+        screenBackgroundColor: theme.primaryColor,
+      },
       ...options,
     });
   };

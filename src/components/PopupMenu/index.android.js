@@ -4,7 +4,7 @@ import { findNodeHandle, UIManager, Alert } from 'react-native';
 
 import { exists, isFunction } from '../../utils/common';
 
-import { Flex, Touchable, Icon } from '../../components/common';
+import { Flex, Touchable, Icon } from '../common';
 
 // Android only component
 class PopupMenu extends Component {

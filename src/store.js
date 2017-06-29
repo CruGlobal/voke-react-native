@@ -5,8 +5,14 @@ import { persistStore } from 'redux-persist';
 
 import reducers from './reducers';
 
+let myCreateStore = createStore;
+if (__DEV__) {
+  const Reactotron = require('reactotron-react-native').default;
+  myCreateStore = Reactotron.createStore;
+}
+
 export default function getStore(onCompletion) {
-  const store = createStore(
+  const store = myCreateStore(
     reducers,
     applyMiddleware(thunk),
   );

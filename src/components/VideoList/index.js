@@ -1,35 +1,23 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { ListView, View } from 'react-native';
-import styles from './styles';
+import { FlatList, View, Image } from 'react-native';
+import styles, { THUMBNAIL_HEIGHT } from './styles';
 
-// import { navigateAction } from '../../actions/navigation';
+import { Flex, Text, Touchable, Icon } from '../common';
 
-import { Flex, Icon, Text, Touchable, Separator, RefreshControl } from '../../components/common';
+const ITEM_HEIGHT = THUMBNAIL_HEIGHT + 100 + 20;
 
-function formatConversations(c) {
-  return Object.keys(c).map((k) => c[k]);
-}
-
-class VideoList extends Component { // eslint-disable-line
+class VideoList extends Component {
 
   constructor(props) {
     super(props);
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1.id !== r2.id || r1.text !== r2.text,
-    });
     this.state = {
       refreshing: false,
-      dataSource: ds.cloneWithRows(formatConversations(props.items)),
     };
 
     this.handleRefresh = this.handleRefresh.bind(this);
     this.renderRow = this.renderRow.bind(this);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({ dataSource: this.state.dataSource.cloneWithRows(formatConversations(nextProps.items)) });
   }
 
   handleRefresh() {
@@ -40,40 +28,43 @@ class VideoList extends Component { // eslint-disable-line
     }, 500);
   }
 
-  renderRow(video) {
+  renderRow({ item }) {
+    const video = item;
     return (
-      <Touchable highlight={false} activeOpacity={0.6} onPress={() => this.props.onSelect(video)}>
-        <View>
-          <Flex style={styles.container} direction="column" align="center" justify="center">
-            <Flex style={styles.videoThumbnail}>
-            </Flex>
-            <Flex direction="column" style={styles.videoText}>
-              <Flex align="start" justify="start">
-                <Text style={styles.videoTitle}>
-                  {video.title}
-                </Text>
-              </Flex>
-              <Flex align="start" justify="start" style={{paddingTop: 20}}>
-                <Text style={styles.videoDescription}>
-                  {video.description}
-                </Text>
-              </Flex>
-            </Flex>
+      <Touchable highlight={false} activeOpacity={0.8} onPress={() => this.props.onSelect(video)}>
+        <Flex style={styles.container} direction="column" align="start" justify="center">
+          <Image resizeMode="contain" source={require('../../../images/vokeLogo.png')} style={styles.videoThumbnail}>
+            <Icon name="play-circle-filled" size={64} style={styles.playIcon} />
+          </Image>
+          <Flex direction="column" align="start" justify="start" style={styles.videoDetails}>
+            <Text numberOfLines={2} style={styles.videoTitle}>
+              {video.title}
+            </Text>
+            <Text numberOfLines={2} style={styles.videoDescription}>
+              {video.description}
+            </Text>
           </Flex>
-        </View>
+        </Flex>
       </Touchable>
     );
   }
 
   render() {
     return (
-      <ListView
-        refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this.handleRefresh} />}
+      <FlatList
+        initialNumToRender={4}
+        data={this.props.items}
+        renderItem={this.renderRow}
+        keyExtractor={(item) => item.id}
+        getItemLayout={(data, index) => ({
+          length: ITEM_HEIGHT,
+          offset: ITEM_HEIGHT * index,
+          index,
+        })}
+        refreshing={this.state.refreshing}
+        onRefresh={this.handleRefresh}
         style={{ flex: 1 }}
-        enableEmptySections={true}
         contentContainerStyle={styles.content}
-        dataSource={this.state.dataSource}
-        renderRow={this.renderRow}
       />
     );
   }

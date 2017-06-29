@@ -14,11 +14,11 @@ import StatusBar from '../../components/StatusBar';
 import { Flex } from '../../components/common';
 
 const VIDEOS = [
-  {title: 'The odds of you explained...', description: 'The fact that we are on this planet right now is almost statistically impossible.'},
-  {title: 'The best video ever', description: 'The fact that we are on this planet right now is almost statistically impossible.'},
-  {title: 'another one', description: 'The fact that we are on this planet right now is almost statistically impossible.'},
-  {title: 'DJ Kahled does another one', description: 'The fact that we are on this planet right now is almost statistically impossible.'},
-  {title: 'Bryan doing the hokie pokie', description: 'The fact that we are on this planet right now is almost statistically impossible.'},
+  {id: '1', title: 'The odds of you explained...', description: 'The fact that we are on this planet right now is almost statistically impossible. The fact that we are on this planet right now is almost statistically impossible. The fact that we are on this planet right now is almost statistically impossible. The fact that we are on this planet right now is almost statistically impossible.'},
+  {id: '2', title: 'The best video ever', description: 'The fact tha'},
+  {id: '3', title: 'another one', description: 'The fact that we are on this planet right now is almost statistically impossible.'},
+  {id: '4', title: 'DJ Kahled does another one', description: 'The fact that we are on this planet right now is almost statistically impossible.'},
+  {id: '5', title: 'Bryan doing the hokie pokie', description: 'The fact that we are on this planet right now is almost statistically impossible.'},
 ];
 
 function setButtons() {

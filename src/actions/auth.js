@@ -1,5 +1,6 @@
-import { Alert, Platform, ToastAndroid } from 'react-native';
+import { Alert, Platform, ToastAndroid, AsyncStorage } from 'react-native';
 import { LOGIN, LOGOUT } from '../constants';
+import callApi, { REQUESTS } from './api';
 // import { resetLoginAction, resetHomeAction } from './navigation';
 
 export function loginAction(token, user = {}) {
@@ -21,7 +22,7 @@ export function logoutAction() {
     new Promise((resolve) => {
       dispatch({ type: LOGOUT });
       resolve();
-    // dispatch(resetLoginAction());
+      AsyncStorage.clear();
     })
   );
 }
@@ -34,5 +35,23 @@ export function toastAction(text) {
     } else {
       Alert.alert('', text);
     }
+  };
+}
+
+export function swapi() {
+  return (dispatch) => {
+    return dispatch(callApi(REQUESTS.PLANETS, {})).then((results) => {
+      // Do something with the results
+      return results;
+    });
+  };
+}
+
+export function swapi2() {
+  return (dispatch) => {
+    return dispatch(callApi(REQUESTS.STARSHIPS, {})).then((results) => {
+      // Do something with the results
+      return results;
+    });
   };
 }
