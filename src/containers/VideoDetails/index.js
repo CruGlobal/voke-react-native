@@ -23,7 +23,7 @@ class VideoDetails extends Component {
 
   constructor(props) {
     super(props);
-    
+
     this.selectContact = this.selectContact.bind(this);
     this.handleVideoChange = this.handleVideoChange.bind(this);
   }
@@ -86,7 +86,7 @@ class VideoDetails extends Component {
           <View style={styles.backHeader}>
             <Touchable borderless={true} onPress={() => this.props.navigateBack()}>
               <View>
-                <Icon name="arrow-back" size={28} style={styles.backIcon} />
+                <Icon name="chevron-left" size={22} style={styles.backIcon} />
               </View>
             </Touchable>
           </View>

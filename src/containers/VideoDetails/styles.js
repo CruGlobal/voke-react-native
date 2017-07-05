@@ -36,6 +36,6 @@ export default StyleSheet.create({
     backgroundColor: COLORS.convert({ color: COLORS.WHITE, alpha: 0.8 }),
   },
   backIcon: {
-    color: COLORS.convert({ color: COLORS.BLACK, alpha: 0.4 }),
+    color: COLORS.convert({ color: COLORS.BLACK, alpha: 0.7 }),
   },
 });

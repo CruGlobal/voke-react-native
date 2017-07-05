@@ -8,17 +8,19 @@ export default StyleSheet.create({
     backgroundColor: theme.backgroundColor,
   },
   inputWrap: {
-    height: 50,
     backgroundColor: theme.secondaryColor,
-    paddingVertical: 5,
     paddingHorizontal: 7,
   },
   chatBox: {
+    paddingVertical: 5,
+    marginVertical: 5,
+    textAlignVertical: 'center',
     flex: 1,
     color: theme.textColor,
+    paddingLeft: 10,
     backgroundColor: COLORS.convert({ color: theme.primaryColor, alpha: 0.4, lighten: 0.3 }),
     borderRadius: 3,
-    fontSize: 15,
+    fontSize: 16,
   },
   sendIcon: {
     flex: 0.1,

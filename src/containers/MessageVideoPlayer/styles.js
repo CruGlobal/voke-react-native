@@ -13,11 +13,13 @@ export default StyleSheet.create({
   backHeader: {
     position: 'absolute',
     top: 9,
-    left: 9,
+    right: 9,
     borderRadius: 14,
-    backgroundColor: COLORS.convert({ color: COLORS.WHITE, alpha: 0.8 }),
+    // backgroundColor: COLORS.convert({ color: COLORS.WHITE, alpha: 0.8 }),
+    backgroundColor: COLORS.TRANSPARENT,
   },
   backIcon: {
-    color: COLORS.convert({ color: COLORS.BLACK, alpha: 0.4 }),
+    // color: COLORS.convert({ color: COLORS.BLACK, alpha: 0.4 }),
+    color: theme.textColor,
   },
 });

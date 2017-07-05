@@ -23,9 +23,13 @@ export default function(id, options = {}) {
             playerVars: {
               start: ${options.start || undefined},
               end: ${options.end || undefined},
+              modestbranding: 1,
               playsinline: 1,
               rel: 0, /* Don't show related videos */
-              modestbranding: 1,
+              showinfo: 0,
+              controls: 0,
+              iv_load_policy: 3,
+              loop: 0,
             },
             events: {
               'onReady': onPlayerReady,
@@ -37,7 +41,7 @@ export default function(id, options = {}) {
 
         /* Autoplay videos */
         function onPlayerReady(event) {
-          /* event.target.playVideo(); */
+          event.target.playVideo();
           event.target.mute();
         }
         /* Error playing video */

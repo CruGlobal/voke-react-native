@@ -38,7 +38,9 @@ class Message extends Component {
     super(props);
 
     this.state = {
+      text: '',
       selectedVideo: null,
+      height: 50,
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
@@ -65,14 +67,27 @@ class Message extends Component {
     // this.props.navigator.setTitle({ title: this.props.name || 'Message' });
   }
 
+  updateSize(height) {
+    this.setState({ height });
+  }
+
   render() {
     // const { messages = [] } = this.props.navigation.state.params;
     const { messages = [] } = this.props;
+
+    let newHeight = {
+      height: this.state.height < 40 ? 40 : this.state.height > 80 ? 80 : this.state.height,
+    };
+
+    let newWrap = {
+      height: this.state.height < 40 ? 50 : this.state.height > 80 ? 90 : this.state.height + 10,
+    };
+
     return (
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === 'android' ? undefined : 'padding'}
-        keyboardVerticalOffset={Platform.OS === 'android' ? undefined : 60}
+        keyboardVerticalOffset={Platform.OS === 'android' ? undefined : 64}
       >
         {
           this.state.selectedVideo ? (
@@ -87,15 +102,18 @@ class Message extends Component {
           items={messages}
           onSelectVideo={(m) => this.setState({ selectedVideo: m })}
         />
-        <Flex direction="row" style={styles.inputWrap} align="center">
+        <Flex direction="row" style={[styles.inputWrap, newWrap]} align="center">
           <TextInput
             onFocus={() => this.list.scrollEnd(true)}
             onBlur={() => this.list.scrollEnd(true)}
             multiline={true}
+            value={this.state.text}
             placeholder="New Message"
+            onChangeText={(text) => this.setState({ text })}
             placeholderTextColor={theme.primaryColor}
             underlineColorAndroid={COLORS.TRANSPARENT}
-            style={styles.chatBox}
+            onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}
+            style={[styles.chatBox, newHeight]}
             autoCorrect={true}
           />
           <Icon name="send" size={22} style={styles.sendIcon} />

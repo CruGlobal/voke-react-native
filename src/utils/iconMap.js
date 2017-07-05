@@ -16,6 +16,7 @@ const icons = {
   'ios-plus-empty': [40],
   'ios-add': [40],
   'android-add': [40],
+  'ios-radio-button-on': [20, theme.primaryColor],
   'md-film': [navIconSize, theme.primaryColor],
   'md-add': [navIconSize, theme.primaryColor],
   'md-person-add': [navIconSize, theme.primaryColor],

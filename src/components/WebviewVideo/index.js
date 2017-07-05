@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { WebView, StyleSheet } from 'react-native';
+import { WebView, StyleSheet, View } from 'react-native';
 
 import { Flex, Text } from '../common';
+import VideoControls from '../../components/VideoControls';
 import { COLORS } from '../../theme';
 
 import common from './common';
@@ -69,18 +70,21 @@ export default class WebviewVideo extends Component {
       );
     }
     return (
-      <WebView
-        ref={(c) => this.webview = c}
-        source={{ html }}
-        style={{}}
-        mediaPlaybackRequiresUserAction={true}
-        allowsInlineMediaPlayback={true}
-        scrollEnabled={false}
-        bounces={false}
-        injectedJavaScript={FIX_POSTMESSAGE}
-        mediaPlaybackRequiresUserAction={false}
-        onMessage={this.handleMessage}
-      />
+      <View style={{flex: 1}}>
+        <WebView
+          ref={(c) => this.webview = c}
+          source={{ html }}
+          style={{}}
+          mediaPlaybackRequiresUserAction={true}
+          allowsInlineMediaPlayback={true}
+          scrollEnabled={false}
+          bounces={false}
+          injectedJavaScript={FIX_POSTMESSAGE}
+          mediaPlaybackRequiresUserAction={false}
+          onMessage={this.handleMessage}
+        />
+        <VideoControls />
+      </View>
     );
   }
 }
