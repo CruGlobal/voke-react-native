@@ -38,7 +38,7 @@ class MessagesList extends Component {
   }
 
   renderRow(message) {
-    return  <MessageItem item={message} />;
+    return  <MessageItem item={message} onSelectVideo={() => this.props.onSelectVideo(message)} />;
   }
 
   scrollEnd(isAnimated) {

@@ -1,6 +1,7 @@
 
 import { StyleSheet } from 'react-native';
 import theme, { COLORS }  from '../../theme';
+import videoUtils from '../../utils/video';
 
 export default StyleSheet.create({
   row: {
@@ -18,6 +19,23 @@ export default StyleSheet.create({
     marginRight: 50,
     marginLeft: 0,
     backgroundColor: theme.lightBackgroundColor,
+  },
+  video: {
+    width: videoUtils.MESSAGE_WIDTH,
+    borderRadius: 8,
+    height: videoUtils.MESSAGE_HEIGHT,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  meVideo: {
+    backgroundColor: theme.secondaryColor,
+  },
+  otherPersonVideo: {
+    backgroundColor: theme.lightBackgroundColor,
+  },
+  playIcon: {
+    backgroundColor: COLORS.TRANSPARENT,
+    color: COLORS.convert({ color: COLORS.WHITE, alpha: 0.75 }),
   },
   vokebot: {
     backgroundColor: COLORS.TRANSPARENT,
@@ -58,7 +76,7 @@ export default StyleSheet.create({
     fontSize: 12,
   },
   triangle: {
-    width: 0,
+    width: 17,
     height: 0,
     marginBottom: 20,
     borderTopWidth: 10,

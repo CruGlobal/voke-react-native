@@ -14,7 +14,7 @@ export default function(id, options = {}) {
 
         var player;
         var paused = false; /* Keep track of whether the video has been paused/resumed */
-        
+
         function onYouTubeIframeAPIReady() {
           player = new YT.Player('player', {
             height: '${common.height}',
@@ -23,8 +23,9 @@ export default function(id, options = {}) {
             playerVars: {
               start: ${options.start || undefined},
               end: ${options.end || undefined},
-              playsinline: 1, 
+              playsinline: 1,
               rel: 0, /* Don't show related videos */
+              modestbranding: 1,
             },
             events: {
               'onReady': onPlayerReady,
@@ -36,7 +37,7 @@ export default function(id, options = {}) {
 
         /* Autoplay videos */
         function onPlayerReady(event) {
-          event.target.playVideo();
+          /* event.target.playVideo(); */
           event.target.mute();
         }
         /* Error playing video */

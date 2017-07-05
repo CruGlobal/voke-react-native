@@ -4,11 +4,12 @@ import { TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { connect } from 'react-redux';
 
 import theme, { COLORS } from '../../theme';
-
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { iconsMap } from '../../utils/iconMap';
 
 import styles from './styles';
+import MessageVideoPlayer from '../MessageVideoPlayer';
+
 import { Flex, Icon } from '../../components/common';
 import MessagesList from '../../components/MessagesList';
 
@@ -35,6 +36,10 @@ class Message extends Component {
   };
   constructor(props) {
     super(props);
+
+    this.state = {
+      selectedVideo: null,
+    };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
@@ -60,7 +65,19 @@ class Message extends Component {
         behavior={Platform.OS === 'android' ? undefined : 'padding'}
         keyboardVerticalOffset={Platform.OS === 'android' ? undefined : 60}
       >
-        <MessagesList ref={(c) => this.list = c} items={messages} />
+        {
+          this.state.selectedVideo ? (
+            <MessageVideoPlayer
+              message={this.state.selectedVideo}
+              onClose={() => this.setState({ selectedVideo: null })}
+            />
+          ) : null
+        }
+        <MessagesList
+          ref={(c) => this.list = c}
+          items={messages}
+          onSelectVideo={(m) => this.setState({ selectedVideo: m })}
+        />
         <Flex direction="row" style={styles.inputWrap} align="center">
           <TextInput
             onFocus={() => this.list.scrollEnd(true)}

@@ -1,15 +1,74 @@
 
 import React, { Component } from 'react';
+import { Image } from 'react-native';
 import PropTypes from 'prop-types';
 
 import styles from './styles';
-import { Flex, Text } from '../common';
+import { Flex, Text, Touchable, Icon } from '../common';
+
 
 class MessageItem extends Component {
+
+  renderText() {
+    const message = this.props.item;
+    const isVoke = message.sender === '3';
+    const isMe = isVoke || message.sender === '1';
+    return (
+      <Flex
+        value={1}
+        style={[
+          styles.row,
+          isMe ? styles.me : styles.otherPerson,
+          isVoke ? styles.vokebot : null,
+        ]}
+        direction="row"
+        align="center"
+        justify="start"
+      >
+        <Text
+          style={[
+            styles.message,
+            isMe ? styles.meText : styles.otherText,
+            isVoke ? styles.vokeText: null,
+          ]}
+        >
+          {message.text}
+        </Text>
+      </Flex>
+    );
+  }
+
+  renderVideo() {
+    const message = this.props.item;
+    const isVoke = message.sender === '3';
+    const isMe = isVoke || message.sender === '1';
+    return (
+      <Flex
+        value={1}
+        direction="row"
+        align="center"
+        justify={isMe ? 'end' : 'start'}
+      >
+        <Touchable onPress={this.props.onSelectVideo}>
+          <Image
+            resizeMode="contain"
+            source={require('../../../images/vokeLogo.png')}
+            style={[
+              styles.video,
+              isMe ? styles.meVideo : styles.otherPersonVideo,
+            ]} >
+            <Icon name="play-circle-filled" size={30} style={styles.playIcon} />
+          </Image>
+        </Touchable>
+      </Flex>
+    );
+  }
+
   render() {
     const message = this.props.item;
     const isVoke = message.sender === '3';
     const isMe = isVoke || message.sender === '1';
+    const isVideo = message.type === 'video';
 
     return (
       <Flex direction="column" style={{margin: 6}}>
@@ -19,29 +78,24 @@ class MessageItem extends Component {
               <Flex self="end" style={styles.avatar}></Flex>
             ) : null
           }
-          { !isMe ? <Flex self="end" style={[styles.triangle, styles.otherTriangle]}></Flex> : null }
           <Flex
-            value={1}
+            self="end"
             style={[
-              styles.row,
-              isMe ? styles.me : styles.otherPerson,
-              isVoke ? styles.vokebot : null,
+              styles.triangle,
+              !isMe && !isVideo ? styles.otherTriangle : null,
             ]}
-            direction="row"
-            align="center"
-            justify="start"
-          >
-            <Text
-              style={[
-                styles.message,
-                isMe ? styles.meText : styles.otherText,
-                isVoke ? styles.vokeText: null,
-              ]}
-            >
-              {message.text}
-            </Text>
-          </Flex>
-          { isMe ? <Flex self="end" style={[styles.triangle, styles.meTriangle, isVoke ? styles.vokeTriangle : null]}></Flex> : null }
+          />
+          {
+            !isVideo ? this.renderText() : this.renderVideo()
+          }
+          <Flex
+            self="end"
+            style={[
+              styles.triangle,
+              isMe && !isVideo ? styles.meTriangle : null,
+              isMe && !isVideo && isVoke ? styles.vokeTriangle : null,
+            ]}
+          />
           {
             isMe ? (<Flex self="end" style={styles.avatar}></Flex>) : null
           }
