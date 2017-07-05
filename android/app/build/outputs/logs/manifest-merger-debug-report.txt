@@ -55,9 +55,6 @@ MERGED from [com.facebook.fbui.textlayoutbuilder:textlayoutbuilder:1.0.0] /Users
 MERGED from [com.facebook.fresco:fresco:1.0.1] /Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.fresco/fresco/1.0.1/AndroidManifest.xml:5:5-7:41
 MERGED from [com.facebook.fresco:drawee:1.0.1] /Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.fresco/drawee/1.0.1/AndroidManifest.xml:5:5-7:41
 MERGED from [com.facebook.fresco:imagepipeline-okhttp3:1.0.1] /Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-okhttp3/1.0.1/AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.fresco:imagepipeline:1.0.1] /Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline/1.0.1/AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.fresco:imagepipeline-base:1.0.1] /Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-base/1.0.1/AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.fresco:fbcore:1.0.1] /Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.fresco/fbcore/1.0.1/AndroidManifest.xml:5:5-7:41
 MERGED from [com.facebook.soloader:soloader:0.1.0] /Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.soloader/soloader/0.1.0/AndroidManifest.xml:2:3-70
 MERGED from [com.aurelhubert:ahbottomnavigation:2.0.6] /Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.aurelhubert/ahbottomnavigation/2.0.6/AndroidManifest.xml:7:5-9:41
 MERGED from [com.android.support:design:25.3.1] /Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/AndroidManifest.xml:21:5-23:62
@@ -74,6 +71,11 @@ MERGED from [com.android.support:animated-vector-drawable:25.3.1] /Users/bryan/D
 MERGED from [com.android.support:support-vector-drawable:25.3.1] /Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.3.1/AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:support-compat:25.3.1] /Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.3.1/AndroidManifest.xml:21:5-23:58
 MERGED from [com.balysv.materialmenu:material-menu:1.5.4] /Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.balysv.materialmenu/material-menu/1.5.4/AndroidManifest.xml:8:5-10:41
+MERGED from [com.facebook.fresco:animated-gif:1.0.1] /Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.fresco/animated-gif/1.0.1/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:animated-base:1.0.1] /Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.fresco/animated-base/1.0.1/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:imagepipeline:1.0.1] /Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline/1.0.1/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:imagepipeline-base:1.0.1] /Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-base/1.0.1/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:fbcore:1.0.1] /Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.fresco/fbcore/1.0.1/AndroidManifest.xml:5:5-7:41
 	tools:overrideLibrary
 		ADDED from [com.android.support:design:25.3.1] /Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/AndroidManifest.xml:23:9-59
 	android:targetSdkVersion

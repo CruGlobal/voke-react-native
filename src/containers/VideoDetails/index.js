@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, StatusBar, ScrollView } from 'react-native';
+import { Alert, View, StatusBar, ScrollView } from 'react-native';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import nav, { NavPropTypes } from '../../actions/navigation_new';
@@ -92,7 +93,23 @@ class VideoDetails extends Component {
           {this.renderContent()}
         </ScrollView>
         <FloatingButtonSingle
-          onSelect={() => this.props.navigatePush('voke.SelectFriend', { url })}
+          onSelect={() => {
+            if (this.props.onVideoShare) {
+              Alert.alert(
+                'Add video to chat?',
+                `Are you sure you want to add ${'video name'} video to your chat?`,
+                [
+                  { text: 'Cancel' },
+                  { text: 'Add', onPress: () => {
+                    this.props.onVideoShare(url);
+                    this.props.navigateBack();
+                  }},
+                ]
+              );
+            } else {
+              this.props.navigatePush('voke.SelectFriend', { url });
+            }
+          }}
         />
       </View>
     );
@@ -101,6 +118,7 @@ class VideoDetails extends Component {
 
 VideoDetails.propTypes = {
   ...NavPropTypes,
+  onVideoShare: PropTypes.func,
 };
 
 export default connect(null, nav)(VideoDetails);

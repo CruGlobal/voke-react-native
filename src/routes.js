@@ -23,6 +23,9 @@ import Message from './containers/Message';
 import VideoDetails from './containers/VideoDetails';
 import SelectFriend from './containers/SelectFriend';
 import Contacts from './containers/Contacts';
+import KickstartersTab from './containers/KickstartersTab';
+import VideosTab from './containers/VideosTab';
+import MessageTabView from './containers/MessageTabView';
 
 
 // TODO: Wrap each of these in a HoC where we inject the navigation actions
@@ -39,6 +42,9 @@ export default function(store, Provider) {
   Navigation.registerComponent('voke.VideoDetails', () => VideoDetails, store, Provider);
   Navigation.registerComponent('voke.SelectFriend', () => SelectFriend, store, Provider);
   Navigation.registerComponent('voke.Contacts', () => Contacts, store, Provider);
+  Navigation.registerComponent('voke.KickstartersTab', () => KickstartersTab, store, Provider);
+  Navigation.registerComponent('voke.VideosTab', () => VideosTab, store, Provider);
+  Navigation.registerComponent('voke.MessageTabView', () => MessageTabView, store, Provider);
 }
 
 

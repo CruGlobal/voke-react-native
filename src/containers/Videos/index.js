@@ -54,7 +54,9 @@ class Videos extends Component {
   }
 
   componentWillMount() {
-    this.props.navigator.setButtons(setButtons());
+    if (!this.props.onVideoShare) {
+      this.props.navigator.setButtons(setButtons());
+    }
   }
 
   render() {
@@ -90,7 +92,16 @@ class Videos extends Component {
         <StatusBar />
         <VideoList
           items={VIDEOS}
-          onSelect={(c) => this.props.navigatePush('voke.VideoDetails', { video: c })}
+          onSelect={(c) => {
+            this.props.navigatePush('voke.VideoDetails', {
+              video: c,
+              // Only pass in this prop when it exists
+              onVideoShare: this.props.onVideoShare ? (v) => {
+                this.props.onVideoShare(v);
+                this.props.navigateBack();
+              } : undefined,
+            });
+          }}
           onRefresh={() => {}}
         />
       </View>

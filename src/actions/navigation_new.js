@@ -12,6 +12,19 @@ const DEFAULT_PROPS = {
     title: 'Select Friend',
     titleImage: require('../../images/vokeLogo.png'),
   },
+  'voke.MessageTabView': {
+    title: 'Add',
+    topTabs: [
+      {
+        screenId: 'voke.KickstartersTab',
+        title: 'Kickstarters',
+      },
+      {
+        screenId: 'voke.VideosTab',
+        title: 'Videos',
+      },
+    ],
+  },
   // 'voke.Message': {},
   'voke.Contacts': { title: 'Contacts' },
   'voke.Profile': { title: 'Profile' },
@@ -26,6 +39,12 @@ function defaultProps(screen, props, passProps) {
   };
   if (screen === 'voke.Message' && passProps.name) {
     newProps.title = passProps.name;
+  }
+  if (screen === 'voke.MessageTabView' && passProps.onSelectKickstarter) {
+    newProps.topTabs[0].passProps = { onSelect: passProps.onSelectKickstarter };
+  }
+  if (screen === 'voke.MessageTabView' && passProps.onSelectVideo) {
+    newProps.topTabs[1].passProps = { onVideoShare: passProps.onSelectVideo };
   }
   return newProps;
 }

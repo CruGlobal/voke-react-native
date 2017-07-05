@@ -47,6 +47,15 @@ class Message extends Component {
     if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
       if (event.id == 'back') {
         this.props.navigateBack();
+      } else if (event.id == 'add') {
+        this.props.navigatePush('voke.MessageTabView', {
+          onSelectKickstarter: () => {
+            console.warn('selected kickstarter in message!');
+          },
+          onSelectVideo: () => {
+            console.warn('selected video in message!');
+          },
+        });
       }
     }
   }

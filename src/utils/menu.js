@@ -2,7 +2,7 @@
 import { logoutAction } from '../actions/auth';
 
 // This is used by the android <MenuButton /> and the iOS <Menu />
-export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin }) {
+export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin } = {}) {
   return [
     {
       id: 'profile',
