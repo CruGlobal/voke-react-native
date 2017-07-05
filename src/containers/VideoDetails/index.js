@@ -84,8 +84,10 @@ class VideoDetails extends Component {
             onChangeState={this.handleVideoChange}
           />
           <View style={styles.backHeader}>
-            <Touchable onPress={() => this.props.navigateBack()}>
-              <Icon name="arrow-back" size={28} style={styles.backIcon} />
+            <Touchable borderless={true} onPress={() => this.props.navigateBack()}>
+              <View>
+                <Icon name="arrow-back" size={28} style={styles.backIcon} />
+              </View>
             </Touchable>
           </View>
         </Flex>

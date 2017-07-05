@@ -57,7 +57,7 @@ class MessageItem extends Component {
               styles.video,
               isMe ? styles.meVideo : styles.otherPersonVideo,
             ]} >
-            <Icon name="play-circle-filled" size={30} style={styles.playIcon} />
+            <Icon name="play-circle-filled" size={40} style={styles.playIcon} />
           </Image>
         </Touchable>
       </Flex>

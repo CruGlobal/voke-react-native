@@ -22,7 +22,7 @@ class MessageVideoPlayer extends Component {
     // console.warn(videoState);
     if (videoState === webviewStates.ERROR) {
       this.props.dispatch(toastAction('There was an error playing the video.'));
-    } else if (videoState === webviewStates.SUCCESS) {
+    } else if (videoState === webviewStates.STARTED) {
       // this.props.dispatch(toastAction('There was an error playing the video.'));
     }
   }
@@ -39,8 +39,10 @@ class MessageVideoPlayer extends Component {
           onChangeState={this.handleVideoChange}
         />
         <View style={styles.backHeader}>
-          <Touchable onPress={onClose}>
-            <Icon name="close" size={28} style={styles.backIcon} />
+          <Touchable borderless={true} onPress={onClose}>
+            <View>
+              <Icon name="close" size={28} style={styles.backIcon} />
+            </View>
           </Touchable>
         </View>
       </Flex>
