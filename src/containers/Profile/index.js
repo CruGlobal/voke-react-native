@@ -38,6 +38,13 @@ class Profile extends Component {
       editName: false,
       editEmail: false,
       editPassword: false,
+      firstName: '',
+      lastName: '',
+      newEmail: '',
+      confirmEmail: '',
+      currentPassword: '',
+      newPassword: '',
+      confirmPassword: '',
     };
 
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
@@ -102,6 +109,8 @@ class Profile extends Component {
             <TextInput
               onFocus={() => {}}
               onBlur={() => {}}
+              value={this.state.firstName}
+              onChangeText={(text) => this.setState({ firstName: text })}
               multiline={false}
               placeholder="First Name"
               placeholderTextColor={COLORS.GREY}
@@ -111,6 +120,8 @@ class Profile extends Component {
             <TextInput
               onFocus={() => {}}
               onBlur={() => {}}
+              onChangeText={(text) => this.setState({ lastName: text })}
+              value={this.state.lastName}
               multiline={false}
               placeholder="Last Name"
               placeholderTextColor={COLORS.GREY}
@@ -119,7 +130,11 @@ class Profile extends Component {
             />
           </Flex>
           <Flex value={1} align="center">
-            <Text style={{color: 'black'}}>SAVE</Text>
+            <Button
+              text="SAVE"
+              style={styles.saveButton}
+              buttonTextStyle={styles.saveButtonText}
+            />
           </Flex>
         </Flex>
       </Flex>
@@ -130,15 +145,17 @@ class Profile extends Component {
     return (
       <Flex direction="column" align="center" justify="center">
         <Flex>
-          <Text style={{color: 'black'}}>Change Email</Text>
+          <Text style={styles.changeTitle}>Change Email</Text>
         </Flex>
         <Flex  direction="row" align="center" justify="center">
           <Flex direction="column" value={3} style={styles.inputRow}>
             <TextInput
               onFocus={() => {}}
               onBlur={() => {}}
+              onChangeText={(text) => this.setState({ newEmail: text })}
+              value={this.state.newEmail}
               multiline={false}
-              placeholder="First Name"
+              placeholder="New Email"
               placeholderTextColor={theme.primaryColor}
               style={styles.inputBox}
               autoCorrect={true}
@@ -146,15 +163,33 @@ class Profile extends Component {
             <TextInput
               onFocus={() => {}}
               onBlur={() => {}}
+              value={this.state.confirmEmail}
+              onChangeText={(text) => this.setState({ confirmEmail: text })}
               multiline={false}
-              placeholder="Last Name"
+              placeholder="Confirm Email"
+              placeholderTextColor={theme.primaryColor}
+              style={styles.inputBox}
+              autoCorrect={true}
+            />
+            <TextInput
+              onFocus={() => {}}
+              onBlur={() => {}}
+              value={this.state.currentPassword}
+              secureTextEntry={true}
+              onChangeText={(text) => this.setState({ currentPassword: text })}
+              multiline={false}
+              placeholder="Password"
               placeholderTextColor={theme.primaryColor}
               style={styles.inputBox}
               autoCorrect={true}
             />
           </Flex>
           <Flex value={1} align="center">
-            <Text style={{color: 'black'}}>SAVE</Text>
+            <Button
+              text="SAVE"
+              style={styles.saveButton}
+              buttonTextStyle={styles.saveButtonText}
+            />
           </Flex>
         </Flex>
       </Flex>
@@ -165,27 +200,47 @@ class Profile extends Component {
     return (
       <Flex direction="column" align="center" justify="center">
         <Flex>
-          <Text style={{color: 'black'}}>Change Password</Text>
+          <Text style={styles.changeTitle}>Change Password</Text>
         </Flex>
         <Flex  direction="row" align="center" justify="center">
           <Flex direction="column" value={3} style={styles.inputRow}>
             <TextInput
               multiline={false}
-              placeholder="First Name"
+              placeholder="Current Password"
+              onChangeText={(text) => this.setState({ currentPassword: text })}
+              secureTextEntry={true}
+              value={this.state.currentPassword}
               placeholderTextColor={theme.primaryColor}
               style={styles.inputBox}
               autoCorrect={true}
             />
             <TextInput
               multiline={false}
-              placeholder="First Name"
+              secureTextEntry={true}
+              placeholder="New Password"
+              onChangeText={(text) => this.setState({ newPassword: text })}
+              value={this.state.newPassword}
+              placeholderTextColor={theme.primaryColor}
+              style={styles.inputBox}
+              autoCorrect={true}
+            />
+            <TextInput
+              multiline={false}
+              placeholder="Confirm New Password"
+              secureTextEntry={true}
+              value={this.state.confirmPassword}
+              onChangeText={(text) => this.setState({ confirmPassword: text })}
               placeholderTextColor={theme.primaryColor}
               style={styles.inputBox}
               autoCorrect={true}
             />
           </Flex>
           <Flex value={1} align="center">
-            <Text style={{color: 'black'}}>SAVE</Text>
+            <Button
+              text="SAVE"
+              style={styles.saveButton}
+              buttonTextStyle={styles.saveButtonText}
+            />
           </Flex>
         </Flex>
       </Flex>

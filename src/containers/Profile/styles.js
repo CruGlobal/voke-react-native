@@ -65,6 +65,13 @@ export default StyleSheet.create({
     borderColor: COLORS.LIGHTEST_GREY,
     borderRadius: 3,
     fontSize: 14,
+    paddingLeft: 10,
     // width: DEFAULT.FULL_WIDTH - 30,
+  },
+  saveButton: {
+    borderColor: theme.primaryColor,
+  },
+  saveButtonText: {
+    color: theme.primaryColor,
   },
 });
