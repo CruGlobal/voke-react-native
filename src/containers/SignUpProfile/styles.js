@@ -13,9 +13,18 @@ export default StyleSheet.create({
   headerTitle: {
     paddingVertical: 10,
     textAlign: 'center',
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 22,
     color: theme.secondaryColor,
+  },
+  photoText: {
+    color: theme.secondaryColor,
+  },
+  imageSelect: {
+    borderWidth: 1,
+    borderColor: theme.textColor,
+    borderRadius: 40,
+    width: 75,
+    height: 75,
   },
   headerText: {
     paddingHorizontal: 50,

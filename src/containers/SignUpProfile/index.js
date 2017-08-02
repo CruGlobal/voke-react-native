@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
+import { Image } from 'react-native';
 import { connect } from 'react-redux';
 
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { iconsMap } from '../../utils/iconMap';
+import ImagePicker from '../../components/ImagePicker';
 import theme from '../../theme';
+import VOKE_LOGO from '../../../images/vokeLogo.png';
 
-import { Flex, Text, Button } from '../../components/common';
+import { Flex, Icon, Text, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 
 function setButtons() {
@@ -32,8 +35,15 @@ class SignUpProfile extends Component {
 
   constructor(props) {
     super(props);
+    this.state= {
+      imageUri: null,
+      firstName: '',
+      lastName: '',
+    };
 
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    this.renderImagePicker = this.renderImagePicker.bind(this);
+    this.handleImageChange = this.handleImageChange.bind(this);
     this.addProfile = this.addProfile.bind(this);
   }
 
@@ -50,8 +60,34 @@ class SignUpProfile extends Component {
     this.props.navigator.setTitle({ title: 'Create Profile' });
   }
 
+  handleImageChange(data) {
+    // TODO: Make API call to update image
+    this.setState({
+      imageUri: data.uri,
+    });
+  }
+
   addProfile() {
     this.props.navigatePush('voke.SignUpNumber');
+  }
+
+  renderImagePicker() {
+    const image = { uri: this.state.imageUri };
+    return (
+      <ImagePicker onSelectImage={this.handleImageChange}>
+        <Flex align="center" justify="center" style={styles.imageSelect}>
+          {
+            this.state.imageUri ? (
+              <Image source={image}>
+              </Image>
+            ) : null
+          }
+          <Flex align="center" justify="center" style={styles.imageCover}>
+            <Text style={styles.photoText}>Photo</Text>
+          </Flex>
+        </Flex>
+      </ImagePicker>
+    );
   }
 
   render() {
@@ -60,9 +96,9 @@ class SignUpProfile extends Component {
         <StatusBar />
         <Flex direction="column" align="center" justify="center" style={styles.headerWrap}>
           <Text style={styles.headerTitle}>Create Profile</Text>
-          <Text style={styles.headerText}>You are moments away from impacting your friends.</Text>
         </Flex>
         <Flex value={1} align="center" justify="center" style={styles.inputs}>
+          {this.renderImagePicker()}
           <Text>Input Box 1</Text>
           <Text>Input Box 2</Text>
           <Button

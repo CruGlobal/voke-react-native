@@ -15,17 +15,49 @@ export default StyleSheet.create({
     paddingHorizontal: 50,
     paddingVertical: 20,
     textAlign: 'center',
+    fontSize: 22,
+    color: theme.secondaryColor,
+  },
+  headerSubText: {
+    textAlign: 'center',
+    paddingHorizontal: 60,
     fontSize: 15,
   },
   inputs: {
     paddingBottom: 50,
   },
+  inputBox: {
+    marginTop: 15,
+    padding: 10,
+    width: DEFAULT.FULL_WIDTH - 110,
+    borderWidth: 1,
+    borderColor: theme.textColor,
+    borderRadius: 5,
+    fontSize: 15,
+  },
   signInButton: {
     fontSize: 16,
+  },
+  legalText: {
+    fontSize: 14,
+    color: theme.secondaryColor,
+    paddingHorizontal: 60,
+    paddingVertical: 30,
+    textAlign: 'center',
   },
   actionButton: {
     marginTop: 15,
     alignItems: 'center',
     width: DEFAULT.FULL_WIDTH - 110,
+  },
+  haveAccountText: {
+    textAlign: 'center',
+    color: theme.secondaryColor,
+  },
+  haveAccount: {
+    paddingLeft: 10,
+  },
+  haveAccountButton: {
+    fontSize: 14,
   },
 });

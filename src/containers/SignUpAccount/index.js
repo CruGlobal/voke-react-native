@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { TextInput, ScrollView, KeyboardAvoidingView } from 'react-native';
 
 
 import styles from './styles';
@@ -33,7 +34,10 @@ class SignUpAccount extends Component {
 
   constructor(props) {
     super(props);
-
+    this.state = {
+      email: '',
+      password: '',
+    };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.createAccount = this.createAccount.bind(this);
   }
@@ -58,25 +62,60 @@ class SignUpAccount extends Component {
 
   render() {
     return (
-      <Flex style={styles.container} value={1} align="center" justify="center">
-        <StatusBar />
-        <Flex direction="column" align="center" justify="center" style={styles.headerWrap}>
-          <Text style={styles.headerText}>Create Account</Text>
-          <Text style={styles.headerText}>You are moments away from impacting your friends.</Text>
-        </Flex>
-        <Flex align="center" justify="center" style={styles.inputs}>
-          <Text>Input Box 1</Text>
-          <Text>Input Box 2</Text>
-          <Flex style={styles.buttonWrapper}>
-            <Button
-              text="Create Free Account"
-              buttonTextStyle={styles.signInButton}
-              style={styles.actionButton}
-              onPress={this.createAccount}
-            />
+      <ScrollView style={styles.container} value={1} align="center" justify="center">
+        <KeyboardAvoidingView
+          behavior="padding"
+        >
+          <StatusBar />
+          <Flex direction="column" align="center" justify="center" style={styles.headerWrap}>
+            <Text style={styles.headerText}>Create Account</Text>
+            <Text style={styles.headerSubText}>You are moments away from impacting your friends.</Text>
           </Flex>
-        </Flex>
-      </Flex>
+          <Flex align="center" justify="center" style={styles.inputs}>
+            <TextInput
+              onFocus={() => {}}
+              onBlur={() => {}}
+              value={this.state.email}
+              onChangeText={(text) => this.setState({ email: text })}
+              multiline={false}
+              placeholder="Email"
+              placeholderTextColor={theme.secondaryColor}
+              style={styles.inputBox}
+              autoCorrect={false}
+            />
+            <TextInput
+              onFocus={() => {}}
+              onBlur={() => {}}
+              value={this.state.password}
+              onChangeText={(text) => this.setState({ password: text })}
+              multiline={false}
+              placeholder="Password"
+              placeholderTextColor={theme.secondaryColor}
+              style={styles.inputBox}
+              autoCorrect={false}
+            />
+            <Flex style={styles.buttonWrapper}>
+              <Button
+                text="Create Account"
+                buttonTextStyle={styles.signInButton}
+                style={styles.actionButton}
+                onPress={this.createAccount}
+              />
+            </Flex>
+            <Text style={styles.legalText}>By creating an account you agree to our Privacy Policy and Terms of Service</Text>
+            <Flex direction="row">
+              <Text style={styles.haveAccountText}>Already have an account? </Text>
+              <Button
+                text="Sign In"
+                type= "transparent"
+                buttonTextStyle={styles.haveAccountButton}
+                style={styles.haveAccount}
+                onPress={this.createAccount}
+              />
+            </Flex>
+          </Flex>
+        </KeyboardAvoidingView>
+      </ScrollView>
     );
   }
 }
