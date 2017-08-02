@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { TextInput } from 'react-native';
 import { connect } from 'react-redux';
 
 
@@ -32,7 +33,9 @@ class SignUpNumber extends Component {
 
   constructor(props) {
     super(props);
-
+    this.state = {
+      phoneNumber: '',
+    };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleNext = this.handleNext.bind(this);
   }
@@ -64,13 +67,25 @@ class SignUpNumber extends Component {
         </Flex>
         <Flex value={1} align="center" justify="center" style={styles.inputs}>
           <Text>Drop down</Text>
-          <Text>Phone Number box</Text>
-          <Button
-            text="Next"
-            buttonTextStyle={styles.signInButton}
-            style={styles.actionButton}
-            onPress={this.handleNext}
+          <TextInput
+            onFocus={() => {}}
+            onBlur={() => {}}
+            value={this.state.phoneNumber}
+            onChangeText={(text) => this.setState({ phoneNumber: text })}
+            multiline={false}
+            placeholder="Your Mobile Number"
+            placeholderTextColor={theme.secondaryColor}
+            style={styles.inputBox}
+            autoCorrect={false}
           />
+          <Flex value={1} align="center" justify="end">
+            <Button
+              text="Next"
+              buttonTextStyle={styles.signInButton}
+              style={styles.actionButton}
+              onPress={this.handleNext}
+            />
+          </Flex>
         </Flex>
       </Flex>
     );

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Platform } from 'react-native';
+import { View, Platform, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
 
@@ -12,7 +12,12 @@ import theme from '../../theme';
 import FloatingButton from '../../components/FloatingButton';
 import { iconsMap } from '../../utils/iconMap';
 import ConversationList from '../../components/ConversationList';
+import { Flex, Text } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
+import BOX from '../../../images/box.gif';
+
+
+const NULL = false;
 
 const CONVERSATIONS = {
   id1: {
@@ -170,11 +175,20 @@ class Home extends Component {
     return (
       <View style={styles.container}>
         <StatusBar />
-        <ConversationList
-          items={CONVERSATIONS}
-          onRefresh={() => {}}
-          onSelect={(c) => this.props.navigatePush('voke.Message', c)}
-        />
+        {
+          !NULL ? (
+            <ConversationList
+              items={CONVERSATIONS}
+              onRefresh={() => {}}
+              onSelect={(c) => this.props.navigatePush('voke.Message', c)}
+            />
+          ) : (
+            <Flex value={1} align="center" justify="center">
+              <Image source={BOX} />
+              <Text>Find a video and share it with a friend</Text>
+            </Flex>
+          )
+        }
         <FloatingButton onSelect={(to) => this.props.navigatePush(to)} />
       </View>
     );

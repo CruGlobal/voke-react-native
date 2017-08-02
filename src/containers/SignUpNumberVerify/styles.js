@@ -13,12 +13,11 @@ export default StyleSheet.create({
   headerTitle: {
     paddingVertical: 10,
     textAlign: 'center',
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 22,
     color: theme.secondaryColor,
   },
   headerText: {
-    paddingHorizontal: 50,
+    paddingHorizontal: 70,
     paddingVertical: 20,
     textAlign: 'center',
     fontSize: 15,
@@ -26,11 +25,25 @@ export default StyleSheet.create({
   inputs: {
     paddingBottom: 50,
   },
+  inputBox: {
+    padding: 10,
+    marginLeft: 10,
+    width: 200,
+    borderWidth: 1,
+    borderColor: theme.textColor,
+    borderRadius: 5,
+    fontSize: 15,
+  },
+  resendCode: {
+    fontSize: 14,
+    paddingTop: 10,
+  },
   signInButton: {
     fontSize: 16,
   },
   actionButton: {
     alignItems: 'center',
-    width: DEFAULT.FULL_WIDTH - 110,
+    width: 125,
+    marginBottom: 30,
   },
 });

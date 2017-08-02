@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image } from 'react-native';
+import { Image, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 
 
@@ -97,16 +97,38 @@ class SignUpProfile extends Component {
         <Flex direction="column" align="center" justify="center" style={styles.headerWrap}>
           <Text style={styles.headerTitle}>Create Profile</Text>
         </Flex>
-        <Flex value={1} align="center" justify="center" style={styles.inputs}>
+        <Flex value={1} align="center" justify="start" style={styles.inputs}>
           {this.renderImagePicker()}
-          <Text>Input Box 1</Text>
-          <Text>Input Box 2</Text>
-          <Button
-            text="Next"
-            buttonTextStyle={styles.signInButton}
-            style={styles.actionButton}
-            onPress={this.addProfile}
+          <TextInput
+            onFocus={() => {}}
+            onBlur={() => {}}
+            value={this.state.firstName}
+            onChangeText={(text) => this.setState({ firstName: text })}
+            multiline={false}
+            placeholder="First Name"
+            placeholderTextColor={theme.secondaryColor}
+            style={styles.inputBox}
+            autoCorrect={false}
           />
+          <TextInput
+            onFocus={() => {}}
+            onBlur={() => {}}
+            value={this.state.lastName}
+            onChangeText={(text) => this.setState({ lastName: text })}
+            multiline={false}
+            placeholder="Last Name"
+            placeholderTextColor={theme.secondaryColor}
+            style={styles.inputBox}
+            autoCorrect={false}
+          />
+          <Flex value={1} align="center" justify="end">
+            <Button
+              text="Next"
+              buttonTextStyle={styles.signInButton}
+              style={styles.actionButton}
+              onPress={this.addProfile}
+            />
+          </Flex>
         </Flex>
       </Flex>
     );

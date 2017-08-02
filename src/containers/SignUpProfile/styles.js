@@ -25,6 +25,7 @@ export default StyleSheet.create({
     borderRadius: 40,
     width: 75,
     height: 75,
+    marginBottom: 20,
   },
   headerText: {
     paddingHorizontal: 50,
@@ -35,11 +36,21 @@ export default StyleSheet.create({
   inputs: {
     paddingBottom: 50,
   },
+  inputBox: {
+    marginTop: 10,
+    padding: 10,
+    width: DEFAULT.FULL_WIDTH - 110,
+    borderWidth: 1,
+    borderColor: theme.textColor,
+    borderRadius: 5,
+    fontSize: 15,
+  },
   signInButton: {
     fontSize: 16,
   },
   actionButton: {
     alignItems: 'center',
-    width: DEFAULT.FULL_WIDTH - 110,
+    width: 125,
+    marginBottom: 30,
   },
 });

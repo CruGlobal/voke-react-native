@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { TextInput } from 'react-native';
 import { connect } from 'react-redux';
 
 
@@ -32,6 +33,9 @@ class SignUpNumberVerify extends Component {
 
   constructor(props) {
     super(props);
+    this.state= {
+      code: '',
+    };
 
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleNext = this.handleNext.bind(this);
@@ -59,17 +63,39 @@ class SignUpNumberVerify extends Component {
       <Flex style={styles.container} value={1} align="center" justify="start">
         <StatusBar />
         <Flex direction="column" align="center" justify="center" style={styles.headerWrap}>
-          <Text style={styles.headerTitle}>Verify Number</Text>
-          <Text style={styles.headerText}>Add your mobile number to invite your friends to a Voke chat via text message</Text>
+          <Text style={styles.headerTitle}>Verification</Text>
+          <Text style={styles.headerText}>Finally, enter the 4-Digit Code you received by TXT so we know you are a human.</Text>
         </Flex>
         <Flex value={1} align="center" justify="center" style={styles.inputs}>
-          <Text>Verify number box</Text>
+          <Flex direction="row" align="center" justify="center">
+            <Text>V-</Text>
+            <TextInput
+              onFocus={() => {}}
+              onBlur={() => {}}
+              value={this.state.code}
+              onChangeText={(text) => this.setState({ code: text })}
+              multiline={false}
+              placeholder="Verification Code"
+              placeholderTextColor={theme.secondaryColor}
+              style={styles.inputBox}
+              autoCorrect={false}
+            />
+          </Flex>
           <Button
-            text="Next"
-            buttonTextStyle={styles.signInButton}
+            text="Resend Code"
+            type="transparent"
+            buttonTextStyle={styles.resendCode}
             style={styles.actionButton}
             onPress={this.handleNext}
           />
+          <Flex value={1} align="center" justify="end">
+            <Button
+              text="Next"
+              buttonTextStyle={styles.signInButton}
+              style={styles.actionButton}
+              onPress={this.handleNext}
+            />
+          </Flex>
         </Flex>
       </Flex>
     );
