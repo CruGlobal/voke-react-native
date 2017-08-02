@@ -5,17 +5,12 @@ import theme, { DEFAULT } from '../../theme';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.primaryColor,
   },
   headerWrap: {
     paddingVertical: 30,
   },
-  headerTitle: {
-    paddingVertical: 10,
-    textAlign: 'center',
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: theme.secondaryColor,
+  onboardingPage: {
+    backgroundColor: theme.primaryColor,
   },
   headerText: {
     paddingHorizontal: 50,
@@ -26,11 +21,16 @@ export default StyleSheet.create({
   inputs: {
     paddingBottom: 50,
   },
-  signInButton: {
-    fontSize: 16,
+  skipButtonText: {
+    fontSize: 14,
   },
   actionButton: {
     alignItems: 'center',
-    width: DEFAULT.FULL_WIDTH - 110,
+    marginBottom: 8,
+    marginRight: 30,
+  },
+  endButton: {
+    alignItems: 'center',
+    marginVertical: 50,
   },
 });

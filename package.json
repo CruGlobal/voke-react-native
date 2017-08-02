@@ -37,6 +37,7 @@
     "react-redux": "^5.0.5",
     "redux": "^3.7.0",
     "redux-persist": "^4.8.0",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "rn-viewpager": "^1.2.3"
   }
 }
