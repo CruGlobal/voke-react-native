@@ -1,4 +1,5 @@
 import Contacts from 'react-native-contacts';
+import { Alert, Linking } from 'react-native';
 import lodashMap from 'lodash/map';
 import lodashFilter from 'lodash/filter';
 
@@ -41,7 +42,7 @@ export function getContacts() {
                   // Helper fields
                   nameLower: name.toLowerCase(),
                   lastNameLetter,
-                  firstNameLetter, 
+                  firstNameLetter,
                 };
               }), (c) => c.phone.length > 0 && !!c.name);
               // console.warn('all', all.length, all);
@@ -55,6 +56,14 @@ export function getContacts() {
           });
         }
         if (permission === 'denied') {
+          Alert.alert(
+            'Voke',
+            'First grant Voke permission to access your contacts. Go to Settings / Voke and allow the permission for Contacts',
+            [
+              {text: 'Cancel', onPress: () => console.warn('canceled')},
+              {text: 'Open Settings', onPress: () => Linking.openURL('app-settings:')}
+            ]
+          );
           reject();
         }
       });
@@ -90,4 +99,3 @@ export function searchContacts(text, onlyVoke = false) {
     })
   );
 }
-

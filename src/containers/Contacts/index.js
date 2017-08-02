@@ -55,7 +55,7 @@ class Contacts extends Component {
     this.props.dispatch(getContacts()).then(() => {
       this.setState({ isLoading: false });
     }).catch(() => {
-      this.props.dispatch(toastAction('There was a problem loading contacts.'));
+      // this.props.dispatch(toastAction('There was a problem loading contacts.'));
     });
   }
 
