@@ -30,6 +30,11 @@ const DEFAULT_PROPS = {
   'voke.Profile': { title: 'Profile' },
   'voke.Acknowledgements': { title: 'Acknowledgements' },
   'voke.About': { title: 'About' },
+  'voke.SignUpAccount': { title: 'Create Account' },
+  'voke.SignUpProfile': { title: 'Create Profile' },
+  'voke.SignUpNumber': { title: 'Mobile Number' },
+  'voke.SignUpNumberVerify': { title: 'Verify Number' },
+  // 'voke.SignUpWelcome': { title: 'Welcome' },
 };
 // Handle default screen things
 function defaultProps(screen, props, passProps) {

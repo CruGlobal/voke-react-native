@@ -38,6 +38,14 @@ const homeScreen = {
 };
 const loginScreen = {
   screen: 'voke.Login',
+  navigatorStyle: {
+    screenBackgroundColor: theme.primaryColor,
+    navBarButtonColor: theme.lightText,
+    navBarTextColor: theme.headerTextColor,
+    navBarBackgroundColor: theme.primaryColor,
+    navBarNoBorder: true,
+    topBarElevationShadowEnabled: false,
+  },
 };
 
 export default class App {

@@ -30,6 +30,7 @@ class Login extends Component {
       this.props.navigateResetHome();
     });
   }
+  
   render() {
     return (
       <Flex style={styles.container} value={1} align="center" justify="center">
@@ -45,7 +46,7 @@ class Login extends Component {
               icon="mail-outline"
               buttonTextStyle={styles.signInButton}
               style={styles.actionButton}
-              onPress={this.login}
+              onPress={() => this.props.navigatePush('voke.SignUpAccount')}
             />
           </Flex>
           <Flex style={styles.buttonWrapper}>

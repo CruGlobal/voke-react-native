@@ -27,6 +27,16 @@ export function logoutAction() {
   );
 }
 
+export function createAccountAction(user, password) {
+  return (dispatch) => (
+    new Promise((resolve) => {
+      // TODO: Sign in request
+      resolve();
+      // dispatch(resetHomeAction());
+    })
+  );
+}
+
 export function toastAction(text) {
   return () => {
     // TODO: Implement an iOS notification
