@@ -6,8 +6,8 @@ import debounce from 'lodash/debounce';
 
 import { iconsMap } from '../../utils/iconMap';
 import styles from './styles';
-import { toastAction } from '../../actions/auth';
-import { getContacts, searchContacts } from '../../actions/contacts';
+// import { toastAction } from '../../actions/auth';
+import { searchContacts } from '../../actions/contacts';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import theme from '../../theme';
 
@@ -51,17 +51,17 @@ class Contacts extends Component {
     this.props.navigator.setButtons(setButtons(this.props.dispatch, this.props.navigatePush));
   }
 
-  getContacts() {
-    this.props.dispatch(getContacts()).then(() => {
-      this.setState({ isLoading: false });
-    }).catch(() => {
-      // this.props.dispatch(toastAction('There was a problem loading contacts.'));
-    });
-  }
+  // getContacts() {
+  //   this.props.dispatch(getContacts()).then(() => {
+  //     this.setState({ isLoading: false });
+  //   }).catch(() => {
+  //     // this.props.dispatch(toastAction('There was a problem loading contacts.'));
+  //   });
+  // }
 
   onNavigatorEvent(event) {
     if (event.id === 'didAppear') {
-      this.getContacts();
+      // this.getContacts();
     } else if (event.id === 'searchQueryChange') {
       const text = event.query || '';
       this.setState({ searchText: text });

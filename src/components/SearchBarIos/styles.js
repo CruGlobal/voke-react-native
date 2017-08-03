@@ -1,6 +1,6 @@
 
 import { StyleSheet } from 'react-native';
-import theme, { COLORS }  from '../../theme';
+import theme, { DEFAULT, COLORS }  from '../../theme';
 
 export default StyleSheet.create({
   inputWrap: {
@@ -9,6 +9,7 @@ export default StyleSheet.create({
     padding: 5,
   },
   searchBox: {
+    width: DEFAULT.FULL_WIDTH - 20,
     height: 30,
     alignItems: 'center',
     color: theme.textColor,
