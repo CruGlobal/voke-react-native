@@ -8,7 +8,7 @@ import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { iconsMap } from '../../utils/iconMap';
 import theme from '../../theme';
 
-import { Flex, Text, Button } from '../../components/common';
+import { Flex, Text, Button, Icon } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 
 function setButtons() {
@@ -35,9 +35,11 @@ class SignUpNumber extends Component {
     super(props);
     this.state = {
       phoneNumber: '',
+      selectedCountry: 'United States (+1)',
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleNext = this.handleNext.bind(this);
+    this.handleCountry = this.handleCountry.bind(this);
   }
 
   onNavigatorEvent(event) {
@@ -57,6 +59,12 @@ class SignUpNumber extends Component {
     this.props.navigatePush('voke.SignUpNumberVerify');
   }
 
+  handleCountry() {
+    // this.props.navigateResetHome();
+    // this.props.navigatePush('voke.SignUpNumberVerify');
+    console.warn('open country select');
+  }
+
   render() {
     return (
       <Flex style={styles.container} value={1} align="center" justify="start">
@@ -66,7 +74,15 @@ class SignUpNumber extends Component {
           <Text style={styles.headerText}>Add your mobile number to invite your friends to a Voke chat via text message</Text>
         </Flex>
         <Flex value={1} align="center" justify="center" style={styles.inputs}>
-          <Text>Drop down</Text>
+          <Button
+            style={styles.dropDown}
+            onPress={this.handleCountry}
+          >
+            <Flex direction="row" align="center">
+              <Text style={styles.countrySelect}>{this.state.selectedCountry}</Text>
+              <Icon name="keyboard-arrow-down" size={30} />
+            </Flex>
+          </Button>
           <TextInput
             onFocus={() => {}}
             onBlur={() => {}}

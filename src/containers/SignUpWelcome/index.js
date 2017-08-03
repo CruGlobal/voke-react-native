@@ -26,12 +26,19 @@ class SignUpWelcome extends Component {
   constructor(props) {
     super(props);
 
+    this.state = { selectedPage: 0 };
+
     this.handleNext = this.handleNext.bind(this);
     this.renderDotIndicator = this.renderDotIndicator.bind(this);
+    this.onPageSelected = this.onPageSelected.bind(this);
   }
 
   handleNext() {
     this.props.navigateResetHome();
+  }
+
+  onPageSelected(params) {
+    this.setState({ selectedPage: params.position });
   }
 
   renderDotIndicator() {
@@ -53,42 +60,16 @@ class SignUpWelcome extends Component {
           <IndicatorViewPager
             style={{height: DEFAULT.FULL_HEIGHT, paddingVertical: 50}}
             indicator={this.renderDotIndicator()}
+            onPageSelected={this.onPageSelected}
           >
             <View style={styles.onboardingPage}>
               <Text style={styles.headerText}>Discover, watch, and share compelling videos</Text>
-              <Flex value={1} align="end" justify="end">
-                <Button
-                  text="Skip"
-                  type="transparent"
-                  buttonTextStyle={styles.skipButtonText}
-                  style={styles.actionButton}
-                  onPress={this.handleNext}
-                />
-              </Flex>
             </View>
             <View style={styles.onboardingPage}>
               <Text style={styles.headerText}>Chat with your friens when they start watching.</Text>
-              <Flex value={1} align="end" justify="end">
-                <Button
-                  text="Skip"
-                  type="transparent"
-                  buttonTextStyle={styles.skipButtonText}
-                  style={styles.actionButton}
-                  onPress={this.handleNext}
-                />
-              </Flex>
             </View>
             <View style={styles.onboardingPage}>
               <Text style={styles.headerText}>Your friends don't need Voke to watch or chat.</Text>
-              <Flex value={1} align="end" justify="end">
-                <Button
-                  text="Skip"
-                  type="transparent"
-                  buttonTextStyle={styles.skipButtonText}
-                  style={styles.actionButton}
-                  onPress={this.handleNext}
-                />
-              </Flex>
             </View>
             <View style={styles.onboardingPage}>
               <Text style={styles.headerText}>Meet Vokebot! He will help you along the way.</Text>
@@ -102,6 +83,17 @@ class SignUpWelcome extends Component {
               </Flex>
             </View>
           </IndicatorViewPager>
+          {
+            this.state.selectedPage === 3 ? null : (
+              <Button
+                text="Skip"
+                type="transparent"
+                buttonTextStyle={styles.skipButtonText}
+                style={styles.skipButton}
+                onPress={this.handleNext}
+              />
+            )
+          }
         </View>
       </View>
     );

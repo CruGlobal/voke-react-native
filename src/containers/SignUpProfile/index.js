@@ -57,7 +57,6 @@ class SignUpProfile extends Component {
 
   componentWillMount() {
     this.props.navigator.setButtons(setButtons());
-    this.props.navigator.setTitle({ title: 'Create Profile' });
   }
 
   handleImageChange(data) {

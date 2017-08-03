@@ -29,6 +29,11 @@ export default StyleSheet.create({
     marginBottom: 8,
     marginRight: 30,
   },
+  skipButton: {
+    position: 'absolute',
+    bottom: 60,
+    right: 40,
+  },
   endButton: {
     alignItems: 'center',
     marginVertical: 50,

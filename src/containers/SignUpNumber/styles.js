@@ -37,6 +37,16 @@ export default StyleSheet.create({
   signInButton: {
     fontSize: 16,
   },
+  dropDown: {
+    width: DEFAULT.FULL_WIDTH - 110,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    alignItems: 'center',
+  },
+  countrySelect: {
+    color: theme.textColor,
+    flex: 1,
+  },
   actionButton: {
     alignItems: 'center',
     marginBottom: 30,
