@@ -16,6 +16,7 @@ export default StyleSheet.create({
     backgroundColor: COLORS.convert({ color: theme.primaryColor, darken: 0.2 }),
     borderRadius: 3,
     fontSize: 15,
+    paddingLeft: 5,
   },
   searchIconWrap: {
     position: 'absolute',

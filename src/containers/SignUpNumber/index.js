@@ -34,12 +34,15 @@ class SignUpNumber extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isCountryOpen: false,
       phoneNumber: '',
-      selectedCountry: 'United States (+1)',
+      selectedCountryCode: '1',
+      selectedCountry: 'United States',
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleNext = this.handleNext.bind(this);
-    this.handleCountry = this.handleCountry.bind(this);
+    this.handleOpenCountry = this.handleOpenCountry.bind(this);
+    this.handleSelectCountry = this.handleSelectCountry.bind(this);
   }
 
   onNavigatorEvent(event) {
@@ -59,13 +62,23 @@ class SignUpNumber extends Component {
     this.props.navigatePush('voke.SignUpNumberVerify');
   }
 
-  handleCountry() {
-    // this.props.navigateResetHome();
-    // this.props.navigatePush('voke.SignUpNumberVerify');
-    console.warn('open country select');
+  handleOpenCountry() {
+    this.props.navigatePush('voke.CountrySelect', {
+      onSelect: this.handleSelectCountry,
+    });
+  }
+
+  handleSelectCountry(country) {
+    if (country && country.name && country.code) {
+      this.setState({
+        selectedCountry: country.name,
+        selectedCountryCode: country.code,
+      });
+    }
   }
 
   render() {
+    const { selectedCountry, selectedCountryCode, phoneNumber } = this.state;
     return (
       <Flex style={styles.container} value={1} align="center" justify="start">
         <StatusBar />
@@ -76,17 +89,19 @@ class SignUpNumber extends Component {
         <Flex value={1} align="center" justify="center" style={styles.inputs}>
           <Button
             style={styles.dropDown}
-            onPress={this.handleCountry}
+            onPress={this.handleOpenCountry}
           >
             <Flex direction="row" align="center">
-              <Text style={styles.countrySelect}>{this.state.selectedCountry}</Text>
+              <Text style={styles.countrySelect}>
+                {selectedCountry} (+{selectedCountryCode})
+              </Text>
               <Icon name="keyboard-arrow-down" size={30} />
             </Flex>
           </Button>
           <TextInput
             onFocus={() => {}}
             onBlur={() => {}}
-            value={this.state.phoneNumber}
+            value={phoneNumber}
             onChangeText={(text) => this.setState({ phoneNumber: text })}
             multiline={false}
             placeholder="Your Mobile Number"

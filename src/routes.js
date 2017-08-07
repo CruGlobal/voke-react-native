@@ -31,6 +31,7 @@ import SignUpProfile from './containers/SignUpProfile';
 import SignUpNumber from './containers/SignUpNumber';
 import SignUpNumberVerify from './containers/SignUpNumberVerify';
 import SignUpWelcome from './containers/SignUpWelcome';
+import CountrySelect from './containers/CountrySelect';
 
 
 // TODO: Wrap each of these in a HoC where we inject the navigation actions
@@ -55,6 +56,7 @@ export default function(store, Provider) {
   Navigation.registerComponent('voke.SignUpNumber', () => SignUpNumber, store, Provider);
   Navigation.registerComponent('voke.SignUpNumberVerify', () => SignUpNumberVerify, store, Provider);
   Navigation.registerComponent('voke.SignUpWelcome', () => SignUpWelcome, store, Provider);
+  Navigation.registerComponent('voke.CountrySelect', () => CountrySelect, store, Provider);
 }
 
 

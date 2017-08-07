@@ -34,7 +34,7 @@ const DEFAULT_PROPS = {
   // 'voke.SignUpProfile': { title: 'Create Profile' },
   // 'voke.SignUpNumber': { title: 'Mobile Number' },
   // 'voke.SignUpNumberVerify': { title: 'Verify Number' },
-  // 'voke.SignUpWelcome': { title: 'Welcome' },
+  'voke.CountrySelect': { title: 'Select Country' },
 };
 // Handle default screen things
 function defaultProps(screen, props, passProps) {

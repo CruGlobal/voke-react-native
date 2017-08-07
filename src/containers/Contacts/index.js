@@ -48,7 +48,7 @@ class Contacts extends Component {
   }
 
   componentWillMount() {
-    this.props.navigator.setButtons(setButtons(this.props.dispatch, this.props.navigatePush));
+    this.props.navigator.setButtons(setButtons());
   }
 
   // getContacts() {
