@@ -14,7 +14,7 @@ import { iconsMap } from '../../utils/iconMap';
 import ConversationList from '../../components/ConversationList';
 import { Flex, Text } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
-import BOX from '../../../images/box.gif';
+import NULL_STATE from '../../../images/video-button.png';
 
 
 const CONVERSATIONS = [
@@ -196,7 +196,7 @@ class Home extends Component {
             />
           ) : (
             <Flex value={1} align="center" justify="center">
-              <Image source={BOX} />
+              <Image style={{marginBottom: 20}} source={NULL_STATE} />
               <Text>Find a video and share it with a friend</Text>
             </Flex>
           )

@@ -5,8 +5,7 @@ import theme, { DEFAULT } from '../../theme';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.darkBackgroundColor,
-    // backgroundColor: theme.primaryColor,
+    backgroundColor: theme.primaryColor,
   },
   actions: {
     paddingBottom: 50,

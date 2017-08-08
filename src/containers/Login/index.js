@@ -9,7 +9,7 @@ import nav, { NavPropTypes } from '../../actions/navigation_new';
 
 import { Flex, Text, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
-import LOGO from '../../../images/vokeLogo.png';
+import LOGO from '../../../images/initial_voke.png';
 
 class Login extends Component {
   static navigatorStyle = {
@@ -30,7 +30,7 @@ class Login extends Component {
       this.props.navigateResetHome();
     });
   }
-  
+
   render() {
     return (
       <Flex style={styles.container} value={1} align="center" justify="center">
