@@ -88,8 +88,7 @@ class Profile extends Component {
     return (
       <ImagePicker onSelectImage={this.handleImageChange}>
         <Flex align="center" justify="center" style={styles.imageSelect}>
-          <Image source={image}>
-          </Image>
+          <Image source={image} />
           <Flex align="center" justify="center" style={styles.imageCover}>
             <Icon name="camera-alt" style={styles.imageIcon} size={30} />
           </Flex>

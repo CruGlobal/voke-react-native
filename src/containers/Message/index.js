@@ -12,6 +12,7 @@ import MessageVideoPlayer from '../MessageVideoPlayer';
 
 import { Flex, Icon } from '../../components/common';
 import MessagesList from '../../components/MessagesList';
+import LoadMore from '../../components/LoadMore';
 
 function setButtons() {
   return {
@@ -41,7 +42,10 @@ class Message extends Component {
       text: '',
       selectedVideo: null,
       height: 50,
+      isLoadingMore: false,
     };
+
+    this.handleLoadMore = this.handleLoadMore.bind(this);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
@@ -67,6 +71,14 @@ class Message extends Component {
     // this.props.navigator.setTitle({ title: this.props.name || 'Message' });
   }
 
+  handleLoadMore() {
+    this.setState({ isLoadingMore: true });
+    console.warn('Making API call to load more');
+    setTimeout(() => {
+      this.setState({ isLoadingMore: false });
+    }, 1000);
+  }
+
   updateSize(height) {
     this.setState({ height });
   }
@@ -82,6 +94,9 @@ class Message extends Component {
     let newWrap = {
       height: this.state.height < 40 ? 50 : this.state.height > 80 ? 90 : this.state.height + 10,
     };
+
+    // TODO: Figure out how to determine this
+    const hasMore = !this.state.selectedVideo && false;
 
     return (
       <KeyboardAvoidingView
@@ -99,6 +114,9 @@ class Message extends Component {
         }
         <MessagesList
           ref={(c) => this.list = c}
+          isLoadingMore={this.state.isLoadingMore}
+          onLoadMore={this.handleLoadMore}
+          hasMore={hasMore}
           items={messages}
           onSelectVideo={(m) => this.setState({ selectedVideo: m })}
         />

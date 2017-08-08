@@ -48,6 +48,7 @@ class TouchableAndroid extends Component {
     }
     return (
       <TouchableNativeFeedback
+        accessibilityTraits="button"
         background={background}
         {...rest}
       />

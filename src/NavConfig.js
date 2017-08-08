@@ -27,7 +27,6 @@ import { iconsLoaded } from './utils/iconMap';
 //   });
 // }
 
-// TODO: Figure out how to put this in ./routes
 const homeScreen = {
   screen: 'voke.Home',
   title: 'Home',
@@ -61,7 +60,6 @@ export default class App {
   }
 
   loadingState() {
-    // TODO: Setup a loading screen
     Navigation.startSingleScreenApp({
       screen: {
         screen: 'voke.Loading',

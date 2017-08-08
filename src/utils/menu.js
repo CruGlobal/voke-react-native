@@ -30,6 +30,11 @@ export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin } = 
       onPress: () => navigatePush && navigatePush('voke.Home'),
     },
     {
+      id: 'select',
+      name: 'Select Friend',
+      onPress: () => navigatePush && navigatePush('voke.SelectFriend'),
+    },
+    {
       id: 'signout',
       name: 'Sign Out',
       onPress: () => {
@@ -37,11 +42,6 @@ export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin } = 
           navigateResetLogin && navigateResetLogin();
         });
       },
-    },
-    {
-      id: 'select',
-      name: 'Select Friend',
-      onPress: () => navigatePush && navigatePush('voke.SelectFriend'),
     },
   ];
 }

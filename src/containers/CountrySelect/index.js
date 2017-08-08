@@ -133,10 +133,8 @@ class CountrySelect extends Component {
       this.setState({ isLoading: false, all: COUNTRIES });
       // Failure
       // this.setState({ isLoading: false });
-    }, 1500);
-
+    }, 500);
   }
-    
 
   search(text) {
     const newText = text.trim().toLowerCase();

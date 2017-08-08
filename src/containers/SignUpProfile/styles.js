@@ -1,37 +1,32 @@
 
 import { StyleSheet } from 'react-native';
-import theme, { DEFAULT } from '../../theme';
+import theme, { DEFAULT, COLORS } from '../../theme';
+
+const IMAGE_SIZE = 100;
 
 export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.primaryColor,
   },
-  headerWrap: {
-    paddingVertical: 30,
-  },
-  headerTitle: {
-    paddingVertical: 10,
-    textAlign: 'center',
-    fontSize: 22,
-    color: theme.secondaryColor,
-  },
-  photoText: {
-    color: theme.secondaryColor,
+  photoIcon: {
+    color: COLORS.convert({ color: COLORS.WHITE, alpha: 0.7 }),
   },
   imageSelect: {
     borderWidth: 1,
-    borderColor: theme.textColor,
-    borderRadius: 40,
-    width: 75,
-    height: 75,
-    marginBottom: 20,
+    backgroundColor: COLORS.convert({ color: theme.secondaryColor, alpha: 0.8 }),
+    borderColor: theme.lightBackgroundColor,
+    borderRadius: IMAGE_SIZE / 2,
+    width: IMAGE_SIZE,
+    height: IMAGE_SIZE,
+    marginBottom: 15,
   },
-  headerText: {
-    paddingHorizontal: 50,
-    paddingVertical: 20,
-    textAlign: 'center',
-    fontSize: 15,
+  image: {
+    height: IMAGE_SIZE,
+    width: IMAGE_SIZE,
+    borderRadius: IMAGE_SIZE / 2,
+    borderWidth: 1,
+    borderColor: theme.lightBackgroundColor,
   },
   inputs: {
     paddingBottom: 50,

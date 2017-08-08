@@ -5,14 +5,11 @@ import { FlatList, View, ListView, TouchableOpacity } from 'react-native';
 import styles from './styles';
 import { SwipeListView } from 'react-native-swipe-list-view';
 
-import theme from '../../theme';
+// import theme from '../../theme';
 
 import { Flex, Icon, Text, Touchable, Separator } from '../common';
 
-function formatConversations(c) {
-  return Object.keys(c).map((k) => c[k]);
-}
-const ITEM_HEIGHT = 60 + theme.separatorHeight;
+// const ITEM_HEIGHT = 60 + theme.separatorHeight;
 
 class ConversationList extends Component { // eslint-disable-line
 
@@ -22,18 +19,33 @@ class ConversationList extends Component { // eslint-disable-line
       rowHasChanged: (r1, r2) => r1 !== r2 || r1.id !== r2.id,
     });
     this.state = {
-      dataSource: ds.cloneWithRows(formatConversations(props.items)),
+      dataSource: ds.cloneWithRows(props.items),
       refreshing: false,
     };
 
     this.handleRefresh = this.handleRefresh.bind(this);
+    this.handleNextPage = this.handleNextPage.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleBlock = this.handleBlock.bind(this);
     this.renderRow = this.renderRow.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      dataSource: formatConversations(nextProps.items),
+      dataSource: this.state.dataSource.cloneWithRows(nextProps.items),
     });
+  }
+
+  handleNextPage() {
+    this.props.onLoadMore();
+  }
+
+  handleDelete(data) {
+    this.props.onDelete(data);
+  }
+
+  handleBlock(data) {
+    this.props.onBlock(data);
   }
 
   handleRefresh() {
@@ -70,7 +82,6 @@ class ConversationList extends Component { // eslint-disable-line
   }
 
   render() {
-    // const conversations = formatConversations(this.props.items);
     return (
       <SwipeListView
         dataSource={this.state.dataSource}
@@ -92,7 +103,7 @@ class ConversationList extends Component { // eslint-disable-line
             <TouchableOpacity
               style={[styles.backRightBtn, styles.backRightBtnRight]}
               onPress={() => {
-                this.handleEdit(data);
+                this.handleBlock(data);
                 rowMap[`${sectionID}${rowID}`] && rowMap[`${sectionID}${rowID}`].closeRow();
               }}
             >
@@ -107,7 +118,7 @@ class ConversationList extends Component { // eslint-disable-line
         pageSize={5}
         enableEmptySections={true}
         onEndReached={this.handleNextPage}
-        onEndReachedThreshold={250}
+        onEndReachedThreshold={50}
         renderSeparator={(sectionID, rowID) => <Separator key={rowID} />}
         rightOpenValue={-130}
         disableLeftSwipe={false}
@@ -135,7 +146,10 @@ class ConversationList extends Component { // eslint-disable-line
 ConversationList.propTypes = {
   onRefresh: PropTypes.func.isRequired, // Redux
   onSelect: PropTypes.func.isRequired, // Redux
-  items: PropTypes.object.isRequired, // Redux
+  onDelete: PropTypes.func.isRequired, // Redux
+  onBlock: PropTypes.func.isRequired, // Redux
+  onLoadMore: PropTypes.func.isRequired, // Redux
+  items: PropTypes.array.isRequired, // Redux
 };
 
 export default ConversationList;

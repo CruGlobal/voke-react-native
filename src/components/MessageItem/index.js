@@ -71,8 +71,12 @@ class MessageItem extends Component {
     const isVideo = message.type === 'video';
 
     return (
-      <Flex direction="column" style={{margin: 6}}>
-        <Flex direction="row" style={{marginHorizontal: 5}} align="center" justify="center">
+      <Flex
+        direction="column"
+        style={{ margin: 6 }}
+        animation="fadeIn"
+      >
+        <Flex direction="row" style={{ marginHorizontal: 5 }} align="center" justify="center">
           {
             !isMe ? (
               <Flex self="end" style={styles.avatar}></Flex>

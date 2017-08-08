@@ -38,7 +38,6 @@ function createUrl(url = '', params) {
 }
 
 function defaultObject(method, obj = {}, data) {
-  // TODO: Clone Deep, use lodash
   let newObj = merge({}, { headers: DEFAULT_HEADERS }, obj, { method: method.toUpperCase() });
   if (data) {
     newObj.body = obj.stringify === false ? data : JSON.stringify(data);

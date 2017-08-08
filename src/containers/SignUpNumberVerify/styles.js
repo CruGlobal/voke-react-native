@@ -7,21 +7,6 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: theme.primaryColor,
   },
-  headerWrap: {
-    paddingVertical: 30,
-  },
-  headerTitle: {
-    paddingVertical: 10,
-    textAlign: 'center',
-    fontSize: 22,
-    color: theme.secondaryColor,
-  },
-  headerText: {
-    paddingHorizontal: 70,
-    paddingVertical: 20,
-    textAlign: 'center',
-    fontSize: 15,
-  },
   inputs: {
     paddingBottom: 50,
   },

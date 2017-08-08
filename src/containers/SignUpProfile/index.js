@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Image, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 
-
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { iconsMap } from '../../utils/iconMap';
@@ -12,6 +11,7 @@ import VOKE_LOGO from '../../../images/vokeLogo.png';
 
 import { Flex, Icon, Text, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
+import SignUpHeader from '../../components/SignUpHeader';
 
 function setButtons() {
   return {
@@ -64,6 +64,7 @@ class SignUpProfile extends Component {
     this.setState({
       imageUri: data.uri,
     });
+    console.warn('image selected');
   }
 
   addProfile() {
@@ -77,13 +78,13 @@ class SignUpProfile extends Component {
         <Flex align="center" justify="center" style={styles.imageSelect}>
           {
             this.state.imageUri ? (
-              <Image source={image}>
-              </Image>
-            ) : null
+              <Image source={image} style={styles.image} />
+            ) : (
+              <Flex align="center" justify="center" style={styles.imageCover}>
+                <Icon name="camera-alt" style={styles.photoIcon} size={32} />
+              </Flex>
+            )
           }
-          <Flex align="center" justify="center" style={styles.imageCover}>
-            <Text style={styles.photoText}>Photo</Text>
-          </Flex>
         </Flex>
       </ImagePicker>
     );
@@ -93,9 +94,7 @@ class SignUpProfile extends Component {
     return (
       <Flex style={styles.container} value={1} align="center" justify="start">
         <StatusBar />
-        <Flex direction="column" align="center" justify="center" style={styles.headerWrap}>
-          <Text style={styles.headerTitle}>Create Profile</Text>
-        </Flex>
+        <SignUpHeader title="Create Profile" />
         <Flex value={1} align="center" justify="start" style={styles.inputs}>
           {this.renderImagePicker()}
           <TextInput

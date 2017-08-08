@@ -1,9 +1,12 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { ListView, Platform } from 'react-native';
+import { View, ListView, Platform } from 'react-native';
+import debounce from 'lodash/debounce';
+
 import styles from './styles';
 import MessageItem from '../MessageItem';
+import Loading from '../Loading';
 
 class MessagesList extends Component {
   constructor(props) {
@@ -16,7 +19,8 @@ class MessagesList extends Component {
       dataSource: ds.cloneWithRows(props.items),
     };
 
-    this.handleRefresh = this.handleRefresh.bind(this);
+    this.handleScroll = this.handleScroll.bind(this);
+    this.handleLoadMore = debounce(this.handleLoadMore.bind(this), 50);
     this.renderRow = this.renderRow.bind(this);
     this.scrollEnd = this.scrollEnd.bind(this);
   }
@@ -29,16 +33,28 @@ class MessagesList extends Component {
     this.scrollEnd(false);
   }
 
-  handleRefresh() {
-    this.setState({ refreshing: true });
-    setTimeout(() => {
-      // this.props.dispatch(newSuggestionAction());
-      this.setState({ refreshing: false });
-    }, 500);
+  // Debounce this function so it doesn't run too many times
+  handleLoadMore() {
+    if (this.props.hasMore && !this.props.isLoadingMore) {
+      this.props.onLoadMore();
+    }
+  }
+
+  handleScroll({ nativeEvent }) {
+    const { contentOffset } = nativeEvent;
+    // This means the user is close to the top of the page
+    if (contentOffset.y <= 10) {
+      this.handleLoadMore();
+    }
   }
 
   renderRow(message) {
-    return  <MessageItem item={message} onSelectVideo={() => this.props.onSelectVideo(message)} />;
+    return (
+      <MessageItem
+        item={message}
+        onSelectVideo={() => this.props.onSelectVideo(message)}
+      />
+    );
   }
 
   scrollEnd(isAnimated) {
@@ -52,10 +68,16 @@ class MessagesList extends Component {
   }
 
   render() {
+    const { isLoadingMore, hasMore } = this.props;
     return (
       <ListView
         ref={(c) => this.listView = c}
+        renderHeader={isLoadingMore ? () => (
+          <View style={{ paddingTop: 15 }}><Loading /></View>
+        ) : undefined}
         enableEmptySections={true}
+        onScroll={hasMore ? this.handleScroll : undefined}
+        scrollEventThrottle={30}
         contentContainerStyle={styles.content}
         dataSource={this.state.dataSource}
         renderRow={this.renderRow}
@@ -65,7 +87,11 @@ class MessagesList extends Component {
 }
 
 MessagesList.propTypes = {
-  items: PropTypes.array.isRequired, // Redux
+  items: PropTypes.array.isRequired,
+  onSelectVideo: PropTypes.func.isRequired,
+  hasMore: PropTypes.bool,
+  isLoadingMore: PropTypes.bool,
+  onLoadMore: PropTypes.func,
 };
 
 export default MessagesList;

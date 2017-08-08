@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, ListView } from 'react-native';
+import { View, FlatList } from 'react-native';
 
 import styles from './styles';
 import { Flex, Touchable, Text, Separator } from '../common';
@@ -9,44 +9,31 @@ import { Flex, Touchable, Text, Separator } from '../common';
 class SettingsList extends Component {
   constructor(props) {
     super(props);
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1.id !== r2.id || r1.name !== r2.name,
-    });
-    this.state = {
-      refreshing: false,
-      dataSource: ds.cloneWithRows(props.items),
-    };
 
     this.renderRow = this.renderRow.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({ dataSource: this.state.dataSource.cloneWithRows(nextProps.items) });
-  }
-
-  renderRow(setting) {
+  renderRow({ item }) {
     return (
-      <Touchable highlight={true} activeOpacity={0.6} onPress={setting.onPress}>
-        <Flex style={styles.row} direction="row" align="center" justify="center">
-          <Flex value={1} direction="column">
-            <Text style={styles.link}>{setting.name}</Text>
-          </Flex>
+      <Touchable highlight={true} activeOpacity={0.6} onPress={item.onPress}>
+        <Flex style={styles.row} direction="row" align="center">
+          <Text style={styles.link}>{item.name}</Text>
         </Flex>
       </Touchable>
     );
   }
 
   render() {
-    // TODO: Change this to a FlatList
     return (
       <View style={styles.container}>
-        <ListView
+        <FlatList
+          initialNumToRender={10}
+          data={this.props.items}
+          ItemSeparatorComponent={() => <Separator style={styles.settingsSeparator} />}
+          renderItem={this.renderRow}
+          keyExtractor={(item) => item.name.replace(/\s/ig, '')}
           style={{ flex: 1 }}
-          renderSeparator={(sectionID, rowID) => <Separator style={styles.settingsSeparator} key={rowID} />}
-          enableEmptySections={true}
           contentContainerStyle={styles.content}
-          dataSource={this.state.dataSource}
-          renderRow={this.renderRow}
         />
       </View>
     );

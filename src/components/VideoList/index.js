@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FlatList, View, Image } from 'react-native';
+import { FlatList, Image } from 'react-native';
 import styles, { THUMBNAIL_HEIGHT } from './styles';
 
 import { Flex, Text, Touchable, Icon } from '../common';
@@ -32,7 +32,12 @@ class VideoList extends Component {
     const video = item;
     return (
       <Touchable highlight={false} activeOpacity={0.8} onPress={() => this.props.onSelect(video)}>
-        <Flex style={styles.container} direction="column" align="start" justify="center">
+        <Flex
+          style={styles.container}
+          direction="column"
+          align="start"
+          justify="center"
+          animation="slideInUp">
           <Image resizeMode="contain" source={require('../../../images/vokeLogo.png')} style={styles.videoThumbnail}>
             <Icon name="play-circle-filled" size={64} style={styles.playIcon} />
           </Image>

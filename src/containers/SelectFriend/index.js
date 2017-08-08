@@ -88,6 +88,13 @@ class SelectFriend extends Component {
   }
 
   renderContent() {
+    if (this.state.isLoading)  {
+      return (
+        <Flex justify="center" value={1}>
+          <Loading />
+        </Flex>
+      );
+    }
     return (
       <Flex style={styles.container} direction="column" align="center" justify="center">
         <Flex justify="center" value={1}>
@@ -133,7 +140,7 @@ class SelectFriend extends Component {
     return (
       <View style={styles.container}>
         <StatusBar />
-        {this.state.isLoading ? <Loading /> : this.renderContent()}
+        {this.renderContent()}
       </View>
     );
   }

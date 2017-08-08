@@ -7,6 +7,10 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.WHITE,
   },
+  content: {
+    borderBottomColor: COLORS.LIGHT_GREY,
+    borderBottomWidth: theme.separatorHeight,
+  },
   row: {
     flex: 1,
     paddingHorizontal: 15,

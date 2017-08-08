@@ -17,10 +17,8 @@ import StatusBar from '../../components/StatusBar';
 import BOX from '../../../images/box.gif';
 
 
-const NULL = false;
-
-const CONVERSATIONS = {
-  id1: {
+const CONVERSATIONS = [
+  {
     id: 'id1',
     name: 'Asher',
     messages: [
@@ -37,7 +35,7 @@ const CONVERSATIONS = {
       { id: '11', sender: '3', text: 'test 4 fdsajklfd sajfkld sajflkds ajfdlksaj fdlskajf dslkajf dslakfj das' },
     ],
   },
-  id2: {
+  {
     id: 'id2',
     name: 'Ben',
     messages: [
@@ -62,33 +60,33 @@ const CONVERSATIONS = {
       { id: '19', text: 'test message 2 - 19' },
     ],
   },
-  id3: { id: 'id3', name: 'Ben', messages: [] },
-  id4: { id: 'id4', name: 'Ben', messages: [] },
-  id5: { id: 'id5', name: 'Ben', messages: [] },
-  id6: { id: 'id6', name: 'Ben', messages: [] },
-  id7: { id: 'id7', name: 'Ben', messages: [] },
-  id8: { id: 'id8', name: 'Ben', messages: [] },
-  id9: { id: 'id9', name: 'Ben', messages: [] },
-  id10: { id: 'id10', name: 'Ben', messages: [] },
-  id11: { id: 'id11', name: 'Ben', messages: [] },
-  id12: { id: 'id12', name: 'Ben', messages: [] },
-  id13: { id: 'id13', name: 'Ben', messages: [] },
-  id14: { id: 'id14', name: 'Ben', messages: [] },
-  id15: { id: 'id15', name: 'Ben', messages: [] },
-  id16: { id: 'id16', name: 'Ben', messages: [] },
-  id17: { id: 'id17', name: 'Ben', messages: [] },
-  id18: { id: 'id18', name: 'Ben', messages: [] },
-  id19: { id: 'id19', name: 'Ben', messages: [] },
-  id20: { id: 'id20', name: 'Ben', messages: [] },
-  id21: { id: 'id21', name: 'Ben', messages: [] },
-  id22: { id: 'id22', name: 'Ben', messages: [] },
-  id23: { id: 'id23', name: 'Ben', messages: [] },
-  id24: { id: 'id24', name: 'Ben', messages: [] },
-  id25: { id: 'id25', name: 'Ben', messages: [] },
-  id26: { id: 'id26', name: 'Ben', messages: [] },
-  id27: { id: 'id27', name: 'Ben', messages: [] },
-  id28: { id: 'id28', name: 'Ben', messages: [] },
-};
+  { id: 'id3', name: 'Ben', messages: [] },
+  { id: 'id4', name: 'Ben', messages: [] },
+  { id: 'id5', name: 'Ben', messages: [] },
+  { id: 'id6', name: 'Ben', messages: [] },
+  { id: 'id7', name: 'Ben', messages: [] },
+  { id: 'id8', name: 'Ben', messages: [] },
+  { id: 'id9', name: 'Ben', messages: [] },
+  { id: 'id10', name: 'Ben', messages: [] },
+  { id: 'id11', name: 'Ben', messages: [] },
+  { id: 'id12', name: 'Ben', messages: [] },
+  { id: 'id13', name: 'Ben', messages: [] },
+  { id: 'id14', name: 'Ben', messages: [] },
+  { id: 'id15', name: 'Ben', messages: [] },
+  { id: 'id16', name: 'Ben', messages: [] },
+  { id: 'id17', name: 'Ben', messages: [] },
+  { id: 'id18', name: 'Ben', messages: [] },
+  { id: 'id19', name: 'Ben', messages: [] },
+  { id: 'id20', name: 'Ben', messages: [] },
+  { id: 'id21', name: 'Ben', messages: [] },
+  { id: 'id22', name: 'Ben', messages: [] },
+  { id: 'id23', name: 'Ben', messages: [] },
+  { id: 'id24', name: 'Ben', messages: [] },
+  { id: 'id25', name: 'Ben', messages: [] },
+  { id: 'id26', name: 'Ben', messages: [] },
+  { id: 'id27', name: 'Ben', messages: [] },
+  { id: 'id28', name: 'Ben', messages: [] },
+];
 
 function setButtons() {
   if (Platform.OS === 'android') {
@@ -130,6 +128,8 @@ class Home extends Component {
   };
   constructor(props) {
     super(props);
+
+    this.handleLoadMore = this.handleLoadMore.bind(this);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
@@ -159,8 +159,6 @@ class Home extends Component {
         Navigation.showModal({
           screen: 'voke.Menu', // unique ID registered with Navigation.registerScreen
           title: 'Settings', // title of the screen as appears in the nav bar (optional)
-          passProps: {}, // simple serializable object that will pass as props to the modal (optional)
-          navigatorStyle: {}, // override the navigator style for the screen, see "Styling the navigator" below (optional)
           animationType: 'slide-up', // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
         });
         // this.props.navigatePush('voke.Menu', {}, { animationType: 'slide-up' });
@@ -171,15 +169,29 @@ class Home extends Component {
     }
   }
 
+  handleLoadMore() {
+    // TODO: Make API call here to load more
+    // if (hasMoreConversations) {
+    //   loadMore();
+    // }
+    console.warn('load more conversations...');
+  }
+
   render() {
+    const hasItems = CONVERSATIONS.length;
+    // const hasItems = false;
+
     return (
       <View style={styles.container}>
         <StatusBar />
         {
-          !NULL ? (
+          hasItems ? (
             <ConversationList
               items={CONVERSATIONS}
               onRefresh={() => {}}
+              onDelete={() => {}}
+              onBlock={() => {}}
+              onLoadMore={this.handleLoadMore}
               onSelect={(c) => this.props.navigatePush('voke.Message', c)}
             />
           ) : (

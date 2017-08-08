@@ -10,6 +10,7 @@ import theme from '../../theme';
 
 import { Flex, Text, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
+import SignUpHeader from '../../components/SignUpHeader';
 
 function setButtons() {
   return {
@@ -33,6 +34,7 @@ class SignUpNumberVerify extends Component {
 
   constructor(props) {
     super(props);
+
     this.state= {
       code: '',
     };
@@ -62,10 +64,10 @@ class SignUpNumberVerify extends Component {
     return (
       <Flex style={styles.container} value={1} align="center" justify="start">
         <StatusBar />
-        <Flex direction="column" align="center" justify="center" style={styles.headerWrap}>
-          <Text style={styles.headerTitle}>Verification</Text>
-          <Text style={styles.headerText}>Finally, enter the 4-Digit Code you received by TXT so we know you are a human.</Text>
-        </Flex>
+        <SignUpHeader
+          title="Verification"
+          description="Finally, enter the 4-Digit Code you received by TXT so we know you are a human."
+        />
         <Flex value={1} align="center" justify="center" style={styles.inputs}>
           <Flex direction="row" align="center" justify="center">
             <Text>V-</Text>

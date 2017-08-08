@@ -18,11 +18,6 @@ export default StyleSheet.create({
     fontSize: 22,
     color: theme.secondaryColor,
   },
-  headerSubText: {
-    textAlign: 'center',
-    paddingHorizontal: 60,
-    fontSize: 15,
-  },
   inputs: {
     paddingBottom: 50,
   },

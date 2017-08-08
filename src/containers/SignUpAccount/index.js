@@ -11,6 +11,7 @@ import theme from '../../theme';
 
 import { Flex, Text, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
+import SignUpHeader from '../../components/SignUpHeader';
 
 function setButtons() {
   return {
@@ -67,10 +68,10 @@ class SignUpAccount extends Component {
           behavior="padding"
         >
           <StatusBar />
-          <Flex direction="column" align="center" justify="center" style={styles.headerWrap}>
-            <Text style={styles.headerText}>Create Account</Text>
-            <Text style={styles.headerSubText}>You are moments away from impacting your friends.</Text>
-          </Flex>
+          <SignUpHeader
+            title="Create Account"
+            description="You are moments away from impacting your friends"
+          />
           <Flex align="center" justify="center" style={styles.inputs}>
             <TextInput
               onFocus={() => {}}

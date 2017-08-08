@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 
 export default class Flex extends Component {
   setNativeProps(nativeProps) {
@@ -34,9 +34,14 @@ export default class Flex extends Component {
       else if (justify === 'between') styleObj.justifyContent = 'space-between';
     }
     return (
-      <View ref={(c) => this._view = c} {...rest} style={[style, styleObj]}>
+      <Animatable.View
+        ref={(c) => this._view = c}
+        duration={400}
+        {...rest}
+        style={[style, styleObj]}
+      >
         {children}
-      </View>
+      </Animatable.View>
     );
   }
 }

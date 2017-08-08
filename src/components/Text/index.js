@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text } from 'react-native';
-
+import * as Animatable from 'react-native-animatable';
 import theme from '../../theme';
 
 export default class MyText extends Component {
@@ -10,9 +10,9 @@ export default class MyText extends Component {
   render() {
     const { children, style, ...rest } = this.props;
     return (
-      <Text ref={(c) => this._text = c} {...rest} style={[styles.text, style]}>
+      <Animatable.Text ref={(c) => this._text = c} {...rest} style={[styles.text, style]}>
         {children}
-      </Text>
+      </Animatable.Text>
     );
   }
 }
