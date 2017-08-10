@@ -1,5 +1,6 @@
 import { REHYDRATE } from 'redux-persist/constants';
 import { LOGIN, LOGOUT } from '../constants';
+// import { REQUESTS } from '../actions/api';
 
 const initialAuthState = {
   token: '',

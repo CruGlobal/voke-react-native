@@ -60,7 +60,7 @@ export default function callApi(requestObject, query = {}, data = {}) {
 
       dispatch({
         query: newQuery,
-        data: typeof data === 'function' ? {} : data,
+        data: data || {},
         type: action.FETCH,
       });
 

@@ -1,3 +1,4 @@
+import merge from 'lodash/merge';
 import lodashForEach from 'lodash/forEach';
 import request from './utils';
 import apiRoutes from './routes';
@@ -30,13 +31,19 @@ import apiRoutes from './routes';
 //   };
 // }
 
+const VALID_METHODS = ['get', 'put', 'post', 'delete'];
+
 // Setup API call
 let API_CALLS = {};
 lodashForEach(apiRoutes, (data, key) => {
   API_CALLS[key] = (q, d) => (
     new Promise((resolve, reject) => {
       const req = data;
-      const method = req.type || 'get';
+      const method = req.method || 'get';
+      if (!VALID_METHODS.includes(method)) {
+        reject('InvalidMethod');
+        return;
+      }
       if (req.beforeCall) {
         const shouldContinueMsg = req.beforeCall(q, d);
         if (shouldContinueMsg !== true) {
@@ -44,12 +51,14 @@ lodashForEach(apiRoutes, (data, key) => {
           return;
         }
       }
+      const authHeader = q.access_token ? { Authorization: `Bearer ${q.access_token}` } : {};
+      const extra = merge({}, req.extra, { headers: authHeader });
       request(
-        req.type || 'get',
+        method,
         req.endpoint,
         q,
         method === 'get' ? undefined : d,
-        req.extra || undefined,
+        extra,
       ).then(resolve).catch(reject);
     })
   );

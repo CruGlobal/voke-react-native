@@ -5,7 +5,7 @@ import { Navigation } from 'react-native-navigation';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import { swapi, swapi2 } from '../../actions/auth';
+import { anonLogin } from '../../actions/auth';
 import { navMenuOptions } from '../../utils/menu';
 
 import theme from '../../theme';
@@ -142,8 +142,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    // this.props.dispatch(swapi());
-    // this.props.dispatch(swapi2());
+    this.props.dispatch(anonLogin());
   }
 
   onNavigatorEvent(event) {
