@@ -52,17 +52,18 @@ export function toastAction(text) {
 export function anonLogin() {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.OAUTH, {}, {
-      code: 'ZMrpmn0',
-      client: {
-        id: 'db6274e05ca47b4eee31b25525eae8a02a1b7e1f0c09f653352782fb8cefcaf4',
-        secret: 'e0c2d30d486fa2254284d978d148036213ec41998b2aa6bcb9986b8833547a21',
-      },
+      // Some data can be set in the REQUESTS object,
+      // so we don't need it in here
+      username: 'duane%40muellerschumm.name',
+      password: 'onthejourney',
     })).then((results) => {
-      console.warn('results', results);
-      dispatch(loginAction(results.access_token.access_token));
-      dispatch(messagesAction());
+      console.warn('auth success', results);
+      dispatch(loginAction(results.access_token));
+      // dispatch(messagesAction());
       // Do something with the results
       return results;
+    }).catch((error) => {
+      console.warn('error logging in', error);
     });
   };
 }

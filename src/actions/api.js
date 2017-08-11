@@ -75,20 +75,7 @@ export default function callApi(requestObject, query = {}, data = {}) {
         }
       }
 
-      API_CALLS[action.name](newQuery, data).then((results) => {
-        let actionResults = results || {};
-        if (action.mapResults) {
-          actionResults = action.mapResults(actionResults, newQuery, data, getState);
-        }
-
-        dispatch({
-          ...(actionResults || {}),
-          query: newQuery,
-          data,
-          type: action.SUCCESS,
-        });
-        resolve(actionResults);
-      }).catch((err) => {
+      const handleError = (err) => {
         if (err) {
           if (typeof err === 'object' && err.code === 'AUTHORIZATION_REQUIRED') {
             dispatch(logoutAction(true));
@@ -102,7 +89,29 @@ export default function callApi(requestObject, query = {}, data = {}) {
           });
         }
         reject(err);
-      });
+      };
+
+      API_CALLS[action.name](newQuery, data).then((results) => {
+        let actionResults = results || {};
+        // If the results have an error object, call this to reject it
+        if (actionResults.error) {
+          handleError(actionResults);
+          return;
+        }
+
+        // If there is a mapping function, call it
+        if (action.mapResults) {
+          actionResults = action.mapResults(actionResults, newQuery, data, getState);
+        }
+
+        dispatch({
+          ...(actionResults || {}),
+          query: newQuery,
+          data,
+          type: action.SUCCESS,
+        });
+        resolve(actionResults);
+      }).catch(handleError);
     })
   );
 }
