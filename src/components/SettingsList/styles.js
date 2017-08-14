@@ -18,8 +18,7 @@ export default StyleSheet.create({
   },
   link: {
     color: theme.darkText,
-    fontSize: 14,
-    fontWeight: 'bold',
+    fontSize: 16,
   },
   settingsSeparator: {
     backgroundColor: COLORS.LIGHT_GREY,

@@ -12,7 +12,7 @@ export default StyleSheet.create({
     backgroundColor: 'white',
   },
   videoDetails: {
-    height: 100, // Set a 
+    height: 100, // Set a
     padding: 10,
   },
   videoThumbnail: {
@@ -28,7 +28,7 @@ export default StyleSheet.create({
   },
   videoTitle: {
     color: theme.primaryColor,
-    fontSize: 18,
+    fontSize: 20,
   },
   videoDescription: {
     paddingTop: 15,

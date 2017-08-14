@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 
 import styles from './styles';
-import { iconsMap } from '../../utils/iconMap';
+// import { iconsMap } from '../../utils/iconMap';
 import theme from '../../theme';
+import HOME_ICON from '../../../images/home_icon.png';
 
 import PillButton from '../../components/PillButton';
 import VideoList from '../../components/VideoList';
@@ -25,7 +26,7 @@ function setButtons() {
   return {
     leftButtons: [{
       id: 'back', // Android implements this already
-      icon: iconsMap['ios-home-outline'], // For iOS only
+      icon: HOME_ICON, // For iOS only
     }],
   };
 }

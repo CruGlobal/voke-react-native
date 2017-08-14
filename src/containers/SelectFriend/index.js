@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { getContacts } from '../../actions/contacts';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import theme from '../../theme';
+import VOKE_BOT from '../../../images/voke_bot_face_large.png';
 
 import { Flex, Text, Loading, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
@@ -102,27 +103,7 @@ class SelectFriend extends Component {
             Select a Friend
           </Text>
         </Flex>
-        <Flex align="center" value={.5}>
-          <Text style={styles.info}>
-            Vokebot found 3 friends in your contacts.
-          </Text>
-          <Text style={styles.info}>
-            Select 1 to kickstart a deeper conversation.
-          </Text>
-        </Flex>
-        <Flex justify="start" align="center" value={2}>
-          <Flex style={styles.vokeBot}>
-          </Flex>
-          { this.renderRandomContacts() }
-          <Flex direction="row" align="center" justify="center" style={styles.orSeparatorWrapper}>
-            <Flex value={2} style={styles.orSeparator} />
-            <Flex value={.5} align="center">
-              <Text style={styles.orText}>OR</Text>
-            </Flex>
-            <Flex value={2} style={styles.orSeparator} />
-          </Flex>
-        </Flex>
-        <Flex value={1.2}>
+        <Flex value={.5}>
           <Button
             onPress={() => this.props.navigatePush('voke.Contacts', {
               onSelect: this.selectContact,
@@ -131,6 +112,17 @@ class SelectFriend extends Component {
             style={styles.randomButton}
             buttonTextStyle={styles.randomText}
           />
+        </Flex>
+        <Flex align="center" justify="center" value={.5} style={styles.vokeBubble}>
+          <Text style={styles.info}>
+            Search your contacts or take a step of faith with...
+          </Text>
+        </Flex>
+        <Flex style={styles.imageWrap} value={.5} align="end" justify="end" >
+          <Image resizeMode="contain" source={VOKE_BOT} style={styles.vokeBot} />
+        </Flex>
+        <Flex justify="start" align="center" value={2}>
+          { this.renderRandomContacts() }
         </Flex>
       </Flex>
     );
@@ -146,6 +138,14 @@ class SelectFriend extends Component {
   }
 }
 
+//OR SEPARATOR
+// <Flex direction="row" align="center" justify="center" style={styles.orSeparatorWrapper}>
+//   <Flex value={2} style={styles.orSeparator} />
+//   <Flex value={.5} align="center">
+//     <Text style={styles.orText}>OR</Text>
+//   </Flex>
+//   <Flex value={2} style={styles.orSeparator} />
+// </Flex>
 
 // Check out actions/navigation_new.js to see the prop types and mapDispatchToProps
 SelectFriend.propTypes = {

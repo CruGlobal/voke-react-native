@@ -8,19 +8,10 @@ export default StyleSheet.create({
     backgroundColor: theme.backgroundColor,
   },
   header: {
-    fontSize: 26,
+    fontSize: 28,
   },
   info: {
     fontSize: 16,
-  },
-  vokeBot: {
-    position: 'absolute',
-    left: 36,
-    top: -15,
-    borderRadius: 18,
-    width: 35,
-    height: 35,
-    backgroundColor: theme.secondaryColor,
   },
   randomButton: {
     alignItems: 'center',
@@ -43,5 +34,18 @@ export default StyleSheet.create({
   orText: {
     color: theme.secondaryColor,
     fontSize: 16,
+  },
+  vokeBubble: {
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: theme.textColor,
+    width: DEFAULT.FULL_WIDTH-120,
+  },
+  imageWrap: {
+    width: DEFAULT.FULL_WIDTH,
+  },
+  vokeBot: {
+    height: 100,
+    marginRight: -50,
   },
 });
