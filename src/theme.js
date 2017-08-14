@@ -28,6 +28,7 @@ export const DEFAULT = {
 export const COLORS = {
   BLUE: '#44c8e8',
   DARK_BLUE: '#186078',
+  OFF_BLUE: '#3295AD',
   ORANGE: '#f96332',
   RED: '#ee2f2f',
   PINK: '#dd4499',
@@ -51,12 +52,14 @@ export const COLORS = {
 
 const PRIMARY = COLORS.BLUE;
 const SECONDARY = COLORS.DARK_BLUE;
+const ACCENT = COLORS.OFF_BLUE;
 
 export default {
   // base theme
   loadingColor: COLORS.WHITE,
   primaryColor: PRIMARY,
   secondaryColor: SECONDARY,
+  accentColor: ACCENT,
   backgroundColor: PRIMARY,
   lightBackgroundColor: COLORS.WHITE,
   darkBackgroundColor: COLORS.BLACK,

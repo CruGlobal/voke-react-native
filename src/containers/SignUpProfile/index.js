@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import { iconsMap } from '../../utils/iconMap';
+// import { iconsMap } from '../../utils/iconMap';
 import ImagePicker from '../../components/ImagePicker';
 import theme from '../../theme';
-import VOKE_LOGO from '../../../images/vokeLogo.png';
+import VOKE_LOGO from '../../../images/nav_voke_logo.png';
+import BACK_ICON from '../../../images/back-arrow.png';
 
 import { Flex, Icon, Text, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
@@ -17,7 +18,7 @@ function setButtons() {
   return {
     leftButtons: [{
       id: 'back', // Android implements this already
-      icon: iconsMap['ios-arrow-back'], // For iOS only
+      icon: BACK_ICON, // For iOS only
     }],
   };
 }
@@ -80,7 +81,7 @@ class SignUpProfile extends Component {
             this.state.imageUri ? (
               <Image source={image} style={styles.image} />
             ) : (
-              <Flex align="center" justify="center" style={styles.imageCover}>
+              <Flex align="center" justify="center">
                 <Icon name="camera-alt" style={styles.photoIcon} size={32} />
               </Flex>
             )
@@ -104,7 +105,7 @@ class SignUpProfile extends Component {
             onChangeText={(text) => this.setState({ firstName: text })}
             multiline={false}
             placeholder="First Name"
-            placeholderTextColor={theme.secondaryColor}
+            placeholderTextColor={theme.accentColor}
             style={styles.inputBox}
             autoCorrect={false}
           />
@@ -115,7 +116,7 @@ class SignUpProfile extends Component {
             onChangeText={(text) => this.setState({ lastName: text })}
             multiline={false}
             placeholder="Last Name"
-            placeholderTextColor={theme.secondaryColor}
+            placeholderTextColor={theme.accentColor}
             style={styles.inputBox}
             autoCorrect={false}
           />

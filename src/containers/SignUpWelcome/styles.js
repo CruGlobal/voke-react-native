@@ -6,6 +6,12 @@ export default StyleSheet.create({
   container: {
     flex: 1,
   },
+  onboardImage: {
+    width: 400,
+    height: DEFAULT.FULL_HEIGHT- 250,
+  },
+  imageWrapper: {
+  },
   headerWrap: {
     paddingVertical: 30,
   },
@@ -16,26 +22,22 @@ export default StyleSheet.create({
     paddingHorizontal: 50,
     paddingVertical: 20,
     textAlign: 'center',
-    fontSize: 15,
-  },
-  inputs: {
-    paddingBottom: 50,
+    fontSize: 18,
   },
   skipButtonText: {
     fontSize: 14,
-  },
-  actionButton: {
-    alignItems: 'center',
-    marginBottom: 8,
-    marginRight: 30,
   },
   skipButton: {
     position: 'absolute',
     bottom: 60,
     right: 40,
   },
+  vokeWrap: {
+    width: DEFAULT.FULL_WIDTH,
+  },
   endButton: {
     alignItems: 'center',
     marginVertical: 50,
+    height: 40,
   },
 });

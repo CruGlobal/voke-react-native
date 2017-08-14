@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import { iconsMap } from '../../utils/iconMap';
+// import { iconsMap } from '../../utils/iconMap';
 import theme from '../../theme';
+import BACK_ICON from '../../../images/back-arrow.png';
 
 import { Flex, Text, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
@@ -16,7 +17,7 @@ function setButtons() {
   return {
     leftButtons: [{
       id: 'back', // Android implements this already
-      icon: iconsMap['ios-arrow-back'], // For iOS only
+      icon: BACK_ICON, // For iOS only
     }],
   };
 }
@@ -78,7 +79,7 @@ class SignUpNumberVerify extends Component {
               onChangeText={(text) => this.setState({ code: text })}
               multiline={false}
               placeholder="Verification Code"
-              placeholderTextColor={theme.secondaryColor}
+              placeholderTextColor={theme.accentColor}
               style={styles.inputBox}
               autoCorrect={false}
             />

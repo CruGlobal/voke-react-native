@@ -6,11 +6,11 @@ import theme from '../theme';
 const DEFAULT_PROPS = {
   'voke.Videos': {
     title: 'Videos',
-    titleImage: require('../../images/vokeLogo.png'),
+    titleImage: require('../../images/nav_voke_logo.png'),
   },
   'voke.SelectFriend': {
     title: 'Select Friend',
-    titleImage: require('../../images/vokeLogo.png'),
+    titleImage: require('../../images/nav_voke_logo.png'),
   },
   'voke.MessageTabView': {
     title: 'Add',

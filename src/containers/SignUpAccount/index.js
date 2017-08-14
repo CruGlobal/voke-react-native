@@ -8,6 +8,7 @@ import { createAccountAction } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { iconsMap } from '../../utils/iconMap';
 import theme from '../../theme';
+import BACK_ICON from '../../../images/back-arrow.png';
 
 import { Flex, Text, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
@@ -17,7 +18,7 @@ function setButtons() {
   return {
     leftButtons: [{
       id: 'back', // Android implements this already
-      icon: iconsMap['ios-arrow-back'], // For iOS only
+      icon: BACK_ICON, // For iOS only
     }],
   };
 }
@@ -72,7 +73,7 @@ class SignUpAccount extends Component {
             title="Create Account"
             description="You are moments away from impacting your friends"
           />
-          <Flex align="center" justify="center" style={styles.inputs}>
+        <Flex value={1} align="center" justify="center" style={styles.inputs}>
             <TextInput
               onFocus={() => {}}
               onBlur={() => {}}
@@ -80,7 +81,7 @@ class SignUpAccount extends Component {
               onChangeText={(text) => this.setState({ email: text })}
               multiline={false}
               placeholder="Email"
-              placeholderTextColor={theme.secondaryColor}
+              placeholderTextColor={theme.accentColor}
               style={styles.inputBox}
               autoCorrect={false}
             />
@@ -91,7 +92,7 @@ class SignUpAccount extends Component {
               onChangeText={(text) => this.setState({ password: text })}
               multiline={false}
               placeholder="Password"
-              placeholderTextColor={theme.secondaryColor}
+              placeholderTextColor={theme.accentColor}
               style={styles.inputBox}
               autoCorrect={false}
             />
@@ -104,7 +105,7 @@ class SignUpAccount extends Component {
               />
             </Flex>
             <Text style={styles.legalText}>By creating an account you agree to our Privacy Policy and Terms of Service</Text>
-            <Flex direction="row">
+            <Flex direction="row" align="end" justify="center" style={styles.accountWrap}>
               <Text style={styles.haveAccountText}>Already have an account? </Text>
               <Button
                 text="Sign In"

@@ -13,6 +13,9 @@ export default StyleSheet.create({
   logoWrapper: {
     width: DEFAULT.FULL_WIDTH,
   },
+  imageWrap: {
+    width: DEFAULT.FULL_WIDTH,
+  },
   buttonWrapper: {
     padding: 5,
   },
@@ -20,15 +23,14 @@ export default StyleSheet.create({
     paddingHorizontal: 50,
     paddingVertical: 20,
     textAlign: 'center',
-    fontSize: 15,
+    fontSize: 16,
   },
   imageLogo: {
     height: 50,
-    width: 150,
   },
   signIn: {
     fontSize: 14,
-    color: theme.secondaryColor,
+    color: theme.accentColor,
     // color: theme.primaryColor,
     paddingRight: 5,
   },
@@ -36,9 +38,13 @@ export default StyleSheet.create({
     paddingTop: 20,
   },
   signInButton: {
+    fontSize: 16,
+  },
+  signInText: {
     fontSize: 14,
   },
   actionButton: {
     width: DEFAULT.FULL_WIDTH - 110,
+    height: 40,
   },
 });

@@ -14,12 +14,12 @@ export default StyleSheet.create({
   },
   imageSelect: {
     borderWidth: 1,
-    backgroundColor: COLORS.convert({ color: theme.secondaryColor, alpha: 0.8 }),
+    backgroundColor: theme.primaryColor,
     borderColor: theme.lightBackgroundColor,
     borderRadius: IMAGE_SIZE / 2,
     width: IMAGE_SIZE,
     height: IMAGE_SIZE,
-    marginBottom: 15,
+    marginBottom: 0,
   },
   image: {
     height: IMAGE_SIZE,

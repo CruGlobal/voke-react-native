@@ -38,4 +38,10 @@ export default StyleSheet.create({
     marginBottom: 30,
     width: 125,
   },
+  sharingText: {
+    fontSize: 16,
+    paddingVertical: 20,
+    paddingHorizontal: 40,
+    textAlign: 'center',
+  },
 });

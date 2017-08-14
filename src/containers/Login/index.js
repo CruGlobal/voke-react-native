@@ -35,8 +35,10 @@ class Login extends Component {
     return (
       <Flex style={styles.container} value={1} align="center" justify="center">
         <StatusBar />
-        <Flex direction="column" value={3} align="center" justify="center" style={styles.logoWrapper}>
-          <Image resizeMode="contain" source={LOGO} style={styles.imageLogo} />
+        <Flex direction="column" value={1} align="center" justify="end" style={styles.logoWrapper}>
+          <Flex style={styles.imageWrap} align="center" justify="center">
+            <Image resizeMode="contain" source={LOGO} style={styles.imageLogo} />
+          </Flex>
           <Text style={styles.headerText}>A free chat app that helps kickstart deeper conversations using thought-provoking videos</Text>
         </Flex>
         <Flex value={1} align="center" justify="center" style={styles.actions}>
@@ -63,7 +65,7 @@ class Login extends Component {
             <Button
               text="Sign In"
               type="transparent"
-              buttonTextStyle={styles.signInButton}
+              buttonTextStyle={styles.signInText}
               onPress={this.login}
             />
           </Flex>

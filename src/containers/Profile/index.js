@@ -6,7 +6,7 @@ import { Flex, Icon, Button, Text, Separator } from '../../components/common';
 import ImagePicker from '../../components/ImagePicker';
 import { iconsMap } from '../../utils/iconMap';
 
-import VOKE_LOGO from '../../../images/vokeLogo.png';
+import VOKE_LOGO from '../../../images/nav_voke_logo.png';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import theme, { COLORS } from '../../theme'
 

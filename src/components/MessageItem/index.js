@@ -52,7 +52,7 @@ class MessageItem extends Component {
         <Touchable onPress={this.props.onSelectVideo}>
           <Image
             resizeMode="contain"
-            source={require('../../../images/vokeLogo.png')}
+            source={require('../../../images/nav_voke_logo.png')}
             style={[
               styles.video,
               isMe ? styles.meVideo : styles.otherPersonVideo,

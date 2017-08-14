@@ -30,7 +30,7 @@ import { iconsLoaded } from './utils/iconMap';
 const homeScreen = {
   screen: 'voke.Home',
   title: 'Home',
-  titleImage: require('../images/vokeLogo.png'),
+  titleImage: require('../images/nav_voke_logo.png'),
   navigatorStyle: {
     screenBackgroundColor: theme.primaryColor,
   },

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { TextInput } from 'react-native';
+import { TextInput, Alert } from 'react-native';
 import { connect } from 'react-redux';
 
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import { iconsMap } from '../../utils/iconMap';
+// import { iconsMap } from '../../utils/iconMap';
 import theme from '../../theme';
+import BACK_ICON from '../../../images/back-arrow.png';
 
 import { Flex, Text, Button, Icon } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
@@ -16,7 +17,7 @@ function setButtons() {
   return {
     leftButtons: [{
       id: 'back', // Android implements this already
-      icon: iconsMap['ios-arrow-back'], // For iOS only
+      icon: BACK_ICON, // For iOS only
     }],
   };
 }
@@ -60,7 +61,16 @@ class SignUpNumber extends Component {
 
   handleNext() {
     // this.props.navigateResetHome();
-    this.props.navigatePush('voke.SignUpNumberVerify');
+    Alert.alert(
+      `Is this your correct number? ${this.state.phoneNumber}`,
+      'A text message with your access code will be sent to this number.',
+      [
+        { text: 'Edit' },
+        { text: 'Yes', onPress: () => {
+          this.props.navigatePush('voke.SignUpNumberVerify');
+        }},
+      ]
+    );
   }
 
   handleOpenCountry() {
@@ -105,11 +115,13 @@ class SignUpNumber extends Component {
             value={phoneNumber}
             onChangeText={(text) => this.setState({ phoneNumber: text })}
             multiline={false}
+            keyboardType="phone-pad"
             placeholder="Your Mobile Number"
-            placeholderTextColor={theme.secondaryColor}
+            placeholderTextColor={theme.accentColor}
             style={styles.inputBox}
             autoCorrect={false}
           />
+          <Text style={styles.sharingText}>We love sharing, but we won't share your number.</Text>
           <Flex value={1} align="center" justify="end">
             <Button
               text="Next"

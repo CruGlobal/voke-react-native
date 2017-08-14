@@ -27,13 +27,13 @@ const styles = StyleSheet.create({
   title: {
     paddingVertical: 10,
     textAlign: 'center',
-    fontSize: 22,
-    color: theme.secondaryColor,
+    fontSize: 28,
+    color: theme.accentColor,
   },
   description: {
     textAlign: 'center',
     paddingHorizontal: 60,
-    fontSize: 15,
+    fontSize: 16,
   },
 });
 

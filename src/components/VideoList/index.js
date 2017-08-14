@@ -38,7 +38,7 @@ class VideoList extends Component {
           align="start"
           justify="center"
           animation="slideInUp">
-          <Image resizeMode="contain" source={require('../../../images/vokeLogo.png')} style={styles.videoThumbnail}>
+          <Image resizeMode="contain" source={require('../../../images/nav_voke_logo.png')} style={styles.videoThumbnail}>
             <Icon name="play-circle-filled" size={64} style={styles.playIcon} />
           </Image>
           <Flex direction="column" align="start" justify="start" style={styles.videoDetails}>

@@ -7,6 +7,8 @@ import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { anonLogin } from '../../actions/auth';
 import { navMenuOptions } from '../../utils/menu';
+import FILM_ICON from '../../../images/video_icon.png';
+import MENU_ICON from '../../../images/menu_icon.png';
 
 import theme from '../../theme';
 import FloatingButton from '../../components/FloatingButton';
@@ -100,7 +102,7 @@ function setButtons() {
       // leftButtons: [{
       //   title: 'Voke',
       //   id: 'logo',
-      //   icon: require('../../../images/vokeLogo.png'),
+      //   icon: require('../../../images/nav_voke_logo.png'),
       // }],
     };
   }
@@ -109,12 +111,12 @@ function setButtons() {
     leftButtons: [{
       title: 'Menu', // for a textual button, provide the button title (label)
       id: 'menu', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-      icon: iconsMap['ios-menu-outline'], // for icon button, provide the local image asset name
+      icon: MENU_ICON, // for icon button, provide the local image asset name
     }],
     rightButtons: [{
       title: 'Videos', // for a textual button, provide the button title (label)
       id: 'video',
-      icon: iconsMap['ios-film-outline'], // for icon button, provide the local image asset name
+      icon: FILM_ICON, // for icon button, provide the local image asset name
     }],
   };
 }
@@ -137,7 +139,7 @@ class Home extends Component {
     this.props.navigator.setButtons(setButtons());
     this.props.navigator.setTitle({
       title: 'Home',
-      titleImage: require('../../../images/vokeLogo.png'),
+      titleImage: require('../../../images/nav_voke_logo.png'),
     });
   }
 

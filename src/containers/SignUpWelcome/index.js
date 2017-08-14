@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 import { connect } from 'react-redux';
 import {PagerTabIndicator, IndicatorViewPager, PagerTitleIndicator, PagerDotIndicator} from 'rn-viewpager';
 
+import ONBOARD_1 from '../../../images/intro_tutorial_videos.png';
+import ONBOARD_2 from '../../../images/intro_tutorial_home.png';
+import ONBOARD_3 from '../../../images/intro_tutorial_chat.png';
+import VOKE_BOT from '../../../images/voke_bot_welcome.png';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
@@ -64,16 +68,32 @@ class SignUpWelcome extends Component {
           >
             <View style={styles.onboardingPage}>
               <Text style={styles.headerText}>Discover, watch, and share compelling videos</Text>
+              <Flex align="center" justify="center">
+                <Image resizeMode="contain" source={ONBOARD_1} style={styles.onboardImage} />
+              </Flex>
             </View>
             <View style={styles.onboardingPage}>
               <Text style={styles.headerText}>Chat with your friens when they start watching.</Text>
+              <Flex align="center" justify="center">
+                <Image resizeMode="contain" source={ONBOARD_2} style={styles.onboardImage} />
+              </Flex>
             </View>
             <View style={styles.onboardingPage}>
               <Text style={styles.headerText}>Your friends don't need Voke to watch or chat.</Text>
+              <Flex value={1} style={styles.imageWrapper} align="center" justify="start">
+                <Image resizeMode="contain" source={ONBOARD_3} style={styles.onboardImage} />
+              </Flex>
             </View>
             <View style={styles.onboardingPage}>
-              <Text style={styles.headerText}>Meet Vokebot! He will help you along the way.</Text>
-              <Flex value={1} align="center" justify="end">
+              <Flex value={1} align="center" justify="start">
+                <Flex value={.4}>
+                  <Text style={styles.headerText}>Meet Vokebot! He will help you along the way.</Text>
+                </Flex>
+                <Flex value={1} justify="start" align="end" style={styles.vokeWrap}>
+                  <Image source={VOKE_BOT} style={styles.vokeBot} />
+                </Flex>
+              </Flex>
+              <Flex value={.3} align="center" justify="end">
                 <Button
                   text="Okay, Got it"
                   buttonTextStyle={styles.skipButtonText}
