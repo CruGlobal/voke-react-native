@@ -13,6 +13,7 @@ import { Navigation } from 'react-native-navigation';
 
 import LoadingScreen from './containers/LoadingScreen';
 import Login from './containers/Login';
+import LoginInput from './containers/LoginInput';
 import Home from './containers/Home';
 import Videos from './containers/Videos';
 import Menu from './containers/Menu';
@@ -38,6 +39,7 @@ import CountrySelect from './containers/CountrySelect';
 export default function(store, Provider) {
   Navigation.registerComponent('voke.Loading', () => LoadingScreen, store, Provider);
   Navigation.registerComponent('voke.Login', () => Login, store, Provider);
+  Navigation.registerComponent('voke.LoginInput', () => LoginInput, store, Provider);
   Navigation.registerComponent('voke.Home', () => Home, store, Provider);
   Navigation.registerComponent('voke.Menu', () => Menu, store, Provider);
   Navigation.registerComponent('voke.Message', () => Message, store, Provider);

@@ -29,13 +29,22 @@ export function logoutAction() {
 }
 
 export function createAccountAction(user, password) {
-  return (dispatch) => (
-    new Promise((resolve) => {
-      // TODO: Sign in request
-      resolve();
-      // dispatch(resetHomeAction());
-    })
-  );
+  return (dispatch) => {
+    return dispatch(callApi(REQUESTS.ME, {}, {
+      // Some data can be set in the REQUESTS object,
+      // so we don't need it in here
+      email: 'ben@ben.com',
+      password: 'password',
+    })).then((results) => {
+      console.warn('create account success', results);
+      // dispatch(loginAction(results.access_token));
+      // dispatch(messagesAction());
+      // Do something with the results
+      return results;
+    }).catch((error) => {
+      console.warn('error creating account', error);
+    });
+  };
 }
 
 export function toastAction(text) {
@@ -49,13 +58,13 @@ export function toastAction(text) {
   };
 }
 
-export function anonLogin() {
+export function anonLogin(username, password) {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.OAUTH, {}, {
       // Some data can be set in the REQUESTS object,
       // so we don't need it in here
-      username: 'duane%40muellerschumm.name',
-      password: 'onthejourney',
+      username: username,
+      password: password,
     })).then((results) => {
       console.warn('auth success', results);
       dispatch(loginAction(results.access_token));

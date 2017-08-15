@@ -6,13 +6,14 @@ import { Navigation } from 'react-native-navigation';
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { anonLogin } from '../../actions/auth';
+import { messagesAction } from '../../actions/messages';
 import { navMenuOptions } from '../../utils/menu';
 import FILM_ICON from '../../../images/video_icon.png';
 import MENU_ICON from '../../../images/menu_icon.png';
 
 import theme from '../../theme';
 import FloatingButton from '../../components/FloatingButton';
-import { iconsMap } from '../../utils/iconMap';
+// import { iconsMap } from '../../utils/iconMap';
 import ConversationList from '../../components/ConversationList';
 import { Flex, Text } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
@@ -145,6 +146,7 @@ class Home extends Component {
 
   componentDidMount() {
     // this.props.dispatch(anonLogin());
+    // this.props.dispatch(messagesAction());
   }
 
   onNavigatorEvent(event) {

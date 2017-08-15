@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 
 import styles from './styles';
-import { loginAction } from '../../actions/auth';
+import { anonLogin } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 
 import { Flex, Text, Button } from '../../components/common';
@@ -23,12 +23,12 @@ class Login extends Component {
   }
 
   login() {
-    this.props.dispatch(loginAction('123', {
-      id: '1',
-      name: 'Bryan Eaton',
-    })).then(() => {
-      this.props.navigateResetHome();
-    });
+    // this.props.dispatch(anonLogin(, {
+    //   id: '1',
+    //   name: 'Bryan Eaton',
+    // })).then(() => {
+    //   this.props.navigateResetHome();
+    // });
   }
 
   render() {
@@ -57,7 +57,7 @@ class Login extends Component {
               buttonTextStyle={styles.signInButton}
               icon="account-box"
               style={styles.actionButton}
-              onPress={this.login}
+              onPress={() => this.props.navigatePush('voke.LoginInput')}
             />
           </Flex>
           <Flex direction="row" align="center" justify="center" style={styles.haveAccount}>

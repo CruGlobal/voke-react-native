@@ -19,7 +19,7 @@ export default {
   //     headers: { 'Content-Type': 'multipart/form-data' }
   //   },
   //   (map the results using all this info)
-  //   mapResults: (results, query, data, getState) => results,    
+  //   mapResults: (results, query, data, getState) => results,
   //   (some default data that will merge with the data passed in)
   //   data: {}
   // },
@@ -36,14 +36,20 @@ export default {
       scope: 'messenger',
     },
     mapResults: mapAuth,
-    extra: {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+  },
+  'ME': {
+    endpoint: API_URL + 'me',
+    anonymous: true,
+    method: 'post',
+    data: {
+      client: {
+        id: CONSTANTS.CLIENT_ID,
+        secret: CONSTANTS.CLIENT_SECRET,
       },
     },
   },
   'MESSAGES': {
     endpoint: `${API_URL}me/conversations/${'4a61be7f-5734-4e7e-bce5-4105a3f32f0f'}/messages`,
-    // mapResults: (results, query, data, getState) => results,    
+    // mapResults: (results, query, data, getState) => results,
   },
 };
