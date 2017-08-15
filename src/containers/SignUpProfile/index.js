@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Image, TextInput } from 'react-native';
+import { Image, TextInput, TouchableOpacity, Keyboard, Alert } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
+import { updateMe } from '../../actions/auth';
 // import { iconsMap } from '../../utils/iconMap';
 import ImagePicker from '../../components/ImagePicker';
 import theme from '../../theme';
@@ -69,7 +70,19 @@ class SignUpProfile extends Component {
   }
 
   addProfile() {
-    this.props.navigatePush('voke.SignUpNumber');
+    const { imageUri, firstName, lastName } = this.state;
+    if (firstName && lastName) {
+      let data = {
+        firstName,
+        lastName,
+        imageUri,
+      };
+      this.props.dispatch(updateMe(data)).then(()=>{
+        this.props.navigatePush('voke.SignUpNumber');
+      });
+    } else {
+      Alert.alert('Please fill in your first and last name', '');
+    }
   }
 
   renderImagePicker() {
@@ -95,40 +108,42 @@ class SignUpProfile extends Component {
     return (
       <Flex style={styles.container} value={1} align="center" justify="start">
         <StatusBar />
-        <SignUpHeader title="Create Profile" />
-        <Flex value={1} align="center" justify="start" style={styles.inputs}>
-          {this.renderImagePicker()}
-          <TextInput
-            onFocus={() => {}}
-            onBlur={() => {}}
-            value={this.state.firstName}
-            onChangeText={(text) => this.setState({ firstName: text })}
-            multiline={false}
-            placeholder="First Name"
-            placeholderTextColor={theme.accentColor}
-            style={styles.inputBox}
-            autoCorrect={false}
-          />
-          <TextInput
-            onFocus={() => {}}
-            onBlur={() => {}}
-            value={this.state.lastName}
-            onChangeText={(text) => this.setState({ lastName: text })}
-            multiline={false}
-            placeholder="Last Name"
-            placeholderTextColor={theme.accentColor}
-            style={styles.inputBox}
-            autoCorrect={false}
-          />
-          <Flex value={1} align="center" justify="end">
-            <Button
-              text="Next"
-              buttonTextStyle={styles.signInButton}
-              style={styles.actionButton}
-              onPress={this.addProfile}
+        <TouchableOpacity activeOpacity={1} onPress={()=> Keyboard.dismiss()}>
+          <SignUpHeader title="Create Profile" />
+          <Flex value={1} align="center" justify="start" style={styles.inputs}>
+            {this.renderImagePicker()}
+            <TextInput
+              onFocus={() => {}}
+              onBlur={() => {}}
+              value={this.state.firstName}
+              onChangeText={(text) => this.setState({ firstName: text })}
+              multiline={false}
+              placeholder="First Name"
+              placeholderTextColor={theme.accentColor}
+              style={styles.inputBox}
+              autoCorrect={false}
             />
+            <TextInput
+              onFocus={() => {}}
+              onBlur={() => {}}
+              value={this.state.lastName}
+              onChangeText={(text) => this.setState({ lastName: text })}
+              multiline={false}
+              placeholder="Last Name"
+              placeholderTextColor={theme.accentColor}
+              style={styles.inputBox}
+              autoCorrect={false}
+            />
+            <Flex value={1} align="center" justify="end">
+              <Button
+                text="Next"
+                buttonTextStyle={styles.signInButton}
+                style={styles.actionButton}
+                onPress={this.addProfile}
+              />
+            </Flex>
           </Flex>
-        </Flex>
+        </TouchableOpacity>
       </Flex>
     );
   }

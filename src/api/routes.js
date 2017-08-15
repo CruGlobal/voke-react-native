@@ -59,6 +59,16 @@ export default {
     },
     mapResults: mapMe,
   },
+  'UPDATE_ME': {
+    endpoint: API_URL + 'me',
+    method: 'put',
+    data: {
+      client: {
+        id: CONSTANTS.CLIENT_ID,
+        secret: CONSTANTS.CLIENT_SECRET,
+      },
+    },
+  },
   'VIDEOS': {
     endpoint: API_URL + 'items',
     method: 'get',

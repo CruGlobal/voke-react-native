@@ -30,6 +30,7 @@ export default StyleSheet.create({
     borderColor: theme.textColor,
     borderRadius: 5,
     fontSize: 16,
+    color: theme.textColor,
   },
   signInButton: {
     fontSize: 16,

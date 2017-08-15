@@ -28,16 +28,16 @@ export function logoutAction() {
   );
 }
 
-export function createAccountAction(user, password) {
+export function createAccountAction(email, password) {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.ME, {}, {
       // Some data can be set in the REQUESTS object,
       // so we don't need it in here
-      email: 'ben@ben.com',
-      password: 'password',
+      email,
+      password,
     })).then((results) => {
       console.warn('create account success', results);
-      // dispatch(loginAction(results.access_token));
+      dispatch(loginAction(results.access_token));
       // dispatch(messagesAction());
       // Do something with the results
       return results;
@@ -86,6 +86,24 @@ export function getMe() {
       return results;
     }).catch((error) => {
       console.warn('error getting me', error);
+    });
+  };
+}
+
+export function updateMe(user) {
+  let data = {
+    me: {
+      first_name: user.firstName,
+      last_name: user.lastName,
+    },
+    avatar: user.imageUri,
+  };
+  return (dispatch) => {
+    return dispatch(callApi(REQUESTS.UPDATE_ME, {}, data)).then((results) => {
+      console.warn('update me successful', results);
+      return results;
+    }).catch((error) => {
+      console.warn('error updating me', error);
     });
   };
 }

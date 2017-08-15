@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { TextInput, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { TextInput, ScrollView, KeyboardAvoidingView, Alert } from 'react-native';
 
 
 import styles from './styles';
@@ -39,9 +39,11 @@ class SignUpAccount extends Component {
     this.state = {
       email: '',
       password: '',
+      emailValidation: false,
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.createAccount = this.createAccount.bind(this);
+    this.checkEmail = this.checkEmail.bind(this);
   }
 
   onNavigatorEvent(event) {
@@ -57,9 +59,20 @@ class SignUpAccount extends Component {
   }
 
   createAccount() {
-    // this.props.dispatch(createAccountAction('email@address.co', 'password')).then(() => {
-    this.props.navigatePush('voke.SignUpProfile');
-    // });
+    if (this.state.emailValidation && this.state.password) {
+      this.props.dispatch(createAccountAction(this.state.email, this.state.password)).then(() => {
+        this.props.navigatePush('voke.SignUpProfile');
+      });
+    } else {
+      Alert.alert('Please enter a valid email and password','');
+    }
+  }
+
+  checkEmail(text) {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(text)) {
+      this.setState({ emailValidation: true });
+    } else { this.setState({ emailValidation: false }); }
+    this.setState({ email: text });
   }
 
   render() {
@@ -73,16 +86,17 @@ class SignUpAccount extends Component {
             title="Create Account"
             description="You are moments away from impacting your friends"
           />
-        <Flex value={1} align="center" justify="center" style={styles.inputs}>
+          <Flex value={1} align="center" justify="center" style={styles.inputs}>
             <TextInput
               onFocus={() => {}}
               onBlur={() => {}}
               value={this.state.email}
-              onChangeText={(text) => this.setState({ email: text })}
+              onChangeText={(text) => this.checkEmail(text)}
               multiline={false}
               placeholder="Email"
               placeholderTextColor={theme.accentColor}
               style={styles.inputBox}
+              autoCapitalize="none"
               autoCorrect={false}
             />
             <TextInput
@@ -95,6 +109,8 @@ class SignUpAccount extends Component {
               placeholderTextColor={theme.accentColor}
               style={styles.inputBox}
               autoCorrect={false}
+              secureTextEntry={true}
+              autoCapitalize="none"
             />
             <Flex style={styles.buttonWrapper}>
               <Button
