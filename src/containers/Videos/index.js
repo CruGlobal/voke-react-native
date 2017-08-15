@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
+import { getVideos } from '../../actions/videos';
 
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 
@@ -58,6 +59,10 @@ class Videos extends Component {
     if (!this.props.onVideoShare) {
       this.props.navigator.setButtons(setButtons());
     }
+  }
+
+  componentDidMount() {
+    this.props.dispatch(getVideos());
   }
 
   render() {
