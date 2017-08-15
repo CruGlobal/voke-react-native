@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { TextInput, Alert } from 'react-native';
+import { TextInput, Alert, TouchableOpacity, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 
+import { createMobileVerification } from '../../actions/auth';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
@@ -60,17 +61,29 @@ class SignUpNumber extends Component {
   }
 
   handleNext() {
-    // this.props.navigateResetHome();
-    Alert.alert(
-      `Is this your correct number? ${this.state.phoneNumber}`,
-      'A text message with your access code will be sent to this number.',
-      [
-        { text: 'Edit' },
-        { text: 'Yes', onPress: () => {
-          this.props.navigatePush('voke.SignUpNumberVerify');
-        }},
-      ]
-    );
+    if (!this.state.phoneNumber) {
+      Alert.alert('Please enter your phone number','');
+    } else {
+      let data = {
+        mobile: {
+          mobile: this.state.selectedCountryCode.concat(this.state.phoneNumber),
+        },
+      };
+      Alert.alert(
+        `Is this your correct number? ${this.state.phoneNumber}`,
+        'A text message with your access code will be sent to this number.',
+        [
+          { text: 'Edit' },
+          { text: 'Yes', onPress: () => {
+            this.props.dispatch(createMobileVerification(data)).then(()=>{
+              this.props.navigatePush('voke.SignUpNumberVerify', {
+                mobile: this.state.selectedCountryCode.concat(this.state.phoneNumber),
+              });
+            });
+          }},
+        ]
+      );
+    }
   }
 
   handleOpenCountry() {
@@ -93,44 +106,48 @@ class SignUpNumber extends Component {
     return (
       <Flex style={styles.container} value={1} align="center" justify="start">
         <StatusBar />
-        <SignUpHeader
-          title="Mobile Number"
-          description="Add your mobile number to invite your friends to a Voke chat via text message"
-        />
-        <Flex value={1} align="center" justify="center" style={styles.inputs}>
-          <Button
-            style={styles.dropDown}
-            onPress={this.handleOpenCountry}
-          >
-            <Flex direction="row" align="center">
-              <Text style={styles.countrySelect}>
-                {selectedCountry} (+{selectedCountryCode})
-              </Text>
-              <Icon name="keyboard-arrow-down" size={30} />
-            </Flex>
-          </Button>
-          <TextInput
-            onFocus={() => {}}
-            onBlur={() => {}}
-            value={phoneNumber}
-            onChangeText={(text) => this.setState({ phoneNumber: text })}
-            multiline={false}
-            keyboardType="phone-pad"
-            placeholder="Your Mobile Number"
-            placeholderTextColor={theme.accentColor}
-            style={styles.inputBox}
-            autoCorrect={false}
+        <TouchableOpacity activeOpacity={1} onPress={()=> Keyboard.dismiss()}>
+          <SignUpHeader
+            title="Mobile Number"
+            description="Add your mobile number to invite your friends to a Voke chat via text message"
           />
-          <Text style={styles.sharingText}>We love sharing, but we won't share your number.</Text>
-          <Flex value={1} align="center" justify="end">
+          <Flex value={1} align="center" justify="center" style={styles.inputs}>
             <Button
-              text="Next"
-              buttonTextStyle={styles.signInButton}
-              style={styles.actionButton}
-              onPress={this.handleNext}
+              style={styles.dropDown}
+              onPress={this.handleOpenCountry}
+            >
+              <Flex direction="row" align="center">
+                <Text style={styles.countrySelect}>
+                  {selectedCountry} (+{selectedCountryCode})
+                </Text>
+                <Icon name="keyboard-arrow-down" size={30} />
+              </Flex>
+            </Button>
+            <TextInput
+              onFocus={() => {}}
+              onBlur={() => {}}
+              value={phoneNumber}
+              onChangeText={(text) => this.setState({ phoneNumber: text })}
+              multiline={false}
+              keyboardType="phone-pad"
+              placeholder="Your Mobile Number"
+              placeholderTextColor={theme.accentColor}
+              style={styles.inputBox}
+              autoCorrect={false}
+              onSubmitEditing={this.handleNext}
+              returnKeyType= "send"
             />
+            <Text style={styles.sharingText}>We love sharing, but we won't share your number.</Text>
+            <Flex value={1} align="center" justify="end">
+              <Button
+                text="Next"
+                buttonTextStyle={styles.signInButton}
+                style={styles.actionButton}
+                onPress={this.handleNext}
+              />
+            </Flex>
           </Flex>
-        </Flex>
+        </TouchableOpacity>
       </Flex>
     );
   }

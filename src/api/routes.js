@@ -69,6 +69,26 @@ export default {
       },
     },
   },
+  'CREATE_MOBILE_VERIFICATION': {
+    endpoint: API_URL + 'me/mobile',
+    method: 'post',
+    data: {
+      client: {
+        id: CONSTANTS.CLIENT_ID,
+        secret: CONSTANTS.CLIENT_SECRET,
+      },
+    },
+  },
+  'VERIFY_MOBILE': {
+    endpoint: API_URL + 'me/mobile',
+    method: 'put',
+    data: {
+      client: {
+        id: CONSTANTS.CLIENT_ID,
+        secret: CONSTANTS.CLIENT_SECRET,
+      },
+    },
+  },
   'VIDEOS': {
     endpoint: API_URL + 'items',
     method: 'get',

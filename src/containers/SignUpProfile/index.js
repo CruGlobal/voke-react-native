@@ -73,9 +73,11 @@ class SignUpProfile extends Component {
     const { imageUri, firstName, lastName } = this.state;
     if (firstName && lastName) {
       let data = {
-        firstName,
-        lastName,
-        imageUri,
+        me: {
+          first_name: firstName,
+          last_name: lastName,
+        },
+        avatar: imageUri,
       };
       this.props.dispatch(updateMe(data)).then(()=>{
         this.props.navigatePush('voke.SignUpNumber');

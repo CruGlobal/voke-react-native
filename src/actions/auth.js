@@ -90,20 +90,35 @@ export function getMe() {
   };
 }
 
-export function updateMe(user) {
-  let data = {
-    me: {
-      first_name: user.firstName,
-      last_name: user.lastName,
-    },
-    avatar: user.imageUri,
-  };
+export function updateMe(data) {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.UPDATE_ME, {}, data)).then((results) => {
       console.warn('update me successful', results);
       return results;
     }).catch((error) => {
       console.warn('error updating me', error);
+    });
+  };
+}
+
+export function createMobileVerification(data) {
+  return (dispatch) => {
+    return dispatch(callApi(REQUESTS.CREATE_MOBILE_VERIFICATION, {}, data)).then((results) => {
+      console.warn('Verify mobile request successfully sent', results);
+      return results;
+    }).catch((error) => {
+      console.warn('error sending verification for mobile number', error);
+    });
+  };
+}
+
+export function verifyMobile(data) {
+  return (dispatch) => {
+    return dispatch(callApi(REQUESTS.VERIFY_MOBILE, {}, data)).then((results) => {
+      console.warn('Mobile successfully verified', results);
+      return results;
+    }).catch((error) => {
+      console.warn('error verifying mobile', error);
     });
   };
 }
