@@ -144,7 +144,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(anonLogin());
+    // this.props.dispatch(anonLogin());
   }
 
   onNavigatorEvent(event) {

@@ -31,7 +31,6 @@ export default StyleSheet.create({
     fontSize: 20,
   },
   videoDescription: {
-    paddingTop: 15,
     color: theme.darkText,
     fontSize: 16,
   },

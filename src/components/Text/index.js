@@ -23,5 +23,6 @@ MyText.defaultProps = { ...Text.defaultProps };
 const styles = StyleSheet.create({
   text: {
     color: theme.textColor,
+    fontFamily: 'TitilliumWeb-Regular',
   },
 });
