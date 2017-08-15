@@ -18,7 +18,7 @@ import ConversationList from '../../components/ConversationList';
 import { Flex, Text } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import NULL_STATE from '../../../images/video-button.png';
-
+import VOKE from '../../../images/voke_null_state.png';
 
 const CONVERSATIONS = [
   {
@@ -64,31 +64,31 @@ const CONVERSATIONS = [
     ],
   },
   { id: 'id3', name: 'Ben', messages: [] },
-  { id: 'id4', name: 'Ben', messages: [] },
-  { id: 'id5', name: 'Ben', messages: [] },
-  { id: 'id6', name: 'Ben', messages: [] },
-  { id: 'id7', name: 'Ben', messages: [] },
-  { id: 'id8', name: 'Ben', messages: [] },
-  { id: 'id9', name: 'Ben', messages: [] },
-  { id: 'id10', name: 'Ben', messages: [] },
-  { id: 'id11', name: 'Ben', messages: [] },
-  { id: 'id12', name: 'Ben', messages: [] },
-  { id: 'id13', name: 'Ben', messages: [] },
-  { id: 'id14', name: 'Ben', messages: [] },
-  { id: 'id15', name: 'Ben', messages: [] },
-  { id: 'id16', name: 'Ben', messages: [] },
-  { id: 'id17', name: 'Ben', messages: [] },
-  { id: 'id18', name: 'Ben', messages: [] },
-  { id: 'id19', name: 'Ben', messages: [] },
-  { id: 'id20', name: 'Ben', messages: [] },
-  { id: 'id21', name: 'Ben', messages: [] },
-  { id: 'id22', name: 'Ben', messages: [] },
-  { id: 'id23', name: 'Ben', messages: [] },
-  { id: 'id24', name: 'Ben', messages: [] },
-  { id: 'id25', name: 'Ben', messages: [] },
-  { id: 'id26', name: 'Ben', messages: [] },
-  { id: 'id27', name: 'Ben', messages: [] },
-  { id: 'id28', name: 'Ben', messages: [] },
+  // { id: 'id4', name: 'Ben', messages: [] },
+  // { id: 'id5', name: 'Ben', messages: [] },
+  // { id: 'id6', name: 'Ben', messages: [] },
+  // { id: 'id7', name: 'Ben', messages: [] },
+  // { id: 'id8', name: 'Ben', messages: [] },
+  // { id: 'id9', name: 'Ben', messages: [] },
+  // { id: 'id10', name: 'Ben', messages: [] },
+  // { id: 'id11', name: 'Ben', messages: [] },
+  // { id: 'id12', name: 'Ben', messages: [] },
+  // { id: 'id13', name: 'Ben', messages: [] },
+  // { id: 'id14', name: 'Ben', messages: [] },
+  // { id: 'id15', name: 'Ben', messages: [] },
+  // { id: 'id16', name: 'Ben', messages: [] },
+  // { id: 'id17', name: 'Ben', messages: [] },
+  // { id: 'id18', name: 'Ben', messages: [] },
+  // { id: 'id19', name: 'Ben', messages: [] },
+  // { id: 'id20', name: 'Ben', messages: [] },
+  // { id: 'id21', name: 'Ben', messages: [] },
+  // { id: 'id22', name: 'Ben', messages: [] },
+  // { id: 'id23', name: 'Ben', messages: [] },
+  // { id: 'id24', name: 'Ben', messages: [] },
+  // { id: 'id25', name: 'Ben', messages: [] },
+  // { id: 'id26', name: 'Ben', messages: [] },
+  // { id: 'id27', name: 'Ben', messages: [] },
+  // { id: 'id28', name: 'Ben', messages: [] },
 ];
 
 function setButtons() {
@@ -184,6 +184,7 @@ class Home extends Component {
     const hasItems = CONVERSATIONS.length;
     // const hasItems = false;
 
+
     return (
       <View style={styles.container}>
         <StatusBar />
@@ -203,6 +204,11 @@ class Home extends Component {
               <Text>Find a video and share it with a friend</Text>
             </Flex>
           )
+        }
+        {
+          hasItems <= 3 ?  (
+            <Image style={styles.vokeBot} source={VOKE} />
+          ) : null
         }
         <FloatingButton onSelect={(to) => this.props.navigatePush(to)} />
       </View>

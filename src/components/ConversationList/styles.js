@@ -22,8 +22,8 @@ export default StyleSheet.create({
     padding: 2,
   },
   avatar: {
-    height: 25,
-    width: 25,
+    height: 28,
+    width: 28,
     borderRadius: 15,
     backgroundColor: 'white',
   },

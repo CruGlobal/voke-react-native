@@ -67,12 +67,25 @@ export function anonLogin(username, password) {
       password: password,
     })).then((results) => {
       console.warn('auth success', results);
-      dispatch(loginAction(results.access_token));
+      dispatch(loginAction(results.access_token)).then(()=>{
+        dispatch(getMe());
+      });
       // dispatch(messagesAction());
       // Do something with the results
       return results;
     }).catch((error) => {
       console.warn('error logging in', error);
+    });
+  };
+}
+
+export function getMe() {
+  return (dispatch) => {
+    return dispatch(callApi(REQUESTS.GET_ME, {}, {})).then((results) => {
+      console.warn('get me successful', results);
+      return results;
+    }).catch((error) => {
+      console.warn('error getting me', error);
     });
   };
 }

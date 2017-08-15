@@ -20,11 +20,6 @@ function setButtons() {
   };
 }
 
-const user = {
-  fullName: 'Ben Gauthier',
-  email: 'ben@ben.com',
-};
-
 class Profile extends Component {
 
   static navigatorStyle = {
@@ -59,6 +54,7 @@ class Profile extends Component {
 
   componentWillMount() {
     this.props.navigator.setButtons(setButtons());
+    console.warn(JSON.stringify(this.props.user));
   }
 
   onNavigatorEvent(event) {
@@ -249,6 +245,7 @@ class Profile extends Component {
 
   render() {
     const { editName, editEmail, editPassword } = this.state;
+    const { user } = this.props;
 
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={50}>
@@ -272,7 +269,7 @@ class Profile extends Component {
                     <Flex direction="row" align="center" justify="center" style={{padding: 2, paddingHorizontal: 20}}>
                       <Flex direction="row" align="center" justify="start" value={1}>
                         <Icon style={styles.inputIcon} name="person" size={20} />
-                        <Text style={styles.buttonText}>{user.fullName}</Text>
+                        <Text style={styles.buttonText}>{user.email}</Text>
                       </Flex>
                       <Button
                         text={editName ? 'cancel' : 'edit'}
@@ -352,4 +349,8 @@ Profile.propTypes = {
   ...NavPropTypes,
 };
 
-export default connect(null, nav)(Profile);
+const mapStateToProps = ({ auth }) => ({
+  user: auth.user,
+});
+
+export default connect(mapStateToProps, nav)(Profile);

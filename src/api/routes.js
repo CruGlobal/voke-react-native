@@ -1,5 +1,5 @@
 import { API_URL, AUTH_URL } from './utils';
-import { mapAuth } from './mapping';
+import { mapAuth, mapMe } from './mapping';
 import CONSTANTS from '../constants';
 // Import mapping functions or w/e
 
@@ -47,6 +47,17 @@ export default {
         secret: CONSTANTS.CLIENT_SECRET,
       },
     },
+  },
+  'GET_ME': {
+    endpoint: API_URL + 'me',
+    method: 'get',
+    data: {
+      client: {
+        id: CONSTANTS.CLIENT_ID,
+        secret: CONSTANTS.CLIENT_SECRET,
+      },
+    },
+    mapResults: mapMe,
   },
   'MESSAGES': {
     endpoint: `${API_URL}me/conversations/${'4a61be7f-5734-4e7e-bce5-4105a3f32f0f'}/messages`,

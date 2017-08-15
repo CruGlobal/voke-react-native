@@ -1,10 +1,10 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FlatList, View, ListView, TouchableOpacity } from 'react-native';
+import { FlatList, View, ListView, TouchableOpacity, Image } from 'react-native';
 import styles from './styles';
 import { SwipeListView } from 'react-native-swipe-list-view';
-
+import ARROW from '../../../images/chat_name_arrow.png';
 // import theme from '../../theme';
 
 import { Flex, Icon, Text, Touchable, Separator } from '../common';
@@ -69,7 +69,11 @@ class ConversationList extends Component { // eslint-disable-line
             <Flex value={15}>
               <Flex direction="column">
                 <Text style={styles.conversationName}>{conversation.name}</Text>
-                <Text style={styles.messagePreviewText} numberOfLines={2}>Latest Message: {latestMessage.text}</Text>
+                <Text style={styles.messagePreviewText} numberOfLines={2}>
+                  {latestMessage.sender === 'me' ? (<Text>You</Text>) : latestMessage.sender}
+                  <Image source={ARROW} resizeMode="contain" style={{width: 20, height: 7}} />
+                  {latestMessage.text}
+                </Text>
               </Flex>
             </Flex>
             <Flex value={1} style={styles.conversationArrow} align="center" justify="center">

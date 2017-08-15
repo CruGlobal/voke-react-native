@@ -5,3 +5,10 @@ export function mapAuth(results) {
     // conversation_id: results.conversation_id,
   };
 }
+
+export function mapMe(results) {
+  return {
+    user: results.user,
+    // conversation_id: results.conversation_id,
+  };
+}

@@ -57,9 +57,9 @@ class SignUpAccount extends Component {
   }
 
   createAccount() {
-    this.props.dispatch(createAccountAction('email@address.co', 'password')).then(() => {
-      this.props.navigatePush('voke.SignUpProfile');
-    });
+    // this.props.dispatch(createAccountAction('email@address.co', 'password')).then(() => {
+    this.props.navigatePush('voke.SignUpProfile');
+    // });
   }
 
   render() {
@@ -112,7 +112,7 @@ class SignUpAccount extends Component {
                 type= "transparent"
                 buttonTextStyle={styles.haveAccountButton}
                 style={styles.haveAccount}
-                onPress={this.createAccount}
+                onPress={()=> this.props.navigatePush('voke.LoginInput')}
               />
             </Flex>
           </Flex>
