@@ -71,7 +71,8 @@ class Videos extends Component {
   }
 
   handleDismissedLightBox() {
-    this.handleFilter(this.state.previousFilter);
+    let shouldntScroll = true
+    this.handleFilter(this.state.previousFilter, shouldntScroll);
   }
 
   showThemes() {
@@ -84,7 +85,7 @@ class Videos extends Component {
       },
       style: {
         backgroundBlur: 'dark', // 'dark' / 'light' / 'xlight' / 'none' - the type of blur on the background
-      }
+      },
     });
   }
 
@@ -100,12 +101,17 @@ class Videos extends Component {
     });
   }
 
-  handleFilter(filter) {
+  handleFilter(filter, shouldntScroll) {
     if (filter === 'themes') {
       this.setState({ previousFilter: this.state.selectedFilter });
       this.setState({selectedFilter: filter});
     } else {
       this.setState({selectedFilter: filter});
+      if (shouldntScroll) {
+        return;
+      } else {
+        this.videoList.scrollToBeginning();
+      }
     }
 
     if (filter === 'featured') {
@@ -169,6 +175,7 @@ class Videos extends Component {
         </Flex>
         <StatusBar />
         <VideoList
+          ref={(c) => this.videoList = c}
           items={this.state.videos}
           onSelect={(c) => {
             this.props.navigatePush('voke.VideoDetails', {

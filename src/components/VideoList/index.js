@@ -28,6 +28,10 @@ class VideoList extends Component {
     }, 500);
   }
 
+  scrollToBeginning() {
+    this.list.scrollToIndex({ index: 0 });
+  }
+
   renderRow({ item }) {
     const video = item;
     return (
@@ -57,6 +61,7 @@ class VideoList extends Component {
   render() {
     return (
       <FlatList
+        ref={(c) => this.list = c}
         initialNumToRender={4}
         data={this.props.items}
         renderItem={this.renderRow}
