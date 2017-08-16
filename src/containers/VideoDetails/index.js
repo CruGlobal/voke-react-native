@@ -44,31 +44,21 @@ class VideoDetails extends Component {
 
     return (
       <Flex direction="column" style={{ paddingBottom: 110 }}>
-        <Label style={{ fontSize: 24 }}>{video.name}</Label>
-        <Detail>{video.description}</Detail>
-        <Br />
-        <Label>Themes</Label>
-        <Detail>This is a really cool video that shows things</Detail>
-        <Br />
-        <Label>Voke kickstarters</Label>
-        <Detail>This is a really cool video that shows things fhdsajk hdfskajdfhsajfdhsjfdhsahdfs hjk hjk hjk hjkfdsa hjkfdsahjkdsahfjkdsahdfjksah fjkdsa fdsahdfksadfsa fdsahjkfdsa fdsahjkfdsa kfjdsa j hjkhkjhjk</Detail>
-        <Detail>--</Detail>
-        <Detail>This is a really cool video that shows things</Detail>
-        <Br />
-        <Label>Voke kickstarters</Label>
-        <Detail>This is a really cool video that shows things fhdsajk hdfskajdfhsajfdhsjfdhsahdfs hjk hjk hjk hjkfdsa hjkfdsahjkdsahfjkdsahdfjksah fjkdsa fdsahdfksadfsa fdsahjkfdsa fdsahjkfdsa kfjdsa j hjkhkjhjk</Detail>
-        <Detail>--</Detail>
-        <Detail>This is a really cool video that shows things</Detail>
-        <Br />
-        <Label>Voke kickstarters</Label>
-        <Detail>This is a really cool video that shows things fhdsajk hdfskajdfhsajfdhsjfdhsahdfs hjk hjk hjk hjkfdsa hjkfdsahjkdsahfjkdsahdfjksah fjkdsa fdsahdfksadfsa fdsahjkfdsa fdsahjkfdsa kfjdsa j hjkhkjhjk</Detail>
-        <Detail>--</Detail>
-        <Detail>This is a really cool video that shows things</Detail>
-        <Br />
-        <Label>Voke kickstarters</Label>
-        <Detail>This is a really cool video that shows things fhdsajk hdfskajdfhsajfdhsjfdhsahdfs hjk hjk hjk hjkfdsa hjkfdsahjkdsahfjkdsahdfjksah fjkdsa fdsahdfksadfsa fdsahjkfdsa fdsahjkfdsa kfjdsa j hjkhkjhjk</Detail>
-        <Detail>--</Detail>
-        <Detail>This is a really cool video that shows things</Detail>
+        <Text style={styles.videoTitle}>{video.name}</Text>
+        <Text style={styles.detail}>{video.description}</Text>
+        <Text style={styles.label}>Themes</Text>
+        <Text style={styles.detail}>{video.tags}</Text>
+        <Text style={styles.label}>Voke kickstarters</Text>
+        {
+          video.questions.map((q)=> (
+            <Flex key={q.id} direction="column">
+              <Text style={styles.detail}>
+                {q.content}
+              </Text>
+              <Flex style={styles.kickstarterSeparator}></Flex>
+            </Flex>
+          ))
+        }
       </Flex>
     );
   }

@@ -28,7 +28,7 @@ import { iconsLoaded } from './utils/iconMap';
 // }
 
 const homeScreen = {
-  screen: 'voke.Home',
+  screen: 'voke.SignUpNumber',
   title: 'Home',
   titleImage: require('../images/nav_voke_logo.png'),
   navigatorStyle: {

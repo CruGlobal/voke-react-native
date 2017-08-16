@@ -22,10 +22,16 @@ export default StyleSheet.create({
     color: theme.primaryColor,
     fontSize: 16,
     marginBottom: 6,
+    fontWeight: 'bold',
+  },
+  videoTitle: {
+    color: theme.primaryColor,
+    fontSize: 20,
+    fontWeight: 'bold',
   },
   detail: {
     color: theme.darkText,
-    fontSize: 13,
+    fontSize: 14,
     marginBottom: 3,
   },
   backHeader: {
@@ -37,5 +43,11 @@ export default StyleSheet.create({
   },
   backIcon: {
     color: COLORS.convert({ color: COLORS.BLACK, alpha: 0.7 }),
+  },
+  kickstarterSeparator: {
+    borderBottomColor: theme.darkText,
+    borderBottomWidth: 1,
+    width: 20,
+    marginVertical: 10,
   },
 });
