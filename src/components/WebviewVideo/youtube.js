@@ -27,7 +27,7 @@ export default function(id, options = {}) {
               playsinline: 1,
               rel: 0, /* Don't show related videos */
               showinfo: 0,
-              controls: 0,
+              controls: 1,
               iv_load_policy: 3,
               loop: 0,
             },
@@ -71,6 +71,15 @@ export default function(id, options = {}) {
               break;
             default:
               break;
+          }
+        }
+
+        window.addEventListener('message', receiveMessage, false);
+
+        function receiveMessage(event) {
+          var data = JSON.parse(event.data);
+          if (data.seconds) {
+            player.seekTo(data.seconds);
           }
         }
       </script>

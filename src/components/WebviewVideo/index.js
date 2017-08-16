@@ -30,6 +30,7 @@ export default class WebviewVideo extends Component {
     this.webView = null;
 
     this.handleMessage = this.handleMessage.bind(this);
+    this.seek = this.seek.bind(this);
   }
 
   // Stop the component from updating if the url is the same
@@ -42,6 +43,11 @@ export default class WebviewVideo extends Component {
 
   handleMessage(event) {
     this.props.onChangeState(event.nativeEvent.data);
+  }
+
+  // Must pass in an object
+  sendMessage(data) {
+    this.webview.postMessage(JSON.stringify(data));
   }
 
   getHtml() {
@@ -58,6 +64,11 @@ export default class WebviewVideo extends Component {
       return html5HTML(this.props.url, { thumbnail: this.props.thumbnail });
     }
     return null;
+  }
+  
+  seek(seconds) {
+    console.warn('seek to seconds', seconds);
+    this.sendMessage({ seconds });
   }
 
   render() {
@@ -83,7 +94,6 @@ export default class WebviewVideo extends Component {
           mediaPlaybackRequiresUserAction={false}
           onMessage={this.handleMessage}
         />
-        <VideoControls />
       </View>
     );
   }

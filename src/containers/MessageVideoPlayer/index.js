@@ -29,11 +29,12 @@ class MessageVideoPlayer extends Component {
 
   render() {
     const { message, onClose } = this.props;
-    const url = 'https://www.youtube.com/watch?v=cUYSGojUuAU';
+    // const url = 'https://www.youtube.com/watch?v=cUYSGojUuAU';
+    const url = 'https://vimeo.com/1084537';
     return (
       <Flex style={styles.video}>
         <WebviewVideo
-          type="youtube"
+          type="vimeo"
           url={url}
           start={5}
           onChangeState={this.handleVideoChange}
