@@ -38,12 +38,12 @@ class VideoList extends Component {
           align="start"
           justify="center"
           animation="slideInUp">
-          <Image resizeMode="contain" source={require('../../../images/nav_voke_logo.png')} style={styles.videoThumbnail}>
+          <Image resizeMode="cover" source={{uri: video.media.thumbnails.large}} style={styles.videoThumbnail}>
             <Icon name="play-circle-filled" size={64} style={styles.playIcon} />
           </Image>
           <Flex direction="column" align="start" justify="start" style={styles.videoDetails}>
             <Text numberOfLines={2} style={styles.videoTitle}>
-              {video.title}
+              {video.name}
             </Text>
             <Text numberOfLines={2} style={styles.videoDescription}>
               {video.description}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
-import { getVideos } from '../../actions/videos';
+import { getVideos, getFeaturedVideos, getPopularVideos, getTags, getSelectedThemeVideos } from '../../actions/videos';
 
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 
@@ -15,13 +15,15 @@ import VideoList from '../../components/VideoList';
 import StatusBar from '../../components/StatusBar';
 import { Flex } from '../../components/common';
 
-const VIDEOS = [
-  {id: '1', title: 'The odds of you explained...', description: 'The fact that we are on this planet right now is almost statistically impossible. The fact that we are on this planet right now is almost statistically impossible. The fact that we are on this planet right now is almost statistically impossible. The fact that we are on this planet right now is almost statistically impossible.'},
-  {id: '2', title: 'The best video ever', description: 'The fact tha'},
-  {id: '3', title: 'another one', description: 'The fact that we are on this planet right now is almost statistically impossible.'},
-  {id: '4', title: 'DJ Kahled does another one', description: 'The fact that we are on this planet right now is almost statistically impossible.'},
-  {id: '5', title: 'Bryan doing the hokie pokie', description: 'The fact that we are on this planet right now is almost statistically impossible.'},
-];
+// const VIDEOS = [
+//   {id: '1', title: 'The odds of you explained...', description: 'The fact that we are on this planet right now is almost statistically impossible. The fact that we are on this planet right now is almost statistically impossible. The fact that we are on this planet right now is almost statistically impossible. The fact that we are on this planet right now is almost statistically impossible.'},
+//   {id: '2', title: 'The best video ever', description: 'The fact tha'},
+//   {id: '3', title: 'another one', description: 'The fact that we are on this planet right now is almost statistically impossible.'},
+//   {id: '4', title: 'DJ Kahled does another one', description: 'The fact that we are on this planet right now is almost statistically impossible.'},
+//   {id: '5', title: 'Bryan doing the hokie pokie', description: 'The fact that we are on this planet right now is almost statistically impossible.'},
+// ];
+
+let videos = [];
 
 function setButtons() {
   return {
@@ -42,9 +44,12 @@ class Videos extends Component {
     super(props);
     this.state = {
       selectedFilter: 'all',
+      videos: [],
     };
 
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    this.handleFilter = this.handleFilter.bind(this);
+    this.updateVideoList = this.updateVideoList.bind(this);
   }
 
   onNavigatorEvent(event) {
@@ -62,7 +67,36 @@ class Videos extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(getVideos());
+    this.props.dispatch(getVideos()).then(()=> {
+      this.updateVideoList('all');
+    });
+  }
+
+  handleFilter(filter) {
+    this.setState({selectedFilter: filter});
+    if (filter === 'featured') {
+      this.props.dispatch(getFeaturedVideos()).then(()=>{
+        this.updateVideoList(filter);
+      });
+    } else if (filter === 'popular') {
+      this.props.dispatch(getPopularVideos()).then(()=>{
+        this.updateVideoList(filter);
+      });
+    } else if (filter === 'all') {
+      this.props.dispatch(getVideos()).then(()=>{
+        this.updateVideoList(filter);
+      });
+    }
+  }
+
+  updateVideoList(type) {
+    if (type === 'featured') {
+      this.setState({ videos: this.props.featured});
+    } else if (type === 'all') {
+      this.setState({ videos: this.props.all});
+    } else if (type === 'popular') {
+      this.setState({ videos: this.props.popular});
+    }
   }
 
   render() {
@@ -75,29 +109,29 @@ class Videos extends Component {
               <PillButton
                 text="All"
                 filled={selectedFilter === 'all'}
-                onPress={()=> this.setState({selectedFilter: 'all'})}
+                onPress={()=> this.handleFilter('all')}
               />
               <PillButton
                 text="Featured"
                 filled={selectedFilter === 'featured'}
-                onPress={()=> this.setState({selectedFilter: 'featured'})}
+                onPress={()=> this.handleFilter('featured')}
               />
               <PillButton
                 text="Popular"
                 filled={selectedFilter === 'popular'}
-                onPress={()=> this.setState({selectedFilter: 'popular'})}
+                onPress={()=> this.handleFilter('popular')}
               />
               <PillButton
                 text="Themes"
                 filled={selectedFilter === 'themes'}
-                onPress={()=> this.setState({selectedFilter: 'themes'})}
+                onPress={()=> this.handleFilter('themes')}
               />
             </Flex>
           </ScrollView>
         </Flex>
         <StatusBar />
         <VideoList
-          items={VIDEOS}
+          items={this.state.videos}
           onSelect={(c) => {
             this.props.navigatePush('voke.VideoDetails', {
               video: c,
@@ -119,4 +153,12 @@ Videos.propTypes = {
   ...NavPropTypes,
 };
 
-export default connect(null, nav)(Videos);
+const mapStateToProps = ({ videos }) => ({
+  all: videos.all,
+  popular: videos.popular,
+  featured: videos.featured,
+  tags: videos.tags,
+  selectedThemeVideos: videos.selectedThemeVideos,
+});
+
+export default connect(mapStateToProps, nav)(Videos);

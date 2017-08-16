@@ -98,6 +98,48 @@ export default {
       },
     },
   },
+  'GET_POPULAR_VIDEOS': {
+    endpoint: API_URL + 'items',
+    method: 'get',
+    data: {
+      client: {
+        id: CONSTANTS.CLIENT_ID,
+        secret: CONSTANTS.CLIENT_SECRET,
+      },
+      popularity: true,
+    },
+  },
+  'GET_FEATURED_VIDEOS': {
+    endpoint: API_URL + 'items',
+    method: 'get',
+    data: {
+      client: {
+        id: CONSTANTS.CLIENT_ID,
+        secret: CONSTANTS.CLIENT_SECRET,
+      },
+      featured: true,
+    },
+  },
+  'GET_TAGS': {
+    endpoint: API_URL + 'tags',
+    method: 'get',
+    data: {
+      client: {
+        id: CONSTANTS.CLIENT_ID,
+        secret: CONSTANTS.CLIENT_SECRET,
+      },
+    },
+  },
+  'GET_VIDEOS_BY_TAG': {
+    endpoint: API_URL + 'items',
+    method: 'get',
+    data: {
+      client: {
+        id: CONSTANTS.CLIENT_ID,
+        secret: CONSTANTS.CLIENT_SECRET,
+      },
+    },
+  },
   'MESSAGES': {
     endpoint: `${API_URL}me/conversations/${'4a61be7f-5734-4e7e-bce5-4105a3f32f0f'}/messages`,
     // mapResults: (results, query, data, getState) => results,

@@ -40,10 +40,12 @@ class VideoDetails extends Component {
   }
 
   renderContent() {
+    const video = this.props.video;
+
     return (
       <Flex direction="column" style={{ paddingBottom: 110 }}>
-        <Label style={{ fontSize: 24 }}>The odds of you explained...</Label>
-        <Detail>This is a really cool video that shows things</Detail>
+        <Label style={{ fontSize: 24 }}>{video.name}</Label>
+        <Detail>{video.description}</Detail>
         <Br />
         <Label>Themes</Label>
         <Detail>This is a really cool video that shows things</Detail>
@@ -72,15 +74,15 @@ class VideoDetails extends Component {
   }
 
   render() {
-    const url = 'https://www.youtube.com/watch?v=cUYSGojUuAU';
+    const video = this.props.video;
     return (
       <View style={styles.container}>
         <StatusBar hidden={true} />
         <Flex style={styles.video}>
           <WebviewVideo
-            type="youtube"
-            url={url}
-            start={5}
+            type={video.media.type}
+            url={video.media.url}
+            start={video.media_start || 0}
             onChangeState={this.handleVideoChange}
           />
           <View style={styles.backHeader}>
@@ -121,6 +123,7 @@ class VideoDetails extends Component {
 VideoDetails.propTypes = {
   ...NavPropTypes,
   onVideoShare: PropTypes.func,
+  video: PropTypes.object,
 };
 
 export default connect(null, nav)(VideoDetails);
