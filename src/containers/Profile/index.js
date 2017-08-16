@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Image, TextInput, KeyboardAvoidingView, ScrollView, View } from 'react-native';
+import { Image, TextInput, KeyboardAvoidingView, ScrollView, View, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import styles from './styles';
 import { Flex, Icon, Button, Text, Separator } from '../../components/common';
 import ImagePicker from '../../components/ImagePicker';
 // import { iconsMap } from '../../utils/iconMap';
 import BACK_ICON from '../../../images/back-arrow.png';
+import { updateMe } from '../../actions/auth';
 
 import VOKE_LOGO from '../../../images/nav_voke_logo.png';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
@@ -50,11 +51,13 @@ class Profile extends Component {
     this.renderEditPassword = this.renderEditPassword.bind(this);
     this.handleImageChange = this.handleImageChange.bind(this);
     this.scrollEnd = this.scrollEnd.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
+    this.resetState = this.resetState.bind(this);
   }
 
   componentWillMount() {
     this.props.navigator.setButtons(setButtons());
-    console.warn(JSON.stringify(this.props.user));
+    // console.warn(JSON.stringify(this.props.user));
   }
 
   onNavigatorEvent(event) {
@@ -65,11 +68,68 @@ class Profile extends Component {
     }
   }
 
+  handleUpdate() {
+    console.warn('updating');
+    const { firstName, lastName, currentPassword, newEmail, confirmEmail, newPassword, confirmPassword } = this.state;
+    let data = {};
+
+    if (firstName && lastName) {
+      data = {
+        me: {
+          first_name: firstName,
+          last_name: lastName,
+        },
+      };
+    } else if (newEmail && confirmEmail && currentPassword) {
+      if (newEmail != confirmEmail) {
+        Alert.alert('The emails do not match','');
+        return;
+      }
+      data = {
+        me: {
+          email: newEmail,
+          current_password: currentPassword,
+        },
+      };
+    } else if (currentPassword && newPassword && confirmPassword) {
+      if (newPassword != confirmPassword) {
+        Alert.alert('The passwords do not match','');
+        return;
+      }
+      data = {
+        me: {
+          current_password: currentPassword,
+          password: newPassword,
+        },
+      };
+    }
+    this.props.dispatch(updateMe(data)).then(()=>{
+      this.resetState();
+    });
+  }
+
+  resetState() {
+    this.setState({
+      imageUri: null,
+      editName: false,
+      editEmail: false,
+      editPassword: false,
+      firstName: '',
+      lastName: '',
+      newEmail: '',
+      confirmEmail: '',
+      currentPassword: '',
+      newPassword: '',
+      confirmPassword: '',
+    });
+  }
+
   handleImageChange(data) {
     // TODO: Make API call to update image
     this.setState({
       imageUri: data.uri,
     });
+    console.warn('image selected');
   }
 
   scrollEnd(isAnimated) {
@@ -81,7 +141,16 @@ class Profile extends Component {
   }
 
   renderImagePicker() {
-    const image = this.state.imageUri ? { uri: this.state.imageUri } : VOKE_LOGO;
+    let image;
+
+    if (this.state.imageUri) {
+      image = { uri: this.state.imageUri} ;
+    } else if (this.props.user.avatar.small) {
+      image = { uri: this.props.user.avatar.small };
+    } else {
+      image= VOKE_LOGO;
+    }
+
     return (
       <ImagePicker onSelectImage={this.handleImageChange}>
         <Flex align="center" justify="center" style={styles.imageSelect}>
@@ -100,8 +169,8 @@ class Profile extends Component {
         <Flex>
           <Text style={styles.changeTitle}>Change Name</Text>
         </Flex>
-        <Flex  direction="row" align="center" justify="center">
-          <Flex direction="column" value={3} style={styles.inputRow}>
+        <Flex  value={1} direction="row" align="center" justify="center">
+          <Flex direction="column" value={2} style={styles.inputRow}>
             <TextInput
               onFocus={() => {}}
               onBlur={() => {}}
@@ -130,6 +199,8 @@ class Profile extends Component {
               text="SAVE"
               style={styles.saveButton}
               buttonTextStyle={styles.saveButtonText}
+              disabled={!this.state.firstName && !this.state.lastName}
+              onPress={()=> this.handleUpdate()}
             />
           </Flex>
         </Flex>
@@ -183,8 +254,10 @@ class Profile extends Component {
           <Flex value={1} align="center">
             <Button
               text="SAVE"
+              disabled={!this.state.currentPassword && !this.state.newEmail && !this.state.confirmEmail}
               style={styles.saveButton}
               buttonTextStyle={styles.saveButtonText}
+              onPress={()=> this.handleUpdate()}
             />
           </Flex>
         </Flex>
@@ -236,6 +309,8 @@ class Profile extends Component {
               text="SAVE"
               style={styles.saveButton}
               buttonTextStyle={styles.saveButtonText}
+              disabled={!this.state.currentPassword && !this.state.newPassword && !this.state.confirmPassword}
+              onPress={()=> this.handleUpdate()}
             />
           </Flex>
         </Flex>
@@ -269,7 +344,7 @@ class Profile extends Component {
                     <Flex direction="row" align="center" justify="center" style={{padding: 2, paddingHorizontal: 20}}>
                       <Flex direction="row" align="center" justify="start" value={1}>
                         <Icon style={styles.inputIcon} name="person" size={20} />
-                        <Text style={styles.buttonText}>{user.email}</Text>
+                        <Text style={styles.buttonText}>{`${user.first_name} ${user.last_name}`}</Text>
                       </Flex>
                       <Button
                         text={editName ? 'cancel' : 'edit'}

@@ -1,5 +1,5 @@
 import { REHYDRATE } from 'redux-persist/constants';
-import { LOGIN, LOGOUT } from '../constants';
+import { LOGIN, LOGOUT, SET_USER } from '../constants';
 // import { REQUESTS } from '../actions/api';
 
 const initialAuthState = {
@@ -24,6 +24,11 @@ export default function auth(state = initialAuthState, action) {
         token: action.token,
         user: action.user,
         isLoggedIn: true,
+      };
+    case SET_USER:
+      return {
+        ...state,
+        user: action.user,
       };
     case LOGOUT:
       return initialAuthState;

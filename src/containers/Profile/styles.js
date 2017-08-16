@@ -56,7 +56,7 @@ export default StyleSheet.create({
     fontSize: 20,
   },
   inputRow: {
-    padding: 20,
+    padding: 10,
   },
   inputBox: {
     height: 40,

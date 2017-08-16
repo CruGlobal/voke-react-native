@@ -57,7 +57,6 @@ export default {
         secret: CONSTANTS.CLIENT_SECRET,
       },
     },
-    mapResults: mapMe,
   },
   'UPDATE_ME': {
     endpoint: API_URL + 'me',

@@ -1,5 +1,5 @@
 import { Alert, Platform, ToastAndroid, AsyncStorage } from 'react-native';
-import { LOGIN, LOGOUT } from '../constants';
+import { LOGIN, LOGOUT, SET_USER } from '../constants';
 import callApi, { REQUESTS } from './api';
 import { messagesAction } from './messages';
 // import { resetLoginAction, resetHomeAction } from './navigation';
@@ -10,6 +10,19 @@ export function loginAction(token, user = {}) {
       dispatch({
         type: LOGIN,
         token,
+        user,
+      });
+      resolve();
+      // dispatch(resetHomeAction());
+    })
+  );
+}
+
+export function setUserAction(user) {
+  return (dispatch) => (
+    new Promise((resolve) => {
+      dispatch({
+        type: SET_USER,
         user,
       });
       resolve();
@@ -83,6 +96,7 @@ export function getMe() {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.GET_ME, {}, {})).then((results) => {
       console.warn('get me successful', results);
+      dispatch(setUserAction(results));
       return results;
     }).catch((error) => {
       console.warn('error getting me', error);
@@ -94,6 +108,7 @@ export function updateMe(data) {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.UPDATE_ME, {}, data)).then((results) => {
       console.warn('update me successful', results);
+      dispatch(getMe());
       return results;
     }).catch((error) => {
       console.warn('error updating me', error);
