@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import { getVideos, getFeaturedVideos, getPopularVideos, getTags, getSelectedThemeVideos } from '../../actions/videos';
+import PropTypes from 'prop-types';
 
 import nav, { NavPropTypes } from '../../actions/navigation_new';
+import { Navigation } from 'react-native-navigation';
 
 import styles from './styles';
 // import { iconsMap } from '../../utils/iconMap';
-import theme from '../../theme';
+import theme, { COLORS } from '../../theme';
 import HOME_ICON from '../../../images/home_icon.png';
 
 import PillButton from '../../components/PillButton';
@@ -22,8 +24,6 @@ import { Flex } from '../../components/common';
 //   {id: '4', title: 'DJ Kahled does another one', description: 'The fact that we are on this planet right now is almost statistically impossible.'},
 //   {id: '5', title: 'Bryan doing the hokie pokie', description: 'The fact that we are on this planet right now is almost statistically impossible.'},
 // ];
-
-let videos = [];
 
 function setButtons() {
   return {
@@ -44,12 +44,16 @@ class Videos extends Component {
     super(props);
     this.state = {
       selectedFilter: 'all',
+      previousFilter: '',
       videos: [],
     };
 
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleFilter = this.handleFilter.bind(this);
     this.updateVideoList = this.updateVideoList.bind(this);
+    this.showThemes = this.showThemes.bind(this);
+    this.handleThemeSelect = this.handleThemeSelect.bind(this);
+    this.handleDismissedLightBox = this.handleDismissedLightBox.bind(this);
   }
 
   onNavigatorEvent(event) {
@@ -58,6 +62,30 @@ class Videos extends Component {
         this.props.navigateBack();
       }
     }
+  }
+
+  handleThemeSelect(tag) {
+    this.props.dispatch(getSelectedThemeVideos(tag)).then(()=>{
+      this.setState({ videos: this.props.selectedThemeVideos});
+    });
+  }
+
+  handleDismissedLightBox() {
+    this.handleFilter(this.state.previousFilter);
+  }
+
+  showThemes() {
+    Navigation.showLightBox({
+      screen: 'voke.ThemeSelect', // unique ID registered with Navigation.registerScreen
+      passProps: {
+        themes: this.props.tags,
+        onSelect: this.handleThemeSelect,
+        onDismissLightBox: this.handleDismissedLightBox,
+      },
+      style: {
+        backgroundBlur: 'dark', // 'dark' / 'light' / 'xlight' / 'none' - the type of blur on the background
+      }
+    });
   }
 
   componentWillMount() {
@@ -73,7 +101,13 @@ class Videos extends Component {
   }
 
   handleFilter(filter) {
-    this.setState({selectedFilter: filter});
+    if (filter === 'themes') {
+      this.setState({ previousFilter: this.state.selectedFilter });
+      this.setState({selectedFilter: filter});
+    } else {
+      this.setState({selectedFilter: filter});
+    }
+
     if (filter === 'featured') {
       this.props.dispatch(getFeaturedVideos()).then(()=>{
         this.updateVideoList(filter);
@@ -85,6 +119,10 @@ class Videos extends Component {
     } else if (filter === 'all') {
       this.props.dispatch(getVideos()).then(()=>{
         this.updateVideoList(filter);
+      });
+    } else if (filter === 'themes') {
+      this.props.dispatch(getTags()). then(()=> {
+        this.showThemes();
       });
     }
   }
@@ -151,6 +189,7 @@ class Videos extends Component {
 
 Videos.propTypes = {
   ...NavPropTypes,
+  onSelectTag: PropTypes.string,
 };
 
 const mapStateToProps = ({ videos }) => ({

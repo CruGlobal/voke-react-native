@@ -53,7 +53,7 @@ export function createAccountAction(email, password) {
       password,
     })).then((results) => {
       console.warn('create account success', results);
-      dispatch(loginAction(results.access_token));
+      dispatch(loginAction(results.access_token.access_token));
       // dispatch(messagesAction());
       // Do something with the results
       return results;

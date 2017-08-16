@@ -23,28 +23,31 @@ export default function videos(state = initialState, action) {
       return {
         ...state,
         all: action.items || [],
+        selectedThemeVideos: [],
       };
     case REQUESTS.GET_TAGS.SUCCESS:
       console.warn('tags, check action:', action);
       return {
         ...state,
-        tags: action || [],
+        tags: action.tags || [],
       };
     case REQUESTS.GET_FEATURED_VIDEOS.SUCCESS:
       return {
         ...state,
         featured: action.items || [],
+        selectedThemeVideos: [],
       };
     case REQUESTS.GET_POPULAR_VIDEOS.SUCCESS:
       return {
         ...state,
         popular: action.items || [],
+        selectedThemeVideos: [],
       };
     case REQUESTS.GET_VIDEOS_BY_TAG.SUCCESS:
       console.warn('selected theme, check action:', action);
       return {
         ...state,
-        selectedThemeVideos: action || [],
+        selectedThemeVideos: action.items || [],
       };
     default:
       return state;

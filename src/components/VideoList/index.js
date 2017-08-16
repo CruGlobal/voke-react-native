@@ -42,7 +42,7 @@ class VideoList extends Component {
             <Icon name="play-circle-filled" size={64} style={styles.playIcon} />
           </Image>
           <Flex direction="column" align="start" justify="start" style={styles.videoDetails}>
-            <Text numberOfLines={2} style={styles.videoTitle}>
+            <Text numberOfLines={1} style={styles.videoTitle}>
               {video.name}
             </Text>
             <Text numberOfLines={2} style={styles.videoDescription}>

@@ -12,10 +12,6 @@ import webviewStates from '../../components/WebviewVideo/common';
 import FloatingButtonSingle from '../../components/FloatingButtonSingle';
 import { Icon, Flex, Touchable, Text } from '../../components/common';
 
-const Br = () => <View style={{height: 10}} />;
-const Label = ({ children, style }) => <Text style={[styles.label, style]}>{children}</Text>;
-const Detail = ({ children }) => <Text style={styles.detail}>{children}</Text>;
-
 class VideoDetails extends Component {
   static navigatorStyle = {
     navBarHidden: true,
@@ -39,6 +35,7 @@ class VideoDetails extends Component {
     }
   }
 
+
   renderContent() {
     const video = this.props.video;
 
@@ -47,7 +44,18 @@ class VideoDetails extends Component {
         <Text style={styles.videoTitle}>{video.name}</Text>
         <Text style={styles.detail}>{video.description}</Text>
         <Text style={styles.label}>Themes</Text>
-        <Text style={styles.detail}>{video.tags}</Text>
+        <Flex direction="row">
+          {
+            video.tags.map((t, index)=> (
+              <Text key={t.id} style={styles.detail}>
+                {t.name}
+                {
+                  index != video.tags.length-1 ? (', ') : null
+                }
+              </Text>
+            ))
+          }
+        </Flex>
         <Text style={styles.label}>Voke kickstarters</Text>
         {
           video.questions.map((q)=> (
@@ -64,7 +72,7 @@ class VideoDetails extends Component {
   }
 
   render() {
-    const video = this.props.video;
+    const video = this.props.video || {};
     return (
       <View style={styles.container}>
         <StatusBar hidden={true} />

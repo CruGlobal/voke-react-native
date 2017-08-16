@@ -41,6 +41,7 @@ export const COLORS = {
   GREY: '#98a6b1',
   GREY_FADE: 'rgba(152, 166, 177, 0.25)',
   WHITE_FADE: 'rgba(245, 250, 255, 0.5)',
+  BLACK_FADE: 'rgba(0, 0, 0, 0.7)',
   DARK_GREY: '#637076',
   CHARCOAL: '#646464',
   SILVER: '#dce1e4',

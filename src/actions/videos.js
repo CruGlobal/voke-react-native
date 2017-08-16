@@ -11,7 +11,7 @@ export function getVideos() {
 
 export function getFeaturedVideos() {
   return (dispatch) => {
-    return dispatch(callApi(REQUESTS.GET_FEATURED_VIDEOS)).then((results) => {
+    return dispatch(callApi(REQUESTS.GET_FEATURED_VIDEOS, {featured: true}, {})).then((results) => {
       console.warn('featured video results', results);
       return results;
     });
@@ -20,7 +20,7 @@ export function getFeaturedVideos() {
 
 export function getPopularVideos() {
   return (dispatch) => {
-    return dispatch(callApi(REQUESTS.GET_POPULAR_VIDEOS)).then((results) => {
+    return dispatch(callApi(REQUESTS.GET_POPULAR_VIDEOS, {popularity: true}, {})).then((results) => {
       console.warn('popular video results', results);
       return results;
     });

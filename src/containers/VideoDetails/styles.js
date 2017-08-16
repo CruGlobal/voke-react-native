@@ -22,12 +22,12 @@ export default StyleSheet.create({
     color: theme.primaryColor,
     fontSize: 16,
     marginBottom: 6,
-    fontWeight: 'bold',
+    fontWeight: '500',
   },
   videoTitle: {
     color: theme.primaryColor,
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: '500',
   },
   detail: {
     color: theme.darkText,

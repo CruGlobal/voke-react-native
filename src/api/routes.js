@@ -87,7 +87,6 @@ export default {
     method: 'get',
     data: {
       client: CLIENT,
-      popularity: true,
     },
   },
   'GET_FEATURED_VIDEOS': {
@@ -95,7 +94,6 @@ export default {
     method: 'get',
     data: {
       client: CLIENT,
-      featured: true,
     },
   },
   'GET_TAGS': {
