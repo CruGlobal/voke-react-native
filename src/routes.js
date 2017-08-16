@@ -34,6 +34,7 @@ import SignUpNumberVerify from './containers/SignUpNumberVerify';
 import SignUpWelcome from './containers/SignUpWelcome';
 import CountrySelect from './containers/CountrySelect';
 import ThemeSelect from './containers/ThemeSelect';
+import Help from './containers/Help';
 
 
 // TODO: Wrap each of these in a HoC where we inject the navigation actions
@@ -45,6 +46,7 @@ export default function(store, Provider) {
   Navigation.registerComponent('voke.Menu', () => Menu, store, Provider);
   Navigation.registerComponent('voke.Message', () => Message, store, Provider);
   Navigation.registerComponent('voke.About', () => About, store, Provider);
+  Navigation.registerComponent('voke.Help', () => Help, store, Provider);
   Navigation.registerComponent('voke.Profile', () => Profile, store, Provider);
   Navigation.registerComponent('voke.Acknowledgements', () => Acknowledgements, store, Provider);
   Navigation.registerComponent('voke.Videos', () => Videos, store, Provider);

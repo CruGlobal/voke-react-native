@@ -30,6 +30,7 @@ const DEFAULT_PROPS = {
   'voke.Profile': { title: 'Profile' },
   'voke.Acknowledgements': { title: 'Acknowledgements' },
   'voke.About': { title: 'About' },
+  'voke.Help': { title: 'Help' },
   // 'voke.SignUpAccount': { title: 'Create Account' },
   // 'voke.SignUpProfile': { title: 'Create Profile' },
   // 'voke.SignUpNumber': { title: 'Mobile Number' },

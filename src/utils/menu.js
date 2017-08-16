@@ -27,12 +27,7 @@ export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin } = 
     {
       id: 'help',
       name: 'Help',
-      onPress: () => navigatePush && navigatePush('voke.Home'),
-    },
-    {
-      id: 'select',
-      name: 'Select Friend',
-      onPress: () => navigatePush && navigatePush('voke.SelectFriend'),
+      onPress: () => navigatePush && navigatePush('voke.Help'),
     },
     {
       id: 'signout',
