@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { Slider } from 'react-native';
+import { Slider, View } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { iconsMap } from '../../utils/iconMap';
 import theme from '../../theme';
-import { Button, Flex, Icon, Text } from '../common';
+import { Touchable, Flex, Icon, Text } from '../common';
 import styles from './styles';
 
 function convertTime(time) {
-  let seconds = '00' + (time % 60);
+  let seconds = '00' + Math.ceil(time % 60);
   let minutes = '00' + Math.floor(time / 60);
   let hours = '';
   let str = `${minutes.substr(-2)}:${seconds.substr(-2)}`;
@@ -25,30 +25,40 @@ export default class VideoControls extends Component {
     super(props);
     this.state = {
       timeElapsedStr: convertTime(0),
-      time: 0,
+      stateTime: 0,
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ stateTime: nextProps.time });
+  }
+  
+
   render() {
-    const { onSeek, duration } = this.props;
+    const { time, isPaused, onSeek, duration, onPlayPause } = this.props;
     return (
       <Flex direction="row" style={styles.controlWrapper} align="center" justify="center">
         <Flex value={.2} align="center">
-          <Icon name="play-circle-filled" size={25} style={styles.playIcon} />
+          <Touchable onPress={onPlayPause}>
+            <View>
+              <Icon name={!isPaused ? 'pause-circle-filled' : 'play-circle-filled'} size={25} style={styles.playIcon} />
+            </View>
+          </Touchable>
         </Flex>
         <Flex value={.2} align="center">
-          <Text style={styles.time}>{this.state.timeElapsedStr}</Text>
+          <Text style={styles.time}>{convertTime(this.state.stateTime)}</Text>
         </Flex>
         <Flex value={1.2}>
           <Slider
             thumbImage={iconsMap['ios-radio-button-on']}
             minimumTrackTintColor={theme.primaryColor}
             step={1}
+            value={time}
             minimumValue={0}
             maximumValue={duration}
-            onSlidingComplete={() => onSeek(this.state.time)}
+            onSlidingComplete={() => onSeek(this.state.stateTime)}
             onValueChange={(value) => this.setState({
-              time: value,
+              stateTime: value,
               timeElapsedStr: convertTime(value),
             })}
             style={styles.slider}
@@ -63,8 +73,10 @@ export default class VideoControls extends Component {
 }
 
 VideoControls.propTypes = {
-  filled: PropTypes.bool,
+  isPaused: PropTypes.bool,
+  time: PropTypes.number,
   duration: PropTypes.number.isRequired,
   onSeek: PropTypes.func.isRequired,
+  onPlayPause: PropTypes.func.isRequired,
   // buttonTextStyle: PropTypes.oneOfType(styleTypes),
 };

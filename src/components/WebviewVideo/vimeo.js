@@ -14,6 +14,9 @@ export default function(id, options = {}) {
             width: '${common.width}',
             id: '${id}',
             autoplay: 'true',
+            portait: true,
+            title: false,
+            byline: false,
           });
           var paused = false; /* Keep track of whether the video has been paused/resumed */
           if (${options.start ? true : false}) {
@@ -21,7 +24,7 @@ export default function(id, options = {}) {
           }
           /* This doesn't work on iOS */
           /*
-          player.on('ready', function() {
+          player.ready().then(function() {
             player.play();
             window.postMessage('${common.STARTED}');
           });
@@ -31,6 +34,7 @@ export default function(id, options = {}) {
               window.postMessage('${common.RESUMED}');
             } else {
               window.postMessage('${common.STARTED}');
+              checkDuration();
             }
           });
           player.on('pause', function() {
@@ -39,6 +43,40 @@ export default function(id, options = {}) {
           });
           player.on('end', function() { window.postMessage('${common.FINISHED}'); });
           player.on('error', function() { window.postMessage('${common.ERROR}'); });
+
+          function checkDuration() {
+            player.getDuration().then(function(duration) {
+              window.postMessage(JSON.stringify({ duration: duration }));
+            });
+          }
+
+          var interval = setInterval(function() {
+            player.getCurrentTime().then(function(time) {
+              if (time) {
+                window.postMessage(JSON.stringify({ time: time }));
+              }
+            });
+          }, 1000);
+
+          document.addEventListener('message', receiveMessage);
+
+          function receiveMessage(event) {
+            var data = JSON.parse(event.data);
+            if (data.seconds) {
+              player.setCurrentTime(data.seconds).then(function() {
+                player.play();
+              });
+            } else if (data.togglePlay) {
+              player.getPaused().then(function(isPaused) {
+                if (isPaused) {
+                  player.play();
+                } else {
+                  player.pause();
+                }
+              });
+            }
+          }
+
         })();
       </script>
     </body>

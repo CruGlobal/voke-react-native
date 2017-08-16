@@ -5,6 +5,7 @@ import { WebView, StyleSheet, View } from 'react-native';
 import { Flex, Text } from '../common';
 import VideoControls from '../../components/VideoControls';
 import { COLORS } from '../../theme';
+import { isObject } from '../../utils/common';
 
 import common from './common';
 
@@ -27,22 +28,50 @@ export default class WebviewVideo extends Component {
   constructor(props) {
     super(props);
 
-    this.webView = null;
+    this.state = {
+      duration: 0,
+      isPaused: null,
+      time: 0,
+    };
+
+    this.webview = null;
 
     this.handleMessage = this.handleMessage.bind(this);
     this.seek = this.seek.bind(this);
+    this.togglePlay = this.togglePlay.bind(this);
   }
 
   // Stop the component from updating if the url is the same
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.url !== this.props.url) {
+      return true;
+    }
+    if (nextState.isPaused !== this.state.isPaused || nextState.duration !== this.state.duration || nextState.time !== this.state.time) {
       return true;
     }
     return false;
   }
 
   handleMessage(event) {
-    this.props.onChangeState(event.nativeEvent.data);
+    let data = event.nativeEvent.data;
+    if (data.indexOf('{') === 0) {
+      data = JSON.parse(data);
+      if (data.duration) {
+        this.setState({ duration: data.duration });
+      } else if (typeof data.isPaused !== 'undefined') {
+        this.setState({ isPaused: data.isPaused });
+      } else if (data.time) {
+        this.setState({ time: data.time });
+      }
+    } else {
+      this.props.onChangeState(data);
+      // Change the isPaused state based on the event
+      if (data === common.STARTED || data === common.RESUMED) {
+        this.setState({ isPaused: false });
+      } else if (data === common.PAUSED || data === common.ERROR) {
+        this.setState({ isPaused: true });
+      }
+    }
   }
 
   // Must pass in an object
@@ -67,8 +96,11 @@ export default class WebviewVideo extends Component {
   }
   
   seek(seconds) {
-    console.warn('seek to seconds', seconds);
     this.sendMessage({ seconds });
+  }
+  
+  togglePlay() {
+    this.sendMessage({ togglePlay: true });
   }
 
   render() {
@@ -93,6 +125,13 @@ export default class WebviewVideo extends Component {
           injectedJavaScript={FIX_POSTMESSAGE}
           mediaPlaybackRequiresUserAction={false}
           onMessage={this.handleMessage}
+        />
+        <VideoControls
+          isPaused={this.state.isPaused}
+          onSeek={this.seek}
+          onPlayPause={this.togglePlay}
+          duration={this.state.duration}
+          time={this.state.time}
         />
       </View>
     );

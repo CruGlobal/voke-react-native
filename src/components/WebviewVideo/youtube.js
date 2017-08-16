@@ -27,7 +27,7 @@ export default function(id, options = {}) {
               playsinline: 1,
               rel: 0, /* Don't show related videos */
               showinfo: 0,
-              controls: 1,
+              controls: 0,
               iv_load_policy: 3,
               loop: 0,
             },
@@ -43,10 +43,18 @@ export default function(id, options = {}) {
         function onPlayerReady(event) {
           event.target.playVideo();
           event.target.mute();
+          checkDuration();
         }
         /* Error playing video */
         function onError(event) {
           window.postMessage('${common.ERROR}');
+        }
+
+        function checkDuration() {
+          var duration = player.getDuration();
+          if (duration) {
+            window.postMessage(JSON.stringify({ duration: duration }));
+          }
         }
 
         function onPlayerStateChange(event) {
@@ -63,6 +71,7 @@ export default function(id, options = {}) {
                 window.postMessage('${common.RESUMED}');
               } else {
                 window.postMessage('${common.STARTED}');
+                checkDuration();
               }
               break;
             case 2: /* paused */
@@ -74,12 +83,28 @@ export default function(id, options = {}) {
           }
         }
 
-        window.addEventListener('message', receiveMessage, false);
+        var interval = setInterval(function() {
+          var time = player.getCurrentTime();
+          if (time) {
+            window.postMessage(JSON.stringify({ time: time }));
+          }
+        }, 1000);
+
+        document.addEventListener('message', receiveMessage);
 
         function receiveMessage(event) {
           var data = JSON.parse(event.data);
           if (data.seconds) {
             player.seekTo(data.seconds);
+            checkDuration();
+            
+          } else if (data.togglePlay) {
+            var isPaused = player.getPlayerState() === 2;
+            if (isPaused) {
+              player.playVideo();
+            } else {
+              player.pauseVideo();
+            }
           }
         }
       </script>

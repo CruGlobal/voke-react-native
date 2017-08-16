@@ -8,23 +8,31 @@ export default function(url, options = {}) {
       <script>
         var link = document.createElement('link');
         var script = document.createElement('script');
+        var video;
         link.href = 'https://vjs.zencdn.net/c/video-js.css';
         link.rel = 'stylesheet';
         document.body.appendChild(link);
         script.src = 'https://vjs.zencdn.net/c/video.js';
         script.onload = function() {
-          var video = document.createElement('video');
+          video = document.createElement('video');
           video.id = 'video';
           /* Video properties */
           video.setAttribute('poster', '${options.thumbnail}');
-          video.setAttribute('controls', 'true');
+          video.setAttribute('controls', false);
           video.setAttribute('class', 'video-js vjs-default-skin');
           video.setAttribute('width', '${common.width}');
           video.setAttribute('height', '${common.height}');
-          video.setAttribute('preload', 'true');
-          video.setAttribute('playsinline', 'true');
-          video.setAttribute('autoplay', 'true');
-          video.setAttribute('webkit-playsinline', 'true');
+          video.setAttribute('preload', true);
+          video.setAttribute('playsinline', true);
+          video.setAttribute('autoplay', false);
+          video.setAttribute('webkit-playsinline', true);
+
+          video.controls = false;
+          video.autoplay = false;
+          video.preload = true;
+          video.playsinline = true;
+          video.webkitPlaysinline = true;
+
           /* Setup the play/pause listeners */
           video.onplay = onPlay;
           video.onpause = onPaused;
@@ -46,6 +54,7 @@ export default function(url, options = {}) {
             window.postMessage('${common.RESUMED}');
           } else {
             window.postMessage('${common.STARTED}');
+            checkDuration();
           }
         }
         function onPaused() {
@@ -55,6 +64,41 @@ export default function(url, options = {}) {
         function onError() {
           window.postMessage('${common.ERROR}');
         }
+
+
+
+        function checkDuration() {
+          var duration = video.duration;
+          if (duration) {
+            window.postMessage(JSON.stringify({ duration: duration }));
+          }
+        }
+
+
+        var interval = setInterval(function() {
+          if (video && video.currentTime) {
+            window.postMessage(JSON.stringify({ time: video.currentTime }));
+          }
+        }, 1000);
+
+        document.addEventListener('message', receiveMessage);
+
+        function receiveMessage(event) {
+          if (!video) return;
+          var data = JSON.parse(event.data);
+          if (data.seconds) {
+            video.currentTime = data.seconds;
+            video.play();
+          } else if (data.togglePlay) {
+            if (video.paused) {
+              video.play();
+            } else {
+              video.pause();
+            }
+          }
+        }
+
+
       </script>
     </body>
     </html>

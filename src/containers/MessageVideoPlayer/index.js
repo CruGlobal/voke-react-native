@@ -21,7 +21,7 @@ class MessageVideoPlayer extends Component {
   handleVideoChange(videoState) {
     // console.warn(videoState);
     if (videoState === webviewStates.ERROR) {
-      this.props.dispatch(toastAction('There was an error playing the video.'));
+      // this.props.dispatch(toastAction('There was an error playing the video.'));
     } else if (videoState === webviewStates.STARTED) {
       // this.props.dispatch(toastAction('There was an error playing the video.'));
     }
@@ -29,12 +29,15 @@ class MessageVideoPlayer extends Component {
 
   render() {
     const { message, onClose } = this.props;
-    // const url = 'https://www.youtube.com/watch?v=cUYSGojUuAU';
-    const url = 'https://vimeo.com/1084537';
+    const url = 'https://www.youtube.com/watch?v=cUYSGojUuAU';
+    // const url = 'https://vimeo.com/1084537';
+    // const url = 'http://arc.gt/p6zz7';
+    // type="vimeo"
+    // type="arclight"
     return (
       <Flex style={styles.video}>
         <WebviewVideo
-          type="vimeo"
+          type="youtube"
           url={url}
           start={5}
           onChangeState={this.handleVideoChange}
