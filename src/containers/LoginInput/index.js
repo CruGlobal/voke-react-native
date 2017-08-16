@@ -11,6 +11,8 @@ import { Flex, Text, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import LOGO from '../../../images/initial_voke.png';
 
+const EMAIL_REGEX = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
+
 class LoginInput extends Component {
   static navigatorStyle = {
     navBarHidden: true,
@@ -19,12 +21,13 @@ class LoginInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
-      active: false,
-      active2: false,
+      email: 'bengauthier@knights.ucf.edu',
+      password: 'password',
+      emailActive: false,
+      passwordActive: false,
       disabled: false,
-      emailValidation: false,
+      // emailValidation: false,
+      emailValidation: true,
     };
 
     this.login = this.login.bind(this);
@@ -32,14 +35,14 @@ class LoginInput extends Component {
   }
 
   checkEmail(text) {
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(text)) {
+    if (EMAIL_REGEX.test(text)) {
       this.setState({ emailValidation: true });
     } else { this.setState({ emailValidation: false }); }
     this.setState({ email: text });
   }
 
   login() {
-    if (this.state.emailValidation && this.state.password){
+    if (this.state.emailValidation && this.state.password) {
       this.props.dispatch(anonLogin(
         this.state.email,
         this.state.password
@@ -64,28 +67,35 @@ class LoginInput extends Component {
           <Flex value={1.2} align="center" justify="end" style={styles.actions}>
             <TextInput
               ref={(c) => this.email = c}
-              onFocus={() => this.setState({active: true})}
-              onBlur={() => this.setState({active: false})}
+              onFocus={() => this.setState({emailActive: true})}
+              onBlur={() => this.setState({emailActive: false})}
               value={this.state.email}
               autoCapitalize= "none"
               onChangeText={(text) => this.checkEmail(text)}
               multiline={false}
               placeholder="Email"
-              placeholderTextColor={this.state.active ? theme.textColor : theme.accentColor}
-              style={this.state.active ? [styles.inputBox, styles.active] : styles.inputBox}
+              placeholderTextColor={this.state.emailActive ? theme.textColor : theme.accentColor}
+              style={[
+                styles.inputBox,
+                this.state.emailActive ? styles.active : null,
+              ]}
               autoCorrect={false}
             />
             <TextInput
               ref={(c) => this.password = c}
-              onFocus={() => this.setState({active2: true})}
-              onBlur={() => this.setState({active2: false})}
+              onFocus={() => this.setState({passwordActive: true})}
+              onBlur={() => this.setState({passwordActive: false})}
               autoCapitalize= "none"
+              secureTextEntry={true}
               value={this.state.password}
               onChangeText={(text) => this.setState({ password: text })}
               multiline={false}
               placeholder="Password"
-              placeholderTextColor={this.state.active2 ? theme.textColor : theme.accentColor}
-              style={this.state.active2 ? [styles.inputBox, styles.active] : styles.inputBox}
+              placeholderTextColor={this.state.passwordActive ? theme.textColor : theme.accentColor}
+              style={[
+                styles.inputBox,
+                this.state.passwordActive ? styles.active : null,
+              ]}
               autoCorrect={false}
             />
             <Flex style={styles.buttonWrapper}>

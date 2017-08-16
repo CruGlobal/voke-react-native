@@ -4,11 +4,6 @@ export const LOGOUT = 'app/LOGOUT';
 export const SET_USER = 'app/SET_USER';
 export const SET_ALL_CONTACTS = 'app/SET_ALL_CONTACTS';
 export const SET_VOKE_CONTACTS = 'app/SET_VOKE_CONTACTS';
-export const GET_ALL_VIDEOS = 'app/GET_ALL_VIDEOS';
-export const GET_TAGS = 'app/GET_TAGS';
-export const GET_SELECTED_THEME = 'app/GET_SELECTED_THEME';
-export const GET_POPULAR = 'app/GET_POPULAR';
-export const GET_FEATURED = 'app/GET_FEATURED';
 
 export default {
   // These are from voke_web

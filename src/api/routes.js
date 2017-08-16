@@ -3,6 +3,11 @@ import { mapAuth, mapMe } from './mapping';
 import CONSTANTS from '../constants';
 // Import mapping functions or w/e
 
+const CLIENT = {
+  id: CONSTANTS.CLIENT_ID,
+  secret: CONSTANTS.CLIENT_SECRET,
+};
+
 export default {
   // Example
   // 'PLANETS': {
@@ -28,10 +33,7 @@ export default {
     anonymous: true,
     method: 'post',
     data: {
-      client: {
-        id: CONSTANTS.CLIENT_ID,
-        secret: CONSTANTS.CLIENT_SECRET,
-      },
+      client: CLIENT,
       grant_type: 'password',
       scope: 'messenger',
     },
@@ -42,70 +44,49 @@ export default {
     anonymous: true,
     method: 'post',
     data: {
-      client: {
-        id: CONSTANTS.CLIENT_ID,
-        secret: CONSTANTS.CLIENT_SECRET,
-      },
+      client: CLIENT,
     },
   },
   'GET_ME': {
     endpoint: API_URL + 'me',
     method: 'get',
     data: {
-      client: {
-        id: CONSTANTS.CLIENT_ID,
-        secret: CONSTANTS.CLIENT_SECRET,
-      },
+      client: CLIENT,
     },
   },
   'UPDATE_ME': {
     endpoint: API_URL + 'me',
     method: 'put',
     data: {
-      client: {
-        id: CONSTANTS.CLIENT_ID,
-        secret: CONSTANTS.CLIENT_SECRET,
-      },
+      client: CLIENT,
     },
   },
   'CREATE_MOBILE_VERIFICATION': {
     endpoint: API_URL + 'me/mobile',
     method: 'post',
     data: {
-      client: {
-        id: CONSTANTS.CLIENT_ID,
-        secret: CONSTANTS.CLIENT_SECRET,
-      },
+      client: CLIENT,
     },
   },
   'VERIFY_MOBILE': {
     endpoint: API_URL + 'me/mobile',
     method: 'put',
     data: {
-      client: {
-        id: CONSTANTS.CLIENT_ID,
-        secret: CONSTANTS.CLIENT_SECRET,
-      },
+      client: CLIENT,
     },
   },
   'VIDEOS': {
     endpoint: API_URL + 'items',
     method: 'get',
     data: {
-      client: {
-        id: CONSTANTS.CLIENT_ID,
-        secret: CONSTANTS.CLIENT_SECRET,
-      },
+      client: CLIENT,
     },
   },
   'GET_POPULAR_VIDEOS': {
     endpoint: API_URL + 'items',
     method: 'get',
     data: {
-      client: {
-        id: CONSTANTS.CLIENT_ID,
-        secret: CONSTANTS.CLIENT_SECRET,
-      },
+      client: CLIENT,
       popularity: true,
     },
   },
@@ -113,10 +94,7 @@ export default {
     endpoint: API_URL + 'items',
     method: 'get',
     data: {
-      client: {
-        id: CONSTANTS.CLIENT_ID,
-        secret: CONSTANTS.CLIENT_SECRET,
-      },
+      client: CLIENT,
       featured: true,
     },
   },
@@ -124,20 +102,14 @@ export default {
     endpoint: API_URL + 'tags',
     method: 'get',
     data: {
-      client: {
-        id: CONSTANTS.CLIENT_ID,
-        secret: CONSTANTS.CLIENT_SECRET,
-      },
+      client: CLIENT,
     },
   },
   'GET_VIDEOS_BY_TAG': {
     endpoint: API_URL + 'items',
     method: 'get',
     data: {
-      client: {
-        id: CONSTANTS.CLIENT_ID,
-        secret: CONSTANTS.CLIENT_SECRET,
-      },
+      client: CLIENT,
     },
   },
   'MESSAGES': {

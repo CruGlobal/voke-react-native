@@ -1,4 +1,5 @@
 /* global __DEV__ */
+import { Alert } from 'react-native';
 import lodashForEach from 'lodash/forEach';
 // import Reactotron from 'reactotron-react-native';
 
@@ -76,17 +77,26 @@ export default function callApi(requestObject, query = {}, data = {}) {
       }
 
       const handleError = (err) => {
+        console.warn('err', err);
         if (err) {
-          if (typeof err === 'object' && err.code === 'AUTHORIZATION_REQUIRED') {
-            dispatch(logoutAction(true));
-          }
-
           dispatch({
             error: err,
             query: newQuery,
             data,
             type: action.FAIL,
           });
+
+          if (typeof err === 'object' && err.code === 'AUTHORIZATION_REQUIRED') {
+            dispatch(logoutAction(true));
+            reject();
+            return;
+          } else if (typeof err === 'object' && err.error === 'Unauthorized') {
+            Alert.alert('Unauthorized', 'Sorry, it looks like there was an error authorizing your request.');
+            // dispatch(logoutAction(true));
+            reject();
+            return;
+          }
+
         }
         reject(err);
       };

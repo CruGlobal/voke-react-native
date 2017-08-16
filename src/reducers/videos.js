@@ -1,5 +1,6 @@
 import { REHYDRATE } from 'redux-persist/constants';
-import { GET_ALL_VIDEOS, GET_TAGS, GET_FEATURED, GET_POPULAR, GET_SELECTED_THEME } from '../constants';
+import { REQUESTS } from '../actions/api';
+
 
 const initialState = {
   all: [],
@@ -18,30 +19,32 @@ export default function videos(state = initialState, action) {
         ...state,
         ...incoming,
       };
-    case GET_ALL_VIDEOS:
+    case REQUESTS.VIDEOS.SUCCESS:
       return {
         ...state,
-        all: action.all || [],
+        all: action.items || [],
       };
-    case GET_TAGS:
+    case REQUESTS.GET_TAGS.SUCCESS:
+      console.warn('tags, check action:', action);
       return {
         ...state,
-        tags: action.tags || [],
+        tags: action || [],
       };
-    case GET_FEATURED:
+    case REQUESTS.GET_FEATURED_VIDEOS.SUCCESS:
       return {
         ...state,
-        featured: action.featured || [],
+        featured: action.items || [],
       };
-    case GET_POPULAR:
+    case REQUESTS.GET_POPULAR_VIDEOS.SUCCESS:
       return {
         ...state,
-        popular: action.popular || [],
+        popular: action.items || [],
       };
-    case GET_SELECTED_THEME:
+    case REQUESTS.GET_VIDEOS_BY_TAG.SUCCESS:
+      console.warn('selected theme, check action:', action);
       return {
         ...state,
-        selectedThemeVideos: action.selectedThemeVideos || [],
+        selectedThemeVideos: action || [],
       };
     default:
       return state;

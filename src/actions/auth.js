@@ -2,6 +2,7 @@ import { Alert, Platform, ToastAndroid, AsyncStorage } from 'react-native';
 import { LOGIN, LOGOUT, SET_USER } from '../constants';
 import callApi, { REQUESTS } from './api';
 import { messagesAction } from './messages';
+// import { navigateResetLogin } from './navigation_new';
 // import { resetLoginAction, resetHomeAction } from './navigation';
 
 export function loginAction(token, user = {}) {
@@ -37,6 +38,8 @@ export function logoutAction() {
       dispatch({ type: LOGOUT });
       resolve();
       AsyncStorage.clear();
+      console.warn('TODO: Reset to login page');
+      // dispatch(navigateResetLogin());
     })
   );
 }
