@@ -3,6 +3,7 @@ package com.messagingapp;
 import android.app.Application;
 
 // import com.facebook.react.ReactApplication;
+import com.react.rnspinkit.RNSpinkitPackage;
 import com.rt2zz.reactnativecontacts.ReactNativeContacts;
 import com.imagepicker.ImagePickerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -26,6 +27,7 @@ public class MainApplication extends NavigationApplication {
   protected List<ReactPackage> getPackages() {
     return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
+            new RNSpinkitPackage(),
             new ReactNativeContacts(),
             new ImagePickerPackage(),
         new VectorIconsPackage()

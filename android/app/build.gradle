@@ -133,6 +133,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-spinkit')
     compile project(':react-native-contacts')
     compile project(':react-native-image-picker')
     compile project(':react-native-vector-icons')
