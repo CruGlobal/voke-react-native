@@ -58,7 +58,7 @@ class ConversationList extends Component { // eslint-disable-line
 
   renderRow(item) {
     const conversation = item;
-    const latestMessage = conversation.messages[conversation.messages.length - 1] || {};
+    const latestMessage = conversation.messages ? conversation.messages[conversation.messages.length - 1] : {};
     return (
       <Touchable highlight={true} activeOpacity={0.6} onPress={() => this.props.onSelect(conversation)}>
         <View>

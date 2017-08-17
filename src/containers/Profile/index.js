@@ -145,8 +145,8 @@ class Profile extends Component {
 
     if (this.state.imageUri) {
       image = { uri: this.state.imageUri} ;
-    } else if (this.props.user.avatar.small) {
-      image = { uri: this.props.user.avatar.small };
+    } else if (this.props.user.avatar.large) {
+      image = { uri: this.props.user.avatar.large };
     } else {
       image= VOKE_LOGO;
     }
@@ -154,10 +154,7 @@ class Profile extends Component {
     return (
       <ImagePicker onSelectImage={this.handleImageChange}>
         <Flex align="center" justify="center" style={styles.imageSelect}>
-          <Image source={image} />
-          <Flex align="center" justify="center" style={styles.imageCover}>
-            <Icon name="camera-alt" style={styles.imageIcon} size={30} />
-          </Flex>
+          <Image source={image} style={styles.image} />
         </Flex>
       </ImagePicker>
     );

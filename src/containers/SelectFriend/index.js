@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, Image } from 'react-native';
+import { View, Image, Share } from 'react-native';
 import { connect } from 'react-redux';
 import { getContacts } from '../../actions/contacts';
+import { createConversation } from '../../actions/messages';
 import PropTypes from 'prop-types';
 
 import styles from './styles';
@@ -62,10 +63,32 @@ class SelectFriend extends Component {
 
   selectContact(c) {
     if (!c) return;
+    let phoneNumber = c.phoneNumbers ? c.phoneNumbers[0].number : '1';
+    let firstName = c.givenName ? c.givenName : 'Friend';
+    let email = c.emailAddresses ? c.emailAddresses[0].email : 'user@vokeapp.com';
+
     if (c.isVoke) {
       console.warn('voke contact selected', this.props.video);
     } else {
       console.warn('normal contact selected', this.props.video);
+      let data = {
+        conversation: {
+          messengers_attributes: [
+            {
+              first_name: `${firstName}`,
+              mobile: `${phoneNumber}`,
+              email: `${email}`,
+            },
+          ],
+          item_id: `${this.props.video.id}`,
+        },
+      };
+      this.props.dispatch(createConversation(data)).then((results)=>{
+        Share.share({
+          message: `Hi ${c.givenName}, check out this video ${results.messengers[0].url} `,
+          title: 'Check this out',
+        });
+      });
     }
     // TODO: API call to create a link
     // const URL = 'https://my.vokeapp.com/CEHpHyo';

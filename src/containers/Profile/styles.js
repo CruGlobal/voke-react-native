@@ -74,4 +74,11 @@ export default StyleSheet.create({
   saveButtonText: {
     color: theme.primaryColor,
   },
+  image: {
+    height: 125,
+    width: 125,
+    borderRadius: 125 / 2,
+    borderWidth: 1,
+    borderColor: theme.lightBackgroundColor,
+  },
 });

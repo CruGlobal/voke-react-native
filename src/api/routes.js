@@ -110,8 +110,18 @@ export default {
       client: CLIENT,
     },
   },
-  'MESSAGES': {
-    endpoint: `${API_URL}me/conversations/${'4a61be7f-5734-4e7e-bce5-4105a3f32f0f'}/messages`,
-    // mapResults: (results, query, data, getState) => results,
+  'GET_CONVERSATIONS': {
+    endpoint: API_URL + 'me/conversations',
+    method: 'get',
+    data: {
+      client: CLIENT,
+    },
+  },
+  'CREATE_CONVERSATION': {
+    endpoint: API_URL + 'me/conversations',
+    method: 'post',
+    data: {
+      client: CLIENT,
+    },
   },
 };
