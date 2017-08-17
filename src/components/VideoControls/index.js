@@ -65,7 +65,7 @@ export default class VideoControls extends Component {
         </Flex>
         <Flex direction="row" style={styles.controlWrapper} align="center" justify="center">
           <Flex value={.2} align="center">
-            <Touchable onPress={onPlayPause}>
+            <Touchable onPress={this.handleScreenPress}>
               <View>
                 <Icon name={!isPaused ? 'pause-circle-filled' : 'play-circle-filled'} size={25} style={styles.playIcon} />
               </View>

@@ -4,6 +4,7 @@ import BACK_ICON from '../../../images/back-arrow.png';
 import { connect } from 'react-redux';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { Navigation } from 'react-native-navigation';
+import Communications from 'react-native-communications';
 
 import theme from '../../theme';
 import SettingsList from '../../components/SettingsList';
@@ -35,6 +36,7 @@ class Help extends Component {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleLink = this.handleLink.bind(this);
+    this.handleShare = this.handleShare.bind(this);
   }
 
   componentWillMount() {
@@ -58,6 +60,12 @@ class Help extends Component {
     Linking.openURL(url);
   }
 
+  handleShare() {
+    console.warn('share');
+    Communications.email(['support@vokeapp.com'],null,null,'I would like to report a user',null)
+
+  }
+
   render() {
     const versionBuild = '1.0';
     return (
@@ -77,7 +85,7 @@ class Help extends Component {
           },
           {
             name: 'Report a User',
-            onPress: () => this.handleLink('https://www.facebook.com'),
+            onPress: () => this.handleShare(),
           },
           {
             name: 'Email Us',
