@@ -9,6 +9,11 @@ import Communications from 'react-native-communications';
 import theme from '../../theme';
 import SettingsList from '../../components/SettingsList';
 
+const EMAIL = ['support@vokeapp.com'];
+const REPORT_TITLE = 'I would like to report a user';
+const EMAIL_US_TITLE = 'Email to Voke Support';
+const FEATURE_REQUEST_TITLE = 'Feature Request for Voke';
+
 function setButtons() {
   return {
     leftButtons: [{
@@ -17,7 +22,8 @@ function setButtons() {
     }],
     rightButtons: [{
       title: 'Done',
-      id: 'home',
+      id: 'done',
+      disableIconTint: true,
     }],
   };
 }
@@ -25,11 +31,9 @@ function setButtons() {
 class Help extends Component {
 
   static navigatorStyle = {
-    navBarButtonColor: theme.lightText,
+    navBarBackgroundColor: theme.backgroundColor,
     navBarTextColor: theme.textColor,
-    navBarBackgroundColor: theme.primaryColor,
-    navBarRightButtonColor: theme.textColor,
-    navBarRightButtonFontSize: 12,
+    navBarButtonColor: theme.textColor,
   };
 
   constructor(props) {
@@ -48,7 +52,7 @@ class Help extends Component {
       if (event.id === 'back') {
         this.props.navigateBack();
       }
-      if (event.id =='home') {
+      if (event.id =='done') {
         Navigation.dismissModal({
           animationType: 'slide-down',
         });
@@ -60,36 +64,41 @@ class Help extends Component {
     Linking.openURL(url);
   }
 
-  handleShare() {
-    console.warn('share');
-    Communications.email(['support@vokeapp.com'],null,null,'I would like to report a user',null)
-
+  handleShare(c) {
+    let title;
+    if (c === 'feature') {
+      title = FEATURE_REQUEST_TITLE;
+    } else if (c === 'report') {
+      title = REPORT_TITLE;
+    } else {
+      title = EMAIL_US_TITLE;
+    }
+    Communications.email(EMAIL,null,null,title,null);
   }
 
   render() {
-    const versionBuild = '1.0';
     return (
       <SettingsList
         items={[
           {
             name: 'Visit our Help Website',
-            onPress: () => this.handleLink('https://www.vokeapp.com'),
+            onPress: () => this.handleLink('https://help.vokeapp.com/'),
           },
           {
             name: 'Visit our FAQ Website',
-            onPress: () => this.handleLink('https://www.facebook.com'),
+            onPress: () => this.handleLink('https://www.vokeapp.com/faq'),
           },
           {
             name: 'Make a Feature Request',
-            onPress: () => this.handleLink('https://www.facebook.com'),
+            onPress: () => this.handleShare('feature'),
           },
           {
             name: 'Report a User',
-            onPress: () => this.handleShare(),
+            onPress: () => this.handleShare('report'),
           },
           {
             name: 'Email Us',
-            onPress: () => {},
+            onPress: () => this.handleShare('emailUs'),
           },
         ]}
       />

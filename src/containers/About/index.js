@@ -3,6 +3,7 @@ import { Linking } from 'react-native';
 import BACK_ICON from '../../../images/back-arrow.png';
 import { connect } from 'react-redux';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
+import { Navigation } from 'react-native-navigation';
 
 import theme from '../../theme';
 import SettingsList from '../../components/SettingsList';
@@ -12,6 +13,11 @@ function setButtons() {
     leftButtons: [{
       id: 'back', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
       icon: BACK_ICON, // for icon button, provide the local image asset name
+    }],
+    rightButtons: [{
+      title: 'Done',
+      id: 'done',
+      disableIconTint: true,
     }],
   };
 }
@@ -38,6 +44,11 @@ class About extends Component {
       if (event.id === 'back') {
         this.props.navigateBack();
       }
+      if (event.id =='done') {
+        Navigation.dismissModal({
+          animationType: 'slide-down',
+        });
+      }
     }
   }
 
@@ -60,11 +71,11 @@ class About extends Component {
           },
           {
             name: 'Terms of Service',
-            onPress: () => this.handleLink('https://www.facebook.com'),
+            onPress: () => this.handleLink('https://www.vokeapp.com/terms-in-app/'),
           },
           {
             name: 'Privacy Policy',
-            onPress: () => this.handleLink('https://www.facebook.com'),
+            onPress: () => this.handleLink('https://www.vokeapp.com/privacy-in-app/'),
           },
           {
             name: `Version: ${versionBuild}`,

@@ -38,8 +38,7 @@ export default StyleSheet.create({
   legalText: {
     fontSize: 12,
     color: theme.accentColor,
-    paddingHorizontal: 60,
-    paddingVertical: 15,
+    paddingHorizontal: 3,
     textAlign: 'center',
   },
   actionButton: {
@@ -53,6 +52,14 @@ export default StyleSheet.create({
   },
   haveAccount: {
     paddingLeft: 10,
+  },
+  legalLinkText: {
+    fontSize: 12,
+    color: theme.textColor,
+  },
+  legalLink: {
+    padding: 0,
+    margin: 0,
   },
   haveAccountButton: {
     fontSize: 14,

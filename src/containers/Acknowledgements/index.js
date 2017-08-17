@@ -1,23 +1,47 @@
 import React, { Component } from 'react';
 import { Linking } from 'react-native';
+import BACK_ICON from '../../../images/back-arrow.png';
 
 import theme from '../../theme';
 import SettingsList from '../../components/SettingsList';
 
+function setButtons() {
+  return {
+    leftButtons: [{
+      id: 'back', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+      icon: BACK_ICON, // for icon button, provide the local image asset name
+    }],
+  };
+}
+
 class Acknowledgements extends Component {
   static navigatorStyle = {
-    navBarButtonColor: theme.lightText,
-    navBarTextColor: theme.headerTextColor,
-    navBarBackgroundColor: theme.headerBackgroundColor,
+    navBarBackgroundColor: theme.backgroundColor,
+    navBarTextColor: theme.textColor,
+    navBarButtonColor: theme.textColor,
   };
 
   constructor(props) {
     super(props);
+
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleLink = this.handleLink.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.navigator.setButtons(setButtons());
   }
 
   handleLink(url) {
     Linking.openURL(url);
+  }
+
+  onNavigatorEvent(event) {
+    if (event.type === 'NavBarButtonPress') {
+      if (event.id === 'back') {
+        this.props.navigateBack();
+      }
+    }
   }
 
   render() {

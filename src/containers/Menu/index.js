@@ -13,14 +13,14 @@ class Menu extends Component {
     rightButtons: [{
       title: 'Done',
       id: 'home',
+      disableIconTint: true,
     }],
   };
 
   static navigatorStyle = {
     navBarBackgroundColor: theme.backgroundColor,
     navBarTextColor: theme.textColor,
-    navBarRightButtonColor: theme.textColor,
-    navBarRightButtonFontSize: 14,
+    navBarButtonColor: theme.textColor,
   };
 
   constructor(props) {

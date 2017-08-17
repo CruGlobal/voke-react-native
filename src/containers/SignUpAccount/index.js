@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { TextInput, ScrollView, KeyboardAvoidingView, Alert } from 'react-native';
+import { TextInput, ScrollView, KeyboardAvoidingView, Alert, Linking } from 'react-native';
 
 
 import styles from './styles';
@@ -44,6 +44,7 @@ class SignUpAccount extends Component {
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.createAccount = this.createAccount.bind(this);
     this.checkEmail = this.checkEmail.bind(this);
+    this.handleLink = this.handleLink.bind(this);
   }
 
   onNavigatorEvent(event) {
@@ -73,6 +74,10 @@ class SignUpAccount extends Component {
       this.setState({ emailValidation: true });
     } else { this.setState({ emailValidation: false }); }
     this.setState({ email: text });
+  }
+
+  handleLink(url) {
+    Linking.openURL(url);
   }
 
   render() {
@@ -120,7 +125,27 @@ class SignUpAccount extends Component {
                 onPress={this.createAccount}
               />
             </Flex>
-            <Text style={styles.legalText}>By creating an account you agree to our Privacy Policy and Terms of Service</Text>
+            <Flex direction="column">
+              <Text style={styles.legalText}>By creating an account you agree to our </Text>
+              <Flex direction="row" align="center" justify="center">
+                <Button
+                  text="Privacy Policy"
+                  type= "transparent"
+                  buttonTextStyle={styles.legalLinkText}
+                  style={styles.legalLink}
+                  onPress={() => this.handleLink('https://www.vokeapp.com/privacy-in-app/')}
+                />
+                <Text style={styles.legalText}>and
+                </Text>
+                <Button
+                  text="Terms of Service"
+                  type= "transparent"
+                  buttonTextStyle={styles.legalLinkText}
+                  style={styles.legalLink}
+                  onPress={() => this.handleLink('https://www.vokeapp.com/terms-in-app/')}
+                />
+              </Flex>
+            </Flex>
             <Flex direction="row" align="end" justify="center" style={styles.accountWrap}>
               <Text style={styles.haveAccountText}>Already have an account? </Text>
               <Button
