@@ -1,12 +1,20 @@
 
 import { StyleSheet } from 'react-native';
 import theme, { COLORS, DEFAULT } from '../../theme';
+import videoUtils from '../../utils/video';
+
+const CONTROLLS_HEIGHT = 30;
 
 export default StyleSheet.create({
   controlWrapper: {
-    height: 30,
+    height: CONTROLLS_HEIGHT,
     width: DEFAULT.FULL_WIDTH,
     backgroundColor: COLORS.GREY_FADE,
+    position: 'absolute',
+    bottom: 0,
+  },
+  outerWrap: {
+    // backgroundColor: COLORS.GREY_FADE,
     position: 'absolute',
     bottom: 0,
   },
@@ -38,5 +46,23 @@ export default StyleSheet.create({
   },
   emptyText: {
     color: theme.textColor,
+  },
+  viewBlock: {
+    height: videoUtils.HEIGHT,
+    width: videoUtils.WIDTH,
+    backgroundColor: COLORS.TRANSPARENT,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+  },
+  screenPress: {
+    height: videoUtils.HEIGHT,
+    width: videoUtils.WIDTH,
+    backgroundColor: COLORS.TRANSPARENT,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  hide: {
+    // display: 'none',
   },
 });

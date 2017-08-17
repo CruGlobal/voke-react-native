@@ -26,46 +26,73 @@ export default class VideoControls extends Component {
     this.state = {
       timeElapsedStr: convertTime(0),
       stateTime: 0,
+      screenPressed: false,
     };
+
+    this.handleScreenPress = this.handleScreenPress.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({ stateTime: nextProps.time });
   }
-  
+
+  handleScreenPress() {
+    this.props.onPlayPause();
+    let currentState = this.state.screenPressed;
+    this.setState({ screenPressed: !currentState });
+    // this.setTimeout(()=> {
+    //   this.setState({ screenAnimation: null });
+    // },1000);
+    // this.screenPlay;
+    // console.warn('screen press');
+  }
+
 
   render() {
     const { time, isPaused, onSeek, duration, onPlayPause } = this.props;
     return (
-      <Flex direction="row" style={styles.controlWrapper} align="center" justify="center">
-        <Flex value={.2} align="center">
-          <Touchable onPress={onPlayPause}>
-            <View>
-              <Icon name={!isPaused ? 'pause-circle-filled' : 'play-circle-filled'} size={25} style={styles.playIcon} />
-            </View>
+      <Flex direction= "column" style={styles.outerWrap}>
+        <Flex style={styles.viewBlock} align="center" justify="center">
+          <Touchable activeOpacity={.5} onPress={this.handleScreenPress}>
+            <Flex animation="zoomIn" style={styles.screenPress}>
+              {
+                this.state.screenPressed ? (
+                  <Icon name={'play-circle-filled'} size={50} style={styles.playIcon} />
+                ) : null
+              }
+            </Flex>
           </Touchable>
         </Flex>
-        <Flex value={.2} align="center">
-          <Text style={styles.time}>{convertTime(this.state.stateTime)}</Text>
-        </Flex>
-        <Flex value={1.2}>
-          <Slider
-            thumbImage={iconsMap['ios-radio-button-on']}
-            minimumTrackTintColor={theme.primaryColor}
-            step={1}
-            value={time}
-            minimumValue={0}
-            maximumValue={duration}
-            onSlidingComplete={() => onSeek(this.state.stateTime)}
-            onValueChange={(value) => this.setState({
-              stateTime: value,
-              timeElapsedStr: convertTime(value),
-            })}
-            style={styles.slider}
-          />
-        </Flex>
-        <Flex align="center" value={.3}>
-          <Text style={styles.time}>{convertTime(duration)}</Text>
+        <Flex direction="row" style={styles.controlWrapper} align="center" justify="center">
+          <Flex value={.2} align="center">
+            <Touchable onPress={onPlayPause}>
+              <View>
+                <Icon name={!isPaused ? 'pause-circle-filled' : 'play-circle-filled'} size={25} style={styles.playIcon} />
+              </View>
+            </Touchable>
+          </Flex>
+          <Flex value={.2} align="center">
+            <Text style={styles.time}>{convertTime(this.state.stateTime)}</Text>
+          </Flex>
+          <Flex value={1.2}>
+            <Slider
+              thumbImage={iconsMap['ios-radio-button-on']}
+              minimumTrackTintColor={theme.primaryColor}
+              step={1}
+              value={time}
+              minimumValue={0}
+              maximumValue={duration}
+              onSlidingComplete={() => onSeek(this.state.stateTime)}
+              onValueChange={(value) => this.setState({
+                stateTime: value,
+                timeElapsedStr: convertTime(value),
+              })}
+              style={styles.slider}
+            />
+          </Flex>
+          <Flex align="center" value={.3}>
+            <Text style={styles.time}>{convertTime(duration)}</Text>
+          </Flex>
         </Flex>
       </Flex>
     );

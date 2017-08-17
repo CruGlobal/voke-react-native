@@ -94,11 +94,11 @@ export default class WebviewVideo extends Component {
     }
     return null;
   }
-  
+
   seek(seconds) {
     this.sendMessage({ seconds });
   }
-  
+
   togglePlay() {
     this.sendMessage({ togglePlay: true });
   }
