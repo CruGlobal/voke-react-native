@@ -112,6 +112,7 @@ class Contacts extends Component {
 Contacts.propTypes = {
   ...NavPropTypes,
   onSelect: PropTypes.func.isRequired,
+  video: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = ({ contacts }) => ({

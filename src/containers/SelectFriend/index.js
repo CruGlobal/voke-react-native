@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { getContacts } from '../../actions/contacts';
+import PropTypes from 'prop-types';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
@@ -62,9 +63,9 @@ class SelectFriend extends Component {
   selectContact(c) {
     if (!c) return;
     if (c.isVoke) {
-      console.warn('voke contact selected');
+      console.warn('voke contact selected', this.props.video);
     } else {
-      console.warn('normal contact selected');
+      console.warn('normal contact selected', this.props.video);
     }
     // TODO: API call to create a link
     // const URL = 'https://my.vokeapp.com/CEHpHyo';
@@ -98,6 +99,7 @@ class SelectFriend extends Component {
     }
     return (
       <Flex style={styles.container} direction="column" align="center" justify="center">
+        <StatusBar hidden={false} />
         <Flex justify="center" value={1}>
           <Text style={styles.header}>
             Select a Friend
@@ -107,6 +109,7 @@ class SelectFriend extends Component {
           <Button
             onPress={() => this.props.navigatePush('voke.Contacts', {
               onSelect: this.selectContact,
+              video: this.props.video,
             })}
             text="Search Contacts"
             style={styles.randomButton}
@@ -150,6 +153,7 @@ class SelectFriend extends Component {
 // Check out actions/navigation_new.js to see the prop types and mapDispatchToProps
 SelectFriend.propTypes = {
   ...NavPropTypes,
+  video: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = ({ contacts }) => ({

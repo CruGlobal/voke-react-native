@@ -46,6 +46,7 @@
 		AE0A75851F4271FE000A51EA /* TitilliumWeb-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE0A75841F4271FE000A51EA /* TitilliumWeb-Regular.ttf */; };
 		AE0A75871F42720D000A51EA /* TitilliumWeb-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE0A75861F42720D000A51EA /* TitilliumWeb-SemiBold.ttf */; };
 		AE0A75891F427225000A51EA /* TitilliumWeb-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE0A75881F427225000A51EA /* TitilliumWeb-Bold.ttf */; };
+		AE9113C51F45F8B400D6E009 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE9113C41F45F8B400D6E009 /* Launch Screen.storyboard */; };
 		AEC9F3E11F01CA7D0038E58D /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC9F3DF1F01CA630038E58D /* libReactNativeNavigation.a */; };
 		B813226B741B4B9EA4D274EC /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABD02933A222442AA4DA129E /* Octicons.ttf */; };
 		C73DF4BA9C8D43E989290E35 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A6B0C6DDD87144C0846048CD /* Entypo.ttf */; };
@@ -340,6 +341,7 @@
 		AE0A75841F4271FE000A51EA /* TitilliumWeb-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-Regular.ttf"; sourceTree = "<group>"; };
 		AE0A75861F42720D000A51EA /* TitilliumWeb-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-SemiBold.ttf"; sourceTree = "<group>"; };
 		AE0A75881F427225000A51EA /* TitilliumWeb-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-Bold.ttf"; sourceTree = "<group>"; };
+		AE9113C41F45F8B400D6E009 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		AEC9F3BF1F01CA620038E58D /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
 		B28BBB1231AA4B02BE808F38 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		C46F7859051745A78AC80443 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
@@ -484,6 +486,7 @@
 		13B07FAE1A68108700A75B9A /* MessagingApp */ = {
 			isa = PBXGroup;
 			children = (
+				AE9113C41F45F8B400D6E009 /* Launch Screen.storyboard */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -1073,6 +1076,7 @@
 				AE0A75891F427225000A51EA /* TitilliumWeb-Bold.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				C73DF4BA9C8D43E989290E35 /* Entypo.ttf in Resources */,
+				AE9113C51F45F8B400D6E009 /* Launch Screen.storyboard in Resources */,
 				AE0A75851F4271FE000A51EA /* TitilliumWeb-Regular.ttf in Resources */,
 				49EA158A40334A37BD06A89F /* EvilIcons.ttf in Resources */,
 				376E6513900E4B6B98D8A273 /* FontAwesome.ttf in Resources */,

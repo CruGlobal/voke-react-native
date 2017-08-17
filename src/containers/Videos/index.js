@@ -180,11 +180,6 @@ class Videos extends Component {
           onSelect={(c) => {
             this.props.navigatePush('voke.VideoDetails', {
               video: c,
-              // Only pass in this prop when it exists
-              onVideoShare: this.props.onVideoShare ? (v) => {
-                this.props.onVideoShare(v);
-                this.props.navigateBack();
-              } : undefined,
             });
           }}
           onRefresh={() => {}}
