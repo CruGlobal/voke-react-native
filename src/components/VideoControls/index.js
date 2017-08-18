@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { Slider, View } from 'react-native';
+import { Slider, View, Image } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { iconsMap } from '../../utils/iconMap';
 import theme from '../../theme';
 import { Touchable, Flex, Icon, Text } from '../common';
 import styles from './styles';
+import THUMB_SLIDER from '../../../images/slider_thumb.png';
+import PLAY_BUTTON from '../../../images/play_button.png';
+import PAUSE_BUTTON from '../../../images/pause_button.png';
+import FULLSCREEN_BUTTON from '../../../images/fullscreen_button.png';
 
 function convertTime(time) {
   let seconds = '00' + Math.ceil(time % 60);
@@ -67,7 +70,7 @@ export default class VideoControls extends Component {
           <Flex value={.2} align="center">
             <Touchable onPress={this.handleScreenPress}>
               <View>
-                <Icon name={!isPaused ? 'pause-circle-filled' : 'play-circle-filled'} size={25} style={styles.playIcon} />
+                <Image source={!isPaused ? PAUSE_BUTTON : PLAY_BUTTON} style={styles.playIcon}/>
               </View>
             </Touchable>
           </Flex>
@@ -76,7 +79,7 @@ export default class VideoControls extends Component {
           </Flex>
           <Flex value={1.2}>
             <Slider
-              thumbImage={iconsMap['ios-radio-button-on']}
+              thumbImage={THUMB_SLIDER}
               minimumTrackTintColor={theme.primaryColor}
               step={1}
               value={time}

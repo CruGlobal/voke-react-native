@@ -108,7 +108,6 @@ class Home extends Component {
 
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleLoadMore = this.handleLoadMore.bind(this);
-    this.createConversation = this.createConversation.bind(this);
   }
 
   componentWillMount() {

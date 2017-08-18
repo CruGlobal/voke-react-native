@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, View, StatusBar, ScrollView } from 'react-native';
+import { Alert, View, StatusBar, ScrollView, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -11,6 +11,7 @@ import WebviewVideo from '../../components/WebviewVideo';
 import webviewStates from '../../components/WebviewVideo/common';
 import FloatingButtonSingle from '../../components/FloatingButtonSingle';
 import { Icon, Flex, Touchable, Text } from '../../components/common';
+import BACK_ICON from '../../../images/back_button_transparent.png';
 
 class VideoDetails extends Component {
   static navigatorStyle = {
@@ -86,7 +87,7 @@ class VideoDetails extends Component {
           <View style={styles.backHeader}>
             <Touchable borderless={true} onPress={() => this.props.navigateBack()}>
               <View>
-                <Icon name="chevron-left" size={22} style={styles.backIcon} />
+                <Image source={BACK_ICON} style={styles.backIcon} />
               </View>
             </Touchable>
           </View>

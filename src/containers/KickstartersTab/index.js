@@ -11,11 +11,7 @@ import { Flex, Text } from '../../components/common';
 class KickstartersTab extends Component {
   render() {
     return (
-      <ScrollView style={styles.container}>
-        <Flex self="stretch" align="center" justify="center" value={1} style={styles.content}>
-          <Text style={{ fontSize: 24 }}>The odds of you explained...</Text>
-        </Flex>
-      </ScrollView>
+      <Text style={{ fontSize: 24, color: 'white' }}>The odds of you explained...</Text>
     );
   }
 }

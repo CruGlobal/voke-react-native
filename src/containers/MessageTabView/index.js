@@ -28,8 +28,8 @@ class MessageTabView extends Component {
     navBarBackgroundColor: theme.headerBackgroundColor,
     navBarNoBorder: true,
     // Android styles
-    navBarHideOnScroll: true,
-    topBarCollapseOnScroll: true,
+    navBarHideOnScroll: false,
+    topBarCollapseOnScroll: false,
     topTabTextColor: theme.lightText,
     selectedTopTabTextColor: theme.lightText,
     selectedTopTabIndicatorColor: COLORS.YELLOW,
@@ -73,7 +73,7 @@ class MessageTabView extends Component {
     return (
       <VideosTab
         {...this.props}
-        onVideoShare={(v) => {
+        onVideoAdd={(v) => {
           console.warn('selected video!', v);
           this.props.onSelectVideo(v);
         }}

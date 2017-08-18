@@ -9,6 +9,7 @@ import Text from './Text';
 import Touchable from './Touchable';
 import Separator from './Separator';
 import RefreshControl from './RefreshControl';
+import Avatar from './Avatar';
 
 export {
   Button,
@@ -20,4 +21,5 @@ export {
   Touchable,
   Separator,
   RefreshControl,
+  Avatar,
 };

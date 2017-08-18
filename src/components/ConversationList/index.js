@@ -5,9 +5,11 @@ import { FlatList, View, ListView, TouchableOpacity, Image } from 'react-native'
 import styles from './styles';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import ARROW from '../../../images/chat_name_arrow.png';
-// import theme from '../../theme';
+import DELETE_ICON from '../../../images/deleteChatIcon.png';
+import BLOCK_ICON from '../../../images/blockChatIcon.png';
+import theme, {COLORS} from '../../theme';
 
-import { Flex, Icon, Text, Touchable, Separator } from '../common';
+import { Flex, Icon, Text, Touchable, Separator, Avatar } from '../common';
 
 // const ITEM_HEIGHT = 60 + theme.separatorHeight;
 
@@ -21,6 +23,7 @@ class ConversationList extends Component { // eslint-disable-line
     this.state = {
       dataSource: ds.cloneWithRows(props.items),
       refreshing: false,
+      rowFocused: null,
     };
 
     this.handleRefresh = this.handleRefresh.bind(this);
@@ -28,6 +31,8 @@ class ConversationList extends Component { // eslint-disable-line
     this.handleDelete = this.handleDelete.bind(this);
     this.handleBlock = this.handleBlock.bind(this);
     this.renderRow = this.renderRow.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -48,6 +53,14 @@ class ConversationList extends Component { // eslint-disable-line
     this.props.onBlock(data);
   }
 
+  handleFocus(id) {
+    this.setState({ rowFocused: id });
+  }
+
+  handleBlur() {
+    this.setState({ rowFocused: null });
+  }
+
   handleRefresh() {
     this.setState({ refreshing: true });
     setTimeout(() => {
@@ -60,11 +73,11 @@ class ConversationList extends Component { // eslint-disable-line
     const conversation = item;
     const latestMessage = conversation.messages ? conversation.messages[conversation.messages.length - 1] : {};
     return (
-      <Touchable highlight={true} activeOpacity={0.6} onPress={() => this.props.onSelect(conversation)}>
+      <Touchable highlight={true} underlayColor={COLORS.TRANSPARENT} onShowUnderlay={()=> this.handleFocus(item.id)} onHideUnderlay={this.handleBlur} activeOpacity={1} onPress={() => this.props.onSelect(conversation)}>
         <View>
-          <Flex style={styles.container} direction="row" align="center" justify="center">
-            <Flex value={2} style={styles.avatarWrapper} align="center" justify="start">
-              <Flex style={styles.avatar}></Flex>
+          <Flex style={[styles.container, this.state.rowFocused === item.id ? {backgroundColor: theme.accentColor} : null]} direction="row" align="center" justify="center">
+            <Flex value={2} align="center" justify="start">
+              <Avatar size={28} style={this.state.rowFocused === item.id ? {backgroundColor: theme.primaryColor} : null} text={conversation.messengers[0].initials} />
             </Flex>
             <Flex value={15}>
               <Flex direction="column">
@@ -94,17 +107,18 @@ class ConversationList extends Component { // eslint-disable-line
           <View style={styles.rowBack}>
             <TouchableOpacity
               style={[styles.backRightBtn, styles.backRightBtnLeft]}
+              activeOpacity={0.9}
               onPress={() => {
                 this.handleDelete(data);
                 rowMap[`${sectionID}${rowID}`] && rowMap[`${sectionID}${rowID}`].closeRow();
               }}
             >
               <Flex direction="column" align="center" justify="center">
-                <Icon size={24} type="FontAwesome" name="times-circle-o" style={styles.icon} />
-                <Text style={styles.backTextWhite}>Delete</Text>
+                <Image source={DELETE_ICON} style={{height: 40}} />
               </Flex>
             </TouchableOpacity>
             <TouchableOpacity
+              activeOpacity={0.9}
               style={[styles.backRightBtn, styles.backRightBtnRight]}
               onPress={() => {
                 this.handleBlock(data);
@@ -112,8 +126,7 @@ class ConversationList extends Component { // eslint-disable-line
               }}
             >
               <Flex direction="column" align="center" justify="center">
-                <Icon size={24} type="FontAwesome" name="ban" style={styles.icon} />
-                <Text style={styles.backTextWhite}>Block</Text>
+                <Image source={BLOCK_ICON} style={{height: 40}} />
               </Flex>
             </TouchableOpacity>
           </View>

@@ -21,12 +21,6 @@ export default StyleSheet.create({
   avatarWrapper: {
     padding: 2,
   },
-  avatar: {
-    height: 28,
-    width: 28,
-    borderRadius: 15,
-    backgroundColor: 'white',
-  },
   conversationArrow: {
     padding: 2,
   },
@@ -57,9 +51,5 @@ export default StyleSheet.create({
   backRightBtnRight: {
     backgroundColor: theme.secondaryColor,
     right: 0,
-  },
-  icon: {
-    color: COLORS.WHITE,
-    paddingVertical: 2,
   },
 });
