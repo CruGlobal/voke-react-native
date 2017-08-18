@@ -42,7 +42,7 @@
 	<key>NSContactsUsageDescription</key>
 	<string>We need access to your contacts to find out who is on Voke.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photos to allow you to select one for your profile picture</string>
 	<key>UIAppFonts</key>
@@ -70,8 +70,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
