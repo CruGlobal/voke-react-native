@@ -24,7 +24,7 @@ function getIconStyle(type) {
 
 export default class Button extends Component {
   render() {
-    const { onPress, type, text, icon, children, disabled, style = {}, buttonTextStyle = {}, iconStyle = {}, ...rest } = this.props;
+    const { onPress, type, text, icon, iconType, children, disabled, style = {}, buttonTextStyle = {}, iconStyle = {}, ...rest } = this.props;
     let content = children;
     if (!children) {
       let textComp = null;
@@ -38,7 +38,7 @@ export default class Button extends Component {
       }
       if (icon) {
         iconComp = (
-          <Icon name={icon} style={[getIconStyle(type), iconStyle]} />
+          <Icon name={icon} type={iconType ? iconType : null} style={[getIconStyle(type), iconStyle]} />
         );
       }
       if (icon && text) {
@@ -68,6 +68,7 @@ Button.propTypes = {
   type: PropTypes.oneOf(TYPES),
   text: PropTypes.string,
   icon: PropTypes.string,
+  iconType: PropTypes.string,
   children: PropTypes.element,
   disabled: PropTypes.bool,
   style: PropTypes.oneOfType(styleTypes),

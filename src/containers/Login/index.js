@@ -55,7 +55,8 @@ class Login extends Component {
             <Button
               text="Sign Up with Facebook"
               buttonTextStyle={styles.signInButton}
-              icon="account-box"
+              icon="facebook-square"
+              iconType="FontAwesome"
               style={styles.actionButton}
               onPress={() => this.props.navigatePush('voke.LoginInput')}
             />
