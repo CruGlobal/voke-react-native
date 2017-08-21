@@ -63,9 +63,12 @@ class SelectFriend extends Component {
 
   selectContact(c) {
     if (!c) return;
-    let phoneNumber = c.phoneNumbers ? c.phoneNumbers[0].number : '1';
-    let firstName = c.givenName ? c.givenName : 'Friend';
-    let email = c.emailAddresses ? c.emailAddresses[0].email : 'user@vokeapp.com';
+    console.warn(JSON.stringify(c));
+    let phoneNumber = c.phone ? c.phone[0] : null;
+    let name = c.name ? c.name.split(' ') : null;
+    let firstName = name[0] ? name[0] : 'Friend';
+    let lastName = name[name.length -1] ? name[name.length -1] : 'Buddy';
+    let email = c.emailAddresses ? c.emailAddresses[0].email : null;
 
     if (c.isVoke) {
       console.warn('voke contact selected', this.props.video);
@@ -76,6 +79,7 @@ class SelectFriend extends Component {
           messengers_attributes: [
             {
               first_name: `${firstName}`,
+              last_name: `${lastName}`,
               mobile: `${phoneNumber}`,
               email: `${email}`,
             },

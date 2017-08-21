@@ -39,7 +39,7 @@ lodashForEach(apiRoutes, (routeData, key) => {
   API_CALLS[key] = (q, d) => (
     new Promise((resolve, reject) => {
       const method = routeData.method || 'get';
-      
+
       // Make sure the 'method' is one of the valid types
       if (!VALID_METHODS.includes(method)) {
         reject('InvalidMethod');
@@ -60,11 +60,13 @@ lodashForEach(apiRoutes, (routeData, key) => {
 
       // Merge some default data from the routes with the data passed in
       const data = merge({}, routeData.data, d);
+      const endpoint = q.endpoint || routeData.endpoint;
 
       // Call the request
       request(
         method,
-        routeData.endpoint,
+        endpoint,
+        // routeData.endpoint,
         q,
         method === 'get' ? undefined : data,
         extra,

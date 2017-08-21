@@ -4,6 +4,7 @@ import { REQUESTS } from '../actions/api';
 
 const initialState = {
   conversations: [],
+  messages: {},
 };
 
 export default function messages(state = initialState, action) {
@@ -19,6 +20,14 @@ export default function messages(state = initialState, action) {
       return {
         ...state,
         conversations: action.conversations || [],
+      };
+    case REQUESTS.GET_MESSAGES.SUCCESS:
+      const conversationId = action.messages[0] ? action.messages[0].conversation_id : 'conversationId';
+      return {
+        ...state,
+        messages: {
+          [conversationId]: action.messages,
+        },
       };
     default:
       return state;

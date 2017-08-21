@@ -12,7 +12,7 @@ class MessageItem extends Component {
   renderText() {
     const message = this.props.item;
     const isVoke = message.sender === '3';
-    const isMe = isVoke || message.sender === '1';
+    const isMe = this.props.item.messenger_id === this.props.user.id ? true : false;
     return (
       <Flex
         value={1}
@@ -32,7 +32,7 @@ class MessageItem extends Component {
             isVoke ? styles.vokeText: null,
           ]}
         >
-          {message.text}
+          {message.content}
         </Text>
       </Flex>
     );
@@ -41,7 +41,7 @@ class MessageItem extends Component {
   renderVideo() {
     const message = this.props.item;
     const isVoke = message.sender === '3';
-    const isMe = isVoke || message.sender === '1';
+    const isMe = this.props.item.messenger_id === this.props.user.id ? true : false;
     return (
       <Flex
         value={1}
@@ -67,7 +67,7 @@ class MessageItem extends Component {
   render() {
     const message = this.props.item;
     const isVoke = message.sender === '3';
-    const isMe = isVoke || message.sender === '1';
+    const isMe = this.props.item.messenger_id === this.props.user.id ? true : false;
     const isVideo = message.type === 'video';
 
     return (
@@ -114,6 +114,7 @@ class MessageItem extends Component {
 
 MessageItem.propTypes = {
   item: PropTypes.object.isRequired, // Redux
+  user: PropTypes.object.isRequred,
 };
 
 export default MessageItem;

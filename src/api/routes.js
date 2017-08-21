@@ -124,4 +124,18 @@ export default {
       client: CLIENT,
     },
   },
+  'GET_MESSAGES': {
+    endpoint: API_URL + 'me/conversations/conversation_id/messages',
+    method: 'get',
+    data: {
+      client: CLIENT,
+    },
+  },
+  'CREATE_MESSAGE': {
+    endpoint: API_URL + 'me/conversations/conversation_id/messages',
+    method: 'post',
+    data: {
+      client: CLIENT,
+    },
+  },
 };

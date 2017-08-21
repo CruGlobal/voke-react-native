@@ -52,6 +52,7 @@ class MessagesList extends Component {
     return (
       <MessageItem
         item={message}
+        user={this.props.user}
         onSelectVideo={() => this.props.onSelectVideo(message)}
       />
     );
@@ -88,6 +89,7 @@ class MessagesList extends Component {
 
 MessagesList.propTypes = {
   items: PropTypes.array.isRequired,
+  user: PropTypes.object.isRequired,
   onSelectVideo: PropTypes.func.isRequired,
   hasMore: PropTypes.bool,
   isLoadingMore: PropTypes.bool,

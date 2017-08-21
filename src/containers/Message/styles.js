@@ -23,9 +23,12 @@ export default StyleSheet.create({
     fontSize: 16,
   },
   sendIcon: {
-    flex: 0.1,
-    paddingLeft: 13,
-    // backgroundColor: 'yellow',
     color: theme.textColor,
+    fontSize: 30,
+  },
+  sendButton: {
+    flex: 0.1,
+    paddingTop: 10,
+    paddingLeft: 15,
   },
 });

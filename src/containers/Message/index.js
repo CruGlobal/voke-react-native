@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { connect } from 'react-redux';
+import { getMessages, createMessage } from '../../actions/messages';
+import PropTypes from 'prop-types';
 
 import theme, { COLORS } from '../../theme';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
@@ -10,7 +12,7 @@ import { iconsMap } from '../../utils/iconMap';
 import styles from './styles';
 import MessageVideoPlayer from '../MessageVideoPlayer';
 
-import { Flex, Icon } from '../../components/common';
+import { Flex, Icon, Button } from '../../components/common';
 import MessagesList from '../../components/MessagesList';
 import LoadMore from '../../components/LoadMore';
 
@@ -46,6 +48,8 @@ class Message extends Component {
     };
 
     this.handleLoadMore = this.handleLoadMore.bind(this);
+    this.getMessages = this.getMessages.bind(this);
+    this.createMessage = this.createMessage.bind(this);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
@@ -71,6 +75,10 @@ class Message extends Component {
     // this.props.navigator.setTitle({ title: this.props.name || 'Message' });
   }
 
+  componentDidMount() {
+    this.getMessages();
+  }
+
   handleLoadMore() {
     this.setState({ isLoadingMore: true });
     console.warn('Making API call to load more');
@@ -79,14 +87,29 @@ class Message extends Component {
     }, 1000);
   }
 
+  getMessages() {
+    this.props.dispatch(getMessages(this.props.conversation.id));
+  }
+
+  createMessage() {
+    let data = {
+      message: {
+        content: this.state.text,
+      },
+    };
+    this.props.dispatch(createMessage(this.props.conversation.id, data)).then(()=> {
+      this.setState({ text: '' });
+    });
+  }
+
   updateSize(height) {
     this.setState({ height });
   }
 
   render() {
     // const { messages = [] } = this.props.navigation.state.params;
-    const { messages = [] } = this.props;
-
+    const { messages = [], me } = this.props;
+    const currentConversation = this.props.conversation.id;
     let newHeight = {
       height: this.state.height < 40 ? 40 : this.state.height > 80 ? 80 : this.state.height,
     };
@@ -117,10 +140,11 @@ class Message extends Component {
           isLoadingMore={this.state.isLoadingMore}
           onLoadMore={this.handleLoadMore}
           hasMore={hasMore}
-          items={messages}
+          items={messages[currentConversation]}
+          user={me}
           onSelectVideo={(m) => this.setState({ selectedVideo: m })}
         />
-        <Flex direction="row" style={[styles.inputWrap, newWrap]} align="center">
+      <Flex direction="row" style={[styles.inputWrap, newWrap]} align="center" justify="center">
           <TextInput
             onFocus={() => this.list.scrollEnd(true)}
             onBlur={() => this.list.scrollEnd(true)}
@@ -134,7 +158,13 @@ class Message extends Component {
             style={[styles.chatBox, newHeight]}
             autoCorrect={true}
           />
-          <Icon name="send" size={22} style={styles.sendIcon} />
+          <Button
+            type="transparent"
+            style={styles.sendButton}
+            icon="send"
+            iconStyle={styles.sendIcon}
+            onPress={()=> this.createMessage()}
+          />
         </Flex>
       </KeyboardAvoidingView>
     );
@@ -144,6 +174,12 @@ class Message extends Component {
 
 Message.propTypes = {
   ...NavPropTypes,
+  conversation: PropTypes.object.isRequired,
 };
 
-export default connect(null, nav)(Message);
+const mapStateToProps = ({ messages, auth }) => ({
+  messages: messages.messages,
+  me: auth.user,
+});
+
+export default connect(mapStateToProps, nav)(Message);

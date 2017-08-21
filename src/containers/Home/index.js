@@ -169,7 +169,7 @@ class Home extends Component {
               onDelete={() => {}}
               onBlock={() => {}}
               onLoadMore={this.handleLoadMore}
-              onSelect={(c) => this.props.navigatePush('voke.Message', c)}
+              onSelect={(c) => this.props.navigatePush('voke.Message', {conversation: c})}
             />
           ) : (
             <Flex value={1} align="center" justify="center">
