@@ -19,16 +19,6 @@ class Login extends Component {
   constructor(props) {
     super(props);
 
-    this.login = this.login.bind(this);
-  }
-
-  login() {
-    // this.props.dispatch(anonLogin(, {
-    //   id: '1',
-    //   name: 'Bryan Eaton',
-    // })).then(() => {
-    //   this.props.navigateResetHome();
-    // });
   }
 
   render() {
@@ -67,7 +57,7 @@ class Login extends Component {
               text="Sign In"
               type="transparent"
               buttonTextStyle={styles.signInText}
-              onPress={this.login}
+              onPress={() => this.props.navigatePush('voke.LoginInput')}
             />
           </Flex>
         </Flex>

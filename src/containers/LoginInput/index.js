@@ -106,7 +106,12 @@ class LoginInput extends Component {
                 onPress={this.login}
               />
             </Flex>
-            <Text>Forgot Password?</Text>
+            <Button
+              text="Forgot Password?"
+              type="transparent"
+              buttonTextStyle={styles.signInText}
+              onPress={()=> this.props.navigatePush('voke.ForgotPassword')}
+            />
           </Flex>
           <Flex value={.6} direction="column" align="center" justify="start" style={styles.haveAccount}>
             <Flex style={styles.buttonWrapper}>
