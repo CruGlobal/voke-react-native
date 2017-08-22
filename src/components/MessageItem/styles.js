@@ -28,10 +28,10 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   meVideo: {
-    backgroundColor: theme.secondaryColor,
+    // backgroundColor: theme.secondaryColor,
   },
   otherPersonVideo: {
-    backgroundColor: theme.lightBackgroundColor,
+    // backgroundColor: theme.lightBackgroundColor,
   },
   playIcon: {
     backgroundColor: COLORS.TRANSPARENT,

@@ -4,21 +4,21 @@ import { Image } from 'react-native';
 import PropTypes from 'prop-types';
 
 import styles from './styles';
-import { Flex, Text, Touchable, Icon } from '../common';
+import { Flex, Text, Touchable, Icon, Avatar } from '../common';
 
 
 class MessageItem extends Component {
 
   renderText() {
     const message = this.props.item;
-    const isVoke = message.sender === '3';
+    const isVoke = message.direct_message;
     const isMe = this.props.item.messenger_id === this.props.user.id ? true : false;
     return (
       <Flex
         value={1}
         style={[
           styles.row,
-          isMe ? styles.me : styles.otherPerson,
+          isMe || isVoke ? styles.me : styles.otherPerson,
           isVoke ? styles.vokebot : null,
         ]}
         direction="row"
@@ -40,7 +40,7 @@ class MessageItem extends Component {
 
   renderVideo() {
     const message = this.props.item;
-    const isVoke = message.sender === '3';
+    const isVoke = message.direct_message;
     const isMe = this.props.item.messenger_id === this.props.user.id ? true : false;
     return (
       <Flex
@@ -51,11 +51,11 @@ class MessageItem extends Component {
       >
         <Touchable onPress={this.props.onSelectVideo}>
           <Image
-            resizeMode="contain"
-            source={require('../../../images/nav_voke_logo.png')}
+            resizeMode="cover"
+            source={{uri: message.item.media.thumbnails.large}}
             style={[
               styles.video,
-              isMe ? styles.meVideo : styles.otherPersonVideo,
+              isMe || isVoke ? styles.meVideo : styles.otherPersonVideo,
             ]} >
             <Icon name="play-circle-filled" size={40} style={styles.playIcon} />
           </Image>
@@ -66,9 +66,9 @@ class MessageItem extends Component {
 
   render() {
     const message = this.props.item;
-    const isVoke = message.sender === '3';
+    const isVoke = message.direct_message;
     const isMe = this.props.item.messenger_id === this.props.user.id ? true : false;
-    const isVideo = message.type === 'video';
+    const isVideo = message.item;
 
     return (
       <Flex
@@ -78,7 +78,7 @@ class MessageItem extends Component {
       >
         <Flex direction="row" style={{ marginHorizontal: 5 }} align="center" justify="center">
           {
-            !isMe ? (
+            !isMe && !isVoke ? (
               <Flex self="end" style={styles.avatar}></Flex>
             ) : null
           }
@@ -86,7 +86,7 @@ class MessageItem extends Component {
             self="end"
             style={[
               styles.triangle,
-              !isMe && !isVideo ? styles.otherTriangle : null,
+              !isMe && !isVideo && !isVoke ? styles.otherTriangle : null,
             ]}
           />
           {
@@ -96,16 +96,20 @@ class MessageItem extends Component {
             self="end"
             style={[
               styles.triangle,
-              isMe && !isVideo ? styles.meTriangle : null,
-              isMe && !isVideo && isVoke ? styles.vokeTriangle : null,
+              (isMe || isVoke) && !isVideo ? styles.meTriangle : null,
+              !isVideo && isVoke ? styles.vokeTriangle : null,
             ]}
           />
           {
-            isMe ? (<Flex self="end" style={styles.avatar}></Flex>) : null
+            (isMe || isVoke) ? (
+              <Flex self="end" style={styles.avatar}>
+                <Avatar size={28} text={'he'} />
+              </Flex>
+            ) : null
           }
         </Flex>
-        <Flex align={isMe ? 'end' : 'start'} justify="start" style={[styles.time, isMe ? styles.meTime : styles.otherPersonTime]}>
-          <Text style={styles.timeText}>{message.id}</Text>
+        <Flex align={(isMe || isVoke) ? 'end' : 'start'} justify="start" style={[styles.time, isMe ? styles.meTime : styles.otherPersonTime]}>
+          <Text style={styles.timeText}>{message.created_at}</Text>
         </Flex>
       </Flex>
     );

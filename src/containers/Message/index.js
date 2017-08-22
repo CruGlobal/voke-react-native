@@ -108,8 +108,9 @@ class Message extends Component {
 
   render() {
     // const { messages = [] } = this.props.navigation.state.params;
-    const { messages = [], me } = this.props;
+    const { messages, me } = this.props;
     const currentConversation = this.props.conversation.id;
+    console.warn('dddd', messages);
     let newHeight = {
       height: this.state.height < 40 ? 40 : this.state.height > 80 ? 80 : this.state.height,
     };
@@ -140,11 +141,11 @@ class Message extends Component {
           isLoadingMore={this.state.isLoadingMore}
           onLoadMore={this.handleLoadMore}
           hasMore={hasMore}
-          items={messages[currentConversation]}
+          items={messages}
           user={me}
           onSelectVideo={(m) => this.setState({ selectedVideo: m })}
         />
-      <Flex direction="row" style={[styles.inputWrap, newWrap]} align="center" justify="center">
+        <Flex direction="row" style={[styles.inputWrap, newWrap]} align="center" justify="center">
           <TextInput
             onFocus={() => this.list.scrollEnd(true)}
             onBlur={() => this.list.scrollEnd(true)}

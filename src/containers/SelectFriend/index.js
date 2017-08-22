@@ -70,6 +70,8 @@ class SelectFriend extends Component {
     let lastName = name[name.length -1] ? name[name.length -1] : 'Buddy';
     let email = c.emailAddresses ? c.emailAddresses[0].email : null;
 
+    let videoId = this.props.video;
+
     if (c.isVoke) {
       console.warn('voke contact selected', this.props.video);
     } else {
@@ -81,10 +83,9 @@ class SelectFriend extends Component {
               first_name: `${firstName}`,
               last_name: `${lastName}`,
               mobile: `${phoneNumber}`,
-              email: `${email}`,
             },
           ],
-          item_id: `${this.props.video.id}`,
+          item_id: `${videoId}`,
         },
       };
       this.props.dispatch(createConversation(data)).then((results)=>{
