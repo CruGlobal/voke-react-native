@@ -34,15 +34,15 @@ class KickstartersTab extends Component {
 
   renderRow({ item }) {
     return (
-      <Touchable highlight={false} activeOpacity={0.8} onPress={() => this.props.onSelect(item)}>
+      <Touchable highlight={false} activeOpacity={0.8} onPress={() => this.props.onSelectKickstarter(item.content)}>
         <Flex
           direction="column"
           align="start"
           justify="center"
           animation="slideInUp"
         >
-          <Flex direction="column" align="start" justify="start" style={styles.videoDetails}>
-            <Text numberOfLines={1} style={styles.videoTitle}>
+          <Flex direction="column" align="start" justify="start" style={styles.kickstarterWrap}>
+            <Text style={styles.kickstarterText}>
               {item.content}
             </Text>
           </Flex>
@@ -58,8 +58,7 @@ class KickstartersTab extends Component {
           <Image source={CHAT_ICON} style={styles.chatImage} />
           <Text style={styles.description}>Add one of these kickstarters to your chat.</Text>
         </Flex>
-        <Flex value={4}>
-          <Image source={CHAT_ICON} style={styles.chatImage} />
+        <Flex value={4} align="center" justify="center" style={styles.listWrap}>
           <FlatList
             ref={(c) => this.list = c}
             initialNumToRender={4}

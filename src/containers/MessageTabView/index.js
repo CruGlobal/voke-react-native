@@ -64,6 +64,7 @@ class MessageTabView extends Component {
           onSelectKickstarter={(k) => {
             console.warn('selected kickstarter!', k);
             this.props.onSelectKickstarter(k);
+            this.props.navigateBack();
           }}
           latestItem={this.props.latestItem}
         />

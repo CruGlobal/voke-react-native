@@ -117,8 +117,10 @@ class Message extends Component {
 
   handleAddContent() {
     this.props.navigatePush('voke.MessageTabView', {
-      onSelectKickstarter: () => {
+      onSelectKickstarter: (item) => {
         console.warn('selected kickstarter in message!');
+        this.setState({text: item});
+        console.warn(this.state.text);
       },
       onSelectVideo: () => {
         console.warn('selected video in message!');
