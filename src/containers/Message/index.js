@@ -110,7 +110,6 @@ class Message extends Component {
     // const { messages = [] } = this.props.navigation.state.params;
     const { messages, me } = this.props;
     const currentConversation = this.props.conversation.id;
-    console.warn('dddd', messages);
     let newHeight = {
       height: this.state.height < 40 ? 40 : this.state.height > 80 ? 80 : this.state.height,
     };
@@ -143,6 +142,7 @@ class Message extends Component {
           hasMore={hasMore}
           items={messages}
           user={me}
+          messengers={this.props.conversation.messengers}
           onSelectVideo={(m) => this.setState({ selectedVideo: m })}
         />
         <Flex direction="row" style={[styles.inputWrap, newWrap]} align="center" justify="center">

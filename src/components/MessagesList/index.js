@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, ListView, Platform } from 'react-native';
+import { View, ListView, Platform, FlatList } from 'react-native';
 import debounce from 'lodash/debounce';
 
 import styles from './styles';
@@ -11,12 +11,12 @@ import Loading from '../Loading';
 class MessagesList extends Component {
   constructor(props) {
     super(props);
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1.id !== r2.id || r1.text !== r2.text,
-    });
+    // const ds = new ListView.DataSource({
+    //   rowHasChanged: (r1, r2) => r1.id !== r2.id || r1.text !== r2.text,
+    // });
     this.state = {
       refreshing: false,
-      dataSource: ds.cloneWithRows(props.items),
+      // dataSource: ds.cloneWithRows(props.items),
     };
 
     this.handleScroll = this.handleScroll.bind(this);
@@ -25,9 +25,9 @@ class MessagesList extends Component {
     this.scrollEnd = this.scrollEnd.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({ dataSource: this.state.dataSource.cloneWithRows(nextProps.items) });
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   this.setState({ dataSource: this.state.dataSource.cloneWithRows(nextProps.items) });
+  // }
 
   componentDidMount() {
     this.scrollEnd(false);
@@ -48,13 +48,16 @@ class MessagesList extends Component {
     }
   }
 
-  renderRow(message) {
+  renderRow({ item }) {
     return (
-      <MessageItem
-        item={message}
-        user={this.props.user}
-        onSelectVideo={() => this.props.onSelectVideo(message)}
-      />
+      <View style={{ transform: [{ scaleY: -1 }]}}>
+        <MessageItem
+          item={item}
+          user={this.props.user}
+          messengers={this.props.messengers}
+          onSelectVideo={() => this.props.onSelectVideo(item)}
+        />
+      </View>
     );
   }
 
@@ -63,33 +66,49 @@ class MessagesList extends Component {
     // if (this.listView) {
     //   setTimeout(() => this.listView.scrollToEnd({ animated: isAnimated }), 50);
     // }
-    setTimeout(() => {
-      this.listView.scrollToEnd({ animated: isAnimated });
-    }, Platform.OS === 'ios' ? 50 : 250);
+    // setTimeout(() => {
+    //   this.listView.scrollToEnd({ animated: isAnimated });
+    // }, Platform.OS === 'ios' ? 50 : 250);
   }
 
   render() {
-    const { isLoadingMore, hasMore } = this.props;
+    const { isLoadingMore, hasMore, items } = this.props;
     return (
-      <ListView
+      <FlatList
         ref={(c) => this.listView = c}
-        renderHeader={isLoadingMore ? () => (
+        ListHeaderComponent={isLoadingMore ? () => (
           <View style={{ paddingTop: 15 }}><Loading /></View>
         ) : undefined}
-        enableEmptySections={true}
-        onScroll={hasMore ? this.handleScroll : undefined}
-        scrollEventThrottle={30}
+        keyExtractor={(item) => item.id}
+        style={{  transform: [{ scaleY: -1 }] }}
+        initialNumToRender={10}
+        data={items}
+        renderItem={this.renderRow}
         contentContainerStyle={styles.content}
-        dataSource={this.state.dataSource}
-        renderRow={this.renderRow}
+        inverted={true}
       />
+
     );
   }
 }
 
+// <ListView
+//   ref={(c) => this.listView = c}
+//   renderHeader={isLoadingMore ? () => (
+//     <View style={{ paddingTop: 15 }}><Loading /></View>
+//   ) : undefined}
+//   enableEmptySections={true}
+//   onScroll={hasMore ? this.handleScroll : undefined}
+//   scrollEventThrottle={30}
+//   contentContainerStyle={styles.content}
+//   dataSource={this.state.dataSource}
+//   renderRow={this.renderRow}
+// />
+
 MessagesList.propTypes = {
   items: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired,
+  messengers: PropTypes.array.isRequired,
   onSelectVideo: PropTypes.func.isRequired,
   hasMore: PropTypes.bool,
   isLoadingMore: PropTypes.bool,

@@ -66,6 +66,7 @@ class MessageItem extends Component {
 
   render() {
     const message = this.props.item;
+    const messengers = this.props.messengers;
     const isVoke = message.direct_message;
     const isMe = this.props.item.messenger_id === this.props.user.id ? true : false;
     const isVideo = message.item;
@@ -103,7 +104,7 @@ class MessageItem extends Component {
           {
             (isMe || isVoke) ? (
               <Flex self="end" style={styles.avatar}>
-                <Avatar size={28} text={'he'} />
+                <Avatar size={28} image={isMe ? messengers[2].avatar.large : messengers[1].avatar.large} text={isMe ? messengers[2].initials : messengers[1].initials} />
               </Flex>
             ) : null
           }
@@ -119,6 +120,7 @@ class MessageItem extends Component {
 MessageItem.propTypes = {
   item: PropTypes.object.isRequired, // Redux
   user: PropTypes.object.isRequred,
+  messengers: PropTypes.array.isRequred,
 };
 
 export default MessageItem;

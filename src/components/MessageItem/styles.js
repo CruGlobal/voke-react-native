@@ -48,8 +48,6 @@ export default StyleSheet.create({
   avatar: {
     width: 26,
     height: 26,
-    backgroundColor: 'white',
-    borderRadius: 13,
     marginBottom: 10,
   },
   message: {

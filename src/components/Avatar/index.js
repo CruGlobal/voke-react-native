@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
+import { Image } from 'react-native';
 
 import styles from './styles';
 
-import { Text, Icon, Flex } from '../common';
+import { Text, Flex } from '../common';
 
 export default class Avatar extends Component {
 
@@ -12,13 +12,13 @@ export default class Avatar extends Component {
   }
 
   render() {
-    const { text, icon, size, style = {}, avatarTextStyle = {}, iconStyle = {}, ...rest } = this.props;
+    const { text, image, size, style = {}, avatarTextStyle = {}, imageStyle = {}, ...rest } = this.props;
     let textComp = null;
-    let iconComp = null;
+    let imageComp = null;
 
-    if (icon) {
-      iconComp = (
-        <Icon name={icon} style={[iconStyle, styles.icon]} />
+    if (image) {
+      imageComp = (
+        <Image resizeMode="cover" source={{uri: image}} style={[imageStyle, {width: size, height: size, borderRadius: size/2}]} />
       );
     }
     if (text) {
@@ -32,7 +32,7 @@ export default class Avatar extends Component {
     return (
       <Flex style={[{width: size, height: size, borderRadius: size/2}, styles.avatar, style]} align="center" justify="start">
         {
-          iconComp ? iconComp : textComp ? textComp : null
+          imageComp ? imageComp : textComp ? textComp : null
         }
       </Flex>
     );
@@ -42,9 +42,9 @@ export default class Avatar extends Component {
 const styleTypes = [PropTypes.array, PropTypes.object, PropTypes.number];
 Avatar.propTypes = {
   text: PropTypes.string,
-  icon: PropTypes.string,
+  image: PropTypes.string,
   size: PropTypes.number,
   style: PropTypes.oneOfType(styleTypes),
   avatarTextStyle: PropTypes.oneOfType(styleTypes),
-  iconStyle: PropTypes.oneOfType(styleTypes),
+  imageStyle: PropTypes.oneOfType(styleTypes),
 };

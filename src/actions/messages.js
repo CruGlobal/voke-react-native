@@ -38,6 +38,7 @@ export function createMessage(conversation, data) {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.CREATE_MESSAGE, query, data)).then((results) => {
       console.warn('results', results);
+      dispatch(getMessages(conversation));
       return results;
     });
   };
