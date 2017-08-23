@@ -110,7 +110,21 @@ export default {
       client: CLIENT,
     },
   },
+  'GET_KICKSTARTERS': {
+    endpoint: API_URL + 'items',
+    method: 'get',
+    data: {
+      client: CLIENT,
+    },
+  },
   'GET_CONVERSATIONS': {
+    endpoint: API_URL + 'me/conversations',
+    method: 'get',
+    data: {
+      client: CLIENT,
+    },
+  },
+  'GET_CONVERSATION': {
     endpoint: API_URL + 'me/conversations',
     method: 'get',
     data: {

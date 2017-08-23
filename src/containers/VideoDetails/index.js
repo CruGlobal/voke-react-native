@@ -97,18 +97,22 @@ class VideoDetails extends Component {
         </ScrollView>
         <FloatingButtonSingle
           onSelect={() => {
-            Alert.alert(
-              'Add video to chat?',
-              `Are you sure you want to add ${'video name'} video to your chat?`,
-              [
-                { text: 'Cancel' },
-                { text: 'Add', onPress: () => {
-                  this.props.navigatePush('voke.SelectFriend', {
-                    video: video.id,
-                  });
-                }},
-              ]
-            );
+            if (this.props.onSelectVideo) {
+              Alert.alert(
+                'Add video to chat?',
+                `Are you sure you want to add ${'video name'} video to your chat?`,
+                [
+                  { text: 'Cancel' },
+                  { text: 'Add', onPress: () => {
+                    this.props.onSelectVideo(video.id);
+                  }},
+                ]
+              );
+            } else {
+              this.props.navigatePush('voke.SelectFriend', {
+                video: video.id,
+              });
+            }
           }}
         />
       </View>
@@ -119,6 +123,7 @@ class VideoDetails extends Component {
 VideoDetails.propTypes = {
   ...NavPropTypes,
   video: PropTypes.object,
+  onSelectVideo: PropTypes.func,
 };
 
 export default connect(null, nav)(VideoDetails);

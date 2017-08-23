@@ -90,7 +90,7 @@ class Videos extends Component {
   }
 
   componentWillMount() {
-    if (!this.props.onVideoShare) {
+    if (!this.props.onSelectVideo) {
       this.props.navigator.setButtons(setButtons());
     }
   }
@@ -180,6 +180,7 @@ class Videos extends Component {
           onSelect={(c) => {
             this.props.navigatePush('voke.VideoDetails', {
               video: c,
+              onSelectVideo: this.props.onSelectVideo ? this.props.onSelectVideo : null,
             });
           }}
           onRefresh={() => {}}
@@ -191,7 +192,7 @@ class Videos extends Component {
 
 Videos.propTypes = {
   ...NavPropTypes,
-  onSelectTag: PropTypes.string,
+  onSelectVideo: PropTypes.func,
 };
 
 const mapStateToProps = ({ videos }) => ({

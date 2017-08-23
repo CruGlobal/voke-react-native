@@ -10,6 +10,18 @@ export function getConversations() {
   };
 }
 
+export function getConversation(data) {
+  let query = {
+    endpoint: `${API_URL}me/conversations/${data}`,
+  };
+  return (dispatch) => {
+    return dispatch(callApi(REQUESTS.GET_CONVERSATION, query)).then((results) => {
+      console.warn('results', results);
+      return results;
+    });
+  };
+}
+
 export function createConversation(data) {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.CREATE_CONVERSATION, {}, data)).then((results) => {

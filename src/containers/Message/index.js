@@ -11,6 +11,7 @@ import { iconsMap } from '../../utils/iconMap';
 
 import styles from './styles';
 import MessageVideoPlayer from '../MessageVideoPlayer';
+import HOME_ICON from '../../../images/home_icon.png';
 
 import { Flex, Icon, Button } from '../../components/common';
 import MessagesList from '../../components/MessagesList';
@@ -20,12 +21,12 @@ function setButtons() {
   return {
     leftButtons: [{
       id: 'back', // Android handles back already
-      icon: iconsMap['ios-home-outline'], // This is just for iOS
+      icon: HOME_ICON, // For iOS only
     }],
-    rightButtons: [{
-      id: 'add',
-      icon: Platform.OS === 'android' ? iconsMap['md-add'] : iconsMap['ios-add'],
-    }],
+    // rightButtons: [{
+    //   id: 'add',
+    //   icon: Platform.OS === 'android' ? iconsMap['md-add'] : iconsMap['ios-add'],
+    // }],
   };
 }
 
@@ -45,38 +46,59 @@ class Message extends Component {
       selectedVideo: null,
       height: 50,
       isLoadingMore: false,
+      latestItem: null,
     };
 
     this.handleLoadMore = this.handleLoadMore.bind(this);
     this.getMessages = this.getMessages.bind(this);
     this.createMessage = this.createMessage.bind(this);
+    this.handleAddContent = this.handleAddContent.bind(this);
+    this.getLatestItem = this.getLatestItem.bind(this);
+    this.setLatestItem = this.setLatestItem.bind(this);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
   onNavigatorEvent(event) {
     if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
       if (event.id == 'back') {
-        this.props.navigateBack();
-      } else if (event.id == 'add') {
-        this.props.navigatePush('voke.MessageTabView', {
-          onSelectKickstarter: () => {
-            console.warn('selected kickstarter in message!');
-          },
-          onSelectVideo: () => {
-            console.warn('selected video in message!');
-          },
+        // this.props.navigator.resetTo({
+        //   screen: 'voke.Home',
+        // });
+        this.props.navigator.popToRoot({
+          animated: true, // does the popToRoot have transition animation or does it happen immediately (optional)
+          animationType: 'fade', // 'fade' (for both) / 'slide-horizontal' (for android) does the popToRoot have different transition animation (optional)
         });
       }
+      // } else if (event.id == 'add') {
+      //   this.props.navigatePush('voke.MessageTabView', {
+      //     onSelectKickstarter: () => {
+      //       console.warn('selected kickstarter in message!');
+      //     },
+      //     onSelectVideo: () => {
+      //       console.warn('selected video in message!');
+      //     },
+      // });
     }
   }
 
   componentWillMount() {
     this.props.navigator.setButtons(setButtons());
-    // this.props.navigator.setTitle({ title: this.props.name || 'Message' });
+    this.props.navigator.setTitle({ title: this.props.conversation.messengers[0].first_name || 'Message' });
   }
 
   componentDidMount() {
     this.getMessages();
+  }
+
+  getLatestItem(e) {
+    return e.item;
+  }
+
+  setLatestItem() {
+    let messages = this.props.messages;
+    let item = messages.find(this.getLatestItem);
+    console.warn(JSON.stringify(item));
+    this.setState({latestItem: item.item.id });
   }
 
   handleLoadMore() {
@@ -88,7 +110,21 @@ class Message extends Component {
   }
 
   getMessages() {
-    this.props.dispatch(getMessages(this.props.conversation.id));
+    this.props.dispatch(getMessages(this.props.conversation.id)).then(()=>{
+      this.setLatestItem();
+    });
+  }
+
+  handleAddContent() {
+    this.props.navigatePush('voke.MessageTabView', {
+      onSelectKickstarter: () => {
+        console.warn('selected kickstarter in message!');
+      },
+      onSelectVideo: () => {
+        console.warn('selected video in message!');
+      },
+      latestItem: this.state.latestItem,
+    });
   }
 
   createMessage() {
@@ -159,12 +195,23 @@ class Message extends Component {
             style={[styles.chatBox, newHeight]}
             autoCorrect={true}
           />
+          {
+            this.state.text ? (
+              <Button
+                type="transparent"
+                style={styles.sendButton}
+                icon="send"
+                iconStyle={styles.sendIcon}
+                onPress={()=> this.createMessage()}
+              />
+            ) : null
+          }
           <Button
             type="transparent"
             style={styles.sendButton}
-            icon="send"
+            icon="queue"
             iconStyle={styles.sendIcon}
-            onPress={()=> this.createMessage()}
+            onPress={()=> this.handleAddContent()}
           />
         </Flex>
       </KeyboardAvoidingView>
@@ -176,6 +223,7 @@ class Message extends Component {
 Message.propTypes = {
   ...NavPropTypes,
   conversation: PropTypes.object.isRequired,
+  onSelectVideo: PropTypes.func,
 };
 
 const mapStateToProps = ({ messages, auth }) => ({

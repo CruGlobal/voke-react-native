@@ -23,8 +23,6 @@ function setButtons() {
 
 class MessageTabView extends Component {
   static navigatorStyle = {
-    navBarButtonColor: theme.lightText,
-    navBarTextColor: theme.headerTextColor,
     navBarBackgroundColor: theme.headerBackgroundColor,
     navBarNoBorder: true,
     // Android styles
@@ -41,7 +39,7 @@ class MessageTabView extends Component {
     this.state = {
       selectedIndex: 0,
     };
-
+    this.renderTab = this.renderTab.bind(this);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
@@ -67,23 +65,25 @@ class MessageTabView extends Component {
             console.warn('selected kickstarter!', k);
             this.props.onSelectKickstarter(k);
           }}
+          latestItem={this.props.latestItem}
+        />
+      );
+    } else {
+      return (
+        <VideosTab
+          {...this.props}
+          onSelectVideo={(v) => {
+            console.warn('selected video!', v);
+            this.props.onSelectVideo(v);
+          }}
         />
       );
     }
-    return (
-      <VideosTab
-        {...this.props}
-        onVideoAdd={(v) => {
-          console.warn('selected video!', v);
-          this.props.onSelectVideo(v);
-        }}
-      />
-    );
   }
 
   render() {
     return (
-      <Flex>
+      <Flex value={1} direction="column">
         <Flex style={styles.tabController}>
           <SegmentedControlIOS
             values={['Kickstarters', 'Videos']}
@@ -94,7 +94,9 @@ class MessageTabView extends Component {
             }}
           />
         </Flex>
-        {this.renderTab()}
+        <Flex value={1}>
+          {this.renderTab()}
+        </Flex>
       </Flex>
     );
   }
@@ -105,6 +107,7 @@ MessageTabView.propTypes = {
   ...NavPropTypes,
   onSelectKickstarter: PropTypes.func.isRequired,
   onSelectVideo: PropTypes.func.isRequired,
+  latestItem: PropTypes.string,
 };
 
 export default connect(null, nav)(MessageTabView);

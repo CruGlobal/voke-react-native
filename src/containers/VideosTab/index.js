@@ -9,18 +9,17 @@ import Videos from '../Videos';
 class VideosTab extends Component {
   render() {
     return (
-      // <Videos
-      //   {...this.props}
-      //   onVideoAdd={this.props.onVideoAdd}
-      // />
-      <Text>Hello</Text>
+      <Videos
+        {...this.props}
+        onSelectVideo={this.props.onSelectVideo}
+      />
     );
   }
 }
 
 VideosTab.propTypes = {
   ...NavPropTypes,
-  onVideoAdd: PropTypes.func,
+  onSelectVideo: PropTypes.func,
 };
 
 export default connect(null, nav)(VideosTab);

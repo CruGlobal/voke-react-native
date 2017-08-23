@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Image, Share } from 'react-native';
 import { connect } from 'react-redux';
 import { getContacts } from '../../actions/contacts';
-import { createConversation } from '../../actions/messages';
+import { createConversation, getConversation } from '../../actions/messages';
 import PropTypes from 'prop-types';
 
 import styles from './styles';
@@ -92,6 +92,15 @@ class SelectFriend extends Component {
         Share.share({
           message: `Hi ${c.givenName}, check out this video ${results.messengers[0].url} `,
           title: 'Check this out',
+        }).then((results1)=> {
+          if (results1.action === 'sharedAction') {
+            console.warn('successfuly shared video');
+            this.props.dispatch(getConversation(results.id)).then((c)=> {
+              this.props.navigatePush('voke.Message', {conversation: c});
+            });
+          } else {
+            console.warn('Did Not Share Video');
+          }
         });
       });
     }
