@@ -105,6 +105,7 @@ class VideoDetails extends Component {
                   { text: 'Cancel' },
                   { text: 'Add', onPress: () => {
                     this.props.onSelectVideo(video.id);
+                    this.props.navigateBack();
                   }},
                 ]
               );

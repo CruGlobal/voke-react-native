@@ -122,19 +122,29 @@ class Message extends Component {
         this.setState({text: item});
         console.warn(this.state.text);
       },
-      onSelectVideo: () => {
+      onSelectVideo: (video) => {
         console.warn('selected video in message!');
+        this.createMessage(video);
       },
       latestItem: this.state.latestItem,
     });
   }
 
-  createMessage() {
-    let data = {
-      message: {
-        content: this.state.text,
-      },
-    };
+  createMessage(video) {
+    let data = {};
+    if (video) {
+      data = {
+        message: {
+          item_id: video,
+        },
+      };
+    } else {
+      data = {
+        message: {
+          content: this.state.text,
+        },
+      };
+    }
     this.props.dispatch(createMessage(this.props.conversation.id, data)).then(()=> {
       this.setState({ text: '' });
     });
