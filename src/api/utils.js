@@ -13,6 +13,7 @@ export const ENV = environment;
 export const BASE_URL = baseUrl;
 export const API_URL = BASE_URL + '/';
 export const AUTH_URL = authUrl + '/';
+export const SOCKET_URL = 'wss://api-stage.vokeapp.com/';
 
 // setTimeout(() => console.warn('API_URL', API_URL), 1);
 

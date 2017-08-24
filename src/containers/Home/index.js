@@ -5,6 +5,7 @@ import { Navigation } from 'react-native-navigation';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
+import { startupAction } from '../../actions/auth';
 import { getConversations } from '../../actions/messages';
 import { navMenuOptions } from '../../utils/menu';
 import FILM_ICON from '../../../images/video_icon.png';
@@ -119,6 +120,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    this.props.dispatch(startupAction(this.props.navigator));
     this.props.dispatch(getConversations());
   }
 
