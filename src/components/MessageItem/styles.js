@@ -13,7 +13,7 @@ export default StyleSheet.create({
   me: {
     marginLeft: 50,
     marginRight: 0,
-    backgroundColor: theme.secondaryColor,
+    backgroundColor: theme.accentColor,
   },
   otherPerson: {
     marginRight: 50,
@@ -87,7 +87,7 @@ export default StyleSheet.create({
   },
   meTriangle: {
     borderLeftWidth: 13,
-    borderLeftColor: theme.secondaryColor,
+    borderLeftColor: theme.accentColor,
     paddingRight: 4,
   },
   vokeTriangle: {

@@ -6,16 +6,16 @@ import PropTypes from 'prop-types';
 import styles from './styles';
 import { Flex, Text, Touchable, Icon, Avatar } from '../common';
 
-
 class MessageItem extends Component {
 
   renderText() {
     const message = this.props.item;
     const isVoke = message.direct_message;
     const isMe = this.props.item.messenger_id === this.props.user.id ? true : false;
+    const isOtherPerson = !isMe && !isVoke;
+
     return (
       <Flex
-        value={1}
         style={[
           styles.row,
           isMe || isVoke ? styles.me : styles.otherPerson,
@@ -42,6 +42,8 @@ class MessageItem extends Component {
     const message = this.props.item;
     const isVoke = message.direct_message;
     const isMe = this.props.item.messenger_id === this.props.user.id ? true : false;
+    const isOtherPerson = !isMe && !isVoke;
+
     return (
       <Flex
         value={1}
@@ -69,6 +71,7 @@ class MessageItem extends Component {
     const messengers = this.props.messengers;
     const isVoke = message.direct_message;
     const isMe = this.props.item.messenger_id === this.props.user.id ? true : false;
+    const isOtherPerson = !isMe && !isVoke;
     const isVideo = message.item;
 
     return (
@@ -76,6 +79,7 @@ class MessageItem extends Component {
         direction="column"
         style={{ margin: 6 }}
         animation="fadeIn"
+        align={isMe || isVoke ? 'end' : 'start'}
       >
         <Flex direction="row" style={{ marginHorizontal: 5 }} align="center" justify="center">
           {
@@ -104,7 +108,7 @@ class MessageItem extends Component {
           {
             (isMe || isVoke) ? (
               <Flex self="end" style={styles.avatar}>
-                <Avatar size={28} image={isMe ? messengers[2].avatar.large : messengers[1].avatar.large} text={isMe ? messengers[2].initials : messengers[1].initials} />
+                <Avatar size={28} image={isMe ? this.props.user.avatar.large : null } text={isMe ? messengers[2].initials : messengers[1].initials} />
               </Flex>
             ) : null
           }
