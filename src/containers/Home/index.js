@@ -167,6 +167,7 @@ class Home extends Component {
           hasItems ? (
             <ConversationList
               items={this.props.conversations}
+              me={this.props.me}
               onRefresh={() => {}}
               onDelete={() => {}}
               onBlock={() => {}}
@@ -197,8 +198,9 @@ Home.propTypes = {
   ...NavPropTypes,
 };
 
-const mapStateToProps = ({ messages }) => ({
+const mapStateToProps = ({ messages, auth }) => ({
   conversations: messages.conversations,
+  me: auth.user,
 });
 
 export default connect(mapStateToProps, nav)(Home);

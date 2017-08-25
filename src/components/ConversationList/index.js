@@ -33,6 +33,8 @@ class ConversationList extends Component { // eslint-disable-line
     this.renderRow = this.renderRow.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
+    this.getSender = this.getSender.bind(this);
+    this.getConversationParticipant = this.getConversationParticipant.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -69,23 +71,61 @@ class ConversationList extends Component { // eslint-disable-line
     }, 500);
   }
 
+  getSender(conversation) {
+    if (conversation.messengers[0] && conversation.messengers[0].id) {
+      if (conversation.messengers[0].id != this.props.me.id) {
+        if (conversation.messengers[0].first_name) {
+          return conversation.messengers[0].first_name;
+        }
+        return 'Other';
+      }
+    }
+    return 'you';
+  }
+
+  getConversationParticipant(conversation) {
+    // for (let i = 0; i < conversation.messengers.length; i++) {
+    //
+    // }
+    // do {
+    // }
+    // while (condition);
+    let otherPerson = conversation.messengers.find((a)=>{
+      return a.id != this.props.me.id && !a.bot;
+    });
+    return otherPerson;
+  }
+
   renderRow(item) {
     const conversation = item;
-    const latestMessage = conversation.messages ? conversation.messages[conversation.messages.length - 1] : {};
+    const latestMessage = conversation.messengers[0] && conversation.messengers[0].latest_message ? conversation.messengers[0].latest_message : {};
+    const content = latestMessage.content ? latestMessage.content : null;
+    const contentCreator = this.getSender(conversation);
+    const otherPerson = this.getConversationParticipant(conversation);
+
+    const latestItem = conversation.messengers[0] && conversation.messengers[0].latest_item ? conversation.messengers[0].latest_item : {};
+    const itemContent = latestItem.name ? latestItem.name : null;
+
     return (
       <Touchable highlight={true} underlayColor={COLORS.TRANSPARENT} onShowUnderlay={()=> this.handleFocus(item.id)} onHideUnderlay={this.handleBlur} activeOpacity={1} onPress={() => this.props.onSelect(conversation)}>
         <View>
           <Flex style={[styles.container, this.state.rowFocused === item.id ? {backgroundColor: theme.accentColor} : null]} direction="row" align="center" justify="center">
             <Flex value={2} align="center" justify="start">
-              <Avatar size={28} style={this.state.rowFocused === item.id ? {backgroundColor: theme.primaryColor} : null} text={conversation.messengers[0].initials} />
+              <Avatar
+                size={28}
+                style={this.state.rowFocused === item.id ? {backgroundColor: theme.primaryColor} : null}
+                text={otherPerson.initials}
+              />
             </Flex>
-            <Flex value={15}>
-              <Flex direction="column">
-                <Text style={styles.conversationName}>{conversation.name}</Text>
+            <Flex value={15}  justify="start">
+              <Flex direction="column" align="start">
+                <Text style={styles.conversationName}>{otherPerson.first_name} {otherPerson.last_name}</Text>
                 <Text style={styles.messagePreviewText} numberOfLines={2}>
-                  {latestMessage.sender === 'me' ? (<Text>You</Text>) : latestMessage.sender}
+                  <Text>{contentCreator}</Text>
                   <Image source={ARROW} resizeMode="contain" style={{width: 20, height: 7}} />
-                  {latestMessage.text}
+                  {
+                    content ? content : itemContent ? itemContent : ''
+                  }
                 </Text>
               </Flex>
             </Flex>
@@ -167,6 +207,7 @@ ConversationList.propTypes = {
   onBlock: PropTypes.func.isRequired, // Redux
   onLoadMore: PropTypes.func.isRequired, // Redux
   items: PropTypes.array.isRequired, // Redux
+  me: PropTypes.object.isRequired, // Redux
 };
 
 export default ConversationList;
