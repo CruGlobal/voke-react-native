@@ -64,10 +64,15 @@ class Message extends Component {
         // this.props.navigator.resetTo({
         //   screen: 'voke.Home',
         // });
-        this.props.navigator.popToRoot({
-          animated: true, // does the popToRoot have transition animation or does it happen immediately (optional)
-          animationType: 'fade', // 'fade' (for both) / 'slide-horizontal' (for android) does the popToRoot have different transition animation (optional)
-        });
+        // if (fromVideo) {
+        //   this.props.navigator.popToRoot({
+        //     animated: true, // does the popToRoot have transition animation or does it happen immediately (optional)
+        //     animationType: 'fade', // 'fade' (for both) / 'slide-horizontal' (for android) does the popToRoot have different transition animation (optional)
+        //   });
+        // } else {
+          // this.props.navigateBack();
+        // }
+        this.props.navigateBack();
       }
       // } else if (event.id == 'add') {
       //   this.props.navigatePush('voke.MessageTabView', {
@@ -125,6 +130,7 @@ class Message extends Component {
       onSelectVideo: (video) => {
         console.warn('selected video in message!');
         this.createMessage(video);
+        this.props.navigateBack({ animated: false });
       },
       latestItem: this.state.latestItem,
     });
@@ -238,8 +244,8 @@ Message.propTypes = {
   onSelectVideo: PropTypes.func,
 };
 
-const mapStateToProps = ({ messages, auth }) => ({
-  messages: messages.messages,
+const mapStateToProps = ({ messages, auth }, ownProps) => ({
+  messages: messages.messages[ownProps.conversation.id],
   me: auth.user,
 });
 

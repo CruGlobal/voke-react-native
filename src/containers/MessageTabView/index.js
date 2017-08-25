@@ -44,7 +44,7 @@ class MessageTabView extends Component {
   }
 
   onNavigatorEvent(event) {
-    console.warn('event', event);
+    // console.warn('event', event);
     if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
       if (event.id == 'back') {
         this.props.navigateBack();

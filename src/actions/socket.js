@@ -1,4 +1,5 @@
 import { SOCKET_URL } from '../api/utils';
+import { newMessageAction } from './messages';
 
 let ws = null;
 
@@ -14,7 +15,7 @@ export function setupSocketAction() {
     ws.onopen = () => {
       // connection opened
       console.warn('socket opened');
-      
+
       // const pushNotificationId = 'test';
       // const obj = {
       //   command: 'subscribe',
@@ -31,6 +32,8 @@ export function setupSocketAction() {
       console.warn('socket message received: data', data);
       if (type === 'welcome') {
         console.warn('socket welcome');
+      } else if (type === 'new_message') {
+        dispatch(newMessageAction(data));
       }
     };
 

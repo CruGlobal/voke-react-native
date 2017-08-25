@@ -52,7 +52,7 @@ function defaultObject(method, obj = {}, data) {
 export default function request(type, url, query, data, object) {
   const newUrl = createUrl(url, query);
   const newObject = defaultObject(type, object, data);
-  console.warn('REQUEST: ', newObject.method, newUrl, newObject.body); // eslint-disable-line
+  // console.warn('REQUEST: ', newObject.method, newUrl, newObject.body); // eslint-disable-line
   return fetch(newUrl, newObject).then(json).catch((err) => {
     console.warn('fetch err', err);
     return err;

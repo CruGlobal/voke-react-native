@@ -1,4 +1,5 @@
 import { API_URL } from '../api/utils';
+import { NEW_MESSAGE } from '../constants';
 import callApi, { REQUESTS } from './api';
 
 export function getConversations() {
@@ -53,5 +54,11 @@ export function createMessage(conversation, data) {
       dispatch(getMessages(conversation));
       return results;
     });
+  };
+}
+
+export function newMessageAction(message) {
+  return (dispatch) => {
+    return dispatch({ type: NEW_MESSAGE, message });
   };
 }
