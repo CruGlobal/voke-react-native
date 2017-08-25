@@ -84,15 +84,16 @@ class ConversationList extends Component { // eslint-disable-line
   }
 
   getConversationParticipant(conversation) {
-    // for (let i = 0; i < conversation.messengers.length; i++) {
-    //
-    // }
-    // do {
-    // }
-    // while (condition);
+    let voke = conversation.messengers.find((a)=>{
+      return a.bot;
+    });
+
     let otherPerson = conversation.messengers.find((a)=>{
       return a.id != this.props.me.id && !a.bot;
     });
+    if (conversation.messengers.length ===2) {
+      return voke;
+    }
     return otherPerson;
   }
 
