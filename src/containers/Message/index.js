@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { connect } from 'react-redux';
-import { getMessages, createMessage } from '../../actions/messages';
+import { getMessages, createMessage, createTypeStateAction, destroyTypeStateAction } from '../../actions/messages';
 import PropTypes from 'prop-types';
 
 import theme, { COLORS } from '../../theme';
@@ -56,6 +56,8 @@ class Message extends Component {
     this.getLatestItem = this.getLatestItem.bind(this);
     this.setLatestItem = this.setLatestItem.bind(this);
     this.getTypeState = this.getTypeState.bind(this);
+    this.createTypeState = this.createTypeState.bind(this);
+    this.destroyTypeState = this.destroyTypeState.bind(this);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
@@ -71,7 +73,7 @@ class Message extends Component {
         //     animationType: 'fade', // 'fade' (for both) / 'slide-horizontal' (for android) does the popToRoot have different transition animation (optional)
         //   });
         // } else {
-          // this.props.navigateBack();
+        // this.props.navigateBack();
         // }
         this.props.navigateBack();
       }
@@ -159,6 +161,16 @@ class Message extends Component {
     });
   }
 
+  createTypeState() {
+    this.props.dispatch(createTypeStateAction(this.props.conversation.id));
+    console.warn('create typestate');
+  }
+
+  destroyTypeState() {
+    this.props.dispatch(destroyTypeStateAction(this.props.conversation.id));
+    console.warn('destroy typestate');
+  }
+
   updateSize(height) {
     this.setState({ height });
   }
@@ -210,8 +222,16 @@ class Message extends Component {
         />
         <Flex direction="row" style={[styles.inputWrap, newWrap]} align="center" justify="center">
           <TextInput
-            onFocus={() => this.list.scrollEnd(true)}
-            onBlur={() => this.list.scrollEnd(true)}
+            onFocus={() => {
+              this.list.scrollEnd(true);
+              this.createTypeState();
+            }
+            }
+            onBlur={() => {
+              this.list.scrollEnd(true);
+              this.destroyTypeState();
+            }
+            }
             multiline={true}
             value={this.state.text}
             placeholder="New Message"

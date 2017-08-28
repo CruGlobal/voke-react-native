@@ -24,7 +24,6 @@ class MessageItem extends Component {
     const message = this.props.item;
     const isVoke = message.direct_message;
     const isMe = this.props.item.messenger_id === this.props.user.id ? true : false;
-    const isOtherPerson = !isMe && !isVoke;
     const isTypeState = message.type === 'typeState';
 
 
@@ -68,7 +67,6 @@ class MessageItem extends Component {
     const message = this.props.item;
     const isVoke = message.direct_message;
     const isMe = message.messenger_id === this.props.user.id ? true : false;
-    const isOtherPerson = !isMe && !isVoke;
 
     return (
       <Flex

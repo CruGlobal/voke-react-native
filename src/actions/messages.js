@@ -54,11 +54,38 @@ export function newMessageAction(message) {
 }
 
 export function typeStateChangeAction(message) {
+  return (dispatch, getState) => {
+    let me = getState().auth.user.id;
+    console.warn('asdfadf',me);
+    console.warn('you',message.message.messenger_id);
+    if (me === message.message.messenger_id) {
+      return;
+    } else {
+      let data = {
+        conversationId: message.message.conversation_id,
+        bool: message.notification.action === 'create' ? true : false,
+      };
+      return dispatch({ type: TYPE_STATE_CHANGE, data });
+    }
+  };
+}
+
+export function createTypeStateAction(conversation) {
   return (dispatch) => {
-    let data = {
-      conversationId: message.message.conversation_id,
-      bool: message.notification.action === 'create' ? true : false,
+    let query = {
+      endpoint: `${API_URL}me/conversations/${conversation}/type_state`,
     };
-    return dispatch({ type: TYPE_STATE_CHANGE, data });
+    return dispatch(callApi(REQUESTS.CREATE_TYPESTATE, query)).then((results)=>{
+      console.warn('im herheher isissjijsi',results);
+    });
+  };
+}
+
+export function destroyTypeStateAction(conversation) {
+  return (dispatch) => {
+    let query = {
+      endpoint: `${API_URL}me/conversations/${conversation}/type_state`,
+    };
+    return dispatch(callApi(REQUESTS.DESTROY_TYPESTATE, query));
   };
 }

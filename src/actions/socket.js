@@ -33,7 +33,7 @@ export function setupSocketAction(cableId) {
       const data = JSON.parse(e.data) || {};
       const type = data && data.type;
       if (type === 'ping') return;
-      // console.warn('socket message received: data', data);
+      console.warn('socket message received: data', data);
       if (type === 'welcome') {
         // console.warn('socket welcome');
       } else if (data.message) {

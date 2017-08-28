@@ -175,4 +175,18 @@ export default {
       client: CLIENT,
     },
   },
+  'CREATE_TYPESTATE': {
+    endpoint: API_URL + 'me/conversations',
+    method: 'post',
+    data: {
+      client: CLIENT,
+    },
+  },
+  'DESTROY_TYPESTATE': {
+    endpoint: API_URL + 'me/conversations',
+    method: 'delete',
+    data: {
+      client: CLIENT,
+    },
+  },
 };
