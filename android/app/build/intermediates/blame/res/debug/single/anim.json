@@ -33,7 +33,7 @@
     },
     {
         "merged": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/res/merged/debug/anim/fade_out.xml",
-        "source": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.45.1/res/anim/fade_out.xml"
+        "source": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.46.4/res/anim/fade_out.xml"
     },
     {
         "merged": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/res/merged/debug/anim/catalyst_push_up_out.xml",
@@ -41,7 +41,7 @@
     },
     {
         "merged": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/res/merged/debug/anim/fade_in.xml",
-        "source": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.45.1/res/anim/fade_in.xml"
+        "source": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.46.4/res/anim/fade_in.xml"
     },
     {
         "merged": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/res/merged/debug/anim/abc_fade_out.xml",
@@ -97,7 +97,7 @@
     },
     {
         "merged": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/res/merged/debug/anim/catalyst_push_up_out.xml",
-        "source": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.45.1/res/anim/catalyst_push_up_out.xml"
+        "source": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.46.4/res/anim/catalyst_push_up_out.xml"
     },
     {
         "merged": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/res/merged/debug/anim/slide_up.xml",
@@ -137,7 +137,7 @@
     },
     {
         "merged": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/res/merged/debug/anim/catalyst_push_up_in.xml",
-        "source": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.45.1/res/anim/catalyst_push_up_in.xml"
+        "source": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.46.4/res/anim/catalyst_push_up_in.xml"
     },
     {
         "merged": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/res/merged/debug/anim/abc_slide_out_top.xml",
