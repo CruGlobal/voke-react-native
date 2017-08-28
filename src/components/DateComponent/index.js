@@ -9,7 +9,7 @@ export default class DateComponent extends Component {
     const { date, format, ...rest } = this.props;
     let text;
     if (isString(date) && date.indexOf('UTC') >= 0) {
-      text = moment.utc(date, 'YYYY-MM-DD HH:mm:ss UTC').format(format);
+      text = moment.utc(date, 'YYYY-MM-DD HH:mm:ss UTC').local().format(format);
     } else {
       text = moment(date).format(format);
     }

@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import { Image } from 'react-native';
 import PropTypes from 'prop-types';
@@ -102,13 +101,13 @@ class MessageItem extends Component {
 
   render() {
     const message = this.props.item;
+
     const isVoke = message.direct_message;
     const isMe = message.messenger_id === this.props.user.id ? true : false;
     const isVideo = message.item;
     const time = message.created_at;
 
     let momentTime = moment.utc(time, 'YYYY-MM-DD HH:mm:ss UTC');
-    let localTime = momentTime.local().format('h:mm A');
     let separatorTime = momentTime.local().format('LL') === moment().local().format('LL') ? 'Today' : momentTime.local().format('LL');
 
     return (
@@ -129,7 +128,7 @@ class MessageItem extends Component {
           {
             !isMe && !isVoke ? (
               <Flex self="end" style={styles.avatar}>
-                <Avatar size={28} image={isMe ? this.props.user.avatar.large : null } text={messengers[0].initials} />
+                {this.renderAvatar()}
               </Flex>
             ) : null
           }
@@ -160,7 +159,7 @@ class MessageItem extends Component {
           }
         </Flex>
         <Flex align={(isMe || isVoke) ? 'end' : 'start'} justify="start" style={[styles.time, (isMe || isVoke) ? styles.meTime : styles.otherPersonTime]}>
-          <DateComponent style={styles.timeText} date={message.created_at} />
+          <DateComponent style={styles.timeText} date={message.created_at} format='h:mm A' />
         </Flex>
       </Flex>
     );
