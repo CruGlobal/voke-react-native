@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Image } from 'react-native';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-
+import Spinner from 'react-native-spinkit';
+import theme from '../../theme';
 import styles from './styles';
 import { Flex, Text, Touchable, Icon, Avatar, DateComponent } from '../common';
 
@@ -13,11 +14,19 @@ class MessageItem extends Component {
     return messengers.find((m) => m.bot);
   }
 
+  getOther() {
+    const messengers = this.props.messengers;
+    const user = this.props.user;
+    return messengers.find((m) => !m.bot && (user.id != m.messenger_id));
+  }
+
   renderText() {
     const message = this.props.item;
     const isVoke = message.direct_message;
     const isMe = this.props.item.messenger_id === this.props.user.id ? true : false;
     const isOtherPerson = !isMe && !isVoke;
+    const isTypeState = message.type === 'typeState';
+
 
     return (
       <Flex
@@ -30,15 +39,27 @@ class MessageItem extends Component {
         align="center"
         justify="start"
       >
-        <Text
-          style={[
-            styles.message,
-            isMe ? styles.meText : styles.otherText,
-            isVoke ? styles.vokeText: null,
-          ]}
-        >
-          {message.content}
-        </Text>
+        {
+          !isTypeState ? (
+            <Text
+              style={[
+                styles.message,
+                isMe ? styles.meText : styles.otherText,
+                isVoke ? styles.vokeText: null,
+              ]}
+            >
+              {message.content}
+            </Text>
+          ) : (
+            <Flex>
+              <Spinner
+                color={theme.accentColor}
+                size={25}
+                type="ThreeBounce"
+              />
+            </Flex>
+          )
+        }
       </Flex>
     );
   }
@@ -95,12 +116,21 @@ class MessageItem extends Component {
           text={vokebotMessenger.initials}
         />
       );
+    } else {
+      const otherMessenger = this.getOther();
+      if (!otherMessenger) return null;
+      return (
+        <Avatar
+          size={28}
+          text={otherMessenger.initials}
+        />
+      );
     }
-    return null;
   }
 
   render() {
     const message = this.props.item;
+    const isTypeState = message.type === 'typeState';
 
     const isVoke = message.direct_message;
     const isMe = message.messenger_id === this.props.user.id ? true : false;
@@ -158,9 +188,13 @@ class MessageItem extends Component {
             ) : null
           }
         </Flex>
-        <Flex align={(isMe || isVoke) ? 'end' : 'start'} justify="start" style={[styles.time, (isMe || isVoke) ? styles.meTime : styles.otherPersonTime]}>
-          <DateComponent style={styles.timeText} date={message.created_at} format='h:mm A' />
-        </Flex>
+        {
+          isTypeState ? null : (
+            <Flex align={(isMe || isVoke) ? 'end' : 'start'} justify="start" style={[styles.time, (isMe || isVoke) ? styles.meTime : styles.otherPersonTime]}>
+              <DateComponent style={styles.timeText} date={message.created_at} format="h:mm A" />
+            </Flex>
+          )
+        }
       </Flex>
     );
   }

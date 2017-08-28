@@ -66,8 +66,7 @@ class MessagesList extends Component {
 
   renderTypeState() {
     let item ={
-      content: '...',
-      messenger_id: null,
+      type: 'typeState',
     };
     if (this.props.typeState) {
       return (
