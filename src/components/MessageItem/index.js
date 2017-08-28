@@ -159,13 +159,8 @@ class MessageItem extends Component {
             ) : null
           }
         </Flex>
-<<<<<<< HEAD
-        <Flex align={(isMe || isVoke) ? 'end' : 'start'} justify="start" style={[styles.time, isMe ? styles.meTime : styles.otherPersonTime]}>
-          <DateComponent style={styles.timeText} date={message.created_at} />
-=======
         <Flex align={(isMe || isVoke) ? 'end' : 'start'} justify="start" style={[styles.time, (isMe || isVoke) ? styles.meTime : styles.otherPersonTime]}>
-          <Text style={styles.timeText}>{localTime}</Text>
->>>>>>> added mapping for messages to ensure they are in right order and to add property for last item of day
+          <DateComponent style={styles.timeText} date={message.created_at} />
         </Flex>
       </Flex>
     );
