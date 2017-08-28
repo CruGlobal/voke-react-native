@@ -1,5 +1,5 @@
 import { API_URL } from '../api/utils';
-import { NEW_MESSAGE } from '../constants';
+import { NEW_MESSAGE, TYPE_STATE_CHANGE } from '../constants';
 import callApi, { REQUESTS } from './api';
 
 export function getConversations() {
@@ -50,5 +50,15 @@ export function createMessage(conversation, data) {
 export function newMessageAction(message) {
   return (dispatch) => {
     return dispatch({ type: NEW_MESSAGE, message });
+  };
+}
+
+export function typeStateChangeAction(message) {
+  return (dispatch) => {
+    let data = {
+      conversationId: message.message.conversation_id,
+      bool: message.notification.action === 'create' ? true : false,
+    };
+    return dispatch({ type: TYPE_STATE_CHANGE, data });
   };
 }

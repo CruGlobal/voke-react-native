@@ -55,6 +55,7 @@ class Message extends Component {
     this.handleAddContent = this.handleAddContent.bind(this);
     this.getLatestItem = this.getLatestItem.bind(this);
     this.setLatestItem = this.setLatestItem.bind(this);
+    this.getTypeState = this.getTypeState.bind(this);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
@@ -162,10 +163,15 @@ class Message extends Component {
     this.setState({ height });
   }
 
+  getTypeState() {
+    if (this.props.typeState) {
+      return true;
+    }
+    return false;
+  }
+
   render() {
-    // const { messages = [] } = this.props.navigation.state.params;
     const { messages, me } = this.props;
-    const currentConversation = this.props.conversation.id;
     let newHeight = {
       height: this.state.height < 40 ? 40 : this.state.height > 80 ? 80 : this.state.height,
     };
@@ -197,6 +203,7 @@ class Message extends Component {
           onLoadMore={this.handleLoadMore}
           hasMore={hasMore}
           items={messages}
+          typeState={this.getTypeState()}
           user={me}
           messengers={this.props.conversation.messengers}
           onSelectVideo={(m) => this.setState({ selectedVideo: m })}
@@ -249,6 +256,7 @@ Message.propTypes = {
 const mapStateToProps = ({ messages, auth }, ownProps) => ({
   messages: messages.messages[ownProps.conversation.id] || [],
   me: auth.user,
+  typeState: messages.typeState[ownProps.conversation.id],
 });
 
 export default connect(mapStateToProps, nav)(Message);

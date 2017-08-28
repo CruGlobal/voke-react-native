@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 import { API_URL } from '../api/utils';
 import { SOCKET_URL } from '../api/utils';
-import { newMessageAction } from './messages';
+import { newMessageAction, typeStateChangeAction } from './messages';
 import callApi, { REQUESTS } from './api';
 import { isEquivalentObject } from '../utils/common';
 import DeviceInfo from 'react-native-device-info';
@@ -33,14 +33,17 @@ export function setupSocketAction(cableId) {
       const data = JSON.parse(e.data) || {};
       const type = data && data.type;
       if (type === 'ping') return;
-      console.warn('socket message received: data', data);
+      // console.warn('socket message received: data', data);
       if (type === 'welcome') {
-        console.warn('socket welcome');
+        // console.warn('socket welcome');
       } else if (data.message) {
         const message = data.message.message;
         const notification = data.message.notification;
         if (notification && notification.category === 'CREATE_MESSAGE_CATEGORY') {
           dispatch(newMessageAction(message));
+        }
+        if (notification && (notification.category === 'CREATE_TYPESTATE_CATEGORY' || notification.category === 'DESTROY_TYPESTATE_CATEGORY')) {
+          dispatch(typeStateChangeAction(data.message));
         }
       }
     };

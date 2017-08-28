@@ -37,7 +37,7 @@ export default function messages(state = initialState, action) {
     case TYPE_STATE_CHANGE:
       return {
         ...state,
-        typeState: { ...state.typeState, [action.conversationId]: action.bool },
+        typeState: { ...state.typeState, [action.data.conversationId]: action.data.bool },
       };
     case NEW_MESSAGE:
       const conversationNewMessageId = action.message ? action.message.conversation_id : null;

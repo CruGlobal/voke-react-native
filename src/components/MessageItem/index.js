@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { Image } from 'react-native';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 import styles from './styles';
 import { Flex, Text, Touchable, Icon, Avatar, DateComponent } from '../common';
@@ -76,7 +77,7 @@ class MessageItem extends Component {
     const user = this.props.user;
     const isVoke = message.direct_message;
     const isMe = message.messenger_id === this.props.user.id ? true : false;
-    
+
     if (isMe) {
       return (
         <Avatar
@@ -104,7 +105,11 @@ class MessageItem extends Component {
     const isVoke = message.direct_message;
     const isMe = message.messenger_id === this.props.user.id ? true : false;
     const isVideo = message.item;
-    
+    const time = message.created_at;
+
+    let momentTime = moment.utc(time, 'YYYY-MM-DD HH:mm:ss UTC');
+    let localTime = momentTime.local().format('h:mm A');
+    let separatorTime = momentTime.local().format('LL') === moment().local().format('LL') ? 'Today' : momentTime.local().format('LL');
 
     return (
       <Flex
@@ -113,10 +118,19 @@ class MessageItem extends Component {
         animation="fadeIn"
         align={isMe || isVoke ? 'end' : 'start'}
       >
+        {
+          this.props.item.isLatestForDay ? (
+            <Flex align="center" justify="center" style={styles.dateSeparator}>
+              <Text style={styles.timeText}>{separatorTime}</Text>
+            </Flex>
+          ) : null
+        }
         <Flex direction="row" style={{ marginHorizontal: 5 }} align="center" justify="center">
           {
             !isMe && !isVoke ? (
-              <Flex self="end" style={styles.avatar}></Flex>
+              <Flex self="end" style={styles.avatar}>
+                <Avatar size={28} image={isMe ? this.props.user.avatar.large : null } text={messengers[0].initials} />
+              </Flex>
             ) : null
           }
           <Flex
@@ -145,8 +159,13 @@ class MessageItem extends Component {
             ) : null
           }
         </Flex>
+<<<<<<< HEAD
         <Flex align={(isMe || isVoke) ? 'end' : 'start'} justify="start" style={[styles.time, isMe ? styles.meTime : styles.otherPersonTime]}>
           <DateComponent style={styles.timeText} date={message.created_at} />
+=======
+        <Flex align={(isMe || isVoke) ? 'end' : 'start'} justify="start" style={[styles.time, (isMe || isVoke) ? styles.meTime : styles.otherPersonTime]}>
+          <Text style={styles.timeText}>{localTime}</Text>
+>>>>>>> added mapping for messages to ensure they are in right order and to add property for last item of day
         </Flex>
       </Flex>
     );
@@ -156,7 +175,7 @@ class MessageItem extends Component {
 MessageItem.propTypes = {
   item: PropTypes.object.isRequired,
   user: PropTypes.object.isRequred,
-  messengers: PropTypes.array.isRequred,
+  messengers: PropTypes.array.isRequired,
 };
 
 export default MessageItem;

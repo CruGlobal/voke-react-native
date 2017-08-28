@@ -1,6 +1,6 @@
 
 import { StyleSheet } from 'react-native';
-import theme, { COLORS }  from '../../theme';
+import theme, { COLORS, DEFAULT }  from '../../theme';
 import videoUtils from '../../utils/video';
 
 export default StyleSheet.create({
@@ -9,6 +9,7 @@ export default StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 8,
     margin: 10,
+    maxWidth: DEFAULT.FULL_WIDTH - 80,
   },
   me: {
     marginLeft: 50,
@@ -92,5 +93,9 @@ export default StyleSheet.create({
   },
   vokeTriangle: {
     borderLeftColor: theme.secondaryColor,
+  },
+  dateSeparator: {
+    alignSelf: 'center',
+    paddingVertical: 10,
   },
 });

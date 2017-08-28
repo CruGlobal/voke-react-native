@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, ListView, Platform, FlatList } from 'react-native';
 import debounce from 'lodash/debounce';
+import { Text } from '../common';
 
 import styles from './styles';
 import MessageItem from '../MessageItem';
@@ -23,6 +24,7 @@ class MessagesList extends Component {
     this.handleLoadMore = debounce(this.handleLoadMore.bind(this), 50);
     this.renderRow = this.renderRow.bind(this);
     this.scrollEnd = this.scrollEnd.bind(this);
+    this.renderTypeState = this.renderTypeState.bind(this);
   }
 
   // componentWillReceiveProps(nextProps) {
@@ -48,6 +50,7 @@ class MessagesList extends Component {
     }
   }
 
+
   renderRow({ item }) {
     return (
       <View style={{ transform: [{ scaleY: -1 }]}}>
@@ -59,6 +62,25 @@ class MessagesList extends Component {
         />
       </View>
     );
+  }
+
+  renderTypeState() {
+    let item ={
+      content: '...',
+      messenger_id: null,
+    };
+    if (this.props.typeState) {
+      return (
+        <View style={{ transform: [{ scaleY: -1 }]}}>
+          <MessageItem
+            item={item}
+            user={this.props.user}
+            messengers={this.props.messengers}
+            onSelectVideo={() => this.props.onSelectVideo(item)}
+          />
+        </View>
+      )
+    } else return null;
   }
 
   scrollEnd(isAnimated) {
@@ -86,6 +108,7 @@ class MessagesList extends Component {
         renderItem={this.renderRow}
         contentContainerStyle={styles.content}
         inverted={true}
+        ListHeaderComponent={this.renderTypeState}
       />
     );
   }
@@ -112,6 +135,7 @@ MessagesList.propTypes = {
   hasMore: PropTypes.bool,
   isLoadingMore: PropTypes.bool,
   onLoadMore: PropTypes.func,
+  typeState: PropTypes.bool,
 };
 
 export default MessagesList;

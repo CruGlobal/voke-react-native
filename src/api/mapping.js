@@ -15,6 +15,47 @@ export function mapMe(results) {
   };
 }
 
+export function mapMessages(results) {
+  let messages = results.messages || [];
+
+  messages.sort(function(a, b) {
+    if (a.created_at && !b.created_at) return -1;
+    else if (b.created_at && !a.created_at) return 1;
+    else if (!a.created_at && !b.created_at) return 0;
+
+    let keyA = moment.utc(a.created_at, 'YYYY-MM-DD HH:mm:ss UTC').local();
+    let keyB = moment.utc(b.created_at, 'YYYY-MM-DD HH:mm:ss UTC').local();
+
+    // Compare the 2 dates
+    if (keyA > keyB) return -1;
+    if (keyA < keyB) return 1;
+    return 0;
+  });
+
+  for (let i=0; i < messages.length -1; i++) {
+    let currMessage = messages[i];
+    let nextMessage = messages[i + 1];
+
+    const currMessageTime = moment.utc(currMessage.created_at, 'YYYY-MM-DD HH:mm:ss UTC').local();
+    const nextMessageTime = moment.utc(nextMessage.created_at, 'YYYY-MM-DD HH:mm:ss UTC').local();
+
+    // console.warn(currMessageTime);
+    // console.warn(nextMessageTime);
+    const currMessageDate = currMessageTime.format('LL');
+    const nextMessageDate = nextMessageTime.format('LL');
+
+    if (currMessageDate !== nextMessageDate) {
+      messages[i].isLatestForDay = true;
+    } else {messages[i].isLatestForDay = false;}
+  }
+
+  messages[messages.length-1].isLatestForDay = true;
+
+  return {
+    messages,
+  };
+}
+
 export function mapConversations(results) {
   let conversations = results.conversations || [];
   conversations = conversations.map((c) => {
