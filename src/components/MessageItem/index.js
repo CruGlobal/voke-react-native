@@ -122,7 +122,7 @@ class MessageItem extends Component {
 }
 
 MessageItem.propTypes = {
-  item: PropTypes.object.isRequired, // Redux
+  item: PropTypes.object.isRequired,
   user: PropTypes.object.isRequred,
   messengers: PropTypes.array.isRequred,
 };

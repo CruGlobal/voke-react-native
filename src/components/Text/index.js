@@ -17,8 +17,8 @@ export default class MyText extends Component {
   }
 }
 
-MyText.propTypes = { ...Text.propTypes };
-MyText.defaultProps = { ...Text.defaultProps };
+MyText.propTypes = Text.propTypes;
+MyText.defaultProps = Text.defaultProps;
 
 const styles = StyleSheet.create({
   text: {

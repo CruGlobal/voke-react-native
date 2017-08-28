@@ -14,7 +14,7 @@ export function setupSocketAction() {
 
     ws.onopen = () => {
       // connection opened
-      console.warn('socket opened');
+      // console.warn('socket opened');
 
       // const pushNotificationId = 'test';
       // const obj = {
@@ -29,9 +29,9 @@ export function setupSocketAction() {
       const data = JSON.parse(e.data) || {};
       const type = data && data.type;
       if (!type || type === 'ping') return;
-      console.warn('socket message received: data', data);
+      // console.warn('socket message received: data', data);
       if (type === 'welcome') {
-        console.warn('socket welcome');
+        // console.warn('socket welcome');
       } else if (type === 'new_message') {
         dispatch(newMessageAction(data));
       }
@@ -44,7 +44,7 @@ export function setupSocketAction() {
 
     ws.onclose = (e) => {
       // connection closed
-      console.warn('socket closed', e.code, e.reason);
+      // console.warn('socket closed', e.code, e.reason);
     };
   };
 }

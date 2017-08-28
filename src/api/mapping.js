@@ -20,8 +20,8 @@ export function mapConversations(results) {
   conversations = conversations.map((c) => {
     // Sort the messengers by putting the most recent messenger first
     c.messengers.sort(function(a, b) {
-      if (a.latest_message && !b.latest_message) return 1;
-      else if (b.latest_message && !a.latest_message) return -1;
+      if (a.latest_message && !b.latest_message) return -1;
+      else if (b.latest_message && !a.latest_message) return 1;
       else if (!a.latest_message && !b.latest_message) return 0;
 
       // Pull out UTC dates using moment and telling it the format we're using
@@ -33,9 +33,19 @@ export function mapConversations(results) {
       return 0;
     });
     // c.messengers[2] && c.messengers[2].latest_message && console.warn(c.id, JSON.stringify(c.messengers[2].latest_message.created_at),'should be sorted');
+
+    // This adds the 'messagePreview' field as a text field onto each conversation
+    const latestMessenger = c.messengers[0];
+    if (latestMessenger) {
+      let messagePreview = latestMessenger.latest_message ? latestMessenger.latest_message.content : null;
+      if (!messagePreview) {
+        messagePreview = latestMessenger.latest_item ? latestMessenger.latest_item.name : null;
+      }
+      c.messagePreview = messagePreview;
+    }
     return c;
   });
-  console.warn(JSON.stringify(conversations));
+  // console.warn(JSON.stringify(conversations));
   return {
     conversations,
   };

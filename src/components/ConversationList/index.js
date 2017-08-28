@@ -33,7 +33,7 @@ class ConversationList extends Component { // eslint-disable-line
     this.renderRow = this.renderRow.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
-    this.getSender = this.getSender.bind(this);
+    this.getSenderName = this.getSenderName.bind(this);
     this.getConversationParticipant = this.getConversationParticipant.bind(this);
   }
 
@@ -71,7 +71,7 @@ class ConversationList extends Component { // eslint-disable-line
     }, 500);
   }
 
-  getSender(conversation) {
+  getSenderName(conversation) {
     if (conversation.messengers[0] && conversation.messengers[0].id) {
       if (conversation.messengers[0].id != this.props.me.id) {
         if (conversation.messengers[0].first_name) {
@@ -99,13 +99,9 @@ class ConversationList extends Component { // eslint-disable-line
 
   renderRow(item) {
     const conversation = item;
-    const latestMessage = conversation.messengers[0] && conversation.messengers[0].latest_message ? conversation.messengers[0].latest_message : {};
-    const content = latestMessage.content ? latestMessage.content : null;
-    const contentCreator = this.getSender(conversation);
+    const contentCreator = this.getSenderName(conversation);
     const otherPerson = this.getConversationParticipant(conversation);
-
-    const latestItem = conversation.messengers[0] && conversation.messengers[0].latest_item ? conversation.messengers[0].latest_item : {};
-    const itemContent = latestItem.name ? latestItem.name : null;
+    
 
     return (
       <Touchable highlight={true} underlayColor={COLORS.TRANSPARENT} onShowUnderlay={()=> this.handleFocus(item.id)} onHideUnderlay={this.handleBlur} activeOpacity={1} onPress={() => this.props.onSelect(conversation)}>
@@ -124,9 +120,7 @@ class ConversationList extends Component { // eslint-disable-line
                 <Text style={styles.messagePreviewText} numberOfLines={2}>
                   <Text>{contentCreator}</Text>
                   <Image source={ARROW} resizeMode="contain" style={{width: 20, height: 7}} />
-                  {
-                    content ? content : itemContent ? itemContent : ''
-                  }
+                  {conversation.messagePreview}
                 </Text>
               </Flex>
             </Flex>

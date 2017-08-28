@@ -100,10 +100,12 @@ class Message extends Component {
   }
 
   setLatestItem() {
-    let messages = this.props.messages;
+    let messages = this.props.messages || [];
     let item = messages.find(this.getLatestItem);
     console.warn(JSON.stringify(item));
-    this.setState({latestItem: item.item.id });
+    if (item && item.item) {
+      this.setState({ latestItem: item.item.id });
+    }
   }
 
   handleLoadMore() {
