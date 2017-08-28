@@ -101,7 +101,7 @@ class ConversationList extends Component { // eslint-disable-line
     const conversation = item;
     const contentCreator = this.getSenderName(conversation);
     const otherPerson = this.getConversationParticipant(conversation);
-    
+
 
     return (
       <Touchable highlight={true} underlayColor={COLORS.TRANSPARENT} onShowUnderlay={()=> this.handleFocus(item.id)} onHideUnderlay={this.handleBlur} activeOpacity={1} onPress={() => this.props.onSelect(conversation)}>
@@ -118,9 +118,9 @@ class ConversationList extends Component { // eslint-disable-line
               <Flex direction="column" justify="center">
                 <Text style={styles.conversationName}>{otherPerson.first_name} {otherPerson.last_name}</Text>
                 <Flex direction="row" align="center">
-                  <Text style={styles.creatorText}>{contentCreator}</Text>
-                  <Image source={ARROW} resizeMode="contain" style={{width: 20, height: 7}} />
                   <Text style={styles.messagePreviewText} numberOfLines={2}>
+                    <Text style={styles.creatorText}>{contentCreator}</Text>
+                    <Image source={ARROW} resizeMode="contain" style={{width: 20, height: 7}} />
                     {conversation.messagePreview || '...'}
                   </Text>
                 </Flex>
