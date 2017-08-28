@@ -26,6 +26,7 @@ class Profile extends Component {
   static navigatorStyle = {
     navBarNoBorder: true,
     navBarButtonColor: theme.textColor,
+    navBarTextColor: theme.headerTextColor,
   };
 
   constructor(props) {

@@ -231,7 +231,7 @@ class Message extends Component {
             style={styles.sendButton}
             icon="queue"
             iconStyle={styles.sendIcon}
-            onPress={()=> this.handleAddContent()}
+            onPress={this.handleAddContent}
           />
         </Flex>
       </KeyboardAvoidingView>
@@ -247,7 +247,7 @@ Message.propTypes = {
 };
 
 const mapStateToProps = ({ messages, auth }, ownProps) => ({
-  messages: messages.messages[ownProps.conversation.id],
+  messages: messages.messages[ownProps.conversation.id] || [],
   me: auth.user,
 });
 

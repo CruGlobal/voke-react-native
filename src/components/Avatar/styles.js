@@ -8,7 +8,10 @@ export default StyleSheet.create({
     fontSize: 24,
   },
   textStyle: {
+    alignItems: 'center',
+    justifyContent: 'center',
     color: theme.textColor,
+    // textAlign: 'center',
     fontSize: 12,
     backgroundColor: COLORS.TRANSPARENT,
   },

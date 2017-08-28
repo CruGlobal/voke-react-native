@@ -87,7 +87,6 @@ class MessagesList extends Component {
         contentContainerStyle={styles.content}
         inverted={true}
       />
-
     );
   }
 }

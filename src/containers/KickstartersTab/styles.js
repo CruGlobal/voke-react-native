@@ -8,6 +8,7 @@ export default StyleSheet.create({
     backgroundColor: theme.backgroundColor,
   },
   content: {
+    paddingBottom: 15,
   },
   description: {
     fontSize: 16,

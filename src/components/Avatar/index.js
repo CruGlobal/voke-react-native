@@ -8,32 +8,25 @@ import { Text, Flex } from '../common';
 
 export default class Avatar extends Component {
 
-  renderContent() {
-  }
-
   render() {
     const { text, image, size, style = {}, avatarTextStyle = {}, imageStyle = {}, ...rest } = this.props;
-    let textComp = null;
-    let imageComp = null;
+    let content = null;
 
     if (image) {
-      imageComp = (
+      content = (
         <Image resizeMode="cover" source={{uri: image}} style={[imageStyle, {width: size, height: size, borderRadius: size/2}]} />
       );
-    }
-    if (text) {
-      textComp = (
-        <Text style={[styles.textStyle, avatarTextStyle, {lineHeight: size}]}>
+    } else if (text) {
+      content = (
+        <Text style={[styles.textStyle, avatarTextStyle]}>
           {text}
         </Text>
       );
     }
 
     return (
-      <Flex style={[{width: size, height: size, borderRadius: size/2}, styles.avatar, style]} align="center" justify="start">
-        {
-          imageComp ? imageComp : textComp ? textComp : null
-        }
+      <Flex style={[{width: size, height: size, borderRadius: size/2}, styles.avatar, style]} align="center" justify="center">
+        {content}
       </Flex>
     );
   }

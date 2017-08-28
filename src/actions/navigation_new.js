@@ -47,10 +47,10 @@ function defaultProps(screen, props, passProps) {
     newProps.title = passProps.name;
   }
   if (screen === 'voke.MessageTabView' && passProps.onSelectKickstarter) {
-    newProps.topTabs[0].passProps = { onSelect: passProps.onSelectKickstarter };
+    newProps.topTabs[0].passProps = { ...passProps, onSelect: passProps.onSelectKickstarter };
   }
   if (screen === 'voke.MessageTabView' && passProps.onSelectVideo) {
-    newProps.topTabs[1].passProps = { onVideoShare: passProps.onSelectVideo };
+    newProps.topTabs[1].passProps = { ...passProps, onVideoShare: passProps.onSelectVideo };
   }
   return newProps;
 }

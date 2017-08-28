@@ -4,9 +4,14 @@ import { Image } from 'react-native';
 import PropTypes from 'prop-types';
 
 import styles from './styles';
-import { Flex, Text, Touchable, Icon, Avatar } from '../common';
+import { Flex, Text, Touchable, Icon, Avatar, DateComponent } from '../common';
 
 class MessageItem extends Component {
+
+  getVokeBot() {
+    const messengers = this.props.messengers;
+    return messengers.find((m) => m.bot);
+  }
 
   renderText() {
     const message = this.props.item;
@@ -41,7 +46,7 @@ class MessageItem extends Component {
   renderVideo() {
     const message = this.props.item;
     const isVoke = message.direct_message;
-    const isMe = this.props.item.messenger_id === this.props.user.id ? true : false;
+    const isMe = message.messenger_id === this.props.user.id ? true : false;
     const isOtherPerson = !isMe && !isVoke;
 
     return (
@@ -66,13 +71,40 @@ class MessageItem extends Component {
     );
   }
 
+  renderAvatar() {
+    const message = this.props.item;
+    const user = this.props.user;
+    const isVoke = message.direct_message;
+    const isMe = message.messenger_id === this.props.user.id ? true : false;
+    
+    if (isMe) {
+      return (
+        <Avatar
+          size={28}
+          image={user.avatar.large}
+          text={user.initials}
+        />
+      );
+    } else if (isVoke) {
+      const vokebotMessenger = this.getVokeBot();
+      if (!vokebotMessenger) return null;
+      return (
+        <Avatar
+          size={28}
+          image={vokebotMessenger.avatar.large}
+          text={vokebotMessenger.initials}
+        />
+      );
+    }
+    return null;
+  }
+
   render() {
     const message = this.props.item;
-    const messengers = this.props.messengers;
     const isVoke = message.direct_message;
-    const isMe = this.props.item.messenger_id === this.props.user.id ? true : false;
-    const isOtherPerson = !isMe && !isVoke;
+    const isMe = message.messenger_id === this.props.user.id ? true : false;
     const isVideo = message.item;
+    
 
     return (
       <Flex
@@ -108,13 +140,13 @@ class MessageItem extends Component {
           {
             (isMe || isVoke) ? (
               <Flex self="end" style={styles.avatar}>
-                <Avatar size={28} image={isMe ? this.props.user.avatar.large : null } text={isMe ? messengers[2].initials : messengers[1].initials} />
+                {this.renderAvatar()}
               </Flex>
             ) : null
           }
         </Flex>
         <Flex align={(isMe || isVoke) ? 'end' : 'start'} justify="start" style={[styles.time, isMe ? styles.meTime : styles.otherPersonTime]}>
-          <Text style={styles.timeText}>{message.created_at}</Text>
+          <DateComponent style={styles.timeText} date={message.created_at} />
         </Flex>
       </Flex>
     );

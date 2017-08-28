@@ -27,8 +27,8 @@ export default StyleSheet.create({
     fontSize: 30,
   },
   sendButton: {
-    flex: 0.1,
-    paddingTop: 10,
-    paddingLeft: 15,
+    width: 55,
+    alignItems: 'flex-end',
+    paddingVertical: 5,
   },
 });

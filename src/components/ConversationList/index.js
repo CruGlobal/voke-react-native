@@ -109,19 +109,21 @@ class ConversationList extends Component { // eslint-disable-line
           <Flex style={[styles.container, this.state.rowFocused === item.id ? {backgroundColor: theme.accentColor} : null]} direction="row" align="center" justify="center">
             <Flex value={2} align="center" justify="start">
               <Avatar
-                size={28}
-                style={this.state.rowFocused === item.id ? {backgroundColor: theme.primaryColor} : null}
+                size={30}
+                style={this.state.rowFocused === item.id ? { backgroundColor: theme.primaryColor } : null}
                 text={otherPerson.initials}
               />
             </Flex>
-            <Flex value={15}  justify="start">
-              <Flex direction="column" align="start">
+            <Flex value={15} justify="start">
+              <Flex direction="column" justify="center">
                 <Text style={styles.conversationName}>{otherPerson.first_name} {otherPerson.last_name}</Text>
-                <Text style={styles.messagePreviewText} numberOfLines={2}>
-                  <Text>{contentCreator}</Text>
+                <Flex direction="row" align="center">
+                  <Text style={styles.creatorText}>{contentCreator}</Text>
                   <Image source={ARROW} resizeMode="contain" style={{width: 20, height: 7}} />
-                  {conversation.messagePreview}
-                </Text>
+                  <Text style={styles.messagePreviewText} numberOfLines={2}>
+                    {conversation.messagePreview || '...'}
+                  </Text>
+                </Flex>
               </Flex>
             </Flex>
             <Flex value={1} style={styles.conversationArrow} align="center" justify="center">
@@ -166,8 +168,8 @@ class ConversationList extends Component { // eslint-disable-line
             </TouchableOpacity>
           </View>
         )}
-        initialListSize={7}
-        pageSize={5}
+        initialListSize={15}
+        pageSize={10}
         enableEmptySections={true}
         onEndReached={this.handleNextPage}
         onEndReachedThreshold={50}

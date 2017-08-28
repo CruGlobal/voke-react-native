@@ -15,8 +15,12 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 15,
   },
+  creatorText: {
+    fontSize: 14,
+  },
   messagePreviewText: {
     fontSize: 14,
+    marginRight: 50,
   },
   avatarWrapper: {
     padding: 2,

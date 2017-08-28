@@ -23,10 +23,12 @@ function setButtons() {
 
 class MessageTabView extends Component {
   static navigatorStyle = {
+    navBarButtonColor: theme.lightText,
+    navBarTextColor: theme.headerTextColor,
     navBarBackgroundColor: theme.headerBackgroundColor,
     navBarNoBorder: true,
     // Android styles
-    navBarHideOnScroll: false,
+    navBarHideOnScroll: true,
     topBarCollapseOnScroll: false,
     topTabTextColor: theme.lightText,
     selectedTopTabTextColor: theme.lightText,

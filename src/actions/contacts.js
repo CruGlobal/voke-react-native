@@ -61,6 +61,7 @@ export function getContacts() {
             'First grant Voke permission to access your contacts. Go to Settings / Voke and allow the permission for Contacts',
             [
               {text: 'Cancel', onPress: () => console.warn('canceled')},
+              // TODO: Open android app settings or prompt user
               {text: 'Open Settings', onPress: () => Linking.openURL('app-settings:')},
             ]
           );

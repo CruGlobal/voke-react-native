@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { isString } from '../../utils/common';
 import Text from '../Text';
 
 export default class DateComponent extends Component {
   render() {
     const { date, format, ...rest } = this.props;
-    const text = moment(date).format(format);
+    let text;
+    if (isString(date) && date.indexOf('UTC') >= 0) {
+      text = moment.utc(date, 'YYYY-MM-DD HH:mm:ss UTC').format(format);
+    } else {
+      text = moment(date).format(format);
+    }
     return (
       <Text {...rest}>
         {text}

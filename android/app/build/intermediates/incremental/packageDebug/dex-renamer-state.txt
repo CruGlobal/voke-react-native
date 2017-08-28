@@ -1,4 +1,4 @@
-#Sun Aug 27 21:39:18 EDT 2017
+#Mon Aug 28 10:02:45 EDT 2017
 base.0=/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main
 renamed.0=classes.dex
 file.0=/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes.dex
