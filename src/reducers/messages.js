@@ -1,12 +1,12 @@
 import { REHYDRATE } from 'redux-persist/constants';
 import { REQUESTS } from '../actions/api';
-import { NEW_MESSAGE } from '../constants';
+import { NEW_MESSAGE, TYPE_STATE_CHANGE } from '../constants';
 
 
 const initialState = {
   conversations: [],
   messages: {},
-  // Key is conversationId, value
+  typeState: {},
 };
 
 export default function messages(state = initialState, action) {
@@ -17,11 +17,13 @@ export default function messages(state = initialState, action) {
       return {
         ...state,
         ...incoming,
+        typeState: {},
       };
     case REQUESTS.GET_CONVERSATIONS.SUCCESS:
       return {
         ...state,
         conversations: action.conversations || [],
+        typeState: {},
       };
     case REQUESTS.GET_MESSAGES.SUCCESS:
       const conversationId = action.messages[0] ? action.messages[0].conversation_id : null;
@@ -31,6 +33,11 @@ export default function messages(state = initialState, action) {
       return {
         ...state,
         messages: { ...state.messages, [conversationId]: action.messages },
+      };
+    case TYPE_STATE_CHANGE:
+      return {
+        ...state,
+        typeState: { ...state.typeState, [action.conversationId]: action.bool },
       };
     case NEW_MESSAGE:
       const conversationNewMessageId = action.message ? action.message.conversation_id : null;

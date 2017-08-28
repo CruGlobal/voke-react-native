@@ -1,14 +1,14 @@
 import { Alert, Platform, ToastAndroid, AsyncStorage } from 'react-native';
 import { LOGIN, LOGOUT, SET_USER } from '../constants';
 import callApi, { REQUESTS } from './api';
-import { setupSocketAction } from './socket';
+import { establishDevice } from './socket';
 // import { navigateResetLogin } from './navigation_new';
 // import { resetLoginAction, resetHomeAction } from './navigation';
 // import PushNotification from 'react-native-push-notification';
 
 export function startupAction(navigator) {
   return (dispatch) => {
-    dispatch(setupSocketAction(navigator));
+    dispatch(establishDevice(navigator));
     // PushNotification.configure({
     //   // (optional) Called when Token is generated (iOS and Android)
     //   onRegister: function(token) {

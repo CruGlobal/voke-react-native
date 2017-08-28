@@ -1,11 +1,20 @@
 import { REHYDRATE } from 'redux-persist/constants';
 import { LOGIN, LOGOUT, SET_USER } from '../constants';
-// import { REQUESTS } from '../actions/api';
+import { REQUESTS } from '../actions/api';
 
 const initialAuthState = {
   token: '',
   user: {},
   isLoggedIn: false,
+  device: {
+    // version: 1,
+    // local_version: '1.0.1',
+    // local_id: '4afad6f1-1b5dfadfb-4e64-98dd-d7f538588584',
+    // family: 'Apple',
+    // name: 'iPhone',
+    // os: 'ios 10.3.2',
+  },
+  cableId: '',
 };
 
 export default function auth(state = initialAuthState, action) {
@@ -29,6 +38,38 @@ export default function auth(state = initialAuthState, action) {
       return {
         ...state,
         user: action.user,
+      };
+    case REQUESTS.UPDATE_DEVICE.SUCCESS:
+      return {
+        ...state,
+        device: {
+          version: action.version,
+          local_version: action.local_version,
+          local_id: action.local_id,
+          family: action.family,
+          name: action.name,
+          os: action.os,
+        },
+        cableId: action.id,
+      };
+    case REQUESTS.CREATE_DEVICE.SUCCESS:
+      return {
+        ...state,
+        device: {
+          version: action.version,
+          local_version: action.local_version,
+          local_id: action.local_id,
+          family: action.family,
+          name: action.name,
+          os: action.os,
+        },
+        cableId: action.id,
+      };
+    case REQUESTS.DESTROY_DEVICE.SUCCESS:
+      return {
+        ...state,
+        device: {},
+        cableId: '',
       };
     case LOGOUT:
       return initialAuthState;

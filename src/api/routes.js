@@ -153,4 +153,25 @@ export default {
       client: CLIENT,
     },
   },
+  'CREATE_DEVICE': {
+    endpoint: API_URL + 'me/devices',
+    method: 'post',
+    data: {
+      client: CLIENT,
+    },
+  },
+  'DESTROY_DEVICE': {
+    endpoint: API_URL + 'me/devices',
+    method: 'delete',
+    data: {
+      client: CLIENT,
+    },
+  },
+  'UPDATE_DEVICE': {
+    endpoint: API_URL + 'me/devices',
+    method: 'put',
+    data: {
+      client: CLIENT,
+    },
+  },
 };
