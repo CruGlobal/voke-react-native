@@ -17,14 +17,6 @@ import VideoList from '../../components/VideoList';
 import StatusBar from '../../components/StatusBar';
 import { Flex } from '../../components/common';
 
-// const VIDEOS = [
-//   {id: '1', title: 'The odds of you explained...', description: 'The fact that we are on this planet right now is almost statistically impossible. The fact that we are on this planet right now is almost statistically impossible. The fact that we are on this planet right now is almost statistically impossible. The fact that we are on this planet right now is almost statistically impossible.'},
-//   {id: '2', title: 'The best video ever', description: 'The fact tha'},
-//   {id: '3', title: 'another one', description: 'The fact that we are on this planet right now is almost statistically impossible.'},
-//   {id: '4', title: 'DJ Kahled does another one', description: 'The fact that we are on this planet right now is almost statistically impossible.'},
-//   {id: '5', title: 'Bryan doing the hokie pokie', description: 'The fact that we are on this planet right now is almost statistically impossible.'},
-// ];
-
 function setButtons() {
   return {
     leftButtons: [{
@@ -64,6 +56,22 @@ class Videos extends Component {
     }
   }
 
+  componentWillMount() {
+    if (!this.props.onSelectVideo) {
+      this.props.navigator.setButtons(setButtons());
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.all.length === 0) {
+      this.props.dispatch(getVideos()).then(() => {
+        this.updateVideoList('all');
+      });
+    } else {
+      this.setState({ videos: this.props.all });
+    }
+  }
+
   handleThemeSelect(tag) {
     this.props.dispatch(getSelectedThemeVideos(tag)).then(()=>{
       this.setState({ videos: this.props.selectedThemeVideos});
@@ -71,7 +79,7 @@ class Videos extends Component {
   }
 
   handleDismissedLightBox() {
-    let shouldntScroll = true
+    let shouldntScroll = true;
     this.handleFilter(this.state.previousFilter, shouldntScroll);
   }
 
@@ -89,22 +97,9 @@ class Videos extends Component {
     });
   }
 
-  componentWillMount() {
-    if (!this.props.onSelectVideo) {
-      this.props.navigator.setButtons(setButtons());
-    }
-  }
-
-  componentDidMount() {
-    this.props.dispatch(getVideos()).then(()=> {
-      this.updateVideoList('all');
-    });
-  }
-
   handleFilter(filter, shouldntScroll) {
     if (filter === 'themes') {
-      this.setState({ previousFilter: this.state.selectedFilter });
-      this.setState({selectedFilter: filter});
+      this.setState({ previousFilter: this.state.selectedFilter, selectedFilter: filter });
     } else {
       this.setState({selectedFilter: filter});
       if (shouldntScroll) {
@@ -180,7 +175,7 @@ class Videos extends Component {
           onSelect={(c) => {
             this.props.navigatePush('voke.VideoDetails', {
               video: c,
-              onSelectVideo: this.props.onSelectVideo ? this.props.onSelectVideo : null,
+              onSelectVideo: this.props.onSelectVideo,
             });
           }}
           onRefresh={() => {}}

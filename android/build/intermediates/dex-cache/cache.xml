@@ -12,6 +12,33 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-base/1.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="050f688115ea65a0292d8483a6ffe6bcdab1e2ef">
+        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-base-1.0.1_83e71832a9ae3039e2cfa3aa78828a0df7a77d7f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.6.0/69edde9fc4b01c9fd51d25b83428837478c27254/okhttp-3.6.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="69edde9fc4b01c9fd51d25b83428837478c27254">
+        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/okhttp-3.6.0_52f43f7f5ef9e9f7244424bf970c342ff13354e3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.balysv.materialmenu/material-menu-toolbar/1.5.4/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="55d7bf547c88cb7c8c7c5cdbf3b06dd66c9750f8">
+        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.balysv.materialmenu-material-menu-toolbar-1.5.4_3cded07b7989708a93efb536807f7ce773be9364.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.fresco/fbcore/1.0.1/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -39,6 +66,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.3.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="4a26a1154d053ab11aaf4c3967c42a4d66390991">
+        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-fragment-25.3.1_9ae413d27bf1d21f72ae27431049f40c43256eb7.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bryan/.gradle/caches/modules-2/files-2.1/com.facebook.fbui.textlayoutbuilder/staticlayout-proxy/1.0/f162442a19fff13995fbd51ba414d9ee05579080/staticlayout-proxy-1.0.jar"
         jumboMode="false"
         optimize="true"
@@ -54,6 +90,33 @@
         revision="25.0.2"
         sha1="3f9b16b774f2c36cfd86dd2053d0b3059531dacc">
         <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/okhttp-urlconnection-3.6.0_f814d4d734d66d5bb716fa44e700fadc4199a7e0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/11.0.4/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="2430e711762a749feb00b3d64858ca4768251b9d">
+        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-tasks-11.0.4_afb4f3b23e87c0d770685a9e834bde27ed46a5dc.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-device-info/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="2e4336ffc2b7653868134d7f6f8b28523ef54645">
+        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/MessagingApp-react-native-device-info-unspecified_b633698bc298550ad0b98c54a7fd49efb90e18e2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="150252b33b00274cc868578ade018fda0d43a3eb">
+        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-25.3.1_a20d26ba4add4545879e3de70df5398d2b6336ee.jar" />
     </item>
     <item
         is-multidex="false"
@@ -75,12 +138,30 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.3.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-25.3.1_425c4449d5eb8fd94fecd0efac96df57a0326141.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-okhttp3/1.0.1/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
         sha1="ba9b39366b723ccff6359d1117332968e98a4aca">
         <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-okhttp3-1.0.1_d7dd86565183f76f3c4e2c115b4d85ebbbf3c952.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-iid/11.0.4/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="dd282bdeaa904c59d77e57dedd7e0a241c9b679d">
+        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-iid-11.0.4_c0583dec9584bc97992900ffeeac6b367c14ba17.jar" />
     </item>
     <item
         is-multidex="false"
@@ -102,12 +183,30 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-navigation/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="06fbafb712db08e8f503ef862fd0c37aef6a6d6f">
+        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/MessagingApp-react-native-navigation-unspecified_59150d1a7c811e3389f6c2f79494eb37e3145ab2.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline/1.0.1/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
         sha1="d9c4402c3057225d80cbbbec52154e7a25b0ebdf">
         <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-1.0.1_de61f167df352e89dfc424af22a3db38717a50b8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="38789e20ace9ab7dbd00554bd2673ab424478d3b">
+        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.android.support-design-25.3.1_5baea83d27b067c71d8fd59d8a1141dbe6f80ab7.jar" />
     </item>
     <item
         is-multidex="false"
@@ -138,6 +237,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bryan/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/3.0.0/5871fb60dc68d67da54a663c3fd636a10a532948/jsr305-3.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="5871fb60dc68d67da54a663c3fd636a10a532948">
+        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/jsr305-3.0.0_83ba63ca3fc8cbd275a65ac95419f31902f527ba.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.aurelhubert/ahbottomnavigation/2.0.6/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -147,12 +255,39 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.3.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="da27a32db6af8954ee8061537c7d476fcb1df46f">
+        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-compat-25.3.1_29bb6f5de943f4e8f73b8a41802d4e431fd45f86.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.3.1/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
         sha1="47635644d0d5c103c1dd8360549eb9ba3225c7d3">
         <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.android.support-animated-vector-drawable-25.3.1_a65a474db15c9b9fbe89192c9c842ed88884a836.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.3.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="95519720620b553f63afc789beba9ad582807f7c">
+        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.android.support-recyclerview-v7-25.3.1_1f76a116fec53801cb1eb2daeb05eba2f2cf2b81.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.fresco/animated-gif/1.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="131115ec18ae3951c1584c543de8baa9ac20012a">
+        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-animated-gif-1.0.1_62bb64e3d4706278f2981b7038f03cb7f94e5a4d.jar" />
     </item>
     <item
         is-multidex="false"
@@ -183,6 +318,24 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.3.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="45f697922e6f072daa12f8a2995dc77ab03c11da">
+        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-media-compat-25.3.1_d3fa207d4a0ecf7d89c5e32c9bfe280dc898cdf4.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/11.0.4/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d8942ee348aaa9341f08f7e2437063893fe27542">
+        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-gcm-11.0.4_5b8d84c9eec575e556c297d6e387ada2cad59631.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -207,186 +360,6 @@
         revision="25.0.2"
         sha1="2e3e5a199c7209bab2dd53b85eefb664494af06d">
         <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/MessagingApp-react-native-push-notification-unspecified_cde65a794ccac008e126fa8a44128944e972b29f.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.3.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="052f5f840f21174a3ecf6544130194e2652cbb73">
-        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-core-ui-25.3.1_9f34daf422f83b8439938d0ddbf20ff50c5d3a42.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/transition/25.3.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="d4cf6227dd6a2ceff0f7dcf0c324380b7abf2c28">
-        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.android.support-transition-25.3.1_2a88800c62fb69ec72cffd499aef80a395553235.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/bryan/.gradle/caches/modules-2/files-2.1/com.facebook.fbui.textlayoutbuilder/staticlayout-proxy/1.0/f162442a19fff13995fbd51ba414d9ee05579080/staticlayout-proxy-1.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="f162442a19fff13995fbd51ba414d9ee05579080">
-        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/staticlayout-proxy-1.0_b4a1e75e6c79c78dfa0e0bb9ae062f844a12a180.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-spinkit/unspecified/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="47b99616af6817e323d7b404b2f1922ca22228ad">
-        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/MessagingApp-react-native-spinkit-unspecified_35ce351d2bf3edf271bdc6ffdd0a1e889aea07c1.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-base/1.0.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="050f688115ea65a0292d8483a6ffe6bcdab1e2ef">
-        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-base-1.0.1_83e71832a9ae3039e2cfa3aa78828a0df7a77d7f.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/bryan/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.6.0/69edde9fc4b01c9fd51d25b83428837478c27254/okhttp-3.6.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="69edde9fc4b01c9fd51d25b83428837478c27254">
-        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/okhttp-3.6.0_52f43f7f5ef9e9f7244424bf970c342ff13354e3.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.balysv.materialmenu/material-menu-toolbar/1.5.4/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="55d7bf547c88cb7c8c7c5cdbf3b06dd66c9750f8">
-        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.balysv.materialmenu-material-menu-toolbar-1.5.4_3cded07b7989708a93efb536807f7ce773be9364.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.3.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="4a26a1154d053ab11aaf4c3967c42a4d66390991">
-        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-fragment-25.3.1_9ae413d27bf1d21f72ae27431049f40c43256eb7.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/11.0.4/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="2430e711762a749feb00b3d64858ca4768251b9d">
-        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-tasks-11.0.4_afb4f3b23e87c0d770685a9e834bde27ed46a5dc.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="150252b33b00274cc868578ade018fda0d43a3eb">
-        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-25.3.1_a20d26ba4add4545879e3de70df5398d2b6336ee.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.3.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-25.3.1_425c4449d5eb8fd94fecd0efac96df57a0326141.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-iid/11.0.4/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="dd282bdeaa904c59d77e57dedd7e0a241c9b679d">
-        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-iid-11.0.4_c0583dec9584bc97992900ffeeac6b367c14ba17.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-navigation/unspecified/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="06fbafb712db08e8f503ef862fd0c37aef6a6d6f">
-        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/MessagingApp-react-native-navigation-unspecified_59150d1a7c811e3389f6c2f79494eb37e3145ab2.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="38789e20ace9ab7dbd00554bd2673ab424478d3b">
-        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.android.support-design-25.3.1_5baea83d27b067c71d8fd59d8a1141dbe6f80ab7.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/bryan/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/3.0.0/5871fb60dc68d67da54a663c3fd636a10a532948/jsr305-3.0.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="5871fb60dc68d67da54a663c3fd636a10a532948">
-        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/jsr305-3.0.0_83ba63ca3fc8cbd275a65ac95419f31902f527ba.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.3.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="da27a32db6af8954ee8061537c7d476fcb1df46f">
-        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-compat-25.3.1_29bb6f5de943f4e8f73b8a41802d4e431fd45f86.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.3.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="95519720620b553f63afc789beba9ad582807f7c">
-        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.android.support-recyclerview-v7-25.3.1_1f76a116fec53801cb1eb2daeb05eba2f2cf2b81.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.fresco/animated-gif/1.0.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="131115ec18ae3951c1584c543de8baa9ac20012a">
-        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-animated-gif-1.0.1_62bb64e3d4706278f2981b7038f03cb7f94e5a4d.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.3.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="45f697922e6f072daa12f8a2995dc77ab03c11da">
-        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-media-compat-25.3.1_d3fa207d4a0ecf7d89c5e32c9bfe280dc898cdf4.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/11.0.4/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="d8942ee348aaa9341f08f7e2437063893fe27542">
-        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-gcm-11.0.4_5b8d84c9eec575e556c297d6e387ada2cad59631.jar" />
     </item>
     <item
         is-multidex="false"
@@ -426,6 +399,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.3.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="052f5f840f21174a3ecf6544130194e2652cbb73">
+        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-core-ui-25.3.1_9f34daf422f83b8439938d0ddbf20ff50c5d3a42.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/11.0.4/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -453,6 +435,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/transition/25.3.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d4cf6227dd6a2ceff0f7dcf0c324380b7abf2c28">
+        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.android.support-transition-25.3.1_2a88800c62fb69ec72cffd499aef80a395553235.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.balysv.materialmenu/material-menu/1.5.4/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -468,6 +459,24 @@
         revision="25.0.2"
         sha1="f90b593491e4044903f0bbf68dc3fa2790b151b9">
         <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/com.facebook.fbui.textlayoutbuilder-textlayoutbuilder-1.0.0_80f602dc8bdf3df70526d5809fad8fa1068b0b76.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/.gradle/caches/modules-2/files-2.1/com.facebook.fbui.textlayoutbuilder/staticlayout-proxy/1.0/f162442a19fff13995fbd51ba414d9ee05579080/staticlayout-proxy-1.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="f162442a19fff13995fbd51ba414d9ee05579080">
+        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/staticlayout-proxy-1.0_b4a1e75e6c79c78dfa0e0bb9ae062f844a12a180.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-spinkit/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="47b99616af6817e323d7b404b2f1922ca22228ad">
+        <dex dex="/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/pre-dexed/debug/MessagingApp-react-native-spinkit-unspecified_35ce351d2bf3edf271bdc6ffdd0a1e889aea07c1.jar" />
     </item>
     <item
         is-multidex="false"

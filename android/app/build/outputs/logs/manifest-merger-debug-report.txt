@@ -68,6 +68,7 @@ ADDED from /Users/bryan/Documents/Dev/messagingapp/android/app/src/main/AndroidM
 		ADDED from /Users/bryan/Documents/Dev/messagingapp/android/app/src/main/AndroidManifest.xml:19:22-78
 uses-sdk
 ADDED from /Users/bryan/Documents/Dev/messagingapp/android/app/src/main/AndroidManifest.xml:21:5-23:41
+MERGED from [MessagingApp:react-native-device-info:unspecified] /Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-device-info/unspecified/AndroidManifest.xml:7:5-9:41
 MERGED from [MessagingApp:react-native-push-notification:unspecified] /Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-push-notification/unspecified/AndroidManifest.xml:7:5-9:41
 MERGED from [me.leolin:ShortcutBadger:1.1.8] /Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/me.leolin/ShortcutBadger/1.1.8/AndroidManifest.xml:7:5-9:41
 MERGED from [MessagingApp:react-native-spinkit:unspecified] /Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-spinkit/unspecified/AndroidManifest.xml:7:5-9:41

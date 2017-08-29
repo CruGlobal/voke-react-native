@@ -10,6 +10,9 @@ export default StyleSheet.create({
   content: {
     paddingBottom: 15,
   },
+  nothingText: {
+    fontSize: 16,
+  },
   description: {
     fontSize: 16,
     paddingVertical: 10,
