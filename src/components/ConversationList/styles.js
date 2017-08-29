@@ -27,6 +27,7 @@ export default StyleSheet.create({
   },
   conversationArrow: {
     padding: 2,
+    paddingRight: 5,
   },
   rowBack: {
     alignItems: 'center',

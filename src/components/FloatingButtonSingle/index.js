@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
+import { Image } from 'react-native';
 import PropTypes from 'prop-types';
 import ActionButton from 'react-native-action-button';
 
-import { Icon } from '../common';
 import theme from '../../theme';
-
-const ICON_SIZE = 26;
+import ACTION_BUTTON from '../../../images/to-chat-button.png';
 
 // https://github.com/mastermoo/react-native-action-button
 class FloatingButtonSingle extends Component {
   render() {
-    const { onSelect, icon } = this.props;
+    const { onSelect } = this.props;
     return (
       <ActionButton
         buttonColor={theme.primaryColor}
         useNativeFeedback={true}
-        icon={<Icon size={ICON_SIZE} name={icon || 'share'} style={{ color: theme.lightText }} />}
+        icon={<Image source={ACTION_BUTTON} />}
         onPress={onSelect}
         offsetX={25}
         offsetY={25}

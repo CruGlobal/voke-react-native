@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { connect } from 'react-redux';
-import { getMessages, createMessage, createTypeStateAction, destroyTypeStateAction } from '../../actions/messages';
+import { getMessages, createMessage, createTypeStateAction, destroyTypeStateAction, createMessageInteraction } from '../../actions/messages';
 import PropTypes from 'prop-types';
 
 import theme, { COLORS } from '../../theme';
@@ -58,6 +58,7 @@ class Message extends Component {
     this.getTypeState = this.getTypeState.bind(this);
     this.createTypeState = this.createTypeState.bind(this);
     this.destroyTypeState = this.destroyTypeState.bind(this);
+    this.createMessageReadInteraction = this.createMessageReadInteraction.bind(this);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
@@ -122,6 +123,7 @@ class Message extends Component {
   getMessages() {
     this.props.dispatch(getMessages(this.props.conversation.id)).then(()=>{
       this.setLatestItem();
+      this.createMessageReadInteraction();
     });
   }
 
@@ -169,6 +171,15 @@ class Message extends Component {
   destroyTypeState() {
     this.props.dispatch(destroyTypeStateAction(this.props.conversation.id));
     console.warn('destroy typestate');
+  }
+
+  createMessageReadInteraction() {
+    let interaction = {
+      action: 'read',
+      conversationId: this.props.conversation.id,
+      messageId: this.props.messages[0].id,
+    };
+    this.props.dispatch(createMessageInteraction(interaction));
   }
 
   updateSize(height) {

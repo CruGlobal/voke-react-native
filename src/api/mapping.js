@@ -84,6 +84,26 @@ export function mapConversations(results) {
       }
       c.messagePreview = messagePreview;
     }
+
+    // This determines if the conversation has unread messages or not
+    // if (latestMessenger.id === this.props.me.id) {
+    //   c.hasUnread = false;
+    // }
+    //
+    // let myMessage = c.messengers.find((e)=> {
+    //   return e.id === this.props.me.id;
+    // });
+    //
+    // if (myMessage && myMessage.latest_read && myMessage.latest_read.message_id) {
+    //   if (myMessage.latest_read.message_id != latestMessenger.latest_message.id) {
+    //     c.hasUnread = true;
+    //   } else {
+    //     c.hasUnread = false;
+    //   }
+    // } else {
+    //   c.hasUnread = false;
+    // }
+
     return c;
   });
   // console.warn(JSON.stringify(conversations));

@@ -5,7 +5,7 @@ import callApi, { REQUESTS } from './api';
 export function getConversations() {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.GET_CONVERSATIONS)).then((results) => {
-      // console.warn('results', results.conversations[1]);
+      console.warn('results', results.conversations[0]);
       return results;
     });
   };
@@ -49,7 +49,9 @@ export function createMessage(conversation, data) {
 
 export function newMessageAction(message) {
   return (dispatch) => {
-    return dispatch({ type: NEW_MESSAGE, message });
+    return dispatch(getConversations()).then(()=>{
+      dispatch({ type: NEW_MESSAGE, message });
+    });
   };
 }
 
@@ -87,5 +89,22 @@ export function destroyTypeStateAction(conversation) {
       endpoint: `${API_URL}me/conversations/${conversation}/type_state`,
     };
     return dispatch(callApi(REQUESTS.DESTROY_TYPESTATE, query));
+  };
+}
+
+export function createMessageInteraction(interaction) {
+  return (dispatch, getState) => {
+    let data = {
+      interaction: {
+        action: interaction.action,
+        device_id: getState().auth.cableId,
+      },
+    };
+    let query = {
+      endpoint: `${API_URL}me/conversations/${interaction.conversationId}/messages/${interaction.messageId}/interactions`,
+    };
+    return dispatch(callApi(REQUESTS.CREATE_MESSAGE_INTERACTION, query, data)).then(()=>{
+      dispatch(getConversations());
+    });
   };
 }

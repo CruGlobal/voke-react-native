@@ -1,13 +1,16 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FlatList, View, ListView, TouchableOpacity, Image } from 'react-native';
+import { View, ListView, TouchableOpacity, Image } from 'react-native';
 import styles from './styles';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import ARROW from '../../../images/chat_name_arrow.png';
 import DELETE_ICON from '../../../images/deleteChatIcon.png';
 import BLOCK_ICON from '../../../images/blockChatIcon.png';
 import theme, {COLORS} from '../../theme';
+
+import UNREAD_ARROW from '../../../images/next_arrow_yellow.png';
+import READ_ARROW from '../../../images/next_arrow.png';
 
 import { Flex, Icon, Text, Touchable, Separator, Avatar } from '../common';
 
@@ -34,6 +37,7 @@ class ConversationList extends Component { // eslint-disable-line
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.getSenderName = this.getSenderName.bind(this);
+    this.renderUnread = this.renderUnread.bind(this);
     this.getConversationParticipant = this.getConversationParticipant.bind(this);
   }
 
@@ -97,6 +101,36 @@ class ConversationList extends Component { // eslint-disable-line
     return otherPerson;
   }
 
+  renderUnread(conversation) {
+
+    if (conversation.messengers[0].id === this.props.me.id) {
+      return (
+        <Image source={READ_ARROW} />
+      );
+    }
+
+    let myMessage = conversation.messengers.find((e)=> {
+      return e.id === this.props.me.id;
+    });
+
+    if (myMessage && myMessage.latest_read && myMessage.latest_read.message_id) {
+      if (myMessage.latest_read.message_id != conversation.messengers[0].latest_message.id) {
+        return (
+          <Image source={UNREAD_ARROW} />
+        );
+      } else {
+        return (
+          <Image source={READ_ARROW} />
+        );
+      }
+    } else {
+      return (
+        <Image source={READ_ARROW} />
+      );
+    }
+
+  }
+
   renderRow(item) {
     const conversation = item;
     const contentCreator = this.getSenderName(conversation);
@@ -127,7 +161,7 @@ class ConversationList extends Component { // eslint-disable-line
               </Flex>
             </Flex>
             <Flex value={1} style={styles.conversationArrow} align="center" justify="center">
-              <Icon name="arrow-right" size={20} />
+              {this.renderUnread(conversation)}
             </Flex>
           </Flex>
         </View>
@@ -182,20 +216,6 @@ class ConversationList extends Component { // eslint-disable-line
     );
   }
 }
-// <FlatList
-//   ItemSeparatorComponent={() => <Separator />}
-//   initialNumToRender={15}
-//   data={conversations}
-//   renderItem={this.renderRow}
-//   keyExtractor={(item) => item.id}
-//   getItemLayout={(data, index) => ({
-//     length: ITEM_HEIGHT,
-//     offset: ITEM_HEIGHT * index,
-//     index,
-//   })}
-//   refreshing={this.state.refreshing}
-//   onRefresh={this.handleRefresh}
-//   />
 
 ConversationList.propTypes = {
   onRefresh: PropTypes.func.isRequired, // Redux

@@ -189,4 +189,11 @@ export default {
       client: CLIENT,
     },
   },
+  'CREATE_MESSAGE_INTERACTION': {
+    endpoint: API_URL + 'me/conversations',
+    method: 'post',
+    data: {
+      client: CLIENT,
+    },
+  },
 };
