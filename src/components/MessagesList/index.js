@@ -97,7 +97,7 @@ class MessagesList extends Component {
     return (
       <FlatList
         ref={(c) => this.listView = c}
-        ListHeaderComponent={isLoadingMore ? () => (
+        ListFooterComponent={isLoadingMore ? () => (
           <View style={{ paddingTop: 15 }}><Loading /></View>
         ) : undefined}
         keyExtractor={(item) => item.id}

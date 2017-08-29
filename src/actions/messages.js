@@ -1,5 +1,5 @@
 import { API_URL } from '../api/utils';
-import { NEW_MESSAGE, TYPE_STATE_CHANGE } from '../constants';
+import { NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ } from '../constants';
 import callApi, { REQUESTS } from './api';
 
 export function getConversations() {
@@ -49,7 +49,7 @@ export function createMessage(conversation, data) {
 
 export function newMessageAction(message) {
   return (dispatch) => {
-    return dispatch(getConversations()).then(()=>{
+    return dispatch(getConversation(message.conversation_id)).then(()=>{
       dispatch({ type: NEW_MESSAGE, message });
     });
   };
@@ -104,7 +104,9 @@ export function createMessageInteraction(interaction) {
       endpoint: `${API_URL}me/conversations/${interaction.conversationId}/messages/${interaction.messageId}/interactions`,
     };
     return dispatch(callApi(REQUESTS.CREATE_MESSAGE_INTERACTION, query, data)).then(()=>{
-      dispatch(getConversations());
+      // dispatch(getConversations());
+      console.warn('creating message interaction');
+      dispatch({ type: MARK_READ, conversationId: interaction.conversationId });
     });
   };
 }

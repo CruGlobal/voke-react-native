@@ -159,7 +159,6 @@ class Home extends Component {
     const hasItems = this.props.conversations.length;
     // const hasItems = false;
 
-
     return (
       <View style={styles.container}>
         <StatusBar />
@@ -198,9 +197,11 @@ Home.propTypes = {
   ...NavPropTypes,
 };
 
-const mapStateToProps = ({ messages, auth }) => ({
-  conversations: messages.conversations,
-  me: auth.user,
-});
+const mapStateToProps = ({ messages, auth }) => {
+  return {
+    conversations: messages.conversations,
+    me: auth.user,
+  };
+};
 
 export default connect(mapStateToProps, nav)(Home);

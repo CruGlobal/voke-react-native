@@ -99,6 +99,15 @@ class Message extends Component {
     this.getMessages();
   }
 
+  componentWillReceiveProps(nextProps) {
+    const nLength = nextProps.messages.length;
+    const cLength = this.props.messages.length;
+    if (nLength > 0 && cLength > 0 && cLength < nLength) {
+      console.warn('here');
+      this.createMessageReadInteraction();
+    }
+  }
+
   getLatestItem(e) {
     return e.item;
   }
@@ -106,7 +115,7 @@ class Message extends Component {
   setLatestItem() {
     let messages = this.props.messages || [];
     let item = messages.find(this.getLatestItem);
-    console.warn(JSON.stringify(item));
+    // console.warn(JSON.stringify(item));
     if (item && item.item) {
       this.setState({ latestItem: item.item.id });
     }

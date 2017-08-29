@@ -1,6 +1,6 @@
 import { REHYDRATE } from 'redux-persist/constants';
 import { REQUESTS } from '../actions/api';
-import { NEW_MESSAGE, TYPE_STATE_CHANGE } from '../constants';
+import { NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ } from '../constants';
 
 
 const initialState = {
@@ -51,8 +51,21 @@ export default function messages(state = initialState, action) {
       if (!conversationNewMessageId) {
         return state;
       }
+      console.warn('new message', action.message);
+
+      const msgPreviewConversations = state.conversations.map((c) => {
+        if (c.id === conversationNewMessageId) {
+          // order messengers
+          const newMessenger = c.messengers.find((m) => m.id === action.message.messenger_id);
+          let messengers = c.messengers.filter((m) => m.id !== action.message.messenger_id);
+          messengers.unshift(newMessenger);
+          return { ...c, messengers, messagePreview: action.message.content, hasUnread: true };
+        }
+        return c;
+      });
       return {
         ...state,
+        conversations: msgPreviewConversations,
         messages: {
           ...state.messages,
           [conversationNewMessageId]: [
@@ -60,6 +73,17 @@ export default function messages(state = initialState, action) {
             ...state.messages[conversationNewMessageId],
           ],
         },
+      };
+    case MARK_READ:
+      const readConversations = state.conversations.map((c) => {
+        if (c.id === action.conversationId) {
+          return { ...c, hasUnread: false };
+        }
+        return c;
+      });
+      return {
+        ...state,
+        conversations: readConversations,
       };
     default:
       return state;

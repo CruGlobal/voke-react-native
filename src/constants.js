@@ -6,6 +6,7 @@ export const SET_ALL_CONTACTS = 'app/SET_ALL_CONTACTS';
 export const SET_VOKE_CONTACTS = 'app/SET_VOKE_CONTACTS';
 export const NEW_MESSAGE = 'app/NEW_MESSAGE';
 export const TYPE_STATE_CHANGE = 'app/TYPE_STATE_CHANGE';
+export const MARK_READ = 'app/MARK_READ';
 
 export default {
   // These are from voke_web

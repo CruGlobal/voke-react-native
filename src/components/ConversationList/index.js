@@ -21,7 +21,7 @@ class ConversationList extends Component { // eslint-disable-line
   constructor(props) {
     super(props);
     const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2 || r1.id !== r2.id,
+      rowHasChanged: (r1, r2) => r1 !== r2 || r1.id !== r2.id || r1.hasUnread !== r2.hasUnread || r1.messagePreview !== r2.messagePreview,
     });
     this.state = {
       dataSource: ds.cloneWithRows(props.items),

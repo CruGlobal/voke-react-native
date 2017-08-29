@@ -26,14 +26,14 @@ export function setupSocketAction(cableId) {
         identifier: `{"channel":"DeviceChannel","id":"${cableId}"}`,
       };
       ws.send(JSON.stringify(obj));
-      console.warn('socket message sent');
+      // console.warn('socket message sent');
     };
 
     ws.onmessage = (e) => {
       const data = JSON.parse(e.data) || {};
       const type = data && data.type;
       if (type === 'ping') return;
-      console.warn('socket message received: data', data);
+      // console.warn('socket message received: data', data);
       if (type === 'welcome') {
         // console.warn('socket welcome');
       } else if (data.message) {

@@ -1,5 +1,5 @@
 import { API_URL, AUTH_URL } from './utils';
-import { mapAuth, mapMessages, mapConversations } from './mapping';
+import { mapAuth, mapMessages, mapConversations, mapConversation } from './mapping';
 import CONSTANTS from '../constants';
 // Import mapping functions or w/e
 
@@ -138,6 +138,7 @@ export default {
     data: {
       client: CLIENT,
     },
+    mapResults: mapConversation,
   },
   'CREATE_CONVERSATION': {
     endpoint: API_URL + 'me/conversations',
