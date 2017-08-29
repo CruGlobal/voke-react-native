@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import BACK_ICON from '../../../images/back-arrow.png';
 
 import styles from './styles';
-import { anonLogin } from '../../actions/auth';
+import { forgotPasswordAction } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import theme from '../../theme.js';
 import { Flex, Text, Button } from '../../components/common';
@@ -64,20 +64,17 @@ class ForgotPassword extends Component {
 
   resetPassword() {
     if (this.state.emailValidation) {
-      // this.props.dispatch(anonLogin(
-      //   this.state.email,
-      //   this.state.password
-      // )).then(() => {
-      //   this.props.navigateResetHome();
-      // });
-      console.warn('resetting password');
-      Alert.alert('Check your Email', 'We sent you an email with instructions for resetting your password', [
-        {
-          text: 'OK',
-          onPress: () => this.props.navigateBack(),
-        },
-      ]);
-    } else {
+      this.props.dispatch(forgotPasswordAction(this.state.email)).then(() => {
+        console.warn('resetting password');
+        Alert.alert('Check your Email', 'We sent you an email with instructions for resetting your password', [
+          {
+            text: 'OK',
+            onPress: () => this.props.navigateBack(),
+          },
+        ]);
+      });
+    }
+    else {
       Alert.alert('Please enter a valid email','');
     }
   }

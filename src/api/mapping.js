@@ -56,7 +56,7 @@ export function mapMessages(results) {
   };
 }
 
-export function mapConversations(results) {
+export function mapConversations(results, query, data, getState) {
   let conversations = results.conversations || [];
   conversations = conversations.map((c) => {
     // Sort the messengers by putting the most recent messenger first
@@ -86,23 +86,23 @@ export function mapConversations(results) {
     }
 
     // This determines if the conversation has unread messages or not
-    // if (latestMessenger.id === this.props.me.id) {
-    //   c.hasUnread = false;
-    // }
-    //
-    // let myMessage = c.messengers.find((e)=> {
-    //   return e.id === this.props.me.id;
-    // });
-    //
-    // if (myMessage && myMessage.latest_read && myMessage.latest_read.message_id) {
-    //   if (myMessage.latest_read.message_id != latestMessenger.latest_message.id) {
-    //     c.hasUnread = true;
-    //   } else {
-    //     c.hasUnread = false;
-    //   }
-    // } else {
-    //   c.hasUnread = false;
-    // }
+    if (latestMessenger.id === getState().auth.user.id) {
+      c.hasUnread = false;
+    }
+
+    let myMessage = c.messengers.find((e)=> {
+      return e.id === getState().auth.user.id;
+    });
+
+    if (myMessage && myMessage.latest_read && myMessage.latest_read.message_id) {
+      if (myMessage.latest_read.message_id != latestMessenger.latest_message.id) {
+        c.hasUnread = true;
+      } else {
+        c.hasUnread = false;
+      }
+    } else {
+      c.hasUnread = false;
+    }    
 
     return c;
   });

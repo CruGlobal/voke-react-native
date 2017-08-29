@@ -161,7 +161,13 @@ class ConversationList extends Component { // eslint-disable-line
               </Flex>
             </Flex>
             <Flex value={1} style={styles.conversationArrow} align="center" justify="center">
-              {this.renderUnread(conversation)}
+              {
+                conversation.hasUnread ? (
+                  <Image source={UNREAD_ARROW} />
+                ) : (
+                  <Image source={READ_ARROW} />
+                )
+              }
             </Flex>
           </Flex>
         </View>

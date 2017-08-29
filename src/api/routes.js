@@ -75,6 +75,13 @@ export default {
       client: CLIENT,
     },
   },
+  'FORGOT_PASSWORD': {
+    endpoint: API_URL + 'me/forgot',
+    method: 'post',
+    data: {
+      client: CLIENT,
+    },
+  },
   'VIDEOS': {
     endpoint: API_URL + 'items',
     method: 'get',

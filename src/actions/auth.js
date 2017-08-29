@@ -112,6 +112,15 @@ export function toastAction(text) {
   };
 }
 
+export function forgotPasswordAction(email) {
+  let data = {
+    me: email,
+  };
+  return (dispatch) => {
+    return dispatch(callApi(REQUESTS.FORGOT_PASSWORD, {}, data));
+  };
+}
+
 export function anonLogin(username, password) {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.OAUTH, {}, {
