@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
-import { TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { TextInput, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 import { getMessages, createMessage, createTypeStateAction, destroyTypeStateAction, createMessageInteraction } from '../../actions/messages';
 import PropTypes from 'prop-types';
@@ -13,7 +13,7 @@ import styles from './styles';
 import MessageVideoPlayer from '../MessageVideoPlayer';
 import HOME_ICON from '../../../images/home_icon.png';
 
-import { Flex, Icon, Button } from '../../components/common';
+import { Flex, Text, Button, Touchable } from '../../components/common';
 import MessagesList from '../../components/MessagesList';
 import LoadMore from '../../components/LoadMore';
 
@@ -37,6 +37,7 @@ class Message extends Component {
     navBarButtonColor: theme.lightText,
     navBarTextColor: theme.headerTextColor,
     navBarBackgroundColor: theme.headerBackgroundColor,
+    tabBarHidden: true,
   };
   constructor(props) {
     super(props);
@@ -47,6 +48,8 @@ class Message extends Component {
       height: 50,
       isLoadingMore: false,
       latestItem: null,
+      shouldShowButtons: true,
+      createTransparentFocus: false,
     };
 
     this.handleLoadMore = this.handleLoadMore.bind(this);
@@ -58,6 +61,8 @@ class Message extends Component {
     this.getTypeState = this.getTypeState.bind(this);
     this.createTypeState = this.createTypeState.bind(this);
     this.destroyTypeState = this.destroyTypeState.bind(this);
+    this.handleChangeButtons = this.handleChangeButtons.bind(this);
+    this.handleButtonExpand = this.handleButtonExpand.bind(this);
     this.createMessageReadInteraction = this.createMessageReadInteraction.bind(this);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
@@ -103,7 +108,6 @@ class Message extends Component {
     const nLength = nextProps.messages.length;
     const cLength = this.props.messages.length;
     if (nLength > 0 && cLength > 0 && cLength < nLength) {
-      console.warn('here');
       this.createMessageReadInteraction();
     }
   }
@@ -170,16 +174,17 @@ class Message extends Component {
     this.props.dispatch(createMessage(this.props.conversation.id, data)).then(()=> {
       this.setState({ text: '' });
     });
+    Keyboard.dismiss();
   }
 
   createTypeState() {
     this.props.dispatch(createTypeStateAction(this.props.conversation.id));
-    console.warn('create typestate');
+    // console.warn('create typestate');
   }
 
   destroyTypeState() {
     this.props.dispatch(destroyTypeStateAction(this.props.conversation.id));
-    console.warn('destroy typestate');
+    // console.warn('destroy typestate');
   }
 
   createMessageReadInteraction() {
@@ -200,6 +205,17 @@ class Message extends Component {
       return true;
     }
     return false;
+  }
+
+  handleChangeButtons(bool) {
+    this.setState({ shouldShowButtons: bool });
+    // console.warn('state',this.state.shouldShowButtons);
+  }
+
+  handleButtonExpand() {
+    this.setState({ shouldShowButtons: true });
+    this.setState({ createTransparentFocus: true });
+    // console.warn('state',this.state.shouldShowButtons);
   }
 
   render() {
@@ -241,45 +257,76 @@ class Message extends Component {
           onSelectVideo={(m) => this.setState({ selectedVideo: m })}
         />
         <Flex direction="row" style={[styles.inputWrap, newWrap]} align="center" justify="center">
-          <TextInput
-            onFocus={() => {
-              this.list.scrollEnd(true);
-              this.createTypeState();
-            }
-            }
-            onBlur={() => {
-              this.list.scrollEnd(true);
-              this.destroyTypeState();
-            }
-            }
-            multiline={true}
-            value={this.state.text}
-            placeholder="New Message"
-            onChangeText={(text) => this.setState({ text })}
-            placeholderTextColor={theme.primaryColor}
-            underlineColorAndroid={COLORS.TRANSPARENT}
-            onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}
-            style={[styles.chatBox, newHeight]}
-            autoCorrect={true}
-          />
           {
-            this.state.text ? (
+            this.state.shouldShowButtons === true ? (
+              <Flex direction="row" style={{padding: 0, margin: 0, alignItems: 'center'}}>
+                <Button
+                  type="transparent"
+                  style={styles.sendButton}
+                  icon="queue"
+                  iconStyle={styles.sendIcon}
+                  onPress={this.handleAddContent}
+                />
+                <Button
+                  type="transparent"
+                  style={styles.sendButton}
+                  icon="queue"
+                  iconStyle={styles.sendIcon}
+                  onPress={this.handleAddContent}
+                />
+              </Flex>
+            ) : (
               <Button
                 type="transparent"
                 style={styles.sendButton}
-                icon="send"
+                icon="add"
                 iconStyle={styles.sendIcon}
-                onPress={()=> this.createMessage()}
+                onPress={this.handleButtonExpand}
               />
-            ) : null
+            )
           }
-          <Button
-            type="transparent"
-            style={styles.sendButton}
-            icon="queue"
-            iconStyle={styles.sendIcon}
-            onPress={this.handleAddContent}
-          />
+          <Flex direction="row" style={[styles.chatBox, newHeight]} align="center">
+            <TextInput
+              onFocus={() => {
+                this.list.scrollEnd(true);
+                this.createTypeState();
+                this.handleChangeButtons(false);
+              }
+              }
+              onBlur={() => {
+                this.list.scrollEnd(true);
+                this.destroyTypeState();
+                this.handleChangeButtons(true);
+              }
+              }
+              multiline={true}
+              value={this.state.text}
+              placeholder="New Message"
+              onChangeText={(text) => this.setState({ text })}
+              placeholderTextColor={theme.primaryColor}
+              underlineColorAndroid={COLORS.TRANSPARENT}
+              onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}
+              style={[styles.chatInput, newHeight]}
+              autoCorrect={true}
+            />
+            {
+              this.state.text ? (
+                <Button
+                  type="transparent"
+                  style={styles.sendButton}
+                  icon="send"
+                  iconStyle={styles.sendIcon}
+                  onPress={()=> this.createMessage()}
+                />
+              ) : null
+            }
+            {
+              this.state.createTransparentFocus ? (
+                <Touchable activeOpacity={0} style={[newHeight, styles.transparentOverlay]} onPress={()=> this.setState({shouldShowButtons: false, createTransparentFocus: false})}>
+                </Touchable>
+              ) : null
+            }
+          </Flex>
         </Flex>
       </KeyboardAvoidingView>
     );

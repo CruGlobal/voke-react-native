@@ -58,8 +58,8 @@ export function newMessageAction(message) {
 export function typeStateChangeAction(message) {
   return (dispatch, getState) => {
     let me = getState().auth.user.id;
-    console.warn('asdfadf',me);
-    console.warn('you',message.message.messenger_id);
+    // console.warn('asdfadf',me);
+    // console.warn('you',message.message.messenger_id);
     if (me === message.message.messenger_id) {
       return;
     } else {
@@ -78,7 +78,7 @@ export function createTypeStateAction(conversation) {
       endpoint: `${API_URL}me/conversations/${conversation}/type_state`,
     };
     return dispatch(callApi(REQUESTS.CREATE_TYPESTATE, query)).then((results)=>{
-      console.warn('im herheher isissjijsi',results);
+      // console.warn('im herheher isissjijsi',results);
     });
   };
 }

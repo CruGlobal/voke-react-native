@@ -16,6 +16,7 @@ import BACK_ICON from '../../../images/back_button_transparent.png';
 class VideoDetails extends Component {
   static navigatorStyle = {
     navBarHidden: true,
+    tabBarHidden: true,
   };
 
   constructor(props) {

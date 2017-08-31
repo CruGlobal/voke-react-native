@@ -11,6 +11,8 @@ import styles from './styles';
 // import { iconsMap } from '../../utils/iconMap';
 import theme, { COLORS } from '../../theme';
 import HOME_ICON from '../../../images/home_icon.png';
+import MENU_ICON from '../../../images/menu_icon.png';
+import SEARCH_ICON from '../../../images/search-icon.png';
 
 import PillButton from '../../components/PillButton';
 import VideoList from '../../components/VideoList';
@@ -20,8 +22,14 @@ import { Flex } from '../../components/common';
 function setButtons() {
   return {
     leftButtons: [{
-      id: 'back', // Android implements this already
-      icon: HOME_ICON, // For iOS only
+      title: 'Menu', // for a textual button, provide the button title (label)
+      id: 'menu', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+      icon: MENU_ICON, // for icon button, provide the local image asset name
+    }],
+    rightButtons: [{
+      title: 'Search', // for a textual button, provide the button title (label)
+      id: 'search',
+      icon: SEARCH_ICON, // for icon button, provide the local image asset name
     }],
   };
 }
@@ -53,6 +61,19 @@ class Videos extends Component {
       if (event.id == 'back') {
         this.props.navigateBack();
       }
+      if (event.id == 'search') {
+        this.props.dispatch(getTags()). then(()=> {
+          this.showThemes();
+        });
+      }
+      if (event.id === 'menu') {
+        Navigation.showModal({
+          screen: 'voke.Menu', // unique ID registered with Navigation.registerScreen
+          title: 'Settings', // title of the screen as appears in the nav bar (optional)
+          animationType: 'slide-up', // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
+        });
+        // this.props.navigatePush('voke.Menu', {}, { animationType: 'slide-up' });
+      }
     }
   }
 
@@ -60,6 +81,10 @@ class Videos extends Component {
     if (!this.props.onSelectVideo) {
       this.props.navigator.setButtons(setButtons());
     }
+    this.props.navigator.setTitle({
+      title: 'Videos',
+      // titleImage: require('../../../images/nav_voke_logo.png'),
+    });
   }
 
   componentDidMount() {
