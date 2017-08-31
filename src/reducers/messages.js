@@ -7,6 +7,7 @@ const initialState = {
   conversations: [],
   messages: {},
   typeState: {},
+  unReadBadgeCount: 0,
 };
 
 export default function messages(state = initialState, action) {
@@ -52,14 +53,16 @@ export default function messages(state = initialState, action) {
         return state;
       }
       console.warn('new message', action.message);
-
+      let currentBadgeCount = state.unReadBadgeCount;
+      console.warn('badge',currentBadgeCount);
       const msgPreviewConversations = state.conversations.map((c) => {
         if (c.id === conversationNewMessageId) {
           // order messengers
           const newMessenger = c.messengers.find((m) => m.id === action.message.messenger_id);
           let messengers = c.messengers.filter((m) => m.id !== action.message.messenger_id);
           messengers.unshift(newMessenger);
-          return { ...c, messengers, messagePreview: action.message.content, hasUnread: true };
+          currentBadgeCount = currentBadgeCount +1;
+          return { ...c, messengers, messagePreview: action.message.content, hasUnread: true, unReadCount: c.unReadCount ? c.unReadCount + 1 : 1 };
         }
         return c;
       });
@@ -73,17 +76,22 @@ export default function messages(state = initialState, action) {
             ...state.messages[conversationNewMessageId],
           ],
         },
+        unReadBadgeCount: currentBadgeCount,
       };
     case MARK_READ:
+      let currentBadgeCount2 = state.unReadBadgeCount;
+
       const readConversations = state.conversations.map((c) => {
         if (c.id === action.conversationId) {
-          return { ...c, hasUnread: false };
+          currentBadgeCount2 = c.unReadCount >0 ? currentBadgeCount2 - c.unReadCount : currentBadgeCount2;
+          return { ...c, hasUnread: false, unReadCount: 0 };
         }
         return c;
       });
       return {
         ...state,
         conversations: readConversations,
+        unReadBadgeCount: currentBadgeCount2,
       };
     default:
       return state;

@@ -73,13 +73,24 @@ class Home extends Component {
     });
     this.props.navigator.setTabBadge({
       tabIndex: 0, // (optional) if missing, the badge will be added to this screen's tab
-      badge: 1 // badge value, null to remove badge
+      badge: this.props.unReadBadgeCount > 0 ? this.props.unReadBadgeCount : null, // badge value, null to remove badge
     });
   }
 
   componentDidMount() {
     this.props.dispatch(startupAction(this.props.navigator));
     this.props.dispatch(getConversations());
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const nextCount = nextProps.unReadBadgeCount;
+    const currentCount = this.props.unReadBadgeCount;
+    if (nextCount != currentCount) {
+      this.props.navigator.setTabBadge({
+        // tabIndex: 0, // (optional) if missing, the badge will be added to this screen's tab
+        badge: nextCount === 0 ? null : nextCount, // badge value, null to remove badge
+      });
+    }
   }
 
   onNavigatorEvent(event) {
@@ -159,6 +170,7 @@ const mapStateToProps = ({ messages, auth }) => {
   return {
     conversations: messages.conversations,
     me: auth.user,
+    unReadBadgeCount: messages.unReadBadgeCount,
   };
 };
 
