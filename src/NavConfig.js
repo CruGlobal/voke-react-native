@@ -132,6 +132,8 @@ export default class App {
           tabBarBackgroundColor: theme.secondaryColor, // optional, change the background color of the tab bar
           initialTabIndex: 1, // optional, the default selected bottom tab. Default: 0
           tabBarTranslucent: false,
+          tabBarLabelColor: theme.primaryColor,
+          tabBarSelectedLabelColor: theme.textColor,
           tabBarHideShadow: true,
         },
         appStyle: {
