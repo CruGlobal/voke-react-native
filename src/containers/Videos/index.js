@@ -39,6 +39,7 @@ class Videos extends Component {
     navBarButtonColor: theme.lightText,
     navBarTextColor: theme.headerTextColor,
     navBarBackgroundColor: theme.headerBackgroundColor,
+    screenBackgroundColor: theme.primaryColor,
   };
   constructor(props) {
     super(props);
@@ -174,21 +175,25 @@ class Videos extends Component {
                 text="All"
                 filled={selectedFilter === 'all'}
                 onPress={()=> this.handleFilter('all')}
+                animation="slideInUp"
               />
               <PillButton
                 text="Featured"
                 filled={selectedFilter === 'featured'}
                 onPress={()=> this.handleFilter('featured')}
+                animation="slideInUp"
               />
               <PillButton
                 text="Popular"
                 filled={selectedFilter === 'popular'}
                 onPress={()=> this.handleFilter('popular')}
+                animation="slideInUp"
               />
               <PillButton
                 text="Themes"
                 filled={selectedFilter === 'themes'}
                 onPress={()=> this.handleFilter('themes')}
+                animation="slideInUp"
               />
             </Flex>
           </ScrollView>
@@ -205,6 +210,10 @@ class Videos extends Component {
           }}
           onRefresh={() => {}}
         />
+        <Flex direction="row">
+          <Flex value={1} style={styles.unSelectedTab}></Flex>
+          <Flex value={1} style={styles.selectedTab}></Flex>
+        </Flex>
       </View>
     );
   }

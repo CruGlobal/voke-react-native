@@ -6,7 +6,7 @@ import './utils/reactotron'; // This needs to be before the store
 import registerScreens from './routes';
 import getStore from './store';
 
-import theme from './theme';
+import theme, { COLORS } from './theme';
 import { iconsLoaded } from './utils/iconMap';
 
 // const tabs = [{
@@ -131,13 +131,16 @@ export default class App {
           tabBarSelectedButtonColor: theme.textColor, // optional, change the color of the selected tab icon and text (only selected)
           tabBarBackgroundColor: theme.secondaryColor, // optional, change the background color of the tab bar
           initialTabIndex: 1, // optional, the default selected bottom tab. Default: 0
+          tabBarTranslucent: false,
+          tabBarHideShadow: true,
         },
         appStyle: {
           tabBarButtonColor: theme.primaryColor, // optional, change the color of the tab icons and text (also unselected)
           tabBarSelectedButtonColor: theme.textColor, // optional, change the color of the selected tab icon and text (only selected)
           tabBarBackgroundColor: theme.secondaryColor, // optional, change the background color of the tab bar
-          bottomTabBadgeTextColor: 'red', // Optional, change badge text color. Android only
-          bottomTabBadgeBackgroundColor: 'green', // Optional, change badge background color. Android only
+          bottomTabBadgeTextColor: theme.primaryColor, // Optional, change badge text color. Android only
+          bottomTabBadgeBackgroundColor: COLORS.YELLOW, // Optional, change badge background color. Android only
+          tabBarTranslucent: false,
         },
         // screen: homeScreen,
         // passProps: {},

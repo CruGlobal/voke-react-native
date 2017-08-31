@@ -55,7 +55,7 @@ class Home extends Component {
   static navigatorStyle = {
     navBarButtonColor: theme.lightText,
     navBarTextColor: theme.headerTextColor,
-    navBarBackgroundColor: theme.headerBackgroundColor,
+    navBarBackgroundColor: theme.secondaryColor,
     screenBackgroundColor: theme.primaryColor,
   };
   constructor(props) {
@@ -155,6 +155,7 @@ class Home extends Component {
           ) : null
         }
         <FloatingButton onSelect={(to) => this.props.navigatePush(to)} />
+        <Flex style={styles.selectedTab}></Flex>
       </View>
     );
   }
