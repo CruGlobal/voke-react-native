@@ -105,7 +105,7 @@ export function createMessageInteraction(interaction) {
     };
     return dispatch(callApi(REQUESTS.CREATE_MESSAGE_INTERACTION, query, data)).then(()=>{
       // dispatch(getConversations());
-      console.warn('creating message interaction');
+      // console.warn('creating message interaction');
       dispatch({ type: MARK_READ, conversationId: interaction.conversationId });
     });
   };

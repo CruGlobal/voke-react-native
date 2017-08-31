@@ -72,7 +72,7 @@ export function mapConversations(results, query, data, getState) {
 
 export function mapConversation(results, query, data, getState) {
   let conversation = formatConversation(results, getState);
-  console.warn('single conversation', JSON.stringify(conversation));
+  // console.warn('single conversation', JSON.stringify(conversation));
   return {
     conversation,
   };
@@ -87,7 +87,7 @@ function formatConversation(c, getState) {
     if (m.latest_message && m.latest_message.created_at) {
       latestTime = m.latest_message.created_at;
     }
-    console.warn('latest item', JSON.stringify(m.latest_item));
+    // console.warn('latest item', JSON.stringify(m.latest_item));
     if (m.latest_item && m.latest_item.updated_at) {
       if (!latestTime) {
         latestTime = m.latest_item.updated_at;
@@ -97,7 +97,7 @@ function formatConversation(c, getState) {
         if (mTime > keyA) {
           latestTime = m.latest_item.updated_at;
         } else {
-          console.warn('message is before time', latestTime, m.latest_item.updated_at);
+          // console.warn('message is before time', latestTime, m.latest_item.updated_at);
         }
       }
     }
