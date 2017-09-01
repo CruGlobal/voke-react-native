@@ -153,7 +153,7 @@ class SelectFriend extends Component {
             buttonTextStyle={styles.randomText}
           />
         </Flex>
-        <Flex align="center" justify="center" value={.5} style={styles.vokeBubble}>
+        <Flex align="center" justify="center" value={.7} style={styles.vokeBubble}>
           <Text style={styles.info}>
             Search your contacts or take a step of faith with...
           </Text>

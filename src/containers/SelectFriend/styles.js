@@ -12,6 +12,7 @@ export default StyleSheet.create({
   },
   info: {
     fontSize: 16,
+    padding: 5,
   },
   randomButton: {
     alignItems: 'center',
@@ -36,7 +37,7 @@ export default StyleSheet.create({
     fontSize: 16,
   },
   vokeBubble: {
-    borderRadius: 5,
+    borderRadius: 20,
     borderWidth: 1,
     borderColor: theme.textColor,
     width: DEFAULT.FULL_WIDTH-120,

@@ -155,7 +155,10 @@ class Home extends Component {
           ) : null
         }
         <FloatingButton onSelect={(to) => this.props.navigatePush(to)} />
-        <Flex style={styles.selectedTab}></Flex>
+        <Flex direction="row">
+          <Flex value={1} style={styles.selectedTab}></Flex>
+          <Flex value={1} style={styles.unSelectedTab}></Flex>
+        </Flex>
       </View>
     );
   }

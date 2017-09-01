@@ -5,7 +5,7 @@ import theme, {DEFAULT, COLORS} from '../../theme';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.secondaryColor,
+    backgroundColor: theme.primaryColor,
     marginBottom: 0,
   },
   vokeBot: {
@@ -14,8 +14,11 @@ export default StyleSheet.create({
     right: 0,
   },
   selectedTab: {
-    width: DEFAULT.FULL_WIDTH/2,
     height: 4,
     backgroundColor: COLORS.YELLOW,
+  },
+  unSelectedTab: {
+    height: 4,
+    backgroundColor: theme.secondaryColor,
   },
 });
