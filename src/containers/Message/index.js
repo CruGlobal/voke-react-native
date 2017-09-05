@@ -12,6 +12,9 @@ import { iconsMap } from '../../utils/iconMap';
 import styles from './styles';
 import MessageVideoPlayer from '../MessageVideoPlayer';
 import HOME_ICON from '../../../images/home_icon.png';
+import ADD_VIDEOS_ICON from '../../../images/add_video_icon.png';
+import ADD_KICKSTARTERS_ICON from '../../../images/lightning_icon.png';
+import ADD_CONTENT_ICON from '../../../images/plus.png';
 
 import { Flex, Text, Button, Touchable } from '../../components/common';
 import MessagesList from '../../components/MessagesList';
@@ -262,25 +265,22 @@ class Message extends Component {
               <Flex direction="row" style={{padding: 0, margin: 0, alignItems: 'center'}}>
                 <Button
                   type="transparent"
-                  style={styles.sendButton}
-                  icon="queue"
-                  iconStyle={styles.sendIcon}
+                  style={styles.moreContentButton}
+                  image={ADD_VIDEOS_ICON}
                   onPress={this.handleAddContent}
                 />
                 <Button
                   type="transparent"
-                  style={styles.sendButton}
-                  icon="queue"
-                  iconStyle={styles.sendIcon}
+                  style={styles.moreContentButton}
+                  image={ADD_KICKSTARTERS_ICON}
                   onPress={this.handleAddContent}
                 />
               </Flex>
             ) : (
               <Button
                 type="transparent"
-                style={styles.sendButton}
-                icon="add"
-                iconStyle={styles.sendIcon}
+                style={styles.moreContentButton}
+                image={ADD_CONTENT_ICON}
                 onPress={this.handleButtonExpand}
               />
             )

@@ -21,10 +21,17 @@ export default function messages(state = initialState, action) {
         typeState: {},
       };
     case REQUESTS.GET_CONVERSATIONS.SUCCESS:
+      const unReadCheck = action.conversations.find((m) => m.hasUnread === true);
+      let unRead;
+      if (unReadCheck) {
+        unRead = state.unReadBadgeCount;
+      } else { unRead = 0; }
+
       return {
         ...state,
         conversations: action.conversations || [],
         typeState: {},
+        unReadBadgeCount: unRead,
       };
     case REQUESTS.GET_MESSAGES.SUCCESS:
       const conversationId = action.messages[0] ? action.messages[0].conversation_id : null;

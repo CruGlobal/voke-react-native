@@ -104,12 +104,18 @@ export function establishDevice() {
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
       onRegister: function(token) {
-        console.warn( 'TOKEN:', token );
-        pushT = token.token;
-        if (pushT !== auth.pushToken) {
+        console.warn( 'RECEIVED PUSH TOKEN:', token );
+
+        if ((token && !auth.pushToken) || (token !== auth.pushToken) ) {
           dispatch(registerPushToken(token.token)).then(()=>{
-            dispatch(establishPushDevice());
+            dispatch(establishPushDevice()).then(()=> {
+              dispatch(establishCableDevice(token.token));
+            });
           });
+        } else if (!token || !auth.pushToken) {
+          dispatch(establishCableDevice(null));
+        } else if (!token && auth.pushToken) {
+          dispatch(establishCableDevice(null));
         }
       },
 
@@ -137,8 +143,13 @@ export function establishDevice() {
         */
       requestPermissions: true,
     });
+  };
+}
 
-    // Do compare devices and either update or create, or just call setupSocketAction
+export function establishCableDevice(token) {
+  return (dispatch, getState) => {
+    const auth = getState().auth;
+
     const currentDeviceInfo = {
       version: 1,
       local_id: DeviceInfo.getUniqueID(),
@@ -147,8 +158,28 @@ export function establishDevice() {
       name: DeviceInfo.getModel(),
       os: `${Platform.OS} ${DeviceInfo.getSystemVersion()}`,
     };
+
     const isEquivalent = isEquivalentObject(auth.device, currentDeviceInfo);
-    if (!isEquivalent || (isEquivalent && !auth.cableId) || (pushT !== auth.pushToken)) {
+
+    if (token) {
+      let data = {
+        device: {
+          ...currentDeviceInfo,
+          key: token,
+          kind: 'cable',
+        },
+      };
+      if (auth.cableId) {
+        // UPDATE THE CABLE DEVICE WITH DATA
+        dispatch(updateDevice(data));
+      } else {
+        // CREATE THE CABLE DEVICE WITH DATA
+        return dispatch(callApi(REQUESTS.CREATE_DEVICE, {}, data)).then((results)=> {
+          console.warn('Creating Cable Device Results: ',JSON.stringify(results));
+          dispatch(setupSocketAction(results.id));
+        });
+      }
+    } else if (!isEquivalent || (isEquivalent && !auth.cableId) ) {
       let data = {
         device: {
           ...currentDeviceInfo,
@@ -157,12 +188,12 @@ export function establishDevice() {
         },
       };
       if (auth.cableId) {
-        // do update
+        // UPDATE THE CABLE DEVICE WITH DATA
         dispatch(updateDevice(data));
       } else {
-        // do create
+        // CREATE THE CABLE DEVICE WITH DATA
         return dispatch(callApi(REQUESTS.CREATE_DEVICE, {}, data)).then((results)=> {
-          console.warn('Create Device Results: ',JSON.stringify(results));
+          console.warn('Creating Cable Device Results: ',JSON.stringify(results));
           dispatch(setupSocketAction(results.id));
         });
       }
@@ -175,34 +206,18 @@ export function establishDevice() {
 export function establishPushDevice() {
   return (dispatch, getState) => {
     const auth = getState().auth;
-    console.warn('push token auth',auth.pushToken);
-    // Do compare devices and either update or create, or just call setupSocketAction
-    const currentDeviceInfo = {
-      version: 1,
-      local_id: DeviceInfo.getUniqueID(),
-      local_version: DeviceInfo.getVersion(),
-      family: DeviceInfo.getBrand(),
-      name: DeviceInfo.getModel(),
-      os: `${Platform.OS} ${DeviceInfo.getSystemVersion()}`,
-    };
-    const isEquivalent = isEquivalentObject(auth.device, currentDeviceInfo);
-    if (!isEquivalent || auth.pushToken) {
+
+    if (auth.pushToken) {
       let data = {
         device: {
-          ...currentDeviceInfo,
+          ...auth.device,
           key: auth.pushToken,
           kind: 'apple',
         },
       };
-      if (!isEquivalent) {
-        // do update
-        dispatch(updateDevice(data));
-      } else {
-        // do create
-        return dispatch(callApi(REQUESTS.CREATE_DEVICE, {}, data)).then((results)=> {
-          console.warn('Create Push Device Results: ',JSON.stringify(results));
-        });
-      }
+      return dispatch(callApi(REQUESTS.CREATE_DEVICE, {}, data)).then((results)=> {
+        console.warn('Create Push Device Results: ',JSON.stringify(results));
+      });
     }
   };
 }

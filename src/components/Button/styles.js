@@ -34,4 +34,7 @@ export default StyleSheet.create({
   iconHeader: {
     color: theme.headerTextColor,
   },
+  imageStyle: {
+    // width: 20,
+  },
 });

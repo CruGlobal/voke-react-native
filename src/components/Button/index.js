@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 
 import styles from './styles';
 
@@ -24,11 +24,12 @@ function getIconStyle(type) {
 
 export default class Button extends Component {
   render() {
-    const { onPress, type, text, icon, iconType, children, disabled, style = {}, buttonTextStyle = {}, iconStyle = {}, ...rest } = this.props;
+    const { onPress, type, image, text, icon, iconType, children, disabled, style = {}, buttonTextStyle = {}, iconStyle = {}, ...rest } = this.props;
     let content = children;
     if (!children) {
       let textComp = null;
       let iconComp = null;
+      let imageComp = null;
       if (text) {
         textComp = (
           <Text style={[getTextStyle(type), buttonTextStyle]}>
@@ -41,15 +42,25 @@ export default class Button extends Component {
           <Icon name={icon} type={iconType ? iconType : null} style={[getIconStyle(type), iconStyle]} />
         );
       }
-      if (icon && text) {
+      if (image) {
+        imageComp = (
+          <Image source={image} style={styles.imageStyle} />
+        );
+      }
+      if (icon && text || (image && text)) {
         content = (
           <Flex direction="row" align="center" justify="start">
-            {iconComp}
+            {
+              icon ? iconComp : null
+            }
+            {
+              image ? imageComp : null
+            }
             {textComp}
           </Flex>
         );
       } else {
-        content = textComp || iconComp;
+        content = textComp || iconComp || imageComp;
       }
     }
     return (
@@ -74,4 +85,5 @@ Button.propTypes = {
   style: PropTypes.oneOfType(styleTypes),
   buttonTextStyle: PropTypes.oneOfType(styleTypes),
   iconStyle: PropTypes.oneOfType(styleTypes),
+  image: PropTypes.string,
 };

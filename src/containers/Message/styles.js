@@ -36,6 +36,9 @@ export default StyleSheet.create({
     paddingVertical: 5,
     flex: 1,
   },
+  moreContentButton: {
+    padding: 15,
+  },
   transparentOverlay: {
     backgroundColor: COLORS.TRANSPARENT,
     width: DEFAULT.FULL_WIDTH,
