@@ -1,5 +1,3 @@
-This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
+## Voke App
 
-## Simple Messaging App
-
-A simple messaging app
+React Native application for an iOS and Android version of the Voke messaging application
