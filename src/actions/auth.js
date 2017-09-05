@@ -1,7 +1,7 @@
 import { Alert, Platform, ToastAndroid, AsyncStorage } from 'react-native';
-import { LOGIN, LOGOUT, SET_USER } from '../constants';
+import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN } from '../constants';
 import callApi, { REQUESTS } from './api';
-import { establishDevice } from './socket';
+import { establishDevice, establishPushDevice } from './socket';
 // import { navigateResetLogin } from './navigation_new';
 // import { resetLoginAction, resetHomeAction } from './navigation';
 import PushNotification from 'react-native-push-notification';
@@ -9,39 +9,8 @@ import PushNotification from 'react-native-push-notification';
 export function startupAction(navigator) {
   return (dispatch) => {
     dispatch(establishDevice(navigator));
-    PushNotification.configure({
-      // (optional) Called when Token is generated (iOS and Android)
-      onRegister: function(token) {
-        console.warn( 'TOKEN:', token );
-      },
-
-      // (required) Called when a remote or local notification is opened or received
-      onNotification: function(notification) {
-        console.warn( 'NOTIFICATION:', notification );
-      },
-
-      // ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)
-      // senderID: "YOUR GCM SENDER ID",
-
-      // IOS ONLY (optional): default: all - Permissions to register.
-      permissions: {
-        alert: true,
-        badge: true,
-        sound: true
-      },
-
-      // Should the initial notification be popped automatically
-      // default: true
-      popInitialNotification: true,
-
-      /**
-        * (optional) default: true
-        * - Specified if permissions (ios) and token (android and ios) will requested or not,
-        * - if not, you must call PushNotificationsHandler.requestPermissions() later
-        */
-      requestPermissions: true,
-    });
   };
+
 }
 export function loginAction(token, user = {}) {
   return (dispatch) => (
@@ -63,6 +32,19 @@ export function setUserAction(user) {
       dispatch({
         type: SET_USER,
         user,
+      });
+      resolve();
+      // dispatch(resetHomeAction());
+    })
+  );
+}
+
+export function registerPushToken(token) {
+  return (dispatch) => (
+    new Promise((resolve) => {
+      dispatch({
+        type: SET_PUSH_TOKEN,
+        pushToken: token,
       });
       resolve();
       // dispatch(resetHomeAction());

@@ -1,10 +1,12 @@
 import { Platform } from 'react-native';
 import { API_URL } from '../api/utils';
+import { registerPushToken } from './auth';
 import { SOCKET_URL } from '../api/utils';
 import { newMessageAction, typeStateChangeAction } from './messages';
 import callApi, { REQUESTS } from './api';
 import { isEquivalentObject } from '../utils/common';
 import DeviceInfo from 'react-native-device-info';
+import PushNotification from 'react-native-push-notification';
 
 let ws = null;
 
@@ -97,6 +99,45 @@ export function updateDevice(device) {
 export function establishDevice() {
   return (dispatch, getState) => {
     const auth = getState().auth;
+    let pushT = null;
+
+    PushNotification.configure({
+      // (optional) Called when Token is generated (iOS and Android)
+      onRegister: function(token) {
+        console.warn( 'TOKEN:', token );
+        pushT = token.token;
+        if (pushT !== auth.pushToken) {
+          dispatch(registerPushToken(token.token)).then(()=>{
+            dispatch(establishPushDevice());
+          });
+        }
+      },
+
+      // (required) Called when a remote or local notification is opened or received
+      onNotification: function(notification) {
+        console.warn( 'NOTIFICATION:', notification );
+      },
+
+      // ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)
+      // senderID: "YOUR GCM SENDER ID",
+
+      // IOS ONLY (optional): default: all - Permissions to register.
+      permissions: {
+        alert: true,
+        badge: true,
+        sound: true,
+      },
+      // Should the initial notification be popped automatically
+      // default: true
+      popInitialNotification: true,
+      /**
+        * (optional) default: true
+        * - Specified if permissions (ios) and token (android and ios) will requested or not,
+        * - if not, you must call PushNotificationsHandler.requestPermissions() later
+        */
+      requestPermissions: true,
+    });
+
     // Do compare devices and either update or create, or just call setupSocketAction
     const currentDeviceInfo = {
       version: 1,
@@ -107,11 +148,11 @@ export function establishDevice() {
       os: `${Platform.OS} ${DeviceInfo.getSystemVersion()}`,
     };
     const isEquivalent = isEquivalentObject(auth.device, currentDeviceInfo);
-    if (!isEquivalent || (isEquivalent && !auth.cableId)) {
+    if (!isEquivalent || (isEquivalent && !auth.cableId) || (pushT !== auth.pushToken)) {
       let data = {
         device: {
           ...currentDeviceInfo,
-          key: null,
+          key: auth.pushToken || null,
           kind: 'cable',
         },
       };
@@ -127,6 +168,41 @@ export function establishDevice() {
       }
     } else {
       dispatch(setupSocketAction(auth.cableId));
+    }
+  };
+}
+
+export function establishPushDevice() {
+  return (dispatch, getState) => {
+    const auth = getState().auth;
+    console.warn('push token auth',auth.pushToken);
+    // Do compare devices and either update or create, or just call setupSocketAction
+    const currentDeviceInfo = {
+      version: 1,
+      local_id: DeviceInfo.getUniqueID(),
+      local_version: DeviceInfo.getVersion(),
+      family: DeviceInfo.getBrand(),
+      name: DeviceInfo.getModel(),
+      os: `${Platform.OS} ${DeviceInfo.getSystemVersion()}`,
+    };
+    const isEquivalent = isEquivalentObject(auth.device, currentDeviceInfo);
+    if (!isEquivalent || auth.pushToken) {
+      let data = {
+        device: {
+          ...currentDeviceInfo,
+          key: auth.pushToken,
+          kind: 'apple',
+        },
+      };
+      if (!isEquivalent) {
+        // do update
+        dispatch(updateDevice(data));
+      } else {
+        // do create
+        return dispatch(callApi(REQUESTS.CREATE_DEVICE, {}, data)).then((results)=> {
+          console.warn('Create Push Device Results: ',JSON.stringify(results));
+        });
+      }
     }
   };
 }

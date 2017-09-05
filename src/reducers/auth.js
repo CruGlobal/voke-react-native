@@ -1,5 +1,5 @@
 import { REHYDRATE } from 'redux-persist/constants';
-import { LOGIN, LOGOUT, SET_USER } from '../constants';
+import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN } from '../constants';
 import { REQUESTS } from '../actions/api';
 
 const initialAuthState = {
@@ -15,6 +15,7 @@ const initialAuthState = {
     // os: 'ios 10.3.2',
   },
   cableId: '',
+  pushToken: '',
 };
 
 export default function auth(state = initialAuthState, action) {
@@ -38,6 +39,11 @@ export default function auth(state = initialAuthState, action) {
       return {
         ...state,
         user: action.user,
+      };
+    case SET_PUSH_TOKEN:
+      return {
+        ...state,
+        pushToken: action.pushToken,
       };
     case REQUESTS.UPDATE_DEVICE.SUCCESS:
       return {
