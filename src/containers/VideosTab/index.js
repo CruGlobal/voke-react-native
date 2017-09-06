@@ -3,10 +3,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import { Text } from '../../components/common';
 import Videos from '../Videos';
+import theme from '../../theme';
 
 class VideosTab extends Component {
+  static navigatorStyle = {
+    tabBarHidden: true,
+    navBarButtonColor: theme.lightText,
+    navBarTextColor: theme.headerTextColor,
+    navBarBackgroundColor: theme.headerBackgroundColor,
+  };
   render() {
     return (
       <Videos

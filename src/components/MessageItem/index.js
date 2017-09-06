@@ -200,7 +200,7 @@ class MessageItem extends Component {
 
 MessageItem.propTypes = {
   item: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequred,
+  user: PropTypes.object.isRequired,
   messengers: PropTypes.array.isRequired,
 };
 

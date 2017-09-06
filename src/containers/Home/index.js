@@ -12,7 +12,7 @@ import FILM_ICON from '../../../images/video_icon.png';
 import MENU_ICON from '../../../images/menu_icon.png';
 
 import theme from '../../theme';
-import FloatingButton from '../../components/FloatingButton';
+// import FloatingButton from '../../components/FloatingButton';
 // import { iconsMap } from '../../utils/iconMap';
 import ConversationList from '../../components/ConversationList';
 import { Flex, Text } from '../../components/common';
@@ -154,13 +154,13 @@ class Home extends Component {
             <Image style={styles.vokeBot} source={VOKE} />
           ) : null
         }
-        <FloatingButton onSelect={(to) => this.props.navigatePush(to)} />
         <Flex direction="row">
           <Flex value={1} style={styles.selectedTab}></Flex>
           <Flex value={1} style={styles.unSelectedTab}></Flex>
         </Flex>
       </View>
     );
+    // <FloatingButton onSelect={(to) => this.props.navigatePush(to)} />
   }
 }
 

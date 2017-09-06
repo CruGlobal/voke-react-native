@@ -56,7 +56,7 @@ export default function(store, Provider) {
   Navigation.registerComponent('voke.Contacts', () => Contacts, store, Provider);
   Navigation.registerComponent('voke.KickstartersTab', () => KickstartersTab, store, Provider);
   Navigation.registerComponent('voke.VideosTab', () => VideosTab, store, Provider);
-  Navigation.registerComponent('voke.MessageTabView', () => MessageTabView, store, Provider);
+  // Navigation.registerComponent('voke.MessageTabView', () => MessageTabView, store, Provider);
   Navigation.registerComponent('voke.SignUpAccount', () => SignUpAccount, store, Provider);
   Navigation.registerComponent('voke.SignUpProfile', () => SignUpProfile, store, Provider);
   Navigation.registerComponent('voke.SignUpNumber', () => SignUpNumber, store, Provider);

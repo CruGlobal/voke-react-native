@@ -5,11 +5,19 @@ import PropTypes from 'prop-types';
 
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { getKickstarters } from '../../actions/videos';
+import theme from '../../theme';
+
 import KICKSTARTERS from '../../../images/kickstarters.png';
 import styles from './styles';
 import { Flex, Text, Touchable, Loading } from '../../components/common';
 
 class KickstartersTab extends Component {
+  static navigatorStyle = {
+    tabBarHidden: true,
+    navBarButtonColor: theme.lightText,
+    navBarTextColor: theme.headerTextColor,
+    navBarBackgroundColor: theme.headerBackgroundColor,
+  };
   constructor(props) {
     super(props);
 

@@ -10,7 +10,7 @@ import { Navigation } from 'react-native-navigation';
 import styles from './styles';
 // import { iconsMap } from '../../utils/iconMap';
 import theme, { COLORS } from '../../theme';
-import HOME_ICON from '../../../images/home_icon.png';
+// import HOME_ICON from '../../../images/home_icon.png';
 import MENU_ICON from '../../../images/menu_icon.png';
 import SEARCH_ICON from '../../../images/search-icon.png';
 
@@ -18,14 +18,16 @@ import PillButton from '../../components/PillButton';
 import VideoList from '../../components/VideoList';
 import StatusBar from '../../components/StatusBar';
 import { Flex } from '../../components/common';
+import { iconsMap } from '../../utils/iconMap';
 
-function setButtons() {
+function setButtons(showBack) {
+  const leftButton1 = {
+    title: showBack ? 'Back' : 'Menu',
+    id: showBack ? 'back' : 'menu',
+    icon: showBack ? iconsMap['ios-arrow-back'] : MENU_ICON,
+  };
   return {
-    leftButtons: [{
-      title: 'Menu', // for a textual button, provide the button title (label)
-      id: 'menu', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-      icon: MENU_ICON, // for icon button, provide the local image asset name
-    }],
+    leftButtons: [leftButton1],
     rightButtons: [{
       title: 'Search', // for a textual button, provide the button title (label)
       id: 'search',
@@ -81,6 +83,8 @@ class Videos extends Component {
   componentWillMount() {
     if (!this.props.onSelectVideo) {
       this.props.navigator.setButtons(setButtons());
+    } else {
+      this.props.navigator.setButtons(setButtons(true));
     }
     this.props.navigator.setTitle({
       title: 'Videos',
@@ -165,7 +169,9 @@ class Videos extends Component {
   }
 
   render() {
+    const { onSelectVideo } = this.props;
     const { selectedFilter } = this.state;
+
     return (
       <View style={styles.container}>
         <Flex style={{height: 50}} align="center" justify="center">
@@ -205,15 +211,19 @@ class Videos extends Component {
           onSelect={(c) => {
             this.props.navigatePush('voke.VideoDetails', {
               video: c,
-              onSelectVideo: this.props.onSelectVideo,
+              onSelectVideo,
             });
           }}
           onRefresh={() => {}}
         />
-        <Flex direction="row">
-          <Flex value={1} style={styles.unSelectedTab}></Flex>
-          <Flex value={1} style={styles.selectedTab}></Flex>
-        </Flex>
+        {
+          !onSelectVideo ? (
+            <Flex direction="row">
+              <Flex value={1} style={styles.unSelectedTab}></Flex>
+              <Flex value={1} style={styles.selectedTab}></Flex>
+            </Flex>
+          ) : null
+        }
       </View>
     );
   }

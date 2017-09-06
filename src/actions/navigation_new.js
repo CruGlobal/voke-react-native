@@ -13,19 +13,19 @@ const DEFAULT_PROPS = {
     title: 'Select Friend',
     titleImage: require('../../images/nav_voke_logo.png'),
   },
-  'voke.MessageTabView': {
-    title: '',
-    // topTabs: [
-    //   {
-    //     screenId: 'voke.KickstartersTab',
-    //     title: 'Kickstarters',
-    //   },
-    //   {
-    //     screenId: 'voke.VideosTab',
-    //     title: 'Videos',
-    //   },
-    // ],
-  },
+  // 'voke.MessageTabView': {
+  //   title: '',
+  //   // topTabs: [
+  //   //   {
+  //   //     screenId: 'voke.KickstartersTab',
+  //   //     title: 'Kickstarters',
+  //   //   },
+  //   //   {
+  //   //     screenId: 'voke.VideosTab',
+  //   //     title: 'Videos',
+  //   //   },
+  //   // ],
+  // },
   // 'voke.Message': {},
   'voke.Contacts': { title: 'Contacts' },
   'voke.Profile': { title: 'Profile' },

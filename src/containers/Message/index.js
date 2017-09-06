@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
-import { TextInput, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
+import PropTypes from 'prop-types';
+import { View, TextInput, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 import { getMessages, createMessage, createTypeStateAction, destroyTypeStateAction, createMessageInteraction } from '../../actions/messages';
-import PropTypes from 'prop-types';
 
 import theme, { COLORS } from '../../theme';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
@@ -152,37 +151,52 @@ class Message extends Component {
   }
 
   handleAddKickstarter() {
-    this.props.navigatePush('voke.MessageTabView', {
-      onSelectKickstarter: (item) => {
+    this.props.navigatePush('voke.KickstartersTab', {
+      onSelect: (item) => {
         LOG('selected kickstarter in message!');
-        this.setState({text: item});
+        this.setState({ text: item });
         LOG(this.state.text);
       },
-      onSelectVideo: (video) => {
-        LOG('selected video in message!');
-        this.createMessage(video);
-        this.props.navigateBack({ animated: false });
-      },
       latestItem: this.state.latestItem,
-      type: 'kickstarter',
     });
+    // this.props.navigatePush('voke.MessageTabView', {
+    //   onSelectKickstarter: (item) => {
+    //     LOG('selected kickstarter in message!');
+    //     this.setState({text: item});
+    //     LOG(this.state.text);
+    //   },
+    //   onSelectVideo: (video) => {
+    //     LOG('selected video in message!');
+    //     this.createMessage(video);
+    //     this.props.navigateBack({ animated: false });
+    //   },
+    //   latestItem: this.state.latestItem,
+    //   type: 'kickstarter',
+    // });
   }
 
   handleAddVideo() {
-    this.props.navigatePush('voke.MessageTabView', {
-      onSelectKickstarter: (item) => {
-        LOG('selected kickstarter in message!');
-        this.setState({text: item});
-        LOG(this.state.text);
-      },
+    this.props.navigatePush('voke.VideosTab', {
       onSelectVideo: (video) => {
         LOG('selected video in message!');
         this.createMessage(video);
         this.props.navigateBack({ animated: false });
       },
-      latestItem: this.state.latestItem,
-      type: 'video',
     });
+    // this.props.navigatePush('voke.MessageTabView', {
+    //   onSelectKickstarter: (item) => {
+    //     LOG('selected kickstarter in message!');
+    //     this.setState({text: item});
+    //     LOG(this.state.text);
+    //   },
+    //   onSelectVideo: (video) => {
+    //     LOG('selected video in message!');
+    //     this.createMessage(video);
+    //     this.props.navigateBack({ animated: false });
+    //   },
+    //   latestItem: this.state.latestItem,
+    //   type: 'video',
+    // });
   }
 
   createMessage(video) {
@@ -352,7 +366,8 @@ class Message extends Component {
             }
             {
               this.state.createTransparentFocus ? (
-                <Touchable activeOpacity={0} style={[newHeight, styles.transparentOverlay]} onPress={()=> this.setState({shouldShowButtons: false, createTransparentFocus: false})}>
+                <Touchable activeOpacity={0} onPress={()=> this.setState({shouldShowButtons: false, createTransparentFocus: false})}>
+                  <View style={[newHeight, styles.transparentOverlay]} />
                 </Touchable>
               ) : null
             }
