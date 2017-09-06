@@ -99,7 +99,7 @@ export function updateDevice(device) {
 export function establishDevice() {
   return (dispatch, getState) => {
     const auth = getState().auth;
-
+    // 
     // return dispatch(callApi(REQUESTS.GET_DEVICES, {}, {})).then((results)=> {
     //   LOG('GOT DEVICES: ',JSON.stringify(results));
     //   results.devices.forEach((m)=>{

@@ -11,23 +11,27 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
-            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="SplashVoke" translatesAutoresizingMaskIntoConstraints="NO" id="Elg-pL-Vm2">
-                    <rect key="frame" x="122" y="176" width="236" height="129"/>
-                </imageView>
-            </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-            <constraints>
-                <constraint firstItem="Elg-pL-Vm2" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="HLf-W4-SfC"/>
-                <constraint firstItem="Elg-pL-Vm2" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="TaZ-P8-8lw"/>
-            </constraints>
-            <nil key="simulatedStatusBarMetrics"/>
-            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="548" y="455"/>
-        </view>
+        <viewController id="GjK-Ee-taY">
+            <layoutGuides>
+                <viewControllerLayoutGuide type="top" id="ZlR-ke-fT3"/>
+                <viewControllerLayoutGuide type="bottom" id="Gpf-FN-fmv"/>
+            </layoutGuides>
+            <view key="view" contentMode="scaleToFill" id="zSF-Kh-7sZ">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="SplashVoke" translatesAutoresizingMaskIntoConstraints="NO" id="ahq-O7-DPd">
+                        <rect key="frame" x="69.5" y="269" width="236" height="129"/>
+                        <color key="backgroundColor" red="0.42375126481056213" green="0.77355068922042847" blue="0.89417070150375366" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </imageView>
+                </subviews>
+                <color key="backgroundColor" red="0.42375126481056213" green="0.77355068922042847" blue="0.89417070150375366" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                <constraints>
+                    <constraint firstItem="ahq-O7-DPd" firstAttribute="centerX" secondItem="zSF-Kh-7sZ" secondAttribute="centerX" id="Qgz-Jn-L8q"/>
+                    <constraint firstItem="ahq-O7-DPd" firstAttribute="centerY" secondItem="zSF-Kh-7sZ" secondAttribute="centerY" id="rdm-Qd-zbZ"/>
+                </constraints>
+            </view>
+        </viewController>
     </objects>
     <resources>
         <image name="SplashVoke" width="236" height="129"/>
