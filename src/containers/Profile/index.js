@@ -124,12 +124,33 @@ class Profile extends Component {
       confirmPassword: '',
     });
   }
-
+  
   handleImageChange(data) {
     // TODO: Make API call to update image
     this.setState({
       imageUri: data.uri,
     });
+    // LOG(JSON.stringify(data));
+    if (this.state.imageUri) {
+      // let formData = new FormData();
+      //
+      // formData.append('name', 'me[avatar]');
+      // formData.append('fileName', `${this.props.user.first_name}_${this.props.user.last_name}.png`);
+      // formData.append('mimeType', 'image/*');
+      // formData.append(this.state.imageUri);
+      let data = {
+        me: {
+          avatar: {
+            [`${this.props.user.first_name}_${this.props.user.last_name}.png`]: this.state.imageUri,
+          },
+        },
+
+      };
+      // LOG(JSON.stringify(formData));
+      this.props.dispatch(updateMe(data)).then(()=>{
+        this.resetState();
+      });
+    }
     LOG('image selected');
   }
 

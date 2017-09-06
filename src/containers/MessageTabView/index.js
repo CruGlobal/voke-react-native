@@ -59,7 +59,7 @@ class MessageTabView extends Component {
   }
 
   renderTab() {
-    if (this.state.selectedIndex === 0) {
+    if (this.props.type === 'kickstarter') {
       return (
         <KickstartersTab
           {...this.props}
@@ -87,16 +87,6 @@ class MessageTabView extends Component {
   render() {
     return (
       <Flex value={1} direction="column">
-        <Flex style={styles.tabController}>
-          <SegmentedControlIOS
-            values={['Kickstarters', 'Videos']}
-            tintColor={theme.primaryColor}
-            selectedIndex={this.state.selectedIndex}
-            onChange={(event) => {
-              this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
-            }}
-          />
-        </Flex>
         <Flex value={1}>
           {this.renderTab()}
         </Flex>
@@ -111,6 +101,7 @@ MessageTabView.propTypes = {
   onSelectKickstarter: PropTypes.func.isRequired,
   onSelectVideo: PropTypes.func.isRequired,
   latestItem: PropTypes.string,
+  type: PropTypes.string.isRequired,
 };
 
 export default connect(null, nav)(MessageTabView);

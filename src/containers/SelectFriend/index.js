@@ -90,7 +90,7 @@ class SelectFriend extends Component {
       };
       this.props.dispatch(createConversation(data)).then((results)=>{
         Share.share({
-          message: `Hi ${c.givenName}, check out this video ${results.messengers[0].url} `,
+          message: `Hi ${c.name}, check out this video ${results.messengers[0].url} `,
           title: 'Check this out',
         }).then((results1)=> {
           if (results1.action === 'sharedAction') {
@@ -100,12 +100,11 @@ class SelectFriend extends Component {
             });
           } else {
             LOG('Did Not Share Video');
+            //TODO Make api call to delete conversation that was not shared
           }
         });
       });
     }
-    // TODO: API call to create a link
-    // const URL = 'https://my.vokeapp.com/CEHpHyo';
   }
 
   renderRandomContacts() {

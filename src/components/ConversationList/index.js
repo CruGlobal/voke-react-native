@@ -145,12 +145,12 @@ class ConversationList extends Component { // eslint-disable-line
               <Avatar
                 size={30}
                 style={this.state.rowFocused === item.id ? { backgroundColor: theme.primaryColor } : null}
-                text={otherPerson.initials}
+                text={otherPerson ? otherPerson.initials : 'VB'}
               />
             </Flex>
             <Flex value={15} justify="start">
               <Flex direction="column" justify="center">
-                <Text style={styles.conversationName}>{otherPerson.first_name} {otherPerson.last_name}</Text>
+                <Text style={styles.conversationName}>{otherPerson ? otherPerson.first_name : 'Vokebot'} {otherPerson ? otherPerson.last_name : ''}</Text>
                 <Flex direction="row" align="center">
                   <Text style={styles.messagePreviewText} numberOfLines={2}>
                     <Text style={styles.creatorText}>{contentCreator}</Text>

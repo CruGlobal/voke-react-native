@@ -17,7 +17,7 @@ class MessageItem extends Component {
   getOther() {
     const messengers = this.props.messengers;
     const user = this.props.user;
-    return messengers.find((m) => !m.bot && (user.id != m.messenger_id));
+    return messengers.find((m) => !m.bot && (user.id != m.id));
   }
 
   renderText() {

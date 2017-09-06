@@ -14,17 +14,17 @@ const DEFAULT_PROPS = {
     titleImage: require('../../images/nav_voke_logo.png'),
   },
   'voke.MessageTabView': {
-    title: 'Add',
-    topTabs: [
-      {
-        screenId: 'voke.KickstartersTab',
-        title: 'Kickstarters',
-      },
-      {
-        screenId: 'voke.VideosTab',
-        title: 'Videos',
-      },
-    ],
+    title: '',
+    // topTabs: [
+    //   {
+    //     screenId: 'voke.KickstartersTab',
+    //     title: 'Kickstarters',
+    //   },
+    //   {
+    //     screenId: 'voke.VideosTab',
+    //     title: 'Videos',
+    //   },
+    // ],
   },
   // 'voke.Message': {},
   'voke.Contacts': { title: 'Contacts' },
@@ -47,12 +47,12 @@ function defaultProps(screen, props, passProps) {
   if (screen === 'voke.Message' && passProps.name) {
     newProps.title = passProps.name;
   }
-  if (screen === 'voke.MessageTabView' && passProps.onSelectKickstarter) {
-    newProps.topTabs[0].passProps = { ...passProps, onSelect: passProps.onSelectKickstarter };
-  }
-  if (screen === 'voke.MessageTabView' && passProps.onSelectVideo) {
-    newProps.topTabs[1].passProps = { ...passProps, onVideoShare: passProps.onSelectVideo };
-  }
+  // if (screen === 'voke.MessageTabView' && passProps.onSelectKickstarter) {
+  //   newProps.topTabs[0].passProps = { ...passProps, onSelect: passProps.onSelectKickstarter };
+  // }
+  // if (screen === 'voke.MessageTabView' && passProps.onSelectVideo) {
+  //   newProps.topTabs[1].passProps = { ...passProps, onVideoShare: passProps.onSelectVideo };
+  // }
   return newProps;
 }
 // Wix navigation actions
@@ -121,4 +121,3 @@ export default (dispatch, { navigator }) => {
     navigateResetLogin: (...args) => dispatch(navigateResetLogin(navigator, ...args)),
   };
 };
-

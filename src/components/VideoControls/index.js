@@ -29,7 +29,7 @@ export default class VideoControls extends Component {
     this.state = {
       timeElapsedStr: convertTime(0),
       stateTime: 0,
-      screenPressed: false,
+      screenPressed: this.props.type === 'arclight' ? true : false,
     };
 
     this.handleScreenPress = this.handleScreenPress.bind(this);
@@ -108,5 +108,6 @@ VideoControls.propTypes = {
   duration: PropTypes.number.isRequired,
   onSeek: PropTypes.func.isRequired,
   onPlayPause: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
   // buttonTextStyle: PropTypes.oneOfType(styleTypes),
 };

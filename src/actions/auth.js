@@ -72,10 +72,14 @@ export function createAccountAction(email, password) {
       email,
       password,
     })).then((results) => {
-      LOG('create account success', results);
-      dispatch(loginAction(results.access_token.access_token));
-      // dispatch(messagesAction());
-      // Do something with the results
+      if (!results.errors) {
+        LOG('create account success', results);
+        dispatch(loginAction(results.access_token.access_token));
+        // dispatch(messagesAction());
+        // Do something with the results
+        return results;
+      }
+      else LOG('Failed to create account', results.errors);
       return results;
     }).catch((error) => {
       LOG('error creating account', error);

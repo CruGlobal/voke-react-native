@@ -35,7 +35,7 @@
 		AE0A75851F4271FE000A51EA /* TitilliumWeb-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE0A75841F4271FE000A51EA /* TitilliumWeb-Regular.ttf */; };
 		AE0A75871F42720D000A51EA /* TitilliumWeb-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE0A75861F42720D000A51EA /* TitilliumWeb-SemiBold.ttf */; };
 		AE0A75891F427225000A51EA /* TitilliumWeb-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE0A75881F427225000A51EA /* TitilliumWeb-Bold.ttf */; };
-		AE9113C51F45F8B400D6E009 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE9113C41F45F8B400D6E009 /* Launch Screen.storyboard */; };
+		AE5BE0301F607ACC0091810F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE5BE02F1F607ACC0091810F /* LaunchScreen.xib */; };
 		AEC9F3E11F01CA7D0038E58D /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC9F3DF1F01CA630038E58D /* libReactNativeNavigation.a */; };
 		AECD5AED1F575975004E173C /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AECD5AD11F575957004E173C /* libRCTPushNotification.a */; };
 		B813226B741B4B9EA4D274EC /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABD02933A222442AA4DA129E /* Octicons.ttf */; };
@@ -349,7 +349,7 @@
 		AE0A75841F4271FE000A51EA /* TitilliumWeb-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-Regular.ttf"; sourceTree = "<group>"; };
 		AE0A75861F42720D000A51EA /* TitilliumWeb-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-SemiBold.ttf"; sourceTree = "<group>"; };
 		AE0A75881F427225000A51EA /* TitilliumWeb-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-Bold.ttf"; sourceTree = "<group>"; };
-		AE9113C41F45F8B400D6E009 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		AE5BE02F1F607ACC0091810F /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		AEC9F3BF1F01CA620038E58D /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
 		AECD5AC01F575957004E173C /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		B1CF0855F5DB4084B57242A2 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
@@ -457,10 +457,10 @@
 				932AA1B61F602AFB008937B1 /* AppDelegate.h */,
 				932AA1B71F602AFB008937B1 /* AppDelegate.m */,
 				932AA1B81F602AFB008937B1 /* Images.xcassets */,
+				AE5BE02F1F607ACC0091810F /* LaunchScreen.xib */,
 				932AA1B91F602AFB008937B1 /* Info.plist */,
 				932AA1BA1F602AFB008937B1 /* main.m */,
 				932AA1BB1F602AFB008937B1 /* Voke.entitlements */,
-				AE9113C41F45F8B400D6E009 /* Launch Screen.storyboard */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 			);
 			name = Voke;
@@ -1065,7 +1065,6 @@
 				AE0A75891F427225000A51EA /* TitilliumWeb-Bold.ttf in Resources */,
 				932AA1BD1F602AFB008937B1 /* Images.xcassets in Resources */,
 				C73DF4BA9C8D43E989290E35 /* Entypo.ttf in Resources */,
-				AE9113C51F45F8B400D6E009 /* Launch Screen.storyboard in Resources */,
 				AE0A75851F4271FE000A51EA /* TitilliumWeb-Regular.ttf in Resources */,
 				49EA158A40334A37BD06A89F /* EvilIcons.ttf in Resources */,
 				376E6513900E4B6B98D8A273 /* FontAwesome.ttf in Resources */,
@@ -1075,6 +1074,7 @@
 				AE0A75871F42720D000A51EA /* TitilliumWeb-SemiBold.ttf in Resources */,
 				37C585BED12E4623ACE9A188 /* MaterialCommunityIcons.ttf in Resources */,
 				7E7CF9FEC7E84378BFB5B7AD /* MaterialIcons.ttf in Resources */,
+				AE5BE0301F607ACC0091810F /* LaunchScreen.xib in Resources */,
 				B813226B741B4B9EA4D274EC /* Octicons.ttf in Resources */,
 				F6B69D29E55C49F09228F7FB /* SimpleLineIcons.ttf in Resources */,
 				EC90EA775E5847D6AAE506A4 /* Zocial.ttf in Resources */,
@@ -1117,7 +1117,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Voke/Voke.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Cru Global, Inc (DQ48D9BF2V)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1152,7 +1151,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Voke/Voke.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Cru Global, Inc (DQ48D9BF2V)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";

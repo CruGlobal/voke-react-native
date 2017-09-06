@@ -35,7 +35,7 @@ class MessageVideoPlayer extends Component {
     // type="vimeo"
     // type="arclight"
     return (
-      <Flex style={styles.video}>
+      <Flex animation="slideInUp" style={styles.video}>
         <WebviewVideo
           type={message.item.media.type}
           url={message.item.media.url}

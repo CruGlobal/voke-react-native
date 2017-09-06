@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { getKickstarters } from '../../actions/videos';
-import CHAT_ICON from '../../../images/SendButton.png';
+import KICKSTARTERS from '../../../images/kickstarters.png';
 import styles from './styles';
 import { Flex, Text, Touchable, Loading } from '../../components/common';
 
@@ -25,6 +25,12 @@ class KickstartersTab extends Component {
 
   componentDidMount() {
     this.getKickstarters();
+  }
+
+  componentWillMount() {
+    this.props.navigator.setTitle({
+      title: 'Kickstarters',
+    });
   }
 
   getKickstarters() {
@@ -66,8 +72,8 @@ class KickstartersTab extends Component {
 
     return (
       <Flex align="center" value={1} style={styles.chatImageWrap}>
+        <Image source={KICKSTARTERS} style={styles.chatImage} />
         <Text style={styles.description}>Add one of these kickstarters to your chat.</Text>
-        <Image source={CHAT_ICON} style={styles.chatImage} />
       </Flex>
     );
   }
@@ -85,8 +91,8 @@ class KickstartersTab extends Component {
     } else {
       content = this.state.kickstarters.map(this.renderRow);
     }
-    
-    
+
+
     return (
       <ScrollView
         style={styles.container}

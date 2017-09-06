@@ -58,7 +58,8 @@ class Message extends Component {
     this.handleLoadMore = this.handleLoadMore.bind(this);
     this.getMessages = this.getMessages.bind(this);
     this.createMessage = this.createMessage.bind(this);
-    this.handleAddContent = this.handleAddContent.bind(this);
+    this.handleAddKickstarter = this.handleAddKickstarter.bind(this);
+    this.handleAddVideo = this.handleAddVideo.bind(this);
     this.getLatestItem = this.getLatestItem.bind(this);
     this.setLatestItem = this.setLatestItem.bind(this);
     this.getTypeState = this.getTypeState.bind(this);
@@ -67,6 +68,7 @@ class Message extends Component {
     this.handleChangeButtons = this.handleChangeButtons.bind(this);
     this.handleButtonExpand = this.handleButtonExpand.bind(this);
     this.createMessageReadInteraction = this.createMessageReadInteraction.bind(this);
+    this.getConversationName = this.getConversationName.bind(this);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
@@ -98,9 +100,15 @@ class Message extends Component {
     }
   }
 
+  getConversationName() {
+    let messengers = this.props.conversation.messengers || [];
+    let otherPerson = messengers.find((m) => !m.bot && (this.props.me.id != m.id));
+    return otherPerson ? otherPerson.first_name : 'Voke';
+  }
+
   componentWillMount() {
     this.props.navigator.setButtons(setButtons());
-    this.props.navigator.setTitle({ title: this.props.conversation.messengers[0].first_name || 'Message' });
+    this.props.navigator.setTitle({ title: this.getConversationName()});
   }
 
   componentDidMount() {
@@ -143,7 +151,7 @@ class Message extends Component {
     });
   }
 
-  handleAddContent() {
+  handleAddKickstarter() {
     this.props.navigatePush('voke.MessageTabView', {
       onSelectKickstarter: (item) => {
         LOG('selected kickstarter in message!');
@@ -156,6 +164,24 @@ class Message extends Component {
         this.props.navigateBack({ animated: false });
       },
       latestItem: this.state.latestItem,
+      type: 'kickstarter',
+    });
+  }
+
+  handleAddVideo() {
+    this.props.navigatePush('voke.MessageTabView', {
+      onSelectKickstarter: (item) => {
+        LOG('selected kickstarter in message!');
+        this.setState({text: item});
+        LOG(this.state.text);
+      },
+      onSelectVideo: (video) => {
+        LOG('selected video in message!');
+        this.createMessage(video);
+        this.props.navigateBack({ animated: false });
+      },
+      latestItem: this.state.latestItem,
+      type: 'video',
     });
   }
 
@@ -262,27 +288,29 @@ class Message extends Component {
         <Flex direction="row" style={[styles.inputWrap, newWrap]} align="center" justify="center">
           {
             this.state.shouldShowButtons === true ? (
-              <Flex direction="row" style={{padding: 0, margin: 0, alignItems: 'center'}}>
+              <Flex animation="slideInLeft" duration={400} direction="row" style={{padding: 0, margin: 0, alignItems: 'center'}}>
                 <Button
                   type="transparent"
                   style={styles.moreContentButton}
                   image={ADD_VIDEOS_ICON}
-                  onPress={this.handleAddContent}
+                  onPress={this.handleAddVideo}
                 />
                 <Button
                   type="transparent"
                   style={styles.moreContentButton}
                   image={ADD_KICKSTARTERS_ICON}
-                  onPress={this.handleAddContent}
+                  onPress={this.handleAddKickstarter}
                 />
               </Flex>
             ) : (
-              <Button
-                type="transparent"
-                style={styles.moreContentButton}
-                image={ADD_CONTENT_ICON}
-                onPress={this.handleButtonExpand}
-              />
+              <Flex animation="slideInRight" duration={150} direction="row" style={{padding: 0, margin: 0, alignItems: 'center'}}>
+                <Button
+                  type="transparent"
+                  style={styles.moreContentButton}
+                  image={ADD_CONTENT_ICON}
+                  onPress={this.handleButtonExpand}
+                />
+              </Flex>
             )
           }
           <Flex direction="row" style={[styles.chatBox, newHeight]} align="center">
@@ -311,13 +339,15 @@ class Message extends Component {
             />
             {
               this.state.text ? (
-                <Button
-                  type="transparent"
-                  style={styles.sendButton}
-                  icon="send"
-                  iconStyle={styles.sendIcon}
-                  onPress={()=> this.createMessage()}
-                />
+                <Flex animation="slideInRight" duration={250} direction="row" style={{padding: 0, margin: 0, alignItems: 'center'}}>
+                  <Button
+                    type="transparent"
+                    style={styles.sendButton}
+                    icon="send"
+                    iconStyle={styles.sendIcon}
+                    onPress={()=> this.createMessage()}
+                  />
+                </Flex>
               ) : null
             }
             {

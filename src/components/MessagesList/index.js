@@ -101,7 +101,7 @@ class MessagesList extends Component {
           <View style={{ paddingTop: 15 }}><Loading /></View>
         ) : undefined}
         keyExtractor={(item) => item.id}
-        style={{  transform: [{ scaleY: -1 }] }}
+        style={{  transform: [{ scaleY: -1 }]}}
         initialNumToRender={10}
         data={items}
         renderItem={this.renderRow}

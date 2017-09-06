@@ -35,7 +35,7 @@ export function setupSocketAction(cableId) {
       const data = JSON.parse(e.data) || {};
       const type = data && data.type;
       if (type === 'ping') return;
-      // LOG('socket message received: data', data);
+      LOG('socket message received: data', data);
       if (type === 'welcome') {
         // LOG('socket welcome');
       } else if (data.message) {
@@ -99,22 +99,31 @@ export function updateDevice(device) {
 export function establishDevice() {
   return (dispatch, getState) => {
     const auth = getState().auth;
-    let pushT = null;
 
+    // return dispatch(callApi(REQUESTS.GET_DEVICES, {}, {})).then((results)=> {
+    //   LOG('GOT DEVICES: ',JSON.stringify(results));
+    //   results.devices.forEach((m)=>{
+    //     dispatch(destroyDevice(m.id));
+    //   })
+    // });
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
       onRegister: function(token) {
         LOG( 'RECEIVED PUSH TOKEN:', token );
 
-        if ((token && !auth.pushToken) || (token !== auth.pushToken) ) {
+        if ((token.token && !auth.pushToken) || (token.token !== auth.pushToken) ) {
           dispatch(registerPushToken(token.token)).then(()=>{
-            dispatch(establishPushDevice()).then(()=> {
-              dispatch(establishCableDevice(token.token));
-            });
+            // dispatch(establishPushDevice()).then(()=> {
+            dispatch(establishCableDevice(token.token));
+            // });
           });
         } else if (!token || !auth.pushToken) {
           dispatch(establishCableDevice(null));
         } else if (!token && auth.pushToken) {
+          dispatch(establishCableDevice(null));
+        } else if (auth.cableId) {
+          dispatch(setupSocketAction(auth.cableId));
+        } else {
           dispatch(establishCableDevice(null));
         }
       },
@@ -149,7 +158,6 @@ export function establishDevice() {
 export function establishCableDevice(token) {
   return (dispatch, getState) => {
     const auth = getState().auth;
-
     const currentDeviceInfo = {
       version: 1,
       local_id: DeviceInfo.getUniqueID(),
@@ -162,17 +170,20 @@ export function establishCableDevice(token) {
     const isEquivalent = isEquivalentObject(auth.device, currentDeviceInfo);
 
     if (token) {
+      LOG('token exists in establishCableDevice');
       let data = {
         device: {
           ...currentDeviceInfo,
-          key: token,
+          key: null,
           kind: 'cable',
         },
       };
       if (auth.cableId) {
+        LOG('cableID exists in establishCableDevice', auth.cableId);
         // UPDATE THE CABLE DEVICE WITH DATA
         dispatch(updateDevice(data));
       } else {
+        LOG('cableID does not exists in establishCableDevice');
         // CREATE THE CABLE DEVICE WITH DATA
         return dispatch(callApi(REQUESTS.CREATE_DEVICE, {}, data)).then((results)=> {
           LOG('Creating Cable Device Results: ',JSON.stringify(results));
@@ -183,7 +194,7 @@ export function establishCableDevice(token) {
       let data = {
         device: {
           ...currentDeviceInfo,
-          key: auth.pushToken || null,
+          key: null,
           kind: 'cable',
         },
       };
@@ -207,15 +218,24 @@ export function establishPushDevice() {
   return (dispatch, getState) => {
     const auth = getState().auth;
 
+    const currentDeviceInfo = {
+      version: 1,
+      local_id: DeviceInfo.getUniqueID(),
+      local_version: DeviceInfo.getVersion(),
+      family: DeviceInfo.getBrand(),
+      name: DeviceInfo.getModel(),
+      os: `${Platform.OS} ${DeviceInfo.getSystemVersion()}`,
+    };
+
     if (auth.pushToken) {
       let data = {
         device: {
-          ...auth.device,
+          ...currentDeviceInfo,
           key: auth.pushToken,
           kind: 'apple',
         },
       };
-      return dispatch(callApi(REQUESTS.CREATE_DEVICE, {}, data)).then((results)=> {
+      return dispatch(callApi(REQUESTS.CREATE_PUSH_DEVICE, {}, data)).then((results)=> {
         LOG('Create Push Device Results: ',JSON.stringify(results));
       });
     }

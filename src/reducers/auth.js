@@ -16,6 +16,7 @@ const initialAuthState = {
   },
   cableId: '',
   pushToken: '',
+  pushId: '',
 };
 
 export default function auth(state = initialAuthState, action) {
@@ -70,6 +71,19 @@ export default function auth(state = initialAuthState, action) {
           os: action.os,
         },
         cableId: action.id,
+      };
+    case REQUESTS.CREATE_PUSH_DEVICE.SUCCESS:
+      return {
+        ...state,
+        device: {
+          version: action.version,
+          local_version: action.local_version,
+          local_id: action.local_id,
+          family: action.family,
+          name: action.name,
+          os: action.os,
+        },
+        pushId: action.id,
       };
     case REQUESTS.DESTROY_DEVICE.SUCCESS:
       return {
