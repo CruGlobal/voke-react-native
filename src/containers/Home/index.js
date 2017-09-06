@@ -121,7 +121,7 @@ class Home extends Component {
     // if (hasMoreConversations) {
     //   loadMore();
     // }
-    // console.warn('load more conversations...');
+    // LOG('load more conversations...');
   }
 
   render() {

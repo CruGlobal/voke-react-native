@@ -66,7 +66,7 @@ class SignUpProfile extends Component {
     this.setState({
       imageUri: data.uri,
     });
-    console.warn('image selected');
+    LOG('image selected');
   }
 
   addProfile() {

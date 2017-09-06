@@ -38,7 +38,7 @@ class ThemeSelect extends Component {
   }
 
   handleSelect(tag) {
-    console.warn('selected', tag);
+    LOG('selected', tag);
     this.props.onSelect(tag);
     Navigation.dismissLightBox();
   }

@@ -7,7 +7,7 @@ import styles from './styles';
 import { createAccountAction } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { iconsMap } from '../../utils/iconMap';
-import theme from '../../theme';
+import theme, { COLORS } from '../../theme';
 import BACK_ICON from '../../../images/back-arrow.png';
 
 import { Flex, Text, Button } from '../../components/common';
@@ -103,8 +103,10 @@ class SignUpAccount extends Component {
               style={styles.inputBox}
               autoCapitalize="none"
               autoCorrect={false}
+              underlineColorAndroid="transparent"
             />
             <TextInput
+              underlineColorAndroid="transparent"
               onFocus={() => {}}
               onBlur={() => {}}
               value={this.state.password}

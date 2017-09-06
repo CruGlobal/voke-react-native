@@ -1,5 +1,6 @@
 // import { Platform } from 'react-native';
 import PropTypes from 'prop-types';
+import { startLoginApp, startTabApp } from '../NavConfig';
 
 import theme from '../theme';
 
@@ -78,25 +79,27 @@ export function navigateBack(navigator, options = {}) {
 
 export function navigateResetHome(navigator, options = {}) {
   return () => {
-    navigator.resetTo({
-      screen: 'voke.Home',
-      animated: false,
-      navigatorStyle: {
-        screenBackgroundColor: theme.primaryColor,
-      },
-      ...options,
-    });
+    // navigator.resetTo({
+    //   screen: 'voke.Home',
+    //   animated: false,
+    //   navigatorStyle: {
+    //     screenBackgroundColor: theme.primaryColor,
+    //   },
+    //   ...options,
+    // });
+    startTabApp(options);
   };
 }
 
 export function navigateResetLogin(navigator, options = {}) {
   return () => {
-    navigator.resetTo({
-      screen: 'voke.Login',
-      animated: true,
-      animationType: 'fade',
-      ...options,
-    });
+    // navigator.resetTo({
+    //   screen: 'voke.Login',
+    //   animated: true,
+    //   animationType: 'fade',
+    //   ...options,
+    // });
+    startLoginApp(options);
   };
 }
 
@@ -118,3 +121,4 @@ export default (dispatch, { navigator }) => {
     navigateResetLogin: (...args) => dispatch(navigateResetLogin(navigator, ...args)),
   };
 };
+

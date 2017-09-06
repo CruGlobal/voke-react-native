@@ -39,7 +39,7 @@ export default function callApi(requestObject, query = {}, data = {}) {
       // Generic error handler
       const throwErr = (msg) => {
         if (__DEV__) { 
-          console.warn(msg);
+          LOG(msg);
           throw new Error(msg);
         }
         reject(msg);
@@ -77,7 +77,7 @@ export default function callApi(requestObject, query = {}, data = {}) {
       }
 
       const handleError = (err) => {
-        console.warn('err', err);
+        LOG('err', err);
         if (err) {
           dispatch({
             error: err,

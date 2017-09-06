@@ -1,5 +1,9 @@
 [
     {
+        "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-v23/abc_control_background_material.xml",
+        "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/drawable-v23/abc_control_background_material.xml"
+    },
+    {
         "merged": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/res/merged/debug/drawable-v23/abc_control_background_material.xml",
         "source": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/drawable-v23/abc_control_background_material.xml"
     },

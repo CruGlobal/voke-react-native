@@ -27,11 +27,11 @@ class VideoDetails extends Component {
   }
 
   selectContact(contact) {
-    console.warn('contact selected', contact);
+    LOG('contact selected', contact);
   }
 
   handleVideoChange(videoState) {
-    // console.warn(videoState);
+    // LOG(videoState);
     if (videoState === webviewStates.ERROR) {
       this.props.dispatch(toastAction('There was an error playing the video.'));
     }

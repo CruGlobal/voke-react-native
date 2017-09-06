@@ -89,10 +89,10 @@ class Message extends Component {
       // } else if (event.id == 'add') {
       //   this.props.navigatePush('voke.MessageTabView', {
       //     onSelectKickstarter: () => {
-      //       console.warn('selected kickstarter in message!');
+      //       LOG('selected kickstarter in message!');
       //     },
       //     onSelectVideo: () => {
-      //       console.warn('selected video in message!');
+      //       LOG('selected video in message!');
       //     },
       // });
     }
@@ -122,7 +122,7 @@ class Message extends Component {
   setLatestItem() {
     let messages = this.props.messages || [];
     let item = messages.find(this.getLatestItem);
-    // console.warn(JSON.stringify(item));
+    // LOG(JSON.stringify(item));
     if (item && item.item) {
       this.setState({ latestItem: item.item.id });
     }
@@ -130,7 +130,7 @@ class Message extends Component {
 
   handleLoadMore() {
     this.setState({ isLoadingMore: true });
-    console.warn('Making API call to load more');
+    LOG('Making API call to load more');
     setTimeout(() => {
       this.setState({ isLoadingMore: false });
     }, 1000);
@@ -146,12 +146,12 @@ class Message extends Component {
   handleAddContent() {
     this.props.navigatePush('voke.MessageTabView', {
       onSelectKickstarter: (item) => {
-        console.warn('selected kickstarter in message!');
+        LOG('selected kickstarter in message!');
         this.setState({text: item});
-        console.warn(this.state.text);
+        LOG(this.state.text);
       },
       onSelectVideo: (video) => {
-        console.warn('selected video in message!');
+        LOG('selected video in message!');
         this.createMessage(video);
         this.props.navigateBack({ animated: false });
       },
@@ -182,12 +182,12 @@ class Message extends Component {
 
   createTypeState() {
     this.props.dispatch(createTypeStateAction(this.props.conversation.id));
-    // console.warn('create typestate');
+    // LOG('create typestate');
   }
 
   destroyTypeState() {
     this.props.dispatch(destroyTypeStateAction(this.props.conversation.id));
-    // console.warn('destroy typestate');
+    // LOG('destroy typestate');
   }
 
   createMessageReadInteraction() {
@@ -212,13 +212,13 @@ class Message extends Component {
 
   handleChangeButtons(bool) {
     this.setState({ shouldShowButtons: bool });
-    // console.warn('state',this.state.shouldShowButtons);
+    // LOG('state',this.state.shouldShowButtons);
   }
 
   handleButtonExpand() {
     this.setState({ shouldShowButtons: true });
     this.setState({ createTransparentFocus: true });
-    // console.warn('state',this.state.shouldShowButtons);
+    // LOG('state',this.state.shouldShowButtons);
   }
 
   render() {

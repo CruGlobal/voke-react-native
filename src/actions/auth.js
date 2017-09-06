@@ -58,7 +58,7 @@ export function logoutAction() {
       dispatch({ type: LOGOUT });
       resolve();
       AsyncStorage.clear();
-      console.warn('TODO: Reset to login page');
+      LOG('TODO: Reset to login page');
       // dispatch(navigateResetLogin());
     })
   );
@@ -72,13 +72,13 @@ export function createAccountAction(email, password) {
       email,
       password,
     })).then((results) => {
-      console.warn('create account success', results);
+      LOG('create account success', results);
       dispatch(loginAction(results.access_token.access_token));
       // dispatch(messagesAction());
       // Do something with the results
       return results;
     }).catch((error) => {
-      console.warn('error creating account', error);
+      LOG('error creating account', error);
     });
   };
 }
@@ -111,7 +111,7 @@ export function anonLogin(username, password) {
       username: username,
       password: password,
     })).then((results) => {
-      console.warn('auth success', results);
+      LOG('auth success', results);
       dispatch(loginAction(results.access_token)).then(()=>{
         dispatch(getMe());
       });
@@ -119,7 +119,7 @@ export function anonLogin(username, password) {
       // Do something with the results
       return results;
     }).catch((error) => {
-      console.warn('error logging in', error);
+      LOG('error logging in', error);
     });
   };
 }
@@ -127,11 +127,11 @@ export function anonLogin(username, password) {
 export function getMe() {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.GET_ME, {}, {})).then((results) => {
-      console.warn('get me successful', results);
+      LOG('get me successful', results);
       dispatch(setUserAction(results));
       return results;
     }).catch((error) => {
-      console.warn('error getting me', error);
+      LOG('error getting me', error);
     });
   };
 }
@@ -139,11 +139,11 @@ export function getMe() {
 export function updateMe(data) {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.UPDATE_ME, {}, data)).then((results) => {
-      console.warn('update me successful', results);
+      LOG('update me successful', results);
       dispatch(getMe());
       return results;
     }).catch((error) => {
-      console.warn('error updating me', error);
+      LOG('error updating me', error);
     });
   };
 }
@@ -151,10 +151,10 @@ export function updateMe(data) {
 export function createMobileVerification(data) {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.CREATE_MOBILE_VERIFICATION, {}, data)).then((results) => {
-      console.warn('Verify mobile request successfully sent', results);
+      LOG('Verify mobile request successfully sent', results);
       return results;
     }).catch((error) => {
-      console.warn('error sending verification for mobile number', error);
+      LOG('error sending verification for mobile number', error);
     });
   };
 }
@@ -162,10 +162,10 @@ export function createMobileVerification(data) {
 export function verifyMobile(data) {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.VERIFY_MOBILE, {}, data)).then((results) => {
-      console.warn('Mobile successfully verified', results);
+      LOG('Mobile successfully verified', results);
       return results;
     }).catch((error) => {
-      console.warn('error verifying mobile', error);
+      LOG('error verifying mobile', error);
     });
   };
 }

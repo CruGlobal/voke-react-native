@@ -23,11 +23,11 @@ export default class ShareButton extends Component {
       dialogTitle: 'Share',
     }).then(({ action, activityType }) => {
       if (action === Share.sharedAction) {
-        console.warn('shared!', activityType);
+        LOG('shared!', activityType);
       } else {
-        console.warn('not shared!');
+        LOG('not shared!');
       }
-    }).catch((err) => console.warn('Share Error', err));
+    }).catch((err) => LOG('Share Error', err));
   }
   render() {
     return (

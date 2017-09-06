@@ -47,7 +47,7 @@ export default class VideoControls extends Component {
     //   this.setState({ screenAnimation: null });
     // },1000);
     // this.screenPlay;
-    // console.warn('screen press');
+    // LOG('screen press');
   }
 
 

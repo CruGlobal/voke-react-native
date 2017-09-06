@@ -14,7 +14,7 @@ export default {
     if (match && match[2].length == 11) {
       return match[2];
     } else {
-      console.warn('error extracting the Youtube id from', url);
+      LOG('error extracting the Youtube id from', url);
       return null;
     }
   },
@@ -24,7 +24,7 @@ export default {
     if (match) {
       return match[2];
     } else {
-      console.warn('error extracting the Videmo id from', url);
+      LOG('error extracting the Videmo id from', url);
       return null;
     }
   },

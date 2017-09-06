@@ -59,7 +59,7 @@ export default function messages(state = initialState, action) {
       if (!conversationNewMessageId) {
         return state;
       }
-      // console.warn('new message', action.message);
+      // LOG('new message', action.message);
       let currentBadgeCount = state.unReadBadgeCount;
       const msgPreviewConversations = state.conversations.map((c, index, newArr) => {
         if (c.id === conversationNewMessageId) {

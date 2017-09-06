@@ -5,7 +5,7 @@ import callApi, { REQUESTS } from './api';
 export function getConversations() {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.GET_CONVERSATIONS)).then((results) => {
-      console.warn('results', results.conversations[0]);
+      LOG('results', results.conversations[0]);
       return results;
     });
   };
@@ -58,8 +58,8 @@ export function newMessageAction(message) {
 export function typeStateChangeAction(message) {
   return (dispatch, getState) => {
     let me = getState().auth.user.id;
-    // console.warn('asdfadf',me);
-    // console.warn('you',message.message.messenger_id);
+    // LOG('asdfadf',me);
+    // LOG('you',message.message.messenger_id);
     if (me === message.message.messenger_id) {
       return;
     } else {
@@ -78,7 +78,7 @@ export function createTypeStateAction(conversation) {
       endpoint: `${API_URL}me/conversations/${conversation}/type_state`,
     };
     return dispatch(callApi(REQUESTS.CREATE_TYPESTATE, query)).then((results)=>{
-      // console.warn('im herheher isissjijsi',results);
+      // LOG('im herheher isissjijsi',results);
     });
   };
 }
@@ -105,7 +105,7 @@ export function createMessageInteraction(interaction) {
     };
     return dispatch(callApi(REQUESTS.CREATE_MESSAGE_INTERACTION, query, data)).then(()=>{
       // dispatch(getConversations());
-      // console.warn('creating message interaction');
+      // LOG('creating message interaction');
       dispatch({ type: MARK_READ, conversationId: interaction.conversationId });
     });
   };

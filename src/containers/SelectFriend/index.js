@@ -54,16 +54,16 @@ class SelectFriend extends Component {
     if (this.props.all && this.props.all.length > 0) {
       this.setState({ random: getRandom(this.props.all) });
     } else {
-      console.warn('dispatched');
+      LOG('dispatched');
       this.props.dispatch(getContacts()).then(() => {
         this.setState({ random: getRandom(this.props.all) });
-      }).catch(()=> {console.warn('caught');});
+      }).catch(()=> {LOG('caught');});
     }
   }
 
   selectContact(c) {
     if (!c) return;
-    console.warn(JSON.stringify(c));
+    LOG(JSON.stringify(c));
     let phoneNumber = c.phone ? c.phone[0] : null;
     let name = c.name ? c.name.split(' ') : null;
     let firstName = name[0] ? name[0] : 'Friend';
@@ -73,9 +73,9 @@ class SelectFriend extends Component {
     let videoId = this.props.video;
 
     if (c.isVoke) {
-      console.warn('voke contact selected', this.props.video);
+      LOG('voke contact selected', this.props.video);
     } else {
-      console.warn('normal contact selected', this.props.video);
+      LOG('normal contact selected', this.props.video);
       let data = {
         conversation: {
           messengers_attributes: [
@@ -94,12 +94,12 @@ class SelectFriend extends Component {
           title: 'Check this out',
         }).then((results1)=> {
           if (results1.action === 'sharedAction') {
-            console.warn('successfuly shared video');
+            LOG('successfuly shared video');
             this.props.dispatch(getConversation(results.id)).then((c)=> {
               this.props.navigatePush('voke.Message', {conversation: c});
             });
           } else {
-            console.warn('Did Not Share Video');
+            LOG('Did Not Share Video');
           }
         });
       });

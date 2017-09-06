@@ -29,12 +29,12 @@ class KickstartersTab extends Component {
 
   getKickstarters() {
     this.setState({ isLoading: true });
-    // console.warn('this.props.latestItem', this.props.latestItem);
+    // LOG('this.props.latestItem', this.props.latestItem);
     this.props.dispatch(getKickstarters(this.props.latestItem)).then((results)=>{
-      // console.warn('results', results);
+      // LOG('results', results);
       this.setState({ kickstarters: results.questions, isLoading: false });
     }).catch((err) => {
-      // console.warn('kickstarter err', err);
+      // LOG('kickstarter err', err);
       this.setState({ isLoading: false });
     });
   }

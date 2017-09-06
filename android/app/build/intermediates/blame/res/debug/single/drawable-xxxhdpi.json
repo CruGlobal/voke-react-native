@@ -1,11 +1,19 @@
 [
     {
+        "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi/voke_boat_read_blue.9.png",
+        "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/res/drawable-xxxhdpi/voke_boat_read_blue.9.png"
+    },
+    {
         "merged": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi/abc_btn_radio_to_on_mtrl_000.png",
         "source": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/drawable-xxxhdpi/abc_btn_radio_to_on_mtrl_000.png"
     },
     {
         "merged": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi/abc_ic_voice_search_api_mtrl_alpha.png",
         "source": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/drawable-xxxhdpi/abc_ic_voice_search_api_mtrl_alpha.png"
+    },
+    {
+        "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi/ic_launcher_notif_new.png",
+        "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/res/drawable-xxxhdpi/ic_launcher_notif_new.png"
     },
     {
         "merged": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi/abc_ic_clear_mtrl_alpha.png",
@@ -24,16 +32,28 @@
         "source": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/drawable-xxxhdpi/abc_ic_menu_paste_mtrl_am_alpha.png"
     },
     {
-        "merged": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi/abc_btn_switch_to_on_mtrl_00012.9.png",
-        "source": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/drawable-xxxhdpi/abc_btn_switch_to_on_mtrl_00012.9.png"
-    },
-    {
         "merged": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi/abc_ic_menu_share_mtrl_alpha.png",
         "source": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/drawable-xxxhdpi/abc_ic_menu_share_mtrl_alpha.png"
     },
     {
+        "merged": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi/abc_btn_switch_to_on_mtrl_00012.9.png",
+        "source": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/drawable-xxxhdpi/abc_btn_switch_to_on_mtrl_00012.9.png"
+    },
+    {
         "merged": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi/bg_voke_boat_welcome.png",
         "source": "/Users/bryan/Documents/Dev/messagingapp/android/app/src/main/res/drawable-xxxhdpi/bg_voke_boat_welcome.png"
+    },
+    {
+        "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi/bg_voke_boat_welcome.png",
+        "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/res/drawable-xxxhdpi/bg_voke_boat_welcome.png"
+    },
+    {
+        "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi/point.png",
+        "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/res/drawable-xxxhdpi/point.png"
+    },
+    {
+        "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi/ic_voke_boat_corner.png",
+        "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/res/drawable-xxxhdpi/ic_voke_boat_corner.png"
     },
     {
         "merged": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi/abc_ic_menu_moreoverflow_mtrl_alpha.png",
@@ -80,8 +100,16 @@
         "source": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/drawable-xxxhdpi/abc_tab_indicator_mtrl_alpha.9.png"
     },
     {
+        "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi/welcome_screen_01.9.png",
+        "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/res/drawable-xxxhdpi/welcome_screen_01.9.png"
+    },
+    {
         "merged": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi/abc_btn_radio_to_on_mtrl_015.png",
         "source": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/drawable-xxxhdpi/abc_btn_radio_to_on_mtrl_015.png"
+    },
+    {
+        "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi/welcome_screen_02.9.png",
+        "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/res/drawable-xxxhdpi/welcome_screen_02.9.png"
     },
     {
         "merged": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi/ic_voke_boat_corner.png",
@@ -100,6 +128,10 @@
         "source": "/Users/bryan/Documents/Dev/messagingapp/android/app/src/main/res/drawable-xxxhdpi/ic_launcher_notif_new.png"
     },
     {
+        "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi/welcome_screen_03.9.png",
+        "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/res/drawable-xxxhdpi/welcome_screen_03.9.png"
+    },
+    {
         "merged": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi/abc_ic_search_api_mtrl_alpha.png",
         "source": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/drawable-xxxhdpi/abc_ic_search_api_mtrl_alpha.png"
     },
@@ -110,5 +142,9 @@
     {
         "merged": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi/voke_boat_read_blue.9.png",
         "source": "/Users/bryan/Documents/Dev/messagingapp/android/app/src/main/res/drawable-xxxhdpi/voke_boat_read_blue.9.png"
+    },
+    {
+        "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi/vokeboat.png",
+        "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/res/drawable-xxxhdpi/vokeboat.png"
     }
 ]

@@ -14,30 +14,30 @@ export function setupSocketAction(cableId) {
   return (dispatch, getState) => {
     const token = getState().auth.token;
     if (!token) {
-      console.warn('could not start sockets because there is no access_token');
+      LOG('could not start sockets because there is no access_token');
       return;
     }
     ws = new WebSocket(`${SOCKET_URL}cable?access_token=${token}`);
 
     ws.onopen = () => {
       // connection opened
-      // console.warn('socket opened');
+      // LOG('socket opened');
 
       const obj = {
         command: 'subscribe',
         identifier: `{"channel":"DeviceChannel","id":"${cableId}"}`,
       };
       ws.send(JSON.stringify(obj));
-      // console.warn('socket message sent');
+      // LOG('socket message sent');
     };
 
     ws.onmessage = (e) => {
       const data = JSON.parse(e.data) || {};
       const type = data && data.type;
       if (type === 'ping') return;
-      // console.warn('socket message received: data', data);
+      // LOG('socket message received: data', data);
       if (type === 'welcome') {
-        // console.warn('socket welcome');
+        // LOG('socket welcome');
       } else if (data.message) {
         const message = data.message.message;
         const notification = data.message.notification;
@@ -52,12 +52,12 @@ export function setupSocketAction(cableId) {
 
     ws.onerror = (e) => {
       // an error occurred
-      console.warn('socket message error', e.message);
+      LOG('socket message error', e.message);
     };
 
     ws.onclose = (e) => {
       // connection closed
-      // console.warn('socket closed', e.code, e.reason);
+      // LOG('socket closed', e.code, e.reason);
     };
   };
 }
@@ -78,14 +78,14 @@ export function destroyDevice(cableId) {
   }
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.DESTROY_DEVICE, query)).then((results)=> {
-      console.warn('Destroyed device', results);
+      LOG('Destroyed device', results);
     });
   };
 }
 
 export function updateDevice(device) {
   return (dispatch, getState) => {
-    console.warn('UPDATING DEVICE');
+    LOG('UPDATING DEVICE');
     const cableId = getState().auth.cableId;
     let query = {
       endpoint: `${API_URL}/me/devices/${cableId}`,
@@ -104,7 +104,7 @@ export function establishDevice() {
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
       onRegister: function(token) {
-        console.warn( 'RECEIVED PUSH TOKEN:', token );
+        LOG( 'RECEIVED PUSH TOKEN:', token );
 
         if ((token && !auth.pushToken) || (token !== auth.pushToken) ) {
           dispatch(registerPushToken(token.token)).then(()=>{
@@ -121,7 +121,7 @@ export function establishDevice() {
 
       // (required) Called when a remote or local notification is opened or received
       onNotification: function(notification) {
-        console.warn( 'NOTIFICATION:', notification );
+        LOG( 'NOTIFICATION:', notification );
       },
 
       // ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)
@@ -175,7 +175,7 @@ export function establishCableDevice(token) {
       } else {
         // CREATE THE CABLE DEVICE WITH DATA
         return dispatch(callApi(REQUESTS.CREATE_DEVICE, {}, data)).then((results)=> {
-          console.warn('Creating Cable Device Results: ',JSON.stringify(results));
+          LOG('Creating Cable Device Results: ',JSON.stringify(results));
           dispatch(setupSocketAction(results.id));
         });
       }
@@ -193,7 +193,7 @@ export function establishCableDevice(token) {
       } else {
         // CREATE THE CABLE DEVICE WITH DATA
         return dispatch(callApi(REQUESTS.CREATE_DEVICE, {}, data)).then((results)=> {
-          console.warn('Creating Cable Device Results: ',JSON.stringify(results));
+          LOG('Creating Cable Device Results: ',JSON.stringify(results));
           dispatch(setupSocketAction(results.id));
         });
       }
@@ -216,7 +216,7 @@ export function establishPushDevice() {
         },
       };
       return dispatch(callApi(REQUESTS.CREATE_DEVICE, {}, data)).then((results)=> {
-        console.warn('Create Push Device Results: ',JSON.stringify(results));
+        LOG('Create Push Device Results: ',JSON.stringify(results));
       });
     }
   };

@@ -58,7 +58,7 @@ class Profile extends Component {
 
   componentWillMount() {
     this.props.navigator.setButtons(setButtons());
-    // console.warn(JSON.stringify(this.props.user));
+    // LOG(JSON.stringify(this.props.user));
   }
 
   onNavigatorEvent(event) {
@@ -70,7 +70,7 @@ class Profile extends Component {
   }
 
   handleUpdate() {
-    console.warn('updating');
+    LOG('updating');
     const { firstName, lastName, currentPassword, newEmail, confirmEmail, newPassword, confirmPassword } = this.state;
     let data = {};
 
@@ -130,7 +130,7 @@ class Profile extends Component {
     this.setState({
       imageUri: data.uri,
     });
-    console.warn('image selected');
+    LOG('image selected');
   }
 
   scrollEnd(isAnimated) {

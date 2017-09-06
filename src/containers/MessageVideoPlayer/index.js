@@ -19,7 +19,7 @@ class MessageVideoPlayer extends Component {
   }
 
   handleVideoChange(videoState) {
-    // console.warn(videoState);
+    // LOG(videoState);
     if (videoState === webviewStates.ERROR) {
       // this.props.dispatch(toastAction('There was an error playing the video.'));
     } else if (videoState === webviewStates.STARTED) {

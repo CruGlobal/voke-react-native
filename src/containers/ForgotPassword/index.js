@@ -65,7 +65,7 @@ class ForgotPassword extends Component {
   resetPassword() {
     if (this.state.emailValidation) {
       this.props.dispatch(forgotPasswordAction(this.state.email)).then(() => {
-        console.warn('resetting password');
+        LOG('resetting password');
         Alert.alert('Check your Email', 'We sent you an email with instructions for resetting your password', [
           {
             text: 'OK',

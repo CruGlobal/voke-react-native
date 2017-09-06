@@ -120,7 +120,7 @@ class LoginInput extends Component {
                 buttonTextStyle={styles.signInButtonText}
                 icon="account-box"
                 style={this.state.disabled ? [styles.facebookButton, styles.disabled] : styles.facebookButton}
-                onPress={()=>{console.warn('login with facebook');}}
+                onPress={()=>{LOG('login with facebook');}}
               />
             </Flex>
             <Flex direction="row">

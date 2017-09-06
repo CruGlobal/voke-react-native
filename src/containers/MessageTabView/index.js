@@ -46,7 +46,7 @@ class MessageTabView extends Component {
   }
 
   onNavigatorEvent(event) {
-    // console.warn('event', event);
+    // LOG('event', event);
     if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
       if (event.id == 'back') {
         this.props.navigateBack();
@@ -64,7 +64,7 @@ class MessageTabView extends Component {
         <KickstartersTab
           {...this.props}
           onSelectKickstarter={(k) => {
-            console.warn('selected kickstarter!', k);
+            LOG('selected kickstarter!', k);
             this.props.onSelectKickstarter(k);
             this.props.navigateBack();
           }}
@@ -76,7 +76,7 @@ class MessageTabView extends Component {
         <VideosTab
           {...this.props}
           onSelectVideo={(v) => {
-            console.warn('selected video!', v);
+            LOG('selected video!', v);
             this.props.onSelectVideo(v);
           }}
         />
