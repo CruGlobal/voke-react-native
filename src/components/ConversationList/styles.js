@@ -18,9 +18,11 @@ export default StyleSheet.create({
   creatorText: {
     fontSize: 14,
   },
-  messagePreviewText: {
+  messagePreviewWrapper: {
     fontSize: 14,
-    marginRight: 50,
+    marginRight: 15,
+  },
+  messagePreviewText: {
   },
   avatarWrapper: {
     padding: 2,
@@ -28,6 +30,10 @@ export default StyleSheet.create({
   conversationArrow: {
     padding: 2,
     paddingRight: 5,
+  },
+  arrowImage: {
+    width: 20,
+    height: 7,
   },
   rowBack: {
     alignItems: 'center',

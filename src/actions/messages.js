@@ -5,7 +5,7 @@ import callApi, { REQUESTS } from './api';
 export function getConversations() {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.GET_CONVERSATIONS)).then((results) => {
-      LOG('results', results.conversations[0]);
+      // LOG('results', results.conversations[0]);
       return results;
     });
   };

@@ -1,3 +1,5 @@
+// TODO: Remove this component
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { SegmentedControlIOS } from 'react-native';

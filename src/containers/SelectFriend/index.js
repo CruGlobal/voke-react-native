@@ -14,14 +14,14 @@ import { Flex, Text, Loading, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 
 const NUM_RANDOM = 3;
-function getRandom(contacts) {
+function getRandomContact(contacts) {
   const length = contacts.length;
   if (length < NUM_RANDOM) return contacts;
   let randomArray = [];
   for (let i = 0; i < NUM_RANDOM; i++) {
     let random;
     do {
-      random = Math.floor( Math.random() * length);
+      random = Math.floor(Math.random() * length);
     } while (randomArray.indexOf(random) != -1);
     randomArray.push(random);
   }
@@ -37,7 +37,9 @@ class SelectFriend extends Component {
     navBarButtonColor: theme.lightText,
     navBarTextColor: theme.headerTextColor,
     navBarBackgroundColor: theme.headerBackgroundColor,
+    tabBarHidden: true,
   };
+
   constructor(props) {
     super(props);
 
@@ -52,12 +54,14 @@ class SelectFriend extends Component {
   componentDidMount() {
     setTimeout(() => this.setState({ isLoading: false }), 500);
     if (this.props.all && this.props.all.length > 0) {
-      this.setState({ random: getRandom(this.props.all) });
+      this.setState({ random: getRandomContact(this.props.all) });
     } else {
-      LOG('dispatched');
+      // LOG('get contacts dispatched');
       this.props.dispatch(getContacts()).then(() => {
-        this.setState({ random: getRandom(this.props.all) });
-      }).catch(()=> {LOG('caught');});
+        this.setState({ random: getRandomContact(this.props.all) });
+      }).catch(()=> {
+        // LOG('contacts caught');
+      });
     }
   }
 

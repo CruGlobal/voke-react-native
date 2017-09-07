@@ -13,6 +13,9 @@ const DEFAULT_PROPS = {
     title: 'Select Friend',
     titleImage: require('../../images/nav_voke_logo.png'),
   },
+  'voke.VideoDetails': {
+    appStyle: { orientation: 'auto' },
+  },
   // 'voke.MessageTabView': {
   //   title: '',
   //   // topTabs: [

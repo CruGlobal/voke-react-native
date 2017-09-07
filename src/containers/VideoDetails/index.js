@@ -89,7 +89,7 @@ class VideoDetails extends Component {
           <View style={styles.backHeader}>
             <Touchable borderless={true} onPress={() => this.props.navigateBack()}>
               <View>
-                <Image source={BACK_ICON} style={styles.backIcon} />
+                <Image source={BACK_ICON} style={styles.backImage} />
               </View>
             </Touchable>
           </View>

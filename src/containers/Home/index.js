@@ -58,6 +58,7 @@ class Home extends Component {
     navBarBackgroundColor: theme.secondaryColor,
     screenBackgroundColor: theme.primaryColor,
   };
+
   constructor(props) {
     super(props);
 

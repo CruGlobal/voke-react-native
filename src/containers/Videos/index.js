@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { getVideos, getFeaturedVideos, getPopularVideos, getTags, getSelectedThemeVideos } from '../../actions/videos';
 import PropTypes from 'prop-types';
@@ -13,6 +13,7 @@ import theme, { COLORS } from '../../theme';
 // import HOME_ICON from '../../../images/home_icon.png';
 import MENU_ICON from '../../../images/menu_icon.png';
 import SEARCH_ICON from '../../../images/search-icon.png';
+import { navMenuOptions } from '../../utils/menu';
 
 import PillButton from '../../components/PillButton';
 import VideoList from '../../components/VideoList';
@@ -21,6 +22,22 @@ import { Flex } from '../../components/common';
 import { iconsMap } from '../../utils/iconMap';
 
 function setButtons(showBack) {
+  if (!showBack && Platform.OS === 'android') {
+    let menu = navMenuOptions().map((m) => ({
+      title: m.name,
+      id: m.id,
+      showAsAction: 'never',
+    })).reverse();
+    menu.unshift({
+      title: 'Search', // for a textual button, provide the button title (label)
+      id: 'search',
+      showAsAction: 'always',
+      icon: SEARCH_ICON, // for icon button, provide the local image asset name
+    });
+    return {
+      rightButtons: menu,
+    };
+  }
   const leftButton1 = {
     title: showBack ? 'Back' : 'Menu',
     id: showBack ? 'back' : 'menu',

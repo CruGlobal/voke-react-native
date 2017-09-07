@@ -6,14 +6,17 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.TRANSPARENT,
-    paddingBottom: 0,
+    alignItems: 'center',
+    paddingBottom: 10,
+    paddingHorizontal: 40,
   },
   list: {
     backgroundColor: COLORS.WHITE,
     width: DEFAULT.FULL_WIDTH - 50,
-    height: DEFAULT.FULL_HEIGHT/1.5,
+    height: DEFAULT.FULL_HEIGHT / 1.5,
     borderRadius: 5,
-    marginTop: DEFAULT.FULL_HEIGHT/6,
+    marginTop: DEFAULT.FULL_HEIGHT / 6,
+    marginBottom: 10,
   },
   content: {
     borderBottomColor: COLORS.LIGHT_GREY,

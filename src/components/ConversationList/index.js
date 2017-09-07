@@ -138,7 +138,13 @@ class ConversationList extends Component { // eslint-disable-line
 
 
     return (
-      <Touchable highlight={true} underlayColor={COLORS.TRANSPARENT} onShowUnderlay={()=> this.handleFocus(item.id)} onHideUnderlay={this.handleBlur} activeOpacity={1} onPress={() => this.props.onSelect(conversation)}>
+      <Touchable
+        highlight={true}
+        underlayColor={COLORS.TRANSPARENT}
+        onShowUnderlay={()=> this.handleFocus(item.id)}
+        onHideUnderlay={this.handleBlur}
+        activeOpacity={1}
+        onPress={() => this.props.onSelect(conversation)}>
         <View>
           <Flex style={[styles.container, this.state.rowFocused === item.id ? {backgroundColor: theme.accentColor} : null]} direction="row" align="center" justify="center">
             <Flex value={2} align="center" justify="start">
@@ -152,10 +158,14 @@ class ConversationList extends Component { // eslint-disable-line
               <Flex direction="column" justify="center">
                 <Text style={styles.conversationName}>{otherPerson ? otherPerson.first_name : 'Vokebot'} {otherPerson ? otherPerson.last_name : ''}</Text>
                 <Flex direction="row" align="center">
-                  <Text style={styles.messagePreviewText} numberOfLines={2}>
+                  <Text style={styles.messagePreviewWrapper} numberOfLines={2}>
                     <Text style={styles.creatorText}>{contentCreator}</Text>
-                    <Image source={ARROW} resizeMode="contain" style={{width: 20, height: 7}} />
-                    {conversation.messagePreview || '...'}
+                    {' '}
+                    <Image source={ARROW} resizeMode="contain" style={styles.arrowImage} />
+                    {' '}
+                    <Text style={styles.messagePreviewText}>
+                      {conversation.messagePreview || '...'}
+                    </Text>
                   </Text>
                 </Flex>
               </Flex>

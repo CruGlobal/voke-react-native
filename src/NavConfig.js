@@ -94,6 +94,7 @@ export function startTabApp(options = {}) {
       ...(options.tabsStyle || {}),
     },
     appStyle: {
+      orientation: 'portrait',
       tabBarButtonColor: theme.primaryColor, // optional, change the color of the tab icons and text (also unselected)
       tabBarSelectedButtonColor: theme.textColor, // optional, change the color of the selected tab icon and text (only selected)
       tabBarBackgroundColor: theme.secondaryColor, // optional, change the background color of the tab bar

@@ -87,15 +87,6 @@ class Message extends Component {
         // }
         this.props.navigateBack();
       }
-      // } else if (event.id == 'add') {
-      //   this.props.navigatePush('voke.MessageTabView', {
-      //     onSelectKickstarter: () => {
-      //       LOG('selected kickstarter in message!');
-      //     },
-      //     onSelectVideo: () => {
-      //       LOG('selected video in message!');
-      //     },
-      // });
     }
   }
 
@@ -159,20 +150,6 @@ class Message extends Component {
       },
       latestItem: this.state.latestItem,
     });
-    // this.props.navigatePush('voke.MessageTabView', {
-    //   onSelectKickstarter: (item) => {
-    //     LOG('selected kickstarter in message!');
-    //     this.setState({text: item});
-    //     LOG(this.state.text);
-    //   },
-    //   onSelectVideo: (video) => {
-    //     LOG('selected video in message!');
-    //     this.createMessage(video);
-    //     this.props.navigateBack({ animated: false });
-    //   },
-    //   latestItem: this.state.latestItem,
-    //   type: 'kickstarter',
-    // });
   }
 
   handleAddVideo() {
@@ -183,20 +160,6 @@ class Message extends Component {
         this.props.navigateBack({ animated: false });
       },
     });
-    // this.props.navigatePush('voke.MessageTabView', {
-    //   onSelectKickstarter: (item) => {
-    //     LOG('selected kickstarter in message!');
-    //     this.setState({text: item});
-    //     LOG(this.state.text);
-    //   },
-    //   onSelectVideo: (video) => {
-    //     LOG('selected video in message!');
-    //     this.createMessage(video);
-    //     this.props.navigateBack({ animated: false });
-    //   },
-    //   latestItem: this.state.latestItem,
-    //   type: 'video',
-    // });
   }
 
   createMessage(video) {
@@ -256,8 +219,7 @@ class Message extends Component {
   }
 
   handleButtonExpand() {
-    this.setState({ shouldShowButtons: true });
-    this.setState({ createTransparentFocus: true });
+    this.setState({ shouldShowButtons: true, createTransparentFocus: true });
     // LOG('state',this.state.shouldShowButtons);
   }
 

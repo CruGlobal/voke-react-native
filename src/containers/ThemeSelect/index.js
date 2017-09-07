@@ -34,18 +34,21 @@ class ThemeSelect extends Component {
 
   handleDismiss() {
     this.props.onDismissLightBox();
+    // TODO: Android - Fix dismiss (https://github.com/wix/react-native-navigation/issues/1502)
     Navigation.dismissLightBox();
   }
-
+  
   handleSelect(tag) {
     LOG('selected', tag);
     this.props.onSelect(tag);
+    // TODO: Android - Fix dismiss (https://github.com/wix/react-native-navigation/issues/1502)
     Navigation.dismissLightBox();
   }
-
+  
   onNavigatorEvent(event) {
     if (event.type == 'NavBarButtonPress') {
       if (event.id == 'home') {
+        // TODO: Android - Fix dismiss (https://github.com/wix/react-native-navigation/issues/1502)
         Navigation.dismissLightBox({
           animationType: 'slide-down',
         });
