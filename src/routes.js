@@ -36,6 +36,7 @@ import CountrySelect from './containers/CountrySelect';
 import ThemeSelect from './containers/ThemeSelect';
 import Help from './containers/Help';
 import ForgotPassword from './containers/ForgotPassword';
+import SignUpFBAccount from './containers/SignUpFBAccount';
 
 
 // TODO: Wrap each of these in a HoC where we inject the navigation actions
@@ -65,6 +66,7 @@ export default function(store, Provider) {
   Navigation.registerComponent('voke.CountrySelect', () => CountrySelect, store, Provider);
   Navigation.registerComponent('voke.ThemeSelect', () => ThemeSelect, store, Provider);
   Navigation.registerComponent('voke.ForgotPassword', () => ForgotPassword, store, Provider);
+  Navigation.registerComponent('voke.SignUpFBAccount', () => SignUpFBAccount, store, Provider);
 }
 
 

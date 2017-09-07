@@ -39,6 +39,17 @@ export default {
     },
     mapResults: mapAuth,
   },
+  'FACEBOOK_LOGIN': {
+    endpoint: AUTH_URL + 'oauth/token',
+    anonymous: true,
+    method: 'post',
+    data: {
+      client: CLIENT,
+      grant_type: 'assertion',
+      scope: 'messenger',
+    },
+    mapResults: mapAuth,
+  },
   'ME': {
     endpoint: API_URL + 'me',
     anonymous: true,

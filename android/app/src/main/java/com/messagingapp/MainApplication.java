@@ -3,6 +3,7 @@ package com.messagingapp;
 import android.app.Application;
 
 // import com.facebook.react.ReactApplication;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
@@ -29,6 +30,7 @@ public class MainApplication extends NavigationApplication {
   protected List<ReactPackage> getPackages() {
     return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
+            new FBSDKPackage(),
             new RNDeviceInfo(),
             new ReactNativePushNotificationPackage(),
             new RNSpinkitPackage(),

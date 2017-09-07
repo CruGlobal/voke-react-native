@@ -128,6 +128,22 @@ export function anonLogin(username, password) {
   };
 }
 
+export function facebookLoginAction(accessToken) {
+  return (dispatch) => {
+    return dispatch(callApi(REQUESTS.FACEBOOK_LOGIN, {}, accessToken)).then((results) => {
+      LOG('auth success', results);
+      dispatch(loginAction(results.access_token)).then(()=>{
+        dispatch(getMe());
+      });
+      // dispatch(messagesAction());
+      // Do something with the results
+      return results;
+    }).catch((error) => {
+      LOG('error logging in', error);
+    });
+  };
+}
+
 export function getMe() {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.GET_ME, {}, {})).then((results) => {
