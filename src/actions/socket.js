@@ -99,13 +99,15 @@ export function updateDevice(device) {
 export function establishDevice() {
   return (dispatch, getState) => {
     const auth = getState().auth;
-    // 
+    //
     // return dispatch(callApi(REQUESTS.GET_DEVICES, {}, {})).then((results)=> {
     //   LOG('GOT DEVICES: ',JSON.stringify(results));
     //   results.devices.forEach((m)=>{
     //     dispatch(destroyDevice(m.id));
     //   })
     // });
+    dispatch(establishCableDevice(null));
+
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
       onRegister: function(token) {

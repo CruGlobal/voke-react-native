@@ -90,7 +90,7 @@ class SignUpNumberVerify extends Component {
       Alert.alert('Please enter the code that was sent','');
     } else {
       this.props.dispatch(verifyMobile(data)).then(()=> {
-        this.props.navigatePush('voke.SignUpWelcome');
+        this.props.navigateResetHome();
       });
     }
   }

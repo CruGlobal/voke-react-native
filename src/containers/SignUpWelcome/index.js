@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { View, Image } from 'react-native';
 import { connect } from 'react-redux';
-import {PagerTabIndicator, IndicatorViewPager, PagerTitleIndicator, PagerDotIndicator} from 'rn-viewpager';
+import { IndicatorViewPager, PagerDotIndicator} from 'rn-viewpager';
 
 import ONBOARD_1 from '../../../images/intro_tutorial_videos.png';
 import ONBOARD_2 from '../../../images/intro_tutorial_home.png';
 import ONBOARD_3 from '../../../images/intro_tutorial_chat.png';
 import VOKE_BOT from '../../../images/voke_bot_welcome.png';
+import ONBOARD_BACKGROUND from '../../../images/onboardBackground.png';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
@@ -22,8 +23,11 @@ class SignUpWelcome extends Component {
     // navBarTextColor: theme.headerTextColor,
     // navBarBackgroundColor: theme.primaryColor,
     // navBarNoBorder: true,
-    navBarHidden: true,
+    // navBarHidden: true,
     disabledBackGesture: true,
+    drawUnderNavBar: true,
+    navBarTranslucent: true,
+    navBarTransparent: true,
   };
 
 
@@ -32,13 +36,8 @@ class SignUpWelcome extends Component {
 
     this.state = { selectedPage: 0 };
 
-    this.handleNext = this.handleNext.bind(this);
     this.renderDotIndicator = this.renderDotIndicator.bind(this);
     this.onPageSelected = this.onPageSelected.bind(this);
-  }
-
-  handleNext() {
-    this.props.navigateResetHome();
   }
 
   onPageSelected(params) {
@@ -48,7 +47,7 @@ class SignUpWelcome extends Component {
   renderDotIndicator() {
     return (
       <PagerDotIndicator
-        style={{paddingBottom: 50}}
+        style={{paddingBottom: 55}}
         dotStyle={{backgroundColor: COLORS.WHITE_FADE, marginHorizontal: 5}}
         selectedDotStyle={{backgroundColor: theme.textColor, marginHorizontal: 5}}
         pageCount={4}
@@ -58,34 +57,41 @@ class SignUpWelcome extends Component {
 
   render() {
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, backgroundColor: theme.transparent}}>
+        <View style={styles.backgroundWrap}>
+          <Image source={ONBOARD_BACKGROUND} style={{backgroundColor: theme.transparent}} />
+        </View>
         <StatusBar />
         <View style={{flex: 1}}>
           <IndicatorViewPager
-            style={{height: DEFAULT.FULL_HEIGHT, paddingVertical: 50}}
+            style={{flex: 1, flexDirection: 'column-reverse'}}
             indicator={this.renderDotIndicator()}
             onPageSelected={this.onPageSelected}
           >
             <View style={styles.onboardingPage}>
-              <Text style={styles.headerText}>Discover, watch, and share compelling videos</Text>
+              <Text style={styles.headerTitle}>Watch</Text>
+              <Text style={styles.headerText}>Discover, watch, and share compelling videos.</Text>
               <Flex align="center" justify="center">
                 <Image resizeMode="contain" source={ONBOARD_1} style={styles.onboardImage} />
               </Flex>
             </View>
             <View style={styles.onboardingPage}>
-              <Text style={styles.headerText}>Chat with your friens when they start watching.</Text>
-              <Flex align="center" justify="center">
-                <Image resizeMode="contain" source={ONBOARD_2} style={styles.onboardImage} />
-              </Flex>
-            </View>
-            <View style={styles.onboardingPage}>
+              <Text style={styles.headerTitle}>Share</Text>
               <Text style={styles.headerText}>Your friends don't need Voke to watch or chat.</Text>
               <Flex value={1} style={styles.imageWrapper} align="center" justify="start">
                 <Image resizeMode="contain" source={ONBOARD_3} style={styles.onboardImage} />
               </Flex>
             </View>
             <View style={styles.onboardingPage}>
+              <Text style={styles.headerTitle}>Chat</Text>
+              <Text style={styles.headerText}>Chat with your friends when they start watching.</Text>
+              <Flex align="center" justify="center">
+                <Image resizeMode="contain" source={ONBOARD_2} style={styles.onboardImage} />
+              </Flex>
+            </View>
+            <View style={styles.onboardingPage}>
               <Flex value={1} align="center" justify="start">
+                <Text style={styles.headerTitle}> </Text>
                 <Flex value={.4}>
                   <Text style={styles.headerText}>Meet Vokebot! He will help you along the way.</Text>
                 </Flex>
@@ -93,27 +99,26 @@ class SignUpWelcome extends Component {
                   <Image source={VOKE_BOT} style={styles.vokeBot} />
                 </Flex>
               </Flex>
-              <Flex value={.3} align="center" justify="end">
-                <Button
-                  text="Okay, Got it"
-                  buttonTextStyle={styles.skipButtonText}
-                  style={styles.endButton}
-                  onPress={this.handleNext}
-                />
-              </Flex>
             </View>
           </IndicatorViewPager>
-          {
-            this.state.selectedPage === 3 ? null : (
+          <Flex direction="row" align="center" justify="center" style={{position: 'absolute', bottom: 0}}>
+            <Flex value={1} style={styles.actionButton}>
               <Button
-                text="Skip"
-                type="transparent"
-                buttonTextStyle={styles.skipButtonText}
-                style={styles.skipButton}
-                onPress={this.handleNext}
+                text="Create Account"
+                buttonTextStyle={styles.loginButtonText}
+                style={styles.loginButton}
+                onPress={()=> this.props.navigatePush('voke.Login')}
               />
-            )
-          }
+            </Flex>
+            <Flex value={1} style={styles.actionButton}>
+              <Button
+                text="Sign In"
+                buttonTextStyle={styles.loginButtonText}
+                style={styles.loginButton2}
+                onPress={()=> this.props.navigatePush('voke.LoginInput')}
+              />
+            </Flex>
+          </Flex>
         </View>
       </View>
     );

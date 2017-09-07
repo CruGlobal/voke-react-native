@@ -37,7 +37,7 @@ const homeScreen = {
   // },
 };
 const loginScreen = {
-  screen: 'voke.Login',
+  screen: 'voke.SignUpWelcome',
   // navigatorStyle: {
   //   screenBackgroundColor: theme.primaryColor,
   //   navBarButtonColor: theme.lightText,
