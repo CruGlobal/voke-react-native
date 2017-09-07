@@ -23,39 +23,22 @@ class SignUpFBAccount extends Component {
     navBarNoBorder: true,
     topBarElevationShadowEnabled: false,
   };
-  
+
   constructor(props) {
     super(props);
+    const { me } = this.props;
     this.state = {
-      email: '',
-      firstName: '',
-      lastName: '',
+      email: me ? me.email : '',
+      firstName: me ? me.first_name : '',
+      lastName: me ? me.last_name : '',
       emailValidation: false,
-      imageUri: '',
+      imageUri: me ? me.picture.data.url : '',
     };
-    this.createAccount = this.createAccount.bind(this);
     this.checkEmail = this.checkEmail.bind(this);
     this.handleLink = this.handleLink.bind(this);
     this.renderImagePicker = this.renderImagePicker.bind(this);
     this.handleImageChange = this.handleImageChange.bind(this);
     this.addProfile = this.addProfile.bind(this);
-  }
-
-  createAccount() {
-    // PUT THIS BACK IN, JUST FOR TESTING
-    // if (this.state.emailValidation && this.state.password) {
-    if (this.state.password) {
-      this.props.dispatch(createAccountAction(this.state.email, this.state.password)).then((results) => {
-        if (results.errors) {
-          Alert.alert('Error', `${results.errors}`);
-        }
-        else {
-          this.props.navigatePush('voke.SignUpProfile');
-        }
-      });
-    } else {
-      Alert.alert('Please enter a valid email and password','');
-    }
   }
 
   checkEmail(text) {
@@ -168,7 +151,7 @@ class SignUpFBAccount extends Component {
                 text="Create Account"
                 buttonTextStyle={styles.signInButton}
                 style={styles.actionButton}
-                onPress={this.createAccount}
+                onPress={this.addProfile}
               />
             </Flex>
           </Flex>

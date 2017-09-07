@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { LoginManager, GraphRequestManager, GraphRequest, AccessToken } from 'react-native-fbsdk';
 
 import styles from './styles';
-import { loginAction, facebookLoginAction } from '../../actions/auth';
+import { getMe, facebookLoginAction } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 
 import { Flex, Text, Button } from '../../components/common';
@@ -53,10 +53,17 @@ class Login extends Component {
               return;
             }
             LOG('me', meResult);
-            this.props.dispatch(facebookLoginAction(accessToken));
-            // this.props.navigatePush('voke.SignUpFBAccount', {
-            //   me: meResult,
-            // });
+            this.props.dispatch(facebookLoginAction(accessToken)).then(()=> {
+              this.props.dispatch(getMe()).then((results)=>{
+                if (results.state === 'configured') {
+                  this.props.navigateResetHome();
+                } else {
+                  this.props.navigatePush('voke.SignUpFBAccount', {
+                    me: meResult,
+                  });
+                }
+              });
+            });
           });
           // Start the graph request.
           new GraphRequestManager().addRequest(infoRequest).start();
@@ -114,4 +121,8 @@ Login.propTypes = {
   ...NavPropTypes,
 };
 
-export default connect(null, nav)(Login);
+const mapStateToProps = ({ auth }) => ({
+  user: auth.user,
+});
+
+export default connect(mapStateToProps, nav)(Login);

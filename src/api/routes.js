@@ -8,6 +8,11 @@ const CLIENT = {
   secret: CONSTANTS.CLIENT_SECRET,
 };
 
+const FB_CLIENT = {
+  id: '443564615845137',
+  secret: '45f7ffa5523369986711194976f206d0',
+};
+
 export default {
   // Example
   // 'PLANETS': {

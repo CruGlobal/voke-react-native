@@ -110,8 +110,6 @@ export function forgotPasswordAction(email) {
 export function anonLogin(username, password) {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.OAUTH, {}, {
-      // Some data can be set in the REQUESTS object,
-      // so we don't need it in here
       username: username,
       password: password,
     })).then((results) => {
@@ -129,12 +127,13 @@ export function anonLogin(username, password) {
 }
 
 export function facebookLoginAction(accessToken) {
+  LOG('access token for fb', accessToken);
   return (dispatch) => {
-    return dispatch(callApi(REQUESTS.FACEBOOK_LOGIN, {}, accessToken)).then((results) => {
+    return dispatch(callApi(REQUESTS.FACEBOOK_LOGIN, {}, {
+      assertion: accessToken,
+    })).then((results) => {
       LOG('auth success', results);
-      dispatch(loginAction(results.access_token)).then(()=>{
-        dispatch(getMe());
-      });
+      dispatch(loginAction(results.access_token));
       // dispatch(messagesAction());
       // Do something with the results
       return results;
