@@ -2,9 +2,10 @@
 import PropTypes from 'prop-types';
 import { startLoginApp, startTabApp } from '../NavConfig';
 
-import theme from '../theme';
-
 const DEFAULT_PROPS = {
+  'voke.Home': {
+    title: 'Chats',
+  },
   'voke.Videos': {
     title: 'Videos',
     titleImage: require('../../images/nav_voke_logo.png'),
@@ -29,7 +30,6 @@ const DEFAULT_PROPS = {
   //   //   },
   //   // ],
   // },
-  // 'voke.Message': {},
   'voke.Contacts': { title: 'Contacts' },
   'voke.Profile': { title: 'Profile' },
   'voke.Acknowledgements': { title: 'Acknowledgements' },
@@ -50,12 +50,6 @@ function defaultProps(screen, props, passProps) {
   if (screen === 'voke.Message' && passProps.name) {
     newProps.title = passProps.name;
   }
-  // if (screen === 'voke.MessageTabView' && passProps.onSelectKickstarter) {
-  //   newProps.topTabs[0].passProps = { ...passProps, onSelect: passProps.onSelectKickstarter };
-  // }
-  // if (screen === 'voke.MessageTabView' && passProps.onSelectVideo) {
-  //   newProps.topTabs[1].passProps = { ...passProps, onVideoShare: passProps.onSelectVideo };
-  // }
   return newProps;
 }
 // Wix navigation actions

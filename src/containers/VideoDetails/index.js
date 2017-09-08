@@ -7,6 +7,7 @@ import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { toastAction } from '../../actions/auth';
 
 import styles from './styles';
+import ApiLoading from '../ApiLoading';
 import WebviewVideo from '../../components/WebviewVideo';
 import webviewStates from '../../components/WebviewVideo/common';
 import FloatingButtonSingle from '../../components/FloatingButtonSingle';
@@ -36,7 +37,6 @@ class VideoDetails extends Component {
       this.props.dispatch(toastAction('There was an error playing the video.'));
     }
   }
-
 
   renderContent() {
     const video = this.props.video;
@@ -117,6 +117,7 @@ class VideoDetails extends Component {
             }
           }}
         />
+        <ApiLoading showMS={2000} />
       </View>
     );
   }

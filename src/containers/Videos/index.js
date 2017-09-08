@@ -12,6 +12,7 @@ import theme from '../../theme';
 import { navMenuOptions } from '../../utils/menu';
 import { iconsMap, vokeIcons } from '../../utils/iconMap';
 
+import ApiLoading from '../ApiLoading';
 import PillButton from '../../components/PillButton';
 import VideoList from '../../components/VideoList';
 import StatusBar from '../../components/StatusBar';
@@ -237,6 +238,7 @@ class Videos extends Component {
             </Flex>
           ) : null
         }
+        <ApiLoading />
       </View>
     );
   }

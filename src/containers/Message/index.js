@@ -10,6 +10,7 @@ import { vokeIcons } from '../../utils/iconMap';
 
 import styles from './styles';
 import MessageVideoPlayer from '../MessageVideoPlayer';
+import ApiLoading from '../ApiLoading';
 
 import { Flex, Text, VokeIcon, Button, Touchable } from '../../components/common';
 import MessagesList from '../../components/MessagesList';
@@ -334,6 +335,7 @@ class Message extends Component {
             }
           </Flex>
         </Flex>
+        <ApiLoading />
       </KeyboardAvoidingView>
     );
   }

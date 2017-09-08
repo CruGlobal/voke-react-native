@@ -1,6 +1,6 @@
 import { REHYDRATE } from 'redux-persist/constants';
 import { REQUESTS } from '../actions/api';
-import { NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ } from '../constants';
+import { LOGOUT, NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ } from '../constants';
 
 
 const initialState = {
@@ -99,6 +99,8 @@ export default function messages(state = initialState, action) {
         conversations: readConversations,
         unReadBadgeCount: currentBadgeCount2,
       };
+    case LOGOUT:
+      return initialState;
     default:
       return state;
   }

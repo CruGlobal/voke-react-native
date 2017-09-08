@@ -27,7 +27,7 @@ export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin } = 
     {
       id: 'review',
       name: 'Write a Review',
-      onPress: () => navigatePush && navigatePush('voke.Home'),
+      onPress: () => navigatePush && navigatePush('voke.About'),
     },
     {
       id: 'acknowledgements',

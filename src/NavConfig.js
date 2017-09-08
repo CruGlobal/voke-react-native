@@ -10,42 +10,8 @@ import getStore from './store';
 import theme, { COLORS } from './theme';
 import { iconsLoaded } from './utils/iconMap';
 
-// const tabs = [{
-//   label: 'Navigation',
-//   screen: 'voke.Home',
-//   title: 'Navigation Types',
-// }, {
-//   label: 'Actions',
-//   screen: 'voke.Videos',
-//   title: 'Navigation Actions',
-// }];
-//
-// if (Platform.OS === 'android') {
-//   tabs.push({
-//     label: 'Transitions',
-//     screen: 'voke.Home',
-//     title: 'Navigation Transitions',
-//   });
-// }
-
-const homeScreen = {
-  screen: 'voke.Home',
-  title: 'Home',
-  titleImage: require('../images/nav_voke_logo.png'),
-  // navigatorStyle: {
-  //   screenBackgroundColor: theme.primaryColor,
-  // },
-};
 const loginScreen = {
   screen: 'voke.SignUpWelcome',
-  // navigatorStyle: {
-  //   screenBackgroundColor: theme.primaryColor,
-  //   navBarButtonColor: theme.lightText,
-  //   navBarTextColor: theme.headerTextColor,
-  //   navBarBackgroundColor: theme.primaryColor,
-  //   navBarNoBorder: true,
-  //   topBarElevationShadowEnabled: false,
-  // },
 };
 
 export function startTabApp(options = {}) {
@@ -79,7 +45,6 @@ export function startTabApp(options = {}) {
         screen: 'voke.Videos',
         icon: require('../images/video_icon.png'),
         // selectedIcon: require('../img/two_selected.png'),
-        // title: 'Screen Two'
       },
     ],
     tabsStyle: { // optional, add this if you want to style the tab bar beyond the defaults
@@ -94,6 +59,7 @@ export function startTabApp(options = {}) {
       ...(options.tabsStyle || {}),
     },
     appStyle: {
+      // Apply to whole app, can't do single pages https://github.com/wix/react-native-navigation/issues/846
       orientation: 'portrait',
       tabBarButtonColor: theme.primaryColor, // optional, change the color of the tab icons and text (also unselected)
       tabBarSelectedButtonColor: theme.textColor, // optional, change the color of the selected tab icon and text (only selected)
@@ -104,26 +70,6 @@ export function startTabApp(options = {}) {
       forceTitlesDisplay: true, // Android, only show title
       ...(options.appStyle || {}),
     },
-    // screen: homeScreen,
-    // passProps: {},
-    // animationType: Platform.OS === 'ios' ? 'slide-down' : 'fade',
-    // animationType: 'fade',
-    // tabsStyle: {
-    //   tabBarBackgroundColor: '#003a66',
-    //   navBarButtonColor: '#ffffff',
-    //   tabBarButtonColor: '#ffffff',
-    //   navBarTextColor: '#ffffff',
-    //   tabBarSelectedButtonColor: '#ff505c',
-    //   navigationBarColor: '#003a66',
-    //   navBarBackgroundColor: '#003a66',
-    //   statusBarColor: '#002b4c',
-    //   tabFontFamily: 'BioRhyme-Bold',
-    // },
-    // drawer: {
-    //   left: {
-    //     screen: 'voke.Menu',
-    //   },
-    // },
   });
 }
 
@@ -132,6 +78,11 @@ export function startLoginApp(options = {}) {
     // animationType: Platform.OS === 'ios' ? 'slide-down' : 'fade',
     animationType: 'fade',
     ...options,
+    appStyle: {
+      // Apply to whole app, can't do single pages https://github.com/wix/react-native-navigation/issues/846
+      orientation: 'portrait',
+      ...(options.appStyle || {}),
+    },
     screen: loginScreen,
   });
 }

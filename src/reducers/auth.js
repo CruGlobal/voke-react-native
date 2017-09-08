@@ -2,7 +2,7 @@ import { REHYDRATE } from 'redux-persist/constants';
 import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN } from '../constants';
 import { REQUESTS } from '../actions/api';
 
-const initialAuthState = {
+const initialState = {
   token: '',
   user: {},
   isLoggedIn: false,
@@ -17,9 +17,21 @@ const initialAuthState = {
   cableId: '',
   pushToken: '',
   pushId: '',
+  apiActive: 0,
 };
 
-export default function auth(state = initialAuthState, action) {
+export default function auth(state = initialState, action) {
+
+  // Keep track of API loading requests
+  if (action.type && action.showApiLoading) {
+    if (action.type.endsWith('_SUCCESS') || action.type.endsWith('_FAIL')) {
+      const apiReqs = state.apiActive - 1;
+      return { ...state, apiActive: apiReqs < 0 ? 0 : apiReqs };
+    } else if (action.type.endsWith('_FETCH')) {
+      return { ...state, apiActive: state.apiActive + 1 };
+    }
+  }
+
   switch (action.type) {
     case REHYDRATE:
       const incoming = action.payload.auth;
@@ -27,6 +39,7 @@ export default function auth(state = initialAuthState, action) {
       return {
         ...state,
         ...incoming,
+        apiActive: 0,
       };
 
     case LOGIN:
@@ -92,7 +105,7 @@ export default function auth(state = initialAuthState, action) {
         cableId: '',
       };
     case LOGOUT:
-      return initialAuthState;
+      return initialState;
     default:
       return state;
   }

@@ -27,6 +27,8 @@ export default {
   //   mapResults: (results, query, data, getState) => results,
   //   (some default data that will merge with the data passed in)
   //   data: {}
+  //   (mark the api as a call that will show the loading state)
+  //   showApiLoading: true
   // },
   'OAUTH': {
     endpoint: AUTH_URL + 'oauth/token',
@@ -53,6 +55,7 @@ export default {
     data: {
       client: CLIENT,
     },
+    showApiLoading: true,
   },
   'UPDATE_ME': {
     endpoint: API_URL + 'me',
@@ -60,6 +63,7 @@ export default {
     data: {
       client: CLIENT,
     },
+    showApiLoading: true,
   },
   'CREATE_MOBILE_VERIFICATION': {
     endpoint: API_URL + 'me/mobile',
@@ -95,6 +99,7 @@ export default {
     data: {
       client: CLIENT,
     },
+    showApiLoading: true,
   },
   'GET_FEATURED_VIDEOS': {
     endpoint: API_URL + 'items',
@@ -102,6 +107,7 @@ export default {
     data: {
       client: CLIENT,
     },
+    showApiLoading: true,
   },
   'GET_TAGS': {
     endpoint: API_URL + 'tags',
@@ -109,6 +115,7 @@ export default {
     data: {
       client: CLIENT,
     },
+    showApiLoading: true,
   },
   'GET_VIDEOS_BY_TAG': {
     endpoint: API_URL + 'items',
@@ -116,6 +123,7 @@ export default {
     data: {
       client: CLIENT,
     },
+    showApiLoading: true,
   },
   'GET_KICKSTARTERS': {
     endpoint: API_URL + 'items',
@@ -123,6 +131,7 @@ export default {
     data: {
       client: CLIENT,
     },
+    showApiLoading: true,
   },
   'GET_CONVERSATIONS': {
     endpoint: API_URL + 'me/conversations',
@@ -131,6 +140,7 @@ export default {
       client: CLIENT,
     },
     mapResults: mapConversations,
+    showApiLoading: true,
   },
   'GET_CONVERSATION': {
     endpoint: API_URL + 'me/conversations',
@@ -154,6 +164,7 @@ export default {
       client: CLIENT,
     },
     mapResults: mapMessages,
+    showApiLoading: true,
   },
   'CREATE_MESSAGE': {
     endpoint: API_URL + 'me/conversations/conversation_id/messages',

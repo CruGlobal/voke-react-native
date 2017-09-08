@@ -158,5 +158,7 @@ function formatConversation(c, getState) {
     c.hasUnread = false;
   }
 
+  // c.timeReceived = Date.now();
+
   return c;
 }

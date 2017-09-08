@@ -111,7 +111,7 @@ export function establishDevice() {
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
       onRegister: function(token) {
-        LOG( 'RECEIVED PUSH TOKEN:', token );
+        LOG('RECEIVED PUSH TOKEN:', token);
 
         if ((token.token && !auth.pushToken) || (token.token !== auth.pushToken) ) {
           dispatch(registerPushToken(token.token)).then(()=>{
@@ -132,7 +132,7 @@ export function establishDevice() {
 
       // (required) Called when a remote or local notification is opened or received
       onNotification: function(notification) {
-        LOG( 'NOTIFICATION:', notification );
+        LOG('NOTIFICATION:', notification);
       },
 
       // ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)
@@ -188,7 +188,7 @@ export function establishCableDevice(token) {
         LOG('cableID does not exists in establishCableDevice');
         // CREATE THE CABLE DEVICE WITH DATA
         return dispatch(callApi(REQUESTS.CREATE_DEVICE, {}, data)).then((results)=> {
-          LOG('Creating Cable Device Results: ',JSON.stringify(results));
+          LOG('Creating Cable Device Results: ', JSON.stringify(results));
           dispatch(setupSocketAction(results.id));
         });
       }
@@ -206,7 +206,7 @@ export function establishCableDevice(token) {
       } else {
         // CREATE THE CABLE DEVICE WITH DATA
         return dispatch(callApi(REQUESTS.CREATE_DEVICE, {}, data)).then((results)=> {
-          LOG('Creating Cable Device Results: ',JSON.stringify(results));
+          LOG('Creating Cable Device Results: ', JSON.stringify(results));
           dispatch(setupSocketAction(results.id));
         });
       }
@@ -238,7 +238,7 @@ export function establishPushDevice() {
         },
       };
       return dispatch(callApi(REQUESTS.CREATE_PUSH_DEVICE, {}, data)).then((results)=> {
-        LOG('Create Push Device Results: ',JSON.stringify(results));
+        LOG('Create Push Device Results: ', JSON.stringify(results));
       });
     }
   };

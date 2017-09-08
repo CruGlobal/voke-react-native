@@ -1,6 +1,6 @@
 import { REHYDRATE } from 'redux-persist/constants';
 import { REQUESTS } from '../actions/api';
-
+import { LOGOUT } from '../constants';
 
 const initialState = {
   all: [],
@@ -49,6 +49,8 @@ export default function videos(state = initialState, action) {
         ...state,
         selectedThemeVideos: action.items || [],
       };
+    case LOGOUT:
+      return initialState;
     default:
       return state;
   }

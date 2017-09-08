@@ -10,9 +10,8 @@ import { getConversations } from '../../actions/messages';
 import { navMenuOptions } from '../../utils/menu';
 import { vokeIcons } from '../../utils/iconMap';
 
+import ApiLoading from '../ApiLoading';
 import theme from '../../theme';
-// import FloatingButton from '../../components/FloatingButton';
-// import { iconsMap } from '../../utils/iconMap';
 import ConversationList from '../../components/ConversationList';
 import { Flex, Text } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
@@ -28,11 +27,6 @@ function setButtons() {
     })).reverse();
     return {
       rightButtons: menu,
-      // leftButtons: [{
-      //   title: 'Voke',
-      //   id: 'logo',
-      //   icon: require('../../../images/nav_voke_logo.png'),
-      // }],
     };
   }
 
@@ -42,11 +36,6 @@ function setButtons() {
       id: 'menu', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
       icon: vokeIcons['menu'], // for icon button, provide the local image asset name
     }],
-    // rightButtons: [{
-    //   title: 'Videos', // for a textual button, provide the button title (label)
-    //   id: 'video',
-    //   icon: vokeIcons['film'], // for icon button, provide the local image asset name
-    // }],
   };
 }
 
@@ -67,10 +56,6 @@ class Home extends Component {
 
   componentWillMount() {
     this.props.navigator.setButtons(setButtons());
-    this.props.navigator.setTitle({
-      title: 'Chats',
-      // titleImage: require('../../../images/nav_voke_logo.png'),
-    });
     this.props.navigator.setTabBadge({
       tabIndex: 0, // (optional) if missing, the badge will be added to this screen's tab
       badge: this.props.unReadBadgeCount > 0 ? this.props.unReadBadgeCount : null, // badge value, null to remove badge
@@ -125,14 +110,14 @@ class Home extends Component {
   }
 
   render() {
-    const hasItems = this.props.conversations.length;
-    // const hasItems = false;
+    const cLength = this.props.conversations.length;
+    // const cLength = false;
 
     return (
       <View style={styles.container}>
         <StatusBar />
         {
-          hasItems ? (
+          cLength ? (
             <ConversationList
               items={this.props.conversations}
               me={this.props.me}
@@ -150,7 +135,7 @@ class Home extends Component {
           )
         }
         {
-          (hasItems <= 3 && hasItems > 0) ?  (
+          (cLength <= 3 && cLength > 0) ?  (
             <Image style={styles.vokeBot} source={VOKE} />
           ) : null
         }
@@ -158,6 +143,9 @@ class Home extends Component {
           <Flex value={1} style={styles.selectedTab}></Flex>
           <Flex value={1} style={styles.unSelectedTab}></Flex>
         </Flex>
+        {
+          cLength === 0 ? <ApiLoading /> : null
+        }
       </View>
     );
     // <FloatingButton onSelect={(to) => this.props.navigatePush(to)} />
