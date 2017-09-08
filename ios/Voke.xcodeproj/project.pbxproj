@@ -565,8 +565,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				AE5BE0C31F631E2F0091810F /* Fabric.framework */,
-				AE5BE0C41F631E2F0091810F /* Crashlytics.framework */,
 				13B07FAE1A68108700A75B9A /* Voke */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
@@ -621,6 +619,8 @@
 		AE7B6DC71F59EA49008BC5B1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AE5BE0C41F631E2F0091810F /* Crashlytics.framework */,
+				AE5BE0C31F631E2F0091810F /* Fabric.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1164,7 +1164,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Fabric.framework/run 4c6c9eb55214633c5eca4176c06b20bb8fd07a72 c71d676836deedca0040ec813caa99d5e9330f440319d855e82c69e75779518d";
+			shellScript = "${SRCROOT}/Fabric.framework/run 4c6c9eb55214633c5eca4176c06b20bb8fd07a72 c71d676836deedca0040ec813caa99d5e9330f440319d855e82c69e75779518d";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1230,7 +1230,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Voke/Voke.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Cru Global, Inc (DQ48D9BF2V)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = DQ48D9BF2V;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1260,8 +1260,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.cru.voke;
 				PRODUCT_NAME = Voke;
-				PROVISIONING_PROFILE = "2bff54cf-1172-42cd-a28e-d22c407508e2";
-				PROVISIONING_PROFILE_SPECIFIER = Voke;
+				PROVISIONING_PROFILE = "f8126998-95b2-4d69-a6a5-2ad31f1c1419";
+				PROVISIONING_PROFILE_SPECIFIER = "Voke Development";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
