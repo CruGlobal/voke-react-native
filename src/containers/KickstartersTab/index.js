@@ -7,9 +7,8 @@ import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { getKickstarters } from '../../actions/videos';
 import theme from '../../theme';
 
-import KICKSTARTERS from '../../../images/kickstarters.png';
 import styles from './styles';
-import { Flex, Text, Touchable, Loading } from '../../components/common';
+import { Flex, Text, Touchable, Loading, VokeIcon } from '../../components/common';
 
 class KickstartersTab extends Component {
   static navigatorStyle = {
@@ -80,7 +79,7 @@ class KickstartersTab extends Component {
 
     return (
       <Flex align="center" value={1} style={styles.chatImageWrap}>
-        <Image source={KICKSTARTERS} style={styles.chatImage} />
+        <VokeIcon name="kickstarter" style={styles.chatImage} />
         <Text style={styles.description}>Add one of these kickstarters to your chat.</Text>
       </Flex>
     );

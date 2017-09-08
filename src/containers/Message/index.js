@@ -6,16 +6,12 @@ import { getMessages, createMessage, createTypeStateAction, destroyTypeStateActi
 
 import theme, { COLORS } from '../../theme';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import { iconsMap } from '../../utils/iconMap';
+import { vokeIcons } from '../../utils/iconMap';
 
 import styles from './styles';
 import MessageVideoPlayer from '../MessageVideoPlayer';
-import HOME_ICON from '../../../images/home_icon.png';
-import ADD_VIDEOS_ICON from '../../../images/add_video_icon.png';
-import ADD_KICKSTARTERS_ICON from '../../../images/lightning_icon.png';
-import ADD_CONTENT_ICON from '../../../images/plus.png';
 
-import { Flex, Text, Button, Touchable } from '../../components/common';
+import { Flex, Text, VokeIcon, Button, Touchable } from '../../components/common';
 import MessagesList from '../../components/MessagesList';
 import LoadMore from '../../components/LoadMore';
 
@@ -23,7 +19,7 @@ function setButtons() {
   return {
     leftButtons: [{
       id: 'back', // Android handles back already
-      icon: HOME_ICON, // For iOS only
+      icon: vokeIcons['home'], // For iOS only
     }],
     // rightButtons: [{
     //   id: 'add',
@@ -268,24 +264,27 @@ class Message extends Component {
                 <Button
                   type="transparent"
                   style={styles.moreContentButton}
-                  image={ADD_VIDEOS_ICON}
                   onPress={this.handleAddVideo}
-                />
+                >
+                  <VokeIcon name="add-video" />
+                </Button>
                 <Button
                   type="transparent"
                   style={styles.moreContentButton}
-                  image={ADD_KICKSTARTERS_ICON}
                   onPress={this.handleAddKickstarter}
-                />
+                >
+                  <VokeIcon name="add-kickstarter" />
+                </Button>
               </Flex>
             ) : (
               <Flex animation="slideInRight" duration={150} direction="row" style={{padding: 0, margin: 0, alignItems: 'center'}}>
                 <Button
                   type="transparent"
                   style={styles.moreContentButton}
-                  image={ADD_CONTENT_ICON}
                   onPress={this.handleButtonExpand}
-                />
+                >
+                  <VokeIcon name="plus" />
+                </Button>
               </Flex>
             )
           }

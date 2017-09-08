@@ -6,9 +6,8 @@ import { TextInput, ScrollView, KeyboardAvoidingView, Alert, Linking } from 'rea
 import styles from './styles';
 import { createAccountAction } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import { iconsMap } from '../../utils/iconMap';
+import { vokeIcons } from '../../utils/iconMap';
 import theme, { COLORS } from '../../theme';
-import BACK_ICON from '../../../images/back-arrow.png';
 
 import { Flex, Text, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
@@ -18,7 +17,7 @@ function setButtons() {
   return {
     leftButtons: [{
       id: 'back', // Android implements this already
-      icon: BACK_ICON, // For iOS only
+      icon: vokeIcons['back'], // For iOS only
     }],
   };
 }

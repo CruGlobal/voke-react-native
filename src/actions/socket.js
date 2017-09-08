@@ -75,7 +75,7 @@ export function closeSocketAction() {
 export function destroyDevice(cableId) {
   let query = {
     endpoint: `${API_URL}/me/devices/${cableId}`,
-  }
+  };
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.DESTROY_DEVICE, query)).then((results)=> {
       LOG('Destroyed device', results);

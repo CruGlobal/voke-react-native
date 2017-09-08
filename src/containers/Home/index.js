@@ -8,8 +8,7 @@ import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { startupAction } from '../../actions/auth';
 import { getConversations } from '../../actions/messages';
 import { navMenuOptions } from '../../utils/menu';
-import FILM_ICON from '../../../images/video_icon.png';
-import MENU_ICON from '../../../images/menu_icon.png';
+import { vokeIcons } from '../../utils/iconMap';
 
 import theme from '../../theme';
 // import FloatingButton from '../../components/FloatingButton';
@@ -41,12 +40,12 @@ function setButtons() {
     leftButtons: [{
       title: 'Menu', // for a textual button, provide the button title (label)
       id: 'menu', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-      icon: MENU_ICON, // for icon button, provide the local image asset name
+      icon: vokeIcons['menu'], // for icon button, provide the local image asset name
     }],
     // rightButtons: [{
     //   title: 'Videos', // for a textual button, provide the button title (label)
     //   id: 'video',
-    //   icon: FILM_ICON, // for icon button, provide the local image asset name
+    //   icon: vokeIcons['film'], // for icon button, provide the local image asset name
     // }],
   };
 }

@@ -8,18 +8,14 @@ import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { Navigation } from 'react-native-navigation';
 
 import styles from './styles';
-// import { iconsMap } from '../../utils/iconMap';
-import theme, { COLORS } from '../../theme';
-// import HOME_ICON from '../../../images/home_icon.png';
-import MENU_ICON from '../../../images/menu_icon.png';
-import SEARCH_ICON from '../../../images/search-icon.png';
+import theme from '../../theme';
 import { navMenuOptions } from '../../utils/menu';
+import { iconsMap, vokeIcons } from '../../utils/iconMap';
 
 import PillButton from '../../components/PillButton';
 import VideoList from '../../components/VideoList';
 import StatusBar from '../../components/StatusBar';
 import { Flex } from '../../components/common';
-import { iconsMap } from '../../utils/iconMap';
 
 function setButtons(showBack) {
   if (!showBack && Platform.OS === 'android') {
@@ -32,7 +28,7 @@ function setButtons(showBack) {
       title: 'Search', // for a textual button, provide the button title (label)
       id: 'search',
       showAsAction: 'always',
-      icon: SEARCH_ICON, // for icon button, provide the local image asset name
+      icon: vokeIcons['search'], // for icon button, provide the local image asset name
     });
     return {
       rightButtons: menu,
@@ -41,14 +37,14 @@ function setButtons(showBack) {
   const leftButton1 = {
     title: showBack ? 'Back' : 'Menu',
     id: showBack ? 'back' : 'menu',
-    icon: showBack ? iconsMap['ios-arrow-back'] : MENU_ICON,
+    icon: showBack ? iconsMap['ios-arrow-back'] : vokeIcons['menu'],
   };
   return {
     leftButtons: [leftButton1],
     rightButtons: [{
       title: 'Search', // for a textual button, provide the button title (label)
       id: 'search',
-      icon: SEARCH_ICON, // for icon button, provide the local image asset name
+      icon: vokeIcons['search'], // for icon button, provide the local image asset name
     }],
   };
 }

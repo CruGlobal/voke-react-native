@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Image, TextInput, TouchableOpacity, Keyboard, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import BACK_ICON from '../../../images/back-arrow.png';
 
 import styles from './styles';
 import { forgotPasswordAction } from '../../actions/auth';
@@ -10,6 +9,8 @@ import theme from '../../theme.js';
 import { Flex, Text, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import LOGO from '../../../images/initial_voke.png';
+import { vokeIcons } from '../../utils/iconMap';
+
 
 const EMAIL_REGEX = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
 
@@ -17,7 +18,7 @@ function setButtons() {
   return {
     leftButtons: [{
       id: 'back', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-      icon: BACK_ICON, // for icon button, provide the local image asset name
+      icon: vokeIcons['back'], // for icon button, provide the local image asset name
     }],
   };
 }

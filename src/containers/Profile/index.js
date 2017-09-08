@@ -4,19 +4,18 @@ import { connect } from 'react-redux';
 import styles from './styles';
 import { Flex, Icon, Button, Text, Separator } from '../../components/common';
 import ImagePicker from '../../components/ImagePicker';
-// import { iconsMap } from '../../utils/iconMap';
-import BACK_ICON from '../../../images/back-arrow.png';
 import { updateMe } from '../../actions/auth';
+import { vokeIcons } from '../../utils/iconMap';
 
 import VOKE_LOGO from '../../../images/nav_voke_logo.png';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import theme, { COLORS } from '../../theme'
+import theme, { COLORS } from '../../theme';
 
 function setButtons() {
   return {
     leftButtons: [{
       id: 'back', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-      icon: BACK_ICON, // for icon button, provide the local image asset name
+      icon: vokeIcons['back'], // for icon button, provide the local image asset name
     }],
   };
 }

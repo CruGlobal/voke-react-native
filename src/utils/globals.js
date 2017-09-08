@@ -1,4 +1,4 @@
-const ENABLE_LOGS = false;
+const ENABLE_LOGS = true;
 
 global.LOG = function() {
   // const args = Array.prototype.slice.call(arguments); // ES5

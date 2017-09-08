@@ -5,11 +5,9 @@ import { connect } from 'react-redux';
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { updateMe } from '../../actions/auth';
-// import { iconsMap } from '../../utils/iconMap';
+import { vokeIcons } from '../../utils/iconMap';
 import ImagePicker from '../../components/ImagePicker';
 import theme from '../../theme';
-import VOKE_LOGO from '../../../images/nav_voke_logo.png';
-import BACK_ICON from '../../../images/back-arrow.png';
 
 import { Flex, Icon, Text, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
@@ -19,7 +17,7 @@ function setButtons() {
   return {
     leftButtons: [{
       id: 'back', // Android implements this already
-      icon: BACK_ICON, // For iOS only
+      icon: vokeIcons['back'], // For iOS only
     }],
   };
 }

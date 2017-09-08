@@ -58,8 +58,7 @@ export function newMessageAction(message) {
 export function typeStateChangeAction(message) {
   return (dispatch, getState) => {
     let me = getState().auth.user.id;
-    // LOG('asdfadf',me);
-    // LOG('you',message.message.messenger_id);
+    // LOG('me', me, 'you', message.message.messenger_id);
     if (me === message.message.messenger_id) {
       return;
     } else {

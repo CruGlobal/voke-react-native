@@ -1,12 +1,10 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, FlatList, Image } from 'react-native';
-import SELECTED from '../../../images/circle-filled.png';
-import NOT_SELECTED from '../../../images/circle-empty.png';
+import { View, FlatList } from 'react-native';
 
 import styles from './styles';
-import { Flex, Touchable, Text, Separator, Button } from '../common';
+import { Flex, Touchable, Text, VokeIcon, Separator, Button } from '../common';
 
 class ThemeList extends Component {
   constructor(props) {
@@ -28,12 +26,7 @@ class ThemeList extends Component {
   }
 
   renderRow({ item }) {
-    let image = NOT_SELECTED;
-    if (this.state.selectedTheme === item.id) {
-      image = SELECTED;
-    } else {
-      image = NOT_SELECTED;
-    }
+    const { selectedTheme } = this.state;
 
     return (
       <Touchable highlight={false} activeOpacity={1} onPress={()=> this.handleSelectTheme(item)}>
@@ -42,7 +35,7 @@ class ThemeList extends Component {
             <Text style={styles.link}>{item.name}</Text>
           </Flex>
           <Flex value={.5} >
-            <Image source={image} />
+            <VokeIcon name={selectedTheme === item.id ? 'selected' : 'not-selected'} />
           </Flex>
         </Flex>
       </Touchable>

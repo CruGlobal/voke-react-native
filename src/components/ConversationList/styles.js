@@ -37,7 +37,7 @@ export default StyleSheet.create({
   },
   rowBack: {
     alignItems: 'center',
-    backgroundColor: theme.primaryColor,
+    backgroundColor: theme.secondaryColor,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',

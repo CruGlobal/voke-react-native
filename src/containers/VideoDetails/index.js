@@ -10,8 +10,7 @@ import styles from './styles';
 import WebviewVideo from '../../components/WebviewVideo';
 import webviewStates from '../../components/WebviewVideo/common';
 import FloatingButtonSingle from '../../components/FloatingButtonSingle';
-import { Icon, Flex, Touchable, Text } from '../../components/common';
-import BACK_ICON from '../../../images/back_button_transparent.png';
+import { VokeIcon, Flex, Touchable, Text } from '../../components/common';
 
 class VideoDetails extends Component {
   static navigatorStyle = {
@@ -89,7 +88,7 @@ class VideoDetails extends Component {
           <View style={styles.backHeader}>
             <Touchable borderless={true} onPress={() => this.props.navigateBack()}>
               <View>
-                <Image source={BACK_ICON} style={styles.backImage} />
+                <VokeIcon name="back" style={styles.backImage} />
               </View>
             </Touchable>
           </View>
