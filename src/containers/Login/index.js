@@ -26,7 +26,9 @@ class Login extends Component {
   }
 
   facebookLogin() {
+    LOG('Making FB Call');
     LoginManager.logInWithReadPermissions(SCOPE).then((result)=>{
+      LOG('RESULT', result);
       if (result.isCancelled) {
         LOG('facebook login was canceled', result);
       } else {
@@ -69,6 +71,11 @@ class Login extends Component {
           new GraphRequestManager().addRequest(infoRequest).start();
         });
       }
+    }, (err) => {
+      LOG('err', err);
+      LoginManager.logOut();
+    }).catch(() => {
+      LOG('catch');
     });
   }
 

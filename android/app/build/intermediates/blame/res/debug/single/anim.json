@@ -37,7 +37,7 @@
     },
     {
         "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/anim/slide_up.xml",
-        "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-navigation/unspecified/res/anim/slide_up.xml"
+        "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-navigation/unspecified/res/anim/slide_up.xml"
     },
     {
         "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/anim/design_snackbar_in.xml",
@@ -137,7 +137,7 @@
     },
     {
         "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/anim/lightbox_enter.xml",
-        "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-navigation/unspecified/res/anim/lightbox_enter.xml"
+        "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-navigation/unspecified/res/anim/lightbox_enter.xml"
     },
     {
         "merged": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/res/merged/debug/anim/abc_popup_enter.xml",
@@ -217,7 +217,7 @@
     },
     {
         "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/anim/slide_down.xml",
-        "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-navigation/unspecified/res/anim/slide_down.xml"
+        "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-navigation/unspecified/res/anim/slide_down.xml"
     },
     {
         "merged": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/res/merged/debug/anim/design_fab_in.xml",

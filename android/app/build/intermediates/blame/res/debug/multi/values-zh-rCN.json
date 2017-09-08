@@ -1095,8 +1095,445 @@
                     "startLine": 21,
                     "startColumn": 4,
                     "startOffset": 1924,
+                    "endColumn": 127,
+                    "endOffset": 2047
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rCN/values-zh-rCN.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 127,
+                        "endOffset": 178
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 22,
+                    "startColumn": 4,
+                    "startOffset": 2052,
+                    "endColumn": 99,
+                    "endOffset": 2147
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rCN/values-zh-rCN.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 183,
+                        "endColumn": 99,
+                        "endOffset": 278
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 23,
+                    "startColumn": 4,
+                    "startOffset": 2152,
+                    "endColumn": 108,
+                    "endOffset": 2256
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rCN/values-zh-rCN.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 283,
+                        "endColumn": 108,
+                        "endOffset": 387
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 24,
+                    "startColumn": 4,
+                    "startOffset": 2261,
+                    "endColumn": 108,
+                    "endOffset": 2365
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rCN/values-zh-rCN.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 392,
+                        "endColumn": 108,
+                        "endOffset": 496
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 25,
+                    "startColumn": 4,
+                    "startOffset": 2370,
+                    "endColumn": 78,
+                    "endOffset": 2444
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rCN/values-zh-rCN.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 501,
+                        "endColumn": 78,
+                        "endOffset": 575
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 26,
+                    "startColumn": 4,
+                    "startOffset": 2449,
+                    "endColumn": 81,
+                    "endOffset": 2526
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rCN/values-zh-rCN.xml",
+                    "position": {
+                        "startLine": 7,
+                        "startColumn": 4,
+                        "startOffset": 580,
+                        "endColumn": 81,
+                        "endOffset": 657
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 27,
+                    "startColumn": 4,
+                    "startOffset": 2531,
+                    "endColumn": 73,
+                    "endOffset": 2600
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rCN/values-zh-rCN.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 662,
+                        "endColumn": 73,
+                        "endOffset": 731
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 28,
+                    "startColumn": 4,
+                    "startOffset": 2605,
+                    "endColumn": 84,
+                    "endOffset": 2685
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rCN/values-zh-rCN.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 736,
+                        "endColumn": 84,
+                        "endOffset": 816
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 29,
+                    "startColumn": 4,
+                    "startOffset": 2690,
+                    "endColumn": 84,
+                    "endOffset": 2770
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rCN/values-zh-rCN.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 821,
+                        "endColumn": 84,
+                        "endOffset": 901
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 30,
+                    "startColumn": 4,
+                    "startOffset": 2775,
                     "endColumn": 102,
-                    "endOffset": 2022
+                    "endOffset": 2873
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rCN/values-zh-rCN.xml",
+                    "position": {
+                        "startLine": 11,
+                        "startColumn": 4,
+                        "startOffset": 906,
+                        "endColumn": 102,
+                        "endOffset": 1004
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 31,
+                    "startColumn": 4,
+                    "startOffset": 2878,
+                    "endColumn": 101,
+                    "endOffset": 2975
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rCN/values-zh-rCN.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 1009,
+                        "endColumn": 101,
+                        "endOffset": 1106
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 32,
+                    "startColumn": 4,
+                    "startOffset": 2980,
+                    "endColumn": 85,
+                    "endOffset": 3061
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rCN/values-zh-rCN.xml",
+                    "position": {
+                        "startLine": 13,
+                        "startColumn": 4,
+                        "startOffset": 1111,
+                        "endColumn": 85,
+                        "endOffset": 1192
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 33,
+                    "startColumn": 4,
+                    "startOffset": 3066,
+                    "endColumn": 85,
+                    "endOffset": 3147
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rCN/values-zh-rCN.xml",
+                    "position": {
+                        "startLine": 14,
+                        "startColumn": 4,
+                        "startOffset": 1197,
+                        "endColumn": 85,
+                        "endOffset": 1278
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 34,
+                    "startColumn": 4,
+                    "startOffset": 3152,
+                    "endColumn": 90,
+                    "endOffset": 3238
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rCN/values-zh-rCN.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 1283,
+                        "endColumn": 90,
+                        "endOffset": 1369
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 35,
+                    "startColumn": 4,
+                    "startOffset": 3243,
+                    "endColumn": 108,
+                    "endOffset": 3347
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rCN/values-zh-rCN.xml",
+                    "position": {
+                        "startLine": 16,
+                        "startColumn": 4,
+                        "startOffset": 1374,
+                        "endColumn": 108,
+                        "endOffset": 1478
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 36,
+                    "startColumn": 4,
+                    "startOffset": 3352,
+                    "endColumn": 77,
+                    "endOffset": 3425
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rCN/values-zh-rCN.xml",
+                    "position": {
+                        "startLine": 17,
+                        "startColumn": 4,
+                        "startOffset": 1483,
+                        "endColumn": 77,
+                        "endOffset": 1556
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 37,
+                    "startColumn": 4,
+                    "startOffset": 3430,
+                    "endColumn": 78,
+                    "endOffset": 3504
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rCN/values-zh-rCN.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 1561,
+                        "endColumn": 78,
+                        "endOffset": 1635
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 38,
+                    "startColumn": 4,
+                    "startOffset": 3509,
+                    "endColumn": 117,
+                    "endOffset": 3622
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rCN/values-zh-rCN.xml",
+                    "position": {
+                        "startLine": 19,
+                        "startColumn": 4,
+                        "startOffset": 1640,
+                        "endColumn": 117,
+                        "endOffset": 1753
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 39,
+                    "startColumn": 4,
+                    "startOffset": 3627,
+                    "endColumn": 92,
+                    "endOffset": 3715
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rCN/values-zh-rCN.xml",
+                    "position": {
+                        "startLine": 20,
+                        "startColumn": 4,
+                        "startOffset": 1758,
+                        "endColumn": 92,
+                        "endOffset": 1846
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 40,
+                    "startColumn": 4,
+                    "startOffset": 3720,
+                    "endColumn": 94,
+                    "endOffset": 3810
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rCN/values-zh-rCN.xml",
+                    "position": {
+                        "startLine": 21,
+                        "startColumn": 4,
+                        "startOffset": 1851,
+                        "endColumn": 94,
+                        "endOffset": 1941
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 41,
+                    "startColumn": 4,
+                    "startOffset": 3815,
+                    "endColumn": 105,
+                    "endOffset": 3916
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rCN/values-zh-rCN.xml",
+                    "position": {
+                        "startLine": 22,
+                        "startColumn": 4,
+                        "startOffset": 1946,
+                        "endColumn": 105,
+                        "endOffset": 2047
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 42,
+                    "startColumn": 4,
+                    "startOffset": 3921,
+                    "endColumn": 93,
+                    "endOffset": 4010
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rCN/values-zh-rCN.xml",
+                    "position": {
+                        "startLine": 23,
+                        "startColumn": 4,
+                        "startOffset": 2052,
+                        "endColumn": 93,
+                        "endOffset": 2141
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 43,
+                    "startColumn": 4,
+                    "startOffset": 4015,
+                    "endColumn": 85,
+                    "endOffset": 4096
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rCN/values-zh-rCN.xml",
+                    "position": {
+                        "startLine": 24,
+                        "startColumn": 4,
+                        "startOffset": 2146,
+                        "endColumn": 85,
+                        "endOffset": 2227
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 44,
+                    "startColumn": 4,
+                    "startOffset": 4101,
+                    "endColumn": 102,
+                    "endOffset": 4199
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rCN/values.xml",
@@ -1111,11 +1548,11 @@
             },
             {
                 "to": {
-                    "startLine": 22,
+                    "startLine": 45,
                     "startColumn": 4,
-                    "startOffset": 2027,
+                    "startOffset": 4204,
                     "endColumn": 160,
-                    "endOffset": 2183
+                    "endOffset": 4360
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rCN/values.xml",
@@ -1130,11 +1567,11 @@
             },
             {
                 "to": {
-                    "startLine": 23,
+                    "startLine": 46,
                     "startColumn": 4,
-                    "startOffset": 2188,
+                    "startOffset": 4365,
                     "endColumn": 116,
-                    "endOffset": 2300
+                    "endOffset": 4477
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rCN/values.xml",
@@ -1149,11 +1586,11 @@
             },
             {
                 "to": {
-                    "startLine": 24,
+                    "startLine": 47,
                     "startColumn": 4,
-                    "startOffset": 2305,
+                    "startOffset": 4482,
                     "endColumn": 103,
-                    "endOffset": 2404
+                    "endOffset": 4581
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rCN/values.xml",
@@ -1168,11 +1605,11 @@
             },
             {
                 "to": {
-                    "startLine": 25,
+                    "startLine": 48,
                     "startColumn": 4,
-                    "startOffset": 2409,
+                    "startOffset": 4586,
                     "endColumn": 163,
-                    "endOffset": 2568
+                    "endOffset": 4745
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rCN/values.xml",
@@ -1187,11 +1624,11 @@
             },
             {
                 "to": {
-                    "startLine": 26,
+                    "startLine": 49,
                     "startColumn": 4,
-                    "startOffset": 2573,
+                    "startOffset": 4750,
                     "endColumn": 117,
-                    "endOffset": 2686
+                    "endOffset": 4863
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rCN/values.xml",
@@ -1206,11 +1643,11 @@
             },
             {
                 "to": {
-                    "startLine": 27,
+                    "startLine": 50,
                     "startColumn": 4,
-                    "startOffset": 2691,
+                    "startOffset": 4868,
                     "endColumn": 120,
-                    "endOffset": 2807
+                    "endOffset": 4984
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rCN/values.xml",
@@ -1225,11 +1662,11 @@
             },
             {
                 "to": {
-                    "startLine": 28,
+                    "startLine": 51,
                     "startColumn": 4,
-                    "startOffset": 2812,
+                    "startOffset": 4989,
                     "endColumn": 157,
-                    "endOffset": 2965
+                    "endOffset": 5142
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/11.0.4/res/values-zh-rCN/values.xml",
@@ -1244,11 +1681,11 @@
             },
             {
                 "to": {
-                    "startLine": 29,
+                    "startLine": 52,
                     "startColumn": 4,
-                    "startOffset": 2970,
+                    "startOffset": 5147,
                     "endColumn": 166,
-                    "endOffset": 3132
+                    "endOffset": 5309
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rCN/values.xml",
@@ -1263,11 +1700,11 @@
             },
             {
                 "to": {
-                    "startLine": 30,
+                    "startLine": 53,
                     "startColumn": 4,
-                    "startOffset": 3137,
+                    "startOffset": 5314,
                     "endColumn": 102,
-                    "endOffset": 3235
+                    "endOffset": 5412
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rCN/values.xml",
@@ -1282,11 +1719,11 @@
             },
             {
                 "to": {
-                    "startLine": 31,
+                    "startLine": 54,
                     "startColumn": 4,
-                    "startOffset": 3240,
+                    "startOffset": 5417,
                     "endColumn": 160,
-                    "endOffset": 3396
+                    "endOffset": 5573
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rCN/values.xml",
@@ -1301,11 +1738,11 @@
             },
             {
                 "to": {
-                    "startLine": 32,
+                    "startLine": 55,
                     "startColumn": 4,
-                    "startOffset": 3401,
+                    "startOffset": 5578,
                     "endColumn": 116,
-                    "endOffset": 3513
+                    "endOffset": 5690
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rCN/values.xml",
@@ -1320,11 +1757,11 @@
             },
             {
                 "to": {
-                    "startLine": 33,
+                    "startLine": 56,
                     "startColumn": 4,
-                    "startOffset": 3518,
+                    "startOffset": 5695,
                     "endColumn": 162,
-                    "endOffset": 3676
+                    "endOffset": 5853
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rCN/values.xml",
@@ -1339,11 +1776,11 @@
             },
             {
                 "to": {
-                    "startLine": 34,
+                    "startLine": 57,
                     "startColumn": 4,
-                    "startOffset": 3681,
+                    "startOffset": 5858,
                     "endColumn": 137,
-                    "endOffset": 3814
+                    "endOffset": 5991
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rCN/values.xml",
@@ -1358,11 +1795,11 @@
             },
             {
                 "to": {
-                    "startLine": 35,
+                    "startLine": 58,
                     "startColumn": 4,
-                    "startOffset": 3819,
+                    "startOffset": 5996,
                     "endColumn": 85,
-                    "endOffset": 3900
+                    "endOffset": 6077
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rCN/values.xml",
@@ -1377,11 +1814,11 @@
             },
             {
                 "to": {
-                    "startLine": 36,
+                    "startLine": 59,
                     "startColumn": 4,
-                    "startOffset": 3905,
+                    "startOffset": 6082,
                     "endColumn": 86,
-                    "endOffset": 3987
+                    "endOffset": 6164
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rCN/values.xml",
@@ -1396,11 +1833,11 @@
             },
             {
                 "to": {
-                    "startLine": 37,
+                    "startLine": 60,
                     "startColumn": 4,
-                    "startOffset": 3992,
+                    "startOffset": 6169,
                     "endColumn": 102,
-                    "endOffset": 4090
+                    "endOffset": 6267
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rCN/values.xml",
@@ -1415,11 +1852,30 @@
             },
             {
                 "to": {
-                    "startLine": 38,
+                    "startLine": 61,
                     "startColumn": 4,
-                    "startOffset": 4095,
+                    "startOffset": 6272,
+                    "endColumn": 57,
+                    "endOffset": 6325
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rCN/values-zh-rCN.xml",
+                    "position": {
+                        "startLine": 25,
+                        "startColumn": 4,
+                        "startOffset": 2232,
+                        "endColumn": 57,
+                        "endOffset": 2285
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 62,
+                    "startColumn": 4,
+                    "startOffset": 6330,
                     "endColumn": 77,
-                    "endOffset": 4168
+                    "endOffset": 6403
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-zh-rCN/values-zh-rCN.xml",
@@ -1434,11 +1890,11 @@
             },
             {
                 "to": {
-                    "startLine": 39,
+                    "startLine": 63,
                     "startColumn": 4,
-                    "startOffset": 4173,
+                    "startOffset": 6408,
                     "endColumn": 100,
-                    "endOffset": 4269
+                    "endOffset": 6504
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-zh-rCN/values-zh-rCN.xml",

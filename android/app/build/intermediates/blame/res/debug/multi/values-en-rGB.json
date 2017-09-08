@@ -1442,8 +1442,84 @@
                     "startLine": 21,
                     "startColumn": 4,
                     "startOffset": 2019,
+                    "endColumn": 134,
+                    "endOffset": 2149
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-en-rGB/values-en-rGB.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 134,
+                        "endOffset": 185
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 22,
+                    "startColumn": 4,
+                    "startOffset": 2154,
+                    "endColumn": 111,
+                    "endOffset": 2261
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-en-rGB/values-en-rGB.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 190,
+                        "endColumn": 111,
+                        "endOffset": 297
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 23,
+                    "startColumn": 4,
+                    "startOffset": 2266,
+                    "endColumn": 74,
+                    "endOffset": 2336
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-en-rGB/values-en-rGB.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 302,
+                        "endColumn": 74,
+                        "endOffset": 372
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 24,
+                    "startColumn": 4,
+                    "startOffset": 2341,
+                    "endColumn": 147,
+                    "endOffset": 2484
+                },
+                "from": {
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-en-rGB/values-en-rGB.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 377,
+                        "endColumn": 147,
+                        "endOffset": 520
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 25,
+                    "startColumn": 4,
+                    "startOffset": 2489,
                     "endColumn": 106,
-                    "endOffset": 2121
+                    "endOffset": 2591
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-en-rGB/values.xml",
@@ -1458,11 +1534,11 @@
             },
             {
                 "to": {
-                    "startLine": 22,
+                    "startLine": 26,
                     "startColumn": 4,
-                    "startOffset": 2126,
+                    "startOffset": 2596,
                     "endColumn": 183,
-                    "endOffset": 2305
+                    "endOffset": 2775
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-en-rGB/values.xml",
@@ -1477,11 +1553,11 @@
             },
             {
                 "to": {
-                    "startLine": 23,
+                    "startLine": 27,
                     "startColumn": 4,
-                    "startOffset": 2310,
+                    "startOffset": 2780,
                     "endColumn": 126,
-                    "endOffset": 2432
+                    "endOffset": 2902
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-en-rGB/values.xml",
@@ -1496,11 +1572,11 @@
             },
             {
                 "to": {
-                    "startLine": 24,
+                    "startLine": 28,
                     "startColumn": 4,
-                    "startOffset": 2437,
+                    "startOffset": 2907,
                     "endColumn": 108,
-                    "endOffset": 2541
+                    "endOffset": 3011
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-en-rGB/values.xml",
@@ -1515,11 +1591,11 @@
             },
             {
                 "to": {
-                    "startLine": 25,
+                    "startLine": 29,
                     "startColumn": 4,
-                    "startOffset": 2546,
+                    "startOffset": 3016,
                     "endColumn": 209,
-                    "endOffset": 2751
+                    "endOffset": 3221
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-en-rGB/values.xml",
@@ -1534,11 +1610,11 @@
             },
             {
                 "to": {
-                    "startLine": 26,
+                    "startLine": 30,
                     "startColumn": 4,
-                    "startOffset": 2756,
+                    "startOffset": 3226,
                     "endColumn": 124,
-                    "endOffset": 2876
+                    "endOffset": 3346
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-en-rGB/values.xml",
@@ -1553,11 +1629,11 @@
             },
             {
                 "to": {
-                    "startLine": 27,
+                    "startLine": 31,
                     "startColumn": 4,
-                    "startOffset": 2881,
+                    "startOffset": 3351,
                     "endColumn": 131,
-                    "endOffset": 3008
+                    "endOffset": 3478
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-en-rGB/values.xml",
@@ -1572,11 +1648,11 @@
             },
             {
                 "to": {
-                    "startLine": 28,
+                    "startLine": 32,
                     "startColumn": 4,
-                    "startOffset": 3013,
+                    "startOffset": 3483,
                     "endColumn": 196,
-                    "endOffset": 3205
+                    "endOffset": 3675
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/11.0.4/res/values-en-rGB/values.xml",
@@ -1591,11 +1667,11 @@
             },
             {
                 "to": {
-                    "startLine": 29,
+                    "startLine": 33,
                     "startColumn": 4,
-                    "startOffset": 3210,
+                    "startOffset": 3680,
                     "endColumn": 217,
-                    "endOffset": 3423
+                    "endOffset": 3893
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-en-rGB/values.xml",
@@ -1610,11 +1686,11 @@
             },
             {
                 "to": {
-                    "startLine": 30,
+                    "startLine": 34,
                     "startColumn": 4,
-                    "startOffset": 3428,
+                    "startOffset": 3898,
                     "endColumn": 106,
-                    "endOffset": 3530
+                    "endOffset": 4000
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-en-rGB/values.xml",
@@ -1629,11 +1705,11 @@
             },
             {
                 "to": {
-                    "startLine": 31,
+                    "startLine": 35,
                     "startColumn": 4,
-                    "startOffset": 3535,
+                    "startOffset": 4005,
                     "endColumn": 182,
-                    "endOffset": 3713
+                    "endOffset": 4183
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-en-rGB/values.xml",
@@ -1648,11 +1724,11 @@
             },
             {
                 "to": {
-                    "startLine": 32,
+                    "startLine": 36,
                     "startColumn": 4,
-                    "startOffset": 3718,
+                    "startOffset": 4188,
                     "endColumn": 126,
-                    "endOffset": 3840
+                    "endOffset": 4310
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-en-rGB/values.xml",
@@ -1667,11 +1743,11 @@
             },
             {
                 "to": {
-                    "startLine": 33,
+                    "startLine": 37,
                     "startColumn": 4,
-                    "startOffset": 3845,
+                    "startOffset": 4315,
                     "endColumn": 204,
-                    "endOffset": 4045
+                    "endOffset": 4515
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-en-rGB/values.xml",
@@ -1686,11 +1762,11 @@
             },
             {
                 "to": {
-                    "startLine": 34,
+                    "startLine": 38,
                     "startColumn": 4,
-                    "startOffset": 4050,
+                    "startOffset": 4520,
                     "endColumn": 177,
-                    "endOffset": 4223
+                    "endOffset": 4693
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-en-rGB/values.xml",
@@ -1705,11 +1781,11 @@
             },
             {
                 "to": {
-                    "startLine": 35,
+                    "startLine": 39,
                     "startColumn": 4,
-                    "startOffset": 4228,
+                    "startOffset": 4698,
                     "endColumn": 92,
-                    "endOffset": 4316
+                    "endOffset": 4786
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-en-rGB/values.xml",
@@ -1724,11 +1800,11 @@
             },
             {
                 "to": {
-                    "startLine": 36,
+                    "startLine": 40,
                     "startColumn": 4,
-                    "startOffset": 4321,
+                    "startOffset": 4791,
                     "endColumn": 91,
-                    "endOffset": 4408
+                    "endOffset": 4878
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-en-rGB/values.xml",
@@ -1743,11 +1819,11 @@
             },
             {
                 "to": {
-                    "startLine": 37,
+                    "startLine": 41,
                     "startColumn": 4,
-                    "startOffset": 4413,
+                    "startOffset": 4883,
                     "endColumn": 107,
-                    "endOffset": 4516
+                    "endOffset": 4986
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-en-rGB/values.xml",
@@ -1762,11 +1838,11 @@
             },
             {
                 "to": {
-                    "startLine": 38,
+                    "startLine": 42,
                     "startColumn": 4,
-                    "startOffset": 4521,
+                    "startOffset": 4991,
                     "endColumn": 81,
-                    "endOffset": 4598
+                    "endOffset": 5068
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-en-rGB/values-en-rGB.xml",
@@ -1781,11 +1857,11 @@
             },
             {
                 "to": {
-                    "startLine": 39,
+                    "startLine": 43,
                     "startColumn": 4,
-                    "startOffset": 4603,
+                    "startOffset": 5073,
                     "endColumn": 100,
-                    "endOffset": 4699
+                    "endOffset": 5169
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-en-rGB/values-en-rGB.xml",
