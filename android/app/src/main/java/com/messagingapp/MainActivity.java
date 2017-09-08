@@ -1,6 +1,7 @@
 package com.messagingapp;
 
 // import com.facebook.react.ReactActivity;
+import com.smixx.fabric.FabricPackage;
 import com.reactnativenavigation.controllers.SplashActivity;
 
 public class MainActivity extends SplashActivity {

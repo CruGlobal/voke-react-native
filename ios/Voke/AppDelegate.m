@@ -2,6 +2,8 @@
 #import "AppDelegate.h"
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTPushNotificationManager.h>
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 
 // **********************************************
@@ -50,6 +52,8 @@
   {
     [UITabBarItem appearance].badgeColor = [UIColor colorWithRed:255 / 255.0 green:244 / 255.0 blue:98 / 255.0 alpha:1];
   }
+  [Fabric with:@[[Crashlytics class]]];
+
   
   return YES;
 }
