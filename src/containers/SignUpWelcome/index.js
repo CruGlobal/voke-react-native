@@ -101,7 +101,7 @@ class SignUpWelcome extends Component {
               </Flex>
             </View>
           </IndicatorViewPager>
-          <Flex direction="row" align="center" justify="center" style={{position: 'absolute', bottom: 0}}>
+          <Flex direction="row" align="center" justify="center" style={{position: 'absolute', bottom: 0, left: 0, right: 0}}>
             <Flex value={1} style={styles.actionButton}>
               <Button
                 text="Create Account"
