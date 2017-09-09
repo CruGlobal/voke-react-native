@@ -657,7 +657,7 @@ public final class R {
 		public static final int catalyst_report_button = 0x7f080060;
 		public static final int catalyst_settings = 0x7f080061;
 		public static final int catalyst_settings_title = 0x7f080062;
-		public static final int status_bar_notification_info_overflow = 0x7f08003d;
+		public static final int status_bar_notification_info_overflow = 0x7f08003c;
 	}
 	public static final class style {
 		public static final int AlertDialog_AppCompat = 0x7f0a00a2;

@@ -91,7 +91,7 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "25.0.3"
 
     defaultConfig {
         applicationId "org.cru.voke"
@@ -141,11 +141,10 @@ dependencies {
     compile project(':react-native-image-picker')
     compile project(':react-native-vector-icons')
     compile fileTree(dir: "libs", include: ["*.jar"])
-    compile "com.android.support:appcompat-v7:23.0.1"
+    compile "com.android.support:appcompat-v7:25.0.3"
     compile "com.facebook.react:react-native:+"  // From node_modules
     compile project(':react-native-navigation')
     compile 'com.facebook.fresco:animated-gif:1.0.1'
-    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
 
     compile ('com.google.android.gms:play-services-gcm:11.0.+') {
         force = true;

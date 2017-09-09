@@ -20,7 +20,7 @@ import com.react.rnspinkit.RNSpinkitPackage;
 import com.rt2zz.reactnativecontacts.ReactNativeContacts;
 import com.imagepicker.ImagePickerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
-// import com.facebook.react.ReactNativeHost;
+import com.facebook.react.ReactNativeHost;
 // import com.facebook.soloader.SoLoader;
 
 import java.util.Arrays;
@@ -43,26 +43,26 @@ public class MainApplication extends NavigationApplication {
 
 //   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
 //     @Override
-//     protected boolean getUseDeveloperSupport() {
+//     public boolean getUseDeveloperSupport() {
 //       return BuildConfig.DEBUG;
 //     }
-    
+//
 //     protected List<ReactPackage> getPackages() {
 //         return Arrays.<ReactPackage>asList(
 //             new MainReactPackage(),
-//                 new FBSDKPackage(mCallbackManager),
-//                 new RNDeviceInfo(),
-//                 new ReactNativePushNotificationPackage(),
-//                 new RNSpinkitPackage(),
-//                 new ReactNativeContacts(),
-//                 new ImagePickerPackage(),
+//             new FBSDKPackage(mCallbackManager),
+//             new RNDeviceInfo(),
+//             new ReactNativePushNotificationPackage(),
+//             new RNSpinkitPackage(),
+//             new ReactNativeContacts(),
+//             new ImagePickerPackage(),
 //             new VectorIconsPackage()
 //         );
 //     }
 //   };
+
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
-            new MainReactPackage(),
             new FBSDKPackage(mCallbackManager),
             new RNDeviceInfo(),
             new ReactNativePushNotificationPackage(),
@@ -90,6 +90,11 @@ public class MainApplication extends NavigationApplication {
   //   // If you want to use AppEventsLogger to log events.
   //   AppEventsLogger.activateApp(this);
   // }
+
+//  @Override
+//  public ReactNativeHost getReactNativeHost() {
+//    return mReactNativeHost;
+//  }
 
   @Override
   public void onCreate() {

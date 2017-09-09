@@ -1,732 +1,5 @@
 [
     {
-        "outputFile": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-zh-rHK/values-zh-rHK.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 105,
-                    "endColumn": 94,
-                    "endOffset": 195
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 2,
-                        "startColumn": 4,
-                        "startOffset": 55,
-                        "endColumn": 94,
-                        "endOffset": 145
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 3,
-                    "startColumn": 4,
-                    "startOffset": 200,
-                    "endColumn": 106,
-                    "endOffset": 302
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 3,
-                        "startColumn": 4,
-                        "startOffset": 150,
-                        "endColumn": 106,
-                        "endOffset": 252
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 4,
-                    "startColumn": 4,
-                    "startOffset": 307,
-                    "endColumn": 122,
-                    "endOffset": 425
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 4,
-                        "startColumn": 4,
-                        "startOffset": 257,
-                        "endColumn": 122,
-                        "endOffset": 375
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 5,
-                    "startColumn": 4,
-                    "startOffset": 430,
-                    "endColumn": 92,
-                    "endOffset": 518
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 5,
-                        "startColumn": 4,
-                        "startOffset": 380,
-                        "endColumn": 92,
-                        "endOffset": 468
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 6,
-                    "startColumn": 4,
-                    "startOffset": 523,
-                    "endColumn": 99,
-                    "endOffset": 618
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 6,
-                        "startColumn": 4,
-                        "startOffset": 473,
-                        "endColumn": 99,
-                        "endOffset": 568
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 7,
-                    "startColumn": 4,
-                    "startOffset": 623,
-                    "endColumn": 81,
-                    "endOffset": 700
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 7,
-                        "startColumn": 4,
-                        "startOffset": 573,
-                        "endColumn": 81,
-                        "endOffset": 650
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 8,
-                    "startColumn": 4,
-                    "startOffset": 705,
-                    "endColumn": 96,
-                    "endOffset": 797
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 8,
-                        "startColumn": 4,
-                        "startOffset": 655,
-                        "endColumn": 96,
-                        "endOffset": 747
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 9,
-                    "startColumn": 4,
-                    "startOffset": 802,
-                    "endColumn": 107,
-                    "endOffset": 905
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 9,
-                        "startColumn": 4,
-                        "startOffset": 752,
-                        "endColumn": 107,
-                        "endOffset": 855
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 10,
-                    "startColumn": 4,
-                    "startOffset": 910,
-                    "endColumn": 75,
-                    "endOffset": 981
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 10,
-                        "startColumn": 4,
-                        "startOffset": 860,
-                        "endColumn": 75,
-                        "endOffset": 931
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 11,
-                    "startColumn": 4,
-                    "startOffset": 986,
-                    "endColumn": 75,
-                    "endOffset": 1057
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 11,
-                        "startColumn": 4,
-                        "startOffset": 936,
-                        "endColumn": 75,
-                        "endOffset": 1007
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 12,
-                    "startColumn": 4,
-                    "startOffset": 1062,
-                    "endColumn": 77,
-                    "endOffset": 1135
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 12,
-                        "startColumn": 4,
-                        "startOffset": 1012,
-                        "endColumn": 77,
-                        "endOffset": 1085
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 13,
-                    "startColumn": 4,
-                    "startOffset": 1140,
-                    "endColumn": 95,
-                    "endOffset": 1231
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 13,
-                        "startColumn": 4,
-                        "startOffset": 1090,
-                        "endColumn": 95,
-                        "endOffset": 1181
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 14,
-                    "startColumn": 4,
-                    "startOffset": 1236,
-                    "endColumn": 95,
-                    "endOffset": 1327
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 14,
-                        "startColumn": 4,
-                        "startOffset": 1186,
-                        "endColumn": 95,
-                        "endOffset": 1277
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 15,
-                    "startColumn": 4,
-                    "startOffset": 1332,
-                    "endColumn": 94,
-                    "endOffset": 1422
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 15,
-                        "startColumn": 4,
-                        "startOffset": 1282,
-                        "endColumn": 94,
-                        "endOffset": 1372
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 16,
-                    "startColumn": 4,
-                    "startOffset": 1427,
-                    "endColumn": 96,
-                    "endOffset": 1519
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 16,
-                        "startColumn": 4,
-                        "startOffset": 1377,
-                        "endColumn": 96,
-                        "endOffset": 1469
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 17,
-                    "startColumn": 4,
-                    "startOffset": 1524,
-                    "endColumn": 94,
-                    "endOffset": 1614
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 17,
-                        "startColumn": 4,
-                        "startOffset": 1474,
-                        "endColumn": 94,
-                        "endOffset": 1564
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 18,
-                    "startColumn": 4,
-                    "startOffset": 1619,
-                    "endColumn": 97,
-                    "endOffset": 1712
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 18,
-                        "startColumn": 4,
-                        "startOffset": 1569,
-                        "endColumn": 97,
-                        "endOffset": 1662
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 19,
-                    "startColumn": 4,
-                    "startOffset": 1717,
-                    "endColumn": 112,
-                    "endOffset": 1825
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 19,
-                        "startColumn": 4,
-                        "startOffset": 1667,
-                        "endColumn": 112,
-                        "endOffset": 1775
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 20,
-                    "startColumn": 4,
-                    "startOffset": 1830,
-                    "endColumn": 93,
-                    "endOffset": 1919
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 20,
-                        "startColumn": 4,
-                        "startOffset": 1780,
-                        "endColumn": 93,
-                        "endOffset": 1869
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 21,
-                    "startColumn": 4,
-                    "startOffset": 1924,
-                    "endColumn": 102,
-                    "endOffset": 2022
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
-                    "position": {
-                        "startLine": 4,
-                        "startColumn": 0,
-                        "startOffset": 287,
-                        "endColumn": 98,
-                        "endOffset": 385
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 22,
-                    "startColumn": 4,
-                    "startOffset": 2027,
-                    "endColumn": 159,
-                    "endOffset": 2182
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
-                    "position": {
-                        "startLine": 5,
-                        "startColumn": 0,
-                        "startOffset": 386,
-                        "endColumn": 159,
-                        "endOffset": 545
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 23,
-                    "startColumn": 4,
-                    "startOffset": 2187,
-                    "endColumn": 116,
-                    "endOffset": 2299
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
-                    "position": {
-                        "startLine": 6,
-                        "startColumn": 0,
-                        "startOffset": 546,
-                        "endColumn": 112,
-                        "endOffset": 658
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 24,
-                    "startColumn": 4,
-                    "startOffset": 2304,
-                    "endColumn": 103,
-                    "endOffset": 2403
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
-                    "position": {
-                        "startLine": 7,
-                        "startColumn": 0,
-                        "startOffset": 659,
-                        "endColumn": 99,
-                        "endOffset": 758
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 25,
-                    "startColumn": 4,
-                    "startOffset": 2408,
-                    "endColumn": 165,
-                    "endOffset": 2569
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
-                    "position": {
-                        "startLine": 8,
-                        "startColumn": 0,
-                        "startOffset": 759,
-                        "endColumn": 165,
-                        "endOffset": 924
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 26,
-                    "startColumn": 4,
-                    "startOffset": 2574,
-                    "endColumn": 117,
-                    "endOffset": 2687
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
-                    "position": {
-                        "startLine": 9,
-                        "startColumn": 0,
-                        "startOffset": 925,
-                        "endColumn": 113,
-                        "endOffset": 1038
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 27,
-                    "startColumn": 4,
-                    "startOffset": 2692,
-                    "endColumn": 121,
-                    "endOffset": 2809
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
-                    "position": {
-                        "startLine": 10,
-                        "startColumn": 0,
-                        "startOffset": 1039,
-                        "endColumn": 117,
-                        "endOffset": 1156
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 28,
-                    "startColumn": 4,
-                    "startOffset": 2814,
-                    "endColumn": 166,
-                    "endOffset": 2976
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/11.0.4/res/values-zh-rHK/values.xml",
-                    "position": {
-                        "startLine": 4,
-                        "startColumn": 0,
-                        "startOffset": 289,
-                        "endColumn": 166,
-                        "endOffset": 455
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 29,
-                    "startColumn": 4,
-                    "startOffset": 2981,
-                    "endColumn": 168,
-                    "endOffset": 3145
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
-                    "position": {
-                        "startLine": 11,
-                        "startColumn": 0,
-                        "startOffset": 1157,
-                        "endColumn": 168,
-                        "endOffset": 1325
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 30,
-                    "startColumn": 4,
-                    "startOffset": 3150,
-                    "endColumn": 102,
-                    "endOffset": 3248
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
-                    "position": {
-                        "startLine": 12,
-                        "startColumn": 0,
-                        "startOffset": 1326,
-                        "endColumn": 98,
-                        "endOffset": 1424
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 31,
-                    "startColumn": 4,
-                    "startOffset": 3253,
-                    "endColumn": 159,
-                    "endOffset": 3408
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
-                    "position": {
-                        "startLine": 13,
-                        "startColumn": 0,
-                        "startOffset": 1425,
-                        "endColumn": 159,
-                        "endOffset": 1584
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 32,
-                    "startColumn": 4,
-                    "startOffset": 3413,
-                    "endColumn": 116,
-                    "endOffset": 3525
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
-                    "position": {
-                        "startLine": 14,
-                        "startColumn": 0,
-                        "startOffset": 1585,
-                        "endColumn": 112,
-                        "endOffset": 1697
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 33,
-                    "startColumn": 4,
-                    "startOffset": 3530,
-                    "endColumn": 165,
-                    "endOffset": 3691
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
-                    "position": {
-                        "startLine": 15,
-                        "startColumn": 0,
-                        "startOffset": 1698,
-                        "endColumn": 165,
-                        "endOffset": 1863
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 34,
-                    "startColumn": 4,
-                    "startOffset": 3696,
-                    "endColumn": 137,
-                    "endOffset": 3829
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
-                    "position": {
-                        "startLine": 16,
-                        "startColumn": 0,
-                        "startOffset": 1864,
-                        "endColumn": 133,
-                        "endOffset": 1997
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 35,
-                    "startColumn": 4,
-                    "startOffset": 3834,
-                    "endColumn": 84,
-                    "endOffset": 3914
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
-                    "position": {
-                        "startLine": 17,
-                        "startColumn": 0,
-                        "startOffset": 1998,
-                        "endColumn": 80,
-                        "endOffset": 2078
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 36,
-                    "startColumn": 4,
-                    "startOffset": 3919,
-                    "endColumn": 86,
-                    "endOffset": 4001
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
-                    "position": {
-                        "startLine": 18,
-                        "startColumn": 0,
-                        "startOffset": 2079,
-                        "endColumn": 82,
-                        "endOffset": 2161
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 37,
-                    "startColumn": 4,
-                    "startOffset": 4006,
-                    "endColumn": 100,
-                    "endOffset": 4102
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
-                    "position": {
-                        "startLine": 19,
-                        "startColumn": 0,
-                        "startOffset": 2162,
-                        "endColumn": 96,
-                        "endOffset": 2258
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 38,
-                    "startColumn": 4,
-                    "startOffset": 4107,
-                    "endColumn": 77,
-                    "endOffset": 4180
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 21,
-                        "startColumn": 4,
-                        "startOffset": 1874,
-                        "endColumn": 77,
-                        "endOffset": 1947
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 39,
-                    "startColumn": 4,
-                    "startOffset": 4185,
-                    "endColumn": 101,
-                    "endOffset": 4282
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 22,
-                        "startColumn": 4,
-                        "startOffset": 1952,
-                        "endColumn": 101,
-                        "endOffset": 2049
-                    }
-                }
-            }
-        ]
-    },
-    {
         "outputFile": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-zh-rHK/values-zh-rHK.xml",
         "map": [
             {
@@ -1095,17 +368,17 @@
                     "startLine": 21,
                     "startColumn": 4,
                     "startOffset": 1924,
-                    "endColumn": 135,
-                    "endOffset": 2055
+                    "endColumn": 112,
+                    "endOffset": 2032
                 },
                 "from": {
-                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rHK/values-zh-rHK.xml",
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/res/values-zh-rHK/values-zh-rHK.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
                         "startOffset": 55,
-                        "endColumn": 135,
-                        "endOffset": 186
+                        "endColumn": 112,
+                        "endOffset": 163
                     }
                 }
             },
@@ -1113,18 +386,18 @@
                 "to": {
                     "startLine": 22,
                     "startColumn": 4,
-                    "startOffset": 2060,
-                    "endColumn": 102,
-                    "endOffset": 2158
+                    "startOffset": 2037,
+                    "endColumn": 84,
+                    "endOffset": 2117
                 },
                 "from": {
-                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rHK/values-zh-rHK.xml",
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/res/values-zh-rHK/values-zh-rHK.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
-                        "startOffset": 191,
-                        "endColumn": 102,
-                        "endOffset": 289
+                        "startOffset": 168,
+                        "endColumn": 84,
+                        "endOffset": 248
                     }
                 }
             },
@@ -1132,18 +405,18 @@
                 "to": {
                     "startLine": 23,
                     "startColumn": 4,
-                    "startOffset": 2163,
-                    "endColumn": 110,
-                    "endOffset": 2269
+                    "startOffset": 2122,
+                    "endColumn": 99,
+                    "endOffset": 2217
                 },
                 "from": {
-                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rHK/values-zh-rHK.xml",
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/res/values-zh-rHK/values-zh-rHK.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
-                        "startOffset": 294,
-                        "endColumn": 110,
-                        "endOffset": 400
+                        "startOffset": 253,
+                        "endColumn": 99,
+                        "endOffset": 348
                     }
                 }
             },
@@ -1151,18 +424,18 @@
                 "to": {
                     "startLine": 24,
                     "startColumn": 4,
-                    "startOffset": 2274,
-                    "endColumn": 108,
-                    "endOffset": 2378
+                    "startOffset": 2222,
+                    "endColumn": 91,
+                    "endOffset": 2309
                 },
                 "from": {
-                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rHK/values-zh-rHK.xml",
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/res/values-zh-rHK/values-zh-rHK.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
-                        "startOffset": 405,
-                        "endColumn": 108,
-                        "endOffset": 509
+                        "startOffset": 353,
+                        "endColumn": 91,
+                        "endOffset": 440
                     }
                 }
             },
@@ -1170,18 +443,18 @@
                 "to": {
                     "startLine": 25,
                     "startColumn": 4,
-                    "startOffset": 2383,
-                    "endColumn": 79,
-                    "endOffset": 2458
+                    "startOffset": 2314,
+                    "endColumn": 62,
+                    "endOffset": 2372
                 },
                 "from": {
-                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rHK/values-zh-rHK.xml",
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/res/values-zh-rHK/values-zh-rHK.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
-                        "startOffset": 514,
-                        "endColumn": 79,
-                        "endOffset": 589
+                        "startOffset": 445,
+                        "endColumn": 62,
+                        "endOffset": 503
                     }
                 }
             },
@@ -1189,18 +462,18 @@
                 "to": {
                     "startLine": 26,
                     "startColumn": 4,
-                    "startOffset": 2463,
-                    "endColumn": 82,
-                    "endOffset": 2541
+                    "startOffset": 2377,
+                    "endColumn": 65,
+                    "endOffset": 2438
                 },
                 "from": {
-                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rHK/values-zh-rHK.xml",
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/res/values-zh-rHK/values-zh-rHK.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
-                        "startOffset": 594,
-                        "endColumn": 82,
-                        "endOffset": 672
+                        "startOffset": 508,
+                        "endColumn": 65,
+                        "endOffset": 569
                     }
                 }
             },
@@ -1208,18 +481,18 @@
                 "to": {
                     "startLine": 27,
                     "startColumn": 4,
-                    "startOffset": 2546,
-                    "endColumn": 75,
-                    "endOffset": 2617
+                    "startOffset": 2443,
+                    "endColumn": 53,
+                    "endOffset": 2492
                 },
                 "from": {
-                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rHK/values-zh-rHK.xml",
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/res/values-zh-rHK/values-zh-rHK.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
-                        "startOffset": 677,
-                        "endColumn": 75,
-                        "endOffset": 748
+                        "startOffset": 574,
+                        "endColumn": 53,
+                        "endOffset": 623
                     }
                 }
             },
@@ -1227,18 +500,18 @@
                 "to": {
                     "startLine": 28,
                     "startColumn": 4,
-                    "startOffset": 2622,
-                    "endColumn": 84,
-                    "endOffset": 2702
+                    "startOffset": 2497,
+                    "endColumn": 67,
+                    "endOffset": 2560
                 },
                 "from": {
-                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rHK/values-zh-rHK.xml",
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/res/values-zh-rHK/values-zh-rHK.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
-                        "startOffset": 753,
-                        "endColumn": 84,
-                        "endOffset": 833
+                        "startOffset": 628,
+                        "endColumn": 67,
+                        "endOffset": 691
                     }
                 }
             },
@@ -1246,18 +519,18 @@
                 "to": {
                     "startLine": 29,
                     "startColumn": 4,
-                    "startOffset": 2707,
-                    "endColumn": 84,
-                    "endOffset": 2787
+                    "startOffset": 2565,
+                    "endColumn": 67,
+                    "endOffset": 2628
                 },
                 "from": {
-                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rHK/values-zh-rHK.xml",
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/res/values-zh-rHK/values-zh-rHK.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
-                        "startOffset": 838,
-                        "endColumn": 84,
-                        "endOffset": 918
+                        "startOffset": 696,
+                        "endColumn": 67,
+                        "endOffset": 759
                     }
                 }
             },
@@ -1265,18 +538,18 @@
                 "to": {
                     "startLine": 30,
                     "startColumn": 4,
-                    "startOffset": 2792,
-                    "endColumn": 107,
-                    "endOffset": 2895
+                    "startOffset": 2633,
+                    "endColumn": 87,
+                    "endOffset": 2716
                 },
                 "from": {
-                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rHK/values-zh-rHK.xml",
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/res/values-zh-rHK/values-zh-rHK.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
-                        "startOffset": 923,
-                        "endColumn": 107,
-                        "endOffset": 1026
+                        "startOffset": 764,
+                        "endColumn": 87,
+                        "endOffset": 847
                     }
                 }
             },
@@ -1284,18 +557,18 @@
                 "to": {
                     "startLine": 31,
                     "startColumn": 4,
-                    "startOffset": 2900,
-                    "endColumn": 101,
-                    "endOffset": 2997
+                    "startOffset": 2721,
+                    "endColumn": 84,
+                    "endOffset": 2801
                 },
                 "from": {
-                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rHK/values-zh-rHK.xml",
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/res/values-zh-rHK/values-zh-rHK.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
-                        "startOffset": 1031,
-                        "endColumn": 101,
-                        "endOffset": 1128
+                        "startOffset": 852,
+                        "endColumn": 84,
+                        "endOffset": 932
                     }
                 }
             },
@@ -1303,18 +576,18 @@
                 "to": {
                     "startLine": 32,
                     "startColumn": 4,
-                    "startOffset": 3002,
-                    "endColumn": 85,
-                    "endOffset": 3083
+                    "startOffset": 2806,
+                    "endColumn": 68,
+                    "endOffset": 2870
                 },
                 "from": {
-                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rHK/values-zh-rHK.xml",
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/res/values-zh-rHK/values-zh-rHK.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
-                        "startOffset": 1133,
-                        "endColumn": 85,
-                        "endOffset": 1214
+                        "startOffset": 937,
+                        "endColumn": 68,
+                        "endOffset": 1001
                     }
                 }
             },
@@ -1322,18 +595,18 @@
                 "to": {
                     "startLine": 33,
                     "startColumn": 4,
-                    "startOffset": 3088,
-                    "endColumn": 85,
-                    "endOffset": 3169
+                    "startOffset": 2875,
+                    "endColumn": 68,
+                    "endOffset": 2939
                 },
                 "from": {
-                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rHK/values-zh-rHK.xml",
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/res/values-zh-rHK/values-zh-rHK.xml",
                     "position": {
                         "startLine": 14,
                         "startColumn": 4,
-                        "startOffset": 1219,
-                        "endColumn": 85,
-                        "endOffset": 1300
+                        "startOffset": 1006,
+                        "endColumn": 68,
+                        "endOffset": 1070
                     }
                 }
             },
@@ -1341,18 +614,18 @@
                 "to": {
                     "startLine": 34,
                     "startColumn": 4,
-                    "startOffset": 3174,
-                    "endColumn": 90,
-                    "endOffset": 3260
+                    "startOffset": 2944,
+                    "endColumn": 76,
+                    "endOffset": 3016
                 },
                 "from": {
-                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rHK/values-zh-rHK.xml",
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/res/values-zh-rHK/values-zh-rHK.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,
-                        "startOffset": 1305,
-                        "endColumn": 90,
-                        "endOffset": 1391
+                        "startOffset": 1075,
+                        "endColumn": 76,
+                        "endOffset": 1147
                     }
                 }
             },
@@ -1360,18 +633,18 @@
                 "to": {
                     "startLine": 35,
                     "startColumn": 4,
-                    "startOffset": 3265,
-                    "endColumn": 108,
-                    "endOffset": 3369
+                    "startOffset": 3021,
+                    "endColumn": 90,
+                    "endOffset": 3107
                 },
                 "from": {
-                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rHK/values-zh-rHK.xml",
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/res/values-zh-rHK/values-zh-rHK.xml",
                     "position": {
                         "startLine": 16,
                         "startColumn": 4,
-                        "startOffset": 1396,
-                        "endColumn": 108,
-                        "endOffset": 1500
+                        "startOffset": 1152,
+                        "endColumn": 90,
+                        "endOffset": 1238
                     }
                 }
             },
@@ -1379,18 +652,18 @@
                 "to": {
                     "startLine": 36,
                     "startColumn": 4,
-                    "startOffset": 3374,
-                    "endColumn": 77,
-                    "endOffset": 3447
+                    "startOffset": 3112,
+                    "endColumn": 60,
+                    "endOffset": 3168
                 },
                 "from": {
-                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rHK/values-zh-rHK.xml",
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/res/values-zh-rHK/values-zh-rHK.xml",
                     "position": {
                         "startLine": 17,
                         "startColumn": 4,
-                        "startOffset": 1505,
-                        "endColumn": 77,
-                        "endOffset": 1578
+                        "startOffset": 1243,
+                        "endColumn": 60,
+                        "endOffset": 1299
                     }
                 }
             },
@@ -1398,18 +671,18 @@
                 "to": {
                     "startLine": 37,
                     "startColumn": 4,
-                    "startOffset": 3452,
-                    "endColumn": 78,
-                    "endOffset": 3526
+                    "startOffset": 3173,
+                    "endColumn": 61,
+                    "endOffset": 3230
                 },
                 "from": {
-                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rHK/values-zh-rHK.xml",
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/res/values-zh-rHK/values-zh-rHK.xml",
                     "position": {
                         "startLine": 18,
                         "startColumn": 4,
-                        "startOffset": 1583,
-                        "endColumn": 78,
-                        "endOffset": 1657
+                        "startOffset": 1304,
+                        "endColumn": 61,
+                        "endOffset": 1361
                     }
                 }
             },
@@ -1417,18 +690,18 @@
                 "to": {
                     "startLine": 38,
                     "startColumn": 4,
-                    "startOffset": 3531,
-                    "endColumn": 122,
-                    "endOffset": 3649
+                    "startOffset": 3235,
+                    "endColumn": 107,
+                    "endOffset": 3338
                 },
                 "from": {
-                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rHK/values-zh-rHK.xml",
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/res/values-zh-rHK/values-zh-rHK.xml",
                     "position": {
                         "startLine": 19,
                         "startColumn": 4,
-                        "startOffset": 1662,
-                        "endColumn": 122,
-                        "endOffset": 1780
+                        "startOffset": 1366,
+                        "endColumn": 107,
+                        "endOffset": 1469
                     }
                 }
             },
@@ -1436,18 +709,18 @@
                 "to": {
                     "startLine": 39,
                     "startColumn": 4,
-                    "startOffset": 3654,
-                    "endColumn": 92,
-                    "endOffset": 3742
+                    "startOffset": 3343,
+                    "endColumn": 75,
+                    "endOffset": 3414
                 },
                 "from": {
-                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rHK/values-zh-rHK.xml",
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/res/values-zh-rHK/values-zh-rHK.xml",
                     "position": {
                         "startLine": 20,
                         "startColumn": 4,
-                        "startOffset": 1785,
-                        "endColumn": 92,
-                        "endOffset": 1873
+                        "startOffset": 1474,
+                        "endColumn": 75,
+                        "endOffset": 1545
                     }
                 }
             },
@@ -1455,18 +728,18 @@
                 "to": {
                     "startLine": 40,
                     "startColumn": 4,
-                    "startOffset": 3747,
-                    "endColumn": 95,
-                    "endOffset": 3838
+                    "startOffset": 3419,
+                    "endColumn": 78,
+                    "endOffset": 3493
                 },
                 "from": {
-                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rHK/values-zh-rHK.xml",
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/res/values-zh-rHK/values-zh-rHK.xml",
                     "position": {
                         "startLine": 21,
                         "startColumn": 4,
-                        "startOffset": 1878,
-                        "endColumn": 95,
-                        "endOffset": 1969
+                        "startOffset": 1550,
+                        "endColumn": 78,
+                        "endOffset": 1624
                     }
                 }
             },
@@ -1474,18 +747,18 @@
                 "to": {
                     "startLine": 41,
                     "startColumn": 4,
-                    "startOffset": 3843,
-                    "endColumn": 105,
-                    "endOffset": 3944
+                    "startOffset": 3498,
+                    "endColumn": 76,
+                    "endOffset": 3570
                 },
                 "from": {
-                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rHK/values-zh-rHK.xml",
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/res/values-zh-rHK/values-zh-rHK.xml",
                     "position": {
                         "startLine": 22,
                         "startColumn": 4,
-                        "startOffset": 1974,
-                        "endColumn": 105,
-                        "endOffset": 2075
+                        "startOffset": 1629,
+                        "endColumn": 76,
+                        "endOffset": 1701
                     }
                 }
             },
@@ -1493,18 +766,18 @@
                 "to": {
                     "startLine": 42,
                     "startColumn": 4,
-                    "startOffset": 3949,
-                    "endColumn": 93,
-                    "endOffset": 4038
+                    "startOffset": 3575,
+                    "endColumn": 80,
+                    "endOffset": 3651
                 },
                 "from": {
-                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rHK/values-zh-rHK.xml",
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/res/values-zh-rHK/values-zh-rHK.xml",
                     "position": {
                         "startLine": 23,
                         "startColumn": 4,
-                        "startOffset": 2080,
-                        "endColumn": 93,
-                        "endOffset": 2169
+                        "startOffset": 1706,
+                        "endColumn": 80,
+                        "endOffset": 1782
                     }
                 }
             },
@@ -1512,28 +785,9 @@
                 "to": {
                     "startLine": 43,
                     "startColumn": 4,
-                    "startOffset": 4043,
-                    "endColumn": 99,
-                    "endOffset": 4138
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 24,
-                        "startColumn": 4,
-                        "startOffset": 2174,
-                        "endColumn": 99,
-                        "endOffset": 2269
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 44,
-                    "startColumn": 4,
-                    "startOffset": 4143,
+                    "startOffset": 3656,
                     "endColumn": 102,
-                    "endOffset": 4241
+                    "endOffset": 3754
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
@@ -1548,11 +802,11 @@
             },
             {
                 "to": {
-                    "startLine": 45,
+                    "startLine": 44,
                     "startColumn": 4,
-                    "startOffset": 4246,
+                    "startOffset": 3759,
                     "endColumn": 159,
-                    "endOffset": 4401
+                    "endOffset": 3914
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
@@ -1567,11 +821,11 @@
             },
             {
                 "to": {
-                    "startLine": 46,
+                    "startLine": 45,
                     "startColumn": 4,
-                    "startOffset": 4406,
+                    "startOffset": 3919,
                     "endColumn": 116,
-                    "endOffset": 4518
+                    "endOffset": 4031
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
@@ -1586,11 +840,11 @@
             },
             {
                 "to": {
-                    "startLine": 47,
+                    "startLine": 46,
                     "startColumn": 4,
-                    "startOffset": 4523,
+                    "startOffset": 4036,
                     "endColumn": 103,
-                    "endOffset": 4622
+                    "endOffset": 4135
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
@@ -1605,11 +859,11 @@
             },
             {
                 "to": {
-                    "startLine": 48,
+                    "startLine": 47,
                     "startColumn": 4,
-                    "startOffset": 4627,
+                    "startOffset": 4140,
                     "endColumn": 165,
-                    "endOffset": 4788
+                    "endOffset": 4301
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
@@ -1624,11 +878,11 @@
             },
             {
                 "to": {
-                    "startLine": 49,
+                    "startLine": 48,
                     "startColumn": 4,
-                    "startOffset": 4793,
+                    "startOffset": 4306,
                     "endColumn": 117,
-                    "endOffset": 4906
+                    "endOffset": 4419
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
@@ -1643,11 +897,11 @@
             },
             {
                 "to": {
-                    "startLine": 50,
+                    "startLine": 49,
                     "startColumn": 4,
-                    "startOffset": 4911,
+                    "startOffset": 4424,
                     "endColumn": 121,
-                    "endOffset": 5028
+                    "endOffset": 4541
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
@@ -1662,11 +916,11 @@
             },
             {
                 "to": {
-                    "startLine": 51,
+                    "startLine": 50,
                     "startColumn": 4,
-                    "startOffset": 5033,
+                    "startOffset": 4546,
                     "endColumn": 166,
-                    "endOffset": 5195
+                    "endOffset": 4708
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/11.0.4/res/values-zh-rHK/values.xml",
@@ -1681,11 +935,11 @@
             },
             {
                 "to": {
-                    "startLine": 52,
+                    "startLine": 51,
                     "startColumn": 4,
-                    "startOffset": 5200,
+                    "startOffset": 4713,
                     "endColumn": 168,
-                    "endOffset": 5364
+                    "endOffset": 4877
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
@@ -1700,11 +954,11 @@
             },
             {
                 "to": {
-                    "startLine": 53,
+                    "startLine": 52,
                     "startColumn": 4,
-                    "startOffset": 5369,
+                    "startOffset": 4882,
                     "endColumn": 102,
-                    "endOffset": 5467
+                    "endOffset": 4980
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
@@ -1719,11 +973,11 @@
             },
             {
                 "to": {
-                    "startLine": 54,
+                    "startLine": 53,
                     "startColumn": 4,
-                    "startOffset": 5472,
+                    "startOffset": 4985,
                     "endColumn": 159,
-                    "endOffset": 5627
+                    "endOffset": 5140
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
@@ -1738,11 +992,11 @@
             },
             {
                 "to": {
-                    "startLine": 55,
+                    "startLine": 54,
                     "startColumn": 4,
-                    "startOffset": 5632,
+                    "startOffset": 5145,
                     "endColumn": 116,
-                    "endOffset": 5744
+                    "endOffset": 5257
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
@@ -1757,11 +1011,11 @@
             },
             {
                 "to": {
-                    "startLine": 56,
+                    "startLine": 55,
                     "startColumn": 4,
-                    "startOffset": 5749,
+                    "startOffset": 5262,
                     "endColumn": 165,
-                    "endOffset": 5910
+                    "endOffset": 5423
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
@@ -1776,11 +1030,11 @@
             },
             {
                 "to": {
-                    "startLine": 57,
+                    "startLine": 56,
                     "startColumn": 4,
-                    "startOffset": 5915,
+                    "startOffset": 5428,
                     "endColumn": 137,
-                    "endOffset": 6048
+                    "endOffset": 5561
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
@@ -1795,11 +1049,11 @@
             },
             {
                 "to": {
-                    "startLine": 58,
+                    "startLine": 57,
                     "startColumn": 4,
-                    "startOffset": 6053,
+                    "startOffset": 5566,
                     "endColumn": 84,
-                    "endOffset": 6133
+                    "endOffset": 5646
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
@@ -1814,11 +1068,11 @@
             },
             {
                 "to": {
-                    "startLine": 59,
+                    "startLine": 58,
                     "startColumn": 4,
-                    "startOffset": 6138,
+                    "startOffset": 5651,
                     "endColumn": 86,
-                    "endOffset": 6220
+                    "endOffset": 5733
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
@@ -1833,11 +1087,11 @@
             },
             {
                 "to": {
-                    "startLine": 60,
+                    "startLine": 59,
                     "startColumn": 4,
-                    "startOffset": 6225,
+                    "startOffset": 5738,
                     "endColumn": 100,
-                    "endOffset": 6321
+                    "endOffset": 5834
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/res/values-zh-rHK/values.xml",
@@ -1852,30 +1106,30 @@
             },
             {
                 "to": {
-                    "startLine": 61,
+                    "startLine": 60,
                     "startColumn": 4,
-                    "startOffset": 6326,
+                    "startOffset": 5839,
                     "endColumn": 57,
-                    "endOffset": 6379
+                    "endOffset": 5892
                 },
                 "from": {
-                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.26.0/res/values-zh-rHK/values-zh-rHK.xml",
+                    "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/res/values-zh-rHK/values-zh-rHK.xml",
                     "position": {
-                        "startLine": 25,
+                        "startLine": 24,
                         "startColumn": 4,
-                        "startOffset": 2274,
+                        "startOffset": 1787,
                         "endColumn": 57,
-                        "endOffset": 2327
+                        "endOffset": 1840
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 62,
+                    "startLine": 61,
                     "startColumn": 4,
-                    "startOffset": 6384,
+                    "startOffset": 5897,
                     "endColumn": 77,
-                    "endOffset": 6457
+                    "endOffset": 5970
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-zh-rHK/values-zh-rHK.xml",
@@ -1890,11 +1144,11 @@
             },
             {
                 "to": {
-                    "startLine": 63,
+                    "startLine": 62,
                     "startColumn": 4,
-                    "startOffset": 6462,
+                    "startOffset": 5975,
                     "endColumn": 101,
-                    "endOffset": 6559
+                    "endOffset": 6072
                 },
                 "from": {
                     "file": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/res/values-zh-rHK/values-zh-rHK.xml",
@@ -1904,353 +1158,6 @@
                         "startOffset": 1952,
                         "endColumn": 101,
                         "endOffset": 2049
-                    }
-                }
-            }
-        ]
-    },
-    {
-        "outputFile": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-zh-rHK/values-zh-rHK.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endColumn": 94,
-                    "endOffset": 145
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 4,
-                        "startColumn": 4,
-                        "startOffset": 284,
-                        "endColumn": 94,
-                        "endOffset": 374
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 3,
-                    "startColumn": 4,
-                    "startOffset": 150,
-                    "endColumn": 106,
-                    "endOffset": 252
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 5,
-                        "startColumn": 4,
-                        "startOffset": 379,
-                        "endColumn": 106,
-                        "endOffset": 481
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 4,
-                    "startColumn": 4,
-                    "startOffset": 257,
-                    "endColumn": 122,
-                    "endOffset": 375
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 6,
-                        "startColumn": 4,
-                        "startOffset": 486,
-                        "endColumn": 122,
-                        "endOffset": 604
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 5,
-                    "startColumn": 4,
-                    "startOffset": 380,
-                    "endColumn": 92,
-                    "endOffset": 468
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 7,
-                        "startColumn": 4,
-                        "startOffset": 609,
-                        "endColumn": 92,
-                        "endOffset": 697
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 6,
-                    "startColumn": 4,
-                    "startOffset": 473,
-                    "endColumn": 99,
-                    "endOffset": 568
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 8,
-                        "startColumn": 4,
-                        "startOffset": 702,
-                        "endColumn": 99,
-                        "endOffset": 797
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 7,
-                    "startColumn": 4,
-                    "startOffset": 573,
-                    "endColumn": 81,
-                    "endOffset": 650
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 9,
-                        "startColumn": 4,
-                        "startOffset": 802,
-                        "endColumn": 81,
-                        "endOffset": 879
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 8,
-                    "startColumn": 4,
-                    "startOffset": 655,
-                    "endColumn": 96,
-                    "endOffset": 747
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 10,
-                        "startColumn": 4,
-                        "startOffset": 884,
-                        "endColumn": 96,
-                        "endOffset": 976
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 9,
-                    "startColumn": 4,
-                    "startOffset": 752,
-                    "endColumn": 107,
-                    "endOffset": 855
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 11,
-                        "startColumn": 4,
-                        "startOffset": 981,
-                        "endColumn": 107,
-                        "endOffset": 1084
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 10,
-                    "startColumn": 4,
-                    "startOffset": 860,
-                    "endColumn": 77,
-                    "endOffset": 933
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 12,
-                        "startColumn": 4,
-                        "startOffset": 1089,
-                        "endColumn": 77,
-                        "endOffset": 1162
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 11,
-                    "startColumn": 4,
-                    "startOffset": 938,
-                    "endColumn": 95,
-                    "endOffset": 1029
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 13,
-                        "startColumn": 4,
-                        "startOffset": 1167,
-                        "endColumn": 95,
-                        "endOffset": 1258
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 12,
-                    "startColumn": 4,
-                    "startOffset": 1034,
-                    "endColumn": 95,
-                    "endOffset": 1125
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 14,
-                        "startColumn": 4,
-                        "startOffset": 1263,
-                        "endColumn": 95,
-                        "endOffset": 1354
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 13,
-                    "startColumn": 4,
-                    "startOffset": 1130,
-                    "endColumn": 94,
-                    "endOffset": 1220
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 15,
-                        "startColumn": 4,
-                        "startOffset": 1359,
-                        "endColumn": 94,
-                        "endOffset": 1449
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 14,
-                    "startColumn": 4,
-                    "startOffset": 1225,
-                    "endColumn": 96,
-                    "endOffset": 1317
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 16,
-                        "startColumn": 4,
-                        "startOffset": 1454,
-                        "endColumn": 96,
-                        "endOffset": 1546
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 15,
-                    "startColumn": 4,
-                    "startOffset": 1322,
-                    "endColumn": 94,
-                    "endOffset": 1412
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 17,
-                        "startColumn": 4,
-                        "startOffset": 1551,
-                        "endColumn": 94,
-                        "endOffset": 1641
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 16,
-                    "startColumn": 4,
-                    "startOffset": 1417,
-                    "endColumn": 97,
-                    "endOffset": 1510
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 18,
-                        "startColumn": 4,
-                        "startOffset": 1646,
-                        "endColumn": 97,
-                        "endOffset": 1739
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 17,
-                    "startColumn": 4,
-                    "startOffset": 1515,
-                    "endColumn": 112,
-                    "endOffset": 1623
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 19,
-                        "startColumn": 4,
-                        "startOffset": 1744,
-                        "endColumn": 112,
-                        "endOffset": 1852
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 18,
-                    "startColumn": 4,
-                    "startOffset": 1628,
-                    "endColumn": 93,
-                    "endOffset": 1717
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 20,
-                        "startColumn": 4,
-                        "startOffset": 1857,
-                        "endColumn": 93,
-                        "endOffset": 1946
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 19,
-                    "startColumn": 4,
-                    "startOffset": 1722,
-                    "endColumn": 101,
-                    "endOffset": 1819
-                },
-                "from": {
-                    "file": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-zh-rHK/values-zh-rHK.xml",
-                    "position": {
-                        "startLine": 21,
-                        "startColumn": 4,
-                        "startOffset": 1951,
-                        "endColumn": 101,
-                        "endOffset": 2048
                     }
                 }
             }

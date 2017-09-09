@@ -12,8 +12,10 @@ import StatusBar from '../../components/StatusBar';
 import LOGO from '../../../images/initial_voke.png';
 
 const VERSION = 'v2.8';
-const SCOPE = ['public_profile', 'email'];
-const FIELDS = 'name,email,picture,about,cover,first_name,last_name';
+const SCOPE = ['public_profile'];
+const FIELDS = 'name,picture,about,cover,first_name,last_name';
+// const SCOPE = ['public_profile', 'email'];
+// const FIELDS = 'name,email,picture,about,cover,first_name,last_name';
 
 class Login extends Component {
   static navigatorStyle = {
@@ -27,7 +29,7 @@ class Login extends Component {
 
   facebookLogin() {
     LOG('Making FB Call');
-    LoginManager.logInWithReadPermissions(SCOPE).then((result)=>{
+    LoginManager.logInWithReadPermissions(['public_profile']).then((result)=>{
       LOG('RESULT', result);
       if (result.isCancelled) {
         LOG('facebook login was canceled', result);
