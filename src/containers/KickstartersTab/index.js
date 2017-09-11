@@ -42,14 +42,20 @@ class KickstartersTab extends Component {
 
   getKickstarters() {
     this.setState({ isLoading: true });
-    // LOG('this.props.latestItem', this.props.latestItem);
-    this.props.dispatch(getKickstarters(this.props.latestItem)).then((results)=>{
-      // LOG('results', results);
-      this.setState({ kickstarters: results.questions, isLoading: false });
-    }).catch((err) => {
-      // LOG('kickstarter err', err);
-      this.setState({ isLoading: false });
-    });
+    LOG('this.props.latestItem', this.props.latestItem);
+    if (this.props.latestItem) {
+      this.props.dispatch(getKickstarters(this.props.latestItem)).then((results)=>{
+        // LOG('results', results);
+        this.setState({ kickstarters: results.questions, isLoading: false });
+      }).catch((err) => {
+        LOG('kickstarter err', err);
+        this.setState({ isLoading: false });
+      });
+    }
+    else {
+      this.setState({ kickstarters: [], isLoading: false });
+
+    }
   }
 
   renderRow(item) {
@@ -116,7 +122,7 @@ class KickstartersTab extends Component {
 
 KickstartersTab.propTypes = {
   ...NavPropTypes,
-  onSelect: PropTypes.func.isRequired,
+  onSelectKickstarter: PropTypes.func.isRequired,
   latestItem: PropTypes.string,
 };
 

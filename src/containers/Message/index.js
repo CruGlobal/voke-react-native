@@ -117,8 +117,8 @@ class Message extends Component {
   setLatestItem() {
     let messages = this.props.messages || [];
     let item = messages.find(this.getLatestItem);
-    // LOG(JSON.stringify(item));
-    if (item && item.item) {
+    LOG('here',JSON.stringify(item));
+    if (item.item) {
       this.setState({ latestItem: item.item.id });
     }
   }
@@ -139,9 +139,11 @@ class Message extends Component {
   }
 
   handleAddKickstarter() {
+    LOG('kcikesrter', this.state.latestItem);
     this.props.navigatePush('voke.KickstartersTab', {
-      onSelect: (item) => {
+      onSelectKickstarter: (item) => {
         LOG('selected kickstarter in message!');
+        this.props.navigateBack({ animated: true });
         this.setState({ text: item });
         LOG(this.state.text);
       },
