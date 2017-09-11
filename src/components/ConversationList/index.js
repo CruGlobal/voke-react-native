@@ -49,7 +49,8 @@ class ConversationList extends Component { // eslint-disable-line
   }
 
   handleBlock(data) {
-    this.props.onBlock(data);
+    const otherPerson = this.getConversationParticipant(data);
+    this.props.onBlock(otherPerson);
   }
 
   handleFocus(id) {
@@ -148,6 +149,7 @@ class ConversationList extends Component { // eslint-disable-line
   }
 
   render() {
+
     return (
       <SwipeListView
         dataSource={this.state.dataSource}

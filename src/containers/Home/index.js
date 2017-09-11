@@ -5,8 +5,8 @@ import { Navigation } from 'react-native-navigation';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import { startupAction } from '../../actions/auth';
-import { getConversations } from '../../actions/messages';
+import { startupAction, blockMessenger } from '../../actions/auth';
+import { getConversations, deleteConversation } from '../../actions/messages';
 import { navMenuOptions } from '../../utils/menu';
 import { vokeIcons } from '../../utils/iconMap';
 
@@ -122,8 +122,8 @@ class Home extends Component {
               items={this.props.conversations}
               me={this.props.me}
               onRefresh={() => {}}
-              onDelete={() => {}}
-              onBlock={() => {}}
+              onDelete={(data) => this.props.dispatch(deleteConversation(data.id)).then(()=> this.props.dispatch(getConversations()))}
+              onBlock={(data) => this.props.dispatch(blockMessenger(data.id))}
               onLoadMore={this.handleLoadMore}
               onSelect={(c) => this.props.navigatePush('voke.Message', {conversation: c})}
             />

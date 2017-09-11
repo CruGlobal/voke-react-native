@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Image, Share } from 'react-native';
 import { connect } from 'react-redux';
 import { getContacts } from '../../actions/contacts';
-import { createConversation, getConversation } from '../../actions/messages';
+import { createConversation, getConversation, deleteConversation } from '../../actions/messages';
 import PropTypes from 'prop-types';
 
 import styles from './styles';
@@ -107,7 +107,7 @@ class SelectFriend extends Component {
             });
           } else {
             LOG('Did Not Share Video');
-            //TODO Make api call to delete conversation that was not shared
+            this.props.dispatch(deleteConversation(results.id));
           }
         });
       });

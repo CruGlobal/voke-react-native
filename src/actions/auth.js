@@ -2,6 +2,8 @@ import { Alert, Platform, ToastAndroid, AsyncStorage } from 'react-native';
 import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN } from '../constants';
 import callApi, { REQUESTS } from './api';
 import { establishDevice, establishPushDevice } from './socket';
+import { API_URL } from '../api/utils';
+
 // import { navigateResetLogin } from './navigation_new';
 // import { resetLoginAction, resetHomeAction } from './navigation';
 import PushNotification from 'react-native-push-notification';
@@ -170,6 +172,36 @@ export function verifyMobile(data) {
       return results;
     }).catch((error) => {
       LOG('error verifying mobile', error);
+    });
+  };
+}
+
+export function blockMessenger(data) {
+  let query = {
+    endpoint: `${API_URL}/messengers/${data}/block`,
+  };
+  LOG('this is my data here', data);
+  return (dispatch) => {
+    return dispatch(callApi(REQUESTS.BLOCK_MESSENGER, query)).then((results) => {
+      LOG('Successfully blocked user', results);
+      return results;
+    }).catch((error) => {
+      LOG('error blocking user', error);
+    });
+  };
+}
+
+export function unblockMessenger(data) {
+  let query = {
+    endpoint: `${API_URL}/messengers/${data}/unblock`,
+  };
+  LOG('this is my data here', data);
+  return (dispatch) => {
+    return dispatch(callApi(REQUESTS.UNBLOCK_MESSENGER, query)).then((results) => {
+      LOG('Successfully blocked user', results);
+      return results;
+    }).catch((error) => {
+      LOG('error blocking user', error);
     });
   };
 }

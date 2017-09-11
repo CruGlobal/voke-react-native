@@ -150,6 +150,14 @@ export default {
     },
     mapResults: mapConversation,
   },
+  'DELETE_CONVERSATION': {
+    endpoint: API_URL + 'me/conversations/:id',
+    method: 'delete',
+    data: {
+      client: CLIENT,
+    },
+    showApiLoading: true,
+  },
   'CREATE_CONVERSATION': {
     endpoint: API_URL + 'me/conversations',
     method: 'post',
@@ -224,6 +232,20 @@ export default {
   },
   'CREATE_MESSAGE_INTERACTION': {
     endpoint: API_URL + 'me/conversations',
+    method: 'post',
+    data: {
+      client: CLIENT,
+    },
+  },
+  'BLOCK_MESSENGER': {
+    endpoint: API_URL + 'messengers/:messenger_id/block',
+    method: 'post',
+    data: {
+      client: CLIENT,
+    },
+  },
+  'UNBLOCK_MESSENGER': {
+    endpoint: API_URL + 'messengers/:messenger_id/unblock',
     method: 'post',
     data: {
       client: CLIENT,
