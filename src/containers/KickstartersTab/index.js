@@ -42,7 +42,7 @@ class KickstartersTab extends Component {
 
   getKickstarters() {
     this.setState({ isLoading: true });
-    LOG('this.props.latestItem', this.props.latestItem);
+    // LOG('this.props.latestItem', this.props.latestItem);
     if (this.props.latestItem) {
       this.props.dispatch(getKickstarters(this.props.latestItem)).then((results)=>{
         // LOG('results', results);

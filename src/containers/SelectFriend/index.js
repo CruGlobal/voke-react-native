@@ -93,14 +93,17 @@ class SelectFriend extends Component {
         },
       };
       this.props.dispatch(createConversation(data)).then((results)=>{
+        LOG('create conversation results', results);
         Share.share({
-          message: `Hi ${c.name}, check out this video ${results.messengers[0].url} `,
+          message: `Hi ${results.messengers[0].first_name}, check out this video ${results.messengers[0].url} `,
           title: 'Check this out',
         }).then((results1)=> {
           if (results1.action === 'sharedAction') {
             LOG('successfuly shared video');
+            LOG('results.id', results.id);
             this.props.dispatch(getConversation(results.id)).then((c)=> {
-              this.props.navigatePush('voke.Message', {conversation: c});
+              LOG('getconversation results', c);
+              this.props.navigatePush('voke.Message', {conversation: c.conversation});
             });
           } else {
             LOG('Did Not Share Video');

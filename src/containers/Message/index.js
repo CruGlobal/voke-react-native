@@ -139,13 +139,13 @@ class Message extends Component {
   }
 
   handleAddKickstarter() {
-    LOG('kcikesrter', this.state.latestItem);
+    // LOG('kcikesrter', this.state.latestItem);
     this.props.navigatePush('voke.KickstartersTab', {
       onSelectKickstarter: (item) => {
-        LOG('selected kickstarter in message!');
+        // LOG('selected kickstarter in message!');
         this.props.navigateBack({ animated: true });
         this.setState({ text: item });
-        LOG(this.state.text);
+        // LOG(this.state.text);
       },
       latestItem: this.state.latestItem,
     });

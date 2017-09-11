@@ -64,6 +64,17 @@ export function navigatePush(navigator, screen, passProps = {}, screenProps = {}
   };
 }
 
+export function navigateResetTo(navigator, screen, passProps = {}, screenProps = {}) {
+  return () => {
+    let newScreenProps = defaultProps(screen, screenProps, passProps);
+    navigator.resetTo({
+      screen,
+      ...newScreenProps,
+      passProps,
+    });
+  };
+}
+
 export function navigateBack(navigator, options = {}) {
   return () => {
     navigator.pop({
@@ -106,6 +117,7 @@ export const NavPropTypes = {
   navigateBack: PropTypes.func.isRequired, // Redux
   navigateResetHome: PropTypes.func.isRequired, // Redux
   navigateResetLogin: PropTypes.func.isRequired, // Redux
+  navigateResetTo: PropTypes.func.isRequired, // Redux
 };
 
 // Redux connect function for navigator screens
@@ -116,5 +128,6 @@ export default (dispatch, { navigator }) => {
     navigateBack: (...args) => dispatch(navigateBack(navigator, ...args)),
     navigateResetHome: (...args) => dispatch(navigateResetHome(navigator, ...args)),
     navigateResetLogin: (...args) => dispatch(navigateResetLogin(navigator, ...args)),
+    navigateResetTo: (...args) => dispatch(navigateResetTo(navigator, ...args)),
   };
 };

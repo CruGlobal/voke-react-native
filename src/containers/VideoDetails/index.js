@@ -88,7 +88,7 @@ class VideoDetails extends Component {
           <View style={styles.backHeader}>
             <Touchable borderless={true} onPress={() => this.props.navigateBack()}>
               <View>
-                <VokeIcon name="back" style={styles.backImage} />
+                <VokeIcon name="video-back" style={styles.backImage} />
               </View>
             </Touchable>
           </View>

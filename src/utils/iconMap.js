@@ -25,6 +25,7 @@ import ADD_VIDEOS_ICON from '../../images/add_video_icon.png';
 import ADD_KICKSTARTERS_ICON from '../../images/lightning_icon.png';
 import PLUS_ICON from '../../images/plus.png';
 import SEARCH_ICON from '../../images/search-icon.png';
+import VIDEO_BACK from '../../images/back_button_transparent.png';
 
 
 const navIconSize = (Platform.OS === 'android') ? PixelRatio.getPixelSizeForLayoutSize(10) : 30;
@@ -80,6 +81,7 @@ const vokeIcons = {
   'pause': PAUSE_BUTTON,
   'fullscreen': FULLSCREEN_BUTTON,
   'back': BACK_ICON,
+  'video-back': VIDEO_BACK,
   'menu': MENU_ICON,
   'film': FILM_ICON,
   'kickstarter': KICKSTARTERS,
