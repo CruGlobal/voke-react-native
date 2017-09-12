@@ -25,9 +25,19 @@ function getFirstLetter(str) {
   return str && str[0] ? str[0].toUpperCase() : '';
 }
 
-export function getContacts() {
-  return (dispatch) => (
+export function getContacts(force = false) {
+  return (dispatch, getState) => (
     new Promise((resolve, reject) => {
+
+      if (!force) {
+        const lastUpdated = getState().contacts.lastUpdated;
+        const now = new Date().valueOf();
+        if (lastUpdated && (now - lastUpdated < 24 * 60 * 60 * 1000)) {
+          resolve(true);
+          return;
+        }
+      }
+
       Contacts.checkPermission((err, permission) => {
         if (permission === 'undefined' || permission === 'authorized') {
           Contacts.getAll((err, contacts) => {
@@ -78,15 +88,8 @@ export function getContacts() {
 
 
 export function getVokeContacts(all) {
-  return (dispatch, getState) => (
+  return (dispatch) => (
     new Promise((resolve, reject) => {
-      const lastUpdated = getState().contacts.lastUpdated;
-      const now = new Date().valueOf();
-      if (lastUpdated && (now - lastUpdated < 24 * 60 * 60 * 1000)) {
-        resolve(true);
-        return;
-      }
-
       // TODO: Make API call to find out voke contacts
       dispatch(uploadContacts(all)).then((vokeFriends) => {
         dispatch(setVokeContacts(vokeFriends));
