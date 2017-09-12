@@ -1,12 +1,13 @@
 import { REHYDRATE } from 'redux-persist/constants';
 import { REQUESTS } from '../actions/api';
-import { NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ } from '../constants';
+import { LOGOUT, NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ } from '../constants';
 
 
 const initialState = {
   conversations: [],
   messages: {},
   typeState: {},
+  unReadBadgeCount: 0,
 };
 
 export default function messages(state = initialState, action) {
@@ -20,10 +21,17 @@ export default function messages(state = initialState, action) {
         typeState: {},
       };
     case REQUESTS.GET_CONVERSATIONS.SUCCESS:
+      const unReadCheck = action.conversations.find((m) => m.hasUnread === true);
+      let unRead;
+      if (unReadCheck) {
+        unRead = state.unReadBadgeCount;
+      } else { unRead = 0; }
+
       return {
         ...state,
         conversations: action.conversations || [],
         typeState: {},
+        unReadBadgeCount: unRead,
       };
     case REQUESTS.GET_MESSAGES.SUCCESS:
       const conversationId = action.messages[0] ? action.messages[0].conversation_id : null;
@@ -51,15 +59,16 @@ export default function messages(state = initialState, action) {
       if (!conversationNewMessageId) {
         return state;
       }
-      console.warn('new message', action.message);
-
-      const msgPreviewConversations = state.conversations.map((c) => {
+      // LOG('new message', action.message);
+      let currentBadgeCount = state.unReadBadgeCount;
+      const msgPreviewConversations = state.conversations.map((c, index, newArr) => {
         if (c.id === conversationNewMessageId) {
           // order messengers
           const newMessenger = c.messengers.find((m) => m.id === action.message.messenger_id);
           let messengers = c.messengers.filter((m) => m.id !== action.message.messenger_id);
           messengers.unshift(newMessenger);
-          return { ...c, messengers, messagePreview: action.message.content, hasUnread: true };
+          currentBadgeCount = currentBadgeCount +1;
+          return { ...c, messengers, messagePreview: action.message.content, hasUnread: true, unReadCount: c.unReadCount ? c.unReadCount + 1 : 1 };
         }
         return c;
       });
@@ -73,18 +82,25 @@ export default function messages(state = initialState, action) {
             ...state.messages[conversationNewMessageId],
           ],
         },
+        unReadBadgeCount: currentBadgeCount,
       };
     case MARK_READ:
+      let currentBadgeCount2 = state.unReadBadgeCount;
+
       const readConversations = state.conversations.map((c) => {
         if (c.id === action.conversationId) {
-          return { ...c, hasUnread: false };
+          currentBadgeCount2 = c.unReadCount >0 ? currentBadgeCount2 - c.unReadCount : currentBadgeCount2;
+          return { ...c, hasUnread: false, unReadCount: 0 };
         }
         return c;
       });
       return {
         ...state,
         conversations: readConversations,
+        unReadBadgeCount: currentBadgeCount2,
       };
+    case LOGOUT:
+      return initialState;
     default:
       return state;
   }

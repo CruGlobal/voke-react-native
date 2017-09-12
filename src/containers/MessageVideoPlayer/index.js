@@ -19,7 +19,7 @@ class MessageVideoPlayer extends Component {
   }
 
   handleVideoChange(videoState) {
-    // console.warn(videoState);
+    // LOG(videoState);
     if (videoState === webviewStates.ERROR) {
       // this.props.dispatch(toastAction('There was an error playing the video.'));
     } else if (videoState === webviewStates.STARTED) {
@@ -35,7 +35,7 @@ class MessageVideoPlayer extends Component {
     // type="vimeo"
     // type="arclight"
     return (
-      <Flex style={styles.video}>
+      <Flex animation="slideInUp" style={styles.video}>
         <WebviewVideo
           type={message.item.media.type}
           url={message.item.media.url}

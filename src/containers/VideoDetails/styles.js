@@ -40,8 +40,10 @@ export default StyleSheet.create({
     left: 9,
     borderRadius: 14,
   },
-  backIcon: {
-    color: COLORS.convert({ color: COLORS.BLACK, alpha: 0.7 }),
+  // backIcon: {
+  //   color: COLORS.convert({ color: COLORS.BLACK, alpha: 0.7 }),
+  // },
+  backImage: {
   },
   kickstarterSeparator: {
     borderBottomColor: theme.darkText,

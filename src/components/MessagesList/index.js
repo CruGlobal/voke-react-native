@@ -65,20 +65,19 @@ class MessagesList extends Component {
   }
 
   renderTypeState() {
-    let item ={
-      type: 'typeState',
-    };
-    if (this.props.typeState) {
+    const { typeState, user, messengers, onSelectVideo } = this.props;
+    if (typeState) {
+      const item = { type: 'typeState' };
       return (
         <View style={{ transform: [{ scaleY: -1 }]}}>
           <MessageItem
             item={item}
-            user={this.props.user}
-            messengers={this.props.messengers}
-            onSelectVideo={() => this.props.onSelectVideo(item)}
+            user={user}
+            messengers={messengers}
+            onSelectVideo={() => onSelectVideo(item)}
           />
         </View>
-      )
+      );
     } else return null;
   }
 
@@ -101,7 +100,7 @@ class MessagesList extends Component {
           <View style={{ paddingTop: 15 }}><Loading /></View>
         ) : undefined}
         keyExtractor={(item) => item.id}
-        style={{  transform: [{ scaleY: -1 }] }}
+        style={{  transform: [{ scaleY: -1 }]}}
         initialNumToRender={10}
         data={items}
         renderItem={this.renderRow}

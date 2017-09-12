@@ -15,7 +15,7 @@ export const API_URL = BASE_URL + '/';
 export const AUTH_URL = authUrl + '/';
 export const SOCKET_URL = 'wss://api-stage.vokeapp.com/';
 
-// setTimeout(() => console.warn('API_URL', API_URL), 1);
+// setTimeout(() => LOG('API_URL', API_URL), 1);
 
 const DEFAULT_HEADERS = {
   Accept: 'application/json',
@@ -52,9 +52,9 @@ function defaultObject(method, obj = {}, data) {
 export default function request(type, url, query, data, object) {
   const newUrl = createUrl(url, query);
   const newObject = defaultObject(type, object, data);
-  // console.warn('REQUEST: ', newObject.method, newUrl, newObject.body); // eslint-disable-line
+  // LOG('REQUEST: ', newObject.method, newUrl, newObject.body); // eslint-disable-line
   return fetch(newUrl, newObject).then(json).catch((err) => {
-    console.warn('fetch err', err);
+    LOG('fetch err', err);
     return err;
   });
 }

@@ -14,6 +14,11 @@ class ContactItem extends Component { // eslint-disable-line
       <Flex direction="row" align="center" style={styles.row}>
         <Flex style={styles.avatar}></Flex>
         <Text style={styles.name}>{item.name}</Text>
+        {
+          item.isVoke ? (
+            <Text style={styles.voke}>VOKE</Text>
+          ) : null
+        }
       </Flex>
     );
   }

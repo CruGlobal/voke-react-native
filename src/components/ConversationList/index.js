@@ -1,18 +1,12 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, ListView, TouchableOpacity, Image } from 'react-native';
+import { View, Platform, ListView, TouchableOpacity, Image } from 'react-native';
 import styles from './styles';
 import { SwipeListView } from 'react-native-swipe-list-view';
-import ARROW from '../../../images/chat_name_arrow.png';
-import DELETE_ICON from '../../../images/deleteChatIcon.png';
-import BLOCK_ICON from '../../../images/blockChatIcon.png';
 import theme, {COLORS} from '../../theme';
 
-import UNREAD_ARROW from '../../../images/next_arrow_yellow.png';
-import READ_ARROW from '../../../images/next_arrow.png';
-
-import { Flex, Icon, Text, Touchable, Separator, Avatar } from '../common';
+import { Flex, VokeIcon, Text, Touchable, Separator, Avatar } from '../common';
 
 // const ITEM_HEIGHT = 60 + theme.separatorHeight;
 
@@ -37,7 +31,6 @@ class ConversationList extends Component { // eslint-disable-line
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.getSenderName = this.getSenderName.bind(this);
-    this.renderUnread = this.renderUnread.bind(this);
     this.getConversationParticipant = this.getConversationParticipant.bind(this);
   }
 
@@ -56,7 +49,8 @@ class ConversationList extends Component { // eslint-disable-line
   }
 
   handleBlock(data) {
-    this.props.onBlock(data);
+    const otherPerson = this.getConversationParticipant(data);
+    this.props.onBlock(otherPerson);
   }
 
   handleFocus(id) {
@@ -101,61 +95,40 @@ class ConversationList extends Component { // eslint-disable-line
     return otherPerson;
   }
 
-  renderUnread(conversation) {
-
-    if (conversation.messengers[0].id === this.props.me.id) {
-      return (
-        <Image source={READ_ARROW} />
-      );
-    }
-
-    let myMessage = conversation.messengers.find((e)=> {
-      return e.id === this.props.me.id;
-    });
-
-    if (myMessage && myMessage.latest_read && myMessage.latest_read.message_id) {
-      if (myMessage.latest_read.message_id != conversation.messengers[0].latest_message.id) {
-        return (
-          <Image source={UNREAD_ARROW} />
-        );
-      } else {
-        return (
-          <Image source={READ_ARROW} />
-        );
-      }
-    } else {
-      return (
-        <Image source={READ_ARROW} />
-      );
-    }
-
-  }
-
   renderRow(item) {
     const conversation = item;
     const contentCreator = this.getSenderName(conversation);
     const otherPerson = this.getConversationParticipant(conversation);
 
-
     return (
-      <Touchable highlight={true} underlayColor={COLORS.TRANSPARENT} onShowUnderlay={()=> this.handleFocus(item.id)} onHideUnderlay={this.handleBlur} activeOpacity={1} onPress={() => this.props.onSelect(conversation)}>
+      <Touchable
+        highlight={true}
+        underlayColor={COLORS.TRANSPARENT}
+        onShowUnderlay={()=> this.handleFocus(item.id)}
+        onHideUnderlay={this.handleBlur}
+        activeOpacity={1}
+        onPress={() => this.props.onSelect(conversation)}>
         <View>
           <Flex style={[styles.container, this.state.rowFocused === item.id ? {backgroundColor: theme.accentColor} : null]} direction="row" align="center" justify="center">
             <Flex value={2} align="center" justify="start">
               <Avatar
                 size={30}
                 style={this.state.rowFocused === item.id ? { backgroundColor: theme.primaryColor } : null}
-                text={otherPerson.initials}
+                text={otherPerson ? otherPerson.initials : 'VB'}
               />
             </Flex>
             <Flex value={15} justify="start">
               <Flex direction="column" justify="center">
-                <Text style={styles.conversationName}>{otherPerson.first_name} {otherPerson.last_name}</Text>
+                <Text style={styles.conversationName}>{otherPerson ? otherPerson.first_name : 'Vokebot'} {otherPerson ? otherPerson.last_name : ''}</Text>
                 <Flex direction="row" align="center">
-                  <Text style={styles.messagePreviewText} numberOfLines={2}>
+                  <Text style={styles.messagePreviewWrapper} numberOfLines={2}>
                     <Text style={styles.creatorText}>{contentCreator}</Text>
-                    <Image source={ARROW} resizeMode="contain" style={{width: 20, height: 7}} />
-                    {conversation.messagePreview || '...'}
+                    {Platform.OS === 'android' ? ' ' : null}
+                    <VokeIcon name="arrow" style={styles.arrowImage} />
+                    {Platform.OS === 'android' ? ' ' : null}
+                    <Text style={styles.messagePreviewText}>
+                      {conversation.messagePreview || '...'}
+                    </Text>
                   </Text>
                 </Flex>
               </Flex>
@@ -163,9 +136,9 @@ class ConversationList extends Component { // eslint-disable-line
             <Flex value={1} style={styles.conversationArrow} align="center" justify="center">
               {
                 conversation.hasUnread ? (
-                  <Image source={UNREAD_ARROW} />
+                  <VokeIcon name="unread-arrow" />
                 ) : (
-                  <Image source={READ_ARROW} />
+                  <VokeIcon name="read-arrow" />
                 )
               }
             </Flex>
@@ -176,6 +149,7 @@ class ConversationList extends Component { // eslint-disable-line
   }
 
   render() {
+
     return (
       <SwipeListView
         dataSource={this.state.dataSource}
@@ -191,7 +165,7 @@ class ConversationList extends Component { // eslint-disable-line
               }}
             >
               <Flex direction="column" align="center" justify="center">
-                <Image source={DELETE_ICON} style={{height: 40}} />
+                <VokeIcon name="delete" style={{height: 40}} />
               </Flex>
             </TouchableOpacity>
             <TouchableOpacity
@@ -203,7 +177,7 @@ class ConversationList extends Component { // eslint-disable-line
               }}
             >
               <Flex direction="column" align="center" justify="center">
-                <Image source={BLOCK_ICON} style={{height: 40}} />
+                <VokeIcon name="block" style={{ height: 40 }} />
               </Flex>
             </TouchableOpacity>
           </View>

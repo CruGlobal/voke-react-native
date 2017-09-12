@@ -32,6 +32,7 @@ class Contacts extends Component {
     navBarTextColor: theme.headerTextColor,
     navBarBackgroundColor: theme.primaryColor,
     navBarNoBorder: Platform.OS !== 'android',
+    tabBarHidden: true,
   };
   constructor(props) {
     super(props);
@@ -49,6 +50,9 @@ class Contacts extends Component {
 
   componentWillMount() {
     this.props.navigator.setButtons(setButtons());
+    if (this.props.isInvite) {
+      this.props.navigator.setTitle({ title: 'Invite a Friend' });
+    }
   }
 
   // getContacts() {
@@ -112,7 +116,8 @@ class Contacts extends Component {
 Contacts.propTypes = {
   ...NavPropTypes,
   onSelect: PropTypes.func.isRequired,
-  video: PropTypes.string.isRequired,
+  video: PropTypes.string,
+  isInvite: PropTypes.bool,
 };
 
 const mapStateToProps = ({ contacts }) => ({

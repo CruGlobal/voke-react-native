@@ -4,7 +4,7 @@ import { API_URL } from '../api/utils';
 export function getVideos() {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.VIDEOS)).then((results) => {
-      console.warn('video results', results);
+      LOG('video results', results);
       return results;
     });
   };
@@ -13,7 +13,7 @@ export function getVideos() {
 export function getFeaturedVideos() {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.GET_FEATURED_VIDEOS, {featured: true}, {})).then((results) => {
-      console.warn('featured video results', results);
+      LOG('featured video results', results);
       return results;
     });
   };
@@ -22,7 +22,7 @@ export function getFeaturedVideos() {
 export function getPopularVideos() {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.GET_POPULAR_VIDEOS, {popularity: true}, {})).then((results) => {
-      console.warn('popular video results', results);
+      LOG('popular video results', results);
       return results;
     });
   };
@@ -31,7 +31,7 @@ export function getPopularVideos() {
 export function getTags() {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.GET_TAGS)).then((results) => {
-      console.warn('tag video results', results);
+      LOG('tag video results', results);
       return results;
     });
   };
@@ -43,7 +43,7 @@ export function getKickstarters(item) {
   };
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.GET_KICKSTARTERS, query)).then((results) => {
-      console.warn('tag video results', results);
+      LOG('tag video results', results);
       return results;
     });
   };
@@ -55,7 +55,7 @@ export function getSelectedThemeVideos(tag) {
   };
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.GET_VIDEOS_BY_TAG, query)).then((results) => {
-      console.warn('theme video results', results);
+      LOG('theme video results', results);
       return results;
     });
   };

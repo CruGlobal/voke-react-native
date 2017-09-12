@@ -1,47 +1,18 @@
 import { Alert, Platform, ToastAndroid, AsyncStorage } from 'react-native';
-import { LOGIN, LOGOUT, SET_USER } from '../constants';
+import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN } from '../constants';
 import callApi, { REQUESTS } from './api';
-import { establishDevice } from './socket';
+import { establishDevice, establishPushDevice } from './socket';
+import { API_URL } from '../api/utils';
+
 // import { navigateResetLogin } from './navigation_new';
 // import { resetLoginAction, resetHomeAction } from './navigation';
-// import PushNotification from 'react-native-push-notification';
+import PushNotification from 'react-native-push-notification';
 
 export function startupAction(navigator) {
   return (dispatch) => {
     dispatch(establishDevice(navigator));
-    // PushNotification.configure({
-    //   // (optional) Called when Token is generated (iOS and Android)
-    //   onRegister: function(token) {
-    //     console.warn( 'TOKEN:', token );
-    //   },
-    //
-    //   // (required) Called when a remote or local notification is opened or received
-    //   onNotification: function(notification) {
-    //     console.warn( 'NOTIFICATION:', notification );
-    //   },
-    //
-    //   // ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)
-    //   senderID: "YOUR GCM SENDER ID",
-    //
-    //   // IOS ONLY (optional): default: all - Permissions to register.
-    //   permissions: {
-    //     alert: true,
-    //     badge: true,
-    //     sound: true
-    //   },
-    //
-    //   // Should the initial notification be popped automatically
-    //   // default: true
-    //   popInitialNotification: true,
-    //
-    //   /**
-    //     * (optional) default: true
-    //     * - Specified if permissions (ios) and token (android and ios) will requested or not,
-    //     * - if not, you must call PushNotificationsHandler.requestPermissions() later
-    //     */
-    //   requestPermissions: true,
-    // });
   };
+
 }
 export function loginAction(token, user = {}) {
   return (dispatch) => (
@@ -70,13 +41,26 @@ export function setUserAction(user) {
   );
 }
 
+export function registerPushToken(token) {
+  return (dispatch) => (
+    new Promise((resolve) => {
+      dispatch({
+        type: SET_PUSH_TOKEN,
+        pushToken: token,
+      });
+      resolve();
+      // dispatch(resetHomeAction());
+    })
+  );
+}
+
 export function logoutAction() {
   return (dispatch) => (
     new Promise((resolve) => {
       dispatch({ type: LOGOUT });
       resolve();
       AsyncStorage.clear();
-      console.warn('TODO: Reset to login page');
+      LOG('TODO: Reset to login page');
       // dispatch(navigateResetLogin());
     })
   );
@@ -90,13 +74,17 @@ export function createAccountAction(email, password) {
       email,
       password,
     })).then((results) => {
-      console.warn('create account success', results);
-      dispatch(loginAction(results.access_token.access_token));
-      // dispatch(messagesAction());
-      // Do something with the results
+      if (!results.errors) {
+        LOG('create account success', results);
+        dispatch(loginAction(results.access_token.access_token));
+        // dispatch(messagesAction());
+        // Do something with the results
+        return results;
+      }
+      else LOG('Failed to create account', results.errors);
       return results;
     }).catch((error) => {
-      console.warn('error creating account', error);
+      LOG('error creating account', error);
     });
   };
 }
@@ -124,12 +112,10 @@ export function forgotPasswordAction(email) {
 export function anonLogin(username, password) {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.OAUTH, {}, {
-      // Some data can be set in the REQUESTS object,
-      // so we don't need it in here
       username: username,
       password: password,
     })).then((results) => {
-      console.warn('auth success', results);
+      LOG('auth success', results);
       dispatch(loginAction(results.access_token)).then(()=>{
         dispatch(getMe());
       });
@@ -137,7 +123,24 @@ export function anonLogin(username, password) {
       // Do something with the results
       return results;
     }).catch((error) => {
-      console.warn('error logging in', error);
+      LOG('error logging in', error);
+    });
+  };
+}
+
+export function facebookLoginAction(accessToken) {
+  LOG('access token for fb', accessToken);
+  return (dispatch) => {
+    return dispatch(callApi(REQUESTS.FACEBOOK_LOGIN, {}, {
+      assertion: accessToken,
+    })).then((results) => {
+      LOG('auth success', results);
+      dispatch(loginAction(results.access_token));
+      // dispatch(messagesAction());
+      // Do something with the results
+      return results;
+    }).catch((error) => {
+      LOG('error logging in', error);
     });
   };
 }
@@ -145,11 +148,11 @@ export function anonLogin(username, password) {
 export function getMe() {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.GET_ME, {}, {})).then((results) => {
-      console.warn('get me successful', results);
+      LOG('get me successful', results);
       dispatch(setUserAction(results));
       return results;
     }).catch((error) => {
-      console.warn('error getting me', error);
+      LOG('error getting me', error);
     });
   };
 }
@@ -157,11 +160,11 @@ export function getMe() {
 export function updateMe(data) {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.UPDATE_ME, {}, data)).then((results) => {
-      console.warn('update me successful', results);
+      LOG('update me successful', results);
       dispatch(getMe());
       return results;
     }).catch((error) => {
-      console.warn('error updating me', error);
+      LOG('error updating me', error);
     });
   };
 }
@@ -169,10 +172,10 @@ export function updateMe(data) {
 export function createMobileVerification(data) {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.CREATE_MOBILE_VERIFICATION, {}, data)).then((results) => {
-      console.warn('Verify mobile request successfully sent', results);
+      LOG('Verify mobile request successfully sent', results);
       return results;
     }).catch((error) => {
-      console.warn('error sending verification for mobile number', error);
+      LOG('error sending verification for mobile number', error);
     });
   };
 }
@@ -180,10 +183,40 @@ export function createMobileVerification(data) {
 export function verifyMobile(data) {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.VERIFY_MOBILE, {}, data)).then((results) => {
-      console.warn('Mobile successfully verified', results);
+      LOG('Mobile successfully verified', results);
       return results;
     }).catch((error) => {
-      console.warn('error verifying mobile', error);
+      LOG('error verifying mobile', error);
+    });
+  };
+}
+
+export function blockMessenger(data) {
+  let query = {
+    endpoint: `${API_URL}/messengers/${data}/block`,
+  };
+  LOG('this is my data here', data);
+  return (dispatch) => {
+    return dispatch(callApi(REQUESTS.BLOCK_MESSENGER, query)).then((results) => {
+      LOG('Successfully blocked user', results);
+      return results;
+    }).catch((error) => {
+      LOG('error blocking user', error);
+    });
+  };
+}
+
+export function unblockMessenger(data) {
+  let query = {
+    endpoint: `${API_URL}/messengers/${data}/unblock`,
+  };
+  LOG('this is my data here', data);
+  return (dispatch) => {
+    return dispatch(callApi(REQUESTS.UNBLOCK_MESSENGER, query)).then((results) => {
+      LOG('Successfully blocked user', results);
+      return results;
+    }).catch((error) => {
+      LOG('error blocking user', error);
     });
   };
 }

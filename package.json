@@ -1,6 +1,6 @@
 {
-  "name": "messagingapp",
-  "version": "0.1.0",
+  "name": "voke",
+  "version": "1.0.0",
   "private": true,
   "devDependencies": {
     "babel-eslint": "^7.2.3",
@@ -32,6 +32,8 @@
     "react-native-communications": "^2.2.1",
     "react-native-contacts": "^0.8.2",
     "react-native-device-info": "^0.11.0",
+    "react-native-fabric": "^0.5.0",
+    "react-native-fbsdk": "^0.6.1",
     "react-native-image-picker": "^0.26.3",
     "react-native-navigation": "^1.1.114",
     "react-native-push-notification": "^3.0.1",

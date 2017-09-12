@@ -5,11 +5,18 @@ import PropTypes from 'prop-types';
 
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { getKickstarters } from '../../actions/videos';
-import CHAT_ICON from '../../../images/SendButton.png';
+import theme from '../../theme';
+
 import styles from './styles';
-import { Flex, Text, Touchable, Loading } from '../../components/common';
+import { Flex, Text, Touchable, Loading, VokeIcon } from '../../components/common';
 
 class KickstartersTab extends Component {
+  static navigatorStyle = {
+    tabBarHidden: true,
+    navBarButtonColor: theme.lightText,
+    navBarTextColor: theme.headerTextColor,
+    navBarBackgroundColor: theme.headerBackgroundColor,
+  };
   constructor(props) {
     super(props);
 
@@ -27,16 +34,28 @@ class KickstartersTab extends Component {
     this.getKickstarters();
   }
 
+  componentWillMount() {
+    this.props.navigator.setTitle({
+      title: 'Kickstarters',
+    });
+  }
+
   getKickstarters() {
     this.setState({ isLoading: true });
-    // console.warn('this.props.latestItem', this.props.latestItem);
-    this.props.dispatch(getKickstarters(this.props.latestItem)).then((results)=>{
-      // console.warn('results', results);
-      this.setState({ kickstarters: results.questions, isLoading: false });
-    }).catch((err) => {
-      // console.warn('kickstarter err', err);
-      this.setState({ isLoading: false });
-    });
+    // LOG('this.props.latestItem', this.props.latestItem);
+    if (this.props.latestItem) {
+      this.props.dispatch(getKickstarters(this.props.latestItem)).then((results)=>{
+        // LOG('results', results);
+        this.setState({ kickstarters: results.questions, isLoading: false });
+      }).catch((err) => {
+        LOG('kickstarter err', err);
+        this.setState({ isLoading: false });
+      });
+    }
+    else {
+      this.setState({ kickstarters: [], isLoading: false });
+
+    }
   }
 
   renderRow(item) {
@@ -66,8 +85,8 @@ class KickstartersTab extends Component {
 
     return (
       <Flex align="center" value={1} style={styles.chatImageWrap}>
+        <VokeIcon name="kickstarter" style={styles.chatImage} />
         <Text style={styles.description}>Add one of these kickstarters to your chat.</Text>
-        <Image source={CHAT_ICON} style={styles.chatImage} />
       </Flex>
     );
   }
@@ -85,8 +104,8 @@ class KickstartersTab extends Component {
     } else {
       content = this.state.kickstarters.map(this.renderRow);
     }
-    
-    
+
+
     return (
       <ScrollView
         style={styles.container}
@@ -103,7 +122,7 @@ class KickstartersTab extends Component {
 
 KickstartersTab.propTypes = {
   ...NavPropTypes,
-  onSelect: PropTypes.func.isRequired,
+  onSelectKickstarter: PropTypes.func.isRequired,
   latestItem: PropTypes.string,
 };
 

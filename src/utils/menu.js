@@ -10,6 +10,16 @@ export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin } = 
       onPress: () => navigatePush && navigatePush('voke.Profile'),
     },
     {
+      id: 'invite',
+      name: 'Invite Friend',
+      onPress: () => navigatePush && navigatePush('voke.Contacts', {
+        isInvite: true,
+        onSelect: (c) => {
+          LOG('Selected contact', c);
+        },
+      }),
+    },
+    {
       id: 'about',
       name: 'About',
       onPress: () => navigatePush && navigatePush('voke.About'),
@@ -17,7 +27,7 @@ export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin } = 
     {
       id: 'review',
       name: 'Write a Review',
-      onPress: () => navigatePush && navigatePush('voke.Home'),
+      onPress: () => navigatePush && navigatePush('voke.About'),
     },
     {
       id: 'acknowledgements',

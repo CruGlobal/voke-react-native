@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Image, Share } from 'react-native';
 import { connect } from 'react-redux';
 import { getContacts } from '../../actions/contacts';
-import { createConversation, getConversation } from '../../actions/messages';
+import { createConversation, getConversation, deleteConversation } from '../../actions/messages';
 import PropTypes from 'prop-types';
 
 import styles from './styles';
@@ -14,14 +14,14 @@ import { Flex, Text, Loading, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 
 const NUM_RANDOM = 3;
-function getRandom(contacts) {
+function getRandomContact(contacts) {
   const length = contacts.length;
   if (length < NUM_RANDOM) return contacts;
   let randomArray = [];
   for (let i = 0; i < NUM_RANDOM; i++) {
     let random;
     do {
-      random = Math.floor( Math.random() * length);
+      random = Math.floor(Math.random() * length);
     } while (randomArray.indexOf(random) != -1);
     randomArray.push(random);
   }
@@ -37,7 +37,9 @@ class SelectFriend extends Component {
     navBarButtonColor: theme.lightText,
     navBarTextColor: theme.headerTextColor,
     navBarBackgroundColor: theme.headerBackgroundColor,
+    tabBarHidden: true,
   };
+
   constructor(props) {
     super(props);
 
@@ -52,18 +54,20 @@ class SelectFriend extends Component {
   componentDidMount() {
     setTimeout(() => this.setState({ isLoading: false }), 500);
     if (this.props.all && this.props.all.length > 0) {
-      this.setState({ random: getRandom(this.props.all) });
+      this.setState({ random: getRandomContact(this.props.all) });
     } else {
-      console.warn('dispatched');
+      // LOG('get contacts dispatched');
       this.props.dispatch(getContacts()).then(() => {
-        this.setState({ random: getRandom(this.props.all) });
-      }).catch(()=> {console.warn('caught');});
+        this.setState({ random: getRandomContact(this.props.all) });
+      }).catch(()=> {
+        // LOG('contacts caught');
+      });
     }
   }
 
   selectContact(c) {
     if (!c) return;
-    console.warn(JSON.stringify(c));
+    LOG(JSON.stringify(c));
     let phoneNumber = c.phone ? c.phone[0] : null;
     let name = c.name ? c.name.split(' ') : null;
     let firstName = name[0] ? name[0] : 'Friend';
@@ -73,9 +77,9 @@ class SelectFriend extends Component {
     let videoId = this.props.video;
 
     if (c.isVoke) {
-      console.warn('voke contact selected', this.props.video);
+      LOG('voke contact selected', this.props.video);
     } else {
-      console.warn('normal contact selected', this.props.video);
+      LOG('normal contact selected', this.props.video);
       let data = {
         conversation: {
           messengers_attributes: [
@@ -89,23 +93,25 @@ class SelectFriend extends Component {
         },
       };
       this.props.dispatch(createConversation(data)).then((results)=>{
+        LOG('create conversation results', results);
         Share.share({
-          message: `Hi ${c.givenName}, check out this video ${results.messengers[0].url} `,
+          message: `Hi ${results.messengers[0].first_name}, check out this video ${results.messengers[0].url} `,
           title: 'Check this out',
         }).then((results1)=> {
           if (results1.action === 'sharedAction') {
-            console.warn('successfuly shared video');
+            LOG('successfuly shared video');
+            LOG('results.id', results.id);
             this.props.dispatch(getConversation(results.id)).then((c)=> {
-              this.props.navigatePush('voke.Message', {conversation: c});
+              LOG('getconversation results', c);
+              this.props.navigatePush('voke.Message', {conversation: c.conversation});
             });
           } else {
-            console.warn('Did Not Share Video');
+            LOG('Did Not Share Video');
+            this.props.dispatch(deleteConversation(results.id));
           }
         });
       });
     }
-    // TODO: API call to create a link
-    // const URL = 'https://my.vokeapp.com/CEHpHyo';
   }
 
   renderRandomContacts() {
@@ -153,7 +159,7 @@ class SelectFriend extends Component {
             buttonTextStyle={styles.randomText}
           />
         </Flex>
-        <Flex align="center" justify="center" value={.5} style={styles.vokeBubble}>
+        <Flex align="center" justify="center" value={.7} style={styles.vokeBubble}>
           <Text style={styles.info}>
             Search your contacts or take a step of faith with...
           </Text>

@@ -26,7 +26,6 @@ import SelectFriend from './containers/SelectFriend';
 import Contacts from './containers/Contacts';
 import KickstartersTab from './containers/KickstartersTab';
 import VideosTab from './containers/VideosTab';
-import MessageTabView from './containers/MessageTabView';
 import SignUpAccount from './containers/SignUpAccount';
 import SignUpProfile from './containers/SignUpProfile';
 import SignUpNumber from './containers/SignUpNumber';
@@ -36,6 +35,7 @@ import CountrySelect from './containers/CountrySelect';
 import ThemeSelect from './containers/ThemeSelect';
 import Help from './containers/Help';
 import ForgotPassword from './containers/ForgotPassword';
+import SignUpFBAccount from './containers/SignUpFBAccount';
 
 
 // TODO: Wrap each of these in a HoC where we inject the navigation actions
@@ -56,7 +56,6 @@ export default function(store, Provider) {
   Navigation.registerComponent('voke.Contacts', () => Contacts, store, Provider);
   Navigation.registerComponent('voke.KickstartersTab', () => KickstartersTab, store, Provider);
   Navigation.registerComponent('voke.VideosTab', () => VideosTab, store, Provider);
-  Navigation.registerComponent('voke.MessageTabView', () => MessageTabView, store, Provider);
   Navigation.registerComponent('voke.SignUpAccount', () => SignUpAccount, store, Provider);
   Navigation.registerComponent('voke.SignUpProfile', () => SignUpProfile, store, Provider);
   Navigation.registerComponent('voke.SignUpNumber', () => SignUpNumber, store, Provider);
@@ -65,6 +64,7 @@ export default function(store, Provider) {
   Navigation.registerComponent('voke.CountrySelect', () => CountrySelect, store, Provider);
   Navigation.registerComponent('voke.ThemeSelect', () => ThemeSelect, store, Provider);
   Navigation.registerComponent('voke.ForgotPassword', () => ForgotPassword, store, Provider);
+  Navigation.registerComponent('voke.SignUpFBAccount', () => SignUpFBAccount, store, Provider);
 }
 
 

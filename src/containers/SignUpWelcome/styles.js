@@ -16,13 +16,22 @@ export default StyleSheet.create({
     paddingVertical: 30,
   },
   onboardingPage: {
-    backgroundColor: theme.primaryColor,
+    backgroundColor: theme.transparent,
   },
   headerText: {
     paddingHorizontal: 50,
-    paddingVertical: 20,
+    paddingVertical: 5,
     textAlign: 'center',
     fontSize: 18,
+    color: theme.secondaryColor,
+    backgroundColor: 'rgba(0,0,0,0)',
+  },
+  headerTitle: {
+    paddingTop: 50,
+    textAlign: 'center',
+    fontSize: 36,
+    backgroundColor: 'rgba(0,0,0,0)',
+    color: theme.secondaryColor,
   },
   skipButtonText: {
     fontSize: 14,
@@ -32,6 +41,23 @@ export default StyleSheet.create({
     bottom: 60,
     right: 40,
   },
+  loginButtonText: {
+    fontSize: 18,
+  },
+  loginButton: {
+    height: 60,
+    backgroundColor: theme.primaryColor,
+    borderWidth: 0,
+    alignItems: 'center',
+    borderRadius: 0,
+  },
+  loginButton2: {
+    height: 60,
+    backgroundColor: theme.secondaryColor,
+    borderWidth: 0,
+    alignItems: 'center',
+    borderRadius: 0,
+  },
   vokeWrap: {
     width: DEFAULT.FULL_WIDTH,
   },
@@ -39,5 +65,15 @@ export default StyleSheet.create({
     alignItems: 'center',
     marginVertical: 50,
     height: 40,
+  },
+  actionButton: {
+    backgroundColor: theme.secondaryColor,
+  },
+  backgroundWrap: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: DEFAULT.FULL_WIDTH,
+    height: DEFAULT.FULL_HEIGHT,
   },
 });

@@ -17,7 +17,7 @@ class MessageItem extends Component {
   getOther() {
     const messengers = this.props.messengers;
     const user = this.props.user;
-    return messengers.find((m) => !m.bot && (user.id != m.messenger_id));
+    return messengers.find((m) => !m.bot && (user.id != m.id));
   }
 
   renderText() {
@@ -200,7 +200,7 @@ class MessageItem extends Component {
 
 MessageItem.propTypes = {
   item: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequred,
+  user: PropTypes.object.isRequired,
   messengers: PropTypes.array.isRequired,
 };
 

@@ -7,15 +7,16 @@ import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { toastAction } from '../../actions/auth';
 
 import styles from './styles';
+import ApiLoading from '../ApiLoading';
 import WebviewVideo from '../../components/WebviewVideo';
 import webviewStates from '../../components/WebviewVideo/common';
 import FloatingButtonSingle from '../../components/FloatingButtonSingle';
-import { Icon, Flex, Touchable, Text } from '../../components/common';
-import BACK_ICON from '../../../images/back_button_transparent.png';
+import { VokeIcon, Flex, Touchable, Text } from '../../components/common';
 
 class VideoDetails extends Component {
   static navigatorStyle = {
     navBarHidden: true,
+    tabBarHidden: true,
   };
 
   constructor(props) {
@@ -26,16 +27,16 @@ class VideoDetails extends Component {
   }
 
   selectContact(contact) {
-    console.warn('contact selected', contact);
+    LOG('contact selected', contact);
   }
 
   handleVideoChange(videoState) {
-    // console.warn(videoState);
+    // LOG(videoState);
     if (videoState === webviewStates.ERROR) {
+      if (this.props.video.content_type === 'arclight') return;
       this.props.dispatch(toastAction('There was an error playing the video.'));
     }
   }
-
 
   renderContent() {
     const video = this.props.video;
@@ -87,7 +88,7 @@ class VideoDetails extends Component {
           <View style={styles.backHeader}>
             <Touchable borderless={true} onPress={() => this.props.navigateBack()}>
               <View>
-                <Image source={BACK_ICON} style={styles.backIcon} />
+                <VokeIcon name="video-back" style={styles.backImage} />
               </View>
             </Touchable>
           </View>
@@ -116,6 +117,7 @@ class VideoDetails extends Component {
             }
           }}
         />
+        <ApiLoading showMS={2000} />
       </View>
     );
   }

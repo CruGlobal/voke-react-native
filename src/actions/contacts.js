@@ -45,7 +45,7 @@ export function getContacts() {
                   firstNameLetter,
                 };
               }), (c) => c.phone.length > 0 && !!c.name);
-              // console.warn('all', all.length, all);
+              // LOG('all', all.length, all);
               dispatch(setAllContacts(all));
 
               // API call to find out who matches voke
@@ -60,7 +60,7 @@ export function getContacts() {
             'Voke',
             'First grant Voke permission to access your contacts. Go to Settings / Voke and allow the permission for Contacts',
             [
-              {text: 'Cancel', onPress: () => console.warn('canceled')},
+              {text: 'Cancel', onPress: () => LOG('canceled')},
               // TODO: Open android app settings or prompt user
               {text: 'Open Settings', onPress: () => Linking.openURL('app-settings:')},
             ]

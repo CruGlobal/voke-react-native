@@ -7,7 +7,7 @@ const { width: deviceWidth, height: deviceHeight } = Dimensions.get('window');
 
 // See https://github.com/qix-/color for help
 function colorConvert({ color, alpha, lighten, darken, negate, rotate, whiten, blacken }) {
-  if (!color) console.warn('Pass in a color!');
+  if (!color) LOG('Pass in a color!');
   let col = Color(color);
   // Lots of things you can do with color stuff
   if (exists(alpha)) col = Color(col).alpha(alpha);
@@ -33,7 +33,7 @@ export const COLORS = {
   RED: '#ee2f2f',
   PINK: '#dd4499',
   GREEN: '#40ef67',
-  YELLOW: '#ffdd55',
+  YELLOW: '#FFF462',
   BLACK: '#1d1d26',
   DEEP_BLACK: '#000000',
   WHITE: '#ffffff',
@@ -68,6 +68,7 @@ export default {
   lightText: COLORS.WHITE,
   darkText: COLORS.CHARCOAL,
   iconColor: COLORS.WHITE,
+  transparent: COLORS.transparent,
   buttonBackgroundColor: COLORS.TRANSPARENT,
   buttonBorderColor: COLORS.WHITE,
   buttonBorderWidth: 1,

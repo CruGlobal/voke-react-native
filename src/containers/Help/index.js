@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Linking } from 'react-native';
-import BACK_ICON from '../../../images/back-arrow.png';
 import { connect } from 'react-redux';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { Navigation } from 'react-native-navigation';
 import Communications from 'react-native-communications';
 
 import theme from '../../theme';
+import { vokeIcons } from '../../utils/iconMap';
 import SettingsList from '../../components/SettingsList';
 
 const EMAIL = ['support@vokeapp.com'];
@@ -18,7 +18,7 @@ function setButtons() {
   return {
     leftButtons: [{
       id: 'back', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-      icon: BACK_ICON, // for icon button, provide the local image asset name
+      icon: vokeIcons['back'], // for icon button, provide the local image asset name
     }],
     rightButtons: [{
       title: 'Done',

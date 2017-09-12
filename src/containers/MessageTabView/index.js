@@ -1,3 +1,5 @@
+// TODO: Remove this component
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { SegmentedControlIOS } from 'react-native';
@@ -46,7 +48,7 @@ class MessageTabView extends Component {
   }
 
   onNavigatorEvent(event) {
-    // console.warn('event', event);
+    // LOG('event', event);
     if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
       if (event.id == 'back') {
         this.props.navigateBack();
@@ -59,12 +61,12 @@ class MessageTabView extends Component {
   }
 
   renderTab() {
-    if (this.state.selectedIndex === 0) {
+    if (this.props.type === 'kickstarter') {
       return (
         <KickstartersTab
           {...this.props}
           onSelectKickstarter={(k) => {
-            console.warn('selected kickstarter!', k);
+            LOG('selected kickstarter!', k);
             this.props.onSelectKickstarter(k);
             this.props.navigateBack();
           }}
@@ -76,7 +78,7 @@ class MessageTabView extends Component {
         <VideosTab
           {...this.props}
           onSelectVideo={(v) => {
-            console.warn('selected video!', v);
+            LOG('selected video!', v);
             this.props.onSelectVideo(v);
           }}
         />
@@ -87,16 +89,6 @@ class MessageTabView extends Component {
   render() {
     return (
       <Flex value={1} direction="column">
-        <Flex style={styles.tabController}>
-          <SegmentedControlIOS
-            values={['Kickstarters', 'Videos']}
-            tintColor={theme.primaryColor}
-            selectedIndex={this.state.selectedIndex}
-            onChange={(event) => {
-              this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
-            }}
-          />
-        </Flex>
         <Flex value={1}>
           {this.renderTab()}
         </Flex>
@@ -111,6 +103,7 @@ MessageTabView.propTypes = {
   onSelectKickstarter: PropTypes.func.isRequired,
   onSelectVideo: PropTypes.func.isRequired,
   latestItem: PropTypes.string,
+  type: PropTypes.string.isRequired,
 };
 
 export default connect(null, nav)(MessageTabView);

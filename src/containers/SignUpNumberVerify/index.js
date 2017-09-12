@@ -9,7 +9,7 @@ import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 // import { iconsMap } from '../../utils/iconMap';
 import theme from '../../theme';
-import BACK_ICON from '../../../images/back-arrow.png';
+import { vokeIcons } from '../../utils/iconMap';
 
 import { Flex, Text, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
@@ -19,7 +19,7 @@ function setButtons() {
   return {
     leftButtons: [{
       id: 'back', // Android implements this already
-      icon: BACK_ICON, // For iOS only
+      icon: vokeIcons['back'], // For iOS only
     }],
   };
 }
@@ -90,7 +90,7 @@ class SignUpNumberVerify extends Component {
       Alert.alert('Please enter the code that was sent','');
     } else {
       this.props.dispatch(verifyMobile(data)).then(()=> {
-        this.props.navigatePush('voke.SignUpWelcome');
+        this.props.navigateResetHome();
       });
     }
   }

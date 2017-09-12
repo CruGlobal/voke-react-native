@@ -1,14 +1,10 @@
 [
     {
-        "merged": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/res/merged/debug/xml/provider_paths.xml",
-        "source": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-image-picker/unspecified/res/xml/provider_paths.xml"
+        "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/xml/preferences.xml",
+        "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.46.4/res/xml/preferences.xml"
     },
     {
-        "merged": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/res/merged/debug/xml/preferences.xml",
-        "source": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.45.1/res/xml/preferences.xml"
-    },
-    {
-        "merged": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/res/merged/debug/xml/preferences.xml",
-        "source": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.46.4/res/xml/preferences.xml"
+        "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/xml/provider_paths.xml",
+        "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-image-picker/unspecified/res/xml/provider_paths.xml"
     }
 ]

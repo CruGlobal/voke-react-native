@@ -39,7 +39,7 @@ export default function callApi(requestObject, query = {}, data = {}) {
       // Generic error handler
       const throwErr = (msg) => {
         if (__DEV__) { 
-          console.warn(msg);
+          LOG(msg);
           throw new Error(msg);
         }
         reject(msg);
@@ -63,6 +63,7 @@ export default function callApi(requestObject, query = {}, data = {}) {
         query: newQuery,
         data: data || {},
         type: action.FETCH,
+        showApiLoading: action.showApiLoading,
       });
 
       if (!API_CALLS[action.name] || typeof API_CALLS[action.name] !== 'function') {
@@ -77,13 +78,14 @@ export default function callApi(requestObject, query = {}, data = {}) {
       }
 
       const handleError = (err) => {
-        console.warn('err', err);
+        LOG('err', err);
         if (err) {
           dispatch({
             error: err,
             query: newQuery,
             data,
             type: action.FAIL,
+            showApiLoading: action.showApiLoading,
           });
 
           if (typeof err === 'object' && err.code === 'AUTHORIZATION_REQUIRED') {
@@ -119,6 +121,7 @@ export default function callApi(requestObject, query = {}, data = {}) {
           query: newQuery,
           data,
           type: action.SUCCESS,
+          showApiLoading: action.showApiLoading,
         });
         resolve(actionResults);
       }).catch(handleError);

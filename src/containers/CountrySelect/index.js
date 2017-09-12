@@ -12,33 +12,34 @@ import theme from '../../theme';
 
 import { Touchable, Text, Loading } from '../../components/common';
 import SearchBarIos from '../../components/SearchBarIos';
+import COUNTRIES from '../../utils/countryCodes';
 
 const COUNTRY_HEIGHT = 50;
 
 // This is a backup list in case the server can't load the full list
-const COUNTRIES = [
-  { id: '0', name: 'America States', code: '123' },
-  { id: '2', name: 'Albania', code: '2' },
-  { id: '1', name: 'America', code: '111' },
-  { id: '3', name: 'United States', code: '1' },
-  { id: '4', name: 'United States of America', code: '01' },
-  { id: '5', name: 'United Kingdom', code: '1111' },
-  { id: '6', name: 'Arabia', code: '7' },
-  { id: '7', name: 'Bosnia', code: '143' },
-  { id: '8', name: 'Croatia', code: '54542' },
-  { id: '9', name: 'Kazakstan', code: '32211' },
-  { id: '10', name: 'Indonesia', code: '11132' },
-  { id: '11', name: 'India', code: '4422' },
-  { id: '12', name: 'China', code: '222' },
-  { id: '13', name: 'Ireland', code: '4444' },
-  { id: '14', name: 'Brazail', code: '333' },
-  { id: '15', name: 'Sweden', code: '3452' },
-  { id: '16', name: 'Norway', code: '736' },
-  { id: '17', name: 'Malawi', code: '874' },
-  { id: '18', name: 'Jakarta', code: '997735' },
-  { id: '19', name: 'Mexico', code: '3' },
-  { id: '20', name: 'Canada', code: '221' },
-];
+// const COUNTRIES = [
+//   { id: '0', name: 'America States', code: '123' },
+//   { id: '2', name: 'Albania', code: '2' },
+//   { id: '1', name: 'America', code: '111' },
+//   { id: '3', name: 'United States', code: '1' },
+//   { id: '4', name: 'United States of America', code: '01' },
+//   { id: '5', name: 'United Kingdom', code: '1111' },
+//   { id: '6', name: 'Arabia', code: '7' },
+//   { id: '7', name: 'Bosnia', code: '143' },
+//   { id: '8', name: 'Croatia', code: '54542' },
+//   { id: '9', name: 'Kazakstan', code: '32211' },
+//   { id: '10', name: 'Indonesia', code: '11132' },
+//   { id: '11', name: 'India', code: '4422' },
+//   { id: '12', name: 'China', code: '222' },
+//   { id: '13', name: 'Ireland', code: '4444' },
+//   { id: '14', name: 'Brazail', code: '333' },
+//   { id: '15', name: 'Sweden', code: '3452' },
+//   { id: '16', name: 'Norway', code: '736' },
+//   { id: '17', name: 'Malawi', code: '874' },
+//   { id: '18', name: 'Jakarta', code: '997735' },
+//   { id: '19', name: 'Mexico', code: '3' },
+//   { id: '20', name: 'Canada', code: '221' },
+// ];
 
 // Format countries for the section list broken up by letters
 function formatCountry(items) {
@@ -191,12 +192,12 @@ class CountrySelect extends Component {
         {this.renderIOSSearch()}
         <SectionList
           initialNumToRender={15}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.iso}
           stickySectionHeadersEnabled={true}
           sections={formattedSections}
           renderSectionHeader={this.renderHeader}
           renderItem={({ item }) => (
-            <Touchable key={item.id} highlight={true} onPress={() => this.handleSelect(item)}>
+            <Touchable key={item.iso} highlight={true} onPress={() => this.handleSelect(item)}>
               <View style={styles.row}>
                 <Text style={styles.name}>
                   {item.name} (+{item.code})

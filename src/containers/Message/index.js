@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
-import { TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import PropTypes from 'prop-types';
+import { View, TextInput, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 import { getMessages, createMessage, createTypeStateAction, destroyTypeStateAction, createMessageInteraction } from '../../actions/messages';
-import PropTypes from 'prop-types';
 
 import theme, { COLORS } from '../../theme';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import { iconsMap } from '../../utils/iconMap';
+import { vokeIcons } from '../../utils/iconMap';
 
 import styles from './styles';
 import MessageVideoPlayer from '../MessageVideoPlayer';
-import HOME_ICON from '../../../images/home_icon.png';
+import ApiLoading from '../ApiLoading';
 
-import { Flex, Icon, Button } from '../../components/common';
+import { Flex, Text, VokeIcon, Button, Touchable } from '../../components/common';
 import MessagesList from '../../components/MessagesList';
 import LoadMore from '../../components/LoadMore';
 
@@ -21,7 +20,7 @@ function setButtons() {
   return {
     leftButtons: [{
       id: 'back', // Android handles back already
-      icon: HOME_ICON, // For iOS only
+      icon: vokeIcons['home'], // For iOS only
     }],
     // rightButtons: [{
     //   id: 'add',
@@ -37,6 +36,7 @@ class Message extends Component {
     navBarButtonColor: theme.lightText,
     navBarTextColor: theme.headerTextColor,
     navBarBackgroundColor: theme.headerBackgroundColor,
+    tabBarHidden: true,
   };
   constructor(props) {
     super(props);
@@ -47,18 +47,24 @@ class Message extends Component {
       height: 50,
       isLoadingMore: false,
       latestItem: null,
+      shouldShowButtons: true,
+      createTransparentFocus: false,
     };
 
     this.handleLoadMore = this.handleLoadMore.bind(this);
     this.getMessages = this.getMessages.bind(this);
     this.createMessage = this.createMessage.bind(this);
-    this.handleAddContent = this.handleAddContent.bind(this);
+    this.handleAddKickstarter = this.handleAddKickstarter.bind(this);
+    this.handleAddVideo = this.handleAddVideo.bind(this);
     this.getLatestItem = this.getLatestItem.bind(this);
     this.setLatestItem = this.setLatestItem.bind(this);
     this.getTypeState = this.getTypeState.bind(this);
     this.createTypeState = this.createTypeState.bind(this);
     this.destroyTypeState = this.destroyTypeState.bind(this);
+    this.handleChangeButtons = this.handleChangeButtons.bind(this);
+    this.handleButtonExpand = this.handleButtonExpand.bind(this);
     this.createMessageReadInteraction = this.createMessageReadInteraction.bind(this);
+    this.getConversationName = this.getConversationName.bind(this);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
@@ -78,21 +84,18 @@ class Message extends Component {
         // }
         this.props.navigateBack();
       }
-      // } else if (event.id == 'add') {
-      //   this.props.navigatePush('voke.MessageTabView', {
-      //     onSelectKickstarter: () => {
-      //       console.warn('selected kickstarter in message!');
-      //     },
-      //     onSelectVideo: () => {
-      //       console.warn('selected video in message!');
-      //     },
-      // });
     }
+  }
+
+  getConversationName() {
+    let messengers = this.props.conversation.messengers || [];
+    let otherPerson = messengers.find((m) => !m.bot && (this.props.me.id != m.id));
+    return otherPerson ? otherPerson.first_name : 'Voke';
   }
 
   componentWillMount() {
     this.props.navigator.setButtons(setButtons());
-    this.props.navigator.setTitle({ title: this.props.conversation.messengers[0].first_name || 'Message' });
+    this.props.navigator.setTitle({ title: this.getConversationName()});
   }
 
   componentDidMount() {
@@ -103,7 +106,6 @@ class Message extends Component {
     const nLength = nextProps.messages.length;
     const cLength = this.props.messages.length;
     if (nLength > 0 && cLength > 0 && cLength < nLength) {
-      console.warn('here');
       this.createMessageReadInteraction();
     }
   }
@@ -115,15 +117,15 @@ class Message extends Component {
   setLatestItem() {
     let messages = this.props.messages || [];
     let item = messages.find(this.getLatestItem);
-    // console.warn(JSON.stringify(item));
-    if (item && item.item) {
+    LOG('here',JSON.stringify(item));
+    if (item.item) {
       this.setState({ latestItem: item.item.id });
     }
   }
 
   handleLoadMore() {
     this.setState({ isLoadingMore: true });
-    console.warn('Making API call to load more');
+    LOG('Making API call to load more');
     setTimeout(() => {
       this.setState({ isLoadingMore: false });
     }, 1000);
@@ -136,19 +138,26 @@ class Message extends Component {
     });
   }
 
-  handleAddContent() {
-    this.props.navigatePush('voke.MessageTabView', {
+  handleAddKickstarter() {
+    // LOG('kcikesrter', this.state.latestItem);
+    this.props.navigatePush('voke.KickstartersTab', {
       onSelectKickstarter: (item) => {
-        console.warn('selected kickstarter in message!');
-        this.setState({text: item});
-        console.warn(this.state.text);
+        // LOG('selected kickstarter in message!');
+        this.props.navigateBack({ animated: true });
+        this.setState({ text: item });
+        // LOG(this.state.text);
       },
+      latestItem: this.state.latestItem,
+    });
+  }
+
+  handleAddVideo() {
+    this.props.navigatePush('voke.VideosTab', {
       onSelectVideo: (video) => {
-        console.warn('selected video in message!');
+        LOG('selected video in message!');
         this.createMessage(video);
         this.props.navigateBack({ animated: false });
       },
-      latestItem: this.state.latestItem,
     });
   }
 
@@ -170,16 +179,17 @@ class Message extends Component {
     this.props.dispatch(createMessage(this.props.conversation.id, data)).then(()=> {
       this.setState({ text: '' });
     });
+    Keyboard.dismiss();
   }
 
   createTypeState() {
     this.props.dispatch(createTypeStateAction(this.props.conversation.id));
-    console.warn('create typestate');
+    // LOG('create typestate');
   }
 
   destroyTypeState() {
     this.props.dispatch(destroyTypeStateAction(this.props.conversation.id));
-    console.warn('destroy typestate');
+    // LOG('destroy typestate');
   }
 
   createMessageReadInteraction() {
@@ -200,6 +210,16 @@ class Message extends Component {
       return true;
     }
     return false;
+  }
+
+  handleChangeButtons(bool) {
+    this.setState({ shouldShowButtons: bool });
+    // LOG('state',this.state.shouldShowButtons);
+  }
+
+  handleButtonExpand() {
+    this.setState({ shouldShowButtons: true, createTransparentFocus: true });
+    // LOG('state',this.state.shouldShowButtons);
   }
 
   render() {
@@ -241,46 +261,83 @@ class Message extends Component {
           onSelectVideo={(m) => this.setState({ selectedVideo: m })}
         />
         <Flex direction="row" style={[styles.inputWrap, newWrap]} align="center" justify="center">
-          <TextInput
-            onFocus={() => {
-              this.list.scrollEnd(true);
-              this.createTypeState();
-            }
-            }
-            onBlur={() => {
-              this.list.scrollEnd(true);
-              this.destroyTypeState();
-            }
-            }
-            multiline={true}
-            value={this.state.text}
-            placeholder="New Message"
-            onChangeText={(text) => this.setState({ text })}
-            placeholderTextColor={theme.primaryColor}
-            underlineColorAndroid={COLORS.TRANSPARENT}
-            onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}
-            style={[styles.chatBox, newHeight]}
-            autoCorrect={true}
-          />
           {
-            this.state.text ? (
-              <Button
-                type="transparent"
-                style={styles.sendButton}
-                icon="send"
-                iconStyle={styles.sendIcon}
-                onPress={()=> this.createMessage()}
-              />
-            ) : null
+            this.state.shouldShowButtons === true ? (
+              <Flex animation="slideInLeft" duration={400} direction="row" style={{padding: 0, margin: 0, alignItems: 'center'}}>
+                <Button
+                  type="transparent"
+                  style={styles.moreContentButton}
+                  onPress={this.handleAddVideo}
+                >
+                  <VokeIcon name="add-video" />
+                </Button>
+                <Button
+                  type="transparent"
+                  style={styles.moreContentButton}
+                  onPress={this.handleAddKickstarter}
+                >
+                  <VokeIcon name="add-kickstarter" />
+                </Button>
+              </Flex>
+            ) : (
+              <Flex animation="slideInRight" duration={150} direction="row" style={{padding: 0, margin: 0, alignItems: 'center'}}>
+                <Button
+                  type="transparent"
+                  style={styles.moreContentButton}
+                  onPress={this.handleButtonExpand}
+                >
+                  <VokeIcon name="plus" />
+                </Button>
+              </Flex>
+            )
           }
-          <Button
-            type="transparent"
-            style={styles.sendButton}
-            icon="queue"
-            iconStyle={styles.sendIcon}
-            onPress={this.handleAddContent}
-          />
+          <Flex direction="row" style={[styles.chatBox, newHeight]} align="center">
+            <TextInput
+              onFocus={() => {
+                this.list.scrollEnd(true);
+                this.createTypeState();
+                this.handleChangeButtons(false);
+              }
+              }
+              onBlur={() => {
+                this.list.scrollEnd(true);
+                this.destroyTypeState();
+                this.handleChangeButtons(true);
+              }
+              }
+              multiline={true}
+              value={this.state.text}
+              placeholder="New Message"
+              onChangeText={(text) => this.setState({ text })}
+              placeholderTextColor={theme.primaryColor}
+              underlineColorAndroid={COLORS.TRANSPARENT}
+              onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}
+              style={[styles.chatInput, newHeight]}
+              autoCorrect={true}
+            />
+            {
+              this.state.text ? (
+                <Flex animation="slideInRight" duration={250} direction="row" style={{padding: 0, margin: 0, alignItems: 'center'}}>
+                  <Button
+                    type="transparent"
+                    style={styles.sendButton}
+                    icon="send"
+                    iconStyle={styles.sendIcon}
+                    onPress={()=> this.createMessage()}
+                  />
+                </Flex>
+              ) : null
+            }
+            {
+              this.state.createTransparentFocus ? (
+                <Touchable activeOpacity={0} onPress={()=> this.setState({shouldShowButtons: false, createTransparentFocus: false})}>
+                  <View style={[newHeight, styles.transparentOverlay]} />
+                </Touchable>
+              ) : null
+            }
+          </Flex>
         </Flex>
+        <ApiLoading />
       </KeyboardAvoidingView>
     );
   }

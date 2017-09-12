@@ -1,9 +1,11 @@
 // import { Platform } from 'react-native';
 import PropTypes from 'prop-types';
-
-import theme from '../theme';
+import { startLoginApp, startTabApp } from '../NavConfig';
 
 const DEFAULT_PROPS = {
+  'voke.Home': {
+    title: 'Chats',
+  },
   'voke.Videos': {
     title: 'Videos',
     titleImage: require('../../images/nav_voke_logo.png'),
@@ -12,20 +14,22 @@ const DEFAULT_PROPS = {
     title: 'Select Friend',
     titleImage: require('../../images/nav_voke_logo.png'),
   },
-  'voke.MessageTabView': {
-    title: 'Add',
-    topTabs: [
-      {
-        screenId: 'voke.KickstartersTab',
-        title: 'Kickstarters',
-      },
-      {
-        screenId: 'voke.VideosTab',
-        title: 'Videos',
-      },
-    ],
+  'voke.VideoDetails': {
+    appStyle: { orientation: 'auto' },
   },
-  // 'voke.Message': {},
+  // 'voke.MessageTabView': {
+  //   title: '',
+  //   // topTabs: [
+  //   //   {
+  //   //     screenId: 'voke.KickstartersTab',
+  //   //     title: 'Kickstarters',
+  //   //   },
+  //   //   {
+  //   //     screenId: 'voke.VideosTab',
+  //   //     title: 'Videos',
+  //   //   },
+  //   // ],
+  // },
   'voke.Contacts': { title: 'Contacts' },
   'voke.Profile': { title: 'Profile' },
   'voke.Acknowledgements': { title: 'Acknowledgements' },
@@ -46,12 +50,6 @@ function defaultProps(screen, props, passProps) {
   if (screen === 'voke.Message' && passProps.name) {
     newProps.title = passProps.name;
   }
-  if (screen === 'voke.MessageTabView' && passProps.onSelectKickstarter) {
-    newProps.topTabs[0].passProps = { ...passProps, onSelect: passProps.onSelectKickstarter };
-  }
-  if (screen === 'voke.MessageTabView' && passProps.onSelectVideo) {
-    newProps.topTabs[1].passProps = { ...passProps, onVideoShare: passProps.onSelectVideo };
-  }
   return newProps;
 }
 // Wix navigation actions
@@ -59,6 +57,17 @@ export function navigatePush(navigator, screen, passProps = {}, screenProps = {}
   return () => {
     let newScreenProps = defaultProps(screen, screenProps, passProps);
     navigator.push({
+      screen,
+      ...newScreenProps,
+      passProps,
+    });
+  };
+}
+
+export function navigateResetTo(navigator, screen, passProps = {}, screenProps = {}) {
+  return () => {
+    let newScreenProps = defaultProps(screen, screenProps, passProps);
+    navigator.resetTo({
       screen,
       ...newScreenProps,
       passProps,
@@ -78,25 +87,27 @@ export function navigateBack(navigator, options = {}) {
 
 export function navigateResetHome(navigator, options = {}) {
   return () => {
-    navigator.resetTo({
-      screen: 'voke.Home',
-      animated: false,
-      navigatorStyle: {
-        screenBackgroundColor: theme.primaryColor,
-      },
-      ...options,
-    });
+    // navigator.resetTo({
+    //   screen: 'voke.Home',
+    //   animated: false,
+    //   navigatorStyle: {
+    //     screenBackgroundColor: theme.primaryColor,
+    //   },
+    //   ...options,
+    // });
+    startTabApp(options);
   };
 }
 
 export function navigateResetLogin(navigator, options = {}) {
   return () => {
-    navigator.resetTo({
-      screen: 'voke.Login',
-      animated: true,
-      animationType: 'fade',
-      ...options,
-    });
+    // navigator.resetTo({
+    //   screen: 'voke.Login',
+    //   animated: true,
+    //   animationType: 'fade',
+    //   ...options,
+    // });
+    startLoginApp(options);
   };
 }
 
@@ -106,6 +117,7 @@ export const NavPropTypes = {
   navigateBack: PropTypes.func.isRequired, // Redux
   navigateResetHome: PropTypes.func.isRequired, // Redux
   navigateResetLogin: PropTypes.func.isRequired, // Redux
+  navigateResetTo: PropTypes.func.isRequired, // Redux
 };
 
 // Redux connect function for navigator screens
@@ -116,5 +128,6 @@ export default (dispatch, { navigator }) => {
     navigateBack: (...args) => dispatch(navigateBack(navigator, ...args)),
     navigateResetHome: (...args) => dispatch(navigateResetHome(navigator, ...args)),
     navigateResetLogin: (...args) => dispatch(navigateResetLogin(navigator, ...args)),
+    navigateResetTo: (...args) => dispatch(navigateResetTo(navigator, ...args)),
   };
 };

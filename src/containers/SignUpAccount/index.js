@@ -6,9 +6,8 @@ import { TextInput, ScrollView, KeyboardAvoidingView, Alert, Linking } from 'rea
 import styles from './styles';
 import { createAccountAction } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import { iconsMap } from '../../utils/iconMap';
-import theme from '../../theme';
-import BACK_ICON from '../../../images/back-arrow.png';
+import { vokeIcons } from '../../utils/iconMap';
+import theme, { COLORS } from '../../theme';
 
 import { Flex, Text, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
@@ -18,7 +17,7 @@ function setButtons() {
   return {
     leftButtons: [{
       id: 'back', // Android implements this already
-      icon: BACK_ICON, // For iOS only
+      icon: vokeIcons['back'], // For iOS only
     }],
   };
 }
@@ -60,9 +59,16 @@ class SignUpAccount extends Component {
   }
 
   createAccount() {
-    if (this.state.emailValidation && this.state.password) {
-      this.props.dispatch(createAccountAction(this.state.email, this.state.password)).then(() => {
-        this.props.navigatePush('voke.SignUpProfile');
+    // PUT THIS BACK IN, JUST FOR TESTING
+    // if (this.state.emailValidation && this.state.password) {
+    if (this.state.password) {
+      this.props.dispatch(createAccountAction(this.state.email, this.state.password)).then((results) => {
+        if (results.errors) {
+          Alert.alert('Error', `${results.errors}`);
+        }
+        else {
+          this.props.navigatePush('voke.SignUpProfile');
+        }
       });
     } else {
       Alert.alert('Please enter a valid email and password','');
@@ -103,8 +109,10 @@ class SignUpAccount extends Component {
               style={styles.inputBox}
               autoCapitalize="none"
               autoCorrect={false}
+              underlineColorAndroid="transparent"
             />
             <TextInput
+              underlineColorAndroid="transparent"
               onFocus={() => {}}
               onBlur={() => {}}
               value={this.state.password}

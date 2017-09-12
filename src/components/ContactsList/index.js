@@ -36,8 +36,8 @@ function formatContacts(items) {
   return sections;
   // return [
   //   { key: 'A', data: [{ id: '1', name: 'bryan', phone: [] }, { id: 'a1', name: 'bryan1', phone: [] }, { id: 'a2', name: 'bryan2', phone: [] }] },
-  //   { key: 'B', data: [{ id: '2', name: 'me', phone: [] }] },
-  //   { key: 'C', data: [{ id: '3', name: 'you', phone: [] }] },
+  //   { key: 'B', data: [{ id: '2', name: 'me', phone: [], isVoke: true }] },
+  //   { key: 'C', data: [{ id: '3', name: 'you', phone: [], isVoke: true }] },
   //   { key: 'D', data: [{ id: '4', name: 'you', phone: [] }] },
   //   { key: 'E', data: [{ id: '5', name: 'you', phone: [] }] },
   //   { key: 'F', data: [{ id: '6', name: 'you', phone: [] }] },

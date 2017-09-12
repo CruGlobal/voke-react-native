@@ -1,8 +1,8 @@
 import { REHYDRATE } from 'redux-persist/constants';
-import { LOGIN, LOGOUT, SET_USER } from '../constants';
+import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN } from '../constants';
 import { REQUESTS } from '../actions/api';
 
-const initialAuthState = {
+const initialState = {
   token: '',
   user: {},
   isLoggedIn: false,
@@ -15,9 +15,23 @@ const initialAuthState = {
     // os: 'ios 10.3.2',
   },
   cableId: '',
+  pushToken: '',
+  pushId: '',
+  apiActive: 0,
 };
 
-export default function auth(state = initialAuthState, action) {
+export default function auth(state = initialState, action) {
+
+  // Keep track of API loading requests
+  if (action.type && action.showApiLoading) {
+    if (action.type.endsWith('_SUCCESS') || action.type.endsWith('_FAIL')) {
+      const apiReqs = state.apiActive - 1;
+      return { ...state, apiActive: apiReqs < 0 ? 0 : apiReqs };
+    } else if (action.type.endsWith('_FETCH')) {
+      return { ...state, apiActive: state.apiActive + 1 };
+    }
+  }
+
   switch (action.type) {
     case REHYDRATE:
       const incoming = action.payload.auth;
@@ -25,6 +39,7 @@ export default function auth(state = initialAuthState, action) {
       return {
         ...state,
         ...incoming,
+        apiActive: 0,
       };
 
     case LOGIN:
@@ -38,6 +53,11 @@ export default function auth(state = initialAuthState, action) {
       return {
         ...state,
         user: action.user,
+      };
+    case SET_PUSH_TOKEN:
+      return {
+        ...state,
+        pushToken: action.pushToken,
       };
     case REQUESTS.UPDATE_DEVICE.SUCCESS:
       return {
@@ -65,6 +85,19 @@ export default function auth(state = initialAuthState, action) {
         },
         cableId: action.id,
       };
+    case REQUESTS.CREATE_PUSH_DEVICE.SUCCESS:
+      return {
+        ...state,
+        device: {
+          version: action.version,
+          local_version: action.local_version,
+          local_id: action.local_id,
+          family: action.family,
+          name: action.name,
+          os: action.os,
+        },
+        pushId: action.id,
+      };
     case REQUESTS.DESTROY_DEVICE.SUCCESS:
       return {
         ...state,
@@ -72,7 +105,7 @@ export default function auth(state = initialAuthState, action) {
         cableId: '',
       };
     case LOGOUT:
-      return initialAuthState;
+      return initialState;
     default:
       return state;
   }

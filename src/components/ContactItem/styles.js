@@ -16,7 +16,13 @@ export default StyleSheet.create({
     marginRight: 15,
   },
   name: {
+    flex: 1,
     fontSize: 16,
     color: theme.darkText,
+  },
+  voke: {
+    paddingRight: 10,
+    fontSize: 18,
+    color: theme.primaryColor,
   },
 });

@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import { Slider, View, Image } from 'react-native';
+import { Slider } from 'react-native';
 import PropTypes from 'prop-types';
 
 import theme from '../../theme';
-import { Touchable, Flex, Icon, Text } from '../common';
+import { Touchable, Flex, Icon, VokeIcon, Text } from '../common';
 import styles from './styles';
-import THUMB_SLIDER from '../../../images/slider_thumb.png';
-import PLAY_BUTTON from '../../../images/play_button.png';
-import PAUSE_BUTTON from '../../../images/pause_button.png';
-import FULLSCREEN_BUTTON from '../../../images/fullscreen_button.png';
+import { vokeIcons } from '../../utils/iconMap';
 
 function convertTime(time) {
   let seconds = '00' + Math.ceil(time % 60);
@@ -29,7 +26,7 @@ export default class VideoControls extends Component {
     this.state = {
       timeElapsedStr: convertTime(0),
       stateTime: 0,
-      screenPressed: false,
+      screenPressed: this.props.type === 'arclight' ? true : false,
     };
 
     this.handleScreenPress = this.handleScreenPress.bind(this);
@@ -47,12 +44,12 @@ export default class VideoControls extends Component {
     //   this.setState({ screenAnimation: null });
     // },1000);
     // this.screenPlay;
-    // console.warn('screen press');
+    // LOG('screen press');
   }
 
 
   render() {
-    const { time, isPaused, onSeek, duration, onPlayPause } = this.props;
+    const { time, isPaused, onSeek, duration } = this.props;
     return (
       <Flex direction= "column" style={styles.outerWrap}>
         <Flex style={styles.viewBlock} align="center" justify="center">
@@ -69,9 +66,7 @@ export default class VideoControls extends Component {
         <Flex direction="row" style={styles.controlWrapper} align="center" justify="center">
           <Flex value={.2} align="center">
             <Touchable onPress={this.handleScreenPress}>
-              <View>
-                <Image source={!isPaused ? PAUSE_BUTTON : PLAY_BUTTON} style={styles.playIcon}/>
-              </View>
+              <VokeIcon name={!isPaused ? 'pause' : 'play'} style={styles.playIcon} />
             </Touchable>
           </Flex>
           <Flex value={.2} align="center">
@@ -79,7 +74,7 @@ export default class VideoControls extends Component {
           </Flex>
           <Flex value={1.2}>
             <Slider
-              thumbImage={THUMB_SLIDER}
+              thumbImage={vokeIcons['thumb']}
               minimumTrackTintColor={theme.primaryColor}
               step={1}
               value={time}
@@ -108,5 +103,6 @@ VideoControls.propTypes = {
   duration: PropTypes.number.isRequired,
   onSeek: PropTypes.func.isRequired,
   onPlayPause: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
   // buttonTextStyle: PropTypes.oneOfType(styleTypes),
 };

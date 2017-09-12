@@ -1,6 +1,6 @@
 import { REHYDRATE } from 'redux-persist/constants';
 import { REQUESTS } from '../actions/api';
-
+import { LOGOUT } from '../constants';
 
 const initialState = {
   all: [],
@@ -26,7 +26,7 @@ export default function videos(state = initialState, action) {
         selectedThemeVideos: [],
       };
     case REQUESTS.GET_TAGS.SUCCESS:
-      console.warn('tags, check action:', action);
+      LOG('tags, check action:', action);
       return {
         ...state,
         tags: action.tags || [],
@@ -44,11 +44,13 @@ export default function videos(state = initialState, action) {
         selectedThemeVideos: [],
       };
     case REQUESTS.GET_VIDEOS_BY_TAG.SUCCESS:
-      console.warn('selected theme, check action:', action);
+      LOG('selected theme, check action:', action);
       return {
         ...state,
         selectedThemeVideos: action.items || [],
       };
+    case LOGOUT:
+      return initialState;
     default:
       return state;
   }

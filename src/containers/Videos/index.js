@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { getVideos, getFeaturedVideos, getPopularVideos, getTags, getSelectedThemeVideos } from '../../actions/videos';
 import PropTypes from 'prop-types';
@@ -8,20 +8,44 @@ import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { Navigation } from 'react-native-navigation';
 
 import styles from './styles';
-// import { iconsMap } from '../../utils/iconMap';
-import theme, { COLORS } from '../../theme';
-import HOME_ICON from '../../../images/home_icon.png';
+import theme from '../../theme';
+import { navMenuOptions } from '../../utils/menu';
+import { iconsMap, vokeIcons } from '../../utils/iconMap';
 
+import ApiLoading from '../ApiLoading';
 import PillButton from '../../components/PillButton';
 import VideoList from '../../components/VideoList';
 import StatusBar from '../../components/StatusBar';
 import { Flex } from '../../components/common';
 
-function setButtons() {
+function setButtons(showBack) {
+  if (!showBack && Platform.OS === 'android') {
+    let menu = navMenuOptions().map((m) => ({
+      title: m.name,
+      id: m.id,
+      showAsAction: 'never',
+    })).reverse();
+    menu.unshift({
+      title: 'Search', // for a textual button, provide the button title (label)
+      id: 'search',
+      showAsAction: 'always',
+      icon: vokeIcons['search'], // for icon button, provide the local image asset name
+    });
+    return {
+      rightButtons: menu,
+    };
+  }
+  const leftButton1 = {
+    title: showBack ? 'Back' : 'Menu',
+    id: showBack ? 'back' : 'menu',
+    icon: showBack ? iconsMap['ios-arrow-back'] : vokeIcons['menu'],
+  };
   return {
-    leftButtons: [{
-      id: 'back', // Android implements this already
-      icon: HOME_ICON, // For iOS only
+    leftButtons: [leftButton1],
+    rightButtons: [{
+      title: 'Search', // for a textual button, provide the button title (label)
+      id: 'search',
+      icon: vokeIcons['search'], // for icon button, provide the local image asset name
     }],
   };
 }
@@ -31,6 +55,7 @@ class Videos extends Component {
     navBarButtonColor: theme.lightText,
     navBarTextColor: theme.headerTextColor,
     navBarBackgroundColor: theme.headerBackgroundColor,
+    screenBackgroundColor: theme.primaryColor,
   };
   constructor(props) {
     super(props);
@@ -53,13 +78,32 @@ class Videos extends Component {
       if (event.id == 'back') {
         this.props.navigateBack();
       }
+      if (event.id == 'search') {
+        this.props.dispatch(getTags()). then(()=> {
+          this.showThemes();
+        });
+      }
+      if (event.id === 'menu') {
+        Navigation.showModal({
+          screen: 'voke.Menu', // unique ID registered with Navigation.registerScreen
+          title: 'Settings', // title of the screen as appears in the nav bar (optional)
+          animationType: 'slide-up', // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
+        });
+        // this.props.navigatePush('voke.Menu', {}, { animationType: 'slide-up' });
+      }
     }
   }
 
   componentWillMount() {
     if (!this.props.onSelectVideo) {
       this.props.navigator.setButtons(setButtons());
+    } else {
+      this.props.navigator.setButtons(setButtons(true));
     }
+    this.props.navigator.setTitle({
+      title: 'Videos',
+      // titleImage: require('../../../images/nav_voke_logo.png'),
+    });
   }
 
   componentDidMount() {
@@ -139,7 +183,9 @@ class Videos extends Component {
   }
 
   render() {
+    const { onSelectVideo } = this.props;
     const { selectedFilter } = this.state;
+
     return (
       <View style={styles.container}>
         <Flex style={{height: 50}} align="center" justify="center">
@@ -149,21 +195,25 @@ class Videos extends Component {
                 text="All"
                 filled={selectedFilter === 'all'}
                 onPress={()=> this.handleFilter('all')}
+                animation="slideInUp"
               />
               <PillButton
                 text="Featured"
                 filled={selectedFilter === 'featured'}
                 onPress={()=> this.handleFilter('featured')}
+                animation="slideInUp"
               />
               <PillButton
                 text="Popular"
                 filled={selectedFilter === 'popular'}
                 onPress={()=> this.handleFilter('popular')}
+                animation="slideInUp"
               />
               <PillButton
                 text="Themes"
                 filled={selectedFilter === 'themes'}
                 onPress={()=> this.handleFilter('themes')}
+                animation="slideInUp"
               />
             </Flex>
           </ScrollView>
@@ -175,11 +225,20 @@ class Videos extends Component {
           onSelect={(c) => {
             this.props.navigatePush('voke.VideoDetails', {
               video: c,
-              onSelectVideo: this.props.onSelectVideo,
+              onSelectVideo,
             });
           }}
           onRefresh={() => {}}
         />
+        {
+          !onSelectVideo ? (
+            <Flex direction="row">
+              <Flex value={1} style={styles.unSelectedTab}></Flex>
+              <Flex value={1} style={styles.selectedTab}></Flex>
+            </Flex>
+          ) : null
+        }
+        <ApiLoading />
       </View>
     );
   }

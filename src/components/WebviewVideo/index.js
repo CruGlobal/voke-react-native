@@ -132,6 +132,7 @@ export default class WebviewVideo extends Component {
           onPlayPause={this.togglePlay}
           duration={this.state.duration}
           time={this.state.time}
+          type={this.props.type}
         />
       </View>
     );

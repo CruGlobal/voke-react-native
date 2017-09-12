@@ -39,8 +39,8 @@ export function mapMessages(results) {
     const currMessageTime = moment.utc(currMessage.created_at, 'YYYY-MM-DD HH:mm:ss UTC').local();
     const nextMessageTime = moment.utc(nextMessage.created_at, 'YYYY-MM-DD HH:mm:ss UTC').local();
 
-    // console.warn(currMessageTime);
-    // console.warn(nextMessageTime);
+    // LOG(currMessageTime);
+    // LOG(nextMessageTime);
     const currMessageDate = currMessageTime.format('LL');
     const nextMessageDate = nextMessageTime.format('LL');
 
@@ -64,7 +64,7 @@ export function mapConversations(results, query, data, getState) {
     c = formatConversation(c, getState);
     return c;
   });
-  // console.warn(JSON.stringify(conversations));
+  // LOG(JSON.stringify(conversations));
   return {
     conversations,
   };
@@ -72,7 +72,7 @@ export function mapConversations(results, query, data, getState) {
 
 export function mapConversation(results, query, data, getState) {
   let conversation = formatConversation(results, getState);
-  console.warn('single conversation', JSON.stringify(conversation));
+  // LOG('single conversation', JSON.stringify(conversation));
   return {
     conversation,
   };
@@ -87,7 +87,7 @@ function formatConversation(c, getState) {
     if (m.latest_message && m.latest_message.created_at) {
       latestTime = m.latest_message.created_at;
     }
-    console.warn('latest item', JSON.stringify(m.latest_item));
+    // LOG('latest item', JSON.stringify(m.latest_item));
     if (m.latest_item && m.latest_item.updated_at) {
       if (!latestTime) {
         latestTime = m.latest_item.updated_at;
@@ -97,7 +97,7 @@ function formatConversation(c, getState) {
         if (mTime > keyA) {
           latestTime = m.latest_item.updated_at;
         } else {
-          console.warn('message is before time', latestTime, m.latest_item.updated_at);
+          // LOG('message is before time', latestTime, m.latest_item.updated_at);
         }
       }
     }
@@ -119,7 +119,7 @@ function formatConversation(c, getState) {
     if (keyA < keyB) return 1;
     return 0;
   });
-  // c.messengers[2] && c.messengers[2].latest_message && console.warn(c.id, JSON.stringify(c.messengers[2].latest_message.created_at),'should be sorted');
+  // c.messengers[2] && c.messengers[2].latest_message && LOG(c.id, JSON.stringify(c.messengers[2].latest_message.created_at),'should be sorted');
 
   // This adds the 'messagePreview' field as a text field onto each conversation
   const latestMessenger = messengers[0];
@@ -157,6 +157,8 @@ function formatConversation(c, getState) {
   if (latestMessenger.id === getState().auth.user.id) {
     c.hasUnread = false;
   }
+
+  // c.timeReceived = Date.now();
 
   return c;
 }

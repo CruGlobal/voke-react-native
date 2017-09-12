@@ -4,19 +4,18 @@ import { connect } from 'react-redux';
 import styles from './styles';
 import { Flex, Icon, Button, Text, Separator } from '../../components/common';
 import ImagePicker from '../../components/ImagePicker';
-// import { iconsMap } from '../../utils/iconMap';
-import BACK_ICON from '../../../images/back-arrow.png';
 import { updateMe } from '../../actions/auth';
+import { vokeIcons } from '../../utils/iconMap';
 
 import VOKE_LOGO from '../../../images/nav_voke_logo.png';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import theme, { COLORS } from '../../theme'
+import theme, { COLORS } from '../../theme';
 
 function setButtons() {
   return {
     leftButtons: [{
       id: 'back', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-      icon: BACK_ICON, // for icon button, provide the local image asset name
+      icon: vokeIcons['back'], // for icon button, provide the local image asset name
     }],
   };
 }
@@ -58,7 +57,7 @@ class Profile extends Component {
 
   componentWillMount() {
     this.props.navigator.setButtons(setButtons());
-    // console.warn(JSON.stringify(this.props.user));
+    // LOG(JSON.stringify(this.props.user));
   }
 
   onNavigatorEvent(event) {
@@ -70,7 +69,7 @@ class Profile extends Component {
   }
 
   handleUpdate() {
-    console.warn('updating');
+    LOG('updating');
     const { firstName, lastName, currentPassword, newEmail, confirmEmail, newPassword, confirmPassword } = this.state;
     let data = {};
 
@@ -124,13 +123,34 @@ class Profile extends Component {
       confirmPassword: '',
     });
   }
-
+  
   handleImageChange(data) {
     // TODO: Make API call to update image
     this.setState({
       imageUri: data.uri,
     });
-    console.warn('image selected');
+    // LOG(JSON.stringify(data));
+    if (this.state.imageUri) {
+      // let formData = new FormData();
+      //
+      // formData.append('name', 'me[avatar]');
+      // formData.append('fileName', `${this.props.user.first_name}_${this.props.user.last_name}.png`);
+      // formData.append('mimeType', 'image/*');
+      // formData.append(this.state.imageUri);
+      let data = {
+        me: {
+          avatar: {
+            [`${this.props.user.first_name}_${this.props.user.last_name}.png`]: this.state.imageUri,
+          },
+        },
+
+      };
+      // LOG(JSON.stringify(formData));
+      this.props.dispatch(updateMe(data)).then(()=>{
+        this.resetState();
+      });
+    }
+    LOG('image selected');
   }
 
   scrollEnd(isAnimated) {

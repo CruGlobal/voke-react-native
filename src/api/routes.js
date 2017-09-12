@@ -8,6 +8,11 @@ const CLIENT = {
   secret: CONSTANTS.CLIENT_SECRET,
 };
 
+const FB_CLIENT = {
+  id: '443564615845137',
+  secret: '45f7ffa5523369986711194976f206d0',
+};
+
 export default {
   // Example
   // 'PLANETS': {
@@ -27,6 +32,8 @@ export default {
   //   mapResults: (results, query, data, getState) => results,
   //   (some default data that will merge with the data passed in)
   //   data: {}
+  //   (mark the api as a call that will show the loading state)
+  //   showApiLoading: true
   // },
   'OAUTH': {
     endpoint: AUTH_URL + 'oauth/token',
@@ -35,6 +42,17 @@ export default {
     data: {
       client: CLIENT,
       grant_type: 'password',
+      scope: 'messenger',
+    },
+    mapResults: mapAuth,
+  },
+  'FACEBOOK_LOGIN': {
+    endpoint: AUTH_URL + 'oauth/token',
+    anonymous: true,
+    method: 'post',
+    data: {
+      client: CLIENT,
+      grant_type: 'assertion',
       scope: 'messenger',
     },
     mapResults: mapAuth,
@@ -53,6 +71,7 @@ export default {
     data: {
       client: CLIENT,
     },
+    showApiLoading: true,
   },
   'UPDATE_ME': {
     endpoint: API_URL + 'me',
@@ -60,6 +79,7 @@ export default {
     data: {
       client: CLIENT,
     },
+    showApiLoading: true,
   },
   'CREATE_MOBILE_VERIFICATION': {
     endpoint: API_URL + 'me/mobile',
@@ -95,6 +115,7 @@ export default {
     data: {
       client: CLIENT,
     },
+    showApiLoading: true,
   },
   'GET_FEATURED_VIDEOS': {
     endpoint: API_URL + 'items',
@@ -102,6 +123,7 @@ export default {
     data: {
       client: CLIENT,
     },
+    showApiLoading: true,
   },
   'GET_TAGS': {
     endpoint: API_URL + 'tags',
@@ -109,6 +131,7 @@ export default {
     data: {
       client: CLIENT,
     },
+    showApiLoading: true,
   },
   'GET_VIDEOS_BY_TAG': {
     endpoint: API_URL + 'items',
@@ -116,6 +139,7 @@ export default {
     data: {
       client: CLIENT,
     },
+    showApiLoading: true,
   },
   'GET_KICKSTARTERS': {
     endpoint: API_URL + 'items',
@@ -123,6 +147,7 @@ export default {
     data: {
       client: CLIENT,
     },
+    showApiLoading: true,
   },
   'GET_CONVERSATIONS': {
     endpoint: API_URL + 'me/conversations',
@@ -131,6 +156,7 @@ export default {
       client: CLIENT,
     },
     mapResults: mapConversations,
+    showApiLoading: true,
   },
   'GET_CONVERSATION': {
     endpoint: API_URL + 'me/conversations',
@@ -139,6 +165,14 @@ export default {
       client: CLIENT,
     },
     mapResults: mapConversation,
+  },
+  'DELETE_CONVERSATION': {
+    endpoint: API_URL + 'me/conversations/:id',
+    method: 'delete',
+    data: {
+      client: CLIENT,
+    },
+    showApiLoading: true,
   },
   'CREATE_CONVERSATION': {
     endpoint: API_URL + 'me/conversations',
@@ -154,6 +188,7 @@ export default {
       client: CLIENT,
     },
     mapResults: mapMessages,
+    showApiLoading: true,
   },
   'CREATE_MESSAGE': {
     endpoint: API_URL + 'me/conversations/conversation_id/messages',
@@ -165,6 +200,20 @@ export default {
   'CREATE_DEVICE': {
     endpoint: API_URL + 'me/devices',
     method: 'post',
+    data: {
+      client: CLIENT,
+    },
+  },
+  'CREATE_PUSH_DEVICE': {
+    endpoint: API_URL + 'me/devices',
+    method: 'post',
+    data: {
+      client: CLIENT,
+    },
+  },
+  'GET_DEVICES': {
+    endpoint: API_URL + 'me/devices',
+    method: 'get',
     data: {
       client: CLIENT,
     },
@@ -199,6 +248,20 @@ export default {
   },
   'CREATE_MESSAGE_INTERACTION': {
     endpoint: API_URL + 'me/conversations',
+    method: 'post',
+    data: {
+      client: CLIENT,
+    },
+  },
+  'BLOCK_MESSENGER': {
+    endpoint: API_URL + 'messengers/:messenger_id/block',
+    method: 'post',
+    data: {
+      client: CLIENT,
+    },
+  },
+  'UNBLOCK_MESSENGER': {
+    endpoint: API_URL + 'messengers/:messenger_id/unblock',
     method: 'post',
     data: {
       client: CLIENT,

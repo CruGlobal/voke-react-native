@@ -10,6 +10,7 @@ import Touchable from './Touchable';
 import Separator from './Separator';
 import RefreshControl from './RefreshControl';
 import Avatar from './Avatar';
+import VokeIcon from './VokeIcon';
 
 export {
   Button,
@@ -22,4 +23,5 @@ export {
   Separator,
   RefreshControl,
   Avatar,
+  VokeIcon,
 };

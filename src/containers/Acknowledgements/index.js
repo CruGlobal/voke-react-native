@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { Linking } from 'react-native';
-import BACK_ICON from '../../../images/back-arrow.png';
 
 import theme from '../../theme';
 import SettingsList from '../../components/SettingsList';
+import { vokeIcons } from '../../utils/iconMap';
 
 function setButtons() {
   return {
     leftButtons: [{
       id: 'back', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-      icon: BACK_ICON, // for icon button, provide the local image asset name
+      icon: vokeIcons['back'], // for icon button, provide the local image asset name
     }],
   };
 }

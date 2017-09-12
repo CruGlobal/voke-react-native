@@ -21,7 +21,7 @@ class LoginInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: 'bengauthier@knights.ucf.edu',
+      email: 'benlgauthier+voke1@gmail.com',
       password: 'password',
       emailActive: false,
       passwordActive: false,
@@ -42,7 +42,9 @@ class LoginInput extends Component {
   }
 
   login() {
-    if (this.state.emailValidation && this.state.password) {
+    //CHANGE BACK, ONLY FOR TESTING
+    // if (this.state.emailValidation && this.state.password) {
+    if (this.state.password) {
       this.props.dispatch(anonLogin(
         this.state.email,
         this.state.password
@@ -120,7 +122,7 @@ class LoginInput extends Component {
                 buttonTextStyle={styles.signInButtonText}
                 icon="account-box"
                 style={this.state.disabled ? [styles.facebookButton, styles.disabled] : styles.facebookButton}
-                onPress={()=>{console.warn('login with facebook');}}
+                onPress={()=>{LOG('login with facebook');}}
               />
             </Flex>
             <Flex direction="row">
