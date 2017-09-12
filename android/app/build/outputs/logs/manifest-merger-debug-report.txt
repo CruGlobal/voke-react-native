@@ -1,82 +1,84 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:1:1-74:12
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:1:1-76:12
 	package
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:2:5-31
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:2:5-27
 		INJECTED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml
 		INJECTED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml
 	android:versionName
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:4:5-30
-		INJECTED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml
-	android:versionCode
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:3:5-28
 		INJECTED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml
 		INJECTED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml
 	xmlns:android
 		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:1:11-69
+	android:versionCode
+		INJECTED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml
 uses-permission#android.permission.INTERNET
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:6:5-67
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:4:5-67
 MERGED from [com.google.android.gms:play-services-gcm:11.0.4] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/11.0.4/AndroidManifest.xml:21:5-66
 MERGED from [com.google.android.gms:play-services-iid:11.0.4] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-iid/11.0.4/AndroidManifest.xml:21:5-66
 	android:name
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:6:22-64
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:4:22-64
 uses-permission#android.permission.SYSTEM_ALERT_WINDOW
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:7:5-77
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:5:5-77
 MERGED from [com.facebook.react:react-native:0.46.4] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.46.4/AndroidManifest.xml:11:5-78
 	android:name
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:7:22-75
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:5:22-75
 uses-permission#android.permission.CAMERA
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:8:5-65
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:6:5-65
 	android:name
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:8:22-62
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:6:22-62
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:9:5-80
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:7:5-80
 	android:name
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:9:22-78
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:7:22-78
 uses-permission#android.permission.READ_PROFILE
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:10:5-71
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:8:5-71
 	android:name
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:10:22-68
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:8:22-68
 uses-permission#android.permission.READ_CONTACTS
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:11:5-72
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:9:5-72
 	android:name
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:11:22-69
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:9:22-69
 uses-permission#android.permission.WRITE_CONTACTS
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:12:5-73
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:10:5-73
 	android:name
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:12:22-70
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:10:22-70
 permission#${applicationId}.permission.C2D_MESSAGE
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:14:5-16:47
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:12:5-14:47
 	android:protectionLevel
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:16:9-44
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:14:9-44
 	android:name
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:15:9-63
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:13:9-63
 		INJECTED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml
 uses-permission#${applicationId}.permission.C2D_MESSAGE
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:17:5-79
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:15:5-79
 	android:name
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:17:22-76
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:15:22-76
 		INJECTED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml
 uses-permission#android.permission.VIBRATE
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:18:5-66
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:16:5-66
 	android:name
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:18:22-63
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:16:22-63
 uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:19:5-80
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:17:5-80
 	android:name
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:19:22-78
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:17:22-78
 uses-sdk
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:21:5-23:41
-MERGED from [MessagingApp:react-native-device-info:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-device-info/unspecified/AndroidManifest.xml:7:5-9:41
-MERGED from [MessagingApp:react-native-push-notification:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-push-notification/unspecified/AndroidManifest.xml:7:5-9:41
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:19:5-21:41
+MERGED from [Voke:react-native-fbsdk:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-fbsdk/unspecified/AndroidManifest.xml:24:5-26:41
+MERGED from [com.facebook.android:facebook-android-sdk:4.22.1] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/AndroidManifest.xml:24:5-26:41
+MERGED from [com.android.support:cardview-v7:25.0.0] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/25.0.0/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:customtabs:25.0.0] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/customtabs/25.0.0/AndroidManifest.xml:20:5-44
+MERGED from [Voke:react-native-device-info:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-device-info/unspecified/AndroidManifest.xml:7:5-9:41
+MERGED from [Voke:react-native-push-notification:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-push-notification/unspecified/AndroidManifest.xml:7:5-9:41
 MERGED from [me.leolin:ShortcutBadger:1.1.8] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/me.leolin/ShortcutBadger/1.1.8/AndroidManifest.xml:7:5-9:41
-MERGED from [MessagingApp:react-native-spinkit:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-spinkit/unspecified/AndroidManifest.xml:7:5-9:41
+MERGED from [Voke:react-native-spinkit:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-spinkit/unspecified/AndroidManifest.xml:7:5-9:41
 MERGED from [com.github.ybq:Android-SpinKit:1.1.0] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.github.ybq/Android-SpinKit/1.1.0/AndroidManifest.xml:6:5-8:41
-MERGED from [MessagingApp:react-native-contacts:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-contacts/unspecified/AndroidManifest.xml:7:5-9:41
-MERGED from [MessagingApp:react-native-image-picker:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-image-picker/unspecified/AndroidManifest.xml:7:5-9:41
-MERGED from [MessagingApp:react-native-vector-icons:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-vector-icons/unspecified/AndroidManifest.xml:7:5-9:41
-MERGED from [MessagingApp:react-native-navigation:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-navigation/unspecified/AndroidManifest.xml:7:5-9:41
+MERGED from [Voke:react-native-contacts:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-contacts/unspecified/AndroidManifest.xml:7:5-9:41
+MERGED from [Voke:react-native-image-picker:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-image-picker/unspecified/AndroidManifest.xml:7:5-9:41
+MERGED from [Voke:react-native-vector-icons:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-vector-icons/unspecified/AndroidManifest.xml:7:5-9:41
+MERGED from [Voke:react-native-navigation:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-navigation/unspecified/AndroidManifest.xml:7:5-9:41
 MERGED from [com.facebook.react:react-native:0.46.4] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.46.4/AndroidManifest.xml:7:5-9:41
 MERGED from [com.facebook.fbui.textlayoutbuilder:textlayoutbuilder:1.0.0] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.fbui.textlayoutbuilder/textlayoutbuilder/1.0.0/AndroidManifest.xml:14:5-16:41
 MERGED from [com.facebook.fresco:fresco:1.0.1] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.fresco/fresco/1.0.1/AndroidManifest.xml:5:5-7:41
@@ -111,22 +113,26 @@ MERGED from [com.android.support:support-compat:25.3.1] /Users/bryan/Documents/D
 	tools:overrideLibrary
 		ADDED from [com.android.support:design:25.3.1] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/AndroidManifest.xml:23:9-59
 	android:targetSdkVersion
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:23:9-38
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:21:9-38
 		INJECTED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml
 		INJECTED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:22:9-35
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:20:9-35
 		INJECTED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml
 		INJECTED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml
 uses-permission#android.permission.WAKE_LOCK
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:24:9-72
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:22:9-72
 	android:name
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:24:26-69
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:22:26-69
 application
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:27:5-72:19
-MERGED from [MessagingApp:react-native-spinkit:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-spinkit/unspecified/AndroidManifest.xml:11:5-14:19
-MERGED from [MessagingApp:react-native-image-picker:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-image-picker/unspecified/AndroidManifest.xml:11:5-21:19
-MERGED from [MessagingApp:react-native-navigation:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-navigation/unspecified/AndroidManifest.xml:11:5-18:19
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:25:5-74:19
+MERGED from [Voke:react-native-fbsdk:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-fbsdk/unspecified/AndroidManifest.xml:28:5-20
+MERGED from [com.facebook.android:facebook-android-sdk:4.22.1] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/AndroidManifest.xml:28:5-48:19
+MERGED from [com.android.support:cardview-v7:25.0.0] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/25.0.0/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:customtabs:25.0.0] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/customtabs/25.0.0/AndroidManifest.xml:22:5-20
+MERGED from [Voke:react-native-spinkit:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-spinkit/unspecified/AndroidManifest.xml:11:5-14:19
+MERGED from [Voke:react-native-image-picker:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-image-picker/unspecified/AndroidManifest.xml:11:5-21:19
+MERGED from [Voke:react-native-navigation:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-navigation/unspecified/AndroidManifest.xml:11:5-18:19
 MERGED from [com.facebook.react:react-native:0.46.4] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.46.4/AndroidManifest.xml:13:5-20
 MERGED from [com.facebook.soloader:soloader:0.1.0] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.soloader/soloader/0.1.0/AndroidManifest.xml:3:3-17
 MERGED from [org.webkit:android-jsc:r174650] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/org.webkit/android-jsc/r174650/AndroidManifest.xml:2:3-17
@@ -150,91 +156,121 @@ MERGED from [com.android.support:support-core-ui:25.3.1] /Users/bryan/Documents/
 MERGED from [com.android.support:support-core-utils:25.3.1] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.3.1/AndroidManifest.xml:29:5-20
 MERGED from [com.android.support:support-compat:25.3.1] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.3.1/AndroidManifest.xml:29:5-20
 	android:label
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:30:7-39
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:28:7-39
 	android:supportsRtl
-		ADDED from [MessagingApp:react-native-spinkit:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-spinkit/unspecified/AndroidManifest.xml:13:9-35
+		ADDED from [Voke:react-native-spinkit:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-spinkit/unspecified/AndroidManifest.xml:13:9-35
 	android:allowBackup
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:29:7-33
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:27:7-33
 	android:icon
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:31:7-41
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:29:7-41
 	android:theme
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:32:7-38
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:30:7-38
 	android:name
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:28:7-38
-activity#com.messagingapp.MainActivity
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:33:7-44:18
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:26:7-38
+meta-data#com.facebook.sdk.ApplicationId
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:32:7-105
+	android:value
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:32:64-103
+	android:name
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:32:18-63
+activity#org.cru.voke.MainActivity
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:34:7-46:18
 	android:screenOrientation
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:38:9-45
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:39:9-45
 	android:label
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:35:9-41
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:36:9-41
 	android:windowSoftInputMode
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:37:9-51
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:38:9-51
 	android:configChanges
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:36:9-79
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:37:9-79
 	android:name
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:34:9-37
-intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:40:9-43:25
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:35:9-37
+intent-filter#android.intent.action.MAIN+android.intent.category.DEFAULT+android.intent.category.LAUNCHER
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:41:9-45:25
 action#android.intent.action.MAIN
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:41:13-65
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:42:13-65
 	android:name
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:41:21-62
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:42:21-62
 category#android.intent.category.LAUNCHER
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:42:13-73
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:43:13-73
 	android:name
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:42:23-70
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:43:23-70
+category#android.intent.category.DEFAULT
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:44:13-72
+	android:name
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:44:23-69
 activity#com.facebook.react.devsupport.DevSettingsActivity
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:45:7-84
-MERGED from [MessagingApp:react-native-navigation:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-navigation/unspecified/AndroidManifest.xml:15:9-17:40
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:47:7-84
+MERGED from [Voke:react-native-navigation:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-navigation/unspecified/AndroidManifest.xml:15:9-17:40
 	android:exported
-		ADDED from [MessagingApp:react-native-navigation:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-navigation/unspecified/AndroidManifest.xml:17:13-37
+		ADDED from [Voke:react-native-navigation:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-navigation/unspecified/AndroidManifest.xml:17:13-37
 	android:name
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:45:17-81
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:47:17-81
 receiver#com.google.android.gms.gcm.GcmReceiver
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:47:7-55:20
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:49:7-57:20
 	android:exported
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:49:13-36
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:51:13-36
 	android:permission
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:50:13-73
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:52:13-73
 	android:name
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:48:13-66
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:50:13-66
 intent-filter#${applicationId}+com.google.android.c2dm.intent.RECEIVE
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:51:13-54:29
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:53:13-56:29
 action#com.google.android.c2dm.intent.RECEIVE
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:52:17-81
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:54:17-81
 	android:name
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:52:25-78
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:54:25-78
 category#${applicationId}
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:53:17-61
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:55:17-61
 	android:name
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:53:27-58
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:55:27-58
 		INJECTED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml
 receiver#com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:57:9-110
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:59:9-110
 	android:name
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:57:19-107
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:59:19-107
 receiver#com.dieam.reactnativepushnotification.modules.RNPushNotificationBootEventReceiver
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:58:9-62:20
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:60:9-64:20
 	android:name
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:58:19-115
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:60:19-115
 intent-filter#android.intent.action.BOOT_COMPLETED
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:59:13-61:29
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:61:13-63:29
 action#android.intent.action.BOOT_COMPLETED
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:60:17-79
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:62:17-79
 	android:name
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:60:25-76
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:62:25-76
 service#com.dieam.reactnativepushnotification.modules.RNPushNotificationRegistrationService
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:63:9-118
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:65:9-118
 	android:name
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:63:18-116
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:65:18-116
 service#com.dieam.reactnativepushnotification.modules.RNPushNotificationListenerService
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:64:9-70:19
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:66:9-72:19
 	android:exported
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:66:13-37
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:68:13-37
 	android:name
-		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:65:13-107
+		ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:67:13-107
 intent-filter#com.google.android.c2dm.intent.RECEIVE
-ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:67:13-69:29
+ADDED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:69:13-71:29
+activity#com.facebook.FacebookActivity
+ADDED from [com.facebook.android:facebook-android-sdk:4.22.1] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/AndroidManifest.xml:29:9-32:66
+	android:configChanges
+		ADDED from [com.facebook.android:facebook-android-sdk:4.22.1] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/AndroidManifest.xml:31:13-96
+	android:theme
+		ADDED from [com.facebook.android:facebook-android-sdk:4.22.1] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/AndroidManifest.xml:32:13-63
+	android:name
+		ADDED from [com.facebook.android:facebook-android-sdk:4.22.1] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/AndroidManifest.xml:30:13-57
+activity#com.facebook.CustomTabMainActivity
+ADDED from [com.facebook.android:facebook-android-sdk:4.22.1] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/AndroidManifest.xml:33:9-71
+	android:name
+		ADDED from [com.facebook.android:facebook-android-sdk:4.22.1] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/AndroidManifest.xml:33:19-68
+provider#com.facebook.internal.FacebookInitProvider
+ADDED from [com.facebook.android:facebook-android-sdk:4.22.1] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/AndroidManifest.xml:44:9-47:40
+	android:authorities
+		ADDED from [com.facebook.android:facebook-android-sdk:4.22.1] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/AndroidManifest.xml:46:13-72
+	android:exported
+		ADDED from [com.facebook.android:facebook-android-sdk:4.22.1] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/AndroidManifest.xml:47:13-37
+	android:name
+		ADDED from [com.facebook.android:facebook-android-sdk:4.22.1] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/AndroidManifest.xml:45:13-70
 uses-permission#com.sec.android.provider.badge.permission.READ
 ADDED from [me.leolin:ShortcutBadger:1.1.8] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/me.leolin/ShortcutBadger/1.1.8/AndroidManifest.xml:19:5-86
 	android:name
@@ -280,31 +316,31 @@ ADDED from [me.leolin:ShortcutBadger:1.1.8] /Users/bryan/Documents/Dev/voke-reac
 	android:name
 		ADDED from [me.leolin:ShortcutBadger:1.1.8] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/me.leolin/ShortcutBadger/1.1.8/AndroidManifest.xml:39:22-90
 provider#android.support.v4.content.FileProvider
-ADDED from [MessagingApp:react-native-image-picker:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-image-picker/unspecified/AndroidManifest.xml:12:9-20:20
+ADDED from [Voke:react-native-image-picker:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-image-picker/unspecified/AndroidManifest.xml:12:9-20:20
 	android:authorities
-		ADDED from [MessagingApp:react-native-image-picker:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-image-picker/unspecified/AndroidManifest.xml:14:13-60
+		ADDED from [Voke:react-native-image-picker:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-image-picker/unspecified/AndroidManifest.xml:14:13-60
 	android:grantUriPermissions
-		ADDED from [MessagingApp:react-native-image-picker:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-image-picker/unspecified/AndroidManifest.xml:16:13-47
+		ADDED from [Voke:react-native-image-picker:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-image-picker/unspecified/AndroidManifest.xml:16:13-47
 	android:exported
-		ADDED from [MessagingApp:react-native-image-picker:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-image-picker/unspecified/AndroidManifest.xml:15:13-37
+		ADDED from [Voke:react-native-image-picker:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-image-picker/unspecified/AndroidManifest.xml:15:13-37
 	android:name
-		ADDED from [MessagingApp:react-native-image-picker:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-image-picker/unspecified/AndroidManifest.xml:13:13-67
+		ADDED from [Voke:react-native-image-picker:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-image-picker/unspecified/AndroidManifest.xml:13:13-67
 meta-data#android.support.FILE_PROVIDER_PATHS
-ADDED from [MessagingApp:react-native-image-picker:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-image-picker/unspecified/AndroidManifest.xml:17:13-19:58
+ADDED from [Voke:react-native-image-picker:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-image-picker/unspecified/AndroidManifest.xml:17:13-19:58
 	android:resource
-		ADDED from [MessagingApp:react-native-image-picker:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-image-picker/unspecified/AndroidManifest.xml:19:17-55
+		ADDED from [Voke:react-native-image-picker:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-image-picker/unspecified/AndroidManifest.xml:19:17-55
 	android:name
-		ADDED from [MessagingApp:react-native-image-picker:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-image-picker/unspecified/AndroidManifest.xml:18:17-67
+		ADDED from [Voke:react-native-image-picker:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-image-picker/unspecified/AndroidManifest.xml:18:17-67
 activity#com.reactnativenavigation.controllers.NavigationActivity
-ADDED from [MessagingApp:react-native-navigation:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-navigation/unspecified/AndroidManifest.xml:12:9-14:86
+ADDED from [Voke:react-native-navigation:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-navigation/unspecified/AndroidManifest.xml:12:9-14:86
 	android:configChanges
-		ADDED from [MessagingApp:react-native-navigation:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-navigation/unspecified/AndroidManifest.xml:14:13-83
+		ADDED from [Voke:react-native-navigation:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-navigation/unspecified/AndroidManifest.xml:14:13-83
 	android:name
-		ADDED from [MessagingApp:react-native-navigation:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-navigation/unspecified/AndroidManifest.xml:13:13-84
+		ADDED from [Voke:react-native-navigation:unspecified] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-navigation/unspecified/AndroidManifest.xml:13:13-84
 android:uses-permission#android.permission.READ_PHONE_STATE
-IMPLIED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:1:1-74:12 reason: org.webkit.android_jsc has a targetSdkVersion < 4
+IMPLIED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:1:1-76:12 reason: org.webkit.android_jsc has a targetSdkVersion < 4
 android:uses-permission#android.permission.READ_EXTERNAL_STORAGE
-IMPLIED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:1:1-74:12 reason: org.webkit.android_jsc requested WRITE_EXTERNAL_STORAGE
+IMPLIED from /Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/AndroidManifest.xml:1:1-76:12 reason: org.webkit.android_jsc requested WRITE_EXTERNAL_STORAGE
 meta-data#android.support.VERSION
 ADDED from [com.android.support:design:25.3.1] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/AndroidManifest.xml:25:5-27:34
 MERGED from [com.android.support:recyclerview-v7:25.3.1] /Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.3.1/AndroidManifest.xml:22:5-24:34

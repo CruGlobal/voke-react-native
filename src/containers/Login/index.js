@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
-import { Image } from 'react-native';
+import { Image, Alert } from 'react-native';
 import { connect } from 'react-redux';
-
+import { LoginManager, GraphRequestManager, GraphRequest, AccessToken } from 'react-native-fbsdk';
 
 import styles from './styles';
-import { anonLogin } from '../../actions/auth';
+import { getMe, facebookLoginAction } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 
 import { Flex, Text, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import LOGO from '../../../images/initial_voke.png';
+
+const VERSION = 'v2.8';
+const SCOPE = ['public_profile'];
+const FIELDS = 'name,picture,about,cover,first_name,last_name';
+// const SCOPE = ['public_profile', 'email'];
+// const FIELDS = 'name,email,picture,about,cover,first_name,last_name';
 
 class Login extends Component {
   static navigatorStyle = {
@@ -18,7 +24,61 @@ class Login extends Component {
 
   constructor(props) {
     super(props);
+    this.facebookLogin = this.facebookLogin.bind(this);
+  }
 
+  facebookLogin() {
+    LOG('Making FB Call');
+    LoginManager.logInWithReadPermissions(['public_profile']).then((result)=>{
+      LOG('RESULT', result);
+      if (result.isCancelled) {
+        LOG('facebook login was canceled', result);
+      } else {
+        LOG('successful facebook login', result);
+        AccessToken.getCurrentAccessToken().then((data) => {
+          if (!data.accessToken) {
+            LOG('access token doesnt exist');
+            return;
+          }
+          const accessToken = data.accessToken.toString();
+          const getMeConfig = {
+            version: VERSION,
+            accessToken,
+            parameters: {
+              fields: {
+                string: FIELDS,
+              },
+            },
+          };
+          // Create a graph request asking for user information with a callback to handle the response.
+          const infoRequest = new GraphRequest('/me', getMeConfig, (err, meResult) => {
+            if (err) {
+              LOG('error getting facebook user', err);
+              return;
+            }
+            LOG('me', meResult);
+            this.props.dispatch(facebookLoginAction(accessToken)).then(()=> {
+              this.props.dispatch(getMe()).then((results)=>{
+                if (results.state === 'configured') {
+                  this.props.navigateResetHome();
+                } else {
+                  this.props.navigatePush('voke.SignUpFBAccount', {
+                    me: meResult,
+                  });
+                }
+              });
+            });
+          });
+          // Start the graph request.
+          new GraphRequestManager().addRequest(infoRequest).start();
+        });
+      }
+    }, (err) => {
+      LOG('err', err);
+      LoginManager.logOut();
+    }).catch(() => {
+      LOG('catch');
+    });
   }
 
   render() {
@@ -48,7 +108,7 @@ class Login extends Component {
               icon="facebook-square"
               iconType="FontAwesome"
               style={styles.actionButton}
-              onPress={() => this.props.navigatePush('voke.LoginInput')}
+              onPress={this.facebookLogin}
             />
           </Flex>
           <Flex direction="row" align="center" justify="center" style={styles.haveAccount}>
@@ -70,4 +130,8 @@ Login.propTypes = {
   ...NavPropTypes,
 };
 
-export default connect(null, nav)(Login);
+const mapStateToProps = ({ auth }) => ({
+  user: auth.user,
+});
+
+export default connect(mapStateToProps, nav)(Login);

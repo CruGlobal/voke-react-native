@@ -3,6 +3,33 @@
 
     <item
         is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-contacts/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="0ffa552da31f88385c969aa0e00e9a87434f1bcd">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/Voke-react-native-contacts-unspecified_a83bbe93bdad311fc2265128a185d8a0bc564321.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.3.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="45f697922e6f072daa12f8a2995dc77ab03c11da">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-media-compat-25.3.1_d087b2c9bad8749ff33ecd0ec22a1cd2907da2f7.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/library-2.4.0_bc708a9bd99ea0fd53c9828f0d3688078cca5b94.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.fresco/drawee/1.0.1/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -21,12 +48,111 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bryan/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.3.1/support-annotations-25.3.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="bf8841d29fa39e077730e7a91222c2ce269fa7c9">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/support-annotations-25.3.1_323a729f65f0161e3b1bb7bf3f102275bf1f85e6.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/me.leolin/ShortcutBadger/1.1.8/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="531c33d3697000a05e9493a2d0f09ba41fa114d3">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/me.leolin-ShortcutBadger-1.1.8_f956dbf2993a0dc514c9db99c3ad41f36f507fee.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/25.0.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="8a372c4191f80489770a231f7be4820b204b886a">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.android.support-cardview-v7-25.0.0_8727d3887fc8790afad344ccee1da24405b2b573.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bryan/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp-urlconnection/3.6.0/3f9b16b774f2c36cfd86dd2053d0b3059531dacc/okhttp-urlconnection-3.6.0.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
         sha1="3f9b16b774f2c36cfd86dd2053d0b3059531dacc">
         <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/okhttp-urlconnection-3.6.0_f814d4d734d66d5bb716fa44e700fadc4199a7e0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-spinkit/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="47b99616af6817e323d7b404b2f1922ca22228ad">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/Voke-react-native-spinkit-unspecified_2d7777fb2e836ccfaaef812e4f5934d4d868bfee.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-navigation/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c32035a5fb78d9b80cbb4949320e13bbbb4b8059">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/Voke-react-native-navigation-unspecified_d74d8d7314ba1234f18a3eee9fa75a19bf119257.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.fresco/animated-base/1.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="13469de5eef4b3c0488c0e4963fef197fc745f8a">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-animated-base-1.0.1_6951d6337b2eb6c675988fbb162b9999ff22c495.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.3.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="47635644d0d5c103c1dd8360549eb9ba3225c7d3">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.android.support-animated-vector-drawable-25.3.1_7d6b73b580b2a87ac63f37cb80d9f96f2aeb1c5a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-image-picker/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="74a0c4204b6e51e042bf3f99f1335dac59017fbc">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/Voke-react-native-image-picker-unspecified_de5703a1e947aaf10b55c1f66f4ca4f610c9f3b5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.soloader/soloader/0.1.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="8f615bca00639150c9eb6175d4b5471193f70794">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.facebook.soloader-soloader-0.1.0_e8446785b4a615c31950555f5994482f8f0c465a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/.gradle/caches/modules-2/files-2.1/com.facebook.fbui.textlayoutbuilder/staticlayout-proxy/1.0/f162442a19fff13995fbd51ba414d9ee05579080/staticlayout-proxy-1.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="f162442a19fff13995fbd51ba414d9ee05579080">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/staticlayout-proxy-1.0_b4a1e75e6c79c78dfa0e0bb9ae062f844a12a180.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="70ffe00aaf049893f59d1dad57bd82992faa38ef">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-base-11.0.4_7ae1eca6237abf1cb62a60513311006a5a085a12.jar" />
     </item>
     <item
         is-multidex="false"
@@ -39,21 +165,12 @@
     </item>
     <item
         is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-push-notification/unspecified/jars/classes.jar"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-vector-icons/unspecified/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="2e3e5a199c7209bab2dd53b85eefb664494af06d">
-        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/MessagingApp-react-native-push-notification-unspecified_e0129ff52add3e32b1afe39a372397df8b7bd72a.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/usr/local/opt/android-sdk/extras/android/m2repository/com/android/support/support-annotations/25.3.1/support-annotations-25.3.1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="bf8841d29fa39e077730e7a91222c2ce269fa7c9">
-        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/support-annotations-25.3.1_adc25731e75a3978eae2ccb702c92254820a9b34.jar" />
+        sha1="b319ff9834bbeb9be394687614eb86892699ea14">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/Voke-react-native-vector-icons-unspecified_729855444f0abb169d3a1aa23e86d6f638c50e07.jar" />
     </item>
     <item
         is-multidex="false"
@@ -66,12 +183,39 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.3.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="da27a32db6af8954ee8061537c7d476fcb1df46f">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-compat-25.3.1_39ec78a1a253b4ebe41808d8ec9aab163bc0197d.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.46.4/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
         sha1="c5526d30278eb171f4a1325bd6b927c9057c91f4">
         <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.facebook.react-react-native-0.46.4_6242efe51ffb8b18ae896f533c66337c9301f2d9.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-fbsdk/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="f897f64f6fbe1bfd5f0ddc2c6d5459750d6f0d1c">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/Voke-react-native-fbsdk-unspecified_05bfe5cec2d4c0b7ef248f8915fb0802e2e11a47.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.3.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="052f5f840f21174a3ecf6544130194e2652cbb73">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-core-ui-25.3.1_62800cd3ce577f1461a457e066316d49dd89a416.jar" />
     </item>
     <item
         is-multidex="false"
@@ -93,6 +237,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="d5cbc9214ee567ea6ef56fb2707d48e58d240fc2">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.facebook.android-facebook-android-sdk-4.22.1_6df0ada1f71f22159dc0a2be852ae98fe2e3cfa1.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-base/1.0.1/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -108,6 +261,42 @@
         revision="25.0.2"
         sha1="9809e90be788acdb479b2b44e2112f3295a03068">
         <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/infer-annotations-4.0_3b09d9321d2cbad575d2f3d1599a7896ec7ce3ca.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-device-info/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="2e4336ffc2b7653868134d7f6f8b28523ef54645">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/Voke-react-native-device-info-unspecified_378cd5a4e68ee8f350fc93c1bb0487de433f3ae9.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.fresco/fbcore/1.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="2668e49e4e31c7d451b76a36009b902bf44e0d70">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-fbcore-1.0.1_3ca609ad7c11d205aebf59b7dce4465a1f6456a9.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/customtabs/25.0.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="94ba691efc31bf53264db0716d9c9ec03843ea31">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.android.support-customtabs-25.0.0_2b56b64ce8aec47c2f443776458b9fb2223dfe3b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="38789e20ace9ab7dbd00554bd2673ab424478d3b">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.android.support-design-25.3.1_ae588cd22d140b7b16f37cdb913f01dd10752d9e.jar" />
     </item>
     <item
         is-multidex="false"
@@ -129,6 +318,69 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-device-info/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="2e4336ffc2b7653868134d7f6f8b28523ef54645">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/Voke-react-native-device-info-unspecified_378cd5a4e68ee8f350fc93c1bb0487de433f3ae9.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.6.0/69edde9fc4b01c9fd51d25b83428837478c27254/okhttp-3.6.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="69edde9fc4b01c9fd51d25b83428837478c27254">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/okhttp-3.6.0_52f43f7f5ef9e9f7244424bf970c342ff13354e3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.fresco/fresco/1.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="cf836a435a496eb22ff2aa69aa1e619462549f81">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-fresco-1.0.1_4ca330db035b172f733d6e403d52af5a3c1e917d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.fresco/drawee/1.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="5a61f17cd72e20aa4323cbf5f909b7c609619275">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-drawee-1.0.1_163992ddc216bb836267d313c44ed0f6c1835d81.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-base/1.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="050f688115ea65a0292d8483a6ffe6bcdab1e2ef">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-base-1.0.1_d2e204a6cf83bb8d8dd3e367c23d788864228186.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/25.0.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="8a372c4191f80489770a231f7be4820b204b886a">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.android.support-cardview-v7-25.0.0_8727d3887fc8790afad344ccee1da24405b2b573.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-spinkit/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="47b99616af6817e323d7b404b2f1922ca22228ad">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/Voke-react-native-spinkit-unspecified_2d7777fb2e836ccfaaef812e4f5934d4d868bfee.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.3.1/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -138,12 +390,57 @@
     </item>
     <item
         is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-contacts/unspecified/jars/classes.jar"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-contacts/unspecified/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
         sha1="0ffa552da31f88385c969aa0e00e9a87434f1bcd">
-        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/MessagingApp-react-native-contacts-unspecified_eea40a921e8211f99c189263c44fba526331d674.jar" />
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/Voke-react-native-contacts-unspecified_a83bbe93bdad311fc2265128a185d8a0bc564321.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.3.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="6ef31f1555bb4cc513ec8d52711365a8b89f3600">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-core-utils-25.3.1_fe447ae57830f34402e9c9868b74d4c5b5fea037.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.22.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d5cbc9214ee567ea6ef56fb2707d48e58d240fc2">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.facebook.android-facebook-android-sdk-4.22.1_6df0ada1f71f22159dc0a2be852ae98fe2e3cfa1.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/transition/25.3.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="d4cf6227dd6a2ceff0f7dcf0c324380b7abf2c28">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.android.support-transition-25.3.1_f104ae56f43283ebac237fd902d1952e8657b950.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.46.4/jars/libs/infer-annotations-4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="9809e90be788acdb479b2b44e2112f3295a03068">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/infer-annotations-4.0_3b09d9321d2cbad575d2f3d1599a7896ec7ce3ca.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/customtabs/25.0.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="94ba691efc31bf53264db0716d9c9ec03843ea31">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.android.support-customtabs-25.0.0_2b56b64ce8aec47c2f443776458b9fb2223dfe3b.jar" />
     </item>
     <item
         is-multidex="false"
@@ -156,12 +453,48 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-fbsdk/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="f897f64f6fbe1bfd5f0ddc2c6d5459750d6f0d1c">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/Voke-react-native-fbsdk-unspecified_05bfe5cec2d4c0b7ef248f8915fb0802e2e11a47.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
         sha1="38789e20ace9ab7dbd00554bd2673ab424478d3b">
         <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.android.support-design-25.3.1_ae588cd22d140b7b16f37cdb913f01dd10752d9e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.3.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="4a26a1154d053ab11aaf4c3967c42a4d66390991">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-fragment-25.3.1_c08474814e7a8c64bd51d671a0c63dfe0aa231c1.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-okhttp3/1.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="ba9b39366b723ccff6359d1117332968e98a4aca">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-okhttp3-1.0.1_83e11bbdc8b859336c02d1a205c3af69a6594567.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="150252b33b00274cc868578ade018fda0d43a3eb">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-25.3.1_d5adf2d9c81b82ba8cb59a51f4df858a52a0375f.jar" />
     </item>
     <item
         is-multidex="false"
@@ -192,12 +525,12 @@
     </item>
     <item
         is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-navigation/unspecified/jars/classes.jar"
+        jar="/Users/bryan/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-applinks/1.4.0/8ad21bf21784dacce5f2043afb97218cc377e835/bolts-applinks-1.4.0.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="c32035a5fb78d9b80cbb4949320e13bbbb4b8059">
-        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/MessagingApp-react-native-navigation-unspecified_bf14d1d9ef717ee655d33241063335f6b7520094.jar" />
+        sha1="8ad21bf21784dacce5f2043afb97218cc377e835">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/bolts-applinks-1.4.0_e3b493882b503cc788287c46e40e61c9d9bd8ec8.jar" />
     </item>
     <item
         is-multidex="false"
@@ -219,21 +552,12 @@
     </item>
     <item
         is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-vector-icons/unspecified/jars/classes.jar"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.balysv.materialmenu/material-menu-toolbar/1.5.4/jars/classes.jar"
         jumboMode="false"
         optimize="true"
-        revision="25.0.2"
-        sha1="b319ff9834bbeb9be394687614eb86892699ea14">
-        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/MessagingApp-react-native-vector-icons-unspecified_72c4418d9f237f5d1697a59314ecba1d2ed203b8.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-image-picker/unspecified/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="74a0c4204b6e51e042bf3f99f1335dac59017fbc">
-        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/MessagingApp-react-native-image-picker-unspecified_3204fd4b7f95b28a6cfc0a1a70ba91e3263756ed.jar" />
+        revision="25.0.3"
+        sha1="55d7bf547c88cb7c8c7c5cdbf3b06dd66c9750f8">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.balysv.materialmenu-material-menu-toolbar-1.5.4_07b80dfe5967d220ff220a071b281789e90215a0.jar" />
     </item>
     <item
         is-multidex="false"
@@ -246,12 +570,39 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-image-picker/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="74a0c4204b6e51e042bf3f99f1335dac59017fbc">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/Voke-react-native-image-picker-unspecified_de5703a1e947aaf10b55c1f66f4ca4f610c9f3b5.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.fresco/animated-base/1.0.1/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
         sha1="13469de5eef4b3c0488c0e4963fef197fc745f8a">
         <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-animated-base-1.0.1_6951d6337b2eb6c675988fbb162b9999ff22c495.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline/1.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="d9c4402c3057225d80cbbbec52154e7a25b0ebdf">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-1.0.1_f7fbe4494f882cd373f826fabd5212bf22336e26.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.3.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="95519720620b553f63afc789beba9ad582807f7c">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.android.support-recyclerview-v7-25.3.1_46431fbc5e17f1733a8197b39096071d0ab40b8c.jar" />
     </item>
     <item
         is-multidex="false"
@@ -264,12 +615,12 @@
     </item>
     <item
         is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-device-info/unspecified/jars/classes.jar"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/11.0.4/jars/classes.jar"
         jumboMode="false"
         optimize="true"
-        revision="25.0.2"
-        sha1="2e4336ffc2b7653868134d7f6f8b28523ef54645">
-        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/MessagingApp-react-native-device-info-unspecified_9ee3896eb784d3184cc2fd946379e376b42a5b18.jar" />
+        revision="25.0.3"
+        sha1="d8942ee348aaa9341f08f7e2437063893fe27542">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-gcm-11.0.4_c93603ac009e049604688ae537d2d3a4aae2acf7.jar" />
     </item>
     <item
         is-multidex="false"
@@ -279,15 +630,6 @@
         revision="25.0.2"
         sha1="c8ba41bea7f78f8bdf3a803b9d08eb3fff416706">
         <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.aurelhubert-ahbottomnavigation-2.0.6_52ad97e9ac91121044133f65b9310d636c1256bb.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-spinkit/unspecified/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="47b99616af6817e323d7b404b2f1922ca22228ad">
-        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/MessagingApp-react-native-spinkit-unspecified_68d6fb5704d9c2176f03a24bf09ccc5bf762f197.jar" />
     </item>
     <item
         is-multidex="false"
@@ -309,12 +651,30 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bryan/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.3.1/support-annotations-25.3.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="bf8841d29fa39e077730e7a91222c2ce269fa7c9">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/support-annotations-25.3.1_323a729f65f0161e3b1bb7bf3f102275bf1f85e6.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/me.leolin/ShortcutBadger/1.1.8/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
         sha1="531c33d3697000a05e9493a2d0f09ba41fa114d3">
         <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/me.leolin-ShortcutBadger-1.1.8_f956dbf2993a0dc514c9db99c3ad41f36f507fee.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-navigation/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="c32035a5fb78d9b80cbb4949320e13bbbb4b8059">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/Voke-react-native-navigation-unspecified_d74d8d7314ba1234f18a3eee9fa75a19bf119257.jar" />
     </item>
     <item
         is-multidex="false"
@@ -345,6 +705,24 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.3.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="efb8cb62d47d157c29d1521daac7eefd4cb881ee">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-vector-drawable-25.3.1_ba31e0c982501b31431cb69bb36e990a50217804.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="6975da39a7040257bd51d21a231b76c915872d38">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/javax.inject-1_897f5b085358c3451bb699b83a1a31a88316975d.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/11.0.4/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -363,6 +741,24 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bryan/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-tasks/1.4.0/d85884acf6810a3bbbecb587f239005cbc846dc4/bolts-tasks-1.4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="d85884acf6810a3bbbecb587f239005cbc846dc4">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/bolts-tasks-1.4.0_65afe43a063282649b6f1cf7322b7bb1322d0c0a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.13.0/a9283170b7305c8d92d25aff02a6ab7e45d06cbe/okio-1.13.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="a9283170b7305c8d92d25aff02a6ab7e45d06cbe">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/okio-1.13.0_21fd1a0bbb4a4b6c0a8e8bb72c8f96e1b99ec140.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.fbui.textlayoutbuilder/textlayoutbuilder/1.0.0/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -372,12 +768,84 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bryan/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-applinks/1.4.0/8ad21bf21784dacce5f2043afb97218cc377e835/bolts-applinks-1.4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="8ad21bf21784dacce5f2043afb97218cc377e835">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/bolts-applinks-1.4.0_e3b493882b503cc788287c46e40e61c9d9bd8ec8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.3.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-25.3.1_cab04e70f47ac3f5f5e2aab1a5c5106907a70a2b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.46.4/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="c5526d30278eb171f4a1325bd6b927c9057c91f4">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.facebook.react-react-native-0.46.4_6242efe51ffb8b18ae896f533c66337c9301f2d9.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-push-notification/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="2e3e5a199c7209bab2dd53b85eefb664494af06d">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/Voke-react-native-push-notification-unspecified_8ab9cc78ff864386caf4760936ee7b5fda4783e2.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.github.ybq/Android-SpinKit/1.1.0/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
         sha1="21c0f1b0de29bfe601028757c5cb125c343f5164">
         <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.github.ybq-Android-SpinKit-1.1.0_675e01ad661609b17c88919a002af1a0d13d3999.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.fresco/animated-gif/1.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="131115ec18ae3951c1584c543de8baa9ac20012a">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-animated-gif-1.0.1_4a191a41aafc4727293808294351158a4ce64f8c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-iid/11.0.4/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="dd282bdeaa904c59d77e57dedd7e0a241c9b679d">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-iid-11.0.4_2a797f267d8786e6ae10b92b6cf722800f6661af.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-vector-icons/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="b319ff9834bbeb9be394687614eb86892699ea14">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/Voke-react-native-vector-icons-unspecified_729855444f0abb169d3a1aa23e86d6f638c50e07.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp-urlconnection/3.6.0/3f9b16b774f2c36cfd86dd2053d0b3059531dacc/okhttp-urlconnection-3.6.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="3f9b16b774f2c36cfd86dd2053d0b3059531dacc">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/okhttp-urlconnection-3.6.0_f814d4d734d66d5bb716fa44e700fadc4199a7e0.jar" />
     </item>
     <item
         is-multidex="false"
@@ -417,6 +885,60 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bryan/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/3.0.0/5871fb60dc68d67da54a663c3fd636a10a532948/jsr305-3.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="5871fb60dc68d67da54a663c3fd636a10a532948">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/jsr305-3.0.0_83ba63ca3fc8cbd275a65ac95419f31902f527ba.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/11.0.4/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="364364bf77b4a71afc5930fc3ae57b3f0eea637c">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-basement-11.0.4_5ddfa1ad87de8138a1468b010e8b40b033678f5c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-push-notification/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="2e3e5a199c7209bab2dd53b85eefb664494af06d">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/Voke-react-native-push-notification-unspecified_8ab9cc78ff864386caf4760936ee7b5fda4783e2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.balysv.materialmenu/material-menu/1.5.4/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="1f6ff1728c297524e82b875ce2dfda946f4bca41">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.balysv.materialmenu-material-menu-1.5.4_22c840b209c8cccfc81a112d7d55e5b61112a97c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/11.0.4/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="2430e711762a749feb00b3d64858ca4768251b9d">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-tasks-11.0.4_ee90ec7e7aae32d179f7164038aaf81cbd2f6dfe.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.github.ybq/Android-SpinKit/1.1.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="21c0f1b0de29bfe601028757c5cb125c343f5164">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.github.ybq-Android-SpinKit-1.1.0_675e01ad661609b17c88919a002af1a0d13d3999.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/11.0.4/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -426,12 +948,30 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.fbui.textlayoutbuilder/textlayoutbuilder/1.0.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="f90b593491e4044903f0bbf68dc3fa2790b151b9">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.facebook.fbui.textlayoutbuilder-textlayoutbuilder-1.0.0_ba84dc1971472efa6a40a72e11a21ba39a0ff1cf.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.3.1/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
         sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
         <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-25.3.1_cab04e70f47ac3f5f5e2aab1a5c5106907a70a2b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.aurelhubert/ahbottomnavigation/2.0.6/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="c8ba41bea7f78f8bdf3a803b9d08eb3fff416706">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.aurelhubert-ahbottomnavigation-2.0.6_52ad97e9ac91121044133f65b9310d636c1256bb.jar" />
     </item>
     <item
         is-multidex="false"
