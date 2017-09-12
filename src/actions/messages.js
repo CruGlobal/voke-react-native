@@ -31,8 +31,9 @@ export function deleteConversation(data) {
 
 export function createConversation(data) {
   return (dispatch) => {
-    return dispatch(callApi(REQUESTS.CREATE_CONVERSATION, {}, data)).then(() => {
+    return dispatch(callApi(REQUESTS.CREATE_CONVERSATION, {}, data)).then((results) => {
       dispatch(getConversations());
+      return results;
     });
   };
 }

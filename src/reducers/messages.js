@@ -1,7 +1,7 @@
 import { REHYDRATE } from 'redux-persist/constants';
 import { REQUESTS } from '../actions/api';
 import { LOGOUT, NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ } from '../constants';
-
+import { isArray } from '../utils/common';
 
 const initialState = {
   conversations: [],
@@ -9,6 +9,20 @@ const initialState = {
   typeState: {},
   unReadBadgeCount: 0,
 };
+
+function moveConversationFirst(conversations, conversationId) {
+  let reorderItems = isArray(conversations) ? [...conversations] : [];
+  if (!conversationId) return reorderItems;
+  // Move the conversation to the first item in the list
+  const convIndex = reorderItems.findIndex((c) => c.id === conversationId);
+  // Do this only if the index exists and is not already first in the array
+  if (convIndex > 0) {
+    const conversationToMoveToFront = reorderItems[convIndex];
+    reorderItems.splice(convIndex, 1);
+    reorderItems.unshift(conversationToMoveToFront);
+  }
+  return reorderItems;
+}
 
 export default function messages(state = initialState, action) {
   switch (action.type) {
@@ -41,6 +55,22 @@ export default function messages(state = initialState, action) {
       return {
         ...state,
         messages: { ...state.messages, [conversationId]: action.messages },
+      };
+
+    // When I create a message, reorder the conversations to have this one at the top;
+    case REQUESTS.CREATE_MESSAGE.SUCCESS:
+      let newConversationsOrder = moveConversationFirst(state.conversations, action.conversation_id);
+      // Set the message preview based on the message that I sent
+      if (newConversationsOrder[0] && action.data && action.data.message) {
+        if (action.data.message.content) {
+          newConversationsOrder[0].messagePreview = action.data.message.content;
+        } else if (action.data.message.item_id) {
+          newConversationsOrder[0].messagePreview = 'Shared a video';
+        }
+      }
+      return {
+        ...state,
+        conversations: newConversationsOrder,
       };
     case TYPE_STATE_CHANGE:
       const newConvo = action.data ? action.data.conversationId : null;
@@ -75,13 +105,7 @@ export default function messages(state = initialState, action) {
       });
 
       // Move the conversation to the first item in the list
-      const convIndex = msgPreviewConversations.findIndex((c) => c.id === conversationNewMessageId);
-      // Do this only if the index exists and is not already first in the array
-      if (convIndex > 0) {
-        const conversationToMoveToFront = msgPreviewConversations[convIndex];
-        msgPreviewConversations.splice(convIndex, 1);
-        msgPreviewConversations.unshift(conversationToMoveToFront);
-      }
+      msgPreviewConversations = moveConversationFirst(msgPreviewConversations, conversationNewMessageId);
 
       return {
         ...state,
