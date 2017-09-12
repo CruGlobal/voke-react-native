@@ -12,6 +12,7 @@ let ws = null;
 
 export function setupSocketAction(cableId) {
   return (dispatch, getState) => {
+    return;
     const token = getState().auth.token;
     if (!token) {
       LOG('could not start sockets because there is no access_token');
