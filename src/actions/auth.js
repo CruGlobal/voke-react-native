@@ -1,12 +1,12 @@
 import { Alert, Platform, ToastAndroid, AsyncStorage } from 'react-native';
 import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN } from '../constants';
 import callApi, { REQUESTS } from './api';
-import { establishDevice, establishPushDevice } from './socket';
+import { establishDevice, destroyDevice, getDevices } from './socket';
 import { API_URL } from '../api/utils';
 
 // import { navigateResetLogin } from './navigation_new';
 // import { resetLoginAction, resetHomeAction } from './navigation';
-import PushNotification from 'react-native-push-notification';
+// import PushNotification from 'react-native-push-notification';
 
 export function startupAction(navigator) {
   return (dispatch) => {
@@ -57,7 +57,12 @@ export function registerPushToken(token) {
 export function logoutAction() {
   return (dispatch) => (
     new Promise((resolve) => {
-      dispatch({ type: LOGOUT });
+      dispatch(getDevices()).then((results)=> {
+        results.devices.forEach((m)=>{
+          dispatch(destroyDevice(m.id));
+        });
+        dispatch({ type: LOGOUT });
+      });
       resolve();
       AsyncStorage.clear();
       LOG('TODO: Reset to login page');

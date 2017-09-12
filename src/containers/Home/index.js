@@ -50,8 +50,11 @@ class Home extends Component {
   constructor(props) {
     super(props);
 
+    this.state = { isLoading: false };
+
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleLoadMore = this.handleLoadMore.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   componentWillMount() {
@@ -109,6 +112,15 @@ class Home extends Component {
     // LOG('load more conversations...');
   }
 
+  handleDelete(data) {
+    this.setState({ isLoading: true });
+    this.props.dispatch(deleteConversation(data.id)).then(() => {
+      this.setState({ isLoading: false });
+    }).catch(() => {
+      this.setState({ isLoading: false });
+    });
+  }
+
   render() {
     const cLength = this.props.conversations.length;
     // const cLength = false;
@@ -122,7 +134,7 @@ class Home extends Component {
               items={this.props.conversations}
               me={this.props.me}
               onRefresh={() => {}}
-              onDelete={(data) => this.props.dispatch(deleteConversation(data.id)).then(()=> this.props.dispatch(getConversations()))}
+              onDelete={this.handleDelete}
               onBlock={(data) => this.props.dispatch(blockMessenger(data.id))}
               onLoadMore={this.handleLoadMore}
               onSelect={(c) => this.props.navigatePush('voke.Message', {conversation: c})}
@@ -144,7 +156,7 @@ class Home extends Component {
           <Flex value={1} style={styles.unSelectedTab}></Flex>
         </Flex>
         {
-          cLength === 0 ? <ApiLoading /> : null
+          cLength === 0 || this.state.isLoading ? <ApiLoading /> : null
         }
       </View>
     );

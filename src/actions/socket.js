@@ -96,6 +96,13 @@ export function updateDevice(device) {
   };
 }
 
+export function getDevices() {
+  return (dispatch) => {
+    LOG('GETTING DEVICES');
+    return dispatch(callApi(REQUESTS.GET_DEVICES));
+  };
+}
+
 export function establishDevice() {
   return (dispatch, getState) => {
     const auth = getState().auth;
@@ -106,7 +113,7 @@ export function establishDevice() {
     //     dispatch(destroyDevice(m.id));
     //   })
     // });
-    dispatch(establishCableDevice(null));
+    // dispatch(establishCableDevice(null));
 
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
@@ -115,9 +122,10 @@ export function establishDevice() {
 
         if ((token.token && !auth.pushToken) || (token.token !== auth.pushToken) ) {
           dispatch(registerPushToken(token.token)).then(()=>{
-            // dispatch(establishPushDevice()).then(()=> {
-            dispatch(establishCableDevice(token.token));
-            // });
+            dispatch(establishPushDevice()).then(()=> {
+              const updatedPushId = getState().auth.pushId;
+              dispatch(establishCableDevice(updatedPushId));
+            });
           });
         } else if (!token || !auth.pushToken) {
           dispatch(establishCableDevice(null));
@@ -176,7 +184,7 @@ export function establishCableDevice(token) {
       let data = {
         device: {
           ...currentDeviceInfo,
-          key: null,
+          key: token,
           kind: 'cable',
         },
       };

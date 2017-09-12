@@ -90,8 +90,10 @@ class SelectFriend extends Component {
       };
       this.props.dispatch(createConversation(data)).then((results)=>{
         LOG('create conversation results', results);
+        const friend = results.messengers[0];
+
         Share.share({
-          message: `Hi ${results.messengers[0].first_name}, check out this video ${results.messengers[0].url} `,
+          message: `Hi ${friend ? friend.first_name : 'friend'}, check out this video ${friend ? friend.url : ''} `,
           title: 'Check this out',
         }).then((results1)=> {
           if (results1.action === 'sharedAction') {
@@ -99,7 +101,7 @@ class SelectFriend extends Component {
             LOG('results.id', results.id);
             this.props.dispatch(getConversation(results.id)).then((c)=> {
               LOG('getconversation results', c);
-              this.props.navigatePush('voke.Message', {conversation: c.conversation});
+              this.props.navigatePush('voke.Message', {conversation: c.conversation, goBackHome: true});
             });
           } else {
             LOG('Did Not Share Video');

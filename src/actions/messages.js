@@ -25,7 +25,10 @@ export function deleteConversation(data) {
     let query = {
       endpoint: `${API_URL}me/conversations/${data}`,
     };
-    return dispatch(callApi(REQUESTS.DELETE_CONVERSATION, query));
+    return dispatch(callApi(REQUESTS.DELETE_CONVERSATION, query)).then((results) => {
+      dispatch(getConversations());
+      return results;
+    });
   };
 }
 

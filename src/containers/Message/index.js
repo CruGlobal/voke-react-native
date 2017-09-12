@@ -82,7 +82,11 @@ class Message extends Component {
         // } else {
         // this.props.navigateBack();
         // }
-        this.props.navigateBack();
+        if (this.props.goBackHome) {
+          this.props.navigateResetHome();
+        } else {
+          this.props.navigateBack();
+        }
       }
     }
   }
@@ -348,6 +352,7 @@ Message.propTypes = {
   ...NavPropTypes,
   conversation: PropTypes.object.isRequired,
   onSelectVideo: PropTypes.func,
+  goBackHome: PropTypes.bool,
 };
 
 const mapStateToProps = ({ messages, auth }, ownProps) => ({
