@@ -2,13 +2,5 @@
     {
         "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/mipmap-xhdpi/ic_launcher.png",
         "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
-    },
-    {
-        "merged": "/Users/bryan/Documents/Dev/MessagingApp/android/app/build/intermediates/res/merged/debug/mipmap-xhdpi/ic_launcher.png",
-        "source": "/Users/bryan/Documents/Dev/MessagingApp/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
-    },
-    {
-        "merged": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/res/merged/debug/mipmap-xhdpi/ic_launcher.png",
-        "source": "/Users/bryan/Documents/Dev/messagingapp/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
     }
 ]

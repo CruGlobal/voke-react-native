@@ -1,18 +1,10 @@
 [
     {
         "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/menu/stub.xml",
-        "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-navigation/unspecified/res/menu/stub.xml"
-    },
-    {
-        "merged": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/res/merged/debug/menu/stub.xml",
-        "source": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-navigation/unspecified/res/menu/stub.xml"
+        "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-navigation/unspecified/res/menu/stub.xml"
     },
     {
         "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/menu/search_item.xml",
-        "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-navigation/unspecified/res/menu/search_item.xml"
-    },
-    {
-        "merged": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/res/merged/debug/menu/search_item.xml",
-        "source": "/Users/bryan/Documents/Dev/messagingapp/android/app/build/intermediates/exploded-aar/MessagingApp/react-native-navigation/unspecified/res/menu/search_item.xml"
+        "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-navigation/unspecified/res/menu/search_item.xml"
     }
 ]

@@ -8,6 +8,11 @@ const CLIENT = {
   secret: CONSTANTS.CLIENT_SECRET,
 };
 
+const FB_CLIENT = {
+  id: '443564615845137',
+  secret: '45f7ffa5523369986711194976f206d0',
+};
+
 export default {
   // Example
   // 'PLANETS': {
@@ -37,6 +42,17 @@ export default {
     data: {
       client: CLIENT,
       grant_type: 'password',
+      scope: 'messenger',
+    },
+    mapResults: mapAuth,
+  },
+  'FACEBOOK_LOGIN': {
+    endpoint: AUTH_URL + 'oauth/token',
+    anonymous: true,
+    method: 'post',
+    data: {
+      client: CLIENT,
+      grant_type: 'assertion',
       scope: 'messenger',
     },
     mapResults: mapAuth,
