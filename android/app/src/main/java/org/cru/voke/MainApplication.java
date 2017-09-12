@@ -22,6 +22,8 @@ import com.imagepicker.ImagePickerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
 // import com.facebook.soloader.SoLoader;
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 
 import java.util.Arrays;
 import java.util.List;
@@ -121,5 +123,8 @@ public class MainApplication extends NavigationApplication {
 
     // If you want to use AppEventsLogger to log events.
     AppEventsLogger.activateApp(this);
+    
+    // Fabric crashlytics setup
+    Fabric.with(this, new Crashlytics());
   }
 };
