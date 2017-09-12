@@ -9,10 +9,18 @@ export const TYPE_STATE_CHANGE = 'app/TYPE_STATE_CHANGE';
 export const MARK_READ = 'app/MARK_READ';
 export const SET_PUSH_TOKEN = 'app/SET_PUSH_TOKEN';
 
+// TODO: Check this in a better way
+const isStaging = true;
+
+
+const SALT_HASH_STAGING = 'nRgwCUrxKyWDytQDdfYpaJGrEjNQVUYHoDvHhtfgFvauvPrwIm';
+const SALT_HASH_PROD = 'OoyGkKqLaEYOxXnxJHoLRAqcJsDKVVSInMtvPkyKVgrfmVzMmy';
+
 export default {
   // These are from voke_web
   CLIENT_ID: 'db6274e05ca47b4eee31b25525eae8a02a1b7e1f0c09f653352782fb8cefcaf4',
   CLIENT_SECRET: 'e0c2d30d486fa2254284d978d148036213ec41998b2aa6bcb9986b8833547a21',
+  SALT_HASH: isStaging ? SALT_HASH_STAGING : SALT_HASH_PROD,
   // API_KEY: '69f02db1aff5035578e9',
   // FB_ID: '443564615845137',
   // SUBSCRIBE_KEY: 'sub-c-399d3af6-0e44-11e5-a3e7-02ee2ddab7fe',

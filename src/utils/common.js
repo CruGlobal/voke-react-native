@@ -1,3 +1,7 @@
+import hmacSHA512 from 'crypto-js/hmac-sha512';
+
+import CONSTANTS from '../constants';
+
 export const isFunction = (fn) => typeof fn === 'function';
 export const isArray = (arr) => Array.isArray(arr);
 export const isObject = (obj) => typeof obj === 'object' && !isArray(obj);
@@ -33,3 +37,12 @@ export const isEquivalentObject = (a, b) => {
   // are considered equivalent
   return true;
 };
+
+export function hashPhone(data) {
+  const hashedData = hmacSHA512(data, CONSTANTS.SALT_HASH).toString();
+  
+  // const hashedData = crypto.createHmac('sha512', CONSTANTS.SALT_HASH)
+  //   .update(data)
+  //   .digest('hex');
+  return hashedData;
+}
