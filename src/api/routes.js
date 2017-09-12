@@ -8,10 +8,10 @@ const CLIENT = {
   secret: CONSTANTS.CLIENT_SECRET,
 };
 
-const FB_CLIENT = {
-  id: '443564615845137',
-  secret: '45f7ffa5523369986711194976f206d0',
-};
+// const FB_CLIENT = {
+//   id: '443564615845137',
+//   secret: '45f7ffa5523369986711194976f206d0',
+// };
 
 export default {
   // Example
@@ -105,166 +105,104 @@ export default {
   'VIDEOS': {
     endpoint: API_URL + 'items',
     method: 'get',
-    data: {
-      client: CLIENT,
-    },
   },
   'GET_POPULAR_VIDEOS': {
     endpoint: API_URL + 'items',
     method: 'get',
-    data: {
-      client: CLIENT,
-    },
     showApiLoading: true,
   },
   'GET_FEATURED_VIDEOS': {
     endpoint: API_URL + 'items',
     method: 'get',
-    data: {
-      client: CLIENT,
-    },
     showApiLoading: true,
   },
   'GET_TAGS': {
     endpoint: API_URL + 'tags',
     method: 'get',
-    data: {
-      client: CLIENT,
-    },
     showApiLoading: true,
   },
   'GET_VIDEOS_BY_TAG': {
     endpoint: API_URL + 'items',
     method: 'get',
-    data: {
-      client: CLIENT,
-    },
     showApiLoading: true,
   },
   'GET_KICKSTARTERS': {
     endpoint: API_URL + 'items',
     method: 'get',
-    data: {
-      client: CLIENT,
-    },
     showApiLoading: true,
   },
   'GET_CONVERSATIONS': {
     endpoint: API_URL + 'me/conversations',
     method: 'get',
-    data: {
-      client: CLIENT,
-    },
     mapResults: mapConversations,
     showApiLoading: true,
   },
   'GET_CONVERSATION': {
     endpoint: API_URL + 'me/conversations',
     method: 'get',
-    data: {
-      client: CLIENT,
-    },
     mapResults: mapConversation,
   },
   'DELETE_CONVERSATION': {
     endpoint: API_URL + 'me/conversations/:id',
     method: 'delete',
-    data: {
-      client: CLIENT,
-    },
     showApiLoading: true,
   },
   'CREATE_CONVERSATION': {
     endpoint: API_URL + 'me/conversations',
     method: 'post',
-    data: {
-      client: CLIENT,
-    },
   },
   'GET_MESSAGES': {
     endpoint: API_URL + 'me/conversations/conversation_id/messages',
     method: 'get',
-    data: {
-      client: CLIENT,
-    },
     mapResults: mapMessages,
     showApiLoading: true,
   },
   'CREATE_MESSAGE': {
     endpoint: API_URL + 'me/conversations/conversation_id/messages',
     method: 'post',
-    data: {
-      client: CLIENT,
-    },
   },
   'CREATE_DEVICE': {
     endpoint: API_URL + 'me/devices',
     method: 'post',
-    data: {
-      client: CLIENT,
-    },
   },
   'CREATE_PUSH_DEVICE': {
     endpoint: API_URL + 'me/devices',
     method: 'post',
-    data: {
-      client: CLIENT,
-    },
   },
   'GET_DEVICES': {
     endpoint: API_URL + 'me/devices',
     method: 'get',
-    data: {
-      client: CLIENT,
-    },
   },
   'DESTROY_DEVICE': {
     endpoint: API_URL + 'me/devices',
     method: 'delete',
-    data: {
-      client: CLIENT,
-    },
   },
   'UPDATE_DEVICE': {
     endpoint: API_URL + 'me/devices',
     method: 'put',
-    data: {
-      client: CLIENT,
-    },
   },
   'CREATE_TYPESTATE': {
     endpoint: API_URL + 'me/conversations',
     method: 'post',
-    data: {
-      client: CLIENT,
-    },
   },
   'DESTROY_TYPESTATE': {
     endpoint: API_URL + 'me/conversations',
     method: 'delete',
-    data: {
-      client: CLIENT,
-    },
   },
   'CREATE_MESSAGE_INTERACTION': {
     endpoint: API_URL + 'me/conversations',
     method: 'post',
-    data: {
-      client: CLIENT,
-    },
   },
   'BLOCK_MESSENGER': {
     endpoint: API_URL + 'messengers/:messenger_id/block',
     method: 'post',
-    data: {
-      client: CLIENT,
-    },
   },
   'UNBLOCK_MESSENGER': {
     endpoint: API_URL + 'messengers/:messenger_id/unblock',
     method: 'post',
-    data: {
-      client: CLIENT,
-    },
+  },
+  'ADD_FRIENDS': {
+    endpoint: API_URL + 'me/friends',
+    method: 'post',
   },
 };

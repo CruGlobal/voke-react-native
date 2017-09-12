@@ -17,6 +17,7 @@ const SALT_HASH_STAGING = 'nRgwCUrxKyWDytQDdfYpaJGrEjNQVUYHoDvHhtfgFvauvPrwIm';
 const SALT_HASH_PROD = 'OoyGkKqLaEYOxXnxJHoLRAqcJsDKVVSInMtvPkyKVgrfmVzMmy';
 
 export default {
+  CONTACT_CHUNKS: 500,
   // These are from voke_web
   CLIENT_ID: 'db6274e05ca47b4eee31b25525eae8a02a1b7e1f0c09f653352782fb8cefcaf4',
   CLIENT_SECRET: 'e0c2d30d486fa2254284d978d148036213ec41998b2aa6bcb9986b8833547a21',

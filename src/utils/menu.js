@@ -15,6 +15,7 @@ export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin } = 
       onPress: () => navigatePush && navigatePush('voke.Contacts', {
         isInvite: true,
         onSelect: (c) => {
+          // TODO: Open SMS text with the contact
           LOG('Selected contact', c);
         },
       }),

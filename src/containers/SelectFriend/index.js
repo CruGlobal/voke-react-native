@@ -14,7 +14,7 @@ import { Flex, Text, Loading, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 
 const NUM_RANDOM = 3;
-function getRandomContact(contacts) {
+function getRandomContacts(contacts) {
   const length = contacts.length;
   if (length < NUM_RANDOM) return contacts;
   let randomArray = [];
@@ -52,17 +52,13 @@ class SelectFriend extends Component {
   }
 
   componentDidMount() {
-    setTimeout(() => this.setState({ isLoading: false }), 500);
-    if (this.props.all && this.props.all.length > 0) {
-      this.setState({ random: getRandomContact(this.props.all) });
-    } else {
-      // LOG('get contacts dispatched');
-      this.props.dispatch(getContacts()).then(() => {
-        this.setState({ random: getRandomContact(this.props.all) });
-      }).catch(()=> {
-        // LOG('contacts caught');
-      });
-    }
+    // LOG('get contacts dispatched');
+    this.props.dispatch(getContacts()).then(() => {
+      this.setState({ isLoading: false, random: getRandomContacts(this.props.all) });
+    }).catch(()=> {
+      this.setState({ isLoading: false });
+      // LOG('contacts caught');
+    });
   }
 
   selectContact(c) {
@@ -135,7 +131,7 @@ class SelectFriend extends Component {
   renderContent() {
     if (this.state.isLoading)  {
       return (
-        <Flex justify="center" value={1}>
+        <Flex style={styles.container} justify="center" align="center" value={1}>
           <Loading />
         </Flex>
       );

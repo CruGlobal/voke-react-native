@@ -38,8 +38,9 @@ export const isEquivalentObject = (a, b) => {
   return true;
 };
 
-export function hashPhone(data) {
-  const hashedData = hmacSHA512(data, CONSTANTS.SALT_HASH).toString();
+export function hashPhone(phoneStr = '') {
+  const newStr = phoneStr.replace(/[^0-9]/g, '');
+  const hashedData = hmacSHA512(newStr, CONSTANTS.SALT_HASH).toString();
   
   // const hashedData = crypto.createHmac('sha512', CONSTANTS.SALT_HASH)
   //   .update(data)

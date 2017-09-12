@@ -5,7 +5,9 @@ let baseUrl;
 let authUrl;
 
 environment = 'PROD';
-baseUrl = 'https://api-stage.vokeapp.com/api/messenger/v1';
+
+const API_VERSION = 'v1';
+baseUrl = `https://api-stage.vokeapp.com/api/messenger/${API_VERSION}`;
 authUrl = 'https://auth-stage.vokeapp.com';
 
 export const ENV = environment;
