@@ -37,13 +37,13 @@
 		AE0A75871F42720D000A51EA /* TitilliumWeb-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE0A75861F42720D000A51EA /* TitilliumWeb-SemiBold.ttf */; };
 		AE0A75891F427225000A51EA /* TitilliumWeb-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE0A75881F427225000A51EA /* TitilliumWeb-Bold.ttf */; };
 		AE5BE0301F607ACC0091810F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE5BE02F1F607ACC0091810F /* LaunchScreen.xib */; };
-		AE5BE0C51F631E2F0091810F /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE0C31F631E2F0091810F /* Fabric.framework */; };
-		AE5BE0C61F631E2F0091810F /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE0C41F631E2F0091810F /* Crashlytics.framework */; };
 		AE5BE0321F6098CC0091810F /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE0311F6098CC0091810F /* Bolts.framework */; };
 		AE5BE0341F6098E20091810F /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE0331F6098E20091810F /* FBSDKCoreKit.framework */; };
 		AE5BE0361F6098F20091810F /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE0351F6098F20091810F /* FBSDKLoginKit.framework */; };
 		AE5BE0381F6099030091810F /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE0371F6099030091810F /* FBSDKShareKit.framework */; };
 		AE5BE03F1F609C860091810F /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE03E1F609C760091810F /* libRCTFBSDK.a */; };
+		AE5BE0C51F631E2F0091810F /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE0C31F631E2F0091810F /* Fabric.framework */; };
+		AE5BE0C61F631E2F0091810F /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE0C41F631E2F0091810F /* Crashlytics.framework */; };
 		AEC9F3E11F01CA7D0038E58D /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC9F3DF1F01CA630038E58D /* libReactNativeNavigation.a */; };
 		AECD5AED1F575975004E173C /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AECD5AD11F575957004E173C /* libRCTPushNotification.a */; };
 		B813226B741B4B9EA4D274EC /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABD02933A222442AA4DA129E /* Octicons.ttf */; };
@@ -278,12 +278,12 @@
 			remoteGlobalIDString = DA5891D81BA9A9FC002B4DB2;
 			remoteInfo = RNDeviceInfo;
 		};
-		AE5BE1031F631ECA0091810F /* PBXContainerItemProxy */ = {
+		AE5BE03D1F609C760091810F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 161F95BE705C42CC822457B2 /* SMXCrashlytics.xcodeproj */;
+			containerPortal = AE5BE0391F609C760091810F /* RCTFBSDK.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = D8D9DB831C6D03DB009FBC0E;
-			remoteInfo = SMXCrashlytics;
+			remoteGlobalIDString = 9350E0F11CE3B0920041D815;
+			remoteInfo = RCTFBSDK;
 		};
 		AE5BE1051F631ECA0091810F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -291,13 +291,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 6463C84C1EBA12A60095B8CD;
 			remoteInfo = "SMXCrashlytics-tvOS";
-		};
-		AE5BE03D1F609C760091810F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AE5BE0391F609C760091810F /* RCTFBSDK.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9350E0F11CE3B0920041D815;
-			remoteInfo = RCTFBSDK;
 		};
 		AE9113F91F45FC1700D6E009 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -341,6 +334,13 @@
 			remoteGlobalIDString = 3D05745F1DE6004600184BB4;
 			remoteInfo = "RCTPushNotification-tvOS";
 		};
+		AEDD2F011F68333F008542FF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 161F95BE705C42CC822457B2 /* SMXCrashlytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D8D9DB831C6D03DB009FBC0E;
+			remoteInfo = SMXCrashlytics;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -380,13 +380,13 @@
 		AE0A75861F42720D000A51EA /* TitilliumWeb-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-SemiBold.ttf"; sourceTree = "<group>"; };
 		AE0A75881F427225000A51EA /* TitilliumWeb-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-Bold.ttf"; sourceTree = "<group>"; };
 		AE5BE02F1F607ACC0091810F /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
-		AE5BE0C31F631E2F0091810F /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
-		AE5BE0C41F631E2F0091810F /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		AE5BE0311F6098CC0091810F /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		AE5BE0331F6098E20091810F /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		AE5BE0351F6098F20091810F /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		AE5BE0371F6099030091810F /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		AE5BE0391F609C760091810F /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
+		AE5BE0C31F631E2F0091810F /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		AE5BE0C41F631E2F0091810F /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		AEC9F3BF1F01CA620038E58D /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
 		AECD5AC01F575957004E173C /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		B1CF0855F5DB4084B57242A2 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
@@ -630,18 +630,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		AE5BE0D91F631ECA0091810F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AE5BE1061F631ECA0091810F /* libSMXCrashlytics.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		AE5BE03A1F609C760091810F /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				AE5BE03E1F609C760091810F /* libRCTFBSDK.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AE5BE0D91F631ECA0091810F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AEDD2F021F68333F008542FF /* libSMXCrashlytics.a */,
+				AE5BE1061F631ECA0091810F /* libSMXCrashlytics.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1092,18 +1093,18 @@
 			remoteRef = AE498F491F5459B60002463F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AE5BE1061F631ECA0091810F /* libSMXCrashlytics.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSMXCrashlytics.a;
-			remoteRef = AE5BE1051F631ECA0091810F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		AE5BE03E1F609C760091810F /* libRCTFBSDK.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libRCTFBSDK.a;
 			remoteRef = AE5BE03D1F609C760091810F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AE5BE1061F631ECA0091810F /* libSMXCrashlytics.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSMXCrashlytics.a;
+			remoteRef = AE5BE1051F631ECA0091810F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		AE9113FA1F45FC1700D6E009 /* libRNSpinkit.a */ = {
@@ -1146,6 +1147,13 @@
 			fileType = archive.ar;
 			path = "libRCTPushNotification-tvOS.a";
 			remoteRef = AECD5AD21F575957004E173C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AEDD2F021F68333F008542FF /* libSMXCrashlytics.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSMXCrashlytics.a;
+			remoteRef = AEDD2F011F68333F008542FF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
