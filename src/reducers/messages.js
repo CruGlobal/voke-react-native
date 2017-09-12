@@ -54,14 +54,15 @@ export default function messages(state = initialState, action) {
           [newConvo]: action.data.bool,
         },
       };
+    
+    // Fired from a socket event to new messages
     case NEW_MESSAGE:
       const conversationNewMessageId = action.message ? action.message.conversation_id : null;
       if (!conversationNewMessageId) {
         return state;
       }
-      // LOG('new message', action.message);
       let currentBadgeCount = state.unReadBadgeCount;
-      const msgPreviewConversations = state.conversations.map((c, index, newArr) => {
+      let msgPreviewConversations = state.conversations.map((c) => {
         if (c.id === conversationNewMessageId) {
           // order messengers
           const newMessenger = c.messengers.find((m) => m.id === action.message.messenger_id);
@@ -72,6 +73,16 @@ export default function messages(state = initialState, action) {
         }
         return c;
       });
+
+      // Move the conversation to the first item in the list
+      const convIndex = msgPreviewConversations.findIndex((c) => c.id === conversationNewMessageId);
+      // Do this only if the index exists and is not already first in the array
+      if (convIndex > 0) {
+        const conversationToMoveToFront = msgPreviewConversations[convIndex];
+        msgPreviewConversations.splice(convIndex, 1);
+        msgPreviewConversations.unshift(conversationToMoveToFront);
+      }
+
       return {
         ...state,
         conversations: msgPreviewConversations,

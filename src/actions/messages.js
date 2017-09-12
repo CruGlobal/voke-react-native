@@ -21,17 +21,19 @@ export function getConversation(data) {
 }
 
 export function deleteConversation(data) {
-  let query = {
-    endpoint: `${API_URL}me/conversations/${data}`,
-  };
   return (dispatch) => {
+    let query = {
+      endpoint: `${API_URL}me/conversations/${data}`,
+    };
     return dispatch(callApi(REQUESTS.DELETE_CONVERSATION, query));
   };
 }
 
 export function createConversation(data) {
   return (dispatch) => {
-    return dispatch(callApi(REQUESTS.CREATE_CONVERSATION, {}, data));
+    return dispatch(callApi(REQUESTS.CREATE_CONVERSATION, {}, data)).then(() => {
+      dispatch(getConversations());
+    });
   };
 }
 
