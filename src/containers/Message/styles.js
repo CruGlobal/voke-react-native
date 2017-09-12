@@ -25,6 +25,10 @@ export default StyleSheet.create({
     marginVertical: 5,
     fontSize: 16,
     flex: 15,
+    // width: 200,
+    // position: 'absolute',
+    // top: 0,
+    // left: 5,
   },
   sendIcon: {
     color: theme.textColor,

@@ -12,7 +12,7 @@ import StatusBar from '../../components/StatusBar';
 import LOGO from '../../../images/initial_voke.png';
 
 const VERSION = 'v2.8';
-const SCOPE = ['public_profile'];
+// const SCOPE = ['public_profile'];
 const FIELDS = 'name,picture,about,cover,first_name,last_name';
 // const SCOPE = ['public_profile', 'email'];
 // const FIELDS = 'name,email,picture,about,cover,first_name,last_name';

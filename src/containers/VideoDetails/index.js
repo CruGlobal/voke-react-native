@@ -44,6 +44,7 @@ class VideoDetails extends Component {
     return (
       <Flex direction="column" style={{ paddingBottom: 110 }}>
         <Text style={styles.videoTitle}>{video.name}</Text>
+        <Text style={styles.detail}>{video.shares} Shares</Text>
         <Text style={styles.detail}>{video.description}</Text>
         <Text style={styles.label}>Themes</Text>
         <Flex direction="row">

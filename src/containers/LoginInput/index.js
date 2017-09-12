@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import { Image, TextInput, TouchableOpacity, Keyboard, Alert } from 'react-native';
 import { connect } from 'react-redux';
-
+import { LoginManager, GraphRequestManager, GraphRequest, AccessToken } from 'react-native-fbsdk';
 
 import styles from './styles';
-import { anonLogin } from '../../actions/auth';
+import { getMe, facebookLoginAction, anonLogin } from '../../actions/auth';
+
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import theme from '../../theme.js';
 import { Flex, Text, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import LOGO from '../../../images/initial_voke.png';
+// const SCOPE = ['public_profile', 'email'];
 
 const EMAIL_REGEX = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
+const VERSION = 'v2.8';
+const FIELDS = 'name,picture,about,cover,first_name,last_name';
 
 class LoginInput extends Component {
   static navigatorStyle = {
@@ -31,6 +35,7 @@ class LoginInput extends Component {
     };
 
     this.login = this.login.bind(this);
+    this.facebookLogin = this.facebookLogin.bind(this);
     this.checkEmail = this.checkEmail.bind(this);
   }
 
@@ -54,6 +59,60 @@ class LoginInput extends Component {
     } else {
       Alert.alert('Please enter a valid email and password','');
     }
+  }
+
+  facebookLogin() {
+    LOG('Making FB Call');
+    LoginManager.logInWithReadPermissions(['public_profile']).then((result)=>{
+      LOG('RESULT', result);
+      if (result.isCancelled) {
+        LOG('facebook login was canceled', result);
+      } else {
+        LOG('successful facebook login', result);
+        AccessToken.getCurrentAccessToken().then((data) => {
+          if (!data.accessToken) {
+            LOG('access token doesnt exist');
+            return;
+          }
+          const accessToken = data.accessToken.toString();
+          const getMeConfig = {
+            version: VERSION,
+            accessToken,
+            parameters: {
+              fields: {
+                string: FIELDS,
+              },
+            },
+          };
+          // Create a graph request asking for user information with a callback to handle the response.
+          const infoRequest = new GraphRequest('/me', getMeConfig, (err, meResult) => {
+            if (err) {
+              LOG('error getting facebook user', err);
+              return;
+            }
+            LOG('me', meResult);
+            this.props.dispatch(facebookLoginAction(accessToken)).then(()=> {
+              this.props.dispatch(getMe()).then((results)=>{
+                if (results.state === 'configured') {
+                  this.props.navigateResetHome();
+                } else {
+                  this.props.navigatePush('voke.SignUpFBAccount', {
+                    me: meResult,
+                  });
+                }
+              });
+            });
+          });
+          // Start the graph request.
+          new GraphRequestManager().addRequest(infoRequest).start();
+        });
+      }
+    }, (err) => {
+      LOG('err', err);
+      LoginManager.logOut();
+    }).catch(() => {
+      LOG('catch');
+    });
   }
 
   render() {
@@ -122,7 +181,7 @@ class LoginInput extends Component {
                 buttonTextStyle={styles.signInButtonText}
                 icon="account-box"
                 style={this.state.disabled ? [styles.facebookButton, styles.disabled] : styles.facebookButton}
-                onPress={()=>{LOG('login with facebook');}}
+                onPress={this.facebookLogin}
               />
             </Flex>
             <Flex direction="row">
