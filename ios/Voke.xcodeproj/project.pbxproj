@@ -291,6 +291,7 @@
 			proxyType = 2;
 			remoteGlobalIDString = 6463C84C1EBA12A60095B8CD;
 			remoteInfo = "SMXCrashlytics-tvOS";
+		};
 		AE5BE03D1F609C760091810F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AE5BE0391F609C760091810F /* RCTFBSDK.xcodeproj */;
@@ -632,8 +633,11 @@
 		AE5BE0D91F631ECA0091810F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AE5BE1041F631ECA0091810F /* libSMXCrashlytics.a */,
 				AE5BE1061F631ECA0091810F /* libSMXCrashlytics.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		AE5BE03A1F609C760091810F /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1088,18 +1092,13 @@
 			remoteRef = AE498F491F5459B60002463F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AE5BE1041F631ECA0091810F /* libSMXCrashlytics.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSMXCrashlytics.a;
-			remoteRef = AE5BE1031F631ECA0091810F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		AE5BE1061F631ECA0091810F /* libSMXCrashlytics.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libSMXCrashlytics.a;
 			remoteRef = AE5BE1051F631ECA0091810F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		AE5BE03E1F609C760091810F /* libRCTFBSDK.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
