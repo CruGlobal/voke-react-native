@@ -114,9 +114,9 @@ class SignUpAccount extends Component {
               autoCapitalize="none"
               autoCorrect={false}
               underlineColorAndroid="transparent"
+              selectionColor={COLORS.YELLOW}
             />
             <TextInput
-              underlineColorAndroid="transparent"
               onFocus={() => {}}
               onBlur={() => {}}
               value={this.state.password}
@@ -128,6 +128,8 @@ class SignUpAccount extends Component {
               autoCorrect={false}
               secureTextEntry={true}
               autoCapitalize="none"
+              underlineColorAndroid="transparent"
+              selectionColor={COLORS.YELLOW}
             />
             <Flex style={styles.buttonWrapper}>
               <Button

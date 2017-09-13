@@ -7,7 +7,7 @@ import styles from './styles';
 import { getMe, facebookLoginAction, anonLogin } from '../../actions/auth';
 
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import theme from '../../theme.js';
+import theme, { COLORS } from '../../theme.js';
 import { Flex, Text, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import LOGO from '../../../images/initial_voke.png';
@@ -141,6 +141,8 @@ class LoginInput extends Component {
                 this.state.emailActive ? styles.active : null,
               ]}
               autoCorrect={false}
+              underlineColorAndroid="transparent"
+              selectionColor={COLORS.YELLOW}
             />
             <TextInput
               ref={(c) => this.password = c}
@@ -158,6 +160,8 @@ class LoginInput extends Component {
                 this.state.passwordActive ? styles.active : null,
               ]}
               autoCorrect={false}
+              underlineColorAndroid="transparent"
+              selectionColor={COLORS.YELLOW}
             />
             <Flex style={styles.buttonWrapper}>
               <Button

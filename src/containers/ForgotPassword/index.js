@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import styles from './styles';
 import { forgotPasswordAction } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import theme from '../../theme.js';
+import theme, { COLORS } from '../../theme.js';
 import { Flex, Text, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import LOGO from '../../../images/initial_voke.png';
@@ -28,6 +28,8 @@ class ForgotPassword extends Component {
     navBarBackgroundColor: theme.backgroundColor,
     navBarTextColor: theme.textColor,
     navBarButtonColor: theme.textColor,
+    navBarNoBorder: true,
+    topBarElevationShadowEnabled: false,
   };
 
   constructor(props) {
@@ -102,6 +104,8 @@ class ForgotPassword extends Component {
               placeholderTextColor={theme.accentColor}
               style={styles.inputBox}
               autoCorrect={false}
+              underlineColorAndroid="transparent"
+              selectionColor={COLORS.YELLOW}
             />
             <Flex style={styles.buttonWrapper}>
               <Button

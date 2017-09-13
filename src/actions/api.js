@@ -4,7 +4,7 @@ import lodashForEach from 'lodash/forEach';
 // import Reactotron from 'reactotron-react-native';
 
 import API_CALLS from '../api';
-import { logoutAction } from './auth';
+import { logoutAction, toastAction } from './auth';
 import apiRoutes from '../api/routes';
 
 
@@ -99,6 +99,7 @@ export default function callApi(requestObject, query = {}, data = {}) {
             return;
           }
 
+          dispatch(toastAction('Network connection error'));
         }
         reject(err);
       };
