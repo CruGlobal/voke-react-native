@@ -55,6 +55,7 @@ class Home extends Component {
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleLoadMore = this.handleLoadMore.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.handleBlock = this.handleBlock.bind(this);
   }
 
   componentWillMount() {
@@ -121,6 +122,15 @@ class Home extends Component {
     });
   }
 
+  handleBlock(data) {
+    this.setState({ isLoading: true });
+    this.props.dispatch(blockMessenger(data.id)).then(() => {
+      this.setState({ isLoading: false });
+    }).catch(() => {
+      this.setState({ isLoading: false });
+    });
+  }
+
   render() {
     const cLength = this.props.conversations.length;
     // const cLength = false;
@@ -135,7 +145,7 @@ class Home extends Component {
               me={this.props.me}
               onRefresh={() => {}}
               onDelete={this.handleDelete}
-              onBlock={(data) => this.props.dispatch(blockMessenger(data.id))}
+              onBlock={this.handleBlock}
               onLoadMore={this.handleLoadMore}
               onSelect={(c) => this.props.navigatePush('voke.Message', {conversation: c})}
             />
