@@ -71,7 +71,7 @@ class Videos extends Component {
     this.updateVideoList = this.updateVideoList.bind(this);
     this.showThemes = this.showThemes.bind(this);
     this.handleThemeSelect = this.handleThemeSelect.bind(this);
-    this.handleDismissedLightBox = this.handleDismissedLightBox.bind(this);
+    this.handleDismissTheme = this.handleDismissTheme.bind(this);
   }
 
   onNavigatorEvent(event) {
@@ -124,23 +124,37 @@ class Videos extends Component {
     });
   }
 
-  handleDismissedLightBox() {
+  handleDismissTheme() {
     let shouldntScroll = true;
     this.handleFilter(this.state.previousFilter, shouldntScroll);
   }
 
   showThemes() {
-    Navigation.showLightBox({
-      screen: 'voke.ThemeSelect', // unique ID registered with Navigation.registerScreen
-      passProps: {
-        themes: this.props.tags,
-        onSelect: this.handleThemeSelect,
-        onDismissLightBox: this.handleDismissedLightBox,
-      },
-      style: {
-        backgroundBlur: 'dark', // 'dark' / 'light' / 'xlight' / 'none' - the type of blur on the background
-      },
-    });
+    if (Platform.OS === 'android') {
+      Navigation.showModal({
+        screen: 'voke.ThemeSelect',
+        passProps: {
+          themes: this.props.tags,
+          onSelect: this.handleThemeSelect,
+          onDismiss: this.handleDismissTheme,
+        },
+        navigatorStyle: {
+          screenBackgroundColor: 'rgba(0, 0, 0, 0.3)',
+        },
+      });
+    } else {
+      Navigation.showLightBox({
+        screen: 'voke.ThemeSelect',
+        passProps: {
+          themes: this.props.tags,
+          onSelect: this.handleThemeSelect,
+          onDismiss: this.handleDismissTheme,
+        },
+        style: {
+          backgroundBlur: 'dark', // 'dark' / 'light' / 'xlight' / 'none' - the type of blur on the background
+        },
+      });
+    }
   }
 
   handleFilter(filter, shouldntScroll) {

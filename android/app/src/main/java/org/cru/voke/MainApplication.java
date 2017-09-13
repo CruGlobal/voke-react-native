@@ -44,76 +44,38 @@ public class MainApplication extends NavigationApplication {
       return BuildConfig.DEBUG;
   }
 
-//   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
-//     @Override
-//     public boolean getUseDeveloperSupport() {
-//       return BuildConfig.DEBUG;
-//     }
-//
-//     protected List<ReactPackage> getPackages() {
-//         return Arrays.<ReactPackage>asList(
-//             new MainReactPackage(),
-            new GoogleAnalyticsBridgePackage(),
-//             new FBSDKPackage(mCallbackManager),
-//             new RNDeviceInfo(),
-//             new ReactNativePushNotificationPackage(),
-//             new RNSpinkitPackage(),
-//             new ReactNativeContacts(),
-//             new ImagePickerPackage(),
-//             new VectorIconsPackage()
-//         );
-//     }
-//   };
+  protected List<ReactPackage> getPackages() {
+      return Arrays.<ReactPackage>asList(
+          new FBSDKPackage(mCallbackManager),
+          new RNDeviceInfo(),
+          new ReactNativePushNotificationPackage(),
+          new RNSpinkitPackage(),
+          new ReactNativeContacts(),
+          new ImagePickerPackage(),
+          new GoogleAnalyticsBridgePackage(),
+          new VectorIconsPackage()
+      );
+  }
 
-    protected List<ReactPackage> getPackages() {
-        return Arrays.<ReactPackage>asList(
-            new FBSDKPackage(mCallbackManager),
-            new RNDeviceInfo(),
-            new ReactNativePushNotificationPackage(),
-            new RNSpinkitPackage(),
-            new ReactNativeContacts(),
-            new ImagePickerPackage(),
-            new VectorIconsPackage()
-        );
-    }
-
-//   @Override
-//   public List<ReactPackage> createAdditionalReactPackages() {
-//       return getPackages();
-//   }
   @Override
   public List<ReactPackage> createAdditionalReactPackages() {
       return getPackages();
-    //   return null;
   }
-
-  // @Override
-  // public void onCreate() {
-  //   super.onCreate();
-  //   FacebookSdk.sdkInitialize(getApplicationContext());
-  //   // If you want to use AppEventsLogger to log events.
-  //   AppEventsLogger.activateApp(this);
-  // }
-
-//  @Override
-//  public ReactNativeHost getReactNativeHost() {
-//    return mReactNativeHost;
-//  }
 
   @Override
   public void onCreate() {
     super.onCreate();
 
     setActivityCallbacks(new ActivityCallbacks() {
-      @Override
-      public void onActivityResumed(Activity activity) {
-        // Do stuff
-      }
+      // @Override
+      // public void onActivityResumed(Activity activity) {
+      //   // Do stuff
+      // }
 
-      @Override
-      public void onActivityPaused(Activity activity) {
-        // Do stuff
-      }
+      // @Override
+      // public void onActivityPaused(Activity activity) {
+      //   // Do stuff
+      // }
 
       @Override
       public void onActivityResult(int requestCode, int resultCode, Intent data) {

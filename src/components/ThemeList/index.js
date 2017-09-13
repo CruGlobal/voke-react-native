@@ -48,7 +48,7 @@ class ThemeList extends Component {
         <FlatList
           initialNumToRender={10}
           data={this.props.items}
-          ItemSeparatorComponent={() => <Separator style={styles.settingsSeparator} />}
+          ItemSeparatorComponent={() => <Separator />}
           renderItem={this.renderRow}
           keyExtractor={(item) => item.name.replace(/\s/ig, '')}
           style={styles.list}

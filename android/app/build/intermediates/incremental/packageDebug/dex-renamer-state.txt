@@ -1,4 +1,4 @@
-#Tue Sep 12 11:38:13 EDT 2017
+#Wed Sep 13 13:31:32 EDT 2017
 base.0=/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main
 renamed.0=classes.dex
 file.0=/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes.dex

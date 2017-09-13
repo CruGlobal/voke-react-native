@@ -246,6 +246,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-analytics/11.0.4/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="a25b0b5aec89681b95d32780ad7904c1e1e4c679">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-analytics-11.0.4_83302026a6c89254b1540b7e2fb1553e6032cd62.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.3.1/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -570,6 +579,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-analytics-impl/11.0.4/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="2c2f1b3f82c027e98f56bb0154de0acbcce42e6d">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-analytics-impl-11.0.4_39cab774843fb430b128ac6f0f5cd373696c441e.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/transition/25.3.1/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -669,6 +687,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tagmanager-v4-impl/11.0.4/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="c1b91bc7e480ab100d0397b16c93732e26fd10eb">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-tagmanager-v4-impl-11.0.4_db6cfb66f15b5801ad72c1b291903829dac151df.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/io.fabric.sdk.android/fabric/1.3.10/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -747,6 +774,15 @@
         revision="25.0.2"
         sha1="5871fb60dc68d67da54a663c3fd636a10a532948">
         <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/jsr305-3.0.0_83ba63ca3fc8cbd275a65ac95419f31902f527ba.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-google-analytics-bridge/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="fc1966d12e86eca580da7fa2051524b144d56f2a">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/Voke-react-native-google-analytics-bridge-unspecified_e1d9a4e20a70ef0e4b7b379d7a9859052024677c.jar" />
     </item>
     <item
         is-multidex="false"
@@ -876,21 +912,21 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-vector-icons/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="f2cf527de8d0bd35d72088fafea02395ba4a9eec">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/Voke-react-native-vector-icons-unspecified_729855444f0abb169d3a1aa23e86d6f638c50e07.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.crashlytics.sdk.android/crashlytics/2.5.5/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.3"
         sha1="611605b6b640c1558f9bdea41de8ff837ab68ca8">
         <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.crashlytics.sdk.android-crashlytics-2.5.5_6486b2e2bec6288752d803c39ed3566a7079b494.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/Voke/react-native-vector-icons/unspecified/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.3"
-        sha1="b319ff9834bbeb9be394687614eb86892699ea14">
-        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/Voke-react-native-vector-icons-unspecified_729855444f0abb169d3a1aa23e86d6f638c50e07.jar" />
     </item>
     <item
         is-multidex="false"
