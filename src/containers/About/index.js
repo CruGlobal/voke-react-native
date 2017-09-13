@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Linking } from 'react-native';
 import { connect } from 'react-redux';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { Navigation } from 'react-native-navigation';
+import nav, { NavPropTypes } from '../../actions/navigation_new';
 
 import theme from '../../theme';
 import { vokeIcons } from '../../utils/iconMap';
@@ -79,7 +79,6 @@ class About extends Component {
           },
           {
             name: `Version: ${versionBuild}`,
-            onPress: () => {},
           },
         ]}
       />

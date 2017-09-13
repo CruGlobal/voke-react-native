@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Linking } from 'react-native';
+import { connect } from 'react-redux';
+import nav, { NavPropTypes } from '../../actions/navigation_new';
 
 import theme from '../../theme';
 import SettingsList from '../../components/SettingsList';
@@ -62,4 +64,8 @@ class Acknowledgements extends Component {
   }
 }
 
-export default Acknowledgements;
+Acknowledgements.propTypes = {
+  ...NavPropTypes,
+};
+
+export default connect(null, nav)(Acknowledgements);

@@ -12,7 +12,7 @@ export default StyleSheet.create({
     backgroundColor: 'white',
   },
   videoDetails: {
-    height: 100, // Set a
+    height: 100,
     padding: 10,
   },
   videoThumbnail: {

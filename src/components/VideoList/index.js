@@ -34,6 +34,8 @@ class VideoList extends Component {
 
   renderRow({ item }) {
     const video = item;
+    let description = video.description || '';
+    description = description.replace(/^\s+|\s+$/g, '');
     return (
       <Touchable highlight={false} activeOpacity={0.8} onPress={() => this.props.onSelect(video)}>
         <Flex
@@ -50,7 +52,7 @@ class VideoList extends Component {
               {video.name}
             </Text>
             <Text numberOfLines={2} style={styles.videoDescription}>
-              {video.description}
+              {description}
             </Text>
           </Flex>
         </Flex>

@@ -1,5 +1,8 @@
+import { Linking, Platform } from 'react-native';
+
 // import { navigateAction } from '../actions/navigation';
 import { logoutAction } from '../actions/auth';
+import CONSTANTS from '../constants';
 
 // This is used by the android <MenuButton /> and the iOS <Menu />
 export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin } = {}) {
@@ -28,7 +31,19 @@ export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin } = 
     {
       id: 'review',
       name: 'Write a Review',
-      onPress: () => navigatePush && navigatePush('voke.About'),
+      onPress: () => {
+        let link;
+        if (Platform.OS === 'ios') {
+          link = CONSTANTS.IOS_STORE_LINK;
+        } else if (Platform.OS === 'android') {
+          link = CONSTANTS.ANDROID_STORE_LINK;
+        }
+        if (link) {
+          Linking.canOpenURL(link).then((isSupported) => {
+            isSupported && Linking.openURL(link);
+          }, (err) => LOG('opening url', err));
+        }
+      },
     },
     {
       id: 'acknowledgements',

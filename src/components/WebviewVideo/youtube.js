@@ -42,7 +42,7 @@ export default function(id, options = {}) {
         /* Autoplay videos */
         function onPlayerReady(event) {
           event.target.playVideo();
-          event.target.mute();
+          /* event.target.mute(); */
           checkDuration();
         }
         /* Error playing video */

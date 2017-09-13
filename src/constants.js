@@ -16,8 +16,13 @@ const isStaging = true;
 const SALT_HASH_STAGING = 'nRgwCUrxKyWDytQDdfYpaJGrEjNQVUYHoDvHhtfgFvauvPrwIm';
 const SALT_HASH_PROD = 'OoyGkKqLaEYOxXnxJHoLRAqcJsDKVVSInMtvPkyKVgrfmVzMmy';
 
+const IOS_APP_ID = 'id1056168356';
+const ANDROID_APP_ID = 'org.cru.voke';
+
 export default {
   CONTACT_CHUNKS: 500,
+  IOS_STORE_LINK: `itms://itunes.apple.com/us/app/apple-store/${IOS_APP_ID}`,
+  ANDROID_STORE_LINK: `market://details?id=${ANDROID_APP_ID}`,
   // These are from voke_web
   CLIENT_ID: 'db6274e05ca47b4eee31b25525eae8a02a1b7e1f0c09f653352782fb8cefcaf4',
   CLIENT_SECRET: 'e0c2d30d486fa2254284d978d148036213ec41998b2aa6bcb9986b8833547a21',
