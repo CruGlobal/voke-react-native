@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, Platform, Image } from 'react-native';
+import { View, Platform, Image, AppState } from 'react-native';
 import { connect } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { startupAction, blockMessenger } from '../../actions/auth';
+import { closeSocketAction, setupSocketAction, establishDevice } from '../../actions/socket';
 import { getConversations, deleteConversation } from '../../actions/messages';
 import { navMenuOptions } from '../../utils/menu';
 import { vokeIcons } from '../../utils/iconMap';
@@ -50,12 +51,16 @@ class Home extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { isLoading: false };
+    this.state = {
+      isLoading: false,
+      appState: AppState.currentState,
+    };
 
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleLoadMore = this.handleLoadMore.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleBlock = this.handleBlock.bind(this);
+    this.handleAppStateChange = this.handleAppStateChange.bind(this);
   }
 
   componentWillMount() {
@@ -69,6 +74,7 @@ class Home extends Component {
   componentDidMount() {
     this.props.dispatch(startupAction(this.props.navigator));
     this.props.dispatch(getConversations());
+    AppState.addEventListener('change', this.handleAppStateChange);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -81,6 +87,30 @@ class Home extends Component {
       });
     }
   }
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this.handleAppStateChange);
+  }
+
+  handleAppStateChange(nextAppState) {
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      LOG('App has come to the foreground!');
+      // Restart sockets
+      if (this.props.cableId) {
+        this.props.dispatch(setupSocketAction(this.props.cableId));
+      } else {
+        this.props.dispatch(establishDevice());
+      }
+
+    } else if (this.state.appState.match(/active/) && nextAppState === 'inactive') {
+      LOG('App is going into the background');
+      // Close sockets
+      this.props.dispatch(closeSocketAction());
+    }
+    this.setState({appState: nextAppState});
+  }
+
+
 
   onNavigatorEvent(event) {
     if (event.type === 'NavBarButtonPress') { // this is the event type for button presses
@@ -185,6 +215,7 @@ const mapStateToProps = ({ messages, auth }) => {
     conversations: messages.conversations,
     me: auth.user,
     unReadBadgeCount: messages.unReadBadgeCount,
+    cableId: auth.cableId,
   };
 };
 

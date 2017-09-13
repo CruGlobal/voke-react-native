@@ -68,6 +68,7 @@ export function closeSocketAction() {
     if (ws) {
       ws.close(undefined, 'client closed');
       ws = null;
+      LOG('Closing the socket connection');
     }
   };
 }
