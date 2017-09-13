@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
 import './utils/reactotron'; // This needs to be before the store
 import './utils/globals';
-
+import Analytics from './utils/analytics';
 import registerScreens from './routes';
 import getStore from './store';
 
@@ -96,6 +96,7 @@ export default class App {
       });
     });
     registerScreens(this.store, Provider);
+    Analytics.setup();
     this.loadingState();
   }
 

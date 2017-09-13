@@ -7,6 +7,7 @@ import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { startupAction, blockMessenger } from '../../actions/auth';
 import  Analytics from '../../utils/analytics';
+
 import { closeSocketAction, setupSocketAction, establishDevice } from '../../actions/socket';
 import { getConversations, deleteConversation } from '../../actions/messages';
 import { navMenuOptions } from '../../utils/menu';

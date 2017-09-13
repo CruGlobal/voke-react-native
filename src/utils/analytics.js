@@ -2,9 +2,9 @@ import { GoogleAnalyticsTracker, GoogleTagManager, GoogleAnalyticsSettings } fro
 
 let tracker = null;
 
-export function setupAnalytics() {
+function setup() {
   // The tracker must be constructed, and you can have multiple:
-  tracker = new GoogleAnalyticsTracker('UA-12345-1');
+  tracker = new GoogleAnalyticsTracker('UA-39188989-7');
   // let tracker2 = new GoogleAnalyticsTracker('UA-12345-2');
 
   // tracker1.trackScreenView('Home');
@@ -64,6 +64,7 @@ function setUser(id = '') {
 }
 
 export default {
+  setup,
   event,
   screen,
   setUser,
