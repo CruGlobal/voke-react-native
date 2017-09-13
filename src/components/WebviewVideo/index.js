@@ -5,7 +5,7 @@ import { WebView, StyleSheet, View } from 'react-native';
 import { Flex, Text } from '../common';
 import VideoControls from '../../components/VideoControls';
 import { COLORS } from '../../theme';
-import { isObject } from '../../utils/common';
+// import { isObject } from '../../utils/common';
 
 import common from './common';
 

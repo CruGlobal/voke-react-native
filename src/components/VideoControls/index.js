@@ -56,7 +56,7 @@ export default class VideoControls extends Component {
           <Touchable activeOpacity={.5} onPress={this.handleScreenPress}>
             <Flex animation="zoomIn" style={styles.screenPress}>
               {
-                this.state.screenPressed ? (
+                this.state.screenPressed || this.props.type === 'vimeo' ? (
                   <Icon name={'play-circle-filled'} size={50} style={styles.playIcon} />
                 ) : null
               }
@@ -66,7 +66,7 @@ export default class VideoControls extends Component {
         <Flex direction="row" style={styles.controlWrapper} align="center" justify="center">
           <Flex value={.2} align="center">
             <Touchable onPress={this.handleScreenPress}>
-              <VokeIcon name={!isPaused ? 'pause' : 'play'} style={styles.playIcon} />
+              <VokeIcon name={(!isPaused && this.props.type != 'vimeo') || (this.props.type === 'arclight' && !this.state.screenPressed) ? 'pause' : 'play'} style={styles.playIcon} />
             </Touchable>
           </Flex>
           <Flex value={.2} align="center">

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, View, StatusBar, ScrollView, Image } from 'react-native';
+import { Alert, View, StatusBar, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
