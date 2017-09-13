@@ -1,4 +1,4 @@
-import { Alert, Platform, ToastAndroid, AsyncStorage } from 'react-native';
+import { Linking, Platform, ToastAndroid, AsyncStorage } from 'react-native';
 import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN } from '../constants';
 import callApi, { REQUESTS } from './api';
 import { establishDevice, destroyDevice, getDevices } from './socket';
@@ -223,5 +223,18 @@ export function unblockMessenger(data) {
     }).catch((error) => {
       LOG('error blocking user', error);
     });
+  };
+}
+
+export function openSettingsAction() {
+  LOG('Opening Settings');
+  return () => {
+    if (Platform.OS === 'ios') {
+      Linking.canOpenURL('app-settings:').then((isSupported) => {
+        isSupported && Linking.openURL('app-settings:');
+      }, (err) => LOG('opening url', err));
+    } else {
+      // link to android
+    }
   };
 }

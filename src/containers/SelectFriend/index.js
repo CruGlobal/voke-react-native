@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import { View, Image, Share } from 'react-native';
 import { connect } from 'react-redux';
 import { getContacts } from '../../actions/contacts';
+import { openSettingsAction } from '../../actions/auth';
 import { createConversation, getConversation, deleteConversation } from '../../actions/messages';
 import PropTypes from 'prop-types';
 import Analytics from '../../utils/analytics';
+import { Navigation } from 'react-native-navigation';
+import Contacts from 'react-native-contacts';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
@@ -47,20 +50,68 @@ class SelectFriend extends Component {
     this.state = {
       isLoading: true,
       random: [],
+      permission: '',
     };
 
     this.selectContact = this.selectContact.bind(this);
+    this.handleGetContacts = this.handleGetContacts.bind(this);
+    this.handleDismissPermission = this.handleDismissPermission.bind(this);
+    this.checkContactsStatus = this.checkContactsStatus.bind(this);
+    this.handleSettings = this.handleSettings.bind(this);
+  }
+
+  handleGetContacts() {
+    this.props.dispatch(getContacts()).then(() => {
+      this.setState({ isLoading: false, random: getRandomContacts(this.props.all), permission: 'authorized' });
+    }).catch(()=> {
+      this.setState({ isLoading: false });
+      LOG('contacts caught');
+      //change screen
+    });
+  }
+
+  handleDismissPermission() {
+    this.setState({ isLoading: false });
+    // permission not asked yet
+  }
+
+  checkContactsStatus() {
+    Contacts.checkPermission((err, permission)=>{
+      this.setState({ permission: permission });
+      if (permission === 'authorized') {
+        this.handleGetContacts();
+      } else if (permission === 'undefined') {
+        Navigation.showModal({
+          screen: 'voke.Modal', // unique ID registered with Navigation.registerScreen
+          animationType: 'slide-up', // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
+          passProps: {
+            getContacts: this.handleGetContacts,
+            onDismiss: this.handleDismissPermission,
+          },
+          navigatorStyle: {
+            screenBackgroundColor: 'rgba(0, 0, 0, 0.3)',
+          },
+        });
+      } else {
+        this.setState({ isLoading: false });
+        // Change screen
+      }
+    });
   }
 
   componentDidMount() {
-    // LOG('get contacts dispatched');
-    this.props.dispatch(getContacts()).then(() => {
-      this.setState({ isLoading: false, random: getRandomContacts(this.props.all) });
-    }).catch(()=> {
-      this.setState({ isLoading: false });
-      // LOG('contacts caught');
-    });
+    LOG('get contacts dispatched');
+    this.checkContactsStatus();
     Analytics.screen('Select a Friend');
+  }
+
+  handleSettings() {
+    if (this.state.permission === 'denied') {
+      this.props.dispatch(openSettingsAction());
+    }
+    else {
+      this.checkContactsStatus();
+    }
   }
 
   selectContact(c) {
@@ -115,21 +166,31 @@ class SelectFriend extends Component {
   }
 
   renderRandomContacts() {
-    let arr = [];
-    const isRandomSet = this.state.random.length > 0;
-    for (let i=0; i<NUM_RANDOM; i++) {
-      const contact = isRandomSet ? this.state.random[i] || null : null;
-      arr.push((
-        <Button
-          key={`random_${i}`}
-          onPress={() => this.selectContact(contact)}
-          text={contact ? contact.name : ' '}
-          style={styles.randomButton}
-          buttonTextStyle={styles.randomText}
-        />
-      ));
-    }
-    return arr;
+    return this.state.random.map((c, i) => (
+      <Button
+        key={`random_${i}`}
+        onPress={() => this.selectContact(c)}
+        text={c ? c.name : ' '}
+        style={styles.randomButton}
+        buttonTextStyle={styles.randomText}
+      />
+    ));
+
+    // let arr = [];
+    // const isRandomSet = this.state.random.length > 0;
+    // for (let i=0; i<NUM_RANDOM; i++) {
+    //   const contact = isRandomSet ? this.state.random[i] || null : null;
+    //   arr.push((
+    //     <Button
+    //       key={`random_${i}`}
+    //       onPress={() => this.selectContact(contact)}
+    //       text={contact ? contact.name : ' '}
+    //       style={styles.randomButton}
+    //       buttonTextStyle={styles.randomText}
+    //     />
+    //   ));
+    // }
+    // return arr;
   }
 
   renderContent() {
@@ -149,15 +210,19 @@ class SelectFriend extends Component {
           </Text>
         </Flex>
         <Flex value={.5}>
-          <Button
-            onPress={() => this.props.navigatePush('voke.Contacts', {
-              onSelect: this.selectContact,
-              video: this.props.video,
-            })}
-            text="Search Contacts"
-            style={styles.randomButton}
-            buttonTextStyle={styles.randomText}
-          />
+          {
+            this.state.permission === 'authorized' ? (
+              <Button
+                onPress={() => this.props.navigatePush('voke.Contacts', {
+                  onSelect: this.selectContact,
+                  video: this.props.video,
+                })}
+                text="Search Contacts"
+                style={styles.randomButton}
+                buttonTextStyle={styles.randomText}
+              />
+            ) : null
+          }
         </Flex>
         <Flex align="center" justify="center" value={.7} style={styles.vokeBubble}>
           <Text style={styles.info}>
@@ -167,6 +232,16 @@ class SelectFriend extends Component {
         <Flex style={styles.imageWrap} value={.5} align="end" justify="end" >
           <Image resizeMode="contain" source={VOKE_BOT} style={styles.vokeBot} />
         </Flex>
+        {
+          this.state.permission != 'authorized' ? (
+            <Button
+              onPress={this.handleSettings}
+              text="Allow Contacts"
+              style={styles.randomButton}
+              buttonTextStyle={styles.randomText}
+            />
+          ) : null
+        }
         <Flex justify="start" align="center" value={2}>
           { this.renderRandomContacts() }
         </Flex>

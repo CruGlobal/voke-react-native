@@ -12,7 +12,9 @@ function setup() {
 
   // TODO: If environment is not prod, then set dry run to true
   // Setting `dryRun` to `true` lets you test tracking without sending data to GA
-  // GoogleAnalyticsSettings.setDryRun(true);
+  if (__DEV__) {
+    GoogleAnalyticsSettings.setDryRun(true);
+  }
 
   // The GoogleAnalyticsSettings is static, and settings are applied across all trackers:
   GoogleAnalyticsSettings.setDispatchInterval(30);
