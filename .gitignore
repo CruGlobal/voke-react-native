@@ -54,3 +54,8 @@ fastlane/screenshots
 
 .expo/
 npm-debug.*
+
+
+# Remove some files from being tracked in git
+fabric.properties
+release.properties

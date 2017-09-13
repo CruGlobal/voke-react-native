@@ -102,21 +102,21 @@
     </item>
     <item
         is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.crashlytics.sdk.android/answers/1.3.6/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.3"
-        sha1="9af3b9b8114e685291aa00e6572b0a9131244956">
-        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.crashlytics.sdk.android-answers-1.3.6_ca113ad322d7907b736b5bf2905eac4a6cec9c3a.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.facebook.fresco/animated-base/1.0.1/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.3"
         sha1="13469de5eef4b3c0488c0e4963fef197fc745f8a">
         <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-animated-base-1.0.1_6951d6337b2eb6c675988fbb162b9999ff22c495.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.crashlytics.sdk.android/answers/1.3.6/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="9af3b9b8114e685291aa00e6572b0a9131244956">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.crashlytics.sdk.android-answers-1.3.6_ca113ad322d7907b736b5bf2905eac4a6cec9c3a.jar" />
     </item>
     <item
         is-multidex="false"
@@ -921,21 +921,21 @@
     </item>
     <item
         is-multidex="false"
-        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.crashlytics.sdk.android/crashlytics/2.5.5/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.3"
-        sha1="611605b6b640c1558f9bdea41de8ff837ab68ca8">
-        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.crashlytics.sdk.android-crashlytics-2.5.5_6486b2e2bec6288752d803c39ed3566a7079b494.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="/Users/bryan/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp-urlconnection/3.6.0/3f9b16b774f2c36cfd86dd2053d0b3059531dacc/okhttp-urlconnection-3.6.0.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.3"
         sha1="3f9b16b774f2c36cfd86dd2053d0b3059531dacc">
         <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/okhttp-urlconnection-3.6.0_f814d4d734d66d5bb716fa44e700fadc4199a7e0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.crashlytics.sdk.android/crashlytics/2.5.5/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="611605b6b640c1558f9bdea41de8ff837ab68ca8">
+        <dex dex="/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/pre-dexed/debug/com.crashlytics.sdk.android-crashlytics-2.5.5_6486b2e2bec6288752d803c39ed3566a7079b494.jar" />
     </item>
     <item
         is-multidex="false"

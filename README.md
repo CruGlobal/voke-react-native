@@ -51,6 +51,24 @@ You can enable **Hot Reloading** by shaking the device and enabling it from ther
 
 
 
+## Building the application
+
+For iOS, you can run change the scheme to a `Release` version and run the application.
+
+For Android, you have to retrieve the `release.properties` information from one of the Cru administrators.
+
+`release.properties` should look like this, but with the correct. It goes in `androind/release.properties`
+```
+keyAlias=myapp-release
+keyAliasPassword=mysecretpassword
+keyStore=release.keystore
+keyStorePassword=mysecretpassword
+```
+
+Check that there is a device connected by running `adb devices`, then you can run `npm run android:build` to build the application to that device.
+
+
+
 ## Notes
 
 iOS builds can only be run on a Mac.
