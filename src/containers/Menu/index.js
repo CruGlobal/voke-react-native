@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Analytics from '../../utils/analytics';
 
 import { navMenuOptions } from '../../utils/menu';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
@@ -26,6 +27,10 @@ class Menu extends Component {
   constructor(props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+  }
+
+  componentDidMount() {
+    Analytics.screen('Menu');
   }
 
   onNavigatorEvent(event) {

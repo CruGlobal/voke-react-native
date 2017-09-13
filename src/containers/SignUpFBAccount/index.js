@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { TextInput, ScrollView, KeyboardAvoidingView, Alert, Linking, Image } from 'react-native';
 import ImagePicker from '../../components/ImagePicker';
 
-
+import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { createAccountAction, updateMe } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
@@ -39,6 +39,10 @@ class SignUpFBAccount extends Component {
     this.renderImagePicker = this.renderImagePicker.bind(this);
     this.handleImageChange = this.handleImageChange.bind(this);
     this.addProfile = this.addProfile.bind(this);
+  }
+  
+  componentDidMount() {
+    Analytics.screen('Create profile from Facebook Account');
   }
 
   checkEmail(text) {

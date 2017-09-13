@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { TextInput, ScrollView, KeyboardAvoidingView, Alert, Linking } from 'react-native';
 
-
+import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { createAccountAction } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
@@ -52,6 +52,10 @@ class SignUpAccount extends Component {
         this.props.navigateBack();
       }
     }
+  }
+
+  componentDidMount() {
+    Analytics.screen('Create Account');
   }
 
   componentWillMount() {

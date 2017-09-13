@@ -3,6 +3,7 @@ import { View, ScrollView, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { getVideos, getFeaturedVideos, getPopularVideos, getTags, getSelectedThemeVideos } from '../../actions/videos';
 import PropTypes from 'prop-types';
+import Analytics from '../../utils/analytics';
 
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { Navigation } from 'react-native-navigation';
@@ -114,6 +115,7 @@ class Videos extends Component {
     } else {
       this.setState({ videos: this.props.all });
     }
+    Analytics.screen('Videos');
   }
 
   handleThemeSelect(tag) {

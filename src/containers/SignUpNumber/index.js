@@ -3,6 +3,7 @@ import { TextInput, Alert, TouchableOpacity, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 
 import { createMobileVerification } from '../../actions/auth';
+import Analytics from '../../utils/analytics';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
@@ -53,6 +54,10 @@ class SignUpNumber extends Component {
         this.props.navigateBack();
       }
     }
+  }
+
+  componentDidMount() {
+    Analytics.screen('SignUp Enter Number');
   }
 
   componentWillMount() {

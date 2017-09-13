@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { getContacts } from '../../actions/contacts';
 import { createConversation, getConversation, deleteConversation } from '../../actions/messages';
 import PropTypes from 'prop-types';
+import Analytics from '../../utils/analytics';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
@@ -59,6 +60,7 @@ class SelectFriend extends Component {
       this.setState({ isLoading: false });
       // LOG('contacts caught');
     });
+    Analytics.screen('Select a Friend');
   }
 
   selectContact(c) {

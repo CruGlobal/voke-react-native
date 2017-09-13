@@ -8,6 +8,7 @@ import { updateMe } from '../../actions/auth';
 import { vokeIcons } from '../../utils/iconMap';
 import ImagePicker from '../../components/ImagePicker';
 import theme from '../../theme';
+import Analytics from '../../utils/analytics';
 
 import { Flex, Icon, Text, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
@@ -57,6 +58,10 @@ class SignUpProfile extends Component {
 
   componentWillMount() {
     this.props.navigator.setButtons(setButtons());
+  }
+
+  componentDidMount() {
+    Analytics.screen('SignUp Profile');
   }
 
   handleImageChange(data) {

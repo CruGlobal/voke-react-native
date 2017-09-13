@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Alert, View, StatusBar, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Analytics from '../../utils/analytics';
 
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { toastAction } from '../../actions/auth';
@@ -28,6 +29,10 @@ class VideoDetails extends Component {
 
   selectContact(contact) {
     LOG('contact selected', contact);
+  }
+
+  componentDidMount() {
+    Analytics.screen('Video Details');
   }
 
   handleVideoChange(videoState) {

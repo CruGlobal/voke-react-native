@@ -6,6 +6,7 @@ import { Navigation } from 'react-native-navigation';
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { startupAction, blockMessenger } from '../../actions/auth';
+import  Analytics from '../../utils/analytics';
 import { closeSocketAction, setupSocketAction, establishDevice } from '../../actions/socket';
 import { getConversations, deleteConversation } from '../../actions/messages';
 import { navMenuOptions } from '../../utils/menu';
@@ -73,6 +74,7 @@ class Home extends Component {
 
   componentDidMount() {
     this.props.dispatch(startupAction(this.props.navigator));
+    Analytics.screen('Home Chats');
     this.props.dispatch(getConversations());
     AppState.addEventListener('change', this.handleAppStateChange);
   }

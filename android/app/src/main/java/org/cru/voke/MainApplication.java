@@ -14,6 +14,7 @@ import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.appevents.AppEventsLogger;
 
 // import com.facebook.react.ReactApplication;
+import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
@@ -52,6 +53,7 @@ public class MainApplication extends NavigationApplication {
 //     protected List<ReactPackage> getPackages() {
 //         return Arrays.<ReactPackage>asList(
 //             new MainReactPackage(),
+            new GoogleAnalyticsBridgePackage(),
 //             new FBSDKPackage(mCallbackManager),
 //             new RNDeviceInfo(),
 //             new ReactNativePushNotificationPackage(),

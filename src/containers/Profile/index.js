@@ -6,6 +6,7 @@ import { Flex, Icon, Button, Text, Separator } from '../../components/common';
 import ImagePicker from '../../components/ImagePicker';
 import { updateMe } from '../../actions/auth';
 import { vokeIcons } from '../../utils/iconMap';
+import Analytics from '../../utils/analytics';
 
 import VOKE_LOGO from '../../../images/nav_voke_logo.png';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
@@ -58,6 +59,10 @@ class Profile extends Component {
   componentWillMount() {
     this.props.navigator.setButtons(setButtons());
     // LOG(JSON.stringify(this.props.user));
+  }
+
+  componentDidMount() {
+    Analytics.screen('Profile');
   }
 
   onNavigatorEvent(event) {
@@ -123,7 +128,7 @@ class Profile extends Component {
       confirmPassword: '',
     });
   }
-  
+
   handleImageChange(data) {
     // TODO: Make API call to update image
     this.setState({

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { IndicatorViewPager, PagerDotIndicator} from 'rn-viewpager';
+import Analytics from '../../utils/analytics';
 
 import ONBOARD_1 from '../../../images/intro_tutorial_videos.png';
 import ONBOARD_2 from '../../../images/intro_tutorial_home.png';
@@ -42,6 +43,10 @@ class SignUpWelcome extends Component {
 
   onPageSelected(params) {
     this.setState({ selectedPage: params.position });
+  }
+
+  componentDidMount() {
+    Analytics.screen('Welcome Onboarding');
   }
 
   renderDotIndicator() {
