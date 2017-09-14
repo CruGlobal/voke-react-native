@@ -1,3 +1,5 @@
+import RNFetchBlob from 'react-native-fetch-blob';
+
 import { Linking, Platform, ToastAndroid, AsyncStorage } from 'react-native';
 import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN } from '../constants';
 import callApi, { REQUESTS } from './api';
@@ -183,14 +185,14 @@ export function updateMeImage(avatar) {
       LOG('Must have a filename for updating an avatar');
       return;
     }
-    // const file = {
-    //   // uri: avatar.imageBinary,
-    //   uri: avatar.uri,
-    //   content_type: 'image/jpeg',
-    //   filename: avatar.fileName,
-    // };
-    let data = new FormData();
-    data.append('me[avatar]', avatar.uri, avatar.filename);
+    
+    // Need image upload data in this format for the RNFetchBlob request
+    const data = {
+      name: 'me[avatar]',
+      filename: avatar.fileName,
+      type: 'image/jpeg',
+      data: RNFetchBlob.wrap(avatar.uri.replace('file://', '')),
+    };
 
     return dispatch(callApi(REQUESTS.UPDATE_ME_IMAGE, {}, data)).then((results) => {
       LOG('update me image successful', results);
@@ -235,25 +237,6 @@ export function blockMessenger(data) {
       return results;
     }).catch((error) => {
       LOG('error blocking user', error);
-    });
-  };
-}
-
-export function reportUserAction(report, messenger) {
-  let query = {
-    endpoint: `${API_URL}/messengers/${messenger}/reports`,
-  };
-  let data = {
-    report: {
-      comment: report,
-    },
-  };
-  return (dispatch) => {
-    return dispatch(callApi(REQUESTS.REPORT_MESSENGER, query, data)).then((results) => {
-      LOG('Successfully reported user', results);
-      return results;
-    }).catch((error) => {
-      LOG('error reporting user', error);
     });
   };
 }

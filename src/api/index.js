@@ -70,7 +70,10 @@ lodashForEach(apiRoutes, (routeData, key) => {
         q,
         method === 'get' ? undefined : data,
         extra,
-      ).then(resolve).catch(reject);
+      ).then(resolve).catch((err) => {
+        LOG('request err', err);
+        reject(err);
+      });
     })
   );
 });

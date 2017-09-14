@@ -135,21 +135,22 @@ class Profile extends Component {
       imageUri: data.uri,
     });
     // LOG(JSON.stringify(data));
-    if (this.state.imageUri) {
+    if (data.imageBinary) {
       // let formData = new FormData();
       //
       // formData.append('name', 'me[avatar]');
       // formData.append('fileName', `${this.props.user.first_name}_${this.props.user.last_name}.png`);
       // formData.append('mimeType', 'image/*');
       // formData.append(this.state.imageUri);
-      let data = {
+      const updateData = {
         avatar: {
-          fileName: [`${this.props.user.first_name}_${this.props.user.last_name}.png`],
-          uri: this.state.imageUri,
+          fileName: `${this.props.user.first_name}_${this.props.user.last_name}.png`,
+          uri: data.uri,
+          base64: data.imageBinary,
         },
       };
       // LOG(JSON.stringify(formData));
-      this.props.dispatch(updateMe(data)).then(()=>{
+      this.props.dispatch(updateMe(updateData)).then(()=>{
         this.resetState();
       });
     }

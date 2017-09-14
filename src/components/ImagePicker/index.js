@@ -22,7 +22,7 @@ const IMAGE_PICKER_OPTIONS = {
   // maxHeight: 800, // photos only
   quality: 0.75, // 0 to 1, photos only
   allowsEditing: false, // Built in functionality to resize/reposition the image after selection
-  noData: true, // photos only - disables the base64 `data` field from being generated (greatly improves performance on large photos)
+  // noData: true, // photos only - disables the base64 `data` field from being generated (greatly improves performance on large photos)
   storageOptions: { // if this key is provided, the image will get saved in the documents directory on ios, and the pictures directory on android (rather than a temporary directory)
     cameraRoll: true, // ios only - image will NOT be backed up to icloud
     skipBackup: true, // ios only - image will NOT be backed up to icloud
@@ -54,7 +54,7 @@ class ImagePicker extends Component {
         // const source = { uri: 'data:image/jpeg;base64,' + response.data, isStatic: true };
 
         let payload = {
-          // imageBinary: `data:image/jpeg;base64,${response.data}`,
+          imageBinary: `data:image/jpeg;base64,${response.data}`,
           fileSize: response.fileSize,
           fileName: response.fileName,
           width: response.width,

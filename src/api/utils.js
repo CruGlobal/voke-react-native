@@ -1,4 +1,5 @@
 import merge from 'lodash/merge';
+import RNFetchBlob from 'react-native-fetch-blob';
 
 let environment;
 let baseUrl;
@@ -45,16 +46,39 @@ function createUrl(url = '', params) {
 
 function defaultObject(method, obj = {}, data) {
   let newObj = merge({}, { headers: DEFAULT_HEADERS }, obj, { method: method.toUpperCase() });
+  if (obj && obj.headers && obj.headers['Content-Type'] === false) {
+    delete newObj.headers['Content-Type'];
+  }
+  if (obj && obj.headers && obj.headers['Accept'] === false) {
+    delete newObj.headers['Accept'];
+  }
   if (data) {
     newObj.body = obj.stringify === false ? data : JSON.stringify(data);
   }
+  delete obj.stringify;
+  
   return newObj;
+}
+
+function imageUpload(url, headers, data) {
+  return RNFetchBlob.fetch('PUT', url, {
+    Authorization: headers.Authorization,
+    'Content-Type': 'multipart/form-data',
+  }, [data]).then(json).then((resp) => resp.data).catch((err) => {
+    LOG('fetch blob err', err);
+    return err;
+  });
 }
 
 export default function request(type, url, query, data, extra) {
   const newUrl = createUrl(url, query);
   const newObject = defaultObject(type, extra, data);
-  LOG('REQUEST: ', newObject.method, newUrl, newObject.body); // eslint-disable-line
+  // LOG('REQUEST: ', newObject.method, newUrl, newObject); // eslint-disable-line
+
+  // If user is trying to make an image upload request, use custom function
+  if (extra.imageUpload) {
+    return imageUpload(newUrl, newObject.headers, data);
+  }
   return fetch(newUrl, newObject).then(json).catch((err) => {
     LOG('fetch err', err);
     return err;

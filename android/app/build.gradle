@@ -172,6 +172,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-fetch-blob')
     compile project(':react-native-google-analytics-bridge')
     compile project(':react-native-fabric')
     compile project(':react-native-fbsdk')

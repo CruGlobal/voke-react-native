@@ -68,28 +68,19 @@ export default {
   'GET_ME': {
     endpoint: API_URL + 'me',
     method: 'get',
-    data: {
-      client: CLIENT,
-    },
     showApiLoading: true,
   },
   'UPDATE_ME': {
     endpoint: API_URL + 'me',
     method: 'put',
-    data: {
-      client: CLIENT,
-    },
     showApiLoading: true,
   },
   'UPDATE_ME_IMAGE': {
     endpoint: API_URL + 'me',
     method: 'put',
-    data: {
-      client: CLIENT,
-    },
+    // Force this request to use a custom imageUpload method
     extra: {
-      // stringify: false,
-      headers: { 'Content-Type': 'multipart/form-data' },
+      imageUpload: true,
     },
     showApiLoading: true,
   },
@@ -103,9 +94,6 @@ export default {
   'VERIFY_MOBILE': {
     endpoint: API_URL + 'me/mobile',
     method: 'put',
-    data: {
-      client: CLIENT,
-    },
   },
   'FORGOT_PASSWORD': {
     endpoint: API_URL + 'me/forgot',
@@ -206,10 +194,6 @@ export default {
     method: 'post',
   },
   'BLOCK_MESSENGER': {
-    endpoint: API_URL + 'messengers/:messenger_id/block',
-    method: 'post',
-  },
-  'REPORT_MESSENGER': {
     endpoint: API_URL + 'messengers/:messenger_id/block',
     method: 'post',
   },
