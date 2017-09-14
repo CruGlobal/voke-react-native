@@ -113,8 +113,9 @@ class ConversationList extends Component { // eslint-disable-line
             <Flex value={2} align="center" justify="start">
               <Avatar
                 size={30}
+                image={otherPerson && otherPerson.avatar.small.indexOf('/avatar.jpg') < 0 ? otherPerson.avatar.small : null}
                 style={this.state.rowFocused === item.id ? { backgroundColor: theme.primaryColor } : null}
-                text={otherPerson ? otherPerson.initials : 'VB'}
+                text={otherPerson ? otherPerson.initials.substring(0,2) : 'VB'}
               />
             </Flex>
             <Flex value={15} justify="start">

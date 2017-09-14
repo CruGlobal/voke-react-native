@@ -100,7 +100,7 @@ class MessageItem extends Component {
       return (
         <Avatar
           size={28}
-          image={user.avatar.large}
+          image={user.avatar.small}
           text={user.initials}
         />
       );
@@ -110,7 +110,7 @@ class MessageItem extends Component {
       return (
         <Avatar
           size={28}
-          image={vokebotMessenger.avatar.large}
+          image={vokebotMessenger.avatar.small}
           text={vokebotMessenger.initials}
         />
       );
@@ -119,6 +119,7 @@ class MessageItem extends Component {
       if (!otherMessenger) return null;
       return (
         <Avatar
+          image={otherMessenger && otherMessenger.avatar.small.indexOf('/avatar.jpg') < 0 ? otherMessenger.avatar.small : null}
           size={28}
           text={otherMessenger.initials}
         />
