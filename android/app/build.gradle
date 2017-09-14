@@ -104,6 +104,11 @@ def enableSeparateBuildPerCPUArchitecture = false
  */
 def enableProguardInReleaseBuilds = false
 
+// Get the properties file
+def props = new Properties()
+props.load(new FileInputStream(rootProject.file("release.properties")))
+
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
@@ -118,6 +123,15 @@ android {
             abiFilters "armeabi-v7a", "x86"
         }
     }
+    signingConfigs {
+        release {
+            // Setup the release key properties to be read from the 'release.properties' file
+            keyAlias props['keyAlias']
+            keyPassword props['keyAliasPassword']
+            storeFile rootProject.file(props['keyStore'])
+            storePassword props['keyStorePassword']
+        }
+    }
     splits {
         abi {
             reset()
@@ -127,9 +141,19 @@ android {
         }
     }
     buildTypes {
+        debug {
+            // disable crashlytics
+            buildConfigField "boolean", "USE_CRASHLYTICS", "false"
+            ext.enableCrashlytics = false
+        }
         release {
+            // enable crashlytics
+            buildConfigField "boolean", "USE_CRASHLYTICS", "true"
+            ext.enableCrashlytics = true
+
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release
