@@ -1,6 +1,6 @@
 import RNFetchBlob from 'react-native-fetch-blob';
 
-import { Linking, Platform, ToastAndroid, AsyncStorage } from 'react-native';
+import { Linking, Platform, ToastAndroid, AsyncStorage, Alert } from 'react-native';
 import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN } from '../constants';
 import callApi, { REQUESTS } from './api';
 import { establishDevice, destroyDevice, getDevices } from './socket';
@@ -102,7 +102,7 @@ export function toastAction(text) {
     if (Platform.OS === 'android') {
       ToastAndroid.show(text, ToastAndroid.SHORT);
     } else {
-      // Alert.alert('', text);
+      Alert.alert(text);
     }
   };
 }
@@ -185,7 +185,7 @@ export function updateMeImage(avatar) {
       LOG('Must have a filename for updating an avatar');
       return;
     }
-    
+
     // Need image upload data in this format for the RNFetchBlob request
     const data = {
       name: 'me[avatar]',

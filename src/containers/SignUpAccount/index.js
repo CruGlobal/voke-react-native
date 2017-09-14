@@ -6,30 +6,30 @@ import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { createAccountAction } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import { vokeIcons } from '../../utils/iconMap';
 import theme, { COLORS } from '../../theme';
 
-import { Flex, Text, Button } from '../../components/common';
+import { Flex, Text, Button, VokeIcon } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import SignUpHeader from '../../components/SignUpHeader';
-
-function setButtons() {
-  return {
-    leftButtons: [{
-      id: 'back', // Android implements this already
-      icon: vokeIcons['back'], // For iOS only
-    }],
-  };
-}
+//
+// function setButtons() {
+//   return {
+//     leftButtons: [{
+//       id: 'back', // Android implements this already
+//       icon: vokeIcons['back'], // For iOS only
+//     }],
+//   };
+// }
 
 class SignUpAccount extends Component {
   static navigatorStyle = {
-    screenBackgroundColor: theme.primaryColor,
-    navBarButtonColor: theme.lightText,
-    navBarTextColor: theme.headerTextColor,
-    navBarBackgroundColor: theme.primaryColor,
-    navBarNoBorder: true,
-    topBarElevationShadowEnabled: false,
+    // screenBackgroundColor: theme.primaryColor,
+    // navBarButtonColor: theme.lightText,
+    // navBarTextColor: theme.headerTextColor,
+    // navBarBackgroundColor: theme.primaryColor,
+    // navBarNoBorder: true,
+    // topBarElevationShadowEnabled: false,
+    navBarHidden: true,
   };
 
 
@@ -40,26 +40,26 @@ class SignUpAccount extends Component {
       password: '',
       emailValidation: false,
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.createAccount = this.createAccount.bind(this);
     this.checkEmail = this.checkEmail.bind(this);
     this.handleLink = this.handleLink.bind(this);
   }
 
-  onNavigatorEvent(event) {
-    if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
-      if (event.id == 'back') {
-        this.props.navigateBack();
-      }
-    }
-  }
+  // onNavigatorEvent(event) {
+  //   if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
+  //     if (event.id == 'back') {
+  //       this.props.navigateBack();
+  //     }
+  //   }
+  // }
 
   componentDidMount() {
     Analytics.screen('Create Account');
   }
 
   componentWillMount() {
-    this.props.navigator.setButtons(setButtons());
+    // this.props.navigator.setButtons(setButtons());
   }
 
   createAccount() {
@@ -77,6 +77,7 @@ class SignUpAccount extends Component {
     } else {
       Alert.alert('Please enter a valid email and password','');
     }
+
   }
 
   checkEmail(text) {
@@ -97,6 +98,16 @@ class SignUpAccount extends Component {
           behavior="padding"
         >
           <StatusBar />
+          <Flex style={{paddingTop: 35, paddingLeft: 30, alignSelf: 'flex-start'}}>
+            <Button
+              onPress={()=> this.props.navigateBack()}
+              type="transparent"
+              style={{padding: 5}}
+            >
+              <VokeIcon name="back" />
+            </Button>
+          </Flex>
+
           <SignUpHeader
             title="Create Account"
             description="You are moments away from impacting your friends"

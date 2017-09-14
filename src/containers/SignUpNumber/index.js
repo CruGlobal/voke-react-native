@@ -10,27 +10,28 @@ import nav, { NavPropTypes } from '../../actions/navigation_new';
 import theme from '../../theme';
 import { vokeIcons } from '../../utils/iconMap';
 
-import { Flex, Text, Button, Icon } from '../../components/common';
+import { Flex, Text, Button, Icon, VokeIcon } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import SignUpHeader from '../../components/SignUpHeader';
 
-function setButtons() {
-  return {
-    leftButtons: [{
-      id: 'back', // Android implements this already
-      icon: vokeIcons['back'], // For iOS only
-    }],
-  };
-}
+// function setButtons() {
+//   return {
+//     leftButtons: [{
+//       id: 'back', // Android implements this already
+//       icon: vokeIcons['back'], // For iOS only
+//     }],
+//   };
+// }
 
 class SignUpNumber extends Component {
   static navigatorStyle = {
-    screenBackgroundColor: theme.primaryColor,
-    navBarButtonColor: theme.lightText,
-    navBarTextColor: theme.headerTextColor,
-    navBarBackgroundColor: theme.primaryColor,
-    navBarNoBorder: true,
-    topBarElevationShadowEnabled: false,
+    // screenBackgroundColor: theme.primaryColor,
+    // navBarButtonColor: theme.lightText,
+    // navBarTextColor: theme.headerTextColor,
+    // navBarBackgroundColor: theme.primaryColor,
+    // navBarNoBorder: true,
+    // topBarElevationShadowEnabled: false,
+    navBarHidden: true,
   };
 
 
@@ -42,26 +43,26 @@ class SignUpNumber extends Component {
       selectedCountryCode: '1',
       selectedCountry: 'United States',
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleNext = this.handleNext.bind(this);
     this.handleOpenCountry = this.handleOpenCountry.bind(this);
     this.handleSelectCountry = this.handleSelectCountry.bind(this);
   }
 
-  onNavigatorEvent(event) {
-    if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
-      if (event.id == 'back') {
-        this.props.navigateBack();
-      }
-    }
-  }
+  // onNavigatorEvent(event) {
+  //   if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
+  //     if (event.id == 'back') {
+  //       this.props.navigateBack();
+  //     }
+  //   }
+  // }
 
   componentDidMount() {
     Analytics.screen('SignUp Enter Number');
   }
 
   componentWillMount() {
-    this.props.navigator.setButtons(setButtons());
+    // this.props.navigator.setButtons(setButtons());
   }
 
   handleNext() {
@@ -110,6 +111,15 @@ class SignUpNumber extends Component {
     return (
       <Flex style={styles.container} value={1} align="center" justify="start">
         <StatusBar />
+        <Flex style={{paddingTop: 35, paddingLeft: 30, alignSelf: 'flex-start'}}>
+          <Button
+            onPress={()=> this.props.navigateBack()}
+            style={{padding: 5}}
+            type="transparent"
+          >
+            <VokeIcon name="back" />
+          </Button>
+        </Flex>
         <TouchableOpacity activeOpacity={1} onPress={()=> Keyboard.dismiss()}>
           <SignUpHeader
             title="Mobile Number"

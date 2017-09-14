@@ -10,27 +10,28 @@ import ImagePicker from '../../components/ImagePicker';
 import theme from '../../theme';
 import Analytics from '../../utils/analytics';
 
-import { Flex, Icon, Text, Button } from '../../components/common';
+import { Flex, Icon, VokeIcon, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import SignUpHeader from '../../components/SignUpHeader';
 
-function setButtons() {
-  return {
-    leftButtons: [{
-      id: 'back', // Android implements this already
-      icon: vokeIcons['back'], // For iOS only
-    }],
-  };
-}
+// function setButtons() {
+//   return {
+//     leftButtons: [{
+//       id: 'back', // Android implements this already
+//       icon: vokeIcons['back'], // For iOS only
+//     }],
+//   };
+// }
 
 class SignUpProfile extends Component {
   static navigatorStyle = {
-    screenBackgroundColor: theme.primaryColor,
-    navBarButtonColor: theme.lightText,
-    navBarTextColor: theme.headerTextColor,
-    navBarBackgroundColor: theme.primaryColor,
-    navBarNoBorder: true,
-    topBarElevationShadowEnabled: false,
+    // screenBackgroundColor: theme.primaryColor,
+    // navBarButtonColor: theme.lightText,
+    // navBarTextColor: theme.headerTextColor,
+    // navBarBackgroundColor: theme.primaryColor,
+    // navBarNoBorder: true,
+    // topBarElevationShadowEnabled: false,
+    navBarHidden: true,
   };
 
 
@@ -42,22 +43,22 @@ class SignUpProfile extends Component {
       lastName: '',
     };
 
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.renderImagePicker = this.renderImagePicker.bind(this);
     this.handleImageChange = this.handleImageChange.bind(this);
     this.addProfile = this.addProfile.bind(this);
   }
 
-  onNavigatorEvent(event) {
-    if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
-      if (event.id == 'back') {
-        this.props.navigateBack();
-      }
-    }
-  }
+  // onNavigatorEvent(event) {
+  //   if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
+  //     if (event.id == 'back') {
+  //       this.props.navigateBack();
+  //     }
+  //   }
+  // }
 
   componentWillMount() {
-    this.props.navigator.setButtons(setButtons());
+    // this.props.navigator.setButtons(setButtons());
   }
 
   componentDidMount() {
@@ -113,6 +114,15 @@ class SignUpProfile extends Component {
     return (
       <Flex style={styles.container} value={1} align="center" justify="start">
         <StatusBar />
+        <Flex style={{paddingTop: 35, paddingLeft: 30, alignSelf: 'flex-start'}}>
+          <Button
+            onPress={()=> this.props.navigateBack()}
+            type="transparent"
+            style={{padding: 5}}
+          >
+            <VokeIcon name="back" />
+          </Button>
+        </Flex>
         <TouchableOpacity activeOpacity={1} onPress={()=> Keyboard.dismiss()}>
           <SignUpHeader title="Create Profile" />
           <Flex value={1} align="center" justify="start" style={styles.inputs}>
