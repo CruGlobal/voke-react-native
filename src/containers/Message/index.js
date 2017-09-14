@@ -321,7 +321,7 @@ class Message extends Component {
             />
             {
               this.state.text ? (
-                <Flex animation="slideInRight" duration={250} direction="row" style={{padding: 0, margin: 0, alignItems: 'center'}}>
+                <Flex animation="slideInRight" duration={250} align="center" direction="row" style={{padding: 0, margin: 0}}>
                   <Button
                     type="transparent"
                     style={styles.sendButton}

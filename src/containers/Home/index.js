@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, Platform, Image, AppState } from 'react-native';
+import { View, Platform, Image, AppState, Alert, AlertIOS } from 'react-native';
 import { connect } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import { startupAction, blockMessenger } from '../../actions/auth';
+import { startupAction, blockMessenger, reportUserAction } from '../../actions/auth';
 import  Analytics from '../../utils/analytics';
 
 import { closeSocketAction, setupSocketAction, establishDevice } from '../../actions/socket';
@@ -155,13 +155,57 @@ class Home extends Component {
     });
   }
 
-  handleBlock(data) {
-    this.setState({ isLoading: true });
-    this.props.dispatch(blockMessenger(data.id)).then(() => {
-      this.setState({ isLoading: false });
-    }).catch(() => {
-      this.setState({ isLoading: false });
-    });
+  handleBlock(otherPerson, data) {
+
+    Alert.alert(
+      'Are you sure you want to block',
+      'Would you also like to block and report this person?',
+      [
+        {
+          text: 'Block',
+          onPress: () => {
+            this.setState({ isLoading: true });
+            this.props.dispatch(blockMessenger(otherPerson.id)).then(() => {
+              this.handleDelete(data);
+              this.setState({ isLoading: false });
+            }).catch(() => {
+              this.setState({ isLoading: false });
+            });
+          },
+        },
+        {
+          text: 'Block and Report',
+          onPress: () => {
+            if (Platform.OS === 'android') {
+              LOG('set up reporting for android');
+            } else {
+              AlertIOS.prompt(
+                'Please describe why you are reporting this person',
+                null,
+                text => {
+                  this.props.dispatch(reportUserAction(text, otherPerson.id));
+                  this.setState({ isLoading: true });
+                  this.props.dispatch(blockMessenger(otherPerson.id)).then(() => {
+                    this.handleDelete(data);
+                    this.setState({ isLoading: false });
+                  }).catch(() => {
+                    this.setState({ isLoading: false });
+                  });
+                }
+              );
+            }
+          },
+        },
+
+        {
+          text: 'Cancel',
+          onPress: () => {
+            LOG('Canceled Block');
+          },
+          style: 'cancel',
+        },
+      ],
+    );
   }
 
   render() {

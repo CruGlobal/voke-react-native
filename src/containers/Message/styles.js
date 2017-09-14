@@ -38,7 +38,6 @@ export default StyleSheet.create({
     width: 55,
     alignItems: 'flex-end',
     paddingVertical: 5,
-    flex: 1,
   },
   moreContentButton: {
     padding: 15,

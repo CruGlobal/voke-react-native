@@ -50,7 +50,7 @@ class ConversationList extends Component { // eslint-disable-line
 
   handleBlock(data) {
     const otherPerson = this.getConversationParticipant(data);
-    this.props.onBlock(otherPerson);
+    this.props.onBlock(otherPerson, data);
   }
 
   handleFocus(id) {
