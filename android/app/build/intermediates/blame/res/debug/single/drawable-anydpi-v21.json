@@ -1,5 +1,13 @@
 [
     {
+        "merged": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-anydpi-v21/design_ic_visibility.xml",
+        "source": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/drawable-anydpi-v21/design_ic_visibility.xml"
+    },
+    {
+        "merged": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-anydpi-v21/design_ic_visibility_off.xml",
+        "source": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/drawable-anydpi-v21/design_ic_visibility_off.xml"
+    },
+    {
         "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-anydpi-v21/design_ic_visibility.xml",
         "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/drawable-anydpi-v21/design_ic_visibility.xml"
     },

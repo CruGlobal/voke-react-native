@@ -1,5 +1,17 @@
 [
     {
+        "merged": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-hdpi/point.png",
+        "source": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/src/main/res/drawable-hdpi/point.png"
+    },
+    {
+        "merged": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-hdpi/vokeboat.png",
+        "source": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/src/main/res/drawable-hdpi/vokeboat.png"
+    },
+    {
+        "merged": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-hdpi/ic_launcher_notif_new.png",
+        "source": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/src/main/res/drawable-hdpi/ic_launcher_notif_new.png"
+    },
+    {
         "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-hdpi/bg_voke_boat_welcome.png",
         "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/res/drawable-hdpi/bg_voke_boat_welcome.png"
     },
@@ -12,8 +24,20 @@
         "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/res/drawable-hdpi/vokeboat.png"
     },
     {
+        "merged": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-hdpi/welcome_screen_01.9.png",
+        "source": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/src/main/res/drawable-hdpi/welcome_screen_01.9.png"
+    },
+    {
         "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-hdpi/ic_launcher_notif_new.png",
         "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/res/drawable-hdpi/ic_launcher_notif_new.png"
+    },
+    {
+        "merged": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-hdpi/welcome_screen_02.9.png",
+        "source": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/src/main/res/drawable-hdpi/welcome_screen_02.9.png"
+    },
+    {
+        "merged": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-hdpi/welcome_screen_03.9.png",
+        "source": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/src/main/res/drawable-hdpi/welcome_screen_03.9.png"
     },
     {
         "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-hdpi/voke_boat_read_blue.9.png",
@@ -32,7 +56,19 @@
         "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/res/drawable-hdpi/welcome_screen_01.9.png"
     },
     {
+        "merged": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-hdpi/bg_voke_boat_welcome.png",
+        "source": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/src/main/res/drawable-hdpi/bg_voke_boat_welcome.png"
+    },
+    {
         "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-hdpi/point.png",
         "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/res/drawable-hdpi/point.png"
+    },
+    {
+        "merged": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-hdpi/voke_boat_read_blue.9.png",
+        "source": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/src/main/res/drawable-hdpi/voke_boat_read_blue.9.png"
+    },
+    {
+        "merged": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-hdpi/ic_voke_boat_corner.png",
+        "source": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/src/main/res/drawable-hdpi/ic_voke_boat_corner.png"
     }
 ]

@@ -144,7 +144,7 @@ android {
         debug {
             // disable crashlytics
             buildConfigField "boolean", "USE_CRASHLYTICS", "false"
-            ext.enableCrashlytics = false
+            // ext.enableCrashlytics = false
         }
         release {
             // enable crashlytics

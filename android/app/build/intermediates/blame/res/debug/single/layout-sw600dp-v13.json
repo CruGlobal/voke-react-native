@@ -2,5 +2,9 @@
     {
         "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/layout-sw600dp-v13/design_layout_snackbar.xml",
         "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/layout-sw600dp-v13/design_layout_snackbar.xml"
+    },
+    {
+        "merged": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/build/intermediates/res/merged/debug/layout-sw600dp-v13/design_layout_snackbar.xml",
+        "source": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res/layout-sw600dp-v13/design_layout_snackbar.xml"
     }
 ]

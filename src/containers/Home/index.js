@@ -105,7 +105,7 @@ class Home extends Component {
         this.props.dispatch(establishDevice());
       }
 
-    } else if (this.state.appState.match(/active/) && nextAppState === 'inactive') {
+    } else if (this.state.appState.match(/active/) && nextAppState === 'background') {
       LOG('App is going into the background');
       // Close sockets
       this.props.dispatch(closeSocketAction());

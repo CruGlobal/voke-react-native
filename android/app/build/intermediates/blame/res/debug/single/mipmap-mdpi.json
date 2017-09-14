@@ -1,5 +1,9 @@
 [
     {
+        "merged": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/build/intermediates/res/merged/debug/mipmap-mdpi/ic_launcher.png",
+        "source": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/src/main/res/mipmap-mdpi/ic_launcher.png"
+    },
+    {
         "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/mipmap-mdpi/ic_launcher.png",
         "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/res/mipmap-mdpi/ic_launcher.png"
     }

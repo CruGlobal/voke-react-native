@@ -59,3 +59,5 @@ npm-debug.*
 # Remove some files from being tracked in git
 fabric.properties
 release.properties
+android/build
+android/app/build

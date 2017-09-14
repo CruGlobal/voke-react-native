@@ -20,16 +20,52 @@
         "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/res/drawable-mdpi/vokeboat.png"
     },
     {
+        "merged": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-mdpi/vokeboat.png",
+        "source": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/src/main/res/drawable-mdpi/vokeboat.png"
+    },
+    {
         "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-mdpi/ic_launcher_notif_new.png",
         "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/res/drawable-mdpi/ic_launcher_notif_new.png"
+    },
+    {
+        "merged": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-mdpi/ic_voke_boat_corner.png",
+        "source": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/src/main/res/drawable-mdpi/ic_voke_boat_corner.png"
+    },
+    {
+        "merged": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-mdpi/bg_voke_boat_welcome.png",
+        "source": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/src/main/res/drawable-mdpi/bg_voke_boat_welcome.png"
+    },
+    {
+        "merged": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-mdpi/welcome_screen_02.9.png",
+        "source": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/src/main/res/drawable-mdpi/welcome_screen_02.9.png"
+    },
+    {
+        "merged": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-mdpi/welcome_screen_01.9.png",
+        "source": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/src/main/res/drawable-mdpi/welcome_screen_01.9.png"
     },
     {
         "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-mdpi/point.png",
         "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/res/drawable-mdpi/point.png"
     },
     {
+        "merged": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-mdpi/welcome_screen_03.9.png",
+        "source": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/src/main/res/drawable-mdpi/welcome_screen_03.9.png"
+    },
+    {
+        "merged": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-mdpi/voke_boat_read_blue.9.png",
+        "source": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/src/main/res/drawable-mdpi/voke_boat_read_blue.9.png"
+    },
+    {
+        "merged": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-mdpi/ic_launcher_notif_new.png",
+        "source": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/src/main/res/drawable-mdpi/ic_launcher_notif_new.png"
+    },
+    {
         "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-mdpi/welcome_screen_01.9.png",
         "source": "/Users/bryan/Documents/Dev/voke-react-native/android/app/src/main/res/drawable-mdpi/welcome_screen_01.9.png"
+    },
+    {
+        "merged": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-mdpi/point.png",
+        "source": "/Users/bengauthier/Desktop/Development/LogicLab/voke-react-native/android/app/src/main/res/drawable-mdpi/point.png"
     },
     {
         "merged": "/Users/bryan/Documents/Dev/voke-react-native/android/app/build/intermediates/res/merged/debug/drawable-mdpi/ic_voke_boat_corner.png",
