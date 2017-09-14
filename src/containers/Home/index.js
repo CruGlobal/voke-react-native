@@ -177,7 +177,26 @@ class Home extends Component {
           text: 'Block and Report',
           onPress: () => {
             if (Platform.OS === 'android') {
-              LOG('set up reporting for android');
+              Navigation.showModal({
+                screen: 'voke.AndroidReportModal', // unique ID registered with Navigation.registerScreen
+                animationType: 'none', // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
+                passProps: {
+                  onSubmitReport: (text) => {
+                    this.props.dispatch(reportUserAction(text, otherPerson.id));
+                    this.setState({ isLoading: true });
+                    this.props.dispatch(blockMessenger(otherPerson.id)).then(() => {
+                      this.handleDelete(data);
+                      this.setState({ isLoading: false });
+                    }).catch(() => {
+                      this.setState({ isLoading: false });
+                    });
+                  },
+                  onCancelReport: () => LOG('report canceled'),
+                },
+                navigatorStyle: {
+                  screenBackgroundColor: 'rgba(0, 0, 0, 0.3)',
+                },
+              });
             } else {
               AlertIOS.prompt(
                 'Please describe why you are reporting this person',

@@ -256,6 +256,26 @@ export function unblockMessenger(data) {
   };
 }
 
+export function reportUserAction(report, messenger) {
+  let query = {
+    endpoint: `${API_URL}/messengers/${messenger}/reports`,
+  };
+  let data = {
+    report: {
+      comment: report,
+    },
+  };
+  return (dispatch) => {
+    return dispatch(callApi(REQUESTS.REPORT_MESSENGER, query, data)).then((results) => {
+      LOG('Successfully reported user', results);
+      return results;
+    }).catch((error) => {
+      LOG('error reporting user', error);
+    });
+  };
+}
+
+
 export function openSettingsAction() {
   LOG('Opening Settings');
   return () => {

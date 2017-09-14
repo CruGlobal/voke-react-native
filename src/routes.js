@@ -37,6 +37,7 @@ import Help from './containers/Help';
 import ForgotPassword from './containers/ForgotPassword';
 import SignUpFBAccount from './containers/SignUpFBAccount';
 import Modal from './containers/Modal';
+import AndroidReportModal from './containers/AndroidReportModal';
 
 
 // TODO: Wrap each of these in a HoC where we inject the navigation actions
@@ -67,6 +68,7 @@ export default function(store, Provider) {
   Navigation.registerComponent('voke.ForgotPassword', () => ForgotPassword, store, Provider);
   Navigation.registerComponent('voke.SignUpFBAccount', () => SignUpFBAccount, store, Provider);
   Navigation.registerComponent('voke.Modal', () => Modal, store, Provider);
+  Navigation.registerComponent('voke.AndroidReportModal', () => AndroidReportModal, store, Provider);
 }
 
 

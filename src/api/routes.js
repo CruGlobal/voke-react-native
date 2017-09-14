@@ -201,6 +201,10 @@ export default {
     endpoint: API_URL + 'messengers/:messenger_id/unblock',
     method: 'post',
   },
+  'REPORT_MESSENGER': {
+    endpoint: API_URL + 'messengers/:messenger_id/block',
+    method: 'post',
+  },
   'ADD_FRIENDS': {
     endpoint: API_URL + 'me/friends',
     method: 'post',
