@@ -6,9 +6,22 @@ import PropTypes from 'prop-types';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { getKickstarters } from '../../actions/videos';
 import theme from '../../theme';
+import { vokeIcons } from '../../utils/iconMap';
 
 import styles from './styles';
 import { Flex, Text, Touchable, Loading, VokeIcon } from '../../components/common';
+
+function setButtons() {
+  const leftButton1 = {
+    title: 'Back',
+    id: 'back',
+    icon: vokeIcons['back'],
+  };
+  return {
+    leftButtons: [leftButton1],
+  };
+}
+
 
 class KickstartersTab extends Component {
   static navigatorStyle = {
@@ -27,7 +40,16 @@ class KickstartersTab extends Component {
     };
 
     this.getKickstarters = this.getKickstarters.bind(this);
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.renderRow = this.renderRow.bind(this);
+  }
+
+  onNavigatorEvent(event) {
+    if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
+      if (event.id == 'back') {
+        this.props.navigateBack();
+      }
+    }
   }
 
   componentDidMount() {
@@ -38,6 +60,8 @@ class KickstartersTab extends Component {
     this.props.navigator.setTitle({
       title: 'Kickstarters',
     });
+    this.props.navigator.setButtons(setButtons());
+
   }
 
   getKickstarters() {

@@ -39,7 +39,7 @@ function setButtons(showBack) {
   const leftButton1 = {
     title: showBack ? 'Back' : 'Menu',
     id: showBack ? 'back' : 'menu',
-    icon: showBack ? iconsMap['ios-arrow-back'] : vokeIcons['menu'],
+    icon: showBack ? vokeIcons['back'] : vokeIcons['menu'],
   };
   return {
     leftButtons: [leftButton1],
