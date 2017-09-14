@@ -26,6 +26,7 @@ import com.facebook.react.ReactNativeHost;
 // import com.facebook.soloader.SoLoader;
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -54,7 +55,9 @@ public class MainApplication extends NavigationApplication {
           new ReactNativeContacts(),
           new ImagePickerPackage(),
           new GoogleAnalyticsBridgePackage(),
-          new VectorIconsPackage()
+          new VectorIconsPackage(),
+          new PickerPackage(),
+          new RNFetchBlobPackage()
       );
   }
 
@@ -68,16 +71,6 @@ public class MainApplication extends NavigationApplication {
     super.onCreate();
 
     setActivityCallbacks(new ActivityCallbacks() {
-      // @Override
-      // public void onActivityResumed(Activity activity) {
-      //   // Do stuff
-      // }
-
-      // @Override
-      // public void onActivityPaused(Activity activity) {
-      //   // Do stuff
-      // }
-
       @Override
       public void onActivityResult(int requestCode, int resultCode, Intent data) {
         mCallbackManager.onActivityResult(requestCode, resultCode, data);

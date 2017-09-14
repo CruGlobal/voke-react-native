@@ -8,6 +8,7 @@ import { updateMe } from '../../actions/auth';
 import { vokeIcons } from '../../utils/iconMap';
 import Analytics from '../../utils/analytics';
 
+import ApiLoading from '../ApiLoading';
 import VOKE_LOGO from '../../../images/nav_voke_logo.png';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import theme, { COLORS } from '../../theme';
@@ -25,6 +26,8 @@ class Profile extends Component {
 
   static navigatorStyle = {
     navBarNoBorder: true,
+    topBarElevationShadowEnabled: false,
+    tabBarHidden: true,
     navBarButtonColor: theme.textColor,
     navBarTextColor: theme.headerTextColor,
   };
@@ -135,7 +138,7 @@ class Profile extends Component {
       imageUri: data.uri,
     });
     // LOG(JSON.stringify(data));
-    if (data.imageBinary) {
+    if (data.uri) {
       // let formData = new FormData();
       //
       // formData.append('name', 'me[avatar]');
@@ -146,7 +149,7 @@ class Profile extends Component {
         avatar: {
           fileName: `${this.props.user.first_name}_${this.props.user.last_name}.png`,
           uri: data.uri,
-          base64: data.imageBinary,
+          // base64: data.imageBinary,
         },
       };
       // LOG(JSON.stringify(formData));
@@ -435,6 +438,7 @@ class Profile extends Component {
             </ScrollView>
           </Flex>
         </Flex>
+        <ApiLoading />
       </KeyboardAvoidingView>
     );
   }

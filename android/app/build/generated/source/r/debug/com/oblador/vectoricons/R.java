@@ -263,20 +263,20 @@ public final class R {
 		public static final int abc_config_showMenuShortcutsWhenKeyboardPresent = 0x7f0b0004;
 	}
 	public static final class color {
-		public static final int abc_background_cache_hint_selector_material_dark = 0x7f0d0074;
-		public static final int abc_background_cache_hint_selector_material_light = 0x7f0d0075;
-		public static final int abc_color_highlight_material = 0x7f0d0078;
+		public static final int abc_background_cache_hint_selector_material_dark = 0x7f0d0081;
+		public static final int abc_background_cache_hint_selector_material_light = 0x7f0d0082;
+		public static final int abc_color_highlight_material = 0x7f0d0085;
 		public static final int abc_input_method_navigation_guard = 0x7f0d0001;
-		public static final int abc_primary_text_disable_only_material_dark = 0x7f0d007b;
-		public static final int abc_primary_text_disable_only_material_light = 0x7f0d007c;
-		public static final int abc_primary_text_material_dark = 0x7f0d007d;
-		public static final int abc_primary_text_material_light = 0x7f0d007e;
-		public static final int abc_search_url_text = 0x7f0d007f;
+		public static final int abc_primary_text_disable_only_material_dark = 0x7f0d0088;
+		public static final int abc_primary_text_disable_only_material_light = 0x7f0d0089;
+		public static final int abc_primary_text_material_dark = 0x7f0d008a;
+		public static final int abc_primary_text_material_light = 0x7f0d008b;
+		public static final int abc_search_url_text = 0x7f0d008c;
 		public static final int abc_search_url_text_normal = 0x7f0d0002;
 		public static final int abc_search_url_text_pressed = 0x7f0d0003;
 		public static final int abc_search_url_text_selected = 0x7f0d0004;
-		public static final int abc_secondary_text_material_dark = 0x7f0d0080;
-		public static final int abc_secondary_text_material_light = 0x7f0d0081;
+		public static final int abc_secondary_text_material_dark = 0x7f0d008d;
+		public static final int abc_secondary_text_material_light = 0x7f0d008e;
 		public static final int accent_material_dark = 0x7f0d0005;
 		public static final int accent_material_light = 0x7f0d0006;
 		public static final int background_floating_material_dark = 0x7f0d0008;
@@ -328,8 +328,8 @@ public final class R {
 		public static final int secondary_text_disabled_material_light = 0x7f0d006e;
 		public static final int switch_thumb_disabled_material_dark = 0x7f0d0070;
 		public static final int switch_thumb_disabled_material_light = 0x7f0d0071;
-		public static final int switch_thumb_material_dark = 0x7f0d0090;
-		public static final int switch_thumb_material_light = 0x7f0d0091;
+		public static final int switch_thumb_material_dark = 0x7f0d009d;
+		public static final int switch_thumb_material_light = 0x7f0d009e;
 		public static final int switch_thumb_normal_material_dark = 0x7f0d0072;
 		public static final int switch_thumb_normal_material_light = 0x7f0d0073;
 	}
@@ -453,7 +453,7 @@ public final class R {
 		public static final int abc_textfield_search_activated_mtrl_alpha = 0x7f02004f;
 		public static final int abc_textfield_search_default_mtrl_alpha = 0x7f020050;
 		public static final int abc_textfield_search_material = 0x7f020051;
-		public static final int notification_template_icon_bg = 0x7f0200ad;
+		public static final int notification_template_icon_bg = 0x7f0200b9;
 	}
 	public static final class id {
 		public static final int action0 = 0x7f0e00c4;
@@ -635,28 +635,28 @@ public final class R {
 		public static final int abc_shareactionprovider_share_with = 0x7f080010;
 		public static final int abc_shareactionprovider_share_with_application = 0x7f080011;
 		public static final int abc_toolbar_collapse_description = 0x7f080012;
-		public static final int catalyst_copy_button = 0x7f08004d;
-		public static final int catalyst_debugjs = 0x7f08004e;
-		public static final int catalyst_debugjs_off = 0x7f08004f;
-		public static final int catalyst_dismiss_button = 0x7f080050;
-		public static final int catalyst_element_inspector = 0x7f080051;
-		public static final int catalyst_heap_capture = 0x7f080052;
-		public static final int catalyst_hot_module_replacement = 0x7f080053;
-		public static final int catalyst_hot_module_replacement_off = 0x7f080054;
-		public static final int catalyst_jsload_error = 0x7f080055;
-		public static final int catalyst_live_reload = 0x7f080056;
-		public static final int catalyst_live_reload_off = 0x7f080057;
-		public static final int catalyst_loading_from_url = 0x7f080058;
-		public static final int catalyst_perf_monitor = 0x7f080059;
-		public static final int catalyst_perf_monitor_off = 0x7f08005a;
-		public static final int catalyst_poke_sampling_profiler = 0x7f08005b;
-		public static final int catalyst_reload_button = 0x7f08005c;
-		public static final int catalyst_reloadjs = 0x7f08005d;
-		public static final int catalyst_remotedbg_error = 0x7f08005e;
-		public static final int catalyst_remotedbg_message = 0x7f08005f;
-		public static final int catalyst_report_button = 0x7f080060;
-		public static final int catalyst_settings = 0x7f080061;
-		public static final int catalyst_settings_title = 0x7f080062;
+		public static final int catalyst_copy_button = 0x7f080050;
+		public static final int catalyst_debugjs = 0x7f080051;
+		public static final int catalyst_debugjs_off = 0x7f080052;
+		public static final int catalyst_dismiss_button = 0x7f080053;
+		public static final int catalyst_element_inspector = 0x7f080054;
+		public static final int catalyst_heap_capture = 0x7f080055;
+		public static final int catalyst_hot_module_replacement = 0x7f080056;
+		public static final int catalyst_hot_module_replacement_off = 0x7f080057;
+		public static final int catalyst_jsload_error = 0x7f080058;
+		public static final int catalyst_live_reload = 0x7f080059;
+		public static final int catalyst_live_reload_off = 0x7f08005a;
+		public static final int catalyst_loading_from_url = 0x7f08005b;
+		public static final int catalyst_perf_monitor = 0x7f08005c;
+		public static final int catalyst_perf_monitor_off = 0x7f08005d;
+		public static final int catalyst_poke_sampling_profiler = 0x7f08005e;
+		public static final int catalyst_reload_button = 0x7f08005f;
+		public static final int catalyst_reloadjs = 0x7f080060;
+		public static final int catalyst_remotedbg_error = 0x7f080061;
+		public static final int catalyst_remotedbg_message = 0x7f080062;
+		public static final int catalyst_report_button = 0x7f080063;
+		public static final int catalyst_settings = 0x7f080064;
+		public static final int catalyst_settings_title = 0x7f080065;
 		public static final int status_bar_notification_info_overflow = 0x7f08003c;
 	}
 	public static final class style {
