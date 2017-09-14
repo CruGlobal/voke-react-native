@@ -81,6 +81,18 @@ export default {
     },
     showApiLoading: true,
   },
+  'UPDATE_ME_IMAGE': {
+    endpoint: API_URL + 'me',
+    method: 'put',
+    data: {
+      client: CLIENT,
+    },
+    extra: {
+      // stringify: false,
+      headers: { 'Content-Type': 'multipart/form-data' },
+    },
+    showApiLoading: true,
+  },
   'CREATE_MOBILE_VERIFICATION': {
     endpoint: API_URL + 'me/mobile',
     method: 'post',

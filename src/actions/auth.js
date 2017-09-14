@@ -164,12 +164,40 @@ export function getMe() {
 
 export function updateMe(data) {
   return (dispatch) => {
+    if (data.avatar) {
+      return dispatch(updateMeImage(data.avatar));
+    }
     return dispatch(callApi(REQUESTS.UPDATE_ME, {}, data)).then((results) => {
       LOG('update me successful', results);
       dispatch(getMe());
       return results;
     }).catch((error) => {
       LOG('error updating me', error);
+    });
+  };
+}
+
+export function updateMeImage(avatar) {
+  return (dispatch) => {
+    if (!avatar.fileName) {
+      LOG('Must have a filename for updating an avatar');
+      return;
+    }
+    // const file = {
+    //   // uri: avatar.imageBinary,
+    //   uri: avatar.uri,
+    //   content_type: 'image/jpeg',
+    //   filename: avatar.fileName,
+    // };
+    let data = new FormData();
+    data.append('me[avatar]', avatar.uri, avatar.filename);
+
+    return dispatch(callApi(REQUESTS.UPDATE_ME_IMAGE, {}, data)).then((results) => {
+      LOG('update me image successful', results);
+      dispatch(getMe());
+      return results;
+    }).catch((error) => {
+      LOG('error updating me image', error);
     });
   };
 }

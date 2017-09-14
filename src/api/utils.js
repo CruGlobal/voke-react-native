@@ -51,10 +51,10 @@ function defaultObject(method, obj = {}, data) {
   return newObj;
 }
 
-export default function request(type, url, query, data, object) {
+export default function request(type, url, query, data, extra) {
   const newUrl = createUrl(url, query);
-  const newObject = defaultObject(type, object, data);
-  // LOG('REQUEST: ', newObject.method, newUrl, newObject.body); // eslint-disable-line
+  const newObject = defaultObject(type, extra, data);
+  LOG('REQUEST: ', newObject.method, newUrl, newObject.body); // eslint-disable-line
   return fetch(newUrl, newObject).then(json).catch((err) => {
     LOG('fetch err', err);
     return err;

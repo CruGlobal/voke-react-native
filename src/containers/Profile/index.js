@@ -143,12 +143,10 @@ class Profile extends Component {
       // formData.append('mimeType', 'image/*');
       // formData.append(this.state.imageUri);
       let data = {
-        me: {
-          avatar: {
-            [`${this.props.user.first_name}_${this.props.user.last_name}.png`]: this.state.imageUri,
-          },
+        avatar: {
+          fileName: [`${this.props.user.first_name}_${this.props.user.last_name}.png`],
+          uri: this.state.imageUri,
         },
-
       };
       // LOG(JSON.stringify(formData));
       this.props.dispatch(updateMe(data)).then(()=>{
