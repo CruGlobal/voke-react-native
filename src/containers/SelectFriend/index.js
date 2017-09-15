@@ -131,7 +131,7 @@ class SelectFriend extends Component {
 
     let videoId = this.props.video;
 
-    if (c.isVoke) {
+    if (!c.isVoke) {
       LOG('voke contact selected', this.props.video);
     } else {
       LOG('normal contact selected', this.props.video);
@@ -151,10 +151,25 @@ class SelectFriend extends Component {
         LOG('create conversation results', results);
         const friend = results.messengers[0];
 
-        Share.share({
-          message: `Hi ${friend ? friend.first_name : 'friend'}, check out this video ${friend ? friend.url : ''} `,
-          title: 'Check this out',
-        }).then((results1)=> {
+        Share.share(
+          {
+            message: `Hi ${friend ? friend.first_name : 'friend'}, check out this video ${friend ? friend.url : ''} `,
+            title: 'Check this out',
+          },
+          {
+            excludedActivityTypes: [
+              'com.apple.UIKit.activity.PostToTwitter',
+              'com.apple.uikit.activity.Mail',
+              'com.apple.uikit.activity.CopyToPasteboard',
+              'com.google.Drive.ShareExtension',
+              'com.apple.UIKit.activity.PostToFacebook',
+              'com.apple.UIKit.activity.PostToFlickr',
+              'com.apple.UIKit.activity.PostToVimeo',
+              'com.apple.UIKit.activity.PostToWeibo',
+              'com.apple.UIKit.activity.AirDrop',
+              'com.apple.UIKit.activity.PostToSlack',
+            ],
+          }).then((results1)=> {
           if (results1.action === 'sharedAction') {
             LOG('successfuly shared video');
             LOG('results.id', results.id);
