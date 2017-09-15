@@ -96,7 +96,10 @@ export function getVokeContacts(all) {
     new Promise((resolve, reject) => {
       // TODO: Make API call to find out voke contacts
       dispatch(uploadContacts(all)).then((vokeFriends) => {
-        dispatch(setVokeContacts(vokeFriends));
+        let vokeFriendsWithApp = vokeFriends.filter((c)=>{
+          return c.mobile_app === true;
+        });
+        dispatch(setVokeContacts(vokeFriendsWithApp));
         resolve(true);
       }).catch((err) => {
         reject(err);
