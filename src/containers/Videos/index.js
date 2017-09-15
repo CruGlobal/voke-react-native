@@ -145,6 +145,8 @@ class Videos extends Component {
         navigatorStyle: {
           screenBackgroundColor: 'rgba(0, 0, 0, 0.3)',
         },
+        // Stop back button from closing modal https://github.com/wix/react-native-navigation/issues/250#issuecomment-254186394
+        overrideBackPress: true,
       });
     } else {
       Navigation.showLightBox({
