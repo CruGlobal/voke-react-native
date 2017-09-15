@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import debounce from 'lodash/debounce';
 
 import Analytics from '../../utils/analytics';
-import { iconsMap } from '../../utils/iconMap';
+// import { iconsMap } from '../../utils/iconMap';
 import styles from './styles';
 // import { toastAction } from '../../actions/auth';
 import { searchContacts } from '../../actions/contacts';
@@ -17,14 +17,15 @@ import SearchBarIos from '../../components/SearchBarIos';
 
 
 function setButtons() {
-  if (Platform.OS === 'android') {
-    return {
-      rightButtons: [{
-        id: 'searchView',
-        icon: iconsMap['md-search'],
-      }],
-    };
-  }
+  // TODO: Implement a search bar for android using a custom navigation title
+  // if (Platform.OS === 'android') {
+  //   return {
+  //     rightButtons: [{
+  //       id: 'searchView',
+  //       icon: iconsMap['md-search'],
+  //     }],
+  //   };
+  // }
   return {};
 }
 class Contacts extends Component {

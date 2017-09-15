@@ -111,11 +111,17 @@ class SignUpNumber extends Component {
     return (
       <Flex style={styles.container} value={1} align="center" justify="start">
         <StatusBar />
-        <Flex style={{paddingTop: 35, paddingLeft: 30, alignSelf: 'flex-start'}}>
+        <Flex
+          style={{
+            paddingTop: Platform.OS === 'android' ? 10 : 35,
+            paddingLeft: Platform.OS === 'android' ? 15 : 30,
+            alignSelf: 'flex-start',
+          }}
+        >
           <Button
-            onPress={()=> this.props.navigateBack()}
-            style={{padding: 5}}
+            onPress={() => this.props.navigateBack()}
             type="transparent"
+            style={{ padding: 5 }}
           >
             {
               Platform.OS === 'android' ? (

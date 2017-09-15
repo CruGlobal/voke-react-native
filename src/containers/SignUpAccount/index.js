@@ -11,7 +11,7 @@ import theme, { COLORS } from '../../theme';
 import { Flex, Text, Button, VokeIcon, Icon } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import SignUpHeader from '../../components/SignUpHeader';
-//
+
 // function setButtons() {
 //   return {
 //     leftButtons: [{
@@ -20,6 +20,8 @@ import SignUpHeader from '../../components/SignUpHeader';
 //     }],
 //   };
 // }
+
+const EMAIL_REGEX = /^\w+([.+-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
 class SignUpAccount extends Component {
   static navigatorStyle = {
@@ -58,15 +60,12 @@ class SignUpAccount extends Component {
     Analytics.screen('Create Account');
   }
 
-  componentWillMount() {
+  // componentWillMount() {
     // this.props.navigator.setButtons(setButtons());
-  }
+  // }
 
   createAccount() {
-    // PUT THIS BACK IN, JUST FOR TESTING
-    // if (this.state.emailValidation && this.state.password) {
-
-    if (this.state.password) {
+    if (this.state.emailValidation && this.state.password) {
       this.props.dispatch(createAccountAction(this.state.email, this.state.password)).then((results) => {
         if (results.errors) {
           Alert.alert('Error', `${results.errors}`);
@@ -78,14 +77,11 @@ class SignUpAccount extends Component {
     } else {
       Alert.alert('Please enter a valid email and password','');
     }
-
   }
 
   checkEmail(text) {
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(text)) {
-      this.setState({ emailValidation: true });
-    } else { this.setState({ emailValidation: false }); }
-    this.setState({ email: text });
+    const emailValidation = EMAIL_REGEX.test(text);
+    this.setState({ email: text, emailValidation });
   }
 
   handleLink(url) {
@@ -99,9 +95,15 @@ class SignUpAccount extends Component {
           behavior="padding"
         >
           <StatusBar />
-          <Flex style={{paddingTop: 35, paddingLeft: 30, alignSelf: 'flex-start'}}>
+          <Flex
+            style={{
+              paddingTop: Platform.OS === 'android' ? 10 : 35,
+              paddingLeft: Platform.OS === 'android' ? 15 : 30,
+              alignSelf: 'flex-start',
+            }}
+          >
             <Button
-              onPress={()=> this.props.navigateBack()}
+              onPress={() => this.props.navigateBack()}
               type="transparent"
               style={{padding: 5}}
             >
