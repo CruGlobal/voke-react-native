@@ -1,19 +1,21 @@
 
 import React, { Component } from 'react';
+import { Image } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
-
-import { Flex, Text, Avatar } from '../common';
+import VOKE_ICON from '../../../images/voke_icon_chat.png';
+import { Flex, Text, Avatar, Button } from '../common';
 
 class ContactItem extends Component { // eslint-disable-line
 
   render() {
-    const { item } = this.props;
-    // Get the url for the voke image if it is a voke contact
-    const vokeImage = item.isVoke && item.vokeDetails && item.vokeDetails.avatar && item.vokeDetails.avatar ? item.vokeDetails.avatar.medium : null;
+    const { item, isInvite } = this.props;
 
+    // Get the url for the voke image if it is a voke contact
+    const isVokeFromInvite = item.isVoke && isInvite;
+    const vokeImage = item.isVoke && item.vokeDetails && item.vokeDetails.avatar && item.vokeDetails.avatar ? item.vokeDetails.avatar.medium : null;
     return (
-      <Flex direction="row" align="center" style={styles.row}>
+      <Flex direction="row" align="center" style={isVokeFromInvite ? [styles.row, styles.disabled] : styles.row}>
         {
           vokeImage ? (
             <Avatar
@@ -21,12 +23,28 @@ class ContactItem extends Component { // eslint-disable-line
               style={styles.avatar}
               image={vokeImage}
             />
-          ) : <Flex style={styles.avatar} />
+          ) : (
+            <Avatar
+              size={26}
+              style={styles.avatar}
+              text={item.initials}
+            />
+          )
         }
         <Text style={styles.name}>{item.name}</Text>
         {
           item.isVoke ? (
-            <Text style={styles.voke}>VOKE</Text>
+            <Image source={VOKE_ICON} style={styles.voke} />
+          ) : null
+        }
+        {
+          !item.isVoke && this.props.isInvite ? (
+            <Button
+              onPress={()=> this.props.onButtonPress()}
+              text="Invite"
+              style={styles.inviteButton}
+              buttonTextStyle={styles.inviteButtonText}
+            />
           ) : null
         }
       </Flex>
@@ -39,6 +57,8 @@ ContactItem.propTypes = {
     name: PropTypes.string.isRequired,
     phone: PropTypes.array,
   }).isRequired,
+  isInvite: PropTypes.bool,
+  onButtonPress: PropTypes.func,
 };
 
 export default ContactItem;

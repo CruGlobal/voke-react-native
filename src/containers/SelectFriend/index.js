@@ -178,7 +178,6 @@ class SelectFriend extends Component {
           {
             excludedActivityTypes: [
               'com.apple.UIKit.activity.PostToTwitter',
-              'com.apple.uikit.activity.Mail',
               'com.apple.uikit.activity.CopyToPasteboard',
               'com.google.Drive.ShareExtension',
               'com.apple.UIKit.activity.PostToFacebook',

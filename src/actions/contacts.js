@@ -69,6 +69,7 @@ export function getContacts(force = false) {
                 nameLower: name.toLowerCase(),
                 lastNameLetter,
                 firstNameLetter,
+                initials: firstNameLetter + lastNameLetter,
               };
             }), (c) => c.phone.length > 0 && !!c.name);
             // LOG('all', all.length, all);

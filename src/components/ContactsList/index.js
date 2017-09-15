@@ -79,9 +79,9 @@ class ContactsList extends Component {
         sections={formattedSections}
         renderSectionHeader={this.renderHeader}
         renderItem={({ item }) => (
-          <Touchable key={item.id} highlight={true} onPress={() => this.props.onSelect(item)}>
+          <Touchable key={item.id} highlight={this.props.isInvite ? false : true} activeOpacity={this.props.isInvite ? 1 : 0.6} disabled={item.isVoke && this.props.isInvite ? true : false} onPress={() => this.props.isInvite ? {} : this.props.onSelect(item)}>
             <View>
-              <ContactItem item={item} />
+              <ContactItem isInvite={this.props.isInvite} onButtonPress={() => !this.props.isInvite ? {} : this.props.onSelect(item)} item={item} />
             </View>
           </Touchable>
         )}
@@ -97,6 +97,7 @@ class ContactsList extends Component {
 
 ContactsList.propTypes = {
   items: PropTypes.array.isRequired, // Redux
+  isInvite: PropTypes.bool,
 };
 
 export default ContactsList;

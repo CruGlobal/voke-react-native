@@ -1,4 +1,5 @@
 import { Linking, Platform } from 'react-native';
+import Communications from 'react-native-communications';
 
 // import { navigateAction } from '../actions/navigation';
 import { logoutAction } from '../actions/auth';
@@ -18,8 +19,10 @@ export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin } = 
       onPress: () => navigatePush && navigatePush('voke.Contacts', {
         isInvite: true,
         onSelect: (c) => {
-          // TODO: Open SMS text with the contact
-          LOG('Selected contact', c);
+          LOG('Invite this person:', c);
+          let phone = c.phone && c.phone[0] ? c.phone[0] : null;
+          let message = 'Check out this awesome app! https://vokeapp.com';
+          Communications.text(phone, message);
         },
       }),
     },
