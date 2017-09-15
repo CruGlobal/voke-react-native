@@ -2,6 +2,16 @@ import { API_URL } from '../api/utils';
 import { Vibration } from 'react-native';
 import { NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ } from '../constants';
 import callApi, { REQUESTS } from './api';
+import Sound from 'react-native-sound';
+
+let newMessageSound = new Sound('voke_ukulele_sound.mp3', Sound.MAIN_BUNDLE, (error) => {
+  if (error) {
+    LOG('failed to load the sound', error);
+    return;
+  }
+  // loaded successfully
+  LOG('duration in seconds: ' + newMessageSound.getDuration() + 'number of channels: ' + newMessageSound.getNumberOfChannels());
+});
 
 export function getConversations() {
   return (dispatch) => {
@@ -68,6 +78,16 @@ export function newMessageAction(message) {
     return dispatch(getConversation(message.conversation_id)).then(()=>{
       dispatch({ type: NEW_MESSAGE, message });
       Vibration.vibrate(1500);
+      newMessageSound.play((success) => {
+        if (success) {
+          LOG('successfully finished playing');
+        } else {
+          LOG('playback failed due to audio decoding errors');
+          // reset the player to its uninitialized state (android only)
+          // this is the only option to recover after an error occured and use the player again
+          newMessageSound.reset();
+        }
+      });
     });
   };
 }
