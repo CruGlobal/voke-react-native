@@ -54,7 +54,7 @@ export default function messages(state = initialState, action) {
       }
       return {
         ...state,
-        messages: { ...state.messages, [conversationId]: action.messages },
+        messages: { ...state.messages, [conversationId]: action.messages || [] },
       };
 
     // When I create a message, reorder the conversations to have this one at the top;
@@ -97,13 +97,21 @@ export default function messages(state = initialState, action) {
           // order messengers
           const newMessenger = c.messengers.find((m) => m.id === action.message.messenger_id);
           let messengers = c.messengers.filter((m) => m.id !== action.message.messenger_id);
-          messengers.unshift(newMessenger);
-          currentBadgeCount = currentBadgeCount +1;
-          return { ...c, messengers, messagePreview: action.message.content, hasUnread: true, unReadCount: c.unReadCount ? c.unReadCount + 1 : 1 };
+          if (newMessenger) {
+            messengers.unshift(newMessenger);
+          }
+          currentBadgeCount++;
+          return {
+            ...c,
+            messengers,
+            messagePreview: action.message.content,
+            hasUnread: true,
+            unReadCount: c.unReadCount ? c.unReadCount + 1 : 1,
+          };
         }
         return c;
       });
-
+      
       // Move the conversation to the first item in the list
       msgPreviewConversations = moveConversationFirst(msgPreviewConversations, conversationNewMessageId);
 
@@ -114,7 +122,8 @@ export default function messages(state = initialState, action) {
           ...state.messages,
           [conversationNewMessageId]: [
             action.message,
-            ...state.messages[conversationNewMessageId],
+            // Spread over an existing array or force it to a blank array if it doesnt exist
+            ...(state.messages[conversationNewMessageId] || []),
           ],
         },
         unReadBadgeCount: currentBadgeCount,

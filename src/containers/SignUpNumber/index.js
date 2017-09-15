@@ -80,7 +80,7 @@ class SignUpNumber extends Component {
         [
           { text: 'Edit' },
           { text: 'Yes', onPress: () => {
-            this.props.dispatch(createMobileVerification(data)).then(()=>{
+            this.props.dispatch(createMobileVerification(data)).then(() => {
               this.props.navigatePush('voke.SignUpNumberVerify', {
                 mobile: this.state.selectedCountryCode.concat(this.state.phoneNumber),
               });

@@ -123,7 +123,7 @@ class Message extends Component {
   setLatestItem() {
     let messages = this.props.messages || [];
     let item = messages.find(this.getLatestItem);
-    if (item.item) {
+    if (item && item.item) {
       this.setState({ latestItem: item.item.id });
     }
   }
@@ -137,7 +137,7 @@ class Message extends Component {
   }
 
   getMessages() {
-    this.props.dispatch(getMessages(this.props.conversation.id)).then(()=>{
+    this.props.dispatch(getMessages(this.props.conversation.id)).then(() => {
       this.setLatestItem();
       this.createMessageReadInteraction();
     });
@@ -181,7 +181,7 @@ class Message extends Component {
         },
       };
     }
-    this.props.dispatch(createMessage(this.props.conversation.id, data)).then(()=> {
+    this.props.dispatch(createMessage(this.props.conversation.id, data)).then(() => {
       this.setState({ text: '' });
     });
     Keyboard.dismiss();

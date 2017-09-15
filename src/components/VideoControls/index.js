@@ -40,7 +40,7 @@ export default class VideoControls extends Component {
     this.props.onPlayPause();
     let currentState = this.state.screenPressed;
     this.setState({ screenPressed: !currentState });
-    // this.setTimeout(()=> {
+    // this.setTimeout(() => {
     //   this.setState({ screenAnimation: null });
     // },1000);
     // this.screenPlay;

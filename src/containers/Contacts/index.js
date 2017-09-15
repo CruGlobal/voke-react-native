@@ -101,7 +101,7 @@ class Contacts extends Component {
   handleGetContacts() {
     this.props.dispatch(getContacts()).then(() => {
       this.setState({ isLoading: false, permission: Permissions.AUTHORIZED });
-    }).catch(()=> {
+    }).catch(() => {
       this.setState({ isLoading: false, permission: Permissions.DENIED });
       LOG('contacts caught');
       //change screen

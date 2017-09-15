@@ -28,7 +28,7 @@ export function cleanupAction() {
 
 function appStateChange(dispatch, getState, nextAppState) {
   const cableId = getState().auth.cableId;
-  LOG('appStateChange', nextAppState, currentAppState, cableId);
+  // LOG('appStateChange', nextAppState, currentAppState, cableId);
   if (currentAppState.match(/inactive|background/) && nextAppState === 'active') {
     LOG('App has come to the foreground!');
     // Restart sockets
@@ -94,9 +94,9 @@ export function logoutAction() {
   return (dispatch, getState) => (
     new Promise((resolve) => {
       const token = getState().auth.token;
-      dispatch(getDevices()).then((results)=> {
+      dispatch(getDevices()).then((results) => {
         // Pass the token into this function because the LOGOUT action will clear it out
-        results.devices.forEach((m)=>{
+        results.devices.forEach((m) => {
           dispatch(destroyDevice(m.id, token));
         });
         dispatch({ type: LOGOUT });
@@ -159,7 +159,7 @@ export function anonLogin(username, password) {
       password: password,
     })).then((results) => {
       LOG('auth success', results);
-      dispatch(loginAction(results.access_token)).then(()=>{
+      dispatch(loginAction(results.access_token)).then(() => {
         dispatch(getMe());
       });
       // dispatch(messagesAction());

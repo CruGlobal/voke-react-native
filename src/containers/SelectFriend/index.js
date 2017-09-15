@@ -65,7 +65,7 @@ class SelectFriend extends Component {
   handleGetContacts() {
     this.props.dispatch(getContacts()).then(() => {
       this.setState({ isLoading: false, random: getRandomContacts(this.props.all), permission: Permissions.AUTHORIZED });
-    }).catch(()=> {
+    }).catch(() => {
       this.setState({ isLoading: false, permission: Permissions.DENIED });
       LOG('contacts caught');
       //change screen
@@ -145,9 +145,9 @@ class SelectFriend extends Component {
           item_id: `${videoId}`,
         },
       };
-      this.props.dispatch(createConversation(data)).then((results)=>{
+      this.props.dispatch(createConversation(data)).then((results) => {
         LOG('create voke conversation results', results);
-        this.props.dispatch(getConversation(results.id)).then((c)=> {
+        this.props.dispatch(getConversation(results.id)).then((c) => {
           LOG('get voke conversation results', c);
           this.props.navigatePush('voke.Message', {conversation: c.conversation, goBackHome: true});
         });
@@ -166,7 +166,7 @@ class SelectFriend extends Component {
           item_id: `${videoId}`,
         },
       };
-      this.props.dispatch(createConversation(data)).then((results)=>{
+      this.props.dispatch(createConversation(data)).then((results) => {
         LOG('create conversation results', results);
         const friend = results.messengers[0];
 
@@ -187,11 +187,11 @@ class SelectFriend extends Component {
               'com.apple.UIKit.activity.AirDrop',
               'com.apple.UIKit.activity.PostToSlack',
             ],
-          }).then((results1)=> {
+          }).then((results1) => {
           if (results1.action === 'sharedAction') {
             LOG('successfuly shared video');
             LOG('results.id', results.id);
-            this.props.dispatch(getConversation(results.id)).then((c)=> {
+            this.props.dispatch(getConversation(results.id)).then((c) => {
               LOG('getconversation results', c);
               this.props.navigatePush('voke.Message', {conversation: c.conversation, goBackHome: true});
             });

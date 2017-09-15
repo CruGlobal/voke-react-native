@@ -73,7 +73,7 @@ class AndroidReportModal extends Component {
                 buttonTextStyle={styles.buttonText}
                 type="transparent"
                 style={{padding: 5}}
-                onPress={()=> {
+                onPress={() => {
                   this.props.onCancelReport();
                   Navigation.dismissModal();
                 }}
@@ -85,7 +85,7 @@ class AndroidReportModal extends Component {
                 style={{padding: 7}}
                 type="transparent"
                 buttonTextStyle={styles.buttonText}
-                onPress={()=> {
+                onPress={() => {
                   this.props.onSubmitReport(this.state.text);
                   Navigation.dismissModal();
                 }}

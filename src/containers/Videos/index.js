@@ -79,7 +79,7 @@ class Videos extends Component {
       if (event.id == 'back') {
         this.props.navigateBack();
       } else if (event.id == 'search') {
-        this.props.dispatch(getTags()). then(()=> {
+        this.props.dispatch(getTags()). then(() => {
           this.showThemes();
         });
       } else if (Platform.OS === 'android') {
@@ -123,7 +123,7 @@ class Videos extends Component {
   }
 
   handleThemeSelect(tag) {
-    this.props.dispatch(getSelectedThemeVideos(tag)).then(()=>{
+    this.props.dispatch(getSelectedThemeVideos(tag)).then(() => {
       this.setState({ videos: this.props.selectedThemeVideos});
     });
   }
@@ -174,19 +174,19 @@ class Videos extends Component {
     }
 
     if (filter === 'featured') {
-      this.props.dispatch(getFeaturedVideos()).then(()=>{
+      this.props.dispatch(getFeaturedVideos()).then(() => {
         this.updateVideoList(filter);
       });
     } else if (filter === 'popular') {
-      this.props.dispatch(getPopularVideos()).then(()=>{
+      this.props.dispatch(getPopularVideos()).then(() => {
         this.updateVideoList(filter);
       });
     } else if (filter === 'all') {
-      this.props.dispatch(getVideos()).then(()=>{
+      this.props.dispatch(getVideos()).then(() => {
         this.updateVideoList(filter);
       });
     } else if (filter === 'themes') {
-      this.props.dispatch(getTags()). then(()=> {
+      this.props.dispatch(getTags()). then(() => {
         this.showThemes();
       });
     }

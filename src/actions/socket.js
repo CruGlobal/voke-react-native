@@ -47,8 +47,7 @@ export function setupSocketAction(cableId) {
         const notification = data.message.notification;
         if (notification && notification.category === 'CREATE_MESSAGE_CATEGORY') {
           dispatch(newMessageAction(message));
-        }
-        if (notification && (notification.category === 'CREATE_TYPESTATE_CATEGORY' || notification.category === 'DESTROY_TYPESTATE_CATEGORY')) {
+        } else if (notification && (notification.category === 'CREATE_TYPESTATE_CATEGORY' || notification.category === 'DESTROY_TYPESTATE_CATEGORY')) {
           dispatch(typeStateChangeAction(data.message));
         }
       }
@@ -83,7 +82,7 @@ export function destroyDevice(cableId, token) {
       endpoint: `${API_URL}/me/devices/${cableId}`,
       access_token: token,
     };
-    return dispatch(callApi(REQUESTS.DESTROY_DEVICE, query)).then((results)=> {
+    return dispatch(callApi(REQUESTS.DESTROY_DEVICE, query)).then((results) => {
       LOG('Destroyed device', results);
       return results;
     });
@@ -97,7 +96,7 @@ export function updateDevice(device) {
     let query = {
       endpoint: `${API_URL}/me/devices/${cableId}`,
     };
-    return dispatch(callApi(REQUESTS.UPDATE_DEVICE, query, device)).then((results)=>{
+    return dispatch(callApi(REQUESTS.UPDATE_DEVICE, query, device)).then((results) => {
       dispatch(setupSocketAction(results.id));
     });
   };
@@ -114,23 +113,22 @@ export function establishDevice() {
   return (dispatch, getState) => {
     const auth = getState().auth;
     //
-    // return dispatch(callApi(REQUESTS.GET_DEVICES, {}, {})).then((results)=> {
+    // return dispatch(callApi(REQUESTS.GET_DEVICES, {}, {})).then((results) => {
     //   LOG('GOT DEVICES: ',JSON.stringify(results));
-    //   results.devices.forEach((m)=>{
+    //   results.devices.forEach((m) => {
     //     dispatch(destroyDevice(m.id));
     //   })
     // });
     // dispatch(establishCableDevice(null));
 
-    LOG('Trying to setup PN');
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
       onRegister: function(token) {
         LOG('RECEIVED PUSH TOKEN:', token);
 
         if ((token.token && !auth.pushToken) || (token.token !== auth.pushToken) ) {
-          dispatch(registerPushToken(token.token)).then(()=>{
-            dispatch(establishPushDevice()).then(()=> {
+          dispatch(registerPushToken(token.token)).then(() => {
+            dispatch(establishPushDevice()).then(() => {
               const updatedPushId = getState().auth.pushId;
               dispatch(establishCableDevice(updatedPushId));
             });
@@ -203,7 +201,7 @@ export function establishCableDevice(token) {
       } else {
         LOG('cableID does not exists in establishCableDevice');
         // CREATE THE CABLE DEVICE WITH DATA
-        return dispatch(callApi(REQUESTS.CREATE_DEVICE, {}, data)).then((results)=> {
+        return dispatch(callApi(REQUESTS.CREATE_DEVICE, {}, data)).then((results) => {
           LOG('Creating Cable Device Results: ', JSON.stringify(results));
           dispatch(setupSocketAction(results.id));
         });
@@ -221,7 +219,7 @@ export function establishCableDevice(token) {
         dispatch(updateDevice(data));
       } else {
         // CREATE THE CABLE DEVICE WITH DATA
-        return dispatch(callApi(REQUESTS.CREATE_DEVICE, {}, data)).then((results)=> {
+        return dispatch(callApi(REQUESTS.CREATE_DEVICE, {}, data)).then((results) => {
           LOG('Creating Cable Device Results: ', JSON.stringify(results));
           dispatch(setupSocketAction(results.id));
         });
@@ -253,7 +251,7 @@ export function establishPushDevice() {
           kind: Platform.OS === 'android' ? 'android' : 'apple',
         },
       };
-      return dispatch(callApi(REQUESTS.CREATE_PUSH_DEVICE, {}, data)).then((results)=> {
+      return dispatch(callApi(REQUESTS.CREATE_PUSH_DEVICE, {}, data)).then((results) => {
         LOG('Create Push Device Results: ', JSON.stringify(results));
       });
     }

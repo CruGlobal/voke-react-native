@@ -130,7 +130,7 @@ class Profile extends Component {
         },
       };
     }
-    this.props.dispatch(updateMe(data)).then(()=>{
+    this.props.dispatch(updateMe(data)).then(() => {
       this.resetState();
     });
   }
@@ -172,7 +172,7 @@ class Profile extends Component {
         },
       };
       // LOG(JSON.stringify(formData));
-      this.props.dispatch(updateMe(updateData)).then(()=>{
+      this.props.dispatch(updateMe(updateData)).then(() => {
         this.resetState();
       });
     }

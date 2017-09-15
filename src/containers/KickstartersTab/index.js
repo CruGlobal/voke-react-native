@@ -70,7 +70,7 @@ class KickstartersTab extends Component {
     this.setState({ isLoading: true });
     // LOG('this.props.latestItem', this.props.latestItem);
     if (this.props.latestItem) {
-      this.props.dispatch(getKickstarters(this.props.latestItem)).then((results)=>{
+      this.props.dispatch(getKickstarters(this.props.latestItem)).then((results) => {
         // LOG('results', results);
         this.setState({ kickstarters: results.questions, isLoading: false });
       }).catch((err) => {

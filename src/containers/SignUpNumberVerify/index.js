@@ -73,14 +73,14 @@ class SignUpNumberVerify extends Component {
       },
     };
     if (!this.state.verifcationSent) {
-      this.props.dispatch(createMobileVerification(data)).then(()=> {
+      this.props.dispatch(createMobileVerification(data)).then(() => {
         Alert.alert('New verification code sent', '');
       });
       this.setState({ verificationSent: true });
     } else {
       Alert.alert('A new verification code has already been sent, please wait a few seconds before re-sending','');
     }
-    setTimeout(()=> {
+    setTimeout(() => {
       this.setState({ verifcationSent: false });
     }, 3000);
   }
@@ -95,7 +95,7 @@ class SignUpNumberVerify extends Component {
     if (!this.state.code) {
       Alert.alert('Please enter the code that was sent','');
     } else {
-      this.props.dispatch(verifyMobile(data)).then(()=> {
+      this.props.dispatch(verifyMobile(data)).then(() => {
         this.props.navigateResetHome();
       });
     }

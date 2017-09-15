@@ -52,7 +52,9 @@ export default function callApi(requestObject, query = {}, data = {}) {
 
       if (!action.anonymous) {
         const { token, user } = getState().auth;
-        newQuery.access_token = token;
+        if (!newQuery.access_token) {
+          newQuery.access_token = token;
+        }
         if (user.id) {
           newQuery.authUserId = user.id;
         }

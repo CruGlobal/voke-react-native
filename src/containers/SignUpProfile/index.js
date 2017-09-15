@@ -83,7 +83,7 @@ class SignUpProfile extends Component {
         },
         avatar: imageUri,
       };
-      this.props.dispatch(updateMe(data)).then(()=>{
+      this.props.dispatch(updateMe(data)).then(() => {
         this.props.navigatePush('voke.SignUpNumber');
       });
     } else {

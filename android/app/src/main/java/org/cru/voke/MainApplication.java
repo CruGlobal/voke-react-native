@@ -50,6 +50,7 @@ public class MainApplication extends NavigationApplication {
 
   protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
+          // new MainReactPackage(),
           new FBSDKPackage(mCallbackManager),
           new RNDeviceInfo(),
           new ReactNativePushNotificationPackage(),
@@ -59,7 +60,8 @@ public class MainApplication extends NavigationApplication {
           new GoogleAnalyticsBridgePackage(),
           new VectorIconsPackage(),
           new PickerPackage(),
-          new RNFetchBlobPackage()
+          new RNFetchBlobPackage(),
+          new RNSoundPackage()
       );
   }
 

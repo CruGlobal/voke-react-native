@@ -34,7 +34,7 @@ class Login extends Component {
 
   facebookLogin() {
     LOG('Making FB Call');
-    LoginManager.logInWithReadPermissions(['public_profile']).then((result)=>{
+    LoginManager.logInWithReadPermissions(['public_profile']).then((result) => {
       LOG('RESULT', result);
       if (result.isCancelled) {
         LOG('facebook login was canceled', result);
@@ -62,8 +62,8 @@ class Login extends Component {
               return;
             }
             LOG('me', meResult);
-            this.props.dispatch(facebookLoginAction(accessToken)).then(()=> {
-              this.props.dispatch(getMe()).then((results)=>{
+            this.props.dispatch(facebookLoginAction(accessToken)).then(() => {
+              this.props.dispatch(getMe()).then((results) => {
                 if (results.state === 'configured') {
                   this.props.navigateResetHome();
                 } else {
