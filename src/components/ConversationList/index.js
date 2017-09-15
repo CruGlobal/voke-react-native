@@ -5,6 +5,7 @@ import { View, Platform, ListView, TouchableOpacity, Image } from 'react-native'
 import styles from './styles';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import theme, {COLORS} from '../../theme';
+import moment from 'moment';
 
 import { Flex, VokeIcon, Text, Touchable, Separator, Avatar } from '../common';
 
@@ -32,6 +33,7 @@ class ConversationList extends Component { // eslint-disable-line
     this.handleBlur = this.handleBlur.bind(this);
     this.getSenderName = this.getSenderName.bind(this);
     this.getConversationParticipant = this.getConversationParticipant.bind(this);
+    this.getPresence = this.getPresence.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -95,10 +97,22 @@ class ConversationList extends Component { // eslint-disable-line
     return otherPerson;
   }
 
+  getPresence(messenger) {
+    let today = new Date().valueOf();
+    let presence = messenger && messenger.present_at ? moment.utc(messenger.present_at, 'YYYY-MM-DD HH:mm:ss UTC').valueOf() : null;
+    if (presence) {
+      if (today - presence < 1000*60*5) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   renderRow(item) {
     const conversation = item;
     const contentCreator = this.getSenderName(conversation);
     const otherPerson = this.getConversationParticipant(conversation);
+    const isPresent = this.getPresence(otherPerson);
 
     return (
       <Touchable
@@ -116,6 +130,7 @@ class ConversationList extends Component { // eslint-disable-line
                 image={otherPerson && otherPerson.avatar.small.indexOf('/avatar.jpg') < 0 ? otherPerson.avatar.small : null}
                 style={this.state.rowFocused === item.id ? { backgroundColor: theme.primaryColor } : null}
                 text={otherPerson ? otherPerson.initials : 'VB'}
+                present={isPresent}
               />
             </Flex>
             <Flex value={15} justify="start">

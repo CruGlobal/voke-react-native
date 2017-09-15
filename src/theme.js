@@ -32,7 +32,7 @@ export const COLORS = {
   ORANGE: '#f96332',
   RED: '#ee2f2f',
   PINK: '#dd4499',
-  GREEN: '#40ef67',
+  GREEN: '#00FF4F',
   YELLOW: '#FFF462',
   BLACK: '#1d1d26',
   DEEP_BLACK: '#000000',
