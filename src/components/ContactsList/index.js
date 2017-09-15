@@ -75,6 +75,7 @@ class ContactsList extends Component {
         initialNumToRender={40}
         keyExtractor={(item) => item.id}
         stickySectionHeadersEnabled={true}
+        keyboardShouldPersistTaps="always"
         sections={formattedSections}
         renderSectionHeader={this.renderHeader}
         renderItem={({ item }) => (
