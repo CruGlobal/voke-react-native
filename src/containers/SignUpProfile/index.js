@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, TextInput, TouchableOpacity, Keyboard, Alert } from 'react-native';
+import { Image, TextInput, TouchableOpacity, Keyboard, Alert, Platform } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';
@@ -120,7 +120,13 @@ class SignUpProfile extends Component {
             type="transparent"
             style={{padding: 5}}
           >
-            <VokeIcon name="back" />
+            {
+              Platform.OS === 'android' ? (
+                <Icon name="arrow-back" size={30} />
+              ) : (
+                <VokeIcon name="back" />
+              )
+            }
           </Button>
         </Flex>
         <TouchableOpacity activeOpacity={1} onPress={()=> Keyboard.dismiss()}>

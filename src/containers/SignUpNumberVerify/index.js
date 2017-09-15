@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TextInput, Alert, Keyboard, TouchableOpacity } from 'react-native';
+import { TextInput, Alert, Keyboard, TouchableOpacity, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -12,7 +12,7 @@ import nav, { NavPropTypes } from '../../actions/navigation_new';
 import theme from '../../theme';
 import { vokeIcons } from '../../utils/iconMap';
 
-import { Flex, Text, Button, VokeIcon } from '../../components/common';
+import { Flex, Text, Button, VokeIcon, Icon } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import SignUpHeader from '../../components/SignUpHeader';
 
@@ -111,7 +111,13 @@ class SignUpNumberVerify extends Component {
             type="transparent"
             style={{padding: 5}}
           >
-            <VokeIcon name="back" />
+            {
+              Platform.OS === 'android' ? (
+                <Icon name="arrow-back" size={30} />
+              ) : (
+                <VokeIcon name="back" />
+              )
+            }
           </Button>
         </Flex>
         <TouchableOpacity activeOpacity={1} onPress={()=> Keyboard.dismiss()}>

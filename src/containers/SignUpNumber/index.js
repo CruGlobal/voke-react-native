@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TextInput, Alert, TouchableOpacity, Keyboard } from 'react-native';
+import { TextInput, Alert, TouchableOpacity, Keyboard, Platform } from 'react-native';
 import { connect } from 'react-redux';
 
 import { createMobileVerification } from '../../actions/auth';
@@ -117,7 +117,13 @@ class SignUpNumber extends Component {
             style={{padding: 5}}
             type="transparent"
           >
-            <VokeIcon name="back" />
+            {
+              Platform.OS === 'android' ? (
+                <Icon name="arrow-back" size={30} />
+              ) : (
+                <VokeIcon name="back" />
+              )
+            }
           </Button>
         </Flex>
         <TouchableOpacity activeOpacity={1} onPress={()=> Keyboard.dismiss()}>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { TextInput, ScrollView, KeyboardAvoidingView, Alert, Linking } from 'react-native';
+import { TextInput, ScrollView, KeyboardAvoidingView, Platform, Linking, Alert } from 'react-native';
 
 import Analytics from '../../utils/analytics';
 import styles from './styles';
@@ -8,7 +8,7 @@ import { createAccountAction } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import theme, { COLORS } from '../../theme';
 
-import { Flex, Text, Button, VokeIcon } from '../../components/common';
+import { Flex, Text, Button, VokeIcon, Icon } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import SignUpHeader from '../../components/SignUpHeader';
 //
@@ -65,6 +65,7 @@ class SignUpAccount extends Component {
   createAccount() {
     // PUT THIS BACK IN, JUST FOR TESTING
     // if (this.state.emailValidation && this.state.password) {
+
     if (this.state.password) {
       this.props.dispatch(createAccountAction(this.state.email, this.state.password)).then((results) => {
         if (results.errors) {
@@ -104,7 +105,13 @@ class SignUpAccount extends Component {
               type="transparent"
               style={{padding: 5}}
             >
-              <VokeIcon name="back" />
+              {
+                Platform.OS === 'android' ? (
+                  <Icon name="arrow-back" size={30} />
+                ) : (
+                  <VokeIcon name="back" />
+                )
+              }
             </Button>
           </Flex>
 

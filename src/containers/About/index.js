@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Linking } from 'react-native';
+import { Linking, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
@@ -9,15 +9,23 @@ import { vokeIcons } from '../../utils/iconMap';
 import SettingsList from '../../components/SettingsList';
 
 function setButtons() {
+  if (Platform.OS === 'ios') {
+    return {
+      leftButtons: [{
+        id: 'back', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+        icon: vokeIcons['back'], // for icon button, provide the local image asset name
+      }],
+      rightButtons: [{
+        title: 'Done',
+        id: 'done',
+        disableIconTint: true,
+      }],
+    };
+  }
   return {
     leftButtons: [{
       id: 'back', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
       icon: vokeIcons['back'], // for icon button, provide the local image asset name
-    }],
-    rightButtons: [{
-      title: 'Done',
-      id: 'done',
-      disableIconTint: true,
     }],
   };
 }
