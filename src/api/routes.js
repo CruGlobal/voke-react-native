@@ -68,7 +68,7 @@ export default {
   'GET_ME': {
     endpoint: API_URL + 'me',
     method: 'get',
-    showApiLoading: true,
+    // showApiLoading: true,
   },
   'UPDATE_ME': {
     endpoint: API_URL + 'me',

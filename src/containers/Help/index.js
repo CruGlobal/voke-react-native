@@ -38,8 +38,8 @@ function setButtons() {
 }
 
 class Help extends Component {
-
   static navigatorStyle = {
+    tabBarHidden: true,
     navBarBackgroundColor: theme.backgroundColor,
     navBarTextColor: theme.textColor,
     navBarButtonColor: theme.textColor,

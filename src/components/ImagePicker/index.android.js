@@ -25,16 +25,22 @@ class ImagePicker extends Component {
 
   constructor(props) {
     super(props);
+
+    this.state = { hasSelectedImage: false };
+
     this.selectImage = this.selectImage.bind(this);
     this.handleResponse = this.handleResponse.bind(this);
   }
 
   componentWillUnmount() {
-    // Remove tmp files
-    RNImagePicker.clean();
+    if (this.state.hasSelectedImage) {
+      // Remove tmp files
+      RNImagePicker.clean();
+    }
   }
 
   handleResponse(response) {
+    this.setState({ hasSelectedImage: true });
     const payload = {
       // imageBinary: response.data,
       fileSize: response.size,

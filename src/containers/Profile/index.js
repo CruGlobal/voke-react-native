@@ -207,6 +207,7 @@ class Profile extends Component {
               placeholderTextColor={COLORS.GREY}
               style={styles.inputBox}
               autoCorrect={true}
+              underlineColorAndroid="transparent"
             />
             <TextInput
               onFocus={() => {}}
@@ -218,6 +219,7 @@ class Profile extends Component {
               placeholderTextColor={COLORS.GREY}
               style={styles.inputBox}
               autoCorrect={true}
+              underlineColorAndroid="transparent"
             />
           </Flex>
           <Flex value={1} align="center">
@@ -252,6 +254,7 @@ class Profile extends Component {
               placeholderTextColor={theme.primaryColor}
               style={styles.inputBox}
               autoCorrect={true}
+              underlineColorAndroid="transparent"
             />
             <TextInput
               onFocus={() => {}}
@@ -263,6 +266,7 @@ class Profile extends Component {
               placeholderTextColor={theme.primaryColor}
               style={styles.inputBox}
               autoCorrect={true}
+              underlineColorAndroid="transparent"
             />
             <TextInput
               onFocus={() => {}}
@@ -275,6 +279,7 @@ class Profile extends Component {
               placeholderTextColor={theme.primaryColor}
               style={styles.inputBox}
               autoCorrect={true}
+              underlineColorAndroid="transparent"
             />
           </Flex>
           <Flex value={1} align="center">
@@ -308,6 +313,7 @@ class Profile extends Component {
               placeholderTextColor={theme.primaryColor}
               style={styles.inputBox}
               autoCorrect={true}
+              underlineColorAndroid="transparent"
             />
             <TextInput
               multiline={false}
@@ -318,6 +324,7 @@ class Profile extends Component {
               placeholderTextColor={theme.primaryColor}
               style={styles.inputBox}
               autoCorrect={true}
+              underlineColorAndroid="transparent"
             />
             <TextInput
               multiline={false}
@@ -328,6 +335,7 @@ class Profile extends Component {
               placeholderTextColor={theme.primaryColor}
               style={styles.inputBox}
               autoCorrect={true}
+              underlineColorAndroid="transparent"
             />
           </Flex>
           <Flex value={1} align="center">
