@@ -1,12 +1,14 @@
 import { Platform } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
+import PushNotification from 'react-native-push-notification';
+
 import { API_URL } from '../api/utils';
 import { registerPushToken } from './auth';
 import { SOCKET_URL } from '../api/utils';
 import { newMessageAction, typeStateChangeAction } from './messages';
 import callApi, { REQUESTS } from './api';
+import CONSTANTS from '../constants';
 import { isEquivalentObject } from '../utils/common';
-import DeviceInfo from 'react-native-device-info';
-import PushNotification from 'react-native-push-notification';
 
 let ws = null;
 
@@ -116,6 +118,7 @@ export function establishDevice() {
     // });
     // dispatch(establishCableDevice(null));
 
+    LOG('Trying to setup PN');
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
       onRegister: function(token) {
@@ -145,7 +148,7 @@ export function establishDevice() {
       },
 
       // ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)
-      // senderID: "YOUR GCM SENDER ID",
+      senderID: CONSTANTS.GCM_SENDER_ID,
 
       // IOS ONLY (optional): default: all - Permissions to register.
       permissions: {
@@ -243,7 +246,7 @@ export function establishPushDevice() {
         device: {
           ...currentDeviceInfo,
           key: auth.pushToken,
-          kind: 'apple',
+          kind: Platform.OS === 'android' ? 'android' : 'apple',
         },
       };
       return dispatch(callApi(REQUESTS.CREATE_PUSH_DEVICE, {}, data)).then((results)=> {

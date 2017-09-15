@@ -1,21 +1,53 @@
 import RNFetchBlob from 'react-native-fetch-blob';
+import { Linking, Platform, AppState, ToastAndroid, AsyncStorage, Alert } from 'react-native';
 
-import { Linking, Platform, ToastAndroid, AsyncStorage, Alert } from 'react-native';
 import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN } from '../constants';
 import callApi, { REQUESTS } from './api';
-import { establishDevice, destroyDevice, getDevices } from './socket';
+import { establishDevice, setupSocketAction, closeSocketAction, destroyDevice, getDevices } from './socket';
 import { API_URL } from '../api/utils';
 
-// import { navigateResetLogin } from './navigation_new';
-// import { resetLoginAction, resetHomeAction } from './navigation';
-// import PushNotification from 'react-native-push-notification';
 
+// Setup app state change listeners
+let appStateChangeFn;
+let currentAppState = AppState.currentState;
 export function startupAction(navigator) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch(establishDevice(navigator));
+    appStateChangeFn = appStateChange.bind(null, dispatch, getState);
+    AppState.addEventListener('change', appStateChangeFn);
   };
-
 }
+
+export function cleanupAction() {
+  return () => {
+    LOG('removing appState listener');
+    AppState.removeEventListener('change', appStateChangeFn);
+  };
+}
+
+function appStateChange(dispatch, getState, nextAppState) {
+  const cableId = getState().auth.cableId;
+  LOG('appStateChange', nextAppState, currentAppState, cableId);
+  if (currentAppState.match(/inactive|background/) && nextAppState === 'active') {
+    LOG('App has come to the foreground!');
+    // Restart sockets
+    if (cableId) {
+      dispatch(setupSocketAction(cableId));
+    } else {
+      dispatch(establishDevice());
+    }
+
+  } else if (currentAppState.match(/active/) && nextAppState === 'background') {
+    LOG('App is going into the background');
+    // Close sockets
+    dispatch(closeSocketAction());
+  }
+  currentAppState = nextAppState;
+}
+
+
+
+
 export function loginAction(token, user = {}) {
   return (dispatch) => (
     new Promise((resolve) => {

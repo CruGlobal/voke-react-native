@@ -121,7 +121,6 @@ class Message extends Component {
   setLatestItem() {
     let messages = this.props.messages || [];
     let item = messages.find(this.getLatestItem);
-    LOG('here',JSON.stringify(item));
     if (item.item) {
       this.setState({ latestItem: item.item.id });
     }

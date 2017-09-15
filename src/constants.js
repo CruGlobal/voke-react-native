@@ -20,6 +20,7 @@ const IOS_APP_ID = 'id1056168356';
 const ANDROID_APP_ID = 'org.cru.voke';
 
 export default {
+  GCM_SENDER_ID: '360680446899',
   CONTACT_CHUNKS: 500,
   IOS_STORE_LINK: `itms://itunes.apple.com/us/app/apple-store/${IOS_APP_ID}`,
   ANDROID_STORE_LINK: `market://details?id=${ANDROID_APP_ID}`,
