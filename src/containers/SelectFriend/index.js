@@ -133,6 +133,25 @@ class SelectFriend extends Component {
 
     if (c.isVoke) {
       LOG('voke contact selected', this.props.video);
+      let data = {
+        conversation: {
+          messengers_attributes: [
+            {
+              first_name: `${firstName}`,
+              last_name: `${lastName}`,
+              mobile: `${phoneNumber}`,
+            },
+          ],
+          item_id: `${videoId}`,
+        },
+      };
+      this.props.dispatch(createConversation(data)).then((results)=>{
+        LOG('create voke conversation results', results);
+        this.props.dispatch(getConversation(results.id)).then((c)=> {
+          LOG('get voke conversation results', c);
+          this.props.navigatePush('voke.Message', {conversation: c.conversation, goBackHome: true});
+        });
+      });
     } else {
       LOG('normal contact selected', this.props.video);
       let data = {
