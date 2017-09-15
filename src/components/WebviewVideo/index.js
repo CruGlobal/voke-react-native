@@ -30,7 +30,7 @@ export default class WebviewVideo extends Component {
 
     this.state = {
       duration: 0,
-      isPaused: null,
+      isPaused: props.type === 'arclight' || props.type === 'vimeo',
       time: 0,
     };
 
@@ -43,6 +43,7 @@ export default class WebviewVideo extends Component {
 
   // Stop the component from updating if the url is the same
   shouldComponentUpdate(nextProps, nextState) {
+    // if (nextProps.url !== this.props.url || nextProps.isHidden !== this.props.isHidden) {
     if (nextProps.url !== this.props.url) {
       return true;
     }
@@ -52,8 +53,15 @@ export default class WebviewVideo extends Component {
     return false;
   }
 
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.isHidden && !this.props.isHidden) {
+  //     this.togglePlay();
+  //   }
+  // }
+
   handleMessage(event) {
     let data = event.nativeEvent.data;
+    // LOG('webview data', data);
     if (data.indexOf('{') === 0) {
       data = JSON.parse(data);
       if (data.duration) {
@@ -144,6 +152,7 @@ WebviewVideo.propTypes = {
   url: PropTypes.string.isRequired,
   onChangeState: PropTypes.func.isRequired,
   thumbnail: PropTypes.string,
+  
   start: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 

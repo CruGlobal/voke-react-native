@@ -25,16 +25,28 @@ class VideoDetails extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      hideWebview: true,
+    };
+    
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.selectContact = this.selectContact.bind(this);
     this.handleVideoChange = this.handleVideoChange.bind(this);
+  }
+  
+  componentDidMount() {
+    Analytics.screen('Video Details');
+  }
+
+  onNavigatorEvent(event) {
+    // Hide the webview until the screen is mounted
+    if (event.id === 'didAppear') {
+      this.setState({ hideWebview: false });
+    }
   }
 
   selectContact(contact) {
     LOG('contact selected', contact);
-  }
-
-  componentDidMount() {
-    Analytics.screen('Video Details');
   }
 
   handleVideoChange(videoState) {
@@ -59,9 +71,7 @@ class VideoDetails extends Component {
             video.tags.map((t, index)=> (
               <Text key={t.id} style={styles.detail}>
                 {t.name}
-                {
-                  index != video.tags.length-1 ? (', ') : null
-                }
+                {index != video.tags.length - 1 ? ', ' : null}
               </Text>
             ))
           }
@@ -87,12 +97,16 @@ class VideoDetails extends Component {
       <View style={styles.container}>
         <StatusBar hidden={true} />
         <Flex style={styles.video}>
-          <WebviewVideo
-            type={video.media.type}
-            url={video.media.url}
-            start={video.media_start || 0}
-            onChangeState={this.handleVideoChange}
-          />
+          {
+            this.state.hideWebview ? null : (
+              <WebviewVideo
+                type={video.media.type}
+                url={video.media.url}
+                start={video.media_start || 0}
+                onChangeState={this.handleVideoChange}
+              />
+            )
+          }
           <View style={styles.backHeader}>
             <Touchable borderless={true} onPress={() => this.props.navigateBack()}>
               <View>

@@ -4,16 +4,25 @@ import common from './common';
 export default function(id, options = {}) {
   const HTML = `
     <html>
-    <body style="padding: 0; margin: 0; background-color: black">
-      <div id="player"></div>
+    <body style="padding: 0; margin: 0; height: ${common.height}; width: ${common.width} background-color: black">
+      <iframe src="https://player.vimeo.com/video/${id}" width="${common.width}" height="${common.height}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
       <script src="https://player.vimeo.com/api/player.js"></script>
       <script>
         (function() {
+          var iframe = document.querySelector('iframe');
+          /*
           var player = new Vimeo.Player('player', {
             height: '${common.height}',
             width: '${common.width}',
             id: '${id}',
-            autoplay: 'true',
+            autoplay: false,
+            portait: true,
+            title: false,
+            byline: false,
+          });
+          */
+          var player = new Vimeo.Player(iframe, {
+            autoplay: false,
             portait: true,
             title: false,
             byline: false,

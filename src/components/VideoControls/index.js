@@ -26,7 +26,6 @@ export default class VideoControls extends Component {
     this.state = {
       timeElapsedStr: convertTime(0),
       stateTime: 0,
-      screenPressed: this.props.type === 'arclight' ? true : false,
     };
 
     this.handleScreenPress = this.handleScreenPress.bind(this);
@@ -38,15 +37,7 @@ export default class VideoControls extends Component {
 
   handleScreenPress() {
     this.props.onPlayPause();
-    let currentState = this.state.screenPressed;
-    this.setState({ screenPressed: !currentState });
-    // this.setTimeout(() => {
-    //   this.setState({ screenAnimation: null });
-    // },1000);
-    // this.screenPlay;
-    // LOG('screen press');
   }
-
 
   render() {
     const { time, isPaused, onSeek, duration } = this.props;
@@ -56,7 +47,7 @@ export default class VideoControls extends Component {
           <Touchable activeOpacity={.5} onPress={this.handleScreenPress}>
             <Flex animation="zoomIn" style={styles.screenPress}>
               {
-                this.state.screenPressed || this.props.type === 'vimeo' ? (
+                isPaused ? (
                   <Icon name={'play-circle-filled'} size={50} style={styles.playIcon} />
                 ) : null
               }
@@ -66,7 +57,7 @@ export default class VideoControls extends Component {
         <Flex direction="row" style={styles.controlWrapper} align="center" justify="center">
           <Flex value={.2} align="center">
             <Touchable onPress={this.handleScreenPress}>
-              <VokeIcon name={(!isPaused && this.props.type != 'vimeo') || (this.props.type === 'arclight' && !this.state.screenPressed) ? 'pause' : 'play'} style={styles.playIcon} />
+              <VokeIcon name={!isPaused ? 'pause' : 'play'} style={styles.playIcon} />
             </Touchable>
           </Flex>
           <Flex value={.2} align="center">
