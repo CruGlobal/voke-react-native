@@ -106,7 +106,6 @@ class Contacts extends Component {
           items={this.state.searchText ? this.state.searchResults : this.props.all}
           onSelect={(c) => {
             this.props.onSelect(c);
-            this.props.navigateBack();
           }}
         />
       </View>
