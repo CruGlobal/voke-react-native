@@ -1,4 +1,5 @@
 import { API_URL } from '../api/utils';
+import { Vibration } from 'react-native';
 import { NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ } from '../constants';
 import callApi, { REQUESTS } from './api';
 
@@ -66,6 +67,7 @@ export function newMessageAction(message) {
   return (dispatch) => {
     return dispatch(getConversation(message.conversation_id)).then(()=>{
       dispatch({ type: NEW_MESSAGE, message });
+      Vibration.vibrate(1500);
     });
   };
 }
