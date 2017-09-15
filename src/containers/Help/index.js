@@ -9,6 +9,7 @@ import Analytics from '../../utils/analytics';
 import theme from '../../theme';
 import { vokeIcons } from '../../utils/iconMap';
 import SettingsList from '../../components/SettingsList';
+import CONSTANTS from '../../constants';
 
 const EMAIL = ['support@vokeapp.com'];
 const REPORT_TITLE = 'I would like to report a user';
@@ -95,11 +96,11 @@ class Help extends Component {
         items={[
           {
             name: 'Visit our Help Website',
-            onPress: () => this.handleLink('https://help.vokeapp.com/'),
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.HELP),
           },
           {
             name: 'Visit our FAQ Website',
-            onPress: () => this.handleLink('https://www.vokeapp.com/faq'),
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.FAQ),
           },
           {
             name: 'Make a Feature Request',

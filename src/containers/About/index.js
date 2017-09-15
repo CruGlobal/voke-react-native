@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { Linking, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
+import DeviceInfo from 'react-native-device-info';
+
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import Analytics from '../../utils/analytics';
 
 import theme from '../../theme';
 import { vokeIcons } from '../../utils/iconMap';
 import SettingsList from '../../components/SettingsList';
+import CONSTANTS from '../../constants';
 
 function setButtons() {
   if (Platform.OS === 'ios') {
@@ -30,6 +33,8 @@ function setButtons() {
     }],
   };
 }
+
+const VERSION_BUILD = DeviceInfo.getReadableVersion();
 
 class About extends Component {
   static navigatorStyle = {
@@ -71,28 +76,27 @@ class About extends Component {
   }
 
   render() {
-    const versionBuild = '1.0';
     return (
       <SettingsList
         items={[
           {
             name: 'Visit Voke Website',
-            onPress: () => this.handleLink('https://www.vokeapp.com'),
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.VOKE),
           },
           {
             name: 'Follow us on Facebook',
-            onPress: () => this.handleLink('https://www.facebook.com'),
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.FACEBOOK),
           },
           {
             name: 'Terms of Service',
-            onPress: () => this.handleLink('https://www.vokeapp.com/terms-in-app/'),
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.TERMS),
           },
           {
             name: 'Privacy Policy',
-            onPress: () => this.handleLink('https://www.vokeapp.com/privacy-in-app/'),
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.PRIVACY),
           },
           {
-            name: `Version: ${versionBuild}`,
+            name: `Version: ${VERSION_BUILD}`,
           },
         ]}
       />

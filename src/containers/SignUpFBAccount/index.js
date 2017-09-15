@@ -13,6 +13,7 @@ import theme from '../../theme';
 import { Flex, Text, Button, Icon } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import SignUpHeader from '../../components/SignUpHeader';
+import CONSTANTS from '../../constants';
 
 class SignUpFBAccount extends Component {
   static navigatorStyle = {
@@ -167,7 +168,7 @@ class SignUpFBAccount extends Component {
                 type= "transparent"
                 buttonTextStyle={styles.legalLinkText}
                 style={styles.legalLink}
-                onPress={() => this.handleLink('https://www.vokeapp.com/privacy-in-app/')}
+                onPress={() => this.handleLink(CONSTANTS.WEB_URLS.PRIVACY)}
               />
               <Text style={styles.legalText}>and
               </Text>
@@ -176,7 +177,7 @@ class SignUpFBAccount extends Component {
                 type= "transparent"
                 buttonTextStyle={styles.legalLinkText}
                 style={styles.legalLink}
-                onPress={() => this.handleLink('https://www.vokeapp.com/terms-in-app/')}
+                onPress={() => this.handleLink(CONSTANTS.WEB_URLS.TERMS)}
               />
             </Flex>
           </Flex>

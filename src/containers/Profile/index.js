@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, TextInput, KeyboardAvoidingView, ScrollView, View, Alert } from 'react-native';
+import { Image, TextInput, KeyboardAvoidingView, ScrollView, View, Alert, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 import styles from './styles';
 import { Flex, Icon, Button, Text, Separator } from '../../components/common';
@@ -58,6 +58,7 @@ class Profile extends Component {
     this.scrollEnd = this.scrollEnd.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.resetState = this.resetState.bind(this);
+    this.backHandler = this.backHandler.bind(this);
   }
 
   componentWillMount() {
@@ -67,7 +68,24 @@ class Profile extends Component {
 
   componentDidMount() {
     Analytics.screen('Profile');
+    BackHandler.addEventListener('hardwareBackPress', this.backHandler);
   }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.backHandler);
+  }
+
+  backHandler() {
+    if (this.state.editName || this.state.editEmail || this.state.editPassword) {
+      this.setState({
+        editName: false,
+        editEmail: false,
+        editPassword: false,
+      });
+    }
+    return true;
+  }
+  
 
   onNavigatorEvent(event) {
     if (event.type === 'NavBarButtonPress') {

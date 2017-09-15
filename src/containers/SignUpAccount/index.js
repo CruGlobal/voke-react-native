@@ -11,6 +11,7 @@ import theme, { COLORS } from '../../theme';
 import { Flex, Text, Button, VokeIcon, Icon } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import SignUpHeader from '../../components/SignUpHeader';
+import CONSTANTS from '../../constants';
 
 // function setButtons() {
 //   return {
@@ -167,7 +168,7 @@ class SignUpAccount extends Component {
                   type= "transparent"
                   buttonTextStyle={styles.legalLinkText}
                   style={styles.legalLink}
-                  onPress={() => this.handleLink('https://www.vokeapp.com/privacy-in-app/')}
+                  onPress={() => this.handleLink(CONSTANTS.WEB_URLS.PRIVACY)}
                 />
                 <Text style={styles.legalText}>and
                 </Text>
@@ -176,7 +177,7 @@ class SignUpAccount extends Component {
                   type= "transparent"
                   buttonTextStyle={styles.legalLinkText}
                   style={styles.legalLink}
-                  onPress={() => this.handleLink('https://www.vokeapp.com/terms-in-app/')}
+                  onPress={() => this.handleLink(CONSTANTS.WEB_URLS.TERMS)}
                 />
               </Flex>
             </Flex>

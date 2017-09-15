@@ -35,4 +35,16 @@ export default {
   // These are from the documentation website
   // CLIENT_ID: '8b54cc4b3fa887919f290502563d7a70b8d3cd8ad33a148d650b072d1a9b1cd7',
   // CLIENT_SECRET: '3e9ab9085e3f42c3d160c2da35be9693f801571d3624634ecfe1bda745a376bb',
+
+  WEB_URLS: {
+    VOKE: 'https://www.vokeapp.com',
+    HELP: 'https://help.vokeapp.com/',
+    FAQ: 'https://www.vokeapp.com/faq',
+    TERMS: 'https://www.vokeapp.com/terms-in-app/',
+    PRIVACY: 'https://www.vokeapp.com/privacy-in-app/',
+    FACEBOOK: 'https://www.facebook.com/vokeapp/',
+    // Acknowledgements
+    CRASHLYTICS: 'https://try.crashlytics.com/',
+    REACTNATIVE: 'https://facebook.github.io/react-native/',
+  },
 };

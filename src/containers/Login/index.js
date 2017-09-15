@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, Alert } from 'react-native';
+import { Image, Alert, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { LoginManager, GraphRequestManager, GraphRequest, AccessToken } from 'react-native-fbsdk';
 import Analytics from '../../utils/analytics';
@@ -8,7 +8,7 @@ import styles from './styles';
 import { getMe, facebookLoginAction } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 
-import { Flex, Text, Button } from '../../components/common';
+import { Flex, Text, Button, Icon, VokeIcon } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import LOGO from '../../../images/initial_voke.png';
 
@@ -90,6 +90,27 @@ class Login extends Component {
     return (
       <Flex style={styles.container} value={1} align="center" justify="center">
         <StatusBar />
+        <Flex
+          style={{
+            paddingTop: Platform.OS === 'android' ? 10 : 35,
+            paddingLeft: Platform.OS === 'android' ? 15 : 30,
+            alignSelf: 'flex-start',
+          }}
+        >
+          <Button
+            onPress={() => this.props.navigateBack()}
+            type="transparent"
+            style={{ padding: 5 }}
+          >
+            {
+              Platform.OS === 'android' ? (
+                <Icon name="arrow-back" size={30} />
+              ) : (
+                <VokeIcon name="back" />
+              )
+            }
+          </Button>
+        </Flex>
         <Flex direction="column" value={1} align="center" justify="end" style={styles.logoWrapper}>
           <Flex style={styles.imageWrap} align="center" justify="center">
             <Image resizeMode="contain" source={LOGO} style={styles.imageLogo} />

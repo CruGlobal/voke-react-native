@@ -7,6 +7,7 @@ import Analytics from '../../utils/analytics';
 import theme from '../../theme';
 import SettingsList from '../../components/SettingsList';
 import { vokeIcons } from '../../utils/iconMap';
+import CONSTANTS from '../../constants';
 
 function setButtons() {
   return {
@@ -58,11 +59,11 @@ class Acknowledgements extends Component {
         items={[
           {
             name: 'Crashlytics',
-            onPress: () => this.handleLink('https://try.crashlytics.com/'),
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.CRASHLYTICS),
           },
           {
             name: 'React Native',
-            onPress: () => this.handleLink('https://facebook.github.io/react-native/'),
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACTNATIVE),
           },
         ]}
       />
