@@ -131,7 +131,7 @@ class SelectFriend extends Component {
 
     let videoId = this.props.video;
 
-    if (!c.isVoke) {
+    if (c.isVoke) {
       LOG('voke contact selected', this.props.video);
     } else {
       LOG('normal contact selected', this.props.video);
