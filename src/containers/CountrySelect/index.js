@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { View, SectionList, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import debounce from 'lodash/debounce';
+import Analytics from '../../utils/analytics';
 
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import styles from './styles';
@@ -135,6 +136,9 @@ class CountrySelect extends Component {
       // Failure
       // this.setState({ isLoading: false });
     }, 500);
+
+    Analytics.screen('Country Select');
+
   }
 
   search(text) {

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Image, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { LoginManager, GraphRequestManager, GraphRequest, AccessToken } from 'react-native-fbsdk';
+import Analytics from '../../utils/analytics';
 
 import styles from './styles';
 import { getMe, facebookLoginAction } from '../../actions/auth';
@@ -25,6 +26,10 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.facebookLogin = this.facebookLogin.bind(this);
+  }
+
+  componentDidMount() {
+    Analytics.screen('Contacts');
   }
 
   facebookLogin() {

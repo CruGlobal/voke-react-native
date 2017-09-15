@@ -3,6 +3,7 @@ import { Linking, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
+import Analytics from '../../utils/analytics';
 
 import theme from '../../theme';
 import { vokeIcons } from '../../utils/iconMap';
@@ -45,6 +46,10 @@ class About extends Component {
 
   componentWillMount() {
     this.props.navigator.setButtons(setButtons());
+  }
+
+  componentDidMount() {
+    Analytics.screen('About');
   }
 
   onNavigatorEvent(event) {

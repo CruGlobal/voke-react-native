@@ -3,6 +3,7 @@ import { View, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import debounce from 'lodash/debounce';
+import Analytics from '../../utils/analytics';
 
 import { iconsMap } from '../../utils/iconMap';
 import styles from './styles';
@@ -54,6 +55,11 @@ class Contacts extends Component {
       this.props.navigator.setTitle({ title: 'Invite a Friend' });
     }
   }
+
+  componentDidMount() {
+    Analytics.screen('Contacts');
+  }
+
 
   // getContacts() {
   //   this.props.dispatch(getContacts()).then(() => {

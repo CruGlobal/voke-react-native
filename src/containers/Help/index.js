@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { Navigation } from 'react-native-navigation';
 import Communications from 'react-native-communications';
+import Analytics from '../../utils/analytics';
 
 import theme from '../../theme';
 import { vokeIcons } from '../../utils/iconMap';
@@ -53,6 +54,10 @@ class Help extends Component {
 
   componentWillMount() {
     this.props.navigator.setButtons(setButtons());
+  }
+
+  componentDidMount() {
+    Analytics.screen('Contacts');
   }
 
   onNavigatorEvent(event) {

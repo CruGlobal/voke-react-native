@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Linking } from 'react-native';
 import { connect } from 'react-redux';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
+import Analytics from '../../utils/analytics';
 
 import theme from '../../theme';
 import SettingsList from '../../components/SettingsList';
@@ -32,6 +33,10 @@ class Acknowledgements extends Component {
 
   componentWillMount() {
     this.props.navigator.setButtons(setButtons());
+  }
+
+  componentDidMount() {
+    Analytics.screen('Acknowledgements');
   }
 
   handleLink(url) {

@@ -3,6 +3,7 @@ import { Image, TextInput, TouchableOpacity, Keyboard, Alert } from 'react-nativ
 import { connect } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
 import PropTypes from 'prop-types';
+import Analytics from '../../utils/analytics';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
@@ -28,7 +29,8 @@ class AndroidReportModal extends Component {
     this.handleMore = this.handleMore.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    Analytics.screen('Android: Report User');
   }
 
   handleDismiss() {

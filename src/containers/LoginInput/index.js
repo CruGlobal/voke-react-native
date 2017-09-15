@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Image, TextInput, TouchableOpacity, Keyboard, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { LoginManager, GraphRequestManager, GraphRequest, AccessToken } from 'react-native-fbsdk';
+import Analytics from '../../utils/analytics';
 
 import styles from './styles';
 import { getMe, facebookLoginAction, anonLogin } from '../../actions/auth';
@@ -44,6 +45,10 @@ class LoginInput extends Component {
       this.setState({ emailValidation: true });
     } else { this.setState({ emailValidation: false }); }
     this.setState({ email: text });
+  }
+
+  componentDidMount() {
+    Analytics.screen('Login Input');
   }
 
   login() {

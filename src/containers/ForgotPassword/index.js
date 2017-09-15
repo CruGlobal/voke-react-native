@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Image, TextInput, TouchableOpacity, Keyboard, Alert } from 'react-native';
 import { connect } from 'react-redux';
+import Analytics from '../../utils/analytics';
 
 import styles from './styles';
 import { forgotPasswordAction } from '../../actions/auth';
@@ -48,6 +49,10 @@ class ForgotPassword extends Component {
 
   componentWillMount() {
     this.props.navigator.setButtons(setButtons());
+  }
+
+  componentDidMount() {
+    Analytics.screen('Forgot Password');
   }
 
   onNavigatorEvent(event) {

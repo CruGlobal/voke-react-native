@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ScrollView, Image } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Analytics from '../../utils/analytics';
 
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { getKickstarters } from '../../actions/videos';
@@ -54,6 +55,7 @@ class KickstartersTab extends Component {
 
   componentDidMount() {
     this.getKickstarters();
+    Analytics.screen('In-Chat KickStarters');
   }
 
   componentWillMount() {

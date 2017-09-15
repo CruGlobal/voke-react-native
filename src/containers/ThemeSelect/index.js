@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Platform } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Analytics from '../../utils/analytics';
 
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { Navigation } from 'react-native-navigation';
@@ -33,11 +34,15 @@ class ThemeSelect extends Component {
     this.props.onDismiss();
     this.handleClose();
   }
-  
+
   handleSelect(tag) {
     LOG('selected', tag);
     this.props.onSelect(tag);
     this.handleClose();
+  }
+
+  componentDidMount() {
+    Analytics.screen('Theme Select');
   }
 
   render() {

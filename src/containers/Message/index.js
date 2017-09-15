@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { View, TextInput, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 import { getMessages, createMessage, createTypeStateAction, destroyTypeStateAction, createMessageInteraction } from '../../actions/messages';
+import Analytics from '../../utils/analytics';
 
 import theme, { COLORS } from '../../theme';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
@@ -104,6 +105,7 @@ class Message extends Component {
 
   componentDidMount() {
     this.getMessages();
+    Analytics.screen('Chat');
   }
 
   componentWillReceiveProps(nextProps) {
