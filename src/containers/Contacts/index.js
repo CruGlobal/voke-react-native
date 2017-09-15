@@ -3,8 +3,8 @@ import { View, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import debounce from 'lodash/debounce';
-import Analytics from '../../utils/analytics';
 
+import Analytics from '../../utils/analytics';
 import { iconsMap } from '../../utils/iconMap';
 import styles from './styles';
 // import { toastAction } from '../../actions/auth';
@@ -58,16 +58,12 @@ class Contacts extends Component {
 
   componentDidMount() {
     Analytics.screen('Contacts');
+    // // TODO: Make the same call as SelectFriend to show a modal based on the permissions
+    // if (this.props.isInvite) {
+    //   Permissions.checkContacts().then((permission) => {
+    //   });
+    // }
   }
-
-
-  // getContacts() {
-  //   this.props.dispatch(getContacts()).then(() => {
-  //     this.setState({ isLoading: false });
-  //   }).catch(() => {
-  //     // this.props.dispatch(toastAction('There was a problem loading contacts.'));
-  //   });
-  // }
 
   onNavigatorEvent(event) {
     if (event.id === 'didAppear') {

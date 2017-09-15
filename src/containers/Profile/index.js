@@ -28,7 +28,8 @@ class Profile extends Component {
     navBarNoBorder: true,
     topBarElevationShadowEnabled: false,
     tabBarHidden: true,
-    navBarButtonColor: theme.textColor,
+    navBarButtonColor: theme.lightText,
+    navBarBackgroundColor: theme.primaryColor,
     navBarTextColor: theme.headerTextColor,
   };
 

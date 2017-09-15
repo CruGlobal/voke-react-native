@@ -29,8 +29,10 @@ export function setupSocketAction(cableId) {
         command: 'subscribe',
         identifier: `{"channel":"DeviceChannel","id":"${cableId}"}`,
       };
-      ws.send(JSON.stringify(obj));
-      // LOG('socket message sent');
+      if (ws && ws.send) {
+        ws.send(JSON.stringify(obj));
+        // LOG('socket message sent');
+      }
     };
 
     ws.onmessage = (e) => {
@@ -75,13 +77,15 @@ export function closeSocketAction() {
   };
 }
 
-export function destroyDevice(cableId) {
-  let query = {
-    endpoint: `${API_URL}/me/devices/${cableId}`,
-  };
+export function destroyDevice(cableId, token) {
   return (dispatch) => {
+    let query = {
+      endpoint: `${API_URL}/me/devices/${cableId}`,
+      access_token: token,
+    };
     return dispatch(callApi(REQUESTS.DESTROY_DEVICE, query)).then((results)=> {
       LOG('Destroyed device', results);
+      return results;
     });
   };
 }

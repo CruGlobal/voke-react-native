@@ -25,6 +25,7 @@ import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
 // import com.facebook.soloader.SoLoader;
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.core.CrashlyticsCore;
 import io.fabric.sdk.android.Fabric;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 
@@ -83,6 +84,8 @@ public class MainApplication extends NavigationApplication {
     AppEventsLogger.activateApp(this);
     
     // Fabric crashlytics setup
-    Fabric.with(this, new Crashlytics());
+    Fabric.with(this, new Crashlytics.Builder().core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()).build());
+    // Fabric.with(this, new Crashlytics());
+
   }
 };

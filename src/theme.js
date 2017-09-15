@@ -6,7 +6,7 @@ import { exists } from './utils/common';
 const { width: deviceWidth, height: deviceHeight } = Dimensions.get('window');
 
 // See https://github.com/qix-/color for help
-function colorConvert({ color, alpha, lighten, darken, negate, rotate, whiten, blacken }) {
+function colorConvert({ color, alpha, lighten, darken, negate, rotate, whiten, blacken, hex }) {
   if (!color) LOG('Pass in a color!');
   let col = Color(color);
   // Lots of things you can do with color stuff
@@ -17,6 +17,9 @@ function colorConvert({ color, alpha, lighten, darken, negate, rotate, whiten, b
   if (exists(rotate)) col = Color(col).rotate(rotate);
   if (exists(whiten)) col = Color(col).whiten(whiten);
   if (exists(blacken)) col = Color(col).blacken(blacken);
+  if (hex === true) {
+    return col.hex().toString();
+  }
   return col.rgb().toString();
 }
 
@@ -69,6 +72,8 @@ export default {
   darkText: COLORS.CHARCOAL,
   iconColor: COLORS.WHITE,
   transparent: COLORS.transparent,
+  statusBarColor: colorConvert({ color: SECONDARY, darken: 0.4, hex: true }),
+  // statusBarColor: SECONDARY,
   buttonBackgroundColor: COLORS.TRANSPARENT,
   buttonBorderColor: COLORS.WHITE,
   buttonBorderWidth: 1,

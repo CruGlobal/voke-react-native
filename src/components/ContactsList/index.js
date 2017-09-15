@@ -72,7 +72,7 @@ class ContactsList extends Component {
     // ItemSeparatorComponent={() => <Separator />}
     return (
       <SectionList
-        initialNumToRender={15}
+        initialNumToRender={40}
         keyExtractor={(item) => item.id}
         stickySectionHeadersEnabled={true}
         sections={formattedSections}

@@ -68,6 +68,7 @@ export function startTabApp(options = {}) {
       bottomTabBadgeBackgroundColor: COLORS.YELLOW, // Optional, change badge background color. Android only
       tabBarTranslucent: false,
       forceTitlesDisplay: true, // Android, only show title
+      statusBarColor: theme.statusBarColor,
       ...(options.appStyle || {}),
     },
   });

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { View, Image, Share } from 'react-native';
+import { Platform, View, Image, Share } from 'react-native';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Navigation } from 'react-native-navigation';
+
 import { getContacts } from '../../actions/contacts';
 import { openSettingsAction } from '../../actions/auth';
 import { createConversation, getConversation, deleteConversation } from '../../actions/messages';
-import PropTypes from 'prop-types';
 import Analytics from '../../utils/analytics';
-import { Navigation } from 'react-native-navigation';
-import Contacts from 'react-native-contacts';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
@@ -16,6 +16,7 @@ import VOKE_BOT from '../../../images/voke_bot_face_large.png';
 
 import { Flex, Text, Loading, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
+import Permissions from '../../utils/permissions';
 
 const NUM_RANDOM = 3;
 function getRandomContacts(contacts) {
@@ -56,15 +57,16 @@ class SelectFriend extends Component {
     this.selectContact = this.selectContact.bind(this);
     this.handleGetContacts = this.handleGetContacts.bind(this);
     this.handleDismissPermission = this.handleDismissPermission.bind(this);
+    this.handleCheckPermission = this.handleCheckPermission.bind(this);
     this.checkContactsStatus = this.checkContactsStatus.bind(this);
-    this.handleSettings = this.handleSettings.bind(this);
+    this.handleAllowContacts = this.handleAllowContacts.bind(this);
   }
 
   handleGetContacts() {
     this.props.dispatch(getContacts()).then(() => {
-      this.setState({ isLoading: false, random: getRandomContacts(this.props.all), permission: 'authorized' });
+      this.setState({ isLoading: false, random: getRandomContacts(this.props.all), permission: Permissions.AUTHORIZED });
     }).catch(()=> {
-      this.setState({ isLoading: false });
+      this.setState({ isLoading: false, permission: Permissions.DENIED });
       LOG('contacts caught');
       //change screen
     });
@@ -75,28 +77,30 @@ class SelectFriend extends Component {
     // permission not asked yet
   }
 
+  handleCheckPermission(permission) {
+    this.setState({ permission: permission });
+    if (permission === Permissions.AUTHORIZED) {
+      this.handleGetContacts();
+    } else if (permission === Permissions.NOT_ASKED) {
+      Navigation.showModal({
+        screen: 'voke.Modal', // unique ID registered with Navigation.registerScreen
+        animationType: 'slide-up', // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
+        passProps: {
+          getContacts: this.handleGetContacts,
+          onDismiss: this.handleDismissPermission,
+        },
+        navigatorStyle: {
+          screenBackgroundColor: 'rgba(0, 0, 0, 0.3)',
+        },
+      });
+    } else {
+      this.setState({ isLoading: false });
+      // Change screen
+    }
+  }
+
   checkContactsStatus() {
-    Contacts.checkPermission((err, permission)=>{
-      this.setState({ permission: permission });
-      if (permission === 'authorized') {
-        this.handleGetContacts();
-      } else if (permission === 'undefined') {
-        Navigation.showModal({
-          screen: 'voke.Modal', // unique ID registered with Navigation.registerScreen
-          animationType: 'slide-up', // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
-          passProps: {
-            getContacts: this.handleGetContacts,
-            onDismiss: this.handleDismissPermission,
-          },
-          navigatorStyle: {
-            screenBackgroundColor: 'rgba(0, 0, 0, 0.3)',
-          },
-        });
-      } else {
-        this.setState({ isLoading: false });
-        // Change screen
-      }
-    });
+    Permissions.checkContacts().then(this.handleCheckPermission);
   }
 
   componentDidMount() {
@@ -105,11 +109,13 @@ class SelectFriend extends Component {
     Analytics.screen('Select a Friend');
   }
 
-  handleSettings() {
-    if (this.state.permission === 'denied') {
+  handleAllowContacts() {
+    if (Platform.OS === 'android') {
+      this.handleGetContacts();
+    } else if (this.state.permission === Permissions.DENIED) {
+      // On iOS, open settings
       this.props.dispatch(openSettingsAction());
-    }
-    else {
+    } else {
       this.checkContactsStatus();
     }
   }
@@ -121,7 +127,7 @@ class SelectFriend extends Component {
     let name = c.name ? c.name.split(' ') : null;
     let firstName = name[0] ? name[0] : 'Friend';
     let lastName = name[name.length -1] ? name[name.length -1] : 'Buddy';
-    let email = c.emailAddresses ? c.emailAddresses[0].email : null;
+    // let email = c.emailAddresses ? c.emailAddresses[0].email : null;
 
     let videoId = this.props.video;
 
@@ -211,7 +217,7 @@ class SelectFriend extends Component {
         </Flex>
         <Flex value={.5}>
           {
-            this.state.permission === 'authorized' ? (
+            this.state.permission === Permissions.AUTHORIZED ? (
               <Button
                 onPress={() => this.props.navigatePush('voke.Contacts', {
                   onSelect: this.selectContact,
@@ -233,9 +239,9 @@ class SelectFriend extends Component {
           <Image resizeMode="contain" source={VOKE_BOT} style={styles.vokeBot} />
         </Flex>
         {
-          this.state.permission != 'authorized' ? (
+          this.state.permission !== Permissions.AUTHORIZED ? (
             <Button
-              onPress={this.handleSettings}
+              onPress={this.handleAllowContacts}
               text="Allow Contacts"
               style={styles.randomButton}
               buttonTextStyle={styles.randomText}

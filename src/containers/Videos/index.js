@@ -78,13 +78,17 @@ class Videos extends Component {
     if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
       if (event.id == 'back') {
         this.props.navigateBack();
-      }
-      if (event.id == 'search') {
+      } else if (event.id == 'search') {
         this.props.dispatch(getTags()). then(()=> {
           this.showThemes();
         });
-      }
-      if (event.id === 'menu') {
+      } else if (Platform.OS === 'android') {
+        // Get the selected event from the menu
+        const selected = navMenuOptions(this.props).find((m) => m.id === event.id);
+        if (selected && selected.onPress) {
+          selected.onPress();
+        }
+      } else if (event.id === 'menu') {
         Navigation.showModal({
           screen: 'voke.Menu', // unique ID registered with Navigation.registerScreen
           title: 'Settings', // title of the screen as appears in the nav bar (optional)

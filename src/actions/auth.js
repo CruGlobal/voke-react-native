@@ -20,14 +20,14 @@ export function startupAction(navigator) {
 
 export function cleanupAction() {
   return () => {
-    LOG('removing appState listener');
+    // LOG('removing appState listener');
     AppState.removeEventListener('change', appStateChangeFn);
   };
 }
 
 function appStateChange(dispatch, getState, nextAppState) {
   const cableId = getState().auth.cableId;
-  LOG('appStateChange', nextAppState, currentAppState, cableId);
+  // LOG('appStateChange', nextAppState, currentAppState, cableId);
   if (currentAppState.match(/inactive|background/) && nextAppState === 'active') {
     LOG('App has come to the foreground!');
     // Restart sockets
@@ -89,11 +89,13 @@ export function registerPushToken(token) {
 }
 
 export function logoutAction() {
-  return (dispatch) => (
+  return (dispatch, getState) => (
     new Promise((resolve) => {
+      const token = getState().auth.token;
       dispatch(getDevices()).then((results)=> {
+        // Pass the token into this function because the LOGOUT action will clear it out
         results.devices.forEach((m)=>{
-          dispatch(destroyDevice(m.id));
+          dispatch(destroyDevice(m.id, token));
         });
         dispatch({ type: LOGOUT });
       });
@@ -309,7 +311,6 @@ export function reportUserAction(report, messenger) {
 
 
 export function openSettingsAction() {
-  LOG('Opening Settings');
   return () => {
     if (Platform.OS === 'ios') {
       Linking.canOpenURL('app-settings:').then((isSupported) => {

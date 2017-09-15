@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import RNImagePicker from 'react-native-image-crop-picker';
 
 import { Touchable } from '../common';
+import theme from '../../theme';
 
 // See https://github.com/ivpusic/react-native-image-crop-picker#request-object
 const OPTIONS = {
@@ -12,9 +13,12 @@ const OPTIONS = {
   height: 600,
   cropping: true,
   showCropGuidelines: false,
-  compressImageQuality: 0.75,
+  // This was causing crashing issues on some Android devices. No need to compress
+  // compressImageQuality: 0.75,
   cropperCircleOverlay: true,
-  // includeBase64: false,
+  includeBase64: false,
+  cropperToolbarColor: theme.primaryColor,
+  cropperStatusBarColor: theme.statusBarColor,
 };
 
 class ImagePicker extends Component {
@@ -38,6 +42,7 @@ class ImagePicker extends Component {
       height: response.height,
       uri: response.path,
     };
+    LOG('image picker payload', payload);
     this.props.onSelectImage(payload);
   }
 
