@@ -82,6 +82,7 @@ export function startLoginApp(options = {}) {
     appStyle: {
       // Apply to whole app, can't do single pages https://github.com/wix/react-native-navigation/issues/846
       orientation: 'portrait',
+      statusBarColor: theme.statusBarColor,
       ...(options.appStyle || {}),
     },
     screen: loginScreen,

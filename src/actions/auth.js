@@ -4,6 +4,7 @@ import { Linking, Platform, AppState, ToastAndroid, AsyncStorage, Alert } from '
 import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN } from '../constants';
 import callApi, { REQUESTS } from './api';
 import { establishDevice, setupSocketAction, closeSocketAction, destroyDevice, getDevices } from './socket';
+import { getConversations } from './messages';
 import { API_URL } from '../api/utils';
 
 
@@ -27,7 +28,7 @@ export function cleanupAction() {
 
 function appStateChange(dispatch, getState, nextAppState) {
   const cableId = getState().auth.cableId;
-  // LOG('appStateChange', nextAppState, currentAppState, cableId);
+  LOG('appStateChange', nextAppState, currentAppState, cableId);
   if (currentAppState.match(/inactive|background/) && nextAppState === 'active') {
     LOG('App has come to the foreground!');
     // Restart sockets
@@ -36,7 +37,8 @@ function appStateChange(dispatch, getState, nextAppState) {
     } else {
       dispatch(establishDevice());
     }
-
+    // Get the latest conversations whenever the user comes back into the app
+    dispatch(getConversations());
   } else if (currentAppState.match(/active/) && nextAppState === 'background') {
     LOG('App is going into the background');
     // Close sockets

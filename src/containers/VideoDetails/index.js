@@ -7,6 +7,7 @@ import Analytics from '../../utils/analytics';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { toastAction } from '../../actions/auth';
 
+import theme from '../../theme';
 import styles from './styles';
 import ApiLoading from '../ApiLoading';
 import WebviewVideo from '../../components/WebviewVideo';
@@ -16,6 +17,7 @@ import { VokeIcon, Flex, Touchable, Text } from '../../components/common';
 
 class VideoDetails extends Component {
   static navigatorStyle = {
+    screenBackgroundColor: theme.lightBackgroundColor,
     navBarHidden: true,
     tabBarHidden: true,
   };
