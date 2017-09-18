@@ -7,7 +7,7 @@ import { openSettingsAction } from '../../actions/auth';
 import { Navigation } from 'react-native-navigation';
 
 import Analytics from '../../utils/analytics';
-// import { iconsMap } from '../../utils/iconMap';
+import { iconsMap } from '../../utils/iconMap';
 import styles from './styles';
 // import { toastAction } from '../../actions/auth';
 import { searchContacts, getContacts } from '../../actions/contacts';
@@ -17,20 +17,21 @@ import Permissions from '../../utils/permissions';
 import { Button, Flex } from '../../components/common';
 
 import ApiLoading from '../ApiLoading';
+import AndroidSearchBar from '../../components/AndroidSearchBar';
 import ContactsList from '../../components/ContactsList';
 import SearchBarIos from '../../components/SearchBarIos';
 
 
 function setButtons() {
   // TODO: Implement a search bar for android using a custom navigation title
-  // if (Platform.OS === 'android') {
-  //   return {
-  //     rightButtons: [{
-  //       id: 'searchView',
-  //       icon: iconsMap['md-search'],
-  //     }],
-  //   };
-  // }
+  if (Platform.OS === 'android') {
+    return {
+      rightButtons: [{
+        id: 'search',
+        icon: iconsMap['md-search'],
+      }],
+    };
+  }
   return {};
 }
 class Contacts extends Component {
@@ -38,7 +39,9 @@ class Contacts extends Component {
     navBarButtonColor: theme.lightText,
     navBarTextColor: theme.headerTextColor,
     navBarBackgroundColor: theme.primaryColor,
-    navBarNoBorder: Platform.OS !== 'android',
+    screenBackgroundColor: theme.lightBackgroundColor,
+    navBarNoBorder: true,
+    topBarElevationShadowEnabled: false,
     tabBarHidden: true,
   };
   constructor(props) {
@@ -48,6 +51,7 @@ class Contacts extends Component {
       searchResults: [],
       searchText: '',
       isLoading: true,
+      showSearch: false,
       permission: props.isInvite ? Permissions.NOT_ASKED : Permissions.AUTHORIZED,
     };
 
@@ -76,12 +80,17 @@ class Contacts extends Component {
   }
 
   onNavigatorEvent(event) {
-    if (event.id === 'didAppear') {
-      // this.getContacts();
-    } else if (event.id === 'searchQueryChange') {
-      const text = event.query || '';
-      this.setState({ searchText: text });
-      this.search(text);
+    // if (event.id === 'didAppear') {
+    //   // this.getContacts();
+    // } else if (event.id === 'searchQueryChange') {
+    //   const text = event.query || '';
+    //   this.setState({ searchText: text });
+    //   this.search(text);
+    // }
+    if (event.id === 'search') {
+      if (this.state.permission === Permissions.AUTHORIZED) {
+        this.setState({ showSearch: !this.state.showSearch });
+      }
     }
   }
 
@@ -161,19 +170,25 @@ class Contacts extends Component {
     this.search(text);
   }
 
-  renderIOSSearch() {
-    if (Platform.OS === 'android') return null;
+  renderSearch() {
+    if (Platform.OS === 'android') {
+      if (!this.state.showSearch) return null;
+      return (
+        <AndroidSearchBar onChange={this.changeText} value={this.state.searchText} />
+      );
+    }
     return (
       <SearchBarIos onChange={this.changeText} value={this.state.searchText} />
     );
   }
 
   render() {
+    const isAuthorized = this.state.permission === Permissions.AUTHORIZED;
     return (
       <View style={styles.container}>
-        {this.renderIOSSearch()}
+        {this.renderSearch()}
         {
-          this.state.permission === Permissions.AUTHORIZED ? (
+          isAuthorized ? (
             <ContactsList
               items={this.state.searchText ? this.state.searchResults : this.props.all}
               onSelect={(c) => {

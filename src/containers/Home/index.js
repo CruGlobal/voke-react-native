@@ -76,7 +76,7 @@ class Home extends Component {
   componentDidMount() {
     this.props.dispatch(startupAction(this.props.navigator));
     Analytics.screen('Home Chats');
-    this.props.dispatch(getConversations());
+    this.props.dispatch(getConversations());    
   }
 
   componentWillReceiveProps(nextProps) {
@@ -116,7 +116,7 @@ class Home extends Component {
   handleLoadMore() {
     if (this.props.pagination.hasMore) {
       // LOG('has more conversations to load');
-      this.props.dispatch(getConversations(this.props.pagination.page + 1));      
+      this.props.dispatch(getConversationsPage(this.props.pagination.page + 1));      
     }
   }
 

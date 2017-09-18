@@ -130,9 +130,7 @@ class SelectFriend extends Component {
 
   handleAllowContacts() {
     if (Platform.OS === 'android') {
-      this.handleGetContacts().then(() => {
-        this.goToContacts();
-      });
+      this.handleGetContacts();
     } else if (this.state.permission === Permissions.DENIED) {
       // On iOS, open settings
       this.props.dispatch(openSettingsAction());
