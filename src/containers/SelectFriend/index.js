@@ -14,6 +14,7 @@ import nav, { NavPropTypes } from '../../actions/navigation_new';
 import theme from '../../theme';
 import VOKE_BOT from '../../../images/voke_bot_face_large.png';
 
+import ApiLoading from '../ApiLoading';
 import { Flex, Text, Loading, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import Permissions from '../../utils/permissions';
@@ -106,7 +107,6 @@ class SelectFriend extends Component {
   }
 
   componentDidMount() {
-    LOG('get contacts dispatched');
     this.checkContactsStatus();
     Analytics.screen('Select a Friend');
   }
@@ -295,6 +295,7 @@ class SelectFriend extends Component {
       <View style={styles.container}>
         <StatusBar />
         {this.renderContent()}
+        { this.props.isLoading ? <ApiLoading force={true} /> : null }
       </View>
     );
   }
@@ -313,11 +314,14 @@ class SelectFriend extends Component {
 SelectFriend.propTypes = {
   ...NavPropTypes,
   video: PropTypes.string.isRequired,
+  all: PropTypes.array.isRequired, // Redux
+  isLoading: PropTypes.bool, // Redux
 };
 
 const mapStateToProps = ({ contacts }) => ({
   all: contacts.all,
-  voke: contacts.voke,
+  // voke: contacts.voke,
+  isLoading: contacts.isLoading,
 });
 
 export default connect(mapStateToProps, nav)(SelectFriend);

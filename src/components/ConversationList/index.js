@@ -84,14 +84,11 @@ class ConversationList extends Component { // eslint-disable-line
   }
 
   getConversationParticipant(conversation) {
-    let voke = conversation.messengers.find((a) => {
-      return a.bot;
-    });
-
-    let otherPerson = conversation.messengers.find((a) => {
-      return a.id != this.props.me.id && !a.bot;
-    });
-    if (conversation.messengers.length ===2) {
+    const myId = this.props.me.id;
+    const voke = conversation.messengers.find((a) => a.bot);
+    
+    const otherPerson = conversation.messengers.find((a) => a.id !== myId && !a.bot);
+    if (voke && conversation.messengers.length === 2) {
       return voke;
     }
     return otherPerson;
@@ -113,6 +110,10 @@ class ConversationList extends Component { // eslint-disable-line
     const contentCreator = this.getSenderName(conversation);
     const otherPerson = this.getConversationParticipant(conversation);
     const isPresent = this.getPresence(otherPerson);
+
+    if (!otherPerson || otherPerson.bot) {
+      LOG('vokebot', item);
+    }
 
     return (
       <Touchable

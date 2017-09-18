@@ -52,7 +52,7 @@ class Modal extends Component {
           {
             this.state.isMore ? (
               <Flex align="center">
-                <Text style={styles.title}>Voke uses your contacts to help you in two ways</Text>
+                <Text style={styles.title}>Voke uses your contacts to help you in two ways:</Text>
                 <Text style={styles.showMoreDescription}>
                   1. To find friends to share with
                   {'\n'}

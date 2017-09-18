@@ -40,7 +40,7 @@ class ContactItem extends Component { // eslint-disable-line
         {
           !item.isVoke && this.props.isInvite ? (
             <Button
-              onPress={()=> this.props.onButtonPress()}
+              onPress={this.props.onButtonPress}
               text="Invite"
               style={styles.inviteButton}
               buttonTextStyle={styles.inviteButtonText}

@@ -49,6 +49,7 @@ class ContactsList extends Component {
     super(props);
 
     this.renderHeader = this.renderHeader.bind(this);
+    this.renderItem = this.renderItem.bind(this);
   }
 
   renderHeader({ section }) {
@@ -58,17 +59,29 @@ class ContactsList extends Component {
       </Text>
     );
   }
+  
+  renderItem({ item }) {
+    const { isInvite, onSelect } = this.props;
+    return (
+      <Touchable highlight={!isInvite} activeOpacity={isInvite ? 1 : 0.6} disabled={item.isVoke && isInvite} onPress={isInvite ? undefined : () => onSelect(item)}>
+        <View>
+          <ContactItem isInvite={isInvite} onButtonPress={!isInvite ? (() => {}) : () => onSelect(item)} item={item} />
+        </View>
+      </Touchable>
+    );
+  }
 
   render() {
+    const { items } = this.props;
     // Don't do a length check, it can be taxing on large arrays
-    if (!this.props.items[0]) {
+    if (!items[0]) {
       return (
         <Flex align="center" justify="center">
           <Text style={styles.noResultsText}>No results to display</Text>
         </Flex>
       );
     }
-    const formattedSections = formatContacts(this.props.items);
+    const formattedSections = formatContacts(items);
     // ItemSeparatorComponent={() => <Separator />}
     return (
       <SectionList
@@ -78,13 +91,7 @@ class ContactsList extends Component {
         keyboardShouldPersistTaps="always"
         sections={formattedSections}
         renderSectionHeader={this.renderHeader}
-        renderItem={({ item }) => (
-          <Touchable key={item.id} highlight={this.props.isInvite ? false : true} activeOpacity={this.props.isInvite ? 1 : 0.6} disabled={item.isVoke && this.props.isInvite ? true : false} onPress={() => this.props.isInvite ? {} : this.props.onSelect(item)}>
-            <View>
-              <ContactItem isInvite={this.props.isInvite} onButtonPress={() => !this.props.isInvite ? {} : this.props.onSelect(item)} item={item} />
-            </View>
-          </Touchable>
-        )}
+        renderItem={this.renderItem}
         getItemLayout={(data, index) => ({
           length: CONTACT_HEIGHT,
           offset: CONTACT_HEIGHT * index,

@@ -16,6 +16,7 @@ import theme from '../../theme';
 import Permissions from '../../utils/permissions';
 import { Button, Flex } from '../../components/common';
 
+import ApiLoading from '../ApiLoading';
 import ContactsList from '../../components/ContactsList';
 import SearchBarIos from '../../components/SearchBarIos';
 
@@ -47,7 +48,7 @@ class Contacts extends Component {
       searchResults: [],
       searchText: '',
       isLoading: true,
-      permission: '',
+      permission: props.isInvite ? Permissions.NOT_ASKED : Permissions.AUTHORIZED,
     };
 
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
@@ -67,7 +68,25 @@ class Contacts extends Component {
     }
   }
 
+  componentDidMount() {
+    Analytics.screen('Contacts');
+    if (this.props.isInvite) {
+      this.checkContactsStatus();
+    }
+  }
+
+  onNavigatorEvent(event) {
+    if (event.id === 'didAppear') {
+      // this.getContacts();
+    } else if (event.id === 'searchQueryChange') {
+      const text = event.query || '';
+      this.setState({ searchText: text });
+      this.search(text);
+    }
+  }
+
   handleCheckPermission(permission) {
+    LOG('permission');
     this.setState({ permission: permission });
     if (permission === Permissions.AUTHORIZED) {
       this.handleGetContacts();
@@ -122,23 +141,6 @@ class Contacts extends Component {
     }
   }
 
-  componentDidMount() {
-    Analytics.screen('Contacts');
-    if (this.props.isInvite) {
-      this.checkContactsStatus();
-    }
-  }
-
-  onNavigatorEvent(event) {
-    if (event.id === 'didAppear') {
-      // this.getContacts();
-    } else if (event.id === 'searchQueryChange') {
-      const text = event.query || '';
-      this.setState({ searchText: text });
-      this.search(text);
-    }
-  }
-
   search(text) {
     if (!text) {
       this.setState({ searchResults: [] });
@@ -166,7 +168,7 @@ class Contacts extends Component {
       <View style={styles.container}>
         {this.renderIOSSearch()}
         {
-          this.state.permission === 'AUTHORIZED' ? (
+          this.state.permission === Permissions.AUTHORIZED ? (
             <ContactsList
               items={this.state.searchText ? this.state.searchResults : this.props.all}
               onSelect={(c) => {
@@ -185,6 +187,7 @@ class Contacts extends Component {
             </Flex>
           )
         }
+        {this.props.isLoading ? <ApiLoading force={true} /> : null}
       </View>
     );
   }
@@ -197,11 +200,13 @@ Contacts.propTypes = {
   onSelect: PropTypes.func.isRequired,
   video: PropTypes.string,
   isInvite: PropTypes.bool,
+  isLoading: PropTypes.bool, // Redux
 };
 
 const mapStateToProps = ({ contacts }) => ({
   all: contacts.all,
-  voke: contacts.voke,
+  // voke: contacts.voke,
+  isLoading: contacts.isLoading,
 });
 
 export default connect(mapStateToProps, nav)(Contacts);

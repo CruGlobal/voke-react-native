@@ -1,6 +1,6 @@
 import { REHYDRATE } from 'redux-persist/constants';
 
-import { LOGOUT, SET_ALL_CONTACTS, SET_VOKE_CONTACTS } from '../constants';
+import { LOGOUT, SET_ALL_CONTACTS, SET_VOKE_CONTACTS, SET_CONTACTS_LOADING } from '../constants';
 import { REQUESTS } from '../actions/api';
 
 const initialState = {
@@ -8,6 +8,7 @@ const initialState = {
   voke: [],
   random: [],
   lastUpdated: null,
+  isLoading: false,
 };
 
 // Voke contacts object
@@ -30,6 +31,11 @@ export default function contacts(state = initialState, action) {
       return {
         ...state,
         ...incoming,
+      };
+    case SET_CONTACTS_LOADING:
+      return {
+        ...state,
+        isLoading: action.isLoading,
       };
     case SET_ALL_CONTACTS:
       return {

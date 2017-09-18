@@ -7,7 +7,7 @@ import lodashChunk from 'lodash/chunk';
 import { API_URL } from '../api/utils';
 import { hashPhone } from '../utils/common';
 import callApi, { REQUESTS } from './api';
-import CONSTANTS, { SET_ALL_CONTACTS, SET_VOKE_CONTACTS } from '../constants';
+import CONSTANTS, { SET_ALL_CONTACTS, SET_VOKE_CONTACTS, SET_CONTACTS_LOADING } from '../constants';
 import Permissions from '../utils/permissions';
 
 export function setAllContacts(all) {
@@ -39,6 +39,9 @@ export function getContacts(force = false) {
         }
       }
 
+      // Keep track of when the contacts are loading and finished loading
+      dispatch({ type: SET_CONTACTS_LOADING, isLoading: true });
+
       Permissions.checkContacts().then((permission) => {
         if (permission === Permissions.DENIED) {
           Alert.alert(
@@ -50,6 +53,7 @@ export function getContacts(force = false) {
               { text: 'Open Settings', onPress: () => Linking.openURL('app-settings:') },
             ]
           );
+          dispatch({ type: SET_CONTACTS_LOADING, isLoading: false });
           reject();
           return;
         }
@@ -77,9 +81,16 @@ export function getContacts(force = false) {
 
             // API call to find out who matches voke
             dispatch(getVokeContacts(all))
-              .then(() => resolve(true))
-              .catch(() => reject());
+              .then(() => {
+                dispatch({ type: SET_CONTACTS_LOADING, isLoading: false });
+                resolve(true);
+              })
+              .catch(() => {
+                dispatch({ type: SET_CONTACTS_LOADING, isLoading: false });
+                reject();
+              });
           }).catch((err) => {
+            dispatch({ type: SET_CONTACTS_LOADING, isLoading: false });
             if (err === Permissions.DENIED) {
               Alert.alert('Could not get contacts', 'There was an error getting your contacts.');
             }
