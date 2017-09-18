@@ -7,7 +7,7 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import theme, {COLORS} from '../../theme';
 import moment from 'moment';
 
-import { Flex, VokeIcon, Text, Touchable, Separator, Avatar } from '../common';
+import { Flex, VokeIcon, Text, Touchable, Separator, Avatar, RefreshControl } from '../common';
 
 // const ITEM_HEIGHT = 60 + theme.separatorHeight;
 
@@ -65,10 +65,11 @@ class ConversationList extends Component { // eslint-disable-line
 
   handleRefresh() {
     this.setState({ refreshing: true });
-    setTimeout(() => {
-      // this.props.onRefresh();
+    this.props.onRefresh().then(() => {
       this.setState({ refreshing: false });
-    }, 500);
+    }).catch(() => {
+      this.setState({ refreshing: false });
+    });
   }
 
   getSenderName(conversation) {
@@ -200,7 +201,7 @@ class ConversationList extends Component { // eslint-disable-line
           </View>
         )}
         initialListSize={15}
-        pageSize={10}
+        pageSize={15}
         enableEmptySections={true}
         onEndReached={this.handleNextPage}
         onEndReachedThreshold={50}
@@ -209,6 +210,10 @@ class ConversationList extends Component { // eslint-disable-line
         disableLeftSwipe={false}
         disableRightSwipe={true}
         recalculateHiddenLayout={true}
+        refreshControl={<RefreshControl
+          refreshing={this.state.refreshing}
+          onRefresh={this.handleRefresh}
+        />}
       />
     );
   }

@@ -4,17 +4,15 @@ import { COLORS } from '../../theme';
 
 export default class MyRefreshControl extends Component {
   render() {
-    return (
-      <RefreshControl
-        progressBackgroundColor={COLORS.WHITE}
-        colors={[COLORS.DARK_BLUE, COLORS.BLUE]}
-        tintColor={COLORS.WHITE}
-        title="Refreshing"
-        titleColor={COLORS.WHITE}
-        {...this.props}
-      />
-    );
+    return <RefreshControl {...this.props} />;
   }
 }
 
 MyRefreshControl.propTypes = { ...RefreshControl.propTypes };
+MyRefreshControl.defaultProps = {
+  progressBackgroundColor: COLORS.WHITE,
+  colors: [COLORS.DARK_BLUE, COLORS.BLUE],
+  tintColor: COLORS.WHITE,
+  // titleColor: COLORS.WHITE,
+  // title: 'Refreshing',
+};

@@ -8,6 +8,7 @@ import { Text } from '../common';
 import styles from './styles';
 import MessageItem from '../MessageItem';
 import Loading from '../Loading';
+import LoadMore from '../../components/LoadMore';
 
 class MessagesList extends Component {
   constructor(props) {
@@ -17,13 +18,11 @@ class MessagesList extends Component {
     // });
     this.state = {
       refreshing: false,
-      // dataSource: ds.cloneWithRows(props.items),
     };
 
-    this.handleScroll = this.handleScroll.bind(this);
-    this.handleLoadMore = debounce(this.handleLoadMore.bind(this), 50);
+    this.renderLoadMore = this.renderLoadMore.bind(this);
     this.renderRow = this.renderRow.bind(this);
-    this.scrollEnd = this.scrollEnd.bind(this);
+    // this.scrollEnd = this.scrollEnd.bind(this);
     this.renderTypeState = this.renderTypeState.bind(this);
   }
 
@@ -31,25 +30,16 @@ class MessagesList extends Component {
   //   this.setState({ dataSource: this.state.dataSource.cloneWithRows(nextProps.items) });
   // }
 
-  componentDidMount() {
-    this.scrollEnd(false);
-  }
+  // componentDidMount() {
+  //   this.scrollEnd(false);
+  // }
 
-  // Debounce this function so it doesn't run too many times
-  handleLoadMore() {
-    if (this.props.hasMore && !this.props.isLoadingMore) {
-      this.props.onLoadMore();
+  renderLoadMore() {
+    if (this.props.hasMore) {
+      return <LoadMore onLoad={this.props.onLoadMore} />;
     }
+    return null;
   }
-
-  handleScroll({ nativeEvent }) {
-    const { contentOffset } = nativeEvent;
-    // This means the user is close to the top of the page
-    if (contentOffset.y <= 10) {
-      this.handleLoadMore();
-    }
-  }
-
 
   renderRow({ item }) {
     return (
@@ -81,24 +71,22 @@ class MessagesList extends Component {
     } else return null;
   }
 
-  scrollEnd(isAnimated) {
-    // Somehow check if the listview is in the middle
-    // if (this.listView) {
-    //   setTimeout(() => this.listView.scrollToEnd({ animated: isAnimated }), 50);
-    // }
-    // setTimeout(() => {
-    //   this.listView.scrollToEnd({ animated: isAnimated });
-    // }, Platform.OS === 'ios' ? 50 : 250);
-  }
+  // scrollEnd(isAnimated) {
+  //   // Somehow check if the listview is in the middle
+  //   if (this.listView) {
+  //     setTimeout(() => this.listView.scrollToEnd({ animated: isAnimated }), 50);
+  //   }
+  //   setTimeout(() => {
+  //     this.listView.scrollToEnd({ animated: isAnimated });
+  //   }, Platform.OS === 'ios' ? 50 : 250);
+  // }
 
   render() {
-    const { isLoadingMore, hasMore, items } = this.props;
+    const { items } = this.props;
     return (
       <FlatList
         ref={(c) => this.listView = c}
-        ListFooterComponent={isLoadingMore ? () => (
-          <View style={{ paddingTop: 15 }}><Loading /></View>
-        ) : undefined}
+        ListFooterComponent={this.renderLoadMore}
         keyExtractor={(item) => item.id}
         style={{  transform: [{ scaleY: -1 }]}}
         initialNumToRender={10}
@@ -131,7 +119,6 @@ MessagesList.propTypes = {
   messengers: PropTypes.array.isRequired,
   onSelectVideo: PropTypes.func.isRequired,
   hasMore: PropTypes.bool,
-  isLoadingMore: PropTypes.bool,
   onLoadMore: PropTypes.func,
   typeState: PropTypes.bool,
 };

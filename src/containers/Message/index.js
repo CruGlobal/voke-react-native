@@ -15,7 +15,6 @@ import ApiLoading from '../ApiLoading';
 
 import { Flex, Text, VokeIcon, Button, Touchable } from '../../components/common';
 import MessagesList from '../../components/MessagesList';
-import LoadMore from '../../components/LoadMore';
 
 function setButtons() {
   return {
@@ -46,7 +45,6 @@ class Message extends Component {
       text: '',
       selectedVideo: null,
       height: 50,
-      isLoadingMore: false,
       latestItem: null,
       shouldShowButtons: true,
       createTransparentFocus: false,
@@ -93,8 +91,9 @@ class Message extends Component {
   }
 
   getConversationName() {
+    const myId = this.props.me.id;
     let messengers = this.props.conversation.messengers || [];
-    let otherPerson = messengers.find((m) => !m.bot && (this.props.me.id != m.id));
+    let otherPerson = messengers.find((m) => !m.bot && (myId != m.id));
     return otherPerson ? otherPerson.first_name : 'Voke';
   }
 
@@ -129,15 +128,14 @@ class Message extends Component {
   }
 
   handleLoadMore() {
-    this.setState({ isLoadingMore: true });
-    LOG('Making API call to load more');
-    setTimeout(() => {
-      this.setState({ isLoadingMore: false });
-    }, 1000);
+    if (this.props.pagination.hasMore) {
+      // LOG('loading more messages');
+      this.getMessages(this.props.pagination.page + 1);
+    }
   }
 
-  getMessages() {
-    this.props.dispatch(getMessages(this.props.conversation.id)).then(() => {
+  getMessages(page) {
+    this.props.dispatch(getMessages(this.props.conversation.id, page)).then(() => {
       this.setLatestItem();
       this.createMessageReadInteraction();
     });
@@ -198,7 +196,7 @@ class Message extends Component {
   }
 
   createMessageReadInteraction() {
-    let interaction = {
+    const interaction = {
       action: 'read',
       conversationId: this.props.conversation.id,
       messageId: this.props.messages[0].id,
@@ -211,10 +209,8 @@ class Message extends Component {
   }
 
   getTypeState() {
-    if (this.props.typeState) {
-      return true;
-    }
-    return false;
+    // Return a boolean from the typeState value
+    return !!this.props.typeState;
   }
 
   handleChangeButtons(bool) {
@@ -228,7 +224,7 @@ class Message extends Component {
   }
 
   render() {
-    const { messages, me } = this.props;
+    const { messages, me, typeState, pagination, conversation } = this.props;
     let newHeight = {
       height: this.state.height < 40 ? 40 : this.state.height > 80 ? 80 : this.state.height,
     };
@@ -236,9 +232,6 @@ class Message extends Component {
     let newWrap = {
       height: this.state.height < 40 ? 50 : this.state.height > 80 ? 90 : this.state.height + 10,
     };
-
-    // TODO: Figure out how to determine this
-    const hasMore = !this.state.selectedVideo && false;
 
     return (
       <KeyboardAvoidingView
@@ -256,13 +249,12 @@ class Message extends Component {
         }
         <MessagesList
           ref={(c) => this.list = c}
-          isLoadingMore={this.state.isLoadingMore}
           onLoadMore={this.handleLoadMore}
-          hasMore={hasMore}
+          hasMore={pagination.hasMore}
           items={messages}
-          typeState={this.getTypeState()}
+          typeState={typeState}
           user={me}
-          messengers={this.props.conversation.messengers}
+          messengers={conversation.messengers}
           onSelectVideo={(m) => this.setState({ selectedVideo: m })}
         />
         <Flex direction="row" style={[styles.inputWrap, newWrap]} align="center" justify="center">
@@ -351,6 +343,10 @@ class Message extends Component {
 
 Message.propTypes = {
   ...NavPropTypes,
+  messages: PropTypes.array.isRequired, // Redux
+  pagination: PropTypes.object.isRequired, // Redux
+  me: PropTypes.object.isRequired, // Redux
+  typeState: PropTypes.bool.isRequired, // Redux
   conversation: PropTypes.object.isRequired,
   onSelectVideo: PropTypes.func,
   goBackHome: PropTypes.bool,
@@ -358,8 +354,9 @@ Message.propTypes = {
 
 const mapStateToProps = ({ messages, auth }, ownProps) => ({
   messages: messages.messages[ownProps.conversation.id] || [],
+  pagination: messages.pagination.messages[ownProps.conversation.id] || {},
   me: auth.user,
-  typeState: messages.typeState[ownProps.conversation.id],
+  typeState: !!messages.typeState[ownProps.conversation.id],
 });
 
 export default connect(mapStateToProps, nav)(Message);

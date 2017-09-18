@@ -32,7 +32,7 @@ export function mapMessages(results) {
     return 0;
   });
 
-  for (let i=0; i < messages.length -1; i++) {
+  for (let i=0; i < messages.length - 1; i++) {
     let currMessage = messages[i];
     let nextMessage = messages[i + 1];
 
@@ -44,29 +44,26 @@ export function mapMessages(results) {
     const currMessageDate = currMessageTime.format('LL');
     const nextMessageDate = nextMessageTime.format('LL');
 
-    if (currMessageDate !== nextMessageDate) {
-      messages[i].isLatestForDay = true;
-    } else {messages[i].isLatestForDay = false;}
+    messages[i].isLatestForDay = currMessageDate !== nextMessageDate;
   }
 
-  if (messages[messages.length-1]) {
+  if (messages[messages.length - 1]) {
     messages[messages.length-1].isLatestForDay = true;
   }
 
   return {
     messages,
+    _links: results._links,
   };
 }
 
 export function mapConversations(results, query, data, getState) {
   let conversations = results.conversations || [];
-  conversations = conversations.map((c) => {
-    c = formatConversation(c, getState);
-    return c;
-  });
+  conversations = conversations.map((c) => formatConversation(c, getState));
   // LOG(JSON.stringify(conversations));
   return {
     conversations,
+    _links: results._links,
   };
 }
 

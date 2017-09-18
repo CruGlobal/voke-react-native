@@ -8,6 +8,13 @@ const initialState = {
   messages: {},
   typeState: {},
   unReadBadgeCount: 0,
+  pagination: {
+    conversations: {
+      hasMore: false,
+      page: 1,
+    },
+    messages: {},
+  },
 };
 
 function moveConversationFirst(conversations, conversationId) {
@@ -33,28 +40,55 @@ export default function messages(state = initialState, action) {
         ...state,
         ...incoming,
         typeState: {},
+        pagination: initialState.pagination,
       };
     case REQUESTS.GET_CONVERSATIONS.SUCCESS:
+      let newConversations = [];
+      if (action.query.page && action.query.page > 1) {
+        newConversations = state.conversations;
+      }
+      const conversationPagination = {
+        hasMore: action._links ? !!action._links.next : false,
+        page: action.query.page || 1,
+      };
+      newConversations = newConversations.concat(action.conversations);
       const unReadCheck = action.conversations.find((m) => m.hasUnread === true);
-      let unRead;
-      if (unReadCheck) {
-        unRead = state.unReadBadgeCount;
-      } else { unRead = 0; }
+      const unRead = unReadCheck ? state.unReadBadgeCount : 0;
 
       return {
         ...state,
-        conversations: action.conversations || [],
+        conversations: newConversations,
         typeState: {},
         unReadBadgeCount: unRead,
+        pagination: {
+          ...state.pagination,
+          conversations: conversationPagination,
+        },
       };
     case REQUESTS.GET_MESSAGES.SUCCESS:
       const conversationId = action.messages[0] ? action.messages[0].conversation_id : null;
       if (!conversationId) {
         return state;
       }
+      let newMessages = [];
+      if (action.query && action.query.page && state.messages[conversationId]) {
+        newMessages = state.messages[conversationId];
+      }
+      newMessages = newMessages.concat(action.messages || []);
+      const messagePagination = {
+        hasMore: action._links ? !!action._links.next : false,
+        page: action.query.page || 1,
+      };
       return {
         ...state,
-        messages: { ...state.messages, [conversationId]: action.messages || [] },
+        messages: { ...state.messages, [conversationId]: newMessages },
+        pagination: {
+          ...state.pagination,
+          messages: {
+            ...state.pagination.messages,
+            [conversationId]: messagePagination,
+          },
+        },
       };
 
     // When I create a message, reorder the conversations to have this one at the top;

@@ -6,7 +6,13 @@ import Sound from 'react-native-sound';
 
 export function getConversations() {
   return (dispatch) => {
-    return dispatch(callApi(REQUESTS.GET_CONVERSATIONS))
+    return dispatch(callApi(REQUESTS.GET_CONVERSATIONS));
+  };
+}
+
+export function getConversationsPage(page) {
+  return (dispatch) => {
+    return dispatch(callApi(REQUESTS.GET_CONVERSATIONS, { page }));
   };
 }
 
@@ -42,11 +48,14 @@ export function createConversation(data) {
   };
 }
 
-export function getMessages(data) {
+export function getMessages(data, page) {
   return (dispatch) => {
     let query = {
       endpoint: `${API_URL}me/conversations/${data}/messages`,
     };
+    if (page && page > 1) {
+      query.page = page;
+    }
     return dispatch(callApi(REQUESTS.GET_MESSAGES, query));
   };
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Platform, Image, Alert, AlertIOS } from 'react-native';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Navigation } from 'react-native-navigation';
 
 import styles from './styles';
@@ -8,7 +9,7 @@ import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { startupAction, cleanupAction, blockMessenger, reportUserAction } from '../../actions/auth';
 import  Analytics from '../../utils/analytics';
 
-import { getConversations, deleteConversation } from '../../actions/messages';
+import { getConversations, deleteConversation, getConversationsPage } from '../../actions/messages';
 import { navMenuOptions } from '../../utils/menu';
 import { vokeIcons } from '../../utils/iconMap';
 
@@ -58,6 +59,7 @@ class Home extends Component {
 
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleLoadMore = this.handleLoadMore.bind(this);
+    this.handleRefresh = this.handleRefresh.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleBlock = this.handleBlock.bind(this);
   }
@@ -106,20 +108,19 @@ class Home extends Component {
           title: 'Settings', // title of the screen as appears in the nav bar (optional)
           animationType: 'slide-up', // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
         });
-        // this.props.navigatePush('voke.Menu', {}, { animationType: 'slide-up' });
       }
-      // if (event.id == 'video') {
-      //   this.props.navigatePush('voke.Videos');
-      // }
     }
   }
 
   handleLoadMore() {
-    // TODO: Make API call here to load more
-    // if (hasMoreConversations) {
-    //   loadMore();
-    // }
-    // LOG('load more conversations...');
+    if (this.props.pagination.hasMore) {
+      // LOG('has more conversations to load');
+      this.props.dispatch(getConversations(this.props.pagination.page + 1));      
+    }
+  }
+
+  handleRefresh() {
+    return this.props.dispatch(getConversations());
   }
 
   handleDelete(data) {
@@ -215,7 +216,7 @@ class Home extends Component {
             <ConversationList
               items={this.props.conversations}
               me={this.props.me}
-              onRefresh={() => {}}
+              onRefresh={this.handleRefresh}
               onDelete={this.handleDelete}
               onBlock={this.handleBlock}
               onLoadMore={this.handleLoadMore}
@@ -250,6 +251,10 @@ class Home extends Component {
 // Check out actions/navigation_new.js to see the prop types and mapDispatchToProps
 Home.propTypes = {
   ...NavPropTypes,
+  conversations: PropTypes.array.isRequired, // Redux
+  me: PropTypes.object.isRequired, // Redux
+  unReadBadgeCount: PropTypes.number.isRequired, // Redux
+  pagination: PropTypes.object.isRequired, // Redux
 };
 
 const mapStateToProps = ({ messages, auth }) => {
@@ -257,6 +262,7 @@ const mapStateToProps = ({ messages, auth }) => {
     conversations: messages.conversations,
     me: auth.user,
     unReadBadgeCount: messages.unReadBadgeCount,
+    pagination: messages.pagination.conversations,
   };
 };
 

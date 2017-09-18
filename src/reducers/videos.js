@@ -26,7 +26,6 @@ export default function videos(state = initialState, action) {
         selectedThemeVideos: [],
       };
     case REQUESTS.GET_TAGS.SUCCESS:
-      LOG('tags, check action:', action);
       return {
         ...state,
         tags: action.tags || [],
