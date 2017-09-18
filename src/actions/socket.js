@@ -65,7 +65,6 @@ export function setupSocketAction(cableId) {
   };
 }
 
-// TODO: if the app goes into the background, close sockets
 export function closeSocketAction() {
   return () => {
     if (ws) {

@@ -43,7 +43,6 @@ class ImagePicker extends Component {
         // console.log('User cancelled image picker');
       } else if (response.error) {
         // console.log('RNImagePicker Error: ', response.error);
-        // TODO: Figure out better error messaging for image picker errors
         Alert.alert(
           'Error',
           'There was an error processing your request. Please try again later.',

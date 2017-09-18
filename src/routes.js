@@ -40,7 +40,6 @@ import Modal from './containers/Modal';
 import AndroidReportModal from './containers/AndroidReportModal';
 
 
-// TODO: Wrap each of these in a HoC where we inject the navigation actions
 export default function(store, Provider) {
   Navigation.registerComponent('voke.Loading', () => LoadingScreen, store, Provider);
   Navigation.registerComponent('voke.Login', () => Login, store, Provider);

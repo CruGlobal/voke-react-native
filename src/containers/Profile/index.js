@@ -152,18 +152,11 @@ class Profile extends Component {
   }
 
   handleImageChange(data) {
-    // TODO: Make API call to update image
     this.setState({
       imageUri: data.uri,
     });
     // LOG(JSON.stringify(data));
     if (data.uri) {
-      // let formData = new FormData();
-      //
-      // formData.append('name', 'me[avatar]');
-      // formData.append('fileName', `${this.props.user.first_name}_${this.props.user.last_name}.png`);
-      // formData.append('mimeType', 'image/*');
-      // formData.append(this.state.imageUri);
       const updateData = {
         avatar: {
           fileName: `${this.props.user.first_name}_${this.props.user.last_name}.png`,
@@ -171,7 +164,6 @@ class Profile extends Component {
           // base64: data.imageBinary,
         },
       };
-      // LOG(JSON.stringify(formData));
       this.props.dispatch(updateMe(updateData)).then(() => {
         this.resetState();
       });

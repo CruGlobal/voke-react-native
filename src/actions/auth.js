@@ -103,8 +103,6 @@ export function logoutAction() {
       });
       resolve();
       AsyncStorage.clear();
-      LOG('TODO: Reset to login page');
-      // dispatch(navigateResetLogin());
     })
   );
 }
@@ -134,7 +132,6 @@ export function createAccountAction(email, password) {
 
 export function toastAction(text) {
   return () => {
-    // TODO: Implement an iOS notification
     if (Platform.OS === 'android') {
       ToastAndroid.show(text, ToastAndroid.SHORT);
     } else {

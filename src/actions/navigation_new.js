@@ -17,19 +17,6 @@ const DEFAULT_PROPS = {
   'voke.VideoDetails': {
     appStyle: { orientation: 'auto' },
   },
-  // 'voke.MessageTabView': {
-  //   title: '',
-  //   // topTabs: [
-  //   //   {
-  //   //     screenId: 'voke.KickstartersTab',
-  //   //     title: 'Kickstarters',
-  //   //   },
-  //   //   {
-  //   //     screenId: 'voke.VideosTab',
-  //   //     title: 'Videos',
-  //   //   },
-  //   // ],
-  // },
   'voke.Contacts': { title: 'Contacts' },
   'voke.Profile': { title: 'Profile' },
   'voke.Acknowledgements': { title: 'Acknowledgements' },

@@ -58,11 +58,20 @@ class SignUpFBAccount extends Component {
   }
 
   handleImageChange(data) {
-    // TODO: Make API call to update image
-    this.setState({
-      imageUri: data.uri,
-    });
-    LOG('image selected');
+    this.setState({ imageUri: data.uri });
+    // // TODO: Make API call to update image
+    // if (data.uri) {
+    //   const updateData = {
+    //     avatar: {
+    //       fileName: `${this.props.user.first_name}_${this.props.user.last_name}.png`,
+    //       uri: data.uri,
+    //       // base64: data.imageBinary,
+    //     },
+    //   };
+    //   this.props.dispatch(updateMe(updateData)).then(() => {
+    //     this.resetState();
+    //   });
+    // }
   }
 
   addProfile() {

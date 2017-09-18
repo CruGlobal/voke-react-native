@@ -1,10 +1,8 @@
-import Contacts from 'react-native-contacts';
-import { Alert, Linking } from 'react-native';
+import { Platform, Alert, Linking } from 'react-native';
 import lodashMap from 'lodash/map';
 import lodashFilter from 'lodash/filter';
 import lodashChunk from 'lodash/chunk';
 
-import { API_URL } from '../api/utils';
 import { hashPhone } from '../utils/common';
 import callApi, { REQUESTS } from './api';
 import CONSTANTS, { SET_ALL_CONTACTS, SET_VOKE_CONTACTS, SET_CONTACTS_LOADING } from '../constants';
@@ -44,15 +42,16 @@ export function getContacts(force = false) {
 
       Permissions.checkContacts().then((permission) => {
         if (permission === Permissions.DENIED) {
-          Alert.alert(
-            'Voke',
-            'First grant Voke permission to access your contacts. Go to Settings / Voke and allow the permission for Contacts',
-            [
-              { text: 'Cancel', onPress: () => LOG('canceled') },
-              // TODO: Open android app settings or prompt user
-              { text: 'Open Settings', onPress: () => Linking.openURL('app-settings:') },
-            ]
-          );
+          if (Platform.OS === 'ios') {
+            Alert.alert(
+              'Voke',
+              'First grant Voke permission to access your contacts. Go to Settings / Voke and allow the permission for Contacts',
+              [
+                { text: 'Cancel', onPress: () => LOG('canceled') },
+                { text: 'Open Settings', onPress: () => Linking.openURL('app-settings:') },
+              ]
+            );
+          }
           dispatch({ type: SET_CONTACTS_LOADING, isLoading: false });
           reject();
           return;
@@ -106,11 +105,9 @@ export function getContacts(force = false) {
 export function getVokeContacts(all) {
   return (dispatch) => (
     new Promise((resolve, reject) => {
-      // TODO: Make API call to find out voke contacts
       dispatch(uploadContacts(all)).then((vokeFriends) => {
-        let vokeFriendsWithApp = vokeFriends.filter((c) => {
-          return c.mobile_app === true;
-        });
+        // Get just the contacts with the app
+        const vokeFriendsWithApp = vokeFriends.filter((c) => c.mobile_app);
         dispatch(setVokeContacts(vokeFriendsWithApp));
         resolve(true);
       }).catch((err) => {
@@ -155,7 +152,6 @@ export function uploadContacts(contacts = []) {
         return dispatch(callApi(REQUESTS.ADD_FRIENDS, {}, data));
       });
 
-      // TODO: Find out if we need to do this sequentially or not
       // Make all the API calls at once
       Promise.all(promises).then((responses) => {
         // LOG('upload contacts responses', responses);

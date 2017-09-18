@@ -10,7 +10,6 @@ export const TYPE_STATE_CHANGE = 'app/TYPE_STATE_CHANGE';
 export const MARK_READ = 'app/MARK_READ';
 export const SET_PUSH_TOKEN = 'app/SET_PUSH_TOKEN';
 
-// TODO: Check this in a better way
 const IS_STAGING = true;
 
 
