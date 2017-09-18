@@ -112,7 +112,7 @@ class SignUpWelcome extends Component {
                 text="Create Account"
                 buttonTextStyle={styles.loginButtonText}
                 style={styles.loginButton}
-                onPress={()=> this.props.navigatePush('voke.Login')}
+                onPress={() => this.props.navigatePush('voke.Login')}
               />
             </Flex>
             <Flex value={1} style={styles.actionButton}>
@@ -120,7 +120,7 @@ class SignUpWelcome extends Component {
                 text="Sign In"
                 buttonTextStyle={styles.loginButtonText}
                 style={styles.loginButton2}
-                onPress={()=> this.props.navigatePush('voke.LoginInput')}
+                onPress={() => this.props.navigatePush('voke.LoginInput')}
               />
             </Flex>
           </Flex>

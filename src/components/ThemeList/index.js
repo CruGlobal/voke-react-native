@@ -5,6 +5,7 @@ import { View, FlatList } from 'react-native';
 
 import styles from './styles';
 import { Flex, Touchable, Text, VokeIcon, Separator, Button } from '../common';
+import CONSTANTS from '../../constants';
 
 class ThemeList extends Component {
   constructor(props) {
@@ -29,7 +30,7 @@ class ThemeList extends Component {
     const { selectedTheme } = this.state;
 
     return (
-      <Touchable highlight={false} activeOpacity={1} onPress={()=> this.handleSelectTheme(item)}>
+      <Touchable highlight={false} activeOpacity={1} onPress={() => this.handleSelectTheme(item)}>
         <Flex style={styles.row} direction="row" align="center">
           <Flex value={5} >
             <Text style={styles.link}>{item.name}</Text>
@@ -46,7 +47,7 @@ class ThemeList extends Component {
     return (
       <View style={styles.container}>
         <FlatList
-          initialNumToRender={10}
+          initialNumToRender={CONSTANTS.PAGE_SIZE}
           data={this.props.items}
           ItemSeparatorComponent={() => <Separator />}
           renderItem={this.renderRow}
@@ -60,7 +61,7 @@ class ThemeList extends Component {
               text="Cancel"
               buttonTextStyle={styles.actionButtonText}
               style={styles.actionButton}
-              onPress={()=> this.props.onDismiss()}
+              onPress={this.props.onDismiss}
             />
           </Flex>
           <Flex value={1}>

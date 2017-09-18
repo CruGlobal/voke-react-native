@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { Platform, StyleSheet, Dimensions } from 'react-native';
 import Color from 'color';
 
 import { exists } from './utils/common';
@@ -79,7 +79,7 @@ export default {
   buttonTextColor: COLORS.WHITE,
   buttonIconColor: COLORS.WHITE,
   separatorColor: SECONDARY,
-  separatorHeight: StyleSheet.hairlineWidth,
+  separatorHeight: StyleSheet.hairlineWidth + (Platform.OS === 'android' ? 0.2 : 0),
   // header
   headerBackgroundColor: SECONDARY,
   headerTextColor: COLORS.WHITE,

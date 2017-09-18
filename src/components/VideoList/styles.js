@@ -10,6 +10,7 @@ export default StyleSheet.create({
   container: {
     margin: 10,
     backgroundColor: 'white',
+    elevation: 2,
   },
   videoDetails: {
     height: 100,

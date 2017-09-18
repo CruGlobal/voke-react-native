@@ -1,22 +1,29 @@
 import merge from 'lodash/merge';
 import RNFetchBlob from 'react-native-fetch-blob';
+import CONSTANTS from '../constants';
 
-let environment;
 let baseUrl;
 let authUrl;
 
-environment = 'PROD';
 
 const API_VERSION = 'v1';
-baseUrl = `https://api-stage.vokeapp.com/api/messenger/${API_VERSION}`;
-authUrl = 'https://auth-stage.vokeapp.com';
 
-export const ENV = environment;
+let domain = '';
+if (!CONSTANTS.IS_STAGING) {
+  // setTimeout(() => LOG('POINTING TO PROD'), 1);
+  domain = '';
+} else {
+  // setTimeout(() => LOG('POINTING TO STAGING'), 1);
+  domain = '-stage';
+}
+
+baseUrl = `https://api${domain}.vokeapp.com/api/messenger/${API_VERSION}`;
+authUrl = `https://auth${domain}.vokeapp.com`;
 
 export const BASE_URL = baseUrl;
 export const API_URL = BASE_URL + '/';
 export const AUTH_URL = authUrl + '/';
-export const SOCKET_URL = 'wss://api-stage.vokeapp.com/';
+export const SOCKET_URL = `wss://api${domain}.vokeapp.com/`;
 
 // setTimeout(() => LOG('API_URL', API_URL), 1);
 

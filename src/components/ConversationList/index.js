@@ -4,10 +4,11 @@ import PropTypes from 'prop-types';
 import { View, Platform, ListView, TouchableOpacity, Image } from 'react-native';
 import styles from './styles';
 import { SwipeListView } from 'react-native-swipe-list-view';
-import theme, {COLORS} from '../../theme';
+import theme, { COLORS } from '../../theme';
 import moment from 'moment';
 
 import { Flex, VokeIcon, Text, Touchable, Separator, Avatar, RefreshControl } from '../common';
+import CONSTANTS from '../../constants';
 
 // const ITEM_HEIGHT = 60 + theme.separatorHeight;
 
@@ -120,7 +121,7 @@ class ConversationList extends Component { // eslint-disable-line
       <Touchable
         highlight={true}
         underlayColor={COLORS.TRANSPARENT}
-        onShowUnderlay={()=> this.handleFocus(item.id)}
+        onShowUnderlay={() => this.handleFocus(item.id)}
         onHideUnderlay={this.handleBlur}
         activeOpacity={1}
         onPress={() => this.props.onSelect(conversation)}>
@@ -137,7 +138,11 @@ class ConversationList extends Component { // eslint-disable-line
             </Flex>
             <Flex value={15} justify="start">
               <Flex direction="column" justify="center">
-                <Text style={styles.conversationName}>{otherPerson ? otherPerson.first_name : 'Vokebot'} {otherPerson ? otherPerson.last_name : ''}</Text>
+                <Text style={styles.conversationName}>
+                  {otherPerson ? otherPerson.first_name : 'Vokebot'}
+                  {' '}
+                  {otherPerson ? otherPerson.last_name : ''}
+                </Text>
                 <Flex direction="row" align="center">
                   <Text style={styles.messagePreviewWrapper} numberOfLines={2}>
                     <Text style={styles.creatorText}>{contentCreator}</Text>
@@ -152,13 +157,7 @@ class ConversationList extends Component { // eslint-disable-line
               </Flex>
             </Flex>
             <Flex value={1} style={styles.conversationArrow} align="center" justify="center">
-              {
-                conversation.hasUnread ? (
-                  <VokeIcon name="unread-arrow" />
-                ) : (
-                  <VokeIcon name="read-arrow" />
-                )
-              }
+              <VokeIcon name={conversation.hasUnread ? 'unread-arrow' : 'read-arrow'} />
             </Flex>
           </Flex>
         </View>
@@ -200,8 +199,8 @@ class ConversationList extends Component { // eslint-disable-line
             </TouchableOpacity>
           </View>
         )}
-        initialListSize={15}
-        pageSize={15}
+        initialListSize={CONSTANTS.PAGE_SIZE}
+        pageSize={CONSTANTS.PAGE_SIZE}
         enableEmptySections={true}
         onEndReached={this.handleNextPage}
         onEndReachedThreshold={50}

@@ -126,7 +126,7 @@ class SignUpNumberVerify extends Component {
             }
           </Button>
         </Flex>
-        <TouchableOpacity activeOpacity={1} onPress={()=> Keyboard.dismiss()}>
+        <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
           <SignUpHeader
             title="Verification"
             description="Finally, enter the 4-Digit Code you received by TXT so we know you are a human."

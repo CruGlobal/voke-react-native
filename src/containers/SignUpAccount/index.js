@@ -188,7 +188,7 @@ class SignUpAccount extends Component {
                 type= "transparent"
                 buttonTextStyle={styles.haveAccountButton}
                 style={styles.haveAccount}
-                onPress={()=> this.props.navigatePush('voke.LoginInput')}
+                onPress={() => this.props.navigatePush('voke.LoginInput')}
               />
             </Flex>
           </Flex>

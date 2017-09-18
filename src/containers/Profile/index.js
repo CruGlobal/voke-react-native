@@ -246,7 +246,7 @@ class Profile extends Component {
               style={styles.saveButton}
               buttonTextStyle={styles.saveButtonText}
               disabled={!this.state.firstName && !this.state.lastName}
-              onPress={()=> this.handleUpdate()}
+              onPress={this.handleUpdate}
             />
           </Flex>
         </Flex>
@@ -306,7 +306,7 @@ class Profile extends Component {
               disabled={!this.state.currentPassword && !this.state.newEmail && !this.state.confirmEmail}
               style={styles.saveButton}
               buttonTextStyle={styles.saveButtonText}
-              onPress={()=> this.handleUpdate()}
+              onPress={this.handleUpdate}
             />
           </Flex>
         </Flex>
@@ -362,7 +362,7 @@ class Profile extends Component {
               style={styles.saveButton}
               buttonTextStyle={styles.saveButtonText}
               disabled={!this.state.currentPassword && !this.state.newPassword && !this.state.confirmPassword}
-              onPress={()=> this.handleUpdate()}
+              onPress={this.handleUpdate}
             />
           </Flex>
         </Flex>

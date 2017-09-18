@@ -123,7 +123,7 @@ class VideoDetails extends Component {
             if (this.props.onSelectVideo) {
               Alert.alert(
                 'Add video to chat?',
-                `Are you sure you want to add ${'video name'} video to your chat?`,
+                `Are you sure you want to add "${video.name.substr(0, 25).trim()}" video to your chat?`,
                 [
                   { text: 'Cancel' },
                   { text: 'Add', onPress: () => {

@@ -135,7 +135,7 @@ class SignUpProfile extends Component {
             }
           </Button>
         </Flex>
-        <TouchableOpacity activeOpacity={1} onPress={()=> Keyboard.dismiss()}>
+        <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
           <SignUpHeader title="Create Profile" />
           <Flex value={1} align="center" justify="start" style={styles.inputs}>
             {this.renderImagePicker()}

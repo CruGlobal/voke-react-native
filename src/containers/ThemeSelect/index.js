@@ -24,7 +24,7 @@ class ThemeSelect extends Component {
 
   handleClose(options) {
     if (Platform.OS === 'android') {
-      Navigation.dismissModal(options);
+      Navigation.dismissModal({ animationType: 'fade' });
     } else {
       Navigation.dismissLightBox(options);
     }

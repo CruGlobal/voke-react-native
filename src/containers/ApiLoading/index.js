@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import styles from './styles';
-import { Flex, Loading } from '../../components/common';
+import { Flex, Loading, Text } from '../../components/common';
 
 class ApiLoading extends Component {
   constructor(props) {
@@ -31,6 +31,11 @@ class ApiLoading extends Component {
     return (
       <Flex align="center" justify="center" value={1} style={styles.container}>
         <Loading />
+        {
+          this.props.text ? (
+            <Text style={styles.text}>{this.props.text}</Text>
+          ) : null
+        }
       </Flex>
     );
   }
@@ -40,6 +45,7 @@ ApiLoading.propTypes = {
   isApiLoading: PropTypes.bool.isRequired, // Redux
   showMS: PropTypes.number, // Time (in milliseconds) to show the loading screen
   force: PropTypes.bool, // force the loading to show
+  text: PropTypes.string, // string to show the user what is happening
 };
 
 const mapStateToProps = ({ auth }) => {

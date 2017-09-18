@@ -1,13 +1,11 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, ListView, Platform, FlatList } from 'react-native';
-import debounce from 'lodash/debounce';
-import { Text } from '../common';
+import { View, FlatList } from 'react-native';
 
+import CONSTANTS from '../../constants';
 import styles from './styles';
 import MessageItem from '../MessageItem';
-import Loading from '../Loading';
 import LoadMore from '../../components/LoadMore';
 
 class MessagesList extends Component {
@@ -22,7 +20,7 @@ class MessagesList extends Component {
 
     this.renderLoadMore = this.renderLoadMore.bind(this);
     this.renderRow = this.renderRow.bind(this);
-    // this.scrollEnd = this.scrollEnd.bind(this);
+    this.scrollEnd = this.scrollEnd.bind(this);
     this.renderTypeState = this.renderTypeState.bind(this);
   }
 
@@ -71,7 +69,7 @@ class MessagesList extends Component {
     } else return null;
   }
 
-  // scrollEnd(isAnimated) {
+  scrollEnd(isAnimated) {
   //   // Somehow check if the listview is in the middle
   //   if (this.listView) {
   //     setTimeout(() => this.listView.scrollToEnd({ animated: isAnimated }), 50);
@@ -79,7 +77,7 @@ class MessagesList extends Component {
   //   setTimeout(() => {
   //     this.listView.scrollToEnd({ animated: isAnimated });
   //   }, Platform.OS === 'ios' ? 50 : 250);
-  // }
+  }
 
   render() {
     const { items } = this.props;
@@ -89,7 +87,7 @@ class MessagesList extends Component {
         ListFooterComponent={this.renderLoadMore}
         keyExtractor={(item) => item.id}
         style={{  transform: [{ scaleY: -1 }]}}
-        initialNumToRender={10}
+        initialNumToRender={CONSTANTS.PAGE_SIZE + 1}
         data={items}
         renderItem={this.renderRow}
         contentContainerStyle={styles.content}

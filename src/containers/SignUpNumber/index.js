@@ -132,7 +132,7 @@ class SignUpNumber extends Component {
             }
           </Button>
         </Flex>
-        <TouchableOpacity activeOpacity={1} onPress={()=> Keyboard.dismiss()}>
+        <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
           <SignUpHeader
             title="Mobile Number"
             description="Add your mobile number to invite your friends to a Voke chat via text message"

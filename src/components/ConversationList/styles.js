@@ -1,5 +1,5 @@
 
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import theme, { COLORS } from '../../theme';
 
 export default StyleSheet.create({
@@ -9,7 +9,6 @@ export default StyleSheet.create({
   container: {
     paddingVertical: 10,
     backgroundColor: theme.primaryColor,
-    // paddingBottom: 30,
   },
   conversationName: {
     fontWeight: 'bold',
@@ -31,10 +30,18 @@ export default StyleSheet.create({
     padding: 2,
     paddingRight: 5,
   },
-  arrowImage: {
-    width: 20,
-    height: 7,
-  },
+  // Create different object for ios/android
+  arrowImage: Platform.select({
+    ios: {
+      width: 20,
+      height: 7,
+    },
+    android: {
+      width: 24,
+      height: 15,
+      paddingBottom: 10,
+    },
+  }),
   rowBack: {
     alignItems: 'center',
     backgroundColor: theme.secondaryColor,

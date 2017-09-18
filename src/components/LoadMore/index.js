@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Platform, View } from 'react-native';
 
 import theme from '../../theme';
 import { Text, Touchable } from '../common';
@@ -8,7 +8,7 @@ import { Text, Touchable } from '../common';
 class LoadMore extends Component {
   render() {
     return (
-      <Touchable style={styles.container} onPress={this.props.onLoad}>
+      <Touchable onPress={this.props.onLoad}>
         <View style={styles.wrapper}>
           <Text style={styles.text}>
             Load More
@@ -20,13 +20,11 @@ class LoadMore extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  wrapper: {
     // Need to invert this because the list view is inverted
     transform: [{ scaleY: -1 }],
-    alignItems: 'center',
     marginBottom: 10,
-  },
-  wrapper: {
+    alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: theme.secondaryColor,

@@ -55,6 +55,7 @@ class SelectFriend extends Component {
       permission: '',
     };
 
+    this.goToContacts = this.goToContacts.bind(this);
     this.selectContact = this.selectContact.bind(this);
     this.handleGetContacts = this.handleGetContacts.bind(this);
     this.handleDismissPermission = this.handleDismissPermission.bind(this);
@@ -63,9 +64,25 @@ class SelectFriend extends Component {
     this.handleAllowContacts = this.handleAllowContacts.bind(this);
   }
 
+  componentDidMount() {
+    this.checkContactsStatus();
+    Analytics.screen('Select a Friend');
+  }
+
+  goToContacts() {
+    this.props.navigatePush('voke.Contacts', {
+      onSelect: this.selectContact,
+      video: this.props.video,
+    });
+  }
+
   handleGetContacts() {
-    this.props.dispatch(getContacts()).then(() => {
-      this.setState({ isLoading: false, random: getRandomContacts(this.props.all), permission: Permissions.AUTHORIZED });
+    return this.props.dispatch(getContacts()).then(() => {
+      this.setState({
+        isLoading: false,
+        random: getRandomContacts(this.props.all),
+        permission: Permissions.AUTHORIZED,
+      });
     }).catch(() => {
       this.setState({ isLoading: false, permission: Permissions.DENIED });
       LOG('contacts caught');
@@ -84,8 +101,8 @@ class SelectFriend extends Component {
       this.handleGetContacts();
     } else if (permission === Permissions.NOT_ASKED) {
       Navigation.showModal({
-        screen: 'voke.Modal', // unique ID registered with Navigation.registerScreen
-        animationType: 'slide-up', // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
+        screen: 'voke.Modal',
+        animationType: 'fade',
         passProps: {
           getContacts: this.handleGetContacts,
           onDismiss: this.handleDismissPermission,
@@ -103,17 +120,19 @@ class SelectFriend extends Component {
   }
 
   checkContactsStatus() {
-    Permissions.checkContacts().then(this.handleCheckPermission);
-  }
-
-  componentDidMount() {
-    this.checkContactsStatus();
-    Analytics.screen('Select a Friend');
+    // On older android devices, don't even do the prompts
+    if (Platform.OS === 'android' && Platform.Version < 23) {
+      this.handleGetContacts();
+    } else {
+      Permissions.checkContacts().then(this.handleCheckPermission);
+    }
   }
 
   handleAllowContacts() {
     if (Platform.OS === 'android') {
-      this.handleGetContacts();
+      this.handleGetContacts().then(() => {
+        this.goToContacts();
+      });
     } else if (this.state.permission === Permissions.DENIED) {
       // On iOS, open settings
       this.props.dispatch(openSettingsAction());
@@ -254,10 +273,7 @@ class SelectFriend extends Component {
           {
             this.state.permission === Permissions.AUTHORIZED ? (
               <Button
-                onPress={() => this.props.navigatePush('voke.Contacts', {
-                  onSelect: this.selectContact,
-                  video: this.props.video,
-                })}
+                onPress={this.goToContacts}
                 text="Search Contacts"
                 style={styles.randomButton}
                 buttonTextStyle={styles.randomText}
@@ -295,7 +311,11 @@ class SelectFriend extends Component {
       <View style={styles.container}>
         <StatusBar />
         {this.renderContent()}
-        { this.props.isLoading ? <ApiLoading force={true} /> : null }
+        {
+          this.props.isLoading ? (
+            <ApiLoading force={true} text={'Fetching your contacts,\ngive me a few seconds'} />
+          ) : null
+        }
       </View>
     );
   }

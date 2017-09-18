@@ -124,7 +124,7 @@ class LoginInput extends Component {
     return (
       <Flex style={styles.container} value={1} align="center" justify="center">
         <StatusBar />
-        <TouchableOpacity activeOpacity={1} onPress={()=> Keyboard.dismiss()}>
+        <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
           <Flex
             style={{
               paddingTop: Platform.OS === 'android' ? 10 : 35,
@@ -201,7 +201,7 @@ class LoginInput extends Component {
               text="Forgot Password?"
               type="transparent"
               buttonTextStyle={styles.signInText}
-              onPress={()=> this.props.navigatePush('voke.ForgotPassword')}
+              onPress={() => this.props.navigatePush('voke.ForgotPassword')}
             />
           </Flex>
           <Flex value={.6} direction="column" align="center" justify="start" style={styles.haveAccount}>
@@ -220,7 +220,7 @@ class LoginInput extends Component {
                 text="Create Account"
                 type="transparent"
                 buttonTextStyle={styles.signInText}
-                onPress={()=> this.props.navigatePush('voke.SignUpAccount')}
+                onPress={() => this.props.navigatePush('voke.SignUpAccount')}
               />
             </Flex>
           </Flex>

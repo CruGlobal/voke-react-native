@@ -61,6 +61,7 @@ class Home extends Component {
     this.handleLoadMore = this.handleLoadMore.bind(this);
     this.handleRefresh = this.handleRefresh.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.handleSubmitReport = this.handleSubmitReport.bind(this);
     this.handleBlock = this.handleBlock.bind(this);
   }
 
@@ -132,42 +133,39 @@ class Home extends Component {
     });
   }
 
-  handleBlock(otherPerson, data) {
+  block(otherPerson, data) {
+    this.setState({ isLoading: true });
+    this.props.dispatch(blockMessenger(otherPerson.id)).then(() => {
+      this.handleDelete(data);
+      this.setState({ isLoading: false });
+    }).catch(() => {
+      this.setState({ isLoading: false });
+    });
+  }
 
+  handleSubmitReport(text, otherPerson, data) {
+    this.props.dispatch(reportUserAction(text, otherPerson.id));
+    this.block(otherPerson, data);
+  }
+
+  handleBlock(otherPerson, data) {
     Alert.alert(
       'Are you sure you want to block',
       'Would you also like to block and report this person?',
       [
         {
           text: 'Block',
-          onPress: () => {
-            this.setState({ isLoading: true });
-            this.props.dispatch(blockMessenger(otherPerson.id)).then(() => {
-              this.handleDelete(data);
-              this.setState({ isLoading: false });
-            }).catch(() => {
-              this.setState({ isLoading: false });
-            });
-          },
+          onPress: () => this.block(otherPerson, data),
         },
         {
           text: 'Block and Report',
           onPress: () => {
             if (Platform.OS === 'android') {
               Navigation.showModal({
-                screen: 'voke.AndroidReportModal', // unique ID registered with Navigation.registerScreen
-                animationType: 'none', // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
+                screen: 'voke.AndroidReportModal',
+                animationType: 'none',
                 passProps: {
-                  onSubmitReport: (text) => {
-                    this.props.dispatch(reportUserAction(text, otherPerson.id));
-                    this.setState({ isLoading: true });
-                    this.props.dispatch(blockMessenger(otherPerson.id)).then(() => {
-                      this.handleDelete(data);
-                      this.setState({ isLoading: false });
-                    }).catch(() => {
-                      this.setState({ isLoading: false });
-                    });
-                  },
+                  onSubmitReport: (text) => this.handleSubmitReport(text, otherPerson, data),
                   onCancelReport: () => LOG('report canceled'),
                 },
                 navigatorStyle: {
@@ -178,26 +176,14 @@ class Home extends Component {
               AlertIOS.prompt(
                 'Please describe why you are reporting this person',
                 null,
-                text => {
-                  this.props.dispatch(reportUserAction(text, otherPerson.id));
-                  this.setState({ isLoading: true });
-                  this.props.dispatch(blockMessenger(otherPerson.id)).then(() => {
-                    this.handleDelete(data);
-                    this.setState({ isLoading: false });
-                  }).catch(() => {
-                    this.setState({ isLoading: false });
-                  });
-                }
+                (text) => this.handleSubmitReport(text, otherPerson, data)
               );
             }
           },
         },
-
         {
           text: 'Cancel',
-          onPress: () => {
-            LOG('Canceled Block');
-          },
+          onPress: () => LOG('Canceled Block'),
           style: 'cancel',
         },
       ],
@@ -206,7 +192,7 @@ class Home extends Component {
 
   render() {
     const cLength = this.props.conversations.length;
-    // const cLength = false;
+    // const cLength = 2;
 
     return (
       <View style={styles.container}>
@@ -224,7 +210,7 @@ class Home extends Component {
             />
           ) : (
             <Flex value={1} align="center" justify="center">
-              <Image style={{marginBottom: 20}} source={NULL_STATE} />
+              <Image style={{ marginBottom: 20 }} source={NULL_STATE} />
               <Text>Find a video and share it with a friend</Text>
             </Flex>
           )

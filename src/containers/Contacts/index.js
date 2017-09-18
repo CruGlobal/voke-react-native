@@ -86,14 +86,14 @@ class Contacts extends Component {
   }
 
   handleCheckPermission(permission) {
-    LOG('permission');
+    // LOG('permission', permission);
     this.setState({ permission: permission });
     if (permission === Permissions.AUTHORIZED) {
       this.handleGetContacts();
     } else if (permission === Permissions.NOT_ASKED) {
       Navigation.showModal({
-        screen: 'voke.Modal', // unique ID registered with Navigation.registerScreen
-        animationType: 'slide-up', // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
+        screen: 'voke.Modal',
+        animationType: 'fade',
         passProps: {
           getContacts: this.handleGetContacts,
           onDismiss: this.handleDismissPermission,
@@ -111,7 +111,12 @@ class Contacts extends Component {
   }
 
   checkContactsStatus() {
-    Permissions.checkContacts().then(this.handleCheckPermission);
+    // On older android devices, don't even do the prompts
+    if (Platform.OS === 'android' && Platform.Version < 23) {
+      this.handleGetContacts();
+    } else {
+      Permissions.checkContacts().then(this.handleCheckPermission);
+    }
   }
 
   handleDismissPermission() {
@@ -187,7 +192,11 @@ class Contacts extends Component {
             </Flex>
           )
         }
-        {this.props.isLoading ? <ApiLoading force={true} /> : null}
+        {
+          this.props.isLoading ? (
+            <ApiLoading force={true} text={'Fetching your contacts,\ngive me a few seconds'} />
+          ) : null
+        }
       </View>
     );
   }

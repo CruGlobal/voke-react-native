@@ -91,7 +91,7 @@ class ForgotPassword extends Component {
     return (
       <Flex style={styles.container} value={1} align="center" justify="center">
         <StatusBar />
-        <TouchableOpacity activeOpacity={1} onPress={()=> Keyboard.dismiss()}>
+        <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
           <Flex direction="column" value={1} align="center" justify="end" style={styles.logoWrapper}>
             <Flex style={styles.imageWrap} align="center" justify="center">
               <Image resizeMode="contain" source={LOGO} style={styles.imageLogo} />

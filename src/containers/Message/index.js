@@ -320,14 +320,14 @@ class Message extends Component {
                     style={styles.sendButton}
                     icon="send"
                     iconStyle={styles.sendIcon}
-                    onPress={()=> this.createMessage()}
+                    onPress={() => this.createMessage()}
                   />
                 </Flex>
               ) : null
             }
             {
               this.state.createTransparentFocus ? (
-                <Touchable activeOpacity={0} onPress={()=> this.setState({shouldShowButtons: false, createTransparentFocus: false})}>
+                <Touchable activeOpacity={0} onPress={() => this.setState({shouldShowButtons: false, createTransparentFocus: false})}>
                   <View style={[newHeight, styles.transparentOverlay]} />
                 </Touchable>
               ) : null

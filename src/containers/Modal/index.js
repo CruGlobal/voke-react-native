@@ -7,7 +7,6 @@ import Analytics from '../../utils/analytics';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import theme, { COLORS } from '../../theme.js';
 import { Flex, Text, Button } from '../../components/common';
 
 class Modal extends Component {
@@ -31,14 +30,18 @@ class Modal extends Component {
     Analytics.screen('Contact Permission Modal');
   }
 
-  handleDismiss() {
-    this.props.onDismiss();
-    Navigation.dismissModal();
+  dismissModal() {
+    Navigation.dismissModal({ animationType: 'fade' });
   }
 
+  handleDismiss() {
+    this.props.onDismiss();
+    this.dismissModal();
+  }
+  
   handleSelect() {
     this.props.getContacts();
-    Navigation.dismissModal();
+    this.dismissModal();
   }
 
   handleMore() {

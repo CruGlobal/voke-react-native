@@ -137,6 +137,7 @@ class Videos extends Component {
     if (Platform.OS === 'android') {
       Navigation.showModal({
         screen: 'voke.ThemeSelect',
+        animationType: 'fade',
         passProps: {
           themes: this.props.tags,
           onSelect: this.handleThemeSelect,
@@ -216,25 +217,25 @@ class Videos extends Component {
               <PillButton
                 text="All"
                 filled={selectedFilter === 'all'}
-                onPress={()=> this.handleFilter('all')}
+                onPress={() => this.handleFilter('all')}
                 animation="slideInUp"
               />
               <PillButton
                 text="Featured"
                 filled={selectedFilter === 'featured'}
-                onPress={()=> this.handleFilter('featured')}
+                onPress={() => this.handleFilter('featured')}
                 animation="slideInUp"
               />
               <PillButton
                 text="Popular"
                 filled={selectedFilter === 'popular'}
-                onPress={()=> this.handleFilter('popular')}
+                onPress={() => this.handleFilter('popular')}
                 animation="slideInUp"
               />
               <PillButton
                 text="Themes"
                 filled={selectedFilter === 'themes'}
-                onPress={()=> this.handleFilter('themes')}
+                onPress={() => this.handleFilter('themes')}
                 animation="slideInUp"
               />
             </Flex>
