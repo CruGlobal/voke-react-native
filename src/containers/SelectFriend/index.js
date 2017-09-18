@@ -261,6 +261,7 @@ class SelectFriend extends Component {
         </Flex>
       );
     }
+    const isAuthorized = this.state.permission === Permissions.AUTHORIZED;
     return (
       <Flex style={styles.container} direction="column" align="center" justify="center">
         <StatusBar hidden={false} />
@@ -271,7 +272,7 @@ class SelectFriend extends Component {
         </Flex>
         <Flex value={.5}>
           {
-            this.state.permission === Permissions.AUTHORIZED ? (
+            isAuthorized ? (
               <Button
                 onPress={this.goToContacts}
                 text="Search Contacts"
@@ -283,14 +284,20 @@ class SelectFriend extends Component {
         </Flex>
         <Flex align="center" justify="center" value={.7} style={styles.vokeBubble}>
           <Text style={styles.info}>
-            Search your contacts or take a step of faith with...
+            {
+              isAuthorized ? (
+                'Search your contacts or take a step of faith with...'
+              ) : (
+                'It’s empty in here...\nYou need some contacts'
+              )
+            }
           </Text>
         </Flex>
         <Flex style={styles.imageWrap} value={.5} align="end" justify="end" >
           <Image resizeMode="contain" source={VOKE_BOT} style={styles.vokeBot} />
         </Flex>
         {
-          this.state.permission !== Permissions.AUTHORIZED ? (
+          !isAuthorized ? (
             <Button
               onPress={this.handleAllowContacts}
               text="Allow Contacts"
