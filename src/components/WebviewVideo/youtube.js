@@ -42,6 +42,7 @@ export default function(id, options = {}) {
         /* Autoplay videos */
         function onPlayerReady(event) {
           event.target.playVideo();
+          window.postMessage('${common.STARTED}');
           /* event.target.mute(); */
           checkDuration();
         }

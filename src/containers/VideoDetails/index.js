@@ -50,9 +50,7 @@ class VideoDetails extends Component {
   }
 
   handleVideoChange(videoState) {
-    // LOG(videoState);
     if (videoState === webviewStates.ERROR) {
-      if (this.props.video.content_type === 'arclight') return;
       this.props.dispatch(toastAction('There was an error playing the video.'));
     }
   }

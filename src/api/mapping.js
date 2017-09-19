@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { momentUtc } from '../utils/common';
 
 // Params for mapping are: (results, query, data, getState)
 export function mapAuth(results) {
@@ -23,8 +23,8 @@ export function mapMessages(results) {
     else if (b.created_at && !a.created_at) return 1;
     else if (!a.created_at && !b.created_at) return 0;
 
-    let keyA = moment.utc(a.created_at, 'YYYY-MM-DD HH:mm:ss UTC').local();
-    let keyB = moment.utc(b.created_at, 'YYYY-MM-DD HH:mm:ss UTC').local();
+    let keyA = momentUtc(a.created_at).local();
+    let keyB = momentUtc(b.created_at).local();
 
     // Compare the 2 dates
     if (keyA > keyB) return -1;
@@ -36,8 +36,8 @@ export function mapMessages(results) {
     let currMessage = messages[i];
     let nextMessage = messages[i + 1];
 
-    const currMessageTime = moment.utc(currMessage.created_at, 'YYYY-MM-DD HH:mm:ss UTC').local();
-    const nextMessageTime = moment.utc(nextMessage.created_at, 'YYYY-MM-DD HH:mm:ss UTC').local();
+    const currMessageTime = momentUtc(currMessage.created_at).local();
+    const nextMessageTime = momentUtc(nextMessage.created_at).local();
 
     // LOG(currMessageTime);
     // LOG(nextMessageTime);
@@ -89,8 +89,8 @@ function formatConversation(c, getState) {
       if (!latestTime) {
         latestTime = m.latest_item.updated_at;
       } else {
-        let keyA = moment.utc(latestTime, 'YYYY-MM-DD HH:mm:ss UTC');
-        let mTime = moment.utc(m.latest_item.updated_at, 'YYYY-MM-DD HH:mm:ss UTC');
+        const keyA = momentUtc(latestTime);
+        const mTime = momentUtc(m.latest_item.updated_at);
         if (mTime > keyA) {
           latestTime = m.latest_item.updated_at;
         } else {
@@ -109,8 +109,8 @@ function formatConversation(c, getState) {
     else if (!a.latestTime && !b.latestTime) return 0;
 
     // Pull out UTC dates using moment and telling it the format we're using
-    let keyA = moment.utc(a.latestTime, 'YYYY-MM-DD HH:mm:ss UTC');
-    let keyB = moment.utc(b.latestTime, 'YYYY-MM-DD HH:mm:ss UTC');
+    const keyA = momentUtc(a.latestTime);
+    const keyB = momentUtc(b.latestTime);
     // Compare the 2 dates
     if (keyA > keyB) return -1;
     if (keyA < keyB) return 1;
@@ -134,9 +134,7 @@ function formatConversation(c, getState) {
   //   c.messagePreview = latestMessenger.latestItem.preview;
   // }
 
-  let myMessage = messengers.find((e) => {
-    return e.id === getState().auth.user.id;
-  });
+  const myMessage = messengers.find((e) => e.id === getState().auth.user.id);
 
   c.messengers = messengers;
 

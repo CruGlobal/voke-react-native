@@ -5,9 +5,8 @@ import { WebView, StyleSheet, View } from 'react-native';
 import { Flex, Text } from '../common';
 import VideoControls from '../../components/VideoControls';
 import { COLORS } from '../../theme';
-// import { isObject } from '../../utils/common';
 
-import common from './common';
+import webviewCommon from './common';
 
 const FIX_POSTMESSAGE = `(function() {
   var originalPostMessage = window.postMessage;
@@ -30,7 +29,7 @@ export default class WebviewVideo extends Component {
 
     this.state = {
       duration: 0,
-      isPaused: props.type === 'arclight' || props.type === 'vimeo',
+      isPaused: props.type === 'vimeo',
       time: 0,
     };
 
@@ -53,11 +52,12 @@ export default class WebviewVideo extends Component {
     return false;
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.isHidden && !this.props.isHidden) {
-  //     this.togglePlay();
-  //   }
-  // }
+  componentDidMount() {
+    // Youtube and arclight autoplay, so fire off the 'Start' interaction immediately
+    if (this.props.type === 'youtube' || this.props.type === 'arclight') {
+      this.props.onChangeState(webviewCommon.STARTED);
+    }
+  }
 
   handleMessage(event) {
     let data = event.nativeEvent.data;
@@ -72,11 +72,15 @@ export default class WebviewVideo extends Component {
         this.setState({ time: data.time });
       }
     } else {
+      // Arclight videos throw a bad error, so don't do anything when that happens
+      if (data === webviewCommon.ERROR && this.props.type === 'arclight') {
+        return;
+      }
       this.props.onChangeState(data);
       // Change the isPaused state based on the event
-      if (data === common.STARTED || data === common.RESUMED) {
+      if (data === webviewCommon.STARTED || data === webviewCommon.RESUMED) {
         this.setState({ isPaused: false });
-      } else if (data === common.PAUSED || data === common.ERROR) {
+      } else if (data === webviewCommon.PAUSED || data === webviewCommon.ERROR) {
         this.setState({ isPaused: true });
       }
     }
@@ -88,17 +92,18 @@ export default class WebviewVideo extends Component {
   }
 
   getHtml() {
-    if (this.props.type === 'youtube') {
-      const id = common.getYoutubeId(this.props.url);
+    const { type, start, end, thumbnail, url } = this.props;
+    if (type === 'youtube') {
+      const id = webviewCommon.getYoutubeId(url);
       if (!id) { return null; }
-      return YoutubeHTML(id, { start: this.props.start, end: this.props.end });
-    } else if (this.props.type === 'vimeo') {
+      return YoutubeHTML(id, { start: start, end: end });
+    } else if (type === 'vimeo') {
       // Vimeo is the worst...you can't play videos inline
-      const id = common.getVimeoId(this.props.url);
+      const id = webviewCommon.getVimeoId(url);
       if (!id) { return null; }
-      return VimeoHTML(id, { start: this.props.start, end: this.props.end });
-    } else if (this.props.type === 'arclight') {
-      return html5HTML(this.props.url, { thumbnail: this.props.thumbnail });
+      return VimeoHTML(id, { start: start, end: end });
+    } else if (type === 'arclight') {
+      return html5HTML(url, { thumbnail: thumbnail });
     }
     return null;
   }
@@ -152,7 +157,6 @@ WebviewVideo.propTypes = {
   url: PropTypes.string.isRequired,
   onChangeState: PropTypes.func.isRequired,
   thumbnail: PropTypes.string,
-  
   start: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 

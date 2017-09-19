@@ -128,11 +128,13 @@ export function createMessageInteraction(interaction) {
     const query = {
       endpoint: `${API_URL}me/conversations/${interaction.conversationId}/messages/${interaction.messageId}/interactions`,
     };
-    return dispatch(callApi(REQUESTS.CREATE_MESSAGE_INTERACTION, query, data)).then(() => {
-      // dispatch(getConversations());
-      // LOG('creating message interaction');
-      dispatch({ type: MARK_READ, conversationId: interaction.conversationId });
-    });
+    return dispatch(callApi(REQUESTS.CREATE_MESSAGE_INTERACTION, query, data));
+  };
+}
+
+export function markReadAction(conversationId) {
+  return (dispatch) => {
+    dispatch({ type: MARK_READ, conversationId });
   };
 }
 

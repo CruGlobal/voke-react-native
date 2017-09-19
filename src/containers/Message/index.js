@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, TextInput, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
-import { getMessages, createMessage, createTypeStateAction, destroyTypeStateAction, createMessageInteraction } from '../../actions/messages';
+import { getMessages, createMessage, createTypeStateAction, destroyTypeStateAction, createMessageInteraction, markReadAction } from '../../actions/messages';
 import Analytics from '../../utils/analytics';
 
 import theme, { COLORS } from '../../theme';
@@ -13,7 +13,7 @@ import styles from './styles';
 import MessageVideoPlayer from '../MessageVideoPlayer';
 import ApiLoading from '../ApiLoading';
 
-import { Flex, Text, VokeIcon, Button, Touchable } from '../../components/common';
+import { Flex, VokeIcon, Button, Touchable } from '../../components/common';
 import MessagesList from '../../components/MessagesList';
 
 function setButtons() {
@@ -55,7 +55,6 @@ class Message extends Component {
     this.createMessage = this.createMessage.bind(this);
     this.handleAddKickstarter = this.handleAddKickstarter.bind(this);
     this.handleAddVideo = this.handleAddVideo.bind(this);
-    this.getLatestItem = this.getLatestItem.bind(this);
     this.setLatestItem = this.setLatestItem.bind(this);
     this.getTypeState = this.getTypeState.bind(this);
     this.createTypeState = this.createTypeState.bind(this);
@@ -90,13 +89,6 @@ class Message extends Component {
     }
   }
 
-  getConversationName() {
-    const myId = this.props.me.id;
-    let messengers = this.props.conversation.messengers || [];
-    let otherPerson = messengers.find((m) => !m.bot && (myId != m.id));
-    return otherPerson ? otherPerson.first_name : 'Voke';
-  }
-
   componentWillMount() {
     this.props.navigator.setButtons(setButtons());
     this.props.navigator.setTitle({ title: this.getConversationName()});
@@ -108,6 +100,7 @@ class Message extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // Check to see if the current length is less than the next length and mark it as read
     const nLength = nextProps.messages.length;
     const cLength = this.props.messages.length;
     if (nLength > 0 && cLength > 0 && cLength < nLength) {
@@ -115,13 +108,16 @@ class Message extends Component {
     }
   }
 
-  getLatestItem(e) {
-    return e.item;
+  getConversationName() {
+    const myId = this.props.me.id;
+    let messengers = this.props.conversation.messengers || [];
+    let otherPerson = messengers.find((m) => !m.bot && (myId != m.id));
+    return otherPerson ? otherPerson.first_name : 'Voke';
   }
 
   setLatestItem() {
     let messages = this.props.messages || [];
-    let item = messages.find(this.getLatestItem);
+    const item = messages.find((m) => m.item);
     if (item && item.item) {
       this.setState({ latestItem: item.item.id });
     }
@@ -157,7 +153,6 @@ class Message extends Component {
   handleAddVideo() {
     this.props.navigatePush('voke.VideosTab', {
       onSelectVideo: (video) => {
-        LOG('selected video in message!');
         this.createMessage(video);
         this.props.navigateBack({ animated: false });
       },
@@ -201,7 +196,9 @@ class Message extends Component {
       conversationId: this.props.conversation.id,
       messageId: this.props.messages[0].id,
     };
-    this.props.dispatch(createMessageInteraction(interaction));
+    this.props.dispatch(createMessageInteraction(interaction)).then(() => {
+      this.props.dispatch(markReadAction(this.props.conversation.id));
+    });
   }
 
   updateSize(height) {

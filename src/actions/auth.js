@@ -136,7 +136,7 @@ export function toastAction(text) {
     if (Platform.OS === 'android') {
       ToastAndroid.show(text, ToastAndroid.SHORT);
     } else {
-      Alert.alert('Error', text);
+      Alert.alert(' ', text);
     }
   };
 }

@@ -10,17 +10,6 @@ export default function(id, options = {}) {
       <script>
         (function() {
           var iframe = document.querySelector('iframe');
-          /*
-          var player = new Vimeo.Player('player', {
-            height: '${common.height}',
-            width: '${common.width}',
-            id: '${id}',
-            autoplay: false,
-            portait: true,
-            title: false,
-            byline: false,
-          });
-          */
           var player = new Vimeo.Player(iframe, {
             autoplay: false,
             portait: true,
@@ -31,13 +20,6 @@ export default function(id, options = {}) {
           if (${options.start ? 'true' : 'false'}) {
             player.setCurrentTime(${options.start});
           }
-          /* This doesn't work on iOS */
-          /*
-          player.ready().then(function() {
-            player.play();
-            window.postMessage('${common.STARTED}');
-          });
-          */
           player.on('play', function() {
             if (paused) {
               window.postMessage('${common.RESUMED}');

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, Alert } from 'react-native';
+import { Image } from 'react-native';
 import { connect } from 'react-redux';
 import { LoginManager, GraphRequestManager, GraphRequest, AccessToken } from 'react-native-fbsdk';
 import Analytics from '../../utils/analytics';

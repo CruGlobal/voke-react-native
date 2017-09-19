@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, Image } from 'react-native';
+import { ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Analytics from '../../utils/analytics';
@@ -63,24 +63,19 @@ class KickstartersTab extends Component {
       title: 'Kickstarters',
     });
     this.props.navigator.setButtons(setButtons());
-
   }
 
   getKickstarters() {
-    this.setState({ isLoading: true });
-    // LOG('this.props.latestItem', this.props.latestItem);
     if (this.props.latestItem) {
+      this.setState({ isLoading: true });
       this.props.dispatch(getKickstarters(this.props.latestItem)).then((results) => {
-        // LOG('results', results);
         this.setState({ kickstarters: results.questions, isLoading: false });
       }).catch((err) => {
         LOG('kickstarter err', err);
         this.setState({ isLoading: false });
       });
-    }
-    else {
+    } else {
       this.setState({ kickstarters: [], isLoading: false });
-
     }
   }
 

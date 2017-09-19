@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { isString } from '../../utils/common';
+import { isString, momentUtc } from '../../utils/common';
 import Text from '../Text';
 
 export default class DateComponent extends Component {
@@ -9,7 +9,7 @@ export default class DateComponent extends Component {
     const { date, format, ...rest } = this.props;
     let text;
     if (isString(date) && date.indexOf('UTC') >= 0) {
-      text = moment.utc(date, 'YYYY-MM-DD HH:mm:ss UTC').local().format(format);
+      text = momentUtc(date).local().format(format);
     } else {
       text = moment(date).format(format);
     }

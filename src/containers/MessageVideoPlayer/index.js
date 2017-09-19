@@ -4,11 +4,15 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { toastAction } from '../../actions/auth';
+import { createMessageInteraction } from '../../actions/messages';
 
 import styles from './styles';
 import WebviewVideo from '../../components/WebviewVideo';
 import webviewStates from '../../components/WebviewVideo/common';
 import { Icon, Flex, Touchable } from '../../components/common';
+
+// Keep track of states that we want to make an API call if they happen
+const INTERACTION_STATES = [webviewStates.STARTED, webviewStates.PAUSED, webviewStates.RESUMED, webviewStates.FINISHED];
 
 class MessageVideoPlayer extends Component {
 
@@ -19,23 +23,28 @@ class MessageVideoPlayer extends Component {
   }
 
   handleVideoChange(videoState) {
-    // LOG(videoState);
+    const { message, dispatch, isMyMessage } = this.props;
+    let interaction = {
+      conversationId: message.conversation_id,
+      messageId: message.id,
+    };
     if (videoState === webviewStates.ERROR) {
-      // this.props.dispatch(toastAction('There was an error playing the video.'));
-    } else if (videoState === webviewStates.STARTED) {
-      // this.props.dispatch(toastAction('There was an error playing the video.'));
+      dispatch(toastAction('There was an error playing the video.'));
+    } else if (INTERACTION_STATES.includes(videoState)) {
+      interaction.action = videoState;
+    }
+
+    // If the user is interacting with a video and it was someone else that sent it,
+    // send the interaction to the API
+    if (interaction.action && !isMyMessage) {
+      dispatch(createMessageInteraction(interaction));
     }
   }
 
   render() {
     const { message, onClose } = this.props;
-    // const url = 'https://www.youtube.com/watch?v=cUYSGojUuAU';
-    // const url = 'https://vimeo.com/1084537';
-    // const url = 'http://arc.gt/p6zz7';
-    // type="vimeo"
-    // type="arclight"
     return (
-      <Flex animation="slideInUp" style={styles.video}>
+      <Flex animation="slideInUp" duration={500} style={styles.video}>
         <WebviewVideo
           type={message.item.media.type}
           url={message.item.media.url}
@@ -59,4 +68,9 @@ MessageVideoPlayer.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default connect()(MessageVideoPlayer);
+const mapStateToProps = ({ auth }, { message }) => ({
+  // Figure out if the message is mine that I sent to someone
+  isMyMessage: message && message.messenger_id && auth.user.id && message.messenger_id === auth.user.id,
+});
+
+export default connect(mapStateToProps)(MessageVideoPlayer);

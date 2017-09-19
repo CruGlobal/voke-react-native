@@ -1,4 +1,5 @@
 import hmacSHA512 from 'crypto-js/hmac-sha512';
+import moment from 'moment';
 
 import CONSTANTS from '../constants';
 
@@ -10,6 +11,10 @@ export const isString = (str) => typeof str === 'string';
 export const exists = (v) => typeof v !== 'undefined';
 export const clone = (obj) => JSON.parse(JSON.stringify(obj));
 export const delay = (ms) => new Promise((resolve) => { setTimeout(resolve, ms); });
+
+// Pull dates out of UTC format into a moment object
+export const momentUtc = (time) => moment.utc(time, 'YYYY-MM-DD HH:mm:ss UTC');
+
 
 // Return true if the object's props are all the same
 export const isEquivalentObject = (a, b) => {

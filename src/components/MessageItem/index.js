@@ -3,9 +3,11 @@ import { Image } from 'react-native';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Spinner from 'react-native-spinkit';
+
 import theme from '../../theme';
 import styles from './styles';
 import { Flex, Text, Touchable, Icon, Avatar, DateComponent } from '../common';
+import { momentUtc } from '../../utils/common';
 
 class MessageItem extends Component {
 
@@ -136,8 +138,9 @@ class MessageItem extends Component {
     const isVideo = message.item;
     const time = message.created_at;
 
-    let momentTime = moment.utc(time, 'YYYY-MM-DD HH:mm:ss UTC');
-    let separatorTime = momentTime.local().format('LL') === moment().local().format('LL') ? 'Today' : momentTime.local().format('LL');
+    const momentTime = momentUtc(time).local().format('LL');
+    const momentNow = moment().local().format('LL');
+    const separatorTime = momentTime === momentNow ? 'Today' : momentNow;
 
     return (
       <Flex

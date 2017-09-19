@@ -28,7 +28,7 @@ export default function(url, options = {}) {
           video.setAttribute('webkit-playsinline', true);
 
           video.controls = false;
-          video.autoplay = false;
+          video.autoplay = true;
           video.preload = true;
           video.playsinline = true;
           video.webkitPlaysinline = true;
@@ -102,7 +102,6 @@ export default function(url, options = {}) {
       </script>
     </body>
     </html>
-  `;
-  // `.replace(/\s\s+/ig, ''); // Stupid minify code...
+  `.replace(/\s\s+/ig, ''); // Stupid minify code...
   return HTML;
 }
