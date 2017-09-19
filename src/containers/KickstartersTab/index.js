@@ -10,7 +10,8 @@ import theme from '../../theme';
 import { vokeIcons } from '../../utils/iconMap';
 
 import styles from './styles';
-import { Flex, Text, Touchable, Loading, VokeIcon } from '../../components/common';
+import ApiLoading from '../ApiLoading';
+import { Flex, Text, Touchable, VokeIcon } from '../../components/common';
 
 function setButtons() {
   const leftButton1 = {
@@ -35,7 +36,6 @@ class KickstartersTab extends Component {
     super(props);
 
     this.state = {
-      isLoading: true,
       text: '',
       kickstarters: [],
     };
@@ -67,15 +67,14 @@ class KickstartersTab extends Component {
 
   getKickstarters() {
     if (this.props.latestItem) {
-      this.setState({ isLoading: true });
       this.props.dispatch(getKickstarters(this.props.latestItem)).then((results) => {
-        this.setState({ kickstarters: results.questions, isLoading: false });
+        this.setState({ kickstarters: results.questions });
       }).catch((err) => {
         LOG('kickstarter err', err);
-        this.setState({ isLoading: false });
+        this.setState({ kickstarters: [] });
       });
     } else {
-      this.setState({ kickstarters: [], isLoading: false });
+      this.setState({ kickstarters: [] });
     }
   }
 
@@ -99,8 +98,8 @@ class KickstartersTab extends Component {
   }
 
   renderHeader() {
-    const { kickstarters, isLoading } = this.state;
-    if (isLoading || kickstarters.length === 0) {
+    const { kickstarters } = this.state;
+    if (kickstarters.length === 0) {
       return null;
     }
 
@@ -113,12 +112,10 @@ class KickstartersTab extends Component {
   }
 
   render() {
-    const { kickstarters, isLoading } = this.state;
+    const { kickstarters } = this.state;
     const hasKickstarters = kickstarters.length > 0;
     let content = null;
-    if (isLoading) {
-      content = <Loading />;
-    } else if (!hasKickstarters) {
+    if (!hasKickstarters) {
       content = (
         <Text style={styles.nothingText}>No Kickstarter messages available</Text>
       );
@@ -130,12 +127,13 @@ class KickstartersTab extends Component {
     return (
       <ScrollView
         style={styles.container}
-        contentContainerStyle={isLoading || !hasKickstarters ? { flex: 1 } : undefined}
+        contentContainerStyle={!hasKickstarters ? { flex: 1 } : undefined}
       >
         {this.renderHeader()}
         <Flex value={1} align="center" justify="center" style={styles.content}>
           {content}
         </Flex>
+        <ApiLoading />
       </ScrollView>
     );
   }

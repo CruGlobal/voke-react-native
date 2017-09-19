@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Alert, TouchableOpacity, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
+import { Navigation } from 'react-native-navigation';
 
 import { createMobileVerification } from '../../actions/auth';
 import Analytics from '../../utils/analytics';
@@ -63,9 +64,17 @@ class SignUpNumber extends Component {
   }
 
   handleOpenCountry() {
-    this.props.navigatePush('voke.CountrySelect', {
-      onSelect: this.handleSelectCountry,
+    Navigation.showModal({
+      screen: 'voke.CountrySelect', // unique ID registered with Navigation.registerScreen
+      title: 'Select Country', // title of the screen as appears in the nav bar (optional)
+      animationType: 'slide-up', // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
+      passProps: {
+        onSelect: this.handleSelectCountry,
+      },
     });
+    // this.props.navigatePush('voke.CountrySelect', {
+    //   onSelect: this.handleSelectCountry,
+    // });
   }
 
   handleSelectCountry(country) {

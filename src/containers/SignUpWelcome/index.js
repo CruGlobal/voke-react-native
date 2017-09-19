@@ -12,7 +12,7 @@ import ONBOARD_BACKGROUND from '../../../images/onboardBackground.png';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import theme, {DEFAULT, COLORS} from '../../theme';
+import theme, { COLORS } from '../../theme';
 
 import { Flex, Text, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
@@ -20,17 +20,11 @@ import StatusBar from '../../components/StatusBar';
 class SignUpWelcome extends Component {
   static navigatorStyle = {
     screenBackgroundColor: theme.primaryColor,
-    // navBarButtonColor: theme.lightText,
-    // navBarTextColor: theme.headerTextColor,
-    // navBarBackgroundColor: theme.primaryColor,
-    // navBarNoBorder: true,
-    // navBarHidden: true,
     disabledBackGesture: true,
     drawUnderNavBar: true,
     navBarTranslucent: true,
     navBarTransparent: true,
   };
-
 
   constructor(props) {
     super(props);

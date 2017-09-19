@@ -1,6 +1,6 @@
 
 import { StyleSheet } from 'react-native';
-import theme, { COLORS }  from '../../theme';
+import { COLORS }  from '../../theme';
 
 export default StyleSheet.create({
   wrapper: {
@@ -17,7 +17,5 @@ export default StyleSheet.create({
     // shadowColor: '#000',
     // shadowRadius: 1,
     // elevation: 5,
-  },
-  image: {
   },
 });

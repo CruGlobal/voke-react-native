@@ -39,7 +39,6 @@ class SignUpProfile extends Component {
 
   handleImageChange(data) {
     this.setState({ imageUri: data.uri });
-    // TODO: Make API call to update image
     if (data.uri) {
       const updateData = {
         avatar: {
@@ -68,6 +67,8 @@ class SignUpProfile extends Component {
     } else {
       Alert.alert('Please fill in your first and last name', '');
     }
+    // // This is just for testing
+    // this.props.navigatePush('voke.SignUpNumber');
   }
 
   renderImagePicker() {

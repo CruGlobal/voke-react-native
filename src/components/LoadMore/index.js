@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Platform, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import theme from '../../theme';
 import { Text, Touchable } from '../common';
@@ -32,8 +32,7 @@ const styles = StyleSheet.create({
     height: 35,
     width: 120,
     paddingVertical: 5,
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingHorizontal: 10,
   },
   text: {
     color: theme.lightText,

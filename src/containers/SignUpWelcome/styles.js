@@ -1,5 +1,5 @@
 
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import theme, { DEFAULT } from '../../theme';
 
 export default StyleSheet.create({
@@ -8,7 +8,7 @@ export default StyleSheet.create({
   },
   onboardImage: {
     width: 400,
-    height: DEFAULT.FULL_HEIGHT- 250,
+    height: Platform.OS === 'android' ? DEFAULT.FULL_HEIGHT - 275 : DEFAULT.FULL_HEIGHT - 250,
   },
   imageWrapper: {
   },
@@ -20,14 +20,14 @@ export default StyleSheet.create({
   },
   headerText: {
     paddingHorizontal: 50,
-    paddingVertical: 5,
+    paddingVertical: 10,
     textAlign: 'center',
     fontSize: 18,
     color: theme.secondaryColor,
     backgroundColor: 'rgba(0,0,0,0)',
   },
   headerTitle: {
-    paddingTop: 50,
+    paddingTop: 40,
     textAlign: 'center',
     fontSize: 36,
     backgroundColor: 'rgba(0,0,0,0)',

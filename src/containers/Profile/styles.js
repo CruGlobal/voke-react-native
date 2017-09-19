@@ -1,6 +1,6 @@
 
 import { StyleSheet } from 'react-native';
-import theme, { COLORS, DEFAULT } from '../../theme';
+import theme, { COLORS } from '../../theme';
 
 export default StyleSheet.create({
   container: {
@@ -66,7 +66,6 @@ export default StyleSheet.create({
     borderRadius: 3,
     fontSize: 14,
     paddingLeft: 10,
-    // width: DEFAULT.FULL_WIDTH - 30,
   },
   saveButton: {
     borderColor: theme.primaryColor,

@@ -11,9 +11,6 @@ import LoadMore from '../../components/LoadMore';
 class MessagesList extends Component {
   constructor(props) {
     super(props);
-    // const ds = new ListView.DataSource({
-    //   rowHasChanged: (r1, r2) => r1.id !== r2.id || r1.text !== r2.text,
-    // });
     this.state = {
       refreshing: false,
     };
@@ -23,14 +20,6 @@ class MessagesList extends Component {
     this.scrollEnd = this.scrollEnd.bind(this);
     this.renderTypeState = this.renderTypeState.bind(this);
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   this.setState({ dataSource: this.state.dataSource.cloneWithRows(nextProps.items) });
-  // }
-
-  // componentDidMount() {
-  //   this.scrollEnd(false);
-  // }
 
   renderLoadMore() {
     if (this.props.hasMore) {
@@ -69,7 +58,8 @@ class MessagesList extends Component {
     } else return null;
   }
 
-  scrollEnd(isAnimated) {
+  scrollEnd() {
+  // scrollEnd(isAnimated) {
   //   // Somehow check if the listview is in the middle
   //   if (this.listView) {
   //     setTimeout(() => this.listView.scrollToEnd({ animated: isAnimated }), 50);
@@ -80,7 +70,6 @@ class MessagesList extends Component {
   }
 
   render() {
-    const { items } = this.props;
     return (
       <FlatList
         ref={(c) => this.listView = c}
@@ -88,7 +77,7 @@ class MessagesList extends Component {
         keyExtractor={(item) => item.id}
         style={{  transform: [{ scaleY: -1 }]}}
         initialNumToRender={CONSTANTS.PAGE_SIZE + 1}
-        data={items}
+        data={this.props.items}
         renderItem={this.renderRow}
         contentContainerStyle={styles.content}
         inverted={true}
@@ -97,19 +86,6 @@ class MessagesList extends Component {
     );
   }
 }
-
-// <ListView
-//   ref={(c) => this.listView = c}
-//   renderHeader={isLoadingMore ? () => (
-//     <View style={{ paddingTop: 15 }}><Loading /></View>
-//   ) : undefined}
-//   enableEmptySections={true}
-//   onScroll={hasMore ? this.handleScroll : undefined}
-//   scrollEventThrottle={30}
-//   contentContainerStyle={styles.content}
-//   dataSource={this.state.dataSource}
-//   renderRow={this.renderRow}
-// />
 
 MessagesList.propTypes = {
   items: PropTypes.array.isRequired,

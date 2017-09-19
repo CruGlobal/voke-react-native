@@ -39,14 +39,15 @@ class SignUpAccount extends Component {
       this.props.dispatch(createAccountAction(this.state.email, this.state.password)).then((results) => {
         if (results.errors) {
           Alert.alert('Error', `${results.errors}`);
-        }
-        else {
+        } else {
           this.props.navigatePush('voke.SignUpProfile');
         }
       });
     } else {
-      Alert.alert('Please enter a valid email and password','');
+      Alert.alert('Invalid email/password', 'Please enter a valid email and password');
     }
+    // // This is just for testing
+    // this.props.navigatePush('voke.SignUpProfile');
   }
 
   checkEmail(text) {

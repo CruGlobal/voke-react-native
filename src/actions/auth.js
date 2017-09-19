@@ -27,7 +27,7 @@ export function cleanupAction() {
 }
 
 function appStateChange(dispatch, getState, nextAppState) {
-  const cableId = getState().auth.cableId;
+  const { cableId, token } = getState().auth;
   // LOG('appStateChange', nextAppState, currentAppState, cableId);
   if (currentAppState.match(/inactive|background/) && nextAppState === 'active') {
     LOG('App has come to the foreground!');
@@ -35,10 +35,16 @@ function appStateChange(dispatch, getState, nextAppState) {
     if (cableId) {
       dispatch(setupSocketAction(cableId));
     } else {
-      dispatch(establishDevice());
+      // Sometimes this runs on android when logging out and causes a network error
+      if (token) {
+        dispatch(establishDevice());
+      }
     }
-    // Get the latest conversations whenever the user comes back into the app
-    dispatch(getConversations());
+    // Sometimes this runs on android when logging out and causes a network error
+    if (token) {
+      // Get the latest conversations whenever the user comes back into the app
+      dispatch(getConversations());
+    }
   } else if (currentAppState.match(/active/) && nextAppState === 'background') {
     LOG('App is going into the background');
     // Close sockets

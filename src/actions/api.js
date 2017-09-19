@@ -81,7 +81,7 @@ export default function callApi(requestObject, query = {}, data = {}) {
       }
 
       const handleError = (err) => {
-        LOG('err', err);
+        LOG('request error', action.name, err);
         if (err) {
           dispatch({
             error: err,

@@ -38,6 +38,9 @@ export default function(url, options = {}) {
           video.onpause = onPaused;
           video.onerror = onError;
 
+          /* HACK: need to get the duration with autoplay enabled */
+          setTimeout(checkDuration, 1000);
+
           /* Setup the source tag for the video */
           var source = document.createElement("source"); 
           source.setAttribute('type', 'video/mp4');
@@ -60,6 +63,7 @@ export default function(url, options = {}) {
         function onPaused() {
           paused = true;
           window.postMessage('${common.PAUSED}');
+          checkDuration();
         }
         function onError() {
           window.postMessage('${common.ERROR}');

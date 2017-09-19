@@ -11,7 +11,7 @@ import { Navigation } from 'react-native-navigation';
 import styles from './styles';
 import theme from '../../theme';
 import { navMenuOptions } from '../../utils/menu';
-import { iconsMap, vokeIcons } from '../../utils/iconMap';
+import { vokeIcons } from '../../utils/iconMap';
 
 import ApiLoading from '../ApiLoading';
 import PillButton from '../../components/PillButton';
@@ -58,8 +58,10 @@ class Videos extends Component {
     navBarBackgroundColor: theme.headerBackgroundColor,
     screenBackgroundColor: theme.primaryColor,
   };
+  
   constructor(props) {
     super(props);
+
     this.state = {
       selectedFilter: 'all',
       previousFilter: '',
@@ -79,9 +81,7 @@ class Videos extends Component {
       if (event.id == 'back') {
         this.props.navigateBack();
       } else if (event.id == 'search') {
-        this.props.dispatch(getTags()). then(() => {
-          this.showThemes();
-        });
+        this.handleFilter('themes');
       } else if (Platform.OS === 'android') {
         // Get the selected event from the menu
         const selected = navMenuOptions(this.props).find((m) => m.id === event.id);
@@ -94,7 +94,6 @@ class Videos extends Component {
           title: 'Settings', // title of the screen as appears in the nav bar (optional)
           animationType: 'slide-up', // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
         });
-        // this.props.navigatePush('voke.Menu', {}, { animationType: 'slide-up' });
       }
     }
   }
@@ -169,9 +168,7 @@ class Videos extends Component {
       this.setState({ previousFilter: this.state.selectedFilter, selectedFilter: filter });
     } else {
       this.setState({ selectedFilter: filter });
-      if (shouldntScroll) {
-        return;
-      } else {
+      if (!shouldntScroll) {
         this.videoList.scrollToBeginning();
       }
     }
@@ -189,7 +186,7 @@ class Videos extends Component {
         this.updateVideoList(filter);
       });
     } else if (filter === 'themes') {
-      this.props.dispatch(getTags()). then(() => {
+      this.props.dispatch(getTags()).then(() => {
         this.showThemes();
       });
     }

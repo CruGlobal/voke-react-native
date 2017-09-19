@@ -36,7 +36,7 @@ class ThemeSelect extends Component {
   }
 
   handleSelect(tag) {
-    LOG('selected', tag);
+    // LOG('selected', tag);
     this.props.onSelect(tag);
     this.handleClose();
   }

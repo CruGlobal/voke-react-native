@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Image, TextInput, KeyboardAvoidingView, ScrollView, View, Alert, BackHandler } from 'react-native';
+import { Platform, Image, TextInput, KeyboardAvoidingView, ScrollView, View, Alert, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
+
 import styles from './styles';
 import { Flex, Icon, Button, Text, Separator } from '../../components/common';
 import ImagePicker from '../../components/ImagePicker';
@@ -359,7 +360,11 @@ class Profile extends Component {
     const { user } = this.props;
 
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={50}>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === 'android' ? undefined : 'padding'}
+        keyboardVerticalOffset={Platform.OS === 'android' ? undefined : 50}
+      >
         <Flex direction="column" style={styles.container}>
           {
             editName || editEmail || editPassword ? null : (
@@ -383,6 +388,7 @@ class Profile extends Component {
                         <Text style={styles.buttonText}>{`${user.first_name} ${user.last_name}`}</Text>
                       </Flex>
                       <Button
+                        isAndroidOpacity={true}
                         text={editName ? 'cancel' : 'edit'}
                         buttonTextStyle={styles.editText}
                         icon={editName ? 'close' : 'edit'}
@@ -407,6 +413,7 @@ class Profile extends Component {
                         <Text style={styles.buttonText}>{user.email}</Text>
                       </Flex>
                       <Button
+                        isAndroidOpacity={true}
                         text={editEmail ? 'cancel' : 'edit'}
                         icon={editEmail ? 'close' : 'edit'}
                         buttonTextStyle={styles.editText}
@@ -431,6 +438,7 @@ class Profile extends Component {
                         <Text style={styles.buttonText}>*********</Text>
                       </Flex>
                       <Button
+                        isAndroidOpacity={true}
                         text={editPassword ? 'cancel' : 'edit'}
                         icon={editPassword ? 'close' : 'edit'}
                         buttonTextStyle={styles.editText}

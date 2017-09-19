@@ -58,10 +58,10 @@ export function setupSocketAction(cableId) {
       LOG('socket message error', e.message);
     };
 
-    ws.onclose = (e) => {
-      // connection closed
-      // LOG('socket closed', e.code, e.reason);
-    };
+    // ws.onclose = (e) => {
+    //   // connection closed
+    //   LOG('socket closed', e.code, e.reason);
+    // };
   };
 }
 

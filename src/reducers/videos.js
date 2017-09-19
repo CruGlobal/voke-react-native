@@ -43,7 +43,6 @@ export default function videos(state = initialState, action) {
         selectedThemeVideos: [],
       };
     case REQUESTS.GET_VIDEOS_BY_TAG.SUCCESS:
-      LOG('selected theme, check action:', action);
       return {
         ...state,
         selectedThemeVideos: action.items || [],

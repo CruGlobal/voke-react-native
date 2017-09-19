@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Platform, ListView, TouchableOpacity } from 'react-native';
+import { View, Platform, ListView } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 
 import styles from './styles';
@@ -168,7 +168,7 @@ class ConversationList extends Component { // eslint-disable-line
         renderRow={this.renderRow}
         renderHiddenRow={(data, sectionID, rowID, rowMap) => (
           <View style={styles.rowBack}>
-            <TouchableOpacity
+            <Touchable
               style={[styles.backRightBtn, styles.backRightBtnLeft]}
               activeOpacity={0.9}
               onPress={() => {
@@ -179,8 +179,8 @@ class ConversationList extends Component { // eslint-disable-line
               <Flex direction="column" align="center" justify="center">
                 <VokeIcon name="delete" style={{height: 40}} />
               </Flex>
-            </TouchableOpacity>
-            <TouchableOpacity
+            </Touchable>
+            <Touchable
               activeOpacity={0.9}
               style={[styles.backRightBtn, styles.backRightBtnRight]}
               onPress={() => {
@@ -191,7 +191,7 @@ class ConversationList extends Component { // eslint-disable-line
               <Flex direction="column" align="center" justify="center">
                 <VokeIcon name="block" style={{ height: 40 }} />
               </Flex>
-            </TouchableOpacity>
+            </Touchable>
           </View>
         )}
         initialListSize={CONSTANTS.PAGE_SIZE}

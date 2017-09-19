@@ -229,7 +229,6 @@ class Home extends Component {
         }
       </View>
     );
-    // <FloatingButton onSelect={(to) => this.props.navigatePush(to)} />
   }
 }
 

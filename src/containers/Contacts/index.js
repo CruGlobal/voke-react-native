@@ -80,13 +80,6 @@ class Contacts extends Component {
   }
 
   onNavigatorEvent(event) {
-    // if (event.id === 'didAppear') {
-    //   // this.getContacts();
-    // } else if (event.id === 'searchQueryChange') {
-    //   const text = event.query || '';
-    //   this.setState({ searchText: text });
-    //   this.search(text);
-    // }
     if (event.id === 'search') {
       if (this.state.permission === Permissions.AUTHORIZED) {
         this.setState({ showSearch: !this.state.showSearch });
@@ -209,7 +202,10 @@ class Contacts extends Component {
         }
         {
           this.props.isLoading ? (
-            <ApiLoading force={true} text={'Fetching your contacts,\ngive me a few seconds'} />
+            <ApiLoading
+              force={true}
+              text={'Fetching your contacts,\ngive me a few seconds'}
+            />
           ) : null
         }
       </View>

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Image } from 'react-native';
+import { Image, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Spinner from 'react-native-spinkit';
 
 import theme from '../../theme';
 import styles from './styles';
-import { Flex, Text, Touchable, Icon, Avatar, DateComponent } from '../common';
+import { Flex, Text, Icon, Avatar, DateComponent } from '../common';
 import { momentUtc } from '../../utils/common';
 
 class MessageItem extends Component {
@@ -77,7 +77,7 @@ class MessageItem extends Component {
         align="center"
         justify={isMe ? 'end' : 'start'}
       >
-        <Touchable onPress={this.props.onSelectVideo}>
+        <TouchableOpacity activeOpacity={0.7} onPress={this.props.onSelectVideo}>
           <Image
             resizeMode="cover"
             source={{uri: message.item.media.thumbnails.large}}
@@ -87,7 +87,7 @@ class MessageItem extends Component {
             ]} >
             <Icon name="play-circle-filled" size={40} style={styles.playIcon} />
           </Image>
-        </Touchable>
+        </TouchableOpacity>
       </Flex>
     );
   }
