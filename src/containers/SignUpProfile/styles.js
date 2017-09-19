@@ -19,7 +19,7 @@ export default StyleSheet.create({
     borderRadius: IMAGE_SIZE / 2,
     width: IMAGE_SIZE,
     height: IMAGE_SIZE,
-    marginBottom: 0,
+    marginBottom: 10,
   },
   image: {
     height: IMAGE_SIZE,
@@ -30,16 +30,6 @@ export default StyleSheet.create({
   },
   inputs: {
     paddingBottom: 50,
-  },
-  inputBox: {
-    marginTop: 10,
-    padding: 10,
-    width: DEFAULT.FULL_WIDTH - 110,
-    borderWidth: 1,
-    borderColor: theme.textColor,
-    borderRadius: 5,
-    fontSize: 15,
-    color: theme.textColor,
   },
   signInButton: {
     fontSize: 16,

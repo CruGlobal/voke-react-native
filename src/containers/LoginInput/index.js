@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, TextInput, TouchableOpacity, Keyboard, Alert, Platform } from 'react-native';
+import { Image, TouchableOpacity, Keyboard, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { LoginManager, GraphRequestManager, GraphRequest, AccessToken } from 'react-native-fbsdk';
 import Analytics from '../../utils/analytics';
@@ -8,13 +8,12 @@ import styles from './styles';
 import { getMe, facebookLoginAction, anonLogin } from '../../actions/auth';
 
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import theme, { COLORS } from '../../theme.js';
-import { Flex, Text, Button, Icon, VokeIcon } from '../../components/common';
-import StatusBar from '../../components/StatusBar';
+import { Flex, Text, Button } from '../../components/common';
+import SignUpInput from '../../components/SignUpInput';
+import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import LOGO from '../../../images/initial_voke.png';
-// const SCOPE = ['public_profile', 'email'];
+import CONSTANTS from '../../constants';
 
-const EMAIL_REGEX = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
 const VERSION = 'v2.8';
 const FIELDS = 'name,picture,about,cover,first_name,last_name';
 
@@ -28,11 +27,8 @@ class LoginInput extends Component {
     this.state = {
       email: 'benlgauthier+voke1@gmail.com',
       password: 'password',
-      emailActive: false,
-      passwordActive: false,
       disabled: false,
-      // emailValidation: false,
-      emailValidation: true,
+      emailValidation: false,
     };
 
     this.login = this.login.bind(this);
@@ -41,10 +37,8 @@ class LoginInput extends Component {
   }
 
   checkEmail(text) {
-    if (EMAIL_REGEX.test(text)) {
-      this.setState({ emailValidation: true });
-    } else { this.setState({ emailValidation: false }); }
-    this.setState({ email: text });
+    const emailValidation = CONSTANTS.EMAIL_REGEX.test(text);
+    this.setState({ email: text, emailValidation });
   }
 
   componentDidMount() {
@@ -52,7 +46,6 @@ class LoginInput extends Component {
   }
 
   login() {
-    //CHANGE BACK, ONLY FOR TESTING
     // if (this.state.emailValidation && this.state.password) {
     if (this.state.password) {
       this.props.dispatch(anonLogin(
@@ -123,71 +116,28 @@ class LoginInput extends Component {
   render() {
     return (
       <Flex style={styles.container} value={1} align="center" justify="center">
-        <StatusBar />
         <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
-          <Flex
-            style={{
-              paddingTop: Platform.OS === 'android' ? 10 : 35,
-              paddingLeft: Platform.OS === 'android' ? 15 : 30,
-              alignSelf: 'flex-start',
-            }}
-          >
-            <Button
-              onPress={() => this.props.navigateBack()}
-              type="transparent"
-              style={{ padding: 5 }}
-            >
-              {
-                Platform.OS === 'android' ? (
-                  <Icon name="arrow-back" size={30} />
-                ) : (
-                  <VokeIcon name="back" />
-                )
-              }
-            </Button>
-          </Flex>
+          <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
           <Flex direction="column" value={.8} align="center" justify="end" style={styles.logoWrapper}>
             <Flex style={styles.imageWrap} align="center" justify="center">
               <Image resizeMode="contain" source={LOGO} style={styles.imageLogo} />
             </Flex>
           </Flex>
           <Flex value={1.2} align="center" justify="end" style={styles.actions}>
-            <TextInput
-              ref={(c) => this.email = c}
-              onFocus={() => this.setState({emailActive: true})}
-              onBlur={() => this.setState({emailActive: false})}
+            <SignUpInput
               value={this.state.email}
-              autoCapitalize= "none"
-              onChangeText={(text) => this.checkEmail(text)}
-              multiline={false}
+              onChangeText={this.checkEmail}
               placeholder="Email"
-              placeholderTextColor={this.state.emailActive ? theme.textColor : theme.accentColor}
-              style={[
-                styles.inputBox,
-                this.state.emailActive ? styles.active : null,
-              ]}
-              autoCorrect={false}
-              underlineColorAndroid="transparent"
-              selectionColor={COLORS.YELLOW}
+              returnKeyType="next"
+              blurOnSubmit={false}
+              onSubmitEditing={() => this.password.focus()}
             />
-            <TextInput
+            <SignUpInput
               ref={(c) => this.password = c}
-              onFocus={() => this.setState({passwordActive: true})}
-              onBlur={() => this.setState({passwordActive: false})}
-              autoCapitalize= "none"
               secureTextEntry={true}
               value={this.state.password}
               onChangeText={(text) => this.setState({ password: text })}
-              multiline={false}
               placeholder="Password"
-              placeholderTextColor={this.state.passwordActive ? theme.textColor : theme.accentColor}
-              style={[
-                styles.inputBox,
-                this.state.passwordActive ? styles.active : null,
-              ]}
-              autoCorrect={false}
-              underlineColorAndroid="transparent"
-              selectionColor={COLORS.YELLOW}
             />
             <Flex style={styles.buttonWrapper}>
               <Button

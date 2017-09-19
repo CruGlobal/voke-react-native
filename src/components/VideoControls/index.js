@@ -42,7 +42,7 @@ export default class VideoControls extends Component {
   render() {
     const { time, isPaused, onSeek, duration } = this.props;
     return (
-      <Flex direction= "column" style={styles.outerWrap}>
+      <Flex direction="column" style={styles.outerWrap}>
         <Flex style={styles.viewBlock} align="center" justify="center">
           <Touchable activeOpacity={.5} onPress={this.handleScreenPress}>
             <Flex animation="zoomIn" style={styles.screenPress}>

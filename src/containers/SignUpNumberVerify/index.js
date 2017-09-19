@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TextInput, Alert, Keyboard, TouchableOpacity, Platform } from 'react-native';
+import { Alert, Keyboard, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -8,34 +8,18 @@ import { verifyMobile, createMobileVerification } from '../../actions/auth';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-// import { iconsMap } from '../../utils/iconMap';
 import theme from '../../theme';
-import { vokeIcons } from '../../utils/iconMap';
 
-import { Flex, Text, Button, VokeIcon, Icon } from '../../components/common';
-import StatusBar from '../../components/StatusBar';
+import { Flex, Text, Button } from '../../components/common';
+import SignUpInput from '../../components/SignUpInput';
 import SignUpHeader from '../../components/SignUpHeader';
-
-// function setButtons() {
-//   return {
-//     leftButtons: [{
-//       id: 'back', // Android implements this already
-//       icon: vokeIcons['back'], // For iOS only
-//     }],
-//   };
-// }
+import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 
 class SignUpNumberVerify extends Component {
   static navigatorStyle = {
-    // screenBackgroundColor: theme.primaryColor,
-    // navBarButtonColor: theme.lightText,
-    // navBarTextColor: theme.headerTextColor,
-    // navBarBackgroundColor: theme.primaryColor,
-    // navBarNoBorder: true,
-    // topBarElevationShadowEnabled: false,
+    screenBackgroundColor: theme.primaryColor,
     navBarHidden: true,
   };
-
 
   constructor(props) {
     super(props);
@@ -45,34 +29,19 @@ class SignUpNumberVerify extends Component {
       verificationSent: false,
     };
 
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleNext = this.handleNext.bind(this);
     this.resendCode = this.resendCode.bind(this);
   }
-
-  // onNavigatorEvent(event) {
-  //   if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
-  //     if (event.id == 'back') {
-  //       this.props.navigateBack();
-  //     }
-  //   }
-  // }
 
   componentDidMount() {
     Analytics.screen('SignUp Verify Number');
   }
 
-  componentWillMount() {
-    // this.props.navigator.setButtons(setButtons());
-  }
-
   resendCode() {
-    let data = {
-      mobile: {
-        mobile: this.props.mobile,
-      },
+    const data = {
+      mobile: { mobile: this.props.mobile },
     };
-    if (!this.state.verifcationSent) {
+    if (!this.state.verificationSent) {
       this.props.dispatch(createMobileVerification(data)).then(() => {
         Alert.alert('New verification code sent', '');
       });
@@ -82,7 +51,7 @@ class SignUpNumberVerify extends Component {
     }
     setTimeout(() => {
       this.setState({ verifcationSent: false });
-    }, 3000);
+    }, 5000);
   }
 
   handleNext() {
@@ -104,28 +73,7 @@ class SignUpNumberVerify extends Component {
   render() {
     return (
       <Flex style={styles.container} value={1} align="center" justify="start">
-        <StatusBar />
-        <Flex
-          style={{
-            paddingTop: Platform.OS === 'android' ? 10 : 35,
-            paddingLeft: Platform.OS === 'android' ? 15 : 30,
-            alignSelf: 'flex-start',
-          }}
-        >
-          <Button
-            onPress={() => this.props.navigateBack()}
-            type="transparent"
-            style={{ padding: 5 }}
-          >
-            {
-              Platform.OS === 'android' ? (
-                <Icon name="arrow-back" size={30} />
-              ) : (
-                <VokeIcon name="back" />
-              )
-            }
-          </Button>
-        </Flex>
+        <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
         <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
           <SignUpHeader
             title="Verification"
@@ -134,17 +82,12 @@ class SignUpNumberVerify extends Component {
           <Flex value={1} align="center" justify="center" style={styles.inputs}>
             <Flex direction="row" align="center" justify="center">
               <Text>V-</Text>
-              <TextInput
-                onFocus={() => {}}
+              <SignUpInput
+                style={styles.inputBox}
                 keyboardType="numeric"
-                onBlur={() => {}}
                 value={this.state.code}
                 onChangeText={(text) => this.setState({ code: text })}
-                multiline={false}
                 placeholder="Verification Code"
-                placeholderTextColor={theme.accentColor}
-                style={styles.inputBox}
-                autoCorrect={false}
               />
             </Flex>
             <Button

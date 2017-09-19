@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TextInput, Alert, TouchableOpacity, Keyboard, Platform } from 'react-native';
+import { Alert, TouchableOpacity, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 
 import { createMobileVerification } from '../../actions/auth';
@@ -7,33 +7,17 @@ import Analytics from '../../utils/analytics';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import theme from '../../theme';
-import { vokeIcons } from '../../utils/iconMap';
 
-import { Flex, Text, Button, Icon, VokeIcon } from '../../components/common';
-import StatusBar from '../../components/StatusBar';
+import { Flex, Text, Button, Icon } from '../../components/common';
+
+import SignUpInput from '../../components/SignUpInput';
 import SignUpHeader from '../../components/SignUpHeader';
-
-// function setButtons() {
-//   return {
-//     leftButtons: [{
-//       id: 'back', // Android implements this already
-//       icon: vokeIcons['back'], // For iOS only
-//     }],
-//   };
-// }
+import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 
 class SignUpNumber extends Component {
   static navigatorStyle = {
-    // screenBackgroundColor: theme.primaryColor,
-    // navBarButtonColor: theme.lightText,
-    // navBarTextColor: theme.headerTextColor,
-    // navBarBackgroundColor: theme.primaryColor,
-    // navBarNoBorder: true,
-    // topBarElevationShadowEnabled: false,
     navBarHidden: true,
   };
-
 
   constructor(props) {
     super(props);
@@ -43,26 +27,13 @@ class SignUpNumber extends Component {
       selectedCountryCode: '1',
       selectedCountry: 'United States',
     };
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleNext = this.handleNext.bind(this);
     this.handleOpenCountry = this.handleOpenCountry.bind(this);
     this.handleSelectCountry = this.handleSelectCountry.bind(this);
   }
 
-  // onNavigatorEvent(event) {
-  //   if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
-  //     if (event.id == 'back') {
-  //       this.props.navigateBack();
-  //     }
-  //   }
-  // }
-
   componentDidMount() {
     Analytics.screen('SignUp Enter Number');
-  }
-
-  componentWillMount() {
-    // this.props.navigator.setButtons(setButtons());
   }
 
   handleNext() {
@@ -110,28 +81,7 @@ class SignUpNumber extends Component {
     const { selectedCountry, selectedCountryCode, phoneNumber } = this.state;
     return (
       <Flex style={styles.container} value={1} align="center" justify="start">
-        <StatusBar />
-        <Flex
-          style={{
-            paddingTop: Platform.OS === 'android' ? 10 : 35,
-            paddingLeft: Platform.OS === 'android' ? 15 : 30,
-            alignSelf: 'flex-start',
-          }}
-        >
-          <Button
-            onPress={() => this.props.navigateBack()}
-            type="transparent"
-            style={{ padding: 5 }}
-          >
-            {
-              Platform.OS === 'android' ? (
-                <Icon name="arrow-back" size={30} />
-              ) : (
-                <VokeIcon name="back" />
-              )
-            }
-          </Button>
-        </Flex>
+        <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
         <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
           <SignUpHeader
             title="Mobile Number"
@@ -149,19 +99,13 @@ class SignUpNumber extends Component {
                 <Icon name="keyboard-arrow-down" size={30} />
               </Flex>
             </Button>
-            <TextInput
-              onFocus={() => {}}
-              onBlur={() => {}}
+            <SignUpInput
               value={phoneNumber}
               onChangeText={(text) => this.setState({ phoneNumber: text })}
-              multiline={false}
               keyboardType="phone-pad"
               placeholder="Your Mobile Number"
-              placeholderTextColor={theme.accentColor}
-              style={styles.inputBox}
-              autoCorrect={false}
               onSubmitEditing={this.handleNext}
-              returnKeyType= "send"
+              returnKeyType="send"
             />
             <Text style={styles.sharingText}>We love sharing, but we won't share your number.</Text>
             <Flex value={1} align="center" justify="end">

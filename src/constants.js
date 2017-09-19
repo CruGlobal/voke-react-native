@@ -21,6 +21,8 @@ const ANDROID_APP_ID = 'org.cru.voke';
 
 export default {
   IS_STAGING,
+
+  EMAIL_REGEX: new RegExp(/^\w+([.+-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/),
   
   PAGE_SIZE: 25, // This is the default page size from the API
   CONTACT_CHUNKS: 500, // How many contacts to send up per upload request

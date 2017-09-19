@@ -1,40 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { TextInput, ScrollView, KeyboardAvoidingView, Platform, Linking, Alert } from 'react-native';
+import { ScrollView, KeyboardAvoidingView, Linking, Alert } from 'react-native';
 
 import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { createAccountAction } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import theme, { COLORS } from '../../theme';
 
-import { Flex, Text, Button, VokeIcon, Icon } from '../../components/common';
-import StatusBar from '../../components/StatusBar';
+import { Flex, Text, Button } from '../../components/common';
+import SignUpInput from '../../components/SignUpInput';
 import SignUpHeader from '../../components/SignUpHeader';
+import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import CONSTANTS from '../../constants';
-
-// function setButtons() {
-//   return {
-//     leftButtons: [{
-//       id: 'back', // Android implements this already
-//       icon: vokeIcons['back'], // For iOS only
-//     }],
-//   };
-// }
-
-const EMAIL_REGEX = /^\w+([.+-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
 class SignUpAccount extends Component {
   static navigatorStyle = {
-    // screenBackgroundColor: theme.primaryColor,
-    // navBarButtonColor: theme.lightText,
-    // navBarTextColor: theme.headerTextColor,
-    // navBarBackgroundColor: theme.primaryColor,
-    // navBarNoBorder: true,
-    // topBarElevationShadowEnabled: false,
     navBarHidden: true,
   };
-
 
   constructor(props) {
     super(props);
@@ -43,27 +25,14 @@ class SignUpAccount extends Component {
       password: '',
       emailValidation: false,
     };
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.createAccount = this.createAccount.bind(this);
     this.checkEmail = this.checkEmail.bind(this);
     this.handleLink = this.handleLink.bind(this);
   }
 
-  // onNavigatorEvent(event) {
-  //   if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
-  //     if (event.id == 'back') {
-  //       this.props.navigateBack();
-  //     }
-  //   }
-  // }
-
   componentDidMount() {
     Analytics.screen('Create Account');
   }
-
-  // componentWillMount() {
-    // this.props.navigator.setButtons(setButtons());
-  // }
 
   createAccount() {
     if (this.state.emailValidation && this.state.password) {
@@ -81,7 +50,7 @@ class SignUpAccount extends Component {
   }
 
   checkEmail(text) {
-    const emailValidation = EMAIL_REGEX.test(text);
+    const emailValidation = CONSTANTS.EMAIL_REGEX.test(text);
     this.setState({ email: text, emailValidation });
   }
 
@@ -92,65 +61,27 @@ class SignUpAccount extends Component {
   render() {
     return (
       <ScrollView style={styles.container} value={1} align="center" justify="center">
-        <KeyboardAvoidingView
-          behavior="padding"
-        >
-          <StatusBar />
-          <Flex
-            style={{
-              paddingTop: Platform.OS === 'android' ? 10 : 35,
-              paddingLeft: Platform.OS === 'android' ? 15 : 30,
-              alignSelf: 'flex-start',
-            }}
-          >
-            <Button
-              onPress={() => this.props.navigateBack()}
-              type="transparent"
-              style={{padding: 5}}
-            >
-              {
-                Platform.OS === 'android' ? (
-                  <Icon name="arrow-back" size={30} />
-                ) : (
-                  <VokeIcon name="back" />
-                )
-              }
-            </Button>
-          </Flex>
-
+        <KeyboardAvoidingView behavior="padding">
+          <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
           <SignUpHeader
             title="Create Account"
             description="You are moments away from impacting your friends"
           />
           <Flex value={1} align="center" justify="center" style={styles.inputs}>
-            <TextInput
-              onFocus={() => {}}
-              onBlur={() => {}}
+            <SignUpInput
               value={this.state.email}
-              onChangeText={(text) => this.checkEmail(text)}
-              multiline={false}
+              onChangeText={this.checkEmail}
               placeholder="Email"
-              placeholderTextColor={theme.accentColor}
-              style={styles.inputBox}
-              autoCapitalize="none"
-              autoCorrect={false}
-              underlineColorAndroid="transparent"
-              selectionColor={COLORS.YELLOW}
+              blurOnSubmit={false}
+              returnKeyType="next"
+              onSubmitEditing={() => this.password.focus()}
             />
-            <TextInput
-              onFocus={() => {}}
-              onBlur={() => {}}
+            <SignUpInput
+              ref={(c) => this.password = c}
               value={this.state.password}
               onChangeText={(text) => this.setState({ password: text })}
-              multiline={false}
               placeholder="Password"
-              placeholderTextColor={theme.accentColor}
-              style={styles.inputBox}
-              autoCorrect={false}
               secureTextEntry={true}
-              autoCapitalize="none"
-              underlineColorAndroid="transparent"
-              selectionColor={COLORS.YELLOW}
             />
             <Flex style={styles.buttonWrapper}>
               <Button
@@ -165,7 +96,7 @@ class SignUpAccount extends Component {
               <Flex direction="row" align="center" justify="center">
                 <Button
                   text="Privacy Policy"
-                  type= "transparent"
+                  type="transparent"
                   buttonTextStyle={styles.legalLinkText}
                   style={styles.legalLink}
                   onPress={() => this.handleLink(CONSTANTS.WEB_URLS.PRIVACY)}
@@ -174,7 +105,7 @@ class SignUpAccount extends Component {
                 </Text>
                 <Button
                   text="Terms of Service"
-                  type= "transparent"
+                  type="transparent"
                   buttonTextStyle={styles.legalLinkText}
                   style={styles.legalLink}
                   onPress={() => this.handleLink(CONSTANTS.WEB_URLS.TERMS)}
@@ -182,10 +113,10 @@ class SignUpAccount extends Component {
               </Flex>
             </Flex>
             <Flex direction="row" align="end" justify="center" style={styles.accountWrap}>
-              <Text style={styles.haveAccountText}>Already have an account? </Text>
+              <Text style={styles.haveAccountText}>Already have an account?</Text>
               <Button
                 text="Sign In"
-                type= "transparent"
+                type="transparent"
                 buttonTextStyle={styles.haveAccountButton}
                 style={styles.haveAccount}
                 onPress={() => this.props.navigatePush('voke.LoginInput')}

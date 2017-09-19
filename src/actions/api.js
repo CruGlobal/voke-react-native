@@ -52,10 +52,11 @@ export default function callApi(requestObject, query = {}, data = {}) {
 
       if (!action.anonymous) {
         const { token, user } = getState().auth;
+        // If the request has not already passed in an access token, set it
         if (!newQuery.access_token) {
           newQuery.access_token = token;
         }
-        if (user.id) {
+        if (user && user.id) {
           newQuery.authUserId = user.id;
         }
       }

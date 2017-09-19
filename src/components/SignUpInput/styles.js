@@ -1,0 +1,20 @@
+
+import { StyleSheet } from 'react-native';
+import theme, { DEFAULT }  from '../../theme';
+
+export default StyleSheet.create({
+  input: {
+    marginTop: 8,
+    padding: 10,
+    width: DEFAULT.FULL_WIDTH - 110,
+    borderWidth: 1,
+    borderColor: theme.textColor,
+    borderRadius: 5,
+    fontSize: 16,
+    color: theme.textColor,
+  },
+  active: {
+    backgroundColor: theme.accentColor,
+    borderColor: theme.accentColor,
+  },
+});

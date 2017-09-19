@@ -208,8 +208,6 @@ class Profile extends Component {
         <Flex  value={1} direction="row" align="center" justify="center">
           <Flex direction="column" value={2} style={styles.inputRow}>
             <TextInput
-              onFocus={() => {}}
-              onBlur={() => {}}
               value={this.state.firstName}
               onChangeText={(text) => this.setState({ firstName: text })}
               multiline={false}
@@ -220,8 +218,6 @@ class Profile extends Component {
               underlineColorAndroid="transparent"
             />
             <TextInput
-              onFocus={() => {}}
-              onBlur={() => {}}
               onChangeText={(text) => this.setState({ lastName: text })}
               value={this.state.lastName}
               multiline={false}
@@ -255,8 +251,6 @@ class Profile extends Component {
         <Flex  direction="row" align="center" justify="center">
           <Flex direction="column" value={3} style={styles.inputRow}>
             <TextInput
-              onFocus={() => {}}
-              onBlur={() => {}}
               onChangeText={(text) => this.setState({ newEmail: text })}
               value={this.state.newEmail}
               multiline={false}
@@ -267,8 +261,6 @@ class Profile extends Component {
               underlineColorAndroid="transparent"
             />
             <TextInput
-              onFocus={() => {}}
-              onBlur={() => {}}
               value={this.state.confirmEmail}
               onChangeText={(text) => this.setState({ confirmEmail: text })}
               multiline={false}

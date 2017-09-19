@@ -22,16 +22,6 @@ export default StyleSheet.create({
     paddingBottom: 50,
     paddingTop: 25,
   },
-  inputBox: {
-    marginTop: 8,
-    padding: 10,
-    width: DEFAULT.FULL_WIDTH - 110,
-    borderWidth: 1,
-    borderColor: theme.textColor,
-    borderRadius: 5,
-    fontSize: 16,
-    color: theme.textColor,
-  },
   signInButton: {
     fontSize: 16,
   },

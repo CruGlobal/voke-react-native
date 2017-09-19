@@ -14,11 +14,7 @@ export default StyleSheet.create({
     padding: 10,
     marginLeft: 10,
     width: 200,
-    borderWidth: 1,
-    borderColor: theme.textColor,
-    borderRadius: 5,
     fontSize: 15,
-    color: theme.textColor,
   },
   resendCode: {
     fontSize: 14,

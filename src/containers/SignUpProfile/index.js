@@ -1,64 +1,36 @@
 import React, { Component } from 'react';
-import { Image, TextInput, TouchableOpacity, Keyboard, Alert, Platform } from 'react-native';
+import { Image, TouchableOpacity, Keyboard, Alert } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { updateMe } from '../../actions/auth';
-import { vokeIcons } from '../../utils/iconMap';
 import ImagePicker from '../../components/ImagePicker';
-import theme from '../../theme';
 import Analytics from '../../utils/analytics';
 
-import { Flex, Icon, VokeIcon, Button } from '../../components/common';
-import StatusBar from '../../components/StatusBar';
+import { Flex, Icon, Button } from '../../components/common';
 import SignUpHeader from '../../components/SignUpHeader';
-
-// function setButtons() {
-//   return {
-//     leftButtons: [{
-//       id: 'back', // Android implements this already
-//       icon: vokeIcons['back'], // For iOS only
-//     }],
-//   };
-// }
+import SignUpInput from '../../components/SignUpInput';
+import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 
 class SignUpProfile extends Component {
   static navigatorStyle = {
-    // screenBackgroundColor: theme.primaryColor,
-    // navBarButtonColor: theme.lightText,
-    // navBarTextColor: theme.headerTextColor,
-    // navBarBackgroundColor: theme.primaryColor,
-    // navBarNoBorder: true,
-    // topBarElevationShadowEnabled: false,
     navBarHidden: true,
   };
 
 
   constructor(props) {
     super(props);
+
     this.state= {
       imageUri: null,
       firstName: '',
       lastName: '',
     };
 
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.renderImagePicker = this.renderImagePicker.bind(this);
     this.handleImageChange = this.handleImageChange.bind(this);
     this.addProfile = this.addProfile.bind(this);
-  }
-
-  // onNavigatorEvent(event) {
-  //   if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
-  //     if (event.id == 'back') {
-  //       this.props.navigateBack();
-  //     }
-  //   }
-  // }
-
-  componentWillMount() {
-    // this.props.navigator.setButtons(setButtons());
   }
 
   componentDidMount() {
@@ -67,19 +39,17 @@ class SignUpProfile extends Component {
 
   handleImageChange(data) {
     this.setState({ imageUri: data.uri });
-    // // TODO: Make API call to update image
-    // if (data.uri) {
-    //   const updateData = {
-    //     avatar: {
-    //       fileName: `${this.props.user.first_name}_${this.props.user.last_name}.png`,
-    //       uri: data.uri,
-    //       // base64: data.imageBinary,
-    //     },
-    //   };
-    //   this.props.dispatch(updateMe(updateData)).then(() => {
-    //     this.resetState();
-    //   });
-    // }
+    // TODO: Make API call to update image
+    if (data.uri) {
+      const updateData = {
+        avatar: {
+          fileName: `new_user_${Date.now()}.png`,
+          uri: data.uri,
+          // base64: data.imageBinary,
+        },
+      };
+      this.props.dispatch(updateMe(updateData));
+    }
   }
 
   addProfile() {
@@ -101,13 +71,12 @@ class SignUpProfile extends Component {
   }
 
   renderImagePicker() {
-    const image = { uri: this.state.imageUri };
     return (
       <ImagePicker onSelectImage={this.handleImageChange}>
         <Flex align="center" justify="center" style={styles.imageSelect}>
           {
             this.state.imageUri ? (
-              <Image source={image} style={styles.image} />
+              <Image source={{ uri: this.state.imageUri }} style={styles.image} />
             ) : (
               <Flex align="center" justify="center">
                 <Icon name="camera-alt" style={styles.photoIcon} size={32} />
@@ -122,53 +91,26 @@ class SignUpProfile extends Component {
   render() {
     return (
       <Flex style={styles.container} value={1} align="center" justify="start">
-        <StatusBar />
-        <Flex
-          style={{
-            paddingTop: Platform.OS === 'android' ? 10 : 35,
-            paddingLeft: Platform.OS === 'android' ? 15 : 30,
-            alignSelf: 'flex-start',
-          }}
-        >
-          <Button
-            onPress={() => this.props.navigateBack()}
-            type="transparent"
-            style={{ padding: 5 }}
-          >
-            {
-              Platform.OS === 'android' ? (
-                <Icon name="arrow-back" size={30} />
-              ) : (
-                <VokeIcon name="back" />
-              )
-            }
-          </Button>
-        </Flex>
+        <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
         <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
           <SignUpHeader title="Create Profile" />
           <Flex value={1} align="center" justify="start" style={styles.inputs}>
             {this.renderImagePicker()}
-            <TextInput
-              onFocus={() => {}}
-              onBlur={() => {}}
+            <SignUpInput
               value={this.state.firstName}
               onChangeText={(text) => this.setState({ firstName: text })}
-              multiline={false}
               placeholder="First Name"
-              placeholderTextColor={theme.accentColor}
-              style={styles.inputBox}
-              autoCorrect={false}
+              autoCapitalize="words"
+              returnKeyType="next"
+              blurOnSubmit={false}
+              onSubmitEditing={() => this.lastName.focus()}
             />
-            <TextInput
-              onFocus={() => {}}
-              onBlur={() => {}}
+            <SignUpInput
+              ref={(c) => this.lastName = c}
               value={this.state.lastName}
               onChangeText={(text) => this.setState({ lastName: text })}
-              multiline={false}
               placeholder="Last Name"
-              placeholderTextColor={theme.accentColor}
-              style={styles.inputBox}
-              autoCorrect={false}
+              autoCapitalize="words"
             />
             <Flex value={1} align="center" justify="end">
               <Button

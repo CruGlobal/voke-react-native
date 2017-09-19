@@ -1,28 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { TextInput, ScrollView, KeyboardAvoidingView, Alert, Linking, Image } from 'react-native';
+import { ScrollView, KeyboardAvoidingView, Alert, Linking, Image } from 'react-native';
 import ImagePicker from '../../components/ImagePicker';
 
 import Analytics from '../../utils/analytics';
 import styles from './styles';
-import { createAccountAction, updateMe } from '../../actions/auth';
+import { updateMe } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import theme from '../../theme';
 
 import { Flex, Text, Button, Icon } from '../../components/common';
-import StatusBar from '../../components/StatusBar';
+import SignUpInput from '../../components/SignUpInput';
 import SignUpHeader from '../../components/SignUpHeader';
+import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import CONSTANTS from '../../constants';
 
 class SignUpFBAccount extends Component {
   static navigatorStyle = {
     screenBackgroundColor: theme.primaryColor,
-    navBarButtonColor: theme.lightText,
-    navBarTextColor: theme.headerTextColor,
-    navBarBackgroundColor: theme.primaryColor,
-    navBarNoBorder: true,
-    topBarElevationShadowEnabled: false,
+    navBarHidden: true,
   };
 
   constructor(props) {
@@ -47,10 +44,8 @@ class SignUpFBAccount extends Component {
   }
 
   checkEmail(text) {
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(text)) {
-      this.setState({ emailValidation: true });
-    } else { this.setState({ emailValidation: false }); }
-    this.setState({ email: text });
+    const emailValidation = CONSTANTS.EMAIL_REGEX.test(text);
+    this.setState({ email: text, emailValidation });
   }
 
   handleLink(url) {
@@ -59,23 +54,22 @@ class SignUpFBAccount extends Component {
 
   handleImageChange(data) {
     this.setState({ imageUri: data.uri });
-    // // TODO: Make API call to update image
-    // if (data.uri) {
-    //   const updateData = {
-    //     avatar: {
-    //       fileName: `${this.props.user.first_name}_${this.props.user.last_name}.png`,
-    //       uri: data.uri,
-    //       // base64: data.imageBinary,
-    //     },
-    //   };
-    //   this.props.dispatch(updateMe(updateData)).then(() => {
-    //     this.resetState();
-    //   });
-    // }
+    if (data.uri) {
+      const me = this.props.me;
+      const fileName = me ? `${me.first_name}_${me.last_name}.png` : `new_user_${Date.now()}.png`;
+      const updateData = {
+        avatar: {
+          fileName,
+          uri: data.uri,
+          // base64: data.imageBinary,
+        },
+      };
+      this.props.dispatch(updateMe(updateData));
+    }
   }
 
   addProfile() {
-    const { imageUri, firstName, lastName, email } = this.state;
+    const { firstName, lastName, email } = this.state;
     if (firstName && lastName && email) {
       let data = {
         me: {
@@ -83,7 +77,6 @@ class SignUpFBAccount extends Component {
           last_name: lastName,
           email: email,
         },
-        avatar: imageUri,
       };
       this.props.dispatch(updateMe(data)).then(() => {
         this.props.navigatePush('voke.SignUpNumber');
@@ -94,13 +87,12 @@ class SignUpFBAccount extends Component {
   }
 
   renderImagePicker() {
-    const image = { uri: this.state.imageUri };
     return (
       <ImagePicker onSelectImage={this.handleImageChange}>
         <Flex align="center" justify="center" style={styles.imageSelect}>
           {
             this.state.imageUri ? (
-              <Image source={image} style={styles.image} />
+              <Image source={{ uri: this.state.imageUri }} style={styles.image} />
             ) : (
               <Flex align="center" justify="center">
                 <Icon name="camera-alt" style={styles.photoIcon} size={32} />
@@ -116,49 +108,35 @@ class SignUpFBAccount extends Component {
   render() {
     return (
       <ScrollView style={styles.container} value={1} align="center" justify="center">
-        <KeyboardAvoidingView
-          behavior="padding"
-        >
-          <StatusBar />
-          <SignUpHeader
-            title="Create Account"
-          />
+        <KeyboardAvoidingView behavior="padding">
+          <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
+          <SignUpHeader title="Create Account" />
           <Flex value={1} align="center" justify="start" style={styles.inputs}>
             {this.renderImagePicker()}
-            <TextInput
-              onFocus={() => {}}
-              onBlur={() => {}}
+            <SignUpInput
               value={this.state.firstName}
               onChangeText={(text) => this.setState({ firstName: text })}
-              multiline={false}
               placeholder="First Name"
-              placeholderTextColor={theme.accentColor}
-              style={styles.inputBox}
-              autoCorrect={false}
+              autoCapitalize="words"
+              returnKeyType="next"
+              blurOnSubmit={false}
+              onSubmitEditing={() => this.lastName.focus()}
             />
-            <TextInput
-              onFocus={() => {}}
-              onBlur={() => {}}
+            <SignUpInput
+              ref={(c) => this.lastName = c}
               value={this.state.lastName}
               onChangeText={(text) => this.setState({ lastName: text })}
-              multiline={false}
               placeholder="Last Name"
-              placeholderTextColor={theme.accentColor}
-              style={styles.inputBox}
-              autoCorrect={false}
+              autoCapitalize="words"
+              returnKeyType="next"
+              blurOnSubmit={false}
+              onSubmitEditing={() => this.email.focus()}
             />
-            <TextInput
-              onFocus={() => {}}
-              onBlur={() => {}}
+            <SignUpInput
+              ref={(c) => this.email = c}
               value={this.state.email}
-              onChangeText={(text) => this.checkEmail(text)}
-              multiline={false}
+              onChangeText={this.checkEmail}
               placeholder="Email"
-              placeholderTextColor={theme.accentColor}
-              style={styles.inputBox}
-              autoCapitalize="none"
-              autoCorrect={false}
-              underlineColorAndroid="transparent"
             />
             <Flex style={styles.buttonWrapper}>
               <Button
@@ -174,7 +152,7 @@ class SignUpFBAccount extends Component {
             <Flex direction="row" align="center" justify="center">
               <Button
                 text="Privacy Policy"
-                type= "transparent"
+                type="transparent"
                 buttonTextStyle={styles.legalLinkText}
                 style={styles.legalLink}
                 onPress={() => this.handleLink(CONSTANTS.WEB_URLS.PRIVACY)}
@@ -183,7 +161,7 @@ class SignUpFBAccount extends Component {
               </Text>
               <Button
                 text="Terms of Service"
-                type= "transparent"
+                type="transparent"
                 buttonTextStyle={styles.legalLinkText}
                 style={styles.legalLink}
                 onPress={() => this.handleLink(CONSTANTS.WEB_URLS.TERMS)}
