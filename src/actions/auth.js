@@ -10,7 +10,8 @@ import { API_URL } from '../api/utils';
 
 // Setup app state change listeners
 let appStateChangeFn;
-let currentAppState = AppState.currentState;
+let currentAppState = AppState.currentState || '';
+
 export function startupAction(navigator) {
   return (dispatch, getState) => {
     dispatch(establishDevice(navigator));
@@ -29,7 +30,7 @@ export function cleanupAction() {
 function appStateChange(dispatch, getState, nextAppState) {
   const { cableId, token } = getState().auth;
   // LOG('appStateChange', nextAppState, currentAppState, cableId);
-  if (currentAppState.match(/inactive|background/) && nextAppState === 'active') {
+  if (nextAppState === 'active' && (currentAppState === 'inactive' || currentAppState === 'background')) {
     LOG('App has come to the foreground!');
     // Restart sockets
     if (cableId) {
@@ -45,7 +46,7 @@ function appStateChange(dispatch, getState, nextAppState) {
       // Get the latest conversations whenever the user comes back into the app
       dispatch(getConversations());
     }
-  } else if (currentAppState.match(/active/) && nextAppState === 'background') {
+  } else if (nextAppState === 'background' && currentAppState === 'active') {
     LOG('App is going into the background');
     // Close sockets
     dispatch(closeSocketAction());
