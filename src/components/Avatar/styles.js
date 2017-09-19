@@ -18,4 +18,13 @@ export default StyleSheet.create({
   avatar: {
     backgroundColor: theme.accentColor,
   },
+  present: {
+    width: 8,
+    height: 8,
+    backgroundColor: COLORS.GREEN,
+    borderRadius: 4,
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+  },
 });

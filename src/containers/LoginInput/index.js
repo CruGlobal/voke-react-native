@@ -14,9 +14,6 @@ import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import LOGO from '../../../images/initial_voke.png';
 import CONSTANTS from '../../constants';
 
-const VERSION = 'v2.8';
-const FIELDS = 'name,picture,about,cover,first_name,last_name';
-
 class LoginInput extends Component {
   static navigatorStyle = {
     navBarHidden: true,
@@ -25,10 +22,13 @@ class LoginInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: 'benlgauthier+voke1@gmail.com',
+      // email: '',
       password: 'password',
       disabled: false,
-      emailValidation: false,
+      // emailValidation: false,
+      // TODO: Remove these things
+      email: 'benlgauthier+voke1@gmail.com',
+      emailValidation: true,
     };
 
     this.login = this.login.bind(this);
@@ -46,22 +46,22 @@ class LoginInput extends Component {
   }
 
   login() {
-    // if (this.state.emailValidation && this.state.password) {
-    if (this.state.password) {
+    if (this.state.emailValidation && this.state.password) {
       this.props.dispatch(anonLogin(
         this.state.email,
         this.state.password
-      )).then(() => {
+      )).then((results) => {
+        LOG('login results', results);
         this.props.navigateResetHome();
-      });
+      }).catch(() => {});
     } else {
-      Alert.alert('Please enter a valid email and password','');
+      Alert.alert('Invalid email/password', 'Please enter a valid email and password');
     }
   }
 
   facebookLogin() {
     LOG('Making FB Call');
-    LoginManager.logInWithReadPermissions(['public_profile']).then((result) => {
+    LoginManager.logInWithReadPermissions(CONSTANTS.FACEBOOK_SCOPE).then((result) => {
       LOG('RESULT', result);
       if (result.isCancelled) {
         LOG('facebook login was canceled', result);
@@ -74,11 +74,11 @@ class LoginInput extends Component {
           }
           const accessToken = data.accessToken.toString();
           const getMeConfig = {
-            version: VERSION,
+            version: CONSTANTS.FACEBOOK_VERSION,
             accessToken,
             parameters: {
               fields: {
-                string: FIELDS,
+                string: CONSTANTS.FACEBOOK_FIELDS,
               },
             },
           };
@@ -88,7 +88,7 @@ class LoginInput extends Component {
               LOG('error getting facebook user', err);
               return;
             }
-            LOG('me', meResult);
+            LOG('facebook me', meResult);
             this.props.dispatch(facebookLoginAction(accessToken)).then(() => {
               this.props.dispatch(getMe()).then((results) => {
                 if (results.state === 'configured') {

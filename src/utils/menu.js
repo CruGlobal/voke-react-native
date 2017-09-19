@@ -1,7 +1,6 @@
 import { Linking, Platform } from 'react-native';
 import Communications from 'react-native-communications';
 
-// import { navigateAction } from '../actions/navigation';
 import { logoutAction } from '../actions/auth';
 import CONSTANTS from '../constants';
 

@@ -95,12 +95,13 @@ export function logoutAction() {
     new Promise((resolve) => {
       const token = getState().auth.token;
       dispatch(getDevices()).then((results) => {
+        LOG('devices results', results);
         // Pass the token into this function because the LOGOUT action will clear it out
         results.devices.forEach((m) => {
           dispatch(destroyDevice(m.id, token));
         });
-        dispatch({ type: LOGOUT });
       });
+      dispatch({ type: LOGOUT });
       resolve();
       AsyncStorage.clear();
     })
@@ -141,31 +142,29 @@ export function toastAction(text) {
 }
 
 export function forgotPasswordAction(email) {
-  let data = {
-    me: email,
-  };
-  return (dispatch) => {
-    return dispatch(callApi(REQUESTS.FORGOT_PASSWORD, {}, data));
-  };
+  return (dispatch) => (
+    new Promise((resolve, reject) => {
+      const data = { me: email };
+      dispatch(callApi(REQUESTS.FORGOT_PASSWORD, {}, data)).then(resolve).catch(reject);
+    })
+  );
 }
 
 export function anonLogin(username, password) {
-  return (dispatch) => {
-    return dispatch(callApi(REQUESTS.OAUTH, {}, {
-      username: username,
-      password: password,
-    })).then((results) => {
-      LOG('auth success', results);
-      dispatch(loginAction(results.access_token)).then(() => {
-        dispatch(getMe());
-      });
-      // dispatch(messagesAction());
-      // Do something with the results
-      return results;
-    }).catch((error) => {
-      LOG('error logging in', error);
-    });
-  };
+  return (dispatch) => (
+    new Promise((resolve, reject) => {
+      dispatch(callApi(REQUESTS.OAUTH, {}, {
+        username: username,
+        password: password,
+      })).then((results) => {
+        dispatch(loginAction(results.access_token)).then(() => {
+          dispatch(getMe());
+        });
+        resolve(results);
+        return results;
+      }).catch(reject);
+    })
+  );
 }
 
 export function facebookLoginAction(accessToken) {
@@ -187,12 +186,11 @@ export function facebookLoginAction(accessToken) {
 
 export function getMe() {
   return (dispatch) => {
-    return dispatch(callApi(REQUESTS.GET_ME, {}, {})).then((results) => {
-      LOG('get me successful', results);
+    return dispatch(callApi(REQUESTS.GET_ME)).then((results) => {
       dispatch(setUserAction(results));
       return results;
-    }).catch((error) => {
-      LOG('error getting me', error);
+    }).catch(() => {
+      // LOG('error getting me', error);
     });
   };
 }
@@ -203,11 +201,10 @@ export function updateMe(data) {
       return dispatch(updateMeImage(data.avatar));
     }
     return dispatch(callApi(REQUESTS.UPDATE_ME, {}, data)).then((results) => {
-      LOG('update me successful', results);
       dispatch(getMe());
       return results;
-    }).catch((error) => {
-      LOG('error updating me', error);
+    }).catch(() => {
+      // LOG('error updating me', error);
     });
   };
 }
@@ -216,7 +213,7 @@ export function updateMeImage(avatar) {
   return (dispatch) => {
     if (!avatar.fileName) {
       LOG('Must have a filename for updating an avatar');
-      return;
+      return Promise.reject();
     }
 
     // Need image upload data in this format for the RNFetchBlob request
@@ -260,51 +257,34 @@ export function verifyMobile(data) {
 }
 
 export function blockMessenger(data) {
-  let query = {
-    endpoint: `${API_URL}/messengers/${data}/block`,
-  };
-  LOG('this is my data here', data);
   return (dispatch) => {
-    return dispatch(callApi(REQUESTS.BLOCK_MESSENGER, query)).then((results) => {
-      LOG('Successfully blocked user', results);
-      return results;
-    }).catch((error) => {
-      LOG('error blocking user', error);
-    });
+    const query = {
+      endpoint: `${API_URL}/messengers/${data}/block`,
+    };
+    return dispatch(callApi(REQUESTS.BLOCK_MESSENGER, query));
   };
 }
 
 export function unblockMessenger(data) {
-  let query = {
-    endpoint: `${API_URL}/messengers/${data}/unblock`,
-  };
-  LOG('this is my data here', data);
   return (dispatch) => {
-    return dispatch(callApi(REQUESTS.UNBLOCK_MESSENGER, query)).then((results) => {
-      LOG('Successfully blocked user', results);
-      return results;
-    }).catch((error) => {
-      LOG('error blocking user', error);
-    });
+    const query = {
+      endpoint: `${API_URL}/messengers/${data}/unblock`,
+    };
+    return dispatch(callApi(REQUESTS.UNBLOCK_MESSENGER, query));
   };
 }
 
 export function reportUserAction(report, messenger) {
-  let query = {
-    endpoint: `${API_URL}/messengers/${messenger}/reports`,
-  };
-  let data = {
-    report: {
-      comment: report,
-    },
-  };
   return (dispatch) => {
-    return dispatch(callApi(REQUESTS.REPORT_MESSENGER, query, data)).then((results) => {
-      LOG('Successfully reported user', results);
-      return results;
-    }).catch((error) => {
-      LOG('error reporting user', error);
-    });
+    const query = {
+      endpoint: `${API_URL}/messengers/${messenger}/reports`,
+    };
+    const data = {
+      report: {
+        comment: report,
+      },
+    };
+    return dispatch(callApi(REQUESTS.REPORT_MESSENGER, query, data));
   };
 }
 
@@ -312,11 +292,16 @@ export function reportUserAction(report, messenger) {
 export function openSettingsAction() {
   return () => {
     if (Platform.OS === 'ios') {
-      Linking.canOpenURL('app-settings:').then((isSupported) => {
-        isSupported && Linking.openURL('app-settings:');
-      }, (err) => LOG('opening url', err));
+      const APP_SETTINGS_URL = 'app-settings:';
+      Linking.canOpenURL(APP_SETTINGS_URL).then((isSupported) => {
+        if (isSupported) {
+          return Linking.openURL(APP_SETTINGS_URL);
+        }
+      }).catch((err) => {
+        LOG('error opening app settings url', err);
+      });
     } else {
-      // link to android
+      // Android link to settings not needed
     }
   };
 }

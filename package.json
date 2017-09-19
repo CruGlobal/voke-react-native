@@ -14,6 +14,7 @@
   "scripts": {
     "start": "react-native start",
     "ios": "react-native run-ios",
+    "lint": "eslint ./src",
     "test": "node node_modules/jest/bin/jest.js --watch",
     "android": "react-native run-android",
     "android:build": "react-native run-android --variant=release"

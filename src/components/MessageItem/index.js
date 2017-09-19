@@ -23,7 +23,7 @@ class MessageItem extends Component {
   renderText() {
     const message = this.props.item;
     const isVoke = message.direct_message;
-    const isMe = this.props.item.messenger_id === this.props.user.id ? true : false;
+    const isMe = this.props.item.messenger_id === this.props.user.id;
     const isTypeState = message.type === 'typeState';
 
 
@@ -66,7 +66,7 @@ class MessageItem extends Component {
   renderVideo() {
     const message = this.props.item;
     const isVoke = message.direct_message;
-    const isMe = message.messenger_id === this.props.user.id ? true : false;
+    const isMe = message.messenger_id === this.props.user.id;
 
     return (
       <Flex
@@ -94,7 +94,7 @@ class MessageItem extends Component {
     const message = this.props.item;
     const user = this.props.user;
     const isVoke = message.direct_message;
-    const isMe = message.messenger_id === this.props.user.id ? true : false;
+    const isMe = message.messenger_id === this.props.user.id;
 
     if (isMe) {
       return (
@@ -132,7 +132,7 @@ class MessageItem extends Component {
     const isTypeState = message.type === 'typeState';
 
     const isVoke = message.direct_message;
-    const isMe = message.messenger_id === this.props.user.id ? true : false;
+    const isMe = message.messenger_id === this.props.user.id;
     const isVideo = message.item;
     const time = message.created_at;
 

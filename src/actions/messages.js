@@ -18,7 +18,7 @@ export function getConversationsPage(page) {
 
 export function getConversation(data) {
   return (dispatch) => {
-    let query = {
+    const query = {
       endpoint: `${API_URL}me/conversations/${data}`,
     };
     return dispatch(callApi(REQUESTS.GET_CONVERSATION, query)).catch((err) => {
@@ -29,7 +29,7 @@ export function getConversation(data) {
 
 export function deleteConversation(data) {
   return (dispatch) => {
-    let query = {
+    const query = {
       endpoint: `${API_URL}me/conversations/${data}`,
     };
     return dispatch(callApi(REQUESTS.DELETE_CONVERSATION, query)).then((results) => {
@@ -62,7 +62,7 @@ export function getMessages(data, page) {
 
 export function createMessage(conversation, data) {
   return (dispatch) => {
-    let query = {
+    const query = {
       endpoint: `${API_URL}me/conversations/${conversation}/messages`,
     };
     return dispatch(callApi(REQUESTS.CREATE_MESSAGE, query, data)).then((results) => {
@@ -77,38 +77,22 @@ export function newMessageAction(message) {
     return dispatch(getConversation(message.conversation_id)).then(() => {
       dispatch({ type: NEW_MESSAGE, message });
 
-      // Vibrate when receiving a new message
-      Vibration.vibrate(Platform.OS === 'android' ? undefined : 1500);
-
-      // Create a new sound and play it
-      const newMessageSound = new Sound('voke_ukulele_sound.mp3', Sound.MAIN_BUNDLE, (error) => {
-        if (error) {
-          LOG('failed to load the sound', error);
-          return;
-        }
-        newMessageSound.play((success) => {
-          if (!success) {
-            LOG('playback failed due to audio decoding errors');
-            // reset the player to its uninitialized state (android only)
-            // this is the only option to recover after an error occured and use the player again
-            newMessageSound.reset();
-          }
-        });
-      });
+      dispatch(vibrateAction());
+      dispatch(playSoundAction());
     });
   };
 }
 
 export function typeStateChangeAction(message) {
   return (dispatch, getState) => {
-    let me = getState().auth.user.id;
+    const me = getState().auth.user.id;
     // LOG('me', me, 'you', message.message.messenger_id);
     if (me === message.message.messenger_id) {
       return;
     } else {
-      let data = {
+      const data = {
         conversationId: message.message.conversation_id,
-        bool: message.notification.action === 'create' ? true : false,
+        bool: message.notification.action === 'create',
       };
       return dispatch({ type: TYPE_STATE_CHANGE, data });
     }
@@ -117,7 +101,7 @@ export function typeStateChangeAction(message) {
 
 export function createTypeStateAction(conversation) {
   return (dispatch) => {
-    let query = {
+    const query = {
       endpoint: `${API_URL}me/conversations/${conversation}/type_state`,
     };
     return dispatch(callApi(REQUESTS.CREATE_TYPESTATE, query));
@@ -126,7 +110,7 @@ export function createTypeStateAction(conversation) {
 
 export function destroyTypeStateAction(conversation) {
   return (dispatch) => {
-    let query = {
+    const query = {
       endpoint: `${API_URL}me/conversations/${conversation}/type_state`,
     };
     return dispatch(callApi(REQUESTS.DESTROY_TYPESTATE, query));
@@ -135,19 +119,46 @@ export function destroyTypeStateAction(conversation) {
 
 export function createMessageInteraction(interaction) {
   return (dispatch, getState) => {
-    let data = {
+    const data = {
       interaction: {
         action: interaction.action,
         device_id: getState().auth.cableId,
       },
     };
-    let query = {
+    const query = {
       endpoint: `${API_URL}me/conversations/${interaction.conversationId}/messages/${interaction.messageId}/interactions`,
     };
     return dispatch(callApi(REQUESTS.CREATE_MESSAGE_INTERACTION, query, data)).then(() => {
       // dispatch(getConversations());
       // LOG('creating message interaction');
       dispatch({ type: MARK_READ, conversationId: interaction.conversationId });
+    });
+  };
+}
+
+export function vibrateAction() {
+  return () => {
+    // Vibrate when receiving a new message
+    Vibration.vibrate(Platform.OS === 'android' ? undefined : 1500);
+  };
+}
+
+export function playSoundAction() {
+  return () => {
+    // Create a new sound and play it
+    const newMessageSound = new Sound('voke_ukulele_sound.mp3', Sound.MAIN_BUNDLE, (error) => {
+      if (error) {
+        LOG('failed to load the sound', error);
+        return;
+      }
+      newMessageSound.play((success) => {
+        if (!success) {
+          LOG('playback failed due to audio decoding errors');
+          // reset the player to its uninitialized state (android only)
+          // this is the only option to recover after an error occured and use the player again
+          newMessageSound.reset();
+        }
+      });
     });
   };
 }

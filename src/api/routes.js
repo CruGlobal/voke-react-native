@@ -32,6 +32,8 @@ export default {
   //   mapResults: (results, query, data, getState) => results,
   //   (some default data that will merge with the data passed in)
   //   data: {}
+  //   (some default query that will merge with the query passed in)
+  //   query: {}
   //   (mark the api as a call that will show the loading state)
   //   showApiLoading: true
   // },
@@ -109,11 +111,13 @@ export default {
   'GET_POPULAR_VIDEOS': {
     endpoint: API_URL + 'items',
     method: 'get',
+    query: { popularity: true },
     showApiLoading: true,
   },
   'GET_FEATURED_VIDEOS': {
     endpoint: API_URL + 'items',
     method: 'get',
+    query: { featured: true },
     showApiLoading: true,
   },
   'GET_TAGS': {

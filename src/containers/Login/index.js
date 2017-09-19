@@ -11,12 +11,7 @@ import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { Flex, Text, Button } from '../../components/common';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import LOGO from '../../../images/initial_voke.png';
-
-const VERSION = 'v2.8';
-// const SCOPE = ['public_profile'];
-const FIELDS = 'name,picture,about,cover,first_name,last_name';
-const SCOPE = ['public_profile', 'email'];
-// const FIELDS = 'name,email,picture,about,cover,first_name,last_name';
+import CONSTANTS from '../../constants';
 
 class Login extends Component {
   static navigatorStyle = {
@@ -33,58 +28,57 @@ class Login extends Component {
   }
 
   facebookLogin() {
-    // LOG('Making FB Call');
-    // LoginManager.logInWithReadPermissions(SCOPE).then((result) => {
-    //   LOG('RESULT', result);
-    //   if (result.isCancelled) {
-    //     LOG('facebook login was canceled', result);
-    //   } else {
-    //     LOG('successful facebook login', result);
-    //     AccessToken.getCurrentAccessToken().then((data) => {
-    //       if (!data.accessToken) {
-    //         LOG('access token doesnt exist');
-    //         return;
-    //       }
-    //       const accessToken = data.accessToken.toString();
-    //       const getMeConfig = {
-    //         version: VERSION,
-    //         accessToken,
-    //         parameters: {
-    //           fields: {
-    //             string: FIELDS,
-    //           },
-    //         },
-    //       };
-    //       // Create a graph request asking for user information with a callback to handle the response.
-    //       const infoRequest = new GraphRequest('/me', getMeConfig, (err, meResult) => {
-    //         if (err) {
-    //           LOG('error getting facebook user', err);
-    //           return;
-    //         }
-    //         LOG('me', meResult);
-    //         this.props.dispatch(facebookLoginAction(accessToken)).then(() => {
-    //           this.props.dispatch(getMe()).then((results) => {
-    //             if (results.state === 'configured') {
-    //               this.props.navigateResetHome();
-    //             } else {
-    //               this.props.navigatePush('voke.SignUpFBAccount', {
-    //                 me: meResult,
-    //               });
-    //             }
-    //           });
-    //         });
-    //       });
-    //       // Start the graph request.
-    //       new GraphRequestManager().addRequest(infoRequest).start();
-    //     });
-    //   }
-    // }, (err) => {
-    //   LOG('err', err);
-    //   LoginManager.logOut();
-    // }).catch(() => {
-    //   LOG('catch');
-    // });
-    this.props.navigatePush('voke.SignUpFBAccount');
+    LOG('Making FB Call');
+    LoginManager.logInWithReadPermissions(CONSTANTS.FACEBOOK_SCOPE).then((result) => {
+      LOG('RESULT', result);
+      if (result.isCancelled) {
+        LOG('facebook login was canceled', result);
+      } else {
+        LOG('successful facebook login', result);
+        AccessToken.getCurrentAccessToken().then((data) => {
+          if (!data.accessToken) {
+            LOG('access token doesnt exist');
+            return;
+          }
+          const accessToken = data.accessToken.toString();
+          const getMeConfig = {
+            version: CONSTANTS.FACEBOOK_VERSION,
+            accessToken,
+            parameters: {
+              fields: {
+                string: CONSTANTS.FACEBOOK_FIELDS,
+              },
+            },
+          };
+          // Create a graph request asking for user information with a callback to handle the response.
+          const infoRequest = new GraphRequest('/me', getMeConfig, (err, meResult) => {
+            if (err) {
+              LOG('error getting facebook user', err);
+              return;
+            }
+            LOG('me', meResult);
+            this.props.dispatch(facebookLoginAction(accessToken)).then(() => {
+              this.props.dispatch(getMe()).then((results) => {
+                if (results.state === 'configured') {
+                  this.props.navigateResetHome();
+                } else {
+                  this.props.navigatePush('voke.SignUpFBAccount', {
+                    me: meResult,
+                  });
+                }
+              });
+            });
+          });
+          // Start the graph request.
+          new GraphRequestManager().addRequest(infoRequest).start();
+        });
+      }
+    }, (err) => {
+      LOG('err', err);
+      LoginManager.logOut();
+    }).catch(() => {
+      LOG('catch');
+    });
   }
 
   render() {

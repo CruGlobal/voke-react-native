@@ -3,30 +3,22 @@ import PropTypes from 'prop-types';
 import { startLoginApp, startTabApp } from '../NavConfig';
 
 const DEFAULT_PROPS = {
-  'voke.Home': {
-    title: 'Chats',
-  },
-  'voke.Videos': {
-    title: 'Videos',
-    titleImage: require('../../images/nav_voke_logo.png'),
-  },
-  'voke.SelectFriend': {
-    title: 'Select Friend',
-    titleImage: require('../../images/nav_voke_logo.png'),
-  },
-  'voke.VideoDetails': {
-    appStyle: { orientation: 'auto' },
-  },
+  'voke.Home': { title: 'Chats' },
+  'voke.Videos': { title: 'Videos' },
+  'voke.SelectFriend': { title: 'Select Friend' },
   'voke.Contacts': { title: 'Contacts' },
   'voke.Profile': { title: 'Profile' },
   'voke.Acknowledgements': { title: 'Acknowledgements' },
   'voke.About': { title: 'About' },
   'voke.Help': { title: 'Help' },
+  'voke.VideoDetails': {
+    appStyle: { orientation: 'auto' },
+  },
+  'voke.CountrySelect': { title: 'Select Country' },
   // 'voke.SignUpAccount': { title: 'Create Account' },
   // 'voke.SignUpProfile': { title: 'Create Profile' },
   // 'voke.SignUpNumber': { title: 'Mobile Number' },
   // 'voke.SignUpNumberVerify': { title: 'Verify Number' },
-  'voke.CountrySelect': { title: 'Select Country' },
 };
 // Handle default screen things
 function defaultProps(screen, props, passProps) {
@@ -44,17 +36,6 @@ export function navigatePush(navigator, screen, passProps = {}, screenProps = {}
   return () => {
     let newScreenProps = defaultProps(screen, screenProps, passProps);
     navigator.push({
-      screen,
-      ...newScreenProps,
-      passProps,
-    });
-  };
-}
-
-export function navigateResetTo(navigator, screen, passProps = {}, screenProps = {}) {
-  return () => {
-    let newScreenProps = defaultProps(screen, screenProps, passProps);
-    navigator.resetTo({
       screen,
       ...newScreenProps,
       passProps,
@@ -104,7 +85,6 @@ export const NavPropTypes = {
   navigateBack: PropTypes.func.isRequired, // Redux
   navigateResetHome: PropTypes.func.isRequired, // Redux
   navigateResetLogin: PropTypes.func.isRequired, // Redux
-  navigateResetTo: PropTypes.func.isRequired, // Redux
 };
 
 // Redux connect function for navigator screens
@@ -115,6 +95,5 @@ export default (dispatch, { navigator }) => {
     navigateBack: (...args) => dispatch(navigateBack(navigator, ...args)),
     navigateResetHome: (...args) => dispatch(navigateResetHome(navigator, ...args)),
     navigateResetLogin: (...args) => dispatch(navigateResetLogin(navigator, ...args)),
-    navigateResetTo: (...args) => dispatch(navigateResetTo(navigator, ...args)),
   };
 };

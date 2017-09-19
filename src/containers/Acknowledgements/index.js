@@ -21,6 +21,7 @@ function setButtons() {
 class Acknowledgements extends Component {
   static navigatorStyle = {
     tabBarHidden: true,
+    screenBackgroundColor: theme.lightBackgroundColor,
     navBarBackgroundColor: theme.backgroundColor,
     navBarTextColor: theme.textColor,
     navBarButtonColor: theme.textColor,

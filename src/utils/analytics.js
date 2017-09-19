@@ -1,24 +1,19 @@
-import { GoogleAnalyticsTracker, GoogleTagManager, GoogleAnalyticsSettings } from 'react-native-google-analytics-bridge';
+import { GoogleAnalyticsTracker, GoogleAnalyticsSettings } from 'react-native-google-analytics-bridge';
+import CONSTANTS from '../constants';
 
 let tracker = null;
 
 function setup() {
   // The tracker must be constructed, and you can have multiple:
-  tracker = new GoogleAnalyticsTracker('UA-39188989-7');
-  // let tracker2 = new GoogleAnalyticsTracker('UA-12345-2');
+  tracker = new GoogleAnalyticsTracker(CONSTANTS.GA_TRACKER);
 
-  // tracker1.trackScreenView('Home');
-  // tracker1.trackEvent('Customer', 'New');
-
-  // TODO: If environment is not prod, then set dry run to true
-  // Setting `dryRun` to `true` lets you test tracking without sending data to GA
+  // Setting dryRun to true lets you test tracking without sending data to GA
   if (__DEV__) {
     GoogleAnalyticsSettings.setDryRun(true);
   }
 
   // The GoogleAnalyticsSettings is static, and settings are applied across all trackers:
   GoogleAnalyticsSettings.setDispatchInterval(30);
-
 }
 
 function screen(screen) {

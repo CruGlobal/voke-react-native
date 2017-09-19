@@ -2,21 +2,24 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Image } from 'react-native';
 
-import { COLORS } from '../../theme';
-
 import styles from './styles';
-
 import { Text, Flex } from '../common';
 
 export default class Avatar extends Component {
 
   render() {
-    const { present, text, image, size, style = {}, avatarTextStyle = {}, imageStyle = {}, ...rest } = this.props;
+    const { present, text, image, size, style, avatarTextStyle, imageStyle } = this.props;
     let content = null;
+
+    const sizeObj = { width: size, height: size, borderRadius: size / 2 };
 
     if (image) {
       content = (
-        <Image resizeMode="cover" source={{uri: image}} style={[imageStyle, {width: size, height: size, borderRadius: size/2}]} />
+        <Image
+          resizeMode="cover"
+          source={{ uri: image }}
+          style={[imageStyle, sizeObj]}
+        />
       );
     } else if (text) {
       content = (
@@ -27,12 +30,10 @@ export default class Avatar extends Component {
     }
 
     return (
-      <Flex style={[{width: size, height: size, borderRadius: size/2}, styles.avatar, style]} align="center" justify="center">
+      <Flex style={[sizeObj, styles.avatar, style]} align="center" justify="center">
         {content}
         {
-          present ? (
-            <Flex style={{width: 8, height: 8, backgroundColor: COLORS.GREEN, borderRadius: 4, position: 'absolute', bottom: 0, right: 0}} />
-          ) : null
+          present ? <Flex style={styles.present} /> : null
         }
       </Flex>
     );

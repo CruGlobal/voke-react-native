@@ -105,13 +105,10 @@ class Videos extends Component {
     } else {
       this.props.navigator.setButtons(setButtons(true));
     }
-    this.props.navigator.setTitle({
-      title: 'Videos',
-      // titleImage: require('../../../images/nav_voke_logo.png'),
-    });
   }
 
   componentDidMount() {
+    // If there are no videos when the component mounts, get them, otherwise just set it
     if (this.props.all.length === 0) {
       this.props.dispatch(getVideos()).then(() => {
         this.updateVideoList('all');
@@ -119,12 +116,15 @@ class Videos extends Component {
     } else {
       this.setState({ videos: this.props.all });
     }
+
     Analytics.screen('Videos');
   }
 
   handleThemeSelect(tag) {
     this.props.dispatch(getSelectedThemeVideos(tag)).then(() => {
       this.setState({ videos: this.props.selectedThemeVideos});
+      // Scroll to the top after selecting a theme
+      this.videoList.scrollToBeginning();
     });
   }
 
@@ -168,7 +168,7 @@ class Videos extends Component {
     if (filter === 'themes') {
       this.setState({ previousFilter: this.state.selectedFilter, selectedFilter: filter });
     } else {
-      this.setState({selectedFilter: filter});
+      this.setState({ selectedFilter: filter });
       if (shouldntScroll) {
         return;
       } else {

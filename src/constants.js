@@ -23,7 +23,14 @@ export default {
   IS_STAGING,
 
   EMAIL_REGEX: new RegExp(/^\w+([.+-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/),
-  
+  GA_TRACKER: 'UA-39188989-7', // Google Analytics
+
+  FACEBOOK_VERSION: 'v2.8',
+  FACEBOOK_FIELDS: 'name,email,picture,about,cover,first_name,last_name',
+  FACEBOOK_SCOPE: ['public_profile', 'email'],
+  // FACEBOOK_FIELDS: 'name,picture,about,cover,first_name,last_name',
+  // FACEBOOK_SCOPE: ['public_profile'],
+
   PAGE_SIZE: 25, // This is the default page size from the API
   CONTACT_CHUNKS: 500, // How many contacts to send up per upload request
   GCM_SENDER_ID: '360680446899',

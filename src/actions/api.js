@@ -91,17 +91,25 @@ export default function callApi(requestObject, query = {}, data = {}) {
             showApiLoading: action.showApiLoading,
           });
 
-          if (typeof err === 'object' && err.code === 'AUTHORIZATION_REQUIRED') {
-            dispatch(logoutAction(true));
-            reject();
-            return;
-          } else if (typeof err === 'object' && err.error === 'Unauthorized') {
-            Alert.alert('Unauthorized', 'Sorry, it looks like there was an error authorizing your request.');
-            // dispatch(logoutAction(true));
-            reject();
-            return;
+          if (typeof err === 'object') {
+            if (err.error === 'Unauthorized' || err.code === 'AUTHORIZATION_REQUIRED') {
+              // There was a problem authenticating the user, log them out
+              Alert.alert(
+                'Unauthorized',
+                'Sorry, it looks like there was an error authorizing your request.',
+                [{ text: 'OK', onPress: () => dispatch(logoutAction()) }]
+              );
+              reject(err);
+              return;
+            } else if (err.error === 'invalid_grant') {
+              // There was a login error
+              Alert.alert('Error', 'Sorry, that username/password combination is not correct.');
+              reject(err);
+              return;
+            }
           }
 
+          // If none of the above scenarios are hit, show a network connection error
           dispatch(toastAction('Network connection error'));
         }
         reject(err);

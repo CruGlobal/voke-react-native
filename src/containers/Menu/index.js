@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Analytics from '../../utils/analytics';
+import { Navigation } from 'react-native-navigation';
 
+import Analytics from '../../utils/analytics';
 import { navMenuOptions } from '../../utils/menu';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import { Navigation } from 'react-native-navigation';
 import theme from '../../theme';
 import SettingsList from '../../components/SettingsList';
 
@@ -19,6 +19,7 @@ class Menu extends Component {
   };
 
   static navigatorStyle = {
+    screenBackgroundColor: theme.lightBackgroundColor,
     navBarBackgroundColor: theme.backgroundColor,
     navBarTextColor: theme.textColor,
     navBarButtonColor: theme.textColor,
@@ -26,6 +27,7 @@ class Menu extends Component {
 
   constructor(props) {
     super(props);
+
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 

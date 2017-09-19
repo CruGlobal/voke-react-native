@@ -7,21 +7,6 @@ import { COLORS } from '../../theme.js';
 import { Flex } from '../../components/common';
 
 class AndroidSearchBar extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      text: '',
-    };
-
-    this.handleChangeText = this.handleChangeText.bind(this);
-  }
-
-  handleChangeText(text) {
-    this.setState({ text });
-    this.props.onChange(text);
-  }
-
   render() {
     return (
       <Flex style={styles.container} align="center">
@@ -32,7 +17,7 @@ class AndroidSearchBar extends Component {
           placeholderTextColor="rgba(240, 240, 240, 0.6)"
           style={styles.input}
           autoCorrect={false}
-          onChangeText={this.handleChangeText}
+          onChangeText={this.props.onChange}
           underlineColorAndroid={COLORS.WHITE}
         />
       </Flex>
@@ -41,7 +26,8 @@ class AndroidSearchBar extends Component {
 }
 
 AndroidSearchBar.propTypes = {
-  onChange: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.string,
 };
 
 export default AndroidSearchBar;

@@ -60,14 +60,19 @@ lodashForEach(apiRoutes, (routeData, key) => {
 
       // Merge some default data from the routes with the data passed in
       const data = merge({}, routeData.data, d);
-      const endpoint = q.endpoint || routeData.endpoint;
+      const query = merge({}, routeData.query, q);
+
+      // Get the endpoint either from the query, or the routeData
+      const endpoint = query.endpoint || routeData.endpoint;
+      if (query.endpoint) {
+        delete query.endpoint;
+      }
 
       // Call the request
       request(
         method,
         endpoint,
-        // routeData.endpoint,
-        q,
+        query,
         method === 'get' ? undefined : data,
         extra,
       ).then(resolve).catch((err) => {

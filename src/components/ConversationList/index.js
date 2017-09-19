@@ -1,11 +1,12 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Platform, ListView, TouchableOpacity, Image } from 'react-native';
-import styles from './styles';
+import { View, Platform, ListView, TouchableOpacity } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
-import theme, { COLORS } from '../../theme';
 import moment from 'moment';
+
+import styles from './styles';
+import theme, { COLORS } from '../../theme';
 
 import { Flex, VokeIcon, Text, Touchable, Separator, Avatar, RefreshControl } from '../common';
 import CONSTANTS from '../../constants';
@@ -99,10 +100,8 @@ class ConversationList extends Component { // eslint-disable-line
   getPresence(messenger) {
     let today = new Date().valueOf();
     let presence = messenger && messenger.present_at ? moment.utc(messenger.present_at, 'YYYY-MM-DD HH:mm:ss UTC').valueOf() : null;
-    if (presence) {
-      if (today - presence < 1000*60*5) {
-        return true;
-      }
+    if (presence && (today - presence < 1000 * 60 * 5)) {
+      return true;
     }
     return false;
   }
