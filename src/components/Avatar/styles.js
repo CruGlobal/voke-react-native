@@ -11,7 +11,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     color: theme.textColor,
-    // textAlign: 'center',
+    textAlign: 'center',
     fontSize: 12,
     backgroundColor: COLORS.TRANSPARENT,
   },

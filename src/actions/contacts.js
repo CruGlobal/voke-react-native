@@ -62,8 +62,8 @@ export function getContacts(force = false) {
             const all = lodashFilter(lodashMap(contacts, (c) => {
               // Android doesn't have familyName, just givenName
               const name = `${c.givenName || ''} ${c.familyName || ''}`.trim();
-              let firstNameLetter = getFirstLetter(c.givenName) || getFirstLetter(name);
-              let lastNameLetter = getFirstLetter(c.familyName) || firstNameLetter;
+              const firstNameLetter = getFirstLetter(c.givenName) || getFirstLetter(name);
+              const lastNameLetter = getFirstLetter(c.familyName) || firstNameLetter;
               return {
                 name,
                 phone: lodashMap(c.phoneNumbers, 'number'),

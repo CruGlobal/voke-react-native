@@ -2,9 +2,11 @@
 import React, { Component } from 'react';
 import { Image } from 'react-native';
 import PropTypes from 'prop-types';
+
 import styles from './styles';
 import VOKE_ICON from '../../../images/voke_icon_chat.png';
 import { Flex, Text, Avatar, Button } from '../common';
+import { getInitials } from '../../utils/common';
 
 class ContactItem extends Component { // eslint-disable-line
 
@@ -27,7 +29,7 @@ class ContactItem extends Component { // eslint-disable-line
             <Avatar
               size={26}
               style={styles.avatar}
-              text={item.initials}
+              text={getInitials(item.initials)}
             />
           )
         }

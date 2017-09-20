@@ -21,7 +21,7 @@ import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.rt2zz.reactnativecontacts.ReactNativeContacts;
-import com.imagepicker.ImagePickerPackage;
+// import com.imagepicker.ImagePickerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
 // import com.facebook.soloader.SoLoader;
@@ -56,7 +56,7 @@ public class MainApplication extends NavigationApplication {
           new ReactNativePushNotificationPackage(),
           new RNSpinkitPackage(),
           new ReactNativeContacts(),
-          new ImagePickerPackage(),
+          // new ImagePickerPackage(),
           new GoogleAnalyticsBridgePackage(),
           new VectorIconsPackage(),
           new PickerPackage(),

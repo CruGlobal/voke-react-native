@@ -6,7 +6,7 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 
 import styles from './styles';
 import theme, { COLORS } from '../../theme';
-import { momentUtc } from '../../utils/common';
+import { momentUtc, getInitials } from '../../utils/common';
 
 import { Flex, VokeIcon, Text, Touchable, Separator, Avatar, RefreshControl } from '../common';
 import CONSTANTS from '../../constants';
@@ -31,8 +31,6 @@ class ConversationList extends Component { // eslint-disable-line
     this.handleDelete = this.handleDelete.bind(this);
     this.handleBlock = this.handleBlock.bind(this);
     this.renderRow = this.renderRow.bind(this);
-    this.handleFocus = this.handleFocus.bind(this);
-    this.handleBlur = this.handleBlur.bind(this);
     this.getSenderName = this.getSenderName.bind(this);
     this.getConversationParticipant = this.getConversationParticipant.bind(this);
     this.getPresence = this.getPresence.bind(this);
@@ -57,14 +55,6 @@ class ConversationList extends Component { // eslint-disable-line
     this.props.onBlock(otherPerson, data);
   }
 
-  handleFocus(id) {
-    this.setState({ rowFocused: id });
-  }
-
-  handleBlur() {
-    this.setState({ rowFocused: null });
-  }
-
   handleRefresh() {
     this.setState({ refreshing: true });
     this.props.onRefresh().then(() => {
@@ -75,13 +65,18 @@ class ConversationList extends Component { // eslint-disable-line
   }
 
   getSenderName(conversation) {
-    if (conversation.messengers[0] && conversation.messengers[0].id) {
-      if (conversation.messengers[0].id != this.props.me.id) {
-        if (conversation.messengers[0].first_name) {
-          return conversation.messengers[0].first_name;
-        }
-        return 'Other';
-      }
+    const messenger = conversation.messengers[0];
+    // if (conversation.messengers[0]) {
+    //   LOG('messenger[0] name', conversation.messengers[0].first_name);
+    // }
+    // if (conversation.messengers[1]) {
+    //   LOG('messenger[1] name', conversation.messengers[1].first_name);
+    // }
+    // if (conversation.messengers[2]) {
+    //   LOG('messenger[2] name', conversation.messengers[2].first_name);
+    // }
+    if (messenger && messenger.id && messenger.id !== this.props.me.id) {
+      return messenger.first_name || 'Other';
     }
     return 'you';
   }
@@ -111,13 +106,14 @@ class ConversationList extends Component { // eslint-disable-line
     const contentCreator = this.getSenderName(conversation);
     const otherPerson = this.getConversationParticipant(conversation);
     const isPresent = this.getPresence(otherPerson);
+    const initials = otherPerson ? otherPerson.initials : 'VB';
 
     return (
       <Touchable
         highlight={true}
         underlayColor={COLORS.TRANSPARENT}
-        onShowUnderlay={() => this.handleFocus(item.id)}
-        onHideUnderlay={this.handleBlur}
+        onShowUnderlay={() => this.setState({ rowFocused: item.id })}
+        onHideUnderlay={() => this.setState({ rowFocused: null })}
         activeOpacity={1}
         onPress={() => this.props.onSelect(conversation)}>
         <View>
@@ -127,7 +123,7 @@ class ConversationList extends Component { // eslint-disable-line
                 size={30}
                 image={otherPerson && otherPerson.avatar.small.indexOf('/avatar.jpg') < 0 ? otherPerson.avatar.small : null}
                 style={this.state.rowFocused === item.id ? { backgroundColor: theme.primaryColor } : null}
-                text={otherPerson ? otherPerson.initials : 'VB'}
+                text={getInitials(initials)}
                 present={isPresent}
               />
             </Flex>
