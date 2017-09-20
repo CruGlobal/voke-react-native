@@ -104,7 +104,6 @@ class Message extends Component {
     const nLength = nextProps.messages.length;
     const cLength = this.props.messages.length;
     if (nLength > 0 && cLength > 0 && cLength < nLength) {
-      this.setLatestItem();
       this.createMessageReadInteraction();
     }
   }
@@ -118,10 +117,8 @@ class Message extends Component {
 
   setLatestItem() {
     const messages = this.props.messages || [];
-    // const item = messages.reverse().find((m) => m.item);
     const item = messages.find((m) => m.item);
     if (item && item.item) {
-      LOG('item', item.item);
       this.setState({ latestItem: item.item.id });
     }
   }
@@ -135,19 +132,15 @@ class Message extends Component {
 
   getMessages(page) {
     this.props.dispatch(getMessages(this.props.conversation.id, page)).then(() => {
-      this.setLatestItem();
       this.createMessageReadInteraction();
     });
   }
 
   handleAddKickstarter() {
-    // LOG('kcikesrter', this.state.latestItem);
     this.props.navigatePush('voke.KickstartersTab', {
       onSelectKickstarter: (item) => {
-        // LOG('selected kickstarter in message!');
         this.props.navigateBack({ animated: true });
         this.setState({ text: item });
-        // LOG(this.state.text);
       },
       latestItem: this.state.latestItem,
     });
@@ -201,6 +194,7 @@ class Message extends Component {
     };
     this.props.dispatch(createMessageInteraction(interaction)).then(() => {
       this.props.dispatch(markReadAction(this.props.conversation.id));
+      this.setLatestItem();
     });
   }
 
