@@ -28,13 +28,16 @@ export function cleanupAction() {
   };
 }
 
+// TODO: It would be nice to somehow do this in the background and not block the UI when coming back into the app
 function appStateChange(dispatch, getState, nextAppState) {
   const { cableId, token } = getState().auth;
-  // Sometimes this runs on android when logging out and causes a network error
+  
+  // Sometimes this runs when logging out and causes a network error
   // Only run it when there is a valid token
   if (!token) {
     return;
   }
+
   // LOG('appStateChange', nextAppState, currentAppState, cableId);
   if (nextAppState === 'active' && (currentAppState === 'inactive' || currentAppState === 'background')) {
     LOG('App has come to the foreground!');
@@ -44,7 +47,7 @@ function appStateChange(dispatch, getState, nextAppState) {
     } else {
       dispatch(establishDevice());
     }
-  } else if (nextAppState === 'background' && currentAppState === 'active') {
+  } else if (nextAppState === 'background' && (currentAppState === 'inactive' || currentAppState === 'active')) {
     LOG('App is going into the background');
     // Close sockets
     dispatch(closeSocketAction());

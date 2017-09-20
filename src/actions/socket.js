@@ -67,8 +67,9 @@ export function setupSocketAction(cableId) {
         //   LOG('socket closed', err.code, err.reason);
         // };
       }
-    } catch (e) {
+    } catch (socketErr) {
       // Do nothing with the error
+      LOG('socket error in setup', socketErr);
     }
 
   };
@@ -83,8 +84,9 @@ export function closeSocketAction() {
         ws = null;
         LOG('Closing the socket connection');
       }
-    } catch (e) {
+    } catch (socketErr) {
       // Do nothing with the error
+      LOG('socket error in close', socketErr);
     }
   };
 }
