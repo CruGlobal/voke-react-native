@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Platform } from 'react-native';
+import { BackHandler, View, ScrollView, Platform } from 'react-native';
 import { connect } from 'react-redux';
-import { getVideos, getFeaturedVideos, getPopularVideos, getTags, getSelectedThemeVideos } from '../../actions/videos';
 import PropTypes from 'prop-types';
+import { Navigation } from 'react-native-navigation';
+
+import { TAB_SELECTED } from '../../constants';
+import { getVideos, getFeaturedVideos, getPopularVideos, getTags, getSelectedThemeVideos } from '../../actions/videos';
 import Analytics from '../../utils/analytics';
 
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import { Navigation } from 'react-native-navigation';
 
 import styles from './styles';
 import theme from '../../theme';
@@ -74,6 +76,7 @@ class Videos extends Component {
     this.showThemes = this.showThemes.bind(this);
     this.handleThemeSelect = this.handleThemeSelect.bind(this);
     this.handleDismissTheme = this.handleDismissTheme.bind(this);
+    this.backHandler = this.backHandler.bind(this);
   }
 
   onNavigatorEvent(event) {
@@ -96,6 +99,11 @@ class Videos extends Component {
         });
       }
     }
+
+    // Keep track of selected tab in redux
+    if (event.id === 'bottomTabSelected') {
+      this.props.dispatch({ type: TAB_SELECTED, tab: 1 });
+    }
   }
 
   componentWillMount() {
@@ -117,6 +125,26 @@ class Videos extends Component {
     }
 
     Analytics.screen('Videos');
+
+    // If your on the home tab, handle the back button
+    if (!this.props.onSelectVideo) {
+      BackHandler.addEventListener('hardwareBackPress', this.backHandler);
+    }
+  }
+  
+  componentWillUnmount() {
+    if (!this.props.onSelectVideo) {
+      BackHandler.removeEventListener('hardwareBackPress', this.backHandler);
+    }
+  }
+
+  // Handle going from the Videos Tab to the Chat tab when Android back is pressed
+  backHandler() {
+    if (this.props.isTabSelected) {
+      this.props.navigator.switchToTab({ tabIndex: 0 });
+      return true;
+    }
+    return false;
   }
 
   handleThemeSelect(tag) {
@@ -269,12 +297,13 @@ Videos.propTypes = {
   onSelectVideo: PropTypes.func,
 };
 
-const mapStateToProps = ({ videos }) => ({
+const mapStateToProps = ({ auth, videos }) => ({
   all: videos.all,
   popular: videos.popular,
   featured: videos.featured,
   tags: videos.tags,
   selectedThemeVideos: videos.selectedThemeVideos,
+  isTabSelected: auth.homeTabSelected === 1,
 });
 
 export default connect(mapStateToProps, nav)(Videos);

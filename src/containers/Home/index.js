@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Navigation } from 'react-native-navigation';
 
+import { TAB_SELECTED } from '../../constants';
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { startupAction, cleanupAction, blockMessenger, reportUserAction } from '../../actions/auth';
@@ -110,6 +111,11 @@ class Home extends Component {
           animationType: 'slide-up', // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
         });
       }
+    }
+
+    // Keep track of selected tab in redux
+    if (event.id === 'bottomTabSelected') {
+      this.props.dispatch({ type: TAB_SELECTED, tab: 0 });
     }
   }
 
@@ -248,6 +254,7 @@ const mapStateToProps = ({ messages, auth }) => {
     me: auth.user,
     unReadBadgeCount: messages.unReadBadgeCount,
     pagination: messages.pagination.conversations,
+    isTabSelected: auth.homeTabSelected === 0,
   };
 };
 
