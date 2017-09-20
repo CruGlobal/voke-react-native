@@ -53,19 +53,11 @@ You can enable **Hot Reloading** by shaking the device and enabling it from ther
 
 ## Building the application
 
-For iOS, you can run change the scheme to a `Release` version and run the application.
+For iOS, you can run change the scheme to a `Release` version and run the application in Xcode.
 
-For Android, you have to retrieve the `release.properties` information from one of the Cru administrators.
+For Android, to build to the store, you will have to use the existing android keystore from one of the Cru administrators.
 
-`release.properties` should look like this, but with the correct. It goes in `androind/release.properties`
-```
-keyAlias=myapp-release
-keyAliasPassword=mysecretpassword
-keyStore=release.keystore
-keyStorePassword=mysecretpassword
-```
-
-Check that there is a device connected by running `adb devices`, then you can run `npm run android:build` to build the application to that device.
+To build to a local device, check that there is a device connected by running `adb devices`, then you can run `npm run android:build`. Make sure you've uninstalled any existing Voke application on the device first.
 
 
 

@@ -7,7 +7,7 @@ import Spinner from 'react-native-spinkit';
 import theme from '../../theme';
 import styles from './styles';
 import { Flex, Text, Icon, Avatar, DateComponent } from '../common';
-import { momentUtc } from '../../utils/common';
+import { momentUtc, getInitials } from '../../utils/common';
 
 class MessageItem extends Component {
 
@@ -103,7 +103,7 @@ class MessageItem extends Component {
         <Avatar
           size={28}
           image={user.avatar.small}
-          text={user.initials}
+          text={getInitials(user.initials)}
         />
       );
     } else if (isVoke) {
@@ -113,7 +113,7 @@ class MessageItem extends Component {
         <Avatar
           size={28}
           image={vokebotMessenger.avatar.small}
-          text={vokebotMessenger.initials}
+          text={getInitials(vokebotMessenger.initials)}
         />
       );
     } else {
@@ -123,7 +123,7 @@ class MessageItem extends Component {
         <Avatar
           image={otherMessenger && otherMessenger.avatar.small.indexOf('/avatar.jpg') < 0 ? otherMessenger.avatar.small : null}
           size={28}
-          text={otherMessenger.initials}
+          text={getInitials(otherMessenger.initials)}
         />
       );
     }
