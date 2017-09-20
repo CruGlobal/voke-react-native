@@ -2,6 +2,8 @@
 import { StyleSheet } from 'react-native';
 import theme, { COLORS } from '../../theme';
 
+const IMAGE_SIZE = 125;
+
 export default StyleSheet.create({
   container: {
     flex: 1,
@@ -18,9 +20,9 @@ export default StyleSheet.create({
     padding: 0,
   },
   imageSelect: {
-    height: 125,
-    width: 125,
-    borderRadius: 65,
+    height: IMAGE_SIZE,
+    width: IMAGE_SIZE,
+    borderRadius: IMAGE_SIZE / 2,
     borderWidth: 3,
     borderColor: theme.lightBackgroundColor,
     backgroundColor: 'black',

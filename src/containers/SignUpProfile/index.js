@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, TouchableOpacity, Keyboard, Alert } from 'react-native';
+import { Image, ScrollView, TouchableOpacity, Keyboard, KeyboardAvoidingView, Alert } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';
@@ -17,7 +17,6 @@ class SignUpProfile extends Component {
   static navigatorStyle = {
     navBarHidden: true,
   };
-
 
   constructor(props) {
     super(props);
@@ -54,7 +53,7 @@ class SignUpProfile extends Component {
   addProfile() {
     const { firstName, lastName } = this.state;
     if (firstName && lastName) {
-      let data = {
+      const data = {
         me: {
           first_name: firstName,
           last_name: lastName,
@@ -64,7 +63,7 @@ class SignUpProfile extends Component {
         this.props.navigatePush('voke.SignUpNumber');
       });
     } else {
-      Alert.alert('Please fill in your first and last name', '');
+      Alert.alert('', 'Please fill in your first and last name');
     }
     // // This is just for testing
     // this.props.navigatePush('voke.SignUpNumber');
@@ -91,37 +90,39 @@ class SignUpProfile extends Component {
   render() {
     return (
       <Flex style={styles.container} value={1} align="center" justify="start">
-        <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
-        <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
-          <SignUpHeader title="Create Profile" />
-          <Flex value={1} align="center" justify="start" style={styles.inputs}>
-            {this.renderImagePicker()}
-            <SignUpInput
-              value={this.state.firstName}
-              onChangeText={(text) => this.setState({ firstName: text })}
-              placeholder="First Name"
-              autoCapitalize="words"
-              returnKeyType="next"
-              blurOnSubmit={false}
-              onSubmitEditing={() => this.lastName.focus()}
-            />
-            <SignUpInput
-              ref={(c) => this.lastName = c}
-              value={this.state.lastName}
-              onChangeText={(text) => this.setState({ lastName: text })}
-              placeholder="Last Name"
-              autoCapitalize="words"
-            />
-            <Flex value={1} align="center" justify="end">
-              <Button
-                text="Next"
-                buttonTextStyle={styles.signInButton}
-                style={styles.actionButton}
-                onPress={this.addProfile}
+        <ScrollView style={styles.container} contentContainerStyle={{ flex: 1 }} keyboardShouldPersistTaps="handled">
+          <KeyboardAvoidingView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+            <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
+            <SignUpHeader title="Create Profile" />
+            <Flex value={1} align="center" justify="start" self="stretch" style={styles.inputs}>
+              {this.renderImagePicker()}
+              <SignUpInput
+                value={this.state.firstName}
+                onChangeText={(text) => this.setState({ firstName: text })}
+                placeholder="First Name"
+                autoCapitalize="words"
+                returnKeyType="next"
+                blurOnSubmit={false}
+                onSubmitEditing={() => this.lastName.focus()}
               />
+              <SignUpInput
+                ref={(c) => this.lastName = c}
+                value={this.state.lastName}
+                onChangeText={(text) => this.setState({ lastName: text })}
+                placeholder="Last Name"
+                autoCapitalize="words"
+              />
+              <Flex value={1} align="center" justify="end" style={{ paddingTop: 75 }}>
+                <Button
+                  text="Next"
+                  buttonTextStyle={styles.signInButton}
+                  style={styles.actionButton}
+                  onPress={this.addProfile}
+                />
+              </Flex>
             </Flex>
-          </Flex>
-        </TouchableOpacity>
+          </KeyboardAvoidingView>
+        </ScrollView>
       </Flex>
     );
   }

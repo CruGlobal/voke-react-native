@@ -61,7 +61,6 @@ export default StyleSheet.create({
   },
   imageSelect: {
     borderWidth: 1,
-    backgroundColor: theme.primaryColor,
     borderColor: theme.lightBackgroundColor,
     borderRadius: IMAGE_SIZE / 2,
     width: IMAGE_SIZE,

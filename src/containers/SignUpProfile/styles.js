@@ -8,13 +8,13 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.primaryColor,
+    alignSelf: 'stretch',
   },
   photoIcon: {
     color: COLORS.convert({ color: COLORS.WHITE, alpha: 0.7 }),
   },
   imageSelect: {
     borderWidth: 1,
-    backgroundColor: theme.primaryColor,
     borderColor: theme.lightBackgroundColor,
     borderRadius: IMAGE_SIZE / 2,
     width: IMAGE_SIZE,
