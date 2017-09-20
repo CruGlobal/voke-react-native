@@ -44,6 +44,7 @@ class SelectFriend extends Component {
     navBarTextColor: theme.headerTextColor,
     navBarBackgroundColor: theme.headerBackgroundColor,
     tabBarHidden: true,
+    statusBarHidden: false,
   };
 
   constructor(props) {

@@ -112,9 +112,17 @@ class Videos extends Component {
     } else {
       this.props.navigator.setButtons(setButtons(true));
     }
+    this.props.navigator.setTitle({ title: 'Videos' });
   }
-
+  
   componentDidMount() {
+    // Do this after mounting because Android sometimes doesn't work on initial load
+    if (!this.props.onSelectVideo) {
+      this.props.navigator.setButtons(setButtons());
+    } else {
+      this.props.navigator.setButtons(setButtons(true));
+    }
+    
     // If there are no videos when the component mounts, get them, otherwise just set it
     if (this.props.all.length === 0) {
       this.props.dispatch(getVideos()).then(() => {

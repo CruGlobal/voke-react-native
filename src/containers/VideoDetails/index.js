@@ -20,6 +20,7 @@ class VideoDetails extends Component {
     screenBackgroundColor: theme.lightBackgroundColor,
     navBarHidden: true,
     tabBarHidden: true,
+    statusBarHidden: true,
   };
 
   constructor(props) {
@@ -91,6 +92,15 @@ class VideoDetails extends Component {
 
   render() {
     const video = this.props.video || {};
+    const videoMedia = video.media || {};
+    const videoType = videoMedia.type;
+
+    // Set the loading state duration for different video types
+    let loadDuration = 2000;
+    if (videoType === 'arclight') {
+      loadDuration = 3000; // Longer loading state for arclight videos
+    }
+    
     return (
       <View style={styles.container}>
         <StatusBar hidden={true} />
@@ -98,8 +108,9 @@ class VideoDetails extends Component {
           {
             this.state.hideWebview ? null : (
               <WebviewVideo
-                type={video.media.type}
-                url={video.media.url}
+                ref={(c) => this.webview = c}
+                type={videoType}
+                url={videoMedia.url}
                 start={video.media_start || 0}
                 onChangeState={this.handleVideoChange}
               />
@@ -118,6 +129,8 @@ class VideoDetails extends Component {
         </ScrollView>
         <FloatingButtonSingle
           onSelect={() => {
+            // TODO: Force video to pause when navigating away
+            // this.webview.pause();
             if (this.props.onSelectVideo) {
               Alert.alert(
                 'Add video to chat?',
@@ -137,7 +150,7 @@ class VideoDetails extends Component {
             }
           }}
         />
-        <ApiLoading showMS={2000} />
+        <ApiLoading text="Loading Video" showMS={loadDuration} />
       </View>
     );
   }

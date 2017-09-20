@@ -59,6 +59,16 @@ export default class WebviewVideo extends Component {
     }
   }
 
+  pause() {
+    // TODO: Implement this force pause in all the .js files
+    // this.sendMessage({ forcePause: true });
+  }
+  
+  play() {
+    // TODO: Implement this force pause in all the .js files
+    // this.sendMessage({ forcePlay: true });
+  }
+
   handleMessage(event) {
     let data = event.nativeEvent.data;
     // LOG('webview data', data);
@@ -67,7 +77,7 @@ export default class WebviewVideo extends Component {
       if (data.duration) {
         this.setState({ duration: data.duration });
       } else if (typeof data.isPaused !== 'undefined') {
-        this.setState({ isPaused: data.isPaused });
+        this.setState({ isPaused: !!data.isPaused });
       } else if (data.time) {
         this.setState({ time: data.time });
       }
@@ -76,13 +86,13 @@ export default class WebviewVideo extends Component {
       if (data === webviewCommon.ERROR && this.props.type === 'arclight') {
         return;
       }
-      this.props.onChangeState(data);
       // Change the isPaused state based on the event
       if (data === webviewCommon.STARTED || data === webviewCommon.RESUMED) {
         this.setState({ isPaused: false });
       } else if (data === webviewCommon.PAUSED || data === webviewCommon.ERROR) {
         this.setState({ isPaused: true });
       }
+      this.props.onChangeState(data);
     }
   }
 

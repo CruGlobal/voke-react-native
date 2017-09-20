@@ -328,7 +328,7 @@ class Message extends Component {
             }
           </Flex>
         </Flex>
-        <ApiLoading />
+        <ApiLoading text="Loading Messages" />
       </KeyboardAvoidingView>
     );
   }

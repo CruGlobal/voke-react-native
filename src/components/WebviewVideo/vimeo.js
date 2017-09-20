@@ -17,15 +17,15 @@ export default function(id, options = {}) {
             byline: false,
           });
           var paused = false; /* Keep track of whether the video has been paused/resumed */
-          if (${options.start ? 'true' : 'false'}) {
+          if (${options.start ? true : false}) {
             player.setCurrentTime(${options.start});
           }
           player.on('play', function() {
             if (paused) {
               window.postMessage('${common.RESUMED}');
             } else {
-              window.postMessage('${common.STARTED}');
               checkDuration();
+              window.postMessage('${common.STARTED}');
             }
           });
           player.on('pause', function() {

@@ -39,7 +39,9 @@ export default function(url, options = {}) {
           video.onerror = onError;
 
           /* HACK: need to get the duration with autoplay enabled */
-          setTimeout(checkDuration, 1000);
+          setTimeout(checkDuration, 500);
+          setTimeout(checkDuration, 1500);
+          setTimeout(checkDuration, 3500);
 
           /* Setup the source tag for the video */
           var source = document.createElement("source"); 
