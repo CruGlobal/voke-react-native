@@ -17,6 +17,7 @@
     "lint": "eslint ./src",
     "test": "node node_modules/jest/bin/jest.js --watch",
     "android": "react-native run-android",
+    "android:install:dev": "adb install android/app/build/outputs/apk/app-debug.apk",
     "android:build": "react-native run-android --variant=release"
   },
   "jest": {

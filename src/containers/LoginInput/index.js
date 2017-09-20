@@ -154,7 +154,7 @@ class LoginInput extends Component {
               onPress={() => this.props.navigatePush('voke.ForgotPassword')}
             />
           </Flex>
-          <Flex value={.6} direction="column" align="center" justify="start" style={styles.haveAccount}>
+          <Flex value={0.4} direction="column" align="center" justify="start" style={styles.haveAccount}>
             <Flex style={styles.buttonWrapper}>
               <Button
                 text="Sign In with Facebook"

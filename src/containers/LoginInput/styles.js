@@ -8,7 +8,7 @@ export default StyleSheet.create({
     backgroundColor: theme.primaryColor,
   },
   actions: {
-    paddingBottom: 50,
+    paddingBottom: 25,
   },
   logoWrapper: {
     width: DEFAULT.FULL_WIDTH,
