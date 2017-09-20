@@ -104,6 +104,7 @@ class Message extends Component {
     const nLength = nextProps.messages.length;
     const cLength = this.props.messages.length;
     if (nLength > 0 && cLength > 0 && cLength < nLength) {
+      this.setLatestItem();
       this.createMessageReadInteraction();
     }
   }
@@ -116,9 +117,11 @@ class Message extends Component {
   }
 
   setLatestItem() {
-    let messages = this.props.messages || [];
+    const messages = this.props.messages || [];
+    // const item = messages.reverse().find((m) => m.item);
     const item = messages.find((m) => m.item);
     if (item && item.item) {
+      LOG('item', item.item);
       this.setState({ latestItem: item.item.id });
     }
   }

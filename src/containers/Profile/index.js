@@ -83,8 +83,9 @@ class Profile extends Component {
         editEmail: false,
         editPassword: false,
       });
+      return true;
     }
-    return true;
+    return false;
   }
   
 

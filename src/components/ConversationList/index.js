@@ -110,16 +110,17 @@ class ConversationList extends Component { // eslint-disable-line
         onPress={() => this.props.onSelect(conversation)}>
         <View>
           <Flex style={[styles.container, this.state.rowFocused === item.id ? {backgroundColor: theme.accentColor} : null]} direction="row" align="center" justify="center">
-            <Flex value={2} align="center" justify="start">
-              <Avatar
-                size={30}
-                image={otherPerson && otherPerson.avatar.small.indexOf('/avatar.jpg') < 0 ? otherPerson.avatar.small : null}
-                style={this.state.rowFocused === item.id ? { backgroundColor: theme.primaryColor } : null}
-                text={getInitials(initials)}
-                present={isPresent}
-              />
-            </Flex>
-            <Flex value={15} justify="start">
+            <Avatar
+              size={30}
+              image={otherPerson && otherPerson.avatar.small.indexOf('/avatar.jpg') < 0 ? otherPerson.avatar.small : null}
+              style={[
+                styles.avatar,
+                this.state.rowFocused === item.id ? { backgroundColor: theme.primaryColor } : null,
+              ]}
+              text={getInitials(initials)}
+              present={isPresent}
+            />
+            <Flex value={1} justify="start">
               <Flex direction="column" justify="center">
                 <Text style={styles.conversationName}>
                   {otherPerson ? otherPerson.first_name : 'Vokebot'}
@@ -139,7 +140,7 @@ class ConversationList extends Component { // eslint-disable-line
                 </Flex>
               </Flex>
             </Flex>
-            <Flex value={1} style={styles.conversationArrow} align="center" justify="center">
+            <Flex style={styles.conversationArrow} align="center" justify="center">
               <VokeIcon name={conversation.hasUnread ? 'unread-arrow' : 'read-arrow'} />
             </Flex>
           </Flex>

@@ -14,6 +14,9 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 15,
   },
+  avatar: {
+    marginHorizontal: 8,
+  },
   creatorText: {
     fontSize: 14,
   },
