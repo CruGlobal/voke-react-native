@@ -98,6 +98,7 @@ class ConversationList extends Component { // eslint-disable-line
     const otherPerson = this.getConversationParticipant(conversation);
     const isPresent = this.getPresence(otherPerson);
     const initials = otherPerson ? otherPerson.initials : 'VB';
+    // LOG('initials', initials, getInitials(initials));
 
     return (
       <Touchable

@@ -19,71 +19,84 @@ export function setupSocketAction(cableId) {
       LOG('could not start sockets because there is no access_token');
       return;
     }
-    ws = new WebSocket(`${SOCKET_URL}cable?access_token=${token}`);
 
-    ws.onopen = () => {
-      // connection opened
-      // LOG('socket opened');
-
-      const obj = {
-        command: 'subscribe',
-        identifier: `{"channel":"DeviceChannel","id":"${cableId}"}`,
-      };
-      if (ws && ws.send) {
-        ws.send(JSON.stringify(obj));
-        // LOG('socket message sent');
+    // Do a try/catch just to stop any errors
+    try {
+      ws = new WebSocket(`${SOCKET_URL}cable?access_token=${token}`);
+  
+      if (ws) {
+        ws.onopen = () => {
+          // connection opened
+          // LOG('socket opened');
+    
+          const obj = {
+            command: 'subscribe',
+            identifier: `{"channel":"DeviceChannel","id":"${cableId}"}`,
+          };
+          if (ws && ws.send) {
+            ws.send(JSON.stringify(obj));
+            // LOG('socket message sent');
+          }
+        };
+    
+        ws.onmessage = (e) => {
+          const data = JSON.parse(e.data) || {};
+          const type = data && data.type;
+          if (type === 'ping') return;
+          LOG('socket message received: data', data);
+          if (type === 'welcome') {
+            // LOG('socket welcome');
+          } else if (data.message) {
+            const message = data.message.message;
+            const notification = data.message.notification;
+            if (notification && notification.category === 'CREATE_MESSAGE_CATEGORY') {
+              dispatch(newMessageAction(message));
+            } else if (notification && (notification.category === 'CREATE_TYPESTATE_CATEGORY' || notification.category === 'DESTROY_TYPESTATE_CATEGORY')) {
+              dispatch(typeStateChangeAction(data.message));
+            }
+          }
+        };
+    
+        // ws.onerror = (err) => {
+        //   // an error occurred
+        //   LOG('socket message error', err.message);
+        // };
+    
+        // ws.onclose = (err) => {
+        //   // connection closed
+        //   LOG('socket closed', err.code, err.reason);
+        // };
       }
-    };
+    } catch (e) {
+      // Do nothing with the error
+    }
 
-    ws.onmessage = (e) => {
-      const data = JSON.parse(e.data) || {};
-      const type = data && data.type;
-      if (type === 'ping') return;
-      LOG('socket message received: data', data);
-      if (type === 'welcome') {
-        // LOG('socket welcome');
-      } else if (data.message) {
-        const message = data.message.message;
-        const notification = data.message.notification;
-        if (notification && notification.category === 'CREATE_MESSAGE_CATEGORY') {
-          dispatch(newMessageAction(message));
-        } else if (notification && (notification.category === 'CREATE_TYPESTATE_CATEGORY' || notification.category === 'DESTROY_TYPESTATE_CATEGORY')) {
-          dispatch(typeStateChangeAction(data.message));
-        }
-      }
-    };
-
-    ws.onerror = (e) => {
-      // an error occurred
-      LOG('socket message error', e.message);
-    };
-
-    // ws.onclose = (e) => {
-    //   // connection closed
-    //   LOG('socket closed', e.code, e.reason);
-    // };
   };
 }
 
 export function closeSocketAction() {
   return () => {
-    if (ws) {
-      ws.close(undefined, 'client closed');
-      ws = null;
-      LOG('Closing the socket connection');
+    // Do a try/catch just to stop any errors
+    try {
+      if (ws && ws.close) {
+        ws.close(undefined, 'client closed');
+        ws = null;
+        LOG('Closing the socket connection');
+      }
+    } catch (e) {
+      // Do nothing with the error
     }
   };
 }
 
 export function destroyDevice(cableId, token) {
   return (dispatch) => {
-    let query = {
+    const query = {
       endpoint: `${API_URL}/me/devices/${cableId}`,
       access_token: token,
     };
-    return dispatch(callApi(REQUESTS.DESTROY_DEVICE, query)).then((results) => {
-      LOG('Destroyed device', results);
-      return results;
+    return dispatch(callApi(REQUESTS.DESTROY_DEVICE, query)).catch((err) => {
+      LOG('error destroying device', cableId);
     });
   };
 }
@@ -92,7 +105,7 @@ export function updateDevice(device) {
   return (dispatch, getState) => {
     LOG('UPDATING DEVICE');
     const cableId = getState().auth.cableId;
-    let query = {
+    const query = {
       endpoint: `${API_URL}/me/devices/${cableId}`,
     };
     return dispatch(callApi(REQUESTS.UPDATE_DEVICE, query, device)).then((results) => {
@@ -115,7 +128,7 @@ export function establishDevice() {
     // return dispatch(callApi(REQUESTS.GET_DEVICES, {}, {})).then((results) => {
     //   LOG('GOT DEVICES: ',JSON.stringify(results));
     //   results.devices.forEach((m) => {
-    //     dispatch(destroyDevice(m.id));
+    //     dispatch(destroyDevice(m.id, getState().auth.token));
     //   })
     // });
     // dispatch(establishCableDevice(null));

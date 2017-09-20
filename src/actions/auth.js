@@ -1,5 +1,6 @@
 import RNFetchBlob from 'react-native-fetch-blob';
 import { Linking, Platform, AppState, ToastAndroid, AsyncStorage, Alert } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 
 import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN } from '../constants';
 import callApi, { REQUESTS } from './api';
@@ -29,6 +30,11 @@ export function cleanupAction() {
 
 function appStateChange(dispatch, getState, nextAppState) {
   const { cableId, token } = getState().auth;
+  // Sometimes this runs on android when logging out and causes a network error
+  // Only run it when there is a valid token
+  if (!token) {
+    return;
+  }
   // LOG('appStateChange', nextAppState, currentAppState, cableId);
   if (nextAppState === 'active' && (currentAppState === 'inactive' || currentAppState === 'background')) {
     LOG('App has come to the foreground!');
@@ -36,15 +42,7 @@ function appStateChange(dispatch, getState, nextAppState) {
     if (cableId) {
       dispatch(setupSocketAction(cableId));
     } else {
-      // Sometimes this runs on android when logging out and causes a network error
-      if (token) {
-        dispatch(establishDevice());
-      }
-    }
-    // Sometimes this runs on android when logging out and causes a network error
-    if (token) {
-      // Get the latest conversations whenever the user comes back into the app
-      dispatch(getConversations());
+      dispatch(establishDevice());
     }
   } else if (nextAppState === 'background' && currentAppState === 'active') {
     LOG('App is going into the background');
