@@ -81,23 +81,16 @@ function formatConversation(c, getState) {
   const messengers = c.messengers.map((m) => {
     let latestTime;
 
+    // Set the latest time for each messenger from the most recent message
     if (m.latest_message && m.latest_message.created_at) {
       latestTime = m.latest_message.created_at;
     }
-    // LOG('latest item', JSON.stringify(m.latest_item));
-    if (m.latest_item && m.latest_item.updated_at) {
-      if (!latestTime) {
-        latestTime = m.latest_item.updated_at;
-      } else {
-        const keyA = momentUtc(latestTime);
-        const mTime = momentUtc(m.latest_item.updated_at);
-        if (mTime > keyA) {
-          latestTime = m.latest_item.updated_at;
-        } else {
-          // LOG('message is before time', latestTime, m.latest_item.updated_at);
-        }
-      }
+
+    // If there is not a latestTime already set, set it with the item updated_at time
+    if (!latestTime && m.latest_item && m.latest_item.updated_at) {
+      latestTime = m.latest_item.updated_at;
     }
+
     if (latestTime) {
       return { ...m, latestTime };
     }

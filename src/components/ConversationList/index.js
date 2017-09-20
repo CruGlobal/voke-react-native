@@ -66,15 +66,6 @@ class ConversationList extends Component { // eslint-disable-line
 
   getSenderName(conversation) {
     const messenger = conversation.messengers[0];
-    // if (conversation.messengers[0]) {
-    //   LOG('messenger[0] name', conversation.messengers[0].first_name);
-    // }
-    // if (conversation.messengers[1]) {
-    //   LOG('messenger[1] name', conversation.messengers[1].first_name);
-    // }
-    // if (conversation.messengers[2]) {
-    //   LOG('messenger[2] name', conversation.messengers[2].first_name);
-    // }
     if (messenger && messenger.id && messenger.id !== this.props.me.id) {
       return messenger.first_name || 'Other';
     }
