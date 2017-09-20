@@ -118,12 +118,12 @@ class LoginInput extends Component {
       <Flex style={styles.container} value={1} align="center" justify="center">
         <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
           <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
-          <Flex direction="column" value={.8} align="center" justify="end" style={styles.logoWrapper}>
+          <Flex direction="column" value={0.4} align="center" justify="end" style={styles.logoWrapper}>
             <Flex style={styles.imageWrap} align="center" justify="center">
               <Image resizeMode="contain" source={LOGO} style={styles.imageLogo} />
             </Flex>
           </Flex>
-          <Flex value={1.2} align="center" justify="end" style={styles.actions}>
+          <Flex value={1} align="center" justify="end" style={styles.actions}>
             <SignUpInput
               value={this.state.email}
               onChangeText={this.checkEmail}
