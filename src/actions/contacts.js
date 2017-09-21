@@ -57,6 +57,9 @@ export function getContacts(force = false) {
           return;
         }
 
+        const myNumber = getState().auth.user.mobile ? getState().auth.user.mobile : null;
+        const myNumberCompare = myNumber.replace(/[^0-9]/g, '').substring(-10);
+
         if (permission === Permissions.NOT_ASKED || permission === Permissions.AUTHORIZED) {
           Permissions.requestContacts().then((contacts) => {
             const all = lodashFilter(lodashMap(contacts, (c) => {
@@ -74,7 +77,7 @@ export function getContacts(force = false) {
                 firstNameLetter,
                 initials: firstNameLetter + lastNameLetter,
               };
-            }), (c) => c.phone.length > 0 && !!c.name);
+            }), (c) => c.phone.length > 0 && !!c.name && !c.phone.find((num) => (num || '').replace(/[^0-9]/g, '').substr(-10) === myNumberCompare));
             // LOG('all', all.length, all);
             dispatch(setAllContacts(all));
 
