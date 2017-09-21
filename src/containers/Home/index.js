@@ -85,7 +85,6 @@ class Home extends Component {
     const currentCount = this.props.unReadBadgeCount;
     if (nextCount != currentCount) {
       this.props.navigator.setTabBadge({
-        // tabIndex: 0, // (optional) if missing, the badge will be added to this screen's tab
         badge: nextCount === 0 ? null : nextCount, // badge value, null to remove badge
       });
     }

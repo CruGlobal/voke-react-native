@@ -64,6 +64,8 @@ const iconsLoaded = new Promise((resolve) => {
     Object.keys(icons)
       .forEach((iconName, idx) => (iconsMap[iconName] = sources[idx]));
     resolve(true);
+  }).catch(() => {
+    resolve(false);
   });
 });
 

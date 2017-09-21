@@ -41,6 +41,7 @@ export default function messages(state = initialState, action) {
         ...incoming,
         typeState: {},
         pagination: initialState.pagination,
+        unReadBadgeCount: 0,
       };
     case REQUESTS.GET_CONVERSATIONS.SUCCESS:
       let newConversations = [];
@@ -52,7 +53,7 @@ export default function messages(state = initialState, action) {
         page: action.query.page || 1,
       };
       newConversations = newConversations.concat(action.conversations);
-      const unReadCheck = action.conversations.find((m) => m.hasUnread === true);
+      const unReadCheck = newConversations.find((m) => m.hasUnread);
       const unRead = unReadCheck ? state.unReadBadgeCount : 0;
 
       return {
@@ -167,7 +168,7 @@ export default function messages(state = initialState, action) {
 
       const readConversations = state.conversations.map((c) => {
         if (c.id === action.conversationId) {
-          currentBadgeCount2 = c.unReadCount >0 ? currentBadgeCount2 - c.unReadCount : currentBadgeCount2;
+          currentBadgeCount2 = c.unReadCount > 0 ? currentBadgeCount2 - c.unReadCount : currentBadgeCount2;
           return { ...c, hasUnread: false, unReadCount: 0 };
         }
         return c;

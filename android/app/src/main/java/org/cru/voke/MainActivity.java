@@ -15,6 +15,11 @@ public class MainActivity extends SplashActivity {
       super.onActivityResult(requestCode, resultCode, data);
       MainApplication.getCallbackManager().onActivityResult(requestCode, resultCode, data);
   }
+
+//   @Override
+//   protected void onNewIntent(Intent intent) {
+//        setIntent(intent);
+//   }
   
 }
 // public class MainActivity extends ReactActivity {

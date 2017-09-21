@@ -77,6 +77,7 @@ export function mapConversation(results, query, data, getState) {
 
 
 function formatConversation(c, getState) {
+  const myId = getState().auth.user.id;
   // Sort the messengers by putting the most recent messenger first
   const messengers = c.messengers.map((m) => {
     let latestTime;
@@ -127,22 +128,19 @@ function formatConversation(c, getState) {
   //   c.messagePreview = latestMessenger.latestItem.preview;
   // }
 
-  const myMessage = messengers.find((e) => e.id === getState().auth.user.id);
+  const myMessage = messengers.find((e) => e.id === myId);
 
   c.messengers = messengers;
 
+  c.hasUnread = false;
   if (myMessage && myMessage.latest_read && myMessage.latest_read.message_id) {
-    if (myMessage.latest_read.message_id != latestMessenger.latest_message.id) {
+    if (myMessage.latest_read.message_id !== latestMessenger.latest_message.id) {
       c.hasUnread = true;
-    } else {
-      c.hasUnread = false;
+      c.unReadCount = 1;
     }
-  } else {
-    c.hasUnread = false;
   }
-
   // This determines if the conversation has unread messages or not
-  if (latestMessenger.id === getState().auth.user.id) {
+  if (latestMessenger.id === myId) {
     c.hasUnread = false;
   }
 

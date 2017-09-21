@@ -85,5 +85,5 @@ Button.propTypes = {
   style: PropTypes.oneOfType(styleTypes),
   buttonTextStyle: PropTypes.oneOfType(styleTypes),
   iconStyle: PropTypes.oneOfType(styleTypes),
-  image: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
+  image: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };

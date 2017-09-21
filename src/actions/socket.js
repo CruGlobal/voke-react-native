@@ -6,9 +6,14 @@ import { API_URL } from '../api/utils';
 import { registerPushToken } from './auth';
 import { SOCKET_URL } from '../api/utils';
 import { newMessageAction, typeStateChangeAction } from './messages';
+import { navigatePush, navigateResetHome } from './navigation_new';
 import callApi, { REQUESTS } from './api';
 import CONSTANTS from '../constants';
-import { isEquivalentObject } from '../utils/common';
+import { isEquivalentObject, isString } from '../utils/common';
+
+// Push notification Android error
+// https://github.com/zo0r/react-native-push-notification/issues/495
+
 
 let ws = null;
 
@@ -123,7 +128,7 @@ export function getDevices() {
   };
 }
 
-export function establishDevice() {
+export function establishDevice(navigator) {
   return (dispatch, getState) => {
     const auth = getState().auth;
     //
@@ -161,6 +166,17 @@ export function establishDevice() {
       // (required) Called when a remote or local notification is opened or received
       onNotification: function(notification) {
         LOG('NOTIFICATION:', notification);
+        if (!notification || !notification.foreground || !notification.message) { return; }
+        // const message = notification.message;
+        const message = isString(notification.message) ? JSON.parse(notification.message) : notification.message;
+        LOG('NOTIFICATION MESSAGE:', message);
+        if (message.message && message.message.conversation_id) {
+          dispatch(navigateResetHome(navigator));
+          dispatch(navigatePush(navigator, 'voke.Message', { conversation: {
+            id: message.message.conversation_id,
+            messengers: [],
+          }}));
+        }
       },
 
       // ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)

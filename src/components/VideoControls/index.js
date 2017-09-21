@@ -8,8 +8,9 @@ import styles from './styles';
 import { vokeIcons } from '../../utils/iconMap';
 
 function convertTime(time) {
-  let seconds = '00' + Math.ceil(time % 60);
-  let minutes = '00' + Math.floor(time / 60);
+  const roundedTime = Math.round(time);
+  let seconds = '00' + (roundedTime % 60);
+  let minutes = '00' + Math.floor(roundedTime / 60);
   let hours = '';
   let str = `${minutes.substr(-2)}:${seconds.substr(-2)}`;
   if (time / 3600 >= 1) {

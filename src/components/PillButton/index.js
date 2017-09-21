@@ -6,11 +6,12 @@ import styles from './styles';
 
 export default class PillButton extends Component {
   render() {
+    const { filled, ...rest } = this.props;
     return (
       <Button
-        {...this.props}
-        style={[styles.button, this.props.filled ? null : styles.empty]}
-        buttonTextStyle={[styles.buttonText, this.props.filled ? null : styles.emptyText]}
+        {...rest}
+        style={[styles.button, filled ? null : styles.empty]}
+        buttonTextStyle={[styles.buttonText, filled ? null : styles.emptyText]}
       />
     );
   }

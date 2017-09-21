@@ -1,6 +1,6 @@
-// import { Platform } from 'react-native';
+import { Platform } from 'react-native';
 import { Provider } from 'react-redux';
-import { Navigation } from 'react-native-navigation';
+import { Navigation, NativeEventsReceiver } from 'react-native-navigation';
 import './utils/reactotron'; // This needs to be before the store
 import './utils/globals';
 import Analytics from './utils/analytics';
@@ -94,6 +94,20 @@ export default class App {
     // Need to load the store with redux-persist and then start the app when it's loaded
     this.store = getStore(() => {
       iconsLoaded.then(() => {
+        // if (Platform.OS === 'android') {
+        //   Promise.resolve(Navigation.isAppLaunched())
+        //     .then((appLaunched) => {
+        //       if (appLaunched) {
+        //         this.startApp(); // App is launched -> show UI
+        //       } else {
+        //         new NativeEventsReceiver().appLaunched(() => {
+        //           this.startApp();
+        //         }); // App hasn't been launched yet -> show the UI only when needed.
+        //       }
+        //     });
+        // } else {
+        //   this.startApp();
+        // }
         this.startApp();
       });
     });
@@ -106,6 +120,12 @@ export default class App {
     Navigation.startSingleScreenApp({
       screen: {
         screen: 'voke.Loading',
+      },
+      appStyle: {
+        screenBackgroundColor: theme.primaryColor,
+      },
+      navigatorStyle: {
+        screenBackgroundColor: theme.primaryColor,
       },
       animationType: 'fade',
     });

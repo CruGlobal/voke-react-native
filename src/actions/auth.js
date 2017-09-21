@@ -1,6 +1,6 @@
 import RNFetchBlob from 'react-native-fetch-blob';
 import { Linking, Platform, AppState, ToastAndroid, AsyncStorage, Alert } from 'react-native';
-import { Navigation } from 'react-native-navigation';
+// import { Navigation } from 'react-native-navigation';
 
 import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN } from '../constants';
 import callApi, { REQUESTS } from './api';
@@ -16,7 +16,7 @@ let currentAppState = AppState.currentState || '';
 export function startupAction(navigator) {
   return (dispatch, getState) => {
     dispatch(establishDevice(navigator));
-    appStateChangeFn = appStateChange.bind(null, dispatch, getState);
+    appStateChangeFn = appStateChange.bind(null, dispatch, getState, navigator);
     AppState.addEventListener('change', appStateChangeFn);
   };
 }
@@ -29,7 +29,7 @@ export function cleanupAction() {
 }
 
 // TODO: It would be nice to somehow do this in the background and not block the UI when coming back into the app
-function appStateChange(dispatch, getState, nextAppState) {
+function appStateChange(dispatch, getState, navigator, nextAppState) {
   const { cableId, token } = getState().auth;
   
   // Sometimes this runs when logging out and causes a network error
@@ -41,11 +41,12 @@ function appStateChange(dispatch, getState, nextAppState) {
   // LOG('appStateChange', nextAppState, currentAppState, cableId);
   if (nextAppState === 'active' && (currentAppState === 'inactive' || currentAppState === 'background')) {
     LOG('App has come to the foreground!');
+    
     // Restart sockets
     if (cableId) {
       dispatch(setupSocketAction(cableId));
     } else {
-      dispatch(establishDevice());
+      dispatch(establishDevice(navigator));
     }
   } else if (nextAppState === 'background' && (currentAppState === 'inactive' || currentAppState === 'active')) {
     LOG('App is going into the background');

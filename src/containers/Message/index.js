@@ -87,6 +87,16 @@ class Message extends Component {
         }
       }
     }
+
+    if (event.type == 'DeepLink') {
+      LOG('deep link!', event);
+      // const parts = event.link.split('/'); // Link parts
+      // const payload = event.payload; // (optional) The payload
+
+      // if (parts[0] == 'tab2') {
+      //   // handle the link somehow, usually run a this.props.navigator command
+      // }
+    }
   }
 
   componentWillMount() {

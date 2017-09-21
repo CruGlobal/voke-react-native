@@ -186,15 +186,15 @@ export default {
     method: 'put',
   },
   'CREATE_TYPESTATE': {
-    endpoint: API_URL + 'me/conversations',
+    endpoint: API_URL + 'me/conversations/:conversation_id/type_state',
     method: 'post',
   },
   'DESTROY_TYPESTATE': {
-    endpoint: API_URL + 'me/conversations',
+    endpoint: API_URL + 'me/conversations/:conversation_id/type_state',
     method: 'delete',
   },
   'CREATE_MESSAGE_INTERACTION': {
-    endpoint: API_URL + 'me/conversations',
+    endpoint: API_URL + 'me/conversations/:conversation_id/messages/:message_id/interactions',
     method: 'post',
   },
   'BLOCK_MESSENGER': {

@@ -35,19 +35,6 @@
             android:name="io.fabric.ApiKey"
             android:value="4c6c9eb55214633c5eca4176c06b20bb8fd07a72" />
       
-      <activity
-        android:name=".MainActivity"
-        android:label="@string/app_name"
-        android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-        android:windowSoftInputMode="adjustResize"
-        android:screenOrientation="portrait"
-        >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-            <category android:name="android.intent.category.DEFAULT" />
-        </intent-filter>
-      </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
 
       <receiver
@@ -57,6 +44,7 @@
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <category android:name="${applicationId}" />
+                <category android:name="${applicationId}.services" />
             </intent-filter>
         </receiver>
 
@@ -74,6 +62,33 @@
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
+
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <!-- https://github.com/wix/react-native-navigation/issues/384 -->
+            <!-- <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="my-stage.vokeapp.com" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="voke" android:host="conversations" />
+            </intent-filter> -->
+        </activity>
 
     </application>
 
