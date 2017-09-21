@@ -25,6 +25,10 @@ export default function(id, options = {}) {
               window.postMessage('${common.RESUMED}');
             } else {
               checkDuration();
+              setTimeout(checkDuration, 500);
+              setTimeout(checkDuration, 1500);
+              setTimeout(checkDuration, 3500);
+
               window.postMessage('${common.STARTED}');
             }
           });

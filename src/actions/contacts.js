@@ -52,13 +52,14 @@ export function getContacts(force = false) {
               ]
             );
           }
+          LOG('contacts permission denied');
           dispatch({ type: SET_CONTACTS_LOADING, isLoading: false });
           reject();
           return;
         }
 
         const myNumber = getState().auth.user.mobile ? getState().auth.user.mobile : null;
-        const myNumberCompare = myNumber.replace(/[^0-9]/g, '').substring(-10);
+        const myNumberCompare = (myNumber || '').replace(/[^0-9]/g, '').substring(-10);
 
         if (permission === Permissions.NOT_ASKED || permission === Permissions.AUTHORIZED) {
           Permissions.requestContacts().then((contacts) => {
@@ -88,6 +89,7 @@ export function getContacts(force = false) {
                 resolve(true);
               })
               .catch(() => {
+                LOG('error getting voke contacts');
                 dispatch({ type: SET_CONTACTS_LOADING, isLoading: false });
                 reject();
               });

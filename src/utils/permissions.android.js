@@ -25,7 +25,8 @@ function request(permission) {
 function requestContacts() {
   return new Promise((resolve, reject) => {
     request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS).then((permission) => {
-      if (permission === PermissionsAndroid.RESULTS.GRANTED) {
+      // Android <6.0 returns true
+      if (permission === true || permission === PermissionsAndroid.RESULTS.GRANTED) {
         Contacts.getAll((err, contacts) => {
           if (err === 'denied') {
             reject(DENIED);

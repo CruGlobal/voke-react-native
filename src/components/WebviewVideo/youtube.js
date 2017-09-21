@@ -43,8 +43,10 @@ export default function(id, options = {}) {
         function onPlayerReady(event) {
           event.target.playVideo();
           window.postMessage('${common.STARTED}');
-          /* event.target.mute(); */
           checkDuration();
+          setTimeout(checkDuration, 500);
+          setTimeout(checkDuration, 1500);
+          setTimeout(checkDuration, 3500);
         }
         /* Error playing video */
         function onError(event) {
@@ -72,11 +74,12 @@ export default function(id, options = {}) {
                 window.postMessage('${common.RESUMED}');
               } else {
                 window.postMessage('${common.STARTED}');
-                checkDuration();
               }
+              checkDuration();
               break;
             case 2: /* paused */
               paused = true;
+              checkDuration();
               window.postMessage('${common.PAUSED}');
               break;
             default:

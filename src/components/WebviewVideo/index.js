@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { WebView, StyleSheet, View } from 'react-native';
+import { Platform, WebView, StyleSheet, View } from 'react-native';
 
 import { Flex, Text } from '../common';
 import VideoControls from '../../components/VideoControls';
@@ -23,14 +23,17 @@ import YoutubeHTML from './youtube';
 import VimeoHTML from './vimeo';
 import html5HTML from './html5';
 
+const isOlderAndroid = Platform.OS === 'android' && Platform.Version < 23;
+
 export default class WebviewVideo extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       duration: 0,
-      isPaused: props.type === 'vimeo',
+      isPaused: (isOlderAndroid && props.type === 'arclight') || props.type === 'vimeo',
       time: 0,
+      numOfErrors: 0,
     };
 
     this.webview = null;
@@ -84,6 +87,11 @@ export default class WebviewVideo extends Component {
     } else {
       // Arclight videos throw a bad error, so don't do anything when that happens
       if (data === webviewCommon.ERROR && this.props.type === 'arclight') {
+        // If this is the second time an arclight error is being called, fire the callback
+        if (this.state.numOfErrors > 0 || isOlderAndroid) {
+          this.props.onChangeState(data);
+        }
+        this.setState({ numOfErrors: this.state.numOfErrors + 1 });
         return;
       }
       // Change the isPaused state based on the event
@@ -141,7 +149,8 @@ export default class WebviewVideo extends Component {
           ref={(c) => this.webview = c}
           source={{ html }}
           style={{}}
-          mediaPlaybackRequiresUserAction={true}
+          mixedContentMode="always"
+          mediaPlaybackRequiresUserAction={false}
           allowsInlineMediaPlayback={true}
           scrollEnabled={false}
           bounces={false}

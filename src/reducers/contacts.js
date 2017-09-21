@@ -31,6 +31,7 @@ export default function contacts(state = initialState, action) {
       return {
         ...state,
         ...incoming,
+        isLoading: false,
       };
     case SET_CONTACTS_LOADING:
       return {

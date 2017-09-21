@@ -50,6 +50,9 @@ export default function(url, options = {}) {
           video.append(source);
           document.body.appendChild(video);
           videojs('video'); 
+
+          /* Force play */
+          setTimeout(function() { if (video && video.play) video.play(); }, 500);
         };
         document.body.appendChild(script);
         
