@@ -103,6 +103,7 @@ class Message extends Component {
     // Check to see if the current length is less than the next length and mark it as read
     const nLength = nextProps.messages.length;
     const cLength = this.props.messages.length;
+    this.setLatestItem(nextProps.messages);
     if (nLength > 0 && cLength > 0 && cLength < nLength) {
       this.createMessageReadInteraction();
     }
@@ -115,8 +116,8 @@ class Message extends Component {
     return otherPerson ? otherPerson.first_name : 'Voke';
   }
 
-  setLatestItem() {
-    const messages = this.props.messages || [];
+  setLatestItem(conversationMessages) {
+    const messages = conversationMessages ? conversationMessages : this.props.messages ? this.props.messages : [];
     const item = messages.find((m) => m.item);
     if (item && item.item) {
       this.setState({ latestItem: item.item.id });
