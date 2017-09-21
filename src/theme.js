@@ -79,7 +79,8 @@ export default {
   buttonTextColor: COLORS.WHITE,
   buttonIconColor: COLORS.WHITE,
   separatorColor: SECONDARY,
-  separatorHeight: StyleSheet.hairlineWidth + (Platform.OS === 'android' ? 0.2 : 0),
+  // separatorHeight: StyleSheet.hairlineWidth + (Platform.OS === 'android' ? 0.2 : 0),
+  separatorHeight: StyleSheet.hairlineWidth,
   // header
   headerBackgroundColor: SECONDARY,
   headerTextColor: COLORS.WHITE,

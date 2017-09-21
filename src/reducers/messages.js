@@ -60,7 +60,7 @@ export default function messages(state = initialState, action) {
         ...state,
         conversations: newConversations,
         typeState: {},
-        unReadBadgeCount: unRead,
+        unReadBadgeCount: unRead >= 0 ? unRead : 0,
         pagination: {
           ...state.pagination,
           conversations: conversationPagination,
@@ -161,7 +161,7 @@ export default function messages(state = initialState, action) {
             ...(state.messages[conversationNewMessageId] || []),
           ],
         },
-        unReadBadgeCount: currentBadgeCount,
+        unReadBadgeCount: currentBadgeCount >= 0 ? currentBadgeCount : 0,
       };
     case MARK_READ:
       let currentBadgeCount2 = state.unReadBadgeCount;
@@ -176,7 +176,7 @@ export default function messages(state = initialState, action) {
       return {
         ...state,
         conversations: readConversations,
-        unReadBadgeCount: currentBadgeCount2,
+        unReadBadgeCount: currentBadgeCount2 >= 0 ? currentBadgeCount2 : 0,
       };
     case LOGOUT:
       return initialState;
