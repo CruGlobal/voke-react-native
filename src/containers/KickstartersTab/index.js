@@ -117,7 +117,7 @@ class KickstartersTab extends Component {
     let content = null;
     if (!hasKickstarters) {
       content = (
-        <Text style={styles.nothingText}>No Kickstarter messages available</Text>
+        <Text style={styles.nothingText}>Kickstarter questions will be visible after you select and share a video with a friend.</Text>
       );
     } else {
       content = this.state.kickstarters.map(this.renderRow);

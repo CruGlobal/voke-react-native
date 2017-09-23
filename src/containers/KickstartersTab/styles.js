@@ -12,6 +12,8 @@ export default StyleSheet.create({
   },
   nothingText: {
     fontSize: 16,
+    textAlign: 'center',
+    paddingHorizontal: 40,
   },
   description: {
     fontSize: 16,

@@ -38,7 +38,7 @@ export default function callApi(requestObject, query = {}, data = {}) {
     new Promise((resolve, reject) => {
       // Generic error handler
       const throwErr = (msg) => {
-        if (__DEV__) { 
+        if (__DEV__) {
           LOG(msg);
           throw new Error(msg);
         }
@@ -104,6 +104,9 @@ export default function callApi(requestObject, query = {}, data = {}) {
             } else if (err.error === 'invalid_grant') {
               // There was a login error
               Alert.alert('Error', 'Sorry, that username/password combination is not correct.');
+              reject(err);
+              return;
+            } else if (err.error === 'Not Found') {
               reject(err);
               return;
             }
