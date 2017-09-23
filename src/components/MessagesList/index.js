@@ -52,7 +52,11 @@ class MessagesList extends Component {
     // alert('Keyboard Hidden');
     let height = this.state.messagesHeight;
     let componentHeight = this.state.componentHeight;
-    this.setState({ topHeight: componentHeight - height});
+    if (componentHeight - height < 0) {
+      this.setState({ topHeight: 0});
+    } else {
+      this.setState({ topHeight: componentHeight - height});
+    }
   }
 
   renderLoadMore() {
@@ -82,7 +86,6 @@ class MessagesList extends Component {
     } else {
       this.setState({ topHeight: 0});
     }
-
   }
 
   onContentSize(contentWidth, contentHeight) {
