@@ -28,12 +28,12 @@ export function setupSocketAction(cableId) {
     // Do a try/catch just to stop any errors
     try {
       ws = new WebSocket(`${SOCKET_URL}cable?access_token=${token}`);
-  
+
       if (ws) {
         ws.onopen = () => {
           // connection opened
           // LOG('socket opened');
-    
+
           const obj = {
             command: 'subscribe',
             identifier: `{"channel":"DeviceChannel","id":"${cableId}"}`,
@@ -43,7 +43,7 @@ export function setupSocketAction(cableId) {
             // LOG('socket message sent');
           }
         };
-    
+
         ws.onmessage = (e) => {
           const data = JSON.parse(e.data) || {};
           const type = data && data.type;
@@ -61,12 +61,12 @@ export function setupSocketAction(cableId) {
             }
           }
         };
-    
+
         // ws.onerror = (err) => {
         //   // an error occurred
         //   LOG('socket message error', err.message);
         // };
-    
+
         // ws.onclose = (err) => {
         //   // connection closed
         //   LOG('socket closed', err.code, err.reason);
@@ -138,7 +138,8 @@ export function establishDevice(navigator) {
     //     dispatch(destroyDevice(m.id, getState().auth.token));
     //   })
     // });
-    // dispatch(establishCableDevice(null));
+    dispatch(establishCableDevice(null));
+    return;
 
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)

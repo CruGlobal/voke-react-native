@@ -28,15 +28,6 @@ export function getContacts(force = false) {
   return (dispatch, getState) => (
     new Promise((resolve, reject) => {
 
-      if (!force) {
-        const lastUpdated = getState().contacts.lastUpdated;
-        const now = new Date().valueOf();
-        if (lastUpdated && (now - lastUpdated < 24 * 60 * 60 * 1000)) {
-          resolve(true);
-          return;
-        }
-      }
-
       // Keep track of when the contacts are loading and finished loading
       dispatch({ type: SET_CONTACTS_LOADING, isLoading: true });
 
@@ -80,6 +71,22 @@ export function getContacts(force = false) {
               };
             }), (c) => c.phone.length > 0 && !!c.name && !c.phone.find((num) => (num || '').replace(/[^0-9]/g, '').substr(-10) === myNumberCompare));
             // LOG('all', all.length, all);
+
+
+
+            if (!force) {
+              const lastUpdated = getState().contacts.lastUpdated;
+              const now = new Date().valueOf();
+              if (lastUpdated && (now - lastUpdated < 24 * 60 * 60 * 1000)) {
+                if (getState().contacts.all && all > getState().contacts.all ) {
+                  dispatch(setAllContacts(all));
+                }
+                dispatch({ type: SET_CONTACTS_LOADING, isLoading: false });
+                resolve(true);
+                return;
+              }
+            }
+
             dispatch(setAllContacts(all));
 
             // API call to find out who matches voke
