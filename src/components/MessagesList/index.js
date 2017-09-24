@@ -1,16 +1,14 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, FlatList, Dimensions, Keyboard } from 'react-native';
+import { View, FlatList, Keyboard, Platform } from 'react-native';
 
 import CONSTANTS from '../../constants';
 import styles from './styles';
 import MessageItem from '../MessageItem';
 import LoadMore from '../../components/LoadMore';
 import {Flex} from '../../components/common';
-const {height: deviceHeight } = Dimensions.get('window');
 
-let topHeight = 0;
 
 class MessagesList extends Component {
   constructor(props) {
@@ -95,6 +93,18 @@ class MessagesList extends Component {
   }
 
   renderRow({ item }) {
+    if (Platform.OS === 'android') {
+      return (
+        <Flex value={1} style={{ transform: [{ scaleY: -1 }]}}>
+          <MessageItem
+            item={item}
+            user={this.props.user}
+            messengers={this.props.messengers}
+            onSelectVideo={() => this.props.onSelectVideo(item)}
+          />
+        </Flex>
+      );
+    }
     return (
       <Flex value={1} style={{ transform: [{ scaleY: -1 }], position: 'relative', top: this.state.topHeight, left: 0, right: 0}}>
         <MessageItem
