@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, View, StatusBar, ScrollView } from 'react-native';
+import { Alert, View, ScrollView, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Analytics from '../../utils/analytics';
@@ -11,11 +11,13 @@ import theme from '../../theme';
 import styles from './styles';
 import ApiLoading from '../ApiLoading';
 import WebviewVideo from '../../components/WebviewVideo';
+import StatusBar from '../../components/StatusBar';
 import webviewStates from '../../components/WebviewVideo/common';
 import FloatingButtonSingle from '../../components/FloatingButtonSingle';
 import { VokeIcon, Flex, Touchable, Text } from '../../components/common';
 
 class VideoDetails extends Component {
+
   static navigatorStyle = {
     screenBackgroundColor: theme.lightBackgroundColor,
     navBarHidden: true,
@@ -29,12 +31,12 @@ class VideoDetails extends Component {
     this.state = {
       hideWebview: true,
     };
-    
+
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.selectContact = this.selectContact.bind(this);
     this.handleVideoChange = this.handleVideoChange.bind(this);
   }
-  
+
   componentDidMount() {
     Analytics.screen('Video Details');
   }
@@ -100,7 +102,7 @@ class VideoDetails extends Component {
     if (videoType === 'arclight') {
       loadDuration = 3000; // Longer loading state for arclight videos
     }
-    
+
     return (
       <View style={styles.container}>
         <StatusBar hidden={true} />

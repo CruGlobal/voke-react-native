@@ -66,7 +66,7 @@ export default class WebviewVideo extends Component {
     // TODO: Implement this force pause in all the .js files
     // this.sendMessage({ forcePause: true });
   }
-  
+
   play() {
     // TODO: Implement this force pause in all the .js files
     // this.sendMessage({ forcePlay: true });
@@ -148,7 +148,7 @@ export default class WebviewVideo extends Component {
         <WebView
           ref={(c) => this.webview = c}
           source={{ html }}
-          style={{}}
+          style={Platform.OS === 'android' ? {} : {marginTop: -20}}
           mixedContentMode="always"
           mediaPlaybackRequiresUserAction={false}
           allowsInlineMediaPlayback={true}

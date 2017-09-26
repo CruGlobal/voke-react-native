@@ -60,7 +60,7 @@ class Videos extends Component {
     navBarBackgroundColor: theme.headerBackgroundColor,
     screenBackgroundColor: theme.primaryColor,
   };
-  
+
   constructor(props) {
     super(props);
 
@@ -114,7 +114,7 @@ class Videos extends Component {
     }
     this.props.navigator.setTitle({ title: 'Videos' });
   }
-  
+
   componentDidMount() {
     // Do this after mounting because Android sometimes doesn't work on initial load
     if (!this.props.onSelectVideo) {
@@ -122,7 +122,7 @@ class Videos extends Component {
     } else {
       this.props.navigator.setButtons(setButtons(true));
     }
-    
+
     // If there are no videos when the component mounts, get them, otherwise just set it
     if (this.props.all.length === 0) {
       this.props.dispatch(getVideos()).then(() => {
@@ -139,7 +139,7 @@ class Videos extends Component {
       BackHandler.addEventListener('hardwareBackPress', this.backHandler);
     }
   }
-  
+
   componentWillUnmount() {
     if (!this.props.onSelectVideo) {
       BackHandler.removeEventListener('hardwareBackPress', this.backHandler);
@@ -274,7 +274,7 @@ class Videos extends Component {
             </Flex>
           </ScrollView>
         </Flex>
-        <StatusBar />
+        <StatusBar hidden={false} />
         <VideoList
           ref={(c) => this.videoList = c}
           items={this.state.videos}

@@ -101,7 +101,7 @@ export default function(id, options = {}) {
           if (data.seconds) {
             player.seekTo(data.seconds);
             checkDuration();
-            
+
           } else if (data.togglePlay) {
             var isPaused = player.getPlayerState() === 2;
             if (isPaused) {
