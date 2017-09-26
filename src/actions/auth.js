@@ -7,6 +7,7 @@ import callApi, { REQUESTS } from './api';
 import { establishDevice, setupSocketAction, closeSocketAction, destroyDevice, getDevices } from './socket';
 import { getConversations } from './messages';
 import { API_URL } from '../api/utils';
+import Orientation from 'react-native-orientation';
 
 
 // Setup app state change listeners
@@ -18,6 +19,7 @@ export function startupAction(navigator) {
     dispatch(establishDevice(navigator));
     appStateChangeFn = appStateChange.bind(null, dispatch, getState, navigator);
     AppState.addEventListener('change', appStateChangeFn);
+    Orientation.lockToPortrait();
   };
 }
 
@@ -31,7 +33,7 @@ export function cleanupAction() {
 // TODO: It would be nice to somehow do this in the background and not block the UI when coming back into the app
 function appStateChange(dispatch, getState, navigator, nextAppState) {
   const { cableId, token } = getState().auth;
-  
+
   // Sometimes this runs when logging out and causes a network error
   // Only run it when there is a valid token
   if (!token) {
@@ -41,7 +43,7 @@ function appStateChange(dispatch, getState, navigator, nextAppState) {
   // LOG('appStateChange', nextAppState, currentAppState, cableId);
   if (nextAppState === 'active' && (currentAppState === 'inactive' || currentAppState === 'background')) {
     LOG('App has come to the foreground!');
-    
+
     // Restart sockets
     if (cableId) {
       dispatch(setupSocketAction(cableId));

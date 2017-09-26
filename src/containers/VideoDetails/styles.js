@@ -1,6 +1,6 @@
 
 import { StyleSheet } from 'react-native';
-import theme, { COLORS } from '../../theme';
+import theme, { COLORS, DEFAULT } from '../../theme';
 
 import videoUtils from '../../utils/video';
 
@@ -13,6 +13,11 @@ export default StyleSheet.create({
     backgroundColor: COLORS.DEEP_BLACK,
     height: videoUtils.HEIGHT,
     width: videoUtils.WIDTH,
+  },
+  landscapeVideo: {
+    backgroundColor: COLORS.DEEP_BLACK,
+    height: DEFAULT.FULL_WIDTH,
+    width: DEFAULT.FULL_HEIGHT,
   },
   content: {
     flex: 1,

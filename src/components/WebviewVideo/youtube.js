@@ -1,10 +1,19 @@
 import common from './common';
 
 export default function(id, options = {}) {
+  // let width;
+  // let height;
+  // if (isLandscape) {
+  //   width = common.landscapeWidth;
+  //   height = common.landscapeHeight;
+  // } else {
+  //   width = common.width;
+  //   height = common.height;
+  // }
   const HTML = `
     <html>
     <body style="padding: 0; margin: 0; background-color: black">
-      <div id="player"></div>
+      <div id="player" style="position: absolute; top: 0; left: 0; right: 0;"</div>
       <script>
         var tag = document.createElement('script');
 
@@ -17,8 +26,8 @@ export default function(id, options = {}) {
 
         function onYouTubeIframeAPIReady() {
           player = new YT.Player('player', {
-            height: '${common.height}',
-            width: '${common.width}',
+            height: '100%',
+            width: '100%',
             videoId: '${id}',
             playerVars: {
               start: ${options.start || undefined},

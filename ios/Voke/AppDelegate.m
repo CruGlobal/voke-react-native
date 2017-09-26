@@ -4,6 +4,7 @@
 #import <React/RCTPushNotificationManager.h>
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
+#import "Orientation.h"
 
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
@@ -62,6 +63,10 @@
   return YES;
 }
 
+// FOR REACT NATIVE ORIENTATION
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+  return [Orientation getOrientation];
+}
 
 // Required to register for notifications
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings

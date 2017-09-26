@@ -165,6 +165,7 @@ export default class WebviewVideo extends Component {
           duration={this.state.duration}
           time={this.state.time}
           type={this.props.type}
+          isLandscape={this.props.isLandscape}
         />
       </View>
     );
@@ -177,6 +178,7 @@ WebviewVideo.propTypes = {
   onChangeState: PropTypes.func.isRequired,
   thumbnail: PropTypes.string,
   start: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  isLandscape: PropTypes.bool.isRequired,
 };
 
 const styles = StyleSheet.create({

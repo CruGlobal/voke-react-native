@@ -44,9 +44,9 @@ export default class VideoControls extends Component {
     const { time, isPaused, onSeek, duration } = this.props;
     return (
       <Flex direction="column" style={styles.outerWrap}>
-        <Flex style={styles.viewBlock} align="center" justify="center">
+        <Flex style={[this.props.isLandscape ? styles.landscapeSize : styles.portraitSize, styles.viewBlock]} align="center" justify="center">
           <Touchable activeOpacity={.5} onPress={this.handleScreenPress}>
-            <Flex animation="zoomIn" style={styles.screenPress}>
+            <Flex animation="zoomIn" style={[this.props.isLandscape ? styles.landscapeSize : styles.portraitSize, styles.screenPress]}>
               {
                 isPaused ? (
                   <Icon name={'play-circle-filled'} size={50} style={styles.playIcon} />
@@ -55,7 +55,7 @@ export default class VideoControls extends Component {
             </Flex>
           </Touchable>
         </Flex>
-        <Flex direction="row" style={styles.controlWrapper} align="center" justify="center">
+        <Flex direction="row" style={[this.props.isLandscape ? styles.landscapeSize : styles.portraitSize, styles.controlWrapper]} align="center" justify="center">
           <Flex value={.2} align="center">
             <Touchable onPress={this.handleScreenPress}>
               <VokeIcon name={!isPaused ? 'pause' : 'play'} style={styles.playIcon} />
@@ -96,5 +96,6 @@ VideoControls.propTypes = {
   onSeek: PropTypes.func.isRequired,
   onPlayPause: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
+  isLandscape: PropTypes.bool.isRequired,
   // buttonTextStyle: PropTypes.oneOfType(styleTypes),
 };

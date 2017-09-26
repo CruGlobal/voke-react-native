@@ -4,7 +4,7 @@ import common from './common';
 export default function(url, options = {}) {
   const HTML = `
     <html>
-    <body style="padding: 0; margin: 0; background-color: black">
+    <body style="padding: 0; margin: 0; background-color: black;">
       <script>
         var link = document.createElement('link');
         var script = document.createElement('script');
@@ -20,12 +20,16 @@ export default function(url, options = {}) {
           video.setAttribute('poster', '${options.thumbnail}');
           video.setAttribute('controls', false);
           video.setAttribute('class', 'video-js vjs-default-skin');
-          video.setAttribute('width', '${common.width}');
-          video.setAttribute('height', '${common.height}');
+          video.setAttribute('width', '100%');
+          video.setAttribute('height', '100%');
           video.setAttribute('preload', true);
           video.setAttribute('playsinline', true);
           video.setAttribute('autoplay', false);
           video.setAttribute('webkit-playsinline', true);
+          video.style.position = 'absolute';
+          video.style.top = '0';
+          video.style.left = '0';
+          video.style.right = '0';
 
           video.controls = false;
           video.autoplay = true;
@@ -44,18 +48,18 @@ export default function(url, options = {}) {
           setTimeout(checkDuration, 3500);
 
           /* Setup the source tag for the video */
-          var source = document.createElement("source"); 
+          var source = document.createElement("source");
           source.setAttribute('type', 'video/mp4');
           source.setAttribute('src', '${url}');
           video.append(source);
           document.body.appendChild(video);
-          videojs('video'); 
+          videojs('video');
 
           /* Force play */
           setTimeout(function() { if (video && video.play) video.play(); }, 500);
         };
         document.body.appendChild(script);
-        
+
         var paused = false; /* Keep track of whether the video has been paused/resumed */
         function onPlay() {
           if (paused) {

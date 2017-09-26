@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Analytics from '../../utils/analytics';
 import { Navigation } from 'react-native-navigation';
+import Orientation from 'react-native-orientation';
 
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { toastAction } from '../../actions/auth';
@@ -31,15 +32,56 @@ class VideoDetails extends Component {
 
     this.state = {
       hideWebview: true,
+      isLandscape: false,
     };
 
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.selectContact = this.selectContact.bind(this);
     this.handleVideoChange = this.handleVideoChange.bind(this);
+    this.orientationDidChange = this.orientationDidChange.bind(this);
+  }
+
+  componentWillMount() {
+    // The getOrientation method is async. It happens sometimes that
+    // you need the orientation at the moment the JS runtime starts running on device.
+    // `getInitialOrientation` returns directly because its a constant set at the
+    // beginning of the JS runtime.
+
+    const initial = Orientation.getInitialOrientation();
+    LOG(initial);
+    if (initial === 'PORTRAIT') {
+      this.setState( {isLandscape: false});
+    } else {
+      this.setState( {isLandscape: true});
+    }
   }
 
   componentDidMount() {
     Analytics.screen('Video Details');
+    if (this.props.video.media.type === 'vimeo') {
+      Orientation.lockToPortrait();
+    } else {
+      Orientation.unlockAllOrientations();
+    }
+    Orientation.addOrientationListener(this.orientationDidChange);
+
+  }
+
+  orientationDidChange(orientation) {
+    if (orientation === 'LANDSCAPE') {
+      // do something with landscape layout
+      this.setState( {isLandscape: true});
+    } else {
+      // do something with portrait layout
+      this.setState( {isLandscape: false});
+    }
+  }
+
+  componentWillUnmount() {
+    Orientation.getOrientation((err, orientation) => {
+      LOG(`Current Device Orientation: ${orientation}`);
+    });
+    Orientation.removeOrientationListener(this.orientationDidChange);
   }
 
   onNavigatorEvent(event) {
@@ -107,7 +149,7 @@ class VideoDetails extends Component {
     return (
       <View style={styles.container}>
         <StatusBar hidden={true} />
-        <Flex style={styles.video}>
+        <Flex style={this.state.isLandscape ? styles.landscapeVideo : styles.video}>
           {
             this.state.hideWebview ? null : (
               <WebviewVideo
@@ -116,6 +158,7 @@ class VideoDetails extends Component {
                 url={videoMedia.url}
                 start={video.media_start || 0}
                 onChangeState={this.handleVideoChange}
+                isLandscape={this.state.isLandscape}
               />
             )
           }
@@ -128,10 +171,13 @@ class VideoDetails extends Component {
           </View>
         </Flex>
         <ScrollView style={styles.content}>
-          {this.renderContent()}
+          {
+            this.state.isLandscape ? null : this.renderContent()
+          }
         </ScrollView>
         <FloatingButtonSingle
           onSelect={() => {
+            Orientation.lockToPortrait();
             // TODO: Force video to pause when navigating away
             // this.webview.pause();
             if (this.props.onSelectVideo) {

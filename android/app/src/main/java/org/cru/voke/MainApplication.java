@@ -14,6 +14,7 @@ import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.appevents.AppEventsLogger;
 
 // import com.facebook.react.ReactApplication;
+import com.github.yamill.orientation.OrientationPackage;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
@@ -51,6 +52,7 @@ public class MainApplication extends NavigationApplication {
   protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           // new MainReactPackage(),
+            new OrientationPackage(),
           new FBSDKPackage(mCallbackManager),
           new RNDeviceInfo(),
           new ReactNativePushNotificationPackage(),

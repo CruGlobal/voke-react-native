@@ -1,7 +1,10 @@
 import videoUtils from '../../utils/video';
+import {DEFAULT} from '../../theme';
 
 export default {
   width: videoUtils.WIDTH,
+  landscapeWidth: DEFAULT.FULL_HEIGHT,
+  landscapeHeight: DEFAULT.FULL_WIDTH,
   height: videoUtils.HEIGHT,
   STARTED: 'started',
   RESUMED: 'resumed',

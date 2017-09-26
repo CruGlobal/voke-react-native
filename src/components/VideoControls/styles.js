@@ -8,7 +8,7 @@ const CONTROLLS_HEIGHT = 30;
 export default StyleSheet.create({
   controlWrapper: {
     height: CONTROLLS_HEIGHT,
-    width: DEFAULT.FULL_WIDTH,
+    // width: DEFAULT.FULL_WIDTH,
     backgroundColor: COLORS.GREY_FADE,
     position: 'absolute',
     bottom: 0,
@@ -48,21 +48,29 @@ export default StyleSheet.create({
     color: theme.textColor,
   },
   viewBlock: {
-    height: videoUtils.HEIGHT,
-    width: videoUtils.WIDTH,
+    // height: videoUtils.HEIGHT,
+    // width: videoUtils.WIDTH,
     backgroundColor: COLORS.TRANSPARENT,
     position: 'absolute',
     bottom: 0,
     left: 0,
   },
   screenPress: {
-    height: videoUtils.HEIGHT,
-    width: videoUtils.WIDTH,
+    // height: videoUtils.HEIGHT,
+    // width: videoUtils.WIDTH,
     backgroundColor: COLORS.TRANSPARENT,
     alignItems: 'center',
     justifyContent: 'center',
   },
   hide: {
     // display: 'none',
+  },
+  portraitSize: {
+    height: videoUtils.HEIGHT,
+    width: videoUtils.WIDTH,
+  },
+  landscapeSize: {
+    height: videoUtils.LANDSCAPE_HEIGHT,
+    width: videoUtils.LANDSCAPE_WIDTH,
   },
 });
