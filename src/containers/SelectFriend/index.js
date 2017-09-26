@@ -13,6 +13,7 @@ import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import theme from '../../theme';
 import VOKE_BOT from '../../../images/voke_bot_face_large.png';
+import { vokeIcons } from '../../utils/iconMap';
 
 import ApiLoading from '../ApiLoading';
 import { Flex, Text, Loading, Button } from '../../components/common';
@@ -36,6 +37,15 @@ function getRandomContacts(contacts) {
     contacts[randomArray[1]],
     contacts[randomArray[2]],
   ];
+}
+
+function setButtons() {
+  return {
+    leftButtons: [{
+      id: 'back', // Android handles back already
+      icon: vokeIcons['back'], // For iOS only
+    }],
+  };
 }
 
 class SelectFriend extends Component {
@@ -62,6 +72,7 @@ class SelectFriend extends Component {
     this.handleDismissPermission = this.handleDismissPermission.bind(this);
     this.handleCheckPermission = this.handleCheckPermission.bind(this);
     this.checkContactsStatus = this.checkContactsStatus.bind(this);
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleAllowContacts = this.handleAllowContacts.bind(this);
   }
 
@@ -70,11 +81,23 @@ class SelectFriend extends Component {
     Analytics.screen('Select a Friend');
   }
 
+  componentWillMount() {
+    this.props.navigator.setButtons(setButtons());
+  }
+
   goToContacts() {
     this.props.navigatePush('voke.Contacts', {
       onSelect: this.selectContact,
       video: this.props.video,
     });
+  }
+
+  onNavigatorEvent(event) {
+    if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
+      if (event.id == 'back') {
+        this.props.navigateBack();
+      }
+    }
   }
 
   handleGetContacts() {

@@ -30,6 +30,7 @@ class VideoDetails extends Component {
 
     this.state = {
       hideWebview: true,
+      isFromVideos: true,
     };
 
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
@@ -39,6 +40,9 @@ class VideoDetails extends Component {
 
   componentDidMount() {
     Analytics.screen('Video Details');
+    if (this.props.fromVideos) {
+      this.setState({isFromVideos: true});
+    } else { this.setState({isFromVideos: false});}
   }
 
   onNavigatorEvent(event) {
@@ -115,6 +119,7 @@ class VideoDetails extends Component {
                 url={videoMedia.url}
                 start={video.media_start || 0}
                 onChangeState={this.handleVideoChange}
+                fromVideos={this.state.isFromVideos || false}
               />
             )
           }
@@ -146,6 +151,7 @@ class VideoDetails extends Component {
                 ]
               );
             } else {
+              this.setState({isFromVideos: false});
               this.props.navigatePush('voke.SelectFriend', {
                 video: video.id,
               });
@@ -162,6 +168,7 @@ VideoDetails.propTypes = {
   ...NavPropTypes,
   video: PropTypes.object,
   onSelectVideo: PropTypes.func,
+  fromVideos: PropTypes.bool,
 };
 
 export default connect(null, nav)(VideoDetails);

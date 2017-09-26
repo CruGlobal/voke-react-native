@@ -143,12 +143,13 @@ export default class WebviewVideo extends Component {
         </Flex>
       );
     }
+    LOG(this.props.fromVideos);
     return (
       <View style={{flex: 1}}>
         <WebView
           ref={(c) => this.webview = c}
           source={{ html }}
-          style={Platform.OS === 'android' ? {} : {marginTop: -20}}
+          style={Platform.OS === 'android' ? {} : {marginTop: this.props.fromVideos ? -20 : 0}}
           mixedContentMode="always"
           mediaPlaybackRequiresUserAction={false}
           allowsInlineMediaPlayback={true}
@@ -177,6 +178,7 @@ WebviewVideo.propTypes = {
   onChangeState: PropTypes.func.isRequired,
   thumbnail: PropTypes.string,
   start: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  fromVideos: PropTypes.bool,
 };
 
 const styles = StyleSheet.create({

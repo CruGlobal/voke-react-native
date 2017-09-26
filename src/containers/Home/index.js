@@ -47,8 +47,9 @@ class Home extends Component {
   static navigatorStyle = {
     navBarButtonColor: theme.lightText,
     navBarTextColor: theme.headerTextColor,
-    navBarBackgroundColor: theme.secondaryColor,
+    navBarBackgroundColor: theme.headerBackgroundColor,
     screenBackgroundColor: theme.primaryColor,
+    statusBarHidden: false,
   };
 
   constructor(props) {
@@ -77,7 +78,7 @@ class Home extends Component {
   componentDidMount() {
     this.props.dispatch(startupAction(this.props.navigator));
     Analytics.screen('Home Chats');
-    this.props.dispatch(getConversations());    
+    this.props.dispatch(getConversations());
   }
 
   componentWillReceiveProps(nextProps) {
@@ -121,7 +122,7 @@ class Home extends Component {
   handleLoadMore() {
     if (this.props.pagination.hasMore) {
       // LOG('has more conversations to load');
-      this.props.dispatch(getConversationsPage(this.props.pagination.page + 1));      
+      this.props.dispatch(getConversationsPage(this.props.pagination.page + 1));
     }
   }
 
@@ -201,7 +202,7 @@ class Home extends Component {
 
     return (
       <View style={styles.container}>
-        <StatusBar />
+        <StatusBar hidden={false} />
         {
           cLength ? (
             <ConversationList

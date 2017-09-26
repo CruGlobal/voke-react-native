@@ -59,6 +59,7 @@ class Videos extends Component {
     navBarTextColor: theme.headerTextColor,
     navBarBackgroundColor: theme.headerBackgroundColor,
     screenBackgroundColor: theme.primaryColor,
+    statusBarHidden: false,
   };
 
   constructor(props) {
@@ -244,6 +245,7 @@ class Videos extends Component {
 
     return (
       <View style={styles.container}>
+        <StatusBar hidden={false} />
         <Flex style={{height: 50}} align="center" justify="center">
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <Flex direction="row" style={{padding: 10}}>
@@ -274,7 +276,6 @@ class Videos extends Component {
             </Flex>
           </ScrollView>
         </Flex>
-        <StatusBar hidden={false} />
         <VideoList
           ref={(c) => this.videoList = c}
           items={this.state.videos}
@@ -282,6 +283,7 @@ class Videos extends Component {
             this.props.navigatePush('voke.VideoDetails', {
               video: c,
               onSelectVideo,
+              fromVideos: true,
             });
           }}
           onRefresh={() => {}}

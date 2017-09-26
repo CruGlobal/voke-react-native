@@ -30,6 +30,7 @@ export default function(id, options = {}) {
               controls: 0,
               iv_load_policy: 3,
               loop: 0,
+              rel: 0,
             },
             events: {
               'onReady': onPlayerReady,
