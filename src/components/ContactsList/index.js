@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, SectionList, Platform } from 'react-native';
+import { View, SectionList, Platform, KeyboardAvoidingView, Dimensions } from 'react-native';
 import ContactItem from '../ContactItem';
 
 import styles from './styles';
@@ -9,6 +9,7 @@ import { Touchable, Text, Flex } from '../common';
 // import theme from '../../theme';
 
 const CONTACT_HEIGHT = 50;
+const { width: deviceWidth, height: deviceHeight } = Dimensions.get('window');
 
 // Format contacts for the section list
 function formatContacts(items) {
@@ -59,7 +60,7 @@ class ContactsList extends Component {
       </Text>
     );
   }
-  
+
   renderItem({ item }) {
     const { isInvite, onSelect } = this.props;
     return (
@@ -84,20 +85,26 @@ class ContactsList extends Component {
     const formattedSections = formatContacts(items);
     // ItemSeparatorComponent={() => <Separator />}
     return (
-      <SectionList
-        initialNumToRender={40}
-        keyExtractor={(item) => item.id}
-        stickySectionHeadersEnabled={true}
-        keyboardShouldPersistTaps="always"
-        sections={formattedSections}
-        renderSectionHeader={this.renderHeader}
-        renderItem={this.renderItem}
-        getItemLayout={(data, index) => ({
-          length: CONTACT_HEIGHT,
-          offset: CONTACT_HEIGHT * index,
-          index,
-        })}
-      />
+      <KeyboardAvoidingView
+        contentContainerStyle={{flex: 1}}
+        behavior={Platform.OS === 'android' ? undefined : 'padding'}
+        keyboardVerticalOffset={Platform.OS === 'android' ? undefined : deviceHeight/6}
+      >
+        <SectionList
+          initialNumToRender={40}
+          keyExtractor={(item) => item.id}
+          stickySectionHeadersEnabled={true}
+          keyboardShouldPersistTaps="always"
+          sections={formattedSections}
+          renderSectionHeader={this.renderHeader}
+          renderItem={this.renderItem}
+          getItemLayout={(data, index) => ({
+            length: CONTACT_HEIGHT,
+            offset: CONTACT_HEIGHT * index,
+            index,
+          })}
+        />
+      </KeyboardAvoidingView>
     );
   }
 }
