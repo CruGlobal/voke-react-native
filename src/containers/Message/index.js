@@ -48,7 +48,6 @@ class Message extends Component {
       latestItem: null,
       shouldShowButtons: true,
       createTransparentFocus: false,
-      showFlex: true,
     };
 
     this.handleLoadMore = this.handleLoadMore.bind(this);
@@ -266,11 +265,10 @@ class Message extends Component {
           onSelectVideo={(m) => this.setState({ selectedVideo: m })}
         />
         {
-          // this.state.showFlex ? (
-            // <Flex value={100} style={{zIndex: 10, backgroundColor: 'transparent'}}></Flex>
-          // ) : null
+          Platform.OS === 'android' ? null : (
+            <Flex value={100} style={{zIndex: 10, backgroundColor: 'transparent'}}></Flex>
+          )
         }
-
         <Flex direction="row" style={[styles.inputWrap, newWrap]} align="center" justify="center">
           {
             this.state.shouldShowButtons === true ? (

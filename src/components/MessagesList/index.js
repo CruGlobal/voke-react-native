@@ -17,7 +17,8 @@ class MessagesList extends Component {
       refreshing: false,
       componentHeight: 0,
       messagesHeight: 0,
-      topHeight: 0,
+      // topHeight: 0,
+      scrollEnabled: false,
     };
 
     this.renderLoadMore = this.renderLoadMore.bind(this);
@@ -43,18 +44,19 @@ class MessagesList extends Component {
 
   keyboardDidShow() {
     // alert('Keyboard Shown');
-    this.setState({ topHeight: 0 });
+    this.setState({ scrollEnabled: true });
   }
 
   keyboardDidHide() {
     // alert('Keyboard Hidden');
-    let height = this.state.messagesHeight;
-    let componentHeight = this.state.componentHeight;
-    if (componentHeight - height < 0) {
-      this.setState({ topHeight: 0});
-    } else {
-      this.setState({ topHeight: componentHeight - height});
-    }
+    // let height = this.state.messagesHeight;
+    // let componentHeight = this.state.componentHeight;
+    // if (componentHeight - height < 0) {
+    //   this.setState({ topHeight: 0});
+    // } else {
+    //   this.setState({ topHeight: componentHeight - height});
+    // }
+    this.updateSizes();
   }
 
   renderLoadMore() {
@@ -76,13 +78,19 @@ class MessagesList extends Component {
 
   updateSizes() {
     if (this.state.messagesHeight != 0 && this.state.componentHeight !=0 ) {
-      if (this.state.componentHeight - this.state.messagesHeight > 0) {
-        this.setState({ topHeight: this.state.componentHeight - this.state.messagesHeight});
+    //   if (this.state.componentHeight - this.state.messagesHeight > 0) {
+    //     this.setState({ topHeight: this.state.componentHeight - this.state.messagesHeight});
+    //   } else {
+    //     this.setState({ topHeight: 0 });
+    //   }
+    // } else {
+    //   this.setState({ topHeight: 0});
+    // }
+      if (this.state.messagesHeight < this.state.componentHeight) {
+        this.setState({ scrollEnabled: false });
       } else {
-        this.setState({ topHeight: 0 });
+        this.setState({ scrollEnabled: true});
       }
-    } else {
-      this.setState({ topHeight: 0});
     }
   }
 
@@ -93,20 +101,8 @@ class MessagesList extends Component {
   }
 
   renderRow({ item }) {
-    if (Platform.OS === 'android') {
-      return (
-        <Flex value={1} style={{ transform: [{ scaleY: -1 }]}}>
-          <MessageItem
-            item={item}
-            user={this.props.user}
-            messengers={this.props.messengers}
-            onSelectVideo={() => this.props.onSelectVideo(item)}
-          />
-        </Flex>
-      );
-    }
     return (
-      <Flex value={1} style={{ transform: [{ scaleY: -1 }], position: 'relative', top: this.state.topHeight, left: 0, right: 0}}>
+      <Flex value={1} style={{ transform: [{ scaleY: -1 }]}}>
         <MessageItem
           item={item}
           user={this.props.user}
@@ -180,6 +176,7 @@ class MessagesList extends Component {
         onContentSizeChange={this.onContentSize}
         onLayout={this.onLayoutEvent}
         ListHeaderComponent={this.renderTypeState}
+        scrollEnabled={Platform.OS === 'android' ? true : this.state.scrollEnabled}
       />
     );
   }
