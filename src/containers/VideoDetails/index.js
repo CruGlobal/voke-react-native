@@ -3,6 +3,7 @@ import { Alert, View, ScrollView, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Analytics from '../../utils/analytics';
+import { Navigation } from 'react-native-navigation';
 
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { toastAction } from '../../actions/auth';
@@ -30,7 +31,6 @@ class VideoDetails extends Component {
 
     this.state = {
       hideWebview: true,
-      isFromVideos: true,
     };
 
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
@@ -40,9 +40,6 @@ class VideoDetails extends Component {
 
   componentDidMount() {
     Analytics.screen('Video Details');
-    if (this.props.fromVideos) {
-      this.setState({isFromVideos: true});
-    } else { this.setState({isFromVideos: false});}
   }
 
   onNavigatorEvent(event) {
@@ -119,12 +116,11 @@ class VideoDetails extends Component {
                 url={videoMedia.url}
                 start={video.media_start || 0}
                 onChangeState={this.handleVideoChange}
-                fromVideos={this.state.isFromVideos || false}
               />
             )
           }
           <View style={styles.backHeader}>
-            <Touchable borderless={true} onPress={() => this.props.navigateBack()}>
+            <Touchable borderless={true} onPress={() => Navigation.dismissModal()}>
               <View>
                 <VokeIcon name="video-back" style={styles.backImage} />
               </View>
@@ -151,7 +147,6 @@ class VideoDetails extends Component {
                 ]
               );
             } else {
-              this.setState({isFromVideos: false});
               this.props.navigatePush('voke.SelectFriend', {
                 video: video.id,
               });
@@ -168,7 +163,6 @@ VideoDetails.propTypes = {
   ...NavPropTypes,
   video: PropTypes.object,
   onSelectVideo: PropTypes.func,
-  fromVideos: PropTypes.bool,
 };
 
 export default connect(null, nav)(VideoDetails);

@@ -280,11 +280,20 @@ class Videos extends Component {
           ref={(c) => this.videoList = c}
           items={this.state.videos}
           onSelect={(c) => {
-            this.props.navigatePush('voke.VideoDetails', {
-              video: c,
-              onSelectVideo,
-              fromVideos: true,
+            Navigation.showModal({
+              screen: 'voke.VideoDetails',
+              animationType: 'slide-up',
+              passProps: {
+                video: c,
+                onSelectVideo,
+              },
+              // Stop back button from closing modal https://github.com/wix/react-native-navigation/issues/250#issuecomment-254186394
+              overrideBackPress: true,
             });
+            // this.props.navigatePush('voke.VideoDetails', {
+            //   video: c,
+            //   onSelectVideo,
+            // });
           }}
           onRefresh={() => {}}
         />
