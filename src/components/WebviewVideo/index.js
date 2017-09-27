@@ -24,6 +24,13 @@ import VimeoHTML from './vimeo';
 import html5HTML from './html5';
 
 const isOlderAndroid = Platform.OS === 'android' && Platform.Version < 23;
+let shouldAddMargin = false;
+if (Platform.OS === 'ios') {
+  const iosVersion = parseInt(Platform.Version, 10);
+  if (iosVersion >= 11) {
+    shouldAddMargin = true;
+  }
+}
 
 export default class WebviewVideo extends Component {
   constructor(props) {
@@ -34,25 +41,18 @@ export default class WebviewVideo extends Component {
       isPaused: (isOlderAndroid && props.type === 'arclight') || props.type === 'vimeo',
       time: 0,
       numOfErrors: 0,
+      addMargin: shouldAddMargin,
     };
 
     this.webview = null;
 
     this.handleMessage = this.handleMessage.bind(this);
+    this.pause = this.pause.bind(this);
+    this.addMargin = this.addMargin.bind(this);
+    this.removeMargin = this.removeMargin.bind(this);
+    this.play = this.play.bind(this);
     this.seek = this.seek.bind(this);
     this.togglePlay = this.togglePlay.bind(this);
-  }
-
-  // Stop the component from updating if the url is the same
-  shouldComponentUpdate(nextProps, nextState) {
-    // if (nextProps.url !== this.props.url || nextProps.isHidden !== this.props.isHidden) {
-    if (nextProps.url !== this.props.url) {
-      return true;
-    }
-    if (nextState.isPaused !== this.state.isPaused || nextState.duration !== this.state.duration || nextState.time !== this.state.time) {
-      return true;
-    }
-    return false;
   }
 
   componentDidMount() {
@@ -62,14 +62,22 @@ export default class WebviewVideo extends Component {
     }
   }
 
+  addMargin() { this.setState({ addMargin: true }); }
+  removeMargin() {
+    this.pause();
+    if (this.state.addMargin) {
+      this.setState({ addMargin: false }, this.pause);
+    }
+  }
+
   pause() {
-    // TODO: Implement this force pause in all the .js files
-    // this.sendMessage({ forcePause: true });
+    this.sendMessage({ forcePause: true });
+    this.setState({ isPaused: true });
   }
 
   play() {
-    // TODO: Implement this force pause in all the .js files
-    // this.sendMessage({ forcePlay: true });
+    this.sendMessage({ forcePlay: true });
+    this.setState({ isPaused: false });
   }
 
   handleMessage(event) {
@@ -96,9 +104,13 @@ export default class WebviewVideo extends Component {
       }
       // Change the isPaused state based on the event
       if (data === webviewCommon.STARTED || data === webviewCommon.RESUMED) {
-        this.setState({ isPaused: false });
+        if (this.state.isPaused) {
+          this.setState({ isPaused: false });
+        }
       } else if (data === webviewCommon.PAUSED || data === webviewCommon.ERROR) {
-        this.setState({ isPaused: true });
+        if (!this.state.isPaused) {
+          this.setState({ isPaused: true });
+        }
       }
       this.props.onChangeState(data);
     }
@@ -132,6 +144,7 @@ export default class WebviewVideo extends Component {
 
   togglePlay() {
     this.sendMessage({ togglePlay: true });
+    this.setState({ isPaused: !this.state.isPaused });
   }
 
   render() {
@@ -148,7 +161,9 @@ export default class WebviewVideo extends Component {
         <WebView
           ref={(c) => this.webview = c}
           source={{ html }}
-          style={Platform.OS === 'android' ? {} : {}}
+          style={{
+            marginTop: this.state.addMargin ? -20 : 0,
+          }}
           mixedContentMode="always"
           mediaPlaybackRequiresUserAction={false}
           allowsInlineMediaPlayback={true}

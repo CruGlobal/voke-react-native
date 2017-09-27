@@ -31,12 +31,12 @@ class VideoDetails extends Component {
     super(props);
 
     this.state = {
-      hideWebview: true,
+      hideWebview: false,
       isLandscape: false,
+      timesAppeared: 0,
     };
 
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
-    this.selectContact = this.selectContact.bind(this);
     this.handleVideoChange = this.handleVideoChange.bind(this);
     this.orientationDidChange = this.orientationDidChange.bind(this);
   }
@@ -48,7 +48,7 @@ class VideoDetails extends Component {
     // beginning of the JS runtime.
 
     const initial = Orientation.getInitialOrientation();
-    LOG(initial);
+    // LOG(initial);
     if (initial === 'PORTRAIT') {
       this.setState( {isLandscape: false});
     } else {
@@ -58,43 +58,52 @@ class VideoDetails extends Component {
 
   componentDidMount() {
     Analytics.screen('Video Details');
-    if (this.props.video.media.type === 'vimeo') {
-      Orientation.lockToPortrait();
-    } else {
-      Orientation.unlockAllOrientations();
-    }
+    this.toggleOrientation();
     Orientation.addOrientationListener(this.orientationDidChange);
+  }
 
+  componentWillUnmount() {
+    Orientation.getOrientation((err, orientation) => {
+      // LOG(`Current Device Orientation: ${orientation}`);
+    });
+    Orientation.removeOrientationListener(this.orientationDidChange);
   }
 
   orientationDidChange(orientation) {
+    if (this.props.video.media.type === 'vimeo') {
+      return;
+    }
     if (orientation === 'LANDSCAPE') {
       // do something with landscape layout
-      LOG('landscape');
+      // LOG('landscape');
       this.setState( {isLandscape: true});
     } else {
-      LOG('portrait');
+      // LOG('portrait');
       // do something with portrait layout
       this.setState( {isLandscape: false});
     }
   }
 
-  componentWillUnmount() {
-    Orientation.getOrientation((err, orientation) => {
-      LOG(`Current Device Orientation: ${orientation}`);
-    });
-    Orientation.removeOrientationListener(this.orientationDidChange);
+  toggleOrientation() {
+    if (this.props.video.media.type === 'vimeo') {
+      Orientation.lockToPortrait();
+    } else {
+      Orientation.unlockAllOrientations();
+    }
   }
 
   onNavigatorEvent(event) {
     // Hide the webview until the screen is mounted
     if (event.id === 'didAppear') {
-      this.setState({ hideWebview: false });
-    }
-  }
+      LOG('appeared', this.state.timesAppeared);
+      if (this.state.timesAppeared > 0 && this.webview && this.webview.pause) {
+        this.webview.pause();
+        this.webview.removeMargin();
+      }
 
-  selectContact(contact) {
-    LOG('contact selected', contact);
+      this.setState({ hideWebview: false, timesAppeared: this.state.timesAppeared + 1 });
+      this.toggleOrientation();
+    }
   }
 
   handleVideoChange(videoState) {
@@ -196,6 +205,9 @@ class VideoDetails extends Component {
                 ]
               );
             } else {
+              if (this.webview && this.webview.pause) {
+                this.webview.pause();
+              }
               this.props.navigatePush('voke.SelectFriend', {
                 video: video.id,
               });

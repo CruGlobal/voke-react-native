@@ -126,7 +126,7 @@ class SelectFriend extends Component {
     } else if (permission === Permissions.NOT_ASKED) {
       Navigation.showModal({
         screen: 'voke.Modal',
-        animationType: 'fade',
+        animationType: 'none',
         passProps: {
           getContacts: this.handleGetContacts,
           onDismiss: this.handleDismissPermission,

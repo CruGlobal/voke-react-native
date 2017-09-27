@@ -108,6 +108,10 @@ export default function(url, options = {}) {
             } else {
               video.pause();
             }
+          } else if (data.forcePause) {
+            video.pause();
+          } else if (data.forcePlay) {
+            video.play();
           }
         }
 

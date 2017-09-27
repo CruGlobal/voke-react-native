@@ -69,6 +69,10 @@ export default function(id, options = {}) {
                   player.pause();
                 }
               });
+            } else if (data.forcePause) {
+              player.pause();
+            } else if (data.forcePlay) {
+              player.play();
             }
           }
 

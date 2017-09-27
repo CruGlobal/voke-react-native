@@ -119,6 +119,10 @@ export default function(id, options = {}) {
             } else {
               player.pauseVideo();
             }
+          } else if (data.forcePause) {
+            player.pauseVideo();
+          } else if (data.forcePlay) {
+            player.playVideo();
           }
         }
       </script>
