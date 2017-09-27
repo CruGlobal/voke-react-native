@@ -288,8 +288,6 @@ class Videos extends Component {
                 video: c,
                 onSelectVideo,
               },
-              // Stop back button from closing modal https://github.com/wix/react-native-navigation/issues/250#issuecomment-254186394
-              overrideBackPress: true,
             });
             // this.props.navigatePush('voke.VideoDetails', {
             //   video: c,
