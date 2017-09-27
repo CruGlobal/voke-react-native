@@ -165,7 +165,7 @@ class SelectFriend extends Component {
 
   selectContact(c) {
     if (!c) return;
-    LOG(JSON.stringify(c));
+    // LOG(JSON.stringify(c));
     let phoneNumber = c.phone ? c.phone[0] : null;
     let name = c.name ? c.name.split(' ') : null;
     let firstName = name[0] ? name[0] : 'Friend';
@@ -175,7 +175,7 @@ class SelectFriend extends Component {
     let videoId = this.props.video;
 
     if (c.isVoke) {
-      LOG('voke contact selected', this.props.video);
+      // LOG('voke contact selected', this.props.video);
       let data = {
         conversation: {
           messengers_attributes: [
@@ -189,14 +189,14 @@ class SelectFriend extends Component {
         },
       };
       this.props.dispatch(createConversation(data)).then((results) => {
-        LOG('create voke conversation results', results);
+        // LOG('create voke conversation results', results);
         this.props.dispatch(getConversation(results.id)).then((c) => {
-          LOG('get voke conversation results', c);
+          // LOG('get voke conversation results', c);
           this.props.navigatePush('voke.Message', {conversation: c.conversation, goBackHome: true});
         });
       });
     } else {
-      LOG('normal contact selected', this.props.video);
+      // LOG('normal contact selected', this.props.video);
       let data = {
         conversation: {
           messengers_attributes: [
@@ -210,7 +210,7 @@ class SelectFriend extends Component {
         },
       };
       this.props.dispatch(createConversation(data)).then((results) => {
-        LOG('create conversation results', results);
+        // LOG('create conversation results', results);
         const friend = results.messengers[0];
 
         Share.share(
@@ -232,14 +232,13 @@ class SelectFriend extends Component {
             ],
           }).then((results1) => {
           if (results1.action === 'sharedAction') {
-            LOG('successfuly shared video');
-            LOG('results.id', results.id);
+            // LOG('successfully shared video, results.id', results.id);
             this.props.dispatch(getConversation(results.id)).then((c) => {
               LOG('getconversation results', c);
               this.props.navigatePush('voke.Message', {conversation: c.conversation, goBackHome: true});
             });
           } else {
-            LOG('Did Not Share Video');
+            // LOG('Did Not Share Video');
             this.props.dispatch(deleteConversation(results.id));
           }
         });

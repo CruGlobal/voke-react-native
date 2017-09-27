@@ -48,7 +48,7 @@ export function setupSocketAction(cableId) {
           const data = JSON.parse(e.data) || {};
           const type = data && data.type;
           if (type === 'ping') return;
-          LOG('socket message received: data', data);
+          // LOG('socket message received: data', data);
           if (type === 'welcome') {
             // LOG('socket welcome');
           } else if (data.message) {
@@ -87,7 +87,7 @@ export function closeSocketAction() {
       if (ws && ws.close) {
         ws.close(undefined, 'client closed');
         ws = null;
-        LOG('Closing the socket connection');
+        // LOG('Closing the socket connection');
       }
     } catch (socketErr) {
       // Do nothing with the error

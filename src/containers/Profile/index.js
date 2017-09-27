@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, Image, TextInput, KeyboardAvoidingView, ScrollView, View, Alert, BackHandler } from 'react-native';
+import { Platform, Image, TextInput, KeyboardAvoidingView, ScrollView, View, Alert } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';
@@ -59,35 +59,15 @@ class Profile extends Component {
     this.scrollEnd = this.scrollEnd.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.resetState = this.resetState.bind(this);
-    this.backHandler = this.backHandler.bind(this);
   }
 
   componentWillMount() {
     this.props.navigator.setButtons(setButtons());
-    // LOG(JSON.stringify(this.props.user));
   }
 
   componentDidMount() {
     Analytics.screen('Profile');
-    BackHandler.addEventListener('hardwareBackPress', this.backHandler);
   }
-
-  componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.backHandler);
-  }
-
-  backHandler() {
-    if (this.state.editName || this.state.editEmail || this.state.editPassword) {
-      this.setState({
-        editName: false,
-        editEmail: false,
-        editPassword: false,
-      });
-      return true;
-    }
-    return false;
-  }
-  
 
   onNavigatorEvent(event) {
     if (event.type === 'NavBarButtonPress') {
@@ -95,10 +75,20 @@ class Profile extends Component {
         this.props.navigateBack();
       }
     }
+    if (event.id === 'backPress') {
+      if (this.state.editName || this.state.editEmail || this.state.editPassword) {
+        this.setState({
+          editName: false,
+          editEmail: false,
+          editPassword: false,
+        });
+        return;
+      }
+      this.props.navigateBack();
+    }
   }
 
   handleUpdate() {
-    LOG('updating');
     const { firstName, lastName, currentPassword, newEmail, confirmEmail, newPassword, confirmPassword } = this.state;
     let data = {};
 
@@ -157,7 +147,6 @@ class Profile extends Component {
     this.setState({
       imageUri: data.uri,
     });
-    // LOG(JSON.stringify(data));
     if (data.uri) {
       const updateData = {
         avatar: {
@@ -170,7 +159,6 @@ class Profile extends Component {
         this.resetState();
       });
     }
-    LOG('image selected');
   }
 
   scrollEnd(isAnimated) {

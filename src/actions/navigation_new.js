@@ -7,7 +7,10 @@ const DEFAULT_PROPS = {
   'voke.Videos': { title: 'Videos' },
   'voke.SelectFriend': { title: 'Select Friend' },
   'voke.Contacts': { title: 'Contacts' },
-  'voke.Profile': { title: 'Profile' },
+  'voke.Profile': {
+    title: 'Profile',
+    overrideBackPress: true,
+  },
   'voke.Acknowledgements': { title: 'Acknowledgements' },
   'voke.About': { title: 'About' },
   'voke.Help': { title: 'Help' },

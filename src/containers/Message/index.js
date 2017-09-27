@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, TextInput, KeyboardAvoidingView, Platform, Keyboard, BackHandler } from 'react-native';
+import { View, TextInput, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 import { getMessages, createMessage, createTypeStateAction, destroyTypeStateAction, createMessageInteraction, markReadAction } from '../../actions/messages';
 import Analytics from '../../utils/analytics';
@@ -63,7 +63,6 @@ class Message extends Component {
     this.handleButtonExpand = this.handleButtonExpand.bind(this);
     this.createMessageReadInteraction = this.createMessageReadInteraction.bind(this);
     this.getConversationName = this.getConversationName.bind(this);
-    this.backHandler = this.backHandler.bind(this);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
@@ -89,11 +88,15 @@ class Message extends Component {
       }
     }
     if (event.id === 'backPress') {
-      LOG('BACK PRESS');
+      if (this.props.goBackHome) {
+        this.props.navigateResetHome();
+      } else {
+        this.props.navigateBack();
+      }
     }
 
     if (event.type == 'DeepLink') {
-      LOG('deep link!', event);
+      // LOG('deep link!', event);
       // const parts = event.link.split('/'); // Link parts
       // const payload = event.payload; // (optional) The payload
 
@@ -103,23 +106,9 @@ class Message extends Component {
     }
   }
 
-  backHandler() {
-    LOG('here');
-    if (this.props.goBackHome) {
-      this.props.navigateResetHome();
-      return true;
-    } else {
-      this.props.navigateBack();
-      return true;
-    }
-  }
-
   componentWillMount() {
     this.props.navigator.setButtons(setButtons());
     this.props.navigator.setTitle({ title: this.getConversationName()});
-
-    BackHandler.addEventListener('hardwareBackPress', this.backHandler);
-
   }
 
   componentDidMount() {
@@ -137,10 +126,6 @@ class Message extends Component {
     }
   }
 
-  componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.backHandler);
-  }
-
   getConversationName() {
     const myId = this.props.me.id;
     let messengers = this.props.conversation.messengers || [];
@@ -151,7 +136,6 @@ class Message extends Component {
   setLatestItem(conversationMessages) {
     const messages = conversationMessages ? conversationMessages : this.props.messages ? this.props.messages : [];
     const item = messages.find((m) => m.item);
-    LOG(JSON.stringify(item));
     if (item && item.item && item.messenger_id === this.props.me.id) {
       this.setState({ latestItem: item.item.id });
     }

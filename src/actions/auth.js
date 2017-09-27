@@ -30,6 +30,9 @@ export function cleanupAction() {
   };
 }
 
+let backgroundTimeout;
+const BACKGROUND_TIMEOUT = 3000;
+
 // TODO: It would be nice to somehow do this in the background and not block the UI when coming back into the app
 function appStateChange(dispatch, getState, navigator, nextAppState) {
   const { cableId, token } = getState().auth;
@@ -43,17 +46,26 @@ function appStateChange(dispatch, getState, navigator, nextAppState) {
   // LOG('appStateChange', nextAppState, currentAppState, cableId);
   if (nextAppState === 'active' && (currentAppState === 'inactive' || currentAppState === 'background')) {
     LOG('App has come to the foreground!');
+    
+    clearTimeout(backgroundTimeout);
 
-    // Restart sockets
-    if (cableId) {
-      dispatch(setupSocketAction(cableId));
-    } else {
-      dispatch(establishDevice(navigator));
-    }
+    backgroundTimeout = setTimeout(() => {
+      // Restart sockets
+      if (cableId) {
+        dispatch(setupSocketAction(cableId));
+      } else {
+        dispatch(establishDevice(navigator));
+      }
+    }, BACKGROUND_TIMEOUT);
+
   } else if (nextAppState === 'background' && (currentAppState === 'inactive' || currentAppState === 'active')) {
     LOG('App is going into the background');
+
     // Close sockets
-    dispatch(closeSocketAction());
+    clearTimeout(backgroundTimeout);
+    backgroundTimeout = setTimeout(() => {
+      dispatch(closeSocketAction());
+    }, BACKGROUND_TIMEOUT);
   }
   currentAppState = nextAppState;
 }

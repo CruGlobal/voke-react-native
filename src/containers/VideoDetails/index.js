@@ -50,9 +50,9 @@ class VideoDetails extends Component {
     const initial = Orientation.getInitialOrientation();
     // LOG(initial);
     if (initial === 'PORTRAIT') {
-      this.setState( {isLandscape: false});
+      this.setState({ isLandscape: false });
     } else {
-      this.setState( {isLandscape: true});
+      this.setState({ isLandscape: true });
     }
   }
 
@@ -95,7 +95,6 @@ class VideoDetails extends Component {
   onNavigatorEvent(event) {
     // Hide the webview until the screen is mounted
     if (event.id === 'didAppear') {
-      LOG('appeared', this.state.timesAppeared);
       if (this.state.timesAppeared > 0 && this.webview && this.webview.pause) {
         this.webview.pause();
         this.webview.removeMargin();
