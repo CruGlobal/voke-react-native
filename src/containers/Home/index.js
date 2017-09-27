@@ -17,6 +17,7 @@ import { vokeIcons } from '../../utils/iconMap';
 import ApiLoading from '../ApiLoading';
 import theme from '../../theme';
 import ConversationList from '../../components/ConversationList';
+import TabBarIndicator from '../../components/TabBarIndicator';
 import { Flex, Text } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import NULL_STATE from '../../../images/video-button.png';
@@ -226,10 +227,7 @@ class Home extends Component {
             <Image style={styles.vokeBot} source={VOKE} />
           ) : null
         }
-        <Flex direction="row">
-          <Flex value={1} style={styles.selectedTab}></Flex>
-          <Flex value={1} style={styles.unSelectedTab}></Flex>
-        </Flex>
+        <TabBarIndicator index={0} />
         {
           cLength === 0 || this.state.isLoading ? <ApiLoading /> : null
         }

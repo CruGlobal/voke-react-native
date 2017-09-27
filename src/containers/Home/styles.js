@@ -1,6 +1,6 @@
 
 import { StyleSheet } from 'react-native';
-import theme, { COLORS} from '../../theme';
+import theme from '../../theme';
 
 export default StyleSheet.create({
   container: {
@@ -12,13 +12,5 @@ export default StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     right: 0,
-  },
-  selectedTab: {
-    height: 4,
-    backgroundColor: COLORS.YELLOW,
-  },
-  unSelectedTab: {
-    height: 4,
-    backgroundColor: theme.secondaryColor,
   },
 });

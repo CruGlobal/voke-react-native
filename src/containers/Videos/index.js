@@ -14,6 +14,7 @@ import styles from './styles';
 import theme from '../../theme';
 import { navMenuOptions } from '../../utils/menu';
 import { vokeIcons } from '../../utils/iconMap';
+import TabBarIndicator from '../../components/TabBarIndicator';
 
 import ApiLoading from '../ApiLoading';
 import PillButton from '../../components/PillButton';
@@ -299,10 +300,7 @@ class Videos extends Component {
         />
         {
           !onSelectVideo ? (
-            <Flex direction="row">
-              <Flex value={1} style={styles.unSelectedTab}></Flex>
-              <Flex value={1} style={styles.selectedTab}></Flex>
-            </Flex>
+            <TabBarIndicator index={1} />
           ) : null
         }
         <ApiLoading />
