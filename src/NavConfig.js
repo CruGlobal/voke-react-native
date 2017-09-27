@@ -132,10 +132,12 @@ export default class App {
   }
 
   startApp() {
-    if (!this.store.getState().auth.isLoggedIn) {
-      startLoginApp();
-    } else {
-      startTabApp();
-    }
+    setTimeout(() => {
+      if (!this.store.getState().auth.isLoggedIn) {
+        startLoginApp();
+      } else {
+        startTabApp();
+      }
+    }, 1000)
   }
 }
