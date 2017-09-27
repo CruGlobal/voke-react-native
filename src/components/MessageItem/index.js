@@ -199,6 +199,15 @@ class MessageItem extends Component {
     const momentNow = moment().local().format('LL');
     const separatorTime = momentTime === momentNow ? 'Today' : momentNow;
 
+    let content;
+    if (isVideoAndText) {
+      content = this.renderVideoAndText();
+    } else if (isVideo) {
+      content = this.renderVideo();
+    } else {
+      content = this.renderText();
+    }
+
     return (
       <Flex
         direction="column"
@@ -228,9 +237,7 @@ class MessageItem extends Component {
               !isMe && !isVideo && !isVoke ? styles.otherTriangle : null,
             ]}
           />
-          {
-            (!isVideo || !isVideoAndText) ? this.renderText() : isVideo && !isVideoAndText ? this.renderVideo() : this.renderVideoAndText()
-          }
+          {content}
           <Flex
             self="end"
             style={[
