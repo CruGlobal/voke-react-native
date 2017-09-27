@@ -28,7 +28,6 @@ class MessageItem extends Component {
     const isMe = this.props.item.messenger_id === this.props.user.id;
     const isTypeState = message.type === 'typeState';
 
-
     return (
       <Flex
         style={[
@@ -61,6 +60,64 @@ class MessageItem extends Component {
             </Flex>
           )
         }
+      </Flex>
+    );
+  }
+
+  renderVideoAndText() {
+    const message = this.props.item;
+    const isTypeState = message.type === 'typeState';
+
+    return (
+      <Flex direction="column">
+        <Flex
+          value={1}
+          direction="row"
+          align="center"
+          justify="start"
+        >
+          <TouchableOpacity activeOpacity={0.7} onPress={this.props.onSelectVideo}>
+            <Image
+              resizeMode="cover"
+              source={{uri: message.item.media.thumbnails.large}}
+              style={[
+                styles.video,
+                styles.otherPersonVideo,
+              ]}>
+              <Icon name="play-circle-filled" size={40} style={styles.playIcon} />
+            </Image>
+          </TouchableOpacity>
+        </Flex>
+        <Flex
+          style={[
+            styles.row,
+            styles.otherPerson,
+          ]}
+          direction="row"
+          align="center"
+          justify="start"
+        >
+          {
+            !isTypeState ? (
+              <Text
+                style={[
+                  styles.message,
+                  styles.otherText,
+                ]}
+              >
+                {message.content}
+              </Text>
+            ) : (
+              <Flex>
+                <Spinner
+                  color={theme.accentColor}
+                  size={25}
+                  type="ThreeBounce"
+                />
+              </Flex>
+            )
+          }
+        </Flex>
       </Flex>
     );
   }
@@ -136,8 +193,8 @@ class MessageItem extends Component {
     const isVoke = message.direct_message;
     const isMe = message.messenger_id === this.props.user.id;
     const isVideo = message.item;
+    const isVideoAndText = message.item && message.content;
     const time = message.created_at;
-
     const momentTime = momentUtc(time).local().format('LL');
     const momentNow = moment().local().format('LL');
     const separatorTime = momentTime === momentNow ? 'Today' : momentNow;
@@ -172,7 +229,7 @@ class MessageItem extends Component {
             ]}
           />
           {
-            !isVideo ? this.renderText() : this.renderVideo()
+            (!isVideo || !isVideoAndText) ? this.renderText() : isVideo && !isVideoAndText ? this.renderVideo() : this.renderVideoAndText()
           }
           <Flex
             self="end"
