@@ -3,6 +3,7 @@ package org.cru.voke;
 import android.app.Application;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration; // For orientation changes
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -77,6 +78,15 @@ public class MainApplication extends NavigationApplication {
     super.onCreate();
 
     setActivityCallbacks(new ActivityCallbacks() {
+
+      @Override
+      public void onConfigurationChanged(Configuration newConfig) {
+         super.onConfigurationChanged(newConfig);
+         Intent intent = new Intent("onConfigurationChanged");
+         intent.putExtra("newConfig", newConfig);
+         sendBroadcast(intent);
+      }
+
       @Override
       public void onActivityResult(int requestCode, int resultCode, Intent data) {
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
@@ -87,7 +97,7 @@ public class MainApplication extends NavigationApplication {
 
     // If you want to use AppEventsLogger to log events.
     AppEventsLogger.activateApp(this);
-    
+
     // Fabric crashlytics setup
     if (BuildConfig.DEBUG) {
       Fabric.with(this, new Crashlytics.Builder().core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()).build());

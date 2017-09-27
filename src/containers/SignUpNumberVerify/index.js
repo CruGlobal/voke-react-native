@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, Keyboard, TouchableOpacity } from 'react-native';
+import { Alert, Keyboard, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -72,42 +72,45 @@ class SignUpNumberVerify extends Component {
 
   render() {
     return (
-      <Flex style={styles.container} value={1} align="center" justify="start">
-        <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
-        <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
-          <SignUpHeader
-            title="Verification"
-            description="Finally, enter the 4-Digit Code you received by TXT so we know you are a human."
-          />
-          <Flex value={1} align="center" justify="center" style={styles.inputs}>
-            <Flex direction="row" align="center" justify="center">
-              <Text>V-</Text>
-              <SignUpInput
-                style={styles.inputBox}
-                keyboardType="numeric"
-                value={this.state.code}
-                onChangeText={(text) => this.setState({ code: text })}
-                placeholder="Verification Code"
-              />
-            </Flex>
-            <Button
-              text="Resend Code"
-              type="transparent"
-              buttonTextStyle={styles.resendCode}
-              style={styles.actionButton}
-              onPress={this.resendCode}
+      <ScrollView style={styles.container} value={1} keyboardShouldPersistTaps="always" align="center" justify="start">
+        <KeyboardAvoidingView behavior="padding">
+          <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
+          <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
+            <SignUpHeader
+              title="Verification"
+              description="Finally, enter the 4-Digit Code you received by TXT so we know you are a human."
+              onPress={()=> Keyboard.dismiss()}
             />
-            <Flex value={1} align="center" justify="end">
+            <Flex value={1} align="center" justify="center" style={styles.inputs}>
+              <Flex direction="row" align="center" justify="center">
+                <Text>V-</Text>
+                <SignUpInput
+                  style={styles.inputBox}
+                  keyboardType="numeric"
+                  value={this.state.code}
+                  onChangeText={(text) => this.setState({ code: text })}
+                  placeholder="Verification Code"
+                />
+              </Flex>
               <Button
-                text="Next"
-                buttonTextStyle={styles.signInButton}
+                text="Resend Code"
+                type="transparent"
+                buttonTextStyle={styles.resendCode}
                 style={styles.actionButton}
-                onPress={this.handleNext}
+                onPress={this.resendCode}
               />
+              <Flex value={1} align="center" justify="center">
+                <Button
+                  text="Next"
+                  buttonTextStyle={styles.signInButton}
+                  style={styles.actionButton}
+                  onPress={this.handleNext}
+                />
+              </Flex>
             </Flex>
-          </Flex>
-        </TouchableOpacity>
-      </Flex>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
+      </ScrollView>
     );
   }
 }

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, KeyboardAvoidingView, Linking, Alert } from 'react-native';
+import { ScrollView, KeyboardAvoidingView, Linking, Alert, Keyboard, TouchableWithoutFeedback } from 'react-native';
 
 import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { createAccountAction } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 
-import { Flex, Text, Button } from '../../components/common';
+import { Flex, Text, Button, Touchable } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeader from '../../components/SignUpHeader';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
@@ -28,6 +28,24 @@ class SignUpAccount extends Component {
     this.createAccount = this.createAccount.bind(this);
     this.checkEmail = this.checkEmail.bind(this);
     this.handleLink = this.handleLink.bind(this);
+  }
+
+  componentWillMount() {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+  }
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
+  keyboardDidShow() {
+    // LOG('Keyboard shown');
+  }
+
+  keyboardDidHide() {
+    // LOG('Keyboard hidden');
   }
 
   componentDidMount() {
@@ -61,12 +79,13 @@ class SignUpAccount extends Component {
 
   render() {
     return (
-      <ScrollView style={styles.container} value={1} align="center" justify="center">
+      <ScrollView keyboardShouldPersistTaps="always" style={styles.container} value={1} align="center" justify="center">
         <KeyboardAvoidingView behavior="padding">
           <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
           <SignUpHeader
             title="Create Account"
             description="You are moments away from impacting your friends"
+            onPress={()=> Keyboard.dismiss()}
           />
           <Flex value={1} align="center" justify="center" style={styles.inputs}>
             <SignUpInput

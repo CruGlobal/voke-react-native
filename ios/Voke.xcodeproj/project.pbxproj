@@ -1395,7 +1395,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Voke/Voke.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Cru Global, Inc (DQ48D9BF2V)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = DQ48D9BF2V;
@@ -1435,8 +1435,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.cru.voke;
 				PRODUCT_NAME = Voke;
-				PROVISIONING_PROFILE = "f8126998-95b2-4d69-a6a5-2ad31f1c1419";
-				PROVISIONING_PROFILE_SPECIFIER = "Voke Development";
+				PROVISIONING_PROFILE = "9f2bde5d-e00a-49dd-8761-289971335325";
+				PROVISIONING_PROFILE_SPECIFIER = "Voke Beta";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;

@@ -4,7 +4,6 @@ package org.cru.voke;
 import com.smixx.fabric.FabricPackage;
 import com.reactnativenavigation.controllers.SplashActivity;
 import android.content.Intent;
-import android.content.res.Configuration; // For orientation changes
 
 public class MainActivity extends SplashActivity {
   protected String getMainComponentName() {
@@ -16,14 +15,6 @@ public class MainActivity extends SplashActivity {
       super.onActivityResult(requestCode, resultCode, data);
       MainApplication.getCallbackManager().onActivityResult(requestCode, resultCode, data);
   }
-
-  @Override
-     public void onConfigurationChanged(Configuration newConfig) {
-       super.onConfigurationChanged(newConfig);
-       Intent intent = new Intent("onConfigurationChanged");
-       intent.putExtra("newConfig", newConfig);
-       this.sendBroadcast(intent);
-   }
 
 //   @Override
 //   protected void onNewIntent(Intent intent) {

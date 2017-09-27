@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, TextInput, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
+import { View, TextInput, KeyboardAvoidingView, Platform, Keyboard, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 import { getMessages, createMessage, createTypeStateAction, destroyTypeStateAction, createMessageInteraction, markReadAction } from '../../actions/messages';
 import Analytics from '../../utils/analytics';
@@ -63,6 +63,7 @@ class Message extends Component {
     this.handleButtonExpand = this.handleButtonExpand.bind(this);
     this.createMessageReadInteraction = this.createMessageReadInteraction.bind(this);
     this.getConversationName = this.getConversationName.bind(this);
+    this.backHandler = this.backHandler.bind(this);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
@@ -99,9 +100,23 @@ class Message extends Component {
     }
   }
 
+  backHandler() {
+    LOG('here');
+    if (this.props.goBackHome) {
+      this.props.navigateResetHome();
+      return true;
+    } else {
+      this.props.navigateBack();
+      return true;
+    }
+  }
+
   componentWillMount() {
     this.props.navigator.setButtons(setButtons());
     this.props.navigator.setTitle({ title: this.getConversationName()});
+
+    // BackHandler.addEventListener('hardwareBackPress', this.backHandler);
+
   }
 
   componentDidMount() {
@@ -117,6 +132,10 @@ class Message extends Component {
     if (nLength > 0 && cLength > 0 && cLength < nLength) {
       this.createMessageReadInteraction();
     }
+  }
+
+  componentWillUnmount() {
+    // BackHandler.removeEventListener('hardwareBackPress', this.backHandler);
   }
 
   getConversationName() {

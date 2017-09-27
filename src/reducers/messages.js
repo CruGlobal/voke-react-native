@@ -54,7 +54,7 @@ export default function messages(state = initialState, action) {
       };
       newConversations = newConversations.concat(action.conversations);
       const unReadCheck = newConversations.find((m) => m.hasUnread);
-      const unRead = unReadCheck ? state.unReadBadgeCount : 0;
+      const unRead = unReadCheck ? state.unReadBadgeCount + 1 : 0;
 
       return {
         ...state,
@@ -119,7 +119,7 @@ export default function messages(state = initialState, action) {
           [newConvo]: action.data.bool,
         },
       };
-    
+
     // Fired from a socket event to new messages
     case NEW_MESSAGE:
       const conversationNewMessageId = action.message ? action.message.conversation_id : null;
@@ -146,7 +146,7 @@ export default function messages(state = initialState, action) {
         }
         return c;
       });
-      
+
       // Move the conversation to the first item in the list
       msgPreviewConversations = moveConversationFirst(msgPreviewConversations, conversationNewMessageId);
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, TouchableOpacity, Keyboard } from 'react-native';
+import { Alert, TouchableOpacity, Keyboard, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
 
@@ -61,6 +61,11 @@ class SignUpNumber extends Component {
         ]
       );
     }
+
+    // This is for testing only
+    // this.props.navigatePush('voke.SignUpNumberVerify', {
+    //   mobile: this.state.selectedCountryCode.concat(this.state.phoneNumber),
+    // });
   }
 
   handleOpenCountry() {
@@ -89,45 +94,48 @@ class SignUpNumber extends Component {
   render() {
     const { selectedCountry, selectedCountryCode, phoneNumber } = this.state;
     return (
-      <Flex style={styles.container} value={1} align="center" justify="start">
-        <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
-        <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
-          <SignUpHeader
-            title="Mobile Number"
-            description="Add your mobile number to invite your friends to a Voke chat via text message"
-          />
-          <Flex value={1} align="center" justify="center" style={styles.inputs}>
-            <Button
-              style={styles.dropDown}
-              onPress={this.handleOpenCountry}
-            >
-              <Flex direction="row" align="center">
-                <Text style={styles.countrySelect}>
-                  {selectedCountry} (+{selectedCountryCode})
-                </Text>
-                <Icon name="keyboard-arrow-down" size={30} />
-              </Flex>
-            </Button>
-            <SignUpInput
-              value={phoneNumber}
-              onChangeText={(text) => this.setState({ phoneNumber: text })}
-              keyboardType="phone-pad"
-              placeholder="Your Mobile Number"
-              onSubmitEditing={this.handleNext}
-              returnKeyType="send"
+      <ScrollView style={styles.container} value={1} keyboardShouldPersistTaps="always" align="center" justify="start">
+        <KeyboardAvoidingView behavior="padding">
+          <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
+          <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
+            <SignUpHeader
+              title="Mobile Number"
+              description="Add your mobile number to invite your friends to a Voke chat via text message"
+              onPress={()=> Keyboard.dismiss()}
             />
-            <Text style={styles.sharingText}>We love sharing, but we won't share your number.</Text>
-            <Flex value={1} align="center" justify="end">
+            <Flex value={1} align="center" justify="center" style={styles.inputs}>
               <Button
-                text="Next"
-                buttonTextStyle={styles.signInButton}
-                style={styles.actionButton}
-                onPress={this.handleNext}
+                style={styles.dropDown}
+                onPress={this.handleOpenCountry}
+              >
+                <Flex direction="row" align="center">
+                  <Text style={styles.countrySelect}>
+                    {selectedCountry} (+{selectedCountryCode})
+                  </Text>
+                  <Icon name="keyboard-arrow-down" size={30} />
+                </Flex>
+              </Button>
+              <SignUpInput
+                value={phoneNumber}
+                onChangeText={(text) => this.setState({ phoneNumber: text })}
+                keyboardType="phone-pad"
+                placeholder="Your Mobile Number"
+                onSubmitEditing={this.handleNext}
+                returnKeyType="send"
               />
+              <Text style={styles.sharingText}>We love sharing, but we won't share your number.</Text>
+              <Flex value={1} align="center" justify="start">
+                <Button
+                  text="Next"
+                  buttonTextStyle={styles.signInButton}
+                  style={styles.actionButton}
+                  onPress={this.handleNext}
+                />
+              </Flex>
             </Flex>
-          </Flex>
-        </TouchableOpacity>
-      </Flex>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
+      </ScrollView>
     );
   }
 }

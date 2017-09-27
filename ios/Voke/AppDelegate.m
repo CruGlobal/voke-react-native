@@ -95,6 +95,7 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
   [RCTPushNotificationManager didReceiveLocalNotification:notification];
 }
 
+
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {

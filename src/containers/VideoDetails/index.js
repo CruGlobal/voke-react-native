@@ -70,8 +70,10 @@ class VideoDetails extends Component {
   orientationDidChange(orientation) {
     if (orientation === 'LANDSCAPE') {
       // do something with landscape layout
+      LOG('landscape');
       this.setState( {isLandscape: true});
     } else {
+      LOG('portrait');
       // do something with portrait layout
       this.setState( {isLandscape: false});
     }
@@ -189,6 +191,7 @@ class VideoDetails extends Component {
                   { text: 'Add', onPress: () => {
                     this.props.onSelectVideo(video.id);
                     this.props.navigateBack();
+                    Navigation.dismissModal();
                   }},
                 ]
               );

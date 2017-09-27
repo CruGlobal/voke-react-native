@@ -89,41 +89,39 @@ class SignUpProfile extends Component {
 
   render() {
     return (
-      <Flex style={styles.container} value={1} align="center" justify="start">
-        <ScrollView style={styles.container} contentContainerStyle={{ flex: 1 }} keyboardShouldPersistTaps="handled">
-          <KeyboardAvoidingView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-            <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
-            <SignUpHeader title="Create Profile" />
-            <Flex value={1} align="center" justify="start" self="stretch" style={styles.inputs}>
-              {this.renderImagePicker()}
-              <SignUpInput
-                value={this.state.firstName}
-                onChangeText={(text) => this.setState({ firstName: text })}
-                placeholder="First Name"
-                autoCapitalize="words"
-                returnKeyType="next"
-                blurOnSubmit={false}
-                onSubmitEditing={() => this.lastName.focus()}
+      <ScrollView style={styles.container} value={1} keyboardShouldPersistTaps="always">
+        <KeyboardAvoidingView behavior="padding">
+          <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
+          <SignUpHeader title="Create Profile" onPress={()=> Keyboard.dismiss()} />
+          <Flex value={1} align="center" justify="start" self="stretch" style={styles.inputs}>
+            {this.renderImagePicker()}
+            <SignUpInput
+              value={this.state.firstName}
+              onChangeText={(text) => this.setState({ firstName: text })}
+              placeholder="First Name"
+              autoCapitalize="words"
+              returnKeyType="next"
+              blurOnSubmit={false}
+              onSubmitEditing={() => this.lastName.focus()}
+            />
+            <SignUpInput
+              ref={(c) => this.lastName = c}
+              value={this.state.lastName}
+              onChangeText={(text) => this.setState({ lastName: text })}
+              placeholder="Last Name"
+              autoCapitalize="words"
+            />
+            <Flex value={1} align="center" justify="end" style={{ paddingTop: 75 }}>
+              <Button
+                text="Next"
+                buttonTextStyle={styles.signInButton}
+                style={styles.actionButton}
+                onPress={this.addProfile}
               />
-              <SignUpInput
-                ref={(c) => this.lastName = c}
-                value={this.state.lastName}
-                onChangeText={(text) => this.setState({ lastName: text })}
-                placeholder="Last Name"
-                autoCapitalize="words"
-              />
-              <Flex value={1} align="center" justify="end" style={{ paddingTop: 75 }}>
-                <Button
-                  text="Next"
-                  buttonTextStyle={styles.signInButton}
-                  style={styles.actionButton}
-                  onPress={this.addProfile}
-                />
-              </Flex>
             </Flex>
-          </KeyboardAvoidingView>
-        </ScrollView>
-      </Flex>
+          </Flex>
+        </KeyboardAvoidingView>
+      </ScrollView>
     );
   }
 }

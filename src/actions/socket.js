@@ -138,8 +138,12 @@ export function establishDevice(navigator) {
     //     dispatch(destroyDevice(m.id, getState().auth.token));
     //   })
     // });
-    dispatch(establishCableDevice(null));
-    return;
+    // dispatch(establishCableDevice(null));
+    // return;
+    // PushNotification.localNotificationSchedule({
+    //   message: 'My Notification Message', // (required)
+    //   date: new Date(Date.now() + (5 * 1000)), // in 60 secs
+    // });
 
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
@@ -166,10 +170,10 @@ export function establishDevice(navigator) {
 
       // (required) Called when a remote or local notification is opened or received
       onNotification: function(notification) {
-        LOG('NOTIFICATION:', notification);
+        LOG('NOTIFICATION From App:', notification);
         if (!notification || !notification.foreground || !notification.message) { return; }
-        // const message = notification.message;
-        const message = isString(notification.message) ? JSON.parse(notification.message) : notification.message;
+        const message = notification.message;
+        // const message = isString(notification.message) ? JSON.parse(notification.message) : notification.message;
         LOG('NOTIFICATION MESSAGE:', message);
         if (message.message && message.message.conversation_id) {
           dispatch(navigateResetHome(navigator));
