@@ -14,6 +14,9 @@ const DEFAULT_PROPS = {
   'voke.VideoDetails': {
     appStyle: { orientation: 'auto' },
   },
+  'voke.Message': {
+    overrideBackPress: true,
+  },
   'voke.CountrySelect': { title: 'Select Country' },
   // 'voke.SignUpAccount': { title: 'Create Account' },
   // 'voke.SignUpProfile': { title: 'Create Profile' },

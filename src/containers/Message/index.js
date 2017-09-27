@@ -88,6 +88,9 @@ class Message extends Component {
         }
       }
     }
+    if (event.id === 'backPress') {
+      LOG('BACK PRESS');
+    }
 
     if (event.type == 'DeepLink') {
       LOG('deep link!', event);
@@ -115,7 +118,7 @@ class Message extends Component {
     this.props.navigator.setButtons(setButtons());
     this.props.navigator.setTitle({ title: this.getConversationName()});
 
-    // BackHandler.addEventListener('hardwareBackPress', this.backHandler);
+    BackHandler.addEventListener('hardwareBackPress', this.backHandler);
 
   }
 
@@ -135,7 +138,7 @@ class Message extends Component {
   }
 
   componentWillUnmount() {
-    // BackHandler.removeEventListener('hardwareBackPress', this.backHandler);
+    BackHandler.removeEventListener('hardwareBackPress', this.backHandler);
   }
 
   getConversationName() {
