@@ -136,7 +136,7 @@ function formatConversation(c, getState) {
   if (myMessage && myMessage.latest_read && myMessage.latest_read.message_id) {
     if (myMessage.latest_read.message_id !== latestMessenger.latest_message.id) {
       c.hasUnread = true;
-      // c.unReadCount = 1;
+      c.unReadCount = 1;
     }
   }
   // This determines if the conversation has unread messages or not

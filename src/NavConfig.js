@@ -38,6 +38,7 @@ export function startTabApp(options = {}) {
         //   navBarBackgroundColor: theme.secondaryColor,
         // },
         // navigatorButtons: {} // override the nav buttons for the tab screen, see "Adding buttons to the navigator" below (optional)
+        ...(options.passProps || {}),
       },
       {
         label: 'Videos',
@@ -45,6 +46,7 @@ export function startTabApp(options = {}) {
         screen: 'voke.Videos',
         icon: require('../images/video_icon.png'),
         // selectedIcon: require('../img/two_selected.png'),
+        ...(options.passProps || {}),
       },
     ],
     tabsStyle: { // optional, add this if you want to style the tab bar beyond the defaults

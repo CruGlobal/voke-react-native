@@ -79,6 +79,7 @@ class Home extends Component {
   componentDidMount() {
     this.props.dispatch(startupAction(this.props.navigator));
     Analytics.screen('Home Chats');
+
     this.props.dispatch(getConversations()).catch((err)=> {
       if (err.error === 'Messenger not configured') {
         this.props.navigateResetToNumber();
@@ -86,6 +87,10 @@ class Home extends Component {
     });
 
     this.props.dispatch({ type: TAB_SELECTED, tab: 0 });
+
+    if (this.props.onMount) {
+      this.props.onMount(this.props.navigator);
+    }
 
   }
 
@@ -247,6 +252,7 @@ class Home extends Component {
 // Check out actions/navigation_new.js to see the prop types and mapDispatchToProps
 Home.propTypes = {
   ...NavPropTypes,
+  onMount: PropTypes.func,
   conversations: PropTypes.array.isRequired, // Redux
   me: PropTypes.object.isRequired, // Redux
   unReadBadgeCount: PropTypes.number.isRequired, // Redux

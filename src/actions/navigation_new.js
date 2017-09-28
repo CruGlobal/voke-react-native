@@ -71,7 +71,10 @@ export function navigateResetHome(navigator, options = {}) {
     //   },
     //   ...options,
     // });
-    startTabApp(options);
+    startTabApp({
+      animationType: 'none',
+      ...(options || {}),
+    });
   };
 }
 

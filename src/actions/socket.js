@@ -202,8 +202,14 @@ export function handleNotifications(navigator, state, notification) {
         const cId = link.substring(link.indexOf('conversations/') + 14, link.indexOf('/messages'));
         LOG('cId', cId);
         dispatch(getConversation(cId)).then((results)=> {
-          // dispatch(navigateResetHome(navigator));
-          dispatch(navigatePush(navigator, 'voke.Message', {conversation: results.conversation}));
+          dispatch(navigateResetHome(navigator, { passProps: { onMount: (navigator2) => {
+            // The navigator gets reset on resetHome so we need to get the new navigator passed back when Home mounts
+            dispatch(navigatePush(navigator2, 'voke.Message', {
+              conversation: results.conversation,
+            }, {
+              animationType: 'none',
+            }));
+          } }}));
         });
       }
       // NotificationsIOS.removeAllDeliveredNotifications();
