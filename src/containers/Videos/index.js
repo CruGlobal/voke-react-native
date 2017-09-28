@@ -172,6 +172,9 @@ class Videos extends Component {
   }
 
   handleRefresh() {
+    if (this.state.selectedFilter === 'themes') {
+      return Promise.resolve();
+    }
     return this.handleFilter(this.state.selectedFilter);
   }
 
