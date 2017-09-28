@@ -1,8 +1,8 @@
 import RNFetchBlob from 'react-native-fetch-blob';
 import { Linking, Platform, AppState, ToastAndroid, AsyncStorage, Alert } from 'react-native';
-// import { Navigation } from 'react-native-navigation';
+import { ScreenVisibilityListener } from 'react-native-navigation';
 
-import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN } from '../constants';
+import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, ACTIVE_SCREEN } from '../constants';
 import callApi, { REQUESTS } from './api';
 import { establishDevice, setupSocketAction, closeSocketAction, destroyDevice, getDevices, closeNotificationListeners } from './socket';
 import { getConversations } from './messages';
@@ -14,12 +14,22 @@ import Orientation from 'react-native-orientation';
 let appStateChangeFn;
 let currentAppState = AppState.currentState || '';
 
+let navigationListener;
+
 export function startupAction(navigator) {
   return (dispatch, getState) => {
     dispatch(establishDevice(navigator));
     appStateChangeFn = appStateChange.bind(null, dispatch, getState, navigator);
     AppState.addEventListener('change', appStateChangeFn);
     Orientation.lockToPortrait();
+
+    navigationListener = new ScreenVisibilityListener({
+      didAppear: ({ screen }) => {
+        // LOG('screen', screen, commandType);
+        dispatch({ type: ACTIVE_SCREEN, screen });
+      },
+    });
+    navigationListener.register();
   };
 }
 
@@ -28,6 +38,11 @@ export function cleanupAction() {
     // LOG('removing appState listener');
     AppState.removeEventListener('change', appStateChangeFn);
     dispatch(closeNotificationListeners());
+
+    if (navigationListener) {
+      navigationListener.unregister();
+      navigationListener = null;
+    }
   };
 }
 

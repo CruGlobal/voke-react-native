@@ -1,5 +1,5 @@
 import { REHYDRATE } from 'redux-persist/constants';
-import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, TAB_SELECTED } from '../constants';
+import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, TAB_SELECTED, ACTIVE_SCREEN } from '../constants';
 import { REQUESTS } from '../actions/api';
 
 const initialState = {
@@ -19,6 +19,7 @@ const initialState = {
   pushId: '',
   apiActive: 0,
   homeTabSelected: 0,
+  activeScreen: null,
 };
 
 export default function auth(state = initialState, action) {
@@ -42,6 +43,7 @@ export default function auth(state = initialState, action) {
         ...incoming,
         apiActive: 0,
         homeTabSelected: 0, // Always default the home page to tab 0
+        activeScreen: null,
       };
 
     case TAB_SELECTED: {
@@ -112,6 +114,11 @@ export default function auth(state = initialState, action) {
         ...state,
         device: {},
         cableId: '',
+      };
+    case ACTIVE_SCREEN:
+      return {
+        ...state,
+        activeScreen: action.screen,
       };
     case LOGOUT:
       return initialState;

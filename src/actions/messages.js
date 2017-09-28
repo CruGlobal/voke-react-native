@@ -141,7 +141,9 @@ export function markReadAction(conversationId) {
 export function vibrateAction() {
   return () => {
     // Vibrate when receiving a new message
-    Vibration.vibrate(Platform.OS === 'android' ? undefined : 1500);
+    if (Platform.OS === 'ios') {
+      Vibration.vibrate(1500);
+    }
   };
 }
 
