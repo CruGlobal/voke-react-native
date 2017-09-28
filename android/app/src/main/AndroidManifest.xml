@@ -45,11 +45,11 @@
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <category android:name="${applicationId}" />
-                <category android:name="${applicationId}.services" />
+                <!-- <category android:name="${applicationId}.services" /> -->
             </intent-filter>
         </receiver>
 
-        <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher" />
+        <!-- <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher" />
         <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationBootEventReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -62,7 +62,10 @@
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
-        </service>
+        </service> -->
+        <!-- // Replace '1234567890' with your sender ID.
+		// IMPORTANT: Leave the trailing \0 intact!!! -->
+	    <meta-data android:name="com.wix.reactnativenotifications.gcmSenderId" android:value="360680446899\0"/>
 
         <activity
             android:name=".MainActivity"

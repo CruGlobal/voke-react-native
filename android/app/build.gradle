@@ -185,6 +185,7 @@ dependencies {
     compile project(':react-native-spinkit')
     compile project(':react-native-contacts')
     compile project(':react-native-vector-icons')
+    compile project(':reactnativenotifications')
     // compile project(':react-native-image-picker')
     compile project(':react-native-image-crop-picker')
     compile fileTree(include: ['*.jar'], dir: 'libs')

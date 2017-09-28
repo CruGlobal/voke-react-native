@@ -51,6 +51,7 @@
 		AE5BE03F1F609C860091810F /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE03E1F609C760091810F /* libRCTFBSDK.a */; };
 		AE5BE0C51F631E2F0091810F /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE0C31F631E2F0091810F /* Fabric.framework */; };
 		AE5BE0C61F631E2F0091810F /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE0C41F631E2F0091810F /* Crashlytics.framework */; };
+		AE9ADC221F7D3F640070C02D /* libRNNotifications.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE9ADC1A1F7D3E570070C02D /* libRNNotifications.a */; };
 		AEC9F3E11F01CA7D0038E58D /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC9F3DF1F01CA630038E58D /* libReactNativeNavigation.a */; };
 		AECD5AED1F575975004E173C /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AECD5AD11F575957004E173C /* libRCTPushNotification.a */; };
 		AEDA7F441F6C6A1A009D8429 /* voke_ukulele_sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AEDA7F431F6C6A1A009D8429 /* voke_ukulele_sound.mp3 */; };
@@ -329,6 +330,13 @@
 			remoteGlobalIDString = 641194871EC9FD4A00D4FC03;
 			remoteInfo = "RNSpinkit-tvOS";
 		};
+		AE9ADC191F7D3E570070C02D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AE9ADBEE1F7D3E570070C02D /* RNNotifications.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNNotifications;
+		};
 		AEC9F3DE1F01CA630038E58D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AEC9F3BF1F01CA620038E58D /* ReactNativeNavigation.xcodeproj */;
@@ -433,6 +441,7 @@
 		AE5BE0391F609C760091810F /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
 		AE5BE0C31F631E2F0091810F /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		AE5BE0C41F631E2F0091810F /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		AE9ADBEE1F7D3E570070C02D /* RNNotifications.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNNotifications.xcodeproj; path = "../node_modules/react-native-notifications/RNNotifications/RNNotifications.xcodeproj"; sourceTree = "<group>"; };
 		AEC9F3BF1F01CA620038E58D /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
 		AECD5AC01F575957004E173C /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		AEDA7F431F6C6A1A009D8429 /* voke_ukulele_sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = voke_ukulele_sound.mp3; path = ../android/app/src/main/res/raw/voke_ukulele_sound.mp3; sourceTree = "<group>"; };
@@ -455,6 +464,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE9ADC221F7D3F640070C02D /* libRNNotifications.a in Frameworks */,
 				AE5BE03F1F609C860091810F /* libRCTFBSDK.a in Frameworks */,
 				AECD5AED1F575975004E173C /* libRCTPushNotification.a in Frameworks */,
 				AE5BE0321F6098CC0091810F /* Bolts.framework in Frameworks */,
@@ -610,6 +620,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				AE9ADBEE1F7D3E570070C02D /* RNNotifications.xcodeproj */,
 				AE5BE0391F609C760091810F /* RCTFBSDK.xcodeproj */,
 				AECD5AC01F575957004E173C /* RCTPushNotification.xcodeproj */,
 				AEC9F3BF1F01CA620038E58D /* ReactNativeNavigation.xcodeproj */,
@@ -765,6 +776,14 @@
 			children = (
 				AE9113FA1F45FC1700D6E009 /* libRNSpinkit.a */,
 				AE9113FC1F45FC1700D6E009 /* libRNSpinkit.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AE9ADBEF1F7D3E570070C02D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AE9ADC1A1F7D3E570070C02D /* libRNNotifications.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -976,6 +995,10 @@
 				{
 					ProductGroup = AEC9F4091F02F08D0038E58D /* Products */;
 					ProjectRef = 462D2DDFAF104DDF913181C2 /* RNImagePicker.xcodeproj */;
+				},
+				{
+					ProductGroup = AE9ADBEF1F7D3E570070C02D /* Products */;
+					ProjectRef = AE9ADBEE1F7D3E570070C02D /* RNNotifications.xcodeproj */;
 				},
 				{
 					ProductGroup = AEDA7F131F6C693F009D8429 /* Products */;
@@ -1268,6 +1291,13 @@
 			remoteRef = AE9113FB1F45FC1700D6E009 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		AE9ADC1A1F7D3E570070C02D /* libRNNotifications.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNNotifications.a;
+			remoteRef = AE9ADC191F7D3E570070C02D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		AEC9F3DF1F01CA630038E58D /* libReactNativeNavigation.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1417,6 +1447,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
+					"$(SRCROOT)/../node_modules/react-native-notifications/RNNotifications",
 				);
 				INFOPLIST_FILE = Voke/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1468,6 +1499,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
+					"$(SRCROOT)/../node_modules/react-native-notifications/RNNotifications",
 				);
 				INFOPLIST_FILE = Voke/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

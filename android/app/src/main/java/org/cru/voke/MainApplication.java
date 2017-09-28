@@ -2,8 +2,10 @@ package org.cru.voke;
 
 import android.app.Application;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration; // For orientation changes
+import android.os.Bundle;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -31,12 +33,21 @@ import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
 import io.fabric.sdk.android.Fabric;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
+import com.wix.reactnativenotifications.RNNotificationsPackage;
+import com.wix.reactnativenotifications.core.notification.INotificationsApplication;
+import com.wix.reactnativenotifications.core.AppLaunchHelper;
+import com.wix.reactnativenotifications.core.AppLifecycleFacade;
+import com.wix.reactnativenotifications.core.JsIOHelper;
+import com.wix.reactnativenotifications.core.notification.IPushNotification;
+
 
 import java.util.Arrays;
 import java.util.List;
 
 
-public class MainApplication extends NavigationApplication {
+public class MainApplication extends NavigationApplication implements INotificationsApplication {
+
+  private NotificationsLifecycleFacade notificationsLifecycleFacade;
 
   private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
 
@@ -64,7 +75,8 @@ public class MainApplication extends NavigationApplication {
           new VectorIconsPackage(),
           new PickerPackage(),
           new RNFetchBlobPackage(),
-          new RNSoundPackage()
+          new RNSoundPackage(),
+          new RNNotificationsPackage(MainApplication.this)
       );
   }
 
@@ -105,5 +117,20 @@ public class MainApplication extends NavigationApplication {
       Fabric.with(this, new Crashlytics());
     }
 
+    // Create an object of the custom facade impl
+    notificationsLifecycleFacade = new NotificationsLifecycleFacade();
+    // Attach it to react-native-navigation
+    setActivityCallbacks(notificationsLifecycleFacade);
+  }
+
+  @Override
+  public IPushNotification getPushNotification(Context context, Bundle bundle, AppLifecycleFacade defaultFacade, AppLaunchHelper defaultAppLaunchHelper) {
+      return new CustomPushNotification(
+      	context,
+      	bundle,
+      	notificationsLifecycleFacade, // Instead of defaultFacade!!!
+      	defaultAppLaunchHelper,
+      	new JsIOHelper()
+    	);
   }
 };

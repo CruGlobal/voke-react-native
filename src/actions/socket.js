@@ -1,11 +1,12 @@
 import { Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import PushNotification from 'react-native-push-notification';
+import NotificationsIOS, { NotificationsAndroid } from 'react-native-notifications';
 
 import { API_URL } from '../api/utils';
 import { registerPushToken } from './auth';
 import { SOCKET_URL } from '../api/utils';
-import { newMessageAction, typeStateChangeAction } from './messages';
+import { newMessageAction, typeStateChangeAction, getConversation } from './messages';
 import { navigatePush, navigateResetHome } from './navigation_new';
 import callApi, { REQUESTS } from './api';
 import CONSTANTS from '../constants';
@@ -128,9 +129,78 @@ export function getDevices() {
   };
 }
 
+export function gotDeviceToken(navigator, token) {
+  return (dispatch, getState) => {
+    LOG('RECEIVED PUSH TOKEN:', token);
+    const auth = getState().auth;
+    NotificationsIOS.localNotification({
+      alertBody: 'Local notificiation!',
+      fireDate: new Date(Date.now() + (5 * 1000)),
+      alertTitle: 'Local Notification Title',
+    });
+
+    if ((token && !auth.pushToken) || (token !== auth.pushToken) ) {
+      dispatch(registerPushToken(token)).then(() => {
+        dispatch(establishPushDevice()).then(() => {
+          const updatedPushId = getState().auth.pushId;
+          dispatch(establishCableDevice(updatedPushId));
+        });
+      });
+    } else if (!token || !auth.pushToken) {
+      dispatch(establishCableDevice(null));
+    } else if (!token && auth.pushToken) {
+      dispatch(establishCableDevice(null));
+    } else if (auth.cableId) {
+      dispatch(setupSocketAction(auth.cableId));
+    } else {
+      dispatch(establishCableDevice(null));
+    }
+    notificationForeground = (n) => dispatch(handleNotifications(navigator, 'foreground', n));
+    notificationBackground = (n) => dispatch(handleNotifications(navigator, 'background', n));
+    notificationOpen = (n) => dispatch(handleNotifications(navigator, 'open', n));
+    NotificationsIOS.addEventListener('notificationReceivedForeground', notificationForeground);
+    NotificationsIOS.addEventListener('notificationReceivedBackground', notificationBackground);
+    NotificationsIOS.addEventListener('notificationOpened', notificationOpen);
+    NotificationsIOS.consumeBackgroundQueue();
+  };
+}
+
+let notificationForeground;
+let notificationBackground;
+let notificationOpen;
+
+export function closeNotificationListeners() {
+  return () => {
+    NotificationsIOS.removeEventListener('notificationReceivedForeground', notificationForeground);
+    NotificationsIOS.removeEventListener('notificationReceivedBackground', notificationBackground);
+    NotificationsIOS.removeEventListener('notificationOpened', notificationOpen);
+  };
+}
+
+export function handleNotifications(navigator, state, notification) {
+  return (dispatch, getState) => {
+    let data = notification.getData();
+    LOG('notification', state, data);
+    if (state === 'background') {
+      LOG('Background notification', data);
+    }
+    if (state === 'open') {
+      // if (data && data.data && data.data.namespace && data.data.namespace.includes('messenger:conversation:message')) {
+      //   const link = data.data.link;
+      //   const cId = link.substring(link.indexOf('conversations/') + 14, link.indexOf('/messages'));
+      //   LOG('cId', cId);
+      //   dispatch(getConversation(cId)).then((results)=> {
+      //     // dispatch(navigateResetHome(navigator));
+      //     dispatch(navigatePush(navigator, 'voke.Message', {conversation: results.conversation}));
+      //   });
+      // }
+      // NotificationsIOS.removeAllDeliveredNotifications();
+    }
+  };
+}
+
 export function establishDevice(navigator) {
   return (dispatch, getState) => {
-    const auth = getState().auth;
     //
     // return dispatch(callApi(REQUESTS.GET_DEVICES, {}, {})).then((results) => {
     //   LOG('GOT DEVICES: ',JSON.stringify(results));
@@ -145,64 +215,74 @@ export function establishDevice(navigator) {
     //   date: new Date(Date.now() + (5 * 1000)), // in 60 secs
     // });
 
-    PushNotification.configure({
-      // (optional) Called when Token is generated (iOS and Android)
-      onRegister: function(token) {
-        LOG('RECEIVED PUSH TOKEN:', token);
+    if (Platform.OS === 'android') {
+      // On Android, we allow for only one (global) listener per each event type.
+      NotificationsAndroid.setRegistrationTokenUpdateListener((token) => {
+        dispatch(gotDeviceToken(navigator, token));
+      });
+    } else {
+      const onPushRegistered = function(token) {
+        LOG('token!', token);
+        dispatch(gotDeviceToken(navigator, token));
+        NotificationsIOS.removeEventListener('remoteNotificationsRegistered', onPushRegistered);
+      }
 
-        if ((token.token && !auth.pushToken) || (token.token !== auth.pushToken) ) {
-          dispatch(registerPushToken(token.token)).then(() => {
-            dispatch(establishPushDevice()).then(() => {
-              const updatedPushId = getState().auth.pushId;
-              dispatch(establishCableDevice(updatedPushId));
-            });
-          });
-        } else if (!token || !auth.pushToken) {
-          dispatch(establishCableDevice(null));
-        } else if (!token && auth.pushToken) {
-          dispatch(establishCableDevice(null));
-        } else if (auth.cableId) {
-          dispatch(setupSocketAction(auth.cableId));
-        } else {
-          dispatch(establishCableDevice(null));
-        }
-      },
+      const onPushRegistrationFailed = function(error) {
+        LOG('token error!', error);
+        dispatch(establishCableDevice(null));
+        NotificationsIOS.removeEventListener('remoteNotificationsRegistrationFailed', onPushRegistrationFailed);
+      }
 
-      // (required) Called when a remote or local notification is opened or received
-      onNotification: function(notification) {
-        LOG('NOTIFICATION From App:', notification);
-        if (!notification || !notification.foreground || !notification.message) { return; }
-        const message = notification.message;
-        // const message = isString(notification.message) ? JSON.parse(notification.message) : notification.message;
-        LOG('NOTIFICATION MESSAGE:', message);
-        if (message.message && message.message.conversation_id) {
-          dispatch(navigateResetHome(navigator));
-          dispatch(navigatePush(navigator, 'voke.Message', { conversation: {
-            id: message.message.conversation_id,
-            messengers: [],
-          }}));
-        }
-      },
+      NotificationsIOS.addEventListener('remoteNotificationsRegistered', onPushRegistered);
+      NotificationsIOS.addEventListener('remoteNotificationsRegistrationFailed', onPushRegistrationFailed);
+      NotificationsIOS.requestPermissions();
+    }
 
-      // ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)
-      senderID: CONSTANTS.GCM_SENDER_ID,
 
-      // IOS ONLY (optional): default: all - Permissions to register.
-      permissions: {
-        alert: true,
-        badge: true,
-        sound: true,
-      },
-      // Should the initial notification be popped automatically
-      // default: true
-      popInitialNotification: true,
-      /**
-        * (optional) default: true
-        * - Specified if permissions (ios) and token (android and ios) will requested or not,
-        * - if not, you must call PushNotificationsHandler.requestPermissions() later
-        */
-      requestPermissions: true,
-    });
+
+
+
+  //   PushNotification.configure({
+  //     // (optional) Called when Token is generated (iOS and Android)
+  //     onRegister: function(token) {
+  //
+  //     },
+  //
+  //     // (required) Called when a remote or local notification is opened or received
+  //     onNotification: function(notification) {
+  //       LOG('NOTIFICATION From App:', notification);
+  //       if (!notification || !notification.foreground || !notification.message) { return; }
+  //       const message = notification.message;
+  //       // const message = isString(notification.message) ? JSON.parse(notification.message) : notification.message;
+  //       LOG('NOTIFICATION MESSAGE:', message);
+  //       if (message.message && message.message.conversation_id) {
+  //         dispatch(navigateResetHome(navigator));
+  //         dispatch(navigatePush(navigator, 'voke.Message', { conversation: {
+  //           id: message.message.conversation_id,
+  //           messengers: [],
+  //         }}));
+  //       }
+  //     },
+  //
+  //     // ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)
+  //     senderID: CONSTANTS.GCM_SENDER_ID,
+  //
+  //     // IOS ONLY (optional): default: all - Permissions to register.
+  //     permissions: {
+  //       alert: true,
+  //       badge: true,
+  //       sound: true,
+  //     },
+  //     // Should the initial notification be popped automatically
+  //     // default: true
+  //     popInitialNotification: true,
+  //     /**
+  //       * (optional) default: true
+  //       * - Specified if permissions (ios) and token (android and ios) will requested or not,
+  //       * - if not, you must call PushNotificationsHandler.requestPermissions() later
+  //       */
+  //     requestPermissions: true,
+  //   });
   };
 }
 

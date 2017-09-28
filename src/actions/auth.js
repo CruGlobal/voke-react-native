@@ -4,7 +4,7 @@ import { Linking, Platform, AppState, ToastAndroid, AsyncStorage, Alert } from '
 
 import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN } from '../constants';
 import callApi, { REQUESTS } from './api';
-import { establishDevice, setupSocketAction, closeSocketAction, destroyDevice, getDevices } from './socket';
+import { establishDevice, setupSocketAction, closeSocketAction, destroyDevice, getDevices, closeNotificationListeners } from './socket';
 import { getConversations } from './messages';
 import { API_URL } from '../api/utils';
 import Orientation from 'react-native-orientation';
@@ -24,9 +24,10 @@ export function startupAction(navigator) {
 }
 
 export function cleanupAction() {
-  return () => {
+  return (dispatch) => {
     // LOG('removing appState listener');
     AppState.removeEventListener('change', appStateChangeFn);
+    dispatch(closeNotificationListeners());
   };
 }
 
