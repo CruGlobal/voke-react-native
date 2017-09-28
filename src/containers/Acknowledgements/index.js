@@ -64,7 +64,83 @@ class Acknowledgements extends Component {
           },
           {
             name: 'React Native',
-            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACTNATIVE),
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE),
+          },
+          {
+            name: 'react-native-action-button',
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_ACTION_BUTTON),
+          },
+          {
+            name: 'react-native-animatable',
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_ANIMATABLE),
+          },
+          {
+            name: 'react-native-communications',
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_COMMUNICATIONS),
+          },
+          {
+            name: 'react-native-contacts',
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_CONTACTS),
+          },
+          {
+            name: 'react-native-device-info',
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_DEVICE_INFO),
+          },
+          {
+            name: 'react-native-fabric',
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_FABRIC),
+          },
+          {
+            name: 'react-native-fbsdk',
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_FBSDK),
+          },
+          {
+            name: 'react-native-fetch-blob',
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_FETCH_BLOB),
+          },
+          {
+            name: 'react-native-google-analytics-bridge',
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_GOOGLE_ANALYTICS),
+          },
+          {
+            name: 'react-native-image-crop-picker',
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_IMAGE_CROP_PICKER),
+          },
+          {
+            name: 'react-native-image-picker',
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_IMAGE_PICKER),
+          },
+          {
+            name: 'react-native-navigation',
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_NAVIGATION),
+          },
+          {
+            name: 'react-native-sound',
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_SOUND),
+          },
+          {
+            name: 'react-native-notifications',
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_NOTIFICATIONS),
+          },
+          {
+            name: 'react-native-spinkit',
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_SPINKIT),
+          },
+          {
+            name: 'react-native-swipe-list-view',
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_SWIPE_LIST_VIEW),
+          },
+          {
+            name: 'react-native-vector-icons',
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_VECTOR_ICONS),
+          },
+          {
+            name: 'react-redux',
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_REDUX),
+          },
+          {
+            name: 'rn-viewpager',
+            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_VIEW_PAGER),
           },
         ]}
       />
