@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Image, ScrollView, TouchableOpacity, Keyboard, KeyboardAvoidingView, Alert } from 'react-native';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
@@ -91,7 +92,11 @@ class SignUpProfile extends Component {
     return (
       <ScrollView style={styles.container} value={1} keyboardShouldPersistTaps="always">
         <KeyboardAvoidingView behavior="padding">
-          <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
+          {
+            this.props.hideBack ? null :(
+              <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
+            )
+          }
           <SignUpHeader title="Create Profile" onPress={()=> Keyboard.dismiss()} />
           <Flex value={1} align="center" justify="start" self="stretch" style={styles.inputs}>
             {this.renderImagePicker()}
@@ -128,6 +133,7 @@ class SignUpProfile extends Component {
 
 SignUpProfile.propTypes = {
   ...NavPropTypes,
+  hideBack: PropTypes.bool,
 };
 
 export default connect(null, nav)(SignUpProfile);

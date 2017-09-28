@@ -136,8 +136,11 @@ class Videos extends Component {
       }).catch((err)=> {
         LOG(JSON.stringify(err));
         if (err.error === 'Messenger not configured') {
-          LOG('caughterror');
-          this.props.navigateResetToNumber();
+          if (this.props.user.first_name) {
+            this.props.navigateResetToNumber();
+          } else {
+            this.props.navigateResetToProfile();
+          }
         }
       });
     } else {
@@ -324,6 +327,7 @@ Videos.propTypes = {
 
 const mapStateToProps = ({ auth, videos }) => ({
   all: videos.all,
+  user: auth.user,
   popular: videos.popular,
   featured: videos.featured,
   tags: videos.tags,
