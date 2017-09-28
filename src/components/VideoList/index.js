@@ -22,10 +22,11 @@ class VideoList extends Component {
 
   handleRefresh() {
     this.setState({ refreshing: true });
-    setTimeout(() => {
-      // this.props.onRefresh();
+    this.props.onRefresh().then(() => {
       this.setState({ refreshing: false });
-    }, 500);
+    }).catch(() => {
+      this.setState({ refreshing: false });
+    });
   }
 
   scrollToBeginning() {

@@ -75,6 +75,7 @@ class Videos extends Component {
 
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleFilter = this.handleFilter.bind(this);
+    this.handleRefresh = this.handleRefresh.bind(this);
     this.updateVideoList = this.updateVideoList.bind(this);
     this.showThemes = this.showThemes.bind(this);
     this.handleThemeSelect = this.handleThemeSelect.bind(this);
@@ -170,6 +171,10 @@ class Videos extends Component {
     return false;
   }
 
+  handleRefresh() {
+    return this.handleFilter(this.state.selectedFilter);
+  }
+
   handleThemeSelect(tag) {
     this.props.dispatch(getSelectedThemeVideos(tag)).then(() => {
       this.setState({ videos: this.props.selectedThemeVideos});
@@ -214,6 +219,7 @@ class Videos extends Component {
     }
   }
 
+  // This method should return a Promise so that it can handle refreshing correctly
   handleFilter(filter, shouldntScroll) {
     if (filter === 'themes') {
       this.setState({ previousFilter: this.state.selectedFilter, selectedFilter: filter });
@@ -225,22 +231,27 @@ class Videos extends Component {
     }
 
     if (filter === 'featured') {
-      this.props.dispatch(getFeaturedVideos()).then(() => {
+      return this.props.dispatch(getFeaturedVideos()).then((r) => {
         this.updateVideoList(filter);
+        return r;
       });
     } else if (filter === 'popular') {
-      this.props.dispatch(getPopularVideos()).then(() => {
+      return this.props.dispatch(getPopularVideos()).then((r) => {
         this.updateVideoList(filter);
+        return r;
       });
     } else if (filter === 'all') {
-      this.props.dispatch(getVideos()).then(() => {
+      return this.props.dispatch(getVideos()).then((r) => {
         this.updateVideoList(filter);
+        return r;
       });
     } else if (filter === 'themes') {
-      this.props.dispatch(getTags()).then(() => {
+      return this.props.dispatch(getTags()).then((r) => {
         this.showThemes();
+        return r;
       });
     }
+    return Promise.resolve();
   }
 
   updateVideoList(type) {
@@ -307,7 +318,7 @@ class Videos extends Component {
             //   onSelectVideo,
             // });
           }}
-          onRefresh={() => {}}
+          onRefresh={this.handleRefresh}
         />
         {
           !onSelectVideo ? (

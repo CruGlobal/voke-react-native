@@ -46,9 +46,10 @@ function appStateChange(dispatch, getState, navigator, nextAppState) {
   // LOG('appStateChange', nextAppState, currentAppState, cableId);
   if (nextAppState === 'active' && (currentAppState === 'inactive' || currentAppState === 'background')) {
     LOG('App has come to the foreground!');
-
+    
+    // Put the ACTIVE actions in a short timeout so they don't run when the app switches quickly
     clearTimeout(backgroundTimeout);
-
+    
     backgroundTimeout = setTimeout(() => {
       // Restart sockets
       if (cableId) {
@@ -57,13 +58,14 @@ function appStateChange(dispatch, getState, navigator, nextAppState) {
         dispatch(establishDevice(navigator));
       }
     }, BACKGROUND_TIMEOUT);
-
+    
   } else if (nextAppState === 'background' && (currentAppState === 'inactive' || currentAppState === 'active')) {
     LOG('App is going into the background');
-
-    // Close sockets
+    
+    // Put the BACKGROUND actions in a short timeout so they don't run when the app switches quickly
     clearTimeout(backgroundTimeout);
     backgroundTimeout = setTimeout(() => {
+      // Close sockets
       dispatch(closeSocketAction());
     }, BACKGROUND_TIMEOUT);
   }
