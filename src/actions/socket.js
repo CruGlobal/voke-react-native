@@ -189,22 +189,28 @@ export function closeNotificationListeners() {
 
 export function handleNotifications(navigator, state, notification) {
   return (dispatch, getState) => {
+    LOG('handle notification', state, notification);
     let data = notification.getData();
     LOG('notification', state, data);
     if (state === 'background') {
+      NotificationsIOS.setBadgesCount(2);
       LOG('Background notification', data);
     }
     if (state === 'open') {
-      // if (data && data.data && data.data.namespace && data.data.namespace.includes('messenger:conversation:message')) {
-      //   const link = data.data.link;
-      //   const cId = link.substring(link.indexOf('conversations/') + 14, link.indexOf('/messages'));
-      //   LOG('cId', cId);
-      //   dispatch(getConversation(cId)).then((results)=> {
-      //     // dispatch(navigateResetHome(navigator));
-      //     dispatch(navigatePush(navigator, 'voke.Message', {conversation: results.conversation}));
-      //   });
-      // }
+      if (data && data.data && data.data.namespace && data.data.namespace.includes('messenger:conversation:message')) {
+        const link = data.data.link;
+        const cId = link.substring(link.indexOf('conversations/') + 14, link.indexOf('/messages'));
+        LOG('cId', cId);
+        dispatch(getConversation(cId)).then((results)=> {
+          // dispatch(navigateResetHome(navigator));
+          dispatch(navigatePush(navigator, 'voke.Message', {conversation: results.conversation}));
+        });
+      }
       // NotificationsIOS.removeAllDeliveredNotifications();
+    } else {
+      LOG('handle notification else');
+      NotificationsIOS.setBadgesCount(2);
+      
     }
   };
 }
@@ -226,7 +232,7 @@ export function establishDevice(navigator) {
     // });
 
     if (Platform.OS === 'android') {
-      // NotificationsAndroid.refreshToken();
+      NotificationsAndroid.refreshToken();
       // On Android, we allow for only one (global) listener per each event type.
       NotificationsAndroid.setRegistrationTokenUpdateListener((token) => {
         dispatch(gotDeviceToken(navigator, token));
