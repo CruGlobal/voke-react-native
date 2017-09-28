@@ -9,6 +9,7 @@ import theme, { COLORS } from '../../theme';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { vokeIcons } from '../../utils/iconMap';
 
+import { SET_ACTIVE_CONVERSATION } from '../../constants';
 import styles from './styles';
 import MessageVideoPlayer from '../MessageVideoPlayer';
 import ApiLoading from '../ApiLoading';
@@ -114,6 +115,7 @@ class Message extends Component {
   componentDidMount() {
     this.getMessages();
     Analytics.screen('Chat');
+    this.props.dispatch({ type: SET_ACTIVE_CONVERSATION, id: this.props.conversation.id });
   }
 
   componentWillReceiveProps(nextProps) {

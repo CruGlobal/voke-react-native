@@ -11,6 +11,7 @@ export const MARK_READ = 'app/MARK_READ';
 export const SET_PUSH_TOKEN = 'app/SET_PUSH_TOKEN';
 export const TAB_SELECTED = 'app/TAB_SELECTED';
 export const ACTIVE_SCREEN = 'app/ACTIVE_SCREEN';
+export const SET_ACTIVE_CONVERSATION = 'app/SET_ACTIVE_CONVERSATION';
 
 const IS_STAGING = true;
 
