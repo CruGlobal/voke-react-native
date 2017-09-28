@@ -20,8 +20,9 @@ export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin } = 
         onSelect: (c) => {
           LOG('Invite this person:', c);
           let phone = c.phone && c.phone[0] ? c.phone[0] : null;
+          LOG(phone);
           let message = 'Check out this awesome app! https://vokeapp.com';
-          Communications.text(phone, message);
+          Communications.textWithoutEncoding(phone, message);
         },
       }),
     },
