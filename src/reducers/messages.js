@@ -53,8 +53,8 @@ export default function messages(state = initialState, action) {
         page: action.query.page || 1,
       };
       newConversations = newConversations.concat(action.conversations);
-      const unReadCheck = newConversations.find((m) => m.hasUnread);
-      const unRead = unReadCheck ? state.unReadBadgeCount + 1 : 0;
+      const unReadCheck = newConversations.filter((m) => m.hasUnread).length;
+      const unRead = unReadCheck || 0;
 
       return {
         ...state,

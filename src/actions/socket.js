@@ -193,7 +193,7 @@ export function handleNotifications(navigator, state, notification) {
     let data = notification.getData();
     LOG('notification', state, data);
     if (state === 'background') {
-      NotificationsIOS.setBadgesCount(2);
+      // NotificationsIOS.setBadgesCount(2);
       LOG('Background notification', data);
     }
     if (state === 'open') {
@@ -209,8 +209,8 @@ export function handleNotifications(navigator, state, notification) {
       // NotificationsIOS.removeAllDeliveredNotifications();
     } else {
       LOG('handle notification else');
-      NotificationsIOS.setBadgesCount(2);
-      
+      // NotificationsIOS.setBadgesCount(2);
+
     }
   };
 }

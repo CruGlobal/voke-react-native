@@ -54,7 +54,7 @@
    [self.window makeKeyAndVisible];
    */
   {
-    [UITabBarItem appearance].badgeColor = [UIColor colorWithRed:255 / 255.0 green:244 / 255.0 blue:98 / 255.0 alpha:1];
+    [UITabBarItem appearance].badgeColor = [UIColor colorWithRed:50 / 255.0 green:149 / 255.0 blue:173 / 255.0 alpha:1];
   }
   [Fabric with:@[[Crashlytics class]]];
 
