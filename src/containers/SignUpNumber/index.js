@@ -3,6 +3,7 @@ import { Alert, TouchableOpacity, Keyboard, KeyboardAvoidingView, ScrollView } f
 import { connect } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
 
+import PropTypes from 'prop-types';
 import { createMobileVerification } from '../../actions/auth';
 import Analytics from '../../utils/analytics';
 
@@ -56,6 +57,8 @@ class SignUpNumber extends Component {
               this.props.navigatePush('voke.SignUpNumberVerify', {
                 mobile: this.state.selectedCountryCode.concat(this.state.phoneNumber),
               });
+            }).catch((err)=> {
+              Alert.alert('Mobile number is invalid', err.errors[0]);
             });
           }},
         ]
@@ -96,7 +99,11 @@ class SignUpNumber extends Component {
     return (
       <ScrollView style={styles.container} value={1} keyboardShouldPersistTaps="always" align="center" justify="start">
         <KeyboardAvoidingView behavior="padding">
-          <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
+          {
+            this.props.hideBack ? null : (
+              <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
+            )
+          }
           <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
             <SignUpHeader
               title="Mobile Number"
@@ -142,6 +149,7 @@ class SignUpNumber extends Component {
 
 SignUpNumber.propTypes = {
   ...NavPropTypes,
+  hideBack: PropTypes.bool,
 };
 
 export default connect(null, nav)(SignUpNumber);

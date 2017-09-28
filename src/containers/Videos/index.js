@@ -6,6 +6,7 @@ import { Navigation } from 'react-native-navigation';
 
 import { TAB_SELECTED } from '../../constants';
 import { getVideos, getFeaturedVideos, getPopularVideos, getTags, getSelectedThemeVideos } from '../../actions/videos';
+import { getMe } from '../../actions/auth';
 import Analytics from '../../utils/analytics';
 
 import nav, { NavPropTypes } from '../../actions/navigation_new';
@@ -118,6 +119,9 @@ class Videos extends Component {
   }
 
   componentDidMount() {
+    // this.props.dispatch(getMe()).then((results)=>{
+    //   LOG(results);
+    // });
     // Do this after mounting because Android sometimes doesn't work on initial load
     if (!this.props.onSelectVideo) {
       this.props.navigator.setButtons(setButtons());
@@ -129,6 +133,12 @@ class Videos extends Component {
     if (this.props.all.length === 0) {
       this.props.dispatch(getVideos()).then(() => {
         this.updateVideoList('all');
+      }).catch((err)=> {
+        LOG(JSON.stringify(err));
+        if (err.error === 'Messenger not configured') {
+          LOG('caughterror');
+          this.props.navigateResetToNumber();
+        }
       });
     } else {
       this.setState({ videos: this.props.all });

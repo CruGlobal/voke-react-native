@@ -6,6 +6,7 @@ import lodashForEach from 'lodash/forEach';
 import API_CALLS from '../api';
 import { logoutAction, toastAction } from './auth';
 import apiRoutes from '../api/routes';
+import { isArray } from '../utils/common';
 
 
 
@@ -109,6 +110,21 @@ export default function callApi(requestObject, query = {}, data = {}) {
             } else if (err.error === 'Not Found') {
               reject(err);
               return;
+            } else if (err.error === 'Messenger not configured') {
+              reject(err);
+              return;
+            }
+            if (err.errors && isArray(err.errors)) {
+              if (err.errors.includes('Code doesn\'t match')) {
+                reject(err);
+                return;
+              } else if (err.errors.includes('Mobile is invalid')) {
+                reject(err);
+                return;
+              } else if (err.errors.includes('Mobile has already been taken')) {
+                reject(err);
+                return;
+              }
             }
           }
 
@@ -121,7 +137,7 @@ export default function callApi(requestObject, query = {}, data = {}) {
       API_CALLS[action.name](newQuery, data).then((results) => {
         let actionResults = results || {};
         // If the results have an error object, call this to reject it
-        if (actionResults.error) {
+        if (actionResults.error || actionResults.errors) {
           handleError(actionResults);
           return;
         }

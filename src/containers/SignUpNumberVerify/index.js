@@ -66,6 +66,8 @@ class SignUpNumberVerify extends Component {
     } else {
       this.props.dispatch(verifyMobile(data)).then(() => {
         this.props.navigateResetHome();
+      }).catch(() => {
+        Alert.alert('Invalid code','Code does not match the code that was sent to the mobile number');
       });
     }
   }

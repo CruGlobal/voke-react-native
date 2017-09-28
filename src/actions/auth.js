@@ -46,7 +46,7 @@ function appStateChange(dispatch, getState, navigator, nextAppState) {
   // LOG('appStateChange', nextAppState, currentAppState, cableId);
   if (nextAppState === 'active' && (currentAppState === 'inactive' || currentAppState === 'background')) {
     LOG('App has come to the foreground!');
-    
+
     clearTimeout(backgroundTimeout);
 
     backgroundTimeout = setTimeout(() => {
@@ -262,8 +262,6 @@ export function createMobileVerification(data) {
     return dispatch(callApi(REQUESTS.CREATE_MOBILE_VERIFICATION, {}, data)).then((results) => {
       LOG('Verify mobile request successfully sent', results);
       return results;
-    }).catch((error) => {
-      LOG('error sending verification for mobile number', error);
     });
   };
 }
@@ -273,8 +271,6 @@ export function verifyMobile(data) {
     return dispatch(callApi(REQUESTS.VERIFY_MOBILE, {}, data)).then((results) => {
       LOG('Mobile successfully verified', results);
       return results;
-    }).catch((error) => {
-      LOG('error verifying mobile', error);
     });
   };
 }

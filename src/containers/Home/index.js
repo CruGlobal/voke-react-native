@@ -79,10 +79,14 @@ class Home extends Component {
   componentDidMount() {
     this.props.dispatch(startupAction(this.props.navigator));
     Analytics.screen('Home Chats');
-    this.props.dispatch(getConversations());
+    this.props.dispatch(getConversations()).catch((err)=> {
+      if (err.error === 'Messenger not configured') {
+        this.props.navigateResetToNumber();
+      }
+    });
 
-    // Whenever this component mounts, set this as the active tab
     this.props.dispatch({ type: TAB_SELECTED, tab: 0 });
+
   }
 
   componentWillReceiveProps(nextProps) {

@@ -1,6 +1,8 @@
 // import { Platform } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 import PropTypes from 'prop-types';
 import { startLoginApp, startTabApp } from '../NavConfig';
+import theme from '../theme';
 
 const DEFAULT_PROPS = {
   'voke.Home': { title: 'Chats' },
@@ -85,12 +87,35 @@ export function navigateResetLogin(navigator, options = {}) {
   };
 }
 
+export function navigateResetToNumber(navigator, options = {}) {
+  return () => {
+    Navigation.startSingleScreenApp({
+      // animationType: Platform.OS === 'ios' ? 'slide-down' : 'fade',
+      animationType: 'none',
+      ...options,
+      appStyle: {
+        // Apply to whole app, can't do single pages https://github.com/wix/react-native-navigation/issues/846
+        orientation: 'portrait',
+        statusBarColor: theme.statusBarColor,
+        ...(options.appStyle || {}),
+      },
+      passProps: {
+        ...(options.passProps || {}),
+        hideBack: true,
+      },
+      overrideBackPress: true,
+      screen: { screen: 'voke.SignUpNumber' },
+    });
+  };
+}
+
 export const NavPropTypes = {
   dispatch: PropTypes.func.isRequired, // Redux
   navigatePush: PropTypes.func.isRequired, // Redux
   navigateBack: PropTypes.func.isRequired, // Redux
   navigateResetHome: PropTypes.func.isRequired, // Redux
   navigateResetLogin: PropTypes.func.isRequired, // Redux
+  navigateResetToNumber: PropTypes.func.isRequired, // Redux
 };
 
 // Redux connect function for navigator screens
@@ -101,5 +126,6 @@ export default (dispatch, { navigator }) => {
     navigateBack: (...args) => dispatch(navigateBack(navigator, ...args)),
     navigateResetHome: (...args) => dispatch(navigateResetHome(navigator, ...args)),
     navigateResetLogin: (...args) => dispatch(navigateResetLogin(navigator, ...args)),
+    navigateResetToNumber: (...args) => dispatch(navigateResetToNumber(navigator, ...args)),
   };
 };
