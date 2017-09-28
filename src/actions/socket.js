@@ -1,6 +1,6 @@
 import { Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
-import PushNotification from 'react-native-push-notification';
+// import PushNotification from 'react-native-push-notification';
 import NotificationsIOS, { NotificationsAndroid } from 'react-native-notifications';
 
 import { API_URL } from '../api/utils';
@@ -133,11 +133,6 @@ export function gotDeviceToken(navigator, token) {
   return (dispatch, getState) => {
     LOG('RECEIVED PUSH TOKEN:', token);
     const auth = getState().auth;
-    NotificationsIOS.localNotification({
-      alertBody: 'Local notificiation!',
-      fireDate: new Date(Date.now() + (5 * 1000)),
-      alertTitle: 'Local Notification Title',
-    });
 
     if ((token && !auth.pushToken) || (token !== auth.pushToken) ) {
       dispatch(registerPushToken(token)).then(() => {
@@ -155,13 +150,26 @@ export function gotDeviceToken(navigator, token) {
     } else {
       dispatch(establishCableDevice(null));
     }
+
     notificationForeground = (n) => dispatch(handleNotifications(navigator, 'foreground', n));
     notificationBackground = (n) => dispatch(handleNotifications(navigator, 'background', n));
     notificationOpen = (n) => dispatch(handleNotifications(navigator, 'open', n));
-    NotificationsIOS.addEventListener('notificationReceivedForeground', notificationForeground);
-    NotificationsIOS.addEventListener('notificationReceivedBackground', notificationBackground);
-    NotificationsIOS.addEventListener('notificationOpened', notificationOpen);
-    NotificationsIOS.consumeBackgroundQueue();
+
+    if (Platform.OS === 'android') {
+      // On Android, we allow for only one (global) listener per each event type.
+      NotificationsAndroid.setNotificationReceivedListener(notificationBackground);
+      NotificationsAndroid.setNotificationOpenedListener(notificationOpen);
+    } else {
+      // NotificationsIOS.localNotification({
+    //   alertBody: 'Local notificiation!',
+    //   fireDate: new Date(Date.now() + (5 * 1000)),
+    //   alertTitle: 'Local Notification Title',
+    // });
+      NotificationsIOS.addEventListener('notificationReceivedForeground', notificationForeground);
+      NotificationsIOS.addEventListener('notificationReceivedBackground', notificationBackground);
+      NotificationsIOS.addEventListener('notificationOpened', notificationOpen);
+      NotificationsIOS.consumeBackgroundQueue();
+    }
   };
 }
 
@@ -171,9 +179,11 @@ let notificationOpen;
 
 export function closeNotificationListeners() {
   return () => {
-    NotificationsIOS.removeEventListener('notificationReceivedForeground', notificationForeground);
-    NotificationsIOS.removeEventListener('notificationReceivedBackground', notificationBackground);
-    NotificationsIOS.removeEventListener('notificationOpened', notificationOpen);
+    if (Platform.OS === 'ios') {
+      NotificationsIOS.removeEventListener('notificationReceivedForeground', notificationForeground);
+      NotificationsIOS.removeEventListener('notificationReceivedBackground', notificationBackground);
+      NotificationsIOS.removeEventListener('notificationOpened', notificationOpen);
+    }
   };
 }
 
@@ -216,22 +226,22 @@ export function establishDevice(navigator) {
     // });
 
     if (Platform.OS === 'android') {
+      // NotificationsAndroid.refreshToken();
       // On Android, we allow for only one (global) listener per each event type.
       NotificationsAndroid.setRegistrationTokenUpdateListener((token) => {
         dispatch(gotDeviceToken(navigator, token));
       });
     } else {
       const onPushRegistered = function(token) {
-        LOG('token!', token);
         dispatch(gotDeviceToken(navigator, token));
         NotificationsIOS.removeEventListener('remoteNotificationsRegistered', onPushRegistered);
-      }
+      };
 
       const onPushRegistrationFailed = function(error) {
         LOG('token error!', error);
         dispatch(establishCableDevice(null));
         NotificationsIOS.removeEventListener('remoteNotificationsRegistrationFailed', onPushRegistrationFailed);
-      }
+      };
 
       NotificationsIOS.addEventListener('remoteNotificationsRegistered', onPushRegistered);
       NotificationsIOS.addEventListener('remoteNotificationsRegistrationFailed', onPushRegistrationFailed);

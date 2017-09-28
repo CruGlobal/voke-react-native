@@ -27,7 +27,7 @@ import com.react.rnspinkit.RNSpinkitPackage;
 import com.rt2zz.reactnativecontacts.ReactNativeContacts;
 // import com.imagepicker.ImagePickerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.facebook.react.ReactNativeHost;
+// import com.facebook.react.ReactNativeHost;
 // import com.facebook.soloader.SoLoader;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
