@@ -41,6 +41,7 @@ export default function(url, options = {}) {
           video.onplay = onPlay;
           video.onpause = onPaused;
           video.onerror = onError;
+          video.onended = onEnded;
 
           /* HACK: need to get the duration with autoplay enabled */
           setTimeout(checkDuration, 500);
@@ -77,6 +78,9 @@ export default function(url, options = {}) {
         function onError() {
           window.postMessage('${common.ERROR}');
         }
+        function onEnded() {
+          window.postMessage('${common.FINISHED}');
+        }
 
 
 
@@ -111,6 +115,9 @@ export default function(url, options = {}) {
           } else if (data.forcePause) {
             video.pause();
           } else if (data.forcePlay) {
+            video.play();
+          } else if (data.replayVideo) {
+            video.currentTime = ${options.start || 0};
             video.play();
           }
         }

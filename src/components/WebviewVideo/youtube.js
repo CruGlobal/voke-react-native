@@ -123,6 +123,9 @@ export default function(id, options = {}) {
             player.pauseVideo();
           } else if (data.forcePlay) {
             player.playVideo();
+          } else if (data.replayVideo) {
+            player.seekTo(${options.start || 0});
+            Player.playVideo();
           }
         }
       </script>

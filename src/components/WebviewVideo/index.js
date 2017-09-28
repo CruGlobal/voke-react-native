@@ -42,6 +42,7 @@ export default class WebviewVideo extends Component {
       time: 0,
       numOfErrors: 0,
       addMargin: shouldAddMargin,
+      replay: false,
     };
 
     this.webview = null;
@@ -53,6 +54,7 @@ export default class WebviewVideo extends Component {
     this.play = this.play.bind(this);
     this.seek = this.seek.bind(this);
     this.togglePlay = this.togglePlay.bind(this);
+    this.replayVideo = this.replayVideo.bind(this);
   }
 
   componentDidMount() {
@@ -111,6 +113,8 @@ export default class WebviewVideo extends Component {
         if (!this.state.isPaused) {
           this.setState({ isPaused: true });
         }
+      } else if (data === webviewCommon.FINISHED) {
+        this.setState({ replay: true });
       }
       this.props.onChangeState(data);
     }
@@ -147,6 +151,13 @@ export default class WebviewVideo extends Component {
     this.setState({ isPaused: !this.state.isPaused });
   }
 
+  replayVideo() {
+    this.sendMessage({ replayVideo: true });
+    if (this.state.replay) {
+      this.setState({ replay: false });
+    }
+  }
+
   render() {
     const html = this.getHtml();
     if (!html) {
@@ -177,7 +188,9 @@ export default class WebviewVideo extends Component {
           isPaused={this.state.isPaused}
           onSeek={this.seek}
           onPlayPause={this.togglePlay}
+          onReplay={this.replayVideo}
           duration={this.state.duration}
+          replay={this.state.replay}
           time={this.state.time}
           type={this.props.type}
           isLandscape={this.props.isLandscape}

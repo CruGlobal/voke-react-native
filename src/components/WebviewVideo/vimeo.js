@@ -73,6 +73,10 @@ export default function(id, options = {}) {
               player.pause();
             } else if (data.forcePlay) {
               player.play();
+            } else if (data.replayVideo) {
+              player.setCurrentTime(${options.start || 0}).then(function() {
+                player.play();
+              });
             }
           }
 

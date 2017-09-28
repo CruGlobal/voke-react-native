@@ -30,6 +30,7 @@ export default class VideoControls extends Component {
     };
 
     this.handleScreenPress = this.handleScreenPress.bind(this);
+    this.handleReplay = this.handleReplay.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -40,16 +41,20 @@ export default class VideoControls extends Component {
     this.props.onPlayPause();
   }
 
+  handleReplay() {
+    this.props.onReplay();
+  }
+
   render() {
-    const { time, isPaused, onSeek, duration } = this.props;
+    const { time, isPaused, onSeek, duration, replay } = this.props;
     return (
       <Flex direction="column" style={styles.outerWrap}>
         <Flex style={[this.props.isLandscape ? styles.landscapeSize : styles.portraitSize, styles.viewBlock]} align="center" justify="center">
-          <Touchable activeOpacity={.5} onPress={this.handleScreenPress}>
+          <Touchable activeOpacity={.5} onPress={!replay ? this.handleScreenPress : this.handleReplay}>
             <Flex animation="zoomIn" style={[this.props.isLandscape ? styles.landscapeSize : styles.portraitSize, styles.screenPress]}>
               {
-                isPaused ? (
-                  <Icon name={'play-circle-filled'} size={50} style={styles.playIcon} />
+                isPaused || replay ? (
+                  <Icon name={replay ? 'replay' : 'play-circle-filled'} size={50} style={styles.playIcon} />
                 ) : null
               }
             </Flex>
@@ -97,5 +102,7 @@ VideoControls.propTypes = {
   onPlayPause: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
   isLandscape: PropTypes.bool.isRequired,
+  replay: PropTypes.bool.isRequired,
+  onReplay: PropTypes.func.isRequired,
   // buttonTextStyle: PropTypes.oneOfType(styleTypes),
 };
