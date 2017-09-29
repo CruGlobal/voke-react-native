@@ -231,7 +231,9 @@ export function handleNotifications(navigator, state, notification) {
       } else if (Platform.OS === 'android') {
         if (data && data.namespace) {
           namespace = data.namespace;
-          if (data.notification && data.notification.click_action) {
+          if (data.link) {
+            link = data.link;
+          } else if (data.notification && data.notification.click_action) {
             link = data.notification.click_action;
           }
         }
