@@ -2,7 +2,8 @@ import { API_URL } from '../api/utils';
 import { Vibration, Platform } from 'react-native';
 import { NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ } from '../constants';
 import callApi, { REQUESTS } from './api';
-import Sound from 'react-native-sound';
+// TODO: Remove this package from react-native
+// import Sound from 'react-native-sound';
 
 export function getConversations() {
   return (dispatch) => {
@@ -150,19 +151,19 @@ export function vibrateAction() {
 export function playSoundAction() {
   return () => {
     // Create a new sound and play it
-    const newMessageSound = new Sound('voke_ukulele_sound.mp3', Sound.MAIN_BUNDLE, (error) => {
-      if (error) {
-        LOG('failed to load the sound', error);
-        return;
-      }
-      newMessageSound.play((success) => {
-        if (!success) {
-          LOG('playback failed due to audio decoding errors');
-          // reset the player to its uninitialized state (android only)
-          // this is the only option to recover after an error occured and use the player again
-          newMessageSound.reset();
-        }
-      });
-    });
+    // const newMessageSound = new Sound('voke_ukulele_sound.mp3', Sound.MAIN_BUNDLE, (error) => {
+    //   if (error) {
+    //     LOG('failed to load the sound', error);
+    //     return;
+    //   }
+    //   newMessageSound.play((success) => {
+    //     if (!success) {
+    //       LOG('playback failed due to audio decoding errors');
+    //       // reset the player to its uninitialized state (android only)
+    //       // this is the only option to recover after an error occured and use the player again
+    //       newMessageSound.reset();
+    //     }
+    //   });
+    // });
   };
 }

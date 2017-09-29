@@ -7,6 +7,7 @@ import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { getMe, facebookLoginAction, anonLogin } from '../../actions/auth';
 
+import ApiLoading from '../ApiLoading';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { Flex, Text, Button } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
@@ -22,6 +23,7 @@ class LoginInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: false,
       // email: '',
       password: 'password',
       disabled: false,
@@ -59,57 +61,67 @@ class LoginInput extends Component {
     }
   }
 
+  // This code is also listed in the Login container.
+  // If you make any changes, be sure to make them over there as well
   facebookLogin() {
-    LOG('Making FB Call');
+    this.setState({ isLoading: true });
+
+    // LOG('Making FB Call');
     LoginManager.logInWithReadPermissions(CONSTANTS.FACEBOOK_SCOPE).then((result) => {
-      LOG('RESULT', result);
+      LOG('facebook return result', result);
       if (result.isCancelled) {
-        LOG('facebook login was canceled', result);
-      } else {
-        LOG('successful facebook login', result);
-        AccessToken.getCurrentAccessToken().then((data) => {
-          if (!data.accessToken) {
-            LOG('access token doesnt exist');
+        this.setState({ isLoading: false });
+        return;
+      }
+      AccessToken.getCurrentAccessToken().then((data) => {
+        if (!data.accessToken) {
+          LOG('access token doesnt exist');
+          this.setState({ isLoading: false });
+          return;
+        }
+        const accessToken = data.accessToken.toString();
+        const getMeConfig = {
+          version: CONSTANTS.FACEBOOK_VERSION,
+          accessToken,
+          parameters: {
+            fields: {
+              string: CONSTANTS.FACEBOOK_FIELDS,
+            },
+          },
+        };
+        // Create a graph request asking for user information with a callback to handle the response.
+        const infoRequest = new GraphRequest('/me', getMeConfig, (err, meResult) => {
+          if (err) {
+            LOG('error getting facebook user', err);
+            this.setState({ isLoading: false });
             return;
           }
-          const accessToken = data.accessToken.toString();
-          const getMeConfig = {
-            version: CONSTANTS.FACEBOOK_VERSION,
-            accessToken,
-            parameters: {
-              fields: {
-                string: CONSTANTS.FACEBOOK_FIELDS,
-              },
-            },
-          };
-          // Create a graph request asking for user information with a callback to handle the response.
-          const infoRequest = new GraphRequest('/me', getMeConfig, (err, meResult) => {
-            if (err) {
-              LOG('error getting facebook user', err);
-              return;
-            }
-            LOG('facebook me', meResult);
-            this.props.dispatch(facebookLoginAction(accessToken)).then(() => {
-              this.props.dispatch(getMe()).then((results) => {
-                if (results.state === 'configured') {
-                  this.props.navigateResetHome();
-                } else {
-                  this.props.navigatePush('voke.SignUpFBAccount', {
-                    me: meResult,
-                  });
-                }
-              });
+          LOG('facebook me', meResult);
+          this.props.dispatch(facebookLoginAction(accessToken)).then(() => {
+            this.props.dispatch(getMe()).then((results) => {
+              this.setState({ isLoading: false });
+              if (results.state === 'configured') {
+                this.props.navigateResetHome();
+              } else {
+                this.props.navigatePush('voke.SignUpFBAccount', {
+                  me: meResult,
+                });
+              }
             });
+          }).catch(() => {
+            this.setState({ isLoading: false });
           });
-          // Start the graph request.
-          new GraphRequestManager().addRequest(infoRequest).start();
         });
-      }
+        // Start the graph request.
+        new GraphRequestManager().addRequest(infoRequest).start();
+      });
     }, (err) => {
       LOG('err', err);
+      this.setState({ isLoading: false });
       LoginManager.logOut();
     }).catch(() => {
       LOG('catch');
+      this.setState({ isLoading: false });
     });
   }
 
@@ -175,6 +187,9 @@ class LoginInput extends Component {
             </Flex>
           </Flex>
         </TouchableOpacity>
+        {
+          this.state.isLoading ? <ApiLoading force={true} /> : null
+        }
       </Flex>
     );
   }
