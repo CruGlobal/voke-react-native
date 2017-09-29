@@ -57,5 +57,6 @@ export default StyleSheet.create({
   accountWrap: {
     position: 'absolute',
     bottom: 0,
+    paddingBottom: 15,
   },
 });

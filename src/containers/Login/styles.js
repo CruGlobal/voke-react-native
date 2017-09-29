@@ -36,6 +36,7 @@ export default StyleSheet.create({
   },
   haveAccount: {
     paddingTop: 20,
+    paddingBottom: 15,
   },
   signInButton: {
     fontSize: 16,
