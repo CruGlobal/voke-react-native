@@ -48,6 +48,7 @@ export function setupSocketAction(cableId) {
           if (ws && ws.send) {
             if (ws.readyState === WEBSOCKET_STATES.OPEN) {
               try {
+                // LOG('socket sending');
                 ws.send(JSON.stringify(obj));
               } catch (e) {
                 LOG('error sending websocket object', e);
@@ -174,8 +175,13 @@ export function gotDeviceToken(navigator, token) {
 
     if (Platform.OS === 'android') {
       // On Android, we allow for only one (global) listener per each event type.
-      NotificationsAndroid.setNotificationReceivedListener(notificationBackground);
+      NotificationsAndroid.setNotificationReceivedListener(notificationOpen);
       NotificationsAndroid.setNotificationOpenedListener(notificationOpen);
+
+      // Testing, disable socket so we get Push Notifications in the app
+      // setTimeout(() => {
+      //   dispatch(closeSocketAction());
+      // }, 3500);
     } else {
       // NotificationsIOS.localNotification({
     //   alertBody: 'Local notificiation!',
@@ -206,7 +212,6 @@ export function closeNotificationListeners() {
 
 export function handleNotifications(navigator, state, notification) {
   return (dispatch, getState) => {
-    LOG('handle notification', state, notification);
     let data = notification.getData();
     LOG('notification', state, data);
     if (state === 'background') {
@@ -214,10 +219,27 @@ export function handleNotifications(navigator, state, notification) {
       LOG('Background notification', data);
     }
     if (state === 'open') {
-      if (data && data.data && data.data.namespace && data.data.namespace.includes('messenger:conversation:message')) {
-        const link = data.data.link;
+
+      // Get the namespace and link differently for ios and android
+      let namespace;
+      let link;
+      if (Platform.OS === 'ios') {
+        if (data && data.data && data.data.namespace) {
+          namespace = data.data.namespace;
+          link = data.data.link;
+        }
+      } else if (Platform.OS === 'android') {
+        if (data && data.namespace) {
+          namespace = data.namespace;
+          if (data.notification && data.notification.click_action) {
+            link = data.notification.click_action;
+          }
+        }
+      }
+      
+      if (namespace && link && namespace.includes('messenger:conversation:message')) {
         const cId = link.substring(link.indexOf('conversations/') + 14, link.indexOf('/messages'));
-        LOG('cId', cId);
+        // LOG('cId', cId);
         dispatch(getConversation(cId)).then((results)=> {
 
           const activeScreen = getState().auth.activeScreen;
