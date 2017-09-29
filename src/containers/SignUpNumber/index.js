@@ -99,11 +99,15 @@ class SignUpNumber extends Component {
     return (
       <ScrollView style={styles.container} value={1} keyboardShouldPersistTaps="always" align="center" justify="start">
         <KeyboardAvoidingView behavior="padding">
-          {
-            this.props.hideBack ? null : (
-              <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
-            )
-          }
+          <SignUpHeaderBack
+            onPress={() => {
+              if (this.props.hideBack) {
+                this.props.navigateResetLogin();
+              } else {
+                this.props.navigateBack();
+              }
+            }}
+          />
           <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
             <SignUpHeader
               title="Mobile Number"

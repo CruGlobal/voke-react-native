@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, Image } from 'react-native';
 import PropTypes from 'prop-types';
 
 import {COLORS, DEFAULT} from '../../theme';
@@ -12,54 +12,59 @@ import { Flex, Icon, Text, Button, Touchable } from '../../components/common';
 
 class SharePopup extends Component {
   render() {
-    if (this.props.isHidden) {
-      return null;
-    } else {
-      return (
-        <Flex align="center" justify="center" style={styles.container}>
-          <ScrollView style={styles.androidModal}>
-            <Flex direction="column" value={1} align="center" justify="center">
-              <Touchable onPress={() => this.props.onShare('message')} >
-                <Flex direction="row" align="center" >
-                  <Icon type="FontAwesome" style={styles.androidIcons} size={30} name="comment-o"  />
-                  <Text style={styles.iconText}>Message</Text>
+    if (this.props.isHidden) return null;
+
+    return (
+      <Flex align="center" justify="center" style={styles.container}>
+        <ScrollView style={styles.androidModal}>
+          <Flex direction="column" value={1} align="start" justify="center">
+            <Touchable onPress={() => this.props.onShare('message')} >
+              <Flex direction="row" align="center" style={styles.androidShareRow}>
+                <Icon type="FontAwesome" style={styles.androidIcons} size={30} name="comment-o"  />
+                <Text style={styles.androidIconText}>Message</Text>
+              </Flex>
+            </Touchable>
+            <Touchable onPress={() => this.props.onShare('mail')} >
+              <Flex direction="row" align="center" style={styles.androidShareRow}>
+                <Icon type="FontAwesome" style={styles.androidIcons} size={30} name="envelope-o" />
+                <Text style={styles.androidIconText}>Email</Text>
+              </Flex>
+            </Touchable>
+            <Touchable onPress={() => this.props.onShare('whatsapp')} >
+              <Flex direction="row" align="center" style={styles.androidShareRow}>
+                <Icon
+                  type="FontAwesome"
+                  style={[styles.androidIcons, { color: '#009846' }]}
+                  size={30}
+                  name="whatsapp"
+                />
+                <Text style={styles.androidIconText}>WhatsApp</Text>
+              </Flex>
+            </Touchable>
+            <Touchable onPress={() => this.props.onShare('fb')} >
+              <Flex direction="row" align="center" style={styles.androidShareRow}>
+                <Flex align="center" justify="center" style={styles.androidImageWrap}>
+                  <Image source={FB} style={styles.androidImageStyle} />
                 </Flex>
-              </Touchable>
-              <Touchable onPress={() => this.props.onShare('mail')} >
-                <Flex direction="row" align="center" >
-                  <Icon type="FontAwesome" style={styles.androidIcons} size={30} name="mail" />
-                  <Text style={styles.iconText}>Email</Text>
-                </Flex>
-              </Touchable>
-              <Touchable onPress={() => this.props.onShare('whatsapp')} >
-                <Flex direction="row" align="center" >
-                  <Icon type="FontAwesome" style={styles.androidIcons} size={30} name="whatsapp" />
-                  <Text style={styles.iconText}>WhatsApp</Text>
-                </Flex>
-              </Touchable>
-              <Touchable onPress={() => this.props.onShare('fb')} >
-                <Flex direction="row" align="center" >
-                  <Icon type="FontAwesome" style={styles.androidIcons} size={30} name="facebook"  />
-                  <Text style={styles.iconText}>Messenger</Text>
-                </Flex>
-              </Touchable>
-              <Touchable onPress={() => this.props.onShare('more')} >
-                <Flex direction="row" align="center" >
-                  <Icon style={styles.androidIcons} size={30} name="more-horiz" />
-                  <Text style={styles.iconText}>More</Text>
-                </Flex>
-              </Touchable>
-              <Button
-                text="Cancel"
-                buttonTextStyle={styles.buttonText}
-                style={styles.button}
-                onPress={this.props.onDismiss}
-              />
-            </Flex>
-          </ScrollView>
-        </Flex>
-      );
-    }
+                <Text style={styles.androidIconText}>Messenger</Text>
+              </Flex>
+            </Touchable>
+            <Touchable onPress={() => this.props.onShare('more')} >
+              <Flex direction="row" align="center" style={styles.androidShareRow}>
+                <Icon style={styles.androidIcons} size={30} name="more-horiz" />
+                <Text style={styles.androidIconText}>More</Text>
+              </Flex>
+            </Touchable>
+            <Button
+              text="Cancel"
+              buttonTextStyle={styles.buttonText}
+              style={styles.button}
+              onPress={this.props.onDismiss}
+            />
+          </Flex>
+        </ScrollView>
+      </Flex>
+    );
   }
 }
 

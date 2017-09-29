@@ -47,13 +47,21 @@ export default StyleSheet.create({
     width: DEFAULT.FULL_WIDTH / 6.5,
     height: DEFAULT.FULL_WIDTH / 6.5,
   },
-  androidIcons: {
-    color: COLORS.CHARCOAL,
-  },
   iconText: {
     color: COLORS.CHARCOAL,
     fontSize: 12,
     textAlign: 'center',
+  },
+  androidIcons: {
+    paddingHorizontal: 25,
+    color: COLORS.CHARCOAL,
+  },
+  androidIconText: {
+    flex: 1,
+    fontWeight: 'bold',
+    color: COLORS.CHARCOAL,
+    fontSize: 16,
+    textAlign: 'left',
   },
   buttonWrap: {
     position: 'absolute',
@@ -74,5 +82,17 @@ export default StyleSheet.create({
     color: theme.secondaryColor,
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  androidShareRow: {
+    paddingVertical: 10,
+  },
+  androidImageWrap: {
+    overflow: 'hidden',
+    borderRadius: 12,
+    width: 75,
+  },
+  androidImageStyle: {
+    height: 30,
+    width: 30,
   },
 });
