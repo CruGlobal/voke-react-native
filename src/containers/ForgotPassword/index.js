@@ -21,7 +21,7 @@ class ForgotPassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: 'bengauthier@knights.ucf.edu',
+      email: '',
       emailValidation: false,
     };
 
@@ -44,7 +44,7 @@ class ForgotPassword extends Component {
         LOG('resetting password');
         Alert.alert(
           'Check your Email',
-          'We sent you an email with instructions for resetting your password', 
+          'We sent you an email with instructions for resetting your password',
           [{ text: 'OK', onPress: () => this.props.navigateBack()}]
         );
       });

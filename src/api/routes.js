@@ -99,6 +99,7 @@ export default {
   },
   'FORGOT_PASSWORD': {
     endpoint: API_URL + 'me/forgot',
+    anonymous: true,
     method: 'post',
     data: {
       client: CLIENT,

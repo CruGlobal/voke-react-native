@@ -65,7 +65,15 @@ class SignUpNumberVerify extends Component {
       Alert.alert('Please enter the code that was sent','');
     } else {
       this.props.dispatch(verifyMobile(data)).then(() => {
-        this.props.navigateResetHome();
+        if (!this.props.onboardCompleted) {
+          this.props.navigatePush('voke.SignUpWelcome', {
+            onlyOnboarding: true,
+          }, {
+            overrideBackPress: true,
+          });
+        } else {
+          this.props.navigateResetHome();
+        }
       }).catch(() => {
         Alert.alert('Invalid code','Code does not match the code that was sent to the mobile number');
       });
@@ -122,4 +130,8 @@ SignUpNumberVerify.propTypes = {
   mobile: PropTypes.string.isRequired,
 };
 
-export default connect(null, nav)(SignUpNumberVerify);
+const mapStateToProps = ({ auth }) => ({
+  onboardCompleted: auth.onboardCompleted,
+});
+
+export default connect(mapStateToProps, nav)(SignUpNumberVerify);

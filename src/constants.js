@@ -12,6 +12,7 @@ export const SET_PUSH_TOKEN = 'app/SET_PUSH_TOKEN';
 export const TAB_SELECTED = 'app/TAB_SELECTED';
 export const ACTIVE_SCREEN = 'app/ACTIVE_SCREEN';
 export const SET_ACTIVE_CONVERSATION = 'app/SET_ACTIVE_CONVERSATION';
+export const ONBOARD_FLAG = 'app/ONBOARD_FLAG';
 
 const IS_STAGING = true;
 

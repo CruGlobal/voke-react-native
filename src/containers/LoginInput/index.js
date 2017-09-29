@@ -24,13 +24,13 @@ class LoginInput extends Component {
     super(props);
     this.state = {
       isLoading: false,
-      // email: '',
-      password: 'password',
+      email: '',
+      password: '',
       disabled: false,
-      // emailValidation: false,
+      emailValidation: false,
       // TODO: Remove these things
-      email: 'benlgauthier+voke1@gmail.com',
-      emailValidation: true,
+      // email: 'benlgauthier+voke1@gmail.com',
+      // emailValidation: true,
     };
 
     this.login = this.login.bind(this);

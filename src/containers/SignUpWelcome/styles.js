@@ -60,6 +60,7 @@ export default StyleSheet.create({
   },
   vokeWrap: {
     width: DEFAULT.FULL_WIDTH,
+    paddingTop: 30,
   },
   endButton: {
     alignItems: 'center',

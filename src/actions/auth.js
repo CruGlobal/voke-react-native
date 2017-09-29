@@ -192,7 +192,11 @@ export function toastAction(text) {
 export function forgotPasswordAction(email) {
   return (dispatch) => (
     new Promise((resolve, reject) => {
-      const data = { me: email };
+      const data = {
+        me: {
+          email,
+        },
+      };
       dispatch(callApi(REQUESTS.FORGOT_PASSWORD, {}, data)).then(resolve).catch(reject);
     })
   );
