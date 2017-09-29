@@ -18,6 +18,7 @@ import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.appevents.AppEventsLogger;
 
 // import com.facebook.react.ReactApplication;
+import com.tkporter.sendsms.SendSMSPackage;
 import com.github.yamill.orientation.OrientationPackage;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
@@ -40,7 +41,6 @@ import com.wix.reactnativenotifications.core.AppLaunchHelper;
 import com.wix.reactnativenotifications.core.AppLifecycleFacade;
 import com.wix.reactnativenotifications.core.JsIOHelper;
 import com.wix.reactnativenotifications.core.notification.IPushNotification;
-
 
 import java.util.Arrays;
 import java.util.List;
@@ -65,6 +65,7 @@ public class MainApplication extends NavigationApplication implements INotificat
   protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           // new MainReactPackage(),
+            SendSMSPackage.getInstance(),
             new OrientationPackage(),
           new FBSDKPackage(mCallbackManager),
           new RNDeviceInfo(),

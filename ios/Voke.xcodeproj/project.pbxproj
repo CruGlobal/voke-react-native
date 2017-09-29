@@ -56,6 +56,7 @@
 		AECD5AED1F575975004E173C /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AECD5AD11F575957004E173C /* libRCTPushNotification.a */; };
 		AEDA7F441F6C6A1A009D8429 /* voke_ukulele_sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AEDA7F431F6C6A1A009D8429 /* voke_ukulele_sound.mp3 */; };
 		B813226B741B4B9EA4D274EC /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABD02933A222442AA4DA129E /* Octicons.ttf */; };
+		C261E0A521EE42BAB748FA9B /* libSendSMS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 980A2CF4F7604EE981C018E7 /* libSendSMS.a */; };
 		C73DF4BA9C8D43E989290E35 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A6B0C6DDD87144C0846048CD /* Entypo.ttf */; };
 		E523AFD91E474E2C929720A5 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11810E0BF26A4936962E3CBC /* Ionicons.ttf */; };
 		E9F73E50F45840238843F002 /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B696DE9E1104AD29BBBCA1A /* libRCTOrientation.a */; };
@@ -386,6 +387,13 @@
 			remoteGlobalIDString = D8D9DB831C6D03DB009FBC0E;
 			remoteInfo = SMXCrashlytics;
 		};
+		AEEF0C181F7EB769004A03DD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 87D0A34378C946CE8F44CF56 /* SendSMS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 95688E1A1D38251600F72D63;
+			remoteInfo = SendSMS;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -415,6 +423,7 @@
 		738F94AB6632400DB624B352 /* RCTContacts.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTContacts.xcodeproj; path = "../node_modules/react-native-contacts/ios/RCTContacts.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		87D0A34378C946CE8F44CF56 /* SendSMS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = SendSMS.xcodeproj; path = "../node_modules/react-native-sms/SendSMS.xcodeproj"; sourceTree = "<group>"; };
 		890FBE44356444B789EC85C1 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		8AFAB6C0801F4A43A113F5AD /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		932AA1B61F602AFB008937B1 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Voke/AppDelegate.h; sourceTree = "<group>"; };
@@ -425,6 +434,7 @@
 		932AA1BB1F602AFB008937B1 /* Voke.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = Voke.entitlements; path = Voke/Voke.entitlements; sourceTree = "<group>"; };
 		957BC217E8634B51A0E9C60C /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		95C82259786E474DB0D7CDF6 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		980A2CF4F7604EE981C018E7 /* libSendSMS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSendSMS.a; sourceTree = "<group>"; };
 		9B696DE9E1104AD29BBBCA1A /* libRCTOrientation.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTOrientation.a; sourceTree = "<group>"; };
 		A2A8637161AA417BAFAD228A /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		A6B0C6DDD87144C0846048CD /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
@@ -499,6 +509,7 @@
 				282A8DA3CDCB4F5F8AD4CAD2 /* libRNFetchBlob.a in Frameworks */,
 				4D01537AA0784C59BEBE25C1 /* libRNSound.a in Frameworks */,
 				E9F73E50F45840238843F002 /* libRCTOrientation.a in Frameworks */,
+				C261E0A521EE42BAB748FA9B /* libSendSMS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -645,6 +656,7 @@
 				890FBE44356444B789EC85C1 /* RNFetchBlob.xcodeproj */,
 				EF747ACBF2474D1899BA963A /* RNSound.xcodeproj */,
 				DDA6CFD505BD41BA8DB32059 /* RCTOrientation.xcodeproj */,
+				87D0A34378C946CE8F44CF56 /* SendSMS.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -717,6 +729,7 @@
 				AD2B14044EBD4A25962BC1E3 /* libRNFetchBlob.a */,
 				0340FCDF836A4073BFEE4B1F /* libRNSound.a */,
 				9B696DE9E1104AD29BBBCA1A /* libRCTOrientation.a */,
+				980A2CF4F7604EE981C018E7 /* libSendSMS.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -825,6 +838,14 @@
 			isa = PBXGroup;
 			children = (
 				AEDA7F3D1F6C693F009D8429 /* libRNSound.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AEEF0C151F7EB768004A03DD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AEEF0C191F7EB769004A03DD /* libSendSMS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1011,6 +1032,10 @@
 				{
 					ProductGroup = 9354D6591EF9A7010005D447 /* Products */;
 					ProjectRef = A2A8637161AA417BAFAD228A /* RNVectorIcons.xcodeproj */;
+				},
+				{
+					ProductGroup = AEEF0C151F7EB768004A03DD /* Products */;
+					ProjectRef = 87D0A34378C946CE8F44CF56 /* SendSMS.xcodeproj */;
 				},
 				{
 					ProductGroup = AE5BE0D91F631ECA0091810F /* Products */;
@@ -1347,6 +1372,13 @@
 			remoteRef = AEDD2F011F68333F008542FF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		AEEF0C191F7EB769004A03DD /* libSendSMS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSendSMS.a;
+			remoteRef = AEEF0C181F7EB769004A03DD /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1448,11 +1480,13 @@
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
 					"$(SRCROOT)/../node_modules/react-native-notifications/RNNotifications",
+					"$(SRCROOT)/../node_modules/react-native-sms/SendSMS",
 				);
 				INFOPLIST_FILE = Voke/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/Voke\"",
 					"\"$(SRCROOT)/Voke\"",
 					"\"$(SRCROOT)/Voke\"",
 					"\"$(SRCROOT)/Voke\"",
@@ -1500,11 +1534,13 @@
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
 					"$(SRCROOT)/../node_modules/react-native-notifications/RNNotifications",
+					"$(SRCROOT)/../node_modules/react-native-sms/SendSMS",
 				);
 				INFOPLIST_FILE = Voke/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/Voke\"",
 					"\"$(SRCROOT)/Voke\"",
 					"\"$(SRCROOT)/Voke\"",
 					"\"$(SRCROOT)/Voke\"",

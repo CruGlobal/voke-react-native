@@ -213,34 +213,58 @@ class SelectFriend extends Component {
         // LOG('create conversation results', results);
         const friend = results.messengers[0];
 
-        Share.share({
-          message: `Hi ${friend ? friend.first_name : 'friend'}, check out this video ${friend ? friend.url : ''} `,
-          title: 'Check this out',
-        },
-        {
-          excludedActivityTypes: [
-            'com.apple.UIKit.activity.PostToTwitter',
-            'com.apple.uikit.activity.CopyToPasteboard',
-            'com.google.Drive.ShareExtension',
-            'com.apple.UIKit.activity.PostToFacebook',
-            'com.apple.UIKit.activity.PostToFlickr',
-            'com.apple.UIKit.activity.PostToVimeo',
-            'com.apple.UIKit.activity.PostToWeibo',
-            'com.apple.UIKit.activity.AirDrop',
-            'com.apple.UIKit.activity.PostToSlack',
-          ],
-        }).then((results1) => {
-          if (results1.action === Share.sharedAction) {
-            // LOG('successfully shared video, results.id', results.id);
-            this.props.dispatch(getConversation(results.id)).then((c) => {
-              LOG('getconversation results', c);
-              this.props.navigatePush('voke.Message', {conversation: c.conversation, goBackHome: true});
-            });
-          } else {
-            // LOG('Did Not Share Video');
-            this.props.dispatch(deleteConversation(results.id));
-          }
+        Navigation.showModal({
+          screen: 'voke.ShareModal',
+          animationType: 'slide-in',
+          passProps: {
+            onComplete: () => {
+              this.props.dispatch(getConversation(results.id)).then((c) => {
+                LOG('getconversation results', c);
+                this.props.navigatePush('voke.Message', {conversation: c.conversation, goBackHome: true});
+              });
+            },
+            onCancel: () => {
+              LOG('canceling');
+              this.props.dispatch(deleteConversation(results.id));
+            },
+            friend,
+            phoneNumber,
+          },
+          // navigatorStyle: {
+          //   screenBackgroundColor: 'rgba(0, 0, 0, 0.3)',
+          // },
+          overrideBackPress: true,
         });
+
+        // Share.share(
+        //   {
+        //     message: `Hi ${friend ? friend.first_name : 'friend'}, check out this video ${friend ? friend.url : ''} `,
+        //     title: 'Check this out',
+        //   },
+        //   {
+        //     excludedActivityTypes: [
+        //       'com.apple.UIKit.activity.PostToTwitter',
+        //       'com.apple.uikit.activity.CopyToPasteboard',
+        //       'com.google.Drive.ShareExtension',
+        //       'com.apple.UIKit.activity.PostToFacebook',
+        //       'com.apple.UIKit.activity.PostToFlickr',
+        //       'com.apple.UIKit.activity.PostToVimeo',
+        //       'com.apple.UIKit.activity.PostToWeibo',
+        //       'com.apple.UIKit.activity.AirDrop',
+        //       'com.apple.UIKit.activity.PostToSlack',
+        //     ],
+        //   }).then((results1) => {
+        //   if (results1.action === 'sharedAction') {
+        //     // LOG('successfully shared video, results.id', results.id);
+        //     this.props.dispatch(getConversation(results.id)).then((c) => {
+        //       LOG('getconversation results', c);
+        //       this.props.navigatePush('voke.Message', {conversation: c.conversation, goBackHome: true});
+        //     });
+        //   } else {
+        //     // LOG('Did Not Share Video');
+        //     this.props.dispatch(deleteConversation(results.id));
+        //   }
+        // });
       });
     }
   }

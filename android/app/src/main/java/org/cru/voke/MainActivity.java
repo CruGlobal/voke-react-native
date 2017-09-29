@@ -4,6 +4,7 @@ package org.cru.voke;
 import com.smixx.fabric.FabricPackage;
 import com.reactnativenavigation.controllers.SplashActivity;
 import android.content.Intent;
+import com.tkporter.sendsms.SendSMSPackage;
 
 public class MainActivity extends SplashActivity {
   protected String getMainComponentName() {
@@ -14,6 +15,7 @@ public class MainActivity extends SplashActivity {
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
       super.onActivityResult(requestCode, resultCode, data);
       MainApplication.getCallbackManager().onActivityResult(requestCode, resultCode, data);
+      SendSMSPackage.getInstance().onActivityResult(requestCode, resultCode, data);
   }
 
 //   @Override

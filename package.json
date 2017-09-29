@@ -48,6 +48,7 @@
     "react-native-notifications": "^1.1.16",
     "react-native-orientation": "^3.1.0",
     "react-native-push-notification": "^3.0.1",
+    "react-native-sms": "1.4.2",
     "react-native-sound": "^0.10.4",
     "react-native-spinkit": "^1.1.1",
     "react-native-swipe-list-view": "^0.4.1",

@@ -40,7 +40,7 @@ export const COLORS = {
   BLACK: '#1d1d26',
   DEEP_BLACK: '#000000',
   WHITE: '#ffffff',
-  OFF_WHITE: '#fdfdfe',
+  OFF_WHITE: 'rgba(245,245,245,1)',
   GREY: '#98a6b1',
   GREY_FADE: 'rgba(152, 166, 177, 0.25)',
   WHITE_FADE: 'rgba(245, 250, 255, 0.5)',

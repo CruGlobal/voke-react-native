@@ -27,6 +27,7 @@ import ForgotPassword from './containers/ForgotPassword';
 import SignUpFBAccount from './containers/SignUpFBAccount';
 import Modal from './containers/Modal';
 import AndroidReportModal from './containers/AndroidReportModal';
+import ShareModal from './containers/ShareModal';
 
 
 export default function(store, Provider) {
@@ -57,4 +58,5 @@ export default function(store, Provider) {
   Navigation.registerComponent('voke.SignUpFBAccount', () => SignUpFBAccount, store, Provider);
   Navigation.registerComponent('voke.Modal', () => Modal, store, Provider);
   Navigation.registerComponent('voke.AndroidReportModal', () => AndroidReportModal, store, Provider);
+  Navigation.registerComponent('voke.ShareModal', () => ShareModal, store, Provider);
 }

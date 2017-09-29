@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Image } from 'react-native';
+import { Share, Linking, Alert } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import PropTypes from 'prop-types';
 import Communications from 'react-native-communications';
-import Share, {ShareSheet} from 'react-native-share';
+// import {ShareSheet} from 'react-native-share';
+import SendSMS from 'react-native-sms';
 
 import Analytics from '../../utils/analytics';
-import theme, {COLORS, DEFAULT} from '../../theme';
-import MESSAGES from '../../../images/icon-messages.png';
-import WHATSAPP from '../../../images/icon-whatsapp.png';
-import MAIL from '../../../images/icon-mail.png';
-import FB from '../../../images/icon-faceboomessenger.png';
-import styles from './styles';
+import SharePopup from './SharePopup';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import { Flex, Icon, Text, Button, Touchable } from '../../components/common';
+
+function getMessage(friend) {
+  return `Hi ${friend ? friend.first_name : 'friend'}, check out this video ${friend ? friend.url : ''} `;
+}
 
 class ShareModal extends Component {
   static navigatorStyle = {
@@ -26,11 +25,11 @@ class ShareModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isMore: false,
+      isHidden: false,
     };
     this.handleDismiss = this.handleDismiss.bind(this);
-    this.handleSelect = this.handleSelect.bind(this);
     this.handleShare = this.handleShare.bind(this);
+    this.handleComplete = this.handleComplete.bind(this);
   }
 
   componentDidMount() {
@@ -42,115 +41,116 @@ class ShareModal extends Component {
   }
 
   handleDismiss() {
-    this.props.onDismiss;
+    this.props.onCancel();
     this.dismissModal();
+  }
+
+  handleComplete() {
+    this.props.onComplete();
+    this.dismissModal();
+  }
+
+  handleHide() {
+    this.setState({isHidden: true});
+  }
+
+  openUrl(url) {
+    Linking.canOpenURL(url).then((isSupported) => {
+      if (isSupported) {
+        Linking.openURL(url);
+        this.handleComplete();
+      } else {
+        Alert.alert('Oops', 'We can\'t find this app on your device, please try another option');
+      }
+    }).catch(() => {
+      this.handleDismiss();
+    });
   }
 
   handleShare(type) {
-    let shareOptions = {
-      title: 'React Native',
-      message: 'Hola mundo',
-      url: 'http://facebook.github.io/react-native/',
-      subject: 'Share Link',
-    };
-    if (type === 'message') {
-      LOG('shareing', type);
-      Communications.text(this.props.shareWith.toString(), this.props.message);
-      this.dismissModal();
-    } else if (type=== 'mail') {
-      Share.shareSingle(Object.assign(shareOptions, {
-        'social': 'email',
-      }));
-      // Communications.email(null, null, null, null, this.props.message);
-      this.dismissModal();
-      LOG('shareing', type);
-    } else if (type=== 'whatsapp') {
-      LOG('shareing', type);
-    } else if (type=== 'fb') {
-      LOG('shareing', type);
-    } else {
-      LOG('shareing', type);
-      this.props.onMore();
-      this.dismissModal();
+    const friend = this.props.friend;
+    LOG(JSON.stringify(friend));
+    if (!friend) {
+      this.handleDismiss();
+      return;
     }
-  }
-
-  handleSelect() {
-    this.dismissModal();
+    const message = getMessage(friend);
+    if (type === 'message') {
+      // LOG('shareing', type);
+      SendSMS.send({
+        body: message,
+        recipients: [this.props.phoneNumber],
+        successTypes: ['sent', 'queued'],
+      }, (completed, cancelled, error) => {
+        if (completed) {
+          this.handleComplete();
+        } else {
+          this.handleDismiss();
+        }
+        // LOG('SMS Callback: completed: ' + completed + ' cancelled: ' + cancelled + 'error: ' + error);
+      });
+    } else if (type=== 'mail') {
+      Communications.email(null, null, null, null, message);
+      this.handleComplete();
+      // LOG('shareing', type);
+    } else if (type=== 'whatsapp') {
+      const url = `whatsapp://send?text=${message}`;
+      this.openUrl(url);
+      // LOG('shareing', type);
+    } else if (type=== 'fb') {
+      const url = 'https://m.me';
+      this.openUrl(url);
+      // LOG('shareing', type);
+    } else {
+      // LOG('shareing', type);
+      this.handleHide();
+      Share.share(
+        {
+          message: message,
+          title: 'Check this out',
+        },
+        {
+          excludedActivityTypes: [
+            'com.apple.UIKit.activity.PostToTwitter',
+            'com.apple.uikit.activity.CopyToPasteboard',
+            'com.google.Drive.ShareExtension',
+            'com.apple.UIKit.activity.PostToFacebook',
+            'com.apple.UIKit.activity.PostToFlickr',
+            'com.apple.UIKit.activity.PostToVimeo',
+            'com.apple.UIKit.activity.PostToWeibo',
+            'com.apple.UIKit.activity.AirDrop',
+            'com.apple.UIKit.activity.PostToSlack',
+          ],
+        }).then((results) => {
+        if (results.action === 'sharedAction') {
+          this.handleComplete();
+        } else {
+          this.handleDismiss();
+        }
+      });
+    }
   }
 
   render() {
     LOG(this.props.shareWith);
     return (
-      <Flex align="center" justify="center" style={styles.container}>
-        <Flex direction="column" align="center" justify="center" style={styles.modal}>
-          <Flex direction="row" value={1} style={{borderColor: COLORS.LIGHT_GREY, borderBottomWidth: 1, width: DEFAULT.FULL_WIDTH}} align="center" justify="center">
-            <Touchable onPress={()=> this.handleShare('message')} >
-              <Flex align="center" style={styles.shareAction} >
-                <Flex style={styles.iconWrap}>
-                  <Image source={MESSAGES} style={styles.iconStyle} />
-                </Flex>
-                <Text style={styles.iconText}>Message</Text>
-              </Flex>
-            </Touchable>
-            <Touchable onPress={()=> this.handleShare('mail')} >
-              <Flex align="center" style={styles.shareAction} >
-                <Flex style={styles.iconWrap}>
-                  <Image source={MAIL} style={styles.iconStyle} />
-                </Flex>
-                <Text style={styles.iconText}>Email</Text>
-              </Flex>
-            </Touchable>
-            <Touchable onPress={()=> this.handleShare('whatsapp')} >
-              <Flex align="center" style={styles.shareAction} >
-                <Flex style={styles.iconWrap}>
-                  <Image source={WHATSAPP} style={styles.iconStyle} />
-                </Flex>
-                <Text style={styles.iconText}>WhatsApp</Text>
-              </Flex>
-            </Touchable>
-            <Touchable onPress={()=> this.handleShare('fb')} >
-              <Flex align="center" style={styles.shareAction} >
-                <Flex style={styles.iconWrap}>
-                  <Image source={FB} style={styles.iconStyle} />
-                </Flex>
-                <Text style={styles.iconText}>Messenger</Text>
-              </Flex>
-            </Touchable>
-          </Flex>
-          <Flex value={1} style={{alignSelf: 'flex-start'}} direction="row" align="center" justify="center">
-            <Touchable onPress={()=> this.handleShare('more')} >
-              <Flex align="center" style={styles.shareAction} >
-                <Flex align="center" style={styles.iconWrap}>
-                  <Flex align="center" justify="center" style={[styles.iconStyle, {backgroundColor: COLORS.WHITE}]} >
-                    <Icon style={{color: COLORS.CHARCOAL}} size={30} name="more-horiz" />
-                  </Flex>
-                </Flex>
-                <Text style={styles.iconText}>More</Text>
-              </Flex>
-            </Touchable>
-          </Flex>
-        </Flex>
-        <Flex align="center" justify="center">
-          <Button
-            text="Cancel"
-            buttonTextStyle={styles.buttonText}
-            style={styles.button}
-            onPress={this.handleDismiss}
-          />
-        </Flex>
-      </Flex>
+      <SharePopup
+        onShare={this.handleShare}
+        onDismiss={this.handleDismiss}
+        isHidden={this.state.isHidden}
+      />
     );
   }
 }
 
 ShareModal.propTypes = {
   ...NavPropTypes,
-  message: PropTypes.string,
-  title: PropTypes.string,
+  onCancel: PropTypes.func.isRequired,
+  onComplete: PropTypes.func.isRequired,
+  friend: PropTypes.object.isRequired,
   onDismiss: PropTypes.func,
   onMore: PropTypes.func,
-  shareWith: PropTypes.string,
+  phoneNumber: PropTypes.string.isRequired,
 };
 
 export default connect(null, nav)(ShareModal);
