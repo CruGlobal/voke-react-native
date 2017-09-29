@@ -24,6 +24,15 @@ export default StyleSheet.create({
     borderRadius: 10,
     overflow: 'hidden',
   },
+  androidModal: {
+    width: DEFAULT.FULL_WIDTH,
+    // height: DEFAULT.FULL_HEIGHT / 2,
+    backgroundColor: COLORS.WHITE,
+    // marginTop: DEFAULT.FULL_HEIGHT / 1.8 - 20,
+    position: 'absolute',
+    bottom: 0,
+    overflow: 'hidden',
+  },
   iconWrap: {
     overflow: 'hidden',
     borderRadius: 12,
@@ -37,6 +46,9 @@ export default StyleSheet.create({
   iconStyle: {
     width: DEFAULT.FULL_WIDTH / 6.5,
     height: DEFAULT.FULL_WIDTH / 6.5,
+  },
+  androidIcons: {
+    color: COLORS.CHARCOAL,
   },
   iconText: {
     color: COLORS.CHARCOAL,

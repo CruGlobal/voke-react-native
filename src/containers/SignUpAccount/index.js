@@ -93,6 +93,7 @@ class SignUpAccount extends Component {
               onChangeText={this.checkEmail}
               placeholder="Email"
               blurOnSubmit={false}
+              keyboardType="email-address"
               returnKeyType="next"
               onSubmitEditing={() => this.password.focus()}
             />

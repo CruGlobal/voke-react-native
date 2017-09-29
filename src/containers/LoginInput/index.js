@@ -140,6 +140,7 @@ class LoginInput extends Component {
               value={this.state.email}
               onChangeText={this.checkEmail}
               placeholder="Email"
+              keyboardType="email-address"
               returnKeyType="next"
               blurOnSubmit={false}
               onSubmitEditing={() => this.password.focus()}
