@@ -47,7 +47,7 @@ export function cleanupAction() {
 }
 
 let backgroundTimeout;
-const BACKGROUND_TIMEOUT = 3000;
+const BACKGROUND_TIMEOUT = 1500;
 let appCloseTime;
 
 // TODO: It would be nice to somehow do this in the background and not block the UI when coming back into the app
@@ -68,14 +68,13 @@ function appStateChange(dispatch, getState, navigator, nextAppState) {
     clearTimeout(backgroundTimeout);
     const activeScreen = getState().auth.activeScreen;
     const conversationId = getState().messages.activeConversationId;
-    LOG('activeScreen', activeScreen, conversationId);
+    // LOG('activeScreen', activeScreen, conversationId);
     if (activeScreen === 'voke.Home') {
       const now = Date.now();
       if (now - appCloseTime > (5 * 60 * 1000)) {
         dispatch(getConversations());
       }
     } else if (activeScreen === 'voke.Message' && conversationId) {
-      LOG('getting conversation');
       dispatch(getMessages(conversationId));
     }
     backgroundTimeout = setTimeout(() => {
@@ -88,6 +87,7 @@ function appStateChange(dispatch, getState, navigator, nextAppState) {
     }, BACKGROUND_TIMEOUT);
 
   } else if (nextAppState === 'background' && (currentAppState === 'inactive' || currentAppState === 'active')) {
+
     LOG('App is going into the background');
     dispatch(closeSocketAction());
     appCloseTime = Date.now();

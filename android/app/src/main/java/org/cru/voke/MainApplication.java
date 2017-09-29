@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration; // For orientation changes
 import android.os.Bundle;
+import android.support.multidex.MultiDex; // For Multidex support Android <5.0
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -132,5 +133,12 @@ public class MainApplication extends NavigationApplication implements INotificat
       	defaultAppLaunchHelper,
       	new JsIOHelper()
     	);
+  }
+
+  // This is for multidex applications <5.0
+  @Override
+  protected void attachBaseContext(Context base) {
+     super.attachBaseContext(base);
+     MultiDex.install(this);
   }
 };

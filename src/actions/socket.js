@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
+import { Platform, AppState } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 // import PushNotification from 'react-native-push-notification';
 import NotificationsIOS, { NotificationsAndroid } from 'react-native-notifications';
@@ -15,6 +15,12 @@ import { isEquivalentObject, isString } from '../utils/common';
 // Push notification Android error
 // https://github.com/zo0r/react-native-push-notification/issues/495
 
+const WEBSOCKET_STATES = {
+  CONNECTING: 0,
+  OPEN: 1,
+  CLOSING: 2,
+  CLOSED: 3,
+};
 
 let ws = null;
 
@@ -40,8 +46,15 @@ export function setupSocketAction(cableId) {
             identifier: `{"channel":"DeviceChannel","id":"${cableId}"}`,
           };
           if (ws && ws.send) {
-            ws.send(JSON.stringify(obj));
-            // LOG('socket message sent');
+            if (ws.readyState === WEBSOCKET_STATES.OPEN) {
+              try {
+                ws.send(JSON.stringify(obj));
+              } catch (e) {
+                LOG('error sending websocket object', e);
+              }
+            } else {
+              LOG('websocket state not open, cannot send: Websocket readyState', ws.readyState);
+            }
           }
         };
 
@@ -86,9 +99,13 @@ export function closeSocketAction() {
     // Do a try/catch just to stop any errors
     try {
       if (ws && ws.close) {
-        ws.close(undefined, 'client closed');
-        ws = null;
-        // LOG('Closing the socket connection');
+        if (ws.readyState === WEBSOCKET_STATES.OPEN) {
+          ws.close(undefined, 'client closed');
+          ws = null;
+          // LOG('Closing the socket connection');
+        } else {
+          LOG('websocket state not open, cannot close: Websocket readyState', ws.readyState);
+        }
       }
     } catch (socketErr) {
       // Do nothing with the error
@@ -202,14 +219,32 @@ export function handleNotifications(navigator, state, notification) {
         const cId = link.substring(link.indexOf('conversations/') + 14, link.indexOf('/messages'));
         LOG('cId', cId);
         dispatch(getConversation(cId)).then((results)=> {
-          dispatch(navigateResetHome(navigator, { passProps: { onMount: (navigator2) => {
-            // The navigator gets reset on resetHome so we need to get the new navigator passed back when Home mounts
-            dispatch(navigatePush(navigator2, 'voke.Message', {
+
+          const activeScreen = getState().auth.activeScreen;
+          const conversationId = getState().messages.activeConversationId;
+          if (activeScreen === 'voke.Home') {
+            dispatch(navigatePush(navigator, 'voke.Message', {
               conversation: results.conversation,
             }, {
               animationType: 'none',
             }));
-          } }}));
+          } else if (activeScreen === 'voke.Message' && cId === conversationId) {
+            return;
+          } else {
+            dispatch(navigateResetHome(navigator, {
+              passProps: {
+                onMount: (navigator2) => {
+                  // The navigator gets reset on resetHome so we need to get the new navigator passed back when Home mounts
+                  dispatch(navigatePush(navigator2, 'voke.Message', {
+                    conversation: results.conversation,
+                  }, {
+                    animationType: 'none',
+                  }));
+                },
+              },
+            }));
+          }
+
         });
       }
       // NotificationsIOS.removeAllDeliveredNotifications();
