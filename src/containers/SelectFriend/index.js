@@ -214,14 +214,12 @@ class SelectFriend extends Component {
       this.props.dispatch(createConversation(data)).then((results) => {
         // LOG('create conversation results', results);
         const friend = results.messengers[0];
-
         Navigation.showModal({
           screen: 'voke.ShareModal',
           animationType: 'none',
           passProps: {
             onComplete: () => {
               this.props.dispatch(getConversation(results.id)).then((c) => {
-                LOG('getconversation results', c);
                 this.props.navigatePush('voke.Message', {conversation: c.conversation, goBackHome: true});
               });
             },

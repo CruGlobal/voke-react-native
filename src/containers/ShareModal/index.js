@@ -13,7 +13,7 @@ import SharePopup from './SharePopup';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 
 function getMessage(friend) {
-  return `Hi ${friend ? friend.first_name : 'friend'}, check out this video ${friend ? friend.url : ''} `;
+  return `Hi ${friend ? friend.first_name : 'friend'}, check out this video ${friend ? friend.url : ''}`;
 }
 
 class ShareModal extends Component {
@@ -52,13 +52,17 @@ class ShareModal extends Component {
   }
 
   handleDismiss() {
-    this.props.onCancel();
-    this.dismissModal();
+    setTimeout(() => {
+      this.props.onCancel();
+      this.dismissModal();
+    },1000);
   }
 
   handleComplete() {
-    this.props.onComplete();
-    this.dismissModal();
+    setTimeout(() => {
+      this.props.onComplete();
+      this.dismissModal();
+    },1000);
   }
 
   handleHide() {
@@ -112,20 +116,22 @@ class ShareModal extends Component {
     }
     const message = getMessage(friend);
     if (type === 'message') {
-      // LOG('shareing', type);
-      this.dismissModal();
+
       SendSMS.send({
         body: message,
         recipients: [this.props.phoneNumber],
         successTypes: ['sent', 'queued', 'inbox', 'outbox', 'draft'],
       }, (completed, cancelled, error) => {
-        // LOG(completed, cancelled, error);
+        LOG(completed, cancelled, error);
         if (completed) {
-          // LOG('completed message');
+          LOG('completed message');
           this.handleComplete();
         } else {
-          // LOG('failed message');
+          LOG('failed message');
           this.handleDismiss();
+        }
+        if (error) {
+          LOG('errror sending message', error);
         }
       });
     } else if (type === 'mail') {
