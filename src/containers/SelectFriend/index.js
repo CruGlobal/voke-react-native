@@ -11,7 +11,7 @@ import Analytics from '../../utils/analytics';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import theme from '../../theme';
+import theme, {DEFAULT} from '../../theme';
 import VOKE_BOT from '../../../images/voke_bot_face_large.png';
 import { vokeIcons } from '../../utils/iconMap';
 
@@ -38,6 +38,8 @@ function getRandomContacts(contacts) {
     contacts[randomArray[2]],
   ];
 }
+
+const screenHeight = DEFAULT.FULL_HEIGHT;
 
 function setButtons() {
   return {
@@ -270,12 +272,18 @@ class SelectFriend extends Component {
   }
 
   renderRandomContacts() {
+    let randomHeight = {};
+    if (screenHeight < 450) {
+      randomHeight = {
+        height: 30,
+      };
+    }
     return this.state.random.map((c, i) => (
       <Button
         key={`random_${i}`}
         onPress={() => this.selectContact(c)}
         text={c ? c.name : ' '}
-        style={styles.randomButton}
+        style={[styles.randomButton, randomHeight]}
         buttonTextStyle={styles.randomText}
       />
     ));
@@ -298,14 +306,20 @@ class SelectFriend extends Component {
   }
 
   renderContent() {
-    if (this.state.isLoading)  {
-      return (
-        <Flex style={styles.container} justify="center" align="center" value={1}>
-          <Loading />
-        </Flex>
-      );
-    }
+    // if (this.state.isLoading)  {
+    //   return (
+    //     <Flex style={styles.container} justify="center" align="center" value={1}>
+    //       <Loading />
+    //     </Flex>
+    //   );
+    // }
+    let randomHeight = {};
     const isAuthorized = this.state.permission === Permissions.AUTHORIZED;
+    if (screenHeight < 450) {
+      randomHeight = {
+        height: 30,
+      }
+    }
     return (
       <Flex style={styles.container} direction="column" align="center" justify="center">
         <StatusBar hidden={false} />
@@ -320,7 +334,7 @@ class SelectFriend extends Component {
               <Button
                 onPress={this.goToContacts}
                 text="Search Contacts"
-                style={styles.randomButton}
+                style={[styles.randomButton, randomHeight]}
                 buttonTextStyle={styles.randomText}
               />
             ) : null
@@ -345,7 +359,7 @@ class SelectFriend extends Component {
             <Button
               onPress={this.handleAllowContacts}
               text="Allow Contacts"
-              style={styles.randomButton}
+              style={[styles.randomButton, randomHeight]}
               buttonTextStyle={styles.randomText}
             />
           ) : null
