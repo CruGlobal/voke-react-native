@@ -79,7 +79,15 @@ class SelectFriend extends Component {
   }
 
   componentDidMount() {
-    this.checkContactsStatus();
+    // We need to check if we are coming from landscape in order to give the
+    // transition enough time before the view locks from the modal
+    if (this.props.isLandscape) {
+      setTimeout(() => {
+        this.checkContactsStatus();
+      }, 1000);
+    } else {
+      this.checkContactsStatus();
+    }
     Analytics.screen('Select a Friend');
   }
 
@@ -399,6 +407,7 @@ SelectFriend.propTypes = {
   video: PropTypes.string.isRequired,
   all: PropTypes.array.isRequired, // Redux
   isLoading: PropTypes.bool, // Redux
+  isLandscape: PropTypes.bool,
 };
 
 const mapStateToProps = ({ contacts }) => ({

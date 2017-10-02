@@ -188,8 +188,6 @@ class VideoDetails extends Component {
         <FloatingButtonSingle
           onSelect={() => {
             Orientation.lockToPortrait();
-            // TODO: Force video to pause when navigating away
-            // this.webview.pause();
             if (this.props.onSelectVideo) {
               Alert.alert(
                 'Add video to chat?',
@@ -209,6 +207,7 @@ class VideoDetails extends Component {
               }
               this.props.navigatePush('voke.SelectFriend', {
                 video: video.id,
+                isLandscape: this.state.isLandscape,
               });
             }
           }}
