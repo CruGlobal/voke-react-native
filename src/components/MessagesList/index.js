@@ -18,7 +18,7 @@ class MessagesList extends Component {
       componentHeight: 0,
       messagesHeight: 0,
       // topHeight: 0,
-      scrollEnabled: false,
+      scrollEnabled: true,
     };
 
     this.renderLoadMore = this.renderLoadMore.bind(this);
@@ -44,7 +44,7 @@ class MessagesList extends Component {
 
   keyboardDidShow() {
     // alert('Keyboard Shown');
-    this.setState({ scrollEnabled: true });
+    // this.setState({ scrollEnabled: true });
   }
 
   keyboardDidHide() {
@@ -87,9 +87,9 @@ class MessagesList extends Component {
     //   this.setState({ topHeight: 0});
     // }
       if (this.state.messagesHeight < this.state.componentHeight) {
-        this.setState({ scrollEnabled: false });
+        // this.setState({ scrollEnabled: false });
       } else {
-        this.setState({ scrollEnabled: true});
+        // this.setState({ scrollEnabled: true});
       }
     }
   }
