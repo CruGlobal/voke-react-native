@@ -43,12 +43,15 @@ class MessageVideoPlayer extends Component {
 
   render() {
     const { message, onClose } = this.props;
+    const video = message.item;
+    const videoMedia = video.media || {};
+    const videoType = videoMedia.type;
     return (
       <Flex animation="slideInUp" duration={500} style={styles.video}>
         <WebviewVideo
-          type={message.item.media.type}
-          url={message.item.media.url}
-          start={message.item.media.media_start || 0}
+          type={videoType}
+          url={videoMedia.url}
+          start={video.media_start || 0}
           onChangeState={this.handleVideoChange}
         />
         <View style={styles.backHeader}>
