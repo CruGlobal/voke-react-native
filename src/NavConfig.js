@@ -110,7 +110,9 @@ export default class App {
         // } else {
         //   this.startApp();
         // }
-        this.startApp();
+        setTimeout(() => {
+          this.startApp();
+        }, 1500);
       });
     });
     registerScreens(this.store, Provider);

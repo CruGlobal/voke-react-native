@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-// import { Image } from 'react-native';
+import { Image } from 'react-native';
 
+import VOKE_LOADING from '../../../images/SplashVoke.png';
 import styles from './styles';
 import { Flex, Loading } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
@@ -15,6 +16,7 @@ class LoadingScreen extends Component {
     return (
       <Flex align="center" justify="center" value={1} style={styles.container}>
         <StatusBar />
+        <Image source={VOKE_LOADING} style={{}} />
         <Loading />
 
       </Flex>
