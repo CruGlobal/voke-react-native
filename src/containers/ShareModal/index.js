@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import Communications from 'react-native-communications';
 // import {ShareSheet} from 'react-native-share';
 import SendSMS from 'react-native-sms';
+import { MessageDialog } from 'react-native-fbsdk';
 
 import Analytics from '../../utils/analytics';
 import SharePopup from './SharePopup';
@@ -33,6 +34,7 @@ class ShareModal extends Component {
     this.handleDismiss = this.handleDismiss.bind(this);
     this.handleShare = this.handleShare.bind(this);
     this.handleComplete = this.handleComplete.bind(this);
+    this.shareLinkWithShareDialog = this.shareLinkWithShareDialog.bind(this);
   }
 
   componentDidMount() {
@@ -61,6 +63,31 @@ class ShareModal extends Component {
 
   handleHide() {
     this.setState({isHidden: true});
+  }
+
+  shareLinkWithShareDialog(message, url) {
+    const shareLinkContent = {
+      contentType: 'link',
+      contentUrl: url,
+      contentDescription: message,
+    };
+
+    MessageDialog.canShow(shareLinkContent).then((canShow)=>{
+      if (canShow) {
+        MessageDialog.show(shareLinkContent).then((result) => {
+          if (result.isCancelled) {
+            this.handleDismiss();
+            LOG('cancelled fb messenger');
+          } else {
+            this.handleComplete();
+            LOG('successful fb messenger');
+          }
+        }).catch((error) => {
+          this.handleDismiss();
+          LOG('error', error);
+        });
+      }
+    });
   }
 
   openUrl(url) {
@@ -108,8 +135,9 @@ class ShareModal extends Component {
       const url = `whatsapp://send?text=${message}`;
       this.openUrl(url);
     } else if (type === 'fb') {
-      const url = 'https://m.me';
-      this.openUrl(url);
+      this.shareLinkWithShareDialog(message, friend.url);
+      // const url = 'https://m.me';
+      // this.openUrl(url);
     } else {
       this.handleHide();
       Share.share({
