@@ -215,7 +215,7 @@ class SelectFriend extends Component {
 
         Navigation.showModal({
           screen: 'voke.ShareModal',
-          animationType: 'slide-in',
+          animationType: 'none',
           passProps: {
             onComplete: () => {
               this.props.dispatch(getConversation(results.id)).then((c) => {

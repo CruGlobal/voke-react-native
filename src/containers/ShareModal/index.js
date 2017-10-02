@@ -28,7 +28,7 @@ class ShareModal extends Component {
     this.state = {
       isHidden: false,
     };
-    
+
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleDismiss = this.handleDismiss.bind(this);
     this.handleShare = this.handleShare.bind(this);
@@ -86,14 +86,18 @@ class ShareModal extends Component {
     const message = getMessage(friend);
     if (type === 'message') {
       // LOG('shareing', type);
+      this.dismissModal();
       SendSMS.send({
         body: message,
         recipients: [this.props.phoneNumber],
         successTypes: ['sent', 'queued', 'inbox', 'outbox', 'draft'],
       }, (completed, cancelled, error) => {
+        // LOG(completed, cancelled, error);
         if (completed) {
+          // LOG('completed message');
           this.handleComplete();
         } else {
+          // LOG('failed message');
           this.handleDismiss();
         }
       });
