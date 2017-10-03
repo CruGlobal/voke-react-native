@@ -176,6 +176,7 @@ class Contacts extends Component {
   }
 
   render() {
+    
     const isAuthorized = this.state.permission === Permissions.AUTHORIZED;
     return (
       <View style={styles.container}>
