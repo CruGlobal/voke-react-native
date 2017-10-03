@@ -95,16 +95,19 @@ class ShareModal extends Component {
   }
 
   openUrl(url) {
-    Linking.canOpenURL(url).then((isSupported) => {
-      if (isSupported) {
-        Linking.openURL(url);
-        this.handleComplete();
-      } else {
-        Alert.alert('Oops', 'We can\'t find this app on your device, please try another option');
-      }
-    }).catch(() => {
-      this.handleDismiss();
-    });
+    // whatsapp does not work with canopenurl for some reason
+    Linking.openURL(url);
+    this.handleComplete();
+    // Linking.canOpenURL(url).then((isSupported) => {
+    //   if (isSupported) {
+    //     Linking.openURL(url);
+    //     this.handleComplete();
+    //   } else {
+    //     Alert.alert('Oops', 'We can\'t find this app on your device, please try another option');
+    //   }
+    // }).catch(() => {
+    //   this.handleDismiss();
+    // });
   }
 
   handleShare(type) {
@@ -138,7 +141,9 @@ class ShareModal extends Component {
       Communications.email(null, null, null, null, message);
       this.handleComplete();
     } else if (type === 'whatsapp') {
-      const url = `whatsapp://send?text=${message}`;
+      let whatsappMessage = encodeURIComponent(message);
+      // LOG(whatsappMessage);
+      const url = `whatsapp://send?text=${whatsappMessage}`;
       this.openUrl(url);
     } else if (type === 'fb') {
       this.shareLinkWithShareDialog(message, friend.url);

@@ -12,5 +12,6 @@ export default StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     right: 0,
+    zIndex: -10,
   },
 });

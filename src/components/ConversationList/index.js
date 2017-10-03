@@ -75,7 +75,7 @@ class ConversationList extends Component { // eslint-disable-line
   getConversationParticipant(conversation) {
     const myId = this.props.me.id;
     const voke = conversation.messengers.find((a) => a.bot);
-    
+
     const otherPerson = conversation.messengers.find((a) => a.id !== myId && !a.bot);
     if (voke && conversation.messengers.length === 2) {
       return voke;
@@ -196,6 +196,8 @@ class ConversationList extends Component { // eslint-disable-line
         refreshControl={<RefreshControl
           refreshing={this.state.refreshing}
           onRefresh={this.handleRefresh}
+          colors={[COLORS.BLACK_FADE]}
+          tintColor={COLORS.BLACK_FADE}
         />}
       />
     );

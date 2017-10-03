@@ -54,6 +54,10 @@ class SignUpAccount extends Component {
 
   createAccount() {
     if (this.state.emailValidation && this.state.password) {
+      if (this.state.password.length < 8) {
+        Alert.alert('Invalid password', 'Passwords must be at least 8 characters');
+        return;
+      }
       this.props.dispatch(createAccountAction(this.state.email, this.state.password)).then((results) => {
         if (results.errors) {
           Alert.alert('Error', `${results.errors}`);

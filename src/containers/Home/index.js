@@ -169,7 +169,7 @@ class Home extends Component {
 
   handleBlock(otherPerson, data) {
     Alert.alert(
-      'Are you sure you want to block',
+      `Are you sure you want to block ${otherPerson.first_name ? otherPerson.first_name : 'this person'}?`,
       'Would you also like to block and report this person?',
       [
         {

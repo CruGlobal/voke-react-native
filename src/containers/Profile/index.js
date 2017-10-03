@@ -115,6 +115,10 @@ class Profile extends Component {
         Alert.alert('The passwords do not match','');
         return;
       }
+      if (newPassword.length < 8) {
+        Alert.alert('Passwords must be at least 8 characters','');
+        return;
+      }
       data = {
         me: {
           current_password: currentPassword,
@@ -201,8 +205,10 @@ class Profile extends Component {
               value={this.state.firstName}
               onChangeText={(text) => this.setState({ firstName: text })}
               multiline={false}
+              autoCapitalize="words"
               placeholder="First Name"
               placeholderTextColor={COLORS.GREY}
+              returnKeyType="next"
               style={styles.inputBox}
               autoCorrect={true}
               underlineColorAndroid="transparent"
@@ -211,7 +217,9 @@ class Profile extends Component {
               onChangeText={(text) => this.setState({ lastName: text })}
               value={this.state.lastName}
               multiline={false}
+              autoCapitalize="words"
               placeholder="Last Name"
+              returnKeyType="done"
               placeholderTextColor={COLORS.GREY}
               style={styles.inputBox}
               autoCorrect={true}
@@ -245,6 +253,7 @@ class Profile extends Component {
               value={this.state.newEmail}
               multiline={false}
               placeholder="New Email"
+              returnKeyType="next"
               placeholderTextColor={theme.primaryColor}
               style={styles.inputBox}
               autoCorrect={true}
@@ -254,6 +263,7 @@ class Profile extends Component {
               value={this.state.confirmEmail}
               onChangeText={(text) => this.setState({ confirmEmail: text })}
               multiline={false}
+              returnKeyType="next"
               placeholder="Confirm Email"
               placeholderTextColor={theme.primaryColor}
               style={styles.inputBox}
@@ -266,6 +276,7 @@ class Profile extends Component {
               value={this.state.currentPassword}
               secureTextEntry={true}
               onChangeText={(text) => this.setState({ currentPassword: text })}
+              returnKeyType="done"
               multiline={false}
               placeholder="Password"
               placeholderTextColor={theme.primaryColor}
@@ -301,6 +312,7 @@ class Profile extends Component {
               placeholder="Current Password"
               onChangeText={(text) => this.setState({ currentPassword: text })}
               secureTextEntry={true}
+              returnKeyType="next"
               value={this.state.currentPassword}
               placeholderTextColor={theme.primaryColor}
               style={styles.inputBox}
@@ -312,6 +324,7 @@ class Profile extends Component {
               secureTextEntry={true}
               placeholder="New Password"
               onChangeText={(text) => this.setState({ newPassword: text })}
+              returnKeyType="next"
               value={this.state.newPassword}
               placeholderTextColor={theme.primaryColor}
               style={styles.inputBox}
@@ -321,6 +334,7 @@ class Profile extends Component {
             <TextInput
               multiline={false}
               placeholder="Confirm New Password"
+              returnKeyType="done"
               secureTextEntry={true}
               value={this.state.confirmPassword}
               onChangeText={(text) => this.setState({ confirmPassword: text })}

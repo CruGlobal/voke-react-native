@@ -74,6 +74,7 @@ export default StyleSheet.create({
   },
   saveButtonText: {
     color: theme.primaryColor,
+    fontSize: 12,
   },
   image: {
     height: 125,

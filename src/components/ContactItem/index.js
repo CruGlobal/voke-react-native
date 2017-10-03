@@ -33,7 +33,7 @@ class ContactItem extends Component { // eslint-disable-line
             />
           )
         }
-        <Text style={styles.name}>{item.name}</Text>
+        <Text numberOfLines={2} style={styles.name}>{item.name}</Text>
         {
           item.isVoke ? (
             <Image source={VOKE_ICON} style={styles.voke} />
