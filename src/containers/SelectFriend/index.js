@@ -64,6 +64,7 @@ class SelectFriend extends Component {
 
     this.state = {
       isLoading: true,
+      setLoaderBeforePush: false,
       random: [],
       permission: '',
     };
@@ -227,6 +228,7 @@ class SelectFriend extends Component {
           animationType: 'none',
           passProps: {
             onComplete: () => {
+              this.setState({setLoaderBeforePush: true});
               this.props.dispatch(getConversation(results.id)).then((c) => {
                 this.props.navigatePush('voke.Message', {conversation: c.conversation, goBackHome: true});
               });
@@ -312,7 +314,7 @@ class SelectFriend extends Component {
   }
 
   renderContent() {
-    // if (this.state.isLoading)  {
+    // if (this.state.setLoaderBeforePush)  {
     //   return (
     //     <Flex style={styles.container} justify="center" align="center" value={1}>
     //       <Loading />
@@ -373,6 +375,13 @@ class SelectFriend extends Component {
         <Flex justify="start" align="center" value={2}>
           { this.renderRandomContacts() }
         </Flex>
+        {
+          this.state.setLoaderBeforePush ? (
+            <Flex style={styles.loaderContainer} justify="center" align="center" value={1}>
+              <Loading />
+            </Flex>
+          ) : null
+        }
       </Flex>
     );
   }
