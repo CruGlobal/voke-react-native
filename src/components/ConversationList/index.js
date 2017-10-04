@@ -196,8 +196,6 @@ class ConversationList extends Component { // eslint-disable-line
         refreshControl={<RefreshControl
           refreshing={this.state.refreshing}
           onRefresh={this.handleRefresh}
-          colors={[COLORS.BLACK_FADE]}
-          tintColor={COLORS.BLACK_FADE}
         />}
       />
     );

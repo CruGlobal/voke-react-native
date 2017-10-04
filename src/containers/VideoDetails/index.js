@@ -173,7 +173,7 @@ class VideoDetails extends Component {
             )
           }
           <View style={styles.backHeader}>
-            <Touchable borderless={true} onPress={() => Navigation.dismissModal()}>
+            <Touchable borderless={true} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} onPress={() => Navigation.dismissModal()}>
               <View>
                 <VokeIcon name="video-back" style={styles.backImage} />
               </View>

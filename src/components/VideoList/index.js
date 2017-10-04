@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { FlatList, Image } from 'react-native';
 import styles, { THUMBNAIL_HEIGHT } from './styles';
 
-import { Flex, Text, Touchable, Icon } from '../common';
+import { Flex, Text, Touchable, Icon, RefreshControl } from '../common';
 
 const ITEM_HEIGHT = THUMBNAIL_HEIGHT + 100 + 20;
 
@@ -73,10 +73,12 @@ class VideoList extends Component {
           offset: ITEM_HEIGHT * index,
           index,
         })}
-        refreshing={this.state.refreshing}
-        onRefresh={this.handleRefresh}
         style={{ flex: 1 }}
         contentContainerStyle={styles.content}
+        refreshControl={<RefreshControl
+          refreshing={this.state.refreshing}
+          onRefresh={this.handleRefresh}
+        />}
       />
     );
   }

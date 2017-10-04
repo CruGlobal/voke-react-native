@@ -131,10 +131,14 @@ android {
     }
     signingConfigs {
         voketest {
-            keyAlias 'voke-test-alias'
-            keyPassword 'password'
-            storeFile file('/Users/bryan/Documents/Dev/voke-react-native/android/voke-test.keystore')
-            storePassword 'password'
+            keyAlias props['keyAlias']
+            keyPassword props['keyAliasPassword']
+            storeFile rootProject.file(props['keyStore'])
+            storePassword props['keyStorePassword']
+            // keyAlias 'voke-test-alias'
+            // keyPassword 'password'
+            // storeFile file('/Users/bryan/Documents/Dev/voke-react-native/android/voke-test.keystore')
+            // storePassword 'password'
         }
     }
     splits {
