@@ -142,13 +142,15 @@ export function logoutAction() {
   return (dispatch, getState) => (
     new Promise((resolve) => {
       const token = getState().auth.token;
-      dispatch(getDevices()).then((results) => {
-        LOG('devices results', results);
-        // Pass the token into this function because the LOGOUT action will clear it out
-        results.devices.forEach((m) => {
-          dispatch(destroyDevice(m.id, token));
+      if (token) {
+        dispatch(getDevices()).then((results) => {
+          LOG('get devices results', results);
+          // Pass the token into this function because the LOGOUT action will clear it out
+          results.devices.forEach((m) => {
+            dispatch(destroyDevice(m.id, token));
+          });
         });
-      });
+      }
       dispatch({ type: LOGOUT });
       resolve();
       AsyncStorage.clear();

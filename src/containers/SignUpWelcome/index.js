@@ -67,7 +67,7 @@ class SignUpWelcome extends Component {
         text="skip"
         type="transparent"
         buttonTextStyle={{color: COLORS.WHITE, fontSize: 14}}
-        style={{position: 'absolute', bottom: 30, right: 30, zIndex: 50}}
+        style={{position: 'absolute', bottom: 30, right: 30, zIndex: 50, padding: 20}}
         onPress={() => this.props.navigateResetHome()}
       />
     );
