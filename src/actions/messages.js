@@ -1,6 +1,6 @@
 import { API_URL } from '../api/utils';
 import { Vibration, Platform } from 'react-native';
-import { NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ } from '../constants';
+import { NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ, UNREAD_CONV_DOT } from '../constants';
 import callApi, { REQUESTS } from './api';
 // TODO: Remove this package from react-native
 // import Sound from 'react-native-sound';
@@ -74,12 +74,19 @@ export function createMessage(conversation, data) {
 }
 
 export function newMessageAction(message) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     return dispatch(getConversation(message.conversation_id)).then(() => {
       dispatch({ type: NEW_MESSAGE, message });
 
       dispatch(vibrateAction());
       dispatch(playSoundAction());
+
+
+      const activeScreen = getState().auth.activeScreen;
+      const conversationId = getState().messages.activeConversationId;
+      if (activeScreen === 'voke.Message' && message.conversation_id !== conversationId) {
+        dispatch({ type: UNREAD_CONV_DOT, show: true });
+      }
     });
   };
 }

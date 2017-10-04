@@ -8,6 +8,7 @@ export const SET_CONTACTS_LOADING = 'app/SET_CONTACTS_LOADING';
 export const NEW_MESSAGE = 'app/NEW_MESSAGE';
 export const TYPE_STATE_CHANGE = 'app/TYPE_STATE_CHANGE';
 export const MARK_READ = 'app/MARK_READ';
+export const UNREAD_CONV_DOT = 'app/UNREAD_CONV_DOT';
 export const SET_PUSH_TOKEN = 'app/SET_PUSH_TOKEN';
 export const TAB_SELECTED = 'app/TAB_SELECTED';
 export const ACTIVE_SCREEN = 'app/ACTIVE_SCREEN';
