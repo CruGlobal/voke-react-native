@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, SectionList, Platform, KeyboardAvoidingView, Dimensions } from 'react-native';
+import { View, SectionList, Platform, KeyboardAvoidingView, Dimensions, Keyboard } from 'react-native';
 import ContactItem from '../ContactItem';
 
 import styles from './styles';
@@ -48,9 +48,34 @@ function formatContacts(items) {
 class ContactsList extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      keyboardShown: false,
+      height: 0,
+    };
 
     this.renderHeader = this.renderHeader.bind(this);
     this.renderItem = this.renderItem.bind(this);
+    this.keyboardDidShow = this.keyboardDidShow.bind(this);
+    this.keyboardDidHide = this.keyboardDidHide.bind(this);
+  }
+
+  componentDidMount() {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+  }
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
+  keyboardDidShow(e) {
+    LOG(e.endCoordinates.height);
+    this.setState({keyboardShown: true, height: e.endCoordinates.height});
+  }
+
+  keyboardDidHide() {
+    this.setState({keyboardShown: false, height: 0});
   }
 
   renderHeader({ section }) {
@@ -85,11 +110,7 @@ class ContactsList extends Component {
     const formattedSections = formatContacts(items);
     // ItemSeparatorComponent={() => <Separator />}
     return (
-      <KeyboardAvoidingView
-        contentContainerStyle={{flex: 1}}
-        behavior={Platform.OS === 'android' ? undefined : 'padding'}
-        keyboardVerticalOffset={Platform.OS === 'android' ? undefined : deviceHeight/6}
-      >
+      <View style={{paddingBottom: this.state.height +50}}>
         <SectionList
           initialNumToRender={40}
           keyExtractor={(item) => item.id}
@@ -104,7 +125,7 @@ class ContactsList extends Component {
             index,
           })}
         />
-      </KeyboardAvoidingView>
+      </View>
     );
   }
 }

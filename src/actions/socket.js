@@ -238,23 +238,40 @@ export function handleNotifications(navigator, state, notification) {
           }
         }
       }
-      
+
       if (namespace && link && namespace.includes('messenger:conversation:message')) {
         const cId = link.substring(link.indexOf('conversations/') + 14, link.indexOf('/messages'));
-        // LOG('cId', cId);
+        LOG('cId', cId);
         dispatch(getConversation(cId)).then((results)=> {
 
           const activeScreen = getState().auth.activeScreen;
           const conversationId = getState().messages.activeConversationId;
           if (activeScreen === 'voke.Home') {
-            dispatch(navigatePush(navigator, 'voke.Message', {
-              conversation: results.conversation,
-            }, {
-              animationType: 'none',
-            }));
+            LOG('push and on home');
+            setTimeout(()=>{
+              dispatch(navigatePush(navigator, 'voke.Message', {
+                conversation: results.conversation,
+              }, {
+                animationType: 'none',
+              }));
+            }, 1000);
           } else if (activeScreen === 'voke.Message' && cId === conversationId) {
-            return;
+            LOG('push and on message');
+            dispatch(navigateResetHome(navigator, {
+              passProps: {
+                onMount: (navigator2) => {
+                  // The navigator gets reset on resetHome so we need to get the new navigator passed back when Home mounts
+                  dispatch(navigatePush(navigator2, 'voke.Message', {
+                    conversation: results.conversation,
+                  }, {
+                    animationType: 'none',
+                  }));
+                },
+              },
+            }));
+            // return;
           } else {
+            LOG('push and else');
             dispatch(navigateResetHome(navigator, {
               passProps: {
                 onMount: (navigator2) => {
