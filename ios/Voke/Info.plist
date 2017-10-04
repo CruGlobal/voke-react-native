@@ -25,7 +25,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb443564615845137</string>
+				<string>fb443564482511817</string>
 			</array>
 		</dict>
 	</array>
@@ -46,9 +46,9 @@
 		</array>
 	</dict>
 	<key>FacebookAppID</key>
-	<string>443564615845137</string>
+	<string>443564482511817</string>
 	<key>FacebookDisplayName</key>
-	<string>Voke - Staging</string>
+	<string>Voke</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
