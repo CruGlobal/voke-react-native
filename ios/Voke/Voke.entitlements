@@ -7,6 +7,7 @@
 	<key>keychain-access-groups</key>
 	<array>
 		<string>$(AppIdentifierPrefix)org.cru.voke</string>
+		<string>$(AppIdentifierPrefix)org.cru.shared</string>
 	</array>
 </dict>
 </plist>
