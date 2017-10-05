@@ -26,6 +26,7 @@ import ADD_KICKSTARTERS_ICON from '../../images/lightning_icon.png';
 import PLUS_ICON from '../../images/plus.png';
 import SEARCH_ICON from '../../images/search-icon.png';
 import VIDEO_BACK from '../../images/back_button_transparent.png';
+import HOME_DOT from '../../images/homeBadge.png';
 
 
 const navIconSize = (Platform.OS === 'android') ? PixelRatio.getPixelSizeForLayoutSize(10) : 30;
@@ -92,6 +93,7 @@ const vokeIcons = {
   'add-kickstarter': ADD_KICKSTARTERS_ICON,
   'plus': PLUS_ICON,
   'search': SEARCH_ICON,
+  'home-dot': HOME_DOT,
 };
 
 export {

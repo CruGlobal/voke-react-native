@@ -16,17 +16,22 @@ import ApiLoading from '../ApiLoading';
 
 import { Flex, VokeIcon, Button, Touchable } from '../../components/common';
 import MessagesList from '../../components/MessagesList';
+import { UNREAD_CONV_DOT } from '../../constants';
 
-function setButtons() {
+function setButtons(showDot) {
+  if (showDot) {
+    return {
+      leftButtons: [{
+        id: 'back', // Android handles back already
+        icon: vokeIcons['home-dot'], // For iOS only
+      }],
+    };
+  }
   return {
     leftButtons: [{
       id: 'back', // Android handles back already
       icon: vokeIcons['home'], // For iOS only
     }],
-    // rightButtons: [{
-    //   id: 'add',
-    //   icon: Platform.OS === 'android' ? iconsMap['md-add'] : iconsMap['ios-add'],
-    // }],
   };
 }
 
@@ -81,6 +86,12 @@ class Message extends Component {
         // } else {
         // this.props.navigateBack();
         // }
+        
+        // If we are showing the unread notification dot, get rid of it
+        if (this.props.showUnreadDot) {
+          this.props.dispatch({ type: UNREAD_CONV_DOT, show: false });
+        }
+
         if (this.props.goBackHome) {
           this.props.navigateResetHome();
         } else {
@@ -116,6 +127,10 @@ class Message extends Component {
     this.getMessages();
     Analytics.screen('Chat');
     this.props.dispatch({ type: SET_ACTIVE_CONVERSATION, id: this.props.conversation.id });
+
+    // setTimeout(() => {
+    //   this.props.dispatch({ type: UNREAD_CONV_DOT, show: true });
+    // }, 2500);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -125,6 +140,10 @@ class Message extends Component {
     this.setLatestItem(nextProps.messages);
     if (nLength > 0 && cLength > 0 && cLength < nLength) {
       this.createMessageReadInteraction();
+    }
+
+    if (nextProps.showUnreadDot && !this.props.showUnreadDot) {
+      this.props.navigator.setButtons(setButtons(true));
     }
   }
 
@@ -377,6 +396,8 @@ const mapStateToProps = ({ messages, auth }, ownProps) => ({
   pagination: messages.pagination.messages[ownProps.conversation.id] || {},
   me: auth.user,
   typeState: !!messages.typeState[ownProps.conversation.id],
+  // If we should show the conversation dot
+  showUnreadDot: messages.unreadConversationDot,
 });
 
 export default connect(mapStateToProps, nav)(Message);

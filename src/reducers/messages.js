@@ -1,6 +1,6 @@
 import { REHYDRATE } from 'redux-persist/constants';
 import { REQUESTS } from '../actions/api';
-import { LOGOUT, NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ, SET_ACTIVE_CONVERSATION } from '../constants';
+import { LOGOUT, NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ, SET_ACTIVE_CONVERSATION, UNREAD_CONV_DOT } from '../constants';
 import { isArray } from '../utils/common';
 
 const initialState = {
@@ -15,6 +15,7 @@ const initialState = {
     },
     messages: {},
   },
+  unreadConversationDot: false,
 };
 
 function moveConversationFirst(conversations, conversationId) {
@@ -42,6 +43,7 @@ export default function messages(state = initialState, action) {
         typeState: {},
         pagination: initialState.pagination,
         unReadBadgeCount: 0,
+        unreadConversationDot: false,
       };
     case REQUESTS.GET_CONVERSATIONS.SUCCESS:
       let newConversations = [];
@@ -182,6 +184,11 @@ export default function messages(state = initialState, action) {
       return {
         ...state,
         activeConversationId: action.id,
+      };
+    case UNREAD_CONV_DOT:
+      return {
+        ...state,
+        unreadConversationDot: action.show,
       };
     case LOGOUT:
       return initialState;
