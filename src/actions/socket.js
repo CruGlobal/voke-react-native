@@ -178,6 +178,22 @@ export function gotDeviceToken(navigator, token) {
       NotificationsAndroid.setNotificationReceivedListener(notificationOpen);
       NotificationsAndroid.setNotificationOpenedListener(notificationOpen);
 
+      // setTimeout(() => {
+      //   NotificationsAndroid.localNotification({
+      //     notification: {
+      //       title: 'hellow owrld', 
+      //       sound: 'sound.wav', 
+      //       category: 'create message',
+      //     },
+      //     data: {
+      //       action: 'do someting ', 
+      //       namespace: 'create messssage',
+      //       message: 'hi world its me', 
+      //       metadata: 'daldlkjf',
+      //       link: 'voke:://conversations/123123123123123123/messages',
+      //     },
+      //   });
+      // }, 5000);
       // Testing, disable socket so we get Push Notifications in the app
       // setTimeout(() => {
       //   dispatch(closeSocketAction());
@@ -461,7 +477,7 @@ export function establishPushDevice() {
         device: {
           ...currentDeviceInfo,
           key: auth.pushToken,
-          kind: Platform.OS === 'android' ? 'android' : 'apple',
+          kind: Platform.OS === 'android' ? 'android_react' : 'apple',
         },
       };
       return dispatch(callApi(REQUESTS.CREATE_PUSH_DEVICE, {}, data)).then((results) => {

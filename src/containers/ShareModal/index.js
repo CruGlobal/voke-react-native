@@ -91,21 +91,18 @@ class ShareModal extends Component {
           LOG('error', error);
         });
       }
+    }).catch(() => {
+      this.handleShare('custom');
     });
   }
 
   openUrl(url) {
     // whatsapp does not work with canopenurl for some reason
-    if (Platform.OS === 'android') {
-      Linking.openURL(url).then(() => {
-        this.handleComplete();
-      }).catch(() => {
-        this.handleShare('custom');
-      });
-    } else {
-      Linking.openURL(url);
+    Linking.openURL(url).then(() => {
       this.handleComplete();
-    }
+    }).catch(() => {
+      this.handleShare('custom');
+    });
     // Linking.canOpenURL(url).then((isSupported) => {
     //   if (isSupported) {
     //     Linking.openURL(url);
