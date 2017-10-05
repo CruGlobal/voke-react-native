@@ -51,6 +51,7 @@ class ContactsList extends Component {
     this.state = {
       keyboardShown: false,
       height: 0,
+      sections: formatContacts(props.items),
     };
 
     this.renderHeader = this.renderHeader.bind(this);
@@ -59,18 +60,28 @@ class ContactsList extends Component {
     this.keyboardDidHide = this.keyboardDidHide.bind(this);
   }
 
-  componentDidMount() {
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.items.length !== this.props.items.length) {
+      this.setState({ sections: formatContacts(nextProps.items) });
+    }
   }
+  
 
+  componentDidMount() {
+    if (Platform.OS === 'ios') {
+      this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+      this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+    }
+  }
+  
   componentWillUnmount() {
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
+    if (Platform.OS === 'ios') {
+      this.keyboardDidShowListener.remove();
+      this.keyboardDidHideListener.remove();
+    }
   }
 
   keyboardDidShow(e) {
-    LOG(e.endCoordinates.height);
     this.setState({keyboardShown: true, height: e.endCoordinates.height});
   }
 
@@ -107,16 +118,15 @@ class ContactsList extends Component {
         </Flex>
       );
     }
-    const formattedSections = formatContacts(items);
     // ItemSeparatorComponent={() => <Separator />}
     return (
-      <View style={{paddingBottom: this.state.height +50}}>
+      <View style={{paddingBottom: Platform.OS === 'ios' ? this.state.height + 50 : undefined}}>
         <SectionList
           initialNumToRender={40}
           keyExtractor={(item) => item.id}
           stickySectionHeadersEnabled={true}
-          keyboardShouldPersistTaps={Platform.OS === 'android' ? 'never' : 'always'}
-          sections={formattedSections}
+          keyboardShouldPersistTaps={Platform.OS === 'android' ? 'handled' : 'always'}
+          sections={this.state.sections}
           renderSectionHeader={this.renderHeader}
           renderItem={this.renderItem}
           getItemLayout={(data, index) => ({

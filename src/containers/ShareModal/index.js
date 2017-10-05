@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Share, Linking, Alert } from 'react-native';
+import { Share, Linking, Alert, Platform } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import PropTypes from 'prop-types';
 import Communications from 'react-native-communications';
@@ -96,8 +96,16 @@ class ShareModal extends Component {
 
   openUrl(url) {
     // whatsapp does not work with canopenurl for some reason
-    Linking.openURL(url);
-    this.handleComplete();
+    if (Platform.OS === 'android') {
+      Linking.openURL(url).then(() => {
+        this.handleComplete();
+      }).catch(() => {
+        this.handleShare('custom');
+      });
+    } else {
+      Linking.openURL(url);
+      this.handleComplete();
+    }
     // Linking.canOpenURL(url).then((isSupported) => {
     //   if (isSupported) {
     //     Linking.openURL(url);

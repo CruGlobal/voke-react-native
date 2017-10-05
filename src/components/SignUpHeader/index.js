@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
-import theme from '../../theme';
+import { IS_SMALL_ANDROID } from '../../constants';
+import theme, { DEFAULT } from '../../theme';
 import { Flex, Text, Touchable } from '../common';
 
 class SignUpHeader extends Component {
@@ -24,7 +25,7 @@ class SignUpHeader extends Component {
 
 const styles = StyleSheet.create({
   wrap: {
-    paddingVertical: 30,
+    paddingVertical: IS_SMALL_ANDROID ? 8 : 30,
   },
   title: {
     paddingVertical: 10,

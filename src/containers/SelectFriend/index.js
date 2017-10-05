@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, View, Image, Share } from 'react-native';
+import { Platform, View, Image, Share, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Navigation } from 'react-native-navigation';
@@ -324,65 +324,62 @@ class SelectFriend extends Component {
     let randomHeight = {};
     const isAuthorized = this.state.permission === Permissions.AUTHORIZED;
     if (screenHeight < 450) {
-      randomHeight = {
-        height: 30,
-      }
+      randomHeight = { height: 30 };
     }
     return (
-      <Flex style={styles.container} direction="column" align="center" justify="center">
+      <ScrollView style={styles.container} contentContainerStyle={{ alignSelf: 'stretch' }}>
         <StatusBar hidden={false} />
-        <Flex justify="center" value={1}>
-          <Text style={styles.header}>
-            Select a Friend
-          </Text>
+        <Flex align="center">
+          <Flex justify="center" value={.8}>
+            <Text style={styles.header}>
+              Select a Friend
+            </Text>
+          </Flex>
+          <Flex value={.5}>
+            {
+              isAuthorized ? (
+                <Button
+                  onPress={this.goToContacts}
+                  text="Search Contacts"
+                  style={[styles.randomButton, randomHeight]}
+                  buttonTextStyle={styles.randomText}
+                />
+              ) : null
+            }
+          </Flex>
         </Flex>
-        <Flex value={.5}>
+        <Flex value={1} align="center" justify="center" style={{ position: 'relative', backgroundColor: undefined, paddingVertical: 60 }}>
+          <Flex self="center" align="center" justify="center" value={1} style={styles.vokeBubble}>
+            <Text style={styles.info}>
+              {
+                isAuthorized ? (
+                  'Search your contacts or take a step of faith with...'
+                ) : (
+                  'It’s empty in here...\nYou need some contacts'
+                )
+              }
+            </Text>
+          </Flex>
+          <Flex style={styles.imageWrap} align="end" justify="end" >
+            <Image resizeMode="contain" source={VOKE_BOT} style={styles.vokeBot} />
+          </Flex>
+        </Flex>
+        <Flex value={1}>
           {
-            isAuthorized ? (
+            !isAuthorized ? (
               <Button
-                onPress={this.goToContacts}
-                text="Search Contacts"
+                onPress={this.handleAllowContacts}
+                text="Allow Contacts"
                 style={[styles.randomButton, randomHeight]}
                 buttonTextStyle={styles.randomText}
               />
             ) : null
           }
+          <Flex justify="start" align="center" value={2}>
+            { this.renderRandomContacts() }
+          </Flex>
         </Flex>
-        <Flex align="center" justify="center" value={.7} style={styles.vokeBubble}>
-          <Text style={styles.info}>
-            {
-              isAuthorized ? (
-                'Search your contacts or take a step of faith with...'
-              ) : (
-                'It’s empty in here...\nYou need some contacts'
-              )
-            }
-          </Text>
-        </Flex>
-        <Flex style={styles.imageWrap} value={.5} align="end" justify="end" >
-          <Image resizeMode="contain" source={VOKE_BOT} style={styles.vokeBot} />
-        </Flex>
-        {
-          !isAuthorized ? (
-            <Button
-              onPress={this.handleAllowContacts}
-              text="Allow Contacts"
-              style={[styles.randomButton, randomHeight]}
-              buttonTextStyle={styles.randomText}
-            />
-          ) : null
-        }
-        <Flex justify="start" align="center" value={2}>
-          { this.renderRandomContacts() }
-        </Flex>
-        {
-          this.state.setLoaderBeforePush ? (
-            <Flex style={styles.loaderContainer} justify="center" align="center" value={1}>
-              <Loading />
-            </Flex>
-          ) : null
-        }
-      </Flex>
+      </ScrollView>
     );
   }
 
@@ -392,7 +389,7 @@ class SelectFriend extends Component {
         <StatusBar />
         {this.renderContent()}
         {
-          this.props.isLoading ? (
+          this.props.isLoading || this.state.setLoaderBeforePush ? (
             <ApiLoading force={true} text={'Fetching your contacts,\ngive me a few seconds'} />
           ) : null
         }

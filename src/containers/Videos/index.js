@@ -187,8 +187,12 @@ class Videos extends Component {
   }
 
   handleDismissTheme() {
-    let shouldntScroll = true;
-    this.handleFilter(this.state.previousFilter, shouldntScroll);
+    const shouldntScroll = true;
+    if (this.state.previousFilter === 'themes') {
+      this.handleFilter('all', shouldntScroll);
+    } else {
+      this.handleFilter(this.state.previousFilter, shouldntScroll);
+    }
   }
 
   showThemes() {
@@ -225,7 +229,11 @@ class Videos extends Component {
   // This method should return a Promise so that it can handle refreshing correctly
   handleFilter(filter, shouldntScroll) {
     if (filter === 'themes') {
-      this.setState({ previousFilter: this.state.selectedFilter, selectedFilter: filter });
+      // Prevent getting into the state of both previous and selected filter being 'themes'
+      this.setState({
+        previousFilter: this.state.selectedFilter === 'themes' ? 'all' : this.state.selectedFilter,
+        selectedFilter: filter,
+      });
     } else {
       this.setState({ selectedFilter: filter });
       if (!shouldntScroll) {

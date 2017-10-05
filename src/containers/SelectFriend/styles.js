@@ -17,11 +17,12 @@ export default StyleSheet.create({
     bottom: 0,
   },
   header: {
+    paddingVertical: 30,
     fontSize: 28,
   },
   info: {
     fontSize: 16,
-    padding: 5,
+    padding: 10,
   },
   randomButton: {
     alignItems: 'center',
@@ -49,10 +50,13 @@ export default StyleSheet.create({
     borderRadius: 20,
     borderWidth: 1,
     borderColor: theme.textColor,
-    width: DEFAULT.FULL_WIDTH-120,
+    width: DEFAULT.FULL_WIDTH - 120,
   },
   imageWrap: {
-    width: DEFAULT.FULL_WIDTH,
+    position: 'absolute',
+    right: 0,
+    top: 60,
+    // width: DEFAULT.FULL_WIDTH,
   },
   vokeBot: {
     height: 100,

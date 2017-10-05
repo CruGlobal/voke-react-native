@@ -1,3 +1,6 @@
+import { Platform } from 'react-native';
+import { DEFAULT } from './theme';
+
 
 export const LOGIN = 'app/LOGIN';
 export const LOGOUT = 'app/LOGOUT';
@@ -14,6 +17,9 @@ export const TAB_SELECTED = 'app/TAB_SELECTED';
 export const ACTIVE_SCREEN = 'app/ACTIVE_SCREEN';
 export const SET_ACTIVE_CONVERSATION = 'app/SET_ACTIVE_CONVERSATION';
 export const ONBOARD_FLAG = 'app/ONBOARD_FLAG';
+
+export const IS_SMALL_ANDROID = Platform.OS === 'android' && DEFAULT.FULL_HEIGHT < 600;
+// export const IS_SMALL_ANDROID = true;
 
 const IS_STAGING = true;
 

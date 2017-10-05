@@ -50,7 +50,6 @@ class Contacts extends Component {
     this.state = {
       searchResults: [],
       searchText: '',
-      isLoading: true,
       showSearch: false,
       permission: props.isInvite ? Permissions.NOT_ASKED : Permissions.AUTHORIZED,
     };
@@ -107,7 +106,6 @@ class Contacts extends Component {
         overrideBackPress: true,
       });
     } else {
-      this.setState({ isLoading: false });
       // Change screen
     }
   }
@@ -122,15 +120,14 @@ class Contacts extends Component {
   }
 
   handleDismissPermission() {
-    this.setState({ isLoading: false });
     // permission not asked yet
   }
 
   handleGetContacts() {
     this.props.dispatch(getContacts()).then(() => {
-      this.setState({ isLoading: false, permission: Permissions.AUTHORIZED });
+      this.setState({ permission: Permissions.AUTHORIZED });
     }).catch(() => {
-      this.setState({ isLoading: false, permission: Permissions.DENIED });
+      this.setState({ permission: Permissions.DENIED });
       LOG('contacts caught');
       //change screen
     });
@@ -185,9 +182,7 @@ class Contacts extends Component {
           isAuthorized ? (
             <ContactsList
               items={this.state.searchText ? this.state.searchResults : this.props.all}
-              onSelect={(c) => {
-                this.props.onSelect(c);
-              }}
+              onSelect={this.props.onSelect}
               isInvite={this.props.isInvite}
             />
           ) : (

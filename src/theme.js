@@ -1,4 +1,4 @@
-import { Platform, StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import Color from 'color';
 
 import { exists } from './utils/common';
