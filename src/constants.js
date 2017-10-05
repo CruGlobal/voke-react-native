@@ -15,7 +15,7 @@ export const ACTIVE_SCREEN = 'app/ACTIVE_SCREEN';
 export const SET_ACTIVE_CONVERSATION = 'app/SET_ACTIVE_CONVERSATION';
 export const ONBOARD_FLAG = 'app/ONBOARD_FLAG';
 
-const IS_STAGING = true;
+const IS_STAGING = false;
 
 
 const SALT_HASH_STAGING = 'nRgwCUrxKyWDytQDdfYpaJGrEjNQVUYHoDvHhtfgFvauvPrwIm';
