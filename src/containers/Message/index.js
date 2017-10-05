@@ -37,13 +37,15 @@ function setButtons(showDot) {
 
 // <ShareButton message="Share this with you" title="Hey!" url="https://www.facebook.com" />
 
+const navStyle = {
+  navBarButtonColor: theme.lightText,
+  navBarTextColor: theme.headerTextColor,
+  navBarBackgroundColor: theme.headerBackgroundColor,
+  tabBarHidden: true,
+};
 class Message extends Component {
-  static navigatorStyle = {
-    navBarButtonColor: theme.lightText,
-    navBarTextColor: theme.headerTextColor,
-    navBarBackgroundColor: theme.headerBackgroundColor,
-    tabBarHidden: true,
-  };
+  static navigatorStyle = navStyle;
+  
   constructor(props) {
     super(props);
 
@@ -143,6 +145,10 @@ class Message extends Component {
     }
 
     if (nextProps.showUnreadDot && !this.props.showUnreadDot) {
+      this.props.navigator.setStyle({
+        ...navStyle,
+        navBarButtonColor: COLORS.YELLOW,
+      });
       this.props.navigator.setButtons(setButtons(true));
     }
   }
