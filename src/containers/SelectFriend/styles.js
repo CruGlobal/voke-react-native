@@ -1,6 +1,7 @@
 
 import { StyleSheet } from 'react-native';
 import theme, { COLORS, DEFAULT } from '../../theme';
+import { IS_SMALL_ANDROID } from '../../constants';
 
 export default StyleSheet.create({
   container: {
@@ -46,6 +47,10 @@ export default StyleSheet.create({
     color: theme.secondaryColor,
     fontSize: 16,
   },
+  vokeBubbleImageWrap: {
+    position: 'relative',
+    paddingVertical: IS_SMALL_ANDROID ? 30 : 60,
+  },
   vokeBubble: {
     borderRadius: 20,
     borderWidth: 1,
@@ -55,7 +60,7 @@ export default StyleSheet.create({
   imageWrap: {
     position: 'absolute',
     right: 0,
-    top: 60,
+    top: IS_SMALL_ANDROID ? 30 : 60,
     // width: DEFAULT.FULL_WIDTH,
   },
   vokeBot: {

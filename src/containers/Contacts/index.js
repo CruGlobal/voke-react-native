@@ -7,7 +7,7 @@ import { openSettingsAction } from '../../actions/auth';
 import { Navigation } from 'react-native-navigation';
 
 import Analytics from '../../utils/analytics';
-import { iconsMap } from '../../utils/iconMap';
+import { vokeIcons } from '../../utils/iconMap';
 import styles from './styles';
 // import { toastAction } from '../../actions/auth';
 import { searchContacts, getContacts } from '../../actions/contacts';
@@ -28,7 +28,7 @@ function setButtons() {
     return {
       rightButtons: [{
         id: 'search',
-        icon: iconsMap['md-search'],
+        icon: vokeIcons['search'],
       }],
     };
   }
