@@ -66,8 +66,10 @@ export function startTabApp(options = {}) {
       tabBarButtonColor: theme.primaryColor, // optional, change the color of the tab icons and text (also unselected)
       tabBarSelectedButtonColor: theme.textColor, // optional, change the color of the selected tab icon and text (only selected)
       tabBarBackgroundColor: theme.secondaryColor, // optional, change the background color of the tab bar
-      bottomTabBadgeTextColor: theme.textColor, // Optional, change badge text color. Android only
-      bottomTabBadgeBackgroundColor: theme.accentColor, // Optional, change badge background color. Android only
+      // Optional, change badge text color. Android only
+      bottomTabBadgeTextColor: Platform.OS === 'android' ? theme.primaryColor : theme.textColor ,
+      // Optional, change badge background color. Android only
+      bottomTabBadgeBackgroundColor: Platform.OS === 'android' ? COLORS.YELLOW : theme.accentColor,
       tabBarTranslucent: false,
       forceTitlesDisplay: true, // Android, only show title
       statusBarColor: theme.statusBarColor,
