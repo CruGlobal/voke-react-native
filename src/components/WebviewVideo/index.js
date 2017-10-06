@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { Platform, WebView, StyleSheet, View } from 'react-native';
 
 import { Flex, Text } from '../common';
+import RNVideo from './RNVideo';
 import VideoControls from '../../components/VideoControls';
 import { COLORS } from '../../theme';
+import { isObject } from '../../utils/common';
 
 import webviewCommon from './common';
 
@@ -48,6 +50,7 @@ export default class WebviewVideo extends Component {
     this.webview = null;
 
     this.handleMessage = this.handleMessage.bind(this);
+    this.handleData = this.handleData.bind(this);
     this.pause = this.pause.bind(this);
     this.addMargin = this.addMargin.bind(this);
     this.removeMargin = this.removeMargin.bind(this);
@@ -64,7 +67,10 @@ export default class WebviewVideo extends Component {
     }
   }
 
-  addMargin() { this.setState({ addMargin: true }); }
+  addMargin() {
+    this.setState({ addMargin: true });
+  }
+
   removeMargin() {
     this.pause();
     if (this.state.addMargin) {
@@ -82,17 +88,15 @@ export default class WebviewVideo extends Component {
     this.setState({ isPaused: false });
   }
 
-  handleMessage(event) {
-    let data = event.nativeEvent.data;
-    // LOG('webview data', data);
-    if (data.indexOf('{') === 0) {
-      data = JSON.parse(data);
-      if (data.duration) {
-        this.setState({ duration: data.duration });
-      } else if (typeof data.isPaused !== 'undefined') {
-        this.setState({ isPaused: !!data.isPaused });
-      } else if (data.time) {
-        this.setState({ time: data.time });
+  handleData(data) {
+    if (isObject(data) || data.indexOf('{') === 0) {
+      const newData = data.indexOf('{') === 0 ? JSON.parse(data) : data;
+      if (newData.duration) {
+        this.setState({ duration: newData.duration });
+      } else if (typeof newData.isPaused !== 'undefined') {
+        this.setState({ isPaused: !!newData.isPaused });
+      } else if (newData.time) {
+        this.setState({ time: newData.time });
       }
     } else {
       // Arclight videos throw a bad error, so don't do anything when that happens
@@ -120,9 +124,17 @@ export default class WebviewVideo extends Component {
     }
   }
 
+  handleMessage(event) {
+    let data = event.nativeEvent.data;
+    // LOG('webview data', data);
+    this.handleData(data);
+  }
+
   // Must pass in an object
   sendMessage(data) {
-    this.webview.postMessage(JSON.stringify(data));
+    if (this.webview) {
+      this.webview.postMessage(JSON.stringify(data));
+    }
   }
 
   getHtml() {
@@ -158,6 +170,37 @@ export default class WebviewVideo extends Component {
     }
   }
 
+  renderVideo(html) {
+    if (this.props.type === 'arclight' && isOlderAndroid) {
+    // if (Platform.OS === 'android') {
+      return (
+        <RNVideo
+          onUpdateData={this.handleData}
+          isPaused={this.state.isPaused}
+          replay={this.state.replay}
+          start={this.props.start}
+        />
+      );
+    }
+    return (
+      <WebView
+        ref={(c) => this.webview = c}
+        source={{ html }}
+        style={{
+          marginTop: this.state.addMargin ? -20 : 0,
+        }}
+        mixedContentMode="always"
+        mediaPlaybackRequiresUserAction={false}
+        allowsInlineMediaPlayback={true}
+        scrollEnabled={false}
+        bounces={false}
+        injectedJavaScript={FIX_POSTMESSAGE}
+        mediaPlaybackRequiresUserAction={false}
+        onMessage={this.handleMessage}
+      />
+    );
+  }
+
   render() {
     const html = this.getHtml();
     if (!html) {
@@ -169,21 +212,7 @@ export default class WebviewVideo extends Component {
     }
     return (
       <View style={{flex: 1}}>
-        <WebView
-          ref={(c) => this.webview = c}
-          source={{ html }}
-          style={{
-            marginTop: this.state.addMargin ? -20 : 0,
-          }}
-          mixedContentMode="always"
-          mediaPlaybackRequiresUserAction={false}
-          allowsInlineMediaPlayback={true}
-          scrollEnabled={false}
-          bounces={false}
-          injectedJavaScript={FIX_POSTMESSAGE}
-          mediaPlaybackRequiresUserAction={false}
-          onMessage={this.handleMessage}
-        />
+        {this.renderVideo(html)}
         <VideoControls
           isPaused={this.state.isPaused}
           onSeek={this.seek}
