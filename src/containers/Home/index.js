@@ -22,6 +22,9 @@ import { Flex, Text } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import NULL_STATE from '../../../images/video-button.png';
 import VOKE from '../../../images/voke_null_state.png';
+import { IS_SMALL_ANDROID } from 'constants';
+
+const CONTACT_LENGTH_SHOW_VOKEBOT = IS_SMALL_ANDROID ? 2 : 3;
 
 function setButtons() {
   if (Platform.OS === 'android') {
@@ -237,7 +240,7 @@ class Home extends Component {
           )
         }
         {
-          (cLength <= 3 && cLength > 0) ?  (
+          (cLength <= CONTACT_LENGTH_SHOW_VOKEBOT && cLength > 0) ?  (
             <Image style={styles.vokeBot} source={VOKE} />
           ) : null
         }

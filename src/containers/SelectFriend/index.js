@@ -348,7 +348,7 @@ class SelectFriend extends Component {
             }
           </Flex>
         </Flex>
-        <Flex value={1} align="center" justify="center" style={{ position: 'relative', backgroundColor: undefined, paddingVertical: 60 }}>
+        <Flex value={1} align="center" justify="center" style={styles.vokeBubbleImageWrap}>
           <Flex self="center" align="center" justify="center" value={1} style={styles.vokeBubble}>
             <Text style={styles.info}>
               {
@@ -364,7 +364,7 @@ class SelectFriend extends Component {
             <Image resizeMode="contain" source={VOKE_BOT} style={styles.vokeBot} />
           </Flex>
         </Flex>
-        <Flex value={1}>
+        <Flex value={1} align="center">
           {
             !isAuthorized ? (
               <Button
