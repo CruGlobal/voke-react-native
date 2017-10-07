@@ -117,7 +117,11 @@ function formatConversation(c, getState) {
   if (latestMessenger) {
     let messagePreview = latestMessenger.latest_message ? latestMessenger.latest_message.content : null;
     if (latestMessenger.latest_message && !latestMessenger.latest_message.content) {
-      messagePreview = 'Shared a video';
+      if (latestMessenger.latest_item.name) {
+        messagePreview= latestMessenger.latest_item.name;
+      } else {
+        messagePreview = 'Shared a video';
+      }
     }
     // if (!messagePreview) {
     //   messagePreview = latestMessenger.latest_item ? latestMessenger.latest_item.name : null;
