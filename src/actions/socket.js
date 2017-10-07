@@ -7,7 +7,7 @@ import { API_URL } from '../api/utils';
 import { registerPushToken } from './auth';
 import { SOCKET_URL } from '../api/utils';
 import { newMessageAction, typeStateChangeAction, getConversation } from './messages';
-import { navigatePush, navigateResetHome } from './navigation_new';
+import { navigatePush, navigateResetHome, navigateResetTo } from './navigation_new';
 import callApi, { REQUESTS } from './api';
 import CONSTANTS from '../constants';
 import { isEquivalentObject, isString } from '../utils/common';
@@ -181,14 +181,14 @@ export function gotDeviceToken(navigator, token) {
       // setTimeout(() => {
       //   NotificationsAndroid.localNotification({
       //     notification: {
-      //       title: 'hellow owrld', 
-      //       sound: 'sound.wav', 
+      //       title: 'hellow owrld',
+      //       sound: 'sound.wav',
       //       category: 'create message',
       //     },
       //     data: {
-      //       action: 'do someting ', 
+      //       action: 'do someting ',
       //       namespace: 'create messssage',
-      //       message: 'hi world its me', 
+      //       message: 'hi world its me',
       //       metadata: 'daldlkjf',
       //       link: 'voke:://conversations/123123123123123123/messages',
       //     },
@@ -273,33 +273,37 @@ export function handleNotifications(navigator, state, notification) {
             }, 1000);
           } else if (activeScreen === 'voke.Message' && cId === conversationId) {
             LOG('push and on message');
-            dispatch(navigateResetHome(navigator, {
-              passProps: {
-                onMount: (navigator2) => {
-                  // The navigator gets reset on resetHome so we need to get the new navigator passed back when Home mounts
-                  dispatch(navigatePush(navigator2, 'voke.Message', {
-                    conversation: results.conversation,
-                  }, {
-                    animationType: 'none',
-                  }));
-                },
-              },
-            }));
+            dispatch(navigateResetTo(navigator, 'voke.Message', {conversation: results.conversation, goBackHome: true}));
+
+            // dispatch(navigateResetHome(navigator, {
+            //   passProps: {
+            //     onMount: (navigator2) => {
+            //       // The navigator gets reset on resetHome so we need to get the new navigator passed back when Home mounts
+            //       dispatch(navigatePush(navigator2, 'voke.Message', {
+            //         conversation: results.conversation,
+            //       }, {
+            //         animationType: 'none',
+            //       }));
+            //     },
+            //   },
+            // }));
             // return;
           } else {
             LOG('push and else');
-            dispatch(navigateResetHome(navigator, {
-              passProps: {
-                onMount: (navigator2) => {
-                  // The navigator gets reset on resetHome so we need to get the new navigator passed back when Home mounts
-                  dispatch(navigatePush(navigator2, 'voke.Message', {
-                    conversation: results.conversation,
-                  }, {
-                    animationType: 'none',
-                  }));
-                },
-              },
-            }));
+            dispatch(navigateResetTo(navigator, 'voke.Message', {conversation: results.conversation, goBackHome: true}));
+
+            // dispatch(navigateResetHome(navigator, {
+            //   passProps: {
+            //     onMount: (navigator2) => {
+            //       // The navigator gets reset on resetHome so we need to get the new navigator passed back when Home mounts
+            //       dispatch(navigatePush(navigator2, 'voke.Message', {
+            //         conversation: results.conversation,
+            //       }, {
+            //         animationType: 'none',
+            //       }));
+            //     },
+            //   },
+            // }));
           }
 
         });

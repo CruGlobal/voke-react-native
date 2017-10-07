@@ -87,7 +87,14 @@ class Home extends Component {
 
     this.props.dispatch(getConversations()).catch((err)=> {
       if (err.error === 'Messenger not configured') {
-        this.props.navigateResetToNumber();
+        // Do this because the api can be slow when a user creates an account and our app is faster than the api
+        setTimeout(() => {
+          this.props.dispatch(getConversations()).catch((err)=> {
+            if (err.error === 'Messenger not configured') {
+              this.props.navigateResetToNumber();
+            }
+          });
+        },3000);
       }
     });
 

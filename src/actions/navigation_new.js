@@ -50,6 +50,17 @@ export function navigatePush(navigator, screen, passProps = {}, screenProps = {}
     });
   };
 }
+// Wix navigation actions
+export function navigateResetTo(navigator, screen, passProps = {}, screenProps = {}) {
+  return () => {
+    let newScreenProps = defaultProps(screen, screenProps, passProps);
+    navigator.resetTo({
+      screen,
+      ...newScreenProps,
+      passProps,
+    });
+  };
+}
 
 export function navigateBack(navigator, options = {}) {
   return () => {
@@ -142,6 +153,7 @@ export const NavPropTypes = {
   navigateResetLogin: PropTypes.func.isRequired, // Redux
   navigateResetToNumber: PropTypes.func.isRequired, // Redux
   navigateResetToProfile: PropTypes.func.isRequired, // Redux
+  navigateResetTo: PropTypes.func.isRequired, // Redux
 };
 
 // Redux connect function for navigator screens
@@ -154,5 +166,6 @@ export default (dispatch, { navigator }) => {
     navigateResetLogin: (...args) => dispatch(navigateResetLogin(navigator, ...args)),
     navigateResetToNumber: (...args) => dispatch(navigateResetToNumber(navigator, ...args)),
     navigateResetToProfile: (...args) => dispatch(navigateResetToProfile(navigator, ...args)),
+    navigateResetTo: (...args) => dispatch(navigateResetTo(navigator, ...args)),
   };
 };
