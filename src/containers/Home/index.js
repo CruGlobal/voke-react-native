@@ -22,7 +22,7 @@ import { Flex, Text } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import NULL_STATE from '../../../images/video-button.png';
 import VOKE from '../../../images/voke_null_state.png';
-import { IS_SMALL_ANDROID } from 'constants';
+import { IS_SMALL_ANDROID } from '../../constants';
 
 const CONTACT_LENGTH_SHOW_VOKEBOT = IS_SMALL_ANDROID ? 2 : 3;
 
@@ -81,15 +81,15 @@ class Home extends Component {
 
   componentDidMount() {
     Analytics.screen('Home Chats');
-    setTimeout(() => {
-      this.props.dispatch(startupAction(this.props.navigator));
-    }, 50);
+    // setTimeout(() => {
+    //   this.props.dispatch(startupAction(this.props.navigator));
+    // }, 50);
 
-    this.props.dispatch(getConversations()).catch((err)=> {
-      if (err.error === 'Messenger not configured') {
-        this.props.navigateResetToNumber();
-      }
-    });
+    // this.props.dispatch(getConversations()).catch((err)=> {
+    //   if (err.error === 'Messenger not configured') {
+    //     this.props.navigateResetToNumber();
+    //   }
+    // });
 
     this.props.dispatch({ type: TAB_SELECTED, tab: 0 });
 

@@ -59,6 +59,7 @@ class VideoDetails extends Component {
   componentDidMount() {
     Analytics.screen('Video Details');
     this.toggleOrientation();
+    // TODO: Test this more on android. It doesn't seem to be working properly
     Orientation.addOrientationListener(this.orientationDidChange);
   }
 
@@ -70,17 +71,18 @@ class VideoDetails extends Component {
   }
 
   orientationDidChange(orientation) {
+    // LOG('orientation', orientation);
     if (this.props.video.media.type === 'vimeo') {
       return;
     }
     if (orientation === 'LANDSCAPE') {
       // do something with landscape layout
       // LOG('landscape');
-      this.setState( {isLandscape: true});
+      this.setState({ isLandscape: true });
     } else {
       // LOG('portrait');
       // do something with portrait layout
-      this.setState( {isLandscape: false});
+      this.setState({ isLandscape: false });
     }
   }
 
@@ -155,6 +157,8 @@ class VideoDetails extends Component {
     if (videoType === 'arclight') {
       loadDuration = 3000; // Longer loading state for arclight videos
     }
+
+    // LOG(this.state.isLandscape);
 
     return (
       <View style={styles.container}>

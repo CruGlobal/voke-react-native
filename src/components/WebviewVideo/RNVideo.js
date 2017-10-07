@@ -50,18 +50,17 @@ export default class RNVideo extends Component {
     }
   }
 
-  handleLoad() {
-    // TODO: Get the duration and send that upon load
-    // this.props.onUpdateData({ duration: duration });
+  handleLoad(data) {
+    this.props.onUpdateData({ duration: data.duration });
+
     // If the video should be autoplayed, fire the 'started' event when it loads
     if (this.state.hasPlayed) {
       this.props.onUpdateData(webviewCommon.STARTED);
     }
   }
 
-  handleProgress() {
-    // TODO: Get the duration and send that upon load
-    // this.props.onUpdateData({ time: time });
+  handleProgress(data) {
+    this.props.onUpdateData({ time: data.currentTime });
   }
 
   render() {

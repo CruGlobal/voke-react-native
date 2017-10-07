@@ -114,7 +114,7 @@ export default class App {
         // }
         setTimeout(() => {
           this.startApp();
-        }, 1500);
+        }, __DEV__ ? 50 : 1500);
       });
     });
     registerScreens(this.store, Provider);
@@ -144,6 +144,6 @@ export default class App {
       } else {
         startTabApp();
       }
-    }, 1000)
+    }, __DEV__ ? 50 : 1000);
   }
 }

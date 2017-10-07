@@ -6,7 +6,7 @@ import { Flex, Text } from '../common';
 import RNVideo from './RNVideo';
 import VideoControls from '../../components/VideoControls';
 import { COLORS } from '../../theme';
-import { isObject } from '../../utils/common';
+import { isObject, isString } from '../../utils/common';
 
 import webviewCommon from './common';
 
@@ -90,7 +90,10 @@ export default class WebviewVideo extends Component {
 
   handleData(data) {
     if (isObject(data) || data.indexOf('{') === 0) {
-      const newData = data.indexOf('{') === 0 ? JSON.parse(data) : data;
+      let newData = data;
+      if (isString(data)) {
+        newData = JSON.parse(data);
+      }
       if (newData.duration) {
         this.setState({ duration: newData.duration });
       } else if (typeof newData.isPaused !== 'undefined') {
@@ -175,6 +178,7 @@ export default class WebviewVideo extends Component {
     // if (Platform.OS === 'android') {
       return (
         <RNVideo
+          url={this.props.url}
           onUpdateData={this.handleData}
           isPaused={this.state.isPaused}
           replay={this.state.replay}
