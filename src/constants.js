@@ -25,7 +25,7 @@ const IS_STAGING = true;
 
 
 const SALT_HASH_STAGING = 'nRgwCUrxKyWDytQDdfYpaJGrEjNQVUYHoDvHhtfgFvauvPrwIm';
-const SALT_HASH_PROD = 'OoyGkKqLaEYOxXnxJHoLRAqcJsDKVVSInMtvPkyKVgrfmVzMmy';
+const SALT_HASH_PROD = 'sKgbotdipkiaPVmtViOPhJJidXPXthowELRKwGNwhOMHnIclxj';
 
 const CLIENT_ID_STAGING = 'db6274e05ca47b4eee31b25525eae8a02a1b7e1f0c09f653352782fb8cefcaf4';
 const CLIENT_ID_PROD = 'a236be0f30998033b32664440e10a606775a77631609155870ddd9565eebdf14';
