@@ -127,9 +127,10 @@ export default function callApi(requestObject, query = {}, data = {}) {
               }
             }
           }
-
+          if (action.showApiLoading) {
+            dispatch(toastAction('Network connection error'));
+          }
           // If none of the above scenarios are hit, show a network connection error
-          dispatch(toastAction('Network connection error'));
         }
         reject(err);
       };
