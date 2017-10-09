@@ -142,7 +142,7 @@ class Message extends Component {
       this.createMessageReadInteraction();
     }
 
-    if (nextProps.showUnreadDot && !this.props.showUnreadDot) {
+    if (nextProps.showUnreadDot && !this.props.showUnreadDot || (nextProps.unReadBadgeCount > 0)) {
       this.props.navigator.setStyle({
         ...navStyle,
         navBarButtonColor: COLORS.YELLOW,
@@ -400,6 +400,7 @@ const mapStateToProps = ({ messages, auth }, ownProps) => ({
   pagination: messages.pagination.messages[ownProps.conversation.id] || {},
   me: auth.user,
   typeState: !!messages.typeState[ownProps.conversation.id],
+  unReadBadgeCount: messages.unReadBadgeCount,
   // If we should show the conversation dot
   showUnreadDot: messages.unreadConversationDot,
 });

@@ -54,7 +54,6 @@
 		AE9ADC221F7D3F640070C02D /* libRNNotifications.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE9ADC1A1F7D3E570070C02D /* libRNNotifications.a */; };
 		AEC9F3E11F01CA7D0038E58D /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC9F3DF1F01CA630038E58D /* libReactNativeNavigation.a */; };
 		AECD5AED1F575975004E173C /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AECD5AD11F575957004E173C /* libRCTPushNotification.a */; };
-		AEDA7F441F6C6A1A009D8429 /* voke_ukulele_sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AEDA7F431F6C6A1A009D8429 /* voke_ukulele_sound.mp3 */; };
 		B813226B741B4B9EA4D274EC /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABD02933A222442AA4DA129E /* Octicons.ttf */; };
 		C261E0A521EE42BAB748FA9B /* libSendSMS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 980A2CF4F7604EE981C018E7 /* libSendSMS.a */; };
 		C73DF4BA9C8D43E989290E35 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A6B0C6DDD87144C0846048CD /* Entypo.ttf */; };
@@ -454,7 +453,7 @@
 		AE9ADBEE1F7D3E570070C02D /* RNNotifications.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNNotifications.xcodeproj; path = "../node_modules/react-native-notifications/RNNotifications/RNNotifications.xcodeproj"; sourceTree = "<group>"; };
 		AEC9F3BF1F01CA620038E58D /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
 		AECD5AC01F575957004E173C /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
-		AEDA7F431F6C6A1A009D8429 /* voke_ukulele_sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = voke_ukulele_sound.mp3; path = ../android/app/src/main/res/raw/voke_ukulele_sound.mp3; sourceTree = "<group>"; };
+		AEDD3BA71F8BB8E700C5AD7B /* ukulele-sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "ukulele-sound.wav"; path = "../../../../ukulele-sound.wav"; sourceTree = "<group>"; };
 		B1CF0855F5DB4084B57242A2 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
 		B28BBB1231AA4B02BE808F38 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		B81E6293ED38402A935FA0AA /* libSMXCrashlytics.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSMXCrashlytics.a; sourceTree = "<group>"; };
@@ -853,7 +852,7 @@
 		D53AC2D543B74BA580C754F7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				AEDA7F431F6C6A1A009D8429 /* voke_ukulele_sound.mp3 */,
+				AEDD3BA71F8BB8E700C5AD7B /* ukulele-sound.wav */,
 				AE0A75881F427225000A51EA /* TitilliumWeb-Bold.ttf */,
 				AE0A75861F42720D000A51EA /* TitilliumWeb-SemiBold.ttf */,
 				AE0A75841F4271FE000A51EA /* TitilliumWeb-Regular.ttf */,
@@ -1394,7 +1393,6 @@
 				376E6513900E4B6B98D8A273 /* FontAwesome.ttf in Resources */,
 				9D586C578FBC4B11A28E02C7 /* Foundation.ttf in Resources */,
 				E523AFD91E474E2C929720A5 /* Ionicons.ttf in Resources */,
-				AEDA7F441F6C6A1A009D8429 /* voke_ukulele_sound.mp3 in Resources */,
 				932AA1BE1F602AFB008937B1 /* Info.plist in Resources */,
 				AE0A75871F42720D000A51EA /* TitilliumWeb-SemiBold.ttf in Resources */,
 				37C585BED12E4623ACE9A188 /* MaterialCommunityIcons.ttf in Resources */,
