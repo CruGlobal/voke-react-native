@@ -45,7 +45,6 @@ const navStyle = {
 };
 class Message extends Component {
   static navigatorStyle = navStyle;
-  
   constructor(props) {
     super(props);
 
@@ -88,7 +87,6 @@ class Message extends Component {
         // } else {
         // this.props.navigateBack();
         // }
-        
         // If we are showing the unread notification dot, get rid of it
         if (this.props.showUnreadDot) {
           this.props.dispatch({ type: UNREAD_CONV_DOT, show: false });

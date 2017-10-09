@@ -137,11 +137,20 @@ class Videos extends Component {
       }).catch((err)=> {
         LOG(JSON.stringify(err));
         if (err.error === 'Messenger not configured') {
-          if (this.props.user.first_name) {
-            this.props.navigateResetToNumber();
-          } else {
-            this.props.navigateResetToProfile();
-          }
+          setTimeout(() =>{
+            this.props.dispatch(getVideos()).then(() => {
+              this.updateVideoList('all');
+            }).catch((err)=> {
+              LOG(JSON.stringify(err));
+              if (err.error === 'Messenger not configured') {
+                if (this.props.user.first_name) {
+                  this.props.navigateResetToNumber();
+                } else {
+                  this.props.navigateResetToProfile();
+                }
+              }
+            });
+          }, 3000);
         }
       });
     } else {

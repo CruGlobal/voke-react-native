@@ -52,17 +52,13 @@ class ShareModal extends Component {
   }
 
   handleDismiss() {
-    setTimeout(() => {
-      this.props.onCancel();
-      this.dismissModal();
-    },1000);
+    this.props.onCancel();
+    this.dismissModal();
   }
 
   handleComplete() {
-    setTimeout(() => {
-      this.props.onComplete();
-      this.dismissModal();
-    },1000);
+    this.props.onComplete();
+    this.dismissModal();
   }
 
   handleHide() {

@@ -203,7 +203,7 @@ class SelectFriend extends Component {
         // LOG('create voke conversation results', results);
         this.props.dispatch(getConversation(results.id)).then((c) => {
           // LOG('get voke conversation results', c);
-          this.props.navigatePush('voke.Message', {conversation: c.conversation, goBackHome: true});
+          this.props.navigator.resetTo('voke.Message', {conversation: c.conversation, goBackHome: true});
         });
       });
     } else {
@@ -390,7 +390,7 @@ class SelectFriend extends Component {
         {this.renderContent()}
         {
           this.props.isLoading || this.state.setLoaderBeforePush ? (
-            <ApiLoading force={true} text={'Fetching your contacts,\ngive me a few seconds'} />
+            <ApiLoading force={true} text={!this.state.setLoaderBeforePush ? 'Fetching your contacts,\ngive me a few seconds' : ''} />
           ) : null
         }
       </View>
