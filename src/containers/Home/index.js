@@ -81,15 +81,15 @@ class Home extends Component {
 
   componentDidMount() {
     Analytics.screen('Home Chats');
-    // setTimeout(() => {
-    //   this.props.dispatch(startupAction(this.props.navigator));
-    // }, 50);
+    setTimeout(() => {
+      this.props.dispatch(startupAction(this.props.navigator));
+    }, 50);
 
-    // this.props.dispatch(getConversations()).catch((err)=> {
-    //   if (err.error === 'Messenger not configured') {
-    //     this.props.navigateResetToNumber();
-    //   }
-    // });
+    this.props.dispatch(getConversations()).catch((err)=> {
+      if (err.error === 'Messenger not configured') {
+        this.props.navigateResetToNumber();
+      }
+    });
 
     this.props.dispatch({ type: TAB_SELECTED, tab: 0 });
 

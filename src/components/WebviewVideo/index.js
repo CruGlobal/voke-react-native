@@ -159,6 +159,9 @@ export default class WebviewVideo extends Component {
 
   seek(seconds) {
     this.sendMessage({ seconds });
+    if (this.rnvideo) {
+      this.rnvideo.seekTo(seconds);
+    }
   }
 
   togglePlay() {
@@ -178,6 +181,7 @@ export default class WebviewVideo extends Component {
     // if (Platform.OS === 'android') {
       return (
         <RNVideo
+          ref={(c) => this.rnvideo = c}
           url={this.props.url}
           onUpdateData={this.handleData}
           isPaused={this.state.isPaused}

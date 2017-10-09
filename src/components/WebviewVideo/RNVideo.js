@@ -45,9 +45,13 @@ export default class RNVideo extends Component {
         // Restart at the correct start position
         this.player.seek(start || 0);
       } else {
-        this.video.seek(0);
+        this.player.seek(0);
       }
     }
+  }
+
+  seekTo(seconds) {
+    this.player.seek(seconds);
   }
 
   handleLoad(data) {
@@ -68,14 +72,14 @@ export default class RNVideo extends Component {
     // playInBackground, playWhenInactive, ignoreSilentSwitch are all iOS properties
     return (
       <Video
-        source={{ uri: url }}
         ref={(c) => this.player = c}
+        source={{ uri: url }}
         paused={isPaused}
         resizeMode="contain"
         playInBackground={false}
         playWhenInactive={false}
         ignoreSilentSwitch="ignore"
-        progressUpdateInterval={500.0}
+        progressUpdateInterval={1000.0}
         onLoad={this.handleLoad}
         onProgress={this.handleProgress}
         onEnd={() => this.props.onUpdateData(webviewCommon.FINISHED)}

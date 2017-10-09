@@ -158,8 +158,6 @@ class VideoDetails extends Component {
       loadDuration = 3000; // Longer loading state for arclight videos
     }
 
-    // LOG(this.state.isLandscape);
-
     return (
       <View style={styles.container}>
         <StatusBar hidden={true} />
