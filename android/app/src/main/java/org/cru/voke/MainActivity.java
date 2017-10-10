@@ -5,26 +5,10 @@ import com.smixx.fabric.FabricPackage;
 import com.reactnativenavigation.controllers.SplashActivity;
 import android.content.Intent;
 import com.tkporter.sendsms.SendSMSPackage;
-import android.content.res.Configuration;
 
 public class MainActivity extends SplashActivity {
   protected String getMainComponentName() {
       return "Voke";
-  }
-
-  @Override
-  public void onActivityResult(int requestCode, int resultCode, Intent data) {
-      super.onActivityResult(requestCode, resultCode, data);
-      MainApplication.getCallbackManager().onActivityResult(requestCode, resultCode, data);
-      SendSMSPackage.getInstance().onActivityResult(requestCode, resultCode, data);
-  }
-
-  @Override
-  public void onConfigurationChanged(Configuration newConfig) {
-      super.onConfigurationChanged(newConfig);
-      Intent intent = new Intent("onConfigurationChanged");
-      intent.putExtra("newConfig", newConfig);
-      this.sendBroadcast(intent);
   }
 
 //   @Override

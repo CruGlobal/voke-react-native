@@ -332,6 +332,7 @@ class Videos extends Component {
                 video: c,
                 onSelectVideo,
               },
+              navigatorStyle: { orientation: 'auto' },
             });
             // this.props.navigatePush('voke.VideoDetails', {
             //   video: c,

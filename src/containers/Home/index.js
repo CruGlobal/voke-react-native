@@ -81,22 +81,22 @@ class Home extends Component {
 
   componentDidMount() {
     Analytics.screen('Home Chats');
-    setTimeout(() => {
-      this.props.dispatch(startupAction(this.props.navigator));
-    }, 50);
+    // setTimeout(() => {
+    //   this.props.dispatch(startupAction(this.props.navigator));
+    // }, 50);
 
-    this.props.dispatch(getConversations()).catch((err)=> {
-      if (err.error === 'Messenger not configured') {
-        // Do this because the api can be slow when a user creates an account and our app is faster than the api
-        setTimeout(() => {
-          this.props.dispatch(getConversations()).catch((err)=> {
-            if (err.error === 'Messenger not configured') {
-              this.props.navigateResetToNumber();
-            }
-          });
-        }, 3000);
-      }
-    });
+    // this.props.dispatch(getConversations()).catch((err)=> {
+    //   if (err.error === 'Messenger not configured') {
+    //     // Do this because the api can be slow when a user creates an account and our app is faster than the api
+    //     setTimeout(() => {
+    //       this.props.dispatch(getConversations()).catch((err)=> {
+    //         if (err.error === 'Messenger not configured') {
+    //           this.props.navigateResetToNumber();
+    //         }
+    //       });
+    //     }, 3000);
+    //   }
+    // });
 
     this.props.dispatch({ type: TAB_SELECTED, tab: 0 });
 

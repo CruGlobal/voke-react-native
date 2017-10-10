@@ -46,7 +46,7 @@
     "react-native-image-picker": "^0.26.3",
     "react-native-navigation": "^1.1.235",
     "react-native-notifications": "^1.1.16",
-    "react-native-orientation": "^3.1.0",
+    "react-native-orientation": "^2.1.0",
     "react-native-push-notification": "^3.0.1",
     "react-native-sms": "1.4.2",
     "react-native-sound": "^0.10.4",
