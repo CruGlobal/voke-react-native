@@ -221,21 +221,39 @@ class SelectFriend extends Component {
         },
       };
       this.props.dispatch(createConversation(data)).then((results) => {
-        // LOG('create conversation results', results);
+        LOG('create conversation results', results);
         const friend = results.messengers[0];
         Navigation.showModal({
           screen: 'voke.ShareModal',
           animationType: 'none',
           passProps: {
             onComplete: () => {
-              this.setState({setLoaderBeforePush: true});
-              this.props.dispatch(getConversation(results.id)).then((c) => {
-                this.props.navigatePush('voke.Message', {conversation: c.conversation, goBackHome: true});
-              });
+              LOG('onComplete');
+              this.setState({ setLoaderBeforePush: true });
+              Navigation.dismissModal({ animationType: 'none' });
+              // On android, put a timeout because the share stuff gets messed up otherwise
+              if (Platform.OS === 'android') {
+                setTimeout(() => {
+                  this.setState({ setLoaderBeforePush: false });
+                  this.props.navigateResetTo('voke.Message', {
+                    conversation: results,
+                    goBackHome: true,
+                    fetchConversation: true,
+                  });
+                }, 500);
+              } else {
+                this.setState({ setLoaderBeforePush: false });
+                this.props.navigateResetTo('voke.Message', {
+                  conversation: results,
+                  goBackHome: true,
+                  fetchConversation: true,
+                });
+              }
             },
             onCancel: () => {
               LOG('canceling');
               this.props.dispatch(deleteConversation(results.id));
+              Navigation.dismissModal({ animationType: 'none' });
             },
             friend,
             phoneNumber,

@@ -165,8 +165,9 @@ class ConversationList extends Component { // eslint-disable-line
                 rowMap[`${sectionID}${rowID}`] && rowMap[`${sectionID}${rowID}`].closeRow();
               }}
             >
-              <Flex direction="column" align="center" justify="center">
-                <VokeIcon name="delete" style={{height: 40}} />
+              <Flex align="center" justify="center">
+                {/* <VokeIcon name="delete" style={{ height: 40 }} /> */}
+                <Text>Here</Text>
               </Flex>
             </Touchable>
             <Touchable
@@ -177,7 +178,7 @@ class ConversationList extends Component { // eslint-disable-line
                 rowMap[`${sectionID}${rowID}`] && rowMap[`${sectionID}${rowID}`].closeRow();
               }}
             >
-              <Flex direction="column" align="center" justify="center">
+              <Flex align="center" justify="center">
                 <VokeIcon name="block" style={{ height: 40 }} />
               </Flex>
             </Touchable>

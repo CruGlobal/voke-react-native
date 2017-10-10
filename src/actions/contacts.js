@@ -32,6 +32,22 @@ export function getContacts(force = false) {
       dispatch({ type: SET_CONTACTS_LOADING, isLoading: true });
 
       Permissions.checkContacts().then((permission) => {
+
+        // On android, check the last updated time before requesting contacts
+        if (permission === Permissions.AUTHORIZED && Platform.OS === 'android') {
+          if (!force) {
+            const lastUpdated = getState().contacts.lastUpdated;
+            const now = new Date().valueOf();
+            
+            if (lastUpdated && (now - lastUpdated < CONSTANTS.REFRESH_CONTACTS_TIME)) {
+              dispatch({ type: SET_CONTACTS_LOADING, isLoading: false });
+              resolve(true);
+              return;
+            }
+          }
+        }
+
+
         if (permission === Permissions.DENIED) {
           if (Platform.OS === 'ios') {
             Alert.alert(
@@ -78,7 +94,8 @@ export function getContacts(force = false) {
               const lastUpdated = getState().contacts.lastUpdated;
               const now = new Date().valueOf();
               if (lastUpdated && (now - lastUpdated < 24 * 60 * 60 * 1000)) {
-                if (getState().contacts.all && all > getState().contacts.all ) {
+                const currentContacts = getState().contacts.all || [];
+                if (all.length > currentContacts.length ) {
                   dispatch(setAllContacts(all));
                 }
                 dispatch({ type: SET_CONTACTS_LOADING, isLoading: false });

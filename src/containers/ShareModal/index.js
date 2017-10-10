@@ -47,18 +47,18 @@ class ShareModal extends Component {
     }
   }
 
-  dismissModal() {
-    Navigation.dismissModal({ animationType: 'none' });
-  }
+  // dismissModal() {
+  //   Navigation.dismissModal({ animationType: 'none' });
+  // }
 
   handleDismiss() {
     this.props.onCancel();
-    this.dismissModal();
+    // this.dismissModal();
   }
 
   handleComplete() {
     this.props.onComplete();
-    this.dismissModal();
+    // this.dismissModal();
   }
 
   handleHide() {
@@ -120,7 +120,7 @@ class ShareModal extends Component {
     }
     const message = getMessage(friend);
     if (type === 'message') {
-
+      // This could also be done with Linking.openURL('sms://?body=message');
       SendSMS.send({
         body: message,
         recipients: [this.props.phoneNumber],
@@ -138,7 +138,9 @@ class ShareModal extends Component {
           LOG('errror sending message', error);
         }
       });
+      
     } else if (type === 'mail') {
+      // This could also be done with Linking.openURL('mailto://?body=message');
       Communications.email(null, null, null, null, message);
       this.handleComplete();
     } else if (type === 'whatsapp') {
