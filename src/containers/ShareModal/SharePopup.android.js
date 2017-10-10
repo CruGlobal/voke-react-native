@@ -24,10 +24,10 @@ class SharePopup extends Component {
                 <Text style={styles.androidIconText}>Message</Text>
               </Flex>
             </Touchable>
-            <Touchable onPress={() => this.props.onShare('mail')} >
+            <Touchable onPress={() => this.props.onShare('copy')} >
               <Flex direction="row" align="center" style={styles.androidShareRow}>
-                <Icon type="FontAwesome" style={styles.androidIcons} size={30} name="envelope-o" />
-                <Text style={styles.androidIconText}>Email</Text>
+                <Icon style={styles.androidIcons} size={30} name="content-copy" />
+                <Text style={styles.androidIconText}>Copy to Clipboard</Text>
               </Flex>
             </Touchable>
             <Touchable onPress={() => this.props.onShare('whatsapp')} >
@@ -47,12 +47,6 @@ class SharePopup extends Component {
                   <Image source={FB} style={styles.androidImageStyle} />
                 </Flex>
                 <Text style={styles.androidIconText}>Messenger</Text>
-              </Flex>
-            </Touchable>
-            <Touchable onPress={() => this.props.onShare('more')} >
-              <Flex direction="row" align="center" style={styles.androidShareRow}>
-                <Icon style={styles.androidIcons} size={30} name="more-horiz" />
-                <Text style={styles.androidIconText}>More</Text>
               </Flex>
             </Touchable>
             <Button

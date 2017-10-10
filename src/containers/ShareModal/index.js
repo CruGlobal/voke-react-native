@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Share, Linking, Alert, Platform } from 'react-native';
+import { Share, Linking, Alert, Platform, Clipboard } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import PropTypes from 'prop-types';
 import Communications from 'react-native-communications';
@@ -11,6 +11,7 @@ import { MessageDialog } from 'react-native-fbsdk';
 import Analytics from '../../utils/analytics';
 import SharePopup from './SharePopup';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
+import { toastAction } from '../../actions/auth';
 
 function getMessage(friend) {
   return `Hi ${friend ? friend.first_name : 'friend'}, check out this video ${friend ? friend.url : ''}`;
@@ -47,22 +48,16 @@ class ShareModal extends Component {
     }
   }
 
-  // dismissModal() {
-  //   Navigation.dismissModal({ animationType: 'none' });
-  // }
-
   handleDismiss() {
     this.props.onCancel();
-    // this.dismissModal();
   }
 
   handleComplete() {
     this.props.onComplete();
-    // this.dismissModal();
   }
 
   handleHide() {
-    this.setState({isHidden: true});
+    this.setState({ isHidden: true });
   }
 
   shareLinkWithShareDialog(message, url) {
@@ -152,6 +147,12 @@ class ShareModal extends Component {
       this.shareLinkWithShareDialog(message, friend.url);
       // const url = 'https://m.me';
       // this.openUrl(url);
+    } else if (type === 'copy') {
+      Clipboard.setString(message);
+      if (Platform.OS === 'android') {
+        this.props.dispatch(toastAction('Copied!'));
+      }
+      this.handleComplete();
     } else {
       this.handleHide();
       Share.share({

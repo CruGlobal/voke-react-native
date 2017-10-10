@@ -48,6 +48,7 @@ class Contacts extends Component {
     super(props);
 
     this.state = {
+      refreshing: false,
       searchResults: [],
       searchText: '',
       showSearch: false,
@@ -55,6 +56,7 @@ class Contacts extends Component {
     };
 
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    this.refreshContacts = this.refreshContacts.bind(this);
     this.search = debounce(this.search.bind(this), 10);
     this.changeText = this.changeText.bind(this);
     this.handleGetContacts = this.handleGetContacts.bind(this);
@@ -123,6 +125,15 @@ class Contacts extends Component {
     // permission not asked yet
   }
 
+  refreshContacts() {
+    this.setState({ refreshing: true });
+    this.props.dispatch(getContacts(true)).then(() => {
+      this.setState({ refreshing: false });
+    }).catch(() => {
+      this.setState({ refreshing: false });
+    });
+  }
+
   handleGetContacts() {
     this.props.dispatch(getContacts()).then(() => {
       this.setState({ permission: Permissions.AUTHORIZED });
@@ -173,7 +184,6 @@ class Contacts extends Component {
   }
 
   render() {
-    
     const isAuthorized = this.state.permission === Permissions.AUTHORIZED;
     return (
       <View style={styles.container}>
@@ -184,6 +194,8 @@ class Contacts extends Component {
               items={this.state.searchText ? this.state.searchResults : this.props.all}
               onSelect={this.props.onSelect}
               isInvite={this.props.isInvite}
+              onRefresh={this.refreshContacts}
+              refreshing={this.state.refreshing}
             />
           ) : (
             <Flex align="center" style={{paddingTop: 30}}>
@@ -204,6 +216,11 @@ class Contacts extends Component {
             />
           ) : null
         }
+        {
+          !this.props.isLoading && Platform.OS === 'android' ? (
+            <ApiLoading showMS={500} />
+          ) : null
+        }
       </View>
     );
   }
@@ -221,6 +238,7 @@ Contacts.propTypes = {
 
 const mapStateToProps = ({ contacts }) => ({
   all: contacts.all,
+  allLength: contacts.all.length,
   // voke: contacts.voke,
   isLoading: contacts.isLoading,
 });

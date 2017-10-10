@@ -109,6 +109,21 @@ export default function messages(state = initialState, action) {
         ...state,
         conversations: newConversationsOrder,
       };
+    // When I create a message, reorder the conversations to have this one at the top;
+    case REQUESTS.DELETE_CONVERSATION.SUCCESS:
+      const conversationIdToDelete = action.query.id;
+      // Remove the conversation from the array
+      const newConversationsWithDeleted = state.conversations.filter((c) => c.id !== conversationIdToDelete);
+      // Remove any messages associated with that conversation
+      let newMessagesWithDeleted = state.messages;
+      if (newMessagesWithDeleted[conversationIdToDelete]) {
+        delete newMessagesWithDeleted[conversationIdToDelete];
+      }
+      return {
+        ...state,
+        messages: newMessagesWithDeleted,
+        conversations: newConversationsWithDeleted,
+      };
     case TYPE_STATE_CHANGE:
       const newConvo = action.data ? action.data.conversationId : null;
       if (!newConvo) {

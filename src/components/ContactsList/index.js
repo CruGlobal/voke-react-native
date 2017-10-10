@@ -1,18 +1,23 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, SectionList, Platform, KeyboardAvoidingView, Dimensions, Keyboard } from 'react-native';
+import { View, SectionList, FlatList, Platform, KeyboardAvoidingView, Dimensions, Keyboard } from 'react-native';
 import ContactItem from '../ContactItem';
 
 import styles from './styles';
-import { Touchable, Text, Flex } from '../common';
-// import theme from '../../theme';
+import { Touchable, Text, Flex, RefreshControl } from '../common';
 
-const CONTACT_HEIGHT = 50;
-const { width: deviceWidth, height: deviceHeight } = Dimensions.get('window');
+const isAndroid = Platform.OS === 'android';
 
 // Format contacts for the section list
 function formatContacts(items) {
+  if (isAndroid) {
+    return items.sort((a, b) => {
+      if (a.nameLower < b.nameLower) return -1;
+      else if (a.nameLower > b.nameLower) return 1;
+      return 0;
+    });
+  }
   const ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
   const sections = items.reduce((p, n) => {
     const letterIndex = ALPHA.findIndex((a) => {
@@ -45,6 +50,7 @@ function formatContacts(items) {
   //   { key: 'G', data: [{ id: '7', name: 'you', phone: [] }] },
   // ];
 }
+
 class ContactsList extends Component {
   constructor(props) {
     super(props);
@@ -65,7 +71,6 @@ class ContactsList extends Component {
       this.setState({ sections: formatContacts(nextProps.items) });
     }
   }
-  
 
   componentDidMount() {
     if (Platform.OS === 'ios') {
@@ -82,11 +87,11 @@ class ContactsList extends Component {
   }
 
   keyboardDidShow(e) {
-    this.setState({keyboardShown: true, height: e.endCoordinates.height});
+    this.setState({ keyboardShown: true, height: e.endCoordinates.height });
   }
 
   keyboardDidHide() {
-    this.setState({keyboardShown: false, height: 0});
+    this.setState({ keyboardShown: false, height: 0 });
   }
 
   renderHeader({ section }) {
@@ -99,12 +104,49 @@ class ContactsList extends Component {
 
   renderItem({ item }) {
     const { isInvite, onSelect } = this.props;
+    const handleSelect = () => onSelect(item);
+    if (isInvite) {
+      return (
+        <ContactItem isInvite={true} onButtonPress={handleSelect} item={item} />
+      );
+    }
     return (
-      <Touchable highlight={!isInvite} activeOpacity={isInvite ? 1 : 0.6} disabled={item.isVoke && isInvite} onPress={isInvite ? undefined : () => onSelect(item)}>
+      <Touchable key={item.id} highlight={false} activeOpacity={0.6} onPress={handleSelect}>
         <View>
-          <ContactItem isInvite={isInvite} onButtonPress={!isInvite ? (() => {}) : () => onSelect(item)} item={item} />
+          <ContactItem item={item} />
         </View>
       </Touchable>
+    );
+  }
+
+  renderContent() {
+    const { sections } = this.state;
+    let listProps = {
+      keyExtractor: (item) => item.id,
+      initialNumToRender: 30,
+      keyboardShouldPersistTaps: Platform.OS === 'android' ? 'handled' : 'always',
+      renderItem: this.renderItem,
+      refreshControl: <RefreshControl
+        refreshing={this.props.refreshing}
+        onRefresh={this.props.onRefresh}
+      />,
+      maxToRenderPerBatch: 30,
+    };
+    if (isAndroid) {
+      return (
+        <FlatList
+          {...listProps}
+          data={sections}
+        />
+      );
+    }
+    return (
+      <SectionList
+        {...listProps}
+        stickySectionHeadersEnabled={true}
+        sections={this.state.sections}
+        renderSectionHeader={this.renderHeader}
+      />
     );
   }
 
@@ -121,20 +163,7 @@ class ContactsList extends Component {
     // ItemSeparatorComponent={() => <Separator />}
     return (
       <View style={{paddingBottom: Platform.OS === 'ios' ? this.state.height + 50 : undefined}}>
-        <SectionList
-          initialNumToRender={40}
-          keyExtractor={(item) => item.id}
-          stickySectionHeadersEnabled={true}
-          keyboardShouldPersistTaps={Platform.OS === 'android' ? 'handled' : 'always'}
-          sections={this.state.sections}
-          renderSectionHeader={this.renderHeader}
-          renderItem={this.renderItem}
-          getItemLayout={(data, index) => ({
-            length: CONTACT_HEIGHT,
-            offset: CONTACT_HEIGHT * index,
-            index,
-          })}
-        />
+        {this.renderContent()}
       </View>
     );
   }
@@ -142,6 +171,8 @@ class ContactsList extends Component {
 
 ContactsList.propTypes = {
   items: PropTypes.array.isRequired, // Redux
+  onRefresh: PropTypes.func.isRequired,
+  refreshing: PropTypes.bool.isRequired,
   isInvite: PropTypes.bool,
 };
 

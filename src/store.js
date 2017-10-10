@@ -1,7 +1,8 @@
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Platform } from 'react-native';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { persistStore } from 'redux-persist';
+import FilesystemStorage from 'redux-persist-filesystem-storage'
 
 import reducers from './reducers';
 
@@ -18,7 +19,10 @@ export default function getStore(onCompletion) {
     reducers,
     applyMiddleware(thunk),
   );
-  persistStore(store, { storage: AsyncStorage }, onCompletion);
+  AsyncStorage.clear();
+  persistStore(store, {
+    storage: Platform.OS === 'android' ? FilesystemStorage : AsyncStorage,
+  }, onCompletion);
 
   return store;
 }

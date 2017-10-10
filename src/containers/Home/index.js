@@ -94,7 +94,7 @@ class Home extends Component {
               this.props.navigateResetToNumber();
             }
           });
-        },3000);
+        }, 3000);
       }
     });
 

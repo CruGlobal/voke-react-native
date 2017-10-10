@@ -240,7 +240,7 @@ class SelectFriend extends Component {
                     goBackHome: true,
                     fetchConversation: true,
                   });
-                }, 500);
+                }, 100);
               } else {
                 this.setState({ setLoaderBeforePush: false });
                 this.props.navigateResetTo('voke.Message', {

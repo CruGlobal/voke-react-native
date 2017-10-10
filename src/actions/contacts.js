@@ -38,8 +38,10 @@ export function getContacts(force = false) {
           if (!force) {
             const lastUpdated = getState().contacts.lastUpdated;
             const now = new Date().valueOf();
+            // LOG('lastUpdated', lastUpdated, now, now - lastUpdated, CONSTANTS.REFRESH_CONTACTS_TIME);
             
             if (lastUpdated && (now - lastUpdated < CONSTANTS.REFRESH_CONTACTS_TIME)) {
+              // LOG('not updating contacts');
               dispatch({ type: SET_CONTACTS_LOADING, isLoading: false });
               resolve(true);
               return;
@@ -95,12 +97,11 @@ export function getContacts(force = false) {
               const now = new Date().valueOf();
               if (lastUpdated && (now - lastUpdated < 24 * 60 * 60 * 1000)) {
                 const currentContacts = getState().contacts.all || [];
-                if (all.length > currentContacts.length ) {
-                  dispatch(setAllContacts(all));
+                if (all.length === currentContacts.length ) {
+                  dispatch({ type: SET_CONTACTS_LOADING, isLoading: false });
+                  resolve(true);
+                  return;
                 }
-                dispatch({ type: SET_CONTACTS_LOADING, isLoading: false });
-                resolve(true);
-                return;
               }
             }
 
@@ -146,10 +147,10 @@ export function getVokeContacts(all) {
   );
 }
 
-export function searchContacts(text, onlyVoke = false) {
+export function searchContacts(text) {
   return (dispatch, getState) => (
     new Promise((resolve) => {
-      const contacts = onlyVoke ? getState().contacts.voke : getState().contacts.all;
+      const contacts = getState().contacts.all || [];
       const searchTextLower = text.toLowerCase();
       const searchTextUpper = text.toUpperCase();
       const isOneLetter = text.length === 1;

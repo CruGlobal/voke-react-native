@@ -50,27 +50,18 @@ export default StyleSheet.create({
     backgroundColor: theme.secondaryColor,
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: Platform.OS === 'android' ? 'flex-end' : 'space-between',
     paddingLeft: 15,
+    position: 'relative',
   },
   backTextWhite: {
     color: COLORS.WHITE,
     fontSize: 10,
   },
-  backRightBtn: {
+  rowBackButton: {
+    flex: 1,
     alignItems: 'center',
-    bottom: 0,
     justifyContent: 'center',
-    position: 'absolute',
-    top: 0,
-    width: 65,
-  },
-  backRightBtnLeft: {
-    backgroundColor: theme.secondaryColor,
-    right: 65,
-  },
-  backRightBtnRight: {
-    backgroundColor: theme.secondaryColor,
-    right: 0,
+    // width: 65,
   },
 });
