@@ -10,8 +10,6 @@ export default StyleSheet.create({
     width: 400,
     height: Platform.OS === 'android' ? DEFAULT.FULL_HEIGHT - 275 : DEFAULT.FULL_HEIGHT - 250,
   },
-  imageWrapper: {
-  },
   headerWrap: {
     paddingVertical: 30,
   },
@@ -23,7 +21,7 @@ export default StyleSheet.create({
     paddingVertical: 10,
     textAlign: 'center',
     fontSize: 18,
-    color: theme.secondaryColor,
+    color: theme.primaryColor,
     backgroundColor: 'rgba(0,0,0,0)',
   },
   headerTitle: {
@@ -31,7 +29,13 @@ export default StyleSheet.create({
     textAlign: 'center',
     fontSize: 36,
     backgroundColor: 'rgba(0,0,0,0)',
-    color: theme.secondaryColor,
+    color: theme.primaryColor,
+  },
+  imageWrap: {
+    position: 'absolute',
+    bottom: 20,
+    right: 0,
+    left: 0,
   },
   skipButtonText: {
     fontSize: 14,
@@ -59,8 +63,12 @@ export default StyleSheet.create({
     borderRadius: 0,
   },
   vokeWrap: {
-    width: DEFAULT.FULL_WIDTH,
-    paddingTop: 30,
+    // width: DEFAULT.FULL_WIDTH,
+    // paddingTop: 30,
+    position: 'absolute',
+    bottom: 55,
+    right: 0,
+    left: 0,
   },
   endButton: {
     alignItems: 'center',

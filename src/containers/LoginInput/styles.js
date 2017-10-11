@@ -1,6 +1,7 @@
 
 import { StyleSheet } from 'react-native';
 import theme, { DEFAULT } from '../../theme';
+import { IS_SMALL_ANDROID } from '../../constants';
 
 export default StyleSheet.create({
   container: {
@@ -36,7 +37,7 @@ export default StyleSheet.create({
     color: theme.textColor,
   },
   imageLogo: {
-    height: 50,
+    height: IS_SMALL_ANDROID ? 40 : 50,
   },
   signIn: {
     fontSize: 14,

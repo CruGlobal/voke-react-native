@@ -22,6 +22,9 @@ import { Flex, Text } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import NULL_STATE from '../../../images/video-button.png';
 import VOKE from '../../../images/voke_null_state.png';
+import { IS_SMALL_ANDROID } from '../../constants';
+
+const CONTACT_LENGTH_SHOW_VOKEBOT = IS_SMALL_ANDROID ? 2 : 3;
 
 function setButtons() {
   if (Platform.OS === 'android') {
@@ -77,12 +80,21 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(startupAction(this.props.navigator));
     Analytics.screen('Home Chats');
+    setTimeout(() => {
+      this.props.dispatch(startupAction(this.props.navigator));
+    }, 50);
 
     this.props.dispatch(getConversations()).catch((err)=> {
       if (err.error === 'Messenger not configured') {
-        this.props.navigateResetToNumber();
+        // Do this because the api can be slow when a user creates an account and our app is faster than the api
+        setTimeout(() => {
+          this.props.dispatch(getConversations()).catch((err)=> {
+            if (err.error === 'Messenger not configured') {
+              this.props.navigateResetToNumber();
+            }
+          });
+        }, 3000);
       }
     });
 
@@ -235,7 +247,7 @@ class Home extends Component {
           )
         }
         {
-          (cLength <= 3 && cLength > 0) ?  (
+          (cLength <= CONTACT_LENGTH_SHOW_VOKEBOT && cLength > 0) ?  (
             <Image style={styles.vokeBot} source={VOKE} />
           ) : null
         }

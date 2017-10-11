@@ -29,8 +29,9 @@ import VIDEO_BACK from '../../images/back_button_transparent.png';
 import HOME_DOT from '../../images/homeBadge.png';
 
 
-const navIconSize = (Platform.OS === 'android') ? PixelRatio.getPixelSizeForLayoutSize(10) : 30;
-const replaceSuffixPattern = /--(active|big|small|very-big)/g;
+// const navIconSize = (Platform.OS === 'android') ? PixelRatio.getPixelSizeForLayoutSize(10) : 30;
+const navIconSize = 30;
+
 // These icons are all for header navigation icons
 const icons = {
   'ios-film-outline': [30],
@@ -55,9 +56,8 @@ let iconsMap = {};
 const iconsLoaded = new Promise((resolve) => {
   new Promise.all(
     Object.keys(icons).map(iconName =>
-    // IconName--suffix--other-suffix is just the mapping name in iconsMap
       Ionicons.getImageSource(
-        iconName.replace(replaceSuffixPattern, ''),
+        iconName,
         icons[iconName][0],
         icons[iconName][1]
       ))

@@ -1,5 +1,6 @@
 import { REHYDRATE } from 'redux-persist/constants';
-import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, TAB_SELECTED, ACTIVE_SCREEN, ONBOARD_FLAG } from '../constants';
+
+import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, TAB_SELECTED, ACTIVE_SCREEN, ONBOARD_FLAG, NO_BACKGROUND_ACTION } from '../constants';
 import { REQUESTS } from '../actions/api';
 
 const initialState = {
@@ -21,6 +22,7 @@ const initialState = {
   homeTabSelected: 0,
   activeScreen: null,
   onboardCompleted: false,
+  noBackgroundAction: false,
 };
 
 export default function auth(state = initialState, action) {
@@ -126,6 +128,11 @@ export default function auth(state = initialState, action) {
       return {
         ...state,
         onboardCompleted: action.completed,
+      };
+    case NO_BACKGROUND_ACTION:
+      return {
+        ...state,
+        noBackgroundAction: action.value,
       };
     case LOGOUT:
       return initialState;

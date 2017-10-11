@@ -5,6 +5,7 @@ import lodashChunk from 'lodash/chunk';
 
 import { hashPhone } from '../utils/common';
 import callApi, { REQUESTS } from './api';
+import { setNoBackgroundAction } from './auth';
 import CONSTANTS, { SET_ALL_CONTACTS, SET_VOKE_CONTACTS, SET_CONTACTS_LOADING } from '../constants';
 import Permissions from '../utils/permissions';
 
@@ -27,11 +28,33 @@ function getFirstLetter(str) {
 export function getContacts(force = false) {
   return (dispatch, getState) => (
     new Promise((resolve, reject) => {
+      // On android, don't do any disconnecting/reconnecting in the background when getting permissions
+      if (Platform.OS === 'android') {
+        dispatch(setNoBackgroundAction(true));
+      }
 
       // Keep track of when the contacts are loading and finished loading
       dispatch({ type: SET_CONTACTS_LOADING, isLoading: true });
 
       Permissions.checkContacts().then((permission) => {
+
+        // On android, check the last updated time before requesting contacts
+        if (permission === Permissions.AUTHORIZED && Platform.OS === 'android') {
+          if (!force) {
+            const lastUpdated = getState().contacts.lastUpdated;
+            const now = new Date().valueOf();
+            // LOG('lastUpdated', lastUpdated, now, now - lastUpdated, CONSTANTS.REFRESH_CONTACTS_TIME);
+            
+            if (lastUpdated && (now - lastUpdated < CONSTANTS.REFRESH_CONTACTS_TIME)) {
+              // LOG('not updating contacts');
+              dispatch({ type: SET_CONTACTS_LOADING, isLoading: false });
+              resolve(true);
+              return;
+            }
+          }
+        }
+
+
         if (permission === Permissions.DENIED) {
           if (Platform.OS === 'ios') {
             Alert.alert(
@@ -78,12 +101,12 @@ export function getContacts(force = false) {
               const lastUpdated = getState().contacts.lastUpdated;
               const now = new Date().valueOf();
               if (lastUpdated && (now - lastUpdated < 24 * 60 * 60 * 1000)) {
-                if (getState().contacts.all && all > getState().contacts.all ) {
-                  dispatch(setAllContacts(all));
+                const currentContacts = getState().contacts.all || [];
+                if (all.length === currentContacts.length ) {
+                  dispatch({ type: SET_CONTACTS_LOADING, isLoading: false });
+                  resolve(true);
+                  return;
                 }
-                dispatch({ type: SET_CONTACTS_LOADING, isLoading: false });
-                resolve(true);
-                return;
               }
             }
 
@@ -129,10 +152,10 @@ export function getVokeContacts(all) {
   );
 }
 
-export function searchContacts(text, onlyVoke = false) {
+export function searchContacts(text) {
   return (dispatch, getState) => (
     new Promise((resolve) => {
-      const contacts = onlyVoke ? getState().contacts.voke : getState().contacts.all;
+      const contacts = getState().contacts.all || [];
       const searchTextLower = text.toLowerCase();
       const searchTextUpper = text.toUpperCase();
       const isOneLetter = text.length === 1;

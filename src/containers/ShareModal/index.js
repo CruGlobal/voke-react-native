@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Share, Linking, Alert } from 'react-native';
+import { Share, Linking, Alert, Platform, Clipboard } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import PropTypes from 'prop-types';
 import Communications from 'react-native-communications';
@@ -11,6 +11,7 @@ import { MessageDialog } from 'react-native-fbsdk';
 import Analytics from '../../utils/analytics';
 import SharePopup from './SharePopup';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
+import { toastAction, setNoBackgroundAction } from '../../actions/auth';
 
 function getMessage(friend) {
   return `Hi ${friend ? friend.first_name : 'friend'}, check out this video ${friend ? friend.url : ''}`;
@@ -47,26 +48,22 @@ class ShareModal extends Component {
     }
   }
 
-  dismissModal() {
-    Navigation.dismissModal({ animationType: 'none' });
-  }
-
   handleDismiss() {
-    setTimeout(() => {
-      this.props.onCancel();
-      this.dismissModal();
-    },1000);
+    this.props.onCancel();
+    if (Platform.OS === 'ios') {
+      Navigation.dismissModal({ animationType: 'none' });
+    }
   }
 
   handleComplete() {
-    setTimeout(() => {
-      this.props.onComplete();
-      this.dismissModal();
-    },1000);
+    this.props.onComplete();
+    if (Platform.OS === 'ios') {
+      Navigation.dismissModal({ animationType: 'none' });
+    }
   }
 
   handleHide() {
-    this.setState({isHidden: true});
+    this.setState({ isHidden: true });
   }
 
   shareLinkWithShareDialog(message, url) {
@@ -74,6 +71,8 @@ class ShareModal extends Component {
       contentType: 'link',
       contentUrl: url,
       contentDescription: message,
+      // contentTitle: message,
+      // quote: message,
     };
 
     MessageDialog.canShow(shareLinkContent).then((canShow)=>{
@@ -90,14 +89,21 @@ class ShareModal extends Component {
           this.handleDismiss();
           LOG('error', error);
         });
+      } else {
+        this.handleDismiss();
       }
+    }).catch(() => {
+      this.handleShare('custom');
     });
   }
 
   openUrl(url) {
     // whatsapp does not work with canopenurl for some reason
-    Linking.openURL(url);
-    this.handleComplete();
+    Linking.openURL(url).then(() => {
+      this.handleComplete();
+    }).catch(() => {
+      this.handleShare('custom');
+    });
     // Linking.canOpenURL(url).then((isSupported) => {
     //   if (isSupported) {
     //     Linking.openURL(url);
@@ -111,6 +117,8 @@ class ShareModal extends Component {
   }
 
   handleShare(type) {
+    // Make sure no background actions happen while doing share stuff
+    this.props.dispatch(setNoBackgroundAction(true));
     const friend = this.props.friend;
     LOG(JSON.stringify(friend));
     if (!friend) {
@@ -119,7 +127,7 @@ class ShareModal extends Component {
     }
     const message = getMessage(friend);
     if (type === 'message') {
-
+      // This could also be done with Linking.openURL('sms://?body=message');
       SendSMS.send({
         body: message,
         recipients: [this.props.phoneNumber],
@@ -128,16 +136,24 @@ class ShareModal extends Component {
         LOG(completed, cancelled, error);
         if (completed) {
           LOG('completed message');
-          this.handleComplete();
+          if (Platform.OS === 'ios') {
+            setTimeout(() => {
+              this.handleComplete();
+            }, 1000);
+          } else {
+            this.handleComplete();
+          }
         } else {
           LOG('failed message');
           this.handleDismiss();
         }
-        if (error) {
-          LOG('errror sending message', error);
-        }
+        // if (error) {
+        //   LOG('errror sending message', error);
+        // }
       });
+
     } else if (type === 'mail') {
+      // This could also be done with Linking.openURL('mailto://?body=message');
       Communications.email(null, null, null, null, message);
       this.handleComplete();
     } else if (type === 'whatsapp') {
@@ -149,6 +165,12 @@ class ShareModal extends Component {
       this.shareLinkWithShareDialog(message, friend.url);
       // const url = 'https://m.me';
       // this.openUrl(url);
+    } else if (type === 'copy') {
+      Clipboard.setString(message);
+      if (Platform.OS === 'android') {
+        this.props.dispatch(toastAction('Copied!'));
+      }
+      this.handleComplete();
     } else {
       this.handleHide();
       Share.share({

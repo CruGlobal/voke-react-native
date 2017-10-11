@@ -197,7 +197,7 @@ class MessageItem extends Component {
     const time = message.created_at;
     const momentTime = momentUtc(time).local().format('LL');
     const momentNow = moment().local().format('LL');
-    const separatorTime = momentTime === momentNow ? 'Today' : momentNow;
+    const separatorTime = momentTime === momentNow ? 'Today' : momentTime;
 
     let content;
     if (isVideoAndText) {

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Alert, View, ScrollView, Platform } from 'react-native';
+import { Alert, View, ScrollView, Platform, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Analytics from '../../utils/analytics';
 import { Navigation } from 'react-native-navigation';
 import Orientation from 'react-native-orientation';
+import debounce from 'lodash/debounce';
 
+import Analytics from '../../utils/analytics';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { toastAction } from '../../actions/auth';
 
@@ -25,6 +26,7 @@ class VideoDetails extends Component {
     navBarHidden: true,
     tabBarHidden: true,
     statusBarHidden: true,
+    orientation: 'auto',
   };
 
   constructor(props) {
@@ -38,7 +40,7 @@ class VideoDetails extends Component {
 
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleVideoChange = this.handleVideoChange.bind(this);
-    this.orientationDidChange = this.orientationDidChange.bind(this);
+    this.orientationDidChange = debounce(this.orientationDidChange.bind(this), 50);
   }
 
   componentWillMount() {
@@ -48,10 +50,9 @@ class VideoDetails extends Component {
     // beginning of the JS runtime.
 
     const initial = Orientation.getInitialOrientation();
-    // LOG(initial);
-    if (initial === 'PORTRAIT') {
-      this.setState({ isLandscape: false });
-    } else {
+    LOG(initial);
+    // Only change this if the app is in landscape mode
+    if (initial === 'LANDSCAPE') {
       this.setState({ isLandscape: true });
     }
   }
@@ -59,28 +60,35 @@ class VideoDetails extends Component {
   componentDidMount() {
     Analytics.screen('Video Details');
     this.toggleOrientation();
+    // This doesn't work on Android...because of the navigation stuff
     Orientation.addOrientationListener(this.orientationDidChange);
+
+    // Android is having issues with the orientation stuff, use this workaround
+    if (Platform.OS === 'android') {
+      Dimensions.addEventListener('change', ({ window: { width, height } }) => {
+        const orientation = width > height ? 'LANDSCAPE' : 'PORTRAIT';
+        this.orientationDidChange(orientation);
+      });
+    }
   }
 
   componentWillUnmount() {
-    Orientation.getOrientation((err, orientation) => {
-      // LOG(`Current Device Orientation: ${orientation}`);
-    });
     Orientation.removeOrientationListener(this.orientationDidChange);
   }
 
   orientationDidChange(orientation) {
+    // LOG('orientation', orientation);
     if (this.props.video.media.type === 'vimeo') {
       return;
     }
     if (orientation === 'LANDSCAPE') {
       // do something with landscape layout
       // LOG('landscape');
-      this.setState( {isLandscape: true});
+      this.setState({ isLandscape: true });
     } else {
       // LOG('portrait');
       // do something with portrait layout
-      this.setState( {isLandscape: false});
+      this.setState({ isLandscape: false });
     }
   }
 

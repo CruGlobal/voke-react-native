@@ -66,8 +66,10 @@ export function startTabApp(options = {}) {
       tabBarButtonColor: theme.primaryColor, // optional, change the color of the tab icons and text (also unselected)
       tabBarSelectedButtonColor: theme.textColor, // optional, change the color of the selected tab icon and text (only selected)
       tabBarBackgroundColor: theme.secondaryColor, // optional, change the background color of the tab bar
-      bottomTabBadgeTextColor: theme.textColor, // Optional, change badge text color. Android only
-      bottomTabBadgeBackgroundColor: theme.accentColor, // Optional, change badge background color. Android only
+      // Optional, change badge text color. Android only
+      bottomTabBadgeTextColor: Platform.OS === 'android' ? theme.primaryColor : theme.textColor ,
+      // Optional, change badge background color. Android only
+      bottomTabBadgeBackgroundColor: Platform.OS === 'android' ? COLORS.YELLOW : theme.accentColor,
       tabBarTranslucent: false,
       forceTitlesDisplay: true, // Android, only show title
       statusBarColor: theme.statusBarColor,
@@ -83,7 +85,7 @@ export function startLoginApp(options = {}) {
     ...options,
     appStyle: {
       // Apply to whole app, can't do single pages https://github.com/wix/react-native-navigation/issues/846
-      orientation: 'portrait',
+      // orientation: 'portrait',
       statusBarColor: theme.statusBarColor,
       ...(options.appStyle || {}),
     },
@@ -112,7 +114,7 @@ export default class App {
         // }
         setTimeout(() => {
           this.startApp();
-        }, 1500);
+        }, __DEV__ ? 50 : 1500);
       });
     });
     registerScreens(this.store, Provider);
@@ -142,6 +144,6 @@ export default class App {
       } else {
         startTabApp();
       }
-    }, 1000)
+    }, __DEV__ ? 50 : 1000);
   }
 }

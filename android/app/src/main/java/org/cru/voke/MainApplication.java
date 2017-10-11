@@ -41,6 +41,7 @@ import com.wix.reactnativenotifications.core.AppLaunchHelper;
 import com.wix.reactnativenotifications.core.AppLifecycleFacade;
 import com.wix.reactnativenotifications.core.JsIOHelper;
 import com.wix.reactnativenotifications.core.notification.IPushNotification;
+import com.brentvatne.react.ReactVideoPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -78,6 +79,7 @@ public class MainApplication extends NavigationApplication implements INotificat
           new PickerPackage(),
           new RNFetchBlobPackage(),
           new RNSoundPackage(),
+          new ReactVideoPackage(),
           new RNNotificationsPackage(MainApplication.this)
       );
   }

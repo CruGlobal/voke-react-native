@@ -11,13 +11,6 @@ public class MainActivity extends SplashActivity {
       return "Voke";
   }
 
-  @Override
-  public void onActivityResult(int requestCode, int resultCode, Intent data) {
-      super.onActivityResult(requestCode, resultCode, data);
-      MainApplication.getCallbackManager().onActivityResult(requestCode, resultCode, data);
-      SendSMSPackage.getInstance().onActivityResult(requestCode, resultCode, data);
-  }
-
 //   @Override
 //   protected void onNewIntent(Intent intent) {
 //        setIntent(intent);

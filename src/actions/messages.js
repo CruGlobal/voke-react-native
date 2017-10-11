@@ -28,13 +28,14 @@ export function getConversation(data) {
   };
 }
 
-export function deleteConversation(data) {
+export function deleteConversation(id) {
   return (dispatch) => {
     const query = {
-      endpoint: `${API_URL}me/conversations/${data}`,
+      id,
+      endpoint: `${API_URL}me/conversations/${id}`,
     };
     return dispatch(callApi(REQUESTS.DELETE_CONVERSATION, query)).then((results) => {
-      dispatch(getConversations());
+      // dispatch(getConversations());
       return results;
     });
   };
@@ -127,10 +128,12 @@ export function destroyTypeStateAction(conversation) {
 
 export function createMessageInteraction(interaction) {
   return (dispatch, getState) => {
+    const deviceId = getState().auth.cableId;
+    if (!deviceId) return Promise.reject('NoDevice');
     const data = {
       interaction: {
         action: interaction.action,
-        device_id: getState().auth.cableId,
+        device_id: deviceId,
       },
     };
     const query = {

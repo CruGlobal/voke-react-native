@@ -2,7 +2,7 @@ import RNFetchBlob from 'react-native-fetch-blob';
 import { Linking, Platform, AppState, ToastAndroid, AsyncStorage, Alert } from 'react-native';
 import { ScreenVisibilityListener } from 'react-native-navigation';
 
-import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, ACTIVE_SCREEN } from '../constants';
+import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, ACTIVE_SCREEN, NO_BACKGROUND_ACTION } from '../constants';
 import callApi, { REQUESTS } from './api';
 import { establishDevice, setupSocketAction, closeSocketAction, destroyDevice, getDevices, closeNotificationListeners } from './socket';
 import { getConversations, getMessages } from './messages';
@@ -15,9 +15,13 @@ let appStateChangeFn;
 let currentAppState = AppState.currentState || '';
 
 let navigationListener;
+let hasStartedUp = false;
 
 export function startupAction(navigator) {
   return (dispatch, getState) => {
+    if (hasStartedUp) return;
+
+    hasStartedUp = true;
     dispatch(establishDevice(navigator));
     appStateChangeFn = appStateChange.bind(null, dispatch, getState, navigator);
     AppState.addEventListener('change', appStateChangeFn);
@@ -35,7 +39,8 @@ export function startupAction(navigator) {
 
 export function cleanupAction() {
   return (dispatch, getState) => {
-    // LOG('removing appState listener');
+    hasStartedUp = false;
+    LOG('removing appState listener');
     AppState.removeEventListener('change', appStateChangeFn);
     dispatch(closeNotificationListeners());
 
@@ -52,7 +57,7 @@ let appCloseTime;
 
 // TODO: It would be nice to somehow do this in the background and not block the UI when coming back into the app
 function appStateChange(dispatch, getState, navigator, nextAppState) {
-  const { cableId, token } = getState().auth;
+  const { cableId, token, noBackgroundAction } = getState().auth;
 
   // Sometimes this runs when logging out and causes a network error
   // Only run it when there is a valid token
@@ -63,6 +68,12 @@ function appStateChange(dispatch, getState, navigator, nextAppState) {
   // LOG('appStateChange', nextAppState, currentAppState, cableId);
   if (nextAppState === 'active' && (currentAppState === 'inactive' || currentAppState === 'background')) {
     LOG('App has come to the foreground!');
+    if (noBackgroundAction) {
+      LOG('doing nothing after coming from the background');
+      dispatch(setNoBackgroundAction(false));
+      currentAppState = nextAppState;
+      return;
+    }
 
     // Put the ACTIVE actions in a short timeout so they don't run when the app switches quickly
     clearTimeout(backgroundTimeout);
@@ -87,8 +98,13 @@ function appStateChange(dispatch, getState, navigator, nextAppState) {
     }, BACKGROUND_TIMEOUT);
 
   } else if (nextAppState === 'background' && (currentAppState === 'inactive' || currentAppState === 'active')) {
-
     LOG('App is going into the background');
+    if (noBackgroundAction) {
+      LOG('doing nothing in the background');
+      currentAppState = nextAppState;
+      return;
+    }
+
     dispatch(closeSocketAction());
     appCloseTime = Date.now();
   }
@@ -181,10 +197,11 @@ export function createAccountAction(email, password) {
   };
 }
 
-export function toastAction(text) {
+export function toastAction(text, length) {
   return () => {
     if (Platform.OS === 'android') {
-      ToastAndroid.show(text, ToastAndroid.SHORT);
+      const toastLength = length === 'long' ? ToastAndroid.LONG : ToastAndroid.SHORT;
+      ToastAndroid.show(text, toastLength);
     } else {
       Alert.alert(' ', text);
     }
@@ -353,5 +370,11 @@ export function openSettingsAction() {
     } else {
       // Android link to settings not needed
     }
+  };
+}
+
+export function setNoBackgroundAction(value) {
+  return (dispatch) => {
+    dispatch({ type: NO_BACKGROUND_ACTION, value });
   };
 }

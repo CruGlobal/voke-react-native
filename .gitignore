@@ -62,3 +62,5 @@ release.properties
 **/.gradle/
 **/build/
 android/app/build
+android/app/src/main/assets/crashlytics-build.properties
+android/app/src/main/res/values/com_crashlytics_export_strings.xml

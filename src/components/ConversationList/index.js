@@ -12,6 +12,7 @@ import { Flex, VokeIcon, Text, Touchable, Separator, Avatar, RefreshControl } fr
 import CONSTANTS from '../../constants';
 
 // const ITEM_HEIGHT = 60 + theme.separatorHeight;
+const SLIDE_ROW_WIDTH = 130;
 
 class ConversationList extends Component { // eslint-disable-line
 
@@ -157,30 +158,32 @@ class ConversationList extends Component { // eslint-disable-line
         renderRow={this.renderRow}
         renderHiddenRow={(data, sectionID, rowID, rowMap) => (
           <View style={styles.rowBack}>
-            <Touchable
-              style={[styles.backRightBtn, styles.backRightBtnLeft]}
-              activeOpacity={0.9}
-              onPress={() => {
-                this.handleDelete(data);
-                rowMap[`${sectionID}${rowID}`] && rowMap[`${sectionID}${rowID}`].closeRow();
-              }}
-            >
-              <Flex direction="column" align="center" justify="center">
-                <VokeIcon name="delete" style={{height: 40}} />
-              </Flex>
-            </Touchable>
-            <Touchable
-              activeOpacity={0.9}
-              style={[styles.backRightBtn, styles.backRightBtnRight]}
-              onPress={() => {
-                this.handleBlock(data);
-                rowMap[`${sectionID}${rowID}`] && rowMap[`${sectionID}${rowID}`].closeRow();
-              }}
-            >
-              <Flex direction="column" align="center" justify="center">
-                <VokeIcon name="block" style={{ height: 40 }} />
-              </Flex>
-            </Touchable>
+            <Flex direction="row" align="center" justify="center" style={{ width: SLIDE_ROW_WIDTH }}>
+              <Touchable
+                activeOpacity={0.9}
+                style={{ flex: 1 }}
+                onPress={() => {
+                  this.handleDelete(data);
+                  rowMap[`${sectionID}${rowID}`] && rowMap[`${sectionID}${rowID}`].closeRow();
+                }}
+              >
+                <Flex align="center" justify="center" style={styles.rowBackButton}>
+                  <VokeIcon name="delete" style={{ height: 40 }} />
+                </Flex>
+              </Touchable>
+              <Touchable
+                activeOpacity={0.9}
+                style={{ flex: 1 }}
+                onPress={() => {
+                  this.handleBlock(data);
+                  rowMap[`${sectionID}${rowID}`] && rowMap[`${sectionID}${rowID}`].closeRow();
+                }}
+              >
+                <Flex align="center" justify="center" style={styles.rowBackButton}>
+                  <VokeIcon name="block" style={{ height: 40 }} />
+                </Flex>
+              </Touchable>
+            </Flex>
           </View>
         )}
         initialListSize={CONSTANTS.PAGE_SIZE}
@@ -189,7 +192,7 @@ class ConversationList extends Component { // eslint-disable-line
         onEndReached={this.handleNextPage}
         onEndReachedThreshold={50}
         renderSeparator={(sectionID, rowID) => <Separator key={rowID} />}
-        rightOpenValue={-130}
+        rightOpenValue={SLIDE_ROW_WIDTH * -1}
         disableLeftSwipe={false}
         disableRightSwipe={true}
         recalculateHiddenLayout={true}

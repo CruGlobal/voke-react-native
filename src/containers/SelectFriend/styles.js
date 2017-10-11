@@ -1,6 +1,7 @@
 
 import { StyleSheet } from 'react-native';
 import theme, { COLORS, DEFAULT } from '../../theme';
+import { IS_SMALL_ANDROID } from '../../constants';
 
 export default StyleSheet.create({
   container: {
@@ -17,11 +18,12 @@ export default StyleSheet.create({
     bottom: 0,
   },
   header: {
+    paddingVertical: 30,
     fontSize: 28,
   },
   info: {
     fontSize: 16,
-    padding: 5,
+    padding: 10,
   },
   randomButton: {
     alignItems: 'center',
@@ -45,14 +47,21 @@ export default StyleSheet.create({
     color: theme.secondaryColor,
     fontSize: 16,
   },
+  vokeBubbleImageWrap: {
+    position: 'relative',
+    paddingVertical: IS_SMALL_ANDROID ? 30 : 60,
+  },
   vokeBubble: {
     borderRadius: 20,
     borderWidth: 1,
     borderColor: theme.textColor,
-    width: DEFAULT.FULL_WIDTH-120,
+    width: DEFAULT.FULL_WIDTH - 120,
   },
   imageWrap: {
-    width: DEFAULT.FULL_WIDTH,
+    position: 'absolute',
+    right: 0,
+    top: IS_SMALL_ANDROID ? 30 : 60,
+    // width: DEFAULT.FULL_WIDTH,
   },
   vokeBot: {
     height: 100,

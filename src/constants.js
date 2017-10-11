@@ -1,3 +1,6 @@
+import { Platform } from 'react-native';
+import { DEFAULT } from './theme';
+
 
 export const LOGIN = 'app/LOGIN';
 export const LOGOUT = 'app/LOGOUT';
@@ -12,14 +15,17 @@ export const UNREAD_CONV_DOT = 'app/UNREAD_CONV_DOT';
 export const SET_PUSH_TOKEN = 'app/SET_PUSH_TOKEN';
 export const TAB_SELECTED = 'app/TAB_SELECTED';
 export const ACTIVE_SCREEN = 'app/ACTIVE_SCREEN';
+export const NO_BACKGROUND_ACTION = 'app/NO_BACKGROUND_ACTION';
 export const SET_ACTIVE_CONVERSATION = 'app/SET_ACTIVE_CONVERSATION';
 export const ONBOARD_FLAG = 'app/ONBOARD_FLAG';
+
+export const IS_SMALL_ANDROID = Platform.OS === 'android' && DEFAULT.FULL_HEIGHT < 600;
 
 const IS_STAGING = false;
 
 
 const SALT_HASH_STAGING = 'nRgwCUrxKyWDytQDdfYpaJGrEjNQVUYHoDvHhtfgFvauvPrwIm';
-const SALT_HASH_PROD = 'OoyGkKqLaEYOxXnxJHoLRAqcJsDKVVSInMtvPkyKVgrfmVzMmy';
+const SALT_HASH_PROD = 'sKgbotdipkiaPVmtViOPhJJidXPXthowELRKwGNwhOMHnIclxj';
 
 const CLIENT_ID_STAGING = 'db6274e05ca47b4eee31b25525eae8a02a1b7e1f0c09f653352782fb8cefcaf4';
 const CLIENT_ID_PROD = 'a236be0f30998033b32664440e10a606775a77631609155870ddd9565eebdf14';
@@ -44,6 +50,8 @@ export default {
 
   PAGE_SIZE: 25, // This is the default page size from the API
   CONTACT_CHUNKS: 500, // How many contacts to send up per upload request
+  REFRESH_CONTACTS_TIME: 5 * 24 * 60 * 60 * 1000, // 5 days
+
   GCM_SENDER_ID: '360680446899',
   IOS_STORE_LINK: `itms://itunes.apple.com/us/app/apple-store/${IOS_APP_ID}`,
   ANDROID_STORE_LINK: `market://details?id=${ANDROID_APP_ID}`,

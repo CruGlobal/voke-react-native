@@ -7,7 +7,7 @@ import { openSettingsAction } from '../../actions/auth';
 import { Navigation } from 'react-native-navigation';
 
 import Analytics from '../../utils/analytics';
-import { iconsMap } from '../../utils/iconMap';
+import { vokeIcons } from '../../utils/iconMap';
 import styles from './styles';
 // import { toastAction } from '../../actions/auth';
 import { searchContacts, getContacts } from '../../actions/contacts';
@@ -28,7 +28,7 @@ function setButtons() {
     return {
       rightButtons: [{
         id: 'search',
-        icon: iconsMap['md-search'],
+        icon: vokeIcons['search'],
       }],
     };
   }
@@ -48,14 +48,15 @@ class Contacts extends Component {
     super(props);
 
     this.state = {
+      refreshing: false,
       searchResults: [],
       searchText: '',
-      isLoading: true,
       showSearch: false,
       permission: props.isInvite ? Permissions.NOT_ASKED : Permissions.AUTHORIZED,
     };
 
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    this.refreshContacts = this.refreshContacts.bind(this);
     this.search = debounce(this.search.bind(this), 10);
     this.changeText = this.changeText.bind(this);
     this.handleGetContacts = this.handleGetContacts.bind(this);
@@ -107,7 +108,6 @@ class Contacts extends Component {
         overrideBackPress: true,
       });
     } else {
-      this.setState({ isLoading: false });
       // Change screen
     }
   }
@@ -122,15 +122,23 @@ class Contacts extends Component {
   }
 
   handleDismissPermission() {
-    this.setState({ isLoading: false });
     // permission not asked yet
+  }
+
+  refreshContacts() {
+    this.setState({ refreshing: true });
+    this.props.dispatch(getContacts(true)).then(() => {
+      this.setState({ refreshing: false });
+    }).catch(() => {
+      this.setState({ refreshing: false });
+    });
   }
 
   handleGetContacts() {
     this.props.dispatch(getContacts()).then(() => {
-      this.setState({ isLoading: false, permission: Permissions.AUTHORIZED });
+      this.setState({ permission: Permissions.AUTHORIZED });
     }).catch(() => {
-      this.setState({ isLoading: false, permission: Permissions.DENIED });
+      this.setState({ permission: Permissions.DENIED });
       LOG('contacts caught');
       //change screen
     });
@@ -176,7 +184,6 @@ class Contacts extends Component {
   }
 
   render() {
-    
     const isAuthorized = this.state.permission === Permissions.AUTHORIZED;
     return (
       <View style={styles.container}>
@@ -185,10 +192,10 @@ class Contacts extends Component {
           isAuthorized ? (
             <ContactsList
               items={this.state.searchText ? this.state.searchResults : this.props.all}
-              onSelect={(c) => {
-                this.props.onSelect(c);
-              }}
+              onSelect={this.props.onSelect}
               isInvite={this.props.isInvite}
+              onRefresh={this.refreshContacts}
+              refreshing={this.state.refreshing}
             />
           ) : (
             <Flex align="center" style={{paddingTop: 30}}>
@@ -209,6 +216,11 @@ class Contacts extends Component {
             />
           ) : null
         }
+        {
+          !this.props.isLoading && Platform.OS === 'android' ? (
+            <ApiLoading showMS={500} />
+          ) : null
+        }
       </View>
     );
   }
@@ -226,6 +238,7 @@ Contacts.propTypes = {
 
 const mapStateToProps = ({ contacts }) => ({
   all: contacts.all,
+  allLength: contacts.all.length,
   // voke: contacts.voke,
   isLoading: contacts.isLoading,
 });

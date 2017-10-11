@@ -1,4 +1,4 @@
-import { Platform, StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import Color from 'color';
 
 import { exists } from './utils/common';
@@ -30,6 +30,7 @@ export const DEFAULT = {
 
 export const COLORS = {
   BLUE: '#44c8e8',
+  PRIMARY_FADE: 'rgba(68, 200, 232, 0.3)',
   DARK_BLUE: '#186078',
   OFF_BLUE: '#3295AD',
   ORANGE: '#f96332',

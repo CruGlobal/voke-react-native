@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, TextInput, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
-import { getMessages, createMessage, createTypeStateAction, destroyTypeStateAction, createMessageInteraction, markReadAction } from '../../actions/messages';
+import { getMessages, createMessage, createTypeStateAction, destroyTypeStateAction, createMessageInteraction, markReadAction, getConversation } from '../../actions/messages';
 import Analytics from '../../utils/analytics';
 
 import theme, { COLORS } from '../../theme';
@@ -44,11 +44,12 @@ const navStyle = {
 };
 class Message extends Component {
   static navigatorStyle = navStyle;
-
+  
   constructor(props) {
     super(props);
 
     this.state = {
+      conversation: null,
       text: '',
       selectedVideo: null,
       height: 50,
@@ -87,12 +88,12 @@ class Message extends Component {
         // } else {
         // this.props.navigateBack();
         // }
-
+        
         // If we are showing the unread notification dot, get rid of it
         if (this.props.showUnreadDot) {
           this.props.dispatch({ type: UNREAD_CONV_DOT, show: false });
         }
-
+        
         if (this.props.goBackHome) {
           this.props.navigateResetHome();
         } else {
@@ -101,6 +102,9 @@ class Message extends Component {
       }
     }
     if (event.id === 'backPress') {
+      if (this.props.showUnreadDot) {
+        this.props.dispatch({ type: UNREAD_CONV_DOT, show: false });
+      }
       if (this.props.goBackHome) {
         this.props.navigateResetHome();
       } else {
@@ -129,9 +133,12 @@ class Message extends Component {
     Analytics.screen('Chat');
     this.props.dispatch({ type: SET_ACTIVE_CONVERSATION, id: this.props.conversation.id });
 
-    // setTimeout(() => {
-    //   this.props.dispatch({ type: UNREAD_CONV_DOT, show: true });
-    // }, 2500);
+    if (this.props.fetchConversation) {
+      this.props.dispatch(getConversation(this.props.conversation.id)).then((results) => {
+        LOG('get conversation', results);
+        this.setState({ conversation: results.conversation });
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -143,7 +150,7 @@ class Message extends Component {
       this.createMessageReadInteraction();
     }
 
-    if (nextProps.showUnreadDot && !this.props.showUnreadDot) {
+    if ((nextProps.showUnreadDot && !this.props.showUnreadDot) || (Platform.OS === 'ios' && nextProps.unReadBadgeCount > 0)) {
       this.props.navigator.setStyle({
         ...navStyle,
         navBarButtonColor: COLORS.YELLOW,
@@ -153,8 +160,11 @@ class Message extends Component {
   }
 
   getConversationName() {
+    // Get ths conversation from the state if it exists, or from props
+    const conversation = this.state.conversation || this.props.conversation;
+
     const myId = this.props.me.id;
-    let messengers = this.props.conversation.messengers || [];
+    let messengers = conversation.messengers || [];
     let otherPerson = messengers.find((m) => !m.bot && (myId != m.id));
     return otherPerson ? otherPerson.first_name : 'Voke';
   }
@@ -262,7 +272,10 @@ class Message extends Component {
   }
 
   render() {
-    const { messages, me, typeState, pagination, conversation } = this.props;
+    const { messages, me, typeState, pagination } = this.props;
+    // Get ths conversation from the state if it exists, or from props
+    const conversation = this.state.conversation || this.props.conversation;
+
     let newHeight = {
       height: this.state.height < 40 ? 40 : this.state.height > 80 ? 80 : this.state.height,
     };
@@ -394,6 +407,7 @@ Message.propTypes = {
   conversation: PropTypes.object.isRequired,
   onSelectVideo: PropTypes.func,
   goBackHome: PropTypes.bool,
+  fetchConversation: PropTypes.bool,
 };
 
 const mapStateToProps = ({ messages, auth }, ownProps) => ({
@@ -401,6 +415,7 @@ const mapStateToProps = ({ messages, auth }, ownProps) => ({
   pagination: messages.pagination.messages[ownProps.conversation.id] || {},
   me: auth.user,
   typeState: !!messages.typeState[ownProps.conversation.id],
+  unReadBadgeCount: messages.unReadBadgeCount,
   // If we should show the conversation dot
   showUnreadDot: messages.unreadConversationDot,
 });

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, KeyboardAvoidingView, Linking, Alert, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { ScrollView, KeyboardAvoidingView, Linking, Alert, Keyboard, Platform } from 'react-native';
 
 import Analytics from '../../utils/analytics';
 import styles from './styles';
@@ -83,7 +83,7 @@ class SignUpAccount extends Component {
 
   render() {
     return (
-      <ScrollView keyboardShouldPersistTaps="always" style={styles.container} value={1} align="center" justify="center">
+      <ScrollView keyboardShouldPersistTaps={Platform.OS === 'android' ? 'handled' : 'always'} style={styles.container}>
         <KeyboardAvoidingView behavior="padding">
           <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
           <SignUpHeader
@@ -96,6 +96,7 @@ class SignUpAccount extends Component {
               value={this.state.email}
               onChangeText={this.checkEmail}
               placeholder="Email"
+              autoCorrect={true}
               blurOnSubmit={false}
               keyboardType="email-address"
               returnKeyType="next"
