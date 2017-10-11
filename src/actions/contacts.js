@@ -5,6 +5,7 @@ import lodashChunk from 'lodash/chunk';
 
 import { hashPhone } from '../utils/common';
 import callApi, { REQUESTS } from './api';
+import { setNoBackgroundAction } from './auth';
 import CONSTANTS, { SET_ALL_CONTACTS, SET_VOKE_CONTACTS, SET_CONTACTS_LOADING } from '../constants';
 import Permissions from '../utils/permissions';
 
@@ -27,6 +28,10 @@ function getFirstLetter(str) {
 export function getContacts(force = false) {
   return (dispatch, getState) => (
     new Promise((resolve, reject) => {
+      // On android, don't do any disconnecting/reconnecting in the background when getting permissions
+      if (Platform.OS === 'android') {
+        dispatch(setNoBackgroundAction(true));
+      }
 
       // Keep track of when the contacts are loading and finished loading
       dispatch({ type: SET_CONTACTS_LOADING, isLoading: true });

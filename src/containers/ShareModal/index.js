@@ -11,7 +11,7 @@ import { MessageDialog } from 'react-native-fbsdk';
 import Analytics from '../../utils/analytics';
 import SharePopup from './SharePopup';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import { toastAction } from '../../actions/auth';
+import { toastAction, setNoBackgroundAction } from '../../actions/auth';
 
 function getMessage(friend) {
   return `Hi ${friend ? friend.first_name : 'friend'}, check out this video ${friend ? friend.url : ''}`;
@@ -50,10 +50,16 @@ class ShareModal extends Component {
 
   handleDismiss() {
     this.props.onCancel();
+    if (Platform.OS === 'ios') {
+      Navigation.dismissModal({ animationType: 'none' });
+    }
   }
-
+  
   handleComplete() {
     this.props.onComplete();
+    if (Platform.OS === 'ios') {
+      Navigation.dismissModal({ animationType: 'none' });
+    }
   }
 
   handleHide() {
@@ -83,6 +89,8 @@ class ShareModal extends Component {
           this.handleDismiss();
           LOG('error', error);
         });
+      } else {
+        this.handleDismiss();
       }
     }).catch(() => {
       this.handleShare('custom');
@@ -109,6 +117,8 @@ class ShareModal extends Component {
   }
 
   handleShare(type) {
+    // Make sure no background actions happen while doing share stuff
+    this.props.dispatch(setNoBackgroundAction(true));
     const friend = this.props.friend;
     LOG(JSON.stringify(friend));
     if (!friend) {

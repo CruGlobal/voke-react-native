@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Navigation } from 'react-native-navigation';
 
 import { getContacts } from '../../actions/contacts';
-import { openSettingsAction } from '../../actions/auth';
+import { openSettingsAction, toastAction } from '../../actions/auth';
 import { createConversation, getConversation, deleteConversation } from '../../actions/messages';
 import Analytics from '../../utils/analytics';
 
@@ -230,9 +230,11 @@ class SelectFriend extends Component {
             onComplete: () => {
               LOG('onComplete');
               this.setState({ setLoaderBeforePush: true });
-              Navigation.dismissModal({ animationType: 'none' });
+
               // On android, put a timeout because the share stuff gets messed up otherwise
               if (Platform.OS === 'android') {
+                Navigation.dismissModal({ animationType: 'none' });
+                this.props.dispatch(toastAction('Loading Voke message', 'long'));
                 setTimeout(() => {
                   this.setState({ setLoaderBeforePush: false });
                   this.props.navigateResetTo('voke.Message', {
@@ -253,7 +255,9 @@ class SelectFriend extends Component {
             onCancel: () => {
               LOG('canceling');
               this.props.dispatch(deleteConversation(results.id));
-              Navigation.dismissModal({ animationType: 'none' });
+              if (Platform.OS === 'android') {
+                Navigation.dismissModal({ animationType: 'none' });
+              }
             },
             friend,
             phoneNumber,
@@ -267,9 +271,7 @@ class SelectFriend extends Component {
   renderRandomContacts() {
     let randomHeight = {};
     if (screenHeight < 450) {
-      randomHeight = {
-        height: 30,
-      };
+      randomHeight = { height: 30 };
     }
     return this.state.random.map((c, i) => (
       <Button
@@ -311,6 +313,14 @@ class SelectFriend extends Component {
     if (screenHeight < 450) {
       randomHeight = { height: 30 };
     }
+
+    let vokeText = 'Search your contacts or take a step of faith with...';
+    if (this.state.random.length === 0 && isAuthorized) {
+      vokeText = 'It’s empty in here...\nYou need some contacts';
+    } else if (!isAuthorized) {
+      vokeText = 'Please allow access to your contacts.';
+    }
+
     return (
       <ScrollView style={styles.container} contentContainerStyle={{ alignSelf: 'stretch' }}>
         <StatusBar hidden={false} />
@@ -336,13 +346,7 @@ class SelectFriend extends Component {
         <Flex value={1} align="center" justify="center" style={styles.vokeBubbleImageWrap}>
           <Flex self="center" align="center" justify="center" value={1} style={styles.vokeBubble}>
             <Text style={styles.info}>
-              {
-                isAuthorized ? (
-                  'Search your contacts or take a step of faith with...'
-                ) : (
-                  'It’s empty in here...\nYou need some contacts'
-                )
-              }
+              {vokeText}
             </Text>
           </Flex>
           <Flex style={styles.imageWrap} align="end" justify="end" >
