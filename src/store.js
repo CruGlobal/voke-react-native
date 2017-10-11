@@ -19,7 +19,6 @@ export default function getStore(onCompletion) {
     reducers,
     applyMiddleware(thunk),
   );
-  AsyncStorage.clear();
   persistStore(store, {
     storage: Platform.OS === 'android' ? FilesystemStorage : AsyncStorage,
   }, onCompletion);
