@@ -40,9 +40,6 @@ export default function auth(state = initialState, action) {
   switch (action.type) {
     case REHYDRATE:
       const incoming = action.payload.auth;
-      setTimeout(() => {
-        LOG(JSON.stringify(action.payload));
-      }, 1000);
       if (!incoming) return state;
       return {
         ...state,
