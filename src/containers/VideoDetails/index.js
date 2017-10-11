@@ -51,9 +51,8 @@ class VideoDetails extends Component {
 
     const initial = Orientation.getInitialOrientation();
     LOG(initial);
-    if (initial === 'PORTRAIT') {
-      this.setState({ isLandscape: false });
-    } else {
+    // Only change this if the app is in landscape mode
+    if (initial === 'LANDSCAPE') {
       this.setState({ isLandscape: true });
     }
   }

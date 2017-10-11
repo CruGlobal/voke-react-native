@@ -65,6 +65,8 @@ class ShareModal extends Component {
       contentType: 'link',
       contentUrl: url,
       contentDescription: message,
+      // contentTitle: message,
+      // quote: message,
     };
 
     MessageDialog.canShow(shareLinkContent).then((canShow)=>{
@@ -129,9 +131,9 @@ class ShareModal extends Component {
           LOG('failed message');
           this.handleDismiss();
         }
-        if (error) {
-          LOG('errror sending message', error);
-        }
+        // if (error) {
+        //   LOG('errror sending message', error);
+        // }
       });
       
     } else if (type === 'mail') {

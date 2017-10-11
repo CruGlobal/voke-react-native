@@ -11,7 +11,7 @@ import Analytics from '../../utils/analytics';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-import theme, {DEFAULT} from '../../theme';
+import theme, { DEFAULT } from '../../theme';
 import VOKE_BOT from '../../../images/voke_bot_face_large.png';
 import { vokeIcons } from '../../utils/iconMap';
 
@@ -203,7 +203,7 @@ class SelectFriend extends Component {
         // LOG('create voke conversation results', results);
         this.props.dispatch(getConversation(results.id)).then((c) => {
           // LOG('get voke conversation results', c);
-          this.props.navigator.resetTo('voke.Message', {conversation: c.conversation, goBackHome: true});
+          this.props.navigateResetTo('voke.Message', {conversation: c.conversation, goBackHome: true});
         });
       });
     } else {
@@ -240,7 +240,7 @@ class SelectFriend extends Component {
                     goBackHome: true,
                     fetchConversation: true,
                   });
-                }, 100);
+                }, 250);
               } else {
                 this.setState({ setLoaderBeforePush: false });
                 this.props.navigateResetTo('voke.Message', {
@@ -258,41 +258,8 @@ class SelectFriend extends Component {
             friend,
             phoneNumber,
           },
-          // navigatorStyle: {
-          //   screenBackgroundColor: 'rgba(0, 0, 0, 0.3)',
-          // },
           overrideBackPress: true,
         });
-
-        // Share.share(
-        //   {
-        //     message: `Hi ${friend ? friend.first_name : 'friend'}, check out this video ${friend ? friend.url : ''} `,
-        //     title: 'Check this out',
-        //   },
-        //   {
-        //     excludedActivityTypes: [
-        //       'com.apple.UIKit.activity.PostToTwitter',
-        //       'com.apple.uikit.activity.CopyToPasteboard',
-        //       'com.google.Drive.ShareExtension',
-        //       'com.apple.UIKit.activity.PostToFacebook',
-        //       'com.apple.UIKit.activity.PostToFlickr',
-        //       'com.apple.UIKit.activity.PostToVimeo',
-        //       'com.apple.UIKit.activity.PostToWeibo',
-        //       'com.apple.UIKit.activity.AirDrop',
-        //       'com.apple.UIKit.activity.PostToSlack',
-        //     ],
-        //   }).then((results1) => {
-        //   if (results1.action === 'sharedAction') {
-        //     // LOG('successfully shared video, results.id', results.id);
-        //     this.props.dispatch(getConversation(results.id)).then((c) => {
-        //       LOG('getconversation results', c);
-        //       this.props.navigatePush('voke.Message', {conversation: c.conversation, goBackHome: true});
-        //     });
-        //   } else {
-        //     // LOG('Did Not Share Video');
-        //     this.props.dispatch(deleteConversation(results.id));
-        //   }
-        // });
       });
     }
   }
