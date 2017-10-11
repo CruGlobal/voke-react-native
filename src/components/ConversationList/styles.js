@@ -50,7 +50,7 @@ export default StyleSheet.create({
     backgroundColor: theme.secondaryColor,
     flex: 1,
     flexDirection: 'row',
-    justifyContent: Platform.OS === 'android' ? 'flex-end' : 'space-between',
+    justifyContent: 'flex-end',
     paddingLeft: 15,
     position: 'relative',
   },

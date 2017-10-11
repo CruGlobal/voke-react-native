@@ -54,7 +54,7 @@ class ShareModal extends Component {
       Navigation.dismissModal({ animationType: 'none' });
     }
   }
-  
+
   handleComplete() {
     this.props.onComplete();
     if (Platform.OS === 'ios') {
@@ -136,7 +136,13 @@ class ShareModal extends Component {
         LOG(completed, cancelled, error);
         if (completed) {
           LOG('completed message');
-          this.handleComplete();
+          if (Platform.OS === 'ios') {
+            setTimeout(() => {
+              this.handleComplete();
+            }, 1000);
+          } else {
+            this.handleComplete();
+          }
         } else {
           LOG('failed message');
           this.handleDismiss();
@@ -145,7 +151,7 @@ class ShareModal extends Component {
         //   LOG('errror sending message', error);
         // }
       });
-      
+
     } else if (type === 'mail') {
       // This could also be done with Linking.openURL('mailto://?body=message');
       Communications.email(null, null, null, null, message);
