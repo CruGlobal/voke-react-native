@@ -442,6 +442,7 @@
 		AE0A75841F4271FE000A51EA /* TitilliumWeb-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-Regular.ttf"; sourceTree = "<group>"; };
 		AE0A75861F42720D000A51EA /* TitilliumWeb-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-SemiBold.ttf"; sourceTree = "<group>"; };
 		AE0A75881F427225000A51EA /* TitilliumWeb-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-Bold.ttf"; sourceTree = "<group>"; };
+		AE361FED1F8E975100118C4C /* ukulele-sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "ukulele-sound.wav"; path = "../../../../../.Trash/ukulele-sound.wav"; sourceTree = "<group>"; };
 		AE5BE02F1F607ACC0091810F /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		AE5BE0311F6098CC0091810F /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		AE5BE0331F6098E20091810F /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -453,7 +454,6 @@
 		AE9ADBEE1F7D3E570070C02D /* RNNotifications.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNNotifications.xcodeproj; path = "../node_modules/react-native-notifications/RNNotifications/RNNotifications.xcodeproj"; sourceTree = "<group>"; };
 		AEC9F3BF1F01CA620038E58D /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
 		AECD5AC01F575957004E173C /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
-		AEDD3BA71F8BB8E700C5AD7B /* ukulele-sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "ukulele-sound.wav"; path = "../../../../ukulele-sound.wav"; sourceTree = "<group>"; };
 		B1CF0855F5DB4084B57242A2 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
 		B28BBB1231AA4B02BE808F38 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		B81E6293ED38402A935FA0AA /* libSMXCrashlytics.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSMXCrashlytics.a; sourceTree = "<group>"; };
@@ -852,7 +852,7 @@
 		D53AC2D543B74BA580C754F7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				AEDD3BA71F8BB8E700C5AD7B /* ukulele-sound.wav */,
+				AE361FED1F8E975100118C4C /* ukulele-sound.wav */,
 				AE0A75881F427225000A51EA /* TitilliumWeb-Bold.ttf */,
 				AE0A75861F42720D000A51EA /* TitilliumWeb-SemiBold.ttf */,
 				AE0A75841F4271FE000A51EA /* TitilliumWeb-Regular.ttf */,

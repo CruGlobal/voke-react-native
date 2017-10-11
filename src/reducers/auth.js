@@ -48,6 +48,7 @@ export default function auth(state = initialState, action) {
         apiActive: 0,
         homeTabSelected: 0, // Always default the home page to tab 0
         activeScreen: null,
+        noBackgroundAction: false,
       };
 
     case TAB_SELECTED: {

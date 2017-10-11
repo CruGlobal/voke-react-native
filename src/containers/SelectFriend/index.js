@@ -8,6 +8,7 @@ import { getContacts } from '../../actions/contacts';
 import { openSettingsAction, toastAction } from '../../actions/auth';
 import { createConversation, getConversation, deleteConversation } from '../../actions/messages';
 import Analytics from '../../utils/analytics';
+import { SET_IN_SHARE } from  '../../constants';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
@@ -220,6 +221,7 @@ class SelectFriend extends Component {
           item_id: `${videoId}`,
         },
       };
+      this.props.dispatch({ type: SET_IN_SHARE, bool: true });
       this.props.dispatch(createConversation(data)).then((results) => {
         LOG('create conversation results', results);
         const friend = results.messengers[0];
@@ -229,6 +231,7 @@ class SelectFriend extends Component {
           passProps: {
             onComplete: () => {
               LOG('onComplete');
+              this.props.dispatch({ type: SET_IN_SHARE, bool: false });
               this.setState({ setLoaderBeforePush: true });
 
               // On android, put a timeout because the share stuff gets messed up otherwise
@@ -254,6 +257,7 @@ class SelectFriend extends Component {
             },
             onCancel: () => {
               LOG('canceling');
+              this.props.dispatch({ type: SET_IN_SHARE, bool: false });
               this.props.dispatch(deleteConversation(results.id));
               if (Platform.OS === 'android') {
                 Navigation.dismissModal({ animationType: 'none' });

@@ -1,6 +1,8 @@
-// import { Platform } from 'react-native';
+// import { AsyncStorage } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import PropTypes from 'prop-types';
+
+import { logoutAction } from './auth';
 import { startLoginApp, startTabApp } from '../NavConfig';
 import theme from '../theme';
 
@@ -90,13 +92,14 @@ export function navigateResetHome(navigator, options = {}) {
 }
 
 export function navigateResetLogin(navigator, options = {}) {
-  return () => {
+  return (dispatch) => {
     // navigator.resetTo({
     //   screen: 'voke.Login',
     //   animated: true,
     //   animationType: 'fade',
     //   ...options,
     // });
+    dispatch(logoutAction());
     startLoginApp(options);
   };
 }

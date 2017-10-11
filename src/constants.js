@@ -18,6 +18,7 @@ export const ACTIVE_SCREEN = 'app/ACTIVE_SCREEN';
 export const NO_BACKGROUND_ACTION = 'app/NO_BACKGROUND_ACTION';
 export const SET_ACTIVE_CONVERSATION = 'app/SET_ACTIVE_CONVERSATION';
 export const ONBOARD_FLAG = 'app/ONBOARD_FLAG';
+export const SET_IN_SHARE = 'app/SET_IN_SHARE';
 
 export const IS_SMALL_ANDROID = Platform.OS === 'android' && DEFAULT.FULL_HEIGHT < 600;
 

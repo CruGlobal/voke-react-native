@@ -64,6 +64,11 @@ class SignUpAccount extends Component {
         } else {
           this.props.navigatePush('voke.SignUpProfile');
         }
+      }).catch((err) => {
+        LOG('error', err);
+        if (err && err.errors && err.errors.includes('Email has already been taken')) {
+          Alert.alert('Error Creating Account', 'Email has already been taken.');
+        }
       });
     } else {
       Alert.alert('Invalid email/password', 'Please enter a valid email and password');
