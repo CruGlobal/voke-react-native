@@ -134,8 +134,10 @@ class Message extends Component {
 
     if (this.props.fetchConversation) {
       this.props.dispatch(getConversation(this.props.conversation.id)).then((results) => {
-        LOG('get conversation', results);
-        this.setState({ conversation: results.conversation });
+        LOG('get conversation inside messages', results);
+        this.setState({ conversation: results.conversation }, () => {
+          this.props.navigator.setTitle({ title: this.getConversationName() });
+        });
       });
     }
   }

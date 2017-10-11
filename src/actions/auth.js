@@ -20,6 +20,7 @@ let hasStartedUp = false;
 export function startupAction(navigator) {
   return (dispatch, getState) => {
     if (hasStartedUp) return;
+    dispatch(getMe());
 
     hasStartedUp = true;
     dispatch(establishDevice(navigator));
@@ -175,26 +176,31 @@ export function logoutAction() {
 }
 
 export function createAccountAction(email, password) {
-  return (dispatch) => {
-    return dispatch(callApi(REQUESTS.ME, {}, {
-      // Some data can be set in the REQUESTS object,
-      // so we don't need it in here
-      email,
-      password,
-    })).then((results) => {
-      if (!results.errors) {
-        LOG('create account success', results);
-        dispatch(loginAction(results.access_token.access_token));
-        // dispatch(messagesAction());
-        // Do something with the results
-        return results;
-      }
-      else LOG('Failed to create account', results.errors);
-      return results;
-    }).catch((error) => {
-      LOG('error creating account', error);
-    });
-  };
+  return (dispatch) => (
+    new Promise((resolve, reject) => {
+      dispatch(callApi(REQUESTS.ME, {}, {
+        // Some data can be set in the REQUESTS object,
+        // so we don't need it in here
+        email,
+        password,
+      })).then((results) => {
+        if (!results.errors) {
+          LOG('create account success', results);
+          dispatch(loginAction(results.access_token.access_token));
+          // dispatch(messagesAction());
+          // Do something with the results
+        } else {
+          LOG('Failed to create account', results.errors);
+          reject(results);
+          return;
+        }
+        resolve(results);
+      }).catch((error) => {
+        LOG('error creating account', error);
+        reject(error);
+      });
+    })
+  );
 }
 
 export function toastAction(text, length) {
@@ -258,6 +264,7 @@ export function facebookLoginAction(accessToken) {
 export function getMe() {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.GET_ME)).then((results) => {
+      LOG('user results', results);
       dispatch(setUserAction(results));
       return results;
     }).catch(() => {
@@ -294,6 +301,7 @@ export function updateMeImage(avatar) {
       type: 'image/jpeg',
       data: RNFetchBlob.wrap(avatar.uri.replace('file://', '')),
     };
+    LOG('data', data);
 
     return dispatch(callApi(REQUESTS.UPDATE_ME_IMAGE, {}, data)).then((results) => {
       LOG('update me image successful', results);

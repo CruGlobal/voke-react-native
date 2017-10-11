@@ -124,6 +124,9 @@ export default function callApi(requestObject, query = {}, data = {}) {
               } else if (err.errors.includes('Mobile has already been taken')) {
                 reject(err);
                 return;
+              } else if (err.errors.includes('Email has already been taken')) {
+                reject(err);
+                return;
               }
             }
           }

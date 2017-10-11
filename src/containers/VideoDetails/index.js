@@ -73,6 +73,7 @@ class VideoDetails extends Component {
   }
 
   componentWillUnmount() {
+    Orientation.lockToPortrait();
     Orientation.removeOrientationListener(this.orientationDidChange);
   }
 
