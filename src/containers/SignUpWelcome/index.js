@@ -15,7 +15,7 @@ import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import theme, { COLORS, DEFAULT } from '../../theme';
 
-import { Flex, Text, Button } from '../../components/common';
+import { Flex, Text, Button, Touchable } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 
 class SignUpWelcome extends Component {
@@ -63,13 +63,9 @@ class SignUpWelcome extends Component {
     if (!this.props.onlyOnboarding) return null;
     if (this.state.selectedPage === 3) return null;
     return (
-      <Button
-        text="skip"
-        type="transparent"
-        buttonTextStyle={{color: COLORS.WHITE, fontSize: 14}}
-        style={{position: 'absolute', bottom: 30, right: 30, zIndex: 50, padding: 20}}
-        onPress={() => this.props.navigateResetHome()}
-      />
+      <Touchable onPress={() => this.props.navigateResetHome()} style={{position: 'absolute', bottom: 30, right: 30, backgroundColor: theme.transparent, padding: 20}} >
+        <Text style={{color: theme.textColor, backgroundColor: 'rgba(0,0,0,0)'}}>Skip</Text>
+      </Touchable>
     );
   }
 
