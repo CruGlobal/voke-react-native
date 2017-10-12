@@ -6,7 +6,7 @@ import NotificationsIOS, { NotificationsAndroid } from 'react-native-notificatio
 import { API_URL } from '../api/utils';
 import { registerPushToken } from './auth';
 import { SOCKET_URL } from '../api/utils';
-import { newMessageAction, typeStateChangeAction, getConversation } from './messages';
+import { newMessageAction, typeStateChangeAction, getConversation, getConversations } from './messages';
 import { navigatePush, navigateResetHome, navigateResetTo } from './navigation_new';
 import callApi, { REQUESTS } from './api';
 import CONSTANTS from '../constants';
@@ -168,6 +168,10 @@ export function gotDeviceToken(navigator, token) {
     } else {
       dispatch(establishCableDevice(null));
     }
+    // 
+    // setTimeout(() => {
+    //   dispatch(closeSocketAction());
+    // }, 3500);
 
     notificationForeground = (n) => dispatch(handleNotifications(navigator, 'foreground', n));
     notificationBackground = (n) => dispatch(handleNotifications(navigator, 'background', n));
@@ -195,9 +199,9 @@ export function gotDeviceToken(navigator, token) {
       //   });
       // }, 5000);
       // Testing, disable socket so we get Push Notifications in the app
-      setTimeout(() => {
-        dispatch(closeSocketAction());
-      }, 3500);
+      // setTimeout(() => {
+      //   dispatch(closeSocketAction());
+      // }, 3500);
     } else {
       // NotificationsIOS.localNotification({
     //   alertBody: 'Local notificiation!',
@@ -229,31 +233,55 @@ export function closeNotificationListeners() {
 export function handleNotifications(navigator, state, notification) {
   return (dispatch, getState) => {
     let data = notification.getData();
-    LOG('notification', state, data);
+
+    // Get the namespace and link differently for ios and android
+    let namespace;
+    let link;
+    if (Platform.OS === 'ios') {
+      if (data && data.data && data.data.namespace) {
+        namespace = data.data.namespace;
+        link = data.data.link;
+      }
+    } else if (Platform.OS === 'android') {
+      if (data && data.namespace) {
+        namespace = data.namespace;
+        if (data.link) {
+          link = data.link;
+        } else if (data.notification && data.notification.click_action) {
+          link = data.notification.click_action;
+        }
+      }
+    }
+
+    LOG('notification', state, data, link, namespace);
+
+    if (state === 'foreground') {
+      LOG('Foreground notification', data);
+      // If the user receives a push notification while in the app and sockets
+      // are not connected, grab the new conversation info
+      if (!ws || (ws && ws.readyState !== WEBSOCKET_STATES.OPEN)) {
+        LOG('socket is closed');
+        if (namespace && link && namespace.includes('messenger:conversation:message')) {
+          const cId = link.substring(link.indexOf('conversations/') + 14, link.indexOf('/messages'));
+          if (!cId) return;
+
+          const activeScreen = getState().auth.activeScreen;
+          const conversationId = getState().messages.activeConversationId;
+          LOG('activeScreen, conversationId, cId', activeScreen, conversationId, cId);
+
+          if (activeScreen === 'voke.Message' && cId === conversationId) {
+            dispatch(getConversation(cId));
+          } else {
+            dispatch(getConversations());
+          }
+        }
+      }
+    }
     if (state === 'background') {
       // NotificationsIOS.setBadgesCount(2);
       LOG('Background notification', data);
     }
     if (state === 'open') {
-
-      // Get the namespace and link differently for ios and android
-      let namespace;
-      let link;
-      if (Platform.OS === 'ios') {
-        if (data && data.data && data.data.namespace) {
-          namespace = data.data.namespace;
-          link = data.data.link;
-        }
-      } else if (Platform.OS === 'android') {
-        if (data && data.namespace) {
-          namespace = data.namespace;
-          if (data.link) {
-            link = data.link;
-          } else if (data.notification && data.notification.click_action) {
-            link = data.notification.click_action;
-          }
-        }
-      }
 
       LOG('message came in with namespace and link', namespace, link);
 
