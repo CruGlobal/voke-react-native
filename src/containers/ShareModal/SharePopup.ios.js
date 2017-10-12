@@ -16,7 +16,7 @@ class SharePopup extends Component {
 
     return (
       <Flex align="center" justify="center" style={styles.container}>
-        <Flex direction="column" align="center" justify="center" style={styles.modal}>
+        <Flex direction="column" align="center" justify="center" style={styles.modal} animation="slideInUp" duration={500}>
           <Flex direction="row" value={1} style={{borderColor: COLORS.LIGHT_GREY, borderBottomWidth: 1, width: DEFAULT.FULL_WIDTH}} align="center" justify="center">
             <Touchable onPress={() => this.props.onShare('message')} >
               <Flex align="center" style={styles.shareAction} >

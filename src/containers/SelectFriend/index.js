@@ -8,7 +8,7 @@ import { getContacts } from '../../actions/contacts';
 import { openSettingsAction, toastAction } from '../../actions/auth';
 import { createConversation, getConversation, deleteConversation } from '../../actions/messages';
 import Analytics from '../../utils/analytics';
-import { SET_IN_SHARE } from  '../../constants';
+import { SET_IN_SHARE, SHOW_SHARE_MODAL } from  '../../constants';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
@@ -17,6 +17,7 @@ import VOKE_BOT from '../../../images/voke_bot_face_large.png';
 import { vokeIcons } from '../../utils/iconMap';
 
 import ApiLoading from '../ApiLoading';
+import ShareModal from '../ShareModal';
 import { Flex, Text, Loading, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import Permissions from '../../utils/permissions';
@@ -225,27 +226,30 @@ class SelectFriend extends Component {
       this.props.dispatch(createConversation(data)).then((results) => {
         LOG('create conversation results', results);
         const friend = results.messengers[0];
-        Navigation.showModal({
-          screen: 'voke.ShareModal',
-          animationType: 'none',
-          passProps: {
+
+        this.props.dispatch({
+          type: SHOW_SHARE_MODAL,
+          bool: true,
+          props: {
             onComplete: () => {
+              
               LOG('onComplete');
+              this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
               this.props.dispatch({ type: SET_IN_SHARE, bool: false });
               this.setState({ setLoaderBeforePush: true });
 
               // On android, put a timeout because the share stuff gets messed up otherwise
               if (Platform.OS === 'android') {
-                Navigation.dismissModal({ animationType: 'none' });
+                // Navigation.dismissModal({ animationType: 'none' });
                 this.props.dispatch(toastAction('Loading Voke message', 'long'));
-                setTimeout(() => {
-                  this.setState({ setLoaderBeforePush: false });
-                  this.props.navigateResetTo('voke.Message', {
-                    conversation: results,
-                    goBackHome: true,
-                    fetchConversation: true,
-                  });
-                }, 250);
+                // setTimeout(() => {
+                this.setState({ setLoaderBeforePush: false });
+                this.props.navigateResetTo('voke.Message', {
+                  conversation: results,
+                  goBackHome: true,
+                  fetchConversation: true,
+                });
+                // }, 250);
               } else {
                 this.setState({ setLoaderBeforePush: false });
                 this.props.navigateResetTo('voke.Message', {
@@ -257,17 +261,26 @@ class SelectFriend extends Component {
             },
             onCancel: () => {
               LOG('canceling');
+              this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
               this.props.dispatch({ type: SET_IN_SHARE, bool: false });
               this.props.dispatch(deleteConversation(results.id));
-              if (Platform.OS === 'android') {
-                Navigation.dismissModal({ animationType: 'none' });
-              }
+              // if (Platform.OS === 'android') {
+              //   Navigation.dismissModal({ animationType: 'none' });
+              // }
             },
             friend,
             phoneNumber,
           },
-          overrideBackPress: true,
         });
+
+
+        // Navigation.showModal({
+        //   screen: 'voke.ShareModal',
+        //   animationType: 'none',
+        //   passProps: {
+            
+        //   overrideBackPress: true,
+        // });
       });
     }
   }
@@ -386,6 +399,7 @@ class SelectFriend extends Component {
             <ApiLoading force={true} text={!this.state.setLoaderBeforePush ? 'Fetching your contacts,\ngive me a few seconds' : ''} />
           ) : null
         }
+        <ShareModal />
       </View>
     );
   }

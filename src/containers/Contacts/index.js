@@ -17,6 +17,7 @@ import Permissions from '../../utils/permissions';
 import { Button, Flex } from '../../components/common';
 
 import ApiLoading from '../ApiLoading';
+import ShareModal from '../ShareModal';
 import AndroidSearchBar from '../../components/AndroidSearchBar';
 import ContactsList from '../../components/ContactsList';
 import SearchBarIos from '../../components/SearchBarIos';
@@ -220,6 +221,9 @@ class Contacts extends Component {
           !this.props.isLoading && Platform.OS === 'android' ? (
             <ApiLoading showMS={500} />
           ) : null
+        }
+        {
+          isAuthorized ? <ShareModal /> : null
         }
       </View>
     );

@@ -1,6 +1,6 @@
 import { REHYDRATE } from 'redux-persist/constants';
 
-import { LOGOUT, SET_ALL_CONTACTS, SET_VOKE_CONTACTS, SET_CONTACTS_LOADING } from '../constants';
+import { LOGOUT, SET_ALL_CONTACTS, SET_VOKE_CONTACTS, SET_CONTACTS_LOADING, SHOW_SHARE_MODAL } from '../constants';
 import { REQUESTS } from '../actions/api';
 
 const initialState = {
@@ -9,6 +9,8 @@ const initialState = {
   random: [],
   lastUpdated: null,
   isLoading: false,
+  showShareModal: false,
+  shareModalProps: {},
 };
 
 // Voke contacts object
@@ -32,6 +34,8 @@ export default function contacts(state = initialState, action) {
         ...state,
         ...incoming,
         isLoading: false,
+        showShareModal: false,
+        shareModalProps: {},
       };
     case SET_CONTACTS_LOADING:
       return {
@@ -67,6 +71,12 @@ export default function contacts(state = initialState, action) {
       return {
         ...state,
         lastUpdated: new Date().valueOf(),
+      };
+    case SHOW_SHARE_MODAL:
+      return {
+        ...state,
+        showShareModal: action.bool,
+        shareModalProps: action.props || {},
       };
     case LOGOUT:
       return initialState;

@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Share, Linking, Alert, Platform, Clipboard } from 'react-native';
-import { Navigation } from 'react-native-navigation';
+import { Share, Linking, Platform, Clipboard } from 'react-native';
 import PropTypes from 'prop-types';
 import Communications from 'react-native-communications';
-// import {ShareSheet} from 'react-native-share';
 import SendSMS from 'react-native-sms';
 import { MessageDialog } from 'react-native-fbsdk';
 
 import Analytics from '../../utils/analytics';
 import SharePopup from './SharePopup';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { toastAction, setNoBackgroundAction } from '../../actions/auth';
 
 function getMessage(friend) {
@@ -18,12 +15,6 @@ function getMessage(friend) {
 }
 
 class ShareModal extends Component {
-  static navigatorStyle = {
-    navBarHidden: true,
-    screenBackgroundColor: 'transparent',
-    modalPresentationStyle: 'overFullScreen',
-  };
-
   constructor(props) {
     super(props);
 
@@ -31,7 +22,6 @@ class ShareModal extends Component {
       isHidden: false,
     };
 
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleDismiss = this.handleDismiss.bind(this);
     this.handleShare = this.handleShare.bind(this);
     this.handleComplete = this.handleComplete.bind(this);
@@ -42,23 +32,15 @@ class ShareModal extends Component {
     Analytics.screen('Share Modal');
   }
 
-  onNavigatorEvent(event) {
-    if (event.id === 'backPress') {
-      this.handleDismiss();
-    }
-  }
-
   handleDismiss() {
-    this.props.onCancel();
-    if (Platform.OS === 'ios') {
-      Navigation.dismissModal({ animationType: 'none' });
+    if (this.props.onCancel) {
+      this.props.onCancel();
     }
   }
 
   handleComplete() {
-    this.props.onComplete();
-    if (Platform.OS === 'ios') {
-      Navigation.dismissModal({ animationType: 'none' });
+    if (this.props.onComplete) {
+      this.props.onComplete();
     }
   }
 
@@ -120,6 +102,8 @@ class ShareModal extends Component {
     // Make sure no background actions happen while doing share stuff
     this.props.dispatch(setNoBackgroundAction(true));
     const friend = this.props.friend;
+    if (!friend) return;
+
     LOG(JSON.stringify(friend));
     if (!friend) {
       this.handleDismiss();
@@ -202,6 +186,7 @@ class ShareModal extends Component {
   }
 
   render() {
+    if (!this.props.isVisible) return null;
     return (
       <SharePopup
         onShare={this.handleShare}
@@ -213,13 +198,15 @@ class ShareModal extends Component {
 }
 
 ShareModal.propTypes = {
-  ...NavPropTypes,
-  onCancel: PropTypes.func.isRequired,
-  onComplete: PropTypes.func.isRequired,
-  friend: PropTypes.object.isRequired,
-  onDismiss: PropTypes.func,
-  onMore: PropTypes.func,
-  phoneNumber: PropTypes.string.isRequired,
+  onCancel: PropTypes.func, // Redux
+  onComplete: PropTypes.func, // Redux
+  friend: PropTypes.object, // Redux
+  phoneNumber: PropTypes.string, // Redux
 };
 
-export default connect(null, nav)(ShareModal);
+const mapStateToProps = ({ contacts }) => ({
+  isVisible: contacts.showShareModal,
+  ...contacts.shareModalProps,
+});
+
+export default connect(mapStateToProps)(ShareModal);
