@@ -195,9 +195,9 @@ export function gotDeviceToken(navigator, token) {
       //   });
       // }, 5000);
       // Testing, disable socket so we get Push Notifications in the app
-      // setTimeout(() => {
-      //   dispatch(closeSocketAction());
-      // }, 3500);
+      setTimeout(() => {
+        dispatch(closeSocketAction());
+      }, 3500);
     } else {
       // NotificationsIOS.localNotification({
     //   alertBody: 'Local notificiation!',
@@ -255,13 +255,16 @@ export function handleNotifications(navigator, state, notification) {
         }
       }
 
+      LOG('message came in with namespace and link', namespace, link);
+
       if (namespace && link && namespace.includes('messenger:conversation:message')) {
         const cId = link.substring(link.indexOf('conversations/') + 14, link.indexOf('/messages'));
-        LOG('cId', cId);
-        dispatch(getConversation(cId)).then((results)=> {
+        if (!cId) return;
+        dispatch(getConversation(cId)).then((results) => {
 
           const activeScreen = getState().auth.activeScreen;
           const conversationId = getState().messages.activeConversationId;
+          LOG('activeScreen, conversationId, cId', activeScreen, conversationId, cId);
           if (activeScreen === 'voke.Home') {
             LOG('push and on home');
             setTimeout(()=>{
@@ -291,19 +294,6 @@ export function handleNotifications(navigator, state, notification) {
           } else {
             LOG('push and else');
             dispatch(navigateResetTo(navigator, 'voke.Message', {conversation: results.conversation, goBackHome: true}));
-
-            // dispatch(navigateResetHome(navigator, {
-            //   passProps: {
-            //     onMount: (navigator2) => {
-            //       // The navigator gets reset on resetHome so we need to get the new navigator passed back when Home mounts
-            //       dispatch(navigatePush(navigator2, 'voke.Message', {
-            //         conversation: results.conversation,
-            //       }, {
-            //         animationType: 'none',
-            //       }));
-            //     },
-            //   },
-            // }));
           }
 
         });

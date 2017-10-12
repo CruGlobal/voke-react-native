@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, TextInput, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
+
+import { startupAction } from '../../actions/auth';
 import { getMessages, createMessage, createTypeStateAction, destroyTypeStateAction, createMessageInteraction, markReadAction, getConversation } from '../../actions/messages';
 import Analytics from '../../utils/analytics';
 
@@ -140,6 +142,10 @@ class Message extends Component {
         });
       });
     }
+    setTimeout(() => {
+      this.props.dispatch(startupAction(this.props.navigator));
+    }, 50);
+
   }
 
   componentWillReceiveProps(nextProps) {

@@ -98,6 +98,10 @@ class SelectFriend extends Component {
     this.props.navigator.setButtons(setButtons());
   }
 
+  componentWillUnmount() {
+    this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
+  }
+  
   goToContacts() {
     this.props.navigatePush('voke.Contacts', {
       onSelect: this.selectContact,
@@ -232,24 +236,23 @@ class SelectFriend extends Component {
           bool: true,
           props: {
             onComplete: () => {
-              
               LOG('onComplete');
+              
               this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
               this.props.dispatch({ type: SET_IN_SHARE, bool: false });
               this.setState({ setLoaderBeforePush: true });
 
               // On android, put a timeout because the share stuff gets messed up otherwise
               if (Platform.OS === 'android') {
-                // Navigation.dismissModal({ animationType: 'none' });
-                this.props.dispatch(toastAction('Loading Voke message', 'long'));
-                // setTimeout(() => {
-                this.setState({ setLoaderBeforePush: false });
-                this.props.navigateResetTo('voke.Message', {
-                  conversation: results,
-                  goBackHome: true,
-                  fetchConversation: true,
-                });
-                // }, 250);
+                // this.props.dispatch(toastAction('Loading Voke message', 'long'));
+                setTimeout(() => {
+                  this.setState({ setLoaderBeforePush: false });
+                  this.props.navigateResetTo('voke.Message', {
+                    conversation: results,
+                    goBackHome: true,
+                    fetchConversation: true,
+                  });
+                }, 50);
               } else {
                 this.setState({ setLoaderBeforePush: false });
                 this.props.navigateResetTo('voke.Message', {
@@ -261,12 +264,10 @@ class SelectFriend extends Component {
             },
             onCancel: () => {
               LOG('canceling');
+              
               this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
               this.props.dispatch({ type: SET_IN_SHARE, bool: false });
               this.props.dispatch(deleteConversation(results.id));
-              // if (Platform.OS === 'android') {
-              //   Navigation.dismissModal({ animationType: 'none' });
-              // }
             },
             friend,
             phoneNumber,

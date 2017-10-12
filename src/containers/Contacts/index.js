@@ -15,6 +15,7 @@ import nav, { NavPropTypes } from '../../actions/navigation_new';
 import theme from '../../theme';
 import Permissions from '../../utils/permissions';
 import { Button, Flex } from '../../components/common';
+import { SHOW_SHARE_MODAL } from '../../constants';
 
 import ApiLoading from '../ApiLoading';
 import ShareModal from '../ShareModal';
@@ -79,6 +80,10 @@ class Contacts extends Component {
     if (this.props.isInvite) {
       this.checkContactsStatus();
     }
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
   }
 
   onNavigatorEvent(event) {
