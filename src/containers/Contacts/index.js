@@ -28,13 +28,22 @@ function setButtons() {
   // TODO: Implement a search bar for android using a custom navigation title
   if (Platform.OS === 'android') {
     return {
+      leftButtons: [{
+        id: 'back', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+        icon: vokeIcons['back'], // for icon button, provide the local image asset name
+      }],
       rightButtons: [{
         id: 'search',
         icon: vokeIcons['search'],
       }],
     };
   }
-  return {};
+  return {
+    leftButtons: [{
+      id: 'back', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+      icon: vokeIcons['back'], // for icon button, provide the local image asset name
+    }],
+  };
 }
 class Contacts extends Component {
   static navigatorStyle = {
@@ -83,15 +92,25 @@ class Contacts extends Component {
   }
 
   componentWillUnmount() {
+    // Make sure to hide the share modal whenever the contacts page goes away
     this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
   }
 
   onNavigatorEvent(event) {
     if (event.id === 'search') {
+      // Only show search box if the permissions are authorized
       if (this.state.permission === Permissions.AUTHORIZED) {
         this.setState({ showSearch: !this.state.showSearch });
       }
     }
+    // Handle the event when some clicks back while the share modal is up
+    if ((event.type === 'NavBarButtonPress' && event.id === 'back') || event.id === 'backPress') {
+      if (this.props.isShareModalVisible && this.props.shareModalCancel) {
+        this.props.shareModalCancel();
+      } else {
+        this.props.navigateBack();
+      }
+    } 
   }
 
   handleCheckPermission(permission) {
@@ -248,8 +267,10 @@ Contacts.propTypes = {
 const mapStateToProps = ({ contacts }) => ({
   all: contacts.all,
   allLength: contacts.all.length,
-  // voke: contacts.voke,
   isLoading: contacts.isLoading,
+
+  isShareModalVisible: contacts.showShareModal,
+  shareModalCancel: contacts.shareModalProps.onCancel,
 });
 
 export default connect(mapStateToProps, nav)(Contacts);

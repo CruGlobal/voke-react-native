@@ -155,6 +155,7 @@ export default {
   'CREATE_CONVERSATION': {
     endpoint: API_URL + 'me/conversations',
     method: 'post',
+    showApiLoading: true,
   },
   'GET_MESSAGES': {
     endpoint: API_URL + 'me/conversations/conversation_id/messages',

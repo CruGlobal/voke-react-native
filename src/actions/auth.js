@@ -20,7 +20,7 @@ let hasStartedUp = false;
 export function startupAction(navigator) {
   return (dispatch, getState) => {
     if (hasStartedUp) return;
-    dispatch(getMe());
+    // dispatch(getMe());
 
     hasStartedUp = true;
     dispatch(establishDevice(navigator));

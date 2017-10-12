@@ -50,7 +50,7 @@ class VideoDetails extends Component {
     // beginning of the JS runtime.
 
     const initial = Orientation.getInitialOrientation();
-    LOG(initial);
+    // LOG(initial);
     // Only change this if the app is in landscape mode
     if (initial === 'LANDSCAPE') {
       this.setState({ isLandscape: true });

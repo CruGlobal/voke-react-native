@@ -50,12 +50,11 @@ export default function contacts(state = initialState, action) {
       };
     case SET_VOKE_CONTACTS:
       const vokeArr = action.voke || [];
-      // Pull out the localIds to compare with the contactIds
-      const vokeIds = vokeArr.map((c) => c.local_id);
+      // const vokeIds = vokeArr.map((c) => c.local_id);
       // Format contacts to update them based on if they match a voke id
       const allContacts = state.all.map((c) => {
-        if (vokeIds.includes(c.id)) {
-          const vokeContact = vokeArr.find((v) => v.local_id === c.id);
+        const vokeContact = vokeArr.find((v) => v.local_id === c.id);
+        if (vokeContact) {
           c.isVoke = true;
           c.vokeDetails = vokeContact;
         }
@@ -64,7 +63,6 @@ export default function contacts(state = initialState, action) {
       return {
         ...state,
         all: allContacts,
-        voke: vokeArr,
       };
 
     case REQUESTS.ADD_FRIENDS.SUCCESS:
