@@ -51,6 +51,7 @@
 		AE5BE03F1F609C860091810F /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE03E1F609C760091810F /* libRCTFBSDK.a */; };
 		AE5BE0C51F631E2F0091810F /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE0C31F631E2F0091810F /* Fabric.framework */; };
 		AE5BE0C61F631E2F0091810F /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE0C41F631E2F0091810F /* Crashlytics.framework */; };
+		AE832BBE1F900CAA00ABEE80 /* ukulele-sound.wav in Resources */ = {isa = PBXBuildFile; fileRef = AE832BBD1F900CAA00ABEE80 /* ukulele-sound.wav */; };
 		AE9ADC221F7D3F640070C02D /* libRNNotifications.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE9ADC1A1F7D3E570070C02D /* libRNNotifications.a */; };
 		AEC9F3E11F01CA7D0038E58D /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC9F3DF1F01CA630038E58D /* libReactNativeNavigation.a */; };
 		AECD5AED1F575975004E173C /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AECD5AD11F575957004E173C /* libRCTPushNotification.a */; };
@@ -442,7 +443,6 @@
 		AE0A75841F4271FE000A51EA /* TitilliumWeb-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-Regular.ttf"; sourceTree = "<group>"; };
 		AE0A75861F42720D000A51EA /* TitilliumWeb-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-SemiBold.ttf"; sourceTree = "<group>"; };
 		AE0A75881F427225000A51EA /* TitilliumWeb-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-Bold.ttf"; sourceTree = "<group>"; };
-		AE361FED1F8E975100118C4C /* ukulele-sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "ukulele-sound.wav"; path = "../../../../../.Trash/ukulele-sound.wav"; sourceTree = "<group>"; };
 		AE5BE02F1F607ACC0091810F /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		AE5BE0311F6098CC0091810F /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		AE5BE0331F6098E20091810F /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -451,6 +451,7 @@
 		AE5BE0391F609C760091810F /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
 		AE5BE0C31F631E2F0091810F /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		AE5BE0C41F631E2F0091810F /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		AE832BBD1F900CAA00ABEE80 /* ukulele-sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "ukulele-sound.wav"; sourceTree = "<group>"; };
 		AE9ADBEE1F7D3E570070C02D /* RNNotifications.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNNotifications.xcodeproj; path = "../node_modules/react-native-notifications/RNNotifications/RNNotifications.xcodeproj"; sourceTree = "<group>"; };
 		AEC9F3BF1F01CA620038E58D /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
 		AECD5AC01F575957004E173C /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
@@ -852,7 +853,7 @@
 		D53AC2D543B74BA580C754F7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				AE361FED1F8E975100118C4C /* ukulele-sound.wav */,
+				AE832BBD1F900CAA00ABEE80 /* ukulele-sound.wav */,
 				AE0A75881F427225000A51EA /* TitilliumWeb-Bold.ttf */,
 				AE0A75861F42720D000A51EA /* TitilliumWeb-SemiBold.ttf */,
 				AE0A75841F4271FE000A51EA /* TitilliumWeb-Regular.ttf */,
@@ -1387,6 +1388,7 @@
 			files = (
 				AE0A75891F427225000A51EA /* TitilliumWeb-Bold.ttf in Resources */,
 				932AA1BD1F602AFB008937B1 /* Images.xcassets in Resources */,
+				AE832BBE1F900CAA00ABEE80 /* ukulele-sound.wav in Resources */,
 				C73DF4BA9C8D43E989290E35 /* Entypo.ttf in Resources */,
 				AE0A75851F4271FE000A51EA /* TitilliumWeb-Regular.ttf in Resources */,
 				49EA158A40334A37BD06A89F /* EvilIcons.ttf in Resources */,

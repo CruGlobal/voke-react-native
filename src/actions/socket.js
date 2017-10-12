@@ -168,7 +168,8 @@ export function gotDeviceToken(navigator, token) {
     } else {
       dispatch(establishCableDevice(null));
     }
-    // 
+
+    //
     // setTimeout(() => {
     //   dispatch(closeSocketAction());
     // }, 3500);
@@ -233,6 +234,7 @@ export function closeNotificationListeners() {
 export function handleNotifications(navigator, state, notification) {
   return (dispatch, getState) => {
     let data = notification.getData();
+    // LOG(JSON.stringify(notification));
 
     // Get the namespace and link differently for ios and android
     let namespace;
