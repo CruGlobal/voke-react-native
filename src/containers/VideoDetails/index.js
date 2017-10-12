@@ -205,7 +205,8 @@ class VideoDetails extends Component {
                   { text: 'Cancel' },
                   { text: 'Add', onPress: () => {
                     this.props.onSelectVideo(video.id);
-                    this.props.navigateBack();
+                    // No need to navigate back, just dismiss the VideoDetails modal
+                    // this.props.navigateBack();
                     Navigation.dismissModal();
                   }},
                 ]
