@@ -69,6 +69,7 @@ class SelectFriend extends Component {
       setLoaderBeforePush: false,
       random: [],
       permission: '',
+      loadingBeforeShareSheet: false,
     };
 
     this.goToContacts = this.goToContacts.bind(this);
@@ -101,7 +102,7 @@ class SelectFriend extends Component {
   componentWillUnmount() {
     this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
   }
-  
+
   goToContacts() {
     this.props.navigatePush('voke.Contacts', {
       onSelect: this.selectContact,
@@ -182,7 +183,7 @@ class SelectFriend extends Component {
 
   selectContact(c) {
     if (!c) return;
-    
+
     Keyboard.dismiss();
 
     // LOG(JSON.stringify(c));
@@ -218,7 +219,9 @@ class SelectFriend extends Component {
     } else {
       // LOG('normal contact selected', this.props.video);
       // Set this up so background stuff doesn't try to do too much while in the share modal
+      this.setState({ loadingBeforeShareSheet: true });
       this.props.dispatch({ type: SET_IN_SHARE, bool: true });
+      LOG(this.state.loadingBeforeShareSheet);
       // Create the conversation
       this.props.dispatch(createConversation(createData)).then((results) => {
         LOG('create conversation results', results);
@@ -231,7 +234,7 @@ class SelectFriend extends Component {
           props: {
             onComplete: () => {
               LOG('onComplete');
-              
+
               // Set these to false so we're not in the share modal anymore
               this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
               this.props.dispatch({ type: SET_IN_SHARE, bool: false });
@@ -259,7 +262,7 @@ class SelectFriend extends Component {
             // This could also be called on the contacts page to cancel the share modal
             onCancel: () => {
               LOG('canceling');
-              
+
               // Set these to false and delete the conversation
               this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
               this.props.dispatch({ type: SET_IN_SHARE, bool: false });
@@ -269,6 +272,7 @@ class SelectFriend extends Component {
             phoneNumber,
           },
         });
+        this.setState({loadingBeforeShareSheet: false});
       });
     }
   }
@@ -360,8 +364,8 @@ class SelectFriend extends Component {
         <StatusBar />
         {this.renderContent()}
         {
-          this.props.isLoading || this.state.setLoaderBeforePush ? (
-            <ApiLoading force={true} text={!this.state.setLoaderBeforePush ? 'Fetching your contacts,\ngive me a few seconds' : ''} />
+          this.props.isLoading || this.state.setLoaderBeforePush || this.state.loadingBeforeShareSheet? (
+            <ApiLoading force={true} text={(this.state.setLoaderBeforePush || this.state.loadingBeforeShareSheet) ? '' : 'Fetching your contacts,\ngive me a few seconds'} />
           ) : null
         }
         <ShareModal />
