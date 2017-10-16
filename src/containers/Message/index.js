@@ -387,6 +387,7 @@ class Message extends Component {
               onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}
               style={[styles.chatInput, newHeight]}
               autoCorrect={true}
+              returnKeyType="done"
             />
             {
               this.state.text ? (
