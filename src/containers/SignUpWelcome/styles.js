@@ -67,12 +67,16 @@ export default StyleSheet.create({
     borderRadius: 0,
   },
   vokeWrap: {
-    // width: DEFAULT.FULL_WIDTH,
+    width: DEFAULT.FULL_WIDTH,
     // paddingTop: 30,
     position: 'absolute',
     bottom: 55,
     right: 0,
     left: 0,
+  },
+  vokeBot: {
+    bottom: -25,
+    width: DEFAULT.FULL_WIDTH - 200,
   },
   endButton: {
     alignItems: 'center',

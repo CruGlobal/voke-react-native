@@ -114,7 +114,7 @@ class SignUpWelcome extends Component {
               <Text style={styles.headerTitle}> </Text>
               <Text style={styles.headerText}>Meet Vokebot! He will help you along the way.</Text>
               <Flex self="stretch" justify="start" align="end" style={styles.vokeWrap}>
-                <Image source={VOKE_BOT} style={styles.vokeBot} />
+                <Image resizeMode="contain" source={VOKE_BOT} style={styles.vokeBot} />
               </Flex>
               {
                 this.props.onlyOnboarding ? (
