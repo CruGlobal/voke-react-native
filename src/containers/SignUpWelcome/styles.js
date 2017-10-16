@@ -10,6 +10,10 @@ export default StyleSheet.create({
     width: 400,
     height: Platform.OS === 'android' ? DEFAULT.FULL_HEIGHT - 275 : DEFAULT.FULL_HEIGHT - 250,
   },
+  onboardFull: {
+    width: DEFAULT.FULL_WIDTH,
+    height: DEFAULT.FULL_HEIGHT,
+  },
   headerWrap: {
     paddingVertical: 30,
   },

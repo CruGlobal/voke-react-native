@@ -268,11 +268,7 @@ class Contacts extends Component {
             />
           ) : null
         }
-        {
-          !this.props.isLoading && Platform.OS === 'android' ? (
-            <ApiLoading showMS={500} />
-          ) : null
-        }
+        <ApiLoading />
         {
           isAuthorized ? <ShareModal /> : null
         }

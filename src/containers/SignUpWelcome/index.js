@@ -6,6 +6,7 @@ import Analytics from '../../utils/analytics';
 import PropTypes from 'prop-types';
 
 import ONBOARD_1 from '../../../images/onboardingWatch.png';
+import ONBOARD_NEW from '../../../images/onboardingOne.png';
 import ONBOARD_2 from '../../../images/onboardingShare.png';
 import ONBOARD_3 from '../../../images/onboardingChat.png';
 import VOKE_BOT from '../../../images/onboardingVoke.png';
@@ -54,7 +55,7 @@ class SignUpWelcome extends Component {
         style={{marginBottom: 55}}
         dotStyle={{backgroundColor: COLORS.PRIMARY_FADE, marginHorizontal: 5}}
         selectedDotStyle={{backgroundColor: theme.primaryColor, marginHorizontal: 5}}
-        pageCount={4}
+        pageCount={5}
       />
     );
   }
@@ -83,6 +84,11 @@ class SignUpWelcome extends Component {
             indicator={this.renderDotIndicator()}
             onPageSelected={this.onPageSelected}
           >
+            <View style={styles.onboardingPage}>
+              <Flex align="center" justify="center" style={styles.imageWrap}>
+                <Image resizeMode="cover" source={ONBOARD_NEW} style={styles.onboardFull} />
+              </Flex>
+            </View>
             <View style={styles.onboardingPage}>
               <Text style={styles.headerTitle}>Watch</Text>
               <Text style={styles.headerText}>Discover, watch, and share compelling videos.</Text>
