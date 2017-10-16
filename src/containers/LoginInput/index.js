@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, TouchableOpacity, Keyboard, Alert } from 'react-native';
+import { Image, TouchableOpacity, Keyboard, Alert, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { LoginManager, GraphRequestManager, GraphRequest, AccessToken } from 'react-native-fbsdk';
 import Analytics from '../../utils/analytics';
@@ -131,17 +131,17 @@ class LoginInput extends Component {
       <Flex style={styles.container} value={1} align="center" justify="center">
         <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
           <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
-          <Flex direction="column" value={0.4} align="center" justify="end" style={styles.logoWrapper}>
+          <Flex direction="column" align="center" justify="end" style={styles.logoWrapper}>
             <Flex style={styles.imageWrap} align="center" justify="center">
               <Image resizeMode="contain" source={LOGO} style={styles.imageLogo} />
             </Flex>
           </Flex>
-          <Flex value={1} align="center" justify="end" style={styles.actions}>
+          <Flex align="center" justify="end" style={styles.actions}>
             <SignUpInput
               value={this.state.email}
               onChangeText={this.checkEmail}
               placeholder="Email"
-              autoCorrect={true}
+              autoCorrect={false}
               keyboardType="email-address"
               returnKeyType="next"
               blurOnSubmit={false}
@@ -169,7 +169,7 @@ class LoginInput extends Component {
               onPress={() => this.props.navigatePush('voke.ForgotPassword')}
             />
           </Flex>
-          <Flex value={0.4} direction="column" align="center" justify="start" style={styles.haveAccount}>
+          <Flex value={1} direction="column" align="center" justify="center" style={styles.haveAccount}>
             <Flex style={styles.buttonWrapper}>
               <Button
                 text="Sign In with Facebook"

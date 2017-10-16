@@ -2,6 +2,7 @@
 import { StyleSheet } from 'react-native';
 import theme, { DEFAULT } from '../../theme';
 import { IS_SMALL_ANDROID } from '../../constants';
+const isSmallScreen = IS_SMALL_ANDROID || DEFAULT.FULL_HEIGHT < 600;
 
 export default StyleSheet.create({
   container: {
@@ -10,9 +11,11 @@ export default StyleSheet.create({
   },
   actions: {
     paddingBottom: 25,
+    paddingTop: 20,
   },
   logoWrapper: {
     width: DEFAULT.FULL_WIDTH,
+    paddingVertical: isSmallScreen ? 30 : 50,
   },
   imageWrap: {
     width: DEFAULT.FULL_WIDTH,
