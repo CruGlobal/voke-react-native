@@ -30,7 +30,9 @@ class VideoList extends Component {
   }
 
   scrollToBeginning() {
-    this.list.scrollToIndex({ index: 0 });
+    if (this.props.items.length > 0) {
+      this.list.scrollToIndex({ index: 0 });
+    }
   }
 
   renderRow({ item }) {
@@ -79,12 +81,15 @@ class VideoList extends Component {
           refreshing={this.state.refreshing}
           onRefresh={this.handleRefresh}
         />}
+        pagingEnabled={true}
+        onEndReached={this.props.onLoadMore}
       />
     );
   }
 }
 
 VideoList.propTypes = {
+  onLoadMore: PropTypes.func.isRequired, // Redux
   onRefresh: PropTypes.func.isRequired, // Redux
   onSelect: PropTypes.func.isRequired, // Redux
   items: PropTypes.array.isRequired, // Redux

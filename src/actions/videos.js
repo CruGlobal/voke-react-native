@@ -1,21 +1,21 @@
 import callApi, { REQUESTS } from './api';
 import { API_URL } from '../api/utils';
 
-export function getVideos() {
+export function getVideos(query = {}) {
   return (dispatch) => {
-    return dispatch(callApi(REQUESTS.VIDEOS));
+    return dispatch(callApi(REQUESTS.VIDEOS, query));
   };
 }
 
-export function getFeaturedVideos() {
+export function getFeaturedVideos(query = {}) {
   return (dispatch) => {
-    return dispatch(callApi(REQUESTS.GET_FEATURED_VIDEOS));
+    return dispatch(callApi(REQUESTS.GET_FEATURED_VIDEOS, query));
   };
 }
 
-export function getPopularVideos() {
+export function getPopularVideos(query = {}) {
   return (dispatch) => {
-    return dispatch(callApi(REQUESTS.GET_POPULAR_VIDEOS));
+    return dispatch(callApi(REQUESTS.GET_POPULAR_VIDEOS, query));
   };
 }
 
@@ -34,9 +34,12 @@ export function getKickstarters(item) {
   };
 }
 
-export function getSelectedThemeVideos(tag) {
+export function getSelectedThemeVideos(tag, page) {
   return (dispatch) => {
-    const query = { tag_id: tag };
+    let query = { tag_id: tag };
+    if (page && page > 1) {
+      query.page = page;
+    }
     return dispatch(callApi(REQUESTS.GET_VIDEOS_BY_TAG, query));
   };
 }

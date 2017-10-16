@@ -6,7 +6,7 @@ import { Navigation } from 'react-native-navigation';
 
 import { TAB_SELECTED } from '../../constants';
 import { getVideos, getFeaturedVideos, getPopularVideos, getTags, getSelectedThemeVideos } from '../../actions/videos';
-import { getMe } from '../../actions/auth';
+// import { getMe } from '../../actions/auth';
 import Analytics from '../../utils/analytics';
 
 import nav, { NavPropTypes } from '../../actions/navigation_new';
@@ -71,9 +71,11 @@ class Videos extends Component {
       selectedFilter: 'all',
       previousFilter: '',
       videos: [],
+      selectedTag: null,
     };
 
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    this.handleNextPage = this.handleNextPage.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
     this.handleRefresh = this.handleRefresh.bind(this);
     this.updateVideoList = this.updateVideoList.bind(this);
@@ -188,6 +190,7 @@ class Videos extends Component {
   }
 
   handleThemeSelect(tag) {
+    this.setState({ selectedTag: tag });
     this.props.dispatch(getSelectedThemeVideos(tag)).then(() => {
       this.setState({ videos: this.props.selectedThemeVideos});
       // Scroll to the top after selecting a theme
@@ -205,6 +208,7 @@ class Videos extends Component {
   }
 
   showThemes() {
+    this.setState({ selectedTag: null });
     if (Platform.OS === 'android') {
       Navigation.showModal({
         screen: 'voke.ThemeSelect',
@@ -231,6 +235,42 @@ class Videos extends Component {
         style: {
           backgroundBlur: 'dark', // 'dark' / 'light' / 'xlight' / 'none' - the type of blur on the background
         },
+      });
+    }
+  }
+
+  handleNextPage() {
+    const pagination = this.props.pagination;
+    const filter = this.state.selectedFilter;
+    // LOG('next page', filter, pagination[filter]);
+    if (!pagination[filter] || !pagination[filter].hasMore) {
+      return;
+    }
+    const page = pagination[filter].page + 1;
+    const query = { page };
+
+
+    if (filter === 'featured') {
+      this.props.dispatch(getFeaturedVideos(query)).then((r) => {
+        this.updateVideoList(filter);
+        return r;
+      });
+    } else if (filter === 'popular') {
+      this.props.dispatch(getPopularVideos(query)).then((r) => {
+        this.updateVideoList(filter);
+        return r;
+      });
+    } else if (filter === 'all') {
+      this.props.dispatch(getVideos(query)).then((r) => {
+        this.updateVideoList(filter);
+        return r;
+      });
+    } else if (filter === 'themes') {
+      if (this.state.videos.length === 0 || !this.state.selectedTag) {
+        return;
+      }
+      this.props.dispatch(getSelectedThemeVideos(this.state.selectedTag, page)).then(() => {
+        this.setState({ videos: this.props.selectedThemeVideos });
       });
     }
   }
@@ -286,7 +326,7 @@ class Videos extends Component {
 
   render() {
     const { onSelectVideo } = this.props;
-    const { selectedFilter } = this.state;
+    const { selectedFilter, videos } = this.state;
 
     return (
       <View style={styles.container}>
@@ -323,7 +363,7 @@ class Videos extends Component {
         </Flex>
         <VideoList
           ref={(c) => this.videoList = c}
-          items={this.state.videos}
+          items={videos}
           onSelect={(c) => {
             Navigation.showModal({
               screen: 'voke.VideoDetails',
@@ -340,6 +380,7 @@ class Videos extends Component {
             // });
           }}
           onRefresh={this.handleRefresh}
+          onLoadMore={this.handleNextPage}
         />
         {
           !onSelectVideo ? (
@@ -365,6 +406,7 @@ const mapStateToProps = ({ auth, videos }) => ({
   tags: videos.tags,
   selectedThemeVideos: videos.selectedThemeVideos,
   isTabSelected: auth.homeTabSelected === 1,
+  pagination: videos.pagination,
 });
 
 export default connect(mapStateToProps, nav)(Videos);
