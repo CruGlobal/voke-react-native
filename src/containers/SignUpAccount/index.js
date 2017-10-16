@@ -63,7 +63,7 @@ class SignUpAccount extends Component {
         if (results.errors) {
           Alert.alert('Error', `${results.errors}`);
         } else {
-          this.props.navigatePush('voke.SignUpProfile');
+          this.props.navigatePush('voke.SignUpProfile', {}, { overrideBackPress: true });
         }
       }).catch((err) => {
         LOG('error', err);
