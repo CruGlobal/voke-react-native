@@ -94,7 +94,7 @@ class Message extends Component {
         if (this.props.showUnreadDot) {
           this.props.dispatch({ type: UNREAD_CONV_DOT, show: false });
         }
-        
+
         if (this.props.goBackHome) {
           this.props.navigateResetHome();
         } else {
@@ -177,7 +177,7 @@ class Message extends Component {
   componentWillUnmount() {
     clearTimeout(this.timeoutSetYellow);
   }
-  
+
   getConversationName() {
     // Get ths conversation from the state if it exists, or from props
     const conversation = this.state.conversation || this.props.conversation;
