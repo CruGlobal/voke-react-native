@@ -164,6 +164,11 @@ class Message extends Component {
       });
       this.props.navigator.setButtons(setButtons(true));
     }
+    // Reset the yellow badge indicator when the unread count goes away
+    if (Platform.OS === 'ios' && nextProps.unReadBadgeCount === 0 && this.props.unReadBadgeCount > 0) {
+      this.props.navigator.setStyle(navStyle);
+      this.props.navigator.setButtons(setButtons());
+    }
   }
 
   getConversationName() {
