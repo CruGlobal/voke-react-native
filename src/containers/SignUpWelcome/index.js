@@ -21,7 +21,7 @@ import StatusBar from '../../components/StatusBar';
 class SignUpWelcome extends Component {
   static navigatorStyle = {
     navBarHidden: true,
-    screenBackgroundColor: theme.textColor,
+    screenBackgroundColor: theme.primaryColor,
     disabledBackGesture: true,
     drawUnderNavBar: true,
     navBarTranslucent: true,
@@ -73,7 +73,7 @@ class SignUpWelcome extends Component {
 
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: theme.transparent}}>
+      <View style={{flex: 1, backgroundColor: theme.textColor}}>
         <View style={styles.backgroundWrap}>
         </View>
         <StatusBar />

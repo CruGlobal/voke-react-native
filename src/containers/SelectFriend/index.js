@@ -300,10 +300,12 @@ class SelectFriend extends Component {
       randomHeight = { height: 30 };
     }
 
+    const isLoading = this.props.isLoading || this.state.setLoaderBeforePush || this.state.loadingBeforeShareSheet;
+
     let vokeText = 'Search your contacts or take a step of faith with...';
-    if (this.state.random.length === 0 && isAuthorized) {
+    if (this.state.random.length === 0 && isAuthorized && !isLoading) {
       vokeText = 'It’s empty in here...\nYou need some contacts';
-    } else if (!isAuthorized) {
+    } else if (!isAuthorized && !isLoading) {
       vokeText = 'Please allow access to your contacts.';
     }
 
@@ -364,7 +366,7 @@ class SelectFriend extends Component {
         <StatusBar />
         {this.renderContent()}
         {
-          this.props.isLoading || this.state.setLoaderBeforePush || this.state.loadingBeforeShareSheet? (
+          this.props.isLoading || this.state.setLoaderBeforePush || this.state.loadingBeforeShareSheet ? (
             <ApiLoading force={true} text={(this.state.setLoaderBeforePush || this.state.loadingBeforeShareSheet) ? '' : 'Fetching your contacts,\ngive me a few seconds'} />
           ) : null
         }

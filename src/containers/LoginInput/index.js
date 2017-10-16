@@ -6,7 +6,7 @@ import Analytics from '../../utils/analytics';
 
 import styles from './styles';
 import { getMe, facebookLoginAction, anonLogin } from '../../actions/auth';
-
+import theme from '../../theme';
 import ApiLoading from '../ApiLoading';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { Flex, Text, Button } from '../../components/common';
@@ -18,6 +18,7 @@ import CONSTANTS from '../../constants';
 class LoginInput extends Component {
   static navigatorStyle = {
     navBarHidden: true,
+    screenBackgroundColor: theme.primaryColor,
   };
 
   constructor(props) {
