@@ -81,7 +81,6 @@ class VideoList extends Component {
           refreshing={this.state.refreshing}
           onRefresh={this.handleRefresh}
         />}
-        pagingEnabled={true}
         onEndReached={this.props.onLoadMore}
       />
     );

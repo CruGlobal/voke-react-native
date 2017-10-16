@@ -291,7 +291,9 @@ export function handleNotifications(navigator, state, notification) {
         const cId = link.substring(link.indexOf('conversations/') + 14, link.indexOf('/messages'));
         if (!cId) return;
         dispatch(getConversation(cId)).then((results) => {
-
+          if (!results || !results.conversation ) {
+            return;
+          }
           const activeScreen = getState().auth.activeScreen;
           const conversationId = getState().messages.activeConversationId;
           LOG('activeScreen, conversationId, cId', activeScreen, conversationId, cId);
