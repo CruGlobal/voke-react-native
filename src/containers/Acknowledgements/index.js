@@ -67,10 +67,6 @@ class Acknowledgements extends Component {
             onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE),
           },
           {
-            name: 'react-native-action-button',
-            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_ACTION_BUTTON),
-          },
-          {
             name: 'react-native-animatable',
             onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_ANIMATABLE),
           },
@@ -113,10 +109,6 @@ class Acknowledgements extends Component {
           {
             name: 'react-native-navigation',
             onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_NAVIGATION),
-          },
-          {
-            name: 'react-native-sound',
-            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_SOUND),
           },
           {
             name: 'react-native-notifications',
