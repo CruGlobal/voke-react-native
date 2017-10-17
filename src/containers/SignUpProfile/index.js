@@ -98,15 +98,15 @@ class SignUpProfile extends Component {
     return (
       <ScrollView style={styles.container} value={1} keyboardShouldPersistTaps="always">
         <KeyboardAvoidingView behavior="padding">
-          <SignUpHeaderBack
-            onPress={() => {
-              if (this.props.hideBack) {
-                this.props.navigateResetLogin();
-              } else {
-                this.props.navigateBack();
-              }
-            }}
-          />
+          {
+            // hideBack just means that we're resetting to this page because the
+            // user has to fill in more info before they can continue
+            this.props.hideBack ? (
+              <SignUpHeaderBack
+                onPress={() => this.props.navigateResetLogin()}
+              />
+            ) : null
+          }
           <SignUpHeader title="Create Profile" onPress={()=> Keyboard.dismiss()} />
           <Flex value={1} align="center" justify="start" self="stretch" style={styles.inputs}>
             {this.renderImagePicker()}

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import styles from './styles';
 import { Flex, Icon, Button, Text, Separator } from '../../components/common';
 import ImagePicker from '../../components/ImagePicker';
-import { updateMe } from '../../actions/auth';
+import { updateMe, getMe } from '../../actions/auth';
 import { vokeIcons } from '../../utils/iconMap';
 import Analytics from '../../utils/analytics';
 
@@ -67,6 +67,7 @@ class Profile extends Component {
 
   componentDidMount() {
     Analytics.screen('Profile');
+    this.props.dispatch(getMe());
   }
 
   onNavigatorEvent(event) {

@@ -76,7 +76,7 @@ export function createMessage(conversation, data) {
 
 export function newMessageAction(message) {
   return (dispatch, getState) => {
-    if (getState().messages.isShare) {
+    if (getState().messages.inShare) {
       return;
     }
     return dispatch(getConversation(message.conversation_id)).then(() => {

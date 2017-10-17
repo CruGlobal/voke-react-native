@@ -6,7 +6,7 @@ import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { createAccountAction } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
-
+import theme from '../../theme';
 import { Flex, Text, Button, Touchable } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeader from '../../components/SignUpHeader';
@@ -16,6 +16,7 @@ import CONSTANTS from '../../constants';
 class SignUpAccount extends Component {
   static navigatorStyle = {
     navBarHidden: true,
+    screenBackgroundColor: theme.primaryColor,
   };
 
   constructor(props) {
@@ -62,7 +63,7 @@ class SignUpAccount extends Component {
         if (results.errors) {
           Alert.alert('Error', `${results.errors}`);
         } else {
-          this.props.navigatePush('voke.SignUpProfile');
+          this.props.navigatePush('voke.SignUpProfile', {}, { overrideBackPress: true });
         }
       }).catch((err) => {
         LOG('error', err);

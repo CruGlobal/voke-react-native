@@ -20,11 +20,9 @@ import com.facebook.appevents.AppEventsLogger;
 // import com.facebook.react.ReactApplication;
 import com.tkporter.sendsms.SendSMSPackage;
 import com.github.yamill.orientation.OrientationPackage;
-import com.zmxv.RNSound.RNSoundPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
-import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.rt2zz.reactnativecontacts.ReactNativeContacts;
 // import com.imagepicker.ImagePickerPackage;
@@ -70,7 +68,6 @@ public class MainApplication extends NavigationApplication implements INotificat
             new OrientationPackage(),
           new FBSDKPackage(mCallbackManager),
           new RNDeviceInfo(),
-          new ReactNativePushNotificationPackage(),
           new RNSpinkitPackage(),
           new ReactNativeContacts(),
           // new ImagePickerPackage(),
@@ -78,7 +75,6 @@ public class MainApplication extends NavigationApplication implements INotificat
           new VectorIconsPackage(),
           new PickerPackage(),
           new RNFetchBlobPackage(),
-          new RNSoundPackage(),
           new ReactVideoPackage(),
           new RNNotificationsPackage(MainApplication.this)
       );

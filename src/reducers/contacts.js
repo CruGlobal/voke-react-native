@@ -1,6 +1,6 @@
 import { REHYDRATE } from 'redux-persist/constants';
 
-import { LOGOUT, SET_ALL_CONTACTS, SET_VOKE_CONTACTS, SET_CONTACTS_LOADING } from '../constants';
+import { LOGOUT, SET_ALL_CONTACTS, SET_VOKE_CONTACTS, SET_CONTACTS_LOADING, SHOW_SHARE_MODAL } from '../constants';
 import { REQUESTS } from '../actions/api';
 
 const initialState = {
@@ -9,6 +9,8 @@ const initialState = {
   random: [],
   lastUpdated: null,
   isLoading: false,
+  showShareModal: false,
+  shareModalProps: {},
 };
 
 // Voke contacts object
@@ -32,6 +34,8 @@ export default function contacts(state = initialState, action) {
         ...state,
         ...incoming,
         isLoading: false,
+        showShareModal: false,
+        shareModalProps: {},
       };
     case SET_CONTACTS_LOADING:
       return {
@@ -46,12 +50,11 @@ export default function contacts(state = initialState, action) {
       };
     case SET_VOKE_CONTACTS:
       const vokeArr = action.voke || [];
-      // Pull out the localIds to compare with the contactIds
-      const vokeIds = vokeArr.map((c) => c.local_id);
+      // const vokeIds = vokeArr.map((c) => c.local_id);
       // Format contacts to update them based on if they match a voke id
       const allContacts = state.all.map((c) => {
-        if (vokeIds.includes(c.id)) {
-          const vokeContact = vokeArr.find((v) => v.local_id === c.id);
+        const vokeContact = vokeArr.find((v) => v.local_id === c.id);
+        if (vokeContact) {
           c.isVoke = true;
           c.vokeDetails = vokeContact;
         }
@@ -60,13 +63,18 @@ export default function contacts(state = initialState, action) {
       return {
         ...state,
         all: allContacts,
-        voke: vokeArr,
       };
 
     case REQUESTS.ADD_FRIENDS.SUCCESS:
       return {
         ...state,
         lastUpdated: new Date().valueOf(),
+      };
+    case SHOW_SHARE_MODAL:
+      return {
+        ...state,
+        showShareModal: action.bool,
+        shareModalProps: action.props || {},
       };
     case LOGOUT:
       return initialState;

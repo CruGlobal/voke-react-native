@@ -10,6 +10,10 @@ export default StyleSheet.create({
     width: 400,
     height: Platform.OS === 'android' ? DEFAULT.FULL_HEIGHT - 275 : DEFAULT.FULL_HEIGHT - 250,
   },
+  onboardFull: {
+    width: DEFAULT.FULL_WIDTH,
+    height: DEFAULT.FULL_HEIGHT,
+  },
   headerWrap: {
     paddingVertical: 30,
   },
@@ -63,12 +67,16 @@ export default StyleSheet.create({
     borderRadius: 0,
   },
   vokeWrap: {
-    // width: DEFAULT.FULL_WIDTH,
+    width: DEFAULT.FULL_WIDTH,
     // paddingTop: 30,
     position: 'absolute',
     bottom: 55,
     right: 0,
     left: 0,
+  },
+  vokeBot: {
+    bottom: -25,
+    width: DEFAULT.FULL_WIDTH - 200,
   },
   endButton: {
     alignItems: 'center',

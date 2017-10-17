@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Platform } from 'react-native';
+import { View, Platform, Keyboard } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import debounce from 'lodash/debounce';
@@ -15,8 +15,10 @@ import nav, { NavPropTypes } from '../../actions/navigation_new';
 import theme from '../../theme';
 import Permissions from '../../utils/permissions';
 import { Button, Flex } from '../../components/common';
+import { SHOW_SHARE_MODAL } from '../../constants';
 
 import ApiLoading from '../ApiLoading';
+import ShareModal from '../ShareModal';
 import AndroidSearchBar from '../../components/AndroidSearchBar';
 import ContactsList from '../../components/ContactsList';
 import SearchBarIos from '../../components/SearchBarIos';
@@ -26,13 +28,22 @@ function setButtons() {
   // TODO: Implement a search bar for android using a custom navigation title
   if (Platform.OS === 'android') {
     return {
+      leftButtons: [{
+        id: 'back', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+        icon: vokeIcons['back'], // for icon button, provide the local image asset name
+      }],
       rightButtons: [{
         id: 'search',
         icon: vokeIcons['search'],
       }],
     };
   }
-  return {};
+  return {
+    leftButtons: [{
+      id: 'back', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+      icon: vokeIcons['back'], // for icon button, provide the local image asset name
+    }],
+  };
 }
 class Contacts extends Component {
   static navigatorStyle = {
@@ -51,6 +62,7 @@ class Contacts extends Component {
       refreshing: false,
       searchResults: [],
       searchText: '',
+      keyboardVisible: false,
       showSearch: false,
       permission: props.isInvite ? Permissions.NOT_ASKED : Permissions.AUTHORIZED,
     };
@@ -64,6 +76,8 @@ class Contacts extends Component {
     this.handleCheckPermission = this.handleCheckPermission.bind(this);
     this.checkContactsStatus = this.checkContactsStatus.bind(this);
     this.handleAllowContacts = this.handleAllowContacts.bind(this);
+    this.keyboardDidShow = this.keyboardDidShow.bind(this);
+    this.keyboardDidHide = this.keyboardDidHide.bind(this);
   }
 
   componentWillMount() {
@@ -71,6 +85,9 @@ class Contacts extends Component {
     if (this.props.isInvite) {
       this.props.navigator.setTitle({ title: 'Invite a Friend' });
     }
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+
   }
 
   componentDidMount() {
@@ -80,11 +97,46 @@ class Contacts extends Component {
     }
   }
 
+  componentWillUnmount() {
+    // Make sure to hide the share modal whenever the contacts page goes away
+    this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
   onNavigatorEvent(event) {
     if (event.id === 'search') {
+      // Only show search box if the permissions are authorized
       if (this.state.permission === Permissions.AUTHORIZED) {
         this.setState({ showSearch: !this.state.showSearch });
       }
+    }
+    // Handle the event when some clicks back while the share modal is up
+    if ((event.type === 'NavBarButtonPress' && event.id === 'back') || event.id === 'backPress') {
+      if (this.props.isShareModalVisible && this.props.shareModalCancel) {
+        this.props.shareModalCancel();
+      } else {
+        this.props.navigateBack();
+      }
+    }
+  }
+
+  keyboardDidShow() {
+    this.setState({keyboardVisible: true});
+    LOG(this.state.keyboardVisible);
+    if (this.props.shareModalVisible) {
+      Keyboard.dismiss();
+    }
+  }
+
+  keyboardDidHide() {
+    this.setState({keyboardVisible: false});
+  }
+
+
+  componentWillReceiveProps() {
+    if (this.state.keyboardVisible) {
+      Keyboard.dismiss();
     }
   }
 
@@ -216,10 +268,9 @@ class Contacts extends Component {
             />
           ) : null
         }
+        <ApiLoading />
         {
-          !this.props.isLoading && Platform.OS === 'android' ? (
-            <ApiLoading showMS={500} />
-          ) : null
+          isAuthorized ? <ShareModal /> : null
         }
       </View>
     );
@@ -239,8 +290,10 @@ Contacts.propTypes = {
 const mapStateToProps = ({ contacts }) => ({
   all: contacts.all,
   allLength: contacts.all.length,
-  // voke: contacts.voke,
   isLoading: contacts.isLoading,
+
+  isShareModalVisible: contacts.showShareModal,
+  shareModalCancel: contacts.shareModalProps.onCancel,
 });
 
 export default connect(mapStateToProps, nav)(Contacts);

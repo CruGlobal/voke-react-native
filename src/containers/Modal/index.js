@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Image } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import PropTypes from 'prop-types';
 import Analytics from '../../utils/analytics';
-
+import CONTACTS_PERMISSION from '../../../images/contacts-permission.png';
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
 import { Flex, Text, Button } from '../../components/common';
@@ -37,7 +38,7 @@ class Modal extends Component {
     this.props.onDismiss();
     this.dismissModal();
   }
-  
+
   handleSelect() {
     this.props.getContacts();
     this.dismissModal();
@@ -54,18 +55,23 @@ class Modal extends Component {
           {
             this.state.isMore ? (
               <Flex align="center">
-                <Text style={styles.title}>
-                  Voke uses your contacts to help you in two ways:
+                <Text style={styles.titleMore}>
+                  Voke helps you start deeper conversations in two ways:
                 </Text>
                 <Text style={styles.showMoreDescription}>
-                  1. To find friends to share with
+                  1. By finding friends in your contacts you can share with.
                   {'\n'}
-                  2. To show you which friends have Voke
+                  2. To be encouraged when your friends are using Voke.
+                </Text>
+                <Text style={styles.showMoreDescriptionSmall}>
+                  Right now it is not possible to use Voke without access to your contacts.
+                  Pinky Promise: Voke does not keep or share your contacts.
                 </Text>
               </Flex>
             ) : (
               <Flex align="center">
-                <Text style={styles.title}>Voke helps you share with your friends!</Text>
+                <Image source={CONTACTS_PERMISSION} style={styles.permissionImage} />
+                <Text style={styles.title}>Use Address Book?</Text>
                 <Text style={styles.description}>Voke uses your contacts to make sharing quick and easy.</Text>
               </Flex>
             )
@@ -81,7 +87,7 @@ class Modal extends Component {
             </Flex>
             <Flex value={1} align="center" justify="center">
               <Button
-                text={this.state.isMore ? 'Let\'s do this!' : 'Got It!'}
+                text={this.state.isMore ? 'Give Access' : 'OK'}
                 buttonTextStyle={styles.buttonText2}
                 style={styles.button2}
                 onPress={this.handleSelect}

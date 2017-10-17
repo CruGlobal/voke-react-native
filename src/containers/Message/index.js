@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, TextInput, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
+
+import { startupAction } from '../../actions/auth';
 import { getMessages, createMessage, createTypeStateAction, destroyTypeStateAction, createMessageInteraction, markReadAction, getConversation } from '../../actions/messages';
 import Analytics from '../../utils/analytics';
 
@@ -93,7 +95,7 @@ class Message extends Component {
         if (this.props.showUnreadDot) {
           this.props.dispatch({ type: UNREAD_CONV_DOT, show: false });
         }
-        
+
         if (this.props.goBackHome) {
           this.props.navigateResetHome();
         } else {
@@ -141,6 +143,10 @@ class Message extends Component {
         });
       });
     }
+    setTimeout(() => {
+      this.props.dispatch(startupAction(this.props.navigator));
+    }, 50);
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -153,12 +159,24 @@ class Message extends Component {
     }
 
     if ((nextProps.showUnreadDot && !this.props.showUnreadDot) || (Platform.OS === 'ios' && nextProps.unReadBadgeCount > 0)) {
-      this.props.navigator.setStyle({
-        ...navStyle,
-        navBarButtonColor: COLORS.YELLOW,
-      });
-      this.props.navigator.setButtons(setButtons(true));
+      this.timeoutSetYellow = setTimeout(() => {
+        this.props.navigator.setStyle({
+          ...navStyle,
+          navBarButtonColor: COLORS.YELLOW,
+        });
+        this.props.navigator.setButtons(setButtons(true));
+      }, 1500);
     }
+    // Reset the yellow badge indicator when the unread count goes away
+    if (Platform.OS === 'ios' && nextProps.unReadBadgeCount === 0 && this.props.unReadBadgeCount > 0) {
+      clearTimeout(this.timeoutSetYellow);
+      this.props.navigator.setStyle(navStyle);
+      this.props.navigator.setButtons(setButtons());
+    }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timeoutSetYellow);
   }
 
   getConversationName() {
@@ -370,6 +388,7 @@ class Message extends Component {
               onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}
               style={[styles.chatInput, newHeight]}
               autoCorrect={true}
+              returnKeyType="done"
             />
             {
               this.state.text ? (

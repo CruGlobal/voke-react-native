@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, View, Image, Share, ScrollView } from 'react-native';
+import { Platform, View, Image, Keyboard, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Navigation } from 'react-native-navigation';
@@ -8,7 +8,7 @@ import { getContacts } from '../../actions/contacts';
 import { openSettingsAction, toastAction } from '../../actions/auth';
 import { createConversation, getConversation, deleteConversation } from '../../actions/messages';
 import Analytics from '../../utils/analytics';
-import { SET_IN_SHARE } from  '../../constants';
+import { SET_IN_SHARE, SHOW_SHARE_MODAL } from  '../../constants';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/navigation_new';
@@ -17,6 +17,7 @@ import VOKE_BOT from '../../../images/voke_bot_face_large.png';
 import { vokeIcons } from '../../utils/iconMap';
 
 import ApiLoading from '../ApiLoading';
+import ShareModal from '../ShareModal';
 import { Flex, Text, Loading, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import Permissions from '../../utils/permissions';
@@ -68,6 +69,7 @@ class SelectFriend extends Component {
       setLoaderBeforePush: false,
       random: [],
       permission: '',
+      loadingBeforeShareSheet: false,
     };
 
     this.goToContacts = this.goToContacts.bind(this);
@@ -97,11 +99,15 @@ class SelectFriend extends Component {
     this.props.navigator.setButtons(setButtons());
   }
 
+  componentWillUnmount() {
+    this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
+  }
+
   goToContacts() {
     this.props.navigatePush('voke.Contacts', {
       onSelect: this.selectContact,
       video: this.props.video,
-    });
+    }, { overrideBackPress: true });
   }
 
   onNavigatorEvent(event) {
@@ -177,6 +183,9 @@ class SelectFriend extends Component {
 
   selectContact(c) {
     if (!c) return;
+
+    Keyboard.dismiss();
+
     // LOG(JSON.stringify(c));
     let phoneNumber = c.phone ? c.phone[0] : null;
     let name = c.name ? c.name.split(' ') : null;
@@ -186,21 +195,21 @@ class SelectFriend extends Component {
 
     let videoId = this.props.video;
 
+    const createData = {
+      conversation: {
+        messengers_attributes: [
+          {
+            first_name: `${firstName}`,
+            last_name: `${lastName}`,
+            mobile: `${phoneNumber}`,
+          },
+        ],
+        item_id: `${videoId}`,
+      },
+    };
     if (c.isVoke) {
       // LOG('voke contact selected', this.props.video);
-      let data = {
-        conversation: {
-          messengers_attributes: [
-            {
-              first_name: `${firstName}`,
-              last_name: `${lastName}`,
-              mobile: `${phoneNumber}`,
-            },
-          ],
-          item_id: `${videoId}`,
-        },
-      };
-      this.props.dispatch(createConversation(data)).then((results) => {
+      this.props.dispatch(createConversation(createData)).then((results) => {
         // LOG('create voke conversation results', results);
         this.props.dispatch(getConversation(results.id)).then((c) => {
           // LOG('get voke conversation results', c);
@@ -209,35 +218,30 @@ class SelectFriend extends Component {
       });
     } else {
       // LOG('normal contact selected', this.props.video);
-      let data = {
-        conversation: {
-          messengers_attributes: [
-            {
-              first_name: `${firstName}`,
-              last_name: `${lastName}`,
-              mobile: `${phoneNumber}`,
-            },
-          ],
-          item_id: `${videoId}`,
-        },
-      };
+      // Set this up so background stuff doesn't try to do too much while in the share modal
+      this.setState({ loadingBeforeShareSheet: true });
       this.props.dispatch({ type: SET_IN_SHARE, bool: true });
-      this.props.dispatch(createConversation(data)).then((results) => {
+      LOG(this.state.loadingBeforeShareSheet);
+      // Create the conversation
+      this.props.dispatch(createConversation(createData)).then((results) => {
         LOG('create conversation results', results);
         const friend = results.messengers[0];
-        Navigation.showModal({
-          screen: 'voke.ShareModal',
-          animationType: 'none',
-          passProps: {
+
+        // Show the share modal
+        this.props.dispatch({
+          type: SHOW_SHARE_MODAL,
+          bool: true,
+          props: {
             onComplete: () => {
               LOG('onComplete');
+
+              // Set these to false so we're not in the share modal anymore
+              this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
               this.props.dispatch({ type: SET_IN_SHARE, bool: false });
               this.setState({ setLoaderBeforePush: true });
 
               // On android, put a timeout because the share stuff gets messed up otherwise
               if (Platform.OS === 'android') {
-                Navigation.dismissModal({ animationType: 'none' });
-                this.props.dispatch(toastAction('Loading Voke message', 'long'));
                 setTimeout(() => {
                   this.setState({ setLoaderBeforePush: false });
                   this.props.navigateResetTo('voke.Message', {
@@ -245,7 +249,7 @@ class SelectFriend extends Component {
                     goBackHome: true,
                     fetchConversation: true,
                   });
-                }, 250);
+                }, 50);
               } else {
                 this.setState({ setLoaderBeforePush: false });
                 this.props.navigateResetTo('voke.Message', {
@@ -255,19 +259,20 @@ class SelectFriend extends Component {
                 });
               }
             },
+            // This could also be called on the contacts page to cancel the share modal
             onCancel: () => {
               LOG('canceling');
+
+              // Set these to false and delete the conversation
+              this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
               this.props.dispatch({ type: SET_IN_SHARE, bool: false });
               this.props.dispatch(deleteConversation(results.id));
-              if (Platform.OS === 'android') {
-                Navigation.dismissModal({ animationType: 'none' });
-              }
             },
             friend,
             phoneNumber,
           },
-          overrideBackPress: true,
         });
+        this.setState({loadingBeforeShareSheet: false});
       });
     }
   }
@@ -286,42 +291,21 @@ class SelectFriend extends Component {
         buttonTextStyle={styles.randomText}
       />
     ));
-
-    // let arr = [];
-    // const isRandomSet = this.state.random.length > 0;
-    // for (let i=0; i<NUM_RANDOM; i++) {
-    //   const contact = isRandomSet ? this.state.random[i] || null : null;
-    //   arr.push((
-    //     <Button
-    //       key={`random_${i}`}
-    //       onPress={() => this.selectContact(contact)}
-    //       text={contact ? contact.name : ' '}
-    //       style={styles.randomButton}
-    //       buttonTextStyle={styles.randomText}
-    //     />
-    //   ));
-    // }
-    // return arr;
   }
 
   renderContent() {
-    // if (this.state.setLoaderBeforePush)  {
-    //   return (
-    //     <Flex style={styles.container} justify="center" align="center" value={1}>
-    //       <Loading />
-    //     </Flex>
-    //   );
-    // }
     let randomHeight = {};
     const isAuthorized = this.state.permission === Permissions.AUTHORIZED;
     if (screenHeight < 450) {
       randomHeight = { height: 30 };
     }
 
+    const isLoading = this.props.isLoading || this.state.setLoaderBeforePush || this.state.loadingBeforeShareSheet;
+
     let vokeText = 'Search your contacts or take a step of faith with...';
-    if (this.state.random.length === 0 && isAuthorized) {
+    if (this.state.random.length === 0 && isAuthorized && !isLoading) {
       vokeText = 'It’s empty in here...\nYou need some contacts';
-    } else if (!isAuthorized) {
+    } else if (!isAuthorized && !isLoading) {
       vokeText = 'Please allow access to your contacts.';
     }
 
@@ -382,10 +366,11 @@ class SelectFriend extends Component {
         <StatusBar />
         {this.renderContent()}
         {
-          this.props.isLoading || this.state.setLoaderBeforePush ? (
-            <ApiLoading force={true} text={!this.state.setLoaderBeforePush ? 'Fetching your contacts,\ngive me a few seconds' : ''} />
+          this.props.isLoading || this.state.setLoaderBeforePush || this.state.loadingBeforeShareSheet ? (
+            <ApiLoading force={true} text={(this.state.setLoaderBeforePush || this.state.loadingBeforeShareSheet) ? '' : 'Fetching your contacts,\ngive me a few seconds'} />
           ) : null
         }
+        <ShareModal />
       </View>
     );
   }
@@ -411,7 +396,6 @@ SelectFriend.propTypes = {
 
 const mapStateToProps = ({ contacts }) => ({
   all: contacts.all,
-  // voke: contacts.voke,
   isLoading: contacts.isLoading,
 });
 

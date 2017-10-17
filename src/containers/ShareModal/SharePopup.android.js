@@ -17,7 +17,7 @@ class SharePopup extends Component {
     return (
       <Flex align="center" justify="center" style={styles.container}>
         <ScrollView style={styles.androidModal}>
-          <Flex direction="column" value={1} align="start" justify="center">
+          <Flex direction="column" value={1} align="start" justify="center" animation="slideInUp" duration={500}>
             <Touchable onPress={() => this.props.onShare('message')} >
               <Flex direction="row" align="center" style={styles.androidShareRow}>
                 <Icon type="FontAwesome" style={styles.androidIcons} size={30} name="comment-o"  />
