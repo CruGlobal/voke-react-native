@@ -83,7 +83,9 @@ function appStateChange(dispatch, getState, navigator, nextAppState) {
     // LOG('activeScreen', activeScreen, conversationId);
     if (activeScreen === 'voke.Home') {
       const now = Date.now();
-      if (now - appCloseTime > (5 * 60 * 1000)) {
+      // const BACKGROUND_REFRESH_TIME = 5 * 60 * 1000; // 5 minutes
+      const BACKGROUND_REFRESH_TIME = 10 * 1000; // 10 seconds
+      if (now - appCloseTime > BACKGROUND_REFRESH_TIME) {
         dispatch(getConversations());
       }
     } else if (activeScreen === 'voke.Message' && conversationId) {

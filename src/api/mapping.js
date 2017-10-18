@@ -123,14 +123,11 @@ function formatConversation(c, getState) {
         messagePreview = 'Shared a video';
       }
     }
-    // if (!messagePreview) {
-    //   messagePreview = latestMessenger.latest_item ? latestMessenger.latest_item.name : null;
-    // }
+    if (!messagePreview) {
+      messagePreview = latestMessenger.latest_item ? latestMessenger.latest_item.name : null;
+    }
     c.messagePreview = messagePreview;
   }
-  // if (latestMessenger && latestMessenger.latestItem) {
-  //   c.messagePreview = latestMessenger.latestItem.preview;
-  // }
 
   const myMessage = messengers.find((e) => e.id === myId);
 

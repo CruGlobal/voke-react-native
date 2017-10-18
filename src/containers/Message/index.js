@@ -378,6 +378,7 @@ class Message extends Component {
                 this.handleChangeButtons(true);
               }
               }
+              autoCapitalize="sentences"
               multiline={true}
               value={this.state.text}
               placeholder="New Message"

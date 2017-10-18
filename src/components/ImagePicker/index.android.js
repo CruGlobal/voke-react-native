@@ -66,7 +66,7 @@ class ImagePicker extends Component {
           onPress: () => RNImagePicker.openPicker(OPTIONS).then(this.handleResponse).catch(this.handleError),
         },
         {
-          text: 'Take a new picture',
+          text: 'New picture',
           onPress: () => RNImagePicker.openCamera(OPTIONS).then(this.handleResponse).catch(this.handleError),
         },
       ]
