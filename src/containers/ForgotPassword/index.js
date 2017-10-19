@@ -70,6 +70,7 @@ class ForgotPassword extends Component {
               value={this.state.email}
               onChangeText={this.checkEmail}
               placeholder="Email"
+              keyboardType="email-address"
             />
             <Flex style={styles.buttonWrapper}>
               <Button
