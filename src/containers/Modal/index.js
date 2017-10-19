@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Image } from 'react-native';
+import { Image, Platform } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import PropTypes from 'prop-types';
 import Analytics from '../../utils/analytics';
@@ -49,6 +49,7 @@ class Modal extends Component {
   }
 
   render() {
+    const isAndroid = Platform.OS === 'android';
     return (
       <Flex align="center" justify="center" style={styles.container}>
         <Flex direction="column" align="center" justify="center" style={styles.modal}>
@@ -70,7 +71,11 @@ class Modal extends Component {
               </Flex>
             ) : (
               <Flex align="center">
-                <Image source={CONTACTS_PERMISSION} style={styles.permissionImage} />
+                {
+                  !isAndroid ? (
+                    <Image source={CONTACTS_PERMISSION} style={styles.permissionImage} />
+                  ) : null
+                }
                 <Text style={styles.title}>Use Address Book?</Text>
                 <Text style={styles.description}>Voke uses your contacts to make sharing quick and easy.</Text>
               </Flex>
