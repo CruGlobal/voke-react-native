@@ -26,6 +26,7 @@ class SignUpProfile extends Component {
       imageUri: null,
       firstName: '',
       lastName: '',
+      disableNext: false,
     };
 
     this.renderImagePicker = this.renderImagePicker.bind(this);
@@ -57,6 +58,7 @@ class SignUpProfile extends Component {
   addProfile() {
     const { firstName, lastName } = this.state;
     if (firstName && lastName) {
+      this.setState({ disableNext: true });
       const data = {
         me: {
           first_name: firstName,
@@ -67,7 +69,10 @@ class SignUpProfile extends Component {
         if (this.state.imageUri) {
           this.uploadImage(this.state.imageUri);
         }
+        this.setState({ disableNext: false });
         this.props.navigatePush('voke.SignUpNumber');
+      }).catch(() => {
+        this.setState({ disableNext: false });
       });
     } else {
       Alert.alert('', 'Please fill in your first and last name');
@@ -129,6 +134,7 @@ class SignUpProfile extends Component {
             <Flex value={1} align="center" justify="end" style={{ paddingTop: 75 }}>
               <Button
                 text="Next"
+                disabled={this.state.disableNext}
                 buttonTextStyle={styles.signInButton}
                 style={styles.actionButton}
                 onPress={this.addProfile}
