@@ -1,6 +1,6 @@
 import { API_URL } from '../api/utils';
 import { Vibration, Platform } from 'react-native';
-import { NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ, UNREAD_CONV_DOT } from '../constants';
+import { NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ, UNREAD_CONV_DOT, MESSAGE_CREATED } from '../constants';
 import callApi, { REQUESTS } from './api';
 // TODO: Remove this package from react-native
 // import Sound from 'react-native-sound';
@@ -68,7 +68,12 @@ export function createMessage(conversation, data) {
       endpoint: `${API_URL}me/conversations/${conversation}/messages`,
     };
     return dispatch(callApi(REQUESTS.CREATE_MESSAGE, query, data)).then((results) => {
-      dispatch(getMessages(conversation));
+      dispatch({
+        type: MESSAGE_CREATED,
+        conversationId: conversation,
+        message: results,
+      });
+      // dispatch(getMessages(conversation));
       return results;
     });
   };

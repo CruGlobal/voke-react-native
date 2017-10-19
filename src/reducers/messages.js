@@ -1,6 +1,6 @@
 import { REHYDRATE } from 'redux-persist/constants';
 import { REQUESTS } from '../actions/api';
-import { LOGOUT, NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ, SET_ACTIVE_CONVERSATION, UNREAD_CONV_DOT, SET_IN_SHARE } from '../constants';
+import { LOGOUT, NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ, SET_ACTIVE_CONVERSATION, UNREAD_CONV_DOT, SET_IN_SHARE, MESSAGE_CREATED } from '../constants';
 import { isArray } from '../utils/common';
 
 const initialState = {
@@ -181,6 +181,24 @@ export default function messages(state = initialState, action) {
           ],
         },
         unReadBadgeCount: currentBadgeCount >= 0 ? currentBadgeCount : 0,
+      };
+    // Fired from a socket event to new messages
+    case MESSAGE_CREATED:
+      const messageCreatedConversationId = action.conversationId;
+      if (!messageCreatedConversationId) {
+        return state;
+      }
+      
+      return {
+        ...state,
+        messages: {
+          ...state.messages,
+          [messageCreatedConversationId]: [
+            action.message,
+            // Spread over an existing array or force it to a blank array if it doesnt exist
+            ...(state.messages[conversationNewMessageId] || []),
+          ],
+        },
       };
     case MARK_READ:
       let currentBadgeCount2 = state.unReadBadgeCount;
