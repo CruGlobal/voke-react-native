@@ -44,7 +44,7 @@ class ForgotPassword extends Component {
         LOG('resetting password');
         Alert.alert(
           'Check your Email',
-          'We sent you an email with instructions for resetting your password',
+          'If the email is associated with a Voke account, you will receive an email with instructions for resetting your password',
           [{ text: 'OK', onPress: () => this.props.navigateBack()}]
         );
       });

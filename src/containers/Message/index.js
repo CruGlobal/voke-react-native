@@ -243,10 +243,11 @@ class Message extends Component {
         },
       };
     }
+    Keyboard.dismiss();
     this.props.dispatch(createMessage(this.props.conversation.id, data)).then(() => {
+      Keyboard.dismiss();
       this.setState({ text: '' });
     });
-    Keyboard.dismiss();
   }
 
   createTypeState() {
@@ -398,7 +399,7 @@ class Message extends Component {
                     style={styles.sendButton}
                     icon="send"
                     iconStyle={styles.sendIcon}
-                    onPress={() => this.createMessage()}
+                    onPress={this.createMessage}
                   />
                 </Flex>
               ) : null
