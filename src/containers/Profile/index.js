@@ -78,11 +78,7 @@ class Profile extends Component {
     }
     if (event.id === 'backPress') {
       if (this.state.editName || this.state.editEmail || this.state.editPassword) {
-        this.setState({
-          editName: false,
-          editEmail: false,
-          editPassword: false,
-        });
+        this.resetState();
         return;
       }
       this.props.navigateBack();
@@ -203,6 +199,7 @@ class Profile extends Component {
         <Flex  value={1} direction="row" align="center" justify="center">
           <Flex direction="column" value={2} style={styles.inputRow}>
             <TextInput
+              ref={(c) => this.firstName = c}
               value={this.state.firstName}
               onChangeText={(text) => this.setState({ firstName: text })}
               multiline={false}
@@ -213,8 +210,11 @@ class Profile extends Component {
               style={styles.inputBox}
               autoCorrect={true}
               underlineColorAndroid="transparent"
+              blurOnSubmit={false}
+              onSubmitEditing={() => this.lastName.focus()}
             />
             <TextInput
+              ref={(c) => this.lastName = c}
               onChangeText={(text) => this.setState({ lastName: text })}
               value={this.state.lastName}
               multiline={false}
@@ -224,6 +224,7 @@ class Profile extends Component {
               placeholderTextColor={COLORS.GREY}
               style={styles.inputBox}
               autoCorrect={true}
+              blurOnSubmit={true}
               underlineColorAndroid="transparent"
             />
           </Flex>
@@ -250,30 +251,37 @@ class Profile extends Component {
         <Flex  direction="row" align="center" justify="center">
           <Flex direction="column" value={3} style={styles.inputRow}>
             <TextInput
+              ref={(c) => this.newEmail = c}
               onChangeText={(text) => this.setState({ newEmail: text })}
               value={this.state.newEmail}
               multiline={false}
               placeholder="New Email"
+              keyboardType="email-address"
               returnKeyType="next"
               placeholderTextColor={theme.primaryColor}
               style={styles.inputBox}
               autoCorrect={true}
               underlineColorAndroid="transparent"
+              blurOnSubmit={false}
+              onSubmitEditing={() => this.confirmEmail.focus()}
             />
             <TextInput
+              ref={(c) => this.confirmEmail = c}
               value={this.state.confirmEmail}
               onChangeText={(text) => this.setState({ confirmEmail: text })}
               multiline={false}
               returnKeyType="next"
               placeholder="Confirm Email"
+              keyboardType="email-address"
               placeholderTextColor={theme.primaryColor}
               style={styles.inputBox}
               autoCorrect={true}
               underlineColorAndroid="transparent"
+              blurOnSubmit={false}
+              onSubmitEditing={() => this.currentPassword.focus()}
             />
             <TextInput
-              onFocus={() => {}}
-              onBlur={() => {}}
+              ref={(c) => this.currentPassword = c}
               value={this.state.currentPassword}
               secureTextEntry={true}
               onChangeText={(text) => this.setState({ currentPassword: text })}
@@ -283,6 +291,7 @@ class Profile extends Component {
               placeholderTextColor={theme.primaryColor}
               style={styles.inputBox}
               autoCorrect={true}
+              blurOnSubmit={true}
               underlineColorAndroid="transparent"
             />
           </Flex>
@@ -309,6 +318,7 @@ class Profile extends Component {
         <Flex  direction="row" align="center" justify="center">
           <Flex direction="column" value={3} style={styles.inputRow}>
             <TextInput
+              ref={(c) => this.passwordCurrent = c}
               multiline={false}
               placeholder="Current Password"
               onChangeText={(text) => this.setState({ currentPassword: text })}
@@ -319,8 +329,11 @@ class Profile extends Component {
               style={styles.inputBox}
               autoCorrect={true}
               underlineColorAndroid="transparent"
+              blurOnSubmit={false}
+              onSubmitEditing={() => this.passwordNew.focus()}
             />
             <TextInput
+              ref={(c) => this.passwordNew = c}
               multiline={false}
               secureTextEntry={true}
               placeholder="New Password"
@@ -331,8 +344,11 @@ class Profile extends Component {
               style={styles.inputBox}
               autoCorrect={true}
               underlineColorAndroid="transparent"
+              blurOnSubmit={false}
+              onSubmitEditing={() => this.passwordNewConfirm.focus()}
             />
             <TextInput
+              ref={(c) => this.passwordNewConfirm = c}
               multiline={false}
               placeholder="Confirm New Password"
               returnKeyType="done"
@@ -343,6 +359,7 @@ class Profile extends Component {
               style={styles.inputBox}
               autoCorrect={true}
               underlineColorAndroid="transparent"
+              blurOnSubmit={true}
             />
           </Flex>
           <Flex value={1} align="center">
