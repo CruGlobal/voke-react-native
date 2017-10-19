@@ -399,7 +399,7 @@ class Message extends Component {
                     style={styles.sendButton}
                     icon="send"
                     iconStyle={styles.sendIcon}
-                    onPress={this.createMessage}
+                    onPress={() => this.createMessage()}
                   />
                 </Flex>
               ) : null

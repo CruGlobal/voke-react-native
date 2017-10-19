@@ -196,7 +196,7 @@ export default function messages(state = initialState, action) {
           [messageCreatedConversationId]: [
             action.message,
             // Spread over an existing array or force it to a blank array if it doesnt exist
-            ...(state.messages[conversationNewMessageId] || []),
+            ...(state.messages[messageCreatedConversationId] || []),
           ],
         },
       };
