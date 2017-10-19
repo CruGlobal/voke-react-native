@@ -64,6 +64,7 @@ class Contacts extends Component {
       searchText: '',
       keyboardVisible: false,
       showSearch: false,
+      isSearching: false,
       permission: props.isInvite ? Permissions.NOT_ASKED : Permissions.AUTHORIZED,
     };
 
@@ -178,7 +179,12 @@ class Contacts extends Component {
   }
 
   refreshContacts() {
-    this.setState({ refreshing: true, searchResults: [], searchText: '' });
+    this.setState({
+      refreshing: true,
+      searchResults: [],
+      searchText: '',
+      isSearching: false,
+    });
     this.props.dispatch(getContacts(true)).then(() => {
       this.setState({ refreshing: false });
     }).catch(() => {
@@ -210,11 +216,12 @@ class Contacts extends Component {
 
   search(text) {
     if (!text) {
-      this.setState({ searchResults: [] });
+      this.setState({ searchResults: [], isSearching: false });
       return;
     }
+    this.setState({ isSearching: true });
     this.props.dispatch(searchContacts(text)).then((results) => {
-      this.setState({ searchResults: results });
+      this.setState({ searchResults: results, isSearching: false });
     });
   }
 
@@ -243,6 +250,7 @@ class Contacts extends Component {
         {
           isAuthorized ? (
             <ContactsList
+              isSearching={this.state.isSearching}
               items={this.state.searchText ? this.state.searchResults : this.props.all}
               onSelect={this.props.onSelect}
               isInvite={this.props.isInvite}
