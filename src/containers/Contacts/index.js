@@ -178,7 +178,7 @@ class Contacts extends Component {
   }
 
   refreshContacts() {
-    this.setState({ refreshing: true });
+    this.setState({ refreshing: true, searchResults: [], searchText: '' });
     this.props.dispatch(getContacts(true)).then(() => {
       this.setState({ refreshing: false });
     }).catch(() => {
