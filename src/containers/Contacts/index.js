@@ -124,7 +124,7 @@ class Contacts extends Component {
 
   keyboardDidShow() {
     this.setState({keyboardVisible: true});
-    LOG(this.state.keyboardVisible);
+    // LOG(this.state.keyboardVisible);
     if (this.props.shareModalVisible) {
       Keyboard.dismiss();
     }
