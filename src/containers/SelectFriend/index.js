@@ -343,7 +343,7 @@ class SelectFriend extends Component {
         </Flex>
         <Flex value={1} align="center">
           {
-            !isAuthorized ? (
+            !isAuthorized && !isLoading ? (
               <Button
                 onPress={this.handleAllowContacts}
                 text="Allow Contacts"
