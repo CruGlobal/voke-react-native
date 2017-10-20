@@ -111,30 +111,38 @@ class ShareModal extends Component {
     }
     const message = getMessage(friend);
     if (type === 'message') {
-      // This could also be done with Linking.openURL('sms://?body=message');
-      SendSMS.send({
-        body: message,
-        recipients: [this.props.phoneNumber],
-        successTypes: ['sent', 'queued', 'inbox', 'outbox', 'draft'],
-      }, (completed, cancelled, error) => {
-        LOG(completed, cancelled, error);
-        if (completed) {
-          LOG('completed message');
-          if (Platform.OS === 'ios') {
-            setTimeout(() => {
-              this.handleComplete();
-            }, 1000);
-          } else {
-            this.handleComplete();
-          }
-        } else {
-          LOG('failed message');
+      // For Android, just call the normal linking sms:{phone}?body={message}
+      if (Platform.OS === 'android') {
+        Linking.openURL(`sms:${this.props.phoneNumber}?body=${encodeURIComponent(message)}`).then(() => {
+          this.handleComplete();
+        }).catch(() => {
           this.handleDismiss();
-        }
-        // if (error) {
-        //   LOG('errror sending message', error);
-        // }
-      });
+        });
+      } else {
+        SendSMS.send({
+          body: message,
+          recipients: [this.props.phoneNumber],
+          successTypes: ['sent', 'queued', 'inbox', 'outbox', 'draft'],
+        }, (completed, cancelled, error) => {
+          LOG(completed, cancelled, error);
+          if (completed) {
+            LOG('completed message');
+            if (Platform.OS === 'ios') {
+              setTimeout(() => {
+                this.handleComplete();
+              }, 1000);
+            } else {
+              this.handleComplete();
+            }
+          } else {
+            LOG('failed message');
+            this.handleDismiss();
+          }
+          // if (error) {
+          //   LOG('errror sending message', error);
+          // }
+        });
+      }
 
     } else if (type === 'mail') {
       // This could also be done with Linking.openURL('mailto://?body=message');
