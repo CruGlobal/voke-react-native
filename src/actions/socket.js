@@ -26,6 +26,8 @@ let ws = null;
 
 export function setupSocketAction(cableId) {
   return (dispatch, getState) => {
+    if (!cableId) return;
+
     const token = getState().auth.token;
     if (!token) {
       LOG('could not start sockets because there is no access_token');
@@ -165,6 +167,10 @@ export function gotDeviceToken(navigator, token) {
       dispatch(establishCableDevice(null));
     } else if (auth.cableId) {
       dispatch(setupSocketAction(auth.cableId));
+    } else if (token && auth.pushToken && token === auth.pushToken) {
+      // Don't run the setup socket or push device if the token is the same
+      // as before
+      LOG('dont estable any socket or push devices')
     } else {
       dispatch(establishCableDevice(null));
     }
