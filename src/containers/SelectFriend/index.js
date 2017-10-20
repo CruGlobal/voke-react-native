@@ -221,7 +221,6 @@ class SelectFriend extends Component {
       // Set this up so background stuff doesn't try to do too much while in the share modal
       this.setState({ loadingBeforeShareSheet: true });
       this.props.dispatch({ type: SET_IN_SHARE, bool: true });
-      LOG(this.state.loadingBeforeShareSheet);
       // Create the conversation
       this.props.dispatch(createConversation(createData)).then((results) => {
         LOG('create conversation results', results);
