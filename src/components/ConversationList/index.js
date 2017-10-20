@@ -23,11 +23,9 @@ class ConversationList extends Component { // eslint-disable-line
     });
     this.state = {
       dataSource: ds.cloneWithRows(props.items),
-      refreshing: false,
       rowFocused: null,
     };
 
-    this.handleRefresh = this.handleRefresh.bind(this);
     this.handleNextPage = this.handleNextPage.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleBlock = this.handleBlock.bind(this);
@@ -54,15 +52,6 @@ class ConversationList extends Component { // eslint-disable-line
   handleBlock(data) {
     const otherPerson = this.getConversationParticipant(data);
     this.props.onBlock(otherPerson, data);
-  }
-
-  handleRefresh() {
-    this.setState({ refreshing: true });
-    this.props.onRefresh().then(() => {
-      this.setState({ refreshing: false });
-    }).catch(() => {
-      this.setState({ refreshing: false });
-    });
   }
 
   getSenderName(conversation) {
@@ -197,8 +186,8 @@ class ConversationList extends Component { // eslint-disable-line
         disableRightSwipe={true}
         recalculateHiddenLayout={true}
         refreshControl={<RefreshControl
-          refreshing={this.state.refreshing}
-          onRefresh={this.handleRefresh}
+          refreshing={this.props.refreshing}
+          onRefresh={this.props.onRefresh}
         />}
       />
     );
@@ -206,13 +195,14 @@ class ConversationList extends Component { // eslint-disable-line
 }
 
 ConversationList.propTypes = {
-  onRefresh: PropTypes.func.isRequired, // Redux
-  onSelect: PropTypes.func.isRequired, // Redux
-  onDelete: PropTypes.func.isRequired, // Redux
-  onBlock: PropTypes.func.isRequired, // Redux
-  onLoadMore: PropTypes.func.isRequired, // Redux
-  items: PropTypes.array.isRequired, // Redux
-  me: PropTypes.object.isRequired, // Redux
+  onRefresh: PropTypes.func.isRequired,
+  onSelect: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onBlock: PropTypes.func.isRequired,
+  onLoadMore: PropTypes.func.isRequired,
+  items: PropTypes.array.isRequired,
+  me: PropTypes.object.isRequired,
+  refreshing: PropTypes.bool,
 };
 
 export default ConversationList;

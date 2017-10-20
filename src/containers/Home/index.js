@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Platform, Image, Alert, AlertIOS } from 'react-native';
+import { View, ScrollView, Platform, Image, Alert, AlertIOS } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Navigation } from 'react-native-navigation';
@@ -18,7 +18,7 @@ import ApiLoading from '../ApiLoading';
 import theme from '../../theme';
 import ConversationList from '../../components/ConversationList';
 import TabBarIndicator from '../../components/TabBarIndicator';
-import { Flex, Text } from '../../components/common';
+import { Flex, Text, RefreshControl } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import NULL_STATE from '../../../images/video-button.png';
 import VOKE from '../../../images/voke_null_state.png';
@@ -60,6 +60,7 @@ class Home extends Component {
     super(props);
 
     this.state = {
+      refreshing: false,
       isLoading: false,
     };
 
@@ -152,7 +153,12 @@ class Home extends Component {
   }
 
   handleRefresh() {
-    return this.props.dispatch(getConversations());
+    this.setState({ refreshing: true });
+    this.props.dispatch(getConversations()).then(() => {
+      this.setState({ refreshing: false });
+    }).catch(() => {
+      this.setState({ refreshing: false });
+    });
   }
 
   handleDelete(data) {
@@ -223,7 +229,6 @@ class Home extends Component {
 
   render() {
     const cLength = this.props.conversations.length;
-    // const cLength = 2;
 
     return (
       <View style={styles.container}>
@@ -238,12 +243,22 @@ class Home extends Component {
               onBlock={this.handleBlock}
               onLoadMore={this.handleLoadMore}
               onSelect={(c) => this.props.navigatePush('voke.Message', {conversation: c})}
+              refreshing={this.state.refreshing}
             />
           ) : (
-            <Flex value={1} align="center" justify="center">
-              <Image style={{ marginBottom: 20 }} source={NULL_STATE} />
-              <Text>Find a video and share it with a friend</Text>
-            </Flex>
+            <ScrollView
+              style={{ flex: 1 }}
+              contentContainerStyle={{ flex: 1, alignItems: 'center', justifyContent: 'center'} }
+              refreshControl={<RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this.handleRefresh}
+              />}
+            >
+              <Flex value={1} align="center" justify="center">
+                <Image style={{ marginBottom: 20 }} source={NULL_STATE} />
+                <Text>Find a video and share it with a friend</Text>
+              </Flex>
+            </ScrollView>
           )
         }
         {

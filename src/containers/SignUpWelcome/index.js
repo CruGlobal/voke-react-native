@@ -19,6 +19,8 @@ import theme, { COLORS, DEFAULT } from '../../theme';
 import { Flex, Text, Button, Touchable } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 
+const NUM_ONBOARDING_STEPS = 5;
+
 class SignUpWelcome extends Component {
   static navigatorStyle = {
     navBarHidden: true,
@@ -62,7 +64,8 @@ class SignUpWelcome extends Component {
 
   renderSkip() {
     if (!this.props.onlyOnboarding) return null;
-    if (this.state.selectedPage === 3) return null;
+    // If your get to the last page, dont show the skip button
+    if (this.state.selectedPage >= NUM_ONBOARDING_STEPS - 1) return null;
     return (
       <Touchable onPress={() => this.props.navigateResetHome()} >
         <View style={{position: 'absolute', bottom: 30, right: 30, backgroundColor: theme.transparent, padding: 20}} >
