@@ -37,7 +37,7 @@ export default StyleSheet.create({
   },
   imageWrap: {
     position: 'absolute',
-    bottom: 20,
+    bottom: Platform.OS === 'android' ? 0 : 20,
     right: 0,
     left: 0,
   },
