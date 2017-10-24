@@ -1,6 +1,6 @@
 rootProject.name = 'Voke'
-include ':react-native-sms'
-project(':react-native-sms').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-sms/android')
+// include ':react-native-sms'
+// project(':react-native-sms').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-sms/android')
 include ':react-native-orientation'
 project(':react-native-orientation').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-orientation/android')
 include ':react-native-image-crop-picker'

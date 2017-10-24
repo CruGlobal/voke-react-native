@@ -77,33 +77,7 @@ class Message extends Component {
   }
 
   onNavigatorEvent(event) {
-    if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
-      if (event.id == 'back') {
-        // this.props.navigator.resetTo({
-        //   screen: 'voke.Home',
-        // });
-        // if (fromVideo) {
-        //   this.props.navigator.popToRoot({
-        //     animated: true, // does the popToRoot have transition animation or does it happen immediately (optional)
-        //     animationType: 'fade', // 'fade' (for both) / 'slide-horizontal' (for android) does the popToRoot have different transition animation (optional)
-        //   });
-        // } else {
-        // this.props.navigateBack();
-        // }
-        
-        // If we are showing the unread notification dot, get rid of it
-        if (this.props.showUnreadDot) {
-          this.props.dispatch({ type: UNREAD_CONV_DOT, show: false });
-        }
-
-        if (this.props.goBackHome) {
-          this.props.navigateResetHome();
-        } else {
-          this.props.navigateBack();
-        }
-      }
-    }
-    if (event.id === 'backPress') {
+    if (event.id === 'back' || event.id === 'backPress') {
       if (this.props.showUnreadDot) {
         this.props.dispatch({ type: UNREAD_CONV_DOT, show: false });
       }
@@ -112,16 +86,6 @@ class Message extends Component {
       } else {
         this.props.navigateBack();
       }
-    }
-
-    if (event.type == 'DeepLink') {
-      // LOG('deep link!', event);
-      // const parts = event.link.split('/'); // Link parts
-      // const payload = event.payload; // (optional) The payload
-
-      // if (parts[0] == 'tab2') {
-      //   // handle the link somehow, usually run a this.props.navigator command
-      // }
     }
   }
 

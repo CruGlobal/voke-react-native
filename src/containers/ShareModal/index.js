@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import { Share, Linking, Platform, Clipboard } from 'react-native';
 import PropTypes from 'prop-types';
 import Communications from 'react-native-communications';
-import SendSMS from 'react-native-sms';
+// import SendSMS from 'react-native-sms';
 import { MessageDialog } from 'react-native-fbsdk';
+
+import { send } from './sendSms';
 
 import Analytics from '../../utils/analytics';
 import SharePopup from './SharePopup';
@@ -112,36 +114,50 @@ class ShareModal extends Component {
     const message = getMessage(friend);
     if (type === 'message') {
       // For Android, just call the normal linking sms:{phone}?body={message}
+      // We don't import react-native-sms on Android, so don't try to call it
       if (Platform.OS === 'android') {
-        Linking.openURL(`sms:${this.props.phoneNumber}?body=${encodeURIComponent(message)}`).then(() => {
+        send(this.props.phoneNumber, message).then(() => {
           this.handleComplete();
         }).catch(() => {
           this.handleDismiss();
         });
+        // Linking.openURL(`sms:${this.props.phoneNumber}?body=${encodeURIComponent(message)}`).then(() => {
+        //   this.handleComplete();
+        // }).catch(() => {
+        //   this.handleDismiss();
+        // });
       } else {
-        SendSMS.send({
-          body: message,
-          recipients: [this.props.phoneNumber],
-          successTypes: ['sent', 'queued', 'inbox', 'outbox', 'draft'],
-        }, (completed, cancelled, error) => {
-          LOG(completed, cancelled, error);
-          if (completed) {
-            LOG('completed message');
-            if (Platform.OS === 'ios') {
-              setTimeout(() => {
-                this.handleComplete();
-              }, 1000);
-            } else {
-              this.handleComplete();
-            }
-          } else {
-            LOG('failed message');
-            this.handleDismiss();
-          }
-          // if (error) {
-          //   LOG('errror sending message', error);
-          // }
+        send(this.props.phoneNumber, message).then(() => {
+          // On iOS, wrap the complete in a timeout to fix navigation stuff
+          setTimeout(() => {
+            this.handleComplete();
+          }, 1000);
+        }).catch(() => {
+          this.handleDismiss();
         });
+        // SendSMS.send({
+        //   body: message,
+        //   recipients: [this.props.phoneNumber],
+        //   successTypes: ['sent', 'queued', 'inbox', 'outbox', 'draft'],
+        // }, (completed, cancelled, error) => {
+        //   LOG(completed, cancelled, error);
+        //   if (completed) {
+        //     LOG('completed message');
+        //     if (Platform.OS === 'ios') {
+        //       setTimeout(() => {
+        //         this.handleComplete();
+        //       }, 1000);
+        //     } else {
+        //       this.handleComplete();
+        //     }
+        //   } else {
+        //     LOG('failed message');
+        //     this.handleDismiss();
+        //   }
+        //   // if (error) {
+        //   //   LOG('errror sending message', error);
+        //   // }
+        // });
       }
 
     } else if (type === 'mail') {
