@@ -178,7 +178,7 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-sms')
+    // compile project(':react-native-sms')
     compile project(':react-native-orientation')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-google-analytics-bridge')

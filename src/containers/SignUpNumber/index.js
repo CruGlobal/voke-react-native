@@ -28,6 +28,7 @@ class SignUpNumber extends Component {
       phoneNumber: '',
       selectedCountryCode: '1',
       selectedCountry: 'United States',
+      disableNext: false,
     };
     this.handleNext = this.handleNext.bind(this);
     this.handleOpenCountry = this.handleOpenCountry.bind(this);
@@ -53,11 +54,14 @@ class SignUpNumber extends Component {
         [
           { text: 'Edit' },
           { text: 'Yes', onPress: () => {
+            this.setState({ disableNext: true });
             this.props.dispatch(createMobileVerification(data)).then(() => {
+              this.setState({ disableNext: false });
               this.props.navigatePush('voke.SignUpNumberVerify', {
                 mobile: this.state.selectedCountryCode.concat(this.state.phoneNumber),
               });
             }).catch((err)=> {
+              this.setState({ disableNext: false });
               Alert.alert('Mobile number is invalid', err.errors[0]);
             });
           }},
@@ -138,6 +142,7 @@ class SignUpNumber extends Component {
               <Flex value={1} align="center" justify="start">
                 <Button
                   text="Next"
+                  disabled={this.state.disableNext}
                   buttonTextStyle={styles.signInButton}
                   style={styles.actionButton}
                   onPress={this.handleNext}

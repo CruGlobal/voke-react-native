@@ -4,7 +4,6 @@ package org.cru.voke;
 import com.smixx.fabric.FabricPackage;
 import com.reactnativenavigation.controllers.SplashActivity;
 import android.content.Intent;
-import com.tkporter.sendsms.SendSMSPackage;
 
 public class MainActivity extends SplashActivity {
   protected String getMainComponentName() {

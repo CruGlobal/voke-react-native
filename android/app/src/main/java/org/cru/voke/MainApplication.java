@@ -18,7 +18,7 @@ import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.appevents.AppEventsLogger;
 
 // import com.facebook.react.ReactApplication;
-import com.tkporter.sendsms.SendSMSPackage;
+// import com.tkporter.sendsms.SendSMSPackage;
 import com.github.yamill.orientation.OrientationPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
@@ -64,8 +64,8 @@ public class MainApplication extends NavigationApplication implements INotificat
   protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           // new MainReactPackage(),
-            SendSMSPackage.getInstance(),
-            new OrientationPackage(),
+          // SendSMSPackage.getInstance(),
+          new OrientationPackage(),
           new FBSDKPackage(mCallbackManager),
           new RNDeviceInfo(),
           new RNSpinkitPackage(),

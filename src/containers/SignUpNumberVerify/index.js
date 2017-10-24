@@ -27,6 +27,7 @@ class SignUpNumberVerify extends Component {
     this.state= {
       code: '',
       verificationSent: false,
+      disableNext: false,
     };
 
     this.handleNext = this.handleNext.bind(this);
@@ -49,6 +50,7 @@ class SignUpNumberVerify extends Component {
     } else {
       Alert.alert('A new verification code has already been sent, please wait a few seconds before re-sending','');
     }
+    // Reset this variable after a few seconds so that the user can resend the code
     setTimeout(() => {
       this.setState({ verifcationSent: false });
     }, 5000);
@@ -64,7 +66,9 @@ class SignUpNumberVerify extends Component {
     if (!this.state.code) {
       Alert.alert('Please enter the code that was sent','');
     } else {
+      this.setState({ disableNext: true });
       this.props.dispatch(verifyMobile(data)).then(() => {
+        this.setState({ disableNext: false });
         if (!this.props.onboardCompleted) {
           this.props.navigatePush('voke.SignUpWelcome', {
             onlyOnboarding: true,
@@ -75,6 +79,7 @@ class SignUpNumberVerify extends Component {
           this.props.navigateResetHome();
         }
       }).catch(() => {
+        this.setState({ disableNext: false });
         Alert.alert('Invalid code','Code does not match the code that was sent to the mobile number');
       });
     }
@@ -112,6 +117,7 @@ class SignUpNumberVerify extends Component {
               <Flex value={1} align="center" justify="center">
                 <Button
                   text="Next"
+                  disabled={this.state.disableNext}
                   buttonTextStyle={styles.signInButton}
                   style={styles.actionButton}
                   onPress={this.handleNext}
