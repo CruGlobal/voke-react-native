@@ -19,6 +19,9 @@ import webviewStates from '../../components/WebviewVideo/common';
 import FloatingButtonSingle from '../../components/FloatingButtonSingle';
 import { VokeIcon, Flex, Touchable, Text } from '../../components/common';
 
+const isOlderAndroid = Platform.OS === 'android' && Platform.Version < 23;
+
+
 class VideoDetails extends Component {
 
   static navigatorStyle = {
@@ -163,6 +166,8 @@ class VideoDetails extends Component {
     let loadDuration = 2000;
     if (videoType === 'arclight') {
       loadDuration = 3000; // Longer loading state for arclight videos
+    } else if (videoType === 'vimeo' && isOlderAndroid) {
+      loadDuration = 3500; // Longer for older android devices and vimeo
     }
 
     return (

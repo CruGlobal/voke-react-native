@@ -145,6 +145,7 @@ class ConversationList extends Component { // eslint-disable-line
       <SwipeListView
         dataSource={this.state.dataSource}
         renderRow={this.renderRow}
+        directionalDistanceChangeThreshold={Platform.OS === 'android' ? 12 : undefined}
         renderHiddenRow={(data, sectionID, rowID, rowMap) => (
           <View style={styles.rowBack}>
             <Flex direction="row" align="center" justify="center" style={{ width: SLIDE_ROW_WIDTH }}>
