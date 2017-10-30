@@ -55,28 +55,34 @@ class ShareModal extends Component {
       contentType: 'link',
       contentUrl: url,
       contentDescription: message,
-      // contentTitle: message,
-      // quote: message,
+      contentTitle: message,
+      quote: message,
     };
+
+    if (Platform.OS === 'android') {
+      setTimeout(() => this.handleComplete(), 100);
+    }
 
     MessageDialog.canShow(shareLinkContent).then((canShow)=>{
       if (canShow) {
         MessageDialog.show(shareLinkContent).then((result) => {
           if (result.isCancelled) {
-            this.handleDismiss();
             LOG('cancelled fb messenger');
+            this.handleDismiss();
           } else {
-            this.handleComplete();
             LOG('successful fb messenger');
+            this.handleComplete();
           }
         }).catch((error) => {
-          this.handleDismiss();
           LOG('error', error);
+          this.handleDismiss();
         });
       } else {
+        LOG('no canShow');
         this.handleDismiss();
       }
     }).catch(() => {
+      LOG('catch canShow');
       this.handleShare('custom');
     });
   }
