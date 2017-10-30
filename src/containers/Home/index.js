@@ -266,7 +266,9 @@ class Home extends Component {
             <Image style={styles.vokeBot} source={VOKE} />
           ) : null
         }
-        <TabBarIndicator index={0} />
+        {
+          // <TabBarIndicator index={0} />
+        }
         {
           cLength === 0 || this.state.isLoading ? <ApiLoading /> : null
         }

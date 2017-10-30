@@ -383,9 +383,9 @@ class Videos extends Component {
           onLoadMore={this.handleNextPage}
         />
         {
-          !onSelectVideo ? (
-            <TabBarIndicator index={1} />
-          ) : null
+          // !onSelectVideo ? (
+          //   <TabBarIndicator index={1} />
+          // ) : null
         }
         <ApiLoading />
       </View>
