@@ -4,7 +4,8 @@ import lodashForEach from 'lodash/forEach';
 // import Reactotron from 'reactotron-react-native';
 
 import API_CALLS from '../api';
-import { logoutAction, toastAction } from './auth';
+import { toastAction } from './auth';
+import { navigateResetLogin } from './navigation_new';
 import apiRoutes from '../api/routes';
 import { isArray } from '../utils/common';
 
@@ -98,7 +99,7 @@ export default function callApi(requestObject, query = {}, data = {}) {
               Alert.alert(
                 'Unauthorized',
                 'Sorry, it looks like there was an error authorizing your request.',
-                [{ text: 'OK', onPress: () => dispatch(logoutAction()) }]
+                [{text: 'OK', onPress: () => dispatch(navigateResetLogin())}]
               );
               reject(err);
               return;
