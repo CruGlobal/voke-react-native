@@ -173,12 +173,12 @@ class MessagesList extends Component {
         renderItem={this.renderRow}
         contentContainerStyle={styles.content}
         inverted={true}
-        onContentSizeChange={this.onContentSize}
-        onLayout={this.onLayoutEvent}
         ListHeaderComponent={this.renderTypeState}
         scrollEnabled={Platform.OS === 'android' ? true : this.state.scrollEnabled}
       />
     );
+    // onContentSizeChange={this.onContentSize}
+    // onLayout={this.onLayoutEvent}
   }
 }
 
