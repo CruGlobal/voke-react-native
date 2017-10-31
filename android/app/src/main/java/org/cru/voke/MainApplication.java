@@ -89,22 +89,6 @@ public class MainApplication extends NavigationApplication implements INotificat
   public void onCreate() {
     super.onCreate();
 
-    setActivityCallbacks(new ActivityCallbacks() {
-
-      @Override
-      public void onConfigurationChanged(Configuration newConfig) {
-         super.onConfigurationChanged(newConfig);
-         Intent intent = new Intent("onConfigurationChanged");
-         intent.putExtra("newConfig", newConfig);
-         sendBroadcast(intent);
-      }
-
-      @Override
-      public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mCallbackManager.onActivityResult(requestCode, resultCode, data);
-      }
-    });
-
     FacebookSdk.sdkInitialize(getApplicationContext());
 
     // If you want to use AppEventsLogger to log events.
@@ -121,6 +105,22 @@ public class MainApplication extends NavigationApplication implements INotificat
     notificationsLifecycleFacade = new NotificationsLifecycleFacade();
     // Attach it to react-native-navigation
     setActivityCallbacks(notificationsLifecycleFacade);
+
+    setActivityCallbacks(new ActivityCallbacks() {
+
+      @Override
+      public void onConfigurationChanged(Configuration newConfig) {
+         super.onConfigurationChanged(newConfig);
+         Intent intent = new Intent("onConfigurationChanged");
+         intent.putExtra("newConfig", newConfig);
+         sendBroadcast(intent);
+      }
+
+      @Override
+      public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+      }
+    });
   }
 
   @Override
