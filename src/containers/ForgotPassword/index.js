@@ -44,7 +44,7 @@ class ForgotPassword extends Component {
         LOG('resetting password');
         Alert.alert(
           'Check your Email',
-          'If the email is associated with a Voke account, you will receive an email with instructions for resetting your password',
+          'If you don\'t receive an email, it\'s most likely because you used a different email address. If so, try a different email address for password recovery',
           [{ text: 'OK', onPress: () => this.props.navigateBack()}]
         );
       });
@@ -63,7 +63,9 @@ class ForgotPassword extends Component {
             <Flex style={styles.imageWrap} align="center" justify="center">
               <Image resizeMode="contain" source={LOGO} style={styles.imageLogo} />
             </Flex>
-            <Text style={styles.description}>Please enter your email to reset your password</Text>
+            <Text style={styles.description}>
+              Please enter the correct email associated with your Voke account to reset the password
+            </Text>
           </Flex>
           <Flex value={1.5} align="center" justify="start" style={styles.actions}>
             <SignUpInput
