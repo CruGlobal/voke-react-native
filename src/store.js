@@ -2,7 +2,7 @@ import { AsyncStorage, Platform } from 'react-native';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { persistStore } from 'redux-persist';
-import FilesystemStorage from 'redux-persist-filesystem-storage'
+import FilesystemStorage from 'redux-persist-filesystem-storage';
 
 import reducers from './reducers';
 
