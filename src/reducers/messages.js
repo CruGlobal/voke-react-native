@@ -47,6 +47,24 @@ export default function messages(state = initialState, action) {
         unreadConversationDot: false,
         inShare: false,
       };
+    // Add or update the existing conversation that's returned in the conversations array
+    case REQUESTS.GET_CONVERSATION.SUCCESS:
+      let stateConversations = state.conversations;
+      const newConversation = action.conversation;
+      if (!newConversation) {
+        return state;
+      }
+      const newConvIndex = stateConversations.findIndex((c) => c.id === newConversation.id);
+      if (newConvIndex >= 0) {
+        stateConversations[newConvIndex] = newConversation;
+      } else {
+        stateConversations = [newConversation, ...state.conversations];
+      }
+
+      return {
+        ...state,
+        conversations: stateConversations,
+      };
     case REQUESTS.GET_CONVERSATIONS.SUCCESS:
       let newConversations = [];
       if (action.query.page && action.query.page > 1) {
