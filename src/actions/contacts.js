@@ -182,6 +182,7 @@ export function uploadContacts(contacts = []) {
         let phone = c.phone[0];
         if (countryCode && phone[0] !== '+') {
           const testNum = countryCodeNumber + phone;
+          // LOG(testNum, isValidNumber(testNum));
           if (isValidNumber(testNum)) {
             phone = testNum;
           }
