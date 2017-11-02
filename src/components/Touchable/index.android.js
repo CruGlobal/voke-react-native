@@ -6,7 +6,7 @@ import { COLORS } from '../../theme';
 
 class TouchableAndroid extends Component {
   render() {
-    const { borderless = false, isAndroidOpacity, ...rest } = this.props;
+    const { borderless = false, isAndroidOpacity, androidRippleColor, ...rest } = this.props;
 
     if (isAndroidOpacity) {
       return (
@@ -21,7 +21,7 @@ class TouchableAndroid extends Component {
     // Android > 5.0 support
     if (Platform.Version >= 21) {
       background = TouchableNativeFeedback.Ripple(COLORS.convert({
-        color: COLORS.GREY,
+        color: androidRippleColor || COLORS.GREY,
         alpha: 0.5,
       }), borderless);
     } else {
@@ -40,6 +40,7 @@ class TouchableAndroid extends Component {
 TouchableAndroid.propTypes = {
   borderless: PropTypes.bool,
   isAndroidOpacity: PropTypes.bool,
+  androidRippleColor: PropTypes.string,
 };
 
 export default TouchableAndroid;

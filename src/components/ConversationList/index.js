@@ -94,12 +94,13 @@ class ConversationList extends Component { // eslint-disable-line
       <Touchable
         highlight={true}
         underlayColor={COLORS.TRANSPARENT}
+        androidRippleColor={COLORS.DARK_BLUE}
         onShowUnderlay={() => this.setState({ rowFocused: item.id })}
         onHideUnderlay={() => this.setState({ rowFocused: null })}
         activeOpacity={1}
         onPress={() => this.props.onSelect(conversation)}>
-        <View>
-          <Flex style={[styles.container, this.state.rowFocused === item.id ? {backgroundColor: theme.accentColor} : null]} direction="row" align="center" justify="center">
+        <View style={[styles.container, this.state.rowFocused === item.id ? { backgroundColor: theme.accentColor } : null]}>
+          <Flex direction="row" align="center" justify="center">
             <Avatar
               size={30}
               image={otherPerson && otherPerson.avatar && otherPerson.avatar.small.indexOf('/avatar.jpg') < 0 ? otherPerson.avatar.small : null}

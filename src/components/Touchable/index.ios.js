@@ -7,6 +7,12 @@ import { COLORS } from '../../theme';
 class TouchableIOS extends Component {
   render() {
     const { highlight, ...rest } = this.props;
+    // Remove Android props
+    if (rest.borderless !== undefined) delete rest.borderless;
+    if (rest.isAndroidOpacity !== undefined) delete rest.isAndroidOpacity;
+    if (rest.androidRippleColor !== undefined) delete rest.androidRippleColor;
+
+    
     if (highlight) {
       return (
         <TouchableHighlight
