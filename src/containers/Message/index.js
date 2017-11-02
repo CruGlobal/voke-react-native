@@ -87,6 +87,10 @@ class Message extends Component {
         this.props.navigateBack();
       }
     }
+
+    if (event.id === 'willDisappear' || event.id === 'didDisappear') {
+      clearTimeout(this.timeoutSetYellow);
+    }
   }
 
   componentWillMount() {
