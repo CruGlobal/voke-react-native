@@ -243,6 +243,7 @@ WebviewVideo.propTypes = {
   onChangeState: PropTypes.func.isRequired,
   thumbnail: PropTypes.string,
   start: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  end: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   isLandscape: PropTypes.bool.isRequired,
 };
 
