@@ -15,7 +15,15 @@ class MessageItem extends Component {
   constructor(props) {
     super(props);
 
-    this.vokebotMessenger = props.messengers.find((m) => m.bot) || {};
+    // Find messenger where 'bot' is true
+    let vb = props.messengers.find((m) => m.bot);
+
+    // If there are no messengers with 'bot' set to true, find the name Voke from a messenger
+    if (!vb) {
+      // This is a silly fallback and should never happen
+      vb = props.messengers.find((m) => m.first_name === 'Voke');
+    }
+    this.vokebotMessenger = vb || {};
   }
 
   getOther() {

@@ -223,55 +223,55 @@ class SelectFriend extends Component {
       this.props.dispatch({ type: SET_IN_SHARE, bool: true });
       // Create the conversation
       this.props.dispatch(createConversation(createData)).then((results) => {
-        LOG('create conversation results', results);
-        const friend = results.messengers[0];
-
-        // Show the share modal
-        this.props.dispatch({
-          type: SHOW_SHARE_MODAL,
-          bool: true,
-          props: {
-            onComplete: () => {
-              LOG('onComplete');
-
-              // Set these to false so we're not in the share modal anymore
-              this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
-              this.props.dispatch({ type: SET_IN_SHARE, bool: false });
-              this.setState({ setLoaderBeforePush: true });
-
-              // On android, put a timeout because the share stuff gets messed up otherwise
-              if (Platform.OS === 'android') {
-                setTimeout(() => {
+        this.props.dispatch(getConversation(results.id)).then((c) => {
+          LOG('get voke conversation results', c);
+          const friend = results.messengers[0];
+  
+          // Show the share modal
+          this.props.dispatch({
+            type: SHOW_SHARE_MODAL,
+            bool: true,
+            props: {
+              onComplete: () => {
+                LOG('onComplete');
+  
+                // Set these to false so we're not in the share modal anymore
+                this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
+                this.props.dispatch({ type: SET_IN_SHARE, bool: false });
+                this.setState({ setLoaderBeforePush: true });
+  
+                // On android, put a timeout because the share stuff gets messed up otherwise
+                if (Platform.OS === 'android') {
+                  setTimeout(() => {
+                    this.setState({ setLoaderBeforePush: false });
+                    this.props.navigateResetTo('voke.Message', {
+                      conversation: c.conversation,
+                      goBackHome: true,
+                    });
+                  }, 50);
+                } else {
                   this.setState({ setLoaderBeforePush: false });
                   this.props.navigateResetTo('voke.Message', {
-                    conversation: results,
+                    conversation: c.conversation,
                     goBackHome: true,
-                    fetchConversation: true,
                   });
-                }, 50);
-              } else {
-                this.setState({ setLoaderBeforePush: false });
-                this.props.navigateResetTo('voke.Message', {
-                  conversation: results,
-                  goBackHome: true,
-                  fetchConversation: true,
-                });
-              }
+                }
+              },
+              // This could also be called on the contacts page to cancel the share modal
+              onCancel: () => {
+                LOG('canceling');
+  
+                // Set these to false and delete the conversation
+                this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
+                this.props.dispatch({ type: SET_IN_SHARE, bool: false });
+                this.props.dispatch(deleteConversation(results.id));
+              },
+              friend,
+              phoneNumber,
             },
-            // This could also be called on the contacts page to cancel the share modal
-            onCancel: () => {
-              LOG('canceling');
-
-              // Set these to false and delete the conversation
-              this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
-              this.props.dispatch({ type: SET_IN_SHARE, bool: false });
-              this.props.dispatch(deleteConversation(results.id));
-            },
-            friend,
-            phoneNumber,
-          },
+          });
+          this.setState({loadingBeforeShareSheet: false});
         });
-        this.setState({loadingBeforeShareSheet: false});
       });
     }
   }
