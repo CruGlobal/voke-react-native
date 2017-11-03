@@ -127,7 +127,9 @@ class Message extends Component {
     }
 
     if ((nextProps.showUnreadDot && !this.props.showUnreadDot) || (Platform.OS === 'ios' && nextProps.unReadBadgeCount > 0)) {
+      clearTimeout(this.timeoutSetYellow);
       this.timeoutSetYellow = setTimeout(() => {
+        LOG('inTimeout');
         this.props.navigator.setStyle({
           ...navStyle,
           navBarButtonColor: COLORS.YELLOW,
@@ -138,8 +140,11 @@ class Message extends Component {
     // Reset the yellow badge indicator when the unread count goes away
     if (Platform.OS === 'ios' && nextProps.unReadBadgeCount === 0 && this.props.unReadBadgeCount > 0) {
       clearTimeout(this.timeoutSetYellow);
-      this.props.navigator.setStyle(navStyle);
-      this.props.navigator.setButtons(setButtons());
+      this.timeoutSetYellow = setTimeout(() => {
+        this.props.navigator.setStyle(navStyle);
+        LOG('setButtons');
+        this.props.navigator.setButtons(setButtons());
+      }, 500);
     }
   }
 
