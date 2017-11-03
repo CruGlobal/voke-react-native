@@ -20,7 +20,7 @@
     "android": "react-native run-android",
     "android:install:dev": "adb install android/app/build/outputs/apk/app-debug.apk",
     "android:install:release": "adb install android/app/build/outputs/apk/app-release.apk",
-    "android:build": "react-native run-android --variant=release"
+    "android:build:remove:system": "react-native run-android --variant=release"
   },
   "jest": {
     "preset": "jest-expo"
