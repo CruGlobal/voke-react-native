@@ -54,7 +54,7 @@ export default {
 
   PAGE_SIZE: 25, // This is the default page size from the API
   CONTACT_CHUNKS: 500, // How many contacts to send up per upload request
-  REFRESH_CONTACTS_TIME: 5 * 24 * 60 * 60 * 1000, // 5 days
+  REFRESH_CONTACTS_TIME: 30 * 24 * 60 * 60 * 1000, // 5 days
   // // REFRESH_CONTACTS_TIME: 30 * 60 * 1000, // 30 minutes
 
   GCM_SENDER_ID: '360680446899',
