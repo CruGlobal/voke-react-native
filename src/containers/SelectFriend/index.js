@@ -366,7 +366,7 @@ class SelectFriend extends Component {
         {this.renderContent()}
         {
           this.props.isLoading || this.state.setLoaderBeforePush || this.state.loadingBeforeShareSheet ? (
-            <ApiLoading force={true} text={(this.state.setLoaderBeforePush || this.state.loadingBeforeShareSheet) ? '' : 'Fetching your contacts,\ngive me a few seconds'} />
+            <ApiLoading force={true} text={(this.state.setLoaderBeforePush || this.state.loadingBeforeShareSheet) ? '' : 'Fetching your contacts - and because you are so popular, I need up to 30 seconds'} />
           ) : null
         }
         <ShareModal />
