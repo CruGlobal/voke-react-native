@@ -9,7 +9,7 @@ import { Flex, Text, Touchable } from '../common';
 class SignUpHeader extends Component {
   render() {
     return (
-      <Touchable isAndroidOpacity={false} activeOpacity={1} highlight={false} onPress={this.props.onPress ? this.props.onPress : undefined}>
+      <Touchable isAndroidOpacity={true} activeOpacity={1} highlight={false} onPress={this.props.onPress ? this.props.onPress : undefined}>
         <Flex align="center" justify="center" style={styles.wrap}>
           <Text style={styles.title}>{this.props.title}</Text>
           {

@@ -8,6 +8,7 @@ import { establishDevice, setupSocketAction, closeSocketAction, destroyDevice, g
 import { getConversations, getMessages } from './messages';
 import { API_URL } from '../api/utils';
 import Orientation from 'react-native-orientation';
+import DeviceInfo from 'react-native-device-info';
 
 
 // Setup app state change listeners
@@ -185,6 +186,7 @@ export function createAccountAction(email, password) {
         // so we don't need it in here
         email,
         password,
+        timezone_name: DeviceInfo.getTimezone(),
       })).then((results) => {
         if (!results.errors) {
           LOG('create account success', results);
@@ -280,7 +282,9 @@ export function updateMe(data) {
     if (data.avatar) {
       return dispatch(updateMeImage(data.avatar));
     }
-    return dispatch(callApi(REQUESTS.UPDATE_ME, {}, data)).then((results) => {
+    let newData = {...data};
+    newData.timezone_name = DeviceInfo.getTimezone();
+    return dispatch(callApi(REQUESTS.UPDATE_ME, {}, newData)).then((results) => {
       dispatch(getMe());
       return results;
     }).catch(() => {
@@ -317,7 +321,9 @@ export function updateMeImage(avatar) {
 
 export function createMobileVerification(data) {
   return (dispatch) => {
-    return dispatch(callApi(REQUESTS.CREATE_MOBILE_VERIFICATION, {}, data)).then((results) => {
+    let newData = {...data};
+    newData.mobile.country_code = DeviceInfo.getDeviceCountry();
+    return dispatch(callApi(REQUESTS.CREATE_MOBILE_VERIFICATION, {}, newData)).then((results) => {
       LOG('Verify mobile request successfully sent', results);
       return results;
     });

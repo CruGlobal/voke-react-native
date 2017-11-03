@@ -272,7 +272,7 @@ class Contacts extends Component {
           this.props.isLoading ? (
             <ApiLoading
               force={true}
-              text={'Fetching your contacts,\ngive me a few seconds'}
+              text={'Fetching your contacts - and because you are so popular, I need up to 30 seconds'}
             />
           ) : null
         }

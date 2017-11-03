@@ -2,6 +2,8 @@ import { Platform, Alert, Linking } from 'react-native';
 import lodashMap from 'lodash/map';
 import lodashFilter from 'lodash/filter';
 import lodashChunk from 'lodash/chunk';
+import DeviceInfo from 'react-native-device-info';
+import { getPhoneCode, isValidNumber } from 'libphonenumber-js';
 
 import { hashPhone } from '../utils/common';
 import callApi, { REQUESTS } from './api';
@@ -44,7 +46,7 @@ export function getContacts(force = false) {
             const lastUpdated = getState().contacts.lastUpdated;
             const now = new Date().valueOf();
             // LOG('lastUpdated', lastUpdated, now, now - lastUpdated, CONSTANTS.REFRESH_CONTACTS_TIME);
-            
+
             if (lastUpdated && (now - lastUpdated < CONSTANTS.REFRESH_CONTACTS_TIME)) {
               // LOG('not updating contacts');
               dispatch({ type: SET_CONTACTS_LOADING, isLoading: false });
@@ -173,11 +175,24 @@ export function searchContacts(text) {
 export function uploadContacts(contacts = []) {
   return (dispatch) => (
     new Promise((resolve, reject) => {
+      const countryCode = DeviceInfo.getDeviceCountry();
+      const countryCodeNumber = '+' + getPhoneCode(countryCode);
       // Format every contact into a chunk for the API call
-      let formattedContacts = contacts.map((c) => ({
-        mobile: hashPhone(c.phone[0]),
-        local_id: c.id,
-      }));
+      let formattedContacts = contacts.map((c) => {
+        let phone = c.phone[0];
+        if (countryCode && phone[0] !== '+') {
+          const testNum = countryCodeNumber + phone;
+          // LOG(testNum, isValidNumber(testNum));
+          if (isValidNumber(testNum)) {
+            phone = testNum;
+          }
+        }
+        return {
+          mobile: hashPhone(phone),
+          local_id: c.id,
+        };
+      });
+
       // Break up the contacts into chucnks of [X] number of contacts for each API call
       const contactChunks = lodashChunk(formattedContacts, CONSTANTS.CONTACT_CHUNKS);
 

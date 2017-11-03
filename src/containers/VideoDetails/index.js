@@ -181,6 +181,7 @@ class VideoDetails extends Component {
                 type={videoType}
                 url={videoMedia.url}
                 start={video.media_start || 0}
+                end={video.media_end || 0}
                 onChangeState={this.handleVideoChange}
                 isLandscape={this.state.isLandscape}
               />

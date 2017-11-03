@@ -9,11 +9,21 @@ import styles from './styles';
 import { Flex, Text, Icon, Avatar, DateComponent } from '../common';
 import { momentUtc, getInitials } from '../../utils/common';
 
+
 class MessageItem extends Component {
 
-  getVokeBot() {
-    const messengers = this.props.messengers;
-    return messengers.find((m) => m.bot);
+  constructor(props) {
+    super(props);
+
+    // Find messenger where 'bot' is true
+    let vb = props.messengers.find((m) => m.bot);
+
+    // If there are no messengers with 'bot' set to true, find the name Voke from a messenger
+    if (!vb) {
+      // This is a silly fallback and should never happen
+      vb = props.messengers.find((m) => m.first_name === 'Voke');
+    }
+    this.vokebotMessenger = vb || {};
   }
 
   getOther() {
@@ -24,7 +34,9 @@ class MessageItem extends Component {
 
   renderText() {
     const message = this.props.item;
-    const isVoke = message.direct_message;
+    const isVoke = message.messenger_id === this.vokebotMessenger.id;
+    const isOnlyVoke = this.props.messengers.length < 3;
+
     const isMe = this.props.item.messenger_id === this.props.user.id;
     const isTypeState = message.type === 'typeState';
 
@@ -32,8 +44,8 @@ class MessageItem extends Component {
       <Flex
         style={[
           styles.row,
-          isMe || isVoke ? styles.me : styles.otherPerson,
-          isVoke ? styles.vokebot : null,
+          isMe || (isVoke && !isOnlyVoke) ? styles.me : styles.otherPerson,
+          isVoke && !isOnlyVoke ? styles.vokebot : null,
         ]}
         direction="row"
         align="center"
@@ -45,7 +57,7 @@ class MessageItem extends Component {
               style={[
                 styles.message,
                 isMe ? styles.meText : styles.otherText,
-                isVoke ? styles.vokeText: null,
+                isVoke && !isOnlyVoke ? styles.vokeText: null,
               ]}
             >
               {message.content}
@@ -124,7 +136,8 @@ class MessageItem extends Component {
 
   renderVideo() {
     const message = this.props.item;
-    const isVoke = message.direct_message;
+    const isVoke = message.messenger_id === this.vokebotMessenger.id;
+    const isOnlyVoke = this.props.messengers.length < 3;
     const isMe = message.messenger_id === this.props.user.id;
 
     return (
@@ -140,7 +153,7 @@ class MessageItem extends Component {
             source={{uri: message.item.media.thumbnails.large}}
             style={[
               styles.video,
-              isMe || isVoke ? styles.meVideo : styles.otherPersonVideo,
+              isMe || (isVoke && !isOnlyVoke) ? styles.meVideo : styles.otherPersonVideo,
             ]}>
             <Icon name="play-circle-filled" size={40} style={styles.playIcon} />
           </Image>
@@ -152,25 +165,23 @@ class MessageItem extends Component {
   renderAvatar() {
     const message = this.props.item;
     const user = this.props.user;
-    const isVoke = message.direct_message;
+    const isVoke = message.messenger_id === this.vokebotMessenger.id;
     const isMe = message.messenger_id === this.props.user.id;
 
     if (isMe) {
       return (
         <Avatar
           size={28}
-          image={user.avatar.small}
+          image={user.avatar ? user.avatar.small : null}
           text={getInitials(user.initials)}
         />
       );
     } else if (isVoke) {
-      const vokebotMessenger = this.getVokeBot();
-      if (!vokebotMessenger) return null;
       return (
         <Avatar
           size={28}
-          image={vokebotMessenger.avatar.small}
-          text={getInitials(vokebotMessenger.initials)}
+          image={this.vokebotMessenger.avatar ? this.vokebotMessenger.avatar.small : null}
+          text={getInitials(this.vokebotMessenger.initials)}
         />
       );
     } else {
@@ -178,7 +189,7 @@ class MessageItem extends Component {
       if (!otherMessenger) return null;
       return (
         <Avatar
-          image={otherMessenger && otherMessenger.avatar.small.indexOf('/avatar.jpg') < 0 ? otherMessenger.avatar.small : null}
+          image={otherMessenger && otherMessenger.avatar && otherMessenger.avatar.small.indexOf('/avatar.jpg') < 0 ? otherMessenger.avatar.small : null}
           size={28}
           text={getInitials(otherMessenger.initials)}
         />
@@ -189,8 +200,9 @@ class MessageItem extends Component {
   render() {
     const message = this.props.item;
     const isTypeState = message.type === 'typeState';
+    const isVoke = message.messenger_id === this.vokebotMessenger.id;
 
-    const isVoke = message.direct_message;
+    const isOnlyVoke = this.props.messengers.length < 3;
     const isMe = message.messenger_id === this.props.user.id;
     const isVideo = message.item;
     const isVideoAndText = message.item && message.content;
@@ -213,7 +225,7 @@ class MessageItem extends Component {
         direction="column"
         style={{ margin: 6 }}
         animation="fadeIn"
-        align={isMe || isVoke ? 'end' : 'start'}
+        align={isMe || (isVoke && !isOnlyVoke) ? 'end' : 'start'}
       >
         {
           this.props.item.isLatestForDay ? (
@@ -224,7 +236,7 @@ class MessageItem extends Component {
         }
         <Flex direction="row" style={{ marginHorizontal: 5 }} align="center" justify="center">
           {
-            !isMe && !isVoke ? (
+            (isOnlyVoke && isVoke) || (!isMe && !isVoke) ? (
               <Flex self="end" style={styles.avatar}>
                 {this.renderAvatar()}
               </Flex>
@@ -234,7 +246,7 @@ class MessageItem extends Component {
             self="end"
             style={[
               styles.triangle,
-              !isMe && !isVideo && !isVoke ? styles.otherTriangle : null,
+              (!isMe && !isVideo && !isVoke) || (!isVideo && (isOnlyVoke && isVoke)) ? styles.otherTriangle : null,
             ]}
           />
           {content}
@@ -242,12 +254,12 @@ class MessageItem extends Component {
             self="end"
             style={[
               styles.triangle,
-              (isMe || isVoke) && !isVideo ? styles.meTriangle : null,
-              !isVideo && isVoke ? styles.vokeTriangle : null,
+              !isVideo && (isMe || (isVoke && !isOnlyVoke)) ? styles.meTriangle : null,
+              !isVideo && isVoke && !isOnlyVoke ? styles.vokeTriangle : null,
             ]}
           />
           {
-            (isMe || isVoke) ? (
+            (isMe || (isVoke && !isOnlyVoke)) ? (
               <Flex self="end" style={styles.avatar}>
                 {this.renderAvatar()}
               </Flex>
@@ -256,7 +268,7 @@ class MessageItem extends Component {
         </Flex>
         {
           isTypeState ? null : (
-            <Flex align={(isMe || isVoke) ? 'end' : 'start'} justify="start" style={[styles.time, (isMe || isVoke) ? styles.meTime : styles.otherPersonTime]}>
+            <Flex align={ !(isOnlyVoke && isVoke) && (isMe || isVoke) ? 'end' : 'start'} justify="start" style={[styles.time, (isMe || isVoke) && !(isOnlyVoke && isVoke) ? styles.meTime : styles.otherPersonTime]}>
               <DateComponent style={styles.timeText} date={message.created_at} format="h:mm A" />
             </Flex>
           )
