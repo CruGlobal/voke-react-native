@@ -12,4 +12,8 @@ export default StyleSheet.create({
     left: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.2)',
   },
+  text: {
+    textAlign: 'center',
+    paddingHorizontal: 50,
+  },
 });
