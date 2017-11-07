@@ -85,7 +85,7 @@ class VideoDetails extends Component {
     if (this.props.video.media.type === 'vimeo') {
       return;
     }
-    if (orientation === 'LANDSCAPE') {
+    if (orientation === 'LANDSCAPE' || orientation === 'PORTRAITUPSIDEDOWN') {
       // do something with landscape layout
       // LOG('landscape');
       this.setState({ isLandscape: true });
@@ -169,6 +169,8 @@ class VideoDetails extends Component {
     } else if (videoType === 'vimeo' && isOlderAndroid) {
       loadDuration = 3500; // Longer for older android devices and vimeo
     }
+
+    // LOG('landscape mode', this.state.isLandscape);
 
     return (
       <View style={styles.container}>
