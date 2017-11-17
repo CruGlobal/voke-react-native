@@ -162,6 +162,12 @@ export function vibrateAction() {
     // Vibrate when receiving a new message
     if (Platform.OS === 'ios') {
       Vibration.vibrate(1500);
+    } else {
+      try {
+        Vibration.vibrate(600);
+      } catch (e) {
+        LOG('android virbate error', e);
+      }
     }
   };
 }
