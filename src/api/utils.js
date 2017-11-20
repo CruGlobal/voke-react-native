@@ -33,6 +33,9 @@ const DEFAULT_HEADERS = {
 };
 
 export function json(response) {
+  if (response && response.status === 401) {
+    return { error: 'Unauthorized' };
+  }
   return response.json ? response.json() : response;
 }
 
@@ -63,7 +66,7 @@ function defaultObject(method, obj = {}, data) {
     newObj.body = obj.stringify === false ? data : JSON.stringify(data);
   }
   delete obj.stringify;
-  
+
   return newObj;
 }
 
