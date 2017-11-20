@@ -166,9 +166,15 @@ export function logoutAction() {
         dispatch(getDevices()).then((results) => {
           LOG('get devices results', results);
           // Pass the token into this function because the LOGOUT action will clear it out
-          results.devices.forEach((m) => {
-            dispatch(destroyDevice(m.id, token));
-          });
+          const deviceIds = results.devices.map((d) => d.id);
+          if (deviceIds.length > 0) {
+            dispatch(callApi(REQUESTS.REVOKE_TOKEN, {
+              access_token: token,
+            }, {
+              device_ids: deviceIds,
+              token: null,
+            }));
+          }
         });
       }
       dispatch({ type: LOGOUT });
