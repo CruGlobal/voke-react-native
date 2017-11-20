@@ -1,6 +1,6 @@
 import { REHYDRATE } from 'redux-persist/constants';
 
-import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, TAB_SELECTED, ACTIVE_SCREEN, ONBOARD_FLAG, NO_BACKGROUND_ACTION } from '../constants';
+import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, TAB_SELECTED, ACTIVE_SCREEN, ONBOARD_FLAG, NO_BACKGROUND_ACTION, RESET_TOKEN } from '../constants';
 import { REQUESTS } from '../actions/api';
 
 const initialState = {
@@ -64,6 +64,11 @@ export default function auth(state = initialState, action) {
         token: action.token,
         user: action.user,
         isLoggedIn: true,
+      };
+    case RESET_TOKEN:
+      return {
+        ...state,
+        token: '',
       };
     case SET_USER:
       return {

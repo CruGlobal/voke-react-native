@@ -59,6 +59,10 @@ export default {
     },
     mapResults: mapAuth,
   },
+  'REVOKE_TOKEN': {
+    endpoint: AUTH_URL + 'oauth/revoke',
+    method: 'post',
+  },
   'ME': {
     endpoint: API_URL + 'me',
     anonymous: true,

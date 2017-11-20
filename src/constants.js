@@ -16,6 +16,7 @@ export const SET_PUSH_TOKEN = 'app/SET_PUSH_TOKEN';
 export const TAB_SELECTED = 'app/TAB_SELECTED';
 export const ACTIVE_SCREEN = 'app/ACTIVE_SCREEN';
 export const NO_BACKGROUND_ACTION = 'app/NO_BACKGROUND_ACTION';
+export const RESET_TOKEN = 'app/RESET_TOKEN';
 export const SET_ACTIVE_CONVERSATION = 'app/SET_ACTIVE_CONVERSATION';
 export const ONBOARD_FLAG = 'app/ONBOARD_FLAG';
 export const SET_IN_SHARE = 'app/SET_IN_SHARE';
