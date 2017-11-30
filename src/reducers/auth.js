@@ -21,7 +21,7 @@ const initialState = {
   apiActive: 0,
   homeTabSelected: 0,
   activeScreen: null,
-  onboardCompleted: false,
+  // onboardCompleted: false,
   noBackgroundAction: false,
 };
 
@@ -44,7 +44,7 @@ export default function auth(state = initialState, action) {
       return {
         ...state,
         ...incoming,
-        onboardCompleted: false,
+        // onboardCompleted: false,
         apiActive: 0,
         homeTabSelected: 0, // Always default the home page to tab 0
         activeScreen: null,
@@ -130,11 +130,11 @@ export default function auth(state = initialState, action) {
         ...state,
         activeScreen: action.screen,
       };
-    case ONBOARD_FLAG:
-      return {
-        ...state,
-        onboardCompleted: action.completed,
-      };
+    // case ONBOARD_FLAG:
+    //   return {
+    //     ...state,
+    //     onboardCompleted: action.completed,
+    //   };
     case NO_BACKGROUND_ACTION:
       return {
         ...state,

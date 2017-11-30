@@ -42,9 +42,9 @@ class SignUpWelcome extends Component {
 
   onPageSelected(params) {
     this.setState({ selectedPage: params.position });
-    if (params.position > 0) {
-      this.props.dispatch({type: ONBOARD_FLAG, completed: true});
-    }
+    // if (params.position > 0) {
+    //   this.props.dispatch({type: ONBOARD_FLAG, completed: true});
+    // }
   }
 
   componentDidMount() {
@@ -54,9 +54,9 @@ class SignUpWelcome extends Component {
   renderDotIndicator() {
     return (
       <PagerDotIndicator
-        style={{marginBottom: 55}}
-        dotStyle={{backgroundColor: COLORS.PRIMARY_FADE, marginHorizontal: 5}}
-        selectedDotStyle={{backgroundColor: theme.primaryColor, marginHorizontal: 5}}
+        style={{marginBottom: 30}}
+        dotStyle={{backgroundColor: COLORS.WHITE_FADE, marginHorizontal: 5}}
+        selectedDotStyle={{backgroundColor: theme.textColor, marginHorizontal: 5}}
         pageCount={5}
       />
     );
@@ -78,8 +78,6 @@ class SignUpWelcome extends Component {
   render() {
     return (
       <View style={{flex: 1, backgroundColor: theme.textColor}}>
-        <View style={styles.backgroundWrap}>
-        </View>
         <StatusBar />
         <View style={{flex: 1}}>
           <IndicatorViewPager
@@ -88,73 +86,99 @@ class SignUpWelcome extends Component {
             onPageSelected={this.onPageSelected}
           >
             <View style={styles.onboardingPage}>
-              <Flex align="center" justify="center" style={styles.imageWrap}>
-                <Image resizeMode="cover" source={ONBOARD_NEW} style={styles.onboardFull} />
-              </Flex>
-            </View>
-            <View style={styles.onboardingPage}>
-              <Text style={styles.headerTitle}>Watch</Text>
-              <Text style={styles.headerText}>Discover, watch, and share compelling videos.</Text>
-              <Flex align="center" justify="center" style={styles.imageWrap}>
-                <Image resizeMode="contain" source={ONBOARD_1} style={styles.onboardImage} />
-              </Flex>
-            </View>
-            <View style={styles.onboardingPage}>
-              <Text style={styles.headerTitle}>Share</Text>
-              <Text style={styles.headerText}>Your friends don't need Voke to watch or chat.</Text>
-              <Flex style={styles.imageWrap} align="center" justify="start">
-                <Image resizeMode="contain" source={ONBOARD_3} style={styles.onboardImage} />
-              </Flex>
-            </View>
-            <View style={styles.onboardingPage}>
-              <Text style={styles.headerTitle}>Chat</Text>
-              <Text style={styles.headerText}>Chat with your friends when they start watching.</Text>
-              <Flex style={styles.imageWrap} align="center" justify="center">
-                <Image resizeMode="contain" source={ONBOARD_2} style={styles.onboardImage} />
-              </Flex>
-            </View>
-            <View style={styles.onboardingPage}>
-              <Text style={styles.headerTitle}> </Text>
-              <Text style={styles.headerText}>Meet Vokebot! He will help you along the way.</Text>
-              <Flex self="stretch" justify="start" align="end" style={styles.vokeWrap}>
-                <Image resizeMode="contain" source={VOKE_BOT} style={styles.vokeBot} />
-              </Flex>
-              {
-                this.props.onlyOnboarding ? (
-                  <Flex value={1} align="end" justify="end">
+              <Flex value={1} direction="column" align="center" justify="center" >
+                <Flex value={1} align="center" justify="center">
+                  <Image resizeMode="cover" source={ONBOARD_NEW} style={styles.onboardHalf} />
+                </Flex>
+                <Flex direction="column" self="stretch" value={1} align="center" justify="start" style={{backgroundColor: theme.primaryColor}}>
+                  <Flex value={1}>
+                    <Text style={styles.headerTitle}>FIND AND SHARE HOPE</Text>
+                  </Flex>
+                  <Flex value={2} align="center" justify="center">
                     <Button
-                      text="Got It!"
-                      buttonTextStyle={styles.loginButtonText}
-                      style={[styles.loginButton2, { width: DEFAULT.FULL_WIDTH, zIndex: 500}]}
-                      onPress={() => this.props.navigateResetHome()}
+                      text="Sign In"
+                      buttonTextStyle={styles.signInButtonText}
+                      style={styles.signInButton}
+                      onPress={() => this.props.navigatePush('voke.LoginInput')}
                     />
                   </Flex>
-                ) : null
-              }
+                </Flex>
+              </Flex>
+            </View>
+            <View style={styles.onboardingPage}>
+              <Flex value={1} direction="column" align="center" justify="center" >
+                <Flex value={1} align="center" justify="center">
+                  <Image resizeMode="cover" source={ONBOARD_NEW} style={styles.onboardHalf} />
+                </Flex>
+                <Flex self="stretch" value={1} align="center" justify="start" style={{backgroundColor: COLORS.PINK}}>
+                  <Text style={styles.headerTitle}>SHARE VIDEOS THAT ARE WORTH SHARING</Text>
+                </Flex>
+              </Flex>
+            </View>
+            <View style={styles.onboardingPage}>
+              <Flex value={1} direction="column" align="center" justify="center" >
+                <Flex value={1} align="center" justify="center">
+                  <Image resizeMode="cover" source={ONBOARD_NEW} style={styles.onboardHalf} />
+                </Flex>
+                <Flex self="stretch" value={1} align="center" justify="start" style={{backgroundColor: theme.accentColor}}>
+                  <Text style={styles.headerTitle}>DISCOVER WHAT YOUR FRIENDS THINK</Text>
+                </Flex>
+              </Flex>
+            </View>
+            <View style={styles.onboardingPage}>
+              <Flex value={1} direction="column" align="center" justify="center" >
+                <Flex value={1} align="center" justify="center">
+                  <Image resizeMode="cover" source={ONBOARD_NEW} style={styles.onboardHalf} />
+                </Flex>
+                <Flex self="stretch" value={1} align="center" justify="start" style={{backgroundColor: COLORS.OLIVE}}>
+                  <Text style={styles.headerTitle}>EXPERIENCE DEEPER FRIENDSHIPS</Text>
+                </Flex>
+              </Flex>
+            </View>
+            <View style={styles.onboardingPage}>
+              <Flex value={1} direction="column" align="center" justify="center" >
+                <Flex value={1} align="center" justify="center" style={{backgroundColor: theme.primaryColor}}>
+                  <Flex self="stretch" justify="start" align="end" style={styles.onboardHalf}>
+                    <Image resizeMode="contain" source={VOKE_BOT} style={styles.vokeBot} />
+                  </Flex>
+                </Flex>
+                <Flex direction="column" self="stretch" value={1} align="center" justify="start" style={{backgroundColor: theme.primaryColor}}>
+                  <Flex value={1}>
+                    <Text style={styles.headerTitle}>MEET VOKEBOT</Text>
+                    <Text style={styles.headerText}>He will help you along the way.</Text>
+                  </Flex>
+                  <Flex value={2} align="center" justify="center">
+                    <Button
+                      text="Got It!"
+                      buttonTextStyle={styles.signInButtonText}
+                      style={styles.signInButton}
+                      onPress={() => this.props.navigatePush('voke.Login')}
+                    />
+                  </Flex>
+                </Flex>
+              </Flex>
             </View>
           </IndicatorViewPager>
           {this.renderSkip()}
           {
-            this.props.onlyOnboarding ? null : (
-              <Flex direction="row" align="center" justify="center" style={{position: 'absolute', bottom: 0, left: 0, right: 0}}>
-                <Flex value={1} style={styles.actionButton}>
-                  <Button
-                    text="Create Account"
-                    buttonTextStyle={styles.loginButtonText}
-                    style={styles.loginButton}
-                    onPress={() => this.props.navigatePush('voke.Login')}
-                  />
-                </Flex>
-                <Flex value={1} style={styles.actionButton}>
-                  <Button
-                    text="Sign In"
-                    buttonTextStyle={styles.loginButtonText}
-                    style={styles.loginButton2}
-                    onPress={() => this.props.navigatePush('voke.LoginInput')}
-                  />
-                </Flex>
-              </Flex>
-            )
+            // <Flex direction="row" align="center" justify="center" style={{position: 'absolute', bottom: 0, left: 0, right: 0}}>
+            //   <Flex value={1} style={styles.actionButton}>
+            //     <Button
+            //       text="Create Account"
+            //       buttonTextStyle={styles.loginButtonText}
+            //       style={styles.loginButton}
+            //       onPress={() => this.props.navigatePush('voke.Login')}
+            //       />
+            //   </Flex>
+            //   <Flex value={1} style={styles.actionButton}>
+            //     <Button
+            //       text="Sign In"
+            //       buttonTextStyle={styles.loginButtonText}
+            //       style={styles.loginButton2}
+            //       onPress={() => this.props.navigatePush('voke.LoginInput')}
+            //       />
+            //   </Flex>
+            // </Flex>
           }
         </View>
       </View>
