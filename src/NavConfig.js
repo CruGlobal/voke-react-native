@@ -48,6 +48,14 @@ export function startTabApp(options = {}) {
         // selectedIcon: require('../img/two_selected.png'),
         ...(options.passProps || {}),
       },
+      {
+        label: 'Channels',
+        title: 'Channels',
+        screen: 'voke.Channels',
+        icon: require('../images/channelsIcon.png'),
+        // selectedIcon: require('../img/two_selected.png'),
+        ...(options.passProps || {}),
+      },
     ],
     tabsStyle: { // optional, add this if you want to style the tab bar beyond the defaults
       tabBarButtonColor: theme.primaryColor, // optional, change the color of the tab icons and text (also unselected)

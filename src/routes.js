@@ -28,6 +28,7 @@ import SignUpFBAccount from './containers/SignUpFBAccount';
 import Modal from './containers/Modal';
 import AndroidReportModal from './containers/AndroidReportModal';
 import ShareModal from './containers/ShareModal';
+import Channels from './containers/Channels';
 
 
 export default function(store, Provider) {
@@ -59,4 +60,5 @@ export default function(store, Provider) {
   Navigation.registerComponent('voke.Modal', () => Modal, store, Provider);
   Navigation.registerComponent('voke.AndroidReportModal', () => AndroidReportModal, store, Provider);
   Navigation.registerComponent('voke.ShareModal', () => ShareModal, store, Provider);
+  Navigation.registerComponent('voke.Channels', () => Channels, store, Provider);
 }
