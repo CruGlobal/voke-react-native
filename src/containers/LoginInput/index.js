@@ -8,7 +8,7 @@ import styles from './styles';
 import { getMe, facebookLoginAction, anonLogin } from '../../actions/auth';
 import theme from '../../theme';
 import ApiLoading from '../ApiLoading';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 import { Flex, Text, Button } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';

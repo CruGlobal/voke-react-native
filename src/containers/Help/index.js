@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Linking, Platform } from 'react-native';
 import { connect } from 'react-redux';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 import { Navigation } from 'react-native-navigation';
 import Communications from 'react-native-communications';
 import Analytics from '../../utils/analytics';

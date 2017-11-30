@@ -1,8 +1,9 @@
 import { NavigationActions } from 'react-navigation';
+import PropTypes from 'prop-types';
 
-import { logoutAction } from './auth';
-import { startLoginApp, startTabApp } from '../NavConfig';
-import theme from '../theme';
+// import { logoutAction } from './auth';
+// import { startLoginApp, startTabApp } from '../NavConfig';
+// import theme from '../theme';
 
 const DEFAULT_PROPS = {
   'voke.Home': { title: 'Chats' },

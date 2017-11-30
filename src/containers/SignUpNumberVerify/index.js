@@ -7,7 +7,7 @@ import Analytics from '../../utils/analytics';
 import { verifyMobile, createMobileVerification } from '../../actions/auth';
 
 import styles from './styles';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 import theme from '../../theme';
 
 import { Flex, Text, Button } from '../../components/common';

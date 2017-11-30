@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
 import DeviceInfo from 'react-native-device-info';
 
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 import Analytics from '../../utils/analytics';
 
 import theme from '../../theme';

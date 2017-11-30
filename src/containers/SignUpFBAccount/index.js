@@ -7,7 +7,7 @@ import ImagePicker from '../../components/ImagePicker';
 import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { updateMe } from '../../actions/auth';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 import theme from '../../theme';
 
 import { Flex, Text, Button, Icon } from '../../components/common';

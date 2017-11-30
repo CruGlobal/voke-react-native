@@ -8,7 +8,7 @@ import { createMobileVerification } from '../../actions/auth';
 import Analytics from '../../utils/analytics';
 
 import styles from './styles';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 
 import { Flex, Text, Button, Icon } from '../../components/common';
 

@@ -7,7 +7,7 @@ import Orientation from 'react-native-orientation';
 import debounce from 'lodash/debounce';
 
 import Analytics from '../../utils/analytics';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 import { toastAction } from '../../actions/auth';
 
 import theme from '../../theme';

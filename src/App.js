@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+// import { View, Text } from 'react-native';
 import { Provider } from 'react-redux';
 
 import './utils/reactotron'; // This needs to be before the store
 import './utils/globals';
+import Analytics from './utils/analytics';
 
 import LoadingScreen from './containers/LoadingScreen';
 
@@ -15,7 +17,10 @@ class App extends Component {
   state = { store: null };
 
   componentDidMount() {
-    getStore((store) => this.setState({ store }));
+    Analytics.setup();
+    getStore((store) => {
+      this.setState({ store });
+    });
   }
 
   render() {

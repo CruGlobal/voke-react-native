@@ -11,7 +11,7 @@ import Analytics from '../../utils/analytics';
 import { SET_IN_SHARE, SHOW_SHARE_MODAL } from  '../../constants';
 
 import styles from './styles';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 import theme, { DEFAULT } from '../../theme';
 import VOKE_BOT from '../../../images/voke_bot_face_large.png';
 import { vokeIcons } from '../../utils/iconMap';

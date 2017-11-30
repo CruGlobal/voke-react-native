@@ -11,7 +11,7 @@ import Analytics from '../../utils/analytics';
 
 import ApiLoading from '../ApiLoading';
 import VOKE_LOGO from '../../../images/nav_voke_logo.png';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 import theme, { COLORS } from '../../theme';
 
 function setButtons() {

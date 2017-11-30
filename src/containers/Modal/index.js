@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import Analytics from '../../utils/analytics';
 import CONTACTS_PERMISSION from '../../../images/contacts-permission.png';
 import styles from './styles';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 import { Flex, Text, Button } from '../../components/common';
 
 class Modal extends Component {

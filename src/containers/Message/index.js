@@ -8,7 +8,7 @@ import { getMessages, createMessage, createTypeStateAction, destroyTypeStateActi
 import Analytics from '../../utils/analytics';
 
 import theme, { COLORS } from '../../theme';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 import { vokeIcons } from '../../utils/iconMap';
 
 import { SET_ACTIVE_CONVERSATION } from '../../constants';

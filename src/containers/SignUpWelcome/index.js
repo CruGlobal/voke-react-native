@@ -13,7 +13,7 @@ import VOKE_BOT from '../../../images/onboardingVoke.png';
 import ONBOARD_BACKGROUND from '../../../images/onboardBackground.png';
 import { ONBOARD_FLAG } from '../../constants';
 import styles from './styles';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 import theme, { COLORS, DEFAULT } from '../../theme';
 
 import { Flex, Text, Button, Touchable } from '../../components/common';

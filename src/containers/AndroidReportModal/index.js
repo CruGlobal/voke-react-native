@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import Analytics from '../../utils/analytics';
 import styles from './styles';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 import theme from '../../theme.js';
 import { Flex, Text, Button } from '../../components/common';
 

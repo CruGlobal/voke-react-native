@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import styles from './styles';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 import { updateMe } from '../../actions/auth';
 import ImagePicker from '../../components/ImagePicker';
 import Analytics from '../../utils/analytics';

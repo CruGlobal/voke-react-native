@@ -11,7 +11,7 @@ import { vokeIcons } from '../../utils/iconMap';
 import styles from './styles';
 // import { toastAction } from '../../actions/auth';
 import { searchContacts, getContacts } from '../../actions/contacts';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 import theme from '../../theme';
 import Permissions from '../../utils/permissions';
 import { Button, Flex } from '../../components/common';

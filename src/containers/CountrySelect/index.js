@@ -7,7 +7,7 @@ import debounce from 'lodash/debounce';
 import { Navigation } from 'react-native-navigation';
 
 import Analytics from '../../utils/analytics';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 import styles from './styles';
 import { iconsMap } from '../../utils/iconMap';
 import theme from '../../theme';

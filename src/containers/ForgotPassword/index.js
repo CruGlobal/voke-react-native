@@ -5,7 +5,7 @@ import Analytics from '../../utils/analytics';
 
 import styles from './styles';
 import { forgotPasswordAction } from '../../actions/auth';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 
 import { Flex, Text, Button } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';

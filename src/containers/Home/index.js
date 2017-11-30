@@ -6,7 +6,7 @@ import { Navigation } from 'react-native-navigation';
 
 import { TAB_SELECTED } from '../../constants';
 import styles from './styles';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 import { startupAction, cleanupAction, blockMessenger, reportUserAction } from '../../actions/auth';
 import  Analytics from '../../utils/analytics';
 

@@ -5,7 +5,7 @@ import { ScrollView, KeyboardAvoidingView, Linking, Alert, Keyboard, Platform } 
 import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { createAccountAction } from '../../actions/auth';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 import theme from '../../theme';
 import { Flex, Text, Button, Touchable } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';

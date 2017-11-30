@@ -4,7 +4,7 @@ import { Navigation } from 'react-native-navigation';
 
 import Analytics from '../../utils/analytics';
 import { navMenuOptions } from '../../utils/menu';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 import theme from '../../theme';
 import SettingsList from '../../components/SettingsList';
 

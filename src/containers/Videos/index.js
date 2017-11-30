@@ -9,7 +9,7 @@ import { getVideos, getFeaturedVideos, getPopularVideos, getTags, getSelectedThe
 // import { getMe } from '../../actions/auth';
 import Analytics from '../../utils/analytics';
 
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 
 import styles from './styles';
 import theme from '../../theme';
