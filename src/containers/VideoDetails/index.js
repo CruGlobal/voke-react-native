@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Alert, View, ScrollView, Platform, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Navigation } from 'react-native-navigation';
 import Orientation from 'react-native-orientation';
 import debounce from 'lodash/debounce';
 
@@ -10,7 +9,6 @@ import Analytics from '../../utils/analytics';
 import nav, { NavPropTypes } from '../../actions/nav';
 import { toastAction } from '../../actions/auth';
 
-import theme from '../../theme';
 import styles from './styles';
 import ApiLoading from '../ApiLoading';
 import WebviewVideo from '../../components/WebviewVideo';
@@ -23,25 +21,13 @@ const isOlderAndroid = Platform.OS === 'android' && Platform.Version < 23;
 
 
 class VideoDetails extends Component {
-
-  static navigatorStyle = {
-    screenBackgroundColor: theme.lightBackgroundColor,
-    navBarHidden: true,
-    tabBarHidden: true,
-    statusBarHidden: true,
-    orientation: 'auto',
-  };
-
   constructor(props) {
     super(props);
 
     this.state = {
-      hideWebview: false,
       isLandscape: false,
-      timesAppeared: 0,
     };
 
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleVideoChange = this.handleVideoChange.bind(this);
     this.orientationDidChange = debounce(this.orientationDidChange.bind(this), 50);
   }
@@ -73,6 +59,10 @@ class VideoDetails extends Component {
         this.orientationDidChange(orientation);
       });
     }
+    // For iOS margin
+    this.webview.removeMargin();
+
+    // TODO: When coming back to this page, toggle the orientation
   }
 
   componentWillUnmount() {
@@ -101,19 +91,6 @@ class VideoDetails extends Component {
       Orientation.lockToPortrait();
     } else {
       Orientation.unlockAllOrientations();
-    }
-  }
-
-  onNavigatorEvent(event) {
-    // Hide the webview until the screen is mounted
-    if (event.id === 'didAppear') {
-      if (this.state.timesAppeared > 0 && this.webview && this.webview.pause) {
-        this.webview.pause();
-        this.webview.removeMargin();
-      }
-
-      this.setState({ hideWebview: false, timesAppeared: this.state.timesAppeared + 1 });
-      this.toggleOrientation();
     }
   }
 
@@ -176,25 +153,20 @@ class VideoDetails extends Component {
       <View style={styles.container}>
         <StatusBar hidden={true} />
         <Flex style={this.state.isLandscape ? styles.landscapeVideo : styles.video}>
-          {
-            this.state.hideWebview ? null : (
-              <WebviewVideo
-                ref={(c) => this.webview = c}
-                type={videoType}
-                url={videoMedia.url}
-                start={video.media_start || 0}
-                end={video.media_end || 0}
-                onChangeState={this.handleVideoChange}
-                isLandscape={this.state.isLandscape}
-              />
-            )
-          }
+          <WebviewVideo
+            ref={(c) => this.webview = c}
+            type={videoType}
+            url={videoMedia.url}
+            start={video.media_start || 0}
+            end={video.media_end || 0}
+            onChangeState={this.handleVideoChange}
+            isLandscape={this.state.isLandscape}
+          />
           <View style={styles.backHeader}>
             <Touchable
               borderless={true}
               hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
               onPress={() => {
-                {/* Navigation.dismissModal(); */}
                 this.props.navigateBack();
               }}>
               <View>
@@ -219,9 +191,8 @@ class VideoDetails extends Component {
                   { text: 'Cancel' },
                   { text: 'Add', onPress: () => {
                     this.props.onSelectVideo(video.id);
-                    // No need to navigate back, just dismiss the VideoDetails modal
+                    // Navigate back after selecting the video
                     this.props.navigateBack();
-                    {/* Navigation.dismissModal(); */}
                   }},
                 ]
               );
@@ -249,8 +220,7 @@ VideoDetails.propTypes = {
 };
 
 const mapStateToProps = (state, { navigation }) => ({
-  video: navigation.state.params ? navigation.state.params.video : '',
-  onSelectVideo: navigation.state.params ? navigation.state.params.onSelectVideo : '',
+  ...(navigation.state.params || {}),
 });
 
 export default connect(mapStateToProps, nav)(VideoDetails);

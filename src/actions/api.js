@@ -6,7 +6,7 @@ import lodashForEach from 'lodash/forEach';
 import { RESET_TOKEN } from '../constants';
 import API_CALLS from '../api';
 import { toastAction } from './auth';
-import { navigateResetLogin } from './navigation_new';
+import { navigateResetLogin } from './nav';
 import apiRoutes from '../api/routes';
 import { isArray } from '../utils/common';
 

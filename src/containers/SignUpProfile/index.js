@@ -151,5 +151,8 @@ SignUpProfile.propTypes = {
   ...NavPropTypes,
   hideBack: PropTypes.bool,
 };
+const mapStateToProps = (state, { navigation }) => ({
+  ...(navigation.state.params || {}),
+});
 
-export default connect(null, nav)(SignUpProfile);
+export default connect(mapStateToProps, nav)(SignUpProfile);

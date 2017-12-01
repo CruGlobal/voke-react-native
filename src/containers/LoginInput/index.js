@@ -47,7 +47,7 @@ class LoginInput extends Component {
 
   componentDidMount() {
     Analytics.screen('Login Input');
-    setTimeout(this.login, 1000);
+    // setTimeout(this.login, 1000);
   }
 
   login() {
@@ -203,5 +203,8 @@ class LoginInput extends Component {
 LoginInput.propTypes = {
   ...NavPropTypes,
 };
+const mapStateToProps = (state, { navigation }) => ({
+  ...(navigation.state.params || {}),
+});
 
-export default connect(null, nav)(LoginInput);
+export default connect(mapStateToProps, nav)(LoginInput);

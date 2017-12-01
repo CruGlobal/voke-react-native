@@ -178,5 +178,8 @@ SignUpFBAccount.propTypes = {
   ...NavPropTypes,
   me: PropTypes.object,
 };
+const mapStateToProps = (state, { navigation }) => ({
+  ...(navigation.state.params || {}),
+});
 
-export default connect(null, nav)(SignUpFBAccount);
+export default connect(mapStateToProps, nav)(SignUpFBAccount);

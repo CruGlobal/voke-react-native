@@ -135,8 +135,8 @@ SignUpNumberVerify.propTypes = {
   ...NavPropTypes,
   mobile: PropTypes.string.isRequired,
 };
-
-const mapStateToProps = ({ auth }) => ({
+const mapStateToProps = ({ auth }, { navigation }) => ({
+  ...(navigation.state.params || {}),
   // onboardCompleted: auth.onboardCompleted,
 });
 

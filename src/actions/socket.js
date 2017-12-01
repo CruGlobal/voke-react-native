@@ -7,7 +7,7 @@ import { API_URL } from '../api/utils';
 import { registerPushToken } from './auth';
 import { SOCKET_URL } from '../api/utils';
 import { newMessageAction, typeStateChangeAction, getConversation, getConversations } from './messages';
-import { navigatePush, navigateResetHome, navigateResetTo } from './navigation_new';
+import { navigatePush, navigateResetMessage, navigateResetHome, navigateResetTo } from './nav';
 import callApi, { REQUESTS } from './api';
 import CONSTANTS from '../constants';
 import { isEquivalentObject, isString } from '../utils/common';
@@ -149,7 +149,7 @@ export function getDevices() {
   };
 }
 
-export function gotDeviceToken(navigator, token) {
+export function gotDeviceToken(token) {
   return (dispatch, getState) => {
     LOG('RECEIVED PUSH TOKEN:', token);
     const auth = getState().auth;
@@ -180,9 +180,9 @@ export function gotDeviceToken(navigator, token) {
     //   dispatch(closeSocketAction());
     // }, 3500);
 
-    notificationForeground = (n) => dispatch(handleNotifications(navigator, 'foreground', n));
-    notificationBackground = (n) => dispatch(handleNotifications(navigator, 'background', n));
-    notificationOpen = (n) => dispatch(handleNotifications(navigator, 'open', n));
+    notificationForeground = (n) => dispatch(handleNotifications('foreground', n));
+    notificationBackground = (n) => dispatch(handleNotifications('background', n));
+    notificationOpen = (n) => dispatch(handleNotifications('open', n));
 
     if (Platform.OS === 'android') {
       // On Android, we allow for only one (global) listener per each event type.
@@ -237,7 +237,7 @@ export function closeNotificationListeners() {
   };
 }
 
-export function handleNotifications(navigator, state, notification) {
+export function handleNotifications(state, notification) {
   return (dispatch, getState) => {
     let data = notification.getData();
     // LOG(JSON.stringify(notification));
@@ -300,39 +300,30 @@ export function handleNotifications(navigator, state, notification) {
           if (!results || !results.conversation ) {
             return;
           }
-          const activeScreen = getState().auth.activeScreen;
-          const conversationId = getState().messages.activeConversationId;
-          LOG('activeScreen, conversationId, cId', activeScreen, conversationId, cId);
-          if (activeScreen === 'voke.Home') {
-            LOG('push and on home');
-            setTimeout(()=>{
-              dispatch(navigatePush(navigator, 'voke.Message', {
-                conversation: results.conversation,
-              }, {
-                animationType: 'none',
-              }));
-            }, 1000);
-          } else if (activeScreen === 'voke.Message' && cId === conversationId) {
-            LOG('push and on message');
-            dispatch(navigateResetTo(navigator, 'voke.Message', {conversation: results.conversation, goBackHome: true}));
+          dispatch(navigateResetMessage({
+            conversation: results.conversation,
+          }));
+          // const activeScreen = getState().auth.activeScreen;
+          // const conversationId = getState().messages.activeConversationId;
+          // LOG('activeScreen, conversationId, cId', activeScreen, conversationId, cId);
+          // if (activeScreen === 'voke.Home') {
+          //   LOG('push and on home');
+          //   setTimeout(()=>{
+          //     dispatch(navigatePush('voke.Message', {
+          //       conversation: results.conversation,
+          //     }, {
+          //       animationType: 'none',
+          //     }));
+          //   }, 1000);
+          // } else if (activeScreen === 'voke.Message' && cId === conversationId) {
+          //   LOG('push and on message');
+          //   dispatch(navigateResetMessage({conversation: results.conversation}));
 
-            // dispatch(navigateResetHome(navigator, {
-            //   passProps: {
-            //     onMount: (navigator2) => {
-            //       // The navigator gets reset on resetHome so we need to get the new navigator passed back when Home mounts
-            //       dispatch(navigatePush(navigator2, 'voke.Message', {
-            //         conversation: results.conversation,
-            //       }, {
-            //         animationType: 'none',
-            //       }));
-            //     },
-            //   },
-            // }));
-            // return;
-          } else {
-            LOG('push and else');
-            dispatch(navigateResetTo(navigator, 'voke.Message', {conversation: results.conversation, goBackHome: true}));
-          }
+          //   // return;
+          // } else {
+          //   LOG('push and else');
+          //   dispatch(navigateResetMessage({conversation: results.conversation}));
+          // }
 
         });
       }
@@ -345,7 +336,7 @@ export function handleNotifications(navigator, state, notification) {
   };
 }
 
-export function establishDevice(navigator) {
+export function establishDevice() {
   return (dispatch, getState) => {
     //
     // return dispatch(callApi(REQUESTS.GET_DEVICES, {}, {})).then((results) => {
@@ -365,11 +356,11 @@ export function establishDevice(navigator) {
       NotificationsAndroid.refreshToken();
       // On Android, we allow for only one (global) listener per each event type.
       NotificationsAndroid.setRegistrationTokenUpdateListener((token) => {
-        dispatch(gotDeviceToken(navigator, token));
+        dispatch(gotDeviceToken(token));
       });
     } else {
       const onPushRegistered = function(token) {
-        dispatch(gotDeviceToken(navigator, token));
+        dispatch(gotDeviceToken(token));
         NotificationsIOS.removeEventListener('remoteNotificationsRegistered', onPushRegistered);
       };
 
@@ -402,8 +393,8 @@ export function establishDevice(navigator) {
   //       // const message = isString(notification.message) ? JSON.parse(notification.message) : notification.message;
   //       LOG('NOTIFICATION MESSAGE:', message);
   //       if (message.message && message.message.conversation_id) {
-  //         dispatch(navigateResetHome(navigator));
-  //         dispatch(navigatePush(navigator, 'voke.Message', { conversation: {
+  //         dispatch(navigateResetHome());
+  //         dispatch(navigatePush('voke.Message', { conversation: {
   //           id: message.message.conversation_id,
   //           messengers: [],
   //         }}));

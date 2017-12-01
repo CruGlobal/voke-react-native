@@ -1,21 +1,12 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { Image, Platform } from 'react-native';
-import { Navigation } from 'react-native-navigation';
 import PropTypes from 'prop-types';
 import Analytics from '../../utils/analytics';
 import CONTACTS_PERMISSION from '../../../images/contacts-permission.png';
 import styles from './styles';
-import nav, { NavPropTypes } from '../../actions/nav';
 import { Flex, Text, Button } from '../../components/common';
 
 class Modal extends Component {
-  static navigatorStyle = {
-    navBarHidden: true,
-    screenBackgroundColor: 'transparent',
-    modalPresentationStyle: 'overFullScreen',
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -31,8 +22,6 @@ class Modal extends Component {
   }
 
   dismissModal() {
-    // Navigation.dismissModal({ animationType: 'fade' });
-    // this.props.navigateBack();
     this.props.onClose();
   }
 
@@ -108,10 +97,9 @@ class Modal extends Component {
 }
 
 Modal.propTypes = {
-  ...NavPropTypes,
   getContacts: PropTypes.func.isRequired,
   onDismiss: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 
-export default connect(null, nav)(Modal);
+export default Modal;

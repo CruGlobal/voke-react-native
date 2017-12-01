@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { BackHandler, View, ScrollView, Platform } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Navigation } from 'react-native-navigation';
 
-import { TAB_SELECTED } from '../../constants';
 import { getVideos, getFeaturedVideos, getPopularVideos, getTags, getSelectedThemeVideos } from '../../actions/videos';
 // import { getMe } from '../../actions/auth';
 import Analytics from '../../utils/analytics';
@@ -12,52 +10,18 @@ import Analytics from '../../utils/analytics';
 import nav, { NavPropTypes } from '../../actions/nav';
 
 import styles from './styles';
-import theme from '../../theme';
 import { navMenuOptions } from '../../utils/menu';
 import { vokeIcons } from '../../utils/iconMap';
+import CONSTANTS from '../../constants';
 
 import ApiLoading from '../ApiLoading';
-import PillButton from '../../components/PillButton';
+import Header, { HeaderIcon } from '../Header';
+import PopupMenu from '../../components/PopupMenu';
 import ChannelsList from '../../components/ChannelsList';
 import StatusBar from '../../components/StatusBar';
 import { Flex, Text } from '../../components/common';
 
-function setButtons(showBack) {
-  if (!showBack && Platform.OS === 'android') {
-    let menu = navMenuOptions().map((m) => ({
-      title: m.name,
-      id: m.id,
-      showAsAction: 'never',
-    })).reverse();
-    menu.unshift({
-      title: 'Search', // for a textual button, provide the button title (label)
-      id: 'search',
-      showAsAction: 'always',
-      icon: vokeIcons['search'], // for icon button, provide the local image asset name
-    });
-    return {
-      rightButtons: menu,
-    };
-  }
-  const leftButton1 = {
-    title: showBack ? 'Back' : 'Menu',
-    id: showBack ? 'back' : 'menu',
-    icon: showBack ? vokeIcons['back'] : vokeIcons['menu'],
-  };
-  return {
-    leftButtons: [leftButton1],
-    rightButtons: [],
-  };
-}
-
 class Channels extends Component {
-  static navigatorStyle = {
-    navBarButtonColor: theme.lightText,
-    navBarTextColor: theme.headerTextColor,
-    navBarBackgroundColor: theme.headerBackgroundColor,
-    screenBackgroundColor: theme.primaryColor,
-    statusBarHidden: false,
-  };
 
   constructor(props) {
     super(props);
@@ -68,55 +32,14 @@ class Channels extends Component {
       videos: [],
     };
 
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleNextPage = this.handleNextPage.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
     this.handleRefresh = this.handleRefresh.bind(this);
     this.updateVideoList = this.updateVideoList.bind(this);
-    this.backHandler = this.backHandler.bind(this);
-  }
-
-  onNavigatorEvent(event) {
-    if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
-      if (event.id == 'back') {
-        this.props.navigateBack();
-      } else if (Platform.OS === 'android') {
-        // Get the selected event from the menu
-        const selected = navMenuOptions(this.props).find((m) => m.id === event.id);
-        if (selected && selected.onPress) {
-          selected.onPress();
-        }
-      } else if (event.id === 'menu') {
-        Navigation.showModal({
-          screen: 'voke.Menu', // unique ID registered with Navigation.registerScreen
-          title: 'Settings', // title of the screen as appears in the nav bar (optional)
-          animationType: 'slide-up', // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
-        });
-      }
-    }
-
-    // Keep track of selected tab in redux
-    if (event.id === 'bottomTabSelected') {
-      this.props.dispatch({ type: TAB_SELECTED, tab: 2 });
-    }
-  }
-
-  componentWillMount() {
-    if (!this.props.onSelectVideo) {
-      // this.props.navigator.setButtons(setButtons());
-    } else {
-      // this.props.navigator.setButtons(setButtons(true));
-    }
-    // this.props.navigator.setTitle({ title: 'Channels' });
   }
 
   componentDidMount() {
     // Do this after mounting because Android sometimes doesn't work on initial load
-    if (!this.props.onSelectVideo) {
-      // this.props.navigator.setButtons(setButtons());
-    } else {
-      // this.props.navigator.setButtons(setButtons(true));
-    }
     // If there are no videos when the component mounts, get them, otherwise just set it
     if (this.props.all.length === 0) {
       this.props.dispatch(getVideos()).then(() => {
@@ -145,27 +68,8 @@ class Channels extends Component {
     }
 
     Analytics.screen('Channels');
-
-    // If your on the home tab, handle the back button
-    if (!this.props.onSelectVideo) {
-      BackHandler.addEventListener('hardwareBackPress', this.backHandler);
-    }
   }
 
-  componentWillUnmount() {
-    if (!this.props.onSelectVideo) {
-      BackHandler.removeEventListener('hardwareBackPress', this.backHandler);
-    }
-  }
-
-  // Handle going from the Videos Tab to the Chat tab when Android back is pressed
-  backHandler() {
-    if (this.props.isTabSelected) {
-      this.props.navigator.switchToTab({ tabIndex: 0 });
-      return true;
-    }
-    return false;
-  }
 
   handleRefresh() {
     return this.handleFilter(this.state.selectedFilter);
@@ -238,11 +142,26 @@ class Channels extends Component {
 
   render() {
     const { onSelectVideo } = this.props;
-    const { selectedFilter, videos } = this.state;
+    const { videos } = this.state;
 
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
+        <Header
+          left={
+            <HeaderIcon
+              image={vokeIcons['menu']}
+              onPress={() => this.props.navigateBack()} />
+          }
+          right={
+            CONSTANTS.IS_ANDROID ? (
+              <PopupMenu
+                actions={navMenuOptions(this.props)}
+              />
+            ) : null
+          }
+          title="Channels"
+        />
         <ScrollView >
           <Text style={styles.title}>MY CHANNELS</Text>
           <ChannelsList
@@ -253,15 +172,6 @@ class Channels extends Component {
                 video: c,
                 onSelectVideo,
               });
-              {/* Navigation.showModal({
-                screen: 'voke.VideoDetails',
-                animationType: 'slide-up',
-                passProps: {
-                  video: c,
-                  onSelectVideo,
-                },
-                navigatorStyle: { orientation: 'auto' },
-              }); */}
             }}
             onRefresh={this.handleRefresh}
             onLoadMore={this.handleNextPage}
@@ -276,15 +186,6 @@ class Channels extends Component {
                 video: c,
                 onSelectVideo,
               });
-              {/* Navigation.showModal({
-                screen: 'voke.VideoDetails',
-                animationType: 'slide-up',
-                passProps: {
-                  video: c,
-                  onSelectVideo,
-                },
-                navigatorStyle: { orientation: 'auto' },
-              }); */}
             }}
             onRefresh={this.handleRefresh}
             onLoadMore={this.handleNextPage}
@@ -299,15 +200,6 @@ class Channels extends Component {
                 video: c,
                 onSelectVideo,
               });
-              {/* Navigation.showModal({
-                screen: 'voke.VideoDetails',
-                animationType: 'slide-up',
-                passProps: {
-                  video: c,
-                  onSelectVideo,
-                },
-                navigatorStyle: { orientation: 'auto' },
-              }); */}
             }}
             onRefresh={this.handleRefresh}
             onLoadMore={this.handleNextPage}

@@ -1,6 +1,5 @@
 import RNFetchBlob from 'react-native-fetch-blob';
 import { Linking, Platform, AppState, ToastAndroid, AsyncStorage, Alert } from 'react-native';
-import { ScreenVisibilityListener } from 'react-native-navigation';
 
 import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, ACTIVE_SCREEN, NO_BACKGROUND_ACTION } from '../constants';
 import callApi, { REQUESTS } from './api';
@@ -15,27 +14,18 @@ import DeviceInfo from 'react-native-device-info';
 let appStateChangeFn;
 let currentAppState = AppState.currentState || '';
 
-let navigationListener;
 let hasStartedUp = false;
 
-export function startupAction(navigator) {
+export function startupAction() {
   return (dispatch, getState) => {
     if (hasStartedUp) return;
     // dispatch(getMe());
 
     hasStartedUp = true;
-    dispatch(establishDevice(navigator));
-    appStateChangeFn = appStateChange.bind(null, dispatch, getState, navigator);
+    dispatch(establishDevice());
+    appStateChangeFn = appStateChange.bind(null, dispatch, getState);
     AppState.addEventListener('change', appStateChangeFn);
     Orientation.lockToPortrait();
-
-    navigationListener = new ScreenVisibilityListener({
-      didAppear: ({ screen }) => {
-        // LOG('screen', screen, commandType);
-        dispatch({ type: ACTIVE_SCREEN, screen });
-      },
-    });
-    navigationListener.register();
   };
 }
 
@@ -45,11 +35,6 @@ export function cleanupAction() {
     LOG('removing appState listener');
     AppState.removeEventListener('change', appStateChangeFn);
     dispatch(closeNotificationListeners());
-
-    if (navigationListener) {
-      navigationListener.unregister();
-      navigationListener = null;
-    }
   };
 }
 
@@ -58,7 +43,7 @@ const BACKGROUND_TIMEOUT = 1500;
 let appCloseTime;
 
 // TODO: It would be nice to somehow do this in the background and not block the UI when coming back into the app
-function appStateChange(dispatch, getState, navigator, nextAppState) {
+function appStateChange(dispatch, getState, nextAppState) {
   const { cableId, token, noBackgroundAction } = getState().auth;
 
   // Sometimes this runs when logging out and causes a network error
@@ -97,7 +82,7 @@ function appStateChange(dispatch, getState, navigator, nextAppState) {
       if (cableId) {
         dispatch(setupSocketAction(cableId));
       } else {
-        dispatch(establishDevice(navigator));
+        dispatch(establishDevice());
       }
     }, BACKGROUND_TIMEOUT);
 

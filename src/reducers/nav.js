@@ -3,8 +3,8 @@ import { REHYDRATE } from 'redux-persist/constants';
 
 import { MainRoutes } from '../AppRoutes';
 
-// const initialState = MainRoutes.router.getStateForAction(MainRoutes.router.getActionForPathAndParams('voke.SignUpWelcome'));
-const initialState = MainRoutes.router.getStateForAction(MainRoutes.router.getActionForPathAndParams('voke.LoginInput'));
+const initialState = MainRoutes.router.getStateForAction(MainRoutes.router.getActionForPathAndParams('voke.SignUpWelcome'));
+// const initialState = MainRoutes.router.getStateForAction(MainRoutes.router.getActionForPathAndParams('voke.LoginInput'));
 const initialStateLoggedIn = MainRoutes.router.getStateForAction(NavigationActions.reset({
   index: 0,
   actions: [

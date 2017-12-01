@@ -120,5 +120,8 @@ class Acknowledgements extends Component {
 Acknowledgements.propTypes = {
   ...NavPropTypes,
 };
+const mapStateToProps = (state, { navigation }) => ({
+  ...(navigation.state.params || {}),
+});
 
-export default connect(null, nav)(Acknowledgements);
+export default connect(mapStateToProps, nav)(Acknowledgements);

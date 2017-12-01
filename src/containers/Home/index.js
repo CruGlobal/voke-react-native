@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, ScrollView, Platform, Image, Alert, AlertIOS } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Navigation } from 'react-native-navigation';
 
 import { TAB_SELECTED } from '../../constants';
 import styles from './styles';
@@ -15,7 +14,9 @@ import { navMenuOptions } from '../../utils/menu';
 import { vokeIcons } from '../../utils/iconMap';
 
 import ApiLoading from '../ApiLoading';
+import AndroidReportModal from '../AndroidReportModal';
 import ConversationList from '../../components/ConversationList';
+import PopupMenu from '../../components/PopupMenu';
 // import TabBarIndicator from '../../components/TabBarIndicator';
 import Header, { HeaderIcon } from '../Header';
 import { Flex, Text, RefreshControl } from '../../components/common';
@@ -26,35 +27,7 @@ import CONSTANTS, { IS_SMALL_ANDROID } from '../../constants';
 
 const CONTACT_LENGTH_SHOW_VOKEBOT = IS_SMALL_ANDROID ? 2 : 3;
 
-function setButtons() {
-  if (Platform.OS === 'android') {
-    const menu = navMenuOptions().map((m) => ({
-      title: m.name,
-      id: m.id,
-      showAsAction: 'never',
-    })).reverse();
-    return {
-      rightButtons: menu,
-    };
-  }
-
-  return {
-    leftButtons: [{
-      title: 'Menu', // for a textual button, provide the button title (label)
-      id: 'menu', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-      icon: vokeIcons['menu'], // for icon button, provide the local image asset name
-    }],
-  };
-}
-
 class Home extends Component {
-  // static navigatorStyle = {
-  //   navBarButtonColor: theme.lightText,
-  //   navBarTextColor: theme.headerTextColor,
-  //   navBarBackgroundColor: theme.headerBackgroundColor,
-  //   screenBackgroundColor: theme.primaryColor,
-  //   statusBarHidden: false,
-  // };
 
   constructor(props) {
     super(props);
@@ -62,9 +35,11 @@ class Home extends Component {
     this.state = {
       refreshing: false,
       isLoading: false,
+      showAndroidReportModal: false,
+      androidReportPerson: null,
+      androidReportData: null,
     };
 
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleLoadMore = this.handleLoadMore.bind(this);
     this.handleRefresh = this.handleRefresh.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
@@ -73,49 +48,26 @@ class Home extends Component {
     this.handleMenuPress = this.handleMenuPress.bind(this);
   }
 
-  componentWillMount() {
-    // this.props.navigator.setButtons(setButtons());
-    // this.props.navigator.setTabBadge({
-    //   tabIndex: 0, // (optional) if missing, the badge will be added to this screen's tab
-    //   badge: this.props.unReadBadgeCount > 0 ? this.props.unReadBadgeCount : null, // badge value, null to remove badge
-    // });
-  }
-
   componentDidMount() {
     Analytics.screen('Home Chats');
     setTimeout(() => {
-      this.props.dispatch(startupAction(this.props.navigator));
+      this.props.dispatch(startupAction());
     }, 50);
 
-    // this.props.dispatch(getConversations()).catch((err)=> {
-    //   if (err.error === 'Messenger not configured') {
-    //     // Do this because the api can be slow when a user creates an account and our app is faster than the api
-    //     setTimeout(() => {
-    //       this.props.dispatch(getConversations()).catch((err)=> {
-    //         if (err.error === 'Messenger not configured') {
-    //           this.props.navigateResetToNumber();
-    //         }
-    //       });
-    //     }, 3000);
-    //   }
-    // });
+    this.props.dispatch(getConversations()).catch((err)=> {
+      if (err.error === 'Messenger not configured') {
+        // Do this because the api can be slow when a user creates an account and our app is faster than the api
+        setTimeout(() => {
+          this.props.dispatch(getConversations()).catch((err)=> {
+            if (err.error === 'Messenger not configured') {
+              this.props.navigateResetToNumber();
+            }
+          });
+        }, 3000);
+      }
+    });
 
     this.props.dispatch({ type: TAB_SELECTED, tab: 0 });
-
-    if (this.props.onMount) {
-      this.props.onMount(this.props.navigator);
-    }
-
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const nextCount = nextProps.unReadBadgeCount;
-    const currentCount = this.props.unReadBadgeCount;
-    if (nextCount != currentCount) {
-      this.props.navigator.setTabBadge({
-        badge: nextCount === 0 ? null : nextCount, // badge value, null to remove badge
-      });
-    }
   }
 
   componentWillUnmount() {
@@ -123,23 +75,6 @@ class Home extends Component {
   }
 
   onNavigatorEvent(event) {
-    if (event.type === 'NavBarButtonPress') { // this is the event type for button presses
-      if (Platform.OS === 'android') {
-        // Get the selected event from the menu
-        const selected = navMenuOptions(this.props).find((m) => m.id === event.id);
-        if (selected && selected.onPress) {
-          selected.onPress();
-        }
-      }
-      if (event.id === 'menu') {
-        Navigation.showModal({
-          screen: 'voke.Menu', // unique ID registered with Navigation.registerScreen
-          title: 'Settings', // title of the screen as appears in the nav bar (optional)
-          animationType: 'slide-up', // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
-        });
-      }
-    }
-
     // Keep track of selected tab in redux
     if (event.id === 'bottomTabSelected') {
       this.props.dispatch({ type: TAB_SELECTED, tab: 0 });
@@ -185,7 +120,10 @@ class Home extends Component {
     });
   }
 
-  handleSubmitReport(text, otherPerson, data) {
+  handleSubmitReport(text) {
+    const otherPerson = this.state.androidReportPerson;
+    const data = this.state.androidReportData;
+
     this.props.dispatch(reportUserAction(text, otherPerson.id));
     this.block(otherPerson, data);
   }
@@ -203,17 +141,22 @@ class Home extends Component {
           text: 'Block and Report',
           onPress: () => {
             if (Platform.OS === 'android') {
-              Navigation.showModal({
-                screen: 'voke.AndroidReportModal',
-                animationType: 'none',
-                passProps: {
-                  onSubmitReport: (text) => this.handleSubmitReport(text, otherPerson, data),
-                  onCancelReport: () => LOG('report canceled'),
-                },
-                navigatorStyle: {
-                  screenBackgroundColor: 'rgba(0, 0, 0, 0.3)',
-                },
+              this.setState({
+                showAndroidReportModal: true,
+                androidReportPerson: otherPerson,
+                androidReportData: data,
               });
+              // Navigation.showModal({
+              //   screen: 'voke.AndroidReportModal',
+              //   animationType: 'none',
+              //   passProps: {
+              //     onSubmitReport: (text) => this.handleSubmitReport(text, otherPerson, data),
+              //     onCancelReport: () => LOG('report canceled'),
+              //   },
+              //   navigatorStyle: {
+              //     screenBackgroundColor: 'rgba(0, 0, 0, 0.3)',
+              //   },
+              // });
             } else {
               AlertIOS.prompt(
                 'Please describe why you are reporting this person',
@@ -234,6 +177,7 @@ class Home extends Component {
 
   render() {
     const cLength = this.props.conversations.length;
+    
 
     return (
       <View style={styles.container}>
@@ -244,7 +188,9 @@ class Home extends Component {
           }
           right={
             CONSTANTS.IS_ANDROID ? (
-              <Text>SHOW MENU</Text>
+              <PopupMenu
+                actions={navMenuOptions(this.props)}
+              />
             ) : null
           }
           title="Chats"
@@ -288,6 +234,19 @@ class Home extends Component {
         {
           cLength === 0 || this.state.isLoading ? <ApiLoading /> : null
         }
+        {
+          this.state.showAndroidReportModal ? (
+            <AndroidReportModal
+              onClose={() => this.setState({
+                showAndroidReportModal: false,
+                androidReportPerson: null,
+                androidReportData: null,
+              })}
+              onSubmitReport={this.handleSubmitReport}
+              onCancelReport={() => LOG('report canceled')}
+            />
+          ) : null
+        }
       </View>
     );
   }
@@ -297,10 +256,8 @@ class Home extends Component {
 // Check out actions/nav.js to see the prop types and mapDispatchToProps
 Home.propTypes = {
   ...NavPropTypes,
-  onMount: PropTypes.func,
   conversations: PropTypes.array.isRequired, // Redux
   me: PropTypes.object.isRequired, // Redux
-  unReadBadgeCount: PropTypes.number.isRequired, // Redux
   pagination: PropTypes.object.isRequired, // Redux
 };
 
@@ -308,7 +265,6 @@ const mapStateToProps = ({ messages, auth }) => {
   return {
     conversations: messages.conversations,
     me: auth.user,
-    unReadBadgeCount: messages.unReadBadgeCount,
     pagination: messages.pagination.conversations,
     isTabSelected: auth.homeTabSelected === 0,
   };

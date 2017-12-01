@@ -6,19 +6,13 @@ import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { createAccountAction } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/nav';
-import theme from '../../theme';
-import { Flex, Text, Button, Touchable } from '../../components/common';
+import { Flex, Text, Button } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeader from '../../components/SignUpHeader';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import CONSTANTS from '../../constants';
 
 class SignUpAccount extends Component {
-  static navigatorStyle = {
-    navBarHidden: true,
-    screenBackgroundColor: theme.primaryColor,
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -29,24 +23,6 @@ class SignUpAccount extends Component {
     this.createAccount = this.createAccount.bind(this);
     this.checkEmail = this.checkEmail.bind(this);
     this.handleLink = this.handleLink.bind(this);
-  }
-
-  componentWillMount() {
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
-  }
-
-  componentWillUnmount() {
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
-  }
-
-  keyboardDidShow() {
-    // LOG('Keyboard shown');
-  }
-
-  keyboardDidHide() {
-    // LOG('Keyboard hidden');
   }
 
   componentDidMount() {
@@ -164,5 +140,8 @@ class SignUpAccount extends Component {
 SignUpAccount.propTypes = {
   ...NavPropTypes,
 };
+const mapStateToProps = (state, { navigation }) => ({
+  ...(navigation.state.params || {}),
+});
 
-export default connect(null, nav)(SignUpAccount);
+export default connect(mapStateToProps, nav)(SignUpAccount);

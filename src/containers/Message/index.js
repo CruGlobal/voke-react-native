@@ -71,7 +71,7 @@ class Message extends Component {
       });
     }
     setTimeout(() => {
-      this.props.dispatch(startupAction(this.props.navigator));
+      this.props.dispatch(startupAction());
     }, 50);
     
     BackHandler.addEventListener('hardwareBackPress', this.backHandler);
@@ -232,11 +232,7 @@ class Message extends Component {
     if (this.props.showUnreadDot) {
       this.props.dispatch({ type: UNREAD_CONV_DOT, show: false });
     }
-    if (this.props.goBackHome) {
-      this.props.navigateResetTo('voke.Home');
-    } else {
-      this.props.navigateBack();
-    }
+    this.props.navigateBack();
   }
 
   render() {
@@ -392,7 +388,6 @@ Message.propTypes = {
   typeState: PropTypes.bool.isRequired, // Redux
   conversation: PropTypes.object.isRequired,
   onSelectVideo: PropTypes.func,
-  goBackHome: PropTypes.bool,
   fetchConversation: PropTypes.bool,
 };
 

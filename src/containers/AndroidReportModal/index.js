@@ -1,22 +1,13 @@
 import React, { Component } from 'react';
 import { TextInput } from 'react-native';
-import { connect } from 'react-redux';
-import { Navigation } from 'react-native-navigation';
 import PropTypes from 'prop-types';
 
 import Analytics from '../../utils/analytics';
 import styles from './styles';
-import nav, { NavPropTypes } from '../../actions/nav';
 import theme from '../../theme.js';
 import { Flex, Text, Button } from '../../components/common';
 
 class AndroidReportModal extends Component {
-  static navigatorStyle = {
-    navBarHidden: true,
-    screenBackgroundColor: 'transparent',
-    modalPresentationStyle: 'overFullScreen',
-  };
-
   constructor(props) {
     super(props);
 
@@ -33,8 +24,7 @@ class AndroidReportModal extends Component {
   }
 
   dismiss() {
-    // Navigation.dismissModal({ animationType: 'none' });
-    this.props.navigateBack();
+    this.props.onClose();
   }
 
   handleCancel() {
@@ -91,9 +81,9 @@ class AndroidReportModal extends Component {
 }
 
 AndroidReportModal.propTypes = {
-  ...NavPropTypes,
   onSubmitReport: PropTypes.func.isRequired,
   onCancelReport: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
-export default connect(null, nav)(AndroidReportModal);
+export default AndroidReportModal;

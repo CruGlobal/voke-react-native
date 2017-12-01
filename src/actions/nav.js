@@ -31,13 +31,13 @@ export function navigateResetTo(screen, props = {}) {
 
 export function navigateResetHome(options) {
   return (dispatch) => {
-    dispatch(navigatePush('MainTabs'));
+    dispatch(navigateResetTo('MainTabs'));
   };
 }
 
 export function navigateResetLogin(options) {
   return (dispatch) => {
-    dispatch(navigateResetTo('voke.Login'));
+    dispatch(navigateResetTo('voke.SignUpWelcome'));
   };
 }
 
@@ -53,118 +53,17 @@ export function navigateResetToProfile(options) {
   };
 }
 
-export function navigateModal(screen, props) {
+export function navigateResetMessage(props = {}) {
   return (dispatch) => {
-    dispatch(navigatePush(screen, props));
+    dispatch(NavigationActions.reset({
+      index: 1,
+      actions: [
+        NavigationActions.navigate({ routeName: 'MainTabs' }),
+        NavigationActions.navigate({ routeName: 'voke.Message', params: props }),
+      ],
+    }));
   };
 }
-
-// Wix navigation actions
-// export function navigatePush(navigator, screen, passProps = {}, screenProps = {}) {
-//   return () => {
-//     let newScreenProps = defaultProps(screen, screenProps, passProps);
-//     navigator.push({
-//       screen,
-//       ...newScreenProps,
-//       passProps,
-//     });
-//   };
-// }
-// // Wix navigation actions
-// export function navigateResetTo(navigator, screen, passProps = {}, screenProps = {}) {
-//   return () => {
-//     let newScreenProps = defaultProps(screen, screenProps, passProps);
-//     navigator.resetTo({
-//       screen,
-//       ...newScreenProps,
-//       passProps,
-//     });
-//   };
-// }
-
-// export function navigateBack(navigator, options = {}) {
-//   return () => {
-//     navigator.pop({
-//       animated: true,
-//       animationType: 'slide-horizontal', // Or 'slide-horizontal'
-//       ...options,
-//     });
-//   };
-// }
-
-// export function navigateResetHome(navigator, options = {}) {
-//   return () => {
-//     // navigator.resetTo({
-//     //   screen: 'voke.Home',
-//     //   animated: false,
-//     //   navigatorStyle: {
-//     //     screenBackgroundColor: theme.primaryColor,
-//     //   },
-//     //   ...options,
-//     // });
-//     startTabApp({
-//       animationType: 'fade',
-//       ...(options || {}),
-//     });
-//   };
-// }
-
-// export function navigateResetLogin(navigator, options = {}) {
-//   return (dispatch) => {
-//     // navigator.resetTo({
-//     //   screen: 'voke.Login',
-//     //   animated: true,
-//     //   animationType: 'fade',
-//     //   ...options,
-//     // });
-//     dispatch(logoutAction());
-//     startLoginApp(options);
-//   };
-// }
-
-// export function navigateResetToNumber(navigator, options = {}) {
-//   return () => {
-//     Navigation.startSingleScreenApp({
-//       // animationType: Platform.OS === 'ios' ? 'slide-down' : 'fade',
-//       animationType: 'none',
-//       ...options,
-//       appStyle: {
-//         // Apply to whole app, can't do single pages https://github.com/wix/react-native-navigation/issues/846
-//         orientation: 'portrait',
-//         statusBarColor: theme.statusBarColor,
-//         ...(options.appStyle || {}),
-//       },
-//       passProps: {
-//         ...(options.passProps || {}),
-//         hideBack: true,
-//       },
-//       overrideBackPress: true,
-//       screen: { screen: 'voke.SignUpNumber' },
-//     });
-//   };
-// }
-
-// export function navigateResetToProfile(navigator, options = {}) {
-//   return () => {
-//     Navigation.startSingleScreenApp({
-//       // animationType: Platform.OS === 'ios' ? 'slide-down' : 'fade',
-//       animationType: 'none',
-//       ...options,
-//       appStyle: {
-//         // Apply to whole app, can't do single pages https://github.com/wix/react-native-navigation/issues/846
-//         orientation: 'portrait',
-//         statusBarColor: theme.statusBarColor,
-//         ...(options.appStyle || {}),
-//       },
-//       passProps: {
-//         ...(options.passProps || {}),
-//         hideBack: true,
-//       },
-//       overrideBackPress: true,
-//       screen: { screen: 'voke.SignUpProfile' },
-//     });
-//   };
-// }
 
 export const NavPropTypes = {
   dispatch: PropTypes.func.isRequired, // Redux
@@ -174,8 +73,8 @@ export const NavPropTypes = {
   navigateResetLogin: PropTypes.func.isRequired, // Redux
   navigateResetToNumber: PropTypes.func.isRequired, // Redux
   navigateResetToProfile: PropTypes.func.isRequired, // Redux
+  navigateResetMessage: PropTypes.func.isRequired, // Redux
   navigateResetTo: PropTypes.func.isRequired, // Redux
-  navigateModal: PropTypes.func.isRequired, // Redux
 };
 
 // Redux connect function for navigator screens
@@ -188,7 +87,7 @@ export default (dispatch) => {
     navigateResetLogin: (...args) => dispatch(navigateResetLogin(...args)),
     navigateResetToNumber: (...args) => dispatch(navigateResetToNumber(...args)),
     navigateResetToProfile: (...args) => dispatch(navigateResetToProfile(...args)),
+    navigateResetMessage: (...args) => dispatch(navigateResetMessage(...args)),
     navigateResetTo: (...args) => dispatch(navigateResetTo(...args)),
-    navigateModal: (...args) => dispatch(navigateResetTo(...args)),
   };
 };

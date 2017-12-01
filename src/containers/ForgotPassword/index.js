@@ -92,5 +92,8 @@ class ForgotPassword extends Component {
 ForgotPassword.propTypes = {
   ...NavPropTypes,
 };
+const mapStateToProps = (state, { navigation }) => ({
+  ...(navigation.state.params || {}),
+});
 
-export default connect(null, nav)(ForgotPassword);
+export default connect(mapStateToProps, nav)(ForgotPassword);

@@ -83,5 +83,8 @@ class About extends Component {
 About.propTypes = {
   ...NavPropTypes,
 };
+const mapStateToProps = (state, { navigation }) => ({
+  ...(navigation.state.params || {}),
+});
 
-export default connect(null, nav)(About);
+export default connect(mapStateToProps, nav)(About);

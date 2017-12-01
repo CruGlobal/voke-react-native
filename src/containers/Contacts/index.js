@@ -52,12 +52,8 @@ class Contacts extends Component {
   }
 
   componentWillMount() {
-    if (this.props.isInvite) {
-      // this.props.navigator.setTitle({ title: 'Invite a Friend' });
-    }
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
-
   }
 
   componentDidMount() {
@@ -72,23 +68,6 @@ class Contacts extends Component {
     this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
-  }
-
-  onNavigatorEvent(event) {
-    if (event.id === 'search') {
-      // Only show search box if the permissions are authorized
-      if (this.state.permission === Permissions.AUTHORIZED) {
-        this.setState({ showSearch: !this.state.showSearch });
-      }
-    }
-    // Handle the event when some clicks back while the share modal is up
-    if ((event.type === 'NavBarButtonPress' && event.id === 'back') || event.id === 'backPress') {
-      if (this.props.isShareModalVisible && this.props.shareModalCancel) {
-        this.props.shareModalCancel();
-      } else {
-        this.props.navigateBack();
-      }
-    }
   }
 
   handleBack() {

@@ -22,14 +22,6 @@ import StatusBar from '../../components/StatusBar';
 const NUM_ONBOARDING_STEPS = 5;
 
 class SignUpWelcome extends Component {
-  static navigatorStyle = {
-    navBarHidden: true,
-    screenBackgroundColor: theme.primaryColor,
-    disabledBackGesture: true,
-    drawUnderNavBar: true,
-    navBarTranslucent: true,
-    navBarTransparent: true,
-  };
 
   constructor(props) {
     super(props);
@@ -190,5 +182,8 @@ SignUpWelcome.propTypes = {
   ...NavPropTypes,
   onlyOnboarding: PropTypes.bool,
 };
+const mapStateToProps = (state, { navigation }) => ({
+  ...(navigation.state.params || {}),
+});
 
-export default connect(null, nav)(SignUpWelcome);
+export default connect(mapStateToProps, nav)(SignUpWelcome);

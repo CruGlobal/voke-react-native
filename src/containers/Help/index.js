@@ -98,5 +98,8 @@ class Help extends Component {
 Help.propTypes = {
   ...NavPropTypes,
 };
+const mapStateToProps = (state, { navigation }) => ({
+  ...(navigation.state.params || {}),
+});
 
-export default connect(null, nav)(Help);
+export default connect(mapStateToProps, nav)(Help);

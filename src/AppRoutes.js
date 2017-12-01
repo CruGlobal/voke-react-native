@@ -2,6 +2,8 @@ import React from 'react';
 import { Image, Easing, Animated } from 'react-native';
 import { StackNavigator, TabNavigator } from 'react-navigation';
 
+import BadgeHomeIcon from './containers/BadgeHomeIcon';
+
 import LoadingScreen from './containers/LoadingScreen';
 import Login from './containers/Login';
 import LoginInput from './containers/LoginInput';
@@ -47,17 +49,15 @@ import theme from './theme';
 //   },
 // });
 
-import HOME_ICON from '../images/chats_icon.png';
 import VIDEOS_ICON from '../images/video_icon.png';
 import CHANNELS_ICON from '../images/channelsIcon.png';
-import HOME_ICON_INACTIVE from '../images/chats_icon.png';
 import VIDEOS_ICON_INACTIVE from '../images/video_icon.png';
 import CHANNELS_ICON_INACTIVE from '../images/channelsIcon.png';
 
 const navIcon = (active, inactive) => ({tintColor}) => (
   <Image
     source={tintColor === theme.primaryColor ? active : inactive}
-    style={{width: 30, height: 30}}
+    style={{ width: 26, height: 26 }}
   />
 );
 
@@ -67,7 +67,7 @@ export const MainTabRoutes = TabNavigator({
     screen: Home,
     navigationOptions: {
       tabBarLabel: 'Home',
-      tabBarIcon: navIcon(HOME_ICON, HOME_ICON_INACTIVE),
+      tabBarIcon: ({ tintColor }) => <BadgeHomeIcon isActive={tintColor === theme.primaryColor} />,
     },
   },
   'voke.Videos': {
@@ -94,53 +94,13 @@ export const MainTabRoutes = TabNavigator({
     activeTintColor: theme.primaryColor,
     inactiveTintColor: theme.lightText,
     // tabStyle: { backgroundColor: theme.secondaryColor },
+    // labelStyle: { fontSize: 12, paddingVertical: 2 },
   },
+  initialRouteName: 'voke.Home',
   tabBarPosition: 'bottom',
   animationEnabled: false,
   lazy: false, // Load all tabs right away
 });
-
-const ModalNavigator = StackNavigator(
-  {
-    'voke.Contacts': { screen: Contacts },
-    'voke.SelectFriend': { screen: SelectFriend },
-    'voke.VideoDetails': { screen: VideoDetails },
-    'voke.ShareModal': { screen: ShareModal },
-  },
-  {
-    initialRouteName: 'voke.VideoDetails',
-    headerMode: 'none',
-    mode: 'modal',
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
-    transitionConfig: () => ({
-      transitionSpec: {
-        duration: 300,
-        easing: Easing.out(Easing.poly(4)),
-        timing: Animated.timing,
-      },
-      screenInterpolator: sceneProps => {
-        const { layout, position, scene } = sceneProps;
-        const { index } = scene;
-
-        const height = layout.initHeight;
-        const translateY = position.interpolate({
-          inputRange: [index - 1, index, index + 1],
-          outputRange: [height, 0, 0],
-        });
-
-        const opacity = position.interpolate({
-          inputRange: [index - 1, index - 0.99, index],
-          outputRange: [0, 1, 1],
-        });
-
-        return { opacity, transform: [{ translateY }] };
-      },
-    }),
-  }
-);
-
 
 export const MainStackRoutes = StackNavigator({
   'voke.About': { screen: About },
@@ -157,9 +117,24 @@ export const MainStackRoutes = StackNavigator({
   'voke.Profile': { screen: Profile },
   'voke.SignUpAccount': { screen: SignUpAccount },
   'voke.SignUpFBAccount': { screen: SignUpFBAccount },
-  'voke.SignUpNumber': { screen: SignUpNumber },
-  'voke.SignUpNumberVerify': { screen: SignUpNumberVerify },
-  'voke.SignUpProfile': { screen: SignUpProfile },
+  'voke.SignUpNumber': {
+    screen: SignUpNumber,
+    navigationOptions: {
+      gesturesEnabled: false,
+    },
+  },
+  'voke.SignUpNumberVerify': {
+    screen: SignUpNumberVerify,
+    navigationOptions: {
+      gesturesEnabled: false,
+    },
+  },
+  'voke.SignUpProfile': {
+    screen: SignUpProfile,
+    navigationOptions: {
+      gesturesEnabled: false,
+    },
+  },
   'voke.SignUpWelcome': { screen: SignUpWelcome },
   'voke.ThemeSelect': {
     screen: ThemeSelect,
