@@ -73,7 +73,7 @@ class Message extends Component {
     this.handleButtonExpand = this.handleButtonExpand.bind(this);
     this.createMessageReadInteraction = this.createMessageReadInteraction.bind(this);
     this.getConversationName = this.getConversationName.bind(this);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
   onNavigatorEvent(event) {
@@ -94,8 +94,8 @@ class Message extends Component {
   }
 
   componentWillMount() {
-    this.props.navigator.setButtons(setButtons());
-    this.props.navigator.setTitle({ title: this.getConversationName()});
+    // this.props.navigator.setButtons(setButtons());
+    // this.props.navigator.setTitle({ title: this.getConversationName()});
   }
 
   componentDidMount() {
@@ -134,7 +134,7 @@ class Message extends Component {
           ...navStyle,
           navBarButtonColor: COLORS.YELLOW,
         });
-        this.props.navigator.setButtons(setButtons(true));
+        // this.props.navigator.setButtons(setButtons(true));
       }, 1500);
     }
     // Reset the yellow badge indicator when the unread count goes away
@@ -143,7 +143,7 @@ class Message extends Component {
       this.timeoutSetYellow = setTimeout(() => {
         this.props.navigator.setStyle(navStyle);
         LOG('setButtons');
-        this.props.navigator.setButtons(setButtons());
+        // this.props.navigator.setButtons(setButtons());
       }, 500);
     }
   }

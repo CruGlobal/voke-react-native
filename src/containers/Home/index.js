@@ -64,7 +64,7 @@ class Home extends Component {
       isLoading: false,
     };
 
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleLoadMore = this.handleLoadMore.bind(this);
     this.handleRefresh = this.handleRefresh.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
@@ -73,11 +73,11 @@ class Home extends Component {
   }
 
   componentWillMount() {
-    this.props.navigator.setButtons(setButtons());
-    this.props.navigator.setTabBadge({
-      tabIndex: 0, // (optional) if missing, the badge will be added to this screen's tab
-      badge: this.props.unReadBadgeCount > 0 ? this.props.unReadBadgeCount : null, // badge value, null to remove badge
-    });
+    // this.props.navigator.setButtons(setButtons());
+    // this.props.navigator.setTabBadge({
+    //   tabIndex: 0, // (optional) if missing, the badge will be added to this screen's tab
+    //   badge: this.props.unReadBadgeCount > 0 ? this.props.unReadBadgeCount : null, // badge value, null to remove badge
+    // });
   }
 
   componentDidMount() {
@@ -86,18 +86,18 @@ class Home extends Component {
       this.props.dispatch(startupAction(this.props.navigator));
     }, 50);
 
-    this.props.dispatch(getConversations()).catch((err)=> {
-      if (err.error === 'Messenger not configured') {
-        // Do this because the api can be slow when a user creates an account and our app is faster than the api
-        setTimeout(() => {
-          this.props.dispatch(getConversations()).catch((err)=> {
-            if (err.error === 'Messenger not configured') {
-              this.props.navigateResetToNumber();
-            }
-          });
-        }, 3000);
-      }
-    });
+    // this.props.dispatch(getConversations()).catch((err)=> {
+    //   if (err.error === 'Messenger not configured') {
+    //     // Do this because the api can be slow when a user creates an account and our app is faster than the api
+    //     setTimeout(() => {
+    //       this.props.dispatch(getConversations()).catch((err)=> {
+    //         if (err.error === 'Messenger not configured') {
+    //           this.props.navigateResetToNumber();
+    //         }
+    //       });
+    //     }, 3000);
+    //   }
+    // });
 
     this.props.dispatch({ type: TAB_SELECTED, tab: 0 });
 

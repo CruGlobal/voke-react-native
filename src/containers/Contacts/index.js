@@ -68,7 +68,7 @@ class Contacts extends Component {
       permission: props.isInvite ? Permissions.NOT_ASKED : Permissions.AUTHORIZED,
     };
 
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.refreshContacts = this.refreshContacts.bind(this);
     this.search = debounce(this.search.bind(this), 10);
     this.changeText = this.changeText.bind(this);
@@ -82,9 +82,9 @@ class Contacts extends Component {
   }
 
   componentWillMount() {
-    this.props.navigator.setButtons(setButtons());
+    // this.props.navigator.setButtons(setButtons());
     if (this.props.isInvite) {
-      this.props.navigator.setTitle({ title: 'Invite a Friend' });
+      // this.props.navigator.setTitle({ title: 'Invite a Friend' });
     }
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);

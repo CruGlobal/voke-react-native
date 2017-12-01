@@ -46,12 +46,12 @@ class About extends Component {
 
   constructor(props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleLink = this.handleLink.bind(this);
   }
 
   componentWillMount() {
-    this.props.navigator.setButtons(setButtons());
+    // this.props.navigator.setButtons(setButtons());
   }
 
   componentDidMount() {

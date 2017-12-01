@@ -68,7 +68,7 @@ class Channels extends Component {
       videos: [],
     };
 
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleNextPage = this.handleNextPage.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
     this.handleRefresh = this.handleRefresh.bind(this);
@@ -103,19 +103,19 @@ class Channels extends Component {
 
   componentWillMount() {
     if (!this.props.onSelectVideo) {
-      this.props.navigator.setButtons(setButtons());
+      // this.props.navigator.setButtons(setButtons());
     } else {
-      this.props.navigator.setButtons(setButtons(true));
+      // this.props.navigator.setButtons(setButtons(true));
     }
-    this.props.navigator.setTitle({ title: 'Channels' });
+    // this.props.navigator.setTitle({ title: 'Channels' });
   }
 
   componentDidMount() {
     // Do this after mounting because Android sometimes doesn't work on initial load
     if (!this.props.onSelectVideo) {
-      this.props.navigator.setButtons(setButtons());
+      // this.props.navigator.setButtons(setButtons());
     } else {
-      this.props.navigator.setButtons(setButtons(true));
+      // this.props.navigator.setButtons(setButtons(true));
     }
     // If there are no videos when the component mounts, get them, otherwise just set it
     if (this.props.all.length === 0) {
@@ -249,7 +249,11 @@ class Channels extends Component {
             ref={(c) => this.videoList = c}
             items={videos}
             onSelect={(c) => {
-              Navigation.showModal({
+              this.props.navigateModal('DetailsModal', {
+                video: c,
+                onSelectVideo,
+              });
+              {/* Navigation.showModal({
                 screen: 'voke.VideoDetails',
                 animationType: 'slide-up',
                 passProps: {
@@ -257,7 +261,7 @@ class Channels extends Component {
                   onSelectVideo,
                 },
                 navigatorStyle: { orientation: 'auto' },
-              });
+              }); */}
             }}
             onRefresh={this.handleRefresh}
             onLoadMore={this.handleNextPage}
@@ -268,7 +272,11 @@ class Channels extends Component {
             ref={(c) => this.videoList = c}
             items={videos}
             onSelect={(c) => {
-              Navigation.showModal({
+              this.props.navigateModal('DetailsModal', {
+                video: c,
+                onSelectVideo,
+              });
+              {/* Navigation.showModal({
                 screen: 'voke.VideoDetails',
                 animationType: 'slide-up',
                 passProps: {
@@ -276,7 +284,7 @@ class Channels extends Component {
                   onSelectVideo,
                 },
                 navigatorStyle: { orientation: 'auto' },
-              });
+              }); */}
             }}
             onRefresh={this.handleRefresh}
             onLoadMore={this.handleNextPage}
@@ -287,7 +295,11 @@ class Channels extends Component {
             ref={(c) => this.videoList = c}
             items={videos}
             onSelect={(c) => {
-              Navigation.showModal({
+              this.props.navigatePush('DetailsModal', {
+                video: c,
+                onSelectVideo,
+              });
+              {/* Navigation.showModal({
                 screen: 'voke.VideoDetails',
                 animationType: 'slide-up',
                 passProps: {
@@ -295,7 +307,7 @@ class Channels extends Component {
                   onSelectVideo,
                 },
                 navigatorStyle: { orientation: 'auto' },
-              });
+              }); */}
             }}
             onRefresh={this.handleRefresh}
             onLoadMore={this.handleNextPage}

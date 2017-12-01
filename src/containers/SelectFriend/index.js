@@ -78,7 +78,7 @@ class SelectFriend extends Component {
     this.handleDismissPermission = this.handleDismissPermission.bind(this);
     this.handleCheckPermission = this.handleCheckPermission.bind(this);
     this.checkContactsStatus = this.checkContactsStatus.bind(this);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleAllowContacts = this.handleAllowContacts.bind(this);
   }
 
@@ -96,7 +96,7 @@ class SelectFriend extends Component {
   }
 
   componentWillMount() {
-    this.props.navigator.setButtons(setButtons());
+    // this.props.navigator.setButtons(setButtons());
   }
 
   componentWillUnmount() {

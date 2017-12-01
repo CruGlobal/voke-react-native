@@ -74,7 +74,7 @@ class Videos extends Component {
       selectedTag: null,
     };
 
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleNextPage = this.handleNextPage.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
     this.handleRefresh = this.handleRefresh.bind(this);
@@ -114,11 +114,11 @@ class Videos extends Component {
 
   componentWillMount() {
     if (!this.props.onSelectVideo) {
-      this.props.navigator.setButtons(setButtons());
+      // this.props.navigator.setButtons(setButtons());
     } else {
-      this.props.navigator.setButtons(setButtons(true));
+      // this.props.navigator.setButtons(setButtons(true));
     }
-    this.props.navigator.setTitle({ title: 'Videos' });
+    // this.props.navigator.setTitle({ title: 'Videos' });
   }
 
   componentDidMount() {
@@ -127,9 +127,9 @@ class Videos extends Component {
     // });
     // Do this after mounting because Android sometimes doesn't work on initial load
     if (!this.props.onSelectVideo) {
-      this.props.navigator.setButtons(setButtons());
+      // this.props.navigator.setButtons(setButtons());
     } else {
-      this.props.navigator.setButtons(setButtons(true));
+      // this.props.navigator.setButtons(setButtons(true));
     }
 
     // If there are no videos when the component mounts, get them, otherwise just set it
@@ -209,34 +209,39 @@ class Videos extends Component {
 
   showThemes() {
     this.setState({ selectedTag: null });
-    if (Platform.OS === 'android') {
-      Navigation.showModal({
-        screen: 'voke.ThemeSelect',
-        animationType: 'fade',
-        passProps: {
-          themes: this.props.tags,
-          onSelect: this.handleThemeSelect,
-          onDismiss: this.handleDismissTheme,
-        },
-        navigatorStyle: {
-          screenBackgroundColor: 'rgba(0, 0, 0, 0.3)',
-        },
-        // Stop back button from closing modal https://github.com/wix/react-native-navigation/issues/250#issuecomment-254186394
-        overrideBackPress: true,
-      });
-    } else {
-      Navigation.showLightBox({
-        screen: 'voke.ThemeSelect',
-        passProps: {
-          themes: this.props.tags,
-          onSelect: this.handleThemeSelect,
-          onDismiss: this.handleDismissTheme,
-        },
-        style: {
-          backgroundBlur: 'dark', // 'dark' / 'light' / 'xlight' / 'none' - the type of blur on the background
-        },
-      });
-    }
+    this.props.navigatePush('voke.ThemeSelect', {
+      themes: this.props.tags,
+      onSelect: this.handleThemeSelect,
+      onDismiss: this.handleDismissTheme,
+    });
+    // if (Platform.OS === 'android') {
+    //   Navigation.showModal({
+    //     screen: 'voke.ThemeSelect',
+    //     animationType: 'fade',
+    //     passProps: {
+    //       themes: this.props.tags,
+    //       onSelect: this.handleThemeSelect,
+    //       onDismiss: this.handleDismissTheme,
+    //     },
+    //     navigatorStyle: {
+    //       screenBackgroundColor: 'rgba(0, 0, 0, 0.3)',
+    //     },
+    //     // Stop back button from closing modal https://github.com/wix/react-native-navigation/issues/250#issuecomment-254186394
+    //     overrideBackPress: true,
+    //   });
+    // } else {
+    //   Navigation.showLightBox({
+    //     screen: 'voke.ThemeSelect',
+    //     passProps: {
+    //       themes: this.props.tags,
+    //       onSelect: this.handleThemeSelect,
+    //       onDismiss: this.handleDismissTheme,
+    //     },
+    //     style: {
+    //       backgroundBlur: 'dark', // 'dark' / 'light' / 'xlight' / 'none' - the type of blur on the background
+    //     },
+    //   });
+    // }
   }
 
   handleNextPage() {
@@ -365,7 +370,11 @@ class Videos extends Component {
           ref={(c) => this.videoList = c}
           items={videos}
           onSelect={(c) => {
-            Navigation.showModal({
+            this.props.navigatePush('DetailsModal', {
+              video: c,
+              onSelectVideo,
+            });
+            {/* Navigation.showModal({
               screen: 'voke.VideoDetails',
               animationType: 'slide-up',
               passProps: {
@@ -373,7 +382,7 @@ class Videos extends Component {
                 onSelectVideo,
               },
               navigatorStyle: { orientation: 'auto' },
-            });
+            }); */}
             // this.props.navigatePush('voke.VideoDetails', {
             //   video: c,
             //   onSelectVideo,

@@ -1,7 +1,8 @@
 import { REHYDRATE } from 'redux-persist/constants';
 import { MainRoutes } from '../AppRoutes';
 
-const initialState = MainRoutes.router.getStateForAction(MainRoutes.router.getActionForPathAndParams('voke.SignUpWelcome'));
+// const initialState = MainRoutes.router.getStateForAction(MainRoutes.router.getActionForPathAndParams('voke.SignUpWelcome'));
+const initialState = MainRoutes.router.getStateForAction(MainRoutes.router.getActionForPathAndParams('voke.LoginInput'));
 
 function navReducer(state = initialState, action) {
   let nextState;

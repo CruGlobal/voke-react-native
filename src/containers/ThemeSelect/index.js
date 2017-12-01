@@ -23,11 +23,12 @@ class ThemeSelect extends Component {
   }
 
   handleClose(options) {
-    if (Platform.OS === 'android') {
-      Navigation.dismissModal({ animationType: 'fade' });
-    } else {
-      Navigation.dismissLightBox(options);
-    }
+    // if (Platform.OS === 'android') {
+    //   Navigation.dismissModal({ animationType: 'fade' });
+    // } else {
+    //   Navigation.dismissLightBox(options);
+    // }
+    this.props.navigateBack();
   }
 
   handleDismiss() {
@@ -59,4 +60,6 @@ ThemeSelect.propTypes = {
   onDismiss: PropTypes.func,
 };
 
-export default connect(null, nav)(ThemeSelect);
+const mapStateToProps = (state, { navigation }) => ({ ...(navigation.state.params || {})});
+
+export default connect(mapStateToProps, nav)(ThemeSelect);

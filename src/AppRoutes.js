@@ -1,5 +1,6 @@
 import React from 'react';
-import {StackNavigator, TabNavigator} from 'react-navigation';
+import { Image, Easing, Animated } from 'react-native';
+import { StackNavigator, TabNavigator } from 'react-navigation';
 
 import LoadingScreen from './containers/LoadingScreen';
 import Login from './containers/Login';
@@ -32,8 +33,6 @@ import ShareModal from './containers/ShareModal';
 import Channels from './containers/Channels';
 
 
-import {Icon} from './components/common';
-
 import theme from './theme';
 
 // Do custom animations between pages
@@ -49,7 +48,19 @@ import theme from './theme';
 //   },
 // });
 
-const navIcon = (name) => ({tintColor}) => <Icon name={name} size={30} style={{color: tintColor}} />;
+import HOME_ICON from '../images/chats_icon.png';
+import VIDEOS_ICON from '../images/video_icon.png';
+import CHANNELS_ICON from '../images/channelsIcon.png';
+import HOME_ICON_INACTIVE from '../images/chats_icon.png';
+import VIDEOS_ICON_INACTIVE from '../images/video_icon.png';
+import CHANNELS_ICON_INACTIVE from '../images/channelsIcon.png';
+
+const navIcon = (active, inactive) => ({tintColor}) => (
+  <Image
+    source={tintColor === theme.primaryColor ? active : inactive}
+    style={{width: 30, height: 30}}
+  />
+);
 
 
 export const MainTabRoutes = TabNavigator({
@@ -57,43 +68,85 @@ export const MainTabRoutes = TabNavigator({
     screen: Home,
     navigationOptions: {
       tabBarLabel: 'Home',
-      tabBarIcon: navIcon('plus'),
+      tabBarIcon: navIcon(HOME_ICON, HOME_ICON_INACTIVE),
     },
   },
   'voke.Videos': {
     screen: Videos,
     navigationOptions: {
       tabBarLabel: 'Videos',
-      tabBarIcon: navIcon('plus'),
+      tabBarIcon: navIcon(VIDEOS_ICON, VIDEOS_ICON_INACTIVE),
     },
   },
   'voke.Channels': {
     screen: Channels,
     navigationOptions: {
       tabBarLabel: 'Channels',
-      tabBarIcon: navIcon('plus'),
+      tabBarIcon: navIcon(CHANNELS_ICON, CHANNELS_ICON_INACTIVE),
     },
   },
 }, {
   tabBarOptions: {
     showIcon: true,
     showLabel: true,
-    style: {backgroundColor: theme.white},
+    activeBackgroundColor: theme.convert({ color: theme.secondaryColor, lighten: 0.1 }),
+    inactiveBackgroundColor: theme.secondaryColor,
+    // style: { backgroundColor: theme.secondaryColor },
     activeTintColor: theme.primaryColor,
-    inactiveTintColor: theme.inactiveColor,
-    tabStyle: {backgroundColor: theme.lightBackgroundColor},
+    inactiveTintColor: theme.lightText,
+    // tabStyle: { backgroundColor: theme.secondaryColor },
   },
   tabBarPosition: 'bottom',
   animationEnabled: false,
   lazy: false, // Load all tabs right away
 });
 
+const ModalNavigator = StackNavigator(
+  {
+    'voke.Contacts': { screen: Contacts },
+    'voke.SelectFriend': { screen: SelectFriend },
+    'voke.VideoDetails': { screen: VideoDetails },
+    'voke.ShareModal': { screen: ShareModal },
+  },
+  {
+    initialRouteName: 'voke.VideoDetails',
+    headerMode: 'none',
+    mode: 'modal',
+    navigationOptions: {
+      gesturesEnabled: false,
+    },
+    transitionConfig: () => ({
+      transitionSpec: {
+        duration: 300,
+        easing: Easing.out(Easing.poly(4)),
+        timing: Animated.timing,
+      },
+      screenInterpolator: sceneProps => {
+        const { layout, position, scene } = sceneProps;
+        const { index } = scene;
+
+        const height = layout.initHeight;
+        const translateY = position.interpolate({
+          inputRange: [index - 1, index, index + 1],
+          outputRange: [height, 0, 0],
+        });
+
+        const opacity = position.interpolate({
+          inputRange: [index - 1, index - 0.99, index],
+          outputRange: [0, 1, 1],
+        });
+
+        return { opacity, transform: [{ translateY }] };
+      },
+    }),
+  }
+);
+
 
 export const MainStackRoutes = StackNavigator({
   'voke.About': { screen: About },
   'voke.Acknowledgements': { screen: Acknowledgements },
   'voke.AndroidReportModal': { screen: AndroidReportModal },
-  'voke.Contacts': { screen: Contacts },
   'voke.CountrySelect': { screen: CountrySelect },
   'voke.ForgotPassword': { screen: ForgotPassword },
   'voke.Help': { screen: Help },
@@ -105,18 +158,29 @@ export const MainStackRoutes = StackNavigator({
   'voke.Message': { screen: Message },
   'voke.Modal': { screen: Modal },
   'voke.Profile': { screen: Profile },
-  'voke.SelectFriend': { screen: SelectFriend },
-  'voke.ShareModal': { screen: ShareModal },
   'voke.SignUpAccount': { screen: SignUpAccount },
   'voke.SignUpFBAccount': { screen: SignUpFBAccount },
   'voke.SignUpNumber': { screen: SignUpNumber },
   'voke.SignUpNumberVerify': { screen: SignUpNumberVerify },
   'voke.SignUpProfile': { screen: SignUpProfile },
   'voke.SignUpWelcome': { screen: SignUpWelcome },
-  'voke.ThemeSelect': { screen: ThemeSelect },
-  'voke.VideoDetails': { screen: VideoDetails },
+  'voke.ThemeSelect': {
+    screen: ThemeSelect,
+    // mode: 'card',
+    // cardStyle: {
+    //   backgroundColor: 'transparent',
+    // },
+    // transitionConfig: { isModal: true },
+    // navigationOptions: { gesturesEnabled: false },
+    headerMode: 'none',
+    mode: 'modal',
+    navigationOptions: {
+      gesturesEnabled: false,
+    },
+  },
   'voke.VideosTab': { screen: VideosTab },
-  MainTabs: {screen: MainTabRoutes},
+  DetailsModal: { screen: ModalNavigator },
+  MainTabs: { screen: MainTabRoutes },
 }, {
   navigationOptions: {
     header: null,

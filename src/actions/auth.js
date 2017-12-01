@@ -274,7 +274,7 @@ export function facebookLoginAction(accessToken) {
 export function getMe() {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.GET_ME)).then((results) => {
-      LOG('user results', results);
+      // LOG('user results', results);
       dispatch(setUserAction(results));
       return results;
     }).catch(() => {

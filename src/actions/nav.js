@@ -42,7 +42,7 @@ function defaultProps(screen, props, passProps) {
 }
 
 
-export function navigatePush(navigator, screen, props = {}) {
+export function navigatePush(screen, props = {}) {
   return (dispatch) => {
     dispatch(NavigationActions.navigate({
       routeName: screen,
@@ -51,13 +51,13 @@ export function navigatePush(navigator, screen, props = {}) {
   };
 }
 
-export function navigateBack(navigator, key = null) {
+export function navigateBack(key = null) {
   return (dispatch) => {
     dispatch(NavigationActions.back({ key: null }));
   };
 }
 
-export function navigateResetTo(navigator, screen, props = {}) {
+export function navigateResetTo(screen, props = {}) {
   return (dispatch) => {
     dispatch(NavigationActions.reset({
       index: 0,
@@ -68,27 +68,33 @@ export function navigateResetTo(navigator, screen, props = {}) {
   };
 }
 
-export function navigateResetHome(navigator, options) {
+export function navigateResetHome(options) {
   return (dispatch) => {
-    dispatch(navigateResetTo(navigator, 'voke.Home'));
+    dispatch(navigatePush('MainTabs'));
   };
 }
 
-export function navigateResetLogin(navigator, options) {
+export function navigateResetLogin(options) {
   return (dispatch) => {
-    dispatch(navigateResetTo(navigator, 'voke.Login'));
+    dispatch(navigateResetTo('voke.Login'));
   };
 }
 
-export function navigateResetToNumber(navigator, options) {
+export function navigateResetToNumber(options) {
   return (dispatch) => {
-    dispatch(navigateResetTo(navigator, 'voke.SignUpNumber'));
+    dispatch(navigateResetTo('voke.SignUpNumber'));
   };
 }
 
-export function navigateResetToProfile(navigator, options) {
+export function navigateResetToProfile(options) {
   return (dispatch) => {
-    dispatch(navigateResetTo(navigator, 'voke.SignUpProfile'));
+    dispatch(navigateResetTo('voke.SignUpProfile'));
+  };
+}
+
+export function navigateModal(screen, props) {
+  return (dispatch) => {
+    dispatch(navigatePush(screen, props));
   };
 }
 
@@ -208,18 +214,20 @@ export const NavPropTypes = {
   navigateResetToNumber: PropTypes.func.isRequired, // Redux
   navigateResetToProfile: PropTypes.func.isRequired, // Redux
   navigateResetTo: PropTypes.func.isRequired, // Redux
+  navigateModal: PropTypes.func.isRequired, // Redux
 };
 
 // Redux connect function for navigator screens
-export default (dispatch, { navigator }) => {
+export default (dispatch) => {
   return {
     dispatch,
-    navigatePush: (...args) => dispatch(navigatePush(navigator, ...args)),
-    navigateBack: (...args) => dispatch(navigateBack(navigator, ...args)),
-    navigateResetHome: (...args) => dispatch(navigateResetHome(navigator, ...args)),
-    navigateResetLogin: (...args) => dispatch(navigateResetLogin(navigator, ...args)),
-    navigateResetToNumber: (...args) => dispatch(navigateResetToNumber(navigator, ...args)),
-    navigateResetToProfile: (...args) => dispatch(navigateResetToProfile(navigator, ...args)),
-    navigateResetTo: (...args) => dispatch(navigateResetTo(navigator, ...args)),
+    navigatePush: (...args) => dispatch(navigatePush(...args)),
+    navigateBack: (...args) => dispatch(navigateBack(...args)),
+    navigateResetHome: (...args) => dispatch(navigateResetHome(...args)),
+    navigateResetLogin: (...args) => dispatch(navigateResetLogin(...args)),
+    navigateResetToNumber: (...args) => dispatch(navigateResetToNumber(...args)),
+    navigateResetToProfile: (...args) => dispatch(navigateResetToProfile(...args)),
+    navigateResetTo: (...args) => dispatch(navigateResetTo(...args)),
+    navigateModal: (...args) => dispatch(navigateResetTo(...args)),
   };
 };

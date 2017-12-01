@@ -31,7 +31,8 @@ class Modal extends Component {
   }
 
   dismissModal() {
-    Navigation.dismissModal({ animationType: 'fade' });
+    // Navigation.dismissModal({ animationType: 'fade' });
+    this.props.navigateBack();
   }
 
   handleDismiss() {

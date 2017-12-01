@@ -33,7 +33,8 @@ class AndroidReportModal extends Component {
   }
 
   dismiss() {
-    Navigation.dismissModal({ animationType: 'none' });
+    // Navigation.dismissModal({ animationType: 'none' });
+    this.props.navigateBack();
   }
 
   handleCancel() {

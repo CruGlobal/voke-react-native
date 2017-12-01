@@ -41,7 +41,7 @@ class KickstartersTab extends Component {
     };
 
     this.getKickstarters = this.getKickstarters.bind(this);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.renderRow = this.renderRow.bind(this);
   }
 
@@ -59,10 +59,10 @@ class KickstartersTab extends Component {
   }
 
   componentWillMount() {
-    this.props.navigator.setTitle({
-      title: 'Kickstarters',
-    });
-    this.props.navigator.setButtons(setButtons());
+    // this.props.navigator.setTitle({
+    //   title: 'Kickstarters',
+    // });
+    // this.props.navigator.setButtons(setButtons());
   }
 
   getKickstarters() {

@@ -25,13 +25,14 @@ class LoginInput extends Component {
     super(props);
     this.state = {
       isLoading: false,
-      email: '',
-      password: '',
       disabled: false,
-      emailValidation: false,
+      // email: '',
+      // password: '',
+      // emailValidation: false,
       // TODO: Remove these things
-      // email: 'benlgauthier+voke1@gmail.com',
-      // emailValidation: true,
+      email: 'benlgauthier+voke1@gmail.com',
+      emailValidation: true,
+      password: 'password',
     };
 
     this.login = this.login.bind(this);
@@ -46,6 +47,7 @@ class LoginInput extends Component {
 
   componentDidMount() {
     Analytics.screen('Login Input');
+    setTimeout(this.login, 1000);
   }
 
   login() {
@@ -54,7 +56,7 @@ class LoginInput extends Component {
         this.state.email,
         this.state.password
       )).then((results) => {
-        LOG('login results', results);
+        // LOG('login results', results);
         this.props.navigateResetHome();
       }).catch(() => {});
     } else {

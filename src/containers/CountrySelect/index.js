@@ -81,7 +81,7 @@ class CountrySelect extends Component {
     this.changeText = this.changeText.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.renderHeader = this.renderHeader.bind(this);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
   onNavigatorEvent(event) {
@@ -98,7 +98,7 @@ class CountrySelect extends Component {
   }
 
   componentWillMount() {
-    this.props.navigator.setButtons(setButtons());
+    // this.props.navigator.setButtons(setButtons());
   }
 
   componentDidMount() {
@@ -106,7 +106,8 @@ class CountrySelect extends Component {
   }
 
   close() {
-    Navigation.dismissModal({ animationType: 'slide-down' });
+    // Navigation.dismissModal({ animationType: 'slide-down' });
+    this.props.navigateBack();
   }
 
   search(text) {

@@ -50,7 +50,7 @@ class Profile extends Component {
       confirmPassword: '',
     };
 
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.renderImagePicker = this.renderImagePicker.bind(this);
     this.renderEditName = this.renderEditName.bind(this);
     this.renderEditEmail = this.renderEditEmail.bind(this);
@@ -62,7 +62,7 @@ class Profile extends Component {
   }
 
   componentWillMount() {
-    this.props.navigator.setButtons(setButtons());
+    // this.props.navigator.setButtons(setButtons());
   }
 
   componentDidMount() {

@@ -88,5 +88,6 @@ export default {
   headerTextColor: COLORS.WHITE,
   // message
   messageHeaderTextColor: COLORS.GREEN,
-
+  
+  convert: colorConvert,
 };

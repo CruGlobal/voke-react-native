@@ -41,7 +41,7 @@ class VideoDetails extends Component {
       timesAppeared: 0,
     };
 
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleVideoChange = this.handleVideoChange.bind(this);
     this.orientationDidChange = debounce(this.orientationDidChange.bind(this), 50);
   }
@@ -124,7 +124,7 @@ class VideoDetails extends Component {
   }
 
   renderContent() {
-    const video = this.props.video;
+    const video = this.props.video || {};
 
     return (
       <Flex direction="column" style={{ paddingBottom: 110 }}>
@@ -190,7 +190,13 @@ class VideoDetails extends Component {
             )
           }
           <View style={styles.backHeader}>
-            <Touchable borderless={true} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} onPress={() => Navigation.dismissModal()}>
+            <Touchable
+              borderless={true}
+              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+              onPress={() => {
+                {/* Navigation.dismissModal(); */}
+                this.props.navigateBack();
+              }}>
               <View>
                 <VokeIcon name="video-back" style={styles.backImage} />
               </View>
@@ -214,8 +220,8 @@ class VideoDetails extends Component {
                   { text: 'Add', onPress: () => {
                     this.props.onSelectVideo(video.id);
                     // No need to navigate back, just dismiss the VideoDetails modal
-                    // this.props.navigateBack();
-                    Navigation.dismissModal();
+                    this.props.navigateBack();
+                    {/* Navigation.dismissModal(); */}
                   }},
                 ]
               );
@@ -242,4 +248,9 @@ VideoDetails.propTypes = {
   onSelectVideo: PropTypes.func,
 };
 
-export default connect(null, nav)(VideoDetails);
+const mapStateToProps = (state, { navigation }) => ({
+  video: navigation.state.params ? navigation.state.params.video : '',
+  onSelectVideo: navigation.state.params ? navigation.state.params.onSelectVideo : '',
+});
+
+export default connect(mapStateToProps, nav)(VideoDetails);
