@@ -44,8 +44,6 @@
     "react-native-google-analytics-bridge": "5.3.3",
     "react-native-image-crop-picker": "0.16.1",
     "react-native-image-picker": "0.26.3",
-    "react-native-navigation": "1.1.235",
-    "react-native-notifications": "1.1.16",
     "react-native-orientation": "git://github.com/yamill/react-native-orientation.git#1c1e29c1e74f8c7519bcab6cc21978fa31ac8cab",
     "react-native-sms": "1.4.2",
     "react-native-spinkit": "1.1.1",

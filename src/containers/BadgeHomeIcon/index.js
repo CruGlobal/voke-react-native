@@ -17,6 +17,7 @@ class BadgeHomeIcon extends Component {
     return (
       <Flex align="center" justify="center" style={styles.container} animation="bounceIn">
         <Image
+          resizeMode="contain"
           source={isActive ? HOME_ICON : HOME_ICON_INACTIVE}
           style={{ width: 30, height: 30 }}
         />

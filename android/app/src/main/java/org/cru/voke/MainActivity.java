@@ -1,11 +1,11 @@
 package org.cru.voke;
 
-// import com.facebook.react.ReactActivity;
+import com.facebook.react.ReactActivity;
 import com.smixx.fabric.FabricPackage;
-import com.reactnativenavigation.controllers.SplashActivity;
+// import com.reactnativenavigation.controllers.SplashActivity;
 import android.content.Intent;
 
-public class MainActivity extends SplashActivity {
+public class MainActivity extends ReactActivity {
   protected String getMainComponentName() {
       return "Voke";
   }

@@ -203,7 +203,8 @@ class Videos extends Component {
         <Header
           left={
             <HeaderIcon
-              image={showBack ? vokeIcons['back'] : vokeIcons['menu']}
+              type={showBack ? 'back' : undefined}
+              image={vokeIcons['menu']}
               onPress={() => {
                 if (showBack) {
                   this.props.navigateBack();
@@ -219,7 +220,7 @@ class Videos extends Component {
               />
             ) : (
               <HeaderIcon
-                image={vokeIcons['search']}
+                type="search"
                 onPress={() => this.handleFilter('themes')} />
             )
           }

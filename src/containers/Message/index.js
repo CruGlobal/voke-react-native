@@ -109,8 +109,11 @@ class Message extends Component {
   }
 
   backHandler() {
-    this.handleHeaderBack();
-    return true;
+    if (this.handleHeaderBack) {
+      this.handleHeaderBack();
+      return true;
+    }
+    return false;
   }
 
   setConversationName() {
@@ -258,7 +261,7 @@ class Message extends Component {
           left={
             CONSTANTS.IS_ANDROID ? (
               <HeaderIcon
-                icon="back"
+                type="back"
                 onPress={this.handleHeaderBack}
               />
             ) : (

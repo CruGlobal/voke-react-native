@@ -1,7 +1,7 @@
 import { Platform, AppState } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 // import PushNotification from 'react-native-push-notification';
-import NotificationsIOS, { NotificationsAndroid } from 'react-native-notifications';
+// import NotificationsIOS, { NotificationsAndroid } from 'react-native-notifications';
 
 import { API_URL } from '../api/utils';
 import { registerPushToken } from './auth';
@@ -186,39 +186,14 @@ export function gotDeviceToken(token) {
 
     if (Platform.OS === 'android') {
       // On Android, we allow for only one (global) listener per each event type.
-      NotificationsAndroid.setNotificationReceivedListener(notificationOpen);
-      NotificationsAndroid.setNotificationOpenedListener(notificationOpen);
+      // NotificationsAndroid.setNotificationReceivedListener(notificationOpen);
+      // NotificationsAndroid.setNotificationOpenedListener(notificationOpen);
 
-      // setTimeout(() => {
-      //   NotificationsAndroid.localNotification({
-      //     notification: {
-      //       title: 'hellow owrld',
-      //       sound: 'sound.wav',
-      //       category: 'create message',
-      //     },
-      //     data: {
-      //       action: 'do someting ',
-      //       namespace: 'create messssage',
-      //       message: 'hi world its me',
-      //       metadata: 'daldlkjf',
-      //       link: 'voke:://conversations/123123123123123123/messages',
-      //     },
-      //   });
-      // }, 5000);
-      // Testing, disable socket so we get Push Notifications in the app
-      // setTimeout(() => {
-      //   dispatch(closeSocketAction());
-      // }, 3500);
     } else {
-      // NotificationsIOS.localNotification({
-    //   alertBody: 'Local notificiation!',
-    //   fireDate: new Date(Date.now() + (5 * 1000)),
-    //   alertTitle: 'Local Notification Title',
-    // });
-      NotificationsIOS.addEventListener('notificationReceivedForeground', notificationForeground);
-      NotificationsIOS.addEventListener('notificationReceivedBackground', notificationBackground);
-      NotificationsIOS.addEventListener('notificationOpened', notificationOpen);
-      NotificationsIOS.consumeBackgroundQueue();
+      // NotificationsIOS.addEventListener('notificationReceivedForeground', notificationForeground);
+      // NotificationsIOS.addEventListener('notificationReceivedBackground', notificationBackground);
+      // NotificationsIOS.addEventListener('notificationOpened', notificationOpen);
+      // NotificationsIOS.consumeBackgroundQueue();
     }
   };
 }
@@ -229,11 +204,11 @@ let notificationOpen;
 
 export function closeNotificationListeners() {
   return () => {
-    if (Platform.OS === 'ios') {
-      NotificationsIOS.removeEventListener('notificationReceivedForeground', notificationForeground);
-      NotificationsIOS.removeEventListener('notificationReceivedBackground', notificationBackground);
-      NotificationsIOS.removeEventListener('notificationOpened', notificationOpen);
-    }
+    // if (Platform.OS === 'ios') {
+    //   NotificationsIOS.removeEventListener('notificationReceivedForeground', notificationForeground);
+    //   NotificationsIOS.removeEventListener('notificationReceivedBackground', notificationBackground);
+    //   NotificationsIOS.removeEventListener('notificationOpened', notificationOpen);
+    // }
   };
 }
 
@@ -353,26 +328,26 @@ export function establishDevice() {
     // });
 
     if (Platform.OS === 'android') {
-      NotificationsAndroid.refreshToken();
+      // NotificationsAndroid.refreshToken();
       // On Android, we allow for only one (global) listener per each event type.
-      NotificationsAndroid.setRegistrationTokenUpdateListener((token) => {
-        dispatch(gotDeviceToken(token));
-      });
+      // NotificationsAndroid.setRegistrationTokenUpdateListener((token) => {
+      //   dispatch(gotDeviceToken(token));
+      // });
     } else {
       const onPushRegistered = function(token) {
         dispatch(gotDeviceToken(token));
-        NotificationsIOS.removeEventListener('remoteNotificationsRegistered', onPushRegistered);
+        // NotificationsIOS.removeEventListener('remoteNotificationsRegistered', onPushRegistered);
       };
 
       const onPushRegistrationFailed = function(error) {
         LOG('token error!', error);
         dispatch(establishCableDevice(null));
-        NotificationsIOS.removeEventListener('remoteNotificationsRegistrationFailed', onPushRegistrationFailed);
+        // NotificationsIOS.removeEventListener('remoteNotificationsRegistrationFailed', onPushRegistrationFailed);
       };
 
-      NotificationsIOS.addEventListener('remoteNotificationsRegistered', onPushRegistered);
-      NotificationsIOS.addEventListener('remoteNotificationsRegistrationFailed', onPushRegistrationFailed);
-      NotificationsIOS.requestPermissions();
+      // NotificationsIOS.addEventListener('remoteNotificationsRegistered', onPushRegistered);
+      // NotificationsIOS.addEventListener('remoteNotificationsRegistrationFailed', onPushRegistrationFailed);
+      // NotificationsIOS.requestPermissions();
     }
 
 

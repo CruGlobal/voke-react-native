@@ -88,13 +88,15 @@ export const MainTabRoutes = TabNavigator({
   tabBarOptions: {
     showIcon: true,
     showLabel: true,
-    activeBackgroundColor: theme.convert({ color: theme.secondaryColor, lighten: 0.1 }),
-    inactiveBackgroundColor: theme.secondaryColor,
-    // style: { backgroundColor: theme.secondaryColor },
     activeTintColor: theme.primaryColor,
     inactiveTintColor: theme.lightText,
-    // tabStyle: { backgroundColor: theme.secondaryColor },
-    // labelStyle: { fontSize: 12, paddingVertical: 2 },
+    // ios props
+    activeBackgroundColor: theme.convert({ color: theme.secondaryColor, lighten: 0.1 }),
+    inactiveBackgroundColor: theme.secondaryColor,
+    // android props
+    iconStyle: { width: 60 },
+    tabStyle: { backgroundColor: theme.secondaryColor },
+    style: { backgroundColor: theme.secondaryColor },
   },
   initialRouteName: 'voke.Home',
   tabBarPosition: 'bottom',

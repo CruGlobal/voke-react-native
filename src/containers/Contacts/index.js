@@ -206,20 +206,14 @@ class Contacts extends Component {
       <View style={styles.container}>
         <Header
           left={
-            CONSTANTS.IS_ANDROID ? (
-              <HeaderIcon
-                icon="close"
-                onPress={this.handleBack} />
-            ) : (
-              <HeaderIcon
-                image={vokeIcons['back']}
-                onPress={this.handleBack} />
-            )
+            <HeaderIcon
+              type="back"
+              onPress={this.handleBack} />
           }
           right={
             CONSTANTS.IS_ANDROID ? (
               <HeaderIcon
-                icon="search"
+                type="search"
                 onPress={() => this.setState({ showSearch: !showSearch })} />
             ) : undefined
           }

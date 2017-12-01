@@ -184,7 +184,9 @@ class Home extends Component {
         <StatusBar hidden={false} />
         <Header
           left={
-            <HeaderIcon image={vokeIcons['menu']} onPress={this.handleMenuPress} />
+            CONSTANTS.IS_ANDROID ? undefined : (
+              <HeaderIcon image={vokeIcons['menu']} onPress={this.handleMenuPress} />
+            )
           }
           right={
             CONSTANTS.IS_ANDROID ? (

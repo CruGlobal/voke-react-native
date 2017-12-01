@@ -52,7 +52,7 @@
 
         <!-- // Replace '1234567890' with your sender ID.
 		// IMPORTANT: Leave the trailing \0 intact!!! -->
-	    <meta-data android:name="com.wix.reactnativenotifications.gcmSenderId" android:value="360680446899\0"/>
+	    <!-- <meta-data android:name="com.wix.reactnativenotifications.gcmSenderId" android:value="360680446899\0"/> -->
 
         <activity
             android:name=".MainActivity"

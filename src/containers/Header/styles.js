@@ -3,12 +3,17 @@ import { StyleSheet } from 'react-native';
 import theme, { COLORS } from '../../theme';
 
 const sideWidth = theme.fullWidth / 6;
+const isAndroid = theme.isAndroid;
 
 export default StyleSheet.create({
   header: {
-    height: 65,
-    paddingTop: 20,
-    // TODO: Add shadow (ios) and elevation (android)
+    height: isAndroid ? 56 : 65,
+    paddingTop: isAndroid ? 0 : 20,
+    alignItems: 'center',
+  },
+  // TODO: Add shadow (ios) and elevation (android)
+  shadow: {
+    elevation: 4,
   },
   light: {
     backgroundColor: theme.primaryColor,
@@ -17,7 +22,9 @@ export default StyleSheet.create({
     backgroundColor: theme.secondaryColor,
   },
   center: {
-
+    justifyContent: 'center',
+    alignItems: isAndroid ? 'flex-start' : 'center',
+    paddingLeft: isAndroid ? 2 : 0,
   },
   left: {
     width: sideWidth,
@@ -27,7 +34,8 @@ export default StyleSheet.create({
   },
   title: {
     color: COLORS.WHITE,
-    fontSize: 22,
+    fontSize: isAndroid ? 24 : 22,
+    // fontWeight: isAndroid ? 'bold' : 'normal',
   },
   // HeaderIcon styles
   headerIcon: {

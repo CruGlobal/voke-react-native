@@ -5,29 +5,58 @@ import PropTypes from 'prop-types';
 // import { logout } from '../../actions/auth';
 import { navigateBack } from '../../actions/nav';
 import styles from './styles';
+import theme from '../../theme';
 import { Flex, Text, Button } from '../../components/common';
 import { vokeIcons } from '../../utils/iconMap';
 
-export const HeaderIcon = ({ icon, ...rest }) => (
-  <Button
-    type="transparent"
-    style={styles.headerIcon}
-    iconStyle={icon ? styles.headerIconSize : undefined}
-    icon={icon}
-    {...rest}
-  />
-);
+export const HeaderIcon = ({ type, icon, ...rest }) => {
+  let myProps = {};
+  if (type) {
+    if (type === 'back') {
+      if (theme.isAndroid) { myProps.icon = 'arrow-back'; }
+      else { myProps.image = vokeIcons['back']; }
+    } else if (type === 'search') {
+      if (theme.isAndroid) { myProps.icon = 'search'; }
+      else { myProps.image = vokeIcons['search']; }
+    }
+  } else {
+    myProps.icon = icon;
+  }
+  if (myProps.icon) {
+    myProps.iconStyle = styles.headerIconSize;
+  }
+  return (
+    <Button
+      type="transparent"
+      style={styles.headerIcon}
+      {...rest}
+      {...myProps}
+    />
+  );
+};
 
 class Header extends Component {
   renderLeft() {
     let { left, leftBack } = this.props;
     // Easy way to add a back button on the header left
     if (!left && leftBack) {
-      left = (
-        <HeaderIcon
-          image={vokeIcons['back']}
-          onPress={() => this.props.dispatch(navigateBack())} />
-      );
+      if (theme.isAndroid) {
+        left = (
+          <HeaderIcon
+            icon="arrow-back"
+            onPress={() => this.props.dispatch(navigateBack())} />
+        );
+      } else {
+        left = (
+          <HeaderIcon
+            image={vokeIcons['back']}
+            onPress={() => this.props.dispatch(navigateBack())} />
+        );
+      }
+    }
+    if (theme.isAndroid && !left) {
+      // Empty space along the left side
+      return <Flex style={{ padding: 10 }} />;
     }
     return (
       <Flex align="start" justify="center" style={styles.left}>
@@ -36,18 +65,16 @@ class Header extends Component {
     );
   }
   renderCenter() {
-    const { title, center } = this.props;
+    let { title, center } = this.props;
     if (title) {
-      return (
-        <Flex value={1} align="center" justify="center" value={1} style={styles.center}>
-          <Text style={styles.title} numberOfLines={1}>
-            {title}
-          </Text>
-        </Flex>
+      center = (
+        <Text style={styles.title} numberOfLines={1}>
+          {title}
+        </Text>
       );
     }
     return (
-      <Flex align="center" justify="center" value={1} style={styles.center}>
+      <Flex value={1} style={styles.center}>
         {center || null}
       </Flex>
     );
@@ -61,13 +88,14 @@ class Header extends Component {
     );
   }
   render() {
-    const { light } = this.props;
+    const { light, shadow } = this.props;
     return (
       <Flex
         direction="row"
         style={[
           styles.header,
           light ? styles.light : styles.dark,
+          shadow ? styles.shadow : undefined,
         ]}>
         {this.renderLeft()}
         {this.renderCenter()}

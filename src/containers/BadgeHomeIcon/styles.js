@@ -5,8 +5,8 @@ import theme, { COLORS } from '../../theme';
 const ICON_SIZE = 26;
 export default StyleSheet.create({
   container: {
-    width: ICON_SIZE + 10,
-    height: ICON_SIZE,
+    width: theme.isAndroid ? ICON_SIZE + 30 : ICON_SIZE + 10,
+    height: theme.isAndroid ? ICON_SIZE + 15 : ICON_SIZE,
     position: 'relative',
     overflow: 'visible',
   },
