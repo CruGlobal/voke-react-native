@@ -4,15 +4,8 @@ import { connect } from 'react-redux';
 
 import nav, { NavPropTypes } from '../../actions/nav';
 import Videos from '../Videos';
-import theme from '../../theme';
 
 class VideosTab extends Component {
-  static navigatorStyle = {
-    tabBarHidden: true,
-    navBarButtonColor: theme.lightText,
-    navBarTextColor: theme.headerTextColor,
-    navBarBackgroundColor: theme.headerBackgroundColor,
-  };
   render() {
     return (
       <Videos
@@ -28,4 +21,8 @@ VideosTab.propTypes = {
   onSelectVideo: PropTypes.func,
 };
 
-export default connect(null, nav)(VideosTab);
+const mapStateToProps = (state, { navigation }) => ({
+  ...(navigation.state.params || {}),
+});
+
+export default connect(mapStateToProps, nav)(VideosTab);

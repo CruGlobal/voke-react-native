@@ -27,7 +27,6 @@ import ThemeSelect from './containers/ThemeSelect';
 import Help from './containers/Help';
 import ForgotPassword from './containers/ForgotPassword';
 import SignUpFBAccount from './containers/SignUpFBAccount';
-import Modal from './containers/Modal';
 import AndroidReportModal from './containers/AndroidReportModal';
 import ShareModal from './containers/ShareModal';
 import Channels from './containers/Channels';
@@ -154,9 +153,7 @@ export const MainStackRoutes = StackNavigator({
   'voke.Loading': { screen: LoadingScreen },
   'voke.Login': { screen: Login },
   'voke.LoginInput': { screen: LoginInput },
-  'voke.Menu': { screen: Menu },
   'voke.Message': { screen: Message },
-  'voke.Modal': { screen: Modal },
   'voke.Profile': { screen: Profile },
   'voke.SignUpAccount': { screen: SignUpAccount },
   'voke.SignUpFBAccount': { screen: SignUpFBAccount },
@@ -166,21 +163,31 @@ export const MainStackRoutes = StackNavigator({
   'voke.SignUpWelcome': { screen: SignUpWelcome },
   'voke.ThemeSelect': {
     screen: ThemeSelect,
-    // mode: 'card',
-    // cardStyle: {
-    //   backgroundColor: 'transparent',
-    // },
-    // transitionConfig: { isModal: true },
-    // navigationOptions: { gesturesEnabled: false },
+    navigationOptions: {
+      gesturesEnabled: false,
+    },
+  },
+  'voke.Menu': { screen: Menu },
+  'voke.Contacts': { screen: Contacts },
+  'voke.SelectFriend': { screen: SelectFriend },
+  'voke.VideoDetails': {
+    screen: VideoDetails,
     headerMode: 'none',
     mode: 'modal',
     navigationOptions: {
       gesturesEnabled: false,
     },
   },
+  'voke.ShareModal': { screen: ShareModal },
+
   'voke.VideosTab': { screen: VideosTab },
-  DetailsModal: { screen: ModalNavigator },
-  MainTabs: { screen: MainTabRoutes },
+  // DetailsModal: { screen: ModalNavigator },
+  MainTabs: {
+    screen: MainTabRoutes,
+    navigationOptions: {
+      gesturesEnabled: false,
+    },
+  },
 }, {
   navigationOptions: {
     header: null,

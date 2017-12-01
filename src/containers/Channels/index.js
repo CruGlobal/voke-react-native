@@ -249,7 +249,7 @@ class Channels extends Component {
             ref={(c) => this.videoList = c}
             items={videos}
             onSelect={(c) => {
-              this.props.navigateModal('DetailsModal', {
+              this.props.navigatePush('voke.VideoDetails', {
                 video: c,
                 onSelectVideo,
               });
@@ -272,7 +272,7 @@ class Channels extends Component {
             ref={(c) => this.videoList = c}
             items={videos}
             onSelect={(c) => {
-              this.props.navigateModal('DetailsModal', {
+              this.props.navigatePush('voke.VideoDetails', {
                 video: c,
                 onSelectVideo,
               });
@@ -295,7 +295,7 @@ class Channels extends Component {
             ref={(c) => this.videoList = c}
             items={videos}
             onSelect={(c) => {
-              this.props.navigatePush('DetailsModal', {
+              this.props.navigatePush('voke.VideoDetails', {
                 video: c,
                 onSelectVideo,
               });

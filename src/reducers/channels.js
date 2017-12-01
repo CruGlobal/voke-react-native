@@ -39,7 +39,6 @@ export default function channels(state = initialState, action) {
       };
     case REQUESTS.VIDEOS.SUCCESS:
       // Setup pagination for videos
-      LOG('video action', action);
       let allVideos = [];
       if (action.query.page && action.query.page > 1) {
         allVideos = state.all;

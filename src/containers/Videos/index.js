@@ -15,13 +15,15 @@ import styles from './styles';
 import theme from '../../theme';
 import { navMenuOptions } from '../../utils/menu';
 import { vokeIcons } from '../../utils/iconMap';
-import TabBarIndicator from '../../components/TabBarIndicator';
 
 import ApiLoading from '../ApiLoading';
+import ThemeSelect from '../ThemeSelect';
+import Header, { HeaderIcon } from '../Header';
 import PillButton from '../../components/PillButton';
 import VideoList from '../../components/VideoList';
 import StatusBar from '../../components/StatusBar';
-import { Flex } from '../../components/common';
+import { Flex, Text } from '../../components/common';
+import CONSTANTS from '../../constants';
 
 function setButtons(showBack) {
   if (!showBack && Platform.OS === 'android') {
@@ -56,14 +58,6 @@ function setButtons(showBack) {
 }
 
 class Videos extends Component {
-  static navigatorStyle = {
-    navBarButtonColor: theme.lightText,
-    navBarTextColor: theme.headerTextColor,
-    navBarBackgroundColor: theme.headerBackgroundColor,
-    screenBackgroundColor: theme.primaryColor,
-    statusBarHidden: false,
-  };
-
   constructor(props) {
     super(props);
 
@@ -74,7 +68,6 @@ class Videos extends Component {
       selectedTag: null,
     };
 
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleNextPage = this.handleNextPage.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
     this.handleRefresh = this.handleRefresh.bind(this);
@@ -112,25 +105,10 @@ class Videos extends Component {
     }
   }
 
-  componentWillMount() {
-    if (!this.props.onSelectVideo) {
-      // this.props.navigator.setButtons(setButtons());
-    } else {
-      // this.props.navigator.setButtons(setButtons(true));
-    }
-    // this.props.navigator.setTitle({ title: 'Videos' });
-  }
-
   componentDidMount() {
     // this.props.dispatch(getMe()).then((results)=>{
     //   LOG(results);
     // });
-    // Do this after mounting because Android sometimes doesn't work on initial load
-    if (!this.props.onSelectVideo) {
-      // this.props.navigator.setButtons(setButtons());
-    } else {
-      // this.props.navigator.setButtons(setButtons(true));
-    }
 
     // If there are no videos when the component mounts, get them, otherwise just set it
     if (this.props.all.length === 0) {
@@ -208,40 +186,7 @@ class Videos extends Component {
   }
 
   showThemes() {
-    this.setState({ selectedTag: null });
-    this.props.navigatePush('voke.ThemeSelect', {
-      themes: this.props.tags,
-      onSelect: this.handleThemeSelect,
-      onDismiss: this.handleDismissTheme,
-    });
-    // if (Platform.OS === 'android') {
-    //   Navigation.showModal({
-    //     screen: 'voke.ThemeSelect',
-    //     animationType: 'fade',
-    //     passProps: {
-    //       themes: this.props.tags,
-    //       onSelect: this.handleThemeSelect,
-    //       onDismiss: this.handleDismissTheme,
-    //     },
-    //     navigatorStyle: {
-    //       screenBackgroundColor: 'rgba(0, 0, 0, 0.3)',
-    //     },
-    //     // Stop back button from closing modal https://github.com/wix/react-native-navigation/issues/250#issuecomment-254186394
-    //     overrideBackPress: true,
-    //   });
-    // } else {
-    //   Navigation.showLightBox({
-    //     screen: 'voke.ThemeSelect',
-    //     passProps: {
-    //       themes: this.props.tags,
-    //       onSelect: this.handleThemeSelect,
-    //       onDismiss: this.handleDismissTheme,
-    //     },
-    //     style: {
-    //       backgroundBlur: 'dark', // 'dark' / 'light' / 'xlight' / 'none' - the type of blur on the background
-    //     },
-    //   });
-    // }
+    this.setState({ selectedTag: null, showThemeModal: true });
   }
 
   handleNextPage() {
@@ -332,10 +277,34 @@ class Videos extends Component {
   render() {
     const { onSelectVideo } = this.props;
     const { selectedFilter, videos } = this.state;
+    const showBack = !!onSelectVideo;
 
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
+        <Header
+          left={
+            <HeaderIcon
+              image={showBack ? vokeIcons['back'] : vokeIcons['menu']}
+              onPress={() => {
+                if (showBack) {
+                  this.props.navigateBack();
+                } else {
+                  this.props.navigatePush('voke.Menu');
+                }
+              }} />
+          }
+          right={
+            CONSTANTS.IS_ANDROID && !showBack ? (
+              <Text>SHOW MENU</Text>
+            ) : (
+              <HeaderIcon
+                image={vokeIcons['search']}
+                onPress={() => this.handleFilter('themes')} />
+            )
+          }
+          title="Videos"
+        />
         <Flex style={{height: 50}} align="center" justify="center">
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <Flex direction="row" style={{padding: 10}}>
@@ -370,7 +339,7 @@ class Videos extends Component {
           ref={(c) => this.videoList = c}
           items={videos}
           onSelect={(c) => {
-            this.props.navigatePush('DetailsModal', {
+            this.props.navigatePush('voke.VideoDetails', {
               video: c,
               onSelectVideo,
             });
@@ -397,6 +366,16 @@ class Videos extends Component {
           // ) : null
         }
         <ApiLoading />
+        {
+          this.state.showThemeModal ? (
+            <ThemeSelect
+              onClose={() => this.setState({ showThemeModal: false })}
+              themes={this.props.tags}
+              onSelect={this.handleThemeSelect}
+              onDismiss={this.handleDismissTheme}
+            />
+          ) : null
+        }
       </View>
     );
   }
@@ -405,6 +384,7 @@ class Videos extends Component {
 Videos.propTypes = {
   ...NavPropTypes,
   onSelectVideo: PropTypes.func,
+  hideHeader: PropTypes.bool,
 };
 
 const mapStateToProps = ({ auth, videos }) => ({

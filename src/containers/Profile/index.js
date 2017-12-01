@@ -1,38 +1,20 @@
 import React, { Component } from 'react';
-import { Platform, Image, TextInput, KeyboardAvoidingView, ScrollView, View, Alert } from 'react-native';
+import { Platform, Image, TextInput, KeyboardAvoidingView, ScrollView, View, Alert, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';
 import { Flex, Icon, Button, Text, Separator } from '../../components/common';
 import ImagePicker from '../../components/ImagePicker';
 import { updateMe, getMe } from '../../actions/auth';
-import { vokeIcons } from '../../utils/iconMap';
 import Analytics from '../../utils/analytics';
 
 import ApiLoading from '../ApiLoading';
+import Header from '../Header';
 import VOKE_LOGO from '../../../images/nav_voke_logo.png';
 import nav, { NavPropTypes } from '../../actions/nav';
 import theme, { COLORS } from '../../theme';
 
-function setButtons() {
-  return {
-    leftButtons: [{
-      id: 'back', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-      icon: vokeIcons['back'], // for icon button, provide the local image asset name
-    }],
-  };
-}
-
 class Profile extends Component {
-
-  static navigatorStyle = {
-    navBarNoBorder: true,
-    topBarElevationShadowEnabled: false,
-    tabBarHidden: true,
-    navBarButtonColor: theme.lightText,
-    navBarBackgroundColor: theme.primaryColor,
-    navBarTextColor: theme.headerTextColor,
-  };
 
   constructor(props) {
     super(props);
@@ -50,7 +32,6 @@ class Profile extends Component {
       confirmPassword: '',
     };
 
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.renderImagePicker = this.renderImagePicker.bind(this);
     this.renderEditName = this.renderEditName.bind(this);
     this.renderEditEmail = this.renderEditEmail.bind(this);
@@ -59,30 +40,25 @@ class Profile extends Component {
     this.scrollEnd = this.scrollEnd.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.resetState = this.resetState.bind(this);
-  }
-
-  componentWillMount() {
-    // this.props.navigator.setButtons(setButtons());
+    this.backHandler = this.backHandler.bind(this);
   }
 
   componentDidMount() {
     Analytics.screen('Profile');
     this.props.dispatch(getMe());
+    BackHandler.addEventListener('hardwareBackPress', this.backHandler);
+  }
+  
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.backHandler);
   }
 
-  onNavigatorEvent(event) {
-    if (event.type === 'NavBarButtonPress') {
-      if (event.id === 'back') {
-        this.props.navigateBack();
-      }
+  backHandler() {
+    if (this.state.editName || this.state.editEmail || this.state.editPassword) {
+      this.resetState();
+      return true;
     }
-    if (event.id === 'backPress') {
-      if (this.state.editName || this.state.editEmail || this.state.editPassword) {
-        this.resetState();
-        return;
-      }
-      this.props.navigateBack();
-    }
+    return false;
   }
 
   handleUpdate() {
@@ -386,6 +362,12 @@ class Profile extends Component {
         behavior={Platform.OS === 'android' ? undefined : 'padding'}
         keyboardVerticalOffset={Platform.OS === 'android' ? undefined : 50}
       >
+        <Header
+          leftBack={true}
+          title="Profile"
+          light={true}
+          shadow={false}
+        />
         <Flex direction="column" style={styles.container}>
           {
             editName || editEmail || editPassword ? null : (
@@ -485,7 +467,7 @@ class Profile extends Component {
 }
 
 
-// Check out actions/navigation_new.js to see the prop types and mapDispatchToProps
+// Check out actions/nav.js to see the prop types and mapDispatchToProps
 Profile.propTypes = {
   ...NavPropTypes,
 };

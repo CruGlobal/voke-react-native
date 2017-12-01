@@ -1,45 +1,6 @@
 import { NavigationActions } from 'react-navigation';
 import PropTypes from 'prop-types';
-
-// import { logoutAction } from './auth';
-// import { startLoginApp, startTabApp } from '../NavConfig';
-// import theme from '../theme';
-
-const DEFAULT_PROPS = {
-  'voke.Home': { title: 'Chats' },
-  'voke.Videos': { title: 'Videos' },
-  'voke.SelectFriend': { title: 'Select Friend' },
-  'voke.Contacts': { title: 'Contacts' },
-  'voke.Profile': {
-    title: 'Profile',
-    overrideBackPress: true,
-  },
-  'voke.Acknowledgements': { title: 'Acknowledgements' },
-  'voke.About': { title: 'About' },
-  'voke.Help': { title: 'Help' },
-  'voke.VideoDetails': {
-    appStyle: { orientation: 'auto' },
-  },
-  'voke.Message': {
-    overrideBackPress: true,
-  },
-  'voke.CountrySelect': { title: 'Select Country' },
-  // 'voke.SignUpAccount': { title: 'Create Account' },
-  // 'voke.SignUpProfile': { title: 'Create Profile' },
-  // 'voke.SignUpNumber': { title: 'Mobile Number' },
-  // 'voke.SignUpNumberVerify': { title: 'Verify Number' },
-};
-// Handle default screen things
-function defaultProps(screen, props, passProps) {
-  let newProps = {
-    ...(DEFAULT_PROPS[screen] || {}),
-    ...props,
-  };
-  if (screen === 'voke.Message' && passProps.name) {
-    newProps.title = passProps.name;
-  }
-  return newProps;
-}
+import debounce from 'lodash/debounce';
 
 
 export function navigatePush(screen, props = {}) {
@@ -53,7 +14,7 @@ export function navigatePush(screen, props = {}) {
 
 export function navigateBack(key = null) {
   return (dispatch) => {
-    dispatch(NavigationActions.back({ key: null }));
+    dispatch(NavigationActions.back({ key }));
   };
 }
 
@@ -221,7 +182,7 @@ export const NavPropTypes = {
 export default (dispatch) => {
   return {
     dispatch,
-    navigatePush: (...args) => dispatch(navigatePush(...args)),
+    navigatePush: debounce((...args) => dispatch(navigatePush(...args)), 50),
     navigateBack: (...args) => dispatch(navigateBack(...args)),
     navigateResetHome: (...args) => dispatch(navigateResetHome(...args)),
     navigateResetLogin: (...args) => dispatch(navigateResetLogin(...args)),

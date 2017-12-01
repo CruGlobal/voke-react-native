@@ -43,6 +43,7 @@ const ANDROID_APP_ID = 'org.cru.voke';
 
 export default {
   IS_STAGING,
+  IS_ANDROID: Platform.OS === 'android',
 
   EMAIL_REGEX: new RegExp(/^\w+([.+-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/),
   GA_TRACKER: 'UA-39188989-7', // Google Analytics

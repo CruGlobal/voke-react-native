@@ -15,14 +15,14 @@ import { navMenuOptions } from '../../utils/menu';
 import { vokeIcons } from '../../utils/iconMap';
 
 import ApiLoading from '../ApiLoading';
-import theme from '../../theme';
 import ConversationList from '../../components/ConversationList';
-import TabBarIndicator from '../../components/TabBarIndicator';
+// import TabBarIndicator from '../../components/TabBarIndicator';
+import Header, { HeaderIcon } from '../Header';
 import { Flex, Text, RefreshControl } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import NULL_STATE from '../../../images/video-button.png';
 import VOKE from '../../../images/voke_null_state.png';
-import { IS_SMALL_ANDROID } from '../../constants';
+import CONSTANTS, { IS_SMALL_ANDROID } from '../../constants';
 
 const CONTACT_LENGTH_SHOW_VOKEBOT = IS_SMALL_ANDROID ? 2 : 3;
 
@@ -48,13 +48,13 @@ function setButtons() {
 }
 
 class Home extends Component {
-  static navigatorStyle = {
-    navBarButtonColor: theme.lightText,
-    navBarTextColor: theme.headerTextColor,
-    navBarBackgroundColor: theme.headerBackgroundColor,
-    screenBackgroundColor: theme.primaryColor,
-    statusBarHidden: false,
-  };
+  // static navigatorStyle = {
+  //   navBarButtonColor: theme.lightText,
+  //   navBarTextColor: theme.headerTextColor,
+  //   navBarBackgroundColor: theme.headerBackgroundColor,
+  //   screenBackgroundColor: theme.primaryColor,
+  //   statusBarHidden: false,
+  // };
 
   constructor(props) {
     super(props);
@@ -70,6 +70,7 @@ class Home extends Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.handleSubmitReport = this.handleSubmitReport.bind(this);
     this.handleBlock = this.handleBlock.bind(this);
+    this.handleMenuPress = this.handleMenuPress.bind(this);
   }
 
   componentWillMount() {
@@ -143,6 +144,10 @@ class Home extends Component {
     if (event.id === 'bottomTabSelected') {
       this.props.dispatch({ type: TAB_SELECTED, tab: 0 });
     }
+  }
+
+  handleMenuPress() {
+    this.props.navigatePush('voke.Menu');
   }
 
   handleLoadMore() {
@@ -233,6 +238,17 @@ class Home extends Component {
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
+        <Header
+          left={
+            <HeaderIcon image={vokeIcons['menu']} onPress={this.handleMenuPress} />
+          }
+          right={
+            CONSTANTS.IS_ANDROID ? (
+              <Text>SHOW MENU</Text>
+            ) : null
+          }
+          title="Chats"
+        />
         {
           cLength ? (
             <ConversationList
@@ -278,7 +294,7 @@ class Home extends Component {
 }
 
 
-// Check out actions/navigation_new.js to see the prop types and mapDispatchToProps
+// Check out actions/nav.js to see the prop types and mapDispatchToProps
 Home.propTypes = {
   ...NavPropTypes,
   onMount: PropTypes.func,

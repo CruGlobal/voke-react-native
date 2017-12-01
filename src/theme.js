@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, Platform } from 'react-native';
 import Color from 'color';
 
 import { exists } from './utils/common';
@@ -88,6 +88,10 @@ export default {
   headerTextColor: COLORS.WHITE,
   // message
   messageHeaderTextColor: COLORS.GREEN,
-  
+
   convert: colorConvert,
+  fullWidth: deviceWidth,
+  fullHeight: deviceHeight,
+  isAndroid: Platform.OS === 'android',
+  isIOS: Platform.OS === 'ios',
 };

@@ -4,18 +4,17 @@ import PropTypes from 'prop-types';
 import { View, SectionList, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import debounce from 'lodash/debounce';
-import { Navigation } from 'react-native-navigation';
 
 import Analytics from '../../utils/analytics';
 import nav, { NavPropTypes } from '../../actions/nav';
 import styles from './styles';
-import { iconsMap } from '../../utils/iconMap';
-import theme from '../../theme';
 
 import { Touchable, Text } from '../../components/common';
 import COUNTRIES from '../../utils/countryCodes';
 import SearchBarIos from '../../components/SearchBarIos';
 import AndroidSearchBar from '../../components/AndroidSearchBar';
+import Header, { HeaderIcon } from '../Header';
+import CONSTANTS from '../../constants';
 
 const COUNTRY_HEIGHT = 50;
 
@@ -39,34 +38,7 @@ function formatCountry(items) {
   return sections;
 }
 
-function setButtons() {
-  if (Platform.OS === 'android') {
-    return {
-      leftButtons: [{ id: 'cancel' }],
-      rightButtons: [{
-        id: 'search',
-        icon: iconsMap['md-search'],
-      }],
-    };
-  }
-  return {
-    leftButtons: [{
-      id: 'cancel',
-      icon: iconsMap['ios-close'],
-    }],
-  };
-}
-
-class CountrySelect extends Component {
-  static navigatorStyle = {
-    screenBackgroundColor: theme.primaryColor,
-    navBarButtonColor: theme.lightText,
-    navBarTextColor: theme.headerTextColor,
-    navBarBackgroundColor: theme.primaryColor,
-    navBarNoBorder: true,
-    topBarElevationShadowEnabled: false,
-  };
-  
+class CountrySelect extends Component {  
   constructor(props) {
     super(props);
 
@@ -81,24 +53,7 @@ class CountrySelect extends Component {
     this.changeText = this.changeText.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.renderHeader = this.renderHeader.bind(this);
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
-  }
-
-  onNavigatorEvent(event) {
-    if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
-      if (event.id == 'cancel') {
-        this.close();
-      } else if (event.id === 'search') {
-        this.setState({ showSearch: !this.state.showSearch });
-      }
-    } else if (event.id === 'searchQueryChange') { // Android header search
-      const text = event.query || '';
-      this.changeText(text);
-    }
-  }
-
-  componentWillMount() {
-    // this.props.navigator.setButtons(setButtons());
+    this.close = this.close.bind(this);
   }
 
   componentDidMount() {
@@ -106,7 +61,6 @@ class CountrySelect extends Component {
   }
 
   close() {
-    // Navigation.dismissModal({ animationType: 'slide-down' });
     this.props.navigateBack();
   }
 
@@ -151,12 +105,36 @@ class CountrySelect extends Component {
   }
 
   render() {
-    const { searchText, searchResults, all } = this.state;
+    const { showSearch, searchText, searchResults, all } = this.state;
 
     const items = searchText ? searchResults : all;
 
     return (
       <View style={styles.container}>
+        <Header
+          left={
+            CONSTANTS.IS_ANDROID ? (
+              <HeaderIcon
+                icon="close"
+                onPress={this.close} />
+            ) : (
+              <HeaderIcon
+                icon="ios-close"
+                iconType="Ionicons"
+                onPress={this.close} />
+            )
+          }
+          right={
+            CONSTANTS.IS_ANDROID ? (
+              <HeaderIcon
+                icon="search"
+                onPress={() => this.setState({ showSearch: !showSearch })} />
+            ) : undefined
+          }
+          title="Select Country"
+          light={true}
+          shadow={false}
+        />
         {this.renderSearch()}
         <SectionList
           initialNumToRender={25}
@@ -189,5 +167,8 @@ CountrySelect.propTypes = {
   ...NavPropTypes,
   onSelect: PropTypes.func.isRequired,
 };
+const mapStateToProps = (state, { navigation }) => ({
+  ...(navigation.state.params || {}),
+});
 
-export default connect(null, nav)(CountrySelect);
+export default connect(mapStateToProps, nav)(CountrySelect);

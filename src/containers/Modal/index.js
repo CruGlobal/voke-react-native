@@ -32,7 +32,8 @@ class Modal extends Component {
 
   dismissModal() {
     // Navigation.dismissModal({ animationType: 'fade' });
-    this.props.navigateBack();
+    // this.props.navigateBack();
+    this.props.onClose();
   }
 
   handleDismiss() {
@@ -52,7 +53,7 @@ class Modal extends Component {
   render() {
     const isAndroid = Platform.OS === 'android';
     return (
-      <Flex align="center" justify="center" style={styles.container}>
+      <Flex animation="fadeIn" align="center" justify="center" style={styles.container}>
         <Flex direction="column" align="center" justify="center" style={styles.modal}>
           {
             this.state.isMore ? (
@@ -110,6 +111,7 @@ Modal.propTypes = {
   ...NavPropTypes,
   getContacts: PropTypes.func.isRequired,
   onDismiss: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default connect(null, nav)(Modal);
