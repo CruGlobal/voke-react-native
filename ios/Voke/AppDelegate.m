@@ -9,14 +9,6 @@
 
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
-// **********************************************
-// *** DON'T MISS: THE NEXT LINE IS IMPORTANT ***
-// **********************************************
-#import "RCCManager.h"
-
-// IMPORTANT: if you're getting an Xcode error that RCCManager.h isn't found, you've probably ran "npm install"
-// with npm ver 2. You'll need to "npm install" with npm 3 (see https://github.com/wix/react-native-navigation/issues/1)
-
 #import <React/RCTRootView.h>
 
 @implementation AppDelegate
