@@ -219,4 +219,8 @@ export default {
     endpoint: API_URL + 'me/friends',
     method: 'post',
   },
+  'GET_ORGANIZATIONS': {
+    endpoint: API_URL + '/organizations',
+    method: 'get',
+  },
 };
