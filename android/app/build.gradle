@@ -177,6 +177,7 @@ android {
     }
 }
 
+
 dependencies {
     // compile project(':react-native-sms')
     compile project(':react-native-orientation')
@@ -193,6 +194,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.facebook.react:react-native:+'
+    compile project(':react-native-push-notification')
     compile 'com.facebook.fresco:animated-gif:1.0.1'
     compile('com.google.android.gms:play-services-gcm:11.0.+') {
         force = true;

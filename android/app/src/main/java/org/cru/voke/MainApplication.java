@@ -32,13 +32,8 @@ import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
 import io.fabric.sdk.android.Fabric;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
-// import com.wix.reactnativenotifications.RNNotificationsPackage;
-// import com.wix.reactnativenotifications.core.notification.INotificationsApplication;
-// import com.wix.reactnativenotifications.core.AppLaunchHelper;
-// import com.wix.reactnativenotifications.core.AppLifecycleFacade;
-// import com.wix.reactnativenotifications.core.JsIOHelper;
-// import com.wix.reactnativenotifications.core.notification.IPushNotification;
 import com.brentvatne.react.ReactVideoPackage;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;  // <--- Import Package
 
 import java.util.Arrays;
 import java.util.List;
@@ -75,8 +70,8 @@ public class MainApplication extends Application implements ReactApplication {
             new VectorIconsPackage(),
             new PickerPackage(),
             new RNFetchBlobPackage(),
-            // new RNNotificationsPackage(MainApplication.this)
-            new ReactVideoPackage()
+            new ReactVideoPackage(),
+            new ReactNativePushNotificationPackage()
       );
     }
   };
