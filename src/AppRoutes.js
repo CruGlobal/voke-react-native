@@ -51,12 +51,12 @@ import theme from './theme';
 
 import VIDEOS_ICON from '../images/video_icon.png';
 import CHANNELS_ICON from '../images/channelsIcon.png';
-import VIDEOS_ICON_INACTIVE from '../images/video_icon.png';
-import CHANNELS_ICON_INACTIVE from '../images/channelsIcon.png';
+import VIDEOS_ICON_INACTIVE from '../images/videosInactive.png';
+import CHANNELS_ICON_INACTIVE from '../images/channelsInactive.png';
 
 const navIcon = (active, inactive) => ({tintColor}) => (
   <Image
-    source={tintColor === theme.primaryColor ? active : inactive}
+    source={tintColor === theme.lightText ? active : inactive}
     style={{ width: 26, height: 26 }}
   />
 );
@@ -67,7 +67,7 @@ export const MainTabRoutes = TabNavigator({
     screen: Home,
     navigationOptions: {
       tabBarLabel: 'Home',
-      tabBarIcon: ({ tintColor }) => <BadgeHomeIcon isActive={tintColor === theme.primaryColor} />,
+      tabBarIcon: ({ tintColor }) => <BadgeHomeIcon isActive={tintColor === theme.lightText} />,
     },
   },
   'voke.Videos': {
@@ -88,8 +88,8 @@ export const MainTabRoutes = TabNavigator({
   tabBarOptions: {
     showIcon: true,
     showLabel: true,
-    activeTintColor: theme.primaryColor,
-    inactiveTintColor: theme.lightText,
+    activeTintColor: theme.lightText,
+    inactiveTintColor: theme.primaryColor,
     // ios props
     activeBackgroundColor: theme.convert({ color: theme.secondaryColor, lighten: 0.1 }),
     inactiveBackgroundColor: theme.secondaryColor,

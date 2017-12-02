@@ -8,7 +8,7 @@ import { Flex, Text } from '../../components/common';
 
 
 import HOME_ICON from '../../../images/chats_icon.png';
-import HOME_ICON_INACTIVE from '../../../images/chats_icon.png';
+import HOME_ICON_INACTIVE from '../../../images/chatsInactive.png';
 
 class BadgeHomeIcon extends Component {
   render() {
