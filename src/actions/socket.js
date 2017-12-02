@@ -1,7 +1,6 @@
 import { Platform, AppState } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
-// import PushNotification from 'react-native-push-notification';
-// import NotificationsIOS, { NotificationsAndroid } from 'react-native-notifications';
+import PushNotification from 'react-native-push-notification';
 
 import { API_URL } from '../api/utils';
 import { registerPushToken } from './auth';
@@ -170,51 +169,22 @@ export function gotDeviceToken(token) {
     } else if (token && auth.pushToken && token === auth.pushToken) {
       // Don't run the setup socket or push device if the token is the same
       // as before
-      LOG('dont estable any socket or push devices')
+      LOG('dont estable any socket or push devices');
     } else {
       dispatch(establishCableDevice(null));
     }
-
     //
     // setTimeout(() => {
     //   dispatch(closeSocketAction());
     // }, 3500);
 
-    notificationForeground = (n) => dispatch(handleNotifications('foreground', n));
-    notificationBackground = (n) => dispatch(handleNotifications('background', n));
-    notificationOpen = (n) => dispatch(handleNotifications('open', n));
-
-    if (Platform.OS === 'android') {
-      // On Android, we allow for only one (global) listener per each event type.
-      // NotificationsAndroid.setNotificationReceivedListener(notificationOpen);
-      // NotificationsAndroid.setNotificationOpenedListener(notificationOpen);
-
-    } else {
-      // NotificationsIOS.addEventListener('notificationReceivedForeground', notificationForeground);
-      // NotificationsIOS.addEventListener('notificationReceivedBackground', notificationBackground);
-      // NotificationsIOS.addEventListener('notificationOpened', notificationOpen);
-      // NotificationsIOS.consumeBackgroundQueue();
-    }
   };
 }
 
-let notificationForeground;
-let notificationBackground;
-let notificationOpen;
-
-export function closeNotificationListeners() {
-  return () => {
-    // if (Platform.OS === 'ios') {
-    //   NotificationsIOS.removeEventListener('notificationReceivedForeground', notificationForeground);
-    //   NotificationsIOS.removeEventListener('notificationReceivedBackground', notificationBackground);
-    //   NotificationsIOS.removeEventListener('notificationOpened', notificationOpen);
-    // }
-  };
-}
 
 export function handleNotifications(state, notification) {
   return (dispatch, getState) => {
-    let data = notification.getData();
+    let data = notification.data;
     // LOG(JSON.stringify(notification));
 
     // Get the namespace and link differently for ios and android
@@ -236,7 +206,7 @@ export function handleNotifications(state, notification) {
       }
     }
 
-    LOG('notification', state, data, link, namespace);
+    LOG('notification', state, data, link);
 
     if (state === 'foreground') {
       LOG('Foreground notification', data);
@@ -261,7 +231,8 @@ export function handleNotifications(state, notification) {
       }
     }
     if (state === 'background') {
-      // NotificationsIOS.setBadgesCount(2);
+      PushNotification.setApplicationIconBadgeNumber(2);
+
       LOG('Background notification', data);
     }
     if (state === 'open') {
@@ -302,99 +273,55 @@ export function handleNotifications(state, notification) {
 
         });
       }
-      // NotificationsIOS.removeAllDeliveredNotifications();
-    } else {
-      LOG('handle notification else');
-      // NotificationsIOS.setBadgesCount(2);
-
+    //   // NotificationsIOS.removeAllDeliveredNotifications();
+    // } else {
+    //   LOG('handle notification else');
+    //   // NotificationsIOS.setBadgesCount(2);
+    //
     }
   };
 }
 
 export function establishDevice() {
   return (dispatch, getState) => {
-    //
-    // return dispatch(callApi(REQUESTS.GET_DEVICES, {}, {})).then((results) => {
-    //   LOG('GOT DEVICES: ',JSON.stringify(results));
-    //   results.devices.forEach((m) => {
-    //     dispatch(destroyDevice(m.id, getState().auth.token));
-    //   })
-    // });
-    // dispatch(establishCableDevice(null));
-    // return;
-    // PushNotification.localNotificationSchedule({
-    //   message: 'My Notification Message', // (required)
-    //   date: new Date(Date.now() + (5 * 1000)), // in 60 secs
-    // });
 
-    if (Platform.OS === 'android') {
-      // NotificationsAndroid.refreshToken();
-      // On Android, we allow for only one (global) listener per each event type.
-      // NotificationsAndroid.setRegistrationTokenUpdateListener((token) => {
-      //   dispatch(gotDeviceToken(token));
-      // });
-    } else {
-      const onPushRegistered = function(token) {
-        dispatch(gotDeviceToken(token));
-        // NotificationsIOS.removeEventListener('remoteNotificationsRegistered', onPushRegistered);
-      };
+    LOG('hjere');
+    PushNotification.configure({
+      // (optional) Called when Token is generated (iOS and Android)
+      onRegister: function(token) {
+        dispatch(gotDeviceToken(token.token));
+      },
+      // (required) Called when a remote or local notification is opened or received
+      onNotification: function(notification) {
+        let state;
+        if (notification && notification.foreground && !notification.userInteraction) {
+          state = 'foreground';
+        } else if (notification && !notification.foreground && !notification.userInteraction) {
+          state= 'background';
+        } else {
+          state ='open';
+        }
+        dispatch(handleNotifications(state, notification));
+      },
+      // ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)
+      senderID: CONSTANTS.GCM_SENDER_ID,
 
-      const onPushRegistrationFailed = function(error) {
-        LOG('token error!', error);
-        dispatch(establishCableDevice(null));
-        // NotificationsIOS.removeEventListener('remoteNotificationsRegistrationFailed', onPushRegistrationFailed);
-      };
-
-      // NotificationsIOS.addEventListener('remoteNotificationsRegistered', onPushRegistered);
-      // NotificationsIOS.addEventListener('remoteNotificationsRegistrationFailed', onPushRegistrationFailed);
-      // NotificationsIOS.requestPermissions();
-    }
-
-
-
-
-
-  //   PushNotification.configure({
-  //     // (optional) Called when Token is generated (iOS and Android)
-  //     onRegister: function(token) {
-  //
-  //     },
-  //
-  //     // (required) Called when a remote or local notification is opened or received
-  //     onNotification: function(notification) {
-  //       LOG('NOTIFICATION From App:', notification);
-  //       if (!notification || !notification.foreground || !notification.message) { return; }
-  //       const message = notification.message;
-  //       // const message = isString(notification.message) ? JSON.parse(notification.message) : notification.message;
-  //       LOG('NOTIFICATION MESSAGE:', message);
-  //       if (message.message && message.message.conversation_id) {
-  //         dispatch(navigateResetHome());
-  //         dispatch(navigatePush('voke.Message', { conversation: {
-  //           id: message.message.conversation_id,
-  //           messengers: [],
-  //         }}));
-  //       }
-  //     },
-  //
-  //     // ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)
-  //     senderID: CONSTANTS.GCM_SENDER_ID,
-  //
-  //     // IOS ONLY (optional): default: all - Permissions to register.
-  //     permissions: {
-  //       alert: true,
-  //       badge: true,
-  //       sound: true,
-  //     },
-  //     // Should the initial notification be popped automatically
-  //     // default: true
-  //     popInitialNotification: true,
-  //     /**
-  //       * (optional) default: true
-  //       * - Specified if permissions (ios) and token (android and ios) will requested or not,
-  //       * - if not, you must call PushNotificationsHandler.requestPermissions() later
-  //       */
-  //     requestPermissions: true,
-  //   });
+      // IOS ONLY (optional): default: all - Permissions to register.
+      permissions: {
+        alert: true,
+        badge: true,
+        sound: true,
+      },
+      // Should the initial notification be popped automatically
+      // default: true
+      popInitialNotification: true,
+      /**
+      * (optional) default: true
+      * - Specified if permissions (ios) and token (android and ios) will requested or not,
+      * - if not, you must call PushNotificationsHandler.requestPermissions() later
+      */
+      requestPermissions: true,
+    });
   };
 }
 
