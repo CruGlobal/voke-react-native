@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import { getVideos, getFeaturedVideos, getPopularVideos, getTags, getSelectedThemeVideos } from '../../actions/videos';
 // import { getMe } from '../../actions/auth';
+import { getChannelSubscriberData, subscribeChannel, unsubscribeChannel } from '../../actions/auth';
 import Analytics from '../../utils/analytics';
 
 import nav, { NavPropTypes } from '../../actions/nav';
@@ -20,6 +21,7 @@ import Header, { HeaderIcon } from '../Header';
 import PillButton from '../../components/PillButton';
 import VideoList from '../../components/VideoList';
 import StatusBar from '../../components/StatusBar';
+import ChannelInfo from '../../components/ChannelInfo';
 import { Flex } from '../../components/common';
 import CONSTANTS from '../../constants';
 
@@ -32,6 +34,7 @@ class Videos extends Component {
       previousFilter: '',
       videos: [],
       selectedTag: null,
+      channelSubscribeData: null,
     };
 
     this.handleNextPage = this.handleNextPage.bind(this);
@@ -41,15 +44,22 @@ class Videos extends Component {
     this.showThemes = this.showThemes.bind(this);
     this.handleThemeSelect = this.handleThemeSelect.bind(this);
     this.handleDismissTheme = this.handleDismissTheme.bind(this);
+    this.handleSubscribe = this.handleSubscribe.bind(this);
+    this.handleUnsubscribe = this.handleUnsubscribe.bind(this);
   }
 
   componentDidMount() {
     // this.props.dispatch(getMe()).then((results)=>{
     //   LOG(results);
     // });
-
-    // If there are no videos when the component mounts, get them, otherwise just set it
-    if (this.props.all.length === 0) {
+    if (this.props.channel && this.props.channel.id) {
+      this.props.dispatch(getVideos(undefined, this.props.channel.id)).then(() => {
+        this.updateVideoList('all');
+      });
+      this.getSubscriberData();
+      this.setState({ videos: this.props.channelVideos });
+    } else if (this.props.all.length === 0) {
+      // If there are no videos when the component mounts, get them, otherwise just set it
       this.props.dispatch(getVideos()).then(() => {
         this.updateVideoList('all');
       }).catch((err)=> {
@@ -82,12 +92,14 @@ class Videos extends Component {
     if (this.state.selectedFilter === 'themes') {
       return Promise.resolve();
     }
+    this.setState({ emptyRefreshing: true });
     return this.handleFilter(this.state.selectedFilter);
   }
 
   handleThemeSelect(tag) {
     this.setState({ selectedTag: tag });
-    this.props.dispatch(getSelectedThemeVideos(tag)).then(() => {
+    const channelId = this.props.channel ? this.props.channel.id : undefined;
+    this.props.dispatch(getSelectedThemeVideos(tag, 1, channelId)).then(() => {
       this.setState({ videos: this.props.selectedThemeVideos});
       // Scroll to the top after selecting a theme
       this.videoList.scrollToBeginning();
@@ -110,26 +122,44 @@ class Videos extends Component {
   handleNextPage() {
     const pagination = this.props.pagination;
     const filter = this.state.selectedFilter;
-    // LOG('next page', filter, pagination[filter]);
-    if (!pagination[filter] || !pagination[filter].hasMore) {
-      return;
+
+    let page;
+    let query = {};
+    // Custom logic for channel pagination
+    const channelId = this.props.channel ? this.props.channel.id : undefined;
+    if (channelId) {
+      // If there is a new filter for channel pagination, do nothing
+      if (pagination.channel.type !== filter || !pagination.channel.hasMore) {
+        return;
+      }
+      page = pagination.channel.page + 1;
+      query.page = page;
+    } else {
+      if (!pagination[filter] || !pagination[filter].hasMore) {
+        return;
+      }
+      page = pagination[filter].page + 1;
+      query.page = page;
     }
-    const page = pagination[filter].page + 1;
-    const query = { page };
+
+    
+    // LOG('next page', filter, pagination[filter]);
+    
+    
 
 
     if (filter === 'featured') {
-      this.props.dispatch(getFeaturedVideos(query)).then((r) => {
+      this.props.dispatch(getFeaturedVideos(query, channelId)).then((r) => {
         this.updateVideoList(filter);
         return r;
       });
     } else if (filter === 'popular') {
-      this.props.dispatch(getPopularVideos(query)).then((r) => {
+      this.props.dispatch(getPopularVideos(query, channelId)).then((r) => {
         this.updateVideoList(filter);
         return r;
       });
     } else if (filter === 'all') {
-      this.props.dispatch(getVideos(query)).then((r) => {
+      this.props.dispatch(getVideos(query, channelId)).then((r) => {
         this.updateVideoList(filter);
         return r;
       });
@@ -137,7 +167,7 @@ class Videos extends Component {
       if (this.state.videos.length === 0 || !this.state.selectedTag) {
         return;
       }
-      this.props.dispatch(getSelectedThemeVideos(this.state.selectedTag, page)).then(() => {
+      this.props.dispatch(getSelectedThemeVideos(this.state.selectedTag, page, channelId)).then(() => {
         this.setState({ videos: this.props.selectedThemeVideos });
       });
     }
@@ -157,19 +187,20 @@ class Videos extends Component {
         this.videoList.scrollToBeginning();
       }
     }
+    const channelId = this.props.channel ? this.props.channel.id : undefined;
 
     if (filter === 'featured') {
-      return this.props.dispatch(getFeaturedVideos()).then((r) => {
+      return this.props.dispatch(getFeaturedVideos(undefined, channelId)).then((r) => {
         this.updateVideoList(filter);
         return r;
       });
     } else if (filter === 'popular') {
-      return this.props.dispatch(getPopularVideos()).then((r) => {
+      return this.props.dispatch(getPopularVideos(undefined, channelId)).then((r) => {
         this.updateVideoList(filter);
         return r;
       });
     } else if (filter === 'all') {
-      return this.props.dispatch(getVideos()).then((r) => {
+      return this.props.dispatch(getVideos(undefined, channelId)).then((r) => {
         this.updateVideoList(filter);
         return r;
       });
@@ -183,6 +214,10 @@ class Videos extends Component {
   }
 
   updateVideoList(type) {
+    if (this.props.channel && this.props.channel.id) {
+      this.setState({ videos: this.props.channelVideos });
+      return;
+    }
     if (type === 'featured') {
       this.setState({ videos: this.props.featured});
     } else if (type === 'all') {
@@ -192,10 +227,42 @@ class Videos extends Component {
     }
   }
 
+  getSubscriberData() {
+    this.props.dispatch(getChannelSubscriberData(this.props.channel.id)).then((results) => {
+      this.setState({ channelSubscribeData: results });
+    });
+  }
+
+  handleSubscribe() {
+    this.props.dispatch(subscribeChannel(this.props.channel.id)).then(() => {
+      this.getSubscriberData();
+    });
+  }
+  
+  handleUnsubscribe() {
+    const subscriptionId = this.state.channelSubscribeData ? this.state.channelSubscribeData.id : null;
+    this.props.dispatch(unsubscribeChannel(this.props.channel.id, subscriptionId)).then(() => {
+      this.getSubscriberData();
+    });
+  }
+
+  renderChannel() {
+    const { channel } = this.props;
+    if (!channel) return null;
+    return (
+      <ChannelInfo
+        channel={channel}
+        subscribeData={this.state.channelSubscribeData}
+        onSubscribe={this.handleSubscribe}
+        onUnsubscrive={this.handleUnsubscribe}
+      />
+    );
+  }
+
   render() {
-    const { onSelectVideo } = this.props;
+    const { onSelectVideo, channel } = this.props;
     const { selectedFilter, videos } = this.state;
-    const showBack = !!onSelectVideo;
+    const showBack = !!onSelectVideo || !!channel;
 
     return (
       <View style={styles.container}>
@@ -226,6 +293,7 @@ class Videos extends Component {
           }
           title="Videos"
         />
+        {this.renderChannel()}
         <Flex style={{height: 50}} align="center" justify="center">
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <Flex direction="row" style={{padding: 10}}>
@@ -264,28 +332,10 @@ class Videos extends Component {
               video: c,
               onSelectVideo,
             });
-            {/* Navigation.showModal({
-              screen: 'voke.VideoDetails',
-              animationType: 'slide-up',
-              passProps: {
-                video: c,
-                onSelectVideo,
-              },
-              navigatorStyle: { orientation: 'auto' },
-            }); */}
-            // this.props.navigatePush('voke.VideoDetails', {
-            //   video: c,
-            //   onSelectVideo,
-            // });
           }}
           onRefresh={this.handleRefresh}
           onLoadMore={this.handleNextPage}
         />
-        {
-          // !onSelectVideo ? (
-          //   <TabBarIndicator index={1} />
-          // ) : null
-        }
         <ApiLoading />
         {
           this.state.showThemeModal ? (
@@ -304,6 +354,7 @@ class Videos extends Component {
 
 Videos.propTypes = {
   ...NavPropTypes,
+  channel: PropTypes.object,
   onSelectVideo: PropTypes.func,
 };
 
@@ -314,6 +365,7 @@ const mapStateToProps = ({ auth, videos }) => ({
   featured: videos.featured,
   tags: videos.tags,
   selectedThemeVideos: videos.selectedThemeVideos,
+  channelVideos: videos.channelVideos,
   pagination: videos.pagination,
 });
 

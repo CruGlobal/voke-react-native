@@ -285,7 +285,7 @@ export function handleNotifications(state, notification) {
 export function establishDevice() {
   return (dispatch, getState) => {
 
-    LOG('hjere');
+    // LOG('hjere');
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
       onRegister: function(token) {
@@ -301,6 +301,7 @@ export function establishDevice() {
         } else {
           state ='open';
         }
+        LOG('onNotification state', state);
         dispatch(handleNotifications(state, notification));
       },
       // ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)

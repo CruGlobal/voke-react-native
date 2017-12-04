@@ -361,6 +361,35 @@ export function reportUserAction(report, messenger) {
   };
 }
 
+export function getChannelSubscriberData(channelId) {
+  return (dispatch) => {
+    const query = {
+      endpoint: `${API_URL}/organization/${channelId}/subscriptions`,
+    };
+    return dispatch(callApi(REQUESTS.GET_ORGANIZATION_SUBSCRIBERS, query));
+  };
+}
+
+export function subscribeChannel(channelId) {
+  return (dispatch) => {
+    const query = {
+      endpoint: `${API_URL}/organization/${channelId}/subscriptions`,
+    };
+    return dispatch(callApi(REQUESTS.ORGANIZATION_SUBSCRIBE, query));
+  };
+}
+export function unsubscribeChannel(channelId, subscriptionId) {
+  return (dispatch) => {
+    if (!subscriptionId) {
+      return Promise.reject('NoSubscriptionId');
+    }
+    const query = {
+      endpoint: `${API_URL}/organization/${channelId}/subscriptions/${subscriptionId}`,
+    };
+    return dispatch(callApi(REQUESTS.ORGANIZATION_UNSUBSCRIBE, query));
+  };
+}
+
 
 export function openSettingsAction() {
   return () => {

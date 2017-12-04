@@ -223,4 +223,38 @@ export default {
     endpoint: API_URL + '/organizations',
     method: 'get',
   },
+  'ORGANIZATION_VIDEOS': {
+    endpoint: API_URL + 'items/:orgId',
+    method: 'get',
+  },
+  'GET_POPULAR_ORGANIZATION_VIDEOS': {
+    endpoint: API_URL + 'items/:orgId',
+    method: 'get',
+    query: { popularity: true },
+    showApiLoading: true,
+  },
+  'GET_FEATURED_ORGANIZATION_VIDEOS': {
+    endpoint: API_URL + 'items/:orgId',
+    method: 'get',
+    query: { featured: true },
+    showApiLoading: true,
+  },
+  'GET_ORGANIZATION_VIDEOS_BY_TAG': {
+    endpoint: API_URL + 'items/:orgId',
+    method: 'get',
+    showApiLoading: true,
+  },
+  'GET_ORGANIZATION_SUBSCRIBERS': {
+    endpoint: API_URL + 'organizations/:orgId/subscriptions',
+    method: 'get',
+    showApiLoading: true,
+  },
+  'ORGANIZATION_SUBSCRIBE': {
+    endpoint: API_URL + 'organizations/:orgId/subscriptions',
+    method: 'post',
+  },
+  'ORGANIZATION_UNSUBSCRIBE': {
+    endpoint: API_URL + 'organizations/:orgId/subscriptions/:subscriptionId',
+    method: 'delete',
+  },
 };

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Image } from 'react-native';
+import debounce from 'lodash/debounce';
 
 import styles from './styles';
 
@@ -23,8 +24,33 @@ function getIconStyle(type) {
 }
 
 export default class Button extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      clickedDisabled: false,
+    };
+
+    // Debounce this function so it doesn't get called too quickly in succession
+    this.handlePress = debounce(this.handlePress.bind(this), 25);
+  }
+
+  componentWillUnmount() {
+    // Make sure to clear the timeout when the Button unmounts
+    clearTimeout(this.clickDisableTimeout);
+  }
+
+  handlePress(...args) {
+    // Prevent the user from being able to click twice
+    this.setState({ clickedDisabled: true });
+    // Re-enable the button after the timeout
+    this.clickDisableTimeout = setTimeout(() => { this.setState({ clickedDisabled: false }); }, 400);
+    // Call the users click function with all the normal click parameters
+    this.props.onPress(...args);
+  }
+
   render() {
-    const { onPress, type, image, text, icon, iconType, children, disabled, style = {}, buttonTextStyle = {}, iconStyle = {}, ...rest } = this.props;
+    const { type, image, text, icon, iconType, children, disabled, style = {}, buttonTextStyle = {}, iconStyle = {}, ...rest } = this.props;
     let content = children;
     if (!children) {
       let textComp = null;
@@ -63,8 +89,9 @@ export default class Button extends Component {
         content = textComp || iconComp || imageComp;
       }
     }
+    const isDisabled = disabled || this.state.clickedDisabled;
     return (
-      <Touchable onPress={disabled ? undefined : onPress} {...rest}>
+      <Touchable {...rest} disabled={isDisabled} onPress={this.handlePress}>
         <View style={[getTypeStyle(type), disabled ? styles.disabled : null, style]}>
           {content}
         </View>

@@ -1,20 +1,44 @@
 import callApi, { REQUESTS } from './api';
 import { API_URL } from '../api/utils';
 
-export function getVideos(query = {}) {
+export function getVideos(query = {}, channelId) {
   return (dispatch) => {
+    if (channelId) {
+      const newQuery = {
+        ...(query || {}),
+        endpoint: `${API_URL}items/${channelId}`,
+      };
+      // TODO: Implement this API call
+      return dispatch(callApi(REQUESTS.ORGANIZATION_VIDEOS, newQuery));
+    }
     return dispatch(callApi(REQUESTS.VIDEOS, query));
   };
 }
 
-export function getFeaturedVideos(query = {}) {
+export function getFeaturedVideos(query = {}, channelId) {
   return (dispatch) => {
+    if (channelId) {
+      const newQuery = {
+        ...(query || {}),
+        endpoint: `${API_URL}items/${channelId}`,
+      };
+      // TODO: Implement this API call
+      return dispatch(callApi(REQUESTS.GET_FEATURED_ORGANIZATION_VIDEOS, newQuery));
+    }
     return dispatch(callApi(REQUESTS.GET_FEATURED_VIDEOS, query));
   };
 }
 
-export function getPopularVideos(query = {}) {
+export function getPopularVideos(query = {}, channelId) {
   return (dispatch) => {
+    if (channelId) {
+      const newQuery = {
+        ...(query || {}),
+        endpoint: `${API_URL}items/${channelId}`,
+      };
+      // TODO: Implement this API call
+      return dispatch(callApi(REQUESTS.GET_POPULAR_ORGANIZATION_VIDEOS, newQuery));
+    }
     return dispatch(callApi(REQUESTS.GET_POPULAR_VIDEOS, query));
   };
 }
@@ -34,11 +58,18 @@ export function getKickstarters(item) {
   };
 }
 
-export function getSelectedThemeVideos(tag, page) {
+export function getSelectedThemeVideos(tag, page, channelId) {
   return (dispatch) => {
     let query = { tag_id: tag };
     if (page && page > 1) {
       query.page = page;
+    }
+    if (channelId) {
+      const newQuery = {
+        ...(query || {}),
+        endpoint: `${API_URL}items/${channelId}`,
+      };
+      return dispatch(callApi(REQUESTS.GET_ORGANIZATION_VIDEOS_BY_TAG, newQuery));
     }
     return dispatch(callApi(REQUESTS.GET_VIDEOS_BY_TAG, query));
   };

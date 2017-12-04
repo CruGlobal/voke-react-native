@@ -114,4 +114,8 @@ Header.propTypes = {
   shadow: PropTypes.bool,
 };
 
+Header.defaultProps = {
+  shadow: true,
+}
+
 export default connect()(Header);

@@ -10,6 +10,7 @@ class VideosTab extends Component {
     return (
       <Videos
         {...this.props}
+        channel={this.props.channel}
         onSelectVideo={this.props.onSelectVideo}
       />
     );
@@ -18,6 +19,7 @@ class VideosTab extends Component {
 
 VideosTab.propTypes = {
   ...NavPropTypes,
+  channel: PropTypes.object,
   onSelectVideo: PropTypes.func,
 };
 

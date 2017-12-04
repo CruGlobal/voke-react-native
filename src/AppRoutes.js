@@ -54,10 +54,13 @@ import CHANNELS_ICON from '../images/channelsIcon.png';
 import VIDEOS_ICON_INACTIVE from '../images/videosInactive.png';
 import CHANNELS_ICON_INACTIVE from '../images/channelsInactive.png';
 
+const ICON_SIZE = theme.isAndroid ? 25 : 26;
 const navIcon = (active, inactive) => ({tintColor}) => (
   <Image
+    resizeMode="contain"
+    resizeMethod="scale"
     source={tintColor === theme.lightText ? active : inactive}
-    style={{ width: 26, height: 26 }}
+    style={{ width: ICON_SIZE, height: ICON_SIZE }}
   />
 );
 

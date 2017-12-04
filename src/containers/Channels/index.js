@@ -138,9 +138,8 @@ class Channels extends Component {
   // }
 
   render() {
-    const { onSelectVideo } = this.props;
     const { allOrganizations, myChannels, browseChannels, featuredChannels } = this.state;
-    LOG(allOrganizations);
+    // LOG(allOrganizations);
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
@@ -165,9 +164,8 @@ class Channels extends Component {
             ref={(c) => this.myChannelsList = c}
             items={allOrganizations}
             onSelect={(c) => {
-              this.props.navigatePush('voke.VideoDetails', {
-                video: c,
-                onSelectVideo,
+              this.props.navigatePush('voke.VideosTab', {
+                channel: c,
               });
             }}
             // onRefresh={this.handleRefresh}
@@ -179,9 +177,8 @@ class Channels extends Component {
             ref={(c) => this.featuredChannelsList = c}
             items={allOrganizations}
             onSelect={(c) => {
-              this.props.navigatePush('voke.VideoDetails', {
-                video: c,
-                onSelectVideo,
+              this.props.navigatePush('voke.VideosTab', {
+                channel: c,
               });
             }}
             // onRefresh={this.handleRefresh}
@@ -193,9 +190,8 @@ class Channels extends Component {
             ref={(c) => this.browseChannelsList = c}
             items={allOrganizations}
             onSelect={(c) => {
-              this.props.navigatePush('voke.VideoDetails', {
-                video: c,
-                onSelectVideo,
+              this.props.navigatePush('voke.VideosTab', {
+                channel: c,
               });
             }}
             // onRefresh={this.handleRefresh}
@@ -211,7 +207,6 @@ class Channels extends Component {
 
 Channels.propTypes = {
   ...NavPropTypes,
-  onSelectVideo: PropTypes.func,
 };
 
 const mapStateToProps = ({ auth, channels }) => ({

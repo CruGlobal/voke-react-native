@@ -45,8 +45,7 @@ class ChannelsList extends Component {
           align="start"
           justify="center"
           animation="slideInLeft">
-          <Image resizeMode="contain" source={{uri: channel.avatar.large}} style={styles.videoThumbnail}>
-          </Image>
+          <Image resizeMode="contain" source={{uri: channel.avatar.large}} style={styles.videoThumbnail} />
           <Flex self="stretch" direction="column" align="start" justify="center" style={styles.channelName}>
             <Text numberOfLines={1} style={styles.channelTitle}>
               {channel.name}

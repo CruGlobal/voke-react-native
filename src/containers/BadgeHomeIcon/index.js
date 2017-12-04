@@ -17,9 +17,10 @@ class BadgeHomeIcon extends Component {
     return (
       <Flex align="center" justify="center" style={styles.container} animation="bounceIn">
         <Image
-          resizeMode="contain"
+          resizeMode="cover"
+          resizeMethod="scale"
           source={isActive ? HOME_ICON : HOME_ICON_INACTIVE}
-          style={{ width: 30, height: 30 }}
+          style={styles.image}
         />
         {
           unReadBadgeCount ? (
