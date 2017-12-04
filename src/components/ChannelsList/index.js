@@ -57,6 +57,13 @@ class ChannelsList extends Component {
   }
 
   render() {
+    if (this.props.items.length === 0) {
+      return (
+        <Flex align="center" justify="center">
+          <Text>Nothing to show</Text>
+        </Flex>
+      );
+    }
     return (
       <FlatList
         ref={(c) => this.list = c}

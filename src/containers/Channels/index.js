@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { getVideos, getFeaturedVideos, getPopularVideos, getTags, getSelectedThemeVideos } from '../../actions/videos';
-import { getAllOrganizations } from '../../actions/channels';
+import { getAllOrganizations, getMyOrganizations, getFeaturedOrganizations } from '../../actions/channels';
 import Analytics from '../../utils/analytics';
 
 import nav, { NavPropTypes } from '../../actions/nav';
@@ -41,26 +41,33 @@ class Channels extends Component {
 
   componentDidMount() {
     // if (this.props.all.length === 0) {
-      this.props.dispatch(getAllOrganizations()).then(() => {
-        this.setState({allOrganizations: this.props.all});
-      }).catch((err)=> {
-        LOG(JSON.stringify(err));
-        if (err.error === 'Messenger not configured') {
-          setTimeout(() =>{
-            this.props.dispatch(getAllOrganizations()).then(() => {
-            }).catch((err)=> {
-              LOG(JSON.stringify(err));
-              if (err.error === 'Messenger not configured') {
-                if (this.props.user.first_name) {
-                  this.props.navigateResetToNumber();
-                } else {
-                  this.props.navigateResetToProfile();
-                }
+    this.props.dispatch(getAllOrganizations()).then(() => {
+      this.setState({allOrganizations: this.props.all});
+    }).catch((err)=> {
+      LOG(JSON.stringify(err));
+      if (err.error === 'Messenger not configured') {
+        setTimeout(() =>{
+          this.props.dispatch(getAllOrganizations()).then(() => {
+          }).catch((err)=> {
+            LOG(JSON.stringify(err));
+            if (err.error === 'Messenger not configured') {
+              if (this.props.user.first_name) {
+                this.props.navigateResetToNumber();
+              } else {
+                this.props.navigateResetToProfile();
               }
-            });
-          }, 3000);
-        }
-      });
+            }
+          });
+        }, 3000);
+      }
+    });
+    this.props.dispatch(getMyOrganizations()).then(()=>{
+      this.setState({myChannels: this.props.myChannels});
+    });
+    this.props.dispatch(getFeaturedOrganizations()).then(()=>{
+      this.setState({featuredChannels: this.props.featured});
+
+    });
     // } else {
     //   this.setState({ allOrganizations: this.props.all });
     // }
@@ -138,7 +145,7 @@ class Channels extends Component {
   // }
 
   render() {
-    const { allOrganizations, myChannels, browseChannels, featuredChannels } = this.state;
+    const { allOrganizations, myChannels, featuredChannels } = this.state;
     // LOG(allOrganizations);
     return (
       <View style={styles.container}>
@@ -162,7 +169,7 @@ class Channels extends Component {
           <Text style={styles.title}>MY CHANNELS</Text>
           <ChannelsList
             ref={(c) => this.myChannelsList = c}
-            items={allOrganizations}
+            items={myChannels}
             onSelect={(c) => {
               this.props.navigatePush('voke.VideosTab', {
                 channel: c,
@@ -175,7 +182,7 @@ class Channels extends Component {
           <Text style={styles.title}>FEATURED</Text>
           <ChannelsList
             ref={(c) => this.featuredChannelsList = c}
-            items={allOrganizations}
+            items={featuredChannels}
             onSelect={(c) => {
               this.props.navigatePush('voke.VideosTab', {
                 channel: c,
@@ -213,7 +220,6 @@ const mapStateToProps = ({ auth, channels }) => ({
   all: channels.all,
   user: auth.user,
   featured: channels.featured,
-  browse: channels.browse,
   myChannels: channels.myChannels,
   isTabSelected: auth.homeTabSelected === 2,
   pagination: channels.pagination,

@@ -16,10 +16,6 @@ const initialState = {
       hasMore: false,
       page: 1,
     },
-    browse: {
-      hasMore: false,
-      page: 1,
-    },
     myChannels: {
       hasMore: false,
       page: 1,
@@ -53,6 +49,44 @@ export default function channels(state = initialState, action) {
         pagination: {
           ...state.pagination,
           all: allPagination,
+        },
+      };
+    case REQUESTS.GET_MY_ORGANIZATIONS.SUCCESS:
+      // Setup pagination for videos
+      let myOrganizations = [];
+      if (action.query.page && action.query.page > 1) {
+        myOrganizations = state.all;
+      }
+      const myPagination = {
+        hasMore: action._links ? !!action._links.next : false,
+        page: action.query.page || 1,
+      };
+      myOrganizations = myOrganizations.concat(action.organizations || []);
+      return {
+        ...state,
+        myChannels: myOrganizations,
+        pagination: {
+          ...state.pagination,
+          myChannels: myPagination,
+        },
+      };
+    case REQUESTS.GET_FEATURED_ORGANIZATIONS.SUCCESS:
+      // Setup pagination for videos
+      let featuredOrganizations = [];
+      if (action.query.page && action.query.page > 1) {
+        featuredOrganizations = state.all;
+      }
+      const featuredPagination = {
+        hasMore: action._links ? !!action._links.next : false,
+        page: action.query.page || 1,
+      };
+      featuredOrganizations = featuredOrganizations.concat(action.organizations || []);
+      return {
+        ...state,
+        featured: featuredOrganizations,
+        pagination: {
+          ...state.pagination,
+          featured: featuredPagination,
         },
       };
     case LOGOUT:

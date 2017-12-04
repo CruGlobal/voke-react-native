@@ -223,6 +223,16 @@ export default {
     endpoint: API_URL + '/organizations',
     method: 'get',
   },
+  'GET_FEATURED_ORGANIZATIONS': {
+    endpoint: API_URL + '/organizations',
+    method: 'get',
+    query: { featured: true },
+  },
+  'GET_MY_ORGANIZATIONS': {
+    endpoint: API_URL + '/organizations',
+    method: 'get',
+    query: { follows: true },
+  },
   'ORGANIZATION_VIDEOS': {
     endpoint: API_URL + 'items/:orgId',
     method: 'get',

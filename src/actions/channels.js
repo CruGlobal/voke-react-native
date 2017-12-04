@@ -7,7 +7,19 @@ export function getAllOrganizations(query = {}) {
   };
 }
 
-// 
+export function getMyOrganizations(query = {}) {
+  return (dispatch) => {
+    return dispatch(callApi(REQUESTS.GET_MY_ORGANIZATIONS, query));
+  };
+}
+
+export function getFeaturedOrganizations(query = {}) {
+  return (dispatch) => {
+    return dispatch(callApi(REQUESTS.GET_FEATURED_ORGANIZATIONS, query));
+  };
+}
+
+//
 // export function getKickstarters(item) {
 //   return (dispatch) => {
 //     const query = {
