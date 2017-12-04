@@ -109,6 +109,6 @@ export default StyleSheet.create({
     width: DEFAULT.FULL_WIDTH - 110,
     height: 40,
     alignItems: 'center',
-    marginTop: 2,
+    marginTop: 10,
   },
 });
