@@ -6,6 +6,7 @@ const initialState = {
   all: [],
   featured: [],
   popular: [],
+  favorites: [],
   tags: [],
   selectedThemeVideos: [],
   channelVideos: [],
@@ -23,6 +24,10 @@ const initialState = {
       page: 1,
     },
     themes: {
+      hasMore: false,
+      page: 1,
+    },
+    favorites: {
       hasMore: false,
       page: 1,
     },
@@ -133,6 +138,26 @@ export default function videos(state = initialState, action) {
           popular: popularPagination,
         },
       };
+    case REQUESTS.GET_FAVORITES_VIDEOS.SUCCESS:
+      // Setup pagination for videos
+      let favoritesVideos = [];
+      if (action.query.page && action.query.page > 1) {
+        favoritesVideos = state.favorites;
+      }
+      const favoritesPagination = {
+        hasMore: action._links ? !!action._links.next : false,
+        page: action.query.page || 1,
+      };
+      favoritesVideos = favoritesVideos.concat(action.items || []);
+      return {
+        ...state,
+        favorites: favoritesVideos,
+        selectedThemeVideos: [],
+        pagination: {
+          ...state.pagination,
+          favorites: favoritesPagination,
+        },
+      };
     case REQUESTS.GET_VIDEOS_BY_TAG.SUCCESS:
       // Setup pagination for videos
       let themesVideos = [];
@@ -202,6 +227,23 @@ export default function videos(state = initialState, action) {
         pagination: {
           ...state.pagination,
           channel: channelPaginationFeatured,
+        },
+      };
+    case REQUESTS.GET_FAVORITES_ORGANIZATION_VIDEOS.SUCCESS:
+      // Setup pagination for videos
+      const channelVideosFavorites = getChannelVideos(state, action, 'favorites');
+      const channelPaginationFavorites = {
+        type: 'favorites',
+        hasMore: action._links ? !!action._links.next : false,
+        page: action.query.page || 1,
+      };
+      return {
+        ...state,
+        channelVideos: channelVideosFavorites,
+        selectedThemeVideos: [],
+        pagination: {
+          ...state.pagination,
+          channel: channelPaginationFavorites,
         },
       };
     case REQUESTS.GET_ORGANIZATION_VIDEOS_BY_TAG.SUCCESS:

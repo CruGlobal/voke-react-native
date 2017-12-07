@@ -1,6 +1,16 @@
 import callApi, { REQUESTS } from './api';
 import { API_URL } from '../api/utils';
 
+
+export function getVideo(videoId) {
+  return (dispatch) => {
+    const query = {
+      endpoint: `${API_URL}items/${videoId}`,
+    };
+    return dispatch(callApi(REQUESTS.GET_VIDEO, query));
+  };
+}
+
 export function getVideos(query = {}, channelId) {
   return (dispatch) => {
     if (channelId) {
@@ -40,6 +50,19 @@ export function getPopularVideos(query = {}, channelId) {
   };
 }
 
+export function getFavorites(query = {}, channelId) {
+  return (dispatch) => {
+    if (channelId) {
+      const newQuery = {
+        ...(query || {}),
+        organization_id: channelId,
+      };
+      return dispatch(callApi(REQUESTS.GET_FAVORITES_ORGANIZATION_VIDEOS, newQuery));
+    }
+    return dispatch(callApi(REQUESTS.GET_FAVORITES_VIDEOS, query));
+  };
+}
+
 export function getTags() {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.GET_TAGS));
@@ -69,5 +92,23 @@ export function getSelectedThemeVideos(tag, page, channelId) {
       return dispatch(callApi(REQUESTS.GET_ORGANIZATION_VIDEOS_BY_TAG, newQuery));
     }
     return dispatch(callApi(REQUESTS.GET_VIDEOS_BY_TAG, query));
+  };
+}
+
+export function favoriteVideo(videoId) {
+  return (dispatch) => {
+    const query = {
+      endpoint: `${API_URL}items/${videoId}/favorite`,
+    };
+    return dispatch(callApi(REQUESTS.FAVORITE_VIDEO, query));
+  };
+}
+
+export function unfavoriteVideo(videoId) {
+  return (dispatch) => {
+    const query = {
+      endpoint: `${API_URL}items/${videoId}/favorite`,
+    };
+    return dispatch(callApi(REQUESTS.UNFAVORITE_VIDEO, query));
   };
 }

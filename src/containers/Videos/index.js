@@ -3,9 +3,9 @@ import { View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { getVideos, getFeaturedVideos, getPopularVideos, getTags, getSelectedThemeVideos } from '../../actions/videos';
+import { getVideos, getFeaturedVideos, getPopularVideos, getTags, getSelectedThemeVideos, getFavorites } from '../../actions/videos';
 // import { getMe } from '../../actions/auth';
-import { getChannelSubscriberData, subscribeChannel, unsubscribeChannel } from '../../actions/auth';
+import { getChannel, getChannelSubscriberData, subscribeChannel, unsubscribeChannel } from '../../actions/channels';
 import Analytics from '../../utils/analytics';
 
 import nav, { NavPropTypes } from '../../actions/nav';
@@ -167,6 +167,11 @@ class Videos extends Component {
         this.updateVideoList(filter);
         return r;
       });
+    } else if (filter === 'favorites') {
+      this.props.dispatch(getFavorites(query, channelId)).then((r) => {
+        this.updateVideoList(filter);
+        return r;
+      });
     } else if (filter === 'themes') {
       if (this.state.videos.length === 0 || !this.state.selectedTag) {
         return;
@@ -213,6 +218,11 @@ class Videos extends Component {
         this.showThemes();
         return r;
       });
+    } else if (filter === 'favorites') {
+      return this.props.dispatch(getFavorites(undefined, channelId)).then((r) => {
+        this.updateVideoList(filter);
+        return r;
+      });
     }
     return Promise.resolve();
   }
@@ -223,35 +233,40 @@ class Videos extends Component {
       return;
     }
     if (type === 'featured') {
-      this.setState({ videos: this.props.featured});
+      this.setState({ videos: this.props.featured });
     } else if (type === 'all') {
-      this.setState({ videos: this.props.all});
+      this.setState({ videos: this.props.all });
     } else if (type === 'popular') {
-      this.setState({ videos: this.props.popular});
+      this.setState({ videos: this.props.popular });
+    } else if (type === 'favorites') {
+      this.setState({ videos: this.props.favorites });
     }
   }
 
   getSubscriberData() {
     // TODO: Get my subscription info for a channel
-    this.props.dispatch(getChannelSubscriberData(this.props.channel.id)).then((results) => {
-      const isSubscribed = false;
-      if (results && results._links && results._links.root) {
-        this.setState({
-          channelSubscribeData: {
-            id: '',
-            isSubscribed,
-            total: results._links.root.total_count,
-          },
-        });
-      } else {
-        this.setState({
-          channelSubscribeData: {
-            id: '',
-            isSubscribed,
-            total: 0,
-          },
-        });
-      }
+    this.props.dispatch(getChannel(this.props.channel.id)).then((channelResults) => {
+      this.props.dispatch(getChannelSubscriberData(this.props.channel.id)).then((results) => {
+        LOG('channelResults, results', channelResults, results);
+        const isSubscribed = false;
+        if (results && results._links && results._links.root) {
+          this.setState({
+            channelSubscribeData: {
+              id: '',
+              isSubscribed,
+              total: results._links.root.total_count,
+            },
+          });
+        } else {
+          this.setState({
+            channelSubscribeData: {
+              id: '',
+              isSubscribed,
+              total: 0,
+            },
+          });
+        }
+      });
     });
   }
   
@@ -350,9 +365,10 @@ class Videos extends Component {
                 animation="slideInUp"
               />
               <PillButton
-                text="Themes"
-                filled={selectedFilter === 'themes'}
-                onPress={() => this.handleFilter('themes')}
+                icon="favorite-border"
+                style={{ alignItems: 'center' }}
+                filled={selectedFilter === 'favorites'}
+                onPress={() => this.handleFilter('favorites')}
                 animation="slideInUp"
               />
             </Flex>
@@ -365,6 +381,7 @@ class Videos extends Component {
             this.props.navigatePush('voke.VideoDetails', {
               video: c,
               onSelectVideo,
+              onRefresh: this.handleRefresh,
             });
           }}
           onRefresh={this.handleRefresh}
@@ -397,6 +414,7 @@ const mapStateToProps = ({ auth, videos }) => ({
   user: auth.user,
   popular: videos.popular,
   featured: videos.featured,
+  favorites: videos.favorites,
   tags: videos.tags,
   selectedThemeVideos: videos.selectedThemeVideos,
   channelVideos: videos.channelVideos,

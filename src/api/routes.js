@@ -109,9 +109,19 @@ export default {
       client: CLIENT,
     },
   },
+  'GET_VIDEO': {
+    endpoint: API_URL + 'items/:videoId',
+  },
+  'FAVORITE_VIDEO': {
+    endpoint: API_URL + 'items/:videoId/favorite',
+    method: 'post',
+  },
+  'UNFAVORITE_VIDEO': {
+    endpoint: API_URL + 'items/:videoId/favorite',
+    method: 'delete',
+  },
   'VIDEOS': {
     endpoint: API_URL + 'items',
-    method: 'get',
   },
   'GET_POPULAR_VIDEOS': {
     endpoint: API_URL + 'items',
@@ -123,6 +133,11 @@ export default {
     endpoint: API_URL + 'items',
     method: 'get',
     query: { featured: true },
+    showApiLoading: true,
+  },
+  'GET_FAVORITES_VIDEOS': {
+    endpoint: API_URL + 'items',
+    query: { favorite: '#<Messenger::Favorite:0x007ffd7c4afb60>' },
     showApiLoading: true,
   },
   'GET_TAGS': {
@@ -249,6 +264,12 @@ export default {
     query: { featured: true },
     showApiLoading: true,
   },
+  'GET_FAVORITES_ORGANIZATION_VIDEOS': {
+    endpoint: API_URL + 'items',
+    method: 'get',
+    query: { favorite: '#<Messenger::Favorite:0x007ffd7c4afb60>' },    
+    showApiLoading: true,
+  },
   'GET_ORGANIZATION_VIDEOS_BY_TAG': {
     endpoint: API_URL + 'items',
     method: 'get',
@@ -256,6 +277,11 @@ export default {
   },
   'GET_ORGANIZATION_SUBSCRIBERS': {
     endpoint: API_URL + 'organizations/:orgId/subscriptions',
+    method: 'get',
+    showApiLoading: true,
+  },
+  'GET_ORGANIZATION': {
+    endpoint: API_URL + 'organizations/:orgId',
     method: 'get',
     showApiLoading: true,
   },

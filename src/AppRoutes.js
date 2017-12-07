@@ -104,7 +104,8 @@ export const MainTabRoutes = TabNavigator({
   initialRouteName: 'voke.Home',
   tabBarPosition: 'bottom',
   animationEnabled: false,
-  lazy: false, // Load all tabs right away
+  // lazy: false, // Load all tabs right away
+  lazy: true,
 });
 
 export const MainStackRoutes = StackNavigator({

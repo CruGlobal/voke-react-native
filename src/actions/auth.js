@@ -5,7 +5,6 @@ import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, ACTIVE_SCREEN, NO_BACKGROUND_A
 import callApi, { REQUESTS } from './api';
 import { establishDevice, setupSocketAction, closeSocketAction, destroyDevice, getDevices } from './socket';
 import { getConversations, getMessages } from './messages';
-import { getMyOrganizations } from './channels';
 import { API_URL } from '../api/utils';
 import Orientation from 'react-native-orientation';
 import DeviceInfo from 'react-native-device-info';
@@ -361,42 +360,6 @@ export function reportUserAction(report, messenger) {
     return dispatch(callApi(REQUESTS.REPORT_MESSENGER, query, data));
   };
 }
-
-export function getChannelSubscriberData(channelId) {
-  return (dispatch) => {
-    const query = {
-      endpoint: `${API_URL}organizations/${channelId}/subscriptions`,
-    };
-    return dispatch(callApi(REQUESTS.GET_ORGANIZATION_SUBSCRIBERS, query));
-  };
-}
-
-export function subscribeChannel(channelId) {
-  return (dispatch) => {
-    const query = {
-      endpoint: `${API_URL}organizations/${channelId}/subscriptions`,
-    };
-    return dispatch(callApi(REQUESTS.ORGANIZATION_SUBSCRIBE, query)).then((r) => {
-      dispatch(getMyOrganizations());
-      return r;
-    });
-  };
-}
-export function unsubscribeChannel(channelId, subscriptionId) {
-  return (dispatch) => {
-    if (!subscriptionId) {
-      return Promise.reject('NoSubscriptionId');
-    }
-    const query = {
-      endpoint: `${API_URL}organizations/${channelId}/subscriptions/${subscriptionId}`,
-    };
-    return dispatch(callApi(REQUESTS.ORGANIZATION_UNSUBSCRIBE, query)).then((r) => {
-      dispatch(getMyOrganizations());
-      return r;
-    });
-  };
-}
-
 
 export function openSettingsAction() {
   return () => {
