@@ -15,10 +15,6 @@ import LOGO from '../../../images/initial_voke.png';
 import CONSTANTS from '../../constants';
 
 class Login extends Component {
-  static navigatorStyle = {
-    navBarHidden: true,
-  };
-
   constructor(props) {
     super(props);
 

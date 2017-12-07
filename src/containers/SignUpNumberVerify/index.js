@@ -8,7 +8,6 @@ import { verifyMobile, createMobileVerification } from '../../actions/auth';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/nav';
-import theme from '../../theme';
 
 import { Flex, Text, Button } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
@@ -16,11 +15,6 @@ import SignUpHeader from '../../components/SignUpHeader';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 
 class SignUpNumberVerify extends Component {
-  static navigatorStyle = {
-    screenBackgroundColor: theme.primaryColor,
-    navBarHidden: true,
-  };
-
   constructor(props) {
     super(props);
 

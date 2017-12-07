@@ -256,24 +256,24 @@ export default {
     endpoint: API_URL + 'items',
     method: 'get',
     query: { popularity: true },
-    showApiLoading: true,
+    // showApiLoading: true,
   },
   'GET_FEATURED_ORGANIZATION_VIDEOS': {
     endpoint: API_URL + 'items',
     method: 'get',
     query: { featured: true },
-    showApiLoading: true,
+    // showApiLoading: true,
   },
   'GET_FAVORITES_ORGANIZATION_VIDEOS': {
     endpoint: API_URL + 'items',
     method: 'get',
     query: { favorite: '#<Messenger::Favorite:0x007ffd7c4afb60>' },    
-    showApiLoading: true,
+    // showApiLoading: true,
   },
   'GET_ORGANIZATION_VIDEOS_BY_TAG': {
     endpoint: API_URL + 'items',
     method: 'get',
-    showApiLoading: true,
+    // showApiLoading: true,
   },
   'GET_ORGANIZATION_SUBSCRIBERS': {
     endpoint: API_URL + 'organizations/:orgId/subscriptions',

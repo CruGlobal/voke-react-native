@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Image, TouchableOpacity, Keyboard, Alert, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { Image, TouchableOpacity, Keyboard, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { LoginManager, GraphRequestManager, GraphRequest, AccessToken } from 'react-native-fbsdk';
 import Analytics from '../../utils/analytics';
 
 import styles from './styles';
 import { getMe, facebookLoginAction, anonLogin } from '../../actions/auth';
-import theme from '../../theme';
 import ApiLoading from '../ApiLoading';
 import nav, { NavPropTypes } from '../../actions/nav';
 import { Flex, Text, Button } from '../../components/common';
@@ -16,23 +15,18 @@ import LOGO from '../../../images/initial_voke.png';
 import CONSTANTS from '../../constants';
 
 class LoginInput extends Component {
-  static navigatorStyle = {
-    navBarHidden: true,
-    screenBackgroundColor: theme.primaryColor,
-  };
-
   constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
       disabled: false,
-      // email: '',
-      // password: '',
-      // emailValidation: false,
+      email: '',
+      password: '',
+      emailValidation: false,
       // TODO: Remove these things
-      email: 'benlgauthier+voke1@gmail.com',
-      emailValidation: true,
-      password: 'password',
+      // email: 'benlgauthier+voke1@gmail.com',
+      // emailValidation: true,
+      // password: 'password',
     };
 
     this.login = this.login.bind(this);

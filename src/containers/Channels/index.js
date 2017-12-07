@@ -28,7 +28,6 @@ class Channels extends Component {
   }
 
   componentDidMount() {
-    // if (this.props.all.length === 0) {
     this.props.dispatch(getAllOrganizations()).catch((err)=> {
       LOG(JSON.stringify(err));
       if (err.error === 'Messenger not configured') {
@@ -48,9 +47,6 @@ class Channels extends Component {
     });
     this.props.dispatch(getMyOrganizations());
     this.props.dispatch(getFeaturedOrganizations());
-    // } else {
-    //   this.setState({ allOrganizations: this.props.all });
-    // }
     Analytics.screen('Channels');
   }
 
@@ -79,9 +75,11 @@ class Channels extends Component {
         <StatusBar hidden={false} />
         <Header
           left={
-            <HeaderIcon
-              image={vokeIcons['menu']}
-              onPress={() => this.props.navigatePush('voke.Menu')} />
+            CONSTANTS.IS_ANDROID ? undefined : (
+              <HeaderIcon
+                image={vokeIcons['menu']}
+                onPress={() => this.props.navigatePush('voke.Menu')} />
+            )
           }
           right={
             CONSTANTS.IS_ANDROID ? (

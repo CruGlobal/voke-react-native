@@ -304,6 +304,32 @@ class Videos extends Component {
     );
   }
 
+  renderHeaderLeft() {
+    const { onSelectVideo, channel } = this.props;
+    const showBack = !!onSelectVideo || !!channel;
+    if (CONSTANTS.IS_ANDROID && !showBack) {
+      return null;
+    } else if (CONSTANTS.IS_ANDROID && showBack) {
+      return (
+        <HeaderIcon
+          type="back"
+          onPress={() => this.props.navigateBack()} />
+      );
+    }
+    return (
+      <HeaderIcon
+        type={showBack ? 'back' : undefined}
+        image={vokeIcons['menu']}
+        onPress={() => {
+          if (showBack) {
+            this.props.navigateBack();
+          } else {
+            this.props.navigatePush('voke.Menu');
+          }
+        }} />
+    );
+  }
+
   render() {
     const { onSelectVideo, channel } = this.props;
     const { selectedFilter, videos } = this.state;
@@ -313,18 +339,7 @@ class Videos extends Component {
       <View style={styles.container}>
         <StatusBar hidden={false} />
         <Header
-          left={
-            <HeaderIcon
-              type={showBack ? 'back' : undefined}
-              image={vokeIcons['menu']}
-              onPress={() => {
-                if (showBack) {
-                  this.props.navigateBack();
-                } else {
-                  this.props.navigatePush('voke.Menu');
-                }
-              }} />
-          }
+          left={this.renderHeaderLeft()}
           right={
             CONSTANTS.IS_ANDROID && !showBack ? (
               <PopupMenu

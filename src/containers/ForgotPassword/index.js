@@ -14,10 +14,6 @@ import LOGO from '../../../images/initial_voke.png';
 import CONSTANTS from '../../constants';
 
 class ForgotPassword extends Component {
-  static navigatorStyle = {
-    navBarHidden: true,
-  };
-
   constructor(props) {
     super(props);
     this.state = {

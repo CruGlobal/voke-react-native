@@ -25,7 +25,6 @@ import SignUpNumber from './containers/SignUpNumber';
 import SignUpNumberVerify from './containers/SignUpNumberVerify';
 import SignUpWelcome from './containers/SignUpWelcome';
 import CountrySelect from './containers/CountrySelect';
-import ThemeSelect from './containers/ThemeSelect';
 import Help from './containers/Help';
 import ForgotPassword from './containers/ForgotPassword';
 import SignUpFBAccount from './containers/SignUpFBAccount';
@@ -36,7 +35,7 @@ import theme from './theme';
 
 // Do custom animations between pages
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
-const verticalPages = ['voke.Menu', 'voke.VideoDetails'];
+const verticalPages = ['voke.Menu', 'voke.VideoDetails', 'voke.CountrySelect'];
 const customAnimationFunc = () => ({
   screenInterpolator: (sceneProps) => {
     
@@ -108,7 +107,9 @@ export const MainTabRoutes = TabNavigator({
     iconStyle: { width: 60 },
     tabStyle: { backgroundColor: theme.secondaryColor },
     style: { backgroundColor: theme.secondaryColor },
+    scrollEnabled: false,
   },
+  swipeEnabled: false,
   initialRouteName: 'voke.Home',
   tabBarPosition: 'bottom',
   animationEnabled: false,
@@ -143,10 +144,6 @@ export const MainStackRoutes = StackNavigator({
     ...noGestures,
   },
   'voke.SignUpWelcome': { screen: SignUpWelcome },
-  'voke.ThemeSelect': {
-    screen: ThemeSelect,
-    ...noGestures,
-  },
   'voke.Menu': { screen: Menu },
   'voke.Contacts': { screen: Contacts },
   'voke.SelectFriend': { screen: SelectFriend },

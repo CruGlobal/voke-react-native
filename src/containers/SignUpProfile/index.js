@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, ScrollView, TouchableOpacity, Keyboard, KeyboardAvoidingView, Alert } from 'react-native';
+import { Image, ScrollView, Keyboard, KeyboardAvoidingView, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -15,10 +15,6 @@ import SignUpInput from '../../components/SignUpInput';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 
 class SignUpProfile extends Component {
-  static navigatorStyle = {
-    navBarHidden: true,
-  };
-
   constructor(props) {
     super(props);
 
