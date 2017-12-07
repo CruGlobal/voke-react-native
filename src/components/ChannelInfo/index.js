@@ -14,17 +14,16 @@ class ChannelInfo extends Component {
   }
 
   handleButtonPress() {
-    // if (isSubscribed) {
-    //   this.props.onUnsubscribe();
-    // } else {
-    //   this.props.onSubscribe();
-    // }
-    LOG('subscribe pressed');
+    if (this.props.subscribeData.isSubscribed) {
+      this.props.onUnsubscribe();
+    } else {
+      this.props.onSubscribe();
+    }
   }
 
   render() {
     const { channel, subscribeData } = this.props;
-    const isSubscribed = subscribeData ? subscribeData.isSubscribed : false; // TODO:
+    const isSubscribed = subscribeData.isSubscribed;
     const avatar = channel.avatar && channel.avatar.large ? channel.avatar.large : undefined;
     return (
       <Flex direction="row" style={styles.channel}>
@@ -34,7 +33,7 @@ class ChannelInfo extends Component {
           </Text>
           <Text style={styles.subscribers}>
             {
-              subscribeData ? `${subscribeData.num} subscribers` : '-'
+              subscribeData ? `${subscribeData.total} subscribers` : '-'
             }
           </Text>
           <Flex value={1} justify="end">
@@ -43,7 +42,6 @@ class ChannelInfo extends Component {
                 <Button
                   onPress={this.handleButtonPress}
                   text={isSubscribed ? 'Unsubscribe' : 'Subscribe'}
-                  type={isSubscribed ? 'secondary' : 'primary'}
                   style={styles.button}
                   buttonTextStyle={styles.buttonText}
                 />
@@ -63,7 +61,11 @@ class ChannelInfo extends Component {
 
 ChannelInfo.propTypes = {
   channel: PropTypes.object.isRequired,
-  subscribeData: PropTypes.object,
+  subscribeData: PropTypes.shape({
+    id: PropTypes.string,
+    isSubscribed: PropTypes.bool,
+    total: PropTypes.num,
+  }).isRequired,
   onSubscribe: PropTypes.func.isRequired,
   onUnsubscribe: PropTypes.func.isRequired,
 };

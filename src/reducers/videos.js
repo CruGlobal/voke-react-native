@@ -61,6 +61,10 @@ export default function videos(state = initialState, action) {
       return {
         ...state,
         ...incoming,
+        pagination: {
+          ...state.pagination,
+          ...(incoming.pagination || {}),
+        },
         channelVideos: [],
         selectedThemeVideos: [],
       };

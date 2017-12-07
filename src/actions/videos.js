@@ -6,9 +6,8 @@ export function getVideos(query = {}, channelId) {
     if (channelId) {
       const newQuery = {
         ...(query || {}),
-        endpoint: `${API_URL}items/${channelId}`,
+        organization_id: channelId,
       };
-      // TODO: Implement this API call
       return dispatch(callApi(REQUESTS.ORGANIZATION_VIDEOS, newQuery));
     }
     return dispatch(callApi(REQUESTS.VIDEOS, query));
@@ -20,9 +19,8 @@ export function getFeaturedVideos(query = {}, channelId) {
     if (channelId) {
       const newQuery = {
         ...(query || {}),
-        endpoint: `${API_URL}items/${channelId}`,
+        organization_id: channelId,
       };
-      // TODO: Implement this API call
       return dispatch(callApi(REQUESTS.GET_FEATURED_ORGANIZATION_VIDEOS, newQuery));
     }
     return dispatch(callApi(REQUESTS.GET_FEATURED_VIDEOS, query));
@@ -34,9 +32,8 @@ export function getPopularVideos(query = {}, channelId) {
     if (channelId) {
       const newQuery = {
         ...(query || {}),
-        endpoint: `${API_URL}items/${channelId}`,
+        organization_id: channelId,
       };
-      // TODO: Implement this API call
       return dispatch(callApi(REQUESTS.GET_POPULAR_ORGANIZATION_VIDEOS, newQuery));
     }
     return dispatch(callApi(REQUESTS.GET_POPULAR_VIDEOS, query));
@@ -67,7 +64,7 @@ export function getSelectedThemeVideos(tag, page, channelId) {
     if (channelId) {
       const newQuery = {
         ...(query || {}),
-        endpoint: `${API_URL}items/${channelId}`,
+        organization_id: channelId,
       };
       return dispatch(callApi(REQUESTS.GET_ORGANIZATION_VIDEOS_BY_TAG, newQuery));
     }

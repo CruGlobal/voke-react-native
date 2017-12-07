@@ -34,7 +34,11 @@ class Videos extends Component {
       previousFilter: '',
       videos: [],
       selectedTag: null,
-      channelSubscribeData: null,
+      channelSubscribeData: {
+        id: '',
+        isSubscribed: false,
+        total: 0,
+      },
     };
 
     this.handleNextPage = this.handleNextPage.bind(this);
@@ -228,21 +232,51 @@ class Videos extends Component {
   }
 
   getSubscriberData() {
+    // TODO: Get my subscription info for a channel
     this.props.dispatch(getChannelSubscriberData(this.props.channel.id)).then((results) => {
-      this.setState({ channelSubscribeData: results });
+      const isSubscribed = false;
+      if (results && results._links && results._links.root) {
+        this.setState({
+          channelSubscribeData: {
+            id: '',
+            isSubscribed,
+            total: results._links.root.total_count,
+          },
+        });
+      } else {
+        this.setState({
+          channelSubscribeData: {
+            id: '',
+            isSubscribed,
+            total: 0,
+          },
+        });
+      }
     });
   }
-
+  
   handleSubscribe() {
-    this.props.dispatch(subscribeChannel(this.props.channel.id)).then(() => {
-      this.getSubscriberData();
+    this.props.dispatch(subscribeChannel(this.props.channel.id)).then((results) => {
+      this.setState({
+        channelSubscribeData: {
+          id: results.id,
+          isSubscribed: true,
+          total: this.state.channelSubscribeData.total + 1,
+        },
+      });
     });
   }
   
   handleUnsubscribe() {
-    const subscriptionId = this.state.channelSubscribeData ? this.state.channelSubscribeData.id : null;
+    const subscriptionId = this.state.channelSubscribeData.id;
     this.props.dispatch(unsubscribeChannel(this.props.channel.id, subscriptionId)).then(() => {
-      this.getSubscriberData();
+      this.setState({
+        channelSubscribeData: {
+          id: '',
+          isSubscribed: false,
+          total: this.state.channelSubscribeData.total - 1,
+        },
+      });
     });
   }
 
@@ -254,7 +288,7 @@ class Videos extends Component {
         channel={channel}
         subscribeData={this.state.channelSubscribeData}
         onSubscribe={this.handleSubscribe}
-        onUnsubscrive={this.handleUnsubscribe}
+        onUnsubscribe={this.handleUnsubscribe}
       />
     );
   }

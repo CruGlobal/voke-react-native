@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
-import { getVideos, getFeaturedVideos, getPopularVideos, getTags, getSelectedThemeVideos } from '../../actions/videos';
 import { getAllOrganizations, getMyOrganizations, getFeaturedOrganizations } from '../../actions/channels';
 import Analytics from '../../utils/analytics';
 
@@ -26,29 +24,16 @@ class Channels extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      allOrganizations: [],
-      myChannels: [],
-      featuredChannels: [],
-      browseChannels: [],
-    };
-
     this.handleNextPage = this.handleNextPage.bind(this);
-    // this.handleFilter = this.handleFilter.bind(this);
-    this.handleRefresh = this.handleRefresh.bind(this);
-    // this.updateChannelList = this.updateChannelList.bind(this);
   }
 
   componentDidMount() {
     // if (this.props.all.length === 0) {
-    this.props.dispatch(getAllOrganizations()).then(() => {
-      this.setState({allOrganizations: this.props.all});
-    }).catch((err)=> {
+    this.props.dispatch(getAllOrganizations()).catch((err)=> {
       LOG(JSON.stringify(err));
       if (err.error === 'Messenger not configured') {
         setTimeout(() =>{
-          this.props.dispatch(getAllOrganizations()).then(() => {
-          }).catch((err)=> {
+          this.props.dispatch(getAllOrganizations()).catch((err)=> {
             LOG(JSON.stringify(err));
             if (err.error === 'Messenger not configured') {
               if (this.props.user.first_name) {
@@ -61,28 +46,16 @@ class Channels extends Component {
         }, 3000);
       }
     });
-    this.props.dispatch(getMyOrganizations()).then(()=>{
-      this.setState({myChannels: this.props.myChannels});
-    });
-    this.props.dispatch(getFeaturedOrganizations()).then(()=>{
-      this.setState({featuredChannels: this.props.featured});
-
-    });
+    this.props.dispatch(getMyOrganizations());
+    this.props.dispatch(getFeaturedOrganizations());
     // } else {
     //   this.setState({ allOrganizations: this.props.all });
     // }
     Analytics.screen('Channels');
   }
 
-
-  handleRefresh() {
-    return this.handleFilter(this.state.selectedFilter);
-  }
-
-  handleNextPage() {
+  handleNextPage(filter) {
     const pagination = this.props.pagination;
-    const filter = this.state.selectedFilter;
-    // LOG('next page', filter, pagination[filter]);
     if (!pagination[filter] || !pagination[filter].hasMore) {
       return;
     }
@@ -90,63 +63,17 @@ class Channels extends Component {
     const query = { page };
 
 
-    // if (filter === 'featured') {
-    //   this.props.dispatch(getFeaturedVideos(query)).then((r) => {
-    //     this.updateChannelList(filter);
-    //     return r;
-    //   });
-    // } else if (filter === 'myChannels') {
-    //   this.props.dispatch(getPopularVideos(query)).then((r) => {
-    //     this.updateChannelList(filter);
-    //     return r;
-    //   });
-    // } else if (filter === 'browse') {
-    //   this.props.dispatch(getVideos(query)).then((r) => {
-    //     this.updateChannelList(filter);
-    //     return r;
-    //   });
-    // }
+    if (filter === 'featured') {
+      this.props.dispatch(getFeaturedOrganizations(query));
+    } else if (filter === 'myChannels') {
+      this.props.dispatch(getMyOrganizations());
+    } else if (filter === 'all') {
+      this.props.dispatch(getAllOrganizations());
+    }
   }
 
-  // This method should return a Promise so that it can handle refreshing correctly
-  // handleFilter(filter) {
-  //   if (filter === 'featured') {
-  //     return this.props.dispatch(getFeaturedVideos()).then((r) => {
-  //       this.updateChannelList(filter);
-  //       return r;
-  //     });
-  //   } else if (filter === 'popular') {
-  //     return this.props.dispatch(getPopularVideos()).then((r) => {
-  //       this.updateChannelList(filter);
-  //       return r;
-  //     });
-  //   } else if (filter === 'all') {
-  //     return this.props.dispatch(getVideos()).then((r) => {
-  //       this.updateChannelList(filter);
-  //       return r;
-  //     });
-  //   } else if (filter === 'themes') {
-  //     return this.props.dispatch(getTags()).then((r) => {
-  //       this.showThemes();
-  //       return r;
-  //     });
-  //   }
-  //   return Promise.resolve();
-  // }
-
-  // updateChannelList(type) {
-  //   if (type === 'featured') {
-  //     this.setState({ videos: this.props.featured});
-  //   } else if (type === 'all') {
-  //     this.setState({ videos: this.props.all});
-  //   } else if (type === 'popular') {
-  //     this.setState({ videos: this.props.popular});
-  //   }
-  // }
-
   render() {
-    const { allOrganizations, myChannels, featuredChannels } = this.state;
-    // LOG(allOrganizations);
+    const { allChannels, myChannels, featuredChannels } = this.props;
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
@@ -175,34 +102,31 @@ class Channels extends Component {
                 channel: c,
               });
             }}
-            // onRefresh={this.handleRefresh}
-            onLoadMore={this.handleNextPage}
+            onLoadMore={() => this.handleNextPage('myChannels')}
           />
           <Flex self="stretch" style={styles.separator} />
           <Text style={styles.title}>FEATURED</Text>
           <ChannelsList
-            ref={(c) => this.featuredChannelsList = c}
+            ref={(c) => this.featuredList = c}
             items={featuredChannels}
             onSelect={(c) => {
               this.props.navigatePush('voke.VideosTab', {
                 channel: c,
               });
             }}
-            // onRefresh={this.handleRefresh}
-            onLoadMore={this.handleNextPage}
+            onLoadMore={() => this.handleNextPage('featured')}
           />
           <Flex self="stretch" style={styles.separator} />
           <Text style={styles.title}>BROWSE</Text>
           <ChannelsList
             ref={(c) => this.browseChannelsList = c}
-            items={allOrganizations}
+            items={allChannels}
             onSelect={(c) => {
               this.props.navigatePush('voke.VideosTab', {
                 channel: c,
               });
             }}
-            // onRefresh={this.handleRefresh}
-            onLoadMore={this.handleNextPage}
+            onLoadMore={() => this.handleNextPage('all')}
           />
           <Flex self="stretch" style={styles.separator} />
         </ScrollView>
@@ -217,9 +141,9 @@ Channels.propTypes = {
 };
 
 const mapStateToProps = ({ auth, channels }) => ({
-  all: channels.all,
   user: auth.user,
-  featured: channels.featured,
+  allChannels: channels.all,
+  featuredChannels: channels.featured,
   myChannels: channels.myChannels,
   isTabSelected: auth.homeTabSelected === 2,
   pagination: channels.pagination,

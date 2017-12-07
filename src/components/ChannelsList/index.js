@@ -2,9 +2,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FlatList, Image } from 'react-native';
-import styles, { THUMBNAIL_HEIGHT } from './styles';
+import styles from './styles';
 
-import { Flex, Text, Touchable, Icon, RefreshControl } from '../common';
+import { Flex, Text, Touchable, RefreshControl } from '../common';
 
 const ITEM_HEIGHT = 120;
 
@@ -37,6 +37,7 @@ class ChannelsList extends Component {
 
   renderRow({ item }) {
     const channel = item;
+    const avatar = channel.avatar || {};
     return (
       <Touchable highlight={false} activeOpacity={0.8} onPress={() => this.props.onSelect(channel)}>
         <Flex
@@ -45,7 +46,7 @@ class ChannelsList extends Component {
           align="start"
           justify="center"
           animation="slideInLeft">
-          <Image resizeMode="contain" source={{uri: channel.avatar.large}} style={styles.videoThumbnail} />
+          <Image resizeMode="contain" source={{ uri: avatar.large }} style={styles.videoThumbnail} />
           <Flex self="stretch" direction="column" align="start" justify="center" style={styles.channelName}>
             <Text numberOfLines={1} style={styles.channelTitle}>
               {channel.name}
@@ -91,7 +92,6 @@ class ChannelsList extends Component {
 
 ChannelsList.propTypes = {
   onLoadMore: PropTypes.func.isRequired, // Redux
-  onRefresh: PropTypes.func.isRequired, // Redux
   onSelect: PropTypes.func.isRequired, // Redux
   items: PropTypes.array.isRequired, // Redux
 };
