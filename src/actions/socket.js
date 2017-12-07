@@ -173,11 +173,6 @@ export function gotDeviceToken(token) {
     } else {
       dispatch(establishCableDevice(null));
     }
-    //
-    // setTimeout(() => {
-    //   dispatch(closeSocketAction());
-    // }, 3500);
-
   };
 }
 

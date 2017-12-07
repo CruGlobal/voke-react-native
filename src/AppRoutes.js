@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Easing, Animated } from 'react-native';
+import { Image } from 'react-native';
 import { StackNavigator, TabNavigator } from 'react-navigation';
 
 import BadgeHomeIcon from './containers/BadgeHomeIcon';
@@ -29,25 +29,33 @@ import ThemeSelect from './containers/ThemeSelect';
 import Help from './containers/Help';
 import ForgotPassword from './containers/ForgotPassword';
 import SignUpFBAccount from './containers/SignUpFBAccount';
-import AndroidReportModal from './containers/AndroidReportModal';
-import ShareModal from './containers/ShareModal';
 import Channels from './containers/Channels';
 
 
 import theme from './theme';
 
 // Do custom animations between pages
-// import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
-// const customAnimationFunc = () => ({
-//   screenInterpolator: (sceneProps) => {
-//     if (
-//       sceneProps.index === 0 &&
-//       sceneProps.scene.route.routeName !== 'MainNavigator' &&
-//       sceneProps.scenes.length > 2
-//     ) return null;
-//     return CardStackStyleInterpolator.forVertical(sceneProps);
-//   },
-// });
+import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
+const verticalPages = ['voke.Menu', 'voke.VideoDetails'];
+const customAnimationFunc = () => ({
+  screenInterpolator: (sceneProps) => {
+    
+    const from = sceneProps.scenes[0];
+    const to = sceneProps.scenes[1];
+    const current = sceneProps.scene.route.routeName;
+    // If navigating to a vertical slide page, don't move the old page away sideways (translateX)
+    if (from && to && from.route.routeName === current && verticalPages.includes(to.route.routeName)) {
+      return {
+        ...CardStackStyleInterpolator.forHorizontal(sceneProps),
+        transform: [{ translateX: 0 }],
+      };
+    }
+    if (current && verticalPages.includes(current)) {
+      return CardStackStyleInterpolator.forVertical(sceneProps);
+    }
+    return CardStackStyleInterpolator.forHorizontal(sceneProps);
+  },
+});
 
 import VIDEOS_ICON from '../images/video_icon.png';
 import CHANNELS_ICON from '../images/channelsIcon.png';
@@ -107,11 +115,10 @@ export const MainTabRoutes = TabNavigator({
   // lazy: false, // Load all tabs right away
   lazy: true,
 });
-
+const noGestures = { navigationOptions: { gesturesEnabled: false } };
 export const MainStackRoutes = StackNavigator({
   'voke.About': { screen: About },
   'voke.Acknowledgements': { screen: Acknowledgements },
-  'voke.AndroidReportModal': { screen: AndroidReportModal },
   'voke.CountrySelect': { screen: CountrySelect },
   'voke.ForgotPassword': { screen: ForgotPassword },
   'voke.Help': { screen: Help },
@@ -125,51 +132,35 @@ export const MainStackRoutes = StackNavigator({
   'voke.SignUpFBAccount': { screen: SignUpFBAccount },
   'voke.SignUpNumber': {
     screen: SignUpNumber,
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
+    ...noGestures,
   },
   'voke.SignUpNumberVerify': {
     screen: SignUpNumberVerify,
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
+    ...noGestures,
   },
   'voke.SignUpProfile': {
     screen: SignUpProfile,
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
+    ...noGestures,
   },
   'voke.SignUpWelcome': { screen: SignUpWelcome },
   'voke.ThemeSelect': {
     screen: ThemeSelect,
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
+    ...noGestures,
   },
   'voke.Menu': { screen: Menu },
   'voke.Contacts': { screen: Contacts },
   'voke.SelectFriend': { screen: SelectFriend },
   'voke.VideoDetails': {
     screen: VideoDetails,
-    headerMode: 'none',
-    mode: 'modal',
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
+    ...noGestures,
   },
-  'voke.ShareModal': { screen: ShareModal },
-
   'voke.VideosTab': { screen: VideosTab },
-  // DetailsModal: { screen: ModalNavigator },
   MainTabs: {
     screen: MainTabRoutes,
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
+    ...noGestures,
   },
 }, {
+  transitionConfig: customAnimationFunc,
   navigationOptions: {
     header: null,
   },

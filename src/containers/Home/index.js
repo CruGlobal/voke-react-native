@@ -146,17 +146,6 @@ class Home extends Component {
                 androidReportPerson: otherPerson,
                 androidReportData: data,
               });
-              // Navigation.showModal({
-              //   screen: 'voke.AndroidReportModal',
-              //   animationType: 'none',
-              //   passProps: {
-              //     onSubmitReport: (text) => this.handleSubmitReport(text, otherPerson, data),
-              //     onCancelReport: () => LOG('report canceled'),
-              //   },
-              //   navigatorStyle: {
-              //     screenBackgroundColor: 'rgba(0, 0, 0, 0.3)',
-              //   },
-              // });
             } else {
               AlertIOS.prompt(
                 'Please describe why you are reporting this person',

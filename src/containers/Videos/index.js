@@ -3,7 +3,7 @@ import { View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { getVideos, getFeaturedVideos, getPopularVideos, getTags, getSelectedThemeVideos, getFavorites } from '../../actions/videos';
+import { getVideos, getFeaturedVideos, getPopularVideos, getTags, getSelectedThemeVideos, getFavorites, clearChannelVideos } from '../../actions/videos';
 // import { getMe } from '../../actions/auth';
 import { getChannel, getChannelSubscriberData, subscribeChannel, unsubscribeChannel } from '../../actions/channels';
 import Analytics from '../../utils/analytics';
@@ -90,6 +90,10 @@ class Videos extends Component {
     }
 
     Analytics.screen('Videos');
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch(clearChannelVideos());
   }
 
   handleRefresh() {
@@ -247,25 +251,17 @@ class Videos extends Component {
     // TODO: Get my subscription info for a channel
     this.props.dispatch(getChannel(this.props.channel.id)).then((channelResults) => {
       this.props.dispatch(getChannelSubscriberData(this.props.channel.id)).then((results) => {
-        LOG('channelResults, results', channelResults, results);
-        const isSubscribed = false;
-        if (results && results._links && results._links.root) {
-          this.setState({
-            channelSubscribeData: {
-              id: '',
-              isSubscribed,
-              total: results._links.root.total_count,
-            },
-          });
-        } else {
-          this.setState({
-            channelSubscribeData: {
-              id: '',
-              isSubscribed,
-              total: 0,
-            },
-          });
-        }
+        const subscriberId = channelResults.subscription_id;
+        const isSubscribed = !!subscriberId;
+        const total = results && results._links && results._links.root ? results._links.root.total_count : 0;
+        
+        this.setState({
+          channelSubscribeData: {
+            id: subscriberId,
+            isSubscribed,
+            total,
+          },
+        });
       });
     });
   }

@@ -1,5 +1,6 @@
 import callApi, { REQUESTS } from './api';
 import { API_URL } from '../api/utils';
+import { CLEAR_CHANNEL_VIDEOS } from '../constants';
 
 
 export function getVideo(videoId) {
@@ -110,5 +111,11 @@ export function unfavoriteVideo(videoId) {
       endpoint: `${API_URL}items/${videoId}/favorite`,
     };
     return dispatch(callApi(REQUESTS.UNFAVORITE_VIDEO, query));
+  };
+}
+
+export function clearChannelVideos() {
+  return {
+    type: CLEAR_CHANNEL_VIDEOS,
   };
 }

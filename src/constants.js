@@ -22,6 +22,7 @@ export const ONBOARD_FLAG = 'app/ONBOARD_FLAG';
 export const SET_IN_SHARE = 'app/SET_IN_SHARE';
 export const SHOW_SHARE_MODAL = 'app/SHOW_SHARE_MODAL';
 export const MESSAGE_CREATED = 'app/MESSAGE_CREATED';
+export const CLEAR_CHANNEL_VIDEOS = 'app/CLEAR_CHANNEL_VIDEOS';
 
 export const IS_SMALL_ANDROID = Platform.OS === 'android' && DEFAULT.FULL_HEIGHT < 600;
 // export const IS_SMALL_ANDROID = true;

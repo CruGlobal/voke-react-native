@@ -1,6 +1,6 @@
 import { REHYDRATE } from 'redux-persist/constants';
 import { REQUESTS } from '../actions/api';
-import { LOGOUT } from '../constants';
+import { LOGOUT, CLEAR_CHANNEL_VIDEOS } from '../constants';
 
 const initialState = {
   all: [],
@@ -261,6 +261,19 @@ export default function videos(state = initialState, action) {
         pagination: {
           ...state.pagination,
           channel: channelPaginationTheme,
+        },
+      };
+    case CLEAR_CHANNEL_VIDEOS:
+      return {
+        ...state,
+        channelVideos: [],
+        pagination: {
+          ...state.pagination,
+          channel: {
+            type: 'all',
+            hasMore: false,
+            page: 1,
+          },
         },
       };
     case LOGOUT:

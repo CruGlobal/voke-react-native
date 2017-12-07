@@ -104,19 +104,6 @@ class Contacts extends Component {
       this.handleGetContacts();
     } else if (permission === Permissions.NOT_ASKED) {
       this.setState({ showPermissionModal: true });
-      // Navigation.showModal({
-      //   screen: 'voke.Modal',
-      //   animationType: 'fade',
-      //   passProps: {
-      //     getContacts: this.handleGetContacts,
-      //     onDismiss: this.handleDismissPermission,
-      //   },
-      //   navigatorStyle: {
-      //     screenBackgroundColor: 'rgba(0, 0, 0, 0.3)',
-      //   },
-      //   // Stop back button from closing modal https://github.com/wix/react-native-navigation/issues/250#issuecomment-254186394
-      //   overrideBackPress: true,
-      // });
     } else {
       // Change screen
     }

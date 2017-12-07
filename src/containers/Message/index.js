@@ -70,9 +70,9 @@ class Message extends Component {
         });
       });
     }
-    setTimeout(() => {
-      this.props.dispatch(startupAction());
-    }, 50);
+    // setTimeout(() => {
+    //   this.props.dispatch(startupAction());
+    // }, 50);
     
     BackHandler.addEventListener('hardwareBackPress', this.backHandler);
   }
