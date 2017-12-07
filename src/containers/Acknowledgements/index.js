@@ -83,12 +83,12 @@ class Acknowledgements extends Component {
               onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_IMAGE_PICKER),
             },
             {
-              name: 'react-native-navigation',
-              onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_NAVIGATION),
+              name: 'react-navigation',
+              onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NAVIGATION),
             },
             {
-              name: 'react-native-notifications',
-              onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_NOTIFICATIONS),
+              name: 'react-native-push-notifications',
+              onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_PUSH_NOTIFICATIONS),
             },
             {
               name: 'react-native-spinkit',
