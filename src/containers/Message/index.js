@@ -106,6 +106,7 @@ class Message extends Component {
   componentWillUnmount() {
     clearTimeout(this.timeoutSetYellow);
     BackHandler.removeEventListener('hardwareBackPress', this.backHandler);
+    this.props.dispatch({ type: SET_ACTIVE_CONVERSATION, id: null });
   }
 
   backHandler() {

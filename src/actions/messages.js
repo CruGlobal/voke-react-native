@@ -88,10 +88,13 @@ export function newMessageAction(message) {
       dispatch(vibrateAction());
       dispatch(playSoundAction());
 
-
-      const activeScreen = getState().auth.activeScreen;
+      // const activeScreen = getState().auth.activeScreen;
+      // const conversationId = getState().messages.activeConversationId;
+      // if (activeScreen === 'voke.Message' && message.conversation_id !== conversationId) {
+      //   dispatch({ type: UNREAD_CONV_DOT, show: true });
+      // }
       const conversationId = getState().messages.activeConversationId;
-      if (activeScreen === 'voke.Message' && message.conversation_id !== conversationId) {
+      if (conversationId && message.conversation_id !== conversationId) {
         dispatch({ type: UNREAD_CONV_DOT, show: true });
       }
     });

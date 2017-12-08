@@ -17,6 +17,7 @@ const initialState = {
   },
   unreadConversationDot: false,
   inShare: false,
+  activeConversationId: null,
 };
 
 function moveConversationFirst(conversations, conversationId) {

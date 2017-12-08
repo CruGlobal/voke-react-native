@@ -1,8 +1,9 @@
 
 import { StyleSheet } from 'react-native';
 import theme, { COLORS } from '../../theme';
+import { IS_SMALL_ANDROID } from '../../constants';
 
-const sideWidth = theme.fullWidth / 6;
+const sideWidth = IS_SMALL_ANDROID ? theme.fullWidth / 4 : theme.fullWidth / 6;
 const isAndroid = theme.isAndroid;
 
 export default StyleSheet.create({

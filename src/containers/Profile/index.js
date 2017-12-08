@@ -151,7 +151,7 @@ class Profile extends Component {
 
     if (this.state.imageUri) {
       image = { uri: this.state.imageUri} ;
-    } else if (this.props.user.avatar.large) {
+    } else if (this.props.user && this.props.user.avatar && this.props.user.avatar.large) {
       image = { uri: this.props.user.avatar.large };
     } else {
       image= VOKE_LOGO;

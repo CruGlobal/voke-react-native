@@ -54,44 +54,35 @@ function appStateChange(dispatch, getState, nextAppState) {
   // LOG('appStateChange', nextAppState, currentAppState, cableId);
   if (nextAppState === 'active' && (currentAppState === 'inactive' || currentAppState === 'background')) {
     LOG('App has come to the foreground!');
-    if (noBackgroundAction) {
-      LOG('doing nothing after coming from the background');
-      dispatch(setNoBackgroundAction(false));
-      currentAppState = nextAppState;
-      return;
-    }
+    // if (noBackgroundAction) {
+    //   LOG('doing nothing after coming from the background');
+    //   dispatch(setNoBackgroundAction(false));
+    //   currentAppState = nextAppState;
+    //   return;
+    // }
 
     // Put the ACTIVE actions in a short timeout so they don't run when the app switches quickly
-    clearTimeout(backgroundTimeout);
-    const activeScreen = getState().auth.activeScreen;
-    const conversationId = getState().messages.activeConversationId;
-    // LOG('activeScreen', activeScreen, conversationId);
-    if (activeScreen === 'voke.Home') {
-      const now = Date.now();
-      // const BACKGROUND_REFRESH_TIME = 5 * 60 * 1000; // 5 minutes
-      const BACKGROUND_REFRESH_TIME = 10 * 1000; // 10 seconds
-      if (now - appCloseTime > BACKGROUND_REFRESH_TIME) {
-        dispatch(getConversations());
-      }
-    } else if (activeScreen === 'voke.Message' && conversationId) {
-      dispatch(getMessages(conversationId));
+    const now = Date.now();
+    // const BACKGROUND_REFRESH_TIME = 5 * 60 * 1000; // 5 minutes
+    const BACKGROUND_REFRESH_TIME = 10 * 1000; // 10 seconds
+    if (now - appCloseTime > BACKGROUND_REFRESH_TIME) {
+      dispatch(getConversations());
     }
-    backgroundTimeout = setTimeout(() => {
-      // Restart sockets
-      if (cableId) {
-        dispatch(setupSocketAction(cableId));
-      } else {
-        dispatch(establishDevice());
-      }
-    }, BACKGROUND_TIMEOUT);
+
+    if (cableId) {
+      dispatch(setupSocketAction(cableId));
+    } else {
+      dispatch(establishDevice());
+    }
 
   } else if (nextAppState === 'background' && (currentAppState === 'inactive' || currentAppState === 'active')) {
     LOG('App is going into the background');
-    if (noBackgroundAction) {
-      LOG('doing nothing in the background');
-      currentAppState = nextAppState;
-      return;
-    }
+    // if (noBackgroundAction) {
+    //   LOG('doing nothing in the background');
+    //   dispatch(setNoBackgroundAction(false));
+    //   currentAppState = nextAppState;
+    //   return;
+    // }
 
     dispatch(closeSocketAction());
     appCloseTime = Date.now();

@@ -213,11 +213,17 @@ export function handleNotifications(state, notification) {
           const cId = link.substring(link.indexOf('conversations/') + 14, link.indexOf('/messages'));
           if (!cId) return;
 
-          const activeScreen = getState().auth.activeScreen;
+          // const activeScreen = getState().auth.activeScreen;
+          // const conversationId = getState().messages.activeConversationId;
+          // LOG('activeScreen, conversationId, cId', activeScreen, conversationId, cId);
+          
+          // if (activeScreen === 'voke.Message' && cId === conversationId) {
+          //   dispatch(getConversation(cId));
+          // } else {
+          //   dispatch(getConversations());
+          // }
           const conversationId = getState().messages.activeConversationId;
-          LOG('activeScreen, conversationId, cId', activeScreen, conversationId, cId);
-
-          if (activeScreen === 'voke.Message' && cId === conversationId) {
+          if (conversationId && cId === conversationId) {
             dispatch(getConversation(cId));
           } else {
             dispatch(getConversations());
@@ -244,28 +250,6 @@ export function handleNotifications(state, notification) {
           dispatch(navigateResetMessage({
             conversation: results.conversation,
           }));
-          // const activeScreen = getState().auth.activeScreen;
-          // const conversationId = getState().messages.activeConversationId;
-          // LOG('activeScreen, conversationId, cId', activeScreen, conversationId, cId);
-          // if (activeScreen === 'voke.Home') {
-          //   LOG('push and on home');
-          //   setTimeout(()=>{
-          //     dispatch(navigatePush('voke.Message', {
-          //       conversation: results.conversation,
-          //     }, {
-          //       animationType: 'none',
-          //     }));
-          //   }, 1000);
-          // } else if (activeScreen === 'voke.Message' && cId === conversationId) {
-          //   LOG('push and on message');
-          //   dispatch(navigateResetMessage({conversation: results.conversation}));
-
-          //   // return;
-          // } else {
-          //   LOG('push and else');
-          //   dispatch(navigateResetMessage({conversation: results.conversation}));
-          // }
-
         });
       }
     //   // NotificationsIOS.removeAllDeliveredNotifications();
