@@ -1,5 +1,6 @@
 import RNFetchBlob from 'react-native-fetch-blob';
 import { Linking, Platform, AppState, ToastAndroid, AsyncStorage, Alert } from 'react-native';
+import PushNotification from 'react-native-push-notification';
 
 import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, ACTIVE_SCREEN, NO_BACKGROUND_ACTION } from '../constants';
 import callApi, { REQUESTS } from './api';
@@ -20,6 +21,8 @@ let hasStartedUp = false;
 export function startupAction() {
   return (dispatch, getState) => {
     Orientation.lockToPortrait();
+    PushNotification.setApplicationIconBadgeNumber(0);
+
     if (hasStartedUp) return;
     
     hasStartedUp = true;
@@ -58,12 +61,6 @@ function appStateChange(dispatch, getState, nextAppState) {
   // LOG('appStateChange', nextAppState, currentAppState, cableId);
   if (nextAppState === 'active') {
     LOG('App has come to the foreground!');
-    // if (noBackgroundAction) {
-    //   LOG('doing nothing after coming from the background');
-    //   dispatch(setNoBackgroundAction(false));
-    //   currentAppState = nextAppState;
-    //   return;
-    // }
 
     // Put the ACTIVE actions in a short timeout so they don't run when the app switches quickly
     const now = Date.now();
@@ -73,32 +70,13 @@ function appStateChange(dispatch, getState, nextAppState) {
       dispatch(getConversations());
     }
 
-    // if (cableId) {
-    //   dispatch(setupSocketAction(cableId));
-    // } else {
-    //   dispatch(establishDevice());
-    // }
     dispatch(checkAndRunSockets());
 
-  } else if (nextAppState === 'background') {
-    LOG('App is going into the background');
-    // if (noBackgroundAction) {
-    //   LOG('doing nothing in the background');
-    //   dispatch(setNoBackgroundAction(false));
-    //   currentAppState = nextAppState;
-    //   return;
-    // }
+    // Clear out home screen badge when user comes back into the app
+    PushNotification.setApplicationIconBadgeNumber(0);    
 
-    dispatch(closeSocketAction());
-    appCloseTime = Date.now();
-  } else if (nextAppState === 'inactive') {
-    LOG('App is going inactive');
-    // if (noBackgroundAction) {
-    //   LOG('doing nothing in the background');
-    //   dispatch(setNoBackgroundAction(false));
-    //   currentAppState = nextAppState;
-    //   return;
-    // }
+  } else if (nextAppState === 'background' || nextAppState === 'inactive') {
+    LOG('App is going into the background');
 
     dispatch(closeSocketAction());
     appCloseTime = Date.now();

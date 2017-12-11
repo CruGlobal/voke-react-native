@@ -249,7 +249,9 @@ export function handleNotifications(state, notification) {
       }
     }
     if (state === 'background') {
-      PushNotification.setApplicationIconBadgeNumber(2);
+      const unReadBadgeCount = getState().messages.unReadBadgeCount;
+      
+      PushNotification.setApplicationIconBadgeNumber(unReadBadgeCount + 1);
 
       LOG('Background notification', data);
     }
