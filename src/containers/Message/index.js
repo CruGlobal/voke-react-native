@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { View, TextInput, KeyboardAvoidingView, Platform, Keyboard, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 
-import { startupAction } from '../../actions/auth';
 import { checkAndRunSockets } from '../../actions/socket';
 import { getMessages, createMessage, createTypeStateAction, destroyTypeStateAction, createMessageInteraction, markReadAction, getConversation } from '../../actions/messages';
 import Analytics from '../../utils/analytics';
@@ -63,14 +62,6 @@ class Message extends Component {
     Analytics.screen('Chat');
     this.props.dispatch({ type: SET_ACTIVE_CONVERSATION, id: this.props.conversation.id });
 
-    if (this.props.fetchConversation) {
-      this.props.dispatch(getConversation(this.props.conversation.id)).then((results) => {
-        LOG('get conversation inside messages', results);
-        this.setState({ conversation: results.conversation }, () => {
-          this.setConversationName();
-        });
-      });
-    }
     setTimeout(() => {
       this.props.dispatch(checkAndRunSockets());
     }, 50);
@@ -393,7 +384,6 @@ Message.propTypes = {
   typeState: PropTypes.bool.isRequired, // Redux
   conversation: PropTypes.object.isRequired,
   onSelectVideo: PropTypes.func,
-  fetchConversation: PropTypes.bool,
 };
 
 const mapStateToProps = ({ messages, auth }, { navigation }) => {

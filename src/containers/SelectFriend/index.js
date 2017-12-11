@@ -174,7 +174,7 @@ class SelectFriend extends Component {
         // LOG('create voke conversation results', results);
         this.props.dispatch(getConversation(results.id)).then((c) => {
           // LOG('get voke conversation results', c);
-          this.props.navigateResetMessage({conversation: c.conversation, goBackHome: true});
+          this.props.navigateResetMessage({ conversation: c.conversation });
         });
       });
     } else {

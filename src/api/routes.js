@@ -165,6 +165,7 @@ export default {
     endpoint: API_URL + 'me/conversations',
     method: 'get',
     mapResults: mapConversation,
+    showApiLoading: true,
   },
   'DELETE_CONVERSATION': {
     endpoint: API_URL + 'me/conversations/:id',
