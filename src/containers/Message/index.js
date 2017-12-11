@@ -58,12 +58,12 @@ class Message extends Component {
   componentDidMount() {
     this.setConversationName();
 
-    this.getMessages();
     Analytics.screen('Chat');
     this.props.dispatch({ type: SET_ACTIVE_CONVERSATION, id: this.props.conversation.id });
 
     setTimeout(() => {
       this.props.dispatch(checkAndRunSockets());
+      this.getMessages();
     }, 50);
 
     BackHandler.addEventListener('hardwareBackPress', this.backHandler);
@@ -158,7 +158,12 @@ class Message extends Component {
         this.createMessage(video);
         this.props.navigateBack({ animated: false });
       },
+      conversation: this.props.conversation,
     });
+  }
+
+  createMessageEmpty = () => {
+    this.createMessage();
   }
 
   createMessage(video) {
@@ -231,6 +236,38 @@ class Message extends Component {
     this.props.navigateBack();
   }
 
+  clearSelectedVideo = () => {
+    this.setState({ selectedVideo: null });
+  }
+
+  handleOnEndReached = () => {
+    this.setState({ showFlex: false });
+  }
+
+  handleSelectVideo = (m) => {
+    this.setState({ selectedVideo: m });
+  }
+
+  handleInputFocus = () => {
+    this.list.scrollEnd(true);
+    this.createTypeState();
+    this.handleChangeButtons(false);
+  }
+
+  handleInputBlur = () => {
+    this.list.scrollEnd(true);
+    this.destroyTypeState();
+    this.handleChangeButtons(true);
+  }
+
+  handleInputChange = (text) => {
+    this.setState({ text });
+  }
+
+  handleInputSizeChange = (e) => {
+    this.updateSize(e.nativeEvent.contentSize.height);
+  }
+
   render() {
     const { messages, me, typeState, pagination } = this.props;
     // Get ths conversation from the state if it exists, or from props
@@ -270,7 +307,7 @@ class Message extends Component {
           this.state.selectedVideo ? (
             <MessageVideoPlayer
               message={this.state.selectedVideo}
-              onClose={() => this.setState({ selectedVideo: null })}
+              onClose={this.clearSelectedVideo}
             />
           ) : null
         }
@@ -282,8 +319,8 @@ class Message extends Component {
           typeState={typeState}
           user={me}
           messengers={conversation.messengers}
-          onEndReached={()=> this.setState({ showFlex: false })}
-          onSelectVideo={(m) => this.setState({ selectedVideo: m })}
+          onEndReached={this.handleOnEndReached}
+          onSelectVideo={this.handleSelectVideo}
         />
         {
           Platform.OS === 'android' ? null : (
@@ -323,26 +360,16 @@ class Message extends Component {
           }
           <Flex direction="row" style={[styles.chatBox, newHeight]} align="center">
             <TextInput
-              onFocus={() => {
-                this.list.scrollEnd(true);
-                this.createTypeState();
-                this.handleChangeButtons(false);
-              }
-              }
-              onBlur={() => {
-                this.list.scrollEnd(true);
-                this.destroyTypeState();
-                this.handleChangeButtons(true);
-              }
-              }
+              onFocus={this.handleInputFocus}
+              onBlur={this.handleInputBlur}
               autoCapitalize="sentences"
               multiline={true}
               value={this.state.text}
               placeholder="New Message"
-              onChangeText={(text) => this.setState({ text })}
+              onChangeText={this.handleInputChange}
               placeholderTextColor={theme.primaryColor}
               underlineColorAndroid={COLORS.TRANSPARENT}
-              onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}
+              onContentSizeChange={this.handleInputSizeChange}
               style={[styles.chatInput, newHeight]}
               autoCorrect={true}
               returnKeyType="done"
@@ -355,7 +382,7 @@ class Message extends Component {
                     style={styles.sendButton}
                     icon="send"
                     iconStyle={styles.sendIcon}
-                    onPress={() => this.createMessage()}
+                    onPress={this.createMessageEmpty}
                   />
                 </Flex>
               ) : null

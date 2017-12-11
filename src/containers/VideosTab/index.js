@@ -12,6 +12,7 @@ class VideosTab extends Component {
         {...this.props}
         channel={this.props.channel}
         onSelectVideo={this.props.onSelectVideo}
+        conversation={this.props.conversation}
       />
     );
   }
@@ -21,6 +22,7 @@ VideosTab.propTypes = {
   ...NavPropTypes,
   channel: PropTypes.object,
   onSelectVideo: PropTypes.func,
+  conversation: PropTypes.object,
 };
 
 const mapStateToProps = (state, { navigation }) => ({

@@ -51,9 +51,6 @@ class Home extends Component {
 
   componentDidMount() {
     Analytics.screen('Home Chats');
-    setTimeout(() => {
-      this.props.dispatch(startupAction());
-    }, 50);
 
     this.props.dispatch(getConversations()).catch((err)=> {
       if (err.error === 'Messenger not configured') {
@@ -70,12 +67,13 @@ class Home extends Component {
 
     this.props.dispatch({ type: TAB_SELECTED, tab: 0 });
     setTimeout(() => {
+      this.props.dispatch(startupAction());
       this.props.dispatch(checkAndRunSockets());
     }, 50);
   }
 
   componentWillUnmount() {
-    this.props.dispatch(cleanupAction());
+    // this.props.dispatch(cleanupAction());
   }
 
   onNavigatorEvent(event) {

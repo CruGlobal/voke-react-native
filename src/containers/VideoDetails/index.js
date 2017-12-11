@@ -236,7 +236,11 @@ class VideoDetails extends Component {
                   { text: 'Add', onPress: () => {
                     this.props.onSelectVideo(video.id);
                     // Navigate back after selecting the video
-                    this.props.navigateBack();
+                    if (this.props.conversation) {
+                      this.props.navigateResetMessage({ conversation: this.props.conversation });
+                    } else {
+                      this.props.navigateBack();
+                    }
                   }},
                 ]
               );
@@ -262,6 +266,7 @@ VideoDetails.propTypes = {
   video: PropTypes.object,
   onSelectVideo: PropTypes.func,
   onRefresh: PropTypes.func,
+  conversation: PropTypes.object,
 };
 
 const mapStateToProps = (state, { navigation }) => ({

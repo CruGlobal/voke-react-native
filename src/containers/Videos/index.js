@@ -392,6 +392,7 @@ class Videos extends Component {
             this.props.navigatePush('voke.VideoDetails', {
               video: c,
               onSelectVideo,
+              conversation: this.props.conversation,
               onRefresh: this.handleRefresh,
             });
           }}
@@ -418,6 +419,7 @@ Videos.propTypes = {
   ...NavPropTypes,
   channel: PropTypes.object,
   onSelectVideo: PropTypes.func,
+  conversation: PropTypes.object,
 };
 
 const mapStateToProps = ({ auth, videos }) => ({

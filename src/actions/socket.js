@@ -193,7 +193,7 @@ export function gotDeviceToken(token) {
 export function handleNotifications(state, notification) {
   return (dispatch, getState) => {
     let data = notification.data;
-    // LOG(JSON.stringify(notification));
+    LOG('got notification', JSON.stringify(notification));
 
     // Get the namespace and link differently for ios and android
     let namespace;
@@ -204,17 +204,21 @@ export function handleNotifications(state, notification) {
         link = data.data.link;
       }
     } else if (Platform.OS === 'android') {
-      if (data && data.namespace) {
-        namespace = data.namespace;
-        if (data.link) {
-          link = data.link;
-        } else if (data.notification && data.notification.click_action) {
-          link = data.notification.click_action;
+      data = JSON.parse(notification.message);
+      if (data) {
+        data = data.notification;
+        if (data && data.namespace) {
+          namespace = data.namespace;
+          if (data.link) {
+            link = data.link;
+          } else if (data.notification && data.notification.click_action) {
+            link = data.notification.click_action;
+          }
         }
       }
     }
 
-    LOG('notification', state, data, link);
+    LOG('notification', state, data, link, namespace);
 
     if (state === 'foreground') {
       LOG('Foreground notification', data);
@@ -286,6 +290,7 @@ export function establishDevice() {
       },
       // (required) Called when a remote or local notification is opened or received
       onNotification: function(notification) {
+        LOG('onNotification came in', notification);
         let state;
         if (notification && notification.foreground && !notification.userInteraction) {
           state = 'foreground';

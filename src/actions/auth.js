@@ -3,7 +3,7 @@ import { Linking, Platform, AppState, ToastAndroid, AsyncStorage, Alert } from '
 
 import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, ACTIVE_SCREEN, NO_BACKGROUND_ACTION } from '../constants';
 import callApi, { REQUESTS } from './api';
-import { establishDevice, setupSocketAction, closeSocketAction, destroyDevice, getDevices } from './socket';
+import { establishDevice, setupSocketAction, closeSocketAction, destroyDevice, getDevices, checkAndRunSockets } from './socket';
 import { getConversations, getMessages } from './messages';
 import { API_URL } from '../api/utils';
 import Orientation from 'react-native-orientation';
@@ -18,14 +18,12 @@ let hasStartedUp = false;
 
 export function startupAction() {
   return (dispatch, getState) => {
+    Orientation.lockToPortrait();
     if (hasStartedUp) return;
-    // dispatch(getMe());
-
-    hasStartedUp = true;
+    
     dispatch(establishDevice());
     appStateChangeFn = appStateChange.bind(null, dispatch, getState);
     AppState.addEventListener('change', appStateChangeFn);
-    Orientation.lockToPortrait();
   };
 }
 
@@ -69,11 +67,12 @@ function appStateChange(dispatch, getState, nextAppState) {
       dispatch(getConversations());
     }
 
-    if (cableId) {
-      dispatch(setupSocketAction(cableId));
-    } else {
-      dispatch(establishDevice());
-    }
+    // if (cableId) {
+    //   dispatch(setupSocketAction(cableId));
+    // } else {
+    //   dispatch(establishDevice());
+    // }
+    dispatch(checkAndRunSockets());
 
   } else if (nextAppState === 'background') {
     LOG('App is going into the background');
@@ -163,6 +162,7 @@ export function logoutAction() {
           }
         });
       }
+      dispatch(cleanupAction());
       dispatch({ type: LOGOUT });
       resolve();
       AsyncStorage.clear();
