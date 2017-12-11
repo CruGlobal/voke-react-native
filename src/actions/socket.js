@@ -23,6 +23,13 @@ const WEBSOCKET_STATES = {
 
 let ws = null;
 
+export function checkAndRunSockets() {
+  return (dispatch, getState) => {
+    if (ws && ws.readyState && ws.readyState === WEBSOCKET_STATES.OPEN) return;
+    dispatch(setupSocketAction(getState().auth.cableId));
+  };
+}
+
 export function setupSocketAction(cableId) {
   return (dispatch, getState) => {
     if (!cableId) return;
@@ -216,7 +223,7 @@ export function handleNotifications(state, notification) {
           // const activeScreen = getState().auth.activeScreen;
           // const conversationId = getState().messages.activeConversationId;
           // LOG('activeScreen, conversationId, cId', activeScreen, conversationId, cId);
-          
+
           // if (activeScreen === 'voke.Message' && cId === conversationId) {
           //   dispatch(getConversation(cId));
           // } else {
@@ -268,6 +275,7 @@ export function establishDevice() {
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
       onRegister: function(token) {
+        LOG('in push notification register');
         dispatch(gotDeviceToken(token.token));
       },
       // (required) Called when a remote or local notification is opened or received

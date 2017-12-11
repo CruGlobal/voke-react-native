@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { IndicatorViewPager, PagerDotIndicator} from 'rn-viewpager';
 import Analytics from '../../utils/analytics';
 import PropTypes from 'prop-types';
+import Orientation from 'react-native-orientation';
 
 import ONBOARD_1 from '../../../images/onboard1.png';
 import ONBOARD_2 from '../../../images/onboard2.png';
@@ -46,6 +47,7 @@ class SignUpWelcome extends Component {
 
   componentDidMount() {
     Analytics.screen('Welcome Onboarding');
+    Orientation.lockToPortrait();
   }
 
   renderDotIndicator() {

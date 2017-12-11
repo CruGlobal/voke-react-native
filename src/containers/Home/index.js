@@ -7,6 +7,7 @@ import { TAB_SELECTED } from '../../constants';
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/nav';
 import { startupAction, cleanupAction, blockMessenger, reportUserAction } from '../../actions/auth';
+import { checkAndRunSockets } from '../../actions/socket';
 import  Analytics from '../../utils/analytics';
 
 import { getConversations, deleteConversation, getConversationsPage } from '../../actions/messages';
@@ -68,6 +69,9 @@ class Home extends Component {
     });
 
     this.props.dispatch({ type: TAB_SELECTED, tab: 0 });
+    setTimeout(() => {
+      this.props.dispatch(checkAndRunSockets());
+    }, 50);
   }
 
   componentWillUnmount() {
@@ -166,7 +170,7 @@ class Home extends Component {
 
   render() {
     const cLength = this.props.conversations.length;
-    
+
 
     return (
       <View style={styles.container}>

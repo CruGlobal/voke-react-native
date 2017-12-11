@@ -4,6 +4,7 @@ import { View, TextInput, KeyboardAvoidingView, Platform, Keyboard, BackHandler 
 import { connect } from 'react-redux';
 
 import { startupAction } from '../../actions/auth';
+import { checkAndRunSockets } from '../../actions/socket';
 import { getMessages, createMessage, createTypeStateAction, destroyTypeStateAction, createMessageInteraction, markReadAction, getConversation } from '../../actions/messages';
 import Analytics from '../../utils/analytics';
 
@@ -57,7 +58,7 @@ class Message extends Component {
 
   componentDidMount() {
     this.setConversationName();
-    
+
     this.getMessages();
     Analytics.screen('Chat');
     this.props.dispatch({ type: SET_ACTIVE_CONVERSATION, id: this.props.conversation.id });
@@ -70,10 +71,10 @@ class Message extends Component {
         });
       });
     }
-    // setTimeout(() => {
-    //   this.props.dispatch(startupAction());
-    // }, 50);
-    
+    setTimeout(() => {
+      this.props.dispatch(checkAndRunSockets());
+    }, 50);
+
     BackHandler.addEventListener('hardwareBackPress', this.backHandler);
   }
 
@@ -125,7 +126,7 @@ class Message extends Component {
     let messengers = conversation.messengers || [];
     let otherPerson = messengers.find((m) => !m.bot && (myId != m.id));
     const title = otherPerson ? otherPerson.first_name : 'Voke';
-    
+
     this.setState({ title });
   }
 

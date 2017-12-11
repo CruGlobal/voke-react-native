@@ -44,7 +44,7 @@ let appCloseTime;
 // TODO: It would be nice to somehow do this in the background and not block the UI when coming back into the app
 function appStateChange(dispatch, getState, nextAppState) {
   const { cableId, token, noBackgroundAction } = getState().auth;
-
+  LOG(nextAppState);
   // Sometimes this runs when logging out and causes a network error
   // Only run it when there is a valid token
   if (!token) {
@@ -52,7 +52,7 @@ function appStateChange(dispatch, getState, nextAppState) {
   }
 
   // LOG('appStateChange', nextAppState, currentAppState, cableId);
-  if (nextAppState === 'active' && (currentAppState === 'inactive' || currentAppState === 'background')) {
+  if (nextAppState === 'active') {
     LOG('App has come to the foreground!');
     // if (noBackgroundAction) {
     //   LOG('doing nothing after coming from the background');
@@ -75,8 +75,19 @@ function appStateChange(dispatch, getState, nextAppState) {
       dispatch(establishDevice());
     }
 
-  } else if (nextAppState === 'background' && (currentAppState === 'inactive' || currentAppState === 'active')) {
+  } else if (nextAppState === 'background') {
     LOG('App is going into the background');
+    // if (noBackgroundAction) {
+    //   LOG('doing nothing in the background');
+    //   dispatch(setNoBackgroundAction(false));
+    //   currentAppState = nextAppState;
+    //   return;
+    // }
+
+    dispatch(closeSocketAction());
+    appCloseTime = Date.now();
+  } else if (nextAppState === 'inactive') {
+    LOG('App is going inactive');
     // if (noBackgroundAction) {
     //   LOG('doing nothing in the background');
     //   dispatch(setNoBackgroundAction(false));
