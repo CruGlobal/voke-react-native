@@ -22,6 +22,7 @@ export function startupAction() {
     Orientation.lockToPortrait();
     if (hasStartedUp) return;
     
+    hasStartedUp = true;
     dispatch(establishDevice());
     if (appStateChangeFn) {
       AppState.removeEventListener('change', appStateChangeFn);
