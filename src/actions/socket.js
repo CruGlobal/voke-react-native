@@ -26,7 +26,13 @@ let ws = null;
 export function checkAndRunSockets() {
   return (dispatch, getState) => {
     if (ws && ws.readyState && ws.readyState === WEBSOCKET_STATES.OPEN) return;
-    dispatch(setupSocketAction(getState().auth.cableId));
+    if (getState().auth.cableId) {
+      dispatch(setupSocketAction(getState().auth.cableId));
+    } else if (getState().auth.pushToken) {
+      dispatch(establishCableDevice(getState().auth.pushToken));
+    } else {
+      dispatch(establishCableDevice(null));
+    }
   };
 }
 

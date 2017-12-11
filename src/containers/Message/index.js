@@ -248,7 +248,7 @@ class Message extends Component {
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === 'android' ? undefined : 'padding'}
-        keyboardVerticalOffset={Platform.OS === 'android' ? undefined : 64}
+        keyboardVerticalOffset={Platform.OS === 'android' ? undefined : 0}
       >
         <Header
           left={
