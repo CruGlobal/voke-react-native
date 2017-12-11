@@ -204,15 +204,24 @@ export function handleNotifications(state, notification) {
         link = data.data.link;
       }
     } else if (Platform.OS === 'android') {
-      data = JSON.parse(notification.message);
-      if (data) {
-        data = data.notification;
-        if (data && data.namespace) {
-          namespace = data.namespace;
-          if (data.link) {
-            link = data.link;
-          } else if (data.notification && data.notification.click_action) {
-            link = data.notification.click_action;
+      if (data && data.namespace) {
+        namespace = data.namespace;
+        if (data.link) {
+          link = data.link;
+        } else if (data.notification && data.notification.click_action) {
+          link = data.notification.click_action;
+        }
+      } else if (notification.message && notification.message.indexOf('{') === 0) {
+        data = JSON.parse(notification.message);
+        if (data) {
+          data = data.notification;
+          if (data && data.namespace) {
+            namespace = data.namespace;
+            if (data.link) {
+              link = data.link;
+            } else if (data.notification && data.notification.click_action) {
+              link = data.notification.click_action;
+            }
           }
         }
       }
