@@ -6,6 +6,7 @@ import callApi, { REQUESTS } from './api';
 import { establishDevice, setupSocketAction, closeSocketAction, destroyDevice, getDevices, checkAndRunSockets } from './socket';
 import { getConversations, getMessages } from './messages';
 import { API_URL } from '../api/utils';
+import { isArray } from '../utils/common';
 import Orientation from 'react-native-orientation';
 import DeviceInfo from 'react-native-device-info';
 
@@ -150,15 +151,17 @@ export function logoutAction() {
       if (token) {
         dispatch(getDevices()).then((results) => {
           LOG('get devices results', results);
-          // Pass the token into this function because the LOGOUT action will clear it out
-          const deviceIds = results.devices.map((d) => d.id);
-          if (deviceIds.length > 0) {
-            dispatch(callApi(REQUESTS.REVOKE_TOKEN, {
-              access_token: token,
-            }, {
-              device_ids: deviceIds,
-              token: null,
-            }));
+          if (results && isArray(results.devices)) {
+            // Pass the token into this function because the LOGOUT action will clear it out
+            const deviceIds = results.devices.map((d) => d.id);
+            if (deviceIds.length > 0) {
+              dispatch(callApi(REQUESTS.REVOKE_TOKEN, {
+                access_token: token,
+              }, {
+                device_ids: deviceIds,
+                token: null,
+              }));
+            }
           }
         });
       }
