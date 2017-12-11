@@ -23,7 +23,11 @@ export function startupAction() {
     if (hasStartedUp) return;
     
     dispatch(establishDevice());
-    appStateChangeFn = appStateChange.bind(null, dispatch, getState);
+    if (appStateChangeFn) {
+      AppState.removeEventListener('change', appStateChangeFn);
+    } else {
+      appStateChangeFn = appStateChange.bind(null, dispatch, getState);
+    }
     AppState.addEventListener('change', appStateChangeFn);
   };
 }

@@ -1,3 +1,4 @@
+import lodashUniqBy from 'lodash/uniqBy';
 import { REHYDRATE } from 'redux-persist/constants';
 import { REQUESTS } from '../actions/api';
 import { LOGOUT, NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ, SET_ACTIVE_CONVERSATION, UNREAD_CONV_DOT, SET_IN_SHARE, MESSAGE_CREATED } from '../constants';
@@ -32,6 +33,10 @@ function moveConversationFirst(conversations, conversationId) {
     reorderItems.unshift(conversationToMoveToFront);
   }
   return reorderItems;
+}
+
+function removeDuplicateMessages(msgs = []) {
+  return lodashUniqBy(msgs, 'id');
 }
 
 export default function messages(state = initialState, action) {
@@ -103,6 +108,7 @@ export default function messages(state = initialState, action) {
         hasMore: action._links ? !!action._links.next : false,
         page: action.query.page || 1,
       };
+      newMessages = removeDuplicateMessages(newMessages);
       return {
         ...state,
         messages: { ...state.messages, [conversationId]: newMessages },
@@ -140,6 +146,7 @@ export default function messages(state = initialState, action) {
       if (newMessagesWithDeleted[conversationIdToDelete]) {
         delete newMessagesWithDeleted[conversationIdToDelete];
       }
+      newMessagesWithDeleted = removeDuplicateMessages(newMessagesWithDeleted);
       return {
         ...state,
         messages: newMessagesWithDeleted,
@@ -187,17 +194,19 @@ export default function messages(state = initialState, action) {
 
       // Move the conversation to the first item in the list
       msgPreviewConversations = moveConversationFirst(msgPreviewConversations, conversationNewMessageId);
+      let newCreatedMessages = [
+        action.message,
+        // Spread over an existing array or force it to a blank array if it doesnt exist
+        ...(state.messages[conversationNewMessageId] || []),
+      ];
+      newCreatedMessages = removeDuplicateMessages(newCreatedMessages);
 
       return {
         ...state,
         conversations: msgPreviewConversations,
         messages: {
           ...state.messages,
-          [conversationNewMessageId]: [
-            action.message,
-            // Spread over an existing array or force it to a blank array if it doesnt exist
-            ...(state.messages[conversationNewMessageId] || []),
-          ],
+          [conversationNewMessageId]: newCreatedMessages,
         },
         unReadBadgeCount: currentBadgeCount >= 0 ? currentBadgeCount : 0,
       };

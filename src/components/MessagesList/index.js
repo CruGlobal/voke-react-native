@@ -168,7 +168,7 @@ class MessagesList extends Component {
         ListFooterComponent={this.renderLoadMore}
         keyExtractor={(item) => item.id}
         style={{ transform: [{ scaleY: -1 }]}}
-        initialNumToRender={8}
+        initialNumToRender={CONSTANTS.PAGE_SIZE + 1}
         data={this.props.items}
         renderItem={this.renderRow}
         contentContainerStyle={styles.content}
