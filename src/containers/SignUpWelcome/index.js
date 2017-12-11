@@ -67,6 +67,7 @@ class SignUpWelcome extends Component {
     return (
       <Button
         type="transparent"
+        hitSlop={{top: 30, bottom: 30, left: 30, right: 30}}
         onPress={() => this.handleNextPage(this.state.selectedPage)}
         style={{position: 'absolute', bottom: 40, right: 30, padding: 10}}
       >

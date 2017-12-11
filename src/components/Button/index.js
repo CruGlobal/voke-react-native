@@ -50,7 +50,7 @@ export default class Button extends Component {
   }
 
   render() {
-    const { type, image, text, icon, iconType, children, disabled, style = {}, buttonTextStyle = {}, iconStyle = {}, ...rest } = this.props;
+    const { type, hitSlop, image, text, icon, iconType, children, disabled, style = {}, buttonTextStyle = {}, iconStyle = {}, ...rest } = this.props;
     let content = children;
     if (!children) {
       let textComp = null;
@@ -92,7 +92,7 @@ export default class Button extends Component {
     const isDisabled = disabled || this.state.clickedDisabled;
     return (
       <Touchable {...rest} disabled={isDisabled} onPress={this.handlePress}>
-        <View style={[getTypeStyle(type), disabled ? styles.disabled : null, style]}>
+        <View hitSlop={hitSlop} style={[getTypeStyle(type), disabled ? styles.disabled : null, style]}>
           {content}
         </View>
       </Touchable>
@@ -107,6 +107,7 @@ Button.propTypes = {
   text: PropTypes.string,
   icon: PropTypes.string,
   iconType: PropTypes.string,
+  hitSlop: PropTypes.object,
   children: PropTypes.element,
   disabled: PropTypes.bool,
   style: PropTypes.oneOfType(styleTypes),
