@@ -69,9 +69,10 @@ class SignUpWelcome extends Component {
     return (
       <Button
         type="transparent"
+        text=""
         hitSlop={{top: 30, bottom: 30, left: 30, right: 30}}
         onPress={() => this.handleNextPage(this.state.selectedPage)}
-        style={{position: 'absolute', bottom: 40, right: 30, padding: 10}}
+        style={{padding: 10}}
       >
         <VokeIcon style={{transform: [{ scaleX: -1 }]}} name="back"></VokeIcon>
       </Button>
@@ -102,12 +103,18 @@ class SignUpWelcome extends Component {
                   />
                 </Flex>
               </Flex>
+              <Flex style={{position: 'absolute', bottom: 40, right: 40 }}>
+                {this.renderSkip()}
+              </Flex>
             </View>
             <View style={styles.onboardingPage}>
               <Flex value={1} direction="column" align="center" justify="center" >
                 <Flex value={1} align="center" justify="center">
                   <Image resizeMode="cover" source={ONBOARD_2} style={styles.onboardFull} />
                 </Flex>
+              </Flex>
+              <Flex style={{position: 'absolute', bottom: 40, right: 40 }}>
+                {this.renderSkip()}
               </Flex>
             </View>
             <View style={styles.onboardingPage}>
@@ -116,12 +123,18 @@ class SignUpWelcome extends Component {
                   <Image resizeMode="cover" source={ONBOARD_3} style={styles.onboardFull} />
                 </Flex>
               </Flex>
+              <Flex style={{position: 'absolute', bottom: 40, right: 40 }}>
+                {this.renderSkip()}
+              </Flex>
             </View>
             <View style={styles.onboardingPage}>
               <Flex value={1} direction="column" align="center" justify="center" >
                 <Flex value={1} align="center" justify="center">
                   <Image resizeMode="cover" source={ONBOARD_4} style={styles.onboardFull} />
                 </Flex>
+              </Flex>
+              <Flex style={{position: 'absolute', bottom: 40, right: 40 }}>
+                {this.renderSkip()}
               </Flex>
             </View>
             <View style={styles.onboardingPage}>
@@ -167,7 +180,6 @@ class SignUpWelcome extends Component {
             // </Flex>
           }
         </View>
-        {this.renderSkip()}
       </View>
     );
   }
