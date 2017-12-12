@@ -145,7 +145,7 @@ class Message extends Component {
   handleAddKickstarter() {
     this.props.navigatePush('voke.KickstartersTab', {
       onSelectKickstarter: (item) => {
-        this.props.navigateBack({ animated: true });
+        this.props.navigateBack();
         this.setState({ text: item });
       },
       latestItem: this.state.latestItem,
@@ -156,7 +156,6 @@ class Message extends Component {
     this.props.navigatePush('voke.VideosTab', {
       onSelectVideo: (video) => {
         this.createMessage(video);
-        this.props.navigateBack({ animated: false });
       },
       conversation: this.props.conversation,
     });
