@@ -37,6 +37,8 @@ class SearchBarIos extends Component { // eslint-disable-line
           autoCorrect={false}
           onChangeText={this.changeText}
           clearButtonMode="always"
+          blurOnSubmit={true}
+          returnKeyType="done"
         />
         {
           this.state.isFocus || this.state.text ? null : (

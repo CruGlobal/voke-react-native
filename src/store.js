@@ -10,8 +10,8 @@ let myCreateStore = createStore;
 
 // Setup reactotron for development builds
 if (__DEV__) {
-  const Reactotron = require('reactotron-react-native').default;
-  myCreateStore = Reactotron.createStore;
+  // const Reactotron = require('reactotron-react-native').default;
+  // myCreateStore = Reactotron.createStore;
 }
 
 export default function getStore(onCompletion) {
@@ -21,7 +21,9 @@ export default function getStore(onCompletion) {
   );
   persistStore(store, {
     storage: Platform.OS === 'android' ? FilesystemStorage : AsyncStorage,
-  }, onCompletion);
+  }, () => {
+    onCompletion(store);
+  });
 
   return store;
 }

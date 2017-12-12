@@ -7,8 +7,7 @@ import ImagePicker from '../../components/ImagePicker';
 import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { updateMe } from '../../actions/auth';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
-import theme from '../../theme';
+import nav, { NavPropTypes } from '../../actions/nav';
 
 import { Flex, Text, Button, Icon } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
@@ -17,11 +16,6 @@ import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import CONSTANTS from '../../constants';
 
 class SignUpFBAccount extends Component {
-  static navigatorStyle = {
-    screenBackgroundColor: theme.primaryColor,
-    navBarHidden: true,
-  };
-
   constructor(props) {
     super(props);
     const { me } = this.props;
@@ -178,5 +172,8 @@ SignUpFBAccount.propTypes = {
   ...NavPropTypes,
   me: PropTypes.object,
 };
+const mapStateToProps = (state, { navigation }) => ({
+  ...(navigation.state.params || {}),
+});
 
-export default connect(null, nav)(SignUpFBAccount);
+export default connect(mapStateToProps, nav)(SignUpFBAccount);

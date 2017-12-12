@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { Alert, TouchableOpacity, Keyboard, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
-import { Navigation } from 'react-native-navigation';
 
 import PropTypes from 'prop-types';
 import { createMobileVerification } from '../../actions/auth';
 import Analytics from '../../utils/analytics';
 
 import styles from './styles';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 
 import { Flex, Text, Button, Icon } from '../../components/common';
 
@@ -17,10 +16,6 @@ import SignUpHeader from '../../components/SignUpHeader';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 
 class SignUpNumber extends Component {
-  static navigatorStyle = {
-    navBarHidden: true,
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -69,24 +64,16 @@ class SignUpNumber extends Component {
       );
     }
 
-    // This is for testing only
+    // // This is just for testing
     // this.props.navigatePush('voke.SignUpNumberVerify', {
     //   mobile: this.state.selectedCountryCode.concat(this.state.phoneNumber),
     // });
   }
 
   handleOpenCountry() {
-    Navigation.showModal({
-      screen: 'voke.CountrySelect', // unique ID registered with Navigation.registerScreen
-      title: 'Select Country', // title of the screen as appears in the nav bar (optional)
-      animationType: 'slide-up', // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
-      passProps: {
-        onSelect: this.handleSelectCountry,
-      },
+    this.props.navigatePush('voke.CountrySelect', {
+      onSelect: this.handleSelectCountry,
     });
-    // this.props.navigatePush('voke.CountrySelect', {
-    //   onSelect: this.handleSelectCountry,
-    // });
   }
 
   handleSelectCountry(country) {
@@ -160,5 +147,8 @@ SignUpNumber.propTypes = {
   ...NavPropTypes,
   hideBack: PropTypes.bool,
 };
+const mapStateToProps = (state, { navigation }) => ({
+  ...(navigation.state.params || {}),
+});
 
-export default connect(null, nav)(SignUpNumber);
+export default connect(mapStateToProps, nav)(SignUpNumber);

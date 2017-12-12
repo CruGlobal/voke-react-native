@@ -131,6 +131,7 @@ class ContactsList extends Component {
         onRefresh={this.props.onRefresh}
       />,
       maxToRenderPerBatch: 30,
+      style: { paddingBottom: 30 },
     };
     if (isAndroid) {
       return (

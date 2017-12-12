@@ -56,4 +56,16 @@ export default StyleSheet.create({
     width: 20,
     marginVertical: 10,
   },
+  favoriteButton: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    paddingHorizontal: 0,
+    backgroundColor: COLORS.LIGHT_GREY,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  favoriteFilled: {
+    backgroundColor: theme.primaryColor,
+  },
 });

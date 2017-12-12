@@ -8,10 +8,6 @@ import StatusBar from '../../components/StatusBar';
 // import LOADING from '../../../images/box.gif';
 
 class LoadingScreen extends Component {
-  static navigatorStyle = {
-    navBarHidden: true,
-  };
-
   render() {
     return (
       <Flex align="center" justify="center" value={1} style={styles.container}>

@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import { Image, TouchableOpacity, Keyboard, Alert, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { Image, TouchableOpacity, Keyboard, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { LoginManager, GraphRequestManager, GraphRequest, AccessToken } from 'react-native-fbsdk';
 import Analytics from '../../utils/analytics';
 
 import styles from './styles';
 import { getMe, facebookLoginAction, anonLogin } from '../../actions/auth';
-import theme from '../../theme';
 import ApiLoading from '../ApiLoading';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 import { Flex, Text, Button } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
@@ -16,22 +15,18 @@ import LOGO from '../../../images/initial_voke.png';
 import CONSTANTS from '../../constants';
 
 class LoginInput extends Component {
-  static navigatorStyle = {
-    navBarHidden: true,
-    screenBackgroundColor: theme.primaryColor,
-  };
-
   constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
+      disabled: false,
       email: '',
       password: '',
-      disabled: false,
       emailValidation: false,
       // TODO: Remove these things
       // email: 'benlgauthier+voke1@gmail.com',
       // emailValidation: true,
+      // password: 'password',
     };
 
     this.login = this.login.bind(this);
@@ -46,6 +41,7 @@ class LoginInput extends Component {
 
   componentDidMount() {
     Analytics.screen('Login Input');
+    // setTimeout(this.login, 1000);
   }
 
   login() {
@@ -54,7 +50,7 @@ class LoginInput extends Component {
         this.state.email,
         this.state.password
       )).then((results) => {
-        LOG('login results', results);
+        // LOG('login results', results);
         this.props.navigateResetHome();
       }).catch(() => {});
     } else {
@@ -201,5 +197,8 @@ class LoginInput extends Component {
 LoginInput.propTypes = {
   ...NavPropTypes,
 };
+const mapStateToProps = (state, { navigation }) => ({
+  ...(navigation.state.params || {}),
+});
 
-export default connect(null, nav)(LoginInput);
+export default connect(mapStateToProps, nav)(LoginInput);

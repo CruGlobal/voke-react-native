@@ -10,8 +10,9 @@ export default class PillButton extends Component {
     return (
       <Button
         {...rest}
+        iconStyle={{ paddingRight: 0 }}
         style={[styles.button, filled ? null : styles.empty]}
-        buttonTextStyle={[styles.buttonText, filled ? null : styles.emptyText]}
+        buttonTextStyle={[filled ? null : styles.emptyText]}
       />
     );
   }

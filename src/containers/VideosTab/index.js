@@ -2,22 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 import Videos from '../Videos';
-import theme from '../../theme';
 
 class VideosTab extends Component {
-  static navigatorStyle = {
-    tabBarHidden: true,
-    navBarButtonColor: theme.lightText,
-    navBarTextColor: theme.headerTextColor,
-    navBarBackgroundColor: theme.headerBackgroundColor,
-  };
   render() {
     return (
       <Videos
         {...this.props}
+        channel={this.props.channel}
         onSelectVideo={this.props.onSelectVideo}
+        conversation={this.props.conversation}
       />
     );
   }
@@ -25,7 +20,13 @@ class VideosTab extends Component {
 
 VideosTab.propTypes = {
   ...NavPropTypes,
+  channel: PropTypes.object,
   onSelectVideo: PropTypes.func,
+  conversation: PropTypes.object,
 };
 
-export default connect(null, nav)(VideosTab);
+const mapStateToProps = (state, { navigation }) => ({
+  ...(navigation.state.params || {}),
+});
+
+export default connect(mapStateToProps, nav)(VideosTab);

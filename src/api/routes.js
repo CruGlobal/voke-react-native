@@ -1,5 +1,5 @@
 import { API_URL, AUTH_URL } from './utils';
-import { mapAuth, mapMessages, mapConversations, mapConversation } from './mapping';
+import { mapMessages, mapConversations, mapConversation } from './mapping';
 import CONSTANTS from '../constants';
 // Import mapping functions or w/e
 
@@ -46,7 +46,6 @@ export default {
       grant_type: 'password',
       scope: 'messenger',
     },
-    mapResults: mapAuth,
   },
   'FACEBOOK_LOGIN': {
     endpoint: AUTH_URL + 'oauth/token',
@@ -57,7 +56,6 @@ export default {
       grant_type: 'assertion',
       scope: 'messenger',
     },
-    mapResults: mapAuth,
   },
   'REVOKE_TOKEN': {
     endpoint: AUTH_URL + 'oauth/revoke',
@@ -109,9 +107,19 @@ export default {
       client: CLIENT,
     },
   },
+  'GET_VIDEO': {
+    endpoint: API_URL + 'items/:videoId',
+  },
+  'FAVORITE_VIDEO': {
+    endpoint: API_URL + 'items/:videoId/favorite',
+    method: 'post',
+  },
+  'UNFAVORITE_VIDEO': {
+    endpoint: API_URL + 'items/:videoId/favorite',
+    method: 'delete',
+  },
   'VIDEOS': {
     endpoint: API_URL + 'items',
-    method: 'get',
   },
   'GET_POPULAR_VIDEOS': {
     endpoint: API_URL + 'items',
@@ -123,6 +131,11 @@ export default {
     endpoint: API_URL + 'items',
     method: 'get',
     query: { featured: true },
+    showApiLoading: true,
+  },
+  'GET_FAVORITES_VIDEOS': {
+    endpoint: API_URL + 'items',
+    query: { favorite: '#<Messenger::Favorite:0x007ffd7c4afb60>' },
     showApiLoading: true,
   },
   'GET_TAGS': {
@@ -218,5 +231,64 @@ export default {
   'ADD_FRIENDS': {
     endpoint: API_URL + 'me/friends',
     method: 'post',
+  },
+  'GET_ORGANIZATIONS': {
+    endpoint: API_URL + 'organizations',
+    method: 'get',
+  },
+  'GET_FEATURED_ORGANIZATIONS': {
+    endpoint: API_URL + 'organizations',
+    method: 'get',
+    query: { featured: true },
+  },
+  'GET_MY_ORGANIZATIONS': {
+    endpoint: API_URL + 'organizations',
+    method: 'get',
+    query: { follows: true },
+  },
+  'ORGANIZATION_VIDEOS': {
+    endpoint: API_URL + 'items',
+    method: 'get',
+  },
+  'GET_POPULAR_ORGANIZATION_VIDEOS': {
+    endpoint: API_URL + 'items',
+    method: 'get',
+    query: { popularity: true },
+    // showApiLoading: true,
+  },
+  'GET_FEATURED_ORGANIZATION_VIDEOS': {
+    endpoint: API_URL + 'items',
+    method: 'get',
+    query: { featured: true },
+    // showApiLoading: true,
+  },
+  'GET_FAVORITES_ORGANIZATION_VIDEOS': {
+    endpoint: API_URL + 'items',
+    method: 'get',
+    query: { favorite: '#<Messenger::Favorite:0x007ffd7c4afb60>' },    
+    // showApiLoading: true,
+  },
+  'GET_ORGANIZATION_VIDEOS_BY_TAG': {
+    endpoint: API_URL + 'items',
+    method: 'get',
+    // showApiLoading: true,
+  },
+  'GET_ORGANIZATION_SUBSCRIBERS': {
+    endpoint: API_URL + 'organizations/:orgId/subscriptions',
+    method: 'get',
+    showApiLoading: true,
+  },
+  'GET_ORGANIZATION': {
+    endpoint: API_URL + 'organizations/:orgId',
+    method: 'get',
+    showApiLoading: true,
+  },
+  'ORGANIZATION_SUBSCRIBE': {
+    endpoint: API_URL + 'organizations/:orgId/subscriptions',
+    method: 'post',
+  },
+  'ORGANIZATION_UNSUBSCRIBE': {
+    endpoint: API_URL + 'organizations/:orgId/subscriptions/:subscriptionId',
+    method: 'delete',
   },
 };

@@ -6,7 +6,7 @@ import Analytics from '../../utils/analytics';
 
 import styles from './styles';
 import { getMe, facebookLoginAction } from '../../actions/auth';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 
 import ApiLoading from '../ApiLoading';
 import { Flex, Text, Button } from '../../components/common';
@@ -15,10 +15,6 @@ import LOGO from '../../../images/initial_voke.png';
 import CONSTANTS from '../../constants';
 
 class Login extends Component {
-  static navigatorStyle = {
-    navBarHidden: true,
-  };
-
   constructor(props) {
     super(props);
 

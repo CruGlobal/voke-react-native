@@ -7,8 +7,7 @@ import Analytics from '../../utils/analytics';
 import { verifyMobile, createMobileVerification } from '../../actions/auth';
 
 import styles from './styles';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
-import theme from '../../theme';
+import nav, { NavPropTypes } from '../../actions/nav';
 
 import { Flex, Text, Button } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
@@ -16,11 +15,6 @@ import SignUpHeader from '../../components/SignUpHeader';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 
 class SignUpNumberVerify extends Component {
-  static navigatorStyle = {
-    screenBackgroundColor: theme.primaryColor,
-    navBarHidden: true,
-  };
-
   constructor(props) {
     super(props);
 
@@ -69,15 +63,15 @@ class SignUpNumberVerify extends Component {
       this.setState({ disableNext: true });
       this.props.dispatch(verifyMobile(data)).then(() => {
         this.setState({ disableNext: false });
-        if (!this.props.onboardCompleted) {
-          this.props.navigatePush('voke.SignUpWelcome', {
-            onlyOnboarding: true,
-          }, {
-            overrideBackPress: true,
-          });
-        } else {
-          this.props.navigateResetHome();
-        }
+        // if (!this.props.onboardCompleted) {
+        //   this.props.navigatePush('voke.SignUpWelcome', {
+        //     onlyOnboarding: true,
+        //   }, {
+        //     overrideBackPress: true,
+        //   });
+        // } else {
+        this.props.navigateResetHome();
+        // }
       }).catch(() => {
         this.setState({ disableNext: false });
         Alert.alert('Invalid code','Code does not match the code that was sent to the mobile number');
@@ -135,9 +129,9 @@ SignUpNumberVerify.propTypes = {
   ...NavPropTypes,
   mobile: PropTypes.string.isRequired,
 };
-
-const mapStateToProps = ({ auth }) => ({
-  onboardCompleted: auth.onboardCompleted,
+const mapStateToProps = ({ auth }, { navigation }) => ({
+  ...(navigation.state.params || {}),
+  // onboardCompleted: auth.onboardCompleted,
 });
 
 export default connect(mapStateToProps, nav)(SignUpNumberVerify);

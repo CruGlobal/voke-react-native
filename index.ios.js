@@ -1,3 +1,4 @@
-import App from './src/NavConfig';
+import { AppRegistry } from 'react-native';
+import App from './src/App';
 
-new App();
+AppRegistry.registerComponent('Voke', () => App);

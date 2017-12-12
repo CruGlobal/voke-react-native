@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Image, ScrollView, TouchableOpacity, Keyboard, KeyboardAvoidingView, Alert } from 'react-native';
+import { Image, ScrollView, Keyboard, KeyboardAvoidingView, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import styles from './styles';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 import { updateMe } from '../../actions/auth';
 import ImagePicker from '../../components/ImagePicker';
 import Analytics from '../../utils/analytics';
@@ -15,10 +15,6 @@ import SignUpInput from '../../components/SignUpInput';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 
 class SignUpProfile extends Component {
-  static navigatorStyle = {
-    navBarHidden: true,
-  };
-
   constructor(props) {
     super(props);
 
@@ -151,5 +147,8 @@ SignUpProfile.propTypes = {
   ...NavPropTypes,
   hideBack: PropTypes.bool,
 };
+const mapStateToProps = (state, { navigation }) => ({
+  ...(navigation.state.params || {}),
+});
 
-export default connect(null, nav)(SignUpProfile);
+export default connect(mapStateToProps, nav)(SignUpProfile);

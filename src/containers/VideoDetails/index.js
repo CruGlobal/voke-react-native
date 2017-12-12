@@ -2,47 +2,38 @@ import React, { Component } from 'react';
 import { Alert, View, ScrollView, Platform, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Navigation } from 'react-native-navigation';
 import Orientation from 'react-native-orientation';
 import debounce from 'lodash/debounce';
 
 import Analytics from '../../utils/analytics';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 import { toastAction } from '../../actions/auth';
+import { getVideo, favoriteVideo, unfavoriteVideo } from '../../actions/videos';
 
-import theme from '../../theme';
 import styles from './styles';
 import ApiLoading from '../ApiLoading';
 import WebviewVideo from '../../components/WebviewVideo';
 import StatusBar from '../../components/StatusBar';
 import webviewStates from '../../components/WebviewVideo/common';
 import FloatingButtonSingle from '../../components/FloatingButtonSingle';
-import { VokeIcon, Flex, Touchable, Text } from '../../components/common';
+import { VokeIcon, Flex, Touchable, Text, Button } from '../../components/common';
+import { exists } from '../../utils/common';
 
 const isOlderAndroid = Platform.OS === 'android' && Platform.Version < 23;
 
 
 class VideoDetails extends Component {
-
-  static navigatorStyle = {
-    screenBackgroundColor: theme.lightBackgroundColor,
-    navBarHidden: true,
-    tabBarHidden: true,
-    statusBarHidden: true,
-    orientation: 'auto',
-  };
-
   constructor(props) {
     super(props);
 
     this.state = {
-      hideWebview: false,
       isLandscape: false,
-      timesAppeared: 0,
+      showVideo: false,
+      isFavorite: props.video ? props.video['favorite?'] : false,
     };
 
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleVideoChange = this.handleVideoChange.bind(this);
+    this.handleFavorite = this.handleFavorite.bind(this);
     this.orientationDidChange = debounce(this.orientationDidChange.bind(this), 50);
   }
 
@@ -73,6 +64,21 @@ class VideoDetails extends Component {
         this.orientationDidChange(orientation);
       });
     }
+
+    // TODO: When coming back to this page, toggle the orientation
+
+    this.props.dispatch(getVideo(this.props.video.id)).then((results) => {
+      if (results && exists(results['favorite?'])) {
+        this.setState({ isFavorite: results['favorite?'] });
+      }
+    });
+
+    setTimeout(() => {
+      this.setState({ showVideo: true }, () => {
+        // For iOS margin
+        this.webview && this.webview.removeMargin();
+      });
+    }, 250);
   }
 
   componentWillUnmount() {
@@ -104,30 +110,41 @@ class VideoDetails extends Component {
     }
   }
 
-  onNavigatorEvent(event) {
-    // Hide the webview until the screen is mounted
-    if (event.id === 'didAppear') {
-      if (this.state.timesAppeared > 0 && this.webview && this.webview.pause) {
-        this.webview.pause();
-        this.webview.removeMargin();
-      }
-
-      this.setState({ hideWebview: false, timesAppeared: this.state.timesAppeared + 1 });
-      this.toggleOrientation();
-    }
-  }
-
   handleVideoChange(videoState) {
     if (videoState === webviewStates.ERROR) {
       this.props.dispatch(toastAction('There was an error playing the video.'));
     }
   }
 
+  handleFavorite() {
+    if (this.state.isFavorite) {
+      this.props.dispatch(unfavoriteVideo(this.props.video.id)).then(() => {
+        this.setState({ isFavorite: false });
+        this.props.onRefresh && this.props.onRefresh();
+      });
+    } else {
+      this.props.dispatch(favoriteVideo(this.props.video.id)).then(() => {
+        this.setState({ isFavorite: true });
+        this.props.onRefresh && this.props.onRefresh();
+      });
+    }
+  }
+
   renderContent() {
-    const video = this.props.video;
+    const video = this.props.video || {};
+    const isFavorite = this.state.isFavorite;
 
     return (
       <Flex direction="column" style={{ paddingBottom: 110 }}>
+        <Button
+          icon="favorite-border"
+          iconStyle={{ backgroundColor: 'transparent', paddingRight: 0 }}
+          style={[
+            styles.favoriteButton,
+            isFavorite ? styles.favoriteFilled : null,
+          ]}
+          onPress={this.handleFavorite}
+        />
         <Text style={styles.videoTitle}>{video.name}</Text>
         <Text style={styles.detail}>{video.shares} Shares</Text>
         <Text style={styles.detail}>{video.description}</Text>
@@ -177,7 +194,7 @@ class VideoDetails extends Component {
         <StatusBar hidden={true} />
         <Flex style={this.state.isLandscape ? styles.landscapeVideo : styles.video}>
           {
-            this.state.hideWebview ? null : (
+            this.state.showVideo ? (
               <WebviewVideo
                 ref={(c) => this.webview = c}
                 type={videoType}
@@ -187,10 +204,15 @@ class VideoDetails extends Component {
                 onChangeState={this.handleVideoChange}
                 isLandscape={this.state.isLandscape}
               />
-            )
+            ) : null
           }
           <View style={styles.backHeader}>
-            <Touchable borderless={true} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} onPress={() => Navigation.dismissModal()}>
+            <Touchable
+              borderless={true}
+              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+              onPress={() => {
+                this.props.navigateBack();
+              }}>
               <View>
                 <VokeIcon name="video-back" style={styles.backImage} />
               </View>
@@ -213,9 +235,12 @@ class VideoDetails extends Component {
                   { text: 'Cancel' },
                   { text: 'Add', onPress: () => {
                     this.props.onSelectVideo(video.id);
-                    // No need to navigate back, just dismiss the VideoDetails modal
-                    // this.props.navigateBack();
-                    Navigation.dismissModal();
+                    // Navigate back after selecting the video
+                    if (this.props.conversation) {
+                      this.props.navigateResetMessage({ conversation: this.props.conversation });
+                    } else {
+                      this.props.navigateBack();
+                    }
                   }},
                 ]
               );
@@ -240,6 +265,12 @@ VideoDetails.propTypes = {
   ...NavPropTypes,
   video: PropTypes.object,
   onSelectVideo: PropTypes.func,
+  onRefresh: PropTypes.func,
+  conversation: PropTypes.object,
 };
 
-export default connect(null, nav)(VideoDetails);
+const mapStateToProps = (state, { navigation }) => ({
+  ...(navigation.state.params || {}),
+});
+
+export default connect(mapStateToProps, nav)(VideoDetails);

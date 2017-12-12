@@ -1,52 +1,29 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, TextInput, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
+import { View, TextInput, KeyboardAvoidingView, Platform, Keyboard, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 
-import { startupAction } from '../../actions/auth';
+import { checkAndRunSockets } from '../../actions/socket';
 import { getMessages, createMessage, createTypeStateAction, destroyTypeStateAction, createMessageInteraction, markReadAction, getConversation } from '../../actions/messages';
 import Analytics from '../../utils/analytics';
 
 import theme, { COLORS } from '../../theme';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 import { vokeIcons } from '../../utils/iconMap';
 
 import { SET_ACTIVE_CONVERSATION } from '../../constants';
 import styles from './styles';
 import MessageVideoPlayer from '../MessageVideoPlayer';
 import ApiLoading from '../ApiLoading';
+import Header, { HeaderIcon } from '../Header';
 
 import { Flex, VokeIcon, Button, Touchable } from '../../components/common';
 import MessagesList from '../../components/MessagesList';
-import { UNREAD_CONV_DOT } from '../../constants';
-
-function setButtons(showDot) {
-  if (showDot) {
-    return {
-      leftButtons: [{
-        id: 'back', // Android handles back already
-        icon: vokeIcons['home-dot'], // For iOS only
-      }],
-    };
-  }
-  return {
-    leftButtons: [{
-      id: 'back', // Android handles back already
-      icon: vokeIcons['home'], // For iOS only
-    }],
-  };
-}
+import CONSTANTS, { UNREAD_CONV_DOT } from '../../constants';
 
 // <ShareButton message="Share this with you" title="Hey!" url="https://www.facebook.com" />
 
-const navStyle = {
-  navBarButtonColor: theme.lightText,
-  navBarTextColor: theme.headerTextColor,
-  navBarBackgroundColor: theme.headerBackgroundColor,
-  tabBarHidden: true,
-};
 class Message extends Component {
-  static navigatorStyle = navStyle;
   constructor(props) {
     super(props);
 
@@ -58,6 +35,8 @@ class Message extends Component {
       latestItem: null,
       shouldShowButtons: true,
       createTransparentFocus: false,
+      showDot: false,
+      title: 'Voke',
     };
 
     this.handleLoadMore = this.handleLoadMore.bind(this);
@@ -72,49 +51,22 @@ class Message extends Component {
     this.handleChangeButtons = this.handleChangeButtons.bind(this);
     this.handleButtonExpand = this.handleButtonExpand.bind(this);
     this.createMessageReadInteraction = this.createMessageReadInteraction.bind(this);
-    this.getConversationName = this.getConversationName.bind(this);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
-  }
-
-  onNavigatorEvent(event) {
-    if (event.id === 'back' || event.id === 'backPress') {
-      if (this.props.showUnreadDot) {
-        this.props.dispatch({ type: UNREAD_CONV_DOT, show: false });
-      }
-      if (this.props.goBackHome) {
-        this.props.navigateResetHome();
-      } else {
-        this.props.navigateBack();
-      }
-    }
-
-    if (event.id === 'willDisappear' || event.id === 'didDisappear') {
-      clearTimeout(this.timeoutSetYellow);
-    }
-  }
-
-  componentWillMount() {
-    this.props.navigator.setButtons(setButtons());
-    this.props.navigator.setTitle({ title: this.getConversationName()});
+    this.setConversationName = this.setConversationName.bind(this);
+    this.handleHeaderBack = this.handleHeaderBack.bind(this);
   }
 
   componentDidMount() {
-    this.getMessages();
+    this.setConversationName();
+
     Analytics.screen('Chat');
     this.props.dispatch({ type: SET_ACTIVE_CONVERSATION, id: this.props.conversation.id });
 
-    if (this.props.fetchConversation) {
-      this.props.dispatch(getConversation(this.props.conversation.id)).then((results) => {
-        LOG('get conversation inside messages', results);
-        this.setState({ conversation: results.conversation }, () => {
-          this.props.navigator.setTitle({ title: this.getConversationName() });
-        });
-      });
-    }
     setTimeout(() => {
-      this.props.dispatch(startupAction(this.props.navigator));
+      this.props.dispatch(checkAndRunSockets());
+      this.getMessages();
     }, 50);
 
+    BackHandler.addEventListener('hardwareBackPress', this.backHandler);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -130,36 +82,43 @@ class Message extends Component {
       clearTimeout(this.timeoutSetYellow);
       this.timeoutSetYellow = setTimeout(() => {
         LOG('inTimeout');
-        this.props.navigator.setStyle({
-          ...navStyle,
-          navBarButtonColor: COLORS.YELLOW,
-        });
-        this.props.navigator.setButtons(setButtons(true));
+        this.setState({ showDot: true });
       }, 1500);
     }
     // Reset the yellow badge indicator when the unread count goes away
     if (Platform.OS === 'ios' && nextProps.unReadBadgeCount === 0 && this.props.unReadBadgeCount > 0) {
       clearTimeout(this.timeoutSetYellow);
       this.timeoutSetYellow = setTimeout(() => {
-        this.props.navigator.setStyle(navStyle);
-        LOG('setButtons');
-        this.props.navigator.setButtons(setButtons());
+        LOG('remove dot');
+        this.setState({ showDot: false });
       }, 500);
     }
   }
 
   componentWillUnmount() {
     clearTimeout(this.timeoutSetYellow);
+    BackHandler.removeEventListener('hardwareBackPress', this.backHandler);
+    this.props.dispatch({ type: SET_ACTIVE_CONVERSATION, id: null });
   }
 
-  getConversationName() {
+  backHandler() {
+    if (this.handleHeaderBack) {
+      this.handleHeaderBack();
+      return true;
+    }
+    return false;
+  }
+
+  setConversationName() {
     // Get ths conversation from the state if it exists, or from props
     const conversation = this.state.conversation || this.props.conversation;
 
     const myId = this.props.me.id;
     let messengers = conversation.messengers || [];
     let otherPerson = messengers.find((m) => !m.bot && (myId != m.id));
-    return otherPerson ? otherPerson.first_name : 'Voke';
+    const title = otherPerson ? otherPerson.first_name : 'Voke';
+
+    this.setState({ title });
   }
 
   setLatestItem(conversationMessages) {
@@ -199,7 +158,12 @@ class Message extends Component {
         this.createMessage(video);
         this.props.navigateBack({ animated: false });
       },
+      conversation: this.props.conversation,
     });
+  }
+
+  createMessageEmpty = () => {
+    this.createMessage();
   }
 
   createMessage(video) {
@@ -265,6 +229,45 @@ class Message extends Component {
     // LOG('state',this.state.shouldShowButtons);
   }
 
+  handleHeaderBack() {
+    if (this.props.showUnreadDot) {
+      this.props.dispatch({ type: UNREAD_CONV_DOT, show: false });
+    }
+    this.props.navigateBack();
+  }
+
+  clearSelectedVideo = () => {
+    this.setState({ selectedVideo: null });
+  }
+
+  handleOnEndReached = () => {
+    this.setState({ showFlex: false });
+  }
+
+  handleSelectVideo = (m) => {
+    this.setState({ selectedVideo: m });
+  }
+
+  handleInputFocus = () => {
+    this.list.scrollEnd(true);
+    this.createTypeState();
+    this.handleChangeButtons(false);
+  }
+
+  handleInputBlur = () => {
+    this.list.scrollEnd(true);
+    this.destroyTypeState();
+    this.handleChangeButtons(true);
+  }
+
+  handleInputChange = (text) => {
+    this.setState({ text });
+  }
+
+  handleInputSizeChange = (e) => {
+    this.updateSize(e.nativeEvent.contentSize.height);
+  }
+
   render() {
     const { messages, me, typeState, pagination } = this.props;
     // Get ths conversation from the state if it exists, or from props
@@ -282,13 +285,29 @@ class Message extends Component {
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === 'android' ? undefined : 'padding'}
-        keyboardVerticalOffset={Platform.OS === 'android' ? undefined : 64}
+        keyboardVerticalOffset={Platform.OS === 'android' ? undefined : 0}
       >
+        <Header
+          left={
+            CONSTANTS.IS_ANDROID ? (
+              <HeaderIcon
+                type="back"
+                onPress={this.handleHeaderBack}
+              />
+            ) : (
+              <HeaderIcon
+                image={this.state.showDot ? vokeIcons['home-dot'] : vokeIcons['home']}
+                onPress={this.handleHeaderBack}
+              />
+            )
+          }
+          title={this.state.title}
+        />
         {
           this.state.selectedVideo ? (
             <MessageVideoPlayer
               message={this.state.selectedVideo}
-              onClose={() => this.setState({ selectedVideo: null })}
+              onClose={this.clearSelectedVideo}
             />
           ) : null
         }
@@ -300,8 +319,8 @@ class Message extends Component {
           typeState={typeState}
           user={me}
           messengers={conversation.messengers}
-          onEndReached={()=> this.setState({ showFlex: false })}
-          onSelectVideo={(m) => this.setState({ selectedVideo: m })}
+          onEndReached={this.handleOnEndReached}
+          onSelectVideo={this.handleSelectVideo}
         />
         {
           Platform.OS === 'android' ? null : (
@@ -341,26 +360,16 @@ class Message extends Component {
           }
           <Flex direction="row" style={[styles.chatBox, newHeight]} align="center">
             <TextInput
-              onFocus={() => {
-                this.list.scrollEnd(true);
-                this.createTypeState();
-                this.handleChangeButtons(false);
-              }
-              }
-              onBlur={() => {
-                this.list.scrollEnd(true);
-                this.destroyTypeState();
-                this.handleChangeButtons(true);
-              }
-              }
+              onFocus={this.handleInputFocus}
+              onBlur={this.handleInputBlur}
               autoCapitalize="sentences"
               multiline={true}
               value={this.state.text}
               placeholder="New Message"
-              onChangeText={(text) => this.setState({ text })}
+              onChangeText={this.handleInputChange}
               placeholderTextColor={theme.primaryColor}
               underlineColorAndroid={COLORS.TRANSPARENT}
-              onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}
+              onContentSizeChange={this.handleInputSizeChange}
               style={[styles.chatInput, newHeight]}
               autoCorrect={true}
               returnKeyType="done"
@@ -373,7 +382,7 @@ class Message extends Component {
                     style={styles.sendButton}
                     icon="send"
                     iconStyle={styles.sendIcon}
-                    onPress={() => this.createMessage()}
+                    onPress={this.createMessageEmpty}
                   />
                 </Flex>
               ) : null
@@ -402,18 +411,20 @@ Message.propTypes = {
   typeState: PropTypes.bool.isRequired, // Redux
   conversation: PropTypes.object.isRequired,
   onSelectVideo: PropTypes.func,
-  goBackHome: PropTypes.bool,
-  fetchConversation: PropTypes.bool,
 };
 
-const mapStateToProps = ({ messages, auth }, ownProps) => ({
-  messages: messages.messages[ownProps.conversation.id] || [],
-  pagination: messages.pagination.messages[ownProps.conversation.id] || {},
-  me: auth.user,
-  typeState: !!messages.typeState[ownProps.conversation.id],
-  unReadBadgeCount: messages.unReadBadgeCount,
-  // If we should show the conversation dot
-  showUnreadDot: messages.unreadConversationDot,
-});
+const mapStateToProps = ({ messages, auth }, { navigation }) => {
+  const conversation = navigation.state.params ? navigation.state.params.conversation : {};
+  return {
+    conversation,
+    messages: messages.messages[conversation.id] || [],
+    pagination: messages.pagination.messages[conversation.id] || {},
+    me: auth.user,
+    typeState: !!messages.typeState[conversation.id],
+    unReadBadgeCount: messages.unReadBadgeCount,
+    // If we should show the conversation dot
+    showUnreadDot: messages.unreadConversationDot,
+  };
+};
 
 export default connect(mapStateToProps, nav)(Message);

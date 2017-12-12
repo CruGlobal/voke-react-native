@@ -18,6 +18,7 @@ class VideoList extends Component {
 
     this.handleRefresh = this.handleRefresh.bind(this);
     this.renderRow = this.renderRow.bind(this);
+    this.renderNoText = this.renderNoText.bind(this);
   }
 
   handleRefresh() {
@@ -62,6 +63,19 @@ class VideoList extends Component {
     );
   }
 
+  renderNoText() {
+    if (this.props.items.length === 0) {
+      return (
+        <Flex align="center" justify="center">
+          <Text style={styles.blankText}>
+            No videos to show
+          </Text>
+        </Flex>
+      );
+    }
+    return null;
+  }
+
   render() {
     return (
       <FlatList
@@ -82,6 +96,7 @@ class VideoList extends Component {
           onRefresh={this.handleRefresh}
         />}
         onEndReached={this.props.onLoadMore}
+        ListHeaderComponent={this.renderNoText}
       />
     );
   }

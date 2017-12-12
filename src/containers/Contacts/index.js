@@ -4,57 +4,27 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import debounce from 'lodash/debounce';
 import { openSettingsAction } from '../../actions/auth';
-import { Navigation } from 'react-native-navigation';
 
 import Analytics from '../../utils/analytics';
 import { vokeIcons } from '../../utils/iconMap';
 import styles from './styles';
 // import { toastAction } from '../../actions/auth';
 import { searchContacts, getContacts } from '../../actions/contacts';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
-import theme from '../../theme';
+import nav, { NavPropTypes } from '../../actions/nav';
 import Permissions from '../../utils/permissions';
 import { Button, Flex } from '../../components/common';
-import { SHOW_SHARE_MODAL } from '../../constants';
+import CONSTANTS, { SHOW_SHARE_MODAL } from '../../constants';
 
 import ApiLoading from '../ApiLoading';
 import ShareModal from '../ShareModal';
+import Modal from '../Modal';
+import Header, { HeaderIcon } from '../Header';
 import AndroidSearchBar from '../../components/AndroidSearchBar';
 import ContactsList from '../../components/ContactsList';
 import SearchBarIos from '../../components/SearchBarIos';
 
 
-function setButtons() {
-  // TODO: Implement a search bar for android using a custom navigation title
-  if (Platform.OS === 'android') {
-    return {
-      leftButtons: [{
-        id: 'back', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-        icon: vokeIcons['back'], // for icon button, provide the local image asset name
-      }],
-      rightButtons: [{
-        id: 'search',
-        icon: vokeIcons['search'],
-      }],
-    };
-  }
-  return {
-    leftButtons: [{
-      id: 'back', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-      icon: vokeIcons['back'], // for icon button, provide the local image asset name
-    }],
-  };
-}
 class Contacts extends Component {
-  static navigatorStyle = {
-    navBarButtonColor: theme.lightText,
-    navBarTextColor: theme.headerTextColor,
-    navBarBackgroundColor: theme.primaryColor,
-    screenBackgroundColor: theme.lightBackgroundColor,
-    navBarNoBorder: true,
-    topBarElevationShadowEnabled: false,
-    tabBarHidden: true,
-  };
   constructor(props) {
     super(props);
 
@@ -68,7 +38,6 @@ class Contacts extends Component {
       permission: props.isInvite ? Permissions.NOT_ASKED : Permissions.AUTHORIZED,
     };
 
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.refreshContacts = this.refreshContacts.bind(this);
     this.search = debounce(this.search.bind(this), 10);
     this.changeText = this.changeText.bind(this);
@@ -79,16 +48,12 @@ class Contacts extends Component {
     this.handleAllowContacts = this.handleAllowContacts.bind(this);
     this.keyboardDidShow = this.keyboardDidShow.bind(this);
     this.keyboardDidHide = this.keyboardDidHide.bind(this);
+    this.handleBack = this.handleBack.bind(this);
   }
 
   componentWillMount() {
-    this.props.navigator.setButtons(setButtons());
-    if (this.props.isInvite) {
-      this.props.navigator.setTitle({ title: 'Invite a Friend' });
-    }
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
-
   }
 
   componentDidMount() {
@@ -105,20 +70,11 @@ class Contacts extends Component {
     this.keyboardDidHideListener.remove();
   }
 
-  onNavigatorEvent(event) {
-    if (event.id === 'search') {
-      // Only show search box if the permissions are authorized
-      if (this.state.permission === Permissions.AUTHORIZED) {
-        this.setState({ showSearch: !this.state.showSearch });
-      }
-    }
-    // Handle the event when some clicks back while the share modal is up
-    if ((event.type === 'NavBarButtonPress' && event.id === 'back') || event.id === 'backPress') {
-      if (this.props.isShareModalVisible && this.props.shareModalCancel) {
-        this.props.shareModalCancel();
-      } else {
-        this.props.navigateBack();
-      }
+  handleBack() {
+    if (this.props.isShareModalVisible && this.props.shareModalCancel) {
+      this.props.shareModalCancel();
+    } else {
+      this.props.navigateBack();
     }
   }
 
@@ -147,19 +103,7 @@ class Contacts extends Component {
     if (permission === Permissions.AUTHORIZED) {
       this.handleGetContacts();
     } else if (permission === Permissions.NOT_ASKED) {
-      Navigation.showModal({
-        screen: 'voke.Modal',
-        animationType: 'fade',
-        passProps: {
-          getContacts: this.handleGetContacts,
-          onDismiss: this.handleDismissPermission,
-        },
-        navigatorStyle: {
-          screenBackgroundColor: 'rgba(0, 0, 0, 0.3)',
-        },
-        // Stop back button from closing modal https://github.com/wix/react-native-navigation/issues/250#issuecomment-254186394
-        overrideBackPress: true,
-      });
+      this.setState({ showPermissionModal: true });
     } else {
       // Change screen
     }
@@ -243,9 +187,27 @@ class Contacts extends Component {
   }
 
   render() {
-    const isAuthorized = this.state.permission === Permissions.AUTHORIZED;
+    const { permission, showSearch } = this.state;
+    const isAuthorized = permission === Permissions.AUTHORIZED;
     return (
       <View style={styles.container}>
+        <Header
+          left={
+            <HeaderIcon
+              type="back"
+              onPress={this.handleBack} />
+          }
+          right={
+            CONSTANTS.IS_ANDROID ? (
+              <HeaderIcon
+                type="search"
+                onPress={() => this.setState({ showSearch: !showSearch })} />
+            ) : undefined
+          }
+          title={this.props.isInvite ? 'Invite a Friend' : 'Contacts'}
+          light={true}
+          shadow={false}
+        />
         {this.renderSearch()}
         {
           isAuthorized ? (
@@ -280,13 +242,22 @@ class Contacts extends Component {
         {
           isAuthorized ? <ShareModal /> : null
         }
+        {
+          this.state.showPermissionModal ? (
+            <Modal
+              onClose={() => this.setState({ showPermissionModal: false })}
+              getContacts={this.handleGetContacts}
+              onDismiss={this.handleDismissPermission}
+            />
+          ) : null
+        }
       </View>
     );
   }
 }
 
 
-// Check out actions/navigation_new.js to see the prop types and mapDispatchToProps
+// Check out actions/nav.js to see the prop types and mapDispatchToProps
 Contacts.propTypes = {
   ...NavPropTypes,
   onSelect: PropTypes.func.isRequired,
@@ -294,12 +265,11 @@ Contacts.propTypes = {
   isInvite: PropTypes.bool,
   isLoading: PropTypes.bool, // Redux
 };
-
-const mapStateToProps = ({ contacts }) => ({
+const mapStateToProps = ({ contacts }, { navigation }) => ({
+  ...(navigation.state.params || {}),
   all: contacts.all,
   allLength: contacts.all.length,
   isLoading: contacts.isLoading,
-
   isShareModalVisible: contacts.showShareModal,
   shareModalCancel: contacts.shareModalProps.onCancel,
 });

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Image, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -10,7 +10,7 @@ import { Flex, Text, Icon, Avatar, DateComponent } from '../common';
 import { momentUtc, getInitials } from '../../utils/common';
 
 
-class MessageItem extends Component {
+class MessageItem extends PureComponent {
 
   constructor(props) {
     super(props);

@@ -1,12 +1,13 @@
 import RNFetchBlob from 'react-native-fetch-blob';
 import { Linking, Platform, AppState, ToastAndroid, AsyncStorage, Alert } from 'react-native';
-import { ScreenVisibilityListener } from 'react-native-navigation';
+import PushNotification from 'react-native-push-notification';
 
-import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, ACTIVE_SCREEN, NO_BACKGROUND_ACTION } from '../constants';
+import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, UPDATE_TOKENS, NO_BACKGROUND_ACTION } from '../constants';
 import callApi, { REQUESTS } from './api';
-import { establishDevice, setupSocketAction, closeSocketAction, destroyDevice, getDevices, closeNotificationListeners } from './socket';
+import { establishDevice, setupSocketAction, closeSocketAction, destroyDevice, getDevices, checkAndRunSockets } from './socket';
 import { getConversations, getMessages } from './messages';
 import { API_URL } from '../api/utils';
+import { isArray } from '../utils/common';
 import Orientation from 'react-native-orientation';
 import DeviceInfo from 'react-native-device-info';
 
@@ -15,27 +16,23 @@ import DeviceInfo from 'react-native-device-info';
 let appStateChangeFn;
 let currentAppState = AppState.currentState || '';
 
-let navigationListener;
 let hasStartedUp = false;
 
-export function startupAction(navigator) {
+export function startupAction() {
   return (dispatch, getState) => {
-    if (hasStartedUp) return;
-    // dispatch(getMe());
-
-    hasStartedUp = true;
-    dispatch(establishDevice(navigator));
-    appStateChangeFn = appStateChange.bind(null, dispatch, getState, navigator);
-    AppState.addEventListener('change', appStateChangeFn);
     Orientation.lockToPortrait();
+    PushNotification.setApplicationIconBadgeNumber(0);
 
-    navigationListener = new ScreenVisibilityListener({
-      didAppear: ({ screen }) => {
-        // LOG('screen', screen, commandType);
-        dispatch({ type: ACTIVE_SCREEN, screen });
-      },
-    });
-    navigationListener.register();
+    if (hasStartedUp) return;
+    
+    hasStartedUp = true;
+    dispatch(establishDevice());
+    if (appStateChangeFn) {
+      AppState.removeEventListener('change', appStateChangeFn);
+    } else {
+      appStateChangeFn = appStateChange.bind(null, dispatch, getState);
+    }
+    AppState.addEventListener('change', appStateChangeFn);
   };
 }
 
@@ -44,12 +41,6 @@ export function cleanupAction() {
     hasStartedUp = false;
     LOG('removing appState listener');
     AppState.removeEventListener('change', appStateChangeFn);
-    dispatch(closeNotificationListeners());
-
-    if (navigationListener) {
-      navigationListener.unregister();
-      navigationListener = null;
-    }
   };
 }
 
@@ -58,9 +49,9 @@ const BACKGROUND_TIMEOUT = 1500;
 let appCloseTime;
 
 // TODO: It would be nice to somehow do this in the background and not block the UI when coming back into the app
-function appStateChange(dispatch, getState, navigator, nextAppState) {
+function appStateChange(dispatch, getState, nextAppState) {
   const { cableId, token, noBackgroundAction } = getState().auth;
-
+  LOG(nextAppState);
   // Sometimes this runs when logging out and causes a network error
   // Only run it when there is a valid token
   if (!token) {
@@ -68,46 +59,24 @@ function appStateChange(dispatch, getState, navigator, nextAppState) {
   }
 
   // LOG('appStateChange', nextAppState, currentAppState, cableId);
-  if (nextAppState === 'active' && (currentAppState === 'inactive' || currentAppState === 'background')) {
+  if (nextAppState === 'active') {
     LOG('App has come to the foreground!');
-    if (noBackgroundAction) {
-      LOG('doing nothing after coming from the background');
-      dispatch(setNoBackgroundAction(false));
-      currentAppState = nextAppState;
-      return;
-    }
 
     // Put the ACTIVE actions in a short timeout so they don't run when the app switches quickly
-    clearTimeout(backgroundTimeout);
-    const activeScreen = getState().auth.activeScreen;
-    const conversationId = getState().messages.activeConversationId;
-    // LOG('activeScreen', activeScreen, conversationId);
-    if (activeScreen === 'voke.Home') {
-      const now = Date.now();
-      // const BACKGROUND_REFRESH_TIME = 5 * 60 * 1000; // 5 minutes
-      const BACKGROUND_REFRESH_TIME = 10 * 1000; // 10 seconds
-      if (now - appCloseTime > BACKGROUND_REFRESH_TIME) {
-        dispatch(getConversations());
-      }
-    } else if (activeScreen === 'voke.Message' && conversationId) {
-      dispatch(getMessages(conversationId));
+    const now = Date.now();
+    // const BACKGROUND_REFRESH_TIME = 5 * 60 * 1000; // 5 minutes
+    const BACKGROUND_REFRESH_TIME = 10 * 1000; // 10 seconds
+    if (now - appCloseTime > BACKGROUND_REFRESH_TIME) {
+      dispatch(getConversations());
     }
-    backgroundTimeout = setTimeout(() => {
-      // Restart sockets
-      if (cableId) {
-        dispatch(setupSocketAction(cableId));
-      } else {
-        dispatch(establishDevice(navigator));
-      }
-    }, BACKGROUND_TIMEOUT);
 
-  } else if (nextAppState === 'background' && (currentAppState === 'inactive' || currentAppState === 'active')) {
+    dispatch(checkAndRunSockets());
+
+    // Clear out home screen badge when user comes back into the app
+    PushNotification.setApplicationIconBadgeNumber(0);    
+
+  } else if (nextAppState === 'background' || nextAppState === 'inactive') {
     LOG('App is going into the background');
-    if (noBackgroundAction) {
-      LOG('doing nothing in the background');
-      currentAppState = nextAppState;
-      return;
-    }
 
     dispatch(closeSocketAction());
     appCloseTime = Date.now();
@@ -117,14 +86,13 @@ function appStateChange(dispatch, getState, navigator, nextAppState) {
 
 
 
-
-export function loginAction(token, user = {}) {
+export function loginAction(token, allData = {}) {
   return (dispatch) => (
     new Promise((resolve) => {
       dispatch({
         type: LOGIN,
         token,
-        user,
+        data: allData,
       });
       resolve();
       // dispatch(resetHomeAction());
@@ -165,18 +133,21 @@ export function logoutAction() {
       if (token) {
         dispatch(getDevices()).then((results) => {
           LOG('get devices results', results);
-          // Pass the token into this function because the LOGOUT action will clear it out
-          const deviceIds = results.devices.map((d) => d.id);
-          if (deviceIds.length > 0) {
-            dispatch(callApi(REQUESTS.REVOKE_TOKEN, {
-              access_token: token,
-            }, {
-              device_ids: deviceIds,
-              token: null,
-            }));
+          if (results && isArray(results.devices)) {
+            // Pass the token into this function because the LOGOUT action will clear it out
+            const deviceIds = results.devices.map((d) => d.id);
+            if (deviceIds.length > 0) {
+              dispatch(callApi(REQUESTS.REVOKE_TOKEN, {
+                access_token: token,
+              }, {
+                device_ids: deviceIds,
+                token: null,
+              }));
+            }
           }
         });
       }
+      dispatch(cleanupAction());
       dispatch({ type: LOGOUT });
       resolve();
       AsyncStorage.clear();
@@ -196,7 +167,7 @@ export function createAccountAction(email, password) {
       })).then((results) => {
         if (!results.errors) {
           LOG('create account success', results);
-          dispatch(loginAction(results.access_token.access_token));
+          dispatch(loginAction(results.access_token.access_token, results.access_token));
           // dispatch(messagesAction());
           // Do something with the results
         } else {
@@ -244,7 +215,7 @@ export function anonLogin(username, password) {
         username: username,
         password: password,
       })).then((results) => {
-        dispatch(loginAction(results.access_token)).then(() => {
+        dispatch(loginAction(results.access_token, results)).then(() => {
           dispatch(getMe());
         });
         resolve(results);
@@ -255,13 +226,12 @@ export function anonLogin(username, password) {
 }
 
 export function facebookLoginAction(accessToken) {
-  LOG('access token for fb', accessToken);
+  // LOG('access token for fb', accessToken);
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.FACEBOOK_LOGIN, {}, {
       assertion: accessToken,
     })).then((results) => {
-      LOG('auth success', results);
-      dispatch(loginAction(results.access_token));
+      dispatch(loginAction(results.access_token, results));
       // dispatch(messagesAction());
       // Do something with the results
       return results;
@@ -274,7 +244,7 @@ export function facebookLoginAction(accessToken) {
 export function getMe() {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.GET_ME)).then((results) => {
-      LOG('user results', results);
+      // LOG('user results', results);
       dispatch(setUserAction(results));
       return results;
     }).catch(() => {
@@ -376,7 +346,6 @@ export function reportUserAction(report, messenger) {
     return dispatch(callApi(REQUESTS.REPORT_MESSENGER, query, data));
   };
 }
-
 
 export function openSettingsAction() {
   return () => {

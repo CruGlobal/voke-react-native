@@ -5,7 +5,7 @@ import Analytics from '../../utils/analytics';
 
 import styles from './styles';
 import { forgotPasswordAction } from '../../actions/auth';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 
 import { Flex, Text, Button } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
@@ -14,10 +14,6 @@ import LOGO from '../../../images/initial_voke.png';
 import CONSTANTS from '../../constants';
 
 class ForgotPassword extends Component {
-  static navigatorStyle = {
-    navBarHidden: true,
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -92,5 +88,8 @@ class ForgotPassword extends Component {
 ForgotPassword.propTypes = {
   ...NavPropTypes,
 };
+const mapStateToProps = (state, { navigation }) => ({
+  ...(navigation.state.params || {}),
+});
 
-export default connect(null, nav)(ForgotPassword);
+export default connect(mapStateToProps, nav)(ForgotPassword);

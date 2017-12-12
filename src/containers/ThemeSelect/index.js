@@ -1,19 +1,10 @@
 import React, { Component } from 'react';
-import { Platform } from 'react-native';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Analytics from '../../utils/analytics';
 
-import nav, { NavPropTypes } from '../../actions/navigation_new';
-import { Navigation } from 'react-native-navigation';
 import ThemeList from '../../components/ThemeList';
 
 class ThemeSelect extends Component {
-
-  static navigatorStyle = {
-    navBarHidden: true,
-  };
-
   constructor(props) {
     super(props);
 
@@ -22,12 +13,8 @@ class ThemeSelect extends Component {
     this.handleSelect = this.handleSelect.bind(this);
   }
 
-  handleClose(options) {
-    if (Platform.OS === 'android') {
-      Navigation.dismissModal({ animationType: 'fade' });
-    } else {
-      Navigation.dismissLightBox(options);
-    }
+  handleClose() {
+    this.props.onClose();
   }
 
   handleDismiss() {
@@ -53,10 +40,10 @@ class ThemeSelect extends Component {
 }
 
 ThemeSelect.propTypes = {
-  ...NavPropTypes,
   themes: PropTypes.array,
   onSelect: PropTypes.func,
+  onClose: PropTypes.func,
   onDismiss: PropTypes.func,
 };
 
-export default connect(null, nav)(ThemeSelect);
+export default ThemeSelect;

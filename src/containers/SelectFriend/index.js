@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Platform, View, Image, Keyboard, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Navigation } from 'react-native-navigation';
 
 import { getContacts } from '../../actions/contacts';
 import { openSettingsAction, toastAction } from '../../actions/auth';
@@ -11,13 +10,15 @@ import Analytics from '../../utils/analytics';
 import { SET_IN_SHARE, SHOW_SHARE_MODAL } from  '../../constants';
 
 import styles from './styles';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 import theme, { DEFAULT } from '../../theme';
 import VOKE_BOT from '../../../images/voke_bot_face_large.png';
 import { vokeIcons } from '../../utils/iconMap';
 
 import ApiLoading from '../ApiLoading';
 import ShareModal from '../ShareModal';
+import Modal from '../Modal';
+import Header from '../Header';
 import { Flex, Text, Loading, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import Permissions from '../../utils/permissions';
@@ -43,23 +44,7 @@ function getRandomContacts(contacts) {
 
 const screenHeight = DEFAULT.FULL_HEIGHT;
 
-function setButtons() {
-  return {
-    leftButtons: [{
-      id: 'back', // Android handles back already
-      icon: vokeIcons['back'], // For iOS only
-    }],
-  };
-}
-
 class SelectFriend extends Component {
-  static navigatorStyle = {
-    navBarButtonColor: theme.lightText,
-    navBarTextColor: theme.headerTextColor,
-    navBarBackgroundColor: theme.headerBackgroundColor,
-    tabBarHidden: true,
-    statusBarHidden: false,
-  };
 
   constructor(props) {
     super(props);
@@ -70,6 +55,7 @@ class SelectFriend extends Component {
       random: [],
       permission: '',
       loadingBeforeShareSheet: false,
+      showPermissionModal: false,
     };
 
     this.goToContacts = this.goToContacts.bind(this);
@@ -78,7 +64,6 @@ class SelectFriend extends Component {
     this.handleDismissPermission = this.handleDismissPermission.bind(this);
     this.handleCheckPermission = this.handleCheckPermission.bind(this);
     this.checkContactsStatus = this.checkContactsStatus.bind(this);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleAllowContacts = this.handleAllowContacts.bind(this);
   }
 
@@ -95,10 +80,6 @@ class SelectFriend extends Component {
     Analytics.screen('Select a Friend');
   }
 
-  componentWillMount() {
-    this.props.navigator.setButtons(setButtons());
-  }
-
   componentWillUnmount() {
     this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
   }
@@ -108,14 +89,6 @@ class SelectFriend extends Component {
       onSelect: this.selectContact,
       video: this.props.video,
     }, { overrideBackPress: true });
-  }
-
-  onNavigatorEvent(event) {
-    if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
-      if (event.id == 'back') {
-        this.props.navigateBack();
-      }
-    }
   }
 
   handleGetContacts() {
@@ -142,19 +115,7 @@ class SelectFriend extends Component {
     if (permission === Permissions.AUTHORIZED) {
       this.handleGetContacts();
     } else if (permission === Permissions.NOT_ASKED) {
-      Navigation.showModal({
-        screen: 'voke.Modal',
-        animationType: 'none',
-        passProps: {
-          getContacts: this.handleGetContacts,
-          onDismiss: this.handleDismissPermission,
-        },
-        navigatorStyle: {
-          screenBackgroundColor: 'rgba(0, 0, 0, 0.3)',
-        },
-        // Stop back button from closing modal https://github.com/wix/react-native-navigation/issues/250#issuecomment-254186394
-        overrideBackPress: true,
-      });
+      this.setState({ showPermissionModal: true });
     } else {
       this.setState({ isLoading: false });
       // Change screen
@@ -213,7 +174,7 @@ class SelectFriend extends Component {
         // LOG('create voke conversation results', results);
         this.props.dispatch(getConversation(results.id)).then((c) => {
           // LOG('get voke conversation results', c);
-          this.props.navigateResetTo('voke.Message', {conversation: c.conversation, goBackHome: true});
+          this.props.navigateResetMessage({ conversation: c.conversation });
         });
       });
     } else {
@@ -238,28 +199,25 @@ class SelectFriend extends Component {
                 // Set these to false so we're not in the share modal anymore
                 this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
                 this.props.dispatch({ type: SET_IN_SHARE, bool: false });
-                this.setState({ setLoaderBeforePush: true });
-  
+                
                 // On android, put a timeout because the share stuff gets messed up otherwise
                 if (Platform.OS === 'android') {
+                  this.setState({ setLoaderBeforePush: true });
                   setTimeout(() => {
                     this.setState({ setLoaderBeforePush: false });
-                    this.props.navigateResetTo('voke.Message', {
+                    this.props.navigateResetMessage({
                       conversation: c.conversation,
-                      goBackHome: true,
                     });
                   }, 50);
                 } else {
-                  this.setState({ setLoaderBeforePush: false });
-                  this.props.navigateResetTo('voke.Message', {
+                  this.props.navigateResetMessage({
                     conversation: c.conversation,
-                    goBackHome: true,
                   });
                 }
               },
               // This could also be called on the contacts page to cancel the share modal
               onCancel: () => {
-                LOG('canceling');
+                LOG('canceling sharing');
   
                 // Set these to false and delete the conversation
                 this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
@@ -363,6 +321,10 @@ class SelectFriend extends Component {
     return (
       <View style={styles.container}>
         <StatusBar />
+        <Header
+          leftBack={true}
+          title="Select Friend"
+        />
         {this.renderContent()}
         {
           this.props.isLoading || this.state.setLoaderBeforePush || this.state.loadingBeforeShareSheet ? (
@@ -370,6 +332,15 @@ class SelectFriend extends Component {
           ) : null
         }
         <ShareModal />
+        {
+          this.state.showPermissionModal ? (
+            <Modal
+              onClose={() => this.setState({ showPermissionModal: false })}
+              getContacts={this.handleGetContacts}
+              onDismiss={this.handleDismissPermission}
+            />
+          ) : null
+        }
       </View>
     );
   }
@@ -384,7 +355,7 @@ class SelectFriend extends Component {
 //   <Flex value={2} style={styles.orSeparator} />
 // </Flex>
 
-// Check out actions/navigation_new.js to see the prop types and mapDispatchToProps
+// Check out actions/nav.js to see the prop types and mapDispatchToProps
 SelectFriend.propTypes = {
   ...NavPropTypes,
   video: PropTypes.string.isRequired,
@@ -393,7 +364,8 @@ SelectFriend.propTypes = {
   isLandscape: PropTypes.bool,
 };
 
-const mapStateToProps = ({ contacts }) => ({
+const mapStateToProps = ({ contacts }, { navigation }) => ({
+  ...(navigation.state.params || {}),
   all: contacts.all,
   isLoading: contacts.isLoading,
 });
