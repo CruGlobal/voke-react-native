@@ -3,7 +3,8 @@ import { Alert } from 'react-native';
 import lodashForEach from 'lodash/forEach';
 // import Reactotron from 'reactotron-react-native';
 
-import { RESET_TOKEN } from '../constants';
+import { RESET_TOKEN, UPDATE_TOKENS } from '../constants';
+import { refreshTokenRequest } from '../api/utils';
 import API_CALLS from '../api';
 import { toastAction } from './auth';
 import { navigateResetLogin } from './nav';
@@ -82,7 +83,7 @@ export default function callApi(requestObject, query = {}, data = {}) {
           return throwErr(`There is no token and route is not anonymous: ${JSON.stringify(action)}`);
         }
       }
-
+      
       const handleError = (err) => {
         LOG('request error', action.name, err);
         if (err) {
@@ -96,16 +97,42 @@ export default function callApi(requestObject, query = {}, data = {}) {
 
           if (typeof err === 'object') {
             if (err.error === 'Unauthorized' || err.code === 'AUTHORIZATION_REQUIRED') {
+              const unauthAlert = () => {
+                Alert.alert(
+                  'Unauthorized',
+                  'Sorry, it looks like there was an error authorizing your request.',
+                  [{
+                    text: 'OK', onPress: () => {
+                      dispatch({ type: RESET_TOKEN });
+                      dispatch(navigateResetLogin());
+                    },
+                  }]
+                );
+              };
+              const refreshToken = getState().auth.refreshToken;
+              if (refreshToken) {
+                reject(err);
+                refreshTokenRequest(refreshToken).then((tokenResults) => {
+                  LOG('refresh token results', tokenResults);
+                  if (!tokenResults || !tokenResults.access_token) {
+                    unauthAlert();
+                    return;
+                  }
+                  dispatch({
+                    type: UPDATE_TOKENS,
+                    data: tokenResults,
+                  });
+                  LOG('CALL SAME API CALL AGAIN: ', action.name);
+                }).catch(() => {
+                  LOG('caught in refresh token');
+                  unauthAlert();
+                });
+                return;
+              }
+              LOG('no refresh token exists');
               // There was a problem authenticating the user, log them out
-              Alert.alert(
-                'Unauthorized',
-                'Sorry, it looks like there was an error authorizing your request.',
-                [{text: 'OK', onPress: () => {
-                  dispatch({ type: RESET_TOKEN });
-                  dispatch(navigateResetLogin());
-                }}]
-              );
-              reject(err);
+              unauthAlert();
+              reject(err);              
               return;
             } else if (err.error === 'invalid_grant') {
               // There was a login error

@@ -1,5 +1,5 @@
 import { API_URL, AUTH_URL } from './utils';
-import { mapAuth, mapMessages, mapConversations, mapConversation } from './mapping';
+import { mapMessages, mapConversations, mapConversation } from './mapping';
 import CONSTANTS from '../constants';
 // Import mapping functions or w/e
 
@@ -46,7 +46,6 @@ export default {
       grant_type: 'password',
       scope: 'messenger',
     },
-    mapResults: mapAuth,
   },
   'FACEBOOK_LOGIN': {
     endpoint: AUTH_URL + 'oauth/token',
@@ -57,7 +56,6 @@ export default {
       grant_type: 'assertion',
       scope: 'messenger',
     },
-    mapResults: mapAuth,
   },
   'REVOKE_TOKEN': {
     endpoint: AUTH_URL + 'oauth/revoke',

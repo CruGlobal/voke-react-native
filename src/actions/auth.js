@@ -2,7 +2,7 @@ import RNFetchBlob from 'react-native-fetch-blob';
 import { Linking, Platform, AppState, ToastAndroid, AsyncStorage, Alert } from 'react-native';
 import PushNotification from 'react-native-push-notification';
 
-import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, ACTIVE_SCREEN, NO_BACKGROUND_ACTION } from '../constants';
+import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, UPDATE_TOKENS, NO_BACKGROUND_ACTION } from '../constants';
 import callApi, { REQUESTS } from './api';
 import { establishDevice, setupSocketAction, closeSocketAction, destroyDevice, getDevices, checkAndRunSockets } from './socket';
 import { getConversations, getMessages } from './messages';
@@ -86,14 +86,13 @@ function appStateChange(dispatch, getState, nextAppState) {
 
 
 
-
-export function loginAction(token, user = {}) {
+export function loginAction(token, allData = {}) {
   return (dispatch) => (
     new Promise((resolve) => {
       dispatch({
         type: LOGIN,
         token,
-        user,
+        data: allData,
       });
       resolve();
       // dispatch(resetHomeAction());
@@ -168,7 +167,7 @@ export function createAccountAction(email, password) {
       })).then((results) => {
         if (!results.errors) {
           LOG('create account success', results);
-          dispatch(loginAction(results.access_token.access_token));
+          dispatch(loginAction(results.access_token.access_token, results.access_token));
           // dispatch(messagesAction());
           // Do something with the results
         } else {
@@ -216,7 +215,7 @@ export function anonLogin(username, password) {
         username: username,
         password: password,
       })).then((results) => {
-        dispatch(loginAction(results.access_token)).then(() => {
+        dispatch(loginAction(results.access_token, results)).then(() => {
           dispatch(getMe());
         });
         resolve(results);
@@ -227,13 +226,12 @@ export function anonLogin(username, password) {
 }
 
 export function facebookLoginAction(accessToken) {
-  LOG('access token for fb', accessToken);
+  // LOG('access token for fb', accessToken);
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.FACEBOOK_LOGIN, {}, {
       assertion: accessToken,
     })).then((results) => {
-      LOG('auth success', results);
-      dispatch(loginAction(results.access_token));
+      dispatch(loginAction(results.access_token, results));
       // dispatch(messagesAction());
       // Do something with the results
       return results;
