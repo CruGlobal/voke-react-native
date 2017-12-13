@@ -343,7 +343,14 @@ class Videos extends Component {
           right={
             CONSTANTS.IS_ANDROID && !showBack ? (
               <PopupMenu
-                actions={navMenuOptions(this.props)}
+                actions={[
+                  {
+                    id: 'search',
+                    name: 'Search',
+                    onPress: () => this.handleFilter('themes'),
+                  },
+                  ...navMenuOptions(this.props),
+                ]}
               />
             ) : (
               <HeaderIcon
@@ -382,17 +389,6 @@ class Videos extends Component {
                 onPress={() => this.handleFilter('favorites')}
                 animation="slideInUp"
               />
-              {
-                CONSTANTS.IS_ANDROID && !showBack ? (
-                  <PillButton
-                    icon="search"
-                    style={{ alignItems: 'center' }}
-                    filled={selectedFilter === 'themes'}
-                    onPress={() => this.handleFilter('themes')}
-                    animation="slideInUp"
-                  />
-                ) : null
-              }
             </Flex>
           </ScrollView>
         </Flex>

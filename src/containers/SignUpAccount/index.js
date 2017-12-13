@@ -7,6 +7,7 @@ import styles from './styles';
 import { createAccountAction } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/nav';
 import { Flex, Text, Button } from '../../components/common';
+import ApiLoading from '../ApiLoading';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeader from '../../components/SignUpHeader';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
@@ -16,6 +17,7 @@ class SignUpAccount extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: false,
       email: '',
       password: '',
       emailValidation: false,
@@ -35,13 +37,16 @@ class SignUpAccount extends Component {
         Alert.alert('Invalid password', 'Passwords must be at least 8 characters');
         return;
       }
+      this.setState({ isLoading: true });
       this.props.dispatch(createAccountAction(this.state.email, this.state.password)).then((results) => {
+        this.setState({ isLoading: false });
         if (results.errors) {
           Alert.alert('Error', `${results.errors}`);
         } else {
           this.props.navigatePush('voke.SignUpProfile', {}, { overrideBackPress: true });
         }
       }).catch((err) => {
+        this.setState({ isLoading: false });
         LOG('error', err);
         if (err && err.errors && err.errors.includes('Email has already been taken')) {
           Alert.alert('Error Creating Account', 'Email has already been taken.');
@@ -132,6 +137,9 @@ class SignUpAccount extends Component {
             </Flex>
           </Flex>
         </KeyboardAvoidingView>
+        {
+          this.state.isLoading ? <ApiLoading force={true} /> : null
+        }
       </ScrollView>
     );
   }

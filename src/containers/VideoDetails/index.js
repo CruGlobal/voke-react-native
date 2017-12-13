@@ -29,6 +29,7 @@ class VideoDetails extends Component {
     this.state = {
       isLandscape: false,
       showVideo: false,
+      video: null,
       isFavorite: props.video ? props.video['favorite?'] : false,
     };
 
@@ -70,6 +71,9 @@ class VideoDetails extends Component {
     this.props.dispatch(getVideo(this.props.video.id)).then((results) => {
       if (results && exists(results['favorite?'])) {
         this.setState({ isFavorite: results['favorite?'] });
+      }
+      if (results) {
+        this.setState({ video: results });
       }
     });
 
@@ -131,7 +135,7 @@ class VideoDetails extends Component {
   }
 
   renderContent() {
-    const video = this.props.video || {};
+    const video = this.state.video || this.props.video || {};
     const isFavorite = this.state.isFavorite;
 
     return (
@@ -151,7 +155,7 @@ class VideoDetails extends Component {
         <Text style={styles.label}>Themes</Text>
         <Flex direction="row">
           {
-            video.tags.map((t, index)=> (
+            (video.tags || []).map((t, index)=> (
               <Text key={t.id} style={styles.detail}>
                 {t.name}
                 {index != video.tags.length - 1 ? ', ' : null}
@@ -175,7 +179,7 @@ class VideoDetails extends Component {
   }
 
   render() {
-    const video = this.props.video || {};
+    const video = this.state.video || this.props.video || {};
     const videoMedia = video.media || {};
     const videoType = videoMedia.type;
 

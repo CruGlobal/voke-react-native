@@ -46,13 +46,17 @@ class LoginInput extends Component {
 
   login() {
     if (this.state.emailValidation && this.state.password) {
+      this.setState({ isLoading: true });
       this.props.dispatch(anonLogin(
         this.state.email,
         this.state.password
       )).then((results) => {
+        this.setState({ isLoading: false });
         // LOG('login results', results);
         this.props.navigateResetHome();
-      }).catch(() => {});
+      }).catch(() => {
+        this.setState({ isLoading: false });
+      });
     } else {
       Alert.alert('Invalid email/password', 'Please enter a valid email and password');
     }

@@ -11,6 +11,7 @@ import nav, { NavPropTypes } from '../../actions/nav';
 
 import { Flex, Text, Button, Icon } from '../../components/common';
 
+import ApiLoading from '../ApiLoading';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeader from '../../components/SignUpHeader';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
@@ -24,6 +25,7 @@ class SignUpNumber extends Component {
       selectedCountryCode: '1',
       selectedCountry: 'United States',
       disableNext: false,
+      isLoading: false,
     };
     this.handleNext = this.handleNext.bind(this);
     this.handleOpenCountry = this.handleOpenCountry.bind(this);
@@ -49,14 +51,14 @@ class SignUpNumber extends Component {
         [
           { text: 'Edit' },
           { text: 'Yes', onPress: () => {
-            this.setState({ disableNext: true });
+            this.setState({ disableNext: true, isLoading: true });
             this.props.dispatch(createMobileVerification(data)).then(() => {
-              this.setState({ disableNext: false });
+              this.setState({ disableNext: false, isLoading: false });
               this.props.navigatePush('voke.SignUpNumberVerify', {
                 mobile: this.state.selectedCountryCode.concat(this.state.phoneNumber),
               });
             }).catch((err)=> {
-              this.setState({ disableNext: false });
+              this.setState({ disableNext: false, isLoading: false });
               Alert.alert('Mobile number is invalid', err.errors[0]);
             });
           }},
@@ -138,6 +140,9 @@ class SignUpNumber extends Component {
             </Flex>
           </TouchableOpacity>
         </KeyboardAvoidingView>
+        {
+          this.state.isLoading ? <ApiLoading force={true} /> : null
+        }
       </ScrollView>
     );
   }

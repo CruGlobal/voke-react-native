@@ -9,6 +9,7 @@ import { verifyMobile, createMobileVerification } from '../../actions/auth';
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/nav';
 
+import ApiLoading from '../ApiLoading';
 import { Flex, Text, Button } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeader from '../../components/SignUpHeader';
@@ -22,6 +23,7 @@ class SignUpNumberVerify extends Component {
       code: '',
       verificationSent: false,
       disableNext: false,
+      isLoading: false,
     };
 
     this.handleNext = this.handleNext.bind(this);
@@ -60,9 +62,9 @@ class SignUpNumberVerify extends Component {
     if (!this.state.code) {
       Alert.alert('Please enter the code that was sent','');
     } else {
-      this.setState({ disableNext: true });
+      this.setState({ disableNext: true, isLoading: true });
       this.props.dispatch(verifyMobile(data)).then(() => {
-        this.setState({ disableNext: false });
+        this.setState({ disableNext: false, isLoading: false });
         // if (!this.props.onboardCompleted) {
         //   this.props.navigatePush('voke.SignUpWelcome', {
         //     onlyOnboarding: true,
@@ -73,7 +75,7 @@ class SignUpNumberVerify extends Component {
         this.props.navigateResetHome();
         // }
       }).catch(() => {
-        this.setState({ disableNext: false });
+        this.setState({ disableNext: false, isLoading: false });
         Alert.alert('Invalid code','Code does not match the code that was sent to the mobile number');
       });
     }
@@ -120,6 +122,9 @@ class SignUpNumberVerify extends Component {
             </Flex>
           </TouchableOpacity>
         </KeyboardAvoidingView>
+        {
+          this.state.isLoading ? <ApiLoading force={true} /> : null
+        }
       </ScrollView>
     );
   }

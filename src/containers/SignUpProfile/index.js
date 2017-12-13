@@ -9,6 +9,7 @@ import { updateMe } from '../../actions/auth';
 import ImagePicker from '../../components/ImagePicker';
 import Analytics from '../../utils/analytics';
 
+import ApiLoading from '../ApiLoading';
 import { Flex, Icon, Button } from '../../components/common';
 import SignUpHeader from '../../components/SignUpHeader';
 import SignUpInput from '../../components/SignUpInput';
@@ -23,6 +24,7 @@ class SignUpProfile extends Component {
       firstName: '',
       lastName: '',
       disableNext: false,
+      isLoading: false,
     };
 
     this.renderImagePicker = this.renderImagePicker.bind(this);
@@ -54,7 +56,7 @@ class SignUpProfile extends Component {
   addProfile() {
     const { firstName, lastName } = this.state;
     if (firstName && lastName) {
-      this.setState({ disableNext: true });
+      this.setState({ disableNext: true, isLoading: true });
       const data = {
         me: {
           first_name: firstName,
@@ -65,10 +67,10 @@ class SignUpProfile extends Component {
         if (this.state.imageUri) {
           this.uploadImage(this.state.imageUri);
         }
-        this.setState({ disableNext: false });
+        this.setState({ disableNext: false, isLoading: false });
         this.props.navigatePush('voke.SignUpNumber');
       }).catch(() => {
-        this.setState({ disableNext: false });
+        this.setState({ disableNext: false, isLoading: false });
       });
     } else {
       Alert.alert('', 'Please fill in your first and last name');
@@ -138,6 +140,9 @@ class SignUpProfile extends Component {
             </Flex>
           </Flex>
         </KeyboardAvoidingView>
+        {
+          this.state.isLoading ? <ApiLoading force={true} /> : null
+        }
       </ScrollView>
     );
   }
