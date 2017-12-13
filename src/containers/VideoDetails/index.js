@@ -91,15 +91,15 @@ class VideoDetails extends Component {
   }
 
   orientationDidChange(orientation) {
-    // LOG('orientation', orientation);
+    LOG('orientation', orientation);
     if (this.props.video.media.type === 'vimeo') {
       return;
     }
-    if (orientation === 'LANDSCAPE' || orientation === 'PORTRAITUPSIDEDOWN') {
+    if (orientation === 'LANDSCAPE') {
       // do something with landscape layout
       // LOG('landscape');
       this.setState({ isLandscape: true });
-    } else {
+    } else if (orientation === 'PORTRAIT') {
       // LOG('portrait');
       // do something with portrait layout
       this.setState({ isLandscape: false });
