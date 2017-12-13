@@ -5,7 +5,7 @@ import PushNotification from 'react-native-push-notification';
 import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, UPDATE_TOKENS, NO_BACKGROUND_ACTION } from '../constants';
 import callApi, { REQUESTS } from './api';
 import { establishDevice, setupSocketAction, closeSocketAction, destroyDevice, getDevices, checkAndRunSockets } from './socket';
-import { getConversations, getMessages } from './messages';
+import { getConversations, getConversation } from './messages';
 import { API_URL } from '../api/utils';
 import { isArray } from '../utils/common';
 import Orientation from 'react-native-orientation';
@@ -65,9 +65,13 @@ function appStateChange(dispatch, getState, nextAppState) {
     // Put the ACTIVE actions in a short timeout so they don't run when the app switches quickly
     const now = Date.now();
     // const BACKGROUND_REFRESH_TIME = 5 * 60 * 1000; // 5 minutes
-    const BACKGROUND_REFRESH_TIME = 10 * 1000; // 10 seconds
+    const BACKGROUND_REFRESH_TIME = 3 * 1000; // 3 seconds
     if (now - appCloseTime > BACKGROUND_REFRESH_TIME) {
       dispatch(getConversations());
+    }
+    const currentConvId = getState().messages.activeConversationId;
+    if (currentConvId) {
+      dispatch(getConversation(currentConvId));
     }
 
     dispatch(checkAndRunSockets());
