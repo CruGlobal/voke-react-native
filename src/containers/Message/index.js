@@ -22,20 +22,8 @@ import MessagesList from '../../components/MessagesList';
 import CONSTANTS, { UNREAD_CONV_DOT } from '../../constants';
 
 // <ShareButton message="Share this with you" title="Hey!" url="https://www.facebook.com" />
-<<<<<<< HEAD
-const navStyle = {
-  navBarButtonColor: theme.lightText,
-  navBarTextColor: theme.headerTextColor,
-  navBarBackgroundColor: theme.headerBackgroundColor,
-  tabBarHidden: true,
-};
-class Message extends Component {
-  static navigatorStyle = navStyle;
-  
-=======
 
 class Message extends Component {
->>>>>>> master
   constructor(props) {
     super(props);
 
