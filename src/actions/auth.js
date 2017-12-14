@@ -1,11 +1,12 @@
 import RNFetchBlob from 'react-native-fetch-blob';
 import { Linking, Platform, AppState, ToastAndroid, AsyncStorage, Alert } from 'react-native';
 import PushNotification from 'react-native-push-notification';
+// import FilesystemStorage from 'redux-persist-filesystem-storage';
 
 import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, UPDATE_TOKENS, NO_BACKGROUND_ACTION } from '../constants';
 import callApi, { REQUESTS } from './api';
 import { establishDevice, setupSocketAction, closeSocketAction, destroyDevice, getDevices, checkAndRunSockets } from './socket';
-import { getConversations, getConversation } from './messages';
+import { getConversations, getMessages } from './messages';
 import { API_URL } from '../api/utils';
 import { isArray } from '../utils/common';
 import Orientation from 'react-native-orientation';
@@ -22,7 +23,6 @@ export function startupAction() {
   return (dispatch, getState) => {
     Orientation.lockToPortrait();
     PushNotification.setApplicationIconBadgeNumber(0);
-
     if (hasStartedUp) return;
     
     hasStartedUp = true;
@@ -71,7 +71,7 @@ function appStateChange(dispatch, getState, nextAppState) {
     }
     const currentConvId = getState().messages.activeConversationId;
     if (currentConvId) {
-      dispatch(getConversation(currentConvId));
+      dispatch(getMessages(currentConvId));
     }
 
     dispatch(checkAndRunSockets());
@@ -155,6 +155,7 @@ export function logoutAction() {
       dispatch({ type: LOGOUT });
       resolve();
       AsyncStorage.clear();
+      dispatch(clearAndroid());
     })
   );
 }
@@ -373,3 +374,19 @@ export function setNoBackgroundAction(value) {
     dispatch({ type: NO_BACKGROUND_ACTION, value });
   };
 }
+
+export function clearAndroid() {
+  return () => {
+    // For Android, clear out the file system storage on logout so it doesn't get cached incorrectly
+    // if (Platform.OS === 'android') {
+    //   FilesystemStorage.getAllKeys((err, keys = []) => {
+    //     if (isArray(keys)) {
+    //       keys.forEach((k) => FilesystemStorage.removeItem(k, (err) => {
+    //         LOG('err', err);
+    //       }));
+    //     }
+    //   });
+    // }
+  };
+}
+

@@ -7,7 +7,6 @@ export default StyleSheet.create({
     position: 'absolute',
     bottom: 25,
     right: 25,
-    backgroundColor: COLORS.TRANSPARENT,
     alignItems: 'center',
     justifyContent: 'center',
     // shadowOpacity: 0.35,

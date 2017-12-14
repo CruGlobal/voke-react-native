@@ -79,14 +79,16 @@ export function createMessage(conversation, data) {
 
 export function newMessageAction(message) {
   return (dispatch, getState) => {
-    if (getState().messages.inShare) {
-      return;
-    }
+    // if (getState().messages.inShare) {
+    //   return;
+    // }
     return dispatch(getConversation(message.conversation_id)).then(() => {
       dispatch({ type: NEW_MESSAGE, message });
 
-      dispatch(vibrateAction());
-      dispatch(playSoundAction());
+      if (Platform.OS === 'ios') {
+        dispatch(vibrateAction());
+        dispatch(playSoundAction());
+      }
       
       // const activeScreen = getState().auth.activeScreen;
       // const conversationId = getState().messages.activeConversationId;

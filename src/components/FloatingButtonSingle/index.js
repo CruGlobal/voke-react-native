@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, View } from 'react-native';
+import { Image } from 'react-native';
 import PropTypes from 'prop-types';
 import TO_CHAT from '../../../images/to-chat-button.png';
 
@@ -11,18 +11,18 @@ class FloatingButtonSingle extends Component {
   render() {
     const { onSelect } = this.props;
     return (
-      <View
-        style={[
+      <Touchable
+        isAndroidOpacity={true}
+        onPress={onSelect}
+        activeOpacity={0.6} style={[
           styles.wrapper,
           { width: SIZE, height: SIZE, borderRadius: SIZE / 2 },
         ]}>
-        <Touchable isAndroidOpacity={true} onPress={onSelect} activeOpacity={0.6}>
-          <Image
-            source={TO_CHAT}
-            style={{ width: SIZE, height: SIZE, borderRadius: SIZE / 2 }}
-          />
-        </Touchable>
-      </View>
+        <Image
+          source={TO_CHAT}
+          style={{ width: SIZE, height: SIZE, borderRadius: SIZE / 2 }}
+        />
+      </Touchable>
     );
   }
 }

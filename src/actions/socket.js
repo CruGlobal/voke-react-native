@@ -5,7 +5,7 @@ import PushNotification from 'react-native-push-notification';
 import { API_URL } from '../api/utils';
 import { registerPushToken } from './auth';
 import { SOCKET_URL } from '../api/utils';
-import { newMessageAction, typeStateChangeAction, getConversation, getConversations } from './messages';
+import { newMessageAction, typeStateChangeAction, getConversation, getConversations, getMessages } from './messages';
 import { navigatePush, navigateResetMessage, navigateResetHome, navigateResetTo } from './nav';
 import callApi, { REQUESTS } from './api';
 import CONSTANTS from '../constants';
@@ -25,6 +25,7 @@ let ws = null;
 
 export function checkAndRunSockets() {
   return (dispatch, getState) => {
+    LOG('check and run');
     if (ws && ws.readyState === WEBSOCKET_STATES.OPEN) return;
     if (getState().auth.cableId) {
       dispatch(setupSocketAction(getState().auth.cableId));
@@ -51,6 +52,7 @@ export function setupSocketAction(cableId) {
       ws = new WebSocket(`${SOCKET_URL}cable?access_token=${token}`);
 
       if (ws) {
+        LOG('setting up sockets');
         ws.onopen = () => {
           // connection opened
           // LOG('socket opened');
@@ -91,15 +93,15 @@ export function setupSocketAction(cableId) {
           }
         };
 
-        ws.onerror = (err) => {
-          // an error occurred
-          LOG('socket message error', err.message);
-        };
+        // ws.onerror = (err) => {
+        //   // an error occurred
+        //   LOG('socket message error', err.message);
+        // };
 
-        ws.onclose = (err) => {
-          // connection closed
-          LOG('socket closed', err.code, err.reason);
-        };
+        // ws.onclose = (err) => {
+        //   // connection closed
+        //   LOG('socket closed', err.code, err.reason);
+        // };
       }
     } catch (socketErr) {
       // Do nothing with the error
@@ -251,6 +253,7 @@ export function handleNotifications(state, notification) {
           const conversationId = getState().messages.activeConversationId;
           if (conversationId && cId === conversationId) {
             dispatch(getConversation(cId));
+            // dispatch(getMessages(cId));
           } else {
             dispatch(getConversations());
           }

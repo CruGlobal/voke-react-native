@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, ScrollView, Keyboard, KeyboardAvoidingView, Alert } from 'react-native';
+import { Platform, Image, ScrollView, Keyboard, KeyboardAvoidingView, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -99,8 +99,8 @@ class SignUpProfile extends Component {
 
   render() {
     return (
-      <ScrollView style={styles.container} value={1} keyboardShouldPersistTaps="always">
-        <KeyboardAvoidingView behavior="padding">
+      <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
+        <KeyboardAvoidingView behavior={Platform.OS === 'android' ? undefined : 'padding'}>
           {
             // hideBack just means that we're resetting to this page because the
             // user has to fill in more info before they can continue

@@ -187,7 +187,7 @@ class ConversationList extends Component { // eslint-disable-line
         disableLeftSwipe={false}
         disableRightSwipe={true}
         recalculateHiddenLayout={true}
-        removeClippedSubviews={Platform.OS === 'ios' ? false : undefined}
+        removeClippedSubviews={false}
         refreshControl={<RefreshControl
           refreshing={this.props.refreshing}
           onRefresh={this.props.onRefresh}

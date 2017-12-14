@@ -71,7 +71,7 @@ class SignUpAccount extends Component {
   render() {
     return (
       <ScrollView keyboardShouldPersistTaps={Platform.OS === 'android' ? 'handled' : 'always'} style={styles.container}>
-        <KeyboardAvoidingView behavior="padding">
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'android' ? undefined : 'padding'}>
           <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
           <SignUpHeader
             title="Create Account"

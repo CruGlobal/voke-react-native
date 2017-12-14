@@ -28,7 +28,6 @@ class SignUpInput extends Component {
         returnKeyType="done"
         multiline={false}
         blurOnSubmit={true}
-        placeholderTextColor={theme.accentColor}
         placeholderTextColor={isFocused ? theme.textColor : theme.accentColor}
         style={[styles.input, isFocused ? styles.active : null, style]}
         autoCorrect={false}
