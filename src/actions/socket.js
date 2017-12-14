@@ -25,7 +25,7 @@ let ws = null;
 
 export function checkAndRunSockets() {
   return (dispatch, getState) => {
-    if (ws && ws.readyState && ws.readyState === WEBSOCKET_STATES.OPEN) return;
+    if (ws && ws.readyState === WEBSOCKET_STATES.OPEN) return;
     if (getState().auth.cableId) {
       dispatch(setupSocketAction(getState().auth.cableId));
     } else if (getState().auth.pushToken) {
@@ -91,15 +91,15 @@ export function setupSocketAction(cableId) {
           }
         };
 
-        // ws.onerror = (err) => {
-        //   // an error occurred
-        //   LOG('socket message error', err.message);
-        // };
+        ws.onerror = (err) => {
+          // an error occurred
+          LOG('socket message error', err.message);
+        };
 
-        // ws.onclose = (err) => {
-        //   // connection closed
-        //   LOG('socket closed', err.code, err.reason);
-        // };
+        ws.onclose = (err) => {
+          // connection closed
+          LOG('socket closed', err.code, err.reason);
+        };
       }
     } catch (socketErr) {
       // Do nothing with the error

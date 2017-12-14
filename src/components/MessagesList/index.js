@@ -173,7 +173,7 @@ class MessagesList extends Component {
         renderItem={this.renderRow}
         contentContainerStyle={styles.content}
         inverted={true}
-        removeClippedSubviews={false}
+        removeClippedSubviews={Platform.OS === 'ios' ? false : undefined}
         ListHeaderComponent={this.renderTypeState}
         scrollEnabled={Platform.OS === 'android' ? true : this.state.scrollEnabled}
       />

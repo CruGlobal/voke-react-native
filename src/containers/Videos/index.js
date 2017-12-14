@@ -331,9 +331,8 @@ class Videos extends Component {
   }
 
   render() {
-    const { onSelectVideo, channel } = this.props;
+    const { onSelectVideo } = this.props;
     const { selectedFilter, videos } = this.state;
-    const showBack = !!onSelectVideo || !!channel;
 
     return (
       <View style={styles.container}>
@@ -341,22 +340,9 @@ class Videos extends Component {
         <Header
           left={this.renderHeaderLeft()}
           right={
-            CONSTANTS.IS_ANDROID && !showBack ? (
-              <PopupMenu
-                actions={[
-                  {
-                    id: 'search',
-                    name: 'Search',
-                    onPress: () => this.handleFilter('themes'),
-                  },
-                  ...navMenuOptions(this.props),
-                ]}
-              />
-            ) : (
-              <HeaderIcon
-                type="search"
-                onPress={() => this.handleFilter('themes')} />
-            )
+            <HeaderIcon
+              type="search"
+              onPress={() => this.handleFilter('themes')} />
           }
           title="Videos"
         />

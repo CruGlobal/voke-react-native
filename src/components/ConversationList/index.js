@@ -19,7 +19,7 @@ class ConversationList extends Component { // eslint-disable-line
   constructor(props) {
     super(props);
     const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2 || r1.id !== r2.id || r1.hasUnread !== r2.hasUnread || r1.messagePreview !== r2.messagePreview,
+      rowHasChanged: (r1, r2) => r1 !== r2 || r1.id !== r2.id || r1.hasUnread !== r2.hasUnread || r1.messagePreview !== r2.messagePreview || r1.updated_at !== r2.updated_at,
     });
     this.state = {
       dataSource: ds.cloneWithRows(props.items),
@@ -187,7 +187,7 @@ class ConversationList extends Component { // eslint-disable-line
         disableLeftSwipe={false}
         disableRightSwipe={true}
         recalculateHiddenLayout={true}
-        removeClippedSubviews={false}
+        removeClippedSubviews={Platform.OS === 'ios' ? false : undefined}
         refreshControl={<RefreshControl
           refreshing={this.props.refreshing}
           onRefresh={this.props.onRefresh}

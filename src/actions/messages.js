@@ -87,7 +87,7 @@ export function newMessageAction(message) {
 
       dispatch(vibrateAction());
       dispatch(playSoundAction());
-
+      
       // const activeScreen = getState().auth.activeScreen;
       // const conversationId = getState().messages.activeConversationId;
       // if (activeScreen === 'voke.Message' && message.conversation_id !== conversationId) {
@@ -97,6 +97,8 @@ export function newMessageAction(message) {
       if (conversationId && message.conversation_id !== conversationId) {
         dispatch({ type: UNREAD_CONV_DOT, show: true });
       }
+    }).catch((e) => {
+      LOG('getConversation error...', e);
     });
   };
 }
@@ -164,11 +166,11 @@ export function vibrateAction() {
     if (Platform.OS === 'ios') {
       Vibration.vibrate(1500);
     } else {
-      try {
-        // Vibration.vibrate(600);
-      } catch (e) {
-        LOG('android virbate error', e);
-      }
+      // try {
+      //   // Vibration.vibrate(600);
+      // } catch (e) {
+      //   LOG('android virbate error', e);
+      // }
     }
   };
 }

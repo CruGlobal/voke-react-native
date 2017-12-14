@@ -423,6 +423,7 @@ const mapStateToProps = ({ messages, auth }, { navigation }) => {
     unReadBadgeCount: messages.unReadBadgeCount,
     // If we should show the conversation dot
     showUnreadDot: messages.unreadConversationDot,
+    // testingData: messages.activeConversationId,
   };
 };
 
