@@ -5,23 +5,19 @@ import { ScrollView, KeyboardAvoidingView, Linking, Alert, Keyboard, Platform } 
 import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { createAccountAction } from '../../actions/auth';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
-import theme from '../../theme';
-import { Flex, Text, Button, Touchable } from '../../components/common';
+import nav, { NavPropTypes } from '../../actions/nav';
+import { Flex, Text, Button } from '../../components/common';
+import ApiLoading from '../ApiLoading';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeader from '../../components/SignUpHeader';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import CONSTANTS from '../../constants';
 
 class SignUpAccount extends Component {
-  static navigatorStyle = {
-    navBarHidden: true,
-    screenBackgroundColor: theme.primaryColor,
-  };
-
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: false,
       email: '',
       password: '',
       emailValidation: false,
@@ -29,24 +25,6 @@ class SignUpAccount extends Component {
     this.createAccount = this.createAccount.bind(this);
     this.checkEmail = this.checkEmail.bind(this);
     this.handleLink = this.handleLink.bind(this);
-  }
-
-  componentWillMount() {
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
-  }
-
-  componentWillUnmount() {
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
-  }
-
-  keyboardDidShow() {
-    // LOG('Keyboard shown');
-  }
-
-  keyboardDidHide() {
-    // LOG('Keyboard hidden');
   }
 
   componentDidMount() {
@@ -59,13 +37,16 @@ class SignUpAccount extends Component {
         Alert.alert('Invalid password', 'Passwords must be at least 8 characters');
         return;
       }
+      this.setState({ isLoading: true });
       this.props.dispatch(createAccountAction(this.state.email, this.state.password)).then((results) => {
+        this.setState({ isLoading: false });
         if (results.errors) {
           Alert.alert('Error', `${results.errors}`);
         } else {
           this.props.navigatePush('voke.SignUpProfile', {}, { overrideBackPress: true });
         }
       }).catch((err) => {
+        this.setState({ isLoading: false });
         LOG('error', err);
         if (err && err.errors && err.errors.includes('Email has already been taken')) {
           Alert.alert('Error Creating Account', 'Email has already been taken.');
@@ -90,7 +71,7 @@ class SignUpAccount extends Component {
   render() {
     return (
       <ScrollView keyboardShouldPersistTaps={Platform.OS === 'android' ? 'handled' : 'always'} style={styles.container}>
-        <KeyboardAvoidingView behavior="padding">
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'android' ? undefined : 'padding'}>
           <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
           <SignUpHeader
             title="Create Account"
@@ -156,6 +137,9 @@ class SignUpAccount extends Component {
             </Flex>
           </Flex>
         </KeyboardAvoidingView>
+        {
+          this.state.isLoading ? <ApiLoading force={true} /> : null
+        }
       </ScrollView>
     );
   }
@@ -164,5 +148,8 @@ class SignUpAccount extends Component {
 SignUpAccount.propTypes = {
   ...NavPropTypes,
 };
+const mapStateToProps = (state, { navigation }) => ({
+  ...(navigation.state.params || {}),
+});
 
-export default connect(null, nav)(SignUpAccount);
+export default connect(mapStateToProps, nav)(SignUpAccount);

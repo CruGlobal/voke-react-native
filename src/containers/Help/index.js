@@ -1,77 +1,31 @@
 import React, { Component } from 'react';
-import { Linking, Platform } from 'react-native';
+import { Linking, View } from 'react-native';
 import { connect } from 'react-redux';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
-import { Navigation } from 'react-native-navigation';
+import nav, { NavPropTypes } from '../../actions/nav';
 import Communications from 'react-native-communications';
 import Analytics from '../../utils/analytics';
 
-import theme from '../../theme';
-import { vokeIcons } from '../../utils/iconMap';
 import SettingsList from '../../components/SettingsList';
+import Button from '../../components/Button';
 import CONSTANTS from '../../constants';
+import Header from '../Header';
+
 
 const EMAIL = ['support@vokeapp.com'];
 const REPORT_TITLE = 'I would like to report a user';
 const EMAIL_US_TITLE = 'Email to Voke Support';
 const FEATURE_REQUEST_TITLE = 'Feature Request for Voke';
 
-function setButtons() {
-  if (Platform.OS === 'ios') {
-    return {
-      leftButtons: [{
-        id: 'back', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-        icon: vokeIcons['back'], // for icon button, provide the local image asset name
-      }],
-      rightButtons: [{
-        title: 'Done',
-        id: 'done',
-        disableIconTint: true,
-      }],
-    };
-  }
-  return {
-    leftButtons: [{
-      id: 'back', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-      icon: vokeIcons['back'], // for icon button, provide the local image asset name
-    }],
-  };
-}
-
 class Help extends Component {
-  static navigatorStyle = {
-    tabBarHidden: true,
-    navBarBackgroundColor: theme.backgroundColor,
-    navBarTextColor: theme.textColor,
-    navBarButtonColor: theme.textColor,
-  };
 
   constructor(props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleLink = this.handleLink.bind(this);
     this.handleShare = this.handleShare.bind(this);
   }
 
-  componentWillMount() {
-    this.props.navigator.setButtons(setButtons());
-  }
-
   componentDidMount() {
     Analytics.screen('Contacts');
-  }
-
-  onNavigatorEvent(event) {
-    if (event.type === 'NavBarButtonPress') {
-      if (event.id === 'back') {
-        this.props.navigateBack();
-      }
-      if (event.id =='done') {
-        Navigation.dismissModal({
-          animationType: 'slide-down',
-        });
-      }
-    }
   }
 
   handleLink(url) {
@@ -92,30 +46,51 @@ class Help extends Component {
 
   render() {
     return (
-      <SettingsList
-        items={[
-          {
-            name: 'Visit our Help Website',
-            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.HELP),
-          },
-          {
-            name: 'Visit our FAQ Website',
-            onPress: () => this.handleLink(CONSTANTS.WEB_URLS.FAQ),
-          },
-          {
-            name: 'Make a Feature Request',
-            onPress: () => this.handleShare('feature'),
-          },
-          {
-            name: 'Report a User',
-            onPress: () => this.handleShare('report'),
-          },
-          {
-            name: 'Email Us',
-            onPress: () => this.handleShare('emailUs'),
-          },
-        ]}
-      />
+      <View style={{ flex: 1 }}>
+        <Header
+          right={
+            CONSTANTS.IS_ANDROID ? undefined : (
+              <Button
+                type="transparent"
+                text="Done"
+                buttonTextStyle={{ padding: 10, fontSize: 16 }}
+                onPress={() => {
+                  // Close out of the settings by going back 2 times
+                  this.props.navigateBack();
+                  this.props.navigateBack();
+                }}
+              />
+            )
+          }
+          leftBack={true}
+          title="Help"
+          light={true}
+        />
+        <SettingsList
+          items={[
+            {
+              name: 'Visit our Help Website',
+              onPress: () => this.handleLink(CONSTANTS.WEB_URLS.HELP),
+            },
+            {
+              name: 'Visit our FAQ Website',
+              onPress: () => this.handleLink(CONSTANTS.WEB_URLS.FAQ),
+            },
+            {
+              name: 'Make a Feature Request',
+              onPress: () => this.handleShare('feature'),
+            },
+            {
+              name: 'Report a User',
+              onPress: () => this.handleShare('report'),
+            },
+            {
+              name: 'Email Us',
+              onPress: () => this.handleShare('emailUs'),
+            },
+          ]}
+        />
+      </View>
     );
   }
 }
@@ -123,5 +98,8 @@ class Help extends Component {
 Help.propTypes = {
   ...NavPropTypes,
 };
+const mapStateToProps = (state, { navigation }) => ({
+  ...(navigation.state.params || {}),
+});
 
-export default connect(null, nav)(Help);
+export default connect(mapStateToProps, nav)(Help);

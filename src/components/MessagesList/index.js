@@ -7,7 +7,7 @@ import CONSTANTS from '../../constants';
 import styles from './styles';
 import MessageItem from '../MessageItem';
 import LoadMore from '../../components/LoadMore';
-import {Flex} from '../../components/common';
+import { Flex } from '../../components/common';
 
 
 class MessagesList extends Component {
@@ -138,7 +138,7 @@ class MessagesList extends Component {
     if (typeState) {
       const item = { type: 'typeState' };
       return (
-        <View style={{ transform: [{ scaleY: -1 }], zIndex: 100}}>
+        <View style={{ transform: [{ scaleY: -1 }], zIndex: 100 }}>
           <MessageItem
             item={item}
             user={user}
@@ -173,6 +173,7 @@ class MessagesList extends Component {
         renderItem={this.renderRow}
         contentContainerStyle={styles.content}
         inverted={true}
+        removeClippedSubviews={false}
         ListHeaderComponent={this.renderTypeState}
         scrollEnabled={Platform.OS === 'android' ? true : this.state.scrollEnabled}
       />

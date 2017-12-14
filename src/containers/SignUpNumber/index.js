@@ -1,26 +1,22 @@
 import React, { Component } from 'react';
-import { Alert, TouchableOpacity, Keyboard, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { Platform, Alert, TouchableOpacity, Keyboard, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
-import { Navigation } from 'react-native-navigation';
 
 import PropTypes from 'prop-types';
 import { createMobileVerification } from '../../actions/auth';
 import Analytics from '../../utils/analytics';
 
 import styles from './styles';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 
 import { Flex, Text, Button, Icon } from '../../components/common';
 
+import ApiLoading from '../ApiLoading';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeader from '../../components/SignUpHeader';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 
 class SignUpNumber extends Component {
-  static navigatorStyle = {
-    navBarHidden: true,
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -29,6 +25,7 @@ class SignUpNumber extends Component {
       selectedCountryCode: '1',
       selectedCountry: 'United States',
       disableNext: false,
+      isLoading: false,
     };
     this.handleNext = this.handleNext.bind(this);
     this.handleOpenCountry = this.handleOpenCountry.bind(this);
@@ -54,14 +51,14 @@ class SignUpNumber extends Component {
         [
           { text: 'Edit' },
           { text: 'Yes', onPress: () => {
-            this.setState({ disableNext: true });
+            this.setState({ disableNext: true, isLoading: true });
             this.props.dispatch(createMobileVerification(data)).then(() => {
-              this.setState({ disableNext: false });
+              this.setState({ disableNext: false, isLoading: false });
               this.props.navigatePush('voke.SignUpNumberVerify', {
                 mobile: this.state.selectedCountryCode.concat(this.state.phoneNumber),
               });
             }).catch((err)=> {
-              this.setState({ disableNext: false });
+              this.setState({ disableNext: false, isLoading: false });
               Alert.alert('Mobile number is invalid', err.errors[0]);
             });
           }},
@@ -69,24 +66,16 @@ class SignUpNumber extends Component {
       );
     }
 
-    // This is for testing only
+    // // This is just for testing
     // this.props.navigatePush('voke.SignUpNumberVerify', {
     //   mobile: this.state.selectedCountryCode.concat(this.state.phoneNumber),
     // });
   }
 
   handleOpenCountry() {
-    Navigation.showModal({
-      screen: 'voke.CountrySelect', // unique ID registered with Navigation.registerScreen
-      title: 'Select Country', // title of the screen as appears in the nav bar (optional)
-      animationType: 'slide-up', // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
-      passProps: {
-        onSelect: this.handleSelectCountry,
-      },
+    this.props.navigatePush('voke.CountrySelect', {
+      onSelect: this.handleSelectCountry,
     });
-    // this.props.navigatePush('voke.CountrySelect', {
-    //   onSelect: this.handleSelectCountry,
-    // });
   }
 
   handleSelectCountry(country) {
@@ -102,7 +91,7 @@ class SignUpNumber extends Component {
     const { selectedCountry, selectedCountryCode, phoneNumber } = this.state;
     return (
       <ScrollView style={styles.container} value={1} keyboardShouldPersistTaps="always" align="center" justify="start">
-        <KeyboardAvoidingView behavior="padding">
+        <KeyboardAvoidingView behavior={Platform.OS === 'android' ? undefined : 'padding'}>
           <SignUpHeaderBack
             onPress={() => {
               if (this.props.hideBack) {
@@ -151,6 +140,9 @@ class SignUpNumber extends Component {
             </Flex>
           </TouchableOpacity>
         </KeyboardAvoidingView>
+        {
+          this.state.isLoading ? <ApiLoading force={true} /> : null
+        }
       </ScrollView>
     );
   }
@@ -160,5 +152,8 @@ SignUpNumber.propTypes = {
   ...NavPropTypes,
   hideBack: PropTypes.bool,
 };
+const mapStateToProps = (state, { navigation }) => ({
+  ...(navigation.state.params || {}),
+});
 
-export default connect(null, nav)(SignUpNumber);
+export default connect(mapStateToProps, nav)(SignUpNumber);

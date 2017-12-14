@@ -35,4 +35,9 @@ export default StyleSheet.create({
     color: theme.darkText,
     fontSize: 16,
   },
+  blankText: {
+    fontSize: 16,
+    paddingTop: 10,
+    textAlign: 'center',
+  },
 });

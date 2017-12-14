@@ -13,6 +13,7 @@ export const TYPE_STATE_CHANGE = 'app/TYPE_STATE_CHANGE';
 export const MARK_READ = 'app/MARK_READ';
 export const UNREAD_CONV_DOT = 'app/UNREAD_CONV_DOT';
 export const SET_PUSH_TOKEN = 'app/SET_PUSH_TOKEN';
+export const UPDATE_TOKENS = 'app/UPDATE_TOKENS';
 export const TAB_SELECTED = 'app/TAB_SELECTED';
 export const ACTIVE_SCREEN = 'app/ACTIVE_SCREEN';
 export const NO_BACKGROUND_ACTION = 'app/NO_BACKGROUND_ACTION';
@@ -22,6 +23,7 @@ export const ONBOARD_FLAG = 'app/ONBOARD_FLAG';
 export const SET_IN_SHARE = 'app/SET_IN_SHARE';
 export const SHOW_SHARE_MODAL = 'app/SHOW_SHARE_MODAL';
 export const MESSAGE_CREATED = 'app/MESSAGE_CREATED';
+export const CLEAR_CHANNEL_VIDEOS = 'app/CLEAR_CHANNEL_VIDEOS';
 
 export const IS_SMALL_ANDROID = Platform.OS === 'android' && DEFAULT.FULL_HEIGHT < 600;
 
@@ -42,6 +44,7 @@ const ANDROID_APP_ID = 'org.cru.voke';
 
 export default {
   IS_STAGING,
+  IS_ANDROID: Platform.OS === 'android',
 
   EMAIL_REGEX: new RegExp(/^\w+([.+-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/),
   GA_TRACKER: 'UA-39188989-7', // Google Analytics
@@ -89,9 +92,8 @@ export default {
     REACT_NATIVE_GOOGLE_ANALYTICS: 'https://github.com/idehub/react-native-google-analytics-bridge/blob/master/LICENSE',
     REACT_NATIVE_IMAGE_CROP_PICKER: 'https://github.com/ivpusic/react-native-image-crop-picker/blob/master/LICENSE',
     REACT_NATIVE_IMAGE_PICKER: 'https://github.com/react-community/react-native-image-picker/blob/develop/LICENSE.md',
-    REACT_NATIVE_NAVIGATION: 'https://github.com/wix/react-native-navigation/blob/master/LICENSE',
-    REACT_NATIVE_SOUND: 'https://github.com/zmxv/react-native-sound/blob/master/LICENSE',
-    REACT_NATIVE_NOTIFICATIONS: 'https://github.com/wix/react-native-notifications/blob/master/LICENSE',
+    REACT_NAVIGATION: 'https://github.com/react-community/react-navigation/blob/master/LICENSE',
+    REACT_NATIVE_PUSH_NOTIFICATIONS: 'https://github.com/zo0r/react-native-push-notification/blob/master/LICENSE',
     REACT_NATIVE_SPINKIT: 'https://github.com/maxs15/react-native-spinkit/blob/master/LICENSE',
     REACT_NATIVE_SWIPE_LIST_VIEW: 'https://github.com/jemise111/react-native-swipe-list-view/blob/master/LICENSE',
     REACT_NATIVE_VECTOR_ICONS: 'https://github.com/oblador/react-native-vector-icons/blob/master/LICENSE',

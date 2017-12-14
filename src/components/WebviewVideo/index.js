@@ -46,7 +46,7 @@ export default class WebviewVideo extends Component {
       addMargin: shouldAddMargin,
       replay: false,
     };
-
+    
     this.webview = null;
 
     this.handleMessage = this.handleMessage.bind(this);
@@ -72,9 +72,8 @@ export default class WebviewVideo extends Component {
   }
 
   removeMargin() {
-    this.pause();
     if (this.state.addMargin) {
-      this.setState({ addMargin: false }, this.pause);
+      this.setState({ addMargin: false });
     }
   }
 

@@ -2,8 +2,6 @@ import { API_URL } from '../api/utils';
 import { Vibration, Platform } from 'react-native';
 import { NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ, UNREAD_CONV_DOT, MESSAGE_CREATED } from '../constants';
 import callApi, { REQUESTS } from './api';
-// TODO: Remove this package from react-native
-// import Sound from 'react-native-sound';
 
 export function getConversations() {
   return (dispatch) => {
@@ -81,21 +79,28 @@ export function createMessage(conversation, data) {
 
 export function newMessageAction(message) {
   return (dispatch, getState) => {
-    if (getState().messages.inShare) {
-      return;
-    }
+    // if (getState().messages.inShare) {
+    //   return;
+    // }
     return dispatch(getConversation(message.conversation_id)).then(() => {
       dispatch({ type: NEW_MESSAGE, message });
 
-      dispatch(vibrateAction());
-      dispatch(playSoundAction());
-
-
-      const activeScreen = getState().auth.activeScreen;
+      if (Platform.OS === 'ios') {
+        dispatch(vibrateAction());
+        dispatch(playSoundAction());
+      }
+      
+      // const activeScreen = getState().auth.activeScreen;
+      // const conversationId = getState().messages.activeConversationId;
+      // if (activeScreen === 'voke.Message' && message.conversation_id !== conversationId) {
+      //   dispatch({ type: UNREAD_CONV_DOT, show: true });
+      // }
       const conversationId = getState().messages.activeConversationId;
-      if (activeScreen === 'voke.Message' && message.conversation_id !== conversationId) {
+      if (conversationId && message.conversation_id !== conversationId) {
         dispatch({ type: UNREAD_CONV_DOT, show: true });
       }
+    }).catch((e) => {
+      LOG('getConversation error...', e);
     });
   };
 }
@@ -163,11 +168,11 @@ export function vibrateAction() {
     if (Platform.OS === 'ios') {
       Vibration.vibrate(1500);
     } else {
-      try {
-        Vibration.vibrate(600);
-      } catch (e) {
-        LOG('android virbate error', e);
-      }
+      // try {
+      //   // Vibration.vibrate(600);
+      // } catch (e) {
+      //   LOG('android virbate error', e);
+      // }
     }
   };
 }

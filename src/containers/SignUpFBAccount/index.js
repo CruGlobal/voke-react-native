@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { ScrollView, KeyboardAvoidingView, Alert, Linking, Image } from 'react-native';
+import { Platform, ScrollView, KeyboardAvoidingView, Alert, Linking, Image } from 'react-native';
 import ImagePicker from '../../components/ImagePicker';
 
 import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { updateMe } from '../../actions/auth';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
-import theme from '../../theme';
+import nav, { NavPropTypes } from '../../actions/nav';
 
 import { Flex, Text, Button, Icon } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
@@ -17,11 +16,6 @@ import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import CONSTANTS from '../../constants';
 
 class SignUpFBAccount extends Component {
-  static navigatorStyle = {
-    screenBackgroundColor: theme.primaryColor,
-    navBarHidden: true,
-  };
-
   constructor(props) {
     super(props);
     const { me } = this.props;
@@ -108,7 +102,7 @@ class SignUpFBAccount extends Component {
   render() {
     return (
       <ScrollView style={styles.container} value={1} align="center" justify="center">
-        <KeyboardAvoidingView behavior="padding">
+        <KeyboardAvoidingView behavior={Platform.OS === 'android' ? undefined : 'padding'}>
           <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
           <SignUpHeader title="Create Account" />
           <Flex value={1} align="center" justify="start" style={styles.inputs}>
@@ -178,5 +172,8 @@ SignUpFBAccount.propTypes = {
   ...NavPropTypes,
   me: PropTypes.object,
 };
+const mapStateToProps = (state, { navigation }) => ({
+  ...(navigation.state.params || {}),
+});
 
-export default connect(null, nav)(SignUpFBAccount);
+export default connect(mapStateToProps, nav)(SignUpFBAccount);

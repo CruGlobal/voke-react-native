@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, Keyboard, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { Platform, Alert, Keyboard, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -7,20 +7,15 @@ import Analytics from '../../utils/analytics';
 import { verifyMobile, createMobileVerification } from '../../actions/auth';
 
 import styles from './styles';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
-import theme from '../../theme';
+import nav, { NavPropTypes } from '../../actions/nav';
 
+import ApiLoading from '../ApiLoading';
 import { Flex, Text, Button } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeader from '../../components/SignUpHeader';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 
 class SignUpNumberVerify extends Component {
-  static navigatorStyle = {
-    screenBackgroundColor: theme.primaryColor,
-    navBarHidden: true,
-  };
-
   constructor(props) {
     super(props);
 
@@ -28,6 +23,7 @@ class SignUpNumberVerify extends Component {
       code: '',
       verificationSent: false,
       disableNext: false,
+      isLoading: false,
     };
 
     this.handleNext = this.handleNext.bind(this);
@@ -66,20 +62,20 @@ class SignUpNumberVerify extends Component {
     if (!this.state.code) {
       Alert.alert('Please enter the code that was sent','');
     } else {
-      this.setState({ disableNext: true });
+      this.setState({ disableNext: true, isLoading: true });
       this.props.dispatch(verifyMobile(data)).then(() => {
-        this.setState({ disableNext: false });
-        if (!this.props.onboardCompleted) {
-          this.props.navigatePush('voke.SignUpWelcome', {
-            onlyOnboarding: true,
-          }, {
-            overrideBackPress: true,
-          });
-        } else {
-          this.props.navigateResetHome();
-        }
+        this.setState({ disableNext: false, isLoading: false });
+        // if (!this.props.onboardCompleted) {
+        //   this.props.navigatePush('voke.SignUpWelcome', {
+        //     onlyOnboarding: true,
+        //   }, {
+        //     overrideBackPress: true,
+        //   });
+        // } else {
+        this.props.navigateResetHome();
+        // }
       }).catch(() => {
-        this.setState({ disableNext: false });
+        this.setState({ disableNext: false, isLoading: false });
         Alert.alert('Invalid code','Code does not match the code that was sent to the mobile number');
       });
     }
@@ -88,7 +84,7 @@ class SignUpNumberVerify extends Component {
   render() {
     return (
       <ScrollView style={styles.container} value={1} keyboardShouldPersistTaps="always" align="center" justify="start">
-        <KeyboardAvoidingView behavior="padding">
+        <KeyboardAvoidingView behavior={Platform.OS === 'android' ? undefined : 'padding'}>
           <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
           <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
             <SignUpHeader
@@ -126,6 +122,9 @@ class SignUpNumberVerify extends Component {
             </Flex>
           </TouchableOpacity>
         </KeyboardAvoidingView>
+        {
+          this.state.isLoading ? <ApiLoading force={true} /> : null
+        }
       </ScrollView>
     );
   }
@@ -135,9 +134,9 @@ SignUpNumberVerify.propTypes = {
   ...NavPropTypes,
   mobile: PropTypes.string.isRequired,
 };
-
-const mapStateToProps = ({ auth }) => ({
-  onboardCompleted: auth.onboardCompleted,
+const mapStateToProps = ({ auth }, { navigation }) => ({
+  ...(navigation.state.params || {}),
+  // onboardCompleted: auth.onboardCompleted,
 });
 
 export default connect(mapStateToProps, nav)(SignUpNumberVerify);

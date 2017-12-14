@@ -1,69 +1,31 @@
 import React, { Component } from 'react';
-import { BackHandler, View, ScrollView, Platform } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Navigation } from 'react-native-navigation';
 
-import { TAB_SELECTED } from '../../constants';
-import { getVideos, getFeaturedVideos, getPopularVideos, getTags, getSelectedThemeVideos } from '../../actions/videos';
+import { getVideos, getFeaturedVideos, getPopularVideos, getTags, getSelectedThemeVideos, getFavorites, clearChannelVideos } from '../../actions/videos';
 // import { getMe } from '../../actions/auth';
+import { getChannel, getChannelSubscriberData, subscribeChannel, unsubscribeChannel } from '../../actions/channels';
 import Analytics from '../../utils/analytics';
 
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 
 import styles from './styles';
-import theme from '../../theme';
 import { navMenuOptions } from '../../utils/menu';
 import { vokeIcons } from '../../utils/iconMap';
-import TabBarIndicator from '../../components/TabBarIndicator';
 
 import ApiLoading from '../ApiLoading';
+import ThemeSelect from '../ThemeSelect';
+import PopupMenu from '../../components/PopupMenu';
+import Header, { HeaderIcon } from '../Header';
 import PillButton from '../../components/PillButton';
 import VideoList from '../../components/VideoList';
 import StatusBar from '../../components/StatusBar';
+import ChannelInfo from '../../components/ChannelInfo';
 import { Flex } from '../../components/common';
-
-function setButtons(showBack) {
-  if (!showBack && Platform.OS === 'android') {
-    let menu = navMenuOptions().map((m) => ({
-      title: m.name,
-      id: m.id,
-      showAsAction: 'never',
-    })).reverse();
-    menu.unshift({
-      title: 'Search', // for a textual button, provide the button title (label)
-      id: 'search',
-      showAsAction: 'always',
-      icon: vokeIcons['search'], // for icon button, provide the local image asset name
-    });
-    return {
-      rightButtons: menu,
-    };
-  }
-  const leftButton1 = {
-    title: showBack ? 'Back' : 'Menu',
-    id: showBack ? 'back' : 'menu',
-    icon: showBack ? vokeIcons['back'] : vokeIcons['menu'],
-  };
-  return {
-    leftButtons: [leftButton1],
-    rightButtons: [{
-      title: 'Search', // for a textual button, provide the button title (label)
-      id: 'search',
-      icon: vokeIcons['search'], // for icon button, provide the local image asset name
-    }],
-  };
-}
+import CONSTANTS from '../../constants';
 
 class Videos extends Component {
-  static navigatorStyle = {
-    navBarButtonColor: theme.lightText,
-    navBarTextColor: theme.headerTextColor,
-    navBarBackgroundColor: theme.headerBackgroundColor,
-    screenBackgroundColor: theme.primaryColor,
-    statusBarHidden: false,
-  };
-
   constructor(props) {
     super(props);
 
@@ -72,9 +34,13 @@ class Videos extends Component {
       previousFilter: '',
       videos: [],
       selectedTag: null,
+      channelSubscribeData: {
+        id: '',
+        isSubscribed: false,
+        total: 0,
+      },
     };
 
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.handleNextPage = this.handleNextPage.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
     this.handleRefresh = this.handleRefresh.bind(this);
@@ -82,58 +48,22 @@ class Videos extends Component {
     this.showThemes = this.showThemes.bind(this);
     this.handleThemeSelect = this.handleThemeSelect.bind(this);
     this.handleDismissTheme = this.handleDismissTheme.bind(this);
-    this.backHandler = this.backHandler.bind(this);
-  }
-
-  onNavigatorEvent(event) {
-    if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
-      if (event.id == 'back') {
-        this.props.navigateBack();
-      } else if (event.id == 'search') {
-        this.handleFilter('themes');
-      } else if (Platform.OS === 'android') {
-        // Get the selected event from the menu
-        const selected = navMenuOptions(this.props).find((m) => m.id === event.id);
-        if (selected && selected.onPress) {
-          selected.onPress();
-        }
-      } else if (event.id === 'menu') {
-        Navigation.showModal({
-          screen: 'voke.Menu', // unique ID registered with Navigation.registerScreen
-          title: 'Settings', // title of the screen as appears in the nav bar (optional)
-          animationType: 'slide-up', // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
-        });
-      }
-    }
-
-    // Keep track of selected tab in redux
-    if (event.id === 'bottomTabSelected') {
-      this.props.dispatch({ type: TAB_SELECTED, tab: 1 });
-    }
-  }
-
-  componentWillMount() {
-    if (!this.props.onSelectVideo) {
-      this.props.navigator.setButtons(setButtons());
-    } else {
-      this.props.navigator.setButtons(setButtons(true));
-    }
-    this.props.navigator.setTitle({ title: 'Videos' });
+    this.handleSubscribe = this.handleSubscribe.bind(this);
+    this.handleUnsubscribe = this.handleUnsubscribe.bind(this);
   }
 
   componentDidMount() {
     // this.props.dispatch(getMe()).then((results)=>{
     //   LOG(results);
     // });
-    // Do this after mounting because Android sometimes doesn't work on initial load
-    if (!this.props.onSelectVideo) {
-      this.props.navigator.setButtons(setButtons());
-    } else {
-      this.props.navigator.setButtons(setButtons(true));
-    }
-
-    // If there are no videos when the component mounts, get them, otherwise just set it
-    if (this.props.all.length === 0) {
+    if (this.props.channel && this.props.channel.id) {
+      this.props.dispatch(getVideos(undefined, this.props.channel.id)).then(() => {
+        this.updateVideoList('all');
+      });
+      this.getSubscriberData();
+      this.setState({ videos: this.props.channelVideos });
+    } else if (this.props.all.length === 0) {
+      // If there are no videos when the component mounts, get them, otherwise just set it
       this.props.dispatch(getVideos()).then(() => {
         this.updateVideoList('all');
       }).catch((err)=> {
@@ -160,38 +90,24 @@ class Videos extends Component {
     }
 
     Analytics.screen('Videos');
-
-    // If your on the home tab, handle the back button
-    if (!this.props.onSelectVideo) {
-      BackHandler.addEventListener('hardwareBackPress', this.backHandler);
-    }
   }
 
   componentWillUnmount() {
-    if (!this.props.onSelectVideo) {
-      BackHandler.removeEventListener('hardwareBackPress', this.backHandler);
-    }
-  }
-
-  // Handle going from the Videos Tab to the Chat tab when Android back is pressed
-  backHandler() {
-    if (this.props.isTabSelected) {
-      this.props.navigator.switchToTab({ tabIndex: 0 });
-      return true;
-    }
-    return false;
+    this.props.dispatch(clearChannelVideos());
   }
 
   handleRefresh() {
     if (this.state.selectedFilter === 'themes') {
       return Promise.resolve();
     }
+    this.setState({ emptyRefreshing: true });
     return this.handleFilter(this.state.selectedFilter);
   }
 
   handleThemeSelect(tag) {
     this.setState({ selectedTag: tag });
-    this.props.dispatch(getSelectedThemeVideos(tag)).then(() => {
+    const channelId = this.props.channel ? this.props.channel.id : undefined;
+    this.props.dispatch(getSelectedThemeVideos(tag, 1, channelId)).then(() => {
       this.setState({ videos: this.props.selectedThemeVideos});
       // Scroll to the top after selecting a theme
       this.videoList.scrollToBeginning();
@@ -208,60 +124,55 @@ class Videos extends Component {
   }
 
   showThemes() {
-    this.setState({ selectedTag: null });
-    if (Platform.OS === 'android') {
-      Navigation.showModal({
-        screen: 'voke.ThemeSelect',
-        animationType: 'fade',
-        passProps: {
-          themes: this.props.tags,
-          onSelect: this.handleThemeSelect,
-          onDismiss: this.handleDismissTheme,
-        },
-        navigatorStyle: {
-          screenBackgroundColor: 'rgba(0, 0, 0, 0.3)',
-        },
-        // Stop back button from closing modal https://github.com/wix/react-native-navigation/issues/250#issuecomment-254186394
-        overrideBackPress: true,
-      });
-    } else {
-      Navigation.showLightBox({
-        screen: 'voke.ThemeSelect',
-        passProps: {
-          themes: this.props.tags,
-          onSelect: this.handleThemeSelect,
-          onDismiss: this.handleDismissTheme,
-        },
-        style: {
-          backgroundBlur: 'dark', // 'dark' / 'light' / 'xlight' / 'none' - the type of blur on the background
-        },
-      });
-    }
+    this.setState({ selectedTag: null, showThemeModal: true });
   }
 
   handleNextPage() {
     const pagination = this.props.pagination;
     const filter = this.state.selectedFilter;
-    // LOG('next page', filter, pagination[filter]);
-    if (!pagination[filter] || !pagination[filter].hasMore) {
-      return;
+
+    let page;
+    let query = {};
+    // Custom logic for channel pagination
+    const channelId = this.props.channel ? this.props.channel.id : undefined;
+    if (channelId) {
+      // If there is a new filter for channel pagination, do nothing
+      if (pagination.channel.type !== filter || !pagination.channel.hasMore) {
+        return;
+      }
+      page = pagination.channel.page + 1;
+      query.page = page;
+    } else {
+      if (!pagination[filter] || !pagination[filter].hasMore) {
+        return;
+      }
+      page = pagination[filter].page + 1;
+      query.page = page;
     }
-    const page = pagination[filter].page + 1;
-    const query = { page };
+
+    
+    // LOG('next page', filter, pagination[filter]);
+    
+    
 
 
     if (filter === 'featured') {
-      this.props.dispatch(getFeaturedVideos(query)).then((r) => {
+      this.props.dispatch(getFeaturedVideos(query, channelId)).then((r) => {
         this.updateVideoList(filter);
         return r;
       });
     } else if (filter === 'popular') {
-      this.props.dispatch(getPopularVideos(query)).then((r) => {
+      this.props.dispatch(getPopularVideos(query, channelId)).then((r) => {
         this.updateVideoList(filter);
         return r;
       });
     } else if (filter === 'all') {
-      this.props.dispatch(getVideos(query)).then((r) => {
+      this.props.dispatch(getVideos(query, channelId)).then((r) => {
+        this.updateVideoList(filter);
+        return r;
+      });
+    } else if (filter === 'favorites') {
+      this.props.dispatch(getFavorites(query, channelId)).then((r) => {
         this.updateVideoList(filter);
         return r;
       });
@@ -269,7 +180,7 @@ class Videos extends Component {
       if (this.state.videos.length === 0 || !this.state.selectedTag) {
         return;
       }
-      this.props.dispatch(getSelectedThemeVideos(this.state.selectedTag, page)).then(() => {
+      this.props.dispatch(getSelectedThemeVideos(this.state.selectedTag, page, channelId)).then(() => {
         this.setState({ videos: this.props.selectedThemeVideos });
       });
     }
@@ -289,19 +200,20 @@ class Videos extends Component {
         this.videoList.scrollToBeginning();
       }
     }
+    const channelId = this.props.channel ? this.props.channel.id : undefined;
 
     if (filter === 'featured') {
-      return this.props.dispatch(getFeaturedVideos()).then((r) => {
+      return this.props.dispatch(getFeaturedVideos(undefined, channelId)).then((r) => {
         this.updateVideoList(filter);
         return r;
       });
     } else if (filter === 'popular') {
-      return this.props.dispatch(getPopularVideos()).then((r) => {
+      return this.props.dispatch(getPopularVideos(undefined, channelId)).then((r) => {
         this.updateVideoList(filter);
         return r;
       });
     } else if (filter === 'all') {
-      return this.props.dispatch(getVideos()).then((r) => {
+      return this.props.dispatch(getVideos(undefined, channelId)).then((r) => {
         this.updateVideoList(filter);
         return r;
       });
@@ -310,18 +222,112 @@ class Videos extends Component {
         this.showThemes();
         return r;
       });
+    } else if (filter === 'favorites') {
+      return this.props.dispatch(getFavorites(undefined, channelId)).then((r) => {
+        this.updateVideoList(filter);
+        return r;
+      });
     }
     return Promise.resolve();
   }
 
   updateVideoList(type) {
-    if (type === 'featured') {
-      this.setState({ videos: this.props.featured});
-    } else if (type === 'all') {
-      this.setState({ videos: this.props.all});
-    } else if (type === 'popular') {
-      this.setState({ videos: this.props.popular});
+    if (this.props.channel && this.props.channel.id) {
+      this.setState({ videos: this.props.channelVideos });
+      return;
     }
+    if (type === 'featured') {
+      this.setState({ videos: this.props.featured });
+    } else if (type === 'all') {
+      this.setState({ videos: this.props.all });
+    } else if (type === 'popular') {
+      this.setState({ videos: this.props.popular });
+    } else if (type === 'favorites') {
+      this.setState({ videos: this.props.favorites });
+    }
+  }
+
+  getSubscriberData() {
+    // TODO: Get my subscription info for a channel
+    this.props.dispatch(getChannel(this.props.channel.id)).then((channelResults) => {
+      this.props.dispatch(getChannelSubscriberData(this.props.channel.id)).then((results) => {
+        const subscriberId = channelResults.subscription_id;
+        const isSubscribed = !!subscriberId;
+        const total = results && results._links && results._links.root ? results._links.root.total_count : 0;
+        
+        this.setState({
+          channelSubscribeData: {
+            id: subscriberId,
+            isSubscribed,
+            total,
+          },
+        });
+      });
+    });
+  }
+  
+  handleSubscribe() {
+    this.props.dispatch(subscribeChannel(this.props.channel.id)).then((results) => {
+      this.setState({
+        channelSubscribeData: {
+          id: results.id,
+          isSubscribed: true,
+          total: this.state.channelSubscribeData.total + 1,
+        },
+      });
+    });
+  }
+  
+  handleUnsubscribe() {
+    const subscriptionId = this.state.channelSubscribeData.id;
+    this.props.dispatch(unsubscribeChannel(this.props.channel.id, subscriptionId)).then(() => {
+      this.setState({
+        channelSubscribeData: {
+          id: '',
+          isSubscribed: false,
+          total: this.state.channelSubscribeData.total - 1,
+        },
+      });
+    });
+  }
+
+  renderChannel() {
+    const { channel } = this.props;
+    if (!channel) return null;
+    return (
+      <ChannelInfo
+        channel={channel}
+        subscribeData={this.state.channelSubscribeData}
+        onSubscribe={this.handleSubscribe}
+        onUnsubscribe={this.handleUnsubscribe}
+      />
+    );
+  }
+
+  renderHeaderLeft() {
+    const { onSelectVideo, channel } = this.props;
+    const showBack = !!onSelectVideo || !!channel;
+    if (CONSTANTS.IS_ANDROID && !showBack) {
+      return null;
+    } else if (CONSTANTS.IS_ANDROID && showBack) {
+      return (
+        <HeaderIcon
+          type="back"
+          onPress={() => this.props.navigateBack()} />
+      );
+    }
+    return (
+      <HeaderIcon
+        type={showBack ? 'back' : undefined}
+        image={vokeIcons['menu']}
+        onPress={() => {
+          if (showBack) {
+            this.props.navigateBack();
+          } else {
+            this.props.navigatePush('voke.Menu');
+          }
+        }} />
+    );
   }
 
   render() {
@@ -331,6 +337,16 @@ class Videos extends Component {
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
+        <Header
+          left={this.renderHeaderLeft()}
+          right={
+            <HeaderIcon
+              type="search"
+              onPress={() => this.handleFilter('themes')} />
+          }
+          title="Videos"
+        />
+        {this.renderChannel()}
         <Flex style={{height: 50}} align="center" justify="center">
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <Flex direction="row" style={{padding: 10}}>
@@ -353,9 +369,10 @@ class Videos extends Component {
                 animation="slideInUp"
               />
               <PillButton
-                text="Themes"
-                filled={selectedFilter === 'themes'}
-                onPress={() => this.handleFilter('themes')}
+                icon="favorite-border"
+                style={{ alignItems: 'center' }}
+                filled={selectedFilter === 'favorites'}
+                onPress={() => this.handleFilter('favorites')}
                 animation="slideInUp"
               />
             </Flex>
@@ -365,29 +382,27 @@ class Videos extends Component {
           ref={(c) => this.videoList = c}
           items={videos}
           onSelect={(c) => {
-            Navigation.showModal({
-              screen: 'voke.VideoDetails',
-              animationType: 'slide-up',
-              passProps: {
-                video: c,
-                onSelectVideo,
-              },
-              navigatorStyle: { orientation: 'auto' },
+            this.props.navigatePush('voke.VideoDetails', {
+              video: c,
+              onSelectVideo,
+              conversation: this.props.conversation,
+              onRefresh: this.handleRefresh,
             });
-            // this.props.navigatePush('voke.VideoDetails', {
-            //   video: c,
-            //   onSelectVideo,
-            // });
           }}
           onRefresh={this.handleRefresh}
           onLoadMore={this.handleNextPage}
         />
-        {
-          // !onSelectVideo ? (
-          //   <TabBarIndicator index={1} />
-          // ) : null
-        }
         <ApiLoading />
+        {
+          this.state.showThemeModal ? (
+            <ThemeSelect
+              onClose={() => this.setState({ showThemeModal: false })}
+              themes={this.props.tags}
+              onSelect={this.handleThemeSelect}
+              onDismiss={this.handleDismissTheme}
+            />
+          ) : null
+        }
       </View>
     );
   }
@@ -395,7 +410,9 @@ class Videos extends Component {
 
 Videos.propTypes = {
   ...NavPropTypes,
+  channel: PropTypes.object,
   onSelectVideo: PropTypes.func,
+  conversation: PropTypes.object,
 };
 
 const mapStateToProps = ({ auth, videos }) => ({
@@ -403,9 +420,10 @@ const mapStateToProps = ({ auth, videos }) => ({
   user: auth.user,
   popular: videos.popular,
   featured: videos.featured,
+  favorites: videos.favorites,
   tags: videos.tags,
   selectedThemeVideos: videos.selectedThemeVideos,
-  isTabSelected: auth.homeTabSelected === 1,
+  channelVideos: videos.channelVideos,
   pagination: videos.pagination,
 });
 

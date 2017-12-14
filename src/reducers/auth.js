@@ -1,10 +1,11 @@
 import { REHYDRATE } from 'redux-persist/constants';
 
-import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, TAB_SELECTED, ACTIVE_SCREEN, ONBOARD_FLAG, NO_BACKGROUND_ACTION, RESET_TOKEN } from '../constants';
+import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, TAB_SELECTED, ACTIVE_SCREEN, UPDATE_TOKENS, NO_BACKGROUND_ACTION, RESET_TOKEN } from '../constants';
 import { REQUESTS } from '../actions/api';
 
 const initialState = {
   token: '',
+  refreshToken: '',
   user: {},
   isLoggedIn: false,
   device: {
@@ -21,7 +22,7 @@ const initialState = {
   apiActive: 0,
   homeTabSelected: 0,
   activeScreen: null,
-  onboardCompleted: false,
+  // onboardCompleted: false,
   noBackgroundAction: false,
 };
 
@@ -44,7 +45,7 @@ export default function auth(state = initialState, action) {
       return {
         ...state,
         ...incoming,
-        onboardCompleted: false,
+        // onboardCompleted: false,
         apiActive: 0,
         homeTabSelected: 0, // Always default the home page to tab 0
         activeScreen: null,
@@ -62,13 +63,20 @@ export default function auth(state = initialState, action) {
       return {
         ...state,
         token: action.token,
-        user: action.user,
+        refreshToken: action.data ? action.data.refresh_token : '',
         isLoggedIn: true,
       };
     case RESET_TOKEN:
       return {
         ...state,
         token: '',
+        refreshToken: '',
+      };
+    case UPDATE_TOKENS:
+      return {
+        ...state,
+        token: action.data.access_token,
+        refreshToken: action.data.refresh_token,
       };
     case SET_USER:
       return {
@@ -130,11 +138,11 @@ export default function auth(state = initialState, action) {
         ...state,
         activeScreen: action.screen,
       };
-    case ONBOARD_FLAG:
-      return {
-        ...state,
-        onboardCompleted: action.completed,
-      };
+    // case ONBOARD_FLAG:
+    //   return {
+    //     ...state,
+    //     onboardCompleted: action.completed,
+    //   };
     case NO_BACKGROUND_ACTION:
       return {
         ...state,

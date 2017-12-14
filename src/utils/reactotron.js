@@ -6,15 +6,15 @@ if (__DEV__) {
   const overlay = require('reactotron-react-native').overlay;
   // const asyncStorage = require('reactotron-react-native').asyncStorage;
   const networking = require('reactotron-react-native').networking;
-  const { reactotronRedux } = require('reactotron-redux');
+  // const { reactotronRedux } = require('reactotron-redux');
 
   Reactotron
     .configure({
       name: 'Voke App',
     })
-    .use(reactotronRedux({
-      isActionImportant: (action) => action.type && action.type.indexOf('_SUCCESS') >= 0,
-    }))
+    // .use(reactotronRedux({
+    //   isActionImportant: (action) => action.type && action.type.indexOf('_SUCCESS') >= 0,
+    // }))
     .use(trackGlobalErrors())
     .use(openInEditor())
     .use(overlay())

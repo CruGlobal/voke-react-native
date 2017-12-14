@@ -14,6 +14,10 @@ export default StyleSheet.create({
     width: DEFAULT.FULL_WIDTH,
     height: DEFAULT.FULL_HEIGHT,
   },
+  onboardHalf: {
+    width: DEFAULT.FULL_WIDTH,
+    height: DEFAULT.FULL_HEIGHT/2,
+  },
   headerWrap: {
     paddingVertical: 30,
   },
@@ -25,15 +29,17 @@ export default StyleSheet.create({
     paddingVertical: 10,
     textAlign: 'center',
     fontSize: 18,
-    color: theme.primaryColor,
+    color: theme.textColor,
     backgroundColor: 'rgba(0,0,0,0)',
   },
   headerTitle: {
     paddingTop: 40,
+    paddingHorizontal: 40,
     textAlign: 'center',
-    fontSize: 36,
+    fontSize: 16,
     backgroundColor: 'rgba(0,0,0,0)',
-    color: theme.primaryColor,
+    color: theme.textColor,
+    fontWeight: 'bold',
   },
   imageWrap: {
     position: 'absolute',
@@ -92,5 +98,17 @@ export default StyleSheet.create({
     left: 0,
     width: DEFAULT.FULL_WIDTH,
     height: DEFAULT.FULL_HEIGHT,
+  },
+  signInButtonText: {
+    fontSize: 16,
+  },
+  signInText: {
+    fontSize: 14,
+  },
+  signInButton: {
+    width: DEFAULT.FULL_WIDTH - 110,
+    height: 40,
+    alignItems: 'center',
+    marginTop: 10,
   },
 });

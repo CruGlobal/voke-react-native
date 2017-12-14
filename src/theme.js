@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, Platform } from 'react-native';
 import Color from 'color';
 
 import { exists } from './utils/common';
@@ -35,9 +35,10 @@ export const COLORS = {
   OFF_BLUE: '#3295AD',
   ORANGE: '#f96332',
   RED: '#ee2f2f',
-  PINK: '#dd4499',
+  PINK: '#DC608C',
   GREEN: '#00FF4F',
   YELLOW: '#FFF462',
+  OLIVE: '#BEB45A',
   BLACK: '#1d1d26',
   DEEP_BLACK: '#000000',
   WHITE: '#ffffff',
@@ -80,12 +81,17 @@ export default {
   buttonTextColor: COLORS.WHITE,
   buttonIconColor: COLORS.WHITE,
   separatorColor: SECONDARY,
-  // separatorHeight: StyleSheet.hairlineWidth + (Platform.OS === 'android' ? 0.2 : 0),
-  separatorHeight: StyleSheet.hairlineWidth,
+  separatorHeight: StyleSheet.hairlineWidth + (Platform.OS === 'android' ? 0.2 : 0),
+  // separatorHeight: StyleSheet.hairlineWidth,
   // header
   headerBackgroundColor: SECONDARY,
   headerTextColor: COLORS.WHITE,
   // message
   messageHeaderTextColor: COLORS.GREEN,
 
+  convert: colorConvert,
+  fullWidth: deviceWidth,
+  fullHeight: deviceHeight,
+  isAndroid: Platform.OS === 'android',
+  isIOS: Platform.OS === 'ios',
 };

@@ -1,24 +1,21 @@
 import React, { Component } from 'react';
-import { Image, ScrollView, TouchableOpacity, Keyboard, KeyboardAvoidingView, Alert } from 'react-native';
+import { Platform, Image, ScrollView, Keyboard, KeyboardAvoidingView, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import styles from './styles';
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 import { updateMe } from '../../actions/auth';
 import ImagePicker from '../../components/ImagePicker';
 import Analytics from '../../utils/analytics';
 
+import ApiLoading from '../ApiLoading';
 import { Flex, Icon, Button } from '../../components/common';
 import SignUpHeader from '../../components/SignUpHeader';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 
 class SignUpProfile extends Component {
-  static navigatorStyle = {
-    navBarHidden: true,
-  };
-
   constructor(props) {
     super(props);
 
@@ -27,6 +24,7 @@ class SignUpProfile extends Component {
       firstName: '',
       lastName: '',
       disableNext: false,
+      isLoading: false,
     };
 
     this.renderImagePicker = this.renderImagePicker.bind(this);
@@ -58,7 +56,7 @@ class SignUpProfile extends Component {
   addProfile() {
     const { firstName, lastName } = this.state;
     if (firstName && lastName) {
-      this.setState({ disableNext: true });
+      this.setState({ disableNext: true, isLoading: true });
       const data = {
         me: {
           first_name: firstName,
@@ -69,10 +67,10 @@ class SignUpProfile extends Component {
         if (this.state.imageUri) {
           this.uploadImage(this.state.imageUri);
         }
-        this.setState({ disableNext: false });
+        this.setState({ disableNext: false, isLoading: false });
         this.props.navigatePush('voke.SignUpNumber');
       }).catch(() => {
-        this.setState({ disableNext: false });
+        this.setState({ disableNext: false, isLoading: false });
       });
     } else {
       Alert.alert('', 'Please fill in your first and last name');
@@ -101,8 +99,8 @@ class SignUpProfile extends Component {
 
   render() {
     return (
-      <ScrollView style={styles.container} value={1} keyboardShouldPersistTaps="always">
-        <KeyboardAvoidingView behavior="padding">
+      <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
+        <KeyboardAvoidingView behavior={Platform.OS === 'android' ? undefined : 'padding'}>
           {
             // hideBack just means that we're resetting to this page because the
             // user has to fill in more info before they can continue
@@ -142,6 +140,9 @@ class SignUpProfile extends Component {
             </Flex>
           </Flex>
         </KeyboardAvoidingView>
+        {
+          this.state.isLoading ? <ApiLoading force={true} /> : null
+        }
       </ScrollView>
     );
   }
@@ -151,5 +152,8 @@ SignUpProfile.propTypes = {
   ...NavPropTypes,
   hideBack: PropTypes.bool,
 };
+const mapStateToProps = (state, { navigation }) => ({
+  ...(navigation.state.params || {}),
+});
 
-export default connect(null, nav)(SignUpProfile);
+export default connect(mapStateToProps, nav)(SignUpProfile);

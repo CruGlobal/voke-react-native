@@ -1,37 +1,21 @@
 import React, { Component } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Analytics from '../../utils/analytics';
 
-import nav, { NavPropTypes } from '../../actions/navigation_new';
+import nav, { NavPropTypes } from '../../actions/nav';
 import { getKickstarters } from '../../actions/videos';
 import theme from '../../theme';
 import { vokeIcons } from '../../utils/iconMap';
 
 import styles from './styles';
 import ApiLoading from '../ApiLoading';
+import Header from '../Header';
 import { Flex, Text, Touchable, VokeIcon } from '../../components/common';
-
-function setButtons() {
-  const leftButton1 = {
-    title: 'Back',
-    id: 'back',
-    icon: vokeIcons['back'],
-  };
-  return {
-    leftButtons: [leftButton1],
-  };
-}
 
 
 class KickstartersTab extends Component {
-  static navigatorStyle = {
-    tabBarHidden: true,
-    navBarButtonColor: theme.lightText,
-    navBarTextColor: theme.headerTextColor,
-    navBarBackgroundColor: theme.headerBackgroundColor,
-  };
   constructor(props) {
     super(props);
 
@@ -41,28 +25,12 @@ class KickstartersTab extends Component {
     };
 
     this.getKickstarters = this.getKickstarters.bind(this);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.renderRow = this.renderRow.bind(this);
-  }
-
-  onNavigatorEvent(event) {
-    if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
-      if (event.id == 'back') {
-        this.props.navigateBack();
-      }
-    }
   }
 
   componentDidMount() {
     this.getKickstarters();
     Analytics.screen('In-Chat KickStarters');
-  }
-
-  componentWillMount() {
-    this.props.navigator.setTitle({
-      title: 'Kickstarters',
-    });
-    this.props.navigator.setButtons(setButtons());
   }
 
   getKickstarters() {
@@ -125,16 +93,22 @@ class KickstartersTab extends Component {
 
 
     return (
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={!hasKickstarters ? { flex: 1 } : undefined}
-      >
-        {this.renderHeader()}
-        <Flex value={1} align="center" justify="center" style={styles.content}>
-          {content}
-        </Flex>
-        <ApiLoading />
-      </ScrollView>
+      <View style={{ flex: 1 }}>
+        <Header
+          leftBack={true}
+          title="Kickstarters"
+        />
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={!hasKickstarters ? { flex: 1 } : undefined}
+        >
+          {this.renderHeader()}
+          <Flex value={1} align="center" justify="center" style={styles.content}>
+            {content}
+          </Flex>
+          <ApiLoading />
+        </ScrollView>
+      </View>
     );
   }
 }
@@ -144,5 +118,8 @@ KickstartersTab.propTypes = {
   onSelectKickstarter: PropTypes.func.isRequired,
   latestItem: PropTypes.string,
 };
+const mapStateToProps = (state, { navigation }) => ({
+  ...(navigation.state.params || {}),
+});
 
-export default connect(null, nav)(KickstartersTab);
+export default connect(mapStateToProps, nav)(KickstartersTab);
