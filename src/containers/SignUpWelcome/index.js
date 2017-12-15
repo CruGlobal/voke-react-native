@@ -11,6 +11,7 @@ import ONBOARD_2 from '../../../images/onboarding-image-2.png';
 import ONBOARD_3 from '../../../images/onboarding-image-3.png';
 import ONBOARD_4 from '../../../images/onboarding-image-4.png';
 import ONBOARD_5 from '../../../images/onboard5.png';
+import ONBOARD_LOGO from '../../../images/onboardingLogo.png';
 // import { ONBOARD_FLAG } from '../../constants';
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/nav';
@@ -102,6 +103,9 @@ class SignUpWelcome extends Component {
                   />
                 </Flex>
               </Flex>
+              <Flex direction="column" align="center" style={{position: 'absolute', top: 66, left: 0, right: 0}}>
+                <Image source={ONBOARD_LOGO} />
+              </Flex>
               <Flex style={{position: 'absolute', bottom: 40, right: 40 }}>
                 {this.renderSkip()}
               </Flex>
@@ -111,6 +115,10 @@ class SignUpWelcome extends Component {
                 <Flex value={1} align="center" justify="center">
                   <Image resizeMode="cover" source={ONBOARD_2} style={styles.onboardFull} />
                 </Flex>
+              </Flex>
+              <Flex direction="column" align="end" style={{position: 'absolute', top: 40, right: 40, width: 150 }}>
+                <VokeIcon style={{width: 36, height: 36}} name="onboard-film"></VokeIcon>
+                <Text style={{fontSize: 36, fontWeight: 'bold', backgroundColor: 'rgba(0,0,0,0)', textAlign: 'right'}}>Share Videos Worth Sharing</Text>
               </Flex>
               <Flex style={{position: 'absolute', bottom: 40, right: 40 }}>
                 {this.renderSkip()}
@@ -122,6 +130,10 @@ class SignUpWelcome extends Component {
                   <Image resizeMode="cover" source={ONBOARD_3} style={styles.onboardFull} />
                 </Flex>
               </Flex>
+              <Flex direction="column" align="end" style={{position: 'absolute', top: 40, right: 40, width: 250 }}>
+                <VokeIcon style={{width: 36, height: 36}} name="onboard-chat"></VokeIcon>
+                <Text style={{fontSize: 36, fontWeight: 'bold', backgroundColor: 'rgba(0,0,0,0)', textAlign: 'right'}}>Inspire {'\n'} Deeper {'\n'} Conversations</Text>
+              </Flex>
               <Flex style={{position: 'absolute', bottom: 40, right: 40 }}>
                 {this.renderSkip()}
               </Flex>
@@ -131,6 +143,10 @@ class SignUpWelcome extends Component {
                 <Flex value={1} align="center" justify="center">
                   <Image resizeMode="cover" source={ONBOARD_4} style={styles.onboardFull} />
                 </Flex>
+              </Flex>
+              <Flex direction="column" align="end" style={{position: 'absolute', top: 40, right: 40, width: 250 }}>
+                <VokeIcon style={{width: 36, height: 36}} name="onboard-heart"></VokeIcon>
+                <Text style={{fontSize: 36, fontWeight: 'bold', backgroundColor: 'rgba(0,0,0,0)', textAlign: 'right'}}>Experience Deeper Friendships</Text>
               </Flex>
               <Flex style={{position: 'absolute', bottom: 40, right: 40 }}>
                 {this.renderSkip()}

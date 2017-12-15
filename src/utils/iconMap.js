@@ -27,6 +27,9 @@ import PLUS_ICON from '../../images/plus.png';
 import SEARCH_ICON from '../../images/search-icon.png';
 import VIDEO_BACK from '../../images/back_button_transparent.png';
 import HOME_DOT from '../../images/homeBadge.png';
+import ONBOARD_FILM from '../../images/onboardFilmIcon.png';
+import ONBOARD_CHAT from '../../images/onboardChatIcon.png';
+import ONBOARD_HEART from '../../images/onboardHeartIcon.png';
 
 
 // const navIconSize = (Platform.OS === 'android') ? PixelRatio.getPixelSizeForLayoutSize(10) : 30;
@@ -94,6 +97,9 @@ const vokeIcons = {
   'plus': PLUS_ICON,
   'search': SEARCH_ICON,
   'home-dot': HOME_DOT,
+  'onboard-film': ONBOARD_FILM,
+  'onboard-chat': ONBOARD_CHAT,
+  'onboard-heart': ONBOARD_HEART,
 };
 
 export {
