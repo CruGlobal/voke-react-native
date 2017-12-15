@@ -97,6 +97,15 @@ export default function callApi(requestObject, query = {}, data = {}) {
 
           if (typeof err === 'object') {
             if (err.error === 'Unauthorized' || err.code === 'AUTHORIZATION_REQUIRED') {
+              
+              // If it's the login request, show this message
+              if (action.name === 'OAUTH') {
+                Alert.alert('Error', 'Sorry, that username/password combination is not correct.');
+                reject(err);
+                return;
+              }
+
+
               const unauthAlert = () => {
                 Alert.alert(
                   'Unauthorized',

@@ -6,10 +6,10 @@ import Analytics from '../../utils/analytics';
 import PropTypes from 'prop-types';
 import Orientation from 'react-native-orientation';
 
-import ONBOARD_1 from '../../../images/onboard1.png';
-import ONBOARD_2 from '../../../images/onboard2.png';
-import ONBOARD_3 from '../../../images/onboard3.png';
-import ONBOARD_4 from '../../../images/onboard4.png';
+import ONBOARD_1 from '../../../images/onboarding-image-1.png';
+import ONBOARD_2 from '../../../images/onboarding-image-2.png';
+import ONBOARD_3 from '../../../images/onboarding-image-3.png';
+import ONBOARD_4 from '../../../images/onboarding-image-4.png';
 import ONBOARD_5 from '../../../images/onboard5.png';
 // import ONBOARD_BACKGROUND from '../../../images/onboardBackground.png';
 // import { ONBOARD_FLAG } from '../../constants';
