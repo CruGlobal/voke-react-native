@@ -187,19 +187,17 @@ class SelectFriend extends Component {
         this.props.dispatch(getConversation(results.id)).then((c) => {
           LOG('get voke conversation results', c);
           const friend = results.messengers[0];
-  
+
           // Show the share modal
           this.props.dispatch({
             type: SHOW_SHARE_MODAL,
             bool: true,
             props: {
               onComplete: () => {
-                LOG('onComplete');
-  
                 // Set these to false so we're not in the share modal anymore
                 this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
                 this.props.dispatch({ type: SET_IN_SHARE, bool: false });
-                
+
                 // On android, put a timeout because the share stuff gets messed up otherwise
                 if (Platform.OS === 'android') {
                   this.setState({ setLoaderBeforePush: true });
@@ -218,7 +216,7 @@ class SelectFriend extends Component {
               // This could also be called on the contacts page to cancel the share modal
               onCancel: () => {
                 LOG('canceling sharing');
-  
+
                 // Set these to false and delete the conversation
                 this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
                 this.props.dispatch({ type: SET_IN_SHARE, bool: false });

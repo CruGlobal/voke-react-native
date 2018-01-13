@@ -111,7 +111,7 @@ class ShareModal extends Component {
     this.props.dispatch(setNoBackgroundAction(true));
     const friend = this.props.friend;
     if (!friend) return;
-
+    this.handleHide;
     LOG(JSON.stringify(friend));
     if (!friend) {
       this.handleDismiss();

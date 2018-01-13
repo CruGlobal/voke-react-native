@@ -48,7 +48,7 @@ class Profile extends Component {
     this.props.dispatch(getMe());
     BackHandler.addEventListener('hardwareBackPress', this.backHandler);
   }
-  
+
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.backHandler);
   }
