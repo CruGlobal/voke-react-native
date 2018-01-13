@@ -41,7 +41,7 @@ class SearchBarIos extends Component { // eslint-disable-line
           returnKeyType="done"
         />
         {
-          this.state.isFocus || this.state.text ? null : (
+          this.state.text ? null : (
             <View style={styles.searchIconWrap} pointerEvents="none">
               <Icon style={styles.searchIcon} name="search" size={22} />
             </View>
