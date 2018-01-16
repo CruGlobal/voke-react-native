@@ -74,9 +74,9 @@ class Message extends Component {
     const nLength = nextProps.messages.length;
     const cLength = this.props.messages.length;
     this.setLatestItem(nextProps.messages);
-    if (nLength > 0 && cLength > 0 && cLength < nLength) {
-      this.createMessageReadInteraction();
-    }
+    // if (nLength > 0 && cLength > 0 && cLength < nLength) {
+    this.createMessageReadInteraction();
+    // }
 
     if ((nextProps.showUnreadDot && !this.props.showUnreadDot) || (Platform.OS === 'ios' && nextProps.unReadBadgeCount > 0)) {
       clearTimeout(this.timeoutSetYellow);

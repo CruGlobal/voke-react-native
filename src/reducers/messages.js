@@ -186,7 +186,7 @@ export default function messages(state = initialState, action) {
             messengers,
             messagePreview: action.message.content,
             hasUnread: true,
-            unReadCount: c.unReadCount ? c.unReadCount + 1 : 1,
+            unReadCount: c.messengers[0].bot ? 1 : c.unReadCount ? c.unReadCount + 1 : 1,
           };
         }
         return c;
@@ -200,7 +200,6 @@ export default function messages(state = initialState, action) {
         ...(state.messages[conversationNewMessageId] || []),
       ];
       newCreatedMessages = removeDuplicateMessages(newCreatedMessages);
-
       return {
         ...state,
         conversations: msgPreviewConversations,
@@ -216,7 +215,7 @@ export default function messages(state = initialState, action) {
       if (!messageCreatedConversationId) {
         return state;
       }
-      
+
       return {
         ...state,
         messages: {
@@ -230,7 +229,6 @@ export default function messages(state = initialState, action) {
       };
     case MARK_READ:
       let currentBadgeCount2 = state.unReadBadgeCount;
-
       const readConversations = state.conversations.map((c) => {
         if (c.id === action.conversationId) {
           currentBadgeCount2 = c.unReadCount > 0 ? currentBadgeCount2 - c.unReadCount : currentBadgeCount2;
@@ -238,6 +236,7 @@ export default function messages(state = initialState, action) {
         }
         return c;
       });
+
       return {
         ...state,
         conversations: readConversations,

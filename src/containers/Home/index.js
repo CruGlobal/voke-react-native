@@ -195,6 +195,7 @@ class Home extends Component {
               me={this.props.me}
               onRefresh={this.handleRefresh}
               onDelete={this.handleDelete}
+              unreadCount={this.props.unreadCount}
               onBlock={this.handleBlock}
               onLoadMore={this.handleLoadMore}
               onSelect={(c) => this.props.navigatePush('voke.Message', {conversation: c})}
@@ -260,6 +261,7 @@ const mapStateToProps = ({ messages, auth }) => {
     me: auth.user,
     pagination: messages.pagination.conversations,
     isTabSelected: auth.homeTabSelected === 0,
+    unreadCount: messages.unReadBadgeCount,
   };
 };
 

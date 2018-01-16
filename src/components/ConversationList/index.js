@@ -132,7 +132,7 @@ class ConversationList extends Component { // eslint-disable-line
               </Flex>
             </Flex>
             <Flex style={styles.conversationArrow} align="center" justify="center">
-              <VokeIcon name={conversation.hasUnread ? 'unread-arrow' : 'read-arrow'} />
+              <VokeIcon name={conversation.hasUnread && this.props.unreadCount > 0 ? 'unread-arrow' : 'read-arrow'} />
             </Flex>
           </Flex>
         </View>
@@ -204,6 +204,7 @@ ConversationList.propTypes = {
   onBlock: PropTypes.func.isRequired,
   onLoadMore: PropTypes.func.isRequired,
   items: PropTypes.array.isRequired,
+  unreadCount: PropTypes.number.isRequired,
   me: PropTypes.object.isRequired,
   refreshing: PropTypes.bool,
 };
