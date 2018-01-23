@@ -83,7 +83,29 @@ export function getContacts(force = false) {
 
         if (permission === Permissions.NOT_ASKED || permission === Permissions.AUTHORIZED) {
           Permissions.requestContacts().then((contacts) => {
-            const all = lodashFilter(lodashMap(contacts, (c) => {
+            let all = contacts || [];
+            if (Platform.OS === 'android') {
+              // Sort by first name
+              all = all.sort((a, b) => {
+                const aName = (a.givenName || '').trim().toLowerCase();
+                const bName = (b.givenName || '').trim().toLowerCase();
+                if (aName < bName) return -1;
+                else if (aName > bName) return 1;
+                return 0;
+              });
+            } else {
+              // Sort by last name
+              all = all.sort((a, b) => {
+                const aName = (a.familyName || '').trim().toLowerCase();
+                const bName = (b.familyName || '').trim().toLowerCase();
+                if (aName < bName) return -1;
+                else if (aName > bName) return 1;
+                return 0;
+              });
+            }
+
+
+            all = lodashMap(all, (c) => {
               // Android doesn't have familyName, just givenName
               const name = `${c.givenName || ''} ${c.familyName || ''}`.trim();
               const firstNameLetter = getFirstLetter(c.givenName) || getFirstLetter(name);
@@ -98,7 +120,8 @@ export function getContacts(force = false) {
                 firstNameLetter,
                 initials: firstNameLetter + lastNameLetter,
               };
-            }), (c) => c.phone.length > 0 && !!c.name && !c.phone.find((num) => (num || '').replace(/[^0-9]/g, '').substr(-10) === myNumberCompare));
+            });
+            all = lodashFilter(all, (c) => c.phone.length > 0 && !!c.name && !c.phone.find((num) => (num || '').replace(/[^0-9]/g, '').substr(-10) === myNumberCompare));
             // LOG('all', all.length, all);
 
 

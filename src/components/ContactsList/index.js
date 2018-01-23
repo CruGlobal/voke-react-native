@@ -12,11 +12,7 @@ const isAndroid = Platform.OS === 'android';
 // Format contacts for the section list
 function formatContacts(items) {
   if (isAndroid) {
-    return items.sort((a, b) => {
-      if (a.nameLower < b.nameLower) return -1;
-      else if (a.nameLower > b.nameLower) return 1;
-      return 0;
-    });
+    return items;
   }
   const ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
   const sections = items.reduce((p, n) => {
