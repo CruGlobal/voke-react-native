@@ -3,7 +3,7 @@ import { Image } from 'react-native';
 import PropTypes from 'prop-types';
 import TO_CHAT from '../../../images/to-chat-button.png';
 
-import { Touchable } from '../common';
+import { Touchable, Icon, Flex } from '../common';
 import styles from './styles';
 
 const SIZE = 68;
@@ -18,9 +18,12 @@ class FloatingButtonSingle extends Component {
           styles.wrapper,
           { width: SIZE, height: SIZE, borderRadius: SIZE / 2 },
         ]}>
+        <Flex align="center" justify="center" style={styles.iconWrap}>
+          <Icon name="message" size={30} />
+        </Flex>
         <Image
           source={TO_CHAT}
-          style={{ width: SIZE, height: SIZE, borderRadius: SIZE / 2 }}
+          style={{ width: SIZE + 8, height: SIZE + 8, borderRadius: SIZE / 2, marginTop: 3 }}
         />
       </Touchable>
     );
