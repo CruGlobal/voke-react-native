@@ -160,7 +160,7 @@ class Profile extends Component {
     return (
       <ImagePicker onSelectImage={this.handleImageChange}>
         <Flex align="center" justify="center" style={styles.imageSelect}>
-          <Image source={image} style={styles.image} />
+          <Image resizeMode="cover" source={image} style={styles.image} />
         </Flex>
       </ImagePicker>
     );
