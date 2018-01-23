@@ -100,7 +100,7 @@ class SelectFriend extends Component {
       });
     }).catch(() => {
       this.setState({ isLoading: false, permission: Permissions.DENIED });
-      LOG('contacts caught');
+      LOG('contacts caught in handle get contacts');
       //change screen
     });
   }
