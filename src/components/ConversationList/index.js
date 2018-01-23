@@ -18,11 +18,8 @@ class ConversationList extends Component { // eslint-disable-line
 
   constructor(props) {
     super(props);
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2 || r1.id !== r2.id || r1.hasUnread !== r2.hasUnread || r1.messagePreview !== r2.messagePreview || r1.updated_at !== r2.updated_at,
-    });
     this.state = {
-      dataSource: ds.cloneWithRows(props.items),
+      items: props.items,
       rowFocused: null,
     };
 
@@ -37,7 +34,7 @@ class ConversationList extends Component { // eslint-disable-line
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(nextProps.items),
+      items: nextProps.items,
     });
   }
 
@@ -55,7 +52,7 @@ class ConversationList extends Component { // eslint-disable-line
   }
 
   getSenderName(conversation) {
-    const messenger = conversation.messengers[0];
+    const messenger = conversation.messengers[0] ? conversation.messengers[0] : {};
     if (messenger && messenger.id && messenger.id !== this.props.me.id) {
       return messenger.first_name || 'Other';
     }
@@ -82,7 +79,7 @@ class ConversationList extends Component { // eslint-disable-line
     return false;
   }
 
-  renderRow(item) {
+  renderRow({ item }) {
     const conversation = item;
     const contentCreator = this.getSenderName(conversation);
     const otherPerson = this.getConversationParticipant(conversation);
@@ -144,18 +141,20 @@ class ConversationList extends Component { // eslint-disable-line
 
     return (
       <SwipeListView
-        dataSource={this.state.dataSource}
-        renderRow={this.renderRow}
+        useFlatList={true}
+        keyExtractor= {(item) => item.id}
+        data={this.props.items}
+        renderItem={this.renderRow}
         directionalDistanceChangeThreshold={Platform.OS === 'android' ? 12 : undefined}
-        renderHiddenRow={(data, sectionID, rowID, rowMap) => (
+        renderHiddenItem={(rowData, rowMap) => (
           <View style={styles.rowBack}>
             <Flex direction="row" align="center" justify="center" style={{ width: SLIDE_ROW_WIDTH }}>
               <Touchable
                 activeOpacity={0.9}
                 style={{ flex: 1 }}
                 onPress={() => {
-                  this.handleDelete(data);
-                  rowMap[`${sectionID}${rowID}`] && rowMap[`${sectionID}${rowID}`].closeRow();
+                  this.handleDelete(rowData.item);
+                  rowMap[rowData.item.id] && rowMap[rowData.item.id].closeRow() ;
                 }}
               >
                 <Flex align="center" justify="center" style={styles.rowBackButton}>
@@ -166,8 +165,8 @@ class ConversationList extends Component { // eslint-disable-line
                 activeOpacity={0.9}
                 style={{ flex: 1 }}
                 onPress={() => {
-                  this.handleBlock(data);
-                  rowMap[`${sectionID}${rowID}`] && rowMap[`${sectionID}${rowID}`].closeRow();
+                  this.handleBlock(rowData.item);
+                  rowMap[rowData.item.id] && rowMap[rowData.item.id].closeRow();
                 }}
               >
                 <Flex align="center" justify="center" style={styles.rowBackButton}>
@@ -182,7 +181,7 @@ class ConversationList extends Component { // eslint-disable-line
         enableEmptySections={true}
         onEndReached={this.handleNextPage}
         onEndReachedThreshold={50}
-        renderSeparator={(sectionID, rowID) => <Separator key={rowID} />}
+        ItemSeparatorComponent={() => <Separator />}
         rightOpenValue={SLIDE_ROW_WIDTH * -1}
         disableLeftSwipe={false}
         disableRightSwipe={true}
