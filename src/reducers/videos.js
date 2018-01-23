@@ -43,9 +43,9 @@ function getChannelVideos(state, action, type) {
   let channelVideos = [];
   if (state.pagination.channel.type === type) {
     if (action.query.page && action.query.page > 1) {
-      if (type === 'popular' && action.query.popularity) {
+      if (type === 'popular') {
         channelVideos = state.channelVideos;
-      } else if (type === 'featured' && action.query.featured) {
+      } else if (type === 'featured') {
         channelVideos = state.channelVideos;
       } else if (type === 'all' && !action.query.featured && !action.query.popularity) {
         channelVideos = state.channelVideos;
