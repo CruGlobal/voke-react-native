@@ -74,7 +74,7 @@ class ContactsList extends Component {
       this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
     }
   }
-  
+
   componentWillUnmount() {
     if (Platform.OS === 'ios') {
       this.keyboardDidShowListener.remove();
@@ -163,7 +163,7 @@ class ContactsList extends Component {
     }
     // ItemSeparatorComponent={() => <Separator />}
     return (
-      <View style={{paddingBottom: Platform.OS === 'ios' ? this.state.height + 50 : undefined}}>
+      <View style={{paddingBottom: Platform.OS === 'ios' ? this.state.height + 100 : undefined}}>
         {this.renderContent()}
       </View>
     );
