@@ -91,13 +91,17 @@ class ConversationList extends Component { // eslint-disable-line
       <Touchable
         highlight={true}
         underlayColor={COLORS.TRANSPARENT}
-        style={{borderBottomWidth: 1, borderBottomColor: theme.secondaryColor}}
         androidRippleColor={COLORS.DARK_BLUE}
         onShowUnderlay={() => this.setState({ rowFocused: item.id })}
         onHideUnderlay={() => this.setState({ rowFocused: null })}
         activeOpacity={1}
         onPress={() => this.props.onSelect(conversation)}>
-        <View style={[styles.container, this.state.rowFocused === item.id ? { backgroundColor: theme.accentColor } : null]}>
+        <View
+          style={[
+            styles.container,
+            this.state.rowFocused === item.id ? { backgroundColor: theme.accentColor } : null,
+            { borderBottomWidth: 1, borderBottomColor: theme.separatorColor },
+          ]}>
           <Flex direction="row" align="center" justify="center">
             <Avatar
               size={30}

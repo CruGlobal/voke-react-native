@@ -44,6 +44,7 @@ class ShareModal extends Component {
     if (this.props.onComplete) {
       this.props.onComplete();
     }
+    setTimeout(() => this.setState({ isHidden: false }), 1000);
   }
 
   handleHide() {
@@ -111,12 +112,12 @@ class ShareModal extends Component {
     this.props.dispatch(setNoBackgroundAction(true));
     const friend = this.props.friend;
     if (!friend) return;
-    this.handleHide;
     LOG(JSON.stringify(friend));
     if (!friend) {
       this.handleDismiss();
       return;
     }
+    this.handleHide();
     const message = getMessage(friend);
     if (type === 'message') {
       // For Android, just call the normal linking sms:{phone}?body={message}
