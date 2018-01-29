@@ -176,7 +176,10 @@ class ShareModal extends Component {
       const url = `whatsapp://send?text=${whatsappMessage}`;
       this.openUrl(url);
     } else if (type === 'fb') {
-      this.shareLinkWithShareDialog(message, friend.url);
+      this.handleHide();
+      setTimeout(()=> {
+        this.shareLinkWithShareDialog(message, friend.url);
+      }, 300);
       // const url = 'https://m.me';
       // this.openUrl(url);
     } else if (type === 'copy') {

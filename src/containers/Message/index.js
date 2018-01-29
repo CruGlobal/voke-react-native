@@ -371,7 +371,7 @@ class Message extends Component {
               onContentSizeChange={this.handleInputSizeChange}
               style={[styles.chatInput, newHeight]}
               autoCorrect={true}
-              returnKeyType="done"
+              returnKeyType="next"
             />
             {
               this.state.text ? (

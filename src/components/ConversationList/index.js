@@ -91,6 +91,7 @@ class ConversationList extends Component { // eslint-disable-line
       <Touchable
         highlight={true}
         underlayColor={COLORS.TRANSPARENT}
+        style={{borderBottomWidth: 1, borderBottomColor: theme.secondaryColor}}
         androidRippleColor={COLORS.DARK_BLUE}
         onShowUnderlay={() => this.setState({ rowFocused: item.id })}
         onHideUnderlay={() => this.setState({ rowFocused: null })}
@@ -181,7 +182,6 @@ class ConversationList extends Component { // eslint-disable-line
         enableEmptySections={true}
         onEndReached={this.handleNextPage}
         onEndReachedThreshold={50}
-        ItemSeparatorComponent={() => <Separator />}
         rightOpenValue={SLIDE_ROW_WIDTH * -1}
         disableLeftSwipe={false}
         disableRightSwipe={true}

@@ -180,13 +180,20 @@ export default function messages(state = initialState, action) {
           if (newMessenger) {
             messengers.unshift(newMessenger);
           }
-          currentBadgeCount++;
+          let cnt;
+          if (messengers.length !== 2) {
+            cnt = c.unReadCount ? c.unReadCount + 1 : 1;
+            currentBadgeCount++;
+          }
+          if (messengers.length === 2) {
+            cnt = 0;
+          }
           return {
             ...c,
             messengers,
             messagePreview: action.message.content,
-            hasUnread: true,
-            unReadCount: c.messengers[0].bot ? 1 : c.unReadCount ? c.unReadCount + 1 : 1,
+            hasUnread: cnt > 0,
+            unReadCount: cnt,
           };
         }
         return c;
