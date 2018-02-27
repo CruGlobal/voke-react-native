@@ -25,6 +25,7 @@ class SignUpProfile extends Component {
       lastName: '',
       disableNext: false,
       isLoading: false,
+      disableSecondClick: false,
     };
 
     this.renderImagePicker = this.renderImagePicker.bind(this);
@@ -56,6 +57,7 @@ class SignUpProfile extends Component {
   addProfile() {
     const { firstName, lastName } = this.state;
     if (firstName && lastName) {
+      if (this.state.disableSecondClick) { return; }
       this.setState({ disableNext: true, isLoading: true });
       const data = {
         me: {
@@ -67,7 +69,7 @@ class SignUpProfile extends Component {
         if (this.state.imageUri) {
           this.uploadImage(this.state.imageUri);
         }
-        this.setState({ disableNext: false, isLoading: false });
+        this.setState({ disableNext: false, disableSecondClick: true, isLoading: false });
         this.props.navigatePush('voke.SignUpNumber');
       }).catch(() => {
         this.setState({ disableNext: false, isLoading: false });

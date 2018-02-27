@@ -173,6 +173,7 @@ export function getVokeContacts(all) {
       dispatch(uploadContacts(all)).then((vokeFriends) => {
         // Get just the contacts with the app
         const vokeFriendsWithApp = vokeFriends.filter((c) => c.mobile_app);
+        console.log('voke friends with app', vokeFriendsWithApp);
         dispatch(setVokeContacts(vokeFriendsWithApp));
         resolve(true);
       }).catch((err) => {
@@ -203,14 +204,20 @@ export function searchContacts(text) {
 export function uploadContacts(contacts = []) {
   return (dispatch) => (
     new Promise((resolve, reject) => {
+      LOG('here');
       const countryCode = DeviceInfo.getDeviceCountry();
       const countryCodeNumber = '+' + getPhoneCode(countryCode);
       // Format every contact into a chunk for the API call
       let formattedContacts = contacts.map((c) => {
         let phone = c.phone[0];
+        let testNum;
         if (countryCode && phone[0] !== '+') {
-          const testNum = countryCodeNumber + phone;
-          // LOG(testNum, isValidNumber(testNum));
+          if (countryCodeNumber.length > 1) {
+            testNum = countryCodeNumber + phone;
+          } else {
+            testNum = '+1';
+          }
+          LOG(testNum, isValidNumber(testNum));
           if (isValidNumber(testNum)) {
             phone = testNum;
           }

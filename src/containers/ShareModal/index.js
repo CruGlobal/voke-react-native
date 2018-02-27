@@ -120,28 +120,34 @@ class ShareModal extends Component {
     this.handleHide();
     const message = getMessage(friend);
     if (type === 'message') {
+      this.handleHide();
+
       // For Android, just call the normal linking sms:{phone}?body={message}
       // We don't import react-native-sms on Android, so don't try to call it
       if (Platform.OS === 'android') {
-        send(this.props.phoneNumber, message).then(() => {
-          this.handleComplete();
-        }).catch(() => {
-          this.handleDismiss();
-        });
+        setTimeout(()=> {
+          send(this.props.phoneNumber, message).then(() => {
+            this.handleComplete();
+          }).catch(() => {
+            this.handleDismiss();
+          });
+        }, 300);
         // Linking.openURL(`sms:${this.props.phoneNumber}?body=${encodeURIComponent(message)}`).then(() => {
         //   this.handleComplete();
         // }).catch(() => {
         //   this.handleDismiss();
         // });
       } else {
-        send(this.props.phoneNumber, message).then(() => {
-          // On iOS, wrap the complete in a timeout to fix navigation stuff
-          setTimeout(() => {
-            this.handleComplete();
-          }, 1000);
-        }).catch(() => {
-          this.handleDismiss();
-        });
+        setTimeout(()=> {
+          send(this.props.phoneNumber, message).then(() => {
+            // On iOS, wrap the complete in a timeout to fix navigation stuff
+            setTimeout(() => {
+              this.handleComplete();
+            }, 1000);
+          }).catch(() => {
+            this.handleDismiss();
+          });
+        }, 300);
         // SendSMS.send({
         //   body: message,
         //   recipients: [this.props.phoneNumber],
