@@ -26,14 +26,15 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "babel-preset-react-native": "2.1.0",
     "color": "1.0.3",
     "crypto-js": "3.1.9-1",
     "libphonenumber-js": "0.4.38",
     "lodash": "4.17.4",
     "moment": "2.18.1",
     "prop-types": "15.5.10",
-    "react": "16.0.0-alpha.12",
-    "react-native": "0.46.4",
+    "react": "16.3.0",
+    "react-native": "0.54.4",
     "react-native-animatable": "1.2.3",
     "react-native-communications": "2.2.1",
     "react-native-contacts": "0.8.2",
