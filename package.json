@@ -52,12 +52,13 @@
     "react-native-swipe-list-view": "^1.0.4",
     "react-native-vector-icons": "4.2.0",
     "react-native-video": "2.0.0",
-    "react-navigation": "1.0.0-beta.21",
+    "react-navigation": "^1.5.9",
+    "react-navigation-redux-helpers": "^1.0.3",
     "react-redux": "5.0.5",
     "redux": "3.7.0",
     "redux-persist": "4.8.0",
     "redux-persist-filesystem-storage": "1.0.2",
     "redux-thunk": "2.2.0",
-    "rn-viewpager": "1.2.3"
+    "rn-viewpager": "^1.2.9"
   }
 }

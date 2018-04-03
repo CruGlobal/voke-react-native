@@ -157,6 +157,7 @@ export const MainStackRoutes = StackNavigator({
     ...noGestures,
   },
 }, {
+  initialRouteName: 'MainTabs',
   transitionConfig: customAnimationFunc,
   navigationOptions: {
     header: null,

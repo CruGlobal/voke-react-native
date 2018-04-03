@@ -102,7 +102,7 @@ class MessagesList extends Component {
 
   renderRow({ item }) {
     return (
-      <Flex value={1} style={{ transform: [{ scaleY: -1 }]}}>
+      <Flex value={1} style={{}}>
         <MessageItem
           item={item}
           user={this.props.user}
@@ -138,7 +138,7 @@ class MessagesList extends Component {
     if (typeState) {
       const item = { type: 'typeState' };
       return (
-        <View style={{ transform: [{ scaleY: -1 }], zIndex: 100 }}>
+        <View style={{ zIndex: 100 }}>
           <MessageItem
             item={item}
             user={user}
@@ -167,12 +167,11 @@ class MessagesList extends Component {
         ref={(c) => this.listView = c}
         ListFooterComponent={this.renderLoadMore}
         keyExtractor={(item) => item.id}
-        style={{ transform: [{ scaleY: -1 }]}}
         initialNumToRender={CONSTANTS.PAGE_SIZE + 1}
         data={this.props.items}
         renderItem={this.renderRow}
-        contentContainerStyle={styles.content}
         inverted={true}
+        contentContainerStyle={styles.content}
         removeClippedSubviews={false}
         ListHeaderComponent={this.renderTypeState}
         scrollEnabled={Platform.OS === 'android' ? true : this.state.scrollEnabled}

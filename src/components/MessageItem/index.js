@@ -95,9 +95,9 @@ class MessageItem extends PureComponent {
               style={[
                 styles.video,
                 styles.otherPersonVideo,
-              ]}>
-              <Icon name="play-circle-filled" size={40} style={styles.playIcon} />
-            </Image>
+              ]} />
+            {/* TODO: Fix this */}
+            <Icon name="play-circle-filled" size={40} style={styles.playIcon} />
           </TouchableOpacity>
         </Flex>
         <Flex
@@ -154,9 +154,9 @@ class MessageItem extends PureComponent {
             style={[
               styles.video,
               isMe || (isVoke && !isOnlyVoke) ? styles.meVideo : styles.otherPersonVideo,
-            ]}>
-            <Icon name="play-circle-filled" size={40} style={styles.playIcon} />
-          </Image>
+            ]} />
+          {/* TODO: Fix this */}
+          <Icon name="play-circle-filled" size={40} style={styles.playIcon} />
         </TouchableOpacity>
       </Flex>
     );

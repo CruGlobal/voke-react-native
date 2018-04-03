@@ -47,9 +47,9 @@ class VideoList extends Component {
           align="start"
           justify="center"
           animation="slideInUp">
-          <Image resizeMode="cover" source={{uri: video.media.thumbnails.large}} style={styles.videoThumbnail}>
-            <Icon name="play-circle-filled" size={64} style={styles.playIcon} />
-          </Image>
+          {/* TODO: Fix this */}
+          <Image resizeMode="cover" source={{uri: video.media.thumbnails.large}} style={styles.videoThumbnail} />
+          <Icon name="play-circle-filled" size={64} style={styles.playIcon} />
           <Flex direction="column" align="start" justify="start" style={styles.videoDetails}>
             <Text numberOfLines={1} style={styles.videoTitle}>
               {video.name}

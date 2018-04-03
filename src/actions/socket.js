@@ -25,6 +25,7 @@ let ws = null;
 
 export function checkAndRunSockets() {
   return (dispatch, getState) => {
+    return;
     LOG('check and run');
     if (ws && ws.readyState === WEBSOCKET_STATES.OPEN) return;
     if (getState().auth.cableId) {
@@ -39,6 +40,7 @@ export function checkAndRunSockets() {
 
 export function setupSocketAction(cableId) {
   return (dispatch, getState) => {
+    return;
     if (!cableId) return;
 
     const token = getState().auth.token;
