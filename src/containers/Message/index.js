@@ -131,7 +131,7 @@ class Message extends Component {
 
   handleLoadMore() {
     if (this.props.pagination.hasMore) {
-      // LOG('loading more messages');
+      // Loading more messages
       this.getMessages(this.props.pagination.page + 1);
     }
   }
@@ -142,7 +142,16 @@ class Message extends Component {
     });
   }
 
+  pauseVideo() {
+    if (this.state.selectedVideo && this.videoPlayer) {
+      // Get the redux instance and call the pause method
+      this.videoPlayer.getWrappedInstance().pause();
+    }
+  }
+
   handleAddKickstarter() {
+    // Pause the video before navigating away
+    this.pauseVideo();
     this.props.navigatePush('voke.KickstartersTab', {
       onSelectKickstarter: (item) => {
         this.props.navigateBack();
@@ -153,6 +162,8 @@ class Message extends Component {
   }
 
   handleAddVideo() {
+    // Pause the video before navigating away
+    this.pauseVideo();
     this.props.navigatePush('voke.VideosTab', {
       onSelectVideo: (video) => {
         this.createMessage(video);
@@ -305,6 +316,7 @@ class Message extends Component {
         {
           this.state.selectedVideo ? (
             <MessageVideoPlayer
+              ref={(c) => this.videoPlayer = c}
               message={this.state.selectedVideo}
               onClose={this.clearSelectedVideo}
             />
