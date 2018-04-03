@@ -15,7 +15,7 @@ import ONBOARD_LOGO from '../../../images/onboardingLogo.png';
 // import { ONBOARD_FLAG } from '../../constants';
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/nav';
-import theme, { COLORS, DEFAULT } from '../../theme';
+import theme, { COLORS } from '../../theme';
 
 import { Flex, Text, Button, VokeIcon } from '../../components/common';
 import StatusBar from '../../components/StatusBar';

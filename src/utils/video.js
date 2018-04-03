@@ -1,12 +1,10 @@
-import { Dimensions } from 'react-native';
-
-const { width: deviceWidth, height: deviceHeight } = Dimensions.get('window');
+import theme from '../theme';
 
 export default {
-  WIDTH: deviceWidth,
-  HEIGHT: deviceWidth * (9/16),
-  LANDSCAPE_WIDTH: deviceHeight,
-  LANDSCAPE_HEIGHT: deviceWidth,
-  MESSAGE_WIDTH: (deviceWidth / 2),
-  MESSAGE_HEIGHT: (deviceWidth / 2) * (9/16),
+  WIDTH: theme.fullWidth,
+  HEIGHT: theme.fullWidth * (9/16),
+  LANDSCAPE_WIDTH: theme.fullHeight,
+  LANDSCAPE_HEIGHT: theme.fullWidth,
+  MESSAGE_WIDTH: (theme.fullWidth / 2),
+  MESSAGE_HEIGHT: (theme.fullWidth / 2) * (9/16),
 };

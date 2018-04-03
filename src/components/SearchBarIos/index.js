@@ -8,21 +8,7 @@ import theme from '../../theme';
 import { Flex, Icon } from '../common';
 
 class SearchBarIos extends Component { // eslint-disable-line
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      text: '',
-      isFocus: false,
-    };
-
-    this.changeText = this.changeText.bind(this);
-  }
-
-  changeText(text) {
-    this.setState({ text });
-    this.props.onChange(text);
-  }
+  state = { isFocus: false };
 
   render() {
     return (
@@ -35,13 +21,13 @@ class SearchBarIos extends Component { // eslint-disable-line
           placeholderTextColor={theme.textColor}
           style={styles.searchBox}
           autoCorrect={false}
-          onChangeText={this.changeText}
+          onChangeText={this.props.onChange}
           clearButtonMode="always"
           blurOnSubmit={true}
           returnKeyType="done"
         />
         {
-          this.state.text ? null : (
+          this.props.value ? null : (
             <View style={styles.searchIconWrap} pointerEvents="none">
               <Icon style={styles.searchIcon} name="search" size={22} />
             </View>

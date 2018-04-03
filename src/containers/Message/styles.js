@@ -1,6 +1,6 @@
 
 import { StyleSheet } from 'react-native';
-import theme, { COLORS, DEFAULT } from '../../theme';
+import theme, { COLORS } from '../../theme';
 
 export default StyleSheet.create({
   container: {
@@ -44,7 +44,7 @@ export default StyleSheet.create({
   },
   transparentOverlay: {
     backgroundColor: COLORS.TRANSPARENT,
-    width: DEFAULT.FULL_WIDTH,
+    width: theme.fullWidth,
     position: 'absolute',
   },
 });

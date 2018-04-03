@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import { DEFAULT } from './theme';
+import theme from './theme';
 
 
 export const LOGIN = 'app/LOGIN';
@@ -25,7 +25,7 @@ export const SHOW_SHARE_MODAL = 'app/SHOW_SHARE_MODAL';
 export const MESSAGE_CREATED = 'app/MESSAGE_CREATED';
 export const CLEAR_CHANNEL_VIDEOS = 'app/CLEAR_CHANNEL_VIDEOS';
 
-export const IS_SMALL_ANDROID = Platform.OS === 'android' && DEFAULT.FULL_HEIGHT < 600;
+export const IS_SMALL_ANDROID = Platform.OS === 'android' && theme.fullHeight < 600;
 // export const IS_SMALL_ANDROID = true;
 
 const IS_STAGING = true;

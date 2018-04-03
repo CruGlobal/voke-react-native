@@ -1,6 +1,6 @@
 
 import { StyleSheet } from 'react-native';
-import theme, { DEFAULT } from '../../theme';
+import theme from '../../theme';
 
 export default StyleSheet.create({
   container: {
@@ -14,7 +14,7 @@ export default StyleSheet.create({
   inputBox: {
     marginTop: 10,
     padding: 10,
-    width: DEFAULT.FULL_WIDTH - 110,
+    width: theme.fullWidth - 110,
     borderWidth: 1,
     borderColor: theme.textColor,
     borderRadius: 5,
@@ -25,7 +25,7 @@ export default StyleSheet.create({
     fontSize: 16,
   },
   dropDown: {
-    width: DEFAULT.FULL_WIDTH - 110,
+    width: theme.fullWidth - 110,
     paddingHorizontal: 10,
     paddingVertical: 5,
     alignItems: 'center',

@@ -1,6 +1,6 @@
 
 import { StyleSheet } from 'react-native';
-import theme, { DEFAULT } from '../../theme';
+import theme from '../../theme';
 
 export default StyleSheet.create({
   container: {
@@ -11,7 +11,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1,
     borderColor: theme.primaryColor,
-    width: DEFAULT.FULL_WIDTH - 120,
+    width: theme.fullWidth - 120,
     margin: 5,
   },
   randomText: {

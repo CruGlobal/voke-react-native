@@ -1,6 +1,6 @@
 
 import { StyleSheet } from 'react-native';
-import theme, { DEFAULT } from '../../theme';
+import theme from '../../theme';
 
 export default StyleSheet.create({
   container: {
@@ -34,7 +34,7 @@ export default StyleSheet.create({
   actionButton: {
     marginTop: 8,
     alignItems: 'center',
-    width: DEFAULT.FULL_WIDTH - 110,
+    width: theme.fullWidth - 110,
   },
   haveAccountText: {
     textAlign: 'center',

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { StyleSheet } from 'react-native';
 import Video from 'react-native-video';
 
-import { COLORS, DEFAULT } from '../../theme';
-import videoUtils from '../../utils/video';
+// import { COLORS } from '../../theme';
+// import videoUtils from '../../utils/video';
 import webviewCommon from './common';
 import { isString } from '../../utils/common';
 
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   },
   landscapeVideo: {
     // backgroundColor: COLORS.DEEP_BLACK,
-    // height: DEFAULT.FULL_WIDTH,
-    // width: DEFAULT.FULL_HEIGHT,
+    // height: theme.fullWidth,
+    // width: theme.fullHeight,
   },
 });

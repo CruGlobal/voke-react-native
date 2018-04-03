@@ -1,6 +1,6 @@
 
 import { StyleSheet } from 'react-native';
-import theme, {DEFAULT} from '../../theme';
+import theme from '../../theme';
 
 export default StyleSheet.create({
   container: {
@@ -30,7 +30,7 @@ export default StyleSheet.create({
     paddingHorizontal: 10,
     marginVertical: 5,
     borderRadius: 5,
-    width: DEFAULT.FULL_WIDTH - 80,
+    width: theme.fullWidth - 80,
   },
   kickstarterText: {
     fontSize: 16,

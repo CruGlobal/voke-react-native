@@ -4,7 +4,7 @@ import { View, TextInput, KeyboardAvoidingView, Platform, Keyboard, BackHandler 
 import { connect } from 'react-redux';
 
 import { checkAndRunSockets } from '../../actions/socket';
-import { getMessages, createMessage, createTypeStateAction, destroyTypeStateAction, createMessageInteraction, markReadAction, getConversation } from '../../actions/messages';
+import { getMessages, createMessage, createTypeStateAction, destroyTypeStateAction, createMessageInteraction, markReadAction } from '../../actions/messages';
 import Analytics from '../../utils/analytics';
 
 import theme, { COLORS } from '../../theme';

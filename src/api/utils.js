@@ -115,7 +115,7 @@ export function refreshTokenRequest(refreshToken) {
 export default function request(type, url, query, data, extra) {
   const newUrl = createUrl(url, query);
   const newObject = defaultObject(type, extra, data);
-  // LOG('REQUEST: ', newObject.method, newUrl, newObject); // eslint-disable-line
+  LOG('REQUEST: ', newObject.method, newUrl, newObject); // eslint-disable-line
 
   // If user is trying to make an image upload request, use custom function
   if (extra.imageUpload) {

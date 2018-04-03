@@ -1,6 +1,6 @@
 
 import { StyleSheet } from 'react-native';
-import theme, { DEFAULT } from '../../theme';
+import theme from '../../theme';
 
 export default StyleSheet.create({
   container: {
@@ -9,6 +9,6 @@ export default StyleSheet.create({
   input: {
     fontSize: 20,
     color: theme.lightText,
-    width: DEFAULT.FULL_WIDTH - 50,
+    width: theme.fullWidth - 50,
   },
 });

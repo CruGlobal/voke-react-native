@@ -23,11 +23,6 @@ function colorConvert({ color, alpha, lighten, darken, negate, rotate, whiten, b
   return col.rgb().toString();
 }
 
-export const DEFAULT = {
-  FULL_WIDTH: deviceWidth,
-  FULL_HEIGHT: deviceHeight,
-};
-
 export const COLORS = {
   BLUE: '#44c8e8',
   PRIMARY_FADE: 'rgba(68, 200, 232, 0.3)',

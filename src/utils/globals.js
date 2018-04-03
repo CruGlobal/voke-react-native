@@ -6,7 +6,7 @@ global.LOG = function() {
   // const args = Array.from(arguments); // ES6
   if (__DEV__ && ENABLE_LOGS) {
     const args = Array.from(arguments); // ES6
-    console.warn.apply(console, args);
+    console.log.apply(console, args);
   }
   if (__DEV__ && console.tron) {
     const args = Array.from(arguments); // ES6

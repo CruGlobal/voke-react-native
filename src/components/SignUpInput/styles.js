@@ -1,12 +1,12 @@
 
 import { StyleSheet } from 'react-native';
-import theme, { DEFAULT }  from '../../theme';
+import theme  from '../../theme';
 
 export default StyleSheet.create({
   input: {
     marginTop: 8,
     padding: 10,
-    width: DEFAULT.FULL_WIDTH - 110,
+    width: theme.fullWidth - 110,
     borderWidth: 1,
     borderColor: theme.textColor,
     borderRadius: 5,

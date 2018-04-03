@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { IS_SMALL_ANDROID } from '../../constants';
-import theme, { DEFAULT } from '../../theme';
+import theme from '../../theme';
 import { Flex, Text, Touchable } from '../common';
 
 class SignUpHeader extends Component {

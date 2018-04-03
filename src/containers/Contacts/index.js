@@ -6,7 +6,7 @@ import debounce from 'lodash/debounce';
 import { openSettingsAction } from '../../actions/auth';
 
 import Analytics from '../../utils/analytics';
-import { vokeIcons } from '../../utils/iconMap';
+// import { vokeIcons } from '../../utils/iconMap';
 import styles from './styles';
 // import { toastAction } from '../../actions/auth';
 import { searchContacts, getContacts } from '../../actions/contacts';
