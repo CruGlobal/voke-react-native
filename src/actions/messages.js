@@ -85,11 +85,11 @@ export function newMessageAction(message) {
     return dispatch(getConversation(message.conversation_id)).then(() => {
       dispatch({ type: NEW_MESSAGE, message });
 
+      dispatch(vibrateAction());
       if (Platform.OS === 'ios') {
-        dispatch(vibrateAction());
         dispatch(playSoundAction());
       }
-      
+
       // const activeScreen = getState().auth.activeScreen;
       // const conversationId = getState().messages.activeConversationId;
       // if (activeScreen === 'voke.Message' && message.conversation_id !== conversationId) {
@@ -165,15 +165,7 @@ export function markReadAction(conversationId) {
 export function vibrateAction() {
   return () => {
     // Vibrate when receiving a new message
-    if (Platform.OS === 'ios') {
-      Vibration.vibrate(1500);
-    } else {
-      // try {
-      //   // Vibration.vibrate(600);
-      // } catch (e) {
-      //   LOG('android virbate error', e);
-      // }
-    }
+    Vibration.vibrate(800);
   };
 }
 
