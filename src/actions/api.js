@@ -1,7 +1,6 @@
 /* global __DEV__ */
 import { Alert } from 'react-native';
 import lodashForEach from 'lodash/forEach';
-// import Reactotron from 'reactotron-react-native';
 
 import { RESET_TOKEN, UPDATE_TOKENS } from '../constants';
 import { refreshTokenRequest } from '../api/utils';
