@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Image, TouchableOpacity } from 'react-native';
+import { ImageBackground, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Spinner from 'react-native-spinkit';
@@ -89,15 +89,15 @@ class MessageItem extends PureComponent {
           justify="start"
         >
           <TouchableOpacity activeOpacity={0.7} onPress={this.props.onSelectVideo}>
-            <Image
+            <ImageBackground
               resizeMode="cover"
               source={{uri: message.item.media.thumbnails.large}}
               style={[
                 styles.video,
                 styles.otherPersonVideo,
-              ]} />
-            {/* TODO: Fix this */}
-            <Icon name="play-circle-filled" size={40} style={styles.playIcon} />
+              ]}>
+              <Icon name="play-circle-filled" size={40} style={styles.playIcon} />
+            </ImageBackground>
           </TouchableOpacity>
         </Flex>
         <Flex
@@ -148,15 +148,15 @@ class MessageItem extends PureComponent {
         justify={isMe ? 'end' : 'start'}
       >
         <TouchableOpacity activeOpacity={0.7} onPress={this.props.onSelectVideo}>
-          <Image
+          <ImageBackground
             resizeMode="cover"
             source={{uri: message.item.media.thumbnails.large}}
             style={[
               styles.video,
               isMe || (isVoke && !isOnlyVoke) ? styles.meVideo : styles.otherPersonVideo,
-            ]} />
-          {/* TODO: Fix this */}
-          <Icon name="play-circle-filled" size={40} style={styles.playIcon} />
+            ]}>
+            <Icon name="play-circle-filled" size={40} style={styles.playIcon} />
+          </ImageBackground>
         </TouchableOpacity>
       </Flex>
     );

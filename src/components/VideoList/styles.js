@@ -16,12 +16,15 @@ export default StyleSheet.create({
     height: 100,
     padding: 10,
   },
+  thumbnailWrap: {
+    height: THUMBNAIL_HEIGHT,
+  },
   videoThumbnail: {
+    alignItems: 'center',
+    justifyContent: 'center',
     height: THUMBNAIL_HEIGHT,
     width: DEFAULT.FULL_WIDTH - 20,
     backgroundColor: COLORS.DEEP_BLACK,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   playIcon: {
     backgroundColor: COLORS.TRANSPARENT,

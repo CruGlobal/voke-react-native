@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FlatList, Image } from 'react-native';
+import { FlatList, ImageBackground } from 'react-native';
 import styles, { THUMBNAIL_HEIGHT } from './styles';
 
 import { Flex, Text, Touchable, Icon, RefreshControl } from '../common';
@@ -47,9 +47,9 @@ class VideoList extends Component {
           align="start"
           justify="center"
           animation="slideInUp">
-          {/* TODO: Fix this */}
-          <Image resizeMode="cover" source={{uri: video.media.thumbnails.large}} style={styles.videoThumbnail} />
-          <Icon name="play-circle-filled" size={64} style={styles.playIcon} />
+          <ImageBackground resizeMode="cover" source={{uri: video.media.thumbnails.large}} style={styles.videoThumbnail} >
+            <Icon name="play-circle-filled" size={64} style={styles.playIcon} />
+          </ImageBackground>
           <Flex direction="column" align="start" justify="start" style={styles.videoDetails}>
             <Text numberOfLines={1} style={styles.videoTitle}>
               {video.name}
