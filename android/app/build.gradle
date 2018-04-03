@@ -185,7 +185,9 @@ dependencies {
     compile project(':react-native-google-analytics-bridge')
     compile project(':react-native-fabric')
     compile project(':react-native-fbsdk')
-    compile project(':react-native-device-info')
+    compile(project(':react-native-device-info')) {
+       exclude group: 'com.google.android.gms'
+    }
     compile project(':react-native-spinkit')
     compile project(':react-native-contacts')
     compile project(':react-native-vector-icons')
@@ -196,9 +198,7 @@ dependencies {
     compile "com.android.support:appcompat-v7:26.0.1"
     compile 'com.facebook.react:react-native:+'
     compile 'com.facebook.fresco:animated-gif:1.0.1'
-    compile('com.google.android.gms:play-services-gcm:11.0.+') {
-        force = true;
-    }
+
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;
     }
