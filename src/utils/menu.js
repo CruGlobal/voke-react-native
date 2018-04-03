@@ -79,6 +79,11 @@ export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin } = 
       onPress: () => navigatePush && navigatePush('voke.Help'),
     },
     {
+      id: 'onboarding',
+      name: 'Onboarding',
+      onPress: () => navigatePush && navigatePush('voke.SignUpWelcome', { noSignIn: true }),
+    },
+    {
       id: 'signout',
       name: 'Sign Out',
       onPress: () => {

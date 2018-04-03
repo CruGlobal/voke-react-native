@@ -22,6 +22,8 @@ import StatusBar from '../../components/StatusBar';
 
 const NUM_ONBOARDING_STEPS = 5;
 
+const MARGIN = 40;
+
 class SignUpWelcome extends Component {
 
   constructor(props) {
@@ -62,8 +64,6 @@ class SignUpWelcome extends Component {
   }
 
   renderSkip() {
-    // if (!this.props.onlyOnboarding) return null;
-    // <Touchable onPress={() => this.props.navigateResetHome()} >
     // If your get to the last page, dont show the skip button
     if (this.state.selectedPage >= NUM_ONBOARDING_STEPS - 1) return null;
     return (
@@ -80,6 +80,7 @@ class SignUpWelcome extends Component {
   }
 
   render() {
+    const { noSignIn } = this.props;
     return (
       <View style={{flex: 1, backgroundColor: theme.textColor}}>
         <StatusBar />
@@ -94,19 +95,23 @@ class SignUpWelcome extends Component {
                 <Flex value={1} align="center" justify="center">
                   <Image resizeMode="cover" source={ONBOARD_1} style={styles.onboardFull} />
                 </Flex>
-                <Flex align="center" style={{position: 'absolute', bottom: 40, left: 0, right: 0}}>
-                  <Button
-                    type="transparent"
-                    text="Sign In"
-                    onPress={() => this.props.navigatePush('voke.LoginInput')}
-                    style={{padding: 10}}
-                  />
-                </Flex>
+                {
+                  noSignIn ? null : (
+                    <Flex align="center" style={{position: 'absolute', bottom: MARGIN, left: 0, right: 0}}>
+                      <Button
+                        type="transparent"
+                        text="Sign In"
+                        onPress={() => this.props.navigatePush('voke.LoginInput')}
+                        style={{padding: 10}}
+                      />
+                    </Flex>
+                  )
+                }
               </Flex>
               <Flex direction="column" align="center" style={{position: 'absolute', top: 66, left: 0, right: 0}}>
                 <Image source={ONBOARD_LOGO} />
               </Flex>
-              <Flex style={{position: 'absolute', bottom: 40, right: 40 }}>
+              <Flex style={{position: 'absolute', bottom: MARGIN, right: MARGIN }}>
                 {this.renderSkip()}
               </Flex>
             </View>
@@ -116,11 +121,11 @@ class SignUpWelcome extends Component {
                   <Image resizeMode="cover" source={ONBOARD_2} style={styles.onboardFull} />
                 </Flex>
               </Flex>
-              <Flex direction="column" align="end" style={{position: 'absolute', top: 40, right: 40, width: 150 }}>
+              <Flex direction="column" align="end" style={{position: 'absolute', top: MARGIN, right: MARGIN, width: 150 }}>
                 <VokeIcon style={{width: 36, height: 36}} name="onboard-film"></VokeIcon>
                 <Text style={{fontSize: 36, fontWeight: 'bold', backgroundColor: 'rgba(0,0,0,0)', textAlign: 'right'}}>Share Videos Worth Sharing</Text>
               </Flex>
-              <Flex style={{position: 'absolute', bottom: 40, right: 40 }}>
+              <Flex style={{position: 'absolute', bottom: MARGIN, right: MARGIN }}>
                 {this.renderSkip()}
               </Flex>
             </View>
@@ -130,11 +135,11 @@ class SignUpWelcome extends Component {
                   <Image resizeMode="cover" source={ONBOARD_3} style={styles.onboardFull} />
                 </Flex>
               </Flex>
-              <Flex direction="column" align="end" style={{position: 'absolute', top: 40, right: 40, width: 250 }}>
+              <Flex direction="column" align="end" style={{position: 'absolute', top: MARGIN, right: MARGIN, width: 250 }}>
                 <VokeIcon style={{width: 36, height: 36}} name="onboard-chat"></VokeIcon>
                 <Text style={{fontSize: 36, fontWeight: 'bold', backgroundColor: 'rgba(0,0,0,0)', textAlign: 'right'}}>Inspire {'\n'} Deeper {'\n'} Conversations</Text>
               </Flex>
-              <Flex style={{position: 'absolute', bottom: 40, right: 40 }}>
+              <Flex style={{position: 'absolute', bottom: MARGIN, right: MARGIN }}>
                 {this.renderSkip()}
               </Flex>
             </View>
@@ -144,11 +149,11 @@ class SignUpWelcome extends Component {
                   <Image resizeMode="cover" source={ONBOARD_4} style={styles.onboardFull} />
                 </Flex>
               </Flex>
-              <Flex direction="column" align="end" style={{position: 'absolute', top: 40, right: 40, width: 250 }}>
+              <Flex direction="column" align="end" style={{position: 'absolute', top: MARGIN, right: MARGIN, width: 250 }}>
                 <VokeIcon style={{width: 36, height: 36}} name="onboard-heart"></VokeIcon>
                 <Text style={{fontSize: 36, fontWeight: 'bold', backgroundColor: 'rgba(0,0,0,0)', textAlign: 'right'}}>Experience Deeper Friendships</Text>
               </Flex>
-              <Flex style={{position: 'absolute', bottom: 40, right: 40 }}>
+              <Flex style={{position: 'absolute', bottom: MARGIN, right: MARGIN }}>
                 {this.renderSkip()}
               </Flex>
             </View>
@@ -158,42 +163,35 @@ class SignUpWelcome extends Component {
                   <Image resizeMode="cover" source={ONBOARD_5} style={styles.onboardFull} />
                 </Flex>
               </Flex>
-              <Flex direction="column" align="center" justify="center" style={{position: 'absolute', bottom: 40, left: 0, right: 0}}>
-                <Button
-                  text="Create Account"
-                  buttonTextStyle={styles.signInButtonText}
-                  style={[styles.signInButton, {backgroundColor: theme.accentColor, borderWidth: 0}]}
-                  onPress={() => this.props.navigatePush('voke.Login')}
-                />
-                <Button
-                  text="Sign In"
-                  buttonTextStyle={styles.signInButtonText}
-                  style={styles.signInButton}
-                  onPress={() => this.props.navigatePush('voke.LoginInput')}
-                />
-              </Flex>
+              {
+                noSignIn ? (
+                  <Flex direction="column" align="center" justify="center" style={{ position: 'absolute', bottom: MARGIN, left: 0, right: 0 }}>
+                    <Button
+                      text="Done"
+                      buttonTextStyle={styles.signInButtonText}
+                      style={[styles.signInButton, { backgroundColor: theme.accentColor, borderWidth: 0 }]}
+                      onPress={() => this.props.navigateBack()}
+                    />
+                  </Flex>
+                ) : (
+                  <Flex direction="column" align="center" justify="center" style={{position: 'absolute', bottom: MARGIN, left: 0, right: 0}}>
+                    <Button
+                      text="Create Account"
+                      buttonTextStyle={styles.signInButtonText}
+                      style={[styles.signInButton, {backgroundColor: theme.accentColor, borderWidth: 0}]}
+                      onPress={() => this.props.navigatePush('voke.Login')}
+                    />
+                    <Button
+                      text="Sign In"
+                      buttonTextStyle={styles.signInButtonText}
+                      style={styles.signInButton}
+                      onPress={() => this.props.navigatePush('voke.LoginInput')}
+                    />
+                  </Flex>
+                )
+              }
             </View>
           </IndicatorViewPager>
-          {
-            // <Flex direction="row" align="center" justify="center" style={{position: 'absolute', bottom: 0, left: 0, right: 0}}>
-            //   <Flex value={1} style={styles.actionButton}>
-            //     <Button
-            //       text="Create Account"
-            //       buttonTextStyle={styles.loginButtonText}
-            //       style={styles.loginButton}
-            //       onPress={() => this.props.navigatePush('voke.Login')}
-            //       />
-            //   </Flex>
-            //   <Flex value={1} style={styles.actionButton}>
-            //     <Button
-            //       text="Sign In"
-            //       buttonTextStyle={styles.loginButtonText}
-            //       style={styles.loginButton2}
-            //       onPress={() => this.props.navigatePush('voke.LoginInput')}
-            //       />
-            //   </Flex>
-            // </Flex>
-          }
         </View>
       </View>
     );
@@ -202,7 +200,7 @@ class SignUpWelcome extends Component {
 
 SignUpWelcome.propTypes = {
   ...NavPropTypes,
-  onlyOnboarding: PropTypes.bool,
+  noSignIn: PropTypes.bool,
 };
 const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
