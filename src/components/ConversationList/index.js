@@ -1,14 +1,14 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Platform, ListView } from 'react-native';
+import { View, Platform } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 
 import styles from './styles';
 import theme, { COLORS } from '../../theme';
 import { momentUtc, getInitials } from '../../utils/common';
 
-import { Flex, VokeIcon, Text, Touchable, Separator, Avatar, RefreshControl } from '../common';
+import { Flex, VokeIcon, Text, Touchable, Avatar, RefreshControl } from '../common';
 import CONSTANTS from '../../constants';
 
 // const ITEM_HEIGHT = 60 + theme.separatorHeight;
