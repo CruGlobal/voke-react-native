@@ -50,6 +50,7 @@ export function mapConversations(results, query, data, getState) {
   return {
     conversations,
     _links: results._links,
+    _meta: results._meta,
   };
 }
 
@@ -120,10 +121,17 @@ function formatConversation(c, getState) {
   c.messengers = messengers;
 
   c.hasUnread = false;
-  if (c.messengers.length === 2) {
-    c.hasUnread = false;
-    c.unReadCount = 0;
-  } else if (myMessage && myMessage.latest_read && myMessage.latest_read.message_id) {
+  // if (c.messengers.length === 2) {
+  //   c.hasUnread = false;
+  //   c.unReadCount = 0;
+  // } else if (myMessage && myMessage.latest_read && myMessage.latest_read.message_id) {
+  //   if (myMessage.latest_read.message_id !== latestMessenger.latest_message.id) {
+  //     c.hasUnread = true;
+  //     c.unReadCount = 1;
+  //   }
+  // }
+  // Check my message against the latest message sent
+  if (myMessage && myMessage.latest_read && myMessage.latest_read.message_id) {
     if (myMessage.latest_read.message_id !== latestMessenger.latest_message.id) {
       c.hasUnread = true;
       c.unReadCount = 1;

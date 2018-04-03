@@ -81,8 +81,10 @@ export default function messages(state = initialState, action) {
         page: action.query.page || 1,
       };
       newConversations = newConversations.concat(action.conversations);
-      const unReadCheck = newConversations.filter((m) => m.hasUnread).length;
-      const unRead = unReadCheck || 0;
+      // const unReadCheck = newConversations.filter((m) => m.hasUnread).length;
+      // const unRead = unReadCheck || 0;
+      // Pull the unread count from the '_meta' in notifications
+      const unRead = action._meta ? action._meta.pending_notifications : 0;
 
       return {
         ...state,
