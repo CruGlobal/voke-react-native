@@ -73,6 +73,7 @@ export default {
   // FB_ID: '443564615845137',
 
   WEB_URLS: {
+    INSTAGRAM: 'https://instagram.com/_u/vokeapp',
     VOKE: 'https://www.vokeapp.com',
     HELP: 'https://help.vokeapp.com/',
     FAQ: 'https://www.vokeapp.com/faq',

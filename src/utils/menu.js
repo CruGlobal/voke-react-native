@@ -49,6 +49,26 @@ export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin } = 
       },
     },
     {
+      id: 'instagram',
+      name: 'Follow us on Instagram',
+      onPress: () => {
+        let link = CONSTANTS.WEB_URLS.INSTAGRAM;
+        Linking.canOpenURL(link).then((isSupported) => {
+          isSupported && Linking.openURL(link);
+        }, (err) => LOG('error opening url', err));
+      },
+    },
+    {
+      id: 'facebook',
+      name: 'Like us on Facebook',
+      onPress: () => {
+        let link = CONSTANTS.WEB_URLS.FACEBOOK;
+        Linking.canOpenURL(link).then((isSupported) => {
+          isSupported && Linking.openURL(link);
+        }, (err) => LOG('error opening url', err));
+      },
+    },
+    {
       id: 'acknowledgements',
       name: 'Acknowledgements',
       onPress: () => navigatePush && navigatePush('voke.Acknowledgements'),
