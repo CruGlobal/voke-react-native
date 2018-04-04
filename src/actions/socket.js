@@ -298,13 +298,14 @@ export function establishDevice() {
     // LOG('hjere');
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
-      onRegister: function(token) {
+      onRegister(token) {
         LOG('in push notification register');
         dispatch(gotDeviceToken(token.token));
       },
       // (required) Called when a remote or local notification is opened or received
-      onNotification: function(notification) {
-        LOG('onNotification came in', notification);
+      onNotification(notification) {
+        console.log('onNotification came in', notification);
+        console.log('here');
         let state;
         if (notification && notification.foreground && !notification.userInteraction) {
           state = 'foreground';
