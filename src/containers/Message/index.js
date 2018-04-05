@@ -129,7 +129,7 @@ class Message extends Component {
   }
 
   getMessages(page) {
-    if (!page) {
+    if (!page && !this.props.forceUpdate) {
       const { conversation, messages } = this.props;
       const latestMessage = messages[0];
       if (latestMessage && conversation.latestMessage && conversation.latestMessage.message_id === latestMessage.id) {
@@ -425,12 +425,14 @@ Message.propTypes = {
   me: PropTypes.object.isRequired, // Redux
   typeState: PropTypes.bool.isRequired, // Redux
   conversation: PropTypes.object.isRequired,
+  forceUpdate: PropTypes.bool,
   onSelectVideo: PropTypes.func,
 };
 
 const mapStateToProps = ({ messages, auth }, { navigation }) => {
   const conversation = navigation.state.params ? navigation.state.params.conversation : {};
   return {
+    ...(navigation.state.params || {}),
     conversation,
     messages: messages.messages[conversation.id] || [],
     pagination: messages.pagination.messages[conversation.id] || {},

@@ -1,7 +1,5 @@
 import RNFetchBlob from 'react-native-fetch-blob';
 import { Linking, Platform, AppState, ToastAndroid, AsyncStorage, Alert } from 'react-native';
-import PushNotification from 'react-native-push-notification';
-// import FilesystemStorage from 'redux-persist-filesystem-storage';
 
 import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, UPDATE_TOKENS, NO_BACKGROUND_ACTION } from '../constants';
 import callApi, { REQUESTS } from './api';
@@ -22,7 +20,6 @@ let hasStartedUp = false;
 export function startupAction() {
   return (dispatch, getState) => {
     Orientation.lockToPortrait();
-    // PushNotification.setApplicationIconBadgeNumber(0);
     if (hasStartedUp) return;
 
     hasStartedUp = true;
@@ -75,10 +72,6 @@ function appStateChange(dispatch, getState, nextAppState) {
     }
 
     dispatch(checkAndRunSockets());
-
-    // Clear out home screen badge when user comes back into the app
-    PushNotification.setApplicationIconBadgeNumber(0);
-
   } else if (nextAppState === 'background' || nextAppState === 'inactive') {
     LOG('App is going into the background');
 
