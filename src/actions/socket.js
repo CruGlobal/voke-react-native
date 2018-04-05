@@ -274,14 +274,28 @@ export function handleNotifications(state, notification) {
       if (namespace && link && namespace.includes('messenger:conversation:message')) {
         const cId = link.substring(link.indexOf('conversations/') + 14, link.indexOf('/messages'));
         if (!cId) return;
-        dispatch(getConversation(cId)).then((results) => {
-          if (!results || !results.conversation ) {
-            return;
-          }
+
+        // Check if conversation exists, just use it, otherwise get it
+        const conversationExists = getState().messages.conversations.find((c) => c.id === cId);
+        if (conversationExists) {
           dispatch(navigateResetMessage({
-            conversation: results.conversation,
+            conversation: conversationExists,
+            forceUpdate: true,
           }));
-        });
+        } else {
+          dispatch(getConversation(cId)).then((results) => {
+            if (!results || !results.conversation ) {
+              return;
+            }
+            dispatch(navigateResetMessage({
+              conversation: results.conversation,
+              forceUpdate: true,
+            }));
+          });
+        }
+
+
+
       }
     //   // NotificationsIOS.removeAllDeliveredNotifications();
     // } else {

@@ -75,7 +75,7 @@ class Message extends Component {
     const cLength = this.props.messages.length;
     this.setLatestItem(nextProps.messages);
     if (nLength > 0 && cLength > 0 && cLength < nLength) {
-      this.createMessageReadInteraction();
+      this.createMessageReadInteraction(nextProps.messages[0]);
     }
 
     if ((nextProps.showUnreadDot && !this.props.showUnreadDot) || (Platform.OS === 'ios' && nextProps.unReadBadgeCount > 0)) {
@@ -122,7 +122,7 @@ class Message extends Component {
   }
 
   setLatestItem(conversationMessages) {
-    const messages = conversationMessages ? conversationMessages : this.props.messages ? this.props.messages : [];
+    const messages = conversationMessages ? this.props.messages : [];
     const item = messages.find((m) => m.item);
     if (item && item.item && item.messenger_id === this.props.me.id) {
       this.setState({ latestItem: item.item.id });
@@ -137,8 +137,16 @@ class Message extends Component {
   }
 
   getMessages(page) {
+    if (!page) {
+      const { conversation, messages } = this.props;
+      const latestMessage = messages[0];
+      if (latestMessage && conversation.latestMessage && conversation.latestMessage.messsage_id === latestMessage.id) {
+        LOG('positions are the same, dont call getMessages');
+        return;
+      }
+    }
     this.props.dispatch(getMessages(this.props.conversation.id, page)).then(() => {
-      this.createMessageReadInteraction();
+      this.createMessageReadInteraction(this.props.messages[0]);
     });
   }
 
@@ -208,14 +216,24 @@ class Message extends Component {
     // LOG('destroy typestate');
   }
 
-  createMessageReadInteraction() {
+  createMessageReadInteraction(msg) {
+    if (!msg) {
+      return;
+    }
+    const { conversation, dispatch } = this.props;
+    
+    // If the message has already been marked as read, don't make an API call
+    if (msg && conversation.myLatestReadId === msg.id) {
+      return;
+    }
+
     const interaction = {
       action: 'read',
-      conversationId: this.props.conversation.id,
-      messageId: this.props.messages[0].id,
+      conversationId: conversation.id,
+      messageId: msg.id,
     };
-    this.props.dispatch(createMessageInteraction(interaction)).then(() => {
-      this.props.dispatch(markReadAction(this.props.conversation.id));
+    dispatch(createMessageInteraction(interaction)).then(() => {
+      dispatch(markReadAction(conversation.id));
       this.setLatestItem();
     });
   }
