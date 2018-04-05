@@ -1,14 +1,14 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, FlatList, Keyboard, Platform } from 'react-native';
+import { View, FlatList, Keyboard } from 'react-native';
 
 import CONSTANTS from '../../constants';
 import styles from './styles';
 import MessageItem from '../MessageItem';
 import LoadMore from '../../components/LoadMore';
 import { Flex } from '../../components/common';
-
+import theme from '../../theme';
 
 class MessagesList extends Component {
   constructor(props) {
@@ -158,7 +158,7 @@ class MessagesList extends Component {
   //   }
   //   setTimeout(() => {
   //     this.listView.scrollToEnd({ animated: isAnimated });
-  //   }, Platform.OS === 'ios' ? 50 : 250);
+  //   }, !theme.isAndroid ? 50 : 250);
   }
 
   render() {
@@ -174,7 +174,7 @@ class MessagesList extends Component {
         contentContainerStyle={styles.content}
         removeClippedSubviews={false}
         ListHeaderComponent={this.renderTypeState}
-        scrollEnabled={Platform.OS === 'android' ? true : this.state.scrollEnabled}
+        scrollEnabled={theme.isAndroid ? true : this.state.scrollEnabled}
       />
     );
     // onContentSizeChange={this.onContentSize}

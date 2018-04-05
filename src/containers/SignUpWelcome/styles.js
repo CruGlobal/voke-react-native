@@ -1,5 +1,5 @@
 
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import theme from '../../theme';
 
 export default StyleSheet.create({
@@ -8,7 +8,7 @@ export default StyleSheet.create({
   },
   onboardImage: {
     width: 400,
-    height: Platform.OS === 'android' ? theme.fullHeight - 275 : theme.fullHeight - 250,
+    height: theme.isAndroid ? theme.fullHeight - 275 : theme.fullHeight - 250,
   },
   onboardFull: {
     width: theme.fullWidth,
@@ -43,7 +43,7 @@ export default StyleSheet.create({
   },
   imageWrap: {
     position: 'absolute',
-    bottom: Platform.OS === 'android' ? 0 : 20,
+    bottom: theme.isAndroid ? 0 : 20,
     right: 0,
     left: 0,
   },

@@ -1,10 +1,11 @@
-import { AsyncStorage, Platform } from 'react-native';
+import { AsyncStorage } from 'react-native';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { persistStore } from 'redux-persist';
 import FilesystemStorage from 'redux-persist-filesystem-storage';
 import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers';
 
+import theme from './theme';
 import reducers from './reducers';
 
 let myCreateStore = createStore;
@@ -29,7 +30,7 @@ export default function getStore(onCompletion) {
     composedEnhancers,
   );
   persistStore(store, {
-    storage: Platform.OS === 'android' ? FilesystemStorage : AsyncStorage,
+    storage: theme.isAndroid ? FilesystemStorage : AsyncStorage,
   }, () => {
     onCompletion(store);
   });

@@ -1,7 +1,8 @@
 import { API_URL } from '../api/utils';
-import { Vibration, Platform } from 'react-native';
+import { Vibration } from 'react-native';
 import CONSTANTS, { NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ, MESSAGE_CREATED } from '../constants';
 import callApi, { REQUESTS } from './api';
+import theme from '../theme';
 
 export function getConversations() {
   return (dispatch) => {
@@ -81,7 +82,7 @@ export function handleNewMessage(message) {
   return (dispatch, getState) => {
 
     dispatch(vibrateAction());
-    if (Platform.OS === 'ios') {
+    if (!theme.isAndroid) {
       dispatch(playSoundAction());
     }
 

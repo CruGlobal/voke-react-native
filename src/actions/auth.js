@@ -1,5 +1,5 @@
 import RNFetchBlob from 'react-native-fetch-blob';
-import { Linking, Platform, AppState, ToastAndroid, AsyncStorage, Alert } from 'react-native';
+import { Linking, AppState, ToastAndroid, AsyncStorage, Alert } from 'react-native';
 
 import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, UPDATE_TOKENS, NO_BACKGROUND_ACTION } from '../constants';
 import callApi, { REQUESTS } from './api';
@@ -9,6 +9,7 @@ import { API_URL } from '../api/utils';
 import { isArray } from '../utils/common';
 import Orientation from 'react-native-orientation';
 import DeviceInfo from 'react-native-device-info';
+import theme from '../theme';
 
 
 // Setup app state change listeners
@@ -184,7 +185,7 @@ export function createAccountAction(email, password) {
 
 export function toastAction(text, length) {
   return () => {
-    if (Platform.OS === 'android') {
+    if (theme.isAndroid) {
       const toastLength = length === 'long' ? ToastAndroid.LONG : ToastAndroid.SHORT;
       ToastAndroid.show(text, toastLength);
     } else {
@@ -347,7 +348,7 @@ export function reportUserAction(report, messenger) {
 
 export function openSettingsAction() {
   return () => {
-    if (Platform.OS === 'ios') {
+    if (!theme.isAndroid) {
       const APP_SETTINGS_URL = 'app-settings:';
       Linking.canOpenURL(APP_SETTINGS_URL).then((isSupported) => {
         if (isSupported) {
@@ -371,7 +372,7 @@ export function setNoBackgroundAction(value) {
 export function clearAndroid() {
   return () => {
     // For Android, clear out the file system storage on logout so it doesn't get cached incorrectly
-    // if (Platform.OS === 'android') {
+    // if (theme.isAndroid) {
     //   FilesystemStorage.getAllKeys((err, keys = []) => {
     //     if (isArray(keys)) {
     //       keys.forEach((k) => FilesystemStorage.removeItem(k, (err) => {

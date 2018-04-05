@@ -7,6 +7,7 @@ import RNVideo from './RNVideo';
 import VideoControls from '../../components/VideoControls';
 import { COLORS } from '../../theme';
 import { isObject, isString } from '../../utils/common';
+import theme from '../../theme';
 
 import webviewCommon from './common';
 
@@ -25,9 +26,9 @@ import YoutubeHTML from './youtube';
 import VimeoHTML from './vimeo';
 import html5HTML from './html5';
 
-const isOlderAndroid = Platform.OS === 'android' && Platform.Version < 23;
+const isOlderAndroid = theme.isAndroid && Platform.Version < 23;
 let shouldAddMargin = false;
-if (Platform.OS === 'ios') {
+if (!theme.isAndroid) {
   const iosVersion = parseInt(Platform.Version, 10);
   if (iosVersion >= 11) {
     shouldAddMargin = true;
@@ -177,7 +178,7 @@ export default class WebviewVideo extends Component {
 
   renderVideo(html) {
     if (this.props.type === 'arclight' && isOlderAndroid) {
-    // if (Platform.OS === 'android') {
+    // if (theme.isAndroid) {
       return (
         <RNVideo
           ref={(c) => this.rnvideo = c}

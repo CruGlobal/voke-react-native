@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, TextInput, KeyboardAvoidingView, Platform, Keyboard, BackHandler } from 'react-native';
+import { View, TextInput, KeyboardAvoidingView, Keyboard, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 
 import { checkAndRunSockets } from '../../actions/socket';
@@ -299,8 +299,8 @@ class Message extends Component {
     return (
       <KeyboardAvoidingView
         style={styles.container}
-        behavior={Platform.OS === 'android' ? undefined : 'padding'}
-        keyboardVerticalOffset={Platform.OS === 'android' ? undefined : 0}
+        behavior={theme.isAndroid ? undefined : 'padding'}
+        keyboardVerticalOffset={theme.isAndroid ? undefined : 0}
       >
         <Header
           left={
@@ -339,7 +339,7 @@ class Message extends Component {
           onSelectVideo={this.handleSelectVideo}
         />
         {
-          Platform.OS === 'android' ? null : (
+          theme.isAndroid ? null : (
             <Flex value={100} style={{zIndex: 10, backgroundColor: 'transparent'}}></Flex>
           )
         }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, Image, TextInput, KeyboardAvoidingView, ScrollView, View, Alert, BackHandler } from 'react-native';
+import { Image, TextInput, KeyboardAvoidingView, ScrollView, View, Alert, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';
@@ -359,8 +359,8 @@ class Profile extends Component {
     return (
       <KeyboardAvoidingView
         style={styles.container}
-        behavior={Platform.OS === 'android' ? undefined : 'padding'}
-        keyboardVerticalOffset={Platform.OS === 'android' ? undefined : 50}
+        behavior={theme.isAndroid ? undefined : 'padding'}
+        keyboardVerticalOffset={theme.isAndroid ? undefined : 50}
       >
         <Header
           leftBack={true}

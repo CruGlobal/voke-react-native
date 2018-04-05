@@ -1,8 +1,9 @@
-import { Linking, Platform } from 'react-native';
+import { Linking } from 'react-native';
 import Communications from 'react-native-communications';
 
 import { logoutAction } from '../actions/auth';
 import CONSTANTS from '../constants';
+import theme from '../theme';
 
 // This is used by the android <MenuButton /> and the iOS <Menu />
 export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin } = {}) {
@@ -43,9 +44,9 @@ export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin } = 
       name: 'Write a Review',
       onPress: () => {
         let link;
-        if (Platform.OS === 'ios') {
+        if (!theme.isAndroid) {
           link = CONSTANTS.IOS_STORE_LINK;
-        } else if (Platform.OS === 'android') {
+        } else {
           link = CONSTANTS.ANDROID_STORE_LINK;
         }
         if (link) {

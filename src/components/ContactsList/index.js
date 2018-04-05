@@ -1,23 +1,22 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, SectionList, FlatList, Platform, KeyboardAvoidingView, Dimensions, Keyboard } from 'react-native';
+import { View, SectionList, FlatList, Keyboard } from 'react-native';
 import ContactItem from '../ContactItem';
 
 import styles from './styles';
 import { Touchable, Text, Flex, RefreshControl } from '../common';
-
-const isAndroid = Platform.OS === 'android';
+import theme from '../../theme';
 
 // Format contacts for the section list
 function formatContacts(items) {
-  if (isAndroid) {
+  if (theme.isAndroid) {
     return items;
   }
   const ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
   const sections = items.reduce((p, n) => {
     const letterIndex = ALPHA.findIndex((a) => {
-      if (Platform.OS === 'ios' && n.lastNameLetter) {
+      if (!theme.isAndroid && n.lastNameLetter) {
         return a === n.lastNameLetter;
       } else {
         return n.firstNameLetter && a === n.firstNameLetter;
@@ -69,14 +68,14 @@ class ContactsList extends Component {
   }
 
   componentDidMount() {
-    if (Platform.OS === 'ios') {
+    if (!theme.isAndroid) {
       this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
       this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
     }
   }
 
   componentWillUnmount() {
-    if (Platform.OS === 'ios') {
+    if (!theme.isAndroid) {
       this.keyboardDidShowListener.remove();
       this.keyboardDidHideListener.remove();
     }
@@ -120,7 +119,7 @@ class ContactsList extends Component {
     let listProps = {
       keyExtractor: (item) => item.id,
       initialNumToRender: 30,
-      keyboardShouldPersistTaps: Platform.OS === 'android' ? 'handled' : 'always',
+      keyboardShouldPersistTaps: theme.isAndroid ? 'handled' : 'always',
       renderItem: this.renderItem,
       refreshControl: <RefreshControl
         refreshing={this.props.refreshing}
@@ -129,7 +128,7 @@ class ContactsList extends Component {
       maxToRenderPerBatch: 30,
       style: { paddingBottom: 30 },
     };
-    if (isAndroid) {
+    if (theme.isAndroid) {
       return (
         <FlatList
           {...listProps}
@@ -163,7 +162,7 @@ class ContactsList extends Component {
     }
     // ItemSeparatorComponent={() => <Separator />}
     return (
-      <View style={{paddingBottom: Platform.OS === 'ios' ? this.state.height + 100 : undefined}}>
+      <View style={{paddingBottom: !theme.isAndroid ? this.state.height + 100 : undefined}}>
         {this.renderContent()}
       </View>
     );

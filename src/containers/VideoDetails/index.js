@@ -18,8 +18,9 @@ import webviewStates from '../../components/WebviewVideo/common';
 import FloatingButtonSingle from '../../components/FloatingButtonSingle';
 import { VokeIcon, Flex, Touchable, Text, Button } from '../../components/common';
 import { exists } from '../../utils/common';
+import theme from '../../theme';
 
-const isOlderAndroid = Platform.OS === 'android' && Platform.Version < 23;
+const isOlderAndroid = theme.isAndroid && Platform.Version < 23;
 
 
 class VideoDetails extends Component {
@@ -59,7 +60,7 @@ class VideoDetails extends Component {
     Orientation.addOrientationListener(this.orientationDidChange);
 
     // Android is having issues with the orientation stuff, use this workaround
-    if (Platform.OS === 'android') {
+    if (theme.isAndroid) {
       Dimensions.addEventListener('change', ({ window: { width, height } }) => {
         const orientation = width > height ? 'LANDSCAPE' : 'PORTRAIT';
         this.orientationDidChange(orientation);

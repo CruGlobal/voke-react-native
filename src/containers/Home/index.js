@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Platform, Image, Alert, AlertIOS } from 'react-native';
+import { View, ScrollView, Image, Alert, AlertIOS } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -25,6 +25,7 @@ import StatusBar from '../../components/StatusBar';
 import NULL_STATE from '../../../images/video-button.png';
 import VOKE from '../../../images/voke_null_state.png';
 import CONSTANTS, { IS_SMALL_ANDROID } from '../../constants';
+import theme from '../../theme';
 
 const CONTACT_LENGTH_SHOW_VOKEBOT = IS_SMALL_ANDROID ? 2 : 3;
 
@@ -142,7 +143,7 @@ class Home extends Component {
         {
           text: 'Block and Report',
           onPress: () => {
-            if (Platform.OS === 'android') {
+            if (theme.isAndroid) {
               this.setState({
                 showAndroidReportModal: true,
                 androidReportPerson: otherPerson,

@@ -124,7 +124,7 @@ class SelectFriend extends Component {
 
   checkContactsStatus() {
     // On older android devices, don't even do the prompts
-    if (Platform.OS === 'android' && Platform.Version < 23) {
+    if (theme.isAndroid && Platform.Version < 23) {
       this.handleGetContacts();
     } else {
       Permissions.checkContacts().then(this.handleCheckPermission);
@@ -132,7 +132,7 @@ class SelectFriend extends Component {
   }
 
   handleAllowContacts() {
-    if (Platform.OS === 'android') {
+    if (theme.isAndroid) {
       this.handleGetContacts();
     } else if (this.state.permission === Permissions.DENIED) {
       // On iOS, open settings
@@ -199,7 +199,7 @@ class SelectFriend extends Component {
                 this.props.dispatch({ type: SET_IN_SHARE, bool: false });
 
                 // On android, put a timeout because the share stuff gets messed up otherwise
-                if (Platform.OS === 'android') {
+                if (theme.isAndroid) {
                   this.setState({ setLoaderBeforePush: true });
                   setTimeout(() => {
                     this.setState({ setLoaderBeforePush: false });

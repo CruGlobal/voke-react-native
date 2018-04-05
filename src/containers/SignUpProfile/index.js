@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, Image, ScrollView, Keyboard, KeyboardAvoidingView, Alert } from 'react-native';
+import { Image, ScrollView, Keyboard, KeyboardAvoidingView, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -14,6 +14,7 @@ import { Flex, Icon, Button } from '../../components/common';
 import SignUpHeader from '../../components/SignUpHeader';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
+import theme from '../../theme';
 
 class SignUpProfile extends Component {
   constructor(props) {
@@ -102,7 +103,7 @@ class SignUpProfile extends Component {
   render() {
     return (
       <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
-        <KeyboardAvoidingView behavior={Platform.OS === 'android' ? undefined : 'padding'}>
+        <KeyboardAvoidingView behavior={theme.isAndroid ? undefined : 'padding'}>
           {
             // hideBack just means that we're resetting to this page because the
             // user has to fill in more info before they can continue

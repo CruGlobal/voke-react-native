@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Platform } from 'react-native';
+import { View } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 
 import styles from './styles';
@@ -123,9 +123,9 @@ class ConversationList extends Component { // eslint-disable-line
                 <Flex direction="row" align="center">
                   <Text style={styles.messagePreviewWrapper} numberOfLines={2}>
                     <Text style={styles.creatorText}>{contentCreator}</Text>
-                    {Platform.OS === 'android' ? ' ' : null}
+                    {theme.isAndroid ? ' ' : null}
                     <VokeIcon name="arrow" style={styles.arrowImage} />
-                    {Platform.OS === 'android' ? ' ' : null}
+                    {theme.isAndroid ? ' ' : null}
                     <Text style={styles.messagePreviewText}>
                       {conversation.messagePreview || '...'}
                     </Text>
@@ -150,7 +150,7 @@ class ConversationList extends Component { // eslint-disable-line
         keyExtractor= {(item) => item.id}
         data={this.props.items}
         renderItem={this.renderRow}
-        directionalDistanceChangeThreshold={Platform.OS === 'android' ? 12 : undefined}
+        directionalDistanceChangeThreshold={theme.isAndroid ? 12 : undefined}
         renderHiddenItem={(rowData, rowMap) => (
           <View style={styles.rowBack}>
             <Flex direction="row" align="center" justify="center" style={{ width: SLIDE_ROW_WIDTH }}>

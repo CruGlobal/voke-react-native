@@ -10,7 +10,7 @@ import { navigatePush, navigateResetMessage, navigateResetHome, navigateResetTo 
 import callApi, { REQUESTS } from './api';
 import CONSTANTS from '../constants';
 import { isEquivalentObject, isString } from '../utils/common';
-
+import theme from '../theme';
 // Push notification Android error
 // https://github.com/zo0r/react-native-push-notification/issues/495
 
@@ -200,12 +200,14 @@ export function handleNotifications(state, notification) {
     // Get the namespace and link differently for ios and android
     let namespace;
     let link;
-    if (Platform.OS === 'ios') {
+    if (!theme.isAndroid) {
+      // iOS
       if (data && data.data && data.data.namespace) {
         namespace = data.data.namespace;
         link = data.data.link;
       }
-    } else if (Platform.OS === 'android') {
+    } else {
+      // Android
       if (notification && notification.namespace) {
         namespace = notification.namespace;
         if (notification.link) {
@@ -430,7 +432,7 @@ export function establishPushDevice() {
         device: {
           ...currentDeviceInfo,
           key: auth.pushToken,
-          kind: Platform.OS === 'android' ? 'android_react' : 'apple',
+          kind: theme.isAndroid ? 'android_react' : 'apple',
         },
       };
       return dispatch(callApi(REQUESTS.CREATE_PUSH_DEVICE, {}, data)).then((results) => {

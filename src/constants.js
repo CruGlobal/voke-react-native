@@ -1,4 +1,3 @@
-import { Platform } from 'react-native';
 import theme from './theme';
 
 
@@ -24,7 +23,7 @@ export const SHOW_SHARE_MODAL = 'app/SHOW_SHARE_MODAL';
 export const MESSAGE_CREATED = 'app/MESSAGE_CREATED';
 export const CLEAR_CHANNEL_VIDEOS = 'app/CLEAR_CHANNEL_VIDEOS';
 
-export const IS_SMALL_ANDROID = Platform.OS === 'android' && theme.fullHeight < 600;
+export const IS_SMALL_ANDROID = theme.isAndroid && theme.fullHeight < 600;
 // export const IS_SMALL_ANDROID = true;
 
 const IS_STAGING = true;
@@ -44,7 +43,7 @@ const ANDROID_APP_ID = 'org.cru.voke';
 
 export default {
   IS_STAGING,
-  IS_ANDROID: Platform.OS === 'android',
+  IS_ANDROID: theme.isAndroid,
 
   EMAIL_REGEX: new RegExp(/^\w+([.+-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/),
   GA_TRACKER: 'UA-39188989-7', // Google Analytics

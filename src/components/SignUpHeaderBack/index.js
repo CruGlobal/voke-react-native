@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Platform } from 'react-native';
 
 import { Flex, Button, Icon, VokeIcon } from '../common';
+import theme from '../../theme';
 
 class SignUpHeaderBack extends Component {
   render() {
@@ -10,7 +10,7 @@ class SignUpHeaderBack extends Component {
       <Flex
         self="start"
         style={{
-          paddingTop: Platform.OS === 'android' ? 10 : 25,
+          paddingTop: theme.isAndroid ? 10 : 25,
           paddingLeft: 10,
         }}
       >
@@ -20,7 +20,7 @@ class SignUpHeaderBack extends Component {
           style={{ padding: 10 }}
         >
           {
-            Platform.OS === 'android' ? (
+            theme.isAndroid ? (
               <Icon name="arrow-back" size={30} />
             ) : (
               <VokeIcon name="back" />
