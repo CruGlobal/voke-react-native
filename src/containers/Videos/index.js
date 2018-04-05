@@ -253,7 +253,15 @@ class Videos extends Component {
       this.props.dispatch(getChannelSubscriberData(this.props.channel.id)).then((results) => {
         const subscriberId = channelResults.subscription_id;
         const isSubscribed = !!subscriberId;
-        const total = results && results._links && results._links.root ? results._links.root.total_count : 0;
+        // Get the total from the 'total_subscriptions' field in one of the items
+        let total = results && results.subscriptions && results.subscriptions[0] && results.subscriptions[0].total_subscriptions;
+        if (!total) {
+          total = results && results._links && results._links.root ? results._links.root.total_count : 0;
+        }
+        if (!total) {
+          total = total || 0;
+        }
+        
         
         this.setState({
           channelSubscribeData: {
