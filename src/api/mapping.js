@@ -144,6 +144,7 @@ function formatConversation(c, getState) {
   // This determines if the conversation has unread messages or not
   if (latestMessenger.id === myId) {
     c.hasUnread = false;
+    c.unReadCount = 0;
   }
 
   // c.timeReceived = Date.now();

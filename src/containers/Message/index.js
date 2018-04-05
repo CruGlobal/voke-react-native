@@ -19,7 +19,7 @@ import Header, { HeaderIcon } from '../Header';
 
 import { Flex, VokeIcon, Button, Touchable } from '../../components/common';
 import MessagesList from '../../components/MessagesList';
-import CONSTANTS, { UNREAD_CONV_DOT } from '../../constants';
+import CONSTANTS from '../../constants';
 
 // <ShareButton message="Share this with you" title="Hey!" url="https://www.facebook.com" />
 
@@ -35,7 +35,7 @@ class Message extends Component {
       latestItem: null,
       shouldShowButtons: true,
       createTransparentFocus: false,
-      showDot: false,
+      showDot: props.unReadBadgeCount > 0,
       title: 'Voke',
     };
 
@@ -78,25 +78,17 @@ class Message extends Component {
       this.createMessageReadInteraction(nextProps.messages[0]);
     }
 
-    if ((nextProps.showUnreadDot && !this.props.showUnreadDot) || (Platform.OS === 'ios' && nextProps.unReadBadgeCount > 0)) {
-      clearTimeout(this.timeoutSetYellow);
-      this.timeoutSetYellow = setTimeout(() => {
-        LOG('inTimeout');
+    if (!theme.isAndroid) {
+      if (nextProps.unReadBadgeCount > 0) {
         this.setState({ showDot: true });
-      }, 1500);
-    }
-    // Reset the yellow badge indicator when the unread count goes away
-    if (Platform.OS === 'ios' && nextProps.unReadBadgeCount === 0 && this.props.unReadBadgeCount > 0) {
-      clearTimeout(this.timeoutSetYellow);
-      this.timeoutSetYellow = setTimeout(() => {
-        LOG('remove dot');
+      } else if (nextProps.unReadBadgeCount === 0 && this.props.unReadBadgeCount > 0) {
         this.setState({ showDot: false });
-      }, 500);
+      }
     }
+    
   }
 
   componentWillUnmount() {
-    clearTimeout(this.timeoutSetYellow);
     BackHandler.removeEventListener('hardwareBackPress', this.backHandler);
     this.props.dispatch({ type: SET_ACTIVE_CONVERSATION, id: null });
   }
@@ -140,14 +132,12 @@ class Message extends Component {
     if (!page) {
       const { conversation, messages } = this.props;
       const latestMessage = messages[0];
-      if (latestMessage && conversation.latestMessage && conversation.latestMessage.messsage_id === latestMessage.id) {
+      if (latestMessage && conversation.latestMessage && conversation.latestMessage.message_id === latestMessage.id) {
         LOG('positions are the same, dont call getMessages');
         return;
       }
     }
-    this.props.dispatch(getMessages(this.props.conversation.id, page)).then(() => {
-      this.createMessageReadInteraction(this.props.messages[0]);
-    });
+    this.props.dispatch(getMessages(this.props.conversation.id, page));
   }
 
   pauseVideo() {
@@ -258,9 +248,6 @@ class Message extends Component {
   }
 
   handleHeaderBack() {
-    if (this.props.showUnreadDot) {
-      this.props.dispatch({ type: UNREAD_CONV_DOT, show: false });
-    }
     this.props.navigateBack();
   }
 
@@ -450,9 +437,6 @@ const mapStateToProps = ({ messages, auth }, { navigation }) => {
     me: auth.user,
     typeState: !!messages.typeState[conversation.id],
     unReadBadgeCount: messages.unReadBadgeCount,
-    // If we should show the conversation dot
-    showUnreadDot: messages.unreadConversationDot,
-    // testingData: messages.activeConversationId,
   };
 };
 

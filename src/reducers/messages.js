@@ -1,7 +1,7 @@
 import lodashUniqBy from 'lodash/uniqBy';
 import { REHYDRATE } from 'redux-persist/constants';
 import { REQUESTS } from '../actions/api';
-import { LOGOUT, NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ, SET_ACTIVE_CONVERSATION, UNREAD_CONV_DOT, SET_IN_SHARE, MESSAGE_CREATED } from '../constants';
+import { LOGOUT, NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ, SET_ACTIVE_CONVERSATION, SET_IN_SHARE, MESSAGE_CREATED } from '../constants';
 import { isArray } from '../utils/common';
 
 const initialState = {
@@ -16,7 +16,6 @@ const initialState = {
     },
     messages: {},
   },
-  unreadConversationDot: false,
   inShare: false,
   activeConversationId: null,
 };
@@ -50,7 +49,6 @@ export default function messages(state = initialState, action) {
         typeState: {},
         pagination: initialState.pagination,
         unReadBadgeCount: 0,
-        unreadConversationDot: false,
         inShare: false,
       };
     // Add or update the existing conversation that's returned in the conversations array
@@ -173,6 +171,7 @@ export default function messages(state = initialState, action) {
       if (!conversationNewMessageId) {
         return state;
       }
+      const incrementBadge = action.incrementBadge;
       let currentBadgeCount = state.unReadBadgeCount;
       let msgPreviewConversations = state.conversations.map((c) => {
         if (c.id === conversationNewMessageId) {
@@ -182,13 +181,11 @@ export default function messages(state = initialState, action) {
           if (newMessenger) {
             messengers.unshift(newMessenger);
           }
-          let cnt;
-          if (messengers.length !== 2) {
-            cnt = c.unReadCount ? c.unReadCount + 1 : 1;
+          // Always increment the badge count
+          let cnt = (c.unReadCount || 0);
+          if (incrementBadge) {
+            cnt++;
             currentBadgeCount++;
-          }
-          if (messengers.length === 2) {
-            cnt = 0;
           }
           return {
             ...c,
@@ -196,6 +193,9 @@ export default function messages(state = initialState, action) {
             messagePreview: action.message.content,
             hasUnread: cnt > 0,
             unReadCount: cnt,
+            latestMessage: {
+              message_id: action.message.id,
+            },
           };
         }
         return c;
@@ -255,11 +255,6 @@ export default function messages(state = initialState, action) {
       return {
         ...state,
         activeConversationId: action.id,
-      };
-    case UNREAD_CONV_DOT:
-      return {
-        ...state,
-        unreadConversationDot: action.show,
       };
     case SET_IN_SHARE:
       return {
