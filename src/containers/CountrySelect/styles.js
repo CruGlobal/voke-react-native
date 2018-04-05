@@ -16,10 +16,9 @@ export default StyleSheet.create({
     paddingVertical: 10,
   },
   row: {
-    height: 50,
     justifyContent: 'center',
     paddingHorizontal: 10,
-    paddingVertical: 15,
+    paddingVertical: 13,
     backgroundColor: theme.lightBackgroundColor,
   },
   name: {

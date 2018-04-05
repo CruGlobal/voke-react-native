@@ -7,6 +7,13 @@ import CONSTANTS from '../constants';
 // This is used by the android <MenuButton /> and the iOS <Menu />
 export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin } = {}) {
   return [
+    // {
+    //   id: 'country',
+    //   name: 'Country Codes',
+    //   onPress: () => navigatePush && navigatePush('voke.CountrySelect', {
+    //     onSelect: (c) => LOG('country selected', c),
+    //   }),
+    // },
     {
       id: 'profile',
       name: 'Profile',

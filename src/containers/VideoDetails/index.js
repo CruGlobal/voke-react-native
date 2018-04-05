@@ -122,13 +122,14 @@ class VideoDetails extends Component {
 
   handleFavorite() {
     if (this.state.isFavorite) {
+      // Optimistic updates
+      this.setState({ isFavorite: false });
       this.props.dispatch(unfavoriteVideo(this.props.video.id)).then(() => {
-        this.setState({ isFavorite: false });
         this.props.onRefresh && this.props.onRefresh();
       });
     } else {
+      this.setState({ isFavorite: true });
       this.props.dispatch(favoriteVideo(this.props.video.id)).then(() => {
-        this.setState({ isFavorite: true });
         this.props.onRefresh && this.props.onRefresh();
       });
     }
