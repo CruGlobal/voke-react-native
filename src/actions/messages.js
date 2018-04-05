@@ -1,17 +1,17 @@
 import { API_URL } from '../api/utils';
 import { Vibration, Platform } from 'react-native';
-import { NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ, MESSAGE_CREATED } from '../constants';
+import CONSTANTS, { NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ, MESSAGE_CREATED } from '../constants';
 import callApi, { REQUESTS } from './api';
 
 export function getConversations() {
   return (dispatch) => {
-    return dispatch(callApi(REQUESTS.GET_CONVERSATIONS, { page: 1, limit_value: 3 }));
+    return dispatch(callApi(REQUESTS.GET_CONVERSATIONS, { page_size: CONSTANTS.CONVERSATIONS_PAGE_SIZE }));
   };
 }
 
 export function getConversationsPage(page) {
   return (dispatch) => {
-    return dispatch(callApi(REQUESTS.GET_CONVERSATIONS, { page, limit_value: 3 }));
+    return dispatch(callApi(REQUESTS.GET_CONVERSATIONS, { page, page_size: CONSTANTS.CONVERSATIONS_PAGE_SIZE }));
   };
 }
 

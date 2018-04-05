@@ -56,6 +56,8 @@ export default {
   // FACEBOOK_SCOPE: ['public_profile'],
 
   PAGE_SIZE: 25, // This is the default page size from the API
+  CONVERSATIONS_PAGE_SIZE: 12,
+  
   CONTACT_CHUNKS: 500, // How many contacts to send up per upload request
   REFRESH_CONTACTS_TIME: 30 * 24 * 60 * 60 * 1000, // 5 days
   // // REFRESH_CONTACTS_TIME: 30 * 60 * 1000, // 30 minutes

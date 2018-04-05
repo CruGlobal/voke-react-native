@@ -181,8 +181,8 @@ class ConversationList extends Component { // eslint-disable-line
             </Flex>
           </View>
         )}
-        initialListSize={CONSTANTS.PAGE_SIZE}
-        pageSize={CONSTANTS.PAGE_SIZE}
+        initialListSize={CONSTANTS.CONVERSATIONS_PAGE_SIZE}
+        pageSize={CONSTANTS.CONVERSATIONS_PAGE_SIZE}
         enableEmptySections={true}
         onEndReached={this.handleNextPage}
         onEndReachedThreshold={50}
