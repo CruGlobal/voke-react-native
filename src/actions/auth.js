@@ -22,9 +22,9 @@ let hasStartedUp = false;
 export function startupAction() {
   return (dispatch, getState) => {
     Orientation.lockToPortrait();
-    PushNotification.setApplicationIconBadgeNumber(0);
+    // PushNotification.setApplicationIconBadgeNumber(0);
     if (hasStartedUp) return;
-    
+
     hasStartedUp = true;
     dispatch(establishDevice());
     if (appStateChangeFn) {
@@ -77,7 +77,7 @@ function appStateChange(dispatch, getState, nextAppState) {
     dispatch(checkAndRunSockets());
 
     // Clear out home screen badge when user comes back into the app
-    PushNotification.setApplicationIconBadgeNumber(0);    
+    PushNotification.setApplicationIconBadgeNumber(0);
 
   } else if (nextAppState === 'background' || nextAppState === 'inactive') {
     LOG('App is going into the background');
@@ -389,4 +389,3 @@ export function clearAndroid() {
     // }
   };
 }
-

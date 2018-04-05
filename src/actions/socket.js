@@ -206,14 +206,14 @@ export function handleNotifications(state, notification) {
         link = data.data.link;
       }
     } else if (Platform.OS === 'android') {
-      if (data && data.namespace) {
-        namespace = data.namespace;
-        if (data.link) {
-          link = data.link;
-        } else if (data.notification && data.notification.click_action) {
-          link = data.notification.click_action;
+      if (notification && notification.namespace) {
+        namespace = notification.namespace;
+        if (notification.link) {
+          link = notification.link;
+        } else if (notification.notification && notification.notification.click_action) {
+          link = notification.notification.click_action;
         }
-      } else if (notification.message && notification.message.indexOf('{') === 0) {
+      } else if (notification.message_object && notification.message_object.indexOf('{') === 0) {
         data = JSON.parse(notification.message);
         if (data) {
           data = data.notification;
@@ -295,7 +295,7 @@ export function handleNotifications(state, notification) {
 export function establishDevice() {
   return (dispatch, getState) => {
 
-    // LOG('hjere');
+    console.log('hjere');
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
       onRegister(token) {
