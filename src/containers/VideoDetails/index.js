@@ -30,7 +30,7 @@ class VideoDetails extends Component {
     this.state = {
       isLandscape: false,
       showVideo: false,
-      video: null,
+      // video: null,
       isFavorite: props.video ? props.video['favorite?'] : false,
     };
 
@@ -69,14 +69,14 @@ class VideoDetails extends Component {
 
     // TODO: When coming back to this page, toggle the orientation
 
-    this.props.dispatch(getVideo(this.props.video.id)).then((results) => {
-      if (results && exists(results['favorite?'])) {
-        this.setState({ isFavorite: results['favorite?'] });
-      }
-      if (results) {
-        this.setState({ video: results });
-      }
-    });
+    // this.props.dispatch(getVideo(this.props.video.id)).then((results) => {
+    //   if (results && exists(results['favorite?'])) {
+    //     this.setState({ isFavorite: results['favorite?'] });
+    //   }
+    //   if (results) {
+    //     this.setState({ video: results });
+    //   }
+    // });
 
     setTimeout(() => {
       this.setState({ showVideo: true }, () => {
@@ -122,22 +122,24 @@ class VideoDetails extends Component {
   }
 
   handleFavorite() {
+    const { video, dispatch, onUpdateVideos } = this.props;
     if (this.state.isFavorite) {
       // Optimistic updates
       this.setState({ isFavorite: false });
-      this.props.dispatch(unfavoriteVideo(this.props.video.id)).then(() => {
-        this.props.onRefresh && this.props.onRefresh();
+      dispatch(unfavoriteVideo(video.id)).then(() => {
+        onUpdateVideos && onUpdateVideos(video.id, false);
       });
     } else {
       this.setState({ isFavorite: true });
-      this.props.dispatch(favoriteVideo(this.props.video.id)).then(() => {
-        this.props.onRefresh && this.props.onRefresh();
+      dispatch(favoriteVideo(video.id)).then(() => {
+        onUpdateVideos && onUpdateVideos(video.id, true);
       });
     }
   }
 
   renderContent() {
-    const video = this.state.video || this.props.video || {};
+    // const video = this.state.video || this.props.video || {};
+    const video = this.props.video || {};
     const isFavorite = this.state.isFavorite;
 
     return (
@@ -181,7 +183,8 @@ class VideoDetails extends Component {
   }
 
   render() {
-    const video = this.state.video || this.props.video || {};
+    // const video = this.state.video || this.props.video || {};
+    const video = this.props.video || {};
     const videoMedia = video.media || {};
     const videoType = videoMedia.type;
 
@@ -271,7 +274,7 @@ VideoDetails.propTypes = {
   ...NavPropTypes,
   video: PropTypes.object,
   onSelectVideo: PropTypes.func,
-  onRefresh: PropTypes.func,
+  onUpdateVideos: PropTypes.func,
   conversation: PropTypes.object,
 };
 

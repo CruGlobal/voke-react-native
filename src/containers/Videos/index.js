@@ -394,7 +394,7 @@ class Videos extends Component {
               video: c,
               onSelectVideo,
               conversation: this.props.conversation,
-              onRefresh: this.handleRefresh,
+              onUpdateVideos: () => this.updateVideoList(selectedFilter),
             });
           }}
           onRefresh={this.handleRefresh}
