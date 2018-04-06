@@ -26,7 +26,7 @@ const initialState = {
 export default function channels(state = initialState, action) {
   switch (action.type) {
     case REHYDRATE:
-      const incoming = action.payload.videos;
+      const incoming = action.payload.channels;
       if (!incoming) return state;
       return {
         ...state,

@@ -17,17 +17,19 @@ import Header, { HeaderIcon } from '../Header';
 import PopupMenu from '../../components/PopupMenu';
 import ChannelsList from '../../components/ChannelsList';
 import StatusBar from '../../components/StatusBar';
-import { Flex, Text } from '../../components/common';
+import { Flex, Text, RefreshControl } from '../../components/common';
 
 class Channels extends Component {
 
-  constructor(props) {
-    super(props);
-
-    this.handleNextPage = this.handleNextPage.bind(this);
-  }
+  state = { refreshing: false };
 
   componentDidMount() {
+    Analytics.screen('Channels');
+
+    LOG('channels', this.props.myChannels, this.props.featuredChannels, this.props.allChannels);
+    if (this.props.allChannels.length > 0) {
+      return;
+    }
     this.props.dispatch(getAllOrganizations()).catch((err)=> {
       LOG(JSON.stringify(err));
       if (err.error === 'Messenger not configured') {
@@ -47,10 +49,15 @@ class Channels extends Component {
     });
     this.props.dispatch(getMyOrganizations());
     this.props.dispatch(getFeaturedOrganizations());
-    Analytics.screen('Channels');
   }
 
-  handleNextPage(filter) {
+  handleRefreshAll = () => {
+    this.props.dispatch(getAllOrganizations());
+    this.props.dispatch(getMyOrganizations());
+    this.props.dispatch(getFeaturedOrganizations());
+  }
+
+  handleNextPage = (filter) => {
     const pagination = this.props.pagination;
     if (!pagination[filter] || !pagination[filter].hasMore) {
       return;
@@ -90,7 +97,12 @@ class Channels extends Component {
           }
           title="Channels"
         />
-        <ScrollView >
+        <ScrollView
+          refreshControl={<RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this.handleRefreshAll}
+          />}
+        >
           <Text style={styles.title}>MY CHANNELS</Text>
           <ChannelsList
             ref={(c) => this.myChannelsList = c}
