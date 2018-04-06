@@ -176,12 +176,12 @@ class Home extends Component {
         <StatusBar hidden={false} />
         <Header
           left={
-            CONSTANTS.IS_ANDROID ? undefined : (
+            theme.isAndroid ? undefined : (
               <HeaderIcon image={vokeIcons['menu']} onPress={this.handleMenuPress} />
             )
           }
           right={
-            CONSTANTS.IS_ANDROID ? (
+            theme.isAndroid ? (
               <PopupMenu
                 actions={navMenuOptions(this.props)}
               />

@@ -4,7 +4,7 @@ import theme from '../../theme';
 
 export default StyleSheet.create({
   button: {
-    paddingVertical: 5,
+    paddingVertical: 2,
     paddingHorizontal: 15,
     borderRadius: 50,
     alignItems: 'center',

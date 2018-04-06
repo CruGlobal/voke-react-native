@@ -198,7 +198,7 @@ class Contacts extends Component {
               onPress={this.handleBack} />
           }
           right={
-            CONSTANTS.IS_ANDROID ? (
+            theme.isAndroid ? (
               <HeaderIcon
                 type="search"
                 onPress={() => this.setState({ showSearch: !showSearch })} />

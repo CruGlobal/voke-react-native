@@ -304,7 +304,7 @@ class Message extends Component {
       >
         <Header
           left={
-            CONSTANTS.IS_ANDROID ? (
+            theme.isAndroid ? (
               <HeaderIcon
                 type="back"
                 onPress={this.handleHeaderBack}

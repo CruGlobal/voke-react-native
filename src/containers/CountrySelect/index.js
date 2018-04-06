@@ -114,7 +114,7 @@ class CountrySelect extends Component {
       <View style={styles.container}>
         <Header
           left={
-            CONSTANTS.IS_ANDROID ? (
+            theme.isAndroid ? (
               <HeaderIcon
                 icon="close"
                 onPress={this.close} />
@@ -122,11 +122,15 @@ class CountrySelect extends Component {
               <HeaderIcon
                 icon="ios-close"
                 iconType="Ionicons"
+                style={{
+                  paddingVertical: 5,
+                  paddingHorizontal: 15,
+                }}
                 onPress={this.close} />
             )
           }
           right={
-            CONSTANTS.IS_ANDROID ? (
+            theme.isAndroid ? (
               <HeaderIcon
                 icon="search"
                 onPress={() => this.setState({ showSearch: !showSearch })} />

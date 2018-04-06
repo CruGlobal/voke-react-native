@@ -10,6 +10,7 @@ import SettingsList from '../../components/SettingsList';
 import Button from '../../components/Button';
 import CONSTANTS from '../../constants';
 import Header from '../Header';
+import theme from '../../theme';
 
 const VERSION_BUILD = DeviceInfo.getReadableVersion();
 
@@ -34,7 +35,7 @@ class About extends Component {
       <View style={{ flex: 1 }}>
         <Header
           right={
-            CONSTANTS.IS_ANDROID ? undefined : (
+            theme.isAndroid ? undefined : (
               <Button
                 type="transparent"
                 text="Done"

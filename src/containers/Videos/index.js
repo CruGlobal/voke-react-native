@@ -11,19 +11,17 @@ import Analytics from '../../utils/analytics';
 import nav, { NavPropTypes } from '../../actions/nav';
 
 import styles from './styles';
-import { navMenuOptions } from '../../utils/menu';
 import { vokeIcons } from '../../utils/iconMap';
 
 import ApiLoading from '../ApiLoading';
 import ThemeSelect from '../ThemeSelect';
-import PopupMenu from '../../components/PopupMenu';
 import Header, { HeaderIcon } from '../Header';
 import PillButton from '../../components/PillButton';
 import VideoList from '../../components/VideoList';
 import StatusBar from '../../components/StatusBar';
 import ChannelInfo from '../../components/ChannelInfo';
 import { Flex } from '../../components/common';
-import CONSTANTS from '../../constants';
+import theme from '../../theme';
 
 class Videos extends Component {
   constructor(props) {
@@ -315,9 +313,9 @@ class Videos extends Component {
   renderHeaderLeft() {
     const { onSelectVideo, channel } = this.props;
     const showBack = !!onSelectVideo || !!channel;
-    if (CONSTANTS.IS_ANDROID && !showBack) {
+    if (theme.isAndroid && !showBack) {
       return null;
-    } else if (CONSTANTS.IS_ANDROID && showBack) {
+    } else if (theme.isAndroid && showBack) {
       return (
         <HeaderIcon
           type="back"

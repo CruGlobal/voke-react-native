@@ -10,7 +10,6 @@ import nav, { NavPropTypes } from '../../actions/nav';
 import styles from './styles';
 import { navMenuOptions } from '../../utils/menu';
 import { vokeIcons } from '../../utils/iconMap';
-import CONSTANTS from '../../constants';
 
 import ApiLoading from '../ApiLoading';
 import Header, { HeaderIcon } from '../Header';
@@ -18,6 +17,7 @@ import PopupMenu from '../../components/PopupMenu';
 import ChannelsList from '../../components/ChannelsList';
 import StatusBar from '../../components/StatusBar';
 import { Flex, Text, RefreshControl } from '../../components/common';
+import theme from '../../theme';
 
 class Channels extends Component {
 
@@ -82,14 +82,14 @@ class Channels extends Component {
         <StatusBar hidden={false} />
         <Header
           left={
-            CONSTANTS.IS_ANDROID ? undefined : (
+            theme.isAndroid ? undefined : (
               <HeaderIcon
                 image={vokeIcons['menu']}
                 onPress={() => this.props.navigatePush('voke.Menu')} />
             )
           }
           right={
-            CONSTANTS.IS_ANDROID ? (
+            theme.isAndroid ? (
               <PopupMenu
                 actions={navMenuOptions(this.props)}
               />
