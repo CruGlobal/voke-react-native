@@ -48,7 +48,7 @@ export default StyleSheet.create({
   },
   avatar: {
     width: 26,
-    height: 26,
+    // height: 26,
     marginBottom: 10,
   },
   message: {

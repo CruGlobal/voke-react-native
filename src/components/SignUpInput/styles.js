@@ -12,6 +12,7 @@ export default StyleSheet.create({
     borderRadius: 5,
     fontSize: 16,
     color: theme.textColor,
+    backgroundColor: 'transparent',
   },
   active: {
     backgroundColor: theme.accentColor,

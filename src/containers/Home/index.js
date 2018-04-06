@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { TAB_SELECTED } from '../../constants';
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/nav';
-import { startupAction, cleanupAction, blockMessenger, reportUserAction } from '../../actions/auth';
+import { startupAction, cleanupAction, blockMessenger, reportUserAction, getMe } from '../../actions/auth';
 import { checkAndRunSockets } from '../../actions/socket';
 import  Analytics from '../../utils/analytics';
 
@@ -65,6 +65,11 @@ class Home extends Component {
         }, 3000);
       }
     });
+
+    // This should fix the case for new users signing up not having the auth user
+    if (this.props.conversations.length === 0) {
+      this.props.dispatch(getMe());
+    }
 
     this.props.dispatch({ type: TAB_SELECTED, tab: 0 });
     setTimeout(() => {

@@ -234,7 +234,7 @@ class MessageItem extends PureComponent {
             </Flex>
           ) : null
         }
-        <Flex direction="row" style={{ marginHorizontal: 5 }} align="center" justify="center">
+        <Flex direction="row" style={{ marginHorizontal: 5 }}>
           {
             (isOnlyVoke && isVoke) || (!isMe && !isVoke) ? (
               <Flex self="end" style={styles.avatar}>
@@ -246,7 +246,7 @@ class MessageItem extends PureComponent {
             self="end"
             style={[
               styles.triangle,
-              (!isMe && !isVideo && !isVoke) || (!isVideo && (isOnlyVoke && isVoke)) ? styles.otherTriangle : null,
+              (!isMe && !isVideo && !isVoke) || ((!isVideo || isVideoAndText) && (isOnlyVoke && isVoke)) ? styles.otherTriangle : null,
             ]}
           />
           {content}

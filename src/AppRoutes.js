@@ -101,7 +101,7 @@ export const MainTabRoutes = TabNavigator({
     activeTintColor: theme.lightText,
     inactiveTintColor: theme.primaryColor,
     // ios props
-    activeBackgroundColor: theme.convert({ color: theme.secondaryColor, lighten: 0.1 }),
+    // activeBackgroundColor: theme.convert({ color: theme.secondaryColor, lighten: 0.1 }),
     inactiveBackgroundColor: theme.secondaryColor,
     // android props
     iconStyle: { width: 60 },

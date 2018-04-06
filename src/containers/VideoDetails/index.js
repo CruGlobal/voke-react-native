@@ -189,12 +189,12 @@ class VideoDetails extends Component {
     const videoType = videoMedia.type;
 
     // Set the loading state duration for different video types
-    let loadDuration = 2000;
-    if (videoType === 'arclight') {
-      loadDuration = 3000; // Longer loading state for arclight videos
-    } else if (videoType === 'vimeo' && isOlderAndroid) {
-      loadDuration = 3500; // Longer for older android devices and vimeo
-    }
+    // let loadDuration = 2000;
+    // if (videoType === 'arclight') {
+    //   loadDuration = 3000; // Longer loading state for arclight videos
+    // } else if (videoType === 'vimeo' && isOlderAndroid) {
+    //   loadDuration = 3500; // Longer for older android devices and vimeo
+    // }
 
     // LOG('landscape mode', this.state.isLandscape);
 
@@ -264,7 +264,7 @@ class VideoDetails extends Component {
             }
           }}
         />
-        <ApiLoading text="Loading Video" showMS={loadDuration} />
+        {/* <ApiLoading text="Loading Video" showMS={loadDuration} /> */}
       </View>
     );
   }

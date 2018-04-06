@@ -60,17 +60,17 @@ function appStateChange(dispatch, getState, nextAppState) {
   if (nextAppState === 'active') {
     LOG('App has come to the foreground!');
 
-    // Put the ACTIVE actions in a short timeout so they don't run when the app switches quickly
-    const now = Date.now();
-    // const BACKGROUND_REFRESH_TIME = 5 * 60 * 1000; // 5 minutes
-    const BACKGROUND_REFRESH_TIME = 3 * 1000; // 3 seconds
-    if (now - appCloseTime > BACKGROUND_REFRESH_TIME) {
-      dispatch(getConversations());
-    }
-    const currentConvId = getState().messages.activeConversationId;
-    if (currentConvId) {
-      dispatch(getMessages(currentConvId));
-    }
+    // // Put the ACTIVE actions in a short timeout so they don't run when the app switches quickly
+    // const now = Date.now();
+    // // const BACKGROUND_REFRESH_TIME = 5 * 60 * 1000; // 5 minutes
+    // const BACKGROUND_REFRESH_TIME = 3 * 1000; // 3 seconds
+    // if (now - appCloseTime > BACKGROUND_REFRESH_TIME) {
+    //   dispatch(getConversations());
+    // }
+    // const currentConvId = getState().messages.activeConversationId;
+    // if (currentConvId) {
+    //   dispatch(getMessages(currentConvId));
+    // }
 
     dispatch(checkAndRunSockets());
   } else if (nextAppState === 'background' || nextAppState === 'inactive') {
