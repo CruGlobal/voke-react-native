@@ -285,15 +285,18 @@ class Message extends Component {
 
   render() {
     const { messages, me, typeState, pagination } = this.props;
+    const { height } = this.state;
     // Get ths conversation from the state if it exists, or from props
     const conversation = this.state.conversation || this.props.conversation;
 
-    let newHeight = {
-      height: this.state.height < 40 ? 40 : this.state.height > 80 ? 80 : this.state.height,
+    let inputHeight = {
+      height: height < 40 ? 40 : height > 80 ? 80 : height,
     };
 
+    const extraPadding = theme.isIphoneX ? 40 : 0;
+
     let newWrap = {
-      height: this.state.height < 40 ? 50 : this.state.height > 80 ? 90 : this.state.height + 10,
+      height: height < 40 ? 50 + extraPadding : height > 80 ? 90 + extraPadding : height + 10 + extraPadding,
     };
 
     return (
@@ -374,7 +377,7 @@ class Message extends Component {
               </Flex>
             )
           }
-          <Flex direction="row" style={[styles.chatBox, newHeight]} align="center">
+          <Flex direction="row" style={[styles.chatBox, inputHeight]} align="center">
             <TextInput
               onFocus={this.handleInputFocus}
               onBlur={this.handleInputBlur}
@@ -386,7 +389,7 @@ class Message extends Component {
               placeholderTextColor={theme.primaryColor}
               underlineColorAndroid={COLORS.TRANSPARENT}
               onContentSizeChange={this.handleInputSizeChange}
-              style={[styles.chatInput, newHeight]}
+              style={[styles.chatInput, inputHeight]}
               autoCorrect={true}
             />
             {
@@ -405,7 +408,7 @@ class Message extends Component {
             {
               this.state.createTransparentFocus ? (
                 <Touchable activeOpacity={0} onPress={() => this.setState({shouldShowButtons: false, createTransparentFocus: false})}>
-                  <View style={[newHeight, styles.transparentOverlay]} />
+                  <View style={[inputHeight, styles.transparentOverlay]} />
                 </Touchable>
               ) : null
             }

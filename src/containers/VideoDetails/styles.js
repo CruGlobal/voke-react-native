@@ -8,6 +8,9 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.lightBackgroundColor,
+    ...(theme.isIphoneX ? {
+      paddingTop: 30,
+    } : {}),
   },
   video: {
     backgroundColor: COLORS.DEEP_BLACK,

@@ -54,6 +54,7 @@ class MessageVideoPlayer extends Component {
           url={videoMedia.url}
           start={video.media_start || 0}
           onChangeState={this.handleVideoChange}
+          isLandscape={false}
         />
         <View style={styles.backHeader}>
           <Touchable borderless={true} onPress={onClose}>

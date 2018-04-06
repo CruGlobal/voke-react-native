@@ -90,4 +90,5 @@ export default {
   fullHeight: deviceHeight,
   isAndroid: Platform.OS === 'android',
   isIOS: Platform.OS === 'ios',
+  isIphoneX: Platform.OS === 'ios' && !Platform.isPad && !Platform.isTVOS && (deviceHeight === 812 || deviceWidth === 812),
 };

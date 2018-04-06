@@ -14,6 +14,9 @@ export default StyleSheet.create({
     alignItems: 'center',
     paddingBottom: 10,
     paddingHorizontal: 40,
+    ...(theme.isIphoneX ? {
+      paddingBottom: 50,
+    } : {}),
   },
   list: {
     backgroundColor: COLORS.WHITE,
