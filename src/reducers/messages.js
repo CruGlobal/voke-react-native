@@ -238,7 +238,7 @@ export default function messages(state = initialState, action) {
 
       currentBadgeCount = currentBadgeCount >= 0 ? currentBadgeCount : 0;
       PushNotification.setApplicationIconBadgeNumber(currentBadgeCount);
-      
+
       return {
         ...state,
         conversations: msgPreviewConversations,
@@ -271,7 +271,12 @@ export default function messages(state = initialState, action) {
       const readConversations = state.conversations.map((c) => {
         if (c.id === action.conversationId) {
           currentBadgeCount2 = c.unReadCount > 0 ? currentBadgeCount2 - c.unReadCount : currentBadgeCount2;
-          return { ...c, hasUnread: false, unReadCount: 0 };
+          return {
+            ...c,
+            hasUnread: false,
+            unReadCount: 0,
+            myLatestReadId: action.messageId,
+          };
         }
         return c;
       });

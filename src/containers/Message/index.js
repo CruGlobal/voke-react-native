@@ -64,6 +64,7 @@ class Message extends Component {
     setTimeout(() => {
       this.props.dispatch(checkAndRunSockets());
       this.getMessages();
+      this.createMessageReadInteraction(this.props.messages[0]);
     }, 50);
 
     BackHandler.addEventListener('hardwareBackPress', this.backHandler);
@@ -223,7 +224,7 @@ class Message extends Component {
       messageId: msg.id,
     };
     dispatch(createMessageInteraction(interaction)).then(() => {
-      dispatch(markReadAction(conversation.id));
+      dispatch(markReadAction(conversation.id, msg.id));
       this.setLatestItem();
     });
   }

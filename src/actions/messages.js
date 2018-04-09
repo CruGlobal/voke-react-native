@@ -87,7 +87,7 @@ export function handleNewMessage(message) {
     }
 
     const conversationId = getState().messages.activeConversationId;
-    const incrementBadge = conversationId && message.conversation_id !== conversationId;
+    const incrementBadge = message.conversation_id !== conversationId;
 
     dispatch({ type: NEW_MESSAGE, message, incrementBadge });
   };
@@ -164,9 +164,9 @@ export function createMessageInteraction(interaction) {
   };
 }
 
-export function markReadAction(conversationId) {
+export function markReadAction(conversationId, messageId) {
   return (dispatch) => {
-    dispatch({ type: MARK_READ, conversationId });
+    dispatch({ type: MARK_READ, conversationId, messageId });
   };
 }
 
