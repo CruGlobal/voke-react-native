@@ -300,6 +300,7 @@ export default function messages(state = initialState, action) {
         inShare: action.bool,
       };
     case LOGOUT:
+      PushNotification.setApplicationIconBadgeNumber(0);
       return initialState;
     default:
       return state;

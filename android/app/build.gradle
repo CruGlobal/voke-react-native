@@ -102,7 +102,10 @@ def enableSeparateBuildPerCPUArchitecture = false
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = true
+// Disabled proguard on 4/9/18 due to errors when building:
+// ERROR: :app:transformClassesAndResourcesWithProguardForRelease
+// def enableProguardInReleaseBuilds = true
+def enableProguardInReleaseBuilds = false
 
 // Get the properties file
 def props = new Properties()
@@ -117,8 +120,8 @@ android {
         applicationId "org.cru.voke"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 234
-        versionName "3.1.1"
+        versionCode 240
+        versionName "3.1.2"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
