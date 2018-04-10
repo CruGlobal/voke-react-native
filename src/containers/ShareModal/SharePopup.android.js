@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { ScrollView, Image } from 'react-native';
 import PropTypes from 'prop-types';
 
-import {COLORS, DEFAULT} from '../../theme';
-import MESSAGES from '../../../images/icon-messages.png';
-import WHATSAPP from '../../../images/icon-whatsapp.png';
-import MAIL from '../../../images/icon-mail.png';
+// import { COLORS } from '../../theme';
+// import MESSAGES from '../../../images/icon-messages.png';
+// import WHATSAPP from '../../../images/icon-whatsapp.png';
+// import MAIL from '../../../images/icon-mail.png';
 import FB from '../../../images/icon-faceboomessenger.png';
 import styles from './styles';
 import { Flex, Icon, Text, Button, Touchable } from '../../components/common';

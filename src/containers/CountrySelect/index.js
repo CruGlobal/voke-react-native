@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, SectionList, Platform } from 'react-native';
+import { View, SectionList } from 'react-native';
 import { connect } from 'react-redux';
 import debounce from 'lodash/debounce';
 
@@ -15,6 +15,7 @@ import SearchBarIos from '../../components/SearchBarIos';
 import AndroidSearchBar from '../../components/AndroidSearchBar';
 import Header, { HeaderIcon } from '../Header';
 import CONSTANTS from '../../constants';
+import theme from '../../theme';
 
 const COUNTRY_HEIGHT = 50;
 
@@ -93,7 +94,7 @@ class CountrySelect extends Component {
   }
 
   renderSearch() {
-    if (Platform.OS === 'android') {
+    if (theme.isAndroid) {
       if (!this.state.showSearch) return null;
       return (
         <AndroidSearchBar onChange={this.changeText} value={this.state.searchText} />
@@ -113,7 +114,7 @@ class CountrySelect extends Component {
       <View style={styles.container}>
         <Header
           left={
-            CONSTANTS.IS_ANDROID ? (
+            theme.isAndroid ? (
               <HeaderIcon
                 icon="close"
                 onPress={this.close} />
@@ -121,11 +122,15 @@ class CountrySelect extends Component {
               <HeaderIcon
                 icon="ios-close"
                 iconType="Ionicons"
+                style={{
+                  paddingVertical: 5,
+                  paddingHorizontal: 15,
+                }}
                 onPress={this.close} />
             )
           }
           right={
-            CONSTANTS.IS_ANDROID ? (
+            theme.isAndroid ? (
               <HeaderIcon
                 icon="search"
                 onPress={() => this.setState({ showSearch: !showSearch })} />

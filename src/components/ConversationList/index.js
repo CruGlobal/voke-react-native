@@ -1,14 +1,14 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Platform, ListView } from 'react-native';
+import { View } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 
 import styles from './styles';
 import theme, { COLORS } from '../../theme';
 import { momentUtc, getInitials } from '../../utils/common';
 
-import { Flex, VokeIcon, Text, Touchable, Separator, Avatar, RefreshControl } from '../common';
+import { Flex, VokeIcon, Text, Touchable, Avatar, RefreshControl } from '../common';
 import CONSTANTS from '../../constants';
 
 // const ITEM_HEIGHT = 60 + theme.separatorHeight;
@@ -123,9 +123,9 @@ class ConversationList extends Component { // eslint-disable-line
                 <Flex direction="row" align="center">
                   <Text style={styles.messagePreviewWrapper} numberOfLines={2}>
                     <Text style={styles.creatorText}>{contentCreator}</Text>
-                    {Platform.OS === 'android' ? ' ' : null}
+                    {theme.isAndroid ? ' ' : null}
                     <VokeIcon name="arrow" style={styles.arrowImage} />
-                    {Platform.OS === 'android' ? ' ' : null}
+                    {theme.isAndroid ? ' ' : null}
                     <Text style={styles.messagePreviewText}>
                       {conversation.messagePreview || '...'}
                     </Text>
@@ -150,7 +150,7 @@ class ConversationList extends Component { // eslint-disable-line
         keyExtractor= {(item) => item.id}
         data={this.props.items}
         renderItem={this.renderRow}
-        directionalDistanceChangeThreshold={Platform.OS === 'android' ? 12 : undefined}
+        directionalDistanceChangeThreshold={theme.isAndroid ? 12 : undefined}
         renderHiddenItem={(rowData, rowMap) => (
           <View style={styles.rowBack}>
             <Flex direction="row" align="center" justify="center" style={{ width: SLIDE_ROW_WIDTH }}>
@@ -181,8 +181,8 @@ class ConversationList extends Component { // eslint-disable-line
             </Flex>
           </View>
         )}
-        initialListSize={CONSTANTS.PAGE_SIZE}
-        pageSize={CONSTANTS.PAGE_SIZE}
+        initialListSize={CONSTANTS.CONVERSATIONS_PAGE_SIZE}
+        pageSize={CONSTANTS.CONVERSATIONS_PAGE_SIZE}
         enableEmptySections={true}
         onEndReached={this.handleNextPage}
         onEndReachedThreshold={50}

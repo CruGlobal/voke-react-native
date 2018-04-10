@@ -1,12 +1,20 @@
-import { Linking, Platform } from 'react-native';
+import { Linking } from 'react-native';
 import Communications from 'react-native-communications';
 
 import { logoutAction } from '../actions/auth';
 import CONSTANTS from '../constants';
+import theme from '../theme';
 
 // This is used by the android <MenuButton /> and the iOS <Menu />
 export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin } = {}) {
   return [
+    // {
+    //   id: 'country',
+    //   name: 'Country Codes',
+    //   onPress: () => navigatePush && navigatePush('voke.CountrySelect', {
+    //     onSelect: (c) => LOG('country selected', c),
+    //   }),
+    // },
     {
       id: 'profile',
       name: 'Profile',
@@ -36,9 +44,9 @@ export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin } = 
       name: 'Write a Review',
       onPress: () => {
         let link;
-        if (Platform.OS === 'ios') {
+        if (!theme.isAndroid) {
           link = CONSTANTS.IOS_STORE_LINK;
-        } else if (Platform.OS === 'android') {
+        } else {
           link = CONSTANTS.ANDROID_STORE_LINK;
         }
         if (link) {
@@ -46,6 +54,26 @@ export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin } = 
             isSupported && Linking.openURL(link);
           }, (err) => LOG('opening url', err));
         }
+      },
+    },
+    {
+      id: 'instagram',
+      name: 'Follow us on Instagram',
+      onPress: () => {
+        let link = CONSTANTS.WEB_URLS.INSTAGRAM;
+        Linking.canOpenURL(link).then((isSupported) => {
+          isSupported && Linking.openURL(link);
+        }, (err) => LOG('error opening url', err));
+      },
+    },
+    {
+      id: 'facebook',
+      name: 'Like us on Facebook',
+      onPress: () => {
+        let link = CONSTANTS.WEB_URLS.FACEBOOK;
+        Linking.canOpenURL(link).then((isSupported) => {
+          isSupported && Linking.openURL(link);
+        }, (err) => LOG('error opening url', err));
       },
     },
     {
@@ -57,6 +85,11 @@ export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin } = 
       id: 'help',
       name: 'Help',
       onPress: () => navigatePush && navigatePush('voke.Help'),
+    },
+    {
+      id: 'onboarding',
+      name: 'Onboarding',
+      onPress: () => navigatePush && navigatePush('voke.SignUpWelcome', { noSignIn: true }),
     },
     {
       id: 'signout',

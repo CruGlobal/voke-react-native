@@ -1,17 +1,18 @@
 import { API_URL } from '../api/utils';
-import { Vibration, Platform } from 'react-native';
-import { NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ, UNREAD_CONV_DOT, MESSAGE_CREATED } from '../constants';
+import { Vibration } from 'react-native';
+import CONSTANTS, { NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ, MESSAGE_CREATED } from '../constants';
 import callApi, { REQUESTS } from './api';
+import theme from '../theme';
 
 export function getConversations() {
   return (dispatch) => {
-    return dispatch(callApi(REQUESTS.GET_CONVERSATIONS));
+    return dispatch(callApi(REQUESTS.GET_CONVERSATIONS, { page_size: CONSTANTS.CONVERSATIONS_PAGE_SIZE }));
   };
 }
 
 export function getConversationsPage(page) {
   return (dispatch) => {
-    return dispatch(callApi(REQUESTS.GET_CONVERSATIONS, { page }));
+    return dispatch(callApi(REQUESTS.GET_CONVERSATIONS, { page, page_size: CONSTANTS.CONVERSATIONS_PAGE_SIZE }));
   };
 }
 
@@ -77,31 +78,38 @@ export function createMessage(conversation, data) {
   };
 }
 
+export function handleNewMessage(message) {
+  return (dispatch, getState) => {
+
+    dispatch(vibrateAction());
+    if (!theme.isAndroid) {
+      dispatch(playSoundAction());
+    }
+
+    const conversationId = getState().messages.activeConversationId;
+    const incrementBadge = message.conversation_id !== conversationId;
+
+    dispatch({ type: NEW_MESSAGE, message, incrementBadge });
+  };
+}
+
 export function newMessageAction(message) {
   return (dispatch, getState) => {
-    // if (getState().messages.inShare) {
-    //   return;
-    // }
-    return dispatch(getConversation(message.conversation_id)).then(() => {
-      dispatch({ type: NEW_MESSAGE, message });
-
-      if (Platform.OS === 'ios') {
-        dispatch(vibrateAction());
-        dispatch(playSoundAction());
-      }
-      
-      // const activeScreen = getState().auth.activeScreen;
-      // const conversationId = getState().messages.activeConversationId;
-      // if (activeScreen === 'voke.Message' && message.conversation_id !== conversationId) {
-      //   dispatch({ type: UNREAD_CONV_DOT, show: true });
-      // }
-      const conversationId = getState().messages.activeConversationId;
-      if (conversationId && message.conversation_id !== conversationId) {
-        dispatch({ type: UNREAD_CONV_DOT, show: true });
-      }
-    }).catch((e) => {
-      LOG('getConversation error...', e);
-    });
+    const cId = message.conversation_id;
+    // Check if conversation exists, just use it, otherwise get it
+    const conversationExists = getState().messages.conversations.find((c) => c.id === cId);
+    if (conversationExists) {
+      dispatch(handleNewMessage(message));
+    } else {
+      dispatch(getConversation(cId)).then((results) => {
+        if (!results || !results.conversation) {
+          return;
+        }
+        dispatch(handleNewMessage(message));
+      }).catch((e) => {
+        LOG('getConversation error inside newMessageAction', e);
+      });
+    }
   };
 }
 
@@ -156,24 +164,16 @@ export function createMessageInteraction(interaction) {
   };
 }
 
-export function markReadAction(conversationId) {
+export function markReadAction(conversationId, messageId) {
   return (dispatch) => {
-    dispatch({ type: MARK_READ, conversationId });
+    dispatch({ type: MARK_READ, conversationId, messageId });
   };
 }
 
 export function vibrateAction() {
   return () => {
     // Vibrate when receiving a new message
-    if (Platform.OS === 'ios') {
-      Vibration.vibrate(1500);
-    } else {
-      // try {
-      //   // Vibration.vibrate(600);
-      // } catch (e) {
-      //   LOG('android virbate error', e);
-      // }
-    }
+    Vibration.vibrate(800);
   };
 }
 

@@ -1,4 +1,4 @@
-import { Platform, Alert, Linking } from 'react-native';
+import { Alert, Linking } from 'react-native';
 import lodashMap from 'lodash/map';
 import lodashFilter from 'lodash/filter';
 import lodashChunk from 'lodash/chunk';
@@ -10,6 +10,7 @@ import callApi, { REQUESTS } from './api';
 import { setNoBackgroundAction } from './auth';
 import CONSTANTS, { SET_ALL_CONTACTS, SET_VOKE_CONTACTS, SET_CONTACTS_LOADING } from '../constants';
 import Permissions from '../utils/permissions';
+import theme from '../theme';
 
 export function setAllContacts(all) {
   return (dispatch) => {
@@ -35,7 +36,7 @@ export function getContacts(force = false) {
   return (dispatch, getState) => (
     new Promise((resolve, reject) => {
       // On android, don't do any disconnecting/reconnecting in the background when getting permissions
-      if (Platform.OS === 'android') {
+      if (theme.isAndroid) {
         dispatch(setNoBackgroundAction(true));
       }
 
@@ -45,7 +46,7 @@ export function getContacts(force = false) {
       Permissions.checkContacts().then((permission) => {
 
         // On android, check the last updated time before requesting contacts
-        if (permission === Permissions.AUTHORIZED && Platform.OS === 'android') {
+        if (permission === Permissions.AUTHORIZED && theme.isAndroid) {
           if (!force) {
             const lastUpdated = getState().contacts.lastUpdated;
             const now = new Date().valueOf();
@@ -62,7 +63,7 @@ export function getContacts(force = false) {
 
 
         if (permission === Permissions.DENIED) {
-          if (Platform.OS === 'ios') {
+          if (!theme.isAndroid) {
             Alert.alert(
               'Voke',
               'First grant Voke permission to access your contacts. Go to Settings / Voke and allow the permission for Contacts',
@@ -84,7 +85,7 @@ export function getContacts(force = false) {
         if (permission === Permissions.NOT_ASKED || permission === Permissions.AUTHORIZED) {
           Permissions.requestContacts().then((contacts) => {
             let all = contacts || [];
-            if (Platform.OS === 'android') {
+            if (theme.isAndroid) {
               // Sort by first name
               all = all.sort((a, b) => {
                 const aName = (a.givenName || '').trim().toLowerCase();

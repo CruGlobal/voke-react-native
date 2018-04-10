@@ -1,6 +1,6 @@
 
 import { StyleSheet } from 'react-native';
-import theme, { DEFAULT } from '../../theme';
+import theme from '../../theme';
 
 export default StyleSheet.create({
   container: {
@@ -11,10 +11,10 @@ export default StyleSheet.create({
     paddingBottom: 50,
   },
   logoWrapper: {
-    width: DEFAULT.FULL_WIDTH,
+    width: theme.fullWidth,
   },
   imageWrap: {
-    width: DEFAULT.FULL_WIDTH,
+    width: theme.fullWidth,
   },
   buttonWrapper: {
     padding: 5,
@@ -50,13 +50,13 @@ export default StyleSheet.create({
     fontSize: 14,
   },
   signInButton: {
-    width: DEFAULT.FULL_WIDTH - 110,
+    width: theme.fullWidth - 110,
     height: 40,
     alignItems: 'center',
     marginTop: 2,
   },
   facebookButton: {
-    width: DEFAULT.FULL_WIDTH - 110,
+    width: theme.fullWidth - 110,
     height: 40,
   },
   active: {

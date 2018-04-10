@@ -1,6 +1,6 @@
 
 import { StyleSheet } from 'react-native';
-import theme, { DEFAULT, COLORS } from '../../theme';
+import theme, { COLORS } from '../../theme';
 
 export default StyleSheet.create({
   container: {
@@ -12,7 +12,7 @@ export default StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.6)',
   },
   modal: {
-    width: DEFAULT.FULL_WIDTH - 50,
+    width: theme.fullWidth - 50,
     backgroundColor: COLORS.WHITE,
     // height: 250,
     padding: 0,
@@ -66,12 +66,12 @@ export default StyleSheet.create({
     borderRadius: 0,
     paddingHorizontal: 0,
     backgroundColor: theme.accentColor,
-    width: (DEFAULT.FULL_WIDTH-50)/2,
+    width: (theme.fullWidth-50)/2,
   },
   button2: {
     height: 60,
     paddingHorizontal: 0,
-    width: (DEFAULT.FULL_WIDTH-50)/2,
+    width: (theme.fullWidth-50)/2,
     backgroundColor: theme.primaryColor,
     borderWidth: 0,
     alignItems: 'center',
@@ -89,10 +89,10 @@ export default StyleSheet.create({
     paddingBottom: 50,
   },
   logoWrapper: {
-    width: DEFAULT.FULL_WIDTH,
+    width: theme.fullWidth,
   },
   imageWrap: {
-    width: DEFAULT.FULL_WIDTH,
+    width: theme.fullWidth,
   },
   buttonWrapper: {
     padding: 5,
@@ -106,7 +106,7 @@ export default StyleSheet.create({
   inputBox: {
     marginTop: 8,
     padding: 10,
-    width: DEFAULT.FULL_WIDTH - 110,
+    width: theme.fullWidth - 110,
     borderWidth: 1,
     borderColor: theme.textColor,
     borderRadius: 5,
@@ -131,13 +131,13 @@ export default StyleSheet.create({
     fontSize: 14,
   },
   signInButton: {
-    width: DEFAULT.FULL_WIDTH - 110,
+    width: theme.fullWidth - 110,
     height: 40,
     alignItems: 'center',
     marginTop: 2,
   },
   facebookButton: {
-    width: DEFAULT.FULL_WIDTH - 110,
+    width: theme.fullWidth - 110,
     height: 40,
   },
   active: {

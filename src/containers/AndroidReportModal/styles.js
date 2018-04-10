@@ -1,6 +1,6 @@
 
 import { StyleSheet } from 'react-native';
-import theme, { DEFAULT, COLORS } from '../../theme';
+import theme, { COLORS } from '../../theme';
 
 export default StyleSheet.create({
   container: {
@@ -13,7 +13,7 @@ export default StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0)',
   },
   modal: {
-    width: DEFAULT.FULL_WIDTH - 70,
+    width: theme.fullWidth - 70,
     backgroundColor: COLORS.WHITE,
     // height: 250,
     padding: 10,
@@ -37,7 +37,7 @@ export default StyleSheet.create({
   inputBox: {
     marginTop: 8,
     padding: 10,
-    width: DEFAULT.FULL_WIDTH - 110,
+    width: theme.fullWidth - 110,
     fontSize: 16,
     color: theme.darkText,
   },

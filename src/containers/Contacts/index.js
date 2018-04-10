@@ -6,7 +6,7 @@ import debounce from 'lodash/debounce';
 import { openSettingsAction } from '../../actions/auth';
 
 import Analytics from '../../utils/analytics';
-import { vokeIcons } from '../../utils/iconMap';
+// import { vokeIcons } from '../../utils/iconMap';
 import styles from './styles';
 // import { toastAction } from '../../actions/auth';
 import { searchContacts, getContacts } from '../../actions/contacts';
@@ -22,7 +22,7 @@ import Header, { HeaderIcon } from '../Header';
 import AndroidSearchBar from '../../components/AndroidSearchBar';
 import ContactsList from '../../components/ContactsList';
 import SearchBarIos from '../../components/SearchBarIos';
-
+import theme from '../../theme';
 
 class Contacts extends Component {
   constructor(props) {
@@ -111,7 +111,7 @@ class Contacts extends Component {
 
   checkContactsStatus() {
     // On older android devices, don't even do the prompts
-    if (Platform.OS === 'android' && Platform.Version < 23) {
+    if (theme.isAndroid && Platform.Version < 23) {
       this.handleGetContacts();
     } else {
       Permissions.checkContacts().then(this.handleCheckPermission);
@@ -148,7 +148,7 @@ class Contacts extends Component {
 
 
   handleAllowContacts() {
-    if (Platform.OS === 'android') {
+    if (theme.isAndroid) {
       this.handleGetContacts();
     } else if (this.state.permission === Permissions.DENIED) {
       // On iOS, open settings
@@ -175,7 +175,7 @@ class Contacts extends Component {
   }
 
   renderSearch() {
-    if (Platform.OS === 'android') {
+    if (theme.isAndroid) {
       if (!this.state.showSearch) return null;
       return (
         <AndroidSearchBar onChange={this.changeText} value={this.state.searchText} />
@@ -198,7 +198,7 @@ class Contacts extends Component {
               onPress={this.handleBack} />
           }
           right={
-            CONSTANTS.IS_ANDROID ? (
+            theme.isAndroid ? (
               <HeaderIcon
                 type="search"
                 onPress={() => this.setState({ showSearch: !showSearch })} />

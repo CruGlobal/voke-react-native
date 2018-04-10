@@ -1,8 +1,8 @@
 
 import { StyleSheet } from 'react-native';
-import theme, { COLORS, DEFAULT } from '../../theme';
+import theme, { COLORS } from '../../theme';
 
-export const THUMBNAIL_HEIGHT = (DEFAULT.FULL_WIDTH - 20) * 1/2;
+export const THUMBNAIL_HEIGHT = (theme.fullWidth - 20) * 1/2;
 
 export default StyleSheet.create({
   content: {
@@ -16,12 +16,15 @@ export default StyleSheet.create({
     height: 100,
     padding: 10,
   },
-  videoThumbnail: {
+  thumbnailWrap: {
     height: THUMBNAIL_HEIGHT,
-    width: DEFAULT.FULL_WIDTH - 20,
-    backgroundColor: COLORS.DEEP_BLACK,
+  },
+  videoThumbnail: {
     alignItems: 'center',
     justifyContent: 'center',
+    height: THUMBNAIL_HEIGHT,
+    width: theme.fullWidth - 20,
+    backgroundColor: COLORS.DEEP_BLACK,
   },
   playIcon: {
     backgroundColor: COLORS.TRANSPARENT,

@@ -1,7 +1,5 @@
 import RNFetchBlob from 'react-native-fetch-blob';
-import { Linking, Platform, AppState, ToastAndroid, AsyncStorage, Alert } from 'react-native';
-import PushNotification from 'react-native-push-notification';
-// import FilesystemStorage from 'redux-persist-filesystem-storage';
+import { Linking, AppState, ToastAndroid, AsyncStorage, Alert } from 'react-native';
 
 import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, UPDATE_TOKENS, NO_BACKGROUND_ACTION } from '../constants';
 import callApi, { REQUESTS } from './api';
@@ -11,6 +9,7 @@ import { API_URL } from '../api/utils';
 import { isArray } from '../utils/common';
 import Orientation from 'react-native-orientation';
 import DeviceInfo from 'react-native-device-info';
+import theme from '../theme';
 
 
 // Setup app state change listeners
@@ -22,9 +21,8 @@ let hasStartedUp = false;
 export function startupAction() {
   return (dispatch, getState) => {
     Orientation.lockToPortrait();
-    PushNotification.setApplicationIconBadgeNumber(0);
     if (hasStartedUp) return;
-    
+
     hasStartedUp = true;
     dispatch(establishDevice());
     if (appStateChangeFn) {
@@ -62,23 +60,19 @@ function appStateChange(dispatch, getState, nextAppState) {
   if (nextAppState === 'active') {
     LOG('App has come to the foreground!');
 
-    // Put the ACTIVE actions in a short timeout so they don't run when the app switches quickly
-    const now = Date.now();
-    // const BACKGROUND_REFRESH_TIME = 5 * 60 * 1000; // 5 minutes
-    const BACKGROUND_REFRESH_TIME = 3 * 1000; // 3 seconds
-    if (now - appCloseTime > BACKGROUND_REFRESH_TIME) {
-      dispatch(getConversations());
-    }
-    const currentConvId = getState().messages.activeConversationId;
-    if (currentConvId) {
-      dispatch(getMessages(currentConvId));
-    }
+    // // Put the ACTIVE actions in a short timeout so they don't run when the app switches quickly
+    // const now = Date.now();
+    // // const BACKGROUND_REFRESH_TIME = 5 * 60 * 1000; // 5 minutes
+    // const BACKGROUND_REFRESH_TIME = 3 * 1000; // 3 seconds
+    // if (now - appCloseTime > BACKGROUND_REFRESH_TIME) {
+    //   dispatch(getConversations());
+    // }
+    // const currentConvId = getState().messages.activeConversationId;
+    // if (currentConvId) {
+    //   dispatch(getMessages(currentConvId));
+    // }
 
     dispatch(checkAndRunSockets());
-
-    // Clear out home screen badge when user comes back into the app
-    PushNotification.setApplicationIconBadgeNumber(0);    
-
   } else if (nextAppState === 'background' || nextAppState === 'inactive') {
     LOG('App is going into the background');
 
@@ -191,7 +185,7 @@ export function createAccountAction(email, password) {
 
 export function toastAction(text, length) {
   return () => {
-    if (Platform.OS === 'android') {
+    if (theme.isAndroid) {
       const toastLength = length === 'long' ? ToastAndroid.LONG : ToastAndroid.SHORT;
       ToastAndroid.show(text, toastLength);
     } else {
@@ -354,7 +348,7 @@ export function reportUserAction(report, messenger) {
 
 export function openSettingsAction() {
   return () => {
-    if (Platform.OS === 'ios') {
+    if (!theme.isAndroid) {
       const APP_SETTINGS_URL = 'app-settings:';
       Linking.canOpenURL(APP_SETTINGS_URL).then((isSupported) => {
         if (isSupported) {
@@ -378,7 +372,7 @@ export function setNoBackgroundAction(value) {
 export function clearAndroid() {
   return () => {
     // For Android, clear out the file system storage on logout so it doesn't get cached incorrectly
-    // if (Platform.OS === 'android') {
+    // if (theme.isAndroid) {
     //   FilesystemStorage.getAllKeys((err, keys = []) => {
     //     if (isArray(keys)) {
     //       keys.forEach((k) => FilesystemStorage.removeItem(k, (err) => {
@@ -389,4 +383,3 @@ export function clearAndroid() {
     // }
   };
 }
-

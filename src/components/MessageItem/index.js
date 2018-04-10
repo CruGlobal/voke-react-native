@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Image, TouchableOpacity } from 'react-native';
+import { ImageBackground, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Spinner from 'react-native-spinkit';
@@ -89,7 +89,7 @@ class MessageItem extends PureComponent {
           justify="start"
         >
           <TouchableOpacity activeOpacity={0.7} onPress={this.props.onSelectVideo}>
-            <Image
+            <ImageBackground
               resizeMode="cover"
               source={{uri: message.item.media.thumbnails.large}}
               style={[
@@ -97,7 +97,7 @@ class MessageItem extends PureComponent {
                 styles.otherPersonVideo,
               ]}>
               <Icon name="play-circle-filled" size={40} style={styles.playIcon} />
-            </Image>
+            </ImageBackground>
           </TouchableOpacity>
         </Flex>
         <Flex
@@ -148,7 +148,7 @@ class MessageItem extends PureComponent {
         justify={isMe ? 'end' : 'start'}
       >
         <TouchableOpacity activeOpacity={0.7} onPress={this.props.onSelectVideo}>
-          <Image
+          <ImageBackground
             resizeMode="cover"
             source={{uri: message.item.media.thumbnails.large}}
             style={[
@@ -156,7 +156,7 @@ class MessageItem extends PureComponent {
               isMe || (isVoke && !isOnlyVoke) ? styles.meVideo : styles.otherPersonVideo,
             ]}>
             <Icon name="play-circle-filled" size={40} style={styles.playIcon} />
-          </Image>
+          </ImageBackground>
         </TouchableOpacity>
       </Flex>
     );
@@ -234,7 +234,7 @@ class MessageItem extends PureComponent {
             </Flex>
           ) : null
         }
-        <Flex direction="row" style={{ marginHorizontal: 5 }} align="center" justify="center">
+        <Flex direction="row" style={{ marginHorizontal: 5 }}>
           {
             (isOnlyVoke && isVoke) || (!isMe && !isVoke) ? (
               <Flex self="end" style={styles.avatar}>
@@ -246,7 +246,7 @@ class MessageItem extends PureComponent {
             self="end"
             style={[
               styles.triangle,
-              (!isMe && !isVideo && !isVoke) || (!isVideo && (isOnlyVoke && isVoke)) ? styles.otherTriangle : null,
+              (!isMe && !isVideo && !isVoke) || ((!isVideo || isVideoAndText) && (isOnlyVoke && isVoke)) ? styles.otherTriangle : null,
             ]}
           />
           {content}

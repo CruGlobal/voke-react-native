@@ -4,22 +4,22 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { getContacts } from '../../actions/contacts';
-import { openSettingsAction, toastAction } from '../../actions/auth';
+import { openSettingsAction } from '../../actions/auth';
 import { createConversation, getConversation, deleteConversation } from '../../actions/messages';
 import Analytics from '../../utils/analytics';
 import { SET_IN_SHARE, SHOW_SHARE_MODAL } from  '../../constants';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/nav';
-import theme, { DEFAULT } from '../../theme';
+import theme from '../../theme';
 import VOKE_BOT from '../../../images/voke_bot_face_large.png';
-import { vokeIcons } from '../../utils/iconMap';
+// import { vokeIcons } from '../../utils/iconMap';
 
 import ApiLoading from '../ApiLoading';
 import ShareModal from '../ShareModal';
 import Modal from '../Modal';
 import Header from '../Header';
-import { Flex, Text, Loading, Button } from '../../components/common';
+import { Flex, Text, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import Permissions from '../../utils/permissions';
 
@@ -42,7 +42,7 @@ function getRandomContacts(contacts) {
   ];
 }
 
-const screenHeight = DEFAULT.FULL_HEIGHT;
+const screenHeight = theme.fullHeight;
 
 class SelectFriend extends Component {
 
@@ -124,7 +124,7 @@ class SelectFriend extends Component {
 
   checkContactsStatus() {
     // On older android devices, don't even do the prompts
-    if (Platform.OS === 'android' && Platform.Version < 23) {
+    if (theme.isAndroid && Platform.Version < 23) {
       this.handleGetContacts();
     } else {
       Permissions.checkContacts().then(this.handleCheckPermission);
@@ -132,7 +132,7 @@ class SelectFriend extends Component {
   }
 
   handleAllowContacts() {
-    if (Platform.OS === 'android') {
+    if (theme.isAndroid) {
       this.handleGetContacts();
     } else if (this.state.permission === Permissions.DENIED) {
       // On iOS, open settings
@@ -199,7 +199,7 @@ class SelectFriend extends Component {
                 this.props.dispatch({ type: SET_IN_SHARE, bool: false });
 
                 // On android, put a timeout because the share stuff gets messed up otherwise
-                if (Platform.OS === 'android') {
+                if (theme.isAndroid) {
                   this.setState({ setLoaderBeforePush: true });
                   setTimeout(() => {
                     this.setState({ setLoaderBeforePush: false });

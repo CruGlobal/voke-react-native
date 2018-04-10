@@ -1,6 +1,6 @@
 
 import { StyleSheet } from 'react-native';
-import theme, { DEFAULT, COLORS } from '../../theme';
+import theme, { COLORS } from '../../theme';
 
 export default StyleSheet.create({
   container: {
@@ -15,20 +15,20 @@ export default StyleSheet.create({
     left: 0,
   },
   modal: {
-    width: DEFAULT.FULL_WIDTH -20,
-    height: DEFAULT.FULL_HEIGHT / 3,
+    width: theme.fullWidth -20,
+    height: theme.fullHeight / 3,
     backgroundColor: COLORS.OFF_WHITE,
-    // marginTop: DEFAULT.FULL_HEIGHT / 1.8 - 20,
+    // marginTop: theme.fullHeight / 1.8 - 20,
     position: 'absolute',
     bottom: 70,
     borderRadius: 10,
     overflow: 'hidden',
   },
   androidModal: {
-    width: DEFAULT.FULL_WIDTH,
-    // height: DEFAULT.FULL_HEIGHT / 2,
+    width: theme.fullWidth,
+    // height: theme.fullHeight / 2,
     backgroundColor: COLORS.WHITE,
-    // marginTop: DEFAULT.FULL_HEIGHT / 1.8 - 20,
+    // marginTop: theme.fullHeight / 1.8 - 20,
     position: 'absolute',
     bottom: 0,
     overflow: 'hidden',
@@ -36,16 +36,16 @@ export default StyleSheet.create({
   iconWrap: {
     overflow: 'hidden',
     borderRadius: 12,
-    width: DEFAULT.FULL_WIDTH / 6.5,
-    height: DEFAULT.FULL_WIDTH / 6.5,
+    width: theme.fullWidth / 6.5,
+    height: theme.fullWidth / 6.5,
   },
   shareAction: {
     paddingHorizontal: 10,
-    width: (DEFAULT.FULL_WIDTH - 20) /4,
+    width: (theme.fullWidth - 20) /4,
   },
   iconStyle: {
-    width: DEFAULT.FULL_WIDTH / 6.5,
-    height: DEFAULT.FULL_WIDTH / 6.5,
+    width: theme.fullWidth / 6.5,
+    height: theme.fullWidth / 6.5,
   },
   iconText: {
     color: COLORS.CHARCOAL,
@@ -76,7 +76,7 @@ export default StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 0,
     // marginVertical: 12,
-    width: DEFAULT.FULL_WIDTH -20,
+    width: theme.fullWidth -20,
   },
   buttonText: {
     color: theme.secondaryColor,

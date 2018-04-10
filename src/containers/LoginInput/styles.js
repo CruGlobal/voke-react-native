@@ -1,8 +1,8 @@
 
 import { StyleSheet } from 'react-native';
-import theme, { DEFAULT } from '../../theme';
+import theme from '../../theme';
 import { IS_SMALL_ANDROID } from '../../constants';
-const isSmallScreen = IS_SMALL_ANDROID || DEFAULT.FULL_HEIGHT < 600;
+const isSmallScreen = IS_SMALL_ANDROID || theme.fullHeight < 600;
 
 export default StyleSheet.create({
   container: {
@@ -14,11 +14,11 @@ export default StyleSheet.create({
     paddingTop: 20,
   },
   logoWrapper: {
-    width: DEFAULT.FULL_WIDTH,
+    width: theme.fullWidth,
     paddingVertical: isSmallScreen ? 30 : 50,
   },
   imageWrap: {
-    width: DEFAULT.FULL_WIDTH,
+    width: theme.fullWidth,
   },
   buttonWrapper: {
     padding: 5,
@@ -32,7 +32,7 @@ export default StyleSheet.create({
   inputBox: {
     marginTop: 8,
     padding: 10,
-    width: DEFAULT.FULL_WIDTH - 110,
+    width: theme.fullWidth - 110,
     borderWidth: 1,
     borderColor: theme.textColor,
     borderRadius: 5,
@@ -57,13 +57,13 @@ export default StyleSheet.create({
     fontSize: 14,
   },
   signInButton: {
-    width: DEFAULT.FULL_WIDTH - 110,
+    width: theme.fullWidth - 110,
     height: 40,
     alignItems: 'center',
     marginTop: 2,
   },
   facebookButton: {
-    width: DEFAULT.FULL_WIDTH - 110,
+    width: theme.fullWidth - 110,
     height: 40,
   },
   active: {

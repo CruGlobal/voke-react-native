@@ -1,4 +1,4 @@
-import { Platform, PixelRatio } from 'react-native';
+import { PixelRatio } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import theme from '../theme';
@@ -32,7 +32,7 @@ import ONBOARD_CHAT from '../../images/onboardChatIcon.png';
 import ONBOARD_HEART from '../../images/onboardHeartIcon.png';
 
 
-// const navIconSize = (Platform.OS === 'android') ? PixelRatio.getPixelSizeForLayoutSize(10) : 30;
+// const navIconSize = (theme.isAndroid) ? PixelRatio.getPixelSizeForLayoutSize(10) : 30;
 const navIconSize = 30;
 
 // These icons are all for header navigation icons

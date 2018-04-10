@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Platform, ScrollView, KeyboardAvoidingView, Alert, Linking, Image } from 'react-native';
+import { ScrollView, KeyboardAvoidingView, Alert, Linking, Image } from 'react-native';
 import ImagePicker from '../../components/ImagePicker';
 
 import Analytics from '../../utils/analytics';
@@ -14,6 +14,7 @@ import SignUpInput from '../../components/SignUpInput';
 import SignUpHeader from '../../components/SignUpHeader';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import CONSTANTS from '../../constants';
+import theme from '../../theme';
 
 class SignUpFBAccount extends Component {
   constructor(props) {
@@ -102,7 +103,7 @@ class SignUpFBAccount extends Component {
   render() {
     return (
       <ScrollView style={styles.container} value={1} align="center" justify="center">
-        <KeyboardAvoidingView behavior={Platform.OS === 'android' ? undefined : 'padding'}>
+        <KeyboardAvoidingView behavior={theme.isAndroid ? undefined : 'padding'}>
           <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
           <SignUpHeader title="Create Account" />
           <Flex value={1} align="center" justify="start" style={styles.inputs}>

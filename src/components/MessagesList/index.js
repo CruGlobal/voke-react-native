@@ -1,14 +1,14 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, FlatList, Keyboard, Platform } from 'react-native';
+import { View, FlatList, Keyboard } from 'react-native';
 
 import CONSTANTS from '../../constants';
 import styles from './styles';
 import MessageItem from '../MessageItem';
 import LoadMore from '../../components/LoadMore';
 import { Flex } from '../../components/common';
-
+import theme from '../../theme';
 
 class MessagesList extends Component {
   constructor(props) {
@@ -102,7 +102,7 @@ class MessagesList extends Component {
 
   renderRow({ item }) {
     return (
-      <Flex value={1} style={{ transform: [{ scaleY: -1 }]}}>
+      <Flex value={1} style={{}}>
         <MessageItem
           item={item}
           user={this.props.user}
@@ -138,7 +138,7 @@ class MessagesList extends Component {
     if (typeState) {
       const item = { type: 'typeState' };
       return (
-        <View style={{ transform: [{ scaleY: -1 }], zIndex: 100 }}>
+        <View style={{ zIndex: 100 }}>
           <MessageItem
             item={item}
             user={user}
@@ -158,7 +158,7 @@ class MessagesList extends Component {
   //   }
   //   setTimeout(() => {
   //     this.listView.scrollToEnd({ animated: isAnimated });
-  //   }, Platform.OS === 'ios' ? 50 : 250);
+  //   }, !theme.isAndroid ? 50 : 250);
   }
 
   render() {
@@ -167,15 +167,14 @@ class MessagesList extends Component {
         ref={(c) => this.listView = c}
         ListFooterComponent={this.renderLoadMore}
         keyExtractor={(item) => item.id}
-        style={{ transform: [{ scaleY: -1 }]}}
         initialNumToRender={CONSTANTS.PAGE_SIZE + 1}
         data={this.props.items}
         renderItem={this.renderRow}
-        contentContainerStyle={styles.content}
         inverted={true}
+        contentContainerStyle={styles.content}
         removeClippedSubviews={false}
         ListHeaderComponent={this.renderTypeState}
-        scrollEnabled={Platform.OS === 'android' ? true : this.state.scrollEnabled}
+        scrollEnabled={theme.isAndroid ? true : this.state.scrollEnabled}
       />
     );
     // onContentSizeChange={this.onContentSize}

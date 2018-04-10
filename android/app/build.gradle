@@ -102,7 +102,10 @@ def enableSeparateBuildPerCPUArchitecture = false
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = true
+// Disabled proguard on 4/9/18 due to errors when building:
+// ERROR: :app:transformClassesAndResourcesWithProguardForRelease
+// def enableProguardInReleaseBuilds = true
+def enableProguardInReleaseBuilds = false
 
 // Get the properties file
 def props = new Properties()
@@ -110,15 +113,15 @@ props.load(new FileInputStream(rootProject.file("voke-test.properties")))
 
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
 
     defaultConfig {
         applicationId "org.cru.voke"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 234
-        versionName "3.1.1"
+        versionCode 240
+        versionName "3.1.2"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -185,7 +188,9 @@ dependencies {
     compile project(':react-native-google-analytics-bridge')
     compile project(':react-native-fabric')
     compile project(':react-native-fbsdk')
-    compile project(':react-native-device-info')
+    compile(project(':react-native-device-info')) {
+       exclude group: 'com.google.android.gms'
+    }
     compile project(':react-native-spinkit')
     compile project(':react-native-contacts')
     compile project(':react-native-vector-icons')
@@ -193,12 +198,10 @@ dependencies {
     compile project(':react-native-image-crop-picker')
     compile project(':react-native-push-notification')
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile "com.android.support:appcompat-v7:26.0.1"
     compile 'com.facebook.react:react-native:+'
     compile 'com.facebook.fresco:animated-gif:1.0.1'
-    compile('com.google.android.gms:play-services-gcm:11.0.+') {
-        force = true;
-    }
+
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;
     }

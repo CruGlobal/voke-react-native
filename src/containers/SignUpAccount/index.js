@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, KeyboardAvoidingView, Linking, Alert, Keyboard, Platform } from 'react-native';
+import { ScrollView, KeyboardAvoidingView, Linking, Alert, Keyboard } from 'react-native';
 
 import Analytics from '../../utils/analytics';
 import styles from './styles';
@@ -12,6 +12,7 @@ import SignUpInput from '../../components/SignUpInput';
 import SignUpHeader from '../../components/SignUpHeader';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import CONSTANTS from '../../constants';
+import theme from '../../theme';
 
 class SignUpAccount extends Component {
   constructor(props) {
@@ -70,8 +71,8 @@ class SignUpAccount extends Component {
 
   render() {
     return (
-      <ScrollView keyboardShouldPersistTaps={Platform.OS === 'android' ? 'handled' : 'always'} style={styles.container}>
-        <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'android' ? undefined : 'padding'}>
+      <ScrollView keyboardShouldPersistTaps={theme.isAndroid ? 'handled' : 'always'} style={styles.container}>
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior={theme.isAndroid ? undefined : 'padding'}>
           <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
           <SignUpHeader
             title="Create Account"

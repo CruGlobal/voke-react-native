@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Image, Platform } from 'react-native';
+import { Image } from 'react-native';
 import PropTypes from 'prop-types';
 import Analytics from '../../utils/analytics';
 import CONTACTS_PERMISSION from '../../../images/contacts-permission.png';
 import styles from './styles';
 import { Flex, Text, Button } from '../../components/common';
+import theme from '../../theme';
 
 class Modal extends Component {
   constructor(props) {
@@ -40,7 +41,6 @@ class Modal extends Component {
   }
 
   render() {
-    const isAndroid = Platform.OS === 'android';
     return (
       <Flex animation="fadeIn" align="center" justify="center" style={styles.container}>
         <Flex direction="column" align="center" justify="center" style={styles.modal}>
@@ -63,7 +63,7 @@ class Modal extends Component {
             ) : (
               <Flex align="center">
                 {
-                  !isAndroid ? (
+                  !theme.isAndroid ? (
                     <Image source={CONTACTS_PERMISSION} style={styles.permissionImage} />
                   ) : null
                 }

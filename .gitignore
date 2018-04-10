@@ -55,6 +55,9 @@ fastlane/screenshots
 .expo/
 npm-debug.*
 
+*/fastlane/report.xml
+*/fastlane/Preview.html
+*/fastlane/screenshots
 
 # Remove some files from being tracked in git
 fabric.properties
@@ -67,3 +70,4 @@ android/app/src/main/res/values/com_crashlytics_export_strings.xml
 .project
 .classpath
 .settings/
+

@@ -1,6 +1,6 @@
 
 import { StyleSheet } from 'react-native';
-import theme, { COLORS, DEFAULT } from '../../theme';
+import theme, { COLORS } from '../../theme';
 import videoUtils from '../../utils/video';
 
 const CONTROLLS_HEIGHT = 30;
@@ -8,7 +8,7 @@ const CONTROLLS_HEIGHT = 30;
 export default StyleSheet.create({
   controlWrapper: {
     height: CONTROLLS_HEIGHT,
-    // width: DEFAULT.FULL_WIDTH,
+    // width: theme.fullWidth,
     backgroundColor: COLORS.GREY_FADE,
     position: 'absolute',
     bottom: 0,

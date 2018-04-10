@@ -1,7 +1,6 @@
 /* global __DEV__ */
 import { Alert } from 'react-native';
 import lodashForEach from 'lodash/forEach';
-// import Reactotron from 'reactotron-react-native';
 
 import { RESET_TOKEN, UPDATE_TOKENS } from '../constants';
 import { refreshTokenRequest } from '../api/utils';
@@ -181,6 +180,7 @@ export default function callApi(requestObject, query = {}, data = {}) {
 
       API_CALLS[action.name](newQuery, data).then((results) => {
         let actionResults = results || {};
+        LOG('API results', actionResults);
         // If the results have an error object, call this to reject it
         if (actionResults.error || actionResults.errors) {
           handleError(actionResults);

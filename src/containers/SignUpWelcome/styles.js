@@ -1,6 +1,6 @@
 
-import { Platform, StyleSheet } from 'react-native';
-import theme, { DEFAULT } from '../../theme';
+import { StyleSheet } from 'react-native';
+import theme from '../../theme';
 
 export default StyleSheet.create({
   container: {
@@ -8,15 +8,15 @@ export default StyleSheet.create({
   },
   onboardImage: {
     width: 400,
-    height: Platform.OS === 'android' ? DEFAULT.FULL_HEIGHT - 275 : DEFAULT.FULL_HEIGHT - 250,
+    height: theme.isAndroid ? theme.fullHeight - 275 : theme.fullHeight - 250,
   },
   onboardFull: {
-    width: DEFAULT.FULL_WIDTH,
-    height: DEFAULT.FULL_HEIGHT,
+    width: theme.fullWidth,
+    height: theme.fullHeight,
   },
   onboardHalf: {
-    width: DEFAULT.FULL_WIDTH,
-    height: DEFAULT.FULL_HEIGHT/2,
+    width: theme.fullWidth,
+    height: theme.fullHeight/2,
   },
   headerWrap: {
     paddingVertical: 30,
@@ -43,7 +43,7 @@ export default StyleSheet.create({
   },
   imageWrap: {
     position: 'absolute',
-    bottom: Platform.OS === 'android' ? 0 : 20,
+    bottom: theme.isAndroid ? 0 : 20,
     right: 0,
     left: 0,
   },
@@ -73,7 +73,7 @@ export default StyleSheet.create({
     borderRadius: 0,
   },
   vokeWrap: {
-    width: DEFAULT.FULL_WIDTH,
+    width: theme.fullWidth,
     // paddingTop: 30,
     position: 'absolute',
     bottom: 55,
@@ -82,7 +82,7 @@ export default StyleSheet.create({
   },
   vokeBot: {
     bottom: -25,
-    width: DEFAULT.FULL_WIDTH - 200,
+    width: theme.fullWidth - 200,
   },
   endButton: {
     alignItems: 'center',
@@ -96,8 +96,8 @@ export default StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    width: DEFAULT.FULL_WIDTH,
-    height: DEFAULT.FULL_HEIGHT,
+    width: theme.fullWidth,
+    height: theme.fullHeight,
   },
   signInButtonText: {
     fontSize: 16,
@@ -106,7 +106,7 @@ export default StyleSheet.create({
     fontSize: 14,
   },
   signInButton: {
-    width: DEFAULT.FULL_WIDTH - 110,
+    width: theme.fullWidth - 110,
     height: 40,
     alignItems: 'center',
     marginTop: 10,

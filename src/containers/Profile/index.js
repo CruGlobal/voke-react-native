@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, Image, TextInput, KeyboardAvoidingView, ScrollView, View, Alert, BackHandler } from 'react-native';
+import { Image, TextInput, ScrollView, View, Alert, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';
@@ -357,11 +357,7 @@ class Profile extends Component {
     const { user } = this.props;
 
     return (
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS === 'android' ? undefined : 'padding'}
-        keyboardVerticalOffset={Platform.OS === 'android' ? undefined : 50}
-      >
+      <View style={styles.container}>
         <Header
           leftBack={true}
           title="Profile"
@@ -461,7 +457,7 @@ class Profile extends Component {
           </Flex>
         </Flex>
         <ApiLoading />
-      </KeyboardAvoidingView>
+      </View>
     );
   }
 }
