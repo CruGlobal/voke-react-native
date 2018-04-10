@@ -94,9 +94,17 @@ class Home extends Component {
   }
 
   handleLoadMore() {
+    if (this.state.loadingMore || this.state.refreshing) return;
     if (this.props.pagination.hasMore) {
       // LOG('has more conversations to load');
-      this.props.dispatch(getConversationsPage(this.props.pagination.page + 1));
+      this.setState({ loadingMore: true });
+      LOG('loading more');
+      this.props.dispatch(getConversationsPage(this.props.pagination.page + 1)).then(() => {
+        this.setState({ loadingMore: false });
+        LOG('done loading more');
+      }).catch(() => {
+        this.setState({ loadingMore: false });
+      });
     }
   }
 
