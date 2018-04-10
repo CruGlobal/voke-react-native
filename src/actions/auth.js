@@ -1,5 +1,5 @@
 import RNFetchBlob from 'react-native-fetch-blob';
-import { Linking, AppState, ToastAndroid, AsyncStorage, Alert } from 'react-native';
+import { Linking, AppState, ToastAndroid, AsyncStorage, Alert, PushNotificationIOS } from 'react-native';
 
 import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, UPDATE_TOKENS, NO_BACKGROUND_ACTION } from '../constants';
 import callApi, { REQUESTS } from './api';
@@ -59,7 +59,31 @@ function appStateChange(dispatch, getState, nextAppState) {
   // LOG('appStateChange', nextAppState, currentAppState, cableId);
   if (nextAppState === 'active') {
     LOG('App has come to the foreground!');
+    if (!theme.isAndroid) {
+      PushNotificationIOS.getDeliveredNotifications((results)=> {
+        if (results && results.length > 0) PushNotificationIOS.removeAllDeliveredNotifications();
+        let conversations = getState().messages.conversations;
+        // let messages = getState().messages.messages;
+        let link = results[0] && results[0].userInfo && results[0].userInfo.data && results[0].userInfo.data.link;
+        if (!link) return;
+        const cId = link.substring(link.indexOf('conversations/') + 14, link.indexOf('/messages'));
+        const mId = link.substring(link.indexOf('messages/') + 9, link.length);
+        LOG('conversation ID: ', cId);
+        LOG('message ID:', mId);
+        if (cId && mId) {
+          let conv = conversations.find((c) => cId === c.id);
+          // if the conversation does not exist then call get conversations or if the message does not exist call get conversation
+          if (!conv || (conv.latestMessage && conv.latestMessage.message_id !== mId)) {
+            LOG('get conversations');
+            dispatch(getConversations());
+          }
+        }
+      });
+    } else {
+      // get conversations because android doesnt have a delivered notifications callback
+      dispatch(getConversations());
 
+    }
     // // Put the ACTIVE actions in a short timeout so they don't run when the app switches quickly
     // const now = Date.now();
     // // const BACKGROUND_REFRESH_TIME = 5 * 60 * 1000; // 5 minutes
