@@ -38,7 +38,7 @@ import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/Car
 const verticalPages = ['voke.Menu', 'voke.VideoDetails', 'voke.CountrySelect'];
 const customAnimationFunc = () => ({
   screenInterpolator: (sceneProps) => {
-    
+
     const from = sceneProps.scenes[0];
     const to = sceneProps.scenes[1];
     const current = sceneProps.scene.route.routeName;

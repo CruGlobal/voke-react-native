@@ -82,7 +82,7 @@ class SignUpWelcome extends Component {
   render() {
     const { noSignIn } = this.props;
     return (
-      <View style={{flex: 1, backgroundColor: theme.textColor}}>
+      <View style={{flex: 1, backgroundColor: theme.primaryColor}}>
         <StatusBar />
         <View style={{flex: 1}}>
           <IndicatorViewPager
