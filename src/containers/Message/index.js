@@ -223,8 +223,10 @@ class Message extends Component {
       conversationId: conversation.id,
       messageId: msg.id,
     };
+    
+    // Call this optimistically before the API call is complete
+    dispatch(markReadAction(conversation.id, msg.id));
     dispatch(createMessageInteraction(interaction)).then(() => {
-      dispatch(markReadAction(conversation.id, msg.id));
       this.setLatestItem();
     });
   }
