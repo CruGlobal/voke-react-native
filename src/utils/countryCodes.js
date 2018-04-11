@@ -143,7 +143,7 @@ export default [
   {
     "iso": "bo",
     "code": "591",
-    "name": "Bolivia, Plurinational State Of",
+    "name": "Bolivia",
   },
   {
     "iso": "bonaire",
@@ -541,11 +541,6 @@ export default [
     "name": "Iceland",
   },
   {
-    "iso": "icoglobal",
-    "code": "881",
-    "name": "ICO Global (Mobile Satellite Service)",
-  },
-  {
     "iso": "in",
     "code": "91",
     "name": "India",
@@ -558,7 +553,7 @@ export default [
   {
     "iso": "ir",
     "code": "98",
-    "name": "Iran, Islamic Republic Of",
+    "name": "Iran",
   },
   {
     "iso": "iq",
@@ -569,11 +564,6 @@ export default [
     "iso": "ie",
     "code": "353",
     "name": "Ireland",
-  },
-  {
-    "iso": "iridium",
-    "code": "881",
-    "name": "Iridium (Mobile Satellite service)",
   },
   {
     "iso": "im",
@@ -633,12 +623,12 @@ export default [
   {
     "iso": "kp",
     "code": "850",
-    "name": "Korea, Democratic People&apos;s Republic Of",
+    "name": "North Korea",
   },
   {
     "iso": "kr",
     "code": "82",
-    "name": "Korea, Republic Of",
+    "name": "South Korea",
   },
   {
     "iso": "kosovo4",
@@ -673,7 +663,7 @@ export default [
   {
     "iso": "la",
     "code": "856",
-    "name": "Lao People&apos;s Democratic Republic",
+    "name": "Lao",
   },
   {
     "iso": "lv",
@@ -966,14 +956,14 @@ export default [
     "name": "Philippines",
   },
   {
-    "iso": "pn",
-    "code": "870",
+    "iso": "pitcairnislands",
+    "code": "64",
     "name": "Pitcairn",
   },
   {
-    "iso": "pitcairnislands",
-    "code": "6",
-    "name": "Pitcairn Islands",
+    "iso": "pn",
+    "code": "870",
+    "name": "Pitcairn",
   },
   {
     "iso": "pl",
@@ -1193,7 +1183,7 @@ export default [
   {
     "iso": "sy",
     "code": "963",
-    "name": "Syrian",
+    "name": "Syria",
   },
   {
     "iso": "tw",
