@@ -72,6 +72,8 @@ class SignUpProfile extends Component {
         }
         this.setState({ disableNext: false, disableSecondClick: true, isLoading: false });
         this.props.navigatePush('voke.SignUpNumber');
+        // Enable the second click after a second
+        setTimeout(() => this.setState({ disableSecondClick: false }), 1000);
       }).catch(() => {
         this.setState({ disableNext: false, isLoading: false });
       });
