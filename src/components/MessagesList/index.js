@@ -1,5 +1,5 @@
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { View, FlatList, Keyboard } from 'react-native';
 
@@ -162,6 +162,25 @@ class MessagesList extends Component {
   }
 
   render() {
+    if (theme.isAndroid) {
+      return (
+        <Fragment>
+          <FlatList
+            ref={(c) => this.listView = c}
+            ListFooterComponent={this.renderLoadMore}
+            keyExtractor={(item) => item.id}
+            initialNumToRender={CONSTANTS.PAGE_SIZE + 1}
+            data={this.props.items}
+            renderItem={this.renderRow}
+            inverted={true}
+            contentContainerStyle={styles.content}
+            removeClippedSubviews={false}
+            scrollEnabled={theme.isAndroid ? true : this.state.scrollEnabled}
+          />
+          {this.renderTypeState()}
+        </Fragment>
+      );
+    }
     return (
       <FlatList
         ref={(c) => this.listView = c}
@@ -177,8 +196,6 @@ class MessagesList extends Component {
         scrollEnabled={theme.isAndroid ? true : this.state.scrollEnabled}
       />
     );
-    // onContentSizeChange={this.onContentSize}
-    // onLayout={this.onLayoutEvent}
   }
 }
 

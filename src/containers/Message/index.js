@@ -133,9 +133,12 @@ class Message extends Component {
     if (!page && !this.props.forceUpdate) {
       const { conversation, messages } = this.props;
       const latestMessage = messages[0];
-      if (latestMessage && conversation.latestMessage && conversation.latestMessage.message_id === latestMessage.id) {
-        LOG('positions are the same, dont call getMessages');
-        return;
+      // Only prevent the messages API call when the number of messages is >= the total messages page size
+      if (messages.length >= CONSTANTS.PAGE_SIZE) {
+        if (latestMessage && conversation.latestMessage && conversation.latestMessage.message_id === latestMessage.id) {
+          LOG('positions are the same, dont call getMessages');
+          return;
+        }
       }
     }
     this.props.dispatch(getMessages(this.props.conversation.id, page));

@@ -371,16 +371,6 @@ export default [
     "name": "El Salvador",
   },
   {
-    "iso": "ellipso",
-    "code": "881",
-    "name": "Ellipso (Mobile Satellite service)",
-  },
-  {
-    "iso": "emsat",
-    "code": "882",
-    "name": "EMSAT (Mobile Satellite service)",
-  },
-  {
     "iso": "gq",
     "code": "240",
     "name": "Equatorial Guinea",
@@ -469,16 +459,6 @@ export default [
     "iso": "gi",
     "code": "350",
     "name": "Gibraltar",
-  },
-  {
-    "iso": "gmss",
-    "code": "881",
-    "name": "Global Mobile Satellite System (GMSS)",
-  },
-  {
-    "iso": "globalstar",
-    "code": "881",
-    "name": "Globalstar (Mobile Satellite Service)",
   },
   {
     "iso": "gr",
@@ -574,36 +554,6 @@ export default [
     "iso": "id",
     "code": "62",
     "name": "Indonesia",
-  },
-  {
-    "iso": "inmarasat",
-    "code": "870",
-    "name": "Inmarsat SNAC",
-  },
-  {
-    "iso": "uifn",
-    "code": "800",
-    "name": "International Freephone Service (UIFN)",
-  },
-  {
-    "iso": "internationalnetworks2",
-    "code": "883",
-    "name": "International Networks",
-  },
-  {
-    "iso": "internationalnetworks1",
-    "code": "882",
-    "name": "International Networks",
-  },
-  {
-    "iso": "iprs",
-    "code": "979",
-    "name": "International Premium Rate Service",
-  },
-  {
-    "iso": "iscs",
-    "code": "808",
-    "name": "International Shared Cost Service (ISCS)",
   },
   {
     "iso": "ir",
@@ -773,7 +723,7 @@ export default [
   {
     "iso": "mk",
     "code": "389",
-    "name": "Macedonia, The Former Yugoslav Republic Of",
+    "name": "Macedonia",
   },
   {
     "iso": "mg",
@@ -1021,7 +971,7 @@ export default [
     "name": "Pitcairn",
   },
   {
-    "iso": "pn",
+    "iso": "pitcairnislands",
     "code": "6",
     "name": "Pitcairn Islands",
   },
@@ -1243,12 +1193,12 @@ export default [
   {
     "iso": "sy",
     "code": "963",
-    "name": "Syrian Arab Republic",
+    "name": "Syrian",
   },
   {
     "iso": "tw",
     "code": "886",
-    "name": "Taiwan, Province Of China",
+    "name": "Taiwan",
   },
   {
     "iso": "tj",
@@ -1261,19 +1211,9 @@ export default [
     "name": "Tanzania, United Republic Of",
   },
   {
-    "iso": "disasterreliefocha",
-    "code": "888",
-    "name": "Telecommunications for Disaster Relief by OCHA",
-  },
-  {
     "iso": "th",
     "code": "66",
     "name": "Thailand",
-  },
-  {
-    "iso": "thuraya",
-    "code": "882",
-    "name": "Thuraya (Mobile Satellite service)",
   },
   {
     "iso": "tl",
@@ -1361,11 +1301,6 @@ export default [
     "name": "United States",
   },
   {
-    "iso": "upt",
-    "code": "878",
-    "name": "Universal Personal Telecommunications (UPT)",
-  },
-  {
     "iso": "uy",
     "code": "598",
     "name": "Uruguay",
@@ -1388,12 +1323,12 @@ export default [
   {
     "iso": "ve",
     "code": "58",
-    "name": "Venezuela, Bolivarian Republic Of",
+    "name": "Venezuela",
   },
   {
     "iso": "vn",
     "code": "84",
-    "name": "Viet Nam",
+    "name": "Vietnam",
   },
   {
     "iso": "wakeisland",
