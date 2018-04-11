@@ -65,6 +65,7 @@ class Message extends Component {
       this.props.dispatch(checkAndRunSockets());
       this.getMessages();
       this.createMessageReadInteraction(this.props.messages[0]);
+      this.setLatestItem();
     }, 50);
 
     BackHandler.addEventListener('hardwareBackPress', this.backHandler);
