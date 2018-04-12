@@ -162,40 +162,38 @@ class MessagesList extends Component {
   }
 
   render() {
-    if (theme.isAndroid) {
-      return (
-        <Fragment>
-          <FlatList
-            ref={(c) => this.listView = c}
-            ListFooterComponent={this.renderLoadMore}
-            keyExtractor={(item) => item.id}
-            initialNumToRender={CONSTANTS.PAGE_SIZE + 1}
-            data={this.props.items}
-            renderItem={this.renderRow}
-            inverted={true}
-            contentContainerStyle={styles.content}
-            removeClippedSubviews={false}
-            scrollEnabled={theme.isAndroid ? true : this.state.scrollEnabled}
-          />
-          {this.renderTypeState()}
-        </Fragment>
-      );
-    }
     return (
-      <FlatList
-        ref={(c) => this.listView = c}
-        ListFooterComponent={this.renderLoadMore}
-        keyExtractor={(item) => item.id}
-        initialNumToRender={CONSTANTS.PAGE_SIZE + 1}
-        data={this.props.items}
-        renderItem={this.renderRow}
-        inverted={true}
-        contentContainerStyle={styles.content}
-        removeClippedSubviews={false}
-        ListHeaderComponent={this.renderTypeState}
-        scrollEnabled={theme.isAndroid ? true : this.state.scrollEnabled}
-      />
+      <Fragment>
+        <FlatList
+          ref={(c) => this.listView = c}
+          ListFooterComponent={this.renderLoadMore}
+          keyExtractor={(item) => item.id}
+          initialNumToRender={CONSTANTS.PAGE_SIZE + 1}
+          data={this.props.items}
+          renderItem={this.renderRow}
+          inverted={true}
+          contentContainerStyle={styles.content}
+          removeClippedSubviews={false}
+          scrollEnabled={theme.isAndroid ? true : this.state.scrollEnabled}
+        />
+        {this.renderTypeState()}
+      </Fragment>
     );
+    // return (
+    //   <FlatList
+    //     ref={(c) => this.listView = c}
+    //     ListFooterComponent={this.renderLoadMore}
+    //     keyExtractor={(item) => item.id}
+    //     initialNumToRender={CONSTANTS.PAGE_SIZE + 1}
+    //     data={this.props.items}
+    //     renderItem={this.renderRow}
+    //     inverted={true}
+    //     contentContainerStyle={styles.content}
+    //     removeClippedSubviews={false}
+    //     ListHeaderComponent={this.renderTypeState}
+    //     scrollEnabled={theme.isAndroid ? true : this.state.scrollEnabled}
+    //   />
+    // );
   }
 }
 

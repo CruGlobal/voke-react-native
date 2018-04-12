@@ -87,7 +87,7 @@ class Message extends Component {
         this.setState({ showDot: false });
       }
     }
-    
+
   }
 
   componentWillUnmount() {
@@ -142,7 +142,9 @@ class Message extends Component {
         }
       }
     }
-    this.props.dispatch(getMessages(this.props.conversation.id, page));
+    this.props.dispatch(getMessages(this.props.conversation.id, page)).then(() => {
+      this.createMessageReadInteraction(this.props.messages[0]);
+    });
   }
 
   pauseVideo() {
@@ -216,7 +218,7 @@ class Message extends Component {
       return;
     }
     const { conversation, dispatch } = this.props;
-    
+
     // If the message has already been marked as read, don't make an API call
     if (msg && conversation.myLatestReadId === msg.id) {
       return;
@@ -227,7 +229,7 @@ class Message extends Component {
       conversationId: conversation.id,
       messageId: msg.id,
     };
-    
+
     // Call this optimistically before the API call is complete
     dispatch(markReadAction(conversation.id, msg.id));
     dispatch(createMessageInteraction(interaction)).then(() => {
