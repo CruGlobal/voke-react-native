@@ -4,7 +4,7 @@ import { Linking, AppState, ToastAndroid, AsyncStorage, Alert, PushNotificationI
 import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, UPDATE_TOKENS, NO_BACKGROUND_ACTION } from '../constants';
 import callApi, { REQUESTS } from './api';
 import { establishDevice, setupSocketAction, closeSocketAction, destroyDevice, getDevices, checkAndRunSockets } from './socket';
-import { getConversations, getMessages } from './messages';
+import { getConversations, getMessages, createMessageInteraction } from './messages';
 import { API_URL } from '../api/utils';
 import { isArray } from '../utils/common';
 import Orientation from 'react-native-orientation';
@@ -59,6 +59,7 @@ function appStateChange(dispatch, getState, nextAppState) {
   // LOG('appStateChange', nextAppState, currentAppState, cableId);
   if (nextAppState === 'active') {
     LOG('App has come to the foreground!');
+    let messages = getState().messages;
     if (!theme.isAndroid) {
       PushNotificationIOS.getDeliveredNotifications((results)=> {
         if (results && results.length > 0) PushNotificationIOS.removeAllDeliveredNotifications();
@@ -75,14 +76,44 @@ function appStateChange(dispatch, getState, nextAppState) {
           // if the conversation does not exist then call get conversations or if the message does not exist call get conversation
           if (!conv || (conv.latestMessage && conv.latestMessage.message_id !== mId)) {
             LOG('get conversations');
-            dispatch(getConversations());
+            if (messages.activeConversationId === cId) {
+              dispatch(getMessages(cId)).then(()=> {
+                const interaction = {
+                  action: 'read',
+                  conversationId: cId,
+                  messageId: mId,
+                };
+                dispatch(createMessageInteraction(interaction)).then(()=> {
+                  dispatch(getConversations());
+                });
+              });
+            } else {
+              dispatch(getConversations());
+            }
           }
         }
       });
     } else {
-      // get conversations because android doesnt have a delivered notifications callback
-      dispatch(getConversations());
-
+      if (messages.activeConversationId) {
+        dispatch(getMessages(messages.activeConversationId)).then(()=> {
+          const message = getState().messages[messages.activeConversationId];
+          const mId = message ? message[0].id : null;
+          if (!mId) {
+            dispatch(getConversations());
+          } else {
+            const interaction = {
+              action: 'read',
+              conversationId: messages.activeConversationId,
+              messageId: mId,
+            };
+            dispatch(createMessageInteraction(interaction)).then(()=> {
+              dispatch(getConversations());
+            });
+          }
+        });
+      } else {
+        dispatch(getConversations());
+      }
     }
     // // Put the ACTIVE actions in a short timeout so they don't run when the app switches quickly
     // const now = Date.now();

@@ -75,8 +75,11 @@ class Message extends Component {
     // Check to see if the current length is less than the next length and mark it as read
     const nLength = nextProps.messages.length;
     const cLength = this.props.messages.length;
+
+    // if the messages are already at 25 then the lengths are not different and read interaction doesnt run
+    // therefore, check if Ids are the same or not
     this.setLatestItem(nextProps.messages);
-    if (nLength > 0 && cLength > 0 && cLength < nLength) {
+    if ((nLength > 0 && cLength > 0 && cLength < nLength) || (this.props.messages[0].id !== nextProps.messages[0].id)) {
       this.createMessageReadInteraction(nextProps.messages[0]);
     }
 
