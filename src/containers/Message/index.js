@@ -131,7 +131,7 @@ class Message extends Component {
   }
 
   getMessages(page) {
-    if (!page && !this.props.forceUpdate) {
+    if (!page && !this.props.forceUpdate && !this.props.getConversationsIsRunning) {
       const { conversation, messages } = this.props;
       const latestMessage = messages[0];
       // Only prevent the messages API call when the number of messages is >= the total messages page size
@@ -447,6 +447,7 @@ const mapStateToProps = ({ messages, auth }, { navigation }) => {
     ...(navigation.state.params || {}),
     conversation,
     messages: messages.messages[conversation.id] || [],
+    getConversationsIsRunning: messages.getConversationsIsRunning,
     pagination: messages.pagination.messages[conversation.id] || {},
     me: auth.user,
     typeState: !!messages.typeState[conversation.id],

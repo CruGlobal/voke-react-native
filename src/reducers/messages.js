@@ -23,6 +23,7 @@ const initialState = {
   },
   inShare: false,
   activeConversationId: null,
+  getConversationsIsRunning: false,
 };
 
 function moveConversationFirst(conversations, conversationId) {
@@ -74,6 +75,16 @@ export default function messages(state = initialState, action) {
         ...state,
         conversations: stateConversations,
       };
+    case REQUESTS.GET_CONVERSATIONS.FETCH:
+      return {
+        ...state,
+        getConversationsIsRunning: true,
+      };
+    case REQUESTS.GET_CONVERSATIONS.FAIL:
+      return {
+        ...state,
+        getConversationsIsRunning: false,
+      };
     case REQUESTS.GET_CONVERSATIONS.SUCCESS:
       let newConversations = [];
       if (action.query.page && action.query.page > 1) {
@@ -90,12 +101,13 @@ export default function messages(state = initialState, action) {
       let unRead = action._meta ? action._meta.pending_notifications : 0;
       unRead = unRead >= 0 ? unRead : 0;
       PushNotification.setApplicationIconBadgeNumber(unRead);
-      
+
       return {
         ...state,
         conversations: newConversations,
         typeState: {},
         unReadBadgeCount: unRead,
+        getConversationsIsRunning: false,
         pagination: {
           ...state.pagination,
           conversations: conversationPagination,
@@ -283,7 +295,7 @@ export default function messages(state = initialState, action) {
 
       currentBadgeCount2 = currentBadgeCount2 >= 0 ? currentBadgeCount2 : 0;
       PushNotification.setApplicationIconBadgeNumber(currentBadgeCount2);
-      
+
       return {
         ...state,
         conversations: readConversations,
