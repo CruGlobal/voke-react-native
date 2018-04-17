@@ -185,7 +185,7 @@ class LoginInput extends Component {
                 text="Create Account"
                 type="transparent"
                 buttonTextStyle={styles.signInText}
-                onPress={() => this.props.navigatePush('voke.SignUpAccount')}
+                onPress={() => this.props.navigatePush('voke.Login')}
               />
             </Flex>
           </Flex>
