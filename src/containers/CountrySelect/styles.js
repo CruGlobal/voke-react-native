@@ -13,13 +13,13 @@ export default StyleSheet.create({
     color: theme.primaryColor,
     backgroundColor: COLORS.convert({ color: theme.primaryColor, lighten: 0.5 }),
     paddingHorizontal: 15,
-    paddingVertical: 10,
+    paddingVertical: 0,
   },
   row: {
-    height: 50,
     justifyContent: 'center',
+    height: 50,
     paddingHorizontal: 10,
-    paddingVertical: 15,
+    // paddingVertical: 13,
     backgroundColor: theme.lightBackgroundColor,
   },
   name: {

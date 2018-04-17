@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Share, Linking, Platform, Clipboard } from 'react-native';
+import { Share, Linking, Clipboard } from 'react-native';
 import PropTypes from 'prop-types';
 import Communications from 'react-native-communications';
 // import SendSMS from 'react-native-sms';
@@ -11,6 +11,7 @@ import { send } from './sendSms';
 import Analytics from '../../utils/analytics';
 import SharePopup from './SharePopup';
 import { toastAction, setNoBackgroundAction } from '../../actions/auth';
+import theme from '../../theme';
 
 function getMessage(friend) {
   return `Hi ${friend ? friend.first_name : 'friend'}, check out this video ${friend ? friend.url : ''}`;
@@ -44,6 +45,7 @@ class ShareModal extends Component {
     if (this.props.onComplete) {
       this.props.onComplete();
     }
+    setTimeout(() => this.setState({ isHidden: false }), 1000);
   }
 
   handleHide() {
@@ -59,7 +61,7 @@ class ShareModal extends Component {
       quote: message,
     };
 
-    if (Platform.OS === 'android') {
+    if (theme.isAndroid) {
       setTimeout(() => this.handleComplete(), 100);
     }
 
@@ -111,36 +113,42 @@ class ShareModal extends Component {
     this.props.dispatch(setNoBackgroundAction(true));
     const friend = this.props.friend;
     if (!friend) return;
-
     LOG(JSON.stringify(friend));
     if (!friend) {
       this.handleDismiss();
       return;
     }
+    this.handleHide();
     const message = getMessage(friend);
     if (type === 'message') {
+      this.handleHide();
+
       // For Android, just call the normal linking sms:{phone}?body={message}
       // We don't import react-native-sms on Android, so don't try to call it
-      if (Platform.OS === 'android') {
-        send(this.props.phoneNumber, message).then(() => {
-          this.handleComplete();
-        }).catch(() => {
-          this.handleDismiss();
-        });
+      if (theme.isAndroid) {
+        setTimeout(()=> {
+          send(this.props.phoneNumber, message).then(() => {
+            this.handleComplete();
+          }).catch(() => {
+            this.handleDismiss();
+          });
+        }, 300);
         // Linking.openURL(`sms:${this.props.phoneNumber}?body=${encodeURIComponent(message)}`).then(() => {
         //   this.handleComplete();
         // }).catch(() => {
         //   this.handleDismiss();
         // });
       } else {
-        send(this.props.phoneNumber, message).then(() => {
-          // On iOS, wrap the complete in a timeout to fix navigation stuff
-          setTimeout(() => {
-            this.handleComplete();
-          }, 1000);
-        }).catch(() => {
-          this.handleDismiss();
-        });
+        setTimeout(()=> {
+          send(this.props.phoneNumber, message).then(() => {
+            // On iOS, wrap the complete in a timeout to fix navigation stuff
+            setTimeout(() => {
+              this.handleComplete();
+            }, 1000);
+          }).catch(() => {
+            this.handleDismiss();
+          });
+        }, 300);
         // SendSMS.send({
         //   body: message,
         //   recipients: [this.props.phoneNumber],
@@ -149,7 +157,7 @@ class ShareModal extends Component {
         //   LOG(completed, cancelled, error);
         //   if (completed) {
         //     LOG('completed message');
-        //     if (Platform.OS === 'ios') {
+        //     if (!theme.isAndroid) {
         //       setTimeout(() => {
         //         this.handleComplete();
         //       }, 1000);
@@ -176,12 +184,15 @@ class ShareModal extends Component {
       const url = `whatsapp://send?text=${whatsappMessage}`;
       this.openUrl(url);
     } else if (type === 'fb') {
-      this.shareLinkWithShareDialog(message, friend.url);
+      this.handleHide();
+      setTimeout(()=> {
+        this.shareLinkWithShareDialog(message, friend.url);
+      }, 300);
       // const url = 'https://m.me';
       // this.openUrl(url);
     } else if (type === 'copy') {
       Clipboard.setString(message);
-      if (Platform.OS === 'android') {
+      if (theme.isAndroid) {
         this.props.dispatch(toastAction('Copied!'));
       }
       this.handleComplete();

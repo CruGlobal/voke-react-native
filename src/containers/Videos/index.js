@@ -11,19 +11,17 @@ import Analytics from '../../utils/analytics';
 import nav, { NavPropTypes } from '../../actions/nav';
 
 import styles from './styles';
-import { navMenuOptions } from '../../utils/menu';
 import { vokeIcons } from '../../utils/iconMap';
 
 import ApiLoading from '../ApiLoading';
 import ThemeSelect from '../ThemeSelect';
-import PopupMenu from '../../components/PopupMenu';
 import Header, { HeaderIcon } from '../Header';
 import PillButton from '../../components/PillButton';
 import VideoList from '../../components/VideoList';
 import StatusBar from '../../components/StatusBar';
 import ChannelInfo from '../../components/ChannelInfo';
 import { Flex } from '../../components/common';
-import CONSTANTS from '../../constants';
+import theme from '../../theme';
 
 class Videos extends Component {
   constructor(props) {
@@ -253,7 +251,15 @@ class Videos extends Component {
       this.props.dispatch(getChannelSubscriberData(this.props.channel.id)).then((results) => {
         const subscriberId = channelResults.subscription_id;
         const isSubscribed = !!subscriberId;
-        const total = results && results._links && results._links.root ? results._links.root.total_count : 0;
+        // Get the total from the 'total_subscriptions' field in one of the items
+        let total = results && results.subscriptions && results.subscriptions[0] && results.subscriptions[0].total_subscriptions;
+        if (!total) {
+          total = results && results._links && results._links.root ? results._links.root.total_count : 0;
+        }
+        if (!total) {
+          total = total || 0;
+        }
+        
         
         this.setState({
           channelSubscribeData: {
@@ -307,9 +313,9 @@ class Videos extends Component {
   renderHeaderLeft() {
     const { onSelectVideo, channel } = this.props;
     const showBack = !!onSelectVideo || !!channel;
-    if (CONSTANTS.IS_ANDROID && !showBack) {
+    if (theme.isAndroid && !showBack) {
       return null;
-    } else if (CONSTANTS.IS_ANDROID && showBack) {
+    } else if (theme.isAndroid && showBack) {
       return (
         <HeaderIcon
           type="back"
@@ -386,7 +392,7 @@ class Videos extends Component {
               video: c,
               onSelectVideo,
               conversation: this.props.conversation,
-              onRefresh: this.handleRefresh,
+              onUpdateVideos: () => this.updateVideoList(selectedFilter),
             });
           }}
           onRefresh={this.handleRefresh}

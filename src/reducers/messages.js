@@ -1,8 +1,13 @@
 import lodashUniqBy from 'lodash/uniqBy';
 import { REHYDRATE } from 'redux-persist/constants';
+
+import PushNotification from 'react-native-push-notification';
+
 import { REQUESTS } from '../actions/api';
-import { LOGOUT, NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ, SET_ACTIVE_CONVERSATION, UNREAD_CONV_DOT, SET_IN_SHARE, MESSAGE_CREATED } from '../constants';
+import { LOGOUT, NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ, SET_ACTIVE_CONVERSATION, SET_IN_SHARE, MESSAGE_CREATED } from '../constants';
 import { isArray } from '../utils/common';
+
+
 
 const initialState = {
   conversations: [],
@@ -16,9 +21,9 @@ const initialState = {
     },
     messages: {},
   },
-  unreadConversationDot: false,
   inShare: false,
   activeConversationId: null,
+  getConversationsIsRunning: false,
 };
 
 function moveConversationFirst(conversations, conversationId) {
@@ -50,7 +55,6 @@ export default function messages(state = initialState, action) {
         typeState: {},
         pagination: initialState.pagination,
         unReadBadgeCount: 0,
-        unreadConversationDot: false,
         inShare: false,
       };
     // Add or update the existing conversation that's returned in the conversations array
@@ -71,6 +75,16 @@ export default function messages(state = initialState, action) {
         ...state,
         conversations: stateConversations,
       };
+    case REQUESTS.GET_CONVERSATIONS.FETCH:
+      return {
+        ...state,
+        getConversationsIsRunning: true,
+      };
+    case REQUESTS.GET_CONVERSATIONS.FAIL:
+      return {
+        ...state,
+        getConversationsIsRunning: false,
+      };
     case REQUESTS.GET_CONVERSATIONS.SUCCESS:
       let newConversations = [];
       if (action.query.page && action.query.page > 1) {
@@ -81,14 +95,19 @@ export default function messages(state = initialState, action) {
         page: action.query.page || 1,
       };
       newConversations = newConversations.concat(action.conversations);
-      const unReadCheck = newConversations.filter((m) => m.hasUnread).length;
-      const unRead = unReadCheck || 0;
+      // const unReadCheck = newConversations.filter((m) => m.hasUnread).length;
+      // const unRead = unReadCheck || 0;
+      // Pull the unread count from the '_meta' in notifications
+      let unRead = action._meta ? action._meta.pending_notifications : 0;
+      unRead = unRead >= 0 ? unRead : 0;
+      PushNotification.setApplicationIconBadgeNumber(unRead);
 
       return {
         ...state,
         conversations: newConversations,
         typeState: {},
-        unReadBadgeCount: unRead >= 0 ? unRead : 0,
+        unReadBadgeCount: unRead,
+        getConversationsIsRunning: false,
         pagination: {
           ...state.pagination,
           conversations: conversationPagination,
@@ -109,8 +128,27 @@ export default function messages(state = initialState, action) {
         page: action.query.page || 1,
       };
       newMessages = removeDuplicateMessages(newMessages);
+
+
+      // Update the conversation messagePreview and latestMessage based on the first new message
+      // This should happen so when push notification messages come in, everything is up to date
+      const msgPreviewConversationsNewMessages = state.conversations.map((c) => {
+        if (newMessages[0] && c.id === conversationId) {
+          return {
+            ...c,
+            messagePreview: newMessages[0].content,
+            latestMessage: {
+              message_id: newMessages[0].id,
+            },
+          };
+        }
+        return c;
+      });
+
+
       return {
         ...state,
+        conversations: msgPreviewConversationsNewMessages,
         messages: { ...state.messages, [conversationId]: newMessages },
         pagination: {
           ...state.pagination,
@@ -171,6 +209,7 @@ export default function messages(state = initialState, action) {
       if (!conversationNewMessageId) {
         return state;
       }
+      const incrementBadge = action.incrementBadge;
       let currentBadgeCount = state.unReadBadgeCount;
       let msgPreviewConversations = state.conversations.map((c) => {
         if (c.id === conversationNewMessageId) {
@@ -180,13 +219,21 @@ export default function messages(state = initialState, action) {
           if (newMessenger) {
             messengers.unshift(newMessenger);
           }
-          currentBadgeCount++;
+          // Always increment the badge count
+          let cnt = (c.unReadCount || 0);
+          if (incrementBadge) {
+            cnt++;
+            currentBadgeCount++;
+          }
           return {
             ...c,
             messengers,
             messagePreview: action.message.content,
-            hasUnread: true,
-            unReadCount: c.unReadCount ? c.unReadCount + 1 : 1,
+            hasUnread: cnt > 0,
+            unReadCount: cnt,
+            latestMessage: {
+              message_id: action.message.id,
+            },
           };
         }
         return c;
@@ -201,6 +248,9 @@ export default function messages(state = initialState, action) {
       ];
       newCreatedMessages = removeDuplicateMessages(newCreatedMessages);
 
+      currentBadgeCount = currentBadgeCount >= 0 ? currentBadgeCount : 0;
+      PushNotification.setApplicationIconBadgeNumber(currentBadgeCount);
+
       return {
         ...state,
         conversations: msgPreviewConversations,
@@ -208,7 +258,7 @@ export default function messages(state = initialState, action) {
           ...state.messages,
           [conversationNewMessageId]: newCreatedMessages,
         },
-        unReadBadgeCount: currentBadgeCount >= 0 ? currentBadgeCount : 0,
+        unReadBadgeCount: currentBadgeCount,
       };
     // Fired from a socket event to new messages
     case MESSAGE_CREATED:
@@ -216,7 +266,7 @@ export default function messages(state = initialState, action) {
       if (!messageCreatedConversationId) {
         return state;
       }
-      
+
       return {
         ...state,
         messages: {
@@ -230,28 +280,31 @@ export default function messages(state = initialState, action) {
       };
     case MARK_READ:
       let currentBadgeCount2 = state.unReadBadgeCount;
-
       const readConversations = state.conversations.map((c) => {
         if (c.id === action.conversationId) {
           currentBadgeCount2 = c.unReadCount > 0 ? currentBadgeCount2 - c.unReadCount : currentBadgeCount2;
-          return { ...c, hasUnread: false, unReadCount: 0 };
+          return {
+            ...c,
+            hasUnread: false,
+            unReadCount: 0,
+            myLatestReadId: action.messageId,
+          };
         }
         return c;
       });
+
+      currentBadgeCount2 = currentBadgeCount2 >= 0 ? currentBadgeCount2 : 0;
+      PushNotification.setApplicationIconBadgeNumber(currentBadgeCount2);
+
       return {
         ...state,
         conversations: readConversations,
-        unReadBadgeCount: currentBadgeCount2 >= 0 ? currentBadgeCount2 : 0,
+        unReadBadgeCount: currentBadgeCount2,
       };
     case SET_ACTIVE_CONVERSATION:
       return {
         ...state,
         activeConversationId: action.id,
-      };
-    case UNREAD_CONV_DOT:
-      return {
-        ...state,
-        unreadConversationDot: action.show,
       };
     case SET_IN_SHARE:
       return {
@@ -259,6 +312,7 @@ export default function messages(state = initialState, action) {
         inShare: action.bool,
       };
     case LOGOUT:
+      PushNotification.setApplicationIconBadgeNumber(0);
       return initialState;
     default:
       return state;

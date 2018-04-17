@@ -35,7 +35,6 @@ export default StyleSheet.create({
     color: COLORS.convert({color: COLORS.WHITE, alpha: 0.6}),
   },
   inputButton: {
-    // width: 40,
     height: 40,
     backgroundColor: COLORS.TRANSPARENT,
   },

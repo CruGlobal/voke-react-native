@@ -79,3 +79,7 @@ To build a version that does not have the ugly black flash on startup for iOS yo
     appDelegate.window.rootViewController = splashVC;
     [appDelegate.window makeKeyAndVisible];
   }`
+
+
+
+For `react-native-push-notifications` and `react-native-google-analytics-bridge`, you must update the `node_modules/{package}/android/build.gradle` file to use `play-services-{service}:12.0.1` (12.0.1 instead of '+')

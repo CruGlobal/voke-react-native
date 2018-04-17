@@ -37,7 +37,7 @@ export default StyleSheet.create({
   arrowImage: Platform.select({
     ios: {
       width: 20,
-      height: 7,
+      height: 10,
     },
     android: {
       width: 24,

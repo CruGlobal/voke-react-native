@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, Alert, TouchableOpacity, Keyboard, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { Alert, TouchableOpacity, Keyboard, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
 import PropTypes from 'prop-types';
@@ -15,6 +15,7 @@ import ApiLoading from '../ApiLoading';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeader from '../../components/SignUpHeader';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
+import theme from '../../theme';
 
 class SignUpNumber extends Component {
   constructor(props) {
@@ -91,7 +92,7 @@ class SignUpNumber extends Component {
     const { selectedCountry, selectedCountryCode, phoneNumber } = this.state;
     return (
       <ScrollView style={styles.container} value={1} keyboardShouldPersistTaps="always" align="center" justify="start">
-        <KeyboardAvoidingView behavior={Platform.OS === 'android' ? undefined : 'padding'}>
+        <KeyboardAvoidingView behavior={theme.isAndroid ? undefined : 'padding'}>
           <SignUpHeaderBack
             onPress={() => {
               if (this.props.hideBack) {

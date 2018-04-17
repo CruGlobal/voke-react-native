@@ -1,6 +1,6 @@
 
 import { StyleSheet } from 'react-native';
-import theme, { COLORS, DEFAULT } from '../../theme';
+import theme from '../../theme';
 import { IS_SMALL_ANDROID } from '../../constants';
 
 export default StyleSheet.create({
@@ -28,7 +28,7 @@ export default StyleSheet.create({
   randomButton: {
     alignItems: 'center',
     backgroundColor: theme.lightBackgroundColor,
-    width: DEFAULT.FULL_WIDTH - 120,
+    width: theme.fullWidth - 120,
     margin: 5,
   },
   randomText: {
@@ -38,7 +38,7 @@ export default StyleSheet.create({
     padding: 30,
   },
   orSeparator: {
-    // width: DEFAULT.FULL_WIDTH - 80,
+    // width: theme.fullWidth - 80,
     // paddingTop: 30,
     borderBottomWidth: 1,
     borderColor: theme.secondaryColor,
@@ -55,13 +55,13 @@ export default StyleSheet.create({
     borderRadius: 20,
     borderWidth: 1,
     borderColor: theme.textColor,
-    width: DEFAULT.FULL_WIDTH - 120,
+    width: theme.fullWidth - 120,
   },
   imageWrap: {
     position: 'absolute',
     right: 0,
     top: IS_SMALL_ANDROID ? 30 : 60,
-    // width: DEFAULT.FULL_WIDTH,
+    // width: theme.fullWidth,
   },
   vokeBot: {
     height: 100,

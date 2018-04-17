@@ -1,16 +1,15 @@
 import RNFetchBlob from 'react-native-fetch-blob';
-import { Linking, Platform, AppState, ToastAndroid, AsyncStorage, Alert } from 'react-native';
-import PushNotification from 'react-native-push-notification';
-// import FilesystemStorage from 'redux-persist-filesystem-storage';
+import { Linking, AppState, ToastAndroid, AsyncStorage, Alert, PushNotificationIOS } from 'react-native';
 
 import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, UPDATE_TOKENS, NO_BACKGROUND_ACTION } from '../constants';
 import callApi, { REQUESTS } from './api';
 import { establishDevice, setupSocketAction, closeSocketAction, destroyDevice, getDevices, checkAndRunSockets } from './socket';
-import { getConversations, getMessages } from './messages';
+import { getConversations, getMessages, createMessageInteraction } from './messages';
 import { API_URL } from '../api/utils';
 import { isArray } from '../utils/common';
 import Orientation from 'react-native-orientation';
 import DeviceInfo from 'react-native-device-info';
+import theme from '../theme';
 
 
 // Setup app state change listeners
@@ -22,9 +21,8 @@ let hasStartedUp = false;
 export function startupAction() {
   return (dispatch, getState) => {
     Orientation.lockToPortrait();
-    PushNotification.setApplicationIconBadgeNumber(0);
     if (hasStartedUp) return;
-    
+
     hasStartedUp = true;
     dispatch(establishDevice());
     if (appStateChangeFn) {
@@ -61,24 +59,75 @@ function appStateChange(dispatch, getState, nextAppState) {
   // LOG('appStateChange', nextAppState, currentAppState, cableId);
   if (nextAppState === 'active') {
     LOG('App has come to the foreground!');
-
-    // Put the ACTIVE actions in a short timeout so they don't run when the app switches quickly
-    const now = Date.now();
-    // const BACKGROUND_REFRESH_TIME = 5 * 60 * 1000; // 5 minutes
-    const BACKGROUND_REFRESH_TIME = 3 * 1000; // 3 seconds
-    if (now - appCloseTime > BACKGROUND_REFRESH_TIME) {
-      dispatch(getConversations());
+    let messages = getState().messages;
+    if (!theme.isAndroid) {
+      PushNotificationIOS.getDeliveredNotifications((results)=> {
+        if (results && results.length > 0) PushNotificationIOS.removeAllDeliveredNotifications();
+        let conversations = getState().messages.conversations;
+        // let messages = getState().messages.messages;
+        let link = results[0] && results[0].userInfo && results[0].userInfo.data && results[0].userInfo.data.link;
+        if (!link) return;
+        const cId = link.substring(link.indexOf('conversations/') + 14, link.indexOf('/messages'));
+        const mId = link.substring(link.indexOf('messages/') + 9, link.length);
+        LOG('conversation ID: ', cId);
+        LOG('message ID:', mId);
+        if (cId && mId) {
+          let conv = conversations.find((c) => cId === c.id);
+          // if the conversation does not exist then call get conversations or if the message does not exist call get conversation
+          if (!conv || (conv.latestMessage && conv.latestMessage.message_id !== mId)) {
+            LOG('get conversations');
+            if (messages.activeConversationId === cId) {
+              dispatch(getMessages(cId)).then(()=> {
+                const interaction = {
+                  action: 'read',
+                  conversationId: cId,
+                  messageId: mId,
+                };
+                dispatch(createMessageInteraction(interaction)).then(()=> {
+                  dispatch(getConversations());
+                });
+              });
+            } else {
+              dispatch(getConversations());
+            }
+          }
+        }
+      });
+    } else {
+      if (messages.activeConversationId) {
+        dispatch(getMessages(messages.activeConversationId)).then(()=> {
+          const message = getState().messages[messages.activeConversationId];
+          const mId = message ? message[0].id : null;
+          if (!mId) {
+            dispatch(getConversations());
+          } else {
+            const interaction = {
+              action: 'read',
+              conversationId: messages.activeConversationId,
+              messageId: mId,
+            };
+            dispatch(createMessageInteraction(interaction)).then(()=> {
+              dispatch(getConversations());
+            });
+          }
+        });
+      } else {
+        dispatch(getConversations());
+      }
     }
-    const currentConvId = getState().messages.activeConversationId;
-    if (currentConvId) {
-      dispatch(getMessages(currentConvId));
-    }
+    // // Put the ACTIVE actions in a short timeout so they don't run when the app switches quickly
+    // const now = Date.now();
+    // // const BACKGROUND_REFRESH_TIME = 5 * 60 * 1000; // 5 minutes
+    // const BACKGROUND_REFRESH_TIME = 3 * 1000; // 3 seconds
+    // if (now - appCloseTime > BACKGROUND_REFRESH_TIME) {
+    //   dispatch(getConversations());
+    // }
+    // const currentConvId = getState().messages.activeConversationId;
+    // if (currentConvId) {
+    //   dispatch(getMessages(currentConvId));
+    // }
 
     dispatch(checkAndRunSockets());
-
-    // Clear out home screen badge when user comes back into the app
-    PushNotification.setApplicationIconBadgeNumber(0);    
-
   } else if (nextAppState === 'background' || nextAppState === 'inactive') {
     LOG('App is going into the background');
 
@@ -191,7 +240,7 @@ export function createAccountAction(email, password) {
 
 export function toastAction(text, length) {
   return () => {
-    if (Platform.OS === 'android') {
+    if (theme.isAndroid) {
       const toastLength = length === 'long' ? ToastAndroid.LONG : ToastAndroid.SHORT;
       ToastAndroid.show(text, toastLength);
     } else {
@@ -354,7 +403,7 @@ export function reportUserAction(report, messenger) {
 
 export function openSettingsAction() {
   return () => {
-    if (Platform.OS === 'ios') {
+    if (!theme.isAndroid) {
       const APP_SETTINGS_URL = 'app-settings:';
       Linking.canOpenURL(APP_SETTINGS_URL).then((isSupported) => {
         if (isSupported) {
@@ -378,7 +427,7 @@ export function setNoBackgroundAction(value) {
 export function clearAndroid() {
   return () => {
     // For Android, clear out the file system storage on logout so it doesn't get cached incorrectly
-    // if (Platform.OS === 'android') {
+    // if (theme.isAndroid) {
     //   FilesystemStorage.getAllKeys((err, keys = []) => {
     //     if (isArray(keys)) {
     //       keys.forEach((k) => FilesystemStorage.removeItem(k, (err) => {
@@ -389,4 +438,3 @@ export function clearAndroid() {
     // }
   };
 }
-

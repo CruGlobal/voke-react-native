@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import theme, {COLORS} from '../../theme';
+import theme, { COLORS } from '../../theme';
 import { Flex } from '../common';
 
 class TabBarIndicator extends Component {

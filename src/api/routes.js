@@ -35,7 +35,7 @@ export default {
   //   (some default query that will merge with the query passed in)
   //   query: {}
   //   (mark the api as a call that will show the loading state)
-  //   showApiLoading: true
+  //   showApiLoading: false
   // },
   'OAUTH': {
     endpoint: AUTH_URL + 'oauth/token',
@@ -76,12 +76,12 @@ export default {
   'GET_ME': {
     endpoint: API_URL + 'me',
     method: 'get',
-    // showApiLoading: true,
+    // showApiLoading: false,
   },
   'UPDATE_ME': {
     endpoint: API_URL + 'me',
     method: 'put',
-    showApiLoading: true,
+    showApiLoading: false,
   },
   'UPDATE_ME_IMAGE': {
     endpoint: API_URL + 'me',
@@ -90,7 +90,7 @@ export default {
     extra: {
       imageUpload: true,
     },
-    showApiLoading: true,
+    showApiLoading: false,
   },
   'CREATE_MOBILE_VERIFICATION': {
     endpoint: API_URL + 'me/mobile',
@@ -129,39 +129,39 @@ export default {
     endpoint: API_URL + 'items',
     method: 'get',
     query: { popularity: true },
-    showApiLoading: true,
+    showApiLoading: false,
   },
   'GET_FEATURED_VIDEOS': {
     endpoint: API_URL + 'items',
     method: 'get',
     query: { featured: true },
-    showApiLoading: true,
+    showApiLoading: false,
   },
   'GET_FAVORITES_VIDEOS': {
     endpoint: API_URL + 'items',
     query: { favorite: '#<Messenger::Favorite:0x007ffd7c4afb60>' },
-    showApiLoading: true,
+    showApiLoading: false,
   },
   'GET_TAGS': {
     endpoint: API_URL + 'tags',
     method: 'get',
-    showApiLoading: true,
+    showApiLoading: false,
   },
   'GET_VIDEOS_BY_TAG': {
     endpoint: API_URL + 'items',
     method: 'get',
-    showApiLoading: true,
+    showApiLoading: false,
   },
   'GET_KICKSTARTERS': {
     endpoint: API_URL + 'items',
     method: 'get',
-    showApiLoading: true,
+    showApiLoading: false,
   },
   'GET_CONVERSATIONS': {
     endpoint: API_URL + 'me/conversations',
     method: 'get',
     mapResults: mapConversations,
-    showApiLoading: true,
+    showApiLoading: false,
   },
   'GET_CONVERSATION': {
     endpoint: API_URL + 'me/conversations',
@@ -171,7 +171,7 @@ export default {
   'DELETE_CONVERSATION': {
     endpoint: API_URL + 'me/conversations/:id',
     method: 'delete',
-    showApiLoading: true,
+    showApiLoading: false,
   },
   'CREATE_CONVERSATION': {
     endpoint: API_URL + 'me/conversations',
@@ -182,7 +182,7 @@ export default {
     endpoint: API_URL + 'me/conversations/conversation_id/messages',
     method: 'get',
     mapResults: mapMessages,
-    showApiLoading: true,
+    showApiLoading: false,
   },
   'CREATE_MESSAGE': {
     endpoint: API_URL + 'me/conversations/conversation_id/messages',
@@ -258,34 +258,34 @@ export default {
     endpoint: API_URL + 'items',
     method: 'get',
     query: { popularity: true },
-    // showApiLoading: true,
+    // showApiLoading: false,
   },
   'GET_FEATURED_ORGANIZATION_VIDEOS': {
     endpoint: API_URL + 'items',
     method: 'get',
     query: { featured: true },
-    // showApiLoading: true,
+    // showApiLoading: false,
   },
   'GET_FAVORITES_ORGANIZATION_VIDEOS': {
     endpoint: API_URL + 'items',
     method: 'get',
-    query: { favorite: '#<Messenger::Favorite:0x007ffd7c4afb60>' },    
-    // showApiLoading: true,
+    query: { favorite: '#<Messenger::Favorite:0x007ffd7c4afb60>' },
+    // showApiLoading: false,
   },
   'GET_ORGANIZATION_VIDEOS_BY_TAG': {
     endpoint: API_URL + 'items',
     method: 'get',
-    // showApiLoading: true,
+    // showApiLoading: false,
   },
   'GET_ORGANIZATION_SUBSCRIBERS': {
     endpoint: API_URL + 'organizations/:orgId/subscriptions',
     method: 'get',
-    showApiLoading: true,
+    showApiLoading: false,
   },
   'GET_ORGANIZATION': {
     endpoint: API_URL + 'organizations/:orgId',
     method: 'get',
-    showApiLoading: true,
+    showApiLoading: false,
   },
   'ORGANIZATION_SUBSCRIBE': {
     endpoint: API_URL + 'organizations/:orgId/subscriptions',

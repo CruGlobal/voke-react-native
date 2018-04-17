@@ -10,6 +10,9 @@ export default StyleSheet.create({
   content: {
     borderBottomColor: COLORS.LIGHT_GREY,
     borderBottomWidth: theme.separatorHeight,
+    ...(theme.isIphoneX ? {
+      paddingBottom: 40,
+    } : {}),
   },
   row: {
     flex: 1,

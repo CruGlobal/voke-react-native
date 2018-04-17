@@ -23,10 +23,10 @@ export default StyleSheet.create({
     fontSize: 16,
     color: theme.darkText,
   },
-  voke: {
-    paddingRight: 10,
-    // fontSize: 18,
-    // color: theme.primaryColor,
+  vokeImage: {
+    alignSelf: 'center',
+    width: 80,
+    height: 18,
   },
   inviteButton: {
     width: 80,

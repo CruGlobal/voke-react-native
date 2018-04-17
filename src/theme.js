@@ -23,11 +23,6 @@ function colorConvert({ color, alpha, lighten, darken, negate, rotate, whiten, b
   return col.rgb().toString();
 }
 
-export const DEFAULT = {
-  FULL_WIDTH: deviceWidth,
-  FULL_HEIGHT: deviceHeight,
-};
-
 export const COLORS = {
   BLUE: '#44c8e8',
   PRIMARY_FADE: 'rgba(68, 200, 232, 0.3)',
@@ -69,6 +64,7 @@ export default {
   backgroundColor: PRIMARY,
   lightBackgroundColor: COLORS.WHITE,
   darkBackgroundColor: COLORS.BLACK,
+  white: COLORS.WHITE,
   textColor: COLORS.WHITE,
   lightText: COLORS.WHITE,
   darkText: COLORS.CHARCOAL,
@@ -94,4 +90,5 @@ export default {
   fullHeight: deviceHeight,
   isAndroid: Platform.OS === 'android',
   isIOS: Platform.OS === 'ios',
+  isIphoneX: Platform.OS === 'ios' && !Platform.isPad && !Platform.isTVOS && (deviceHeight === 812 || deviceWidth === 812),
 };

@@ -10,7 +10,7 @@ import { navigatePush, navigateResetMessage, navigateResetHome, navigateResetTo 
 import callApi, { REQUESTS } from './api';
 import CONSTANTS from '../constants';
 import { isEquivalentObject, isString } from '../utils/common';
-
+import theme from '../theme';
 // Push notification Android error
 // https://github.com/zo0r/react-native-push-notification/issues/495
 
@@ -200,20 +200,22 @@ export function handleNotifications(state, notification) {
     // Get the namespace and link differently for ios and android
     let namespace;
     let link;
-    if (Platform.OS === 'ios') {
+    if (!theme.isAndroid) {
+      // iOS
       if (data && data.data && data.data.namespace) {
         namespace = data.data.namespace;
         link = data.data.link;
       }
-    } else if (Platform.OS === 'android') {
-      if (data && data.namespace) {
-        namespace = data.namespace;
-        if (data.link) {
-          link = data.link;
-        } else if (data.notification && data.notification.click_action) {
-          link = data.notification.click_action;
+    } else {
+      // Android
+      if (notification && notification.namespace) {
+        namespace = notification.namespace;
+        if (notification.link) {
+          link = notification.link;
+        } else if (notification.notification && notification.notification.click_action) {
+          link = notification.notification.click_action;
         }
-      } else if (notification.message && notification.message.indexOf('{') === 0) {
+      } else if (notification.message_object && notification.message_object.indexOf('{') === 0) {
         data = JSON.parse(notification.message);
         if (data) {
           data = data.notification;
@@ -262,7 +264,7 @@ export function handleNotifications(state, notification) {
     }
     if (state === 'background') {
       const unReadBadgeCount = getState().messages.unReadBadgeCount;
-      
+
       PushNotification.setApplicationIconBadgeNumber(unReadBadgeCount + 1);
 
       LOG('Background notification', data);
@@ -274,14 +276,28 @@ export function handleNotifications(state, notification) {
       if (namespace && link && namespace.includes('messenger:conversation:message')) {
         const cId = link.substring(link.indexOf('conversations/') + 14, link.indexOf('/messages'));
         if (!cId) return;
-        dispatch(getConversation(cId)).then((results) => {
-          if (!results || !results.conversation ) {
-            return;
-          }
+
+        // Check if conversation exists, just use it, otherwise get it
+        const conversationExists = getState().messages.conversations.find((c) => c.id === cId);
+        if (conversationExists) {
           dispatch(navigateResetMessage({
-            conversation: results.conversation,
+            conversation: conversationExists,
+            forceUpdate: true,
           }));
-        });
+        } else {
+          dispatch(getConversation(cId)).then((results) => {
+            if (!results || !results.conversation ) {
+              return;
+            }
+            dispatch(navigateResetMessage({
+              conversation: results.conversation,
+              forceUpdate: true,
+            }));
+          });
+        }
+
+
+
       }
     //   // NotificationsIOS.removeAllDeliveredNotifications();
     // } else {
@@ -295,16 +311,17 @@ export function handleNotifications(state, notification) {
 export function establishDevice() {
   return (dispatch, getState) => {
 
-    // LOG('hjere');
+    console.log('hjere');
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
-      onRegister: function(token) {
+      onRegister(token) {
         LOG('in push notification register');
         dispatch(gotDeviceToken(token.token));
       },
       // (required) Called when a remote or local notification is opened or received
-      onNotification: function(notification) {
-        LOG('onNotification came in', notification);
+      onNotification(notification) {
+        console.log('onNotification came in', notification);
+        console.log('here');
         let state;
         if (notification && notification.foreground && !notification.userInteraction) {
           state = 'foreground';
@@ -415,7 +432,7 @@ export function establishPushDevice() {
         device: {
           ...currentDeviceInfo,
           key: auth.pushToken,
-          kind: Platform.OS === 'android' ? 'android_react' : 'apple',
+          kind: theme.isAndroid ? 'android_react' : 'apple',
         },
       };
       return dispatch(callApi(REQUESTS.CREATE_PUSH_DEVICE, {}, data)).then((results) => {

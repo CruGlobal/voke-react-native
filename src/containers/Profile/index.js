@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, Image, TextInput, KeyboardAvoidingView, ScrollView, View, Alert, BackHandler } from 'react-native';
+import { Image, TextInput, ScrollView, View, Alert, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';
@@ -48,7 +48,7 @@ class Profile extends Component {
     this.props.dispatch(getMe());
     BackHandler.addEventListener('hardwareBackPress', this.backHandler);
   }
-  
+
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.backHandler);
   }
@@ -160,7 +160,7 @@ class Profile extends Component {
     return (
       <ImagePicker onSelectImage={this.handleImageChange}>
         <Flex align="center" justify="center" style={styles.imageSelect}>
-          <Image source={image} style={styles.image} />
+          <Image resizeMode="cover" source={image} style={styles.image} />
         </Flex>
       </ImagePicker>
     );
@@ -357,11 +357,7 @@ class Profile extends Component {
     const { user } = this.props;
 
     return (
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS === 'android' ? undefined : 'padding'}
-        keyboardVerticalOffset={Platform.OS === 'android' ? undefined : 50}
-      >
+      <View style={styles.container}>
         <Header
           leftBack={true}
           title="Profile"
@@ -461,7 +457,7 @@ class Profile extends Component {
           </Flex>
         </Flex>
         <ApiLoading />
-      </KeyboardAvoidingView>
+      </View>
     );
   }
 }

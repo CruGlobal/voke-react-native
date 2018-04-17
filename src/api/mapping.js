@@ -50,6 +50,7 @@ export function mapConversations(results, query, data, getState) {
   return {
     conversations,
     _links: results._links,
+    _meta: results._meta,
   };
 }
 
@@ -67,19 +68,22 @@ function formatConversation(c, getState) {
   // Sort the messengers by putting the most recent messenger first
   const messengers = c.messengers.map((m) => {
     let latestTime;
+    let latestMsgOrItem;
 
     // Set the latest time for each messenger from the most recent message
     if (m.latest_message && m.latest_message.created_at) {
       latestTime = m.latest_message.created_at;
+      latestMsgOrItem = m.latest_message;
     }
 
     // If there is not a latestTime already set, set it with the item updated_at time
     if (!latestTime && m.latest_item && m.latest_item.updated_at) {
       latestTime = m.latest_item.updated_at;
+      latestMsgOrItem = m.latest_item;
     }
 
     if (latestTime) {
-      return { ...m, latestTime };
+      return { ...m, latestTime, latestMsgOrItem };
     }
     return m;
   });
@@ -101,35 +105,48 @@ function formatConversation(c, getState) {
   // This adds the 'messagePreview' field as a text field onto each conversation
   const latestMessenger = messengers[0];
   if (latestMessenger) {
-    let messagePreview = latestMessenger.latest_message ? latestMessenger.latest_message.content : null;
-    if (latestMessenger.latest_message && !latestMessenger.latest_message.content) {
-      if (latestMessenger.latest_item.name) {
-        messagePreview= latestMessenger.latest_item.name;
-      } else {
-        messagePreview = 'Shared a video';
-      }
+    const latestMsgOrItem = latestMessenger.latestMsgOrItem;
+    if (latestMsgOrItem) {
+      c.messagePreview = latestMsgOrItem.content || latestMsgOrItem.name || 'Shared a video';
+      c.latestMessage = {
+        message_id: latestMsgOrItem.message_id || latestMsgOrItem.id,
+      };
+    } else {
+      c.messagePreview = null;
+      c.latestMessage = {
+        message_id: null,
+      };
     }
-    if (!messagePreview) {
-      messagePreview = latestMessenger.latest_item ? latestMessenger.latest_item.name : null;
-    }
-    c.messagePreview = messagePreview;
   }
 
   const myMessage = messengers.find((e) => e.id === myId);
+  c.myLatestReadId = myMessage && myMessage.latest_read && myMessage.latest_read.message_id;
 
   c.messengers = messengers;
 
-  c.hasUnread = false;
-  if (myMessage && myMessage.latest_read && myMessage.latest_read.message_id) {
-    if (myMessage.latest_read.message_id !== latestMessenger.latest_message.id) {
-      c.hasUnread = true;
-      c.unReadCount = 1;
-    }
-  }
+  c.hasUnread = c.unread_messages > 0;
+  c.unReadCount = c.unread_messages || 0;
+  // if (c.messengers.length === 2) {
+  //   c.hasUnread = false;
+  //   c.unReadCount = 0;
+  // } else if (myMessage && myMessage.latest_read && myMessage.latest_read.message_id) {
+  //   if (myMessage.latest_read.message_id !== latestMessenger.latest_message.id) {
+  //     c.hasUnread = true;
+  //     c.unReadCount = 1;
+  //   }
+  // }
+  // Check my message against the latest message sent
+  // if (myMessage && myMessage.latest_read && myMessage.latest_read.message_id) {
+  //   if (myMessage.latest_read.message_id !== latestMessenger.latest_message.id) {
+  //     c.hasUnread = true;
+  //     c.unReadCount = 1;
+  //   }
+  // }
   // This determines if the conversation has unread messages or not
-  if (latestMessenger.id === myId) {
-    c.hasUnread = false;
-  }
+  // if (latestMessenger.id === myId) {
+  //   c.hasUnread = false;
+  //   c.unReadCount = 0;
+  // }
 
   // c.timeReceived = Date.now();
 

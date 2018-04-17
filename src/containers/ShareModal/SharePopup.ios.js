@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Image } from 'react-native';
 import PropTypes from 'prop-types';
 
-import {COLORS, DEFAULT} from '../../theme';
+import theme, { COLORS } from '../../theme';
 import MESSAGES from '../../../images/icon-messages.png';
 import WHATSAPP from '../../../images/icon-whatsapp.png';
 import MAIL from '../../../images/icon-mail.png';
@@ -17,7 +17,7 @@ class SharePopup extends Component {
     return (
       <Flex align="center" justify="center" style={styles.container}>
         <Flex direction="column" align="center" justify="center" style={styles.modal} animation="slideInUp" duration={500}>
-          <Flex direction="row" value={1} style={{borderColor: COLORS.LIGHT_GREY, borderBottomWidth: 1, width: DEFAULT.FULL_WIDTH}} align="center" justify="center">
+          <Flex direction="row" value={1} style={{borderColor: COLORS.LIGHT_GREY, borderBottomWidth: 1, width: theme.fullWidth}} align="center" justify="center">
             <Touchable onPress={() => this.props.onShare('message')} >
               <Flex align="center" style={styles.shareAction} >
                 <Flex style={styles.iconWrap}>

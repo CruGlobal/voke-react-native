@@ -1,5 +1,4 @@
-import { Platform } from 'react-native';
-import { DEFAULT } from './theme';
+import theme from './theme';
 
 
 export const LOGIN = 'app/LOGIN';
@@ -11,7 +10,6 @@ export const SET_CONTACTS_LOADING = 'app/SET_CONTACTS_LOADING';
 export const NEW_MESSAGE = 'app/NEW_MESSAGE';
 export const TYPE_STATE_CHANGE = 'app/TYPE_STATE_CHANGE';
 export const MARK_READ = 'app/MARK_READ';
-export const UNREAD_CONV_DOT = 'app/UNREAD_CONV_DOT';
 export const SET_PUSH_TOKEN = 'app/SET_PUSH_TOKEN';
 export const UPDATE_TOKENS = 'app/UPDATE_TOKENS';
 export const TAB_SELECTED = 'app/TAB_SELECTED';
@@ -25,7 +23,8 @@ export const SHOW_SHARE_MODAL = 'app/SHOW_SHARE_MODAL';
 export const MESSAGE_CREATED = 'app/MESSAGE_CREATED';
 export const CLEAR_CHANNEL_VIDEOS = 'app/CLEAR_CHANNEL_VIDEOS';
 
-export const IS_SMALL_ANDROID = Platform.OS === 'android' && DEFAULT.FULL_HEIGHT < 600;
+export const IS_SMALL_ANDROID = theme.isAndroid && theme.fullHeight < 600;
+// export const IS_SMALL_ANDROID = true;
 
 const IS_STAGING = false;
 
@@ -44,7 +43,7 @@ const ANDROID_APP_ID = 'org.cru.voke';
 
 export default {
   IS_STAGING,
-  IS_ANDROID: Platform.OS === 'android',
+  IS_ANDROID: theme.isAndroid,
 
   EMAIL_REGEX: new RegExp(/^\w+([.+-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/),
   GA_TRACKER: 'UA-39188989-7', // Google Analytics
@@ -56,6 +55,8 @@ export default {
   // FACEBOOK_SCOPE: ['public_profile'],
 
   PAGE_SIZE: 25, // This is the default page size from the API
+  CONVERSATIONS_PAGE_SIZE: 12,
+  
   CONTACT_CHUNKS: 500, // How many contacts to send up per upload request
   REFRESH_CONTACTS_TIME: 30 * 24 * 60 * 60 * 1000, // 5 days
   // // REFRESH_CONTACTS_TIME: 30 * 60 * 1000, // 30 minutes
@@ -72,6 +73,7 @@ export default {
   // FB_ID: '443564615845137',
 
   WEB_URLS: {
+    INSTAGRAM: 'https://instagram.com/_u/vokeapp',
     VOKE: 'https://www.vokeapp.com',
     HELP: 'https://help.vokeapp.com/',
     FAQ: 'https://www.vokeapp.com/faq',

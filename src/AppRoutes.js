@@ -38,7 +38,7 @@ import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/Car
 const verticalPages = ['voke.Menu', 'voke.VideoDetails', 'voke.CountrySelect'];
 const customAnimationFunc = () => ({
   screenInterpolator: (sceneProps) => {
-    
+
     const from = sceneProps.scenes[0];
     const to = sceneProps.scenes[1];
     const current = sceneProps.scene.route.routeName;
@@ -101,7 +101,7 @@ export const MainTabRoutes = TabNavigator({
     activeTintColor: theme.lightText,
     inactiveTintColor: theme.primaryColor,
     // ios props
-    activeBackgroundColor: theme.convert({ color: theme.secondaryColor, lighten: 0.1 }),
+    // activeBackgroundColor: theme.convert({ color: theme.secondaryColor, lighten: 0.1 }),
     inactiveBackgroundColor: theme.secondaryColor,
     // android props
     iconStyle: { width: 60 },
@@ -157,6 +157,7 @@ export const MainStackRoutes = StackNavigator({
     ...noGestures,
   },
 }, {
+  initialRouteName: 'MainTabs',
   transitionConfig: customAnimationFunc,
   navigationOptions: {
     header: null,

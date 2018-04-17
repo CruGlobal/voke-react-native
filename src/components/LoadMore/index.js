@@ -21,8 +21,6 @@ class LoadMore extends Component {
 
 const styles = StyleSheet.create({
   wrapper: {
-    // Need to invert this because the list view is inverted
-    transform: [{ scaleY: -1 }],
     marginBottom: 10,
     alignSelf: 'center',
     alignItems: 'center',

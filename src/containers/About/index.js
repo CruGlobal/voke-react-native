@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { Linking, Platform, View } from 'react-native';
+import { Linking, View } from 'react-native';
 import { connect } from 'react-redux';
 import DeviceInfo from 'react-native-device-info';
 
 import nav, { NavPropTypes } from '../../actions/nav';
 import Analytics from '../../utils/analytics';
 
-import { vokeIcons } from '../../utils/iconMap';
 import SettingsList from '../../components/SettingsList';
 import Button from '../../components/Button';
 import CONSTANTS from '../../constants';
 import Header from '../Header';
+import theme from '../../theme';
 
 const VERSION_BUILD = DeviceInfo.getReadableVersion();
 
@@ -35,7 +35,7 @@ class About extends Component {
       <View style={{ flex: 1 }}>
         <Header
           right={
-            CONSTANTS.IS_ANDROID ? undefined : (
+            theme.isAndroid ? undefined : (
               <Button
                 type="transparent"
                 text="Done"

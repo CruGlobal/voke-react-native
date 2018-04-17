@@ -16,6 +16,8 @@ class ContactItem extends Component { // eslint-disable-line
     // Get the url for the voke image if it is a voke contact
     const isVokeFromInvite = item.isVoke && isInvite;
     const vokeImage = item.isVoke && item.vokeDetails && item.vokeDetails.avatar && item.vokeDetails.avatar ? item.vokeDetails.avatar.medium : null;
+
+    
     return (
       <Flex direction="row" align="center" style={isVokeFromInvite ? [styles.row, styles.disabled] : styles.row}>
         {
@@ -36,7 +38,7 @@ class ContactItem extends Component { // eslint-disable-line
         <Text numberOfLines={2} style={styles.name}>{item.name}</Text>
         {
           item.isVoke ? (
-            <Image source={VOKE_ICON} style={styles.voke} />
+            <Image resizeMode="contain" source={VOKE_ICON} style={styles.vokeImage} />
           ) : null
         }
         {

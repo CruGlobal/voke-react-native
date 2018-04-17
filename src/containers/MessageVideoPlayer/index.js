@@ -16,13 +16,13 @@ const INTERACTION_STATES = [webviewStates.STARTED, webviewStates.PAUSED, webview
 
 class MessageVideoPlayer extends Component {
 
-  constructor(props) {
-    super(props);
-
-    this.handleVideoChange = this.handleVideoChange.bind(this);
+  pause = () => {
+    if (this.webview && this.webview.pause) {
+      this.webview.pause();
+    }
   }
 
-  handleVideoChange(videoState) {
+  handleVideoChange = (videoState) => {
     const { message, dispatch, isMyMessage } = this.props;
     let interaction = {
       conversationId: message.conversation_id,
@@ -49,10 +49,12 @@ class MessageVideoPlayer extends Component {
     return (
       <Flex animation="slideInUp" duration={500} style={styles.video}>
         <WebviewVideo
+          ref={(c) => this.webview = c}
           type={videoType}
           url={videoMedia.url}
           start={video.media_start || 0}
           onChangeState={this.handleVideoChange}
+          isLandscape={false}
         />
         <View style={styles.backHeader}>
           <Touchable borderless={true} onPress={onClose}>
@@ -76,4 +78,4 @@ const mapStateToProps = ({ auth }, { message }) => ({
   isMyMessage: message && message.messenger_id && auth.user.id && message.messenger_id === auth.user.id,
 });
 
-export default connect(mapStateToProps)(MessageVideoPlayer);
+export default connect(mapStateToProps, undefined, undefined, { withRef: true })(MessageVideoPlayer);

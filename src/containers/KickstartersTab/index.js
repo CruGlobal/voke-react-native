@@ -49,17 +49,10 @@ class KickstartersTab extends Component {
   renderRow(item) {
     return (
       <Touchable highlight={false} activeOpacity={0.8} onPress={() => this.props.onSelectKickstarter(item.content)} key={item.id}>
-        <Flex
-          direction="column"
-          align="start"
-          justify="center"
-          animation="slideInUp"
-        >
-          <Flex direction="column" align="start" justify="start" style={styles.kickstarterWrap}>
-            <Text style={styles.kickstarterText}>
-              {item.content}
-            </Text>
-          </Flex>
+        <Flex direction="column" align="start" justify="center" style={styles.kickstarterWrap}>
+          <Text style={styles.kickstarterText}>
+            {item.content}
+          </Text>
         </Flex>
       </Touchable>
     );
@@ -103,7 +96,7 @@ class KickstartersTab extends Component {
           contentContainerStyle={!hasKickstarters ? { flex: 1 } : undefined}
         >
           {this.renderHeader()}
-          <Flex value={1} align="center" justify="center" style={styles.content}>
+          <Flex value={1} align="center" justify="center" style={styles.content} animation="slideInUp">
             {content}
           </Flex>
           <ApiLoading />

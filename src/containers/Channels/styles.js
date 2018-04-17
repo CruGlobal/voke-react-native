@@ -1,6 +1,6 @@
 
 import { StyleSheet } from 'react-native';
-import theme, {DEFAULT} from '../../theme';
+import theme from '../../theme';
 
 export default StyleSheet.create({
   container: {
@@ -16,6 +16,6 @@ export default StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: theme.accentColor,
     padding: 10,
-    width: DEFAULT.FULL_WIDTH,
+    width: theme.fullWidth,
   },
 });

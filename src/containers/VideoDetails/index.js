@@ -18,8 +18,9 @@ import webviewStates from '../../components/WebviewVideo/common';
 import FloatingButtonSingle from '../../components/FloatingButtonSingle';
 import { VokeIcon, Flex, Touchable, Text, Button } from '../../components/common';
 import { exists } from '../../utils/common';
+import theme from '../../theme';
 
-const isOlderAndroid = Platform.OS === 'android' && Platform.Version < 23;
+const isOlderAndroid = theme.isAndroid && Platform.Version < 23;
 
 
 class VideoDetails extends Component {
@@ -29,7 +30,7 @@ class VideoDetails extends Component {
     this.state = {
       isLandscape: false,
       showVideo: false,
-      video: null,
+      // video: null,
       isFavorite: props.video ? props.video['favorite?'] : false,
     };
 
@@ -59,7 +60,7 @@ class VideoDetails extends Component {
     Orientation.addOrientationListener(this.orientationDidChange);
 
     // Android is having issues with the orientation stuff, use this workaround
-    if (Platform.OS === 'android') {
+    if (theme.isAndroid) {
       Dimensions.addEventListener('change', ({ window: { width, height } }) => {
         const orientation = width > height ? 'LANDSCAPE' : 'PORTRAIT';
         this.orientationDidChange(orientation);
@@ -68,14 +69,14 @@ class VideoDetails extends Component {
 
     // TODO: When coming back to this page, toggle the orientation
 
-    this.props.dispatch(getVideo(this.props.video.id)).then((results) => {
-      if (results && exists(results['favorite?'])) {
-        this.setState({ isFavorite: results['favorite?'] });
-      }
-      if (results) {
-        this.setState({ video: results });
-      }
-    });
+    // this.props.dispatch(getVideo(this.props.video.id)).then((results) => {
+    //   if (results && exists(results['favorite?'])) {
+    //     this.setState({ isFavorite: results['favorite?'] });
+    //   }
+    //   if (results) {
+    //     this.setState({ video: results });
+    //   }
+    // });
 
     setTimeout(() => {
       this.setState({ showVideo: true }, () => {
@@ -121,21 +122,24 @@ class VideoDetails extends Component {
   }
 
   handleFavorite() {
+    const { video, dispatch, onUpdateVideos } = this.props;
     if (this.state.isFavorite) {
-      this.props.dispatch(unfavoriteVideo(this.props.video.id)).then(() => {
-        this.setState({ isFavorite: false });
-        this.props.onRefresh && this.props.onRefresh();
+      // Optimistic updates
+      this.setState({ isFavorite: false });
+      dispatch(unfavoriteVideo(video.id)).then(() => {
+        onUpdateVideos && onUpdateVideos(video.id, false);
       });
     } else {
-      this.props.dispatch(favoriteVideo(this.props.video.id)).then(() => {
-        this.setState({ isFavorite: true });
-        this.props.onRefresh && this.props.onRefresh();
+      this.setState({ isFavorite: true });
+      dispatch(favoriteVideo(video.id)).then(() => {
+        onUpdateVideos && onUpdateVideos(video.id, true);
       });
     }
   }
 
   renderContent() {
-    const video = this.state.video || this.props.video || {};
+    // const video = this.state.video || this.props.video || {};
+    const video = this.props.video || {};
     const isFavorite = this.state.isFavorite;
 
     return (
@@ -179,17 +183,18 @@ class VideoDetails extends Component {
   }
 
   render() {
-    const video = this.state.video || this.props.video || {};
+    // const video = this.state.video || this.props.video || {};
+    const video = this.props.video || {};
     const videoMedia = video.media || {};
     const videoType = videoMedia.type;
 
     // Set the loading state duration for different video types
-    let loadDuration = 2000;
-    if (videoType === 'arclight') {
-      loadDuration = 3000; // Longer loading state for arclight videos
-    } else if (videoType === 'vimeo' && isOlderAndroid) {
-      loadDuration = 3500; // Longer for older android devices and vimeo
-    }
+    // let loadDuration = 2000;
+    // if (videoType === 'arclight') {
+    //   loadDuration = 3000; // Longer loading state for arclight videos
+    // } else if (videoType === 'vimeo' && isOlderAndroid) {
+    //   loadDuration = 3500; // Longer for older android devices and vimeo
+    // }
 
     // LOG('landscape mode', this.state.isLandscape);
 
@@ -259,7 +264,7 @@ class VideoDetails extends Component {
             }
           }}
         />
-        <ApiLoading text="Loading Video" showMS={loadDuration} />
+        {/* <ApiLoading text="Loading Video" showMS={loadDuration} /> */}
       </View>
     );
   }
@@ -269,7 +274,7 @@ VideoDetails.propTypes = {
   ...NavPropTypes,
   video: PropTypes.object,
   onSelectVideo: PropTypes.func,
-  onRefresh: PropTypes.func,
+  onUpdateVideos: PropTypes.func,
   conversation: PropTypes.object,
 };
 

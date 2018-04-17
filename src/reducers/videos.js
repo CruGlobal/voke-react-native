@@ -43,9 +43,9 @@ function getChannelVideos(state, action, type) {
   let channelVideos = [];
   if (state.pagination.channel.type === type) {
     if (action.query.page && action.query.page > 1) {
-      if (type === 'popular' && action.query.popularity) {
+      if (type === 'popular') {
         channelVideos = state.channelVideos;
-      } else if (type === 'featured' && action.query.featured) {
+      } else if (type === 'featured') {
         channelVideos = state.channelVideos;
       } else if (type === 'all' && !action.query.featured && !action.query.popularity) {
         channelVideos = state.channelVideos;
@@ -56,6 +56,10 @@ function getChannelVideos(state, action, type) {
   }
   channelVideos = channelVideos.concat(action.items || []);
   return channelVideos;
+}
+
+function updateVideo(videos, videoId, mergeData = {}) {
+  return videos.map((v) => v.id === videoId ? { ...v, ...mergeData } : v);
 }
 
 export default function videos(state = initialState, action) {
@@ -262,6 +266,19 @@ export default function videos(state = initialState, action) {
           ...state.pagination,
           channel: channelPaginationTheme,
         },
+      };
+    case REQUESTS.FAVORITE_VIDEO.SUCCESS:
+    case REQUESTS.UNFAVORITE_VIDEO.SUCCESS:
+      const favData = { 'favorite?': action.type === REQUESTS.FAVORITE_VIDEO.SUCCESS ? true : false };
+      const favVideoId = action.item_id;
+      return {
+        ...state,
+        all: updateVideo(state.all, favVideoId, favData),
+        featured: updateVideo(state.featured, favVideoId, favData),
+        popular: updateVideo(state.popular, favVideoId, favData),
+        favorites: updateVideo(state.favorites, favVideoId, favData),
+        selectedThemeVideos: updateVideo(state.selectedThemeVideos, favVideoId, favData),
+        channelVideos: updateVideo(state.channelVideos, favVideoId, favData),
       };
     case CLEAR_CHANNEL_VIDEOS:
       return {

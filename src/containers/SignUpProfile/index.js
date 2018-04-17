@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, Image, ScrollView, Keyboard, KeyboardAvoidingView, Alert } from 'react-native';
+import { Image, ScrollView, Keyboard, KeyboardAvoidingView, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -14,6 +14,7 @@ import { Flex, Icon, Button } from '../../components/common';
 import SignUpHeader from '../../components/SignUpHeader';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
+import theme from '../../theme';
 
 class SignUpProfile extends Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class SignUpProfile extends Component {
       lastName: '',
       disableNext: false,
       isLoading: false,
+      disableSecondClick: false,
     };
 
     this.renderImagePicker = this.renderImagePicker.bind(this);
@@ -56,6 +58,7 @@ class SignUpProfile extends Component {
   addProfile() {
     const { firstName, lastName } = this.state;
     if (firstName && lastName) {
+      if (this.state.disableSecondClick) { return; }
       this.setState({ disableNext: true, isLoading: true });
       const data = {
         me: {
@@ -67,8 +70,10 @@ class SignUpProfile extends Component {
         if (this.state.imageUri) {
           this.uploadImage(this.state.imageUri);
         }
-        this.setState({ disableNext: false, isLoading: false });
+        this.setState({ disableNext: false, disableSecondClick: true, isLoading: false });
         this.props.navigatePush('voke.SignUpNumber');
+        // Enable the second click after a second
+        setTimeout(() => this.setState({ disableSecondClick: false }), 1000);
       }).catch(() => {
         this.setState({ disableNext: false, isLoading: false });
       });
@@ -100,7 +105,7 @@ class SignUpProfile extends Component {
   render() {
     return (
       <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
-        <KeyboardAvoidingView behavior={Platform.OS === 'android' ? undefined : 'padding'}>
+        <KeyboardAvoidingView behavior={theme.isAndroid ? undefined : 'padding'}>
           {
             // hideBack just means that we're resetting to this page because the
             // user has to fill in more info before they can continue

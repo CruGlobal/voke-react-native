@@ -9,7 +9,7 @@ import SettingsList from '../../components/SettingsList';
 import Button from '../../components/Button';
 import CONSTANTS from '../../constants';
 import Header from '../Header';
-
+import theme from '../../theme';
 
 const EMAIL = ['support@vokeapp.com'];
 const REPORT_TITLE = 'I would like to report a user';
@@ -49,7 +49,7 @@ class Help extends Component {
       <View style={{ flex: 1 }}>
         <Header
           right={
-            CONSTANTS.IS_ANDROID ? undefined : (
+            theme.isAndroid ? undefined : (
               <Button
                 type="transparent"
                 text="Done"

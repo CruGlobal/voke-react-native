@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, TextInput, KeyboardAvoidingView, Platform, Keyboard, BackHandler } from 'react-native';
+import { View, TextInput, KeyboardAvoidingView, Keyboard, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 
 import { checkAndRunSockets } from '../../actions/socket';
-import { getMessages, createMessage, createTypeStateAction, destroyTypeStateAction, createMessageInteraction, markReadAction, getConversation } from '../../actions/messages';
+import { getMessages, createMessage, createTypeStateAction, destroyTypeStateAction, createMessageInteraction, markReadAction } from '../../actions/messages';
 import Analytics from '../../utils/analytics';
 
 import theme, { COLORS } from '../../theme';
@@ -19,7 +19,7 @@ import Header, { HeaderIcon } from '../Header';
 
 import { Flex, VokeIcon, Button, Touchable } from '../../components/common';
 import MessagesList from '../../components/MessagesList';
-import CONSTANTS, { UNREAD_CONV_DOT } from '../../constants';
+import CONSTANTS from '../../constants';
 
 // <ShareButton message="Share this with you" title="Hey!" url="https://www.facebook.com" />
 
@@ -35,7 +35,7 @@ class Message extends Component {
       latestItem: null,
       shouldShowButtons: true,
       createTransparentFocus: false,
-      showDot: false,
+      showDot: props.unReadBadgeCount > 0,
       title: 'Voke',
     };
 
@@ -64,6 +64,8 @@ class Message extends Component {
     setTimeout(() => {
       this.props.dispatch(checkAndRunSockets());
       this.getMessages();
+      this.createMessageReadInteraction(this.props.messages[0]);
+      this.setLatestItem();
     }, 50);
 
     BackHandler.addEventListener('hardwareBackPress', this.backHandler);
@@ -73,30 +75,25 @@ class Message extends Component {
     // Check to see if the current length is less than the next length and mark it as read
     const nLength = nextProps.messages.length;
     const cLength = this.props.messages.length;
+
+    // if the messages are already at 25 then the lengths are not different and read interaction doesnt run
+    // therefore, check if Ids are the same or not
     this.setLatestItem(nextProps.messages);
-    if (nLength > 0 && cLength > 0 && cLength < nLength) {
-      this.createMessageReadInteraction();
+    if ((nLength > 0 && cLength > 0 && cLength < nLength) || (!this.props.messages[0] && nextProps.messages[0]) || (this.props.messages[0] && nextProps.messages[0] && this.props.messages[0].id !== nextProps.messages[0].id)) {
+      this.createMessageReadInteraction(nextProps.messages[0]);
     }
 
-    if ((nextProps.showUnreadDot && !this.props.showUnreadDot) || (Platform.OS === 'ios' && nextProps.unReadBadgeCount > 0)) {
-      clearTimeout(this.timeoutSetYellow);
-      this.timeoutSetYellow = setTimeout(() => {
-        LOG('inTimeout');
+    if (!theme.isAndroid) {
+      if (nextProps.unReadBadgeCount > 0) {
         this.setState({ showDot: true });
-      }, 1500);
-    }
-    // Reset the yellow badge indicator when the unread count goes away
-    if (Platform.OS === 'ios' && nextProps.unReadBadgeCount === 0 && this.props.unReadBadgeCount > 0) {
-      clearTimeout(this.timeoutSetYellow);
-      this.timeoutSetYellow = setTimeout(() => {
-        LOG('remove dot');
+      } else if (nextProps.unReadBadgeCount === 0 && this.props.unReadBadgeCount > 0) {
         this.setState({ showDot: false });
-      }, 500);
+      }
     }
+
   }
 
   componentWillUnmount() {
-    clearTimeout(this.timeoutSetYellow);
     BackHandler.removeEventListener('hardwareBackPress', this.backHandler);
     this.props.dispatch({ type: SET_ACTIVE_CONVERSATION, id: null });
   }
@@ -122,7 +119,7 @@ class Message extends Component {
   }
 
   setLatestItem(conversationMessages) {
-    const messages = conversationMessages ? conversationMessages : this.props.messages ? this.props.messages : [];
+    const messages = conversationMessages ? this.props.messages : [];
     const item = messages.find((m) => m.item);
     if (item && item.item && item.messenger_id === this.props.me.id) {
       this.setState({ latestItem: item.item.id });
@@ -131,18 +128,38 @@ class Message extends Component {
 
   handleLoadMore() {
     if (this.props.pagination.hasMore) {
-      // LOG('loading more messages');
+      // Loading more messages
       this.getMessages(this.props.pagination.page + 1);
     }
   }
 
   getMessages(page) {
+    if (!page && !this.props.forceUpdate && !this.props.getConversationsIsRunning) {
+      const { conversation, messages } = this.props;
+      const latestMessage = messages[0];
+      // Only prevent the messages API call when the number of messages is >= the total messages page size
+      if (messages.length >= CONSTANTS.PAGE_SIZE) {
+        if (latestMessage && conversation.latestMessage && conversation.latestMessage.message_id === latestMessage.id) {
+          LOG('positions are the same, dont call getMessages');
+          return;
+        }
+      }
+    }
     this.props.dispatch(getMessages(this.props.conversation.id, page)).then(() => {
-      this.createMessageReadInteraction();
+      this.createMessageReadInteraction(this.props.messages[0]);
     });
   }
 
+  pauseVideo() {
+    if (this.state.selectedVideo && this.videoPlayer) {
+      // Get the redux instance and call the pause method
+      this.videoPlayer.getWrappedInstance().pause();
+    }
+  }
+
   handleAddKickstarter() {
+    // Pause the video before navigating away
+    this.pauseVideo();
     this.props.navigatePush('voke.KickstartersTab', {
       onSelectKickstarter: (item) => {
         this.props.navigateBack();
@@ -153,6 +170,8 @@ class Message extends Component {
   }
 
   handleAddVideo() {
+    // Pause the video before navigating away
+    this.pauseVideo();
     this.props.navigatePush('voke.VideosTab', {
       onSelectVideo: (video) => {
         this.createMessage(video);
@@ -197,14 +216,26 @@ class Message extends Component {
     // LOG('destroy typestate');
   }
 
-  createMessageReadInteraction() {
+  createMessageReadInteraction(msg) {
+    if (!msg) {
+      return;
+    }
+    const { conversation, dispatch } = this.props;
+
+    // If the message has already been marked as read, don't make an API call
+    if (msg && conversation.myLatestReadId === msg.id) {
+      return;
+    }
+
     const interaction = {
       action: 'read',
-      conversationId: this.props.conversation.id,
-      messageId: this.props.messages[0].id,
+      conversationId: conversation.id,
+      messageId: msg.id,
     };
-    this.props.dispatch(createMessageInteraction(interaction)).then(() => {
-      this.props.dispatch(markReadAction(this.props.conversation.id));
+
+    // Call this optimistically before the API call is complete
+    dispatch(markReadAction(conversation.id, msg.id));
+    dispatch(createMessageInteraction(interaction)).then(() => {
       this.setLatestItem();
     });
   }
@@ -229,9 +260,6 @@ class Message extends Component {
   }
 
   handleHeaderBack() {
-    if (this.props.showUnreadDot) {
-      this.props.dispatch({ type: UNREAD_CONV_DOT, show: false });
-    }
     this.props.navigateBack();
   }
 
@@ -269,26 +297,29 @@ class Message extends Component {
 
   render() {
     const { messages, me, typeState, pagination } = this.props;
+    const { height } = this.state;
     // Get ths conversation from the state if it exists, or from props
     const conversation = this.state.conversation || this.props.conversation;
 
-    let newHeight = {
-      height: this.state.height < 40 ? 40 : this.state.height > 80 ? 80 : this.state.height,
+    let inputHeight = {
+      height: height < 40 ? 40 : height > 80 ? 80 : height,
     };
 
+    const extraPadding = theme.isIphoneX ? 40 : 0;
+
     let newWrap = {
-      height: this.state.height < 40 ? 50 : this.state.height > 80 ? 90 : this.state.height + 10,
+      height: height < 40 ? 50 + extraPadding : height > 80 ? 90 + extraPadding : height + 10 + extraPadding,
     };
 
     return (
       <KeyboardAvoidingView
         style={styles.container}
-        behavior={Platform.OS === 'android' ? undefined : 'padding'}
-        keyboardVerticalOffset={Platform.OS === 'android' ? undefined : 0}
+        behavior={theme.isAndroid ? undefined : 'padding'}
+        keyboardVerticalOffset={theme.isAndroid ? undefined : 0}
       >
         <Header
           left={
-            CONSTANTS.IS_ANDROID ? (
+            theme.isAndroid ? (
               <HeaderIcon
                 type="back"
                 onPress={this.handleHeaderBack}
@@ -305,6 +336,7 @@ class Message extends Component {
         {
           this.state.selectedVideo ? (
             <MessageVideoPlayer
+              ref={(c) => this.videoPlayer = c}
               message={this.state.selectedVideo}
               onClose={this.clearSelectedVideo}
             />
@@ -322,7 +354,7 @@ class Message extends Component {
           onSelectVideo={this.handleSelectVideo}
         />
         {
-          Platform.OS === 'android' ? null : (
+          theme.isAndroid ? null : (
             <Flex value={100} style={{zIndex: 10, backgroundColor: 'transparent'}}></Flex>
           )
         }
@@ -357,7 +389,7 @@ class Message extends Component {
               </Flex>
             )
           }
-          <Flex direction="row" style={[styles.chatBox, newHeight]} align="center">
+          <Flex direction="row" style={[styles.chatBox, inputHeight]} align="center">
             <TextInput
               onFocus={this.handleInputFocus}
               onBlur={this.handleInputBlur}
@@ -369,9 +401,8 @@ class Message extends Component {
               placeholderTextColor={theme.primaryColor}
               underlineColorAndroid={COLORS.TRANSPARENT}
               onContentSizeChange={this.handleInputSizeChange}
-              style={[styles.chatInput, newHeight]}
+              style={[styles.chatInput, inputHeight]}
               autoCorrect={true}
-              returnKeyType="done"
             />
             {
               this.state.text ? (
@@ -389,7 +420,7 @@ class Message extends Component {
             {
               this.state.createTransparentFocus ? (
                 <Touchable activeOpacity={0} onPress={() => this.setState({shouldShowButtons: false, createTransparentFocus: false})}>
-                  <View style={[newHeight, styles.transparentOverlay]} />
+                  <View style={[inputHeight, styles.transparentOverlay]} />
                 </Touchable>
               ) : null
             }
@@ -409,21 +440,21 @@ Message.propTypes = {
   me: PropTypes.object.isRequired, // Redux
   typeState: PropTypes.bool.isRequired, // Redux
   conversation: PropTypes.object.isRequired,
+  forceUpdate: PropTypes.bool,
   onSelectVideo: PropTypes.func,
 };
 
 const mapStateToProps = ({ messages, auth }, { navigation }) => {
   const conversation = navigation.state.params ? navigation.state.params.conversation : {};
   return {
+    ...(navigation.state.params || {}),
     conversation,
     messages: messages.messages[conversation.id] || [],
+    getConversationsIsRunning: messages.getConversationsIsRunning,
     pagination: messages.pagination.messages[conversation.id] || {},
     me: auth.user,
     typeState: !!messages.typeState[conversation.id],
     unReadBadgeCount: messages.unReadBadgeCount,
-    // If we should show the conversation dot
-    showUnreadDot: messages.unreadConversationDot,
-    // testingData: messages.activeConversationId,
   };
 };
 

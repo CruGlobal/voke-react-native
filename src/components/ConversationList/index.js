@@ -1,14 +1,14 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Platform, ListView } from 'react-native';
+import { View } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 
 import styles from './styles';
 import theme, { COLORS } from '../../theme';
 import { momentUtc, getInitials } from '../../utils/common';
 
-import { Flex, VokeIcon, Text, Touchable, Separator, Avatar, RefreshControl } from '../common';
+import { Flex, VokeIcon, Text, Touchable, Avatar, RefreshControl } from '../common';
 import CONSTANTS from '../../constants';
 
 // const ITEM_HEIGHT = 60 + theme.separatorHeight;
@@ -18,11 +18,8 @@ class ConversationList extends Component { // eslint-disable-line
 
   constructor(props) {
     super(props);
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2 || r1.id !== r2.id || r1.hasUnread !== r2.hasUnread || r1.messagePreview !== r2.messagePreview || r1.updated_at !== r2.updated_at,
-    });
     this.state = {
-      dataSource: ds.cloneWithRows(props.items),
+      items: props.items,
       rowFocused: null,
     };
 
@@ -37,7 +34,7 @@ class ConversationList extends Component { // eslint-disable-line
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(nextProps.items),
+      items: nextProps.items,
     });
   }
 
@@ -55,7 +52,7 @@ class ConversationList extends Component { // eslint-disable-line
   }
 
   getSenderName(conversation) {
-    const messenger = conversation.messengers[0];
+    const messenger = conversation.messengers[0] ? conversation.messengers[0] : {};
     if (messenger && messenger.id && messenger.id !== this.props.me.id) {
       return messenger.first_name || 'Other';
     }
@@ -82,7 +79,7 @@ class ConversationList extends Component { // eslint-disable-line
     return false;
   }
 
-  renderRow(item) {
+  renderRow({ item }) {
     const conversation = item;
     const contentCreator = this.getSenderName(conversation);
     const otherPerson = this.getConversationParticipant(conversation);
@@ -99,7 +96,12 @@ class ConversationList extends Component { // eslint-disable-line
         onHideUnderlay={() => this.setState({ rowFocused: null })}
         activeOpacity={1}
         onPress={() => this.props.onSelect(conversation)}>
-        <View style={[styles.container, this.state.rowFocused === item.id ? { backgroundColor: theme.accentColor } : null]}>
+        <View
+          style={[
+            styles.container,
+            this.state.rowFocused === item.id ? { backgroundColor: theme.accentColor } : null,
+            { borderBottomWidth: 1, borderBottomColor: theme.separatorColor },
+          ]}>
           <Flex direction="row" align="center" justify="center">
             <Avatar
               size={30}
@@ -121,9 +123,9 @@ class ConversationList extends Component { // eslint-disable-line
                 <Flex direction="row" align="center">
                   <Text style={styles.messagePreviewWrapper} numberOfLines={2}>
                     <Text style={styles.creatorText}>{contentCreator}</Text>
-                    {Platform.OS === 'android' ? ' ' : null}
+                    {theme.isAndroid ? ' ' : null}
                     <VokeIcon name="arrow" style={styles.arrowImage} />
-                    {Platform.OS === 'android' ? ' ' : null}
+                    {theme.isAndroid ? ' ' : null}
                     <Text style={styles.messagePreviewText}>
                       {conversation.messagePreview || '...'}
                     </Text>
@@ -132,7 +134,7 @@ class ConversationList extends Component { // eslint-disable-line
               </Flex>
             </Flex>
             <Flex style={styles.conversationArrow} align="center" justify="center">
-              <VokeIcon name={conversation.hasUnread ? 'unread-arrow' : 'read-arrow'} />
+              <VokeIcon name={conversation.hasUnread && this.props.unreadCount > 0 ? 'unread-arrow' : 'read-arrow'} />
             </Flex>
           </Flex>
         </View>
@@ -144,18 +146,20 @@ class ConversationList extends Component { // eslint-disable-line
 
     return (
       <SwipeListView
-        dataSource={this.state.dataSource}
-        renderRow={this.renderRow}
-        directionalDistanceChangeThreshold={Platform.OS === 'android' ? 12 : undefined}
-        renderHiddenRow={(data, sectionID, rowID, rowMap) => (
+        useFlatList={true}
+        keyExtractor= {(item) => item.id}
+        data={this.props.items}
+        renderItem={this.renderRow}
+        directionalDistanceChangeThreshold={theme.isAndroid ? 12 : undefined}
+        renderHiddenItem={(rowData, rowMap) => (
           <View style={styles.rowBack}>
             <Flex direction="row" align="center" justify="center" style={{ width: SLIDE_ROW_WIDTH }}>
               <Touchable
                 activeOpacity={0.9}
                 style={{ flex: 1 }}
                 onPress={() => {
-                  this.handleDelete(data);
-                  rowMap[`${sectionID}${rowID}`] && rowMap[`${sectionID}${rowID}`].closeRow();
+                  this.handleDelete(rowData.item);
+                  rowMap[rowData.item.id] && rowMap[rowData.item.id].closeRow() ;
                 }}
               >
                 <Flex align="center" justify="center" style={styles.rowBackButton}>
@@ -166,8 +170,8 @@ class ConversationList extends Component { // eslint-disable-line
                 activeOpacity={0.9}
                 style={{ flex: 1 }}
                 onPress={() => {
-                  this.handleBlock(data);
-                  rowMap[`${sectionID}${rowID}`] && rowMap[`${sectionID}${rowID}`].closeRow();
+                  this.handleBlock(rowData.item);
+                  rowMap[rowData.item.id] && rowMap[rowData.item.id].closeRow();
                 }}
               >
                 <Flex align="center" justify="center" style={styles.rowBackButton}>
@@ -177,12 +181,11 @@ class ConversationList extends Component { // eslint-disable-line
             </Flex>
           </View>
         )}
-        initialListSize={CONSTANTS.PAGE_SIZE}
-        pageSize={CONSTANTS.PAGE_SIZE}
+        initialListSize={CONSTANTS.CONVERSATIONS_PAGE_SIZE - 1}
+        pageSize={CONSTANTS.CONVERSATIONS_PAGE_SIZE - 1}
         enableEmptySections={true}
         onEndReached={this.handleNextPage}
-        onEndReachedThreshold={50}
-        renderSeparator={(sectionID, rowID) => <Separator key={rowID} />}
+        onEndReachedThreshold={0.5}
         rightOpenValue={SLIDE_ROW_WIDTH * -1}
         disableLeftSwipe={false}
         disableRightSwipe={true}
@@ -204,6 +207,7 @@ ConversationList.propTypes = {
   onBlock: PropTypes.func.isRequired,
   onLoadMore: PropTypes.func.isRequired,
   items: PropTypes.array.isRequired,
+  unreadCount: PropTypes.number.isRequired,
   me: PropTypes.object.isRequired,
   refreshing: PropTypes.bool,
 };

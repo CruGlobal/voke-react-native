@@ -5,7 +5,7 @@ import theme, { COLORS } from '../../theme';
 export default StyleSheet.create({
   button: {
     backgroundColor: theme.buttonBackgroundColor,
-    paddingVertical: 10,
+    paddingVertical: 7,
     paddingHorizontal: 20,
     borderRadius: 5,
     alignItems: 'flex-start',
