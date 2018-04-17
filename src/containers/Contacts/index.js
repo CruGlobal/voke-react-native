@@ -189,6 +189,7 @@ class Contacts extends Component {
   render() {
     const { permission, showSearch } = this.state;
     const isAuthorized = permission === Permissions.AUTHORIZED;
+    console.log(this.props.inShare);
     return (
       <View style={styles.container}>
         <Header
@@ -238,6 +239,14 @@ class Contacts extends Component {
             />
           ) : null
         }
+        {
+          this.props.inShare ? (
+            <ApiLoading
+              force={true}
+              text={''}
+            />
+          ) : null
+        }
         <ApiLoading />
         {
           isAuthorized ? <ShareModal /> : null
@@ -265,13 +274,14 @@ Contacts.propTypes = {
   isInvite: PropTypes.bool,
   isLoading: PropTypes.bool, // Redux
 };
-const mapStateToProps = ({ contacts }, { navigation }) => ({
+const mapStateToProps = ({ contacts, messages }, { navigation }) => ({
   ...(navigation.state.params || {}),
   all: contacts.all,
   allLength: contacts.all.length,
   isLoading: contacts.isLoading,
   isShareModalVisible: contacts.showShareModal,
   shareModalCancel: contacts.shareModalProps.onCancel,
+  inShare: messages.inShare,
 });
 
 export default connect(mapStateToProps, nav)(Contacts);
