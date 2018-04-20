@@ -155,7 +155,6 @@ const mapStateToProps = ({ auth, channels }) => ({
   allChannels: channels.all,
   featuredChannels: channels.featured,
   myChannels: channels.myChannels,
-  isTabSelected: auth.homeTabSelected === 2,
   pagination: channels.pagination,
 });
 

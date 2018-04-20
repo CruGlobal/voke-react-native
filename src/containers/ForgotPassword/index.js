@@ -52,13 +52,11 @@ class ForgotPassword extends Component {
 
   render() {
     return (
-      <Flex style={styles.container} value={1} align="center" justify="center">
+      <Flex style={styles.container} value={1} align="center">
         <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
           <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
-          <Flex direction="column" value={1} align="center" justify="end" style={styles.logoWrapper}>
-            <Flex style={styles.imageWrap} align="center" justify="center">
-              <Image resizeMode="contain" source={LOGO} style={styles.imageLogo} />
-            </Flex>
+          <Flex direction="column" align="center" justify="center" style={styles.logoWrapper}>
+            <Image resizeMode="contain" source={LOGO} style={styles.imageLogo} />
             <Text style={styles.description}>
               Please enter the correct email associated with your Voke account to reset the password
             </Text>

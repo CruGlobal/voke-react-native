@@ -1,8 +1,6 @@
 
 import { StyleSheet } from 'react-native';
 import theme from '../../theme';
-import { IS_SMALL_ANDROID } from '../../constants';
-const isSmallScreen = IS_SMALL_ANDROID || theme.fullHeight < 600;
 
 export default StyleSheet.create({
   container: {
@@ -14,28 +12,40 @@ export default StyleSheet.create({
   },
   logoWrapper: {
     width: theme.fullWidth,
-    paddingVertical: isSmallScreen ? 10 : 30,
+  },
+  imageWrap: {
+    width: theme.fullWidth,
   },
   buttonWrapper: {
     padding: 5,
   },
-  description: {
-    paddingVertical: 10,
-    fontSize: 14,
-    lineHeight: 20,
+  headerText: {
     paddingHorizontal: 50,
+    paddingVertical: 20,
     textAlign: 'center',
+    fontSize: 16,
   },
   imageLogo: {
     height: 50,
   },
-  signInButtonText: {
-    fontSize: 16,
+  signIn: {
+    fontSize: 14,
+    color: theme.accentColor,
+    // color: theme.primaryColor,
+    paddingRight: 5,
+  },
+  haveAccount: {
+    paddingTop: 20,
+    paddingBottom: 15,
   },
   signInButton: {
+    fontSize: 16,
+  },
+  signInText: {
+    fontSize: 14,
+  },
+  actionButton: {
     width: theme.fullWidth - 110,
     height: 40,
-    alignItems: 'center',
-    marginTop: 2,
   },
 });

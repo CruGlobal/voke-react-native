@@ -3,7 +3,6 @@ import { View, ScrollView, Image, Alert, AlertIOS } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { TAB_SELECTED } from '../../constants';
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/nav';
 import { startupAction, cleanupAction, blockMessenger, reportUserAction, getMe } from '../../actions/auth';
@@ -71,7 +70,6 @@ class Home extends Component {
       this.props.dispatch(getMe());
     }
 
-    this.props.dispatch({ type: TAB_SELECTED, tab: 0 });
     setTimeout(() => {
       this.props.dispatch(startupAction());
       this.props.dispatch(checkAndRunSockets());
@@ -80,13 +78,6 @@ class Home extends Component {
 
   componentWillUnmount() {
     // this.props.dispatch(cleanupAction());
-  }
-
-  onNavigatorEvent(event) {
-    // Keep track of selected tab in redux
-    if (event.id === 'bottomTabSelected') {
-      this.props.dispatch({ type: TAB_SELECTED, tab: 0 });
-    }
   }
 
   handleMenuPress() {
@@ -274,7 +265,6 @@ const mapStateToProps = ({ messages, auth }) => {
     conversations: messages.conversations,
     me: auth.user,
     pagination: messages.pagination.conversations,
-    isTabSelected: auth.homeTabSelected === 0,
     unreadCount: messages.unReadBadgeCount,
   };
 };

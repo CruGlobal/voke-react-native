@@ -26,17 +26,9 @@ const MARGIN = 40;
 
 class SignUpWelcome extends Component {
 
-  constructor(props) {
-    super(props);
+  state = { selectedPage: 0 };
 
-    this.state = { selectedPage: 0 };
-
-    this.renderDotIndicator = this.renderDotIndicator.bind(this);
-    this.onPageSelected = this.onPageSelected.bind(this);
-    this.handleNextPage = this.handleNextPage.bind(this);
-  }
-
-  onPageSelected(params) {
+  onPageSelected = (params) => {
     this.setState({ selectedPage: params.position });
     // if (params.position > 0) {
     //   this.props.dispatch({type: ONBOARD_FLAG, completed: true});
@@ -50,6 +42,10 @@ class SignUpWelcome extends Component {
   componentDidMount() {
     Analytics.screen('Welcome Onboarding');
     Orientation.lockToPortrait();
+  }
+
+  signUp = () => {
+    this.props.navigatePush('voke.SignInOrTryItNow');
   }
 
   renderDotIndicator() {
@@ -69,10 +65,9 @@ class SignUpWelcome extends Component {
     return (
       <Button
         type="transparent"
-        text=""
         hitSlop={{top: 30, bottom: 30, left: 30, right: 30}}
         onPress={() => this.handleNextPage(this.state.selectedPage)}
-        style={{padding: 10}}
+        style={styles.skipButton}
       >
         <VokeIcon style={{transform: [{ scaleX: -1 }]}} name="back"></VokeIcon>
       </Button>
@@ -86,6 +81,7 @@ class SignUpWelcome extends Component {
         <StatusBar />
         <View style={{flex: 1}}>
           <IndicatorViewPager
+            indicator={noSignIn ? undefined : this.renderDotIndicator()}
             ref={(c)=> this.viewPager = c}
             style={{flex: 1, flexDirection: 'column-reverse'}}
             onPageSelected={this.onPageSelected}
@@ -95,18 +91,6 @@ class SignUpWelcome extends Component {
                 <Flex value={1} align="center" justify="center">
                   <Image resizeMode="cover" source={ONBOARD_1} style={styles.onboardFull} />
                 </Flex>
-                {
-                  noSignIn ? null : (
-                    <Flex align="center" style={{position: 'absolute', bottom: MARGIN, left: 0, right: 0}}>
-                      <Button
-                        type="transparent"
-                        text="Sign In"
-                        onPress={() => this.props.navigatePush('voke.LoginInput')}
-                        style={{padding: 10}}
-                      />
-                    </Flex>
-                  )
-                }
               </Flex>
               <Flex direction="column" align="center" style={{position: 'absolute', top: 66, left: 0, right: 0}}>
                 <Image source={ONBOARD_LOGO} />
@@ -176,16 +160,10 @@ class SignUpWelcome extends Component {
                 ) : (
                   <Flex direction="column" align="center" justify="center" style={{position: 'absolute', bottom: MARGIN, left: 0, right: 0}}>
                     <Button
-                      text="Create Account"
-                      buttonTextStyle={styles.signInButtonText}
-                      style={[styles.signInButton, {backgroundColor: theme.accentColor, borderWidth: 0}]}
-                      onPress={() => this.props.navigatePush('voke.Login')}
-                    />
-                    <Button
-                      text="Sign In"
+                      text="Continue"
                       buttonTextStyle={styles.signInButtonText}
                       style={styles.signInButton}
-                      onPress={() => this.props.navigatePush('voke.LoginInput')}
+                      onPress={this.signUp}
                     />
                   </Flex>
                 )

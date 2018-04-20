@@ -179,15 +179,6 @@ class LoginInput extends Component {
                 onPress={this.facebookLogin}
               />
             </Flex>
-            <Flex direction="row">
-              <Text style={styles.signIn}>New to Voke? </Text>
-              <Button
-                text="Create Account"
-                type="transparent"
-                buttonTextStyle={styles.signInText}
-                onPress={() => this.props.navigatePush('voke.Login')}
-              />
-            </Flex>
           </Flex>
         </TouchableOpacity>
         {

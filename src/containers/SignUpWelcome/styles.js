@@ -47,13 +47,13 @@ export default StyleSheet.create({
     right: 0,
     left: 0,
   },
-  skipButtonText: {
-    fontSize: 14,
-  },
   skipButton: {
-    position: 'absolute',
-    bottom: 60,
-    right: 40,
+    backgroundColor: theme.black,
+    borderRadius: 25,
+    width: 50,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   loginButtonText: {
     fontSize: 18,

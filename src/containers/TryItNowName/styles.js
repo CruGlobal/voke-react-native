@@ -10,24 +10,34 @@ export default StyleSheet.create({
     backgroundColor: theme.primaryColor,
   },
   actions: {
-    paddingBottom: 50,
+    paddingBottom: 25,
+    paddingTop: 10,
   },
   logoWrapper: {
     width: theme.fullWidth,
-    paddingVertical: isSmallScreen ? 10 : 30,
+    paddingVertical: isSmallScreen ? 20 : 40,
   },
   buttonWrapper: {
     padding: 5,
   },
-  description: {
-    paddingVertical: 10,
-    fontSize: 14,
-    lineHeight: 20,
+  headerText: {
     paddingHorizontal: 50,
+    paddingVertical: 20,
     textAlign: 'center',
+    fontSize: 16,
+  },
+  inputBox: {
+    marginTop: 8,
+    padding: 10,
+    width: theme.fullWidth - 110,
+    borderWidth: 1,
+    borderColor: theme.textColor,
+    borderRadius: 5,
+    fontSize: 16,
+    color: theme.textColor,
   },
   imageLogo: {
-    height: 50,
+    height: IS_SMALL_ANDROID ? 40 : 50,
   },
   signInButtonText: {
     fontSize: 16,
