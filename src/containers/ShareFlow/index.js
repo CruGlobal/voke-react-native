@@ -32,6 +32,7 @@ class ShareFlow extends Component {
   }
 
   createConversationId() {
+    const { name } = this.state;
     return new Promise((resolve, reject) => {
       const createData = {
         conversation: {
