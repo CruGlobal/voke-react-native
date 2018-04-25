@@ -68,15 +68,10 @@ class SelectFriend extends Component {
   }
 
   componentDidMount() {
-    // We need to check if we are coming from landscape in order to give the
-    // transition enough time before the view locks from the modal
-    if (this.props.isLandscape) {
-      setTimeout(() => {
-        this.checkContactsStatus();
-      }, 1000);
-    } else {
+    // We need to give the transition enough time before the view locks from the modal
+    setTimeout(() => {
       this.checkContactsStatus();
-    }
+    }, 1000);
     Analytics.screen('Select a Friend');
   }
 

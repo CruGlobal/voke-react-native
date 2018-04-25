@@ -137,6 +137,43 @@ class VideoDetails extends Component {
     }
   }
 
+  handleShare = () => {
+    const video = this.props.video || {};
+    
+    Orientation.lockToPortrait();
+    if (this.props.onSelectVideo) {
+      Alert.alert(
+        'Add video to chat?',
+        `Are you sure you want to add "${video.name.substr(0, 25).trim()}" video to your chat?`,
+        [
+          { text: 'Cancel' },
+          {
+            text: 'Add', onPress: () => {
+              this.props.onSelectVideo(video.id);
+              // Navigate back after selecting the video
+              if (this.props.conversation) {
+                this.props.navigateResetMessage({ conversation: this.props.conversation });
+              } else {
+                this.props.navigateBack();
+              }
+            },
+          },
+        ]
+      );
+    } else {
+      if (this.webview && this.webview.pause) {
+        this.webview.pause();
+      }
+      // this.props.navigatePush('voke.SelectFriend', {
+      //   video: video.id,
+      //   isLandscape: this.state.isLandscape,
+      // });
+      this.props.navigatePush('voke.ShareFlow', {
+        videoId: video.id,
+      });
+    }
+  }
+
   renderContent() {
     // const video = this.state.video || this.props.video || {};
     const video = this.props.video || {};
@@ -234,35 +271,7 @@ class VideoDetails extends Component {
           }
         </ScrollView>
         <FloatingButtonSingle
-          onSelect={() => {
-            Orientation.lockToPortrait();
-            if (this.props.onSelectVideo) {
-              Alert.alert(
-                'Add video to chat?',
-                `Are you sure you want to add "${video.name.substr(0, 25).trim()}" video to your chat?`,
-                [
-                  { text: 'Cancel' },
-                  { text: 'Add', onPress: () => {
-                    this.props.onSelectVideo(video.id);
-                    // Navigate back after selecting the video
-                    if (this.props.conversation) {
-                      this.props.navigateResetMessage({ conversation: this.props.conversation });
-                    } else {
-                      this.props.navigateBack();
-                    }
-                  }},
-                ]
-              );
-            } else {
-              if (this.webview && this.webview.pause) {
-                this.webview.pause();
-              }
-              this.props.navigatePush('voke.SelectFriend', {
-                video: video.id,
-                isLandscape: this.state.isLandscape,
-              });
-            }
-          }}
+          onSelect={this.handleShare}
         />
         {/* <ApiLoading text="Loading Video" showMS={loadDuration} /> */}
       </View>
@@ -272,7 +281,7 @@ class VideoDetails extends Component {
 
 VideoDetails.propTypes = {
   ...NavPropTypes,
-  video: PropTypes.object,
+  video: PropTypes.object.isRequired,
   onSelectVideo: PropTypes.func,
   onUpdateVideos: PropTypes.func,
   conversation: PropTypes.object,

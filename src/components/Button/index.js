@@ -7,12 +7,14 @@ import styles from './styles';
 
 import { Touchable, Text, Icon, Flex } from '../common';
 
-const TYPES = ['transparent', 'header'];
+const TYPES = ['transparent', 'header', 'filled'];
 function getTypeStyle(type) {
   if (type === 'transparent') {
     return styles.transparent;
   } else if (type === 'header') {
     return styles.header;
+  } else if (type === 'filled') {
+    return styles.filled;
   }
   return styles.button;
 }

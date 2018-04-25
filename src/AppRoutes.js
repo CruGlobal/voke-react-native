@@ -22,6 +22,7 @@ import VideosTab from './containers/VideosTab';
 import SignUpAccount from './containers/SignUpAccount';
 import SignInOrTryItNow from './containers/SignInOrTryItNow';
 import TryItNowName from './containers/TryItNowName';
+import ShareFlow from './containers/ShareFlow';
 import SignUpProfile from './containers/SignUpProfile';
 import SignUpNumber from './containers/SignUpNumber';
 import SignUpNumberVerify from './containers/SignUpNumberVerify';
@@ -156,6 +157,7 @@ export const MainStackRoutes = StackNavigator({
   },
   'voke.VideosTab': { screen: VideosTab },
   'voke.TryItNowName': { screen: TryItNowName },
+  'voke.ShareFlow': { screen: ShareFlow },
   MainTabs: {
     screen: MainTabRoutes,
     ...noGestures,

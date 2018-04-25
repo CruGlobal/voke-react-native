@@ -25,7 +25,7 @@ let ws = null;
 
 export function checkAndRunSockets() {
   return (dispatch, getState) => {
-    LOG('check and run');
+    // LOG('check and run');
     if (ws && ws.readyState === WEBSOCKET_STATES.OPEN) return;
     if (getState().auth.cableId) {
       dispatch(setupSocketAction(getState().auth.cableId));
@@ -52,7 +52,7 @@ export function setupSocketAction(cableId) {
       ws = new WebSocket(`${SOCKET_URL}cable?access_token=${token}`);
 
       if (ws) {
-        LOG('setting up sockets');
+        // LOG('setting up sockets');
         ws.onopen = () => {
           // connection opened
           // LOG('socket opened');
@@ -311,7 +311,6 @@ export function handleNotifications(state, notification) {
 export function establishDevice() {
   return (dispatch, getState) => {
 
-    console.log('hjere');
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
       onRegister(token) {
