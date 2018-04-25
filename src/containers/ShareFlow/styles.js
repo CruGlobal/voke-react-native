@@ -9,10 +9,6 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: theme.primaryColor,
   },
-  backHeader: {
-    paddingTop: 15,
-    paddingHorizontal: 20,
-  },
   actions: {
     paddingHorizontal: 50,
     paddingBottom: 25,

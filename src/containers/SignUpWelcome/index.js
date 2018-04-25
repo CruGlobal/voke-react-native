@@ -20,7 +20,7 @@ import theme, { COLORS } from '../../theme';
 import { Flex, Text, Button, VokeIcon } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 
-const NUM_ONBOARDING_STEPS = 5;
+const NUM_ONBOARDING_STEPS = 3;
 
 const MARGIN = 40;
 
@@ -113,7 +113,7 @@ class SignUpWelcome extends Component {
                 {this.renderSkip()}
               </Flex>
             </View>
-            <View style={styles.onboardingPage}>
+            {/* <View style={styles.onboardingPage}>
               <Flex value={1} direction="column" align="center" justify="center" >
                 <Flex value={1} align="center" justify="center">
                   <Image resizeMode="cover" source={ONBOARD_3} style={styles.onboardFull} />
@@ -140,7 +140,7 @@ class SignUpWelcome extends Component {
               <Flex style={{position: 'absolute', bottom: MARGIN, right: MARGIN }}>
                 {this.renderSkip()}
               </Flex>
-            </View>
+            </View> */}
             <View style={styles.onboardingPage}>
               <Flex value={1} direction="column" align="center" justify="center" >
                 <Flex value={1} align="center" justify="center">

@@ -5,7 +5,6 @@ import { StackNavigator, TabNavigator } from 'react-navigation';
 import BadgeHomeIcon from './containers/BadgeHomeIcon';
 
 import LoadingScreen from './containers/LoadingScreen';
-import Login from './containers/Login';
 import LoginInput from './containers/LoginInput';
 import Home from './containers/Home';
 import Videos from './containers/Videos';
@@ -128,7 +127,6 @@ export const MainStackRoutes = StackNavigator({
   'voke.Help': { screen: Help },
   'voke.KickstartersTab': { screen: KickstartersTab },
   'voke.Loading': { screen: LoadingScreen },
-  'voke.Login': { screen: Login },
   'voke.LoginInput': { screen: LoginInput },
   'voke.Message': { screen: Message },
   'voke.Profile': { screen: Profile },

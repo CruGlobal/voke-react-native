@@ -15,6 +15,7 @@ import { vokeIcons } from '../../utils/iconMap';
 
 import ApiLoading from '../ApiLoading';
 import ThemeSelect from '../ThemeSelect';
+import VokeOverlays from '../VokeOverlays';
 import Header, { HeaderIcon } from '../Header';
 import PillButton from '../../components/PillButton';
 import VideoList from '../../components/VideoList';
@@ -409,6 +410,7 @@ class Videos extends Component {
             />
           ) : null
         }
+        <VokeOverlays type="tryItNowIntro" />
       </View>
     );
   }

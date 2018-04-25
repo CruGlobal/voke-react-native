@@ -10,6 +10,7 @@ import { createConversation, getConversation, deleteConversation } from '../../a
 import nav, { NavPropTypes } from '../../actions/nav';
 import { Flex, Button, Touchable, Text, Icon } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
+import CloseButton from '../../components/CloseButton';
 import LOGO from '../../../images/initial_voke.png';
 import theme from '../../theme';
 
@@ -130,16 +131,7 @@ class ShareFlow extends Component {
   render() {
     return (
       <Flex style={styles.container} value={1} align="center">
-        <Flex align="end" self="stretch" style={styles.backHeader}>
-          <Touchable
-            borderless={true}
-            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-            onPress={this.quit}>
-            <View>
-              <Icon size={40} type="Ionicons" name="ios-close" style={styles.closeImage} />
-            </View>
-          </Touchable>
-        </Flex>
+        <CloseButton onClose={this.quit} />
         <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
           <Flex direction="column" align="center" justify="end" style={styles.logoWrapper}>
             <Image resizeMode="contain" source={LOGO} style={styles.imageLogo} />

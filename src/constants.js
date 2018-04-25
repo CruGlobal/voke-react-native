@@ -21,6 +21,9 @@ export const SET_IN_SHARE = 'app/SET_IN_SHARE';
 export const SHOW_SHARE_MODAL = 'app/SHOW_SHARE_MODAL';
 export const MESSAGE_CREATED = 'app/MESSAGE_CREATED';
 export const CLEAR_CHANNEL_VIDEOS = 'app/CLEAR_CHANNEL_VIDEOS';
+// Overlays
+export const CLEAR_OVERLAY = 'app/CLEAR_OVERLAY';
+export const SET_OVERLAY = 'app/SET_OVERLAY';
 
 export const IS_SMALL_ANDROID = theme.isAndroid && theme.fullHeight < 600;
 // export const IS_SMALL_ANDROID = true;
