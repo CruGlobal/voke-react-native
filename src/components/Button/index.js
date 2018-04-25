@@ -46,13 +46,15 @@ export default class Button extends Component {
     // Prevent the user from being able to click twice
     this.setState({ clickedDisabled: true });
     // Re-enable the button after the timeout
-    this.clickDisableTimeout = setTimeout(() => { this.setState({ clickedDisabled: false }); }, 400);
+    this.clickDisableTimeout = setTimeout(() => {
+      this.setState({ clickedDisabled: false });
+    }, this.props.preventTimeout);
     // Call the users click function with all the normal click parameters
     this.props.onPress(...args);
   }
 
   render() {
-    const { type, hitSlop, image, text, icon, iconType, children, disabled, style = {}, buttonTextStyle = {}, iconStyle = {}, ...rest } = this.props;
+    const { type, hitSlop, image, text, icon, iconType, children, disabled, preventTimeout, style, buttonTextStyle, iconStyle, ...rest } = this.props;
     let content = children;
     if (!children) {
       let textComp = null;
@@ -112,8 +114,16 @@ Button.propTypes = {
   hitSlop: PropTypes.object,
   children: PropTypes.element,
   disabled: PropTypes.bool,
+  preventTimeout: PropTypes.number,
   style: PropTypes.oneOfType(styleTypes),
   buttonTextStyle: PropTypes.oneOfType(styleTypes),
   iconStyle: PropTypes.oneOfType(styleTypes),
   image: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
+
+Button.defaultProps = {
+  style: {},
+  buttonTextStyle: {},
+  iconStyle: {},
+  preventTimeout: 400,
 };

@@ -23,7 +23,7 @@ import { Flex, Text, RefreshControl } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import NULL_STATE from '../../../images/video-button.png';
 import VOKE from '../../../images/voke_null_state.png';
-import CONSTANTS, { IS_SMALL_ANDROID } from '../../constants';
+import { IS_SMALL_ANDROID } from '../../constants';
 import theme from '../../theme';
 
 const CONTACT_LENGTH_SHOW_VOKEBOT = IS_SMALL_ANDROID ? 2 : 3;
@@ -88,13 +88,11 @@ class Home extends Component {
     if (this.state.loadingMore || this.state.refreshing) return;
     if (this.props.pagination.hasMore) {
       // LOG('has more conversations to load');
-      this.setState({ loadingMore: true });
-      LOG('loading more');
+      this.setState({ loadingMore: true, refreshing: true });
       this.props.dispatch(getConversationsPage(this.props.pagination.page + 1)).then(() => {
-        this.setState({ loadingMore: false });
-        LOG('done loading more');
+        this.setState({ loadingMore: false, refreshing: false });
       }).catch(() => {
-        this.setState({ loadingMore: false });
+        this.setState({ loadingMore: false, refreshing: false });
       });
     }
   }
@@ -202,6 +200,7 @@ class Home extends Component {
               onDelete={this.handleDelete}
               unreadCount={this.props.unreadCount}
               onBlock={this.handleBlock}
+              hasMore={this.props.pagination.hasMore}
               onLoadMore={this.handleLoadMore}
               onSelect={(c) => this.props.navigatePush('voke.Message', {conversation: c})}
               refreshing={this.state.refreshing}

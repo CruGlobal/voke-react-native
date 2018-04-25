@@ -1,39 +1,34 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 
-import theme from '../../theme';
-import { Text, Touchable } from '../common';
+import { Button } from '../common';
 
 class LoadMore extends Component {
   render() {
     return (
-      <Touchable onPress={this.props.onLoad}>
-        <View style={styles.wrapper}>
-          <Text style={styles.text}>
-            Load More
-          </Text>
-        </View>
-      </Touchable>
+      <Button
+        text="Load More"
+        type="filled"
+        preventTimeout={2500}
+        buttonTextStyle={styles.text}
+        onPress={this.props.onLoad}
+        style={styles.wrapper}
+      />
     );
   }
 }
 
 const styles = StyleSheet.create({
   wrapper: {
-    marginBottom: 10,
-    alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: theme.secondaryColor,
-    borderRadius: 20,
-    height: 35,
     width: 120,
+    alignSelf: 'center',
+    marginVertical: 12,
+    borderRadius: 20,
     paddingVertical: 5,
     paddingHorizontal: 10,
   },
   text: {
-    color: theme.lightText,
     fontWeight: 'bold',
     fontSize: 14,
   },
