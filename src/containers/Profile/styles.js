@@ -40,7 +40,7 @@ export default StyleSheet.create({
   },
   buttonText: {
     paddingLeft: 10,
-    fontSize: 16,
+    fontSize: 14,
     color: theme.primaryColor,
   },
   changeTitle: {

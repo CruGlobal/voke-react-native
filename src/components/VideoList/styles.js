@@ -19,6 +19,20 @@ export default StyleSheet.create({
   thumbnailWrap: {
     height: THUMBNAIL_HEIGHT,
   },
+  detailsBackground: {
+    height: 20,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    width: '100%',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  detailsText: {
+    fontSize: 11,
+    color: theme.white,
+    paddingHorizontal: 10,
+  },
   videoThumbnail: {
     alignItems: 'center',
     justifyContent: 'center',

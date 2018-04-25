@@ -455,6 +455,9 @@ class Profile extends Component {
               }
             </ScrollView>
           </Flex>
+          <Flex>
+            new components go here
+          </Flex>
         </Flex>
         <ApiLoading />
       </View>
