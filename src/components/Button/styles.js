@@ -22,6 +22,10 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   disabled: {
+    ...buttonStyles,
+    backgroundColor: theme.secondaryColor,
+    borderWidth: 0,
+    alignItems: 'center',
     opacity: 0.6,
   },
   buttonText: {

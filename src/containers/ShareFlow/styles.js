@@ -16,7 +16,7 @@ export default StyleSheet.create({
   },
   logoWrapper: {
     width: theme.fullWidth,
-    paddingVertical: isSmallScreen ? 20 : 40,
+    paddingVertical: isSmallScreen ? 50 : 100,
   },
   inputBox: {
     marginTop: 8,
@@ -28,7 +28,9 @@ export default StyleSheet.create({
     color: theme.textColor,
   },
   imageLogo: {
-    height: IS_SMALL_ANDROID ? 40 : 50,
+    width: theme.fullWidth,
+    position: 'absolute',
+    right: -60,
   },
   shareButton: {
     marginTop: 7,
@@ -39,12 +41,12 @@ export default StyleSheet.create({
   },
   line: {
     height: 2,
-    backgroundColor: theme.secondaryColor,
+    backgroundColor: theme.accentColor,
   },
   orText: {
     paddingHorizontal: 10,
-    fontSize: 20,
-    color: theme.secondaryColor,
+    fontSize: 16,
+    color: theme.accentColor,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,

@@ -11,7 +11,8 @@ import nav, { NavPropTypes } from '../../actions/nav';
 import { Flex, Button, Touchable, Text, Icon } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
 import CloseButton from '../../components/CloseButton';
-import LOGO from '../../../images/initial_voke.png';
+import VOKE_SHARE from '../../../images/voke_share.png';
+import VOKE_LINK from '../../../images/voke_link.png';
 import theme from '../../theme';
 
 class ShareFlow extends Component {
@@ -52,7 +53,7 @@ class ShareFlow extends Component {
         this.setState({ isLoading: false });
         reject();
       };
-  
+
       this.setState({ isLoading: true });
       this.props.dispatch(createConversation(createData)).then((results) => {
         // Grab the friendfrom the results
@@ -87,6 +88,12 @@ class ShareFlow extends Component {
       message: theme.isAndroid ? this.state.conversationUrl : '',
       title: '',
       url: this.state.conversationUrl,
+      tintColor: '#fff',
+      excludedActivityTypes: [
+        'com.apple.UIKit.activity.AirDrop',
+        'com.apple.UIKit.activity.PostToFacebook',
+        'com.apple.UIKit.activity.PostToTwitter',
+      ],
     }, {
       dialogTitle: 'Share',
     }).then(({ action, activityType }) => {
@@ -123,7 +130,7 @@ class ShareFlow extends Component {
     if (!this.state.showOverlay) return null;
     return (
       <Flex style={styles.overlay}>
-        <Image resizeMode="contain" source={LOGO} style={styles.overlayImage} />
+        <Image resizeMode="contain" source={VOKE_LINK} style={styles.overlayImage} />
       </Flex>
     );
   }
@@ -134,7 +141,7 @@ class ShareFlow extends Component {
         <CloseButton onClose={this.quit} />
         <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
           <Flex direction="column" align="center" justify="end" style={styles.logoWrapper}>
-            <Image resizeMode="contain" source={LOGO} style={styles.imageLogo} />
+            <Image resizeMode="contain" source={VOKE_SHARE} style={styles.imageLogo} />
           </Flex>
           <Flex justify="center" style={styles.actions}>
             <SignUpInput
@@ -148,8 +155,8 @@ class ShareFlow extends Component {
             />
             <Button
               text="Share"
-              disabled={this.state.isLoading}
-              type="filled"
+              disabled={this.state.isLoading || !this.state.name}
+              type={this.state.name ? 'filled' : 'disabled'}
               style={styles.shareButton}
               onPress={this.share}
             />
