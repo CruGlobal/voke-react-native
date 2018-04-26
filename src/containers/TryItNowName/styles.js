@@ -11,7 +11,7 @@ export default StyleSheet.create({
   },
   actions: {
     paddingBottom: 25,
-    paddingTop: 10,
+    paddingTop: 40,
   },
   logoWrapper: {
     width: theme.fullWidth,
@@ -37,7 +37,9 @@ export default StyleSheet.create({
     color: theme.textColor,
   },
   imageLogo: {
-    height: IS_SMALL_ANDROID ? 40 : 50,
+    width: theme.fullWidth,
+    position: 'absolute',
+    right: -60,
   },
   signInButtonText: {
     fontSize: 16,

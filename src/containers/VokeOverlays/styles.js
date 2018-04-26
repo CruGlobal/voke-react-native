@@ -26,13 +26,13 @@ export default StyleSheet.create({
     width,
   },
   chatText: {
-    color: theme.secondaryColor,
+    color: theme.accentColor,
     fontSize: 16,
   },
   chatTriangle: {
     width: 17,
     height: 0,
-    marginBottom: 20,
+    marginBottom: 10,
     borderBottomWidth: 10,
     borderBottomColor: 'transparent',
     borderRightWidth: 13,

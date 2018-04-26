@@ -209,16 +209,21 @@ export function logoutAction() {
   );
 }
 
-export function createAccountAction(email, password) {
+export function createAccountAction(email, password, isAnonymous = false) {
   return (dispatch) => (
     new Promise((resolve, reject) => {
-      dispatch(callApi(REQUESTS.ME, {}, {
-        // Some data can be set in the REQUESTS object,
-        // so we don't need it in here
+      let data = {
         email,
         password,
         timezone_name: DeviceInfo.getTimezone(),
-      })).then((results) => {
+      };
+
+      if (isAnonymous) {
+        data = {
+          timezone_name: DeviceInfo.getTimezone(),
+        };
+      }
+      dispatch(callApi(REQUESTS.ME, {}, { data })).then((results) => {
         if (!results.errors) {
           LOG('create account success', results);
           dispatch(loginAction(results.access_token.access_token, results.access_token));
