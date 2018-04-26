@@ -8,6 +8,7 @@ import CloseButton from '../../components/CloseButton';
 import SignUpButtons from '../SignUpButtons';
 import { CLEAR_OVERLAY } from '../../constants';
 import VOKEBOT from '../../../images/vokebot_whole.png';
+import VOKEBOT_UKE from '../../../images/voke_uke.png';
 import styles from './styles';
 import { enablePushNotifications } from '../../actions/socket';
 
@@ -75,7 +76,7 @@ class VokeOverlays extends Component {
           </Text>
         </Flex>
         <Flex style={styles.chatTriangle} />
-        <Image source={VOKEBOT} style={{ height: 100 }} resizeMode="contain" />
+        <Image source={VOKEBOT_UKE} style={{ height: 100, marginBottom: 20 }} resizeMode="contain" />
         <Button
           onPress={this.allowNotifications}
           type="filled"
