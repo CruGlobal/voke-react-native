@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
-import { Image } from 'react-native';
+import { Image, View } from 'react-native';
 import { connect } from 'react-redux';
 import Analytics from '../../utils/analytics';
+import ONBOARD_4 from '../../../images/onboarding-image-4.png';
 
 import styles from './styles';
 // import { getMe, facebookLoginAction } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/nav';
 
-import { Flex, Text, Button } from '../../components/common';
+import { Flex, Text, Button, VokeIcon } from '../../components/common';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import LOGO from '../../../images/initial_voke.png';
+const MARGIN = 40;
 
 class SignInOrTryItNow extends Component {
 
@@ -27,15 +29,17 @@ class SignInOrTryItNow extends Component {
 
   render() {
     return (
-      <Flex style={styles.container} value={1} align="center" justify="center">
-        <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
-        <Flex direction="column" value={1} align="center" justify="end" style={styles.logoWrapper}>
-          <Flex style={styles.imageWrap} align="center" justify="center">
-            <Image resizeMode="contain" source={LOGO} style={styles.imageLogo} />
+      <View style={styles.onboardingPage}>
+        <Flex direction="column" align="center" justify="center" >
+          <Flex align="center" justify="center">
+            <Image resizeMode="cover" source={ONBOARD_4} style={styles.onboardFull} />
           </Flex>
-          <Text style={styles.headerText}>A free chat app that helps kickstart deeper conversations using thought-provoking videos</Text>
         </Flex>
-        <Flex value={1} align="center" justify="center" style={styles.actions}>
+        <Flex direction="column" align="end" style={{position: 'absolute', top: MARGIN, right: MARGIN, width: 250 }}>
+          <VokeIcon style={{width: 36, height: 36}} name="onboard-heart"></VokeIcon>
+          <Text style={{fontSize: 36, fontWeight: 'bold', backgroundColor: 'rgba(0,0,0,0)', textAlign: 'right'}}>Experience {'\n'} Deeper {'\n'} Friendships</Text>
+        </Flex>
+        <Flex align="center" justify="center" style={{position: 'absolute', bottom: MARGIN, right: 0, left: 0 }}>
           <Flex style={styles.buttonWrapper}>
             <Button
               text="Try It Now"
@@ -54,7 +58,7 @@ class SignInOrTryItNow extends Component {
             />
           </Flex>
         </Flex>
-      </Flex>
+      </View>
     );
   }
 }

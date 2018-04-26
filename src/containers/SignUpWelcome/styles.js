@@ -48,8 +48,8 @@ export default StyleSheet.create({
     left: 0,
   },
   skipButton: {
-    backgroundColor: theme.black,
-    borderRadius: 25,
+    // backgroundColor: theme.black,
+    // borderRadius: 25,
     width: 50,
     height: 50,
     alignItems: 'center',
