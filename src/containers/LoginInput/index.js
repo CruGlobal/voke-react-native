@@ -42,8 +42,28 @@ class LoginInput extends Component {
     // setTimeout(this.login, 1000);
   }
 
+  loginAnon() {
+    // TODO: Setup login/sign up merge stuff
+    LOG('merge accounts somehow...');
+    // this.setState({ isLoading: true });
+    // this.props.dispatch(anonLogin(
+    //   this.state.email,
+    //   this.state.password
+    // )).then((results) => {
+    //   this.setState({ isLoading: false });
+    //   // LOG('login results', results);
+    //   this.props.navigateResetHome();
+    // }).catch(() => {
+    //   this.setState({ isLoading: false });
+    // });
+  }
+
   login() {
     if (this.state.emailValidation && this.state.password) {
+      if (this.props.isAnonUser) {
+        this.loginAnon();
+        return;
+      }
       this.setState({ isLoading: true });
       this.props.dispatch(anonLogin(
         this.state.email,
@@ -122,8 +142,9 @@ class LoginInput extends Component {
 LoginInput.propTypes = {
   ...NavPropTypes,
 };
-const mapStateToProps = (state, { navigation }) => ({
+const mapStateToProps = ({ auth }, { navigation }) => ({
   ...(navigation.state.params || {}),
+  isAnonUser: auth.isAnonUser,
 });
 
 export default connect(mapStateToProps, nav)(LoginInput);

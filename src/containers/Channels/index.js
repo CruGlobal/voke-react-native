@@ -156,6 +156,7 @@ const mapStateToProps = ({ auth, channels }) => ({
   featuredChannels: channels.featured,
   myChannels: channels.myChannels,
   pagination: channels.pagination,
+  isAnonUser: auth.isAnonUser,
 });
 
 export default connect(mapStateToProps, nav)(Channels);

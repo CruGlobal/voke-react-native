@@ -4,7 +4,7 @@ import { ScrollView, KeyboardAvoidingView, Linking, Alert, Keyboard } from 'reac
 
 import Analytics from '../../utils/analytics';
 import styles from './styles';
-import { createAccountAction } from '../../actions/auth';
+import { createAccountAction, updateMe } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/nav';
 import { Flex, Text, Button } from '../../components/common';
 import ApiLoading from '../ApiLoading';
@@ -32,20 +32,48 @@ class SignUpAccount extends Component {
     Analytics.screen('Create Account');
   }
 
+  moveForward(results) {
+    if (results.errors) {
+      Alert.alert('Error', `${results.errors}`);
+    } else {
+      this.props.navigatePush('voke.SignUpProfile');
+    }
+  }
+
+  updateAnonAccount() {
+    const data = {
+      me: {
+        email: this.state.email,
+        password: this.state.password,
+      },
+    };
+    this.setState({ isLoading: true });
+    this.props.dispatch(updateMe(data)).then((results) => {
+      this.setState({ isLoading: false });
+      this.moveForward(results);
+    }).catch((err) => {
+      this.setState({ isLoading: false });
+      LOG('error', err);
+      if (err && err.errors && err.errors.includes('Email has already been taken')) {
+        Alert.alert('Error Creating Account', 'Email has already been taken.');
+      }
+    });
+  }
+
   createAccount() {
     if (this.state.emailValidation && this.state.password) {
       if (this.state.password.length < 8) {
         Alert.alert('Invalid password', 'Passwords must be at least 8 characters');
         return;
       }
+      if (this.props.isAnonUser) {
+        this.updateAnonAccount();
+        return;
+      }
       this.setState({ isLoading: true });
       this.props.dispatch(createAccountAction(this.state.email, this.state.password)).then((results) => {
         this.setState({ isLoading: false });
-        if (results.errors) {
-          Alert.alert('Error', `${results.errors}`);
-        } else {
-          this.props.navigatePush('voke.SignUpProfile', {}, { overrideBackPress: true });
-        }
+        this.moveForward(results);
       }).catch((err) => {
         this.setState({ isLoading: false });
         LOG('error', err);
@@ -149,8 +177,9 @@ class SignUpAccount extends Component {
 SignUpAccount.propTypes = {
   ...NavPropTypes,
 };
-const mapStateToProps = (state, { navigation }) => ({
+const mapStateToProps = ({ auth }, { navigation }) => ({
   ...(navigation.state.params || {}),
+  isAnonUser: auth.isAnonUser,
 });
 
 export default connect(mapStateToProps, nav)(SignUpAccount);

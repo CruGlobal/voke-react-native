@@ -6,7 +6,30 @@ import CONSTANTS from '../constants';
 import theme from '../theme';
 
 // This is used by the android <MenuButton /> and the iOS <Menu />
-export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin } = {}) {
+export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin, isAnonUser } = {}) {
+  let authButtons = [];
+  if (isAnonUser) {
+    authButtons.push({
+      id: 'signin',
+      name: 'Sign In',
+      onPress: () => navigatePush && navigatePush('voke.LoginInput'),
+    });
+    authButtons.push({
+      id: 'createaccount',
+      name: 'Create Account',
+      onPress: () => navigatePush && navigatePush('voke.SignUpAccount'),
+    });
+  } else {
+    authButtons.push({
+      id: 'signout',
+      name: 'Sign Out',
+      onPress: () => {
+        dispatch && dispatch(logoutAction()).then(() => {
+          navigateResetLogin && navigateResetLogin();
+        });
+      },
+    });
+  }
   return [
     // {
     //   id: 'country',
@@ -91,14 +114,6 @@ export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin } = 
       name: 'Onboarding',
       onPress: () => navigatePush && navigatePush('voke.SignUpWelcome', { noSignIn: true }),
     },
-    {
-      id: 'signout',
-      name: 'Sign Out',
-      onPress: () => {
-        dispatch && dispatch(logoutAction()).then(() => {
-          navigateResetLogin && navigateResetLogin();
-        });
-      },
-    },
+    ...authButtons,
   ];
 }

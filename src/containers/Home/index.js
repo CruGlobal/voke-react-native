@@ -265,6 +265,7 @@ const mapStateToProps = ({ messages, auth }) => {
     me: auth.user,
     pagination: messages.pagination.conversations,
     unreadCount: messages.unReadBadgeCount,
+    isAnonUser: auth.isAnonUser,
   };
 };
 

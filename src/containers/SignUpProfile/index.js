@@ -22,8 +22,8 @@ class SignUpProfile extends Component {
 
     this.state= {
       imageUri: null,
-      firstName: '',
-      lastName: '',
+      firstName: props.user.first_name,
+      lastName: props.user.last_name,
       disableNext: false,
       isLoading: false,
       disableSecondClick: false,
@@ -42,7 +42,8 @@ class SignUpProfile extends Component {
     if (!uri) return;
     const updateData = {
       avatar: {
-        fileName: `new_user_${Date.now()}.png`,
+        fileName: `${this.props.user.first_name}_${this.props.user.last_name}.png`,
+        // fileName: `new_user_${Date.now()}.png`,
         uri,
         // base64: data.imageBinary,
       },
@@ -57,6 +58,9 @@ class SignUpProfile extends Component {
 
   addProfile() {
     const { firstName, lastName } = this.state;
+    // TODO: Always allow the user to continue without entering more information
+
+
     if (firstName && lastName) {
       if (this.state.disableSecondClick) { return; }
       this.setState({ disableNext: true, isLoading: true });
@@ -106,7 +110,7 @@ class SignUpProfile extends Component {
     return (
       <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
         <KeyboardAvoidingView behavior={theme.isAndroid ? undefined : 'padding'}>
-          {
+          {/* {
             // hideBack just means that we're resetting to this page because the
             // user has to fill in more info before they can continue
             this.props.hideBack ? (
@@ -114,7 +118,7 @@ class SignUpProfile extends Component {
                 onPress={() => this.props.navigateResetLogin()}
               />
             ) : null
-          }
+          } */}
           <SignUpHeader title="Create Profile" onPress={()=> Keyboard.dismiss()} />
           <Flex value={1} align="center" justify="start" self="stretch" style={styles.inputs}>
             {this.renderImagePicker()}
@@ -157,8 +161,9 @@ SignUpProfile.propTypes = {
   ...NavPropTypes,
   hideBack: PropTypes.bool,
 };
-const mapStateToProps = (state, { navigation }) => ({
+const mapStateToProps = ({ auth }, { navigation }) => ({
   ...(navigation.state.params || {}),
+  user: auth.user || {}
 });
 
 export default connect(mapStateToProps, nav)(SignUpProfile);
