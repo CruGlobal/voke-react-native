@@ -21,6 +21,7 @@ import Modal from '../Modal';
 import Header, { HeaderIcon } from '../Header';
 import AndroidSearchBar from '../../components/AndroidSearchBar';
 import ContactsList from '../../components/ContactsList';
+import SelectNumber from '../../components/SelectNumber';
 import SearchBarIos from '../../components/SearchBarIos';
 import theme from '../../theme';
 
@@ -35,6 +36,7 @@ class Contacts extends Component {
       keyboardVisible: false,
       showSearch: false,
       isSearching: false,
+      isMultipleOpen: false,
       permission: props.isInvite ? Permissions.NOT_ASKED : Permissions.AUTHORIZED,
     };
 
@@ -128,6 +130,7 @@ class Contacts extends Component {
       searchResults: [],
       searchText: '',
       isSearching: false,
+      selectNumberContact: null,
     });
     this.props.dispatch(getContacts(true)).then(() => {
       this.setState({ refreshing: false });
@@ -186,8 +189,21 @@ class Contacts extends Component {
     );
   }
 
+  handleSelectContact = (c) => {
+    if (c.phone.length > 1) {
+      this.setState({ selectNumberContact: c });
+    } else {
+      this.props.onSelect(c);
+    }
+  }
+
+  handleSelectedContact = (c, index) => {
+    this.setState({ selectNumberContact: null });
+    this.props.onSelect(c, index);
+  }
+
   render() {
-    const { permission, showSearch } = this.state;
+    const { permission, showSearch, selectNumberContact } = this.state;
     const isAuthorized = permission === Permissions.AUTHORIZED;
     console.log(this.props.inShare);
     return (
@@ -215,7 +231,7 @@ class Contacts extends Component {
             <ContactsList
               isSearching={this.state.isSearching}
               items={this.state.searchText ? this.state.searchResults : this.props.all}
-              onSelect={this.props.onSelect}
+              onSelect={this.handleSelectContact}
               isInvite={this.props.isInvite}
               onRefresh={this.refreshContacts}
               refreshing={this.state.refreshing}
@@ -260,6 +276,11 @@ class Contacts extends Component {
             />
           ) : null
         }
+        {
+          selectNumberContact ? (
+            <SelectNumber contact={this.state.selectNumberContact} onSelect={this.handleSelectedContact} />
+          ) : null
+        }
       </View>
     );
   }
@@ -282,6 +303,7 @@ const mapStateToProps = ({ contacts, messages }, { navigation }) => ({
   isShareModalVisible: contacts.showShareModal,
   shareModalCancel: contacts.shareModalProps.onCancel,
   inShare: messages.inShare,
+
 });
 
 export default connect(mapStateToProps, nav)(Contacts);

@@ -114,6 +114,7 @@ export function getContacts(force = false) {
               return {
                 name,
                 phone: lodashMap(c.phoneNumbers, 'number'),
+                numberLabels: lodashMap(c.phoneNumbers, 'label'),
                 id: c.recordID,
                 // Helper fields
                 nameLower: name.toLowerCase(),
