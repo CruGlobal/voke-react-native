@@ -59,9 +59,9 @@ class ConversationList extends Component {
     return otherPerson;
   }
 
-  getPresence = (messenger) => {
+  getPresence = () => {
     const today = new Date().valueOf();
-    const presence = messenger && messenger.present_at ? momentUtc(messenger.present_at).valueOf() : null;
+    const presence = this.props.conversation && this.props.conversation.presentAt ? momentUtc(this.props.conversation.presentAt).valueOf() : null;
     if (presence && (today - presence < 1000 * 60 * 5)) {
       return true;
     }
@@ -83,7 +83,7 @@ class ConversationList extends Component {
     const conversation = item;
     const contentCreator = this.getSenderName(conversation);
     const otherPerson = this.getConversationParticipant(conversation);
-    const isPresent = this.getPresence(otherPerson);
+    const isPresent = this.getPresence();
     const initials = otherPerson ? otherPerson.initials : 'VB';
     // LOG('initials', initials, getInitials(initials));
 
