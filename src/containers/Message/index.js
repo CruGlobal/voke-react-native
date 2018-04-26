@@ -20,6 +20,7 @@ import Header, { HeaderIcon } from '../Header';
 
 import { Flex, VokeIcon, Button, Touchable } from '../../components/common';
 import MessagesList from '../../components/MessagesList';
+import NotificationToast from '../NotificationToast';
 import CONSTANTS from '../../constants';
 
 // <ShareButton message="Share this with you" title="Hey!" url="https://www.facebook.com" />
@@ -336,6 +337,7 @@ class Message extends Component {
             }
             title={this.state.title}
           />
+          <NotificationToast />
           {
             this.state.selectedVideo ? (
               <MessageVideoPlayer

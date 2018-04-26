@@ -13,7 +13,7 @@ class NotificationToast extends Component {
   render() {
     if (this.props.token) return null;
     return (
-      <Flex direction="row" align="center" self="stretch" style={styles.wrap}>
+      <Flex direction="row" align="center" self="stretch" style={[styles.wrap, this.props.style]}>
         <Icon name="notifications-none" size={28} style={styles.icon} />
         <Text style={styles.text}>Notifications turned off.</Text>
         <Flex value={1}>
