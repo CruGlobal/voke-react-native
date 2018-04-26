@@ -1,4 +1,4 @@
-import { Platform, AppState } from 'react-native';
+import { Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import PushNotification from 'react-native-push-notification';
 
@@ -6,10 +6,10 @@ import { API_URL } from '../api/utils';
 import { registerPushToken } from './auth';
 import { SOCKET_URL } from '../api/utils';
 import { newMessageAction, typeStateChangeAction, getConversation, getConversations, getMessages } from './messages';
-import { navigatePush, navigateResetMessage, navigateResetHome, navigateResetTo } from './nav';
+import { navigateResetMessage } from './nav';
 import callApi, { REQUESTS } from './api';
-import CONSTANTS from '../constants';
-import { isEquivalentObject, isString } from '../utils/common';
+import CONSTANTS, { SET_OVERLAY } from '../constants';
+import { isEquivalentObject } from '../utils/common';
 import theme from '../theme';
 // Push notification Android error
 // https://github.com/zo0r/react-native-push-notification/issues/495
@@ -438,5 +438,34 @@ export function establishPushDevice() {
         LOG('Create Push Device Results: ', JSON.stringify(results));
       });
     }
+  };
+}
+
+// export function checkPushPermissions() {
+//   return () => new Promise((resolve) => {
+//     if (theme.isAndroid) return resolve(true);
+//     // Only run this on iOS
+//     PushNotification.checkPermissions((permission) => {
+//       const hasAllowedPermission = permission && permission.alert;
+//       resolve(!!hasAllowedPermission);
+//     });
+//   });
+// }
+
+export function enablePushNotifications() {
+  return (dispatch) => {
+    // TODO: If the user is iOS and has already seen the native prompt,
+    // take them into settings
+    dispatch(establishDevice());
+  };
+}
+
+export function determinePushOverlay() {
+  return (dispatch, getState) => {
+    const token = getState().auth.pushToken;
+    // TODO: Enable this to stop showing the push notification overlay
+    // if (token) return;
+
+    dispatch({ type: SET_OVERLAY, value: 'pushPermissions' });
   };
 }

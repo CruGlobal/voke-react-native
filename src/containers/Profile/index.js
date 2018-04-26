@@ -10,9 +10,11 @@ import Analytics from '../../utils/analytics';
 
 import ApiLoading from '../ApiLoading';
 import Header from '../Header';
+import VokeOverlays from '../VokeOverlays';
 import VOKE_LOGO from '../../../images/nav_voke_logo.png';
 import nav, { NavPropTypes } from '../../actions/nav';
 import theme, { COLORS } from '../../theme';
+import { SET_OVERLAY } from '../../constants';
 
 class Profile extends Component {
 
@@ -144,6 +146,23 @@ class Profile extends Component {
     //   setTimeout(() => this.listView.scrollToEnd({ animated: isAnimated }), 50);
     // }
     setTimeout(() => this.scrollView.scrollToEnd({ animated: isAnimated }), 50);
+  }
+
+  toggleEdit = (type) => {
+    const newValue = !this.state[type];
+    // If we are toggling the edit ON and the user is anonymous, show the popup
+    if (newValue && this.props.isAnonUser) {
+      this.props.dispatch({ type: SET_OVERLAY, value: 'tryItNowSignUp' });
+      return;
+    }
+    const newData = {
+      editName: false,
+      editEmail: false,
+      editPassword: false,
+      ...({ [type]: newValue }),
+    };
+    this.setState(newData);
+
   }
 
   renderImagePicker() {
@@ -356,6 +375,8 @@ class Profile extends Component {
     const { editName, editEmail, editPassword } = this.state;
     const { user } = this.props;
 
+    const name = `${user.first_name} ${user.last_name}`;
+
     return (
       <View style={styles.container}>
         <Header
@@ -384,16 +405,16 @@ class Profile extends Component {
                     <Flex direction="row" align="center" justify="center" style={{padding: 2, paddingHorizontal: 20}}>
                       <Flex direction="row" align="center" justify="start" value={1}>
                         <Icon style={styles.inputIcon} name="person" size={20} />
-                        <Text style={styles.buttonText}>{`${user.first_name} ${user.last_name}`}</Text>
+                        <Text style={styles.buttonText}>{name}</Text>
                       </Flex>
                       <Button
                         isAndroidOpacity={true}
-                        text={editName ? 'cancel' : 'edit'}
+                        text={editName ? 'cancel' : (!name ? 'add' : 'edit')}
                         buttonTextStyle={styles.editText}
                         icon={editName ? 'close' : 'edit'}
                         iconStyle={styles.inputIcon}
                         style={styles.inputButton}
-                        onPress={() => this.setState({ editName: !editName, editEmail: false, editPassword: false })}
+                        onPress={() => this.toggleEdit('editName')}
                       />
                     </Flex>
                     <Separator />
@@ -413,12 +434,12 @@ class Profile extends Component {
                       </Flex>
                       <Button
                         isAndroidOpacity={true}
-                        text={editEmail ? 'cancel' : 'edit'}
+                        text={editEmail ? 'cancel' : (!user.email ? 'add' : 'edit')}
                         icon={editEmail ? 'close' : 'edit'}
                         buttonTextStyle={styles.editText}
                         iconStyle={styles.inputIcon}
                         style={styles.inputButton}
-                        onPress={() => this.setState({ editEmail: !editEmail, editName: false, editPassword: false })}
+                        onPress={() => this.toggleEdit('editEmail')}
                       />
                     </Flex>
                     <Separator />
@@ -438,12 +459,12 @@ class Profile extends Component {
                       </Flex>
                       <Button
                         isAndroidOpacity={true}
-                        text={editPassword ? 'cancel' : 'edit'}
+                        text={editPassword ? 'cancel' : (!user.email ? 'add' : 'edit')}
                         icon={editPassword ? 'close' : 'edit'}
                         buttonTextStyle={styles.editText}
                         iconStyle={styles.inputIcon}
                         style={styles.inputButton}
-                        onPress={() => this.setState({ editPassword: !editPassword, editName: false, editEmail: false })}
+                        onPress={() => this.toggleEdit('editPassword')}
                       />
                     </Flex>
                     <Separator />
@@ -460,6 +481,7 @@ class Profile extends Component {
           </Flex>
         </Flex>
         <ApiLoading />
+        <VokeOverlays type="tryItNowSignUp" />
       </View>
     );
   }
@@ -473,6 +495,7 @@ Profile.propTypes = {
 
 const mapStateToProps = ({ auth }) => ({
   user: auth.user,
+  isAnonUser: auth.isAnonUser,
 });
 
 export default connect(mapStateToProps, nav)(Profile);

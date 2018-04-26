@@ -15,7 +15,6 @@ import { vokeIcons } from '../../utils/iconMap';
 import ANIMATION from '../../../images/VokeBotAnimation.gif';
 
 import ApiLoading from '../ApiLoading';
-import VokeOverlays from '../VokeOverlays';
 import AndroidReportModal from '../AndroidReportModal';
 import ConversationList from '../../components/ConversationList';
 import PopupMenu from '../../components/PopupMenu';
@@ -24,7 +23,7 @@ import Header, { HeaderIcon } from '../Header';
 import { Flex, Text, RefreshControl } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import VOKE from '../../../images/voke_null_state.png';
-import { IS_SMALL_ANDROID, SET_OVERLAY } from '../../constants';
+import { IS_SMALL_ANDROID } from '../../constants';
 import theme from '../../theme';
 
 const CONTACT_LENGTH_SHOW_VOKEBOT = IS_SMALL_ANDROID ? 2 : 3;
@@ -51,8 +50,6 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch({ type: SET_OVERLAY, value: 'tryItNowSignUp' });
-
     Analytics.screen('Home Chats');
 
     this.props.dispatch(getConversations()).catch((err)=> {
@@ -248,7 +245,6 @@ class Home extends Component {
             />
           ) : null
         }
-        <VokeOverlays type="tryItNowSignUp" />
       </View>
     );
   }

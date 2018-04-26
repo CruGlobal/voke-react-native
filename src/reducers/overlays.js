@@ -2,12 +2,14 @@ import {
   LOGOUT,
   SET_OVERLAY,
   CLEAR_OVERLAY,
+  CREATE_ANON_USER,
 } from '../constants';
 import { exists } from '../utils/common';
 
 const initialState = {
   tryItNowIntro: false,
   tryItNowSignUp: false,
+  pushPermissions: false,
 };
 
 export default function overlays(state = initialState, action) {
@@ -27,6 +29,8 @@ export default function overlays(state = initialState, action) {
     case CLEAR_OVERLAY:
       if (!exists(state[action.value])) return state;
       return { ...state, [action.value]: false };
+    case CREATE_ANON_USER:
+      return { ...state, tryItNowIntro: true };
     case LOGOUT:
       return initialState;
     default:

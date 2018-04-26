@@ -2,6 +2,8 @@
 import { StyleSheet } from 'react-native';
 import theme from '../../theme';
 
+const width = theme.fullWidth - 100;
+
 export default StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFillObject,
@@ -9,13 +11,19 @@ export default StyleSheet.create({
   },
   closeButton: {
     backgroundColor: theme.primaryColor,
-    width: theme.fullWidth - 100,
+    width,
+    marginBottom: 12,
+  },
+  clearButton: {
+    backgroundColor: theme.transparent,
+    width,
+    alignItems: 'center',
   },
   chatBubble: {
     borderRadius: 5,
     backgroundColor: theme.white,
     padding: 25,
-    width: theme.fullWidth - 100,
+    width,
   },
   chatText: {
     color: theme.secondaryColor,

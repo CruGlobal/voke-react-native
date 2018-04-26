@@ -9,12 +9,17 @@ import SignUpButtons from '../SignUpButtons';
 import { CLEAR_OVERLAY } from '../../constants';
 import VOKEBOT from '../../../images/voke_bot_face_large.png';
 import styles from './styles';
+import { enablePushNotifications } from '../../actions/socket';
 
 class VokeOverlays extends Component {
 
   close = () => {
     const { type } = this.props;
     this.props.dispatch({ type: CLEAR_OVERLAY, value: type });
+  }
+
+  allowNotifications = () => {
+    this.props.dispatch(enablePushNotifications());
   }
 
   renderIntro() {
@@ -56,21 +61,56 @@ class VokeOverlays extends Component {
     );
   }
 
+  renderPushPermissions() {
+    const { user } = this.props;
+    return (
+      <Flex style={styles.overlay} align="center" justify="center" self="stretch">
+        <Flex style={styles.chatBubble}>
+          <Text style={styles.chatText}>
+            {user ? `${user.first_name}, ` : ''}
+            I will play my ukulele when your friends start watching videos. This is the best time to have deeper conversations.
+            {'\n'}
+            {'\n'}
+            First, I need your permission to send notifications.
+          </Text>
+        </Flex>
+        <Flex style={styles.chatTriangle} />
+        <Image source={VOKEBOT} style={{ height: 100 }} resizeMode="contain" />
+        <Button
+          onPress={this.allowNotifications}
+          type="filled"
+          style={styles.closeButton}
+          text="Allow Notifications"
+        />
+        <Button
+          onPress={this.close}
+          style={styles.clearButton}
+          text="No Thanks"
+        />
+      </Flex>
+    );
+  }
+
   render() {
     const { type, overlays } = this.props;
     if (type === 'tryItNowIntro' && overlays[type]) {
       return this.renderIntro();
     } else if (type === 'tryItNowSignUp' && overlays[type]) {
       return this.renderSignUp();
+    } else if (type === 'pushPermissions' && overlays[type]) {
+      return this.renderPushPermissions();
     }
     return null;
   }
 }
 
 VokeOverlays.propTypes = {
-  type: PropTypes.oneOf(['tryItNowIntro', 'tryItNowSignUp']).isRequired,
+  type: PropTypes.oneOf(['tryItNowIntro', 'tryItNowSignUp', 'pushPermissions']).isRequired,
 };
 
-const mapStateToProps = ({ overlays }) => ({ overlays });
+const mapStateToProps = ({ overlays, auth }) => ({
+  overlays,
+  user: auth.user,
+});
 
 export default connect(mapStateToProps)(VokeOverlays);

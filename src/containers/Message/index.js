@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { View, TextInput, KeyboardAvoidingView, Keyboard, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 
-import { checkAndRunSockets } from '../../actions/socket';
+import { checkAndRunSockets, determinePushOverlay } from '../../actions/socket';
 import { getMessages, createMessage, createTypeStateAction, destroyTypeStateAction, createMessageInteraction, markReadAction } from '../../actions/messages';
 import Analytics from '../../utils/analytics';
 
 import theme, { COLORS } from '../../theme';
 import nav, { NavPropTypes } from '../../actions/nav';
 import { vokeIcons } from '../../utils/iconMap';
+import VokeOverlays from '../VokeOverlays';
 
 import { SET_ACTIVE_CONVERSATION } from '../../constants';
 import styles from './styles';
@@ -56,6 +57,7 @@ class Message extends Component {
   }
 
   componentDidMount() {
+    this.props.dispatch(determinePushOverlay());
     this.setConversationName();
 
     Analytics.screen('Chat');
@@ -312,122 +314,125 @@ class Message extends Component {
     };
 
     return (
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={theme.isAndroid ? undefined : 'padding'}
-        keyboardVerticalOffset={theme.isAndroid ? undefined : 0}
-      >
-        <Header
-          left={
-            theme.isAndroid ? (
-              <HeaderIcon
-                type="back"
-                onPress={this.handleHeaderBack}
-              />
-            ) : (
-              <HeaderIcon
-                image={this.state.showDot ? vokeIcons['home-dot'] : vokeIcons['home']}
-                onPress={this.handleHeaderBack}
-              />
-            )
-          }
-          title={this.state.title}
-        />
-        {
-          this.state.selectedVideo ? (
-            <MessageVideoPlayer
-              ref={(c) => this.videoPlayer = c}
-              message={this.state.selectedVideo}
-              onClose={this.clearSelectedVideo}
-            />
-          ) : null
-        }
-        <MessagesList
-          ref={(c) => this.list = c}
-          onLoadMore={this.handleLoadMore}
-          hasMore={pagination.hasMore}
-          items={messages}
-          typeState={typeState}
-          user={me}
-          messengers={conversation.messengers}
-          onEndReached={this.handleOnEndReached}
-          onSelectVideo={this.handleSelectVideo}
-        />
-        {
-          theme.isAndroid ? null : (
-            <Flex value={100} style={{zIndex: 10, backgroundColor: 'transparent'}}></Flex>
-          )
-        }
-        <Flex direction="row" style={[styles.inputWrap, newWrap]} align="center" justify="center">
+      <View style={styles.container}>
+        <KeyboardAvoidingView
+          style={styles.container}
+          behavior={theme.isAndroid ? undefined : 'padding'}
+          keyboardVerticalOffset={theme.isAndroid ? undefined : 0}
+        >
+          <Header
+            left={
+              theme.isAndroid ? (
+                <HeaderIcon
+                  type="back"
+                  onPress={this.handleHeaderBack}
+                />
+              ) : (
+                <HeaderIcon
+                  image={this.state.showDot ? vokeIcons['home-dot'] : vokeIcons['home']}
+                  onPress={this.handleHeaderBack}
+                />
+              )
+            }
+            title={this.state.title}
+          />
           {
-            this.state.shouldShowButtons === true ? (
-              <Flex animation="slideInLeft" duration={400} direction="row" style={{padding: 0, margin: 0, alignItems: 'center'}}>
-                <Button
-                  type="transparent"
-                  style={styles.moreContentButton}
-                  onPress={this.handleAddVideo}
-                >
-                  <VokeIcon name="add-video" />
-                </Button>
-                <Button
-                  type="transparent"
-                  style={styles.moreContentButton}
-                  onPress={this.handleAddKickstarter}
-                >
-                  <VokeIcon name="add-kickstarter" />
-                </Button>
-              </Flex>
-            ) : (
-              <Flex animation="slideInRight" duration={150} direction="row" style={{padding: 0, margin: 0, alignItems: 'center'}}>
-                <Button
-                  type="transparent"
-                  style={styles.moreContentButton}
-                  onPress={this.handleButtonExpand}
-                >
-                  <VokeIcon name="plus" />
-                </Button>
-              </Flex>
+            this.state.selectedVideo ? (
+              <MessageVideoPlayer
+                ref={(c) => this.videoPlayer = c}
+                message={this.state.selectedVideo}
+                onClose={this.clearSelectedVideo}
+              />
+            ) : null
+          }
+          <MessagesList
+            ref={(c) => this.list = c}
+            onLoadMore={this.handleLoadMore}
+            hasMore={pagination.hasMore}
+            items={messages}
+            typeState={typeState}
+            user={me}
+            messengers={conversation.messengers}
+            onEndReached={this.handleOnEndReached}
+            onSelectVideo={this.handleSelectVideo}
+          />
+          {
+            theme.isAndroid ? null : (
+              <Flex value={100} style={{zIndex: 10, backgroundColor: 'transparent'}}></Flex>
             )
           }
-          <Flex direction="row" style={[styles.chatBox, inputHeight]} align="center">
-            <TextInput
-              onFocus={this.handleInputFocus}
-              onBlur={this.handleInputBlur}
-              autoCapitalize="sentences"
-              multiline={true}
-              value={this.state.text}
-              placeholder="New Message"
-              onChangeText={this.handleInputChange}
-              placeholderTextColor={theme.primaryColor}
-              underlineColorAndroid={COLORS.TRANSPARENT}
-              onContentSizeChange={this.handleInputSizeChange}
-              style={[styles.chatInput, inputHeight]}
-              autoCorrect={true}
-            />
+          <Flex direction="row" style={[styles.inputWrap, newWrap]} align="center" justify="center">
             {
-              this.state.text ? (
-                <Flex animation="slideInRight" duration={250} align="center" direction="row" style={{padding: 0, margin: 0}}>
+              this.state.shouldShowButtons === true ? (
+                <Flex animation="slideInLeft" duration={400} direction="row" style={{padding: 0, margin: 0, alignItems: 'center'}}>
                   <Button
                     type="transparent"
-                    style={styles.sendButton}
-                    icon="send"
-                    iconStyle={styles.sendIcon}
-                    onPress={this.createMessageEmpty}
-                  />
+                    style={styles.moreContentButton}
+                    onPress={this.handleAddVideo}
+                  >
+                    <VokeIcon name="add-video" />
+                  </Button>
+                  <Button
+                    type="transparent"
+                    style={styles.moreContentButton}
+                    onPress={this.handleAddKickstarter}
+                  >
+                    <VokeIcon name="add-kickstarter" />
+                  </Button>
                 </Flex>
-              ) : null
+              ) : (
+                <Flex animation="slideInRight" duration={150} direction="row" style={{padding: 0, margin: 0, alignItems: 'center'}}>
+                  <Button
+                    type="transparent"
+                    style={styles.moreContentButton}
+                    onPress={this.handleButtonExpand}
+                  >
+                    <VokeIcon name="plus" />
+                  </Button>
+                </Flex>
+              )
             }
-            {
-              this.state.createTransparentFocus ? (
-                <Touchable activeOpacity={0} onPress={() => this.setState({shouldShowButtons: false, createTransparentFocus: false})}>
-                  <View style={[inputHeight, styles.transparentOverlay]} />
-                </Touchable>
-              ) : null
-            }
+            <Flex direction="row" style={[styles.chatBox, inputHeight]} align="center">
+              <TextInput
+                onFocus={this.handleInputFocus}
+                onBlur={this.handleInputBlur}
+                autoCapitalize="sentences"
+                multiline={true}
+                value={this.state.text}
+                placeholder="New Message"
+                onChangeText={this.handleInputChange}
+                placeholderTextColor={theme.primaryColor}
+                underlineColorAndroid={COLORS.TRANSPARENT}
+                onContentSizeChange={this.handleInputSizeChange}
+                style={[styles.chatInput, inputHeight]}
+                autoCorrect={true}
+              />
+              {
+                this.state.text ? (
+                  <Flex animation="slideInRight" duration={250} align="center" direction="row" style={{padding: 0, margin: 0}}>
+                    <Button
+                      type="transparent"
+                      style={styles.sendButton}
+                      icon="send"
+                      iconStyle={styles.sendIcon}
+                      onPress={this.createMessageEmpty}
+                    />
+                  </Flex>
+                ) : null
+              }
+              {
+                this.state.createTransparentFocus ? (
+                  <Touchable activeOpacity={0} onPress={() => this.setState({shouldShowButtons: false, createTransparentFocus: false})}>
+                    <View style={[inputHeight, styles.transparentOverlay]} />
+                  </Touchable>
+                ) : null
+              }
+            </Flex>
           </Flex>
-        </Flex>
-        <ApiLoading text="Loading Messages" />
-      </KeyboardAvoidingView>
+          <ApiLoading text="Loading Messages" />
+        </KeyboardAvoidingView>
+        <VokeOverlays type="pushPermissions" />
+      </View>
     );
   }
 }

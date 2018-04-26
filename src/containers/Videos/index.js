@@ -282,7 +282,7 @@ class Videos extends Component {
           total: this.state.channelSubscribeData.total + 1,
         },
       });
-    });
+    }).catch(() => { LOG('did not subscribe'); });
   }
   
   handleUnsubscribe() {
@@ -295,7 +295,7 @@ class Videos extends Component {
           total: this.state.channelSubscribeData.total - 1,
         },
       });
-    });
+    }).catch(() => { LOG('did not unsubscribe'); });
   }
 
   renderChannel() {
@@ -410,7 +410,10 @@ class Videos extends Component {
             />
           ) : null
         }
+        {/* This is for the initial overlay */}
         <VokeOverlays type="tryItNowIntro" />
+        {/* This is here for the channel page to show when clicking the "Subscribe" button */}
+        <VokeOverlays type="tryItNowSignUp" />
       </View>
     );
   }

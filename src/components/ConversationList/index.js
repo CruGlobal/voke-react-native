@@ -10,6 +10,7 @@ import { momentUtc, getInitials } from '../../utils/common';
 
 import { Flex, VokeIcon, Text, Touchable, Avatar, RefreshControl } from '../common';
 import LoadMore from '../LoadMore';
+import NotificationToast from '../../containers/NotificationToast';
 import CONSTANTS from '../../constants';
 
 const SLIDE_ROW_WIDTH = 130;
@@ -65,6 +66,10 @@ class ConversationList extends Component {
       return true;
     }
     return false;
+  }
+
+  renderNotificationPrompt = () => {
+    return <NotificationToast />;
   }
 
   renderLoadMore = () => {
@@ -182,6 +187,7 @@ class ConversationList extends Component {
         rightOpenValue={SLIDE_ROW_WIDTH * -1}
         disableLeftSwipe={false}
         disableRightSwipe={true}
+        ListHeaderComponent={this.renderNotificationPrompt}
         ListFooterComponent={this.renderLoadMore}
         recalculateHiddenLayout={true}
         removeClippedSubviews={false}

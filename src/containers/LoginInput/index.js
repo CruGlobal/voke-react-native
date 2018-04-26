@@ -29,7 +29,6 @@ class LoginInput extends Component {
     };
 
     this.login = this.login.bind(this);
-    this.facebookLogin = this.facebookLogin.bind(this);
     this.checkEmail = this.checkEmail.bind(this);
   }
 
