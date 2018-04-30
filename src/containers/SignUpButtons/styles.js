@@ -12,10 +12,17 @@ export default StyleSheet.create({
     height: 40,
     marginBottom: 10,
   },
+  filled: {
+    backgroundColor: theme.primaryColor,
+    alignItems: 'flex-start',
+  },
   signIn: {
     fontSize: 14,
     color: theme.white,
     paddingRight: 5,
+  },
+  signInFilled: {
+    color: theme.darkText,
   },
   signInText: {
     color: theme.accentColor,

@@ -15,8 +15,10 @@ import { enablePushNotifications } from '../../actions/socket';
 class VokeOverlays extends Component {
 
   close = () => {
-    const { type } = this.props;
-    this.props.dispatch({ type: CLEAR_OVERLAY, value: type });
+    const { type, onClose, dispatch } = this.props;
+    dispatch({ type: CLEAR_OVERLAY, value: type });
+    // If the user passes in an onClose callback, call it
+    if (onClose) onClose();
   }
 
   allowNotifications = () => {
@@ -107,6 +109,7 @@ class VokeOverlays extends Component {
 
 VokeOverlays.propTypes = {
   type: PropTypes.oneOf(['tryItNowIntro', 'tryItNowSignUp', 'pushPermissions']).isRequired,
+  onClose: PropTypes.func,
 };
 
 const mapStateToProps = ({ overlays, auth }) => ({

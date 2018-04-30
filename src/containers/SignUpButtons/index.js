@@ -8,21 +8,26 @@ import styles from './styles';
 
 class SignUpButtons extends Component {
   render() {
+    const { filled } = this.props;
     return (
       <Flex align="center" justify="center" style={styles.actions}>
         <Flex style={styles.buttonWrapper}>
           <Button
             text="Sign Up with Email"
             icon="mail-outline"
-            style={styles.actionButton}
+            type={filled ? 'filled' : undefined}
+            style={[styles.actionButton, filled ? styles.filled : null]}
             onPress={() => this.props.dispatch(navigatePush('voke.SignUpAccount'))}
           />
         </Flex>
         <Flex style={styles.buttonWrapper}>
-          <FacebookButton />
+          <FacebookButton
+            type={filled ? 'filled' : undefined}
+            style={filled ? styles.filled : undefined}
+          />
         </Flex>
         <Flex direction="row" align="center" justify="center" style={styles.haveAccount}>
-          <Text style={styles.signIn}>Already have an account?</Text>
+          <Text style={[styles.signIn, filled ? styles.signInFilled : null]}>Already have an account?</Text>
           <Button
             text="Sign In"
             type="transparent"

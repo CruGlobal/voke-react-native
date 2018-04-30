@@ -72,13 +72,14 @@ class FacebookButton extends Component {
   }
   
   render() {
+    const { style, ...rest } = this.props;
     return (
       <Button
         text="Sign Up with Facebook"
         icon="facebook-square"
         iconType="FontAwesome"
-        style={styles.actionButton}
-        {...this.props}
+        style={[styles.actionButton, style]}
+        {...rest}
         onPress={this.facebookLogin}
       />
     );

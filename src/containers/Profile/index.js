@@ -11,39 +11,30 @@ import Analytics from '../../utils/analytics';
 import ApiLoading from '../ApiLoading';
 import Header from '../Header';
 import VokeOverlays from '../VokeOverlays';
+import SignUpButtons from '../SignUpButtons';
 import VOKE_LOGO from '../../../images/nav_voke_logo.png';
 import nav, { NavPropTypes } from '../../actions/nav';
 import theme, { COLORS } from '../../theme';
 import { SET_OVERLAY } from '../../constants';
 
+const defaultState = {
+  imageUri: null,
+  editName: false,
+  editEmail: false,
+  editPassword: false,
+  firstName: '',
+  lastName: '',
+  newEmail: '',
+  confirmEmail: '',
+  currentPassword: '',
+  newPassword: '',
+  confirmPassword: '',
+  hideAnonFields: false,
+};
+
 class Profile extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      imageUri: null,
-      editName: false,
-      editEmail: false,
-      editPassword: false,
-      firstName: '',
-      lastName: '',
-      newEmail: '',
-      confirmEmail: '',
-      currentPassword: '',
-      newPassword: '',
-      confirmPassword: '',
-    };
-
-    this.renderImagePicker = this.renderImagePicker.bind(this);
-    this.renderEditName = this.renderEditName.bind(this);
-    this.renderEditEmail = this.renderEditEmail.bind(this);
-    this.renderEditPassword = this.renderEditPassword.bind(this);
-    this.handleImageChange = this.handleImageChange.bind(this);
-    this.scrollEnd = this.scrollEnd.bind(this);
-    this.handleUpdate = this.handleUpdate.bind(this);
-    this.resetState = this.resetState.bind(this);
-    this.backHandler = this.backHandler.bind(this);
-  }
+  state = defaultState;
 
   componentDidMount() {
     Analytics.screen('Profile');
@@ -55,7 +46,7 @@ class Profile extends Component {
     BackHandler.removeEventListener('hardwareBackPress', this.backHandler);
   }
 
-  backHandler() {
+  backHandler = () => {
     if (this.state.editName || this.state.editEmail || this.state.editPassword) {
       this.resetState();
       return true;
@@ -63,7 +54,7 @@ class Profile extends Component {
     return false;
   }
 
-  handleUpdate() {
+  handleUpdate = () => {
     const { firstName, lastName, currentPassword, newEmail, confirmEmail, newPassword, confirmPassword } = this.state;
     let data = {};
 
@@ -107,22 +98,10 @@ class Profile extends Component {
   }
 
   resetState() {
-    this.setState({
-      imageUri: null,
-      editName: false,
-      editEmail: false,
-      editPassword: false,
-      firstName: '',
-      lastName: '',
-      newEmail: '',
-      confirmEmail: '',
-      currentPassword: '',
-      newPassword: '',
-      confirmPassword: '',
-    });
+    this.setState(defaultState);
   }
 
-  handleImageChange(data) {
+  handleImageChange = (data) => {
     this.setState({
       imageUri: data.uri,
     });
@@ -140,18 +119,11 @@ class Profile extends Component {
     }
   }
 
-  scrollEnd(isAnimated) {
-    // Somehow check if the listview is in the middle
-    // if (this.listView) {
-    //   setTimeout(() => this.listView.scrollToEnd({ animated: isAnimated }), 50);
-    // }
-    setTimeout(() => this.scrollView.scrollToEnd({ animated: isAnimated }), 50);
-  }
-
   toggleEdit = (type) => {
     const newValue = !this.state[type];
     // If we are toggling the edit ON and the user is anonymous, show the popup
     if (newValue && this.props.isAnonUser) {
+      this.setState({ hideAnonFields: true });
       this.props.dispatch({ type: SET_OVERLAY, value: 'tryItNowSignUp' });
       return;
     }
@@ -372,8 +344,8 @@ class Profile extends Component {
   }
 
   render() {
-    const { editName, editEmail, editPassword } = this.state;
-    const { user } = this.props;
+    const { editName, editEmail, editPassword, hideAnonFields } = this.state;
+    const { user, isAnonUser } = this.props;
 
     const name = `${user.first_name} ${user.last_name}`;
 
@@ -474,14 +446,18 @@ class Profile extends Component {
                   </View>
                 )
               }
+              {
+                isAnonUser && !hideAnonFields ? (
+                  <Flex style={{ marginTop: 30 }}>
+                    <SignUpButtons filled={true} />
+                  </Flex>
+                ) : null
+              }
             </ScrollView>
-          </Flex>
-          <Flex>
-            new components go here
           </Flex>
         </Flex>
         <ApiLoading />
-        <VokeOverlays type="tryItNowSignUp" />
+        <VokeOverlays type="tryItNowSignUp" onClose={() => this.setState({ hideAnonFields: false })} />
       </View>
     );
   }
