@@ -278,6 +278,12 @@ class Message extends Component {
     this.setState({ selectedVideo: m });
   }
 
+  handleShareVideo = (video) => {
+    this.props.navigatePush('voke.ShareFlow', {
+      videoId: video.id,
+    });
+  }
+
   handleInputFocus = () => {
     this.list.scrollEnd(true);
     this.createTypeState();
@@ -357,6 +363,7 @@ class Message extends Component {
             messengers={conversation.messengers}
             onEndReached={this.handleOnEndReached}
             onSelectVideo={this.handleSelectVideo}
+            onShareVideo={this.handleShareVideo}
           />
           {
             theme.isAndroid ? null : (

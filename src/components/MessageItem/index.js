@@ -34,10 +34,8 @@ class MessageItem extends PureComponent {
   }
 
   shareVideo = () => {
-    if (this.props.item && this.props.item.item) {
-      this.props.navigatePush('voke.ShareFlow', {
-        videoId: this.props.item.item.id,
-      });
+    if (this.props.item && this.props.item.item && this.props.onShareVideo) {
+      this.props.onShareVideo(this.props.item.item);
     }
   }
 
@@ -312,6 +310,8 @@ MessageItem.propTypes = {
   item: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   messengers: PropTypes.array.isRequired,
+  onSelectVideo: PropTypes.func.isRequired,
+  onShareVideo: PropTypes.func.isRequired,
 };
 
 export default MessageItem;

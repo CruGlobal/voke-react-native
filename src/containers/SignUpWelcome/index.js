@@ -20,32 +20,30 @@ import theme, { COLORS } from '../../theme';
 import { Flex, Text, Button, VokeIcon } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 
-const NUM_ONBOARDING_STEPS = 4;
-
 const MARGIN = 40;
 
 class SignUpWelcome extends Component {
 
-  state = { selectedPage: 0 };
-
-  onPageSelected = (params) => {
-    this.setState({ selectedPage: params.position });
-    // if (params.position > 0) {
-    //   this.props.dispatch({type: ONBOARD_FLAG, completed: true});
-    // }
-  }
-
-  handleNextPage(i) {
-    if (i + 1 === NUM_ONBOARDING_STEPS - 1 && !this.props.noSignIn) {
-      this.signUp();
-    } else {
-      this.viewPager.setPage(i+1);
-    }
-  }
+  state = { selectedPage: 0, totalSteps: 3 };
 
   componentDidMount() {
     Analytics.screen('Welcome Onboarding');
     Orientation.lockToPortrait();
+    if (this.props.noSignIn) {
+      this.setState({ totalSteps: 4 });
+    }
+  }
+
+  onPageSelected = (params) => {
+    this.setState({ selectedPage: params.position });
+  }
+
+  handleNextPage(i) {
+    if (i + 1 === this.state.totalSteps && !this.props.noSignIn) {
+      this.signUp();
+    } else {
+      this.viewPager.setPage(i+1);
+    }
   }
 
   signUp = () => {
@@ -65,7 +63,7 @@ class SignUpWelcome extends Component {
 
   renderSkip() {
     // If your get to the last page, dont show the skip button
-    if (this.state.selectedPage >= NUM_ONBOARDING_STEPS - 1) return null;
+    if (this.state.selectedPage >= this.state.totalSteps) return null;
     return (
       <Button
         type="transparent"
@@ -131,25 +129,29 @@ class SignUpWelcome extends Component {
                 {this.renderSkip()}
               </Flex>
             </View>
-            <View style={styles.onboardingPage}>
-              <Flex value={1} direction="column" align="center" justify="center" >
-                <Flex value={1} align="center" justify="center">
-                  <Image resizeMode="cover" source={ONBOARD_4} style={styles.onboardFull} />
-                </Flex>
-              </Flex>
-              <Flex direction="column" align="end" style={{position: 'absolute', top: MARGIN, right: MARGIN, width: 250 }}>
-                <VokeIcon style={{width: 36, height: 36}} name="onboard-heart"></VokeIcon>
-                <Text style={{fontSize: 36, fontWeight: 'bold', backgroundColor: 'rgba(0,0,0,0)', textAlign: 'right'}}>Experience Deeper Friendships</Text>
-              </Flex>
-              <Flex direction="column" align="center" justify="center" style={{ position: 'absolute', bottom: MARGIN, left: 0, right: 0 }}>
-                <Button
-                  text="Done"
-                  buttonTextStyle={styles.signInButtonText}
-                  style={[styles.signInButton, { backgroundColor: theme.accentColor, borderWidth: 0 }]}
-                  onPress={() => this.props.navigateBack()}
-                />
-              </Flex>
-            </View>
+            {
+              noSignIn ? (
+                <View style={styles.onboardingPage}>
+                  <Flex value={1} direction="column" align="center" justify="center" >
+                    <Flex value={1} align="center" justify="center">
+                      <Image resizeMode="cover" source={ONBOARD_4} style={styles.onboardFull} />
+                    </Flex>
+                  </Flex>
+                  <Flex direction="column" align="end" style={{position: 'absolute', top: MARGIN, right: MARGIN, width: 250 }}>
+                    <VokeIcon style={{width: 36, height: 36}} name="onboard-heart"></VokeIcon>
+                    <Text style={{fontSize: 36, fontWeight: 'bold', backgroundColor: 'rgba(0,0,0,0)', textAlign: 'right'}}>Experience Deeper Friendships</Text>
+                  </Flex>
+                  <Flex direction="column" align="center" justify="center" style={{ position: 'absolute', bottom: MARGIN, left: 0, right: 0 }}>
+                    <Button
+                      text="Done"
+                      buttonTextStyle={styles.signInButtonText}
+                      style={[styles.signInButton, { backgroundColor: theme.accentColor, borderWidth: 0 }]}
+                      onPress={() => this.props.navigateBack()}
+                    />
+                  </Flex>
+                </View>
+              ) : null
+            }
           </IndicatorViewPager>
         </View>
       </View>
