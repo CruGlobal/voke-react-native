@@ -213,10 +213,10 @@ export function createAccountAction(email, password, isAnonymous = false) {
   return (dispatch) => (
     new Promise((resolve, reject) => {
       let data = {
-        email,
-        password,
         timezone_name: DeviceInfo.getTimezone(),
       };
+      if (email) data.email = email;
+      if (password) data.password = password;
 
       if (isAnonymous) {
         data = {
@@ -323,7 +323,7 @@ export function updateMe(data) {
       dispatch(getMe());
       return results;
     }).catch(() => {
-      // LOG('error updating me', error);
+      LOG('error updating me', error);
     });
   };
 }

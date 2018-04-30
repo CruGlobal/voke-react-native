@@ -26,9 +26,11 @@ class TryItNowName extends Component {
   login = () => {
     if (this.state.name) {
       this.setState({ isLoading: true });
+      // TODO: Figure out how to determine the user's first/last name
       let nameData = {
         me: {
           first_name: this.state.name,
+          last_name: '',
         },
       };
       this.props.dispatch(createAccountAction(null, null, true)).then((results) => {
