@@ -125,6 +125,12 @@ export default function auth(state = initialState, action) {
         device: {},
         cableId: '',
       };
+    case REQUESTS.OAUTH.SUCCESS:
+      // When the user logs in, always remove the isAnonUser field
+      return {
+        ...state,
+        isAnonUser: false,
+      };
     case ACTIVE_SCREEN:
       return {
         ...state,

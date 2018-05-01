@@ -27,7 +27,7 @@ class SettingsList extends Component {
     return (
       <View style={styles.container}>
         <FlatList
-          initialNumToRender={10}
+          initialNumToRender={20}
           data={this.props.items}
           ItemSeparatorComponent={() => <Separator style={styles.settingsSeparator} />}
           renderItem={this.renderRow}

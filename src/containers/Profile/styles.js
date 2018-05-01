@@ -2,7 +2,7 @@
 import { StyleSheet } from 'react-native';
 import theme, { COLORS } from '../../theme';
 
-const IMAGE_SIZE = 125;
+const IMAGE_SIZE = 38;
 
 export default StyleSheet.create({
   container: {
@@ -23,8 +23,6 @@ export default StyleSheet.create({
     height: IMAGE_SIZE,
     width: IMAGE_SIZE,
     borderRadius: IMAGE_SIZE / 2,
-    borderWidth: 3,
-    borderColor: theme.lightBackgroundColor,
     backgroundColor: 'black',
   },
   imageCover: {
@@ -76,10 +74,8 @@ export default StyleSheet.create({
     fontSize: 12,
   },
   image: {
-    height: 125,
-    width: 125,
-    borderRadius: 125 / 2,
-    borderWidth: 1,
-    borderColor: theme.lightBackgroundColor,
+    height: IMAGE_SIZE,
+    width: IMAGE_SIZE,
+    borderRadius: IMAGE_SIZE / 2,
   },
 });

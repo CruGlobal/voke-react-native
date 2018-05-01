@@ -39,31 +39,13 @@ class LoginInput extends Component {
 
   componentDidMount() {
     Analytics.screen('Login Input');
-    // setTimeout(this.login, 1000);
-  }
-
-  loginAnon() {
-    // TODO: Setup login/sign up merge stuff
-    LOG('merge accounts somehow...');
-    // this.setState({ isLoading: true });
-    // this.props.dispatch(anonLogin(
-    //   this.state.email,
-    //   this.state.password
-    // )).then((results) => {
-    //   this.setState({ isLoading: false });
-    //   // LOG('login results', results);
-    //   this.props.navigateResetHome();
-    // }).catch(() => {
-    //   this.setState({ isLoading: false });
-    // });
+    if (this.props.isAnonUser) {
+      Alert.alert('Login', 'If you login with an existing account, you will lose any activity that you have on the account you have been using. If you would like to save this activity, please go back and create a new account.');
+    }
   }
 
   login() {
     if (this.state.emailValidation && this.state.password) {
-      if (this.props.isAnonUser) {
-        this.loginAnon();
-        return;
-      }
       this.setState({ isLoading: true });
       this.props.dispatch(anonLogin(
         this.state.email,

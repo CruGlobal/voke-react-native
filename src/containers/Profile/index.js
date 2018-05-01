@@ -150,9 +150,10 @@ class Profile extends Component {
 
     return (
       <ImagePicker onSelectImage={this.handleImageChange}>
-        <Flex align="center" justify="center" style={styles.imageSelect}>
-          <Image resizeMode="cover" source={image} style={styles.image} />
-        </Flex>
+        <Row
+          text="Change Profile Pic"
+          right={<Image resizeMode="cover" source={image} style={styles.image} />}
+        />
       </ImagePicker>
     );
   }
@@ -346,8 +347,11 @@ class Profile extends Component {
   render() {
     const { editName, editEmail, editPassword, hideAnonFields } = this.state;
     const { user, isAnonUser } = this.props;
+    LOG('user', user);
 
     const name = `${user.first_name} ${user.last_name}`;
+
+    const isEditing = editName || editEmail || editPassword;
 
     return (
       <View style={styles.container}>
@@ -358,13 +362,6 @@ class Profile extends Component {
           shadow={false}
         />
         <Flex direction="column" style={styles.container}>
-          {
-            editName || editEmail || editPassword ? null : (
-              <Flex value={1} align="center" justify="center" style={styles.imageWrapper}>
-                {this.renderImagePicker()}
-              </Flex>
-            )
-          }
           <Flex value={2} style={styles.infoWrapper}>
             <ScrollView
               ref={(c) => this.scrollView = c}
@@ -372,14 +369,14 @@ class Profile extends Component {
               keyboardShouldPersistTaps="handled"
             >
               {
-                editEmail || editPassword ? null : (
+                editName || editEmail || editPassword ? null : this.renderImagePicker()
+              }
+              {
+                isEditing && !editName ? null : (
                   <View>
-                    <Flex direction="row" align="center" justify="center" style={{padding: 2, paddingHorizontal: 20}}>
-                      <Flex direction="row" align="center" justify="start" value={1}>
-                        <Icon style={styles.inputIcon} name="person" size={20} />
-                        <Text style={styles.buttonText}>{name}</Text>
-                      </Flex>
-                      <Button
+                    <Row
+                      text={name || 'Add Name'}
+                      right={<Button
                         isAndroidOpacity={true}
                         text={editName ? 'cancel' : (!name ? 'add' : 'edit')}
                         buttonTextStyle={styles.editText}
@@ -387,9 +384,8 @@ class Profile extends Component {
                         iconStyle={styles.inputIcon}
                         style={styles.inputButton}
                         onPress={() => this.toggleEdit('editName')}
-                      />
-                    </Flex>
-                    <Separator />
+                      />}
+                    />
                     {
                       editName ? this.renderEditName() : null
                     }
@@ -397,14 +393,11 @@ class Profile extends Component {
                 )
               }
               {
-                editName || editPassword ? null : (
+                isEditing && !editEmail ? null : (
                   <View>
-                    <Flex direction="row" align="center" justify="center" style={{padding: 2, paddingHorizontal: 20}}>
-                      <Flex direction="row" align="center" justify="start" value={1}>
-                        <Icon style={styles.inputIcon} name="mail-outline" size={20} />
-                        <Text style={styles.buttonText}>{user.email}</Text>
-                      </Flex>
-                      <Button
+                    <Row
+                      text={user.email || 'Add Email'}
+                      right={<Button
                         isAndroidOpacity={true}
                         text={editEmail ? 'cancel' : (!user.email ? 'add' : 'edit')}
                         icon={editEmail ? 'close' : 'edit'}
@@ -412,9 +405,8 @@ class Profile extends Component {
                         iconStyle={styles.inputIcon}
                         style={styles.inputButton}
                         onPress={() => this.toggleEdit('editEmail')}
-                      />
-                    </Flex>
-                    <Separator />
+                      />}
+                    />
                     {
                       editEmail ? this.renderEditEmail() : null
                     }
@@ -422,14 +414,11 @@ class Profile extends Component {
                 )
               }
               {
-                editName || editEmail ? null : (
+                isEditing && !editPassword ? null : (
                   <View>
-                    <Flex direction="row" align="center" justify="center" style={{padding: 2, paddingHorizontal: 20}}>
-                      <Flex direction="row" align="center" justify="start" value={1}>
-                        <Icon style={styles.inputIcon} name="security" size={20} />
-                        <Text style={styles.buttonText}>*********</Text>
-                      </Flex>
-                      <Button
+                    <Row
+                      text={user.email ? '********' : 'Add Password'}
+                      right={<Button
                         isAndroidOpacity={true}
                         text={editPassword ? 'cancel' : (!user.email ? 'add' : 'edit')}
                         icon={editPassword ? 'close' : 'edit'}
@@ -437,13 +426,28 @@ class Profile extends Component {
                         iconStyle={styles.inputIcon}
                         style={styles.inputButton}
                         onPress={() => this.toggleEdit('editPassword')}
-                      />
-                    </Flex>
-                    <Separator />
+                      />}
+                    />
                     {
                       editPassword ? this.renderEditPassword() : null
                     }
                   </View>
+                )
+              }
+              {
+                isEditing ? null : (
+                  <Row
+                    text={user.mobile ? 'Mobile Number Verified' : 'Verify Mobile Number'}
+                    right={user.mobile ? null : <Button
+                      isAndroidOpacity={true}
+                      text="add"
+                      icon="edit"
+                      buttonTextStyle={styles.editText}
+                      iconStyle={styles.inputIcon}
+                      style={styles.inputButton}
+                      onPress={() => this.props.navigatePush('voke.SignUpNumber')}
+                    />}
+                  />
                 )
               }
               {
@@ -461,6 +465,23 @@ class Profile extends Component {
       </View>
     );
   }
+}
+
+
+function Row({ text, left, right }) {
+  return (
+    <Flex direction="column">
+      <Flex direction="row" align="center">
+        <Flex value={3}>
+          {left ? left : (
+            <Text style={styles.changeTitle}>{text}</Text>
+          )}
+        </Flex>
+        <Flex value={1} align="center">{right}</Flex>
+      </Flex>
+      <Separator />
+    </Flex>
+  );
 }
 
 
