@@ -10,14 +10,12 @@ export default StyleSheet.create({
     backgroundColor: theme.backgroundColor,
   },
   content: {
+    flex: 1,
+    padding: 0,
     backgroundColor: theme.lightBackgroundColor,
   },
   imageWrapper: {
     backgroundColor: theme.primaryColor,
-  },
-  infoWrapper: {
-    backgroundColor: theme.lightBackgroundColor,
-    padding: 0,
   },
   imageSelect: {
     height: IMAGE_SIZE,
@@ -47,12 +45,8 @@ export default StyleSheet.create({
     padding: 10,
   },
   editText: {
-    color: COLORS.GREY,
+    color: theme.primaryColor,
     fontSize: 14,
-  },
-  inputIcon: {
-    color: COLORS.GREY,
-    fontSize: 20,
   },
   inputRow: {
     padding: 10,
@@ -72,6 +66,12 @@ export default StyleSheet.create({
   saveButtonText: {
     color: theme.primaryColor,
     fontSize: 12,
+  },
+  signUpText: {
+    marginBottom: 30,
+    textAlign: 'center',
+    color: theme.darkText,
+    fontSize: 16,
   },
   image: {
     height: IMAGE_SIZE,

@@ -12,6 +12,7 @@ import ApiLoading from '../ApiLoading';
 import Header from '../Header';
 import VokeOverlays from '../VokeOverlays';
 import SignUpButtons from '../SignUpButtons';
+import ProfileProgress from '../ProfileProgress';
 import VOKE_LOGO from '../../../images/nav_voke_logo.png';
 import nav, { NavPropTypes } from '../../actions/nav';
 import theme, { COLORS } from '../../theme';
@@ -150,8 +151,8 @@ class Profile extends Component {
 
     return (
       <ImagePicker onSelectImage={this.handleImageChange}>
-        <Row
-          text="Change Profile Pic"
+        <ProfileRow
+          text="Change Photo"
           right={<Image resizeMode="cover" source={image} style={styles.image} />}
         />
       </ImagePicker>
@@ -159,6 +160,7 @@ class Profile extends Component {
   }
 
   renderEditName() {
+    if (!this.state.editName) return null;
     return (
       <Flex direction="column" align="center" justify="center">
         <Flex>
@@ -211,6 +213,7 @@ class Profile extends Component {
   }
 
   renderEditEmail() {
+    if (!this.state.editEmail) return null;
     return (
       <Flex direction="column" align="center" justify="center">
         <Flex>
@@ -278,6 +281,7 @@ class Profile extends Component {
   }
 
   renderEditPassword() {
+    if (!this.state.editPassword) return null;
     return (
       <Flex direction="column" align="center" justify="center">
         <Flex>
@@ -346,8 +350,7 @@ class Profile extends Component {
 
   render() {
     const { editName, editEmail, editPassword, hideAnonFields } = this.state;
-    const { user, isAnonUser } = this.props;
-    LOG('user', user);
+    let { user, isAnonUser } = this.props;
 
     const name = `${user.first_name} ${user.last_name}`;
 
@@ -361,104 +364,93 @@ class Profile extends Component {
           light={true}
           shadow={false}
         />
-        <Flex direction="column" style={styles.container}>
-          <Flex value={2} style={styles.infoWrapper}>
-            <ScrollView
-              ref={(c) => this.scrollView = c}
-              style={{flex: 2}}
-              keyboardShouldPersistTaps="handled"
-            >
-              {
-                editName || editEmail || editPassword ? null : this.renderImagePicker()
-              }
-              {
-                isEditing && !editName ? null : (
-                  <View>
-                    <Row
-                      text={name || 'Add Name'}
-                      right={<Button
-                        isAndroidOpacity={true}
-                        text={editName ? 'cancel' : (!name ? 'add' : 'edit')}
-                        buttonTextStyle={styles.editText}
-                        icon={editName ? 'close' : 'edit'}
-                        iconStyle={styles.inputIcon}
-                        style={styles.inputButton}
-                        onPress={() => this.toggleEdit('editName')}
-                      />}
-                    />
-                    {
-                      editName ? this.renderEditName() : null
-                    }
-                  </View>
-                )
-              }
-              {
-                isEditing && !editEmail ? null : (
-                  <View>
-                    <Row
-                      text={user.email || 'Add Email'}
-                      right={<Button
-                        isAndroidOpacity={true}
-                        text={editEmail ? 'cancel' : (!user.email ? 'add' : 'edit')}
-                        icon={editEmail ? 'close' : 'edit'}
-                        buttonTextStyle={styles.editText}
-                        iconStyle={styles.inputIcon}
-                        style={styles.inputButton}
-                        onPress={() => this.toggleEdit('editEmail')}
-                      />}
-                    />
-                    {
-                      editEmail ? this.renderEditEmail() : null
-                    }
-                  </View>
-                )
-              }
-              {
-                isEditing && !editPassword ? null : (
-                  <View>
-                    <Row
-                      text={user.email ? '********' : 'Add Password'}
-                      right={<Button
-                        isAndroidOpacity={true}
-                        text={editPassword ? 'cancel' : (!user.email ? 'add' : 'edit')}
-                        icon={editPassword ? 'close' : 'edit'}
-                        buttonTextStyle={styles.editText}
-                        iconStyle={styles.inputIcon}
-                        style={styles.inputButton}
-                        onPress={() => this.toggleEdit('editPassword')}
-                      />}
-                    />
-                    {
-                      editPassword ? this.renderEditPassword() : null
-                    }
-                  </View>
-                )
-              }
-              {
-                isEditing ? null : (
-                  <Row
-                    text={user.mobile ? 'Mobile Number Verified' : 'Verify Mobile Number'}
-                    right={user.mobile ? null : <Button
+        <Flex direction="column" style={styles.content}>
+          <ScrollView
+            ref={(c) => this.scrollView = c}
+            style={{flex: 2}}
+            keyboardShouldPersistTaps="handled"
+          >
+            <ProfileProgress />
+            <Separator />
+            {
+              isAnonUser || isEditing ? null : this.renderImagePicker()
+            }
+            {
+              isEditing && !editName ? null : (
+                <View>
+                  <ProfileRow
+                    text={name}
+                    right={<Button
                       isAndroidOpacity={true}
-                      text="add"
-                      icon="edit"
+                      text={editName ? 'Cancel' : (!name ? 'Add' : 'Edit')}
                       buttonTextStyle={styles.editText}
-                      iconStyle={styles.inputIcon}
                       style={styles.inputButton}
-                      onPress={() => this.props.navigatePush('voke.SignUpNumber')}
+                      onPress={() => this.toggleEdit('editName')}
                     />}
                   />
-                )
-              }
-              {
-                isAnonUser && !hideAnonFields ? (
-                  <Flex style={{ marginTop: 30 }}>
-                    <SignUpButtons filled={true} />
-                  </Flex>
-                ) : null
-              }
-            </ScrollView>
-          </Flex>
+                  {this.renderEditName()}
+                </View>
+              )
+            }
+            {
+              isAnonUser || (isEditing && !editEmail) ? null : (
+                <View>
+                  <ProfileRow
+                    text={user.email || 'Add Email'}
+                    right={<Button
+                      isAndroidOpacity={true}
+                      text={editEmail ? 'Cancel' : (!user.email ? 'Add' : 'Edit')}
+                      buttonTextStyle={styles.editText}
+                      style={styles.inputButton}
+                      onPress={() => this.toggleEdit('editEmail')}
+                    />}
+                  />
+                  {this.renderEditEmail()}
+                </View>
+              )
+            }
+            {
+              isAnonUser || (isEditing && !editPassword) ? null : (
+                <View>
+                  <ProfileRow
+                    text={user.email ? '********' : 'Add Password'}
+                    right={<Button
+                      isAndroidOpacity={true}
+                      text={editPassword ? 'Cancel' : (!user.email ? 'Add' : 'Edit')}
+                      buttonTextStyle={styles.editText}
+                      style={styles.inputButton}
+                      onPress={() => this.toggleEdit('editPassword')}
+                    />}
+                  />
+                  {this.renderEditPassword()}
+                </View>
+              )
+            }
+            {
+              isAnonUser || isEditing ? null : (
+                <ProfileRow
+                  text={user.mobile ? 'Mobile Verified' : 'Verify Mobile Number'}
+                  right={<Button
+                    isAndroidOpacity={true}
+                    text={user.mobile ? '>' : 'Add'}
+                    buttonTextStyle={styles.editText}
+                    style={styles.inputButton}
+                    onPress={() => user.mobile ? undefined : this.props.navigatePush('voke.SignUpNumber')}
+                  />}
+                />
+              )
+            }
+            {
+              isAnonUser && !hideAnonFields ? (
+                <Flex value={1} align="center" style={{ paddingHorizontal: 50, marginTop: 100 }}>
+                  <Text style={styles.signUpText}>
+                    Sign up to save your progress and access your account from anywhere.
+                  </Text>
+                  <SignUpButtons filled={true} />
+                </Flex>
+              ) : null
+            }
+          </ScrollView>
         </Flex>
         <ApiLoading />
         <VokeOverlays type="tryItNowSignUp" onClose={() => this.setState({ hideAnonFields: false })} />
@@ -468,7 +460,7 @@ class Profile extends Component {
 }
 
 
-function Row({ text, left, right }) {
+function ProfileRow({ text, left, right }) {
   return (
     <Flex direction="column">
       <Flex direction="row" align="center">
