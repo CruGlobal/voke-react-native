@@ -1,9 +1,10 @@
 import { Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import PushNotification from 'react-native-push-notification';
+import Permissions from 'react-native-permissions'
 
 import { API_URL } from '../api/utils';
-import { registerPushToken } from './auth';
+import { registerPushToken, openSettingsAction } from './auth';
 import { SOCKET_URL } from '../api/utils';
 import { newMessageAction, typeStateChangeAction, getConversation, getConversations, getMessages } from './messages';
 import { navigateResetMessage } from './nav';
@@ -441,22 +442,25 @@ export function establishPushDevice() {
   };
 }
 
-// export function checkPushPermissions() {
-//   return () => new Promise((resolve) => {
-//     if (theme.isAndroid) return resolve(true);
-//     // Only run this on iOS
-//     PushNotification.checkPermissions((permission) => {
-//       const hasAllowedPermission = permission && permission.alert;
-//       resolve(!!hasAllowedPermission);
-//     });
-//   });
-// }
 
 export function enablePushNotifications() {
   return (dispatch) => {
-    // TODO: If the user is iOS and has already seen the native prompt,
-    // take them into settings
-    dispatch(establishDevice());
+    if (!theme.isAndroid) {
+      Permissions.check('notification').then(response => {
+        // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+        if (response === 'undetermined') {
+          dispatch(establishDevice());
+        } else if (response !== 'authorized') {
+          // go to settings
+          dispatch(openSettingsAction());
+        } else {
+          // if it comes back as Authorized, but there is no token (because it ran this function) then establish the device
+          dispatch(establishDevice());
+        }
+      });
+    } else {
+      dispatch(establishDevice());
+    }
   };
 }
 
