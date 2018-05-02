@@ -3,18 +3,15 @@ import { View, Platform, Keyboard } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import debounce from 'lodash/debounce';
-import { openSettingsAction } from '../../actions/auth';
 
+import { openSettingsAction } from '../../actions/auth';
 import Analytics from '../../utils/analytics';
-// import { vokeIcons } from '../../utils/iconMap';
 import styles from './styles';
-// import { toastAction } from '../../actions/auth';
 import { searchContacts, getContacts } from '../../actions/contacts';
 import nav, { NavPropTypes } from '../../actions/nav';
 import Permissions from '../../utils/permissions';
 import { Button, Flex } from '../../components/common';
-import CONSTANTS, { SHOW_SHARE_MODAL } from '../../constants';
-
+import { SHOW_SHARE_MODAL } from '../../constants';
 import ApiLoading from '../ApiLoading';
 import ShareModal from '../ShareModal';
 import Modal from '../Modal';
@@ -82,7 +79,6 @@ class Contacts extends Component {
 
   keyboardDidShow() {
     this.setState({keyboardVisible: true});
-    // LOG(this.state.keyboardVisible);
     if (this.props.shareModalVisible) {
       Keyboard.dismiss();
     }
@@ -92,7 +88,6 @@ class Contacts extends Component {
     this.setState({keyboardVisible: false});
   }
 
-
   componentWillReceiveProps() {
     if (this.state.keyboardVisible) {
       Keyboard.dismiss();
@@ -100,7 +95,6 @@ class Contacts extends Component {
   }
 
   handleCheckPermission(permission) {
-    // LOG('permission', permission);
     this.setState({ permission: permission });
     if (permission === Permissions.AUTHORIZED) {
       this.handleGetContacts();
@@ -205,7 +199,6 @@ class Contacts extends Component {
   render() {
     const { permission, showSearch, selectNumberContact } = this.state;
     const isAuthorized = permission === Permissions.AUTHORIZED;
-    console.log(this.props.inShare);
     return (
       <View style={styles.container}>
         <Header

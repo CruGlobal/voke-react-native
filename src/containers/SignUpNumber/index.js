@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, TouchableOpacity, Keyboard, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { Alert, TouchableOpacity, Keyboard, KeyboardAvoidingView, ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import PropTypes from 'prop-types';
@@ -14,7 +14,6 @@ import { Flex, Text, Button, Icon } from '../../components/common';
 import ApiLoading from '../ApiLoading';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeader from '../../components/SignUpHeader';
-import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import theme from '../../theme';
 
 class SignUpNumber extends Component {
@@ -88,63 +87,67 @@ class SignUpNumber extends Component {
     }
   }
 
+  skip = () => {
+    this.props.navigateBack(3);
+  }
+
   render() {
     const { selectedCountry, selectedCountryCode, phoneNumber } = this.state;
     return (
-      <ScrollView style={styles.container} value={1} keyboardShouldPersistTaps="always" align="center" justify="start">
-        <KeyboardAvoidingView behavior={theme.isAndroid ? undefined : 'padding'}>
-          <SignUpHeaderBack
-            onPress={() => {
-              if (this.props.hideBack) {
-                this.props.navigateResetLogin();
-              } else {
-                this.props.navigateBack();
-              }
-            }}
-          />
-          <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
-            <SignUpHeader
-              title="Mobile Number"
-              description="Add your mobile number to invite your friends to a Voke chat via text message"
-              onPress={()=> Keyboard.dismiss()}
-            />
-            <Flex value={1} align="center" justify="center" style={styles.inputs}>
-              <Button
-                style={styles.dropDown}
-                onPress={this.handleOpenCountry}
-              >
-                <Flex direction="row" align="center">
-                  <Text style={styles.countrySelect}>
-                    {selectedCountry} (+{selectedCountryCode})
-                  </Text>
-                  <Icon name="keyboard-arrow-down" size={30} />
-                </Flex>
-              </Button>
-              <SignUpInput
-                value={phoneNumber}
-                onChangeText={(text) => this.setState({ phoneNumber: text })}
-                keyboardType="phone-pad"
-                placeholder="Your Mobile Number"
-                onSubmitEditing={this.handleNext}
-                returnKeyType="send"
+      <View style={{ flex: 1 }} >
+        <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
+          <KeyboardAvoidingView style={{ flex: 1 }} behavior={theme.isAndroid ? undefined : 'padding'}>
+            <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
+              <SignUpHeader
+                title="Mobile Number"
+                description="Add your mobile number to invite your friends to a Voke chat via text message"
+                onPress={()=> Keyboard.dismiss()}
               />
-              <Text style={styles.sharingText}>We love sharing, but we won't share your number.</Text>
-              <Flex value={1} align="center" justify="start">
+              <Flex value={1} align="center" justify="center" style={styles.inputs}>
                 <Button
-                  text="Next"
-                  disabled={this.state.disableNext}
-                  buttonTextStyle={styles.signInButton}
-                  style={styles.actionButton}
-                  onPress={this.handleNext}
+                  style={styles.dropDown}
+                  onPress={this.handleOpenCountry}
+                >
+                  <Flex direction="row" align="center">
+                    <Text style={styles.countrySelect}>
+                      {selectedCountry} (+{selectedCountryCode})
+                    </Text>
+                    <Icon name="keyboard-arrow-down" size={30} />
+                  </Flex>
+                </Button>
+                <SignUpInput
+                  value={phoneNumber}
+                  onChangeText={(text) => this.setState({ phoneNumber: text })}
+                  keyboardType="phone-pad"
+                  placeholder="Your Mobile Number"
+                  onSubmitEditing={this.handleNext}
+                  returnKeyType="send"
                 />
+                <Text style={styles.sharingText}>We love sharing, but we won't share your number.</Text>
+                <Flex value={1} align="center" justify="start">
+                  <Button
+                    text="Next"
+                    disabled={this.state.disableNext}
+                    buttonTextStyle={styles.signInButton}
+                    style={styles.actionButton}
+                    onPress={this.handleNext}
+                  />
+                  <Button
+                    text="Skip"
+                    type="transparent"
+                    buttonTextStyle={styles.signInButton}
+                    style={styles.actionButton}
+                    onPress={this.skip}
+                  />
+                </Flex>
               </Flex>
-            </Flex>
-          </TouchableOpacity>
-        </KeyboardAvoidingView>
+            </TouchableOpacity>
+          </KeyboardAvoidingView>
+        </ScrollView>
         {
           this.state.isLoading ? <ApiLoading force={true} /> : null
         }
-      </ScrollView>
+      </View>
     );
   }
 }

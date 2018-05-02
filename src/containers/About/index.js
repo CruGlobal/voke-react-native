@@ -21,7 +21,6 @@ class About extends Component {
     this.handleLink = this.handleLink.bind(this);
   }
 
-
   componentDidMount() {
     Analytics.screen('About');
   }

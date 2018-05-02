@@ -32,8 +32,6 @@ class VokeOverlays extends Component {
           <Text style={styles.chatText}>
             We all have someone in our life who needs hope.
             {'\n'}
-            As you explore Voke, ask God to guide you towards someone in your life.
-            {'\n'}
             {'\n'}
             Step out and share. See what God will do.
           </Text>

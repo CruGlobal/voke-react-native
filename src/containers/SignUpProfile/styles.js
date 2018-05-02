@@ -36,7 +36,7 @@ export default StyleSheet.create({
   },
   actionButton: {
     alignItems: 'center',
-    width: 125,
+    width: theme.fullWidth - 110,
     marginBottom: 30,
   },
 });

@@ -25,11 +25,11 @@ class ApiLoading extends Component {
       clearTimeout(this.timeout);
     }
   }
-  
+
   render() {
     if (!this.state.showLoading && !this.props.isApiLoading && !this.props.force) return null;
     return (
-      <Flex align="center" justify="center" value={1} style={styles.container}>
+      <Flex align="center" justify="center" style={styles.container}>
         <Loading />
         {
           this.props.text ? (

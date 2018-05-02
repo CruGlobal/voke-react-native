@@ -22,7 +22,7 @@ class ProfileProgress extends Component {
             Guest Profile
           </Text>
           <Text style={[styles.text, { textAlign: 'center' }, !isAnonUser ? styles.textFilled : null]}>
-            User Account  
+            User Account
           </Text>
           <Text style={[styles.text, { textAlign: 'right' }, isVerified ? styles.textFilled : null]}>
             Verified Account
@@ -62,7 +62,6 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
   },
   lineWrap: {
-    // marginTop: 30,
     flex: 1,
     height: 2,
     backgroundColor: grey,
@@ -108,8 +107,6 @@ const styles = StyleSheet.create({
     color: theme.primaryColor,
   },
 });
-
-
 
 const mapStateToProps = ({ auth }) => ({
   user: auth.user,

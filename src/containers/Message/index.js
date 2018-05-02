@@ -6,24 +6,19 @@ import { connect } from 'react-redux';
 import { checkAndRunSockets, determinePushOverlay } from '../../actions/socket';
 import { getMessages, createMessage, createTypeStateAction, destroyTypeStateAction, createMessageInteraction, markReadAction } from '../../actions/messages';
 import Analytics from '../../utils/analytics';
-
 import theme, { COLORS } from '../../theme';
 import nav, { NavPropTypes } from '../../actions/nav';
 import { vokeIcons } from '../../utils/iconMap';
 import VokeOverlays from '../VokeOverlays';
-
 import { SET_ACTIVE_CONVERSATION } from '../../constants';
 import styles from './styles';
 import MessageVideoPlayer from '../MessageVideoPlayer';
 import ApiLoading from '../ApiLoading';
 import Header, { HeaderIcon } from '../Header';
-
 import { Flex, VokeIcon, Button, Touchable } from '../../components/common';
 import MessagesList from '../../components/MessagesList';
 import NotificationToast from '../NotificationToast';
 import CONSTANTS from '../../constants';
-
-// <ShareButton message="Share this with you" title="Hey!" url="https://www.facebook.com" />
 
 class Message extends Component {
   constructor(props) {

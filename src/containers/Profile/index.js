@@ -432,7 +432,7 @@ class Profile extends Component {
                   text={user.mobile ? 'Mobile Verified' : 'Verify Mobile Number'}
                   right={<Button
                     isAndroidOpacity={true}
-                    text={user.mobile ? '>' : 'Add'}
+                    text={user.mobile ? '' : 'Add'}
                     buttonTextStyle={styles.editText}
                     style={styles.inputButton}
                     onPress={() => user.mobile ? undefined : this.props.navigatePush('voke.SignUpNumber')}

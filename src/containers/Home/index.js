@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/nav';
-import { startupAction, cleanupAction, blockMessenger, reportUserAction, getMe } from '../../actions/auth';
+import { startupAction, blockMessenger, reportUserAction, getMe } from '../../actions/auth';
 import { checkAndRunSockets } from '../../actions/socket';
 import  Analytics from '../../utils/analytics';
 
@@ -18,7 +18,6 @@ import ApiLoading from '../ApiLoading';
 import AndroidReportModal from '../AndroidReportModal';
 import ConversationList from '../../components/ConversationList';
 import PopupMenu from '../../components/PopupMenu';
-// import TabBarIndicator from '../../components/TabBarIndicator';
 import Header, { HeaderIcon } from '../Header';
 import { Flex, Text, RefreshControl } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
@@ -50,6 +49,10 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    if (this.props.isAnonUser) {
+      this.props.navigation.navigate('voke.Videos');
+    }
+
     Analytics.screen('Home Chats');
 
     this.props.dispatch(getConversations()).catch((err)=> {
@@ -74,10 +77,6 @@ class Home extends Component {
       this.props.dispatch(startupAction());
       this.props.dispatch(checkAndRunSockets());
     }, 50);
-  }
-
-  componentWillUnmount() {
-    // this.props.dispatch(cleanupAction());
   }
 
   handleMenuPress() {
@@ -172,7 +171,6 @@ class Home extends Component {
   render() {
     const cLength = this.props.conversations.length;
 
-
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
@@ -227,9 +225,6 @@ class Home extends Component {
           ) : null
         }
         {
-          // <TabBarIndicator index={0} />
-        }
-        {
           cLength === 0 || this.state.isLoading ? <ApiLoading /> : null
         }
         {
@@ -249,7 +244,6 @@ class Home extends Component {
     );
   }
 }
-
 
 // Check out actions/nav.js to see the prop types and mapDispatchToProps
 Home.propTypes = {

@@ -53,6 +53,10 @@ class SignUpNumberVerify extends Component {
     }, 5000);
   }
 
+  skip = () => {
+    this.props.navigateBack(4);
+  }
+
   handleNext() {
     let data = {
       mobile: {
@@ -85,7 +89,7 @@ class SignUpNumberVerify extends Component {
   render() {
     return (
       <ScrollView style={styles.container} value={1} keyboardShouldPersistTaps="always" align="center" justify="start">
-        <KeyboardAvoidingView behavior={theme.isAndroid ? undefined : 'padding'}>
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior={theme.isAndroid ? undefined : 'padding'}>
           <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
           <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
             <SignUpHeader
@@ -118,6 +122,13 @@ class SignUpNumberVerify extends Component {
                   buttonTextStyle={styles.signInButton}
                   style={styles.actionButton}
                   onPress={this.handleNext}
+                />
+                <Button
+                  text="Skip"
+                  type="transparent"
+                  buttonTextStyle={styles.signInButton}
+                  style={styles.actionButton}
+                  onPress={this.skip}
                 />
               </Flex>
             </Flex>

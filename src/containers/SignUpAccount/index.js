@@ -23,7 +23,7 @@ class SignUpAccount extends Component {
       password: '',
       emailValidation: false,
     };
-    this.createAccount = this.createAccount.bind(this);
+    // this.createAccount = this.createAccount.bind(this);
     this.checkEmail = this.checkEmail.bind(this);
     this.handleLink = this.handleLink.bind(this);
   }
@@ -59,34 +59,34 @@ class SignUpAccount extends Component {
       }
     });
   }
-
-  createAccount() {
-    if (this.state.emailValidation && this.state.password) {
-      if (this.state.password.length < 8) {
-        Alert.alert('Invalid password', 'Passwords must be at least 8 characters');
-        return;
-      }
-      if (this.props.isAnonUser) {
-        this.updateAnonAccount();
-        return;
-      }
-      this.setState({ isLoading: true });
-      this.props.dispatch(createAccountAction(this.state.email, this.state.password)).then((results) => {
-        this.setState({ isLoading: false });
-        this.moveForward(results);
-      }).catch((err) => {
-        this.setState({ isLoading: false });
-        LOG('error', err);
-        if (err && err.errors && err.errors.includes('Email has already been taken')) {
-          Alert.alert('Error Creating Account', 'Email has already been taken.');
-        }
-      });
-    } else {
-      Alert.alert('Invalid email/password', 'Please enter a valid email and password');
-    }
-    // // This is just for testing
-    // this.props.navigatePush('voke.SignUpProfile');
-  }
+  //
+  // createAccount() {
+  //   if (this.state.emailValidation && this.state.password) {
+  //     if (this.state.password.length < 8) {
+  //       Alert.alert('Invalid password', 'Passwords must be at least 8 characters');
+  //       return;
+  //     }
+  //     if (this.props.isAnonUser) {
+  //       this.updateAnonAccount();
+  //       return;
+  //     }
+  //     this.setState({ isLoading: true });
+  //     this.props.dispatch(createAccountAction(this.state.email, this.state.password)).then((results) => {
+  //       this.setState({ isLoading: false });
+  //       this.moveForward(results);
+  //     }).catch((err) => {
+  //       this.setState({ isLoading: false });
+  //       LOG('error', err);
+  //       if (err && err.errors && err.errors.includes('Email has already been taken')) {
+  //         Alert.alert('Error Creating Account', 'Email has already been taken.');
+  //       }
+  //     });
+  //   } else {
+  //     Alert.alert('Invalid email/password', 'Please enter a valid email and password');
+  //   }
+  //   // // This is just for testing
+  //   // this.props.navigatePush('voke.SignUpProfile');
+  // }
 
   checkEmail(text) {
     const emailValidation = CONSTANTS.EMAIL_REGEX.test(text);
@@ -99,7 +99,7 @@ class SignUpAccount extends Component {
 
   render() {
     return (
-      <ScrollView keyboardShouldPersistTaps={theme.isAndroid ? 'handled' : 'always'} style={styles.container}>
+      <ScrollView contentContainerStyle={{ flex: 1 }} keyboardShouldPersistTaps={theme.isAndroid ? 'handled' : 'always'} style={styles.container}>
         <KeyboardAvoidingView style={{ flex: 1 }} behavior={theme.isAndroid ? undefined : 'padding'}>
           <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
           <SignUpHeader
@@ -107,7 +107,7 @@ class SignUpAccount extends Component {
             description="You are moments away from impacting your friends"
             onPress={()=> Keyboard.dismiss()}
           />
-          <Flex value={1} align="center" justify="center" style={styles.inputs}>
+          <Flex value={1} align="center" justify="start" style={styles.inputs}>
             <SignUpInput
               value={this.state.email}
               onChangeText={this.checkEmail}
@@ -130,7 +130,7 @@ class SignUpAccount extends Component {
                 text="Create Account"
                 buttonTextStyle={styles.signInButton}
                 style={styles.actionButton}
-                onPress={this.createAccount}
+                onPress={this.updateAnonAccount}
               />
             </Flex>
             <Flex direction="column">
@@ -153,16 +153,6 @@ class SignUpAccount extends Component {
                   onPress={() => this.handleLink(CONSTANTS.WEB_URLS.TERMS)}
                 />
               </Flex>
-            </Flex>
-            <Flex direction="row" align="end" justify="center" style={styles.accountWrap}>
-              <Text style={styles.haveAccountText}>Already have an account?</Text>
-              <Button
-                text="Sign In"
-                type="transparent"
-                buttonTextStyle={styles.haveAccountButton}
-                style={styles.haveAccount}
-                onPress={() => this.props.navigatePush('voke.LoginInput')}
-              />
             </Flex>
           </Flex>
         </KeyboardAvoidingView>
