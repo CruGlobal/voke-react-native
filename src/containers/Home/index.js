@@ -49,24 +49,13 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    if (this.props.isAnonUser) {
+    if (this.props.isAnonUser && this.props.conversations.length <= 1) {
       this.props.navigation.navigate('voke.Videos');
     }
 
     Analytics.screen('Home Chats');
 
-    this.props.dispatch(getConversations()).catch((err)=> {
-      if (err.error === 'Messenger not configured') {
-        // Do this because the api can be slow when a user creates an account and our app is faster than the api
-        setTimeout(() => {
-          this.props.dispatch(getConversations()).catch((err)=> {
-            if (err.error === 'Messenger not configured') {
-              this.props.navigateResetToNumber();
-            }
-          });
-        }, 3000);
-      }
-    });
+    this.props.dispatch(getConversations());
 
     // This should fix the case for new users signing up not having the auth user
     if (this.props.conversations.length === 0) {

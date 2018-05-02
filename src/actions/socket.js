@@ -467,8 +467,7 @@ export function enablePushNotifications() {
 export function determinePushOverlay() {
   return (dispatch, getState) => {
     const token = getState().auth.pushToken;
-    // TODO: Enable this to stop showing the push notification overlay
-    // if (token) return;
+    if (token) return;
 
     dispatch({ type: SET_OVERLAY, value: 'pushPermissions' });
   };

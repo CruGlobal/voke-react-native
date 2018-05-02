@@ -21,8 +21,6 @@ class SignInOrTryItNow extends Component {
 
   tryItNow = () => {
     LOG('try it now');
-    // this.props.navigatePush('voke.SignUpAccount');
-    // TODO: Implement the Try It Now flow
     // Make API call, then navigate to the "Enter your name" screen
     this.props.navigatePush('voke.TryItNowName');
   }

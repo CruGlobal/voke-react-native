@@ -24,7 +24,6 @@ export function startupAction() {
     if (hasStartedUp) return;
 
     hasStartedUp = true;
-    dispatch(establishDevice());
     if (appStateChangeFn) {
       AppState.removeEventListener('change', appStateChangeFn);
     } else {

@@ -1,6 +1,6 @@
 import { REHYDRATE } from 'redux-persist/constants';
 
-import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, ACTIVE_SCREEN, UPDATE_TOKENS, NO_BACKGROUND_ACTION, RESET_TOKEN, CREATE_ANON_USER } from '../constants';
+import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, ACTIVE_SCREEN, UPDATE_TOKENS, NO_BACKGROUND_ACTION, RESET_TOKEN, CREATE_ANON_USER, RESET_ANON_USER } from '../constants';
 import { REQUESTS } from '../actions/api';
 
 const initialState = {
@@ -140,6 +140,11 @@ export default function auth(state = initialState, action) {
       return {
         ...state,
         isAnonUser: true,
+      };
+    case RESET_ANON_USER:
+      return {
+        ...state,
+        isAnonUser: false,
       };
     // case ONBOARD_FLAG:
     //   return {

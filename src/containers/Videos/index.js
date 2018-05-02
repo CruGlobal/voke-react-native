@@ -149,10 +149,10 @@ class Videos extends Component {
       query.page = page;
     }
 
-    
+
     // LOG('next page', filter, pagination[filter]);
-    
-    
+
+
 
 
     if (filter === 'featured') {
@@ -247,7 +247,6 @@ class Videos extends Component {
   }
 
   getSubscriberData() {
-    // TODO: Get my subscription info for a channel
     this.props.dispatch(getChannel(this.props.channel.id)).then((channelResults) => {
       this.props.dispatch(getChannelSubscriberData(this.props.channel.id)).then((results) => {
         const subscriberId = channelResults.subscription_id;
@@ -260,8 +259,8 @@ class Videos extends Component {
         if (!total) {
           total = total || 0;
         }
-        
-        
+
+
         this.setState({
           channelSubscribeData: {
             id: subscriberId,
@@ -272,7 +271,7 @@ class Videos extends Component {
       });
     });
   }
-  
+
   handleSubscribe() {
     this.props.dispatch(subscribeChannel(this.props.channel.id)).then((results) => {
       this.setState({
@@ -284,7 +283,7 @@ class Videos extends Component {
       });
     }).catch(() => { LOG('did not subscribe'); });
   }
-  
+
   handleUnsubscribe() {
     const subscriptionId = this.state.channelSubscribeData.id;
     this.props.dispatch(unsubscribeChannel(this.props.channel.id, subscriptionId)).then(() => {

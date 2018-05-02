@@ -22,6 +22,7 @@ export const SHOW_SHARE_MODAL = 'app/SHOW_SHARE_MODAL';
 export const MESSAGE_CREATED = 'app/MESSAGE_CREATED';
 export const CLEAR_CHANNEL_VIDEOS = 'app/CLEAR_CHANNEL_VIDEOS';
 export const CREATE_ANON_USER = 'app/CREATE_ANON_USER';
+export const RESET_ANON_USER = 'app/RESET_ANON_USER';
 // Overlays
 export const CLEAR_OVERLAY = 'app/CLEAR_OVERLAY';
 export const SET_OVERLAY = 'app/SET_OVERLAY';
@@ -59,7 +60,7 @@ export default {
 
   PAGE_SIZE: 25, // This is the default page size from the API
   CONVERSATIONS_PAGE_SIZE: 12,
-  
+
   CONTACT_CHUNKS: 500, // How many contacts to send up per upload request
   REFRESH_CONTACTS_TIME: 30 * 24 * 60 * 60 * 1000, // 5 days
   // // REFRESH_CONTACTS_TIME: 30 * 60 * 1000, // 30 minutes

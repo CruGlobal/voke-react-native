@@ -3,6 +3,7 @@ import {
   SET_OVERLAY,
   CLEAR_OVERLAY,
   CREATE_ANON_USER,
+  RESET_ANON_USER,
 } from '../constants';
 import { exists } from '../utils/common';
 
@@ -31,6 +32,8 @@ export default function overlays(state = initialState, action) {
       return { ...state, [action.value]: false };
     case CREATE_ANON_USER:
       return { ...state, tryItNowIntro: true };
+    case RESET_ANON_USER:
+      return { ...state, tryItNowIntro: false, tryItNowSignUp: false };
     case LOGOUT:
       return initialState;
     default:

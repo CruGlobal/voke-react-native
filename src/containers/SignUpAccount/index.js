@@ -11,7 +11,7 @@ import ApiLoading from '../ApiLoading';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeader from '../../components/SignUpHeader';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
-import CONSTANTS from '../../constants';
+import CONSTANTS, { RESET_ANON_USER } from '../../constants';
 import theme from '../../theme';
 
 class SignUpAccount extends Component {
@@ -40,7 +40,7 @@ class SignUpAccount extends Component {
     }
   }
 
-  updateAnonAccount() {
+  updateAnonAccount = () => {
     const data = {
       me: {
         email: this.state.email,
@@ -50,6 +50,7 @@ class SignUpAccount extends Component {
     this.setState({ isLoading: true });
     this.props.dispatch(updateMe(data)).then((results) => {
       this.setState({ isLoading: false });
+      this.props.dispatch({ type: RESET_ANON_USER });
       this.moveForward(results);
     }).catch((err) => {
       this.setState({ isLoading: false });
