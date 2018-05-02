@@ -139,7 +139,7 @@ class VideoDetails extends Component {
 
   handleShare = () => {
     const video = this.props.video || {};
-    
+
     Orientation.lockToPortrait();
     if (this.props.onSelectVideo) {
       Alert.alert(
@@ -237,7 +237,7 @@ class VideoDetails extends Component {
 
     return (
       <View style={styles.container}>
-        <StatusBar hidden={true} />
+        <StatusBar hidden={!theme.isIphoneX} />
         <Flex style={this.state.isLandscape ? styles.landscapeVideo : styles.video}>
           {
             this.state.showVideo ? (
