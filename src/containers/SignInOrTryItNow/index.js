@@ -5,12 +5,12 @@ import Analytics from '../../utils/analytics';
 import ONBOARD_4 from '../../../images/onboarding-image-4.png';
 
 import styles from './styles';
-// import { getMe, facebookLoginAction } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/nav';
+import { createAccountAction } from '../../actions/auth';
+import { CREATE_ANON_USER } from '../../constants';
 
 import { Flex, Text, Button, VokeIcon } from '../../components/common';
-import SignUpHeaderBack from '../../components/SignUpHeaderBack';
-import LOGO from '../../../images/initial_voke.png';
+
 const MARGIN = 40;
 
 class SignInOrTryItNow extends Component {
@@ -20,9 +20,14 @@ class SignInOrTryItNow extends Component {
   }
 
   tryItNow = () => {
-    LOG('try it now');
-    // Make API call, then navigate to the "Enter your name" screen
-    this.props.navigatePush('voke.TryItNowName');
+    this.props.dispatch(createAccountAction(null, null, true)).then((results) => {
+      LOG('create try it now account results', results);
+      this.props.dispatch({ type: CREATE_ANON_USER });
+      this.setState({ isLoading: false });
+      this.props.navigateResetHome();
+    }).catch(() => {
+      this.setState({ isLoading: false });
+    });
   }
 
   render() {

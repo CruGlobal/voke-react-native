@@ -26,28 +26,6 @@ class VokeOverlays extends Component {
     this.close();
   }
 
-  renderIntro() {
-    return (
-      <Flex style={styles.overlay} align="center" justify="center" self="stretch">
-        <Flex style={styles.chatBubble}>
-          <Text style={styles.chatText}>
-            We all have someone in our life who needs hope.
-            {'\n'}
-            Step out and share. See what God will do.
-          </Text>
-        </Flex>
-        <Flex style={styles.chatTriangle} />
-        <Image source={VOKEBOT} style={{ height: 90, marginBottom: 20 }} resizeMode="contain" />
-        <Button
-          onPress={this.close}
-          type="filled"
-          style={styles.closeButton}
-          text="Got It!"
-        />
-      </Flex>
-    );
-  }
-
   renderSignUp() {
     return (
       <Flex style={styles.overlay} align="center" justify="center" self="stretch">
@@ -94,9 +72,7 @@ class VokeOverlays extends Component {
 
   render() {
     const { type, overlays } = this.props;
-    if (type === 'tryItNowIntro' && overlays[type]) {
-      return this.renderIntro();
-    } else if (type === 'tryItNowSignUp' && overlays[type]) {
+    if (type === 'tryItNowSignUp' && overlays[type]) {
       return this.renderSignUp();
     } else if (type === 'pushPermissions' && overlays[type]) {
       return this.renderPushPermissions();
@@ -106,7 +82,7 @@ class VokeOverlays extends Component {
 }
 
 VokeOverlays.propTypes = {
-  type: PropTypes.oneOf(['tryItNowIntro', 'tryItNowSignUp', 'pushPermissions']).isRequired,
+  type: PropTypes.oneOf(['tryItNowSignUp', 'pushPermissions']).isRequired,
   onClose: PropTypes.func,
 };
 

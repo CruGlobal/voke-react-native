@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Image, TouchableOpacity, Keyboard, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import { CREATE_ANON_USER } from '../../constants';
+import PropTypes from 'prop-types';
 
 import Analytics from '../../utils/analytics';
 import styles from './styles';
-import { createAccountAction, updateMe } from '../../actions/auth';
+import { updateMe } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/nav';
 import { Flex, Button } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
@@ -30,21 +30,14 @@ class TryItNowName extends Component {
       let nameData = {
         me: {
           first_name: this.state.name,
-          last_name: '',
         },
       };
-      this.props.dispatch(createAccountAction(null, null, true)).then((results) => {
-        LOG('login results', results);
-        this.props.dispatch({ type: CREATE_ANON_USER });
-        this.props.dispatch(updateMe(nameData)).then(()=>{
-          this.setState({ isLoading: false });
-          this.props.navigateResetHome();
-        }).catch(() => {
-          this.setState({ isLoading: false });
-          Alert.alert('', 'There was an error, please try again');
-        });
+      this.props.dispatch(updateMe(nameData)).then(()=>{
+        this.setState({ isLoading: false });
+        this.props.onComplete();
       }).catch(() => {
         this.setState({ isLoading: false });
+        Alert.alert('', 'There was an error, please try again');
       });
     } else {
       Alert.alert('', 'Please enter a name to continue');
@@ -87,6 +80,7 @@ class TryItNowName extends Component {
 
 TryItNowName.propTypes = {
   ...NavPropTypes,
+  onComplete: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),

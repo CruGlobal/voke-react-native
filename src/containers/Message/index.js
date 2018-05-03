@@ -53,11 +53,11 @@ class Message extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(determinePushOverlay());
     this.setConversationName();
 
     Analytics.screen('Chat');
     this.props.dispatch({ type: SET_ACTIVE_CONVERSATION, id: this.props.conversation.id });
+    this.props.dispatch(determinePushOverlay());
 
     setTimeout(() => {
       this.props.dispatch(checkAndRunSockets());
@@ -274,9 +274,17 @@ class Message extends Component {
   }
 
   handleShareVideo = (video) => {
-    this.props.navigatePush('voke.ShareFlow', {
-      videoId: video.id,
-    });
+    if (!this.props.me.first_name) {
+      this.props.navigatePush('voke.TryItNowName', {
+        onComplete: () => this.props.navigatePush('voke.ShareFlow', {
+          videoId: video.id,
+        }),
+      });
+    } else {
+      this.props.navigatePush('voke.ShareFlow', {
+        videoId: video.id,
+      });
+    }
   }
 
   handleInputFocus = () => {

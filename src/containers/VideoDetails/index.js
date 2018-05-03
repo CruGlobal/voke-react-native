@@ -168,9 +168,17 @@ class VideoDetails extends Component {
       //   video: video.id,
       //   isLandscape: this.state.isLandscape,
       // });
-      this.props.navigatePush('voke.ShareFlow', {
-        videoId: video.id,
-      });
+      if (!this.props.me.first_name) {
+        this.props.navigatePush('voke.TryItNowName', {
+          onComplete: () => this.props.navigatePush('voke.ShareFlow', {
+            videoId: video.id,
+          }),
+        });
+      } else {
+        this.props.navigatePush('voke.ShareFlow', {
+          videoId: video.id,
+        });
+      }
     }
   }
 
@@ -256,9 +264,7 @@ class VideoDetails extends Component {
             <Touchable
               borderless={true}
               hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-              onPress={() => {
-                this.props.navigateBack();
-              }}>
+              onPress={() => this.props.navigateBack()}>
               <View>
                 <VokeIcon name="video-back" style={styles.backImage} />
               </View>
@@ -287,8 +293,9 @@ VideoDetails.propTypes = {
   conversation: PropTypes.object,
 };
 
-const mapStateToProps = (state, { navigation }) => ({
+const mapStateToProps = ({ auth }, { navigation }) => ({
   ...(navigation.state.params || {}),
+  me: auth.user,
 });
 
 export default connect(mapStateToProps, nav)(VideoDetails);

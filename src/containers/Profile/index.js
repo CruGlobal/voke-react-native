@@ -123,7 +123,8 @@ class Profile extends Component {
   toggleEdit = (type) => {
     const newValue = !this.state[type];
     // If we are toggling the edit ON and the user is anonymous, show the popup
-    if (newValue && this.props.isAnonUser) {
+    // if (newValue && this.props.isAnonUser) {
+    if (newValue && (this.props.isAnonUser && type !== 'editName')) {
       this.setState({ hideAnonFields: true });
       this.props.dispatch({ type: SET_OVERLAY, value: 'tryItNowSignUp' });
       return;

@@ -52,7 +52,6 @@ class Videos extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch({ type: 'app/SET_OVERLAY', value: 'tryItNowIntro' });
     // this.props.dispatch(getMe()).then((results)=>{
     //   LOG(results);
     // });
@@ -410,8 +409,6 @@ class Videos extends Component {
             />
           ) : null
         }
-        {/* This is for the initial overlay */}
-        <VokeOverlays type="tryItNowIntro" />
         {/* This is here for the channel page to show when clicking the "Subscribe" button */}
         <VokeOverlays type="tryItNowSignUp" />
       </View>

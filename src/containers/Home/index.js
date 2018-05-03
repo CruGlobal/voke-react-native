@@ -158,7 +158,8 @@ class Home extends Component {
   }
 
   render() {
-    const cLength = this.props.conversations.length;
+    const { conversations, activeConversationId, me, pagination, unreadCount } = this.props;
+    const cLength = conversations.length;
 
     return (
       <View style={styles.container}>
@@ -181,13 +182,13 @@ class Home extends Component {
         {
           cLength ? (
             <ConversationList
-              items={this.props.conversations}
-              me={this.props.me}
+              items={conversations}
+              me={me}
               onRefresh={this.handleRefresh}
               onDelete={this.handleDelete}
-              unreadCount={this.props.unreadCount}
+              unreadCount={unreadCount}
               onBlock={this.handleBlock}
-              hasMore={this.props.pagination.hasMore}
+              hasMore={pagination.hasMore}
               onLoadMore={this.handleLoadMore}
               onSelect={(c) => this.props.navigatePush('voke.Message', {conversation: c})}
               refreshing={this.state.refreshing}
@@ -229,7 +230,11 @@ class Home extends Component {
             />
           ) : null
         }
-        <VokeOverlays type="pushPermissions" />
+        {
+          // Only show this overlay when you are not on the messages screen also
+          // It was getting a weird double overlay when transitioning to the messages screen
+          !activeConversationId ? <VokeOverlays type="pushPermissions" /> : null
+        }
       </View>
     );
   }
@@ -243,14 +248,13 @@ Home.propTypes = {
   pagination: PropTypes.object.isRequired, // Redux
 };
 
-const mapStateToProps = ({ messages, auth }) => {
-  return {
-    conversations: messages.conversations,
-    me: auth.user,
-    pagination: messages.pagination.conversations,
-    unreadCount: messages.unReadBadgeCount,
-    isAnonUser: auth.isAnonUser,
-  };
-};
+const mapStateToProps = ({ messages, auth }) => ({
+  conversations: messages.conversations,
+  me: auth.user,
+  pagination: messages.pagination.conversations,
+  unreadCount: messages.unReadBadgeCount,
+  isAnonUser: auth.isAnonUser,
+  activeConversationId: messages.activeConversationId,
+});
 
 export default connect(mapStateToProps, nav)(Home);
