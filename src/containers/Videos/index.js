@@ -52,6 +52,7 @@ class Videos extends Component {
   }
 
   componentDidMount() {
+    this.props.dispatch({ type: 'app/SET_OVERLAY', value: 'tryItNowIntro' });
     // this.props.dispatch(getMe()).then((results)=>{
     //   LOG(results);
     // });

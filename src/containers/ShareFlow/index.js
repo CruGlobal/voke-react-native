@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Image, TouchableOpacity, Keyboard, Alert, Share } from 'react-native';
+import { Image, TouchableOpacity, Keyboard, Alert, Share } from 'react-native';
 import { connect } from 'react-redux';
 
 import Analytics from '../../utils/analytics';
@@ -8,7 +8,8 @@ import styles from './styles';
 // import { getMe, facebookLoginAction, anonLogin } from '../../actions/auth';
 import { createConversation, getConversation, deleteConversation } from '../../actions/messages';
 import nav, { NavPropTypes } from '../../actions/nav';
-import { Flex, Button, Touchable, Text, Icon } from '../../components/common';
+import { Flex, Button, Text } from '../../components/common';
+import ApiLoading from '../ApiLoading';
 import SignUpInput from '../../components/SignUpInput';
 import CloseButton from '../../components/CloseButton';
 import VOKE_SHARE from '../../../images/voke_share.png';
@@ -174,6 +175,14 @@ class ShareFlow extends Component {
           </Flex>
         </TouchableOpacity>
         {this.renderOverlay()}
+        {
+          this.state.isLoading ? (
+            <ApiLoading
+              force={true}
+              text="Creating a link for you to share with your friend"
+            />
+          ) : null
+        }
       </Flex>
     );
   }

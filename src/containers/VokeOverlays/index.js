@@ -33,7 +33,6 @@ class VokeOverlays extends Component {
           <Text style={styles.chatText}>
             We all have someone in our life who needs hope.
             {'\n'}
-            {'\n'}
             Step out and share. See what God will do.
           </Text>
         </Flex>

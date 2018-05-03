@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { Image } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import styles from './styles';
 import { Flex, Loading, Text } from '../../components/common';
+import ANIMATION from '../../../images/VokeBotAnimation.gif';
 
 class ApiLoading extends Component {
   constructor(props) {
@@ -30,7 +32,8 @@ class ApiLoading extends Component {
     if (!this.state.showLoading && !this.props.isApiLoading && !this.props.force) return null;
     return (
       <Flex align="center" justify="center" style={styles.container}>
-        <Loading />
+        <Image style={{ marginBottom: 20, height: 100 }} resizeMode="contain" source={ANIMATION} />
+        {/* <Loading /> */}
         {
           this.props.text ? (
             <Text style={styles.text}>{this.props.text}</Text>

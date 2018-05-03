@@ -55,10 +55,10 @@ class Modal extends Component {
                   {'\n'}
                   2. To be encouraged when your friends are using Voke.
                 </Text>
-                <Text style={styles.showMoreDescriptionSmall}>
+                {/* <Text style={styles.showMoreDescriptionSmall}>
                   Right now it is not possible to use Voke without access to your contacts.
                   Pinky Promise: Voke does not keep or share your contacts.
-                </Text>
+                </Text> */}
               </Flex>
             ) : (
               <Flex align="center">
@@ -72,7 +72,7 @@ class Modal extends Component {
               </Flex>
             )
           }
-          <Flex direction="row" align="center" justify="center">
+          <Flex direction="row" align="center" justify="center" style={styles.buttonsWrap}>
             <Flex value={1} align="center" justify="center">
               <Button
                 text={this.state.isMore ? 'Not Now' : 'Tell me more'}

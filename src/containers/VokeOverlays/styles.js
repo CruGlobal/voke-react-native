@@ -7,7 +7,7 @@ const width = theme.fullWidth - 100;
 export default StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: theme.convert({ color: theme.black, alpha: 0.7 }),
+    backgroundColor: theme.convert({ color: theme.black, alpha: 0.95 }),
   },
   closeButton: {
     backgroundColor: theme.primaryColor,
@@ -28,6 +28,7 @@ export default StyleSheet.create({
   chatText: {
     color: theme.accentColor,
     fontSize: 16,
+    textAlign: 'center',
   },
   chatTriangle: {
     width: 17,

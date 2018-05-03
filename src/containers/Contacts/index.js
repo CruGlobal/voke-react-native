@@ -34,6 +34,7 @@ class Contacts extends Component {
       showSearch: false,
       isSearching: false,
       isMultipleOpen: false,
+      showPermissionModal: false,
       permission: props.isInvite ? Permissions.NOT_ASKED : Permissions.AUTHORIZED,
     };
 
@@ -244,7 +245,7 @@ class Contacts extends Component {
           this.props.isLoading ? (
             <ApiLoading
               force={true}
-              text={'Fetching your contacts - and because you are so popular, I need up to 30 seconds'}
+              text="Fetching your contacts - and because you are so popular, I need up to 30 seconds"
             />
           ) : null
         }

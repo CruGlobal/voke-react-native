@@ -3,7 +3,7 @@ import { Linking, AppState, ToastAndroid, AsyncStorage, Alert, PushNotificationI
 
 import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, UPDATE_TOKENS, NO_BACKGROUND_ACTION, CREATE_ANON_USER } from '../constants';
 import callApi, { REQUESTS } from './api';
-import { establishDevice, setupSocketAction, closeSocketAction, destroyDevice, getDevices, checkAndRunSockets } from './socket';
+import { establishDevice, establishCableDevice, closeSocketAction, destroyDevice, getDevices, checkAndRunSockets } from './socket';
 import { getConversations, getMessages, createMessageInteraction } from './messages';
 import { API_URL } from '../api/utils';
 import { isArray } from '../utils/common';
@@ -14,7 +14,7 @@ import theme from '../theme';
 
 // Setup app state change listeners
 let appStateChangeFn;
-let currentAppState = AppState.currentState || '';
+// let currentAppState = AppState.currentState || '';
 
 let hasStartedUp = false;
 
@@ -24,6 +24,7 @@ export function startupAction() {
     if (hasStartedUp) return;
 
     hasStartedUp = true;
+    dispatch(checkAndRunSockets());
     if (appStateChangeFn) {
       AppState.removeEventListener('change', appStateChangeFn);
     } else {
@@ -133,7 +134,7 @@ function appStateChange(dispatch, getState, nextAppState) {
     dispatch(closeSocketAction());
     appCloseTime = Date.now();
   }
-  currentAppState = nextAppState;
+  // currentAppState = nextAppState;
 }
 
 

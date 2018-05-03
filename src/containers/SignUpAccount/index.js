@@ -105,7 +105,7 @@ class SignUpAccount extends Component {
           <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
           <SignUpHeader
             title="Create Account"
-            description="You are moments away from impacting your friends"
+            description="Creating your account allows you to keep your conversations safe, retain your progress and access Voke from any where"
             onPress={()=> Keyboard.dismiss()}
           />
           <Flex value={1} align="center" justify="start" style={styles.inputs}>
