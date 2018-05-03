@@ -63,9 +63,9 @@ class ShareFlow extends Component {
         this.props.dispatch(getConversation(results.id)).then((c) => {
           this.setState({
             conversationUrl: friend.url,
-            conversation: c,
+            conversation: c.conversation,
             isLoading: false,
-          }, resolve);
+          }, () => resolve());
         }).catch(fail);
       }).catch(fail);
     });
@@ -101,6 +101,7 @@ class ShareFlow extends Component {
       if (action === Share.sharedAction) {
         LOG('shared!', activityType);
         // Navigate to the new conversation after sharing
+        // console.log('conversation state in share flow',this.state.conversation)
         this.props.navigateResetMessage({
           conversation: this.state.conversation,
         });
