@@ -203,7 +203,7 @@ export function gotDeviceToken(token) {
     } else if (token && auth.pushToken && token === auth.pushToken) {
       // Don't run the setup socket or push device if the token is the same
       // as before
-      LOG('dont estable any socket or push devices');
+      LOG('dont establish any socket or push devices');
     } else {
       dispatch(establishCableDevice(null));
     }

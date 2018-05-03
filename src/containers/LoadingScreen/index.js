@@ -5,7 +5,6 @@ import VOKE_LOADING from '../../../images/vokeSplash.png';
 import styles from './styles';
 import { Flex } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
-// import LOADING from '../../../images/box.gif';
 
 class LoadingScreen extends Component {
   render() {

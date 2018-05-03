@@ -65,7 +65,6 @@ class Home extends Component {
 
     setTimeout(() => {
       this.props.dispatch(startupAction());
-      this.props.dispatch(checkAndRunSockets());
     }, 50);
   }
 

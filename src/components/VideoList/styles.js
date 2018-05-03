@@ -6,6 +6,7 @@ export const THUMBNAIL_HEIGHT = (theme.fullWidth - 20) * 1/2;
 
 export default StyleSheet.create({
   content: {
+    flex: 1,
   },
   container: {
     margin: 10,
