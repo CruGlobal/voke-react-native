@@ -9,7 +9,7 @@ import { SOCKET_URL } from '../api/utils';
 import { newMessageAction, typeStateChangeAction, getConversation, getConversations, getMessages } from './messages';
 import { navigateResetMessage } from './nav';
 import callApi, { REQUESTS } from './api';
-import CONSTANTS, { SET_OVERLAY } from '../constants';
+import CONSTANTS, { SET_OVERLAY, SET_PUSH_TOKEN } from '../constants';
 import { isEquivalentObject } from '../utils/common';
 import theme from '../theme';
 // Push notification Android error
@@ -37,6 +37,24 @@ export function checkAndRunSockets() {
     }
   };
 }
+//
+// export function verifyPushNotifications() {
+//   return (dispatch, getState) => {
+//     Permissions.check('notification').then(response => {
+//       console.log('PERMISSION',response);
+//       // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+//       let token = getState().auth.pushToken;
+//       console.log('TOKEN',token);
+//
+//       if (response === 'authorized') {
+//         dispatch(establishDevice());
+//       } else {
+//         // clear token
+//         dispatch({ type: SET_PUSH_TOKEN, pushToken: '' });
+//       }
+//     });
+//   };
+// }
 
 export function setupSocketAction(cableId) {
   return (dispatch, getState) => {
@@ -443,13 +461,18 @@ export function establishPushDevice() {
 }
 
 
-export function enablePushNotifications() {
-  return (dispatch) => {
+export function enablePushNotifications(forceIfUndetermined = false) {
+  return (dispatch, getState) => {
+    let token = getState().auth.pushToken;
     if (!theme.isAndroid) {
       Permissions.check('notification').then(response => {
         // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
-        if (response === 'undetermined') {
-          dispatch(establishDevice());
+        if (response === 'undetermined' && !token) {
+          if (forceIfUndetermined) {
+            dispatch(establishDevice());
+          } else {
+            dispatch({ type: SET_OVERLAY, value: 'pushPermissions' });
+          }
         } else if (response !== 'authorized') {
           // go to settings
           dispatch(openSettingsAction());

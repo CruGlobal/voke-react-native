@@ -15,6 +15,7 @@ import { vokeIcons } from '../../utils/iconMap';
 import ANIMATION from '../../../images/VokeBotAnimation.gif';
 
 import ApiLoading from '../ApiLoading';
+import VokeOverlays from '../VokeOverlays';
 import AndroidReportModal from '../AndroidReportModal';
 import ConversationList from '../../components/ConversationList';
 import PopupMenu from '../../components/PopupMenu';
@@ -229,6 +230,7 @@ class Home extends Component {
             />
           ) : null
         }
+        <VokeOverlays type="pushPermissions" />
       </View>
     );
   }

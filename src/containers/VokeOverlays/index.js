@@ -22,7 +22,7 @@ class VokeOverlays extends Component {
   }
 
   allowNotifications = () => {
-    this.props.dispatch(enablePushNotifications());
+    this.props.dispatch(enablePushNotifications(true));
     this.close();
   }
 

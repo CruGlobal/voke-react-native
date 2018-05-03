@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Permissions from 'react-native-permissions'
 
 import { enablePushNotifications } from '../../actions/socket';
 
@@ -10,8 +11,9 @@ class NotificationToast extends Component {
   enable = () => {
     this.props.dispatch(enablePushNotifications());
   }
+
   render() {
-    if (this.props.token) return null;
+    if (this.props.pushPermission === 'authorized') return null;
     return (
       <Flex direction="row" align="center" self="stretch" style={[styles.wrap, this.props.style]}>
         <Icon name="notifications-none" size={28} style={styles.icon} />
@@ -31,6 +33,7 @@ class NotificationToast extends Component {
 
 const mapStateToProps = ({ auth }) => ({
   token: auth.pushToken,
+  pushPermission: auth.pushPermission,
   auth: auth,
 });
 

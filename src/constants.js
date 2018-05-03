@@ -23,6 +23,7 @@ export const MESSAGE_CREATED = 'app/MESSAGE_CREATED';
 export const CLEAR_CHANNEL_VIDEOS = 'app/CLEAR_CHANNEL_VIDEOS';
 export const CREATE_ANON_USER = 'app/CREATE_ANON_USER';
 export const RESET_ANON_USER = 'app/RESET_ANON_USER';
+export const PUSH_PERMISSION = 'app/PUSH_PERMISSION';
 // Overlays
 export const CLEAR_OVERLAY = 'app/CLEAR_OVERLAY';
 export const SET_OVERLAY = 'app/SET_OVERLAY';
