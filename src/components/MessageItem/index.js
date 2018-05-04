@@ -149,7 +149,7 @@ class MessageItem extends PureComponent {
   }
 
   renderShareVideo() {
-    const SIZE = 45;
+    const SIZE = 55;
     return (
       <Touchable
         isAndroidOpacity={true}
@@ -157,11 +157,11 @@ class MessageItem extends PureComponent {
         activeOpacity={0.6}
         style={[
           styles.shareCircleButton,
-          { width: SIZE, height: SIZE, borderRadius: SIZE / 2 },
         ]}>
         <Image
+          resizeMode="cover"
           source={TO_CHAT}
-          style={{ width: SIZE + 8, height: SIZE + 8, borderRadius: SIZE / 2 }}
+          style={{ width: SIZE, height: SIZE, borderRadius: SIZE / 2 }}
         />
       </Touchable>
     );

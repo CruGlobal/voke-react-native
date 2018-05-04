@@ -100,6 +100,6 @@ export default StyleSheet.create({
     paddingVertical: 10,
   },
   shareCircleButton: {
-    paddingHorizontal: 10,
+    marginHorizontal: 10,
   },
 });
