@@ -89,8 +89,8 @@ export default StyleSheet.create({
     marginVertical: 50,
     height: 40,
   },
-  actionButton: {
-    backgroundColor: theme.secondaryColor,
+  buttonWrapper: {
+    padding: 5,
   },
   backgroundWrap: {
     position: 'absolute',
@@ -102,13 +102,29 @@ export default StyleSheet.create({
   signInButtonText: {
     fontSize: 16,
   },
-  signInText: {
-    fontSize: 14,
-  },
-  signInButton: {
+  actionButton: {
     width: theme.fullWidth - 110,
     height: 40,
+    backgroundColor: theme.primaryColor,
+    borderWidth: 0,
     alignItems: 'center',
-    marginTop: 10,
+    justifyContent: 'center',
+  },
+  haveAccount: {
+    paddingTop: 50,
+    paddingBottom: 0,
+  },
+  signInButton: {
+    fontSize: 16,
+  },
+  signInText: {
+    fontSize: 14,
+    color: theme.primaryColor,
+  },
+  signIn: {
+    fontSize: 14,
+    color: theme.white,
+    // color: theme.primaryColor,
+    paddingRight: 5,
   },
 });

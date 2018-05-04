@@ -352,8 +352,10 @@ class Profile extends Component {
   render() {
     const { editName, editEmail, editPassword, hideAnonFields } = this.state;
     let { user, isAnonUser } = this.props;
-
-    const name = `${user.first_name} ${user.last_name}`;
+    let name = null;
+    if (user.first_name || user.last_name) {
+      name = `${user.first_name} ${user.last_name}`;
+    }
 
     const isEditing = editName || editEmail || editPassword;
 
@@ -380,7 +382,7 @@ class Profile extends Component {
               isEditing && !editName ? null : (
                 <View>
                   <ProfileRow
-                    text={name}
+                    text={name || 'Add your Name'}
                     right={<Button
                       isAndroidOpacity={true}
                       text={editName ? 'Cancel' : (!name ? 'Add' : 'Edit')}

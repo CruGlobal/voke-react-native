@@ -19,7 +19,6 @@ import Contacts from './containers/Contacts';
 import KickstartersTab from './containers/KickstartersTab';
 import VideosTab from './containers/VideosTab';
 import SignUpAccount from './containers/SignUpAccount';
-import SignInOrTryItNow from './containers/SignInOrTryItNow';
 import TryItNowName from './containers/TryItNowName';
 import ShareFlow from './containers/ShareFlow';
 import SignUpProfile from './containers/SignUpProfile';
@@ -130,7 +129,6 @@ export const MainStackRoutes = StackNavigator({
   'voke.LoginInput': { screen: LoginInput },
   'voke.Message': { screen: Message },
   'voke.Profile': { screen: Profile },
-  'voke.SignInOrTryItNow': { screen: SignInOrTryItNow },
   'voke.SignUpAccount': { screen: SignUpAccount },
   'voke.SignUpFBAccount': { screen: SignUpFBAccount },
   'voke.SignUpNumber': {
