@@ -1,7 +1,6 @@
 import { Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import PushNotification from 'react-native-push-notification';
-import Permissions from 'react-native-permissions'
 
 import { API_URL } from '../api/utils';
 import { registerPushToken, openSettingsAction } from './auth';
@@ -12,6 +11,8 @@ import callApi, { REQUESTS } from './api';
 import CONSTANTS, { SET_OVERLAY, SET_PUSH_TOKEN } from '../constants';
 import { isEquivalentObject } from '../utils/common';
 import theme from '../theme';
+import Permissions from '../utils/permissions';
+
 // Push notification Android error
 // https://github.com/zo0r/react-native-push-notification/issues/495
 
@@ -37,24 +38,6 @@ export function checkAndRunSockets() {
     }
   };
 }
-//
-// export function verifyPushNotifications() {
-//   return (dispatch, getState) => {
-//     Permissions.check('notification').then(response => {
-//       console.log('PERMISSION',response);
-//       // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
-//       let token = getState().auth.pushToken;
-//       console.log('TOKEN',token);
-//
-//       if (response === 'authorized') {
-//         dispatch(establishDevice());
-//       } else {
-//         // clear token
-//         dispatch({ type: SET_PUSH_TOKEN, pushToken: '' });
-//       }
-//     });
-//   };
-// }
 
 export function setupSocketAction(cableId) {
   return (dispatch, getState) => {
@@ -464,26 +447,22 @@ export function establishPushDevice() {
 export function enablePushNotifications(forceIfUndetermined = false) {
   return (dispatch, getState) => {
     let token = getState().auth.pushToken;
-    if (!theme.isAndroid) {
-      Permissions.check('notification').then(response => {
-        // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
-        if (response === 'undetermined' && !token) {
-          if (forceIfUndetermined) {
-            dispatch(establishDevice());
-          } else {
-            dispatch({ type: SET_OVERLAY, value: 'pushPermissions' });
-          }
-        } else if (response !== 'authorized') {
-          // go to settings
-          dispatch(openSettingsAction());
-        } else {
-          // if it comes back as Authorized, but there is no token (because it ran this function) then establish the device
+    Permissions.checkPush().then((response) => {
+      // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+      if (response === 'undetermined' && !token) {
+        if (forceIfUndetermined) {
           dispatch(establishDevice());
+        } else {
+          dispatch({ type: SET_OVERLAY, value: 'pushPermissions' });
         }
-      });
-    } else {
-      dispatch(establishDevice());
-    }
+      } else if (response !== 'authorized') {
+        // go to settings
+        dispatch(openSettingsAction());
+      } else {
+        // if it comes back as Authorized then establish the device
+        dispatch(establishDevice());
+      }
+    });
   };
 }
 

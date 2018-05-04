@@ -1,6 +1,7 @@
 import RNFetchBlob from 'react-native-fetch-blob';
 import { Linking, AppState, ToastAndroid, AsyncStorage, Alert, PushNotificationIOS } from 'react-native';
-import Permissions from 'react-native-permissions'
+import Orientation from 'react-native-orientation';
+import DeviceInfo from 'react-native-device-info';
 
 import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, UPDATE_TOKENS, NO_BACKGROUND_ACTION, CREATE_ANON_USER, PUSH_PERMISSION } from '../constants';
 import callApi, { REQUESTS } from './api';
@@ -8,9 +9,8 @@ import { establishDevice, establishCableDevice, closeSocketAction, destroyDevice
 import { getConversations, getMessages, createMessageInteraction } from './messages';
 import { API_URL } from '../api/utils';
 import { isArray } from '../utils/common';
-import Orientation from 'react-native-orientation';
-import DeviceInfo from 'react-native-device-info';
 import theme from '../theme';
+import Permissions from '../utils/permissions';
 
 
 // Setup app state change listeners
@@ -144,7 +144,7 @@ function appStateChange(dispatch, getState, nextAppState) {
 
 export function checkPushPermissions() {
   return (dispatch) => {
-    Permissions.check('notification').then(response => {
+    Permissions.checkPush().then((response) => {
       dispatch({ type: PUSH_PERMISSION, permission: response });
     });
   };

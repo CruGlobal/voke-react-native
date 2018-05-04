@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Permissions from 'react-native-permissions'
 
 import { enablePushNotifications } from '../../actions/socket';
 
