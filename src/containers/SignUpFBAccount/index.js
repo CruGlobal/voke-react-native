@@ -13,7 +13,7 @@ import { Flex, Text, Button, Icon } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeader from '../../components/SignUpHeader';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
-import CONSTANTS from '../../constants';
+import CONSTANTS, { RESET_ANON_USER } from '../../constants';
 import theme from '../../theme';
 
 class SignUpFBAccount extends Component {
@@ -33,7 +33,7 @@ class SignUpFBAccount extends Component {
     this.handleImageChange = this.handleImageChange.bind(this);
     this.addProfile = this.addProfile.bind(this);
   }
-  
+
   componentDidMount() {
     Analytics.screen('Create profile from Facebook Account');
   }
@@ -74,6 +74,8 @@ class SignUpFBAccount extends Component {
         },
       };
       this.props.dispatch(updateMe(data)).then(() => {
+        this.props.dispatch({ type: RESET_ANON_USER });
+
         this.props.navigatePush('voke.SignUpNumber');
       });
     } else {
@@ -135,7 +137,7 @@ class SignUpFBAccount extends Component {
             />
             <Flex style={styles.buttonWrapper}>
               <Button
-                text="Create Account"
+                text="Next"
                 buttonTextStyle={styles.signInButton}
                 style={styles.actionButton}
                 onPress={this.addProfile}

@@ -8,6 +8,7 @@ import { createAccountAction, updateMe } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/nav';
 import { Flex, Text, Button } from '../../components/common';
 import ApiLoading from '../ApiLoading';
+import FacebookButton from '../FacebookButton';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeader from '../../components/SignUpHeader';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
@@ -153,6 +154,9 @@ class SignUpAccount extends Component {
                   style={styles.legalLink}
                   onPress={() => this.handleLink(CONSTANTS.WEB_URLS.TERMS)}
                 />
+              </Flex>
+              <Flex style={{ paddingVertical: 20 }}>
+                <FacebookButton />
               </Flex>
             </Flex>
           </Flex>

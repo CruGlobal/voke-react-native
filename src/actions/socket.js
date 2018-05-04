@@ -468,8 +468,9 @@ export function enablePushNotifications(forceIfUndetermined = false) {
 
 export function determinePushOverlay() {
   return (dispatch, getState) => {
-    const token = getState().auth.pushToken;
-    if (token) return;
+    const permission = getState().auth.pushPermission;
+    if (permission === 'authorized') return;
+
 
     dispatch({ type: SET_OVERLAY, value: 'pushPermissions' });
   };

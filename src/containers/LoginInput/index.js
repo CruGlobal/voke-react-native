@@ -12,7 +12,7 @@ import SignUpInput from '../../components/SignUpInput';
 import FacebookButton from '../FacebookButton';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import LOGO from '../../../images/initial_voke.png';
-import CONSTANTS from '../../constants';
+import CONSTANTS, { RESET_ANON_USER } from '../../constants';
 
 class LoginInput extends Component {
   constructor(props) {
@@ -52,7 +52,7 @@ class LoginInput extends Component {
         this.state.password
       )).then((results) => {
         this.setState({ isLoading: false });
-        // LOG('login results', results);
+        this.props.dispatch({ type: RESET_ANON_USER });
         this.props.navigateResetHome();
       }).catch(() => {
         this.setState({ isLoading: false });
@@ -109,6 +109,7 @@ class LoginInput extends Component {
             <Flex style={styles.buttonWrapper}>
               <FacebookButton
                 text="Sign In with Facebook"
+                isSignIn={true}
               />
             </Flex>
           </Flex>
