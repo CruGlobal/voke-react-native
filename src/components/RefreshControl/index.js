@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Image, RefreshControl, StyleSheet } from 'react-native';
 
 import ANIMATION from '../../../images/VokeBotAnimation.gif';
-import { COLORS } from '../../theme';
+import theme, { COLORS } from '../../theme';
 
 // When the user does a pull to refresh, they will see the native indicator, but once refreshing
 // actually begins, switch it out for the image. Then, when it is all done refreshing, leave the
@@ -26,6 +26,10 @@ export default class MyRefreshControl extends Component {
   }
   
   render() {
+    // Android cannot render a gif inside the 
+    if (theme.isAndroid) {
+      return <RefreshControl {...this.props} />;
+    }
     return (
       <RefreshControl
         {...this.props}
