@@ -26,7 +26,11 @@ const MARGIN = 40;
 
 class SignUpWelcome extends Component {
 
-  state = { selectedPage: 0, totalSteps: 4 };
+  state = {
+    selectedPage: 0,
+    totalSteps: 4,
+    isLoading: false,
+  };
 
   componentDidMount() {
     Analytics.screen('Welcome Onboarding');
@@ -42,6 +46,7 @@ class SignUpWelcome extends Component {
   }
 
   tryItNow = () => {
+    this.setState({ isLoading: true });
     this.props.dispatch(createAccountAction(null, null, true)).then((results) => {
       LOG('create try it now account results', results);
       this.props.dispatch({ type: CREATE_ANON_USER });
@@ -168,6 +173,7 @@ class SignUpWelcome extends Component {
                   <Flex style={{ position: 'absolute', bottom: 90, right: 0, left: 0, padding: 5, marginHorizontal: 50 }}>
                     <Button
                       text="Start Exploring"
+                      isLoading={this.state.isLoading}
                       buttonTextStyle={styles.signInButton}
                       style={styles.actionButton}
                       onPress={this.tryItNow}

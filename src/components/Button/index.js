@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Image } from 'react-native';
 import debounce from 'lodash/debounce';
+import Spinner from 'react-native-spinkit';
 
 import styles from './styles';
 
 import { Touchable, Text, Icon, Flex } from '../common';
+import theme from '../../theme';
 
 const TYPES = ['transparent', 'header', 'filled', 'disabled'];
 function getTypeStyle(type) {
@@ -56,7 +58,7 @@ export default class Button extends Component {
   }
 
   render() {
-    const { type, hitSlop, image, text, icon, iconType, children, disabled, preventTimeout, style, buttonTextStyle, iconStyle, ...rest } = this.props;
+    const { type, hitSlop, image, text, icon, iconType, children, disabled, preventTimeout, isLoading, style, buttonTextStyle, iconStyle, ...rest } = this.props;
     let content = children;
     if (!children) {
       let textComp = null;
@@ -95,10 +97,21 @@ export default class Button extends Component {
         content = textComp || iconComp || imageComp;
       }
     }
-    const isDisabled = disabled || this.state.clickedDisabled;
+
+
+    if (isLoading) {
+      content = (
+        <Spinner
+          color={theme.white}
+          size={40}
+          type="ThreeBounce"
+        />
+      );
+    }
+    const isDisabled = disabled || this.state.clickedDisabled || isLoading;
     return (
       <Touchable {...rest} disabled={isDisabled} onPress={this.handlePress}>
-        <View hitSlop={hitSlop} style={[getTypeStyle(type), disabled ? styles.disabled : null, style]}>
+        <View hitSlop={hitSlop} style={[getTypeStyle(type), disabled || isLoading ? styles.disabled : null, style]}>
           {content}
         </View>
       </Touchable>
