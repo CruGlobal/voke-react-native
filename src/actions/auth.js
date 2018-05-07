@@ -24,9 +24,10 @@ export function startupAction() {
     Orientation.lockToPortrait();
     if (hasStartedUp) return;
 
-    // dispatch(verifyPushNotifications());
+    // Check push permissions and run 'establishDevice' if they have permission
     dispatch(checkPushPermissions());
     hasStartedUp = true;
+    // If sockets have not started up, go ahead and do that
     dispatch(checkAndRunSockets());
     if (appStateChangeFn) {
       AppState.removeEventListener('change', appStateChangeFn);
@@ -62,25 +63,25 @@ function appStateChange(dispatch, getState, nextAppState) {
   // LOG('appStateChange', nextAppState, currentAppState, cableId);
   if (nextAppState === 'active') {
     LOG('App has come to the foreground!');
-    dispatch(checkPushPermissions());
+    // Don't run establish device if it's authorized
+    dispatch(checkPushPermissions(false));
 
     let messages = getState().messages;
     if (!theme.isAndroid) {
       PushNotificationIOS.getDeliveredNotifications((results)=> {
         if (results && results.length > 0) PushNotificationIOS.removeAllDeliveredNotifications();
         let conversations = getState().messages.conversations;
-        // let messages = getState().messages.messages;
         let link = results[0] && results[0].userInfo && results[0].userInfo.data && results[0].userInfo.data.link;
         if (!link) return;
         const cId = link.substring(link.indexOf('conversations/') + 14, link.indexOf('/messages'));
         const mId = link.substring(link.indexOf('messages/') + 9, link.length);
-        LOG('conversation ID: ', cId);
-        LOG('message ID:', mId);
+        // LOG('conversation ID: ', cId);
+        // LOG('message ID:', mId);
         if (cId && mId) {
           let conv = conversations.find((c) => cId === c.id);
           // if the conversation does not exist then call get conversations or if the message does not exist call get conversation
           if (!conv || (conv.latestMessage && conv.latestMessage.message_id !== mId)) {
-            LOG('get conversations');
+            // LOG('get conversations');
             if (messages.activeConversationId === cId) {
               dispatch(getMessages(cId)).then(()=> {
                 const interaction = {
@@ -142,10 +143,14 @@ function appStateChange(dispatch, getState, nextAppState) {
   // currentAppState = nextAppState;
 }
 
-export function checkPushPermissions() {
+export function checkPushPermissions(runIfTrue = true) {
   return (dispatch) => {
     Permissions.checkPush().then((response) => {
       dispatch({ type: PUSH_PERMISSION, permission: response });
+      // After checking permissions, make sure we run 'establishDevice' if necessary
+      if (runIfTrue && response === 'authorized') {
+        dispatch(establishDevice());
+      }
     });
   };
 }
