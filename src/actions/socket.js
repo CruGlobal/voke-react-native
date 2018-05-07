@@ -3,7 +3,7 @@ import DeviceInfo from 'react-native-device-info';
 import PushNotification from 'react-native-push-notification';
 
 import { API_URL } from '../api/utils';
-import { registerPushToken, openSettingsAction } from './auth';
+import { registerPushToken, openSettingsAction, checkPushPermissions } from './auth';
 import { SOCKET_URL } from '../api/utils';
 import { newMessageAction, typeStateChangeAction, getConversation, getConversations, getMessages } from './messages';
 import { navigateResetMessage } from './nav';
@@ -317,12 +317,14 @@ export function establishDevice() {
       // (optional) Called when Token is generated (iOS and Android)
       onRegister(token) {
         LOG('in push notification register');
+        // Update redux with the push notification permission value
+        dispatch(checkPushPermissions(false));
+
         dispatch(gotDeviceToken(token.token));
       },
       // (required) Called when a remote or local notification is opened or received
       onNotification(notification) {
-        console.log('onNotification came in', notification);
-        console.log('here');
+        // LOG('onNotification came in', notification);
         let state;
         if (notification && notification.foreground && !notification.userInteraction) {
           state = 'foreground';

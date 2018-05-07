@@ -101,7 +101,6 @@ class ShareFlow extends Component {
       if (action === Share.sharedAction) {
         LOG('shared!', activityType);
         // Navigate to the new conversation after sharing
-        // console.log('conversation state in share flow',this.state.conversation)
         this.props.navigateResetMessage({
           conversation: this.state.conversation,
         });
