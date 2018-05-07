@@ -13,7 +13,7 @@ import ApiLoading from '../ApiLoading';
 import SignUpInput from '../../components/SignUpInput';
 import CloseButton from '../../components/CloseButton';
 import VOKE_SHARE from '../../../images/voke_share.png';
-import VOKE_LINK from '../../../images/voke_link.png';
+import VOKE_LINK from '../../../images/vokebot_whole.png';
 import theme from '../../theme';
 
 class ShareFlow extends Component {
@@ -133,6 +133,11 @@ class ShareFlow extends Component {
     return (
       <Flex style={styles.overlay}>
         <Image resizeMode="contain" source={VOKE_LINK} style={styles.overlayImage} />
+        <Flex style={styles.chatBubble}>
+          <Text style={styles.chatText}>
+            {this.state.name}'s link is ready! Where do you want to share it?
+          </Text>
+        </Flex>
       </Flex>
     );
   }

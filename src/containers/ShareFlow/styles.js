@@ -55,6 +55,29 @@ export default StyleSheet.create({
   overlayImage: {
     position: 'absolute',
     left: 0,
-    top: 75,
+    top: 150,
+  },
+  chatBubble: {
+    borderRadius: 5,
+    backgroundColor: theme.white,
+    padding: 25,
+    position: 'absolute',
+    left: 50,
+    top: 65,
+    width: theme.fullWidth - 90,
+  },
+  chatText: {
+    color: theme.accentColor,
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  chatTriangle: {
+    width: 17,
+    height: 0,
+    marginBottom: 10,
+    borderBottomWidth: 10,
+    borderBottomColor: 'transparent',
+    borderRightWidth: 13,
+    borderRightColor: theme.lightBackgroundColor,
   },
 });
