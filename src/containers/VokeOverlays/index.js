@@ -31,10 +31,15 @@ class VokeOverlays extends Component {
       <Flex style={styles.overlay} align="center" justify="center" self="stretch">
         <CloseButton onClose={this.close} />
         <Flex value={1} align="center" justify="center">
-          <Image source={VOKEBOT} style={{ height: 100 }} resizeMode="contain" />
+          <Text style={styles.title}>
+            Subscribe
+          </Text>
+          <Text style={styles.subtitle}>
+            Sign up to subscribe and you will be alerted when new videos are published.
+          </Text>
         </Flex>
         <Flex value={1} align="center" justify="center">
-          <SignUpButtons />
+          <SignUpButtons filled={true} />
         </Flex>
       </Flex>
     );

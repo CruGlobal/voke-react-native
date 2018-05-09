@@ -239,6 +239,7 @@ export function createAccountAction(email, password, isAnonymous = false) {
       if (isAnonymous) {
         data = {
           timezone_name: DeviceInfo.getTimezone(),
+          anonymous: true,
         };
       }
       dispatch(callApi(REQUESTS.ME, {}, { data })).then((results) => {

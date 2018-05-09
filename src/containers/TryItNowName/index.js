@@ -60,7 +60,7 @@ class TryItNowName extends Component {
               </Text>
             </Flex>
           </Flex>
-          <Flex align="center" justify="start" value={4} align="center" style={styles.actions}>
+          <Flex align="center" justify="start" value={4} style={styles.actions}>
             <SignUpInput
               value={this.state.name}
               onChangeText={(t) => this.setState({ name: t })}

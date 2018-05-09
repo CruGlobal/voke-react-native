@@ -25,6 +25,18 @@ export default StyleSheet.create({
     padding: 25,
     width,
   },
+  title: {
+    color: theme.primaryColor,
+    fontSize: 28,
+    textAlign: 'center',
+  },
+  subtitle: {
+    color: theme.white,
+    fontSize: 16,
+    textAlign: 'center',
+    width: theme.fullWidth - 100,
+    paddingTop: 20,
+  },
   chatText: {
     color: theme.accentColor,
     fontSize: 16,

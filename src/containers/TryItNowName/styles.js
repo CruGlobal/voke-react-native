@@ -11,7 +11,7 @@ export default StyleSheet.create({
   },
   actions: {
     paddingBottom: 25,
-    paddingTop: 40,
+    paddingTop: isSmallScreen ? 20 : 40,
   },
   logoWrapper: {
     width: theme.fullWidth,
