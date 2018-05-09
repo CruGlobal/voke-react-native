@@ -7,20 +7,11 @@ import theme from '../theme';
 
 // This is used by the android <MenuButton /> and the iOS <Menu />
 export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin, isAnonUser } = {}) {
-  let authButtons = [];
-  if (isAnonUser) {
-    authButtons.push({
-      id: 'signin',
-      name: 'Sign In',
-      onPress: () => navigatePush && navigatePush('voke.LoginInput'),
-    });
-    authButtons.push({
-      id: 'createaccount',
-      name: 'Create Account',
-      onPress: () => navigatePush && navigatePush('voke.SignUpAccount'),
-    });
-  } else {
-    authButtons.push({
+  let createButton = [];
+  let signinButton = [];
+  let logoutButton = [];
+  if (!isAnonUser) {
+    logoutButton.push({
       id: 'signout',
       name: 'Sign Out',
       onPress: () => {
@@ -30,19 +21,31 @@ export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin, isA
       },
     });
   }
+  if (isAnonUser) {
+    signinButton.push({
+      id: 'signin',
+      name: 'Sign In',
+      onPress: () => navigatePush && navigatePush('voke.LoginInput'),
+    });
+    createButton.push({
+      id: 'createaccount',
+      name: 'Create Account',
+      onPress: () => navigatePush && navigatePush('voke.SignUpAccount'),
+    });
+  }
   return [
-    // {
-    //   id: 'country',
-    //   name: 'Country Codes',
-    //   onPress: () => navigatePush && navigatePush('voke.CountrySelect', {
-    //     onSelect: (c) => LOG('country selected', c),
-    //   }),
-    // },
+    ...createButton,
     {
       id: 'profile',
       name: 'Profile',
       onPress: () => navigatePush && navigatePush('voke.Profile'),
     },
+    {
+      id: 'onboarding',
+      name: 'Why Voke?',
+      onPress: () => navigatePush && navigatePush('voke.SignUpWelcome', { noSignIn: true }),
+    },
+    ...signinButton,
     {
       id: 'invite',
       name: 'Invite Friend',
@@ -56,11 +59,6 @@ export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin, isA
           Communications.textWithoutEncoding(phone, message);
         },
       }),
-    },
-    {
-      id: 'about',
-      name: 'About',
-      onPress: () => navigatePush && navigatePush('voke.About'),
     },
     {
       id: 'review',
@@ -100,20 +98,15 @@ export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin, isA
       },
     },
     {
-      id: 'acknowledgements',
-      name: 'Acknowledgements',
-      onPress: () => navigatePush && navigatePush('voke.Acknowledgements'),
-    },
-    {
       id: 'help',
       name: 'Help',
       onPress: () => navigatePush && navigatePush('voke.Help'),
     },
     {
-      id: 'onboarding',
-      name: 'Onboarding',
-      onPress: () => navigatePush && navigatePush('voke.SignUpWelcome', { noSignIn: true }),
+      id: 'about',
+      name: 'About',
+      onPress: () => navigatePush && navigatePush('voke.About'),
     },
-    ...authButtons,
+    ...logoutButton,
   ];
 }

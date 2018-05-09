@@ -70,6 +70,10 @@ class About extends Component {
               onPress: () => this.handleLink(CONSTANTS.WEB_URLS.PRIVACY),
             },
             {
+              name: 'Acknowledgements',
+              onPress: () => this.props.navigatePush('voke.Acknowledgements'),
+            },
+            {
               name: `Version: ${VERSION_BUILD}`,
             },
           ]}

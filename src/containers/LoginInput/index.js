@@ -40,7 +40,7 @@ class LoginInput extends Component {
   componentDidMount() {
     Analytics.screen('Login Input');
     if (this.props.isAnonUser) {
-      Alert.alert('Login', 'If you login with an existing account, you will lose any activity that you have on the account you have been using. If you would like to save this activity, please go back and create a new account.');
+      Alert.alert('Login', 'If you login with an existing account, you will lose any activity that you have on the guest account you have been using. If you would like to save this activity, please go back and create a new account.');
     }
   }
 
