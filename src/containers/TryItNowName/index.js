@@ -7,10 +7,10 @@ import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { updateMe } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/nav';
-import { Flex, Button } from '../../components/common';
+import { Flex, Button, Text } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
-import VOKE_FIRST_NAME from '../../../images/voke_firstname.png';
+import VOKE_FIRST_NAME from '../../../images/vokebot_whole.png';
 
 class TryItNowName extends Component {
 
@@ -49,14 +49,22 @@ class TryItNowName extends Component {
       <Flex style={styles.container} value={1} align="center">
         <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
           <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
-          <Flex value={1} direction="column" align="center" justify="end" style={styles.logoWrapper}>
+          <Flex value={1} direction="column" align="start" justify="end" style={styles.logoWrapper}>
             <Image resizeMode="contain" source={VOKE_FIRST_NAME} style={styles.imageLogo} />
+          </Flex>
+          <Flex align="center" justify="center">
+            <Flex style={styles.chatTriangle} />
+            <Flex style={styles.chatBubble}>
+              <Text style={styles.chatText}>
+                What is your name? This way your friends will know who you are when you share!
+              </Text>
+            </Flex>
           </Flex>
           <Flex align="center" justify="start" value={4} align="center" style={styles.actions}>
             <SignUpInput
               value={this.state.name}
               onChangeText={(t) => this.setState({ name: t })}
-              placeholder="Name"
+              placeholder="First Name"
               autoCorrect={false}
               returnKeyType="done"
               blurOnSubmit={true}

@@ -15,7 +15,8 @@ export default StyleSheet.create({
   },
   logoWrapper: {
     width: theme.fullWidth,
-    paddingVertical: isSmallScreen ? 20 : 40,
+    // paddingBottom: isSmallScreen ? 20 : 40,
+    paddingTop: 5,
   },
   buttonWrapper: {
     padding: 5,
@@ -39,7 +40,7 @@ export default StyleSheet.create({
   imageLogo: {
     width: theme.fullWidth,
     position: 'absolute',
-    right: -60,
+    right: -150,
   },
   signInButtonText: {
     fontSize: 16,
@@ -49,5 +50,26 @@ export default StyleSheet.create({
     height: 40,
     alignItems: 'center',
     marginTop: 2,
+  },
+  chatBubble: {
+    borderRadius: 5,
+    backgroundColor: theme.white,
+    padding: 15,
+    width: theme.fullWidth - 100,
+  },
+  chatText: {
+    color: theme.accentColor,
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  chatTriangle: {
+    width: 17,
+    height: 0,
+    marginTop: 0,
+    marginLeft: theme.fullWidth - 140,
+    borderLeftWidth: 16,
+    borderLeftColor: 'transparent',
+    borderBottomWidth: 13,
+    borderBottomColor: theme.lightBackgroundColor,
   },
 });
