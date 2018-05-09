@@ -14,18 +14,37 @@ export default StyleSheet.create({
   },
   modal: {
     backgroundColor: theme.white,
-    width: theme.fullWidth - 100,
+    width: theme.fullWidth - 50,
     borderRadius: 6,
+    marginVertical: 4,
+  },
+  modal2: {
+    backgroundColor: theme.white,
+    width: theme.fullWidth - 50,
+    borderRadius: 6,
+    marginVertical: 4,
+    marginBottom: 20,
   },
   label: {
-    fontSize: 14,
-    color: theme.primaryColor,
+    fontSize: 18,
+    color: COLORS.DARK_GREY,
     paddingRight: 10,
-    fontWeight: 'bold',
+  },
+  cancelWrap: {
+    padding: 5,
   },
   number: {
-    fontSize: 14,
-    color: theme.black,
+    fontSize: 16,
+    color: COLORS.LIGHT_GREY,
+  },
+  cancelButtonText: {
+    fontSize: 18,
+    color: 'rgb(72, 164, 231)',
+    fontWeight: 'bold',
+  },
+  cancelButton: {
+    width: theme.fullWidth - 60,
+    alignItems: 'center',
   },
   nameText: {
     fontSize: 18,
@@ -37,7 +56,7 @@ export default StyleSheet.create({
   },
   rowWrap: {
     borderBottomWidth: 1,
-    borderBottomColor: theme.separatorColor,
+    borderBottomColor: COLORS.LIGHT_GREY,
     paddingHorizontal: 5,
     paddingVertical: 10,
   },

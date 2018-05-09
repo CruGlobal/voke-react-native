@@ -344,7 +344,7 @@ class SelectFriend extends Component {
         }
         {
           this.state.selectNumberContact ? (
-            <SelectNumber contact={this.state.selectNumberContact} onSelect={this.selectContact}/>
+            <SelectNumber contact={this.state.selectNumberContact} onSelect={this.selectContact} onCancel={() => this.setState({ selectNumberContact: null })} />
           ) : null
         }
       </View>

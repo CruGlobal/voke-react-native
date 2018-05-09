@@ -35,6 +35,7 @@ class Contacts extends Component {
       isSearching: false,
       isMultipleOpen: false,
       showPermissionModal: false,
+      selectNumberContact: null,
       permission: props.isInvite ? Permissions.NOT_ASKED : Permissions.AUTHORIZED,
     };
 
@@ -272,7 +273,7 @@ class Contacts extends Component {
         }
         {
           selectNumberContact ? (
-            <SelectNumber contact={this.state.selectNumberContact} onSelect={this.handleSelectedContact} />
+            <SelectNumber contact={this.state.selectNumberContact} onSelect={this.handleSelectedContact} onCancel={() => this.setState({ selectNumberContact: null })} />
           ) : null
         }
       </View>
