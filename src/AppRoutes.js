@@ -106,7 +106,7 @@ export const MainTabRoutes = TabNavigator({
     inactiveBackgroundColor: theme.secondaryColor,
     // android props
     iconStyle: { width: 60 },
-    tabStyle: { backgroundColor: theme.secondaryColor, paddingTop: theme.isIphoneX ? 35 : 0 },
+    tabStyle: { backgroundColor: theme.secondaryColor, paddingTop: theme.isIphoneX ? 35 : theme.isAndroid ? 10 : 0 },
     style: { backgroundColor: theme.secondaryColor },
     scrollEnabled: false,
   },

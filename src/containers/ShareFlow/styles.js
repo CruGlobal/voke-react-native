@@ -16,7 +16,7 @@ export default StyleSheet.create({
   },
   logoWrapper: {
     width: theme.fullWidth,
-    paddingVertical: isSmallScreen ? 50 : 100,
+    paddingVertical: isSmallScreen ? 75 : 100,
   },
   inputBox: {
     marginTop: 8,
