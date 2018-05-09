@@ -29,12 +29,18 @@ export default StyleSheet.create({
     right: 0,
   },
   shareCircleButton: {
+    position: 'absolute',
+    right: 15,
+    bottom: theme.isAndroid ? 0 : -15,
     marginHorizontal: 10,
   },
   detailsText: {
     fontSize: 11,
     color: theme.white,
     paddingHorizontal: 10,
+  },
+  sharesText: {
+    marginRight: 75,
   },
   videoThumbnail: {
     alignItems: 'center',

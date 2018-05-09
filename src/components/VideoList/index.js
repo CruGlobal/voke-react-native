@@ -73,25 +73,21 @@ class VideoList extends Component {
               <Flex value={1} align="start">
                 <Text style={styles.detailsText}>{this.formatDuration(video.media.duration)}</Text>
               </Flex>
-              <Flex direction="row" value={1} align="center">
-                <Flex direction="row" align="center" justify="center" style={{width: 100, height: 50, position: 'absolute', right: 20}}>
-                  <Text style={styles.detailsText}>{video.shares} Shares</Text>
-                  <Touchable
-                    isAndroidOpacity={true}
-                    onPress={() => this.props.handleShareVideo(video)}
-                    activeOpacity={0.6}
-                    style={[
-                      styles.shareCircleButton,
-                    ]}>
-                    <Image
-                      resizeMode="cover"
-                      source={TO_CHAT}
-                      style={{ width: 50, height: 50, borderRadius: 25 }}
-                    />
-                  </Touchable>
-                </Flex>
+              <Flex value={1} align="end">
+                <Text style={[styles.detailsText, styles.sharesText]}>{video.shares} Shares</Text>
               </Flex>
             </Flex>
+            <Touchable
+              isAndroidOpacity={true}
+              onPress={() => this.props.handleShareVideo(video)}
+              activeOpacity={0.6}
+              style={[styles.shareCircleButton]}>
+              <Image
+                resizeMode="cover"
+                source={TO_CHAT}
+                style={{ width: 50, height: 50, borderRadius: 25 }}
+              />
+            </Touchable>
           </ImageBackground>
           <Flex direction="column" align="start" justify="start" style={styles.videoDetails}>
             <Text numberOfLines={1} style={styles.videoTitle}>
