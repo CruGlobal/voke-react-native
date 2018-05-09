@@ -336,6 +336,20 @@ class Videos extends Component {
     );
   }
 
+  handleShareVideo =(video) => {
+    if (!this.props.user.first_name) {
+      this.props.navigatePush('voke.TryItNowName', {
+        onComplete: () => this.props.navigatePush('voke.ShareFlow', {
+          videoId: video.id,
+        }),
+      });
+    } else {
+      this.props.navigatePush('voke.ShareFlow', {
+        videoId: video.id,
+      });
+    }
+  }
+
   render() {
     const { onSelectVideo } = this.props;
     const { selectedFilter, videos } = this.state;
@@ -397,6 +411,7 @@ class Videos extends Component {
           }}
           onRefresh={this.handleRefresh}
           onLoadMore={this.handleNextPage}
+          handleShareVideo={this.handleShareVideo}
         />
         <ApiLoading />
         {

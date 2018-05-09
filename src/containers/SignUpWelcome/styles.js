@@ -99,8 +99,15 @@ export default StyleSheet.create({
     width: theme.fullWidth,
     height: theme.fullHeight,
   },
-  signInButtonText: {
-    fontSize: 16,
+  signInButton: {
+    borderWidth: 1,
+    borderRadius: 4,
+    paddingVertical: 2,
+    borderColor: theme.white,
+  },
+  signInText: {
+    fontSize: 14,
+    color: theme.white,
   },
   actionButton: {
     width: theme.fullWidth - 110,
@@ -113,13 +120,6 @@ export default StyleSheet.create({
   haveAccount: {
     paddingTop: 50,
     paddingBottom: 0,
-  },
-  signInButton: {
-    fontSize: 16,
-  },
-  signInText: {
-    fontSize: 14,
-    color: theme.primaryColor,
   },
   signIn: {
     fontSize: 14,

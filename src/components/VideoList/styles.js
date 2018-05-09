@@ -28,6 +28,9 @@ export default StyleSheet.create({
     left: 0,
     right: 0,
   },
+  shareCircleButton: {
+    marginHorizontal: 10,
+  },
   detailsText: {
     fontSize: 11,
     color: theme.white,

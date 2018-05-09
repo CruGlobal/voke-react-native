@@ -174,7 +174,6 @@ class SignUpWelcome extends Component {
                     <Button
                       text="Start Exploring"
                       isLoading={this.state.isLoading}
-                      buttonTextStyle={styles.signInButton}
                       style={styles.actionButton}
                       onPress={this.tryItNow}
                     />
@@ -183,7 +182,7 @@ class SignUpWelcome extends Component {
                     <Text style={styles.signIn}>Already have an account?</Text>
                     <Button
                       text="Sign In"
-                      type="transparent"
+                      style={styles.signInButton}
                       buttonTextStyle={styles.signInText}
                       onPress={() => this.props.navigatePush('voke.LoginInput')}
                     />

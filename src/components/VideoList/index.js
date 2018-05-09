@@ -1,8 +1,9 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FlatList, ImageBackground } from 'react-native';
+import { FlatList, ImageBackground, Image } from 'react-native';
 import styles, { THUMBNAIL_HEIGHT } from './styles';
+import TO_CHAT from '../../../images/to-chat-button.png';
 
 import { Flex, Text, Touchable, Icon, RefreshControl } from '../common';
 
@@ -52,7 +53,7 @@ class VideoList extends Component {
 
     ret += '' + mins + ':' + (secs < 10 ? '0' : '');
     ret += '' + secs;
-    return ret; 
+    return ret;
   }
 
   renderRow({ item }) {
@@ -70,10 +71,25 @@ class VideoList extends Component {
             <Icon name="play-circle-filled" size={64} style={styles.playIcon} />
             <Flex direction="row" align="center" justify="center" style={styles.detailsBackground}>
               <Flex value={1} align="start">
-                <Text style={styles.detailsText}>{video.shares} Shares</Text>
-              </Flex>
-              <Flex value={1} align="end">
                 <Text style={styles.detailsText}>{this.formatDuration(video.media.duration)}</Text>
+              </Flex>
+              <Flex direction="row" value={1} align="center">
+                <Flex direction="row" align="center" justify="center" style={{width: 100, height: 50, position: 'absolute', right: 20}}>
+                  <Text style={styles.detailsText}>{video.shares} Shares</Text>
+                  <Touchable
+                    isAndroidOpacity={true}
+                    onPress={() => this.props.handleShareVideo(video)}
+                    activeOpacity={0.6}
+                    style={[
+                      styles.shareCircleButton,
+                    ]}>
+                    <Image
+                      resizeMode="cover"
+                      source={TO_CHAT}
+                      style={{ width: 50, height: 50, borderRadius: 25 }}
+                    />
+                  </Touchable>
+                </Flex>
               </Flex>
             </Flex>
           </ImageBackground>
@@ -134,6 +150,7 @@ VideoList.propTypes = {
   onRefresh: PropTypes.func.isRequired, // Redux
   onSelect: PropTypes.func.isRequired, // Redux
   items: PropTypes.array.isRequired, // Redux
+  handleShareVideo: PropTypes.func.isRequired, 
 };
 
 export default VideoList;
