@@ -25,7 +25,7 @@ class SignUpHeader extends Component {
 
 const styles = StyleSheet.create({
   wrap: {
-    paddingVertical: IS_SMALL_ANDROID ? 8 : 30,
+    paddingVertical: 0,
   },
   title: {
     paddingVertical: 10,

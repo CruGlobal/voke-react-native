@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Image, TouchableOpacity, Keyboard, Alert, Share } from 'react-native';
+import { Image, TouchableOpacity, Keyboard, Alert, Share, View, KeyboardAvoidingView } from 'react-native';
 import { connect } from 'react-redux';
 
 import Analytics from '../../utils/analytics';
@@ -143,43 +143,45 @@ class ShareFlow extends Component {
 
   render() {
     return (
-      <Flex style={styles.container} value={1} align="center">
+      <View style={styles.container} >
         <CloseButton onClose={this.quit} />
-        <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
-          <Flex direction="column" align="center" justify="end" style={styles.logoWrapper}>
-            <Image resizeMode="contain" source={VOKE_SHARE} style={styles.imageLogo} />
-          </Flex>
-          <Flex justify="center" style={styles.actions}>
-            <SignUpInput
-              value={this.state.name}
-              onChangeText={(t) => this.setState({ name: t })}
-              placeholder="Friend's Name"
-              autoCapitalize="words"
-              autoCorrect={false}
-              returnKeyType="done"
-              blurOnSubmit={true}
-            />
-            <Button
-              text="Share"
-              disabled={this.state.isLoading || !this.state.name}
-              type={this.state.name ? 'filled' : 'disabled'}
-              style={styles.shareButton}
-              onPress={this.share}
-            />
-            <Flex direction="row" align="center">
-              <Flex value={1} style={styles.line} />
-              <Text style={styles.orText}>OR</Text>
-              <Flex value={1} style={styles.line} />
+        <KeyboardAvoidingView behavior={theme.isAndroid ? undefined : 'position'}>
+          <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
+            <Flex direction="column" align="center" justify="end" style={styles.logoWrapper}>
+              <Image resizeMode="contain" source={VOKE_SHARE} style={styles.imageLogo} />
             </Flex>
-            <Button
-              text="Open My Address Book"
-              type="filled"
-              style={styles.addrButton}
-              onPress={this.openAddrBook}
-            />
-          </Flex>
-        </TouchableOpacity>
-        {this.renderOverlay()}
+            <Flex justify="center" align="center" style={styles.actions}>
+              <SignUpInput
+                value={this.state.name}
+                onChangeText={(t) => this.setState({ name: t })}
+                placeholder="Friend's Name"
+                autoCapitalize="words"
+                autoCorrect={false}
+                returnKeyType="done"
+                blurOnSubmit={true}
+              />
+              <Button
+                text="Share"
+                disabled={this.state.isLoading || !this.state.name}
+                type={this.state.name ? 'filled' : 'disabled'}
+                style={styles.shareButton}
+                onPress={this.share}
+              />
+              <Flex direction="row" align="center">
+                <Flex value={1} style={styles.line} />
+                <Text style={styles.orText}>OR</Text>
+                <Flex value={1} style={styles.line} />
+              </Flex>
+              <Button
+                text="Open My Address Book"
+                type="filled"
+                style={styles.addrButton}
+                onPress={this.openAddrBook}
+              />
+            </Flex>
+          </TouchableOpacity>
+          {this.renderOverlay()}
+        </KeyboardAvoidingView>
         {
           this.state.isLoading ? (
             <ApiLoading
@@ -188,7 +190,7 @@ class ShareFlow extends Component {
             />
           ) : null
         }
-      </Flex>
+      </View>
     );
   }
 }

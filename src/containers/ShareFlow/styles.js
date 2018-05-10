@@ -35,9 +35,11 @@ export default StyleSheet.create({
   shareButton: {
     marginTop: 7,
     marginBottom: 15,
+    width: theme.fullWidth - 110,
   },
   addrButton: {
     marginTop: 10,
+    width: theme.fullWidth - 110,
   },
   line: {
     height: 2,

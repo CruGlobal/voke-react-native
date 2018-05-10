@@ -101,9 +101,9 @@ class SignUpAccount extends Component {
 
   render() {
     return (
-      <ScrollView contentContainerStyle={{ flex: 1 }} keyboardShouldPersistTaps={theme.isAndroid ? 'handled' : 'always'} style={styles.container}>
-        <KeyboardAvoidingView style={{ flex: 1 }} behavior={theme.isAndroid ? undefined : 'padding'}>
-          <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
+      <ScrollView keyboardShouldPersistTaps={theme.isAndroid ? 'handled' : 'always'} style={styles.container}>
+        <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
+        <KeyboardAvoidingView behavior={theme.isAndroid ? undefined : 'position'}>
           <SignUpHeader
             title="Create Account"
             description="Creating your account allows you to keep your conversations safe, retain your progress and access Voke from any where"
@@ -155,7 +155,7 @@ class SignUpAccount extends Component {
                   onPress={() => this.handleLink(CONSTANTS.WEB_URLS.TERMS)}
                 />
               </Flex>
-              <Flex style={{ paddingVertical: 20 }}>
+              <Flex style={{ paddingTop: 20 }}>
                 <FacebookButton />
               </Flex>
             </Flex>

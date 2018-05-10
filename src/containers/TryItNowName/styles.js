@@ -16,7 +16,7 @@ export default StyleSheet.create({
   logoWrapper: {
     width: theme.fullWidth,
     // paddingBottom: isSmallScreen ? 20 : 40,
-    paddingTop: 5,
+    paddingTop: 50,
   },
   buttonWrapper: {
     padding: 5,

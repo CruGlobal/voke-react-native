@@ -73,10 +73,12 @@ class VideoList extends Component {
               <Flex value={1} align="start">
                 <Text style={styles.detailsText}>{this.formatDuration(video.media.duration)}</Text>
               </Flex>
-              <Flex value={1} align="end">
+              <Flex value={2} align="end">
                 <Text style={[styles.detailsText, styles.sharesText]}>{video.shares} Shares</Text>
               </Flex>
             </Flex>
+          </ImageBackground>
+          <Flex direction="column" align="start" justify="start" style={styles.videoDetails}>
             <Touchable
               isAndroidOpacity={true}
               onPress={() => this.props.handleShareVideo(video)}
@@ -88,8 +90,6 @@ class VideoList extends Component {
                 style={{ width: 50, height: 50, borderRadius: 25 }}
               />
             </Touchable>
-          </ImageBackground>
-          <Flex direction="column" align="start" justify="start" style={styles.videoDetails}>
             <Text numberOfLines={1} style={styles.videoTitle}>
               {video.name}
             </Text>
@@ -146,7 +146,7 @@ VideoList.propTypes = {
   onRefresh: PropTypes.func.isRequired, // Redux
   onSelect: PropTypes.func.isRequired, // Redux
   items: PropTypes.array.isRequired, // Redux
-  handleShareVideo: PropTypes.func.isRequired, 
+  handleShareVideo: PropTypes.func.isRequired,
 };
 
 export default VideoList;

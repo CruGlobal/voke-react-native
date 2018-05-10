@@ -153,7 +153,6 @@ class SignUpWelcome extends Component {
                   <Flex style={{ position: 'absolute', bottom: 90, right: 0, left: 0, padding: 5, marginHorizontal: 50 }}>
                     <Button
                       text="Done"
-                      buttonTextStyle={styles.signInButton}
                       style={styles.actionButton}
                       onPress={() => this.props.navigateBack()}
                     />

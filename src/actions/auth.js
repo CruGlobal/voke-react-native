@@ -231,18 +231,22 @@ export function createAccountAction(email, password, isAnonymous = false) {
   return (dispatch) => (
     new Promise((resolve, reject) => {
       let data = {
-        timezone_name: DeviceInfo.getTimezone(),
+        me: {
+          timezone_name: DeviceInfo.getTimezone(),
+        },
       };
       if (email) data.email = email;
       if (password) data.password = password;
 
       if (isAnonymous) {
         data = {
-          timezone_name: DeviceInfo.getTimezone(),
-          anonymous: true,
+          me: {
+            timezone_name: DeviceInfo.getTimezone(),
+            anonymous: true,
+          },
         };
       }
-      dispatch(callApi(REQUESTS.ME, {}, { data })).then((results) => {
+      dispatch(callApi(REQUESTS.ME, {}, data)).then((results) => {
         if (!results.errors) {
           LOG('create account success', results);
           dispatch(loginAction(results.access_token.access_token, results.access_token));

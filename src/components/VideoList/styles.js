@@ -31,7 +31,7 @@ export default StyleSheet.create({
   shareCircleButton: {
     position: 'absolute',
     right: 15,
-    bottom: theme.isAndroid ? 0 : -15,
+    top: -35,
     marginHorizontal: 10,
   },
   detailsText: {

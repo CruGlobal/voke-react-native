@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, TouchableOpacity, Keyboard, Alert } from 'react-native';
+import { Image, TouchableOpacity, Keyboard, Alert, KeyboardAvoidingView, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -11,6 +11,7 @@ import { Flex, Button, Text } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import VOKE_FIRST_NAME from '../../../images/vokebot_whole.png';
+import theme from '../../theme';
 
 class TryItNowName extends Component {
 
@@ -46,21 +47,23 @@ class TryItNowName extends Component {
 
   render() {
     return (
-      <Flex style={styles.container} value={1} align="center">
-        <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
-          <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
-          <Flex value={1} direction="column" align="start" justify="end" style={styles.logoWrapper}>
-            <Image resizeMode="contain" source={VOKE_FIRST_NAME} style={styles.imageLogo} />
-          </Flex>
-          <Flex align="center" justify="center">
-            <Flex style={styles.chatTriangle} />
-            <Flex style={styles.chatBubble}>
-              <Text style={styles.chatText}>
-                What is your name? This way your friends will know who you are when you share!
-              </Text>
+      <View style={styles.container} align="center">
+        <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
+        <KeyboardAvoidingView behavior={theme.isAndroid ? undefined : 'position'}>
+          <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
+            <Flex direction="column" align="start" justify="end" style={styles.logoWrapper}>
+              <Image resizeMode="contain" source={VOKE_FIRST_NAME} style={styles.imageLogo} />
             </Flex>
-          </Flex>
-          <Flex align="center" justify="start" value={4} style={styles.actions}>
+            <Flex align="center" justify="center">
+              <Flex style={styles.chatTriangle} />
+              <Flex style={styles.chatBubble}>
+                <Text style={styles.chatText}>
+                  What is your name? This way your friends will know who you are when you share!
+                </Text>
+              </Flex>
+            </Flex>
+          </TouchableOpacity>
+          <Flex align="center" justify="start" style={styles.actions}>
             <SignUpInput
               value={this.state.name}
               onChangeText={(t) => this.setState({ name: t })}
@@ -80,8 +83,8 @@ class TryItNowName extends Component {
               />
             </Flex>
           </Flex>
-        </TouchableOpacity>
-      </Flex>
+        </KeyboardAvoidingView>
+      </View>
     );
   }
 }
