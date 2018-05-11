@@ -356,75 +356,77 @@ class Videos extends Component {
 
     return (
       <View style={styles.container}>
-        <StatusBar hidden={false} />
-        <Header
-          left={this.renderHeaderLeft()}
-          right={
-            <HeaderIcon
-              type="search"
-              onPress={() => this.handleFilter('themes')} />
+        <View style={styles.container}>
+          <StatusBar hidden={false} />
+          <Header
+            left={this.renderHeaderLeft()}
+            right={
+              <HeaderIcon
+                type="search"
+                onPress={() => this.handleFilter('themes')} />
+            }
+            title="Videos"
+          />
+          {this.renderChannel()}
+          <Flex style={{height: 50}} align="center" justify="center">
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+              <Flex direction="row" style={{padding: 10}}>
+                <PillButton
+                  text="All"
+                  filled={selectedFilter === 'all'}
+                  onPress={() => this.handleFilter('all')}
+                  animation="slideInUp"
+                />
+                <PillButton
+                  text="Featured"
+                  filled={selectedFilter === 'featured'}
+                  onPress={() => this.handleFilter('featured')}
+                  animation="slideInUp"
+                />
+                <PillButton
+                  text="Popular"
+                  filled={selectedFilter === 'popular'}
+                  onPress={() => this.handleFilter('popular')}
+                  animation="slideInUp"
+                />
+                <PillButton
+                  icon="favorite-border"
+                  style={{ alignItems: 'center' }}
+                  filled={selectedFilter === 'favorites'}
+                  onPress={() => this.handleFilter('favorites')}
+                  animation="slideInUp"
+                />
+              </Flex>
+            </ScrollView>
+          </Flex>
+          <VideoList
+            ref={(c) => this.videoList = c}
+            items={videos}
+            onSelect={(c) => {
+              this.props.navigatePush('voke.VideoDetails', {
+                video: c,
+                onSelectVideo,
+                conversation: this.props.conversation,
+                onUpdateVideos: () => this.updateVideoList(selectedFilter),
+              });
+            }}
+            onRefresh={this.handleRefresh}
+            onLoadMore={this.handleNextPage}
+            handleShareVideo={this.handleShareVideo}
+          />
+          <ApiLoading />
+          {
+            this.state.showThemeModal ? (
+              <ThemeSelect
+                onClose={() => this.setState({ showThemeModal: false })}
+                themes={this.props.tags}
+                onSelect={this.handleThemeSelect}
+                onDismiss={this.handleDismissTheme}
+              />
+            ) : null
           }
-          title="Videos"
-        />
-        {this.renderChannel()}
-        <Flex style={{height: 50}} align="center" justify="center">
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <Flex direction="row" style={{padding: 10}}>
-              <PillButton
-                text="All"
-                filled={selectedFilter === 'all'}
-                onPress={() => this.handleFilter('all')}
-                animation="slideInUp"
-              />
-              <PillButton
-                text="Featured"
-                filled={selectedFilter === 'featured'}
-                onPress={() => this.handleFilter('featured')}
-                animation="slideInUp"
-              />
-              <PillButton
-                text="Popular"
-                filled={selectedFilter === 'popular'}
-                onPress={() => this.handleFilter('popular')}
-                animation="slideInUp"
-              />
-              <PillButton
-                icon="favorite-border"
-                style={{ alignItems: 'center' }}
-                filled={selectedFilter === 'favorites'}
-                onPress={() => this.handleFilter('favorites')}
-                animation="slideInUp"
-              />
-            </Flex>
-          </ScrollView>
-        </Flex>
-        <VideoList
-          ref={(c) => this.videoList = c}
-          items={videos}
-          onSelect={(c) => {
-            this.props.navigatePush('voke.VideoDetails', {
-              video: c,
-              onSelectVideo,
-              conversation: this.props.conversation,
-              onUpdateVideos: () => this.updateVideoList(selectedFilter),
-            });
-          }}
-          onRefresh={this.handleRefresh}
-          onLoadMore={this.handleNextPage}
-          handleShareVideo={this.handleShareVideo}
-        />
-        <ApiLoading />
-        {
-          this.state.showThemeModal ? (
-            <ThemeSelect
-              onClose={() => this.setState({ showThemeModal: false })}
-              themes={this.props.tags}
-              onSelect={this.handleThemeSelect}
-              onDismiss={this.handleDismissTheme}
-            />
-          ) : null
-        }
-        {/* This is here for the channel page to show when clicking the "Subscribe" button */}
+          {/* This is here for the channel page to show when clicking the "Subscribe" button */}
+        </View>
         <VokeOverlays type="tryItNowSignUp" />
       </View>
     );
