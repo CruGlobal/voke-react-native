@@ -427,7 +427,7 @@ class Videos extends Component {
           }
           {/* This is here for the channel page to show when clicking the "Subscribe" button */}
         </View>
-        <VokeOverlays type="tryItNowSignUp" />
+        <VokeOverlays type="tryItNowSignUp" channelName={this.props.channel && this.props.channel.name ? this.props.channel.name : null} />
       </View>
     );
   }

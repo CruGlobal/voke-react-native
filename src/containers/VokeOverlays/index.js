@@ -35,7 +35,7 @@ class VokeOverlays extends Component {
             Subscribe
           </Text>
           <Text style={styles.subtitle}>
-            Sign up to subscribe and you will be alerted when new videos are published.
+            Sign up to subscribe and {this.props.channelName} will let you know when new videos are published.
           </Text>
         </Flex>
         <Flex value={1} align="center" justify="center">
@@ -89,6 +89,7 @@ class VokeOverlays extends Component {
 VokeOverlays.propTypes = {
   type: PropTypes.oneOf(['tryItNowSignUp', 'pushPermissions']).isRequired,
   onClose: PropTypes.func,
+  channelName: PropTypes.string,
 };
 
 const mapStateToProps = ({ overlays, auth }) => ({
