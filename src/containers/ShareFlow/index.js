@@ -11,7 +11,7 @@ import nav, { NavPropTypes } from '../../actions/nav';
 import { Flex, Button, Text } from '../../components/common';
 import ApiLoading from '../ApiLoading';
 import SignUpInput from '../../components/SignUpInput';
-import CloseButton from '../../components/CloseButton';
+import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import VOKE_SHARE from '../../../images/voke_share.png';
 import VOKE_LINK from '../../../images/vokebot_whole.png';
 import theme from '../../theme';
@@ -72,6 +72,7 @@ class ShareFlow extends Component {
   }
 
   share = () => {
+    Keyboard.dismiss();
     const { name } = this.state;
     if (!name) {
       Alert.alert('', 'Please enter a name to continue');
@@ -122,6 +123,7 @@ class ShareFlow extends Component {
   }
 
   openAddrBook = () => {
+    Keyboard.dismiss();
     this.props.navigatePush('voke.SelectFriend', {
       video: this.props.videoId,
     });
@@ -144,12 +146,9 @@ class ShareFlow extends Component {
   render() {
     return (
       <View style={styles.container} >
-        <CloseButton onClose={this.quit} />
-        <KeyboardAvoidingView behavior={theme.isAndroid ? undefined : 'position'}>
-          <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
-            <Flex direction="column" align="center" justify="end" style={styles.logoWrapper}>
-              <Image resizeMode="contain" source={VOKE_SHARE} style={styles.imageLogo} />
-            </Flex>
+        <KeyboardAvoidingView behavior="position">
+          <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()} style={{ paddingTop: 50 }}>
+            <Image resizeMode="contain" source={VOKE_SHARE} style={styles.imageLogo} />
             <Flex justify="center" align="center" style={styles.actions}>
               <SignUpInput
                 value={this.state.name}
@@ -190,6 +189,9 @@ class ShareFlow extends Component {
             />
           ) : null
         }
+        <Flex style={{ position: 'absolute', top: 0, left: 0 }} align="start">
+          <SignUpHeaderBack onPress={this.quit} />
+        </Flex>
       </View>
     );
   }

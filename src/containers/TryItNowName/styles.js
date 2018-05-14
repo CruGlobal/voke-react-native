@@ -13,11 +13,6 @@ export default StyleSheet.create({
     paddingBottom: 25,
     paddingTop: isSmallScreen ? 20 : 40,
   },
-  logoWrapper: {
-    width: theme.fullWidth,
-    // paddingBottom: isSmallScreen ? 20 : 40,
-    paddingTop: 50,
-  },
   buttonWrapper: {
     padding: 5,
   },
@@ -38,9 +33,7 @@ export default StyleSheet.create({
     color: theme.textColor,
   },
   imageLogo: {
-    width: theme.fullWidth,
-    position: 'absolute',
-    right: -150,
+    alignSelf: 'flex-end',
   },
   signInButtonText: {
     fontSize: 16,

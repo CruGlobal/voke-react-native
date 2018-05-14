@@ -25,6 +25,7 @@ class TryItNowName extends Component {
   }
 
   login = () => {
+    Keyboard.dismiss();
     if (this.state.name) {
       this.setState({ isLoading: true });
       // TODO: Figure out how to determine the user's first/last name
@@ -48,12 +49,9 @@ class TryItNowName extends Component {
   render() {
     return (
       <View style={styles.container} align="center">
-        <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
-        <KeyboardAvoidingView behavior={theme.isAndroid ? undefined : 'position'}>
+        <KeyboardAvoidingView behavior="position" style={{ paddingTop: 50 }}>
           <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
-            <Flex direction="column" align="start" justify="end" style={styles.logoWrapper}>
-              <Image resizeMode="contain" source={VOKE_FIRST_NAME} style={styles.imageLogo} />
-            </Flex>
+            <Image resizeMode="contain" source={VOKE_FIRST_NAME} style={styles.imageLogo} />
             <Flex align="center" justify="center">
               <Flex style={styles.chatTriangle} />
               <Flex style={styles.chatBubble}>
@@ -84,6 +82,9 @@ class TryItNowName extends Component {
             </Flex>
           </Flex>
         </KeyboardAvoidingView>
+        <Flex style={{ position: 'absolute', top: 0, left: 0 }} align="start">
+          <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
+        </Flex>
       </View>
     );
   }

@@ -141,6 +141,7 @@ class VideoDetails extends Component {
     const video = this.props.video || {};
 
     Orientation.lockToPortrait();
+    // This logic exists in the VideoDetails and the VideoList
     if (this.props.onSelectVideo) {
       Alert.alert(
         'Add video to chat?',

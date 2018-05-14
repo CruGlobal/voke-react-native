@@ -50,21 +50,26 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    if (this.props.isAnonUser && this.props.conversations.length <= 1) {
-      this.props.navigation.navigate('voke.Videos');
+    const { isAnonUser, conversations, navigation, dispatch } = this.props;
+
+    if (isAnonUser && conversations.length <= 1) {
+      // Only navigate to videos if we're not coming from a 'navigateResetMessage'
+      if (navigation && navigation.state && navigation.state.params && !navigation.state.params.navThrough) {
+        navigation.navigate('voke.Videos');
+      }
     }
 
     Analytics.screen('Home Chats');
 
-    this.props.dispatch(getConversations());
+    dispatch(getConversations());
 
     // This should fix the case for new users signing up not having the auth user
-    if (this.props.conversations.length === 0) {
-      this.props.dispatch(getMe());
+    if (conversations.length === 0) {
+      dispatch(getMe());
     }
 
     setTimeout(() => {
-      this.props.dispatch(startupAction());
+      dispatch(startupAction());
     }, 50);
   }
 
@@ -246,6 +251,7 @@ Home.propTypes = {
   conversations: PropTypes.array.isRequired, // Redux
   me: PropTypes.object.isRequired, // Redux
   pagination: PropTypes.object.isRequired, // Redux
+  navThrough: PropTypes.bool,
 };
 
 const mapStateToProps = ({ messages, auth }) => ({

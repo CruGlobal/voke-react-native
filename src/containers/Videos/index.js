@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView } from 'react-native';
+import { Alert, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -337,16 +337,38 @@ class Videos extends Component {
   }
 
   handleShareVideo =(video) => {
-    if (!this.props.user.first_name) {
-      this.props.navigatePush('voke.TryItNowName', {
-        onComplete: () => this.props.navigatePush('voke.ShareFlow', {
-          videoId: video.id,
-        }),
-      });
+    // This logic exists in the VideoDetails and the VideoList
+    if (this.props.onSelectVideo) {
+      Alert.alert(
+        'Add video to chat?',
+        `Are you sure you want to add "${video.name.substr(0, 25).trim()}" video to your chat?`,
+        [
+          { text: 'Cancel' },
+          {
+            text: 'Add', onPress: () => {
+              this.props.onSelectVideo(video.id);
+              // Navigate back after selecting the video
+              if (this.props.conversation) {
+                this.props.navigateResetMessage({ conversation: this.props.conversation });
+              } else {
+                this.props.navigateBack();
+              }
+            },
+          },
+        ]
+      );
     } else {
-      this.props.navigatePush('voke.ShareFlow', {
-        videoId: video.id,
-      });
+      if (!this.props.user.first_name) {
+        this.props.navigatePush('voke.TryItNowName', {
+          onComplete: () => this.props.navigatePush('voke.ShareFlow', {
+            videoId: video.id,
+          }),
+        });
+      } else {
+        this.props.navigatePush('voke.ShareFlow', {
+          videoId: video.id,
+        });
+      }
     }
   }
 

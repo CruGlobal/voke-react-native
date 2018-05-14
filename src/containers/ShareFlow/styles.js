@@ -14,10 +14,6 @@ export default StyleSheet.create({
     paddingBottom: 25,
     paddingTop: 10,
   },
-  logoWrapper: {
-    width: theme.fullWidth,
-    paddingVertical: isSmallScreen ? 75 : 100,
-  },
   inputBox: {
     marginTop: 8,
     padding: 10,
@@ -28,9 +24,7 @@ export default StyleSheet.create({
     color: theme.textColor,
   },
   imageLogo: {
-    width: theme.fullWidth,
-    position: 'absolute',
-    right: -60,
+    alignSelf: 'flex-end',
   },
   shareButton: {
     marginTop: 7,

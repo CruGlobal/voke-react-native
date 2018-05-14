@@ -172,7 +172,7 @@ class Profile extends Component {
           <Flex direction="column" value={2} style={styles.inputRow}>
             <TextInput
               ref={(c) => this.firstName = c}
-              value={ this.state.firstName || user.first_name}
+              value={this.state.firstName || user.first_name || ''}
               onChangeText={(text) => this.setState({ firstName: text })}
               multiline={false}
               autoCapitalize="words"
@@ -188,7 +188,7 @@ class Profile extends Component {
             <TextInput
               ref={(c) => this.lastName = c}
               onChangeText={(text) => this.setState({ lastName: text })}
-              value={this.state.lastName || user.last_name}
+              value={this.state.lastName || user.last_name || ''}
               multiline={false}
               autoCapitalize="words"
               placeholder="Last Name"
@@ -355,7 +355,7 @@ class Profile extends Component {
     let { user, isAnonUser } = this.props;
     let name = null;
     if (user.first_name || user.last_name) {
-      name = `${user.first_name} ${user.last_name}`;
+      name = `${user.first_name || ''} ${user.last_name || ''}`;
     }
 
     const isEditing = editName || editEmail || editPassword;
