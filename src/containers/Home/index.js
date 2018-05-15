@@ -54,7 +54,7 @@ class Home extends Component {
 
     if (isAnonUser && conversations.length <= 1) {
       // Only navigate to videos if we're not coming from a 'navigateResetMessage'
-      if (navigation && navigation.state && navigation.state.params && !navigation.state.params.navThrough) {
+      if (!(navigation && navigation.state && navigation.state.params && navigation.state.params.navThrough === true)) {
         navigation.navigate('voke.Videos');
       }
     }
