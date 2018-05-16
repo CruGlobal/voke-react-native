@@ -34,21 +34,16 @@ export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin, isA
     });
   }
   return [
-    ...createButton,
     {
       id: 'profile',
       name: 'Profile',
       onPress: () => navigatePush && navigatePush('voke.Profile'),
     },
-    {
-      id: 'onboarding',
-      name: 'Why Voke?',
-      onPress: () => navigatePush && navigatePush('voke.SignUpWelcome', { noSignIn: true }),
-    },
+    ...createButton,
     ...signinButton,
     {
       id: 'invite',
-      name: 'Invite Friend',
+      name: 'Invite Friends',
       onPress: () => navigatePush && navigatePush('voke.Contacts', {
         isInvite: true,
         onSelect: (c) => {
@@ -82,16 +77,6 @@ export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin, isA
       name: 'Follow us on Instagram',
       onPress: () => {
         let link = CONSTANTS.WEB_URLS.INSTAGRAM;
-        Linking.canOpenURL(link).then((isSupported) => {
-          isSupported && Linking.openURL(link);
-        }, (err) => LOG('error opening url', err));
-      },
-    },
-    {
-      id: 'facebook',
-      name: 'Like us on Facebook',
-      onPress: () => {
-        let link = CONSTANTS.WEB_URLS.FACEBOOK;
         Linking.canOpenURL(link).then((isSupported) => {
           isSupported && Linking.openURL(link);
         }, (err) => LOG('error opening url', err));

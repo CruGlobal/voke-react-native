@@ -54,6 +54,10 @@ class About extends Component {
         <SettingsList
           items={[
             {
+              name: 'Why Voke?',
+              onPress: () => this.props.navigatePush('voke.SignUpWelcome', { noSignIn: true }),
+            },
+            {
               name: 'Visit Voke Website',
               onPress: () => this.handleLink(CONSTANTS.WEB_URLS.VOKE),
             },
