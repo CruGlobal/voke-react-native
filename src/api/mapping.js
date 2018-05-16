@@ -119,6 +119,8 @@ function formatConversation(c, getState) {
     }
   }
 
+  const otherPerson = messengers.find((e) => e.id !== myId && !e.bot);
+  c.presentAt = otherPerson ? otherPerson.present_at : null;
   const myMessage = messengers.find((e) => e.id === myId);
   c.myLatestReadId = myMessage && myMessage.latest_read && myMessage.latest_read.message_id;
 
@@ -126,29 +128,6 @@ function formatConversation(c, getState) {
 
   c.hasUnread = c.unread_messages > 0;
   c.unReadCount = c.unread_messages || 0;
-  // if (c.messengers.length === 2) {
-  //   c.hasUnread = false;
-  //   c.unReadCount = 0;
-  // } else if (myMessage && myMessage.latest_read && myMessage.latest_read.message_id) {
-  //   if (myMessage.latest_read.message_id !== latestMessenger.latest_message.id) {
-  //     c.hasUnread = true;
-  //     c.unReadCount = 1;
-  //   }
-  // }
-  // Check my message against the latest message sent
-  // if (myMessage && myMessage.latest_read && myMessage.latest_read.message_id) {
-  //   if (myMessage.latest_read.message_id !== latestMessenger.latest_message.id) {
-  //     c.hasUnread = true;
-  //     c.unReadCount = 1;
-  //   }
-  // }
-  // This determines if the conversation has unread messages or not
-  // if (latestMessenger.id === myId) {
-  //   c.hasUnread = false;
-  //   c.unReadCount = 0;
-  // }
-
-  // c.timeReceived = Date.now();
 
   return c;
 }

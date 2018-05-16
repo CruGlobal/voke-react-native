@@ -63,7 +63,8 @@ export function navigateResetMessage(props = {}) {
     dispatch(NavigationActions.reset({
       index: 1,
       actions: [
-        NavigationActions.navigate({ routeName: 'MainTabs' }),
+        // Pass in a parameter to navigate through the home page without moving around as an Anon user first
+        NavigationActions.navigate({ routeName: 'MainTabs', params: { navThrough: true } }),
         NavigationActions.navigate({ routeName: 'voke.Message', params: props }),
       ],
     }));

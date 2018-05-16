@@ -2,7 +2,7 @@
 import { StyleSheet } from 'react-native';
 import theme, { COLORS } from '../../theme';
 
-const IMAGE_SIZE = 125;
+const IMAGE_SIZE = 38;
 
 export default StyleSheet.create({
   container: {
@@ -10,21 +10,17 @@ export default StyleSheet.create({
     backgroundColor: theme.backgroundColor,
   },
   content: {
+    flex: 1,
+    padding: 0,
     backgroundColor: theme.lightBackgroundColor,
   },
   imageWrapper: {
     backgroundColor: theme.primaryColor,
   },
-  infoWrapper: {
-    backgroundColor: theme.lightBackgroundColor,
-    padding: 0,
-  },
   imageSelect: {
     height: IMAGE_SIZE,
     width: IMAGE_SIZE,
     borderRadius: IMAGE_SIZE / 2,
-    borderWidth: 3,
-    borderColor: theme.lightBackgroundColor,
     backgroundColor: 'black',
   },
   imageCover: {
@@ -40,7 +36,7 @@ export default StyleSheet.create({
   },
   buttonText: {
     paddingLeft: 10,
-    fontSize: 16,
+    fontSize: 14,
     color: theme.primaryColor,
   },
   changeTitle: {
@@ -49,12 +45,8 @@ export default StyleSheet.create({
     padding: 10,
   },
   editText: {
-    color: COLORS.GREY,
+    color: theme.primaryColor,
     fontSize: 14,
-  },
-  inputIcon: {
-    color: COLORS.GREY,
-    fontSize: 20,
   },
   inputRow: {
     padding: 10,
@@ -75,11 +67,15 @@ export default StyleSheet.create({
     color: theme.primaryColor,
     fontSize: 12,
   },
+  signUpText: {
+    marginBottom: 30,
+    textAlign: 'center',
+    color: theme.darkText,
+    fontSize: 16,
+  },
   image: {
-    height: 125,
-    width: 125,
-    borderRadius: 125 / 2,
-    borderWidth: 1,
-    borderColor: theme.lightBackgroundColor,
+    height: IMAGE_SIZE,
+    width: IMAGE_SIZE,
+    borderRadius: IMAGE_SIZE / 2,
   },
 });

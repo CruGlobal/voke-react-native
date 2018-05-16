@@ -1,16 +1,18 @@
-import { Platform, AppState } from 'react-native';
+import { Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import PushNotification from 'react-native-push-notification';
 
 import { API_URL } from '../api/utils';
-import { registerPushToken } from './auth';
+import { registerPushToken, openSettingsAction, checkPushPermissions } from './auth';
 import { SOCKET_URL } from '../api/utils';
 import { newMessageAction, typeStateChangeAction, getConversation, getConversations, getMessages } from './messages';
-import { navigatePush, navigateResetMessage, navigateResetHome, navigateResetTo } from './nav';
+import { navigateResetMessage } from './nav';
 import callApi, { REQUESTS } from './api';
-import CONSTANTS from '../constants';
-import { isEquivalentObject, isString } from '../utils/common';
+import CONSTANTS, { SET_OVERLAY, SET_PUSH_TOKEN } from '../constants';
+import { isEquivalentObject } from '../utils/common';
 import theme from '../theme';
+import Permissions from '../utils/permissions';
+
 // Push notification Android error
 // https://github.com/zo0r/react-native-push-notification/issues/495
 
@@ -25,7 +27,7 @@ let ws = null;
 
 export function checkAndRunSockets() {
   return (dispatch, getState) => {
-    LOG('check and run');
+    // LOG('check and run');
     if (ws && ws.readyState === WEBSOCKET_STATES.OPEN) return;
     if (getState().auth.cableId) {
       dispatch(setupSocketAction(getState().auth.cableId));
@@ -52,7 +54,7 @@ export function setupSocketAction(cableId) {
       ws = new WebSocket(`${SOCKET_URL}cable?access_token=${token}`);
 
       if (ws) {
-        LOG('setting up sockets');
+        // LOG('setting up sockets');
         ws.onopen = () => {
           // connection opened
           // LOG('socket opened');
@@ -184,7 +186,7 @@ export function gotDeviceToken(token) {
     } else if (token && auth.pushToken && token === auth.pushToken) {
       // Don't run the setup socket or push device if the token is the same
       // as before
-      LOG('dont estable any socket or push devices');
+      LOG('dont establish any socket or push devices');
     } else {
       dispatch(establishCableDevice(null));
     }
@@ -311,17 +313,18 @@ export function handleNotifications(state, notification) {
 export function establishDevice() {
   return (dispatch, getState) => {
 
-    console.log('hjere');
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
       onRegister(token) {
         LOG('in push notification register');
+        // Update redux with the push notification permission value
+        dispatch(checkPushPermissions(false));
+
         dispatch(gotDeviceToken(token.token));
       },
       // (required) Called when a remote or local notification is opened or received
       onNotification(notification) {
-        console.log('onNotification came in', notification);
-        console.log('here');
+        // LOG('onNotification came in', notification);
         let state;
         if (notification && notification.foreground && !notification.userInteraction) {
           state = 'foreground';
@@ -439,5 +442,38 @@ export function establishPushDevice() {
         LOG('Create Push Device Results: ', JSON.stringify(results));
       });
     }
+  };
+}
+
+
+export function enablePushNotifications(forceIfUndetermined = false) {
+  return (dispatch, getState) => {
+    let token = getState().auth.pushToken;
+    Permissions.checkPush().then((response) => {
+      // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+      if (response === 'undetermined' && !token) {
+        if (forceIfUndetermined) {
+          dispatch(establishDevice());
+        } else {
+          dispatch({ type: SET_OVERLAY, value: 'pushPermissions' });
+        }
+      } else if (response !== 'authorized') {
+        // go to settings
+        dispatch(openSettingsAction());
+      } else {
+        // if it comes back as Authorized then establish the device
+        dispatch(establishDevice());
+      }
+    });
+  };
+}
+
+export function determinePushOverlay() {
+  return (dispatch, getState) => {
+    const permission = getState().auth.pushPermission;
+    if (permission === 'authorized') return;
+
+
+    dispatch({ type: SET_OVERLAY, value: 'pushPermissions' });
   };
 }

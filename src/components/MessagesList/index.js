@@ -108,13 +108,14 @@ class MessagesList extends Component {
           user={this.props.user}
           messengers={this.props.messengers}
           onSelectVideo={() => this.props.onSelectVideo(item)}
+          onShareVideo={this.props.onShareVideo}
         />
       </Flex>
     );
   }
 
   renderTypeState() {
-    const { items, typeState, user, messengers, onSelectVideo } = this.props;
+    const { items, typeState, user, messengers, onSelectVideo, onShareVideo } = this.props;
     // if (items.length < 4) {
     //   if (typeState) {
     //     const item = { type: 'typeState' };
@@ -125,6 +126,7 @@ class MessagesList extends Component {
     //           user={user}
     //           messengers={messengers}
     //           onSelectVideo={() => onSelectVideo(item)}
+    //           onShareVideo={onShareVideo}
     //         />
     //         <Flex value={1} style={{flex: 1}}></Flex>
     //       </View>
@@ -144,6 +146,7 @@ class MessagesList extends Component {
             user={user}
             messengers={messengers}
             onSelectVideo={() => onSelectVideo(item)}
+            onShareVideo={onShareVideo}
           />
         </View>
       );

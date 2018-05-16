@@ -3,28 +3,27 @@ import { View, ScrollView, Image, Alert, AlertIOS } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { TAB_SELECTED } from '../../constants';
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/nav';
-import { startupAction, cleanupAction, blockMessenger, reportUserAction, getMe } from '../../actions/auth';
+import { startupAction, blockMessenger, reportUserAction, getMe } from '../../actions/auth';
 import { checkAndRunSockets } from '../../actions/socket';
 import  Analytics from '../../utils/analytics';
 
 import { getConversations, deleteConversation, getConversationsPage } from '../../actions/messages';
 import { navMenuOptions } from '../../utils/menu';
 import { vokeIcons } from '../../utils/iconMap';
+import ANIMATION from '../../../images/VokeBotAnimation.gif';
 
 import ApiLoading from '../ApiLoading';
+import VokeOverlays from '../VokeOverlays';
 import AndroidReportModal from '../AndroidReportModal';
 import ConversationList from '../../components/ConversationList';
 import PopupMenu from '../../components/PopupMenu';
-// import TabBarIndicator from '../../components/TabBarIndicator';
 import Header, { HeaderIcon } from '../Header';
 import { Flex, Text, RefreshControl } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
-import NULL_STATE from '../../../images/video-button.png';
 import VOKE from '../../../images/voke_null_state.png';
-import CONSTANTS, { IS_SMALL_ANDROID } from '../../constants';
+import { IS_SMALL_ANDROID } from '../../constants';
 import theme from '../../theme';
 
 const CONTACT_LENGTH_SHOW_VOKEBOT = IS_SMALL_ANDROID ? 2 : 3;
@@ -51,42 +50,27 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    const { isAnonUser, conversations, navigation, dispatch } = this.props;
+
+    if (isAnonUser && conversations.length <= 1) {
+      // Only navigate to videos if we're not coming from a 'navigateResetMessage'
+      if (!(navigation && navigation.state && navigation.state.params && navigation.state.params.navThrough === true)) {
+        navigation.navigate('voke.Videos');
+      }
+    }
+
     Analytics.screen('Home Chats');
 
-    this.props.dispatch(getConversations()).catch((err)=> {
-      if (err.error === 'Messenger not configured') {
-        // Do this because the api can be slow when a user creates an account and our app is faster than the api
-        setTimeout(() => {
-          this.props.dispatch(getConversations()).catch((err)=> {
-            if (err.error === 'Messenger not configured') {
-              this.props.navigateResetToNumber();
-            }
-          });
-        }, 3000);
-      }
-    });
+    dispatch(getConversations());
 
     // This should fix the case for new users signing up not having the auth user
-    if (this.props.conversations.length === 0) {
-      this.props.dispatch(getMe());
+    if (conversations.length === 0) {
+      dispatch(getMe());
     }
 
-    this.props.dispatch({ type: TAB_SELECTED, tab: 0 });
     setTimeout(() => {
-      this.props.dispatch(startupAction());
-      this.props.dispatch(checkAndRunSockets());
+      dispatch(startupAction());
     }, 50);
-  }
-
-  componentWillUnmount() {
-    // this.props.dispatch(cleanupAction());
-  }
-
-  onNavigatorEvent(event) {
-    // Keep track of selected tab in redux
-    if (event.id === 'bottomTabSelected') {
-      this.props.dispatch({ type: TAB_SELECTED, tab: 0 });
-    }
   }
 
   handleMenuPress() {
@@ -97,13 +81,11 @@ class Home extends Component {
     if (this.state.loadingMore || this.state.refreshing) return;
     if (this.props.pagination.hasMore) {
       // LOG('has more conversations to load');
-      this.setState({ loadingMore: true });
-      LOG('loading more');
+      this.setState({ loadingMore: true, refreshing: true });
       this.props.dispatch(getConversationsPage(this.props.pagination.page + 1)).then(() => {
-        this.setState({ loadingMore: false });
-        LOG('done loading more');
+        this.setState({ loadingMore: false, refreshing: false });
       }).catch(() => {
-        this.setState({ loadingMore: false });
+        this.setState({ loadingMore: false, refreshing: false });
       });
     }
   }
@@ -181,8 +163,8 @@ class Home extends Component {
   }
 
   render() {
-    const cLength = this.props.conversations.length;
-
+    const { conversations, activeConversationId, me, pagination, unreadCount } = this.props;
+    const cLength = conversations.length;
 
     return (
       <View style={styles.container}>
@@ -205,12 +187,13 @@ class Home extends Component {
         {
           cLength ? (
             <ConversationList
-              items={this.props.conversations}
-              me={this.props.me}
+              items={conversations}
+              me={me}
               onRefresh={this.handleRefresh}
               onDelete={this.handleDelete}
-              unreadCount={this.props.unreadCount}
+              unreadCount={unreadCount}
               onBlock={this.handleBlock}
+              hasMore={pagination.hasMore}
               onLoadMore={this.handleLoadMore}
               onSelect={(c) => this.props.navigatePush('voke.Message', {conversation: c})}
               refreshing={this.state.refreshing}
@@ -225,7 +208,7 @@ class Home extends Component {
               />}
             >
               <Flex value={1} align="center" justify="center">
-                <Image style={{ marginBottom: 20 }} source={NULL_STATE} />
+                <Image style={{ marginBottom: 20, height: 100 }} resizeMode="contain" source={ANIMATION} />
                 <Text>Find a video and share it with a friend</Text>
               </Flex>
             </ScrollView>
@@ -235,9 +218,6 @@ class Home extends Component {
           (cLength <= CONTACT_LENGTH_SHOW_VOKEBOT && cLength > 0) ?  (
             <Image style={styles.vokeBot} source={VOKE} />
           ) : null
-        }
-        {
-          // <TabBarIndicator index={0} />
         }
         {
           cLength === 0 || this.state.isLoading ? <ApiLoading /> : null
@@ -255,11 +235,15 @@ class Home extends Component {
             />
           ) : null
         }
+        {
+          // Only show this overlay when you are not on the messages screen also
+          // It was getting a weird double overlay when transitioning to the messages screen
+          !activeConversationId ? <VokeOverlays type="pushPermissions" /> : null
+        }
       </View>
     );
   }
 }
-
 
 // Check out actions/nav.js to see the prop types and mapDispatchToProps
 Home.propTypes = {
@@ -267,16 +251,16 @@ Home.propTypes = {
   conversations: PropTypes.array.isRequired, // Redux
   me: PropTypes.object.isRequired, // Redux
   pagination: PropTypes.object.isRequired, // Redux
+  navThrough: PropTypes.bool,
 };
 
-const mapStateToProps = ({ messages, auth }) => {
-  return {
-    conversations: messages.conversations,
-    me: auth.user,
-    pagination: messages.pagination.conversations,
-    isTabSelected: auth.homeTabSelected === 0,
-    unreadCount: messages.unReadBadgeCount,
-  };
-};
+const mapStateToProps = ({ messages, auth }) => ({
+  conversations: messages.conversations,
+  me: auth.user,
+  pagination: messages.pagination.conversations,
+  unreadCount: messages.unReadBadgeCount,
+  isAnonUser: auth.isAnonUser,
+  activeConversationId: messages.activeConversationId,
+});
 
 export default connect(mapStateToProps, nav)(Home);

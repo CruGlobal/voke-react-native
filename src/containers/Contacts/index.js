@@ -3,24 +3,22 @@ import { View, Platform, Keyboard } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import debounce from 'lodash/debounce';
-import { openSettingsAction } from '../../actions/auth';
 
+import { openSettingsAction } from '../../actions/auth';
 import Analytics from '../../utils/analytics';
-// import { vokeIcons } from '../../utils/iconMap';
 import styles from './styles';
-// import { toastAction } from '../../actions/auth';
 import { searchContacts, getContacts } from '../../actions/contacts';
 import nav, { NavPropTypes } from '../../actions/nav';
 import Permissions from '../../utils/permissions';
 import { Button, Flex } from '../../components/common';
-import CONSTANTS, { SHOW_SHARE_MODAL } from '../../constants';
-
+import { SHOW_SHARE_MODAL } from '../../constants';
 import ApiLoading from '../ApiLoading';
 import ShareModal from '../ShareModal';
 import Modal from '../Modal';
 import Header, { HeaderIcon } from '../Header';
 import AndroidSearchBar from '../../components/AndroidSearchBar';
 import ContactsList from '../../components/ContactsList';
+import SelectNumber from '../../components/SelectNumber';
 import SearchBarIos from '../../components/SearchBarIos';
 import theme from '../../theme';
 
@@ -35,6 +33,9 @@ class Contacts extends Component {
       keyboardVisible: false,
       showSearch: false,
       isSearching: false,
+      isMultipleOpen: false,
+      showPermissionModal: false,
+      selectNumberContact: null,
       permission: props.isInvite ? Permissions.NOT_ASKED : Permissions.AUTHORIZED,
     };
 
@@ -80,7 +81,6 @@ class Contacts extends Component {
 
   keyboardDidShow() {
     this.setState({keyboardVisible: true});
-    // LOG(this.state.keyboardVisible);
     if (this.props.shareModalVisible) {
       Keyboard.dismiss();
     }
@@ -90,7 +90,6 @@ class Contacts extends Component {
     this.setState({keyboardVisible: false});
   }
 
-
   componentWillReceiveProps() {
     if (this.state.keyboardVisible) {
       Keyboard.dismiss();
@@ -98,7 +97,6 @@ class Contacts extends Component {
   }
 
   handleCheckPermission(permission) {
-    // LOG('permission', permission);
     this.setState({ permission: permission });
     if (permission === Permissions.AUTHORIZED) {
       this.handleGetContacts();
@@ -128,6 +126,7 @@ class Contacts extends Component {
       searchResults: [],
       searchText: '',
       isSearching: false,
+      selectNumberContact: null,
     });
     this.props.dispatch(getContacts(true)).then(() => {
       this.setState({ refreshing: false });
@@ -186,10 +185,22 @@ class Contacts extends Component {
     );
   }
 
+  handleSelectContact = (c) => {
+    if (c.phone.length > 1) {
+      this.setState({ selectNumberContact: c });
+    } else {
+      this.props.onSelect(c);
+    }
+  }
+
+  handleSelectedContact = (c, index) => {
+    this.setState({ selectNumberContact: null });
+    this.props.onSelect(c, index);
+  }
+
   render() {
-    const { permission, showSearch } = this.state;
+    const { permission, showSearch, selectNumberContact } = this.state;
     const isAuthorized = permission === Permissions.AUTHORIZED;
-    console.log(this.props.inShare);
     return (
       <View style={styles.container}>
         <Header
@@ -215,7 +226,7 @@ class Contacts extends Component {
             <ContactsList
               isSearching={this.state.isSearching}
               items={this.state.searchText ? this.state.searchResults : this.props.all}
-              onSelect={this.props.onSelect}
+              onSelect={this.handleSelectContact}
               isInvite={this.props.isInvite}
               onRefresh={this.refreshContacts}
               refreshing={this.state.refreshing}
@@ -235,7 +246,7 @@ class Contacts extends Component {
           this.props.isLoading ? (
             <ApiLoading
               force={true}
-              text={'Fetching your contacts - and because you are so popular, I need up to 30 seconds'}
+              text="Fetching your contacts - and because you are so popular, I need up to 30 seconds"
             />
           ) : null
         }
@@ -260,6 +271,11 @@ class Contacts extends Component {
             />
           ) : null
         }
+        {
+          selectNumberContact ? (
+            <SelectNumber contact={this.state.selectNumberContact} onSelect={this.handleSelectedContact} onCancel={() => this.setState({ selectNumberContact: null })} />
+          ) : null
+        }
       </View>
     );
   }
@@ -282,6 +298,7 @@ const mapStateToProps = ({ contacts, messages }, { navigation }) => ({
   isShareModalVisible: contacts.showShareModal,
   shareModalCancel: contacts.shareModalProps.onCancel,
   inShare: messages.inShare,
+
 });
 
 export default connect(mapStateToProps, nav)(Contacts);

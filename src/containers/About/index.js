@@ -21,7 +21,6 @@ class About extends Component {
     this.handleLink = this.handleLink.bind(this);
   }
 
-
   componentDidMount() {
     Analytics.screen('About');
   }
@@ -55,6 +54,10 @@ class About extends Component {
         <SettingsList
           items={[
             {
+              name: 'Why Voke?',
+              onPress: () => this.props.navigatePush('voke.SignUpWelcome', { noSignIn: true }),
+            },
+            {
               name: 'Visit Voke Website',
               onPress: () => this.handleLink(CONSTANTS.WEB_URLS.VOKE),
             },
@@ -69,6 +72,10 @@ class About extends Component {
             {
               name: 'Privacy Policy',
               onPress: () => this.handleLink(CONSTANTS.WEB_URLS.PRIVACY),
+            },
+            {
+              name: 'Acknowledgements',
+              onPress: () => this.props.navigatePush('voke.Acknowledgements'),
             },
             {
               name: `Version: ${VERSION_BUILD}`,

@@ -21,7 +21,9 @@ function screen(screen) {
     LOG('Screen must be passed in as a string');
     return;
   }
-  tracker.trackScreenView(screen);
+  if (tracker && tracker.trackScreenView) {
+    tracker.trackScreenView(screen);
+  }
 }
 
 function event(category, action, label = '', value = -1) {

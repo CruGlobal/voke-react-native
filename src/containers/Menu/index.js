@@ -38,8 +38,9 @@ class Menu extends Component {
 Menu.propTypes = {
   ...NavPropTypes,
 };
-const mapStateToProps = (state, { navigation }) => ({
+const mapStateToProps = ({ auth }, { navigation }) => ({
   ...(navigation.state.params || {}),
+  isAnonUser: auth.isAnonUser,
 });
 
 export default connect(mapStateToProps, nav)(Menu);

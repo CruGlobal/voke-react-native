@@ -9,7 +9,8 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: theme.lightBackgroundColor,
     ...(theme.isIphoneX ? {
-      paddingTop: 30,
+      backgroundColor: COLORS.DEEP_BLACK,
+      paddingTop: 40,
     } : {}),
   },
   video: {
@@ -24,6 +25,9 @@ export default StyleSheet.create({
   },
   content: {
     flex: 1,
+    ...(theme.isIphoneX ? {
+      backgroundColor: COLORS.WHITE,
+    } : {}),
     padding: 15,
   },
   label: {

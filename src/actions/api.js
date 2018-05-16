@@ -167,6 +167,15 @@ export default function callApi(requestObject, query = {}, data = {}) {
               } else if (err.errors.includes('Email has already been taken')) {
                 reject(err);
                 return;
+              } else if (err.errors.includes('Email can\'t be blank')) {
+                reject(err);
+                return;
+              } else if (err.errors.includes('First name can\'t be blank')) {
+                reject(err);
+                return;
+              } else if (err.errors.includes('Last name can\'t be blank')) {
+                reject(err);
+                return;
               }
             }
           }

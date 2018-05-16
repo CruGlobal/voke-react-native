@@ -1,13 +1,14 @@
 import React, { PureComponent } from 'react';
-import { ImageBackground, TouchableOpacity } from 'react-native';
+import { Image, ImageBackground } from 'react-native';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Spinner from 'react-native-spinkit';
 
 import theme from '../../theme';
 import styles from './styles';
-import { Flex, Text, Icon, Avatar, DateComponent } from '../common';
+import { Flex, Text, Icon, Avatar, DateComponent, Touchable } from '../common';
 import { momentUtc, getInitials } from '../../utils/common';
+import TO_CHAT from '../../../images/to-chat-button.png';
 
 
 class MessageItem extends PureComponent {
@@ -30,6 +31,12 @@ class MessageItem extends PureComponent {
     const messengers = this.props.messengers;
     const user = this.props.user;
     return messengers.find((m) => !m.bot && (user.id != m.id));
+  }
+
+  shareVideo = () => {
+    if (this.props.item && this.props.item.item && this.props.onShareVideo) {
+      this.props.onShareVideo(this.props.item.item);
+    }
   }
 
   renderText() {
@@ -76,6 +83,19 @@ class MessageItem extends PureComponent {
     );
   }
 
+  renderVideoImage(style) {
+    return (
+      <Touchable isAndroidOpacity={true} activeOpacity={0.7} onPress={this.props.onSelectVideo}>
+        <ImageBackground
+          resizeMode="cover"
+          source={{ uri: this.props.item.item.media.thumbnails.large }}
+          style={style}>
+          <Icon name="play-circle-filled" size={40} style={styles.playIcon} />
+        </ImageBackground>
+      </Touchable>
+    );
+  }
+
   renderVideoAndText() {
     const message = this.props.item;
     const isTypeState = message.type === 'typeState';
@@ -88,17 +108,11 @@ class MessageItem extends PureComponent {
           align="center"
           justify="start"
         >
-          <TouchableOpacity activeOpacity={0.7} onPress={this.props.onSelectVideo}>
-            <ImageBackground
-              resizeMode="cover"
-              source={{uri: message.item.media.thumbnails.large}}
-              style={[
-                styles.video,
-                styles.otherPersonVideo,
-              ]}>
-              <Icon name="play-circle-filled" size={40} style={styles.playIcon} />
-            </ImageBackground>
-          </TouchableOpacity>
+          {this.renderVideoImage([
+            styles.video,
+            styles.otherPersonVideo,
+          ])}
+          {this.renderShareVideo()}
         </Flex>
         <Flex
           style={[
@@ -134,6 +148,25 @@ class MessageItem extends PureComponent {
     );
   }
 
+  renderShareVideo() {
+    const SIZE = 55;
+    return (
+      <Touchable
+        isAndroidOpacity={true}
+        onPress={this.shareVideo}
+        activeOpacity={0.6}
+        style={[
+          styles.shareCircleButton,
+        ]}>
+        <Image
+          resizeMode="cover"
+          source={TO_CHAT}
+          style={{ width: SIZE, height: SIZE, borderRadius: SIZE / 2 }}
+        />
+      </Touchable>
+    );
+  }
+
   renderVideo() {
     const message = this.props.item;
     const isVoke = message.messenger_id === this.vokebotMessenger.id;
@@ -147,17 +180,12 @@ class MessageItem extends PureComponent {
         align="center"
         justify={isMe ? 'end' : 'start'}
       >
-        <TouchableOpacity activeOpacity={0.7} onPress={this.props.onSelectVideo}>
-          <ImageBackground
-            resizeMode="cover"
-            source={{uri: message.item.media.thumbnails.large}}
-            style={[
-              styles.video,
-              isMe || (isVoke && !isOnlyVoke) ? styles.meVideo : styles.otherPersonVideo,
-            ]}>
-            <Icon name="play-circle-filled" size={40} style={styles.playIcon} />
-          </ImageBackground>
-        </TouchableOpacity>
+        {isMe ? this.renderShareVideo() : null}
+        {this.renderVideoImage([
+          styles.video,
+          isMe || (isVoke && !isOnlyVoke) ? styles.meVideo : styles.otherPersonVideo,
+        ])}
+        {!isMe ? this.renderShareVideo() : null}
       </Flex>
     );
   }
@@ -282,6 +310,8 @@ MessageItem.propTypes = {
   item: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   messengers: PropTypes.array.isRequired,
+  onSelectVideo: PropTypes.func.isRequired,
+  onShareVideo: PropTypes.func.isRequired,
 };
 
 export default MessageItem;

@@ -47,13 +47,13 @@ export default StyleSheet.create({
     right: 0,
     left: 0,
   },
-  skipButtonText: {
-    fontSize: 14,
-  },
   skipButton: {
-    position: 'absolute',
-    bottom: 60,
-    right: 40,
+    // backgroundColor: theme.black,
+    // borderRadius: 25,
+    width: 50,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   loginButtonText: {
     fontSize: 18,
@@ -89,8 +89,8 @@ export default StyleSheet.create({
     marginVertical: 50,
     height: 40,
   },
-  actionButton: {
-    backgroundColor: theme.secondaryColor,
+  buttonWrapper: {
+    padding: 5,
   },
   backgroundWrap: {
     position: 'absolute',
@@ -99,16 +99,32 @@ export default StyleSheet.create({
     width: theme.fullWidth,
     height: theme.fullHeight,
   },
-  signInButtonText: {
-    fontSize: 16,
+  signInButton: {
+    borderWidth: 1,
+    borderRadius: 4,
+    paddingVertical: 2,
+    borderColor: theme.white,
   },
   signInText: {
     fontSize: 14,
+    color: theme.white,
   },
-  signInButton: {
+  actionButton: {
     width: theme.fullWidth - 110,
     height: 40,
+    backgroundColor: theme.primaryColor,
+    borderWidth: 0,
     alignItems: 'center',
-    marginTop: 10,
+    justifyContent: 'center',
+  },
+  haveAccount: {
+    paddingTop: 50,
+    paddingBottom: 0,
+  },
+  signIn: {
+    fontSize: 14,
+    color: theme.white,
+    // color: theme.primaryColor,
+    paddingRight: 5,
   },
 });

@@ -6,23 +6,44 @@ import CONSTANTS from '../constants';
 import theme from '../theme';
 
 // This is used by the android <MenuButton /> and the iOS <Menu />
-export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin } = {}) {
+export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin, isAnonUser } = {}) {
+  let createButton = [];
+  let signinButton = [];
+  let logoutButton = [];
+  if (!isAnonUser) {
+    logoutButton.push({
+      id: 'signout',
+      name: 'Sign Out',
+      onPress: () => {
+        dispatch && dispatch(logoutAction()).then(() => {
+          navigateResetLogin && navigateResetLogin();
+        });
+      },
+    });
+  }
+  if (isAnonUser) {
+    signinButton.push({
+      id: 'signin',
+      name: 'Sign In',
+      onPress: () => navigatePush && navigatePush('voke.LoginInput'),
+    });
+    createButton.push({
+      id: 'createaccount',
+      name: 'Create Account',
+      onPress: () => navigatePush && navigatePush('voke.SignUpAccount'),
+    });
+  }
   return [
-    // {
-    //   id: 'country',
-    //   name: 'Country Codes',
-    //   onPress: () => navigatePush && navigatePush('voke.CountrySelect', {
-    //     onSelect: (c) => LOG('country selected', c),
-    //   }),
-    // },
     {
       id: 'profile',
       name: 'Profile',
       onPress: () => navigatePush && navigatePush('voke.Profile'),
     },
+    ...createButton,
+    ...signinButton,
     {
       id: 'invite',
-      name: 'Invite Friend',
+      name: 'Invite Friends',
       onPress: () => navigatePush && navigatePush('voke.Contacts', {
         isInvite: true,
         onSelect: (c) => {
@@ -33,11 +54,6 @@ export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin } = 
           Communications.textWithoutEncoding(phone, message);
         },
       }),
-    },
-    {
-      id: 'about',
-      name: 'About',
-      onPress: () => navigatePush && navigatePush('voke.About'),
     },
     {
       id: 'review',
@@ -67,38 +83,15 @@ export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin } = 
       },
     },
     {
-      id: 'facebook',
-      name: 'Like us on Facebook',
-      onPress: () => {
-        let link = CONSTANTS.WEB_URLS.FACEBOOK;
-        Linking.canOpenURL(link).then((isSupported) => {
-          isSupported && Linking.openURL(link);
-        }, (err) => LOG('error opening url', err));
-      },
-    },
-    {
-      id: 'acknowledgements',
-      name: 'Acknowledgements',
-      onPress: () => navigatePush && navigatePush('voke.Acknowledgements'),
-    },
-    {
       id: 'help',
       name: 'Help',
       onPress: () => navigatePush && navigatePush('voke.Help'),
     },
     {
-      id: 'onboarding',
-      name: 'Onboarding',
-      onPress: () => navigatePush && navigatePush('voke.SignUpWelcome', { noSignIn: true }),
+      id: 'about',
+      name: 'About',
+      onPress: () => navigatePush && navigatePush('voke.About'),
     },
-    {
-      id: 'signout',
-      name: 'Sign Out',
-      onPress: () => {
-        dispatch && dispatch(logoutAction()).then(() => {
-          navigateResetLogin && navigateResetLogin();
-        });
-      },
-    },
+    ...logoutButton,
   ];
 }

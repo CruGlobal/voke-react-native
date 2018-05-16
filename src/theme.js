@@ -65,6 +65,7 @@ export default {
   lightBackgroundColor: COLORS.WHITE,
   darkBackgroundColor: COLORS.BLACK,
   white: COLORS.WHITE,
+  black: COLORS.BLACK,
   textColor: COLORS.WHITE,
   lightText: COLORS.WHITE,
   darkText: COLORS.CHARCOAL,

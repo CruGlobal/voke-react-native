@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView } from 'react-native';
+import { Alert, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -15,6 +15,7 @@ import { vokeIcons } from '../../utils/iconMap';
 
 import ApiLoading from '../ApiLoading';
 import ThemeSelect from '../ThemeSelect';
+import VokeOverlays from '../VokeOverlays';
 import Header, { HeaderIcon } from '../Header';
 import PillButton from '../../components/PillButton';
 import VideoList from '../../components/VideoList';
@@ -148,10 +149,10 @@ class Videos extends Component {
       query.page = page;
     }
 
-    
+
     // LOG('next page', filter, pagination[filter]);
-    
-    
+
+
 
 
     if (filter === 'featured') {
@@ -246,7 +247,6 @@ class Videos extends Component {
   }
 
   getSubscriberData() {
-    // TODO: Get my subscription info for a channel
     this.props.dispatch(getChannel(this.props.channel.id)).then((channelResults) => {
       this.props.dispatch(getChannelSubscriberData(this.props.channel.id)).then((results) => {
         const subscriberId = channelResults.subscription_id;
@@ -259,8 +259,8 @@ class Videos extends Component {
         if (!total) {
           total = total || 0;
         }
-        
-        
+
+
         this.setState({
           channelSubscribeData: {
             id: subscriberId,
@@ -271,7 +271,7 @@ class Videos extends Component {
       });
     });
   }
-  
+
   handleSubscribe() {
     this.props.dispatch(subscribeChannel(this.props.channel.id)).then((results) => {
       this.setState({
@@ -281,9 +281,9 @@ class Videos extends Component {
           total: this.state.channelSubscribeData.total + 1,
         },
       });
-    });
+    }).catch(() => { LOG('did not subscribe'); });
   }
-  
+
   handleUnsubscribe() {
     const subscriptionId = this.state.channelSubscribeData.id;
     this.props.dispatch(unsubscribeChannel(this.props.channel.id, subscriptionId)).then(() => {
@@ -294,7 +294,7 @@ class Videos extends Component {
           total: this.state.channelSubscribeData.total - 1,
         },
       });
-    });
+    }).catch(() => { LOG('did not unsubscribe'); });
   }
 
   renderChannel() {
@@ -336,79 +336,120 @@ class Videos extends Component {
     );
   }
 
+  handleShareVideo =(video) => {
+    // This logic exists in the VideoDetails and the VideoList
+    if (this.props.onSelectVideo) {
+      Alert.alert(
+        'Add video to chat?',
+        `Are you sure you want to add "${video.name.substr(0, 25).trim()}" video to your chat?`,
+        [
+          { text: 'Cancel' },
+          {
+            text: 'Add', onPress: () => {
+              this.props.onSelectVideo(video.id);
+              // Navigate back after selecting the video
+              if (this.props.conversation) {
+                this.props.navigateResetMessage({ conversation: this.props.conversation });
+              } else {
+                this.props.navigateBack();
+              }
+            },
+          },
+        ]
+      );
+    } else {
+      if (!this.props.user.first_name) {
+        this.props.navigatePush('voke.TryItNowName', {
+          onComplete: () => this.props.navigatePush('voke.ShareFlow', {
+            videoId: video.id,
+          }),
+        });
+      } else {
+        this.props.navigatePush('voke.ShareFlow', {
+          videoId: video.id,
+        });
+      }
+    }
+  }
+
   render() {
     const { onSelectVideo } = this.props;
     const { selectedFilter, videos } = this.state;
 
     return (
       <View style={styles.container}>
-        <StatusBar hidden={false} />
-        <Header
-          left={this.renderHeaderLeft()}
-          right={
-            <HeaderIcon
-              type="search"
-              onPress={() => this.handleFilter('themes')} />
+        <View style={styles.container}>
+          <StatusBar hidden={false} />
+          <Header
+            left={this.renderHeaderLeft()}
+            right={
+              <HeaderIcon
+                type="search"
+                onPress={() => this.handleFilter('themes')} />
+            }
+            title="Videos"
+          />
+          {this.renderChannel()}
+          <Flex style={{height: 50}} align="center" justify="center">
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+              <Flex direction="row" style={{padding: 10}}>
+                <PillButton
+                  text="All"
+                  filled={selectedFilter === 'all'}
+                  onPress={() => this.handleFilter('all')}
+                  animation="slideInUp"
+                />
+                <PillButton
+                  text="Featured"
+                  filled={selectedFilter === 'featured'}
+                  onPress={() => this.handleFilter('featured')}
+                  animation="slideInUp"
+                />
+                <PillButton
+                  text="Popular"
+                  filled={selectedFilter === 'popular'}
+                  onPress={() => this.handleFilter('popular')}
+                  animation="slideInUp"
+                />
+                <PillButton
+                  icon="favorite-border"
+                  style={{ alignItems: 'center' }}
+                  filled={selectedFilter === 'favorites'}
+                  onPress={() => this.handleFilter('favorites')}
+                  animation="slideInUp"
+                />
+              </Flex>
+            </ScrollView>
+          </Flex>
+          <VideoList
+            ref={(c) => this.videoList = c}
+            items={videos}
+            onSelect={(c) => {
+              this.props.navigatePush('voke.VideoDetails', {
+                video: c,
+                onSelectVideo,
+                conversation: this.props.conversation,
+                onUpdateVideos: () => this.updateVideoList(selectedFilter),
+              });
+            }}
+            onRefresh={this.handleRefresh}
+            onLoadMore={this.handleNextPage}
+            handleShareVideo={this.handleShareVideo}
+          />
+          <ApiLoading />
+          {
+            this.state.showThemeModal ? (
+              <ThemeSelect
+                onClose={() => this.setState({ showThemeModal: false })}
+                themes={this.props.tags}
+                onSelect={this.handleThemeSelect}
+                onDismiss={this.handleDismissTheme}
+              />
+            ) : null
           }
-          title="Videos"
-        />
-        {this.renderChannel()}
-        <Flex style={{height: 50}} align="center" justify="center">
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <Flex direction="row" style={{padding: 10}}>
-              <PillButton
-                text="All"
-                filled={selectedFilter === 'all'}
-                onPress={() => this.handleFilter('all')}
-                animation="slideInUp"
-              />
-              <PillButton
-                text="Featured"
-                filled={selectedFilter === 'featured'}
-                onPress={() => this.handleFilter('featured')}
-                animation="slideInUp"
-              />
-              <PillButton
-                text="Popular"
-                filled={selectedFilter === 'popular'}
-                onPress={() => this.handleFilter('popular')}
-                animation="slideInUp"
-              />
-              <PillButton
-                icon="favorite-border"
-                style={{ alignItems: 'center' }}
-                filled={selectedFilter === 'favorites'}
-                onPress={() => this.handleFilter('favorites')}
-                animation="slideInUp"
-              />
-            </Flex>
-          </ScrollView>
-        </Flex>
-        <VideoList
-          ref={(c) => this.videoList = c}
-          items={videos}
-          onSelect={(c) => {
-            this.props.navigatePush('voke.VideoDetails', {
-              video: c,
-              onSelectVideo,
-              conversation: this.props.conversation,
-              onUpdateVideos: () => this.updateVideoList(selectedFilter),
-            });
-          }}
-          onRefresh={this.handleRefresh}
-          onLoadMore={this.handleNextPage}
-        />
-        <ApiLoading />
-        {
-          this.state.showThemeModal ? (
-            <ThemeSelect
-              onClose={() => this.setState({ showThemeModal: false })}
-              themes={this.props.tags}
-              onSelect={this.handleThemeSelect}
-              onDismiss={this.handleDismissTheme}
-            />
-          ) : null
-        }
+          {/* This is here for the channel page to show when clicking the "Subscribe" button */}
+        </View>
+        <VokeOverlays type="tryItNowSignUp" channelName={this.props.channel && this.props.channel.name ? this.props.channel.name : null} />
       </View>
     );
   }

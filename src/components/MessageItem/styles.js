@@ -30,6 +30,7 @@ export default StyleSheet.create({
   },
   meVideo: {
     // backgroundColor: theme.secondaryColor,
+    marginLeft: 25,
   },
   otherPersonVideo: {
     // backgroundColor: theme.lightBackgroundColor,
@@ -97,5 +98,8 @@ export default StyleSheet.create({
   dateSeparator: {
     alignSelf: 'center',
     paddingVertical: 10,
+  },
+  shareCircleButton: {
+    marginHorizontal: 10,
   },
 });

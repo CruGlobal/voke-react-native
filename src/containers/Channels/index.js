@@ -4,13 +4,10 @@ import { connect } from 'react-redux';
 
 import { getAllOrganizations, getMyOrganizations, getFeaturedOrganizations } from '../../actions/channels';
 import Analytics from '../../utils/analytics';
-
 import nav, { NavPropTypes } from '../../actions/nav';
-
 import styles from './styles';
 import { navMenuOptions } from '../../utils/menu';
 import { vokeIcons } from '../../utils/iconMap';
-
 import ApiLoading from '../ApiLoading';
 import Header, { HeaderIcon } from '../Header';
 import PopupMenu from '../../components/PopupMenu';
@@ -30,25 +27,7 @@ class Channels extends Component {
     if (this.props.allChannels.length > 0) {
       return;
     }
-    this.props.dispatch(getAllOrganizations()).catch((err)=> {
-      LOG(JSON.stringify(err));
-      if (err.error === 'Messenger not configured') {
-        setTimeout(() =>{
-          this.props.dispatch(getAllOrganizations()).catch((err)=> {
-            LOG(JSON.stringify(err));
-            if (err.error === 'Messenger not configured') {
-              if (this.props.user.first_name) {
-                this.props.navigateResetToNumber();
-              } else {
-                this.props.navigateResetToProfile();
-              }
-            }
-          });
-        }, 3000);
-      }
-    });
-    this.props.dispatch(getMyOrganizations());
-    this.props.dispatch(getFeaturedOrganizations());
+    this.handleRefreshAll();
   }
 
   handleRefreshAll = () => {
@@ -155,8 +134,8 @@ const mapStateToProps = ({ auth, channels }) => ({
   allChannels: channels.all,
   featuredChannels: channels.featured,
   myChannels: channels.myChannels,
-  isTabSelected: auth.homeTabSelected === 2,
   pagination: channels.pagination,
+  isAnonUser: auth.isAnonUser,
 });
 
 export default connect(mapStateToProps, nav)(Channels);

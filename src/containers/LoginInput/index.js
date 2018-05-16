@@ -1,25 +1,24 @@
 import React, { Component } from 'react';
 import { Image, TouchableOpacity, Keyboard, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import { LoginManager, GraphRequestManager, GraphRequest, AccessToken } from 'react-native-fbsdk';
 import Analytics from '../../utils/analytics';
 
 import styles from './styles';
-import { getMe, facebookLoginAction, anonLogin } from '../../actions/auth';
+import { anonLogin } from '../../actions/auth';
 import ApiLoading from '../ApiLoading';
 import nav, { NavPropTypes } from '../../actions/nav';
-import { Flex, Text, Button } from '../../components/common';
+import { Flex, Button } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
+import FacebookButton from '../FacebookButton';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import LOGO from '../../../images/initial_voke.png';
-import CONSTANTS from '../../constants';
+import CONSTANTS, { RESET_ANON_USER } from '../../constants';
 
 class LoginInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
-      disabled: false,
       email: '',
       password: '',
       emailValidation: false,
@@ -30,7 +29,6 @@ class LoginInput extends Component {
     };
 
     this.login = this.login.bind(this);
-    this.facebookLogin = this.facebookLogin.bind(this);
     this.checkEmail = this.checkEmail.bind(this);
   }
 
@@ -41,7 +39,9 @@ class LoginInput extends Component {
 
   componentDidMount() {
     Analytics.screen('Login Input');
-    // setTimeout(this.login, 1000);
+    if (this.props.isAnonUser) {
+      Alert.alert('Login', 'If you login with an existing account, you will lose any activity that you have on the guest account you have been using. If you would like to save this activity, please go back and create a new account.');
+    }
   }
 
   login() {
@@ -52,7 +52,7 @@ class LoginInput extends Component {
         this.state.password
       )).then((results) => {
         this.setState({ isLoading: false });
-        // LOG('login results', results);
+        this.props.dispatch({ type: RESET_ANON_USER });
         this.props.navigateResetHome();
       }).catch(() => {
         this.setState({ isLoading: false });
@@ -60,70 +60,6 @@ class LoginInput extends Component {
     } else {
       Alert.alert('Invalid email/password', 'Please enter a valid email and password');
     }
-  }
-
-  // This code is also listed in the Login container.
-  // If you make any changes, be sure to make them over there as well
-  facebookLogin() {
-    this.setState({ isLoading: true });
-
-    // LOG('Making FB Call');
-    LoginManager.logInWithReadPermissions(CONSTANTS.FACEBOOK_SCOPE).then((result) => {
-      LOG('facebook return result', result);
-      if (result.isCancelled) {
-        this.setState({ isLoading: false });
-        return;
-      }
-      AccessToken.getCurrentAccessToken().then((data) => {
-        if (!data.accessToken) {
-          LOG('access token doesnt exist');
-          this.setState({ isLoading: false });
-          return;
-        }
-        const accessToken = data.accessToken.toString();
-        const getMeConfig = {
-          version: CONSTANTS.FACEBOOK_VERSION,
-          accessToken,
-          parameters: {
-            fields: {
-              string: CONSTANTS.FACEBOOK_FIELDS,
-            },
-          },
-        };
-        // Create a graph request asking for user information with a callback to handle the response.
-        const infoRequest = new GraphRequest('/me', getMeConfig, (err, meResult) => {
-          if (err) {
-            LOG('error getting facebook user', err);
-            this.setState({ isLoading: false });
-            return;
-          }
-          LOG('facebook me', meResult);
-          this.props.dispatch(facebookLoginAction(accessToken)).then(() => {
-            this.props.dispatch(getMe()).then((results) => {
-              this.setState({ isLoading: false });
-              if (results.state === 'configured') {
-                this.props.navigateResetHome();
-              } else {
-                this.props.navigatePush('voke.SignUpFBAccount', {
-                  me: meResult,
-                });
-              }
-            });
-          }).catch(() => {
-            this.setState({ isLoading: false });
-          });
-        });
-        // Start the graph request.
-        new GraphRequestManager().addRequest(infoRequest).start();
-      });
-    }, (err) => {
-      LOG('err', err);
-      this.setState({ isLoading: false });
-      LoginManager.logOut();
-    }).catch(() => {
-      LOG('catch');
-      this.setState({ isLoading: false });
-    });
   }
 
   render() {
@@ -171,21 +107,9 @@ class LoginInput extends Component {
           </Flex>
           <Flex value={1} direction="column" align="center" justify="center" style={styles.haveAccount}>
             <Flex style={styles.buttonWrapper}>
-              <Button
+              <FacebookButton
                 text="Sign In with Facebook"
-                buttonTextStyle={styles.signInButtonText}
-                icon="account-box"
-                style={this.state.disabled ? [styles.facebookButton, styles.disabled] : styles.facebookButton}
-                onPress={this.facebookLogin}
-              />
-            </Flex>
-            <Flex direction="row">
-              <Text style={styles.signIn}>New to Voke? </Text>
-              <Button
-                text="Create Account"
-                type="transparent"
-                buttonTextStyle={styles.signInText}
-                onPress={() => this.props.navigatePush('voke.Login')}
+                isSignIn={true}
               />
             </Flex>
           </Flex>
@@ -201,8 +125,9 @@ class LoginInput extends Component {
 LoginInput.propTypes = {
   ...NavPropTypes,
 };
-const mapStateToProps = (state, { navigation }) => ({
+const mapStateToProps = ({ auth }, { navigation }) => ({
   ...(navigation.state.params || {}),
+  isAnonUser: auth.isAnonUser,
 });
 
 export default connect(mapStateToProps, nav)(LoginInput);

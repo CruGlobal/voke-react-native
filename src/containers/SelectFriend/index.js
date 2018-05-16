@@ -8,13 +8,10 @@ import { openSettingsAction } from '../../actions/auth';
 import { createConversation, getConversation, deleteConversation } from '../../actions/messages';
 import Analytics from '../../utils/analytics';
 import { SET_IN_SHARE, SHOW_SHARE_MODAL } from  '../../constants';
-
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/nav';
 import theme from '../../theme';
 import VOKE_BOT from '../../../images/voke_bot_face_large.png';
-// import { vokeIcons } from '../../utils/iconMap';
-
 import ApiLoading from '../ApiLoading';
 import ShareModal from '../ShareModal';
 import Modal from '../Modal';
@@ -22,6 +19,7 @@ import Header from '../Header';
 import { Flex, Text, Button } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import Permissions from '../../utils/permissions';
+import SelectNumber from '../../components/SelectNumber';
 
 const NUM_RANDOM = 3;
 function getRandomContacts(contacts) {
@@ -56,6 +54,7 @@ class SelectFriend extends Component {
       permission: '',
       loadingBeforeShareSheet: false,
       showPermissionModal: false,
+      selectNumberContact: null,
     };
 
     this.goToContacts = this.goToContacts.bind(this);
@@ -68,15 +67,10 @@ class SelectFriend extends Component {
   }
 
   componentDidMount() {
-    // We need to check if we are coming from landscape in order to give the
-    // transition enough time before the view locks from the modal
-    if (this.props.isLandscape) {
-      setTimeout(() => {
-        this.checkContactsStatus();
-      }, 1000);
-    } else {
+    // We need to give the transition enough time before the view locks from the modal
+    setTimeout(() => {
       this.checkContactsStatus();
-    }
+    }, 1000);
     Analytics.screen('Select a Friend');
   }
 
@@ -142,13 +136,14 @@ class SelectFriend extends Component {
     }
   }
 
-  selectContact(c) {
+  selectContact(c, index = 0) {
     if (!c) return;
-
+    this.setState({ selectNumberContact: null });
     Keyboard.dismiss();
 
     // LOG(JSON.stringify(c));
-    let phoneNumber = c.phone ? c.phone[0] : null;
+
+    let phoneNumber = c.phone ? c.phone[index] : null;
     let name = c.name ? c.name.split(' ') : null;
     let firstName = name[0] ? name[0] : 'Friend';
     let lastName = name[name.length -1] ? name[name.length -1] : 'Buddy';
@@ -232,6 +227,14 @@ class SelectFriend extends Component {
     }
   }
 
+  handleSelectContact = (c) => {
+    if (c.phone.length > 1) {
+      this.setState({ selectNumberContact: c });
+    } else {
+      this.selectContact(c);
+    }
+  }
+
   renderRandomContacts() {
     let randomHeight = {};
     if (screenHeight < 450) {
@@ -240,7 +243,7 @@ class SelectFriend extends Component {
     return this.state.random.map((c, i) => (
       <Button
         key={`random_${i}`}
-        onPress={() => this.selectContact(c)}
+        onPress={() => this.handleSelectContact(c)}
         text={c ? c.name : ' '}
         style={[styles.randomButton, randomHeight]}
         buttonTextStyle={styles.randomText}
@@ -337,6 +340,11 @@ class SelectFriend extends Component {
               getContacts={this.handleGetContacts}
               onDismiss={this.handleDismissPermission}
             />
+          ) : null
+        }
+        {
+          this.state.selectNumberContact ? (
+            <SelectNumber contact={this.state.selectNumberContact} onSelect={this.selectContact} onCancel={() => this.setState({ selectNumberContact: null })} />
           ) : null
         }
       </View>

@@ -49,7 +49,7 @@ export default StyleSheet.create({
     color: COLORS.DARK_GREY,
     fontSize: 16,
     textAlign: 'left',
-    paddingVertical: 10,
+    paddingVertical: 20,
     paddingHorizontal: 30,
   },
   showMoreDescriptionSmall: {
@@ -58,6 +58,9 @@ export default StyleSheet.create({
     paddingVertical: 20,
     textAlign: 'left',
     paddingHorizontal: 30,
+  },
+  buttonsWrap: {
+    marginTop: 10,
   },
   button: {
     height: 60,

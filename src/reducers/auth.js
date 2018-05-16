@@ -1,6 +1,6 @@
 import { REHYDRATE } from 'redux-persist/constants';
 
-import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, TAB_SELECTED, ACTIVE_SCREEN, UPDATE_TOKENS, NO_BACKGROUND_ACTION, RESET_TOKEN } from '../constants';
+import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, ACTIVE_SCREEN, UPDATE_TOKENS, NO_BACKGROUND_ACTION, RESET_TOKEN, CREATE_ANON_USER, RESET_ANON_USER, PUSH_PERMISSION } from '../constants';
 import { REQUESTS } from '../actions/api';
 
 const initialState = {
@@ -20,10 +20,11 @@ const initialState = {
   pushToken: '',
   pushId: '',
   apiActive: 0,
-  homeTabSelected: 0,
   activeScreen: null,
   // onboardCompleted: false,
   noBackgroundAction: false,
+  isAnonUser: false,
+  pushPermission: '',
 };
 
 export default function auth(state = initialState, action) {
@@ -47,17 +48,9 @@ export default function auth(state = initialState, action) {
         ...incoming,
         // onboardCompleted: false,
         apiActive: 0,
-        homeTabSelected: 0, // Always default the home page to tab 0
         activeScreen: null,
         noBackgroundAction: false,
       };
-
-    case TAB_SELECTED: {
-      return {
-        ...state,
-        homeTabSelected: action.tab || 0,
-      };
-    }
 
     case LOGIN:
       return {
@@ -133,10 +126,31 @@ export default function auth(state = initialState, action) {
         device: {},
         cableId: '',
       };
+    case PUSH_PERMISSION:
+      return {
+        ...state,
+        pushPermission: action.permission,
+      };
+    case REQUESTS.OAUTH.SUCCESS:
+      // When the user logs in, always remove the isAnonUser field
+      return {
+        ...state,
+        isAnonUser: false,
+      };
     case ACTIVE_SCREEN:
       return {
         ...state,
         activeScreen: action.screen,
+      };
+    case CREATE_ANON_USER:
+      return {
+        ...state,
+        isAnonUser: true,
+      };
+    case RESET_ANON_USER:
+      return {
+        ...state,
+        isAnonUser: false,
       };
     // case ONBOARD_FLAG:
     //   return {

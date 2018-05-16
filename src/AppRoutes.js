@@ -5,7 +5,6 @@ import { StackNavigator, TabNavigator } from 'react-navigation';
 import BadgeHomeIcon from './containers/BadgeHomeIcon';
 
 import LoadingScreen from './containers/LoadingScreen';
-import Login from './containers/Login';
 import LoginInput from './containers/LoginInput';
 import Home from './containers/Home';
 import Videos from './containers/Videos';
@@ -20,6 +19,8 @@ import Contacts from './containers/Contacts';
 import KickstartersTab from './containers/KickstartersTab';
 import VideosTab from './containers/VideosTab';
 import SignUpAccount from './containers/SignUpAccount';
+import TryItNowName from './containers/TryItNowName';
+import ShareFlow from './containers/ShareFlow';
 import SignUpProfile from './containers/SignUpProfile';
 import SignUpNumber from './containers/SignUpNumber';
 import SignUpNumberVerify from './containers/SignUpNumberVerify';
@@ -105,7 +106,7 @@ export const MainTabRoutes = TabNavigator({
     inactiveBackgroundColor: theme.secondaryColor,
     // android props
     iconStyle: { width: 60 },
-    tabStyle: { backgroundColor: theme.secondaryColor },
+    tabStyle: { backgroundColor: theme.secondaryColor, paddingTop: theme.isIphoneX ? 35 : theme.isAndroid ? 10 : 0 },
     style: { backgroundColor: theme.secondaryColor },
     scrollEnabled: false,
   },
@@ -125,7 +126,6 @@ export const MainStackRoutes = StackNavigator({
   'voke.Help': { screen: Help },
   'voke.KickstartersTab': { screen: KickstartersTab },
   'voke.Loading': { screen: LoadingScreen },
-  'voke.Login': { screen: Login },
   'voke.LoginInput': { screen: LoginInput },
   'voke.Message': { screen: Message },
   'voke.Profile': { screen: Profile },
@@ -152,6 +152,8 @@ export const MainStackRoutes = StackNavigator({
     ...noGestures,
   },
   'voke.VideosTab': { screen: VideosTab },
+  'voke.TryItNowName': { screen: TryItNowName },
+  'voke.ShareFlow': { screen: ShareFlow },
   MainTabs: {
     screen: MainTabRoutes,
     ...noGestures,

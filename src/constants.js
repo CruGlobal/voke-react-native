@@ -12,7 +12,6 @@ export const TYPE_STATE_CHANGE = 'app/TYPE_STATE_CHANGE';
 export const MARK_READ = 'app/MARK_READ';
 export const SET_PUSH_TOKEN = 'app/SET_PUSH_TOKEN';
 export const UPDATE_TOKENS = 'app/UPDATE_TOKENS';
-export const TAB_SELECTED = 'app/TAB_SELECTED';
 export const ACTIVE_SCREEN = 'app/ACTIVE_SCREEN';
 export const NO_BACKGROUND_ACTION = 'app/NO_BACKGROUND_ACTION';
 export const RESET_TOKEN = 'app/RESET_TOKEN';
@@ -22,6 +21,12 @@ export const SET_IN_SHARE = 'app/SET_IN_SHARE';
 export const SHOW_SHARE_MODAL = 'app/SHOW_SHARE_MODAL';
 export const MESSAGE_CREATED = 'app/MESSAGE_CREATED';
 export const CLEAR_CHANNEL_VIDEOS = 'app/CLEAR_CHANNEL_VIDEOS';
+export const CREATE_ANON_USER = 'app/CREATE_ANON_USER';
+export const RESET_ANON_USER = 'app/RESET_ANON_USER';
+export const PUSH_PERMISSION = 'app/PUSH_PERMISSION';
+// Overlays
+export const CLEAR_OVERLAY = 'app/CLEAR_OVERLAY';
+export const SET_OVERLAY = 'app/SET_OVERLAY';
 
 export const IS_SMALL_ANDROID = theme.isAndroid && theme.fullHeight < 600;
 // export const IS_SMALL_ANDROID = true;
@@ -56,7 +61,7 @@ export default {
 
   PAGE_SIZE: 25, // This is the default page size from the API
   CONVERSATIONS_PAGE_SIZE: 12,
-  
+
   CONTACT_CHUNKS: 500, // How many contacts to send up per upload request
   REFRESH_CONTACTS_TIME: 30 * 24 * 60 * 60 * 1000, // 5 days
   // // REFRESH_CONTACTS_TIME: 30 * 60 * 1000, // 30 minutes

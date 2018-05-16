@@ -1,5 +1,6 @@
 import { API_URL } from '../api/utils';
 import callApi, { REQUESTS } from './api';
+import { SET_OVERLAY } from '../constants';
 
 export function getAllOrganizations(query = {}) {
   return (dispatch) => {
@@ -38,7 +39,11 @@ export function getChannelSubscriberData(channelId) {
 }
 
 export function subscribeChannel(channelId) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    if (getState().auth.isAnonUser) {
+      dispatch({ type: SET_OVERLAY, value: 'tryItNowSignUp' });
+      return Promise.reject();
+    }
     const query = {
       endpoint: `${API_URL}organizations/${channelId}/subscriptions`,
     };

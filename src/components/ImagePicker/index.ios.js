@@ -40,9 +40,9 @@ class ImagePicker extends Component {
   selectImage() {
     RNImagePicker.showImagePicker(IMAGE_PICKER_OPTIONS, (response) => {
       if (response.didCancel) {
-        // console.log('User cancelled image picker');
+        // LOG('User cancelled image picker');
       } else if (response.error) {
-        // console.log('RNImagePicker Error: ', response.error);
+        // LOG('RNImagePicker Error: ', response.error);
         Alert.alert(
           'Error',
           'There was an error processing your request. Please try again later.',

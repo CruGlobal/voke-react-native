@@ -1,20 +1,21 @@
 import RNFetchBlob from 'react-native-fetch-blob';
 import { Linking, AppState, ToastAndroid, AsyncStorage, Alert, PushNotificationIOS } from 'react-native';
+import Orientation from 'react-native-orientation';
+import DeviceInfo from 'react-native-device-info';
 
-import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, UPDATE_TOKENS, NO_BACKGROUND_ACTION } from '../constants';
+import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, UPDATE_TOKENS, NO_BACKGROUND_ACTION, CREATE_ANON_USER, PUSH_PERMISSION } from '../constants';
 import callApi, { REQUESTS } from './api';
-import { establishDevice, setupSocketAction, closeSocketAction, destroyDevice, getDevices, checkAndRunSockets } from './socket';
+import { establishDevice, establishCableDevice, closeSocketAction, destroyDevice, getDevices, checkAndRunSockets, verifyPushNotifications } from './socket';
 import { getConversations, getMessages, createMessageInteraction } from './messages';
 import { API_URL } from '../api/utils';
 import { isArray } from '../utils/common';
-import Orientation from 'react-native-orientation';
-import DeviceInfo from 'react-native-device-info';
 import theme from '../theme';
+import Permissions from '../utils/permissions';
 
 
 // Setup app state change listeners
 let appStateChangeFn;
-let currentAppState = AppState.currentState || '';
+// let currentAppState = AppState.currentState || '';
 
 let hasStartedUp = false;
 
@@ -23,8 +24,11 @@ export function startupAction() {
     Orientation.lockToPortrait();
     if (hasStartedUp) return;
 
+    // Check push permissions and run 'establishDevice' if they have permission
+    dispatch(checkPushPermissions());
     hasStartedUp = true;
-    dispatch(establishDevice());
+    // If sockets have not started up, go ahead and do that
+    dispatch(checkAndRunSockets());
     if (appStateChangeFn) {
       AppState.removeEventListener('change', appStateChangeFn);
     } else {
@@ -59,23 +63,25 @@ function appStateChange(dispatch, getState, nextAppState) {
   // LOG('appStateChange', nextAppState, currentAppState, cableId);
   if (nextAppState === 'active') {
     LOG('App has come to the foreground!');
+    // Don't run establish device if it's authorized
+    dispatch(checkPushPermissions(false));
+
     let messages = getState().messages;
     if (!theme.isAndroid) {
       PushNotificationIOS.getDeliveredNotifications((results)=> {
         if (results && results.length > 0) PushNotificationIOS.removeAllDeliveredNotifications();
         let conversations = getState().messages.conversations;
-        // let messages = getState().messages.messages;
         let link = results[0] && results[0].userInfo && results[0].userInfo.data && results[0].userInfo.data.link;
         if (!link) return;
         const cId = link.substring(link.indexOf('conversations/') + 14, link.indexOf('/messages'));
         const mId = link.substring(link.indexOf('messages/') + 9, link.length);
-        LOG('conversation ID: ', cId);
-        LOG('message ID:', mId);
+        // LOG('conversation ID: ', cId);
+        // LOG('message ID:', mId);
         if (cId && mId) {
           let conv = conversations.find((c) => cId === c.id);
           // if the conversation does not exist then call get conversations or if the message does not exist call get conversation
           if (!conv || (conv.latestMessage && conv.latestMessage.message_id !== mId)) {
-            LOG('get conversations');
+            // LOG('get conversations');
             if (messages.activeConversationId === cId) {
               dispatch(getMessages(cId)).then(()=> {
                 const interaction = {
@@ -134,7 +140,19 @@ function appStateChange(dispatch, getState, nextAppState) {
     dispatch(closeSocketAction());
     appCloseTime = Date.now();
   }
-  currentAppState = nextAppState;
+  // currentAppState = nextAppState;
+}
+
+export function checkPushPermissions(runIfTrue = true) {
+  return (dispatch) => {
+    Permissions.checkPush().then((response) => {
+      dispatch({ type: PUSH_PERMISSION, permission: response });
+      // After checking permissions, make sure we run 'establishDevice' if necessary
+      if (runIfTrue && response === 'authorized') {
+        dispatch(establishDevice());
+      }
+    });
+  };
 }
 
 
@@ -209,16 +227,26 @@ export function logoutAction() {
   );
 }
 
-export function createAccountAction(email, password) {
+export function createAccountAction(email, password, isAnonymous = false) {
   return (dispatch) => (
     new Promise((resolve, reject) => {
-      dispatch(callApi(REQUESTS.ME, {}, {
-        // Some data can be set in the REQUESTS object,
-        // so we don't need it in here
-        email,
-        password,
-        timezone_name: DeviceInfo.getTimezone(),
-      })).then((results) => {
+      let data = {
+        me: {
+          timezone_name: DeviceInfo.getTimezone(),
+        },
+      };
+      if (email) data.email = email;
+      if (password) data.password = password;
+
+      if (isAnonymous) {
+        data = {
+          me: {
+            timezone_name: DeviceInfo.getTimezone(),
+            anonymous: true,
+          },
+        };
+      }
+      dispatch(callApi(REQUESTS.ME, {}, data)).then((results) => {
         if (!results.errors) {
           LOG('create account success', results);
           dispatch(loginAction(results.access_token.access_token, results.access_token));
@@ -318,7 +346,7 @@ export function updateMe(data) {
       dispatch(getMe());
       return results;
     }).catch(() => {
-      // LOG('error updating me', error);
+      LOG('error updating me', error);
     });
   };
 }

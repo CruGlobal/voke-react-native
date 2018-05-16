@@ -7,20 +7,9 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: theme.primaryColor,
   },
-  headerWrap: {
-    marginTop: 30,
-    marginBottom: 40,
-  },
-  headerText: {
-    paddingHorizontal: 50,
-    paddingVertical: 20,
-    textAlign: 'center',
-    fontSize: 22,
-    color: theme.secondaryColor,
-  },
   inputs: {
-    paddingBottom: 50,
-    paddingTop: 25,
+    paddingBottom: 10,
+    paddingTop: 20,
   },
   signInButton: {
     fontSize: 16,

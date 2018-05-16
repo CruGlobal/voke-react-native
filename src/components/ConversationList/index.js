@@ -9,12 +9,13 @@ import theme, { COLORS } from '../../theme';
 import { momentUtc, getInitials } from '../../utils/common';
 
 import { Flex, VokeIcon, Text, Touchable, Avatar, RefreshControl } from '../common';
+import LoadMore from '../LoadMore';
+import NotificationToast from '../../containers/NotificationToast';
 import CONSTANTS from '../../constants';
 
-// const ITEM_HEIGHT = 60 + theme.separatorHeight;
 const SLIDE_ROW_WIDTH = 130;
 
-class ConversationList extends Component { // eslint-disable-line
+class ConversationList extends Component {
 
   constructor(props) {
     super(props);
@@ -22,14 +23,6 @@ class ConversationList extends Component { // eslint-disable-line
       items: props.items,
       rowFocused: null,
     };
-
-    this.handleNextPage = this.handleNextPage.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
-    this.handleBlock = this.handleBlock.bind(this);
-    this.renderRow = this.renderRow.bind(this);
-    this.getSenderName = this.getSenderName.bind(this);
-    this.getConversationParticipant = this.getConversationParticipant.bind(this);
-    this.getPresence = this.getPresence.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -38,28 +31,24 @@ class ConversationList extends Component { // eslint-disable-line
     });
   }
 
-  handleNextPage() {
-    this.props.onLoadMore();
-  }
-
-  handleDelete(data) {
+  handleDelete = (data) => {
     this.props.onDelete(data);
   }
 
-  handleBlock(data) {
+  handleBlock = (data) => {
     const otherPerson = this.getConversationParticipant(data);
     this.props.onBlock(otherPerson, data);
   }
 
-  getSenderName(conversation) {
+  getSenderName = (conversation) => {
     const messenger = conversation.messengers[0] ? conversation.messengers[0] : {};
     if (messenger && messenger.id && messenger.id !== this.props.me.id) {
       return messenger.first_name || 'Other';
     }
-    return 'you';
+    return 'You';
   }
 
-  getConversationParticipant(conversation) {
+  getConversationParticipant = (conversation) => {
     const myId = this.props.me.id;
     const voke = conversation.messengers.find((a) => a.bot);
 
@@ -70,20 +59,31 @@ class ConversationList extends Component { // eslint-disable-line
     return otherPerson;
   }
 
-  getPresence(messenger) {
+  getPresence = () => {
     const today = new Date().valueOf();
-    const presence = messenger && messenger.present_at ? momentUtc(messenger.present_at).valueOf() : null;
+    const presence = this.props.conversation && this.props.conversation.presentAt ? momentUtc(this.props.conversation.presentAt).valueOf() : null;
     if (presence && (today - presence < 1000 * 60 * 5)) {
       return true;
     }
     return false;
   }
 
-  renderRow({ item }) {
+  renderNotificationPrompt = () => {
+    return <NotificationToast />;
+  }
+
+  renderLoadMore = () => {
+    if (this.props.hasMore) {
+      return <LoadMore onLoad={this.props.onLoadMore} />;
+    }
+    return null;
+  }
+
+  renderRow = ({ item }) => {
     const conversation = item;
     const contentCreator = this.getSenderName(conversation);
     const otherPerson = this.getConversationParticipant(conversation);
-    const isPresent = this.getPresence(otherPerson);
+    const isPresent = this.getPresence();
     const initials = otherPerson ? otherPerson.initials : 'VB';
     // LOG('initials', initials, getInitials(initials));
 
@@ -151,15 +151,15 @@ class ConversationList extends Component { // eslint-disable-line
         data={this.props.items}
         renderItem={this.renderRow}
         directionalDistanceChangeThreshold={theme.isAndroid ? 12 : undefined}
-        renderHiddenItem={(rowData, rowMap) => (
+        renderHiddenItem={({ item }, rowMap) => (
           <View style={styles.rowBack}>
             <Flex direction="row" align="center" justify="center" style={{ width: SLIDE_ROW_WIDTH }}>
               <Touchable
                 activeOpacity={0.9}
                 style={{ flex: 1 }}
                 onPress={() => {
-                  this.handleDelete(rowData.item);
-                  rowMap[rowData.item.id] && rowMap[rowData.item.id].closeRow() ;
+                  this.handleDelete(item);
+                  rowMap[item.id] && rowMap[item.id].closeRow() ;
                 }}
               >
                 <Flex align="center" justify="center" style={styles.rowBackButton}>
@@ -170,8 +170,8 @@ class ConversationList extends Component { // eslint-disable-line
                 activeOpacity={0.9}
                 style={{ flex: 1 }}
                 onPress={() => {
-                  this.handleBlock(rowData.item);
-                  rowMap[rowData.item.id] && rowMap[rowData.item.id].closeRow();
+                  this.handleBlock(item);
+                  rowMap[item.id] && rowMap[item.id].closeRow();
                 }}
               >
                 <Flex align="center" justify="center" style={styles.rowBackButton}>
@@ -184,11 +184,11 @@ class ConversationList extends Component { // eslint-disable-line
         initialListSize={CONSTANTS.CONVERSATIONS_PAGE_SIZE - 1}
         pageSize={CONSTANTS.CONVERSATIONS_PAGE_SIZE - 1}
         enableEmptySections={true}
-        onEndReached={this.handleNextPage}
-        onEndReachedThreshold={0.5}
         rightOpenValue={SLIDE_ROW_WIDTH * -1}
         disableLeftSwipe={false}
         disableRightSwipe={true}
+        ListHeaderComponent={this.renderNotificationPrompt}
+        ListFooterComponent={this.renderLoadMore}
         recalculateHiddenLayout={true}
         removeClippedSubviews={false}
         refreshControl={<RefreshControl
@@ -210,6 +210,7 @@ ConversationList.propTypes = {
   unreadCount: PropTypes.number.isRequired,
   me: PropTypes.object.isRequired,
   refreshing: PropTypes.bool,
+  hasMore: PropTypes.bool,
 };
 
 export default ConversationList;

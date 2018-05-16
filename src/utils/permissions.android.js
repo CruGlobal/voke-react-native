@@ -44,9 +44,14 @@ function requestContacts() {
   });
 }
 
+function checkPush() {
+  return Promise.resolve('authorized');
+}
+
 export default {
   checkContacts,
   requestContacts,
+  checkPush,
 
   // Permission constants
   AUTHORIZED,

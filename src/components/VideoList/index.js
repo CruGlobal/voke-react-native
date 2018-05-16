@@ -1,8 +1,9 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FlatList, ImageBackground } from 'react-native';
+import { FlatList, ImageBackground, Image } from 'react-native';
 import styles, { THUMBNAIL_HEIGHT } from './styles';
+import TO_CHAT from '../../../images/to-chat-button.png';
 
 import { Flex, Text, Touchable, Icon, RefreshControl } from '../common';
 
@@ -36,6 +37,25 @@ class VideoList extends Component {
     }
   }
 
+  formatDuration(seconds) {
+    if (!seconds) return '00:00';
+    // Hours, minutes and seconds
+    var hrs = ~~(seconds / 3600);
+    var mins = ~~((seconds % 3600) / 60);
+    var secs = seconds % 60;
+
+    // Output like "1:01" or "4:03:59" or "123:03:59"
+    var ret = '';
+
+    if (hrs > 0) {
+      ret += '' + hrs + ':' + (mins < 10 ? '0' : '');
+    }
+
+    ret += '' + mins + ':' + (secs < 10 ? '0' : '');
+    ret += '' + secs;
+    return ret;
+  }
+
   renderRow({ item }) {
     const video = item;
     const description = (video.description || '').replace(/^\s+|\s+$/g, '');
@@ -49,8 +69,27 @@ class VideoList extends Component {
           animation="slideInUp">
           <ImageBackground resizeMode="cover" source={{uri: video.media.thumbnails.large}} style={styles.videoThumbnail} >
             <Icon name="play-circle-filled" size={64} style={styles.playIcon} />
+            <Flex direction="row" align="center" justify="center" style={styles.detailsBackground}>
+              <Flex value={1} align="start">
+                <Text style={styles.detailsText}>{this.formatDuration(video.media.duration)}</Text>
+              </Flex>
+              <Flex value={2} align="end">
+                <Text style={[styles.detailsText, styles.sharesText]}>{video.shares} Shares</Text>
+              </Flex>
+            </Flex>
           </ImageBackground>
           <Flex direction="column" align="start" justify="start" style={styles.videoDetails}>
+            <Touchable
+              isAndroidOpacity={true}
+              onPress={() => this.props.handleShareVideo(video)}
+              activeOpacity={0.6}
+              style={[styles.shareCircleButton]}>
+              <Image
+                resizeMode="cover"
+                source={TO_CHAT}
+                style={{ width: 50, height: 50, borderRadius: 25 }}
+              />
+            </Touchable>
             <Text numberOfLines={1} style={styles.videoTitle}>
               {video.name}
             </Text>
@@ -107,6 +146,7 @@ VideoList.propTypes = {
   onRefresh: PropTypes.func.isRequired, // Redux
   onSelect: PropTypes.func.isRequired, // Redux
   items: PropTypes.array.isRequired, // Redux
+  handleShareVideo: PropTypes.func.isRequired,
 };
 
 export default VideoList;

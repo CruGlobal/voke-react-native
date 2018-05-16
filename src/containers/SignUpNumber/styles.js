@@ -37,7 +37,7 @@ export default StyleSheet.create({
   actionButton: {
     alignItems: 'center',
     marginBottom: 30,
-    width: 125,
+    width: theme.fullWidth - 110,
   },
   sharingText: {
     fontSize: 16,

@@ -10,38 +10,32 @@ import Analytics from '../../utils/analytics';
 
 import ApiLoading from '../ApiLoading';
 import Header from '../Header';
+import VokeOverlays from '../VokeOverlays';
+import SignUpButtons from '../SignUpButtons';
+import ProfileProgress from '../ProfileProgress';
 import VOKE_LOGO from '../../../images/nav_voke_logo.png';
 import nav, { NavPropTypes } from '../../actions/nav';
 import theme, { COLORS } from '../../theme';
+import { SET_OVERLAY } from '../../constants';
+
+const defaultState = {
+  imageUri: null,
+  editName: false,
+  editEmail: false,
+  editPassword: false,
+  firstName: '',
+  lastName: '',
+  newEmail: '',
+  confirmEmail: '',
+  currentPassword: '',
+  newPassword: '',
+  confirmPassword: '',
+  hideAnonFields: false,
+};
 
 class Profile extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      imageUri: null,
-      editName: false,
-      editEmail: false,
-      editPassword: false,
-      firstName: '',
-      lastName: '',
-      newEmail: '',
-      confirmEmail: '',
-      currentPassword: '',
-      newPassword: '',
-      confirmPassword: '',
-    };
-
-    this.renderImagePicker = this.renderImagePicker.bind(this);
-    this.renderEditName = this.renderEditName.bind(this);
-    this.renderEditEmail = this.renderEditEmail.bind(this);
-    this.renderEditPassword = this.renderEditPassword.bind(this);
-    this.handleImageChange = this.handleImageChange.bind(this);
-    this.scrollEnd = this.scrollEnd.bind(this);
-    this.handleUpdate = this.handleUpdate.bind(this);
-    this.resetState = this.resetState.bind(this);
-    this.backHandler = this.backHandler.bind(this);
-  }
+  state = defaultState;
 
   componentDidMount() {
     Analytics.screen('Profile');
@@ -53,7 +47,7 @@ class Profile extends Component {
     BackHandler.removeEventListener('hardwareBackPress', this.backHandler);
   }
 
-  backHandler() {
+  backHandler = () => {
     if (this.state.editName || this.state.editEmail || this.state.editPassword) {
       this.resetState();
       return true;
@@ -61,11 +55,11 @@ class Profile extends Component {
     return false;
   }
 
-  handleUpdate() {
+  handleUpdate = () => {
     const { firstName, lastName, currentPassword, newEmail, confirmEmail, newPassword, confirmPassword } = this.state;
     let data = {};
 
-    if (firstName && lastName) {
+    if (firstName || lastName) {
       data = {
         me: {
           first_name: firstName,
@@ -105,22 +99,10 @@ class Profile extends Component {
   }
 
   resetState() {
-    this.setState({
-      imageUri: null,
-      editName: false,
-      editEmail: false,
-      editPassword: false,
-      firstName: '',
-      lastName: '',
-      newEmail: '',
-      confirmEmail: '',
-      currentPassword: '',
-      newPassword: '',
-      confirmPassword: '',
-    });
+    this.setState(defaultState);
   }
 
-  handleImageChange(data) {
+  handleImageChange = (data) => {
     this.setState({
       imageUri: data.uri,
     });
@@ -138,12 +120,23 @@ class Profile extends Component {
     }
   }
 
-  scrollEnd(isAnimated) {
-    // Somehow check if the listview is in the middle
-    // if (this.listView) {
-    //   setTimeout(() => this.listView.scrollToEnd({ animated: isAnimated }), 50);
-    // }
-    setTimeout(() => this.scrollView.scrollToEnd({ animated: isAnimated }), 50);
+  toggleEdit = (type) => {
+    const newValue = !this.state[type];
+    // If we are toggling the edit ON and the user is anonymous, show the popup
+    // if (newValue && this.props.isAnonUser) {
+    if (newValue && (this.props.isAnonUser && type !== 'editName')) {
+      this.setState({ hideAnonFields: true });
+      this.props.dispatch({ type: SET_OVERLAY, value: 'tryItNowSignUp' });
+      return;
+    }
+    const newData = {
+      editName: false,
+      editEmail: false,
+      editPassword: false,
+      ...({ [type]: newValue }),
+    };
+    this.setState(newData);
+
   }
 
   renderImagePicker() {
@@ -159,14 +152,17 @@ class Profile extends Component {
 
     return (
       <ImagePicker onSelectImage={this.handleImageChange}>
-        <Flex align="center" justify="center" style={styles.imageSelect}>
-          <Image resizeMode="cover" source={image} style={styles.image} />
-        </Flex>
+        <ProfileRow
+          text="Change Photo"
+          right={<Image resizeMode="cover" source={image} style={styles.image} />}
+        />
       </ImagePicker>
     );
   }
 
   renderEditName() {
+    if (!this.state.editName) return null;
+    const { user } = this.props;
     return (
       <Flex direction="column" align="center" justify="center">
         <Flex>
@@ -176,7 +172,7 @@ class Profile extends Component {
           <Flex direction="column" value={2} style={styles.inputRow}>
             <TextInput
               ref={(c) => this.firstName = c}
-              value={this.state.firstName}
+              value={this.state.firstName || user.first_name || ''}
               onChangeText={(text) => this.setState({ firstName: text })}
               multiline={false}
               autoCapitalize="words"
@@ -192,7 +188,7 @@ class Profile extends Component {
             <TextInput
               ref={(c) => this.lastName = c}
               onChangeText={(text) => this.setState({ lastName: text })}
-              value={this.state.lastName}
+              value={this.state.lastName || user.last_name || ''}
               multiline={false}
               autoCapitalize="words"
               placeholder="Last Name"
@@ -219,6 +215,7 @@ class Profile extends Component {
   }
 
   renderEditEmail() {
+    if (!this.state.editEmail) return null;
     return (
       <Flex direction="column" align="center" justify="center">
         <Flex>
@@ -286,6 +283,7 @@ class Profile extends Component {
   }
 
   renderEditPassword() {
+    if (!this.state.editPassword) return null;
     return (
       <Flex direction="column" align="center" justify="center">
         <Flex>
@@ -353,8 +351,14 @@ class Profile extends Component {
   }
 
   render() {
-    const { editName, editEmail, editPassword } = this.state;
-    const { user } = this.props;
+    const { editName, editEmail, editPassword, hideAnonFields } = this.state;
+    let { user, isAnonUser } = this.props;
+    let name = null;
+    if (user.first_name || user.last_name) {
+      name = `${user.first_name || ''} ${user.last_name || ''}`;
+    }
+
+    const isEditing = editName || editEmail || editPassword;
 
     return (
       <View style={styles.container}>
@@ -364,102 +368,116 @@ class Profile extends Component {
           light={true}
           shadow={false}
         />
-        <Flex direction="column" style={styles.container}>
-          {
-            editName || editEmail || editPassword ? null : (
-              <Flex value={1} align="center" justify="center" style={styles.imageWrapper}>
-                {this.renderImagePicker()}
-              </Flex>
-            )
-          }
-          <Flex value={2} style={styles.infoWrapper}>
-            <ScrollView
-              ref={(c) => this.scrollView = c}
-              style={{flex: 2}}
-              keyboardShouldPersistTaps="handled"
-            >
-              {
-                editEmail || editPassword ? null : (
-                  <View>
-                    <Flex direction="row" align="center" justify="center" style={{padding: 2, paddingHorizontal: 20}}>
-                      <Flex direction="row" align="center" justify="start" value={1}>
-                        <Icon style={styles.inputIcon} name="person" size={20} />
-                        <Text style={styles.buttonText}>{`${user.first_name} ${user.last_name}`}</Text>
-                      </Flex>
-                      <Button
-                        isAndroidOpacity={true}
-                        text={editName ? 'cancel' : 'edit'}
-                        buttonTextStyle={styles.editText}
-                        icon={editName ? 'close' : 'edit'}
-                        iconStyle={styles.inputIcon}
-                        style={styles.inputButton}
-                        onPress={() => this.setState({ editName: !editName, editEmail: false, editPassword: false })}
-                      />
-                    </Flex>
-                    <Separator />
-                    {
-                      editName ? this.renderEditName() : null
-                    }
-                  </View>
-                )
-              }
-              {
-                editName || editPassword ? null : (
-                  <View>
-                    <Flex direction="row" align="center" justify="center" style={{padding: 2, paddingHorizontal: 20}}>
-                      <Flex direction="row" align="center" justify="start" value={1}>
-                        <Icon style={styles.inputIcon} name="mail-outline" size={20} />
-                        <Text style={styles.buttonText}>{user.email}</Text>
-                      </Flex>
-                      <Button
-                        isAndroidOpacity={true}
-                        text={editEmail ? 'cancel' : 'edit'}
-                        icon={editEmail ? 'close' : 'edit'}
-                        buttonTextStyle={styles.editText}
-                        iconStyle={styles.inputIcon}
-                        style={styles.inputButton}
-                        onPress={() => this.setState({ editEmail: !editEmail, editName: false, editPassword: false })}
-                      />
-                    </Flex>
-                    <Separator />
-                    {
-                      editEmail ? this.renderEditEmail() : null
-                    }
-                  </View>
-                )
-              }
-              {
-                editName || editEmail ? null : (
-                  <View>
-                    <Flex direction="row" align="center" justify="center" style={{padding: 2, paddingHorizontal: 20}}>
-                      <Flex direction="row" align="center" justify="start" value={1}>
-                        <Icon style={styles.inputIcon} name="security" size={20} />
-                        <Text style={styles.buttonText}>*********</Text>
-                      </Flex>
-                      <Button
-                        isAndroidOpacity={true}
-                        text={editPassword ? 'cancel' : 'edit'}
-                        icon={editPassword ? 'close' : 'edit'}
-                        buttonTextStyle={styles.editText}
-                        iconStyle={styles.inputIcon}
-                        style={styles.inputButton}
-                        onPress={() => this.setState({ editPassword: !editPassword, editName: false, editEmail: false })}
-                      />
-                    </Flex>
-                    <Separator />
-                    {
-                      editPassword ? this.renderEditPassword() : null
-                    }
-                  </View>
-                )
-              }
-            </ScrollView>
-          </Flex>
+        <Flex direction="column" style={styles.content}>
+          <ScrollView
+            ref={(c) => this.scrollView = c}
+            style={{flex: 2}}
+            keyboardShouldPersistTaps="handled"
+          >
+            <ProfileProgress />
+            <Separator />
+            {
+              isAnonUser || isEditing ? null : this.renderImagePicker()
+            }
+            {
+              isEditing && !editName ? null : (
+                <View>
+                  <ProfileRow
+                    text={name || 'Add your Name'}
+                    right={<Button
+                      isAndroidOpacity={true}
+                      text={editName ? 'Cancel' : (!name ? 'Add' : 'Edit')}
+                      buttonTextStyle={styles.editText}
+                      style={styles.inputButton}
+                      onPress={() => this.toggleEdit('editName')}
+                    />}
+                  />
+                  {this.renderEditName()}
+                </View>
+              )
+            }
+            {
+              isAnonUser || (isEditing && !editEmail) ? null : (
+                <View>
+                  <ProfileRow
+                    text={user.email || 'Add Email'}
+                    right={<Button
+                      isAndroidOpacity={true}
+                      text={editEmail ? 'Cancel' : (!user.email ? 'Add' : 'Edit')}
+                      buttonTextStyle={styles.editText}
+                      style={styles.inputButton}
+                      onPress={() => this.toggleEdit('editEmail')}
+                    />}
+                  />
+                  {this.renderEditEmail()}
+                </View>
+              )
+            }
+            {
+              isAnonUser || (isEditing && !editPassword) ? null : (
+                <View>
+                  <ProfileRow
+                    text={user.email ? '********' : 'Add Password'}
+                    right={<Button
+                      isAndroidOpacity={true}
+                      text={editPassword ? 'Cancel' : (!user.email ? 'Add' : 'Edit')}
+                      buttonTextStyle={styles.editText}
+                      style={styles.inputButton}
+                      onPress={() => this.toggleEdit('editPassword')}
+                    />}
+                  />
+                  {this.renderEditPassword()}
+                </View>
+              )
+            }
+            {
+              isAnonUser || isEditing ? null : (
+                <ProfileRow
+                  text={user.mobile ? 'Mobile Verified' : 'Verify Mobile Number'}
+                  right={<Button
+                    isAndroidOpacity={true}
+                    text={user.mobile ? '' : 'Add'}
+                    buttonTextStyle={styles.editText}
+                    style={styles.inputButton}
+                    onPress={() => user.mobile ? undefined : this.props.navigatePush('voke.SignUpNumber')}
+                  />}
+                />
+              )
+            }
+            {
+              isAnonUser && !hideAnonFields ? (
+                <Flex value={1} align="center" style={{ paddingHorizontal: 50, marginTop: 100 }}>
+                  <Text style={styles.signUpText}>
+                    Sign up to save your progress and access your account from anywhere.
+                  </Text>
+                  <SignUpButtons filled={true} />
+                </Flex>
+              ) : null
+            }
+          </ScrollView>
         </Flex>
         <ApiLoading />
+        <VokeOverlays type="tryItNowSignUp" onClose={() => this.setState({ hideAnonFields: false })} />
       </View>
     );
   }
+}
+
+
+function ProfileRow({ text, left, right }) {
+  return (
+    <Flex direction="column">
+      <Flex direction="row" align="center">
+        <Flex value={3}>
+          {left ? left : (
+            <Text style={styles.changeTitle}>{text}</Text>
+          )}
+        </Flex>
+        <Flex value={1} align="center">{right}</Flex>
+      </Flex>
+      <Separator />
+    </Flex>
+  );
 }
 
 
@@ -470,6 +488,7 @@ Profile.propTypes = {
 
 const mapStateToProps = ({ auth }) => ({
   user: auth.user,
+  isAnonUser: auth.isAnonUser,
 });
 
 export default connect(mapStateToProps, nav)(Profile);
