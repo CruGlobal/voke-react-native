@@ -83,7 +83,7 @@ class VideoList extends Component {
               isAndroidOpacity={true}
               onPress={() => this.props.handleShareVideo(video)}
               activeOpacity={0.6}
-              style={[styles.shareCircleButton]}>
+              style={styles.shareCircleButton}>
               <Image
                 resizeMode="cover"
                 source={TO_CHAT}

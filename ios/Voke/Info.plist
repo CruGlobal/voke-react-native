@@ -71,14 +71,26 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>We need permissions in order to make Voke better</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Some description</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>We need permissions in order to make Voke better</string>
 	<key>NSCameraUsageDescription</key>
 	<string>We need access to your camera to allow you to take a photo to set as your profile picture</string>
 	<key>NSContactsUsageDescription</key>
 	<string>We need access to your contacts to find out who is on Voke.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>We need permissions in order to make Voke better</string>
+	<key>NSMotionUsageDescription</key>
+	<string>We need permissions in order to make Voke better</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>We need permissions in order to make Voke better</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photos to allow you to select one for your profile picture</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>We need permissions in order to make Voke better</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>

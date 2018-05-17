@@ -15,6 +15,7 @@ export default StyleSheet.create({
   videoDetails: {
     height: 100,
     padding: 10,
+    width: '100%',
   },
   thumbnailWrap: {
     height: THUMBNAIL_HEIGHT,
