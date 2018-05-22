@@ -11,6 +11,7 @@ import Videos from './containers/Videos';
 import Menu from './containers/Menu';
 import About from './containers/About';
 import Profile from './containers/Profile';
+import Adventures from './containers/Adventures';
 import Acknowledgements from './containers/Acknowledgements';
 import Message from './containers/Message';
 import VideoDetails from './containers/VideoDetails';
@@ -92,6 +93,13 @@ export const MainTabRoutes = TabNavigator({
     screen: Channels,
     navigationOptions: {
       tabBarLabel: 'Channels',
+      tabBarIcon: navIcon(CHANNELS_ICON, CHANNELS_ICON_INACTIVE),
+    },
+  },
+  'voke.Adventures': {
+    screen: Adventures,
+    navigationOptions: {
+      tabBarLabel: 'Adventure',
       tabBarIcon: navIcon(CHANNELS_ICON, CHANNELS_ICON_INACTIVE),
     },
   },
