@@ -42,11 +42,11 @@
 		AE0A75851F4271FE000A51EA /* TitilliumWeb-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE0A75841F4271FE000A51EA /* TitilliumWeb-Regular.ttf */; };
 		AE0A75871F42720D000A51EA /* TitilliumWeb-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE0A75861F42720D000A51EA /* TitilliumWeb-SemiBold.ttf */; };
 		AE0A75891F427225000A51EA /* TitilliumWeb-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE0A75881F427225000A51EA /* TitilliumWeb-Bold.ttf */; };
+		AE57875D20B5D85A0004A3EA /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE57875C20B5D85A0004A3EA /* Bolts.framework */; };
+		AE57875F20B5D86B0004A3EA /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE57875E20B5D86B0004A3EA /* FBSDKCoreKit.framework */; };
+		AE57876120B5D87A0004A3EA /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE57876020B5D8790004A3EA /* FBSDKLoginKit.framework */; };
+		AE57876320B5D88B0004A3EA /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE57876220B5D88B0004A3EA /* FBSDKShareKit.framework */; };
 		AE5BE0301F607ACC0091810F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE5BE02F1F607ACC0091810F /* LaunchScreen.xib */; };
-		AE5BE0321F6098CC0091810F /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE0311F6098CC0091810F /* Bolts.framework */; };
-		AE5BE0341F6098E20091810F /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE0331F6098E20091810F /* FBSDKCoreKit.framework */; };
-		AE5BE0361F6098F20091810F /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE0351F6098F20091810F /* FBSDKLoginKit.framework */; };
-		AE5BE0381F6099030091810F /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE0371F6099030091810F /* FBSDKShareKit.framework */; };
 		AE5BE03F1F609C860091810F /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE03E1F609C760091810F /* libRCTFBSDK.a */; };
 		AE5BE0C51F631E2F0091810F /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE0C31F631E2F0091810F /* Fabric.framework */; };
 		AE5BE0C61F631E2F0091810F /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE0C41F631E2F0091810F /* Crashlytics.framework */; };
@@ -477,11 +477,11 @@
 		AE0A75841F4271FE000A51EA /* TitilliumWeb-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-Regular.ttf"; sourceTree = "<group>"; };
 		AE0A75861F42720D000A51EA /* TitilliumWeb-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-SemiBold.ttf"; sourceTree = "<group>"; };
 		AE0A75881F427225000A51EA /* TitilliumWeb-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-Bold.ttf"; sourceTree = "<group>"; };
+		AE57875C20B5D85A0004A3EA /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		AE57875E20B5D86B0004A3EA /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		AE57876020B5D8790004A3EA /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		AE57876220B5D88B0004A3EA /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		AE5BE02F1F607ACC0091810F /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
-		AE5BE0311F6098CC0091810F /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
-		AE5BE0331F6098E20091810F /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
-		AE5BE0351F6098F20091810F /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
-		AE5BE0371F6099030091810F /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		AE5BE0391F609C760091810F /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
 		AE5BE0C31F631E2F0091810F /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		AE5BE0C41F631E2F0091810F /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
@@ -506,27 +506,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE57876120B5D87A0004A3EA /* FBSDKLoginKit.framework in Frameworks */,
 				AED242D41FD2F9E8007B9735 /* libRCTPushNotification.a in Frameworks */,
+				AE57876320B5D88B0004A3EA /* FBSDKShareKit.framework in Frameworks */,
 				AE5BE03F1F609C860091810F /* libRCTFBSDK.a in Frameworks */,
-				AE5BE0321F6098CC0091810F /* Bolts.framework in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				AE5BE0C51F631E2F0091810F /* Fabric.framework in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
-				AE5BE0341F6098E20091810F /* FBSDKCoreKit.framework in Frameworks */,
-				AE5BE0381F6099030091810F /* FBSDKShareKit.framework in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				AE5BE0C61F631E2F0091810F /* Crashlytics.framework in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
-				AE5BE0361F6098F20091810F /* FBSDKLoginKit.framework in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				3927A5D9B7514E6B87EF2F6E /* libRNVectorIcons.a in Frameworks */,
 				8A4A9F91FD9C47A8B9407344 /* libRNImagePicker.a in Frameworks */,
+				AE57875F20B5D86B0004A3EA /* FBSDKCoreKit.framework in Frameworks */,
 				11AAD279280845E596639622 /* libRCTContacts.a in Frameworks */,
 				7F7ED823D55D4CFFBF61C066 /* libRNSpinkit.a in Frameworks */,
 				940EDA746F8C400E9F79B6E4 /* libRNDeviceInfo.a in Frameworks */,
@@ -536,6 +535,7 @@
 				5BDA90CD79294B6BB36DBAE5 /* SystemConfiguration.framework in Frameworks */,
 				849CD30D8A1D426D83613700 /* libz.tbd in Frameworks */,
 				4B5AAA5F6EA446F39E8038D8 /* libsqlite3.0.tbd in Frameworks */,
+				AE57875D20B5D85A0004A3EA /* Bolts.framework in Frameworks */,
 				282A8DA3CDCB4F5F8AD4CAD2 /* libRNFetchBlob.a in Frameworks */,
 				E9F73E50F45840238843F002 /* libRCTOrientation.a in Frameworks */,
 				C261E0A521EE42BAB748FA9B /* libSendSMS.a in Frameworks */,
@@ -814,12 +814,12 @@
 		AE7B6DC71F59EA49008BC5B1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AE57876220B5D88B0004A3EA /* FBSDKShareKit.framework */,
+				AE57876020B5D8790004A3EA /* FBSDKLoginKit.framework */,
+				AE57875E20B5D86B0004A3EA /* FBSDKCoreKit.framework */,
+				AE57875C20B5D85A0004A3EA /* Bolts.framework */,
 				AE5BE0C41F631E2F0091810F /* Crashlytics.framework */,
 				AE5BE0C31F631E2F0091810F /* Fabric.framework */,
-				AE5BE0371F6099030091810F /* FBSDKShareKit.framework */,
-				AE5BE0351F6098F20091810F /* FBSDKLoginKit.framework */,
-				AE5BE0331F6098E20091810F /* FBSDKCoreKit.framework */,
-				AE5BE0311F6098CC0091810F /* Bolts.framework */,
 				4F97EC54334546D98D0CBFA9 /* CoreData.framework */,
 				487905E7103B48ACB1D4E229 /* SystemConfiguration.framework */,
 				957BC217E8634B51A0E9C60C /* libz.tbd */,
