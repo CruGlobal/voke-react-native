@@ -283,8 +283,22 @@ export default {
     method: 'get',
     showApiLoading: false,
   },
+  'GET_ADVENTURE': {
+    endpoint: API_URL + 'adventures/:adventure_id',
+    method: 'get',
+    showApiLoading: false,
+  },
+  'GET_CHALLENGES': {
+    endpoint: API_URL + 'adventures/:adventure_id/challenges',
+    method: 'get',
+    showApiLoading: false,
+  },
   'ORGANIZATION_SUBSCRIBE': {
     endpoint: API_URL + 'organizations/:orgId/subscriptions',
+    method: 'post',
+  },
+  'COMPLETE_CHALLENGE': {
+    endpoint: API_URL + 'adventures/:adventure_id/challenges/:challenge_id/complete',
     method: 'post',
   },
   'ORGANIZATION_UNSUBSCRIBE': {

@@ -7,6 +7,7 @@ import messages from './messages';
 import channels from './channels';
 import nav from './nav';
 import overlays from './overlays';
+import adventures from './adventures';
 
 export default combineReducers({
   auth,
@@ -16,4 +17,5 @@ export default combineReducers({
   channels,
   nav,
   overlays,
+  adventures,
 });

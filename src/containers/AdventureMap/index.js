@@ -47,65 +47,40 @@ class AdventureMap extends Component {
     }
   }
 
+  renderChallenges() {
+    const { challenges } = this.props;
+    return (
+      challenges.map((i)=> (
+        <AdventureMarker
+          width={this.state.width}
+          height={this.state.height}
+          onPress={() => LOG('center')}
+          x={i.point_x}
+          y={i.point_y}
+        />
+      ))
+    );
+  }
+
   render() {
     const { width, height } = this.state;
+    const { challenges } = this.props;
     return (
       <Flex style={styles.wrap}>
-        <Image 
-          source={IMAGE}
+        <Image
+          source={{ uri: `${this.props.backgroundImage}` }}
           style={{
             // Once the image loads and we get the width and height, adjust it to center
             marginLeft: !width ? undefined : -((width - theme.fullWidth) / 2),
+            height: theme.fullHeight * 1.5,
           }}
           resizeMode="cover"
           onLayout={this.handleLayout}
         />
         <Flex style={styles.overlay}>
-          <AdventureMarker
-            width={width}
-            height={height}
-            onPress={() => LOG('center')}
-          />
-          <AdventureMarker
-            width={width}
-            height={height}
-            x={125}
-            y={-150}
-            size={75}
-            onPress={() => this.scrollTo(-150)}
-          />
-          <AdventureMarker
-            width={width}
-            height={height}
-            x={-125}
-            y={150}
-            size={75}
-            onPress={() => this.scrollTo(150)}
-          />
-          <AdventureMarker
-            width={width}
-            height={height}
-            x={-125}
-            y={-150}
-            size={75}
-            onPress={() => this.scrollTo(-150)}
-          />
-          <AdventureMarker
-            width={width}
-            height={height}
-            x={125}
-            y={150}
-            size={75}
-            onPress={() => this.scrollTo(150)}
-          />
-          <AdventureMarker
-            width={width}
-            height={height}
-            x={0}
-            y={250}
-            size={75}
-            onPress={() => this.scrollTo(250)}
-          />
+          {
+            challenges && challenges.length > 0 ? this.renderChallenges() : null
+          }
         </Flex>
         {
           width === null ? (
@@ -126,8 +101,10 @@ AdventureMap.propTypes = {
 
 };
 
-const mapStateToProps = ({ auth }) => ({
+const mapStateToProps = ({ auth, adventures }) => ({
   user: auth.user,
+  backgroundImage: adventures.backgroundImage,
+  challenges: adventures.challenges,
 });
 
 export default connect(mapStateToProps)(AdventureMap);
