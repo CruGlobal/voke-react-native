@@ -9,8 +9,8 @@ import AdventureMarker from '../AdventureMarker';
 import styles from './styles';
 import ANIMATION from '../../../images/VokeBotAnimation.gif';
 
-const IMAGE_HEIGHT = 2148;
-const IMAGE_WIDTH = 750;
+const IMAGE_HEIGHT = 1480;
+const IMAGE_WIDTH = 517;
 
 class AdventureMap extends Component {
 

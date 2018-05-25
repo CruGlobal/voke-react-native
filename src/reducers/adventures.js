@@ -20,7 +20,7 @@ export default function adventures(state = initialState, action) {
     case REQUESTS.GET_ADVENTURE.SUCCESS:
       return {
         ...state,
-        backgroundImageUrl: action.image.large,
+        backgroundImageUrl: action.image.medium,
       };
     case REQUESTS.GET_CHALLENGES.SUCCESS:
       return {

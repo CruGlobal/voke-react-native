@@ -55,10 +55,7 @@ class Adventures extends Component {
         />
         <ScrollView
           ref={(c) => this.scrollView = c}
-          refreshControl={<RefreshControl
-            refreshing={this.state.refreshing}
-            onRefresh={this.handleRefresh}
-          />}
+          bounces={false}
         >
           <AdventureMap scrollTo={this.scrollTo} />
         </ScrollView>
