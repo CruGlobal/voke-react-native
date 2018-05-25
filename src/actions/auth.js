@@ -7,6 +7,7 @@ import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, UPDATE_TOKENS, NO_BACKGROUND_A
 import callApi, { REQUESTS } from './api';
 import { establishDevice, establishCableDevice, closeSocketAction, destroyDevice, getDevices, checkAndRunSockets, verifyPushNotifications } from './socket';
 import { getConversations, getMessages, createMessageInteraction } from './messages';
+import { getAllOrganizations, getFeaturedOrganizations, getMyOrganizations } from './channels';
 import { getAdventure } from './adventures';
 import { API_URL } from '../api/utils';
 import { isArray } from '../utils/common';
@@ -122,13 +123,13 @@ function appStateChange(dispatch, getState, nextAppState) {
         dispatch(getConversations());
       }
     }
-    // // Put the ACTIVE actions in a short timeout so they don't run when the app switches quickly
-    // const now = Date.now();
-    // // const BACKGROUND_REFRESH_TIME = 5 * 60 * 1000; // 5 minutes
-    // const BACKGROUND_REFRESH_TIME = 3 * 1000; // 3 seconds
-    // if (now - appCloseTime > BACKGROUND_REFRESH_TIME) {
-    //   dispatch(getConversations());
-    // }
+    const now = Date.now();
+    const BACKGROUND_REFRESH_TIME = 1000 * 3600 * 24; // 24 hours
+    if (now - appCloseTime > BACKGROUND_REFRESH_TIME) {
+      dispatch(getAllOrganizations());
+      dispatch(getMyOrganizations());
+      dispatch(getFeaturedOrganizations());
+    }
     // const currentConvId = getState().messages.activeConversationId;
     // if (currentConvId) {
     //   dispatch(getMessages(currentConvId));
