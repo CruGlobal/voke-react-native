@@ -195,6 +195,7 @@ class Home extends Component {
               onBlock={this.handleBlock}
               hasMore={pagination.hasMore}
               onLoadMore={this.handleLoadMore}
+              isLoading={this.state.loadingMore}
               onSelect={(c) => this.props.navigatePush('voke.Message', {conversation: c})}
               refreshing={this.state.refreshing}
             />

@@ -74,7 +74,7 @@ class ConversationList extends Component {
 
   renderLoadMore = () => {
     if (this.props.hasMore) {
-      return <LoadMore onLoad={this.props.onLoadMore} />;
+      return <LoadMore isLoading={this.props.isLoading} onLoad={this.props.onLoadMore} />;
     }
     return null;
   }

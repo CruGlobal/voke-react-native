@@ -14,6 +14,9 @@ export default StyleSheet.create({
     paddingBottom: 25,
     paddingTop: 10,
   },
+  shareWith: {
+    height: 200,
+  },
   inputBox: {
     marginTop: 8,
     padding: 10,
@@ -52,6 +55,20 @@ export default StyleSheet.create({
     position: 'absolute',
     left: 0,
     top: 150,
+  },
+  shareImage: {
+    position: 'absolute',
+    right: -40,
+    top: 100,
+  },
+  shareBubble: {
+    borderRadius: 5,
+    backgroundColor: theme.white,
+    padding: 25,
+    position: 'absolute',
+    right: 50,
+    top: 30,
+    width: theme.fullWidth - 90,
   },
   chatBubble: {
     borderRadius: 5,

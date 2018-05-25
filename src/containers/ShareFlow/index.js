@@ -44,7 +44,7 @@ class ShareFlow extends Component {
               first_name: name,
             },
           ],
-          item_id: `${this.props.videoId}`,
+          item_id: `${this.props.video.id}`,
         },
       };
 
@@ -123,7 +123,7 @@ class ShareFlow extends Component {
   openAddrBook = () => {
     Keyboard.dismiss();
     this.props.navigatePush('voke.SelectFriend', {
-      video: this.props.videoId,
+      video: this.props.video.id,
     });
   }
 
@@ -146,7 +146,14 @@ class ShareFlow extends Component {
       <View style={styles.container} >
         <KeyboardAvoidingView behavior="position">
           <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()} style={{ paddingTop: 50 }}>
-            <Image resizeMode="contain" source={VOKE_SHARE} style={styles.imageLogo} />
+            <Flex style={styles.shareWith}>
+              <Image resizeMode="contain" source={VOKE_LINK} style={styles.shareImage} />
+              <Flex style={styles.shareBubble}>
+                <Text style={styles.chatText}>
+                  Who do you want to share {this.props.video.name} with? {this.props.isFirstTime ? '- (they don\'t need to have Voke)' : null}
+                </Text>
+              </Flex>
+            </Flex>
             <Flex justify="center" align="center" style={styles.actions}>
               <SignUpInput
                 value={this.state.name}
@@ -197,10 +204,11 @@ class ShareFlow extends Component {
 
 ShareFlow.propTypes = {
   ...NavPropTypes,
-  videoId: PropTypes.string.isRequired,
+  video: PropTypes.object.isRequired,
 };
-const mapStateToProps = (state, { navigation }) => ({
+const mapStateToProps = ({ messages }, { navigation }) => ({
   ...(navigation.state.params || {}),
+  isFirstTime: messages.conversations.length < 2,
 });
 
 export default connect(mapStateToProps, nav)(ShareFlow);

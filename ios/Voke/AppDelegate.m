@@ -8,6 +8,7 @@
 
 
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <AVFoundation/AVFoundation.h>
 
 #import <React/RCTRootView.h>
 
@@ -38,6 +39,11 @@
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
 
+  
+  AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+  NSError *setCategoryError = nil;
+  [audioSession setCategory:AVAudioSessionCategoryPlayback
+                      error:&setCategoryError];
   
   return YES;
 }
