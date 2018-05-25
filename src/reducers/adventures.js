@@ -4,14 +4,14 @@ import { LOGOUT, SET_USER } from '../constants';
 
 const initialState = {
   adventureId: '',
-  backgroundImage: '',
+  backgroundImageUrl: '',
   challenges: [],
 };
 
 export default function adventures(state = initialState, action) {
   switch (action.type) {
     case REHYDRATE:
-      const incoming = action.payload.channels;
+      const incoming = action.payload.adventures;
       if (!incoming) return state;
       return {
         ...state,
@@ -20,7 +20,7 @@ export default function adventures(state = initialState, action) {
     case REQUESTS.GET_ADVENTURE.SUCCESS:
       return {
         ...state,
-        backgroundImage: action.image.large,
+        backgroundImageUrl: action.image.large,
       };
     case REQUESTS.GET_CHALLENGES.SUCCESS:
       return {

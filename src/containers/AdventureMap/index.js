@@ -3,18 +3,22 @@ import { Image } from 'react-native';
 import { connect } from 'react-redux';
 
 import { Flex, Text } from '../../components/common';
+import { getMe } from '../../actions/auth';
 import theme from '../../theme';
-import IMAGE from '../../../images/onboarding-image-1.png';
 import AdventureMarker from '../AdventureMarker';
 import styles from './styles';
 import ANIMATION from '../../../images/VokeBotAnimation.gif';
 
+const IMAGE_HEIGHT = 2148;
+const IMAGE_WIDTH = 750;
+
 class AdventureMap extends Component {
 
-  state = {
-    width: null,
-    height: null,
-  };
+  componentDidMount() {
+    if (this.props.challenges.length < 1 || !this.props.backgroundImage) {
+      this.props.dispatch(getMe());
+    }
+  }
 
   scrollTo = (y) => {
     const headerHeight = theme.isAndroid ? 56 : theme.isIphoneX ? 90 : 65;
@@ -34,26 +38,14 @@ class AdventureMap extends Component {
     this.props.scrollTo(actualY);
   }
 
-  handleLayout = ({ nativeEvent }) => {
-    if (!this.state.width || this.state.width !== nativeEvent.layout.width) {
-      this.setState({
-        width: nativeEvent.layout.width,
-        height: nativeEvent.layout.height,
-      });
-      // setTimeout(() => this.scrollTo(350), 3000);
-      // setTimeout(() => this.scrollTo(250), 6000);
-      // setTimeout(() => this.scrollTo(-100), 7500);
-      // setTimeout(() => this.scrollTo(450), 9000);
-    }
-  }
-
   renderChallenges() {
     const { challenges } = this.props;
     return (
       challenges.map((i)=> (
         <AdventureMarker
-          width={this.state.width}
-          height={this.state.height}
+          key={i.id}
+          width={theme.fullWidth}
+          height={IMAGE_HEIGHT}
           onPress={() => LOG('center')}
           x={i.point_x}
           y={i.point_y}
@@ -63,27 +55,30 @@ class AdventureMap extends Component {
   }
 
   render() {
-    const { width, height } = this.state;
     const { challenges } = this.props;
     return (
       <Flex style={styles.wrap}>
-        <Image
-          source={{ uri: `${this.props.backgroundImage}` }}
-          style={{
-            // Once the image loads and we get the width and height, adjust it to center
-            marginLeft: !width ? undefined : -((width - theme.fullWidth) / 2),
-            height: theme.fullHeight * 1.5,
-          }}
-          resizeMode="cover"
-          onLayout={this.handleLayout}
-        />
+        {
+          this.props.backgroundImage ? (
+            <Image
+              source={{ uri: `${this.props.backgroundImage}` }}
+              style={{
+                // Once the image loads and we get the width and height, adjust it to center
+                marginLeft: -((IMAGE_WIDTH - theme.fullWidth) / 2),
+                height: IMAGE_HEIGHT,
+                width: IMAGE_WIDTH,
+              }}
+              resizeMode="cover"
+            />
+          ) : null
+        }
         <Flex style={styles.overlay}>
           {
             challenges && challenges.length > 0 ? this.renderChallenges() : null
           }
         </Flex>
         {
-          width === null ? (
+          !this.props.backgroundImage ? (
             <Flex align="center" style={styles.loadingOverlay}>
               <Image resizeMode="contain" source={ANIMATION} />
               <Text style={styles.loadingText}>
@@ -103,7 +98,7 @@ AdventureMap.propTypes = {
 
 const mapStateToProps = ({ auth, adventures }) => ({
   user: auth.user,
-  backgroundImage: adventures.backgroundImage,
+  backgroundImage: adventures.backgroundImageUrl,
   challenges: adventures.challenges,
 });
 

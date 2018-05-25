@@ -87,9 +87,7 @@ class ShareFlow extends Component {
     this.setState({ showOverlay: true });
     // Android uses message, not url
     Share.share({
-      message: theme.isAndroid ? this.state.conversationUrl : '',
-      title: '',
-      url: this.state.conversationUrl,
+      message: this.state.conversationUrl,
       tintColor: '#fff',
       excludedActivityTypes: [
         'com.apple.UIKit.activity.AirDrop',

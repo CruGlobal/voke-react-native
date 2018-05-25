@@ -327,7 +327,6 @@ export function facebookLoginAction(accessToken) {
 export function getMe() {
   return (dispatch) => {
     return dispatch(callApi(REQUESTS.GET_ME)).then((results) => {
-      LOG('IN GET ME _________________________', results);
       dispatch(setUserAction(results));
       dispatch(getAdventure(results.main_adventure_id));
       return results;
