@@ -62,6 +62,8 @@ import VIDEOS_ICON from '../images/video_icon.png';
 import CHANNELS_ICON from '../images/channelsIcon.png';
 import VIDEOS_ICON_INACTIVE from '../images/videosInactive.png';
 import CHANNELS_ICON_INACTIVE from '../images/channelsInactive.png';
+import ADVENTURE_ICON from '../images/adventureIcon.png';
+import ADVENTURE_ICON_INACTIVE from '../images/adventureInactive.png';
 
 const ICON_SIZE = theme.isAndroid ? 25 : 26;
 const navIcon = (active, inactive) => ({tintColor}) => (
@@ -100,7 +102,7 @@ export const MainTabRoutes = TabNavigator({
     screen: Adventures,
     navigationOptions: {
       tabBarLabel: 'Adventure',
-      tabBarIcon: navIcon(CHANNELS_ICON, CHANNELS_ICON_INACTIVE),
+      tabBarIcon: navIcon(ADVENTURE_ICON, ADVENTURE_ICON_INACTIVE),
     },
   },
 }, {
