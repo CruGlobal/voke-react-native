@@ -15,8 +15,28 @@ const IMAGE_WIDTH = 517;
 class AdventureMap extends Component {
 
   componentDidMount() {
-    if (this.props.challenges.length < 1 || !this.props.backgroundImage) {
-      this.props.dispatch(getMe());
+    const { challenges } = this.props;
+    this.load();
+    if (challenges.length > 0) {
+      setTimeout(() => this.challengesLoaded(challenges), 2000);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.challenges.length > this.props.challenges.length) {
+      this.challengesLoaded(nextProps.challenges);
+    }
+  }
+
+  load() {
+    this.props.dispatch(getMe());
+  }
+
+  challengesLoaded(challenges) {
+    const challenge = challenges.find((c) => c.isActive);
+    LOG('challenge', challenge);
+    if (challenge) {
+      this.scrollTo(challenge.point_y);
     }
   }
 
@@ -26,15 +46,14 @@ class AdventureMap extends Component {
     // Get the visible screen area
     const screenHeight = theme.fullHeight - (headerHeight + tabHeight);
     // This is the furthest down you can scroll
-    const maxBottomScroll = this.state.height - screenHeight;
+    const maxBottomScroll = IMAGE_HEIGHT - screenHeight;
 
     const padding = 150; // Padding below scroll point
-    let actualY = (this.state.height / 2 + y) - screenHeight + padding;
+    let actualY = (IMAGE_HEIGHT / 2 + y) - screenHeight + padding;
 
 
     if (actualY < 0) actualY = 0;
     else if (actualY > maxBottomScroll) actualY = maxBottomScroll;
-    LOG('actualY', actualY);
     this.props.scrollTo(actualY);
   }
 
@@ -56,6 +75,7 @@ class AdventureMap extends Component {
 
   render() {
     const { challenges } = this.props;
+    LOG('challenges', challenges);
     return (
       <Flex style={styles.wrap}>
         {

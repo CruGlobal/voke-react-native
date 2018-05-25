@@ -131,3 +131,24 @@ function formatConversation(c, getState) {
 
   return c;
 }
+
+
+export function mapChallenges(results) {
+  let required = results.challenges.filter((c) => c['required?']);
+  let notRequired = results.challenges.filter((c) => !c['required?']);
+  required.sort((a, b) => a.position > b.position ? 1 : -1);
+  required = required.map((c, index) => {
+    // TODO: Get this working
+    if (required[index - 1]) {
+      if (required[index - 1]['completed?'] && !c['completed?']) {
+        c.isActive = true;
+      }
+    } else if (c.position === 1 && !c['completed?']) {
+      c.isActive = true;
+    }
+    return c;
+  });
+  return {
+    challenges: required.concat(notRequired),
+  };
+}

@@ -1,5 +1,5 @@
 import { API_URL, AUTH_URL } from './utils';
-import { mapMessages, mapConversations, mapConversation } from './mapping';
+import { mapMessages, mapConversations, mapConversation, mapChallenges } from './mapping';
 import CONSTANTS from '../constants';
 // Import mapping functions or w/e
 
@@ -291,6 +291,7 @@ export default {
   'GET_CHALLENGES': {
     endpoint: API_URL + 'adventures/:adventure_id/challenges',
     method: 'get',
+    mapResults: mapChallenges,
     showApiLoading: false,
   },
   'ORGANIZATION_SUBSCRIBE': {
