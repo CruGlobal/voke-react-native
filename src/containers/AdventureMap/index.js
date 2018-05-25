@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Flex, Text } from '../../components/common';
 import { getMe } from '../../actions/auth';
 import theme from '../../theme';
-import AdventureMarker from '../AdventureMarker';
+import AdventureMarker from '../../components/AdventureMarker';
 import styles from './styles';
 import ANIMATION from '../../../images/VokeBotAnimation.gif';
 
@@ -18,7 +18,7 @@ class AdventureMap extends Component {
     const { challenges } = this.props;
     this.load();
     if (challenges.length > 0) {
-      setTimeout(() => this.challengesLoaded(challenges), 2000);
+      setTimeout(() => this.challengesLoaded(challenges), 500);
     }
   }
 
@@ -38,6 +38,11 @@ class AdventureMap extends Component {
     if (challenge) {
       this.scrollTo(challenge.point_y);
     }
+  }
+
+  handleChallengeModal = (c) => {
+    // TODO set up modal
+    LOG(c);
   }
 
   scrollTo = (y) => {
@@ -65,9 +70,8 @@ class AdventureMap extends Component {
           key={i.id}
           width={theme.fullWidth}
           height={IMAGE_HEIGHT}
-          onPress={() => LOG('center')}
-          x={i.point_x}
-          y={i.point_y}
+          onPress={() => this.handleChallengeModal(i)}
+          challenge={i}
         />
       ))
     );
