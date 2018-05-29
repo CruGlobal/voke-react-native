@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import Analytics from '../../utils/analytics';
 import styles from './styles';
-import theme from '../../theme.js';
+import theme from '../../theme';
 import { Flex, Text, Button } from '../../components/common';
 
 class AndroidReportModal extends Component {

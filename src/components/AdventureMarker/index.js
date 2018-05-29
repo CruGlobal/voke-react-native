@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Touchable, VokeIcon, Text } from '../../components/common';
+import { Touchable, VokeIcon, Text, Flex } from '../../components/common';
 
 // Coordinate helpers
 const vCenter = (height, size) => height / 2 - size / 2;
@@ -16,17 +16,17 @@ class AdventureMarker extends Component {
   getIcon = (c) => {
     if (c['required?']) {
       if (c['completed?']) {
-        return ('marker-completed');
+        return 'marker-completed';
       } else if (c.isActive) {
-        return ('marker-active');
+        return 'marker-active';
       } else {
-        return ('marker-inactive');
+        return 'marker-inactive';
       }
     } else {
       if (c['completed?']) {
-        return ('optional-completed');
+        return 'optional-completed';
       } else {
-        return ('optional-active');
+        return 'optional-active';
       }
     }
   }
@@ -35,27 +35,30 @@ class AdventureMarker extends Component {
     const { onPress, width, height, challenge } = this.props;
 
     return (
-      <Touchable
-        isAndroidOpacity={true}
-        onPress={onPress}
-        style={[
+      <Touchable onPress={onPress}>
+        <Flex style={{
+          position: 'absolute',
+          width: 100,
+          height: 100,
+          alignItems: 'center',
+          justifyContent: 'center',
+          ...coord(width, height, challenge.point_x, challenge.point_y, 100),
+        }}>
+          <VokeIcon name={this.getIcon(challenge)} />
           {
-            alignItems: 'center',
-            justifyContent: 'center',
-          },
-          {
-            position: 'absolute',
-            width: 50,
-            height: 50,
-            ...coord(width, height, challenge.point_x, challenge.point_y, 50),
-          },
-        ]}>
-        <VokeIcon name={this.getIcon(challenge)} />
-        {
-          challenge['required?'] && !challenge['completed?'] ? (
-            <Text style={{position: 'absolute', top: -2, left: 20, right: 0, fontSize: 15, opacity: challenge.isActive ? 1 : 0.5}}>{challenge.position}</Text>
-          ) : null
-        }
+            challenge['required?'] && !challenge['completed?'] ? (
+              <Text style={{
+                position: 'absolute',
+                top: 22,
+                fontSize: 15,
+                textAlign: 'center',
+                opacity: challenge.isActive ? 1 : 0.5,
+              }}>
+                {challenge.position}
+              </Text>
+            ) : null
+          }
+        </Flex>
       </Touchable>
     );
   }

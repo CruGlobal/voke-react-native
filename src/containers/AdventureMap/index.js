@@ -24,7 +24,7 @@ class AdventureMap extends Component {
     const { challenges } = this.props;
     this.load();
     if (challenges.length > 0) {
-      setTimeout(() => this.challengesLoaded(challenges), 500);
+      setTimeout(() => this.challengesLoaded(challenges), 100);
     }
   }
 
@@ -40,7 +40,6 @@ class AdventureMap extends Component {
 
   challengesLoaded(challenges) {
     const challenge = challenges.find((c) => c.isActive);
-    LOG('challenge', challenge);
     if (challenge) {
       this.scrollTo(challenge.point_y);
     }
@@ -48,6 +47,10 @@ class AdventureMap extends Component {
 
   handleChallengeModal = (c) => {
     this.setState({ activeChallenge: c, modalVisible: true });
+  }
+
+  closeModal = () => {
+    this.setState({ modalVisible: false });
   }
 
   scrollTo = (y) => {
@@ -117,10 +120,17 @@ class AdventureMap extends Component {
           ) : null
         }
 
-        <Modal transparent={true} visible={this.state.modalVisible} >
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={this.closeModal}>
           {
             this.state.activeChallenge ? (
-              <ChallengeModal adventureId={this.props.adventureId} onDismiss={() => this.setState({ modalVisible: false })} challenge={this.state.activeChallenge} />
+              <ChallengeModal
+                adventureId={this.props.adventureId}
+                onDismiss={this.closeModal}
+                challenge={this.state.activeChallenge} />
             ) : null
           }
         </Modal>

@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { TextInput } from 'react-native';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import Analytics from '../../utils/analytics';
 import { completeChallenge } from '../../actions/adventures';
 import styles from './styles';
-import theme from '../../theme.js';
 import { Flex, Text, Button, VokeIcon } from '../../components/common';
 import CloseButton from '../../components/CloseButton';
 
@@ -18,17 +17,17 @@ class ChallengeModal extends Component {
   getIcon = (c) => {
     if (c['required?']) {
       if (c['completed?']) {
-        return ('marker-completed');
+        return 'marker-completed';
       } else if (c.isActive) {
-        return ('marker-active');
+        return 'marker-active';
       } else {
-        return ('marker-inactive');
+        return 'marker-inactive';
       }
     } else {
       if (c['completed?']) {
-        return ('optional-completed');
+        return 'optional-completed';
       } else {
-        return ('optional-active');
+        return 'optional-active';
       }
     }
   }
@@ -77,4 +76,4 @@ ChallengeModal.propTypes = {
   adventureId: PropTypes.string.isRequired,
 };
 
-export default ChallengeModal;
+export default connect()(ChallengeModal);

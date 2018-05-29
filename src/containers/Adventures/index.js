@@ -23,10 +23,6 @@ class Adventures extends Component {
     Analytics.screen('Adventures');
   }
 
-  handleRefresh = () => {
-    LOG('refreshing');
-  }
-
   scrollTo = (y) => {
     this.scrollView.scrollTo({ y, animated: true });
   }
@@ -69,7 +65,8 @@ Adventures.propTypes = {
 };
 
 const mapStateToProps = ({ auth }) => ({
-  user: auth.user,
+  me: auth.user,
+  isAnonUser: auth.isAnonUser, // Need this for the Android PopupMenu to determine which menu options to show
 });
 
 export default connect(mapStateToProps, nav)(Adventures);
