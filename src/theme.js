@@ -3,7 +3,13 @@ import Color from 'color';
 
 import { exists } from './utils/common';
 
-const { width: deviceWidth, height: deviceHeight } = Dimensions.get('window');
+// let { width: deviceWidth, height: deviceHeight } = Dimensions.get('window');
+let deviceWidth = Dimensions.get('window').width;
+let deviceHeight = Dimensions.get('window').height;
+if (deviceWidth > deviceHeight) {
+  deviceWidth = Dimensions.get('window').height;
+  deviceHeight = Dimensions.get('window').width;
+}
 
 // See https://github.com/qix-/color for help
 function colorConvert({ color, alpha, lighten, darken, negate, rotate, whiten, blacken, hex }) {
