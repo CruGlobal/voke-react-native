@@ -59,15 +59,6 @@ class ConversationList extends Component {
     return otherPerson;
   }
 
-  getPresence = () => {
-    const today = new Date().valueOf();
-    const presence = this.props.conversation && this.props.conversation.presentAt ? momentUtc(this.props.conversation.presentAt).valueOf() : null;
-    if (presence && (today - presence < 1000 * 60 * 5)) {
-      return true;
-    }
-    return false;
-  }
-
   renderNotificationPrompt = () => {
     return <NotificationToast />;
   }
@@ -83,7 +74,6 @@ class ConversationList extends Component {
     const conversation = item;
     const contentCreator = this.getSenderName(conversation);
     const otherPerson = this.getConversationParticipant(conversation);
-    const isPresent = this.getPresence();
     const initials = otherPerson ? otherPerson.initials : 'VB';
     // LOG('initials', initials, getInitials(initials));
 
@@ -111,7 +101,7 @@ class ConversationList extends Component {
                 this.state.rowFocused === item.id ? { backgroundColor: theme.primaryColor } : null,
               ]}
               text={getInitials(initials)}
-              present={isPresent}
+              present={conversation.isPresent}
             />
             <Flex value={1} justify="start">
               <Flex direction="column" justify="center">

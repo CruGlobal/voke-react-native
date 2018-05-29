@@ -129,6 +129,14 @@ function formatConversation(c, getState) {
   c.hasUnread = c.unread_messages > 0;
   c.unReadCount = c.unread_messages || 0;
 
+  c.isPresent = false;
+
+  const today = new Date().valueOf();
+  const presence = c.presentAt ? momentUtc(c.presentAt).valueOf() : null;
+  if (presence && (today - presence < 1000 * 60 * 5)) {
+    c.isPresent = true;
+  } 
+
   return c;
 }
 
