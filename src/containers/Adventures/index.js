@@ -12,7 +12,6 @@ import Header, { HeaderIcon } from '../Header';
 import PopupMenu from '../../components/PopupMenu';
 import StatusBar from '../../components/StatusBar';
 import AdventureMap from '../AdventureMap';
-import { RefreshControl } from '../../components/common';
 import theme from '../../theme';
 
 

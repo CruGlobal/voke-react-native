@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image } from 'react-native';
+import { Image, Modal } from 'react-native';
 import { connect } from 'react-redux';
 
 import { Flex, Text } from '../../components/common';
@@ -8,11 +8,17 @@ import theme from '../../theme';
 import AdventureMarker from '../../components/AdventureMarker';
 import styles from './styles';
 import ANIMATION from '../../../images/VokeBotAnimation.gif';
+import ChallengeModal from '../ChallengeModal';
 
 const IMAGE_HEIGHT = 1480;
 const IMAGE_WIDTH = 517;
 
 class AdventureMap extends Component {
+
+  state={
+    modalVisible: false,
+    activeChallenge: null,
+  };
 
   componentDidMount() {
     const { challenges } = this.props;
@@ -41,8 +47,7 @@ class AdventureMap extends Component {
   }
 
   handleChallengeModal = (c) => {
-    // TODO set up modal
-    LOG(c);
+    this.setState({ activeChallenge: c, modalVisible: true });
   }
 
   scrollTo = (y) => {
@@ -111,6 +116,14 @@ class AdventureMap extends Component {
             </Flex>
           ) : null
         }
+
+        <Modal transparent={true} visible={this.state.modalVisible} >
+          {
+            this.state.activeChallenge ? (
+              <ChallengeModal adventureId={this.props.adventureId} onDismiss={() => this.setState({ modalVisible: false })} challenge={this.state.activeChallenge} />
+            ) : null
+          }
+        </Modal>
       </Flex>
     );
   }
@@ -124,6 +137,7 @@ const mapStateToProps = ({ auth, adventures }) => ({
   user: auth.user,
   backgroundImage: adventures.backgroundImageUrl,
   challenges: adventures.challenges,
+  adventureId: adventures.adventureId,
 });
 
 export default connect(mapStateToProps)(AdventureMap);

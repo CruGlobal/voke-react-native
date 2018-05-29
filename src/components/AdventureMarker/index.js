@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Touchable, VokeIcon } from '../../components/common';
+import { Touchable, VokeIcon, Text } from '../../components/common';
 
 // Coordinate helpers
 const vCenter = (height, size) => height / 2 - size / 2;
@@ -51,6 +51,11 @@ class AdventureMarker extends Component {
           },
         ]}>
         <VokeIcon name={this.getIcon(challenge)} />
+        {
+          challenge['required?'] && !challenge['completed?'] ? (
+            <Text style={{position: 'absolute', top: -2, left: 20, right: 0, fontSize: 15, opacity: challenge.isActive ? 1 : 0.5}}>{challenge.position}</Text>
+          ) : null
+        }
       </Touchable>
     );
   }
