@@ -35,6 +35,7 @@ class Message extends Component {
       showDot: props.unReadBadgeCount > 0,
       title: 'Voke',
       loadingMore: false,
+      kickstarterId: '',
     };
 
     this.handleLoadMore = this.handleLoadMore.bind(this);
@@ -167,7 +168,7 @@ class Message extends Component {
     this.props.navigatePush('voke.KickstartersTab', {
       onSelectKickstarter: (item) => {
         this.props.navigateBack();
-        this.setState({ text: item });
+        this.setState({ text: item.content, kickstarterId: item.id });
       },
       latestItem: this.state.latestItem,
     });
@@ -196,6 +197,13 @@ class Message extends Component {
           item_id: video,
         },
       };
+    } else if (this.state.kickstarterId) {
+      data = {
+        message: {
+          content: this.state.text,
+          question_id: this.state.kickstarterId,
+        },
+      };
     } else {
       data = {
         message: {
@@ -206,7 +214,7 @@ class Message extends Component {
     Keyboard.dismiss();
     this.props.dispatch(createMessage(this.props.conversation.id, data)).then(() => {
       Keyboard.dismiss();
-      this.setState({ text: '' });
+      this.setState({ text: '', kickstarterId: '' });
     });
   }
 

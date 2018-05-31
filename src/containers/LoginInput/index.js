@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Analytics from '../../utils/analytics';
 
 import styles from './styles';
-import { anonLogin } from '../../actions/auth';
+import { anonLogin, logoutAction } from '../../actions/auth';
 import ApiLoading from '../ApiLoading';
 import nav, { NavPropTypes } from '../../actions/nav';
 import { Flex, Button } from '../../components/common';
@@ -47,16 +47,32 @@ class LoginInput extends Component {
   login() {
     if (this.state.emailValidation && this.state.password) {
       this.setState({ isLoading: true });
-      this.props.dispatch(anonLogin(
-        this.state.email,
-        this.state.password
-      )).then((results) => {
-        this.setState({ isLoading: false });
-        this.props.dispatch({ type: RESET_ANON_USER });
-        this.props.navigateResetHome();
-      }).catch(() => {
-        this.setState({ isLoading: false });
-      });
+      if (this.props.isAnonUser) {
+        // log out and destroy anon devices
+        this.props.dispatch(logoutAction()).then(()=> {
+          this.props.dispatch(anonLogin(
+            this.state.email,
+            this.state.password
+          )).then(() => {
+            this.setState({ isLoading: false });
+            this.props.dispatch({ type: RESET_ANON_USER });
+            this.props.navigateResetHome();
+          }).catch(() => {
+            this.setState({ isLoading: false });
+          });
+        });
+      } else {
+        this.props.dispatch(anonLogin(
+          this.state.email,
+          this.state.password
+        )).then(() => {
+          this.setState({ isLoading: false });
+          this.props.dispatch({ type: RESET_ANON_USER });
+          this.props.navigateResetHome();
+        }).catch(() => {
+          this.setState({ isLoading: false });
+        });
+      }
     } else {
       Alert.alert('Invalid email/password', 'Please enter a valid email and password');
     }

@@ -7,7 +7,7 @@ export function getAdventure(id) {
     const query = {
       endpoint: `${API_URL}adventures/${id}`,
     };
-    //
+
     // if (id === adventures.adventureId && adventures.challenges.length > 0) {
     //   console.log('not running adventure calls');
     //   return;
@@ -30,7 +30,7 @@ export function getChallenges(id) {
 export function completeChallenge(adventureId, challengeId) {
   return (dispatch) => {
     const query = {
-      endpoint: `${API_URL}adventures/${adventureId}/challenges/${challengeId}/complete`,
+      endpoint: `${API_URL}adventures/${adventureId}/challenges/${challengeId}/log`,
     };
     return dispatch(callApi(REQUESTS.COMPLETE_CHALLENGE, query)).then(()=> {
       dispatch(getChallenges(adventureId));

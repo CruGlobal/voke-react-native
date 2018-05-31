@@ -87,13 +87,12 @@ class AdventureMap extends Component {
 
   render() {
     const { challenges } = this.props;
-    LOG('challenges', challenges);
     return (
       <Flex style={styles.wrap}>
         {
           this.props.backgroundImage ? (
             <Image
-              source={{ uri: `${this.props.backgroundImage}` }}
+              source={{ uri: `${this.props.backgroundImage}`, cache: 'only-if-cached' }}
               style={{
                 // Once the image loads and we get the width and height, adjust it to center
                 marginLeft: -((IMAGE_WIDTH - theme.fullWidth) / 2),

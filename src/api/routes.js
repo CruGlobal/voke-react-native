@@ -299,7 +299,7 @@ export default {
     method: 'post',
   },
   'COMPLETE_CHALLENGE': {
-    endpoint: API_URL + 'adventures/:adventure_id/challenges/:challenge_id/complete',
+    endpoint: API_URL + 'adventures/:adventure_id/challenges/:challenge_id/log',
     method: 'post',
   },
   'ORGANIZATION_UNSUBSCRIBE': {

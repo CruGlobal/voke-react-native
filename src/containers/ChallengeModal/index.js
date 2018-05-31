@@ -33,7 +33,7 @@ class ChallengeModal extends Component {
   }
 
   handleButtonPress = () => {
-    if (!this.props.challenge['required?']) {
+    if (!this.props.challenge['required?'] && !this.props.challenge['completed?']) {
       this.props.dispatch(completeChallenge(this.props.adventureId, this.props.challenge.id));
       this.props.onDismiss();
     } else {
