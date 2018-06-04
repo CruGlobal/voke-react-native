@@ -1,6 +1,7 @@
 
 import { StyleSheet } from 'react-native';
 import theme, { COLORS } from '../../theme';
+import videoUtils from '../../utils/video';
 
 export default StyleSheet.create({
   container: {
@@ -14,6 +15,12 @@ export default StyleSheet.create({
     position: 'absolute',
     top: 10,
     right: 10,
+  },
+  video: {
+    backgroundColor: COLORS.DEEP_BLACK,
+    height: videoUtils.HEIGHT,
+    width: videoUtils.WIDTH - 50,
+    marginTop: 20,
   },
   title: {
     color: theme.primaryColor,

@@ -5,14 +5,27 @@ import { connect } from 'react-redux';
 
 import Analytics from '../../utils/analytics';
 import { completeChallenge } from '../../actions/adventures';
+import { getVideo, createVideoInteraction } from '../../actions/videos';
 import styles from './styles';
 import { Flex, Text, Button, VokeIcon } from '../../components/common';
 import CloseButton from '../../components/CloseButton';
+import WebviewVideo from '../../components/WebviewVideo';
+import webviewStates from '../../components/WebviewVideo/common';
+import videoUtils from '../../utils/video';
 
 class ChallengeModal extends Component {
 
+  state = {
+    video: null,
+  };
+
   componentDidMount() {
     Analytics.screen('Android: Report User');
+    if (this.props.challenge.item) {
+      this.props.dispatch(getVideo(this.props.challenge.item.id)).then((results) => {
+        this.setState({ video: results });
+      });
+    }
   }
 
   getIcon = (c) => {
@@ -42,6 +55,32 @@ class ChallengeModal extends Component {
     }
   }
 
+  handleVideoChange = (videoState) => {
+    if (videoState === webviewStates.STARTED) {
+      this.props.dispatch(createVideoInteraction(this.state.video.id));
+    }
+  }
+
+  renderVideo = () => {
+    const { video } = this.state;
+    if (!video) return null;
+    const videoMedia = video.media || {};
+    const videoType = videoMedia.type;
+    return (
+      <Flex style={styles.video}>
+        <WebviewVideo
+          ref={(c) => this.webview = c}
+          type={videoType}
+          url={videoMedia.url}
+          start={video.media_start || 0}
+          onChangeState={this.handleVideoChange}
+          isLandscape={false}
+          width={videoUtils.WIDTH - 50}
+        />
+      </Flex>
+    );
+  }
+
   render() {
     const { challenge, onDismiss } = this.props;
     return (
@@ -58,6 +97,7 @@ class ChallengeModal extends Component {
             <Flex align="start">
               <Text style={styles.description}>{challenge.description}</Text>
             </Flex>
+            {this.renderVideo()}
             <Flex value={1} align="end" justify="center">
               <Button
                 text={challenge['required?'] ? 'Got It!' : 'Complete'}

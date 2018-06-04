@@ -47,7 +47,7 @@ export default class WebviewVideo extends Component {
       addMargin: shouldAddMargin,
       replay: false,
     };
-    
+
     this.webview = null;
 
     this.handleMessage = this.handleMessage.bind(this);
@@ -231,6 +231,7 @@ export default class WebviewVideo extends Component {
           time={this.state.time}
           type={this.props.type}
           isLandscape={this.props.isLandscape}
+          width={this.props.width}
         />
       </View>
     );
@@ -245,6 +246,7 @@ WebviewVideo.propTypes = {
   start: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   end: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   isLandscape: PropTypes.bool.isRequired,
+  width: PropTypes.number,
 };
 
 const styles = StyleSheet.create({

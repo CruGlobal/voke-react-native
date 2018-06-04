@@ -46,7 +46,7 @@ export default class VideoControls extends Component {
   }
 
   render() {
-    const { time, isPaused, onSeek, duration, replay } = this.props;
+    const { time, isPaused, onSeek, duration, replay, width } = this.props;
     return (
       <Flex direction="column" style={styles.outerWrap}>
         <Flex style={[this.props.isLandscape ? styles.landscapeSize : styles.portraitSize, styles.viewBlock]} align="center" justify="center">
@@ -60,7 +60,7 @@ export default class VideoControls extends Component {
             </Flex>
           </Touchable>
         </Flex>
-        <Flex direction="row" style={[this.props.isLandscape ? styles.landscapeSize : styles.portraitSize, styles.controlWrapper]} align="center" justify="center">
+        <Flex direction="row" style={[this.props.isLandscape ? styles.landscapeSize : styles.portraitSize, styles.controlWrapper, width ? {width} : {}]} align="center" justify="center">
           <Flex value={.2} align="center">
             <Touchable onPress={this.handleScreenPress}>
               <VokeIcon name={!isPaused ? 'pause' : 'play'} style={styles.playIcon} />
@@ -103,6 +103,7 @@ VideoControls.propTypes = {
   type: PropTypes.string.isRequired,
   isLandscape: PropTypes.bool.isRequired,
   replay: PropTypes.bool.isRequired,
+  width: PropTypes.number,
   onReplay: PropTypes.func.isRequired,
   // buttonTextStyle: PropTypes.oneOfType(styleTypes),
 };
