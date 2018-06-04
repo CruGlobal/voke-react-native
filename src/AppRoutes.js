@@ -117,7 +117,7 @@ export const MainTabRoutes = TabNavigator({
     // android props
     iconStyle: { width: 60 },
     tabStyle: { backgroundColor: theme.secondaryColor, paddingTop: theme.isIphoneX ? 35 : theme.isAndroid ? 10 : 0 },
-    labelStyle: { fontSize: 12, marginLeft: 4 },
+    labelStyle: { fontSize: theme.isAndroid ? 8 : 12 },
     style: { backgroundColor: theme.secondaryColor },
     scrollEnabled: false,
   },

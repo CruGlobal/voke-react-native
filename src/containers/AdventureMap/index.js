@@ -92,7 +92,7 @@ class AdventureMap extends Component {
         {
           this.props.backgroundImage ? (
             <Image
-              source={{ uri: `${this.props.backgroundImage}`, cache: 'only-if-cached' }}
+              source={{ uri: `${this.props.backgroundImage}`}}
               style={{
                 // Once the image loads and we get the width and height, adjust it to center
                 marginLeft: -((IMAGE_WIDTH - theme.fullWidth) / 2),

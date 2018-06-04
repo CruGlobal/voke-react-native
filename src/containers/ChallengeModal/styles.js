@@ -32,6 +32,7 @@ export default StyleSheet.create({
     borderColor: theme.primaryColor,
     minWidth: 200,
     alignItems: 'center',
+    marginVertical: 20,
   },
   buttonWrapper: {
     padding: 5,

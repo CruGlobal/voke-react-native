@@ -306,4 +306,8 @@ export default {
     endpoint: API_URL + 'organizations/:orgId/subscriptions/:subscriptionId',
     method: 'delete',
   },
+  'CREATE_ITEM_INTERACTION': {
+    endpoint: API_URL + 'items/:item_id/interactions',
+    method: 'post',
+  },
 };

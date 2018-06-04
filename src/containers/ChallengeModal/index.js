@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -44,28 +45,30 @@ class ChallengeModal extends Component {
   render() {
     const { challenge, onDismiss } = this.props;
     return (
-      <Flex direction="column" align="center" justify="center" style={styles.container}>
-        <Flex direction="column" align="start" justify="center" style={styles.modal}>
-          <Flex style={styles.close}>
-            <CloseButton onClose={onDismiss} />
-          </Flex>
-          <VokeIcon name={this.getIcon(challenge)} style={styles.icon} />
-          <Flex align="start">
-            <Text style={styles.title}>{challenge.name}</Text>
-          </Flex>
-          <Flex align="start">
-            <Text style={styles.description}>{challenge.description}</Text>
-          </Flex>
-          <Flex value={1} align="end" justify="center">
-            <Button
-              text={challenge['required?'] ? 'Got It!' : 'Complete'}
-              buttonTextStyle={styles.buttonText}
-              style={styles.button}
-              onPress={this.handleButtonPress}
-            />
+      <ScrollView style={styles.container}>
+        <Flex direction="column" align="center" justify="center">
+          <Flex direction="column" align="start" justify="center" style={styles.modal}>
+            <Flex style={styles.close}>
+              <CloseButton onClose={onDismiss} />
+            </Flex>
+            <VokeIcon name={this.getIcon(challenge)} style={styles.icon} />
+            <Flex align="start">
+              <Text style={styles.title}>{challenge.name}</Text>
+            </Flex>
+            <Flex align="start">
+              <Text style={styles.description}>{challenge.description}</Text>
+            </Flex>
+            <Flex value={1} align="end" justify="center">
+              <Button
+                text={challenge['required?'] ? 'Got It!' : 'Complete'}
+                buttonTextStyle={styles.buttonText}
+                style={styles.button}
+                onPress={this.handleButtonPress}
+              />
+            </Flex>
           </Flex>
         </Flex>
-      </Flex>
+      </ScrollView>
     );
   }
 }

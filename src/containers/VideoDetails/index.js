@@ -8,7 +8,7 @@ import debounce from 'lodash/debounce';
 import Analytics from '../../utils/analytics';
 import nav, { NavPropTypes } from '../../actions/nav';
 import { toastAction } from '../../actions/auth';
-import { getVideo, favoriteVideo, unfavoriteVideo } from '../../actions/videos';
+import { getVideo, favoriteVideo, unfavoriteVideo, createVideoInteraction } from '../../actions/videos';
 
 import styles from './styles';
 import ApiLoading from '../ApiLoading';
@@ -116,8 +116,12 @@ class VideoDetails extends Component {
   }
 
   handleVideoChange(videoState) {
+    const { video } = this.props;
     if (videoState === webviewStates.ERROR) {
       this.props.dispatch(toastAction('There was an error playing the video.'));
+    }
+    if (videoState === webviewStates.STARTED) {
+      this.props.dispatch(createVideoInteraction(video.id));
     }
   }
 

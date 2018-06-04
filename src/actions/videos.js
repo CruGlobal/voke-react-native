@@ -114,6 +114,23 @@ export function unfavoriteVideo(videoId) {
   };
 }
 
+export function createVideoInteraction(videoId) {
+  return (dispatch, getState) => {
+    const deviceId = getState().auth.cableId;
+
+    const query = {
+      endpoint: `${API_URL}items/${videoId}/interactions`,
+    };
+    const data = {
+      interaction: {
+        action: 'started',
+        device_id: deviceId,
+      },
+    };
+    return dispatch(callApi(REQUESTS.CREATE_ITEM_INTERACTION, query, data));
+  };
+}
+
 export function clearChannelVideos() {
   return {
     type: CLEAR_CHANNEL_VIDEOS,

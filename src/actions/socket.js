@@ -81,7 +81,7 @@ export function setupSocketAction(cableId) {
           const data = JSON.parse(e.data) || {};
           const type = data && data.type;
           if (type === 'ping') return;
-          // LOG('socket message received: data', data);
+          LOG('socket message received: data', data);
           if (type === 'welcome') {
             // LOG('socket welcome');
           } else if (data.message) {

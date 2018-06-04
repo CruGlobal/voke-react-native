@@ -12,7 +12,6 @@ import { Flex, Button, Text } from '../../components/common';
 import ApiLoading from '../ApiLoading';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
-import VOKE_SHARE from '../../../images/voke_share.png';
 import VOKE_LINK from '../../../images/vokebot_whole.png';
 import theme from '../../theme';
 
@@ -150,7 +149,7 @@ class ShareFlow extends Component {
               <Image resizeMode="contain" source={VOKE_LINK} style={styles.shareImage} />
               <Flex style={styles.shareBubble}>
                 <Text style={styles.chatText}>
-                  Who do you want to share {this.props.video.name} with? {this.props.isFirstTime ? '- (they don\'t need to have Voke)' : null}
+                  Who do you want to share <Text style={{color: theme.secondaryColor}}>"{this.props.video.name}"</Text> with? {this.props.isFirstTime ? '- (they don\'t need to have Voke)' : null}
                 </Text>
               </Flex>
             </Flex>
