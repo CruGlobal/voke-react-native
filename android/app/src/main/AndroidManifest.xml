@@ -4,8 +4,8 @@
     package="org.cru.voke">
 
     <!-- RELEASE: Use this line for release builds -->
-    <!-- <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" tools:node="remove"/> -->
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" tools:node="remove"/>
+    <!-- <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> -->
 
     <uses-permission android:name="android.permission.INTERNET" />
 
