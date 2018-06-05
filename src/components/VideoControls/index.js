@@ -49,7 +49,7 @@ export default class VideoControls extends Component {
     const { time, isPaused, onSeek, duration, replay, width } = this.props;
     return (
       <Flex direction="column" style={styles.outerWrap}>
-        <Flex style={[this.props.isLandscape ? styles.landscapeSize : styles.portraitSize, styles.viewBlock]} align="center" justify="center">
+        <Flex style={[this.props.isLandscape ? styles.landscapeSize : styles.portraitSize, styles.viewBlock, width ? {width} : {}]} align="center" justify="center">
           <Touchable activeOpacity={.5} onPress={!replay ? this.handleScreenPress : this.handleReplay}>
             <Flex animation="zoomIn" style={[this.props.isLandscape ? styles.landscapeSize : styles.portraitSize, styles.screenPress]}>
               {

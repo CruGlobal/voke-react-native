@@ -51,12 +51,14 @@ export default function(id, options = {}) {
 
         /* Autoplay videos */
         function onPlayerReady(event) {
-          event.target.playVideo();
-          window.postMessage('${common.STARTED}');
-          checkDuration();
-          setTimeout(checkDuration, 500);
-          setTimeout(checkDuration, 1500);
-          setTimeout(checkDuration, 3500);
+          if (${!options.forceNoAutoPlay}) {
+            event.target.playVideo();
+            window.postMessage('${common.STARTED}');
+            checkDuration();
+            setTimeout(checkDuration, 500);
+            setTimeout(checkDuration, 1500);
+            setTimeout(checkDuration, 3500);
+          }
         }
         /* Error playing video */
         function onError(event) {

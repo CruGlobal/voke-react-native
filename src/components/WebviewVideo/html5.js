@@ -32,7 +32,7 @@ export default function(url, options = {}) {
           video.style.right = '0';
 
           video.controls = false;
-          video.autoplay = true;
+          video.autoplay = ${!options.forceNoAutoPlay};
           video.preload = true;
           video.playsinline = true;
           video.webkitPlaysinline = true;

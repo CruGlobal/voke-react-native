@@ -41,7 +41,7 @@ export default class WebviewVideo extends Component {
 
     this.state = {
       duration: 0,
-      isPaused: (isOlderAndroid && props.type === 'arclight') || props.type === 'vimeo',
+      isPaused: (isOlderAndroid && props.type === 'arclight') || props.type === 'vimeo' || props.forceNoAutoPlay,
       time: 0,
       numOfErrors: 0,
       addMargin: shouldAddMargin,
@@ -63,8 +63,12 @@ export default class WebviewVideo extends Component {
 
   componentDidMount() {
     // Youtube and arclight autoplay, so fire off the 'Start' interaction immediately
-    if (this.props.type === 'youtube' || this.props.type === 'arclight') {
-      this.props.onChangeState(webviewCommon.STARTED);
+    if (!this.props.forceNoAutoPlay) {
+      if (this.props.type === 'youtube' || this.props.type === 'arclight') {
+        this.props.onChangeState(webviewCommon.STARTED);
+      }
+    } else {
+      this.pause();
     }
   }
 
@@ -141,18 +145,18 @@ export default class WebviewVideo extends Component {
   }
 
   getHtml() {
-    const { type, start, end, thumbnail, url } = this.props;
+    const { type, start, end, thumbnail, url, forceNoAutoPlay } = this.props;
     if (type === 'youtube') {
       const id = webviewCommon.getYoutubeId(url);
       if (!id) { return null; }
-      return YoutubeHTML(id, { start: start, end: end });
+      return YoutubeHTML(id, { start: start, end: end, forceNoAutoPlay: forceNoAutoPlay || false });
     } else if (type === 'vimeo') {
       // Vimeo is the worst...you can't play videos inline
       const id = webviewCommon.getVimeoId(url);
       if (!id) { return null; }
       return VimeoHTML(id, { start: start, end: end });
     } else if (type === 'arclight') {
-      return html5HTML(url, { thumbnail: thumbnail });
+      return html5HTML(url, { thumbnail: thumbnail, forceNoAutoPlay: forceNoAutoPlay || false });
     }
     return null;
   }
@@ -165,8 +169,12 @@ export default class WebviewVideo extends Component {
   }
 
   togglePlay() {
-    this.sendMessage({ togglePlay: true });
-    this.setState({ isPaused: !this.state.isPaused });
+    if (this.state.isPaused && this.props.forceNoAutoPlay) {
+      this.play();
+    } else {
+      this.sendMessage({ togglePlay: true });
+      this.setState({ isPaused: !this.state.isPaused });
+    }
   }
 
   replayVideo() {
@@ -246,6 +254,7 @@ WebviewVideo.propTypes = {
   start: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   end: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   isLandscape: PropTypes.bool.isRequired,
+  forceNoAutoPlay: PropTypes.bool,
   width: PropTypes.number,
 };
 

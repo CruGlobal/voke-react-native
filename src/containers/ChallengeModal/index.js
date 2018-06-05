@@ -76,6 +76,7 @@ class ChallengeModal extends Component {
           onChangeState={this.handleVideoChange}
           isLandscape={false}
           width={videoUtils.WIDTH - 50}
+          forceNoAutoPlay={true}
         />
       </Flex>
     );
