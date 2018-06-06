@@ -6,6 +6,7 @@ import { Flex, Text } from '../../components/common';
 import { getMe } from '../../actions/auth';
 import theme from '../../theme';
 import AdventureMarker from '../../components/AdventureMarker';
+import AdventureIcons from '../../components/AdventureIcons';
 import styles from './styles';
 import ANIMATION from '../../../images/VokeBotAnimation.gif';
 import ChallengeModal from '../ChallengeModal';
@@ -103,11 +104,7 @@ class AdventureMap extends Component {
             />
           ) : null
         }
-        <Flex style={styles.overlay}>
-          {
-            challenges && challenges.length > 0 ? this.renderChallenges() : null
-          }
-        </Flex>
+
         {
           !this.props.backgroundImage ? (
             <Flex align="center" style={styles.loadingOverlay}>
@@ -133,6 +130,12 @@ class AdventureMap extends Component {
             ) : null
           }
         </Modal>
+        <AdventureIcons />
+        <Flex style={styles.overlay}>
+          {
+            challenges && challenges.length > 0 ? this.renderChallenges() : null
+          }
+        </Flex>
       </Flex>
     );
   }

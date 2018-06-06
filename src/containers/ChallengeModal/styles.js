@@ -26,6 +26,7 @@ export default StyleSheet.create({
     color: theme.primaryColor,
     fontSize: 28,
     marginVertical: 20,
+    lineHeight: 32,
   },
   icon: {
     marginTop: 20,

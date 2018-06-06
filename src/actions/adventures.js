@@ -27,10 +27,21 @@ export function getChallenges(id) {
   };
 }
 
-export function completeChallenge(adventureId, challengeId) {
+export function acceptChallenge(adventureId, challengeId) {
   return (dispatch) => {
     const query = {
       endpoint: `${API_URL}adventures/${adventureId}/challenges/${challengeId}/log`,
+    };
+    return dispatch(callApi(REQUESTS.ACCEPT_CHALLENGE, query)).then(()=> {
+      dispatch(getChallenges(adventureId));
+    });
+  };
+}
+
+export function completeChallenge(adventureId, challengeId, logId) {
+  return (dispatch) => {
+    const query = {
+      endpoint: `${API_URL}adventures/${adventureId}/challenges/${challengeId}/log/${logId}`,
     };
     return dispatch(callApi(REQUESTS.COMPLETE_CHALLENGE, query)).then(()=> {
       dispatch(getChallenges(adventureId));

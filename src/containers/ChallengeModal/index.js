@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Analytics from '../../utils/analytics';
-import { completeChallenge } from '../../actions/adventures';
+import { completeChallenge, acceptChallenge } from '../../actions/adventures';
 import { getVideo, createVideoInteraction } from '../../actions/videos';
 import styles from './styles';
 import { Flex, Text, Button, VokeIcon } from '../../components/common';
@@ -30,7 +30,7 @@ class ChallengeModal extends Component {
 
   getIcon = (c) => {
     if (c['required?']) {
-      if (c['completed?']) {
+      if (c.challenge_state === 'completed') {
         return 'marker-completed';
       } else if (c.isActive) {
         return 'marker-active';
@@ -38,17 +38,33 @@ class ChallengeModal extends Component {
         return 'marker-inactive';
       }
     } else {
-      if (c['completed?']) {
+      if (c.challenge_state === 'completed') {
         return 'optional-completed';
-      } else {
+      } else if (c.challenge_state === 'active') {
         return 'optional-active';
+      } else {
+        return 'optional-inactive';
       }
     }
   }
 
+  getButtonText =() => {
+    if (!this.props.challenge['required?'] && this.props.challenge.challenge_state === 'active') {
+      return 'Complete';
+    } else if (!this.props.challenge['required?']) {
+      return 'Accept Challenge';
+    } else {
+      return 'Got it!';
+    }
+  }
+
+
   handleButtonPress = () => {
-    if (!this.props.challenge['required?'] && !this.props.challenge['completed?']) {
-      this.props.dispatch(completeChallenge(this.props.adventureId, this.props.challenge.id));
+    if (!this.props.challenge['required?'] && !this.props.challenge.challenge_state) {
+      this.props.dispatch(acceptChallenge(this.props.adventureId, this.props.challenge.id));
+      this.props.onDismiss();
+    } else if (!this.props.challenge['required?']) {
+      this.props.dispatch(completeChallenge(this.props.adventureId, this.props.challenge.id, this.props.challenge.log_id));
       this.props.onDismiss();
     } else {
       this.props.onDismiss();
@@ -100,12 +116,16 @@ class ChallengeModal extends Component {
             </Flex>
             {this.renderVideo()}
             <Flex value={1} align="end" justify="center">
-              <Button
-                text={challenge['required?'] ? 'Got It!' : 'Complete'}
-                buttonTextStyle={styles.buttonText}
-                style={styles.button}
-                onPress={this.handleButtonPress}
-              />
+              {
+                challenge.challenge_state !== 'completed' ? (
+                  <Button
+                    text={this.getButtonText()}
+                    buttonTextStyle={styles.buttonText}
+                    style={styles.button}
+                    onPress={this.handleButtonPress}
+                  />
+                ) : null
+              }
             </Flex>
           </Flex>
         </Flex>

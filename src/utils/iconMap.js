@@ -35,6 +35,7 @@ import MARKER_INACTIVE from '../../images/markerInactive.png';
 import MARKER_COMPLETED from '../../images/markerCompleted.png';
 import OPTIONAL_ACTIVE from '../../images/optionalActive.png';
 import OPTIONAL_COMPLETED from '../../images/optionalCompleted.png';
+import OPTIONAL_INACTIVE from '../../images/optionalInactive.png';
 
 
 // const navIconSize = (theme.isAndroid) ? PixelRatio.getPixelSizeForLayoutSize(10) : 30;
@@ -110,6 +111,7 @@ const vokeIcons = {
   'marker-completed': MARKER_COMPLETED,
   'optional-active': OPTIONAL_ACTIVE,
   'optional-completed': OPTIONAL_COMPLETED,
+  'optional-inactive': OPTIONAL_INACTIVE,
 };
 
 export {
