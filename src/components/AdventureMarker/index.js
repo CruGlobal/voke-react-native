@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { TouchableWithoutFeedback } from 'react-native';
 import PropTypes from 'prop-types';
 import { Touchable, VokeIcon, Text, Flex } from '../../components/common';
 
@@ -37,7 +38,7 @@ class AdventureMarker extends Component {
     const { onPress, width, height, challenge } = this.props;
 
     return (
-      <Touchable onPress={onPress}>
+      <TouchableWithoutFeedback onPress={onPress} >
         <Flex style={{
           position: 'absolute',
           width: 100,
@@ -61,7 +62,7 @@ class AdventureMarker extends Component {
             ) : null
           }
         </Flex>
-      </Touchable>
+      </TouchableWithoutFeedback>
     );
   }
 }

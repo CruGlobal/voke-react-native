@@ -34,7 +34,7 @@ export default StyleSheet.create({
   buttonText: {
     color: theme.primaryColor,
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '400',
   },
   button: {
     borderColor: theme.primaryColor,
@@ -48,5 +48,42 @@ export default StyleSheet.create({
   description: {
     fontSize: 16,
     color: theme.white,
+  },
+  completeButton: {
+    backgroundColor: 'transparent',
+    borderColor: COLORS.GREEN,
+    borderRadius: 5,
+    alignItems: 'center',
+    borderWidth: 1,
+    minWidth: 200,
+  },
+  acceptButton: {
+    borderColor: theme.primaryColor,
+    minWidth: 200,
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  acceptButtonInactive: {
+    borderColor: theme.primaryColor,
+    minWidth: 200,
+    alignItems: 'center',
+    marginVertical: 20,
+    opacity: 0.4,
+  },
+  inactiveCompleteButton: {
+    backgroundColor: 'transparent',
+    borderColor: COLORS.GREEN,
+    borderRadius: 5,
+    borderWidth: 1,
+    alignItems: 'center',
+    minWidth: 200,
+    opacity: 0.4,
+  },
+  completeButtonText: {
+    fontSize: 16,
+    color: COLORS.GREEN,
+  },
+  buttonActiveText: {
+    fontSize: 16,
   },
 });

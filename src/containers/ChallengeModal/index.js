@@ -15,9 +15,15 @@ import videoUtils from '../../utils/video';
 
 class ChallengeModal extends Component {
 
-  state = {
-    video: null,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      video: null,
+      isActive: props.challenge.challenge_state === 'active',
+    };
+
+  }
 
   componentDidMount() {
     Analytics.screen('Android: Report User');
@@ -48,21 +54,10 @@ class ChallengeModal extends Component {
     }
   }
 
-  getButtonText =() => {
-    if (!this.props.challenge['required?'] && this.props.challenge.challenge_state === 'active') {
-      return 'Complete';
-    } else if (!this.props.challenge['required?']) {
-      return 'Accept Challenge';
-    } else {
-      return 'Got it!';
-    }
-  }
-
-
   handleButtonPress = () => {
-    if (!this.props.challenge['required?'] && !this.props.challenge.challenge_state) {
+    if (!this.props.challenge['required?'] && !this.props.challenge.challenge_state && !this.state.isActive) {
+      this.setState({isActive: true});
       this.props.dispatch(acceptChallenge(this.props.adventureId, this.props.challenge.id));
-      this.props.onDismiss();
     } else if (!this.props.challenge['required?']) {
       this.props.dispatch(completeChallenge(this.props.adventureId, this.props.challenge.id, this.props.challenge.log_id));
       this.props.onDismiss();
@@ -100,6 +95,7 @@ class ChallengeModal extends Component {
 
   render() {
     const { challenge, onDismiss } = this.props;
+    const isActive = this.state.isActive;
     return (
       <ScrollView style={styles.container}>
         <Flex direction="column" align="center" justify="center">
@@ -117,15 +113,34 @@ class ChallengeModal extends Component {
             {this.renderVideo()}
             <Flex value={1} align="end" justify="center">
               {
-                challenge.challenge_state !== 'completed' ? (
+                challenge['required?'] && challenge.challenge_state !== 'completed' ? (
                   <Button
-                    text={this.getButtonText()}
+                    text="Got It!"
                     buttonTextStyle={styles.buttonText}
                     style={styles.button}
                     onPress={this.handleButtonPress}
                   />
+                ) : challenge.challenge_state !== 'completed' ? (
+                  <Button
+                    text={isActive ? 'Challenge Accepted' : 'Accept Challenge'}
+                    buttonTextStyle={styles.buttonText}
+                    style={!isActive ? styles.acceptButton : styles.acceptButtonInactive}
+                    onPress={this.handleButtonPress}
+                  />
                 ) : null
               }
+              {
+                !challenge['required?'] && challenge.challenge_state !== 'completed' ? (
+                  <Button
+                    text="Completed"
+                    disabled={!isActive}
+                    buttonTextStyle={styles.completeButtonText}
+                    style={isActive ? styles.completeButton : styles.inactiveCompleteButton}
+                    onPress={this.handleButtonPress}
+                  />
+                ) : null
+              }
+
             </Flex>
           </Flex>
         </Flex>

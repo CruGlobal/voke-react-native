@@ -15,19 +15,18 @@ class AdventureIcons extends Component {
 
   render() {
     return (
-      <Flex direction="row" style={{position: 'absolute', top: 0, right: 0, zIndex: 100000}}>
-        <Touchable disabled={true} onPress={()=>{}} style={{marginHorizontal: 5, marginVertical: 10}}>
-          <Image source={ADVENTURE_1} />
+      <Flex direction="column" style={{position: 'absolute', top: 5, right: 5, zIndex: 100000}}>
+        <Touchable onPress={this.handlePress} style={{marginHorizontal: 5, marginVertical: 10}}>
+          <Image source={ADVENTURE_3} />
+          <Image source={LOCK} style={{position: 'absolute', bottom: 0, right: 0}} />
         </Touchable>
         <Touchable onPress={this.handlePress} style={{marginHorizontal: 5, marginVertical: 10}}>
           <Image source={ADVENTURE_2} />
           <Image source={LOCK} style={{position: 'absolute', bottom: 0, right: 0}} />
         </Touchable>
-        <Touchable onPress={this.handlePress} style={{marginHorizontal: 5, marginVertical: 10}}>
-          <Image source={ADVENTURE_3} />
-          <Image source={LOCK} style={{position: 'absolute', bottom: 0, right: 0}} />
+        <Touchable disabled={true} onPress={()=>{}} style={{marginHorizontal: 5, marginVertical: 10}}>
+          <Image source={ADVENTURE_1} />
         </Touchable>
-
       </Flex>
     );
   }
