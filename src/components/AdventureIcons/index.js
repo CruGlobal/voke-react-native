@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, Alert } from 'react-native';
+import { Image, Alert, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { Touchable, Flex } from '../../components/common';
 import ADVENTURE_1 from '../../../images/adventure1.png';
@@ -16,16 +16,22 @@ class AdventureIcons extends Component {
   render() {
     return (
       <Flex direction="column" style={{position: 'absolute', top: 5, right: 5, zIndex: 100000}}>
-        <Touchable onPress={this.handlePress} style={{marginHorizontal: 5, marginVertical: 10}}>
-          <Image source={ADVENTURE_3} />
-          <Image source={LOCK} style={{position: 'absolute', bottom: 0, right: 0}} />
+        <Touchable onPress={this.handlePress}>
+          <View style={{marginHorizontal: 5, marginVertical: 5}}>
+            <Image source={ADVENTURE_3} />
+            <Image source={LOCK} style={{position: 'absolute', bottom: 0, right: 0}} />
+          </View>
         </Touchable>
-        <Touchable onPress={this.handlePress} style={{marginHorizontal: 5, marginVertical: 10}}>
-          <Image source={ADVENTURE_2} />
-          <Image source={LOCK} style={{position: 'absolute', bottom: 0, right: 0}} />
+        <Touchable onPress={this.handlePress}>
+          <View style={{marginHorizontal: 5, marginVertical: 5}}>
+            <Image source={ADVENTURE_2} />
+            <Image source={LOCK} style={{position: 'absolute', bottom: 0, right: 0}} />
+          </View>
         </Touchable>
-        <Touchable disabled={true} onPress={()=>{}} style={{marginHorizontal: 5, marginVertical: 10}}>
-          <Image source={ADVENTURE_1} />
+        <Touchable disabled={true} onPress={()=>{}}>
+          <View style={{marginHorizontal: 5, marginVertical: 5}}>
+            <Image source={ADVENTURE_1} />
+          </View>
         </Touchable>
       </Flex>
     );
