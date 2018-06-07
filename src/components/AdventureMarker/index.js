@@ -16,7 +16,7 @@ class AdventureMarker extends Component {
 
   getIcon = (c) => {
     if (c['required?']) {
-      if (c.challenge_state === 'completed') {
+      if (c['completed?']) {
         return 'marker-completed';
       } else if (c.isActive) {
         return 'marker-active';
@@ -24,9 +24,9 @@ class AdventureMarker extends Component {
         return 'marker-inactive';
       }
     } else {
-      if (c.challenge_state === 'completed') {
+      if (c['completed?']) {
         return 'optional-completed';
-      } else if (c.challenge_state === 'active') {
+      } else if (c['active?']) {
         return 'optional-active';
       } else {
         return 'optional-inactive';
@@ -49,7 +49,7 @@ class AdventureMarker extends Component {
         }}>
           <VokeIcon name={this.getIcon(challenge)} />
           {
-            challenge['required?'] && challenge.challenge_state !== 'completed' ? (
+            challenge['required?'] && !challenge['completed?'] ? (
               <Text style={{
                 position: 'absolute',
                 top: 22,

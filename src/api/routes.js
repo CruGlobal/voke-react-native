@@ -304,7 +304,7 @@ export default {
   },
   'COMPLETE_CHALLENGE': {
     endpoint: API_URL + 'adventures/:adventure_id/challenges/:challenge_id/log/:log_id',
-    method: 'put',
+    method: 'post',
   },
   'ORGANIZATION_UNSUBSCRIBE': {
     endpoint: API_URL + 'organizations/:orgId/subscriptions/:subscriptionId',

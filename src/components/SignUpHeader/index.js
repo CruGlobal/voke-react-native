@@ -26,6 +26,7 @@ class SignUpHeader extends Component {
 const styles = StyleSheet.create({
   wrap: {
     paddingVertical: 0,
+    paddingTop: theme.isIphoneX ? 30 : 0,
   },
   title: {
     paddingVertical: 10,

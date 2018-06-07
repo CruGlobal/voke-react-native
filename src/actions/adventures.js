@@ -30,7 +30,7 @@ export function getChallenges(id) {
 export function acceptChallenge(adventureId, challengeId) {
   return (dispatch) => {
     const query = {
-      endpoint: `${API_URL}adventures/${adventureId}/challenges/${challengeId}/log`,
+      endpoint: `${API_URL}adventures/${adventureId}/challenges/${challengeId}/flag`,
     };
     return dispatch(callApi(REQUESTS.ACCEPT_CHALLENGE, query)).then(()=> {
       dispatch(getChallenges(adventureId));
@@ -38,10 +38,10 @@ export function acceptChallenge(adventureId, challengeId) {
   };
 }
 
-export function completeChallenge(adventureId, challengeId, logId) {
+export function completeChallenge(adventureId, challengeId) {
   return (dispatch) => {
     const query = {
-      endpoint: `${API_URL}adventures/${adventureId}/challenges/${challengeId}/log/${logId}`,
+      endpoint: `${API_URL}adventures/${adventureId}/challenges/${challengeId}/log`,
     };
     return dispatch(callApi(REQUESTS.COMPLETE_CHALLENGE, query)).then(()=> {
       dispatch(getChallenges(adventureId));

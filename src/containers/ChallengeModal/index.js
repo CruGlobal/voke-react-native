@@ -20,7 +20,7 @@ class ChallengeModal extends Component {
 
     this.state = {
       video: null,
-      isActive: props.challenge.challenge_state === 'active',
+      isActive: props.challenge['active?'],
     };
 
   }
@@ -36,7 +36,7 @@ class ChallengeModal extends Component {
 
   getIcon = (c) => {
     if (c['required?']) {
-      if (c.challenge_state === 'completed') {
+      if (c['completed?']) {
         return 'marker-completed';
       } else if (c.isActive) {
         return 'marker-active';
@@ -44,9 +44,9 @@ class ChallengeModal extends Component {
         return 'marker-inactive';
       }
     } else {
-      if (c.challenge_state === 'completed') {
+      if (c['completed?']) {
         return 'optional-completed';
-      } else if (c.challenge_state === 'active') {
+      } else if (c['active?']) {
         return 'optional-active';
       } else {
         return 'optional-inactive';
@@ -55,11 +55,11 @@ class ChallengeModal extends Component {
   }
 
   handleButtonPress = () => {
-    if (!this.props.challenge['required?'] && !this.props.challenge.challenge_state && !this.state.isActive) {
+    if (!this.props.challenge['required?'] && !this.props.challenge['active?'] && !this.state.isActive) {
       this.setState({isActive: true});
       this.props.dispatch(acceptChallenge(this.props.adventureId, this.props.challenge.id));
     } else if (!this.props.challenge['required?']) {
-      this.props.dispatch(completeChallenge(this.props.adventureId, this.props.challenge.id, this.props.challenge.log_id));
+      this.props.dispatch(completeChallenge(this.props.adventureId, this.props.challenge.id));
       this.props.onDismiss();
     } else {
       this.props.onDismiss();
@@ -113,24 +113,25 @@ class ChallengeModal extends Component {
             {this.renderVideo()}
             <Flex value={1} align="end" justify="center">
               {
-                challenge['required?'] && challenge.challenge_state !== 'completed' ? (
+                challenge['required?'] && !challenge['completed?'] ? (
                   <Button
                     text="Got It!"
                     buttonTextStyle={styles.buttonText}
                     style={styles.button}
                     onPress={this.handleButtonPress}
                   />
-                ) : challenge.challenge_state !== 'completed' ? (
+                ) : !challenge['completed?'] ? (
                   <Button
                     text={isActive ? 'Challenge Accepted' : 'Accept Challenge'}
                     buttonTextStyle={styles.buttonText}
                     style={!isActive ? styles.acceptButton : styles.acceptButtonInactive}
                     onPress={this.handleButtonPress}
+                    disabled={isActive}
                   />
                 ) : null
               }
               {
-                !challenge['required?'] && challenge.challenge_state !== 'completed' ? (
+                !challenge['required?'] && !challenge['completed?'] ? (
                   <Button
                     text="Completed"
                     disabled={!isActive}

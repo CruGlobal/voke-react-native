@@ -65,6 +65,8 @@ export default StyleSheet.create({
   },
   acceptButtonInactive: {
     borderColor: theme.primaryColor,
+    borderWidth: 1,
+    backgroundColor: 'transparent',
     minWidth: 200,
     alignItems: 'center',
     marginVertical: 20,
