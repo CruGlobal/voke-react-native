@@ -6,6 +6,7 @@ const initialState = {
   adventureId: '',
   backgroundImageUrl: '',
   challenges: [],
+  adventures: [],
 };
 
 export default function adventures(state = initialState, action) {
@@ -21,6 +22,11 @@ export default function adventures(state = initialState, action) {
       return {
         ...state,
         backgroundImageUrl: action.image.medium,
+      };
+    case REQUESTS.GET_ADVENTURES.SUCCESS:
+      return {
+        ...state,
+        adventures: action.messenger_adventures,
       };
     case REQUESTS.GET_CHALLENGES.SUCCESS:
       return {

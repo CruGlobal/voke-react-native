@@ -14,6 +14,7 @@ export function getAdventure(id) {
     // }
     return dispatch(callApi(REQUESTS.GET_ADVENTURE, query)).then(()=> {
       dispatch(getChallenges(id));
+      dispatch(getAllAdventures());
     });
   };
 }
@@ -45,6 +46,13 @@ export function completeChallenge(adventureId, challengeId) {
     };
     return dispatch(callApi(REQUESTS.COMPLETE_CHALLENGE, query)).then(()=> {
       dispatch(getChallenges(adventureId));
+    });
+  };
+}
+
+export function getAllAdventures() {
+  return (dispatch) => {
+    return dispatch(callApi(REQUESTS.GET_ADVENTURES)).then(()=> {
     });
   };
 }

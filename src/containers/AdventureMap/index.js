@@ -130,7 +130,7 @@ class AdventureMap extends Component {
             ) : null
           }
         </Modal>
-        <AdventureIcons />
+        <AdventureIcons adventures={this.props.adventures} />
         <Flex style={styles.overlay}>
           {
             challenges && challenges.length > 0 ? this.renderChallenges() : null
@@ -149,6 +149,7 @@ const mapStateToProps = ({ auth, adventures }) => ({
   user: auth.user,
   backgroundImage: adventures.backgroundImageUrl,
   challenges: adventures.challenges,
+  adventures: adventures.adventures,
   adventureId: adventures.adventureId,
 });
 

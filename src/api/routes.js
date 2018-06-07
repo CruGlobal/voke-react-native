@@ -288,6 +288,11 @@ export default {
     method: 'get',
     showApiLoading: false,
   },
+  'GET_ADVENTURES': {
+    endpoint: API_URL + 'me/messenger_adventures',
+    method: 'get',
+    showApiLoading: false,
+  },
   'GET_CHALLENGES': {
     endpoint: API_URL + 'adventures/:adventure_id/challenges',
     method: 'get',
