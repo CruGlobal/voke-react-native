@@ -52,7 +52,7 @@ class AdventureIcons extends Component {
                 <View style={{marginHorizontal: 5, marginVertical: 5}}>
                   <Image source={ADVENTURE_2} />
                   {
-                    this.props.adventures[0].state !== 'completed' ? (
+                    this.props.adventures[0] && this.props.adventures[0].state !== 'completed' ? (
                       <Image source={LOCK} style={{position: 'absolute', bottom: 0, right: 0}} />
                     ) : null
                   }

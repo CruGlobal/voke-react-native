@@ -147,10 +147,10 @@ export function mapChallenges(results) {
   required.sort((a, b) => a.position > b.position ? 1 : -1);
   required = required.map((c, index) => {
     if (required[index - 1]) {
-      if (required[index - 1].challenge_state === 'completed' && c.challenge_state !== 'completed') {
+      if (required[index - 1]['completed?'] && !c['completed?']) {
         c.isActive = true;
       }
-    } else if (c.position === 1 && c.challenge_state !== 'completed') {
+    } else if (c.position === 1 && !c['completed?']) {
       c.isActive = true;
     }
     return c;

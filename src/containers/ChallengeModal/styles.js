@@ -13,7 +13,7 @@ export default StyleSheet.create({
   },
   close: {
     position: 'absolute',
-    top: 10,
+    top: theme.isIphoneX ? 30 : 10,
     right: 10,
   },
   video: {
