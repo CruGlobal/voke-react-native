@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { Flex, Text } from '../../components/common';
 import { getMe } from '../../actions/auth';
+import { getAdventure } from '../../actions/adventures';
 import theme from '../../theme';
 import AdventureMarker from '../../components/AdventureMarker';
 import AdventureIcons from '../../components/AdventureIcons';
@@ -50,6 +51,10 @@ class AdventureMap extends Component {
     this.setState({ activeChallenge: c, modalVisible: true });
   }
 
+  handleChangeAdventure = (adventure) => {
+    this.props.dispatch(getAdventure(adventure.adventure_id));
+  }
+
   closeModal = () => {
     this.setState({ modalVisible: false });
   }
@@ -86,8 +91,22 @@ class AdventureMap extends Component {
     );
   }
 
+  renderTitle(ad) {
+    return (
+      <Flex direction="column" align="center" justify="center" style={styles.titleContainer}>
+        {
+          ad.icon && ad.icon.medium ? (
+            <Image source={{ uri: `${ad.icon.medium}`}} style={{height: 48, width: 48}} />
+          ) : null
+        }
+        <Text style={styles.title}>{ad.name.toUpperCase()}</Text>
+        <Text style={styles.description}>{ad.description}</Text>
+      </Flex>
+    );
+  }
+
   render() {
-    const { challenges } = this.props;
+    const { challenges, activeAdventure } = this.props;
     return (
       <Flex style={styles.wrap}>
         {
@@ -130,12 +149,15 @@ class AdventureMap extends Component {
             ) : null
           }
         </Modal>
-        <AdventureIcons adventures={this.props.adventures} />
+        <AdventureIcons onChangeAdventure={this.handleChangeAdventure} adventures={this.props.adventures} />
         <Flex style={styles.overlay}>
           {
             challenges && challenges.length > 0 ? this.renderChallenges() : null
           }
         </Flex>
+        {
+          activeAdventure ? this.renderTitle(activeAdventure) : null
+        }
       </Flex>
     );
   }
@@ -150,6 +172,7 @@ const mapStateToProps = ({ auth, adventures }) => ({
   backgroundImage: adventures.backgroundImageUrl,
   challenges: adventures.challenges,
   adventures: adventures.adventures,
+  activeAdventure: adventures.activeAdventure,
   adventureId: adventures.adventureId,
 });
 

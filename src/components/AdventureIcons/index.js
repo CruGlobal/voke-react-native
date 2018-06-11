@@ -2,27 +2,38 @@ import React, { Component } from 'react';
 import { Image, Alert, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { Touchable, Flex } from '../../components/common';
-import ADVENTURE_1 from '../../../images/adventure1.png';
 import ADVENTURE_2 from '../../../images/adventure2.png';
 import ADVENTURE_3 from '../../../images/adventure3.png';
 import LOCK from '../../../images/lockedAdventure.png';
 
+
 class AdventureIcons extends Component {
 
-  handlePress =() => {
-    if (this.props.adventures[0].state !== 'completed') {
-      Alert.alert('This challenge is locked!');
-    } else {
-      Alert.alert('Coming Soon');
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      adArray: props.adventures,
+    };
   }
 
-  renderAdventures = () => {
+  componentWillReceiveProps(nextProps) {
+    this.setState({adArray: nextProps.adventures});
+  }
+
+  handlePress =(target) => {
+    this.props.onChangeAdventure(target);
+  }
+
+  handleLockedPress = () => {
+    Alert.alert('This adventure is locked until you complete the current adventure.');
+  }
+
+  renderAdventures = (ads) => {
     return (
-      this.props.adventures.map((i) =>
-        <Touchable onPress={()=>{}}>
+      ads.map((i) =>
+        <Touchable key={i.adventure_id} onPress={() => this.handlePress(i)}>
           <View style={{marginHorizontal: 5, marginVertical: 5}}>
-            <Image source={ADVENTURE_1} />
+            <Image source={{ uri: `${i.icon.medium}`}} style={{height: 48, width: 48}} />
           </View>
         </Touchable>
       )
@@ -32,9 +43,10 @@ class AdventureIcons extends Component {
   render() {
     return (
       <Flex direction="column" style={{position: 'absolute', top: 5, right: 5, zIndex: 100000}}>
+        {this.renderAdventures(this.props.adventures)}
         {
-          this.props.adventures.length > 2 ? (
-            <Touchable onPress={this.handlePress}>
+          this.props.adventures.length > 1 ? (
+            <Touchable onPress={this.handleLockedPress}>
               <View style={{marginHorizontal: 5, marginVertical: 5}}>
                 <Image source={ADVENTURE_3} />
                 <Image source={LOCK} style={{position: 'absolute', bottom: 0, right: 0}} />
@@ -42,26 +54,21 @@ class AdventureIcons extends Component {
             </Touchable>
           ) : (
             <View>
-              <Touchable onPress={this.handlePress}>
+              <Touchable onPress={this.handleLockedPress}>
                 <View style={{marginHorizontal: 5, marginVertical: 5}}>
                   <Image source={ADVENTURE_3} />
                   <Image source={LOCK} style={{position: 'absolute', bottom: 0, right: 0}} />
                 </View>
               </Touchable>
-              <Touchable onPress={this.handlePress}>
+              <Touchable onPress={this.handleLockedPress}>
                 <View style={{marginHorizontal: 5, marginVertical: 5}}>
                   <Image source={ADVENTURE_2} />
-                  {
-                    this.props.adventures[0] && this.props.adventures[0].state !== 'completed' ? (
-                      <Image source={LOCK} style={{position: 'absolute', bottom: 0, right: 0}} />
-                    ) : null
-                  }
+                  <Image source={LOCK} style={{position: 'absolute', bottom: 0, right: 0}} />
                 </View>
               </Touchable>
             </View>
           )
         }
-        {this.renderAdventures()}
       </Flex>
     );
   }
@@ -69,6 +76,7 @@ class AdventureIcons extends Component {
 
 AdventureIcons.propTypes = {
   adventures: PropTypes.array.isRequired,
+  onChangeAdventure: PropTypes.func.isRequired,
 };
 
 export default AdventureIcons;
