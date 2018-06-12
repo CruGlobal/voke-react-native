@@ -126,6 +126,7 @@ class LoginInput extends Component {
               <FacebookButton
                 text="Sign In with Facebook"
                 isSignIn={true}
+                isAnonUser={this.props.isAnonUser}
               />
             </Flex>
           </Flex>

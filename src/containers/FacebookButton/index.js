@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { LoginManager, GraphRequestManager, GraphRequest, AccessToken } from 'react-native-fbsdk';
 
-import { getMe, facebookLoginAction } from '../../actions/auth';
+import { getMe, facebookLoginAction, logoutAction } from '../../actions/auth';
 import { navigateResetHome, navigatePush } from '../../actions/nav';
 
 import { Button } from '../../components/common';
@@ -39,19 +39,37 @@ class FacebookButton extends Component {
             return;
           }
           LOG('facebook me', meResult);
-          this.props.dispatch(facebookLoginAction(accessToken)).then(() => {
-            this.props.dispatch(getMe()).then(() => {
-              if (this.props.isSignIn) {
-                this.props.dispatch({ type: RESET_ANON_USER });
-                this.props.dispatch(navigateResetHome());
-              } else {
-                this.props.dispatch(navigatePush('voke.SignUpFBAccount', {
-                  me: meResult,
-                }));
-              }
+          if (this.props.isAnonUser) {
+            this.props.dispatch(logoutAction()).then(()=> {
+              this.props.dispatch(facebookLoginAction(accessToken)).then(() => {
+                this.props.dispatch(getMe()).then(() => {
+                  if (this.props.isSignIn) {
+                    this.props.dispatch({ type: RESET_ANON_USER });
+                    this.props.dispatch(navigateResetHome());
+                  } else {
+                    this.props.dispatch(navigatePush('voke.SignUpFBAccount', {
+                      me: meResult,
+                    }));
+                  }
+                });
+              }).catch(() => {
+              });
             });
-          }).catch(() => {
-          });
+          } else {
+            this.props.dispatch(facebookLoginAction(accessToken)).then(() => {
+              this.props.dispatch(getMe()).then(() => {
+                if (this.props.isSignIn) {
+                  this.props.dispatch({ type: RESET_ANON_USER });
+                  this.props.dispatch(navigateResetHome());
+                } else {
+                  this.props.dispatch(navigatePush('voke.SignUpFBAccount', {
+                    me: meResult,
+                  }));
+                }
+              });
+            }).catch(() => {
+            });
+          }
         });
         // Start the graph request.
         new GraphRequestManager().addRequest(infoRequest).start();
