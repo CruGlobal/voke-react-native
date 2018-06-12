@@ -186,7 +186,7 @@ class Contacts extends Component {
   }
 
   handleSelectContact = (c) => {
-    if (c.phone.length > 1) {
+    if (!c.isVoke && c.phone.length > 1) {
       this.setState({ selectNumberContact: c });
     } else {
       this.props.onSelect(c);
@@ -199,7 +199,8 @@ class Contacts extends Component {
   }
 
   render() {
-    const { permission, showSearch, selectNumberContact } = this.state;
+    const { isLoading, inShare, all, isInvite } = this.props;
+    const { permission, showSearch, selectNumberContact, searchText, searchResults, showPermissionModal, isSearching, refreshing } = this.state;
     const isAuthorized = permission === Permissions.AUTHORIZED;
     return (
       <View style={styles.container}>
@@ -216,7 +217,7 @@ class Contacts extends Component {
                 onPress={() => this.setState({ showSearch: !showSearch })} />
             ) : undefined
           }
-          title={this.props.isInvite ? 'Invite a Friend' : 'Contacts'}
+          title={isInvite ? 'Invite a Friend' : 'Contacts'}
           light={true}
           shadow={false}
         />
@@ -224,12 +225,12 @@ class Contacts extends Component {
         {
           isAuthorized ? (
             <ContactsList
-              isSearching={this.state.isSearching}
-              items={this.state.searchText ? this.state.searchResults : this.props.all}
+              isSearching={isSearching}
+              items={searchText ? searchResults : all}
               onSelect={this.handleSelectContact}
-              isInvite={this.props.isInvite}
+              isInvite={isInvite}
               onRefresh={this.refreshContacts}
-              refreshing={this.state.refreshing}
+              refreshing={refreshing}
             />
           ) : (
             <Flex align="center" style={{paddingTop: 30}}>
@@ -243,7 +244,7 @@ class Contacts extends Component {
           )
         }
         {
-          this.props.isLoading ? (
+          isLoading ? (
             <ApiLoading
               force={true}
               text="Fetching your contacts - and because you are so popular, I need up to 30 seconds"
@@ -251,19 +252,14 @@ class Contacts extends Component {
           ) : null
         }
         {
-          this.props.inShare ? (
-            <ApiLoading
-              force={true}
-              text={''}
-            />
-          ) : null
+          inShare ? <ApiLoading force={true} text="" /> : null
         }
         <ApiLoading />
         {
           isAuthorized ? <ShareModal /> : null
         }
         {
-          this.state.showPermissionModal ? (
+          showPermissionModal ? (
             <Modal
               onClose={() => this.setState({ showPermissionModal: false })}
               getContacts={this.handleGetContacts}
@@ -273,7 +269,10 @@ class Contacts extends Component {
         }
         {
           selectNumberContact ? (
-            <SelectNumber contact={this.state.selectNumberContact} onSelect={this.handleSelectedContact} onCancel={() => this.setState({ selectNumberContact: null })} />
+            <SelectNumber
+              contact={selectNumberContact}
+              onSelect={this.handleSelectedContact}
+              onCancel={() => this.setState({ selectNumberContact: null })} />
           ) : null
         }
       </View>

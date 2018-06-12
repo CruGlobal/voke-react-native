@@ -1,5 +1,5 @@
 import { API_URL, AUTH_URL } from './utils';
-import { mapMessages, mapConversations, mapConversation } from './mapping';
+import { mapMessages, mapConversations, mapConversation, mapChallenges } from './mapping';
 import CONSTANTS from '../constants';
 // Import mapping functions or w/e
 
@@ -287,12 +287,40 @@ export default {
     method: 'get',
     showApiLoading: false,
   },
+  'GET_ADVENTURE': {
+    endpoint: API_URL + 'adventures/:adventure_id',
+    method: 'get',
+    showApiLoading: false,
+  },
+  'GET_ADVENTURES': {
+    endpoint: API_URL + 'me/messenger_adventures',
+    method: 'get',
+    showApiLoading: false,
+  },
+  'GET_CHALLENGES': {
+    endpoint: API_URL + 'adventures/:adventure_id/challenges',
+    method: 'get',
+    mapResults: mapChallenges,
+    showApiLoading: false,
+  },
   'ORGANIZATION_SUBSCRIBE': {
     endpoint: API_URL + 'organizations/:orgId/subscriptions',
+    method: 'post',
+  },
+  'ACCEPT_CHALLENGE': {
+    endpoint: API_URL + 'adventures/:adventure_id/challenges/:challenge_id/log',
+    method: 'post',
+  },
+  'COMPLETE_CHALLENGE': {
+    endpoint: API_URL + 'adventures/:adventure_id/challenges/:challenge_id/log/:log_id',
     method: 'post',
   },
   'ORGANIZATION_UNSUBSCRIBE': {
     endpoint: API_URL + 'organizations/:orgId/subscriptions/:subscriptionId',
     method: 'delete',
+  },
+  'CREATE_ITEM_INTERACTION': {
+    endpoint: API_URL + 'items/:item_id/interactions',
+    method: 'post',
   },
 };

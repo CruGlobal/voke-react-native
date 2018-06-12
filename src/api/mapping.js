@@ -129,5 +129,33 @@ function formatConversation(c, getState) {
   c.hasUnread = c.unread_messages > 0;
   c.unReadCount = c.unread_messages || 0;
 
+  c.isPresent = false;
+
+  const today = new Date().valueOf();
+  const presence = c.presentAt ? momentUtc(c.presentAt).valueOf() : null;
+  if (presence && (today - presence < 1000 * 60 * 5)) {
+    c.isPresent = true;
+  }
+
   return c;
+}
+
+
+export function mapChallenges(results) {
+  let required = results.challenges.filter((c) => c['required?']);
+  let notRequired = results.challenges.filter((c) => !c['required?']);
+  required.sort((a, b) => a.position > b.position ? 1 : -1);
+  required = required.map((c, index) => {
+    if (required[index - 1]) {
+      if (required[index - 1]['completed?'] && !c['completed?']) {
+        c.isActive = true;
+      }
+    } else if (c.position === 1 && !c['completed?']) {
+      c.isActive = true;
+    }
+    return c;
+  });
+  return {
+    challenges: required.concat(notRequired),
+  };
 }

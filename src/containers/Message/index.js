@@ -34,6 +34,8 @@ class Message extends Component {
       createTransparentFocus: false,
       showDot: props.unReadBadgeCount > 0,
       title: 'Voke',
+      loadingMore: false,
+      kickstarterId: '',
     };
 
     this.handleLoadMore = this.handleLoadMore.bind(this);
@@ -132,19 +134,24 @@ class Message extends Component {
   }
 
   getMessages(page) {
+    this.setState({ loadingMore: true });
     if (!page && !this.props.forceUpdate && !this.props.getConversationsIsRunning) {
       const { conversation, messages } = this.props;
       const latestMessage = messages[0];
       // Only prevent the messages API call when the number of messages is >= the total messages page size
       if (messages.length >= CONSTANTS.PAGE_SIZE) {
         if (latestMessage && conversation.latestMessage && conversation.latestMessage.message_id === latestMessage.id) {
+          this.setState({ loadingMore: false });
           LOG('positions are the same, dont call getMessages');
           return;
         }
       }
     }
     this.props.dispatch(getMessages(this.props.conversation.id, page)).then(() => {
+      this.setState({ loadingMore: false });
       this.createMessageReadInteraction(this.props.messages[0]);
+    }).catch(() => {
+      this.setState({ loadingMore: false });
     });
   }
 
@@ -161,7 +168,7 @@ class Message extends Component {
     this.props.navigatePush('voke.KickstartersTab', {
       onSelectKickstarter: (item) => {
         this.props.navigateBack();
-        this.setState({ text: item });
+        this.setState({ text: item.content, kickstarterId: item.id });
       },
       latestItem: this.state.latestItem,
     });
@@ -190,6 +197,13 @@ class Message extends Component {
           item_id: video,
         },
       };
+    } else if (this.state.kickstarterId) {
+      data = {
+        message: {
+          content: this.state.text,
+          question_id: this.state.kickstarterId,
+        },
+      };
     } else {
       data = {
         message: {
@@ -200,7 +214,7 @@ class Message extends Component {
     Keyboard.dismiss();
     this.props.dispatch(createMessage(this.props.conversation.id, data)).then(() => {
       Keyboard.dismiss();
-      this.setState({ text: '' });
+      this.setState({ text: '', kickstarterId: '' });
     });
   }
 
@@ -277,12 +291,12 @@ class Message extends Component {
     if (!this.props.me.first_name) {
       this.props.navigatePush('voke.TryItNowName', {
         onComplete: () => this.props.navigatePush('voke.ShareFlow', {
-          videoId: video.id,
+          video: video,
         }),
       });
     } else {
       this.props.navigatePush('voke.ShareFlow', {
-        videoId: video.id,
+        video: video,
       });
     }
   }
@@ -360,6 +374,7 @@ class Message extends Component {
             ref={(c) => this.list = c}
             onLoadMore={this.handleLoadMore}
             hasMore={pagination.hasMore}
+            isLoading={this.state.loadingMore}
             items={messages}
             typeState={typeState}
             user={me}

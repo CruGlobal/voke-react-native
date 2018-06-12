@@ -3,7 +3,7 @@ import DeviceInfo from 'react-native-device-info';
 import PushNotification from 'react-native-push-notification';
 
 import { API_URL } from '../api/utils';
-import { registerPushToken, openSettingsAction, checkPushPermissions } from './auth';
+import { registerPushToken, openSettingsAction, checkPushPermissions, getMe } from './auth';
 import { SOCKET_URL } from '../api/utils';
 import { newMessageAction, typeStateChangeAction, getConversation, getConversations, getMessages } from './messages';
 import { navigateResetMessage } from './nav';
@@ -81,7 +81,7 @@ export function setupSocketAction(cableId) {
           const data = JSON.parse(e.data) || {};
           const type = data && data.type;
           if (type === 'ping') return;
-          // LOG('socket message received: data', data);
+          LOG('socket message received: data', data);
           if (type === 'welcome') {
             // LOG('socket welcome');
           } else if (data.message) {
@@ -91,6 +91,8 @@ export function setupSocketAction(cableId) {
               dispatch(newMessageAction(message));
             } else if (notification && (notification.category === 'CREATE_TYPESTATE_CATEGORY' || notification.category === 'DESTROY_TYPESTATE_CATEGORY')) {
               dispatch(typeStateChangeAction(data.message));
+            } else if (notification && (notification.category === 'CREATE_CHALLENGE_CATEGORY' || notification.category === 'CREATE_ADVENTURE_CATEGORY')) {
+              dispatch(getMe());
             }
           }
         };

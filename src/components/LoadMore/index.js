@@ -10,10 +10,11 @@ class LoadMore extends Component {
       <Button
         text="Load More"
         type="filled"
+        isLoading={this.props.isLoading}
         preventTimeout={2500}
         buttonTextStyle={styles.text}
         onPress={this.props.onLoad}
-        style={styles.wrapper}
+        style={[styles.wrapper, { paddingBottom: this.props.isLoading ? 15 : undefined }]}
       />
     );
   }
@@ -25,8 +26,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginVertical: 12,
     borderRadius: 20,
-    paddingVertical: 5,
     paddingHorizontal: 10,
+    height: 35,
   },
   text: {
     fontWeight: 'bold',

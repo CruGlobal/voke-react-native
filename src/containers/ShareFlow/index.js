@@ -12,7 +12,6 @@ import { Flex, Button, Text } from '../../components/common';
 import ApiLoading from '../ApiLoading';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
-import VOKE_SHARE from '../../../images/voke_share.png';
 import VOKE_LINK from '../../../images/vokebot_whole.png';
 import theme from '../../theme';
 
@@ -44,7 +43,7 @@ class ShareFlow extends Component {
               first_name: name,
             },
           ],
-          item_id: `${this.props.videoId}`,
+          item_id: `${this.props.video.id}`,
         },
       };
 
@@ -87,9 +86,7 @@ class ShareFlow extends Component {
     this.setState({ showOverlay: true });
     // Android uses message, not url
     Share.share({
-      message: theme.isAndroid ? this.state.conversationUrl : '',
-      title: '',
-      url: this.state.conversationUrl,
+      message: this.state.conversationUrl,
       tintColor: '#fff',
       excludedActivityTypes: [
         'com.apple.UIKit.activity.AirDrop',
@@ -125,7 +122,7 @@ class ShareFlow extends Component {
   openAddrBook = () => {
     Keyboard.dismiss();
     this.props.navigatePush('voke.SelectFriend', {
-      video: this.props.videoId,
+      video: this.props.video.id,
     });
   }
 
@@ -148,7 +145,14 @@ class ShareFlow extends Component {
       <View style={styles.container} >
         <KeyboardAvoidingView behavior="position">
           <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()} style={{ paddingTop: 50 }}>
-            <Image resizeMode="contain" source={VOKE_SHARE} style={styles.imageLogo} />
+            <Flex style={styles.shareWith}>
+              <Image resizeMode="contain" source={VOKE_LINK} style={styles.shareImage} />
+              <Flex style={styles.shareBubble}>
+                <Text style={styles.chatText}>
+                  Who do you want to share <Text style={{color: theme.secondaryColor}}>"{this.props.video.name}"</Text> with? {this.props.isFirstTime ? '- (they don\'t need to have Voke)' : null}
+                </Text>
+              </Flex>
+            </Flex>
             <Flex justify="center" align="center" style={styles.actions}>
               <SignUpInput
                 value={this.state.name}
@@ -199,10 +203,11 @@ class ShareFlow extends Component {
 
 ShareFlow.propTypes = {
   ...NavPropTypes,
-  videoId: PropTypes.string.isRequired,
+  video: PropTypes.object.isRequired,
 };
-const mapStateToProps = (state, { navigation }) => ({
+const mapStateToProps = ({ messages }, { navigation }) => ({
   ...(navigation.state.params || {}),
+  isFirstTime: messages.conversations.length < 2,
 });
 
 export default connect(mapStateToProps, nav)(ShareFlow);

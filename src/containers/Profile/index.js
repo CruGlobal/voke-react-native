@@ -35,7 +35,24 @@ const defaultState = {
 
 class Profile extends Component {
 
-  state = defaultState;
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      imageUri: null,
+      editName: false,
+      editEmail: false,
+      editPassword: false,
+      firstName: props.user.first_name || '',
+      lastName: props.user.last_name || '',
+      newEmail: '',
+      confirmEmail: '',
+      currentPassword: '',
+      newPassword: '',
+      confirmPassword: '',
+      hideAnonFields: false,
+    };
+  }
 
   componentDidMount() {
     Analytics.screen('Profile');
@@ -99,7 +116,18 @@ class Profile extends Component {
   }
 
   resetState() {
-    this.setState(defaultState);
+    this.setState({
+      imageUri: null,
+      editName: false,
+      editEmail: false,
+      editPassword: false,
+      newEmail: '',
+      confirmEmail: '',
+      currentPassword: '',
+      newPassword: '',
+      confirmPassword: '',
+      hideAnonFields: false,
+    });
   }
 
   handleImageChange = (data) => {
@@ -172,7 +200,7 @@ class Profile extends Component {
           <Flex direction="column" value={2} style={styles.inputRow}>
             <TextInput
               ref={(c) => this.firstName = c}
-              value={this.state.firstName || user.first_name || ''}
+              value={this.state.firstName}
               onChangeText={(text) => this.setState({ firstName: text })}
               multiline={false}
               autoCapitalize="words"

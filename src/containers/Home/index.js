@@ -81,11 +81,11 @@ class Home extends Component {
     if (this.state.loadingMore || this.state.refreshing) return;
     if (this.props.pagination.hasMore) {
       // LOG('has more conversations to load');
-      this.setState({ loadingMore: true, refreshing: true });
+      this.setState({ loadingMore: true });
       this.props.dispatch(getConversationsPage(this.props.pagination.page + 1)).then(() => {
-        this.setState({ loadingMore: false, refreshing: false });
+        this.setState({ loadingMore: false });
       }).catch(() => {
-        this.setState({ loadingMore: false, refreshing: false });
+        this.setState({ loadingMore: false });
       });
     }
   }
@@ -195,6 +195,7 @@ class Home extends Component {
               onBlock={this.handleBlock}
               hasMore={pagination.hasMore}
               onLoadMore={this.handleLoadMore}
+              isLoading={this.state.loadingMore}
               onSelect={(c) => this.props.navigatePush('voke.Message', {conversation: c})}
               refreshing={this.state.refreshing}
             />

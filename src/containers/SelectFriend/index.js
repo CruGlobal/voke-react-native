@@ -228,7 +228,7 @@ class SelectFriend extends Component {
   }
 
   handleSelectContact = (c) => {
-    if (c.phone.length > 1) {
+    if (!c.isVoke && c.phone.length > 1) {
       this.setState({ selectNumberContact: c });
     } else {
       this.selectContact(c);
@@ -319,6 +319,8 @@ class SelectFriend extends Component {
   }
 
   render() {
+    const { isLoading } = this.props;
+    const { setLoaderBeforePush, loadingBeforeShareSheet, showPermissionModal, selectNumberContact } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar />
@@ -328,13 +330,13 @@ class SelectFriend extends Component {
         />
         {this.renderContent()}
         {
-          this.props.isLoading || this.state.setLoaderBeforePush || this.state.loadingBeforeShareSheet ? (
-            <ApiLoading force={true} text={(this.state.setLoaderBeforePush || this.state.loadingBeforeShareSheet) ? '' : 'Fetching your contacts - and because you are so popular, I need up to 30 seconds'} />
+          isLoading || setLoaderBeforePush || loadingBeforeShareSheet ? (
+            <ApiLoading force={true} text={(setLoaderBeforePush || loadingBeforeShareSheet) ? '' : 'Fetching your contacts - and because you are so popular, I need up to 30 seconds'} />
           ) : null
         }
         <ShareModal />
         {
-          this.state.showPermissionModal ? (
+          showPermissionModal ? (
             <Modal
               onClose={() => this.setState({ showPermissionModal: false })}
               getContacts={this.handleGetContacts}
@@ -343,8 +345,8 @@ class SelectFriend extends Component {
           ) : null
         }
         {
-          this.state.selectNumberContact ? (
-            <SelectNumber contact={this.state.selectNumberContact} onSelect={this.selectContact} onCancel={() => this.setState({ selectNumberContact: null })} />
+          selectNumberContact ? (
+            <SelectNumber contact={selectNumberContact} onSelect={this.selectContact} onCancel={() => this.setState({ selectNumberContact: null })} />
           ) : null
         }
       </View>

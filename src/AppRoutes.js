@@ -11,6 +11,7 @@ import Videos from './containers/Videos';
 import Menu from './containers/Menu';
 import About from './containers/About';
 import Profile from './containers/Profile';
+import Adventures from './containers/Adventures';
 import Acknowledgements from './containers/Acknowledgements';
 import Message from './containers/Message';
 import VideoDetails from './containers/VideoDetails';
@@ -61,6 +62,8 @@ import VIDEOS_ICON from '../images/video_icon.png';
 import CHANNELS_ICON from '../images/channelsIcon.png';
 import VIDEOS_ICON_INACTIVE from '../images/videosInactive.png';
 import CHANNELS_ICON_INACTIVE from '../images/channelsInactive.png';
+import ADVENTURE_ICON from '../images/adventureIcon.png';
+import ADVENTURE_ICON_INACTIVE from '../images/adventureInactive.png';
 
 const ICON_SIZE = theme.isAndroid ? 25 : 26;
 const navIcon = (active, inactive) => ({tintColor}) => (
@@ -95,6 +98,13 @@ export const MainTabRoutes = TabNavigator({
       tabBarIcon: navIcon(CHANNELS_ICON, CHANNELS_ICON_INACTIVE),
     },
   },
+  'voke.Adventures': {
+    screen: Adventures,
+    navigationOptions: {
+      tabBarLabel: 'Adventure',
+      tabBarIcon: navIcon(ADVENTURE_ICON, ADVENTURE_ICON_INACTIVE),
+    },
+  },
 }, {
   tabBarOptions: {
     showIcon: true,
@@ -106,7 +116,8 @@ export const MainTabRoutes = TabNavigator({
     inactiveBackgroundColor: theme.secondaryColor,
     // android props
     iconStyle: { width: 60 },
-    tabStyle: { backgroundColor: theme.secondaryColor, paddingTop: theme.isIphoneX ? 35 : theme.isAndroid ? 10 : 0 },
+    tabStyle: { backgroundColor: theme.secondaryColor, paddingTop: theme.isAndroid ? 10 : 0 },
+    labelStyle: { fontSize: theme.isAndroid ? 8 : 12 },
     style: { backgroundColor: theme.secondaryColor },
     scrollEnabled: false,
   },

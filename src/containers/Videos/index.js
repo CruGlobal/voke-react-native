@@ -361,12 +361,12 @@ class Videos extends Component {
       if (!this.props.user.first_name) {
         this.props.navigatePush('voke.TryItNowName', {
           onComplete: () => this.props.navigatePush('voke.ShareFlow', {
-            videoId: video.id,
+            video: video,
           }),
         });
       } else {
         this.props.navigatePush('voke.ShareFlow', {
-          videoId: video.id,
+          video: video,
         });
       }
     }

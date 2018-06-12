@@ -29,7 +29,9 @@ class VokeOverlays extends Component {
   renderSignUp() {
     return (
       <Flex style={styles.overlay} align="center" justify="center" self="stretch">
-        <CloseButton onClose={this.close} />
+        <Flex style={styles.close}>
+          <CloseButton onClose={this.close} />
+        </Flex>
         <Flex value={1} align="center" justify="center">
           <Text style={styles.title}>
             Subscribe

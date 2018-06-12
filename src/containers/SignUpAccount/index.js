@@ -106,7 +106,7 @@ class SignUpAccount extends Component {
         <KeyboardAvoidingView behavior={theme.isAndroid ? undefined : 'position'}>
           <SignUpHeader
             title="Create Account"
-            description="Creating your account allows you to keep your conversations safe, retain your progress and access Voke from any where"
+            description="Creating your account allows you to keep your conversations safe, retain your progress and access Voke from anywhere"
             onPress={()=> Keyboard.dismiss()}
           />
           <Flex value={1} align="center" justify="start" style={styles.inputs}>

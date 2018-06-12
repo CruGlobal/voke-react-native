@@ -8,11 +8,11 @@
 
 
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <AVFoundation/AVFoundation.h>
 
 #import <React/RCTRootView.h>
 
 @implementation AppDelegate
-
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -36,10 +36,14 @@
   
   
   [Fabric with:@[[Crashlytics class]]];
-
-  
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
+
+  
+  AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+  NSError *setCategoryError = nil;
+  [audioSession setCategory:AVAudioSessionCategoryPlayback
+                      error:&setCategoryError];
   
   return YES;
 }
@@ -48,7 +52,6 @@
 - (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
   return [Orientation getOrientation];
 }
-
 
 
 - (BOOL)application:(UIApplication *)application
@@ -63,6 +66,7 @@
   // Add any custom logic here.
   return handled;
 }
+
 
 // Required to register for notifications
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings

@@ -48,7 +48,7 @@ class KickstartersTab extends Component {
 
   renderRow(item) {
     return (
-      <Touchable highlight={false} activeOpacity={0.8} onPress={() => this.props.onSelectKickstarter(item.content)} key={item.id}>
+      <Touchable highlight={false} activeOpacity={0.8} onPress={() => this.props.onSelectKickstarter(item)} key={item.id}>
         <Flex direction="column" align="start" justify="center" style={styles.kickstarterWrap}>
           <Text style={styles.kickstarterText}>
             {item.content}

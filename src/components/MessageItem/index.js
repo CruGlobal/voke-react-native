@@ -61,6 +61,7 @@ class MessageItem extends PureComponent {
         {
           !isTypeState ? (
             <Text
+              selectable={true}
               style={[
                 styles.message,
                 isMe ? styles.meText : styles.otherText,
@@ -126,6 +127,7 @@ class MessageItem extends PureComponent {
           {
             !isTypeState ? (
               <Text
+                selectable={true}
                 style={[
                   styles.message,
                   styles.otherText,

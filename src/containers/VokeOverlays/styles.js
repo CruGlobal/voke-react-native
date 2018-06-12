@@ -14,6 +14,11 @@ export default StyleSheet.create({
     width,
     marginBottom: 12,
   },
+  close: {
+    position: 'absolute',
+    top: theme.isIphoneX ? 30 : 10,
+    right: 10,
+  },
   clearButton: {
     backgroundColor: theme.transparent,
     width,

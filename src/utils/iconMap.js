@@ -30,6 +30,12 @@ import HOME_DOT from '../../images/homeBadge.png';
 import ONBOARD_FILM from '../../images/onboardFilmIcon.png';
 import ONBOARD_CHAT from '../../images/onboardChatIcon.png';
 import ONBOARD_HEART from '../../images/onboardHeartIcon.png';
+import MARKER_ACTIVE from '../../images/markerActive.png';
+import MARKER_INACTIVE from '../../images/markerInactive.png';
+import MARKER_COMPLETED from '../../images/markerCompleted.png';
+import OPTIONAL_ACTIVE from '../../images/optionalActive.png';
+import OPTIONAL_COMPLETED from '../../images/optionalCompleted.png';
+import OPTIONAL_INACTIVE from '../../images/optionalInactive.png';
 
 
 // const navIconSize = (theme.isAndroid) ? PixelRatio.getPixelSizeForLayoutSize(10) : 30;
@@ -100,6 +106,12 @@ const vokeIcons = {
   'onboard-film': ONBOARD_FILM,
   'onboard-chat': ONBOARD_CHAT,
   'onboard-heart': ONBOARD_HEART,
+  'marker-active': MARKER_ACTIVE,
+  'marker-inactive': MARKER_INACTIVE,
+  'marker-completed': MARKER_COMPLETED,
+  'optional-active': OPTIONAL_ACTIVE,
+  'optional-completed': OPTIONAL_COMPLETED,
+  'optional-inactive': OPTIONAL_INACTIVE,
 };
 
 export {

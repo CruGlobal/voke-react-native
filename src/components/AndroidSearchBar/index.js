@@ -3,7 +3,7 @@ import { TextInput } from 'react-native';
 import PropTypes from 'prop-types';
 
 import styles from './styles';
-import { COLORS } from '../../theme.js';
+import { COLORS } from '../../theme';
 import { Flex } from '../../components/common';
 
 class AndroidSearchBar extends Component {
