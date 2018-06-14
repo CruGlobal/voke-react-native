@@ -53,7 +53,7 @@ class VokeOverlays extends Component {
       <Flex style={styles.overlay} align="center" justify="center" self="stretch">
         <Flex style={styles.chatBubble}>
           <Text style={styles.chatText}>
-            {user ? `${user.first_name}, ` : ''}
+            {user && user.first_name ? `${user.first_name}, ` : 'Friend, '}
             I will play my ukulele when your friends start watching videos. This is the best time to have deeper conversations.
             {'\n'}
             {'\n'}
