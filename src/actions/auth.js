@@ -75,6 +75,10 @@ function appStateChange(dispatch, getState, nextAppState) {
         let conversations = getState().messages.conversations;
         let link = results[0] && results[0].userInfo && results[0].userInfo.data && results[0].userInfo.data.link;
         if (!link) return;
+        if (link.includes('adventures')) {
+          dispatch(getMe());
+          return;
+        }
         const cId = link.substring(link.indexOf('conversations/') + 14, link.indexOf('/messages'));
         const mId = link.substring(link.indexOf('messages/') + 9, link.length);
         // LOG('conversation ID: ', cId);

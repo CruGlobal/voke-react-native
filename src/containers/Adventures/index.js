@@ -24,7 +24,11 @@ class Adventures extends Component {
   }
 
   scrollTo = (y) => {
-    this.scrollView.scrollTo({ y, animated: true });
+    if (y === 'end') {
+      this.scrollView.scrollToEnd();
+    } else {
+      this.scrollView.scrollTo({ y, animated: true });
+    }
   }
 
   render() {

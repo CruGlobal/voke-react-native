@@ -42,7 +42,10 @@ class AdventureMap extends Component {
 
   challengesLoaded(challenges) {
     const challenge = challenges.find((c) => c.isActive);
-    if (challenge) {
+    const completed = challenges.find((c) => c['completed?']);
+    if (!completed) {
+      this.props.scrollTo('end');
+    } else if (challenge) {
       this.scrollTo(challenge.point_y);
     }
   }
@@ -99,7 +102,7 @@ class AdventureMap extends Component {
             <Image source={{ uri: `${ad.icon.medium}`}} style={{height: 48, width: 48}} />
           ) : null
         }
-        <Text style={styles.title}>{ad.name.toUpperCase()}</Text>
+        <Text style={styles.title}>{ad.name ? ad.name.toUpperCase() : ''}</Text>
         <Text style={styles.description}>{ad.description}</Text>
       </Flex>
     );
