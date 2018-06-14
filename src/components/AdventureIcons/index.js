@@ -26,7 +26,7 @@ class AdventureIcons extends Component {
   }
 
   handleLockedPress = () => {
-    Alert.alert('This adventure is locked until you complete the current adventure.');
+    Alert.alert('', 'This adventure is locked until you complete the current adventure.');
   }
 
   renderAdventures = (ads) => {

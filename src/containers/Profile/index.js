@@ -85,7 +85,7 @@ class Profile extends Component {
       };
     } else if (newEmail && confirmEmail && currentPassword) {
       if (newEmail != confirmEmail) {
-        Alert.alert('The emails do not match','');
+        Alert.alert('The emails do not match');
         return;
       }
       data = {
@@ -96,11 +96,11 @@ class Profile extends Component {
       };
     } else if (currentPassword && newPassword && confirmPassword) {
       if (newPassword != confirmPassword) {
-        Alert.alert('The passwords do not match','');
+        Alert.alert('The passwords do not match');
         return;
       }
       if (newPassword.length < 8) {
-        Alert.alert('Passwords must be at least 8 characters','');
+        Alert.alert('Passwords must be at least 8 characters');
         return;
       }
       data = {

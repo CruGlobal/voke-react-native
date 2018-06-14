@@ -41,11 +41,11 @@ class SignUpNumberVerify extends Component {
     };
     if (!this.state.verificationSent) {
       this.props.dispatch(createMobileVerification(data)).then(() => {
-        Alert.alert('New verification code sent', '');
+        Alert.alert('New verification code sent');
       });
       this.setState({ verificationSent: true });
     } else {
-      Alert.alert('A new verification code has already been sent, please wait a few seconds before re-sending','');
+      Alert.alert('', 'A new verification code has already been sent, please wait a few seconds before re-sending');
     }
     // Reset this variable after a few seconds so that the user can resend the code
     setTimeout(() => {
@@ -65,7 +65,7 @@ class SignUpNumberVerify extends Component {
       },
     };
     if (!this.state.code) {
-      Alert.alert('Please enter the code that was sent','');
+      Alert.alert('Please enter the code that was sent');
     } else {
       this.setState({ disableNext: true, isLoading: true });
       this.props.dispatch(verifyMobile(data)).then(() => {

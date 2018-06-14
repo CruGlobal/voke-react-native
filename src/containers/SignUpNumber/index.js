@@ -38,7 +38,7 @@ class SignUpNumber extends Component {
 
   handleNext() {
     if (!this.state.phoneNumber) {
-      Alert.alert('Please enter your phone number','');
+      Alert.alert('Please enter your phone number');
     } else {
       let data = {
         mobile: {
