@@ -5,6 +5,7 @@ import { Touchable, Flex } from '../../components/common';
 import ADVENTURE_2 from '../../../images/adventure2.png';
 import ADVENTURE_3 from '../../../images/adventure3.png';
 import LOCK from '../../../images/lockedAdventure.png';
+import COMPLETE from '../../../images/adventureComplete.png';
 
 
 class AdventureIcons extends Component {
@@ -25,15 +26,21 @@ class AdventureIcons extends Component {
   }
 
   handleLockedPress = () => {
-    Alert.alert('This adventure is locked until you complete the current adventure.');
+    Alert.alert('', 'This adventure is locked until you complete the current adventure.');
   }
 
   renderAdventures = (ads) => {
+    const lng = ads.length;
     return (
-      ads.map((i) =>
+      ads.map((i, index) =>
         <Touchable key={i.adventure_id} onPress={() => this.handlePress(i)}>
           <View style={{marginHorizontal: 5, marginVertical: 5}}>
             <Image source={{ uri: `${i.icon.medium}`}} style={{height: 48, width: 48}} />
+            {
+              index < lng - 1 ? (
+                <Image source={COMPLETE} style={{position: 'absolute', bottom: 0, right: 0}} />
+              ) : null
+            }
           </View>
         </Touchable>
       )

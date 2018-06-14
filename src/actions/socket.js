@@ -42,7 +42,7 @@ export function checkAndRunSockets() {
 export function setupSocketAction(cableId) {
   return (dispatch, getState) => {
     if (!cableId) return;
-
+    return;
     const token = getState().auth.token;
     if (!token) {
       LOG('could not start sockets because there is no access_token');
@@ -263,6 +263,8 @@ export function handleNotifications(state, notification) {
           } else {
             dispatch(getConversations());
           }
+        } else if (namespace && link && namespace.includes('platform:organization:adventure:challenge')) {
+          dispatch(getMe());
         }
       }
     }
@@ -299,9 +301,8 @@ export function handleNotifications(state, notification) {
             }));
           });
         }
-
-
-
+      } else if (namespace && link && namespace.includes('platform:organization:adventure:challenge')) {
+        dispatch(getMe());
       }
     //   // NotificationsIOS.removeAllDeliveredNotifications();
     // } else {
