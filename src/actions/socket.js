@@ -42,7 +42,6 @@ export function checkAndRunSockets() {
 export function setupSocketAction(cableId) {
   return (dispatch, getState) => {
     if (!cableId) return;
-    return;
     const token = getState().auth.token;
     if (!token) {
       LOG('could not start sockets because there is no access_token');
