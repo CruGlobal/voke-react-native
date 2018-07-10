@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
-import { Image, ScrollView, Keyboard, KeyboardAvoidingView, Alert, View } from 'react-native';
+import {
+  Image,
+  ScrollView,
+  Keyboard,
+  KeyboardAvoidingView,
+  Alert,
+  View,
+} from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { translate } from 'react-i18next';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/nav';
@@ -19,7 +27,7 @@ class SignUpProfile extends Component {
   constructor(props) {
     super(props);
 
-    this.state= {
+    this.state = {
       imageUri: null,
       firstName: props.user.first_name,
       lastName: props.user.last_name,
@@ -42,7 +50,9 @@ class SignUpProfile extends Component {
     if (!uri) return;
     const updateData = {
       avatar: {
-        fileName: `${this.props.user.first_name}_${this.props.user.last_name}.png`,
+        fileName: `${this.props.user.first_name}_${
+          this.props.user.last_name
+        }.png`,
         // fileName: `new_user_${Date.now()}.png`,
         uri,
         // base64: data.imageBinary,
@@ -60,9 +70,10 @@ class SignUpProfile extends Component {
     const { firstName, lastName } = this.state;
     // TODO: Always allow the user to continue without entering more information
 
-
     if (firstName && lastName) {
-      if (this.state.disableSecondClick) { return; }
+      if (this.state.disableSecondClick) {
+        return;
+      }
       this.setState({ disableNext: true, isLoading: true });
       const data = {
         me: {
@@ -70,17 +81,24 @@ class SignUpProfile extends Component {
           last_name: lastName,
         },
       };
-      this.props.dispatch(updateMe(data)).then(() => {
-        if (this.state.imageUri) {
-          this.uploadImage(this.state.imageUri);
-        }
-        this.setState({ disableNext: false, disableSecondClick: true, isLoading: false });
-        this.props.navigatePush('voke.SignUpNumber');
-        // Enable the second click after a second
-        setTimeout(() => this.setState({ disableSecondClick: false }), 1000);
-      }).catch(() => {
-        this.setState({ disableNext: false, isLoading: false });
-      });
+      this.props
+        .dispatch(updateMe(data))
+        .then(() => {
+          if (this.state.imageUri) {
+            this.uploadImage(this.state.imageUri);
+          }
+          this.setState({
+            disableNext: false,
+            disableSecondClick: true,
+            isLoading: false,
+          });
+          this.props.navigatePush('voke.SignUpNumber');
+          // Enable the second click after a second
+          setTimeout(() => this.setState({ disableSecondClick: false }), 1000);
+        })
+        .catch(() => {
+          this.setState({ disableNext: false, isLoading: false });
+        });
     } else {
       Alert.alert('', 'Please fill in your first and last name');
     }
@@ -96,15 +114,13 @@ class SignUpProfile extends Component {
     return (
       <ImagePicker onSelectImage={this.handleImageChange}>
         <Flex align="center" justify="center" style={styles.imageSelect}>
-          {
-            this.state.imageUri ? (
-              <Image source={{ uri: this.state.imageUri }} style={styles.image} />
-            ) : (
-              <Flex align="center" justify="center">
-                <Icon name="camera-alt" style={styles.photoIcon} size={32} />
-              </Flex>
-            )
-          }
+          {this.state.imageUri ? (
+            <Image source={{ uri: this.state.imageUri }} style={styles.image} />
+          ) : (
+            <Flex align="center" justify="center">
+              <Icon name="camera-alt" style={styles.photoIcon} size={32} />
+            </Flex>
+          )}
         </Flex>
       </ImagePicker>
     );
@@ -114,7 +130,10 @@ class SignUpProfile extends Component {
     return (
       <View style={{ flex: 1 }}>
         <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
-          <KeyboardAvoidingView style={{ flex: 1 }} behavior={theme.isAndroid ? undefined : 'padding'}>
+          <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={theme.isAndroid ? undefined : 'padding'}
+          >
             {/* {
               // hideBack just means that we're resetting to this page because the
               // user has to fill in more info before they can continue
@@ -124,12 +143,21 @@ class SignUpProfile extends Component {
                 />
               ) : null
             } */}
-            <SignUpHeader title="Create Profile" onPress={()=> Keyboard.dismiss()} />
-            <Flex value={1} align="center" justify="start" self="stretch" style={styles.inputs}>
+            <SignUpHeader
+              title="Create Profile"
+              onPress={() => Keyboard.dismiss()}
+            />
+            <Flex
+              value={1}
+              align="center"
+              justify="start"
+              self="stretch"
+              style={styles.inputs}
+            >
               {this.renderImagePicker()}
               <SignUpInput
                 value={this.state.firstName}
-                onChangeText={(text) => this.setState({ firstName: text })}
+                onChangeText={text => this.setState({ firstName: text })}
                 placeholder="First Name"
                 autoCapitalize="words"
                 returnKeyType="next"
@@ -137,13 +165,19 @@ class SignUpProfile extends Component {
                 onSubmitEditing={() => this.lastName.focus()}
               />
               <SignUpInput
-                ref={(c) => this.lastName = c}
+                ref={c => (this.lastName = c)}
                 value={this.state.lastName}
-                onChangeText={(text) => this.setState({ lastName: text })}
+                onChangeText={text => this.setState({ lastName: text })}
                 placeholder="Last Name"
                 autoCapitalize="words"
               />
-              <Flex direction="column" value={1} align="center" justify="end" style={{ paddingTop: 40 }}>
+              <Flex
+                direction="column"
+                value={1}
+                align="center"
+                justify="end"
+                style={{ paddingTop: 40 }}
+              >
                 <Button
                   text="Next"
                   disabled={this.state.disableNext}
@@ -162,9 +196,7 @@ class SignUpProfile extends Component {
             </Flex>
           </KeyboardAvoidingView>
         </ScrollView>
-        {
-          this.state.isLoading ? <ApiLoading force={true} /> : null
-        }
+        {this.state.isLoading ? <ApiLoading force={true} /> : null}
       </View>
     );
   }
@@ -176,7 +208,12 @@ SignUpProfile.propTypes = {
 };
 const mapStateToProps = ({ auth }, { navigation }) => ({
   ...(navigation.state.params || {}),
-  user: auth.user || {}
+  user: auth.user || {},
 });
 
-export default connect(mapStateToProps, nav)(SignUpProfile);
+export default translate()(
+  connect(
+    mapStateToProps,
+    nav,
+  )(SignUpProfile),
+);

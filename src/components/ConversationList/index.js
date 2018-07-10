@@ -3,10 +3,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
+import { translate } from 'react-i18next';
 
 import styles from './styles';
 import theme, { COLORS } from '../../theme';
-import { momentUtc, getInitials } from '../../utils/common';
+import { getInitials } from '../../utils/common';
 
 import { Flex, VokeIcon, Text, Touchable, Avatar, RefreshControl } from '../common';
 import LoadMore from '../LoadMore';
@@ -203,4 +204,4 @@ ConversationList.propTypes = {
   hasMore: PropTypes.bool,
 };
 
-export default ConversationList;
+export default translate()(ConversationList);

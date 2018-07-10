@@ -1,15 +1,14 @@
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FlatList, Image } from 'react-native';
-import styles from './styles';
+import { translate } from 'react-i18next';
 
+import styles from './styles';
 import { Flex, Text, Touchable, RefreshControl } from '../common';
 
 const ITEM_HEIGHT = 120;
 
 class ChannelsList extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -22,11 +21,14 @@ class ChannelsList extends Component {
 
   handleRefresh() {
     this.setState({ refreshing: true });
-    this.props.onRefresh().then(() => {
-      this.setState({ refreshing: false });
-    }).catch(() => {
-      this.setState({ refreshing: false });
-    });
+    this.props
+      .onRefresh()
+      .then(() => {
+        this.setState({ refreshing: false });
+      })
+      .catch(() => {
+        this.setState({ refreshing: false });
+      });
   }
 
   scrollToBeginning() {
@@ -39,15 +41,30 @@ class ChannelsList extends Component {
     const channel = item;
     const avatar = channel.avatar || {};
     return (
-      <Touchable highlight={false} activeOpacity={0.8} onPress={() => this.props.onSelect(channel)}>
+      <Touchable
+        highlight={false}
+        activeOpacity={0.8}
+        onPress={() => this.props.onSelect(channel)}
+      >
         <Flex
           style={styles.container}
           direction="column"
           align="start"
           justify="center"
-          animation="slideInLeft">
-          <Image resizeMode="contain" source={{ uri: avatar.large }} style={styles.videoThumbnail} />
-          <Flex self="stretch" direction="column" align="start" justify="center" style={styles.channelName}>
+          animation="slideInLeft"
+        >
+          <Image
+            resizeMode="contain"
+            source={{ uri: avatar.large }}
+            style={styles.videoThumbnail}
+          />
+          <Flex
+            self="stretch"
+            direction="column"
+            align="start"
+            justify="center"
+            style={styles.channelName}
+          >
             <Text numberOfLines={1} style={styles.channelTitle}>
               {channel.name}
             </Text>
@@ -67,12 +84,12 @@ class ChannelsList extends Component {
     }
     return (
       <FlatList
-        ref={(c) => this.list = c}
+        ref={c => (this.list = c)}
         initialNumToRender={4}
         horizontal={true}
         data={this.props.items}
         renderItem={this.renderRow}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         getItemLayout={(data, index) => ({
           length: ITEM_HEIGHT,
           offset: ITEM_HEIGHT * index,
@@ -80,10 +97,12 @@ class ChannelsList extends Component {
         })}
         style={{ flex: 1 }}
         contentContainerStyle={styles.content}
-        refreshControl={<RefreshControl
-          refreshing={this.state.refreshing}
-          onRefresh={this.handleRefresh}
-        />}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this.handleRefresh}
+          />
+        }
         onEndReached={this.props.onLoadMore}
       />
     );
@@ -96,4 +115,6 @@ ChannelsList.propTypes = {
   items: PropTypes.array.isRequired, // Redux
 };
 
-export default ChannelsList;
+export default translate(undefined, { wait: true, withRef: true })(
+  ChannelsList,
+);

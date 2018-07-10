@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Image } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { translate } from 'react-i18next';
 
 import styles from './styles';
-import { Flex, Loading, Text } from '../../components/common';
+import { Flex, Text } from '../../components/common';
 import ANIMATION from '../../../images/VokeBotAnimation.gif';
 
 class ApiLoading extends Component {
@@ -29,16 +30,22 @@ class ApiLoading extends Component {
   }
 
   render() {
-    if (!this.state.showLoading && !this.props.isApiLoading && !this.props.force) return null;
+    if (
+      !this.state.showLoading &&
+      !this.props.isApiLoading &&
+      !this.props.force
+    )
+      return null;
     return (
       <Flex align="center" justify="center" style={styles.container}>
-        <Image style={{ marginBottom: 20, height: 100 }} resizeMode="contain" source={ANIMATION} />
-        {/* <Loading /> */}
-        {
-          this.props.text ? (
-            <Text style={styles.text}>{this.props.text}</Text>
-          ) : null
-        }
+        <Image
+          style={{ marginBottom: 20, height: 100 }}
+          resizeMode="contain"
+          source={ANIMATION}
+        />
+        {this.props.text ? (
+          <Text style={styles.text}>{this.props.text}</Text>
+        ) : null}
       </Flex>
     );
   }
@@ -57,4 +64,4 @@ const mapStateToProps = ({ auth }) => {
   };
 };
 
-export default connect(mapStateToProps)(ApiLoading);
+export default translate()(connect(mapStateToProps)(ApiLoading));

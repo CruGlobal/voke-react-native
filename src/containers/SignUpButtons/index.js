@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { translate } from 'react-i18next';
 
 import { navigatePush } from '../../actions/nav';
 import { Flex, Button, Text } from '../../components/common';
@@ -17,7 +18,9 @@ class SignUpButtons extends Component {
             icon="mail-outline"
             type={filled ? 'filled' : undefined}
             style={[styles.actionButton, filled ? styles.filled : null]}
-            onPress={() => this.props.dispatch(navigatePush('voke.SignUpAccount'))}
+            onPress={() =>
+              this.props.dispatch(navigatePush('voke.SignUpAccount'))
+            }
           />
         </Flex>
         <Flex style={styles.buttonWrapper}>
@@ -26,8 +29,15 @@ class SignUpButtons extends Component {
             style={filled ? styles.filled : undefined}
           />
         </Flex>
-        <Flex direction="row" align="center" justify="center" style={styles.haveAccount}>
-          <Text style={[styles.signIn, filled ? styles.signInFilled : null]}>Already have an account?</Text>
+        <Flex
+          direction="row"
+          align="center"
+          justify="center"
+          style={styles.haveAccount}
+        >
+          <Text style={[styles.signIn, filled ? styles.signInFilled : null]}>
+            Already have an account?
+          </Text>
           <Button
             text="Sign In"
             type="transparent"
@@ -40,4 +50,4 @@ class SignUpButtons extends Component {
   }
 }
 
-export default connect()(SignUpButtons);
+export default translate()(connect()(SignUpButtons));

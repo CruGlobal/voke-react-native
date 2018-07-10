@@ -1,2 +1,3 @@
-
-export default function PopupMenu() { return null; }
+export default function PopupMenu() {
+  return null;
+}

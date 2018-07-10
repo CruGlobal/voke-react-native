@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
+import { translate } from 'react-i18next';
 
 import Analytics from '../../utils/analytics';
 import { navMenuOptions } from '../../utils/menu';
@@ -43,4 +44,9 @@ const mapStateToProps = ({ auth }, { navigation }) => ({
   isAnonUser: auth.isAnonUser,
 });
 
-export default connect(mapStateToProps, nav)(Menu);
+export default translate()(
+  connect(
+    mapStateToProps,
+    nav,
+  )(Menu),
+);

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Linking, View } from 'react-native';
 import { connect } from 'react-redux';
 import DeviceInfo from 'react-native-device-info';
+import { translate } from 'react-i18next';
 
 import nav, { NavPropTypes } from '../../actions/nav';
 import Analytics from '../../utils/analytics';
@@ -15,7 +16,6 @@ import theme from '../../theme';
 const VERSION_BUILD = DeviceInfo.getReadableVersion();
 
 class About extends Component {
-
   constructor(props) {
     super(props);
     this.handleLink = this.handleLink.bind(this);
@@ -34,7 +34,9 @@ class About extends Component {
       <View style={{ flex: 1 }}>
         <Header
           right={
-            theme.isAndroid ? undefined : (
+            theme.isAndroid ? (
+              undefined
+            ) : (
               <Button
                 type="transparent"
                 text="Done"
@@ -55,7 +57,10 @@ class About extends Component {
           items={[
             {
               name: 'Why Voke?',
-              onPress: () => this.props.navigatePush('voke.SignUpWelcome', { noSignIn: true }),
+              onPress: () =>
+                this.props.navigatePush('voke.SignUpWelcome', {
+                  noSignIn: true,
+                }),
             },
             {
               name: 'Visit Voke Website',
@@ -94,4 +99,9 @@ const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
 });
 
-export default connect(mapStateToProps, nav)(About);
+export default translate()(
+  connect(
+    mapStateToProps,
+    nav,
+  )(About),
+);

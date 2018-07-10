@@ -20,13 +20,11 @@ class SignUpHeaderBack extends Component {
           type="transparent"
           style={{ padding: 10 }}
         >
-          {
-            theme.isAndroid ? (
-              <Icon name="arrow-back" size={30} />
-            ) : (
-              <VokeIcon name="back" />
-            )
-          }
+          {theme.isAndroid ? (
+            <Icon name="arrow-back" size={30} />
+          ) : (
+            <VokeIcon name="back" />
+          )}
         </Button>
       </Flex>
     );

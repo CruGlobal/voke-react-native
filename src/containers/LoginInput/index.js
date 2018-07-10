@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Image, TouchableOpacity, Keyboard, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import Analytics from '../../utils/analytics';
+import { translate } from 'react-i18next';
 
+import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { anonLogin, logoutAction } from '../../actions/auth';
 import ApiLoading from '../ApiLoading';
@@ -40,7 +41,10 @@ class LoginInput extends Component {
   componentDidMount() {
     Analytics.screen('Login Input');
     if (this.props.isAnonUser) {
-      Alert.alert('Login', 'If you login with an existing account, you will lose any activity that you have on the guest account you have been using. If you would like to save this activity, please go back and create a new account.');
+      Alert.alert(
+        'Login',
+        'If you login with an existing account, you will lose any activity that you have on the guest account you have been using. If you would like to save this activity, please go back and create a new account.',
+      );
     }
   }
 
@@ -49,32 +53,35 @@ class LoginInput extends Component {
       this.setState({ isLoading: true });
       if (this.props.isAnonUser) {
         // log out and destroy anon devices
-        this.props.dispatch(logoutAction()).then(()=> {
-          this.props.dispatch(anonLogin(
-            this.state.email,
-            this.state.password
-          )).then(() => {
+        this.props.dispatch(logoutAction()).then(() => {
+          this.props
+            .dispatch(anonLogin(this.state.email, this.state.password))
+            .then(() => {
+              this.setState({ isLoading: false });
+              this.props.dispatch({ type: RESET_ANON_USER });
+              this.props.navigateResetHome();
+            })
+            .catch(() => {
+              this.setState({ isLoading: false });
+            });
+        });
+      } else {
+        this.props
+          .dispatch(anonLogin(this.state.email, this.state.password))
+          .then(() => {
             this.setState({ isLoading: false });
             this.props.dispatch({ type: RESET_ANON_USER });
             this.props.navigateResetHome();
-          }).catch(() => {
+          })
+          .catch(() => {
             this.setState({ isLoading: false });
           });
-        });
-      } else {
-        this.props.dispatch(anonLogin(
-          this.state.email,
-          this.state.password
-        )).then(() => {
-          this.setState({ isLoading: false });
-          this.props.dispatch({ type: RESET_ANON_USER });
-          this.props.navigateResetHome();
-        }).catch(() => {
-          this.setState({ isLoading: false });
-        });
       }
     } else {
-      Alert.alert('Invalid email/password', 'Please enter a valid email and password');
+      Alert.alert(
+        'Invalid email/password',
+        'Please enter a valid email and password',
+      );
     }
   }
 
@@ -83,9 +90,18 @@ class LoginInput extends Component {
       <Flex style={styles.container} value={1} align="center" justify="center">
         <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
           <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
-          <Flex direction="column" align="center" justify="end" style={styles.logoWrapper}>
+          <Flex
+            direction="column"
+            align="center"
+            justify="end"
+            style={styles.logoWrapper}
+          >
             <Flex style={styles.imageWrap} align="center" justify="center">
-              <Image resizeMode="contain" source={LOGO} style={styles.imageLogo} />
+              <Image
+                resizeMode="contain"
+                source={LOGO}
+                style={styles.imageLogo}
+              />
             </Flex>
           </Flex>
           <Flex align="center" justify="end" style={styles.actions}>
@@ -100,10 +116,10 @@ class LoginInput extends Component {
               onSubmitEditing={() => this.password.focus()}
             />
             <SignUpInput
-              ref={(c) => this.password = c}
+              ref={c => (this.password = c)}
               secureTextEntry={true}
               value={this.state.password}
-              onChangeText={(text) => this.setState({ password: text })}
+              onChangeText={text => this.setState({ password: text })}
               placeholder="Password"
             />
             <Flex style={styles.buttonWrapper}>
@@ -121,7 +137,13 @@ class LoginInput extends Component {
               onPress={() => this.props.navigatePush('voke.ForgotPassword')}
             />
           </Flex>
-          <Flex value={1} direction="column" align="center" justify="center" style={styles.haveAccount}>
+          <Flex
+            value={1}
+            direction="column"
+            align="center"
+            justify="center"
+            style={styles.haveAccount}
+          >
             <Flex style={styles.buttonWrapper}>
               <FacebookButton
                 text="Sign In with Facebook"
@@ -131,9 +153,7 @@ class LoginInput extends Component {
             </Flex>
           </Flex>
         </TouchableOpacity>
-        {
-          this.state.isLoading ? <ApiLoading force={true} /> : null
-        }
+        {this.state.isLoading ? <ApiLoading force={true} /> : null}
       </Flex>
     );
   }
@@ -147,4 +167,9 @@ const mapStateToProps = ({ auth }, { navigation }) => ({
   isAnonUser: auth.isAnonUser,
 });
 
-export default connect(mapStateToProps, nav)(LoginInput);
+export default translate()(
+  connect(
+    mapStateToProps,
+    nav,
+  )(LoginInput),
+);

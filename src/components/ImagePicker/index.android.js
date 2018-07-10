@@ -22,7 +22,6 @@ const OPTIONS = {
 };
 
 class ImagePicker extends Component {
-
   constructor(props) {
     super(props);
 
@@ -63,21 +62,25 @@ class ImagePicker extends Component {
       [
         {
           text: 'Select picture',
-          onPress: () => RNImagePicker.openPicker(OPTIONS).then(this.handleResponse).catch(this.handleError),
+          onPress: () =>
+            RNImagePicker.openPicker(OPTIONS)
+              .then(this.handleResponse)
+              .catch(this.handleError),
         },
         {
           text: 'New picture',
-          onPress: () => RNImagePicker.openCamera(OPTIONS).then(this.handleResponse).catch(this.handleError),
+          onPress: () =>
+            RNImagePicker.openCamera(OPTIONS)
+              .then(this.handleResponse)
+              .catch(this.handleError),
         },
-      ]
+      ],
     );
   }
 
   render() {
     return (
-      <Touchable onPress={this.selectImage}>
-        {this.props.children}
-      </Touchable>
+      <Touchable onPress={this.selectImage}>{this.props.children}</Touchable>
     );
   }
 }

@@ -7,7 +7,18 @@ export default class Flex extends Component {
     this._view.setNativeProps(nativeProps);
   }
   render() {
-    const { value, direction, align, justify, self: flexSelf, grow, wrap, children, style = {}, ...rest } = this.props;
+    const {
+      value,
+      direction,
+      align,
+      justify,
+      self: flexSelf,
+      grow,
+      wrap,
+      children,
+      style = {},
+      ...rest
+    } = this.props;
     let styleObj = {};
     if (value) styleObj.flex = value;
     if (direction) styleObj.flexDirection = direction;
@@ -35,7 +46,7 @@ export default class Flex extends Component {
     }
     return (
       <Animatable.View
-        ref={(c) => this._view = c}
+        ref={c => (this._view = c)}
         duration={400}
         {...rest}
         style={[style, styleObj]}
@@ -48,7 +59,11 @@ export default class Flex extends Component {
 
 Flex.propTypes = {
   children: PropTypes.node,
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.number, PropTypes.array]),
+  style: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.number,
+    PropTypes.array,
+  ]),
   value: PropTypes.number,
   grow: PropTypes.number,
   direction: PropTypes.oneOf(['row', 'column']),

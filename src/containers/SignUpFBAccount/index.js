@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { ScrollView, KeyboardAvoidingView, Alert, Linking, Image } from 'react-native';
+import {
+  ScrollView,
+  KeyboardAvoidingView,
+  Alert,
+  Linking,
+  Image,
+} from 'react-native';
 import ImagePicker from '../../components/ImagePicker';
+import { translate } from 'react-i18next';
 
 import Analytics from '../../utils/analytics';
 import styles from './styles';
@@ -51,7 +58,9 @@ class SignUpFBAccount extends Component {
     this.setState({ imageUri: data.uri });
     if (data.uri) {
       const me = this.props.me;
-      const fileName = me ? `${me.first_name}_${me.last_name}.png` : `new_user_${Date.now()}.png`;
+      const fileName = me
+        ? `${me.first_name}_${me.last_name}.png`
+        : `new_user_${Date.now()}.png`;
       const updateData = {
         avatar: {
           fileName,
@@ -87,32 +96,36 @@ class SignUpFBAccount extends Component {
     return (
       <ImagePicker onSelectImage={this.handleImageChange}>
         <Flex align="center" justify="center" style={styles.imageSelect}>
-          {
-            this.state.imageUri ? (
-              <Image source={{ uri: this.state.imageUri }} style={styles.image} />
-            ) : (
-              <Flex align="center" justify="center">
-                <Icon name="camera-alt" style={styles.photoIcon} size={32} />
-              </Flex>
-            )
-          }
+          {this.state.imageUri ? (
+            <Image source={{ uri: this.state.imageUri }} style={styles.image} />
+          ) : (
+            <Flex align="center" justify="center">
+              <Icon name="camera-alt" style={styles.photoIcon} size={32} />
+            </Flex>
+          )}
         </Flex>
       </ImagePicker>
     );
   }
 
-
   render() {
     return (
-      <ScrollView style={styles.container} value={1} align="center" justify="center">
-        <KeyboardAvoidingView behavior={theme.isAndroid ? undefined : 'padding'}>
+      <ScrollView
+        style={styles.container}
+        value={1}
+        align="center"
+        justify="center"
+      >
+        <KeyboardAvoidingView
+          behavior={theme.isAndroid ? undefined : 'padding'}
+        >
           <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
           <SignUpHeader title="Create Account" />
           <Flex value={1} align="center" justify="start" style={styles.inputs}>
             {this.renderImagePicker()}
             <SignUpInput
               value={this.state.firstName}
-              onChangeText={(text) => this.setState({ firstName: text })}
+              onChangeText={text => this.setState({ firstName: text })}
               placeholder="First Name"
               autoCapitalize="words"
               returnKeyType="next"
@@ -120,9 +133,9 @@ class SignUpFBAccount extends Component {
               onSubmitEditing={() => this.lastName.focus()}
             />
             <SignUpInput
-              ref={(c) => this.lastName = c}
+              ref={c => (this.lastName = c)}
               value={this.state.lastName}
-              onChangeText={(text) => this.setState({ lastName: text })}
+              onChangeText={text => this.setState({ lastName: text })}
               placeholder="Last Name"
               autoCapitalize="words"
               returnKeyType="next"
@@ -130,7 +143,7 @@ class SignUpFBAccount extends Component {
               onSubmitEditing={() => this.email.focus()}
             />
             <SignUpInput
-              ref={(c) => this.email = c}
+              ref={c => (this.email = c)}
               value={this.state.email}
               onChangeText={this.checkEmail}
               placeholder="Email"
@@ -145,7 +158,9 @@ class SignUpFBAccount extends Component {
             </Flex>
           </Flex>
           <Flex direction="column">
-            <Text style={styles.legalText}>By creating an account you agree to our </Text>
+            <Text style={styles.legalText}>
+              By creating an account you agree to our{' '}
+            </Text>
             <Flex direction="row" align="center" justify="center">
               <Button
                 text="Privacy Policy"
@@ -154,8 +169,7 @@ class SignUpFBAccount extends Component {
                 style={styles.legalLink}
                 onPress={() => this.handleLink(CONSTANTS.WEB_URLS.PRIVACY)}
               />
-              <Text style={styles.legalText}>and
-              </Text>
+              <Text style={styles.legalText}>and</Text>
               <Button
                 text="Terms of Service"
                 type="transparent"
@@ -179,4 +193,9 @@ const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
 });
 
-export default connect(mapStateToProps, nav)(SignUpFBAccount);
+export default translate()(
+  connect(
+    mapStateToProps,
+    nav,
+  )(SignUpFBAccount),
+);

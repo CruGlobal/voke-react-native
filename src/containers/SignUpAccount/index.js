@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, KeyboardAvoidingView, Linking, Alert, Keyboard } from 'react-native';
+import {
+  ScrollView,
+  KeyboardAvoidingView,
+  Linking,
+  Alert,
+  Keyboard,
+} from 'react-native';
+import { translate } from 'react-i18next';
 
 import Analytics from '../../utils/analytics';
 import styles from './styles';
-import { createAccountAction, updateMe } from '../../actions/auth';
+import { updateMe } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/nav';
 import { Flex, Text, Button } from '../../components/common';
 import ApiLoading from '../ApiLoading';
@@ -49,18 +56,28 @@ class SignUpAccount extends Component {
       },
     };
     this.setState({ isLoading: true });
-    this.props.dispatch(updateMe(data)).then((results) => {
-      this.setState({ isLoading: false });
-      this.props.dispatch({ type: RESET_ANON_USER });
-      this.moveForward(results);
-    }).catch((err) => {
-      this.setState({ isLoading: false });
-      LOG('error', err);
-      if (err && err.errors && err.errors.includes('Email has already been taken')) {
-        Alert.alert('Error Creating Account', 'Email has already been taken.');
-      }
-    });
-  }
+    this.props
+      .dispatch(updateMe(data))
+      .then(results => {
+        this.setState({ isLoading: false });
+        this.props.dispatch({ type: RESET_ANON_USER });
+        this.moveForward(results);
+      })
+      .catch(err => {
+        this.setState({ isLoading: false });
+        LOG('error', err);
+        if (
+          err &&
+          err.errors &&
+          err.errors.includes('Email has already been taken')
+        ) {
+          Alert.alert(
+            'Error Creating Account',
+            'Email has already been taken.',
+          );
+        }
+      });
+  };
   //
   // createAccount() {
   //   if (this.state.emailValidation && this.state.password) {
@@ -101,13 +118,18 @@ class SignUpAccount extends Component {
 
   render() {
     return (
-      <ScrollView keyboardShouldPersistTaps={theme.isAndroid ? 'handled' : 'always'} style={styles.container}>
+      <ScrollView
+        keyboardShouldPersistTaps={theme.isAndroid ? 'handled' : 'always'}
+        style={styles.container}
+      >
         <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
-        <KeyboardAvoidingView behavior={theme.isAndroid ? undefined : 'position'}>
+        <KeyboardAvoidingView
+          behavior={theme.isAndroid ? undefined : 'position'}
+        >
           <SignUpHeader
             title="Create Account"
             description="Creating your account allows you to keep your conversations safe, retain your progress and access Voke from anywhere"
-            onPress={()=> Keyboard.dismiss()}
+            onPress={() => Keyboard.dismiss()}
           />
           <Flex value={1} align="center" justify="start" style={styles.inputs}>
             <SignUpInput
@@ -121,9 +143,9 @@ class SignUpAccount extends Component {
               onSubmitEditing={() => this.password.focus()}
             />
             <SignUpInput
-              ref={(c) => this.password = c}
+              ref={c => (this.password = c)}
               value={this.state.password}
-              onChangeText={(text) => this.setState({ password: text })}
+              onChangeText={text => this.setState({ password: text })}
               placeholder="Password"
               secureTextEntry={true}
             />
@@ -136,7 +158,9 @@ class SignUpAccount extends Component {
               />
             </Flex>
             <Flex direction="column">
-              <Text style={styles.legalText}>By creating an account you agree to our </Text>
+              <Text style={styles.legalText}>
+                By creating an account you agree to our{' '}
+              </Text>
               <Flex direction="row" align="center" justify="center">
                 <Button
                   text="Privacy Policy"
@@ -145,8 +169,7 @@ class SignUpAccount extends Component {
                   style={styles.legalLink}
                   onPress={() => this.handleLink(CONSTANTS.WEB_URLS.PRIVACY)}
                 />
-                <Text style={styles.legalText}>and
-                </Text>
+                <Text style={styles.legalText}>and</Text>
                 <Button
                   text="Terms of Service"
                   type="transparent"
@@ -161,9 +184,7 @@ class SignUpAccount extends Component {
             </Flex>
           </Flex>
         </KeyboardAvoidingView>
-        {
-          this.state.isLoading ? <ApiLoading force={true} /> : null
-        }
+        {this.state.isLoading ? <ApiLoading force={true} /> : null}
       </ScrollView>
     );
   }
@@ -177,4 +198,9 @@ const mapStateToProps = ({ auth }, { navigation }) => ({
   isAnonUser: auth.isAnonUser,
 });
 
-export default connect(mapStateToProps, nav)(SignUpAccount);
+export default translate()(
+  connect(
+    mapStateToProps,
+    nav,
+  )(SignUpAccount),
+);

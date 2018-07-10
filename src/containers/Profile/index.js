@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
-import { Image, TextInput, ScrollView, View, Alert, BackHandler } from 'react-native';
+import {
+  Image,
+  TextInput,
+  ScrollView,
+  View,
+  Alert,
+  BackHandler,
+} from 'react-native';
 import { connect } from 'react-redux';
+import { translate } from 'react-i18next';
 
 import styles from './styles';
-import { Flex, Icon, Button, Text, Separator } from '../../components/common';
+import { Flex, Button, Text, Separator } from '../../components/common';
 import ImagePicker from '../../components/ImagePicker';
 import { updateMe, getMe } from '../../actions/auth';
 import Analytics from '../../utils/analytics';
@@ -23,8 +31,6 @@ const defaultState = {
   editName: false,
   editEmail: false,
   editPassword: false,
-  firstName: '',
-  lastName: '',
   newEmail: '',
   confirmEmail: '',
   currentPassword: '',
@@ -34,23 +40,13 @@ const defaultState = {
 };
 
 class Profile extends Component {
-
   constructor(props) {
     super(props);
 
     this.state = {
-      imageUri: null,
-      editName: false,
-      editEmail: false,
-      editPassword: false,
-      firstName: props.user.first_name || '',
-      lastName: props.user.last_name || '',
-      newEmail: '',
-      confirmEmail: '',
-      currentPassword: '',
-      newPassword: '',
-      confirmPassword: '',
-      hideAnonFields: false,
+      ...defaultState,
+      firstName: props.user ? props.user.first_name || '' : '',
+      lastName: props.user ? props.user.last_name || '' : '',
     };
   }
 
@@ -65,15 +61,27 @@ class Profile extends Component {
   }
 
   backHandler = () => {
-    if (this.state.editName || this.state.editEmail || this.state.editPassword) {
+    if (
+      this.state.editName ||
+      this.state.editEmail ||
+      this.state.editPassword
+    ) {
       this.resetState();
       return true;
     }
     return false;
-  }
+  };
 
   handleUpdate = () => {
-    const { firstName, lastName, currentPassword, newEmail, confirmEmail, newPassword, confirmPassword } = this.state;
+    const {
+      firstName,
+      lastName,
+      currentPassword,
+      newEmail,
+      confirmEmail,
+      newPassword,
+      confirmPassword,
+    } = this.state;
     let data = {};
 
     if (firstName || lastName) {
@@ -113,31 +121,22 @@ class Profile extends Component {
     this.props.dispatch(updateMe(data)).then(() => {
       this.resetState();
     });
-  }
+  };
 
   resetState() {
-    this.setState({
-      imageUri: null,
-      editName: false,
-      editEmail: false,
-      editPassword: false,
-      newEmail: '',
-      confirmEmail: '',
-      currentPassword: '',
-      newPassword: '',
-      confirmPassword: '',
-      hideAnonFields: false,
-    });
+    this.setState(defaultState);
   }
 
-  handleImageChange = (data) => {
+  handleImageChange = data => {
     this.setState({
       imageUri: data.uri,
     });
     if (data.uri) {
       const updateData = {
         avatar: {
-          fileName: `${this.props.user.first_name}_${this.props.user.last_name}.png`,
+          fileName: `${this.props.user.first_name}_${
+            this.props.user.last_name
+          }.png`,
           uri: data.uri,
           // base64: data.imageBinary,
         },
@@ -146,9 +145,9 @@ class Profile extends Component {
         this.resetState();
       });
     }
-  }
+  };
 
-  toggleEdit = (type) => {
+  toggleEdit = type => {
     const newValue = !this.state[type];
     // If we are toggling the edit ON and the user is anonymous, show the popup
     // if (newValue && this.props.isAnonUser) {
@@ -161,28 +160,33 @@ class Profile extends Component {
       editName: false,
       editEmail: false,
       editPassword: false,
-      ...({ [type]: newValue }),
+      ...{ [type]: newValue },
     };
     this.setState(newData);
-
-  }
+  };
 
   renderImagePicker() {
     let image;
 
     if (this.state.imageUri) {
-      image = { uri: this.state.imageUri} ;
-    } else if (this.props.user && this.props.user.avatar && this.props.user.avatar.large) {
+      image = { uri: this.state.imageUri };
+    } else if (
+      this.props.user &&
+      this.props.user.avatar &&
+      this.props.user.avatar.large
+    ) {
       image = { uri: this.props.user.avatar.large };
     } else {
-      image= VOKE_LOGO;
+      image = VOKE_LOGO;
     }
 
     return (
       <ImagePicker onSelectImage={this.handleImageChange}>
         <ProfileRow
           text="Change Photo"
-          right={<Image resizeMode="cover" source={image} style={styles.image} />}
+          right={
+            <Image resizeMode="cover" source={image} style={styles.image} />
+          }
         />
       </ImagePicker>
     );
@@ -196,12 +200,12 @@ class Profile extends Component {
         <Flex>
           <Text style={styles.changeTitle}>Change Name</Text>
         </Flex>
-        <Flex  value={1} direction="row" align="center" justify="center">
+        <Flex value={1} direction="row" align="center" justify="center">
           <Flex direction="column" value={2} style={styles.inputRow}>
             <TextInput
-              ref={(c) => this.firstName = c}
+              ref={c => (this.firstName = c)}
               value={this.state.firstName}
-              onChangeText={(text) => this.setState({ firstName: text })}
+              onChangeText={text => this.setState({ firstName: text })}
               multiline={false}
               autoCapitalize="words"
               placeholder="First Name"
@@ -214,8 +218,8 @@ class Profile extends Component {
               onSubmitEditing={() => this.lastName.focus()}
             />
             <TextInput
-              ref={(c) => this.lastName = c}
-              onChangeText={(text) => this.setState({ lastName: text })}
+              ref={c => (this.lastName = c)}
+              onChangeText={text => this.setState({ lastName: text })}
               value={this.state.lastName || user.last_name || ''}
               multiline={false}
               autoCapitalize="words"
@@ -249,11 +253,11 @@ class Profile extends Component {
         <Flex>
           <Text style={styles.changeTitle}>Change Email</Text>
         </Flex>
-        <Flex  direction="row" align="center" justify="center">
+        <Flex direction="row" align="center" justify="center">
           <Flex direction="column" value={3} style={styles.inputRow}>
             <TextInput
-              ref={(c) => this.newEmail = c}
-              onChangeText={(text) => this.setState({ newEmail: text })}
+              ref={c => (this.newEmail = c)}
+              onChangeText={text => this.setState({ newEmail: text })}
               value={this.state.newEmail}
               multiline={false}
               placeholder="New Email"
@@ -267,9 +271,9 @@ class Profile extends Component {
               onSubmitEditing={() => this.confirmEmail.focus()}
             />
             <TextInput
-              ref={(c) => this.confirmEmail = c}
+              ref={c => (this.confirmEmail = c)}
               value={this.state.confirmEmail}
-              onChangeText={(text) => this.setState({ confirmEmail: text })}
+              onChangeText={text => this.setState({ confirmEmail: text })}
               multiline={false}
               returnKeyType="next"
               placeholder="Confirm Email"
@@ -282,10 +286,10 @@ class Profile extends Component {
               onSubmitEditing={() => this.currentPassword.focus()}
             />
             <TextInput
-              ref={(c) => this.currentPassword = c}
+              ref={c => (this.currentPassword = c)}
               value={this.state.currentPassword}
               secureTextEntry={true}
-              onChangeText={(text) => this.setState({ currentPassword: text })}
+              onChangeText={text => this.setState({ currentPassword: text })}
               returnKeyType="done"
               multiline={false}
               placeholder="Password"
@@ -299,7 +303,11 @@ class Profile extends Component {
           <Flex value={1} align="center">
             <Button
               text="SAVE"
-              disabled={!this.state.currentPassword && !this.state.newEmail && !this.state.confirmEmail}
+              disabled={
+                !this.state.currentPassword &&
+                !this.state.newEmail &&
+                !this.state.confirmEmail
+              }
               style={styles.saveButton}
               buttonTextStyle={styles.saveButtonText}
               onPress={this.handleUpdate}
@@ -317,13 +325,13 @@ class Profile extends Component {
         <Flex>
           <Text style={styles.changeTitle}>Change Password</Text>
         </Flex>
-        <Flex  direction="row" align="center" justify="center">
+        <Flex direction="row" align="center" justify="center">
           <Flex direction="column" value={3} style={styles.inputRow}>
             <TextInput
-              ref={(c) => this.passwordCurrent = c}
+              ref={c => (this.passwordCurrent = c)}
               multiline={false}
               placeholder="Current Password"
-              onChangeText={(text) => this.setState({ currentPassword: text })}
+              onChangeText={text => this.setState({ currentPassword: text })}
               secureTextEntry={true}
               returnKeyType="next"
               value={this.state.currentPassword}
@@ -335,11 +343,11 @@ class Profile extends Component {
               onSubmitEditing={() => this.passwordNew.focus()}
             />
             <TextInput
-              ref={(c) => this.passwordNew = c}
+              ref={c => (this.passwordNew = c)}
               multiline={false}
               secureTextEntry={true}
               placeholder="New Password"
-              onChangeText={(text) => this.setState({ newPassword: text })}
+              onChangeText={text => this.setState({ newPassword: text })}
               returnKeyType="next"
               value={this.state.newPassword}
               placeholderTextColor={theme.primaryColor}
@@ -350,13 +358,13 @@ class Profile extends Component {
               onSubmitEditing={() => this.passwordNewConfirm.focus()}
             />
             <TextInput
-              ref={(c) => this.passwordNewConfirm = c}
+              ref={c => (this.passwordNewConfirm = c)}
               multiline={false}
               placeholder="Confirm New Password"
               returnKeyType="done"
               secureTextEntry={true}
               value={this.state.confirmPassword}
-              onChangeText={(text) => this.setState({ confirmPassword: text })}
+              onChangeText={text => this.setState({ confirmPassword: text })}
               placeholderTextColor={theme.primaryColor}
               style={styles.inputBox}
               autoCorrect={true}
@@ -369,7 +377,11 @@ class Profile extends Component {
               text="SAVE"
               style={styles.saveButton}
               buttonTextStyle={styles.saveButtonText}
-              disabled={!this.state.currentPassword && !this.state.newPassword && !this.state.confirmPassword}
+              disabled={
+                !this.state.currentPassword &&
+                !this.state.newPassword &&
+                !this.state.confirmPassword
+              }
               onPress={this.handleUpdate}
             />
           </Flex>
@@ -390,124 +402,127 @@ class Profile extends Component {
 
     return (
       <View style={styles.container}>
-        <Header
-          leftBack={true}
-          title="Profile"
-          light={true}
-          shadow={false}
-        />
+        <Header leftBack={true} title="Profile" light={true} shadow={false} />
         <Flex direction="column" style={styles.content}>
           <ScrollView
-            ref={(c) => this.scrollView = c}
-            style={{flex: 2}}
+            ref={c => (this.scrollView = c)}
+            style={{ flex: 2 }}
             keyboardShouldPersistTaps="handled"
           >
             <ProfileProgress />
             <Separator />
-            {
-              isAnonUser || isEditing ? null : this.renderImagePicker()
-            }
-            {
-              isEditing && !editName ? null : (
-                <View>
-                  <ProfileRow
-                    text={name || 'Add your Name'}
-                    right={<Button
+            {isAnonUser || isEditing ? null : this.renderImagePicker()}
+            {isEditing && !editName ? null : (
+              <View>
+                <ProfileRow
+                  text={name || 'Add your Name'}
+                  right={
+                    <Button
                       isAndroidOpacity={true}
-                      text={editName ? 'Cancel' : (!name ? 'Add' : 'Edit')}
+                      text={editName ? 'Cancel' : !name ? 'Add' : 'Edit'}
                       buttonTextStyle={styles.editText}
                       style={styles.inputButton}
                       onPress={() => this.toggleEdit('editName')}
-                    />}
-                  />
-                  {this.renderEditName()}
-                </View>
-              )
-            }
-            {
-              isAnonUser || (isEditing && !editEmail) ? null : (
-                <View>
-                  <ProfileRow
-                    text={user.email || 'Add Email'}
-                    right={<Button
+                    />
+                  }
+                />
+                {this.renderEditName()}
+              </View>
+            )}
+            {isAnonUser || (isEditing && !editEmail) ? null : (
+              <View>
+                <ProfileRow
+                  text={user.email || 'Add Email'}
+                  right={
+                    <Button
                       isAndroidOpacity={true}
-                      text={editEmail ? 'Cancel' : (!user.email ? 'Add' : 'Edit')}
+                      text={editEmail ? 'Cancel' : !user.email ? 'Add' : 'Edit'}
                       buttonTextStyle={styles.editText}
                       style={styles.inputButton}
                       onPress={() => this.toggleEdit('editEmail')}
-                    />}
-                  />
-                  {this.renderEditEmail()}
-                </View>
-              )
-            }
-            {
-              isAnonUser || (isEditing && !editPassword) ? null : (
-                <View>
-                  <ProfileRow
-                    text={user.email ? '********' : 'Add Password'}
-                    right={<Button
+                    />
+                  }
+                />
+                {this.renderEditEmail()}
+              </View>
+            )}
+            {isAnonUser || (isEditing && !editPassword) ? null : (
+              <View>
+                <ProfileRow
+                  text={user.email ? '********' : 'Add Password'}
+                  right={
+                    <Button
                       isAndroidOpacity={true}
-                      text={editPassword ? 'Cancel' : (!user.email ? 'Add' : 'Edit')}
+                      text={
+                        editPassword ? 'Cancel' : !user.email ? 'Add' : 'Edit'
+                      }
                       buttonTextStyle={styles.editText}
                       style={styles.inputButton}
                       onPress={() => this.toggleEdit('editPassword')}
-                    />}
-                  />
-                  {this.renderEditPassword()}
-                </View>
-              )
-            }
-            {
-              isAnonUser || isEditing ? null : (
-                <ProfileRow
-                  text={user.mobile ? 'Mobile Verified' : 'Verify Mobile Number'}
-                  right={<Button
+                    />
+                  }
+                />
+                {this.renderEditPassword()}
+              </View>
+            )}
+            {isAnonUser || isEditing ? null : (
+              <ProfileRow
+                text={user.mobile ? 'Mobile Verified' : 'Verify Mobile Number'}
+                right={
+                  <Button
                     isAndroidOpacity={true}
                     text={user.mobile ? '' : 'Add'}
                     buttonTextStyle={styles.editText}
                     style={styles.inputButton}
-                    onPress={() => user.mobile ? undefined : this.props.navigatePush('voke.SignUpNumber')}
-                  />}
-                />
-              )
-            }
-            {
-              isAnonUser && !hideAnonFields ? (
-                <Flex value={1} align="center" style={{ paddingHorizontal: 50, marginTop: 100 }}>
-                  <Text style={styles.signUpText}>
-                    Sign up to save your progress and access your account from anywhere.
-                  </Text>
-                  <SignUpButtons filled={true} />
-                </Flex>
-              ) : null
-            }
+                    onPress={() =>
+                      user.mobile
+                        ? undefined
+                        : this.props.navigatePush('voke.SignUpNumber')
+                    }
+                  />
+                }
+              />
+            )}
+            {isAnonUser && !hideAnonFields ? (
+              <Flex
+                value={1}
+                align="center"
+                style={{ paddingHorizontal: 50, marginTop: 100 }}
+              >
+                <Text style={styles.signUpText}>
+                  Sign up to save your progress and access your account from
+                  anywhere.
+                </Text>
+                <SignUpButtons filled={true} />
+              </Flex>
+            ) : null}
           </ScrollView>
         </Flex>
         <ApiLoading />
-        <VokeOverlays type="tryItNowSignUp" onClose={() => this.setState({ hideAnonFields: false })} />
+        <VokeOverlays
+          type="tryItNowSignUp"
+          onClose={() => this.setState({ hideAnonFields: false })}
+        />
       </View>
     );
   }
 }
-
 
 function ProfileRow({ text, left, right }) {
   return (
     <Flex direction="column">
       <Flex direction="row" align="center">
         <Flex value={3}>
-          {left ? left : (
-            <Text style={styles.changeTitle}>{text}</Text>
-          )}
+          {left ? left : <Text style={styles.changeTitle}>{text}</Text>}
         </Flex>
-        <Flex value={1} align="center">{right}</Flex>
+        <Flex value={1} align="center">
+          {right}
+        </Flex>
       </Flex>
       <Separator />
     </Flex>
   );
 }
-
 
 // Check out actions/nav.js to see the prop types and mapDispatchToProps
 Profile.propTypes = {
@@ -519,4 +534,9 @@ const mapStateToProps = ({ auth }) => ({
   isAnonUser: auth.isAnonUser,
 });
 
-export default connect(mapStateToProps, nav)(Profile);
+export default translate()(
+  connect(
+    mapStateToProps,
+    nav,
+  )(Profile),
+);

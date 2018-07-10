@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Image, TouchableOpacity, Keyboard, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import Analytics from '../../utils/analytics';
+import { translate } from 'react-i18next';
 
+import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { forgotPasswordAction } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/nav';
@@ -40,12 +41,11 @@ class ForgotPassword extends Component {
         LOG('resetting password');
         Alert.alert(
           'Check your Email',
-          'If you don\'t receive an email, it\'s most likely because you used a different email address. If so, try a different email address for password recovery',
-          [{ text: 'OK', onPress: () => this.props.navigateBack()}]
+          "If you don't receive an email, it's most likely because you used a different email address. If so, try a different email address for password recovery",
+          [{ text: 'OK', onPress: () => this.props.navigateBack() }],
         );
       });
-    }
-    else {
+    } else {
       Alert.alert('Invalid Email', 'Please enter a valid email');
     }
   }
@@ -55,13 +55,28 @@ class ForgotPassword extends Component {
       <Flex style={styles.container} value={1} align="center">
         <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
           <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
-          <Flex direction="column" align="center" justify="center" style={styles.logoWrapper}>
-            <Image resizeMode="contain" source={LOGO} style={styles.imageLogo} />
+          <Flex
+            direction="column"
+            align="center"
+            justify="center"
+            style={styles.logoWrapper}
+          >
+            <Image
+              resizeMode="contain"
+              source={LOGO}
+              style={styles.imageLogo}
+            />
             <Text style={styles.description}>
-              Please enter the correct email associated with your Voke account to reset the password
+              Please enter the correct email associated with your Voke account
+              to reset the password
             </Text>
           </Flex>
-          <Flex value={1.5} align="center" justify="start" style={styles.actions}>
+          <Flex
+            value={1.5}
+            align="center"
+            justify="start"
+            style={styles.actions}
+          >
             <SignUpInput
               value={this.state.email}
               onChangeText={this.checkEmail}
@@ -90,4 +105,9 @@ const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
 });
 
-export default connect(mapStateToProps, nav)(ForgotPassword);
+export default translate()(
+  connect(
+    mapStateToProps,
+    nav,
+  )(ForgotPassword),
+);

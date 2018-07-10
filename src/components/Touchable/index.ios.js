@@ -12,12 +12,14 @@ class TouchableIOS extends Component {
     if (rest.isAndroidOpacity !== undefined) delete rest.isAndroidOpacity;
     if (rest.androidRippleColor !== undefined) delete rest.androidRippleColor;
 
-    
     if (highlight) {
       return (
         <TouchableHighlight
           accessibilityTraits="button"
-          underlayColor={COLORS.convert({ color: COLORS.DARK_BLUE, alpha: 0.3 })}
+          underlayColor={COLORS.convert({
+            color: COLORS.DARK_BLUE,
+            alpha: 0.3,
+          })}
           {...rest}
         />
       );

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { findNodeHandle, UIManager, Alert } from 'react-native';
+import { translate } from 'react-i18next';
 
 import { exists, isFunction } from '../../utils/common';
 
@@ -8,7 +9,6 @@ import { Flex, Touchable, Icon } from '../common';
 
 // Android only component
 class PopupMenu extends Component {
-
   constructor(props) {
     super(props);
 
@@ -31,7 +31,7 @@ class PopupMenu extends Component {
   }
 
   handlePress() {
-    const actionNames = this.props.actions.map((a) => a.name);
+    const actionNames = this.props.actions.map(a => a.name);
     UIManager.showPopupMenu(
       findNodeHandle(this.menu),
       actionNames,
@@ -44,11 +44,7 @@ class PopupMenu extends Component {
     return (
       <Touchable onPress={this.handlePress} borderless={true}>
         <Flex self="end" style={{ paddingHorizontal: 10 }}>
-          <Icon
-            ref={(c) => this.menu = c}
-            name="more-vert"
-            size={28}
-          />
+          <Icon ref={c => (this.menu = c)} name="more-vert" size={28} />
         </Flex>
       </Touchable>
     );
@@ -56,10 +52,12 @@ class PopupMenu extends Component {
 }
 
 PopupMenu.propTypes = {
-  actions: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    onPress: PropTypes.func.isRequired,
-  })).isRequired,
+  actions: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      onPress: PropTypes.func.isRequired,
+    }),
+  ).isRequired,
 };
 
-export default PopupMenu;
+export default translate()(PopupMenu);

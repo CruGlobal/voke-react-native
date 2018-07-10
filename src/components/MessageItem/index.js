@@ -10,19 +10,17 @@ import { Flex, Text, Icon, Avatar, DateComponent, Touchable } from '../common';
 import { momentUtc, getInitials } from '../../utils/common';
 import TO_CHAT from '../../../images/to-chat-button.png';
 
-
 class MessageItem extends PureComponent {
-
   constructor(props) {
     super(props);
 
     // Find messenger where 'bot' is true
-    let vb = props.messengers.find((m) => m.bot);
+    let vb = props.messengers.find(m => m.bot);
 
     // If there are no messengers with 'bot' set to true, find the name Voke from a messenger
     if (!vb) {
       // This is a silly fallback and should never happen
-      vb = props.messengers.find((m) => m.first_name === 'Voke');
+      vb = props.messengers.find(m => m.first_name === 'Voke');
     }
     this.vokebotMessenger = vb || {};
   }
@@ -30,14 +28,14 @@ class MessageItem extends PureComponent {
   getOther() {
     const messengers = this.props.messengers;
     const user = this.props.user;
-    return messengers.find((m) => !m.bot && (user.id != m.id));
+    return messengers.find(m => !m.bot && user.id != m.id);
   }
 
   shareVideo = () => {
     if (this.props.item && this.props.item.item && this.props.onShareVideo) {
       this.props.onShareVideo(this.props.item.item);
     }
-  }
+  };
 
   renderText() {
     const message = this.props.item;
@@ -58,39 +56,38 @@ class MessageItem extends PureComponent {
         align="center"
         justify="start"
       >
-        {
-          !isTypeState ? (
-            <Text
-              selectable={true}
-              style={[
-                styles.message,
-                isMe ? styles.meText : styles.otherText,
-                isVoke && !isOnlyVoke ? styles.vokeText: null,
-              ]}
-            >
-              {message.content}
-            </Text>
-          ) : (
-            <Flex>
-              <Spinner
-                color={theme.accentColor}
-                size={25}
-                type="ThreeBounce"
-              />
-            </Flex>
-          )
-        }
+        {!isTypeState ? (
+          <Text
+            selectable={true}
+            style={[
+              styles.message,
+              isMe ? styles.meText : styles.otherText,
+              isVoke && !isOnlyVoke ? styles.vokeText : null,
+            ]}
+          >
+            {message.content}
+          </Text>
+        ) : (
+          <Flex>
+            <Spinner color={theme.accentColor} size={25} type="ThreeBounce" />
+          </Flex>
+        )}
       </Flex>
     );
   }
 
   renderVideoImage(style) {
     return (
-      <Touchable isAndroidOpacity={true} activeOpacity={0.7} onPress={this.props.onSelectVideo}>
+      <Touchable
+        isAndroidOpacity={true}
+        activeOpacity={0.7}
+        onPress={this.props.onSelectVideo}
+      >
         <ImageBackground
           resizeMode="cover"
           source={{ uri: this.props.item.item.media.thumbnails.large }}
-          style={style}>
+          style={style}
+        >
           <Icon name="play-circle-filled" size={40} style={styles.playIcon} />
         </ImageBackground>
       </Touchable>
@@ -103,48 +100,25 @@ class MessageItem extends PureComponent {
 
     return (
       <Flex direction="column">
-        <Flex
-          value={1}
-          direction="row"
-          align="center"
-          justify="start"
-        >
-          {this.renderVideoImage([
-            styles.video,
-            styles.otherPersonVideo,
-          ])}
+        <Flex value={1} direction="row" align="center" justify="start">
+          {this.renderVideoImage([styles.video, styles.otherPersonVideo])}
           {this.renderShareVideo()}
         </Flex>
         <Flex
-          style={[
-            styles.row,
-            styles.otherPerson,
-          ]}
+          style={[styles.row, styles.otherPerson]}
           direction="row"
           align="center"
           justify="start"
         >
-          {
-            !isTypeState ? (
-              <Text
-                selectable={true}
-                style={[
-                  styles.message,
-                  styles.otherText,
-                ]}
-              >
-                {message.content}
-              </Text>
-            ) : (
-              <Flex>
-                <Spinner
-                  color={theme.accentColor}
-                  size={25}
-                  type="ThreeBounce"
-                />
-              </Flex>
-            )
-          }
+          {!isTypeState ? (
+            <Text selectable={true} style={[styles.message, styles.otherText]}>
+              {message.content}
+            </Text>
+          ) : (
+            <Flex>
+              <Spinner color={theme.accentColor} size={25} type="ThreeBounce" />
+            </Flex>
+          )}
         </Flex>
       </Flex>
     );
@@ -157,9 +131,8 @@ class MessageItem extends PureComponent {
         isAndroidOpacity={true}
         onPress={this.shareVideo}
         activeOpacity={0.6}
-        style={[
-          styles.shareCircleButton,
-        ]}>
+        style={[styles.shareCircleButton]}
+      >
         <Image
           resizeMode="cover"
           source={TO_CHAT}
@@ -185,7 +158,9 @@ class MessageItem extends PureComponent {
         {isMe ? this.renderShareVideo() : null}
         {this.renderVideoImage([
           styles.video,
-          isMe || (isVoke && !isOnlyVoke) ? styles.meVideo : styles.otherPersonVideo,
+          isMe || (isVoke && !isOnlyVoke)
+            ? styles.meVideo
+            : styles.otherPersonVideo,
         ])}
         {!isMe ? this.renderShareVideo() : null}
       </Flex>
@@ -210,7 +185,11 @@ class MessageItem extends PureComponent {
       return (
         <Avatar
           size={28}
-          image={this.vokebotMessenger.avatar ? this.vokebotMessenger.avatar.small : null}
+          image={
+            this.vokebotMessenger.avatar
+              ? this.vokebotMessenger.avatar.small
+              : null
+          }
           text={getInitials(this.vokebotMessenger.initials)}
         />
       );
@@ -219,7 +198,13 @@ class MessageItem extends PureComponent {
       if (!otherMessenger) return null;
       return (
         <Avatar
-          image={otherMessenger && otherMessenger.avatar && otherMessenger.avatar.small.indexOf('/avatar.jpg') < 0 ? otherMessenger.avatar.small : null}
+          image={
+            otherMessenger &&
+            otherMessenger.avatar &&
+            otherMessenger.avatar.small.indexOf('/avatar.jpg') < 0
+              ? otherMessenger.avatar.small
+              : null
+          }
           size={28}
           text={getInitials(otherMessenger.initials)}
         />
@@ -237,8 +222,12 @@ class MessageItem extends PureComponent {
     const isVideo = message.item;
     const isVideoAndText = message.item && message.content;
     const time = message.created_at;
-    const momentTime = momentUtc(time).local().format('LL');
-    const momentNow = moment().local().format('LL');
+    const momentTime = momentUtc(time)
+      .local()
+      .format('LL');
+    const momentNow = moment()
+      .local()
+      .format('LL');
     const separatorTime = momentTime === momentNow ? 'Today' : momentTime;
 
     let content;
@@ -257,26 +246,25 @@ class MessageItem extends PureComponent {
         animation="fadeIn"
         align={isMe || (isVoke && !isOnlyVoke) ? 'end' : 'start'}
       >
-        {
-          this.props.item.isLatestForDay ? (
-            <Flex align="center" justify="center" style={styles.dateSeparator}>
-              <Text style={styles.timeText}>{separatorTime}</Text>
-            </Flex>
-          ) : null
-        }
+        {this.props.item.isLatestForDay ? (
+          <Flex align="center" justify="center" style={styles.dateSeparator}>
+            <Text style={styles.timeText}>{separatorTime}</Text>
+          </Flex>
+        ) : null}
         <Flex direction="row" style={{ marginHorizontal: 5 }}>
-          {
-            (isOnlyVoke && isVoke) || (!isMe && !isVoke) ? (
-              <Flex self="end" style={styles.avatar}>
-                {this.renderAvatar()}
-              </Flex>
-            ) : null
-          }
+          {(isOnlyVoke && isVoke) || (!isMe && !isVoke) ? (
+            <Flex self="end" style={styles.avatar}>
+              {this.renderAvatar()}
+            </Flex>
+          ) : null}
           <Flex
             self="end"
             style={[
               styles.triangle,
-              (!isMe && !isVideo && !isVoke) || ((!isVideo || isVideoAndText) && (isOnlyVoke && isVoke)) ? styles.otherTriangle : null,
+              (!isMe && !isVideo && !isVoke) ||
+              ((!isVideo || isVideoAndText) && (isOnlyVoke && isVoke))
+                ? styles.otherTriangle
+                : null,
             ]}
           />
           {content}
@@ -284,25 +272,38 @@ class MessageItem extends PureComponent {
             self="end"
             style={[
               styles.triangle,
-              !isVideo && (isMe || (isVoke && !isOnlyVoke)) ? styles.meTriangle : null,
+              !isVideo && (isMe || (isVoke && !isOnlyVoke))
+                ? styles.meTriangle
+                : null,
               !isVideo && isVoke && !isOnlyVoke ? styles.vokeTriangle : null,
             ]}
           />
-          {
-            (isMe || (isVoke && !isOnlyVoke)) ? (
-              <Flex self="end" style={styles.avatar}>
-                {this.renderAvatar()}
-              </Flex>
-            ) : null
-          }
-        </Flex>
-        {
-          isTypeState ? null : (
-            <Flex align={ !(isOnlyVoke && isVoke) && (isMe || isVoke) ? 'end' : 'start'} justify="start" style={[styles.time, (isMe || isVoke) && !(isOnlyVoke && isVoke) ? styles.meTime : styles.otherPersonTime]}>
-              <DateComponent style={styles.timeText} date={message.created_at} format="h:mm A" />
+          {isMe || (isVoke && !isOnlyVoke) ? (
+            <Flex self="end" style={styles.avatar}>
+              {this.renderAvatar()}
             </Flex>
-          )
-        }
+          ) : null}
+        </Flex>
+        {isTypeState ? null : (
+          <Flex
+            align={
+              !(isOnlyVoke && isVoke) && (isMe || isVoke) ? 'end' : 'start'
+            }
+            justify="start"
+            style={[
+              styles.time,
+              (isMe || isVoke) && !(isOnlyVoke && isVoke)
+                ? styles.meTime
+                : styles.otherPersonTime,
+            ]}
+          >
+            <DateComponent
+              style={styles.timeText}
+              date={message.created_at}
+              format="h:mm A"
+            />
+          </Flex>
+        )}
       </Flex>
     );
   }

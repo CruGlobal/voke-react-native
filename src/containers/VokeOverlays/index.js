@@ -2,42 +2,45 @@ import React, { Component } from 'react';
 import { Image } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { translate } from 'react-i18next';
 
 import { Flex, Button, Text } from '../../components/common';
 import CloseButton from '../../components/CloseButton';
 import SignUpButtons from '../SignUpButtons';
 import { CLEAR_OVERLAY } from '../../constants';
-import VOKEBOT from '../../../images/vokebot_whole.png';
 import VOKEBOT_UKE from '../../../images/voke_uke.png';
 import styles from './styles';
 import { enablePushNotifications } from '../../actions/socket';
 
 class VokeOverlays extends Component {
-
   close = () => {
     const { type, onClose, dispatch } = this.props;
     dispatch({ type: CLEAR_OVERLAY, value: type });
     // If the user passes in an onClose callback, call it
     if (onClose) onClose();
-  }
+  };
 
   allowNotifications = () => {
     this.props.dispatch(enablePushNotifications(true));
     this.close();
-  }
+  };
 
   renderSignUp() {
     return (
-      <Flex style={styles.overlay} align="center" justify="center" self="stretch">
+      <Flex
+        style={styles.overlay}
+        align="center"
+        justify="center"
+        self="stretch"
+      >
         <Flex style={styles.close}>
           <CloseButton onClose={this.close} />
         </Flex>
         <Flex value={1} align="center" justify="center">
-          <Text style={styles.title}>
-            Subscribe
-          </Text>
+          <Text style={styles.title}>Subscribe</Text>
           <Text style={styles.subtitle}>
-            Sign up to subscribe and {this.props.channelName} will let you know when new videos are published.
+            Sign up to subscribe and {this.props.channelName} will let you know
+            when new videos are published.
           </Text>
         </Flex>
         <Flex value={1} align="center" justify="center">
@@ -50,18 +53,28 @@ class VokeOverlays extends Component {
   renderPushPermissions() {
     const { user } = this.props;
     return (
-      <Flex style={styles.overlay} align="center" justify="center" self="stretch">
+      <Flex
+        style={styles.overlay}
+        align="center"
+        justify="center"
+        self="stretch"
+      >
         <Flex style={styles.chatBubble}>
           <Text style={styles.chatText}>
             {user && user.first_name ? `${user.first_name}, ` : 'Friend, '}
-            I will play my ukulele when your friends start watching videos. This is the best time to have deeper conversations.
+            I will play my ukulele when your friends start watching videos. This
+            is the best time to have deeper conversations.
             {'\n'}
             {'\n'}
             First, I need your permission to send notifications.
           </Text>
         </Flex>
         <Flex style={styles.chatTriangle} />
-        <Image source={VOKEBOT_UKE} style={{ height: 100, marginBottom: 20 }} resizeMode="contain" />
+        <Image
+          source={VOKEBOT_UKE}
+          style={{ height: 100, marginBottom: 20 }}
+          resizeMode="contain"
+        />
         <Button
           onPress={this.allowNotifications}
           type="filled"
@@ -99,4 +112,4 @@ const mapStateToProps = ({ overlays, auth }) => ({
   user: auth.user,
 });
 
-export default connect(mapStateToProps)(VokeOverlays);
+export default translate()(connect(mapStateToProps)(VokeOverlays));

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Communications from 'react-native-communications';
 // import SendSMS from 'react-native-sms';
 import { MessageDialog } from 'react-native-fbsdk';
+import { translate } from 'react-i18next';
 
 import { send } from './sendSms';
 
@@ -14,7 +15,9 @@ import { toastAction, setNoBackgroundAction } from '../../actions/auth';
 import theme from '../../theme';
 
 function getMessage(friend) {
-  return `Hi ${friend ? friend.first_name : 'friend'}, check out this video ${friend ? friend.url : ''}`;
+  return `Hi ${friend ? friend.first_name : 'friend'}, check out this video ${
+    friend ? friend.url : ''
+  }`;
 }
 
 class ShareModal extends Component {
@@ -65,37 +68,43 @@ class ShareModal extends Component {
       setTimeout(() => this.handleComplete(), 100);
     }
 
-    MessageDialog.canShow(shareLinkContent).then((canShow)=>{
-      if (canShow) {
-        MessageDialog.show(shareLinkContent).then((result) => {
-          if (result.isCancelled) {
-            LOG('cancelled fb messenger');
-            this.handleDismiss();
-          } else {
-            LOG('successful fb messenger');
-            this.handleComplete();
-          }
-        }).catch((error) => {
-          LOG('error', error);
+    MessageDialog.canShow(shareLinkContent)
+      .then(canShow => {
+        if (canShow) {
+          MessageDialog.show(shareLinkContent)
+            .then(result => {
+              if (result.isCancelled) {
+                LOG('cancelled fb messenger');
+                this.handleDismiss();
+              } else {
+                LOG('successful fb messenger');
+                this.handleComplete();
+              }
+            })
+            .catch(error => {
+              LOG('error', error);
+              this.handleDismiss();
+            });
+        } else {
+          LOG('no canShow');
           this.handleDismiss();
-        });
-      } else {
-        LOG('no canShow');
-        this.handleDismiss();
-      }
-    }).catch(() => {
-      LOG('catch canShow');
-      this.handleShare('custom');
-    });
+        }
+      })
+      .catch(() => {
+        LOG('catch canShow');
+        this.handleShare('custom');
+      });
   }
 
   openUrl(url) {
     // whatsapp does not work with canopenurl for some reason
-    Linking.openURL(url).then(() => {
-      this.handleComplete();
-    }).catch(() => {
-      this.handleShare('custom');
-    });
+    Linking.openURL(url)
+      .then(() => {
+        this.handleComplete();
+      })
+      .catch(() => {
+        this.handleShare('custom');
+      });
     // Linking.canOpenURL(url).then((isSupported) => {
     //   if (isSupported) {
     //     Linking.openURL(url);
@@ -126,12 +135,14 @@ class ShareModal extends Component {
       // For Android, just call the normal linking sms:{phone}?body={message}
       // We don't import react-native-sms on Android, so don't try to call it
       if (theme.isAndroid) {
-        setTimeout(()=> {
-          send(this.props.phoneNumber, message).then(() => {
-            this.handleComplete();
-          }).catch(() => {
-            this.handleDismiss();
-          });
+        setTimeout(() => {
+          send(this.props.phoneNumber, message)
+            .then(() => {
+              this.handleComplete();
+            })
+            .catch(() => {
+              this.handleDismiss();
+            });
         }, 300);
         // Linking.openURL(`sms:${this.props.phoneNumber}?body=${encodeURIComponent(message)}`).then(() => {
         //   this.handleComplete();
@@ -139,15 +150,17 @@ class ShareModal extends Component {
         //   this.handleDismiss();
         // });
       } else {
-        setTimeout(()=> {
-          send(this.props.phoneNumber, message).then(() => {
-            // On iOS, wrap the complete in a timeout to fix navigation stuff
-            setTimeout(() => {
-              this.handleComplete();
-            }, 1000);
-          }).catch(() => {
-            this.handleDismiss();
-          });
+        setTimeout(() => {
+          send(this.props.phoneNumber, message)
+            .then(() => {
+              // On iOS, wrap the complete in a timeout to fix navigation stuff
+              setTimeout(() => {
+                this.handleComplete();
+              }, 1000);
+            })
+            .catch(() => {
+              this.handleDismiss();
+            });
         }, 300);
         // SendSMS.send({
         //   body: message,
@@ -173,7 +186,6 @@ class ShareModal extends Component {
         //   // }
         // });
       }
-
     } else if (type === 'mail') {
       // This could also be done with Linking.openURL('mailto://?body=message');
       Communications.email(null, null, null, null, message);
@@ -185,7 +197,7 @@ class ShareModal extends Component {
       this.openUrl(url);
     } else if (type === 'fb') {
       this.handleHide();
-      setTimeout(()=> {
+      setTimeout(() => {
         this.shareLinkWithShareDialog(message, friend.url);
       }, 300);
       // const url = 'https://m.me';
@@ -198,31 +210,35 @@ class ShareModal extends Component {
       this.handleComplete();
     } else {
       this.handleHide();
-      Share.share({
-        message: message,
-        title: 'Check this out',
-      },
-      {
-        excludedActivityTypes: [
-          'com.apple.UIKit.activity.PostToTwitter',
-          'com.apple.uikit.activity.CopyToPasteboard',
-          'com.google.Drive.ShareExtension',
-          'com.apple.UIKit.activity.PostToFacebook',
-          'com.apple.UIKit.activity.PostToFlickr',
-          'com.apple.UIKit.activity.PostToVimeo',
-          'com.apple.UIKit.activity.PostToWeibo',
-          'com.apple.UIKit.activity.AirDrop',
-          'com.apple.UIKit.activity.PostToSlack',
-        ],
-      }).then((results) => {
-        if (results.action === Share.sharedAction) {
-          this.handleComplete();
-        } else {
+      Share.share(
+        {
+          message: message,
+          title: 'Check this out',
+        },
+        {
+          excludedActivityTypes: [
+            'com.apple.UIKit.activity.PostToTwitter',
+            'com.apple.uikit.activity.CopyToPasteboard',
+            'com.google.Drive.ShareExtension',
+            'com.apple.UIKit.activity.PostToFacebook',
+            'com.apple.UIKit.activity.PostToFlickr',
+            'com.apple.UIKit.activity.PostToVimeo',
+            'com.apple.UIKit.activity.PostToWeibo',
+            'com.apple.UIKit.activity.AirDrop',
+            'com.apple.UIKit.activity.PostToSlack',
+          ],
+        },
+      )
+        .then(results => {
+          if (results.action === Share.sharedAction) {
+            this.handleComplete();
+          } else {
+            this.handleDismiss();
+          }
+        })
+        .catch(() => {
           this.handleDismiss();
-        }
-      }).catch(() => {
-        this.handleDismiss();
-      });
+        });
     }
   }
 
@@ -250,4 +266,4 @@ const mapStateToProps = ({ contacts }) => ({
   ...contacts.shareModalProps,
 });
 
-export default connect(mapStateToProps)(ShareModal);
+export default translate()(connect(mapStateToProps)(ShareModal));

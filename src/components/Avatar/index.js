@@ -6,9 +6,16 @@ import styles from './styles';
 import { Text, Flex } from '../common';
 
 export default class Avatar extends Component {
-
   render() {
-    const { present, text, image, size, style, avatarTextStyle, imageStyle } = this.props;
+    const {
+      present,
+      text,
+      image,
+      size,
+      style,
+      avatarTextStyle,
+      imageStyle,
+    } = this.props;
     let content = null;
 
     const sizeObj = { width: size, height: size, borderRadius: size / 2 };
@@ -22,19 +29,17 @@ export default class Avatar extends Component {
         />
       );
     } else if (text) {
-      content = (
-        <Text style={[styles.textStyle, avatarTextStyle]}>
-          {text}
-        </Text>
-      );
+      content = <Text style={[styles.textStyle, avatarTextStyle]}>{text}</Text>;
     }
 
     return (
-      <Flex style={[sizeObj, styles.avatar, style]} align="center" justify="center">
+      <Flex
+        style={[sizeObj, styles.avatar, style]}
+        align="center"
+        justify="center"
+      >
         {content}
-        {
-          present ? <Flex style={styles.present} /> : null
-        }
+        {present ? <Flex style={styles.present} /> : null}
       </Flex>
     );
   }

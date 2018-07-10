@@ -58,7 +58,22 @@ export default class Button extends Component {
   }
 
   render() {
-    const { type, hitSlop, image, text, icon, iconType, children, disabled, preventTimeout, isLoading, style, buttonTextStyle, iconStyle, ...rest } = this.props;
+    const {
+      type,
+      hitSlop,
+      image,
+      text,
+      icon,
+      iconType,
+      children,
+      disabled,
+      preventTimeout,
+      isLoading,
+      style,
+      buttonTextStyle,
+      iconStyle,
+      ...rest
+    } = this.props;
     let content = children;
     if (!children) {
       let textComp = null;
@@ -66,30 +81,26 @@ export default class Button extends Component {
       let imageComp = null;
       if (text) {
         textComp = (
-          <Text style={[getTextStyle(type), buttonTextStyle]}>
-            {text}
-          </Text>
+          <Text style={[getTextStyle(type), buttonTextStyle]}>{text}</Text>
         );
       }
       if (icon) {
         iconComp = (
-          <Icon name={icon} type={iconType ? iconType : null} style={[getIconStyle(type), iconStyle]} />
+          <Icon
+            name={icon}
+            type={iconType ? iconType : null}
+            style={[getIconStyle(type), iconStyle]}
+          />
         );
       }
       if (image) {
-        imageComp = (
-          <Image source={image} style={styles.imageStyle} />
-        );
+        imageComp = <Image source={image} style={styles.imageStyle} />;
       }
-      if (icon && text || (image && text)) {
+      if ((icon && text) || (image && text)) {
         content = (
           <Flex direction="row" align="center" justify="start">
-            {
-              icon ? iconComp : null
-            }
-            {
-              image ? imageComp : null
-            }
+            {icon ? iconComp : null}
+            {image ? imageComp : null}
             {textComp}
           </Flex>
         );
@@ -98,20 +109,20 @@ export default class Button extends Component {
       }
     }
 
-
     if (isLoading) {
-      content = (
-        <Spinner
-          color={theme.white}
-          size={40}
-          type="ThreeBounce"
-        />
-      );
+      content = <Spinner color={theme.white} size={40} type="ThreeBounce" />;
     }
     const isDisabled = disabled || this.state.clickedDisabled || isLoading;
     return (
       <Touchable {...rest} disabled={isDisabled} onPress={this.handlePress}>
-        <View hitSlop={hitSlop} style={[getTypeStyle(type), disabled || isLoading ? styles.disabled : null, style]}>
+        <View
+          hitSlop={hitSlop}
+          style={[
+            getTypeStyle(type),
+            disabled || isLoading ? styles.disabled : null,
+            style,
+          ]}
+        >
           {content}
         </View>
       </Touchable>

@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import { Platform, View, Image, Keyboard, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { translate } from 'react-i18next';
 
 import { getContacts } from '../../actions/contacts';
 import { openSettingsAction } from '../../actions/auth';
-import { createConversation, getConversation, deleteConversation } from '../../actions/messages';
+import {
+  createConversation,
+  getConversation,
+  deleteConversation,
+} from '../../actions/messages';
 import Analytics from '../../utils/analytics';
-import { SET_IN_SHARE, SHOW_SHARE_MODAL } from  '../../constants';
+import { SET_IN_SHARE, SHOW_SHARE_MODAL } from '../../constants';
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/nav';
 import theme from '../../theme';
@@ -43,7 +48,6 @@ function getRandomContacts(contacts) {
 const screenHeight = theme.fullHeight;
 
 class SelectFriend extends Component {
-
   constructor(props) {
     super(props);
 
@@ -79,24 +83,31 @@ class SelectFriend extends Component {
   }
 
   goToContacts() {
-    this.props.navigatePush('voke.Contacts', {
-      onSelect: this.selectContact,
-      video: this.props.video,
-    }, { overrideBackPress: true });
+    this.props.navigatePush(
+      'voke.Contacts',
+      {
+        onSelect: this.selectContact,
+        video: this.props.video,
+      },
+      { overrideBackPress: true },
+    );
   }
 
   handleGetContacts() {
-    return this.props.dispatch(getContacts()).then(() => {
-      this.setState({
-        isLoading: false,
-        random: getRandomContacts(this.props.all),
-        permission: Permissions.AUTHORIZED,
+    return this.props
+      .dispatch(getContacts())
+      .then(() => {
+        this.setState({
+          isLoading: false,
+          random: getRandomContacts(this.props.all),
+          permission: Permissions.AUTHORIZED,
+        });
+      })
+      .catch(() => {
+        this.setState({ isLoading: false, permission: Permissions.DENIED });
+        LOG('contacts caught in handle get contacts');
+        //change screen
       });
-    }).catch(() => {
-      this.setState({ isLoading: false, permission: Permissions.DENIED });
-      LOG('contacts caught in handle get contacts');
-      //change screen
-    });
   }
 
   handleDismissPermission() {
@@ -146,7 +157,7 @@ class SelectFriend extends Component {
     let phoneNumber = c.phone ? c.phone[index] : null;
     let name = c.name ? c.name.split(' ') : null;
     let firstName = name[0] ? name[0] : 'Friend';
-    let lastName = name[name.length -1] ? name[name.length -1] : 'Buddy';
+    let lastName = name[name.length - 1] ? name[name.length - 1] : 'Buddy';
     // let email = c.emailAddresses ? c.emailAddresses[0].email : null;
 
     let videoId = this.props.video;
@@ -165,9 +176,9 @@ class SelectFriend extends Component {
     };
     if (c.isVoke) {
       // LOG('voke contact selected', this.props.video);
-      this.props.dispatch(createConversation(createData)).then((results) => {
+      this.props.dispatch(createConversation(createData)).then(results => {
         // LOG('create voke conversation results', results);
-        this.props.dispatch(getConversation(results.id)).then((c) => {
+        this.props.dispatch(getConversation(results.id)).then(c => {
           // LOG('get voke conversation results', c);
           this.props.navigateResetMessage({ conversation: c.conversation });
         });
@@ -178,8 +189,8 @@ class SelectFriend extends Component {
       this.setState({ loadingBeforeShareSheet: true });
       this.props.dispatch({ type: SET_IN_SHARE, bool: true });
       // Create the conversation
-      this.props.dispatch(createConversation(createData)).then((results) => {
-        this.props.dispatch(getConversation(results.id)).then((c) => {
+      this.props.dispatch(createConversation(createData)).then(results => {
+        this.props.dispatch(getConversation(results.id)).then(c => {
           LOG('get voke conversation results', c);
           const friend = results.messengers[0];
 
@@ -221,19 +232,19 @@ class SelectFriend extends Component {
               phoneNumber,
             },
           });
-          this.setState({loadingBeforeShareSheet: false});
+          this.setState({ loadingBeforeShareSheet: false });
         });
       });
     }
   }
 
-  handleSelectContact = (c) => {
+  handleSelectContact = c => {
     if (!c.isVoke && c.phone.length > 1) {
       this.setState({ selectNumberContact: c });
     } else {
       this.selectContact(c);
     }
-  }
+  };
 
   renderRandomContacts() {
     let randomHeight = {};
@@ -258,7 +269,10 @@ class SelectFriend extends Component {
       randomHeight = { height: 30 };
     }
 
-    const isLoading = this.props.isLoading || this.state.setLoaderBeforePush || this.state.loadingBeforeShareSheet;
+    const isLoading =
+      this.props.isLoading ||
+      this.state.setLoaderBeforePush ||
+      this.state.loadingBeforeShareSheet;
 
     let vokeText = 'Search your contacts or take a step of faith with...';
     if (this.state.random.length === 0 && isAuthorized && !isLoading) {
@@ -268,50 +282,60 @@ class SelectFriend extends Component {
     }
 
     return (
-      <ScrollView style={styles.container} contentContainerStyle={{ alignSelf: 'stretch' }}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={{ alignSelf: 'stretch' }}
+      >
         <StatusBar hidden={false} />
         <Flex align="center">
-          <Flex justify="center" value={.8}>
-            <Text style={styles.header}>
-              Select a Friend
-            </Text>
+          <Flex justify="center" value={0.8}>
+            <Text style={styles.header}>Select a Friend</Text>
           </Flex>
-          <Flex value={.5}>
-            {
-              isAuthorized ? (
-                <Button
-                  onPress={this.goToContacts}
-                  text="Search Contacts"
-                  style={[styles.randomButton, randomHeight]}
-                  buttonTextStyle={styles.randomText}
-                />
-              ) : null
-            }
-          </Flex>
-        </Flex>
-        <Flex value={1} align="center" justify="center" style={styles.vokeBubbleImageWrap}>
-          <Flex self="center" align="center" justify="center" value={1} style={styles.vokeBubble}>
-            <Text style={styles.info}>
-              {vokeText}
-            </Text>
-          </Flex>
-          <Flex style={styles.imageWrap} align="end" justify="end" >
-            <Image resizeMode="contain" source={VOKE_BOT} style={styles.vokeBot} />
-          </Flex>
-        </Flex>
-        <Flex value={1} align="center">
-          {
-            !isAuthorized && !isLoading ? (
+          <Flex value={0.5}>
+            {isAuthorized ? (
               <Button
-                onPress={this.handleAllowContacts}
-                text="Allow Contacts"
+                onPress={this.goToContacts}
+                text="Search Contacts"
                 style={[styles.randomButton, randomHeight]}
                 buttonTextStyle={styles.randomText}
               />
-            ) : null
-          }
+            ) : null}
+          </Flex>
+        </Flex>
+        <Flex
+          value={1}
+          align="center"
+          justify="center"
+          style={styles.vokeBubbleImageWrap}
+        >
+          <Flex
+            self="center"
+            align="center"
+            justify="center"
+            value={1}
+            style={styles.vokeBubble}
+          >
+            <Text style={styles.info}>{vokeText}</Text>
+          </Flex>
+          <Flex style={styles.imageWrap} align="end" justify="end">
+            <Image
+              resizeMode="contain"
+              source={VOKE_BOT}
+              style={styles.vokeBot}
+            />
+          </Flex>
+        </Flex>
+        <Flex value={1} align="center">
+          {!isAuthorized && !isLoading ? (
+            <Button
+              onPress={this.handleAllowContacts}
+              text="Allow Contacts"
+              style={[styles.randomButton, randomHeight]}
+              buttonTextStyle={styles.randomText}
+            />
+          ) : null}
           <Flex justify="start" align="center" value={2}>
-            { this.renderRandomContacts() }
+            {this.renderRandomContacts()}
           </Flex>
         </Flex>
       </ScrollView>
@@ -320,35 +344,42 @@ class SelectFriend extends Component {
 
   render() {
     const { isLoading } = this.props;
-    const { setLoaderBeforePush, loadingBeforeShareSheet, showPermissionModal, selectNumberContact } = this.state;
+    const {
+      setLoaderBeforePush,
+      loadingBeforeShareSheet,
+      showPermissionModal,
+      selectNumberContact,
+    } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar />
-        <Header
-          leftBack={true}
-          title="Select Friend"
-        />
+        <Header leftBack={true} title="Select Friend" />
         {this.renderContent()}
-        {
-          isLoading || setLoaderBeforePush || loadingBeforeShareSheet ? (
-            <ApiLoading force={true} text={(setLoaderBeforePush || loadingBeforeShareSheet) ? '' : 'Fetching your contacts - and because you are so popular, I need up to 30 seconds'} />
-          ) : null
-        }
+        {isLoading || setLoaderBeforePush || loadingBeforeShareSheet ? (
+          <ApiLoading
+            force={true}
+            text={
+              setLoaderBeforePush || loadingBeforeShareSheet
+                ? ''
+                : 'Fetching your contacts - and because you are so popular, I need up to 30 seconds'
+            }
+          />
+        ) : null}
         <ShareModal />
-        {
-          showPermissionModal ? (
-            <Modal
-              onClose={() => this.setState({ showPermissionModal: false })}
-              getContacts={this.handleGetContacts}
-              onDismiss={this.handleDismissPermission}
-            />
-          ) : null
-        }
-        {
-          selectNumberContact ? (
-            <SelectNumber contact={selectNumberContact} onSelect={this.selectContact} onCancel={() => this.setState({ selectNumberContact: null })} />
-          ) : null
-        }
+        {showPermissionModal ? (
+          <Modal
+            onClose={() => this.setState({ showPermissionModal: false })}
+            getContacts={this.handleGetContacts}
+            onDismiss={this.handleDismissPermission}
+          />
+        ) : null}
+        {selectNumberContact ? (
+          <SelectNumber
+            contact={selectNumberContact}
+            onSelect={this.selectContact}
+            onCancel={() => this.setState({ selectNumberContact: null })}
+          />
+        ) : null}
       </View>
     );
   }
@@ -378,4 +409,9 @@ const mapStateToProps = ({ contacts }, { navigation }) => ({
   isLoading: contacts.isLoading,
 });
 
-export default connect(mapStateToProps, nav)(SelectFriend);
+export default translate()(
+  connect(
+    mapStateToProps,
+    nav,
+  )(SelectFriend),
+);

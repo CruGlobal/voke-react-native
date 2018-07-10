@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Linking, View } from 'react-native';
 import { connect } from 'react-redux';
-import nav, { NavPropTypes } from '../../actions/nav';
 import Communications from 'react-native-communications';
-import Analytics from '../../utils/analytics';
+import { translate } from 'react-i18next';
 
+import nav, { NavPropTypes } from '../../actions/nav';
+import Analytics from '../../utils/analytics';
 import SettingsList from '../../components/SettingsList';
 import Button from '../../components/Button';
 import CONSTANTS from '../../constants';
@@ -17,7 +18,6 @@ const EMAIL_US_TITLE = 'Email to Voke Support';
 const FEATURE_REQUEST_TITLE = 'Feature Request for Voke';
 
 class Help extends Component {
-
   constructor(props) {
     super(props);
     this.handleLink = this.handleLink.bind(this);
@@ -41,7 +41,7 @@ class Help extends Component {
     } else {
       title = EMAIL_US_TITLE;
     }
-    Communications.email(EMAIL,null,null,title,null);
+    Communications.email(EMAIL, null, null, title, null);
   }
 
   render() {
@@ -49,7 +49,9 @@ class Help extends Component {
       <View style={{ flex: 1 }}>
         <Header
           right={
-            theme.isAndroid ? undefined : (
+            theme.isAndroid ? (
+              undefined
+            ) : (
               <Button
                 type="transparent"
                 text="Done"
@@ -102,4 +104,9 @@ const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
 });
 
-export default connect(mapStateToProps, nav)(Help);
+export default translate()(
+  connect(
+    mapStateToProps,
+    nav,
+  )(Help),
+);

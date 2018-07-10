@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
-import { Alert, Keyboard, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
+import {
+  Alert,
+  Keyboard,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  ScrollView,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { translate } from 'react-i18next';
 
 import Analytics from '../../utils/analytics';
 import { verifyMobile, createMobileVerification } from '../../actions/auth';
@@ -20,7 +27,7 @@ class SignUpNumberVerify extends Component {
   constructor(props) {
     super(props);
 
-    this.state= {
+    this.state = {
       code: '',
       verificationSent: false,
       disableNext: false,
@@ -45,7 +52,10 @@ class SignUpNumberVerify extends Component {
       });
       this.setState({ verificationSent: true });
     } else {
-      Alert.alert('', 'A new verification code has already been sent, please wait a few seconds before re-sending');
+      Alert.alert(
+        '',
+        'A new verification code has already been sent, please wait a few seconds before re-sending',
+      );
     }
     // Reset this variable after a few seconds so that the user can resend the code
     setTimeout(() => {
@@ -55,7 +65,7 @@ class SignUpNumberVerify extends Component {
 
   skip = () => {
     this.props.navigateBack(4);
-  }
+  };
 
   handleNext() {
     let data = {
@@ -68,43 +78,66 @@ class SignUpNumberVerify extends Component {
       Alert.alert('Please enter the code that was sent');
     } else {
       this.setState({ disableNext: true, isLoading: true });
-      this.props.dispatch(verifyMobile(data)).then(() => {
-        this.setState({ disableNext: false, isLoading: false });
-        // if (!this.props.onboardCompleted) {
-        //   this.props.navigatePush('voke.SignUpWelcome', {
-        //     onlyOnboarding: true,
-        //   }, {
-        //     overrideBackPress: true,
-        //   });
-        // } else {
-        this.props.navigateResetHome();
-        // }
-      }).catch(() => {
-        this.setState({ disableNext: false, isLoading: false });
-        Alert.alert('Invalid code','Code does not match the code that was sent to the mobile number');
-      });
+      this.props
+        .dispatch(verifyMobile(data))
+        .then(() => {
+          this.setState({ disableNext: false, isLoading: false });
+          // if (!this.props.onboardCompleted) {
+          //   this.props.navigatePush('voke.SignUpWelcome', {
+          //     onlyOnboarding: true,
+          //   }, {
+          //     overrideBackPress: true,
+          //   });
+          // } else {
+          this.props.navigateResetHome();
+          // }
+        })
+        .catch(() => {
+          this.setState({ disableNext: false, isLoading: false });
+          Alert.alert(
+            'Invalid code',
+            'Code does not match the code that was sent to the mobile number',
+          );
+        });
     }
   }
 
   render() {
     return (
-      <ScrollView style={styles.container} value={1} keyboardShouldPersistTaps="always" align="center" justify="start">
-        <KeyboardAvoidingView style={{ flex: 1 }} behavior={theme.isAndroid ? undefined : 'padding'}>
+      <ScrollView
+        style={styles.container}
+        value={1}
+        keyboardShouldPersistTaps="always"
+        align="center"
+        justify="start"
+      >
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={theme.isAndroid ? undefined : 'padding'}
+        >
           <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
-          <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={() => Keyboard.dismiss()}
+          >
             <SignUpHeader
               title="Verification"
               description="Finally, enter the 4-Digit Code you received by TXT so we know you are a human."
-              onPress={()=> Keyboard.dismiss()}
+              onPress={() => Keyboard.dismiss()}
             />
-            <Flex value={1} align="center" justify="center" style={styles.inputs}>
+            <Flex
+              value={1}
+              align="center"
+              justify="center"
+              style={styles.inputs}
+            >
               <Flex direction="row" align="center" justify="center">
                 <Text>V-</Text>
                 <SignUpInput
                   style={styles.inputBox}
                   keyboardType="numeric"
                   value={this.state.code}
-                  onChangeText={(text) => this.setState({ code: text })}
+                  onChangeText={text => this.setState({ code: text })}
                   placeholder="Verification Code"
                 />
               </Flex>
@@ -134,9 +167,7 @@ class SignUpNumberVerify extends Component {
             </Flex>
           </TouchableOpacity>
         </KeyboardAvoidingView>
-        {
-          this.state.isLoading ? <ApiLoading force={true} /> : null
-        }
+        {this.state.isLoading ? <ApiLoading force={true} /> : null}
       </ScrollView>
     );
   }
@@ -148,7 +179,12 @@ SignUpNumberVerify.propTypes = {
 };
 const mapStateToProps = ({ auth }, { navigation }) => ({
   ...(navigation.state.params || {}),
-  // onboardCompleted: auth.onboardCompleted,
+  onboardCompleted: auth.onboardCompleted,
 });
 
-export default connect(mapStateToProps, nav)(SignUpNumberVerify);
+export default translate()(
+  connect(
+    mapStateToProps,
+    nav,
+  )(SignUpNumberVerify),
+);

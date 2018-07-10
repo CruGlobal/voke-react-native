@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet } from 'react-native';
+import { translate } from 'react-i18next';
 
 import { Button } from '../common';
 
@@ -14,7 +15,10 @@ class LoadMore extends Component {
         preventTimeout={2500}
         buttonTextStyle={styles.text}
         onPress={this.props.onLoad}
-        style={[styles.wrapper, { paddingBottom: this.props.isLoading ? 15 : undefined }]}
+        style={[
+          styles.wrapper,
+          { paddingBottom: this.props.isLoading ? 15 : undefined },
+        ]}
       />
     );
   }
@@ -39,4 +43,4 @@ LoadMore.propTypes = {
   onLoad: PropTypes.func,
 };
 
-export default LoadMore;
+export default translate()(LoadMore);
