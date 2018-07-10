@@ -25,7 +25,7 @@ export default StyleSheet.create({
   },
   titleContainer: {
     position: 'absolute',
-    bottom: 100,
+    bottom: 70,
     left: 0,
     right: 0,
   },

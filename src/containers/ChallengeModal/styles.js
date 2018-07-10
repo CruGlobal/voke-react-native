@@ -18,8 +18,8 @@ export default StyleSheet.create({
   },
   video: {
     backgroundColor: COLORS.DEEP_BLACK,
-    height: videoUtils.HEIGHT,
-    width: videoUtils.WIDTH - 50,
+    height: (videoUtils.WIDTH - 100) * 9/16,
+    width: videoUtils.WIDTH - 100,
     marginTop: 20,
   },
   title: {

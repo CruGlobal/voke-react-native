@@ -52,6 +52,7 @@ class Videos extends Component {
         isSubscribed: false,
         total: 0,
       },
+      isLoading: false,
     };
 
     this.handleNextPage = this.handleNextPage.bind(this);
@@ -70,11 +71,13 @@ class Videos extends Component {
     //   LOG(results);
     // });
     if (this.props.channel && this.props.channel.id) {
-      this.props
-        .dispatch(getVideos(undefined, this.props.channel.id))
-        .then(() => {
-          this.updateVideoList('all');
-        });
+      this.setState({ isLoading: true });
+      this.props.dispatch(getVideos(undefined, this.props.channel.id)).then(() => {
+        this.updateVideoList('all');
+        this.setState({ isLoading: false });
+      }).catch(()=>{
+        this.setState({ isLoading: false });
+      });
       this.getSubscriberData();
       this.setState({ videos: this.props.channelVideos });
     } else if (this.props.all.length === 0) {
@@ -493,6 +496,7 @@ class Videos extends Component {
             onRefresh={this.handleRefresh}
             onLoadMore={this.handleNextPage}
             handleShareVideo={this.handleShareVideo}
+            isLoading={this.state.isLoading}
           />
           <ApiLoading />
           {this.state.showThemeModal ? (

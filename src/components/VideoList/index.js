@@ -5,6 +5,7 @@ import { translate } from 'react-i18next';
 
 import styles, { THUMBNAIL_HEIGHT } from './styles';
 import TO_CHAT from '../../../images/to-chat-button.png';
+import ANIMATION from '../../../images/VokeBotAnimation.gif';
 
 import { Flex, Text, Touchable, Icon, RefreshControl } from '../common';
 
@@ -130,7 +131,16 @@ class VideoList extends Component {
   }
 
   renderNoText() {
-    if (this.props.items.length === 0) {
+    if (this.props.isLoading) {
+      return (
+        <Flex align="center" justify="center">
+          <Text style={styles.blankText}>
+            Loading Some Awesome Videos for You
+          </Text>
+          <Image style={{ marginBottom: 20, height: 100 }} resizeMode="contain" source={ANIMATION} />
+        </Flex>
+      );
+    } else if (this.props.items.length === 0) {
       return (
         <Flex align="center" justify="center">
           <Text style={styles.blankText}>No videos to show</Text>
@@ -174,6 +184,7 @@ VideoList.propTypes = {
   onSelect: PropTypes.func.isRequired,
   items: PropTypes.array.isRequired,
   handleShareVideo: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 export default translate(undefined, { wait: true, withRef: true })(VideoList);

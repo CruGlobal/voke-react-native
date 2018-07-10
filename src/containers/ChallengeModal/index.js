@@ -95,7 +95,7 @@ class ChallengeModal extends Component {
           start={video.media_start || 0}
           onChangeState={this.handleVideoChange}
           isLandscape={false}
-          width={videoUtils.WIDTH - 50}
+          width={videoUtils.WIDTH - 100}
           forceNoAutoPlay={true}
         />
       </Flex>
@@ -108,13 +108,8 @@ class ChallengeModal extends Component {
     return (
       <ScrollView style={styles.container}>
         <Flex direction="column" align="center" justify="center">
-          <Flex
-            direction="column"
-            align="start"
-            justify="center"
-            style={styles.modal}
-          >
-            <Flex style={styles.close}>
+          <Flex direction="column" align="start" justify="center" style={styles.modal}>
+            <Flex self="stretch" style={styles.close}>
               <CloseButton onClose={onDismiss} />
             </Flex>
             <VokeIcon name={this.getIcon(challenge)} style={styles.icon} />
