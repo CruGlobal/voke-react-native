@@ -166,16 +166,13 @@ class Profile extends Component {
   };
 
   renderImagePicker() {
+    const { t, user } = this.props;
     let image;
 
     if (this.state.imageUri) {
       image = { uri: this.state.imageUri };
-    } else if (
-      this.props.user &&
-      this.props.user.avatar &&
-      this.props.user.avatar.large
-    ) {
-      image = { uri: this.props.user.avatar.large };
+    } else if (user && user.avatar && user.avatar.large) {
+      image = { uri: user.avatar.large };
     } else {
       image = VOKE_LOGO;
     }
@@ -183,7 +180,7 @@ class Profile extends Component {
     return (
       <ImagePicker onSelectImage={this.handleImageChange}>
         <ProfileRow
-          text="Change Photo"
+          text={t('changePhoto')}
           right={
             <Image resizeMode="cover" source={image} style={styles.image} />
           }
@@ -194,7 +191,7 @@ class Profile extends Component {
 
   renderEditName() {
     if (!this.state.editName) return null;
-    const { user } = this.props;
+    const { t, user } = this.props;
     return (
       <Flex direction="column" align="center" justify="center">
         <Flex>
@@ -208,7 +205,7 @@ class Profile extends Component {
               onChangeText={text => this.setState({ firstName: text })}
               multiline={false}
               autoCapitalize="words"
-              placeholder="First Name"
+              placeholder={t('placeholder.firstName')}
               placeholderTextColor={COLORS.GREY}
               returnKeyType="next"
               style={styles.inputBox}
@@ -223,7 +220,7 @@ class Profile extends Component {
               value={this.state.lastName || user.last_name || ''}
               multiline={false}
               autoCapitalize="words"
-              placeholder="Last Name"
+              placeholder={t('placeholder.lastName')}
               returnKeyType="done"
               placeholderTextColor={COLORS.GREY}
               style={styles.inputBox}
@@ -234,7 +231,7 @@ class Profile extends Component {
           </Flex>
           <Flex value={1} align="center">
             <Button
-              text="SAVE"
+              text={t('save').toUpperCase()}
               style={styles.saveButton}
               buttonTextStyle={styles.saveButtonText}
               disabled={!this.state.firstName && !this.state.lastName}
@@ -247,6 +244,7 @@ class Profile extends Component {
   }
 
   renderEditEmail() {
+    const { t } = this.props;
     if (!this.state.editEmail) return null;
     return (
       <Flex direction="column" align="center" justify="center">
@@ -260,7 +258,7 @@ class Profile extends Component {
               onChangeText={text => this.setState({ newEmail: text })}
               value={this.state.newEmail}
               multiline={false}
-              placeholder="New Email"
+              placeholder={t('placeholder.newEmail')}
               keyboardType="email-address"
               returnKeyType="next"
               placeholderTextColor={theme.primaryColor}
@@ -276,7 +274,7 @@ class Profile extends Component {
               onChangeText={text => this.setState({ confirmEmail: text })}
               multiline={false}
               returnKeyType="next"
-              placeholder="Confirm Email"
+              placeholder={t('placeholder.confirmEmail')}
               keyboardType="email-address"
               placeholderTextColor={theme.primaryColor}
               style={styles.inputBox}
@@ -292,7 +290,7 @@ class Profile extends Component {
               onChangeText={text => this.setState({ currentPassword: text })}
               returnKeyType="done"
               multiline={false}
-              placeholder="Password"
+              placeholder={t('placeholder.password')}
               placeholderTextColor={theme.primaryColor}
               style={styles.inputBox}
               autoCorrect={true}
@@ -302,7 +300,7 @@ class Profile extends Component {
           </Flex>
           <Flex value={1} align="center">
             <Button
-              text="SAVE"
+              text={t('save').toUpperCase()}
               disabled={
                 !this.state.currentPassword &&
                 !this.state.newEmail &&
@@ -319,6 +317,7 @@ class Profile extends Component {
   }
 
   renderEditPassword() {
+    const { t } = this.props;
     if (!this.state.editPassword) return null;
     return (
       <Flex direction="column" align="center" justify="center">
@@ -330,7 +329,7 @@ class Profile extends Component {
             <TextInput
               ref={c => (this.passwordCurrent = c)}
               multiline={false}
-              placeholder="Current Password"
+              placeholder={t('placeholder.currentPassword')}
               onChangeText={text => this.setState({ currentPassword: text })}
               secureTextEntry={true}
               returnKeyType="next"
@@ -346,7 +345,7 @@ class Profile extends Component {
               ref={c => (this.passwordNew = c)}
               multiline={false}
               secureTextEntry={true}
-              placeholder="New Password"
+              placeholder={t('placeholder.newPassword')}
               onChangeText={text => this.setState({ newPassword: text })}
               returnKeyType="next"
               value={this.state.newPassword}
@@ -360,7 +359,7 @@ class Profile extends Component {
             <TextInput
               ref={c => (this.passwordNewConfirm = c)}
               multiline={false}
-              placeholder="Confirm New Password"
+              placeholder={t('placeholder.confirmNewPassword')}
               returnKeyType="done"
               secureTextEntry={true}
               value={this.state.confirmPassword}
@@ -374,7 +373,7 @@ class Profile extends Component {
           </Flex>
           <Flex value={1} align="center">
             <Button
-              text="SAVE"
+              text={t('save').toUpperCase()}
               style={styles.saveButton}
               buttonTextStyle={styles.saveButtonText}
               disabled={
@@ -392,7 +391,7 @@ class Profile extends Component {
 
   render() {
     const { editName, editEmail, editPassword, hideAnonFields } = this.state;
-    let { user, isAnonUser } = this.props;
+    let { t, user, isAnonUser } = this.props;
     let name = null;
     if (user.first_name || user.last_name) {
       name = `${user.first_name || ''} ${user.last_name || ''}`;
@@ -402,7 +401,7 @@ class Profile extends Component {
 
     return (
       <View style={styles.container}>
-        <Header leftBack={true} title="Profile" light={true} shadow={false} />
+        <Header leftBack={true} title={t('title.profile')} light={true} shadow={false} />
         <Flex direction="column" style={styles.content}>
           <ScrollView
             ref={c => (this.scrollView = c)}

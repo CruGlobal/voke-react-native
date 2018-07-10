@@ -22,7 +22,7 @@ class ChannelInfo extends Component {
   }
 
   render() {
-    const { channel, subscribeData } = this.props;
+    const { t, channel, subscribeData } = this.props;
     const isSubscribed = subscribeData.isSubscribed;
     const avatar =
       channel.avatar && channel.avatar.large ? channel.avatar.large : undefined;
@@ -37,7 +37,7 @@ class ChannelInfo extends Component {
             {subscribeData ? (
               <Button
                 onPress={this.handleButtonPress}
-                text={isSubscribed ? 'Unsubscribe' : 'Subscribe'}
+                text={isSubscribed ? t('unsubscribe') : t('subscribe')}
                 style={styles.button}
                 buttonTextStyle={styles.buttonText}
               />

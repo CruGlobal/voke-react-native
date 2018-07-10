@@ -193,6 +193,7 @@ class Home extends Component {
 
   render() {
     const {
+      t,
       conversations,
       activeConversationId,
       me,
@@ -220,7 +221,7 @@ class Home extends Component {
               <PopupMenu actions={navMenuOptions(this.props)} />
             ) : null
           }
-          title="Chats"
+          title={t('title.chats')}
         />
         {cLength ? (
           <ConversationList

@@ -117,6 +117,7 @@ class SignUpAccount extends Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
       <ScrollView
         keyboardShouldPersistTaps={theme.isAndroid ? 'handled' : 'always'}
@@ -127,15 +128,15 @@ class SignUpAccount extends Component {
           behavior={theme.isAndroid ? undefined : 'position'}
         >
           <SignUpHeader
-            title="Create Account"
-            description="Creating your account allows you to keep your conversations safe, retain your progress and access Voke from anywhere"
+            title={t('title.createAccount')}
+            description={t('description')}
             onPress={() => Keyboard.dismiss()}
           />
           <Flex value={1} align="center" justify="start" style={styles.inputs}>
             <SignUpInput
               value={this.state.email}
               onChangeText={this.checkEmail}
-              placeholder="Email"
+              placeholder={t('placeholder.email')}
               autoCorrect={true}
               blurOnSubmit={false}
               keyboardType="email-address"
@@ -146,12 +147,12 @@ class SignUpAccount extends Component {
               ref={c => (this.password = c)}
               value={this.state.password}
               onChangeText={text => this.setState({ password: text })}
-              placeholder="Password"
+              placeholder={t('placeholder.password')}
               secureTextEntry={true}
             />
             <Flex style={styles.buttonWrapper}>
               <Button
-                text="Create Account"
+                text={t('createAccount')}
                 buttonTextStyle={styles.signInButton}
                 style={styles.actionButton}
                 onPress={this.updateAnonAccount}
@@ -163,7 +164,7 @@ class SignUpAccount extends Component {
               </Text>
               <Flex direction="row" align="center" justify="center">
                 <Button
-                  text="Privacy Policy"
+                  text={t('privacy')}
                   type="transparent"
                   buttonTextStyle={styles.legalLinkText}
                   style={styles.legalLink}
@@ -171,7 +172,7 @@ class SignUpAccount extends Component {
                 />
                 <Text style={styles.legalText}>and</Text>
                 <Button
-                  text="Terms of Service"
+                  text={t('tos')}
                   type="transparent"
                   buttonTextStyle={styles.legalLinkText}
                   style={styles.legalLink}
@@ -198,7 +199,7 @@ const mapStateToProps = ({ auth }, { navigation }) => ({
   isAnonUser: auth.isAnonUser,
 });
 
-export default translate()(
+export default translate('signUpAccount')(
   connect(
     mapStateToProps,
     nav,

@@ -17,7 +17,6 @@ class SearchBarIos extends Component {
           value={this.props.value}
           onFocus={() => this.setState({ isFocus: true })}
           onBlur={() => this.setState({ isFocus: false })}
-          placeholder=""
           placeholderTextColor={theme.textColor}
           style={styles.searchBox}
           autoCorrect={false}

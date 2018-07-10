@@ -86,10 +86,11 @@ class LoginInput extends Component {
   }
 
   render() {
+    const { t, navigateBack, navigatePush, isAnonUser } = this.props;
     return (
       <Flex style={styles.container} value={1} align="center" justify="center">
         <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
-          <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
+          <SignUpHeaderBack onPress={() => navigateBack()} />
           <Flex
             direction="column"
             align="center"
@@ -108,7 +109,7 @@ class LoginInput extends Component {
             <SignUpInput
               value={this.state.email}
               onChangeText={this.checkEmail}
-              placeholder="Email"
+              placeholder={t('placeholder.email')}
               autoCorrect={false}
               keyboardType="email-address"
               returnKeyType="next"
@@ -120,21 +121,21 @@ class LoginInput extends Component {
               secureTextEntry={true}
               value={this.state.password}
               onChangeText={text => this.setState({ password: text })}
-              placeholder="Password"
+              placeholder={t('placeholder.password')}
             />
             <Flex style={styles.buttonWrapper}>
               <Button
-                text="Sign In"
+                text={t('signIn')}
                 buttonTextStyle={styles.signInButtonText}
                 style={styles.signInButton}
                 onPress={this.login}
               />
             </Flex>
             <Button
-              text="Forgot Password?"
+              text={t('forgotPassword')}
               type="transparent"
               buttonTextStyle={styles.signInText}
-              onPress={() => this.props.navigatePush('voke.ForgotPassword')}
+              onPress={() => navigatePush('voke.ForgotPassword')}
             />
           </Flex>
           <Flex
@@ -146,9 +147,9 @@ class LoginInput extends Component {
           >
             <Flex style={styles.buttonWrapper}>
               <FacebookButton
-                text="Sign In with Facebook"
+                text={t('signInFb')}
                 isSignIn={true}
-                isAnonUser={this.props.isAnonUser}
+                isAnonUser={isAnonUser}
               />
             </Flex>
           </Flex>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { ScrollView, Image } from 'react-native';
+import { translate } from 'react-i18next';
 import PropTypes from 'prop-types';
 
 // import { COLORS } from '../../theme';
@@ -12,48 +13,85 @@ import { Flex, Icon, Text, Button, Touchable } from '../../components/common';
 
 class SharePopup extends Component {
   render() {
-    if (this.props.isHidden) return null;
+    const { t, isHidden, onShare, onDismiss } = this.props;
+    if (isHidden) return null;
 
     return (
       <Flex align="center" justify="center" style={styles.container}>
         <ScrollView style={styles.androidModal}>
-          <Flex direction="column" value={1} align="start" justify="center" animation="slideInUp" duration={500}>
-            <Touchable onPress={() => this.props.onShare('message')} >
-              <Flex direction="row" align="center" style={styles.androidShareRow}>
-                <Icon type="FontAwesome" style={styles.androidIcons} size={30} name="comment-o"  />
-                <Text style={styles.androidIconText}>Message</Text>
+          <Flex
+            direction="column"
+            value={1}
+            align="start"
+            justify="center"
+            animation="slideInUp"
+            duration={500}
+          >
+            <Touchable onPress={() => onShare('message')}>
+              <Flex
+                direction="row"
+                align="center"
+                style={styles.androidShareRow}
+              >
+                <Icon
+                  type="FontAwesome"
+                  style={styles.androidIcons}
+                  size={30}
+                  name="comment-o"
+                />
+                <Text style={styles.androidIconText}>{t('message')}</Text>
               </Flex>
             </Touchable>
-            <Touchable onPress={() => this.props.onShare('copy')} >
-              <Flex direction="row" align="center" style={styles.androidShareRow}>
-                <Icon style={styles.androidIcons} size={30} name="content-copy" />
-                <Text style={styles.androidIconText}>Copy to Clipboard</Text>
+            <Touchable onPress={() => onShare('copy')}>
+              <Flex
+                direction="row"
+                align="center"
+                style={styles.androidShareRow}
+              >
+                <Icon
+                  style={styles.androidIcons}
+                  size={30}
+                  name="content-copy"
+                />
+                <Text style={styles.androidIconText}>{t('copy')}</Text>
               </Flex>
             </Touchable>
-            <Touchable onPress={() => this.props.onShare('whatsapp')} >
-              <Flex direction="row" align="center" style={styles.androidShareRow}>
+            <Touchable onPress={() => onShare('whatsapp')}>
+              <Flex
+                direction="row"
+                align="center"
+                style={styles.androidShareRow}
+              >
                 <Icon
                   type="FontAwesome"
                   style={[styles.androidIcons, { color: '#009846' }]}
                   size={30}
                   name="whatsapp"
                 />
-                <Text style={styles.androidIconText}>WhatsApp</Text>
+                <Text style={styles.androidIconText}>{t('whatsapp')}</Text>
               </Flex>
             </Touchable>
-            <Touchable onPress={() => this.props.onShare('fb')} >
-              <Flex direction="row" align="center" style={styles.androidShareRow}>
-                <Flex align="center" justify="center" style={styles.androidImageWrap}>
+            <Touchable onPress={() => onShare('fb')}>
+              <Flex
+                direction="row"
+                align="center"
+                style={styles.androidShareRow}
+              >
+                <Flex
+                  align="center"
+                  justify="center"
+                  style={styles.androidImageWrap}
+                >
                   <Image source={FB} style={styles.androidImageStyle} />
                 </Flex>
-                <Text style={styles.androidIconText}>Messenger</Text>
+                <Text style={styles.androidIconText}>{t('messenger')}</Text>
               </Flex>
             </Touchable>
             <Button
-              text="Cancel"
+              text={t('cancel')}
               buttonTextStyle={styles.buttonText}
               style={styles.button}
-              onPress={this.props.onDismiss}
+              onPress={onDismiss}
             />
           </Flex>
         </ScrollView>
@@ -68,4 +106,4 @@ SharePopup.propTypes = {
   isHidden: PropTypes.bool,
 };
 
-export default SharePopup;
+export default translate('sharePopup')(SharePopup);

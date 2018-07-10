@@ -63,7 +63,7 @@ class Channels extends Component {
   };
 
   render() {
-    const { allChannels, myChannels, featuredChannels } = this.props;
+    const { t, navigatePush, allChannels, myChannels, featuredChannels } = this.props;
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
@@ -74,7 +74,7 @@ class Channels extends Component {
             ) : (
               <HeaderIcon
                 image={vokeIcons['menu']}
-                onPress={() => this.props.navigatePush('voke.Menu')}
+                onPress={() => navigatePush('voke.Menu')}
               />
             )
           }
@@ -83,7 +83,7 @@ class Channels extends Component {
               <PopupMenu actions={navMenuOptions(this.props)} />
             ) : null
           }
-          title="Channels"
+          title={t('title.channels')}
         />
         <ScrollView
           refreshControl={
@@ -98,7 +98,7 @@ class Channels extends Component {
             ref={c => (this.myChannelsList = c)}
             items={myChannels}
             onSelect={c => {
-              this.props.navigatePush('voke.VideosTab', {
+              navigatePush('voke.VideosTab', {
                 channel: c,
               });
             }}
@@ -110,7 +110,7 @@ class Channels extends Component {
             ref={c => (this.featuredList = c)}
             items={featuredChannels}
             onSelect={c => {
-              this.props.navigatePush('voke.VideosTab', {
+              navigatePush('voke.VideosTab', {
                 channel: c,
               });
             }}
@@ -122,7 +122,7 @@ class Channels extends Component {
             ref={c => (this.browseChannelsList = c)}
             items={allChannels}
             onSelect={c => {
-              this.props.navigatePush('voke.VideosTab', {
+              navigatePush('voke.VideosTab', {
                 channel: c,
               });
             }}

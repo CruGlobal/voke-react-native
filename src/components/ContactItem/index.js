@@ -12,7 +12,7 @@ class ContactItem extends Component {
   // eslint-disable-line
 
   render() {
-    const { item, isInvite } = this.props;
+    const { t, item, isInvite } = this.props;
 
     // Get the url for the voke image if it is a voke contact
     const isVokeFromInvite = item.isVoke && isInvite;
@@ -52,7 +52,7 @@ class ContactItem extends Component {
         {!item.isVoke && this.props.isInvite ? (
           <Button
             onPress={this.props.onButtonPress}
-            text="Invite"
+            text={t('invite')}
             style={styles.inviteButton}
             buttonTextStyle={styles.inviteButtonText}
           />

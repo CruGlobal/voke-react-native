@@ -127,6 +127,7 @@ class SignUpProfile extends Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
@@ -144,7 +145,7 @@ class SignUpProfile extends Component {
               ) : null
             } */}
             <SignUpHeader
-              title="Create Profile"
+              title={t('title.createProfile')}
               onPress={() => Keyboard.dismiss()}
             />
             <Flex
@@ -158,7 +159,7 @@ class SignUpProfile extends Component {
               <SignUpInput
                 value={this.state.firstName}
                 onChangeText={text => this.setState({ firstName: text })}
-                placeholder="First Name"
+                placeholder={t('placeholder.firstName')}
                 autoCapitalize="words"
                 returnKeyType="next"
                 blurOnSubmit={false}
@@ -168,7 +169,7 @@ class SignUpProfile extends Component {
                 ref={c => (this.lastName = c)}
                 value={this.state.lastName}
                 onChangeText={text => this.setState({ lastName: text })}
-                placeholder="Last Name"
+                placeholder={t('placeholder.lastName')}
                 autoCapitalize="words"
               />
               <Flex
@@ -179,14 +180,14 @@ class SignUpProfile extends Component {
                 style={{ paddingTop: 40 }}
               >
                 <Button
-                  text="Next"
+                  text={t('next')}
                   disabled={this.state.disableNext}
                   buttonTextStyle={styles.signInButton}
                   style={styles.actionButton}
                   onPress={this.addProfile}
                 />
                 <Button
-                  text="Skip"
+                  text={t('skip')}
                   type="transparent"
                   buttonTextStyle={styles.signInButton}
                   style={styles.actionButton}

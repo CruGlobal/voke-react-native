@@ -108,6 +108,7 @@ class SignUpNumber extends Component {
   };
 
   render() {
+    const { t } = this.props;
     const { selectedCountry, selectedCountryCode, phoneNumber } = this.state;
     return (
       <View style={{ flex: 1 }}>
@@ -121,8 +122,8 @@ class SignUpNumber extends Component {
               onPress={() => Keyboard.dismiss()}
             >
               <SignUpHeader
-                title="Mobile Number"
-                description="Add your mobile number to invite your friends to a Voke chat via text message"
+                title={t('title.number')}
+            description={t('description')}
                 onPress={() => Keyboard.dismiss()}
               />
               <Flex
@@ -146,7 +147,7 @@ class SignUpNumber extends Component {
                   value={phoneNumber}
                   onChangeText={text => this.setState({ phoneNumber: text })}
                   keyboardType="phone-pad"
-                  placeholder="Your Mobile Number"
+                  placeholder={t('placeholder.mobileNumber')}
                   onSubmitEditing={this.handleNext}
                   returnKeyType="send"
                 />
@@ -155,14 +156,14 @@ class SignUpNumber extends Component {
                 </Text>
                 <Flex value={1} align="center" justify="start">
                   <Button
-                    text="Next"
+                    text={t('next')}
                     disabled={this.state.disableNext}
                     buttonTextStyle={styles.signInButton}
                     style={styles.actionButton}
                     onPress={this.handleNext}
                   />
                   <Button
-                    text="Skip"
+                    text={t('skip')}
                     type="transparent"
                     buttonTextStyle={styles.signInButton}
                     style={styles.actionButton}
@@ -187,7 +188,7 @@ const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
 });
 
-export default translate()(
+export default translate('signUpNumber')(
   connect(
     mapStateToProps,
     nav,

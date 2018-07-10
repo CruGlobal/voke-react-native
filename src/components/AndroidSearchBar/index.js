@@ -15,7 +15,7 @@ class AndroidSearchBar extends Component {
         <TextInput
           value={value}
           autoFocus={true}
-          placeholder={t('search')}
+          placeholder={t('placeholder.search')}
           placeholderTextColor="rgba(240, 240, 240, 0.6)"
           style={styles.input}
           autoCorrect={false}

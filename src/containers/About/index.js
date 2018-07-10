@@ -30,6 +30,7 @@ class About extends Component {
   }
 
   render() {
+    const { t, navigateBack, navigatePush } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <Header
@@ -39,18 +40,18 @@ class About extends Component {
             ) : (
               <Button
                 type="transparent"
-                text="Done"
+                text={t('done')}
                 buttonTextStyle={{ padding: 10, fontSize: 16 }}
                 onPress={() => {
                   // Close out of the settings by going back 2 times
-                  this.props.navigateBack();
-                  this.props.navigateBack();
+                  navigateBack();
+                  navigateBack();
                 }}
               />
             )
           }
           leftBack={true}
-          title="About"
+          title={t('title.about')}
           light={true}
         />
         <SettingsList
@@ -58,7 +59,7 @@ class About extends Component {
             {
               name: 'Why Voke?',
               onPress: () =>
-                this.props.navigatePush('voke.SignUpWelcome', {
+                navigatePush('voke.SignUpWelcome', {
                   noSignIn: true,
                 }),
             },
@@ -80,7 +81,7 @@ class About extends Component {
             },
             {
               name: 'Acknowledgements',
-              onPress: () => this.props.navigatePush('voke.Acknowledgements'),
+              onPress: () => navigatePush('voke.Acknowledgements'),
             },
             {
               name: `Version: ${VERSION_BUILD}`,

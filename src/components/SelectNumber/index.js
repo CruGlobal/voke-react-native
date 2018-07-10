@@ -11,7 +11,7 @@ class SelectNumber extends Component {
   };
 
   render() {
-    const { contact } = this.props;
+    const { t, contact } = this.props;
     const numbers = contact.phone;
     const labels = contact.numberLabels;
 
@@ -44,7 +44,7 @@ class SelectNumber extends Component {
             style={styles.cancelWrap}
           >
             <Button
-              text="Cancel"
+              text={t('cancel')}
               buttonTextStyle={styles.cancelButtonText}
               style={styles.cancelButton}
               onPress={this.handleCancel}

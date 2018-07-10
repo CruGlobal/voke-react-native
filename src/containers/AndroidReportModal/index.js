@@ -38,6 +38,7 @@ class AndroidReportModal extends Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
       <Flex align="center" justify="center" style={styles.container}>
         <Flex direction="column" align="center" justify="center" style={styles.modal}>
@@ -47,7 +48,7 @@ class AndroidReportModal extends Component {
               value={this.state.text}
               onChangeText={(text) => this.setState({ text: text })}
               multiline={false}
-              placeholder="Reason"
+              placeholder={t('placeholder.reason')}
               placeholderTextColor={theme.accentColor}
               style={styles.inputBox}
               autoCorrect={true}
@@ -57,7 +58,7 @@ class AndroidReportModal extends Component {
           <Flex direction="row" align="center" justify="center">
             <Flex value={2} align="end" justify="center">
               <Button
-                text="CANCEL"
+                text={t('cancel').toUpperCase()}
                 buttonTextStyle={styles.buttonText}
                 type="transparent"
                 style={{ padding: 5 }}
@@ -66,7 +67,7 @@ class AndroidReportModal extends Component {
             </Flex>
             <Flex value={1} align="end" justify="center">
               <Button
-                text="SUBMIT"
+                text={t('submit').toUpperCase()}
                 style={{ padding: 7 }}
                 type="transparent"
                 buttonTextStyle={styles.buttonText}

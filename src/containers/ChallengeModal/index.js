@@ -103,7 +103,7 @@ class ChallengeModal extends Component {
   };
 
   render() {
-    const { challenge, onDismiss } = this.props;
+    const { t, challenge, onDismiss } = this.props;
     const isActive = this.state.isActive;
     return (
       <ScrollView style={styles.container}>
@@ -123,14 +123,14 @@ class ChallengeModal extends Component {
             <Flex value={1} align="end" justify="center">
               {challenge['required?'] && !challenge['completed?'] ? (
                 <Button
-                  text="Got It!"
+                  text={t('gotIt')}
                   buttonTextStyle={styles.buttonText}
                   style={styles.button}
                   onPress={this.handleButtonPress}
                 />
               ) : !challenge['completed?'] ? (
                 <Button
-                  text={isActive ? 'Challenge Accepted' : 'Accept Challenge'}
+                  text={isActive ? t('challengeAccepted') : t('acceptChallenge')}
                   buttonTextStyle={styles.buttonText}
                   style={
                     !isActive
@@ -143,7 +143,7 @@ class ChallengeModal extends Component {
               ) : null}
               {!challenge['required?'] && !challenge['completed?'] ? (
                 <Button
-                  text="Completed"
+                  text={t('completed')}
                   disabled={!isActive}
                   buttonTextStyle={styles.completeButtonText}
                   style={

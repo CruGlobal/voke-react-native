@@ -125,12 +125,12 @@ class VideoDetails extends Component {
   }
 
   handleVideoChange(videoState) {
-    const { video } = this.props;
+    const { t, dispatch, video } = this.props;
     if (videoState === webviewStates.ERROR) {
-      this.props.dispatch(toastAction('There was an error playing the video.'));
+      dispatch(toastAction(t('error.playingVideo')));
     }
     if (videoState === webviewStates.STARTED) {
-      this.props.dispatch(createVideoInteraction(video.id));
+      dispatch(createVideoInteraction(video.id));
     }
   }
 
@@ -203,6 +203,7 @@ class VideoDetails extends Component {
   };
 
   renderContent() {
+    const { t } = this.props;
     // const video = this.state.video || this.props.video || {};
     const video = this.props.video || {};
     const isFavorite = this.state.isFavorite;
@@ -221,7 +222,7 @@ class VideoDetails extends Component {
         <Text style={styles.videoTitle}>{video.name}</Text>
         <Text style={styles.detail}>{video.shares} Shares</Text>
         <Text style={styles.detail}>{video.description}</Text>
-        <Text style={styles.label}>Themes</Text>
+        <Text style={styles.label}>{t('themes')}</Text>
         <Flex direction="row">
           {(video.tags || []).map((t, index) => (
             <Text key={t.id} style={styles.detail}>
@@ -242,20 +243,9 @@ class VideoDetails extends Component {
   }
 
   render() {
-    // const video = this.state.video || this.props.video || {};
     const video = this.props.video || {};
     const videoMedia = video.media || {};
     const videoType = videoMedia.type;
-
-    // Set the loading state duration for different video types
-    // let loadDuration = 2000;
-    // if (videoType === 'arclight') {
-    //   loadDuration = 3000; // Longer loading state for arclight videos
-    // } else if (videoType === 'vimeo' && isOlderAndroid) {
-    //   loadDuration = 3500; // Longer for older android devices and vimeo
-    // }
-
-    // LOG('landscape mode', this.state.isLandscape);
 
     return (
       <View style={styles.container}>
@@ -290,7 +280,6 @@ class VideoDetails extends Component {
           {this.state.isLandscape ? null : this.renderContent()}
         </ScrollView>
         <FloatingButtonSingle onSelect={this.handleShare} />
-        {/* <ApiLoading text="Loading Video" showMS={loadDuration} /> */}
       </View>
     );
   }

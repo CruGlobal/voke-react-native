@@ -9,12 +9,12 @@ import styles from './styles';
 
 class SignUpButtons extends Component {
   render() {
-    const { filled } = this.props;
+    const { t, filled } = this.props;
     return (
       <Flex align="center" justify="center" style={styles.actions}>
         <Flex style={styles.buttonWrapper}>
           <Button
-            text="Sign Up with Email"
+            text={t('signUpEmail')}
             icon="mail-outline"
             type={filled ? 'filled' : undefined}
             style={[styles.actionButton, filled ? styles.filled : null]}
@@ -36,10 +36,10 @@ class SignUpButtons extends Component {
           style={styles.haveAccount}
         >
           <Text style={[styles.signIn, filled ? styles.signInFilled : null]}>
-            Already have an account?
+            {t('haveAccount')}
           </Text>
           <Button
-            text="Sign In"
+            text={t('signIn')}
             type="transparent"
             buttonTextStyle={styles.signInText}
             onPress={() => this.props.dispatch(navigatePush('voke.LoginInput'))}

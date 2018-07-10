@@ -26,9 +26,10 @@ class Acknowledgements extends Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
       <View style={{ flex: 1 }}>
-        <Header leftBack={true} title="Acknowledgements" light={true} />
+        <Header leftBack={true} title={t('title.acknowledgements')} light={true} />
         <SettingsList
           items={[
             {

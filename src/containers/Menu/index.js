@@ -16,18 +16,19 @@ class Menu extends Component {
   }
 
   render() {
+    const { t, navigateBack } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <Header
           right={
             <Button
               type="transparent"
-              text="Done"
+              text={t('done')}
               buttonTextStyle={{ padding: 10, fontSize: 16 }}
-              onPress={() => this.props.navigateBack()}
+              onPress={() => navigateBack()}
             />
           }
-          title="Settings"
+          title={t('settings')}
           light={true}
         />
         <SettingsList items={navMenuOptions(this.props)} />

@@ -103,6 +103,7 @@ class SignUpNumberVerify extends Component {
   }
 
   render() {
+    const { t, navigateBack } = this.props;
     return (
       <ScrollView
         style={styles.container}
@@ -115,14 +116,14 @@ class SignUpNumberVerify extends Component {
           style={{ flex: 1 }}
           behavior={theme.isAndroid ? undefined : 'padding'}
         >
-          <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
+          <SignUpHeaderBack onPress={() => navigateBack()} />
           <TouchableOpacity
             activeOpacity={1}
             onPress={() => Keyboard.dismiss()}
           >
             <SignUpHeader
-              title="Verification"
-              description="Finally, enter the 4-Digit Code you received by TXT so we know you are a human."
+              title={t('title.verification')}
+              description={t('description')}
               onPress={() => Keyboard.dismiss()}
             />
             <Flex
@@ -132,17 +133,17 @@ class SignUpNumberVerify extends Component {
               style={styles.inputs}
             >
               <Flex direction="row" align="center" justify="center">
-                <Text>V-</Text>
+                <Text>{t('verificationPrefix')}</Text>
                 <SignUpInput
                   style={styles.inputBox}
                   keyboardType="numeric"
                   value={this.state.code}
                   onChangeText={text => this.setState({ code: text })}
-                  placeholder="Verification Code"
+                  placeholder={t('placeholder.verification')}
                 />
               </Flex>
               <Button
-                text="Resend Code"
+                text={t('resend')}
                 type="transparent"
                 buttonTextStyle={styles.resendCode}
                 style={styles.actionButton}
@@ -150,14 +151,14 @@ class SignUpNumberVerify extends Component {
               />
               <Flex value={1} align="center" justify="center">
                 <Button
-                  text="Next"
+                  text={t('next')}
                   disabled={this.state.disableNext}
                   buttonTextStyle={styles.signInButton}
                   style={styles.actionButton}
                   onPress={this.handleNext}
                 />
                 <Button
-                  text="Skip"
+                  text={t('skip')}
                   type="transparent"
                   buttonTextStyle={styles.signInButton}
                   style={styles.actionButton}
@@ -182,7 +183,7 @@ const mapStateToProps = ({ auth }, { navigation }) => ({
   onboardCompleted: auth.onboardCompleted,
 });
 
-export default translate()(
+export default translate('signUpNumberVerify')(
   connect(
     mapStateToProps,
     nav,

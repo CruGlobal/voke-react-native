@@ -84,6 +84,7 @@ class KickstartersTab extends Component {
   }
 
   render() {
+    const { t } = this.props;
     const { kickstarters } = this.state;
     const hasKickstarters = kickstarters.length > 0;
     let content = null;
@@ -95,12 +96,12 @@ class KickstartersTab extends Component {
         </Text>
       );
     } else {
-      content = this.state.kickstarters.map(this.renderRow);
+      content = kickstarters.map(this.renderRow);
     }
 
     return (
       <View style={{ flex: 1 }}>
-        <Header leftBack={true} title="Kickstarters" />
+        <Header leftBack={true} title={t('title.kickstarters')} />
         <ScrollView
           style={styles.container}
           contentContainerStyle={!hasKickstarters ? { flex: 1 } : undefined}

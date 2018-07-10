@@ -176,6 +176,7 @@ class ShareFlow extends Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
       <View style={styles.container}>
         <KeyboardAvoidingView behavior="position">
@@ -207,14 +208,14 @@ class ShareFlow extends Component {
               <SignUpInput
                 value={this.state.name}
                 onChangeText={t => this.setState({ name: t })}
-                placeholder="Friend's Name"
+                placeholder={t('placeholder.friendsname')}
                 autoCapitalize="words"
                 autoCorrect={false}
                 returnKeyType="done"
                 blurOnSubmit={true}
               />
               <Button
-                text="Share"
+                text={t('share')}
                 disabled={this.state.isLoading || !this.state.name}
                 type={this.state.name ? 'filled' : 'disabled'}
                 style={styles.shareButton}
@@ -226,7 +227,7 @@ class ShareFlow extends Component {
                 <Flex value={1} style={styles.line} />
               </Flex>
               <Button
-                text="Open My Address Book"
+                text={t('openAddr')}
                 type="filled"
                 style={styles.addrButton}
                 onPress={this.openAddrBook}
@@ -236,10 +237,7 @@ class ShareFlow extends Component {
           {this.renderOverlay()}
         </KeyboardAvoidingView>
         {this.state.isLoading ? (
-          <ApiLoading
-            force={true}
-            text="Creating a link for you to share with your friend"
-          />
+          <ApiLoading force={true} text={t('loading.share')} />
         ) : null}
         <Flex style={{ position: 'absolute', top: 0, left: 0 }} align="start">
           <SignUpHeaderBack onPress={this.quit} />

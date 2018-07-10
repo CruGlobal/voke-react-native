@@ -7,17 +7,18 @@ import { Button } from '../common';
 
 class LoadMore extends Component {
   render() {
+    const { t, isLoading, onLoad } = this.props;
     return (
       <Button
-        text="Load More"
+        text={t('loadMore')}
         type="filled"
-        isLoading={this.props.isLoading}
+        isLoading={isLoading}
         preventTimeout={2500}
         buttonTextStyle={styles.text}
-        onPress={this.props.onLoad}
+        onPress={onLoad}
         style={[
           styles.wrapper,
-          { paddingBottom: this.props.isLoading ? 15 : undefined },
+          { paddingBottom: isLoading ? 15 : undefined },
         ]}
       />
     );

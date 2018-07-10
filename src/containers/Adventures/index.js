@@ -31,6 +31,7 @@ class Adventures extends Component {
   };
 
   render() {
+    const { t, navigatePush } = this.props;
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
@@ -41,7 +42,7 @@ class Adventures extends Component {
             ) : (
               <HeaderIcon
                 image={vokeIcons['menu']}
-                onPress={() => this.props.navigatePush('voke.Menu')}
+                onPress={() => navigatePush('voke.Menu')}
               />
             )
           }
@@ -50,7 +51,7 @@ class Adventures extends Component {
               <PopupMenu actions={navMenuOptions(this.props)} />
             ) : null
           }
-          title="Adventure"
+          title={t('title.adventure')}
         />
         <ScrollView ref={c => (this.scrollView = c)} bounces={false}>
           <AdventureMap scrollTo={this.scrollTo} />

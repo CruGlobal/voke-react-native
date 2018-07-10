@@ -110,7 +110,7 @@ class CountrySelect extends Component {
   }
 
   render() {
-    const { showSearch, searchText, searchResults, all } = this.state;
+    const { t, showSearch, searchText, searchResults, all } = this.state;
 
     const items = searchText ? searchResults : all;
 
@@ -142,7 +142,7 @@ class CountrySelect extends Component {
               undefined
             )
           }
-          title="Select Country"
+          title={t('title.selectCountry')}
           light={true}
           shadow={false}
         />

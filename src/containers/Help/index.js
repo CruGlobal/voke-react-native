@@ -45,6 +45,7 @@ class Help extends Component {
   }
 
   render() {
+    const { t, navigateBack } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <Header
@@ -54,18 +55,18 @@ class Help extends Component {
             ) : (
               <Button
                 type="transparent"
-                text="Done"
+                text={t('done')}
                 buttonTextStyle={{ padding: 10, fontSize: 16 }}
                 onPress={() => {
                   // Close out of the settings by going back 2 times
-                  this.props.navigateBack();
-                  this.props.navigateBack();
+                  navigateBack();
+                  navigateBack();
                 }}
               />
             )
           }
           leftBack={true}
-          title="Help"
+          title={t('title.help')}
           light={true}
         />
         <SettingsList

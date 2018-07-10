@@ -51,10 +51,11 @@ class ForgotPassword extends Component {
   }
 
   render() {
+    const { t, navigateBack } = this.props;
     return (
       <Flex style={styles.container} value={1} align="center">
         <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
-          <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
+          <SignUpHeaderBack onPress={() => navigateBack()} />
           <Flex
             direction="column"
             align="center"
@@ -80,12 +81,12 @@ class ForgotPassword extends Component {
             <SignUpInput
               value={this.state.email}
               onChangeText={this.checkEmail}
-              placeholder="Email"
+              placeholder={t('placeholder.email')}
               keyboardType="email-address"
             />
             <Flex style={styles.buttonWrapper}>
               <Button
-                text="Send"
+                text={t('send')}
                 buttonTextStyle={styles.signInButtonText}
                 style={styles.signInButton}
                 onPress={this.forgotPassword}

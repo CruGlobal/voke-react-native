@@ -109,6 +109,7 @@ class SignUpFBAccount extends Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
       <ScrollView
         style={styles.container}
@@ -120,13 +121,13 @@ class SignUpFBAccount extends Component {
           behavior={theme.isAndroid ? undefined : 'padding'}
         >
           <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
-          <SignUpHeader title="Create Account" />
+          <SignUpHeader title={t('title.createAccount')} />
           <Flex value={1} align="center" justify="start" style={styles.inputs}>
             {this.renderImagePicker()}
             <SignUpInput
               value={this.state.firstName}
               onChangeText={text => this.setState({ firstName: text })}
-              placeholder="First Name"
+              placeholder={t('placeholder.firstName')}
               autoCapitalize="words"
               returnKeyType="next"
               blurOnSubmit={false}
@@ -136,7 +137,7 @@ class SignUpFBAccount extends Component {
               ref={c => (this.lastName = c)}
               value={this.state.lastName}
               onChangeText={text => this.setState({ lastName: text })}
-              placeholder="Last Name"
+              placeholder={t('placeholder.lastName')}
               autoCapitalize="words"
               returnKeyType="next"
               blurOnSubmit={false}
@@ -146,11 +147,11 @@ class SignUpFBAccount extends Component {
               ref={c => (this.email = c)}
               value={this.state.email}
               onChangeText={this.checkEmail}
-              placeholder="Email"
+              placeholder={t('placeholder.email')}
             />
             <Flex style={styles.buttonWrapper}>
               <Button
-                text="Next"
+                text={t('next')}
                 buttonTextStyle={styles.signInButton}
                 style={styles.actionButton}
                 onPress={this.addProfile}
@@ -163,7 +164,7 @@ class SignUpFBAccount extends Component {
             </Text>
             <Flex direction="row" align="center" justify="center">
               <Button
-                text="Privacy Policy"
+                text={t('privacy')}
                 type="transparent"
                 buttonTextStyle={styles.legalLinkText}
                 style={styles.legalLink}
@@ -171,7 +172,7 @@ class SignUpFBAccount extends Component {
               />
               <Text style={styles.legalText}>and</Text>
               <Button
-                text="Terms of Service"
+                text={t('tos')}
                 type="transparent"
                 buttonTextStyle={styles.legalLinkText}
                 style={styles.legalLink}

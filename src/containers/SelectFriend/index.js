@@ -263,6 +263,7 @@ class SelectFriend extends Component {
   }
 
   renderContent() {
+    const { t } = this.props;
     let randomHeight = {};
     const isAuthorized = this.state.permission === Permissions.AUTHORIZED;
     if (screenHeight < 450) {
@@ -295,7 +296,7 @@ class SelectFriend extends Component {
             {isAuthorized ? (
               <Button
                 onPress={this.goToContacts}
-                text="Search Contacts"
+                text={t('searchContacts')}
                 style={[styles.randomButton, randomHeight]}
                 buttonTextStyle={styles.randomText}
               />
@@ -329,7 +330,7 @@ class SelectFriend extends Component {
           {!isAuthorized && !isLoading ? (
             <Button
               onPress={this.handleAllowContacts}
-              text="Allow Contacts"
+              text={t('allowContacts')}
               style={[styles.randomButton, randomHeight]}
               buttonTextStyle={styles.randomText}
             />
@@ -343,7 +344,7 @@ class SelectFriend extends Component {
   }
 
   render() {
-    const { isLoading } = this.props;
+    const { t, isLoading } = this.props;
     const {
       setLoaderBeforePush,
       loadingBeforeShareSheet,
@@ -353,7 +354,7 @@ class SelectFriend extends Component {
     return (
       <View style={styles.container}>
         <StatusBar />
-        <Header leftBack={true} title="Select Friend" />
+        <Header leftBack={true} title={t('title.selectFriend')} />
         {this.renderContent()}
         {isLoading || setLoaderBeforePush || loadingBeforeShareSheet ? (
           <ApiLoading
@@ -361,7 +362,7 @@ class SelectFriend extends Component {
             text={
               setLoaderBeforePush || loadingBeforeShareSheet
                 ? ''
-                : 'Fetching your contacts - and because you are so popular, I need up to 30 seconds'
+                : t('loading.contacts')
             }
           />
         ) : null}

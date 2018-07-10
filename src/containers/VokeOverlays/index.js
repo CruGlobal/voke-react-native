@@ -51,7 +51,7 @@ class VokeOverlays extends Component {
   }
 
   renderPushPermissions() {
-    const { user } = this.props;
+    const { t, user } = this.props;
     return (
       <Flex
         style={styles.overlay}
@@ -61,12 +61,9 @@ class VokeOverlays extends Component {
       >
         <Flex style={styles.chatBubble}>
           <Text style={styles.chatText}>
-            {user && user.first_name ? `${user.first_name}, ` : 'Friend, '}
-            I will play my ukulele when your friends start watching videos. This
-            is the best time to have deeper conversations.
-            {'\n'}
-            {'\n'}
-            First, I need your permission to send notifications.
+            {t('playUkulele', {
+              name: user && user.first_name ? user.first_name : t('friend'),
+            })}
           </Text>
         </Flex>
         <Flex style={styles.chatTriangle} />
@@ -79,12 +76,12 @@ class VokeOverlays extends Component {
           onPress={this.allowNotifications}
           type="filled"
           style={styles.closeButton}
-          text="Allow Notifications"
+          text={t('allowNotifications')}
         />
         <Button
           onPress={this.close}
           style={styles.clearButton}
-          text="No Thanks"
+          text={t('noThanks')}
         />
       </Flex>
     );
@@ -112,4 +109,4 @@ const mapStateToProps = ({ overlays, auth }) => ({
   user: auth.user,
 });
 
-export default translate()(connect(mapStateToProps)(VokeOverlays));
+export default translate('overlays')(connect(mapStateToProps)(VokeOverlays));

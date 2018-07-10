@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Image } from 'react-native';
+import { translate } from 'react-i18next';
 import PropTypes from 'prop-types';
+
 import Analytics from '../../utils/analytics';
 import CONTACTS_PERMISSION from '../../../images/contacts-permission.png';
 import styles from './styles';
@@ -41,6 +43,7 @@ class Modal extends Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
       <Flex animation="fadeIn" align="center" justify="center" style={styles.container}>
         <Flex direction="column" align="center" justify="center" style={styles.modal}>
@@ -75,7 +78,7 @@ class Modal extends Component {
           <Flex direction="row" align="center" justify="center" style={styles.buttonsWrap}>
             <Flex value={1} align="center" justify="center">
               <Button
-                text={this.state.isMore ? 'Not Now' : 'Tell me more'}
+                text={this.state.isMore ? t('notNow') : t('tellMeMore')}
                 buttonTextStyle={styles.buttonText}
                 style={styles.button}
                 onPress={this.state.isMore ? this.handleDismiss : this.handleMore}
@@ -83,7 +86,7 @@ class Modal extends Component {
             </Flex>
             <Flex value={1} align="center" justify="center">
               <Button
-                text={this.state.isMore ? 'Give Access' : 'OK'}
+                text={this.state.isMore ? t('giveAccess') : t('ok')}
                 buttonTextStyle={styles.buttonText2}
                 style={styles.button2}
                 onPress={this.handleSelect}
@@ -102,4 +105,4 @@ Modal.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default Modal;
+export default translate()(Modal);

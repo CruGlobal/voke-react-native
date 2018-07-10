@@ -388,41 +388,42 @@ class Videos extends Component {
   }
 
   handleShareVideo = video => {
+    const { t, onSelectVideo, conversation, navigateBack, user, navigatePush, navigateResetMessage } = this.props;
     // This logic exists in the VideoDetails and the VideoList
-    if (this.props.onSelectVideo) {
+    if (onSelectVideo) {
       Alert.alert(
         'Add video to chat?',
         `Are you sure you want to add "${video.name
           .substr(0, 25)
           .trim()}" video to your chat?`,
         [
-          { text: 'Cancel' },
+          { text: t('cancel') },
           {
-            text: 'Add',
+            text: t('add'),
             onPress: () => {
-              this.props.onSelectVideo(video.id);
+              onSelectVideo(video.id);
               // Navigate back after selecting the video
-              if (this.props.conversation) {
-                this.props.navigateResetMessage({
-                  conversation: this.props.conversation,
+              if (conversation) {
+                navigateResetMessage({
+                  conversation: conversation,
                 });
               } else {
-                this.props.navigateBack();
+                navigateBack();
               }
             },
           },
         ],
       );
     } else {
-      if (!this.props.user.first_name) {
-        this.props.navigatePush('voke.TryItNowName', {
+      if (!user.first_name) {
+        navigatePush('voke.TryItNowName', {
           onComplete: () =>
-            this.props.navigatePush('voke.ShareFlow', {
+            navigatePush('voke.ShareFlow', {
               video: video,
             }),
         });
       } else {
-        this.props.navigatePush('voke.ShareFlow', {
+        navigatePush('voke.ShareFlow', {
           video: video,
         });
       }
@@ -430,7 +431,7 @@ class Videos extends Component {
   };
 
   render() {
-    const { onSelectVideo } = this.props;
+    const { t, onSelectVideo } = this.props;
     const { selectedFilter, videos } = this.state;
 
     return (
@@ -445,7 +446,7 @@ class Videos extends Component {
                 onPress={() => this.handleFilter('themes')}
               />
             }
-            title="Videos"
+            title={t('title.videos')}
           />
           {this.renderChannel()}
           <Flex style={{ height: 50 }} align="center" justify="center">
@@ -455,19 +456,19 @@ class Videos extends Component {
             >
               <Flex direction="row" style={{ padding: 10 }}>
                 <PillButton
-                  text="All"
+                  text={t('all')}
                   filled={selectedFilter === 'all'}
                   onPress={() => this.handleFilter('all')}
                   animation="slideInUp"
                 />
                 <PillButton
-                  text="Featured"
+                  text={t('featured')}
                   filled={selectedFilter === 'featured'}
                   onPress={() => this.handleFilter('featured')}
                   animation="slideInUp"
                 />
                 <PillButton
-                  text="Popular"
+                  text={t('popular')}
                   filled={selectedFilter === 'popular'}
                   onPress={() => this.handleFilter('popular')}
                   animation="slideInUp"

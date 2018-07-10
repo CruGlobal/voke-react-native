@@ -216,7 +216,7 @@ class Contacts extends Component {
   };
 
   render() {
-    const { isLoading, inShare, all, isInvite } = this.props;
+    const { t, isLoading, inShare, all, isInvite } = this.props;
     const {
       permission,
       showSearch,
@@ -242,7 +242,7 @@ class Contacts extends Component {
               undefined
             )
           }
-          title={isInvite ? 'Invite a Friend' : 'Contacts'}
+          title={isInvite ? t('inviteFriend') : t('contacts')}
           light={true}
           shadow={false}
         />
@@ -260,7 +260,7 @@ class Contacts extends Component {
           <Flex align="center" style={{ paddingTop: 30 }}>
             <Button
               onPress={this.handleAllowContacts}
-              text="Allow Contacts"
+              text={t('allowContacts')}
               style={styles.randomButton}
               buttonTextStyle={styles.randomText}
             />
@@ -269,10 +269,10 @@ class Contacts extends Component {
         {isLoading ? (
           <ApiLoading
             force={true}
-            text="Fetching your contacts - and because you are so popular, I need up to 30 seconds"
+            text={t('loading.contacts')}
           />
         ) : null}
-        {inShare ? <ApiLoading force={true} text="" /> : null}
+        {inShare ? <ApiLoading force={true} /> : null}
         <ApiLoading />
         {isAuthorized ? <ShareModal /> : null}
         {showPermissionModal ? (

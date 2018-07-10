@@ -363,7 +363,7 @@ class Message extends Component {
   };
 
   render() {
-    const { messages, me, typeState, pagination } = this.props;
+    const { t, messages, me, typeState, pagination } = this.props;
     const { height } = this.state;
     // Get ths conversation from the state if it exists, or from props
     const conversation = this.state.conversation || this.props.conversation;
@@ -489,7 +489,7 @@ class Message extends Component {
                 autoCapitalize="sentences"
                 multiline={true}
                 value={this.state.text}
-                placeholder="New Message"
+                placeholder={t('placeholder.newMessage')}
                 onChangeText={this.handleInputChange}
                 placeholderTextColor={theme.primaryColor}
                 underlineColorAndroid={COLORS.TRANSPARENT}
@@ -529,7 +529,7 @@ class Message extends Component {
               ) : null}
             </Flex>
           </Flex>
-          <ApiLoading text="Loading Messages" />
+          <ApiLoading text={t('loading.messages')} />
         </KeyboardAvoidingView>
         <VokeOverlays type="pushPermissions" />
       </View>
