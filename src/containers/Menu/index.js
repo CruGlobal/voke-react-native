@@ -12,7 +12,7 @@ import Header from '../Header';
 
 class Menu extends Component {
   componentDidMount() {
-    Analytics.screen('Menu');
+    Analytics.screen(Analytics.s.Menu);
   }
 
   render() {

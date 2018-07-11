@@ -61,7 +61,7 @@ class CountrySelect extends Component {
   }
 
   componentDidMount() {
-    Analytics.screen('Country Select');
+    Analytics.screen(Analytics.s.CountrySelect);
   }
 
   close() {

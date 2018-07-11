@@ -19,7 +19,7 @@ class Adventures extends Component {
   state = { refreshing: false };
 
   componentDidMount() {
-    Analytics.screen('Adventures');
+    Analytics.screen(Analytics.s.AdventuresTab);
   }
 
   scrollTo = y => {

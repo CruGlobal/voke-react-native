@@ -116,7 +116,7 @@ class Videos extends Component {
       this.setState({ videos: this.props.all });
     }
 
-    Analytics.screen('Videos');
+    Analytics.screen(Analytics.s.VideosTab);
   }
 
   componentWillUnmount() {

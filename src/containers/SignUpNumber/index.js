@@ -41,7 +41,7 @@ class SignUpNumber extends Component {
   }
 
   componentDidMount() {
-    Analytics.screen('SignUp Enter Number');
+    Analytics.screen(Analytics.s.SignUpNumber);
   }
 
   handleNext() {

@@ -25,7 +25,7 @@ class Help extends Component {
   }
 
   componentDidMount() {
-    Analytics.screen('Contacts');
+    Analytics.screen(Analytics.s.Help);
   }
 
   handleLink(url) {

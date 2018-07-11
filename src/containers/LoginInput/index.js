@@ -40,7 +40,7 @@ class LoginInput extends Component {
 
   componentDidMount() {
     const { t, isAnonUser } = this.props;
-    Analytics.screen('Login Input');
+    Analytics.screen(Analytics.s.Login);
     if (isAnonUser) {
       Alert.alert(t('login'), t('existingAccount'));
     }

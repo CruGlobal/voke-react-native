@@ -3,7 +3,6 @@ import { TextInput } from 'react-native';
 import { translate } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-import Analytics from '../../utils/analytics';
 import styles from './styles';
 import theme from '../../theme';
 import { Flex, Text, Button } from '../../components/common';
@@ -18,10 +17,6 @@ class AndroidReportModal extends Component {
 
     this.handleCancel = this.handleCancel.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentDidMount() {
-    Analytics.screen('Android: Report User');
   }
 
   dismiss() {

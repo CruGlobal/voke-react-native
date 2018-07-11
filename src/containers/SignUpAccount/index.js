@@ -37,7 +37,7 @@ class SignUpAccount extends Component {
   }
 
   componentDidMount() {
-    Analytics.screen('Create Account');
+    Analytics.screen(Analytics.s.CreateAccount);
   }
 
   moveForward(results) {

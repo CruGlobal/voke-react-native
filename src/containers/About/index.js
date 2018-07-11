@@ -22,7 +22,7 @@ class About extends Component {
   }
 
   componentDidMount() {
-    Analytics.screen('About');
+    Analytics.screen(Analytics.s.About);
   }
 
   handleLink(url) {

@@ -42,7 +42,7 @@ class SignUpFBAccount extends Component {
   }
 
   componentDidMount() {
-    Analytics.screen('Create profile from Facebook Account');
+    Analytics.screen(Analytics.s.CreateFacebookAccount);
   }
 
   checkEmail(text) {

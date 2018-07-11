@@ -73,7 +73,7 @@ class Message extends Component {
   componentDidMount() {
     this.setConversationName();
 
-    Analytics.screen('Chat');
+    Analytics.screen(Analytics.s.Chat);
     this.props.dispatch({
       type: SET_ACTIVE_CONVERSATION,
       id: this.props.conversation.id,

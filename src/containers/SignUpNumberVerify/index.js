@@ -39,7 +39,7 @@ class SignUpNumberVerify extends Component {
   }
 
   componentDidMount() {
-    Analytics.screen('SignUp Verify Number');
+    Analytics.screen(Analytics.s.SignUpNumberVerify);
   }
 
   resendCode() {

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.multidex.MultiDex; // For Multidex support Android <5.0
 
 import com.facebook.react.ReactApplication;
+import com.appsee.reactnative.AppseeReactPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 // import com.reactnativenavigation.NavigationApplication;
@@ -60,6 +61,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
+            new AppseeReactPackage(),
             new OrientationPackage(),
             new FBSDKPackage(mCallbackManager),
             new RNDeviceInfo(),

@@ -38,7 +38,7 @@ class ShareFlow extends Component {
   };
 
   componentDidMount() {
-    Analytics.screen('Share - Name');
+    Analytics.screen(Analytics.s.ShareName);
   }
 
   quit = () => {

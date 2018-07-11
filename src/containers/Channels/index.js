@@ -25,7 +25,7 @@ class Channels extends Component {
   state = { refreshing: false };
 
   componentDidMount() {
-    Analytics.screen('Channels');
+    Analytics.screen(Analytics.s.ChannelsTab);
 
     LOG(
       'channels',

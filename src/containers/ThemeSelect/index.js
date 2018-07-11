@@ -29,7 +29,7 @@ class ThemeSelect extends Component {
   }
 
   componentDidMount() {
-    Analytics.screen('Theme Select');
+    Analytics.screen(Analytics.s.ThemeSelect);
   }
 
   render() {

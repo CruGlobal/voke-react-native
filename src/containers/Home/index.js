@@ -74,7 +74,7 @@ class Home extends Component {
       }
     }
 
-    Analytics.screen('Home Chats');
+    Analytics.screen(Analytics.s.ChatTab);
 
     dispatch(getConversations());
 

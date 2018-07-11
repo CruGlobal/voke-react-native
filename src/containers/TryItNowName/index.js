@@ -27,7 +27,7 @@ class TryItNowName extends Component {
   };
 
   componentDidMount() {
-    Analytics.screen('Try It Now - Name');
+    Analytics.screen(Analytics.s.TryItName);
   }
 
   login = () => {

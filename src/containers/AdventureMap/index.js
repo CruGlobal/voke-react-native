@@ -3,6 +3,7 @@ import { Image, Modal } from 'react-native';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
+import Analytics from '../../utils/analytics';
 import { Flex, Text } from '../../components/common';
 import { getMe } from '../../actions/auth';
 import { getAdventure } from '../../actions/adventures';
@@ -60,6 +61,7 @@ class AdventureMap extends Component {
 
   closeModal = () => {
     this.setState({ modalVisible: false });
+    Analytics.screen(Analytics.s.AdventuresTab);
   };
 
   scrollTo = y => {

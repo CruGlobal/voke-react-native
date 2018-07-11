@@ -27,7 +27,7 @@ class ForgotPassword extends Component {
   }
 
   componentDidMount() {
-    Analytics.screen('Forgot Password');
+    Analytics.screen(Analytics.s.ForgotPassword);
   }
 
   checkEmail(text) {

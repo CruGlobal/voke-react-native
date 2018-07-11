@@ -18,7 +18,7 @@ class Acknowledgements extends Component {
   }
 
   componentDidMount() {
-    Analytics.screen('Acknowledgements');
+    Analytics.screen(Analytics.s.Acknowledgements);
   }
 
   handleLink(url) {

@@ -51,7 +51,7 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    Analytics.screen('Profile');
+    Analytics.screen(Analytics.s.Profile);
     this.props.dispatch(getMe());
     BackHandler.addEventListener('hardwareBackPress', this.backHandler);
   }

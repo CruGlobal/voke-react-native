@@ -75,7 +75,7 @@ class SelectFriend extends Component {
     setTimeout(() => {
       this.checkContactsStatus();
     }, 1000);
-    Analytics.screen('Select a Friend');
+    Analytics.screen(Analytics.s.SelectFriend);
   }
 
   componentWillUnmount() {

@@ -28,7 +28,7 @@ class KickstartersTab extends Component {
 
   componentDidMount() {
     this.getKickstarters();
-    Analytics.screen('In-Chat KickStarters');
+    Analytics.screen(Analytics.s.ChatKickstarters);
   }
 
   getKickstarters() {

@@ -33,7 +33,7 @@ class SignUpWelcome extends Component {
   };
 
   componentDidMount() {
-    Analytics.screen('Welcome Onboarding');
+    Analytics.screen(Analytics.s.Welcome);
     Orientation.lockToPortrait();
   }
 

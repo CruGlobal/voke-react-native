@@ -63,7 +63,7 @@ class VideoDetails extends Component {
   }
 
   componentDidMount() {
-    Analytics.screen('Video Details');
+    Analytics.screen(Analytics.s.VideoDetails);
     this.toggleOrientation();
     // This doesn't work on Android...because of the navigation stuff
     Orientation.addOrientationListener(this.orientationDidChange);

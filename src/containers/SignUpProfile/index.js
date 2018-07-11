@@ -43,7 +43,7 @@ class SignUpProfile extends Component {
   }
 
   componentDidMount() {
-    Analytics.screen('SignUp Profile');
+    Analytics.screen(Analytics.s.SignUpProfile);
   }
 
   uploadImage(uri) {

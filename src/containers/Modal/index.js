@@ -21,7 +21,7 @@ class Modal extends Component {
   }
 
   componentDidMount() {
-    Analytics.screen('Contact Permission Modal');
+    Analytics.screen(Analytics.s.ContactPermissionModal);
   }
 
   dismissModal() {

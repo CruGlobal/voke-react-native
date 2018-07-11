@@ -25,7 +25,7 @@ class ChallengeModal extends Component {
   }
 
   componentDidMount() {
-    Analytics.screen('Android: Report User');
+    Analytics.screen(Analytics.s.ChallengeModal);
     if (this.props.challenge.item) {
       this.props
         .dispatch(getVideo(this.props.challenge.item.id))

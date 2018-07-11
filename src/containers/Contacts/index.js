@@ -67,7 +67,7 @@ class Contacts extends Component {
   }
 
   componentDidMount() {
-    Analytics.screen('Contacts');
+    Analytics.screen(Analytics.s.Contacts);
     if (this.props.isInvite) {
       this.checkContactsStatus();
     }

@@ -33,7 +33,7 @@ class ShareModal extends Component {
   }
 
   componentDidMount() {
-    Analytics.screen('Share Modal');
+    Analytics.screen(Analytics.s.ShareModal);
   }
 
   handleDismiss() {
