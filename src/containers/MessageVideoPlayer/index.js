@@ -28,13 +28,13 @@ class MessageVideoPlayer extends Component {
   };
 
   handleVideoChange = videoState => {
-    const { message, dispatch, isMyMessage } = this.props;
+    const { t, message, dispatch, isMyMessage } = this.props;
     let interaction = {
       conversationId: message.conversation_id,
       messageId: message.id,
     };
     if (videoState === webviewStates.ERROR) {
-      dispatch(toastAction('There was an error playing the video.'));
+      dispatch(toastAction(t('error.playingVideo')));
     } else if (INTERACTION_STATES.includes(videoState)) {
       interaction.action = videoState;
     }

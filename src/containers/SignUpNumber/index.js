@@ -45,8 +45,9 @@ class SignUpNumber extends Component {
   }
 
   handleNext() {
+    const { t, navigatePush, dispatch } = this.props;
     if (!this.state.phoneNumber) {
-      Alert.alert('Please enter your phone number');
+      Alert.alert(t('enterNumber'));
     } else {
       let data = {
         mobile: {
@@ -54,19 +55,18 @@ class SignUpNumber extends Component {
         },
       };
       Alert.alert(
-        `Is this your correct number? ${this.state.phoneNumber}`,
-        'A text message with your access code will be sent to this number.',
+        t('isNumber', { number: this.state.phoneNumber }),
+        t('messageSent'),
         [
           { text: 'Edit' },
           {
             text: 'Yes',
             onPress: () => {
               this.setState({ disableNext: true, isLoading: true });
-              this.props
-                .dispatch(createMobileVerification(data))
+              dispatch(createMobileVerification(data))
                 .then(() => {
                   this.setState({ disableNext: false, isLoading: false });
-                  this.props.navigatePush('voke.SignUpNumberVerify', {
+                  navigatePush('voke.SignUpNumberVerify', {
                     mobile: this.state.selectedCountryCode.concat(
                       this.state.phoneNumber,
                     ),
@@ -74,7 +74,7 @@ class SignUpNumber extends Component {
                 })
                 .catch(err => {
                   this.setState({ disableNext: false, isLoading: false });
-                  Alert.alert('Mobile number is invalid', err.errors[0]);
+                  Alert.alert(t('mobileInvalid'), err.errors[0]);
                 });
             },
           },
@@ -123,7 +123,7 @@ class SignUpNumber extends Component {
             >
               <SignUpHeader
                 title={t('title.number')}
-            description={t('description')}
+                description={t('numberDescription')}
                 onPress={() => Keyboard.dismiss()}
               />
               <Flex
@@ -151,9 +151,7 @@ class SignUpNumber extends Component {
                   onSubmitEditing={this.handleNext}
                   returnKeyType="send"
                 />
-                <Text style={styles.sharingText}>
-                  We love sharing, but we won't share your number.
-                </Text>
+                <Text style={styles.sharingText}>{t('sharing')}</Text>
                 <Flex value={1} align="center" justify="start">
                   <Button
                     text={t('next')}
@@ -188,7 +186,7 @@ const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
 });
 
-export default translate('signUpNumber')(
+export default translate('signUp')(
   connect(
     mapStateToProps,
     nav,

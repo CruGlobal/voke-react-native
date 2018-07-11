@@ -72,12 +72,15 @@ class Videos extends Component {
     // });
     if (this.props.channel && this.props.channel.id) {
       this.setState({ isLoading: true });
-      this.props.dispatch(getVideos(undefined, this.props.channel.id)).then(() => {
-        this.updateVideoList('all');
-        this.setState({ isLoading: false });
-      }).catch(()=>{
-        this.setState({ isLoading: false });
-      });
+      this.props
+        .dispatch(getVideos(undefined, this.props.channel.id))
+        .then(() => {
+          this.updateVideoList('all');
+          this.setState({ isLoading: false });
+        })
+        .catch(() => {
+          this.setState({ isLoading: false });
+        });
       this.getSubscriberData();
       this.setState({ videos: this.props.channelVideos });
     } else if (this.props.all.length === 0) {
@@ -388,14 +391,22 @@ class Videos extends Component {
   }
 
   handleShareVideo = video => {
-    const { t, onSelectVideo, conversation, navigateBack, user, navigatePush, navigateResetMessage } = this.props;
+    const {
+      t,
+      onSelectVideo,
+      conversation,
+      navigateBack,
+      user,
+      navigatePush,
+      navigateResetMessage,
+    } = this.props;
     // This logic exists in the VideoDetails and the VideoList
     if (onSelectVideo) {
       Alert.alert(
-        'Add video to chat?',
-        `Are you sure you want to add "${video.name
-          .substr(0, 25)
-          .trim()}" video to your chat?`,
+        t('addToChat'),
+        t('areYouSureAdd', {
+          name: video.name.substr(0, 25).trim(),
+        }),
         [
           { text: t('cancel') },
           {
@@ -431,7 +442,14 @@ class Videos extends Component {
   };
 
   render() {
-    const { t, onSelectVideo } = this.props;
+    const {
+      t,
+      onSelectVideo,
+      navigatePush,
+      conversation,
+      tags,
+      channel,
+    } = this.props;
     const { selectedFilter, videos } = this.state;
 
     return (
@@ -487,10 +505,10 @@ class Videos extends Component {
             ref={c => (this.videoList = c)}
             items={videos}
             onSelect={c => {
-              this.props.navigatePush('voke.VideoDetails', {
+              navigatePush('voke.VideoDetails', {
                 video: c,
                 onSelectVideo,
-                conversation: this.props.conversation,
+                conversation: conversation,
                 onUpdateVideos: () => this.updateVideoList(selectedFilter),
               });
             }}
@@ -503,7 +521,7 @@ class Videos extends Component {
           {this.state.showThemeModal ? (
             <ThemeSelect
               onClose={() => this.setState({ showThemeModal: false })}
-              themes={this.props.tags}
+              themes={tags}
               onSelect={this.handleThemeSelect}
               onDismiss={this.handleDismissTheme}
             />
@@ -512,11 +530,7 @@ class Videos extends Component {
         </View>
         <VokeOverlays
           type="tryItNowSignUp"
-          channelName={
-            this.props.channel && this.props.channel.name
-              ? this.props.channel.name
-              : null
-          }
+          channelName={channel && channel.name ? channel.name : null}
         />
       </View>
     );
@@ -542,7 +556,7 @@ const mapStateToProps = ({ auth, videos }) => ({
   pagination: videos.pagination,
 });
 
-export default translate()(
+export default translate('videos')(
   connect(
     mapStateToProps,
     nav,

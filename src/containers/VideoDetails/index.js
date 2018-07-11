@@ -151,29 +151,38 @@ class VideoDetails extends Component {
   }
 
   handleShare = () => {
+    const {
+      t,
+      conversation,
+      onSelectVideo,
+      navigateResetMessage,
+      navigateBack,
+      me,
+      navigatePush,
+    } = this.props;
     const video = this.props.video || {};
 
     Orientation.lockToPortrait();
     // This logic exists in the VideoDetails and the VideoList
-    if (this.props.onSelectVideo) {
+    if (onSelectVideo) {
       Alert.alert(
-        'Add video to chat?',
-        `Are you sure you want to add "${video.name
-          .substr(0, 25)
-          .trim()}" video to your chat?`,
+        t('addToChat'),
+        t('areYouSureAdd', {
+          name: video.name.substr(0, 25).trim(),
+        }),
         [
-          { text: 'Cancel' },
+          { text: t('cancel') },
           {
-            text: 'Add',
+            text: t('add'),
             onPress: () => {
-              this.props.onSelectVideo(video.id);
+              onSelectVideo(video.id);
               // Navigate back after selecting the video
-              if (this.props.conversation) {
-                this.props.navigateResetMessage({
-                  conversation: this.props.conversation,
+              if (conversation) {
+                navigateResetMessage({
+                  conversation: conversation,
                 });
               } else {
-                this.props.navigateBack();
+                navigateBack();
               }
             },
           },
@@ -187,15 +196,15 @@ class VideoDetails extends Component {
       //   video: video.id,
       //   isLandscape: this.state.isLandscape,
       // });
-      if (!this.props.me.first_name) {
-        this.props.navigatePush('voke.TryItNowName', {
+      if (!me.first_name) {
+        navigatePush('voke.TryItNowName', {
           onComplete: () =>
-            this.props.navigatePush('voke.ShareFlow', {
+            navigatePush('voke.ShareFlow', {
               video: video,
             }),
         });
       } else {
-        this.props.navigatePush('voke.ShareFlow', {
+        navigatePush('voke.ShareFlow', {
           video: video,
         });
       }
@@ -220,7 +229,9 @@ class VideoDetails extends Component {
           onPress={this.handleFavorite}
         />
         <Text style={styles.videoTitle}>{video.name}</Text>
-        <Text style={styles.detail}>{video.shares} Shares</Text>
+        <Text style={styles.detail}>
+          {t('shares', { total: video.shares })}
+        </Text>
         <Text style={styles.detail}>{video.description}</Text>
         <Text style={styles.label}>{t('themes')}</Text>
         <Flex direction="row">
@@ -231,7 +242,7 @@ class VideoDetails extends Component {
             </Text>
           ))}
         </Flex>
-        <Text style={styles.label}>Voke kickstarters</Text>
+        <Text style={styles.label}>{t('kickstarters')}</Text>
         {video.questions.map(q => (
           <Flex key={q.id} direction="column">
             <Text style={styles.detail}>{q.content}</Text>
@@ -298,7 +309,7 @@ const mapStateToProps = ({ auth }, { navigation }) => ({
   me: auth.user,
 });
 
-export default translate()(
+export default translate('videos')(
   connect(
     mapStateToProps,
     nav,

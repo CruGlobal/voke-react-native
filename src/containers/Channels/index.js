@@ -63,7 +63,13 @@ class Channels extends Component {
   };
 
   render() {
-    const { t, navigatePush, allChannels, myChannels, featuredChannels } = this.props;
+    const {
+      t,
+      navigatePush,
+      allChannels,
+      myChannels,
+      featuredChannels,
+    } = this.props;
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
@@ -93,7 +99,7 @@ class Channels extends Component {
             />
           }
         >
-          <Text style={styles.title}>MY CHANNELS</Text>
+          <Text style={styles.title}>{t('myChannels').toUpperCase()}</Text>
           <ChannelsList
             ref={c => (this.myChannelsList = c)}
             items={myChannels}
@@ -105,7 +111,7 @@ class Channels extends Component {
             onLoadMore={() => this.handleNextPage('myChannels')}
           />
           <Flex self="stretch" style={styles.separator} />
-          <Text style={styles.title}>FEATURED</Text>
+          <Text style={styles.title}>{t('featured').toUpperCase()}</Text>
           <ChannelsList
             ref={c => (this.featuredList = c)}
             items={featuredChannels}
@@ -117,7 +123,7 @@ class Channels extends Component {
             onLoadMore={() => this.handleNextPage('featured')}
           />
           <Flex self="stretch" style={styles.separator} />
-          <Text style={styles.title}>BROWSE</Text>
+          <Text style={styles.title}>{t('browse').toUpperCase()}</Text>
           <ChannelsList
             ref={c => (this.browseChannelsList = c)}
             items={allChannels}
@@ -149,7 +155,7 @@ const mapStateToProps = ({ auth, channels }) => ({
   isAnonUser: auth.isAnonUser,
 });
 
-export default translate()(
+export default translate('channels')(
   connect(
     mapStateToProps,
     nav,

@@ -13,16 +13,16 @@ class ShareButton extends Component {
   }
 
   handleShare() {
-    const { message, title, url } = this.props;
+    const { t, message, title, url } = this.props;
     const newMessage = url ? `${message} ${url}` : message;
     Share.share(
       {
         message: newMessage,
-        title: title || 'Check this out on Voke!',
+        title: title || t('checkOut'),
         url,
       },
       {
-        dialogTitle: 'Share',
+        dialogTitle: t('share'),
       },
     )
       .then(({ action, activityType }) => {
@@ -45,4 +45,4 @@ ShareButton.propTypes = {
   url: PropTypes.string,
 };
 
-export default translate()(ShareButton);
+export default translate('shareFlow')(ShareButton);

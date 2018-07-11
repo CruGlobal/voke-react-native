@@ -18,7 +18,8 @@ class PopupMenu extends Component {
   }
 
   handeError() {
-    Alert.alert('Error', 'Uh oh! It looks like something went wrong.');
+    const { t } = this.props;
+    Alert.alert(t('error.error'), t('error.somethingWentWrong'));
   }
 
   handleItemPress(e, i) {

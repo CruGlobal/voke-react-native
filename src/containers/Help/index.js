@@ -72,23 +72,23 @@ class Help extends Component {
         <SettingsList
           items={[
             {
-              name: 'Visit our Help Website',
+              name: t('visitWebsite'),
               onPress: () => this.handleLink(CONSTANTS.WEB_URLS.HELP),
             },
             {
-              name: 'Visit our FAQ Website',
+              name: t('visitFAQ'),
               onPress: () => this.handleLink(CONSTANTS.WEB_URLS.FAQ),
             },
             {
-              name: 'Make a Feature Request',
+              name: t('featureRequest'),
               onPress: () => this.handleShare('feature'),
             },
             {
-              name: 'Report a User',
+              name: t('report'),
               onPress: () => this.handleShare('report'),
             },
             {
-              name: 'Email Us',
+              name: t('email'),
               onPress: () => this.handleShare('emailUs'),
             },
           ]}
@@ -105,7 +105,7 @@ const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
 });
 
-export default translate()(
+export default translate('settings')(
   connect(
     mapStateToProps,
     nav,

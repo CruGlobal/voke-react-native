@@ -23,7 +23,7 @@ class NotificationToast extends Component {
         style={[styles.wrap, style]}
       >
         <Icon name="notifications-none" size={28} style={styles.icon} />
-        <Text style={styles.text}>Notifications turned off.</Text>
+        <Text style={styles.text}>{t('off')}</Text>
         <Flex value={1}>
           <Button
             onPress={this.enable}
@@ -43,4 +43,6 @@ const mapStateToProps = ({ auth }) => ({
   auth: auth,
 });
 
-export default translate()(connect(mapStateToProps)(NotificationToast));
+export default translate('notifications')(
+  connect(mapStateToProps)(NotificationToast),
+);

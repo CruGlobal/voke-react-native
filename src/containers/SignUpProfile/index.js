@@ -67,6 +67,7 @@ class SignUpProfile extends Component {
   }
 
   addProfile() {
+    const { t, dispatch, navigatePush } = this.props;
     const { firstName, lastName } = this.state;
     // TODO: Always allow the user to continue without entering more information
 
@@ -81,8 +82,7 @@ class SignUpProfile extends Component {
           last_name: lastName,
         },
       };
-      this.props
-        .dispatch(updateMe(data))
+      dispatch(updateMe(data))
         .then(() => {
           if (this.state.imageUri) {
             this.uploadImage(this.state.imageUri);
@@ -92,7 +92,7 @@ class SignUpProfile extends Component {
             disableSecondClick: true,
             isLoading: false,
           });
-          this.props.navigatePush('voke.SignUpNumber');
+          navigatePush('voke.SignUpNumber');
           // Enable the second click after a second
           setTimeout(() => this.setState({ disableSecondClick: false }), 1000);
         })
@@ -100,7 +100,7 @@ class SignUpProfile extends Component {
           this.setState({ disableNext: false, isLoading: false });
         });
     } else {
-      Alert.alert('', 'Please fill in your first and last name');
+      Alert.alert('', t('fillInName'));
     }
     // // This is just for testing
     // this.props.navigatePush('voke.SignUpNumber');
@@ -212,7 +212,7 @@ const mapStateToProps = ({ auth }, { navigation }) => ({
   user: auth.user || {},
 });
 
-export default translate()(
+export default translate('signUp')(
   connect(
     mapStateToProps,
     nav,

@@ -275,11 +275,11 @@ class SelectFriend extends Component {
       this.state.setLoaderBeforePush ||
       this.state.loadingBeforeShareSheet;
 
-    let vokeText = 'Search your contacts or take a step of faith with...';
+    let vokeText = t('loading.selectFriend');
     if (this.state.random.length === 0 && isAuthorized && !isLoading) {
-      vokeText = 'It’s empty in here...\nYou need some contacts';
+      vokeText = t('empty.contacts');
     } else if (!isAuthorized && !isLoading) {
-      vokeText = 'Please allow access to your contacts.';
+      vokeText = t('loading.allowContact');
     }
 
     return (
@@ -290,7 +290,7 @@ class SelectFriend extends Component {
         <StatusBar hidden={false} />
         <Flex align="center">
           <Flex justify="center" value={0.8}>
-            <Text style={styles.header}>Select a Friend</Text>
+            <Text style={styles.header}>{t('title.selectAFriend')}</Text>
           </Flex>
           <Flex value={0.5}>
             {isAuthorized ? (
@@ -385,15 +385,6 @@ class SelectFriend extends Component {
     );
   }
 }
-
-//OR SEPARATOR
-// <Flex direction="row" align="center" justify="center" style={styles.orSeparatorWrapper}>
-//   <Flex value={2} style={styles.orSeparator} />
-//   <Flex value={.5} align="center">
-//     <Text style={styles.orText}>OR</Text>
-//   </Flex>
-//   <Flex value={2} style={styles.orSeparator} />
-// </Flex>
 
 // Check out actions/nav.js to see the prop types and mapDispatchToProps
 SelectFriend.propTypes = {

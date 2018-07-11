@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { TextInput } from 'react-native';
+import { translate } from 'react-i18next';
 import PropTypes from 'prop-types';
 
 import Analytics from '../../utils/analytics';
@@ -11,7 +12,7 @@ class AndroidReportModal extends Component {
   constructor(props) {
     super(props);
 
-    this.state= {
+    this.state = {
       text: '',
     };
 
@@ -31,7 +32,7 @@ class AndroidReportModal extends Component {
     this.props.onCancelReport();
     this.dismiss();
   }
-  
+
   handleSubmit() {
     this.props.onSubmitReport(this.state.text);
     this.dismiss();
@@ -41,12 +42,17 @@ class AndroidReportModal extends Component {
     const { t } = this.props;
     return (
       <Flex align="center" justify="center" style={styles.container}>
-        <Flex direction="column" align="center" justify="center" style={styles.modal}>
+        <Flex
+          direction="column"
+          align="center"
+          justify="center"
+          style={styles.modal}
+        >
           <Flex align="center">
-            <Text style={styles.title}>Please describe why you are reporting this person</Text>
+            <Text style={styles.title}>{t('title')}</Text>
             <TextInput
               value={this.state.text}
-              onChangeText={(text) => this.setState({ text: text })}
+              onChangeText={text => this.setState({ text: text })}
               multiline={false}
               placeholder={t('placeholder.reason')}
               placeholderTextColor={theme.accentColor}
@@ -87,4 +93,4 @@ AndroidReportModal.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default AndroidReportModal;
+export default translate('reportModal')(AndroidReportModal);

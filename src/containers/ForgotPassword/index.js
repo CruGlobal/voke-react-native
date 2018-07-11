@@ -36,17 +36,16 @@ class ForgotPassword extends Component {
   }
 
   forgotPassword() {
+    const { t, dispatch, navigateBack } = this.props;
     if (this.state.emailValidation) {
-      this.props.dispatch(forgotPasswordAction(this.state.email)).then(() => {
+      dispatch(forgotPasswordAction(this.state.email)).then(() => {
         LOG('resetting password');
-        Alert.alert(
-          'Check your Email',
-          "If you don't receive an email, it's most likely because you used a different email address. If so, try a different email address for password recovery",
-          [{ text: 'OK', onPress: () => this.props.navigateBack() }],
-        );
+        Alert.alert(t('checkEmail'), t('emailPrompt'), [
+          { text: t('ok'), onPress: () => navigateBack() },
+        ]);
       });
     } else {
-      Alert.alert('Invalid Email', 'Please enter a valid email');
+      Alert.alert(t('invalid'), t('enter'));
     }
   }
 
@@ -67,10 +66,7 @@ class ForgotPassword extends Component {
               source={LOGO}
               style={styles.imageLogo}
             />
-            <Text style={styles.description}>
-              Please enter the correct email associated with your Voke account
-              to reset the password
-            </Text>
+            <Text style={styles.description}>{t('description')}</Text>
           </Flex>
           <Flex
             value={1.5}
@@ -106,7 +102,7 @@ const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
 });
 
-export default translate()(
+export default translate('forgotPassword')(
   connect(
     mapStateToProps,
     nav,

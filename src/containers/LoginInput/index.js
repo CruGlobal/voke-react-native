@@ -39,49 +39,43 @@ class LoginInput extends Component {
   }
 
   componentDidMount() {
+    const { t, isAnonUser } = this.props;
     Analytics.screen('Login Input');
-    if (this.props.isAnonUser) {
-      Alert.alert(
-        'Login',
-        'If you login with an existing account, you will lose any activity that you have on the guest account you have been using. If you would like to save this activity, please go back and create a new account.',
-      );
+    if (isAnonUser) {
+      Alert.alert(t('login'), t('existingAccount'));
     }
   }
 
   login() {
+    const { t, isAnonUser, dispatch, navigateResetHome } = this.props;
     if (this.state.emailValidation && this.state.password) {
       this.setState({ isLoading: true });
-      if (this.props.isAnonUser) {
+      if (isAnonUser) {
         // log out and destroy anon devices
-        this.props.dispatch(logoutAction()).then(() => {
-          this.props
-            .dispatch(anonLogin(this.state.email, this.state.password))
+        dispatch(logoutAction()).then(() => {
+          dispatch(anonLogin(this.state.email, this.state.password))
             .then(() => {
               this.setState({ isLoading: false });
-              this.props.dispatch({ type: RESET_ANON_USER });
-              this.props.navigateResetHome();
+              dispatch({ type: RESET_ANON_USER });
+              navigateResetHome();
             })
             .catch(() => {
               this.setState({ isLoading: false });
             });
         });
       } else {
-        this.props
-          .dispatch(anonLogin(this.state.email, this.state.password))
+        dispatch(anonLogin(this.state.email, this.state.password))
           .then(() => {
             this.setState({ isLoading: false });
-            this.props.dispatch({ type: RESET_ANON_USER });
-            this.props.navigateResetHome();
+            dispatch({ type: RESET_ANON_USER });
+            navigateResetHome();
           })
           .catch(() => {
             this.setState({ isLoading: false });
           });
       }
     } else {
-      Alert.alert(
-        'Invalid email/password',
-        'Please enter a valid email and password',
-      );
+      Alert.alert(t('invalid'), t('enterValid'));
     }
   }
 
@@ -168,7 +162,7 @@ const mapStateToProps = ({ auth }, { navigation }) => ({
   isAnonUser: auth.isAnonUser,
 });
 
-export default translate()(
+export default translate('login')(
   connect(
     mapStateToProps,
     nav,

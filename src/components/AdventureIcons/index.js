@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Image, Alert, View } from 'react-native';
+import { translate } from 'react-i18next';
 import PropTypes from 'prop-types';
+
 import { Touchable, Flex } from '../../components/common';
 import ADVENTURE_2 from '../../../images/adventure2.png';
 import ADVENTURE_3 from '../../../images/adventure3.png';
@@ -24,10 +26,8 @@ class AdventureIcons extends Component {
   };
 
   handleLockedPress = () => {
-    Alert.alert(
-      '',
-      'This adventure is locked until you complete the current adventure.',
-    );
+    const { t } = this.props;
+    Alert.alert('', t('error.adventureLocked'));
   };
 
   renderAdventures = ads => {
@@ -99,4 +99,4 @@ AdventureIcons.propTypes = {
   onChangeAdventure: PropTypes.func.isRequired,
 };
 
-export default AdventureIcons;
+export default translate()(AdventureIcons);

@@ -112,7 +112,7 @@ class AdventureMap extends Component {
   }
 
   render() {
-    const { challenges, activeAdventure } = this.props;
+    const { t, challenges, activeAdventure } = this.props;
     return (
       <Flex style={styles.wrap}>
         {this.props.backgroundImage ? (
@@ -131,7 +131,7 @@ class AdventureMap extends Component {
         {!this.props.backgroundImage ? (
           <Flex align="center" style={styles.loadingOverlay}>
             <Image resizeMode="contain" source={ANIMATION} />
-            <Text style={styles.loadingText}>Loading your Adventures</Text>
+            <Text style={styles.loadingText}>{t('loading.adventures')}</Text>
           </Flex>
         ) : null}
 

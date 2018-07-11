@@ -46,6 +46,7 @@ class ShareFlow extends Component {
   };
 
   createConversationId() {
+    const { t } = this.props;
     const { name } = this.state;
     return new Promise((resolve, reject) => {
       const createData = {
@@ -61,10 +62,7 @@ class ShareFlow extends Component {
 
       // Show an alert when either API call fails
       const fail = () => {
-        Alert.alert(
-          '',
-          'Sorry, there was an error creating the conversation. Please try again.',
-        );
+        Alert.alert('', t('errorCreating'));
         this.setState({ isLoading: false });
         reject();
       };
@@ -96,9 +94,10 @@ class ShareFlow extends Component {
 
   share = () => {
     Keyboard.dismiss();
+    const { t } = this.props;
     const { name } = this.state;
     if (!name) {
-      Alert.alert('', 'Please enter a name to continue');
+      Alert.alert('', t('enterName'));
       return;
     }
 
@@ -107,6 +106,7 @@ class ShareFlow extends Component {
   };
 
   shareDialog = () => {
+    const { t } = this.props;
     this.setState({ showOverlay: true });
     // Android uses message, not url
     Share.share(
@@ -120,7 +120,7 @@ class ShareFlow extends Component {
         ],
       },
       {
-        dialogTitle: 'Share',
+        dialogTitle: t('share'),
       },
     )
       .then(({ action, activityType }) => {
@@ -158,6 +158,7 @@ class ShareFlow extends Component {
   };
 
   renderOverlay() {
+    const { t } = this.props;
     if (!this.state.showOverlay) return null;
     return (
       <Flex style={styles.overlay}>
@@ -168,7 +169,7 @@ class ShareFlow extends Component {
         />
         <Flex style={styles.chatBubble}>
           <Text style={styles.chatText}>
-            {this.state.name}'s link is ready! Where do you want to share it?
+            {t('linkReady', { name: this.state.name })}
           </Text>
         </Flex>
       </Flex>
@@ -193,14 +194,11 @@ class ShareFlow extends Component {
               />
               <Flex style={styles.shareBubble}>
                 <Text style={styles.chatText}>
-                  Who do you want to share{' '}
+                  {t('who')}{' '}
                   <Text style={{ color: theme.secondaryColor }}>
                     "{this.props.video.name}"
                   </Text>{' '}
-                  with?{' '}
-                  {this.props.isFirstTime
-                    ? "- (they don't need to have Voke)"
-                    : null}
+                  {t('with')} {this.props.isFirstTime ? t('noNeed') : null}
                 </Text>
               </Flex>
             </Flex>
@@ -223,7 +221,7 @@ class ShareFlow extends Component {
               />
               <Flex direction="row" align="center">
                 <Flex value={1} style={styles.line} />
-                <Text style={styles.orText}>OR</Text>
+                <Text style={styles.orText}>{t('or').toUpperCase()}</Text>
                 <Flex value={1} style={styles.line} />
               </Flex>
               <Button
@@ -256,7 +254,7 @@ const mapStateToProps = ({ messages }, { navigation }) => ({
   isFirstTime: messages.conversations.length < 2,
 });
 
-export default translate()(
+export default translate('shareFlow')(
   connect(
     mapStateToProps,
     nav,

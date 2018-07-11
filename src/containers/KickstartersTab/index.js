@@ -68,6 +68,7 @@ class KickstartersTab extends Component {
   }
 
   renderHeader() {
+    const { t } = this.props;
     const { kickstarters } = this.state;
     if (kickstarters.length === 0) {
       return null;
@@ -76,9 +77,7 @@ class KickstartersTab extends Component {
     return (
       <Flex align="center" value={1} style={styles.chatImageWrap}>
         <VokeIcon name="kickstarter" style={styles.chatImage} />
-        <Text style={styles.description}>
-          Add one of these kickstarters to your chat.
-        </Text>
+        <Text style={styles.description}>{t('description')}</Text>
       </Flex>
     );
   }
@@ -89,12 +88,7 @@ class KickstartersTab extends Component {
     const hasKickstarters = kickstarters.length > 0;
     let content = null;
     if (!hasKickstarters) {
-      content = (
-        <Text style={styles.nothingText}>
-          Kickstarter questions will be visible after you select and share a
-          video with a friend.
-        </Text>
-      );
+      content = <Text style={styles.nothingText}>{t('nothing')}</Text>;
     } else {
       content = kickstarters.map(this.renderRow);
     }
@@ -132,7 +126,7 @@ const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
 });
 
-export default translate()(
+export default translate('kickstarters')(
   connect(
     mapStateToProps,
     nav,

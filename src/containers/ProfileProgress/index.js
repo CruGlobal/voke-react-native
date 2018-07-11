@@ -8,7 +8,7 @@ import theme, { COLORS } from '../../theme';
 
 class ProfileProgress extends Component {
   render() {
-    const { user, isAnonUser } = this.props;
+    const { t, user, isAnonUser } = this.props;
 
     const isVerified = user.mobile;
     let percentage = 100;
@@ -19,7 +19,7 @@ class ProfileProgress extends Component {
       <Flex direction="column" align="center" style={styles.wrap}>
         <Flex direction="row" align="center" style={styles.textWrap}>
           <Text style={[styles.text, { textAlign: 'left' }, styles.textFilled]}>
-            Guest Profile
+            {t('guest')}
           </Text>
           <Text
             style={[
@@ -28,7 +28,7 @@ class ProfileProgress extends Component {
               !isAnonUser ? styles.textFilled : null,
             ]}
           >
-            User Account
+            {t('user')}
           </Text>
           <Text
             style={[
@@ -37,7 +37,7 @@ class ProfileProgress extends Component {
               isVerified ? styles.textFilled : null,
             ]}
           >
-            Verified Account
+            {t('verified')}
           </Text>
         </Flex>
         <Flex direction="row" align="center">
@@ -139,4 +139,4 @@ const mapStateToProps = ({ auth }) => ({
   isAnonUser: auth.isAnonUser,
 });
 
-export default translate()(connect(mapStateToProps)(ProfileProgress));
+export default translate('profile')(connect(mapStateToProps)(ProfileProgress));

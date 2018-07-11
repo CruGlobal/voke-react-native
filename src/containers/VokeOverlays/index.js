@@ -26,6 +26,7 @@ class VokeOverlays extends Component {
   };
 
   renderSignUp() {
+    const { t, channelName } = this.props;
     return (
       <Flex
         style={styles.overlay}
@@ -37,10 +38,9 @@ class VokeOverlays extends Component {
           <CloseButton onClose={this.close} />
         </Flex>
         <Flex value={1} align="center" justify="center">
-          <Text style={styles.title}>Subscribe</Text>
+          <Text style={styles.title}>{t('subscribe')}</Text>
           <Text style={styles.subtitle}>
-            Sign up to subscribe and {this.props.channelName} will let you know
-            when new videos are published.
+            {t('signUpChannel', { channel: channelName })}
           </Text>
         </Flex>
         <Flex value={1} align="center" justify="center">

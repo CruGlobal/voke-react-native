@@ -154,18 +154,17 @@ class Home extends Component {
   }
 
   handleBlock(otherPerson, data) {
+    const { t } = this.props;
     Alert.alert(
-      `Are you sure you want to block ${
-        otherPerson.first_name ? otherPerson.first_name : 'this person'
-      }?`,
-      'Would you also like to block and report this person?',
+      t('areYouSureBlock', { name: otherPerson.first_name || t('thisPerson') }),
+      t('questionBlock'),
       [
         {
-          text: 'Block',
+          text: t('block'),
           onPress: () => this.block(otherPerson, data),
         },
         {
-          text: 'Block and Report',
+          text: t('blockReport'),
           onPress: () => {
             if (theme.isAndroid) {
               this.setState({
@@ -174,16 +173,14 @@ class Home extends Component {
                 androidReportData: data,
               });
             } else {
-              AlertIOS.prompt(
-                'Please describe why you are reporting this person',
-                null,
-                text => this.handleSubmitReport(text, otherPerson, data),
+              AlertIOS.prompt(t('why'), null, text =>
+                this.handleSubmitReport(text, otherPerson, data),
               );
             }
           },
         },
         {
-          text: 'Cancel',
+          text: t('cancel'),
           onPress: () => LOG('Canceled Block'),
           style: 'cancel',
         },
@@ -260,7 +257,7 @@ class Home extends Component {
                 resizeMode="contain"
                 source={ANIMATION}
               />
-              <Text>Find a video and share it with a friend</Text>
+              <Text>{t('findAndShare')}</Text>
             </Flex>
           </ScrollView>
         )}
@@ -307,7 +304,7 @@ const mapStateToProps = ({ messages, auth }) => ({
   activeConversationId: messages.activeConversationId,
 });
 
-export default translate()(
+export default translate('home')(
   connect(
     mapStateToProps,
     nav,

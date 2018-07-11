@@ -14,10 +14,8 @@ import SharePopup from './SharePopup';
 import { toastAction, setNoBackgroundAction } from '../../actions/auth';
 import theme from '../../theme';
 
-function getMessage(friend) {
-  return `Hi ${friend ? friend.first_name : 'friend'}, check out this video ${
-    friend ? friend.url : ''
-  }`;
+function getMessage(t, friend) {
+  return ;
 }
 
 class ShareModal extends Component {
@@ -105,22 +103,12 @@ class ShareModal extends Component {
       .catch(() => {
         this.handleShare('custom');
       });
-    // Linking.canOpenURL(url).then((isSupported) => {
-    //   if (isSupported) {
-    //     Linking.openURL(url);
-    //     this.handleComplete();
-    //   } else {
-    //     Alert.alert('Oops', 'We can\'t find this app on your device, please try another option');
-    //   }
-    // }).catch(() => {
-    //   this.handleDismiss();
-    // });
   }
 
   handleShare(type) {
+    const { t, friend, dispatch, phoneNumber } = this.props;
     // Make sure no background actions happen while doing share stuff
-    this.props.dispatch(setNoBackgroundAction(true));
-    const friend = this.props.friend;
+    dispatch(setNoBackgroundAction(true));
     if (!friend) return;
     LOG(JSON.stringify(friend));
     if (!friend) {
@@ -128,7 +116,10 @@ class ShareModal extends Component {
       return;
     }
     this.handleHide();
-    const message = getMessage(friend);
+    const message = t('friendCheckOut', {
+      name: friend.first_name || t('friend'),
+      url: friend.url || '',
+    });
     if (type === 'message') {
       this.handleHide();
 
@@ -136,7 +127,7 @@ class ShareModal extends Component {
       // We don't import react-native-sms on Android, so don't try to call it
       if (theme.isAndroid) {
         setTimeout(() => {
-          send(this.props.phoneNumber, message)
+          send(phoneNumber, message)
             .then(() => {
               this.handleComplete();
             })
@@ -144,14 +135,14 @@ class ShareModal extends Component {
               this.handleDismiss();
             });
         }, 300);
-        // Linking.openURL(`sms:${this.props.phoneNumber}?body=${encodeURIComponent(message)}`).then(() => {
+        // Linking.openURL(`sms:${phoneNumber}?body=${encodeURIComponent(message)}`).then(() => {
         //   this.handleComplete();
         // }).catch(() => {
         //   this.handleDismiss();
         // });
       } else {
         setTimeout(() => {
-          send(this.props.phoneNumber, message)
+          send(phoneNumber, message)
             .then(() => {
               // On iOS, wrap the complete in a timeout to fix navigation stuff
               setTimeout(() => {
@@ -266,4 +257,4 @@ const mapStateToProps = ({ contacts }) => ({
   ...contacts.shareModalProps,
 });
 
-export default translate()(connect(mapStateToProps)(ShareModal));
+export default translate('shareFlow')(connect(mapStateToProps)(ShareModal));

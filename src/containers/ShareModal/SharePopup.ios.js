@@ -95,7 +95,7 @@ class SharePopup extends Component {
                     />
                   </Flex>
                 </Flex>
-                <Text style={styles.iconText}>More</Text>
+                <Text style={styles.iconText}>{t('more')}</Text>
               </Flex>
             </Touchable>
           </Flex>

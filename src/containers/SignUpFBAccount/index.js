@@ -73,6 +73,7 @@ class SignUpFBAccount extends Component {
   }
 
   addProfile() {
+    const { t } = this.props;
     const { firstName, lastName, email } = this.state;
     if (firstName && lastName && email) {
       let data = {
@@ -88,7 +89,7 @@ class SignUpFBAccount extends Component {
         this.props.navigatePush('voke.SignUpNumber');
       });
     } else {
-      Alert.alert('Please fill in your first name, last name, and email', '');
+      Alert.alert(t('fillInFields'));
     }
   }
 
@@ -159,9 +160,7 @@ class SignUpFBAccount extends Component {
             </Flex>
           </Flex>
           <Flex direction="column">
-            <Text style={styles.legalText}>
-              By creating an account you agree to our{' '}
-            </Text>
+            <Text style={styles.legalText}>{t('agree')} </Text>
             <Flex direction="row" align="center" justify="center">
               <Button
                 text={t('privacy')}
@@ -170,7 +169,7 @@ class SignUpFBAccount extends Component {
                 style={styles.legalLink}
                 onPress={() => this.handleLink(CONSTANTS.WEB_URLS.PRIVACY)}
               />
-              <Text style={styles.legalText}>and</Text>
+              <Text style={styles.legalText}>{t('and')}</Text>
               <Button
                 text={t('tos')}
                 type="transparent"
@@ -194,7 +193,7 @@ const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
 });
 
-export default translate()(
+export default translate('signUp')(
   connect(
     mapStateToProps,
     nav,

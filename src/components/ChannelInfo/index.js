@@ -7,19 +7,13 @@ import styles from './styles';
 import { Flex, Text, Button } from '../common';
 
 class ChannelInfo extends Component {
-  constructor(props) {
-    super(props);
-
-    this.handleButtonPress = this.handleButtonPress.bind(this);
-  }
-
-  handleButtonPress() {
+  handleButtonPress = () => {
     if (this.props.subscribeData.isSubscribed) {
       this.props.onUnsubscribe();
     } else {
       this.props.onSubscribe();
     }
-  }
+  };
 
   render() {
     const { t, channel, subscribeData } = this.props;
@@ -31,7 +25,9 @@ class ChannelInfo extends Component {
         <Flex direction="column" value={1} style={styles.infoWrap}>
           <Text style={styles.name}>{channel.name}</Text>
           <Text style={styles.subscribers}>
-            {subscribeData ? `${subscribeData.total} subscribers` : '-'}
+            {subscribeData
+              ? t('subscribers', { total: subscribeData.total })
+              : '-'}
           </Text>
           <Flex value={1} justify="end">
             {subscribeData ? (
@@ -65,4 +61,4 @@ ChannelInfo.propTypes = {
   onUnsubscribe: PropTypes.func.isRequired,
 };
 
-export default translate()(ChannelInfo);
+export default translate('channelInfo')(ChannelInfo);

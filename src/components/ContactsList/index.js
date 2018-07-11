@@ -153,13 +153,13 @@ class ContactsList extends Component {
   }
 
   render() {
-    const { items, isSearching } = this.props;
+    const { t, items, isSearching } = this.props;
     // Don't do a length check, it can be taxing on large arrays
     if (!items[0]) {
       return (
         <Flex align="center" justify="center">
           <Text style={styles.noResultsText}>
-            {isSearching ? 'Finding contacts...' : 'No results to display'}
+            {isSearching ? t('loading.findingContacts') : t('empty.noResults')}
           </Text>
         </Flex>
       );

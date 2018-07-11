@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Platform, WebView, StyleSheet, View } from 'react-native';
+import { translate } from 'react-i18next';
 
 import { Flex, Text } from '../common';
 import RNVideo from './RNVideo';
@@ -35,7 +36,7 @@ if (!theme.isAndroid) {
   }
 }
 
-export default class WebviewVideo extends Component {
+class WebviewVideo extends Component {
   constructor(props) {
     super(props);
 
@@ -235,6 +236,7 @@ export default class WebviewVideo extends Component {
   }
 
   render() {
+    const { t, type, isLandscape, width } = this.props;
     const html = this.getHtml();
     if (!html) {
       return (
@@ -244,9 +246,7 @@ export default class WebviewVideo extends Component {
           justify="center"
           style={styles.errorWrap}
         >
-          <Text style={styles.errorText}>
-            We had trouble finding that video
-          </Text>
+          <Text style={styles.errorText}>{t('error.troubleVideo')}</Text>
         </Flex>
       );
     }
@@ -261,9 +261,9 @@ export default class WebviewVideo extends Component {
           duration={this.state.duration}
           replay={this.state.replay}
           time={this.state.time}
-          type={this.props.type}
-          isLandscape={this.props.isLandscape}
-          width={this.props.width}
+          type={type}
+          isLandscape={isLandscape}
+          width={width}
         />
       </View>
     );
@@ -293,3 +293,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
+export default translate()(WebviewVideo);

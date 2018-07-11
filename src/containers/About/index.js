@@ -57,34 +57,34 @@ class About extends Component {
         <SettingsList
           items={[
             {
-              name: 'Why Voke?',
+              name: t('why'),
               onPress: () =>
                 navigatePush('voke.SignUpWelcome', {
                   noSignIn: true,
                 }),
             },
             {
-              name: 'Visit Voke Website',
+              name: t('website'),
               onPress: () => this.handleLink(CONSTANTS.WEB_URLS.VOKE),
             },
             {
-              name: 'Follow us on Facebook',
+              name: t('followFb'),
               onPress: () => this.handleLink(CONSTANTS.WEB_URLS.FACEBOOK),
             },
             {
-              name: 'Terms of Service',
+              name: t('tos'),
               onPress: () => this.handleLink(CONSTANTS.WEB_URLS.TERMS),
             },
             {
-              name: 'Privacy Policy',
+              name: t('privacy'),
               onPress: () => this.handleLink(CONSTANTS.WEB_URLS.PRIVACY),
             },
             {
-              name: 'Acknowledgements',
+              name: t('acknowledgements'),
               onPress: () => navigatePush('voke.Acknowledgements'),
             },
             {
-              name: `Version: ${VERSION_BUILD}`,
+              name: t('version', { build: VERSION_BUILD }),
             },
           ]}
         />
@@ -100,7 +100,7 @@ const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
 });
 
-export default translate()(
+export default translate('settings')(
   connect(
     mapStateToProps,
     nav,

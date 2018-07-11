@@ -30,12 +30,8 @@ class ApiLoading extends Component {
   }
 
   render() {
-    if (
-      !this.state.showLoading &&
-      !this.props.isApiLoading &&
-      !this.props.force
-    )
-      return null;
+    const { text, isApiLoading, force } = this.props;
+    if (!this.state.showLoading && !isApiLoading && !force) return null;
     return (
       <Flex align="center" justify="center" style={styles.container}>
         <Image
@@ -43,9 +39,7 @@ class ApiLoading extends Component {
           resizeMode="contain"
           source={ANIMATION}
         />
-        {this.props.text ? (
-          <Text style={styles.text}>{this.props.text}</Text>
-        ) : null}
+        {text ? <Text style={styles.text}>{text}</Text> : null}
       </Flex>
     );
   }

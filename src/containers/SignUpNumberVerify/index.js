@@ -43,19 +43,17 @@ class SignUpNumberVerify extends Component {
   }
 
   resendCode() {
+    const { t, mobile, dispatch } = this.props;
     const data = {
-      mobile: { mobile: this.props.mobile },
+      mobile: { mobile: mobile },
     };
     if (!this.state.verificationSent) {
-      this.props.dispatch(createMobileVerification(data)).then(() => {
-        Alert.alert('New verification code sent');
+      dispatch(createMobileVerification(data)).then(() => {
+        Alert.alert(t('codeSent'));
       });
       this.setState({ verificationSent: true });
     } else {
-      Alert.alert(
-        '',
-        'A new verification code has already been sent, please wait a few seconds before re-sending',
-      );
+      Alert.alert('', t('codeSentWait'));
     }
     // Reset this variable after a few seconds so that the user can resend the code
     setTimeout(() => {
@@ -68,18 +66,18 @@ class SignUpNumberVerify extends Component {
   };
 
   handleNext() {
+    const { t, mobile, dispatch, navigateResetHome } = this.props;
     let data = {
       mobile: {
-        mobile: this.props.mobile,
+        mobile: mobile,
         code: this.state.code,
       },
     };
     if (!this.state.code) {
-      Alert.alert('Please enter the code that was sent');
+      Alert.alert(t('enterCodeSent'));
     } else {
       this.setState({ disableNext: true, isLoading: true });
-      this.props
-        .dispatch(verifyMobile(data))
+      dispatch(verifyMobile(data))
         .then(() => {
           this.setState({ disableNext: false, isLoading: false });
           // if (!this.props.onboardCompleted) {
@@ -89,15 +87,12 @@ class SignUpNumberVerify extends Component {
           //     overrideBackPress: true,
           //   });
           // } else {
-          this.props.navigateResetHome();
+          navigateResetHome();
           // }
         })
         .catch(() => {
           this.setState({ disableNext: false, isLoading: false });
-          Alert.alert(
-            'Invalid code',
-            'Code does not match the code that was sent to the mobile number',
-          );
+          Alert.alert(t('invalidCode'), t('codeNotMatch'));
         });
     }
   }
@@ -123,7 +118,7 @@ class SignUpNumberVerify extends Component {
           >
             <SignUpHeader
               title={t('title.verification')}
-              description={t('description')}
+              description={t('verifyDescription')}
               onPress={() => Keyboard.dismiss()}
             />
             <Flex
@@ -133,7 +128,7 @@ class SignUpNumberVerify extends Component {
               style={styles.inputs}
             >
               <Flex direction="row" align="center" justify="center">
-                <Text>{t('verificationPrefix')}</Text>
+                <Text>V-</Text>
                 <SignUpInput
                   style={styles.inputBox}
                   keyboardType="numeric"
@@ -183,7 +178,7 @@ const mapStateToProps = ({ auth }, { navigation }) => ({
   onboardCompleted: auth.onboardCompleted,
 });
 
-export default translate('signUpNumberVerify')(
+export default translate('signUp')(
   connect(
     mapStateToProps,
     nav,

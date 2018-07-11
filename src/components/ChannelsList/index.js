@@ -75,10 +75,11 @@ class ChannelsList extends Component {
   }
 
   render() {
-    if (this.props.items.length === 0) {
+    const { t, items, onLoadMore } = this.props;
+    if (items.length === 0) {
       return (
         <Flex align="center" justify="center">
-          <Text>Nothing to show</Text>
+          <Text>{t('empty.nothingToShow')}</Text>
         </Flex>
       );
     }
@@ -87,7 +88,7 @@ class ChannelsList extends Component {
         ref={c => (this.list = c)}
         initialNumToRender={4}
         horizontal={true}
-        data={this.props.items}
+        data={items}
         renderItem={this.renderRow}
         keyExtractor={item => item.id}
         getItemLayout={(data, index) => ({
@@ -103,7 +104,7 @@ class ChannelsList extends Component {
             onRefresh={this.handleRefresh}
           />
         }
-        onEndReached={this.props.onLoadMore}
+        onEndReached={onLoadMore}
       />
     );
   }

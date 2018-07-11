@@ -73,6 +73,7 @@ class Profile extends Component {
   };
 
   handleUpdate = () => {
+    const { t, dispatch } = this.props;
     const {
       firstName,
       lastName,
@@ -93,7 +94,7 @@ class Profile extends Component {
       };
     } else if (newEmail && confirmEmail && currentPassword) {
       if (newEmail != confirmEmail) {
-        Alert.alert('The emails do not match');
+        Alert.alert(t('emailsMatch'));
         return;
       }
       data = {
@@ -104,11 +105,11 @@ class Profile extends Component {
       };
     } else if (currentPassword && newPassword && confirmPassword) {
       if (newPassword != confirmPassword) {
-        Alert.alert('The passwords do not match');
+        Alert.alert(t('passwordsMatch'));
         return;
       }
       if (newPassword.length < 8) {
-        Alert.alert('Passwords must be at least 8 characters');
+        Alert.alert(t('passwordsLength'));
         return;
       }
       data = {
@@ -118,7 +119,7 @@ class Profile extends Component {
         },
       };
     }
-    this.props.dispatch(updateMe(data)).then(() => {
+    dispatch(updateMe(data)).then(() => {
       this.resetState();
     });
   };
@@ -195,7 +196,7 @@ class Profile extends Component {
     return (
       <Flex direction="column" align="center" justify="center">
         <Flex>
-          <Text style={styles.changeTitle}>Change Name</Text>
+          <Text style={styles.changeTitle}>{t('changeName')}</Text>
         </Flex>
         <Flex value={1} direction="row" align="center" justify="center">
           <Flex direction="column" value={2} style={styles.inputRow}>
@@ -249,7 +250,7 @@ class Profile extends Component {
     return (
       <Flex direction="column" align="center" justify="center">
         <Flex>
-          <Text style={styles.changeTitle}>Change Email</Text>
+          <Text style={styles.changeTitle}>{t('changeEmail')}</Text>
         </Flex>
         <Flex direction="row" align="center" justify="center">
           <Flex direction="column" value={3} style={styles.inputRow}>
@@ -322,7 +323,7 @@ class Profile extends Component {
     return (
       <Flex direction="column" align="center" justify="center">
         <Flex>
-          <Text style={styles.changeTitle}>Change Password</Text>
+          <Text style={styles.changeTitle}>{t('changePassword')}</Text>
         </Flex>
         <Flex direction="row" align="center" justify="center">
           <Flex direction="column" value={3} style={styles.inputRow}>
@@ -401,7 +402,12 @@ class Profile extends Component {
 
     return (
       <View style={styles.container}>
-        <Header leftBack={true} title={t('title.profile')} light={true} shadow={false} />
+        <Header
+          leftBack={true}
+          title={t('title.profile')}
+          light={true}
+          shadow={false}
+        />
         <Flex direction="column" style={styles.content}>
           <ScrollView
             ref={c => (this.scrollView = c)}
@@ -414,11 +420,11 @@ class Profile extends Component {
             {isEditing && !editName ? null : (
               <View>
                 <ProfileRow
-                  text={name || 'Add your Name'}
+                  text={name || t('addName')}
                   right={
                     <Button
                       isAndroidOpacity={true}
-                      text={editName ? 'Cancel' : !name ? 'Add' : 'Edit'}
+                      text={editName ? t('cancel') : !name ? t('add') : t('edit')}
                       buttonTextStyle={styles.editText}
                       style={styles.inputButton}
                       onPress={() => this.toggleEdit('editName')}
@@ -431,11 +437,11 @@ class Profile extends Component {
             {isAnonUser || (isEditing && !editEmail) ? null : (
               <View>
                 <ProfileRow
-                  text={user.email || 'Add Email'}
+                  text={user.email || t('addEmail')}
                   right={
                     <Button
                       isAndroidOpacity={true}
-                      text={editEmail ? 'Cancel' : !user.email ? 'Add' : 'Edit'}
+                      text={editEmail ? t('cancel') : !user.email ? t('add') : t('edit')}
                       buttonTextStyle={styles.editText}
                       style={styles.inputButton}
                       onPress={() => this.toggleEdit('editEmail')}
@@ -448,12 +454,12 @@ class Profile extends Component {
             {isAnonUser || (isEditing && !editPassword) ? null : (
               <View>
                 <ProfileRow
-                  text={user.email ? '********' : 'Add Password'}
+                  text={user.email ? '********' : t('addPassword')}
                   right={
                     <Button
                       isAndroidOpacity={true}
                       text={
-                        editPassword ? 'Cancel' : !user.email ? 'Add' : 'Edit'
+                        editPassword ? t('cancel') : !user.email ? t('add') : t('edit')
                       }
                       buttonTextStyle={styles.editText}
                       style={styles.inputButton}
@@ -466,11 +472,11 @@ class Profile extends Component {
             )}
             {isAnonUser || isEditing ? null : (
               <ProfileRow
-                text={user.mobile ? 'Mobile Verified' : 'Verify Mobile Number'}
+                text={user.mobile ? t('mobileVerified') : t('verifyMobile')}
                 right={
                   <Button
                     isAndroidOpacity={true}
-                    text={user.mobile ? '' : 'Add'}
+                    text={user.mobile ? '' : t('add')}
                     buttonTextStyle={styles.editText}
                     style={styles.inputButton}
                     onPress={() =>
@@ -488,10 +494,7 @@ class Profile extends Component {
                 align="center"
                 style={{ paddingHorizontal: 50, marginTop: 100 }}
               >
-                <Text style={styles.signUpText}>
-                  Sign up to save your progress and access your account from
-                  anywhere.
-                </Text>
+                <Text style={styles.signUpText}>{t('signUp')}</Text>
                 <SignUpButtons filled={true} />
               </Flex>
             ) : null}
@@ -533,7 +536,7 @@ const mapStateToProps = ({ auth }) => ({
   isAnonUser: auth.isAnonUser,
 });
 
-export default translate()(
+export default translate('profile')(
   connect(
     mapStateToProps,
     nav,

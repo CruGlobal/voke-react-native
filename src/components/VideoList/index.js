@@ -61,6 +61,7 @@ class VideoList extends Component {
   }
 
   renderRow({ item }) {
+    const { t } = this.props;
     const video = item;
     const description = (video.description || '').replace(/^\s+|\s+$/g, '');
     return (
@@ -95,7 +96,7 @@ class VideoList extends Component {
               </Flex>
               <Flex value={2} align="end">
                 <Text style={[styles.detailsText, styles.sharesText]}>
-                  {video.shares} Shares
+                  {t('shares', { total: video.shares })}
                 </Text>
               </Flex>
             </Flex>
@@ -131,19 +132,22 @@ class VideoList extends Component {
   }
 
   renderNoText() {
-    if (this.props.isLoading) {
+    const { t, isLoading, items } = this.props;
+    if (isLoading) {
       return (
         <Flex align="center" justify="center">
-          <Text style={styles.blankText}>
-            Loading Some Awesome Videos for You
-          </Text>
-          <Image style={{ marginBottom: 20, height: 100 }} resizeMode="contain" source={ANIMATION} />
+          <Text style={styles.blankText}>{t('loading.videos')}</Text>
+          <Image
+            style={{ marginBottom: 20, height: 100 }}
+            resizeMode="contain"
+            source={ANIMATION}
+          />
         </Flex>
       );
-    } else if (this.props.items.length === 0) {
+    } else if (items.length === 0) {
       return (
         <Flex align="center" justify="center">
-          <Text style={styles.blankText}>No videos to show</Text>
+          <Text style={styles.blankText}>{t('empty.noVideos')}</Text>
         </Flex>
       );
     }
@@ -187,4 +191,4 @@ VideoList.propTypes = {
   isLoading: PropTypes.bool.isRequired,
 };
 
-export default translate(undefined, { wait: true, withRef: true })(VideoList);
+export default translate('videos', { wait: true, withRef: true })(VideoList);
