@@ -31,12 +31,6 @@ class ChannelsList extends Component {
       });
   }
 
-  scrollToBeginning() {
-    if (this.props.items.length > 0) {
-      this.list.scrollToIndex({ index: 0 });
-    }
-  }
-
   renderRow({ item }) {
     const channel = item;
     const avatar = channel.avatar || {};
@@ -116,6 +110,4 @@ ChannelsList.propTypes = {
   items: PropTypes.array.isRequired, // Redux
 };
 
-export default translate(undefined, { wait: true, withRef: true })(
-  ChannelsList,
-);
+export default translate()(ChannelsList);

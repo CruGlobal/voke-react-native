@@ -89,7 +89,6 @@ class ChallengeModal extends Component {
     return (
       <Flex style={styles.video}>
         <WebviewVideo
-          ref={c => (this.webview = c)}
           type={videoType}
           url={videoMedia.url}
           start={video.media_start || 0}
@@ -108,7 +107,12 @@ class ChallengeModal extends Component {
     return (
       <ScrollView style={styles.container}>
         <Flex direction="column" align="center" justify="center">
-          <Flex direction="column" align="start" justify="center" style={styles.modal}>
+          <Flex
+            direction="column"
+            align="start"
+            justify="center"
+            style={styles.modal}
+          >
             <Flex self="stretch" style={styles.close}>
               <CloseButton onClose={onDismiss} />
             </Flex>
@@ -130,7 +134,9 @@ class ChallengeModal extends Component {
                 />
               ) : !challenge['completed?'] ? (
                 <Button
-                  text={isActive ? t('challengeAccepted') : t('acceptChallenge')}
+                  text={
+                    isActive ? t('challengeAccepted') : t('acceptChallenge')
+                  }
                   buttonTextStyle={styles.buttonText}
                   style={
                     !isActive

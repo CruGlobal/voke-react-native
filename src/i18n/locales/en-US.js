@@ -56,8 +56,7 @@ export default {
     vokebotInitials: 'VB',
     you: 'You',
     loading: {
-      contacts:
-        'Fetching your contacts - and because you are so popular, I need up to 30 seconds',
+      contacts: `Fetching your contacts - and because you are so popular, I need up to 30 seconds`,
       messages: 'Loading Messages',
       share: 'Creating a link for you to share with your friend',
       findingContacts: 'Finding contacts...',
@@ -110,18 +109,15 @@ export default {
     error: {
       error: 'Error',
       unauthorized: 'Unauthorized',
-      sorryUnauth:
-        'Sorry, it looks like there was an error authorizing your request.',
+      sorryUnauth: `Sorry, it looks like there was an error authorizing your request.`,
       playingVideo: 'There was an error playing the video.',
       tryAgain: 'There was an error, please try again.',
       troubleVideo: 'We had trouble finding that video',
       userpass: 'Sorry, that username/password combination is not correct.',
-      vokePermission:
-        'First grant Voke permission to access your contacts. Go to Settings / Voke and allow the permission for Contacts',
+      vokePermission: `First grant Voke permission to access your contacts. Go to Settings / Voke and allow the permission for Contacts`,
       contactsTitle: 'Could not get contacts',
       contactsDescription: 'There was an error getting your contacts.',
-      adventureLocked:
-        'This adventure is locked until you complete the current adventure.',
+      adventureLocked: `This adventure is locked until you complete the current adventure.`,
       somethingWentWrong: 'Uh oh! It looks like something went wrong.',
     },
   },
@@ -134,8 +130,7 @@ export default {
     subscribers: `{{total}} subscribers`,
   },
   forgotPassword: {
-    description:
-      'Please enter the correct email associated with your Voke account to reset the password',
+    description: `Please enter the correct email associated with your Voke account to reset the password`,
     checkEmail: 'Check your Email',
     emailPrompt: `If you don't receive an email, it's most likely because you used a different email address. If so, try a different email address for password recovery`,
     invalid: 'Invalid Email',
@@ -158,20 +153,17 @@ export default {
   },
   kickstarters: {
     description: 'Add one of these kickstarters to your chat.',
-    nothing:
-      'Kickstarter questions will be visible after you select and share a video with a friend.',
+    nothing: `Kickstarter questions will be visible after you select and share a video with a friend.`,
   },
   login: {
     invalid: 'Invalid email/password',
     enterValid: 'Please enter a valid email and password',
     login: 'Login',
-    existingAccount:
-      'If you login with an existing account, you will lose any activity that you have on the guest account you have been using. If you would like to save this activity, please go back and create a new account.',
+    existingAccount: `If you login with an existing account, you will lose any activity that you have on the guest account you have been using. If you would like to save this activity, please go back and create a new account.`,
   },
   modal: {
     moreTitle: 'Voke helps you start deeper conversations in two ways',
-    moreDescription: `1. By finding friends in your contacts you can share with. \n
-    2. To be encouraged when your friends are using Voke.`,
+    moreDescription: `1. By finding friends in your contacts you can share with.\n2. To be encouraged when your friends are using Voke.`,
     title: 'User Address Book?',
     description: 'Voke uses your contacts to make sharing quick and easy.',
   },
@@ -179,15 +171,14 @@ export default {
     off: 'Notifications turned off.',
   },
   overlays: {
-    playUkulele: `{{name}}, I will play my ukulele when your friends start watching videos. This is the best time to have deeper conversations. \n \n First, I need your permission to send notifications.`,
+    playUkulele: `{{name}}, I will play my ukulele when your friends start watching videos. This is the best time to have deeper conversations.\n\nFirst, I need your permission to send notifications.`,
     playUkulele: `Sign up to subscribe and {{channel}} will let you know when new videos are published.`,
   },
   profile: {
     changeEmail: 'Change Email',
     changeName: 'Change Name',
     changePassword: 'Change Password',
-    signUp:
-      'Sign up to save your progress and access your account from anywhere.',
+    signUp: `Sign up to save your progress and access your account from anywhere.`,
     guest: 'Guest Profile',
     user: 'User Account',
     verified: 'Verified Account',
@@ -222,12 +213,11 @@ export default {
     who: 'Who do you want to share',
     with: 'with?',
     noNeed: `- (they don't need to have Voke)`,
-    errorCreating:
-      'Sorry, there was an error creating the conversation. Please try again.',
+    errorCreating: `Sorry, there was an error creating the conversation. Please try again.`,
     enterName: 'Please enter a name to continue',
     checkOut: 'Check this out on Voke!',
     friend: 'friend',
-    friendCheckOut: `Hi {{name}}, check out this video {{url}}`
+    friendCheckOut: `Hi {{name}}, check out this video {{url}}`,
   },
   sharePopup: {
     message: 'Message',
@@ -238,7 +228,7 @@ export default {
   },
   signUpWelcome: {
     tagline1: `Share Videos Worth Sharing`,
-    tagline2: `Inspire \n Deeper \n Conversations`,
+    tagline2: `Inspire\nDeeper\nConversations`,
     tagline3: `Experience Deeper Friendships`,
     tagline4: `Find and Share Hope`,
     start: `Start Exploring`,
@@ -246,35 +236,28 @@ export default {
   signUp: {
     agree: 'By creating an account you agree to our',
     and: 'and',
-    accountDescription:
-      'Creating your account allows you to keep your conversations safe, retain your progress and access Voke from anywhere.',
-    numberDescription:
-      'Add your mobile number to invite your friends to a Voke chat via text message.',
+    accountDescription: `Creating your account allows you to keep your conversations safe, retain your progress and access Voke from anywhere.`,
+    numberDescription: `Add your mobile number to invite your friends to a Voke chat via text message.`,
     sharing: `We love sharing, but we won't share your number.`,
     resend: 'Resend Code',
-    verifyDescription:
-      'Finally, enter the 4-Digit Code you received by TXT so we know you are a human.',
+    verifyDescription: `Finally, enter the 4-Digit Code you received by TXT so we know you are a human.`,
     errorCreating: 'Error Creating Account',
     emailTaken: 'Email has already been taken.',
     fillInFields: 'Please fill in your first name, last name, and email',
     enterNumber: 'Please enter your phone number',
     isNumber: `Is this your correct number? {{number}}`,
-    messageSent:
-      'A text message with your access code will be sent to this number.',
+    messageSent: `A text message with your access code will be sent to this number.`,
     mobileInvalid: 'Mobile number is invalid',
     codeSent: 'New verification code sent',
-    codeSentWait:
-      'A new verification code has already been sent, please wait a few seconds before re-sending',
+    codeSentWait: `A new verification code has already been sent, please wait a few seconds before re-sending`,
     enterCodeSent: 'Please enter the code that was sent',
     invalidCode: 'Invalid code',
-    codeNotMatch:
-      'Code does not match the code that was sent to the mobile number',
+    codeNotMatch: `Code does not match the code that was sent to the mobile number`,
     fillInName: 'Please fill in your first and last name',
   },
   tryItNow: {
     enterName: 'Please enter a name to continue',
-    whatsYourName:
-      'What is your name? This way your friends will know who you are when you share!',
+    whatsYourName: `What is your name? This way your friends will know who you are when you share!`,
   },
   videos: {
     shares: `{{total}} shares`,

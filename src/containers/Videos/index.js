@@ -137,7 +137,9 @@ class Videos extends Component {
     this.props.dispatch(getSelectedThemeVideos(tag, 1, channelId)).then(() => {
       this.setState({ videos: this.props.selectedThemeVideos });
       // Scroll to the top after selecting a theme
-      this.videoList.scrollToBeginning();
+      this.videoList &&
+        this.videoList.getWrappedInstance &&
+        this.videoList.getWrappedInstance().scrollToBeginning();
     });
   }
 
@@ -227,7 +229,9 @@ class Videos extends Component {
     } else {
       this.setState({ selectedFilter: filter });
       if (!shouldntScroll) {
-        this.videoList.scrollToBeginning();
+        this.videoList &&
+          this.videoList.getWrappedInstance &&
+          this.videoList.getWrappedInstance().scrollToBeginning();
       }
     }
     const channelId = this.props.channel ? this.props.channel.id : undefined;

@@ -90,9 +90,13 @@ class VideoDetails extends Component {
     setTimeout(() => {
       this.setState({ showVideo: true }, () => {
         // For iOS margin
-        this.webview && this.webview.removeMargin();
+        this.webview &&
+          this.webview.getWrappedInstance &&
+          this.webview.getWrappedInstance() &&
+          this.webview.getWrappedInstance().removeMargin &&
+          this.webview.getWrappedInstance().removeMargin();
       });
-    }, 250);
+    }, 1000);
   }
 
   componentWillUnmount() {
@@ -189,8 +193,13 @@ class VideoDetails extends Component {
         ],
       );
     } else {
-      if (this.webview && this.webview.pause) {
-        this.webview.pause();
+      if (
+        this.webview &&
+        this.webview.getWrappedInstance &&
+        this.webview.getWrappedInstance() &&
+        this.webview.getWrappedInstance().pause
+      ) {
+        this.webview.getWrappedInstance().pause();
       }
       // this.props.navigatePush('voke.SelectFriend', {
       //   video: video.id,

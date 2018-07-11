@@ -101,7 +101,6 @@ class Channels extends Component {
         >
           <Text style={styles.title}>{t('myChannels').toUpperCase()}</Text>
           <ChannelsList
-            ref={c => (this.myChannelsList = c)}
             items={myChannels}
             onSelect={c => {
               navigatePush('voke.VideosTab', {
@@ -113,7 +112,6 @@ class Channels extends Component {
           <Flex self="stretch" style={styles.separator} />
           <Text style={styles.title}>{t('featured').toUpperCase()}</Text>
           <ChannelsList
-            ref={c => (this.featuredList = c)}
             items={featuredChannels}
             onSelect={c => {
               navigatePush('voke.VideosTab', {
@@ -125,7 +123,6 @@ class Channels extends Component {
           <Flex self="stretch" style={styles.separator} />
           <Text style={styles.title}>{t('browse').toUpperCase()}</Text>
           <ChannelsList
-            ref={c => (this.browseChannelsList = c)}
             items={allChannels}
             onSelect={c => {
               navigatePush('voke.VideosTab', {

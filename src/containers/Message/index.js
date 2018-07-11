@@ -196,7 +196,7 @@ class Message extends Component {
   pauseVideo() {
     if (this.state.selectedVideo && this.videoPlayer) {
       // Get the redux instance and call the pause method
-      this.videoPlayer.getWrappedInstance().pause();
+      this.videoPlayer.getWrappedInstance().getWrappedInstance().pause();
     }
   }
 

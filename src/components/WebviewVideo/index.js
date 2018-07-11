@@ -294,4 +294,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default translate()(WebviewVideo);
+export default translate(undefined, { wait: true, withRef: true })(WebviewVideo);

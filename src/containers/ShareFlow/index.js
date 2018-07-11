@@ -206,7 +206,7 @@ class ShareFlow extends Component {
               <SignUpInput
                 value={this.state.name}
                 onChangeText={t => this.setState({ name: t })}
-                placeholder={t('placeholder.friendsname')}
+                placeholder={t('placeholder.friendsName')}
                 autoCapitalize="words"
                 autoCorrect={false}
                 returnKeyType="done"

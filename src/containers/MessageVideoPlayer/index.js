@@ -22,8 +22,12 @@ const INTERACTION_STATES = [
 
 class MessageVideoPlayer extends Component {
   pause = () => {
-    if (this.webview && this.webview.pause) {
-      this.webview.pause();
+    if (
+      this.webview &&
+      this.webview.getWrappedInstance &&
+      this.webview.getWrappedInstance().pause
+    ) {
+      this.webview.getWrappedInstance().pause();
     }
   };
 
