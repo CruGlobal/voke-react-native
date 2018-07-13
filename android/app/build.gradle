@@ -97,6 +97,7 @@ repositories {
  * Upload all the APKs to the Play Store and people will download
  * the correct one based on the CPU architecture of their device.
  */
+ // See https://rnfirebase.io/docs/v4.3.x/installation/android#Using-with-Proguard-enabled
 def enableSeparateBuildPerCPUArchitecture = false
 
 /**
@@ -182,31 +183,36 @@ android {
 
 
 dependencies {
-    compile project(':react-native-appsee')
-    // compile project(':react-native-sms')
-    compile project(':react-native-orientation')
-    compile project(':react-native-fetch-blob')
-    compile project(':react-native-google-analytics-bridge')
-    compile project(':react-native-fabric')
-    compile project(':react-native-fbsdk')
-    compile(project(':react-native-device-info')) {
+    implementation project(':react-native-firebase')
+    implementation project(':react-native-appsee')
+    // implementation project(':react-native-sms')
+    implementation project(':react-native-orientation')
+    implementation project(':react-native-fetch-blob')
+    implementation project(':react-native-google-analytics-bridge')
+    implementation project(':react-native-fabric')
+    implementation project(':react-native-fbsdk')
+    implementation(project(':react-native-device-info')) {
        exclude group: 'com.google.android.gms'
     }
-    compile project(':react-native-spinkit')
-    compile project(':react-native-contacts')
-    compile project(':react-native-vector-icons')
-    compile project(':react-native-video')
-    compile project(':react-native-image-crop-picker')
-    compile project(':react-native-push-notification')
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile "com.android.support:appcompat-v7:26.0.1"
-    compile 'com.facebook.react:react-native:+'
-    compile 'com.facebook.fresco:fresco:1.5.0'
-    compile 'com.facebook.fresco:animated-gif:1.5.0'
+    implementation project(':react-native-spinkit')
+    implementation project(':react-native-contacts')
+    implementation project(':react-native-vector-icons')
+    implementation project(':react-native-video')
+    implementation project(':react-native-image-crop-picker')
+    implementation project(':react-native-push-notification')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "com.android.support:appcompat-v7:26.0.1"
+    implementation 'com.facebook.react:react-native:+'
+    implementation 'com.facebook.fresco:fresco:1.5.0'
+    implementation 'com.facebook.fresco:animated-gif:1.5.0'
 
-    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+    implementation('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;
     }
+
+    // Firebase dependencies
+    implementation "com.google.android.gms:play-services-base:15.0.1"
+    implementation "com.google.firebase:firebase-core:16.0.1"
 
     // This is for multidex support for Android versions <5.0
     compile 'com.android.support:multidex:1.0.1'

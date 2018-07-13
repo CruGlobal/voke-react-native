@@ -1,25 +1,28 @@
-import {
-  GoogleAnalyticsTracker,
-  GoogleAnalyticsSettings,
-} from 'react-native-google-analytics-bridge';
+// import {
+//   GoogleAnalyticsTracker,
+//   GoogleAnalyticsSettings,
+// } from 'react-native-google-analytics-bridge';
+import Firebase from 'react-native-firebase';
 import Appsee from 'react-native-appsee';
 import CONSTANTS from '../constants';
 
-let tracker = null;
+// let tracker = null;
 
 function setup() {
   // The tracker must be constructed, and you can have multiple:
-  tracker = new GoogleAnalyticsTracker(CONSTANTS.GA_TRACKER);
+  // tracker = new GoogleAnalyticsTracker(CONSTANTS.GA_TRACKER);
 
   // Setting dryRun to true lets you test tracking without sending data to GA
   if (__DEV__) {
-    GoogleAnalyticsSettings.setDryRun(true);
+    Firebase.setAnalyticsCollectionEnabled(false);
+    // GoogleAnalyticsSettings.setDryRun(true);
   } else {
+    Firebase.setAnalyticsCollectionEnabled(true);
     Appsee.start(CONSTANTS.APPSEE_KEY);
   }
 
   // The GoogleAnalyticsSettings is static, and settings are applied across all trackers:
-  GoogleAnalyticsSettings.setDispatchInterval(30);
+  // GoogleAnalyticsSettings.setDispatchInterval(30);
 }
 
 function screen(screen) {
@@ -27,40 +30,27 @@ function screen(screen) {
     LOG('Screen must be passed in as a string');
     return;
   }
-  if (tracker && tracker.trackScreenView) {
-    tracker.trackScreenView(screen);
-    // LOG('screen', screen);
-    if (!__DEV__) {
-      Appsee.startScreen(screen);
-    }
+  // if (tracker && tracker.trackScreenView) {
+  //   tracker.trackScreenView(screen);
+  //   // LOG('screen', screen);
+  //   if (!__DEV__) {
+  //     Appsee.startScreen(screen);
+  //   }
+  // }
+  Firebase.setCurrentScreen(screen);
+  if (!__DEV__) {
+    Appsee.startScreen(screen);
   }
 }
 
-function event(category, action, label = '', value = -1) {
+function event(event, params = {}) {
   // Setup the optional values as an object of {label: String, value: Number}
-  let optionalValues = {};
-  if (typeof label !== 'string') {
-    label = '';
-  }
-  if (typeof value !== 'number') {
-    value = -1;
-  }
-  if (label) {
-    optionalValues.label = label;
-  }
-  if (value >= 0) {
-    optionalValues.value = value;
-  }
-
-  if (!category || typeof category !== 'string') {
-    LOG('Category must be passed in as a string');
+  if (!event || typeof event !== 'string') {
+    LOG('Event must be passed in as a string');
     return;
   }
-  if (!action || typeof action !== 'string') {
-    LOG('Action must be passed in as a string');
-    return;
-  }
-  tracker.trackEvent(category, action, optionalValues);
+  // tracker.trackEvent(category, action, optionalValues);
+  Firebase.trackEvent(event, params);
 }
 
 function setUser(id = '') {
@@ -68,7 +58,8 @@ function setUser(id = '') {
     LOG('Analytics: id must be a string in setUser', id);
     return;
   }
-  tracker.setUser(id);
+  // tracker.setUser(id);
+  Firebase.setUserId(id);
 }
 
 const s = {

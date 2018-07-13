@@ -1,4 +1,6 @@
 rootProject.name = 'Voke'
+include ':react-native-firebase'
+project(':react-native-firebase').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-firebase/android')
 include ':react-native-appsee'
 project(':react-native-appsee').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-appsee/android')
 // include ':react-native-sms'

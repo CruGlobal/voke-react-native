@@ -5,6 +5,7 @@
 #import <Crashlytics/Crashlytics.h>
 #import "Orientation.h"
 #import <React/RCTPushNotificationManager.h>
+#import <Firebase.h>
 
 
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
@@ -17,6 +18,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  // Firebase
+  [FIRApp configure];
   
   NSURL *jsCodeLocation;
   

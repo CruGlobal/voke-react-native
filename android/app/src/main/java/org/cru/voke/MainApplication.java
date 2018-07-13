@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.multidex.MultiDex; // For Multidex support Android <5.0
 
 import com.facebook.react.ReactApplication;
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import com.appsee.reactnative.AppseeReactPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -61,6 +63,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
+            new RNFirebasePackage(),
+            new RNFirebaseAnalyticsPackage(),
             new AppseeReactPackage(),
             new OrientationPackage(),
             new FBSDKPackage(mCallbackManager),

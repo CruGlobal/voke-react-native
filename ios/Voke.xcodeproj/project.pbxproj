@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -61,6 +60,7 @@
 		E9F73E50F45840238843F002 /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B696DE9E1104AD29BBBCA1A /* libRCTOrientation.a */; };
 		EC90EA775E5847D6AAE506A4 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4CB89566D0504236AE4885A9 /* Zocial.ttf */; };
 		F6B69D29E55C49F09228F7FB /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D5092021EB4D4859A13F24F8 /* SimpleLineIcons.ttf */; };
+		FD06F992561D4A1CA3FB6AA7 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5247C941CDFC4DBFA504C47E /* libRNFirebase.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -509,6 +509,8 @@
 		D6C2CF26BC5E41AC95BD3F11 /* RNSpinkit.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSpinkit.xcodeproj; path = "../node_modules/react-native-spinkit/ios/RNSpinkit.xcodeproj"; sourceTree = "<group>"; };
 		DDA6CFD505BD41BA8DB32059 /* RCTOrientation.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTOrientation.xcodeproj; path = "../node_modules/react-native-orientation/iOS/RCTOrientation.xcodeproj"; sourceTree = "<group>"; };
 		E2639A6467134ABEAB39E1AA /* libRNDeviceInfo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNDeviceInfo.a; sourceTree = "<group>"; };
+		C9382E19C17347C7873F5E65 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; name = "RNFirebase.xcodeproj"; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		5247C941CDFC4DBFA504C47E /* libRNFirebase.a */ = {isa = PBXFileReference; name = "libRNFirebase.a"; path = "libRNFirebase.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -551,6 +553,7 @@
 				C261E0A521EE42BAB748FA9B /* libSendSMS.a in Frameworks */,
 				D7ACE48697FC459A97F26D9A /* libReactNativePermissions.a in Frameworks */,
 				AFD81BAD7079445F8DE001C0 /* libRNAppsee.a in Frameworks */,
+				FD06F992561D4A1CA3FB6AA7 /* libRNFirebase.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -703,6 +706,7 @@
 				87D0A34378C946CE8F44CF56 /* SendSMS.xcodeproj */,
 				D6B2CBF431D44BFFA2B7CEDB /* ReactNativePermissions.xcodeproj */,
 				7767AA09EE6C4526AF4DBE5B /* RNAppsee.xcodeproj */,
+				C9382E19C17347C7873F5E65 /* RNFirebase.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1561,11 +1565,13 @@
 					"$(SRCROOT)/../node_modules/react-native-sms/SendSMS",
 					"$(SRCROOT)/../node_modules/react-native-permissions/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-appsee/ios",
+					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
 				);
 				INFOPLIST_FILE = Voke/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/Voke\"",
 					"\"$(SRCROOT)/Voke\"",
 					"\"$(SRCROOT)/Voke\"",
 					"\"$(SRCROOT)/Voke\"",
@@ -1619,11 +1625,13 @@
 					"$(SRCROOT)/../node_modules/react-native-sms/SendSMS",
 					"$(SRCROOT)/../node_modules/react-native-permissions/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-appsee/ios",
+					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
 				);
 				INFOPLIST_FILE = Voke/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/Voke\"",
 					"\"$(SRCROOT)/Voke\"",
 					"\"$(SRCROOT)/Voke\"",
 					"\"$(SRCROOT)/Voke\"",
