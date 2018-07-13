@@ -11,6 +11,8 @@ import android.support.multidex.MultiDex; // For Multidex support Android <5.0
 import com.facebook.react.ReactApplication;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import com.appsee.reactnative.AppseeReactPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -36,11 +38,10 @@ import com.crashlytics.android.core.CrashlyticsCore;
 import io.fabric.sdk.android.Fabric;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.brentvatne.react.ReactVideoPackage;
-import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
+// import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 
 import java.util.Arrays;
 import java.util.List;
-
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -61,26 +62,15 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-            new MainReactPackage(),
-            new RNFirebasePackage(),
-            new RNFirebaseAnalyticsPackage(),
-            new AppseeReactPackage(),
-            new OrientationPackage(),
-            new FBSDKPackage(mCallbackManager),
-            new RNDeviceInfo(),
-            new RNSpinkitPackage(),
-            new ReactNativeContacts(),
-            new GoogleAnalyticsBridgePackage(),
-            new VectorIconsPackage(),
-            new PickerPackage(),
-            new RNFetchBlobPackage(),
-            new ReactVideoPackage(),
-            new ReactNativePushNotificationPackage()
+      return Arrays.<ReactPackage>asList(new MainReactPackage(), new RNFirebasePackage(),
+          new RNFirebaseAnalyticsPackage(), new RNFirebaseMessagingPackage(), new RNFirebaseNotificationsPackage(),
+          new AppseeReactPackage(), new OrientationPackage(), new FBSDKPackage(mCallbackManager), new RNDeviceInfo(),
+          new RNSpinkitPackage(), new ReactNativeContacts(), new GoogleAnalyticsBridgePackage(),
+          new VectorIconsPackage(), new PickerPackage(), new RNFetchBlobPackage(), new ReactVideoPackage()
+      // new ReactNativePushNotificationPackage()
       );
     }
   };
-
 
   @Override
   public ReactNativeHost getReactNativeHost() {
@@ -98,7 +88,8 @@ public class MainApplication extends Application implements ReactApplication {
 
     // Fabric crashlytics setup
     if (BuildConfig.DEBUG) {
-      Fabric.with(this, new Crashlytics.Builder().core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()).build());
+      Fabric.with(this,
+          new Crashlytics.Builder().core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()).build());
     } else {
       Fabric.with(this, new Crashlytics());
     }
@@ -110,36 +101,37 @@ public class MainApplication extends Application implements ReactApplication {
 
     // setActivityCallbacks(new ActivityCallbacks() {
 
-    //   @Override
-    //   public void onConfigurationChanged(Configuration newConfig) {
-    //      super.onConfigurationChanged(newConfig);
-    //      Intent intent = new Intent("onConfigurationChanged");
-    //      intent.putExtra("newConfig", newConfig);
-    //      sendBroadcast(intent);
-    //   }
+    // @Override
+    // public void onConfigurationChanged(Configuration newConfig) {
+    // super.onConfigurationChanged(newConfig);
+    // Intent intent = new Intent("onConfigurationChanged");
+    // intent.putExtra("newConfig", newConfig);
+    // sendBroadcast(intent);
+    // }
 
-    //   @Override
-    //   public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    //     mCallbackManager.onActivityResult(requestCode, resultCode, data);
-    //   }
+    // @Override
+    // public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    // mCallbackManager.onActivityResult(requestCode, resultCode, data);
+    // }
     // });
   }
 
   // @Override
-  // public IPushNotification getPushNotification(Context context, Bundle bundle, AppLifecycleFacade defaultFacade, AppLaunchHelper defaultAppLaunchHelper) {
-  //     return new CustomPushNotification(
-  //     	context,
-  //     	bundle,
-  //     	notificationsLifecycleFacade, // Instead of defaultFacade!!!
-  //     	defaultAppLaunchHelper,
-  //     	new JsIOHelper()
-  //   	);
+  // public IPushNotification getPushNotification(Context context, Bundle bundle,
+  // AppLifecycleFacade defaultFacade, AppLaunchHelper defaultAppLaunchHelper) {
+  // return new CustomPushNotification(
+  // context,
+  // bundle,
+  // notificationsLifecycleFacade, // Instead of defaultFacade!!!
+  // defaultAppLaunchHelper,
+  // new JsIOHelper()
+  // );
   // }
 
   // This is for multidex applications <5.0
   @Override
   protected void attachBaseContext(Context base) {
-     super.attachBaseContext(base);
-     MultiDex.install(this);
+    super.attachBaseContext(base);
+    MultiDex.install(this);
   }
 };

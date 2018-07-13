@@ -1,11 +1,10 @@
 import lodashUniqBy from 'lodash/uniqBy';
 import { REHYDRATE } from 'redux-persist/constants';
 
-import PushNotification from 'react-native-push-notification';
-
 import { REQUESTS } from '../actions/api';
 import { LOGOUT, NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ, SET_ACTIVE_CONVERSATION, SET_IN_SHARE, MESSAGE_CREATED } from '../constants';
 import { isArray } from '../utils/common';
+import Notifications from '../utils/notifications';
 
 
 
@@ -100,7 +99,7 @@ export default function messages(state = initialState, action) {
       // Pull the unread count from the '_meta' in notifications
       let unRead = action._meta ? action._meta.pending_notifications : 0;
       unRead = unRead >= 0 ? unRead : 0;
-      PushNotification.setApplicationIconBadgeNumber(unRead);
+      Notifications.setBadge(unRead);
 
       return {
         ...state,
@@ -249,7 +248,7 @@ export default function messages(state = initialState, action) {
       newCreatedMessages = removeDuplicateMessages(newCreatedMessages);
 
       currentBadgeCount = currentBadgeCount >= 0 ? currentBadgeCount : 0;
-      PushNotification.setApplicationIconBadgeNumber(currentBadgeCount);
+      Notifications.setBadge(currentBadgeCount);
 
       return {
         ...state,
@@ -294,7 +293,7 @@ export default function messages(state = initialState, action) {
       });
 
       currentBadgeCount2 = currentBadgeCount2 >= 0 ? currentBadgeCount2 : 0;
-      PushNotification.setApplicationIconBadgeNumber(currentBadgeCount2);
+      Notifications.setBadge(currentBadgeCount2);
 
       return {
         ...state,
@@ -312,7 +311,7 @@ export default function messages(state = initialState, action) {
         inShare: action.bool,
       };
     case LOGOUT:
-      PushNotification.setApplicationIconBadgeNumber(0);
+      Notifications.setBadge(0);
       return initialState;
     default:
       return state;

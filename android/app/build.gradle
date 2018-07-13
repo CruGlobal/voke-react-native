@@ -199,7 +199,7 @@ dependencies {
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-video')
     implementation project(':react-native-image-crop-picker')
-    implementation project(':react-native-push-notification')
+    // implementation project(':react-native-push-notification')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.android.support:appcompat-v7:26.0.1"
     implementation 'com.facebook.react:react-native:+'
@@ -213,6 +213,8 @@ dependencies {
     // Firebase dependencies
     implementation "com.google.android.gms:play-services-base:15.0.1"
     implementation "com.google.firebase:firebase-core:16.0.1"
+    implementation "com.google.firebase:firebase-messaging:17.1.0"
+    implementation 'me.leolin:ShortcutBadger:1.1.21@aar'
 
     // This is for multidex support for Android versions <5.0
     compile 'com.android.support:multidex:1.0.1'
