@@ -14,7 +14,7 @@ function setup() {
 
   // Setting dryRun to true lets you test tracking without sending data to GA
   if (__DEV__) {
-    Firebase.analytics().setAnalyticsCollectionEnabled(false);
+    Firebase.analytics().setAnalyticsCollectionEnabled(true);
     // GoogleAnalyticsSettings.setDryRun(true);
   } else {
     Firebase.analytics().setAnalyticsCollectionEnabled(true);
@@ -68,6 +68,7 @@ const s = {
   AdventuresTab: 'AdventuresTab',
   ChallengeModal: 'ChallengeModal',
   ChannelsTab: 'ChannelsTab',
+  ChannelsPage: 'ChannelsPage',
   Contacts: 'Contacts',
   CountrySelect: 'CountrySelect',
   ForgotPassword: 'ForgotPassword',
@@ -92,6 +93,7 @@ const s = {
   TryItName: 'TryItName',
   VideoDetails: 'VideoDetails',
   VideosTab: 'VideosTab',
+  VideosMessage: 'VideosMessage',
 };
 
 export default {

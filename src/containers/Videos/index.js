@@ -67,13 +67,10 @@ class Videos extends Component {
   }
 
   componentDidMount() {
-    // this.props.dispatch(getMe()).then((results)=>{
-    //   LOG(results);
-    // });
-    if (this.props.channel && this.props.channel.id) {
+    const { onSelectVideo, channel, dispatch, channelVideos, all, navigateResetToNumber, navigateResetToProfile, user } = this.props;
+    if (channel && channel.id) {
       this.setState({ isLoading: true });
-      this.props
-        .dispatch(getVideos(undefined, this.props.channel.id))
+      dispatch(getVideos(undefined, channel.id))
         .then(() => {
           this.updateVideoList('all');
           this.setState({ isLoading: false });
@@ -82,11 +79,10 @@ class Videos extends Component {
           this.setState({ isLoading: false });
         });
       this.getSubscriberData();
-      this.setState({ videos: this.props.channelVideos });
-    } else if (this.props.all.length === 0) {
+      this.setState({ videos: channelVideos }); 
+    } else if (all.length === 0) {
       // If there are no videos when the component mounts, get them, otherwise just set it
-      this.props
-        .dispatch(getVideos())
+      dispatch(getVideos())
         .then(() => {
           this.updateVideoList('all');
         })
@@ -94,18 +90,17 @@ class Videos extends Component {
           LOG(JSON.stringify(err));
           if (err.error === 'Messenger not configured') {
             setTimeout(() => {
-              this.props
-                .dispatch(getVideos())
+                              dispatch(getVideos())
                 .then(() => {
                   this.updateVideoList('all');
                 })
                 .catch(err => {
                   LOG(JSON.stringify(err));
                   if (err.error === 'Messenger not configured') {
-                    if (this.props.user.first_name) {
-                      this.props.navigateResetToNumber();
+                    if (user.first_name) {
+                      navigateResetToNumber();
                     } else {
-                      this.props.navigateResetToProfile();
+                      navigateResetToProfile();
                     }
                   }
                 });
@@ -113,10 +108,16 @@ class Videos extends Component {
           }
         });
     } else {
-      this.setState({ videos: this.props.all });
+      this.setState({ videos: all });
     }
 
-    Analytics.screen(Analytics.s.VideosTab);
+    if (onSelectVideo) {
+      Analytics.screen(Analytics.s.VideosMessage);
+    } else if (channel && channel.id) {
+      Analytics.screen(Analytics.s.ChannelsPage);
+    } else {
+      Analytics.screen(Analytics.s.VideosTab);
+    }
   }
 
   componentWillUnmount() {
