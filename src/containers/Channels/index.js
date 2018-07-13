@@ -56,9 +56,9 @@ class Channels extends Component {
     if (filter === 'featured') {
       this.props.dispatch(getFeaturedOrganizations(query));
     } else if (filter === 'myChannels') {
-      this.props.dispatch(getMyOrganizations());
+      this.props.dispatch(getMyOrganizations(query));
     } else if (filter === 'all') {
-      this.props.dispatch(getAllOrganizations());
+      this.props.dispatch(getAllOrganizations(query));
     }
   };
 
