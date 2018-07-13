@@ -14,10 +14,10 @@ function setup() {
 
   // Setting dryRun to true lets you test tracking without sending data to GA
   if (__DEV__) {
-    Firebase.setAnalyticsCollectionEnabled(false);
+    Firebase.analytics().setAnalyticsCollectionEnabled(false);
     // GoogleAnalyticsSettings.setDryRun(true);
   } else {
-    Firebase.setAnalyticsCollectionEnabled(true);
+    Firebase.analytics().setAnalyticsCollectionEnabled(true);
     Appsee.start(CONSTANTS.APPSEE_KEY);
   }
 
@@ -37,7 +37,7 @@ function screen(screen) {
   //     Appsee.startScreen(screen);
   //   }
   // }
-  Firebase.setCurrentScreen(screen);
+  Firebase.analytics().setCurrentScreen(screen);
   if (!__DEV__) {
     Appsee.startScreen(screen);
   }
@@ -50,7 +50,7 @@ function event(event, params = {}) {
     return;
   }
   // tracker.trackEvent(category, action, optionalValues);
-  Firebase.trackEvent(event, params);
+  Firebase.analytics().trackEvent(event, params);
 }
 
 function setUser(id = '') {
@@ -59,7 +59,7 @@ function setUser(id = '') {
     return;
   }
   // tracker.setUser(id);
-  Firebase.setUserId(id);
+  Firebase.analytics().setUserId(id);
 }
 
 const s = {
