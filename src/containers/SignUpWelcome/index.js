@@ -22,6 +22,7 @@ import theme, { COLORS } from '../../theme';
 
 import { Flex, Text, Button, VokeIcon } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
+import PrivacyToS from '../../components/PrivacyToS';
 
 const MARGIN = 40;
 
@@ -320,7 +321,7 @@ class SignUpWelcome extends Component {
                 <Flex
                   style={{
                     position: 'absolute',
-                    bottom: 90,
+                    bottom: 120,
                     right: 0,
                     left: 0,
                     padding: 5,
@@ -333,6 +334,17 @@ class SignUpWelcome extends Component {
                     style={styles.actionButton}
                     onPress={this.tryItNow}
                   />
+                </Flex>
+                <Flex
+                  style={{
+                    position: 'absolute',
+                    bottom: 75,
+                    right: 0,
+                    left: 0,
+                    padding: 5,
+                  }}
+                >
+                  <PrivacyToS style={styles.privacy} />
                 </Flex>
                 <Flex
                   direction="row"

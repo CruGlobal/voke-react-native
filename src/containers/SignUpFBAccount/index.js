@@ -16,10 +16,11 @@ import styles from './styles';
 import { updateMe } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/nav';
 
-import { Flex, Text, Button, Icon } from '../../components/common';
+import { Flex, Button, Icon } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeader from '../../components/SignUpHeader';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
+import PrivacyToS from '../../components/PrivacyToS';
 import CONSTANTS, { RESET_ANON_USER } from '../../constants';
 import theme from '../../theme';
 
@@ -160,24 +161,7 @@ class SignUpFBAccount extends Component {
             </Flex>
           </Flex>
           <Flex direction="column">
-            <Text style={styles.legalText}>{t('agree')} </Text>
-            <Flex direction="row" align="center" justify="center">
-              <Button
-                text={t('privacy')}
-                type="transparent"
-                buttonTextStyle={styles.legalLinkText}
-                style={styles.legalLink}
-                onPress={() => this.handleLink(CONSTANTS.WEB_URLS.PRIVACY)}
-              />
-              <Text style={styles.legalText}>{t('and')}</Text>
-              <Button
-                text={t('tos')}
-                type="transparent"
-                buttonTextStyle={styles.legalLinkText}
-                style={styles.legalLink}
-                onPress={() => this.handleLink(CONSTANTS.WEB_URLS.TERMS)}
-              />
-            </Flex>
+            <PrivacyToS style={styles.legalText} type="create" />
           </Flex>
         </KeyboardAvoidingView>
       </ScrollView>

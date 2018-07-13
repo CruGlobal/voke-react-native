@@ -1,4 +1,3 @@
-
 import { StyleSheet } from 'react-native';
 import theme from '../../theme';
 
@@ -15,10 +14,8 @@ export default StyleSheet.create({
     fontSize: 16,
   },
   legalText: {
-    fontSize: 12,
     color: theme.accentColor,
-    paddingHorizontal: 3,
-    textAlign: 'center',
+    width: theme.fullWidth - 110,
   },
   actionButton: {
     marginTop: 8,
@@ -31,14 +28,6 @@ export default StyleSheet.create({
   },
   haveAccount: {
     paddingLeft: 10,
-  },
-  legalLinkText: {
-    fontSize: 12,
-    color: theme.textColor,
-  },
-  legalLink: {
-    padding: 0,
-    margin: 0,
   },
   haveAccountButton: {
     fontSize: 14,

@@ -234,7 +234,6 @@ export default {
     start: `Start Exploring`,
   },
   signUp: {
-    agree: 'By creating an account you agree to our',
     and: 'and',
     accountDescription: `Creating your account allows you to keep your conversations safe, retain your progress and access Voke from anywhere.`,
     numberDescription: `Add your mobile number to invite your friends to a Voke chat via text message.`,
@@ -264,5 +263,9 @@ export default {
     kickstarters: 'Voke kickstarters',
     addToChat: 'Add video to chat?',
     areYouSureAdd: `Are you sure you want to add "{{name}}" video to your chat?`,
+  },
+  exploring: {
+    agree: 'By starting exploring - you agree to our',
+    create: 'By creating an account you agree to our',
   },
 };

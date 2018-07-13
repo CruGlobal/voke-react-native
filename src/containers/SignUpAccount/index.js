@@ -19,6 +19,7 @@ import FacebookButton from '../FacebookButton';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeader from '../../components/SignUpHeader';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
+import PrivacyToS from '../../components/PrivacyToS';
 import CONSTANTS, { RESET_ANON_USER } from '../../constants';
 import theme from '../../theme';
 
@@ -33,7 +34,6 @@ class SignUpAccount extends Component {
     };
     // this.createAccount = this.createAccount.bind(this);
     this.checkEmail = this.checkEmail.bind(this);
-    this.handleLink = this.handleLink.bind(this);
   }
 
   componentDidMount() {
@@ -82,10 +82,6 @@ class SignUpAccount extends Component {
     this.setState({ email: text, emailValidation });
   }
 
-  handleLink(url) {
-    Linking.openURL(url);
-  }
-
   render() {
     const { t } = this.props;
     return (
@@ -129,24 +125,7 @@ class SignUpAccount extends Component {
               />
             </Flex>
             <Flex direction="column">
-              <Text style={styles.legalText}>{t('agree')} </Text>
-              <Flex direction="row" align="center" justify="center">
-                <Button
-                  text={t('privacy')}
-                  type="transparent"
-                  buttonTextStyle={styles.legalLinkText}
-                  style={styles.legalLink}
-                  onPress={() => this.handleLink(CONSTANTS.WEB_URLS.PRIVACY)}
-                />
-                <Text style={styles.legalText}>{t('and')}</Text>
-                <Button
-                  text={t('tos')}
-                  type="transparent"
-                  buttonTextStyle={styles.legalLinkText}
-                  style={styles.legalLink}
-                  onPress={() => this.handleLink(CONSTANTS.WEB_URLS.TERMS)}
-                />
-              </Flex>
+              <PrivacyToS style={styles.legalText} type="create" />
               <Flex style={{ paddingTop: 20 }}>
                 <FacebookButton />
               </Flex>
