@@ -526,7 +526,7 @@ export function establishPushDevice() {
         device: {
           ...currentDeviceInfo,
           key: auth.pushToken,
-          kind: theme.isAndroid ? 'android_react' : 'apple',
+          kind: theme.isAndroid ? 'fcm' : 'apple',
         },
       };
       return dispatch(callApi(REQUESTS.CREATE_PUSH_DEVICE, {}, data)).then(

@@ -1,6 +1,7 @@
 .prettierignore
 ios
 android
+*.java
 coverage
 *.snap
 package.json

@@ -28,7 +28,7 @@ import com.facebook.react.ReactNativeHost;
 // import com.tkporter.sendsms.SendSMSPackage;
 import com.github.yamill.orientation.OrientationPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
-import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
+// import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.rt2zz.reactnativecontacts.ReactNativeContacts;
@@ -65,7 +65,8 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(new MainReactPackage(), new RNFirebasePackage(),
           new RNFirebaseAnalyticsPackage(), new RNFirebaseMessagingPackage(), new RNFirebaseNotificationsPackage(),
           new AppseeReactPackage(), new OrientationPackage(), new FBSDKPackage(mCallbackManager), new RNDeviceInfo(),
-          new RNSpinkitPackage(), new ReactNativeContacts(), new GoogleAnalyticsBridgePackage(),
+          new RNSpinkitPackage(), new ReactNativeContacts(),
+          // new GoogleAnalyticsBridgePackage(),
           new VectorIconsPackage(), new PickerPackage(), new RNFetchBlobPackage(), new ReactVideoPackage()
       // new ReactNativePushNotificationPackage()
       );
