@@ -67,7 +67,16 @@ class Videos extends Component {
   }
 
   componentDidMount() {
-    const { onSelectVideo, channel, dispatch, channelVideos, all, navigateResetToNumber, navigateResetToProfile, user } = this.props;
+    const {
+      onSelectVideo,
+      channel,
+      dispatch,
+      channelVideos,
+      all,
+      navigateResetToNumber,
+      navigateResetToProfile,
+      user,
+    } = this.props;
     if (channel && channel.id) {
       this.setState({ isLoading: true });
       dispatch(getVideos(undefined, channel.id))
@@ -79,7 +88,7 @@ class Videos extends Component {
           this.setState({ isLoading: false });
         });
       this.getSubscriberData();
-      this.setState({ videos: channelVideos }); 
+      this.setState({ videos: channelVideos });
     } else if (all.length === 0) {
       // If there are no videos when the component mounts, get them, otherwise just set it
       dispatch(getVideos())
@@ -90,7 +99,7 @@ class Videos extends Component {
           LOG(JSON.stringify(err));
           if (err.error === 'Messenger not configured') {
             setTimeout(() => {
-                              dispatch(getVideos())
+              dispatch(getVideos())
                 .then(() => {
                   this.updateVideoList('all');
                 })

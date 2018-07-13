@@ -29,7 +29,11 @@ class Acknowledgements extends Component {
     const { t } = this.props;
     return (
       <View style={{ flex: 1 }}>
-        <Header leftBack={true} title={t('title.acknowledgements')} light={true} />
+        <Header
+          leftBack={true}
+          title={t('title.acknowledgements')}
+          light={true}
+        />
         <SettingsList
           items={[
             {
@@ -39,6 +43,10 @@ class Acknowledgements extends Component {
             {
               name: 'React Native',
               onPress: () => this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE),
+            },
+            {
+              name: 'Firebase',
+              onPress: () => this.handleLink(CONSTANTS.WEB_URLS.FIREBASE),
             },
             {
               name: 'react-native-animatable',
@@ -132,6 +140,11 @@ class Acknowledgements extends Component {
               name: 'rn-viewpager',
               onPress: () =>
                 this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_VIEW_PAGER),
+            },
+            {
+              name: 'react-native-firebase',
+              onPress: () =>
+                this.handleLink(CONSTANTS.WEB_URLS.REACT_NATIVE_FIREBASE),
             },
           ]}
         />

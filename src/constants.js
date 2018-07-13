@@ -126,5 +126,7 @@ export default {
     REACT_NATIVE_REDUX:
       'https://github.com/reactjs/react-redux/blob/master/LICENSE.md',
     REACT_NATIVE_VIEW_PAGER: 'https://github.com/zbtang/React-Native-ViewPager',
+    FIREBASE: 'https://firebase.google.com/',
+    REACT_NATIVE_FIREBASE: 'https://rnfirebase.io/',
   },
 };
