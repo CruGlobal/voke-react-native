@@ -45,7 +45,6 @@ class ChannelsList extends Component {
           direction="column"
           align="start"
           justify="center"
-          animation="slideInLeft"
         >
           <Image
             resizeMode="contain"
@@ -98,6 +97,7 @@ class ChannelsList extends Component {
             onRefresh={this.handleRefresh}
           />
         }
+        onEndReachedThreshold={0.5}
         onEndReached={onLoadMore}
       />
     );
