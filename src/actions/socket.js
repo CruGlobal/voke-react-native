@@ -393,7 +393,7 @@ export function establishDevice() {
       configs = {
         ...configs,
         onNotification(state, notification) {
-          LOG('onNotification state', state);
+          LOG('onNotification state android', state);
           dispatch(handleNotifications(state, notification));
         },
       };

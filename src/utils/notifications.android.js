@@ -8,7 +8,7 @@ let messageListener = null;
 
 async function init(config) {
   const token = await Firebase.messaging().getToken();
-  console.log('HERERERER', token);
+  LOG('Got token on android', token);
   if (config.onRegister) {
     config.onRegister(token);
   }
@@ -16,24 +16,24 @@ async function init(config) {
   tokenRefresh = Firebase.messaging().onTokenRefresh(fcmToken => {
     if (config.onRegister) {
       config.onRegister(fcmToken);
-      console.log('TOKEN REFRESH', fcmToken);
+      LOG('TOKEN REFRESH', fcmToken);
     }
   });
 
   notificationDisplayedListener = Firebase.notifications().onNotificationDisplayed(
     notification => {
-      console.log('notification displayed', notification);
+      LOG('notification displayed', notification);
       // if (config.onNotification) config.onNotification('open', notification);
     },
   );
   notificationListener = Firebase.notifications().onNotification(
     notification => {
       // if (config.onNotification) config.onNotification('open', notification);
-      console.log('ON notification', notification);
+      LOG('ON notification', notification);
     },
   );
   messageListener = Firebase.messaging().onMessage(message => {
-    console.log('MESSAGE', message);
+    LOG('MESSAGE', message);
   });
   notificationOpenedListener = Firebase.notifications().onNotificationOpened(
     notificationOpen => {
@@ -83,6 +83,7 @@ function clear() {
   if (notificationDisplayedListener) notificationDisplayedListener();
   if (notificationListener) notificationListener();
   if (notificationOpenedListener) notificationOpenedListener();
+  if (messageListener) messageListener();
 }
 
 export default {
