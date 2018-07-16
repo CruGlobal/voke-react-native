@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.multidex.MultiDex; // For Multidex support Android <5.0
 
 import com.facebook.react.ReactApplication;
+import com.horcrux.svg.SvgPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
@@ -62,7 +63,8 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(new MainReactPackage(), new RNFirebasePackage(),
+      return Arrays.<ReactPackage>asList(new MainReactPackage(),
+            new SvgPackage(), new RNFirebasePackage(),
           new RNFirebaseAnalyticsPackage(), new RNFirebaseMessagingPackage(), new RNFirebaseNotificationsPackage(),
           new AppseeReactPackage(), new OrientationPackage(), new FBSDKPackage(mCallbackManager), new RNDeviceInfo(),
           new RNSpinkitPackage(), new ReactNativeContacts(),

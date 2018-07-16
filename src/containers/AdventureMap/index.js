@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Image, Modal } from 'react-native';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
+import Svg,{ Line, Path } from 'react-native-svg';
 
 import Analytics from '../../utils/analytics';
 import { Flex, Text, Touchable } from '../../components/common';
@@ -21,6 +22,7 @@ class AdventureMap extends Component {
   state = {
     modalVisible: false,
     activeChallenge: null,
+    linesArray: [],
   };
 
   componentDidMount() {
@@ -49,6 +51,19 @@ class AdventureMap extends Component {
     } else if (challenge) {
       this.scrollTo(challenge.point_y);
     }
+
+    let linesArray = [];
+
+    challenges.filter(c => c['required?']).forEach((c, index) => {
+      if (index === 0) return;
+      let points = {
+        pointA: {x: challenges[index-1].point_x + IMAGE_WIDTH/2 -((IMAGE_WIDTH - theme.fullWidth) / 2) + 20, y: challenges[index-1].point_y + IMAGE_HEIGHT/2 + 20},
+        pointB: {x: c.point_x + IMAGE_WIDTH/2 -((IMAGE_WIDTH - theme.fullWidth) / 2) - 20, y: c.point_y + IMAGE_HEIGHT/2 - 20},
+      };
+      linesArray.push(points);
+    });
+
+    this.setState({ linesArray });
   }
 
   handleChallengeModal = c => {
@@ -93,6 +108,28 @@ class AdventureMap extends Component {
         challenge={i}
       />
     ));
+  }
+
+  renderLines() {
+    const { linesArray } = this.state;
+    return (
+      <Flex style={{position: 'absolute', width: IMAGE_WIDTH, height: IMAGE_HEIGHT}}>
+        <Svg
+          height={IMAGE_HEIGHT}
+          width={IMAGE_WIDTH}
+        >
+          {
+            linesArray.map((i) => (
+              <Path
+                d={`C${i.pointA.x} ${i.pointA.y} C${i.pointB.x} ${i.pointB.y}`}
+                fill="none"
+                stroke="red"
+              />
+            ))
+          }
+        </Svg>
+      </Flex>
+    );
   }
 
   renderTitle(ad) {
@@ -142,7 +179,7 @@ class AdventureMap extends Component {
             resizeMode="cover"
           />
         ) : null}
-
+        {this.renderLines()}
         {!this.props.backgroundImage ? (
           <Flex align="center" style={styles.loadingOverlay}>
             <Image resizeMode="contain" source={ANIMATION} />

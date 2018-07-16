@@ -183,6 +183,7 @@ android {
 
 
 dependencies {
+    compile project(':react-native-svg')
     implementation project(':react-native-firebase')
     implementation project(':react-native-appsee')
     // implementation project(':react-native-sms')
