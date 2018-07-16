@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Image, Modal } from 'react-native';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
-import Svg,{ Line, Path } from 'react-native-svg';
+import Svg, { Line, Path } from 'react-native-svg';
 
 import Analytics from '../../utils/analytics';
 import { Flex, Text, Touchable } from '../../components/common';
@@ -17,6 +17,7 @@ import ChallengeModal from '../ChallengeModal';
 
 const IMAGE_HEIGHT = 1480;
 const IMAGE_WIDTH = 517;
+const IMAGE_MARGIN = (IMAGE_WIDTH - theme.fullWidth) / 2;
 
 class AdventureMap extends Component {
   state = {
@@ -54,12 +55,42 @@ class AdventureMap extends Component {
 
     let linesArray = [];
 
+    const X_ADJ = IMAGE_WIDTH / 2 - IMAGE_MARGIN;
+    const Y_ADJ = IMAGE_HEIGHT / 2;
     challenges.filter(c => c['required?']).forEach((c, index) => {
       if (index === 0) return;
+      const { point_x, point_y } = challenges[index - 1];
       let points = {
-        pointA: {x: challenges[index-1].point_x + IMAGE_WIDTH/2 -((IMAGE_WIDTH - theme.fullWidth) / 2) + 20, y: challenges[index-1].point_y + IMAGE_HEIGHT/2 + 20},
-        pointB: {x: c.point_x + IMAGE_WIDTH/2 -((IMAGE_WIDTH - theme.fullWidth) / 2) - 20, y: c.point_y + IMAGE_HEIGHT/2 - 20},
+        A: { x: Math.floor(point_x + X_ADJ), y: Math.floor(point_y + Y_ADJ) },
+        B: {
+          x: Math.floor(c.point_x + X_ADJ),
+          y: Math.floor(c.point_y + Y_ADJ),
+        },
+        bez: {},
       };
+
+      // Random value between 40-70
+      const bezAdj = Math.floor(Math.random() * 30) + 40;
+
+      if (points.A.x > points.B.x) {
+        points.A.x = points.A.x - 20;
+        points.bez.x1 = points.A.x - bezAdj;
+      } else {
+        points.A.x = points.A.x + 20;
+        points.bez.x1 = points.A.x + bezAdj;
+      }
+      points.A.y = points.A.y + 30;
+      points.B.y = points.B.y - 40;
+
+      points.bez = {
+        ...points.bez,
+        y1: points.A.y,
+        x2: points.B.x,
+        y2: points.B.y,
+        x3: points.B.x,
+        y3: points.B.y,
+      };
+
       linesArray.push(points);
     });
 
@@ -113,20 +144,28 @@ class AdventureMap extends Component {
   renderLines() {
     const { linesArray } = this.state;
     return (
-      <Flex style={{position: 'absolute', width: IMAGE_WIDTH, height: IMAGE_HEIGHT}}>
-        <Svg
-          height={IMAGE_HEIGHT}
-          width={IMAGE_WIDTH}
-        >
-          {
-            linesArray.map((i) => (
-              <Path
-                d={`C${i.pointA.x} ${i.pointA.y} C${i.pointB.x} ${i.pointB.y}`}
-                fill="none"
-                stroke="red"
-              />
-            ))
-          }
+      <Flex
+        style={{
+          position: 'absolute',
+          width: IMAGE_WIDTH,
+          height: IMAGE_HEIGHT,
+        }}
+      >
+        <Svg height={IMAGE_HEIGHT} width={IMAGE_WIDTH}>
+          {linesArray.map((l, index) => (
+            <Path
+              key={`path_${index}`}
+              d={`M${l.A.x} ${l.A.y} C ${l.bez.x1} ${l.bez.y1} ${l.bez.x2} ${
+                l.bez.y2
+              } ${l.bez.x3} ${l.bez.y3}`}
+              fill="none"
+              strokeOpacity={0.8}
+              strokeWidth={3}
+              strokeLinecap="round"
+              strokeDasharray={[10]}
+              stroke={theme.white}
+            />
+          ))}
         </Svg>
       </Flex>
     );
@@ -172,7 +211,7 @@ class AdventureMap extends Component {
             source={{ uri: `${this.props.backgroundImage}` }}
             style={{
               // Once the image loads and we get the width and height, adjust it to center
-              marginLeft: -((IMAGE_WIDTH - theme.fullWidth) / 2),
+              marginLeft: -IMAGE_MARGIN,
               height: IMAGE_HEIGHT,
               width: IMAGE_WIDTH,
             }}
