@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Image, Modal } from 'react-native';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
-import Svg, { Line, Path } from 'react-native-svg';
+import Svg, { Path } from 'react-native-svg';
 
 import Analytics from '../../utils/analytics';
 import { Flex, Text, Touchable } from '../../components/common';
@@ -38,6 +38,14 @@ class AdventureMap extends Component {
     if (nextProps.challenges.length > this.props.challenges.length) {
       this.challengesLoaded(nextProps.challenges);
     }
+    // Update the lines when there is a newly completed challenge
+    if (nextProps.challenges.length && this.props.challenges.length) {
+      const len1 = nextProps.challenges.filter((c) => c['completed?']).length;
+      const len2 = this.props.challenges.filter((c) => c['completed?']).length;
+      if (len1 !== len2) {
+        this.updateLines(nextProps.challenges);
+      }
+    }
   }
 
   load() {
@@ -53,13 +61,27 @@ class AdventureMap extends Component {
       this.scrollTo(challenge.point_y);
     }
 
+    this.updateLines(challenges);
+  }
+
+  updateLines(challenges) {
     let linesArray = [];
 
     const X_ADJ = IMAGE_WIDTH / 2 - IMAGE_MARGIN;
     const Y_ADJ = IMAGE_HEIGHT / 2;
+    // Only show lines for the required challenges
     challenges.filter(c => c['required?']).forEach((c, index) => {
+      // Skip over the first element in the array
       if (index === 0) return;
+
+      // Set the color based on the state of the challenge
+      let color = theme.darkText;
+      if (c['completed?']) color = theme.primaryColor;
+      else if (c.isActive) color = theme.white;
+
+      // Get {x,y} from the previous challenge
       const { point_x, point_y } = challenges[index - 1];
+      // Set the A/B points based off of the adjusted {x,y} coords
       let points = {
         A: { x: Math.floor(point_x + X_ADJ), y: Math.floor(point_y + Y_ADJ) },
         B: {
@@ -67,20 +89,25 @@ class AdventureMap extends Component {
           y: Math.floor(c.point_y + Y_ADJ),
         },
         bez: {},
+        color,
       };
 
       // Random value between 40-70
       const bezAdj = Math.floor(Math.random() * 30) + 40;
 
+      // If the challenge is moving to the left, move the starting point of the line to the left
       if (points.A.x > points.B.x) {
         points.A.x = points.A.x - 20;
+        // Adjust the bezier starting point
         points.bez.x1 = points.A.x - bezAdj;
       } else {
+      // If the challenge is moving to the right, move the starting point of the line to the right
         points.A.x = points.A.x + 20;
         points.bez.x1 = points.A.x + bezAdj;
       }
-      points.A.y = points.A.y + 30;
-      points.B.y = points.B.y - 40;
+      // Set the y coordinates to be off of the center of the image.
+      points.A.y = points.A.y - 20;
+      points.B.y = points.B.y + 40;
 
       points.bez = {
         ...points.bez,
@@ -163,7 +190,7 @@ class AdventureMap extends Component {
               strokeWidth={3}
               strokeLinecap="round"
               strokeDasharray={[10]}
-              stroke={theme.white}
+              stroke={l.color}
             />
           ))}
         </Svg>
