@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
 import Analytics from '../../utils/analytics';
-import { Flex, Text } from '../../components/common';
+import { Flex, Text, Touchable } from '../../components/common';
 import { getMe } from '../../actions/auth';
 import { getAdventure } from '../../actions/adventures';
 import theme from '../../theme';
@@ -52,7 +52,9 @@ class AdventureMap extends Component {
   }
 
   handleChallengeModal = c => {
-    this.setState({ activeChallenge: c, modalVisible: true });
+    if (c) {
+      this.setState({ activeChallenge: c, modalVisible: true });
+    }
   };
 
   handleChangeAdventure = adventure => {
@@ -95,21 +97,32 @@ class AdventureMap extends Component {
 
   renderTitle(ad) {
     return (
-      <Flex
-        direction="column"
-        align="center"
-        justify="center"
-        style={styles.titleContainer}
+      <Touchable
+        isAndroidOpacity={true}
+        activeOpacity={0.8}
+        onPress={() => {
+          const challenge = this.props.challenges.find(c => c.isActive);
+          this.handleChallengeModal(challenge);
+        }}
       >
-        {ad.icon && ad.icon.medium ? (
-          <Image
-            source={{ uri: `${ad.icon.medium}` }}
-            style={{ height: 48, width: 48 }}
-          />
-        ) : null}
-        <Text style={styles.title}>{ad.name ? ad.name.toUpperCase() : ''}</Text>
-        <Text style={styles.description}>{ad.description}</Text>
-      </Flex>
+        <Flex
+          direction="column"
+          align="center"
+          justify="center"
+          style={styles.titleContainer}
+        >
+          {ad.icon && ad.icon.medium ? (
+            <Image
+              source={{ uri: `${ad.icon.medium}` }}
+              style={{ height: 48, width: 48 }}
+            />
+          ) : null}
+          <Text style={styles.title}>
+            {ad.name ? ad.name.toUpperCase() : ''}
+          </Text>
+          <Text style={styles.description}>{ad.description}</Text>
+        </Flex>
+      </Touchable>
     );
   }
 
