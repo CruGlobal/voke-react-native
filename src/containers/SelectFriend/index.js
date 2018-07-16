@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, View, Image, Keyboard, ScrollView } from 'react-native';
+import { Platform, View, Image, Keyboard, ScrollView, Share } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
@@ -147,6 +147,41 @@ class SelectFriend extends Component {
     }
   }
 
+  shareDialog = (url, conversation) => {
+    const { t } = this.props;
+    Share.share(
+      {
+        message: url,
+        tintColor: '#fff',
+        excludedActivityTypes: [
+          'com.apple.UIKit.activity.AirDrop',
+          'com.apple.UIKit.activity.PostToFacebook',
+          'com.apple.UIKit.activity.PostToTwitter',
+        ],
+      },
+      {
+        dialogTitle: t('share'),
+      },
+    )
+      .then(({ action, activityType }) => {
+        if (action === Share.sharedAction) {
+          LOG('shared!', activityType);
+          // Navigate to the new conversation after sharing
+          this.props.navigateResetMessage({
+            conversation,
+          });
+        } else {
+          LOG('not shared!');
+          // Delete the conversation
+          this.props
+            .dispatch(deleteConversation(conversation.conversation.id));
+        }
+      })
+      .catch(err => {
+        LOG('Share Error', err);
+      });
+  };
+
   selectContact(c, index = 0) {
     if (!c) return;
     this.setState({ selectNumberContact: null });
@@ -186,53 +221,54 @@ class SelectFriend extends Component {
     } else {
       // LOG('normal contact selected', this.props.video);
       // Set this up so background stuff doesn't try to do too much while in the share modal
-      this.setState({ loadingBeforeShareSheet: true });
-      this.props.dispatch({ type: SET_IN_SHARE, bool: true });
+      // this.setState({ loadingBeforeShareSheet: true });
+      // this.props.dispatch({ type: SET_IN_SHARE, bool: true });
       // Create the conversation
       this.props.dispatch(createConversation(createData)).then(results => {
         this.props.dispatch(getConversation(results.id)).then(c => {
           LOG('get voke conversation results', c);
           const friend = results.messengers[0];
+          this.shareDialog(friend.url, c);
 
           // Show the share modal
-          this.props.dispatch({
-            type: SHOW_SHARE_MODAL,
-            bool: true,
-            props: {
-              onComplete: () => {
-                // Set these to false so we're not in the share modal anymore
-                this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
-                this.props.dispatch({ type: SET_IN_SHARE, bool: false });
-
-                // On android, put a timeout because the share stuff gets messed up otherwise
-                if (theme.isAndroid) {
-                  this.setState({ setLoaderBeforePush: true });
-                  setTimeout(() => {
-                    this.setState({ setLoaderBeforePush: false });
-                    this.props.navigateResetMessage({
-                      conversation: c.conversation,
-                    });
-                  }, 50);
-                } else {
-                  this.props.navigateResetMessage({
-                    conversation: c.conversation,
-                  });
-                }
-              },
-              // This could also be called on the contacts page to cancel the share modal
-              onCancel: () => {
-                LOG('canceling sharing');
-
-                // Set these to false and delete the conversation
-                this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
-                this.props.dispatch({ type: SET_IN_SHARE, bool: false });
-                this.props.dispatch(deleteConversation(results.id));
-              },
-              friend,
-              phoneNumber,
-            },
-          });
-          this.setState({ loadingBeforeShareSheet: false });
+          // this.props.dispatch({
+          //   type: SHOW_SHARE_MODAL,
+          //   bool: true,
+          //   props: {
+          //     onComplete: () => {
+          //       // Set these to false so we're not in the share modal anymore
+          //       this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
+          //       this.props.dispatch({ type: SET_IN_SHARE, bool: false });
+          //
+          //       // On android, put a timeout because the share stuff gets messed up otherwise
+          //       if (theme.isAndroid) {
+          //         this.setState({ setLoaderBeforePush: true });
+          //         setTimeout(() => {
+          //           this.setState({ setLoaderBeforePush: false });
+          //           this.props.navigateResetMessage({
+          //             conversation: c.conversation,
+          //           });
+          //         }, 50);
+          //       } else {
+          //         this.props.navigateResetMessage({
+          //           conversation: c.conversation,
+          //         });
+          //       }
+          //     },
+          //     // This could also be called on the contacts page to cancel the share modal
+          //     onCancel: () => {
+          //       LOG('canceling sharing');
+          //
+          //       // Set these to false and delete the conversation
+          //       this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
+          //       this.props.dispatch({ type: SET_IN_SHARE, bool: false });
+          //       this.props.dispatch(deleteConversation(results.id));
+          //     },
+          //     friend,
+          //     phoneNumber,
+          //   },
+          // });
+          // this.setState({ loadingBeforeShareSheet: false });
         });
       });
     }

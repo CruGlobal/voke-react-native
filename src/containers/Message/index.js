@@ -146,8 +146,9 @@ class Message extends Component {
   }
 
   setLatestItem(conversationMessages) {
-    const messages = conversationMessages ? this.props.messages : [];
+    const messages = conversationMessages ? conversationMessages : this.props.messages;
     const item = messages.find(m => m.item);
+    console.log('Setting latets item', item);
     if (item && item.item && item.messenger_id === this.props.me.id) {
       this.setState({ latestItem: item.item.id });
     }
