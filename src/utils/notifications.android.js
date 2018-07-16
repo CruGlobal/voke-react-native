@@ -4,9 +4,11 @@ let tokenRefresh = null;
 let notificationDisplayedListener = null;
 let notificationListener = null;
 let notificationOpenedListener = null;
+let messageListener = null;
 
 async function init(config) {
   const token = await Firebase.messaging().getToken();
+  console.log('HERERERER', token);
   if (config.onRegister) {
     config.onRegister(token);
   }
@@ -14,19 +16,25 @@ async function init(config) {
   tokenRefresh = Firebase.messaging().onTokenRefresh(fcmToken => {
     if (config.onRegister) {
       config.onRegister(fcmToken);
+      console.log('TOKEN REFRESH', fcmToken);
     }
   });
 
   notificationDisplayedListener = Firebase.notifications().onNotificationDisplayed(
     notification => {
+      console.log('notification displayed', notification);
       // if (config.onNotification) config.onNotification('open', notification);
     },
   );
   notificationListener = Firebase.notifications().onNotification(
     notification => {
       // if (config.onNotification) config.onNotification('open', notification);
+      console.log('ON notification', notification);
     },
   );
+  messageListener = Firebase.messaging().onMessage(message => {
+    console.log('MESSAGE', message);
+  });
   notificationOpenedListener = Firebase.notifications().onNotificationOpened(
     notificationOpen => {
       // Get the action triggered by the notification being opened

@@ -377,11 +377,14 @@ export function establishDevice() {
     let configs = {
       // (optional) Called when Token is generated (iOS and Android)
       onRegister(token) {
-        LOG('in push notification register');
+        LOG('in push notification register', token);
         // Update redux with the push notification permission value
         dispatch(checkPushPermissions(false));
-
-        dispatch(gotDeviceToken(token.token));
+        if (theme.isAndroid) {
+          dispatch(gotDeviceToken(token));
+        } else {
+          dispatch(gotDeviceToken(token.token));
+        }
       },
     };
 
