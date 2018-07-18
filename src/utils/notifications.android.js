@@ -42,7 +42,7 @@ async function init(config) {
       const notification = notificationOpen.notification;
       LOG('android notification', notification);
       if (config.onNotification) {
-        config.onNotification('foreground', notification);
+        config.onNotification('open', notification);
       }
     },
   );

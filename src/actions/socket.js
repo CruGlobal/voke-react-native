@@ -35,6 +35,14 @@ const WEBSOCKET_STATES = {
 
 let ws = null;
 
+export const NAMESPACES = {
+  MESSAGE: 'messenger:conversation:message',
+  ADVENTURE: 'platform:organization:adventure:challenge',
+};
+
+const getCID = l =>
+  l.substring(l.indexOf('conversations/') + 14, l.indexOf('/messages'));
+
 export function checkAndRunSockets() {
   return (dispatch, getState) => {
     // LOG('check and run');
@@ -225,7 +233,13 @@ export function gotDeviceToken(token) {
 export function handleNotifications(state, notification) {
   return (dispatch, getState) => {
     let data = notification.data;
-    LOG('got notification', JSON.stringify(notification));
+    LOG('got notification', notification);
+
+    const {
+      activeConversationId,
+      unReadBadgeCount,
+      conversations,
+    } = getState().messages;
 
     // Get the namespace and link differently for ios and android
     let namespace;
@@ -236,58 +250,66 @@ export function handleNotifications(state, notification) {
         namespace = data.data.namespace;
         link = data.data.link;
       }
-    } else {
+    } else if (data) {
       // Android
-      if (notification && notification.namespace) {
-        namespace = notification.namespace;
-        if (notification.link) {
-          link = notification.link;
-        } else if (
-          notification.notification &&
-          notification.notification.click_action
-        ) {
-          link = notification.notification.click_action;
-        }
-      } else if (
-        notification.message_object &&
-        notification.message_object.indexOf('{') === 0
-      ) {
-        data = JSON.parse(notification.message);
-        if (data) {
-          data = data.notification;
-          if (data && data.namespace) {
-            namespace = data.namespace;
-            if (data.link) {
-              link = data.link;
-            } else if (data.notification && data.notification.click_action) {
-              link = data.notification.click_action;
-            }
-          }
-        }
+      // Old GCM code
+      // if (notification && notification.namespace) {
+      //   namespace = notification.namespace;
+      //   if (notification.link) {
+      //     link = notification.link;
+      //   } else if (
+      //     notification.notification &&
+      //     notification.notification.click_action
+      //   ) {
+      //     link = notification.notification.click_action;
+      //   }
+      // } else if (
+      //   notification.message_object &&
+      //   notification.message_object.indexOf('{') === 0
+      // ) {
+      //   data = JSON.parse(notification.message);
+      //   if (data) {
+      //     data = data.notification;
+      //     if (data && data.namespace) {
+      //       namespace = data.namespace;
+      //       if (data.link) {
+      //         link = data.link;
+      //       } else if (data.notification && data.notification.click_action) {
+      //         link = data.notification.click_action;
+      //       }
+      //     }
+      //   }
+      // }
+
+      if (data.link) {
+        link = data.link;
+      }
+      if (data.namespace) {
+        namespace = data.namespace;
       }
     }
 
-    LOG('notification', state, data, link, namespace);
+    LOG(
+      'notification state, data, link, namespace',
+      state,
+      data,
+      link,
+      namespace,
+    );
 
-    if (state === 'foreground') {
-      LOG('Foreground notification', data);
+    if (state === 'foreground' && namespace && link) {
+      // Foreground
       // If the user receives a push notification while in the app and sockets
       // are not connected, grab the new conversation info
       if (!ws || (ws && ws.readyState !== WEBSOCKET_STATES.OPEN)) {
-        LOG('socket is closed');
-        if (
-          namespace &&
-          link &&
-          namespace.includes('messenger:conversation:message')
-        ) {
-          const cId = link.substring(
-            link.indexOf('conversations/') + 14,
-            link.indexOf('/messages'),
-          );
+        // LOG('got foreground notification and socket is closed');
+        if (namespace.includes(NAMESPACES.MESSAGE)) {
+          const cId = getCID(link);
           if (!cId) return;
 
+          // If on message screen, get the latest messages
           // const activeScreen = getState().auth.activeScreen;
-          // const conversationId = getState().messages.activeConversationId;
+          // const conversationId = activeConversationId;
           // LOG('activeScreen, conversationId, cId', activeScreen, conversationId, cId);
 
           // if (activeScreen === 'voke.Message' && cId === conversationId) {
@@ -295,79 +317,53 @@ export function handleNotifications(state, notification) {
           // } else {
           //   dispatch(getConversations());
           // }
-          const conversationId = getState().messages.activeConversationId;
+
+          const conversationId = activeConversationId;
           if (conversationId && cId === conversationId) {
             dispatch(getConversation(cId));
             // dispatch(getMessages(cId));
           } else {
             dispatch(getConversations());
           }
-        } else if (
-          namespace &&
-          link &&
-          namespace.includes('platform:organization:adventure:challenge')
-        ) {
+        } else if (namespace.includes(NAMESPACES.ADVENTURE)) {
           dispatch(getMe());
         }
       }
-    }
-    if (state === 'background') {
-      const unReadBadgeCount = getState().messages.unReadBadgeCount;
-
+    } else if (state === 'background') {
+      // Background
+      // LOG('Background notification', data);
       Notifications.setBadge(unReadBadgeCount + 1);
+    } else if (state === 'open' && namespace && link) {
+      // Open
+      // LOG('message came in with namespace and link', namespace, link);
 
-      LOG('Background notification', data);
-    }
-    if (state === 'open') {
-      LOG('message came in with namespace and link', namespace, link);
-
-      if (
-        namespace &&
-        link &&
-        namespace.includes('messenger:conversation:message')
-      ) {
-        const cId = link.substring(
-          link.indexOf('conversations/') + 14,
-          link.indexOf('/messages'),
-        );
+      if (namespace.includes(NAMESPACES.MESSAGE)) {
+        const cId = getCID(link);
         if (!cId) return;
 
         // Check if conversation exists, just use it, otherwise get it
-        const conversationExists = getState().messages.conversations.find(
-          c => c.id === cId,
-        );
-        if (conversationExists) {
+        const conversationExists = conversations.find(c => c.id === cId);
+        // After getting the conversation, reset to the message screen
+        const navToConv = c =>
           dispatch(
             navigateResetMessage({
-              conversation: conversationExists,
+              conversation: c,
               forceUpdate: true,
             }),
           );
+        if (conversationExists) {
+          navToConv(conversationExists);
         } else {
           dispatch(getConversation(cId)).then(results => {
             if (!results || !results.conversation) {
               return;
             }
-            dispatch(
-              navigateResetMessage({
-                conversation: results.conversation,
-                forceUpdate: true,
-              }),
-            );
+            navToConv(results.conversation);
           });
         }
-      } else if (
-        namespace &&
-        link &&
-        namespace.includes('platform:organization:adventure:challenge')
-      ) {
+      } else if (namespace.includes(NAMESPACES.ADVENTURE)) {
         dispatch(getMe());
       }
-      //   // NotificationsIOS.removeAllDeliveredNotifications();
-      // } else {
-      //   LOG('handle notification else');
-      //   // NotificationsIOS.setBadgesCount(2);
-      //
     }
   };
 }
