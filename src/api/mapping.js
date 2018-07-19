@@ -91,6 +91,13 @@ function formatConversation(c, getState) {
     if (a.latestTime && !b.latestTime) return -1;
     else if (b.latestTime && !a.latestTime) return 1;
     else if (!a.latestTime && !b.latestTime) return 0;
+    
+    // Vokebot sends a messages with a video that I share and the time is the same on both messages
+    if (a.latestTime === b.latestTime && a.latestMsgOrItem && b.latestMsgOrItem) {
+      // Sort the messages by position
+      if (a.latestMsgOrItem.position > b.latestMsgOrItem.position) return -1;
+      if (a.latestMsgOrItem.position < b.latestMsgOrItem.position) return 1;
+    }
 
     // Pull out UTC dates using moment and telling it the format we're using
     const keyA = momentUtc(a.latestTime);
