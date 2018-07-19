@@ -21,36 +21,41 @@ function convertTime(time) {
 }
 
 export default class VideoControls extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      timeElapsedStr: convertTime(0),
-      stateTime: 0,
-    };
-
-    this.handleScreenPress = this.handleScreenPress.bind(this);
-    this.handleReplay = this.handleReplay.bind(this);
-  }
+  state = {
+    seekTime: null,
+    stateTime: 0,
+  };
 
   componentWillReceiveProps(nextProps) {
     this.setState({ stateTime: nextProps.time });
   }
 
-  handleScreenPress() {
-    this.props.onPlayPause();
-  }
+  seek = () => {
+    const { onSeek } = this.props;
+    const { seekTime } = this.state;
+    if (seekTime) {
+      onSeek(seekTime);
+      // Delay resetting the seekTime so that the view doesn't jump between times too much.
+      setTimeout(() => this.setState({ seekTime: null }), 750);
+    }
+  };
 
-  handleReplay() {
+  handleScreenPress = () => {
+    this.props.onPlayPause();
+  };
+
+  handleReplay = () => {
     this.props.onReplay();
-  }
+  };
 
   render() {
-    const { time, isPaused, onSeek, duration, replay, width } = this.props;
+    const { time, isPaused, duration, replay, width, isLandscape } = this.props;
+    const { seekTime, stateTime } = this.state;
     return (
       <Flex direction="column" style={styles.outerWrap}>
         <Flex
           style={[
-            this.props.isLandscape ? styles.landscapeSize : styles.portraitSize,
+            isLandscape ? styles.landscapeSize : styles.portraitSize,
             styles.viewBlock,
             width ? { width } : {},
           ]}
@@ -64,9 +69,7 @@ export default class VideoControls extends Component {
             <Flex
               animation="zoomIn"
               style={[
-                this.props.isLandscape
-                  ? styles.landscapeSize
-                  : styles.portraitSize,
+                isLandscape ? styles.landscapeSize : styles.portraitSize,
                 styles.screenPress,
               ]}
             >
@@ -83,7 +86,7 @@ export default class VideoControls extends Component {
         <Flex
           direction="row"
           style={[
-            this.props.isLandscape ? styles.landscapeSize : styles.portraitSize,
+            isLandscape ? styles.landscapeSize : styles.portraitSize,
             styles.controlWrapper,
             width ? { width } : {},
           ]}
@@ -99,21 +102,22 @@ export default class VideoControls extends Component {
             </Touchable>
           </Flex>
           <Flex value={0.2} align="center">
-            <Text style={styles.time}>{convertTime(this.state.stateTime)}</Text>
+            <Text style={styles.time}>
+              {convertTime(seekTime || stateTime)}
+            </Text>
           </Flex>
           <Flex value={1.2}>
             <Slider
               thumbImage={vokeIcons['thumb']}
               minimumTrackTintColor={theme.primaryColor}
               step={1}
-              value={time}
+              value={seekTime || time}
               minimumValue={0}
               maximumValue={duration}
-              onSlidingComplete={() => onSeek(this.state.stateTime)}
+              onSlidingComplete={this.seek}
               onValueChange={value =>
                 this.setState({
-                  stateTime: value,
-                  timeElapsedStr: convertTime(value),
+                  seekTime: value,
                 })
               }
               style={styles.slider}
