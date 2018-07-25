@@ -6,7 +6,7 @@
 #import "Orientation.h"
 #import <React/RCTPushNotificationManager.h>
 #import "Firebase.h"
-
+#import "RNFirebaseLinks.h"
 
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <AVFoundation/AVFoundation.h>
@@ -19,6 +19,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   // Firebase
+  [FIROptions defaultOptions].deepLinkURLScheme = @"org.cru.voke";
   [FIRApp configure];
   
   NSURL *jsCodeLocation;
@@ -67,9 +68,19 @@
                                                              annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
                   ];
   // Add any custom logic here.
+  // Firebase Dynamic Links
+  if (!handled) {
+    handled = [[RNFirebaseLinks instance] application:application openURL:url options:options];
+  }
   return handled;
 }
 
+// Firebase Dynamic Links
+- (BOOL)application:(UIApplication *)application
+continueUserActivity:(NSUserActivity *)userActivity
+ restorationHandler:(void (^)(NSArray *))restorationHandler {
+  return [[RNFirebaseLinks instance] application:application continueUserActivity:userActivity restorationHandler:restorationHandler];
+}
 
 // Required to register for notifications
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
