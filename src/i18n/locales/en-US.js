@@ -172,7 +172,7 @@ export default {
   },
   overlays: {
     playUkulele: `{{name}}, I will play my ukulele when your friends start watching videos. This is the best time to have deeper conversations.\n\nFirst, I need your permission to send notifications.`,
-    playUkulele: `Sign up to subscribe and {{channel}} will let you know when new videos are published.`,
+    signUpChannel: `Sign up to subscribe and {{channel}} will let you know when new videos are published.`,
   },
   profile: {
     changeEmail: 'Change Email',

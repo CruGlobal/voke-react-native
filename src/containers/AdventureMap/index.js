@@ -14,6 +14,7 @@ import AdventureIcons from '../../components/AdventureIcons';
 import styles from './styles';
 import ANIMATION from '../../../images/VokeBotAnimation.gif';
 import ChallengeModal from '../ChallengeModal';
+import { LOGIN } from '../../constants';
 
 const IMAGE_HEIGHT = 1480;
 const IMAGE_WIDTH = 517;
@@ -101,13 +102,17 @@ class AdventureMap extends Component {
         // Adjust the bezier starting point
         points.bez.x1 = points.A.x - bezAdj;
       } else {
-      // If the challenge is moving to the right, move the starting point of the line to the right
+        // If the challenge is moving to the right, move the starting point of the line to the right
         points.A.x = points.A.x + 20;
         points.bez.x1 = points.A.x + bezAdj;
       }
       // Set the y coordinates to be off of the center of the image.
       points.A.y = points.A.y - 20;
-      points.B.y = points.B.y + 40;
+      if (points.A.y < points.B.y) {
+        points.B.y = points.B.y - 40;
+      } else {
+        points.B.y = points.B.y + 40;
+      }
 
       points.bez = {
         ...points.bez,
@@ -184,7 +189,7 @@ class AdventureMap extends Component {
               key={`path_${index}`}
               d={`M${l.A.x} ${l.A.y} C ${l.bez.x1} ${l.bez.y1} ${l.bez.x2} ${
                 l.bez.y2
-              } ${l.bez.x3} ${l.bez.y3}`}
+                } ${l.bez.x3} ${l.bez.y3}`}
               fill="none"
               strokeOpacity={0.8}
               strokeWidth={3}
@@ -207,12 +212,12 @@ class AdventureMap extends Component {
           const challenge = this.props.challenges.find(c => c.isActive);
           this.handleChallengeModal(challenge);
         }}
+        style={styles.titleContainer}
       >
         <Flex
           direction="column"
           align="center"
           justify="center"
-          style={styles.titleContainer}
         >
           {ad.icon && ad.icon.medium ? (
             <Image
@@ -230,12 +235,12 @@ class AdventureMap extends Component {
   }
 
   render() {
-    const { t, challenges, activeAdventure } = this.props;
+    const { t, challenges, adventures, adventureId, activeAdventure, backgroundImage } = this.props;
     return (
       <Flex style={styles.wrap}>
-        {this.props.backgroundImage ? (
+        {backgroundImage ? (
           <Image
-            source={{ uri: `${this.props.backgroundImage}` }}
+            source={{ uri: `${backgroundImage}` }}
             style={{
               // Once the image loads and we get the width and height, adjust it to center
               marginLeft: -IMAGE_MARGIN,
@@ -246,7 +251,7 @@ class AdventureMap extends Component {
           />
         ) : null}
         {this.renderLines()}
-        {!this.props.backgroundImage ? (
+        {!backgroundImage ? (
           <Flex align="center" style={styles.loadingOverlay}>
             <Image resizeMode="contain" source={ANIMATION} />
             <Text style={styles.loadingText}>{t('loading.adventures')}</Text>
@@ -261,7 +266,7 @@ class AdventureMap extends Component {
         >
           {this.state.activeChallenge ? (
             <ChallengeModal
-              adventureId={this.props.adventureId}
+              adventureId={adventureId}
               onDismiss={this.closeModal}
               challenge={this.state.activeChallenge}
             />
@@ -269,7 +274,7 @@ class AdventureMap extends Component {
         </Modal>
         <AdventureIcons
           onChangeAdventure={this.handleChangeAdventure}
-          adventures={this.props.adventures}
+          adventures={adventures}
         />
         <Flex style={styles.overlay}>
           {challenges && challenges.length > 0 ? this.renderChallenges() : null}
