@@ -2,6 +2,7 @@ import RNFetchBlob from 'react-native-fetch-blob';
 import { Linking, AppState, ToastAndroid, AsyncStorage, Alert, PushNotificationIOS } from 'react-native';
 import Orientation from 'react-native-orientation';
 import DeviceInfo from 'react-native-device-info';
+import Firebase from 'react-native-firebase';
 
 import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, UPDATE_TOKENS, NO_BACKGROUND_ACTION, CREATE_ANON_USER, PUSH_PERMISSION } from '../constants';
 import callApi, { REQUESTS } from './api';
@@ -18,6 +19,7 @@ import Permissions from '../utils/permissions';
 // Setup app state change listeners
 let appStateChangeFn;
 // let currentAppState = AppState.currentState || '';
+let firebaseLinkHandler;
 
 let hasStartedUp = false;
 
@@ -37,8 +39,31 @@ export function startupAction() {
       appStateChangeFn = appStateChange.bind(null, dispatch, getState);
     }
     AppState.addEventListener('change', appStateChangeFn);
+
+    dispatch(setupFirebaseLinks());
   };
 }
+
+export function setupFirebaseLinks() {
+  return async (dispatch, getState) => {
+    if (firebaseLinkHandler) return;
+    // Firebase dynamic links
+    const initialLink = await Firebase.links().getInitialLink();
+    if (initialLink) {
+      dispatch(handleFirebaseLink(initialLink));
+    }
+    firebaseLinkHandler = Firebase.links().onLink((link) => {
+      dispatch(handleFirebaseLink(link));
+    });
+  };
+}
+
+export function handleFirebaseLink(link) {
+  return (dispatch, getState) => {
+    LOG('handling link', link);
+  };
+}
+
 
 export function cleanupAction() {
   return (dispatch, getState) => {
@@ -65,12 +90,13 @@ function appStateChange(dispatch, getState, nextAppState) {
   // LOG('appStateChange', nextAppState, currentAppState, cableId);
   if (nextAppState === 'active') {
     LOG('App has come to the foreground!');
+
     // Don't run establish device if it's authorized
     dispatch(checkPushPermissions(false));
 
     let messages = getState().messages;
     if (!theme.isAndroid) {
-      PushNotificationIOS.getDeliveredNotifications((results)=> {
+      PushNotificationIOS.getDeliveredNotifications((results) => {
         if (results && results.length > 0) PushNotificationIOS.removeAllDeliveredNotifications();
         let conversations = getState().messages.conversations;
         let link = results[0] && results[0].userInfo && results[0].userInfo.data && results[0].userInfo.data.link;
@@ -89,13 +115,13 @@ function appStateChange(dispatch, getState, nextAppState) {
           if (!conv || (conv.latestMessage && conv.latestMessage.message_id !== mId)) {
             // LOG('get conversations');
             if (messages.activeConversationId === cId) {
-              dispatch(getMessages(cId)).then(()=> {
+              dispatch(getMessages(cId)).then(() => {
                 const interaction = {
                   action: 'read',
                   conversationId: cId,
                   messageId: mId,
                 };
-                dispatch(createMessageInteraction(interaction)).then(()=> {
+                dispatch(createMessageInteraction(interaction)).then(() => {
                   dispatch(getConversations());
                 });
               });
@@ -107,7 +133,7 @@ function appStateChange(dispatch, getState, nextAppState) {
       });
     } else {
       if (messages.activeConversationId) {
-        dispatch(getMessages(messages.activeConversationId)).then(()=> {
+        dispatch(getMessages(messages.activeConversationId)).then(() => {
           const message = getState().messages[messages.activeConversationId];
           const mId = message ? message[0].id : null;
           if (!mId) {
@@ -118,7 +144,7 @@ function appStateChange(dispatch, getState, nextAppState) {
               conversationId: messages.activeConversationId,
               messageId: mId,
             };
-            dispatch(createMessageInteraction(interaction)).then(()=> {
+            dispatch(createMessageInteraction(interaction)).then(() => {
               dispatch(getConversations());
             });
           }
@@ -217,9 +243,9 @@ export function logoutAction() {
               dispatch(callApi(REQUESTS.REVOKE_TOKEN, {
                 access_token: token,
               }, {
-                device_ids: deviceIds,
-                token: null,
-              }));
+                  device_ids: deviceIds,
+                  token: null,
+                }));
             }
           }
         });
@@ -346,7 +372,7 @@ export function updateMe(data) {
     if (data.avatar) {
       return dispatch(updateMeImage(data.avatar));
     }
-    let newData = {...data};
+    let newData = { ...data };
     newData.timezone_name = DeviceInfo.getTimezone();
     return dispatch(callApi(REQUESTS.UPDATE_ME, {}, newData)).then((results) => {
       dispatch(getMe());
@@ -385,7 +411,7 @@ export function updateMeImage(avatar) {
 
 export function createMobileVerification(data) {
   return (dispatch) => {
-    let newData = {...data};
+    let newData = { ...data };
     newData.mobile.country_code = DeviceInfo.getDeviceCountry();
     return dispatch(callApi(REQUESTS.CREATE_MOBILE_VERIFICATION, {}, newData)).then((results) => {
       LOG('Verify mobile request successfully sent', results);

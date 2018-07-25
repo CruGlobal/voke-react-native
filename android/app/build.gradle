@@ -219,6 +219,7 @@ dependencies {
     implementation "com.google.firebase:firebase-core:16.0.1"
     implementation "com.google.firebase:firebase-messaging:17.1.0"
     implementation 'me.leolin:ShortcutBadger:1.1.21@aar'
+    implementation "com.google.firebase:firebase-invites:16.0.1"
 
     // This is for multidex support for Android versions <5.0
     compile 'com.android.support:multidex:1.0.1'
