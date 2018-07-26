@@ -40,7 +40,6 @@
 		93981C6E20F8FA9700298F4A /* FirebaseAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93981C6720F8FA9700298F4A /* FirebaseAnalytics.framework */; };
 		93981C6F20F8FA9700298F4A /* FirebaseCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93981C6820F8FA9700298F4A /* FirebaseCore.framework */; };
 		93EA25DD2108D9E000E25254 /* FirebaseDynamicLinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93EA25DC2108D9E000E25254 /* FirebaseDynamicLinks.framework */; };
-		93EA25DE2108EF1200E25254 /* FirebaseCoreDiagnostics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93981C6920F8FA9700298F4A /* FirebaseCoreDiagnostics.framework */; };
 		940EDA746F8C400E9F79B6E4 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2639A6467134ABEAB39E1AA /* libRNDeviceInfo.a */; };
 		9D586C578FBC4B11A28E02C7 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8AFAB6C0801F4A43A113F5AD /* Foundation.ttf */; };
 		AE0A75851F4271FE000A51EA /* TitilliumWeb-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE0A75841F4271FE000A51EA /* TitilliumWeb-Regular.ttf */; };
@@ -545,7 +544,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93EA25DE2108EF1200E25254 /* FirebaseCoreDiagnostics.framework in Frameworks */,
 				93981C6B20F8FA9700298F4A /* nanopb.framework in Frameworks */,
 				93EA25DD2108D9E000E25254 /* FirebaseDynamicLinks.framework in Frameworks */,
 				AE57876120B5D87A0004A3EA /* FBSDKLoginKit.framework in Frameworks */,
