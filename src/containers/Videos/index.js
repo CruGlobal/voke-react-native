@@ -3,6 +3,7 @@ import { Alert, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
+import moment from 'moment';
 
 import {
   getVideos,
@@ -37,6 +38,7 @@ import StatusBar from '../../components/StatusBar';
 import ChannelInfo from '../../components/ChannelInfo';
 import { Flex } from '../../components/common';
 import theme from '../../theme';
+import { momentUtc } from '../../utils/common';
 
 class Videos extends Component {
   constructor(props) {
@@ -76,8 +78,16 @@ class Videos extends Component {
       navigateResetToNumber,
       navigateResetToProfile,
       user,
+      isAnonUser,
     } = this.props;
-    if (channel && channel.id) {
+
+    // When the user first does "Try it Now", their user is not set up, but they ARE an anon user
+    // Check if the user is new within the past few days
+    const isNewUser = !user.id && isAnonUser || (momentUtc(user.created_at) > moment().subtract(2, 'days'));
+
+    if (isNewUser) {
+      this.handleFilter('popular', true);
+    } else if (channel && channel.id) {
       this.setState({ isLoading: true });
       dispatch(getVideos(undefined, channel.id))
         .then(() => {
@@ -119,6 +129,8 @@ class Videos extends Component {
     } else {
       this.setState({ videos: all });
     }
+
+    // TODO: Handle filter
 
     if (onSelectVideo) {
       Analytics.screen(Analytics.s.VideosMessage);
@@ -561,6 +573,7 @@ Videos.propTypes = {
 const mapStateToProps = ({ auth, videos }) => ({
   all: videos.all,
   user: auth.user,
+  isAnonUser: auth.isAnonUser,
   popular: videos.popular,
   featured: videos.featured,
   favorites: videos.favorites,
