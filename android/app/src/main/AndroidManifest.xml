@@ -21,8 +21,6 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission-sdk-23 android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.READ_SMS" />
-    <!-- <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" /> -->
-    <!-- <uses-permission android:name="com.google.android.c2dm.permission.SEND" /> -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <permission
@@ -48,10 +46,6 @@
             android:value="4c6c9eb55214633c5eca4176c06b20bb8fd07a72" />
 
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
-
-        <!-- // Replace '1234567890' with your sender ID.
-		// IMPORTANT: Leave the trailing \0 intact!!! -->
-	    <!-- <meta-data android:name="com.wix.reactnativenotifications.gcmSenderId" android:value="360680446899\0"/> -->
 
         <activity
             android:name=".MainActivity"
