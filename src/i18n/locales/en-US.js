@@ -159,7 +159,7 @@ export default {
     invalid: 'Invalid email/password',
     enterValid: 'Please enter a valid email and password',
     login: 'Login',
-    existingAccount: `If you login with an existing account, you will lose any activity that you have on the guest account you have been using. If you would like to save this activity, please go back and create a new account.`,
+    existingAccount: `Successful login to an existing account from this screen will merge any guest account progress and conversations to your existing account.`,
   },
   modal: {
     moreTitle: 'Voke helps you start deeper conversations in two ways',
