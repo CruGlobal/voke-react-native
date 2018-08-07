@@ -1,8 +1,11 @@
-import { API_URL } from '../api/utils';
+import moment from 'moment';
 import { Vibration } from 'react-native';
-import CONSTANTS, { NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ, MESSAGE_CREATED } from '../constants';
+
+import { API_URL } from '../api/utils';
+import CONSTANTS, { NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ, MESSAGE_CREATED, PREVIEW_MESSAGE_CREATED } from '../constants';
 import callApi, { REQUESTS } from './api';
 import theme from '../theme';
+import { UTC_FORMAT } from '../utils/common';
 
 export function getConversations() {
   return (dispatch) => {
@@ -62,10 +65,28 @@ export function getMessages(data, page) {
 }
 
 export function createMessage(conversation, data) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     const query = {
       endpoint: `${API_URL}me/conversations/${conversation}/messages`,
     };
+    const messageObj = {
+      content: data.message ? data.message.content : '',
+      conversation_id: conversation,
+      created_at: moment().utc().format(UTC_FORMAT),
+      id: 'preview_message',
+      item: null,
+      kind: 'text',
+      messenger_id: getState().auth.user.id,
+    };
+    // Only create the message optimistically if there is content
+    if (messageObj.content) {
+      dispatch({
+        type: PREVIEW_MESSAGE_CREATED,
+        conversationId: conversation,
+        message: messageObj,
+      });
+    }
+
     return dispatch(callApi(REQUESTS.CREATE_MESSAGE, query, data)).then((results) => {
       dispatch({
         type: MESSAGE_CREATED,

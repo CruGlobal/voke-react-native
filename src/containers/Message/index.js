@@ -148,7 +148,6 @@ class Message extends Component {
   setLatestItem(conversationMessages) {
     const messages = conversationMessages ? conversationMessages : this.props.messages;
     const item = messages.find(m => m.item);
-    console.log('Setting latets item', item);
     if (item && item.item && item.messenger_id === this.props.me.id) {
       this.setState({ latestItem: item.item.id });
     }
@@ -251,11 +250,11 @@ class Message extends Component {
       };
     }
     Keyboard.dismiss();
+    this.setState({ text: '', kickstarterId: '' });
     this.props
       .dispatch(createMessage(this.props.conversation.id, data))
       .then(() => {
         Keyboard.dismiss();
-        this.setState({ text: '', kickstarterId: '' });
       });
   }
 
@@ -512,6 +511,7 @@ class Message extends Component {
                     icon="send"
                     iconStyle={styles.sendIcon}
                     onPress={this.createMessageEmpty}
+                    preventTimeout={1000}
                   />
                 </Flex>
               ) : null}

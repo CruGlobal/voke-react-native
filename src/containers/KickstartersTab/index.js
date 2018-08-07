@@ -33,7 +33,6 @@ class KickstartersTab extends Component {
 
   getKickstarters() {
     if (this.props.latestItem) {
-      console.log('I AM HERE');
       this.props
         .dispatch(getKickstarters(this.props.latestItem))
         .then(results => {

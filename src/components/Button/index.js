@@ -114,7 +114,7 @@ export default class Button extends Component {
     }
     const isDisabled = disabled || this.state.clickedDisabled || isLoading;
     return (
-      <Touchable {...rest} disabled={isDisabled} onPress={this.handlePress}>
+      <Touchable {...rest} disabled={isDisabled} onPress={isDisabled ? () => {} : this.handlePress}>
         <View
           hitSlop={hitSlop}
           style={[
