@@ -105,7 +105,9 @@ class Message extends Component {
         nextProps.messages[0] &&
         this.props.messages[0].id !== nextProps.messages[0].id)
     ) {
-      this.createMessageReadInteraction(nextProps.messages[0]);
+      if (nextProps.messages[0].id !== 'preview_message') {
+        this.createMessageReadInteraction(nextProps.messages[0]);
+      }
     }
 
     if (!theme.isAndroid) {
@@ -146,7 +148,9 @@ class Message extends Component {
   }
 
   setLatestItem(conversationMessages) {
-    const messages = conversationMessages ? conversationMessages : this.props.messages;
+    const messages = conversationMessages
+      ? conversationMessages
+      : this.props.messages;
     const item = messages.find(m => m.item);
     if (item && item.item && item.messenger_id === this.props.me.id) {
       this.setState({ latestItem: item.item.id });
@@ -196,7 +200,10 @@ class Message extends Component {
   pauseVideo() {
     if (this.state.selectedVideo && this.videoPlayer) {
       // Get the redux instance and call the pause method
-      this.videoPlayer.getWrappedInstance().getWrappedInstance().pause();
+      this.videoPlayer
+        .getWrappedInstance()
+        .getWrappedInstance()
+        .pause();
     }
   }
 
@@ -255,6 +262,7 @@ class Message extends Component {
       .dispatch(createMessage(this.props.conversation.id, data))
       .then(() => {
         Keyboard.dismiss();
+        this.setState({ text: '', kickstarterId: '' });
       });
   }
 
@@ -378,9 +386,7 @@ class Message extends Component {
       height:
         height < 40
           ? 50 + extraPadding
-          : height > 80
-            ? 90 + extraPadding
-            : height + 10 + extraPadding,
+          : height > 80 ? 90 + extraPadding : height + 10 + extraPadding,
     };
 
     return (
@@ -565,9 +571,4 @@ const mapStateToProps = ({ messages, auth }, { navigation }) => {
   };
 };
 
-export default translate()(
-  connect(
-    mapStateToProps,
-    nav,
-  )(Message),
-);
+export default translate()(connect(mapStateToProps, nav)(Message));
