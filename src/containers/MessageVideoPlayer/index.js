@@ -56,7 +56,7 @@ class MessageVideoPlayer extends Component {
     const videoMedia = video.media || {};
     const videoType = videoMedia.type;
     return (
-      <Flex animation="slideInUp" duration={500} style={styles.video}>
+      <Flex style={styles.video}>
         <WebviewVideo
           ref={c => (this.webview = c)}
           type={videoType}
@@ -92,10 +92,7 @@ const mapStateToProps = ({ auth }, { message }) => ({
 });
 
 export default translate(undefined, { wait: true, withRef: true })(
-  connect(
-    mapStateToProps,
-    undefined,
-    undefined,
-    { withRef: true },
-  )(MessageVideoPlayer),
+  connect(mapStateToProps, undefined, undefined, { withRef: true })(
+    MessageVideoPlayer,
+  ),
 );

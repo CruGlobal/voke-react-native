@@ -83,7 +83,9 @@ class Videos extends Component {
 
     // When the user first does "Try it Now", their user is not set up, but they ARE an anon user
     // Check if the user is new within the past few days
-    const isNewUser = !user.id && isAnonUser || (momentUtc(user.created_at) > moment().subtract(2, 'days'));
+    const isNewUser =
+      (!user.id && isAnonUser) ||
+      momentUtc(user.created_at) > moment().subtract(2, 'days');
 
     if (isNewUser) {
       this.handleFilter('popular', true);
@@ -149,8 +151,7 @@ class Videos extends Component {
     if (this.state.selectedFilter === 'themes') {
       return Promise.resolve();
     }
-    this.setState({ emptyRefreshing: true });
-    return this.handleFilter(this.state.selectedFilter);
+    return this.handleFilter(this.state.selectedFilter, undefined, true);
   }
 
   handleThemeSelect(tag) {
@@ -238,7 +239,7 @@ class Videos extends Component {
   }
 
   // This method should return a Promise so that it can handle refreshing correctly
-  handleFilter(filter, shouldntScroll) {
+  handleFilter(filter, shouldntScroll, isRefreshing) {
     if (filter === 'themes') {
       // Prevent getting into the state of both previous and selected filter being 'themes'
       this.setState({
@@ -257,36 +258,57 @@ class Videos extends Component {
       }
     }
     const channelId = this.props.channel ? this.props.channel.id : undefined;
-
+    this.setState({
+      isLoading: isRefreshing ? false : true,
+      videos: isRefreshing ? this.state.videos : [],
+    });
     if (filter === 'featured') {
       return this.props
         .dispatch(getFeaturedVideos(undefined, channelId))
         .then(r => {
+          this.setState({ isLoading: false });
           this.updateVideoList(filter);
           return r;
-        });
+        })
+        .catch(() => this.setState({ isLoading: false }));
     } else if (filter === 'popular') {
       return this.props
         .dispatch(getPopularVideos(undefined, channelId))
         .then(r => {
+          this.setState({ isLoading: false });
           this.updateVideoList(filter);
           return r;
-        });
+        })
+        .catch(() => this.setState({ isLoading: false }));
     } else if (filter === 'all') {
-      return this.props.dispatch(getVideos(undefined, channelId)).then(r => {
-        this.updateVideoList(filter);
-        return r;
-      });
+      return this.props
+        .dispatch(getVideos(undefined, channelId))
+        .then(r => {
+          this.setState({ isLoading: false });
+          this.updateVideoList(filter);
+          return r;
+        })
+        .catch(() => this.setState({ isLoading: false }));
     } else if (filter === 'themes') {
-      return this.props.dispatch(getTags()).then(r => {
-        this.showThemes();
-        return r;
-      });
+      return this.props
+        .dispatch(getTags())
+        .then(r => {
+          this.setState({ isLoading: false });
+          this.showThemes();
+          return r;
+        })
+        .catch(() => this.setState({ isLoading: false }));
     } else if (filter === 'favorites') {
-      return this.props.dispatch(getFavorites(undefined, channelId)).then(r => {
-        this.updateVideoList(filter);
-        return r;
-      });
+      return this.props
+        .dispatch(getFavorites(undefined, channelId))
+        .then(r => {
+          this.setState({ isLoading: false });
+          this.updateVideoList(filter);
+          return r;
+        })
+        .catch(() => this.setState({ isLoading: false }));
+    } else {
+      this.setState({ isLoading: false });
     }
     return Promise.resolve();
   }
@@ -583,9 +605,4 @@ const mapStateToProps = ({ auth, videos }) => ({
   pagination: videos.pagination,
 });
 
-export default translate('videos')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(Videos),
-);
+export default translate('videos')(connect(mapStateToProps, nav)(Videos));
