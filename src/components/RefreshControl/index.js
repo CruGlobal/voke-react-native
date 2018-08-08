@@ -21,29 +21,33 @@ export default class MyRefreshControl extends Component {
       this.setState({ showImage: true });
     } else if (!nextProps.refreshing && this.props.refreshing) {
       if (this.timeout) clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => this.setState({ showImage: false }), 1000);
+      this.timeout = setTimeout(
+        () => this.setState({ showImage: false }),
+        1000,
+      );
     }
   }
-  
+
   render() {
-    // Android cannot render a gif inside the 
+    // Android cannot render a gif inside the
     if (theme.isAndroid) {
       return <RefreshControl {...this.props} />;
     }
     return (
       <RefreshControl
         {...this.props}
-        {...(this.props.refreshing ? {
-          tintColor: COLORS.TRANSPARENT,
-          progressBackgroundColor: COLORS.TRANSPARENT,
-          color: [COLORS.TRANSPARENT],
-        } : {})}
-        style={styles.control}>
-        {
-          this.state.showImage ? (
-            <Image resizeMode="contain" source={ANIMATION} style={styles.image}  />
-          ) : null
-        }
+        {...(this.props.refreshing
+          ? {
+              tintColor: COLORS.TRANSPARENT,
+              progressBackgroundColor: COLORS.TRANSPARENT,
+              color: [COLORS.TRANSPARENT],
+            }
+          : {})}
+        style={styles.control}
+      >
+        {this.state.showImage ? (
+          <Image resizeMode="contain" source={ANIMATION} style={styles.image} />
+        ) : null}
       </RefreshControl>
     );
   }

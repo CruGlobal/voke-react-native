@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, KeyboardAvoidingView, Linking, Alert, Keyboard } from 'react-native';
+import {
+  ScrollView,
+  KeyboardAvoidingView,
+  Linking,
+  Alert,
+  Keyboard,
+} from 'react-native';
+import { translate } from 'react-i18next';
 
 import Analytics from '../../utils/analytics';
 import styles from './styles';
-import { createAccountAction, updateMe } from '../../actions/auth';
+import { updateMe } from '../../actions/auth';
 import nav, { NavPropTypes } from '../../actions/nav';
 import { Flex, Text, Button } from '../../components/common';
 import ApiLoading from '../ApiLoading';
@@ -12,6 +19,7 @@ import FacebookButton from '../FacebookButton';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeader from '../../components/SignUpHeader';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
+import PrivacyToS from '../../components/PrivacyToS';
 import CONSTANTS, { RESET_ANON_USER } from '../../constants';
 import theme from '../../theme';
 
@@ -26,22 +34,23 @@ class SignUpAccount extends Component {
     };
     // this.createAccount = this.createAccount.bind(this);
     this.checkEmail = this.checkEmail.bind(this);
-    this.handleLink = this.handleLink.bind(this);
   }
 
   componentDidMount() {
-    Analytics.screen('Create Account');
+    Analytics.screen(Analytics.s.CreateAccount);
   }
 
   moveForward(results) {
+    const { t, navigatePush } = this.props;
     if (results.errors) {
-      Alert.alert('Error', `${results.errors}`);
+      Alert.alert(t('error.error'), `${results.errors}`);
     } else {
-      this.props.navigatePush('voke.SignUpProfile');
+      navigatePush('voke.SignUpProfile');
     }
   }
 
   updateAnonAccount = () => {
+    const { t, dispatch } = this.props;
     const data = {
       me: {
         email: this.state.email,
@@ -49,71 +58,51 @@ class SignUpAccount extends Component {
       },
     };
     this.setState({ isLoading: true });
-    this.props.dispatch(updateMe(data)).then((results) => {
-      this.setState({ isLoading: false });
-      this.props.dispatch({ type: RESET_ANON_USER });
-      this.moveForward(results);
-    }).catch((err) => {
-      this.setState({ isLoading: false });
-      LOG('error', err);
-      if (err && err.errors && err.errors.includes('Email has already been taken')) {
-        Alert.alert('Error Creating Account', 'Email has already been taken.');
-      }
-    });
-  }
-  //
-  // createAccount() {
-  //   if (this.state.emailValidation && this.state.password) {
-  //     if (this.state.password.length < 8) {
-  //       Alert.alert('Invalid password', 'Passwords must be at least 8 characters');
-  //       return;
-  //     }
-  //     if (this.props.isAnonUser) {
-  //       this.updateAnonAccount();
-  //       return;
-  //     }
-  //     this.setState({ isLoading: true });
-  //     this.props.dispatch(createAccountAction(this.state.email, this.state.password)).then((results) => {
-  //       this.setState({ isLoading: false });
-  //       this.moveForward(results);
-  //     }).catch((err) => {
-  //       this.setState({ isLoading: false });
-  //       LOG('error', err);
-  //       if (err && err.errors && err.errors.includes('Email has already been taken')) {
-  //         Alert.alert('Error Creating Account', 'Email has already been taken.');
-  //       }
-  //     });
-  //   } else {
-  //     Alert.alert('Invalid email/password', 'Please enter a valid email and password');
-  //   }
-  //   // // This is just for testing
-  //   // this.props.navigatePush('voke.SignUpProfile');
-  // }
+    dispatch(updateMe(data))
+      .then(results => {
+        this.setState({ isLoading: false });
+        dispatch({ type: RESET_ANON_USER });
+        this.moveForward(results);
+      })
+      .catch(err => {
+        this.setState({ isLoading: false });
+        LOG('error', err);
+        if (
+          err &&
+          err.errors &&
+          err.errors.includes('Email has already been taken')
+        ) {
+          Alert.alert(t('errorCreating'), t('emailTaken'));
+        }
+      });
+  };
 
   checkEmail(text) {
     const emailValidation = CONSTANTS.EMAIL_REGEX.test(text);
     this.setState({ email: text, emailValidation });
   }
 
-  handleLink(url) {
-    Linking.openURL(url);
-  }
-
   render() {
+    const { t } = this.props;
     return (
-      <ScrollView keyboardShouldPersistTaps={theme.isAndroid ? 'handled' : 'always'} style={styles.container}>
+      <ScrollView
+        keyboardShouldPersistTaps={theme.isAndroid ? 'handled' : 'always'}
+        style={styles.container}
+      >
         <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
-        <KeyboardAvoidingView behavior={theme.isAndroid ? undefined : 'position'}>
+        <KeyboardAvoidingView
+          behavior={theme.isAndroid ? undefined : 'position'}
+        >
           <SignUpHeader
-            title="Create Account"
-            description="Creating your account allows you to keep your conversations safe, retain your progress and access Voke from anywhere"
-            onPress={()=> Keyboard.dismiss()}
+            title={t('title.createAccount')}
+            description={t('accountDescription')}
+            onPress={() => Keyboard.dismiss()}
           />
           <Flex value={1} align="center" justify="start" style={styles.inputs}>
             <SignUpInput
               value={this.state.email}
               onChangeText={this.checkEmail}
-              placeholder="Email"
+              placeholder={t('placeholder.email')}
               autoCorrect={true}
               blurOnSubmit={false}
               keyboardType="email-address"
@@ -121,49 +110,29 @@ class SignUpAccount extends Component {
               onSubmitEditing={() => this.password.focus()}
             />
             <SignUpInput
-              ref={(c) => this.password = c}
+              ref={c => (this.password = c)}
               value={this.state.password}
-              onChangeText={(text) => this.setState({ password: text })}
-              placeholder="Password"
+              onChangeText={text => this.setState({ password: text })}
+              placeholder={t('placeholder.password')}
               secureTextEntry={true}
             />
             <Flex style={styles.buttonWrapper}>
               <Button
-                text="Create Account"
+                text={t('createAccount')}
                 buttonTextStyle={styles.signInButton}
                 style={styles.actionButton}
                 onPress={this.updateAnonAccount}
               />
             </Flex>
             <Flex direction="column">
-              <Text style={styles.legalText}>By creating an account you agree to our </Text>
-              <Flex direction="row" align="center" justify="center">
-                <Button
-                  text="Privacy Policy"
-                  type="transparent"
-                  buttonTextStyle={styles.legalLinkText}
-                  style={styles.legalLink}
-                  onPress={() => this.handleLink(CONSTANTS.WEB_URLS.PRIVACY)}
-                />
-                <Text style={styles.legalText}>and
-                </Text>
-                <Button
-                  text="Terms of Service"
-                  type="transparent"
-                  buttonTextStyle={styles.legalLinkText}
-                  style={styles.legalLink}
-                  onPress={() => this.handleLink(CONSTANTS.WEB_URLS.TERMS)}
-                />
-              </Flex>
+              <PrivacyToS style={styles.legalText} type="create" />
               <Flex style={{ paddingTop: 20 }}>
                 <FacebookButton />
               </Flex>
             </Flex>
           </Flex>
         </KeyboardAvoidingView>
-        {
-          this.state.isLoading ? <ApiLoading force={true} /> : null
-        }
+        {this.state.isLoading ? <ApiLoading force={true} /> : null}
       </ScrollView>
     );
   }
@@ -177,4 +146,9 @@ const mapStateToProps = ({ auth }, { navigation }) => ({
   isAnonUser: auth.isAnonUser,
 });
 
-export default connect(mapStateToProps, nav)(SignUpAccount);
+export default translate('signUp')(
+  connect(
+    mapStateToProps,
+    nav,
+  )(SignUpAccount),
+);

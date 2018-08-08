@@ -32,20 +32,23 @@ import ForgotPassword from './containers/ForgotPassword';
 import SignUpFBAccount from './containers/SignUpFBAccount';
 import Channels from './containers/Channels';
 
-
 import theme from './theme';
 
 // Do custom animations between pages
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 const verticalPages = ['voke.Menu', 'voke.VideoDetails', 'voke.CountrySelect'];
 const customAnimationFunc = () => ({
-  screenInterpolator: (sceneProps) => {
-
+  screenInterpolator: sceneProps => {
     const from = sceneProps.scenes[0];
     const to = sceneProps.scenes[1];
     const current = sceneProps.scene.route.routeName;
     // If navigating to a vertical slide page, don't move the old page away sideways (translateX)
-    if (from && to && from.route.routeName === current && verticalPages.includes(to.route.routeName)) {
+    if (
+      from &&
+      to &&
+      from.route.routeName === current &&
+      verticalPages.includes(to.route.routeName)
+    ) {
       return {
         ...CardStackStyleInterpolator.forHorizontal(sceneProps),
         transform: [{ translateX: 0 }],
@@ -64,9 +67,10 @@ import VIDEOS_ICON_INACTIVE from '../images/videosInactive.png';
 import CHANNELS_ICON_INACTIVE from '../images/channelsInactive.png';
 import ADVENTURE_ICON from '../images/adventureIcon.png';
 import ADVENTURE_ICON_INACTIVE from '../images/adventureInactive.png';
+import { IS_SMALL_ANDROID } from './constants';
 
 const ICON_SIZE = theme.isAndroid ? 25 : 26;
-const navIcon = (active, inactive) => ({tintColor}) => (
+const navIcon = (active, inactive) => ({ tintColor }) => (
   <Image
     resizeMode="contain"
     resizeMethod="scale"
@@ -75,106 +79,119 @@ const navIcon = (active, inactive) => ({tintColor}) => (
   />
 );
 
-
-export const MainTabRoutes = TabNavigator({
-  'voke.Home': {
-    screen: Home,
-    navigationOptions: {
-      tabBarLabel: 'Home',
-      tabBarIcon: ({ tintColor }) => <BadgeHomeIcon isActive={tintColor === theme.lightText} />,
+export const MainTabRoutes = TabNavigator(
+  {
+    'voke.Home': {
+      screen: Home,
+      navigationOptions: {
+        tabBarLabel: 'Home',
+        tabBarIcon: ({ tintColor }) => (
+          <BadgeHomeIcon isActive={tintColor === theme.lightText} />
+        ),
+      },
+    },
+    'voke.Videos': {
+      screen: Videos,
+      navigationOptions: {
+        tabBarLabel: 'Videos',
+        tabBarIcon: navIcon(VIDEOS_ICON, VIDEOS_ICON_INACTIVE),
+      },
+    },
+    'voke.Channels': {
+      screen: Channels,
+      navigationOptions: {
+        tabBarLabel: 'Channels',
+        tabBarIcon: navIcon(CHANNELS_ICON, CHANNELS_ICON_INACTIVE),
+      },
+    },
+    'voke.Adventures': {
+      screen: Adventures,
+      navigationOptions: {
+        tabBarLabel: 'Adventure',
+        tabBarIcon: navIcon(ADVENTURE_ICON, ADVENTURE_ICON_INACTIVE),
+      },
     },
   },
-  'voke.Videos': {
-    screen: Videos,
-    navigationOptions: {
-      tabBarLabel: 'Videos',
-      tabBarIcon: navIcon(VIDEOS_ICON, VIDEOS_ICON_INACTIVE),
+  {
+    tabBarOptions: {
+      showIcon: true,
+      showLabel: true,
+      activeTintColor: theme.lightText,
+      inactiveTintColor: theme.primaryColor,
+      // ios props
+      // activeBackgroundColor: theme.convert({ color: theme.secondaryColor, lighten: 0.1 }),
+      inactiveBackgroundColor: theme.secondaryColor,
+      // android props
+      iconStyle: { width: 60 },
+      tabStyle: {
+        backgroundColor: theme.secondaryColor,
+        paddingTop: theme.isAndroid ? 13 : 0,
+      },
+      labelStyle: {
+        fontSize: theme.isAndroid ? (IS_SMALL_ANDROID ? 8 : 10) : 12,
+        paddingBottom: theme.isAndroid ? 0 : 10,
+      },
+      style: { backgroundColor: theme.secondaryColor, height: 70 },
+      scrollEnabled: false,
     },
+    swipeEnabled: false,
+    initialRouteName: 'voke.Home',
+    tabBarPosition: 'bottom',
+    animationEnabled: false,
+    // lazy: false, // Load all tabs right away
+    lazy: true,
   },
-  'voke.Channels': {
-    screen: Channels,
-    navigationOptions: {
-      tabBarLabel: 'Channels',
-      tabBarIcon: navIcon(CHANNELS_ICON, CHANNELS_ICON_INACTIVE),
-    },
-  },
-  'voke.Adventures': {
-    screen: Adventures,
-    navigationOptions: {
-      tabBarLabel: 'Adventure',
-      tabBarIcon: navIcon(ADVENTURE_ICON, ADVENTURE_ICON_INACTIVE),
-    },
-  },
-}, {
-  tabBarOptions: {
-    showIcon: true,
-    showLabel: true,
-    activeTintColor: theme.lightText,
-    inactiveTintColor: theme.primaryColor,
-    // ios props
-    // activeBackgroundColor: theme.convert({ color: theme.secondaryColor, lighten: 0.1 }),
-    inactiveBackgroundColor: theme.secondaryColor,
-    // android props
-    iconStyle: { width: 60 },
-    tabStyle: { backgroundColor: theme.secondaryColor, paddingTop: theme.isAndroid ? 13 : 0 },
-    labelStyle: { fontSize: theme.isAndroid ? 9 : 12, paddingBottom: theme.isAndroid ? 0 : 10 },
-    style: { backgroundColor: theme.secondaryColor, height: 70 },
-    scrollEnabled: false,
-  },
-  swipeEnabled: false,
-  initialRouteName: 'voke.Home',
-  tabBarPosition: 'bottom',
-  animationEnabled: false,
-  // lazy: false, // Load all tabs right away
-  lazy: true,
-});
+);
 const noGestures = { navigationOptions: { gesturesEnabled: false } };
-export const MainStackRoutes = StackNavigator({
-  'voke.About': { screen: About },
-  'voke.Acknowledgements': { screen: Acknowledgements },
-  'voke.CountrySelect': { screen: CountrySelect },
-  'voke.ForgotPassword': { screen: ForgotPassword },
-  'voke.Help': { screen: Help },
-  'voke.KickstartersTab': { screen: KickstartersTab },
-  'voke.Loading': { screen: LoadingScreen },
-  'voke.LoginInput': { screen: LoginInput },
-  'voke.Message': { screen: Message },
-  'voke.Profile': { screen: Profile },
-  'voke.SignUpAccount': { screen: SignUpAccount },
-  'voke.SignUpFBAccount': { screen: SignUpFBAccount },
-  'voke.SignUpNumber': {
-    screen: SignUpNumber,
-    ...noGestures,
+export const MainStackRoutes = StackNavigator(
+  {
+    'voke.About': { screen: About },
+    'voke.Acknowledgements': { screen: Acknowledgements },
+    'voke.CountrySelect': { screen: CountrySelect },
+    'voke.ForgotPassword': { screen: ForgotPassword },
+    'voke.Help': { screen: Help },
+    'voke.KickstartersTab': { screen: KickstartersTab },
+    'voke.Loading': { screen: LoadingScreen },
+    'voke.LoginInput': { screen: LoginInput },
+    'voke.Message': { screen: Message },
+    'voke.Profile': { screen: Profile },
+    'voke.SignUpAccount': { screen: SignUpAccount },
+    'voke.SignUpFBAccount': { screen: SignUpFBAccount },
+    'voke.SignUpNumber': {
+      screen: SignUpNumber,
+      ...noGestures,
+    },
+    'voke.SignUpNumberVerify': {
+      screen: SignUpNumberVerify,
+      ...noGestures,
+    },
+    'voke.SignUpProfile': {
+      screen: SignUpProfile,
+      ...noGestures,
+    },
+    'voke.SignUpWelcome': { screen: SignUpWelcome },
+    'voke.Menu': { screen: Menu },
+    'voke.Contacts': { screen: Contacts },
+    'voke.SelectFriend': { screen: SelectFriend },
+    'voke.VideoDetails': {
+      screen: VideoDetails,
+      ...noGestures,
+    },
+    'voke.VideosTab': { screen: VideosTab },
+    'voke.TryItNowName': { screen: TryItNowName },
+    'voke.ShareFlow': { screen: ShareFlow },
+    MainTabs: {
+      screen: MainTabRoutes,
+      ...noGestures,
+    },
   },
-  'voke.SignUpNumberVerify': {
-    screen: SignUpNumberVerify,
-    ...noGestures,
+  {
+    initialRouteName: 'MainTabs',
+    transitionConfig: customAnimationFunc,
+    navigationOptions: {
+      header: null,
+    },
   },
-  'voke.SignUpProfile': {
-    screen: SignUpProfile,
-    ...noGestures,
-  },
-  'voke.SignUpWelcome': { screen: SignUpWelcome },
-  'voke.Menu': { screen: Menu },
-  'voke.Contacts': { screen: Contacts },
-  'voke.SelectFriend': { screen: SelectFriend },
-  'voke.VideoDetails': {
-    screen: VideoDetails,
-    ...noGestures,
-  },
-  'voke.VideosTab': { screen: VideosTab },
-  'voke.TryItNowName': { screen: TryItNowName },
-  'voke.ShareFlow': { screen: ShareFlow },
-  MainTabs: {
-    screen: MainTabRoutes,
-    ...noGestures,
-  },
-}, {
-  initialRouteName: 'MainTabs',
-  transitionConfig: customAnimationFunc,
-  navigationOptions: {
-    header: null,
-  },
-});
+);
 
 export const MainRoutes = MainStackRoutes;

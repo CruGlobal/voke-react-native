@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { translate } from 'react-i18next';
 
 import { navigatePush } from '../../actions/nav';
 import { Flex, Button, Text } from '../../components/common';
@@ -8,16 +9,18 @@ import styles from './styles';
 
 class SignUpButtons extends Component {
   render() {
-    const { filled } = this.props;
+    const { t, filled } = this.props;
     return (
       <Flex align="center" justify="center" style={styles.actions}>
         <Flex style={styles.buttonWrapper}>
           <Button
-            text="Sign Up with Email"
+            text={t('signUpEmail')}
             icon="mail-outline"
             type={filled ? 'filled' : undefined}
             style={[styles.actionButton, filled ? styles.filled : null]}
-            onPress={() => this.props.dispatch(navigatePush('voke.SignUpAccount'))}
+            onPress={() =>
+              this.props.dispatch(navigatePush('voke.SignUpAccount'))
+            }
           />
         </Flex>
         <Flex style={styles.buttonWrapper}>
@@ -26,10 +29,17 @@ class SignUpButtons extends Component {
             style={filled ? styles.filled : undefined}
           />
         </Flex>
-        <Flex direction="row" align="center" justify="center" style={styles.haveAccount}>
-          <Text style={[styles.signIn, filled ? styles.signInFilled : null]}>Already have an account?</Text>
+        <Flex
+          direction="row"
+          align="center"
+          justify="center"
+          style={styles.haveAccount}
+        >
+          <Text style={[styles.signIn, filled ? styles.signInFilled : null]}>
+            {t('haveAccount')}
+          </Text>
           <Button
-            text="Sign In"
+            text={t('signIn')}
             type="transparent"
             buttonTextStyle={styles.signInText}
             onPress={() => this.props.dispatch(navigatePush('voke.LoginInput'))}
@@ -40,4 +50,4 @@ class SignUpButtons extends Component {
   }
 }
 
-export default connect()(SignUpButtons);
+export default translate()(connect()(SignUpButtons));

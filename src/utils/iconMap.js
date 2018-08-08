@@ -1,4 +1,3 @@
-import { PixelRatio } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import theme from '../theme';
@@ -37,7 +36,6 @@ import OPTIONAL_ACTIVE from '../../images/optionalActive.png';
 import OPTIONAL_COMPLETED from '../../images/optionalCompleted.png';
 import OPTIONAL_INACTIVE from '../../images/optionalInactive.png';
 
-
 // const navIconSize = (theme.isAndroid) ? PixelRatio.getPixelSizeForLayoutSize(10) : 30;
 const navIconSize = 30;
 
@@ -62,46 +60,46 @@ const icons = {
 };
 
 let iconsMap = {};
-const iconsLoaded = new Promise((resolve) => {
+const iconsLoaded = new Promise(resolve => {
   new Promise.all(
     Object.keys(icons).map(iconName =>
-      Ionicons.getImageSource(
-        iconName,
-        icons[iconName][0],
-        icons[iconName][1]
-      ))
-  ).then(sources => {
-    Object.keys(icons)
-      .forEach((iconName, idx) => (iconsMap[iconName] = sources[idx]));
-    resolve(true);
-  }).catch(() => {
-    resolve(false);
-  });
+      Ionicons.getImageSource(iconName, icons[iconName][0], icons[iconName][1]),
+    ),
+  )
+    .then(sources => {
+      Object.keys(icons).forEach(
+        (iconName, idx) => (iconsMap[iconName] = sources[idx]),
+      );
+      resolve(true);
+    })
+    .catch(() => {
+      resolve(false);
+    });
 });
 
 const vokeIcons = {
-  'arrow': ARROW,
-  'delete': DELETE_ICON,
-  'block': BLOCK_ICON,
+  arrow: ARROW,
+  delete: DELETE_ICON,
+  block: BLOCK_ICON,
   'read-arrow': READ_ARROW,
   'unread-arrow': UNREAD_ARROW,
   'to-chat': TO_CHAT,
-  'selected': SELECTED,
+  selected: SELECTED,
   'not-selected': NOT_SELECTED,
-  'thumb': THUMB_SLIDER,
-  'play': PLAY_BUTTON,
-  'pause': PAUSE_BUTTON,
-  'fullscreen': FULLSCREEN_BUTTON,
-  'back': BACK_ICON,
+  thumb: THUMB_SLIDER,
+  play: PLAY_BUTTON,
+  pause: PAUSE_BUTTON,
+  fullscreen: FULLSCREEN_BUTTON,
+  back: BACK_ICON,
   'video-back': VIDEO_BACK,
-  'menu': MENU_ICON,
-  'film': FILM_ICON,
-  'kickstarter': KICKSTARTERS,
-  'home': HOME_ICON,
+  menu: MENU_ICON,
+  film: FILM_ICON,
+  kickstarter: KICKSTARTERS,
+  home: HOME_ICON,
   'add-video': ADD_VIDEOS_ICON,
   'add-kickstarter': ADD_KICKSTARTERS_ICON,
-  'plus': PLUS_ICON,
-  'search': SEARCH_ICON,
+  plus: PLUS_ICON,
+  search: SEARCH_ICON,
   'home-dot': HOME_DOT,
   'onboard-film': ONBOARD_FILM,
   'onboard-chat': ONBOARD_CHAT,
@@ -114,8 +112,4 @@ const vokeIcons = {
   'optional-inactive': OPTIONAL_INACTIVE,
 };
 
-export {
-  iconsMap,
-  iconsLoaded,
-  vokeIcons,
-};
+export { iconsMap, iconsLoaded, vokeIcons };

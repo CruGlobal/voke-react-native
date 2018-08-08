@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import { View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
+import { translate } from 'react-i18next';
 
-import { getAllOrganizations, getMyOrganizations, getFeaturedOrganizations } from '../../actions/channels';
+import {
+  getAllOrganizations,
+  getMyOrganizations,
+  getFeaturedOrganizations,
+} from '../../actions/channels';
 import Analytics from '../../utils/analytics';
 import nav, { NavPropTypes } from '../../actions/nav';
 import styles from './styles';
@@ -17,13 +22,17 @@ import { Flex, Text, RefreshControl } from '../../components/common';
 import theme from '../../theme';
 
 class Channels extends Component {
-
   state = { refreshing: false };
 
   componentDidMount() {
-    Analytics.screen('Channels');
+    Analytics.screen(Analytics.s.ChannelsTab);
 
-    LOG('channels', this.props.myChannels, this.props.featuredChannels, this.props.allChannels);
+    LOG(
+      'channels',
+      this.props.myChannels,
+      this.props.featuredChannels,
+      this.props.allChannels,
+    );
     if (this.props.allChannels.length > 0) {
       return;
     }
@@ -34,9 +43,9 @@ class Channels extends Component {
     this.props.dispatch(getAllOrganizations());
     this.props.dispatch(getMyOrganizations());
     this.props.dispatch(getFeaturedOrganizations());
-  }
+  };
 
-  handleNextPage = (filter) => {
+  handleNextPage = filter => {
     const pagination = this.props.pagination;
     if (!pagination[filter] || !pagination[filter].hasMore) {
       return;
@@ -44,74 +53,79 @@ class Channels extends Component {
     const page = pagination[filter].page + 1;
     const query = { page };
 
-
     if (filter === 'featured') {
       this.props.dispatch(getFeaturedOrganizations(query));
     } else if (filter === 'myChannels') {
-      this.props.dispatch(getMyOrganizations());
+      this.props.dispatch(getMyOrganizations(query));
     } else if (filter === 'all') {
-      this.props.dispatch(getAllOrganizations());
+      this.props.dispatch(getAllOrganizations(query));
     }
-  }
+  };
 
   render() {
-    const { allChannels, myChannels, featuredChannels } = this.props;
+    const {
+      t,
+      navigatePush,
+      allChannels,
+      myChannels,
+      featuredChannels,
+    } = this.props;
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
         <Header
           left={
-            theme.isAndroid ? undefined : (
+            theme.isAndroid ? (
+              undefined
+            ) : (
               <HeaderIcon
                 image={vokeIcons['menu']}
-                onPress={() => this.props.navigatePush('voke.Menu')} />
+                onPress={() => navigatePush('voke.Menu')}
+              />
             )
           }
           right={
             theme.isAndroid ? (
-              <PopupMenu
-                actions={navMenuOptions(this.props)}
-              />
+              <PopupMenu actions={navMenuOptions(this.props)} />
             ) : null
           }
-          title="Channels"
+          title={t('title.channels')}
         />
         <ScrollView
-          refreshControl={<RefreshControl
-            refreshing={this.state.refreshing}
-            onRefresh={this.handleRefreshAll}
-          />}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.handleRefreshAll}
+            />
+          }
         >
-          <Text style={styles.title}>MY CHANNELS</Text>
+          <Text style={styles.title}>{t('myChannels').toUpperCase()}</Text>
           <ChannelsList
-            ref={(c) => this.myChannelsList = c}
             items={myChannels}
-            onSelect={(c) => {
-              this.props.navigatePush('voke.VideosTab', {
+            onSelect={c => {
+              navigatePush('voke.VideosTab', {
                 channel: c,
               });
             }}
             onLoadMore={() => this.handleNextPage('myChannels')}
           />
           <Flex self="stretch" style={styles.separator} />
-          <Text style={styles.title}>FEATURED</Text>
+          <Text style={styles.title}>{t('featured').toUpperCase()}</Text>
           <ChannelsList
-            ref={(c) => this.featuredList = c}
             items={featuredChannels}
-            onSelect={(c) => {
-              this.props.navigatePush('voke.VideosTab', {
+            onSelect={c => {
+              navigatePush('voke.VideosTab', {
                 channel: c,
               });
             }}
             onLoadMore={() => this.handleNextPage('featured')}
           />
           <Flex self="stretch" style={styles.separator} />
-          <Text style={styles.title}>BROWSE</Text>
+          <Text style={styles.title}>{t('browse').toUpperCase()}</Text>
           <ChannelsList
-            ref={(c) => this.browseChannelsList = c}
             items={allChannels}
-            onSelect={(c) => {
-              this.props.navigatePush('voke.VideosTab', {
+            onSelect={c => {
+              navigatePush('voke.VideosTab', {
                 channel: c,
               });
             }}
@@ -138,4 +152,9 @@ const mapStateToProps = ({ auth, channels }) => ({
   isAnonUser: auth.isAnonUser,
 });
 
-export default connect(mapStateToProps, nav)(Channels);
+export default translate('channels')(
+  connect(
+    mapStateToProps,
+    nav,
+  )(Channels),
+);

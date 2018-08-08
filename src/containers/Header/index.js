@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { translate } from 'react-i18next';
 
-// import { logout } from '../../actions/auth';
 import { navigateBack } from '../../actions/nav';
 import styles from './styles';
 import theme from '../../theme';
@@ -13,11 +13,17 @@ export const HeaderIcon = ({ type, icon, ...rest }) => {
   let myProps = {};
   if (type) {
     if (type === 'back') {
-      if (theme.isAndroid) { myProps.icon = 'arrow-back'; }
-      else { myProps.image = vokeIcons['back']; }
+      if (theme.isAndroid) {
+        myProps.icon = 'arrow-back';
+      } else {
+        myProps.image = vokeIcons['back'];
+      }
     } else if (type === 'search') {
-      if (theme.isAndroid) { myProps.icon = 'search'; }
-      else { myProps.image = vokeIcons['search']; }
+      if (theme.isAndroid) {
+        myProps.icon = 'search';
+      } else {
+        myProps.image = vokeIcons['search'];
+      }
     }
   } else {
     myProps.icon = icon;
@@ -44,13 +50,15 @@ class Header extends Component {
         left = (
           <HeaderIcon
             icon="arrow-back"
-            onPress={() => this.props.dispatch(navigateBack())} />
+            onPress={() => this.props.dispatch(navigateBack())}
+          />
         );
       } else {
         left = (
           <HeaderIcon
             image={vokeIcons['back']}
-            onPress={() => this.props.dispatch(navigateBack())} />
+            onPress={() => this.props.dispatch(navigateBack())}
+          />
         );
       }
     }
@@ -96,7 +104,8 @@ class Header extends Component {
           styles.header,
           light ? styles.light : styles.dark,
           shadow ? styles.shadow : undefined,
-        ]}>
+        ]}
+      >
         {this.renderLeft()}
         {this.renderCenter()}
         {this.renderRight()}
@@ -116,6 +125,6 @@ Header.propTypes = {
 
 Header.defaultProps = {
   shadow: true,
-}
+};
 
-export default connect()(Header);
+export default translate()(connect()(Header));

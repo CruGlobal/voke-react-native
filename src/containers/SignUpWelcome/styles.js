@@ -127,4 +127,14 @@ export default StyleSheet.create({
     // color: theme.primaryColor,
     paddingRight: 5,
   },
+  tagline: {
+    lineHeight: 40,
+    fontSize: 36,
+    fontWeight: 'bold',
+    backgroundColor: 'rgba(0,0,0,0)',
+    textAlign: 'right',
+  },
+  privacy: {
+    marginHorizontal: 15,
+  },
 });

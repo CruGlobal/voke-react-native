@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { TouchableWithoutFeedback } from 'react-native';
 import PropTypes from 'prop-types';
-import { Touchable, VokeIcon, Text, Flex } from '../../components/common';
+import { VokeIcon, Text, Flex } from '../../components/common';
 
 // Coordinate helpers
 const vCenter = (height, size) => height / 2 - size / 2;
@@ -11,10 +11,8 @@ const coord = (width, height, x, y, size) => ({
   left: hCenter(width, size) + x,
 });
 
-
 class AdventureMarker extends Component {
-
-  getIcon = (c) => {
+  getIcon = c => {
     if (c['required?']) {
       if (c['completed?']) {
         return 'marker-completed';
@@ -32,35 +30,37 @@ class AdventureMarker extends Component {
         return 'optional-inactive';
       }
     }
-  }
+  };
 
   render() {
     const { onPress, width, height, challenge } = this.props;
 
     return (
-      <TouchableWithoutFeedback onPress={onPress} >
-        <Flex style={{
-          position: 'absolute',
-          width: 100,
-          height: 100,
-          alignItems: 'center',
-          justifyContent: 'center',
-          ...coord(width, height, challenge.point_x, challenge.point_y, 100),
-        }}>
+      <TouchableWithoutFeedback onPress={onPress}>
+        <Flex
+          style={{
+            position: 'absolute',
+            width: 100,
+            height: 100,
+            alignItems: 'center',
+            justifyContent: 'center',
+            ...coord(width, height, challenge.point_x, challenge.point_y, 100),
+          }}
+        >
           <VokeIcon name={this.getIcon(challenge)} />
-          {
-            challenge['required?'] && !challenge['completed?'] ? (
-              <Text style={{
+          {challenge['required?'] && !challenge['completed?'] ? (
+            <Text
+              style={{
                 position: 'absolute',
                 top: 22,
                 fontSize: 15,
                 textAlign: 'center',
                 opacity: challenge.isActive ? 1 : 0.5,
-              }}>
-                {challenge.position}
-              </Text>
-            ) : null
-          }
+              }}
+            >
+              {challenge.position}
+            </Text>
+          ) : null}
         </Flex>
       </TouchableWithoutFeedback>
     );

@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, FlatList } from 'react-native';
@@ -29,9 +28,11 @@ class SettingsList extends Component {
         <FlatList
           initialNumToRender={20}
           data={this.props.items}
-          ItemSeparatorComponent={() => <Separator style={styles.settingsSeparator} />}
+          ItemSeparatorComponent={() => (
+            <Separator style={styles.settingsSeparator} />
+          )}
           renderItem={this.renderRow}
-          keyExtractor={(item) => item.name.replace(/\s/ig, '')}
+          keyExtractor={item => item.name.replace(/\s/gi, '')}
           style={{ flex: 1 }}
           contentContainerStyle={styles.content}
         />

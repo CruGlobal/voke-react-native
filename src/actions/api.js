@@ -9,7 +9,7 @@ import { toastAction } from './auth';
 import { navigateResetLogin } from './nav';
 import apiRoutes from '../api/routes';
 import { isArray } from '../utils/common';
-
+import i18n from '../i18n';
 
 
 
@@ -99,7 +99,7 @@ export default function callApi(requestObject, query = {}, data = {}) {
               
               // If it's the login request, show this message
               if (action.name === 'OAUTH') {
-                Alert.alert('Error', 'Sorry, that username/password combination is not correct.');
+                Alert.alert(i18n.t('error.error'), i18n.t('error.userpass'));
                 reject(err);
                 return;
               }
@@ -107,10 +107,10 @@ export default function callApi(requestObject, query = {}, data = {}) {
 
               const unauthAlert = () => {
                 Alert.alert(
-                  'Unauthorized',
-                  'Sorry, it looks like there was an error authorizing your request.',
+                  i18n.t('error.unauthorized'),
+                  i18n.t('error.sorryUnauth'),
                   [{
-                    text: 'OK', onPress: () => {
+                    text: i18n.t('ok'), onPress: () => {
                       dispatch({ type: RESET_TOKEN });
                       dispatch(navigateResetLogin());
                     },
@@ -144,7 +144,7 @@ export default function callApi(requestObject, query = {}, data = {}) {
               return;
             } else if (err.error === 'invalid_grant') {
               // There was a login error
-              Alert.alert('Error', 'Sorry, that username/password combination is not correct.');
+              Alert.alert(i18n.t('error.error'), i18n.t('error.userpass'));
               reject(err);
               return;
             } else if (err.error === 'Not Found') {

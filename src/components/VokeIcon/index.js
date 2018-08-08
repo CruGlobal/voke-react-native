@@ -9,19 +9,15 @@ export default class Icon extends Component {
   render() {
     const { name, ...rest } = this.props;
     if (!vokeIcons[name]) return null;
-    return (
-      <Image
-        resizeMode="contain"
-        {...rest}
-        source={vokeIcons[name]}
-      />
-    );
+    return <Image resizeMode="contain" {...rest} source={vokeIcons[name]} />;
   }
 }
 
 Icon.propTypes = {
-  name: PropTypes.oneOf([
-    ...Object.keys(vokeIcons),
-  ]).isRequired,
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.number, PropTypes.array]),
+  name: PropTypes.oneOf([...Object.keys(vokeIcons)]).isRequired,
+  style: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.number,
+    PropTypes.array,
+  ]),
 };

@@ -11,6 +11,7 @@ import { setNoBackgroundAction } from './auth';
 import CONSTANTS, { SET_ALL_CONTACTS, SET_VOKE_CONTACTS, SET_CONTACTS_LOADING } from '../constants';
 import Permissions from '../utils/permissions';
 import theme from '../theme';
+import i18n from '../i18n';
 
 export function setAllContacts(all) {
   return (dispatch) => {
@@ -65,11 +66,11 @@ export function getContacts(force = false) {
         if (permission === Permissions.DENIED) {
           if (!theme.isAndroid) {
             Alert.alert(
-              'Voke',
-              'First grant Voke permission to access your contacts. Go to Settings / Voke and allow the permission for Contacts',
+              i18n.t('voke'),
+              i18n.t('error.vokePermission'),
               [
-                { text: 'Cancel', onPress: () => LOG('canceled') },
-                { text: 'Open Settings', onPress: () => Linking.openURL('app-settings:') },
+                { text: i18n.t('cancel'), onPress: () => LOG('canceled') },
+                { text: i18n.t('openSettings'), onPress: () => Linking.openURL('app-settings:') },
               ]
             );
           }
@@ -157,7 +158,7 @@ export function getContacts(force = false) {
           }).catch((err) => {
             dispatch({ type: SET_CONTACTS_LOADING, isLoading: false });
             if (err === Permissions.DENIED) {
-              Alert.alert('Could not get contacts', 'There was an error getting your contacts.');
+              Alert.alert(i18n.t('error.contactsTitle'), i18n.t('error.contactsDescription'));
             }
             LOG('permission denied for contacts', err);
             reject(Permissions.DENIED);

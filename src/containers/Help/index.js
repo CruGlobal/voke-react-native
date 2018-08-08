@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Linking, View } from 'react-native';
 import { connect } from 'react-redux';
-import nav, { NavPropTypes } from '../../actions/nav';
 import Communications from 'react-native-communications';
-import Analytics from '../../utils/analytics';
+import { translate } from 'react-i18next';
 
+import nav, { NavPropTypes } from '../../actions/nav';
+import Analytics from '../../utils/analytics';
 import SettingsList from '../../components/SettingsList';
 import Button from '../../components/Button';
 import CONSTANTS from '../../constants';
@@ -17,7 +18,6 @@ const EMAIL_US_TITLE = 'Email to Voke Support';
 const FEATURE_REQUEST_TITLE = 'Feature Request for Voke';
 
 class Help extends Component {
-
   constructor(props) {
     super(props);
     this.handleLink = this.handleLink.bind(this);
@@ -25,7 +25,7 @@ class Help extends Component {
   }
 
   componentDidMount() {
-    Analytics.screen('Contacts');
+    Analytics.screen(Analytics.s.Help);
   }
 
   handleLink(url) {
@@ -41,51 +41,54 @@ class Help extends Component {
     } else {
       title = EMAIL_US_TITLE;
     }
-    Communications.email(EMAIL,null,null,title,null);
+    Communications.email(EMAIL, null, null, title, null);
   }
 
   render() {
+    const { t, navigateBack } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <Header
           right={
-            theme.isAndroid ? undefined : (
+            theme.isAndroid ? (
+              undefined
+            ) : (
               <Button
                 type="transparent"
-                text="Done"
+                text={t('done')}
                 buttonTextStyle={{ padding: 10, fontSize: 16 }}
                 onPress={() => {
                   // Close out of the settings by going back 2 times
-                  this.props.navigateBack();
-                  this.props.navigateBack();
+                  navigateBack();
+                  navigateBack();
                 }}
               />
             )
           }
           leftBack={true}
-          title="Help"
+          title={t('title.help')}
           light={true}
         />
         <SettingsList
           items={[
             {
-              name: 'Visit our Help Website',
+              name: t('visitWebsite'),
               onPress: () => this.handleLink(CONSTANTS.WEB_URLS.HELP),
             },
             {
-              name: 'Visit our FAQ Website',
+              name: t('visitFAQ'),
               onPress: () => this.handleLink(CONSTANTS.WEB_URLS.FAQ),
             },
             {
-              name: 'Make a Feature Request',
+              name: t('featureRequest'),
               onPress: () => this.handleShare('feature'),
             },
             {
-              name: 'Report a User',
+              name: t('report'),
               onPress: () => this.handleShare('report'),
             },
             {
-              name: 'Email Us',
+              name: t('email'),
               onPress: () => this.handleShare('emailUs'),
             },
           ]}
@@ -102,4 +105,9 @@ const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
 });
 
-export default connect(mapStateToProps, nav)(Help);
+export default translate('settings')(
+  connect(
+    mapStateToProps,
+    nav,
+  )(Help),
+);

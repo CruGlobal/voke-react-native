@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { translate } from 'react-i18next';
 
 import { toastAction } from '../../actions/auth';
 import { createMessageInteraction } from '../../actions/messages';
@@ -12,24 +13,32 @@ import webviewStates from '../../components/WebviewVideo/common';
 import { Icon, Flex, Touchable } from '../../components/common';
 
 // Keep track of states that we want to make an API call if they happen
-const INTERACTION_STATES = [webviewStates.STARTED, webviewStates.PAUSED, webviewStates.RESUMED, webviewStates.FINISHED];
+const INTERACTION_STATES = [
+  webviewStates.STARTED,
+  webviewStates.PAUSED,
+  webviewStates.RESUMED,
+  webviewStates.FINISHED,
+];
 
 class MessageVideoPlayer extends Component {
-
   pause = () => {
-    if (this.webview && this.webview.pause) {
-      this.webview.pause();
+    if (
+      this.webview &&
+      this.webview.getWrappedInstance &&
+      this.webview.getWrappedInstance().pause
+    ) {
+      this.webview.getWrappedInstance().pause();
     }
-  }
+  };
 
-  handleVideoChange = (videoState) => {
-    const { message, dispatch, isMyMessage } = this.props;
+  handleVideoChange = videoState => {
+    const { t, message, dispatch, isMyMessage } = this.props;
     let interaction = {
       conversationId: message.conversation_id,
       messageId: message.id,
     };
     if (videoState === webviewStates.ERROR) {
-      dispatch(toastAction('There was an error playing the video.'));
+      dispatch(toastAction(t('error.playingVideo')));
     } else if (INTERACTION_STATES.includes(videoState)) {
       interaction.action = videoState;
     }
@@ -39,7 +48,7 @@ class MessageVideoPlayer extends Component {
     if (interaction.action && !isMyMessage) {
       dispatch(createMessageInteraction(interaction));
     }
-  }
+  };
 
   render() {
     const { message, onClose } = this.props;
@@ -47,9 +56,9 @@ class MessageVideoPlayer extends Component {
     const videoMedia = video.media || {};
     const videoType = videoMedia.type;
     return (
-      <Flex animation="slideInUp" duration={500} style={styles.video}>
+      <Flex style={styles.video}>
         <WebviewVideo
-          ref={(c) => this.webview = c}
+          ref={c => (this.webview = c)}
           type={videoType}
           url={videoMedia.url}
           start={video.media_start || 0}
@@ -75,7 +84,15 @@ MessageVideoPlayer.propTypes = {
 
 const mapStateToProps = ({ auth }, { message }) => ({
   // Figure out if the message is mine that I sent to someone
-  isMyMessage: message && message.messenger_id && auth.user.id && message.messenger_id === auth.user.id,
+  isMyMessage:
+    message &&
+    message.messenger_id &&
+    auth.user.id &&
+    message.messenger_id === auth.user.id,
 });
 
-export default connect(mapStateToProps, undefined, undefined, { withRef: true })(MessageVideoPlayer);
+export default translate(undefined, { wait: true, withRef: true })(
+  connect(mapStateToProps, undefined, undefined, { withRef: true })(
+    MessageVideoPlayer,
+  ),
+);

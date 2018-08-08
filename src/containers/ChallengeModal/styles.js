@@ -1,4 +1,3 @@
-
 import { StyleSheet } from 'react-native';
 import theme, { COLORS } from '../../theme';
 import videoUtils from '../../utils/video';
@@ -9,7 +8,8 @@ export default StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.8)',
   },
   modal: {
-    padding: 50,
+    padding: 30,
+    paddingBottom: 50,
   },
   close: {
     position: 'absolute',
@@ -18,15 +18,15 @@ export default StyleSheet.create({
   },
   video: {
     backgroundColor: COLORS.DEEP_BLACK,
-    height: videoUtils.HEIGHT,
-    width: videoUtils.WIDTH - 50,
+    height: (videoUtils.WIDTH - 60) * 9 / 16,
+    width: videoUtils.WIDTH - 60,
     marginTop: 20,
   },
   title: {
     color: theme.primaryColor,
     fontSize: 28,
     marginVertical: 20,
-    lineHeight: 32,
+    lineHeight: 40,
   },
   icon: {
     marginTop: 20,

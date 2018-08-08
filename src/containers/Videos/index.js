@@ -2,10 +2,25 @@ import React, { Component } from 'react';
 import { Alert, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { translate } from 'react-i18next';
+import moment from 'moment';
 
-import { getVideos, getFeaturedVideos, getPopularVideos, getTags, getSelectedThemeVideos, getFavorites, clearChannelVideos } from '../../actions/videos';
+import {
+  getVideos,
+  getFeaturedVideos,
+  getPopularVideos,
+  getTags,
+  getSelectedThemeVideos,
+  getFavorites,
+  clearChannelVideos,
+} from '../../actions/videos';
 // import { getMe } from '../../actions/auth';
-import { getChannel, getChannelSubscriberData, subscribeChannel, unsubscribeChannel } from '../../actions/channels';
+import {
+  getChannel,
+  getChannelSubscriberData,
+  subscribeChannel,
+  unsubscribeChannel,
+} from '../../actions/channels';
 import Analytics from '../../utils/analytics';
 
 import nav, { NavPropTypes } from '../../actions/nav';
@@ -23,6 +38,7 @@ import StatusBar from '../../components/StatusBar';
 import ChannelInfo from '../../components/ChannelInfo';
 import { Flex } from '../../components/common';
 import theme from '../../theme';
+import { momentUtc } from '../../utils/common';
 
 class Videos extends Component {
   constructor(props) {
@@ -38,6 +54,7 @@ class Videos extends Component {
         isSubscribed: false,
         total: 0,
       },
+      isLoading: false,
     };
 
     this.handleNextPage = this.handleNextPage.bind(this);
@@ -52,43 +69,78 @@ class Videos extends Component {
   }
 
   componentDidMount() {
-    // this.props.dispatch(getMe()).then((results)=>{
-    //   LOG(results);
-    // });
-    if (this.props.channel && this.props.channel.id) {
-      this.props.dispatch(getVideos(undefined, this.props.channel.id)).then(() => {
-        this.updateVideoList('all');
-      });
+    const {
+      onSelectVideo,
+      channel,
+      dispatch,
+      channelVideos,
+      all,
+      navigateResetToNumber,
+      navigateResetToProfile,
+      user,
+      isAnonUser,
+    } = this.props;
+
+    // When the user first does "Try it Now", their user is not set up, but they ARE an anon user
+    // Check if the user is new within the past few days
+    const isNewUser =
+      (!user.id && isAnonUser) ||
+      momentUtc(user.created_at) > moment().subtract(2, 'days');
+
+    if (isNewUser) {
+      this.handleFilter('popular', true);
+    } else if (channel && channel.id) {
+      this.setState({ isLoading: true });
+      dispatch(getVideos(undefined, channel.id))
+        .then(() => {
+          this.updateVideoList('all');
+          this.setState({ isLoading: false });
+        })
+        .catch(() => {
+          this.setState({ isLoading: false });
+        });
       this.getSubscriberData();
-      this.setState({ videos: this.props.channelVideos });
-    } else if (this.props.all.length === 0) {
+      this.setState({ videos: channelVideos });
+    } else if (all.length === 0) {
       // If there are no videos when the component mounts, get them, otherwise just set it
-      this.props.dispatch(getVideos()).then(() => {
-        this.updateVideoList('all');
-      }).catch((err)=> {
-        LOG(JSON.stringify(err));
-        if (err.error === 'Messenger not configured') {
-          setTimeout(() =>{
-            this.props.dispatch(getVideos()).then(() => {
-              this.updateVideoList('all');
-            }).catch((err)=> {
-              LOG(JSON.stringify(err));
-              if (err.error === 'Messenger not configured') {
-                if (this.props.user.first_name) {
-                  this.props.navigateResetToNumber();
-                } else {
-                  this.props.navigateResetToProfile();
-                }
-              }
-            });
-          }, 3000);
-        }
-      });
+      dispatch(getVideos())
+        .then(() => {
+          this.updateVideoList('all');
+        })
+        .catch(err => {
+          LOG(JSON.stringify(err));
+          if (err.error === 'Messenger not configured') {
+            setTimeout(() => {
+              dispatch(getVideos())
+                .then(() => {
+                  this.updateVideoList('all');
+                })
+                .catch(err => {
+                  LOG(JSON.stringify(err));
+                  if (err.error === 'Messenger not configured') {
+                    if (user.first_name) {
+                      navigateResetToNumber();
+                    } else {
+                      navigateResetToProfile();
+                    }
+                  }
+                });
+            }, 3000);
+          }
+        });
     } else {
-      this.setState({ videos: this.props.all });
+      this.setState({ videos: all });
     }
 
-    Analytics.screen('Videos');
+    // TODO: Handle filter
+
+    if (onSelectVideo) {
+      Analytics.screen(Analytics.s.VideosMessage);
+    } else if (channel && channel.id) {
+      Analytics.screen(Analytics.s.ChannelsPage);
+    } else {
+      Analytics.screen(Analytics.s.VideosTab);
+    }
   }
 
   componentWillUnmount() {
@@ -99,17 +151,18 @@ class Videos extends Component {
     if (this.state.selectedFilter === 'themes') {
       return Promise.resolve();
     }
-    this.setState({ emptyRefreshing: true });
-    return this.handleFilter(this.state.selectedFilter);
+    return this.handleFilter(this.state.selectedFilter, undefined, true);
   }
 
   handleThemeSelect(tag) {
     this.setState({ selectedTag: tag });
     const channelId = this.props.channel ? this.props.channel.id : undefined;
     this.props.dispatch(getSelectedThemeVideos(tag, 1, channelId)).then(() => {
-      this.setState({ videos: this.props.selectedThemeVideos});
+      this.setState({ videos: this.props.selectedThemeVideos });
       // Scroll to the top after selecting a theme
-      this.videoList.scrollToBeginning();
+      this.videoList &&
+        this.videoList.getWrappedInstance &&
+        this.videoList.getWrappedInstance().scrollToBeginning();
     });
   }
 
@@ -149,29 +202,25 @@ class Videos extends Component {
       query.page = page;
     }
 
-
     // LOG('next page', filter, pagination[filter]);
 
-
-
-
     if (filter === 'featured') {
-      this.props.dispatch(getFeaturedVideos(query, channelId)).then((r) => {
+      this.props.dispatch(getFeaturedVideos(query, channelId)).then(r => {
         this.updateVideoList(filter);
         return r;
       });
     } else if (filter === 'popular') {
-      this.props.dispatch(getPopularVideos(query, channelId)).then((r) => {
+      this.props.dispatch(getPopularVideos(query, channelId)).then(r => {
         this.updateVideoList(filter);
         return r;
       });
     } else if (filter === 'all') {
-      this.props.dispatch(getVideos(query, channelId)).then((r) => {
+      this.props.dispatch(getVideos(query, channelId)).then(r => {
         this.updateVideoList(filter);
         return r;
       });
     } else if (filter === 'favorites') {
-      this.props.dispatch(getFavorites(query, channelId)).then((r) => {
+      this.props.dispatch(getFavorites(query, channelId)).then(r => {
         this.updateVideoList(filter);
         return r;
       });
@@ -179,53 +228,87 @@ class Videos extends Component {
       if (this.state.videos.length === 0 || !this.state.selectedTag) {
         return;
       }
-      this.props.dispatch(getSelectedThemeVideos(this.state.selectedTag, page, channelId)).then(() => {
-        this.setState({ videos: this.props.selectedThemeVideos });
-      });
+      this.props
+        .dispatch(
+          getSelectedThemeVideos(this.state.selectedTag, page, channelId),
+        )
+        .then(() => {
+          this.setState({ videos: this.props.selectedThemeVideos });
+        });
     }
   }
 
   // This method should return a Promise so that it can handle refreshing correctly
-  handleFilter(filter, shouldntScroll) {
+  handleFilter(filter, shouldntScroll, isRefreshing) {
     if (filter === 'themes') {
       // Prevent getting into the state of both previous and selected filter being 'themes'
       this.setState({
-        previousFilter: this.state.selectedFilter === 'themes' ? 'all' : this.state.selectedFilter,
+        previousFilter:
+          this.state.selectedFilter === 'themes'
+            ? 'all'
+            : this.state.selectedFilter,
         selectedFilter: filter,
       });
     } else {
       this.setState({ selectedFilter: filter });
       if (!shouldntScroll) {
-        this.videoList.scrollToBeginning();
+        this.videoList &&
+          this.videoList.getWrappedInstance &&
+          this.videoList.getWrappedInstance().scrollToBeginning();
       }
     }
     const channelId = this.props.channel ? this.props.channel.id : undefined;
-
+    this.setState({
+      isLoading: isRefreshing ? false : true,
+      videos: isRefreshing ? this.state.videos : [],
+    });
     if (filter === 'featured') {
-      return this.props.dispatch(getFeaturedVideos(undefined, channelId)).then((r) => {
-        this.updateVideoList(filter);
-        return r;
-      });
+      return this.props
+        .dispatch(getFeaturedVideos(undefined, channelId))
+        .then(r => {
+          this.setState({ isLoading: false });
+          this.updateVideoList(filter);
+          return r;
+        })
+        .catch(() => this.setState({ isLoading: false }));
     } else if (filter === 'popular') {
-      return this.props.dispatch(getPopularVideos(undefined, channelId)).then((r) => {
-        this.updateVideoList(filter);
-        return r;
-      });
+      return this.props
+        .dispatch(getPopularVideos(undefined, channelId))
+        .then(r => {
+          this.setState({ isLoading: false });
+          this.updateVideoList(filter);
+          return r;
+        })
+        .catch(() => this.setState({ isLoading: false }));
     } else if (filter === 'all') {
-      return this.props.dispatch(getVideos(undefined, channelId)).then((r) => {
-        this.updateVideoList(filter);
-        return r;
-      });
+      return this.props
+        .dispatch(getVideos(undefined, channelId))
+        .then(r => {
+          this.setState({ isLoading: false });
+          this.updateVideoList(filter);
+          return r;
+        })
+        .catch(() => this.setState({ isLoading: false }));
     } else if (filter === 'themes') {
-      return this.props.dispatch(getTags()).then((r) => {
-        this.showThemes();
-        return r;
-      });
+      return this.props
+        .dispatch(getTags())
+        .then(r => {
+          this.setState({ isLoading: false });
+          this.showThemes();
+          return r;
+        })
+        .catch(() => this.setState({ isLoading: false }));
     } else if (filter === 'favorites') {
-      return this.props.dispatch(getFavorites(undefined, channelId)).then((r) => {
-        this.updateVideoList(filter);
-        return r;
-      });
+      return this.props
+        .dispatch(getFavorites(undefined, channelId))
+        .then(r => {
+          this.setState({ isLoading: false });
+          this.updateVideoList(filter);
+          return r;
+        })
+        .catch(() => this.setState({ isLoading: false }));
+    } else {
+      this.setState({ isLoading: false });
     }
     return Promise.resolve();
   }
@@ -247,54 +330,74 @@ class Videos extends Component {
   }
 
   getSubscriberData() {
-    this.props.dispatch(getChannel(this.props.channel.id)).then((channelResults) => {
-      this.props.dispatch(getChannelSubscriberData(this.props.channel.id)).then((results) => {
-        const subscriberId = channelResults.subscription_id;
-        const isSubscribed = !!subscriberId;
-        // Get the total from the 'total_subscriptions' field in one of the items
-        let total = results && results.subscriptions && results.subscriptions[0] && results.subscriptions[0].total_subscriptions;
-        if (!total) {
-          total = results && results._links && results._links.root ? results._links.root.total_count : 0;
-        }
-        if (!total) {
-          total = total || 0;
-        }
+    this.props
+      .dispatch(getChannel(this.props.channel.id))
+      .then(channelResults => {
+        this.props
+          .dispatch(getChannelSubscriberData(this.props.channel.id))
+          .then(results => {
+            const subscriberId = channelResults.subscription_id;
+            const isSubscribed = !!subscriberId;
+            // Get the total from the 'total_subscriptions' field in one of the items
+            let total =
+              results &&
+              results.subscriptions &&
+              results.subscriptions[0] &&
+              results.subscriptions[0].total_subscriptions;
+            if (!total) {
+              total =
+                results && results._links && results._links.root
+                  ? results._links.root.total_count
+                  : 0;
+            }
+            if (!total) {
+              total = total || 0;
+            }
 
-
-        this.setState({
-          channelSubscribeData: {
-            id: subscriberId,
-            isSubscribed,
-            total,
-          },
-        });
+            this.setState({
+              channelSubscribeData: {
+                id: subscriberId,
+                isSubscribed,
+                total,
+              },
+            });
+          });
       });
-    });
   }
 
   handleSubscribe() {
-    this.props.dispatch(subscribeChannel(this.props.channel.id)).then((results) => {
-      this.setState({
-        channelSubscribeData: {
-          id: results.id,
-          isSubscribed: true,
-          total: this.state.channelSubscribeData.total + 1,
-        },
+    this.props
+      .dispatch(subscribeChannel(this.props.channel.id))
+      .then(results => {
+        this.setState({
+          channelSubscribeData: {
+            id: results.id,
+            isSubscribed: true,
+            total: this.state.channelSubscribeData.total + 1,
+          },
+        });
+      })
+      .catch(() => {
+        LOG('did not subscribe');
       });
-    }).catch(() => { LOG('did not subscribe'); });
   }
 
   handleUnsubscribe() {
     const subscriptionId = this.state.channelSubscribeData.id;
-    this.props.dispatch(unsubscribeChannel(this.props.channel.id, subscriptionId)).then(() => {
-      this.setState({
-        channelSubscribeData: {
-          id: '',
-          isSubscribed: false,
-          total: this.state.channelSubscribeData.total - 1,
-        },
+    this.props
+      .dispatch(unsubscribeChannel(this.props.channel.id, subscriptionId))
+      .then(() => {
+        this.setState({
+          channelSubscribeData: {
+            id: '',
+            isSubscribed: false,
+            total: this.state.channelSubscribeData.total - 1,
+          },
+        });
+      })
+      .catch(() => {
+        LOG('did not unsubscribe');
       });
-    }).catch(() => { LOG('did not unsubscribe'); });
   }
 
   renderChannel() {
@@ -317,9 +420,7 @@ class Videos extends Component {
       return null;
     } else if (theme.isAndroid && showBack) {
       return (
-        <HeaderIcon
-          type="back"
-          onPress={() => this.props.navigateBack()} />
+        <HeaderIcon type="back" onPress={() => this.props.navigateBack()} />
       );
     }
     return (
@@ -332,48 +433,71 @@ class Videos extends Component {
           } else {
             this.props.navigatePush('voke.Menu');
           }
-        }} />
+        }}
+      />
     );
   }
 
-  handleShareVideo =(video) => {
+  handleShareVideo = video => {
+    const {
+      t,
+      onSelectVideo,
+      conversation,
+      navigateBack,
+      user,
+      navigatePush,
+      navigateResetMessage,
+    } = this.props;
     // This logic exists in the VideoDetails and the VideoList
-    if (this.props.onSelectVideo) {
+    if (onSelectVideo) {
       Alert.alert(
-        'Add video to chat?',
-        `Are you sure you want to add "${video.name.substr(0, 25).trim()}" video to your chat?`,
+        t('addToChat'),
+        t('areYouSureAdd', {
+          name: video.name.substr(0, 25).trim(),
+        }),
         [
-          { text: 'Cancel' },
+          { text: t('cancel') },
           {
-            text: 'Add', onPress: () => {
-              this.props.onSelectVideo(video.id);
+            text: t('add'),
+            onPress: () => {
+              onSelectVideo(video.id);
               // Navigate back after selecting the video
-              if (this.props.conversation) {
-                this.props.navigateResetMessage({ conversation: this.props.conversation });
+              if (conversation) {
+                navigateResetMessage({
+                  conversation: conversation,
+                });
               } else {
-                this.props.navigateBack();
+                navigateBack();
               }
             },
           },
-        ]
+        ],
       );
     } else {
-      if (!this.props.user.first_name) {
-        this.props.navigatePush('voke.TryItNowName', {
-          onComplete: () => this.props.navigatePush('voke.ShareFlow', {
-            video: video,
-          }),
+      if (!user.first_name) {
+        navigatePush('voke.TryItNowName', {
+          onComplete: () =>
+            navigatePush('voke.ShareFlow', {
+              video: video,
+            }),
         });
       } else {
-        this.props.navigatePush('voke.ShareFlow', {
+        navigatePush('voke.ShareFlow', {
           video: video,
         });
       }
     }
-  }
+  };
 
   render() {
-    const { onSelectVideo } = this.props;
+    const {
+      t,
+      onSelectVideo,
+      navigatePush,
+      conversation,
+      tags,
+      channel,
+    } = this.props;
     const { selectedFilter, videos } = this.state;
 
     return (
@@ -385,28 +509,32 @@ class Videos extends Component {
             right={
               <HeaderIcon
                 type="search"
-                onPress={() => this.handleFilter('themes')} />
+                onPress={() => this.handleFilter('themes')}
+              />
             }
-            title="Videos"
+            title={t('title.videos')}
           />
           {this.renderChannel()}
-          <Flex style={{height: 50}} align="center" justify="center">
-            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-              <Flex direction="row" style={{padding: 10}}>
+          <Flex style={{ height: 50 }} align="center" justify="center">
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            >
+              <Flex direction="row" style={{ padding: 10 }}>
                 <PillButton
-                  text="All"
+                  text={t('all')}
                   filled={selectedFilter === 'all'}
                   onPress={() => this.handleFilter('all')}
                   animation="slideInUp"
                 />
                 <PillButton
-                  text="Featured"
+                  text={t('featured')}
                   filled={selectedFilter === 'featured'}
                   onPress={() => this.handleFilter('featured')}
                   animation="slideInUp"
                 />
                 <PillButton
-                  text="Popular"
+                  text={t('popular')}
                   filled={selectedFilter === 'popular'}
                   onPress={() => this.handleFilter('popular')}
                   animation="slideInUp"
@@ -422,34 +550,36 @@ class Videos extends Component {
             </ScrollView>
           </Flex>
           <VideoList
-            ref={(c) => this.videoList = c}
+            ref={c => (this.videoList = c)}
             items={videos}
-            onSelect={(c) => {
-              this.props.navigatePush('voke.VideoDetails', {
+            onSelect={c => {
+              navigatePush('voke.VideoDetails', {
                 video: c,
                 onSelectVideo,
-                conversation: this.props.conversation,
+                conversation: conversation,
                 onUpdateVideos: () => this.updateVideoList(selectedFilter),
               });
             }}
             onRefresh={this.handleRefresh}
             onLoadMore={this.handleNextPage}
             handleShareVideo={this.handleShareVideo}
+            isLoading={this.state.isLoading}
           />
           <ApiLoading />
-          {
-            this.state.showThemeModal ? (
-              <ThemeSelect
-                onClose={() => this.setState({ showThemeModal: false })}
-                themes={this.props.tags}
-                onSelect={this.handleThemeSelect}
-                onDismiss={this.handleDismissTheme}
-              />
-            ) : null
-          }
+          {this.state.showThemeModal ? (
+            <ThemeSelect
+              onClose={() => this.setState({ showThemeModal: false })}
+              themes={tags}
+              onSelect={this.handleThemeSelect}
+              onDismiss={this.handleDismissTheme}
+            />
+          ) : null}
           {/* This is here for the channel page to show when clicking the "Subscribe" button */}
         </View>
-        <VokeOverlays type="tryItNowSignUp" channelName={this.props.channel && this.props.channel.name ? this.props.channel.name : null} />
+        <VokeOverlays
+          type="tryItNowSignUp"
+          channelName={channel && channel.name ? channel.name : null}
+        />
       </View>
     );
   }
@@ -465,6 +595,7 @@ Videos.propTypes = {
 const mapStateToProps = ({ auth, videos }) => ({
   all: videos.all,
   user: auth.user,
+  isAnonUser: auth.isAnonUser,
   popular: videos.popular,
   featured: videos.featured,
   favorites: videos.favorites,
@@ -474,4 +605,4 @@ const mapStateToProps = ({ auth, videos }) => ({
   pagination: videos.pagination,
 });
 
-export default connect(mapStateToProps, nav)(Videos);
+export default translate('videos')(connect(mapStateToProps, nav)(Videos));

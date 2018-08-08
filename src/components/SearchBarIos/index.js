@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, TextInput } from 'react-native';
@@ -7,7 +6,8 @@ import theme from '../../theme';
 
 import { Flex, Icon } from '../common';
 
-class SearchBarIos extends Component { // eslint-disable-line
+class SearchBarIos extends Component {
+  // eslint-disable-line
   state = { isFocus: false };
 
   render() {
@@ -17,7 +17,6 @@ class SearchBarIos extends Component { // eslint-disable-line
           value={this.props.value}
           onFocus={() => this.setState({ isFocus: true })}
           onBlur={() => this.setState({ isFocus: false })}
-          placeholder=""
           placeholderTextColor={theme.textColor}
           style={styles.searchBox}
           autoCorrect={false}
@@ -26,13 +25,11 @@ class SearchBarIos extends Component { // eslint-disable-line
           blurOnSubmit={true}
           returnKeyType="done"
         />
-        {
-          this.props.value ? null : (
-            <View style={styles.searchIconWrap} pointerEvents="none">
-              <Icon style={styles.searchIcon} name="search" size={22} />
-            </View>
-          )
-        }
+        {this.props.value ? null : (
+          <View style={styles.searchIconWrap} pointerEvents="none">
+            <Icon style={styles.searchIcon} name="search" size={22} />
+          </View>
+        )}
       </Flex>
     );
   }

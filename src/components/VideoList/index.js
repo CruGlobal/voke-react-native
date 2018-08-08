@@ -1,16 +1,17 @@
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FlatList, ImageBackground, Image } from 'react-native';
+import { translate } from 'react-i18next';
+
 import styles, { THUMBNAIL_HEIGHT } from './styles';
 import TO_CHAT from '../../../images/to-chat-button.png';
+import ANIMATION from '../../../images/VokeBotAnimation.gif';
 
 import { Flex, Text, Touchable, Icon, RefreshControl } from '../common';
 
 const ITEM_HEIGHT = THUMBNAIL_HEIGHT + 100 + 20;
 
 class VideoList extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -24,11 +25,14 @@ class VideoList extends Component {
 
   handleRefresh() {
     this.setState({ refreshing: true });
-    this.props.onRefresh().then(() => {
-      this.setState({ refreshing: false });
-    }).catch(() => {
-      this.setState({ refreshing: false });
-    });
+    this.props
+      .onRefresh()
+      .then(() => {
+        this.setState({ refreshing: false });
+      })
+      .catch(() => {
+        this.setState({ refreshing: false });
+      });
   }
 
   scrollToBeginning() {
@@ -57,33 +61,58 @@ class VideoList extends Component {
   }
 
   renderRow({ item }) {
+    const { t } = this.props;
     const video = item;
     const description = (video.description || '').replace(/^\s+|\s+$/g, '');
     return (
-      <Touchable highlight={false} activeOpacity={0.8} onPress={() => this.props.onSelect(video)}>
+      <Touchable
+        highlight={false}
+        activeOpacity={0.8}
+        onPress={() => this.props.onSelect(video)}
+      >
         <Flex
           style={styles.container}
           direction="column"
           align="start"
           justify="center"
-          animation="slideInUp">
-          <ImageBackground resizeMode="cover" source={{uri: video.media.thumbnails.large}} style={styles.videoThumbnail} >
+          animation="slideInUp"
+        >
+          <ImageBackground
+            resizeMode="cover"
+            source={{ uri: video.media.thumbnails.large }}
+            style={styles.videoThumbnail}
+          >
             <Icon name="play-circle-filled" size={64} style={styles.playIcon} />
-            <Flex direction="row" align="center" justify="center" style={styles.detailsBackground}>
+            <Flex
+              direction="row"
+              align="center"
+              justify="center"
+              style={styles.detailsBackground}
+            >
               <Flex value={1} align="start">
-                <Text style={styles.detailsText}>{this.formatDuration(video.media.duration)}</Text>
+                <Text style={styles.detailsText}>
+                  {this.formatDuration(video.media.duration)}
+                </Text>
               </Flex>
               <Flex value={2} align="end">
-                <Text style={[styles.detailsText, styles.sharesText]}>{video.shares} Shares</Text>
+                <Text style={[styles.detailsText, styles.sharesText]}>
+                  {t('shares', { total: video.shares })}
+                </Text>
               </Flex>
             </Flex>
           </ImageBackground>
-          <Flex direction="column" align="start" justify="start" style={styles.videoDetails}>
+          <Flex
+            direction="column"
+            align="start"
+            justify="start"
+            style={styles.videoDetails}
+          >
             <Touchable
               isAndroidOpacity={true}
               onPress={() => this.props.handleShareVideo(video)}
               activeOpacity={0.6}
-              style={styles.shareCircleButton}>
+              style={styles.shareCircleButton}
+            >
               <Image
                 resizeMode="cover"
                 source={TO_CHAT}
@@ -103,12 +132,22 @@ class VideoList extends Component {
   }
 
   renderNoText() {
-    if (this.props.items.length === 0) {
+    const { t, isLoading, items } = this.props;
+    if (isLoading) {
       return (
         <Flex align="center" justify="center">
-          <Text style={styles.blankText}>
-            No videos to show
-          </Text>
+          <Text style={styles.blankText}>{t('loading.videos')}</Text>
+          <Image
+            style={{ marginBottom: 20, height: 100 }}
+            resizeMode="contain"
+            source={ANIMATION}
+          />
+        </Flex>
+      );
+    } else if (items.length === 0) {
+      return (
+        <Flex align="center" justify="center">
+          <Text style={styles.blankText}>{t('empty.noVideos')}</Text>
         </Flex>
       );
     }
@@ -118,11 +157,11 @@ class VideoList extends Component {
   render() {
     return (
       <FlatList
-        ref={(c) => this.list = c}
+        ref={c => (this.list = c)}
         initialNumToRender={4}
         data={this.props.items}
         renderItem={this.renderRow}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         getItemLayout={(data, index) => ({
           length: ITEM_HEIGHT,
           offset: ITEM_HEIGHT * index,
@@ -130,10 +169,12 @@ class VideoList extends Component {
         })}
         style={{ flex: 1 }}
         contentContainerStyle={styles.content}
-        refreshControl={<RefreshControl
-          refreshing={this.state.refreshing}
-          onRefresh={this.handleRefresh}
-        />}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this.handleRefresh}
+          />
+        }
         onEndReached={this.props.onLoadMore}
         ListHeaderComponent={this.renderNoText}
       />
@@ -142,11 +183,12 @@ class VideoList extends Component {
 }
 
 VideoList.propTypes = {
-  onLoadMore: PropTypes.func.isRequired, // Redux
-  onRefresh: PropTypes.func.isRequired, // Redux
-  onSelect: PropTypes.func.isRequired, // Redux
-  items: PropTypes.array.isRequired, // Redux
+  onLoadMore: PropTypes.func.isRequired,
+  onRefresh: PropTypes.func.isRequired,
+  onSelect: PropTypes.func.isRequired,
+  items: PropTypes.array.isRequired,
   handleShareVideo: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
-export default VideoList;
+export default translate('videos', { wait: true, withRef: true })(VideoList);

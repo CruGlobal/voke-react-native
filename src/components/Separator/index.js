@@ -11,7 +11,11 @@ export default class Separator extends Component {
 }
 
 Separator.propTypes = {
-  style: PropTypes.oneOfType([PropTypes.array, PropTypes.object, PropTypes.number]),
+  style: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object,
+    PropTypes.number,
+  ]),
 };
 
 const styles = StyleSheet.create({

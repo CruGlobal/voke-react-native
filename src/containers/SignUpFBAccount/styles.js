@@ -1,4 +1,3 @@
-
 import { StyleSheet } from 'react-native';
 import theme from '../../theme';
 const IMAGE_SIZE = 100;
@@ -27,10 +26,8 @@ export default StyleSheet.create({
     fontSize: 16,
   },
   legalText: {
-    fontSize: 12,
     color: theme.accentColor,
-    paddingHorizontal: 3,
-    textAlign: 'center',
+    marginHorizontal: 25,
   },
   actionButton: {
     marginTop: 8,

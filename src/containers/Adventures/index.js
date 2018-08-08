@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
+import { translate } from 'react-i18next';
 
 import Analytics from '../../utils/analytics';
 import nav, { NavPropTypes } from '../../actions/nav';
@@ -14,48 +15,45 @@ import StatusBar from '../../components/StatusBar';
 import AdventureMap from '../AdventureMap';
 import theme from '../../theme';
 
-
 class Adventures extends Component {
-
   state = { refreshing: false };
 
   componentDidMount() {
-    Analytics.screen('Adventures');
+    Analytics.screen(Analytics.s.AdventuresTab);
   }
 
-  scrollTo = (y) => {
+  scrollTo = y => {
     if (y === 'end') {
       this.scrollView.scrollToEnd();
     } else {
       this.scrollView.scrollTo({ y, animated: true });
     }
-  }
+  };
 
   render() {
+    const { t, navigatePush } = this.props;
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
         <Header
           left={
-            theme.isAndroid ? undefined : (
+            theme.isAndroid ? (
+              undefined
+            ) : (
               <HeaderIcon
                 image={vokeIcons['menu']}
-                onPress={() => this.props.navigatePush('voke.Menu')} />
+                onPress={() => navigatePush('voke.Menu')}
+              />
             )
           }
           right={
             theme.isAndroid ? (
-              <PopupMenu
-                actions={navMenuOptions(this.props)}
-              />
+              <PopupMenu actions={navMenuOptions(this.props)} />
             ) : null
           }
-          title="Adventure"
+          title={t('title.adventure')}
         />
-        <ScrollView
-          ref={(c) => this.scrollView = c}
-          bounces={false}
-        >
+        <ScrollView ref={c => (this.scrollView = c)} bounces={false}>
           <AdventureMap scrollTo={this.scrollTo} />
         </ScrollView>
         <ApiLoading />
@@ -73,4 +71,9 @@ const mapStateToProps = ({ auth }) => ({
   isAnonUser: auth.isAnonUser, // Need this for the Android PopupMenu to determine which menu options to show
 });
 
-export default connect(mapStateToProps, nav)(Adventures);
+export default translate()(
+  connect(
+    mapStateToProps,
+    nav,
+  )(Adventures),
+);

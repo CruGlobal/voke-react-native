@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Linking, View } from 'react-native';
 import { connect } from 'react-redux';
 import DeviceInfo from 'react-native-device-info';
+import { translate } from 'react-i18next';
 
 import nav, { NavPropTypes } from '../../actions/nav';
 import Analytics from '../../utils/analytics';
@@ -15,14 +16,13 @@ import theme from '../../theme';
 const VERSION_BUILD = DeviceInfo.getReadableVersion();
 
 class About extends Component {
-
   constructor(props) {
     super(props);
     this.handleLink = this.handleLink.bind(this);
   }
 
   componentDidMount() {
-    Analytics.screen('About');
+    Analytics.screen(Analytics.s.About);
   }
 
   handleLink(url) {
@@ -30,55 +30,61 @@ class About extends Component {
   }
 
   render() {
+    const { t, navigateBack, navigatePush } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <Header
           right={
-            theme.isAndroid ? undefined : (
+            theme.isAndroid ? (
+              undefined
+            ) : (
               <Button
                 type="transparent"
-                text="Done"
+                text={t('done')}
                 buttonTextStyle={{ padding: 10, fontSize: 16 }}
                 onPress={() => {
                   // Close out of the settings by going back 2 times
-                  this.props.navigateBack();
-                  this.props.navigateBack();
+                  navigateBack();
+                  navigateBack();
                 }}
               />
             )
           }
           leftBack={true}
-          title="About"
+          title={t('title.about')}
           light={true}
         />
         <SettingsList
           items={[
             {
-              name: 'Why Voke?',
-              onPress: () => this.props.navigatePush('voke.SignUpWelcome', { noSignIn: true }),
+              name: t('why'),
+              onPress: () =>
+                navigatePush('voke.SignUpWelcome', {
+                  noSignIn: true,
+                }),
             },
             {
-              name: 'Visit Voke Website',
+              name: t('website'),
               onPress: () => this.handleLink(CONSTANTS.WEB_URLS.VOKE),
             },
             {
-              name: 'Follow us on Facebook',
+              name: t('followFb'),
               onPress: () => this.handleLink(CONSTANTS.WEB_URLS.FACEBOOK),
             },
             {
-              name: 'Terms of Service',
+              name: t('tos'),
               onPress: () => this.handleLink(CONSTANTS.WEB_URLS.TERMS),
             },
             {
-              name: 'Privacy Policy',
+              name: t('privacy'),
               onPress: () => this.handleLink(CONSTANTS.WEB_URLS.PRIVACY),
             },
             {
-              name: 'Acknowledgements',
-              onPress: () => this.props.navigatePush('voke.Acknowledgements'),
+              name: t('acknowledgements'),
+              onPress: () => navigatePush('voke.Acknowledgements'),
             },
             {
-              name: `Version: ${VERSION_BUILD}`,
+              name: t('version', { build: VERSION_BUILD }),
             },
           ]}
         />
@@ -94,4 +100,9 @@ const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
 });
 
-export default connect(mapStateToProps, nav)(About);
+export default translate('settings')(
+  connect(
+    mapStateToProps,
+    nav,
+  )(About),
+);

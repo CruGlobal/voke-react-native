@@ -14,16 +14,23 @@ class FloatingButtonSingle extends Component {
       <Touchable
         isAndroidOpacity={true}
         onPress={onSelect}
-        activeOpacity={0.6} style={[
+        activeOpacity={0.6}
+        style={[
           styles.wrapper,
           { width: SIZE, height: SIZE, borderRadius: SIZE / 2 },
-        ]}>
+        ]}
+      >
         <Flex align="center" justify="center" style={styles.iconWrap}>
           <Icon name="message" size={30} />
         </Flex>
         <Image
           source={TO_CHAT}
-          style={{ width: SIZE + 8, height: SIZE + 8, borderRadius: SIZE / 2, marginTop: 3 }}
+          style={{
+            width: SIZE + 8,
+            height: SIZE + 8,
+            borderRadius: SIZE / 2,
+            marginTop: 3,
+          }}
         />
       </Touchable>
     );

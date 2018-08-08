@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
-import { Image, TouchableOpacity, Keyboard, Alert, KeyboardAvoidingView, View } from 'react-native';
+import {
+  Image,
+  TouchableOpacity,
+  Keyboard,
+  Alert,
+  KeyboardAvoidingView,
+  View,
+} from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { translate } from 'react-i18next';
 
 import Analytics from '../../utils/analytics';
 import styles from './styles';
@@ -11,20 +19,19 @@ import { Flex, Button, Text } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import VOKE_FIRST_NAME from '../../../images/vokebot_whole.png';
-import theme from '../../theme';
 
 class TryItNowName extends Component {
-
   state = {
     isLoading: false,
     name: '',
   };
 
   componentDidMount() {
-    Analytics.screen('Try It Now - Name');
+    Analytics.screen(Analytics.s.TryItName);
   }
 
   login = () => {
+    const { t } = this.props;
     Keyboard.dismiss();
     if (this.state.name) {
       this.setState({ isLoading: true });
@@ -34,29 +41,40 @@ class TryItNowName extends Component {
           first_name: this.state.name,
         },
       };
-      this.props.dispatch(updateMe(nameData)).then(()=>{
-        this.setState({ isLoading: false });
-        this.props.onComplete();
-      }).catch(() => {
-        this.setState({ isLoading: false });
-        Alert.alert('', 'There was an error, please try again');
-      });
+      this.props
+        .dispatch(updateMe(nameData))
+        .then(() => {
+          this.setState({ isLoading: false });
+          this.props.onComplete();
+        })
+        .catch(() => {
+          this.setState({ isLoading: false });
+          Alert.alert('', t('error.tryAgain'));
+        });
     } else {
-      Alert.alert('', 'Please enter a name to continue');
+      Alert.alert('', t('enterName'));
     }
-  }
+  };
 
   render() {
+    const { t } = this.props;
     return (
       <View style={styles.container} align="center">
         <KeyboardAvoidingView behavior="position" style={{ paddingTop: 50 }}>
-          <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
-            <Image resizeMode="contain" source={VOKE_FIRST_NAME} style={styles.imageLogo} />
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={() => Keyboard.dismiss()}
+          >
+            <Image
+              resizeMode="contain"
+              source={VOKE_FIRST_NAME}
+              style={styles.imageLogo}
+            />
             <Flex align="center" justify="center">
               <Flex style={styles.chatTriangle} />
               <Flex style={styles.chatBubble}>
                 <Text style={styles.chatText}>
-                  What is your name? This way your friends will know who you are when you share!
+                  {t('whatsYourName')}
                 </Text>
               </Flex>
             </Flex>
@@ -64,15 +82,15 @@ class TryItNowName extends Component {
           <Flex align="center" justify="start" style={styles.actions}>
             <SignUpInput
               value={this.state.name}
-              onChangeText={(t) => this.setState({ name: t })}
-              placeholder="First Name"
+              onChangeText={t => this.setState({ name: t })}
+              placeholder={t('placeholder.firstName')}
               autoCorrect={false}
               returnKeyType="done"
               blurOnSubmit={true}
             />
             <Flex style={styles.buttonWrapper}>
               <Button
-                text="Next"
+                text={t('next')}
                 type="filled"
                 disabled={this.state.isLoading || !this.state.name}
                 buttonTextStyle={styles.signInButtonText}
@@ -98,4 +116,9 @@ const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
 });
 
-export default connect(mapStateToProps, nav)(TryItNowName);
+export default translate('tryItNow')(
+  connect(
+    mapStateToProps,
+    nav,
+  )(TryItNowName),
+);

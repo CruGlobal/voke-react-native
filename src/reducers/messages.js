@@ -1,13 +1,19 @@
 import lodashUniqBy from 'lodash/uniqBy';
 import { REHYDRATE } from 'redux-persist/constants';
 
-import PushNotification from 'react-native-push-notification';
-
 import { REQUESTS } from '../actions/api';
-import { LOGOUT, NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ, SET_ACTIVE_CONVERSATION, SET_IN_SHARE, MESSAGE_CREATED } from '../constants';
+import {
+  LOGOUT,
+  NEW_MESSAGE,
+  TYPE_STATE_CHANGE,
+  MARK_READ,
+  SET_ACTIVE_CONVERSATION,
+  SET_IN_SHARE,
+  MESSAGE_CREATED,
+  PREVIEW_MESSAGE_CREATED,
+} from '../constants';
 import { isArray } from '../utils/common';
-
-
+import Notifications from '../utils/notifications';
 
 const initialState = {
   conversations: [],
@@ -30,7 +36,7 @@ function moveConversationFirst(conversations, conversationId) {
   let reorderItems = isArray(conversations) ? [...conversations] : [];
   if (!conversationId) return reorderItems;
   // Move the conversation to the first item in the list
-  const convIndex = reorderItems.findIndex((c) => c.id === conversationId);
+  const convIndex = reorderItems.findIndex(c => c.id === conversationId);
   // Do this only if the index exists and is not already first in the array
   if (convIndex > 0) {
     const conversationToMoveToFront = reorderItems[convIndex];
@@ -64,7 +70,9 @@ export default function messages(state = initialState, action) {
       if (!newConversation) {
         return state;
       }
-      const newConvIndex = stateConversations.findIndex((c) => c.id === newConversation.id);
+      const newConvIndex = stateConversations.findIndex(
+        c => c.id === newConversation.id,
+      );
       if (newConvIndex >= 0) {
         stateConversations[newConvIndex] = newConversation;
       } else {
@@ -100,7 +108,7 @@ export default function messages(state = initialState, action) {
       // Pull the unread count from the '_meta' in notifications
       let unRead = action._meta ? action._meta.pending_notifications : 0;
       unRead = unRead >= 0 ? unRead : 0;
-      PushNotification.setApplicationIconBadgeNumber(unRead);
+      Notifications.setBadge(unRead);
 
       return {
         ...state,
@@ -114,7 +122,9 @@ export default function messages(state = initialState, action) {
         },
       };
     case REQUESTS.GET_MESSAGES.SUCCESS:
-      const conversationId = action.messages[0] ? action.messages[0].conversation_id : null;
+      const conversationId = action.messages[0]
+        ? action.messages[0].conversation_id
+        : null;
       if (!conversationId) {
         return state;
       }
@@ -129,10 +139,9 @@ export default function messages(state = initialState, action) {
       };
       newMessages = removeDuplicateMessages(newMessages);
 
-
       // Update the conversation messagePreview and latestMessage based on the first new message
       // This should happen so when push notification messages come in, everything is up to date
-      const msgPreviewConversationsNewMessages = state.conversations.map((c) => {
+      const msgPreviewConversationsNewMessages = state.conversations.map(c => {
         if (newMessages[0] && c.id === conversationId) {
           return {
             ...c,
@@ -144,7 +153,6 @@ export default function messages(state = initialState, action) {
         }
         return c;
       });
-
 
       return {
         ...state,
@@ -161,7 +169,10 @@ export default function messages(state = initialState, action) {
 
     // When I create a message, reorder the conversations to have this one at the top;
     case REQUESTS.CREATE_MESSAGE.SUCCESS:
-      let newConversationsOrder = moveConversationFirst(state.conversations, action.conversation_id);
+      let newConversationsOrder = moveConversationFirst(
+        state.conversations,
+        action.conversation_id,
+      );
       // Set the message preview based on the message that I sent
       if (newConversationsOrder[0] && action.data && action.data.message) {
         if (action.data.message.content) {
@@ -178,7 +189,9 @@ export default function messages(state = initialState, action) {
     case REQUESTS.DELETE_CONVERSATION.SUCCESS:
       const conversationIdToDelete = action.query.id;
       // Remove the conversation from the array
-      const newConversationsWithDeleted = state.conversations.filter((c) => c.id !== conversationIdToDelete);
+      const newConversationsWithDeleted = state.conversations.filter(
+        c => c.id !== conversationIdToDelete,
+      );
       // Remove any messages associated with that conversation
       let newMessagesWithDeleted = state.messages;
       if (newMessagesWithDeleted[conversationIdToDelete]) {
@@ -205,22 +218,28 @@ export default function messages(state = initialState, action) {
 
     // Fired from a socket event to new messages
     case NEW_MESSAGE:
-      const conversationNewMessageId = action.message ? action.message.conversation_id : null;
+      const conversationNewMessageId = action.message
+        ? action.message.conversation_id
+        : null;
       if (!conversationNewMessageId) {
         return state;
       }
       const incrementBadge = action.incrementBadge;
       let currentBadgeCount = state.unReadBadgeCount;
-      let msgPreviewConversations = state.conversations.map((c) => {
+      let msgPreviewConversations = state.conversations.map(c => {
         if (c.id === conversationNewMessageId) {
           // order messengers
-          const newMessenger = c.messengers.find((m) => m.id === action.message.messenger_id);
-          let messengers = c.messengers.filter((m) => m.id !== action.message.messenger_id);
+          const newMessenger = c.messengers.find(
+            m => m.id === action.message.messenger_id,
+          );
+          let messengers = c.messengers.filter(
+            m => m.id !== action.message.messenger_id,
+          );
           if (newMessenger) {
             messengers.unshift(newMessenger);
           }
           // Always increment the badge count
-          let cnt = (c.unReadCount || 0);
+          let cnt = c.unReadCount || 0;
           if (incrementBadge) {
             cnt++;
             currentBadgeCount++;
@@ -240,7 +259,10 @@ export default function messages(state = initialState, action) {
       });
 
       // Move the conversation to the first item in the list
-      msgPreviewConversations = moveConversationFirst(msgPreviewConversations, conversationNewMessageId);
+      msgPreviewConversations = moveConversationFirst(
+        msgPreviewConversations,
+        conversationNewMessageId,
+      );
       let newCreatedMessages = [
         action.message,
         // Spread over an existing array or force it to a blank array if it doesnt exist
@@ -249,7 +271,7 @@ export default function messages(state = initialState, action) {
       newCreatedMessages = removeDuplicateMessages(newCreatedMessages);
 
       currentBadgeCount = currentBadgeCount >= 0 ? currentBadgeCount : 0;
-      PushNotification.setApplicationIconBadgeNumber(currentBadgeCount);
+      Notifications.setBadge(currentBadgeCount);
 
       return {
         ...state,
@@ -266,23 +288,44 @@ export default function messages(state = initialState, action) {
       if (!messageCreatedConversationId) {
         return state;
       }
+      let allNewMessages = [
+        action.message,
+        // Spread over an existing array or force it to a blank array if it doesnt exist
+        ...(state.messages[messageCreatedConversationId] || []),
+      ].filter(m => m.id !== 'preview_message'); // Filter out the preview messages
 
       return {
         ...state,
         messages: {
           ...state.messages,
-          [messageCreatedConversationId]: [
+          [messageCreatedConversationId]: allNewMessages,
+        },
+      };
+    case PREVIEW_MESSAGE_CREATED:
+      const previewMessageCreatedConversationId = action.conversationId;
+      if (!previewMessageCreatedConversationId) {
+        return state;
+      }
+
+      return {
+        ...state,
+        messages: {
+          ...state.messages,
+          [previewMessageCreatedConversationId]: [
             action.message,
             // Spread over an existing array or force it to a blank array if it doesnt exist
-            ...(state.messages[messageCreatedConversationId] || []),
+            ...(state.messages[previewMessageCreatedConversationId] || []),
           ],
         },
       };
     case MARK_READ:
       let currentBadgeCount2 = state.unReadBadgeCount;
-      const readConversations = state.conversations.map((c) => {
+      const readConversations = state.conversations.map(c => {
         if (c.id === action.conversationId) {
-          currentBadgeCount2 = c.unReadCount > 0 ? currentBadgeCount2 - c.unReadCount : currentBadgeCount2;
+          currentBadgeCount2 =
+            c.unReadCount > 0
+              ? currentBadgeCount2 - c.unReadCount
+              : currentBadgeCount2;
           return {
             ...c,
             hasUnread: false,
@@ -294,7 +337,7 @@ export default function messages(state = initialState, action) {
       });
 
       currentBadgeCount2 = currentBadgeCount2 >= 0 ? currentBadgeCount2 : 0;
-      PushNotification.setApplicationIconBadgeNumber(currentBadgeCount2);
+      Notifications.setBadge(currentBadgeCount2);
 
       return {
         ...state,
@@ -312,7 +355,7 @@ export default function messages(state = initialState, action) {
         inShare: action.bool,
       };
     case LOGOUT:
-      PushNotification.setApplicationIconBadgeNumber(0);
+      Notifications.setBadge(0);
       return initialState;
     default:
       return state;

@@ -1,4 +1,3 @@
-
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { View, FlatList, Keyboard } from 'react-native';
@@ -33,8 +32,14 @@ class MessagesList extends Component {
   }
 
   componentWillMount() {
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+    this.keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      this.keyboardDidShow,
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      this.keyboardDidHide,
+    );
   }
 
   componentWillUnmount() {
@@ -61,7 +66,12 @@ class MessagesList extends Component {
 
   renderLoadMore() {
     if (this.props.hasMore) {
-      return <LoadMore isLoading={this.props.isLoading} onLoad={this.props.onLoadMore} />;
+      return (
+        <LoadMore
+          isLoading={this.props.isLoading}
+          onLoad={this.props.onLoadMore}
+        />
+      );
     }
     return null;
   }
@@ -72,20 +82,20 @@ class MessagesList extends Component {
     // LOG(event.nativeEvent.layout.width);
     // LOG(event.nativeEvent.layout.height);
     // flexView.measure((ox)=> this.setState({ componentHeight: ox }));
-    this.setState({componentHeight: event.nativeEvent.layout.height});
+    this.setState({ componentHeight: event.nativeEvent.layout.height });
     this.updateSizes();
   }
 
   updateSizes() {
-    if (this.state.messagesHeight != 0 && this.state.componentHeight !=0 ) {
-    //   if (this.state.componentHeight - this.state.messagesHeight > 0) {
-    //     this.setState({ topHeight: this.state.componentHeight - this.state.messagesHeight});
-    //   } else {
-    //     this.setState({ topHeight: 0 });
-    //   }
-    // } else {
-    //   this.setState({ topHeight: 0});
-    // }
+    if (this.state.messagesHeight != 0 && this.state.componentHeight != 0) {
+      //   if (this.state.componentHeight - this.state.messagesHeight > 0) {
+      //     this.setState({ topHeight: this.state.componentHeight - this.state.messagesHeight});
+      //   } else {
+      //     this.setState({ topHeight: 0 });
+      //   }
+      // } else {
+      //   this.setState({ topHeight: 0});
+      // }
       if (this.state.messagesHeight < this.state.componentHeight) {
         // this.setState({ scrollEnabled: false });
       } else {
@@ -96,7 +106,7 @@ class MessagesList extends Component {
 
   onContentSize(contentWidth, contentHeight) {
     // LOG("<<<<<< content >>>>>>>>>", contentWidth, contentHeight);
-    this.setState({ messagesHeight: contentHeight});
+    this.setState({ messagesHeight: contentHeight });
     this.updateSizes();
   }
 
@@ -115,7 +125,13 @@ class MessagesList extends Component {
   }
 
   renderTypeState() {
-    const { items, typeState, user, messengers, onSelectVideo, onShareVideo } = this.props;
+    const {
+      typeState,
+      user,
+      messengers,
+      onSelectVideo,
+      onShareVideo,
+    } = this.props;
     // if (items.length < 4) {
     //   if (typeState) {
     //     const item = { type: 'typeState' };
@@ -154,23 +170,23 @@ class MessagesList extends Component {
   }
 
   scrollEnd() {
-  // scrollEnd(isAnimated) {
-  //   // Somehow check if the listview is in the middle
-  //   if (this.listView) {
-  //     setTimeout(() => this.listView.scrollToEnd({ animated: isAnimated }), 50);
-  //   }
-  //   setTimeout(() => {
-  //     this.listView.scrollToEnd({ animated: isAnimated });
-  //   }, !theme.isAndroid ? 50 : 250);
+    // scrollEnd(isAnimated) {
+    //   // Somehow check if the listview is in the middle
+    //   if (this.listView) {
+    //     setTimeout(() => this.listView.scrollToEnd({ animated: isAnimated }), 50);
+    //   }
+    //   setTimeout(() => {
+    //     this.listView.scrollToEnd({ animated: isAnimated });
+    //   }, !theme.isAndroid ? 50 : 250);
   }
 
   render() {
     return (
       <Fragment>
         <FlatList
-          ref={(c) => this.listView = c}
+          ref={c => (this.listView = c)}
           ListFooterComponent={this.renderLoadMore}
-          keyExtractor={(item) => item.id}
+          keyExtractor={item => item.id}
           initialNumToRender={CONSTANTS.PAGE_SIZE + 1}
           data={this.props.items}
           renderItem={this.renderRow}

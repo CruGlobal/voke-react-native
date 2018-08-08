@@ -2,14 +2,23 @@ import React, { Component } from 'react';
 import { View, ScrollView, Image, Alert, AlertIOS } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { translate } from 'react-i18next';
 
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/nav';
-import { startupAction, blockMessenger, reportUserAction, getMe } from '../../actions/auth';
-import { checkAndRunSockets } from '../../actions/socket';
-import  Analytics from '../../utils/analytics';
+import {
+  startupAction,
+  blockMessenger,
+  reportUserAction,
+  getMe,
+} from '../../actions/auth';
+import Analytics from '../../utils/analytics';
 
-import { getConversations, deleteConversation, getConversationsPage } from '../../actions/messages';
+import {
+  getConversations,
+  deleteConversation,
+  getConversationsPage,
+} from '../../actions/messages';
 import { navMenuOptions } from '../../utils/menu';
 import { vokeIcons } from '../../utils/iconMap';
 import ANIMATION from '../../../images/VokeBotAnimation.gif';
@@ -29,7 +38,6 @@ import theme from '../../theme';
 const CONTACT_LENGTH_SHOW_VOKEBOT = IS_SMALL_ANDROID ? 2 : 3;
 
 class Home extends Component {
-
   constructor(props) {
     super(props);
 
@@ -54,12 +62,19 @@ class Home extends Component {
 
     if (isAnonUser && conversations.length <= 1) {
       // Only navigate to videos if we're not coming from a 'navigateResetMessage'
-      if (!(navigation && navigation.state && navigation.state.params && navigation.state.params.navThrough === true)) {
+      if (
+        !(
+          navigation &&
+          navigation.state &&
+          navigation.state.params &&
+          navigation.state.params.navThrough === true
+        )
+      ) {
         navigation.navigate('voke.Videos');
       }
     }
 
-    Analytics.screen('Home Chats');
+    Analytics.screen(Analytics.s.ChatTab);
 
     dispatch(getConversations());
 
@@ -82,40 +97,52 @@ class Home extends Component {
     if (this.props.pagination.hasMore) {
       // LOG('has more conversations to load');
       this.setState({ loadingMore: true });
-      this.props.dispatch(getConversationsPage(this.props.pagination.page + 1)).then(() => {
-        this.setState({ loadingMore: false });
-      }).catch(() => {
-        this.setState({ loadingMore: false });
-      });
+      this.props
+        .dispatch(getConversationsPage(this.props.pagination.page + 1))
+        .then(() => {
+          this.setState({ loadingMore: false });
+        })
+        .catch(() => {
+          this.setState({ loadingMore: false });
+        });
     }
   }
 
   handleRefresh() {
     this.setState({ refreshing: true });
-    this.props.dispatch(getConversations()).then(() => {
-      this.setState({ refreshing: false });
-    }).catch(() => {
-      this.setState({ refreshing: false });
-    });
+    this.props
+      .dispatch(getConversations())
+      .then(() => {
+        this.setState({ refreshing: false });
+      })
+      .catch(() => {
+        this.setState({ refreshing: false });
+      });
   }
 
   handleDelete(data) {
     this.setState({ isLoading: true });
-    this.props.dispatch(deleteConversation(data.id)).then(() => {
-      this.setState({ isLoading: false });
-    }).catch(() => {
-      this.setState({ isLoading: false });
-    });
+    this.props
+      .dispatch(deleteConversation(data.id))
+      .then(() => {
+        this.setState({ isLoading: false });
+      })
+      .catch(() => {
+        this.setState({ isLoading: false });
+      });
   }
 
   block(otherPerson, data) {
     this.setState({ isLoading: true });
-    this.props.dispatch(blockMessenger(otherPerson.id)).then(() => {
-      this.handleDelete(data);
-      this.setState({ isLoading: false });
-    }).catch(() => {
-      this.setState({ isLoading: false });
-    });
+    this.props
+      .dispatch(blockMessenger(otherPerson.id))
+      .then(() => {
+        this.handleDelete(data);
+        this.setState({ isLoading: false });
+      })
+      .catch(() => {
+        this.setState({ isLoading: false });
+      });
   }
 
   handleSubmitReport(text) {
@@ -127,16 +154,17 @@ class Home extends Component {
   }
 
   handleBlock(otherPerson, data) {
+    const { t } = this.props;
     Alert.alert(
-      `Are you sure you want to block ${otherPerson.first_name ? otherPerson.first_name : 'this person'}?`,
-      'Would you also like to block and report this person?',
+      t('areYouSureBlock', { name: otherPerson.first_name || t('thisPerson') }),
+      t('questionBlock'),
       [
         {
-          text: 'Block',
+          text: t('block'),
           onPress: () => this.block(otherPerson, data),
         },
         {
-          text: 'Block and Report',
+          text: t('blockReport'),
           onPress: () => {
             if (theme.isAndroid) {
               this.setState({
@@ -145,16 +173,14 @@ class Home extends Component {
                 androidReportData: data,
               });
             } else {
-              AlertIOS.prompt(
-                'Please describe why you are reporting this person',
-                null,
-                (text) => this.handleSubmitReport(text, otherPerson, data)
+              AlertIOS.prompt(t('why'), null, text =>
+                this.handleSubmitReport(text, otherPerson, data),
               );
             }
           },
         },
         {
-          text: 'Cancel',
+          text: t('cancel'),
           onPress: () => LOG('Canceled Block'),
           style: 'cancel',
         },
@@ -163,7 +189,14 @@ class Home extends Component {
   }
 
   render() {
-    const { conversations, activeConversationId, me, pagination, unreadCount } = this.props;
+    const {
+      t,
+      conversations,
+      activeConversationId,
+      me,
+      pagination,
+      unreadCount,
+    } = this.props;
     const cLength = conversations.length;
 
     return (
@@ -171,76 +204,83 @@ class Home extends Component {
         <StatusBar hidden={false} />
         <Header
           left={
-            theme.isAndroid ? undefined : (
-              <HeaderIcon image={vokeIcons['menu']} onPress={this.handleMenuPress} />
+            theme.isAndroid ? (
+              undefined
+            ) : (
+              <HeaderIcon
+                image={vokeIcons['menu']}
+                onPress={this.handleMenuPress}
+              />
             )
           }
           right={
             theme.isAndroid ? (
-              <PopupMenu
-                actions={navMenuOptions(this.props)}
-              />
+              <PopupMenu actions={navMenuOptions(this.props)} />
             ) : null
           }
-          title="Chats"
+          title={t('title.chats')}
         />
-        {
-          cLength ? (
-            <ConversationList
-              items={conversations}
-              me={me}
-              onRefresh={this.handleRefresh}
-              onDelete={this.handleDelete}
-              unreadCount={unreadCount}
-              onBlock={this.handleBlock}
-              hasMore={pagination.hasMore}
-              onLoadMore={this.handleLoadMore}
-              isLoading={this.state.loadingMore}
-              onSelect={(c) => this.props.navigatePush('voke.Message', {conversation: c})}
-              refreshing={this.state.refreshing}
-            />
-          ) : (
-            <ScrollView
-              style={{ flex: 1 }}
-              contentContainerStyle={{ flex: 1, alignItems: 'center', justifyContent: 'center'} }
-              refreshControl={<RefreshControl
+        {cLength ? (
+          <ConversationList
+            items={conversations}
+            me={me}
+            onRefresh={this.handleRefresh}
+            onDelete={this.handleDelete}
+            unreadCount={unreadCount}
+            onBlock={this.handleBlock}
+            hasMore={pagination.hasMore}
+            onLoadMore={this.handleLoadMore}
+            isLoading={this.state.loadingMore}
+            onSelect={c =>
+              this.props.navigatePush('voke.Message', { conversation: c })
+            }
+            refreshing={this.state.refreshing}
+          />
+        ) : (
+          <ScrollView
+            style={{ flex: 1 }}
+            contentContainerStyle={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            refreshControl={
+              <RefreshControl
                 refreshing={this.state.refreshing}
                 onRefresh={this.handleRefresh}
-              />}
-            >
-              <Flex value={1} align="center" justify="center">
-                <Image style={{ marginBottom: 20, height: 100 }} resizeMode="contain" source={ANIMATION} />
-                <Text>Find a video and share it with a friend</Text>
-              </Flex>
-            </ScrollView>
-          )
-        }
-        {
-          (cLength <= CONTACT_LENGTH_SHOW_VOKEBOT && cLength > 0) ?  (
-            <Image style={styles.vokeBot} source={VOKE} />
-          ) : null
-        }
-        {
-          cLength === 0 || this.state.isLoading ? <ApiLoading /> : null
-        }
-        {
-          this.state.showAndroidReportModal ? (
-            <AndroidReportModal
-              onClose={() => this.setState({
+              />
+            }
+          >
+            <Flex value={1} align="center" justify="center">
+              <Image
+                style={{ marginBottom: 20, height: 100 }}
+                resizeMode="contain"
+                source={ANIMATION}
+              />
+              <Text>{t('findAndShare')}</Text>
+            </Flex>
+          </ScrollView>
+        )}
+        {cLength <= CONTACT_LENGTH_SHOW_VOKEBOT && cLength > 0 ? (
+          <Image style={styles.vokeBot} source={VOKE} />
+        ) : null}
+        {cLength === 0 || this.state.isLoading ? <ApiLoading /> : null}
+        {this.state.showAndroidReportModal ? (
+          <AndroidReportModal
+            onClose={() =>
+              this.setState({
                 showAndroidReportModal: false,
                 androidReportPerson: null,
                 androidReportData: null,
-              })}
-              onSubmitReport={this.handleSubmitReport}
-              onCancelReport={() => LOG('report canceled')}
-            />
-          ) : null
-        }
-        {
-          // Only show this overlay when you are not on the messages screen also
-          // It was getting a weird double overlay when transitioning to the messages screen
-          !activeConversationId ? <VokeOverlays type="pushPermissions" /> : null
-        }
+              })
+            }
+            onSubmitReport={this.handleSubmitReport}
+            onCancelReport={() => LOG('report canceled')}
+          />
+        ) : null}
+        {/* Only show this overlay when you are not on the messages screen also
+        It was getting a weird double overlay when transitioning to the messages screen */}
+        {!activeConversationId ? <VokeOverlays type="pushPermissions" /> : null}
       </View>
     );
   }
@@ -264,4 +304,9 @@ const mapStateToProps = ({ messages, auth }) => ({
   activeConversationId: messages.activeConversationId,
 });
 
-export default connect(mapStateToProps, nav)(Home);
+export default translate('home')(
+  connect(
+    mapStateToProps,
+    nav,
+  )(Home),
+);

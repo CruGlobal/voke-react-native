@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Alert,
-  TouchableOpacity,
-} from 'react-native';
+import { Alert, TouchableOpacity } from 'react-native';
 import RNImagePicker from 'react-native-image-picker';
 
 const IMAGE_PICKER_OPTIONS = {
@@ -31,14 +28,13 @@ const IMAGE_PICKER_OPTIONS = {
 };
 
 class ImagePicker extends Component {
-
   constructor(props) {
     super(props);
     this.selectImage = this.selectImage.bind(this);
   }
 
   selectImage() {
-    RNImagePicker.showImagePicker(IMAGE_PICKER_OPTIONS, (response) => {
+    RNImagePicker.showImagePicker(IMAGE_PICKER_OPTIONS, response => {
       if (response.didCancel) {
         // LOG('User cancelled image picker');
       } else if (response.error) {
@@ -46,7 +42,7 @@ class ImagePicker extends Component {
         Alert.alert(
           'Error',
           'There was an error processing your request. Please try again later.',
-          [{ text: 'Ok' }]
+          [{ text: 'Ok' }],
         );
       } else {
         // You can display the image using either data:

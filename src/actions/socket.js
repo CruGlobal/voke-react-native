@@ -1,17 +1,27 @@
 import { Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
-import PushNotification from 'react-native-push-notification';
 
 import { API_URL } from '../api/utils';
-import { registerPushToken, openSettingsAction, checkPushPermissions, getMe } from './auth';
+import {
+  registerPushToken,
+  openSettingsAction,
+  checkPushPermissions,
+  getMe,
+} from './auth';
 import { SOCKET_URL } from '../api/utils';
-import { newMessageAction, typeStateChangeAction, getConversation, getConversations, getMessages } from './messages';
+import {
+  newMessageAction,
+  typeStateChangeAction,
+  getConversation,
+  getConversations,
+} from './messages';
 import { navigateResetMessage } from './nav';
 import callApi, { REQUESTS } from './api';
-import CONSTANTS, { SET_OVERLAY, SET_PUSH_TOKEN } from '../constants';
+import { SET_OVERLAY } from '../constants';
 import { isEquivalentObject } from '../utils/common';
 import theme from '../theme';
 import Permissions from '../utils/permissions';
+import Notifications from '../utils/notifications';
 
 // Push notification Android error
 // https://github.com/zo0r/react-native-push-notification/issues/495
@@ -24,6 +34,14 @@ const WEBSOCKET_STATES = {
 };
 
 let ws = null;
+
+export const NAMESPACES = {
+  MESSAGE: 'messenger:conversation:message',
+  ADVENTURE: 'platform:organization:adventure:challenge',
+};
+
+const getCID = l =>
+  l.substring(l.indexOf('conversations/') + 14, l.indexOf('/messages'));
 
 export function checkAndRunSockets() {
   return (dispatch, getState) => {
@@ -71,12 +89,15 @@ export function setupSocketAction(cableId) {
                 LOG('error sending websocket object', e);
               }
             } else {
-              LOG('websocket state not open, cannot send: Websocket readyState', ws.readyState);
+              LOG(
+                'websocket state not open, cannot send: Websocket readyState',
+                ws.readyState,
+              );
             }
           }
         };
 
-        ws.onmessage = (e) => {
+        ws.onmessage = e => {
           const data = JSON.parse(e.data) || {};
           const type = data && data.type;
           if (type === 'ping') return;
@@ -86,11 +107,22 @@ export function setupSocketAction(cableId) {
           } else if (data.message) {
             const message = data.message.message;
             const notification = data.message.notification;
-            if (notification && notification.category === 'CREATE_MESSAGE_CATEGORY') {
+            if (
+              notification &&
+              notification.category === 'CREATE_MESSAGE_CATEGORY'
+            ) {
               dispatch(newMessageAction(message));
-            } else if (notification && (notification.category === 'CREATE_TYPESTATE_CATEGORY' || notification.category === 'DESTROY_TYPESTATE_CATEGORY')) {
+            } else if (
+              notification &&
+              (notification.category === 'CREATE_TYPESTATE_CATEGORY' ||
+                notification.category === 'DESTROY_TYPESTATE_CATEGORY')
+            ) {
               dispatch(typeStateChangeAction(data.message));
-            } else if (notification && (notification.category === 'CREATE_CHALLENGE_CATEGORY' || notification.category === 'CREATE_ADVENTURE_CATEGORY')) {
+            } else if (
+              notification &&
+              (notification.category === 'CREATE_CHALLENGE_CATEGORY' ||
+                notification.category === 'CREATE_ADVENTURE_CATEGORY')
+            ) {
               dispatch(getMe());
             }
           }
@@ -110,7 +142,6 @@ export function setupSocketAction(cableId) {
       // Do nothing with the error
       LOG('socket error in setup', socketErr);
     }
-
   };
 }
 
@@ -124,7 +155,10 @@ export function closeSocketAction() {
           ws = null;
           // LOG('Closing the socket connection');
         } else {
-          LOG('websocket state not open, cannot close: Websocket readyState', ws.readyState);
+          LOG(
+            'websocket state not open, cannot close: Websocket readyState',
+            ws.readyState,
+          );
         }
       }
     } catch (socketErr) {
@@ -135,13 +169,13 @@ export function closeSocketAction() {
 }
 
 export function destroyDevice(cableId, token) {
-  return (dispatch) => {
+  return dispatch => {
     const query = {
       endpoint: `${API_URL}/me/devices/${cableId}`,
       access_token: token,
     };
-    return dispatch(callApi(REQUESTS.DESTROY_DEVICE, query)).catch((err) => {
-      LOG('error destroying device', cableId);
+    return dispatch(callApi(REQUESTS.DESTROY_DEVICE, query)).catch(err => {
+      LOG('error destroying device', cableId, err);
     });
   };
 }
@@ -153,14 +187,16 @@ export function updateDevice(device) {
     const query = {
       endpoint: `${API_URL}/me/devices/${cableId}`,
     };
-    return dispatch(callApi(REQUESTS.UPDATE_DEVICE, query, device)).then((results) => {
-      dispatch(setupSocketAction(results.id));
-    });
+    return dispatch(callApi(REQUESTS.UPDATE_DEVICE, query, device)).then(
+      results => {
+        dispatch(setupSocketAction(results.id));
+      },
+    );
   };
 }
 
 export function getDevices() {
-  return (dispatch) => {
+  return dispatch => {
     LOG('GETTING DEVICES');
     return dispatch(callApi(REQUESTS.GET_DEVICES));
   };
@@ -171,7 +207,7 @@ export function gotDeviceToken(token) {
     LOG('RECEIVED PUSH TOKEN:', token);
     const auth = getState().auth;
 
-    if ((token && !auth.pushToken) || (token !== auth.pushToken) ) {
+    if ((token && !auth.pushToken) || token !== auth.pushToken) {
       dispatch(registerPushToken(token)).then(() => {
         dispatch(establishPushDevice()).then(() => {
           const updatedPushId = getState().auth.pushId;
@@ -194,11 +230,16 @@ export function gotDeviceToken(token) {
   };
 }
 
-
 export function handleNotifications(state, notification) {
   return (dispatch, getState) => {
     let data = notification.data;
-    LOG('got notification', JSON.stringify(notification));
+    LOG('got notification', notification);
+
+    const {
+      activeConversationId,
+      unReadBadgeCount,
+      conversations,
+    } = getState().messages;
 
     // Get the namespace and link differently for ios and android
     let namespace;
@@ -209,45 +250,66 @@ export function handleNotifications(state, notification) {
         namespace = data.data.namespace;
         link = data.data.link;
       }
-    } else {
+    } else if (data) {
       // Android
-      if (notification && notification.namespace) {
-        namespace = notification.namespace;
-        if (notification.link) {
-          link = notification.link;
-        } else if (notification.notification && notification.notification.click_action) {
-          link = notification.notification.click_action;
-        }
-      } else if (notification.message_object && notification.message_object.indexOf('{') === 0) {
-        data = JSON.parse(notification.message);
-        if (data) {
-          data = data.notification;
-          if (data && data.namespace) {
-            namespace = data.namespace;
-            if (data.link) {
-              link = data.link;
-            } else if (data.notification && data.notification.click_action) {
-              link = data.notification.click_action;
-            }
-          }
-        }
+      // Old GCM code
+      // if (notification && notification.namespace) {
+      //   namespace = notification.namespace;
+      //   if (notification.link) {
+      //     link = notification.link;
+      //   } else if (
+      //     notification.notification &&
+      //     notification.notification.click_action
+      //   ) {
+      //     link = notification.notification.click_action;
+      //   }
+      // } else if (
+      //   notification.message_object &&
+      //   notification.message_object.indexOf('{') === 0
+      // ) {
+      //   data = JSON.parse(notification.message);
+      //   if (data) {
+      //     data = data.notification;
+      //     if (data && data.namespace) {
+      //       namespace = data.namespace;
+      //       if (data.link) {
+      //         link = data.link;
+      //       } else if (data.notification && data.notification.click_action) {
+      //         link = data.notification.click_action;
+      //       }
+      //     }
+      //   }
+      // }
+
+      if (data.link) {
+        link = data.link;
+      }
+      if (data.namespace) {
+        namespace = data.namespace;
       }
     }
 
-    LOG('notification', state, data, link, namespace);
+    LOG(
+      'notification state, data, link, namespace',
+      state,
+      data,
+      link,
+      namespace,
+    );
 
-    if (state === 'foreground') {
-      LOG('Foreground notification', data);
+    if (state === 'foreground' && namespace && link) {
+      // Foreground
       // If the user receives a push notification while in the app and sockets
       // are not connected, grab the new conversation info
       if (!ws || (ws && ws.readyState !== WEBSOCKET_STATES.OPEN)) {
-        LOG('socket is closed');
-        if (namespace && link && namespace.includes('messenger:conversation:message')) {
-          const cId = link.substring(link.indexOf('conversations/') + 14, link.indexOf('/messages'));
+        // LOG('got foreground notification and socket is closed');
+        if (namespace.includes(NAMESPACES.MESSAGE)) {
+          const cId = getCID(link);
           if (!cId) return;
 
+          // If on message screen, get the latest messages
           // const activeScreen = getState().auth.activeScreen;
-          // const conversationId = getState().messages.activeConversationId;
+          // const conversationId = activeConversationId;
           // LOG('activeScreen, conversationId, cId', activeScreen, conversationId, cId);
 
           // if (activeScreen === 'voke.Message' && cId === conversationId) {
@@ -255,108 +317,130 @@ export function handleNotifications(state, notification) {
           // } else {
           //   dispatch(getConversations());
           // }
-          const conversationId = getState().messages.activeConversationId;
+
+          const conversationId = activeConversationId;
           if (conversationId && cId === conversationId) {
             dispatch(getConversation(cId));
             // dispatch(getMessages(cId));
           } else {
             dispatch(getConversations());
           }
-        } else if (namespace && link && namespace.includes('platform:organization:adventure:challenge')) {
+        } else if (namespace.includes(NAMESPACES.ADVENTURE)) {
           dispatch(getMe());
         }
       }
-    }
-    if (state === 'background') {
-      const unReadBadgeCount = getState().messages.unReadBadgeCount;
+    } else if (state === 'background') {
+      // Background
+      // LOG('Background notification', data);
+      Notifications.setBadge(unReadBadgeCount + 1);
+    } else if (state === 'open' && namespace && link) {
+      // Open
+      // LOG('message came in with namespace and link', namespace, link);
 
-      PushNotification.setApplicationIconBadgeNumber(unReadBadgeCount + 1);
-
-      LOG('Background notification', data);
-    }
-    if (state === 'open') {
-
-      LOG('message came in with namespace and link', namespace, link);
-
-      if (namespace && link && namespace.includes('messenger:conversation:message')) {
-        const cId = link.substring(link.indexOf('conversations/') + 14, link.indexOf('/messages'));
+      if (namespace.includes(NAMESPACES.MESSAGE)) {
+        const cId = getCID(link);
         if (!cId) return;
 
         // Check if conversation exists, just use it, otherwise get it
-        const conversationExists = getState().messages.conversations.find((c) => c.id === cId);
+        const conversationExists = conversations.find(c => c.id === cId);
+        // After getting the conversation, reset to the message screen
+        const navToConv = c =>
+          dispatch(
+            navigateResetMessage({
+              conversation: c,
+              forceUpdate: true,
+            }),
+          );
         if (conversationExists) {
-          dispatch(navigateResetMessage({
-            conversation: conversationExists,
-            forceUpdate: true,
-          }));
+          navToConv(conversationExists);
         } else {
-          dispatch(getConversation(cId)).then((results) => {
-            if (!results || !results.conversation ) {
+          dispatch(getConversation(cId)).then(results => {
+            if (!results || !results.conversation) {
               return;
             }
-            dispatch(navigateResetMessage({
-              conversation: results.conversation,
-              forceUpdate: true,
-            }));
+            navToConv(results.conversation);
           });
         }
-      } else if (namespace && link && namespace.includes('platform:organization:adventure:challenge')) {
+      } else if (namespace.includes(NAMESPACES.ADVENTURE)) {
         dispatch(getMe());
       }
-    //   // NotificationsIOS.removeAllDeliveredNotifications();
-    // } else {
-    //   LOG('handle notification else');
-    //   // NotificationsIOS.setBadgesCount(2);
-    //
     }
   };
 }
 
 export function establishDevice() {
-  return (dispatch, getState) => {
-
-    PushNotification.configure({
+  return dispatch => {
+    let configs = {
       // (optional) Called when Token is generated (iOS and Android)
       onRegister(token) {
-        LOG('in push notification register');
+        LOG('in push notification register', token);
         // Update redux with the push notification permission value
         dispatch(checkPushPermissions(false));
-
-        dispatch(gotDeviceToken(token.token));
-      },
-      // (required) Called when a remote or local notification is opened or received
-      onNotification(notification) {
-        // LOG('onNotification came in', notification);
-        let state;
-        if (notification && notification.foreground && !notification.userInteraction) {
-          state = 'foreground';
-        } else if (notification && !notification.foreground && !notification.userInteraction) {
-          state= 'background';
+        if (theme.isAndroid) {
+          dispatch(gotDeviceToken(token));
         } else {
-          state ='open';
+          dispatch(gotDeviceToken(token.token));
         }
-        LOG('onNotification state', state);
-        dispatch(handleNotifications(state, notification));
       },
-      // ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)
-      senderID: CONSTANTS.GCM_SENDER_ID,
+    };
 
-      // IOS ONLY (optional): default: all - Permissions to register.
-      permissions: {
-        alert: true,
-        badge: true,
-        sound: true,
-      },
-      // Should the initial notification be popped automatically
-      // default: true
-      popInitialNotification: true,
-      /**
-      * (optional) default: true
-      * - Specified if permissions (ios) and token (android and ios) will requested or not,
-      * - if not, you must call PushNotificationsHandler.requestPermissions() later
-      */
-      requestPermissions: true,
-    });
+    if (theme.isAndroid) {
+      // Android configs
+      configs = {
+        ...configs,
+        onNotification(state, notification) {
+          LOG('onNotification state android', state);
+          dispatch(handleNotifications(state, notification));
+        },
+      };
+    } else {
+      // iOS configs
+      configs = {
+        ...configs,
+        // (required) Called when a remote or local notification is opened or received
+        onNotification(notification) {
+          // LOG('onNotification came in', notification);
+          let state;
+          if (
+            notification &&
+            notification.foreground &&
+            !notification.userInteraction
+          ) {
+            state = 'foreground';
+          } else if (
+            notification &&
+            !notification.foreground &&
+            !notification.userInteraction
+          ) {
+            state = 'background';
+          } else {
+            state = 'open';
+          }
+          LOG('onNotification state', state);
+          dispatch(handleNotifications(state, notification));
+        },
+        // ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)
+        // senderID: CONSTANTS.GCM_SENDER_ID,
+
+        // IOS ONLY (optional): default: all - Permissions to register.
+        permissions: {
+          alert: true,
+          badge: true,
+          sound: true,
+        },
+        // Should the initial notification be popped automatically
+        // default: true
+        popInitialNotification: true,
+        /**
+         * (optional) default: true
+         * - Specified if permissions (ios) and token (android and ios) will requested or not,
+         * - if not, you must call PushNotificationsHandler.requestPermissions() later
+         */
+        requestPermissions: true,
+      };
+    }
+
+    Notifications.setup(configs);
   };
 }
 
@@ -390,12 +474,14 @@ export function establishCableDevice(token) {
       } else {
         LOG('cableID does not exists in establishCableDevice');
         // CREATE THE CABLE DEVICE WITH DATA
-        return dispatch(callApi(REQUESTS.CREATE_DEVICE, {}, data)).then((results) => {
-          LOG('Creating Cable Device Results: ', JSON.stringify(results));
-          dispatch(setupSocketAction(results.id));
-        });
+        return dispatch(callApi(REQUESTS.CREATE_DEVICE, {}, data)).then(
+          results => {
+            LOG('Creating Cable Device Results: ', JSON.stringify(results));
+            dispatch(setupSocketAction(results.id));
+          },
+        );
       }
-    } else if (!isEquivalent || (isEquivalent && !auth.cableId) ) {
+    } else if (!isEquivalent || (isEquivalent && !auth.cableId)) {
       let data = {
         device: {
           ...currentDeviceInfo,
@@ -408,10 +494,12 @@ export function establishCableDevice(token) {
         dispatch(updateDevice(data));
       } else {
         // CREATE THE CABLE DEVICE WITH DATA
-        return dispatch(callApi(REQUESTS.CREATE_DEVICE, {}, data)).then((results) => {
-          LOG('Creating Cable Device Results: ', JSON.stringify(results));
-          dispatch(setupSocketAction(results.id));
-        });
+        return dispatch(callApi(REQUESTS.CREATE_DEVICE, {}, data)).then(
+          results => {
+            LOG('Creating Cable Device Results: ', JSON.stringify(results));
+            dispatch(setupSocketAction(results.id));
+          },
+        );
       }
     } else {
       dispatch(setupSocketAction(auth.cableId));
@@ -437,21 +525,22 @@ export function establishPushDevice() {
         device: {
           ...currentDeviceInfo,
           key: auth.pushToken,
-          kind: theme.isAndroid ? 'android_react' : 'apple',
+          kind: theme.isAndroid ? 'fcm' : 'apple',
         },
       };
-      return dispatch(callApi(REQUESTS.CREATE_PUSH_DEVICE, {}, data)).then((results) => {
-        LOG('Create Push Device Results: ', JSON.stringify(results));
-      });
+      return dispatch(callApi(REQUESTS.CREATE_PUSH_DEVICE, {}, data)).then(
+        results => {
+          LOG('Create Push Device Results: ', JSON.stringify(results));
+        },
+      );
     }
   };
 }
 
-
 export function enablePushNotifications(forceIfUndetermined = false) {
   return (dispatch, getState) => {
     let token = getState().auth.pushToken;
-    Permissions.checkPush().then((response) => {
+    Permissions.checkPush().then(response => {
       // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
       if (response === 'undetermined' && !token) {
         if (forceIfUndetermined) {
@@ -474,7 +563,6 @@ export function determinePushOverlay() {
   return (dispatch, getState) => {
     const permission = getState().auth.pushPermission;
     if (permission === 'authorized') return;
-
 
     dispatch({ type: SET_OVERLAY, value: 'pushPermissions' });
   };

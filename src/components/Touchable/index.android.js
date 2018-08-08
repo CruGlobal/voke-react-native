@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, TouchableNativeFeedback, Platform } from 'react-native';
+import {
+  TouchableOpacity,
+  TouchableNativeFeedback,
+  Platform,
+} from 'react-native';
 
 import { COLORS } from '../../theme';
 
 class TouchableAndroid extends Component {
   render() {
-    const { borderless = false, isAndroidOpacity, androidRippleColor, ...rest } = this.props;
+    const {
+      borderless = false,
+      isAndroidOpacity,
+      androidRippleColor,
+      ...rest
+    } = this.props;
 
     if (isAndroidOpacity) {
       return (
@@ -20,10 +29,13 @@ class TouchableAndroid extends Component {
     let background;
     // Android > 5.0 support
     if (Platform.Version >= 21) {
-      background = TouchableNativeFeedback.Ripple(COLORS.convert({
-        color: androidRippleColor || COLORS.GREY,
-        alpha: 0.5,
-      }), borderless);
+      background = TouchableNativeFeedback.Ripple(
+        COLORS.convert({
+          color: androidRippleColor || COLORS.GREY,
+          alpha: 0.5,
+        }),
+        borderless,
+      );
     } else {
       background = TouchableNativeFeedback.SelectableBackground();
     }

@@ -33,10 +33,7 @@ export default class Icon extends Component {
     else Tag = Material;
 
     return (
-      <Tag
-        name={iconName}
-        style={[styles.icon, { fontSize: size }, style]}
-      />
+      <Tag name={iconName} style={[styles.icon, { fontSize: size }, style]} />
     );
   }
 }
@@ -47,7 +44,11 @@ Icon.propTypes = {
     ...Object.keys(MaterialGlyphs),
     ...Object.keys(IoniconsGlyphs),
   ]).isRequired,
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.number, PropTypes.array]),
+  style: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.number,
+    PropTypes.array,
+  ]),
   type: PropTypes.oneOf(ICON_TYPES),
   size: PropTypes.number,
 };

@@ -3,6 +3,7 @@ import { View, Platform, Keyboard } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import debounce from 'lodash/debounce';
+import { translate } from 'react-i18next';
 
 import { openSettingsAction } from '../../actions/auth';
 import Analytics from '../../utils/analytics';
@@ -36,7 +37,9 @@ class Contacts extends Component {
       isMultipleOpen: false,
       showPermissionModal: false,
       selectNumberContact: null,
-      permission: props.isInvite ? Permissions.NOT_ASKED : Permissions.AUTHORIZED,
+      permission: props.isInvite
+        ? Permissions.NOT_ASKED
+        : Permissions.AUTHORIZED,
     };
 
     this.refreshContacts = this.refreshContacts.bind(this);
@@ -53,12 +56,18 @@ class Contacts extends Component {
   }
 
   componentWillMount() {
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+    this.keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      this.keyboardDidShow,
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      this.keyboardDidHide,
+    );
   }
 
   componentDidMount() {
-    Analytics.screen('Contacts');
+    Analytics.screen(Analytics.s.Contacts);
     if (this.props.isInvite) {
       this.checkContactsStatus();
     }
@@ -80,14 +89,14 @@ class Contacts extends Component {
   }
 
   keyboardDidShow() {
-    this.setState({keyboardVisible: true});
+    this.setState({ keyboardVisible: true });
     if (this.props.shareModalVisible) {
       Keyboard.dismiss();
     }
   }
 
   keyboardDidHide() {
-    this.setState({keyboardVisible: false});
+    this.setState({ keyboardVisible: false });
   }
 
   componentWillReceiveProps() {
@@ -128,23 +137,28 @@ class Contacts extends Component {
       isSearching: false,
       selectNumberContact: null,
     });
-    this.props.dispatch(getContacts(true)).then(() => {
-      this.setState({ refreshing: false });
-    }).catch(() => {
-      this.setState({ refreshing: false });
-    });
+    this.props
+      .dispatch(getContacts(true))
+      .then(() => {
+        this.setState({ refreshing: false });
+      })
+      .catch(() => {
+        this.setState({ refreshing: false });
+      });
   }
 
   handleGetContacts() {
-    this.props.dispatch(getContacts()).then(() => {
-      this.setState({ permission: Permissions.AUTHORIZED });
-    }).catch(() => {
-      this.setState({ permission: Permissions.DENIED });
-      LOG('contacts caught');
-      //change screen
-    });
+    this.props
+      .dispatch(getContacts())
+      .then(() => {
+        this.setState({ permission: Permissions.AUTHORIZED });
+      })
+      .catch(() => {
+        this.setState({ permission: Permissions.DENIED });
+        LOG('contacts caught');
+        //change screen
+      });
   }
-
 
   handleAllowContacts() {
     if (theme.isAndroid) {
@@ -163,7 +177,7 @@ class Contacts extends Component {
       return;
     }
     this.setState({ isSearching: true });
-    this.props.dispatch(searchContacts(text)).then((results) => {
+    this.props.dispatch(searchContacts(text)).then(results => {
       this.setState({ searchResults: results, isSearching: false });
     });
   }
@@ -177,7 +191,10 @@ class Contacts extends Component {
     if (theme.isAndroid) {
       if (!this.state.showSearch) return null;
       return (
-        <AndroidSearchBar onChange={this.changeText} value={this.state.searchText} />
+        <AndroidSearchBar
+          onChange={this.changeText}
+          value={this.state.searchText}
+        />
       );
     }
     return (
@@ -185,101 +202,97 @@ class Contacts extends Component {
     );
   }
 
-  handleSelectContact = (c) => {
+  handleSelectContact = c => {
     if (!c.isVoke && c.phone.length > 1) {
       this.setState({ selectNumberContact: c });
     } else {
       this.props.onSelect(c);
     }
-  }
+  };
 
   handleSelectedContact = (c, index) => {
     this.setState({ selectNumberContact: null });
     this.props.onSelect(c, index);
-  }
+  };
 
   render() {
-    const { isLoading, inShare, all, isInvite } = this.props;
-    const { permission, showSearch, selectNumberContact, searchText, searchResults, showPermissionModal, isSearching, refreshing } = this.state;
+    const { t, isLoading, inShare, all, isInvite } = this.props;
+    const {
+      permission,
+      showSearch,
+      selectNumberContact,
+      searchText,
+      searchResults,
+      showPermissionModal,
+      isSearching,
+      refreshing,
+    } = this.state;
     const isAuthorized = permission === Permissions.AUTHORIZED;
     return (
       <View style={styles.container}>
         <Header
-          left={
-            <HeaderIcon
-              type="back"
-              onPress={this.handleBack} />
-          }
+          left={<HeaderIcon type="back" onPress={this.handleBack} />}
           right={
             theme.isAndroid ? (
               <HeaderIcon
                 type="search"
-                onPress={() => this.setState({ showSearch: !showSearch })} />
-            ) : undefined
+                onPress={() => this.setState({ showSearch: !showSearch })}
+              />
+            ) : (
+              undefined
+            )
           }
-          title={isInvite ? 'Invite a Friend' : 'Contacts'}
+          title={isInvite ? t('inviteFriend') : t('contacts')}
           light={true}
           shadow={false}
         />
         {this.renderSearch()}
-        {
-          isAuthorized ? (
-            <ContactsList
-              isSearching={isSearching}
-              items={searchText ? searchResults : all}
-              onSelect={this.handleSelectContact}
-              isInvite={isInvite}
-              onRefresh={this.refreshContacts}
-              refreshing={refreshing}
+        {isAuthorized ? (
+          <ContactsList
+            isSearching={isSearching}
+            items={searchText ? searchResults : all}
+            onSelect={this.handleSelectContact}
+            isInvite={isInvite}
+            onRefresh={this.refreshContacts}
+            refreshing={refreshing}
+          />
+        ) : (
+          <Flex align="center" style={{ paddingTop: 30 }}>
+            <Button
+              onPress={this.handleAllowContacts}
+              text={t('allowContacts')}
+              style={styles.randomButton}
+              buttonTextStyle={styles.randomText}
             />
-          ) : (
-            <Flex align="center" style={{paddingTop: 30}}>
-              <Button
-                onPress={this.handleAllowContacts}
-                text="Allow Contacts"
-                style={styles.randomButton}
-                buttonTextStyle={styles.randomText}
-              />
-            </Flex>
-          )
-        }
-        {
-          isLoading ? (
-            <ApiLoading
-              force={true}
-              text="Fetching your contacts - and because you are so popular, I need up to 30 seconds"
-            />
-          ) : null
-        }
-        {
-          inShare ? <ApiLoading force={true} text="" /> : null
-        }
+          </Flex>
+        )}
+        {isLoading ? (
+          <ApiLoading
+            force={true}
+            text={t('loading.contacts')}
+          />
+        ) : null}
+        {inShare ? <ApiLoading force={true} /> : null}
         <ApiLoading />
-        {
-          isAuthorized ? <ShareModal /> : null
-        }
-        {
-          showPermissionModal ? (
-            <Modal
-              onClose={() => this.setState({ showPermissionModal: false })}
-              getContacts={this.handleGetContacts}
-              onDismiss={this.handleDismissPermission}
-            />
-          ) : null
-        }
-        {
-          selectNumberContact ? (
-            <SelectNumber
-              contact={selectNumberContact}
-              onSelect={this.handleSelectedContact}
-              onCancel={() => this.setState({ selectNumberContact: null })} />
-          ) : null
-        }
+        {isAuthorized ? <ShareModal /> : null}
+        {showPermissionModal ? (
+          <Modal
+            onClose={() => this.setState({ showPermissionModal: false })}
+            getContacts={this.handleGetContacts}
+            onDismiss={this.handleDismissPermission}
+          />
+        ) : null}
+        {selectNumberContact ? (
+          <SelectNumber
+            contact={selectNumberContact}
+            onSelect={this.handleSelectedContact}
+            onCancel={() => this.setState({ selectNumberContact: null })}
+          />
+        ) : null}
       </View>
     );
   }
 }
-
 
 // Check out actions/nav.js to see the prop types and mapDispatchToProps
 Contacts.propTypes = {
@@ -297,7 +310,11 @@ const mapStateToProps = ({ contacts, messages }, { navigation }) => ({
   isShareModalVisible: contacts.showShareModal,
   shareModalCancel: contacts.shareModalProps.onCancel,
   inShare: messages.inShare,
-
 });
 
-export default connect(mapStateToProps, nav)(Contacts);
+export default translate()(
+  connect(
+    mapStateToProps,
+    nav,
+  )(Contacts),
+);

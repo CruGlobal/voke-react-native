@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Platform, WebView, StyleSheet, View } from 'react-native';
+import { translate } from 'react-i18next';
 
 import { Flex, Text } from '../common';
 import RNVideo from './RNVideo';
@@ -35,13 +36,16 @@ if (!theme.isAndroid) {
   }
 }
 
-export default class WebviewVideo extends Component {
+class WebviewVideo extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       duration: 0,
-      isPaused: (isOlderAndroid && props.type === 'arclight') || props.type === 'vimeo' || props.forceNoAutoPlay,
+      isPaused:
+        (isOlderAndroid && props.type === 'arclight') ||
+        props.type === 'vimeo' ||
+        props.forceNoAutoPlay,
       time: 0,
       numOfErrors: 0,
       addMargin: shouldAddMargin,
@@ -120,7 +124,10 @@ export default class WebviewVideo extends Component {
         if (this.state.isPaused) {
           this.setState({ isPaused: false });
         }
-      } else if (data === webviewCommon.PAUSED || data === webviewCommon.ERROR) {
+      } else if (
+        data === webviewCommon.PAUSED ||
+        data === webviewCommon.ERROR
+      ) {
         if (!this.state.isPaused) {
           this.setState({ isPaused: true });
         }
@@ -148,15 +155,26 @@ export default class WebviewVideo extends Component {
     const { type, start, end, thumbnail, url, forceNoAutoPlay } = this.props;
     if (type === 'youtube') {
       const id = webviewCommon.getYoutubeId(url);
-      if (!id) { return null; }
-      return YoutubeHTML(id, { start: start, end: end, forceNoAutoPlay: forceNoAutoPlay || false });
+      if (!id) {
+        return null;
+      }
+      return YoutubeHTML(id, {
+        start: start,
+        end: end,
+        forceNoAutoPlay: forceNoAutoPlay || false,
+      });
     } else if (type === 'vimeo') {
       // Vimeo is the worst...you can't play videos inline
       const id = webviewCommon.getVimeoId(url);
-      if (!id) { return null; }
+      if (!id) {
+        return null;
+      }
       return VimeoHTML(id, { start: start, end: end });
     } else if (type === 'arclight') {
-      return html5HTML(url, { thumbnail: thumbnail, forceNoAutoPlay: forceNoAutoPlay || false });
+      return html5HTML(url, {
+        thumbnail: thumbnail,
+        forceNoAutoPlay: forceNoAutoPlay || false,
+      });
     }
     return null;
   }
@@ -186,10 +204,10 @@ export default class WebviewVideo extends Component {
 
   renderVideo(html) {
     if (this.props.type === 'arclight' && isOlderAndroid) {
-    // if (theme.isAndroid) {
+      // if (theme.isAndroid) {
       return (
         <RNVideo
-          ref={(c) => this.rnvideo = c}
+          ref={c => (this.rnvideo = c)}
           url={this.props.url}
           onUpdateData={this.handleData}
           isPaused={this.state.isPaused}
@@ -200,7 +218,7 @@ export default class WebviewVideo extends Component {
     }
     return (
       <WebView
-        ref={(c) => this.webview = c}
+        ref={c => (this.webview = c)}
         source={{ html }}
         style={{
           marginTop: this.state.addMargin ? -20 : 0,
@@ -218,16 +236,22 @@ export default class WebviewVideo extends Component {
   }
 
   render() {
+    const { t, type, isLandscape, width } = this.props;
     const html = this.getHtml();
     if (!html) {
       return (
-        <Flex value={1} align="center" justify="center" style={styles.errorWrap}>
-          <Text style={styles.errorText}>We had trouble finding that video</Text>
+        <Flex
+          value={1}
+          align="center"
+          justify="center"
+          style={styles.errorWrap}
+        >
+          <Text style={styles.errorText}>{t('error.troubleVideo')}</Text>
         </Flex>
       );
     }
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         {this.renderVideo(html)}
         <VideoControls
           isPaused={this.state.isPaused}
@@ -237,9 +261,9 @@ export default class WebviewVideo extends Component {
           duration={this.state.duration}
           replay={this.state.replay}
           time={this.state.time}
-          type={this.props.type}
-          isLandscape={this.props.isLandscape}
-          width={this.props.width}
+          type={type}
+          isLandscape={isLandscape}
+          width={width}
         />
       </View>
     );
@@ -269,3 +293,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
+export default translate(undefined, { wait: true, withRef: true })(WebviewVideo);

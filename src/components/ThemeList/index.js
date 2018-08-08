@@ -1,7 +1,7 @@
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, FlatList } from 'react-native';
+import { translate } from 'react-i18next';
 
 import styles from './styles';
 import { Flex, Touchable, Text, VokeIcon, Separator, Button } from '../common';
@@ -30,13 +30,19 @@ class ThemeList extends Component {
     const { selectedTheme } = this.state;
 
     return (
-      <Touchable highlight={false} activeOpacity={1} onPress={() => this.handleSelectTheme(item)}>
+      <Touchable
+        highlight={false}
+        activeOpacity={1}
+        onPress={() => this.handleSelectTheme(item)}
+      >
         <Flex style={styles.row} direction="row" align="center">
-          <Flex value={5} >
+          <Flex value={5}>
             <Text style={styles.link}>{item.name}</Text>
           </Flex>
-          <Flex value={.5} >
-            <VokeIcon name={selectedTheme === item.id ? 'selected' : 'not-selected'} />
+          <Flex value={0.5}>
+            <VokeIcon
+              name={selectedTheme === item.id ? 'selected' : 'not-selected'}
+            />
           </Flex>
         </Flex>
       </Touchable>
@@ -44,29 +50,30 @@ class ThemeList extends Component {
   }
 
   render() {
+    const { t, onDismiss, items } = this.props;
     return (
       <View style={styles.container}>
         <FlatList
           initialNumToRender={CONSTANTS.PAGE_SIZE}
-          data={this.props.items}
+          data={items}
           ItemSeparatorComponent={() => <Separator />}
           renderItem={this.renderRow}
-          keyExtractor={(item) => item.name.replace(/\s/ig, '')}
+          keyExtractor={item => item.name.replace(/\s/gi, '')}
           style={styles.list}
           contentContainerStyle={styles.content}
         />
         <Flex direction="row" style={styles.buttonWrapper}>
           <Flex value={1} style={styles.buttonBorder}>
             <Button
-              text="Cancel"
+              text={t('cancel')}
               buttonTextStyle={styles.actionButtonText}
               style={styles.actionButton}
-              onPress={this.props.onDismiss}
+              onPress={onDismiss}
             />
           </Flex>
           <Flex value={1}>
             <Button
-              text="OK"
+              text={t('ok')}
               buttonTextStyle={styles.actionButtonText}
               style={styles.actionButton}
               onPress={this.handleSetTheme}
@@ -84,4 +91,4 @@ ThemeList.propTypes = {
   onSelectTheme: PropTypes.func.isRequired,
 };
 
-export default ThemeList;
+export default translate()(ThemeList);

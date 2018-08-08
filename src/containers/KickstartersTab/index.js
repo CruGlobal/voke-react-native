@@ -2,18 +2,16 @@ import React, { Component } from 'react';
 import { ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Analytics from '../../utils/analytics';
+import { translate } from 'react-i18next';
 
+import Analytics from '../../utils/analytics';
 import nav, { NavPropTypes } from '../../actions/nav';
 import { getKickstarters } from '../../actions/videos';
-import theme from '../../theme';
-import { vokeIcons } from '../../utils/iconMap';
 
 import styles from './styles';
 import ApiLoading from '../ApiLoading';
 import Header from '../Header';
 import { Flex, Text, Touchable, VokeIcon } from '../../components/common';
-
 
 class KickstartersTab extends Component {
   constructor(props) {
@@ -30,17 +28,20 @@ class KickstartersTab extends Component {
 
   componentDidMount() {
     this.getKickstarters();
-    Analytics.screen('In-Chat KickStarters');
+    Analytics.screen(Analytics.s.ChatKickstarters);
   }
 
   getKickstarters() {
     if (this.props.latestItem) {
-      this.props.dispatch(getKickstarters(this.props.latestItem)).then((results) => {
-        this.setState({ kickstarters: results.questions });
-      }).catch((err) => {
-        LOG('kickstarter err', err);
-        this.setState({ kickstarters: [] });
-      });
+      this.props
+        .dispatch(getKickstarters(this.props.latestItem))
+        .then(results => {
+          this.setState({ kickstarters: results.questions });
+        })
+        .catch(err => {
+          LOG('kickstarter err', err);
+          this.setState({ kickstarters: [] });
+        });
     } else {
       this.setState({ kickstarters: [] });
     }
@@ -48,17 +49,26 @@ class KickstartersTab extends Component {
 
   renderRow(item) {
     return (
-      <Touchable highlight={false} activeOpacity={0.8} onPress={() => this.props.onSelectKickstarter(item)} key={item.id}>
-        <Flex direction="column" align="start" justify="center" style={styles.kickstarterWrap}>
-          <Text style={styles.kickstarterText}>
-            {item.content}
-          </Text>
+      <Touchable
+        highlight={false}
+        activeOpacity={0.8}
+        onPress={() => this.props.onSelectKickstarter(item)}
+        key={item.id}
+      >
+        <Flex
+          direction="column"
+          align="start"
+          justify="center"
+          style={styles.kickstarterWrap}
+        >
+          <Text style={styles.kickstarterText}>{item.content}</Text>
         </Flex>
       </Touchable>
     );
   }
 
   renderHeader() {
+    const { t } = this.props;
     const { kickstarters } = this.state;
     if (kickstarters.length === 0) {
       return null;
@@ -67,36 +77,37 @@ class KickstartersTab extends Component {
     return (
       <Flex align="center" value={1} style={styles.chatImageWrap}>
         <VokeIcon name="kickstarter" style={styles.chatImage} />
-        <Text style={styles.description}>Add one of these kickstarters to your chat.</Text>
+        <Text style={styles.description}>{t('description')}</Text>
       </Flex>
     );
   }
 
   render() {
+    const { t } = this.props;
     const { kickstarters } = this.state;
     const hasKickstarters = kickstarters.length > 0;
     let content = null;
     if (!hasKickstarters) {
-      content = (
-        <Text style={styles.nothingText}>Kickstarter questions will be visible after you select and share a video with a friend.</Text>
-      );
+      content = <Text style={styles.nothingText}>{t('nothing')}</Text>;
     } else {
-      content = this.state.kickstarters.map(this.renderRow);
+      content = kickstarters.map(this.renderRow);
     }
-
 
     return (
       <View style={{ flex: 1 }}>
-        <Header
-          leftBack={true}
-          title="Kickstarters"
-        />
+        <Header leftBack={true} title={t('title.kickstarters')} />
         <ScrollView
           style={styles.container}
           contentContainerStyle={!hasKickstarters ? { flex: 1 } : undefined}
         >
           {this.renderHeader()}
-          <Flex value={1} align="center" justify="center" style={styles.content} animation="slideInUp">
+          <Flex
+            value={1}
+            align="center"
+            justify="center"
+            style={styles.content}
+            animation="slideInUp"
+          >
             {content}
           </Flex>
           <ApiLoading />
@@ -115,4 +126,9 @@ const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
 });
 
-export default connect(mapStateToProps, nav)(KickstartersTab);
+export default translate('kickstarters')(
+  connect(
+    mapStateToProps,
+    nav,
+  )(KickstartersTab),
+);

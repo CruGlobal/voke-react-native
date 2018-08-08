@@ -21,71 +21,109 @@ function convertTime(time) {
 }
 
 export default class VideoControls extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      timeElapsedStr: convertTime(0),
-      stateTime: 0,
-    };
-
-    this.handleScreenPress = this.handleScreenPress.bind(this);
-    this.handleReplay = this.handleReplay.bind(this);
-  }
+  state = {
+    seekTime: null,
+    stateTime: 0,
+  };
 
   componentWillReceiveProps(nextProps) {
     this.setState({ stateTime: nextProps.time });
   }
 
-  handleScreenPress() {
-    this.props.onPlayPause();
-  }
+  seek = () => {
+    const { onSeek } = this.props;
+    const { seekTime } = this.state;
+    if (seekTime) {
+      onSeek(seekTime);
+      // Delay resetting the seekTime so that the view doesn't jump between times too much.
+      setTimeout(() => this.setState({ seekTime: null }), 750);
+    }
+  };
 
-  handleReplay() {
+  handleScreenPress = () => {
+    this.props.onPlayPause();
+  };
+
+  handleReplay = () => {
     this.props.onReplay();
-  }
+  };
 
   render() {
-    const { time, isPaused, onSeek, duration, replay, width } = this.props;
+    const { time, isPaused, duration, replay, width, isLandscape } = this.props;
+    const { seekTime, stateTime } = this.state;
     return (
       <Flex direction="column" style={styles.outerWrap}>
-        <Flex style={[this.props.isLandscape ? styles.landscapeSize : styles.portraitSize, styles.viewBlock, width ? {width} : {}]} align="center" justify="center">
-          <Touchable activeOpacity={.5} onPress={!replay ? this.handleScreenPress : this.handleReplay}>
-            <Flex animation="zoomIn" style={[this.props.isLandscape ? styles.landscapeSize : styles.portraitSize, styles.screenPress]}>
-              {
-                isPaused || replay ? (
-                  <Icon name={replay ? 'replay' : 'play-circle-filled'} size={50} style={styles.playIcon} />
-                ) : null
-              }
+        <Flex
+          style={[
+            isLandscape ? styles.landscapeSize : styles.portraitSize,
+            styles.viewBlock,
+            width ? { width } : {},
+          ]}
+          align="center"
+          justify="center"
+        >
+          <Touchable
+            activeOpacity={0.5}
+            onPress={!replay ? this.handleScreenPress : this.handleReplay}
+          >
+            <Flex
+              animation="zoomIn"
+              style={[
+                isLandscape ? styles.landscapeSize : styles.portraitSize,
+                styles.screenPress,
+              ]}
+            >
+              {isPaused || replay ? (
+                <Icon
+                  name={replay ? 'replay' : 'play-circle-filled'}
+                  size={50}
+                  style={styles.playIcon}
+                />
+              ) : null}
             </Flex>
           </Touchable>
         </Flex>
-        <Flex direction="row" style={[this.props.isLandscape ? styles.landscapeSize : styles.portraitSize, styles.controlWrapper, width ? {width} : {}]} align="center" justify="center">
-          <Flex value={.2} align="center">
+        <Flex
+          direction="row"
+          style={[
+            isLandscape ? styles.landscapeSize : styles.portraitSize,
+            styles.controlWrapper,
+            width ? { width } : {},
+          ]}
+          align="center"
+          justify="center"
+        >
+          <Flex value={0.2} align="center">
             <Touchable onPress={this.handleScreenPress}>
-              <VokeIcon name={!isPaused ? 'pause' : 'play'} style={styles.playIcon} />
+              <VokeIcon
+                name={!isPaused ? 'pause' : 'play'}
+                style={styles.playIcon}
+              />
             </Touchable>
           </Flex>
-          <Flex value={.2} align="center">
-            <Text style={styles.time}>{convertTime(this.state.stateTime)}</Text>
+          <Flex value={0.2} align="center">
+            <Text style={styles.time}>
+              {convertTime(seekTime || stateTime)}
+            </Text>
           </Flex>
           <Flex value={1.2}>
             <Slider
               thumbImage={vokeIcons['thumb']}
               minimumTrackTintColor={theme.primaryColor}
               step={1}
-              value={time}
+              value={seekTime || time}
               minimumValue={0}
               maximumValue={duration}
-              onSlidingComplete={() => onSeek(this.state.stateTime)}
-              onValueChange={(value) => this.setState({
-                stateTime: value,
-                timeElapsedStr: convertTime(value),
-              })}
+              onSlidingComplete={this.seek}
+              onValueChange={value =>
+                this.setState({
+                  seekTime: value,
+                })
+              }
               style={styles.slider}
             />
           </Flex>
-          <Flex align="center" value={.3}>
+          <Flex align="center" value={0.3}>
             <Text style={styles.time}>{convertTime(duration)}</Text>
           </Flex>
         </Flex>

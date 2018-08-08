@@ -1,0 +1,117 @@
+{
+  "project_info": {
+    "project_number": "360680446899",
+    "firebase_url": "https://voke-6ee71.firebaseio.com",
+    "project_id": "voke-6ee71",
+    "storage_bucket": "voke-6ee71.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:360680446899:android:041208d710a186ed",
+        "android_client_info": {
+          "package_name": "org.cru.voke"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "360680446899-34f49i4u64j6tjplgmrlcb8p4jtl1t5j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.cru.voke",
+            "certificate_hash": "fdeaf79298ff66358ae8afe3f785067e70c4ee32"
+          }
+        },
+        {
+          "client_id": "360680446899-dgbnv1uoubnfptgs9vd8vk7puu0sgvpe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBv4pxaV2CxDJ4eNS9eMTFzK0LkZWTWClM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "360680446899-dgbnv1uoubnfptgs9vd8vk7puu0sgvpe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:360680446899:android:bce1a4cbde5a489c",
+        "android_client_info": {
+          "package_name": "rocks.pocha.sampleapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "360680446899-dgbnv1uoubnfptgs9vd8vk7puu0sgvpe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBv4pxaV2CxDJ4eNS9eMTFzK0LkZWTWClM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:360680446899:android:37c669369489a9ee",
+        "android_client_info": {
+          "package_name": "voke.cru.org"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "360680446899-dgbnv1uoubnfptgs9vd8vk7puu0sgvpe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBv4pxaV2CxDJ4eNS9eMTFzK0LkZWTWClM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

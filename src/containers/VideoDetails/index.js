@@ -1,27 +1,33 @@
 import React, { Component } from 'react';
-import { Alert, View, ScrollView, Platform, Dimensions } from 'react-native';
+import { Alert, View, ScrollView, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Orientation from 'react-native-orientation';
 import debounce from 'lodash/debounce';
+import { translate } from 'react-i18next';
 
 import Analytics from '../../utils/analytics';
 import nav, { NavPropTypes } from '../../actions/nav';
 import { toastAction } from '../../actions/auth';
-import { getVideo, favoriteVideo, unfavoriteVideo, createVideoInteraction } from '../../actions/videos';
+import {
+  favoriteVideo,
+  unfavoriteVideo,
+  createVideoInteraction,
+} from '../../actions/videos';
 
 import styles from './styles';
-import ApiLoading from '../ApiLoading';
 import WebviewVideo from '../../components/WebviewVideo';
 import StatusBar from '../../components/StatusBar';
 import webviewStates from '../../components/WebviewVideo/common';
 import FloatingButtonSingle from '../../components/FloatingButtonSingle';
-import { VokeIcon, Flex, Touchable, Text, Button } from '../../components/common';
-import { exists } from '../../utils/common';
+import {
+  VokeIcon,
+  Flex,
+  Touchable,
+  Text,
+  Button,
+} from '../../components/common';
 import theme from '../../theme';
-
-const isOlderAndroid = theme.isAndroid && Platform.Version < 23;
-
 
 class VideoDetails extends Component {
   constructor(props) {
@@ -36,7 +42,10 @@ class VideoDetails extends Component {
 
     this.handleVideoChange = this.handleVideoChange.bind(this);
     this.handleFavorite = this.handleFavorite.bind(this);
-    this.orientationDidChange = debounce(this.orientationDidChange.bind(this), 50);
+    this.orientationDidChange = debounce(
+      this.orientationDidChange.bind(this),
+      50,
+    );
   }
 
   componentWillMount() {
@@ -54,7 +63,7 @@ class VideoDetails extends Component {
   }
 
   componentDidMount() {
-    Analytics.screen('Video Details');
+    Analytics.screen(Analytics.s.VideoDetails);
     this.toggleOrientation();
     // This doesn't work on Android...because of the navigation stuff
     Orientation.addOrientationListener(this.orientationDidChange);
@@ -81,9 +90,13 @@ class VideoDetails extends Component {
     setTimeout(() => {
       this.setState({ showVideo: true }, () => {
         // For iOS margin
-        this.webview && this.webview.removeMargin();
+        this.webview &&
+          this.webview.getWrappedInstance &&
+          this.webview.getWrappedInstance() &&
+          this.webview.getWrappedInstance().removeMargin &&
+          this.webview.getWrappedInstance().removeMargin();
       });
-    }, 250);
+    }, 1000);
   }
 
   componentWillUnmount() {
@@ -116,12 +129,12 @@ class VideoDetails extends Component {
   }
 
   handleVideoChange(videoState) {
-    const { video } = this.props;
+    const { t, dispatch, video } = this.props;
     if (videoState === webviewStates.ERROR) {
-      this.props.dispatch(toastAction('There was an error playing the video.'));
+      dispatch(toastAction(t('error.playingVideo')));
     }
     if (videoState === webviewStates.STARTED) {
-      this.props.dispatch(createVideoInteraction(video.id));
+      dispatch(createVideoInteraction(video.id));
     }
   }
 
@@ -142,52 +155,73 @@ class VideoDetails extends Component {
   }
 
   handleShare = () => {
+    const {
+      t,
+      conversation,
+      onSelectVideo,
+      navigateResetMessage,
+      navigateBack,
+      me,
+      navigatePush,
+    } = this.props;
     const video = this.props.video || {};
 
     Orientation.lockToPortrait();
     // This logic exists in the VideoDetails and the VideoList
-    if (this.props.onSelectVideo) {
+    if (onSelectVideo) {
       Alert.alert(
-        'Add video to chat?',
-        `Are you sure you want to add "${video.name.substr(0, 25).trim()}" video to your chat?`,
+        t('addToChat'),
+        t('areYouSureAdd', {
+          name: video.name.substr(0, 25).trim(),
+        }),
         [
-          { text: 'Cancel' },
+          { text: t('cancel') },
           {
-            text: 'Add', onPress: () => {
-              this.props.onSelectVideo(video.id);
+            text: t('add'),
+            onPress: () => {
+              onSelectVideo(video.id);
               // Navigate back after selecting the video
-              if (this.props.conversation) {
-                this.props.navigateResetMessage({ conversation: this.props.conversation });
+              if (conversation) {
+                navigateResetMessage({
+                  conversation: conversation,
+                });
               } else {
-                this.props.navigateBack();
+                navigateBack();
               }
             },
           },
-        ]
+        ],
       );
     } else {
-      if (this.webview && this.webview.pause) {
-        this.webview.pause();
+      if (
+        this.webview &&
+        this.webview.getWrappedInstance &&
+        this.webview.getWrappedInstance() &&
+        this.webview.getWrappedInstance().pause
+      ) {
+        this.webview.getWrappedInstance().pause();
       }
       // this.props.navigatePush('voke.SelectFriend', {
       //   video: video.id,
       //   isLandscape: this.state.isLandscape,
       // });
-      if (!this.props.me.first_name) {
-        this.props.navigatePush('voke.TryItNowName', {
-          onComplete: () => this.props.navigatePush('voke.ShareFlow', {
-            video: video,
-          }),
+      if (!me.first_name) {
+        navigatePush('voke.TryItNowName', {
+          onComplete: () =>
+            navigatePush('voke.ShareFlow', {
+              video: video,
+            }),
         });
       } else {
-        this.props.navigatePush('voke.ShareFlow', {
+        navigatePush('voke.ShareFlow', {
           video: video,
         });
       }
     }
-  }
+  };
 
   renderContent() {
+    const { t } = this.props;
     // const video = this.state.video || this.props.video || {};
     const video = this.props.video || {};
     const isFavorite = this.state.isFavorite;
@@ -204,72 +238,58 @@ class VideoDetails extends Component {
           onPress={this.handleFavorite}
         />
         <Text style={styles.videoTitle}>{video.name}</Text>
-        <Text style={styles.detail}>{video.shares} Shares</Text>
+        <Text style={styles.detail}>
+          {t('shares', { total: video.shares })}
+        </Text>
         <Text style={styles.detail}>{video.description}</Text>
-        <Text style={styles.label}>Themes</Text>
+        <Text style={styles.label}>{t('themes')}</Text>
         <Flex direction="row">
-          {
-            (video.tags || []).map((t, index)=> (
-              <Text key={t.id} style={styles.detail}>
-                {t.name}
-                {index != video.tags.length - 1 ? ', ' : null}
-              </Text>
-            ))
-          }
+          {(video.tags || []).map((t, index) => (
+            <Text key={t.id} style={styles.detail}>
+              {t.name}
+              {index != video.tags.length - 1 ? ', ' : null}
+            </Text>
+          ))}
         </Flex>
-        <Text style={styles.label}>Voke kickstarters</Text>
-        {
-          video.questions.map((q)=> (
-            <Flex key={q.id} direction="column">
-              <Text style={styles.detail}>
-                {q.content}
-              </Text>
-              <Flex style={styles.kickstarterSeparator}></Flex>
-            </Flex>
-          ))
-        }
+        <Text style={styles.label}>{t('kickstarters')}</Text>
+        {video.questions.map(q => (
+          <Flex key={q.id} direction="column">
+            <Text style={styles.detail}>{q.content}</Text>
+            <Flex style={styles.kickstarterSeparator} />
+          </Flex>
+        ))}
       </Flex>
     );
   }
 
   render() {
-    // const video = this.state.video || this.props.video || {};
     const video = this.props.video || {};
     const videoMedia = video.media || {};
     const videoType = videoMedia.type;
 
-    // Set the loading state duration for different video types
-    // let loadDuration = 2000;
-    // if (videoType === 'arclight') {
-    //   loadDuration = 3000; // Longer loading state for arclight videos
-    // } else if (videoType === 'vimeo' && isOlderAndroid) {
-    //   loadDuration = 3500; // Longer for older android devices and vimeo
-    // }
-
-    // LOG('landscape mode', this.state.isLandscape);
-
     return (
       <View style={styles.container}>
         <StatusBar hidden={!theme.isIphoneX} />
-        <Flex style={this.state.isLandscape ? styles.landscapeVideo : styles.video}>
-          {
-            this.state.showVideo ? (
-              <WebviewVideo
-                ref={(c) => this.webview = c}
-                type={videoType}
-                url={videoMedia.url}
-                start={video.media_start || 0}
-                end={video.media_end || 0}
-                onChangeState={this.handleVideoChange}
-                isLandscape={this.state.isLandscape}
-              />
-            ) : null
-          }
+        <Flex
+          style={this.state.isLandscape ? styles.landscapeVideo : styles.video}
+        >
+          {this.state.showVideo ? (
+            <WebviewVideo
+              ref={c => (this.webview = c)}
+              type={videoType}
+              url={videoMedia.url}
+              start={video.media_start || 0}
+              end={video.media_end || 0}
+              onChangeState={this.handleVideoChange}
+              isLandscape={this.state.isLandscape}
+            />
+          ) : null}
           <View style={styles.backHeader}>
             <Touchable
               borderless={true}
               hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-              onPress={() => this.props.navigateBack()}>
+              onPress={() => this.props.navigateBack()}
+            >
               <View>
                 <VokeIcon name="video-back" style={styles.backImage} />
               </View>
@@ -277,14 +297,9 @@ class VideoDetails extends Component {
           </View>
         </Flex>
         <ScrollView style={styles.content}>
-          {
-            this.state.isLandscape ? null : this.renderContent()
-          }
+          {this.state.isLandscape ? null : this.renderContent()}
         </ScrollView>
-        <FloatingButtonSingle
-          onSelect={this.handleShare}
-        />
-        {/* <ApiLoading text="Loading Video" showMS={loadDuration} /> */}
+        <FloatingButtonSingle onSelect={this.handleShare} />
       </View>
     );
   }
@@ -303,4 +318,9 @@ const mapStateToProps = ({ auth }, { navigation }) => ({
   me: auth.user,
 });
 
-export default connect(mapStateToProps, nav)(VideoDetails);
+export default translate('videos')(
+  connect(
+    mapStateToProps,
+    nav,
+  )(VideoDetails),
+);

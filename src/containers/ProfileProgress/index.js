@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
+import { translate } from 'react-i18next';
 
 import { Flex, Text } from '../../components/common';
 import theme, { COLORS } from '../../theme';
 
 class ProfileProgress extends Component {
-
   render() {
-    const { user, isAnonUser } = this.props;
+    const { t, user, isAnonUser } = this.props;
 
     const isVerified = user.mobile;
     let percentage = 100;
@@ -19,28 +19,54 @@ class ProfileProgress extends Component {
       <Flex direction="column" align="center" style={styles.wrap}>
         <Flex direction="row" align="center" style={styles.textWrap}>
           <Text style={[styles.text, { textAlign: 'left' }, styles.textFilled]}>
-            Guest Profile
+            {t('guest')}
           </Text>
-          <Text style={[styles.text, { textAlign: 'center' }, !isAnonUser ? styles.textFilled : null]}>
-            User Account
+          <Text
+            style={[
+              styles.text,
+              { textAlign: 'center' },
+              !isAnonUser ? styles.textFilled : null,
+            ]}
+          >
+            {t('user')}
           </Text>
-          <Text style={[styles.text, { textAlign: 'right' }, isVerified ? styles.textFilled : null]}>
-            Verified Account
+          <Text
+            style={[
+              styles.text,
+              { textAlign: 'right' },
+              isVerified ? styles.textFilled : null,
+            ]}
+          >
+            {t('verified')}
           </Text>
         </Flex>
         <Flex direction="row" align="center">
           <Flex style={styles.lineWrap}>
-            <Flex style={[styles.line, { width: `${percentage}%`}]} />
+            <Flex style={[styles.line, { width: `${percentage}%` }]} />
           </Flex>
           <Flex direction="row" align="center" style={styles.absoluteWrap}>
             <Flex value={1} align="start">
-              <Flex style={[styles.round, styles.positionStart, styles.filled]} />
+              <Flex
+                style={[styles.round, styles.positionStart, styles.filled]}
+              />
             </Flex>
             <Flex value={1} align="center">
-              <Flex style={[styles.round, styles.position2, !isAnonUser ? styles.filled : null]} />
+              <Flex
+                style={[
+                  styles.round,
+                  styles.position2,
+                  !isAnonUser ? styles.filled : null,
+                ]}
+              />
             </Flex>
             <Flex value={1} align="end">
-              <Flex style={[styles.round, styles.positionEnd, isVerified ? styles.filled : null]} />
+              <Flex
+                style={[
+                  styles.round,
+                  styles.positionEnd,
+                  isVerified ? styles.filled : null,
+                ]}
+              />
             </Flex>
           </Flex>
         </Flex>
@@ -113,4 +139,4 @@ const mapStateToProps = ({ auth }) => ({
   isAnonUser: auth.isAnonUser,
 });
 
-export default connect(mapStateToProps)(ProfileProgress);
+export default translate('profile')(connect(mapStateToProps)(ProfileProgress));

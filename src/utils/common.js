@@ -13,8 +13,8 @@ export const clone = (obj) => JSON.parse(JSON.stringify(obj));
 export const delay = (ms) => new Promise((resolve) => { setTimeout(resolve, ms); });
 
 // Pull dates out of UTC format into a moment object
-export const momentUtc = (time) => moment.utc(time, 'YYYY-MM-DD HH:mm:ss UTC');
-
+export const UTC_FORMAT = 'YYYY-MM-DD HH:mm:ss UTC';
+export const momentUtc = (time) => moment.utc(time, UTC_FORMAT);
 export const getInitials = (initials) => (initials || '').trim().substr(0, 2).trim();
 
 // Return true if the object's props are all the same

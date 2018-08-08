@@ -29,4 +29,7 @@ const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
 });
 
-export default connect(mapStateToProps, nav)(VideosTab);
+export default connect(
+  mapStateToProps,
+  nav,
+)(VideosTab);

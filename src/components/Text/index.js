@@ -10,7 +10,11 @@ export default class MyText extends Component {
   render() {
     const { children, style, ...rest } = this.props;
     return (
-      <Animatable.Text ref={(c) => this._text = c} {...rest} style={[styles.text, style]}>
+      <Animatable.Text
+        ref={c => (this._text = c)}
+        {...rest}
+        style={[styles.text, style]}
+      >
         {children}
       </Animatable.Text>
     );

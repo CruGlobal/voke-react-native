@@ -10,7 +10,8 @@ export default class CloseButton extends Component {
         <Touchable
           borderless={true}
           hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-          onPress={this.props.onClose}>
+          onPress={this.props.onClose}
+        >
           <View>
             <Icon size={40} type="Ionicons" name="ios-close" />
           </View>
@@ -30,4 +31,3 @@ const styles = StyleSheet.create({
 CloseButton.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
-

@@ -1,0 +1,11 @@
+.prettierignore
+ios
+android
+*.java
+coverage
+*.snap
+package.json
+assets
+README.md
+android/
+MainApplication.java

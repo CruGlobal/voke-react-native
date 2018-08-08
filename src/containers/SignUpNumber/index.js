@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
-import { Alert, TouchableOpacity, Keyboard, KeyboardAvoidingView, ScrollView, View } from 'react-native';
+import {
+  Alert,
+  TouchableOpacity,
+  Keyboard,
+  KeyboardAvoidingView,
+  ScrollView,
+  View,
+} from 'react-native';
 import { connect } from 'react-redux';
+import { translate } from 'react-i18next';
 
 import PropTypes from 'prop-types';
 import { createMobileVerification } from '../../actions/auth';
@@ -33,12 +41,13 @@ class SignUpNumber extends Component {
   }
 
   componentDidMount() {
-    Analytics.screen('SignUp Enter Number');
+    Analytics.screen(Analytics.s.SignUpNumber);
   }
 
   handleNext() {
+    const { t, navigatePush, dispatch } = this.props;
     if (!this.state.phoneNumber) {
-      Alert.alert('Please enter your phone number');
+      Alert.alert(t('enterNumber'));
     } else {
       let data = {
         mobile: {
@@ -46,23 +55,30 @@ class SignUpNumber extends Component {
         },
       };
       Alert.alert(
-        `Is this your correct number? ${this.state.phoneNumber}`,
-        'A text message with your access code will be sent to this number.',
+        t('isNumber', { number: this.state.phoneNumber }),
+        t('messageSent'),
         [
           { text: 'Edit' },
-          { text: 'Yes', onPress: () => {
-            this.setState({ disableNext: true, isLoading: true });
-            this.props.dispatch(createMobileVerification(data)).then(() => {
-              this.setState({ disableNext: false, isLoading: false });
-              this.props.navigatePush('voke.SignUpNumberVerify', {
-                mobile: this.state.selectedCountryCode.concat(this.state.phoneNumber),
-              });
-            }).catch((err)=> {
-              this.setState({ disableNext: false, isLoading: false });
-              Alert.alert('Mobile number is invalid', err.errors[0]);
-            });
-          }},
-        ]
+          {
+            text: 'Yes',
+            onPress: () => {
+              this.setState({ disableNext: true, isLoading: true });
+              dispatch(createMobileVerification(data))
+                .then(() => {
+                  this.setState({ disableNext: false, isLoading: false });
+                  navigatePush('voke.SignUpNumberVerify', {
+                    mobile: this.state.selectedCountryCode.concat(
+                      this.state.phoneNumber,
+                    ),
+                  });
+                })
+                .catch(err => {
+                  this.setState({ disableNext: false, isLoading: false });
+                  Alert.alert(t('mobileInvalid'), err.errors[0]);
+                });
+            },
+          },
+        ],
       );
     }
 
@@ -89,21 +105,33 @@ class SignUpNumber extends Component {
 
   skip = () => {
     this.props.navigateBack(3);
-  }
+  };
 
   render() {
+    const { t } = this.props;
     const { selectedCountry, selectedCountryCode, phoneNumber } = this.state;
     return (
-      <View style={{ flex: 1 }} >
+      <View style={{ flex: 1 }}>
         <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
-          <KeyboardAvoidingView style={{ flex: 1 }} behavior={theme.isAndroid ? undefined : 'padding'}>
-            <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
+          <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={theme.isAndroid ? undefined : 'padding'}
+          >
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={() => Keyboard.dismiss()}
+            >
               <SignUpHeader
-                title="Mobile Number"
-                description="Add your mobile number to invite your friends to a Voke chat via text message"
-                onPress={()=> Keyboard.dismiss()}
+                title={t('title.number')}
+                description={t('numberDescription')}
+                onPress={() => Keyboard.dismiss()}
               />
-              <Flex value={1} align="center" justify="center" style={styles.inputs}>
+              <Flex
+                value={1}
+                align="center"
+                justify="center"
+                style={styles.inputs}
+              >
                 <Button
                   style={styles.dropDown}
                   onPress={this.handleOpenCountry}
@@ -117,23 +145,23 @@ class SignUpNumber extends Component {
                 </Button>
                 <SignUpInput
                   value={phoneNumber}
-                  onChangeText={(text) => this.setState({ phoneNumber: text })}
+                  onChangeText={text => this.setState({ phoneNumber: text })}
                   keyboardType="phone-pad"
-                  placeholder="Your Mobile Number"
+                  placeholder={t('placeholder.mobileNumber')}
                   onSubmitEditing={this.handleNext}
                   returnKeyType="send"
                 />
-                <Text style={styles.sharingText}>We love sharing, but we won't share your number.</Text>
+                <Text style={styles.sharingText}>{t('sharing')}</Text>
                 <Flex value={1} align="center" justify="start">
                   <Button
-                    text="Next"
+                    text={t('next')}
                     disabled={this.state.disableNext}
                     buttonTextStyle={styles.signInButton}
                     style={styles.actionButton}
                     onPress={this.handleNext}
                   />
                   <Button
-                    text="Skip"
+                    text={t('skip')}
                     type="transparent"
                     buttonTextStyle={styles.signInButton}
                     style={styles.actionButton}
@@ -144,9 +172,7 @@ class SignUpNumber extends Component {
             </TouchableOpacity>
           </KeyboardAvoidingView>
         </ScrollView>
-        {
-          this.state.isLoading ? <ApiLoading force={true} /> : null
-        }
+        {this.state.isLoading ? <ApiLoading force={true} /> : null}
       </View>
     );
   }
@@ -160,4 +186,9 @@ const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
 });
 
-export default connect(mapStateToProps, nav)(SignUpNumber);
+export default translate('signUp')(
+  connect(
+    mapStateToProps,
+    nav,
+  )(SignUpNumber),
+);

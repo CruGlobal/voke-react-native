@@ -1,9 +1,9 @@
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, SectionList, FlatList, Keyboard } from 'react-native';
-import ContactItem from '../ContactItem';
+import { translate } from 'react-i18next';
 
+import ContactItem from '../ContactItem';
 import styles from './styles';
 import { Touchable, Text, Flex, RefreshControl } from '../common';
 import theme from '../../theme';
@@ -14,26 +14,28 @@ function formatContacts(items) {
     return items;
   }
   const ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-  const sections = items.reduce((p, n) => {
-    const letterIndex = ALPHA.findIndex((a) => {
-      if (!theme.isAndroid && n.lastNameLetter) {
-        return a === n.lastNameLetter;
-      } else {
-        return n.firstNameLetter && a === n.firstNameLetter;
+  const sections = items
+    .reduce((p, n) => {
+      const letterIndex = ALPHA.findIndex(a => {
+        if (!theme.isAndroid && n.lastNameLetter) {
+          return a === n.lastNameLetter;
+        } else {
+          return n.firstNameLetter && a === n.firstNameLetter;
+        }
+      });
+      if (letterIndex >= 0) {
+        if (p[letterIndex]) {
+          p[letterIndex].data.push(n);
+        } else {
+          p[letterIndex] = {
+            data: [n],
+            key: ALPHA[letterIndex],
+          };
+        }
       }
-    });
-    if (letterIndex >= 0) {
-      if (p[letterIndex]) {
-        p[letterIndex].data.push(n);
-      } else {
-        p[letterIndex] = {
-          data: [n],
-          key: ALPHA[letterIndex],
-        };
-      }
-    }
-    return p;
-  }, []).filter((c) => !!c);
+      return p;
+    }, [])
+    .filter(c => !!c);
   return sections;
   // return [
   //   { key: 'A', data: [{ id: '1', name: 'bryan', phone: [] }, { id: 'a1', name: 'bryan1', phone: [] }, { id: 'a2', name: 'bryan2', phone: [] }] },
@@ -69,8 +71,14 @@ class ContactsList extends Component {
 
   componentDidMount() {
     if (!theme.isAndroid) {
-      this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
-      this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+      this.keyboardDidShowListener = Keyboard.addListener(
+        'keyboardDidShow',
+        this.keyboardDidShow,
+      );
+      this.keyboardDidHideListener = Keyboard.addListener(
+        'keyboardDidHide',
+        this.keyboardDidHide,
+      );
     }
   }
 
@@ -90,11 +98,7 @@ class ContactsList extends Component {
   }
 
   renderHeader({ section }) {
-    return (
-      <Text style={styles.header}>
-        {section.key}
-      </Text>
-    );
+    return <Text style={styles.header}>{section.key}</Text>;
   }
 
   renderItem({ item }) {
@@ -106,7 +110,12 @@ class ContactsList extends Component {
       );
     }
     return (
-      <Touchable key={item.id} highlight={false} activeOpacity={0.6} onPress={handleSelect}>
+      <Touchable
+        key={item.id}
+        highlight={false}
+        activeOpacity={0.6}
+        onPress={handleSelect}
+      >
         <View>
           <ContactItem item={item} />
         </View>
@@ -117,24 +126,21 @@ class ContactsList extends Component {
   renderContent() {
     const { sections } = this.state;
     let listProps = {
-      keyExtractor: (item) => item.id,
+      keyExtractor: item => item.id,
       initialNumToRender: 30,
       keyboardShouldPersistTaps: theme.isAndroid ? 'handled' : 'always',
       renderItem: this.renderItem,
-      refreshControl: <RefreshControl
-        refreshing={this.props.refreshing}
-        onRefresh={this.props.onRefresh}
-      />,
+      refreshControl: (
+        <RefreshControl
+          refreshing={this.props.refreshing}
+          onRefresh={this.props.onRefresh}
+        />
+      ),
       maxToRenderPerBatch: 30,
       style: { paddingBottom: 30 },
     };
     if (theme.isAndroid) {
-      return (
-        <FlatList
-          {...listProps}
-          data={sections}
-        />
-      );
+      return <FlatList {...listProps} data={sections} />;
     }
     return (
       <SectionList
@@ -147,22 +153,24 @@ class ContactsList extends Component {
   }
 
   render() {
-    const { items, isSearching } = this.props;
+    const { t, items, isSearching } = this.props;
     // Don't do a length check, it can be taxing on large arrays
     if (!items[0]) {
       return (
         <Flex align="center" justify="center">
           <Text style={styles.noResultsText}>
-            {
-              isSearching ? 'Finding contacts...' : 'No results to display'
-            }
+            {isSearching ? t('loading.findingContacts') : t('empty.noResults')}
           </Text>
         </Flex>
       );
     }
     // ItemSeparatorComponent={() => <Separator />}
     return (
-      <View style={{paddingBottom: !theme.isAndroid ? this.state.height + 100 : undefined}}>
+      <View
+        style={{
+          paddingBottom: !theme.isAndroid ? this.state.height + 100 : undefined,
+        }}
+      >
         {this.renderContent()}
       </View>
     );
@@ -176,4 +184,4 @@ ContactsList.propTypes = {
   isInvite: PropTypes.bool,
 };
 
-export default ContactsList;
+export default translate()(ContactsList);

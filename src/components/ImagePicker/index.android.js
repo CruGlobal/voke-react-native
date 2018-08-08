@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
+import { translate } from 'react-i18next';
 import PropTypes from 'prop-types';
 import RNImagePicker from 'react-native-image-crop-picker';
 
@@ -22,7 +23,6 @@ const OPTIONS = {
 };
 
 class ImagePicker extends Component {
-
   constructor(props) {
     super(props);
 
@@ -57,27 +57,28 @@ class ImagePicker extends Component {
   }
 
   selectImage() {
-    Alert.alert(
-      'Where is your photo?',
-      'Would you like to select a photo or take a new picture?',
-      [
-        {
-          text: 'Select picture',
-          onPress: () => RNImagePicker.openPicker(OPTIONS).then(this.handleResponse).catch(this.handleError),
-        },
-        {
-          text: 'New picture',
-          onPress: () => RNImagePicker.openCamera(OPTIONS).then(this.handleResponse).catch(this.handleError),
-        },
-      ]
-    );
+    const { t } = this.props;
+    Alert.alert(t('where'), t('selectOrNew'), [
+      {
+        text: t('select'),
+        onPress: () =>
+          RNImagePicker.openPicker(OPTIONS)
+            .then(this.handleResponse)
+            .catch(this.handleError),
+      },
+      {
+        text: t('new'),
+        onPress: () =>
+          RNImagePicker.openCamera(OPTIONS)
+            .then(this.handleResponse)
+            .catch(this.handleError),
+      },
+    ]);
   }
 
   render() {
     return (
-      <Touchable onPress={this.selectImage}>
-        {this.props.children}
-      </Touchable>
+      <Touchable onPress={this.selectImage}>{this.props.children}</Touchable>
     );
   }
 }
@@ -87,4 +88,4 @@ ImagePicker.propTypes = {
   children: PropTypes.element.isRequired,
 };
 
-export default ImagePicker;
+export default translate('imagePicker')(ImagePicker);
