@@ -23,6 +23,7 @@ class LoginInput extends Component {
       email: '',
       password: '',
       emailValidation: false,
+      anonUserId: undefined,
       // TODO: Remove these things
       // email: 'benlgauthier+voke1@gmail.com',
       // emailValidation: true,
@@ -39,21 +40,23 @@ class LoginInput extends Component {
   }
 
   componentDidMount() {
-    const { t, isAnonUser } = this.props;
+    const { t, isAnonUser, myId } = this.props;
     Analytics.screen(Analytics.s.Login);
     if (isAnonUser) {
       Alert.alert(t('login'), t('existingAccount'));
+      this.setState({ anonUserId: myId });
     }
   }
 
   login() {
     const { t, isAnonUser, dispatch, navigateResetHome } = this.props;
-    if (this.state.emailValidation && this.state.password) {
+    const { emailValidation, email, password, anonUserId } = this.state;
+    if (emailValidation && password) {
       this.setState({ isLoading: true });
       if (isAnonUser) {
         // log out and destroy anon devices
         dispatch(logoutAction()).then(() => {
-          dispatch(anonLogin(this.state.email, this.state.password))
+          dispatch(anonLogin(email, password, anonUserId))
             .then(() => {
               this.setState({ isLoading: false });
               dispatch({ type: RESET_ANON_USER });
@@ -64,7 +67,7 @@ class LoginInput extends Component {
             });
         });
       } else {
-        dispatch(anonLogin(this.state.email, this.state.password))
+        dispatch(anonLogin(email, password))
           .then(() => {
             this.setState({ isLoading: false });
             dispatch({ type: RESET_ANON_USER });
@@ -159,6 +162,7 @@ LoginInput.propTypes = {
 };
 const mapStateToProps = ({ auth }, { navigation }) => ({
   ...(navigation.state.params || {}),
+  myId: auth.user ? auth.user.id : null,
   isAnonUser: auth.isAnonUser,
 });
 
