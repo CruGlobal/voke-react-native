@@ -1,20 +1,51 @@
 import RNFetchBlob from 'react-native-fetch-blob';
-import { Linking, AppState, ToastAndroid, AsyncStorage, Alert, PushNotificationIOS } from 'react-native';
+import {
+  Linking,
+  AppState,
+  ToastAndroid,
+  AsyncStorage,
+  Alert,
+  PushNotificationIOS,
+} from 'react-native';
 import Orientation from 'react-native-orientation';
 import DeviceInfo from 'react-native-device-info';
 import Firebase from 'react-native-firebase';
 
-import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, UPDATE_TOKENS, NO_BACKGROUND_ACTION, CREATE_ANON_USER, PUSH_PERMISSION } from '../constants';
+import {
+  LOGIN,
+  LOGOUT,
+  SET_USER,
+  SET_PUSH_TOKEN,
+  UPDATE_TOKENS,
+  NO_BACKGROUND_ACTION,
+  CREATE_ANON_USER,
+  PUSH_PERMISSION,
+} from '../constants';
 import callApi, { REQUESTS } from './api';
-import { establishDevice, establishCableDevice, closeSocketAction, destroyDevice, getDevices, checkAndRunSockets, verifyPushNotifications } from './socket';
-import { getConversations, getMessages, createMessageInteraction } from './messages';
-import { getAllOrganizations, getFeaturedOrganizations, getMyOrganizations } from './channels';
+import {
+  establishDevice,
+  establishCableDevice,
+  closeSocketAction,
+  destroyDevice,
+  getDevices,
+  checkAndRunSockets,
+  verifyPushNotifications,
+} from './socket';
+import {
+  getConversations,
+  getMessages,
+  createMessageInteraction,
+} from './messages';
+import {
+  getAllOrganizations,
+  getFeaturedOrganizations,
+  getMyOrganizations,
+} from './channels';
 import { getAdventure } from './adventures';
 import { API_URL } from '../api/utils';
 import { isArray } from '../utils/common';
 import theme from '../theme';
 import Permissions from '../utils/permissions';
-
 
 // Setup app state change listeners
 let appStateChangeFn;
@@ -52,7 +83,7 @@ export function setupFirebaseLinks() {
     if (initialLink) {
       dispatch(handleFirebaseLink(initialLink));
     }
-    firebaseLinkHandler = Firebase.links().onLink((link) => {
+    firebaseLinkHandler = Firebase.links().onLink(link => {
       dispatch(handleFirebaseLink(link));
     });
   };
@@ -63,7 +94,6 @@ export function handleFirebaseLink(link) {
     LOG('handling link', link);
   };
 }
-
 
 export function cleanupAction() {
   return (dispatch, getState) => {
@@ -96,23 +126,34 @@ function appStateChange(dispatch, getState, nextAppState) {
 
     let messages = getState().messages;
     if (!theme.isAndroid) {
-      PushNotificationIOS.getDeliveredNotifications((results) => {
-        if (results && results.length > 0) PushNotificationIOS.removeAllDeliveredNotifications();
+      PushNotificationIOS.getDeliveredNotifications(results => {
+        if (results && results.length > 0)
+          PushNotificationIOS.removeAllDeliveredNotifications();
         let conversations = getState().messages.conversations;
-        let link = results[0] && results[0].userInfo && results[0].userInfo.data && results[0].userInfo.data.link;
+        let link =
+          results[0] &&
+          results[0].userInfo &&
+          results[0].userInfo.data &&
+          results[0].userInfo.data.link;
         if (!link) return;
         if (link.includes('adventures')) {
           dispatch(getMe());
           return;
         }
-        const cId = link.substring(link.indexOf('conversations/') + 14, link.indexOf('/messages'));
+        const cId = link.substring(
+          link.indexOf('conversations/') + 14,
+          link.indexOf('/messages'),
+        );
         const mId = link.substring(link.indexOf('messages/') + 9, link.length);
         // LOG('conversation ID: ', cId);
         // LOG('message ID:', mId);
         if (cId && mId) {
-          let conv = conversations.find((c) => cId === c.id);
+          let conv = conversations.find(c => cId === c.id);
           // if the conversation does not exist then call get conversations or if the message does not exist call get conversation
-          if (!conv || (conv.latestMessage && conv.latestMessage.message_id !== mId)) {
+          if (
+            !conv ||
+            (conv.latestMessage && conv.latestMessage.message_id !== mId)
+          ) {
             // LOG('get conversations');
             if (messages.activeConversationId === cId) {
               dispatch(getMessages(cId)).then(() => {
@@ -176,8 +217,8 @@ function appStateChange(dispatch, getState, nextAppState) {
 }
 
 export function checkPushPermissions(runIfTrue = true) {
-  return (dispatch) => {
-    Permissions.checkPush().then((response) => {
+  return dispatch => {
+    Permissions.checkPush().then(response => {
       dispatch({ type: PUSH_PERMISSION, permission: response });
       // After checking permissions, make sure we run 'establishDevice' if necessary
       if (runIfTrue && response === 'authorized') {
@@ -187,11 +228,9 @@ export function checkPushPermissions(runIfTrue = true) {
   };
 }
 
-
-
 export function loginAction(token, allData = {}) {
-  return (dispatch) => (
-    new Promise((resolve) => {
+  return dispatch =>
+    new Promise(resolve => {
       dispatch({
         type: LOGIN,
         token,
@@ -199,53 +238,56 @@ export function loginAction(token, allData = {}) {
       });
       resolve();
       // dispatch(resetHomeAction());
-    })
-  );
+    });
 }
 
 export function setUserAction(user) {
-  return (dispatch) => (
-    new Promise((resolve) => {
+  return dispatch =>
+    new Promise(resolve => {
       dispatch({
         type: SET_USER,
         user,
       });
       resolve();
       // dispatch(resetHomeAction());
-    })
-  );
+    });
 }
 
 export function registerPushToken(token) {
-  return (dispatch) => (
-    new Promise((resolve) => {
+  return dispatch =>
+    new Promise(resolve => {
       dispatch({
         type: SET_PUSH_TOKEN,
         pushToken: token,
       });
       resolve();
       // dispatch(resetHomeAction());
-    })
-  );
+    });
 }
 
 export function logoutAction() {
-  return (dispatch, getState) => (
-    new Promise((resolve) => {
+  return (dispatch, getState) =>
+    new Promise(resolve => {
       const token = getState().auth.token;
       if (token) {
-        dispatch(getDevices()).then((results) => {
+        dispatch(getDevices()).then(results => {
           LOG('get devices results', results);
           if (results && isArray(results.devices)) {
             // Pass the token into this function because the LOGOUT action will clear it out
-            const deviceIds = results.devices.map((d) => d.id);
+            const deviceIds = results.devices.map(d => d.id);
             if (deviceIds.length > 0) {
-              dispatch(callApi(REQUESTS.REVOKE_TOKEN, {
-                access_token: token,
-              }, {
-                  device_ids: deviceIds,
-                  token: null,
-                }));
+              dispatch(
+                callApi(
+                  REQUESTS.REVOKE_TOKEN,
+                  {
+                    access_token: token,
+                  },
+                  {
+                    device_ids: deviceIds,
+                    token: null,
+                  },
+                ),
+              );
             }
           }
         });
@@ -255,12 +297,11 @@ export function logoutAction() {
       resolve();
       AsyncStorage.clear();
       dispatch(clearAndroid());
-    })
-  );
+    });
 }
 
 export function createAccountAction(email, password, isAnonymous = false) {
-  return (dispatch) => (
+  return dispatch =>
     new Promise((resolve, reject) => {
       let data = {
         me: {
@@ -278,30 +319,37 @@ export function createAccountAction(email, password, isAnonymous = false) {
           },
         };
       }
-      dispatch(callApi(REQUESTS.ME, {}, data)).then((results) => {
-        if (!results.errors) {
-          LOG('create account success', results);
-          dispatch(loginAction(results.access_token.access_token, results.access_token));
-          // dispatch(messagesAction());
-          // Do something with the results
-        } else {
-          LOG('Failed to create account', results.errors);
-          reject(results);
-          return;
-        }
-        resolve(results);
-      }).catch((error) => {
-        LOG('error creating account', error);
-        reject(error);
-      });
-    })
-  );
+      dispatch(callApi(REQUESTS.ME, {}, data))
+        .then(results => {
+          if (!results.errors) {
+            LOG('create account success', results);
+            dispatch(
+              loginAction(
+                results.access_token.access_token,
+                results.access_token,
+              ),
+            );
+            // dispatch(messagesAction());
+            // Do something with the results
+          } else {
+            LOG('Failed to create account', results.errors);
+            reject(results);
+            return;
+          }
+          resolve(results);
+        })
+        .catch(error => {
+          LOG('error creating account', error);
+          reject(error);
+        });
+    });
 }
 
 export function toastAction(text, length) {
   return () => {
     if (theme.isAndroid) {
-      const toastLength = length === 'long' ? ToastAndroid.LONG : ToastAndroid.SHORT;
+      const toastLength =
+        length === 'long' ? ToastAndroid.LONG : ToastAndroid.SHORT;
       ToastAndroid.show(text, toastLength);
     } else {
       Alert.alert(' ', text);
@@ -310,81 +358,99 @@ export function toastAction(text, length) {
 }
 
 export function forgotPasswordAction(email) {
-  return (dispatch) => (
+  return dispatch =>
     new Promise((resolve, reject) => {
       const data = {
         me: {
           email,
         },
       };
-      dispatch(callApi(REQUESTS.FORGOT_PASSWORD, {}, data)).then(resolve).catch(reject);
-    })
-  );
+      dispatch(callApi(REQUESTS.FORGOT_PASSWORD, {}, data))
+        .then(resolve)
+        .catch(reject);
+    });
 }
 
-export function anonLogin(username, password) {
-  return (dispatch) => (
+export function anonLogin(username, password, anonId) {
+  return dispatch =>
     new Promise((resolve, reject) => {
-      dispatch(callApi(REQUESTS.OAUTH, {}, {
-        username: username,
-        password: password,
-      })).then((results) => {
-        dispatch(loginAction(results.access_token, results)).then(() => {
-          dispatch(getMe());
-        });
-        resolve(results);
-        return results;
-      }).catch(reject);
-    })
-  );
+      let data = {
+        username,
+        password,
+      };
+      if (anonId) {
+        data.anonymous_user_id = anonId;
+      }
+      dispatch(callApi(REQUESTS.OAUTH, {}, data))
+        .then(results => {
+          dispatch(loginAction(results.access_token, results)).then(() => {
+            dispatch(getMe());
+          });
+          resolve(results);
+          return results;
+        })
+        .catch(reject);
+    });
 }
 
 export function facebookLoginAction(accessToken) {
   // LOG('access token for fb', accessToken);
-  return (dispatch) => {
-    return dispatch(callApi(REQUESTS.FACEBOOK_LOGIN, {}, {
-      assertion: accessToken,
-    })).then((results) => {
-      dispatch(loginAction(results.access_token, results));
-      // dispatch(messagesAction());
-      // Do something with the results
-      return results;
-    }).catch((error) => {
-      LOG('error logging in', error);
-    });
+  return dispatch => {
+    return dispatch(
+      callApi(
+        REQUESTS.FACEBOOK_LOGIN,
+        {},
+        {
+          assertion: accessToken,
+        },
+      ),
+    )
+      .then(results => {
+        dispatch(loginAction(results.access_token, results));
+        // dispatch(messagesAction());
+        // Do something with the results
+        return results;
+      })
+      .catch(error => {
+        LOG('error logging in', error);
+      });
   };
 }
 
 export function getMe() {
-  return (dispatch) => {
-    return dispatch(callApi(REQUESTS.GET_ME)).then((results) => {
-      dispatch(setUserAction(results));
-      dispatch(getAdventure(results.main_adventure_id));
-      return results;
-    }).catch(() => {
-      // LOG('error getting me', error);
-    });
+  return dispatch => {
+    return dispatch(callApi(REQUESTS.GET_ME))
+      .then(results => {
+        dispatch(setUserAction(results));
+        dispatch(getAdventure(results.main_adventure_id));
+        return results;
+      })
+      .catch(() => {
+        // LOG('error getting me', error);
+      });
   };
 }
 
 export function updateMe(data) {
-  return (dispatch) => {
+  return dispatch => {
     if (data.avatar) {
       return dispatch(updateMeImage(data.avatar));
     }
     let newData = { ...data };
     newData.timezone_name = DeviceInfo.getTimezone();
-    return dispatch(callApi(REQUESTS.UPDATE_ME, {}, newData)).then((results) => {
-      dispatch(getMe());
-      return results;
-    }).catch(() => {
-      LOG('error updating me', error);
-    });
+    return dispatch(callApi(REQUESTS.UPDATE_ME, {}, newData))
+      .then(results => {
+        dispatch(getMe());
+        return results;
+      })
+      .catch(() => {
+        LOG('error updating me', error);
+      });
   };
 }
 
 export function updateMeImage(avatar) {
-  return (dispatch) => {
+  return dispatch => {
     if (!avatar.fileName) {
       LOG('Must have a filename for updating an avatar');
       return Promise.reject();
@@ -399,21 +465,25 @@ export function updateMeImage(avatar) {
     };
     LOG('data', data);
 
-    return dispatch(callApi(REQUESTS.UPDATE_ME_IMAGE, {}, data)).then((results) => {
-      LOG('update me image successful', results);
-      dispatch(getMe());
-      return results;
-    }).catch((error) => {
-      LOG('error updating me image', error);
-    });
+    return dispatch(callApi(REQUESTS.UPDATE_ME_IMAGE, {}, data))
+      .then(results => {
+        LOG('update me image successful', results);
+        dispatch(getMe());
+        return results;
+      })
+      .catch(error => {
+        LOG('error updating me image', error);
+      });
   };
 }
 
 export function createMobileVerification(data) {
-  return (dispatch) => {
+  return dispatch => {
     let newData = { ...data };
     newData.mobile.country_code = DeviceInfo.getDeviceCountry();
-    return dispatch(callApi(REQUESTS.CREATE_MOBILE_VERIFICATION, {}, newData)).then((results) => {
+    return dispatch(
+      callApi(REQUESTS.CREATE_MOBILE_VERIFICATION, {}, newData),
+    ).then(results => {
       LOG('Verify mobile request successfully sent', results);
       return results;
     });
@@ -421,8 +491,8 @@ export function createMobileVerification(data) {
 }
 
 export function verifyMobile(data) {
-  return (dispatch) => {
-    return dispatch(callApi(REQUESTS.VERIFY_MOBILE, {}, data)).then((results) => {
+  return dispatch => {
+    return dispatch(callApi(REQUESTS.VERIFY_MOBILE, {}, data)).then(results => {
       LOG('Mobile successfully verified', results);
       return results;
     });
@@ -430,7 +500,7 @@ export function verifyMobile(data) {
 }
 
 export function blockMessenger(data) {
-  return (dispatch) => {
+  return dispatch => {
     const query = {
       endpoint: `${API_URL}/messengers/${data}/block`,
     };
@@ -439,7 +509,7 @@ export function blockMessenger(data) {
 }
 
 export function unblockMessenger(data) {
-  return (dispatch) => {
+  return dispatch => {
     const query = {
       endpoint: `${API_URL}/messengers/${data}/unblock`,
     };
@@ -448,7 +518,7 @@ export function unblockMessenger(data) {
 }
 
 export function reportUserAction(report, messenger) {
-  return (dispatch) => {
+  return dispatch => {
     const query = {
       endpoint: `${API_URL}/messengers/${messenger}/reports`,
     };
@@ -465,13 +535,15 @@ export function openSettingsAction() {
   return () => {
     if (!theme.isAndroid) {
       const APP_SETTINGS_URL = 'app-settings:';
-      Linking.canOpenURL(APP_SETTINGS_URL).then((isSupported) => {
-        if (isSupported) {
-          return Linking.openURL(APP_SETTINGS_URL);
-        }
-      }).catch((err) => {
-        LOG('error opening app settings url', err);
-      });
+      Linking.canOpenURL(APP_SETTINGS_URL)
+        .then(isSupported => {
+          if (isSupported) {
+            return Linking.openURL(APP_SETTINGS_URL);
+          }
+        })
+        .catch(err => {
+          LOG('error opening app settings url', err);
+        });
     } else {
       // Android link to settings not needed
     }
@@ -479,7 +551,7 @@ export function openSettingsAction() {
 }
 
 export function setNoBackgroundAction(value) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({ type: NO_BACKGROUND_ACTION, value });
   };
 }
