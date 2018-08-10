@@ -393,18 +393,14 @@ export function anonLogin(username, password, anonId) {
     });
 }
 
-export function facebookLoginAction(accessToken) {
+export function facebookLoginAction(accessToken, anonId) {
   // LOG('access token for fb', accessToken);
   return dispatch => {
-    return dispatch(
-      callApi(
-        REQUESTS.FACEBOOK_LOGIN,
-        {},
-        {
-          assertion: accessToken,
-        },
-      ),
-    )
+    let data = { assertion: accessToken };
+    if (anonId) {
+      data.anonymous_user_id = anonId;
+    }
+    return dispatch(callApi(REQUESTS.FACEBOOK_LOGIN, {}, data))
       .then(results => {
         dispatch(loginAction(results.access_token, results));
         // dispatch(messagesAction());
