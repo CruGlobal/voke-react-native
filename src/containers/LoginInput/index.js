@@ -143,11 +143,7 @@ class LoginInput extends Component {
             style={styles.haveAccount}
           >
             <Flex style={styles.buttonWrapper}>
-              <FacebookButton
-                text={t('signInFb')}
-                isSignIn={true}
-                isAnonUser={isAnonUser}
-              />
+              <FacebookButton text={t('signInFb')} isSignIn={true} />
             </Flex>
           </Flex>
         </TouchableOpacity>

@@ -16,6 +16,15 @@ import styles from './styles';
 import CONSTANTS, { RESET_ANON_USER } from '../../constants';
 
 class FacebookButton extends Component {
+  state = { anonUserId: undefined };
+
+  componentDidMount() {
+    const { isAnonUser, myId } = this.props;
+    if (isAnonUser) {
+      this.setState({ anonUserId: myId });
+    }
+  }
+
   facebookLogin = () => {
     LoginManager.logInWithReadPermissions(CONSTANTS.FACEBOOK_SCOPE)
       .then(
@@ -52,7 +61,9 @@ class FacebookButton extends Component {
                 if (this.props.isAnonUser) {
                   this.props.dispatch(logoutAction()).then(() => {
                     this.props
-                      .dispatch(facebookLoginAction(accessToken))
+                      .dispatch(
+                        facebookLoginAction(accessToken, this.state.anonUserId),
+                      )
                       .then(() => {
                         this.props.dispatch(getMe()).then(() => {
                           if (this.props.isSignIn) {
@@ -118,5 +129,9 @@ class FacebookButton extends Component {
     );
   }
 }
+const mapStateToProps = ({ auth }) => ({
+  myId: auth.user ? auth.user.id : null,
+  isAnonUser: auth.isAnonUser,
+});
 
-export default translate()(connect()(FacebookButton));
+export default translate()(connect(mapStateToProps)(FacebookButton));
