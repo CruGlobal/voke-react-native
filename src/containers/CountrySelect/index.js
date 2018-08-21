@@ -110,7 +110,8 @@ class CountrySelect extends Component {
   }
 
   render() {
-    const { t, showSearch, searchText, searchResults, all } = this.state;
+    const { t } = this.props;
+    const { showSearch, searchText, searchResults, all } = this.state;
 
     const items = searchText ? searchResults : all;
 
@@ -158,7 +159,7 @@ class CountrySelect extends Component {
             <Touchable highlight={true} onPress={() => this.handleSelect(item)}>
               <View style={styles.row}>
                 <Text style={styles.name}>
-                  {item.name} (+{item.code})
+                  {`${item.name} (+${item.code})`}
                 </Text>
               </View>
             </Touchable>
