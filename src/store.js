@@ -12,28 +12,32 @@ let myCreateStore = createStore;
 
 const navMiddleware = createReactNavigationReduxMiddleware(
   'root',
-  (state) => state.nav,
+  state => state.nav,
 );
 
 const enhancers = [];
-const middleware = [ thunk, navMiddleware ];
+const middleware = [thunk, navMiddleware];
 
-const composedEnhancers = compose(
+const composeEnhancers =
+  (typeof window !== 'undefined' &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+  compose;
+const composedEnhancers = composeEnhancers(
   applyMiddleware(...middleware),
-  ...enhancers
+  ...enhancers,
 );
 
 export default function getStore(onCompletion) {
-  const store = myCreateStore(
-    reducers,
-    {},
-    composedEnhancers,
+  const store = myCreateStore(reducers, {}, composedEnhancers);
+  persistStore(
+    store,
+    {
+      storage: theme.isAndroid ? FilesystemStorage : AsyncStorage,
+    },
+    () => {
+      onCompletion(store);
+    },
   );
-  persistStore(store, {
-    storage: theme.isAndroid ? FilesystemStorage : AsyncStorage,
-  }, () => {
-    onCompletion(store);
-  });
 
   return store;
 }

@@ -137,7 +137,7 @@ export default {
     enter: 'Please enter a valid email',
   },
   home: {
-    findAndShare: 'Find a video and share it with a friend',
+    findAndShare: 'Nothing here yet, find a video and share it with a friend',
     thisPerson: 'this person',
     areYouSureBlock: `Are you sure you want to block {{name}}?`,
     questionBlock: 'Would you also like to block and report this person?',
