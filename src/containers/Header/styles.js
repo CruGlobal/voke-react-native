@@ -1,4 +1,3 @@
-
 import { StyleSheet } from 'react-native';
 import theme, { COLORS } from '../../theme';
 // import { IS_SMALL_ANDROID } from '../../constants';
@@ -12,10 +11,7 @@ export default StyleSheet.create({
     height: isAndroid ? 56 : 65,
     paddingTop: isAndroid ? 0 : 20,
     alignItems: 'center',
-    ...(theme.isIphoneX ? {
-      paddingTop: 30,
-      height: 90,
-    } : {}),
+    ...(theme.isIphoneX ? { paddingTop: 30, height: 90 } : {}),
   },
   // TODO: Add shadow (ios) and elevation (android)
   shadow: {

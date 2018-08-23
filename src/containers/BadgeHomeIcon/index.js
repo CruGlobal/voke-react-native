@@ -43,7 +43,8 @@ BadgeHomeIcon.propTypes = {
 };
 
 const mapStateToProps = ({ messages }) => ({
-  unReadBadgeCount: messages.unReadBadgeCount,
+  unReadBadgeCount:
+    messages.unReadBadgeCount > 99 ? 99 : messages.unReadBadgeCount,
   // unReadBadgeCount: 5,
 });
 

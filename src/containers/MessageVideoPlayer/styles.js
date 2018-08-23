@@ -1,4 +1,3 @@
-
 import { StyleSheet } from 'react-native';
 import theme, { COLORS } from '../../theme';
 
@@ -9,11 +8,11 @@ export default StyleSheet.create({
     backgroundColor: COLORS.DEEP_BLACK,
     height: videoUtils.HEIGHT,
     width: videoUtils.WIDTH,
-    marginTop: 20,
+    marginTop: theme.isAndroid ? undefined : 20,
   },
   backHeader: {
     position: 'absolute',
-    top: 9,
+    top: theme.isAndroid ? 9 : 0,
     right: 9,
     borderRadius: 14,
     // backgroundColor: COLORS.convert({ color: COLORS.WHITE, alpha: 0.8 }),
