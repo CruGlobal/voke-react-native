@@ -16,20 +16,15 @@ import {
   LOGOUT,
   SET_USER,
   SET_PUSH_TOKEN,
-  UPDATE_TOKENS,
   NO_BACKGROUND_ACTION,
-  CREATE_ANON_USER,
   PUSH_PERMISSION,
 } from '../constants';
 import callApi, { REQUESTS } from './api';
 import {
   establishDevice,
-  establishCableDevice,
   closeSocketAction,
-  destroyDevice,
   getDevices,
   checkAndRunSockets,
-  verifyPushNotifications,
 } from './socket';
 import {
   getConversations,
@@ -76,10 +71,15 @@ export function startupAction() {
 }
 
 export function setupFirebaseLinks() {
-  return async (dispatch, getState) => {
+  return async dispatch => {
     if (firebaseLinkHandler) return;
     // Firebase dynamic links
-    const initialLink = await Firebase.links().getInitialLink();
+    let initialLink;
+    try {
+      initialLink = await Firebase.links().getInitialLink();
+    } catch (e) {
+      LOG('error getting Firebase initial link');
+    }
     if (initialLink) {
       dispatch(handleFirebaseLink(initialLink));
     }
@@ -90,13 +90,13 @@ export function setupFirebaseLinks() {
 }
 
 export function handleFirebaseLink(link) {
-  return (dispatch, getState) => {
+  return dispatch => {
     LOG('handling link', link);
   };
 }
 
 export function cleanupAction() {
-  return (dispatch, getState) => {
+  return dispatch => {
     hasStartedUp = false;
     LOG('removing appState listener');
     AppState.removeEventListener('change', appStateChangeFn);
