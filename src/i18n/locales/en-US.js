@@ -1,6 +1,7 @@
 /* eslint-disable */
 export default {
   common: {
+    home: 'Home',
     acceptChallenge: 'Accept Challenge',
     add: 'Add',
     all: 'All',
@@ -44,6 +45,9 @@ export default {
     signUp: 'Sign Up',
     signUpEmail: 'Sign Up with Email',
     signUpFb: 'Sign Up with Facebook',
+    signOut: 'Sign Out',
+    followInstagram: 'Follow us on Instagram',
+    writeReview: 'Write a Review',
     skip: 'Skip',
     submit: 'Submit',
     subscribe: 'Subscribe',

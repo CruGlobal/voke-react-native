@@ -4,8 +4,7 @@ import mapValues from 'lodash/mapValues';
 
 import { locale } from '../utils/common';
 
-import translations from './locales/translations.json';
-import en_US from './locales/en-US.js';
+import translations from './locales/translations';
 
 const languageDetector = {
   type: 'languageDetector',
@@ -22,10 +21,7 @@ export default i18n
     fallbackLng: 'en-US',
 
     // Use downloaded translations if available but use en-US from source to make development easier
-    resources: {
-      ...mapValues(translations, 'translation'),
-      ...{ 'en-US': en_US },
-    },
+    resources: translations,
 
     // have a common namespace used around the full app
     ns: ['common'],

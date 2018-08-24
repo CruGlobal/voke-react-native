@@ -4,60 +4,65 @@ import Communications from 'react-native-communications';
 import { logoutAction } from '../actions/auth';
 import CONSTANTS from '../constants';
 import theme from '../theme';
-
+import i18n from '../i18n';
 // This is used by the android <MenuButton /> and the iOS <Menu />
-export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin, isAnonUser } = {}) {
+export function navMenuOptions(
+  { dispatch, navigatePush, navigateResetLogin, isAnonUser } = {},
+) {
   let createButton = [];
   let signinButton = [];
   let logoutButton = [];
   if (!isAnonUser) {
     logoutButton.push({
       id: 'signout',
-      name: 'Sign Out',
+      name: i18n.t('signOut'),
       onPress: () => {
-        dispatch && dispatch(logoutAction()).then(() => {
-          navigateResetLogin && navigateResetLogin();
-        });
+        dispatch &&
+          dispatch(logoutAction()).then(() => {
+            navigateResetLogin && navigateResetLogin();
+          });
       },
     });
   }
   if (isAnonUser) {
     signinButton.push({
       id: 'signin',
-      name: 'Sign In',
+      name: i18n.t('signIn'),
       onPress: () => navigatePush && navigatePush('voke.LoginInput'),
     });
     createButton.push({
       id: 'createaccount',
-      name: 'Create Account',
+      name: i18n.t('createAccount'),
       onPress: () => navigatePush && navigatePush('voke.SignUpAccount'),
     });
   }
   return [
     {
       id: 'profile',
-      name: 'Profile',
+      name: i18n.t('title.profile'),
       onPress: () => navigatePush && navigatePush('voke.Profile'),
     },
     ...createButton,
     ...signinButton,
     {
       id: 'invite',
-      name: 'Invite Friends',
-      onPress: () => navigatePush && navigatePush('voke.Contacts', {
-        isInvite: true,
-        onSelect: (c) => {
-          LOG('Invite this person:', c);
-          let phone = c.phone && c.phone[0] ? c.phone[0] : null;
-          LOG(phone);
-          let message = 'Check out this awesome app! https://vokeapp.com';
-          Communications.textWithoutEncoding(phone, message);
-        },
-      }),
+      name: i18n.t('inviteFriend'),
+      onPress: () =>
+        navigatePush &&
+        navigatePush('voke.Contacts', {
+          isInvite: true,
+          onSelect: c => {
+            LOG('Invite this person:', c);
+            let phone = c.phone && c.phone[0] ? c.phone[0] : null;
+            LOG(phone);
+            let message = 'Check out this awesome app! https://vokeapp.com';
+            Communications.textWithoutEncoding(phone, message);
+          },
+        }),
     },
     {
       id: 'review',
-      name: 'Write a Review',
+      name: i18n.t('writeReview'),
       onPress: () => {
         let link;
         if (!theme.isAndroid) {
@@ -66,30 +71,36 @@ export function navMenuOptions({ dispatch, navigatePush, navigateResetLogin, isA
           link = CONSTANTS.ANDROID_STORE_LINK;
         }
         if (link) {
-          Linking.canOpenURL(link).then((isSupported) => {
-            isSupported && Linking.openURL(link);
-          }, (err) => LOG('opening url', err));
+          Linking.canOpenURL(link).then(
+            isSupported => {
+              isSupported && Linking.openURL(link);
+            },
+            err => LOG('opening url', err),
+          );
         }
       },
     },
     {
       id: 'instagram',
-      name: 'Follow us on Instagram',
+      name: i18n.t('followInstagram'),
       onPress: () => {
         let link = CONSTANTS.WEB_URLS.INSTAGRAM;
-        Linking.canOpenURL(link).then((isSupported) => {
-          isSupported && Linking.openURL(link);
-        }, (err) => LOG('error opening url', err));
+        Linking.canOpenURL(link).then(
+          isSupported => {
+            isSupported && Linking.openURL(link);
+          },
+          err => LOG('error opening url', err),
+        );
       },
     },
     {
       id: 'help',
-      name: 'Help',
+      name: i18n.t('title.help'),
       onPress: () => navigatePush && navigatePush('voke.Help'),
     },
     {
       id: 'about',
-      name: 'About',
+      name: i18n.t('title.about'),
       onPress: () => navigatePush && navigatePush('voke.About'),
     },
     ...logoutButton,
