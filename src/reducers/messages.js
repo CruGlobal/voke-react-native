@@ -15,6 +15,8 @@ import {
 import { isArray } from '../utils/common';
 import Notifications from '../utils/notifications';
 
+const getBadgeCount = c => (c > 99 ? 99 : c);
+
 const initialState = {
   conversations: [],
   messages: {},
@@ -114,7 +116,7 @@ export default function messages(state = initialState, action) {
         ...state,
         conversations: newConversations,
         typeState: {},
-        unReadBadgeCount: unRead,
+        unReadBadgeCount: getBadgeCount(unRead),
         getConversationsIsRunning: false,
         pagination: {
           ...state.pagination,
@@ -280,7 +282,7 @@ export default function messages(state = initialState, action) {
           ...state.messages,
           [conversationNewMessageId]: newCreatedMessages,
         },
-        unReadBadgeCount: currentBadgeCount,
+        unReadBadgeCount: getBadgeCount(currentBadgeCount),
       };
     // Fired from a socket event to new messages
     case MESSAGE_CREATED:
@@ -342,7 +344,7 @@ export default function messages(state = initialState, action) {
       return {
         ...state,
         conversations: readConversations,
-        unReadBadgeCount: currentBadgeCount2,
+        unReadBadgeCount: getBadgeCount(currentBadgeCount2),
       };
     case SET_ACTIVE_CONVERSATION:
       return {

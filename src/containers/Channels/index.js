@@ -22,7 +22,7 @@ import { Flex, Text, RefreshControl } from '../../components/common';
 import theme from '../../theme';
 
 class Channels extends Component {
-  state = { refreshing: false };
+  state = { refreshing: false, loadingMore: false };
 
   componentDidMount() {
     Analytics.screen(Analytics.s.ChannelsTab);
@@ -45,6 +45,18 @@ class Channels extends Component {
     this.props.dispatch(getFeaturedOrganizations());
   };
 
+  dispatchLoadMore = action => {
+    this.setState({ loadingMore: true });
+    this.props
+      .dispatch(action)
+      .then(() => {
+        this.setState({ loadingMore: false });
+      })
+      .catch(() => {
+        this.setState({ loadingMore: false });
+      });
+  };
+
   handleNextPage = filter => {
     const pagination = this.props.pagination;
     if (!pagination[filter] || !pagination[filter].hasMore) {
@@ -54,11 +66,11 @@ class Channels extends Component {
     const query = { page };
 
     if (filter === 'featured') {
-      this.props.dispatch(getFeaturedOrganizations(query));
+      this.dispatchLoadMore(getFeaturedOrganizations(query));
     } else if (filter === 'myChannels') {
-      this.props.dispatch(getMyOrganizations(query));
+      this.dispatchLoadMore(getMyOrganizations(query));
     } else if (filter === 'all') {
-      this.props.dispatch(getAllOrganizations(query));
+      this.dispatchLoadMore(getAllOrganizations(query));
     }
   };
 
@@ -69,7 +81,10 @@ class Channels extends Component {
       allChannels,
       myChannels,
       featuredChannels,
+      pagination,
     } = this.props;
+    const { loadingMore } = this.state;
+
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
@@ -108,6 +123,10 @@ class Channels extends Component {
               });
             }}
             onLoadMore={() => this.handleNextPage('myChannels')}
+            hasMore={
+              pagination['myChannels'] && pagination['myChannels'].hasMore
+            }
+            isLoading={loadingMore}
           />
           <Flex self="stretch" style={styles.separator} />
           <Text style={styles.title}>{t('featured').toUpperCase()}</Text>
@@ -119,6 +138,8 @@ class Channels extends Component {
               });
             }}
             onLoadMore={() => this.handleNextPage('featured')}
+            hasMore={pagination['featured'] && pagination['featured'].hasMore}
+            isLoading={loadingMore}
           />
           <Flex self="stretch" style={styles.separator} />
           <Text style={styles.title}>{t('browse').toUpperCase()}</Text>
@@ -130,6 +151,8 @@ class Channels extends Component {
               });
             }}
             onLoadMore={() => this.handleNextPage('all')}
+            hasMore={pagination['all'] && pagination['all'].hasMore}
+            isLoading={loadingMore}
           />
           <Flex self="stretch" style={styles.separator} />
         </ScrollView>

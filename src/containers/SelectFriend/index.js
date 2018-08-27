@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { Platform, View, Image, Keyboard, ScrollView, Share } from 'react-native';
+import {
+  Platform,
+  View,
+  Image,
+  Keyboard,
+  ScrollView,
+  Share,
+} from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
@@ -12,7 +19,7 @@ import {
   deleteConversation,
 } from '../../actions/messages';
 import Analytics from '../../utils/analytics';
-import { SET_IN_SHARE, SHOW_SHARE_MODAL } from '../../constants';
+import { SHOW_SHARE_MODAL } from '../../constants';
 import styles from './styles';
 import nav, { NavPropTypes } from '../../actions/nav';
 import theme from '../../theme';
@@ -173,8 +180,7 @@ class SelectFriend extends Component {
         } else {
           LOG('not shared!');
           // Delete the conversation
-          this.props
-            .dispatch(deleteConversation(conversation.conversation.id));
+          this.props.dispatch(deleteConversation(conversation.id));
         }
       })
       .catch(err => {
@@ -228,7 +234,7 @@ class SelectFriend extends Component {
         this.props.dispatch(getConversation(results.id)).then(c => {
           LOG('get voke conversation results', c);
           const friend = results.messengers[0];
-          this.shareDialog(friend.url, c);
+          this.shareDialog(friend.url, c.conversation);
 
           // Show the share modal
           // this.props.dispatch({

@@ -5,6 +5,7 @@ import { translate } from 'react-i18next';
 
 import styles from './styles';
 import { Flex, Text, Touchable, RefreshControl } from '../common';
+import LoadMore from '../LoadMore';
 
 const ITEM_HEIGHT = 120;
 
@@ -68,7 +69,7 @@ class ChannelsList extends Component {
   }
 
   render() {
-    const { t, items, onLoadMore } = this.props;
+    const { t, items, onLoadMore, isLoading, hasMore } = this.props;
     if (items.length === 0) {
       return (
         <Flex align="center" justify="center">
@@ -97,17 +98,29 @@ class ChannelsList extends Component {
             onRefresh={this.handleRefresh}
           />
         }
-        onEndReachedThreshold={0.5}
-        onEndReached={onLoadMore}
+        ListFooterComponent={
+          hasMore
+            ? () => (
+                <Flex
+                  align="center"
+                  justify="center"
+                  style={{ height: '100%', paddingRight: 15 }}
+                >
+                  <LoadMore isLoading={isLoading} onLoad={onLoadMore} />
+                </Flex>
+              )
+            : undefined
+        }
       />
     );
   }
 }
 
 ChannelsList.propTypes = {
-  onLoadMore: PropTypes.func.isRequired, // Redux
-  onSelect: PropTypes.func.isRequired, // Redux
-  items: PropTypes.array.isRequired, // Redux
+  onLoadMore: PropTypes.func.isRequired,
+  onSelect: PropTypes.func.isRequired,
+  items: PropTypes.array.isRequired,
+  isLoading: PropTypes.bool,
 };
 
 export default translate()(ChannelsList);

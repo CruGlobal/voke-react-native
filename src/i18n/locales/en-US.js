@@ -1,6 +1,7 @@
 /* eslint-disable */
 export default {
   common: {
+    today: 'Today',
     home: 'Home',
     acceptChallenge: 'Accept Challenge',
     add: 'Add',
@@ -148,6 +149,8 @@ export default {
     block: 'Block',
     blockReport: 'Block and Report',
     why: 'Please describe why you are reporting this person',
+    nullText:
+      'I will let you know when your friends are watching the videos you shared.',
   },
   imagePicker: {
     where: 'Where is your photo?',

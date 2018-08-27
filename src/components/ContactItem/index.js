@@ -53,6 +53,7 @@ class ContactItem extends Component {
           <Button
             onPress={this.props.onButtonPress}
             text={t('invite')}
+            textProps={{ numberOfLines: 1 }}
             style={styles.inviteButton}
             buttonTextStyle={styles.inviteButtonText}
           />

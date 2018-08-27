@@ -31,9 +31,9 @@ import PopupMenu from '../../components/PopupMenu';
 import Header, { HeaderIcon } from '../Header';
 import { Flex, Text, RefreshControl } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
-import VOKE from '../../../images/voke_null_state.png';
 import { IS_SMALL_ANDROID } from '../../constants';
 import theme from '../../theme';
+import VOKE_LINK from '../../../images/vokebot_whole.png';
 
 const CONTACT_LENGTH_SHOW_VOKEBOT = IS_SMALL_ANDROID ? 2 : 3;
 
@@ -101,8 +101,13 @@ class Home extends Component {
 
   checkConversations = () => {
     if (this.state.callingGetConversations) return;
-    // Only call it again if there are no conversations present
-    if (this.props.conversations.length === 0) {
+    const { conversations } = this.props;
+    // Only call it again if there are no conversations
+    if (conversations.length === 0) {
+      this.getConversations();
+    }
+    // If the first conversation does not have a preview, call getConversations again
+    if (conversations[0] && !conversations[0].messagePreview) {
       this.getConversations();
     }
   };
@@ -291,7 +296,17 @@ class Home extends Component {
           </ScrollView>
         )}
         {cLength <= CONTACT_LENGTH_SHOW_VOKEBOT && cLength > 0 ? (
-          <Image style={styles.vokeBot} source={VOKE} />
+          <Flex style={styles.vokebotWrap}>
+            <Flex style={styles.chatBubble}>
+              <Text style={styles.chatText}>{t('nullText')}</Text>
+            </Flex>
+            <Flex style={styles.chatTriangle} />
+            <Image
+              resizeMode="contain"
+              source={VOKE_LINK}
+              style={styles.vokebot}
+            />
+          </Flex>
         ) : null}
         {cLength === 0 || this.state.isLoading ? <ApiLoading /> : null}
         {this.state.showAndroidReportModal ? (

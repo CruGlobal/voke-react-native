@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import Spinner from 'react-native-spinkit';
 
+import i18n from '../../i18n';
 import theme from '../../theme';
 import styles from './styles';
 import { Flex, Text, Icon, Avatar, DateComponent, Touchable } from '../common';
@@ -228,7 +229,8 @@ class MessageItem extends PureComponent {
     const momentNow = moment()
       .local()
       .format('LL');
-    const separatorTime = momentTime === momentNow ? 'Today' : momentTime;
+    const separatorTime =
+      momentTime === momentNow ? i18n.t('today') : momentTime;
 
     let content;
     if (isVideoAndText) {

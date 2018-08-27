@@ -1,5 +1,8 @@
 import i18n from 'i18next';
 import { reactI18nextModule } from 'react-i18next';
+import * as moment from 'moment';
+// Pull in all the moment locales
+import 'moment/min/locales.min';
 
 import { locale } from '../utils/common';
 
@@ -12,6 +15,9 @@ const languageDetector = {
   init: () => {},
   cacheUserLanguage: () => {},
 };
+
+// Set the date locale
+moment.locale(locale);
 
 export default i18n
   .use(languageDetector)

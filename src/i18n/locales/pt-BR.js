@@ -1,6 +1,7 @@
 /* eslint-disable */
 export default {
   common: {
+    today: 'Hoje',
     home: 'Casa',
     acceptChallenge: 'Aceitar o Desafio',
     add: 'Adicionar',
@@ -154,6 +155,8 @@ export default {
     block: 'Bloquear',
     blockReport: 'Bloquear e denunciar',
     why: 'Por favor, informe porque est\u00e1 denunciando esta pessoa',
+    nullText:
+      'Avisarei quando seus amigos estiverem assistindo aos vídeos que você compartilhou.',
   },
   imagePicker: {
     where: 'Onde est\u00e1 a sua foto?',
