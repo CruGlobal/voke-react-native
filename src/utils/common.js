@@ -14,7 +14,9 @@ export const delay = ms =>
   new Promise(resolve => {
     setTimeout(resolve, ms);
   });
-export const locale = DeviceInfo.getDeviceLocale();
+export const locale = DeviceInfo.getDeviceLocale()
+  .substr(0, 2)
+  .toLowerCase();
 // Pull dates out of UTC format into a moment object
 export const UTC_FORMAT = 'YYYY-MM-DD HH:mm:ss UTC';
 export const momentUtc = time => moment.utc(time, UTC_FORMAT);

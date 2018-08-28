@@ -23,7 +23,7 @@ export default i18n
   .use(languageDetector)
   .use(reactI18nextModule)
   .init({
-    fallbackLng: 'en-US',
+    fallbackLng: 'en',
 
     // Use downloaded translations if available but use en-US from source to make development easier
     resources: translations,

@@ -38,7 +38,7 @@ import {
 } from './channels';
 import { getAdventure } from './adventures';
 import { API_URL } from '../api/utils';
-import { isArray } from '../utils/common';
+import { isArray, locale } from '../utils/common';
 import theme from '../theme';
 import Permissions from '../utils/permissions';
 
@@ -306,6 +306,10 @@ export function createAccountAction(email, password, isAnonymous = false) {
       let data = {
         me: {
           timezone_name: DeviceInfo.getTimezone(),
+          language: {
+            language_code: locale,
+            country_code: DeviceInfo.getDeviceCountry(),
+          },
         },
       };
       if (email) data.email = email;
@@ -316,6 +320,10 @@ export function createAccountAction(email, password, isAnonymous = false) {
           me: {
             timezone_name: DeviceInfo.getTimezone(),
             anonymous: true,
+            language: {
+              language_code: locale,
+              country_code: DeviceInfo.getDeviceCountry(),
+            },
           },
         };
       }
