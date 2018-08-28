@@ -194,7 +194,12 @@ class Profile extends Component {
     if (!this.state.editName) return null;
     const { t, user } = this.props;
     return (
-      <Flex direction="column" align="center" justify="center">
+      <Flex
+        direction="column"
+        align="center"
+        justify="center"
+        ref={x => Analytics.markSensitive(x)}
+      >
         <Flex>
           <Text style={styles.changeTitle}>{t('changeName')}</Text>
         </Flex>
@@ -424,7 +429,9 @@ class Profile extends Component {
                   right={
                     <Button
                       isAndroidOpacity={true}
-                      text={editName ? t('cancel') : !name ? t('add') : t('edit')}
+                      text={
+                        editName ? t('cancel') : !name ? t('add') : t('edit')
+                      }
                       buttonTextStyle={styles.editText}
                       style={styles.inputButton}
                       onPress={() => this.toggleEdit('editName')}
@@ -441,7 +448,11 @@ class Profile extends Component {
                   right={
                     <Button
                       isAndroidOpacity={true}
-                      text={editEmail ? t('cancel') : !user.email ? t('add') : t('edit')}
+                      text={
+                        editEmail
+                          ? t('cancel')
+                          : !user.email ? t('add') : t('edit')
+                      }
                       buttonTextStyle={styles.editText}
                       style={styles.inputButton}
                       onPress={() => this.toggleEdit('editEmail')}
@@ -459,7 +470,9 @@ class Profile extends Component {
                     <Button
                       isAndroidOpacity={true}
                       text={
-                        editPassword ? t('cancel') : !user.email ? t('add') : t('edit')
+                        editPassword
+                          ? t('cancel')
+                          : !user.email ? t('add') : t('edit')
                       }
                       buttonTextStyle={styles.editText}
                       style={styles.inputButton}
@@ -536,9 +549,4 @@ const mapStateToProps = ({ auth }) => ({
   isAnonUser: auth.isAnonUser,
 });
 
-export default translate('profile')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(Profile),
-);
+export default translate('profile')(connect(mapStateToProps, nav)(Profile));

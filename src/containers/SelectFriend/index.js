@@ -394,7 +394,7 @@ class SelectFriend extends Component {
       selectNumberContact,
     } = this.state;
     return (
-      <View style={styles.container}>
+      <View style={styles.container} ref={x => Analytics.markSensitive(x)}>
         <StatusBar />
         <Header leftBack={true} title={t('title.selectFriend')} />
         {this.renderContent()}
@@ -443,9 +443,4 @@ const mapStateToProps = ({ contacts }, { navigation }) => ({
   isLoading: contacts.isLoading,
 });
 
-export default translate()(
-  connect(
-    mapStateToProps,
-    nav,
-  )(SelectFriend),
-);
+export default translate()(connect(mapStateToProps, nav)(SelectFriend));

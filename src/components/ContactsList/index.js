@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, SectionList, FlatList, Keyboard } from 'react-native';
 import { translate } from 'react-i18next';
-
 import ContactItem from '../ContactItem';
+import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { Touchable, Text, Flex, RefreshControl } from '../common';
 import theme from '../../theme';
@@ -167,6 +167,7 @@ class ContactsList extends Component {
     // ItemSeparatorComponent={() => <Separator />}
     return (
       <View
+        ref={x => Analytics.markSensitive(x)}
         style={{
           paddingBottom: !theme.isAndroid ? this.state.height + 100 : undefined,
         }}

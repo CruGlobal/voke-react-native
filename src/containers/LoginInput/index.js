@@ -86,7 +86,13 @@ class LoginInput extends Component {
     const { t, navigateBack, navigatePush, isApiLoading } = this.props;
     const { email, password, isLoading } = this.state;
     return (
-      <Flex style={styles.container} value={1} align="center" justify="center">
+      <Flex
+        style={styles.container}
+        value={1}
+        align="center"
+        justify="center"
+        ref={x => Analytics.markSensitive(x)}
+      >
         <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
           <SignUpHeaderBack onPress={() => navigateBack()} />
           <Flex
@@ -164,9 +170,4 @@ const mapStateToProps = ({ auth }, { navigation }) => ({
   isApiLoading: auth.apiActive > 0,
 });
 
-export default translate('login')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(LoginInput),
-);
+export default translate('login')(connect(mapStateToProps, nav)(LoginInput));

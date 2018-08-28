@@ -179,7 +179,7 @@ class ShareFlow extends Component {
   render() {
     const { t } = this.props;
     return (
-      <View style={styles.container}>
+      <View style={styles.container} ref={x => Analytics.markSensitive(x)}>
         <KeyboardAvoidingView behavior="position">
           <TouchableOpacity
             activeOpacity={1}
@@ -254,9 +254,4 @@ const mapStateToProps = ({ messages }, { navigation }) => ({
   isFirstTime: messages.conversations.length < 2,
 });
 
-export default translate('shareFlow')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(ShareFlow),
-);
+export default translate('shareFlow')(connect(mapStateToProps, nav)(ShareFlow));
