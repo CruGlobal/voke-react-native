@@ -2,7 +2,7 @@ export default {
   common: {
     today: 'hoy',
     home: 'Casa',
-    acceptChallenge: 'Desaf\u00edo Aceptado',
+    acceptChallenge: 'Aceptar Desaf\u00edo',
     add: 'Agregar',
     all: 'Todo',
     allowContacts: 'Permitir Contactos',
@@ -16,10 +16,10 @@ export default {
     done: 'Terminado',
     edit: 'Editar',
     featured: 'Destacado ',
-    forgotPassword: '\u00bfTe olvidaste tu contrase\u00f1a?',
+    forgotPassword: '\u00bfOlvidaste tu contrase\u00f1a?',
     friend: 'Amigo',
     giveAccess: 'Permitir Acceso ',
-    gotIt: '\u00a1Ya lo tengo!',
+    gotIt: '\u00a1Listo!',
     haveAccount: '\u00bfYa tienes una cuenta?',
     invite: 'Invita',
     inviteFriend: 'Invita a un Amigo ',
@@ -43,7 +43,7 @@ export default {
     signIn: 'Ingresa',
     signInFb: 'Ingresa con Facebook',
     signUp: 'Reg\u00edstrate',
-    signUpEmail: 'Reg\u00edstrate con tu Correo Electr\u00f3nico',
+    signUpEmail: 'Reg\u00edstrate con tu Email',
     signUpFb: 'Reg\u00edstrate con Facebook',
     signOut: 'Desconectar',
     followInstagram: 'Síguenos en Instagram',
@@ -54,7 +54,7 @@ export default {
     tellMeMore: 'Cu\u00e9ntame M\u00e1s ',
     themes: 'Temas',
     tos: 'T\u00e9rminos de Servicio',
-    turnOn: 'Encender',
+    turnOn: 'Activar',
     unsubscribe: 'Darse de Baja',
     vokebot: 'Vokebot',
     vokebotInitials: 'VB',
@@ -71,20 +71,20 @@ export default {
       allowContact: 'Por favor permite acceso a tus contactos.',
     },
     placeholder: {
-      confirmEmail: 'Confirma tu Correo Electr\u00f3nico',
+      confirmEmail: 'Confirma tu Email',
       confirmNewPassword: 'Confirma Contrase\u00f1a Nueva',
       currentPassword: 'Contrase\u00f1a Actual',
-      email: 'Correo Electr\u00f3nico',
+      email: 'Email',
       firstName: 'Nombre',
       friendsName: 'Nombre del amigo',
       lastName: 'Apellido',
-      mobileNumber: 'Celular',
-      newEmail: 'Nuevo Correo Electr\u00f3nico',
+      mobileNumber: 'Tu n\u00famero de tel\u00e9fono',
+      newEmail: 'Nuevo Email',
       newMessage: 'Nuevo Mensaje',
       newPassword: 'Nueva contrase\u00f1a',
       password: 'Contrase\u00f1a',
       reason: 'Razones',
-      search: 'B\u00fasqueda',
+      search: 'Buscar',
       verification: 'C\u00f3digo de Verificaci\u00f3n',
     },
     title: {
@@ -97,13 +97,13 @@ export default {
       createProfile: 'Crear Perfil ',
       help: 'Ayuda',
       kickstarters: 'Preguntas Sugeridas',
-      number: 'Celular',
+      number: 'N\u00famero de tel\u00e9fono',
       profile: 'Perfil',
       selectCountry: 'Seleccionar Pa\u00eds',
       selectFriend: 'Seleccionar amigo',
       selectAFriend: 'Seleccionar un Amigo',
       verification: 'Verificaci\u00f3n',
-      videos: 'videos',
+      videos: 'Videos',
     },
     empty: {
       nothingToShow: 'Nada que mostrar',
@@ -120,7 +120,7 @@ export default {
       playingVideo: 'Hubo un error al reproducir el video.',
       tryAgain: 'Hubo un error, por favor intenta nuevamente',
       troubleVideo: 'Tuvimos problemas al encontrar este video ',
-      userpass: 'Disculpa, el usuario/contrase\u00f1a no est\u00e1 correcto',
+      userpass: 'Disculpa, el usuario/contrase\u00f1a no es correcto',
       vokePermission:
         'Primero concede permiso a Voke para acceder a tus contactos. Ve a Configuraciones / Voke y permite el acceso a Contactos',
       contactsTitle: 'No se pudieron obtener contactos',
@@ -140,12 +140,12 @@ export default {
   },
   forgotPassword: {
     description:
-      'Por favor ingresa el correo electr\u00f3nico correcto asociado a tu cuenta de Voke para restablecer la contrase\u00f1a',
-    checkEmail: 'Chequea tu Correo Electr\u00f3nico',
+      'Por favor ingresa el email correcto asociado a tu cuenta de Voke para restablecer la contrase\u00f1a',
+    checkEmail: 'Revisa tu Email',
     emailPrompt:
-      'Si no recibes un correo electr\u00f3nico, lo m\u00e1s probable es que usaste una direcci\u00f3n de correo electr\u00f3nico diferente. Si es as\u00ed, intenta con una direcci\u00f3n de correo electr\u00f3nico diferente para recuperar la contrase\u00f1a',
-    invalid: 'Correo Electr\u00f3nico Inv\u00e1lido',
-    enter: 'Por favor pon un correo v\u00e1lido',
+      'Si no recibes un correo electr\u00f3nico, lo m\u00e1s probable es que usaste un email diferente. Si es as\u00ed, intenta con un email diferente para recuperar la contrase\u00f1a',
+    invalid: 'Email Inv\u00e1lido',
+    enter: 'Por favor pon un email v\u00e1lido',
   },
   home: {
     findAndShare: 'Encuentra un video y comp\u00e1rtelo con un amigo',
@@ -172,11 +172,11 @@ export default {
       'Preguntas Sugeridas estar\u00e1n visibles despu\u00e9s que selecciones y compartas el video a un amigo.',
   },
   login: {
-    invalid: 'Correo Electr\u00f3nico/Contrasela inv\u00e1lida',
-    enterValid: 'Por favor ingresa un correo y contrase\u00f1a v\u00e1lida',
+    invalid: 'Email/Contrase\u00f1a inv\u00e1lida',
+    enterValid: 'Por favor ingresa un email y contrase\u00f1a v\u00e1lida',
     login: 'Iniciar Sesi\u00f3n',
     existingAccount:
-      'Inicio de sesi\u00f3n exitosa a una cuenta existente, desde esta pantalla combinar\u00e1 el progreso de la cuenta de invitado y las conversaciones con tu cuenta existente.',
+      'Iniciar sesi\u00f3n a una cuenta existente desde esta pantalla combinar\u00e1 el progreso de la cuenta de invitado y las conversaciones con tu cuenta existente.',
   },
   modal: {
     moreTitle:
@@ -185,34 +185,34 @@ export default {
       '1. Encontrando amigos en tus contactos con los que puedas compartir. \n2. Ser animado cuando tus amigos est\u00e1n usando Voke.',
     title: '\u00bfLibreta de direcciones del usuario?',
     description:
-      'Voke usa tus contactos para hacer el compartir algo r\u00e1pido y f\u00e1cil.',
+      'Voke usa tus contactos para poder compartir de una forma r\u00e1pida y sencilla.',
   },
   notifications: {
-    off: 'Apagar las Notificaciones.',
+    off: 'Desactivar las Notificaciones.',
   },
   overlays: {
     playUkulele:
-      '{{name}}, Voy a tocar el ukulele cuando tus amigos comiencen a ver los videos. Este es el mejor momento para tener conversaciones profundas.\n\nPrimero necesito tu permiso para enviarte notificaciones.',
+      '{{name}}, tocar\u00e9 el ukulele cuando tus amigos comiencen a ver los videos. Este es el mejor momento para tener conversaciones profundas.\n\nPrimero necesito tu permiso para enviarte notificaciones.',
     signUpChannel:
-      'Reg\u00edstrese para suscribirse y {{channel}} te avisar\u00e1 cuando se publiquen nuevos videos.',
+      'Reg\u00edstrate para suscribirte y {{channel}} te avisar\u00e1 cuando se publiquen nuevos videos.',
   },
   profile: {
-    changeEmail: 'Cambiar Correo Electr\u00f3nico',
+    changeEmail: 'Cambiar Email',
     changeName: 'Cambiar Nombre',
     changePassword: 'Cambiar Contrase\u00f1a',
     signUp:
-      'Reg\u00edstrese para guardar tu progreso y acceder a tu cuenta desde cualquier lugar.',
-    guest: 'Perfil Invitado',
+      'Reg\u00edstrate para guardar tu progreso y acceder a tu cuenta desde cualquier lugar.',
+    guest: 'Perfil de Invitado',
     user: 'Cuenta de Usuario',
     verified: 'Verificar Cuenta',
     emailsMatch: 'Estos correos no coinciden',
     passwordsMatch: 'La contrase\u00f1a no concuerda',
     passwordsLength: 'La contrase\u00f1a debe tener por lo menos 8 caracteres ',
     addName: 'Agrega tu Nombre',
-    addEmail: 'Agrega tu Correo Electr\u00f3nico ',
+    addEmail: 'Agrega tu Email',
     addPassword: 'Agrega Contrase\u00f1a',
-    mobileVerified: 'Celular Verificado',
-    verifyMobile: 'Verificar N\u00famero de Celular',
+    mobileVerified: 'N\u00famero de tel\u00e9fono Verificado',
+    verifyMobile: 'Verificar N\u00famero de Tel\u00e9fono',
   },
   reportModal: {
     title:
@@ -228,7 +228,7 @@ export default {
     version: 'Versi\u00f3n: {{build}}',
     visitWebsite: 'Visita nuestro Sitio Web de Ayuda',
     visitFAQ: 'Visita nuestro Sitio Web de Preguntas Frecuentes',
-    featureRequest: 'Haz una Solicitud de Funciones',
+    featureRequest: 'Solicita una nueva funcionalidad',
     report: 'Reportar a Usuario',
     email: 'Escr\u00edbenos',
   },
@@ -241,22 +241,22 @@ export default {
     errorCreating:
       'Disculpa, hubo un error al crear esta conversaci\u00f3n. Por favor int\u00e9ntalo nuevamente.',
     enterName: 'Por favor ingresa un nombre para continuar',
-    checkOut: '\u00a1Chequea esto en Voke!',
+    checkOut: '\u00a1Mira esto en Voke!',
     friend: 'amigo',
-    friendCheckOut: 'Hola {{name}}, chequea este video {{url}}',
+    friendCheckOut: 'Hola {{name}}, mira este video {{url}}',
   },
   sharePopup: {
     message: 'Mensaje',
-    email: 'correo electr\u00f3nico',
+    email: 'email',
     whatsapp: 'WhatsApp',
-    messenger: 'Mensaje',
+    messenger: 'Mensajero',
     copy: 'Copiar al Portapapeles\n',
   },
   signUpWelcome: {
-    tagline1: 'Compartir Videos que Valgan la pena Compartir',
-    tagline2: 'Inspirar\nProfundidad\nConversaciones',
-    tagline3: 'Experimenta Amistades Profundas',
-    tagline4: 'Encuentra y Comparte Esperanza',
+    tagline1: 'Comparte videos\nque valen la\npena compartir',
+    tagline2: 'Inspira\nProfundas\nConversaciones',
+    tagline3: 'Experimenta\nAmistades\nProfundas',
+    tagline4: 'Encuentra y\nComparte\nEsperanza',
     start: 'Comienza a Explorar',
   },
   signUp: {
@@ -264,36 +264,35 @@ export default {
     accountDescription:
       'Crear tu cuenta te permite mantener tus conversaciones seguras, conservar tu progreso y acceder a Voke desde cualquier lugar.',
     numberDescription:
-      'Agrega tu celular e invita a tus amigos a un chat de Voke v\u00eda mensaje de texto.',
+      'Agrega tu n\u00famero de tel\u00e9fono e invita a tus amigos a un chat de Voke por mensaje de texto.',
     sharing: 'Nos encanta compartir, pero no compartiremos tu n\u00famero.',
     resend: 'Reenviar C\u00f3digo',
     verifyDescription:
       'Finalmente, ingresa el c\u00f3digo de 4 d\u00edgitos que recibiste por TXT para que sepamos que eres un humano.',
     errorCreating: 'Error al Crear la Cuenta',
-    emailTaken: 'El correo electr\u00f3nico ya se ha tomado.',
-    fillInFields:
-      'Por favor escribe tu nombre, apellido y correo electr\u00f3nico',
+    emailTaken: 'El email ya ha sido tomado.',
+    fillInFields: 'Por favor escribe tu nombre, apellido y email',
     enterNumber: 'Por favor ingresa tu n\u00famero de tel\u00e9fono',
     isNumber: '\u00bfEste n\u00famero es correcto? {{number}}',
     messageSent:
       'Se enviar\u00e1 un mensaje de texto con tu c\u00f3digo de acceso a este n\u00famero.',
-    mobileInvalid: 'N\u00famero de Celular inv\u00e1lido',
+    mobileInvalid: 'N\u00famero de Tel\u00e9fono inv\u00e1lido',
     codeSent: 'Nuevo c\u00f3digo de verificaci\u00f3n enviado',
     codeSentWait:
       'Un nuevo c\u00f3digo de verificaci\u00f3n fue enviado, por favor espera unos segundos antes de reenviar',
     enterCodeSent: 'Por favor ingresa el c\u00f3digo que enviaste',
     invalidCode: 'C\u00f3digo Inv\u00e1lido',
     codeNotMatch:
-      'El c\u00f3digo no coincide con el c\u00f3digo que se envi\u00f3 al n\u00famero de celular',
+      'El c\u00f3digo no coincide con el c\u00f3digo que se envi\u00f3 al n\u00famero de tel\u00e9fono',
     fillInName: 'Por favor ingresa tu nombre y apellido',
   },
   tryItNow: {
-    enterName: 'Por favor ingresa un numero y continua',
+    enterName: 'Por favor ingresa un nombre para continuar',
     whatsYourName:
       '\u00bfCu\u00e1l es tu nombre?  \u00a1De esta manera tus amigos sabr\u00e1n qui\u00e9n eres cuando compartes!',
   },
   videos: {
-    shares: '{{total}} compartes',
+    shares: '{{total}} veces compartido',
     kickstarters: 'Preguntas Sugeridas por Voke',
     addToChat: '\u00bfAgregar v\u00eddeo al chat?',
     areYouSureAdd:

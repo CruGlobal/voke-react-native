@@ -234,10 +234,10 @@ export default {
     copy: 'Copy To Clipboard',
   },
   signUpWelcome: {
-    tagline1: `Share Videos Worth Sharing`,
+    tagline1: `Share\nVideos\nWorth\nSharing`,
     tagline2: `Inspire\nDeeper\nConversations`,
-    tagline3: `Experience Deeper Friendships`,
-    tagline4: `Find and Share Hope`,
+    tagline3: `Experience\nDeeper\nFriendships`,
+    tagline4: `Find and\nShare Hope`,
     start: `Start Exploring`,
   },
   signUp: {

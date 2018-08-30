@@ -251,10 +251,10 @@ export default {
     copy: 'Copiar para o Clipboard ',
   },
   signUpWelcome: {
-    tagline1: 'Compartilhe v\u00eddeos que valem a pena ',
+    tagline1: 'Compartilhe\nv\u00eddeos que\nvalem a pena ',
     tagline2: 'Inspire \nConversas\nMais Profundas',
-    tagline3: 'Experimente Amizades Mais Profundas ',
-    tagline4: 'Encontre e Compartilhe Esperan\u00e7a ',
+    tagline3: 'Experimente\nAmizades\nMais\nProfundas ',
+    tagline4: 'Encontre e\nCompartilhe\nEsperan\u00e7a ',
     start: 'Comece a Explorar ',
   },
   signUp: {

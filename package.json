@@ -18,7 +18,7 @@
     "android": "adb devices && react-native run-android",
     "android:install:dev": "adb install android/app/build/outputs/apk/app-debug.apk",
     "android:install:release": "adb install android/app/build/outputs/apk/app-release.apk",
-    "android:build:remove:system": "npm runn android:build",
+    "android:build:remove:system": "npm run android:build",
     "android:build": "react-native run-android --variant=release"
   },
   "jest": {

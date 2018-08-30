@@ -29,7 +29,6 @@ export default StyleSheet.create({
     color: theme.accentColor,
     fontSize: 14,
     textAlign: 'center',
-    lineHeight: 12,
   },
   chatTriangle: {
     alignSelf: 'flex-end',

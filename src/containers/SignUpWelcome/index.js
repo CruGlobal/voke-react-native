@@ -144,7 +144,7 @@ class SignUpWelcome extends Component {
                   position: 'absolute',
                   top: MARGIN + 30,
                   right: MARGIN,
-                  width: 250,
+                  width: theme.fullWidth,
                 }}
               >
                 <VokeIcon
@@ -181,7 +181,7 @@ class SignUpWelcome extends Component {
                   position: 'absolute',
                   top: MARGIN + 30,
                   right: MARGIN,
-                  width: 250,
+                  width: theme.fullWidth,
                 }}
               >
                 <VokeIcon
@@ -218,7 +218,7 @@ class SignUpWelcome extends Component {
                   position: 'absolute',
                   top: MARGIN + 30,
                   right: MARGIN,
-                  width: 250,
+                  width: theme.fullWidth,
                 }}
               >
                 <VokeIcon
@@ -384,8 +384,5 @@ const mapStateToProps = (state, { navigation }) => ({
 });
 
 export default translate('signUpWelcome')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(SignUpWelcome),
+  connect(mapStateToProps, nav)(SignUpWelcome),
 );
