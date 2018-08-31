@@ -1,6 +1,5 @@
-
 import { StyleSheet } from 'react-native';
-import theme  from '../../theme';
+import theme from '../../theme';
 
 export default StyleSheet.create({
   row: {
@@ -29,7 +28,8 @@ export default StyleSheet.create({
     height: 18,
   },
   inviteButton: {
-    width: 80,
+    minWidth: 80,
+    maxWidth: 150,
     padding: 0,
     margin: 0,
     backgroundColor: theme.primaryColor,

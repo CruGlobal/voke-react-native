@@ -101,7 +101,12 @@ class Videos extends Component {
         });
       this.getSubscriberData();
       this.setState({ videos: channelVideos });
-    } else if (all.length === 0) {
+    } else {
+      // Always make an API call when the videos tab mounts
+      // Show existing videos if they're there
+      if (all.length > 0) {
+        this.setState({ videos: all });
+      }
       // If there are no videos when the component mounts, get them, otherwise just set it
       dispatch(getVideos())
         .then(() => {
@@ -128,8 +133,6 @@ class Videos extends Component {
             }, 3000);
           }
         });
-    } else {
-      this.setState({ videos: all });
     }
 
     // TODO: Handle filter
@@ -605,4 +608,9 @@ const mapStateToProps = ({ auth, videos }) => ({
   pagination: videos.pagination,
 });
 
-export default translate('videos')(connect(mapStateToProps, nav)(Videos));
+export default translate('videos')(
+  connect(
+    mapStateToProps,
+    nav,
+  )(Videos),
+);

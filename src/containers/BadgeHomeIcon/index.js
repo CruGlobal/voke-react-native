@@ -44,7 +44,6 @@ BadgeHomeIcon.propTypes = {
 
 const mapStateToProps = ({ messages }) => ({
   unReadBadgeCount: messages.unReadBadgeCount,
-  // unReadBadgeCount: 5,
 });
 
 export default translate()(connect(mapStateToProps)(BadgeHomeIcon));

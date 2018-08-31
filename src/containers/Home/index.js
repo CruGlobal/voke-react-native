@@ -31,9 +31,9 @@ import PopupMenu from '../../components/PopupMenu';
 import Header, { HeaderIcon } from '../Header';
 import { Flex, Text, RefreshControl } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
-import VOKE from '../../../images/voke_null_state.png';
 import { IS_SMALL_ANDROID } from '../../constants';
 import theme from '../../theme';
+import VOKE_LINK from '../../../images/vokebot_whole.png';
 
 const CONTACT_LENGTH_SHOW_VOKEBOT = IS_SMALL_ANDROID ? 2 : 3;
 
@@ -47,6 +47,7 @@ class Home extends Component {
       showAndroidReportModal: false,
       androidReportPerson: null,
       androidReportData: null,
+      callingGetConversations: true,
     };
 
     this.handleLoadMore = this.handleLoadMore.bind(this);
@@ -76,17 +77,48 @@ class Home extends Component {
 
     Analytics.screen(Analytics.s.ChatTab);
 
-    dispatch(getConversations());
+    this.getConversations();
 
     // This should fix the case for new users signing up not having the auth user
     if (conversations.length === 0) {
       dispatch(getMe());
     }
 
-    setTimeout(() => {
+    this.startupTimeout = setTimeout(() => {
       dispatch(startupAction());
     }, 50);
+
+    // Check if getConversations has been called yet, call it again if there are 0 conversations
+    this.checkTimeout = setTimeout(this.checkConversations, 6 * 1000);
+    this.checkTimeout2 = setTimeout(this.checkConversations, 12 * 1000);
   }
+
+  componentWillUnmount() {
+    clearTimeout(this.startupTimeout);
+    clearTimeout(this.checkTimeout);
+    clearTimeout(this.checkTimeout2);
+  }
+
+  checkConversations = () => {
+    if (this.state.callingGetConversations) return;
+    const { conversations } = this.props;
+    // Only call it again if there are no conversations
+    if (conversations.length === 0) {
+      this.getConversations();
+    }
+    // If the first conversation does not have a preview, call getConversations again
+    if (conversations[0] && !conversations[0].messagePreview) {
+      this.getConversations();
+    }
+  };
+
+  getConversations = () => {
+    this.setState({ callingGetConversations: true });
+    this.props
+      .dispatch(getConversations())
+      .then(() => this.setState({ callingGetConversations: false }))
+      .catch(() => this.setState({ callingGetConversations: false }));
+  };
 
   handleMenuPress() {
     this.props.navigatePush('voke.Menu');
@@ -257,12 +289,24 @@ class Home extends Component {
                 resizeMode="contain"
                 source={ANIMATION}
               />
-              <Text>{t('findAndShare')}</Text>
+              <Text style={{ textAlign: 'center', paddingHorizontal: 30 }}>
+                {t('findAndShare')}
+              </Text>
             </Flex>
           </ScrollView>
         )}
         {cLength <= CONTACT_LENGTH_SHOW_VOKEBOT && cLength > 0 ? (
-          <Image style={styles.vokeBot} source={VOKE} />
+          <Flex style={styles.vokebotWrap}>
+            <Flex style={styles.chatBubble}>
+              <Text style={styles.chatText}>{t('nullText')}</Text>
+            </Flex>
+            <Flex style={styles.chatTriangle} />
+            <Image
+              resizeMode="contain"
+              source={VOKE_LINK}
+              style={styles.vokebot}
+            />
+          </Flex>
         ) : null}
         {cLength === 0 || this.state.isLoading ? <ApiLoading /> : null}
         {this.state.showAndroidReportModal ? (

@@ -1,5 +1,10 @@
 import { API_URL, AUTH_URL } from './utils';
-import { mapMessages, mapConversations, mapConversation, mapChallenges } from './mapping';
+import {
+  mapMessages,
+  mapConversations,
+  mapConversation,
+  mapChallenges,
+} from './mapping';
 import CONSTANTS from '../constants';
 // Import mapping functions or w/e
 
@@ -37,7 +42,7 @@ export default {
   //   (mark the api as a call that will show the loading state)
   //   showApiLoading: false
   // },
-  'OAUTH': {
+  OAUTH: {
     endpoint: AUTH_URL + 'oauth/token',
     anonymous: true,
     method: 'post',
@@ -47,7 +52,7 @@ export default {
       scope: 'messenger',
     },
   },
-  'FACEBOOK_LOGIN': {
+  FACEBOOK_LOGIN: {
     endpoint: AUTH_URL + 'oauth/token',
     anonymous: true,
     method: 'post',
@@ -56,16 +61,13 @@ export default {
       grant_type: 'assertion',
       scope: 'messenger',
     },
+    showApiLoading: true, // Used to show a loading overlay on the login page with Facebook login
   },
-  'REVOKE_TOKEN': {
+  REVOKE_TOKEN: {
     endpoint: AUTH_URL + 'oauth/revoke',
     method: 'post',
   },
-  'REVOKE_TOKEN': {
-    endpoint: AUTH_URL + 'oauth/revoke',
-    method: 'post',
-  },
-  'ME': {
+  ME: {
     endpoint: API_URL + 'me',
     anonymous: true,
     method: 'post',
@@ -73,17 +75,17 @@ export default {
       client: CLIENT,
     },
   },
-  'GET_ME': {
+  GET_ME: {
     endpoint: API_URL + 'me',
     method: 'get',
-    // showApiLoading: false,
+    showApiLoading: true, // Used to show a loading overlay on the login page with Facebook login
   },
-  'UPDATE_ME': {
+  UPDATE_ME: {
     endpoint: API_URL + 'me',
     method: 'put',
     showApiLoading: false,
   },
-  'UPDATE_ME_IMAGE': {
+  UPDATE_ME_IMAGE: {
     endpoint: API_URL + 'me',
     method: 'put',
     // Force this request to use a custom imageUpload method
@@ -92,18 +94,18 @@ export default {
     },
     showApiLoading: false,
   },
-  'CREATE_MOBILE_VERIFICATION': {
+  CREATE_MOBILE_VERIFICATION: {
     endpoint: API_URL + 'me/mobile',
     method: 'post',
     data: {
       client: CLIENT,
     },
   },
-  'VERIFY_MOBILE': {
+  VERIFY_MOBILE: {
     endpoint: API_URL + 'me/mobile',
     method: 'put',
   },
-  'FORGOT_PASSWORD': {
+  FORGOT_PASSWORD: {
     endpoint: API_URL + 'me/forgot',
     anonymous: true,
     method: 'post',
@@ -111,215 +113,218 @@ export default {
       client: CLIENT,
     },
   },
-  'GET_VIDEO': {
+  GET_VIDEO: {
     endpoint: API_URL + 'items/:videoId',
   },
-  'FAVORITE_VIDEO': {
+  FAVORITE_VIDEO: {
     endpoint: API_URL + 'items/:videoId/favorite',
     method: 'post',
   },
-  'UNFAVORITE_VIDEO': {
+  UNFAVORITE_VIDEO: {
     endpoint: API_URL + 'items/:videoId/favorite',
     method: 'delete',
   },
-  'VIDEOS': {
+  VIDEOS: {
     endpoint: API_URL + 'items',
   },
-  'GET_POPULAR_VIDEOS': {
+  GET_POPULAR_VIDEOS: {
     endpoint: API_URL + 'items',
     method: 'get',
     query: { popularity: true },
     showApiLoading: false,
   },
-  'GET_FEATURED_VIDEOS': {
+  GET_FEATURED_VIDEOS: {
     endpoint: API_URL + 'items',
     method: 'get',
     query: { featured: true },
     showApiLoading: false,
   },
-  'GET_FAVORITES_VIDEOS': {
+  GET_FAVORITES_VIDEOS: {
     endpoint: API_URL + 'items',
     query: { favorite: '#<Messenger::Favorite:0x007ffd7c4afb60>' },
     showApiLoading: false,
   },
-  'GET_TAGS': {
+  GET_TAGS: {
     endpoint: API_URL + 'tags',
     method: 'get',
     showApiLoading: false,
   },
-  'GET_VIDEOS_BY_TAG': {
+  GET_VIDEOS_BY_TAG: {
     endpoint: API_URL + 'items',
     method: 'get',
     showApiLoading: false,
   },
-  'GET_KICKSTARTERS': {
+  GET_KICKSTARTERS: {
     endpoint: API_URL + 'items',
     method: 'get',
     showApiLoading: false,
   },
-  'GET_CONVERSATIONS': {
+  GET_CONVERSATIONS: {
     endpoint: API_URL + 'me/conversations',
     method: 'get',
     mapResults: mapConversations,
     showApiLoading: false,
   },
-  'GET_CONVERSATION': {
+  GET_CONVERSATION: {
     endpoint: API_URL + 'me/conversations',
     method: 'get',
     mapResults: mapConversation,
   },
-  'DELETE_CONVERSATION': {
+  DELETE_CONVERSATION: {
     endpoint: API_URL + 'me/conversations/:id',
     method: 'delete',
     showApiLoading: false,
   },
-  'CREATE_CONVERSATION': {
+  CREATE_CONVERSATION: {
     endpoint: API_URL + 'me/conversations',
     method: 'post',
     showApiLoading: true,
   },
-  'GET_MESSAGES': {
+  GET_MESSAGES: {
     endpoint: API_URL + 'me/conversations/conversation_id/messages',
     method: 'get',
     mapResults: mapMessages,
     showApiLoading: false,
   },
-  'CREATE_MESSAGE': {
+  CREATE_MESSAGE: {
     endpoint: API_URL + 'me/conversations/conversation_id/messages',
     method: 'post',
   },
-  'CREATE_DEVICE': {
+  CREATE_DEVICE: {
     endpoint: API_URL + 'me/devices',
     method: 'post',
   },
-  'CREATE_PUSH_DEVICE': {
+  CREATE_PUSH_DEVICE: {
     endpoint: API_URL + 'me/devices',
     method: 'post',
   },
-  'GET_DEVICES': {
+  GET_DEVICES: {
     endpoint: API_URL + 'me/devices',
     method: 'get',
   },
-  'DESTROY_DEVICE': {
+  DESTROY_DEVICE: {
     endpoint: API_URL + 'me/devices',
     method: 'delete',
   },
-  'UPDATE_DEVICE': {
+  UPDATE_DEVICE: {
     endpoint: API_URL + 'me/devices',
     method: 'put',
   },
-  'CREATE_TYPESTATE': {
+  CREATE_TYPESTATE: {
     endpoint: API_URL + 'me/conversations/:conversation_id/type_state',
     method: 'post',
   },
-  'DESTROY_TYPESTATE': {
+  DESTROY_TYPESTATE: {
     endpoint: API_URL + 'me/conversations/:conversation_id/type_state',
     method: 'delete',
   },
-  'CREATE_MESSAGE_INTERACTION': {
-    endpoint: API_URL + 'me/conversations/:conversation_id/messages/:message_id/interactions',
+  CREATE_MESSAGE_INTERACTION: {
+    endpoint:
+      API_URL +
+      'me/conversations/:conversation_id/messages/:message_id/interactions',
     method: 'post',
   },
-  'BLOCK_MESSENGER': {
+  BLOCK_MESSENGER: {
     endpoint: API_URL + 'messengers/:messenger_id/block',
     method: 'post',
   },
-  'UNBLOCK_MESSENGER': {
+  UNBLOCK_MESSENGER: {
     endpoint: API_URL + 'messengers/:messenger_id/unblock',
     method: 'post',
   },
-  'REPORT_MESSENGER': {
+  REPORT_MESSENGER: {
     endpoint: API_URL + 'messengers/:messenger_id/block',
     method: 'post',
   },
-  'ADD_FRIENDS': {
+  ADD_FRIENDS: {
     endpoint: API_URL + 'me/friends',
     method: 'post',
   },
-  'GET_ORGANIZATIONS': {
+  GET_ORGANIZATIONS: {
     endpoint: API_URL + 'organizations',
     method: 'get',
   },
-  'GET_FEATURED_ORGANIZATIONS': {
+  GET_FEATURED_ORGANIZATIONS: {
     endpoint: API_URL + 'organizations',
     method: 'get',
     query: { featured: true },
   },
-  'GET_MY_ORGANIZATIONS': {
+  GET_MY_ORGANIZATIONS: {
     endpoint: API_URL + 'organizations',
     method: 'get',
     query: { follows: true },
   },
-  'ORGANIZATION_VIDEOS': {
+  ORGANIZATION_VIDEOS: {
     endpoint: API_URL + 'items',
     method: 'get',
   },
-  'GET_POPULAR_ORGANIZATION_VIDEOS': {
+  GET_POPULAR_ORGANIZATION_VIDEOS: {
     endpoint: API_URL + 'items',
     method: 'get',
     query: { popularity: true },
     // showApiLoading: false,
   },
-  'GET_FEATURED_ORGANIZATION_VIDEOS': {
+  GET_FEATURED_ORGANIZATION_VIDEOS: {
     endpoint: API_URL + 'items',
     method: 'get',
     query: { featured: true },
     // showApiLoading: false,
   },
-  'GET_FAVORITES_ORGANIZATION_VIDEOS': {
+  GET_FAVORITES_ORGANIZATION_VIDEOS: {
     endpoint: API_URL + 'items',
     method: 'get',
     query: { favorite: '#<Messenger::Favorite:0x007ffd7c4afb60>' },
     // showApiLoading: false,
   },
-  'GET_ORGANIZATION_VIDEOS_BY_TAG': {
+  GET_ORGANIZATION_VIDEOS_BY_TAG: {
     endpoint: API_URL + 'items',
     method: 'get',
     // showApiLoading: false,
   },
-  'GET_ORGANIZATION_SUBSCRIBERS': {
+  GET_ORGANIZATION_SUBSCRIBERS: {
     endpoint: API_URL + 'organizations/:orgId/subscriptions',
     method: 'get',
     showApiLoading: false,
   },
-  'GET_ORGANIZATION': {
+  GET_ORGANIZATION: {
     endpoint: API_URL + 'organizations/:orgId',
     method: 'get',
     showApiLoading: false,
   },
-  'GET_ADVENTURE': {
+  GET_ADVENTURE: {
     endpoint: API_URL + 'adventures/:adventure_id',
     method: 'get',
     showApiLoading: false,
   },
-  'GET_ADVENTURES': {
+  GET_ADVENTURES: {
     endpoint: API_URL + 'me/messenger_adventures',
     method: 'get',
     showApiLoading: false,
   },
-  'GET_CHALLENGES': {
+  GET_CHALLENGES: {
     endpoint: API_URL + 'adventures/:adventure_id/challenges',
     method: 'get',
     mapResults: mapChallenges,
     showApiLoading: false,
   },
-  'ORGANIZATION_SUBSCRIBE': {
+  ORGANIZATION_SUBSCRIBE: {
     endpoint: API_URL + 'organizations/:orgId/subscriptions',
     method: 'post',
   },
-  'ACCEPT_CHALLENGE': {
+  ACCEPT_CHALLENGE: {
     endpoint: API_URL + 'adventures/:adventure_id/challenges/:challenge_id/log',
     method: 'post',
   },
-  'COMPLETE_CHALLENGE': {
-    endpoint: API_URL + 'adventures/:adventure_id/challenges/:challenge_id/log/:log_id',
+  COMPLETE_CHALLENGE: {
+    endpoint:
+      API_URL + 'adventures/:adventure_id/challenges/:challenge_id/log/:log_id',
     method: 'post',
   },
-  'ORGANIZATION_UNSUBSCRIBE': {
+  ORGANIZATION_UNSUBSCRIBE: {
     endpoint: API_URL + 'organizations/:orgId/subscriptions/:subscriptionId',
     method: 'delete',
   },
-  'CREATE_ITEM_INTERACTION': {
+  CREATE_ITEM_INTERACTION: {
     endpoint: API_URL + 'items/:item_id/interactions',
     method: 'post',
   },

@@ -11,7 +11,6 @@ import READ_ARROW from '../../images/next_arrow.png';
 import TO_CHAT from '../../images/to-chat-button.png';
 import SELECTED from '../../images/circle-filled.png';
 import NOT_SELECTED from '../../images/circle-empty.png';
-import THUMB_SLIDER from '../../images/slider_thumb.png';
 import PLAY_BUTTON from '../../images/play_button.png';
 import PAUSE_BUTTON from '../../images/pause_button.png';
 import FULLSCREEN_BUTTON from '../../images/fullscreen_button.png';
@@ -86,7 +85,6 @@ const vokeIcons = {
   'to-chat': TO_CHAT,
   selected: SELECTED,
   'not-selected': NOT_SELECTED,
-  thumb: THUMB_SLIDER,
   play: PLAY_BUTTON,
   pause: PAUSE_BUTTON,
   fullscreen: FULLSCREEN_BUTTON,

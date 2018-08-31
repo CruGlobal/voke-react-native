@@ -62,6 +62,15 @@ function setUser(id = '') {
   Firebase.analytics().setUserId(id);
 }
 
+function markSensitive(view) {
+  if (!view) {
+    LOG('Analytics: no view passed in', view);
+    return;
+  }
+  // tracker.setUser(id);
+  Appsee.markViewAsSensitive(view);
+}
+
 const s = {
   About: 'About',
   Acknowledgements: 'Acknowledgements',
@@ -102,4 +111,5 @@ export default {
   screen,
   setUser,
   s,
+  markSensitive,
 };

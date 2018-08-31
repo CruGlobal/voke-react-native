@@ -88,6 +88,7 @@ class SignUpAccount extends Component {
       <ScrollView
         keyboardShouldPersistTaps={theme.isAndroid ? 'handled' : 'always'}
         style={styles.container}
+        ref={x => Analytics.markSensitive(x)}
       >
         <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
         <KeyboardAvoidingView
@@ -147,8 +148,5 @@ const mapStateToProps = ({ auth }, { navigation }) => ({
 });
 
 export default translate('signUp')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(SignUpAccount),
+  connect(mapStateToProps, nav)(SignUpAccount),
 );

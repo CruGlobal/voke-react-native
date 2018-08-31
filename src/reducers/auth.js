@@ -1,6 +1,18 @@
 import { REHYDRATE } from 'redux-persist/constants';
 
-import { LOGIN, LOGOUT, SET_USER, SET_PUSH_TOKEN, ACTIVE_SCREEN, UPDATE_TOKENS, NO_BACKGROUND_ACTION, RESET_TOKEN, CREATE_ANON_USER, RESET_ANON_USER, PUSH_PERMISSION } from '../constants';
+import {
+  LOGIN,
+  LOGOUT,
+  SET_USER,
+  SET_PUSH_TOKEN,
+  ACTIVE_SCREEN,
+  UPDATE_TOKENS,
+  NO_BACKGROUND_ACTION,
+  RESET_TOKEN,
+  CREATE_ANON_USER,
+  RESET_ANON_USER,
+  PUSH_PERMISSION,
+} from '../constants';
 import { REQUESTS } from '../actions/api';
 
 const initialState = {
@@ -28,7 +40,6 @@ const initialState = {
 };
 
 export default function auth(state = initialState, action) {
-
   // Keep track of API loading requests
   if (action.type && action.showApiLoading) {
     if (action.type.endsWith('_SUCCESS') || action.type.endsWith('_FAIL')) {

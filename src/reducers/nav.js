@@ -3,13 +3,15 @@ import { REHYDRATE } from 'redux-persist/constants';
 
 import { MainRoutes } from '../AppRoutes';
 
-const initialState = MainRoutes.router.getStateForAction(MainRoutes.router.getActionForPathAndParams('voke.SignUpWelcome'));
-const initialStateLoggedIn = MainRoutes.router.getStateForAction(NavigationActions.reset({
-  index: 0,
-  actions: [
-    NavigationActions.navigate({ routeName: 'MainTabs' }),
-  ],
-}));
+const initialState = MainRoutes.router.getStateForAction(
+  MainRoutes.router.getActionForPathAndParams('voke.SignUpWelcome'),
+);
+const initialStateLoggedIn = MainRoutes.router.getStateForAction(
+  NavigationActions.reset({
+    index: 0,
+    actions: [NavigationActions.navigate({ routeName: 'MainTabs' })],
+  }),
+);
 
 function navReducer(state = initialState, action) {
   let nextState;

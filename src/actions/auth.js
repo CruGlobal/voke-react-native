@@ -16,20 +16,15 @@ import {
   LOGOUT,
   SET_USER,
   SET_PUSH_TOKEN,
-  UPDATE_TOKENS,
   NO_BACKGROUND_ACTION,
-  CREATE_ANON_USER,
   PUSH_PERMISSION,
 } from '../constants';
 import callApi, { REQUESTS } from './api';
 import {
   establishDevice,
-  establishCableDevice,
   closeSocketAction,
-  destroyDevice,
   getDevices,
   checkAndRunSockets,
-  verifyPushNotifications,
 } from './socket';
 import {
   getConversations,
@@ -43,7 +38,7 @@ import {
 } from './channels';
 import { getAdventure } from './adventures';
 import { API_URL } from '../api/utils';
-import { isArray } from '../utils/common';
+import { isArray, locale } from '../utils/common';
 import theme from '../theme';
 import Permissions from '../utils/permissions';
 
@@ -76,10 +71,15 @@ export function startupAction() {
 }
 
 export function setupFirebaseLinks() {
-  return async (dispatch, getState) => {
+  return async dispatch => {
     if (firebaseLinkHandler) return;
     // Firebase dynamic links
-    const initialLink = await Firebase.links().getInitialLink();
+    let initialLink;
+    try {
+      initialLink = await Firebase.links().getInitialLink();
+    } catch (e) {
+      LOG('error getting Firebase initial link');
+    }
     if (initialLink) {
       dispatch(handleFirebaseLink(initialLink));
     }
@@ -90,13 +90,13 @@ export function setupFirebaseLinks() {
 }
 
 export function handleFirebaseLink(link) {
-  return (dispatch, getState) => {
+  return dispatch => {
     LOG('handling link', link);
   };
 }
 
 export function cleanupAction() {
-  return (dispatch, getState) => {
+  return dispatch => {
     hasStartedUp = false;
     LOG('removing appState listener');
     AppState.removeEventListener('change', appStateChangeFn);
@@ -306,6 +306,10 @@ export function createAccountAction(email, password, isAnonymous = false) {
       let data = {
         me: {
           timezone_name: DeviceInfo.getTimezone(),
+          language: {
+            language_code: locale,
+            country_code: DeviceInfo.getDeviceCountry(),
+          },
         },
       };
       if (email) data.email = email;
@@ -316,6 +320,10 @@ export function createAccountAction(email, password, isAnonymous = false) {
           me: {
             timezone_name: DeviceInfo.getTimezone(),
             anonymous: true,
+            language: {
+              language_code: locale,
+              country_code: DeviceInfo.getDeviceCountry(),
+            },
           },
         };
       }

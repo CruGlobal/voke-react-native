@@ -1,4 +1,3 @@
-
 import { StyleSheet } from 'react-native';
 import theme, { COLORS } from '../../theme';
 import videoUtils from '../../utils/video';
@@ -25,7 +24,8 @@ export default StyleSheet.create({
     fontSize: 12,
   },
   thumbStyle: {
-    height: 5,
+    width: 13,
+    height: 13,
   },
   button: {
     backgroundColor: COLORS.WHITE,

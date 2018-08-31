@@ -31,7 +31,7 @@ import Help from './containers/Help';
 import ForgotPassword from './containers/ForgotPassword';
 import SignUpFBAccount from './containers/SignUpFBAccount';
 import Channels from './containers/Channels';
-
+import i18n from './i18n';
 import theme from './theme';
 
 // Do custom animations between pages
@@ -84,7 +84,7 @@ export const MainTabRoutes = TabNavigator(
     'voke.Home': {
       screen: Home,
       navigationOptions: {
-        tabBarLabel: 'Home',
+        tabBarLabel: i18n.t('home'),
         tabBarIcon: ({ tintColor }) => (
           <BadgeHomeIcon isActive={tintColor === theme.lightText} />
         ),
@@ -93,21 +93,21 @@ export const MainTabRoutes = TabNavigator(
     'voke.Videos': {
       screen: Videos,
       navigationOptions: {
-        tabBarLabel: 'Videos',
+        tabBarLabel: i18n.t('title.videos'),
         tabBarIcon: navIcon(VIDEOS_ICON, VIDEOS_ICON_INACTIVE),
       },
     },
     'voke.Channels': {
       screen: Channels,
       navigationOptions: {
-        tabBarLabel: 'Channels',
+        tabBarLabel: i18n.t('title.channels'),
         tabBarIcon: navIcon(CHANNELS_ICON, CHANNELS_ICON_INACTIVE),
       },
     },
     'voke.Adventures': {
       screen: Adventures,
       navigationOptions: {
-        tabBarLabel: 'Adventure',
+        tabBarLabel: i18n.t('title.adventure'),
         tabBarIcon: navIcon(ADVENTURE_ICON, ADVENTURE_ICON_INACTIVE),
       },
     },

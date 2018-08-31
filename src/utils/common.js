@@ -1,21 +1,30 @@
 import hmacSHA512 from 'crypto-js/hmac-sha512';
 import moment from 'moment';
-
+import DeviceInfo from 'react-native-device-info';
 import CONSTANTS from '../constants';
 
-export const isFunction = (fn) => typeof fn === 'function';
-export const isArray = (arr) => Array.isArray(arr);
-export const isObject = (obj) => typeof obj === 'object' && !isArray(obj);
-export const isString = (str) => typeof str === 'string';
+export const isFunction = fn => typeof fn === 'function';
+export const isArray = arr => Array.isArray(arr);
+export const isObject = obj => typeof obj === 'object' && !isArray(obj);
+export const isString = str => typeof str === 'string';
 
-export const exists = (v) => typeof v !== 'undefined';
-export const clone = (obj) => JSON.parse(JSON.stringify(obj));
-export const delay = (ms) => new Promise((resolve) => { setTimeout(resolve, ms); });
-
+export const exists = v => typeof v !== 'undefined';
+export const clone = obj => JSON.parse(JSON.stringify(obj));
+export const delay = ms =>
+  new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
+export const locale = DeviceInfo.getDeviceLocale()
+  .substr(0, 2)
+  .toLowerCase();
 // Pull dates out of UTC format into a moment object
 export const UTC_FORMAT = 'YYYY-MM-DD HH:mm:ss UTC';
-export const momentUtc = (time) => moment.utc(time, UTC_FORMAT);
-export const getInitials = (initials) => (initials || '').trim().substr(0, 2).trim();
+export const momentUtc = time => moment.utc(time, UTC_FORMAT);
+export const getInitials = initials =>
+  (initials || '')
+    .trim()
+    .substr(0, 2)
+    .trim();
 
 // Return true if the object's props are all the same
 export const isEquivalentObject = (a, b) => {
@@ -47,7 +56,7 @@ export const isEquivalentObject = (a, b) => {
 export function hashPhone(phoneStr = '') {
   const newStr = phoneStr.replace(/[^0-9]/g, '');
   const hashedData = hmacSHA512(newStr, CONSTANTS.SALT_HASH).toString();
-  
+
   // const hashedData = crypto.createHmac('sha512', CONSTANTS.SALT_HASH)
   //   .update(data)
   //   .digest('hex');

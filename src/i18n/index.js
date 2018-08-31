@@ -1,11 +1,12 @@
 import i18n from 'i18next';
 import { reactI18nextModule } from 'react-i18next';
-import mapValues from 'lodash/mapValues';
+import * as moment from 'moment';
+// Pull in all the moment locales
+import 'moment/min/locales.min';
 
 import { locale } from '../utils/common';
 
-import translations from './locales/translations.json';
-import en_US from './locales/en-US.js';
+import translations from './locales/translations';
 
 const languageDetector = {
   type: 'languageDetector',
@@ -15,17 +16,17 @@ const languageDetector = {
   cacheUserLanguage: () => {},
 };
 
+// Set the date locale
+moment.locale(locale);
+
 export default i18n
   .use(languageDetector)
   .use(reactI18nextModule)
   .init({
-    fallbackLng: 'en-US',
+    fallbackLng: 'en',
 
     // Use downloaded translations if available but use en-US from source to make development easier
-    resources: {
-      ...mapValues(translations, 'translation'),
-      ...{ 'en-US': en_US },
-    },
+    resources: translations,
 
     // have a common namespace used around the full app
     ns: ['common'],

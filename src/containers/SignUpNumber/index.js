@@ -111,7 +111,7 @@ class SignUpNumber extends Component {
     const { t } = this.props;
     const { selectedCountry, selectedCountryCode, phoneNumber } = this.state;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1 }} ref={x => Analytics.markSensitive(x)}>
         <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
           <KeyboardAvoidingView
             style={{ flex: 1 }}
@@ -186,9 +186,4 @@ const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
 });
 
-export default translate('signUp')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(SignUpNumber),
-);
+export default translate('signUp')(connect(mapStateToProps, nav)(SignUpNumber));

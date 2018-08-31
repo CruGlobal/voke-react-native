@@ -1,6 +1,8 @@
 /* eslint-disable */
 export default {
   common: {
+    today: 'Today',
+    home: 'Home',
     acceptChallenge: 'Accept Challenge',
     add: 'Add',
     all: 'All',
@@ -44,6 +46,9 @@ export default {
     signUp: 'Sign Up',
     signUpEmail: 'Sign Up with Email',
     signUpFb: 'Sign Up with Facebook',
+    signOut: 'Sign Out',
+    followInstagram: 'Follow us on Instagram',
+    writeReview: 'Write a Review',
     skip: 'Skip',
     submit: 'Submit',
     subscribe: 'Subscribe',
@@ -137,13 +142,15 @@ export default {
     enter: 'Please enter a valid email',
   },
   home: {
-    findAndShare: 'Find a video and share it with a friend',
+    findAndShare: 'Nothing here yet, find a video and share it with a friend',
     thisPerson: 'this person',
     areYouSureBlock: `Are you sure you want to block {{name}}?`,
     questionBlock: 'Would you also like to block and report this person?',
     block: 'Block',
     blockReport: 'Block and Report',
     why: 'Please describe why you are reporting this person',
+    nullText:
+      'I will let you know when your friends are watching the videos you shared.',
   },
   imagePicker: {
     where: 'Where is your photo?',
@@ -227,10 +234,10 @@ export default {
     copy: 'Copy To Clipboard',
   },
   signUpWelcome: {
-    tagline1: `Share Videos Worth Sharing`,
+    tagline1: `Share\nVideos\nWorth\nSharing`,
     tagline2: `Inspire\nDeeper\nConversations`,
-    tagline3: `Experience Deeper Friendships`,
-    tagline4: `Find and Share Hope`,
+    tagline3: `Experience\nDeeper\nFriendships`,
+    tagline4: `Find and\nShare Hope`,
     start: `Start Exploring`,
   },
   signUp: {

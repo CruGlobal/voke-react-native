@@ -1,12 +1,10 @@
-
 import { StyleSheet } from 'react-native';
 import theme, { COLORS } from '../../theme';
 
-export const THUMBNAIL_HEIGHT = (theme.fullWidth - 20) * 1/2;
+export const THUMBNAIL_HEIGHT = (theme.fullWidth - 20) * 1 / 2;
 
 export default StyleSheet.create({
-  content: {
-  },
+  content: {},
   container: {
     margin: 10,
     backgroundColor: 'white',

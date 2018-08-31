@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Slider } from 'react-native';
+import Slider from 'react-native-slider';
 import PropTypes from 'prop-types';
 
 import theme from '../../theme';
 import { Touchable, Flex, Icon, VokeIcon, Text } from '../common';
 import styles from './styles';
-import { vokeIcons } from '../../utils/iconMap';
 
 function convertTime(time) {
   const roundedTime = Math.round(time);
@@ -108,9 +107,10 @@ export default class VideoControls extends Component {
           </Flex>
           <Flex value={1.2}>
             <Slider
-              thumbImage={vokeIcons['thumb']}
+              thumbTintColor={theme.primaryColor}
               minimumTrackTintColor={theme.primaryColor}
               step={1}
+              thumbStyle={styles.thumbStyle}
               value={seekTime || time}
               minimumValue={0}
               maximumValue={duration}

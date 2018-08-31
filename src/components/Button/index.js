@@ -67,11 +67,12 @@ export default class Button extends Component {
       iconType,
       children,
       disabled,
-      preventTimeout,
+      preventTimeout, // eslint-disable-line
       isLoading,
       style,
       buttonTextStyle,
       iconStyle,
+      textProps = {},
       ...rest
     } = this.props;
     let content = children;
@@ -81,7 +82,9 @@ export default class Button extends Component {
       let imageComp = null;
       if (text) {
         textComp = (
-          <Text style={[getTextStyle(type), buttonTextStyle]}>{text}</Text>
+          <Text style={[getTextStyle(type), buttonTextStyle]} {...textProps}>
+            {text}
+          </Text>
         );
       }
       if (icon) {
@@ -114,7 +117,11 @@ export default class Button extends Component {
     }
     const isDisabled = disabled || this.state.clickedDisabled || isLoading;
     return (
-      <Touchable {...rest} disabled={isDisabled} onPress={isDisabled ? () => {} : this.handlePress}>
+      <Touchable
+        {...rest}
+        disabled={isDisabled}
+        onPress={isDisabled ? () => {} : this.handlePress}
+      >
         <View
           hitSlop={hitSlop}
           style={[
@@ -141,6 +148,7 @@ Button.propTypes = {
   children: PropTypes.element,
   disabled: PropTypes.bool,
   preventTimeout: PropTypes.number,
+  textProps: PropTypes.object,
   style: PropTypes.oneOfType(styleTypes),
   buttonTextStyle: PropTypes.oneOfType(styleTypes),
   iconStyle: PropTypes.oneOfType(styleTypes),

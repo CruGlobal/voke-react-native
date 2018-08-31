@@ -95,7 +95,10 @@ class VideoList extends Component {
                 </Text>
               </Flex>
               <Flex value={2} align="end">
-                <Text style={[styles.detailsText, styles.sharesText]}>
+                <Text
+                  numberOfLines={1}
+                  style={[styles.detailsText, styles.sharesText]}
+                >
                   {t('shares', { total: video.shares })}
                 </Text>
               </Flex>

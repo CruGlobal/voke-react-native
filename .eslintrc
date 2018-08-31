@@ -10,11 +10,13 @@
   "globals": {
     "Promise": true,
     "__DEV__": true,
+    "setTimeout": true,
+    "clearTimeout": true,
+    "window": true,
     "LOG": true
   },
   "rules": {
     "strict": 0,
-    "indent": [2, 2, { "SwitchCase": 1 }],
     "semi": [2, "always"],
     "comma-dangle": [2, "always-multiline"],
     "space-before-function-paren": [2, "never"],

@@ -83,9 +83,16 @@ class LoginInput extends Component {
   }
 
   render() {
-    const { t, navigateBack, navigatePush, isAnonUser } = this.props;
+    const { t, navigateBack, navigatePush, isApiLoading } = this.props;
+    const { email, password, isLoading } = this.state;
     return (
-      <Flex style={styles.container} value={1} align="center" justify="center">
+      <Flex
+        style={styles.container}
+        value={1}
+        align="center"
+        justify="center"
+        ref={x => Analytics.markSensitive(x)}
+      >
         <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
           <SignUpHeaderBack onPress={() => navigateBack()} />
           <Flex
@@ -104,7 +111,7 @@ class LoginInput extends Component {
           </Flex>
           <Flex align="center" justify="end" style={styles.actions}>
             <SignUpInput
-              value={this.state.email}
+              value={email}
               onChangeText={this.checkEmail}
               placeholder={t('placeholder.email')}
               autoCorrect={false}
@@ -116,7 +123,7 @@ class LoginInput extends Component {
             <SignUpInput
               ref={c => (this.password = c)}
               secureTextEntry={true}
-              value={this.state.password}
+              value={password}
               onChangeText={text => this.setState({ password: text })}
               placeholder={t('placeholder.password')}
             />
@@ -147,7 +154,7 @@ class LoginInput extends Component {
             </Flex>
           </Flex>
         </TouchableOpacity>
-        {this.state.isLoading ? <ApiLoading force={true} /> : null}
+        {isLoading || isApiLoading ? <ApiLoading force={true} /> : null}
       </Flex>
     );
   }
@@ -160,11 +167,7 @@ const mapStateToProps = ({ auth }, { navigation }) => ({
   ...(navigation.state.params || {}),
   myId: auth.user ? auth.user.id : null,
   isAnonUser: auth.isAnonUser,
+  isApiLoading: auth.apiActive > 0,
 });
 
-export default translate('login')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(LoginInput),
-);
+export default translate('login')(connect(mapStateToProps, nav)(LoginInput));
