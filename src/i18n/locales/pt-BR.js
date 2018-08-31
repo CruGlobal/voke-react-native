@@ -2,7 +2,7 @@
 export default {
   common: {
     today: 'Hoje',
-    home: 'Casa',
+    home: 'In\u00edcio',
     acceptChallenge: 'Aceitar o Desafio',
     add: 'Adicionar',
     all: 'Tudo',

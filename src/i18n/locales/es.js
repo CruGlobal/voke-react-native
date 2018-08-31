@@ -1,7 +1,7 @@
 export default {
   common: {
     today: 'hoy',
-    home: 'Casa',
+    home: 'Inicio',
     acceptChallenge: 'Aceptar Desaf\u00edo',
     add: 'Agregar',
     all: 'Todo',
