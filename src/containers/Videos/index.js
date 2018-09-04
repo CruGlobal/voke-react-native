@@ -87,9 +87,7 @@ class Videos extends Component {
       (!user.id && isAnonUser) ||
       momentUtc(user.created_at) > moment().subtract(2, 'days');
 
-    if (isNewUser) {
-      this.handleFilter('popular', true);
-    } else if (channel && channel.id) {
+    if (channel && channel.id) {
       this.setState({ isLoading: true });
       dispatch(getVideos(undefined, channel.id))
         .then(() => {
@@ -101,6 +99,8 @@ class Videos extends Component {
         });
       this.getSubscriberData();
       this.setState({ videos: channelVideos });
+    } else if (isNewUser) {
+      this.handleFilter('popular', true);
     } else {
       // Always make an API call when the videos tab mounts
       // Show existing videos if they're there
