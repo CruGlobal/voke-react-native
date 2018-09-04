@@ -14,7 +14,6 @@ import AdventureIcons from '../../components/AdventureIcons';
 import styles from './styles';
 import ANIMATION from '../../../images/VokeBotAnimation.gif';
 import ChallengeModal from '../ChallengeModal';
-import { LOGIN } from '../../constants';
 
 const IMAGE_HEIGHT = 1480;
 const IMAGE_WIDTH = 517;
@@ -41,8 +40,8 @@ class AdventureMap extends Component {
     }
     // Update the lines when there is a newly completed challenge
     if (nextProps.challenges.length && this.props.challenges.length) {
-      const len1 = nextProps.challenges.filter((c) => c['completed?']).length;
-      const len2 = this.props.challenges.filter((c) => c['completed?']).length;
+      const len1 = nextProps.challenges.filter(c => c['completed?']).length;
+      const len2 = this.props.challenges.filter(c => c['completed?']).length;
       if (len1 !== len2) {
         this.updateLines(nextProps.challenges);
       }
@@ -189,7 +188,7 @@ class AdventureMap extends Component {
               key={`path_${index}`}
               d={`M${l.A.x} ${l.A.y} C ${l.bez.x1} ${l.bez.y1} ${l.bez.x2} ${
                 l.bez.y2
-                } ${l.bez.x3} ${l.bez.y3}`}
+              } ${l.bez.x3} ${l.bez.y3}`}
               fill="none"
               strokeOpacity={0.8}
               strokeWidth={3}
@@ -214,11 +213,7 @@ class AdventureMap extends Component {
         }}
         style={styles.titleContainer}
       >
-        <Flex
-          direction="column"
-          align="center"
-          justify="center"
-        >
+        <Flex direction="column" align="center" justify="center">
           {ad.icon && ad.icon.medium ? (
             <Image
               source={{ uri: `${ad.icon.medium}` }}
@@ -235,7 +230,14 @@ class AdventureMap extends Component {
   }
 
   render() {
-    const { t, challenges, adventures, adventureId, activeAdventure, backgroundImage } = this.props;
+    const {
+      t,
+      challenges,
+      adventures,
+      adventureId,
+      activeAdventure,
+      backgroundImage,
+    } = this.props;
     return (
       <Flex style={styles.wrap}>
         {backgroundImage ? (
