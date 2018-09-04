@@ -42,6 +42,14 @@
             {
               "client_id": "360680446899-dgbnv1uoubnfptgs9vd8vk7puu0sgvpe.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "360680446899-cgcg83qq2155hn5vq8naes2satj4d3om.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.cru.voke",
+                "app_store_id": "1056168356"
+              }
             }
           ]
         },
