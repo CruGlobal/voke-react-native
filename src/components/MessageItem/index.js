@@ -9,7 +9,7 @@ import theme from '../../theme';
 import styles from './styles';
 import { Flex, Text, Icon, Avatar, DateComponent, Touchable } from '../common';
 import { momentUtc, getInitials } from '../../utils/common';
-import TO_CHAT from '../../../images/to-chat-button.png';
+import TO_CHAT from '../../../images/newShare.png';
 
 class MessageItem extends PureComponent {
   constructor(props) {

@@ -4,7 +4,7 @@ import { FlatList, ImageBackground, Image } from 'react-native';
 import { translate } from 'react-i18next';
 
 import styles, { THUMBNAIL_HEIGHT } from './styles';
-import TO_CHAT from '../../../images/to-chat-button.png';
+import TO_CHAT from '../../../images/newShare.png';
 import ANIMATION from '../../../images/VokeBotAnimation.gif';
 
 import { Flex, Text, Touchable, Icon, RefreshControl } from '../common';

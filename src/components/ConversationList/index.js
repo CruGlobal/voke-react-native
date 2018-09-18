@@ -170,6 +170,7 @@ class ConversationList extends Component {
   };
 
   render() {
+    console.log(this.props.items);
     return (
       <SwipeListView
         useFlatList={true}
@@ -188,6 +189,7 @@ class ConversationList extends Component {
               <Touchable
                 activeOpacity={0.9}
                 style={{ flex: 1 }}
+                disabled={item.messengers.length === 2}
                 onPress={() => {
                   this.handleDelete(item);
                   rowMap[item.id] && rowMap[item.id].closeRow();
@@ -196,7 +198,10 @@ class ConversationList extends Component {
                 <Flex
                   align="center"
                   justify="center"
-                  style={styles.rowBackButton}
+                  style={[
+                    styles.rowBackButton,
+                    item.messengers.length === 2 ? styles.disabledButton : null,
+                  ]}
                 >
                   <VokeIcon name="delete" style={{ height: 40 }} />
                 </Flex>
@@ -204,6 +209,7 @@ class ConversationList extends Component {
               <Touchable
                 activeOpacity={0.9}
                 style={{ flex: 1 }}
+                disabled={item.messengers.length === 2}
                 onPress={() => {
                   this.handleBlock(item);
                   rowMap[item.id] && rowMap[item.id].closeRow();
@@ -212,7 +218,10 @@ class ConversationList extends Component {
                 <Flex
                   align="center"
                   justify="center"
-                  style={styles.rowBackButton}
+                  style={[
+                    styles.rowBackButton,
+                    item.messengers.length === 2 ? styles.disabledButton : null,
+                  ]}
                 >
                   <VokeIcon name="block" style={{ height: 40 }} />
                 </Flex>

@@ -1,4 +1,3 @@
-
 import { StyleSheet, Platform } from 'react-native';
 import theme, { COLORS } from '../../theme';
 
@@ -24,14 +23,16 @@ export default StyleSheet.create({
     fontSize: 14,
     marginRight: 15,
   },
-  messagePreviewText: {
-  },
+  messagePreviewText: {},
   avatarWrapper: {
     padding: 2,
   },
   conversationArrow: {
     padding: 2,
     paddingRight: 5,
+  },
+  disabledButton: {
+    opacity: 0.1,
   },
   // Create different object for ios/android
   arrowImage: Platform.select({

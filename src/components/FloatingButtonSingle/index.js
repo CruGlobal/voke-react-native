@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Image } from 'react-native';
 import PropTypes from 'prop-types';
-import TO_CHAT from '../../../images/to-chat-button.png';
+import TO_CHAT from '../../../images/newShare.png';
 
 import { Touchable, Icon, Flex } from '../common';
 import styles from './styles';
