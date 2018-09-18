@@ -348,9 +348,4 @@ const mapStateToProps = ({ messages, auth }) => ({
   activeConversationId: messages.activeConversationId,
 });
 
-export default translate('home')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(Home),
-);
+export default translate('home')(connect(mapStateToProps, nav)(Home));

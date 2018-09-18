@@ -85,11 +85,11 @@ class ChannelsList extends Component {
         data={items}
         renderItem={this.renderRow}
         keyExtractor={item => item.id}
-        getItemLayout={(data, index) => ({
-          length: ITEM_HEIGHT,
-          offset: ITEM_HEIGHT * index,
-          index,
-        })}
+        // getItemLayout={(data, index) => ({
+        //   length: ITEM_HEIGHT,
+        //   offset: ITEM_HEIGHT * index,
+        //   index,
+        // })}
         style={{ flex: 1 }}
         contentContainerStyle={styles.content}
         refreshControl={

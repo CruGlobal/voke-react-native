@@ -64,7 +64,6 @@ class Channels extends Component {
     }
     const page = pagination[filter].page + 1;
     const query = { page };
-
     if (filter === 'featured') {
       this.dispatchLoadMore(getFeaturedOrganizations(query));
     } else if (filter === 'myChannels') {
@@ -175,9 +174,4 @@ const mapStateToProps = ({ auth, channels }) => ({
   isAnonUser: auth.isAnonUser,
 });
 
-export default translate('channels')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(Channels),
-);
+export default translate('channels')(connect(mapStateToProps, nav)(Channels));

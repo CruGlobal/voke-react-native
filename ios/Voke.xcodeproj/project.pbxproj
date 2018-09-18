@@ -45,7 +45,6 @@
 		AE0A75851F4271FE000A51EA /* TitilliumWeb-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE0A75841F4271FE000A51EA /* TitilliumWeb-Regular.ttf */; };
 		AE0A75871F42720D000A51EA /* TitilliumWeb-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE0A75861F42720D000A51EA /* TitilliumWeb-SemiBold.ttf */; };
 		AE0A75891F427225000A51EA /* TitilliumWeb-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE0A75881F427225000A51EA /* TitilliumWeb-Bold.ttf */; };
-		AE3A84BE20F8E6ED007A6ED3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AE3A84BD20F8E6ED007A6ED3 /* GoogleService-Info.plist */; };
 		AE57875D20B5D85A0004A3EA /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE57875C20B5D85A0004A3EA /* Bolts.framework */; };
 		AE57875F20B5D86B0004A3EA /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE57875E20B5D86B0004A3EA /* FBSDKCoreKit.framework */; };
 		AE57876120B5D87A0004A3EA /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE57876020B5D8790004A3EA /* FBSDKLoginKit.framework */; };
@@ -54,6 +53,7 @@
 		AE5BE03F1F609C860091810F /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE03E1F609C760091810F /* libRCTFBSDK.a */; };
 		AE5BE0C51F631E2F0091810F /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE0C31F631E2F0091810F /* Fabric.framework */; };
 		AE5BE0C61F631E2F0091810F /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE0C41F631E2F0091810F /* Crashlytics.framework */; };
+		AE6502A621514AF30031B7D1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AE65026E21514AF30031B7D1 /* GoogleService-Info.plist */; };
 		AE832BBE1F900CAA00ABEE80 /* ukulele-sound.wav in Resources */ = {isa = PBXBuildFile; fileRef = AE832BBD1F900CAA00ABEE80 /* ukulele-sound.wav */; };
 		AED242D41FD2F9E8007B9735 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AED242D11FD2F9CB007B9735 /* libRCTPushNotification.a */; };
 		AFD81BAD7079445F8DE001C0 /* libRNAppsee.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8529E6107EA644CE91D43D31 /* libRNAppsee.a */; };
@@ -501,7 +501,6 @@
 		93981C6620F8FA9600298F4A /* FirebaseInstanceID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseInstanceID.framework; path = Firebase/FirebaseInstanceID.framework; sourceTree = "<group>"; };
 		93981C6720F8FA9700298F4A /* FirebaseAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseAnalytics.framework; path = Firebase/FirebaseAnalytics.framework; sourceTree = "<group>"; };
 		93981C6820F8FA9700298F4A /* FirebaseCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCore.framework; path = Firebase/FirebaseCore.framework; sourceTree = "<group>"; };
-		93981C6920F8FA9700298F4A /* FirebaseCoreDiagnostics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCoreDiagnostics.framework; path = Firebase/FirebaseCoreDiagnostics.framework; sourceTree = "<group>"; };
 		93981C7120F8FABD00298F4A /* Firebase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Firebase.h; path = Firebase/Firebase.h; sourceTree = "<group>"; };
 		93EA25DC2108D9E000E25254 /* FirebaseDynamicLinks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseDynamicLinks.framework; path = Firebase/FirebaseDynamicLinks.framework; sourceTree = "<group>"; };
 		95C82259786E474DB0D7CDF6 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
@@ -514,7 +513,6 @@
 		AE0A75841F4271FE000A51EA /* TitilliumWeb-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-Regular.ttf"; sourceTree = "<group>"; };
 		AE0A75861F42720D000A51EA /* TitilliumWeb-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-SemiBold.ttf"; sourceTree = "<group>"; };
 		AE0A75881F427225000A51EA /* TitilliumWeb-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-Bold.ttf"; sourceTree = "<group>"; };
-		AE3A84BD20F8E6ED007A6ED3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AE57875C20B5D85A0004A3EA /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		AE57875E20B5D86B0004A3EA /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		AE57876020B5D8790004A3EA /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
@@ -523,6 +521,7 @@
 		AE5BE0391F609C760091810F /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
 		AE5BE0C31F631E2F0091810F /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		AE5BE0C41F631E2F0091810F /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		AE65026E21514AF30031B7D1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Voke/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AE832BBD1F900CAA00ABEE80 /* ukulele-sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "ukulele-sound.wav"; sourceTree = "<group>"; };
 		AED242CB1FD2F9CB007B9735 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		B1CF0855F5DB4084B57242A2 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
@@ -654,8 +653,8 @@
 		13B07FAE1A68108700A75B9A /* Voke */ = {
 			isa = PBXGroup;
 			children = (
+				AE65026E21514AF30031B7D1 /* GoogleService-Info.plist */,
 				93981C7120F8FABD00298F4A /* Firebase.h */,
-				AE3A84BD20F8E6ED007A6ED3 /* GoogleService-Info.plist */,
 				932AA1B61F602AFB008937B1 /* AppDelegate.h */,
 				932AA1B71F602AFB008937B1 /* AppDelegate.m */,
 				932AA1B81F602AFB008937B1 /* Images.xcassets */,
@@ -892,7 +891,6 @@
 				93EA25DC2108D9E000E25254 /* FirebaseDynamicLinks.framework */,
 				93981C6720F8FA9700298F4A /* FirebaseAnalytics.framework */,
 				93981C6820F8FA9700298F4A /* FirebaseCore.framework */,
-				93981C6920F8FA9700298F4A /* FirebaseCoreDiagnostics.framework */,
 				93981C6620F8FA9600298F4A /* FirebaseInstanceID.framework */,
 				93981C6520F8FA9600298F4A /* FirebaseNanoPB.framework */,
 				93981C6320F8FA9500298F4A /* GoogleToolboxForMac.framework */,
@@ -1547,7 +1545,7 @@
 				E523AFD91E474E2C929720A5 /* Ionicons.ttf in Resources */,
 				932AA1BE1F602AFB008937B1 /* Info.plist in Resources */,
 				AE0A75871F42720D000A51EA /* TitilliumWeb-SemiBold.ttf in Resources */,
-				AE3A84BE20F8E6ED007A6ED3 /* GoogleService-Info.plist in Resources */,
+				AE6502A621514AF30031B7D1 /* GoogleService-Info.plist in Resources */,
 				37C585BED12E4623ACE9A188 /* MaterialCommunityIcons.ttf in Resources */,
 				7E7CF9FEC7E84378BFB5B7AD /* MaterialIcons.ttf in Resources */,
 				AE5BE0301F607ACC0091810F /* LaunchScreen.xib in Resources */,

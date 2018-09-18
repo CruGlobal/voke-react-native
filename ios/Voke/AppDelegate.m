@@ -69,6 +69,7 @@
                   ];
   // Add any custom logic here.
   // Firebase Dynamic Links
+
   if (!handled) {
     handled = [[RNFirebaseLinks instance] application:application openURL:url options:options];
   }

@@ -8,7 +8,7 @@ import DELETE_ICON from '../../images/deleteChatIcon.png';
 import BLOCK_ICON from '../../images/blockChatIcon.png';
 import UNREAD_ARROW from '../../images/next_arrow_yellow.png';
 import READ_ARROW from '../../images/next_arrow.png';
-import TO_CHAT from '../../images/to-chat-button.png';
+import TO_CHAT from '../../images/newShare.png';
 import SELECTED from '../../images/circle-filled.png';
 import NOT_SELECTED from '../../images/circle-empty.png';
 import PLAY_BUTTON from '../../images/play_button.png';
