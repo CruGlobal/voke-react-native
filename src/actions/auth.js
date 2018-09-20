@@ -65,7 +65,7 @@ export function startupAction() {
       appStateChangeFn = appStateChange.bind(null, dispatch, getState);
     }
     AppState.addEventListener('change', appStateChangeFn);
-
+    Firebase.analytics().setAnalyticsCollectionEnabled(true);
     dispatch(setupFirebaseLinks());
     firebaseLinkHandler = Firebase.links().onLink(link => {
       dispatch(handleFirebaseLink(link));
