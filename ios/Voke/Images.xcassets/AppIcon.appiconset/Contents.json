@@ -55,12 +55,6 @@
       "scale" : "1x"
     },
     {
-      "size" : "20x20",
-      "idiom" : "iphone",
-      "unassigned" : true,
-      "scale" : "3x"
-    },
-    {
       "size" : "29x29",
       "idiom" : "iphone",
       "filename" : "58.png",
