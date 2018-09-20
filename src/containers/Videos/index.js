@@ -24,6 +24,7 @@ import {
 import Analytics from '../../utils/analytics';
 
 import nav, { NavPropTypes } from '../../actions/nav';
+import { startupAction } from '../../actions/auth';
 
 import styles from './styles';
 import { vokeIcons } from '../../utils/iconMap';
@@ -80,6 +81,10 @@ class Videos extends Component {
       user,
       isAnonUser,
     } = this.props;
+
+    this.startupTimeout = setTimeout(() => {
+      dispatch(startupAction());
+    }, 50);
 
     // When the user first does "Try it Now", their user is not set up, but they ARE an anon user
     // Check if the user is new within the past few days
@@ -608,9 +613,4 @@ const mapStateToProps = ({ auth, videos }) => ({
   pagination: videos.pagination,
 });
 
-export default translate('videos')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(Videos),
-);
+export default translate('videos')(connect(mapStateToProps, nav)(Videos));

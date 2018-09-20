@@ -67,12 +67,15 @@ export function startupAction() {
     AppState.addEventListener('change', appStateChangeFn);
 
     dispatch(setupFirebaseLinks());
+    firebaseLinkHandler = Firebase.links().onLink(link => {
+      dispatch(handleFirebaseLink(link));
+    });
   };
 }
 
 export function setupFirebaseLinks() {
   return async dispatch => {
-    if (firebaseLinkHandler) return;
+    // if (firebaseLinkHandler) return;
     // Firebase dynamic links
     let initialLink;
     try {
@@ -80,12 +83,10 @@ export function setupFirebaseLinks() {
     } catch (e) {
       LOG('error getting Firebase initial link');
     }
+    LOG('initial link', initialLink);
     if (initialLink) {
       dispatch(handleFirebaseLink(initialLink));
     }
-    firebaseLinkHandler = Firebase.links().onLink(link => {
-      dispatch(handleFirebaseLink(link));
-    });
   };
 }
 
