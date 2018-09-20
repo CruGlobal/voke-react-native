@@ -65,14 +65,17 @@ export function startupAction() {
       appStateChangeFn = appStateChange.bind(null, dispatch, getState);
     }
     AppState.addEventListener('change', appStateChangeFn);
-
+    Firebase.analytics().setAnalyticsCollectionEnabled(true);
     dispatch(setupFirebaseLinks());
+    firebaseLinkHandler = Firebase.links().onLink(link => {
+      dispatch(handleFirebaseLink(link));
+    });
   };
 }
 
 export function setupFirebaseLinks() {
   return async dispatch => {
-    if (firebaseLinkHandler) return;
+    // if (firebaseLinkHandler) return;
     // Firebase dynamic links
     let initialLink;
     try {
@@ -80,12 +83,10 @@ export function setupFirebaseLinks() {
     } catch (e) {
       LOG('error getting Firebase initial link');
     }
+    LOG('initial link', initialLink);
     if (initialLink) {
       dispatch(handleFirebaseLink(initialLink));
     }
-    firebaseLinkHandler = Firebase.links().onLink(link => {
-      dispatch(handleFirebaseLink(link));
-    });
   };
 }
 
@@ -306,10 +307,8 @@ export function createAccountAction(email, password, isAnonymous = false) {
       let data = {
         me: {
           timezone_name: DeviceInfo.getTimezone(),
-          language: {
-            language_code: locale,
-            country_code: DeviceInfo.getDeviceCountry(),
-          },
+          language_code: locale,
+          country_code: DeviceInfo.getDeviceCountry(),
         },
       };
       if (email) data.email = email;
@@ -320,10 +319,8 @@ export function createAccountAction(email, password, isAnonymous = false) {
           me: {
             timezone_name: DeviceInfo.getTimezone(),
             anonymous: true,
-            language: {
-              language_code: locale,
-              country_code: DeviceInfo.getDeviceCountry(),
-            },
+            language_code: locale,
+            country_code: DeviceInfo.getDeviceCountry(),
           },
         };
       }

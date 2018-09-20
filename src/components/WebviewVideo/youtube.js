@@ -115,11 +115,11 @@ export default function(id, options = {}) {
             checkDuration();
 
           } else if (data.togglePlay) {
-            var isPaused = player.getPlayerState() === 2;
-            if (isPaused) {
-              player.playVideo();
-            } else {
+            var isPlaying = player.getPlayerState() === 1;
+            if (isPlaying) {
               player.pauseVideo();
+            } else {
+              player.playVideo();
             }
           } else if (data.forcePause) {
             player.pauseVideo();
@@ -133,6 +133,6 @@ export default function(id, options = {}) {
       </script>
     </body>
     </html>
-  `.replace(/\s\s+/ig, ''); // Stupid minify code...
+  `.replace(/\s\s+/gi, ''); // Stupid minify code...
   return HTML;
 }
