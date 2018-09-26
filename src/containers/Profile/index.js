@@ -419,7 +419,14 @@ class Profile extends Component {
             style={{ flex: 2 }}
             keyboardShouldPersistTaps="handled"
           >
-            <ProfileProgress />
+            <ProfileProgress
+              onHandleSignUpAccount={() =>
+                this.props.navigatePush('voke.SignUpAccount')
+              }
+              onHandleVerifyNumber={() =>
+                this.props.navigatePush('voke.SignUpNumber')
+              }
+            />
             <Separator />
             {isAnonUser || isEditing ? null : this.renderImagePicker()}
             {isEditing && !editName ? null : (

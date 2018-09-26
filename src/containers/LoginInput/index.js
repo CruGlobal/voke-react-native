@@ -86,13 +86,7 @@ class LoginInput extends Component {
     const { t, navigateBack, navigatePush, isApiLoading } = this.props;
     const { email, password, isLoading } = this.state;
     return (
-      <Flex
-        style={styles.container}
-        value={1}
-        align="center"
-        justify="center"
-        ref={x => Analytics.markSensitive(x)}
-      >
+      <Flex style={styles.container} value={1} align="center" justify="center">
         <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
           <SignUpHeaderBack onPress={() => navigateBack()} />
           <Flex
@@ -109,7 +103,12 @@ class LoginInput extends Component {
               />
             </Flex>
           </Flex>
-          <Flex align="center" justify="end" style={styles.actions}>
+          <Flex
+            align="center"
+            justify="end"
+            style={styles.actions}
+            ref={x => Analytics.markSensitive(x)}
+          >
             <SignUpInput
               value={email}
               onChangeText={this.checkEmail}

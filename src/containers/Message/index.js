@@ -390,7 +390,7 @@ class Message extends Component {
     };
 
     return (
-      <View style={styles.container} ref={x => Analytics.markSensitive(x)}>
+      <View style={styles.container}>
         <KeyboardAvoidingView
           style={styles.container}
           behavior={theme.isAndroid ? undefined : 'padding'}
