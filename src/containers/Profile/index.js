@@ -194,17 +194,17 @@ class Profile extends Component {
     if (!this.state.editName) return null;
     const { t, user } = this.props;
     return (
-      <Flex
-        direction="column"
-        align="center"
-        justify="center"
-        ref={x => Analytics.markSensitive(x)}
-      >
+      <Flex direction="column" align="center" justify="center">
         <Flex>
           <Text style={styles.changeTitle}>{t('changeName')}</Text>
         </Flex>
         <Flex value={1} direction="row" align="center" justify="center">
-          <Flex direction="column" value={2} style={styles.inputRow}>
+          <Flex
+            direction="column"
+            value={2}
+            style={styles.inputRow}
+            ref={x => Analytics.markSensitive(x)}
+          >
             <TextInput
               ref={c => (this.firstName = c)}
               value={this.state.firstName}
@@ -258,7 +258,12 @@ class Profile extends Component {
           <Text style={styles.changeTitle}>{t('changeEmail')}</Text>
         </Flex>
         <Flex direction="row" align="center" justify="center">
-          <Flex direction="column" value={3} style={styles.inputRow}>
+          <Flex
+            direction="column"
+            value={3}
+            style={styles.inputRow}
+            ref={x => Analytics.markSensitive(x)}
+          >
             <TextInput
               ref={c => (this.newEmail = c)}
               onChangeText={text => this.setState({ newEmail: text })}
@@ -331,7 +336,12 @@ class Profile extends Component {
           <Text style={styles.changeTitle}>{t('changePassword')}</Text>
         </Flex>
         <Flex direction="row" align="center" justify="center">
-          <Flex direction="column" value={3} style={styles.inputRow}>
+          <Flex
+            direction="column"
+            value={3}
+            style={styles.inputRow}
+            ref={x => Analytics.markSensitive(x)}
+          >
             <TextInput
               ref={c => (this.passwordCurrent = c)}
               multiline={false}

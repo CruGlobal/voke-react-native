@@ -88,7 +88,6 @@ class SignUpAccount extends Component {
       <ScrollView
         keyboardShouldPersistTaps={theme.isAndroid ? 'handled' : 'always'}
         style={styles.container}
-        ref={x => Analytics.markSensitive(x)}
       >
         <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
         <KeyboardAvoidingView
@@ -99,7 +98,13 @@ class SignUpAccount extends Component {
             description={t('accountDescription')}
             onPress={() => Keyboard.dismiss()}
           />
-          <Flex value={1} align="center" justify="start" style={styles.inputs}>
+          <Flex
+            value={1}
+            align="center"
+            justify="start"
+            style={styles.inputs}
+            ref={x => Analytics.markSensitive(x)}
+          >
             <SignUpInput
               value={this.state.email}
               onChangeText={this.checkEmail}

@@ -111,7 +111,7 @@ class SignUpNumber extends Component {
     const { t } = this.props;
     const { selectedCountry, selectedCountryCode, phoneNumber } = this.state;
     return (
-      <View style={{ flex: 1 }} ref={x => Analytics.markSensitive(x)}>
+      <View style={{ flex: 1 }}>
         <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
           <KeyboardAvoidingView
             style={{ flex: 1 }}
@@ -144,6 +144,7 @@ class SignUpNumber extends Component {
                   </Flex>
                 </Button>
                 <SignUpInput
+                  ref={x => Analytics.markSensitive(x)}
                   value={phoneNumber}
                   onChangeText={text => this.setState({ phoneNumber: text })}
                   keyboardType="phone-pad"

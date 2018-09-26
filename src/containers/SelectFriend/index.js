@@ -295,6 +295,7 @@ class SelectFriend extends Component {
     }
     return this.state.random.map((c, i) => (
       <Button
+        ref={x => Analytics.markSensitive(x)}
         key={`random_${i}`}
         onPress={() => this.handleSelectContact(c)}
         text={c ? c.name : ' '}
@@ -394,7 +395,7 @@ class SelectFriend extends Component {
       selectNumberContact,
     } = this.state;
     return (
-      <View style={styles.container} ref={x => Analytics.markSensitive(x)}>
+      <View style={styles.container}>
         <StatusBar />
         <Header leftBack={true} title={t('title.selectFriend')} />
         {this.renderContent()}
