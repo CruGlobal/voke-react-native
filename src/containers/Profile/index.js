@@ -6,12 +6,19 @@ import {
   View,
   Alert,
   BackHandler,
+  Picker,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
 import styles from './styles';
-import { Flex, Button, Text, Separator } from '../../components/common';
+import {
+  Flex,
+  Button,
+  Text,
+  Separator,
+  Touchable,
+} from '../../components/common';
 import ImagePicker from '../../components/ImagePicker';
 import { updateMe, getMe } from '../../actions/auth';
 import Analytics from '../../utils/analytics';
@@ -25,6 +32,7 @@ import VOKE_LOGO from '../../../images/nav_voke_logo.png';
 import nav, { NavPropTypes } from '../../actions/nav';
 import theme, { COLORS } from '../../theme';
 import { SET_OVERLAY } from '../../constants';
+import i18n from '../../i18n';
 
 const defaultState = {
   imageUri: null,
@@ -47,6 +55,11 @@ class Profile extends Component {
       ...defaultState,
       firstName: props.user ? props.user.first_name || '' : '',
       lastName: props.user ? props.user.last_name || '' : '',
+      language:
+        props.user && props.user.language && props.user.language.language_code
+          ? props.user.language.language_code
+          : 'en',
+      showPicker: false,
     };
   }
 
@@ -58,6 +71,33 @@ class Profile extends Component {
 
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.backHandler);
+  }
+
+  handleLanguageChange = lang => {
+    let data = {
+      me: {
+        language: {
+          language_code: lang,
+        },
+      },
+    };
+    this.props.dispatch(updateMe(data)).then(results => {
+      this.props.dispatch(getMe());
+    });
+    // update language locally
+    i18n.changeLanguage(lang.toLowerCase());
+  };
+
+  getLanguage(lang) {
+    if (lang.toLowerCase().includes('en')) {
+      return 'English';
+    } else if (lang.toLowerCase().includes('pt')) {
+      return 'Portugese';
+    } else if (lang.toLowerCase().includes('es')) {
+      return 'Spanish';
+    } else {
+      return 'English';
+    }
   }
 
   backHandler = () => {
@@ -517,6 +557,74 @@ class Profile extends Component {
                   />
                 }
               />
+            )}
+            {isEditing ? null : !theme.isAndroid ? (
+              <Touchable
+                onPress={() =>
+                  this.setState({ showPicker: !this.state.showPicker })
+                }
+              >
+                <Flex>
+                  <Separator style={styles.settingsSeparator} />
+                  <Flex style={styles.row} direction="row" align="center">
+                    <Text style={styles.link}>{t('language')}</Text>
+                    <Flex value={1} align="end" justify="end">
+                      <Text style={styles.link}>
+                        ({this.getLanguage(this.state.language)})
+                      </Text>
+                    </Flex>
+                  </Flex>
+                  {this.state.showPicker ? (
+                    <Flex style={{ backgroundColor: 'rgba(0,0,0,0.1)' }}>
+                      <Flex
+                        style={styles.row}
+                        direction="row"
+                        align="center"
+                        justify="end"
+                      >
+                        <Button
+                          text={t('setLanguage')}
+                          buttonTextStyle={styles.actionButtonText}
+                          style={styles.actionButton}
+                          onPress={() => {
+                            this.handleLanguageChange(this.state.language);
+                            this.setState({ showPicker: false });
+                          }}
+                        />
+                      </Flex>
+                      <Picker
+                        selectedValue={this.state.language}
+                        style={{ height: 50, width: 100 }}
+                        onValueChange={(itemValue, itemIndex) =>
+                          this.setState({ language: itemValue })
+                        }
+                        style={{ width: '100%' }}
+                        itemStyle={{ color: 'black' }}
+                      >
+                        <Picker.Item label="English" value="EN" />
+                        <Picker.Item label="Portugese" value="PT" />
+                        <Picker.Item label="Spanish" value="ES" />
+                      </Picker>
+                    </Flex>
+                  ) : null}
+                </Flex>
+              </Touchable>
+            ) : (
+              <Picker
+                selectedValue={this.state.language}
+                style={{ height: 50, width: 100 }}
+                onValueChange={(itemValue, itemIndex) => {
+                  this.setState({ language: itemValue }, () => {
+                    this.handleLanguageChange(this.state.language);
+                  });
+                }}
+                style={{ width: '100%' }}
+                itemStyle={{ color: 'black' }}
+              >
+                <Picker.Item label="English" value="EN" />
+                <Picker.Item label="Portugese" value="PT" />
+                <Picker.Item label="Spanish" value="ES" />
+              </Picker>
             )}
             {isAnonUser && !hideAnonFields ? (
               <Flex

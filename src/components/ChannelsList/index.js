@@ -34,6 +34,7 @@ class ChannelsList extends Component {
 
   renderRow({ item }) {
     const channel = item;
+    console.log(channel);
     const avatar = channel.avatar || {};
     return (
       <Touchable
@@ -48,7 +49,7 @@ class ChannelsList extends Component {
           justify="center"
         >
           <Image
-            resizeMode="contain"
+            resizeMode="cover"
             source={{ uri: avatar.large }}
             style={styles.videoThumbnail}
           />

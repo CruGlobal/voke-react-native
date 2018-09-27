@@ -1,7 +1,7 @@
 import { Linking } from 'react-native';
 import Communications from 'react-native-communications';
 
-import { logoutAction } from '../actions/auth';
+import { logoutAction, showLanguageModal } from '../actions/auth';
 import CONSTANTS from '../constants';
 import theme from '../theme';
 import i18n from '../i18n';

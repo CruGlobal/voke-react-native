@@ -1,18 +1,16 @@
-
 import { StyleSheet } from 'react-native';
 import theme, { COLORS } from '../../theme';
 
-export const THUMBNAIL_HEIGHT = (theme.fullWidth - 20) * 1/2;
+export const THUMBNAIL_HEIGHT = (theme.fullWidth - 20) * 1 / 2;
 
 export default StyleSheet.create({
-  content: {
-  },
+  content: {},
   container: {
     marginHorizontal: 20,
     marginVertical: 0,
     backgroundColor: 'white',
     elevation: 2,
-    width: theme.fullWidth/1.7,
+    width: theme.fullWidth / 1.7,
     borderRadius: 4,
     overflow: 'hidden',
   },
@@ -23,7 +21,7 @@ export default StyleSheet.create({
   },
   videoThumbnail: {
     height: 120,
-    width: theme.fullWidth/1.7,
+    width: theme.fullWidth / 1.7,
     backgroundColor: COLORS.WHITE,
     alignItems: 'center',
     justifyContent: 'center',

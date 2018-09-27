@@ -37,6 +37,7 @@ const initialState = {
   noBackgroundAction: false,
   isAnonUser: false,
   pushPermission: '',
+  showLanguageModal: false,
 };
 
 export default function auth(state = initialState, action) {

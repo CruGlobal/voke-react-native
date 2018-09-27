@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, Picker } from 'react-native';
+import { translate } from 'react-i18next';
 
 import styles from './styles';
-import { Flex, Touchable, Text, Separator } from '../common';
+import { Flex, Touchable, Text, Separator, Button } from '../common';
 
 class SettingsList extends Component {
   constructor(props) {
@@ -45,4 +46,4 @@ SettingsList.propTypes = {
   items: PropTypes.array.isRequired,
 };
 
-export default SettingsList;
+export default translate()(SettingsList);

@@ -1,5 +1,7 @@
 export default {
   common: {
+    setLanguage: 'Elegir Lenguaje',
+    language: 'Idioma',
     today: 'hoy',
     home: 'Inicio',
     acceptChallenge: 'Aceptar Desaf\u00edo',

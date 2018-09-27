@@ -1,4 +1,3 @@
-
 import { StyleSheet } from 'react-native';
 import theme, { COLORS } from '../../theme';
 
@@ -28,7 +27,7 @@ export default StyleSheet.create({
     backgroundColor: COLORS.TRANSPARENT,
   },
   imageIcon: {
-    color: COLORS.convert({color: COLORS.WHITE, alpha: 0.6}),
+    color: COLORS.convert({ color: COLORS.WHITE, alpha: 0.6 }),
   },
   inputButton: {
     height: 40,
@@ -77,5 +76,22 @@ export default StyleSheet.create({
     height: IMAGE_SIZE,
     width: IMAGE_SIZE,
     borderRadius: IMAGE_SIZE / 2,
+  },
+  row: {
+    flex: 1,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+  },
+  settingsSeparator: {
+    backgroundColor: COLORS.LIGHT_GREY,
+  },
+  actionButton: {
+    backgroundColor: COLORS.DARK_GREY,
+    padding: 0,
+    margin: 0,
+  },
+  link: {
+    color: theme.darkText,
+    fontSize: 16,
   },
 });

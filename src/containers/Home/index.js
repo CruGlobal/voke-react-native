@@ -13,6 +13,7 @@ import {
   getMe,
 } from '../../actions/auth';
 import Analytics from '../../utils/analytics';
+import i18n from '../../i18n';
 
 import {
   getConversations,
@@ -29,7 +30,7 @@ import AndroidReportModal from '../AndroidReportModal';
 import ConversationList from '../../components/ConversationList';
 import PopupMenu from '../../components/PopupMenu';
 import Header, { HeaderIcon } from '../Header';
-import { Flex, Text, RefreshControl } from '../../components/common';
+import { Flex, Text, RefreshControl, Touchable } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import { IS_SMALL_ANDROID } from '../../constants';
 import theme from '../../theme';
@@ -48,6 +49,7 @@ class Home extends Component {
       androidReportPerson: null,
       androidReportData: null,
       callingGetConversations: true,
+      showLanguageSelect: true,
     };
 
     this.handleLoadMore = this.handleLoadMore.bind(this);
@@ -59,7 +61,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    const { isAnonUser, conversations, navigation, dispatch } = this.props;
+    const { isAnonUser, conversations, navigation, dispatch, me } = this.props;
 
     if (isAnonUser && conversations.length <= 1) {
       // Only navigate to videos if we're not coming from a 'navigateResetMessage'
@@ -73,6 +75,9 @@ class Home extends Component {
       ) {
         navigation.navigate('voke.Videos');
       }
+    }
+    if (me && me.language && me.language.language_code) {
+      i18n.changeLanguage(me.language.language_code.toLowerCase());
     }
 
     Analytics.screen(Analytics.s.ChatTab);
