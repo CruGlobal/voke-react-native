@@ -307,8 +307,10 @@ export function createAccountAction(email, password, isAnonymous = false) {
       let data = {
         me: {
           timezone_name: DeviceInfo.getTimezone(),
-          language_code: locale,
           country_code: DeviceInfo.getDeviceCountry(),
+          language: {
+            language_code: locale,
+          },
         },
       };
       if (email) data.email = email;
@@ -319,8 +321,10 @@ export function createAccountAction(email, password, isAnonymous = false) {
           me: {
             timezone_name: DeviceInfo.getTimezone(),
             anonymous: true,
-            language_code: locale,
             country_code: DeviceInfo.getDeviceCountry(),
+            language: {
+              language_code: locale,
+            },
           },
         };
       }

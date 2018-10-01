@@ -140,10 +140,17 @@ class ContactsList extends Component {
       style: { paddingBottom: 30 },
     };
     if (theme.isAndroid) {
-      return <FlatList {...listProps} data={sections} />;
+      return (
+        <FlatList
+          {...listProps}
+          ref={x => Analytics.markSensitive(x)}
+          data={sections}
+        />
+      );
     }
     return (
       <SectionList
+        ref={x => Analytics.markSensitive(x)}
         {...listProps}
         stickySectionHeadersEnabled={true}
         sections={this.state.sections}
@@ -167,7 +174,6 @@ class ContactsList extends Component {
     // ItemSeparatorComponent={() => <Separator />}
     return (
       <View
-        ref={x => Analytics.markSensitive(x)}
         style={{
           paddingBottom: !theme.isAndroid ? this.state.height + 100 : undefined,
         }}

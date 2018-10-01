@@ -1,14 +1,21 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
-import { Flex, Text } from '../../components/common';
+import { Flex, Text, Button } from '../../components/common';
 import theme, { COLORS } from '../../theme';
 
 class ProfileProgress extends Component {
   render() {
-    const { t, user, isAnonUser } = this.props;
+    const {
+      t,
+      user,
+      isAnonUser,
+      onHandleVerifyNumber,
+      onHandleSignUpAccount,
+    } = this.props;
 
     const isVerified = user.mobile;
     let percentage = 100;
@@ -51,22 +58,40 @@ class ProfileProgress extends Component {
               />
             </Flex>
             <Flex value={1} align="center">
-              <Flex
-                style={[
-                  styles.round,
-                  styles.position2,
-                  !isAnonUser ? styles.filled : null,
-                ]}
-              />
+              <Button
+                isAndroidOpacity={true}
+                type="transparent"
+                style={styles.progressButton}
+                onPress={() =>
+                  user.email ? undefined : onHandleSignUpAccount()
+                }
+              >
+                <Flex
+                  style={[
+                    styles.round,
+                    styles.position2,
+                    !isAnonUser ? styles.filled : null,
+                  ]}
+                />
+              </Button>
             </Flex>
             <Flex value={1} align="end">
-              <Flex
-                style={[
-                  styles.round,
-                  styles.positionEnd,
-                  isVerified ? styles.filled : null,
-                ]}
-              />
+              <Button
+                isAndroidOpacity={true}
+                type="transparent"
+                style={styles.progressButton}
+                onPress={() =>
+                  user.mobile ? undefined : onHandleVerifyNumber()
+                }
+              >
+                <Flex
+                  style={[
+                    styles.round,
+                    styles.positionEnd,
+                    isVerified ? styles.filled : null,
+                  ]}
+                />
+              </Button>
             </Flex>
           </Flex>
         </Flex>
@@ -138,5 +163,10 @@ const mapStateToProps = ({ auth }) => ({
   user: auth.user,
   isAnonUser: auth.isAnonUser,
 });
+
+ProfileProgress.propTypes = {
+  onHandleVerifyNumber: PropTypes.func,
+  onHandleSignUpAccount: PropTypes.func,
+};
 
 export default translate('profile')(connect(mapStateToProps)(ProfileProgress));

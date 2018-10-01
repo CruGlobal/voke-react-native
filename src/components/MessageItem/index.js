@@ -10,6 +10,7 @@ import styles from './styles';
 import { Flex, Text, Icon, Avatar, DateComponent, Touchable } from '../common';
 import { momentUtc, getInitials } from '../../utils/common';
 import TO_CHAT from '../../../images/newShare.png';
+import Analytics from '../../utils/analytics';
 
 class MessageItem extends PureComponent {
   constructor(props) {
@@ -56,6 +57,7 @@ class MessageItem extends PureComponent {
         direction="row"
         align="center"
         justify="start"
+        ref={x => Analytics.markSensitive(x)}
       >
         {!isTypeState ? (
           <Text

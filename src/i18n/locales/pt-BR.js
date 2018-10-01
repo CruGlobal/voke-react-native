@@ -1,6 +1,8 @@
 /* eslint-disable */
 export default {
   common: {
+    setLanguage: 'Definir idioma',
+    language: 'Língua',
     today: 'Hoje',
     home: 'In\u00edcio',
     acceptChallenge: 'Aceitar o Desafio',

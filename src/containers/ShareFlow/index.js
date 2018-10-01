@@ -179,7 +179,7 @@ class ShareFlow extends Component {
   render() {
     const { t } = this.props;
     return (
-      <View style={styles.container} ref={x => Analytics.markSensitive(x)}>
+      <View style={styles.container}>
         <KeyboardAvoidingView behavior="position">
           <TouchableOpacity
             activeOpacity={1}
@@ -204,6 +204,7 @@ class ShareFlow extends Component {
             </Flex>
             <Flex justify="center" align="center" style={styles.actions}>
               <SignUpInput
+                ref={x => Analytics.markSensitive(x)}
                 value={this.state.name}
                 onChangeText={t => this.setState({ name: t })}
                 placeholder={t('placeholder.friendsName')}

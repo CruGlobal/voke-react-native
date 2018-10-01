@@ -43,11 +43,7 @@ Menu.propTypes = {
 const mapStateToProps = ({ auth }, { navigation }) => ({
   ...(navigation.state.params || {}),
   isAnonUser: auth.isAnonUser,
+  user: auth.user,
 });
 
-export default translate()(
-  connect(
-    mapStateToProps,
-    nav,
-  )(Menu),
-);
+export default translate()(connect(mapStateToProps, nav)(Menu));

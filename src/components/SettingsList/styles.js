@@ -1,6 +1,5 @@
-
 import { StyleSheet } from 'react-native';
-import theme, { COLORS }  from '../../theme';
+import theme, { COLORS } from '../../theme';
 
 export default StyleSheet.create({
   container: {
@@ -10,9 +9,11 @@ export default StyleSheet.create({
   content: {
     borderBottomColor: COLORS.LIGHT_GREY,
     borderBottomWidth: theme.separatorHeight,
-    ...(theme.isIphoneX ? {
-      paddingBottom: 40,
-    } : {}),
+    ...(theme.isIphoneX
+      ? {
+          paddingBottom: 40,
+        }
+      : {}),
   },
   row: {
     flex: 1,
@@ -25,5 +26,10 @@ export default StyleSheet.create({
   },
   settingsSeparator: {
     backgroundColor: COLORS.LIGHT_GREY,
+  },
+  actionButton: {
+    backgroundColor: COLORS.DARK_GREY,
+    padding: 0,
+    margin: 0,
   },
 });
