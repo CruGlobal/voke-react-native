@@ -15,7 +15,7 @@ export default {
     completed: 'Completado',
     contacts: 'Contactos',
     createAccount: 'Crear Cuenta',
-    done: 'Terminado',
+    done: 'Listo',
     edit: 'Editar',
     featured: 'Destacado ',
     forgotPassword: '\u00bfOlvidaste tu contrase\u00f1a?',
