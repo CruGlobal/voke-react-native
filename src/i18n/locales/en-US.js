@@ -3,6 +3,7 @@ export default {
   common: {
     setLanguage: 'Set Language',
     language: 'Language',
+    shortPassword: 'Your password must be atleast 8 characters',
     today: 'Today',
     home: 'Home',
     acceptChallenge: 'Accept Challenge',

@@ -13,6 +13,7 @@ import Header, { HeaderIcon } from '../Header';
 import PopupMenu from '../../components/PopupMenu';
 import StatusBar from '../../components/StatusBar';
 import AdventureMap from '../AdventureMap';
+import VokeOverlays from '../VokeOverlays';
 import theme from '../../theme';
 
 class Adventures extends Component {
@@ -57,6 +58,7 @@ class Adventures extends Component {
           <AdventureMap scrollTo={this.scrollTo} />
         </ScrollView>
         <ApiLoading />
+        <VokeOverlays type="messageModal" />
       </View>
     );
   }
@@ -71,9 +73,4 @@ const mapStateToProps = ({ auth }) => ({
   isAnonUser: auth.isAnonUser, // Need this for the Android PopupMenu to determine which menu options to show
 });
 
-export default translate()(
-  connect(
-    mapStateToProps,
-    nav,
-  )(Adventures),
-);
+export default translate()(connect(mapStateToProps, nav)(Adventures));

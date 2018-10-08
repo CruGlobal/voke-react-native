@@ -2,58 +2,79 @@ import moment from 'moment';
 import { Vibration } from 'react-native';
 
 import { API_URL } from '../api/utils';
-import CONSTANTS, { NEW_MESSAGE, TYPE_STATE_CHANGE, MARK_READ, MESSAGE_CREATED, PREVIEW_MESSAGE_CREATED } from '../constants';
+import CONSTANTS, {
+  NEW_MESSAGE,
+  TYPE_STATE_CHANGE,
+  MARK_READ,
+  MESSAGE_CREATED,
+  PREVIEW_MESSAGE_CREATED,
+  SET_MESSAGE_MODAL,
+  SET_OVERLAY,
+} from '../constants';
 import callApi, { REQUESTS } from './api';
 import theme from '../theme';
 import { UTC_FORMAT } from '../utils/common';
 
 export function getConversations() {
-  return (dispatch) => {
-    return dispatch(callApi(REQUESTS.GET_CONVERSATIONS, { page_size: CONSTANTS.CONVERSATIONS_PAGE_SIZE }));
+  return dispatch => {
+    return dispatch(
+      callApi(REQUESTS.GET_CONVERSATIONS, {
+        page_size: CONSTANTS.CONVERSATIONS_PAGE_SIZE,
+      }),
+    );
   };
 }
 
 export function getConversationsPage(page) {
-  return (dispatch) => {
-    return dispatch(callApi(REQUESTS.GET_CONVERSATIONS, { page, page_size: CONSTANTS.CONVERSATIONS_PAGE_SIZE }));
+  return dispatch => {
+    return dispatch(
+      callApi(REQUESTS.GET_CONVERSATIONS, {
+        page,
+        page_size: CONSTANTS.CONVERSATIONS_PAGE_SIZE,
+      }),
+    );
   };
 }
 
 export function getConversation(data) {
-  return (dispatch) => {
+  return dispatch => {
     const query = {
       endpoint: `${API_URL}me/conversations/${data}`,
     };
-    return dispatch(callApi(REQUESTS.GET_CONVERSATION, query)).catch((err) => {
+    return dispatch(callApi(REQUESTS.GET_CONVERSATION, query)).catch(err => {
       LOG('getConversation error', err);
     });
   };
 }
 
 export function deleteConversation(id) {
-  return (dispatch) => {
+  return dispatch => {
     const query = {
       id,
       endpoint: `${API_URL}me/conversations/${id}`,
     };
-    return dispatch(callApi(REQUESTS.DELETE_CONVERSATION, query)).then((results) => {
-      // dispatch(getConversations());
-      return results;
-    });
+    return dispatch(callApi(REQUESTS.DELETE_CONVERSATION, query)).then(
+      results => {
+        // dispatch(getConversations());
+        return results;
+      },
+    );
   };
 }
 
 export function createConversation(data) {
-  return (dispatch) => {
-    return dispatch(callApi(REQUESTS.CREATE_CONVERSATION, {}, data)).then((results) => {
-      // dispatch(getConversations());
-      return results;
-    });
+  return dispatch => {
+    return dispatch(callApi(REQUESTS.CREATE_CONVERSATION, {}, data)).then(
+      results => {
+        // dispatch(getConversations());
+        return results;
+      },
+    );
   };
 }
 
 export function getMessages(data, page) {
-  return (dispatch) => {
+  return dispatch => {
     let query = {
       endpoint: `${API_URL}me/conversations/${data}/messages`,
     };
@@ -72,7 +93,9 @@ export function createMessage(conversation, data) {
     const messageObj = {
       content: data.message ? data.message.content : '',
       conversation_id: conversation,
-      created_at: moment().utc().format(UTC_FORMAT),
+      created_at: moment()
+        .utc()
+        .format(UTC_FORMAT),
       id: 'preview_message',
       item: null,
       kind: 'text',
@@ -87,20 +110,27 @@ export function createMessage(conversation, data) {
       });
     }
 
-    return dispatch(callApi(REQUESTS.CREATE_MESSAGE, query, data)).then((results) => {
-      dispatch({
-        type: MESSAGE_CREATED,
-        conversationId: conversation,
-        message: results,
-      });
-      // dispatch(getMessages(conversation));
-      return results;
-    });
+    return dispatch(callApi(REQUESTS.CREATE_MESSAGE, query, data)).then(
+      results => {
+        dispatch({
+          type: MESSAGE_CREATED,
+          conversationId: conversation,
+          message: results,
+        });
+        // dispatch(getMessages(conversation));
+        return results;
+      },
+    );
   };
 }
 
 export function handleNewMessage(message) {
   return (dispatch, getState) => {
+    if (message.modal) {
+      dispatch({ type: SET_MESSAGE_MODAL, value: message });
+      dispatch({ type: SET_OVERLAY, value: 'messageModal' });
+      return;
+    }
 
     dispatch(vibrateAction());
     if (!theme.isAndroid) {
@@ -118,18 +148,22 @@ export function newMessageAction(message) {
   return (dispatch, getState) => {
     const cId = message.conversation_id;
     // Check if conversation exists, just use it, otherwise get it
-    const conversationExists = getState().messages.conversations.find((c) => c.id === cId);
+    const conversationExists = getState().messages.conversations.find(
+      c => c.id === cId,
+    );
     if (conversationExists) {
       dispatch(handleNewMessage(message));
     } else {
-      dispatch(getConversation(cId)).then((results) => {
-        if (!results || !results.conversation) {
-          return;
-        }
-        dispatch(handleNewMessage(message));
-      }).catch((e) => {
-        LOG('getConversation error inside newMessageAction', e);
-      });
+      dispatch(getConversation(cId))
+        .then(results => {
+          if (!results || !results.conversation) {
+            return;
+          }
+          dispatch(handleNewMessage(message));
+        })
+        .catch(e => {
+          LOG('getConversation error inside newMessageAction', e);
+        });
     }
   };
 }
@@ -151,7 +185,7 @@ export function typeStateChangeAction(message) {
 }
 
 export function createTypeStateAction(conversation) {
-  return (dispatch) => {
+  return dispatch => {
     const query = {
       endpoint: `${API_URL}me/conversations/${conversation}/type_state`,
     };
@@ -160,7 +194,7 @@ export function createTypeStateAction(conversation) {
 }
 
 export function destroyTypeStateAction(conversation) {
-  return (dispatch) => {
+  return dispatch => {
     const query = {
       endpoint: `${API_URL}me/conversations/${conversation}/type_state`,
     };
@@ -179,14 +213,16 @@ export function createMessageInteraction(interaction) {
       },
     };
     const query = {
-      endpoint: `${API_URL}me/conversations/${interaction.conversationId}/messages/${interaction.messageId}/interactions`,
+      endpoint: `${API_URL}me/conversations/${
+        interaction.conversationId
+      }/messages/${interaction.messageId}/interactions`,
     };
     return dispatch(callApi(REQUESTS.CREATE_MESSAGE_INTERACTION, query, data));
   };
 }
 
 export function markReadAction(conversationId, messageId) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({ type: MARK_READ, conversationId, messageId });
   };
 }

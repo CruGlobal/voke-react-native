@@ -51,6 +51,10 @@ class SignUpAccount extends Component {
 
   updateAnonAccount = () => {
     const { t, dispatch } = this.props;
+    if (this.state.password.length < 7) {
+      Alert.alert(t('shortPassword'));
+      return;
+    }
     const data = {
       me: {
         email: this.state.email,

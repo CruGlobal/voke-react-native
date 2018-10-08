@@ -9,6 +9,7 @@ import CloseButton from '../../components/CloseButton';
 import SignUpButtons from '../SignUpButtons';
 import { CLEAR_OVERLAY } from '../../constants';
 import VOKEBOT_UKE from '../../../images/voke_uke.png';
+import VOKEBOT from '../../../images/vokebot_whole.png';
 import styles from './styles';
 import { enablePushNotifications } from '../../actions/socket';
 
@@ -87,19 +88,45 @@ class VokeOverlays extends Component {
     );
   }
 
+  renderMessageModal() {
+    const { t, messageData } = this.props;
+    return (
+      <Flex
+        style={styles.overlay}
+        align="center"
+        justify="center"
+        self="stretch"
+      >
+        <Flex style={styles.chatBubble}>
+          <Text style={styles.chatText}>{messageData.content}</Text>
+        </Flex>
+        <Flex style={styles.chatTriangle} />
+        <Image
+          source={VOKEBOT}
+          style={{ height: 100, marginBottom: 20 }}
+          resizeMode="contain"
+        />
+        <Button onPress={this.close} style={styles.clearButton} text="Great!" />
+      </Flex>
+    );
+  }
+
   render() {
-    const { type, overlays } = this.props;
+    const { type, overlays, messageData } = this.props;
     if (type === 'tryItNowSignUp' && overlays[type]) {
       return this.renderSignUp();
     } else if (type === 'pushPermissions' && overlays[type]) {
       return this.renderPushPermissions();
+    } else if (type === 'messageModal' && overlays[type] && messageData) {
+      return this.renderMessageModal();
     }
     return null;
   }
 }
 
 VokeOverlays.propTypes = {
-  type: PropTypes.oneOf(['tryItNowSignUp', 'pushPermissions']).isRequired,
+  type: PropTypes.oneOf(['tryItNowSignUp', 'pushPermissions', 'messageModal'])
+    .isRequired,
   onClose: PropTypes.func,
   channelName: PropTypes.string,
 };
@@ -107,6 +134,7 @@ VokeOverlays.propTypes = {
 const mapStateToProps = ({ overlays, auth }) => ({
   overlays,
   user: auth.user,
+  messageData: overlays.messageData,
 });
 
 export default translate('overlays')(connect(mapStateToProps)(VokeOverlays));

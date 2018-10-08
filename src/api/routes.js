@@ -328,4 +328,8 @@ export default {
     endpoint: API_URL + 'items/:item_id/interactions',
     method: 'post',
   },
+  POST_OPEN_VOKE: {
+    endpoint: API_URL + 'me/open_voke',
+    method: 'post',
+  },
 };

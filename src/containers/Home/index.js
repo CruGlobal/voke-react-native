@@ -330,6 +330,7 @@ class Home extends Component {
         {/* Only show this overlay when you are not on the messages screen also
         It was getting a weird double overlay when transitioning to the messages screen */}
         {!activeConversationId ? <VokeOverlays type="pushPermissions" /> : null}
+        <VokeOverlays type="messageModal" />
       </View>
     );
   }

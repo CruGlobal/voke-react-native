@@ -15,7 +15,9 @@ import Analytics from '../../utils/analytics';
 class MessageItem extends PureComponent {
   constructor(props) {
     super(props);
-
+    this.state = {
+      selectedAnswerIndex: false,
+    };
     // Find messenger where 'bot' is true
     let vb = props.messengers.find(m => m.bot);
 
@@ -215,6 +217,59 @@ class MessageItem extends PureComponent {
     }
   }
 
+  handleAnswerPress = (answer, index) => {
+    this.setState({ selectedAnswerIndex: true });
+    this.props.onSendAnswer(answer);
+  };
+
+  renderRelevance() {
+    const message = this.props.item;
+    const isTypeState = message.type === 'typeState';
+    const test = ['relevant', 'somewhat', 'not at all'];
+    return (
+      <Flex direction="column">
+        <Flex
+          style={[styles.row, styles.otherPerson]}
+          direction="row"
+          align="center"
+          justify="start"
+        >
+          {!isTypeState ? (
+            <Text selectable={true} style={[styles.message, styles.otherText]}>
+              {message.content}
+            </Text>
+          ) : (
+            <Flex>
+              <Spinner color={theme.accentColor} size={25} type="ThreeBounce" />
+            </Flex>
+          )}
+        </Flex>
+        <Flex
+          direction="row"
+          align="center"
+          justify="center"
+          style={styles.relevanceBackground}
+        >
+          {test.map((i, index) => (
+            <Flex direction="column" align="center" justify="center">
+              <Touchable
+                style={[
+                  styles.selectionCircle,
+                  index === 0
+                    ? styles.green
+                    : index === 1 ? styles.yellow : styles.red,
+                ]}
+                onPress={() => this.handleAnswerPress(i, index)}
+                disabled={this.state.selectedAnswerIndex}
+              />
+              <Text style={styles.answerText}>{i}</Text>
+            </Flex>
+          ))}
+        </Flex>
+      </Flex>
+    );
+  }
+
   render() {
     const message = this.props.item;
     const isTypeState = message.type === 'typeState';
@@ -222,8 +277,10 @@ class MessageItem extends PureComponent {
 
     const isOnlyVoke = this.props.messengers.length < 3;
     const isMe = message.messenger_id === this.props.user.id;
-    const isVideo = message.item;
-    const isVideoAndText = message.item && message.content;
+    const isVideo = message.item && message.kind !== 'question';
+    const isRelevanceQuestion = message.kind && message.kind === 'question';
+    const isVideoAndText =
+      message.item && message.content && message.kind !== 'question';
     const time = message.created_at;
     const momentTime = momentUtc(time)
       .local()
@@ -239,6 +296,8 @@ class MessageItem extends PureComponent {
       content = this.renderVideoAndText();
     } else if (isVideo) {
       content = this.renderVideo();
+    } else if (isRelevanceQuestion && !this.props.relevanceHasBeenAswered) {
+      content = this.renderRelevance();
     } else {
       content = this.renderText();
     }
@@ -319,6 +378,8 @@ MessageItem.propTypes = {
   messengers: PropTypes.array.isRequired,
   onSelectVideo: PropTypes.func.isRequired,
   onShareVideo: PropTypes.func.isRequired,
+  onSendAnswer: PropTypes.func,
+  relevanceHasBeenAswered: PropTypes.bool,
 };
 
 export default MessageItem;

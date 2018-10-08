@@ -35,6 +35,10 @@ class MessagesList extends Component {
           messengers={this.props.messengers}
           onSelectVideo={() => this.props.onSelectVideo(item)}
           onShareVideo={this.props.onShareVideo}
+          onSendAnswer={this.props.onSendAnswer}
+          relevanceHasBeenAswered={
+            !!this.props.items.find(m => m.kind === 'answer')
+          }
         />
       </Flex>
     );
@@ -58,6 +62,7 @@ class MessagesList extends Component {
             messengers={messengers}
             onSelectVideo={() => onSelectVideo(item)}
             onShareVideo={onShareVideo}
+            onSendAnswer={this.props.onSendAnswer}
           />
         </View>
       );
@@ -103,6 +108,7 @@ MessagesList.propTypes = {
   onSelectVideo: PropTypes.func.isRequired,
   hasMore: PropTypes.bool,
   onLoadMore: PropTypes.func,
+  onSendAnswer: PropTypes.func,
   typeState: PropTypes.bool,
   onEndReached: PropTypes.func.isRequired,
 };

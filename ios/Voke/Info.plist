@@ -116,6 +116,7 @@
 		<string>TitilliumWeb-Bold.ttf</string>
 		<string>TitilliumWeb-SemiBold.ttf</string>
 		<string>TitilliumWeb-Regular.ttf</string>
+		<string>Feather.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
