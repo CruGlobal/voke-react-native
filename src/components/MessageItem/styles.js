@@ -132,4 +132,7 @@ export default StyleSheet.create({
   inactiveSelection: {
     opacity: 0.4,
   },
+  checkMark: {
+    color: 'white',
+  },
 });

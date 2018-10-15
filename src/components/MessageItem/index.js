@@ -16,7 +16,7 @@ class MessageItem extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      selectedAnswerIndex: false,
+      selectedAnswer: '',
     };
     // Find messenger where 'bot' is true
     let vb = props.messengers.find(m => m.bot);
@@ -217,8 +217,8 @@ class MessageItem extends PureComponent {
     }
   }
 
-  handleAnswerPress = (answer, index) => {
-    this.setState({ selectedAnswerIndex: true });
+  handleAnswerPress = answer => {
+    this.setState({ selectedAnswer: answer });
     this.props.onSendAnswer(answer);
   };
 
@@ -226,6 +226,14 @@ class MessageItem extends PureComponent {
     const message = this.props.item;
     const isTypeState = message.type === 'typeState';
     const test = ['relevant', 'somewhat', 'not at all'];
+    let answers =
+      message.metadata && message.metadata.answers
+        ? message.metadata.answers
+        : [];
+    let selectedAnswer =
+      message.metadata && message.metadata.selected_answer
+        ? message.metadata.selected_answer
+        : '';
     return (
       <Flex direction="column">
         <Flex
@@ -259,9 +267,14 @@ class MessageItem extends PureComponent {
                     ? styles.green
                     : index === 1 ? styles.yellow : styles.red,
                 ]}
-                onPress={() => this.handleAnswerPress(i, index)}
-                disabled={this.state.selectedAnswerIndex}
-              />
+                onPress={() => this.handleAnswerPress(i)}
+                disabled={this.state.selectedAnswer || selectedAnswer}
+              >
+                {selectedAnswer === i ||
+                (this.state.selectedAnswer === i && !selectedAnswer) ? (
+                  <Icon name="check" size={26} style={styles.checkMark} />
+                ) : null}
+              </Touchable>
               <Text style={styles.answerText}>{i}</Text>
             </Flex>
           ))}
