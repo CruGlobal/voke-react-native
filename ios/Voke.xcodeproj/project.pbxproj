@@ -31,7 +31,6 @@
 		8A4A9F91FD9C47A8B9407344 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7B2633AC1B447B8B7203871 /* libRNImagePicker.a */; };
 		932AA1BC1F602AFB008937B1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 932AA1B71F602AFB008937B1 /* AppDelegate.m */; };
 		932AA1BD1F602AFB008937B1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 932AA1B81F602AFB008937B1 /* Images.xcassets */; };
-		932AA1BE1F602AFB008937B1 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 932AA1B91F602AFB008937B1 /* Info.plist */; };
 		932AA1BF1F602AFB008937B1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 932AA1BA1F602AFB008937B1 /* main.m */; };
 		93981C6A20F8FA9700298F4A /* GoogleToolboxForMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93981C6320F8FA9500298F4A /* GoogleToolboxForMac.framework */; };
 		93981C6B20F8FA9700298F4A /* nanopb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93981C6420F8FA9600298F4A /* nanopb.framework */; };
@@ -1625,7 +1624,6 @@
 				376E6513900E4B6B98D8A273 /* FontAwesome.ttf in Resources */,
 				9D586C578FBC4B11A28E02C7 /* Foundation.ttf in Resources */,
 				E523AFD91E474E2C929720A5 /* Ionicons.ttf in Resources */,
-				932AA1BE1F602AFB008937B1 /* Info.plist in Resources */,
 				AE0A75871F42720D000A51EA /* TitilliumWeb-SemiBold.ttf in Resources */,
 				AE6502A621514AF30031B7D1 /* GoogleService-Info.plist in Resources */,
 				37C585BED12E4623ACE9A188 /* MaterialCommunityIcons.ttf in Resources */,
