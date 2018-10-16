@@ -103,6 +103,7 @@ export default StyleSheet.create({
   },
   relevanceBackground: {
     backgroundColor: '#3295AD',
+    borderRadius: 6,
   },
   selectionCircle: {
     height: 44,
@@ -110,7 +111,6 @@ export default StyleSheet.create({
     borderRadius: 22,
     borderWidth: 2,
     borderColor: 'white',
-    marginHorizontal: 5,
     marginVertical: 5,
     marginTop: 20,
   },
@@ -128,6 +128,7 @@ export default StyleSheet.create({
     fontSize: 14,
     paddingHorizontal: 10,
     paddingBottom: 15,
+    textAlign: 'center',
   },
   inactiveSelection: {
     opacity: 0.4,

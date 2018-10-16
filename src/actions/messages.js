@@ -98,11 +98,11 @@ export function createMessage(conversation, data) {
         .format(UTC_FORMAT),
       id: 'preview_message',
       item: null,
-      kind: 'text',
+      kind: data.message ? data.message.kind || 'text' : 'text',
       messenger_id: getState().auth.user.id,
     };
     // Only create the message optimistically if there is content
-    if (messageObj.content) {
+    if (messageObj.content && messageObj.kind !== 'answer') {
       dispatch({
         type: PREVIEW_MESSAGE_CREATED,
         conversationId: conversation,
