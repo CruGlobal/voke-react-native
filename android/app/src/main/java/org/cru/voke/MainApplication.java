@@ -9,21 +9,6 @@ import android.os.Bundle;
 import android.support.multidex.MultiDex; // For Multidex support Android <5.0
 
 import com.facebook.react.ReactApplication;
-import com.brentvatne.react.ReactVideoPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
-import com.react.rnspinkit.RNSpinkitPackage;
-import com.tkporter.sendsms.SendSMSPackage;
-import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
-import com.github.yamill.orientation.OrientationPackage;
-import com.imagepicker.ImagePickerPackage;
-import com.reactnative.ivpusic.imagepicker.PickerPackage;
-import io.invertase.firebase.RNFirebasePackage;
-import com.RNFetchBlob.RNFetchBlobPackage;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
-import com.smixx.fabric.FabricPackage;
-import com.learnium.RNDeviceInfo.RNDeviceInfo;
-import com.rt2zz.reactnativecontacts.ReactNativeContacts;
-import com.appsee.reactnative.AppseeReactPackage;
 import com.horcrux.svg.SvgPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
@@ -74,21 +59,6 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new ReactVideoPackage(),
-            new VectorIconsPackage(),
-            new RNSpinkitPackage(),
-            SendSMSPackage.getInstance(),
-            new ReactNativePushNotificationPackage(),
-            new OrientationPackage(),
-            new ImagePickerPackage(),
-            new PickerPackage(),
-            new RNFirebasePackage(),
-            new RNFetchBlobPackage(),
-            new FBSDKPackage(),
-            new FabricPackage(),
-            new RNDeviceInfo(),
-            new ReactNativeContacts(),
-            new AppseeReactPackage(),
           new SvgPackage(),
           new RNFirebasePackage(),
           new RNFirebaseAnalyticsPackage(),
