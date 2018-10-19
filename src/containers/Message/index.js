@@ -350,11 +350,12 @@ class Message extends Component {
     }
   };
 
-  handleSendAnswer = answer => {
+  handleSendAnswer = (answer, messageId) => {
     let data = {
       message: {
         content: answer,
         kind: 'answer',
+        message_reference_id: messageId,
       },
     };
     this.props.dispatch(createMessage(this.props.conversation.id, data));

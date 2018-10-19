@@ -226,8 +226,9 @@ class MessageItem extends PureComponent {
   }
 
   handleAnswerPress = answer => {
+    const message = this.props.item;
     this.setState({ selectedAnswer: answer });
-    this.props.onSendAnswer(answer);
+    this.props.onSendAnswer(answer, message.id);
   };
 
   renderRelevance() {
