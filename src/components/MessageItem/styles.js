@@ -112,7 +112,7 @@ export default StyleSheet.create({
     borderWidth: 2,
     borderColor: 'white',
     marginVertical: 5,
-    marginTop: 20,
+    marginTop: 10,
   },
   green: {
     backgroundColor: '#7FDA00',
@@ -127,7 +127,7 @@ export default StyleSheet.create({
     color: 'white',
     fontSize: 14,
     paddingHorizontal: 10,
-    paddingBottom: 15,
+    paddingBottom: 10,
     textAlign: 'center',
   },
   inactiveSelection: {

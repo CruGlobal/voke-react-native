@@ -116,7 +116,11 @@ function formatConversation(c, getState) {
   const latestMessenger = messengers[0];
   if (latestMessenger) {
     const latestMsgOrItem = latestMessenger.latestMsgOrItem;
-    if (latestMsgOrItem && latestMsgOrItem.kind !== 'answer') {
+    if (
+      latestMsgOrItem &&
+      latestMsgOrItem.kind !== 'answer' &&
+      !latestMsgOrItem.modal
+    ) {
       c.messagePreview =
         latestMsgOrItem.content || latestMsgOrItem.name || 'Shared a video';
       c.latestMessage = {

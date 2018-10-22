@@ -233,7 +233,6 @@ class MessageItem extends PureComponent {
 
   renderRelevance() {
     const message = this.props.item;
-    console.log('MESSSAGE', message);
     let answers =
       message.metadata && message.metadata.answers
         ? message.metadata.answers

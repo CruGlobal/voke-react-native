@@ -131,7 +131,6 @@ export function handleNewMessage(message) {
       dispatch({ type: SET_OVERLAY, value: 'messageModal' });
       return;
     }
-
     dispatch(vibrateAction());
     if (!theme.isAndroid) {
       dispatch(playSoundAction());
