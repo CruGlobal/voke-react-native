@@ -227,7 +227,7 @@ class MessageItem extends PureComponent {
 
   handleAnswerPress = answer => {
     const message = this.props.item;
-    this.setState({ selectedAnswer: answer });
+    this.setState({ selectedAnswer: answer.value });
     this.props.onSendAnswer(answer, message.id);
   };
 
@@ -262,8 +262,8 @@ class MessageItem extends PureComponent {
         >
           {answers.map((i, index) => {
             const selected =
-              selectedAnswer === i ||
-              (this.state.selectedAnswer === i && !selectedAnswer);
+              selectedAnswer === i.value ||
+              (this.state.selectedAnswer === i.value && !selectedAnswer);
             const isAnswered = !!(selectedAnswer || this.state.selectedAnswer);
             return (
               <Flex
@@ -294,7 +294,7 @@ class MessageItem extends PureComponent {
                   ) : null}
                 </Button>
                 <Text style={styles.answerText} numberOfLines={1}>
-                  {i}
+                  {i.key}
                 </Text>
               </Flex>
             );

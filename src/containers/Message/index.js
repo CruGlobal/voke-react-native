@@ -353,7 +353,7 @@ class Message extends Component {
   handleSendAnswer = (answer, messageId) => {
     let data = {
       message: {
-        content: answer,
+        content: answer.value,
         kind: 'answer',
         message_reference_id: messageId,
       },
