@@ -588,6 +588,7 @@ class Videos extends Component {
           type="tryItNowSignUp"
           channelName={channel && channel.name ? channel.name : null}
         />
+        <VokeOverlays type="messageModal" />
       </View>
     );
   }

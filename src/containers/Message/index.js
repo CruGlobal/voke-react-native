@@ -350,6 +350,17 @@ class Message extends Component {
     }
   };
 
+  handleSendAnswer = (answer, messageId) => {
+    let data = {
+      message: {
+        content: answer.value,
+        kind: 'answer',
+        message_reference_id: messageId,
+      },
+    };
+    this.props.dispatch(createMessage(this.props.conversation.id, data));
+  };
+
   handleInputFocus = () => {
     this.list.scrollEnd(true);
     this.createTypeState();
@@ -433,6 +444,7 @@ class Message extends Component {
             onEndReached={this.handleOnEndReached}
             onSelectVideo={this.handleSelectVideo}
             onShareVideo={this.handleShareVideo}
+            onSendAnswer={this.handleSendAnswer}
           />
           {theme.isAndroid ? null : (
             <Flex
@@ -539,6 +551,7 @@ class Message extends Component {
           <ApiLoading text={t('loading.messages')} />
         </KeyboardAvoidingView>
         <VokeOverlays type="pushPermissions" />
+        <VokeOverlays type="messageModal" />
       </View>
     );
   }

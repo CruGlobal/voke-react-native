@@ -55,6 +55,7 @@ export function startupAction() {
     if (hasStartedUp) return;
 
     // Check push permissions and run 'establishDevice' if they have permission
+    dispatch(setOpenVoke());
     dispatch(checkPushPermissions());
     hasStartedUp = true;
     // If sockets have not started up, go ahead and do that
@@ -201,6 +202,7 @@ function appStateChange(dispatch, getState, nextAppState) {
       dispatch(getAllOrganizations());
       dispatch(getMyOrganizations());
       dispatch(getFeaturedOrganizations());
+      dispatch(setOpenVoke());
     }
     // const currentConvId = getState().messages.activeConversationId;
     // if (currentConvId) {
@@ -558,6 +560,12 @@ export function openSettingsAction() {
 export function setNoBackgroundAction(value) {
   return dispatch => {
     dispatch({ type: NO_BACKGROUND_ACTION, value });
+  };
+}
+
+export function setOpenVoke() {
+  return dispatch => {
+    return dispatch(callApi(REQUESTS.POST_OPEN_VOKE));
   };
 }
 

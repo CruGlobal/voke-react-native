@@ -2,6 +2,7 @@ export default {
   common: {
     setLanguage: 'Elegir Lenguaje',
     language: 'Idioma',
+    shortPassword: 'Tu contraseña debe tener al menos 8 caracteres',
     today: 'hoy',
     home: 'Inicio',
     acceptChallenge: 'Aceptar Desaf\u00edo',

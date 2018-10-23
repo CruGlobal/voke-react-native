@@ -7,7 +7,7 @@ import styles, { THUMBNAIL_HEIGHT } from './styles';
 import TO_CHAT from '../../../images/newShare.png';
 import ANIMATION from '../../../images/VokeBotAnimation.gif';
 
-import { Flex, Text, Touchable, Icon, RefreshControl } from '../common';
+import { Flex, Text, Touchable, Icon, RefreshControl, Button } from '../common';
 
 const ITEM_HEIGHT = THUMBNAIL_HEIGHT + 100 + 20;
 
@@ -110,18 +110,19 @@ class VideoList extends Component {
             justify="start"
             style={styles.videoDetails}
           >
-            <Touchable
+            <Button
+              type="transparent"
               isAndroidOpacity={true}
               onPress={() => this.props.handleShareVideo(video)}
               activeOpacity={0.6}
-              style={styles.shareCircleButton}
+              touchableStyle={styles.shareCircleButton}
             >
               <Image
                 resizeMode="cover"
                 source={TO_CHAT}
                 style={{ width: 50, height: 50, borderRadius: 25 }}
               />
-            </Touchable>
+            </Button>
             <Text numberOfLines={1} style={styles.videoTitle}>
               {video.name}
             </Text>

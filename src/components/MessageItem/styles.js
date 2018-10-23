@@ -1,6 +1,5 @@
-
 import { StyleSheet } from 'react-native';
-import theme, { COLORS }  from '../../theme';
+import theme, { COLORS } from '../../theme';
 import videoUtils from '../../utils/video';
 
 export default StyleSheet.create({
@@ -101,5 +100,40 @@ export default StyleSheet.create({
   },
   shareCircleButton: {
     marginHorizontal: 10,
+  },
+  relevanceBackground: {
+    backgroundColor: '#3295AD',
+    borderRadius: 6,
+  },
+  selectionCircle: {
+    height: 44,
+    width: 44,
+    borderRadius: 22,
+    borderWidth: 2,
+    borderColor: 'white',
+    marginVertical: 5,
+    marginTop: 10,
+  },
+  green: {
+    backgroundColor: '#7FDA00',
+  },
+  yellow: {
+    backgroundColor: '#FFB900',
+  },
+  red: {
+    backgroundColor: '#FF1C00',
+  },
+  answerText: {
+    color: 'white',
+    fontSize: 14,
+    paddingHorizontal: 10,
+    paddingBottom: 10,
+    textAlign: 'center',
+  },
+  inactiveSelection: {
+    opacity: 0.4,
+  },
+  checkMark: {
+    color: 'white',
   },
 });

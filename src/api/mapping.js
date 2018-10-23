@@ -18,7 +18,7 @@ export function mapMessages(results) {
     return 0;
   });
 
-  for (let i=0; i < messages.length - 1; i++) {
+  for (let i = 0; i < messages.length - 1; i++) {
     let currMessage = messages[i];
     let nextMessage = messages[i + 1];
 
@@ -34,7 +34,7 @@ export function mapMessages(results) {
   }
 
   if (messages[messages.length - 1]) {
-    messages[messages.length-1].isLatestForDay = true;
+    messages[messages.length - 1].isLatestForDay = true;
   }
 
   return {
@@ -45,7 +45,7 @@ export function mapMessages(results) {
 
 export function mapConversations(results, query, data, getState) {
   let conversations = results.conversations || [];
-  conversations = conversations.map((c) => formatConversation(c, getState));
+  conversations = conversations.map(c => formatConversation(c, getState));
   // LOG(JSON.stringify(conversations));
   return {
     conversations,
@@ -62,11 +62,10 @@ export function mapConversation(results, query, data, getState) {
   };
 }
 
-
 function formatConversation(c, getState) {
   const myId = getState().auth.user.id;
   // Sort the messengers by putting the most recent messenger first
-  const messengers = c.messengers.map((m) => {
+  const messengers = c.messengers.map(m => {
     let latestTime;
     let latestMsgOrItem;
 
@@ -91,9 +90,13 @@ function formatConversation(c, getState) {
     if (a.latestTime && !b.latestTime) return -1;
     else if (b.latestTime && !a.latestTime) return 1;
     else if (!a.latestTime && !b.latestTime) return 0;
-    
+
     // Vokebot sends a messages with a video that I share and the time is the same on both messages
-    if (a.latestTime === b.latestTime && a.latestMsgOrItem && b.latestMsgOrItem) {
+    if (
+      a.latestTime === b.latestTime &&
+      a.latestMsgOrItem &&
+      b.latestMsgOrItem
+    ) {
       // Sort the messages by position
       if (a.latestMsgOrItem.position > b.latestMsgOrItem.position) return -1;
       if (a.latestMsgOrItem.position < b.latestMsgOrItem.position) return 1;
@@ -113,8 +116,13 @@ function formatConversation(c, getState) {
   const latestMessenger = messengers[0];
   if (latestMessenger) {
     const latestMsgOrItem = latestMessenger.latestMsgOrItem;
-    if (latestMsgOrItem) {
-      c.messagePreview = latestMsgOrItem.content || latestMsgOrItem.name || 'Shared a video';
+    if (
+      latestMsgOrItem &&
+      latestMsgOrItem.kind !== 'answer' &&
+      !latestMsgOrItem.modal
+    ) {
+      c.messagePreview =
+        latestMsgOrItem.content || latestMsgOrItem.name || 'Shared a video';
       c.latestMessage = {
         message_id: latestMsgOrItem.message_id || latestMsgOrItem.id,
       };
@@ -126,10 +134,11 @@ function formatConversation(c, getState) {
     }
   }
 
-  const otherPerson = messengers.find((e) => e.id !== myId && !e.bot);
+  const otherPerson = messengers.find(e => e.id !== myId && !e.bot);
   c.presentAt = otherPerson ? otherPerson.present_at : null;
-  const myMessage = messengers.find((e) => e.id === myId);
-  c.myLatestReadId = myMessage && myMessage.latest_read && myMessage.latest_read.message_id;
+  const myMessage = messengers.find(e => e.id === myId);
+  c.myLatestReadId =
+    myMessage && myMessage.latest_read && myMessage.latest_read.message_id;
 
   c.messengers = messengers;
 
@@ -140,18 +149,17 @@ function formatConversation(c, getState) {
 
   const today = new Date().valueOf();
   const presence = c.presentAt ? momentUtc(c.presentAt).valueOf() : null;
-  if (presence && (today - presence < 1000 * 60 * 5)) {
+  if (presence && today - presence < 1000 * 60 * 5) {
     c.isPresent = true;
   }
 
   return c;
 }
 
-
 export function mapChallenges(results) {
-  let required = results.challenges.filter((c) => c['required?']);
-  let notRequired = results.challenges.filter((c) => !c['required?']);
-  required.sort((a, b) => a.position > b.position ? 1 : -1);
+  let required = results.challenges.filter(c => c['required?']);
+  let notRequired = results.challenges.filter(c => !c['required?']);
+  required.sort((a, b) => (a.position > b.position ? 1 : -1));
   required = required.map((c, index) => {
     if (required[index - 1]) {
       if (required[index - 1]['completed?'] && !c['completed?']) {

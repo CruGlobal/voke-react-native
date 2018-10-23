@@ -7,7 +7,15 @@ import Spinner from 'react-native-spinkit';
 import i18n from '../../i18n';
 import theme from '../../theme';
 import styles from './styles';
-import { Flex, Text, Icon, Avatar, DateComponent, Touchable } from '../common';
+import {
+  Flex,
+  Text,
+  Icon,
+  Avatar,
+  DateComponent,
+  Touchable,
+  Button,
+} from '../common';
 import { momentUtc, getInitials } from '../../utils/common';
 import TO_CHAT from '../../../images/newShare.png';
 import Analytics from '../../utils/analytics';
@@ -15,7 +23,9 @@ import Analytics from '../../utils/analytics';
 class MessageItem extends PureComponent {
   constructor(props) {
     super(props);
-
+    this.state = {
+      selectedAnswer: '',
+    };
     // Find messenger where 'bot' is true
     let vb = props.messengers.find(m => m.bot);
 
@@ -215,15 +225,96 @@ class MessageItem extends PureComponent {
     }
   }
 
+  handleAnswerPress = answer => {
+    const message = this.props.item;
+    this.setState({ selectedAnswer: answer.value });
+    this.props.onSendAnswer(answer, message.id);
+  };
+
+  renderRelevance() {
+    const message = this.props.item;
+    let answers =
+      message.metadata && message.metadata.answers
+        ? message.metadata.answers
+        : [];
+    let selectedAnswer =
+      message.metadata && message.metadata.selected_answer
+        ? message.metadata.selected_answer
+        : '';
+    return (
+      <Flex direction="column">
+        <Flex
+          style={[styles.row, styles.me, styles.vokebot]}
+          direction="row"
+          align="center"
+          justify="start"
+        >
+          <Text selectable={true} style={[styles.message, styles.vokeText]}>
+            {message.content}
+          </Text>
+        </Flex>
+        <Flex
+          direction="row"
+          align="center"
+          justify="between"
+          style={[styles.me, styles.relevanceBackground]}
+        >
+          {answers.map((i, index) => {
+            const selected =
+              selectedAnswer === i.value ||
+              (this.state.selectedAnswer === i.value && !selectedAnswer);
+            const isAnswered = !!(selectedAnswer || this.state.selectedAnswer);
+            return (
+              <Flex
+                direction="column"
+                align="center"
+                justify="center"
+                value={1}
+                key={index}
+              >
+                <Button
+                  style={[
+                    styles.selectionCircle,
+                    index === 0
+                      ? styles.green
+                      : index === 1 ? styles.yellow : styles.red,
+                    {
+                      paddingHorizontal: 0,
+                      paddingVertical: 0,
+                    },
+                    isAnswered ? { opacity: selected ? 1 : 0.4 } : null,
+                  ]}
+                  type="transparent"
+                  onPress={() => this.handleAnswerPress(i)}
+                  disabled={isAnswered}
+                >
+                  {selected ? (
+                    <Icon name="check" size={26} style={styles.checkMark} />
+                  ) : null}
+                </Button>
+                <Text style={styles.answerText} numberOfLines={1}>
+                  {i.key}
+                </Text>
+              </Flex>
+            );
+          })}
+        </Flex>
+      </Flex>
+    );
+  }
+
   render() {
     const message = this.props.item;
+    console.log(message);
     const isTypeState = message.type === 'typeState';
     const isVoke = message.messenger_id === this.vokebotMessenger.id;
 
     const isOnlyVoke = this.props.messengers.length < 3;
     const isMe = message.messenger_id === this.props.user.id;
-    const isVideo = message.item;
-    const isVideoAndText = message.item && message.content;
+    const isVideo = message.item && message.kind !== 'question';
+    const isRelevanceQuestion = message.kind && message.kind === 'question';
+    const isVideoAndText =
+      message.item && message.content && message.kind !== 'question';
     const time = message.created_at;
     const momentTime = momentUtc(time)
       .local()
@@ -233,12 +324,14 @@ class MessageItem extends PureComponent {
       .format('LL');
     const separatorTime =
       momentTime === momentNow ? i18n.t('today') : momentTime;
-
+    if (message.kind === 'answer') return null;
     let content;
     if (isVideoAndText) {
       content = this.renderVideoAndText();
     } else if (isVideo) {
       content = this.renderVideo();
+    } else if (isRelevanceQuestion) {
+      content = this.renderRelevance();
     } else {
       content = this.renderText();
     }
@@ -319,6 +412,8 @@ MessageItem.propTypes = {
   messengers: PropTypes.array.isRequired,
   onSelectVideo: PropTypes.func.isRequired,
   onShareVideo: PropTypes.func.isRequired,
+  onSendAnswer: PropTypes.func,
+  relevanceHasBeenAswered: PropTypes.bool,
 };
 
 export default MessageItem;

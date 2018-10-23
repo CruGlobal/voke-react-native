@@ -73,6 +73,7 @@ export default class Button extends Component {
       buttonTextStyle,
       iconStyle,
       textProps = {},
+      touchableStyle,
       ...rest
     } = this.props;
     let content = children;
@@ -119,6 +120,7 @@ export default class Button extends Component {
     return (
       <Touchable
         {...rest}
+        style={touchableStyle}
         disabled={isDisabled}
         onPress={isDisabled ? () => {} : this.handlePress}
       >
@@ -153,6 +155,7 @@ Button.propTypes = {
   buttonTextStyle: PropTypes.oneOfType(styleTypes),
   iconStyle: PropTypes.oneOfType(styleTypes),
   image: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  touchableStyle: PropTypes.oneOfType(styleTypes),
 };
 
 Button.defaultProps = {

@@ -12,7 +12,17 @@ if (deviceWidth > deviceHeight) {
 }
 
 // See https://github.com/qix-/color for help
-function colorConvert({ color, alpha, lighten, darken, negate, rotate, whiten, blacken, hex }) {
+function colorConvert({
+  color,
+  alpha,
+  lighten,
+  darken,
+  negate,
+  rotate,
+  whiten,
+  blacken,
+  hex,
+}) {
   if (!color) LOG('Pass in a color!');
   let col = Color(color);
   // Lots of things you can do with color stuff
@@ -84,7 +94,8 @@ export default {
   buttonTextColor: COLORS.WHITE,
   buttonIconColor: COLORS.WHITE,
   separatorColor: SECONDARY,
-  separatorHeight: StyleSheet.hairlineWidth + (Platform.OS === 'android' ? 0.2 : 0),
+  separatorHeight:
+    StyleSheet.hairlineWidth + (Platform.OS === 'android' ? 0.2 : 0),
   // separatorHeight: StyleSheet.hairlineWidth,
   // header
   headerBackgroundColor: SECONDARY,
@@ -97,5 +108,11 @@ export default {
   fullHeight: deviceHeight,
   isAndroid: Platform.OS === 'android',
   isIOS: Platform.OS === 'ios',
-  isIphoneX: Platform.OS === 'ios' && !Platform.isPad && !Platform.isTVOS && (deviceHeight === 812 || deviceWidth === 812),
+  isIphoneX:
+    Platform.OS === 'ios' &&
+    !Platform.isPad &&
+    !Platform.isTVOS &&
+    (deviceHeight === 812 ||
+      deviceWidth === 812 ||
+      (deviceHeight === 896 || deviceWidth === 896)),
 };

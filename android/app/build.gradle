@@ -121,8 +121,8 @@ android {
         applicationId "org.cru.voke"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 614
-        versionName "4.2.2"
+        versionCode 615
+        versionName "4.3.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -183,7 +183,7 @@ android {
 
 
 dependencies {
-    compile project(':react-native-svg')
+    implementation project(':react-native-svg')
     implementation project(':react-native-firebase')
     implementation project(':react-native-appsee')
     implementation project(':react-native-orientation')
