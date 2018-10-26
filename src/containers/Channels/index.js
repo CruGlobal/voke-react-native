@@ -14,6 +14,7 @@ import styles from './styles';
 import { navMenuOptions } from '../../utils/menu';
 import { vokeIcons } from '../../utils/iconMap';
 import ApiLoading from '../ApiLoading';
+import VokeOverlays from '../VokeOverlays';
 import Header, { HeaderIcon } from '../Header';
 import PopupMenu from '../../components/PopupMenu';
 import ChannelsList from '../../components/ChannelsList';
@@ -156,6 +157,7 @@ class Channels extends Component {
           <Flex self="stretch" style={styles.separator} />
         </ScrollView>
         <ApiLoading />
+        <VokeOverlays type="messageModal" />
       </View>
     );
   }

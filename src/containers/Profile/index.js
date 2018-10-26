@@ -92,7 +92,7 @@ class Profile extends Component {
     if (lang.toLowerCase().includes('en')) {
       return 'English';
     } else if (lang.toLowerCase().includes('pt')) {
-      return 'Portugese';
+      return 'Portuguese';
     } else if (lang.toLowerCase().includes('es')) {
       return 'Spanish';
     } else {
@@ -114,6 +114,7 @@ class Profile extends Component {
 
   handleUpdate = () => {
     const { t, dispatch } = this.props;
+    const user = this.props.user || {};
     const {
       firstName,
       lastName,
@@ -125,7 +126,10 @@ class Profile extends Component {
     } = this.state;
     let data = {};
 
-    if (firstName || lastName) {
+    if (
+      (firstName || lastName) &&
+      (user.first_name !== firstName || user.last_name !== lastName)
+    ) {
       data = {
         me: {
           first_name: firstName,
@@ -602,7 +606,7 @@ class Profile extends Component {
                         itemStyle={{ color: 'black' }}
                       >
                         <Picker.Item label="English" value="EN" />
-                        <Picker.Item label="Portugese" value="PT" />
+                        <Picker.Item label="Portuguese" value="PT" />
                         <Picker.Item label="Spanish" value="ES" />
                       </Picker>
                     </Flex>
@@ -622,7 +626,7 @@ class Profile extends Component {
                 itemStyle={{ color: 'black' }}
               >
                 <Picker.Item label="English" value="EN" />
-                <Picker.Item label="Portugese" value="PT" />
+                <Picker.Item label="Portuguese" value="PT" />
                 <Picker.Item label="Spanish" value="ES" />
               </Picker>
             )}
