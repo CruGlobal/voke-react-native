@@ -83,33 +83,33 @@ export const MainTabRoutes = TabNavigator(
   {
     'voke.Home': {
       screen: Home,
-      navigationOptions: {
+      navigationOptions: () => ({
         tabBarLabel: i18n.t('home'),
         tabBarIcon: ({ tintColor }) => (
           <BadgeHomeIcon isActive={tintColor === theme.lightText} />
         ),
-      },
+      }),
     },
     'voke.Videos': {
       screen: Videos,
-      navigationOptions: {
+      navigationOptions: () => ({
         tabBarLabel: i18n.t('title.videos'),
         tabBarIcon: navIcon(VIDEOS_ICON, VIDEOS_ICON_INACTIVE),
-      },
+      }),
     },
     'voke.Channels': {
       screen: Channels,
-      navigationOptions: {
+      navigationOptions: () => ({
         tabBarLabel: i18n.t('title.channels'),
         tabBarIcon: navIcon(CHANNELS_ICON, CHANNELS_ICON_INACTIVE),
-      },
+      }),
     },
     'voke.Adventures': {
       screen: Adventures,
-      navigationOptions: {
+      navigationOptions: () => ({
         tabBarLabel: i18n.t('title.adventure'),
         tabBarIcon: navIcon(ADVENTURE_ICON, ADVENTURE_ICON_INACTIVE),
-      },
+      }),
     },
   },
   {

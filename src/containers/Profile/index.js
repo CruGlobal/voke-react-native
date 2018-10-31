@@ -34,7 +34,11 @@ import VokeOverlays from '../VokeOverlays';
 import SignUpButtons from '../SignUpButtons';
 import ProfileProgress from '../ProfileProgress';
 import VOKE_LOGO from '../../../images/nav_voke_logo.png';
-import nav, { NavPropTypes, navigateResetLogin } from '../../actions/nav';
+import nav, {
+  NavPropTypes,
+  navigateResetLogin,
+  navigateResetHome,
+} from '../../actions/nav';
 import theme, { COLORS } from '../../theme';
 import { SET_OVERLAY } from '../../constants';
 import i18n from '../../i18n';
@@ -88,9 +92,11 @@ class Profile extends Component {
     };
     this.props.dispatch(updateMe(data)).then(results => {
       this.props.dispatch(getMe());
+      i18n.changeLanguage(lang.toLowerCase(), (err, key) => {
+        console.log('Translation error', err, key);
+        setTimeout(() => this.props.dispatch(navigateResetHome()), 500);
+      });
     });
-    // update language locally
-    i18n.changeLanguage(lang.toLowerCase());
   };
 
   getLanguage(lang) {
