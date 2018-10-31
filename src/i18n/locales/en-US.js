@@ -1,6 +1,11 @@
 /* eslint-disable */
 export default {
   common: {
+    deleteSure: 'Are you sure?',
+    deleteDescription:
+      'You are about to archive your Voke account - which will delete all conversations, adventure progress and user data, login credentials etc - You will not be able to recover this account if you proceed. But can make a new one. Are you sure you want to do this?',
+    deleteAccount: 'Delete Account',
+    delete: 'Delete',
     setLanguage: 'Set Language',
     language: 'Language',
     shortPassword: 'Your password must be at least 8 characters',

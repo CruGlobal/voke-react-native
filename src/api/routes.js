@@ -80,6 +80,10 @@ export default {
     method: 'get',
     showApiLoading: true, // Used to show a loading overlay on the login page with Facebook login
   },
+  DELETE_ACCOUNT: {
+    endpoint: API_URL + 'me',
+    method: 'delete',
+  },
   UPDATE_ME: {
     endpoint: API_URL + 'me',
     method: 'put',

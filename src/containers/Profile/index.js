@@ -20,7 +20,12 @@ import {
   Touchable,
 } from '../../components/common';
 import ImagePicker from '../../components/ImagePicker';
-import { updateMe, getMe } from '../../actions/auth';
+import {
+  updateMe,
+  getMe,
+  deleteAccount,
+  logoutAction,
+} from '../../actions/auth';
 import Analytics from '../../utils/analytics';
 
 import ApiLoading from '../ApiLoading';
@@ -29,7 +34,7 @@ import VokeOverlays from '../VokeOverlays';
 import SignUpButtons from '../SignUpButtons';
 import ProfileProgress from '../ProfileProgress';
 import VOKE_LOGO from '../../../images/nav_voke_logo.png';
-import nav, { NavPropTypes } from '../../actions/nav';
+import nav, { NavPropTypes, navigateResetLogin } from '../../actions/nav';
 import theme, { COLORS } from '../../theme';
 import { SET_OVERLAY } from '../../constants';
 import i18n from '../../i18n';
@@ -171,6 +176,26 @@ class Profile extends Component {
   resetState() {
     this.setState(defaultState);
   }
+
+  handleDeleteAccount = () => {
+    const { t } = this.props;
+    Alert.alert(t('deleteSure'), t('deleteDescription'), [
+      {
+        text: t('cancel'),
+        onPress: () => console.log('canceled delete account'),
+        style: 'cancel',
+      },
+      { text: t('deleteAccount'), onPress: this.deleteAccount },
+    ]);
+  };
+
+  deleteAccount = () => {
+    this.props.dispatch(deleteAccount()).then(() => {
+      this.props.dispatch(logoutAction(true)).then(() => {
+        this.props.dispatch(navigateResetLogin());
+      });
+    });
+  };
 
   handleImageChange = data => {
     this.setState({
@@ -630,6 +655,20 @@ class Profile extends Component {
                 <Picker.Item label="Spanish" value="ES" />
               </Picker>
             )}
+            <Separator />
+
+            <ProfileRow
+              text={t('deleteAccount')}
+              right={
+                <Button
+                  isAndroidOpacity={true}
+                  text={t('delete')}
+                  buttonTextStyle={styles.editText}
+                  style={styles.inputButton}
+                  onPress={this.handleDeleteAccount}
+                />
+              }
+            />
             {isAnonUser && !hideAnonFields ? (
               <Flex
                 value={1}

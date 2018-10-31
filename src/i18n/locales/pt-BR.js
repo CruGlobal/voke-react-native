@@ -1,6 +1,11 @@
 /* eslint-disable */
 export default {
   common: {
+    deleteSure: 'Você tem certeza?',
+    deleteDescription:
+      'Você está prestes a arquivar sua conta Voke - que excluirá todas as conversas, o progresso da aventura e os dados do usuário, as credenciais de login, etc. - Você não poderá recuperar essa conta se continuar. Mas pode fazer um novo. Você tem certeza de que quer fazer isso?',
+    deleteAccount: 'Deletar Conta',
+    delete: 'Deletar',
     setLanguage: 'Definir idioma',
     language: 'Língua',
     shortPassword: 'Sua senha deve ter no mínimo 8 caracteres',
