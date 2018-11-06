@@ -1,4 +1,3 @@
-
 import { StyleSheet } from 'react-native';
 import theme from '../../theme';
 
@@ -38,6 +37,11 @@ export default StyleSheet.create({
     alignItems: 'center',
     marginBottom: 30,
     width: theme.fullWidth - 110,
+  },
+  actionButtonSkip: {
+    alignItems: 'center',
+    marginBottom: 30,
+    width: 60,
   },
   sharingText: {
     fontSize: 16,

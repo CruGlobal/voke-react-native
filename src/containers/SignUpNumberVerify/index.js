@@ -156,7 +156,7 @@ class SignUpNumberVerify extends Component {
                   text={t('skip')}
                   type="transparent"
                   buttonTextStyle={styles.signInButton}
-                  style={styles.actionButton}
+                  style={styles.actionButtonSkip}
                   onPress={this.skip}
                 />
               </Flex>
@@ -179,8 +179,5 @@ const mapStateToProps = ({ auth }, { navigation }) => ({
 });
 
 export default translate('signUp')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(SignUpNumberVerify),
+  connect(mapStateToProps, nav)(SignUpNumberVerify),
 );

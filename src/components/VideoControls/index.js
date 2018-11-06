@@ -8,7 +8,7 @@ import styles from './styles';
 
 function convertTime(time) {
   const roundedTime = Math.round(time);
-  let seconds = '00' + (roundedTime % 60);
+  let seconds = '00' + roundedTime % 60;
   let minutes = '00' + Math.floor(roundedTime / 60);
   let hours = '';
   let str = `${minutes.substr(-2)}:${seconds.substr(-2)}`;
@@ -100,7 +100,7 @@ export default class VideoControls extends Component {
               />
             </Touchable>
           </Flex>
-          <Flex value={0.2} align="center">
+          <Flex value={0.4} align="center">
             <Text style={styles.time}>
               {convertTime(seekTime || stateTime)}
             </Text>

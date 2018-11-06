@@ -38,6 +38,7 @@ class VideoDetails extends Component {
       showVideo: false,
       // video: null,
       isFavorite: props.video ? props.video['favorite?'] : false,
+      shouldScroll: false,
     };
 
     this.handleVideoChange = this.handleVideoChange.bind(this);
@@ -134,6 +135,7 @@ class VideoDetails extends Component {
       dispatch(toastAction(t('error.playingVideo')));
     }
     if (videoState === webviewStates.STARTED) {
+      this.setState({ shouldScroll: true });
       dispatch(createVideoInteraction(video.id));
     }
   }
@@ -296,7 +298,10 @@ class VideoDetails extends Component {
             </Touchable>
           </View>
         </Flex>
-        <ScrollView style={styles.content}>
+        <ScrollView
+          style={styles.content}
+          scrollEnabled={this.state.shouldScroll}
+        >
           {this.state.isLandscape ? null : this.renderContent()}
         </ScrollView>
         <FloatingButtonSingle onSelect={this.handleShare} />
@@ -318,9 +323,4 @@ const mapStateToProps = ({ auth }, { navigation }) => ({
   me: auth.user,
 });
 
-export default translate('videos')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(VideoDetails),
-);
+export default translate('videos')(connect(mapStateToProps, nav)(VideoDetails));
