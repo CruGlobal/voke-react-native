@@ -24,6 +24,8 @@ class Adventures extends Component {
   }
 
   scrollTo = y => {
+    if (!this.scrollView) return;
+
     if (y === 'end') {
       this.scrollView.scrollToEnd();
     } else {

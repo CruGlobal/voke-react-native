@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
+import debounce from 'lodash/debounce';
 
 import { checkAndRunSockets, determinePushOverlay } from '../../actions/socket';
 import {
@@ -68,6 +69,11 @@ class Message extends Component {
     );
     this.setConversationName = this.setConversationName.bind(this);
     this.handleHeaderBack = this.handleHeaderBack.bind(this);
+    this.handleInputChange = debounce(this.handleInputChange.bind(this), 1000);
+    this.createMessageEmpty = debounce(
+      this.createMessageEmpty.bind(this),
+      1000,
+    );
   }
 
   componentDidMount() {
@@ -368,12 +374,14 @@ class Message extends Component {
   };
 
   handleInputBlur = () => {
+    this.handleInputChange.flush();
     this.list.scrollEnd(true);
     this.destroyTypeState();
     this.handleChangeButtons(true);
   };
 
   handleInputChange = text => {
+    console.log('input change', text);
     this.setState({ text });
   };
 

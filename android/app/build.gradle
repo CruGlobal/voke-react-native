@@ -121,7 +121,7 @@ android {
         applicationId "org.cru.voke"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 272
+        versionCode 273
         versionName "4.3.2"
         ndk {
             abiFilters "armeabi-v7a", "x86"

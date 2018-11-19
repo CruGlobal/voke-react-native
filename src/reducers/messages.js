@@ -110,6 +110,10 @@ export default function messages(state = initialState, action) {
       // Pull the unread count from the '_meta' in notifications
       let unRead = action._meta ? action._meta.pending_notifications : 0;
       unRead = unRead >= 0 ? unRead : 0;
+      if (action.subtractUnreadCount) {
+        // console.log('I AM HEREERERERER');
+        unRead = unRead - action.subtractUnreadCount;
+      }
       Notifications.setBadge(unRead);
 
       return {

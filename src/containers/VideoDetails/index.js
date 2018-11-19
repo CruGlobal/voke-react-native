@@ -73,7 +73,11 @@ class VideoDetails extends Component {
     if (theme.isAndroid) {
       Dimensions.addEventListener('change', ({ window: { width, height } }) => {
         const orientation = width > height ? 'LANDSCAPE' : 'PORTRAIT';
-        this.orientationDidChange(orientation);
+        if (this.state.isLandscape && orientation !== 'LANDSCAPE') {
+          this.orientationDidChange(orientation);
+        } else if (!this.state.isLandscape && orientation !== 'PORTRAIT') {
+          this.orientationDidChange(orientation);
+        }
       });
     }
 
@@ -135,7 +139,9 @@ class VideoDetails extends Component {
       dispatch(toastAction(t('error.playingVideo')));
     }
     if (videoState === webviewStates.STARTED) {
-      this.setState({ shouldScroll: true });
+      setTimeout(() => {
+        this.setState({ shouldScroll: true });
+      }, 2000);
       dispatch(createVideoInteraction(video.id));
     }
   }
