@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image } from 'react-native';
+import { Image, Keyboard } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
@@ -14,6 +14,37 @@ import styles from './styles';
 import { enablePushNotifications } from '../../actions/socket';
 
 class VokeOverlays extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      keyboardShown: false,
+    };
+  }
+
+  componentDidMount() {
+    this.keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      this._keyboardDidShow,
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      this._keyboardDidHide,
+    );
+  }
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
+  _keyboardDidShow = () => {
+    this.setState({ keyboardShown: true });
+  };
+
+  _keyboardDidHide = () => {
+    this.setState({ keyboardShown: false });
+  };
+
   close = () => {
     const { type, onClose, dispatch } = this.props;
     dispatch({ type: CLEAR_OVERLAY, value: type });
@@ -113,6 +144,7 @@ class VokeOverlays extends Component {
 
   render() {
     const { type, overlays, messageData } = this.props;
+    if (this.state.keyboardShown) return null;
     if (type === 'tryItNowSignUp' && overlays[type]) {
       return this.renderSignUp();
     } else if (type === 'pushPermissions' && overlays[type]) {

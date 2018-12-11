@@ -18,6 +18,7 @@ import {
   SET_PUSH_TOKEN,
   NO_BACKGROUND_ACTION,
   PUSH_PERMISSION,
+  DONT_NAV_TO_VIDS,
 } from '../constants';
 import callApi, { REQUESTS } from './api';
 import {
@@ -228,6 +229,12 @@ export function checkPushPermissions(runIfTrue = true) {
         dispatch(establishDevice());
       }
     });
+  };
+}
+
+export function dontNavigateToVideos() {
+  return dispatch => {
+    dispatch({ type: DONT_NAV_TO_VIDS, bool: true });
   };
 }
 

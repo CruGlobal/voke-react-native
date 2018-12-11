@@ -28,6 +28,7 @@ import {
   Button,
 } from '../../components/common';
 import theme from '../../theme';
+import videoUtils from '../../utils/video';
 
 class VideoDetails extends Component {
   constructor(props) {
@@ -303,6 +304,20 @@ class VideoDetails extends Component {
               </View>
             </Touchable>
           </View>
+
+          {this.state.shouldScroll ? null : (
+            <Flex
+              style={{
+                backgroundColor: 'transparent',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                height: videoUtils.HEIGHT,
+              }}
+            />
+          )}
         </Flex>
         <ScrollView
           style={styles.content}

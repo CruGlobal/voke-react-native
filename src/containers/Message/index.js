@@ -69,10 +69,10 @@ class Message extends Component {
     );
     this.setConversationName = this.setConversationName.bind(this);
     this.handleHeaderBack = this.handleHeaderBack.bind(this);
-    this.handleInputChange = debounce(this.handleInputChange.bind(this), 1000);
+    this.handleInputChange = debounce(this.handleInputChange.bind(this), 1500);
     this.createMessageEmpty = debounce(
       this.createMessageEmpty.bind(this),
-      1000,
+      1500,
     );
   }
 
@@ -389,6 +389,13 @@ class Message extends Component {
     this.updateSize(e.nativeEvent.contentSize.height);
   };
 
+  handleLayoutChange = e => {
+    console.log(
+      'event peroperties______________: ',
+      e.nativeEvent.layout.height,
+    );
+  };
+
   render() {
     const { t, messages, me, typeState, pagination } = this.props;
     const { height } = this.state;
@@ -456,8 +463,9 @@ class Message extends Component {
           />
           {theme.isAndroid ? null : (
             <Flex
+              onLayout={this.handleLayoutChange}
               value={100}
-              style={{ zIndex: 10, backgroundColor: 'transparent' }}
+              style={{ zIndex: 1, backgroundColor: 'transparent' }}
             />
           )}
           <Flex

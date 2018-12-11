@@ -129,9 +129,12 @@ export const MainTabRoutes = TabNavigator(
       },
       labelStyle: {
         fontSize: theme.isAndroid ? (IS_SMALL_ANDROID ? 8 : 10) : 12,
-        paddingBottom: theme.isAndroid ? 0 : 10,
+        paddingBottom: theme.isAndroid ? 0 : theme.isIphoneX ? 30 : 10,
       },
-      style: { backgroundColor: theme.secondaryColor, height: 70 },
+      style: {
+        backgroundColor: theme.secondaryColor,
+        height: theme.isIphoneX ? 90 : 70,
+      },
       scrollEnabled: false,
     },
     swipeEnabled: false,

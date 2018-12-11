@@ -53,7 +53,7 @@ export function mapConversations(results, query, data, getState) {
     conversations,
     _links: results._links,
     _meta: results._meta,
-    subtractUnreadCount: shouldSubtract.shouldSubtract,
+    subtractUnreadCount: shouldSubtract ? shouldSubtract.shouldSubtract : 0,
   };
 }
 

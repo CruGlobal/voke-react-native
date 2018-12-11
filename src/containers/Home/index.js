@@ -11,6 +11,7 @@ import {
   blockMessenger,
   reportUserAction,
   getMe,
+  dontNavigateToVideos,
 } from '../../actions/auth';
 import Analytics from '../../utils/analytics';
 import i18n from '../../i18n';
@@ -61,9 +62,17 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    const { isAnonUser, conversations, navigation, dispatch, me } = this.props;
+    const {
+      isAnonUser,
+      conversations,
+      navigation,
+      dispatch,
+      me,
+      dontNavigateToVideos,
+    } = this.props;
 
     if (isAnonUser && conversations.length <= 1) {
+      console.log('adsfadfasfsfsdf', dontNavigateToVideos);
       // Only navigate to videos if we're not coming from a 'navigateResetMessage'
       if (
         !(
@@ -71,8 +80,10 @@ class Home extends Component {
           navigation.state &&
           navigation.state.params &&
           navigation.state.params.navThrough === true
-        )
+        ) &&
+        !dontNavigateToVideos
       ) {
+        console.log('navigation');
         navigation.navigate('voke.Videos');
       }
     }
@@ -99,6 +110,8 @@ class Home extends Component {
   }
 
   componentWillUnmount() {
+    console.log('unmounting');
+    this.props.dispatch(dontNavigateToVideos());
     clearTimeout(this.startupTimeout);
     clearTimeout(this.checkTimeout);
     clearTimeout(this.checkTimeout2);
@@ -352,6 +365,7 @@ const mapStateToProps = ({ messages, auth }) => ({
   unreadCount: messages.unReadBadgeCount,
   isAnonUser: auth.isAnonUser,
   activeConversationId: messages.activeConversationId,
+  dontNavigateToVideos: auth.dontNavigateToVideos,
 });
 
 export default translate('home')(connect(mapStateToProps, nav)(Home));
