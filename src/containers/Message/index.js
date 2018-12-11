@@ -389,13 +389,6 @@ class Message extends Component {
     this.updateSize(e.nativeEvent.contentSize.height);
   };
 
-  handleLayoutChange = e => {
-    console.log(
-      'event peroperties______________: ',
-      e.nativeEvent.layout.height,
-    );
-  };
-
   render() {
     const { t, messages, me, typeState, pagination } = this.props;
     const { height } = this.state;
@@ -463,7 +456,6 @@ class Message extends Component {
           />
           {theme.isAndroid ? null : (
             <Flex
-              onLayout={this.handleLayoutChange}
               value={100}
               style={{ zIndex: 1, backgroundColor: 'transparent' }}
             />

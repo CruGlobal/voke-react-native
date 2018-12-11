@@ -94,6 +94,7 @@ class MessagesList extends Component {
           inverted={true}
           contentContainerStyle={styles.content}
           removeClippedSubviews={false}
+          bounces={false}
         />
         {this.renderTypeState()}
       </Fragment>
