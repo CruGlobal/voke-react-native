@@ -20,7 +20,12 @@ import {
   Touchable,
 } from '../../components/common';
 import ImagePicker from '../../components/ImagePicker';
-import { updateMe, getMe } from '../../actions/auth';
+import {
+  updateMe,
+  getMe,
+  deleteAccount,
+  logoutAction,
+} from '../../actions/auth';
 import Analytics from '../../utils/analytics';
 
 import ApiLoading from '../ApiLoading';
@@ -29,7 +34,11 @@ import VokeOverlays from '../VokeOverlays';
 import SignUpButtons from '../SignUpButtons';
 import ProfileProgress from '../ProfileProgress';
 import VOKE_LOGO from '../../../images/nav_voke_logo.png';
-import nav, { NavPropTypes } from '../../actions/nav';
+import nav, {
+  NavPropTypes,
+  navigateResetLogin,
+  navigateResetHome,
+} from '../../actions/nav';
 import theme, { COLORS } from '../../theme';
 import { SET_OVERLAY } from '../../constants';
 import i18n from '../../i18n';
@@ -83,16 +92,18 @@ class Profile extends Component {
     };
     this.props.dispatch(updateMe(data)).then(results => {
       this.props.dispatch(getMe());
+      i18n.changeLanguage(lang.toLowerCase(), (err, key) => {
+        console.log('Translation error', err, key);
+        setTimeout(() => this.props.dispatch(navigateResetHome()), 500);
+      });
     });
-    // update language locally
-    i18n.changeLanguage(lang.toLowerCase());
   };
 
   getLanguage(lang) {
     if (lang.toLowerCase().includes('en')) {
       return 'English';
     } else if (lang.toLowerCase().includes('pt')) {
-      return 'Portugese';
+      return 'Portuguese';
     } else if (lang.toLowerCase().includes('es')) {
       return 'Spanish';
     } else {
@@ -114,6 +125,7 @@ class Profile extends Component {
 
   handleUpdate = () => {
     const { t, dispatch } = this.props;
+    const user = this.props.user || {};
     const {
       firstName,
       lastName,
@@ -125,7 +137,10 @@ class Profile extends Component {
     } = this.state;
     let data = {};
 
-    if (firstName || lastName) {
+    if (
+      (firstName || lastName) &&
+      (user.first_name !== firstName || user.last_name !== lastName)
+    ) {
       data = {
         me: {
           first_name: firstName,
@@ -167,6 +182,26 @@ class Profile extends Component {
   resetState() {
     this.setState(defaultState);
   }
+
+  handleDeleteAccount = () => {
+    const { t } = this.props;
+    Alert.alert(t('deleteSure'), t('deleteDescription'), [
+      {
+        text: t('cancel'),
+        onPress: () => console.log('canceled delete account'),
+        style: 'cancel',
+      },
+      { text: t('deleteAccount'), onPress: this.deleteAccount },
+    ]);
+  };
+
+  deleteAccount = () => {
+    this.props.dispatch(deleteAccount()).then(() => {
+      this.props.dispatch(logoutAction(true)).then(() => {
+        this.props.dispatch(navigateResetLogin());
+      });
+    });
+  };
 
   handleImageChange = data => {
     this.setState({
@@ -602,7 +637,7 @@ class Profile extends Component {
                         itemStyle={{ color: 'black' }}
                       >
                         <Picker.Item label="English" value="EN" />
-                        <Picker.Item label="Portugese" value="PT" />
+                        <Picker.Item label="Portuguese" value="PT" />
                         <Picker.Item label="Spanish" value="ES" />
                       </Picker>
                     </Flex>
@@ -622,10 +657,24 @@ class Profile extends Component {
                 itemStyle={{ color: 'black' }}
               >
                 <Picker.Item label="English" value="EN" />
-                <Picker.Item label="Portugese" value="PT" />
+                <Picker.Item label="Portuguese" value="PT" />
                 <Picker.Item label="Spanish" value="ES" />
               </Picker>
             )}
+            <Separator />
+
+            <ProfileRow
+              text={t('deleteAccount')}
+              right={
+                <Button
+                  isAndroidOpacity={true}
+                  text={t('delete')}
+                  buttonTextStyle={styles.editText}
+                  style={styles.inputButton}
+                  onPress={this.handleDeleteAccount}
+                />
+              }
+            />
             {isAnonUser && !hideAnonFields ? (
               <Flex
                 value={1}

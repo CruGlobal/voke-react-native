@@ -47,10 +47,13 @@ export function mapConversations(results, query, data, getState) {
   let conversations = results.conversations || [];
   conversations = conversations.map(c => formatConversation(c, getState));
   // LOG(JSON.stringify(conversations));
+  let shouldSubtract = conversations.find(c => c.shouldSubtract);
+
   return {
     conversations,
     _links: results._links,
     _meta: results._meta,
+    subtractUnreadCount: shouldSubtract ? shouldSubtract.shouldSubtract : 0,
   };
 }
 
@@ -64,6 +67,7 @@ export function mapConversation(results, query, data, getState) {
 
 function formatConversation(c, getState) {
   const myId = getState().auth.user.id;
+  const activeConversation = getState().messages.activeConversationId;
   // Sort the messengers by putting the most recent messenger first
   const messengers = c.messengers.map(m => {
     let latestTime;
@@ -145,6 +149,12 @@ function formatConversation(c, getState) {
   c.hasUnread = c.unread_messages > 0;
   c.unReadCount = c.unread_messages || 0;
 
+  if (c.id === activeConversation) {
+    console.log('not setting undread because there is an active conversation');
+    c.hasUnread = false;
+    c.unReadCount = 0;
+    c.shouldSubtract = c.unread_messages || 0;
+  }
   c.isPresent = false;
 
   const today = new Date().valueOf();

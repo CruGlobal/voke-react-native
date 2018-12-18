@@ -18,6 +18,7 @@ import {
   SET_PUSH_TOKEN,
   NO_BACKGROUND_ACTION,
   PUSH_PERMISSION,
+  DONT_NAV_TO_VIDS,
 } from '../constants';
 import callApi, { REQUESTS } from './api';
 import {
@@ -231,6 +232,12 @@ export function checkPushPermissions(runIfTrue = true) {
   };
 }
 
+export function dontNavigateToVideos() {
+  return dispatch => {
+    dispatch({ type: DONT_NAV_TO_VIDS, bool: true });
+  };
+}
+
 export function loginAction(token, allData = {}) {
   return dispatch =>
     new Promise(resolve => {
@@ -268,11 +275,11 @@ export function registerPushToken(token) {
     });
 }
 
-export function logoutAction() {
+export function logoutAction(isDelete = false) {
   return (dispatch, getState) =>
     new Promise(resolve => {
       const token = getState().auth.token;
-      if (token) {
+      if (token && !isDelete) {
         dispatch(getDevices()).then(results => {
           LOG('get devices results', results);
           if (results && isArray(results.devices)) {
@@ -377,6 +384,15 @@ export function forgotPasswordAction(email) {
         },
       };
       dispatch(callApi(REQUESTS.FORGOT_PASSWORD, {}, data))
+        .then(resolve)
+        .catch(reject);
+    });
+}
+
+export function deleteAccount() {
+  return dispatch =>
+    new Promise((resolve, reject) => {
+      dispatch(callApi(REQUESTS.DELETE_ACCOUNT))
         .then(resolve)
         .catch(reject);
     });

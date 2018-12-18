@@ -126,6 +126,6 @@ export default function(url, options = {}) {
       </script>
     </body>
     </html>
-  `.replace(/\s\s+/ig, ''); // Stupid minify code...
+  `.replace(/\s\s+/gi, ''); // Stupid minify code...
   return HTML;
 }

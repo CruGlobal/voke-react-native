@@ -1,4 +1,3 @@
-
 import { StyleSheet } from 'react-native';
 import theme, { COLORS } from '../../theme';
 
@@ -38,5 +37,10 @@ export default StyleSheet.create({
     alignItems: 'center',
     width: theme.fullWidth - 110,
     marginBottom: 30,
+  },
+  actionButtonSkip: {
+    alignItems: 'center',
+    marginBottom: 30,
+    width: 60,
   },
 });

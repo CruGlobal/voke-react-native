@@ -12,6 +12,7 @@ import {
   CREATE_ANON_USER,
   RESET_ANON_USER,
   PUSH_PERMISSION,
+  DONT_NAV_TO_VIDS,
 } from '../constants';
 import { REQUESTS } from '../actions/api';
 
@@ -38,6 +39,7 @@ const initialState = {
   isAnonUser: false,
   pushPermission: '',
   showLanguageModal: false,
+  dontNavigateToVideos: false,
 };
 
 export default function auth(state = initialState, action) {
@@ -62,6 +64,7 @@ export default function auth(state = initialState, action) {
         apiActive: 0,
         activeScreen: null,
         noBackgroundAction: false,
+        dontNavigateToVideos: false,
       };
 
     case LOGIN:
@@ -87,6 +90,11 @@ export default function auth(state = initialState, action) {
       return {
         ...state,
         user: action.user,
+      };
+    case DONT_NAV_TO_VIDS:
+      return {
+        ...state,
+        dontNavigateToVideos: action.bool,
       };
     case SET_PUSH_TOKEN:
       return {

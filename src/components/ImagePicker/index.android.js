@@ -78,7 +78,9 @@ class ImagePicker extends Component {
 
   render() {
     return (
-      <Touchable onPress={this.selectImage}>{this.props.children}</Touchable>
+      <Touchable isAndroidOpacity={true} onPress={this.selectImage}>
+        {this.props.children}
+      </Touchable>
     );
   }
 }

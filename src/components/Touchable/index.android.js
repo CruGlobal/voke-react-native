@@ -9,6 +9,30 @@ import {
 import { COLORS } from '../../theme';
 
 class TouchableAndroid extends Component {
+  state = {
+    clickDisabled: false,
+  };
+
+  componentWillUnmount() {
+    // Make sure to clear the timeout when the Button unmounts
+    clearTimeout(this.clickDisableTimeout);
+  }
+
+  handlePress = (...args) => {
+    if (this.state.clickDisabled) {
+      return;
+    }
+    // Prevent the user from being able to click twice
+    this.setState({ clickDisabled: true });
+    // Re-enable the button after the timeout
+    this.clickDisableTimeout = setTimeout(() => {
+      this.setState({ clickDisabled: false });
+    }, 1000);
+    // Call the users click function with all the normal click parameters
+
+    this.props.onPress(...args);
+  };
+
   render() {
     const {
       borderless = false,
@@ -16,6 +40,7 @@ class TouchableAndroid extends Component {
       androidRippleColor,
       ...rest
     } = this.props;
+    const { clickDisabled } = this.state;
 
     if (isAndroidOpacity) {
       return (
@@ -23,6 +48,7 @@ class TouchableAndroid extends Component {
           accessibilityTraits="button"
           activeOpacity={0.6}
           {...rest}
+          onPress={clickDisabled ? () => {} : this.handlePress}
         />
       );
     }
@@ -44,6 +70,7 @@ class TouchableAndroid extends Component {
         accessibilityTraits="button"
         background={background}
         {...rest}
+        onPress={clickDisabled ? () => {} : this.handlePress}
       />
     );
   }

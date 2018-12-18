@@ -5,8 +5,33 @@ import { TouchableOpacity, TouchableHighlight } from 'react-native';
 import { COLORS } from '../../theme';
 
 class TouchableIOS extends Component {
+  state = {
+    clickedDisabled: false,
+  };
+
+  componentWillUnmount() {
+    // Make sure to clear the timeout when the Button unmounts
+    clearTimeout(this.clickDisableTimeout);
+  }
+
+  handlePress = (...args) => {
+    if (this.state.clickedDisabled) {
+      return;
+    }
+    // Prevent the user from being able to click twice
+    this.setState({ clickedDisabled: true });
+    // Re-enable the button after the timeout
+    this.clickDisableTimeout = setTimeout(() => {
+      this.setState({ clickedDisabled: false });
+    }, 1000);
+    // Call the users click function with all the normal click parameters
+
+    this.props.onPress(...args);
+  };
+
   render() {
     const { highlight, ...rest } = this.props;
+    const { clickedDisabled } = this.state;
     // Remove Android props
     if (rest.borderless !== undefined) delete rest.borderless;
     if (rest.isAndroidOpacity !== undefined) delete rest.isAndroidOpacity;
@@ -21,6 +46,7 @@ class TouchableIOS extends Component {
             alpha: 0.3,
           })}
           {...rest}
+          onPress={clickedDisabled ? () => {} : this.handlePress}
         />
       );
     }
@@ -29,6 +55,7 @@ class TouchableIOS extends Component {
         accessibilityTraits="button"
         activeOpacity={0.6}
         {...rest}
+        onPress={clickedDisabled ? () => {} : this.handlePress}
       />
     );
   }

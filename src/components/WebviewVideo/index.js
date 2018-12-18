@@ -97,12 +97,20 @@ class WebviewVideo extends Component {
   }
 
   handleData(data) {
+    console.log('________________', data);
     if (isObject(data) || data.indexOf('{') === 0) {
       let newData = data;
       if (isString(data)) {
         newData = JSON.parse(data);
       }
       if (newData.duration) {
+        if (
+          this.props.type === 'arclight' &&
+          this.state.duration === 0 &&
+          !this.props.forceNoAutoPlay
+        ) {
+          this.play();
+        }
         this.setState({ duration: newData.duration });
       } else if (typeof newData.isPaused !== 'undefined') {
         this.setState({ isPaused: !!newData.isPaused });
@@ -140,7 +148,7 @@ class WebviewVideo extends Component {
 
   handleMessage(event) {
     let data = event.nativeEvent.data;
-    // LOG('webview data', data);
+    LOG('webview data', data);
     this.handleData(data);
   }
 
@@ -173,7 +181,8 @@ class WebviewVideo extends Component {
     } else if (type === 'arclight') {
       return html5HTML(url, {
         thumbnail: thumbnail,
-        forceNoAutoPlay: forceNoAutoPlay || false,
+        // forceNoAutoPlay: forceNoAutoPlay || false,
+        forceNoAutoPlay: true,
       });
     }
     return null;
@@ -294,4 +303,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default translate(undefined, { wait: true, withRef: true })(WebviewVideo);
+export default translate(undefined, { wait: true, withRef: true })(
+  WebviewVideo,
+);

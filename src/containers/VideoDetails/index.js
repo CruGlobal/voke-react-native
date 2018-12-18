@@ -28,6 +28,7 @@ import {
   Button,
 } from '../../components/common';
 import theme from '../../theme';
+import videoUtils from '../../utils/video';
 
 class VideoDetails extends Component {
   constructor(props) {
@@ -38,6 +39,7 @@ class VideoDetails extends Component {
       showVideo: false,
       // video: null,
       isFavorite: props.video ? props.video['favorite?'] : false,
+      shouldScroll: false,
     };
 
     this.handleVideoChange = this.handleVideoChange.bind(this);
@@ -72,7 +74,11 @@ class VideoDetails extends Component {
     if (theme.isAndroid) {
       Dimensions.addEventListener('change', ({ window: { width, height } }) => {
         const orientation = width > height ? 'LANDSCAPE' : 'PORTRAIT';
-        this.orientationDidChange(orientation);
+        if (this.state.isLandscape && orientation !== 'LANDSCAPE') {
+          this.orientationDidChange(orientation);
+        } else if (!this.state.isLandscape && orientation !== 'PORTRAIT') {
+          this.orientationDidChange(orientation);
+        }
       });
     }
 
@@ -134,6 +140,9 @@ class VideoDetails extends Component {
       dispatch(toastAction(t('error.playingVideo')));
     }
     if (videoState === webviewStates.STARTED) {
+      setTimeout(() => {
+        this.setState({ shouldScroll: true });
+      }, 2000);
       dispatch(createVideoInteraction(video.id));
     }
   }
@@ -295,8 +304,25 @@ class VideoDetails extends Component {
               </View>
             </Touchable>
           </View>
+
+          {this.state.shouldScroll ? null : (
+            <Flex
+              style={{
+                backgroundColor: 'transparent',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                height: videoUtils.HEIGHT,
+              }}
+            />
+          )}
         </Flex>
-        <ScrollView style={styles.content}>
+        <ScrollView
+          style={styles.content}
+          scrollEnabled={this.state.shouldScroll}
+        >
           {this.state.isLandscape ? null : this.renderContent()}
         </ScrollView>
         <FloatingButtonSingle onSelect={this.handleShare} />
@@ -318,9 +344,4 @@ const mapStateToProps = ({ auth }, { navigation }) => ({
   me: auth.user,
 });
 
-export default translate('videos')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(VideoDetails),
-);
+export default translate('videos')(connect(mapStateToProps, nav)(VideoDetails));

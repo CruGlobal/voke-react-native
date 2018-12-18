@@ -1,5 +1,10 @@
 export default {
   common: {
+    deleteSure: 'Estás seguro?',
+    deleteDescription:
+      'Está a punto de archivar su cuenta de Voke, que eliminará todas las conversaciones, el progreso de la aventura y los datos del usuario, las credenciales de inicio de sesión, etc. No podrá recuperar esta cuenta si continúa. Pero puede hacer uno nuevo. ¿Seguro que quieres hacer esto?',
+    deleteAccount: 'Borrar Cuenta',
+    delete: 'Borrar',
     setLanguage: 'Elegir Lenguaje',
     language: 'Idioma',
     shortPassword: 'Tu contraseña debe tener al menos 8 caracteres',

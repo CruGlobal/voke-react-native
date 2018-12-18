@@ -124,7 +124,7 @@ class ChallengeModal extends Component {
               <Text style={styles.description}>{challenge.description}</Text>
             </Flex>
             {this.renderVideo()}
-            <Flex value={1} align="end" justify="center">
+            <Flex value={1} align="center" justify="center" self="stretch">
               {challenge['required?'] && !challenge['completed?'] ? (
                 <Button
                   text={t('gotIt')}

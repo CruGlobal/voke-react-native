@@ -165,7 +165,7 @@ class SignUpNumber extends Component {
                     text={t('skip')}
                     type="transparent"
                     buttonTextStyle={styles.signInButton}
-                    style={styles.actionButton}
+                    style={styles.actionButtonSkip}
                     onPress={this.skip}
                   />
                 </Flex>

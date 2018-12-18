@@ -1,6 +1,11 @@
 /* eslint-disable */
 export default {
   common: {
+    deleteSure: 'Are you sure?',
+    deleteDescription:
+      'You are about to remove your Voke account - which will delete all conversations, Adventure progress and user data, login credentials etc. You will not be able to recover this account if you proceed, but you can create a new one. Are you sure you want to do this?',
+    deleteAccount: 'Remove Account',
+    delete: 'Delete',
     setLanguage: 'Set Language',
     language: 'Language',
     shortPassword: 'Your password must be at least 8 characters',
@@ -245,7 +250,7 @@ export default {
   },
   signUp: {
     and: 'and',
-    accountDescription: `Creating your account allows you to keep your conversations safe, retain your progress and access Voke from anywhere.`,
+    accountDescription: `Creating an account allows you to keep your conversations safe, retain your progress and access Voke from anywhere.`,
     numberDescription: `Add your mobile number to invite your friends to a Voke chat via text message.`,
     sharing: `We love sharing, but we won't share your number.`,
     resend: 'Resend Code',
@@ -275,7 +280,7 @@ export default {
     areYouSureAdd: `Are you sure you want to add "{{name}}" video to your chat?`,
   },
   exploring: {
-    agree: 'By starting exploring - you agree to our',
+    agree: 'By exploring, you agree to our',
     create: 'By creating an account you agree to our',
   },
 };
