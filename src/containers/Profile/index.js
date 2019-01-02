@@ -704,7 +704,7 @@ function ProfileRow({ text, left, right }) {
         <Flex value={3}>
           {left ? left : <Text style={styles.changeTitle}>{text}</Text>}
         </Flex>
-        <Flex value={1} align="center">
+        <Flex value={2} align="end">
           {right}
         </Flex>
       </Flex>
