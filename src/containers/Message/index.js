@@ -377,7 +377,6 @@ class Message extends Component {
   };
 
   handleInputChange = text => {
-    console.log('input change', text);
     this.setState({ text });
   };
 
@@ -401,7 +400,9 @@ class Message extends Component {
       height:
         height < 40
           ? 50 + extraPadding
-          : height > 80 ? 90 + extraPadding : height + 10 + extraPadding,
+          : height > 80
+          ? 90 + extraPadding
+          : height + 10 + extraPadding,
     };
 
     return (
@@ -586,4 +587,9 @@ const mapStateToProps = ({ messages, auth }, { navigation }) => {
   };
 };
 
-export default translate()(connect(mapStateToProps, nav)(Message));
+export default translate()(
+  connect(
+    mapStateToProps,
+    nav,
+  )(Message),
+);

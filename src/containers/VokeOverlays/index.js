@@ -148,11 +148,11 @@ class VokeOverlays extends Component {
   }
 
   render() {
-    const { type, overlayProps, activeConversationId } = this.props;
+    const { type, overlayProps } = this.props;
     if (this.state.keyboardShown) return null;
     if (type === 'tryItNowSignUp') {
       return this.renderSignUp();
-    } else if (type === 'pushPermissions' && !activeConversationId) {
+    } else if (type === 'pushPermissions') {
       return this.renderPushPermissions();
     } else if (type === 'messageModal' && overlayProps.messageData) {
       return this.renderMessageModal();
@@ -161,18 +161,19 @@ class VokeOverlays extends Component {
   }
 }
 
-const mapStateToProps = ({ overlays, auth, messages }) => {
+const mapStateToProps = ({ overlays, auth }) => {
   let type = overlays.tryItNowSignUp
     ? 'tryItNowSignUp'
     : overlays.pushPermissions
-      ? 'pushPermissions'
-      : overlays.messageModal ? 'messageModal' : null;
+    ? 'pushPermissions'
+    : overlays.messageModal
+    ? 'messageModal'
+    : null;
   return {
     overlayProps: overlays.overlayProps || {},
     type,
     user: auth.user,
     messageData: overlays.messageData,
-    activeConversationId: messages.activeConversationId,
   };
 };
 export default translate('overlays')(connect(mapStateToProps)(VokeOverlays));
