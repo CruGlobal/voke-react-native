@@ -204,6 +204,7 @@ class Contacts extends Component {
 
   handleSelectContact = c => {
     if (!c.isVoke && c.phone.length > 1) {
+      Keyboard.dismiss();
       this.setState({ selectNumberContact: c });
     } else {
       this.props.onSelect(c);
@@ -267,10 +268,7 @@ class Contacts extends Component {
           </Flex>
         )}
         {isLoading ? (
-          <ApiLoading
-            force={true}
-            text={t('loading.contacts')}
-          />
+          <ApiLoading force={true} text={t('loading.contacts')} />
         ) : null}
         {inShare ? <ApiLoading force={true} /> : null}
         <ApiLoading />
@@ -312,9 +310,4 @@ const mapStateToProps = ({ contacts, messages }, { navigation }) => ({
   inShare: messages.inShare,
 });
 
-export default translate()(
-  connect(
-    mapStateToProps,
-    nav,
-  )(Contacts),
-);
+export default translate()(connect(mapStateToProps, nav)(Contacts));

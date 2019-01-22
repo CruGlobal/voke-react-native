@@ -69,11 +69,8 @@ class Message extends Component {
     );
     this.setConversationName = this.setConversationName.bind(this);
     this.handleHeaderBack = this.handleHeaderBack.bind(this);
-    this.handleInputChange = debounce(this.handleInputChange.bind(this), 1500);
-    this.createMessageEmpty = debounce(
-      this.createMessageEmpty.bind(this),
-      1500,
-    );
+    this.handleInputChange = debounce(this.handleInputChange.bind(this), 400);
+    this.createMessageEmpty = debounce(this.createMessageEmpty.bind(this), 400);
   }
 
   componentDidMount() {

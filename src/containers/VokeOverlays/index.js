@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
-import { Flex, Button, Text } from '../../components/common';
+import { Flex, Button, Text, Touchable } from '../../components/common';
 import CloseButton from '../../components/CloseButton';
 import SignUpButtons from '../SignUpButtons';
 import { CLEAR_OVERLAY } from '../../constants';
@@ -120,25 +120,31 @@ class VokeOverlays extends Component {
   }
 
   renderMessageModal() {
-    const { t, messageData } = this.props;
+    const { messageData } = this.props;
     return (
-      <Flex
-        style={styles.overlay}
-        align="center"
-        justify="center"
-        self="stretch"
-      >
-        <Flex style={styles.chatBubble}>
-          <Text style={styles.chatText}>{messageData.content}</Text>
+      <Touchable style={styles.overlay} onPress={this.close}>
+        <Flex
+          style={styles.overlay}
+          align="center"
+          justify="center"
+          self="stretch"
+        >
+          <Flex style={styles.chatBubble}>
+            <Text style={styles.chatText}>{messageData.content}</Text>
+          </Flex>
+          <Flex style={styles.chatTriangle} />
+          <Image
+            source={VOKEBOT}
+            style={{ height: 100, marginBottom: 20 }}
+            resizeMode="contain"
+          />
+          <Button
+            onPress={this.close}
+            style={styles.clearButton}
+            text="Great!"
+          />
         </Flex>
-        <Flex style={styles.chatTriangle} />
-        <Image
-          source={VOKEBOT}
-          style={{ height: 100, marginBottom: 20 }}
-          resizeMode="contain"
-        />
-        <Button onPress={this.close} style={styles.clearButton} text="Great!" />
-      </Flex>
+      </Touchable>
     );
   }
 
