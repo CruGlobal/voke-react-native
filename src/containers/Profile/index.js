@@ -30,7 +30,6 @@ import Analytics from '../../utils/analytics';
 
 import ApiLoading from '../ApiLoading';
 import Header from '../Header';
-import VokeOverlays from '../VokeOverlays';
 import SignUpButtons from '../SignUpButtons';
 import ProfileProgress from '../ProfileProgress';
 import VOKE_LOGO from '../../../images/nav_voke_logo.png';
@@ -229,7 +228,11 @@ class Profile extends Component {
     // if (newValue && this.props.isAnonUser) {
     if (newValue && (this.props.isAnonUser && type !== 'editName')) {
       this.setState({ hideAnonFields: true });
-      this.props.dispatch({ type: SET_OVERLAY, value: 'tryItNowSignUp' });
+      this.props.dispatch({
+        type: SET_OVERLAY,
+        value: 'tryItNowSignUp',
+        props: { onClose: () => this.setState({ hideAnonFields: false }) },
+      });
       return;
     }
     const newData = {
@@ -688,10 +691,6 @@ class Profile extends Component {
           </ScrollView>
         </Flex>
         <ApiLoading />
-        <VokeOverlays
-          type="tryItNowSignUp"
-          onClose={() => this.setState({ hideAnonFields: false })}
-        />
       </View>
     );
   }

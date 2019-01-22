@@ -24,7 +24,6 @@ import Analytics from '../../utils/analytics';
 import theme, { COLORS } from '../../theme';
 import nav, { NavPropTypes } from '../../actions/nav';
 import { vokeIcons } from '../../utils/iconMap';
-import VokeOverlays from '../VokeOverlays';
 import { SET_ACTIVE_CONVERSATION } from '../../constants';
 import styles from './styles';
 import MessageVideoPlayer from '../MessageVideoPlayer';
@@ -555,8 +554,6 @@ class Message extends Component {
           </Flex>
           <ApiLoading text={t('loading.messages')} />
         </KeyboardAvoidingView>
-        <VokeOverlays type="pushPermissions" />
-        <VokeOverlays type="messageModal" />
       </View>
     );
   }

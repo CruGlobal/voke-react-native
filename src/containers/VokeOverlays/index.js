@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Image, Keyboard } from 'react-native';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
@@ -46,10 +45,8 @@ class VokeOverlays extends Component {
   };
 
   close = () => {
-    const { type, onClose, dispatch } = this.props;
+    const { type, dispatch } = this.props;
     dispatch({ type: CLEAR_OVERLAY, value: type });
-    // If the user passes in an onClose callback, call it
-    if (onClose) onClose();
   };
 
   allowNotifications = () => {
@@ -58,7 +55,8 @@ class VokeOverlays extends Component {
   };
 
   renderSignUp() {
-    const { t, channelName } = this.props;
+    const { t, overlayProps } = this.props;
+    let channelName = overlayProps.channelName || '';
     return (
       <Flex
         style={styles.overlay}
@@ -76,7 +74,7 @@ class VokeOverlays extends Component {
           </Text>
         </Flex>
         <Flex value={1} align="center" justify="center">
-          <SignUpButtons filled={true} />
+          <SignUpButtons filled={true} onNavigate={this.close} />
         </Flex>
       </Flex>
     );
@@ -120,7 +118,8 @@ class VokeOverlays extends Component {
   }
 
   renderMessageModal() {
-    const { messageData } = this.props;
+    const { overlayProps } = this.props;
+    let messageData = overlayProps.messageData || {};
     return (
       <Touchable style={styles.overlay} onPress={this.close}>
         <Flex
@@ -149,30 +148,31 @@ class VokeOverlays extends Component {
   }
 
   render() {
-    const { type, overlays, messageData } = this.props;
+    const { type, overlayProps, activeConversationId } = this.props;
     if (this.state.keyboardShown) return null;
-    if (type === 'tryItNowSignUp' && overlays[type]) {
+    if (type === 'tryItNowSignUp') {
       return this.renderSignUp();
-    } else if (type === 'pushPermissions' && overlays[type]) {
+    } else if (type === 'pushPermissions' && !activeConversationId) {
       return this.renderPushPermissions();
-    } else if (type === 'messageModal' && overlays[type] && messageData) {
+    } else if (type === 'messageModal' && overlayProps.messageData) {
       return this.renderMessageModal();
     }
     return null;
   }
 }
 
-VokeOverlays.propTypes = {
-  type: PropTypes.oneOf(['tryItNowSignUp', 'pushPermissions', 'messageModal'])
-    .isRequired,
-  onClose: PropTypes.func,
-  channelName: PropTypes.string,
+const mapStateToProps = ({ overlays, auth, messages }) => {
+  let type = overlays.tryItNowSignUp
+    ? 'tryItNowSignUp'
+    : overlays.pushPermissions
+      ? 'pushPermissions'
+      : overlays.messageModal ? 'messageModal' : null;
+  return {
+    overlayProps: overlays.overlayProps || {},
+    type,
+    user: auth.user,
+    messageData: overlays.messageData,
+    activeConversationId: messages.activeConversationId,
+  };
 };
-
-const mapStateToProps = ({ overlays, auth }) => ({
-  overlays,
-  user: auth.user,
-  messageData: overlays.messageData,
-});
-
 export default translate('overlays')(connect(mapStateToProps)(VokeOverlays));

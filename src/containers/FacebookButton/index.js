@@ -26,6 +26,7 @@ class FacebookButton extends Component {
   }
 
   facebookLogin = () => {
+    this.props.onNavigate && this.props.onNavigate();
     LoginManager.logInWithReadPermissions(CONSTANTS.FACEBOOK_SCOPE)
       .then(
         result => {
