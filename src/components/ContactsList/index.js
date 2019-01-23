@@ -175,7 +175,8 @@ class ContactsList extends Component {
     return (
       <View
         style={{
-          paddingBottom: !theme.isAndroid ? this.state.height + 100 : undefined,
+          paddingBottom:
+            this.state.height + (this.state.keyboardShown ? 100 : 0),
         }}
       >
         {this.renderContent()}
