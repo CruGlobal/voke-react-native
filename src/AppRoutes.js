@@ -68,6 +68,7 @@ import CHANNELS_ICON_INACTIVE from '../images/channelsInactive.png';
 import ADVENTURE_ICON from '../images/adventureIcon.png';
 import ADVENTURE_ICON_INACTIVE from '../images/adventureInactive.png';
 import { IS_SMALL_ANDROID } from './constants';
+import { buildTrackingObj } from './utils/common';
 
 const ICON_SIZE = theme.isAndroid ? 25 : 26;
 const navIcon = (active, inactive) => ({ tintColor }) => (
@@ -79,38 +80,46 @@ const navIcon = (active, inactive) => ({ tintColor }) => (
   />
 );
 
+const tabs = {
+  'voke.Home': {
+    tracking: buildTrackingObj('chat', 'chat'),
+    screen: Home,
+    navigationOptions: () => ({
+      tabBarLabel: i18n.t('home'),
+      tabBarIcon: ({ tintColor }) => (
+        <BadgeHomeIcon isActive={tintColor === theme.lightText} />
+      ),
+    }),
+  },
+  'voke.Videos': {
+    tracking: buildTrackingObj('videos', 'videos'),
+    screen: Videos,
+    navigationOptions: () => ({
+      tabBarLabel: i18n.t('title.videos'),
+      tabBarIcon: navIcon(VIDEOS_ICON, VIDEOS_ICON_INACTIVE),
+    }),
+  },
+  'voke.Channels': {
+    tracking: buildTrackingObj('channels', 'channels'),
+    screen: Channels,
+    navigationOptions: () => ({
+      tabBarLabel: i18n.t('title.channels'),
+      tabBarIcon: navIcon(CHANNELS_ICON, CHANNELS_ICON_INACTIVE),
+    }),
+  },
+  'voke.Adventures': {
+    tracking: buildTrackingObj('adventures', 'adventures'),
+    screen: Adventures,
+    navigationOptions: () => ({
+      tabBarLabel: i18n.t('title.adventure'),
+      tabBarIcon: navIcon(ADVENTURE_ICON, ADVENTURE_ICON_INACTIVE),
+    }),
+  },
+};
+
 export const MainTabRoutes = TabNavigator(
   {
-    'voke.Home': {
-      screen: Home,
-      navigationOptions: () => ({
-        tabBarLabel: i18n.t('home'),
-        tabBarIcon: ({ tintColor }) => (
-          <BadgeHomeIcon isActive={tintColor === theme.lightText} />
-        ),
-      }),
-    },
-    'voke.Videos': {
-      screen: Videos,
-      navigationOptions: () => ({
-        tabBarLabel: i18n.t('title.videos'),
-        tabBarIcon: navIcon(VIDEOS_ICON, VIDEOS_ICON_INACTIVE),
-      }),
-    },
-    'voke.Channels': {
-      screen: Channels,
-      navigationOptions: () => ({
-        tabBarLabel: i18n.t('title.channels'),
-        tabBarIcon: navIcon(CHANNELS_ICON, CHANNELS_ICON_INACTIVE),
-      }),
-    },
-    'voke.Adventures': {
-      screen: Adventures,
-      navigationOptions: () => ({
-        tabBarLabel: i18n.t('title.adventure'),
-        tabBarIcon: navIcon(ADVENTURE_ICON, ADVENTURE_ICON_INACTIVE),
-      }),
-    },
+    ...tabs,
   },
   {
     tabBarOptions: {
@@ -146,43 +155,113 @@ export const MainTabRoutes = TabNavigator(
   },
 );
 const noGestures = { navigationOptions: { gesturesEnabled: false } };
+
+const screens = {
+  'voke.About': {
+    screen: About,
+    tracking: buildTrackingObj('about', 'about'),
+  },
+  'voke.Acknowledgements': {
+    screen: Acknowledgements,
+    tracking: buildTrackingObj('acknowledgements', 'acknowledgements'),
+  },
+  'voke.CountrySelect': {
+    screen: CountrySelect,
+    tracking: buildTrackingObj('countryselect', 'countryselect'),
+  },
+  'voke.ForgotPassword': {
+    screen: ForgotPassword,
+    tracking: buildTrackingObj('forgotpassword', 'forgotpassword'),
+  },
+  'voke.Help': {
+    screen: Help,
+    tracking: buildTrackingObj('help', 'help'),
+  },
+  'voke.KickstartersTab': {
+    screen: KickstartersTab,
+    tracking: buildTrackingObj('kickstarterstab', 'kickstarterstab'),
+  },
+  'voke.Loading': {
+    screen: LoadingScreen,
+    tracking: buildTrackingObj('loading', 'loading'),
+  },
+  'voke.LoginInput': {
+    screen: LoginInput,
+    tracking: buildTrackingObj('logininput', 'logininput'),
+  },
+  'voke.Message': {
+    screen: Message,
+    tracking: buildTrackingObj('message', 'message'),
+  },
+  'voke.Profile': {
+    screen: Profile,
+    tracking: buildTrackingObj('profile', 'profile'),
+  },
+  'voke.SignUpAccount': {
+    screen: SignUpAccount,
+    tracking: buildTrackingObj('signupaccount', 'signupaccount'),
+  },
+  'voke.SignUpFBAccount': {
+    screen: SignUpFBAccount,
+    tracking: buildTrackingObj('signupfbaccount', 'signupfbaccount'),
+  },
+  'voke.SignUpNumber': {
+    screen: SignUpNumber,
+    tracking: buildTrackingObj('signupnumber', 'signupnumber'),
+    ...noGestures,
+  },
+  'voke.SignUpNumberVerify': {
+    screen: SignUpNumberVerify,
+    tracking: buildTrackingObj('signupnumberverify', 'signupnumberverify'),
+    ...noGestures,
+  },
+  'voke.SignUpProfile': {
+    screen: SignUpProfile,
+    tracking: buildTrackingObj('signupprofile', 'signupprofile'),
+    ...noGestures,
+  },
+  'voke.SignUpWelcome': {
+    screen: SignUpWelcome,
+    tracking: buildTrackingObj('signupwelcome', 'signupwelcome'),
+  },
+  'voke.Menu': {
+    screen: Menu,
+    tracking: buildTrackingObj('menu', 'menu'),
+  },
+  'voke.Contacts': {
+    screen: Contacts,
+    tracking: buildTrackingObj('contacts', 'contacts'),
+  },
+  'voke.SelectFriend': {
+    screen: SelectFriend,
+    tracking: buildTrackingObj('selectfriend', 'selectfriend'),
+  },
+  'voke.VideoDetails': {
+    screen: VideoDetails,
+    tracking: buildTrackingObj('videodetails', 'videodetails'),
+    ...noGestures,
+  },
+  'voke.VideosTab': {
+    screen: VideosTab,
+    tracking: buildTrackingObj('videostab', 'videostab'),
+  },
+  'voke.TryItNowName': {
+    screen: TryItNowName,
+    tracking: buildTrackingObj('tryitnowname', 'tryitnowname'),
+  },
+  'voke.ShareFlow': {
+    screen: ShareFlow,
+    tracking: buildTrackingObj('shareflow', 'shareflow'),
+  },
+};
+
+export const trackableScreens = {
+  ...screens,
+};
+
 export const MainStackRoutes = StackNavigator(
   {
-    'voke.About': { screen: About },
-    'voke.Acknowledgements': { screen: Acknowledgements },
-    'voke.CountrySelect': { screen: CountrySelect },
-    'voke.ForgotPassword': { screen: ForgotPassword },
-    'voke.Help': { screen: Help },
-    'voke.KickstartersTab': { screen: KickstartersTab },
-    'voke.Loading': { screen: LoadingScreen },
-    'voke.LoginInput': { screen: LoginInput },
-    'voke.Message': { screen: Message },
-    'voke.Profile': { screen: Profile },
-    'voke.SignUpAccount': { screen: SignUpAccount },
-    'voke.SignUpFBAccount': { screen: SignUpFBAccount },
-    'voke.SignUpNumber': {
-      screen: SignUpNumber,
-      ...noGestures,
-    },
-    'voke.SignUpNumberVerify': {
-      screen: SignUpNumberVerify,
-      ...noGestures,
-    },
-    'voke.SignUpProfile': {
-      screen: SignUpProfile,
-      ...noGestures,
-    },
-    'voke.SignUpWelcome': { screen: SignUpWelcome },
-    'voke.Menu': { screen: Menu },
-    'voke.Contacts': { screen: Contacts },
-    'voke.SelectFriend': { screen: SelectFriend },
-    'voke.VideoDetails': {
-      screen: VideoDetails,
-      ...noGestures,
-    },
-    'voke.VideosTab': { screen: VideosTab },
-    'voke.TryItNowName': { screen: TryItNowName },
-    'voke.ShareFlow': { screen: ShareFlow },
+    ...screens,
     MainTabs: {
       screen: MainTabRoutes,
       ...noGestures,

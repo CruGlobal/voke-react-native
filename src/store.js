@@ -7,6 +7,7 @@ import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-hel
 
 import theme from './theme';
 import reducers from './reducers';
+import tracking from './middleware/tracking';
 
 let myCreateStore = createStore;
 
@@ -16,7 +17,7 @@ const navMiddleware = createReactNavigationReduxMiddleware(
 );
 
 const enhancers = [];
-const middleware = [thunk, navMiddleware];
+const middleware = [thunk, tracking, navMiddleware];
 
 const composeEnhancers =
   (typeof window !== 'undefined' &&
