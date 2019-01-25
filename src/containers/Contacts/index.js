@@ -256,6 +256,7 @@ class Contacts extends Component {
             isInvite={isInvite}
             onRefresh={this.refreshContacts}
             refreshing={refreshing}
+            androidSearchIsVisible={showSearch}
           />
         ) : (
           <Flex align="center" style={{ paddingTop: 30 }}>
@@ -310,4 +311,9 @@ const mapStateToProps = ({ contacts, messages }, { navigation }) => ({
   inShare: messages.inShare,
 });
 
-export default translate()(connect(mapStateToProps, nav)(Contacts));
+export default translate()(
+  connect(
+    mapStateToProps,
+    nav,
+  )(Contacts),
+);

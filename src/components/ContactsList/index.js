@@ -160,7 +160,7 @@ class ContactsList extends Component {
   }
 
   render() {
-    const { t, items, isSearching } = this.props;
+    const { t, items, isSearching, androidSearchIsVisible } = this.props;
     // Don't do a length check, it can be taxing on large arrays
     if (!items[0]) {
       return (
@@ -171,12 +171,13 @@ class ContactsList extends Component {
         </Flex>
       );
     }
-    // ItemSeparatorComponent={() => <Separator />}
     return (
       <View
         style={{
-          paddingBottom:
-            this.state.height + (this.state.keyboardShown ? 100 : 0),
+          // Custom logic for making sure all items are shown properly with android keyboard stuff
+          paddingBottom: theme.isAndroid
+            ? 50 + (androidSearchIsVisible ? 50 : 0)
+            : this.state.height + (this.state.keyboardShown ? 100 : 0),
         }}
       >
         {this.renderContent()}
