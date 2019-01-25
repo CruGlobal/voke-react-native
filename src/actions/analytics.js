@@ -1,4 +1,4 @@
-import * as RNOmniture from 'react-native-omniture';
+// import * as RNOmniture from 'react-native-omniture';
 // eslint-disable-next-line no-unused-vars
 import { Tracker, Emitter } from '@ringierag/snowplow-reactjs-native-tracker';
 import Config from 'react-native-config';
@@ -50,7 +50,7 @@ export function trackAction(action, data) {
     {},
   );
 
-  return () => RNOmniture.trackAction(action, newData);
+  // return () => RNOmniture.trackAction(action, newData);
 }
 
 export function trackState(trackingObj) {
@@ -76,19 +76,17 @@ function trackStateWithMCID(context) {
     if (context[ANALYTICS.MCID]) {
       sendState(context);
     } else {
-      RNOmniture.loadMarketingCloudId(result => {
-        const updatedContext = { ...context, [ANALYTICS.MCID]: result };
-
-        sendState(updatedContext);
-        dispatch(updateAnalyticsContext(updatedContext));
-      });
+      // RNOmniture.loadMarketingCloudId(result => {
+      //   const updatedContext = { ...context, [ANALYTICS.MCID]: result };
+      //   sendState(updatedContext);
+      //   dispatch(updateAnalyticsContext(updatedContext));
+      // });
     }
   };
 }
 
 function sendState(context) {
-  RNOmniture.trackState(context[ANALYTICS.SCREENNAME], context);
-  //sendStateToSnowplow(context);
+  // RNOmniture.trackState(context[ANALYTICS.SCREENNAME], context);
 }
 
 // eslint-disable-next-line no-unused-vars

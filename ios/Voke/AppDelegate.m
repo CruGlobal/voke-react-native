@@ -19,8 +19,10 @@
 
 #import <React/RCTRootView.h>
 
+#import "ADBMobile.h"
 @implementation AppDelegate
 
+const NSString *MH_ADOBE_ANAYLYTICS_FILENAME_KEY = @"ADB Mobile Config";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -121,6 +123,15 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
   [RCTPushNotificationManager didReceiveLocalNotification:notification];
+}
+
+
+- (void)configureAdobeAnalytics {
+  NSBundle *bundle = [NSBundle mainBundle];
+  NSString *filename = [bundle objectForInfoDictionaryKey:MH_ADOBE_ANAYLYTICS_FILENAME_KEY];
+  NSString *filepath = [bundle pathForResource:filename ofType:@"json"];
+  
+  [ADBMobile overrideConfigPath:filepath];
 }
 
 

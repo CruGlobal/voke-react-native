@@ -31,7 +31,6 @@
 		8A4A9F91FD9C47A8B9407344 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7B2633AC1B447B8B7203871 /* libRNImagePicker.a */; };
 		9324CD4F21FBB90A0005E7A3 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9324CD4E21FBB9090005E7A3 /* libsqlite3.0.tbd */; };
 		9324CD7B21FBBB9C0005E7A3 /* AdobeMobileLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9324CD7521FBBB9B0005E7A3 /* AdobeMobileLibrary.a */; };
-		9324CD7C21FBBB9C0005E7A3 /* AdobeMobileLibrary_Extension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9324CD7721FBBB9C0005E7A3 /* AdobeMobileLibrary_Extension.a */; };
 		9324CD7D21FBBB9C0005E7A3 /* ADBMobileConfig.json in Resources */ = {isa = PBXBuildFile; fileRef = 9324CD7821FBBB9C0005E7A3 /* ADBMobileConfig.json */; };
 		932AA1BC1F602AFB008937B1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 932AA1B71F602AFB008937B1 /* AppDelegate.m */; };
 		932AA1BD1F602AFB008937B1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 932AA1B81F602AFB008937B1 /* Images.xcassets */; };
@@ -503,10 +502,7 @@
 		9324CD6E21FBBA420005E7A3 /* reactnativeomnitureapi.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = reactnativeomnitureapi.xcodeproj; path = "../node_modules/react-native-omniture/ios/reactnativeomnitureapi.xcodeproj"; sourceTree = "<group>"; };
 		9324CD7521FBBB9B0005E7A3 /* AdobeMobileLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = AdobeMobileLibrary.a; sourceTree = "<group>"; };
 		9324CD7621FBBB9B0005E7A3 /* ADBMobile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADBMobile.h; sourceTree = "<group>"; };
-		9324CD7721FBBB9C0005E7A3 /* AdobeMobileLibrary_Extension.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = AdobeMobileLibrary_Extension.a; sourceTree = "<group>"; };
 		9324CD7821FBBB9C0005E7A3 /* ADBMobileConfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ADBMobileConfig.json; sourceTree = "<group>"; };
-		9324CD7921FBBB9C0005E7A3 /* AdobeMobileLibrary_Watch.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = AdobeMobileLibrary_Watch.a; sourceTree = "<group>"; };
-		9324CD7A21FBBB9C0005E7A3 /* AdobeMobileLibrary_TV.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = AdobeMobileLibrary_TV.a; sourceTree = "<group>"; };
 		932AA1B61F602AFB008937B1 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Voke/AppDelegate.h; sourceTree = "<group>"; };
 		932AA1B71F602AFB008937B1 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Voke/AppDelegate.m; sourceTree = "<group>"; };
 		932AA1B81F602AFB008937B1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Voke/Images.xcassets; sourceTree = "<group>"; };
@@ -590,7 +586,6 @@
 				940EDA746F8C400E9F79B6E4 /* libRNDeviceInfo.a in Frameworks */,
 				2A844C434B264FCA8AD51887 /* libSMXCrashlytics.a in Frameworks */,
 				93981C6A20F8FA9700298F4A /* GoogleToolboxForMac.framework in Frameworks */,
-				9324CD7C21FBBB9C0005E7A3 /* AdobeMobileLibrary_Extension.a in Frameworks */,
 				93981C6D20F8FA9700298F4A /* FirebaseInstanceID.framework in Frameworks */,
 				93981C6F20F8FA9700298F4A /* FirebaseCore.framework in Frameworks */,
 				93981C6E20F8FA9700298F4A /* FirebaseAnalytics.framework in Frameworks */,
@@ -816,9 +811,6 @@
 			children = (
 				9324CD7621FBBB9B0005E7A3 /* ADBMobile.h */,
 				9324CD7821FBBB9C0005E7A3 /* ADBMobileConfig.json */,
-				9324CD7721FBBB9C0005E7A3 /* AdobeMobileLibrary_Extension.a */,
-				9324CD7A21FBBB9C0005E7A3 /* AdobeMobileLibrary_TV.a */,
-				9324CD7921FBBB9C0005E7A3 /* AdobeMobileLibrary_Watch.a */,
 				9324CD7521FBBB9B0005E7A3 /* AdobeMobileLibrary.a */,
 			);
 			path = AdobeMobileLibrary;
@@ -1709,8 +1701,8 @@
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
-					"-ObjC",
 					"-lc++",
+					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.cru.voke;
 				PRODUCT_NAME = Voke;
@@ -1773,8 +1765,8 @@
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
-					"-ObjC",
 					"-lc++",
+					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.cru.voke;
 				PRODUCT_NAME = Voke;
