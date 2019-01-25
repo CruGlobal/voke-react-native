@@ -9,8 +9,6 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
-import debounce from 'lodash/debounce';
-
 import { checkAndRunSockets, determinePushOverlay } from '../../actions/socket';
 import {
   getMessages,
@@ -68,8 +66,8 @@ class Message extends Component {
     );
     this.setConversationName = this.setConversationName.bind(this);
     this.handleHeaderBack = this.handleHeaderBack.bind(this);
-    this.handleInputChange = debounce(this.handleInputChange.bind(this), 400);
-    this.createMessageEmpty = debounce(this.createMessageEmpty.bind(this), 400);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.createMessageEmpty = this.createMessageEmpty.bind(this);
   }
 
   componentDidMount() {
@@ -370,7 +368,6 @@ class Message extends Component {
   };
 
   handleInputBlur = () => {
-    this.handleInputChange.flush();
     this.list.scrollEnd(true);
     this.destroyTypeState();
     this.handleChangeButtons(true);
@@ -400,9 +397,7 @@ class Message extends Component {
       height:
         height < 40
           ? 50 + extraPadding
-          : height > 80
-          ? 90 + extraPadding
-          : height + 10 + extraPadding,
+          : height > 80 ? 90 + extraPadding : height + 10 + extraPadding,
     };
 
     return (
@@ -587,9 +582,4 @@ const mapStateToProps = ({ messages, auth }, { navigation }) => {
   };
 };
 
-export default translate()(
-  connect(
-    mapStateToProps,
-    nav,
-  )(Message),
-);
+export default translate()(connect(mapStateToProps, nav)(Message));
