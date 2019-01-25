@@ -1,29 +1,25 @@
-import { DrawerActions } from 'react-navigation';
-
 import { trackState } from '../actions/analytics';
-import { trackableScreens } from '../AppRoutes';
+import { trackableScreens, tabs } from '../AppRoutes';
 import {
-  MAIN_TABS,
   NAVIGATE_BACK,
   NAVIGATE_FORWARD,
   NAVIGATE_POP,
   NAVIGATE_RESET,
 } from '../constants';
-import { LANDING_SCREEN } from '../containers/LandingScreen';
-import {
-  STAGE_ONBOARDING_SCREEN,
-  STAGE_SCREEN,
-} from '../containers/StageScreen';
-import { PERSON_STAGE_SCREEN } from '../containers/PersonStageScreen';
+// import { LANDING_SCREEN } from '../containers/LandingScreen';
+// import {
+//   STAGE_ONBOARDING_SCREEN,
+//   STAGE_SCREEN,
+// } from '../containers/StageScreen';
+// import { PERSON_STAGE_SCREEN } from '../containers/PersonStageScreen';
 
 export default function tracking({ dispatch, getState }) {
   return next => action => {
     let newState;
     const returnValue = next(action);
-    const { nav: navState, auth: authState, tabs: tabsState } = getState();
+    const { nav: navState, auth: authState } = getState();
 
     switch (action.type) {
-      case DrawerActions.OPEN_DRAWER:
       case NAVIGATE_FORWARD:
         newState = getNextTrackState(action, authState, dispatch);
 
@@ -40,28 +36,12 @@ export default function tracking({ dispatch, getState }) {
       case NAVIGATE_POP:
         const routes = navState.routes;
         const topRoute = routes[routes.length - 1];
-        console.log('check the routes in here');
 
-        if (topRoute.routeName === MAIN_TABS) {
-          newState = tabsState.activeMainTab;
-          break;
-        }
-
-        if (topRoute.routeName === LANDING_SCREEN) {
-          newState = tabsState.activeLoginTab;
-          break;
-        }
-
-        if (topRoute.routeName === PERSON_STAGE_SCREEN) {
-          newState = tabsState.activePersonStageTab;
-          break;
-        }
-
-        if (
-          topRoute.routeName === STAGE_SCREEN ||
-          topRoute.routeName === STAGE_ONBOARDING_SCREEN
-        ) {
-          newState = tabsState.activeSelfStageTab;
+        if (topRoute.routeName === 'MainTabs') {
+          const active = topRoute.routes[topRoute.index].key;
+          if (active && tabs[active]) {
+            newState = tabs[active].tracking;
+          }
           break;
         }
 

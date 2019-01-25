@@ -80,7 +80,7 @@ const navIcon = (active, inactive) => ({ tintColor }) => (
   />
 );
 
-const tabs = {
+export const tabs = {
   'voke.Home': {
     tracking: buildTrackingObj('chat', 'chat'),
     screen: Home,

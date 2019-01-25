@@ -1,7 +1,4 @@
-// import * as RNOmniture from 'react-native-omniture';
-// eslint-disable-next-line no-unused-vars
-import { Tracker, Emitter } from '@ringierag/snowplow-reactjs-native-tracker';
-import Config from 'react-native-config';
+import * as RNOmniture from 'react-native-omniture';
 
 import {
   ACTIONS,
@@ -9,29 +6,6 @@ import {
   ANALYTICS_CONTEXT_CHANGED,
   ID_SCHEMA,
 } from '../constants';
-import { isCustomStep } from '../utils/common';
-
-/* testing only */
-// export const emitterCallback = (error, response) => {
-//   if (error) {
-//     return Promise.reject({
-//       snowplowError: error,
-//     });
-//   } else if (response && response.status !== 200) {
-//     return Promise.reject({
-//       snowplowError: response,
-//     });
-//   }
-// };
-
-/*const em = new Emitter(
-  Config.SNOWPLOW_URL,
-  'https',
-  443,
-  'POST',
-  1,
-  emitterCallback,
-);*/
 
 export function updateAnalyticsContext(analyticsContext) {
   return {
@@ -50,7 +24,8 @@ export function trackAction(action, data) {
     {},
   );
 
-  // return () => RNOmniture.trackAction(action, newData);
+  console.log('tracking action', action, newData);
+  return () => RNOmniture.trackAction(action, newData);
 }
 
 export function trackState(trackingObj) {
@@ -76,47 +51,22 @@ function trackStateWithMCID(context) {
     if (context[ANALYTICS.MCID]) {
       sendState(context);
     } else {
-      // RNOmniture.loadMarketingCloudId(result => {
-      //   const updatedContext = { ...context, [ANALYTICS.MCID]: result };
-      //   sendState(updatedContext);
-      //   dispatch(updateAnalyticsContext(updatedContext));
-      // });
+      RNOmniture.loadMarketingCloudId(result => {
+        const updatedContext = { ...context, [ANALYTICS.MCID]: result };
+        sendState(updatedContext);
+        dispatch(updateAnalyticsContext(updatedContext));
+      });
     }
   };
 }
 
 function sendState(context) {
-  // RNOmniture.trackState(context[ANALYTICS.SCREENNAME], context);
-}
-
-// eslint-disable-next-line no-unused-vars
-function sendStateToSnowplow(context) {
-  const idData = {
-    gr_master_person_id: context[ANALYTICS.GR_MASTER_PERSON_ID],
-    sso_guid: context[ANALYTICS.SSO_GUID],
-    mcid: context[ANALYTICS.MCID],
-  };
-
-  const tracker = new Tracker(
-    [
-      /*em*/
-    ],
-    null,
-    Config.SNOWPLOW_APP_ID,
-    true,
-  );
-  tracker.core.addPayloadPair('url', context[ANALYTICS.SCREENNAME]);
-
-  tracker.trackScreenView(context[ANALYTICS.SCREENNAME], null, [
-    {
-      schema: ID_SCHEMA,
-      data: idData,
-    },
-  ]);
+  console.log('tracking state', context[ANALYTICS.SCREENNAME], context);
+  RNOmniture.trackState(context[ANALYTICS.SCREENNAME], context);
 }
 
 function addTrackingObjToContext(trackingObj, analytics, auth) {
-  const newTrackingObj = { ...trackingObj, name: `mh : ${trackingObj.name}` };
+  const newTrackingObj = { ...trackingObj, name: `voke : ${trackingObj.name}` };
 
   return {
     ...analytics,
@@ -125,7 +75,8 @@ function addTrackingObjToContext(trackingObj, analytics, auth) {
     [ANALYTICS.SITE_SUBSECTION]: newTrackingObj.subsection,
     [ANALYTICS.SITE_SUB_SECTION_3]: newTrackingObj.level3,
     [ANALYTICS.SITE_SUB_SECTION_4]: newTrackingObj.level4,
-    [ANALYTICS.GR_MASTER_PERSON_ID]: auth.person.global_registry_mdm_id,
+    // TODO: We need this on the user object
+    // [ANALYTICS.GR_MASTER_PERSON_ID]: auth.user.global_registry_mdm_id,
   };
 }
 

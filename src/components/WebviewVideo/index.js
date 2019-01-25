@@ -97,7 +97,7 @@ class WebviewVideo extends Component {
   }
 
   handleData(data) {
-    console.log('________________', data);
+    // console.log('________________', data);
     if (isObject(data) || data.indexOf('{') === 0) {
       let newData = data;
       if (isString(data)) {

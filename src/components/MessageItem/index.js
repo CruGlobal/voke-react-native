@@ -277,7 +277,9 @@ class MessageItem extends PureComponent {
                     styles.selectionCircle,
                     index === 0
                       ? styles.green
-                      : index === 1 ? styles.yellow : styles.red,
+                      : index === 1
+                      ? styles.yellow
+                      : styles.red,
                     {
                       paddingHorizontal: 0,
                       paddingVertical: 0,
@@ -305,7 +307,6 @@ class MessageItem extends PureComponent {
 
   render() {
     const message = this.props.item;
-    console.log(message);
     const isTypeState = message.type === 'typeState';
     const isVoke = message.messenger_id === this.vokebotMessenger.id;
 

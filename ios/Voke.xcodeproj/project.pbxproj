@@ -41,6 +41,7 @@
 		93981C6D20F8FA9700298F4A /* FirebaseInstanceID.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93981C6620F8FA9600298F4A /* FirebaseInstanceID.framework */; };
 		93981C6E20F8FA9700298F4A /* FirebaseAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93981C6720F8FA9700298F4A /* FirebaseAnalytics.framework */; };
 		93981C6F20F8FA9700298F4A /* FirebaseCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93981C6820F8FA9700298F4A /* FirebaseCore.framework */; };
+		93B8E0FA21FBCC3A005621CC /* libreactnativeomnitureapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 93B8E0F921FBCC26005621CC /* libreactnativeomnitureapi.a */; };
 		93EA25DD2108D9E000E25254 /* FirebaseDynamicLinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93EA25DC2108D9E000E25254 /* FirebaseDynamicLinks.framework */; };
 		940EDA746F8C400E9F79B6E4 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2639A6467134ABEAB39E1AA /* libRNDeviceInfo.a */; };
 		9D586C578FBC4B11A28E02C7 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8AFAB6C0801F4A43A113F5AD /* Foundation.ttf */; };
@@ -253,13 +254,6 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNAppsee;
 		};
-		9324CD7221FBBA420005E7A3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9324CD6E21FBBA420005E7A3 /* reactnativeomnitureapi.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 2DDB46A51DCA7ED500396D0B;
-			remoteInfo = reactnativeomnitureapi;
-		};
 		9354D6771EF9A7020005D447 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A2A8637161AA417BAFAD228A /* RNVectorIcons.xcodeproj */;
@@ -273,6 +267,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = A15C300E1CD25C330074CB35;
 			remoteInfo = RNFetchBlob;
+		};
+		93B8E0F821FBCC26005621CC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93B8E0F421FBCC26005621CC /* reactnativeomnitureapi.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2DDB46A51DCA7ED500396D0B;
+			remoteInfo = reactnativeomnitureapi;
 		};
 		93BF5F491EF86A0D00F2E566 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -499,7 +500,6 @@
 		890FBE44356444B789EC85C1 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		8AFAB6C0801F4A43A113F5AD /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		9324CD4E21FBB9090005E7A3 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
-		9324CD6E21FBBA420005E7A3 /* reactnativeomnitureapi.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = reactnativeomnitureapi.xcodeproj; path = "../node_modules/react-native-omniture/ios/reactnativeomnitureapi.xcodeproj"; sourceTree = "<group>"; };
 		9324CD7521FBBB9B0005E7A3 /* AdobeMobileLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = AdobeMobileLibrary.a; sourceTree = "<group>"; };
 		9324CD7621FBBB9B0005E7A3 /* ADBMobile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADBMobile.h; sourceTree = "<group>"; };
 		9324CD7821FBBB9C0005E7A3 /* ADBMobileConfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ADBMobileConfig.json; sourceTree = "<group>"; };
@@ -516,6 +516,7 @@
 		93981C6720F8FA9700298F4A /* FirebaseAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseAnalytics.framework; path = Firebase/FirebaseAnalytics.framework; sourceTree = "<group>"; };
 		93981C6820F8FA9700298F4A /* FirebaseCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCore.framework; path = Firebase/FirebaseCore.framework; sourceTree = "<group>"; };
 		93981C7120F8FABD00298F4A /* Firebase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Firebase.h; path = Firebase/Firebase.h; sourceTree = "<group>"; };
+		93B8E0F421FBCC26005621CC /* reactnativeomnitureapi.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = reactnativeomnitureapi.xcodeproj; path = "../node_modules/react-native-omniture/ios/reactnativeomnitureapi.xcodeproj"; sourceTree = "<group>"; };
 		93EA25DC2108D9E000E25254 /* FirebaseDynamicLinks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseDynamicLinks.framework; path = Firebase/FirebaseDynamicLinks.framework; sourceTree = "<group>"; };
 		95C82259786E474DB0D7CDF6 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		980A2CF4F7604EE981C018E7 /* libSendSMS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSendSMS.a; sourceTree = "<group>"; };
@@ -557,6 +558,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93B8E0FA21FBCC3A005621CC /* libreactnativeomnitureapi.a in Frameworks */,
 				9324CD4F21FBB90A0005E7A3 /* libsqlite3.0.tbd in Frameworks */,
 				93981C6B20F8FA9700298F4A /* nanopb.framework in Frameworks */,
 				93EA25DD2108D9E000E25254 /* FirebaseDynamicLinks.framework in Frameworks */,
@@ -728,7 +730,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				9324CD6E21FBBA420005E7A3 /* reactnativeomnitureapi.xcodeproj */,
+				93B8E0F421FBCC26005621CC /* reactnativeomnitureapi.xcodeproj */,
 				AED242CB1FD2F9CB007B9735 /* RCTPushNotification.xcodeproj */,
 				AE5BE0391F609C760091810F /* RCTFBSDK.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
@@ -798,14 +800,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		9324CD6F21FBBA420005E7A3 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				9324CD7321FBBA420005E7A3 /* libreactnativeomnitureapi.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		9324CD7421FBBB860005E7A3 /* AdobeMobileLibrary */ = {
 			isa = PBXGroup;
 			children = (
@@ -828,6 +822,14 @@
 			isa = PBXGroup;
 			children = (
 				93936CD81F6AF77D0018CE00 /* libRNFetchBlob.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		93B8E0F521FBCC26005621CC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				93B8E0F921FBCC26005621CC /* libreactnativeomnitureapi.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1127,8 +1129,8 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
-					ProductGroup = 9324CD6F21FBBA420005E7A3 /* Products */;
-					ProjectRef = 9324CD6E21FBBA420005E7A3 /* reactnativeomnitureapi.xcodeproj */;
+					ProductGroup = 93B8E0F521FBCC26005621CC /* Products */;
+					ProjectRef = 93B8E0F421FBCC26005621CC /* reactnativeomnitureapi.xcodeproj */;
 				},
 				{
 					ProductGroup = AE3D51902098AA680000051A /* Products */;
@@ -1365,13 +1367,6 @@
 			remoteRef = 9311D67320F686F700DD2EDA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		9324CD7321FBBA420005E7A3 /* libreactnativeomnitureapi.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libreactnativeomnitureapi.a;
-			remoteRef = 9324CD7221FBBA420005E7A3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		9354D6781EF9A7020005D447 /* libRNVectorIcons.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1384,6 +1379,13 @@
 			fileType = archive.ar;
 			path = libRNFetchBlob.a;
 			remoteRef = 93936CD71F6AF77D0018CE00 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		93B8E0F921FBCC26005621CC /* libreactnativeomnitureapi.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libreactnativeomnitureapi.a;
+			remoteRef = 93B8E0F821FBCC26005621CC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		93BF5F4A1EF86A0D00F2E566 /* libthird-party.a */ = {

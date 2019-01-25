@@ -10,7 +10,7 @@ import {
 import Orientation from 'react-native-orientation';
 import DeviceInfo from 'react-native-device-info';
 import Firebase from 'react-native-firebase';
-// import * as RNOmniture from 'react-native-omniture';
+import * as RNOmniture from 'react-native-omniture';
 
 import {
   LOGIN,
@@ -125,7 +125,7 @@ function appStateChange(dispatch, getState, nextAppState) {
   // LOG('appStateChange', nextAppState, currentAppState, cableId);
   if (nextAppState === 'active') {
     // Tracking
-    // RNOmniture.collectLifecycleData(getState().analytics);
+    RNOmniture.collectLifecycleData(getState().analytics);
 
     LOG('App has come to the foreground!');
 
@@ -255,7 +255,7 @@ export function loginAction(token, allData = {}) {
       // Analytics
       dispatch(logInAnalytics());
       const mePerson = await dispatch(getMe());
-      // RNOmniture.syncIdentifier(mePerson.global_registry_mdm_id);
+      RNOmniture.syncIdentifier(mePerson.global_registry_mdm_id);
 
       resolve();
       // dispatch(resetHomeAction());

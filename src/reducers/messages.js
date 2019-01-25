@@ -111,7 +111,6 @@ export default function messages(state = initialState, action) {
       let unRead = action._meta ? action._meta.pending_notifications : 0;
       unRead = unRead >= 0 ? unRead : 0;
       if (action.subtractUnreadCount) {
-        // console.log('I AM HEREERERERER');
         unRead = unRead - action.subtractUnreadCount;
       }
       Notifications.setBadge(unRead);
@@ -134,7 +133,6 @@ export default function messages(state = initialState, action) {
       if (!conversationId) {
         return state;
       }
-      console.log(action.messages[0], '+++++++++++++++++++++++');
 
       let newMessages = [];
       if (action.query && action.query.page && state.messages[conversationId]) {
@@ -150,7 +148,6 @@ export default function messages(state = initialState, action) {
       // Update the conversation messagePreview and latestMessage based on the first new message
       // This should happen so when push notification messages come in, everything is up to date
       const msgPreviewConversationsNewMessages = state.conversations.map(c => {
-        console.log(newMessages[0], '___________________________');
         if (
           newMessages[0] &&
           c.id === conversationId &&
