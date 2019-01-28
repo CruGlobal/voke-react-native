@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-// import { View, Text } from 'react-native';
-import { Provider } from 'react-redux';
+import { View } from 'react-native';
+import { Provider, connect } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 
 import './utils/globals';
@@ -8,6 +8,7 @@ import Analytics from './utils/analytics';
 import i18n from './i18n';
 
 import LoadingScreen from './containers/LoadingScreen';
+import VokeOverlays from './containers/VokeOverlays';
 
 import getStore from './store';
 
@@ -19,7 +20,7 @@ class App extends Component {
 
   componentDidMount() {
     Analytics.setup();
-    getStore((store) => {
+    getStore(store => {
       this.setState({ store });
     });
   }
@@ -31,7 +32,10 @@ class App extends Component {
     return (
       <Provider store={this.state.store}>
         <I18nextProvider i18n={i18n}>
-          <AppWithNavigationState />
+          <View style={{ flex: 1 }}>
+            <AppWithNavigationState />
+            <VokeOverlays />
+          </View>
         </I18nextProvider>
       </Provider>
     );

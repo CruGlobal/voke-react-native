@@ -3,7 +3,6 @@ import {
   SET_OVERLAY,
   CLEAR_OVERLAY,
   RESET_ANON_USER,
-  SET_MESSAGE_MODAL,
 } from '../constants';
 import { exists } from '../utils/common';
 
@@ -11,7 +10,7 @@ const initialState = {
   tryItNowSignUp: false,
   pushPermissions: false,
   messageModal: false,
-  messageData: null,
+  overlayProps: {},
 };
 
 export default function overlays(state = initialState, action) {
@@ -26,14 +25,23 @@ export default function overlays(state = initialState, action) {
 
     case SET_OVERLAY:
       if (!exists(state[action.value])) return state;
-      return { ...state, [action.value]: true };
+      return {
+        ...state,
+        [action.value]: true,
+        overlayProps: { ...state.overlayProps, ...action.props },
+      };
     case CLEAR_OVERLAY:
       if (!exists(state[action.value])) return state;
-      return { ...state, [action.value]: false };
+      let newProps = { ...state.overlayProps };
+      if (action.value === 'tryItNowSignUp') {
+        delete newProps.channelName;
+        delete newProps.onClose;
+      } else if (action.value === 'messageModal') {
+        delete newProps.messageData;
+      }
+      return { ...state, [action.value]: false, overlayProps: newProps };
     case RESET_ANON_USER:
       return { ...state, tryItNowSignUp: false };
-    case SET_MESSAGE_MODAL:
-      return { ...state, messageData: action.value };
     case LOGOUT:
       return initialState;
     default:

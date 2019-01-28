@@ -112,17 +112,20 @@ def enableProguardInReleaseBuilds = false
 def props = new Properties()
 props.load(new FileInputStream(rootProject.file("voke-test.properties")))
 
+project.ext.react = [
+    entryFile: "index.js",
+]
+
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        applicationId "org.cru.voke"
-        minSdkVersion 16
-        targetSdkVersion 26
-        versionCode 616
-        versionName "4.3.2"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 617
+        versionName "4.4.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -199,10 +202,10 @@ dependencies {
     implementation project(':react-native-video')
     implementation project(':react-native-image-crop-picker')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "com.android.support:appcompat-v7:26.0.1"
+    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation 'com.facebook.react:react-native:+'
-    implementation 'com.facebook.fresco:fresco:1.5.0'
-    implementation 'com.facebook.fresco:animated-gif:1.5.0'
+    implementation 'com.facebook.fresco:fresco:1.10.0'
+    implementation 'com.facebook.fresco:animated-gif:1.10.0'
 
     implementation('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;

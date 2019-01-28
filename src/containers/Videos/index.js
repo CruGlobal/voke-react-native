@@ -31,7 +31,6 @@ import { vokeIcons } from '../../utils/iconMap';
 
 import ApiLoading from '../ApiLoading';
 import ThemeSelect from '../ThemeSelect';
-import VokeOverlays from '../VokeOverlays';
 import Header, { HeaderIcon } from '../Header';
 import PillButton from '../../components/PillButton';
 import VideoList from '../../components/VideoList';
@@ -375,7 +374,7 @@ class Videos extends Component {
 
   handleSubscribe() {
     this.props
-      .dispatch(subscribeChannel(this.props.channel.id))
+      .dispatch(subscribeChannel(this.props.channel))
       .then(results => {
         this.setState({
           channelSubscribeData: {
@@ -584,11 +583,6 @@ class Videos extends Component {
           ) : null}
           {/* This is here for the channel page to show when clicking the "Subscribe" button */}
         </View>
-        <VokeOverlays
-          type="tryItNowSignUp"
-          channelName={channel && channel.name ? channel.name : null}
-        />
-        <VokeOverlays type="messageModal" />
       </View>
     );
   }

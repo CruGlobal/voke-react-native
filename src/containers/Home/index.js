@@ -26,7 +26,6 @@ import { vokeIcons } from '../../utils/iconMap';
 import ANIMATION from '../../../images/VokeBotAnimation.gif';
 
 import ApiLoading from '../ApiLoading';
-import VokeOverlays from '../VokeOverlays';
 import AndroidReportModal from '../AndroidReportModal';
 import ConversationList from '../../components/ConversationList';
 import PopupMenu from '../../components/PopupMenu';
@@ -72,7 +71,6 @@ class Home extends Component {
     } = this.props;
 
     if (isAnonUser && conversations.length <= 1) {
-      console.log('adsfadfasfsfsdf', dontNavigateToVideos);
       // Only navigate to videos if we're not coming from a 'navigateResetMessage'
       if (
         !(
@@ -83,7 +81,6 @@ class Home extends Component {
         ) &&
         !dontNavigateToVideos
       ) {
-        console.log('navigation');
         navigation.navigate('voke.Videos');
       }
     }
@@ -239,14 +236,7 @@ class Home extends Component {
   }
 
   render() {
-    const {
-      t,
-      conversations,
-      activeConversationId,
-      me,
-      pagination,
-      unreadCount,
-    } = this.props;
+    const { t, conversations, me, pagination, unreadCount } = this.props;
     const cLength = conversations.length;
 
     return (
@@ -340,10 +330,6 @@ class Home extends Component {
             onCancelReport={() => LOG('report canceled')}
           />
         ) : null}
-        {/* Only show this overlay when you are not on the messages screen also
-        It was getting a weird double overlay when transitioning to the messages screen */}
-        {!activeConversationId ? <VokeOverlays type="pushPermissions" /> : null}
-        <VokeOverlays type="messageModal" />
       </View>
     );
   }
@@ -368,4 +354,9 @@ const mapStateToProps = ({ messages, auth }) => ({
   dontNavigateToVideos: auth.dontNavigateToVideos,
 });
 
-export default translate('home')(connect(mapStateToProps, nav)(Home));
+export default translate('home')(
+  connect(
+    mapStateToProps,
+    nav,
+  )(Home),
+);

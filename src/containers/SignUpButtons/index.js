@@ -18,15 +18,17 @@ class SignUpButtons extends Component {
             icon="mail-outline"
             type={filled ? 'filled' : undefined}
             style={[styles.actionButton, filled ? styles.filled : null]}
-            onPress={() =>
-              this.props.dispatch(navigatePush('voke.SignUpAccount'))
-            }
+            onPress={() => {
+              this.props.dispatch(navigatePush('voke.SignUpAccount'));
+              this.props.onNavigate && this.props.onNavigate();
+            }}
           />
         </Flex>
         <Flex style={styles.buttonWrapper}>
           <FacebookButton
             type={filled ? 'filled' : undefined}
             style={filled ? styles.filled : undefined}
+            onNavigate={() => this.props.onNavigate && this.props.onNavigate()}
           />
         </Flex>
         <Flex
@@ -42,7 +44,10 @@ class SignUpButtons extends Component {
             text={t('signIn')}
             type="transparent"
             buttonTextStyle={styles.signInText}
-            onPress={() => this.props.dispatch(navigatePush('voke.LoginInput'))}
+            onPress={() => {
+              this.props.dispatch(navigatePush('voke.LoginInput'));
+              this.props.onNavigate && this.props.onNavigate();
+            }}
           />
         </Flex>
       </Flex>

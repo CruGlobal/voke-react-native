@@ -204,6 +204,7 @@ class Contacts extends Component {
 
   handleSelectContact = c => {
     if (!c.isVoke && c.phone.length > 1) {
+      Keyboard.dismiss();
       this.setState({ selectNumberContact: c });
     } else {
       this.props.onSelect(c);
@@ -255,6 +256,7 @@ class Contacts extends Component {
             isInvite={isInvite}
             onRefresh={this.refreshContacts}
             refreshing={refreshing}
+            androidSearchIsVisible={showSearch}
           />
         ) : (
           <Flex align="center" style={{ paddingTop: 30 }}>
@@ -267,10 +269,7 @@ class Contacts extends Component {
           </Flex>
         )}
         {isLoading ? (
-          <ApiLoading
-            force={true}
-            text={t('loading.contacts')}
-          />
+          <ApiLoading force={true} text={t('loading.contacts')} />
         ) : null}
         {inShare ? <ApiLoading force={true} /> : null}
         <ApiLoading />

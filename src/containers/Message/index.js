@@ -9,8 +9,6 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
-import debounce from 'lodash/debounce';
-
 import { checkAndRunSockets, determinePushOverlay } from '../../actions/socket';
 import {
   getMessages,
@@ -24,7 +22,6 @@ import Analytics from '../../utils/analytics';
 import theme, { COLORS } from '../../theme';
 import nav, { NavPropTypes } from '../../actions/nav';
 import { vokeIcons } from '../../utils/iconMap';
-import VokeOverlays from '../VokeOverlays';
 import { SET_ACTIVE_CONVERSATION } from '../../constants';
 import styles from './styles';
 import MessageVideoPlayer from '../MessageVideoPlayer';
@@ -69,11 +66,8 @@ class Message extends Component {
     );
     this.setConversationName = this.setConversationName.bind(this);
     this.handleHeaderBack = this.handleHeaderBack.bind(this);
-    this.handleInputChange = debounce(this.handleInputChange.bind(this), 1500);
-    this.createMessageEmpty = debounce(
-      this.createMessageEmpty.bind(this),
-      1500,
-    );
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.createMessageEmpty = this.createMessageEmpty.bind(this);
   }
 
   componentDidMount() {
@@ -374,14 +368,12 @@ class Message extends Component {
   };
 
   handleInputBlur = () => {
-    this.handleInputChange.flush();
     this.list.scrollEnd(true);
     this.destroyTypeState();
     this.handleChangeButtons(true);
   };
 
   handleInputChange = text => {
-    console.log('input change', text);
     this.setState({ text });
   };
 
@@ -558,8 +550,6 @@ class Message extends Component {
           </Flex>
           <ApiLoading text={t('loading.messages')} />
         </KeyboardAvoidingView>
-        <VokeOverlays type="pushPermissions" />
-        <VokeOverlays type="messageModal" />
       </View>
     );
   }

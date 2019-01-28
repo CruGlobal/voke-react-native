@@ -127,8 +127,11 @@ export function createMessage(conversation, data) {
 export function handleNewMessage(message) {
   return (dispatch, getState) => {
     if (message.modal) {
-      dispatch({ type: SET_MESSAGE_MODAL, value: message });
-      dispatch({ type: SET_OVERLAY, value: 'messageModal' });
+      dispatch({
+        type: SET_OVERLAY,
+        value: 'messageModal',
+        props: { messageData: message },
+      });
       return;
     }
     dispatch(vibrateAction());

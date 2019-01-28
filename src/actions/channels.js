@@ -38,14 +38,18 @@ export function getChannelSubscriberData(channelId) {
   };
 }
 
-export function subscribeChannel(channelId) {
+export function subscribeChannel(channel) {
   return (dispatch, getState) => {
     if (getState().auth.isAnonUser) {
-      dispatch({ type: SET_OVERLAY, value: 'tryItNowSignUp' });
+      dispatch({
+        type: SET_OVERLAY,
+        value: 'tryItNowSignUp',
+        props: { channelName: channel.name || null },
+      });
       return Promise.reject();
     }
     const query = {
-      endpoint: `${API_URL}organizations/${channelId}/subscriptions`,
+      endpoint: `${API_URL}organizations/${channel.id}/subscriptions`,
     };
     return dispatch(callApi(REQUESTS.ORGANIZATION_SUBSCRIBE, query)).then(r => {
       dispatch(getMyOrganizations());
@@ -59,7 +63,9 @@ export function unsubscribeChannel(channelId, subscriptionId) {
       return Promise.reject('NoSubscriptionId');
     }
     const query = {
-      endpoint: `${API_URL}organizations/${channelId}/subscriptions/${subscriptionId}`,
+      endpoint: `${API_URL}organizations/${channelId}/subscriptions/${
+        subscriptionId
+      }`,
     };
     return dispatch(callApi(REQUESTS.ORGANIZATION_UNSUBSCRIBE, query)).then(
       r => {

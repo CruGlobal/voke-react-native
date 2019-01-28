@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Image, Keyboard } from 'react-native';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
-import { Flex, Button, Text } from '../../components/common';
+import { Flex, Button, Text, Touchable } from '../../components/common';
 import CloseButton from '../../components/CloseButton';
 import SignUpButtons from '../SignUpButtons';
 import { CLEAR_OVERLAY } from '../../constants';
@@ -46,10 +45,8 @@ class VokeOverlays extends Component {
   };
 
   close = () => {
-    const { type, onClose, dispatch } = this.props;
+    const { type, dispatch } = this.props;
     dispatch({ type: CLEAR_OVERLAY, value: type });
-    // If the user passes in an onClose callback, call it
-    if (onClose) onClose();
   };
 
   allowNotifications = () => {
@@ -58,7 +55,8 @@ class VokeOverlays extends Component {
   };
 
   renderSignUp() {
-    const { t, channelName } = this.props;
+    const { t, overlayProps } = this.props;
+    let channelName = overlayProps.channelName || '';
     return (
       <Flex
         style={styles.overlay}
@@ -76,7 +74,7 @@ class VokeOverlays extends Component {
           </Text>
         </Flex>
         <Flex value={1} align="center" justify="center">
-          <SignUpButtons filled={true} />
+          <SignUpButtons filled={true} onNavigate={this.close} />
         </Flex>
       </Flex>
     );
@@ -120,53 +118,62 @@ class VokeOverlays extends Component {
   }
 
   renderMessageModal() {
-    const { t, messageData } = this.props;
+    const { overlayProps } = this.props;
+    let messageData = overlayProps.messageData || {};
     return (
-      <Flex
-        style={styles.overlay}
-        align="center"
-        justify="center"
-        self="stretch"
-      >
-        <Flex style={styles.chatBubble}>
-          <Text style={styles.chatText}>{messageData.content}</Text>
+      <Touchable style={styles.overlay} onPress={this.close}>
+        <Flex
+          style={styles.overlay}
+          align="center"
+          justify="center"
+          self="stretch"
+        >
+          <Flex style={styles.chatBubble}>
+            <Text style={styles.chatText}>{messageData.content}</Text>
+          </Flex>
+          <Flex style={styles.chatTriangle} />
+          <Image
+            source={VOKEBOT}
+            style={{ height: 100, marginBottom: 20 }}
+            resizeMode="contain"
+          />
+          <Button
+            onPress={this.close}
+            style={styles.clearButton}
+            text="Great!"
+          />
         </Flex>
-        <Flex style={styles.chatTriangle} />
-        <Image
-          source={VOKEBOT}
-          style={{ height: 100, marginBottom: 20 }}
-          resizeMode="contain"
-        />
-        <Button onPress={this.close} style={styles.clearButton} text="Great!" />
-      </Flex>
+      </Touchable>
     );
   }
 
   render() {
-    const { type, overlays, messageData } = this.props;
+    const { type, overlayProps } = this.props;
     if (this.state.keyboardShown) return null;
-    if (type === 'tryItNowSignUp' && overlays[type]) {
+    if (type === 'tryItNowSignUp') {
       return this.renderSignUp();
-    } else if (type === 'pushPermissions' && overlays[type]) {
+    } else if (type === 'pushPermissions') {
       return this.renderPushPermissions();
-    } else if (type === 'messageModal' && overlays[type] && messageData) {
+    } else if (type === 'messageModal' && overlayProps.messageData) {
       return this.renderMessageModal();
     }
     return null;
   }
 }
 
-VokeOverlays.propTypes = {
-  type: PropTypes.oneOf(['tryItNowSignUp', 'pushPermissions', 'messageModal'])
-    .isRequired,
-  onClose: PropTypes.func,
-  channelName: PropTypes.string,
+const mapStateToProps = ({ overlays, auth }) => {
+  let type = overlays.tryItNowSignUp
+    ? 'tryItNowSignUp'
+    : overlays.pushPermissions
+    ? 'pushPermissions'
+    : overlays.messageModal
+    ? 'messageModal'
+    : null;
+  return {
+    overlayProps: overlays.overlayProps || {},
+    type,
+    user: auth.user,
+    messageData: overlays.messageData,
+  };
 };
-
-const mapStateToProps = ({ overlays, auth }) => ({
-  overlays,
-  user: auth.user,
-  messageData: overlays.messageData,
-});
-
 export default translate('overlays')(connect(mapStateToProps)(VokeOverlays));
