@@ -202,7 +202,7 @@ export default function callApi(requestObject, query = {}, data = {}) {
       API_CALLS[action.name](newQuery, data)
         .then(results => {
           let actionResults = results || {};
-          LOG('API results', actionResults);
+          // LOG('API results', actionResults);
           // If the results have an error object, call this to reject it
           if (actionResults.error || actionResults.errors) {
             handleError(actionResults);

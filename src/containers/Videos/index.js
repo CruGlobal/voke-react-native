@@ -39,6 +39,7 @@ import ChannelInfo from '../../components/ChannelInfo';
 import { Flex } from '../../components/common';
 import theme from '../../theme';
 import { momentUtc } from '../../utils/common';
+import { trackState } from '../../actions/analytics';
 
 class Videos extends Component {
   constructor(props) {
@@ -185,6 +186,10 @@ class Videos extends Component {
   showThemes() {
     this.setState({ selectedTag: null, showThemeModal: true });
   }
+
+  closeThemeModal = () => {
+    this.setState({ showThemeModal: false });
+  };
 
   handleNextPage() {
     const pagination = this.props.pagination;
@@ -575,7 +580,7 @@ class Videos extends Component {
           <ApiLoading />
           {this.state.showThemeModal ? (
             <ThemeSelect
-              onClose={() => this.setState({ showThemeModal: false })}
+              onClose={this.closeThemeModal}
               themes={tags}
               onSelect={this.handleThemeSelect}
               onDismiss={this.handleDismissTheme}
@@ -608,4 +613,9 @@ const mapStateToProps = ({ auth, videos }) => ({
   pagination: videos.pagination,
 });
 
-export default translate('videos')(connect(mapStateToProps, nav)(Videos));
+export default translate('videos')(
+  connect(
+    mapStateToProps,
+    nav,
+  )(Videos),
+);

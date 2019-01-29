@@ -23,13 +23,11 @@ export default function tracking({ dispatch, getState }) {
       case NAVIGATE_FORWARD:
         newState = getNextTrackState(action, authState, dispatch);
 
-        // if (
-        //   action.routeName === STEPS_TAB ||
-        //   action.routeName === PEOPLE_TAB ||
-        //   action.routeName === GROUPS_TAB
-        // ) {
-        //   dispatch({ type: MAIN_TAB_CHANGED, newActiveTab: newState });
-        // }
+        if (!newState && tabs[action.routeName]) {
+          // Main Tab has changed
+          newState = tabs[action.routeName].tracking;
+        }
+
         break;
 
       case NAVIGATE_BACK:
@@ -62,12 +60,13 @@ function getNextTrackState(action) {
   const routeName = action.routeName;
   const trackedRoute = trackableScreens[routeName];
 
-  if (trackedRoute) {
-    return trackedRoute.tracking;
-  } else if (action.params && action.params.trackingObj) {
+  if (action.params && action.params.trackingObj) {
     //todo test trackingObj is ignored if screen is in trackableScreens
     return action.params.trackingObj;
+  } else if (trackedRoute) {
+    return trackedRoute.tracking;
   }
+  return null;
 }
 
 function trackRoute(route) {

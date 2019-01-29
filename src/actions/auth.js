@@ -87,8 +87,8 @@ export function setupFirebaseLinks() {
     } catch (e) {
       LOG('error getting Firebase initial link');
     }
-    LOG('initial link', initialLink);
     if (initialLink) {
+      LOG('initial link', initialLink);
       dispatch(handleFirebaseLink(initialLink));
     }
   };

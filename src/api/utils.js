@@ -5,7 +5,6 @@ import CONSTANTS from '../constants';
 let baseUrl;
 let authUrl;
 
-
 const API_VERSION = 'v1';
 
 let domain = '';
@@ -39,7 +38,7 @@ export function handleResponse(response) {
     if (response.status === 401) {
       return Promise.reject({ error: 'Unauthorized' });
     }
-    return json(response).then((r) => Promise.reject(r));
+    return json(response).then(r => Promise.reject(r));
   } else {
     return json(response);
     // return response;
@@ -57,7 +56,9 @@ function createUrl(url = '', params) {
   }
   let fullUrl = newUrl;
   if (params && Object.keys(params).length > 0) {
-    let paramsStr = Object.keys(params).map((p) => `${p}=${params[p]}`).join('&');
+    let paramsStr = Object.keys(params)
+      .map(p => `${p}=${params[p]}`)
+      .join('&');
     if (paramsStr) {
       fullUrl += `?${paramsStr}`;
     }
@@ -66,7 +67,9 @@ function createUrl(url = '', params) {
 }
 
 function defaultObject(method, obj = {}, data) {
-  let newObj = merge({}, { headers: DEFAULT_HEADERS }, obj, { method: method.toUpperCase() });
+  let newObj = merge({}, { headers: DEFAULT_HEADERS }, obj, {
+    method: method.toUpperCase(),
+  });
   if (obj && obj.headers && obj.headers['Content-Type'] === false) {
     delete newObj.headers['Content-Type'];
   }
@@ -77,18 +80,26 @@ function defaultObject(method, obj = {}, data) {
     newObj.body = obj.stringify === false ? data : JSON.stringify(data);
   }
   delete obj.stringify;
-  
+
   return newObj;
 }
 
 function imageUpload(url, headers, data) {
-  return RNFetchBlob.fetch('PUT', url, {
-    Authorization: headers.Authorization,
-    'Content-Type': 'multipart/form-data',
-  }, [data]).then(json).then((resp) => resp.data).catch((err) => {
-    LOG('fetch blob err', err);
-    return err;
-  });
+  return RNFetchBlob.fetch(
+    'PUT',
+    url,
+    {
+      Authorization: headers.Authorization,
+      'Content-Type': 'multipart/form-data',
+    },
+    [data],
+  )
+    .then(json)
+    .then(resp => resp.data)
+    .catch(err => {
+      LOG('fetch blob err', err);
+      return err;
+    });
 }
 
 export function refreshTokenRequest(refreshToken) {
@@ -105,24 +116,28 @@ export function refreshTokenRequest(refreshToken) {
 
   const newUrl = createUrl(url, {});
   const newObject = defaultObject('post', {}, data);
-  return fetch(newUrl, newObject).then(handleResponse).catch((err) => {
-    LOG('fetch err', err);
-    return err;
-  });
+  return fetch(newUrl, newObject)
+    .then(handleResponse)
+    .catch(err => {
+      LOG('fetch err', err);
+      return err;
+    });
   // return request('post', url, {}, data);
 }
 
 export default function request(type, url, query, data, extra) {
   const newUrl = createUrl(url, query);
   const newObject = defaultObject(type, extra, data);
-  LOG('REQUEST: ', newObject.method, newUrl, newObject); // eslint-disable-line
+  // LOG('REQUEST: ', newObject.method, newUrl, newObject); // eslint-disable-line
 
   // If user is trying to make an image upload request, use custom function
   if (extra.imageUpload) {
     return imageUpload(newUrl, newObject.headers, data);
   }
-  return fetch(newUrl, newObject).then(handleResponse).catch((err) => {
-    LOG('fetch err', err);
-    return err;
-  });
+  return fetch(newUrl, newObject)
+    .then(handleResponse)
+    .catch(err => {
+      LOG('fetch err', err);
+      return err;
+    });
 }

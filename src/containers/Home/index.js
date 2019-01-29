@@ -30,7 +30,7 @@ import AndroidReportModal from '../AndroidReportModal';
 import ConversationList from '../../components/ConversationList';
 import PopupMenu from '../../components/PopupMenu';
 import Header, { HeaderIcon } from '../Header';
-import { Flex, Text, RefreshControl, Touchable } from '../../components/common';
+import { Flex, Text, RefreshControl } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import { IS_SMALL_ANDROID } from '../../constants';
 import theme from '../../theme';
@@ -48,7 +48,6 @@ class Home extends Component {
       showAndroidReportModal: false,
       androidReportPerson: null,
       androidReportData: null,
-      callingGetConversations: true,
       showLanguageSelect: true,
     };
 
@@ -107,7 +106,6 @@ class Home extends Component {
   }
 
   componentWillUnmount() {
-    console.log('unmounting');
     this.props.dispatch(dontNavigateToVideos());
     clearTimeout(this.startupTimeout);
     clearTimeout(this.checkTimeout);
@@ -115,7 +113,7 @@ class Home extends Component {
   }
 
   checkConversations = () => {
-    if (this.state.callingGetConversations) return;
+    if (this.props.getConversationsIsRunning) return;
     const { conversations } = this.props;
     // Only call it again if there are no conversations
     if (conversations.length === 0) {
@@ -128,11 +126,7 @@ class Home extends Component {
   };
 
   getConversations = () => {
-    this.setState({ callingGetConversations: true });
-    this.props
-      .dispatch(getConversations())
-      .then(() => this.setState({ callingGetConversations: false }))
-      .catch(() => this.setState({ callingGetConversations: false }));
+    this.props.dispatch(getConversations());
   };
 
   handleMenuPress() {
@@ -352,6 +346,7 @@ const mapStateToProps = ({ messages, auth }) => ({
   isAnonUser: auth.isAnonUser,
   activeConversationId: messages.activeConversationId,
   dontNavigateToVideos: auth.dontNavigateToVideos,
+  getConversationsIsRunning: messages.getConversationsIsRunning,
 });
 
 export default translate('home')(

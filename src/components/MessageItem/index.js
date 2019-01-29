@@ -67,7 +67,6 @@ class MessageItem extends PureComponent {
         direction="row"
         align="center"
         justify="start"
-        ref={x => Analytics.markSensitive(x)}
       >
         {!isTypeState ? (
           <Text
@@ -343,6 +342,7 @@ class MessageItem extends PureComponent {
         style={{ margin: 6 }}
         animation="fadeIn"
         align={isMe || (isVoke && !isOnlyVoke) ? 'end' : 'start'}
+        ref={x => Analytics.markSensitive(x)}
       >
         {this.props.item.isLatestForDay ? (
           <Flex align="center" justify="center" style={styles.dateSeparator}>
