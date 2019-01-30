@@ -28,12 +28,6 @@ class Channels extends Component {
   componentDidMount() {
     Analytics.screen(Analytics.s.ChannelsTab);
 
-    LOG(
-      'channels',
-      this.props.myChannels,
-      this.props.featuredChannels,
-      this.props.allChannels,
-    );
     if (this.props.allChannels.length > 0) {
       return;
     }

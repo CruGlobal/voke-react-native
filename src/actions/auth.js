@@ -351,7 +351,7 @@ export function createAccountAction(email, password, isAnonymous = false) {
       dispatch(callApi(REQUESTS.ME, {}, data))
         .then(results => {
           if (!results.errors) {
-            LOG('create account success', results);
+            // LOG('create account success', results);
             dispatch(
               loginAction(
                 results.access_token.access_token,

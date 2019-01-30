@@ -96,7 +96,6 @@ class Videos extends Component {
       this.setState({ isLoading: true });
       dispatch(getVideos(undefined, channel.id))
         .then(() => {
-          dispatch(trackState(buildTrackingObj('video', 'all')));
           this.updateVideoList('all');
           this.setState({ isLoading: false });
         })
@@ -118,7 +117,7 @@ class Videos extends Component {
       // If there are no videos when the component mounts, get them, otherwise just set it
       dispatch(getVideos())
         .then(() => {
-          dispatch(trackState(buildTrackingObj('video', 'all')));
+          this.track('all');
           this.updateVideoList('all');
         })
         .catch(err => {
@@ -127,7 +126,7 @@ class Videos extends Component {
             setTimeout(() => {
               dispatch(getVideos())
                 .then(() => {
-                  dispatch(trackState(buildTrackingObj('video', 'all')));
+                  this.track('all');
                   this.updateVideoList('all');
                 })
                 .catch(err => {
@@ -159,6 +158,18 @@ class Videos extends Component {
   componentWillUnmount() {
     this.props.dispatch(clearChannelVideos());
   }
+
+  track = filter => {
+    const { dispatch, channel, onSelectVideo } = this.props;
+    // Track the channel or video page state
+    if (channel) {
+      dispatch(trackState(buildTrackingObj('channel', 'preview', filter)));
+    } else if (onSelectVideo) {
+      dispatch(trackState(buildTrackingObj('chat', 'addvideo', filter)));
+    } else {
+      dispatch(trackState(buildTrackingObj('video', filter)));
+    }
+  };
 
   handleRefresh() {
     if (this.state.selectedFilter === 'themes') {
@@ -257,7 +268,7 @@ class Videos extends Component {
 
   // This method should return a Promise so that it can handle refreshing correctly
   handleFilter(filter, shouldntScroll, isRefreshing) {
-    const { dispatch, channel, onSelectVideo } = this.props;
+    const { dispatch, channel } = this.props;
     const { selectedFilter, videos } = this.state;
     if (filter === 'themes') {
       // Prevent getting into the state of both previous and selected filter being 'themes'
@@ -279,14 +290,7 @@ class Videos extends Component {
       videos: isRefreshing ? videos : [],
     });
 
-    // Track the channel or video page state
-    if (channelId) {
-      dispatch(trackState(buildTrackingObj('channel', 'preview', filter)));
-    } else if (onSelectVideo) {
-      dispatch(trackState(buildTrackingObj('chat', 'addvideo', filter)));
-    } else {
-      dispatch(trackState(buildTrackingObj('video', filter)));
-    }
+    this.track(filter);
 
     if (filter === 'featured') {
       return dispatch(getFeaturedVideos(undefined, channelId))
@@ -626,4 +630,9 @@ const mapStateToProps = ({ auth, videos }) => ({
   pagination: videos.pagination,
 });
 
-export default translate('videos')(connect(mapStateToProps, nav)(Videos));
+export default translate('videos')(
+  connect(
+    mapStateToProps,
+    nav,
+  )(Videos),
+);

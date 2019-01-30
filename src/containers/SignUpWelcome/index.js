@@ -58,7 +58,7 @@ class SignUpWelcome extends Component {
     this.props
       .dispatch(createAccountAction(null, null, true))
       .then(results => {
-        LOG('create try it now account results', results);
+        // LOG('create try it now account results', results);
         this.props.dispatch({ type: CREATE_ANON_USER });
         this.setState({ isLoading: false });
         this.props.navigateResetHome();

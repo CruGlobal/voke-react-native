@@ -182,7 +182,7 @@ export function destroyDevice(cableId, token) {
 
 export function updateDevice(device) {
   return (dispatch, getState) => {
-    LOG('UPDATING DEVICE');
+    // LOG('UPDATING DEVICE');
     const cableId = getState().auth.cableId;
     const query = {
       endpoint: `${API_URL}/me/devices/${cableId}`,
@@ -197,7 +197,7 @@ export function updateDevice(device) {
 
 export function getDevices() {
   return dispatch => {
-    LOG('GETTING DEVICES');
+    // LOG('GETTING DEVICES');
     return dispatch(callApi(REQUESTS.GET_DEVICES));
   };
 }
@@ -373,7 +373,7 @@ export function establishDevice() {
     let configs = {
       // (optional) Called when Token is generated (iOS and Android)
       onRegister(token) {
-        LOG('in push notification register', token);
+        // LOG('in push notification register', token);
         // Update redux with the push notification permission value
         dispatch(checkPushPermissions(false));
         if (theme.isAndroid) {
