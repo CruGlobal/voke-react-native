@@ -32,12 +32,20 @@ export function navMenuOptions({
     signinButton.push({
       id: 'signin',
       name: i18n.t('signIn'),
-      onPress: () => navigatePush && navigatePush('voke.LoginInput'),
+      onPress: () =>
+        navigatePush &&
+        navigatePush('voke.LoginInput', {
+          trackingObj: buildTrackingObj('menu', 'signin'),
+        }),
     });
     createButton.push({
       id: 'createaccount',
       name: i18n.t('createAccount'),
-      onPress: () => navigatePush && navigatePush('voke.SignUpAccount'),
+      onPress: () =>
+        navigatePush &&
+        navigatePush('voke.SignUpAccount', {
+          trackingObj: buildTrackingObj('menu', 'createaccount'),
+        }),
     });
   }
   return [
@@ -54,7 +62,7 @@ export function navMenuOptions({
       onPress: () =>
         navigatePush &&
         navigatePush('voke.Contacts', {
-          trackingObj: buildTrackingObj('invite', 'contacts'),
+          trackingObj: buildTrackingObj('contacts', 'invite'),
           isInvite: true,
           onSelect: c => {
             LOG('Invite this person:', c);

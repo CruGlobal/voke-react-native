@@ -35,9 +35,9 @@ class VideoList extends Component {
       });
   }
 
-  scrollToBeginning() {
+  scrollToBeginning(animated = true) {
     if (this.props.items.length > 0) {
-      this.list.scrollToIndex({ index: 0 });
+      this.list.scrollToIndex({ index: 0, animated });
     }
   }
 

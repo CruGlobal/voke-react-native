@@ -41,6 +41,7 @@ import nav, {
 import theme, { COLORS } from '../../theme';
 import { SET_OVERLAY } from '../../constants';
 import i18n from '../../i18n';
+import { buildTrackingObj } from '../../utils/common';
 
 const defaultState = {
   imageUri: null,
@@ -509,7 +510,9 @@ class Profile extends Component {
           >
             <ProfileProgress
               onHandleSignUpAccount={() =>
-                this.props.navigatePush('voke.SignUpAccount')
+                this.props.navigatePush('voke.SignUpAccount', {
+                  trackingObj: buildTrackingObj('profile', 'signup'),
+                })
               }
               onHandleVerifyNumber={() =>
                 this.props.navigatePush('voke.SignUpNumber')
@@ -546,7 +549,9 @@ class Profile extends Component {
                       text={
                         editEmail
                           ? t('cancel')
-                          : !user.email ? t('add') : t('edit')
+                          : !user.email
+                          ? t('add')
+                          : t('edit')
                       }
                       buttonTextStyle={styles.editText}
                       style={styles.inputButton}
@@ -567,7 +572,9 @@ class Profile extends Component {
                       text={
                         editPassword
                           ? t('cancel')
-                          : !user.email ? t('add') : t('edit')
+                          : !user.email
+                          ? t('add')
+                          : t('edit')
                       }
                       buttonTextStyle={styles.editText}
                       style={styles.inputButton}
@@ -685,7 +692,7 @@ class Profile extends Component {
                 style={{ paddingHorizontal: 50, marginTop: 100 }}
               >
                 <Text style={styles.signUpText}>{t('signUp')}</Text>
-                <SignUpButtons filled={true} />
+                <SignUpButtons filled={true} trackingPage="profile" />
               </Flex>
             ) : null}
           </ScrollView>
@@ -722,4 +729,9 @@ const mapStateToProps = ({ auth }) => ({
   isAnonUser: auth.isAnonUser,
 });
 
-export default translate('profile')(connect(mapStateToProps, nav)(Profile));
+export default translate('profile')(
+  connect(
+    mapStateToProps,
+    nav,
+  )(Profile),
+);

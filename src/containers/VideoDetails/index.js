@@ -254,7 +254,7 @@ class VideoDetails extends Component {
         <Text style={styles.label}>{t('themes')}</Text>
         <Flex direction="row">
           {(video.tags || []).map((t, index) => (
-            <Text key={t.id} style={styles.detail}>
+            <Text key={`${t.id}_${index}`} style={styles.detail}>
               {t.name}
               {index != video.tags.length - 1 ? ', ' : null}
             </Text>
@@ -344,4 +344,9 @@ const mapStateToProps = ({ auth }, { navigation }) => ({
   me: auth.user,
 });
 
-export default translate('videos')(connect(mapStateToProps, nav)(VideoDetails));
+export default translate('videos')(
+  connect(
+    mapStateToProps,
+    nav,
+  )(VideoDetails),
+);

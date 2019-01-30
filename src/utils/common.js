@@ -63,14 +63,8 @@ export function hashPhone(phoneStr = '') {
   return hashedData;
 }
 
-export const buildTrackingObj = (
-  name,
-  section,
-  subsection,
-  level3,
-  level4,
-) => ({
-  name,
+export const buildTrackingObj = (section, subsection, level3, level4) => ({
+  name: `${section} : ${subsection}`,
   section,
   subsection,
   level3,

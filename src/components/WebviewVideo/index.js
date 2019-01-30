@@ -148,7 +148,7 @@ class WebviewVideo extends Component {
 
   handleMessage(event) {
     let data = event.nativeEvent.data;
-    LOG('webview data', data);
+    // LOG('webview data', data);
     this.handleData(data);
   }
 

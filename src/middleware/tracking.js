@@ -61,7 +61,6 @@ function getNextTrackState(action) {
   const trackedRoute = trackableScreens[routeName];
 
   if (action.params && action.params.trackingObj) {
-    //todo test trackingObj is ignored if screen is in trackableScreens
     return action.params.trackingObj;
   } else if (trackedRoute) {
     return trackedRoute.tracking;

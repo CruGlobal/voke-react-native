@@ -20,6 +20,7 @@ import ChannelsList from '../../components/ChannelsList';
 import StatusBar from '../../components/StatusBar';
 import { Flex, Text, RefreshControl } from '../../components/common';
 import theme from '../../theme';
+import { buildTrackingObj } from '../../utils/common';
 
 class Channels extends Component {
   state = { refreshing: false, loadingMore: false };
@@ -118,6 +119,7 @@ class Channels extends Component {
             items={myChannels}
             onSelect={c => {
               navigatePush('voke.VideosTab', {
+                trackingObj: buildTrackingObj('channel', 'preview', 'all'),
                 channel: c,
               });
             }}
@@ -133,6 +135,7 @@ class Channels extends Component {
             items={featuredChannels}
             onSelect={c => {
               navigatePush('voke.VideosTab', {
+                trackingObj: buildTrackingObj('channel', 'preview', 'all'),
                 channel: c,
               });
             }}
@@ -146,6 +149,7 @@ class Channels extends Component {
             items={allChannels}
             onSelect={c => {
               navigatePush('voke.VideosTab', {
+                trackingObj: buildTrackingObj('channel', 'preview', 'all'),
                 channel: c,
               });
             }}
@@ -174,4 +178,9 @@ const mapStateToProps = ({ auth, channels }) => ({
   isAnonUser: auth.isAnonUser,
 });
 
-export default translate('channels')(connect(mapStateToProps, nav)(Channels));
+export default translate('channels')(
+  connect(
+    mapStateToProps,
+    nav,
+  )(Channels),
+);

@@ -12,6 +12,7 @@ import Button from '../../components/Button';
 import CONSTANTS from '../../constants';
 import Header from '../Header';
 import theme from '../../theme';
+import { buildTrackingObj } from '../../utils/common';
 
 const VERSION_BUILD = DeviceInfo.getReadableVersion();
 
@@ -61,6 +62,7 @@ class About extends Component {
               onPress: () =>
                 navigatePush('voke.SignUpWelcome', {
                   noSignIn: true,
+                  trackingObj: buildTrackingObj('about', 'whyvoke'),
                 }),
             },
             {

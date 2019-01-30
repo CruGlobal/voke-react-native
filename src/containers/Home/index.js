@@ -35,6 +35,7 @@ import StatusBar from '../../components/StatusBar';
 import { IS_SMALL_ANDROID } from '../../constants';
 import theme from '../../theme';
 import VOKE_LINK from '../../../images/vokebot_whole.png';
+import { buildTrackingObj } from '../../utils/common';
 
 const CONTACT_LENGTH_SHOW_VOKEBOT = IS_SMALL_ANDROID ? 2 : 3;
 
@@ -229,6 +230,14 @@ class Home extends Component {
     );
   }
 
+  selectConversation = c => {
+    const trackingObj =
+      c && (c.messengers || []).length === 2
+        ? buildTrackingObj('chat', 'vokebot')
+        : undefined;
+    this.props.navigatePush('voke.Message', { conversation: c, trackingObj });
+  };
+
   render() {
     const { t, conversations, me, pagination, unreadCount } = this.props;
     const cLength = conversations.length;
@@ -265,9 +274,7 @@ class Home extends Component {
             hasMore={pagination.hasMore}
             onLoadMore={this.handleLoadMore}
             isLoading={this.state.loadingMore}
-            onSelect={c =>
-              this.props.navigatePush('voke.Message', { conversation: c })
-            }
+            onSelect={this.selectConversation}
             refreshing={this.state.refreshing}
           />
         ) : (

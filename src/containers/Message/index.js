@@ -31,6 +31,7 @@ import { Flex, VokeIcon, Button, Touchable } from '../../components/common';
 import MessagesList from '../../components/MessagesList';
 import NotificationToast from '../NotificationToast';
 import CONSTANTS from '../../constants';
+import { buildTrackingObj } from '../../utils/common';
 
 class Message extends Component {
   constructor(props) {
@@ -224,6 +225,7 @@ class Message extends Component {
     // Pause the video before navigating away
     this.pauseVideo();
     this.props.navigatePush('voke.VideosTab', {
+      trackingObj: buildTrackingObj('chat', 'addvideo'),
       onSelectVideo: video => {
         this.createMessage(video);
       },
@@ -399,7 +401,9 @@ class Message extends Component {
       height:
         height < 45
           ? 55 + extraPadding
-          : height > 80 ? 90 + extraPadding : height + 10 + extraPadding,
+          : height > 80
+          ? 90 + extraPadding
+          : height + 10 + extraPadding,
     };
 
     return (
@@ -585,4 +589,9 @@ const mapStateToProps = ({ messages, auth }, { navigation }) => {
   };
 };
 
-export default translate()(connect(mapStateToProps, nav)(Message));
+export default translate()(
+  connect(
+    mapStateToProps,
+    nav,
+  )(Message),
+);

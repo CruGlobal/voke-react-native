@@ -14,6 +14,8 @@ import { navigateResetHome, navigatePush } from '../../actions/nav';
 import { Button } from '../../components/common';
 import styles from './styles';
 import CONSTANTS, { RESET_ANON_USER } from '../../constants';
+import { trackState } from '../../actions/analytics';
+import { buildTrackingObj } from '../../utils/common';
 
 class FacebookButton extends Component {
   state = { anonUserId: undefined };
@@ -26,7 +28,9 @@ class FacebookButton extends Component {
   }
 
   facebookLogin = () => {
-    this.props.onNavigate && this.props.onNavigate();
+    const { onNavigate, dispatch, isAnonUser, isSignIn } = this.props;
+    dispatch(trackState(buildTrackingObj('entry', 'facebook')));
+    onNavigate && onNavigate();
     LoginManager.logInWithReadPermissions(CONSTANTS.FACEBOOK_SCOPE)
       .then(
         result => {
@@ -59,19 +63,18 @@ class FacebookButton extends Component {
                   return;
                 }
                 LOG('facebook me', meResult);
-                if (this.props.isAnonUser) {
-                  this.props.dispatch(logoutAction()).then(() => {
-                    this.props
-                      .dispatch(
-                        facebookLoginAction(accessToken, this.state.anonUserId),
-                      )
+                if (isAnonUser) {
+                  dispatch(logoutAction()).then(() => {
+                    dispatch(
+                      facebookLoginAction(accessToken, this.state.anonUserId),
+                    )
                       .then(() => {
-                        this.props.dispatch(getMe()).then(() => {
-                          if (this.props.isSignIn) {
-                            this.props.dispatch({ type: RESET_ANON_USER });
-                            this.props.dispatch(navigateResetHome());
+                        dispatch(getMe()).then(() => {
+                          if (isSignIn) {
+                            dispatch({ type: RESET_ANON_USER });
+                            dispatch(navigateResetHome());
                           } else {
-                            this.props.dispatch(
+                            dispatch(
                               navigatePush('voke.SignUpFBAccount', {
                                 me: meResult,
                               }),
@@ -82,15 +85,14 @@ class FacebookButton extends Component {
                       .catch(() => {});
                   });
                 } else {
-                  this.props
-                    .dispatch(facebookLoginAction(accessToken))
+                  dispatch(facebookLoginAction(accessToken))
                     .then(() => {
-                      this.props.dispatch(getMe()).then(() => {
-                        if (this.props.isSignIn) {
-                          this.props.dispatch({ type: RESET_ANON_USER });
-                          this.props.dispatch(navigateResetHome());
+                      dispatch(getMe()).then(() => {
+                        if (isSignIn) {
+                          dispatch({ type: RESET_ANON_USER });
+                          dispatch(navigateResetHome());
                         } else {
-                          this.props.dispatch(
+                          dispatch(
                             navigatePush('voke.SignUpFBAccount', {
                               me: meResult,
                             }),

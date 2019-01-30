@@ -82,7 +82,7 @@ const navIcon = (active, inactive) => ({ tintColor }) => (
 
 export const tabs = {
   'voke.Home': {
-    tracking: buildTrackingObj('chat', 'chat'),
+    tracking: buildTrackingObj('chat', 'home'),
     screen: Home,
     navigationOptions: () => ({
       tabBarLabel: i18n.t('home'),
@@ -92,7 +92,7 @@ export const tabs = {
     }),
   },
   'voke.Videos': {
-    tracking: buildTrackingObj('videos', 'videos'),
+    tracking: buildTrackingObj('videos', 'home'),
     screen: Videos,
     navigationOptions: () => ({
       tabBarLabel: i18n.t('title.videos'),
@@ -100,7 +100,7 @@ export const tabs = {
     }),
   },
   'voke.Channels': {
-    tracking: buildTrackingObj('channels', 'channels'),
+    tracking: buildTrackingObj('channel', 'home'),
     screen: Channels,
     navigationOptions: () => ({
       tabBarLabel: i18n.t('title.channels'),
@@ -108,7 +108,7 @@ export const tabs = {
     }),
   },
   'voke.Adventures': {
-    tracking: buildTrackingObj('adventures', 'adventures'),
+    tracking: buildTrackingObj('adventures', 'home'),
     screen: Adventures,
     navigationOptions: () => ({
       tabBarLabel: i18n.t('title.adventure'),
@@ -159,27 +159,27 @@ const noGestures = { navigationOptions: { gesturesEnabled: false } };
 const screens = {
   'voke.About': {
     screen: About,
-    tracking: buildTrackingObj('about', 'about'),
+    tracking: buildTrackingObj('menu', 'about'),
   },
   'voke.Acknowledgements': {
     screen: Acknowledgements,
-    tracking: buildTrackingObj('acknowledgements', 'acknowledgements'),
+    tracking: buildTrackingObj('menu', 'acknowledgements'),
   },
   'voke.CountrySelect': {
     screen: CountrySelect,
-    tracking: buildTrackingObj('countryselect', 'countryselect'),
+    tracking: buildTrackingObj('menu', 'countryselect'),
   },
   'voke.ForgotPassword': {
     screen: ForgotPassword,
-    tracking: buildTrackingObj('forgotpassword', 'forgotpassword'),
+    tracking: buildTrackingObj('entry', 'forgotpassword'),
   },
   'voke.Help': {
     screen: Help,
-    tracking: buildTrackingObj('help', 'help'),
+    tracking: buildTrackingObj('menu', 'help'),
   },
   'voke.KickstartersTab': {
     screen: KickstartersTab,
-    tracking: buildTrackingObj('kickstarterstab', 'kickstarterstab'),
+    tracking: buildTrackingObj('chat', 'kickstarters'),
   },
   'voke.Loading': {
     screen: LoadingScreen,
@@ -187,71 +187,71 @@ const screens = {
   },
   'voke.LoginInput': {
     screen: LoginInput,
-    tracking: buildTrackingObj('logininput', 'logininput'),
+    tracking: buildTrackingObj('entry', 'signin'),
   },
   'voke.Message': {
     screen: Message,
-    tracking: buildTrackingObj('message', 'message'),
+    tracking: buildTrackingObj('chat', 'conversation'),
   },
   'voke.Profile': {
     screen: Profile,
-    tracking: buildTrackingObj('profile', 'profile'),
+    tracking: buildTrackingObj('menu', 'profile'),
   },
   'voke.SignUpAccount': {
     screen: SignUpAccount,
-    tracking: buildTrackingObj('signupaccount', 'signupaccount'),
+    tracking: buildTrackingObj('entry', 'createaccount'),
   },
   'voke.SignUpFBAccount': {
     screen: SignUpFBAccount,
-    tracking: buildTrackingObj('signupfbaccount', 'signupfbaccount'),
+    tracking: buildTrackingObj('entry', 'createaccountfb'),
   },
   'voke.SignUpNumber': {
     screen: SignUpNumber,
-    tracking: buildTrackingObj('signupnumber', 'signupnumber'),
+    tracking: buildTrackingObj('menu', 'signupmobile'),
     ...noGestures,
   },
   'voke.SignUpNumberVerify': {
     screen: SignUpNumberVerify,
-    tracking: buildTrackingObj('signupnumberverify', 'signupnumberverify'),
+    tracking: buildTrackingObj('menu', 'verifymobile'),
     ...noGestures,
   },
   'voke.SignUpProfile': {
     screen: SignUpProfile,
-    tracking: buildTrackingObj('signupprofile', 'signupprofile'),
+    tracking: buildTrackingObj('entry', 'profile'),
     ...noGestures,
   },
   'voke.SignUpWelcome': {
     screen: SignUpWelcome,
-    tracking: buildTrackingObj('signupwelcome', 'signupwelcome'),
+    tracking: buildTrackingObj('entry', 'screen1'),
   },
   'voke.Menu': {
     screen: Menu,
-    tracking: buildTrackingObj('menu', 'menu'),
+    tracking: buildTrackingObj('menu', 'home'),
   },
   'voke.Contacts': {
     screen: Contacts,
-    tracking: buildTrackingObj('contacts', 'contacts'),
+    tracking: buildTrackingObj('contacts', 'share'),
   },
   'voke.SelectFriend': {
     screen: SelectFriend,
-    tracking: buildTrackingObj('selectfriend', 'selectfriend'),
+    tracking: buildTrackingObj('contacts', 'selectfriend'),
   },
   'voke.VideoDetails': {
     screen: VideoDetails,
-    tracking: buildTrackingObj('videodetails', 'videodetails'),
+    tracking: buildTrackingObj('video', 'preview'),
     ...noGestures,
   },
   'voke.VideosTab': {
     screen: VideosTab,
-    tracking: buildTrackingObj('videostab', 'videostab'),
+    tracking: buildTrackingObj('video', 'all'),
   },
   'voke.TryItNowName': {
     screen: TryItNowName,
-    tracking: buildTrackingObj('tryitnowname', 'tryitnowname'),
+    tracking: buildTrackingObj('share', 'tryitnowname'),
   },
   'voke.ShareFlow': {
     screen: ShareFlow,
-    tracking: buildTrackingObj('shareflow', 'shareflow'),
+    tracking: buildTrackingObj('share', 'flow'),
   },
 };
 
