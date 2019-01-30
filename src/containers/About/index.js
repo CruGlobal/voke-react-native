@@ -85,6 +85,7 @@ class About extends Component {
             },
             {
               name: t('version', { build: VERSION_BUILD }),
+              onPress: () => {},
             },
           ]}
         />
@@ -100,9 +101,4 @@ const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
 });
 
-export default translate('settings')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(About),
-);
+export default translate('settings')(connect(mapStateToProps, nav)(About));

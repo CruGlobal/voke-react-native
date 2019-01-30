@@ -613,9 +613,4 @@ const mapStateToProps = ({ auth, videos }) => ({
   pagination: videos.pagination,
 });
 
-export default translate('videos')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(Videos),
-);
+export default translate('videos')(connect(mapStateToProps, nav)(Videos));

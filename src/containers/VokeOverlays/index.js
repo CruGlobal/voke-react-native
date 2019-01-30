@@ -121,7 +121,7 @@ class VokeOverlays extends Component {
     const { overlayProps } = this.props;
     let messageData = overlayProps.messageData || {};
     return (
-      <Touchable style={styles.overlay} onPress={this.close}>
+      <Touchable style={styles.overlay} onPress={this.close} activeOpacity={1}>
         <Flex
           style={styles.overlay}
           align="center"
@@ -165,10 +165,8 @@ const mapStateToProps = ({ overlays, auth }) => {
   let type = overlays.tryItNowSignUp
     ? 'tryItNowSignUp'
     : overlays.pushPermissions
-    ? 'pushPermissions'
-    : overlays.messageModal
-    ? 'messageModal'
-    : null;
+      ? 'pushPermissions'
+      : overlays.messageModal ? 'messageModal' : null;
   return {
     overlayProps: overlays.overlayProps || {},
     type,

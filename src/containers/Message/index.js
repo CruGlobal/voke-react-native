@@ -213,6 +213,7 @@ class Message extends Component {
     this.props.navigatePush('voke.KickstartersTab', {
       onSelectKickstarter: item => {
         this.props.navigateBack();
+        // this.chatInput.focus();
         this.setState({ text: item.content, kickstarterId: item.id });
       },
       latestItem: this.state.latestItem,
@@ -301,6 +302,7 @@ class Message extends Component {
   }
 
   updateSize(height) {
+    height += 10;
     this.setState({ height });
   }
 
@@ -388,15 +390,15 @@ class Message extends Component {
     const conversation = this.state.conversation || this.props.conversation;
 
     let inputHeight = {
-      height: height < 40 ? 40 : height > 80 ? 80 : height,
+      height: height < 45 ? 45 : height > 80 ? 80 : height,
     };
 
     const extraPadding = theme.isIphoneX ? 40 : 0;
 
     let newWrap = {
       height:
-        height < 40
-          ? 50 + extraPadding
+        height < 45
+          ? 55 + extraPadding
           : height > 80 ? 90 + extraPadding : height + 10 + extraPadding,
     };
 
@@ -502,6 +504,7 @@ class Message extends Component {
               align="center"
             >
               <TextInput
+                ref={c => (this.chatInput = c)}
                 onFocus={this.handleInputFocus}
                 onBlur={this.handleInputBlur}
                 autoCapitalize="sentences"
