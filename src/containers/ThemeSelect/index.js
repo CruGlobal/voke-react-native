@@ -5,36 +5,31 @@ import Analytics from '../../utils/analytics';
 import ThemeList from '../../components/ThemeList';
 
 class ThemeSelect extends Component {
-  constructor(props) {
-    super(props);
-
-    this.handleClose = this.handleClose.bind(this);
-    this.handleDismiss = this.handleDismiss.bind(this);
-    this.handleSelect = this.handleSelect.bind(this);
-  }
-
-  handleClose() {
-    this.props.onClose();
-  }
-
-  handleDismiss() {
-    this.props.onDismiss();
-    this.handleClose();
-  }
-
-  handleSelect(tag) {
-    // LOG('selected', tag);
-    this.props.onSelect(tag);
-    this.handleClose();
-  }
-
   componentDidMount() {
     Analytics.screen(Analytics.s.ThemeSelect);
   }
 
+  handleClose = () => {
+    this.props.onClose();
+  };
+
+  handleDismiss = () => {
+    this.props.onDismiss();
+    this.handleClose();
+  };
+
+  handleSelect = tag => {
+    this.props.onSelect(tag);
+    this.handleClose();
+  };
+
   render() {
     return (
-      <ThemeList items={this.props.themes} onDismiss={this.handleDismiss} onSelectTheme={this.handleSelect} />
+      <ThemeList
+        items={this.props.themes}
+        onDismiss={this.handleDismiss}
+        onSelectTheme={this.handleSelect}
+      />
     );
   }
 }

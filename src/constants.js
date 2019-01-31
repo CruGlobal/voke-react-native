@@ -29,6 +29,11 @@ export const DONT_NAV_TO_VIDS = 'app/DONT_NAV_TO_VIDS';
 // Overlays
 export const CLEAR_OVERLAY = 'app/CLEAR_OVERLAY';
 export const SET_OVERLAY = 'app/SET_OVERLAY';
+// Navigation
+export const NAVIGATE_FORWARD = 'Navigation/NAVIGATE';
+export const NAVIGATE_RESET = 'Navigation/RESET';
+export const NAVIGATE_BACK = 'Navigation/BACK';
+export const NAVIGATE_POP = 'Navigation/POP';
 
 export const IS_SMALL_ANDROID = theme.isAndroid && theme.fullHeight < 600;
 // export const IS_SMALL_ANDROID = true;
@@ -50,6 +55,233 @@ const CLIENT_SECRET_PROD =
 
 const IOS_APP_ID = 'id1056168356';
 const ANDROID_APP_ID = 'org.cru.voke';
+
+// Analytics
+export const ANALYTICS_CONTEXT_CHANGED = 'app/ANALYTICS_CONTEXT_CHANGED';
+export const ANALYTICS = {
+  MCID: 'cru.mcid',
+  SCREENNAME: 'cru.screenname',
+  SITE_SECTION: 'cru.sitesection',
+  SITE_SUBSECTION: 'cru.sitesubsection',
+  SITE_SUB_SECTION_3: 'cru.subsectionlevel3',
+  SITE_SUB_SECTION_4: 'cru.subsectionlevel4',
+  CONTENT_AUDIENCE_TARGET: 'cru.contentaudiencetarget',
+  CONTENT_TOPIC: 'cru.contenttopic',
+  LOGGED_IN_STATUS: 'cru.loggedinstatus',
+  SSO_GUID: 'cru.ssoguid',
+  GR_MASTER_PERSON_ID: 'cru.grmasterpersonid',
+  FACEBOOK_ID: 'cru.facebookid',
+  CONTENT_LANGUAGE: 'cru.contentlanguage',
+  LOGGED_IN: 'logged in',
+  NOT_LOGGED_IN: 'not logged in',
+};
+export const ID_SCHEMA = 'iglu:org.cru/ids/jsonschema/1-0-3';
+export const ACTIONS = {
+  PERSON_ADDED: {
+    name: 'Person Added',
+    key: 'cru.personadded',
+  },
+  STATUS_CHANGED: {
+    name: 'Contact Status Changed',
+    key: 'cru.contactstatuschanged',
+  },
+  EMAIL_ENGAGED: {
+    name: 'Contact Engaged by Email',
+    key: 'cru.emailiconengaged',
+  },
+  CALL_ENGAGED: {
+    name: 'Contact Engaged by Phone',
+    key: 'cru.calliconengaged',
+  },
+  TEXT_ENGAGED: {
+    name: 'Contact Engaged by Text',
+    key: 'cru.texticonengaged',
+  },
+  FILTER_ENGAGED: {
+    name: 'Search Filter Engaged',
+    key: 'cru.searchfilterengaged',
+  },
+  SEARCH_FILTER: {
+    key: 'cru.searchfilter',
+  },
+  USER_ERROR: {
+    name: 'User Signin Error',
+    key: 'cru.usersigninerror',
+  },
+  SYSTEM_ERROR: {
+    name: 'System Signin Error',
+    key: 'cru.systemsigninerror',
+  },
+  ONBOARDING_STARTED: {
+    name: 'Onboarding Started',
+    key: 'cru.onboardingstarted',
+  },
+  ONBOARDING_COMPLETE: {
+    name: 'Onboarding Complete',
+    key: 'cru.onboardingcomplete',
+  },
+  SELF_STAGE_SELECTED: {
+    name: 'Self Stage Selected',
+    key: 'cru.selfselectedstage',
+  },
+  PERSON_STAGE_SELECTED: {
+    name: 'Person Stage Selected',
+    key: 'cru.personselectedstage',
+  },
+  STAGE_SELECTED: {
+    key: 'cru.stageselected',
+  },
+  STEP_DETAIL: {
+    name: 'Step of Faith Detail',
+    key: 'cru.stepoffaithdetail',
+  },
+  STEPS_ADDED: {
+    name: 'Step of Faith Added',
+    key: 'cru.stepoffaithadded',
+  },
+  STEP_CREATED: {
+    name: 'Step of Faith Created',
+    key: 'cru.stepoffaithcreated',
+  },
+  ALLOW: {
+    name: 'Notification Permissions',
+    key: 'cru.notificationsallowed',
+  },
+  NOT_NOW: {
+    name: 'Notification Permissions',
+    key: 'cru.notificationsnotallowed',
+  },
+  NO_REMINDERS: {
+    name: 'Notification Reminders',
+    key: 'cru.notoreminders',
+  },
+  STEP_PRIORITIZED: {
+    name: 'Step Prioritized',
+    key: 'cru.stepprioritized',
+  },
+  STEP_DEPRIORITIZED: {
+    name: 'Step Deprioritized',
+    key: 'cru.stepdeprioritized',
+  },
+  STEP_REMOVED: {
+    name: 'Step Removed',
+    key: 'cru.stepremoved',
+  },
+  STEP_COMPLETED: {
+    name: 'Step Completed',
+    key: 'cru.stepcompleted',
+  },
+  JOURNEY_EDITED: {
+    name: 'Edit on Person Journey',
+    key: 'cru.journeyedit',
+  },
+  INTERACTION: {
+    name: 'Action Taken on Person',
+    COMMENT: 'cru.commentadded',
+    SOMETHING_COOL_HAPPENED: 'cru.somethingcoolhappenedadded',
+    SPIRITUAL_CONVERSATION: 'cru.initiatinggospelconversations',
+    GOSPEL_PRESENTATION: 'cru.presentingthegospel',
+    PERSONAL_DECISION: 'cru.newprofessingbelievers',
+    HOLY_SPIRIT_PRESENTATION: 'cru.presentingtheholyspirit',
+    DISCIPLESHIP: 'cru.discipleshipconversation',
+  },
+  ITEM_LIKED: {
+    name: 'Celebrate Item Liked',
+    key: 'cru.celebrateitemliked',
+  },
+  ASSIGNED_TO_ME: {
+    name: 'Assigned to Me',
+    key: 'cru.assignedtome',
+  },
+  SELECT_COMMUNITY: {
+    name: 'Community Selected',
+    key: 'cru.selectcommunities',
+  },
+  SELECT_CREATED_COMMUNITY: {
+    name: 'Community Selected After Create',
+    key: 'cru.createcommunities',
+  },
+  SELECT_JOINED_COMMUNITY: {
+    name: 'Community Selected After Join',
+    key: 'cru.joincommunities',
+  },
+  SEARCH_COMMUNITY_WITH_CODE: {
+    name: 'Search for Community With Code',
+    key: 'cru.codesearch',
+  },
+  JOIN_COMMUNITY_WITH_CODE: {
+    name: 'Join Community With Code',
+    key: 'cru.codejoin',
+  },
+  ADD_COMMUNITY_PHOTO: {
+    name: 'Add Photo for Community',
+    key: 'cru.communityphoto',
+  },
+  CREATE_COMMUNITY: {
+    name: 'Create Community',
+    key: 'cru.communitycreate',
+  },
+  CHALLENGE_CREATED: {
+    name: 'Challenge Created',
+    key: 'cru.challengecreated',
+  },
+  CHALLENGE_JOINED: {
+    name: 'Challenge Joined',
+    key: 'cru.challengejoined',
+  },
+  CHALLENGE_COMPLETED: {
+    name: 'Challenge Completed',
+    key: 'cru.challengecompleted',
+  },
+  CHALLENGE_DETAIL: {
+    name: 'Challenge Detail View',
+    key: 'cru.challengedetail',
+  },
+  MANAGE_MAKE_ADMIN: {
+    name: 'Make Admin',
+    key: 'cru.membersmakeadmin',
+  },
+  MANAGE_MAKE_OWNER: {
+    name: 'Make Owner',
+    key: 'cru.membersmakeowner',
+  },
+  MANAGE_REMOVE_ADMIN: {
+    name: 'Remove Admin',
+    key: 'cru.membersremoveadmin',
+  },
+  MANAGE_REMOVE_MEMBER: {
+    name: 'Remove Member',
+    key: 'cru.membersremovemember',
+  },
+  MANAGE_LEAVE_COMMUNITY: {
+    name: 'Leave Community',
+    key: 'cru.membersleave',
+  },
+  COMMUNITY_EDIT: {
+    name: 'Editting Community',
+    key: 'cru.communityedit',
+  },
+  COPY_CODE: {
+    name: 'Copy Community Code',
+    key: 'cru.copycode',
+  },
+  COPY_INVITE_URL: {
+    name: 'Copy Community Invite URL',
+    key: 'cru.copyinviteurl',
+  },
+  NEW_CODE: {
+    name: 'New Community Code',
+    key: 'cru.newcode',
+  },
+  NEW_INVITE_URL: {
+    name: 'New Community Invite URL',
+    key: 'cru.newinviteurl',
+  },
+  COMMUNITY_DELETE: {
+    name: 'Delete Community',
+    key: 'cru.communitydelete',
+  },
+};
 
 export default {
   IS_STAGING,

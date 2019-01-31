@@ -38,7 +38,8 @@ import StatusBar from '../../components/StatusBar';
 import ChannelInfo from '../../components/ChannelInfo';
 import { Flex } from '../../components/common';
 import theme from '../../theme';
-import { momentUtc } from '../../utils/common';
+import { momentUtc, buildTrackingObj } from '../../utils/common';
+import { trackState } from '../../actions/analytics';
 
 class Videos extends Component {
   constructor(props) {
@@ -103,6 +104,8 @@ class Videos extends Component {
         });
       this.getSubscriberData();
       this.setState({ videos: channelVideos });
+    } else if (onSelectVideo) {
+      this.handleFilter('all', true);
     } else if (isNewUser) {
       this.handleFilter('popular', true);
     } else {
@@ -114,6 +117,7 @@ class Videos extends Component {
       // If there are no videos when the component mounts, get them, otherwise just set it
       dispatch(getVideos())
         .then(() => {
+          this.track('all');
           this.updateVideoList('all');
         })
         .catch(err => {
@@ -122,6 +126,7 @@ class Videos extends Component {
             setTimeout(() => {
               dispatch(getVideos())
                 .then(() => {
+                  this.track('all');
                   this.updateVideoList('all');
                 })
                 .catch(err => {
@@ -154,6 +159,18 @@ class Videos extends Component {
     this.props.dispatch(clearChannelVideos());
   }
 
+  track = filter => {
+    const { dispatch, channel, onSelectVideo } = this.props;
+    // Track the channel or video page state
+    if (channel) {
+      dispatch(trackState(buildTrackingObj('channel', 'preview', filter)));
+    } else if (onSelectVideo) {
+      dispatch(trackState(buildTrackingObj('chat', 'addvideo', filter)));
+    } else {
+      dispatch(trackState(buildTrackingObj('video', filter)));
+    }
+  };
+
   handleRefresh() {
     if (this.state.selectedFilter === 'themes') {
       return Promise.resolve();
@@ -185,6 +202,10 @@ class Videos extends Component {
   showThemes() {
     this.setState({ selectedTag: null, showThemeModal: true });
   }
+
+  closeThemeModal = () => {
+    this.setState({ showThemeModal: false });
+  };
 
   handleNextPage() {
     const pagination = this.props.pagination;
@@ -247,13 +268,12 @@ class Videos extends Component {
 
   // This method should return a Promise so that it can handle refreshing correctly
   handleFilter(filter, shouldntScroll, isRefreshing) {
+    const { dispatch, channel } = this.props;
+    const { selectedFilter, videos } = this.state;
     if (filter === 'themes') {
       // Prevent getting into the state of both previous and selected filter being 'themes'
       this.setState({
-        previousFilter:
-          this.state.selectedFilter === 'themes'
-            ? 'all'
-            : this.state.selectedFilter,
+        previousFilter: selectedFilter === 'themes' ? 'all' : selectedFilter,
         selectedFilter: filter,
       });
     } else {
@@ -264,14 +284,16 @@ class Videos extends Component {
           this.videoList.getWrappedInstance().scrollToBeginning();
       }
     }
-    const channelId = this.props.channel ? this.props.channel.id : undefined;
+    const channelId = channel ? channel.id : undefined;
     this.setState({
       isLoading: isRefreshing ? false : true,
-      videos: isRefreshing ? this.state.videos : [],
+      videos: isRefreshing ? videos : [],
     });
+
+    this.track(filter);
+
     if (filter === 'featured') {
-      return this.props
-        .dispatch(getFeaturedVideos(undefined, channelId))
+      return dispatch(getFeaturedVideos(undefined, channelId))
         .then(r => {
           this.setState({ isLoading: false });
           this.updateVideoList(filter);
@@ -279,8 +301,7 @@ class Videos extends Component {
         })
         .catch(() => this.setState({ isLoading: false }));
     } else if (filter === 'popular') {
-      return this.props
-        .dispatch(getPopularVideos(undefined, channelId))
+      return dispatch(getPopularVideos(undefined, channelId))
         .then(r => {
           this.setState({ isLoading: false });
           this.updateVideoList(filter);
@@ -288,8 +309,7 @@ class Videos extends Component {
         })
         .catch(() => this.setState({ isLoading: false }));
     } else if (filter === 'all') {
-      return this.props
-        .dispatch(getVideos(undefined, channelId))
+      return dispatch(getVideos(undefined, channelId))
         .then(r => {
           this.setState({ isLoading: false });
           this.updateVideoList(filter);
@@ -297,8 +317,7 @@ class Videos extends Component {
         })
         .catch(() => this.setState({ isLoading: false }));
     } else if (filter === 'themes') {
-      return this.props
-        .dispatch(getTags())
+      return dispatch(getTags())
         .then(r => {
           this.setState({ isLoading: false });
           this.showThemes();
@@ -306,8 +325,7 @@ class Videos extends Component {
         })
         .catch(() => this.setState({ isLoading: false }));
     } else if (filter === 'favorites') {
-      return this.props
-        .dispatch(getFavorites(undefined, channelId))
+      return dispatch(getFavorites(undefined, channelId))
         .then(r => {
           this.setState({ isLoading: false });
           this.updateVideoList(filter);
@@ -334,6 +352,10 @@ class Videos extends Component {
     } else if (type === 'favorites') {
       this.setState({ videos: this.props.favorites });
     }
+
+    this.videoList &&
+      this.videoList.getWrappedInstance &&
+      this.videoList.getWrappedInstance().scrollToBeginning(false);
   }
 
   getSubscriberData() {
@@ -575,7 +597,7 @@ class Videos extends Component {
           <ApiLoading />
           {this.state.showThemeModal ? (
             <ThemeSelect
-              onClose={() => this.setState({ showThemeModal: false })}
+              onClose={this.closeThemeModal}
               themes={tags}
               onSelect={this.handleThemeSelect}
               onDismiss={this.handleDismissTheme}
@@ -608,4 +630,9 @@ const mapStateToProps = ({ auth, videos }) => ({
   pagination: videos.pagination,
 });
 
-export default translate('videos')(connect(mapStateToProps, nav)(Videos));
+export default translate('videos')(
+  connect(
+    mapStateToProps,
+    nav,
+  )(Videos),
+);

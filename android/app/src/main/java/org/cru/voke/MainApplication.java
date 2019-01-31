@@ -36,6 +36,7 @@ import com.crashlytics.android.core.CrashlyticsCore;
 import io.fabric.sdk.android.Fabric;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.brentvatne.react.ReactVideoPackage;
+import com.moduleomniture.reactnativeomnitureapi.OmniturePackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -68,6 +69,7 @@ public class MainApplication extends Application implements ReactApplication {
           new AppseeReactPackage(),
           new OrientationPackage(),
           new FBSDKPackage(mCallbackManager),
+          new OmniturePackage(),
           new RNDeviceInfo(),
           new RNSpinkitPackage(),
           new ReactNativeContacts(),

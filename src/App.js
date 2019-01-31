@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { Provider, connect } from 'react-redux';
+import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 
 import './utils/globals';

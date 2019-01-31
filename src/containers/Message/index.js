@@ -31,6 +31,7 @@ import { Flex, VokeIcon, Button, Touchable } from '../../components/common';
 import MessagesList from '../../components/MessagesList';
 import NotificationToast from '../NotificationToast';
 import CONSTANTS from '../../constants';
+import { buildTrackingObj } from '../../utils/common';
 
 class Message extends Component {
   constructor(props) {
@@ -213,6 +214,7 @@ class Message extends Component {
     this.props.navigatePush('voke.KickstartersTab', {
       onSelectKickstarter: item => {
         this.props.navigateBack();
+        // this.chatInput.focus();
         this.setState({ text: item.content, kickstarterId: item.id });
       },
       latestItem: this.state.latestItem,
@@ -223,6 +225,7 @@ class Message extends Component {
     // Pause the video before navigating away
     this.pauseVideo();
     this.props.navigatePush('voke.VideosTab', {
+      trackingObj: buildTrackingObj('chat', 'addvideo'),
       onSelectVideo: video => {
         this.createMessage(video);
       },
@@ -301,6 +304,7 @@ class Message extends Component {
   }
 
   updateSize(height) {
+    height += 10;
     this.setState({ height });
   }
 
@@ -388,16 +392,18 @@ class Message extends Component {
     const conversation = this.state.conversation || this.props.conversation;
 
     let inputHeight = {
-      height: height < 40 ? 40 : height > 80 ? 80 : height,
+      height: height < 45 ? 45 : height > 80 ? 80 : height,
     };
 
     const extraPadding = theme.isIphoneX ? 40 : 0;
 
     let newWrap = {
       height:
-        height < 40
-          ? 50 + extraPadding
-          : height > 80 ? 90 + extraPadding : height + 10 + extraPadding,
+        height < 45
+          ? 55 + extraPadding
+          : height > 80
+          ? 90 + extraPadding
+          : height + 10 + extraPadding,
     };
 
     return (
@@ -502,6 +508,7 @@ class Message extends Component {
               align="center"
             >
               <TextInput
+                ref={c => (this.chatInput = c)}
                 onFocus={this.handleInputFocus}
                 onBlur={this.handleInputBlur}
                 autoCapitalize="sentences"
@@ -582,4 +589,9 @@ const mapStateToProps = ({ messages, auth }, { navigation }) => {
   };
 };
 
-export default translate()(connect(mapStateToProps, nav)(Message));
+export default translate()(
+  connect(
+    mapStateToProps,
+    nav,
+  )(Message),
+);

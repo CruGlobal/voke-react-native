@@ -67,7 +67,6 @@ class MessageItem extends PureComponent {
         direction="row"
         align="center"
         justify="start"
-        ref={x => Analytics.markSensitive(x)}
       >
         {!isTypeState ? (
           <Text
@@ -277,7 +276,9 @@ class MessageItem extends PureComponent {
                     styles.selectionCircle,
                     index === 0
                       ? styles.green
-                      : index === 1 ? styles.yellow : styles.red,
+                      : index === 1
+                      ? styles.yellow
+                      : styles.red,
                     {
                       paddingHorizontal: 0,
                       paddingVertical: 0,
@@ -305,7 +306,6 @@ class MessageItem extends PureComponent {
 
   render() {
     const message = this.props.item;
-    console.log(message);
     const isTypeState = message.type === 'typeState';
     const isVoke = message.messenger_id === this.vokebotMessenger.id;
 
@@ -342,6 +342,7 @@ class MessageItem extends PureComponent {
         style={{ margin: 6 }}
         animation="fadeIn"
         align={isMe || (isVoke && !isOnlyVoke) ? 'end' : 'start'}
+        ref={x => Analytics.markSensitive(x)}
       >
         {this.props.item.isLatestForDay ? (
           <Flex align="center" justify="center" style={styles.dateSeparator}>

@@ -124,8 +124,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 617
-        versionName "4.4.0"
+        versionCode 618
+        versionName "4.4.1"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -201,6 +201,7 @@ dependencies {
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-video')
     implementation project(':react-native-image-crop-picker')
+    implementation project(':react-native-omniture')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation 'com.facebook.react:react-native:+'

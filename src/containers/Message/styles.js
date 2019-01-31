@@ -1,4 +1,3 @@
-
 import { StyleSheet } from 'react-native';
 import theme, { COLORS } from '../../theme';
 
@@ -11,9 +10,11 @@ export default StyleSheet.create({
     backgroundColor: theme.secondaryColor,
     paddingHorizontal: 7,
     paddingVertical: 4,
-    ...(theme.isIphoneX ? {
-      paddingBottom: 40,
-    } : {}),
+    ...(theme.isIphoneX
+      ? {
+          paddingBottom: 40,
+        }
+      : {}),
   },
   chatBox: {
     flex: 1,

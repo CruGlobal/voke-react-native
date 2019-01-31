@@ -34,7 +34,6 @@ class ChannelsList extends Component {
 
   renderRow({ item }) {
     const channel = item;
-    console.log(channel);
     const avatar = channel.avatar || {};
     return (
       <Touchable

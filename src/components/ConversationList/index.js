@@ -170,7 +170,6 @@ class ConversationList extends Component {
   };
 
   render() {
-    console.log(this.props.items);
     return (
       <SwipeListView
         useFlatList={true}

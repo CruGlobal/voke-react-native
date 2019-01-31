@@ -64,7 +64,7 @@ function setUser(id = '') {
 
 function markSensitive(view) {
   if (!view) {
-    LOG('Analytics: no view passed in', view);
+    // LOG('Analytics: no view passed in', view);
     return;
   }
   // tracker.setUser(id);

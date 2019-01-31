@@ -8,6 +8,7 @@ import channels from './channels';
 import nav from './nav';
 import overlays from './overlays';
 import adventures from './adventures';
+import analytics from './analytics';
 
 export default combineReducers({
   auth,
@@ -18,4 +19,5 @@ export default combineReducers({
   nav,
   overlays,
   adventures,
+  analytics,
 });

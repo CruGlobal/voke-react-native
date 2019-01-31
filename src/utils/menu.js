@@ -5,10 +5,14 @@ import { logoutAction, showLanguageModal } from '../actions/auth';
 import CONSTANTS from '../constants';
 import theme from '../theme';
 import i18n from '../i18n';
+import { buildTrackingObj } from './common';
 // This is used by the android <MenuButton /> and the iOS <Menu />
-export function navMenuOptions(
-  { dispatch, navigatePush, navigateResetLogin, isAnonUser } = {},
-) {
+export function navMenuOptions({
+  dispatch,
+  navigatePush,
+  navigateResetLogin,
+  isAnonUser,
+} = {}) {
   let createButton = [];
   let signinButton = [];
   let logoutButton = [];
@@ -28,12 +32,20 @@ export function navMenuOptions(
     signinButton.push({
       id: 'signin',
       name: i18n.t('signIn'),
-      onPress: () => navigatePush && navigatePush('voke.LoginInput'),
+      onPress: () =>
+        navigatePush &&
+        navigatePush('voke.LoginInput', {
+          trackingObj: buildTrackingObj('menu', 'signin'),
+        }),
     });
     createButton.push({
       id: 'createaccount',
       name: i18n.t('createAccount'),
-      onPress: () => navigatePush && navigatePush('voke.SignUpAccount'),
+      onPress: () =>
+        navigatePush &&
+        navigatePush('voke.SignUpAccount', {
+          trackingObj: buildTrackingObj('menu', 'createaccount'),
+        }),
     });
   }
   return [
@@ -50,6 +62,7 @@ export function navMenuOptions(
       onPress: () =>
         navigatePush &&
         navigatePush('voke.Contacts', {
+          trackingObj: buildTrackingObj('contacts', 'invite'),
           isInvite: true,
           onSelect: c => {
             LOG('Invite this person:', c);

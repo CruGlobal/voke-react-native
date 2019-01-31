@@ -23,6 +23,8 @@ import theme, { COLORS } from '../../theme';
 import { Flex, Text, Button, VokeIcon } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import PrivacyToS from '../../components/PrivacyToS';
+import { trackState } from '../../actions/analytics';
+import { buildTrackingObj } from '../../utils/common';
 
 const MARGIN = 40;
 
@@ -37,10 +39,14 @@ class SignUpWelcome extends Component {
     Analytics.screen(Analytics.s.Welcome);
     Orientation.lockToPortrait();
     this.props.dispatch(setupFirebaseLinks());
+    this.props.dispatch(trackState(buildTrackingObj('entry', 'screen1')));
   }
 
   onPageSelected = params => {
     this.setState({ selectedPage: params.position });
+    this.props.dispatch(
+      trackState(buildTrackingObj('entry', `screen${params.position + 1}`)),
+    );
   };
 
   handleNextPage(i) {
@@ -52,7 +58,7 @@ class SignUpWelcome extends Component {
     this.props
       .dispatch(createAccountAction(null, null, true))
       .then(results => {
-        LOG('create try it now account results', results);
+        // LOG('create try it now account results', results);
         this.props.dispatch({ type: CREATE_ANON_USER });
         this.setState({ isLoading: false });
         this.props.navigateResetHome();
@@ -384,5 +390,8 @@ const mapStateToProps = (state, { navigation }) => ({
 });
 
 export default translate('signUpWelcome')(
-  connect(mapStateToProps, nav)(SignUpWelcome),
+  connect(
+    mapStateToProps,
+    nav,
+  )(SignUpWelcome),
 );

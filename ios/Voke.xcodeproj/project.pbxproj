@@ -29,6 +29,9 @@
 		7F7ED823D55D4CFFBF61C066 /* libRNSpinkit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 505E47108A06402A8F975A58 /* libRNSpinkit.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8A4A9F91FD9C47A8B9407344 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7B2633AC1B447B8B7203871 /* libRNImagePicker.a */; };
+		9324CD4F21FBB90A0005E7A3 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9324CD4E21FBB9090005E7A3 /* libsqlite3.0.tbd */; };
+		9324CD7B21FBBB9C0005E7A3 /* AdobeMobileLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9324CD7521FBBB9B0005E7A3 /* AdobeMobileLibrary.a */; };
+		9324CD7D21FBBB9C0005E7A3 /* ADBMobileConfig.json in Resources */ = {isa = PBXBuildFile; fileRef = 9324CD7821FBBB9C0005E7A3 /* ADBMobileConfig.json */; };
 		932AA1BC1F602AFB008937B1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 932AA1B71F602AFB008937B1 /* AppDelegate.m */; };
 		932AA1BD1F602AFB008937B1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 932AA1B81F602AFB008937B1 /* Images.xcassets */; };
 		932AA1BF1F602AFB008937B1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 932AA1BA1F602AFB008937B1 /* main.m */; };
@@ -38,6 +41,7 @@
 		93981C6D20F8FA9700298F4A /* FirebaseInstanceID.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93981C6620F8FA9600298F4A /* FirebaseInstanceID.framework */; };
 		93981C6E20F8FA9700298F4A /* FirebaseAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93981C6720F8FA9700298F4A /* FirebaseAnalytics.framework */; };
 		93981C6F20F8FA9700298F4A /* FirebaseCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93981C6820F8FA9700298F4A /* FirebaseCore.framework */; };
+		93B8E0FA21FBCC3A005621CC /* libreactnativeomnitureapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 93B8E0F921FBCC26005621CC /* libreactnativeomnitureapi.a */; };
 		93EA25DD2108D9E000E25254 /* FirebaseDynamicLinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93EA25DC2108D9E000E25254 /* FirebaseDynamicLinks.framework */; };
 		940EDA746F8C400E9F79B6E4 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2639A6467134ABEAB39E1AA /* libRNDeviceInfo.a */; };
 		9D586C578FBC4B11A28E02C7 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8AFAB6C0801F4A43A113F5AD /* Foundation.ttf */; };
@@ -264,6 +268,13 @@
 			remoteGlobalIDString = A15C300E1CD25C330074CB35;
 			remoteInfo = RNFetchBlob;
 		};
+		93B8E0F821FBCC26005621CC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93B8E0F421FBCC26005621CC /* reactnativeomnitureapi.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2DDB46A51DCA7ED500396D0B;
+			remoteInfo = reactnativeomnitureapi;
+		};
 		93BF5F491EF86A0D00F2E566 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
@@ -488,6 +499,10 @@
 		87D0A34378C946CE8F44CF56 /* SendSMS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = SendSMS.xcodeproj; path = "../node_modules/react-native-sms/SendSMS.xcodeproj"; sourceTree = "<group>"; };
 		890FBE44356444B789EC85C1 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		8AFAB6C0801F4A43A113F5AD /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		9324CD4E21FBB9090005E7A3 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		9324CD7521FBBB9B0005E7A3 /* AdobeMobileLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = AdobeMobileLibrary.a; sourceTree = "<group>"; };
+		9324CD7621FBBB9B0005E7A3 /* ADBMobile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADBMobile.h; sourceTree = "<group>"; };
+		9324CD7821FBBB9C0005E7A3 /* ADBMobileConfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ADBMobileConfig.json; sourceTree = "<group>"; };
 		932AA1B61F602AFB008937B1 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Voke/AppDelegate.h; sourceTree = "<group>"; };
 		932AA1B71F602AFB008937B1 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Voke/AppDelegate.m; sourceTree = "<group>"; };
 		932AA1B81F602AFB008937B1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Voke/Images.xcassets; sourceTree = "<group>"; };
@@ -501,6 +516,7 @@
 		93981C6720F8FA9700298F4A /* FirebaseAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseAnalytics.framework; path = Firebase/FirebaseAnalytics.framework; sourceTree = "<group>"; };
 		93981C6820F8FA9700298F4A /* FirebaseCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCore.framework; path = Firebase/FirebaseCore.framework; sourceTree = "<group>"; };
 		93981C7120F8FABD00298F4A /* Firebase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Firebase.h; path = Firebase/Firebase.h; sourceTree = "<group>"; };
+		93B8E0F421FBCC26005621CC /* reactnativeomnitureapi.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = reactnativeomnitureapi.xcodeproj; path = "../node_modules/react-native-omniture/ios/reactnativeomnitureapi.xcodeproj"; sourceTree = "<group>"; };
 		93EA25DC2108D9E000E25254 /* FirebaseDynamicLinks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseDynamicLinks.framework; path = Firebase/FirebaseDynamicLinks.framework; sourceTree = "<group>"; };
 		95C82259786E474DB0D7CDF6 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		980A2CF4F7604EE981C018E7 /* libSendSMS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSendSMS.a; sourceTree = "<group>"; };
@@ -542,6 +558,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93B8E0FA21FBCC3A005621CC /* libreactnativeomnitureapi.a in Frameworks */,
+				9324CD4F21FBB90A0005E7A3 /* libsqlite3.0.tbd in Frameworks */,
 				93981C6B20F8FA9700298F4A /* nanopb.framework in Frameworks */,
 				93EA25DD2108D9E000E25254 /* FirebaseDynamicLinks.framework in Frameworks */,
 				AE57876120B5D87A0004A3EA /* FBSDKLoginKit.framework in Frameworks */,
@@ -576,6 +594,7 @@
 				AE57875D20B5D85A0004A3EA /* Bolts.framework in Frameworks */,
 				282A8DA3CDCB4F5F8AD4CAD2 /* libRNFetchBlob.a in Frameworks */,
 				E9F73E50F45840238843F002 /* libRCTOrientation.a in Frameworks */,
+				9324CD7B21FBBB9C0005E7A3 /* AdobeMobileLibrary.a in Frameworks */,
 				C261E0A521EE42BAB748FA9B /* libSendSMS.a in Frameworks */,
 				D7ACE48697FC459A97F26D9A /* libReactNativePermissions.a in Frameworks */,
 				AFD81BAD7079445F8DE001C0 /* libRNAppsee.a in Frameworks */,
@@ -652,6 +671,7 @@
 		13B07FAE1A68108700A75B9A /* Voke */ = {
 			isa = PBXGroup;
 			children = (
+				9324CD7421FBBB860005E7A3 /* AdobeMobileLibrary */,
 				AE65026E21514AF30031B7D1 /* GoogleService-Info.plist */,
 				93981C7120F8FABD00298F4A /* Firebase.h */,
 				932AA1B61F602AFB008937B1 /* AppDelegate.h */,
@@ -710,6 +730,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				93B8E0F421FBCC26005621CC /* reactnativeomnitureapi.xcodeproj */,
 				AED242CB1FD2F9CB007B9735 /* RCTPushNotification.xcodeproj */,
 				AE5BE0391F609C760091810F /* RCTFBSDK.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
@@ -779,6 +800,16 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		9324CD7421FBBB860005E7A3 /* AdobeMobileLibrary */ = {
+			isa = PBXGroup;
+			children = (
+				9324CD7621FBBB9B0005E7A3 /* ADBMobile.h */,
+				9324CD7821FBBB9C0005E7A3 /* ADBMobileConfig.json */,
+				9324CD7521FBBB9B0005E7A3 /* AdobeMobileLibrary.a */,
+			);
+			path = AdobeMobileLibrary;
+			sourceTree = "<group>";
+		};
 		9354D6591EF9A7010005D447 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -791,6 +822,14 @@
 			isa = PBXGroup;
 			children = (
 				93936CD81F6AF77D0018CE00 /* libRNFetchBlob.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		93B8E0F521FBCC26005621CC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				93B8E0F921FBCC26005621CC /* libreactnativeomnitureapi.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -887,6 +926,7 @@
 		AE7B6DC71F59EA49008BC5B1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9324CD4E21FBB9090005E7A3 /* libsqlite3.0.tbd */,
 				93EA25DC2108D9E000E25254 /* FirebaseDynamicLinks.framework */,
 				93981C6720F8FA9700298F4A /* FirebaseAnalytics.framework */,
 				93981C6820F8FA9700298F4A /* FirebaseCore.framework */,
@@ -1087,6 +1127,10 @@
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = 93B8E0F521FBCC26005621CC /* Products */;
+					ProjectRef = 93B8E0F421FBCC26005621CC /* reactnativeomnitureapi.xcodeproj */;
 				},
 				{
 					ProductGroup = AE3D51902098AA680000051A /* Products */;
@@ -1337,6 +1381,13 @@
 			remoteRef = 93936CD71F6AF77D0018CE00 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		93B8E0F921FBCC26005621CC /* libreactnativeomnitureapi.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libreactnativeomnitureapi.a;
+			remoteRef = 93B8E0F821FBCC26005621CC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		93BF5F4A1EF86A0D00F2E566 /* libthird-party.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1534,6 +1585,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE0A75891F427225000A51EA /* TitilliumWeb-Bold.ttf in Resources */,
+				9324CD7D21FBBB9C0005E7A3 /* ADBMobileConfig.json in Resources */,
 				932AA1BD1F602AFB008937B1 /* Images.xcassets in Resources */,
 				AE832BBE1F900CAA00ABEE80 /* ukulele-sound.wav in Resources */,
 				C73DF4BA9C8D43E989290E35 /* Entypo.ttf in Resources */,
@@ -1611,14 +1663,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"~/Documents/FacebookSDK",
-					"$(PROJECT_DIR)/New\\ Group",
-					"$(PROJECT_DIR)/New\\ Group",
-					"$(PROJECT_DIR)/New\\ Group",
-					"$(PROJECT_DIR)/New\\ Group",
-					"$(PROJECT_DIR)/New\\ Group",
-					"$(PROJECT_DIR)/New\\ Group",
-					"$(PROJECT_DIR)/New\\ Group",
+					"$(HOME)/Documents/FacebookSDK",
 					"$(PROJECT_DIR)/Firebase",
 				);
 				HEADER_SEARCH_PATHS = (
@@ -1654,11 +1699,12 @@
 					"\"$(SRCROOT)/Voke\"",
 					"\"$(SRCROOT)/Voke\"",
 					"\"$(SRCROOT)/Voke\"",
+					"$(PROJECT_DIR)/AdobeMobileLibrary",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
-					"-ObjC",
 					"-lc++",
+					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.cru.voke;
 				PRODUCT_NAME = Voke;
@@ -1681,14 +1727,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"~/Documents/FacebookSDK",
-					"$(PROJECT_DIR)/New\\ Group",
-					"$(PROJECT_DIR)/New\\ Group",
-					"$(PROJECT_DIR)/New\\ Group",
-					"$(PROJECT_DIR)/New\\ Group",
-					"$(PROJECT_DIR)/New\\ Group",
-					"$(PROJECT_DIR)/New\\ Group",
-					"$(PROJECT_DIR)/New\\ Group",
+					"$(HOME)/Documents/FacebookSDK",
 					"$(PROJECT_DIR)/Firebase",
 				);
 				HEADER_SEARCH_PATHS = (
@@ -1724,11 +1763,12 @@
 					"\"$(SRCROOT)/Voke\"",
 					"\"$(SRCROOT)/Voke\"",
 					"\"$(SRCROOT)/Voke\"",
+					"$(PROJECT_DIR)/AdobeMobileLibrary",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
-					"-ObjC",
 					"-lc++",
+					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.cru.voke;
 				PRODUCT_NAME = Voke;

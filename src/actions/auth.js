@@ -10,6 +10,7 @@ import {
 import Orientation from 'react-native-orientation';
 import DeviceInfo from 'react-native-device-info';
 import Firebase from 'react-native-firebase';
+import * as RNOmniture from 'react-native-omniture';
 
 import {
   LOGIN,
@@ -42,6 +43,7 @@ import { API_URL } from '../api/utils';
 import { isArray, locale } from '../utils/common';
 import theme from '../theme';
 import Permissions from '../utils/permissions';
+import { logInAnalytics } from './analytics';
 
 // Setup app state change listeners
 let appStateChangeFn;
@@ -85,8 +87,8 @@ export function setupFirebaseLinks() {
     } catch (e) {
       LOG('error getting Firebase initial link');
     }
-    LOG('initial link', initialLink);
     if (initialLink) {
+      LOG('initial link', initialLink);
       dispatch(handleFirebaseLink(initialLink));
     }
   };
@@ -122,6 +124,9 @@ function appStateChange(dispatch, getState, nextAppState) {
 
   // LOG('appStateChange', nextAppState, currentAppState, cableId);
   if (nextAppState === 'active') {
+    // Tracking
+    RNOmniture.collectLifecycleData(getState().analytics);
+
     LOG('App has come to the foreground!');
 
     // Don't run establish device if it's authorized
@@ -240,12 +245,18 @@ export function dontNavigateToVideos() {
 
 export function loginAction(token, allData = {}) {
   return dispatch =>
-    new Promise(resolve => {
+    new Promise(async resolve => {
       dispatch({
         type: LOGIN,
         token,
         data: allData,
       });
+
+      // Analytics
+      dispatch(logInAnalytics());
+      const mePerson = await dispatch(getMe());
+      RNOmniture.syncIdentifier(mePerson.global_registry_mdm_id);
+
       resolve();
       // dispatch(resetHomeAction());
     });
@@ -340,7 +351,7 @@ export function createAccountAction(email, password, isAnonymous = false) {
       dispatch(callApi(REQUESTS.ME, {}, data))
         .then(results => {
           if (!results.errors) {
-            LOG('create account success', results);
+            // LOG('create account success', results);
             dispatch(
               loginAction(
                 results.access_token.access_token,

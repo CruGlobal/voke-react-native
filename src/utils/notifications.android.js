@@ -8,7 +8,7 @@ let messageListener = null;
 
 async function init(config) {
   const token = await Firebase.messaging().getToken();
-  LOG('Got token on android', token);
+  // LOG('Got token on android', token);
   if (config.onRegister) {
     config.onRegister(token);
   }

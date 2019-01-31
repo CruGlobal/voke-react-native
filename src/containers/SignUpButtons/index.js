@@ -6,10 +6,11 @@ import { navigatePush } from '../../actions/nav';
 import { Flex, Button, Text } from '../../components/common';
 import FacebookButton from '../FacebookButton';
 import styles from './styles';
+import { buildTrackingObj } from '../../utils/common';
 
 class SignUpButtons extends Component {
   render() {
-    const { t, filled } = this.props;
+    const { t, filled, trackingPage } = this.props;
     return (
       <Flex align="center" justify="center" style={styles.actions}>
         <Flex style={styles.buttonWrapper}>
@@ -45,7 +46,14 @@ class SignUpButtons extends Component {
             type="transparent"
             buttonTextStyle={styles.signInText}
             onPress={() => {
-              this.props.dispatch(navigatePush('voke.LoginInput'));
+              this.props.dispatch(
+                navigatePush('voke.LoginInput', {
+                  trackingObj: buildTrackingObj(
+                    trackingPage || 'overlay',
+                    'signup',
+                  ),
+                }),
+              );
               this.props.onNavigate && this.props.onNavigate();
             }}
           />
