@@ -289,7 +289,7 @@ export default {
 
   EMAIL_REGEX: new RegExp(/^\w+([.+-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/),
   GA_TRACKER: 'UA-39188989-7', // Google Analytics
-  APPSEE_KEY: 'f12ec0fba0e24c6e80fa2f8fcbf1eb04',
+  // APPSEE_KEY: 'f12ec0fba0e24c6e80fa2f8fcbf1eb04',
 
   FACEBOOK_VERSION: 'v2.8',
   FACEBOOK_FIELDS: 'name,email,picture,about,cover,first_name,last_name',

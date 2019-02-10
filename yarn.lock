@@ -4731,10 +4731,6 @@ react-native-animatable@1.2.4:
   dependencies:
     prop-types "^15.5.10"
 
-react-native-appsee@2.4.11:
-  version "2.4.11"
-  resolved "https://registry.yarnpkg.com/react-native-appsee/-/react-native-appsee-2.4.11.tgz#624bc55f095fd702cefb11e085c4d59fa626b0f8"
-
 react-native-communications@2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/react-native-communications/-/react-native-communications-2.2.1.tgz#7883b56b20a002eeb790c113f8616ea8692ca795"
@@ -4767,7 +4763,7 @@ react-native-fabric@0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/react-native-fabric/-/react-native-fabric-0.5.0.tgz#d3c2e058ceccec8231aabf2dd4a2c308c410c081"
 
-react-native-fbsdk@0.7.0:
+react-native-fbsdk@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/react-native-fbsdk/-/react-native-fbsdk-0.7.0.tgz#263dfe5845205de7b80efb0f18ed5c1ded025291"
   dependencies:
@@ -4801,6 +4797,10 @@ react-native-image-crop-picker@0.16.1:
 react-native-image-picker@0.26.3:
   version "0.26.3"
   resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-0.26.3.tgz#0ad2eede49501a7046d8046a73813696539c3dcd"
+
+"react-native-omniture@github:CruGlobal/react-native-omniture":
+  version "0.0.1"
+  resolved "https://codeload.github.com/CruGlobal/react-native-omniture/tar.gz/d52d0637e0bb758bff92c3896dd7b07e37be6239"
 
 react-native-orientation@3.1.3:
   version "3.1.3"

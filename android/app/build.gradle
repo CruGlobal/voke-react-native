@@ -188,7 +188,6 @@ android {
 dependencies {
     implementation project(':react-native-svg')
     implementation project(':react-native-firebase')
-    implementation project(':react-native-appsee')
     implementation project(':react-native-orientation')
     implementation project(':react-native-fetch-blob')
     implementation project(':react-native-fabric')

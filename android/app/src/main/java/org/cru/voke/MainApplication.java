@@ -15,7 +15,6 @@ import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import io.invertase.firebase.links.RNFirebaseLinksPackage;
-import com.appsee.reactnative.AppseeReactPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.CallbackManager;
@@ -66,7 +65,6 @@ public class MainApplication extends Application implements ReactApplication {
           new RNFirebaseMessagingPackage(),
           new RNFirebaseNotificationsPackage(),
           new RNFirebaseLinksPackage(),
-          new AppseeReactPackage(),
           new OrientationPackage(),
           new FBSDKPackage(mCallbackManager),
           new OmniturePackage(),

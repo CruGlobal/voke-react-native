@@ -3,7 +3,7 @@
 //   GoogleAnalyticsSettings,
 // } from 'react-native-google-analytics-bridge';
 import Firebase from 'react-native-firebase';
-import Appsee from 'react-native-appsee';
+// import Appsee from 'react-native-appsee';
 import CONSTANTS from '../constants';
 
 // let tracker = null;
@@ -18,7 +18,7 @@ function setup() {
     // GoogleAnalyticsSettings.setDryRun(true);
   } else {
     Firebase.analytics().setAnalyticsCollectionEnabled(true);
-    Appsee.start(CONSTANTS.APPSEE_KEY);
+    // Appsee.start(CONSTANTS.APPSEE_KEY);
   }
 
   // The GoogleAnalyticsSettings is static, and settings are applied across all trackers:
@@ -39,7 +39,7 @@ function screen(screen) {
   // }
   Firebase.analytics().setCurrentScreen(screen);
   if (!__DEV__) {
-    Appsee.startScreen(screen);
+    // Appsee.startScreen(screen);
   }
 }
 
@@ -68,7 +68,7 @@ function markSensitive(view) {
     return;
   }
   // tracker.setUser(id);
-  Appsee.markViewAsSensitive(view);
+  // Appsee.markViewAsSensitive(view);
 }
 
 const s = {
