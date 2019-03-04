@@ -177,7 +177,8 @@ class ContactsList extends Component {
           // Custom logic for making sure all items are shown properly with android keyboard stuff
           paddingBottom: theme.isAndroid
             ? 50 + (androidSearchIsVisible ? 50 : 0)
-            : this.state.height + (this.state.keyboardShown ? 100 : 0),
+            : this.state.height +
+              (this.state.keyboardShown ? (theme.isIphoneX ? 130 : 100) : 0),
         }}
       >
         {this.renderContent()}

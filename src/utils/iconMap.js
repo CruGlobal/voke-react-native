@@ -13,7 +13,6 @@ import SELECTED from '../../images/circle-filled.png';
 import NOT_SELECTED from '../../images/circle-empty.png';
 import PLAY_BUTTON from '../../images/play_button.png';
 import PAUSE_BUTTON from '../../images/pause_button.png';
-import FULLSCREEN_BUTTON from '../../images/fullscreen_button.png';
 import BACK_ICON from '../../images/back-arrow.png';
 import FILM_ICON from '../../images/video_icon.png';
 import MENU_ICON from '../../images/menu_icon.png';
@@ -87,7 +86,6 @@ const vokeIcons = {
   'not-selected': NOT_SELECTED,
   play: PLAY_BUTTON,
   pause: PAUSE_BUTTON,
-  fullscreen: FULLSCREEN_BUTTON,
   back: BACK_ICON,
   'video-back': VIDEO_BACK,
   menu: MENU_ICON,

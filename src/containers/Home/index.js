@@ -51,13 +51,6 @@ class Home extends Component {
       androidReportData: null,
       showLanguageSelect: true,
     };
-
-    this.handleLoadMore = this.handleLoadMore.bind(this);
-    this.handleRefresh = this.handleRefresh.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
-    this.handleSubmitReport = this.handleSubmitReport.bind(this);
-    this.handleBlock = this.handleBlock.bind(this);
-    this.handleMenuPress = this.handleMenuPress.bind(this);
   }
 
   componentDidMount() {
@@ -89,7 +82,6 @@ class Home extends Component {
     }
 
     Analytics.screen(Analytics.s.ChatTab);
-
     this.getConversations();
 
     // This should fix the case for new users signing up not having the auth user
@@ -130,14 +122,13 @@ class Home extends Component {
     this.props.dispatch(getConversations());
   };
 
-  handleMenuPress() {
+  handleMenuPress = () => {
     this.props.navigatePush('voke.Menu');
-  }
+  };
 
-  handleLoadMore() {
+  handleLoadMore = () => {
     if (this.state.loadingMore || this.state.refreshing) return;
     if (this.props.pagination.hasMore) {
-      // LOG('has more conversations to load');
       this.setState({ loadingMore: true });
       this.props
         .dispatch(getConversationsPage(this.props.pagination.page + 1))
@@ -148,9 +139,9 @@ class Home extends Component {
           this.setState({ loadingMore: false });
         });
     }
-  }
+  };
 
-  handleRefresh() {
+  handleRefresh = () => {
     this.setState({ refreshing: true });
     this.props
       .dispatch(getConversations())
@@ -160,9 +151,9 @@ class Home extends Component {
       .catch(() => {
         this.setState({ refreshing: false });
       });
-  }
+  };
 
-  handleDelete(data) {
+  handleDelete = data => {
     this.setState({ isLoading: true });
     this.props
       .dispatch(deleteConversation(data.id))
@@ -172,9 +163,9 @@ class Home extends Component {
       .catch(() => {
         this.setState({ isLoading: false });
       });
-  }
+  };
 
-  block(otherPerson, data) {
+  block = (otherPerson, data) => {
     this.setState({ isLoading: true });
     this.props
       .dispatch(blockMessenger(otherPerson.id))
@@ -185,17 +176,17 @@ class Home extends Component {
       .catch(() => {
         this.setState({ isLoading: false });
       });
-  }
+  };
 
-  handleSubmitReport(text) {
+  handleSubmitReport = text => {
     const otherPerson = this.state.androidReportPerson;
     const data = this.state.androidReportData;
 
     this.props.dispatch(reportUserAction(text, otherPerson.id));
     this.block(otherPerson, data);
-  }
+  };
 
-  handleBlock(otherPerson, data) {
+  handleBlock = (otherPerson, data) => {
     const { t } = this.props;
     Alert.alert(
       t('areYouSureBlock', { name: otherPerson.first_name || t('thisPerson') }),
@@ -228,7 +219,7 @@ class Home extends Component {
         },
       ],
     );
-  }
+  };
 
   selectConversation = c => {
     const trackingObj =
@@ -356,9 +347,4 @@ const mapStateToProps = ({ messages, auth }) => ({
   getConversationsIsRunning: messages.getConversationsIsRunning,
 });
 
-export default translate('home')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(Home),
-);
+export default translate('home')(connect(mapStateToProps, nav)(Home));
