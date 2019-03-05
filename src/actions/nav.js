@@ -1,19 +1,20 @@
-import { NavigationActions } from 'react-navigation';
+import { StackActions, NavigationActions } from 'react-navigation';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
-
 export function navigatePush(screen, props = {}) {
-  return (dispatch) => {
-    dispatch(NavigationActions.navigate({
-      routeName: screen,
-      params: props,
-    }));
+  return dispatch => {
+    dispatch(
+      NavigationActions.navigate({
+        routeName: screen,
+        params: props,
+      }),
+    );
   };
 }
 
 export function navigateBack(times, backParams) {
-  return (dispatch) => {
+  return dispatch => {
     if (times && times > 1) {
       dispatch(NavigationActions.pop({ n: times, immediate: true }));
     } else {
@@ -24,50 +25,58 @@ export function navigateBack(times, backParams) {
 }
 
 export function navigateResetTo(screen, props = {}) {
-  return (dispatch) => {
-    dispatch(NavigationActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({ routeName: screen }),
-      ],
-    }));
+  return dispatch => {
+    dispatch(
+      StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: screen })],
+      }),
+    );
   };
 }
 
 export function navigateResetHome(options) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(navigateResetTo('MainTabs'));
   };
 }
 
 export function navigateResetLogin(options) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(navigateResetTo('voke.SignUpWelcome'));
   };
 }
 
 export function navigateResetToNumber(options) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(navigateResetTo('voke.SignUpNumber'));
   };
 }
 
 export function navigateResetToProfile(options) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(navigateResetTo('voke.SignUpProfile'));
   };
 }
 
 export function navigateResetMessage(props = {}) {
-  return (dispatch) => {
-    dispatch(NavigationActions.reset({
-      index: 1,
-      actions: [
-        // Pass in a parameter to navigate through the home page without moving around as an Anon user first
-        NavigationActions.navigate({ routeName: 'MainTabs', params: { navThrough: true } }),
-        NavigationActions.navigate({ routeName: 'voke.Message', params: props }),
-      ],
-    }));
+  return dispatch => {
+    dispatch(
+      StackActions.reset({
+        index: 1,
+        actions: [
+          // Pass in a parameter to navigate through the home page without moving around as an Anon user first
+          NavigationActions.navigate({
+            routeName: 'MainTabs',
+            params: { navThrough: true },
+          }),
+          NavigationActions.navigate({
+            routeName: 'voke.Message',
+            params: props,
+          }),
+        ],
+      }),
+    );
   };
 }
 
@@ -84,15 +93,17 @@ export const NavPropTypes = {
 };
 
 // Redux connect function for navigator screens
-export default (dispatch) => {
+export default dispatch => {
   return {
     dispatch,
     navigatePush: debounce((...args) => dispatch(navigatePush(...args)), 50),
     navigateBack: (...args) => dispatch(navigateBack(...args)),
     navigateResetHome: (...args) => dispatch(navigateResetHome(...args)),
     navigateResetLogin: (...args) => dispatch(navigateResetLogin(...args)),
-    navigateResetToNumber: (...args) => dispatch(navigateResetToNumber(...args)),
-    navigateResetToProfile: (...args) => dispatch(navigateResetToProfile(...args)),
+    navigateResetToNumber: (...args) =>
+      dispatch(navigateResetToNumber(...args)),
+    navigateResetToProfile: (...args) =>
+      dispatch(navigateResetToProfile(...args)),
     navigateResetMessage: (...args) => dispatch(navigateResetMessage(...args)),
     navigateResetTo: (...args) => dispatch(navigateResetTo(...args)),
   };

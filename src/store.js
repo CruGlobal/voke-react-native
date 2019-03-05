@@ -11,10 +11,7 @@ import tracking from './middleware/tracking';
 
 let myCreateStore = createStore;
 
-const navMiddleware = createReactNavigationReduxMiddleware(
-  'root',
-  state => state.nav,
-);
+const navMiddleware = createReactNavigationReduxMiddleware(state => state.nav);
 
 const enhancers = [];
 const middleware = [thunk, tracking, navMiddleware];

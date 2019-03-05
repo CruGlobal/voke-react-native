@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { BackHandler } from 'react-native';
 import { connect } from 'react-redux';
-import { addNavigationHelpers } from 'react-navigation';
-import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
+import { createReduxContainer } from 'react-navigation-redux-helpers';
 
 import { MainRoutes } from './AppRoutes';
 import { navigateBack } from './actions/nav';
 
-const addListener = createReduxBoundAddListener('root');
+const AppNav = createReduxContainer(MainRoutes);
 
 class AppWithNavigationState extends Component {
   componentDidMount() {
@@ -34,18 +33,12 @@ class AppWithNavigationState extends Component {
   };
 
   render() {
-    const { dispatch, nav } = this.props;
-    const navigation = addNavigationHelpers({
-      dispatch,
-      state: nav,
-      addListener,
-    });
-    return <MainRoutes navigation={navigation} />;
+    const { nav, dispatch } = this.props;
+    return <AppNav state={nav} dispatch={dispatch} />;
   }
 }
 
 AppWithNavigationState.propTypes = {
-  dispatch: PropTypes.func.isRequired,
   nav: PropTypes.object.isRequired,
 };
 

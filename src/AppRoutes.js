@@ -1,6 +1,10 @@
 import React from 'react';
 import { Image } from 'react-native';
-import { StackNavigator, TabNavigator } from 'react-navigation';
+import {
+  createStackNavigator,
+  createBottomTabNavigator,
+  StackViewTransitionConfigs,
+} from 'react-navigation';
 
 import BadgeHomeIcon from './containers/BadgeHomeIcon';
 
@@ -35,31 +39,23 @@ import i18n from './i18n';
 import theme from './theme';
 
 // Do custom animations between pages
-import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 const verticalPages = ['voke.Menu', 'voke.VideoDetails', 'voke.CountrySelect'];
-const customAnimationFunc = () => ({
-  screenInterpolator: sceneProps => {
-    const from = sceneProps.scenes[0];
-    const to = sceneProps.scenes[1];
-    const current = sceneProps.scene.route.routeName;
-    // If navigating to a vertical slide page, don't move the old page away sideways (translateX)
-    if (
-      from &&
-      to &&
-      from.route.routeName === current &&
-      verticalPages.includes(to.route.routeName)
-    ) {
-      return {
-        ...CardStackStyleInterpolator.forHorizontal(sceneProps),
-        transform: [{ translateX: 0 }],
-      };
-    }
-    if (current && verticalPages.includes(current)) {
-      return CardStackStyleInterpolator.forVertical(sceneProps);
-    }
-    return CardStackStyleInterpolator.forHorizontal(sceneProps);
-  },
-});
+let dynamicModalTransition = (transitionProps, prevTransitionProps) => {
+  const tpScenes = ((transitionProps || {}).scenes || []).length || 0;
+  const prevTpScenes = ((prevTransitionProps || {}).scenes || []).length || 0;
+  const isForward = tpScenes > prevTpScenes;
+  let isModal = verticalPages.some(screenName =>
+    isForward
+      ? screenName === transitionProps.scene.route.routeName
+      : prevTransitionProps &&
+        screenName === prevTransitionProps.scene.route.routeName,
+  );
+  return StackViewTransitionConfigs.defaultTransitionConfig(
+    transitionProps,
+    prevTransitionProps,
+    isModal,
+  );
+};
 
 import VIDEOS_ICON from '../images/video_icon.png';
 import CHANNELS_ICON from '../images/channelsIcon.png';
@@ -117,43 +113,38 @@ export const tabs = {
   },
 };
 
-export const MainTabRoutes = TabNavigator(
-  {
-    ...tabs,
-  },
-  {
-    tabBarOptions: {
-      showIcon: true,
-      showLabel: true,
-      activeTintColor: theme.lightText,
-      inactiveTintColor: theme.primaryColor,
-      // ios props
-      // activeBackgroundColor: theme.convert({ color: theme.secondaryColor, lighten: 0.1 }),
-      inactiveBackgroundColor: theme.secondaryColor,
-      // android props
-      iconStyle: { width: 60 },
-      tabStyle: {
-        backgroundColor: theme.secondaryColor,
-        paddingTop: theme.isAndroid ? 13 : 0,
-      },
-      labelStyle: {
-        fontSize: theme.isAndroid ? (IS_SMALL_ANDROID ? 8 : 10) : 12,
-        paddingBottom: theme.isAndroid ? 0 : theme.isIphoneX ? 30 : 10,
-      },
-      style: {
-        backgroundColor: theme.secondaryColor,
-        height: theme.isIphoneX ? 90 : 70,
-      },
-      scrollEnabled: false,
+const MainTabRoutes = createBottomTabNavigator(tabs, {
+  tabBarOptions: {
+    showIcon: true,
+    showLabel: true,
+    activeTintColor: theme.lightText,
+    inactiveTintColor: theme.primaryColor,
+    // ios props
+    // activeBackgroundColor: theme.convert({ color: theme.secondaryColor, lighten: 0.1 }),
+    inactiveBackgroundColor: theme.secondaryColor,
+    // android props
+    iconStyle: { width: 60 },
+    tabStyle: {
+      backgroundColor: theme.secondaryColor,
+      paddingTop: theme.isAndroid ? 13 : 0,
     },
-    swipeEnabled: false,
-    initialRouteName: 'voke.Home',
-    tabBarPosition: 'bottom',
-    animationEnabled: false,
-    // lazy: false, // Load all tabs right away
-    lazy: true,
+    labelStyle: {
+      fontSize: theme.isAndroid ? (IS_SMALL_ANDROID ? 8 : 10) : 12,
+      paddingBottom: theme.isAndroid ? 0 : theme.isIphoneX ? 30 : 10,
+    },
+    style: {
+      backgroundColor: theme.secondaryColor,
+      height: theme.isIphoneX ? 90 : 70,
+    },
+    scrollEnabled: false,
   },
-);
+  swipeEnabled: false,
+  initialRouteName: 'voke.Home',
+  tabBarPosition: 'bottom',
+  animationEnabled: false,
+  // lazy: false, // Load all tabs right away
+  lazy: true,
+});
 const noGestures = { navigationOptions: { gesturesEnabled: false } };
 
 const screens = {
@@ -259,7 +250,7 @@ export const trackableScreens = {
   ...screens,
 };
 
-export const MainStackRoutes = StackNavigator(
+export const MainStackRoutes = createStackNavigator(
   {
     ...screens,
     MainTabs: {
@@ -269,8 +260,8 @@ export const MainStackRoutes = StackNavigator(
   },
   {
     initialRouteName: 'MainTabs',
-    transitionConfig: customAnimationFunc,
-    navigationOptions: {
+    transitionConfig: dynamicModalTransition,
+    defaultNavigationOptions: {
       header: null,
     },
   },
