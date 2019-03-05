@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import DeviceInfo from 'react-native-device-info';
 import { translate } from 'react-i18next';
 
-import nav, { NavPropTypes } from '../../actions/nav';
+import { navigateTop, navigatePush } from '../../actions/nav';
 import Analytics from '../../utils/analytics';
-
 import SettingsList from '../../components/SettingsList';
 import Button from '../../components/Button';
 import CONSTANTS from '../../constants';
@@ -17,21 +16,16 @@ import { buildTrackingObj } from '../../utils/common';
 const VERSION_BUILD = DeviceInfo.getReadableVersion();
 
 class About extends Component {
-  constructor(props) {
-    super(props);
-    this.handleLink = this.handleLink.bind(this);
-  }
-
   componentDidMount() {
     Analytics.screen(Analytics.s.About);
   }
 
-  handleLink(url) {
+  handleLink = url => {
     Linking.openURL(url);
-  }
+  };
 
   render() {
-    const { t, navigateBack, navigatePush } = this.props;
+    const { t, dispatch } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <Header
@@ -43,11 +37,7 @@ class About extends Component {
                 type="transparent"
                 text={t('done')}
                 buttonTextStyle={{ padding: 10, fontSize: 16 }}
-                onPress={() => {
-                  // Close out of the settings by going back 2 times
-                  navigateBack();
-                  navigateBack();
-                }}
+                onPress={() => dispatch(navigateTop())}
               />
             )
           }
@@ -60,10 +50,12 @@ class About extends Component {
             {
               name: t('why'),
               onPress: () =>
-                navigatePush('voke.SignUpWelcome', {
-                  noSignIn: true,
-                  trackingObj: buildTrackingObj('about', 'whyvoke'),
-                }),
+                dispatch(
+                  navigatePush('voke.SignUpWelcome', {
+                    noSignIn: true,
+                    trackingObj: buildTrackingObj('about', 'whyvoke'),
+                  }),
+                ),
             },
             {
               name: t('website'),
@@ -83,7 +75,7 @@ class About extends Component {
             },
             {
               name: t('acknowledgements'),
-              onPress: () => navigatePush('voke.Acknowledgements'),
+              onPress: () => dispatch(navigatePush('voke.Acknowledgements')),
             },
             {
               name: t('version', { build: VERSION_BUILD }),
@@ -96,11 +88,4 @@ class About extends Component {
   }
 }
 
-About.propTypes = {
-  ...NavPropTypes,
-};
-const mapStateToProps = (state, { navigation }) => ({
-  ...(navigation.state.params || {}),
-});
-
-export default translate('settings')(connect(mapStateToProps, nav)(About));
+export default translate('settings')(connect()(About));

@@ -130,11 +130,11 @@ const MainTabRoutes = createBottomTabNavigator(tabs, {
     },
     labelStyle: {
       fontSize: theme.isAndroid ? (IS_SMALL_ANDROID ? 8 : 10) : 12,
-      paddingBottom: theme.isAndroid ? 0 : theme.isIphoneX ? 30 : 10,
+      paddingBottom: theme.isAndroid ? 0 : 10,
     },
     style: {
       backgroundColor: theme.secondaryColor,
-      height: theme.isIphoneX ? 90 : 70,
+      height: 70,
     },
     scrollEnabled: false,
   },

@@ -7,13 +7,17 @@ import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { anonLogin, logoutAction } from '../../actions/auth';
 import ApiLoading from '../ApiLoading';
-import nav, { NavPropTypes } from '../../actions/nav';
 import { Flex, Button } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
 import FacebookButton from '../FacebookButton';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import LOGO from '../../../images/initial_voke.png';
 import CONSTANTS, { RESET_ANON_USER } from '../../constants';
+import {
+  navigateBack,
+  navigatePush,
+  navigateResetHome,
+} from '../../actions/nav';
 
 class LoginInput extends Component {
   constructor(props) {
@@ -49,7 +53,7 @@ class LoginInput extends Component {
   }
 
   login() {
-    const { t, isAnonUser, dispatch, navigateResetHome } = this.props;
+    const { t, isAnonUser, dispatch } = this.props;
     const { emailValidation, email, password, anonUserId } = this.state;
     if (emailValidation && password) {
       this.setState({ isLoading: true });
@@ -60,7 +64,7 @@ class LoginInput extends Component {
             .then(() => {
               this.setState({ isLoading: false });
               dispatch({ type: RESET_ANON_USER });
-              navigateResetHome();
+              dispatch(navigateResetHome());
             })
             .catch(() => {
               this.setState({ isLoading: false });
@@ -71,7 +75,7 @@ class LoginInput extends Component {
           .then(() => {
             this.setState({ isLoading: false });
             dispatch({ type: RESET_ANON_USER });
-            navigateResetHome();
+            dispatch(navigateResetHome());
           })
           .catch(() => {
             this.setState({ isLoading: false });
@@ -83,12 +87,12 @@ class LoginInput extends Component {
   }
 
   render() {
-    const { t, navigateBack, navigatePush, isApiLoading } = this.props;
+    const { t, dispatch, isApiLoading } = this.props;
     const { email, password, isLoading } = this.state;
     return (
       <Flex style={styles.container} value={1} align="center" justify="center">
         <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
-          <SignUpHeaderBack onPress={() => navigateBack()} />
+          <SignUpHeaderBack onPress={() => dispatch(navigateBack())} />
           <Flex
             direction="column"
             align="center"
@@ -138,7 +142,7 @@ class LoginInput extends Component {
               text={t('forgotPassword')}
               type="transparent"
               buttonTextStyle={styles.signInText}
-              onPress={() => navigatePush('voke.ForgotPassword')}
+              onPress={() => dispatch(navigatePush('voke.ForgotPassword'))}
             />
           </Flex>
           <Flex
@@ -159,9 +163,6 @@ class LoginInput extends Component {
   }
 }
 
-LoginInput.propTypes = {
-  ...NavPropTypes,
-};
 const mapStateToProps = ({ auth }, { navigation }) => ({
   ...(navigation.state.params || {}),
   myId: auth.user ? auth.user.id : null,
@@ -169,4 +170,4 @@ const mapStateToProps = ({ auth }, { navigation }) => ({
   isApiLoading: auth.apiActive > 0,
 });
 
-export default translate('login')(connect(mapStateToProps, nav)(LoginInput));
+export default translate('login')(connect(mapStateToProps)(LoginInput));

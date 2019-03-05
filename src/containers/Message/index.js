@@ -20,7 +20,7 @@ import {
 } from '../../actions/messages';
 import Analytics from '../../utils/analytics';
 import theme, { COLORS } from '../../theme';
-import nav, { NavPropTypes } from '../../actions/nav';
+import { navigatePush, navigateBack } from '../../actions/nav';
 import { vokeIcons } from '../../utils/iconMap';
 import { SET_ACTIVE_CONVERSATION } from '../../constants';
 import styles from './styles';
@@ -32,6 +32,7 @@ import MessagesList from '../../components/MessagesList';
 import NotificationToast from '../NotificationToast';
 import CONSTANTS from '../../constants';
 import { buildTrackingObj } from '../../utils/common';
+import SafeArea from '../../components/SafeArea';
 
 class Message extends Component {
   constructor(props) {
@@ -209,28 +210,34 @@ class Message extends Component {
   }
 
   handleAddKickstarter() {
+    const { dispatch } = this.props;
     // Pause the video before navigating away
     this.pauseVideo();
-    this.props.navigatePush('voke.KickstartersTab', {
-      onSelectKickstarter: item => {
-        this.props.navigateBack();
-        // this.chatInput.focus();
-        this.setState({ text: item.content, kickstarterId: item.id });
-      },
-      latestItem: this.state.latestItem,
-    });
+    dispatch(
+      navigatePush('voke.KickstartersTab', {
+        onSelectKickstarter: item => {
+          dispatch(navigateBack());
+          // this.chatInput.focus();
+          this.setState({ text: item.content, kickstarterId: item.id });
+        },
+        latestItem: this.state.latestItem,
+      }),
+    );
   }
 
   handleAddVideo() {
+    const { dispatch, conversation } = this.props;
     // Pause the video before navigating away
     this.pauseVideo();
-    this.props.navigatePush('voke.VideosTab', {
-      trackingObj: buildTrackingObj('chat', 'addvideo'),
-      onSelectVideo: video => {
-        this.createMessage(video);
-      },
-      conversation: this.props.conversation,
-    });
+    dispatch(
+      navigatePush('voke.VideosTab', {
+        trackingObj: buildTrackingObj('chat', 'addvideo'),
+        onSelectVideo: video => {
+          this.createMessage(video);
+        },
+        conversation,
+      }),
+    );
   }
 
   createMessageEmpty = () => {
@@ -324,7 +331,7 @@ class Message extends Component {
   }
 
   handleHeaderBack() {
-    this.props.navigateBack();
+    this.props.dispatch(navigateBack());
   }
 
   clearSelectedVideo = () => {
@@ -340,17 +347,24 @@ class Message extends Component {
   };
 
   handleShareVideo = video => {
-    if (!this.props.me.first_name) {
-      this.props.navigatePush('voke.TryItNowName', {
-        onComplete: () =>
-          this.props.navigatePush('voke.ShareFlow', {
-            video: video,
-          }),
-      });
+    const { dispatch, me } = this.props;
+    if (!me.first_name) {
+      dispatch(
+        navigatePush('voke.TryItNowName', {
+          onComplete: () =>
+            dispatch(
+              navigatePush('voke.ShareFlow', {
+                video: video,
+              }),
+            ),
+        }),
+      );
     } else {
-      this.props.navigatePush('voke.ShareFlow', {
-        video: video,
-      });
+      dispatch(
+        navigatePush('voke.ShareFlow', {
+          video: video,
+        }),
+      );
     }
   };
 
@@ -395,15 +409,8 @@ class Message extends Component {
       height: height < 45 ? 45 : height > 80 ? 80 : height,
     };
 
-    const extraPadding = theme.isIphoneX ? 40 : 0;
-
     let newWrap = {
-      height:
-        height < 45
-          ? 55 + extraPadding
-          : height > 80
-          ? 90 + extraPadding
-          : height + 10 + extraPadding,
+      height: inputHeight.height + 10,
     };
 
     return (
@@ -458,103 +465,105 @@ class Message extends Component {
               style={{ zIndex: 1, backgroundColor: 'transparent' }}
             />
           )}
-          <Flex
-            direction="row"
-            style={[styles.inputWrap, newWrap]}
-            align="center"
-            justify="center"
-          >
-            {this.state.shouldShowButtons === true ? (
-              <Flex
-                animation="slideInLeft"
-                duration={400}
-                direction="row"
-                style={{ padding: 0, margin: 0, alignItems: 'center' }}
-              >
-                <Button
-                  type="transparent"
-                  style={styles.moreContentButton}
-                  onPress={this.handleAddVideo}
-                >
-                  <VokeIcon name="add-video" />
-                </Button>
-                <Button
-                  type="transparent"
-                  style={styles.moreContentButton}
-                  onPress={this.handleAddKickstarter}
-                >
-                  <VokeIcon name="add-kickstarter" />
-                </Button>
-              </Flex>
-            ) : (
-              <Flex
-                animation="slideInRight"
-                duration={150}
-                direction="row"
-                style={{ padding: 0, margin: 0, alignItems: 'center' }}
-              >
-                <Button
-                  type="transparent"
-                  style={styles.moreContentButton}
-                  onPress={this.handleButtonExpand}
-                >
-                  <VokeIcon name="plus" />
-                </Button>
-              </Flex>
-            )}
+          <SafeArea bg="secondary">
             <Flex
               direction="row"
-              style={[styles.chatBox, inputHeight]}
+              style={[styles.inputWrap, newWrap]}
               align="center"
+              justify="center"
             >
-              <TextInput
-                ref={c => (this.chatInput = c)}
-                onFocus={this.handleInputFocus}
-                onBlur={this.handleInputBlur}
-                autoCapitalize="sentences"
-                multiline={true}
-                value={this.state.text}
-                placeholder={t('placeholder.newMessage')}
-                onChangeText={this.handleInputChange}
-                placeholderTextColor={theme.primaryColor}
-                underlineColorAndroid={COLORS.TRANSPARENT}
-                onContentSizeChange={this.handleInputSizeChange}
-                style={[styles.chatInput, inputHeight]}
-                autoCorrect={true}
-              />
-              {this.state.text ? (
+              {this.state.shouldShowButtons === true ? (
                 <Flex
-                  animation="slideInRight"
-                  duration={250}
-                  align="center"
+                  animation="slideInLeft"
+                  duration={400}
                   direction="row"
-                  style={{ padding: 0, margin: 0 }}
+                  style={{ padding: 0, margin: 0, alignItems: 'center' }}
                 >
                   <Button
                     type="transparent"
-                    style={styles.sendButton}
-                    icon="send"
-                    iconStyle={styles.sendIcon}
-                    onPress={this.createMessageEmpty}
-                    preventTimeout={1000}
-                  />
+                    style={styles.moreContentButton}
+                    onPress={this.handleAddVideo}
+                  >
+                    <VokeIcon name="add-video" />
+                  </Button>
+                  <Button
+                    type="transparent"
+                    style={styles.moreContentButton}
+                    onPress={this.handleAddKickstarter}
+                  >
+                    <VokeIcon name="add-kickstarter" />
+                  </Button>
                 </Flex>
-              ) : null}
-              {this.state.createTransparentFocus ? (
-                <Touchable
-                  activeOpacity={0}
-                  onPress={() =>
-                    this.setState({
-                      shouldShowButtons: false,
-                      createTransparentFocus: false,
-                    })
-                  }
+              ) : (
+                <Flex
+                  animation="slideInRight"
+                  duration={150}
+                  direction="row"
+                  style={{ padding: 0, margin: 0, alignItems: 'center' }}
                 >
-                  <View style={[inputHeight, styles.transparentOverlay]} />
-                </Touchable>
-              ) : null}
+                  <Button
+                    type="transparent"
+                    style={styles.moreContentButton}
+                    onPress={this.handleButtonExpand}
+                  >
+                    <VokeIcon name="plus" />
+                  </Button>
+                </Flex>
+              )}
+              <Flex
+                direction="row"
+                style={[styles.chatBox, inputHeight]}
+                align="center"
+              >
+                <TextInput
+                  ref={c => (this.chatInput = c)}
+                  onFocus={this.handleInputFocus}
+                  onBlur={this.handleInputBlur}
+                  autoCapitalize="sentences"
+                  multiline={true}
+                  value={this.state.text}
+                  placeholder={t('placeholder.newMessage')}
+                  onChangeText={this.handleInputChange}
+                  placeholderTextColor={theme.primaryColor}
+                  underlineColorAndroid={COLORS.TRANSPARENT}
+                  onContentSizeChange={this.handleInputSizeChange}
+                  style={[styles.chatInput, inputHeight]}
+                  autoCorrect={true}
+                />
+                {this.state.text ? (
+                  <Flex
+                    animation="slideInRight"
+                    duration={250}
+                    align="center"
+                    direction="row"
+                    style={{ padding: 0, margin: 0 }}
+                  >
+                    <Button
+                      type="transparent"
+                      style={styles.sendButton}
+                      icon="send"
+                      iconStyle={styles.sendIcon}
+                      onPress={this.createMessageEmpty}
+                      preventTimeout={1000}
+                    />
+                  </Flex>
+                ) : null}
+                {this.state.createTransparentFocus ? (
+                  <Touchable
+                    activeOpacity={0}
+                    onPress={() =>
+                      this.setState({
+                        shouldShowButtons: false,
+                        createTransparentFocus: false,
+                      })
+                    }
+                  >
+                    <View style={[inputHeight, styles.transparentOverlay]} />
+                  </Touchable>
+                ) : null}
+              </Flex>
             </Flex>
-          </Flex>
+          </SafeArea>
           <ApiLoading text={t('loading.messages')} />
         </KeyboardAvoidingView>
       </View>
@@ -563,7 +572,6 @@ class Message extends Component {
 }
 
 Message.propTypes = {
-  ...NavPropTypes,
   messages: PropTypes.array.isRequired, // Redux
   pagination: PropTypes.object.isRequired, // Redux
   me: PropTypes.object.isRequired, // Redux
@@ -589,9 +597,4 @@ const mapStateToProps = ({ messages, auth }, { navigation }) => {
   };
 };
 
-export default translate()(
-  connect(
-    mapStateToProps,
-    nav,
-  )(Message),
-);
+export default translate()(connect(mapStateToProps)(Message));

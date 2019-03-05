@@ -9,7 +9,7 @@ import { openSettingsAction } from '../../actions/auth';
 import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { searchContacts, getContacts } from '../../actions/contacts';
-import nav, { NavPropTypes } from '../../actions/nav';
+import { navigateBack } from '../../actions/nav';
 import Permissions from '../../utils/permissions';
 import { Button, Flex } from '../../components/common';
 import { SHOW_SHARE_MODAL } from '../../constants';
@@ -84,7 +84,7 @@ class Contacts extends Component {
     if (this.props.isShareModalVisible && this.props.shareModalCancel) {
       this.props.shareModalCancel();
     } else {
-      this.props.navigateBack();
+      this.props.dispatch(navigateBack());
     }
   }
 
@@ -295,7 +295,6 @@ class Contacts extends Component {
 
 // Check out actions/nav.js to see the prop types and mapDispatchToProps
 Contacts.propTypes = {
-  ...NavPropTypes,
   onSelect: PropTypes.func.isRequired,
   video: PropTypes.string,
   isInvite: PropTypes.bool,
@@ -311,9 +310,4 @@ const mapStateToProps = ({ contacts, messages }, { navigation }) => ({
   inShare: messages.inShare,
 });
 
-export default translate()(
-  connect(
-    mapStateToProps,
-    nav,
-  )(Contacts),
-);
+export default translate()(connect(mapStateToProps)(Contacts));

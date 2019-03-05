@@ -15,7 +15,11 @@ import LOGO from '../../../images/voke_logo_words.png';
 import ONBOARD_BUTTON from '../../../images/onboardingButton.png';
 // import { ONBOARD_FLAG } from '../../constants';
 import styles from './styles';
-import nav, { NavPropTypes } from '../../actions/nav';
+import {
+  navigateResetHome,
+  navigatePush,
+  navigateBack,
+} from '../../actions/nav';
 import { createAccountAction, setupFirebaseLinks } from '../../actions/auth';
 import { CREATE_ANON_USER } from '../../constants';
 import theme, { COLORS } from '../../theme';
@@ -27,6 +31,7 @@ import { trackState } from '../../actions/analytics';
 import { buildTrackingObj } from '../../utils/common';
 
 const MARGIN = 40;
+const extraBottom = theme.isIphoneX ? 30 : 0;
 
 class SignUpWelcome extends Component {
   state = {
@@ -54,14 +59,14 @@ class SignUpWelcome extends Component {
   }
 
   tryItNow = () => {
+    const { dispatch } = this.props;
     this.setState({ isLoading: true });
-    this.props
-      .dispatch(createAccountAction(null, null, true))
+    dispatch(createAccountAction(null, null, true))
       .then(results => {
-        // LOG('create try it now account results', results);
-        this.props.dispatch({ type: CREATE_ANON_USER });
+        LOG('create try it now account results', results);
+        dispatch({ type: CREATE_ANON_USER });
         this.setState({ isLoading: false });
-        this.props.navigateResetHome();
+        dispatch(navigateResetHome());
       })
       .catch(() => {
         this.setState({ isLoading: false });
@@ -72,7 +77,7 @@ class SignUpWelcome extends Component {
     return (
       <PagerDotIndicator
         style={{
-          marginBottom: 45,
+          marginBottom: 45 + extraBottom,
           width: 100,
           marginHorizontal: theme.fullWidth / 2 - 50,
         }}
@@ -101,23 +106,31 @@ class SignUpWelcome extends Component {
     // If your get to the last page, dont show the skip button
     if (this.state.selectedPage >= this.state.totalSteps) return null;
     return (
-      <Button
-        type="transparent"
-        hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
-        onPress={() => this.handleNextPage(this.state.selectedPage)}
-        style={styles.skipButton}
+      <Flex
+        style={{
+          position: 'absolute',
+          bottom: MARGIN + extraBottom,
+          right: MARGIN,
+        }}
       >
-        <Image
-          resizeMode="contain"
-          source={ONBOARD_BUTTON}
-          style={styles.onboardButton}
-        />
-      </Button>
+        <Button
+          type="transparent"
+          hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
+          onPress={() => this.handleNextPage(this.state.selectedPage)}
+          style={styles.skipButton}
+        >
+          <Image
+            resizeMode="contain"
+            source={ONBOARD_BUTTON}
+            style={styles.onboardButton}
+          />
+        </Button>
+      </Flex>
     );
   }
 
   render() {
-    const { t, noSignIn } = this.props;
+    const { t, dispatch, noSignIn } = this.props;
     return (
       <View style={{ flex: 1, backgroundColor: theme.primaryColor }}>
         <StatusBar />
@@ -159,11 +172,8 @@ class SignUpWelcome extends Component {
                 />
                 <Text style={styles.tagline}>{t('tagline1')}</Text>
               </Flex>
-              <Flex
-                style={{ position: 'absolute', bottom: MARGIN, right: MARGIN }}
-              >
-                {this.renderSkip()}
-              </Flex>
+
+              {this.renderSkip()}
             </View>
             <View style={styles.onboardingPage}>
               <Flex
@@ -196,11 +206,7 @@ class SignUpWelcome extends Component {
                 />
                 <Text style={styles.tagline}>{t('tagline2')}</Text>
               </Flex>
-              <Flex
-                style={{ position: 'absolute', bottom: MARGIN, right: MARGIN }}
-              >
-                {this.renderSkip()}
-              </Flex>
+              {this.renderSkip()}
             </View>
             <View style={styles.onboardingPage}>
               <Flex
@@ -233,11 +239,7 @@ class SignUpWelcome extends Component {
                 />
                 <Text style={styles.tagline}>{t('tagline3')}</Text>
               </Flex>
-              <Flex
-                style={{ position: 'absolute', bottom: MARGIN, right: MARGIN }}
-              >
-                {this.renderSkip()}
-              </Flex>
+              {this.renderSkip()}
             </View>
 
             {noSignIn ? (
@@ -272,7 +274,7 @@ class SignUpWelcome extends Component {
                 <Flex
                   style={{
                     position: 'absolute',
-                    bottom: 90,
+                    bottom: 90 + extraBottom,
                     right: 0,
                     left: 0,
                     padding: 5,
@@ -282,7 +284,7 @@ class SignUpWelcome extends Component {
                   <Button
                     text={t('done')}
                     style={styles.actionButton}
-                    onPress={() => this.props.navigateBack()}
+                    onPress={() => dispatch(navigateBack())}
                   />
                 </Flex>
               </View>
@@ -328,7 +330,7 @@ class SignUpWelcome extends Component {
                 <Flex
                   style={{
                     position: 'absolute',
-                    bottom: 120,
+                    bottom: 120 + extraBottom,
                     right: 0,
                     left: 0,
                     padding: 5,
@@ -345,7 +347,7 @@ class SignUpWelcome extends Component {
                 <Flex
                   style={{
                     position: 'absolute',
-                    bottom: 75,
+                    bottom: 75 + extraBottom,
                     right: 0,
                     left: 0,
                     padding: 5,
@@ -359,7 +361,7 @@ class SignUpWelcome extends Component {
                   justify="center"
                   style={{
                     position: 'absolute',
-                    bottom: 20,
+                    bottom: 20 + extraBottom,
                     right: 0,
                     left: 0,
                   }}
@@ -369,7 +371,7 @@ class SignUpWelcome extends Component {
                     text={t('signIn')}
                     style={styles.signInButton}
                     buttonTextStyle={styles.signInText}
-                    onPress={() => this.props.navigatePush('voke.LoginInput')}
+                    onPress={() => dispatch(navigatePush('voke.LoginInput'))}
                   />
                 </Flex>
               </View>
@@ -382,7 +384,6 @@ class SignUpWelcome extends Component {
 }
 
 SignUpWelcome.propTypes = {
-  ...NavPropTypes,
   noSignIn: PropTypes.bool,
 };
 const mapStateToProps = (state, { navigation }) => ({
@@ -390,8 +391,5 @@ const mapStateToProps = (state, { navigation }) => ({
 });
 
 export default translate('signUpWelcome')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(SignUpWelcome),
+  connect(mapStateToProps)(SignUpWelcome),
 );

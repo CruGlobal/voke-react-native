@@ -5,7 +5,7 @@ import { translate } from 'react-i18next';
 
 import Analytics from '../../utils/analytics';
 import { navMenuOptions } from '../../utils/menu';
-import nav, { NavPropTypes } from '../../actions/nav';
+import { navigateBack } from '../../actions/nav';
 import SettingsList from '../../components/SettingsList';
 import { Button } from '../../components/common';
 import Header from '../Header';
@@ -16,7 +16,7 @@ class Menu extends Component {
   }
 
   render() {
-    const { t, navigateBack } = this.props;
+    const { t, dispatch } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <Header
@@ -25,7 +25,7 @@ class Menu extends Component {
               type="transparent"
               text={t('done')}
               buttonTextStyle={{ padding: 10, fontSize: 16 }}
-              onPress={() => navigateBack()}
+              onPress={() => dispatch(navigateBack())}
             />
           }
           title={t('settings')}
@@ -37,13 +37,10 @@ class Menu extends Component {
   }
 }
 
-Menu.propTypes = {
-  ...NavPropTypes,
-};
 const mapStateToProps = ({ auth }, { navigation }) => ({
   ...(navigation.state.params || {}),
   isAnonUser: auth.isAnonUser,
   user: auth.user,
 });
 
-export default translate()(connect(mapStateToProps, nav)(Menu));
+export default translate()(connect(mapStateToProps)(Menu));

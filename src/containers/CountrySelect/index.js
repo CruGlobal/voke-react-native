@@ -6,7 +6,7 @@ import debounce from 'lodash/debounce';
 import { translate } from 'react-i18next';
 
 import Analytics from '../../utils/analytics';
-import nav, { NavPropTypes } from '../../actions/nav';
+import { navigateBack } from '../../actions/nav';
 import styles from './styles';
 
 import { Touchable, Text } from '../../components/common';
@@ -65,7 +65,7 @@ class CountrySelect extends Component {
   }
 
   close() {
-    this.props.navigateBack();
+    this.props.dispatch(navigateBack());
   }
 
   search(text) {
@@ -176,16 +176,10 @@ class CountrySelect extends Component {
 }
 
 CountrySelect.propTypes = {
-  ...NavPropTypes,
   onSelect: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
 });
 
-export default translate()(
-  connect(
-    mapStateToProps,
-    nav,
-  )(CountrySelect),
-);
+export default translate()(connect(mapStateToProps)(CountrySelect));

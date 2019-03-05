@@ -16,7 +16,7 @@ export function navigatePush(screen, props = {}) {
 export function navigateBack(times, backParams) {
   return dispatch => {
     if (times && times > 1) {
-      dispatch(NavigationActions.pop({ n: times, immediate: true }));
+      dispatch(StackActions.pop({ n: times, immediate: true }));
     } else {
       // backParams can contain { key: string, immediate: bool }
       dispatch(NavigationActions.back(backParams));
@@ -24,42 +24,48 @@ export function navigateBack(times, backParams) {
   };
 }
 
-export function navigateResetTo(screen, props = {}) {
+export function navigateTop() {
+  return dispatch => {
+    dispatch(StackActions.popToTop());
+  };
+}
+
+export function navigateResetTo(screen, params = {}) {
   return dispatch => {
     dispatch(
       StackActions.reset({
         index: 0,
-        actions: [NavigationActions.navigate({ routeName: screen })],
+        actions: [NavigationActions.navigate({ routeName: screen, params })],
       }),
     );
   };
 }
 
-export function navigateResetHome(options) {
+export function navigateResetHome(params) {
   return dispatch => {
-    dispatch(navigateResetTo('MainTabs'));
+    dispatch(navigateResetTo('MainTabs', params));
   };
 }
 
-export function navigateResetLogin(options) {
+export function navigateResetLogin(params) {
   return dispatch => {
-    dispatch(navigateResetTo('voke.SignUpWelcome'));
+    dispatch(navigateResetTo('voke.SignUpWelcome', params));
   };
 }
 
-export function navigateResetToNumber(options) {
+export function navigateResetToNumber(params) {
   return dispatch => {
-    dispatch(navigateResetTo('voke.SignUpNumber'));
+    dispatch(navigateResetTo('voke.SignUpNumber', params));
   };
 }
 
-export function navigateResetToProfile(options) {
+export function navigateResetToProfile(params) {
   return dispatch => {
-    dispatch(navigateResetTo('voke.SignUpProfile'));
+    dispatch(navigateResetTo('voke.SignUpProfile', params));
   };
 }
 
-export function navigateResetMessage(props = {}) {
+export function navigateResetMessage(params = {}) {
   return dispatch => {
     dispatch(
       StackActions.reset({
@@ -72,7 +78,7 @@ export function navigateResetMessage(props = {}) {
           }),
           NavigationActions.navigate({
             routeName: 'voke.Message',
-            params: props,
+            params,
           }),
         ],
       }),

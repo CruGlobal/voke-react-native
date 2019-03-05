@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import {
   ScrollView,
   KeyboardAvoidingView,
-  Linking,
   Alert,
   Keyboard,
 } from 'react-native';
@@ -12,8 +11,8 @@ import { translate } from 'react-i18next';
 import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { updateMe } from '../../actions/auth';
-import nav, { NavPropTypes } from '../../actions/nav';
-import { Flex, Text, Button } from '../../components/common';
+import { navigateBack, navigatePush } from '../../actions/nav';
+import { Flex, Button } from '../../components/common';
 import ApiLoading from '../ApiLoading';
 import FacebookButton from '../FacebookButton';
 import SignUpInput from '../../components/SignUpInput';
@@ -41,11 +40,11 @@ class SignUpAccount extends Component {
   }
 
   moveForward(results) {
-    const { t, navigatePush } = this.props;
+    const { t, dispatch } = this.props;
     if (results.errors) {
       Alert.alert(t('error.error'), `${results.errors}`);
     } else {
-      navigatePush('voke.SignUpProfile');
+      dispatch(navigatePush('voke.SignUpProfile'));
     }
   }
 
@@ -87,13 +86,13 @@ class SignUpAccount extends Component {
   }
 
   render() {
-    const { t } = this.props;
+    const { t, dispatch } = this.props;
     return (
       <ScrollView
         keyboardShouldPersistTaps={theme.isAndroid ? 'handled' : 'always'}
         style={styles.container}
       >
-        <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
+        <SignUpHeaderBack onPress={() => dispatch(navigateBack())} />
         <KeyboardAvoidingView
           behavior={theme.isAndroid ? undefined : 'position'}
         >
@@ -148,14 +147,9 @@ class SignUpAccount extends Component {
   }
 }
 
-SignUpAccount.propTypes = {
-  ...NavPropTypes,
-};
 const mapStateToProps = ({ auth }, { navigation }) => ({
   ...(navigation.state.params || {}),
   isAnonUser: auth.isAnonUser,
 });
 
-export default translate('signUp')(
-  connect(mapStateToProps, nav)(SignUpAccount),
-);
+export default translate('signUp')(connect(mapStateToProps)(SignUpAccount));

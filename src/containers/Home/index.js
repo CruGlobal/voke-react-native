@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 
 import styles from './styles';
-import nav, { NavPropTypes } from '../../actions/nav';
+import { navigatePush } from '../../actions/nav';
 import {
   startupAction,
   blockMessenger,
@@ -123,7 +123,7 @@ class Home extends Component {
   };
 
   handleMenuPress = () => {
-    this.props.navigatePush('voke.Menu');
+    this.props.dispatch(navigatePush('voke.Menu'));
   };
 
   handleLoadMore = () => {
@@ -226,7 +226,9 @@ class Home extends Component {
       c && (c.messengers || []).length === 2
         ? buildTrackingObj('chat', 'vokebot')
         : undefined;
-    this.props.navigatePush('voke.Message', { conversation: c, trackingObj });
+    this.props.dispatch(
+      navigatePush('voke.Message', { conversation: c, trackingObj }),
+    );
   };
 
   render() {
@@ -329,7 +331,6 @@ class Home extends Component {
 
 // Check out actions/nav.js to see the prop types and mapDispatchToProps
 Home.propTypes = {
-  ...NavPropTypes,
   conversations: PropTypes.array.isRequired, // Redux
   me: PropTypes.object.isRequired, // Redux
   pagination: PropTypes.object.isRequired, // Redux
@@ -347,4 +348,4 @@ const mapStateToProps = ({ messages, auth }) => ({
   getConversationsIsRunning: messages.getConversationsIsRunning,
 });
 
-export default translate('home')(connect(mapStateToProps, nav)(Home));
+export default translate('home')(connect(mapStateToProps)(Home));

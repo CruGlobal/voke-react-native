@@ -20,7 +20,11 @@ import {
   getConversation,
   deleteConversation,
 } from '../../actions/messages';
-import nav, { NavPropTypes } from '../../actions/nav';
+import {
+  navigateBack,
+  navigateResetMessage,
+  navigatePush,
+} from '../../actions/nav';
 import { Flex, Button, Text } from '../../components/common';
 import ApiLoading from '../ApiLoading';
 import SignUpInput from '../../components/SignUpInput';
@@ -42,11 +46,11 @@ class ShareFlow extends Component {
   }
 
   quit = () => {
-    this.props.navigateBack();
+    this.props.dispatch(navigateBack());
   };
 
   createConversationId() {
-    const { t } = this.props;
+    const { t, dispatch, video } = this.props;
     const { name } = this.state;
     return new Promise((resolve, reject) => {
       const createData = {
@@ -56,7 +60,7 @@ class ShareFlow extends Component {
               first_name: name,
             },
           ],
-          item_id: `${this.props.video.id}`,
+          item_id: `${video.id}`,
         },
       };
 
@@ -68,14 +72,12 @@ class ShareFlow extends Component {
       };
 
       this.setState({ isLoading: true });
-      this.props
-        .dispatch(createConversation(createData))
+      dispatch(createConversation(createData))
         .then(results => {
           // Grab the friendfrom the results
           const friend = results.messengers[0];
           // LOG('create voke conversation results', results);
-          this.props
-            .dispatch(getConversation(results.id))
+          dispatch(getConversation(results.id))
             .then(c => {
               this.setState(
                 {
@@ -106,7 +108,7 @@ class ShareFlow extends Component {
   };
 
   shareDialog = () => {
-    const { t } = this.props;
+    const { t, dispatch } = this.props;
     this.setState({ showOverlay: true });
     // Android uses message, not url
     Share.share(
@@ -127,21 +129,21 @@ class ShareFlow extends Component {
         if (action === Share.sharedAction) {
           LOG('shared!', activityType);
           // Navigate to the new conversation after sharing
-          this.props.navigateResetMessage({
-            conversation: this.state.conversation,
-          });
+          dispatch(
+            navigateResetMessage({
+              conversation: this.state.conversation,
+            }),
+          );
         } else {
           LOG('not shared!');
           this.setState({ showOverlay: false });
           // Delete the conversation
-          this.props
-            .dispatch(deleteConversation(this.state.conversation.id))
-            .then(() => {
-              this.setState({
-                conversationUrl: '',
-                conversation: null,
-              });
+          dispatch(deleteConversation(this.state.conversation.id)).then(() => {
+            this.setState({
+              conversationUrl: '',
+              conversation: null,
             });
+          });
         }
       })
       .catch(err => {
@@ -152,9 +154,11 @@ class ShareFlow extends Component {
 
   openAddrBook = () => {
     Keyboard.dismiss();
-    this.props.navigatePush('voke.SelectFriend', {
-      video: this.props.video.id,
-    });
+    this.props.dispatch(
+      navigatePush('voke.SelectFriend', {
+        video: this.props.video.id,
+      }),
+    );
   };
 
   renderOverlay() {
@@ -247,7 +251,6 @@ class ShareFlow extends Component {
 }
 
 ShareFlow.propTypes = {
-  ...NavPropTypes,
   video: PropTypes.object.isRequired,
 };
 const mapStateToProps = ({ messages }, { navigation }) => ({
@@ -255,4 +258,4 @@ const mapStateToProps = ({ messages }, { navigation }) => ({
   isFirstTime: messages.conversations.length < 2,
 });
 
-export default translate('shareFlow')(connect(mapStateToProps, nav)(ShareFlow));
+export default translate('shareFlow')(connect(mapStateToProps)(ShareFlow));

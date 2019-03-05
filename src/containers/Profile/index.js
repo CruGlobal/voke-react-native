@@ -33,10 +33,10 @@ import Header from '../Header';
 import SignUpButtons from '../SignUpButtons';
 import ProfileProgress from '../ProfileProgress';
 import VOKE_LOGO from '../../../images/nav_voke_logo.png';
-import nav, {
-  NavPropTypes,
+import {
   navigateResetLogin,
   navigateResetHome,
+  navigatePush,
 } from '../../actions/nav';
 import theme, { COLORS } from '../../theme';
 import { SET_OVERLAY } from '../../constants';
@@ -485,7 +485,13 @@ class Profile extends Component {
   }
 
   render() {
-    const { editName, editEmail, editPassword, hideAnonFields } = this.state;
+    const {
+      dispatch,
+      editName,
+      editEmail,
+      editPassword,
+      hideAnonFields,
+    } = this.state;
     let { t, user, isAnonUser } = this.props;
     let name = null;
     if (user.first_name || user.last_name) {
@@ -510,12 +516,14 @@ class Profile extends Component {
           >
             <ProfileProgress
               onHandleSignUpAccount={() =>
-                this.props.navigatePush('voke.SignUpAccount', {
-                  trackingObj: buildTrackingObj('profile', 'signup'),
-                })
+                dispatch(
+                  navigatePush('voke.SignUpAccount', {
+                    trackingObj: buildTrackingObj('profile', 'signup'),
+                  }),
+                )
               }
               onHandleVerifyNumber={() =>
-                this.props.navigatePush('voke.SignUpNumber')
+                dispatch(navigatePush('voke.SignUpNumber'))
               }
             />
             <Separator />
@@ -597,7 +605,7 @@ class Profile extends Component {
                     onPress={() =>
                       user.mobile
                         ? undefined
-                        : this.props.navigatePush('voke.SignUpNumber')
+                        : dispatch(navigatePush('voke.SignUpNumber'))
                     }
                   />
                 }
@@ -720,18 +728,11 @@ function ProfileRow({ text, left, right }) {
 }
 
 // Check out actions/nav.js to see the prop types and mapDispatchToProps
-Profile.propTypes = {
-  ...NavPropTypes,
-};
+Profile.propTypes = {};
 
 const mapStateToProps = ({ auth }) => ({
   user: auth.user,
   isAnonUser: auth.isAnonUser,
 });
 
-export default translate('profile')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(Profile),
-);
+export default translate('profile')(connect(mapStateToProps)(Profile));
