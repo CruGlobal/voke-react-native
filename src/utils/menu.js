@@ -57,18 +57,19 @@ export function navMenuOptions({ dispatch, isAnonUser } = {}) {
       id: 'invite',
       name: i18n.t('inviteFriend'),
       onPress: () =>
-        navigatePush &&
-        navigatePush('voke.Contacts', {
-          trackingObj: buildTrackingObj('contacts', 'invite'),
-          isInvite: true,
-          onSelect: c => {
-            LOG('Invite this person:', c);
-            let phone = c.phone && c.phone[0] ? c.phone[0] : null;
-            LOG(phone);
-            let message = 'Check out this awesome app! https://vokeapp.com';
-            Communications.textWithoutEncoding(phone, message);
-          },
-        }),
+        dispatch(
+          navigatePush('voke.Contacts', {
+            trackingObj: buildTrackingObj('contacts', 'invite'),
+            isInvite: true,
+            onSelect: c => {
+              LOG('Invite this person:', c);
+              let phone = c.phone && c.phone[0] ? c.phone[0] : null;
+              LOG(phone);
+              let message = 'Check out this awesome app! https://vokeapp.com';
+              Communications.textWithoutEncoding(phone, message);
+            },
+          }),
+        ),
     },
     {
       id: 'review',
