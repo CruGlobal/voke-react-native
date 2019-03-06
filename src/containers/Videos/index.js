@@ -27,7 +27,7 @@ import nav, { NavPropTypes } from '../../actions/nav';
 import { startupAction } from '../../actions/auth';
 
 import styles from './styles';
-import { vokeIcons } from '../../utils/iconMap';
+import { vokeImages } from '../../utils/iconMap';
 
 import ApiLoading from '../ApiLoading';
 import ThemeSelect from '../ThemeSelect';
@@ -455,7 +455,7 @@ class Videos extends Component {
     return (
       <HeaderIcon
         type={showBack ? 'back' : undefined}
-        image={vokeIcons['menu']}
+        icon="menu"
         onPress={() => {
           if (showBack) {
             this.props.navigateBack();
@@ -630,9 +630,4 @@ const mapStateToProps = ({ auth, videos }) => ({
   pagination: videos.pagination,
 });
 
-export default translate('videos')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(Videos),
-);
+export default translate('videos')(connect(mapStateToProps, nav)(Videos));

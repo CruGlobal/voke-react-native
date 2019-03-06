@@ -12,8 +12,6 @@ import ONBOARD_2 from '../../../images/onboarding-image-2.png';
 import ONBOARD_3 from '../../../images/onboarding-image-3.png';
 import ONBOARD_4 from '../../../images/onboarding-image-4.png';
 import LOGO from '../../../images/voke_logo_words.png';
-import ONBOARD_BUTTON from '../../../images/onboardingButton.png';
-// import { ONBOARD_FLAG } from '../../constants';
 import styles from './styles';
 import {
   navigateResetHome,
@@ -113,6 +111,7 @@ class SignUpWelcome extends Component {
           right: MARGIN,
         }}
       >
+<<<<<<< HEAD
         <Button
           type="transparent"
           hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
@@ -126,6 +125,14 @@ class SignUpWelcome extends Component {
           />
         </Button>
       </Flex>
+=======
+        <VokeIcon
+          style={{ color: 'white' }}
+          size={30}
+          name="next_button_filled"
+        />
+      </Button>
+>>>>>>> use icon file instead of images and remove unused images
     );
   }
 
@@ -167,8 +174,9 @@ class SignUpWelcome extends Component {
                 }}
               >
                 <VokeIcon
-                  style={{ width: 36, height: 36, marginBottom: 30 }}
-                  name="onboard-film"
+                  style={{ marginBottom: 30, color: 'white' }}
+                  size={36}
+                  name="video"
                 />
                 <Text style={styles.tagline}>{t('tagline1')}</Text>
               </Flex>
@@ -201,8 +209,9 @@ class SignUpWelcome extends Component {
                 }}
               >
                 <VokeIcon
-                  style={{ width: 36, height: 36, marginBottom: 30 }}
-                  name="onboard-chat"
+                  style={{ marginBottom: 30, color: 'white' }}
+                  name="Chat"
+                  size={36}
                 />
                 <Text style={styles.tagline}>{t('tagline2')}</Text>
               </Flex>
@@ -234,8 +243,9 @@ class SignUpWelcome extends Component {
                 }}
               >
                 <VokeIcon
-                  style={{ width: 36, height: 36, marginBottom: 30 }}
-                  name="onboard-heart"
+                  style={{ marginBottom: 30, color: 'white' }}
+                  name="heart"
+                  size={36}
                 />
                 <Text style={styles.tagline}>{t('tagline3')}</Text>
               </Flex>
@@ -391,5 +401,9 @@ const mapStateToProps = (state, { navigation }) => ({
 });
 
 export default translate('signUpWelcome')(
+<<<<<<< HEAD
   connect(mapStateToProps)(SignUpWelcome),
+=======
+  connect(mapStateToProps, nav)(SignUpWelcome),
+>>>>>>> use icon file instead of images and remove unused images
 );

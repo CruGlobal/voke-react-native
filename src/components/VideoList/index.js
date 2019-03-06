@@ -82,7 +82,7 @@ class VideoList extends Component {
             source={{ uri: video.media.thumbnails.large }}
             style={styles.videoThumbnail}
           >
-            <Icon name="play-circle-filled" size={64} style={styles.playIcon} />
+            <Icon type="Voke" name="play" size={64} style={styles.playIcon} />
             <Flex
               direction="row"
               align="center"

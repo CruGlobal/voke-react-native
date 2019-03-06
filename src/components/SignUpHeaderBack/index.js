@@ -23,7 +23,7 @@ class SignUpHeaderBack extends Component {
           {theme.isAndroid ? (
             <Icon name="arrow-back" size={30} />
           ) : (
-            <VokeIcon name="back" />
+            <VokeIcon name="back_arrow" style={{ color: 'white' }} />
           )}
         </Button>
       </Flex>

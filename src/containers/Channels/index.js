@@ -12,7 +12,7 @@ import Analytics from '../../utils/analytics';
 import nav, { NavPropTypes } from '../../actions/nav';
 import styles from './styles';
 import { navMenuOptions } from '../../utils/menu';
-import { vokeIcons } from '../../utils/iconMap';
+import { vokeImages } from '../../utils/iconMap';
 import ApiLoading from '../ApiLoading';
 import Header, { HeaderIcon } from '../Header';
 import PopupMenu from '../../components/PopupMenu';
@@ -88,7 +88,7 @@ class Channels extends Component {
               undefined
             ) : (
               <HeaderIcon
-                image={vokeIcons['menu']}
+                icon="menu"
                 onPress={() => navigatePush('voke.Menu')}
               />
             )
@@ -172,9 +172,4 @@ const mapStateToProps = ({ auth, channels }) => ({
   isAnonUser: auth.isAnonUser,
 });
 
-export default translate('channels')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(Channels),
-);
+export default translate('channels')(connect(mapStateToProps, nav)(Channels));

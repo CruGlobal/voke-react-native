@@ -300,7 +300,7 @@ class VideoDetails extends Component {
               onPress={() => this.props.navigateBack()}
             >
               <View>
-                <VokeIcon name="video-back" style={styles.backImage} />
+                <VokeIcon name="back_button" style={styles.backImage} />
               </View>
             </Touchable>
           </View>
@@ -344,9 +344,4 @@ const mapStateToProps = ({ auth }, { navigation }) => ({
   me: auth.user,
 });
 
-export default translate('videos')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(VideoDetails),
-);
+export default translate('videos')(connect(mapStateToProps, nav)(VideoDetails));

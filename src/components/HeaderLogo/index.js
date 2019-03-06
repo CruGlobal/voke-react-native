@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Image, StyleSheet } from 'react-native';
 
-import LOGO from '../../../images/nav_voke_logo.png';
+import LOGO from '../../../images/voke_logo_words.png';
 
 export default class HeaderLogo extends Component {
   render() {

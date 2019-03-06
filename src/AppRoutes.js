@@ -1,11 +1,11 @@
 import React from 'react';
-import { Image } from 'react-native';
 import {
   createStackNavigator,
   createBottomTabNavigator,
   StackViewTransitionConfigs,
 } from 'react-navigation';
 
+import VokeIcon from './components/VokeIcon';
 import BadgeHomeIcon from './containers/BadgeHomeIcon';
 
 import LoadingScreen from './containers/LoadingScreen';
@@ -44,11 +44,12 @@ let dynamicModalTransition = (transitionProps, prevTransitionProps) => {
   const tpScenes = ((transitionProps || {}).scenes || []).length || 0;
   const prevTpScenes = ((prevTransitionProps || {}).scenes || []).length || 0;
   const isForward = tpScenes > prevTpScenes;
-  let isModal = verticalPages.some(screenName =>
-    isForward
-      ? screenName === transitionProps.scene.route.routeName
-      : prevTransitionProps &&
-        screenName === prevTransitionProps.scene.route.routeName,
+  let isModal = verticalPages.some(
+    screenName =>
+      isForward
+        ? screenName === transitionProps.scene.route.routeName
+        : prevTransitionProps &&
+          screenName === prevTransitionProps.scene.route.routeName,
   );
   return StackViewTransitionConfigs.defaultTransitionConfig(
     transitionProps,
@@ -57,22 +58,17 @@ let dynamicModalTransition = (transitionProps, prevTransitionProps) => {
   );
 };
 
-import VIDEOS_ICON from '../images/video_icon.png';
-import CHANNELS_ICON from '../images/channelsIcon.png';
-import VIDEOS_ICON_INACTIVE from '../images/videosInactive.png';
-import CHANNELS_ICON_INACTIVE from '../images/channelsInactive.png';
-import ADVENTURE_ICON from '../images/adventureIcon.png';
-import ADVENTURE_ICON_INACTIVE from '../images/adventureInactive.png';
 import { IS_SMALL_ANDROID } from './constants';
 import { buildTrackingObj } from './utils/common';
 
 const ICON_SIZE = theme.isAndroid ? 25 : 26;
-const navIcon = (active, inactive) => ({ tintColor }) => (
-  <Image
-    resizeMode="contain"
-    resizeMethod="scale"
-    source={tintColor === theme.lightText ? active : inactive}
-    style={{ width: ICON_SIZE, height: ICON_SIZE }}
+const navIcon = icon => ({ tintColor }) => (
+  <VokeIcon
+    name={icon}
+    size={ICON_SIZE}
+    style={{
+      color: tintColor === theme.lightText ? 'white' : theme.primaryColor,
+    }}
   />
 );
 
@@ -92,7 +88,7 @@ export const tabs = {
     screen: Videos,
     navigationOptions: () => ({
       tabBarLabel: i18n.t('title.videos'),
-      tabBarIcon: navIcon(VIDEOS_ICON, VIDEOS_ICON_INACTIVE),
+      tabBarIcon: navIcon('video'),
     }),
   },
   'voke.Channels': {
@@ -100,7 +96,7 @@ export const tabs = {
     screen: Channels,
     navigationOptions: () => ({
       tabBarLabel: i18n.t('title.channels'),
-      tabBarIcon: navIcon(CHANNELS_ICON, CHANNELS_ICON_INACTIVE),
+      tabBarIcon: navIcon('channel'),
     }),
   },
   'voke.Adventures': {
@@ -108,7 +104,7 @@ export const tabs = {
     screen: Adventures,
     navigationOptions: () => ({
       tabBarLabel: i18n.t('title.adventure'),
-      tabBarIcon: navIcon(ADVENTURE_ICON, ADVENTURE_ICON_INACTIVE),
+      tabBarIcon: navIcon('adventure'),
     }),
   },
 };

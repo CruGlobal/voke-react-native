@@ -118,21 +118,7 @@ class CountrySelect extends Component {
     return (
       <View style={styles.container}>
         <Header
-          left={
-            theme.isAndroid ? (
-              <HeaderIcon icon="close" onPress={this.close} />
-            ) : (
-              <HeaderIcon
-                icon="ios-close"
-                iconType="Ionicons"
-                style={{
-                  paddingVertical: 5,
-                  paddingHorizontal: 15,
-                }}
-                onPress={this.close}
-              />
-            )
-          }
+          left={<HeaderIcon icon="close" onPress={this.close} />}
           right={
             theme.isAndroid ? (
               <HeaderIcon

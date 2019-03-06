@@ -1,4 +1,3 @@
-
 import { StyleSheet } from 'react-native';
 import theme from '../../theme';
 
@@ -16,7 +15,7 @@ export default StyleSheet.create({
   },
   onboardHalf: {
     width: theme.fullWidth,
-    height: theme.fullHeight/2,
+    height: theme.fullHeight / 2,
   },
   headerWrap: {
     paddingVertical: 30,
@@ -48,8 +47,6 @@ export default StyleSheet.create({
     left: 0,
   },
   skipButton: {
-    // backgroundColor: theme.black,
-    // borderRadius: 25,
     width: 50,
     height: 50,
     alignItems: 'center',

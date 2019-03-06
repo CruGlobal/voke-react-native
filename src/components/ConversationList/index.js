@@ -141,7 +141,11 @@ class ConversationList extends Component {
                   <Text style={styles.messagePreviewWrapper} numberOfLines={2}>
                     <Text style={styles.creatorText}>{contentCreator}</Text>
                     {theme.isAndroid ? ' ' : null}
-                    <VokeIcon name="arrow" style={styles.arrowImage} />
+                    <VokeIcon
+                      name="chat_name_arrow"
+                      size={10}
+                      style={styles.arrowImage}
+                    />
                     {theme.isAndroid ? ' ' : null}
                     <Text style={styles.messagePreviewText}>
                       {conversation.messagePreview || '...'}
@@ -158,8 +162,14 @@ class ConversationList extends Component {
               <VokeIcon
                 name={
                   conversation.hasUnread && unreadCount > 0
-                    ? 'unread-arrow'
-                    : 'read-arrow'
+                    ? 'next_arrow_yellow'
+                    : 'next_arrow'
+                }
+                size={20}
+                style={
+                  conversation.hasUnread && unreadCount > 0
+                    ? styles.conversationArrowIcon
+                    : { color: 'white' }
                 }
               />
             </Flex>
@@ -202,7 +212,7 @@ class ConversationList extends Component {
                     item.messengers.length === 2 ? styles.disabledButton : null,
                   ]}
                 >
-                  <VokeIcon name="delete" style={{ height: 40 }} />
+                  <VokeIcon name="delete_chat" size={40} />
                 </Flex>
               </Touchable>
               <Touchable
@@ -222,7 +232,7 @@ class ConversationList extends Component {
                     item.messengers.length === 2 ? styles.disabledButton : null,
                   ]}
                 >
-                  <VokeIcon name="block" style={{ height: 40 }} />
+                  <VokeIcon name="block_chat" size={40} />
                 </Flex>
               </Touchable>
             </Flex>

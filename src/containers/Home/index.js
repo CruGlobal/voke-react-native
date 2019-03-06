@@ -22,7 +22,7 @@ import {
   getConversationsPage,
 } from '../../actions/messages';
 import { navMenuOptions } from '../../utils/menu';
-import { vokeIcons } from '../../utils/iconMap';
+import { vokeImages } from '../../utils/iconMap';
 import ANIMATION from '../../../images/VokeBotAnimation.gif';
 
 import ApiLoading from '../ApiLoading';
@@ -244,7 +244,8 @@ class Home extends Component {
               undefined
             ) : (
               <HeaderIcon
-                image={vokeIcons['menu']}
+                icon="menu"
+                iconType="Voke"
                 onPress={this.handleMenuPress}
               />
             )

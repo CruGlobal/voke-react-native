@@ -37,18 +37,15 @@ export default StyleSheet.create({
   title: {
     color: COLORS.WHITE,
     fontSize: isAndroid ? 24 : 22,
-    // fontWeight: isAndroid ? 'bold' : 'normal',
   },
   // HeaderIcon styles
   headerIcon: {
     backgroundColor: COLORS.TRANSPARENT,
-    // backgroundColor: COLORS.YELLOW,
-    paddingVertical: 15,
-    paddingHorizontal: 15,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: 15,
   },
   headerIconSize: {
-    fontSize: theme.isAndroid ? 32 : 36,
+    fontSize: theme.isAndroid ? 25 : 25,
   },
 });

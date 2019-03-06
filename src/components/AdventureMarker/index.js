@@ -47,7 +47,7 @@ class AdventureMarker extends Component {
             ...coord(width, height, challenge.point_x, challenge.point_y, 100),
           }}
         >
-          <VokeIcon name={this.getIcon(challenge)} />
+          <VokeIcon type="image" name={this.getIcon(challenge)} />
           {challenge['required?'] && !challenge['completed?'] ? (
             <Text
               style={{

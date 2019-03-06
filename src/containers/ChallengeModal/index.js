@@ -116,7 +116,11 @@ class ChallengeModal extends Component {
             <Flex self="stretch" style={styles.close}>
               <CloseButton onClose={onDismiss} />
             </Flex>
-            <VokeIcon name={this.getIcon(challenge)} style={styles.icon} />
+            <VokeIcon
+              type="image"
+              name={this.getIcon(challenge)}
+              style={styles.icon}
+            />
             <Flex align="start">
               <Text style={styles.title}>{challenge.name}</Text>
             </Flex>

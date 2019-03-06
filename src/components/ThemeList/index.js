@@ -41,6 +41,7 @@ class ThemeList extends Component {
           </Flex>
           <Flex value={0.5}>
             <VokeIcon
+              type="image"
               name={selectedTheme === item.id ? 'selected' : 'not-selected'}
             />
           </Flex>

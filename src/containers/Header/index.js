@@ -7,7 +7,6 @@ import { navigateBack } from '../../actions/nav';
 import styles from './styles';
 import theme from '../../theme';
 import { Flex, Text, Button } from '../../components/common';
-import { vokeIcons } from '../../utils/iconMap';
 
 export const HeaderIcon = ({ type, icon, ...rest }) => {
   let myProps = {};
@@ -16,17 +15,18 @@ export const HeaderIcon = ({ type, icon, ...rest }) => {
       if (theme.isAndroid) {
         myProps.icon = 'arrow-back';
       } else {
-        myProps.image = vokeIcons['back'];
+        myProps.icon = 'back_arrow';
+        myProps.iconType = 'Voke';
       }
     } else if (type === 'search') {
-      if (theme.isAndroid) {
-        myProps.icon = 'search';
-      } else {
-        myProps.image = vokeIcons['search'];
-      }
+      myProps.icon = 'search';
+      myProps.iconType = 'Voke';
     }
   } else {
     myProps.icon = icon;
+  }
+  if (!type && myProps.icon) {
+    myProps.iconType = 'Voke';
   }
   if (myProps.icon) {
     myProps.iconStyle = styles.headerIconSize;
@@ -56,7 +56,7 @@ class Header extends Component {
       } else {
         left = (
           <HeaderIcon
-            image={vokeIcons['back']}
+            icon="back_arrow"
             onPress={() => this.props.dispatch(navigateBack())}
           />
         );

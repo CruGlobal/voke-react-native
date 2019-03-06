@@ -13,7 +13,12 @@ export default class CloseButton extends Component {
           onPress={this.props.onClose}
         >
           <View>
-            <Icon size={40} type="Ionicons" name="ios-close" />
+            <Icon
+              size={20}
+              type="Voke"
+              name="close"
+              style={{ color: 'white' }}
+            />
           </View>
         </Touchable>
       </Flex>

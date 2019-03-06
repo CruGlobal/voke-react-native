@@ -20,8 +20,13 @@ import {
 } from '../../actions/messages';
 import Analytics from '../../utils/analytics';
 import theme, { COLORS } from '../../theme';
+<<<<<<< HEAD
 import { navigatePush, navigateBack } from '../../actions/nav';
 import { vokeIcons } from '../../utils/iconMap';
+=======
+import nav, { NavPropTypes } from '../../actions/nav';
+import { vokeImages } from '../../utils/iconMap';
+>>>>>>> use icon file instead of images and remove unused images
 import { SET_ACTIVE_CONVERSATION } from '../../constants';
 import styles from './styles';
 import MessageVideoPlayer from '../MessageVideoPlayer';
@@ -410,7 +415,14 @@ class Message extends Component {
     };
 
     let newWrap = {
+<<<<<<< HEAD
       height: inputHeight.height + 10,
+=======
+      height:
+        height < 45
+          ? 55 + extraPadding
+          : height > 80 ? 90 + extraPadding : height + 10 + extraPadding,
+>>>>>>> use icon file instead of images and remove unused images
     };
 
     return (
@@ -426,11 +438,8 @@ class Message extends Component {
                 <HeaderIcon type="back" onPress={this.handleHeaderBack} />
               ) : (
                 <HeaderIcon
-                  image={
-                    this.state.showDot
-                      ? vokeIcons['home-dot']
-                      : vokeIcons['home']
-                  }
+                  image={this.state.showDot ? vokeImages['home-dot'] : null}
+                  icon={!this.state.showDot ? 'home' : null}
                   onPress={this.handleHeaderBack}
                 />
               )
@@ -465,7 +474,54 @@ class Message extends Component {
               style={{ zIndex: 1, backgroundColor: 'transparent' }}
             />
           )}
+<<<<<<< HEAD
           <SafeArea bg="secondary">
+=======
+          <Flex
+            direction="row"
+            style={[styles.inputWrap, newWrap]}
+            align="center"
+            justify="center"
+          >
+            {this.state.shouldShowButtons === true ? (
+              <Flex
+                animation="slideInLeft"
+                duration={400}
+                direction="row"
+                style={{ padding: 0, margin: 0, alignItems: 'center' }}
+              >
+                <Button
+                  type="transparent"
+                  style={styles.moreContentButton}
+                  onPress={this.handleAddVideo}
+                >
+                  <VokeIcon name="video" />
+                </Button>
+                <Button
+                  type="transparent"
+                  style={styles.moreContentButton}
+                  onPress={this.handleAddKickstarter}
+                >
+                  <VokeIcon name="kickstarter" />
+                </Button>
+              </Flex>
+            ) : (
+              <Flex
+                animation="slideInRight"
+                duration={150}
+                direction="row"
+                style={{ padding: 0, margin: 0, alignItems: 'center' }}
+              >
+                <Button
+                  type="transparent"
+                  style={styles.moreContentButton}
+                  onPress={this.handleButtonExpand}
+                >
+                  <VokeIcon name="plus" />
+                </Button>
+              </Flex>
+            )}
+>>>>>>> use icon file instead of images and remove unused images
             <Flex
               direction="row"
               style={[styles.inputWrap, newWrap]}
@@ -481,6 +537,7 @@ class Message extends Component {
                 >
                   <Button
                     type="transparent"
+<<<<<<< HEAD
                     style={styles.moreContentButton}
                     onPress={this.handleAddVideo}
                   >
@@ -493,6 +550,15 @@ class Message extends Component {
                   >
                     <VokeIcon name="add-kickstarter" />
                   </Button>
+=======
+                    style={styles.sendButton}
+                    icon="send_message"
+                    iconType="Voke"
+                    iconStyle={styles.sendIcon}
+                    onPress={this.createMessageEmpty}
+                    preventTimeout={1000}
+                  />
+>>>>>>> use icon file instead of images and remove unused images
                 </Flex>
               ) : (
                 <Flex
@@ -597,4 +663,8 @@ const mapStateToProps = ({ messages, auth }, { navigation }) => {
   };
 };
 
+<<<<<<< HEAD
 export default translate()(connect(mapStateToProps)(Message));
+=======
+export default translate()(connect(mapStateToProps, nav)(Message));
+>>>>>>> use icon file instead of images and remove unused images

@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { Image } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
 import styles from './styles';
-import { Flex, Text } from '../../components/common';
+import { Flex, Text, VokeIcon } from '../../components/common';
 
-import HOME_ICON from '../../../images/chats_icon.png';
-import HOME_ICON_INACTIVE from '../../../images/chatsInactive.png';
+import theme from '../../theme';
+
+const ICON_SIZE = theme.isAndroid ? 24 : 26;
 
 class BadgeHomeIcon extends Component {
   render() {
@@ -21,11 +21,12 @@ class BadgeHomeIcon extends Component {
         style={styles.container}
         animation="bounceIn"
       >
-        <Image
-          resizeMode="cover"
-          resizeMethod="scale"
-          source={isActive ? HOME_ICON : HOME_ICON_INACTIVE}
-          style={styles.image}
+        <VokeIcon
+          name="home"
+          size={ICON_SIZE}
+          style={{
+            color: isActive ? 'white' : theme.primaryColor,
+          }}
         />
         {unReadBadgeCount ? (
           <Flex align="center" justify="center" style={styles.badgeWrap}>
