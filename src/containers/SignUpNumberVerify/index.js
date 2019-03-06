@@ -14,8 +14,7 @@ import Analytics from '../../utils/analytics';
 import { verifyMobile, createMobileVerification } from '../../actions/auth';
 
 import styles from './styles';
-import nav, { NavPropTypes } from '../../actions/nav';
-
+import { navigateBack, navigateResetHome } from '../../actions/nav';
 import ApiLoading from '../ApiLoading';
 import { Flex, Text, Button } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
@@ -62,11 +61,11 @@ class SignUpNumberVerify extends Component {
   }
 
   skip = () => {
-    this.props.navigateBack(4);
+    this.props.dispatch(navigateBack(4));
   };
 
   handleNext() {
-    const { t, mobile, dispatch, navigateResetHome } = this.props;
+    const { t, mobile, dispatch } = this.props;
     let data = {
       mobile: {
         mobile: mobile,
@@ -81,13 +80,13 @@ class SignUpNumberVerify extends Component {
         .then(() => {
           this.setState({ disableNext: false, isLoading: false });
           // if (!this.props.onboardCompleted) {
-          //   this.props.navigatePush('voke.SignUpWelcome', {
+          //   this.props.dispatch(navigatePush('voke.SignUpWelcome', {
           //     onlyOnboarding: true,
           //   }, {
           //     overrideBackPress: true,
-          //   });
+          //   }));
           // } else {
-          navigateResetHome();
+          dispatch(navigateResetHome());
           // }
         })
         .catch(() => {
@@ -98,7 +97,7 @@ class SignUpNumberVerify extends Component {
   }
 
   render() {
-    const { t, navigateBack } = this.props;
+    const { t, dispatch } = this.props;
     return (
       <ScrollView
         style={styles.container}
@@ -111,7 +110,7 @@ class SignUpNumberVerify extends Component {
           style={{ flex: 1 }}
           behavior={theme.isAndroid ? undefined : 'padding'}
         >
-          <SignUpHeaderBack onPress={() => navigateBack()} />
+          <SignUpHeaderBack onPress={() => dispatch(navigateBack())} />
           <TouchableOpacity
             activeOpacity={1}
             onPress={() => Keyboard.dismiss()}
@@ -170,7 +169,6 @@ class SignUpNumberVerify extends Component {
 }
 
 SignUpNumberVerify.propTypes = {
-  ...NavPropTypes,
   mobile: PropTypes.string.isRequired,
 };
 const mapStateToProps = ({ auth }, { navigation }) => ({
@@ -179,5 +177,5 @@ const mapStateToProps = ({ auth }, { navigation }) => ({
 });
 
 export default translate('signUp')(
-  connect(mapStateToProps, nav)(SignUpNumberVerify),
+  connect(mapStateToProps)(SignUpNumberVerify),
 );

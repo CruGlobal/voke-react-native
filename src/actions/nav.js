@@ -85,32 +85,3 @@ export function navigateResetMessage(params = {}) {
     );
   };
 }
-
-export const NavPropTypes = {
-  dispatch: PropTypes.func.isRequired, // Redux
-  navigatePush: PropTypes.func.isRequired, // Redux
-  navigateBack: PropTypes.func.isRequired, // Redux
-  navigateResetHome: PropTypes.func.isRequired, // Redux
-  navigateResetLogin: PropTypes.func.isRequired, // Redux
-  navigateResetToNumber: PropTypes.func.isRequired, // Redux
-  navigateResetToProfile: PropTypes.func.isRequired, // Redux
-  navigateResetMessage: PropTypes.func.isRequired, // Redux
-  navigateResetTo: PropTypes.func.isRequired, // Redux
-};
-
-// Redux connect function for navigator screens
-export default dispatch => {
-  return {
-    dispatch,
-    navigatePush: debounce((...args) => dispatch(navigatePush(...args)), 50),
-    navigateBack: (...args) => dispatch(navigateBack(...args)),
-    navigateResetHome: (...args) => dispatch(navigateResetHome(...args)),
-    navigateResetLogin: (...args) => dispatch(navigateResetLogin(...args)),
-    navigateResetToNumber: (...args) =>
-      dispatch(navigateResetToNumber(...args)),
-    navigateResetToProfile: (...args) =>
-      dispatch(navigateResetToProfile(...args)),
-    navigateResetMessage: (...args) => dispatch(navigateResetMessage(...args)),
-    navigateResetTo: (...args) => dispatch(navigateResetTo(...args)),
-  };
-};

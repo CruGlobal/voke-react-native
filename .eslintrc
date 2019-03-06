@@ -13,6 +13,9 @@
     "setTimeout": true,
     "clearTimeout": true,
     "window": true,
+    "global": true,
+    "console": true,
+    "fetch": true,
     "LOG": true
   },
   "rules": {

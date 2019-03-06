@@ -4,10 +4,9 @@ import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
 import Analytics from '../../utils/analytics';
-import nav, { NavPropTypes } from '../../actions/nav';
+import { navigatePush } from '../../actions/nav';
 import styles from './styles';
 import { navMenuOptions } from '../../utils/menu';
-import { vokeImages } from '../../utils/iconMap';
 import ApiLoading from '../ApiLoading';
 import Header, { HeaderIcon } from '../Header';
 import PopupMenu from '../../components/PopupMenu';
@@ -33,7 +32,7 @@ class Adventures extends Component {
   };
 
   render() {
-    const { t, navigatePush } = this.props;
+    const { t, dispatch } = this.props;
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
@@ -44,7 +43,7 @@ class Adventures extends Component {
             ) : (
               <HeaderIcon
                 icon="menu"
-                onPress={() => navigatePush('voke.Menu')}
+                onPress={() => dispatch(navigatePush('voke.Menu'))}
               />
             )
           }
@@ -64,13 +63,11 @@ class Adventures extends Component {
   }
 }
 
-Adventures.propTypes = {
-  ...NavPropTypes,
-};
+Adventures.propTypes = {};
 
 const mapStateToProps = ({ auth }) => ({
   me: auth.user,
   isAnonUser: auth.isAnonUser, // Need this for the Android PopupMenu to determine which menu options to show
 });
 
-export default translate()(connect(mapStateToProps, nav)(Adventures));
+export default translate()(connect(mapStateToProps)(Adventures));

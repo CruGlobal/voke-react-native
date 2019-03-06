@@ -1,4 +1,4 @@
-import RNFetchBlob from 'react-native-fetch-blob';
+import RNFetchBlob from 'rn-fetch-blob';
 import {
   Linking,
   AppState,
@@ -108,8 +108,6 @@ export function cleanupAction() {
   };
 }
 
-let backgroundTimeout;
-const BACKGROUND_TIMEOUT = 1500;
 let appCloseTime;
 
 // TODO: It would be nice to somehow do this in the background and not block the UI when coming back into the app

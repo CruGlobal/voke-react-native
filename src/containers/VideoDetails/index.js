@@ -7,7 +7,11 @@ import debounce from 'lodash/debounce';
 import { translate } from 'react-i18next';
 
 import Analytics from '../../utils/analytics';
-import nav, { NavPropTypes } from '../../actions/nav';
+import {
+  navigateResetMessage,
+  navigateBack,
+  navigatePush,
+} from '../../actions/nav';
 import { toastAction } from '../../actions/auth';
 import {
   favoriteVideo,
@@ -164,15 +168,7 @@ class VideoDetails extends Component {
   }
 
   handleShare = () => {
-    const {
-      t,
-      conversation,
-      onSelectVideo,
-      navigateResetMessage,
-      navigateBack,
-      me,
-      navigatePush,
-    } = this.props;
+    const { t, conversation, onSelectVideo, me, dispatch } = this.props;
     const video = this.props.video || {};
 
     Orientation.lockToPortrait();
@@ -191,11 +187,13 @@ class VideoDetails extends Component {
               onSelectVideo(video.id);
               // Navigate back after selecting the video
               if (conversation) {
-                navigateResetMessage({
-                  conversation: conversation,
-                });
+                dispatch(
+                  navigateResetMessage({
+                    conversation: conversation,
+                  }),
+                );
               } else {
-                navigateBack();
+                dispatch(navigateBack());
               }
             },
           },
@@ -210,21 +208,27 @@ class VideoDetails extends Component {
       ) {
         this.webview.getWrappedInstance().pause();
       }
-      // this.props.navigatePush('voke.SelectFriend', {
+      // dispatch(navigatePush('voke.SelectFriend', {
       //   video: video.id,
       //   isLandscape: this.state.isLandscape,
-      // });
+      // }));
       if (!me.first_name) {
-        navigatePush('voke.TryItNowName', {
-          onComplete: () =>
-            navigatePush('voke.ShareFlow', {
-              video: video,
-            }),
-        });
+        dispatch(
+          navigatePush('voke.TryItNowName', {
+            onComplete: () =>
+              dispatch(
+                navigatePush('voke.ShareFlow', {
+                  video,
+                }),
+              ),
+          }),
+        );
       } else {
-        navigatePush('voke.ShareFlow', {
-          video: video,
-        });
+        dispatch(
+          navigatePush('voke.ShareFlow', {
+            video,
+          }),
+        );
       }
     }
   };
@@ -272,6 +276,7 @@ class VideoDetails extends Component {
   }
 
   render() {
+    const { dispatch } = this.props;
     const video = this.props.video || {};
     const videoMedia = video.media || {};
     const videoType = videoMedia.type;
@@ -297,7 +302,7 @@ class VideoDetails extends Component {
             <Touchable
               borderless={true}
               hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-              onPress={() => this.props.navigateBack()}
+              onPress={() => dispatch(navigateBack())}
             >
               <View>
                 <VokeIcon name="back_button" style={styles.backImage} />
@@ -332,7 +337,6 @@ class VideoDetails extends Component {
 }
 
 VideoDetails.propTypes = {
-  ...NavPropTypes,
   video: PropTypes.object.isRequired,
   onSelectVideo: PropTypes.func,
   onUpdateVideos: PropTypes.func,
@@ -344,4 +348,4 @@ const mapStateToProps = ({ auth }, { navigation }) => ({
   me: auth.user,
 });
 
-export default translate('videos')(connect(mapStateToProps, nav)(VideoDetails));
+export default translate('videos')(connect(mapStateToProps)(VideoDetails));

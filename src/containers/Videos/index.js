@@ -23,12 +23,16 @@ import {
 } from '../../actions/channels';
 import Analytics from '../../utils/analytics';
 
-import nav, { NavPropTypes } from '../../actions/nav';
+import {
+  navigateBack,
+  navigatePush,
+  navigateResetMessage,
+  navigateResetToNumber,
+  navigateResetToProfile,
+} from '../../actions/nav';
 import { startupAction } from '../../actions/auth';
 
 import styles from './styles';
-import { vokeImages } from '../../utils/iconMap';
-
 import ApiLoading from '../ApiLoading';
 import ThemeSelect from '../ThemeSelect';
 import Header, { HeaderIcon } from '../Header';
@@ -76,8 +80,6 @@ class Videos extends Component {
       dispatch,
       channelVideos,
       all,
-      navigateResetToNumber,
-      navigateResetToProfile,
       user,
       isAnonUser,
     } = this.props;
@@ -133,9 +135,9 @@ class Videos extends Component {
                   LOG(JSON.stringify(err));
                   if (err.error === 'Messenger not configured') {
                     if (user.first_name) {
-                      navigateResetToNumber();
+                      dispatch(navigateResetToNumber());
                     } else {
-                      navigateResetToProfile();
+                      dispatch(navigateResetToProfile());
                     }
                   }
                 });
@@ -443,13 +445,13 @@ class Videos extends Component {
   }
 
   renderHeaderLeft() {
-    const { onSelectVideo, channel } = this.props;
+    const { onSelectVideo, channel, dispatch } = this.props;
     const showBack = !!onSelectVideo || !!channel;
     if (theme.isAndroid && !showBack) {
       return null;
     } else if (theme.isAndroid && showBack) {
       return (
-        <HeaderIcon type="back" onPress={() => this.props.navigateBack()} />
+        <HeaderIcon type="back" onPress={() => dispatch(navigateBack())} />
       );
     }
     return (
@@ -458,9 +460,9 @@ class Videos extends Component {
         icon="menu"
         onPress={() => {
           if (showBack) {
-            this.props.navigateBack();
+            dispatch(navigateBack());
           } else {
-            this.props.navigatePush('voke.Menu');
+            dispatch(navigatePush('voke.Menu'));
           }
         }}
       />
@@ -468,15 +470,7 @@ class Videos extends Component {
   }
 
   handleShareVideo = video => {
-    const {
-      t,
-      onSelectVideo,
-      conversation,
-      navigateBack,
-      user,
-      navigatePush,
-      navigateResetMessage,
-    } = this.props;
+    const { t, onSelectVideo, conversation, user, dispatch } = this.props;
     // This logic exists in the VideoDetails and the VideoList
     if (onSelectVideo) {
       Alert.alert(
@@ -492,11 +486,13 @@ class Videos extends Component {
               onSelectVideo(video.id);
               // Navigate back after selecting the video
               if (conversation) {
-                navigateResetMessage({
-                  conversation: conversation,
-                });
+                dispatch(
+                  navigateResetMessage({
+                    conversation,
+                  }),
+                );
               } else {
-                navigateBack();
+                dispatch(navigateBack());
               }
             },
           },
@@ -504,29 +500,28 @@ class Videos extends Component {
       );
     } else {
       if (!user.first_name) {
-        navigatePush('voke.TryItNowName', {
-          onComplete: () =>
-            navigatePush('voke.ShareFlow', {
-              video: video,
-            }),
-        });
+        dispatch(
+          navigatePush('voke.TryItNowName', {
+            onComplete: () =>
+              dispatch(
+                navigatePush('voke.ShareFlow', {
+                  video,
+                }),
+              ),
+          }),
+        );
       } else {
-        navigatePush('voke.ShareFlow', {
-          video: video,
-        });
+        dispatch(
+          navigatePush('voke.ShareFlow', {
+            video,
+          }),
+        );
       }
     }
   };
 
   render() {
-    const {
-      t,
-      onSelectVideo,
-      navigatePush,
-      conversation,
-      tags,
-      channel,
-    } = this.props;
+    const { t, onSelectVideo, conversation, tags, dispatch } = this.props;
     const { selectedFilter, videos } = this.state;
 
     return (
@@ -581,13 +576,15 @@ class Videos extends Component {
           <VideoList
             ref={c => (this.videoList = c)}
             items={videos}
-            onSelect={c => {
-              navigatePush('voke.VideoDetails', {
-                video: c,
-                onSelectVideo,
-                conversation: conversation,
-                onUpdateVideos: () => this.updateVideoList(selectedFilter),
-              });
+            onSelect={v => {
+              dispatch(
+                navigatePush('voke.VideoDetails', {
+                  video: v,
+                  onSelectVideo,
+                  conversation,
+                  onUpdateVideos: () => this.updateVideoList(selectedFilter),
+                }),
+              );
             }}
             onRefresh={this.handleRefresh}
             onLoadMore={this.handleNextPage}
@@ -611,13 +608,13 @@ class Videos extends Component {
 }
 
 Videos.propTypes = {
-  ...NavPropTypes,
   channel: PropTypes.object,
   onSelectVideo: PropTypes.func,
   conversation: PropTypes.object,
 };
 
-const mapStateToProps = ({ auth, videos }) => ({
+const mapStateToProps = ({ auth, videos }, { navigation }) => ({
+  ...(navigation.state.params || {}),
   all: videos.all,
   user: auth.user,
   isAnonUser: auth.isAnonUser,
@@ -630,4 +627,4 @@ const mapStateToProps = ({ auth, videos }) => ({
   pagination: videos.pagination,
 });
 
-export default translate('videos')(connect(mapStateToProps, nav)(Videos));
+export default translate('videos')(connect(mapStateToProps)(Videos));

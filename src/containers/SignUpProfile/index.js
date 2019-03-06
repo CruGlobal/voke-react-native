@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 
 import styles from './styles';
-import nav, { NavPropTypes } from '../../actions/nav';
+import { navigatePush } from '../../actions/nav';
 import { updateMe } from '../../actions/auth';
 import ImagePicker from '../../components/ImagePicker';
 import Analytics from '../../utils/analytics';
@@ -67,7 +67,7 @@ class SignUpProfile extends Component {
   }
 
   addProfile() {
-    const { t, dispatch, navigatePush } = this.props;
+    const { t, dispatch } = this.props;
     const { firstName, lastName } = this.state;
     // TODO: Always allow the user to continue without entering more information
 
@@ -92,7 +92,7 @@ class SignUpProfile extends Component {
             disableSecondClick: true,
             isLoading: false,
           });
-          navigatePush('voke.SignUpNumber');
+          dispatch(navigatePush('voke.SignUpNumber'));
           // Enable the second click after a second
           setTimeout(() => this.setState({ disableSecondClick: false }), 1000);
         })
@@ -103,11 +103,11 @@ class SignUpProfile extends Component {
       Alert.alert('', t('fillInName'));
     }
     // // This is just for testing
-    // this.props.navigatePush('voke.SignUpNumber');
+    // this.props.dispatch(navigatePush('voke.SignUpNumber'));
   }
 
   skip() {
-    this.props.navigatePush('voke.SignUpNumber');
+    this.props.dispatch(navigatePush('voke.SignUpNumber'));
   }
 
   renderImagePicker() {
@@ -140,7 +140,7 @@ class SignUpProfile extends Component {
               // user has to fill in more info before they can continue
               this.props.hideBack ? (
                 <SignUpHeaderBack
-                  onPress={() => this.props.navigateResetLogin()}
+                  onPress={() => this.props.dispatch(navigateResetLogin())}
                 />
               ) : null
             } */}
@@ -204,7 +204,6 @@ class SignUpProfile extends Component {
 }
 
 SignUpProfile.propTypes = {
-  ...NavPropTypes,
   hideBack: PropTypes.bool,
 };
 const mapStateToProps = ({ auth }, { navigation }) => ({
@@ -212,6 +211,4 @@ const mapStateToProps = ({ auth }, { navigation }) => ({
   user: auth.user || {},
 });
 
-export default translate('signUp')(
-  connect(mapStateToProps, nav)(SignUpProfile),
-);
+export default translate('signUp')(connect(mapStateToProps)(SignUpProfile));

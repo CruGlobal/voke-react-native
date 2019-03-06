@@ -9,10 +9,9 @@ import {
   getFeaturedOrganizations,
 } from '../../actions/channels';
 import Analytics from '../../utils/analytics';
-import nav, { NavPropTypes } from '../../actions/nav';
+import { navigatePush } from '../../actions/nav';
 import styles from './styles';
 import { navMenuOptions } from '../../utils/menu';
-import { vokeImages } from '../../utils/iconMap';
 import ApiLoading from '../ApiLoading';
 import Header, { HeaderIcon } from '../Header';
 import PopupMenu from '../../components/PopupMenu';
@@ -71,7 +70,7 @@ class Channels extends Component {
   render() {
     const {
       t,
-      navigatePush,
+      dispatch,
       allChannels,
       myChannels,
       featuredChannels,
@@ -89,7 +88,7 @@ class Channels extends Component {
             ) : (
               <HeaderIcon
                 icon="menu"
-                onPress={() => navigatePush('voke.Menu')}
+                onPress={() => dispatch(navigatePush('voke.Menu'))}
               />
             )
           }
@@ -112,10 +111,12 @@ class Channels extends Component {
           <ChannelsList
             items={myChannels}
             onSelect={c => {
-              navigatePush('voke.VideosTab', {
-                trackingObj: buildTrackingObj('channel', 'preview', 'all'),
-                channel: c,
-              });
+              dispatch(
+                navigatePush('voke.VideosTab', {
+                  trackingObj: buildTrackingObj('channel', 'preview', 'all'),
+                  channel: c,
+                }),
+              );
             }}
             onLoadMore={() => this.handleNextPage('myChannels')}
             hasMore={
@@ -128,10 +129,12 @@ class Channels extends Component {
           <ChannelsList
             items={featuredChannels}
             onSelect={c => {
-              navigatePush('voke.VideosTab', {
-                trackingObj: buildTrackingObj('channel', 'preview', 'all'),
-                channel: c,
-              });
+              dispatch(
+                navigatePush('voke.VideosTab', {
+                  trackingObj: buildTrackingObj('channel', 'preview', 'all'),
+                  channel: c,
+                }),
+              );
             }}
             onLoadMore={() => this.handleNextPage('featured')}
             hasMore={pagination['featured'] && pagination['featured'].hasMore}
@@ -142,10 +145,12 @@ class Channels extends Component {
           <ChannelsList
             items={allChannels}
             onSelect={c => {
-              navigatePush('voke.VideosTab', {
-                trackingObj: buildTrackingObj('channel', 'preview', 'all'),
-                channel: c,
-              });
+              dispatch(
+                navigatePush('voke.VideosTab', {
+                  trackingObj: buildTrackingObj('channel', 'preview', 'all'),
+                  channel: c,
+                }),
+              );
             }}
             onLoadMore={() => this.handleNextPage('all')}
             hasMore={pagination['all'] && pagination['all'].hasMore}
@@ -159,9 +164,7 @@ class Channels extends Component {
   }
 }
 
-Channels.propTypes = {
-  ...NavPropTypes,
-};
+Channels.propTypes = {};
 
 const mapStateToProps = ({ auth, channels }) => ({
   user: auth.user,
@@ -172,4 +175,4 @@ const mapStateToProps = ({ auth, channels }) => ({
   isAnonUser: auth.isAnonUser,
 });
 
-export default translate('channels')(connect(mapStateToProps, nav)(Channels));
+export default translate('channels')(connect(mapStateToProps)(Channels));

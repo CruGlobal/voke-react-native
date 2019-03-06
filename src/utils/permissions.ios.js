@@ -1,5 +1,5 @@
 import Contacts from 'react-native-contacts';
-import Permissions from 'react-native-permissions'
+import Permissions from 'react-native-permissions';
 
 const AUTHORIZED = 'AUTHORIZED';
 const DENIED = 'DENIED';
@@ -33,19 +33,18 @@ function requestContacts() {
         resolve(contacts);
       }
     });
-
   });
 }
 
 function checkPush() {
   return new Promise((resolve, reject) => {
-    Permissions.check('notification').then((response) => {
-      resolve(response);
-    }).catch(reject);
+    Permissions.check('notification')
+      .then(response => {
+        resolve(response);
+      })
+      .catch(reject);
   });
 }
-
-
 
 export default {
   checkContacts,
