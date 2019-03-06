@@ -32,14 +32,8 @@ import ApiLoading from '../ApiLoading';
 import Header from '../Header';
 import SignUpButtons from '../SignUpButtons';
 import ProfileProgress from '../ProfileProgress';
-<<<<<<< HEAD
-import VOKE_LOGO from '../../../images/nav_voke_logo.png';
-import {
-=======
 import VOKE_LOGO from '../../../images/voke_logo_words.png';
-import nav, {
-  NavPropTypes,
->>>>>>> use icon file instead of images and remove unused images
+import {
   navigateResetLogin,
   navigateResetHome,
   navigatePush,
@@ -737,8 +731,4 @@ const mapStateToProps = ({ auth }) => ({
   isAnonUser: auth.isAnonUser,
 });
 
-<<<<<<< HEAD
 export default translate('profile')(connect(mapStateToProps)(Profile));
-=======
-export default translate('profile')(connect(mapStateToProps, nav)(Profile));
->>>>>>> use icon file instead of images and remove unused images

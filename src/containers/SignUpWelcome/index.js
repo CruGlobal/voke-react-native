@@ -111,28 +111,19 @@ class SignUpWelcome extends Component {
           right: MARGIN,
         }}
       >
-<<<<<<< HEAD
         <Button
           type="transparent"
           hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
           onPress={() => this.handleNextPage(this.state.selectedPage)}
           style={styles.skipButton}
         >
-          <Image
-            resizeMode="contain"
-            source={ONBOARD_BUTTON}
-            style={styles.onboardButton}
+          <VokeIcon
+            style={{ color: 'white' }}
+            size={30}
+            name="next_button_filled"
           />
         </Button>
       </Flex>
-=======
-        <VokeIcon
-          style={{ color: 'white' }}
-          size={30}
-          name="next_button_filled"
-        />
-      </Button>
->>>>>>> use icon file instead of images and remove unused images
     );
   }
 
@@ -401,9 +392,5 @@ const mapStateToProps = (state, { navigation }) => ({
 });
 
 export default translate('signUpWelcome')(
-<<<<<<< HEAD
   connect(mapStateToProps)(SignUpWelcome),
-=======
-  connect(mapStateToProps, nav)(SignUpWelcome),
->>>>>>> use icon file instead of images and remove unused images
 );

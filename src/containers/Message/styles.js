@@ -34,7 +34,7 @@ export default StyleSheet.create({
   },
   sendIcon: {
     color: theme.textColor,
-    fontSize: 30,
+    fontSize: 25,
   },
   sendButton: {
     width: 55,
