@@ -98,7 +98,7 @@ export default {
     title: {
       about: 'About',
       acknowledgements: 'Acknowledgements',
-      adventure: 'Adventures',
+      adventures: 'Adventures',
       channels: 'Channels',
       chats: 'Chats',
       createAccount: 'Create Account',
@@ -112,6 +112,8 @@ export default {
       selectAFriend: 'Select a Friend',
       verification: 'Verification',
       videos: 'Videos',
+      myAdventures: 'My Adventures',
+      findAdventures: 'Find Adventures',
     },
     empty: {
       nothingToShow: 'Nothing to show',

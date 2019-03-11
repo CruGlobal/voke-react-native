@@ -75,6 +75,8 @@ const s = {
   About: 'About',
   Acknowledgements: 'Acknowledgements',
   AdventuresTab: 'AdventuresTab',
+  AdventuresTabMine: 'AdventuresTabMine',
+  AdventuresTabFind: 'AdventuresTabFind',
   ChallengeModal: 'ChallengeModal',
   ChannelsTab: 'ChannelsTab',
   ChannelsPage: 'ChannelsPage',

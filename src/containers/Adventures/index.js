@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import Analytics from '../../utils/analytics';
 import { navigatePush } from '../../actions/nav';
@@ -12,12 +13,22 @@ import Header, { HeaderIcon } from '../Header';
 import PopupMenu from '../../components/PopupMenu';
 import StatusBar from '../../components/StatusBar';
 import theme from '../../theme';
-import { Text } from '../../components/common';
+import AdventuresFind from '../AdventuresFind';
+import AdventuresMine from '../AdventuresMine';
 
 class Adventures extends Component {
   componentDidMount() {
     Analytics.screen(Analytics.s.AdventuresTab);
+    Analytics.screen(Analytics.s.AdventuresTabMine);
   }
+
+  onChangeTab = ({ i }) => {
+    if (i === 0) {
+      Analytics.screen(Analytics.s.AdventuresTabMine);
+    } else if (i === 1) {
+      Analytics.screen(Analytics.s.AdventuresTabFind);
+    }
+  };
 
   render() {
     const { t, dispatch } = this.props;
@@ -42,9 +53,22 @@ class Adventures extends Component {
               undefined
             )
           }
-          title={t('title.adventure')}
+          title={t('title.adventures')}
         />
-        <Text>Adventures!</Text>
+        <ScrollableTabView
+          tabBarUnderlineStyle={{ backgroundColor: theme.white, height: 2 }}
+          tabBarBackgroundColor={theme.secondaryColor}
+          tabBarActiveTextColor={theme.white}
+          tabBarInactiveTextColor={theme.primaryColor}
+          tabBarTextStyle={{ fontWeight: 'normal' }}
+        >
+          <View tabLabel={t('title.myAdventures')} style={{ flex: 1 }}>
+            <AdventuresMine />
+          </View>
+          <View tabLabel={t('title.findAdventures')} style={{ flex: 1 }}>
+            <AdventuresFind />
+          </View>
+        </ScrollableTabView>
         <ApiLoading />
       </View>
     );

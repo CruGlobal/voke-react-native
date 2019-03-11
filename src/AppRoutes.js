@@ -76,7 +76,7 @@ export const tabs = {
     tracking: buildTrackingObj('adventures', 'home'),
     screen: Adventures,
     navigationOptions: () => ({
-      tabBarLabel: i18n.t('title.adventure'),
+      tabBarLabel: i18n.t('title.adventures'),
       tabBarIcon: navIcon('adventure'),
     }),
   },
