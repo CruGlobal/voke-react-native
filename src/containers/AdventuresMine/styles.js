@@ -1,4 +1,3 @@
-
 import { StyleSheet } from 'react-native';
 import theme from '../../theme';
 
@@ -17,5 +16,12 @@ export default StyleSheet.create({
     borderBottomColor: theme.accentColor,
     padding: 10,
     width: theme.fullWidth,
+  },
+  nullText: {
+    fontSize: 16,
+    lineHeight: 22,
+    paddingHorizontal: 30,
+    textAlign: 'center',
+    marginTop: 15,
   },
 });
