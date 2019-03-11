@@ -22,10 +22,10 @@ class BadgeHomeIcon extends Component {
         animation="bounceIn"
       >
         <VokeIcon
-          name="home"
+          name="Chat"
           size={ICON_SIZE}
           style={{
-            color: isActive ? 'white' : theme.primaryColor,
+            color: isActive ? theme.white : theme.primaryColor,
           }}
         />
         {unReadBadgeCount ? (
