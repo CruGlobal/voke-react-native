@@ -44,12 +44,11 @@ let dynamicModalTransition = (transitionProps, prevTransitionProps) => {
   const tpScenes = ((transitionProps || {}).scenes || []).length || 0;
   const prevTpScenes = ((prevTransitionProps || {}).scenes || []).length || 0;
   const isForward = tpScenes > prevTpScenes;
-  let isModal = verticalPages.some(
-    screenName =>
-      isForward
-        ? screenName === transitionProps.scene.route.routeName
-        : prevTransitionProps &&
-          screenName === prevTransitionProps.scene.route.routeName,
+  let isModal = verticalPages.some(screenName =>
+    isForward
+      ? screenName === transitionProps.scene.route.routeName
+      : prevTransitionProps &&
+        screenName === prevTransitionProps.scene.route.routeName,
   );
   return StackViewTransitionConfigs.defaultTransitionConfig(
     transitionProps,
@@ -73,15 +72,22 @@ const navIcon = icon => ({ tintColor }) => (
 );
 
 export const tabs = {
+  'voke.Adventures': {
+    tracking: buildTrackingObj('adventures', 'home'),
+    screen: Adventures,
+    navigationOptions: () => ({
+      tabBarLabel: i18n.t('title.adventure'),
+      tabBarIcon: navIcon('adventure'),
+    }),
+  },
   'voke.Conversations': {
     tracking: buildTrackingObj('chat', 'home'),
     screen: Conversations,
     navigationOptions: () => ({
       tabBarLabel: i18n.t('conversations'),
-      // tabBarIcon: ({ tintColor }) => (
-      //   <BadgeHomeIcon isActive={tintColor === theme.lightText} />
-      // ),
-      tabBarIcon: navIcon('Chat'),
+      tabBarIcon: ({ tintColor }) => (
+        <BadgeHomeIcon isActive={tintColor === theme.lightText} />
+      ),
     }),
   },
   'voke.Videos': {
@@ -98,14 +104,6 @@ export const tabs = {
     navigationOptions: () => ({
       tabBarLabel: i18n.t('title.channels'),
       tabBarIcon: navIcon('channel'),
-    }),
-  },
-  'voke.Adventures': {
-    tracking: buildTrackingObj('adventures', 'home'),
-    screen: Adventures,
-    navigationOptions: () => ({
-      tabBarLabel: i18n.t('title.adventure'),
-      tabBarIcon: navIcon('adventure'),
     }),
   },
 };
@@ -136,7 +134,7 @@ const MainTabRoutes = createBottomTabNavigator(tabs, {
     scrollEnabled: false,
   },
   swipeEnabled: false,
-  initialRouteName: 'voke.Conversations',
+  initialRouteName: 'voke.Adventures',
   tabBarPosition: 'bottom',
   animationEnabled: false,
   // lazy: false, // Load all tabs right away

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
@@ -11,25 +11,13 @@ import ApiLoading from '../ApiLoading';
 import Header, { HeaderIcon } from '../Header';
 import PopupMenu from '../../components/PopupMenu';
 import StatusBar from '../../components/StatusBar';
-import AdventureMap from '../AdventureMap';
 import theme from '../../theme';
+import { Text } from '../../components/common';
 
 class Adventures extends Component {
-  state = { refreshing: false };
-
   componentDidMount() {
     Analytics.screen(Analytics.s.AdventuresTab);
   }
-
-  scrollTo = y => {
-    if (!this.scrollView) return;
-
-    if (y === 'end') {
-      this.scrollView.scrollToEnd();
-    } else {
-      this.scrollView.scrollTo({ y, animated: true });
-    }
-  };
 
   render() {
     const { t, dispatch } = this.props;
@@ -50,13 +38,13 @@ class Adventures extends Component {
           right={
             theme.isAndroid ? (
               <PopupMenu actions={navMenuOptions(this.props)} />
-            ) : null
+            ) : (
+              undefined
+            )
           }
           title={t('title.adventure')}
         />
-        <ScrollView ref={c => (this.scrollView = c)} bounces={false}>
-          <AdventureMap scrollTo={this.scrollTo} />
-        </ScrollView>
+        <Text>Adventures!</Text>
         <ApiLoading />
       </View>
     );
