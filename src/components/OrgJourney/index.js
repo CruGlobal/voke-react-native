@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image } from 'react-native';
+import { View, Image } from 'react-native';
 import PropTypes from 'prop-types';
 
 import styles from './styles';
@@ -10,21 +10,21 @@ class OrgJourney extends Component {
 
   render() {
     const { item } = this.props;
-    console.log('item', item);
 
     return (
       <Touchable onPress={this.press}>
         <Flex align="center" justify="center" style={styles.container}>
-          <Image
-            source={{
+          {/* source={{
               uri:
                 'https://www.tripsavvy.com/thmb/qSHJzk19KBq_LAuGDTriGhElfL8=/960x0/filters:no_upscale():max_bytes(150000):strip_icc()/GlacierNationalParkMontana-FengWeiPhotography-Getty-5711489a3df78c3fa2b5d2a2.jpg',
-            }}
-            style={styles.image}
+            }} */}
+          <Image
+            source={{ uri: item.image.medium }}
+            style={[styles.absolute, styles.image]}
           />
-          <Text>{item.name}</Text>
-          <Text>{item.slogan}</Text>
-          {/* source={{ uri: item.image.medium }} */}
+          <View style={[styles.absolute, styles.overlay]} />
+          <Text style={styles.title}>{(item.name || '').toUpperCase()}</Text>
+          <Text style={styles.slogan}>{item.slogan}</Text>
         </Flex>
       </Touchable>
     );

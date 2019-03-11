@@ -4,17 +4,32 @@ import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
 import styles from './styles';
-import { Text, RefreshControl } from '../../components/common';
+import { RefreshControl } from '../../components/common';
 import { getOrgJourneys } from '../../actions/journeys';
 import OrgJourney from '../../components/OrgJourney';
 
 class AdventuresFind extends Component {
-  state = { refreshing: true };
+  state = { refreshing: false };
 
   componentDidMount() {
+    this.getJourneys();
+  }
+
+  getJourneys() {
     const { dispatch } = this.props;
     dispatch(getOrgJourneys());
   }
+
+  handleRefresh = async () => {
+    this.setState({ refreshing: true });
+    try {
+      await this.getJourneys();
+    } catch (e) {
+      console.log('error getting org journeys');
+    } finally {
+      this.setState({ refreshing: false });
+    }
+  };
 
   select = item => {
     console.log('select item', item);
@@ -28,22 +43,18 @@ class AdventuresFind extends Component {
     const { items } = this.props;
     const { refreshing } = this.state;
     return (
-      <View style={styles.container}>
-        <Text>Adventures Find!</Text>
-        <FlatList
-          initialNumToRender={4}
-          data={items}
-          renderItem={this.renderRow}
-          keyExtractor={item => item.id}
-          style={{ flex: 1 }}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={this.handleRefresh}
-            />
-          }
-        />
-      </View>
+      <FlatList
+        data={items}
+        renderItem={this.renderRow}
+        keyExtractor={item => item.id}
+        style={styles.list}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={this.handleRefresh}
+          />
+        }
+      />
     );
   }
 }
