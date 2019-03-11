@@ -336,4 +336,49 @@ export default {
     endpoint: API_URL + 'me/open_voke',
     method: 'post',
   },
+  GET_ORG_JOURNEYS: {
+    endpoint: API_URL + 'organization_journeys',
+  },
+  GET_ORG_JOURNEY: {
+    endpoint: API_URL + 'organization_journeys/:journeyId',
+  },
+  GET_JOURNEY_INVITES: {
+    endpoint: API_URL + 'me/journey_invites',
+  },
+  GET_JOURNEY_INVITE: {
+    endpoint: API_URL + 'me/journey_invites/:journeyId',
+  },
+  SEND_JOURNEY_INVITE: {
+    endpoint: API_URL + 'me/journey_invites',
+    method: 'post',
+  },
+  DELETE_JOURNEY_INVITE: {
+    endpoint: API_URL + 'me/journey_invites/:journeyId',
+    method: 'delete',
+  },
+  ACCEPT_JOURNEY_INVITE: {
+    // query: { code (required) }
+    endpoint: API_URL + 'me/journey_invites/:journeyId',
+    method: 'post',
+  },
+  GET_MY_JOURNEYS: {
+    endpoint: API_URL + 'me/journeys',
+  },
+  GET_MY_JOURNEY: {
+    endpoint: API_URL + 'me/journeys/:journeyId',
+  },
+  CREATE_MY_JOURNEY: {
+    endpoint: API_URL + 'me/journeys',
+    method: 'post',
+  },
+  DELETE_MY_JOURNEY: {
+    endpoint: API_URL + 'me/journeys/:journeyId',
+    method: 'delete',
+  },
+  GET_MY_JOURNEY_STEPS: {
+    endpoint: API_URL + 'me/journeys/:journeyId/steps',
+  },
+  GET_MY_JOURNEY_STEP: {
+    endpoint: API_URL + 'me/journeys/:journeyId/steps/:stepId',
+  },
 };
