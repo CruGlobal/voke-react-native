@@ -10,7 +10,7 @@ export default {
     language: 'Language',
     shortPassword: 'Your password must be at least 8 characters',
     today: 'Today',
-    home: 'Home',
+    conversations: 'Conversations',
     acceptChallenge: 'Accept Challenge',
     add: 'Add',
     all: 'All',
@@ -98,7 +98,7 @@ export default {
     title: {
       about: 'About',
       acknowledgements: 'Acknowledgements',
-      adventure: 'Adventure',
+      adventure: 'Adventures',
       channels: 'Channels',
       chats: 'Chats',
       createAccount: 'Create Account',
@@ -149,7 +149,7 @@ export default {
     invalid: 'Invalid Email',
     enter: 'Please enter a valid email',
   },
-  home: {
+  conversations: {
     findAndShare: 'Fetching your conversations',
     thisPerson: 'this person',
     areYouSureBlock: `Are you sure you want to block {{name}}?`,

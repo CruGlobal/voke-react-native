@@ -10,7 +10,7 @@ export default {
     language: 'Língua',
     shortPassword: 'Sua senha deve ter no mínimo 8 caracteres',
     today: 'Hoje',
-    home: 'In\u00edcio',
+    conversations: 'conversas',
     acceptChallenge: 'Aceitar o Desafio',
     add: 'Adicionar',
     all: 'Tudo',
@@ -100,7 +100,7 @@ export default {
     title: {
       about: 'Sobre',
       acknowledgements: 'Reconhecimentos',
-      adventure: 'Aventura',
+      adventure: 'Aventuras',
       channels: 'Canais',
       chats: 'Conversas',
       createAccount: 'Criar Conta',
@@ -155,7 +155,7 @@ export default {
     invalid: 'Email Inv\u00e1lido',
     enter: 'Por favor, informe um email v\u00e1lido',
   },
-  home: {
+  conversations: {
     findAndShare: 'Encontre um v\u00eddeo e compartilhe com um amigo',
     thisPerson: 'esta pessoa',
     areYouSureBlock: 'Tem certeza que deseja bloquear {{name}}?',

@@ -39,7 +39,7 @@ import { buildTrackingObj } from '../../utils/common';
 
 const CONTACT_LENGTH_SHOW_VOKEBOT = IS_SMALL_ANDROID ? 2 : 3;
 
-class Home extends Component {
+class Conversations extends Component {
   constructor(props) {
     super(props);
 
@@ -63,20 +63,20 @@ class Home extends Component {
       dontNavigateToVideos,
     } = this.props;
 
-    if (isAnonUser && conversations.length <= 1) {
-      // Only navigate to videos if we're not coming from a 'navigateResetMessage'
-      if (
-        !(
-          navigation &&
-          navigation.state &&
-          navigation.state.params &&
-          navigation.state.params.navThrough === true
-        ) &&
-        !dontNavigateToVideos
-      ) {
-        navigation.navigate('voke.Videos');
-      }
-    }
+    // if (isAnonUser && conversations.length <= 1) {
+    //   // Only navigate to videos if we're not coming from a 'navigateResetMessage'
+    //   if (
+    //     !(
+    //       navigation &&
+    //       navigation.state &&
+    //       navigation.state.params &&
+    //       navigation.state.params.navThrough === true
+    //     ) &&
+    //     !dontNavigateToVideos
+    //   ) {
+    //     navigation.navigate('voke.Videos');
+    //   }
+    // }
     if (me && me.language && me.language.language_code) {
       i18n.changeLanguage(me.language.language_code.toLowerCase());
     }
@@ -89,9 +89,9 @@ class Home extends Component {
       dispatch(getMe());
     }
 
-    this.startupTimeout = setTimeout(() => {
-      dispatch(startupAction());
-    }, 50);
+    // this.startupTimeout = setTimeout(() => {
+    //   dispatch(startupAction());
+    // }, 50);
 
     // Check if getConversations has been called yet, call it again if there are 0 conversations
     this.checkTimeout = setTimeout(this.checkConversations, 6 * 1000);
@@ -331,7 +331,7 @@ class Home extends Component {
 }
 
 // Check out actions/nav.js to see the prop types and mapDispatchToProps
-Home.propTypes = {
+Conversations.propTypes = {
   conversations: PropTypes.array.isRequired, // Redux
   me: PropTypes.object.isRequired, // Redux
   pagination: PropTypes.object.isRequired, // Redux
@@ -349,4 +349,6 @@ const mapStateToProps = ({ messages, auth }) => ({
   getConversationsIsRunning: messages.getConversationsIsRunning,
 });
 
-export default translate('home')(connect(mapStateToProps)(Home));
+export default translate('conversations')(
+  connect(mapStateToProps)(Conversations),
+);

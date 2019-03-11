@@ -10,7 +10,7 @@ import BadgeHomeIcon from './containers/BadgeHomeIcon';
 
 import LoadingScreen from './containers/LoadingScreen';
 import LoginInput from './containers/LoginInput';
-import Home from './containers/Home';
+import Conversations from './containers/Conversations';
 import Videos from './containers/Videos';
 import Menu from './containers/Menu';
 import About from './containers/About';
@@ -73,14 +73,15 @@ const navIcon = icon => ({ tintColor }) => (
 );
 
 export const tabs = {
-  'voke.Home': {
+  'voke.Conversations': {
     tracking: buildTrackingObj('chat', 'home'),
-    screen: Home,
+    screen: Conversations,
     navigationOptions: () => ({
-      tabBarLabel: i18n.t('home'),
-      tabBarIcon: ({ tintColor }) => (
-        <BadgeHomeIcon isActive={tintColor === theme.lightText} />
-      ),
+      tabBarLabel: i18n.t('conversations'),
+      // tabBarIcon: ({ tintColor }) => (
+      //   <BadgeHomeIcon isActive={tintColor === theme.lightText} />
+      // ),
+      tabBarIcon: navIcon('Chat'),
     }),
   },
   'voke.Videos': {
@@ -135,7 +136,7 @@ const MainTabRoutes = createBottomTabNavigator(tabs, {
     scrollEnabled: false,
   },
   swipeEnabled: false,
-  initialRouteName: 'voke.Home',
+  initialRouteName: 'voke.Conversations',
   tabBarPosition: 'bottom',
   animationEnabled: false,
   // lazy: false, // Load all tabs right away
