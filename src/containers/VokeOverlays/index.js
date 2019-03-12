@@ -9,6 +9,7 @@ import SignUpButtons from '../SignUpButtons';
 import { CLEAR_OVERLAY } from '../../constants';
 import VOKEBOT_UKE from '../../../images/voke_uke.png';
 import VOKEBOT from '../../../images/vokebot_whole.png';
+import NOTIFICATIONS from '../../../images/allow_notifications.png';
 import styles from './styles';
 import { enablePushNotifications } from '../../actions/socket';
 
@@ -117,6 +118,38 @@ class VokeOverlays extends Component {
     );
   }
 
+  renderAdventurePushPermissions() {
+    const { t, user } = this.props;
+    return (
+      <Flex
+        style={styles.overlay}
+        align="center"
+        justify="center"
+        self="stretch"
+      >
+        <Image
+          source={NOTIFICATIONS}
+          style={{ height: 150, marginBottom: 20 }}
+          resizeMode="contain"
+        />
+        <Text style={styles.adventurePushNotificationText}>
+          {t('playUkulele')}
+        </Text>
+        <Button
+          onPress={this.allowNotifications}
+          type="filled"
+          style={styles.closeButton}
+          text={t('allowNotifications')}
+        />
+        <Button
+          onPress={this.close}
+          style={styles.clearButton}
+          text={t('noThanks')}
+        />
+      </Flex>
+    );
+  }
+
   renderMessageModal() {
     const { overlayProps } = this.props;
     let messageData = overlayProps.messageData || {};
@@ -156,6 +189,8 @@ class VokeOverlays extends Component {
       return this.renderPushPermissions();
     } else if (type === 'messageModal' && overlayProps.messageData) {
       return this.renderMessageModal();
+    } else if (type === 'adventurePushPermissions') {
+      return this.renderAdventurePushPermissions();
     }
     return null;
   }

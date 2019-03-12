@@ -4,8 +4,10 @@ import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
 import styles from './styles';
+import i18n from '../../i18n';
 import { Text, VokeIcon, Flex } from '../../components/common';
 import { getMyJourneys, createMyJourney } from '../../actions/journeys';
+import { startupAction } from '../../actions/auth';
 import MyAdventuresList from '../../components/MyAdventuresList';
 
 class AdventuresMine extends Component {
@@ -18,7 +20,15 @@ class AdventuresMine extends Component {
   }
 
   componentDidMount() {
+    const { me, dispatch } = this.props;
     this.props.dispatch(getMyJourneys());
+    if (me && me.language && me.language.language_code) {
+      i18n.changeLanguage(me.language.language_code.toLowerCase());
+    }
+
+    this.startupTimeout = setTimeout(() => {
+      dispatch(startupAction());
+    }, 50);
   }
 
   handleNextPage = () => {
@@ -64,7 +74,7 @@ class AdventuresMine extends Component {
     const { isLoading } = this.state;
     return (
       <View style={styles.container}>
-        {false ? (
+        {this.props.myJourneys < 1 ? (
           this.renderNull()
         ) : (
           <MyAdventuresList

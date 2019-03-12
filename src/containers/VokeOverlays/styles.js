@@ -1,4 +1,3 @@
-
 import { StyleSheet } from 'react-native';
 import theme from '../../theme';
 
@@ -55,5 +54,13 @@ export default StyleSheet.create({
     borderBottomColor: 'transparent',
     borderRightWidth: 13,
     borderRightColor: theme.lightBackgroundColor,
+  },
+  adventurePushNotificationText: {
+    fontSize: 15,
+    lineHeight: 25,
+    color: 'white',
+    textAlign: 'center',
+    maxWidth: 250,
+    marginBottom: 20,
   },
 });

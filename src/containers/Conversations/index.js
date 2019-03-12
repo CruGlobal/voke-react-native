@@ -77,9 +77,9 @@ class Conversations extends Component {
     //     navigation.navigate('voke.Videos');
     //   }
     // }
-    if (me && me.language && me.language.language_code) {
-      i18n.changeLanguage(me.language.language_code.toLowerCase());
-    }
+    // if (me && me.language && me.language.language_code) {
+    //   i18n.changeLanguage(me.language.language_code.toLowerCase());
+    // }
 
     Analytics.screen(Analytics.s.ChatTab);
     this.getConversations();
