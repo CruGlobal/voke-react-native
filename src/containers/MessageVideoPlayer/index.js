@@ -54,14 +54,17 @@ class MessageVideoPlayer extends Component {
     const { message, onClose } = this.props;
     const video = message.item;
     const videoMedia = video.media || {};
-    const videoType = videoMedia.type;
+    const videoObj = {
+      start: video.media_start,
+      end: video.media_end,
+      type: videoMedia.type,
+      url: videoMedia.url,
+    };
     return (
       <Flex style={styles.video}>
         <WebviewVideo
           ref={c => (this.webview = c)}
-          type={videoType}
-          url={videoMedia.url}
-          start={video.media_start || 0}
+          video={videoObj}
           onChangeState={this.handleVideoChange}
           isLandscape={false}
         />
@@ -92,7 +95,10 @@ const mapStateToProps = ({ auth }, { message }) => ({
 });
 
 export default translate(undefined, { wait: true, withRef: true })(
-  connect(mapStateToProps, undefined, undefined, { withRef: true })(
-    MessageVideoPlayer,
-  ),
+  connect(
+    mapStateToProps,
+    undefined,
+    undefined,
+    { withRef: true },
+  )(MessageVideoPlayer),
 );

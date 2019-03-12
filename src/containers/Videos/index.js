@@ -578,11 +578,13 @@ class Videos extends Component {
             items={videos}
             onSelect={v => {
               dispatch(
-                navigatePush('voke.VideoDetails', {
-                  video: v,
+                navigatePush('voke.VideoContentWrap', {
+                  item: v,
+                  type: 'videoDetail',
                   onSelectVideo,
                   conversation,
                   onUpdateVideos: () => this.updateVideoList(selectedFilter),
+                  trackingObj: buildTrackingObj('video', 'preview'),
                 }),
               );
             }}

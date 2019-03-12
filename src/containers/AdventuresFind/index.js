@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, FlatList } from 'react-native';
+import { FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
@@ -7,6 +7,8 @@ import styles from './styles';
 import { RefreshControl } from '../../components/common';
 import { getOrgJourneys } from '../../actions/journeys';
 import OrgJourney from '../../components/OrgJourney';
+import { navigatePush } from '../../actions/nav';
+import { buildTrackingObj } from '../../utils/common';
 
 class AdventuresFind extends Component {
   state = { refreshing: false };
@@ -32,7 +34,13 @@ class AdventuresFind extends Component {
   };
 
   select = item => {
-    console.log('select item', item);
+    this.props.dispatch(
+      navigatePush('voke.VideoContentWrap', {
+        item,
+        type: 'orgJourney',
+        trackingObj: buildTrackingObj('journey', 'detail'),
+      }),
+    );
   };
 
   renderRow = ({ item }) => {

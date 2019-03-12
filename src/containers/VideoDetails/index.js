@@ -279,7 +279,12 @@ class VideoDetails extends Component {
     const { dispatch } = this.props;
     const video = this.props.video || {};
     const videoMedia = video.media || {};
-    const videoType = videoMedia.type;
+    const videoObj = {
+      start: video.media_start,
+      end: video.media_end,
+      type: videoMedia.type,
+      url: videoMedia.url,
+    };
 
     return (
       <View style={styles.container}>
@@ -290,10 +295,7 @@ class VideoDetails extends Component {
           {this.state.showVideo ? (
             <WebviewVideo
               ref={c => (this.webview = c)}
-              type={videoType}
-              url={videoMedia.url}
-              start={video.media_start || 0}
-              end={video.media_end || 0}
+              video={videoObj}
               onChangeState={this.handleVideoChange}
               isLandscape={this.state.isLandscape}
             />

@@ -85,13 +85,16 @@ class ChallengeModal extends Component {
     const { video } = this.state;
     if (!video) return null;
     const videoMedia = video.media || {};
-    const videoType = videoMedia.type;
+    const videoObj = {
+      start: video.media_start,
+      end: video.media_end,
+      type: videoMedia.type,
+      url: videoMedia.url,
+    };
     return (
       <Flex style={styles.video}>
         <WebviewVideo
-          type={videoType}
-          url={videoMedia.url}
-          start={video.media_start || 0}
+          video={videoObj}
           onChangeState={this.handleVideoChange}
           isLandscape={false}
           width={videoUtils.WIDTH - 60}

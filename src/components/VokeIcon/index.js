@@ -5,16 +5,29 @@ import { Image } from 'react-native';
 // See this file for the names of all the voke icons
 import { vokeImages, vokeIcons } from '../../utils/iconMap';
 import { Icon } from '../common';
+import theme from '../../theme';
 
 export default class VokeIcon extends Component {
   render() {
-    const { name, type, ...rest } = this.props;
+    const { name, type, style, ...rest } = this.props;
     if (type === 'image' && !vokeImages[name]) return null;
     if (type === 'image') {
-      return <Image resizeMode="contain" {...rest} source={vokeImages[name]} />;
+      return (
+        <Image
+          resizeMode="contain"
+          {...rest}
+          style={style}
+          source={vokeImages[name]}
+        />
+      );
     } else {
       return (
-        <Icon name={name} type="Voke" style={{ color: 'white' }} {...rest} />
+        <Icon
+          name={name}
+          type="Voke"
+          {...rest}
+          style={[{ color: theme.white }, style]}
+        />
       );
     }
   }
