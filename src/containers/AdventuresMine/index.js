@@ -5,6 +5,7 @@ import { translate } from 'react-i18next';
 
 import styles from './styles';
 import { Text, VokeIcon, Flex } from '../../components/common';
+import { getMyJourneys, createMyJourney } from '../../actions/journeys';
 import MyAdventuresList from '../../components/MyAdventuresList';
 
 class AdventuresMine extends Component {
@@ -14,6 +15,10 @@ class AdventuresMine extends Component {
     this.state = {
       isLoading: false,
     };
+  }
+
+  componentDidMount() {
+    this.props.dispatch(getMyJourneys());
   }
 
   handleNextPage = () => {
@@ -63,14 +68,7 @@ class AdventuresMine extends Component {
           this.renderNull()
         ) : (
           <MyAdventuresList
-            items={[
-              {
-                id: 1,
-                name: 'test',
-                description: 'thksthlk',
-                media: { thumbnails: { large: '' } },
-              },
-            ]}
+            items={this.props.myJourneys}
             onSelect={() => {}}
             onRefresh={this.handleRefresh}
             onLoadMore={this.handleNextPage}
@@ -82,8 +80,9 @@ class AdventuresMine extends Component {
   }
 }
 
-const mapStateToProps = ({ auth }) => ({
+const mapStateToProps = ({ auth, journeys }) => ({
   me: auth.user,
+  myJourneys: journeys.mine,
 });
 
 export default translate()(connect(mapStateToProps)(AdventuresMine));

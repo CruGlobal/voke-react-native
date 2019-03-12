@@ -21,6 +21,11 @@ export default function adventures(state = initialState, action) {
         ...state,
         org: action.organization_journeys,
       };
+    case REQUESTS.GET_MY_JOURNEYS.SUCCESS:
+      return {
+        ...state,
+        mine: action.journeys,
+      };
     case LOGOUT:
       return initialState;
     default:
