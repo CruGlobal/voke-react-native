@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -17,7 +16,6 @@
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		243D4CDC25B5460DA0A0F510 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09EDD208638F4E6EACA5C593 /* libRNSVG.a */; };
 		2A844C434B264FCA8AD51887 /* libSMXCrashlytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B81E6293ED38402A935FA0AA /* libSMXCrashlytics.a */; };
 		376E6513900E4B6B98D8A273 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1BBE48D9CC9B4230B97BD4A6 /* FontAwesome.ttf */; };
 		37C585BED12E4623ACE9A188 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B28BBB1231AA4B02BE808F38 /* MaterialCommunityIcons.ttf */; };
@@ -346,20 +344,6 @@
 			remoteGlobalIDString = 9D23B34F1C767B80008B4819;
 			remoteInfo = ReactNativePermissions;
 		};
-		AE44C76F20FCEDDF00B774CD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0900058C034240ED844AB29A /* RNSVG.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0CF68AC11AF0540F00FF9E5C;
-			remoteInfo = RNSVG;
-		};
-		AE44C77120FCEDDF00B774CD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0900058C034240ED844AB29A /* RNSVG.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 94DDAC5C1F3D024300EED511;
-			remoteInfo = "RNSVG-tvOS";
-		};
 		AE5BE03D1F609C760091810F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AE5BE0391F609C760091810F /* RCTFBSDK.xcodeproj */;
@@ -475,8 +459,6 @@
 		00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTNetwork.xcodeproj; path = "../node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj"; sourceTree = "<group>"; };
 		00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTVibration.xcodeproj; path = "../node_modules/react-native/Libraries/Vibration/RCTVibration.xcodeproj"; sourceTree = "<group>"; };
 		0340FCDF836A4073BFEE4B1F /* libRNSound.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSound.a; sourceTree = "<group>"; };
-		0900058C034240ED844AB29A /* RNSVG.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSVG.xcodeproj; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; };
-		09EDD208638F4E6EACA5C593 /* libRNSVG.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSVG.a; sourceTree = "<group>"; };
 		0BDF1DB9F48D43508DC5010B /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/rn-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
@@ -594,7 +576,6 @@
 				C261E0A521EE42BAB748FA9B /* libSendSMS.a in Frameworks */,
 				D7ACE48697FC459A97F26D9A /* libReactNativePermissions.a in Frameworks */,
 				FD06F992561D4A1CA3FB6AA7 /* libRNFirebase.a in Frameworks */,
-				243D4CDC25B5460DA0A0F510 /* libRNSVG.a in Frameworks */,
 				5E800670D75D48D0BCA62A1C /* libRNGestureHandler.a in Frameworks */,
 				B8C9703C6059430986244AF9 /* libRNFetchBlob.a in Frameworks */,
 			);
@@ -751,7 +732,6 @@
 				87D0A34378C946CE8F44CF56 /* SendSMS.xcodeproj */,
 				D6B2CBF431D44BFFA2B7CEDB /* ReactNativePermissions.xcodeproj */,
 				C9382E19C17347C7873F5E65 /* RNFirebase.xcodeproj */,
-				0900058C034240ED844AB29A /* RNSVG.xcodeproj */,
 				27B36D9247404728A35F8C9C /* RNGestureHandler.xcodeproj */,
 				0BDF1DB9F48D43508DC5010B /* RNFetchBlob.xcodeproj */,
 			);
@@ -891,15 +871,6 @@
 			isa = PBXGroup;
 			children = (
 				AE3D51942098AA680000051A /* libReactNativePermissions.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		AE44C76B20FCEDDF00B774CD /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AE44C77020FCEDDF00B774CD /* libRNSVG.a */,
-				AE44C77220FCEDDF00B774CD /* libRNSVG-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1151,10 +1122,6 @@
 				{
 					ProductGroup = AE9113D51F45FC1700D6E009 /* Products */;
 					ProjectRef = D6C2CF26BC5E41AC95BD3F11 /* RNSpinkit.xcodeproj */;
-				},
-				{
-					ProductGroup = AE44C76B20FCEDDF00B774CD /* Products */;
-					ProjectRef = 0900058C034240ED844AB29A /* RNSVG.xcodeproj */;
 				},
 				{
 					ProductGroup = 9354D6591EF9A7010005D447 /* Products */;
@@ -1457,13 +1424,6 @@
 			remoteRef = AE3D51932098AA680000051A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AE44C77020FCEDDF00B774CD /* libRNSVG.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNSVG.a;
-			remoteRef = AE44C76F20FCEDDF00B774CD /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		AE44C77220FCEDDF00B774CD /* libRNSVG-tvOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1675,7 +1635,6 @@
 					"$(SRCROOT)/../node_modules/react-native-sms/SendSMS",
 					"$(SRCROOT)/../node_modules/react-native-permissions/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
-					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 				);
@@ -1684,7 +1643,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/AdobeMobileLibrary",
-					"\"$(SRCROOT)/Voke\"",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1731,7 +1689,6 @@
 					"$(SRCROOT)/../node_modules/react-native-sms/SendSMS",
 					"$(SRCROOT)/../node_modules/react-native-permissions/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
-					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 				);
@@ -1740,7 +1697,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/AdobeMobileLibrary",
-					"\"$(SRCROOT)/Voke\"",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
