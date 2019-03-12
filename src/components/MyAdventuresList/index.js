@@ -55,11 +55,10 @@ class MyAdventuresList extends Component {
           justify="start"
           animation="slideInUp"
         >
-          {/*      <Image
-            source={{ uri: item.media.thumbnails.large }}
+          <Image
+            source={{ uri: item.item.content.thumbnails.small }}
             style={styles.adventureThumbnail}
-          />*/}
-          <View style={{ backgroundColor: 'black', height: 64, width: 64 }} />
+          />
           <Flex
             direction="column"
             align="start"

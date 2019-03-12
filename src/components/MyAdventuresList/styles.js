@@ -9,6 +9,7 @@ export default StyleSheet.create({
     backgroundColor: 'white',
     elevation: 2,
     borderRadius: 8,
+    overflow: 'hidden',
   },
   thumbnailWrap: {
     height: THUMBNAIL_HEIGHT,
@@ -21,6 +22,8 @@ export default StyleSheet.create({
   adventureThumbnail: {
     height: THUMBNAIL_HEIGHT,
     width: THUMBNAIL_HEIGHT,
+    borderBottomLeftRadius: 8,
+    borderTopLeftRadius: 8,
   },
   adventureTitle: {
     color: theme.primaryColor,
