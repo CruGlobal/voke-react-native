@@ -15,6 +15,7 @@ import webviewStates from '../../components/WebviewVideo/common';
 import { VokeIcon, Flex, Touchable, Text } from '../../components/common';
 import SafeArea from '../../components/SafeArea';
 import VideoDetailsContent from '../VideoDetailsContent';
+import OrgJourneyDetail from '../OrgJourneyDetail';
 
 class VideoContentWrap extends Component {
   constructor(props) {
@@ -72,6 +73,9 @@ class VideoContentWrap extends Component {
       return (
         <VideoDetailsContent video={item} onPause={this.pause} {...rest} />
       );
+    }
+    if (type === 'orgJourney') {
+      return <OrgJourneyDetail item={item} onPause={this.pause} {...rest} />;
     }
     return (
       <Flex direction="column" style={{ paddingBottom: 110 }}>

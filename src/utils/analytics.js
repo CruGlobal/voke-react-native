@@ -105,6 +105,7 @@ const s = {
   VideoDetails: 'VideoDetails',
   VideosTab: 'VideosTab',
   VideosMessage: 'VideosMessage',
+  OrgJourneyDetail: 'OrgJourneyDetail',
 };
 
 export default {
