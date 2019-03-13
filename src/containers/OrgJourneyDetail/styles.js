@@ -23,18 +23,26 @@ export default StyleSheet.create({
   },
   start: {
     fontSize: 18,
-    color: theme.darkText,
+    color: theme.white,
+    paddingBottom: 10,
   },
   card: {
     paddingVertical: 20,
-    shadowOpacity: 0.35,
-    backgroundColor: theme.white,
-    shadowOffset: {
-      width: 0,
-      height: -2,
-    },
-    shadowColor: theme.black,
-    shadowRadius: 1,
-    elevation: 5,
+    backgroundColor: theme.primaryColor,
+  },
+  button: {
+    backgroundColor: theme.orange,
+    borderWidth: 0,
+    borderRadius: 0,
+    paddingHorizontal: 25,
+  },
+  left: {
+    marginRight: 1,
+    borderTopLeftRadius: 24,
+    borderBottomLeftRadius: 24,
+  },
+  right: {
+    borderTopRightRadius: 24,
+    borderBottomRightRadius: 24,
   },
 });

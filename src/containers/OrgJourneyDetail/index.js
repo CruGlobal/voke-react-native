@@ -13,6 +13,12 @@ class OrgJourneyDetail extends Component {
   componentDidMount() {
     Analytics.screen(Analytics.s.OrgJourneyDetail);
   }
+  myself = () => {
+    console.log('by myself');
+  };
+  friend = () => {
+    console.log('with a friend');
+  };
   render() {
     const { item } = this.props;
 
@@ -28,7 +34,16 @@ class OrgJourneyDetail extends Component {
             <Flex style={styles.card} align="center" justify="center">
               <Text style={styles.start}>Start {item.name}</Text>
               <Flex direction="row" align="center">
-                <Button text="By Myself" />
+                <Button
+                  text="By Myself"
+                  onPress={this.myself}
+                  style={[styles.button, styles.left]}
+                />
+                <Button
+                  text="With a Friend"
+                  onPress={this.friend}
+                  style={[styles.button, styles.right]}
+                />
               </Flex>
             </Flex>
           </Flex>
