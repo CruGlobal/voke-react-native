@@ -8,6 +8,7 @@ import Analytics from '../../utils/analytics';
 
 import styles from './styles';
 import { Flex, Text, Button } from '../../components/common';
+import theme from '../../theme';
 
 class OrgJourneyDetail extends Component {
   componentDidMount() {

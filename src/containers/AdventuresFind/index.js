@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { FlatList } from 'react-native';
+import { Image, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
 import styles from './styles';
-import { RefreshControl } from '../../components/common';
+import { RefreshControl, Flex, Text } from '../../components/common';
 import { getOrgJourneys } from '../../actions/journeys';
 import OrgJourney from '../../components/OrgJourney';
 import { navigatePush } from '../../actions/nav';
 import { buildTrackingObj } from '../../utils/common';
+import VOKE_LINK from '../../../images/vokebot_whole.png';
 
 class AdventuresFind extends Component {
   state = { refreshing: false };
@@ -47,6 +48,23 @@ class AdventuresFind extends Component {
     return <OrgJourney onPress={this.select} item={item} />;
   };
 
+  renderHeader = () => {
+    const { me } = this.props;
+    return (
+      <Flex align="center" direction="row" style={styles.vokebotWrap}>
+        <Image resizeMode="contain" source={VOKE_LINK} style={styles.vokebot} />
+        <Flex style={styles.chatTriangle} />
+        <Flex value={1} style={styles.chatBubble}>
+          <Text style={styles.chatText}>
+            Hi{me.first_name ? ` ${me.first_name}` : ''}, welcome to Voke!
+            Browse for an Adventure that you want to start, then head on over to
+            My Adventures to manage it!
+          </Text>
+        </Flex>
+      </Flex>
+    );
+  };
+
   render() {
     const { items } = this.props;
     const { refreshing } = this.state;
@@ -54,6 +72,7 @@ class AdventuresFind extends Component {
       <FlatList
         data={items}
         renderItem={this.renderRow}
+        ListHeaderComponent={this.renderHeader()}
         keyExtractor={item => item.id}
         style={styles.list}
         refreshControl={
