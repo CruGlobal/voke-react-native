@@ -108,11 +108,12 @@ export default StyleSheet.create({
   },
   actionButton: {
     width: theme.fullWidth - 110,
-    height: 40,
+    height: 50,
     backgroundColor: theme.primaryColor,
     borderWidth: 0,
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 8,
   },
   haveAccount: {
     paddingTop: 50,
@@ -133,5 +134,42 @@ export default StyleSheet.create({
   },
   privacy: {
     marginHorizontal: 15,
+  },
+  bottomButtonsWrap: {
+    backgroundColor: theme.secondaryColor,
+  },
+  parallelogram: {
+    width: 150,
+    height: 100,
+  },
+  parallelogramInner: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    backgroundColor: 'red',
+    width: 150,
+    height: 100,
+  },
+  parallelogramRight: {
+    top: 0,
+    right: -50,
+    position: 'absolute',
+  },
+  parallelogramLeft: {
+    top: 0,
+    left: -50,
+    position: 'absolute',
+  },
+  triangle: {
+    width: 0,
+    height: 0,
+    backgroundColor: 'transparent',
+    borderStyle: 'solid',
+    borderLeftWidth: theme.fullWidth,
+    borderRightWidth: theme.fullWidth,
+    borderBottomWidth: 70,
+    borderLeftColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderBottomColor: theme.secondaryColor,
   },
 });

@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
 import styles from './styles';
 import i18n from '../../i18n';
-import { Text, VokeIcon, Flex } from '../../components/common';
+import { Text, VokeIcon, Flex, Button } from '../../components/common';
 import { getMyJourneys, createMyJourney } from '../../actions/journeys';
 import { startupAction } from '../../actions/auth';
 import MyAdventuresList from '../../components/MyAdventuresList';
+import VOKE_LINK from '../../../images/vokebot_whole.png';
 
 class AdventuresMine extends Component {
   constructor(props) {
@@ -60,12 +61,50 @@ class AdventuresMine extends Component {
   }
 
   renderNull = () => {
+    const { me } = this.props;
     return (
       <Flex value={1} align="center" justify="center" style={styles.container}>
-        <VokeIcon name="adventure" size={90} />
-        <Text style={styles.nullText}>
-          Your Adventures will show up here once you start one!
-        </Text>
+        <Flex
+          value={1}
+          align="center"
+          direction="row"
+          style={styles.vokebotWrap}
+        >
+          <Image
+            resizeMode="contain"
+            source={VOKE_LINK}
+            style={styles.vokebot}
+          />
+          <Flex style={styles.chatTriangle} />
+          <Flex value={1} style={styles.chatBubble}>
+            <Text style={styles.chatText}>
+              Hi{me.first_name ? ` ${me.first_name}` : ''}, welcome to Voke!
+              Once you find an Adventure to start it will show up on this
+              screen!
+            </Text>
+          </Flex>
+        </Flex>
+        <Flex
+          align="center"
+          justify="start"
+          value={3}
+          style={{ marginTop: 20 }}
+        >
+          <Flex value={1} align="center">
+            <VokeIcon name="adventure" size={140} />
+            <Text style={styles.nullText}>
+              Click below to explore the Adventures
+            </Text>
+          </Flex>
+          <Flex value={1}>
+            <Button
+              text="Browse Adventures"
+              style={styles.browseButton}
+              buttonTextStyle={styles.browseText}
+              onPress={() => {}}
+            />
+          </Flex>
+        </Flex>
       </Flex>
     );
   };

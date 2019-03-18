@@ -20,6 +20,9 @@ class Adventures extends Component {
   componentDidMount() {
     Analytics.screen(Analytics.s.AdventuresTab);
     Analytics.screen(Analytics.s.AdventuresTabMine);
+    if (!this.props.me.first_name) {
+      this.props.dispatch(navigatePush('voke.TryItNowName'));
+    }
   }
 
   onChangeTab = ({ i }) => {

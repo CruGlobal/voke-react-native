@@ -1,6 +1,5 @@
-
 import { StyleSheet } from 'react-native';
-import theme  from '../../theme';
+import theme from '../../theme';
 
 export default StyleSheet.create({
   input: {
@@ -17,5 +16,17 @@ export default StyleSheet.create({
   active: {
     backgroundColor: theme.accentColor,
     borderColor: theme.accentColor,
+  },
+  inputNew: {
+    marginTop: 4,
+    padding: 5,
+    width: theme.fullWidth - 110,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.accentColor,
+    borderRadius: 0,
+    fontSize: 20,
+    color: theme.white,
+    backgroundColor: 'transparent',
+    textAlign: 'center',
   },
 });

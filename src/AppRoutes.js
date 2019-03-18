@@ -34,6 +34,7 @@ import TryItNowName from './containers/TryItNowName';
 import VideoContentWrap from './containers/VideoContentWrap';
 import Videos from './containers/Videos';
 import VideosTab from './containers/VideosTab';
+import TryItNowProfilePhoto from './containers/TryItNowProfilePhoto';
 import i18n from './i18n';
 import theme from './theme';
 import { buildTrackingObj } from './utils/common';
@@ -48,11 +49,12 @@ let dynamicModalTransition = (transitionProps, prevTransitionProps) => {
   const tpScenes = ((transitionProps || {}).scenes || []).length || 0;
   const prevTpScenes = ((prevTransitionProps || {}).scenes || []).length || 0;
   const isForward = tpScenes > prevTpScenes;
-  let isModal = verticalPages.some(screenName =>
-    isForward
-      ? screenName === transitionProps.scene.route.routeName
-      : prevTransitionProps &&
-        screenName === prevTransitionProps.scene.route.routeName,
+  let isModal = verticalPages.some(
+    screenName =>
+      isForward
+        ? screenName === transitionProps.scene.route.routeName
+        : prevTransitionProps &&
+          screenName === prevTransitionProps.scene.route.routeName,
   );
   return StackViewTransitionConfigs.defaultTransitionConfig(
     transitionProps,
@@ -242,6 +244,9 @@ const screens = {
   },
   'voke.VideoContentWrap': {
     screen: VideoContentWrap,
+  },
+  'voke.TryItNowProfilePhoto': {
+    screen: TryItNowProfilePhoto,
   },
 };
 

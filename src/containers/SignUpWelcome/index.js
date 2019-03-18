@@ -34,7 +34,7 @@ const extraBottom = theme.isIphoneX ? 30 : 0;
 class SignUpWelcome extends Component {
   state = {
     selectedPage: 0,
-    totalSteps: 4,
+    totalSteps: 3,
     isLoading: false,
   };
 
@@ -64,7 +64,8 @@ class SignUpWelcome extends Component {
         LOG('create try it now account results', results);
         dispatch({ type: CREATE_ANON_USER });
         this.setState({ isLoading: false });
-        dispatch(navigateResetHome());
+        // dispatch(navigateResetHome());
+        dispatch(navigatePush('voke.TryItNowName'));
       })
       .catch(() => {
         this.setState({ isLoading: false });
@@ -81,21 +82,21 @@ class SignUpWelcome extends Component {
         }}
         dotStyle={{
           backgroundColor: COLORS.TRANSPARENT,
-          borderColor: theme.white,
+          borderColor: COLORS.WHITE,
           borderWidth: 1,
-          marginHorizontal: 5,
+          marginHorizontal: 3,
           height: 12,
           width: 12,
           borderRadius: 12,
         }}
         selectedDotStyle={{
           backgroundColor: COLORS.WHITE,
-          marginHorizontal: 5,
+          marginHorizontal: 3,
           height: 12,
           width: 12,
           borderRadius: 12,
         }}
-        pageCount={4}
+        pageCount={3}
       />
     );
   }
@@ -132,7 +133,7 @@ class SignUpWelcome extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: theme.primaryColor }}>
         <StatusBar />
-        <View style={{ flex: 1 }}>
+        <Flex value={3}>
           <IndicatorViewPager
             indicator={this.renderDotIndicator()}
             ref={c => (this.viewPager = c)}
@@ -171,8 +172,6 @@ class SignUpWelcome extends Component {
                 />
                 <Text style={styles.tagline}>{t('tagline1')}</Text>
               </Flex>
-
-              {this.renderSkip()}
             </View>
             <View style={styles.onboardingPage}>
               <Flex
@@ -206,7 +205,6 @@ class SignUpWelcome extends Component {
                 />
                 <Text style={styles.tagline}>{t('tagline2')}</Text>
               </Flex>
-              {this.renderSkip()}
             </View>
             <View style={styles.onboardingPage}>
               <Flex
@@ -240,145 +238,67 @@ class SignUpWelcome extends Component {
                 />
                 <Text style={styles.tagline}>{t('tagline3')}</Text>
               </Flex>
-              {this.renderSkip()}
             </View>
-
-            {noSignIn ? (
-              <View style={styles.onboardingPage}>
-                <Flex
-                  value={1}
-                  direction="column"
-                  align="center"
-                  justify="center"
-                >
-                  <Flex value={1} align="center" justify="center">
-                    <Image
-                      resizeMode="cover"
-                      source={ONBOARD_1}
-                      style={styles.onboardFull}
-                    />
-                  </Flex>
-                </Flex>
-                <Flex
-                  direction="column"
-                  align="end"
-                  style={{
-                    position: 'absolute',
-                    top: MARGIN + 30,
-                    right: MARGIN,
-                    width: 225,
-                  }}
-                >
-                  <Image source={LOGO} style={{ marginBottom: 30 }} />
-                  <Text style={styles.tagline}>{t('tagline4')}</Text>
-                </Flex>
-                <Flex
-                  style={{
-                    position: 'absolute',
-                    bottom: 90 + extraBottom,
-                    right: 0,
-                    left: 0,
-                    padding: 5,
-                    marginHorizontal: 50,
-                  }}
-                >
-                  <Button
-                    text={t('done')}
-                    style={styles.actionButton}
-                    onPress={() => dispatch(navigateBack())}
-                  />
-                </Flex>
-              </View>
-            ) : (
-              <View style={styles.onboardingPage}>
-                <Flex
-                  value={1}
-                  direction="column"
-                  align="center"
-                  justify="center"
-                >
-                  <Flex value={1} align="center" justify="center">
-                    <Image
-                      resizeMode="cover"
-                      source={ONBOARD_1}
-                      style={styles.onboardFull}
-                    />
-                  </Flex>
-                </Flex>
-                <Flex
-                  direction="column"
-                  align="end"
-                  style={{
-                    position: 'absolute',
-                    top: MARGIN + 30,
-                    right: MARGIN,
-                    width: 225,
-                  }}
-                >
-                  <Image source={LOGO} style={{ marginBottom: 30 }} />
-                  <Text
-                    style={{
-                      lineHeight: 40,
-                      fontSize: 36,
-                      fontWeight: 'bold',
-                      backgroundColor: 'rgba(0,0,0,0)',
-                      textAlign: 'right',
-                    }}
-                  >
-                    {t('tagline4')}
-                  </Text>
-                </Flex>
-                <Flex
-                  style={{
-                    position: 'absolute',
-                    bottom: 120 + extraBottom,
-                    right: 0,
-                    left: 0,
-                    padding: 5,
-                    marginHorizontal: 50,
-                  }}
-                >
-                  <Button
-                    text={t('start')}
-                    isLoading={this.state.isLoading}
-                    style={styles.actionButton}
-                    onPress={this.tryItNow}
-                  />
-                </Flex>
-                <Flex
-                  style={{
-                    position: 'absolute',
-                    bottom: 75 + extraBottom,
-                    right: 0,
-                    left: 0,
-                    padding: 5,
-                  }}
-                >
-                  <PrivacyToS style={styles.privacy} />
-                </Flex>
-                <Flex
-                  direction="row"
-                  align="center"
-                  justify="center"
-                  style={{
-                    position: 'absolute',
-                    bottom: 20 + extraBottom,
-                    right: 0,
-                    left: 0,
-                  }}
-                >
-                  <Text style={styles.signIn}>{t('haveAccount')}</Text>
-                  <Button
-                    text={t('signIn')}
-                    style={styles.signInButton}
-                    buttonTextStyle={styles.signInText}
-                    onPress={() => dispatch(navigatePush('voke.LoginInput'))}
-                  />
-                </Flex>
-              </View>
-            )}
           </IndicatorViewPager>
-        </View>
+        </Flex>
+        <Flex value={2}>
+          <View style={styles.triangle} />
+          <Flex value={1} style={styles.bottomButtonsWrap}>
+            <Flex
+              style={{
+                position: 'absolute',
+                bottom: 160 + extraBottom,
+                right: 0,
+                left: 0,
+                padding: 5,
+                marginHorizontal: 50,
+              }}
+            >
+              <Button
+                text="I have an Invite Code"
+                isLoading={this.state.isLoading}
+                style={[styles.actionButton, { marginBottom: 15 }]}
+                onPress={this.tryItNow}
+              />
+              <Button
+                text={t('start')}
+                isLoading={this.state.isLoading}
+                style={styles.actionButton}
+                onPress={this.tryItNow}
+              />
+            </Flex>
+            <Flex
+              style={{
+                position: 'absolute',
+                bottom: 120 + extraBottom,
+                right: 0,
+                left: 0,
+                padding: 5,
+              }}
+            >
+              <PrivacyToS style={styles.privacy} />
+            </Flex>
+            <Flex
+              direction="row"
+              align="center"
+              justify="center"
+              style={{
+                position: 'absolute',
+                bottom: 20 + extraBottom,
+                right: 0,
+                left: 0,
+              }}
+            >
+              <Text style={styles.signIn}>{t('haveAccount')}</Text>
+              <Button
+                text={t('signIn')}
+                style={styles.signInButton}
+                buttonTextStyle={styles.signInText}
+                onPress={() => dispatch(navigatePush('voke.LoginInput'))}
+              />
+            </Flex>
+          </Flex>
+        </Flex>
       </View>
     );
   }

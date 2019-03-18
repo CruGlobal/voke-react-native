@@ -23,6 +23,18 @@ export function navMenuOptions({ dispatch, isAnonUser } = {}) {
       },
     });
   }
+  // FOR TESTING
+  if (isAnonUser) {
+    logoutButton.push({
+      id: 'signout',
+      name: i18n.t('signOut'),
+      onPress: () => {
+        dispatch(logoutAction()).then(() => {
+          dispatch(navigateResetLogin());
+        });
+      },
+    });
+  }
   if (isAnonUser) {
     signinButton.push({
       id: 'signin',
