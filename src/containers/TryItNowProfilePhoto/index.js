@@ -42,7 +42,6 @@ class TryItNowProfilePhoto extends Component {
     this.renderImagePicker = this.renderImagePicker.bind(this);
     this.handleImageChange = this.handleImageChange.bind(this);
     this.addProfile = this.addProfile.bind(this);
-    this.skip = this.skip.bind(this);
   }
 
   componentDidMount() {

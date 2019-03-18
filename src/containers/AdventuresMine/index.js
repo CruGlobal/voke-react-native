@@ -60,50 +60,42 @@ class AdventuresMine extends Component {
     // todo
   }
 
+  handleAdventureCode = () => {
+    // todo
+  };
+
   renderNull = () => {
     const { me } = this.props;
     return (
-      <Flex value={1} align="center" justify="center" style={styles.container}>
+      <Flex value={1} align="center" justify="end" direction="column">
+        <Flex justify="center">
+          <Button
+            text="I have an Adventure Code"
+            isLoading={this.state.isLoading}
+            style={styles.inviteCodeButton}
+            buttonTextStyle={{ textAlign: 'center' }}
+            onPress={this.handleAdventureCode}
+          />
+        </Flex>
         <Flex
           value={1}
           align="center"
-          direction="row"
+          justify="end"
+          direction="column"
           style={styles.vokebotWrap}
         >
+          <Flex style={styles.chatTriangle} />
+          <Flex style={styles.chatBubble}>
+            <Text style={styles.chatText}>
+              Welcome{me.first_name ? ` ${me.first_name}` : ''}! This is where
+              you will find all of your adventures with your friends.
+            </Text>
+          </Flex>
           <Image
             resizeMode="contain"
             source={VOKE_LINK}
             style={styles.vokebot}
           />
-          <Flex style={styles.chatTriangle} />
-          <Flex value={1} style={styles.chatBubble}>
-            <Text style={styles.chatText}>
-              Hi{me.first_name ? ` ${me.first_name}` : ''}, welcome to Voke!
-              Once you find an Adventure to start it will show up on this
-              screen!
-            </Text>
-          </Flex>
-        </Flex>
-        <Flex
-          align="center"
-          justify="start"
-          value={3}
-          style={{ marginTop: 20 }}
-        >
-          <Flex value={1} align="center">
-            <VokeIcon name="adventure" size={140} />
-            <Text style={styles.nullText}>
-              Click below to explore the Adventures
-            </Text>
-          </Flex>
-          <Flex value={1}>
-            <Button
-              text="Browse Adventures"
-              style={styles.browseButton}
-              buttonTextStyle={styles.browseText}
-              onPress={() => {}}
-            />
-          </Flex>
         </Flex>
       </Flex>
     );
