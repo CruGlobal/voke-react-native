@@ -5,8 +5,16 @@ import { translate } from 'react-i18next';
 
 import styles from './styles';
 import ANIMATION from '../../../images/VokeBotAnimation.gif';
+import st from '../../st';
 
-import { Flex, Text, Touchable, Icon, RefreshControl, Button } from '../common';
+import {
+  Flex,
+  Text,
+  Touchable,
+  Icon,
+  RefreshControl,
+  VokeIcon,
+} from '../common';
 
 const ITEM_HEIGHT = 64 + 20;
 
@@ -16,13 +24,9 @@ class MyAdventuresList extends Component {
     this.state = {
       refreshing: false,
     };
-
-    this.handleRefresh = this.handleRefresh.bind(this);
-    this.renderRow = this.renderRow.bind(this);
-    this.renderNoText = this.renderNoText.bind(this);
   }
 
-  handleRefresh() {
+  handleRefresh = () => {
     this.setState({ refreshing: true });
     this.props
       .onRefresh()
@@ -32,7 +36,7 @@ class MyAdventuresList extends Component {
       .catch(() => {
         this.setState({ refreshing: false });
       });
-  }
+  };
 
   scrollToBeginning(animated = true) {
     if (this.props.items.length > 0) {
@@ -40,7 +44,11 @@ class MyAdventuresList extends Component {
     }
   }
 
-  renderRow({ item }) {
+  renderProgress = () => {
+    return <View style={[st.bgBlue, st.circle(10)]} />;
+  };
+
+  renderRow = ({ item }) => {
     const { t } = this.props;
     return (
       <Touchable
@@ -55,60 +63,48 @@ class MyAdventuresList extends Component {
           justify="start"
           animation="slideInUp"
         >
-          <Image
-            source={{ uri: item.item.content.thumbnails.small }}
-            style={styles.adventureThumbnail}
-          />
+          <Flex>
+            <Image
+              source={{ uri: item.item.content.thumbnails.small }}
+              style={styles.adventureThumbnail}
+            />
+          </Flex>
           <Flex
             direction="column"
             align="start"
             justify="start"
-            style={{ paddingHorizontal: 10 }}
+            style={[st.pv6, st.ph4]}
           >
-            <Text numberOfLines={1} style={styles.adventureTitle}>
+            <Text numberOfLines={1} style={[st.pb6, styles.adventureTitle]}>
               {item.name}
             </Text>
-            <Text numberOfLines={2} style={styles.adventureUser}>
-              {item.description}
-            </Text>
+            <Flex direction="row" align="center" style={[st.pb6]}>
+              <VokeIcon name="Chat" style={[st.orange]} />
+              <Flex
+                align="center"
+                justify="center"
+                style={[st.circle(20), st.bgOrange, st.ml6]}
+              >
+                <Text>1</Text>
+              </Flex>
+            </Flex>
+            <Flex direction="row" align="center">
+              {this.renderProgress()}
+              <Text numberOfLines={2} style={[st.ml6, styles.adventureUser]}>
+                6/8 Complete
+              </Text>
+            </Flex>
           </Flex>
           <Flex
             value={1}
             align="end"
             justify="end"
             style={{ paddingHorizontal: 10 }}
-          >
-            <Flex align="center" justify="center" style={styles.notification}>
-              <Text>1</Text>
-            </Flex>
-          </Flex>
+          />
         </Flex>
       </Touchable>
     );
-  }
-
-  renderNoText() {
-    const { t, isLoading, items } = this.props;
-    if (isLoading) {
-      return (
-        <Flex align="center" justify="center">
-          <Text style={styles.blankText}>{t('loading.videos')}</Text>
-          <Image
-            style={{ marginBottom: 20, height: 100 }}
-            resizeMode="contain"
-            source={ANIMATION}
-          />
-        </Flex>
-      );
-    } else if (items.length === 0) {
-      return (
-        <Flex align="center" justify="center">
-          <Text style={styles.blankText}>{t('empty.noVideos')}</Text>
-        </Flex>
-      );
-    }
-    return null;
-  }
+  };
 
   render() {
     return (
@@ -132,7 +128,7 @@ class MyAdventuresList extends Component {
           />
         }
         onEndReached={this.props.onLoadMore}
-        ListHeaderComponent={this.renderNoText}
+        ListHeaderComponent={this.props.header}
       />
     );
   }
@@ -144,6 +140,7 @@ MyAdventuresList.propTypes = {
   onSelect: PropTypes.func.isRequired,
   items: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  header: PropTypes.func,
 };
 
 export default translate('videos', { wait: true, withRef: true })(

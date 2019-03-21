@@ -70,5 +70,6 @@ export default StyleSheet.create({
     width: theme.fullWidth - 40,
     alignItems: 'center',
     marginTop: 20,
+    alignSelf: 'center',
   },
 });

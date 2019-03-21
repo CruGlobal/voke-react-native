@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { View, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
@@ -14,13 +14,9 @@ import VOKE_LINK from '../../../images/vokebot_whole.png';
 import { buildTrackingObj } from '../../utils/common';
 
 class AdventuresMine extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isLoading: false,
-    };
-  }
+  state = {
+    isLoading: false,
+  };
 
   componentDidMount() {
     const { me, dispatch } = this.props;
@@ -58,9 +54,9 @@ class AdventuresMine extends Component {
     // }
   };
 
-  handleRefresh() {
-    // todo
-  }
+  handleRefresh = () => {
+    return this.props.dispatch(getMyJourneys());
+  };
 
   handleAdventureCode = () => {
     // todo
@@ -78,19 +74,25 @@ class AdventuresMine extends Component {
     );
   };
 
+  renderAdventureCode = () => {
+    return (
+      <Flex justify="center">
+        <Button
+          text="I have an Adventure Code"
+          isLoading={this.state.isLoading}
+          style={styles.inviteCodeButton}
+          buttonTextStyle={{ textAlign: 'center' }}
+          onPress={this.handleAdventureCode}
+        />
+      </Flex>
+    );
+  };
+
   renderNull = () => {
     const { me } = this.props;
     return (
       <Flex value={1} align="center" justify="end" direction="column">
-        <Flex justify="center">
-          <Button
-            text="I have an Adventure Code"
-            isLoading={this.state.isLoading}
-            style={styles.inviteCodeButton}
-            buttonTextStyle={{ textAlign: 'center' }}
-            onPress={this.handleAdventureCode}
-          />
-        </Flex>
+        {this.renderAdventureCode}
         <Flex
           value={1}
           align="center"
@@ -128,6 +130,7 @@ class AdventuresMine extends Component {
             onRefresh={this.handleRefresh}
             onLoadMore={this.handleNextPage}
             isLoading={isLoading}
+            header={this.renderAdventureCode}
           />
         )}
       </View>

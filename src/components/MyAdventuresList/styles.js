@@ -1,11 +1,14 @@
 import { StyleSheet } from 'react-native';
 import theme, { COLORS } from '../../theme';
 
-export const THUMBNAIL_HEIGHT = 64;
+export const THUMBNAIL_HEIGHT = 78;
+export const THUMBNAIL_WIDTH = 64;
 
 export default StyleSheet.create({
   container: {
-    margin: 10,
+    marginVertical: 10,
+    alignSelf: 'center',
+    width: theme.fullWidth - 40,
     backgroundColor: 'white',
     elevation: 2,
     borderRadius: 8,
@@ -20,8 +23,8 @@ export default StyleSheet.create({
     paddingHorizontal: 10,
   },
   adventureThumbnail: {
-    height: THUMBNAIL_HEIGHT,
-    width: THUMBNAIL_HEIGHT,
+    flex: 1,
+    width: THUMBNAIL_WIDTH,
     borderBottomLeftRadius: 8,
     borderTopLeftRadius: 8,
   },
@@ -39,11 +42,10 @@ export default StyleSheet.create({
     textAlign: 'center',
   },
   notification: {
-    backgroundColor: 'orange',
-    fontSize: 16,
+    fontSize: 12,
     color: 'white',
-    height: 40,
-    width: 40,
+    height: 20,
+    width: 20,
     borderRadius: 25,
   },
 });
