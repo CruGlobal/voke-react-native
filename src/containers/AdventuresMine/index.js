@@ -11,7 +11,6 @@ import { navigatePush } from '../../actions/nav';
 import { startupAction } from '../../actions/auth';
 import MyAdventuresList from '../../components/MyAdventuresList';
 import VOKE_LINK from '../../../images/vokebot_whole.png';
-import { navigatePush } from '../../actions/nav';
 import { buildTrackingObj } from '../../utils/common';
 
 class AdventuresMine extends Component {
