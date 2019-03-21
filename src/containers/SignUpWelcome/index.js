@@ -7,10 +7,9 @@ import PropTypes from 'prop-types';
 import Orientation from 'react-native-orientation';
 import Analytics from '../../utils/analytics';
 
-import ONBOARD_1 from '../../../images/onboarding-image-1.png';
-import ONBOARD_2 from '../../../images/onboarding-image-2.png';
-import ONBOARD_3 from '../../../images/onboarding-image-3.png';
-import ONBOARD_4 from '../../../images/onboarding-image-4.png';
+import ONBOARD_1 from '../../../images/onboard1.jpg';
+import ONBOARD_2 from '../../../images/onboard2.jpg';
+import ONBOARD_3 from '../../../images/onboard3.jpg';
 import LOGO from '../../../images/voke_logo_words.png';
 import styles from './styles';
 import {
@@ -76,7 +75,7 @@ class SignUpWelcome extends Component {
     return (
       <PagerDotIndicator
         style={{
-          marginBottom: 45 + extraBottom,
+          marginBottom: 45,
           width: 100,
           marginHorizontal: theme.fullWidth / 2 - 50,
         }}
@@ -101,35 +100,39 @@ class SignUpWelcome extends Component {
     );
   }
 
-  renderSkip() {
-    // If your get to the last page, dont show the skip button
-    if (this.state.selectedPage >= this.state.totalSteps) return null;
+  renderTopTriangle = t => {
     return (
       <Flex
+        direction="column"
+        align="end"
         style={{
           position: 'absolute',
-          bottom: MARGIN + extraBottom,
+          top: 0,
+          paddingTop: MARGIN + 50,
           right: MARGIN,
+          paddingHorizontal: 15,
+          backgroundColor: 'rgba(0,0,0,0.4)',
         }}
       >
-        <Button
-          type="transparent"
-          hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
-          onPress={() => this.handleNextPage(this.state.selectedPage)}
-          style={styles.skipButton}
+        <Text style={styles.tagline}>{t}</Text>
+        <View
+          style={{
+            overflow: 'hidden',
+            height: 80,
+            width: 160,
+            position: 'absolute',
+            bottom: -80,
+            left: 0,
+          }}
         >
-          <VokeIcon
-            style={{ color: 'white' }}
-            size={30}
-            name="next_button_filled"
-          />
-        </Button>
+          <View style={styles.topTriangle} />
+        </View>
       </Flex>
     );
-  }
+  };
 
   render() {
-    const { t, dispatch, noSignIn } = this.props;
+    const { t, dispatch } = this.props;
     return (
       <View style={{ flex: 1, backgroundColor: theme.primaryColor }}>
         <StatusBar />
@@ -150,28 +153,30 @@ class SignUpWelcome extends Component {
                 <Flex value={1} align="center" justify="center">
                   <Image
                     resizeMode="cover"
+                    source={ONBOARD_1}
+                    style={styles.onboardFull}
+                  />
+                </Flex>
+              </Flex>
+              {this.renderTopTriangle('Grow in new ways.')}
+            </View>
+
+            <View style={styles.onboardingPage}>
+              <Flex
+                value={1}
+                direction="column"
+                align="center"
+                justify="center"
+              >
+                <Flex value={1} align="center" justify="center">
+                  <Image
+                    resizeMode="cover"
                     source={ONBOARD_2}
                     style={styles.onboardFull}
                   />
                 </Flex>
               </Flex>
-              <Flex
-                direction="column"
-                align="end"
-                style={{
-                  position: 'absolute',
-                  top: MARGIN + 30,
-                  right: MARGIN,
-                  width: theme.fullWidth,
-                }}
-              >
-                <VokeIcon
-                  style={{ marginBottom: 30, color: 'white' }}
-                  size={36}
-                  name="video"
-                />
-                <Text style={styles.tagline}>{t('tagline1')}</Text>
-              </Flex>
+              {this.renderTopTriangle('Join the adventure.')}
             </View>
             <View style={styles.onboardingPage}>
               <Flex
@@ -188,56 +193,7 @@ class SignUpWelcome extends Component {
                   />
                 </Flex>
               </Flex>
-              <Flex
-                direction="column"
-                align="end"
-                style={{
-                  position: 'absolute',
-                  top: MARGIN + 30,
-                  right: MARGIN,
-                  width: theme.fullWidth,
-                }}
-              >
-                <VokeIcon
-                  style={{ marginBottom: 30, color: 'white' }}
-                  name="Chat"
-                  size={36}
-                />
-                <Text style={styles.tagline}>{t('tagline2')}</Text>
-              </Flex>
-            </View>
-            <View style={styles.onboardingPage}>
-              <Flex
-                value={1}
-                direction="column"
-                align="center"
-                justify="center"
-              >
-                <Flex value={1} align="center" justify="center">
-                  <Image
-                    resizeMode="cover"
-                    source={ONBOARD_4}
-                    style={styles.onboardFull}
-                  />
-                </Flex>
-              </Flex>
-              <Flex
-                direction="column"
-                align="end"
-                style={{
-                  position: 'absolute',
-                  top: MARGIN + 30,
-                  right: MARGIN,
-                  width: theme.fullWidth,
-                }}
-              >
-                <VokeIcon
-                  style={{ marginBottom: 30, color: 'white' }}
-                  name="heart"
-                  size={36}
-                />
-                <Text style={styles.tagline}>{t('tagline3')}</Text>
-              </Flex>
+              {this.renderTopTriangle('Bring others.')}
             </View>
           </IndicatorViewPager>
         </Flex>
@@ -254,12 +210,6 @@ class SignUpWelcome extends Component {
                 marginHorizontal: 50,
               }}
             >
-              <Button
-                text="I have an Invite Code"
-                isLoading={this.state.isLoading}
-                style={[styles.actionButton, { marginBottom: 15 }]}
-                onPress={this.tryItNow}
-              />
               <Button
                 text={t('start')}
                 isLoading={this.state.isLoading}
