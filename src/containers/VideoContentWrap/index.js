@@ -150,7 +150,12 @@ function BackButton({ onBack }) {
 
 VideoContentWrap.propTypes = {
   item: PropTypes.object.isRequired,
-  type: PropTypes.oneOf(['videoDetail', 'orgJourney', 'myJourney']),
+  type: PropTypes.oneOf([
+    'videoDetail',
+    'orgJourney',
+    'myJourney',
+    'journeyDetail',
+  ]),
 };
 
 const mapStateToProps = ({ auth }, { navigation }) => ({

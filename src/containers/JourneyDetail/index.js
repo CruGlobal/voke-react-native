@@ -8,6 +8,47 @@ import styles from './styles';
 
 import { Flex, Touchable, RefreshControl, Text } from '../../components/common';
 import { getMyJourneySteps } from '../../actions/journeys';
+import st from '../../st';
+
+function Item({ item, onSelect }) {
+  const isActive = item.status === 'active';
+  return (
+    <Touchable
+      highlight={false}
+      activeOpacity={0.8}
+      onPress={() => onSelect(item)}
+    >
+      <Flex
+        style={[
+          isActive ? st.bgWhite : [st.bgDarkBlue, st.op50],
+          st.mv6,
+          st.mh4,
+          { minHeight: 84 },
+        ]}
+        direction="row"
+        align="center"
+        justify="start"
+      >
+        <Image
+          source={{ uri: item.item.content.thumbnails.small }}
+          style={[st.mh5, { width: 75 }, st.bgBlack, st.h75]}
+          resizeMode="cover"
+        />
+        <Flex value={1} direction="column" self="start" style={[st.pd5]}>
+          <Text
+            numberOfLines={1}
+            style={[st.fs4, isActive ? st.darkBlue : st.white]}
+          >
+            {item.name}
+          </Text>
+        </Flex>
+        <Flex style={[st.absBR, { bottom: -28 }, st.mh5]}>
+          <Text style={[st.blue, { fontSize: 72 }]}>{item.position}</Text>
+        </Flex>
+      </Flex>
+    </Touchable>
+  );
+}
 
 class JourneyDetail extends Component {
   state = {
@@ -39,52 +80,20 @@ class JourneyDetail extends Component {
   };
 
   renderRow = ({ item }) => {
-    return (
-      <Touchable
-        highlight={false}
-        activeOpacity={0.8}
-        onPress={() => this.props.onSelect(item)}
-      >
-        <Flex
-          style={styles.container}
-          direction="row"
-          align="center"
-          justify="start"
-        >
-          <Image
-            source={{ uri: item.item.content.thumbnails.small }}
-            style={styles.adventureThumbnail}
-          />
-          <Flex
-            direction="column"
-            align="start"
-            justify="start"
-            style={{ paddingHorizontal: 10 }}
-          >
-            <Text numberOfLines={1} style={styles.adventureTitle}>
-              {item.name}
-            </Text>
-            <Text numberOfLines={2} style={styles.adventureUser}>
-              {item.description}
-            </Text>
-          </Flex>
-          <Flex
-            value={1}
-            align="end"
-            justify="end"
-            style={{ paddingHorizontal: 10 }}
-          >
-            <Flex align="center" justify="center" style={styles.notification}>
-              <Text>1</Text>
-            </Flex>
-          </Flex>
-        </Flex>
-      </Touchable>
-    );
+    return <Item item={item} />;
   };
 
   render() {
     const { steps } = this.props;
+    if (!steps[0]) {
+      return null;
+    }
+    return (
+      <Flex style={styles.content}>
+        <Item item={steps[0]} />
+        <Item item={steps[1]} />
+      </Flex>
+    );
     return (
       <FlatList
         data={steps}
