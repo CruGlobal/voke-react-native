@@ -35,6 +35,7 @@ import VideoContentWrap from './containers/VideoContentWrap';
 import Videos from './containers/Videos';
 import VideosTab from './containers/VideosTab';
 import TryItNowProfilePhoto from './containers/TryItNowProfilePhoto';
+import AdventureCode from './containers/AdventureCode';
 import i18n from './i18n';
 import theme from './theme';
 import { buildTrackingObj } from './utils/common';
@@ -246,6 +247,9 @@ const screens = {
   },
   'voke.TryItNowProfilePhoto': {
     screen: TryItNowProfilePhoto,
+  },
+  'voke.AdventureCode': {
+    screen: AdventureCode,
   },
 };
 

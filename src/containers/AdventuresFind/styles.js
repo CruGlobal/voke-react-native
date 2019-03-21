@@ -49,4 +49,10 @@ export default StyleSheet.create({
     borderBottomColor: theme.secondaryColor,
     borderLeftColor: 'transparent',
   },
+  inviteCodeButton: {
+    width: theme.fullWidth - 40,
+    alignItems: 'center',
+    marginTop: 15,
+    alignSelf: 'center',
+  },
 });

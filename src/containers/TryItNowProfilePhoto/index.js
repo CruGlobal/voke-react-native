@@ -109,6 +109,12 @@ class TryItNowProfilePhoto extends Component {
     return (
       <View style={styles.container}>
         <SafeArea style={{ flex: 1 }}>
+          <Button
+            type="transparent"
+            text="Skip"
+            onPress={this.addProfile}
+            style={{ position: 'absolute', right: 30 }}
+          />
           <Flex style={{ marginTop: 70 }}>
             <Flex align="center" justify="center">
               <Flex style={styles.chatBubble}>

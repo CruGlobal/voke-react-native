@@ -18,7 +18,6 @@ import {
   navigateBack,
 } from '../../actions/nav';
 import { createAccountAction, setupFirebaseLinks } from '../../actions/auth';
-import { CREATE_ANON_USER } from '../../constants';
 import theme, { COLORS } from '../../theme';
 
 import { Flex, Text, Button, VokeIcon } from '../../components/common';
@@ -58,17 +57,8 @@ class SignUpWelcome extends Component {
   tryItNow = () => {
     const { dispatch } = this.props;
     this.setState({ isLoading: true });
-    dispatch(createAccountAction(null, null, true))
-      .then(results => {
-        LOG('create try it now account results', results);
-        dispatch({ type: CREATE_ANON_USER });
-        this.setState({ isLoading: false });
-        // dispatch(navigateResetHome());
-        dispatch(navigatePush('voke.TryItNowName'));
-      })
-      .catch(() => {
-        this.setState({ isLoading: false });
-      });
+    dispatch(navigatePush('voke.AdventureCode', { onboarding: true }));
+    this.setState({ isLoading: false });
   };
 
   renderDotIndicator() {

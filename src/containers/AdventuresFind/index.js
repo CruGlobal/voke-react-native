@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
 import styles from './styles';
-import { RefreshControl, Flex, Text } from '../../components/common';
+import { RefreshControl, Flex, Button } from '../../components/common';
 import { getOrgJourneys } from '../../actions/journeys';
 import OrgJourney from '../../components/OrgJourney';
 import { navigatePush } from '../../actions/nav';
@@ -44,6 +44,11 @@ class AdventuresFind extends Component {
     );
   };
 
+  handleAdventureCode = () => {
+    // todo
+    this.props.dispatch(navigatePush('voke.AdventureCode'));
+  };
+
   renderRow = ({ item }) => {
     return <OrgJourney onPress={this.select} item={item} />;
   };
@@ -51,16 +56,14 @@ class AdventuresFind extends Component {
   renderHeader = () => {
     const { me } = this.props;
     return (
-      <Flex align="center" direction="row" style={styles.vokebotWrap}>
-        <Image resizeMode="contain" source={VOKE_LINK} style={styles.vokebot} />
-        <Flex style={styles.chatTriangle} />
-        <Flex value={1} style={styles.chatBubble}>
-          <Text style={styles.chatText}>
-            Hi{me.first_name ? ` ${me.first_name}` : ''}, welcome to Voke!
-            Browse for an Adventure that you want to start, then head on over to
-            My Adventures to manage it!
-          </Text>
-        </Flex>
+      <Flex justify="center" align="center">
+        <Button
+          text="I have an Adventure Code"
+          isLoading={this.state.isLoading}
+          style={styles.inviteCodeButton}
+          buttonTextStyle={{ textAlign: 'center' }}
+          onPress={this.handleAdventureCode}
+        />
       </Flex>
     );
   };

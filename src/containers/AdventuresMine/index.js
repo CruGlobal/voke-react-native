@@ -7,6 +7,7 @@ import styles from './styles';
 import i18n from '../../i18n';
 import { Text, VokeIcon, Flex, Button } from '../../components/common';
 import { getMyJourneys, createMyJourney } from '../../actions/journeys';
+import { navigatePush } from '../../actions/nav';
 import { startupAction } from '../../actions/auth';
 import MyAdventuresList from '../../components/MyAdventuresList';
 import VOKE_LINK from '../../../images/vokebot_whole.png';
@@ -64,6 +65,7 @@ class AdventuresMine extends Component {
 
   handleAdventureCode = () => {
     // todo
+    this.props.dispatch(navigatePush('voke.AdventureCode'));
   };
 
   handleSelect = item => {

@@ -10,9 +10,11 @@ import {
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
+import { CREATE_ANON_USER } from '../../constants';
 
 import { navigatePush } from '../../actions/nav';
 import Analytics from '../../utils/analytics';
+import { createAccountAction, setupFirebaseLinks } from '../../actions/auth';
 import styles from './styles';
 import { updateMe } from '../../actions/auth';
 import { navigateBack } from '../../actions/nav';
@@ -34,41 +36,58 @@ class TryItNowName extends Component {
     Analytics.screen(Analytics.s.TryItName);
   }
 
-  login = () => {
-    const { t } = this.props;
+  createAccount = () => {
+    const { dispatch } = this.props;
+
     Keyboard.dismiss();
-    if (this.state.firstName) {
-      this.setState({ isLoading: true });
-      let nameData = {
+    if (!this.state.firstName) {
+      Alert.alert('First Name is required');
+      return;
+    }
+
+    dispatch(createAccountAction(null, null, true))
+      .then(results => {
+        LOG('create try it now account results', results);
+        dispatch({ type: CREATE_ANON_USER });
+        this.updateAcct();
+
+        this.setState({ isLoading: false });
+      })
+      .catch(() => {
+        this.setState({ isLoading: false });
+      });
+  };
+
+  updateAcct = () => {
+    const { t } = this.props;
+    this.setState({ isLoading: true });
+    let nameData = {
+      me: {
+        first_name: this.state.firstName,
+      },
+    };
+    if (this.state.lastName) {
+      nameData = {
         me: {
-          first_name: this.state.firstName,
+          ...nameData.me,
+          last_name: this.state.lastName,
         },
       };
-      if (this.state.lastName) {
-        nameData = {
-          me: {
-            ...nameData.me,
-            last_name: this.state.lastName,
-          },
-        };
-      }
-      this.props
-        .dispatch(updateMe(nameData))
-        .then(() => {
-          this.setState({ isLoading: false });
-          if (this.props.onComplete) {
-            this.props.onComplete();
-          } else {
-            this.props.dispatch(navigatePush('voke.TryItNowProfilePhoto'));
-          }
-        })
-        .catch(() => {
-          this.setState({ isLoading: false });
-          Alert.alert('', t('error.tryAgain'));
-        });
-    } else {
-      Alert.alert('', t('enterName'));
     }
+    this.props
+      .dispatch(updateMe(nameData))
+      .then(() => {
+        this.setState({ isLoading: false });
+        if (this.props.onComplete) {
+          this.props.onComplete();
+        } else {
+          this.props.dispatch(navigatePush('voke.TryItNowProfilePhoto'));
+        }
+      })
+      .catch(() => {
+        this.setState({ isLoading: false });
+        Alert.alert('', t('error.tryAgain'));
+      });
   };
 
   render() {
@@ -127,7 +146,7 @@ class TryItNowName extends Component {
                 disabled={this.state.isLoading || !this.state.firstName}
                 buttonTextStyle={styles.signInButtonText}
                 style={styles.signInButton}
-                onPress={this.login}
+                onPress={this.createAccount}
               />
             </Flex>
           </KeyboardAvoidingView>
