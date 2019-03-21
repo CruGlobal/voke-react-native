@@ -17,6 +17,8 @@ import SafeArea from '../../components/SafeArea';
 import VideoDetailsContent from '../VideoDetailsContent';
 import OrgJourneyDetail from '../OrgJourneyDetail';
 import JourneyDetail from '../JourneyDetail';
+import JourneyStepDetail from '../JourneyStepDetail';
+import st from '../../st';
 
 class VideoContentWrap extends Component {
   constructor(props) {
@@ -81,6 +83,9 @@ class VideoContentWrap extends Component {
     if (type === 'journeyDetail') {
       return <JourneyDetail item={item} onPause={this.pause} {...rest} />;
     }
+    if (type === 'journeyStepDetail') {
+      return <JourneyStepDetail item={item} onPause={this.pause} {...rest} />;
+    }
     return (
       <Flex direction="column" style={{ paddingBottom: 110 }}>
         <Text>CONTENT!!!</Text>
@@ -112,7 +117,7 @@ class VideoContentWrap extends Component {
     }
 
     return (
-      <SafeArea top="deepBlack" style={styles.container}>
+      <SafeArea top="deepBlack" style={[st.f1, st.bgWhite]}>
         <StatusBar />
         <Flex style={styles.video}>
           {this.state.showVideo ? (
@@ -155,6 +160,7 @@ VideoContentWrap.propTypes = {
     'orgJourney',
     'myJourney',
     'journeyDetail',
+    'journeyStepDetail',
   ]),
 };
 

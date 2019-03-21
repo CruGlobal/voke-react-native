@@ -107,7 +107,7 @@ const s = {
   VideosMessage: 'VideosMessage',
   OrgJourneyDetail: 'OrgJourneyDetail',
   JourneyDetail: 'JourneyDetail',
-  JourneyPart: 'JourneyPart',
+  JourneyStepDetail: 'JourneyStepDetail',
 };
 
 export default {

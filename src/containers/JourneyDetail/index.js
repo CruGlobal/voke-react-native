@@ -6,12 +6,22 @@ import { translate } from 'react-i18next';
 
 import styles from './styles';
 
-import { Flex, Touchable, RefreshControl, Text } from '../../components/common';
+import {
+  Flex,
+  Touchable,
+  RefreshControl,
+  Text,
+  Icon,
+} from '../../components/common';
 import { getMyJourneySteps } from '../../actions/journeys';
 import st from '../../st';
+import { navigatePush } from '../../actions/nav';
+import { buildTrackingObj } from '../../utils/common';
 
 function Item({ item, onSelect }) {
   const isActive = item.status === 'active';
+  const isCompleted = item['completed_by_messenger?'];
+  const isLocked = !isCompleted && !isActive;
   return (
     <Touchable
       highlight={false}
@@ -20,26 +30,40 @@ function Item({ item, onSelect }) {
     >
       <Flex
         style={[
-          isActive ? st.bgWhite : [st.bgDarkBlue, st.op50],
+          isActive ? st.bgWhite : st.bgDarkBlue,
+          isLocked ? st.op50 : null,
           st.mv6,
           st.mh4,
+          st.br5,
           { minHeight: 84 },
         ]}
         direction="row"
         align="center"
         justify="start"
       >
-        <Image
-          source={{ uri: item.item.content.thumbnails.small }}
-          style={[st.mh5, { width: 75 }, st.bgBlack, st.h75]}
-          resizeMode="cover"
-        />
-        <Flex value={1} direction="column" self="start" style={[st.pd5]}>
+        <Flex style={[st.m5, st.rel]}>
+          <Image
+            source={{ uri: item.item.content.thumbnails.small }}
+            style={[{ width: 100 }, st.bgBlack, st.f1]}
+            resizeMode="contain"
+          />
+          <Flex style={[st.absFill]} align="center" justify="center">
+            <Icon
+              name={isLocked ? 'lock' : 'play-circle-filled'}
+              size={30}
+              style={[st.white, st.op90]}
+            />
+          </Flex>
+        </Flex>
+        <Flex value={1} direction="column" self="start" style={[st.pv6]}>
           <Text
             numberOfLines={1}
             style={[st.fs4, isActive ? st.darkBlue : st.white]}
           >
             {item.name}
+          </Text>
+          <Text style={[st.fs5, isActive ? st.darkBlue : st.white]}>
+            Part {item.position}
           </Text>
         </Flex>
         <Flex style={[st.absBR, { bottom: -28 }, st.mh5]}>
@@ -79,21 +103,33 @@ class JourneyDetail extends Component {
       });
   };
 
+  select = step => {
+    const isActive = step.status === 'active';
+    const isCompleted = step['completed_by_messenger?'];
+    const isLocked = !isCompleted && !isActive;
+    if (isLocked) {
+      return;
+    }
+    const { dispatch } = this.props;
+    dispatch(
+      navigatePush(
+        'voke.VideoContentWrap',
+        {
+          item: step,
+          type: 'journeyStepDetail',
+          trackingObj: buildTrackingObj('journey : mine', 'detail', 'step'),
+        },
+        'journeyStepDetail',
+      ),
+    );
+  };
+
   renderRow = ({ item }) => {
-    return <Item item={item} />;
+    return <Item item={item} onSelect={this.select} />;
   };
 
   render() {
     const { steps } = this.props;
-    if (!steps[0]) {
-      return null;
-    }
-    return (
-      <Flex style={styles.content}>
-        <Item item={steps[0]} />
-        <Item item={steps[1]} />
-      </Flex>
-    );
     return (
       <FlatList
         data={steps}

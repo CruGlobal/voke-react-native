@@ -2,12 +2,13 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
-export function navigatePush(screen, props = {}) {
+export function navigatePush(screen, props = {}, key) {
   return dispatch => {
     dispatch(
       NavigationActions.navigate({
         routeName: screen,
         params: props,
+        key,
       }),
     );
   };
