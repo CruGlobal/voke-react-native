@@ -36,7 +36,7 @@ const VALID_METHODS = ['get', 'put', 'post', 'delete'];
 // Setup API call
 let API_CALLS = {};
 lodashForEach(apiRoutes, (routeData, key) => {
-  API_CALLS[key] = (q, d) => (
+  API_CALLS[key] = (q, d) =>
     new Promise((resolve, reject) => {
       const method = routeData.method || 'get';
 
@@ -55,7 +55,9 @@ lodashForEach(apiRoutes, (routeData, key) => {
       }
 
       // Merge the extra data with the access_token
-      const authHeader = q.access_token ? { Authorization: `Bearer ${q.access_token}` } : {};
+      const authHeader = q.access_token
+        ? { Authorization: `Bearer ${q.access_token}` }
+        : {};
       const extra = merge({}, { headers: authHeader }, routeData.extra);
 
       // Merge some default data from the routes with the data passed in
@@ -63,9 +65,20 @@ lodashForEach(apiRoutes, (routeData, key) => {
       const query = merge({}, routeData.query, q);
 
       // Get the endpoint either from the query, or the routeData
-      const endpoint = query.endpoint || routeData.endpoint;
+      let endpoint = query.endpoint || routeData.endpoint;
       if (query.endpoint) {
         delete query.endpoint;
+      }
+
+      // Only do this for endpoints that have query parameters
+      if (endpoint.includes('/:')) {
+        // Replace all `:orgId` with the query param
+        Object.keys(query).forEach(k => {
+          if (query[k] && endpoint.includes(`:${k}`)) {
+            endpoint = endpoint.replace(`:${k}`, query[k]);
+            delete query[k];
+          }
+        });
       }
 
       // Call the request
@@ -75,12 +88,13 @@ lodashForEach(apiRoutes, (routeData, key) => {
         query,
         method === 'get' ? undefined : data,
         extra,
-      ).then(resolve).catch((err) => {
-        LOG('request err', err);
-        reject(err);
-      });
-    })
-  );
+      )
+        .then(resolve)
+        .catch(err => {
+          LOG('request err', err);
+          reject(err);
+        });
+    });
 });
 
 export default API_CALLS;

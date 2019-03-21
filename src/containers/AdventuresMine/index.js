@@ -10,6 +10,8 @@ import { getMyJourneys, createMyJourney } from '../../actions/journeys';
 import { startupAction } from '../../actions/auth';
 import MyAdventuresList from '../../components/MyAdventuresList';
 import VOKE_LINK from '../../../images/vokebot_whole.png';
+import { navigatePush } from '../../actions/nav';
+import { buildTrackingObj } from '../../utils/common';
 
 class AdventuresMine extends Component {
   constructor(props) {
@@ -64,6 +66,17 @@ class AdventuresMine extends Component {
     // todo
   };
 
+  handleSelect = item => {
+    const { dispatch } = this.props;
+    dispatch(
+      navigatePush('voke.VideoContentWrap', {
+        item,
+        type: 'journeyDetail',
+        trackingObj: buildTrackingObj('journey : mine', 'detail'),
+      }),
+    );
+  };
+
   renderNull = () => {
     const { me } = this.props;
     return (
@@ -110,7 +123,7 @@ class AdventuresMine extends Component {
         ) : (
           <MyAdventuresList
             items={this.props.myJourneys}
-            onSelect={() => {}}
+            onSelect={this.handleSelect}
             onRefresh={this.handleRefresh}
             onLoadMore={this.handleNextPage}
             isLoading={isLoading}

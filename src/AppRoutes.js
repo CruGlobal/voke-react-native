@@ -49,12 +49,11 @@ let dynamicModalTransition = (transitionProps, prevTransitionProps) => {
   const tpScenes = ((transitionProps || {}).scenes || []).length || 0;
   const prevTpScenes = ((prevTransitionProps || {}).scenes || []).length || 0;
   const isForward = tpScenes > prevTpScenes;
-  let isModal = verticalPages.some(
-    screenName =>
-      isForward
-        ? screenName === transitionProps.scene.route.routeName
-        : prevTransitionProps &&
-          screenName === prevTransitionProps.scene.route.routeName,
+  let isModal = verticalPages.some(screenName =>
+    isForward
+      ? screenName === transitionProps.scene.route.routeName
+      : prevTransitionProps &&
+        screenName === prevTransitionProps.scene.route.routeName,
   );
   return StackViewTransitionConfigs.defaultTransitionConfig(
     transitionProps,

@@ -58,7 +58,11 @@ export function startupAction() {
     if (hasStartedUp) return;
 
     // Check push permissions and run 'establishDevice' if they have permission
-    dispatch(setOpenVoke());
+    // TODO: Remove this for release
+    if (!__DEV__) {
+      dispatch(setOpenVoke());
+    }
+
     dispatch(checkPushPermissions());
     hasStartedUp = true;
     // If sockets have not started up, go ahead and do that

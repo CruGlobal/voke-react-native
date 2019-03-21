@@ -8,20 +8,11 @@ import Analytics from '../../utils/analytics';
 
 import styles from './styles';
 import { Flex, Text, Button } from '../../components/common';
-import { createMyJourney } from '../../actions/journeys';
 
-class OrgJourneyDetail extends Component {
+class JourneyPart extends Component {
   componentDidMount() {
-    Analytics.screen(Analytics.s.OrgJourneyDetail);
+    Analytics.screen(Analytics.s.JourneyPart);
   }
-  myself = async () => {
-    const { dispatch, item } = this.props;
-    // TODO: Go to the new journey page
-    await dispatch(createMyJourney({ organization_journey_id: item.id }));
-  };
-  friend = () => {
-    console.log('with a friend');
-  };
   render() {
     const { item } = this.props;
 
@@ -30,21 +21,18 @@ class OrgJourneyDetail extends Component {
         <Flex value={1}>
           <Flex style={styles.mainContent}>
             <Text style={styles.header}>{item.name}</Text>
-            <Text style={styles.series}>8-part Series</Text>
-            <Text style={styles.description}>{item.description}</Text>
+            <Text style={styles.series}>JourneyPart</Text>
           </Flex>
           <Flex value={1} justify="end">
             <Flex style={styles.card} align="center" justify="center">
               <Text style={styles.start}>Start {item.name}</Text>
               <Flex direction="row" align="center">
                 <Button
-                  text="By Myself"
-                  onPress={this.myself}
+                  text="By Myself fdsaf"
                   style={[styles.button, styles.left]}
                 />
                 <Button
                   text="With a Friend"
-                  onPress={this.friend}
                   style={[styles.button, styles.right]}
                 />
               </Flex>
@@ -56,7 +44,7 @@ class OrgJourneyDetail extends Component {
   }
 }
 
-OrgJourneyDetail.propTypes = {
+JourneyPart.propTypes = {
   item: PropTypes.object.isRequired,
   onPause: PropTypes.func.isRequired,
 };
@@ -66,4 +54,4 @@ const mapStateToProps = ({ auth }, { navigation }) => ({
   me: auth.user,
 });
 
-export default translate('journey')(connect(mapStateToProps)(OrgJourneyDetail));
+export default translate('journey')(connect(mapStateToProps)(JourneyPart));

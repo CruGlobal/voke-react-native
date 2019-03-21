@@ -16,6 +16,7 @@ import { VokeIcon, Flex, Touchable, Text } from '../../components/common';
 import SafeArea from '../../components/SafeArea';
 import VideoDetailsContent from '../VideoDetailsContent';
 import OrgJourneyDetail from '../OrgJourneyDetail';
+import JourneyDetail from '../JourneyDetail';
 
 class VideoContentWrap extends Component {
   constructor(props) {
@@ -76,6 +77,9 @@ class VideoContentWrap extends Component {
     }
     if (type === 'orgJourney') {
       return <OrgJourneyDetail item={item} onPause={this.pause} {...rest} />;
+    }
+    if (type === 'journeyDetail') {
+      return <JourneyDetail item={item} onPause={this.pause} {...rest} />;
     }
     return (
       <Flex direction="column" style={{ paddingBottom: 110 }}>
