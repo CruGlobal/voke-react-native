@@ -23,7 +23,7 @@ import { Flex, Icon, Button, Text } from '../../components/common';
 import SafeArea from '../../components/SafeArea';
 import SignUpHeader from '../../components/SignUpHeader';
 import VOKE_FIRST_NAME from '../../../images/vokebot_whole.png';
-import theme from '../../theme';
+import st from '../../st';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 
 class TryItNowProfilePhoto extends Component {
@@ -108,47 +108,49 @@ class TryItNowProfilePhoto extends Component {
     const { t } = this.props;
     return (
       <View style={styles.container}>
-        <SafeArea style={{ flex: 1 }}>
-          <Button
-            type="transparent"
-            text="Skip"
-            onPress={this.addProfile}
-            style={{ position: 'absolute', right: 30 }}
-          />
-          <Flex style={{ marginTop: 70 }}>
-            <Flex align="center" justify="center">
-              <Flex style={styles.chatBubble}>
-                <Text style={styles.chatText}>
-                  Add a photo so your friends can recognize you.
-                </Text>
-              </Flex>
-              <Flex style={styles.chatTriangle} />
-            </Flex>
-            <Image
-              resizeMode="contain"
-              source={VOKE_FIRST_NAME}
-              style={styles.imageLogo}
-            />
-          </Flex>
-          <Flex
-            value={1}
-            align="center"
-            justify="center"
-            self="stretch"
-            style={styles.inputs}
-          >
-            {this.renderImagePicker()}
-          </Flex>
-          <Flex value={1} justify="end">
+        <SafeArea style={[st.f1, st.bgDarkBlue]} top={[st.bgBlue]}>
+          <View style={[st.bgBlue, st.f1]}>
             <Button
-              text="Continue"
-              type="filled"
-              buttonTextStyle={styles.signInButtonText}
-              style={styles.signInButton}
+              type="transparent"
+              text="Skip"
               onPress={this.addProfile}
+              style={{ position: 'absolute', right: 30 }}
             />
-          </Flex>
-          <Flex style={{ position: 'absolute', top: 0, left: 0 }} align="start">
+            <Flex style={{ marginTop: 70 }}>
+              <Flex align="center" justify="center">
+                <Flex style={styles.chatBubble}>
+                  <Text style={styles.chatText}>
+                    Add a photo so your friends can recognize you.
+                  </Text>
+                </Flex>
+                <Flex style={styles.chatTriangle} />
+              </Flex>
+              <Image
+                resizeMode="contain"
+                source={VOKE_FIRST_NAME}
+                style={styles.imageLogo}
+              />
+            </Flex>
+            <Flex
+              value={1}
+              align="center"
+              justify="center"
+              self="stretch"
+              style={styles.inputs}
+            >
+              {this.renderImagePicker()}
+            </Flex>
+            <Flex value={1} justify="end">
+              <Button
+                text="Continue"
+                type="filled"
+                buttonTextStyle={styles.signInButtonText}
+                style={styles.signInButton}
+                onPress={this.addProfile}
+              />
+            </Flex>
+          </View>
+          <Flex style={[st.absTL]} align="start">
             <SignUpHeaderBack
               onPress={() => this.props.dispatch(navigateBack())}
             />

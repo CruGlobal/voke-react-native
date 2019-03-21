@@ -35,7 +35,8 @@ export default StyleSheet.create({
   chatBubble: {
     borderRadius: 5,
     backgroundColor: theme.accentColor,
-    padding: 13,
+    padding: 20,
+    marginHorizontal: 10,
   },
   chatText: {
     color: theme.white,

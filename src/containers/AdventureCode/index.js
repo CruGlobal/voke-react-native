@@ -21,6 +21,7 @@ import SignUpInput from '../../components/SignUpInput';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import VOKE_FIRST_NAME from '../../../images/vokebot_whole.png';
 import theme, { COLORS } from '../../theme';
+import st from '../../st';
 
 class AdventureCode extends Component {
   state = {
@@ -35,8 +36,10 @@ class AdventureCode extends Component {
   handleCodeSearch = () => {
     if (!this.state.adventureCode && this.props.onboarding) {
       this.goToName();
+      this.setState({ isLoading: false });
     } else {
       // do something with code
+      this.setState({ isLoading: false });
     }
   };
 
@@ -49,7 +52,7 @@ class AdventureCode extends Component {
     const { t, onboarding, dispatch } = this.props;
     return (
       <View style={styles.container} align="center">
-        <SafeArea style={{ flex: 1 }}>
+        <SafeArea style={[st.f1, st.bgDarkBlue]} top={[st.bgBlue]}>
           <KeyboardAvoidingView
             style={styles.container}
             behavior={theme.isAndroid ? undefined : 'padding'}

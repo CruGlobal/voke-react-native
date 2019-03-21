@@ -1,17 +1,18 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { View, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
 import styles from './styles';
 import i18n from '../../i18n';
-import { Text, VokeIcon, Flex, Button } from '../../components/common';
-import { getMyJourneys, createMyJourney } from '../../actions/journeys';
+import { Text, Flex, Button } from '../../components/common';
+import { getMyJourneys } from '../../actions/journeys';
 import { navigatePush } from '../../actions/nav';
 import { startupAction } from '../../actions/auth';
 import MyAdventuresList from '../../components/MyAdventuresList';
 import VOKE_LINK from '../../../images/vokebot_whole.png';
 import { buildTrackingObj } from '../../utils/common';
+import st from '../../st';
 
 class AdventuresMine extends Component {
   state = {
@@ -24,7 +25,6 @@ class AdventuresMine extends Component {
     if (me && me.language && me.language.language_code) {
       i18n.changeLanguage(me.language.language_code.toLowerCase());
     }
-
     this.startupTimeout = setTimeout(() => {
       dispatch(startupAction());
     }, 50);
@@ -59,7 +59,6 @@ class AdventuresMine extends Component {
   };
 
   handleAdventureCode = () => {
-    // todo
     this.props.dispatch(navigatePush('voke.AdventureCode'));
   };
 
@@ -92,7 +91,7 @@ class AdventuresMine extends Component {
     const { me } = this.props;
     return (
       <Flex value={1} align="center" justify="end" direction="column">
-        {this.renderAdventureCode}
+        {this.renderAdventureCode()}
         <Flex
           value={1}
           align="center"

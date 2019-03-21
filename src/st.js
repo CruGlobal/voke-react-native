@@ -69,6 +69,7 @@ const st = {
 
   op100: { opacity: 1 },
   op75: { opacity: 0.75 },
+  op60: { opacity: 0.6 },
   op50: { opacity: 0.5 },
   op25: { opacity: 0.25 },
 
