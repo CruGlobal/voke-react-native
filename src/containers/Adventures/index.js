@@ -15,6 +15,7 @@ import StatusBar from '../../components/StatusBar';
 import theme from '../../theme';
 import AdventuresFind from '../AdventuresFind';
 import AdventuresMine from '../AdventuresMine';
+import st from '../../st';
 
 class Adventures extends Component {
   componentDidMount() {
@@ -65,10 +66,10 @@ class Adventures extends Component {
           tabBarInactiveTextColor={theme.primaryColor}
           tabBarTextStyle={{ fontWeight: 'normal' }}
         >
-          <View tabLabel={t('title.myAdventures')} style={{ flex: 1 }}>
+          <View tabLabel={t('title.myAdventures')} style={[st.f1]}>
             <AdventuresMine />
           </View>
-          <View tabLabel={t('title.findAdventures')} style={{ flex: 1 }}>
+          <View tabLabel={t('title.findAdventures')} style={[st.f1]}>
             <AdventuresFind />
           </View>
         </ScrollableTabView>

@@ -21,6 +21,7 @@ import SignUpInput from '../../components/SignUpInput';
 import SignUpHeader from '../../components/SignUpHeader';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import theme from '../../theme';
+import st from '../../st';
 
 class SignUpNumberVerify extends Component {
   constructor(props) {
@@ -107,7 +108,7 @@ class SignUpNumberVerify extends Component {
         justify="start"
       >
         <KeyboardAvoidingView
-          style={{ flex: 1 }}
+          style={[st.f1]}
           behavior={theme.isAndroid ? undefined : 'padding'}
         >
           <SignUpHeaderBack onPress={() => dispatch(navigateBack())} />

@@ -12,6 +12,7 @@ import CONSTANTS from '../../constants';
 import Header from '../Header';
 import theme from '../../theme';
 import { buildTrackingObj } from '../../utils/common';
+import st from '../../st';
 
 const VERSION_BUILD = DeviceInfo.getReadableVersion();
 
@@ -27,7 +28,7 @@ class About extends Component {
   render() {
     const { t, dispatch } = this.props;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={[st.f1]}>
         <Header
           right={
             theme.isAndroid ? (

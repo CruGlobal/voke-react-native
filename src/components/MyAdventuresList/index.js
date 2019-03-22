@@ -119,7 +119,7 @@ class MyAdventuresList extends Component {
           offset: ITEM_HEIGHT * index,
           index,
         })}
-        style={{ flex: 1 }}
+        style={[st.f1]}
         contentContainerStyle={styles.content}
         refreshControl={
           <RefreshControl

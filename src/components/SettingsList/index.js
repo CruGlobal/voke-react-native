@@ -6,6 +6,7 @@ import { translate } from 'react-i18next';
 import styles from './styles';
 import { Flex, Touchable, Text, Separator } from '../common';
 import SafeArea from '../SafeArea';
+import st from '../../st';
 
 class SettingsList extends Component {
   renderRow = ({ item }) => {
@@ -20,7 +21,7 @@ class SettingsList extends Component {
 
   render() {
     return (
-      <SafeArea style={{ flex: 1 }} bg="white">
+      <SafeArea style={[st.f1]} bg="white">
         <FlatList
           initialNumToRender={20}
           data={this.props.items}
@@ -29,7 +30,7 @@ class SettingsList extends Component {
           )}
           renderItem={this.renderRow}
           keyExtractor={item => item.name.replace(/\s/gi, '')}
-          style={{ flex: 1 }}
+          style={[st.f1]}
           contentContainerStyle={styles.content}
         />
       </SafeArea>

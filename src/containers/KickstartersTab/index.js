@@ -11,6 +11,7 @@ import styles from './styles';
 import ApiLoading from '../ApiLoading';
 import Header from '../Header';
 import { Flex, Text, Touchable, VokeIcon } from '../../components/common';
+import st from '../../st';
 
 class KickstartersTab extends Component {
   state = {
@@ -86,11 +87,11 @@ class KickstartersTab extends Component {
     }
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={[st.f1]}>
         <Header leftBack={true} title={t('title.kickstarters')} />
         <ScrollView
           style={styles.container}
-          contentContainerStyle={!hasKickstarters ? { flex: 1 } : undefined}
+          contentContainerStyle={!hasKickstarters ? [st.f1] : undefined}
         >
           {this.renderHeader()}
           <Flex

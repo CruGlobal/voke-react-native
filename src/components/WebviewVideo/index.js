@@ -11,6 +11,7 @@ import { isObject, isString } from '../../utils/common';
 import theme from '../../theme';
 
 import webviewCommon from './common';
+import st from '../../st';
 
 const FIX_POSTMESSAGE = `(function() {
   var originalPostMessage = window.postMessage;
@@ -283,7 +284,7 @@ class WebviewVideo extends Component {
       );
     }
     return (
-      <View style={{ flex: 1 }}>
+      <View style={[st.f1]}>
         {this.renderVideo(html)}
         <VideoControls
           isPaused={isPaused}

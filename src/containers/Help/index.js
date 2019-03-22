@@ -11,6 +11,7 @@ import Button from '../../components/Button';
 import CONSTANTS from '../../constants';
 import Header from '../Header';
 import theme from '../../theme';
+import st from '../../st';
 
 const EMAIL = ['support@vokeapp.com'];
 const REPORT_TITLE = 'I would like to report a user';
@@ -41,7 +42,7 @@ class Help extends Component {
   render() {
     const { t, dispatch } = this.props;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={[st.f1]}>
         <Header
           right={
             theme.isAndroid ? (

@@ -19,6 +19,7 @@ import {
 import LoadMore from '../LoadMore';
 import NotificationToast from '../../containers/NotificationToast';
 import CONSTANTS from '../../constants';
+import st from '../../st';
 
 const SLIDE_ROW_WIDTH = 130;
 
@@ -197,7 +198,7 @@ class ConversationList extends Component {
             >
               <Touchable
                 activeOpacity={0.9}
-                style={{ flex: 1 }}
+                style={[st.f1]}
                 disabled={item.messengers.length === 2}
                 onPress={() => {
                   this.handleDelete(item);
@@ -217,7 +218,7 @@ class ConversationList extends Component {
               </Touchable>
               <Touchable
                 activeOpacity={0.9}
-                style={{ flex: 1 }}
+                style={[st.f1]}
                 disabled={item.messengers.length === 2}
                 onPress={() => {
                   this.handleBlock(item);

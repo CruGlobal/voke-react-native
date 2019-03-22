@@ -22,6 +22,7 @@ import { Flex, Icon, Button } from '../../components/common';
 import SignUpHeader from '../../components/SignUpHeader';
 import SignUpInput from '../../components/SignUpInput';
 import theme from '../../theme';
+import st from '../../st';
 
 class SignUpProfile extends Component {
   constructor(props) {
@@ -129,10 +130,10 @@ class SignUpProfile extends Component {
   render() {
     const { t } = this.props;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={[st.f1]}>
         <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
           <KeyboardAvoidingView
-            style={{ flex: 1 }}
+            style={[st.f1]}
             behavior={theme.isAndroid ? undefined : 'padding'}
           >
             {/* {

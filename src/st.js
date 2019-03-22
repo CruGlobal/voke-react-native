@@ -42,10 +42,23 @@ const generatedColors = Object.keys(colors).reduce((p, key) => {
   };
 }, {});
 
-const size = { 1: 50, 2: 30, 3: 25, 4: 15, 5: 10, 6: 5 };
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const DEVICE_HEIGHT = Dimensions.get('window').height;
 // Default styles
+
+// pd0, pd1, ..., pd6
+const sizes = [0, 50, 30, 25, 15, 10, 5];
+const generateSizes = (prefix, value) =>
+  sizes.reduce((p, n, i) => ({ ...p, [`${prefix}${i}`]: { [value]: n } }), {});
+
+// w0, w10, ..., w100
+const percentages = [0, 10, 20, 25, 30, 40, 50, 60, 70, 75, 80, 90, 100];
+const generatePercentages = (prefix, value, calc) =>
+  percentages.reduce(
+    (p, n) => ({ ...p, [`${prefix}${n}`]: { [value]: calc(n) } }),
+    {},
+  );
+
 const st = {
   abs: { position: 'absolute' },
   absT: { position: 'absolute', top: 0 },
@@ -57,7 +70,9 @@ const st = {
   absFill: { position: 'absolute', top: 0, right: 0, left: 0, bottom: 0 },
 
   rel: { position: 'relative' },
+  ovh: { overflow: 'hidden' },
 
+  bw0: { borderWidth: 0 },
   bw1: { borderWidth: 1 },
   bw2: { borderWidth: 2 },
   bw3: { borderWidth: 3 },
@@ -69,51 +84,6 @@ const st = {
 
   circle: s => ({ width: s, height: s, borderRadius: s / 2 }),
 
-  op100: { opacity: 1 },
-  op90: { opacity: 0.9 },
-  op80: { opacity: 0.9 },
-  op75: { opacity: 0.75 },
-  op60: { opacity: 0.6 },
-  op50: { opacity: 0.5 },
-  op25: { opacity: 0.25 },
-
-  w100: { width: '100%' },
-  w90: { width: '90%' },
-  w80: { width: '80%' },
-  w75: { width: '75%' },
-  w70: { width: '70%' },
-  w60: { width: '60%' },
-  w50: { width: '50%' },
-  w40: { width: '40%' },
-  w30: { width: '30%' },
-  w25: { width: '25%' },
-  w20: { width: '20%' },
-  w10: { width: '10%' },
-  fw: { width: DEVICE_WIDTH },
-  fw90: { width: DEVICE_WIDTH * 0.9 },
-  fw80: { width: DEVICE_WIDTH * 0.8 },
-  fw75: { width: DEVICE_WIDTH * 0.75 },
-  fw70: { width: DEVICE_WIDTH * 0.7 },
-  fw60: { width: DEVICE_WIDTH * 0.6 },
-  fw50: { width: DEVICE_WIDTH * 0.5 },
-  fw40: { width: DEVICE_WIDTH * 0.4 },
-  fw30: { width: DEVICE_WIDTH * 0.3 },
-  fw25: { width: DEVICE_WIDTH * 0.25 },
-  fw20: { width: DEVICE_WIDTH * 0.2 },
-  fw10: { width: DEVICE_WIDTH * 0.1 },
-
-  fh: { height: DEVICE_HEIGHT },
-  fh90: { width: DEVICE_HEIGHT * 0.9 },
-  fh75: { width: DEVICE_HEIGHT * 0.75 },
-  fh50: { width: DEVICE_HEIGHT * 0.5 },
-  fh25: { width: DEVICE_HEIGHT * 0.25 },
-  fh10: { width: DEVICE_HEIGHT * 0.1 },
-
-  h100: { height: '100%' },
-  h75: { height: '75%' },
-  h50: { height: '50%' },
-  h25: { height: '25%' },
-
   f1: { flex: 1 },
   aic: { alignItems: 'center' },
   ais: { alignItems: 'flex-start' },
@@ -122,41 +92,6 @@ const st = {
   jcs: { justifyContent: 'flex-start' },
   jce: { justifyContent: 'flex-end' },
 
-  br1: { borderRadius: size[1] },
-  br2: { borderRadius: size[2] },
-  br3: { borderRadius: size[3] },
-  br4: { borderRadius: size[4] },
-  br5: { borderRadius: size[5] },
-  br6: { borderRadius: size[6] },
-
-  brtr1: { borderTopRightRadius: size[1] },
-  brtr2: { borderTopRightRadius: size[2] },
-  brtr3: { borderTopRightRadius: size[3] },
-  brtr4: { borderTopRightRadius: size[4] },
-  brtr5: { borderTopRightRadius: size[5] },
-  brtr6: { borderTopRightRadius: size[6] },
-
-  brtl1: { borderTopLeftRadius: size[1] },
-  brtl2: { borderTopLeftRadius: size[2] },
-  brtl3: { borderTopLeftRadius: size[3] },
-  brtl4: { borderTopLeftRadius: size[4] },
-  brtl5: { borderTopLeftRadius: size[5] },
-  brtl6: { borderTopLeftRadius: size[6] },
-
-  brbr1: { borderBottomRightRadius: size[1] },
-  brbr2: { borderBottomRightRadius: size[2] },
-  brbr3: { borderBottomRightRadius: size[3] },
-  brbr4: { borderBottomRightRadius: size[4] },
-  brbr5: { borderBottomRightRadius: size[5] },
-  brbr6: { borderBottomRightRadius: size[6] },
-
-  brbl1: { borderBottomLeftRadius: size[1] },
-  brbl2: { borderBottomLeftRadius: size[2] },
-  brbl3: { borderBottomLeftRadius: size[3] },
-  brbl4: { borderBottomLeftRadius: size[4] },
-  brbl5: { borderBottomLeftRadius: size[5] },
-  brbl6: { borderBottomLeftRadius: size[6] },
-
   fs1: { fontSize: 32 },
   fs2: { fontSize: 22 },
   fs3: { fontSize: 18 },
@@ -164,105 +99,33 @@ const st = {
   fs5: { fontSize: 14 },
   fs6: { fontSize: 12 },
 
-  pd1: { padding: size[1] },
-  pd2: { padding: size[2] },
-  pd3: { padding: size[3] },
-  pd4: { padding: size[4] },
-  pd5: { padding: size[5] },
-  pd6: { padding: size[6] },
+  ...generatePercentages('op', 'opacity', n => n / 100),
+  ...generatePercentages('w', 'width', n => `${n}%`),
+  ...generatePercentages('fw', 'width', n => DEVICE_WIDTH * (n / 100)),
+  ...generatePercentages('h', 'height', n => `${n}%`),
+  ...generatePercentages('fh', 'height', n => DEVICE_HEIGHT * (n / 100)),
 
-  ph1: { paddingHorizontal: size[1] },
-  ph2: { paddingHorizontal: size[2] },
-  ph3: { paddingHorizontal: size[3] },
-  ph4: { paddingHorizontal: size[4] },
-  ph5: { paddingHorizontal: size[5] },
-  ph6: { paddingHorizontal: size[6] },
+  ...generateSizes('br', 'borderRadius'),
+  ...generateSizes('brtr', 'borderTopRightRadius'),
+  ...generateSizes('brtl', 'borderTopLeftRadius'),
+  ...generateSizes('brbr', 'borderBottomRightRadius'),
+  ...generateSizes('brbl', 'borderBottomLeftRadius'),
 
-  pv1: { paddingVertical: size[1] },
-  pv2: { paddingVertical: size[2] },
-  pv3: { paddingVertical: size[3] },
-  pv4: { paddingVertical: size[4] },
-  pv5: { paddingVertical: size[5] },
-  pv6: { paddingVertical: size[6] },
+  ...generateSizes('pd', 'padding'),
+  ...generateSizes('ph', 'paddingHorizontal'),
+  ...generateSizes('pv', 'paddingVertical'),
+  ...generateSizes('pt', 'paddingTop'),
+  ...generateSizes('pb', 'paddingBottom'),
+  ...generateSizes('pl', 'paddingLeft'),
+  ...generateSizes('pr', 'paddingRight'),
 
-  pt1: { paddingTop: size[1] },
-  pt2: { paddingTop: size[2] },
-  pt3: { paddingTop: size[3] },
-  pt4: { paddingTop: size[4] },
-  pt5: { paddingTop: size[5] },
-  pt6: { paddingTop: size[6] },
-
-  pb1: { paddingBottom: size[1] },
-  pb2: { paddingBottom: size[2] },
-  pb3: { paddingBottom: size[3] },
-  pb4: { paddingBottom: size[4] },
-  pb5: { paddingBottom: size[5] },
-  pb6: { paddingBottom: size[6] },
-
-  pl1: { paddingLeft: size[1] },
-  pl2: { paddingLeft: size[2] },
-  pl3: { paddingLeft: size[3] },
-  pl4: { paddingLeft: size[4] },
-  pl5: { paddingLeft: size[5] },
-  pl6: { paddingLeft: size[6] },
-
-  pr1: { paddingRight: size[1] },
-  pr2: { paddingRight: size[2] },
-  pr3: { paddingRight: size[3] },
-  pr4: { paddingRight: size[4] },
-  pr5: { paddingRight: size[5] },
-  pr6: { paddingRight: size[6] },
-
-  m1: { margin: size[1] },
-  m2: { margin: size[2] },
-  m3: { margin: size[3] },
-  m4: { margin: size[4] },
-  m5: { margin: size[5] },
-  m6: { margin: size[6] },
-
-  mh1: { marginHorizontal: size[1] },
-  mh2: { marginHorizontal: size[2] },
-  mh3: { marginHorizontal: size[3] },
-  mh4: { marginHorizontal: size[4] },
-  mh5: { marginHorizontal: size[5] },
-  mh6: { marginHorizontal: size[6] },
-
-  mv1: { marginVertical: size[1] },
-  mv2: { marginVertical: size[2] },
-  mv3: { marginVertical: size[3] },
-  mv4: { marginVertical: size[4] },
-  mv5: { marginVertical: size[5] },
-  mv6: { marginVertical: size[6] },
-
-  mt1: { marginTop: size[1] },
-  mt2: { marginTop: size[2] },
-  mt3: { marginTop: size[3] },
-  mt4: { marginTop: size[4] },
-  mt5: { marginTop: size[5] },
-  mt6: { marginTop: size[6] },
-
-  mb1: { marginBottom: size[1] },
-  mb2: { marginBottom: size[2] },
-  mb3: { marginBottom: size[3] },
-  mb4: { marginBottom: size[4] },
-  mb5: { marginBottom: size[5] },
-  mb6: { marginBottom: size[6] },
-
-  ml1: { marginLeft: size[1] },
-  ml2: { marginLeft: size[2] },
-  ml3: { marginLeft: size[3] },
-  ml4: { marginLeft: size[4] },
-  ml5: { marginLeft: size[5] },
-  ml6: { marginLeft: size[6] },
-
-  mr1: { marginRight: size[1] },
-  mr2: { marginRight: size[2] },
-  mr3: { marginRight: size[3] },
-  mr4: { marginRight: size[4] },
-  mr5: { marginRight: size[5] },
-  mr6: { marginRight: size[6] },
-
-  ovh: { overflow: 'hidden' },
+  ...generateSizes('m', 'margin'),
+  ...generateSizes('mh', 'marginHorizontal'),
+  ...generateSizes('mv', 'marginVertical'),
+  ...generateSizes('mt', 'marginTop'),
+  ...generateSizes('mb', 'marginBottom'),
+  ...generateSizes('ml', 'marginLeft'),
+  ...generateSizes('mr', 'marginRight'),
 
   colors,
   ...generatedColors,
@@ -276,14 +139,6 @@ const st = {
       animated: true,
       barStyle: isAndroid ? 'light-content' : 'dark-content',
     },
-  },
-};
-
-st.header = {
-  dark: {
-    headerStyle: st.bgBlack,
-    headerTitleStyle: [st.bold, st.white],
-    headerTintColor: st.colors.white,
   },
 };
 

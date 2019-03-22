@@ -136,7 +136,7 @@ class JourneyDetail extends Component {
         renderItem={this.renderRow}
         keyExtractor={item => item.id}
         style={styles.content}
-        contentContainerStyle={{ flex: 1 }}
+        contentContainerStyle={[st.f1]}
         refreshControl={
           <RefreshControl
             refreshing={this.state.refreshing}

@@ -8,6 +8,7 @@ import Analytics from '../../utils/analytics';
 import SettingsList from '../../components/SettingsList';
 import Header from '../Header';
 import CONSTANTS from '../../constants';
+import st from '../../st';
 
 class Acknowledgements extends Component {
   componentDidMount() {
@@ -21,7 +22,7 @@ class Acknowledgements extends Component {
   render() {
     const { t } = this.props;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={[st.f1]}>
         <Header
           leftBack={true}
           title={t('title.acknowledgements')}

@@ -15,6 +15,7 @@
     "ios": "react-native run-ios",
     "sc": "node node_modules/react-native/local-cli/cli.js start --reset-cache",
     "lint": "eslint ./src",
+    "lint:fix": "eslint --fix ./src",
     "test": "node node_modules/jest/bin/jest.js --watch",
     "android": "adb devices && react-native run-android",
     "android:install:dev": "adb install android/app/build/outputs/apk/app-debug.apk",

@@ -13,6 +13,7 @@ import VokeOverlays from './containers/VokeOverlays';
 import getStore from './store';
 
 import AppWithNavigationState from './AppNavigator';
+import st from './st';
 
 // TODO: Add loading stuff with redux persist
 class App extends Component {
@@ -32,7 +33,7 @@ class App extends Component {
     return (
       <Provider store={this.state.store}>
         <I18nextProvider i18n={i18n}>
-          <View style={{ flex: 1 }}>
+          <View style={[st.f1]}>
             <AppWithNavigationState />
             <VokeOverlays />
           </View>

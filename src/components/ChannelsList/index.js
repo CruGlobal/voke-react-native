@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FlatList, Image } from 'react-native';
+import React, { Component } from 'react';
 import { translate } from 'react-i18next';
-
-import styles from './styles';
-import { Flex, Text, Touchable, RefreshControl } from '../common';
+import { FlatList, Image } from 'react-native';
+import { Flex, RefreshControl, Text, Touchable } from '../common';
 import LoadMore from '../LoadMore';
-
-const ITEM_HEIGHT = 120;
+import styles from './styles';
+import st from '../../st';
 
 class ChannelsList extends Component {
   constructor(props) {
@@ -90,7 +88,7 @@ class ChannelsList extends Component {
         //   offset: ITEM_HEIGHT * index,
         //   index,
         // })}
-        style={{ flex: 1 }}
+        style={[st.f1]}
         contentContainerStyle={styles.content}
         refreshControl={
           <RefreshControl

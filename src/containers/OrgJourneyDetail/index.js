@@ -9,6 +9,7 @@ import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { Flex, Text, Button } from '../../components/common';
 import { createMyJourney } from '../../actions/journeys';
+import st from '../../st';
 
 class OrgJourneyDetail extends Component {
   componentDidMount() {
@@ -26,7 +27,7 @@ class OrgJourneyDetail extends Component {
     const { item } = this.props;
 
     return (
-      <ScrollView style={styles.content} contentContainerStyle={{ flex: 1 }}>
+      <ScrollView style={styles.content} contentContainerStyle={[st.f1]}>
         <Flex value={1}>
           <Flex style={styles.mainContent}>
             <Text style={styles.header}>{item.name}</Text>

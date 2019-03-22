@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
@@ -119,19 +119,21 @@ class VideoContentWrap extends Component {
     return (
       <SafeArea top="deepBlack" style={[st.f1, st.bgWhite]}>
         <StatusBar />
-        <Flex style={styles.video}>
-          {this.state.showVideo ? (
-            <WebviewVideo
-              ref={c => (this.webview = c)}
-              video={videoObj}
-              onChangeState={this.handleVideoChange}
-              isLandscape={false}
-              {...videoProps}
-            />
-          ) : null}
-          <BackButton onBack={() => dispatch(navigateBack())} />
-        </Flex>
-        {this.renderContent()}
+        <ScrollView bounces={false}>
+          <Flex style={styles.video}>
+            {this.state.showVideo ? (
+              <WebviewVideo
+                ref={c => (this.webview = c)}
+                video={videoObj}
+                onChangeState={this.handleVideoChange}
+                isLandscape={false}
+                {...videoProps}
+              />
+            ) : null}
+            <BackButton onBack={() => dispatch(navigateBack())} />
+          </Flex>
+          {this.renderContent()}
+        </ScrollView>
       </SafeArea>
     );
   }

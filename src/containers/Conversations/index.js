@@ -7,14 +7,12 @@ import { translate } from 'react-i18next';
 import styles from './styles';
 import { navigatePush } from '../../actions/nav';
 import {
-  startupAction,
   blockMessenger,
   reportUserAction,
   getMe,
   dontNavigateToVideos,
 } from '../../actions/auth';
 import Analytics from '../../utils/analytics';
-import i18n from '../../i18n';
 
 import {
   getConversations,
@@ -22,7 +20,6 @@ import {
   getConversationsPage,
 } from '../../actions/messages';
 import { navMenuOptions } from '../../utils/menu';
-import { vokeImages } from '../../utils/iconMap';
 import ANIMATION from '../../../images/VokeBotAnimation.gif';
 
 import ApiLoading from '../ApiLoading';
@@ -36,6 +33,7 @@ import { IS_SMALL_ANDROID } from '../../constants';
 import theme from '../../theme';
 import VOKE_LINK from '../../../images/vokebot_whole.png';
 import { buildTrackingObj } from '../../utils/common';
+import st from '../../st';
 
 const CONTACT_LENGTH_SHOW_VOKEBOT = IS_SMALL_ANDROID ? 2 : 3;
 
@@ -273,7 +271,7 @@ class Conversations extends Component {
           />
         ) : (
           <ScrollView
-            style={{ flex: 1 }}
+            style={[st.f1]}
             contentContainerStyle={{
               flex: 1,
               alignItems: 'center',

@@ -9,6 +9,7 @@ import { navigateBack } from '../../actions/nav';
 import SettingsList from '../../components/SettingsList';
 import { Button } from '../../components/common';
 import Header from '../Header';
+import st from '../../st';
 
 class Menu extends Component {
   componentDidMount() {
@@ -18,7 +19,7 @@ class Menu extends Component {
   render() {
     const { t, dispatch } = this.props;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={[st.f1]}>
         <Header
           right={
             <Button

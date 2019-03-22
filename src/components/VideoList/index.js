@@ -8,6 +8,7 @@ import TO_CHAT from '../../../images/newShare.png';
 import ANIMATION from '../../../images/VokeBotAnimation.gif';
 
 import { Flex, Text, Touchable, Icon, RefreshControl, Button } from '../common';
+import st from '../../st';
 
 const ITEM_HEIGHT = THUMBNAIL_HEIGHT + 100 + 20;
 
@@ -171,7 +172,7 @@ class VideoList extends Component {
           offset: ITEM_HEIGHT * index,
           index,
         })}
-        style={{ flex: 1 }}
+        style={[st.f1]}
         contentContainerStyle={styles.content}
         refreshControl={
           <RefreshControl

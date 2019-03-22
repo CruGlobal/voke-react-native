@@ -23,6 +23,7 @@ import ApiLoading from '../ApiLoading';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeader from '../../components/SignUpHeader';
 import theme from '../../theme';
+import st from '../../st';
 
 class SignUpNumber extends Component {
   constructor(props) {
@@ -115,10 +116,10 @@ class SignUpNumber extends Component {
     const { t } = this.props;
     const { selectedCountry, selectedCountryCode, phoneNumber } = this.state;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={[st.f1]}>
         <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
           <KeyboardAvoidingView
-            style={{ flex: 1 }}
+            style={[st.f1]}
             behavior={theme.isAndroid ? undefined : 'padding'}
           >
             <TouchableOpacity
