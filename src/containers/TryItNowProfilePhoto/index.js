@@ -150,7 +150,7 @@ class TryItNowProfilePhoto extends Component {
               />
             </Flex>
           </View>
-          <Flex style={[st.absTL]} align="start">
+          <Flex style={[st.abstl]} align="start">
             <SignUpHeaderBack
               onPress={() => this.props.dispatch(navigateBack())}
             />

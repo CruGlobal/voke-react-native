@@ -21,7 +21,7 @@ class SettingsList extends Component {
 
   render() {
     return (
-      <SafeArea style={[st.f1]} bg="white">
+      <SafeArea style={[st.f1, st.bgWhite]}>
         <FlatList
           initialNumToRender={20}
           data={this.props.items}

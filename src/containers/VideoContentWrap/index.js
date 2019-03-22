@@ -19,6 +19,7 @@ import OrgJourneyDetail from '../OrgJourneyDetail';
 import JourneyDetail from '../JourneyDetail';
 import JourneyStepDetail from '../JourneyStepDetail';
 import st from '../../st';
+import theme from '../../theme';
 
 class VideoContentWrap extends Component {
   constructor(props) {
@@ -117,8 +118,8 @@ class VideoContentWrap extends Component {
     }
 
     return (
-      <SafeArea top="deepBlack" style={[st.f1, st.bgWhite]}>
-        <StatusBar />
+      <SafeArea style={[st.f1]}>
+        <StatusBar hidden={!theme.isIphoneX} />
         <ScrollView bounces={false}>
           <Flex style={styles.video}>
             {this.state.showVideo ? (

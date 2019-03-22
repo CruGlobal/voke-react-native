@@ -1,15 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { SafeAreaView } from 'react-native';
-
-import theme from '../../theme';
-
-function getColor(bg) {
-  if (theme[bg]) {
-    return { backgroundColor: theme[bg] };
-  }
-  return {};
-}
+import { ViewPropTypes, SafeAreaView } from 'react-native';
 
 class SafeArea extends Component {
   setNativeProps(nativeProps) {
@@ -18,10 +8,9 @@ class SafeArea extends Component {
   ref = c => (this._view = c);
 
   render() {
-    const { bg, top, style, children } = this.props;
-    let color = getColor(bg);
+    const { top, style, children } = this.props;
     const content = (
-      <SafeAreaView ref={this.ref} style={[color, style]}>
+      <SafeAreaView ref={this.ref} style={[style]}>
         {children}
       </SafeAreaView>
     );
@@ -29,7 +18,7 @@ class SafeArea extends Component {
     if (top) {
       return (
         <Fragment>
-          <SafeAreaView style={[getColor(top), { flex: 0 }]} />
+          <SafeAreaView style={[{ flex: 0 }]} />
           {content}
         </Fragment>
       );
@@ -38,11 +27,9 @@ class SafeArea extends Component {
   }
 }
 
-const bgTypes = ['white', 'primary', 'secondary', 'transparent', 'deepBlack'];
-
 SafeArea.propTypes = {
-  bg: PropTypes.oneOf(bgTypes),
-  top: PropTypes.oneOf(bgTypes),
+  style: ViewPropTypes,
+  top: ViewPropTypes,
 };
 
 export default SafeArea;

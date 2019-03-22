@@ -33,6 +33,7 @@ import NotificationToast from '../NotificationToast';
 import CONSTANTS from '../../constants';
 import { buildTrackingObj } from '../../utils/common';
 import SafeArea from '../../components/SafeArea';
+import st from '../../st';
 
 class Message extends Component {
   constructor(props) {
@@ -462,7 +463,7 @@ class Message extends Component {
               style={{ zIndex: 1, backgroundColor: 'transparent' }}
             />
           )}
-          <SafeArea bg="secondary">
+          <SafeArea style={[st.bgDarkBlue]}>
             <Flex
               direction="row"
               style={[styles.inputWrap, newWrap]}

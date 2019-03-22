@@ -47,7 +47,7 @@ function Item({ item, onSelect }) {
             style={[{ width: 100 }, st.bgBlack, st.f1]}
             resizeMode="contain"
           />
-          <Flex style={[st.absFill]} align="center" justify="center">
+          <Flex style={[st.absfill]} align="center" justify="center">
             <Icon
               name={isLocked ? 'lock' : 'play-circle-filled'}
               size={30}
@@ -66,7 +66,7 @@ function Item({ item, onSelect }) {
             Part {item.position}
           </Text>
         </Flex>
-        <Flex style={[st.absBR, { bottom: -28 }, st.mh5]}>
+        <Flex style={[st.absbr, { bottom: -28 }, st.mh5]}>
           <Text style={[st.blue, { fontSize: 72 }]}>{item.position}</Text>
         </Flex>
       </Flex>

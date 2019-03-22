@@ -30,14 +30,15 @@ const colors = {
 // Generate { color: ..., bgColor: ...} style object
 const generatedColors = Object.keys(colors).reduce((p, key) => {
   const value = colors[key];
+  const pascalCase = key.charAt(0).toUpperCase() + key.slice(1);
   return {
     ...p,
-    [`bg${key.charAt(0).toUpperCase() + key.slice(1)}`]: {
-      backgroundColor: value,
-    },
-    [`border${key.charAt(0).toUpperCase() + key.slice(1)}`]: {
-      borderColor: value,
-    },
+    [`bg${pascalCase}`]: { backgroundColor: value },
+    [`border${pascalCase}`]: { borderColor: value },
+    [`br${pascalCase}`]: { borderRightColor: value },
+    [`bl${pascalCase}`]: { borderLeftColor: value },
+    [`bt${pascalCase}`]: { borderTopColor: value },
+    [`bb${pascalCase}`]: { borderBottomColor: value },
     [key]: { color: value },
   };
 }, {});
@@ -59,15 +60,22 @@ const generatePercentages = (prefix, value, calc) =>
     {},
   );
 
+function hexToRGB(hex, alpha) {
+  const parse = c => parseInt(c, 16);
+  const r = parse(hex.slice(1, 3));
+  const g = parse(hex.slice(3, 5));
+  const b = parse(hex.slice(5, 7));
+  return `'rgba(${r},${g},${b},${alpha})'`;
+}
 const st = {
   abs: { position: 'absolute' },
-  absT: { position: 'absolute', top: 0 },
-  absTR: { position: 'absolute', top: 0, right: 0 },
-  absTL: { position: 'absolute', top: 0, left: 0 },
-  absB: { position: 'absolute', bottom: 0 },
-  absBR: { position: 'absolute', bottom: 0, right: 0 },
-  absBL: { position: 'absolute', bottom: 0, left: 0 },
-  absFill: { position: 'absolute', top: 0, right: 0, left: 0, bottom: 0 },
+  abst: { position: 'absolute', top: 0 },
+  abstr: { position: 'absolute', top: 0, right: 0 },
+  abstl: { position: 'absolute', top: 0, left: 0 },
+  absb: { position: 'absolute', bottom: 0 },
+  absbr: { position: 'absolute', bottom: 0, right: 0 },
+  absbl: { position: 'absolute', bottom: 0, left: 0 },
+  absfill: { position: 'absolute', top: 0, right: 0, left: 0, bottom: 0 },
 
   rel: { position: 'relative' },
   ovh: { overflow: 'hidden' },
@@ -76,6 +84,11 @@ const st = {
   bw1: { borderWidth: 1 },
   bw2: { borderWidth: 2 },
   bw3: { borderWidth: 3 },
+
+  zi0: { zIndex: 0 },
+  zi1: { zIndex: 1 },
+  zi2: { zIndex: 2 },
+  zi3: { zIndex: 3 },
 
   bold: { fontWeight: 'bold' },
   tac: { textAlign: 'center' },
@@ -99,11 +112,26 @@ const st = {
   fs5: { fontSize: 14 },
   fs6: { fontSize: 12 },
 
+  w: n => ({ width: n }),
+  minw: n => ({ minWidth: n }),
+  maxw: n => ({ maxWidth: n }),
+  h: n => ({ height: n }),
+  minh: n => ({ minHeight: n }),
+  maxh: n => ({ maxHeight: n }),
+
   ...generatePercentages('op', 'opacity', n => n / 100),
   ...generatePercentages('w', 'width', n => `${n}%`),
+  ...generatePercentages('minw', 'minWidth', n => `${n}%`),
+  ...generatePercentages('maxw', 'maxWidth', n => `${n}%`),
   ...generatePercentages('fw', 'width', n => DEVICE_WIDTH * (n / 100)),
+  ...generatePercentages('minfw', 'minWidth', n => DEVICE_WIDTH * (n / 100)),
+  ...generatePercentages('maxfw', 'maxWidth', n => DEVICE_WIDTH * (n / 100)),
   ...generatePercentages('h', 'height', n => `${n}%`),
+  ...generatePercentages('minh', 'minHeight', n => `${n}%`),
+  ...generatePercentages('maxh', 'maxHeight', n => `${n}%`),
   ...generatePercentages('fh', 'height', n => DEVICE_HEIGHT * (n / 100)),
+  ...generatePercentages('minfh', 'minHeight', n => DEVICE_HEIGHT * (n / 100)),
+  ...generatePercentages('maxfh', 'maxHeight', n => DEVICE_HEIGHT * (n / 100)),
 
   ...generateSizes('br', 'borderRadius'),
   ...generateSizes('brtr', 'borderTopRightRadius'),
@@ -129,6 +157,7 @@ const st = {
 
   colors,
   ...generatedColors,
+  rgba: hexToRGB,
 
   statusBar: {
     light: {
