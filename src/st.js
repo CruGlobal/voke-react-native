@@ -49,7 +49,7 @@ const DEVICE_HEIGHT = Dimensions.get('window').height;
 
 // pd0, pd1, ..., pd6
 const sizes = [0, 50, 30, 25, 15, 10, 5];
-const generateSizes = (prefix, value) =>
+const generateSizes = (prefix, value, arr) =>
   sizes.reduce((p, n, i) => ({ ...p, [`${prefix}${i}`]: { [value]: n } }), {});
 
 // w0, w10, ..., w100
@@ -59,6 +59,10 @@ const generatePercentages = (prefix, value, calc) =>
     (p, n) => ({ ...p, [`${prefix}${n}`]: { [value]: calc(n) } }),
     {},
   );
+// w0, w10, ..., w100
+const nums = [0, 1, 2, 3, 4, 5];
+const generateNums = (prefix, value) =>
+  nums.reduce((p, n, i) => ({ ...p, [`${prefix}${i}`]: { [value]: n } }), {});
 
 function hexToRGB(hex, alpha) {
   const parse = c => parseInt(c, 16);
@@ -80,15 +84,9 @@ const st = {
   rel: { position: 'relative' },
   ovh: { overflow: 'hidden' },
 
-  bw0: { borderWidth: 0 },
-  bw1: { borderWidth: 1 },
-  bw2: { borderWidth: 2 },
-  bw3: { borderWidth: 3 },
-
-  zi0: { zIndex: 0 },
-  zi1: { zIndex: 1 },
-  zi2: { zIndex: 2 },
-  zi3: { zIndex: 3 },
+  ...generateNums('bw', 'borderWidth'),
+  ...generateNums('zi', 'zIndex'),
+  ...generateNums('ls', 'letterSpacing'),
 
   bold: { fontWeight: 'bold' },
   tac: { textAlign: 'center' },

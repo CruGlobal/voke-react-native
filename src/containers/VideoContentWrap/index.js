@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { navigateBack } from '../../actions/nav';
 import { toastAction } from '../../actions/auth';
@@ -71,21 +72,31 @@ class VideoContentWrap extends Component {
     }
   };
 
+  play = () => {
+    if (
+      this.webview &&
+      this.webview.getWrappedInstance &&
+      this.webview.getWrappedInstance() &&
+      this.webview.getWrappedInstance().play
+    ) {
+      this.webview.getWrappedInstance().play();
+    }
+  };
+
   renderContent() {
     const { type, item, ...rest } = this.props;
+    const allProps = { item, onPause: this.pause, onPlay: this.play, ...rest };
     if (type === 'videoDetail') {
-      return (
-        <VideoDetailsContent video={item} onPause={this.pause} {...rest} />
-      );
+      return <VideoDetailsContent video={item} {...allProps} />;
     }
     if (type === 'orgJourney') {
-      return <OrgJourneyDetail item={item} onPause={this.pause} {...rest} />;
+      return <OrgJourneyDetail {...allProps} />;
     }
     if (type === 'journeyDetail') {
-      return <JourneyDetail item={item} onPause={this.pause} {...rest} />;
+      return <JourneyDetail {...allProps} />;
     }
     if (type === 'journeyStepDetail') {
-      return <JourneyStepDetail item={item} onPause={this.pause} {...rest} />;
+      return <JourneyStepDetail {...allProps} />;
     }
     return (
       <Flex direction="column" style={{ paddingBottom: 110 }}>
@@ -120,7 +131,7 @@ class VideoContentWrap extends Component {
     return (
       <SafeArea style={[st.f1]}>
         <StatusBar hidden={!theme.isIphoneX} />
-        <ScrollView
+        <KeyboardAwareScrollView
           style={[st.f1]}
           bounces={false}
           contentContainerStyle={[st.f1]}
@@ -138,7 +149,7 @@ class VideoContentWrap extends Component {
             <BackButton onBack={() => dispatch(navigateBack())} />
           </Flex>
           {this.renderContent()}
-        </ScrollView>
+        </KeyboardAwareScrollView>
       </SafeArea>
     );
   }

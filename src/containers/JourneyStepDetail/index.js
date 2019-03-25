@@ -6,16 +6,25 @@ import { translate } from 'react-i18next';
 
 import Analytics from '../../utils/analytics';
 
-import { Flex, Text } from '../../components/common';
+import { Flex, Text, Button } from '../../components/common';
 import st from '../../st';
-import theme from '../../theme';
 
 class JourneyStepDetail extends Component {
+  state = { text: '' };
+
   componentDidMount() {
     Analytics.screen(Analytics.s.JourneyStepDetail);
   }
+
+  changeText = t => this.setState({ text: t });
+
+  skip = () => {
+    console.log('skip');
+  };
+
   render() {
     const { item, me } = this.props;
+    const { text } = this.state;
 
     return (
       <ScrollView
@@ -38,7 +47,10 @@ class JourneyStepDetail extends Component {
             >
               <Text style={[st.tac, st.fs2]}>{item.name}</Text>
             </Flex>
-            <Flex style={[st.bgWhite, st.w100, st.pd4, st.brbl5, st.brbr5]}>
+            <Flex
+              direction="row"
+              style={[st.bgWhite, st.w100, st.pd4, st.brbl5, st.brbr5]}
+            >
               <TextInput
                 autoCapitalize="sentences"
                 returnKeyType="done"
@@ -46,10 +58,20 @@ class JourneyStepDetail extends Component {
                 blurOnSubmit={true}
                 placeholder="Your Answer..."
                 placeholderTextColor={st.grey}
-                style={[st.fs4, st.darkBlue]}
+                style={[st.f1, st.fs4, st.darkBlue]}
                 underlineColorAndroid={st.colors.transparent}
                 selectionColor={st.colors.darkBlue}
+                value={text}
+                onChangeText={this.changeText}
               />
+              {!text ? (
+                <Button
+                  type="transparent"
+                  onPress={this.skip}
+                  text="SKIP"
+                  buttonTextStyle={[st.orange, st.bold, st.fs3, st.ls2]}
+                />
+              ) : null}
             </Flex>
           </Flex>
           <Flex direction="column" style={[st.w80]}>
