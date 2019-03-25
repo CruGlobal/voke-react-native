@@ -22,7 +22,6 @@ import {
 import { navMenuOptions } from '../../utils/menu';
 import ANIMATION from '../../../images/VokeBotAnimation.gif';
 
-import ApiLoading from '../ApiLoading';
 import AndroidReportModal from '../AndroidReportModal';
 import ConversationList from '../../components/ConversationList';
 import PopupMenu from '../../components/PopupMenu';
@@ -309,7 +308,6 @@ class Conversations extends Component {
             />
           </Flex>
         ) : null}
-        {cLength === 0 || this.state.isLoading ? <ApiLoading /> : null}
         {this.state.showAndroidReportModal ? (
           <AndroidReportModal
             onClose={() =>

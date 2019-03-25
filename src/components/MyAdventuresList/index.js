@@ -44,8 +44,16 @@ class MyAdventuresList extends Component {
     }
   }
 
-  renderProgress = () => {
-    return <View style={[st.bgBlue, st.circle(10)]} />;
+  renderProgress = isFilled => {
+    return (
+      <View
+        style={[
+          isFilled ? st.bgBlue : [st.bgTransparent, st.bw1, st.borderCharcoal],
+          st.mr6,
+          st.circle(10),
+        ]}
+      />
+    );
   };
 
   renderRow = ({ item }) => {
@@ -70,6 +78,7 @@ class MyAdventuresList extends Component {
             />
           </Flex>
           <Flex
+            value={1}
             direction="column"
             align="start"
             justify="start"
@@ -87,20 +96,25 @@ class MyAdventuresList extends Component {
               >
                 <Text>1</Text>
               </Flex>
+              <Text style={[st.charcoal, st.ml5, st.fs5]}>Me</Text>
+              <Flex value={1} align="end">
+                <Flex style={[st.circle(36), st.bgBlue]} />
+              </Flex>
             </Flex>
             <Flex direction="row" align="center">
-              {this.renderProgress()}
+              {this.renderProgress(true)}
+              {this.renderProgress(true)}
+              {this.renderProgress(true)}
+              {this.renderProgress(true)}
+              {this.renderProgress(true)}
+              {this.renderProgress(true)}
+              {this.renderProgress(false)}
+              {this.renderProgress(false)}
               <Text numberOfLines={2} style={[st.ml6, styles.adventureUser]}>
                 6/8 Complete
               </Text>
             </Flex>
           </Flex>
-          <Flex
-            value={1}
-            align="end"
-            justify="end"
-            style={{ paddingHorizontal: 10 }}
-          />
         </Flex>
       </Touchable>
     );
