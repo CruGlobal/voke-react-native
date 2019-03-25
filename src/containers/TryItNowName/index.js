@@ -99,7 +99,7 @@ class TryItNowName extends Component {
           <KeyboardAvoidingView
             style={styles.container}
             behavior={theme.isAndroid ? undefined : 'padding'}
-            keyboardVerticalOffset={theme.isAndroid ? undefined : 0}
+            keyboardVerticalOffset={theme.isAndroid ? undefined : 45}
           >
             <TouchableOpacity
               activeOpacity={1}
@@ -151,7 +151,7 @@ class TryItNowName extends Component {
               />
             </Flex>
           </KeyboardAvoidingView>
-          <Flex style={{ position: 'absolute', top: 0, left: 0 }} align="start">
+          <Flex style={[st.abstl]}>
             <SignUpHeaderBack onPress={() => dispatch(navigateBack())} />
           </Flex>
         </SafeArea>

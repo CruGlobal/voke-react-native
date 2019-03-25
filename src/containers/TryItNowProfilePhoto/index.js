@@ -1,27 +1,17 @@
 import React, { Component } from 'react';
-import {
-  Image,
-  ScrollView,
-  Keyboard,
-  KeyboardAvoidingView,
-  Alert,
-  View,
-} from 'react-native';
+import { Image, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 
 import styles from './styles';
-import { navigatePush } from '../../actions/nav';
 import { updateMe } from '../../actions/auth';
 import ImagePicker from '../../components/ImagePicker';
 import Analytics from '../../utils/analytics';
 import { navigateBack, navigateResetHome } from '../../actions/nav';
 
-import ApiLoading from '../ApiLoading';
 import { Flex, Icon, Button, Text } from '../../components/common';
 import SafeArea from '../../components/SafeArea';
-import SignUpHeader from '../../components/SignUpHeader';
 import VOKE_FIRST_NAME from '../../../images/vokebot_whole.png';
 import st from '../../st';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
@@ -110,12 +100,6 @@ class TryItNowProfilePhoto extends Component {
       <View style={styles.container}>
         <SafeArea style={[st.f1, st.bgDarkBlue]} top={[st.bgBlue]}>
           <View style={[st.bgBlue, st.f1]}>
-            <Button
-              type="transparent"
-              text="Skip"
-              onPress={this.addProfile}
-              style={{ position: 'absolute', right: 30 }}
-            />
             <Flex style={{ marginTop: 70 }}>
               <Flex align="center" justify="center">
                 <Flex style={styles.chatBubble}>
@@ -150,10 +134,13 @@ class TryItNowProfilePhoto extends Component {
               />
             </Flex>
           </View>
-          <Flex style={[st.abstl]} align="start">
+          <Flex style={[st.abstl]}>
             <SignUpHeaderBack
               onPress={() => this.props.dispatch(navigateBack())}
             />
+          </Flex>
+          <Flex style={[st.abstr, st.pr3, st.pt3]}>
+            <Button type="transparent" text="Skip" onPress={this.addProfile} />
           </Flex>
         </SafeArea>
       </View>

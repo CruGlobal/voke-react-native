@@ -15,6 +15,7 @@ import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { updateMe } from '../../actions/auth';
 import { navigateBack, navigatePush } from '../../actions/nav';
+import { getJourneyInvite } from '../../actions/journeys';
 import { Flex, Button, Text } from '../../components/common';
 import SafeArea from '../../components/SafeArea';
 import SignUpInput from '../../components/SignUpInput';
@@ -34,12 +35,21 @@ class AdventureCode extends Component {
   }
 
   handleCodeSearch = () => {
-    if (!this.state.adventureCode && this.props.onboarding) {
+    const { dispatch, onboarding } = this.props;
+    const { adventureCode } = this.state;
+    if (!adventureCode && onboarding) {
       this.goToName();
       this.setState({ isLoading: false });
     } else {
-      // do something with code
-      this.setState({ isLoading: false });
+      dispatch(getJourneyInvite(adventureCode))
+        .then(r => {
+          console.log('journey invite code results', r);
+          this.setState({ isLoading: false });
+        })
+        .catch(err => {
+          console.log('error getting journey invite', err);
+          this.setState({ isLoading: false });
+        });
     }
   };
 
@@ -51,22 +61,17 @@ class AdventureCode extends Component {
   render() {
     const { t, onboarding, dispatch } = this.props;
     return (
-      <View style={styles.container} align="center">
+      <View style={[st.f1, st.bgBlue]} align="center">
         <SafeArea style={[st.f1, st.bgDarkBlue]} top={[st.bgBlue]}>
           <KeyboardAvoidingView
-            style={styles.container}
+            style={[st.f1, st.bgBlue]}
             behavior={theme.isAndroid ? undefined : 'padding'}
-            keyboardVerticalOffset={theme.isAndroid ? undefined : 0}
+            keyboardVerticalOffset={theme.isAndroid ? undefined : 45}
           >
-            <Flex
-              value={3}
-              align="center"
-              justify="center"
-              style={[styles.actions]}
-            >
+            <Flex value={3} align="center" justify="center" style={[st.pb3]}>
               <Text style={styles.inputLabel}>Adventure Code</Text>
               <SignUpInput
-                value={this.state.firstName}
+                value={this.state.adventureCode}
                 type="new"
                 onChangeText={t => this.setState({ adventureCode: t })}
                 placeholder="Adventure Code"
@@ -83,16 +88,28 @@ class AdventureCode extends Component {
                     : 'Continue'
                 }
                 type="filled"
-                disabled={this.state.isLoading}
+                disabled={
+                  this.state.isLoading ||
+                  (!onboarding && !this.state.adventureCode)
+                }
                 buttonTextStyle={styles.signInButtonText}
                 style={styles.signInButton}
                 onPress={this.handleCodeSearch}
               />
             </Flex>
           </KeyboardAvoidingView>
-          <Flex style={{ position: 'absolute', top: 0, left: 0 }} align="start">
+          <Flex style={[st.abstl]}>
             <SignUpHeaderBack onPress={() => dispatch(navigateBack())} />
           </Flex>
+          {!onboarding ? (
+            <Flex style={[st.abstr, st.pr3, st.pt3]}>
+              <Button
+                type="transparent"
+                text="Cancel"
+                onPress={() => dispatch(navigateBack())}
+              />
+            </Flex>
+          ) : null}
         </SafeArea>
       </View>
     );

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView } from 'react-native';
+import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
@@ -27,32 +27,54 @@ class OrgJourneyDetail extends Component {
     const { item } = this.props;
 
     return (
-      <ScrollView style={styles.content} contentContainerStyle={[st.f1]}>
-        <Flex value={1}>
-          <Flex style={styles.mainContent}>
-            <Text style={styles.header}>{item.name}</Text>
-            <Text style={styles.series}>8-part Series</Text>
-            <Text style={styles.description}>{item.description}</Text>
-          </Flex>
-          <Flex value={1} justify="end">
-            <Flex style={styles.card} align="center" justify="center">
-              <Text style={styles.start}>Start {item.name}</Text>
-              <Flex direction="row" align="center">
+      <Flex value={1} style={[st.bgWhite]}>
+        <Flex style={styles.mainContent}>
+          <Text style={styles.header}>{item.name}</Text>
+          <Text style={styles.series}>8-part Series</Text>
+          <Text style={styles.description}>{item.description}</Text>
+        </Flex>
+        <Flex value={1} justify="end">
+          <View style={styles.triangle} />
+          <Flex style={styles.card} align="center" justify="center">
+            <Text style={styles.start}>Start the {item.name}</Text>
+            <Flex direction="row" justify="center" style={[st.w100]}>
+              <Flex value={1} style={[st.ml3]}>
                 <Button
                   text="By Myself"
                   onPress={this.myself}
-                  style={[styles.button, styles.left]}
+                  style={[
+                    st.bgOrange,
+                    st.ph3,
+                    st.bw0,
+                    st.br0,
+                    st.brtl3,
+                    st.brbl3,
+                    st.aic,
+                    st.h(48),
+                    { marginRight: 1 },
+                  ]}
                 />
+              </Flex>
+              <Flex value={1} style={[st.mr3]}>
                 <Button
                   text="With a Friend"
                   onPress={this.friend}
-                  style={[styles.button, styles.right]}
+                  style={[
+                    st.bgOrange,
+                    st.ph3,
+                    st.bw0,
+                    st.br0,
+                    st.brtr3,
+                    st.aic,
+                    st.h(48),
+                    st.brbr3,
+                  ]}
                 />
               </Flex>
             </Flex>
           </Flex>
         </Flex>
-      </ScrollView>
+      </Flex>
     );
   }
 }

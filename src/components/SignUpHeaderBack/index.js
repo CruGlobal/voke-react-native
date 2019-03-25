@@ -12,7 +12,6 @@ class SignUpHeaderBack extends Component {
         style={{
           paddingTop: theme.isAndroid ? 10 : 25,
           paddingLeft: 10,
-          ...(theme.isIphoneX ? { paddingTop: 45 } : {}),
         }}
       >
         <Button

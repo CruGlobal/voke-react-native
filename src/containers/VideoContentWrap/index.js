@@ -120,7 +120,11 @@ class VideoContentWrap extends Component {
     return (
       <SafeArea style={[st.f1]}>
         <StatusBar hidden={!theme.isIphoneX} />
-        <ScrollView bounces={false}>
+        <ScrollView
+          style={[st.f1]}
+          bounces={false}
+          contentContainerStyle={[st.f1]}
+        >
           <Flex style={styles.video}>
             {this.state.showVideo ? (
               <WebviewVideo
