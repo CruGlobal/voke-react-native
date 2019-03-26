@@ -185,13 +185,13 @@ export default {
     showApiLoading: true,
   },
   GET_MESSAGES: {
-    endpoint: API_URL + 'me/conversations/conversation_id/messages',
+    endpoint: API_URL + 'me/conversations/:conversationId/messages',
     method: 'get',
     mapResults: mapMessages,
     showApiLoading: false,
   },
   CREATE_MESSAGE: {
-    endpoint: API_URL + 'me/conversations/conversation_id/messages',
+    endpoint: API_URL + 'me/conversations/:conversationId/messages',
     method: 'post',
   },
   CREATE_DEVICE: {
