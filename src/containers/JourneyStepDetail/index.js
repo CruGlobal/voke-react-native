@@ -27,10 +27,7 @@ class JourneyStepDetail extends Component {
     const { text } = this.state;
 
     return (
-      <ScrollView
-        style={[st.f1, st.bgBlue]}
-        contentContainerStyle={{ minHeight: 700 }}
-      >
+      <Flex style={[st.f1, st.bgBlue, { minHeight: 700 }]}>
         <Flex style={[st.bgDarkBlue, st.ph1, st.pv4]}>
           <Text style={[st.fs4]}>
             You are making progress {me.first_name}! I see you are getting hang
@@ -45,7 +42,7 @@ class JourneyStepDetail extends Component {
               align="center"
               justify="center"
             >
-              <Text style={[st.tac, st.fs2]}>{item.name}</Text>
+              <Text style={[st.tac, st.fs2]}>{item.question}</Text>
             </Flex>
             <Flex
               direction="row"
@@ -57,7 +54,7 @@ class JourneyStepDetail extends Component {
                 multiline={true}
                 blurOnSubmit={true}
                 placeholder="Your Answer..."
-                placeholderTextColor={st.grey}
+                placeholderTextColor={st.colors.grey}
                 style={[st.f1, st.fs4, st.darkBlue]}
                 underlineColorAndroid={st.colors.transparent}
                 selectionColor={st.colors.darkBlue}
@@ -89,7 +86,7 @@ class JourneyStepDetail extends Component {
             <Text style={[st.fs6]}>9:20 PM</Text>
           </Flex>
         </Flex>
-      </ScrollView>
+      </Flex>
     );
   }
 }

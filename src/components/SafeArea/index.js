@@ -28,8 +28,8 @@ class SafeArea extends Component {
 }
 
 SafeArea.propTypes = {
-  style: ViewPropTypes,
-  top: ViewPropTypes,
+  style: ViewPropTypes.style,
+  top: ViewPropTypes.style,
 };
 
 export default SafeArea;
