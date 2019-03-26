@@ -114,7 +114,7 @@ export default class Button extends Component {
     }
 
     if (isLoading) {
-      content = <Spinner color={theme.white} size={40} type="ThreeBounce" />;
+      content = <Spinner color={theme.white} size={26} type="ThreeBounce" />;
     }
     const isDisabled = disabled || this.state.clickedDisabled || isLoading;
     return (

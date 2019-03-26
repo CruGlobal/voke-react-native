@@ -58,7 +58,10 @@ export function getMyJourney(journeyId) {
 
 export function createMyJourney(data) {
   return dispatch => {
-    return dispatch(callApi(REQUESTS.CREATE_MY_JOURNEY, {}, data));
+    return dispatch(callApi(REQUESTS.CREATE_MY_JOURNEY, {}, data)).then(r => {
+      dispatch(getMyJourneys());
+      return r;
+    });
   };
 }
 

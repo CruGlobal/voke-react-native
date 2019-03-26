@@ -45,6 +45,7 @@ const generatedColors = Object.keys(colors).reduce((p, key) => {
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const DEVICE_HEIGHT = Dimensions.get('window').height;
+
 // Default styles
 
 // pd0, pd1, ..., pd6
@@ -104,7 +105,7 @@ const st = {
   jce: { justifyContent: 'flex-end' },
 
   fs1: { fontSize: 32 },
-  fs2: { fontSize: 22 },
+  fs2: { fontSize: 24 },
   fs3: { fontSize: 18 },
   fs4: { fontSize: 16 },
   fs5: { fontSize: 14 },
@@ -167,6 +168,8 @@ const st = {
       barStyle: isAndroid ? 'light-content' : 'dark-content',
     },
   },
+  fullWidth: DEVICE_WIDTH,
+  fullHeight: DEVICE_HEIGHT,
 };
 
 export default st;
