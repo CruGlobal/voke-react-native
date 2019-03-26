@@ -110,6 +110,7 @@ const st = {
   fs4: { fontSize: 16 },
   fs5: { fontSize: 14 },
   fs6: { fontSize: 12 },
+  fs: n => ({ fontSize: n }),
 
   w: n => ({ width: n }),
   minw: n => ({ minWidth: n }),

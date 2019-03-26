@@ -3,6 +3,7 @@ import Slider from 'react-native-slider';
 import PropTypes from 'prop-types';
 
 import theme from '../../theme';
+import st from '../../st';
 import { Touchable, Flex, Icon, VokeIcon, Text } from '../common';
 import styles from './styles';
 
@@ -74,9 +75,10 @@ export default class VideoControls extends Component {
             >
               {isPaused || replay ? (
                 <Icon
-                  name={replay ? 'replay' : 'play-circle-filled'}
+                  type={replay ? undefined : 'Voke'}
+                  name={replay ? 'replay' : 'play'}
                   size={50}
-                  style={styles.playIcon}
+                  style={[{ color: 'rgba(255,255,255,0.6)' }]}
                 />
               ) : null}
             </Flex>

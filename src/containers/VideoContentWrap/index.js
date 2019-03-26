@@ -164,7 +164,11 @@ function BackButton({ onBack }) {
         onPress={onBack}
       >
         <View>
-          <VokeIcon name="back_button" size={26} style={styles.backImage} />
+          <VokeIcon
+            name="back_button"
+            size={26}
+            style={[{ color: 'rgba(255,255,255,0.6)' }]}
+          />
         </View>
       </Touchable>
     </View>

@@ -4,14 +4,13 @@ import { connect } from 'react-redux';
 import { FlatList, Image } from 'react-native';
 import { translate } from 'react-i18next';
 
-import styles from './styles';
-
 import {
   Flex,
   Touchable,
   RefreshControl,
   Text,
   Icon,
+  VokeIcon,
 } from '../../components/common';
 import { getMyJourneySteps } from '../../actions/journeys';
 import st from '../../st';
@@ -45,7 +44,7 @@ function Item({ item, onSelect }) {
           <Image
             source={{ uri: item.item.content.thumbnails.small }}
             style={[{ width: 100 }, st.bgBlack, st.f1]}
-            resizeMode="contain"
+            resizeMode="cover"
           />
           <Flex style={[st.absfill]} align="center" justify="center">
             <Icon
@@ -65,6 +64,16 @@ function Item({ item, onSelect }) {
           <Text style={[st.fs5, isActive ? st.darkBlue : st.white]}>
             Part {item.position}
           </Text>
+          <Flex direction="row" align="center" style={[st.pt6]}>
+            <VokeIcon name="Chat" style={[st.orange]} />
+            <Flex
+              align="center"
+              justify="center"
+              style={[st.circle(20), st.bgOrange, st.ml6]}
+            >
+              <Text>1</Text>
+            </Flex>
+          </Flex>
         </Flex>
         <Flex style={[st.absbr, { bottom: -28 }, st.mh5]}>
           <Text style={[st.blue, { fontSize: 72 }]}>{item.position}</Text>
@@ -135,7 +144,7 @@ class JourneyDetail extends Component {
         data={steps}
         renderItem={this.renderRow}
         keyExtractor={item => item.id}
-        style={styles.content}
+        style={[st.f1, st.bgBlue, st.pt5]}
         contentContainerStyle={[st.f1]}
         refreshControl={
           <RefreshControl
