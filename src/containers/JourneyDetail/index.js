@@ -21,9 +21,11 @@ function Item({ item, onSelect }) {
   const isActive = item.status === 'active';
   const isCompleted = item['completed_by_messenger?'];
   const isLocked = !isCompleted && !isActive;
+  const isWaiting = !isLocked && false; // TODO: Set this properly
   return (
     <Touchable
       highlight={false}
+      disabled={isLocked}
       activeOpacity={0.8}
       onPress={() => onSelect(item)}
     >
@@ -34,50 +36,60 @@ function Item({ item, onSelect }) {
           st.mv6,
           st.mh4,
           st.br5,
-          { minHeight: 84 },
         ]}
-        direction="row"
         align="center"
         justify="start"
       >
-        <Flex style={[st.m5, st.rel]}>
-          <Image
-            source={{ uri: item.item.content.thumbnails.small }}
-            style={[{ width: 100 }, st.bgBlack, st.f1]}
-            resizeMode="cover"
-          />
-          <Flex style={[st.absfill]} align="center" justify="center">
-            <Icon
-              name={isLocked ? 'lock' : 'play-circle-filled'}
-              size={30}
-              style={[st.white, st.op90]}
+        <Flex direction="row" style={[st.minh(84)]}>
+          <Flex style={[st.m5, st.rel]}>
+            <Image
+              source={{ uri: item.item.content.thumbnails.small }}
+              style={[st.w(100), st.bgBlack, st.f1]}
+              resizeMode="contain"
             />
-          </Flex>
-        </Flex>
-        <Flex value={1} direction="column" self="start" style={[st.pv6]}>
-          <Text
-            numberOfLines={1}
-            style={[st.fs4, isActive ? st.darkBlue : st.white]}
-          >
-            {item.name}
-          </Text>
-          <Text style={[st.fs5, isActive ? st.darkBlue : st.white]}>
-            Part {item.position}
-          </Text>
-          <Flex direction="row" align="center" style={[st.pt6]}>
-            <VokeIcon name="Chat" style={[st.orange]} />
-            <Flex
-              align="center"
-              justify="center"
-              style={[st.circle(20), st.bgOrange, st.ml6]}
-            >
-              <Text>1</Text>
+            <Flex style={[st.absfill]} align="center" justify="center">
+              <Icon
+                name={isLocked ? 'lock' : 'play-circle-filled'}
+                size={30}
+                style={[st.white, st.op90]}
+              />
             </Flex>
           </Flex>
+          <Flex value={1} direction="column" self="start" style={[st.pv6]}>
+            <Text
+              numberOfLines={1}
+              style={[st.fs4, isActive ? st.darkBlue : st.white]}
+            >
+              {item.name}
+            </Text>
+            <Text style={[st.fs5, isActive ? st.darkBlue : st.white]}>
+              Part {item.position}
+            </Text>
+            <Flex direction="row" align="center" style={[st.pt6]}>
+              <VokeIcon name="Chat" style={[st.orange]} />
+              <Flex
+                align="center"
+                justify="center"
+                style={[st.circle(20), st.bgOrange, st.ml6]}
+              >
+                <Text>1</Text>
+              </Flex>
+            </Flex>
+          </Flex>
+          <Flex style={[st.absbr, { bottom: -28 }, st.mh5]}>
+            <Text style={[isWaiting ? st.orange : st.blue, { fontSize: 72 }]}>
+              {item.position}
+            </Text>
+          </Flex>
         </Flex>
-        <Flex style={[st.absbr, { bottom: -28 }, st.mh5]}>
-          <Text style={[st.blue, { fontSize: 72 }]}>{item.position}</Text>
-        </Flex>
+        {isWaiting ? (
+          <Flex
+            align="center"
+            style={[st.bgOrange, st.w100, st.pd6, st.brbl5, st.brbr5]}
+          >
+            <Text style={[st.fs4]}>Waiting for ... to answer...</Text>
+          </Flex>
+        ) : null}
       </Flex>
     </Touchable>
   );
@@ -119,12 +131,13 @@ class JourneyDetail extends Component {
     if (isLocked) {
       return;
     }
-    const { dispatch } = this.props;
+    const { dispatch, item } = this.props;
     dispatch(
       navigatePush(
         'voke.VideoContentWrap',
         {
           item: step,
+          journey: item,
           type: 'journeyStepDetail',
           trackingObj: buildTrackingObj('journey : mine', 'detail', 'step'),
         },
@@ -139,6 +152,14 @@ class JourneyDetail extends Component {
 
   render() {
     const { steps } = this.props;
+
+    // Dev for hot reloading
+    // return (
+    //   <Flex style={[st.f1, st.bgBlue]}>
+    //     {steps[0] && <Item item={steps[0]} onSelect={this.select} />}
+    //     {steps[1] && <Item item={steps[1]} onSelect={this.select} />}
+    //   </Flex>
+    // );
     return (
       <FlatList
         data={steps}

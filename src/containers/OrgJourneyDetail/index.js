@@ -35,6 +35,7 @@ class OrgJourneyDetail extends Component {
           'voke.VideoContentWrap',
           {
             item: result,
+            journey: item,
             type: 'journeyDetail',
             trackingObj: buildTrackingObj('journey : mine', 'detail'),
           },

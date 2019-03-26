@@ -108,3 +108,14 @@ export function createJourneyMessage(step, journey, text) {
     return dispatch(callApi(REQUESTS.CREATE_MESSAGE, query, data));
   };
 }
+
+export function getJourneyMessages(step, journey) {
+  return dispatch => {
+    const query = {
+      conversationId: journey.conversation_id,
+      messenger_journey_step_id: step.id,
+    };
+
+    return dispatch(callApi(REQUESTS.GET_MESSAGES, query));
+  };
+}

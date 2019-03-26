@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { findNodeHandle, TextInput, View, Image } from 'react-native';
+import { findNodeHandle, TextInput, ScrollView, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import { BlurView } from 'react-native-blur';
 
@@ -12,23 +12,36 @@ import VOKE_AVATAR from '../../../images/voke_avatar_small.png';
 
 import { Flex, Text, Button, VokeIcon } from '../../components/common';
 import st from '../../st';
+import {
+  skipJourneyMessage,
+  createJourneyMessage,
+  getJourneyMessages,
+} from '../../actions/journeys';
 
 class JourneyStepDetail extends Component {
   state = { text: '', viewRef: null, shouldBlur: true };
 
-  componentDidMount() {
+  async componentDidMount() {
     Analytics.screen(Analytics.s.JourneyStepDetail);
     this.setState({ viewRef: findNodeHandle(this.blurView) });
+    const { dispatch, item, journey } = this.props;
+    const { messages = [] } = await dispatch(getJourneyMessages(item, journey));
   }
 
   changeText = t => this.setState({ text: t });
 
   skip = () => {
-    console.log('skip');
+    const { dispatch, item, journey } = this.props;
+    dispatch(skipJourneyMessage(item, journey));
   };
 
   sendMessage = () => {
-    console.log('send');
+    const { dispatch, item, journey } = this.props;
+    const { text } = this.state;
+    if (!text) {
+      return this.skip();
+    }
+    dispatch(createJourneyMessage(item, journey, text));
   };
 
   render() {
@@ -36,7 +49,7 @@ class JourneyStepDetail extends Component {
     const { text, viewRef, shouldBlur } = this.state;
 
     return (
-      <Flex style={[st.f1, st.bgBlue, { minHeight: 700 }]}>
+      <ScrollView contentContainerStyle={[st.f1, st.bgBlue, st.minh(600)]}>
         <Flex align="center" style={[st.bgDarkBlue, st.ph1, st.pv4, st.ovh]}>
           <Text style={[st.fs4]}>
             Hi {me.first_name}! Watch the video then answer the question to
@@ -143,7 +156,7 @@ class JourneyStepDetail extends Component {
             <Text style={[st.fs6]}>9:20 PM</Text>
           </Flex>
         </Flex>
-      </Flex>
+      </ScrollView>
     );
   }
 }
