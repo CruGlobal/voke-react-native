@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { View, Alert } from 'react-native';
+import { Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
 import Analytics from '../../utils/analytics';
 
-import styles from './styles';
-import { Flex, Text, Button } from '../../components/common';
+import { Flex, Text, Button, Triangle } from '../../components/common';
 import { createMyJourney } from '../../actions/journeys';
 import { navigatePush } from '../../actions/nav';
 import st from '../../st';
@@ -32,11 +31,15 @@ class OrgJourneyDetail extends Component {
       );
       this.setState({ myselfIsLoading: false });
       this.props.dispatch(
-        navigatePush('voke.VideoContentWrap', {
-          result,
-          type: 'journeyDetail',
-          trackingObj: buildTrackingObj('journey : mine', 'detail'),
-        }),
+        navigatePush(
+          'voke.VideoContentWrap',
+          {
+            item: result,
+            type: 'journeyDetail',
+            trackingObj: buildTrackingObj('journey : mine', 'detail'),
+          },
+          'journeyDetail',
+        ),
       );
     } catch (e) {
       console.log('Error starting adventure by myself', e);
@@ -66,7 +69,7 @@ class OrgJourneyDetail extends Component {
           <Text style={[st.charcoal, st.pv4]}>{item.description}</Text>
         </Flex>
         <Flex value={1} justify="end">
-          <View style={styles.triangle} />
+          <Triangle width={st.fullWidth} height={80} color={st.colors.blue} />
           <Flex style={[st.bgBlue, st.pv4]} align="center" justify="center">
             <Text style={[st.fs3, st.white, st.pb5]}>
               {haveStartedSolo

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { KeyboardAvoidingView, TextInput, ScrollView } from 'react-native';
+import { findNodeHandle, TextInput, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
+import { BlurView } from 'react-native-blur';
+
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
@@ -10,10 +12,11 @@ import { Flex, Text, Button } from '../../components/common';
 import st from '../../st';
 
 class JourneyStepDetail extends Component {
-  state = { text: '' };
+  state = { text: '', viewRef: null, shouldBlur: true };
 
   componentDidMount() {
     Analytics.screen(Analytics.s.JourneyStepDetail);
+    this.setState({ viewRef: findNodeHandle(this.blurView) });
   }
 
   changeText = t => this.setState({ text: t });
@@ -24,14 +27,14 @@ class JourneyStepDetail extends Component {
 
   render() {
     const { item, me } = this.props;
-    const { text } = this.state;
+    const { text, viewRef, shouldBlur } = this.state;
 
     return (
       <Flex style={[st.f1, st.bgBlue, { minHeight: 700 }]}>
         <Flex style={[st.bgDarkBlue, st.ph1, st.pv4]}>
           <Text style={[st.fs4]}>
-            You are making progress {me.first_name}! I see you are getting hang
-            of it!
+            You are making progress {me.first_name}! I see you are getting the
+            hang of it!
           </Text>
         </Flex>
         <Flex value={1} align="center" style={[st.bgBlue]}>
@@ -76,11 +79,20 @@ class JourneyStepDetail extends Component {
           </Flex>
           <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
             <Flex
+              ref={c => (this.blurView = c)}
               direction="column"
               style={[st.w100, st.bgDarkBlue, st.br5, st.pd5]}
             >
               <Text style={[st.fs4]}>{item.name}</Text>
             </Flex>
+            {shouldBlur ? (
+              <BlurView
+                viewRef={viewRef}
+                blurType="dark"
+                blurAmount={3}
+                style={[st.absfill, st.br5]}
+              />
+            ) : null}
           </Flex>
           <Flex direction="column" style={[st.w80]}>
             <Text style={[st.fs6]}>9:20 PM</Text>

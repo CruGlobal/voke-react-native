@@ -10,21 +10,17 @@ import Analytics from '../../utils/analytics';
 import ONBOARD_1 from '../../../images/onboard1.jpg';
 import ONBOARD_2 from '../../../images/onboard2.jpg';
 import ONBOARD_3 from '../../../images/onboard3.jpg';
-import LOGO from '../../../images/voke_logo_words.png';
 import styles from './styles';
-import {
-  navigateResetHome,
-  navigatePush,
-  navigateBack,
-} from '../../actions/nav';
-import { createAccountAction, setupFirebaseLinks } from '../../actions/auth';
+import { navigatePush } from '../../actions/nav';
+import { setupFirebaseLinks } from '../../actions/auth';
 import theme, { COLORS } from '../../theme';
 
-import { Flex, Text, Button, VokeIcon } from '../../components/common';
+import { Flex, Text, Button, Triangle } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import PrivacyToS from '../../components/PrivacyToS';
 import { trackState } from '../../actions/analytics';
 import { buildTrackingObj } from '../../utils/common';
+import st from '../../st';
 
 const MARGIN = 40;
 const extraBottom = theme.isIphoneX ? 30 : 0;
@@ -115,7 +111,14 @@ class SignUpWelcome extends Component {
             left: 0,
           }}
         >
-          <View style={styles.topTriangle} />
+          <Triangle
+            width={160}
+            height={80}
+            color={'rgba(0,0,0,0.4)'}
+            flip={true}
+            slant="down"
+            style={[st.abs, { right: 0 }]}
+          />
         </View>
       </Flex>
     );
@@ -187,8 +190,12 @@ class SignUpWelcome extends Component {
             </View>
           </IndicatorViewPager>
         </Flex>
-        <Flex value={2}>
-          <View style={styles.triangle} />
+        <Flex value={2.5}>
+          <Triangle
+            width={st.fullWidth}
+            height={160}
+            color={st.colors.darkBlue}
+          />
           <Flex value={1} style={styles.bottomButtonsWrap}>
             <Flex
               style={{

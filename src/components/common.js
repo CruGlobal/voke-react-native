@@ -11,6 +11,7 @@ import Separator from './Separator';
 import RefreshControl from './RefreshControl';
 import Avatar from './Avatar';
 import VokeIcon from './VokeIcon';
+import Triangle from './Triangle';
 
 export {
   Button,
@@ -23,5 +24,6 @@ export {
   Separator,
   RefreshControl,
   Avatar,
+  Triangle,
   VokeIcon,
 };

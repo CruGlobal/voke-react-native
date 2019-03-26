@@ -135,6 +135,8 @@ android {
 
         // See https://github.com/zo0r/react-native-push-notification/issues/328
         multiDexEnabled true
+        renderscriptTargetApi 23
+        renderscriptSupportModeEnabled true
     }
     signingConfigs {
         voketest {
@@ -186,6 +188,7 @@ android {
 
 
 dependencies {
+    compile project(':react-native-blur')
     implementation project(':rn-fetch-blob')
     implementation project(':react-native-gesture-handler')
     implementation project(':react-native-firebase')
