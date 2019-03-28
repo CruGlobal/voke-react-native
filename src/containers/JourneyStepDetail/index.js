@@ -116,9 +116,13 @@ class JourneyStepDetail extends Component {
   }
 
   render() {
-    const { item, me } = this.props;
+    const { item, me, myJourneys } = this.props;
     const { text, disabledInput, messages } = this.state;
     const isComplete = item['completed_by_messenger?'];
+
+    const showFirstVokeMessage = item.position === 1;
+    // This is used to determine which hardcoded vokebot message we display at the top of the page
+    const hideOtherVokeOnboarding = myJourneys > 1;
 
     const inputStyle = [st.f1, st.fs4, st.darkBlue];
 
@@ -126,11 +130,16 @@ class JourneyStepDetail extends Component {
 
     return (
       <ScrollView contentContainerStyle={[st.f1, st.bgBlue, st.minh(600)]}>
-        {!isComplete ? (
+        {!isComplete || hideOtherVokeOnboarding ? (
           <Flex align="center" style={[st.bgDarkBlue, st.ph1, st.pv4, st.ovh]}>
             <Text style={[st.fs4]}>
-              Hi {me.first_name}! Watch the video then answer the question to
-              unlock other people's answers!
+              {showFirstVokeMessage
+                ? `Hi ${
+                    me.first_name
+                  }! Watch the video then answer the question to unlock other people's answers!`
+                : `You are making great progress ${
+                    me.first_name
+                  }! I see you are getting the hang of it!`}
             </Text>
             <Image
               source={VOKEBOT}
@@ -223,8 +232,9 @@ JourneyStepDetail.propTypes = {
   onPause: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({ auth }) => ({
+const mapStateToProps = ({ auth, journeys }) => ({
   me: auth.user,
+  myJourneys: journeys.mine,
 });
 
 export default translate('journey')(

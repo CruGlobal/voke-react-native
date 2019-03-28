@@ -22,6 +22,10 @@ function Item({ item, onSelect }) {
   const isCompleted = item['completed_by_messenger?'];
   const isLocked = !isCompleted && !isActive;
   const isWaiting = !isLocked && false; // TODO: Set this properly
+
+  const unreadCount = item.unread_messages;
+  const hasUnread = unreadCount > 0;
+
   return (
     <Touchable
       highlight={false}
@@ -65,16 +69,23 @@ function Item({ item, onSelect }) {
             <Text style={[st.fs5, isActive ? st.darkBlue : st.white]}>
               Part {item.position}
             </Text>
-            <Flex direction="row" align="center" style={[st.pt6]}>
-              <VokeIcon name="Chat" style={[st.orange]} />
-              <Flex
-                align="center"
-                justify="center"
-                style={[st.circle(20), st.bgOrange, st.ml6]}
-              >
-                <Text>1</Text>
+            {isActive ? (
+              <Flex direction="row" align="center" style={[st.pt6]}>
+                <VokeIcon
+                  name="Chat"
+                  style={[hasUnread ? st.orange : st.charcoal]}
+                />
+                {hasUnread ? (
+                  <Flex
+                    align="center"
+                    justify="center"
+                    style={[st.circle(20), st.bgOrange, st.ml6]}
+                  >
+                    <Text>{unreadCount}</Text>
+                  </Flex>
+                ) : null}
               </Flex>
-            </Flex>
+            ) : null}
           </Flex>
           <Flex style={[st.absbr, st.bottom(-28), st.mh5]}>
             <Text style={[isWaiting ? st.orange : st.blue, st.fs(72)]}>
