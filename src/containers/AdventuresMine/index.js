@@ -3,9 +3,8 @@ import { View, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
-import styles from './styles';
 import i18n from '../../i18n';
-import { Text, Flex, Button } from '../../components/common';
+import { Text, Flex, Button, Triangle } from '../../components/common';
 import { getMyJourneys } from '../../actions/journeys';
 import { navigatePush } from '../../actions/nav';
 import { startupAction } from '../../actions/auth';
@@ -13,6 +12,9 @@ import MyAdventuresList from '../../components/MyAdventuresList';
 import VOKE_LINK from '../../../images/vokebot_whole.png';
 import { buildTrackingObj } from '../../utils/common';
 import st from '../../st';
+
+const VB_WIDTH = st.fullWidth * 0.2;
+const VB_MARGIN = -35;
 
 class AdventuresMine extends Component {
   state = {
@@ -79,7 +81,7 @@ class AdventuresMine extends Component {
         <Button
           text="I have an Adventure Code"
           isLoading={this.state.isLoading}
-          style={styles.inviteCodeButton}
+          style={[st.w(st.fullWidth - 40), st.aic, st.mt3, st.asc]}
           buttonTextStyle={{ textAlign: 'center' }}
           onPress={this.handleAdventureCode}
         />
@@ -92,16 +94,22 @@ class AdventuresMine extends Component {
     return (
       <Flex value={1} align="center" justify="end" direction="column">
         {this.renderAdventureCode()}
-        <Flex
-          value={1}
-          align="center"
-          justify="end"
-          direction="column"
-          style={styles.vokebotWrap}
-        >
-          <Flex style={styles.chatTriangle} />
-          <Flex style={styles.chatBubble}>
-            <Text style={styles.chatText}>
+        <Flex value={1} align="center" justify="end" direction="column">
+          <Triangle
+            width={15}
+            height={30}
+            color={st.colors.offBlue}
+            style={[
+              st.abs,
+              {
+                right: st.fullWidth - 170,
+                bottom: 60,
+                transform: [{ rotate: '45deg' }],
+              },
+            ]}
+          />
+          <Flex style={[st.br6, st.bgOffBlue, st.pd4, st.mh5]}>
+            <Text style={[st.white, st.fs5, st.tac]}>
               Welcome{me.first_name ? ` ${me.first_name}` : ''}! This is where
               you will find all of your adventures with your friends.
             </Text>
@@ -109,7 +117,7 @@ class AdventuresMine extends Component {
           <Image
             resizeMode="contain"
             source={VOKE_LINK}
-            style={styles.vokebot}
+            style={[st.asc, st.w(VB_WIDTH), { marginBottom: VB_MARGIN }]}
           />
         </Flex>
       </Flex>
@@ -118,18 +126,20 @@ class AdventuresMine extends Component {
 
   render() {
     const { isLoading } = this.state;
+    const { me, myJourneys } = this.props;
     return (
-      <View style={styles.container}>
+      <View style={[st.f1, st.bgBlue]}>
         {this.props.myJourneys < 1 ? (
           this.renderNull()
         ) : (
           <MyAdventuresList
-            items={this.props.myJourneys}
+            items={myJourneys}
             onSelect={this.handleSelect}
             onRefresh={this.handleRefresh}
             onLoadMore={this.handleNextPage}
             isLoading={isLoading}
             header={this.renderAdventureCode}
+            me={me}
           />
         )}
       </View>
