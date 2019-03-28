@@ -5,6 +5,7 @@ const isAndroid = Platform.OS === 'android';
 const colors = {
   blue: '#44c8e8',
   darkBlue: '#186078',
+  darkerBlue: '#216373',
   offBlue: '#3295ad',
   orange: '#FF9900',
   red: '#ee2f2f',
@@ -50,7 +51,7 @@ const DEVICE_HEIGHT = Dimensions.get('window').height;
 
 // pd0, pd1, ..., pd6
 const sizes = [0, 50, 30, 25, 15, 10, 5];
-const generateSizes = (prefix, value, arr) =>
+const generateSizes = (prefix, value) =>
   sizes.reduce((p, n, i) => ({ ...p, [`${prefix}${i}`]: { [value]: n } }), {});
 
 // w0, w10, ..., w100
@@ -60,10 +61,12 @@ const generatePercentages = (prefix, value, calc) =>
     (p, n) => ({ ...p, [`${prefix}${n}`]: { [value]: calc(n) } }),
     {},
   );
-// w0, w10, ..., w100
+// zi0, zi1, ..., zi5
 const nums = [0, 1, 2, 3, 4, 5];
 const generateNums = (prefix, value) =>
   nums.reduce((p, n, i) => ({ ...p, [`${prefix}${i}`]: { [value]: n } }), {});
+
+const generateFn = (prefix, value) => ({ [prefix]: n => ({ [value]: n }) });
 
 function hexToRGB(hex, alpha) {
   const parse = c => parseInt(c, 16);
@@ -85,16 +88,10 @@ const st = {
   rel: { position: 'relative' },
   ovh: { overflow: 'hidden' },
 
-  ...generateNums('bw', 'borderWidth'),
-  ...generateNums('zi', 'zIndex'),
-  ...generateNums('ls', 'letterSpacing'),
-
   bold: { fontWeight: 'bold' },
   tac: { textAlign: 'center' },
   tal: { textAlign: 'left' },
   tar: { textAlign: 'right' },
-
-  circle: s => ({ width: s, height: s, borderRadius: s / 2 }),
 
   f1: { flex: 1 },
   aic: { alignItems: 'center' },
@@ -110,14 +107,6 @@ const st = {
   fs4: { fontSize: 16 },
   fs5: { fontSize: 14 },
   fs6: { fontSize: 12 },
-  fs: n => ({ fontSize: n }),
-
-  w: n => ({ width: n }),
-  minw: n => ({ minWidth: n }),
-  maxw: n => ({ maxWidth: n }),
-  h: n => ({ height: n }),
-  minh: n => ({ minHeight: n }),
-  maxh: n => ({ maxHeight: n }),
 
   ...generatePercentages('op', 'opacity', n => n / 100),
   ...generatePercentages('w', 'width', n => `${n}%`),
@@ -154,6 +143,49 @@ const st = {
   ...generateSizes('mb', 'marginBottom'),
   ...generateSizes('ml', 'marginLeft'),
   ...generateSizes('mr', 'marginRight'),
+
+  ...generateNums('bw', 'borderWidth'),
+  ...generateNums('zi', 'zIndex'),
+  ...generateNums('ls', 'letterSpacing'),
+  ...generateNums('lh', 'lineHeight'),
+
+  ...generateFn('br', 'borderRadius'),
+  ...generateFn('brtr', 'borderTopRightRadius'),
+  ...generateFn('brtl', 'borderTopLeftRadius'),
+  ...generateFn('brbr', 'borderBottomRightRadius'),
+  ...generateFn('brbl', 'borderBottomLeftRadius'),
+  ...generateFn('pd', 'padding'),
+  ...generateFn('ph', 'paddingHorizontal'),
+  ...generateFn('pv', 'paddingVertical'),
+  ...generateFn('pt', 'paddingTop'),
+  ...generateFn('pb', 'paddingBottom'),
+  ...generateFn('pl', 'paddingLeft'),
+  ...generateFn('pr', 'paddingRight'),
+  ...generateFn('m', 'margin'),
+  ...generateFn('mh', 'marginHorizontal'),
+  ...generateFn('mv', 'marginVertical'),
+  ...generateFn('mt', 'marginTop'),
+  ...generateFn('mb', 'marginBottom'),
+  ...generateFn('ml', 'marginLeft'),
+  ...generateFn('mr', 'marginRight'),
+  ...generateFn('fs', 'fontSize'),
+  ...generateFn('w', 'width'),
+  ...generateFn('minw', 'minWidth'),
+  ...generateFn('maxw', 'maxWidth'),
+  ...generateFn('h', 'height'),
+  ...generateFn('minh', 'minHeight'),
+  ...generateFn('maxh', 'maxHeight'),
+  ...generateFn('bw', 'borderWidth'),
+  ...generateFn('zi', 'zIndex'),
+  ...generateFn('ls', 'letterSpacing'),
+  ...generateFn('lh', 'lineHeight'),
+  ...generateFn('top', 'top'),
+  ...generateFn('left', 'left'),
+  ...generateFn('right', 'right'),
+  ...generateFn('bottom', 'bottom'),
+
+  circle: s => ({ width: s, height: s, borderRadius: s / 2 }),
+  rotate: n => ({ transform: [{ rotate: n }] }),
 
   colors,
   ...generatedColors,

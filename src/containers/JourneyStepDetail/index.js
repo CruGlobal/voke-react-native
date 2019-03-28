@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { findNodeHandle, TextInput, ScrollView, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import { BlurView } from 'react-native-blur';
@@ -10,7 +10,13 @@ import Analytics from '../../utils/analytics';
 import VOKEBOT from '../../../images/vokebot_whole.png';
 import VOKE_AVATAR from '../../../images/voke_avatar_small.png';
 
-import { Flex, Text, Button, VokeIcon } from '../../components/common';
+import {
+  Flex,
+  Text,
+  Button,
+  VokeIcon,
+  DateComponent,
+} from '../../components/common';
 import st from '../../st';
 import {
   skipJourneyMessage,
@@ -18,53 +24,127 @@ import {
   getJourneyMessages,
 } from '../../actions/journeys';
 
-class JourneyStepDetail extends Component {
-  state = { text: '', viewRef: null, shouldBlur: true };
+const dateFormat = 'MMM D @ h:mm A';
 
-  async componentDidMount() {
+class JourneyStepDetail extends Component {
+  state = { text: '', viewRef: null, disabledInput: false, messages: [] };
+
+  componentDidMount() {
     Analytics.screen(Analytics.s.JourneyStepDetail);
     this.setState({ viewRef: findNodeHandle(this.blurView) });
+    this.getMessages();
+  }
+
+  async getMessages() {
     const { dispatch, item, journey } = this.props;
     const { messages = [] } = await dispatch(getJourneyMessages(item, journey));
+    console.log('messages', messages);
+    this.setState({ messages });
+    if (messages[1]) {
+      this.setState({ disabledInput: true });
+    }
   }
 
   changeText = t => this.setState({ text: t });
 
-  skip = () => {
+  skip = async () => {
     const { dispatch, item, journey } = this.props;
-    dispatch(skipJourneyMessage(item, journey));
+    await dispatch(skipJourneyMessage(item, journey));
+    this.getMessages();
   };
 
-  sendMessage = () => {
+  sendMessage = async () => {
     const { dispatch, item, journey } = this.props;
     const { text } = this.state;
     if (!text) {
       return this.skip();
     }
     dispatch(createJourneyMessage(item, journey, text));
+    this.getMessages();
   };
 
-  render() {
-    const { item, me } = this.props;
-    const { text, viewRef, shouldBlur } = this.state;
+  renderMessage() {
+    const { item } = this.props;
+    const { viewRef, messages } = this.state;
+    const isComplete = item['completed_by_messenger?'];
 
+    const message = messages[0];
+    if (!message) {
+      return null;
+    }
     return (
-      <ScrollView contentContainerStyle={[st.f1, st.bgBlue, st.minh(600)]}>
-        <Flex align="center" style={[st.bgDarkBlue, st.ph1, st.pv4, st.ovh]}>
-          <Text style={[st.fs4]}>
-            Hi {me.first_name}! Watch the video then answer the question to
-            unlock other people's answers!
-          </Text>
+      <Fragment>
+        <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
+          <Flex
+            ref={c => (this.blurView = c)}
+            direction="column"
+            style={[st.w100, st.bgDarkBlue, st.br5, st.pd5]}
+          >
+            <Text style={[st.fs4]}>{message.content}</Text>
+          </Flex>
+          {!isComplete ? (
+            <Flex style={[st.absfill, st.br5]} align="center" justify="center">
+              <BlurView
+                viewRef={viewRef}
+                blurType="dark"
+                blurAmount={3}
+                style={[st.absfill, st.br5]}
+              />
+              <VokeIcon name="lock" size={40} />
+            </Flex>
+          ) : null}
           <Image
-            source={VOKEBOT}
+            source={VOKE_AVATAR}
             style={[
               st.absbl,
-              st.w(70),
-              st.h(70),
-              { left: -25, bottom: -20, transform: [{ rotate: '40deg' }] },
+              st.left(-30),
+              st.w(25),
+              st.h(25),
+              st.rotate('60deg'),
             ]}
           />
         </Flex>
+        <Flex direction="column" style={[st.w80]}>
+          <DateComponent
+            style={[st.fs6]}
+            date={message.created_at}
+            format={dateFormat}
+          />
+        </Flex>
+      </Fragment>
+    );
+  }
+
+  render() {
+    const { item, me } = this.props;
+    const { text, disabledInput, messages } = this.state;
+    const isComplete = item['completed_by_messenger?'];
+
+    const inputStyle = [st.f1, st.fs4, st.darkBlue];
+
+    const response = messages[1];
+
+    return (
+      <ScrollView contentContainerStyle={[st.f1, st.bgBlue, st.minh(600)]}>
+        {!isComplete ? (
+          <Flex align="center" style={[st.bgDarkBlue, st.ph1, st.pv4, st.ovh]}>
+            <Text style={[st.fs4]}>
+              Hi {me.first_name}! Watch the video then answer the question to
+              unlock other people's answers!
+            </Text>
+            <Image
+              source={VOKEBOT}
+              style={[
+                st.abs,
+                st.left(-25),
+                st.bottom(-20),
+                st.w(70),
+                st.h(70),
+                st.rotate('40deg'),
+              ]}
+            />
+          </Flex>
+        ) : null}
         <Flex value={1} align="center" style={[st.bgBlue]}>
           <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
             <Flex
@@ -73,7 +153,7 @@ class JourneyStepDetail extends Component {
               align="center"
               justify="center"
             >
-              <Text style={[st.tac, st.fs(20), { lineHeight: 24 }]}>
+              <Text style={[st.tac, st.fs(20), st.lh(24)]}>
                 {item.question}
               </Text>
             </Flex>
@@ -82,79 +162,56 @@ class JourneyStepDetail extends Component {
               align="center"
               style={[st.bgWhite, st.w100, st.pd4, st.brbl5, st.brbr5]}
             >
-              <TextInput
-                autoCapitalize="sentences"
-                returnKeyType="done"
-                multiline={true}
-                blurOnSubmit={true}
-                placeholder="Your Answer..."
-                placeholderTextColor={st.colors.grey}
-                style={[st.f1, st.fs4, st.darkBlue]}
-                underlineColorAndroid={st.colors.transparent}
-                selectionColor={st.colors.darkBlue}
-                value={text}
-                onChangeText={this.changeText}
-              />
-              {!text ? (
-                <Button
-                  type="transparent"
-                  onPress={this.skip}
-                  text="SKIP"
-                  buttonTextStyle={[st.orange, st.bold, st.fs4, st.ls2]}
-                />
+              {disabledInput && response ? (
+                <Fragment>
+                  <Text style={inputStyle}>{response.content}</Text>
+                </Fragment>
               ) : (
-                <Button type="transparent" onPress={this.sendMessage}>
-                  <VokeIcon
-                    name="send_message"
-                    size={20}
-                    style={[st.offBlue]}
+                <Fragment>
+                  <TextInput
+                    autoCapitalize="sentences"
+                    returnKeyType="done"
+                    multiline={true}
+                    blurOnSubmit={true}
+                    disabled={disabledInput}
+                    placeholder="Your Answer..."
+                    placeholderTextColor={st.colors.grey}
+                    style={inputStyle}
+                    underlineColorAndroid={st.colors.transparent}
+                    selectionColor={st.colors.darkBlue}
+                    value={text}
+                    onChangeText={this.changeText}
                   />
-                </Button>
+                  {!text ? (
+                    <Button
+                      type="transparent"
+                      onPress={this.skip}
+                      text="SKIP"
+                      buttonTextStyle={[st.orange, st.bold, st.fs4, st.ls2]}
+                    />
+                  ) : (
+                    <Button type="transparent" onPress={this.sendMessage}>
+                      <VokeIcon
+                        name="send_message"
+                        size={20}
+                        style={[st.offBlue]}
+                      />
+                    </Button>
+                  )}
+                </Fragment>
               )}
             </Flex>
           </Flex>
-          <Flex direction="column" style={[st.w80]}>
-            <Text style={[st.fs6, st.tar]}>9:20 PM</Text>
-          </Flex>
-          <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
-            <Flex
-              ref={c => (this.blurView = c)}
-              direction="column"
-              style={[st.w100, st.bgDarkBlue, st.br5, st.pd5]}
-            >
-              <Text style={[st.fs4]}>
-                Sharon responded: 'I really liked how he said the question of
-                HOW always leads to the question of WHO.'
-              </Text>
+          {response ? (
+            <Flex direction="column" style={[st.w80]}>
+              <DateComponent
+                style={[st.fs6, st.tar]}
+                date={response.created_at}
+                format={dateFormat}
+              />
             </Flex>
-            {shouldBlur ? (
-              <Flex
-                style={[st.absfill, st.br5]}
-                align="center"
-                justify="center"
-              >
-                <BlurView
-                  viewRef={viewRef}
-                  blurType="dark"
-                  blurAmount={3}
-                  style={[st.absfill, st.br5]}
-                />
-                <VokeIcon name="play" size={40} />
-              </Flex>
-            ) : null}
-            <Image
-              source={VOKE_AVATAR}
-              style={[
-                st.absbl,
-                st.w(25),
-                st.h(25),
-                { left: -30, transform: [{ rotate: '60deg' }] },
-              ]}
-            />
-          </Flex>
-          <Flex direction="column" style={[st.w80]}>
-            <Text style={[st.fs6]}>9:20 PM</Text>
-          </Flex>
+          ) : null}
+          {this.renderMessage()}
         </Flex>
       </ScrollView>
     );

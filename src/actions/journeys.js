@@ -1,6 +1,4 @@
-import moment from 'moment';
 import callApi, { REQUESTS } from './api';
-import { UTC_FORMAT } from '../utils/common';
 
 export function getOrgJourneys() {
   return dispatch => {
@@ -112,7 +110,7 @@ export function createJourneyMessage(step, journey, text) {
 export function getJourneyMessages(step, journey) {
   return dispatch => {
     const query = {
-      conversationId: journey.conversation_id,
+      conversationId: journey.conversation_id || journey.conversation.id,
       messenger_journey_step_id: step.id,
     };
 

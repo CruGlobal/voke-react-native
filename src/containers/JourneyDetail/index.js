@@ -31,7 +31,7 @@ function Item({ item, onSelect }) {
     >
       <Flex
         style={[
-          isActive ? st.bgWhite : st.bgDarkBlue,
+          isActive ? st.bgWhite : st.bgOffBlue,
           isLocked ? st.op50 : null,
           st.mv6,
           st.mh4,
@@ -76,8 +76,8 @@ function Item({ item, onSelect }) {
               </Flex>
             </Flex>
           </Flex>
-          <Flex style={[st.absbr, { bottom: -28 }, st.mh5]}>
-            <Text style={[isWaiting ? st.orange : st.blue, { fontSize: 72 }]}>
+          <Flex style={[st.absbr, st.bottom(-28), st.mh5]}>
+            <Text style={[isWaiting ? st.orange : st.blue, st.fs(72)]}>
               {item.position}
             </Text>
           </Flex>
@@ -88,6 +88,20 @@ function Item({ item, onSelect }) {
             style={[st.bgOrange, st.w100, st.pd6, st.brbl5, st.brbr5]}
           >
             <Text style={[st.fs4]}>Waiting for ... to answer...</Text>
+          </Flex>
+        ) : null}
+        {isCompleted ? (
+          <Flex
+            style={[
+              st.abs,
+              st.top(-5),
+              st.right(-5),
+              st.bgDarkerBlue,
+              st.pd6,
+              st.br2,
+            ]}
+          >
+            <Icon name="check" size={16} style={[st.white]} />
           </Flex>
         ) : null}
       </Flex>
@@ -155,7 +169,7 @@ class JourneyDetail extends Component {
 
     // Dev for hot reloading
     // return (
-    //   <Flex style={[st.f1, st.bgBlue]}>
+    //   <Flex style={[st.f1, st.pt5, st.bgBlue]}>
     //     {steps[0] && <Item item={steps[0]} onSelect={this.select} />}
     //     {steps[1] && <Item item={steps[1]} onSelect={this.select} />}
     //   </Flex>
