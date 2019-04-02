@@ -1,27 +1,18 @@
 import React, { Component } from 'react';
-import {
-  Image,
-  TouchableOpacity,
-  Keyboard,
-  Alert,
-  KeyboardAvoidingView,
-  View,
-} from 'react-native';
+import { Alert, KeyboardAvoidingView, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 
 import Analytics from '../../utils/analytics';
 import styles from './styles';
-import { updateMe } from '../../actions/auth';
 import { navigateBack, navigatePush } from '../../actions/nav';
-import { getJourneyInvite } from '../../actions/journeys';
+import { acceptJourneyInvite, getMyJourneys } from '../../actions/journeys';
 import { Flex, Button, Text } from '../../components/common';
 import SafeArea from '../../components/SafeArea';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
-import VOKE_FIRST_NAME from '../../../images/vokebot_whole.png';
-import theme, { COLORS } from '../../theme';
+import theme from '../../theme';
 import st from '../../st';
 
 class AdventureCode extends Component {
@@ -37,29 +28,39 @@ class AdventureCode extends Component {
   handleCodeSearch = () => {
     const { dispatch, onboarding } = this.props;
     const { adventureCode } = this.state;
+    this.setState({ isLoading: true });
+
     if (!adventureCode && onboarding) {
-      this.goToName();
+      this.goToPhoto();
       this.setState({ isLoading: false });
     } else {
-      dispatch(getJourneyInvite(adventureCode))
+      dispatch(acceptJourneyInvite(adventureCode))
         .then(r => {
           console.log('journey invite code results', r);
           this.setState({ isLoading: false });
+          if (onboarding) {
+            this.goToPhoto();
+          } else {
+            dispatch(getMyJourneys()).then(() => {
+              dispatch(navigateBack());
+            });
+          }
         })
         .catch(err => {
           console.log('error getting journey invite', err);
           this.setState({ isLoading: false });
+          Alert.alert('Oh no!', err.error);
         });
     }
   };
 
-  goToName = () => {
+  goToPhoto = () => {
     this.setState({ isLoading: true });
-    this.props.dispatch(navigatePush('voke.TryItNowName'));
+    this.props.dispatch(navigatePush('voke.TryItNowProfilePhoto'));
   };
 
   render() {
-    const { t, onboarding, dispatch } = this.props;
+    const { onboarding, dispatch } = this.props;
     return (
       <View style={[st.f1, st.bgBlue]} align="center">
         <SafeArea style={[st.f1, st.bgDarkBlue]} top={[st.bgBlue]}>

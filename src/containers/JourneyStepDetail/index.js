@@ -14,7 +14,7 @@ import {
   Flex,
   Text,
   Button,
-  VokeIcon,
+  Icon,
   DateComponent,
 } from '../../components/common';
 import st from '../../st';
@@ -22,14 +22,23 @@ import {
   skipJourneyMessage,
   createJourneyMessage,
   getJourneyMessages,
+  getMyJourneySteps,
 } from '../../actions/journeys';
+import { navigateBack } from '../../actions/nav';
 
 const dateFormat = 'MMM D @ h:mm A';
 
 class JourneyStepDetail extends Component {
-  state = { text: '', viewRef: null, disabledInput: false, messages: [] };
+  state = {
+    text: '',
+    viewRef: null,
+    disabledInput: false,
+    messages: [],
+    completed: false,
+  };
 
   componentDidMount() {
+    console.log('HERER');
     Analytics.screen(Analytics.s.JourneyStepDetail);
     this.setState({ viewRef: findNodeHandle(this.blurView) });
     this.getMessages();
@@ -40,10 +49,16 @@ class JourneyStepDetail extends Component {
     const { messages = [] } = await dispatch(getJourneyMessages(item, journey));
     console.log('messages', messages);
     this.setState({ messages });
-    if (messages[1]) {
+    if (messages.length > 1) {
       this.setState({ disabledInput: true });
     }
   }
+
+  load = async () => {
+    const { dispatch, journey } = this.props;
+    const results = await dispatch(getMyJourneySteps(journey.id));
+    return results;
+  };
 
   changeText = t => this.setState({ text: t });
 
@@ -51,6 +66,7 @@ class JourneyStepDetail extends Component {
     const { dispatch, item, journey } = this.props;
     await dispatch(skipJourneyMessage(item, journey));
     this.getMessages();
+    this.setState({ completed: true });
   };
 
   sendMessage = async () => {
@@ -59,16 +75,40 @@ class JourneyStepDetail extends Component {
     if (!text) {
       return this.skip();
     }
-    dispatch(createJourneyMessage(item, journey, text));
-    this.getMessages();
+    dispatch(createJourneyMessage(item, journey, text)).then(() => {
+      this.getMessages();
+      this.setState({ completed: true });
+    });
+  };
+
+  renderNext = () => {
+    const { item } = this.props;
+    const { completed } = this.state;
+    const isComplete = item['completed_by_messenger?'] || completed;
+    if (!isComplete) return;
+    return (
+      <Button
+        text="Next Video is Ready"
+        onPress={() => {
+          this.load().then(() => this.props.dispatch(navigateBack()));
+        }}
+        style={[st.bgOrange, st.mt3, st.br1, st.bw0]}
+      />
+    );
   };
 
   renderMessage() {
     const { item } = this.props;
-    const { viewRef, messages } = this.state;
-    const isComplete = item['completed_by_messenger?'];
+    const { viewRef, messages, completed } = this.state;
+    const isComplete = item['completed_by_messenger?'] || completed;
 
-    const message = messages[0];
+    const message = messages.find(
+      i =>
+        i.metadata &&
+        i.metadata.vokebot_action &&
+        i.metadata.vokebot_action === 'journey_step_comment',
+    );
+    console.log('MEEMSMSM', message, messages);
     if (!message) {
       return null;
     }
@@ -90,7 +130,7 @@ class JourneyStepDetail extends Component {
                 blurAmount={3}
                 style={[st.absfill, st.br5]}
               />
-              <VokeIcon name="lock" size={40} />
+              <Icon name={'lock'} size={40} style={[st.white]} />
             </Flex>
           ) : null}
           <Image
@@ -126,7 +166,10 @@ class JourneyStepDetail extends Component {
 
     const inputStyle = [st.f1, st.fs4, st.darkBlue];
 
-    const response = messages[1];
+    const response = messages.find(i => i.messenger_id === me.id);
+    if (response === '') {
+      response === 'Skipped';
+    }
 
     return (
       <ScrollView contentContainerStyle={[st.f1, st.bgBlue, st.minh(600)]}>
@@ -221,6 +264,7 @@ class JourneyStepDetail extends Component {
             </Flex>
           ) : null}
           {this.renderMessage()}
+          {this.renderNext()}
         </Flex>
       </ScrollView>
     );
@@ -232,7 +276,8 @@ JourneyStepDetail.propTypes = {
   onPause: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({ auth, journeys }) => ({
+const mapStateToProps = ({ auth, journeys }, { navigation }) => ({
+  ...navigation.state.params,
   me: auth.user,
   myJourneys: journeys.mine,
 });

@@ -358,7 +358,7 @@ export default {
   },
   ACCEPT_JOURNEY_INVITE: {
     // query: { code (required) }
-    endpoint: API_URL + 'me/journey_invites/:journeyId',
+    endpoint: API_URL + 'me/journey_invites/accept',
     method: 'post',
   },
   GET_MY_JOURNEYS: {

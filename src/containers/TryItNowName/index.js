@@ -82,7 +82,9 @@ class TryItNowName extends Component {
         if (this.props.onComplete) {
           this.props.onComplete();
         } else {
-          this.props.dispatch(navigatePush('voke.TryItNowProfilePhoto'));
+          this.props.dispatch(
+            navigatePush('voke.AdventureCode', { onboarding: true }),
+          );
         }
       })
       .catch(() => {

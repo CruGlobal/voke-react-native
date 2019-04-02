@@ -53,7 +53,8 @@ class SignUpWelcome extends Component {
   tryItNow = () => {
     const { dispatch } = this.props;
     this.setState({ isLoading: true });
-    dispatch(navigatePush('voke.AdventureCode', { onboarding: true }));
+    dispatch(navigatePush('voke.TryItNowName'));
+
     this.setState({ isLoading: false });
   };
 

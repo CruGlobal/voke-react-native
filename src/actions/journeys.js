@@ -1,4 +1,5 @@
 import callApi, { REQUESTS } from './api';
+import { API_URL } from '../api/utils';
 
 export function getOrgJourneys() {
   return dispatch => {
@@ -36,11 +37,9 @@ export function deleteJourneyInvite(journeyId) {
   };
 }
 
-export function acceptJourneyInvite(journeyId, code) {
+export function acceptJourneyInvite(code) {
   return dispatch => {
-    return dispatch(
-      callApi(REQUESTS.ACCEPT_JOURNEY_INVITE, { journeyId, code }),
-    );
+    return dispatch(callApi(REQUESTS.ACCEPT_JOURNEY_INVITE, { code }));
   };
 }
 
@@ -94,7 +93,9 @@ export function skipJourneyMessage(step, journey) {
 export function createJourneyMessage(step, journey, text) {
   return dispatch => {
     const query = {
-      conversationId: journey.conversation_id,
+      endpoint: `${API_URL}me/conversations/${
+        journey.conversation.id
+      }/messages`,
     };
     const data = {
       message: {
