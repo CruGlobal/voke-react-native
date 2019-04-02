@@ -1,7 +1,6 @@
 import { StyleSheet } from 'react-native';
 import theme from '../../theme';
 import { IS_SMALL_ANDROID } from '../../constants';
-const isSmallScreen = IS_SMALL_ANDROID || theme.fullHeight < 600;
 
 export default StyleSheet.create({
   container: {
@@ -10,7 +9,7 @@ export default StyleSheet.create({
   },
   actions: {
     paddingBottom: 25,
-    paddingTop: isSmallScreen ? 20 : 40,
+    paddingTop: 10,
   },
   headerText: {
     paddingHorizontal: 50,

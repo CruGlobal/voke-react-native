@@ -36,6 +36,7 @@ export const NAVIGATE_BACK = 'Navigation/BACK';
 export const NAVIGATE_POP = 'Navigation/POP';
 
 export const IS_SMALL_ANDROID = theme.isAndroid && theme.fullHeight < 600;
+export const isAndroid = theme.isAndroid;
 // export const IS_SMALL_ANDROID = true;
 
 const IS_STAGING = true;

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Flex, Button, Icon, VokeIcon } from '../common';
 import theme from '../../theme';
+import st from '../../st';
 
 class SignUpHeaderBack extends Component {
   render() {
@@ -20,9 +21,9 @@ class SignUpHeaderBack extends Component {
           style={{ padding: 10 }}
         >
           {theme.isAndroid ? (
-            <Icon name="arrow-back" size={30} />
+            <Icon name="arrow-back" size={30} style={[st.white]} />
           ) : (
-            <VokeIcon name="back_arrow" style={{ color: 'white' }} />
+            <VokeIcon name="back_arrow" style={[st.white]} />
           )}
         </Button>
       </Flex>

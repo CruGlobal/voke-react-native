@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -57,12 +56,12 @@
 		AE832BBE1F900CAA00ABEE80 /* ukulele-sound.wav in Resources */ = {isa = PBXBuildFile; fileRef = AE832BBD1F900CAA00ABEE80 /* ukulele-sound.wav */; };
 		AED242D41FD2F9E8007B9735 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AED242D11FD2F9CB007B9735 /* libRCTPushNotification.a */; };
 		AED975A2222F076400A0A953 /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AED975A1222F076400A0A953 /* icomoon.ttf */; };
-		B8C9703C6059430986244AF9 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BCBB23FB38945928FC0ED5F /* libRNFetchBlob.a */; };
 		C261E0A521EE42BAB748FA9B /* libSendSMS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 980A2CF4F7604EE981C018E7 /* libSendSMS.a */; };
 		CEF5792097E74F70932280C6 /* libRNBlur.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A29D2FF89B74EEFACB52332 /* libRNBlur.a */; };
 		D7ACE48697FC459A97F26D9A /* libReactNativePermissions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BBABD5BB8B244F1AAE1E286 /* libReactNativePermissions.a */; };
 		E9F73E50F45840238843F002 /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B696DE9E1104AD29BBBCA1A /* libRCTOrientation.a */; };
 		FD06F992561D4A1CA3FB6AA7 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5247C941CDFC4DBFA504C47E /* libRNFirebase.a */; };
+		5BA4DC369DD749D3B30F562C /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C825A613DD54E40B8A5A924 /* libRNFetchBlob.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -276,13 +275,6 @@
 			remoteGlobalIDString = 5DBEB1501B18CEA900B34395;
 			remoteInfo = RNVectorIcons;
 		};
-		9358230C22300BA200DBCF19 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0BDF1DB9F48D43508DC5010B /* RNFetchBlob.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A15C300E1CD25C330074CB35;
-			remoteInfo = RNFetchBlob;
-		};
 		93B8E0F821FBCC26005621CC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 93B8E0F421FBCC26005621CC /* reactnativeomnitureapi.xcodeproj */;
@@ -482,7 +474,6 @@
 		00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTNetwork.xcodeproj; path = "../node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj"; sourceTree = "<group>"; };
 		00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTVibration.xcodeproj; path = "../node_modules/react-native/Libraries/Vibration/RCTVibration.xcodeproj"; sourceTree = "<group>"; };
 		0340FCDF836A4073BFEE4B1F /* libRNSound.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSound.a; sourceTree = "<group>"; };
-		0BDF1DB9F48D43508DC5010B /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/rn-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Voke.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Voke.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -491,7 +482,6 @@
 		1BBABD5BB8B244F1AAE1E286 /* libReactNativePermissions.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativePermissions.a; sourceTree = "<group>"; };
 		1BBE48D9CC9B4230B97BD4A6 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		27B36D9247404728A35F8C9C /* RNGestureHandler.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGestureHandler.xcodeproj; path = "../node_modules/react-native-gesture-handler/ios/RNGestureHandler.xcodeproj"; sourceTree = "<group>"; };
-		2BCBB23FB38945928FC0ED5F /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
 		3BD42B3DEC234C4297C02FE7 /* libRCTGoogleAnalyticsBridge.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTGoogleAnalyticsBridge.a; sourceTree = "<group>"; };
 		462D2DDFAF104DDF913181C2 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		4B8BDA5B7B7D42B997857EC7 /* RNBlur.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNBlur.xcodeproj; path = "../node_modules/react-native-blur/ios/RNBlur.xcodeproj"; sourceTree = "<group>"; };
@@ -553,6 +543,8 @@
 		D6C2CF26BC5E41AC95BD3F11 /* RNSpinkit.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSpinkit.xcodeproj; path = "../node_modules/react-native-spinkit/ios/RNSpinkit.xcodeproj"; sourceTree = "<group>"; };
 		DDA6CFD505BD41BA8DB32059 /* RCTOrientation.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTOrientation.xcodeproj; path = "../node_modules/react-native-orientation/iOS/RCTOrientation.xcodeproj"; sourceTree = "<group>"; };
 		E2639A6467134ABEAB39E1AA /* libRNDeviceInfo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNDeviceInfo.a; sourceTree = "<group>"; };
+		82A8C9D9A177434580AA4429 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; name = "RNFetchBlob.xcodeproj"; path = "../node_modules/rn-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		2C825A613DD54E40B8A5A924 /* libRNFetchBlob.a */ = {isa = PBXFileReference; name = "libRNFetchBlob.a"; path = "libRNFetchBlob.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -600,8 +592,8 @@
 				D7ACE48697FC459A97F26D9A /* libReactNativePermissions.a in Frameworks */,
 				FD06F992561D4A1CA3FB6AA7 /* libRNFirebase.a in Frameworks */,
 				5E800670D75D48D0BCA62A1C /* libRNGestureHandler.a in Frameworks */,
-				B8C9703C6059430986244AF9 /* libRNFetchBlob.a in Frameworks */,
 				CEF5792097E74F70932280C6 /* libRNBlur.a in Frameworks */,
+				5BA4DC369DD749D3B30F562C /* libRNFetchBlob.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -757,8 +749,8 @@
 				D6B2CBF431D44BFFA2B7CEDB /* ReactNativePermissions.xcodeproj */,
 				C9382E19C17347C7873F5E65 /* RNFirebase.xcodeproj */,
 				27B36D9247404728A35F8C9C /* RNGestureHandler.xcodeproj */,
-				0BDF1DB9F48D43508DC5010B /* RNFetchBlob.xcodeproj */,
 				4B8BDA5B7B7D42B997857EC7 /* RNBlur.xcodeproj */,
+				82A8C9D9A177434580AA4429 /* RNFetchBlob.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -827,14 +819,6 @@
 			children = (
 				9354D6781EF9A7020005D447 /* libRNVectorIcons.a */,
 				AEE1D0D5224AA75B008F4F5C /* libRNVectorIcons-tvOS.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		9358230922300BA200DBCF19 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				9358230D22300BA200DBCF19 /* libRNFetchBlob.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1144,10 +1128,6 @@
 					ProjectRef = 9302894522301697002ADA3A /* RNDeviceInfo.xcodeproj */;
 				},
 				{
-					ProductGroup = 9358230922300BA200DBCF19 /* Products */;
-					ProjectRef = 0BDF1DB9F48D43508DC5010B /* RNFetchBlob.xcodeproj */;
-				},
-				{
 					ProductGroup = AE3A84B820F8E6A9007A6ED3 /* Products */;
 					ProjectRef = C9382E19C17347C7873F5E65 /* RNFirebase.xcodeproj */;
 				},
@@ -1392,13 +1372,6 @@
 			fileType = archive.ar;
 			path = libRNVectorIcons.a;
 			remoteRef = 9354D6771EF9A7020005D447 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9358230D22300BA200DBCF19 /* libRNFetchBlob.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNFetchBlob.a;
-			remoteRef = 9358230C22300BA200DBCF19 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		93B8E0F921FBCC26005621CC /* libreactnativeomnitureapi.a */ = {
@@ -1692,6 +1665,7 @@
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-blur/ios",
+					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 				);
 				INFOPLIST_FILE = Voke/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1748,6 +1722,7 @@
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-blur/ios",
+					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 				);
 				INFOPLIST_FILE = Voke/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -6,6 +6,7 @@ import { translate } from 'react-i18next';
 import { exists, isFunction } from '../../utils/common';
 
 import { Flex, Touchable, Icon } from '../common';
+import st from '../../st';
 
 // Android only component
 class PopupMenu extends Component {
@@ -45,7 +46,12 @@ class PopupMenu extends Component {
     return (
       <Touchable onPress={this.handlePress} borderless={true}>
         <Flex self="end" style={{ paddingHorizontal: 10 }}>
-          <Icon ref={c => (this.menu = c)} name="more-vert" size={28} />
+          <Icon
+            ref={c => (this.menu = c)}
+            name="more-vert"
+            size={28}
+            style={[st.white]}
+          />
         </Flex>
       </Touchable>
     );

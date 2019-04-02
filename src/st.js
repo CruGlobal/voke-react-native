@@ -193,6 +193,7 @@ const st = {
   colors,
   ...generatedColors,
   rgba: hexToRGB,
+  hitSlop: n => ({ top: n, left: n, bottom: n, right: n }),
 
   statusBar: {
     light: {

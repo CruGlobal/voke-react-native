@@ -1,5 +1,5 @@
 import merge from 'lodash/merge';
-import RNFetchBlob from 'rn-fetch-blob';
+import RNFetchBlob from 'react-native-fetch-blob';
 import CONSTANTS from '../constants';
 
 let baseUrl;

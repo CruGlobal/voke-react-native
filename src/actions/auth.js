@@ -1,4 +1,4 @@
-import RNFetchBlob from 'rn-fetch-blob';
+import RNFetchBlob from 'react-native-fetch-blob';
 import {
   Linking,
   AppState,

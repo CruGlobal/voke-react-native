@@ -48,7 +48,9 @@ class JourneyStepDetail extends Component {
     const { dispatch, item, journey } = this.props;
     const { messages = [] } = await dispatch(getJourneyMessages(item, journey));
     console.log('messages', messages);
-    this.setState({ messages });
+    this.setState({ messages }, () => {
+      this.setState({ viewRef: findNodeHandle(this.blurView) });
+    });
     if (messages.length > 1) {
       this.setState({ disabledInput: true });
     }
@@ -127,8 +129,8 @@ class JourneyStepDetail extends Component {
               <BlurView
                 viewRef={viewRef}
                 blurType="dark"
-                blurAmount={3}
-                style={[st.absfill, st.br5]}
+                blurAmount={10}
+                style={[st.absfill]}
               />
               <Icon name={'lock'} size={40} style={[st.white]} />
             </Flex>

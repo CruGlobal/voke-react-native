@@ -134,6 +134,7 @@ class VideoContentWrap extends Component {
         <KeyboardAwareScrollView
           style={[st.f1]}
           bounces={false}
+          enableOnAndroid={true}
           contentContainerStyle={[st.f1]}
         >
           <Flex style={styles.video}>

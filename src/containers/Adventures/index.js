@@ -58,6 +58,7 @@ class Adventures extends Component {
             )
           }
           title={t('title.adventures')}
+          shadow={false}
         />
         <ScrollableTabView
           tabBarUnderlineStyle={{ backgroundColor: theme.white, height: 2 }}

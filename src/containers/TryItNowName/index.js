@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
-import {
-  Image,
-  TouchableOpacity,
-  Keyboard,
-  Alert,
-  KeyboardAvoidingView,
-  View,
-} from 'react-native';
+import { Image, TouchableOpacity, Keyboard, Alert, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { CREATE_ANON_USER } from '../../constants';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { navigatePush } from '../../actions/nav';
 import Analytics from '../../utils/analytics';
@@ -98,14 +92,14 @@ class TryItNowName extends Component {
     return (
       <View style={styles.container} align="center">
         <SafeArea style={[st.f1, st.bgDarkBlue]} top={[st.bgBlue]}>
-          <KeyboardAvoidingView
+          <KeyboardAwareScrollView
             style={styles.container}
-            behavior={theme.isAndroid ? undefined : 'padding'}
-            keyboardVerticalOffset={theme.isAndroid ? undefined : 45}
+            bounces={false}
+            contentContainerStyle={[st.f1]}
           >
             <TouchableOpacity
               activeOpacity={1}
-              style={{ paddingTop: 70 }}
+              style={{ paddingTop: 60 }}
               onPress={() => Keyboard.dismiss()}
             >
               <Flex align="center" justify="center">
@@ -120,7 +114,11 @@ class TryItNowName extends Component {
                 style={styles.imageLogo}
               />
             </TouchableOpacity>
-            <Flex align="center" justify="start" style={[styles.actions]}>
+            <Flex
+              align="center"
+              justify="start"
+              style={[styles.actions, st.mb4]}
+            >
               <Text style={styles.inputLabel}>First Name (Required)</Text>
               <SignUpInput
                 value={this.state.firstName}
@@ -128,6 +126,7 @@ class TryItNowName extends Component {
                 onChangeText={t => this.setState({ firstName: t })}
                 placeholder="First"
                 autoCorrect={false}
+                autoCapitalize="words"
                 returnKeyType="done"
                 blurOnSubmit={true}
               />
@@ -137,6 +136,7 @@ class TryItNowName extends Component {
                 type="new"
                 onChangeText={t => this.setState({ lastName: t })}
                 placeholder="Last"
+                autoCapitalize="words"
                 autoCorrect={false}
                 returnKeyType="done"
                 blurOnSubmit={true}
@@ -152,7 +152,7 @@ class TryItNowName extends Component {
                 onPress={this.createAccount}
               />
             </Flex>
-          </KeyboardAvoidingView>
+          </KeyboardAwareScrollView>
           <Flex style={[st.abstl]}>
             <SignUpHeaderBack onPress={() => dispatch(navigateBack())} />
           </Flex>

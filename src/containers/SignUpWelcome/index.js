@@ -21,6 +21,7 @@ import PrivacyToS from '../../components/PrivacyToS';
 import { trackState } from '../../actions/analytics';
 import { buildTrackingObj } from '../../utils/common';
 import st from '../../st';
+import { isAndroid } from '../../constants';
 
 const MARGIN = 40;
 const extraBottom = theme.isIphoneX ? 30 : 0;
@@ -62,9 +63,9 @@ class SignUpWelcome extends Component {
     return (
       <PagerDotIndicator
         style={{
-          marginBottom: 45,
+          marginBottom: st.fullWidth * 0.7,
           width: 100,
-          marginHorizontal: theme.fullWidth / 2 - 50,
+          marginHorizontal: st.fullWidth / 2 - 50,
         }}
         dotStyle={{
           backgroundColor: COLORS.TRANSPARENT,
@@ -130,7 +131,7 @@ class SignUpWelcome extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: theme.primaryColor }}>
         <StatusBar />
-        <Flex value={3}>
+        <Flex value={1}>
           <IndicatorViewPager
             indicator={this.renderDotIndicator()}
             ref={c => (this.viewPager = c)}
@@ -191,59 +192,48 @@ class SignUpWelcome extends Component {
             </View>
           </IndicatorViewPager>
         </Flex>
-        <Flex value={2.5}>
-          <Triangle
-            width={st.fullWidth}
-            height={160}
-            color={st.colors.darkBlue}
-          />
-          <Flex value={1} style={styles.bottomButtonsWrap}>
+        <Flex style={[st.absb, st.fw100, st.fh40]}>
+          {isAndroid ? null : (
+            <Triangle
+              width={st.fullWidth}
+              height={160}
+              color={st.colors.darkBlue}
+            />
+          )}
+          <Flex value={1} style={[st.bgDarkBlue]}>
             <Flex
-              style={{
-                position: 'absolute',
-                bottom: 160 + extraBottom,
-                right: 0,
-                left: 0,
-                padding: 5,
-                marginHorizontal: 50,
-              }}
-            >
-              <Button
-                text={t('start')}
-                isLoading={this.state.isLoading}
-                style={styles.actionButton}
-                onPress={this.tryItNow}
-              />
-            </Flex>
-            <Flex
-              style={{
-                position: 'absolute',
-                bottom: 120 + extraBottom,
-                right: 0,
-                left: 0,
-                padding: 5,
-              }}
-            >
-              <PrivacyToS style={styles.privacy} />
-            </Flex>
-            <Flex
-              direction="row"
-              align="center"
-              justify="center"
               style={{
                 position: 'absolute',
                 bottom: 20 + extraBottom,
                 right: 0,
                 left: 0,
+                padding: 5,
+                marginHorizontal: 5,
               }}
             >
-              <Text style={styles.signIn}>{t('haveAccount')}</Text>
-              <Button
-                text={t('signIn')}
-                style={styles.signInButton}
-                buttonTextStyle={styles.signInText}
-                onPress={() => dispatch(navigatePush('voke.LoginInput'))}
-              />
+              <Flex align="center" justify="center">
+                <Button
+                  isAndroidOpacity={true}
+                  text={t('start')}
+                  style={[styles.actionButton, st.mb4]}
+                  onPress={this.tryItNow}
+                />
+                <PrivacyToS style={styles.privacy} />
+              </Flex>
+              <Flex
+                direction="row"
+                align="center"
+                justify="center"
+                style={[st.mt1, st.pt4]}
+              >
+                <Text style={styles.signIn}>{t('haveAccount')}</Text>
+                <Button
+                  text={t('signIn')}
+                  style={styles.signInButton}
+                  buttonTextStyle={styles.signInText}
+                  onPress={() => dispatch(navigatePush('voke.LoginInput'))}
+                />
+              </Flex>
             </Flex>
           </Flex>
         </Flex>
