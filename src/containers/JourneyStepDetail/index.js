@@ -16,6 +16,7 @@ import {
   Button,
   Icon,
   DateComponent,
+  VokeIcon,
 } from '../../components/common';
 import st from '../../st';
 import {
@@ -25,6 +26,7 @@ import {
   getMyJourneySteps,
 } from '../../actions/journeys';
 import { navigateBack } from '../../actions/nav';
+import { isAndroid } from '../../constants';
 
 const dateFormat = 'MMM D @ h:mm A';
 
@@ -110,7 +112,6 @@ class JourneyStepDetail extends Component {
         i.metadata.vokebot_action &&
         i.metadata.vokebot_action === 'journey_step_comment',
     );
-    console.log('MEEMSMSM', message, messages);
     if (!message) {
       return null;
     }
@@ -122,14 +123,18 @@ class JourneyStepDetail extends Component {
             direction="column"
             style={[st.w100, st.bgDarkBlue, st.br5, st.pd5]}
           >
-            <Text style={[st.fs4]}>{message.content}</Text>
+            <Text style={[st.fs4]}>
+              {isAndroid && !isComplete ? '' : message.content}
+            </Text>
+            {isAndroid ? <Flex style={[st.pd4]} /> : null}
           </Flex>
           {!isComplete ? (
             <Flex style={[st.absfill, st.br5]} align="center" justify="center">
+              {/* Blur stuff doesn't work on android */}
               <BlurView
                 viewRef={viewRef}
                 blurType="dark"
-                blurAmount={10}
+                blurAmount={3}
                 style={[st.absfill]}
               />
               <Icon name={'lock'} size={40} style={[st.white]} />

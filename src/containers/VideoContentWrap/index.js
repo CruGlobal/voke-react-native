@@ -21,6 +21,7 @@ import JourneyDetail from '../JourneyDetail';
 import JourneyStepDetail from '../JourneyStepDetail';
 import st from '../../st';
 import theme from '../../theme';
+import { isAndroid } from '../../constants';
 
 class VideoContentWrap extends Component {
   constructor(props) {
@@ -135,7 +136,7 @@ class VideoContentWrap extends Component {
           style={[st.f1]}
           bounces={false}
           enableOnAndroid={true}
-          contentContainerStyle={[st.f1]}
+          contentContainerStyle={[!isAndroid && st.f1]}
         >
           <Flex style={styles.video}>
             {this.state.showVideo ? (
