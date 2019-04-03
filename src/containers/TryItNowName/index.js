@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
-import { Image, TouchableOpacity, Keyboard, Alert, View } from 'react-native';
+import {
+  Image,
+  TouchableOpacity,
+  Keyboard,
+  Alert,
+  View,
+  KeyboardAvoidingView,
+} from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { CREATE_ANON_USER } from '../../constants';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { navigatePush } from '../../actions/nav';
 import Analytics from '../../utils/analytics';
@@ -92,10 +98,10 @@ class TryItNowName extends Component {
     return (
       <View style={styles.container} align="center">
         <SafeArea style={[st.f1, st.bgDarkBlue]} top={[st.bgBlue]}>
-          <KeyboardAwareScrollView
+          <KeyboardAvoidingView
             style={styles.container}
-            bounces={false}
-            contentContainerStyle={[st.f1]}
+            behavior={theme.isAndroid ? undefined : 'padding'}
+            keyboardVerticalOffset={theme.isAndroid ? undefined : 45}
           >
             <TouchableOpacity
               activeOpacity={1}
@@ -152,7 +158,7 @@ class TryItNowName extends Component {
                 onPress={this.createAccount}
               />
             </Flex>
-          </KeyboardAwareScrollView>
+          </KeyboardAvoidingView>
           <Flex style={[st.abstl]}>
             <SignUpHeaderBack onPress={() => dispatch(navigateBack())} />
           </Flex>
