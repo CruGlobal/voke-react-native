@@ -108,6 +108,8 @@ const s = {
   OrgJourneyDetail: 'OrgJourneyDetail',
   JourneyDetail: 'JourneyDetail',
   JourneyStepDetail: 'JourneyStepDetail',
+  ShareEnterName: 'ShareEnterName',
+  ShareJourneyInvite: 'ShareJourneyInvite',
 };
 
 export default {

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
@@ -48,13 +47,12 @@ class OrgJourneyDetail extends Component {
       this.setState({ myselfIsLoading: false });
     }
   };
-  friend = () => {
-    this.setState({ friendIsLoading: true });
-    Alert.alert('With a Friend! Coming soon', '', [
-      { text: 'OK', onPress: () => this.setState({ friendIsLoading: false }) },
-    ]);
-    console.log('with a friend');
+
+  friend = async () => {
+    const { dispatch, item } = this.props;
+    dispatch(navigatePush('voke.ShareEnterName', { item }));
   };
+
   render() {
     const { item, myJourneys } = this.props;
     const { myselfIsLoading, friendIsLoading } = this.state;

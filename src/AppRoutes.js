@@ -39,6 +39,8 @@ import AdventureCode from './containers/AdventureCode';
 import i18n from './i18n';
 import theme from './theme';
 import { buildTrackingObj } from './utils/common';
+import ShareEnterName from './containers/ShareEnterName';
+import ShareJourneyInvite from './containers/ShareJourneyInvite';
 
 // Do custom animations between pages
 const verticalPages = [
@@ -250,6 +252,12 @@ const screens = {
   },
   'voke.AdventureCode': {
     screen: AdventureCode,
+  },
+  'voke.ShareEnterName': {
+    screen: ShareEnterName,
+  },
+  'voke.ShareJourneyInvite': {
+    screen: ShareJourneyInvite,
   },
 };
 

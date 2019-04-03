@@ -10,6 +10,7 @@ const initialState = {
   tryItNowSignUp: false,
   pushPermissions: false,
   messageModal: false,
+  adventurePushPermissions: false,
   overlayProps: {},
 };
 

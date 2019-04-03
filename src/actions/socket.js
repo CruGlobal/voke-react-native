@@ -559,11 +559,11 @@ export function enablePushNotifications(forceIfUndetermined = false) {
   };
 }
 
-export function determinePushOverlay() {
+export function determinePushOverlay(type = 'pushPermissions') {
   return (dispatch, getState) => {
     const permission = getState().auth.pushPermission;
     if (permission === 'authorized') return;
 
-    dispatch({ type: SET_OVERLAY, value: 'pushPermissions' });
+    dispatch({ type: SET_OVERLAY, value: type });
   };
 }

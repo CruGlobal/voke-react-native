@@ -27,6 +27,7 @@ export function getJourneyInvite(journeyId) {
 
 export function sendJourneyInvite(data) {
   return dispatch => {
+    // { data: { organization_journey_id }}
     return dispatch(callApi(REQUESTS.SEND_JOURNEY_INVITE, {}, data));
   };
 }
