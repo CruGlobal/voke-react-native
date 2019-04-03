@@ -10,6 +10,7 @@ import OrgJourney from '../../components/OrgJourney';
 import { navigatePush } from '../../actions/nav';
 import { buildTrackingObj } from '../../utils/common';
 import VOKE_LINK from '../../../images/vokebot_whole.png';
+import { VIDEO_CONTENT_TYPES } from '../VideoContentWrap';
 
 class AdventuresFind extends Component {
   state = { refreshing: false };
@@ -38,7 +39,7 @@ class AdventuresFind extends Component {
     this.props.dispatch(
       navigatePush('voke.VideoContentWrap', {
         item,
-        type: 'orgJourney',
+        type: VIDEO_CONTENT_TYPES.ORGJOURNEY,
         trackingObj: buildTrackingObj('journey', 'detail'),
       }),
     );

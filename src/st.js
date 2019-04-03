@@ -68,12 +68,16 @@ const generateNums = (prefix, value) =>
 
 const generateFn = (prefix, value) => ({ [prefix]: n => ({ [value]: n }) });
 
-function hexToRGB(hex, alpha) {
+function hexToRGB(hex, alpha, property) {
   const parse = c => parseInt(c, 16);
   const r = parse(hex.slice(1, 3));
   const g = parse(hex.slice(3, 5));
   const b = parse(hex.slice(5, 7));
-  return `'rgba(${r},${g},${b},${alpha})'`;
+  const str = `'rgba(${r},${g},${b},${alpha})'`;
+  if (property) {
+    return { [property]: str };
+  }
+  return str;
 }
 const st = {
   abs: { position: 'absolute' },

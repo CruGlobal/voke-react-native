@@ -61,8 +61,9 @@ class AdventureCode extends Component {
 
   render() {
     const { onboarding, dispatch } = this.props;
+    const { adventureCode, isLoading } = this.state;
     return (
-      <View style={[st.f1, st.bgBlue]} align="center">
+      <Flex value={1}>
         <SafeArea style={[st.f1, st.bgDarkBlue]} top={[st.bgBlue]}>
           <KeyboardAvoidingView
             style={[st.f1, st.bgBlue]}
@@ -72,7 +73,7 @@ class AdventureCode extends Component {
             <Flex value={3} align="center" justify="center" style={[st.pb3]}>
               <Text style={styles.inputLabel}>Adventure Code</Text>
               <SignUpInput
-                value={this.state.adventureCode}
+                value={adventureCode}
                 type="new"
                 onChangeText={t => this.setState({ adventureCode: t })}
                 placeholder="Adventure Code"
@@ -84,15 +85,10 @@ class AdventureCode extends Component {
             <Flex value={1} justify="end" style={[styles.buttonWrapper]}>
               <Button
                 text={
-                  onboarding && !this.state.adventureCode
-                    ? `I Don't Have One`
-                    : 'Continue'
+                  onboarding && !adventureCode ? `I Don't Have One` : 'Continue'
                 }
                 type="filled"
-                disabled={
-                  this.state.isLoading ||
-                  (!onboarding && !this.state.adventureCode)
-                }
+                disabled={isLoading || (!onboarding && !adventureCode)}
                 buttonTextStyle={styles.signInButtonText}
                 style={styles.signInButton}
                 onPress={this.handleCodeSearch}
@@ -112,7 +108,7 @@ class AdventureCode extends Component {
             </Flex>
           ) : null}
         </SafeArea>
-      </View>
+      </Flex>
     );
   }
 }

@@ -44,6 +44,7 @@ import { Flex } from '../../components/common';
 import theme from '../../theme';
 import { momentUtc, buildTrackingObj } from '../../utils/common';
 import { trackState } from '../../actions/analytics';
+import { VIDEO_CONTENT_TYPES } from '../VideoContentWrap';
 
 class Videos extends Component {
   constructor(props) {
@@ -580,7 +581,7 @@ class Videos extends Component {
               dispatch(
                 navigatePush('voke.VideoContentWrap', {
                   item: v,
-                  type: 'videoDetail',
+                  type: VIDEO_CONTENT_TYPES.VIDEODETAIL,
                   onSelectVideo,
                   conversation,
                   onUpdateVideos: () => this.updateVideoList(selectedFilter),

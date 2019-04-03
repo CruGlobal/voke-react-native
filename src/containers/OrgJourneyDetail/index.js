@@ -11,6 +11,7 @@ import { createMyJourney } from '../../actions/journeys';
 import { navigatePush } from '../../actions/nav';
 import st from '../../st';
 import { buildTrackingObj } from '../../utils/common';
+import { VIDEO_CONTENT_TYPES } from '../VideoContentWrap';
 
 class OrgJourneyDetail extends Component {
   state = {
@@ -36,10 +37,10 @@ class OrgJourneyDetail extends Component {
           {
             item: result,
             journey: item,
-            type: 'journeyDetail',
+            type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
             trackingObj: buildTrackingObj('journey : mine', 'detail'),
           },
-          'journeyDetail',
+          VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
         ),
       );
     } catch (e) {

@@ -135,20 +135,14 @@ class JourneyStepDetail extends Component {
                 viewRef={viewRef}
                 blurType="dark"
                 blurAmount={3}
-                style={[st.absfill]}
+                style={[st.absfill, st.br5]}
               />
-              <Icon name={'lock'} size={40} style={[st.white]} />
+              <Icon name="lock" size={40} style={[st.white]} />
             </Flex>
           ) : null}
           <Image
             source={VOKE_AVATAR}
-            style={[
-              st.absbl,
-              st.left(-30),
-              st.w(25),
-              st.h(25),
-              st.rotate('60deg'),
-            ]}
+            style={[st.absbl, st.left(-30), st.circle(25), st.rotate('60deg')]}
           />
         </Flex>
         <Flex direction="column" style={[st.w80]}>
@@ -174,9 +168,7 @@ class JourneyStepDetail extends Component {
     const inputStyle = [st.f1, st.fs4, st.darkBlue];
 
     const response = messages.find(i => i.messenger_id === me.id);
-    if (response === '') {
-      response === 'Skipped';
-    }
+    const isSkipped = response && response.content === '';
 
     return (
       <ScrollView contentContainerStyle={[st.f1, st.bgBlue, st.minh(600)]}>
@@ -197,8 +189,7 @@ class JourneyStepDetail extends Component {
                 st.abs,
                 st.left(-25),
                 st.bottom(-20),
-                st.w(70),
-                st.h(70),
+                st.circle(70),
                 st.rotate('40deg'),
               ]}
             />
@@ -223,7 +214,9 @@ class JourneyStepDetail extends Component {
             >
               {disabledInput && response ? (
                 <Fragment>
-                  <Text style={inputStyle}>{response.content}</Text>
+                  <Text style={[inputStyle, isSkipped ? st.grey : null]}>
+                    {isSkipped ? 'Skipped' : response.content}
+                  </Text>
                 </Fragment>
               ) : (
                 <Fragment>

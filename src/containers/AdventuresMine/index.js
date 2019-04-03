@@ -12,6 +12,7 @@ import MyAdventuresList from '../../components/MyAdventuresList';
 import VOKE_LINK from '../../../images/vokebot_whole.png';
 import { buildTrackingObj } from '../../utils/common';
 import st from '../../st';
+import { VIDEO_CONTENT_TYPES } from '../VideoContentWrap';
 
 const VB_WIDTH = st.fullWidth * 0.2;
 const VB_MARGIN = -35;
@@ -69,7 +70,7 @@ class AdventuresMine extends Component {
     dispatch(
       navigatePush('voke.VideoContentWrap', {
         item,
-        type: 'journeyDetail',
+        type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
         trackingObj: buildTrackingObj('journey : mine', 'detail'),
       }),
     );

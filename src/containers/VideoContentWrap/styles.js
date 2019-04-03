@@ -15,8 +15,6 @@ export default StyleSheet.create({
   },
   landscapeVideo: {
     backgroundColor: theme.deepBlack,
-    height: theme.fullWidth,
-    width: theme.fullHeight,
   },
   backHeader: {
     position: 'absolute',

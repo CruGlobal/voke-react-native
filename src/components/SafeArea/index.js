@@ -18,7 +18,7 @@ class SafeArea extends Component {
     if (top) {
       return (
         <Fragment>
-          <SafeAreaView style={[{ flex: 0 }]} />
+          <SafeAreaView style={[{ flex: 0 }, top]} />
           {content}
         </Fragment>
       );

@@ -3,13 +3,12 @@ import Slider from 'react-native-slider';
 import PropTypes from 'prop-types';
 
 import theme from '../../theme';
-import st from '../../st';
 import { Touchable, Flex, Icon, VokeIcon, Text } from '../common';
 import styles from './styles';
 
 function convertTime(time) {
   const roundedTime = Math.round(time);
-  let seconds = '00' + roundedTime % 60;
+  let seconds = '00' + (roundedTime % 60);
   let minutes = '00' + Math.floor(roundedTime / 60);
   let hours = '';
   let str = `${minutes.substr(-2)}:${seconds.substr(-2)}`;

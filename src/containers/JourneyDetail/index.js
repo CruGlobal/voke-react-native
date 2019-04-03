@@ -16,6 +16,7 @@ import { getMyJourneySteps } from '../../actions/journeys';
 import st from '../../st';
 import { navigatePush } from '../../actions/nav';
 import { buildTrackingObj } from '../../utils/common';
+import { VIDEO_CONTENT_TYPES } from '../VideoContentWrap';
 
 function Item({ item, onSelect }) {
   const isActive = item.status === 'active';
@@ -163,10 +164,10 @@ class JourneyDetail extends Component {
         {
           item: step,
           journey: item,
-          type: 'journeyStepDetail',
+          type: VIDEO_CONTENT_TYPES.JOURNEYSTEPDETAIL,
           trackingObj: buildTrackingObj('journey : mine', 'detail', 'step'),
         },
-        'journeyStepDetail',
+        VIDEO_CONTENT_TYPES.JOURNEYSTEPDETAIL,
       ),
     );
   };

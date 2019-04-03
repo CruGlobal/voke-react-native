@@ -1,3 +1,5 @@
+import { FlatList, ScrollView, View, Image, Alert } from 'react-native';
+
 // Common components that we can import with simple destructuring syntax
 // So when one of these components are loaded in, all files will be called also
 import Button from './Button';
@@ -14,6 +16,11 @@ import VokeIcon from './VokeIcon';
 import Triangle from './Triangle';
 
 export {
+  FlatList,
+  ScrollView,
+  View,
+  Image,
+  Alert,
   Button,
   DateComponent,
   Flex,
