@@ -5,7 +5,7 @@ import { translate } from 'react-i18next';
 
 import i18n from '../../i18n';
 import { Text, Flex, Button, Triangle } from '../../components/common';
-import { getMyJourneys } from '../../actions/journeys';
+import { getMyJourneys, getJourneyInvites } from '../../actions/journeys';
 import { navigatePush } from '../../actions/nav';
 import { startupAction } from '../../actions/auth';
 import MyAdventuresList from '../../components/MyAdventuresList';
@@ -25,6 +25,7 @@ class AdventuresMine extends Component {
   componentDidMount() {
     const { me, dispatch } = this.props;
     this.props.dispatch(getMyJourneys());
+    this.props.dispatch(getJourneyInvites());
     if (me && me.language && me.language.language_code) {
       i18n.changeLanguage(me.language.language_code.toLowerCase());
     }
@@ -82,7 +83,7 @@ class AdventuresMine extends Component {
         <Button
           text="I have an Adventure Code"
           isLoading={this.state.isLoading}
-          style={[st.w(st.fullWidth - 40), st.aic, st.mt3, st.asc]}
+          style={[st.w(st.fullWidth - 40), st.aic, st.mv5, st.asc]}
           buttonTextStyle={{ textAlign: 'center' }}
           onPress={this.handleAdventureCode}
         />
@@ -127,14 +128,15 @@ class AdventuresMine extends Component {
 
   render() {
     const { isLoading } = this.state;
-    const { me, myJourneys } = this.props;
+    const { me, myJourneys, invites } = this.props;
+    const data = [].concat(invites, myJourneys);
     return (
       <View style={[st.f1, st.bgBlue]}>
         {this.props.myJourneys < 1 ? (
           this.renderNull()
         ) : (
           <MyAdventuresList
-            items={myJourneys}
+            items={data}
             onSelect={this.handleSelect}
             onRefresh={this.handleRefresh}
             onLoadMore={this.handleNextPage}
@@ -151,6 +153,7 @@ class AdventuresMine extends Component {
 const mapStateToProps = ({ auth, journeys }) => ({
   me: auth.user,
   myJourneys: journeys.mine,
+  invites: journeys.invites,
 });
 
 export default translate()(connect(mapStateToProps)(AdventuresMine));

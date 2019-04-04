@@ -12,6 +12,8 @@ import { buildTrackingObj } from '../../utils/common';
 import VOKE_LINK from '../../../images/vokebot_whole.png';
 import { VIDEO_CONTENT_TYPES } from '../VideoContentWrap';
 
+import st from '../../st';
+
 class AdventuresFind extends Component {
   state = { refreshing: false };
 
@@ -61,7 +63,7 @@ class AdventuresFind extends Component {
         <Button
           text="I have an Adventure Code"
           isLoading={this.state.isLoading}
-          style={styles.inviteCodeButton}
+          style={[st.w(st.fullWidth - 40), st.aic, st.mv5, st.asc]}
           buttonTextStyle={{ textAlign: 'center' }}
           onPress={this.handleAdventureCode}
         />

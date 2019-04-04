@@ -9,7 +9,6 @@ export default StyleSheet.create({
   list: {
     flex: 1,
     paddingBottom: 18,
-    paddingTop: 5,
   },
   vokebotWrap: {
     marginRight: 15,

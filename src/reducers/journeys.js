@@ -5,6 +5,7 @@ import { LOGOUT } from '../constants';
 const initialState = {
   org: [],
   mine: [],
+  invites: [],
   steps: {},
 };
 
@@ -27,11 +28,13 @@ export default function adventures(state = initialState, action) {
         ...state,
         mine: action.journeys,
       };
+    case REQUESTS.GET_JOURNEY_INVITES.SUCCESS:
+      return {
+        ...state,
+        invites: action.journey_invites,
+      };
     case REQUESTS.GET_MY_JOURNEY_STEPS.SUCCESS:
-      const {
-        query: { journeyId: stepsJourneyId },
-        steps,
-      } = action;
+      const { query: { journeyId: stepsJourneyId }, steps } = action;
       return {
         ...state,
         steps: {

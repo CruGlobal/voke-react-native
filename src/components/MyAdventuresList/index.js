@@ -49,8 +49,53 @@ class MyAdventuresList extends Component {
     );
   };
 
+  renderInviteRow = item => {
+    return (
+      <Flex
+        style={[
+          st.mt6,
+          st.w(st.fullWidth - 40),
+          st.bgDarkBlue,
+          st.br6,
+          st.ovh,
+          st.asc,
+          { elevation: 2 },
+        ]}
+        direction="row"
+        align="center"
+        justify="start"
+        animation="slideInUp"
+      >
+        <Flex>
+          <Image
+            source={{ uri: item.organization_journey.image.small }}
+            style={[st.f1, st.w(THUMBNAIL_WIDTH), st.brbl6, st.brtl6]}
+          />
+        </Flex>
+        <Flex
+          value={1}
+          direction="column"
+          align="start"
+          justify="start"
+          style={[st.pv6, st.ph4]}
+        >
+          <Text numberOfLines={1} style={[st.white, st.fs4]}>
+            Waiting for Ben to join...
+          </Text>
+          <Text numberOfLines={1} style={[st.pb6, st.white, st.fs5]}>
+            Expires in...
+          </Text>
+        </Flex>
+        <Flex align="center" justify="center" style={[st.tac, st.mr5]} />
+      </Flex>
+    );
+  };
+
   renderRow = ({ item }) => {
     const { me } = this.props;
+
+    const isInvite = !!item.code;
+    if (isInvite) return this.renderInviteRow(item);
 
     const unreadCount = item.conversation.unread_messages;
     const hasUnread = unreadCount > 0;
@@ -74,7 +119,7 @@ class MyAdventuresList extends Component {
       >
         <Flex
           style={[
-            st.mv5,
+            st.mt6,
             st.w(st.fullWidth - 40),
             st.bgWhite,
             st.br6,
@@ -157,7 +202,7 @@ class MyAdventuresList extends Component {
           offset: ITEM_HEIGHT * index,
           index,
         })}
-        style={[st.f1]}
+        style={[st.f1, st.mb5]}
         refreshControl={
           <RefreshControl
             refreshing={this.state.refreshing}
