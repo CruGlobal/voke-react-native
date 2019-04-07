@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FlatList } from 'react-native';
 import { translate } from 'react-i18next';
 
 import styles from './styles';
-import { Flex, Touchable, Text, Separator } from '../common';
+import { FlatList, Flex, Touchable, Text, Separator } from '../common';
 import SafeArea from '../SafeArea';
 import st from '../../st';
 

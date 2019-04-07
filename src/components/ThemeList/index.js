@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, FlatList } from 'react-native';
 import { translate } from 'react-i18next';
 
 import styles from './styles';
-import { Flex, Touchable, Text, VokeIcon, Separator, Button } from '../common';
+import {
+  View,
+  FlatList,
+  Flex,
+  Touchable,
+  Text,
+  VokeIcon,
+  Separator,
+  Button,
+} from '../common';
 import CONSTANTS from '../../constants';
 
 class ThemeList extends Component {

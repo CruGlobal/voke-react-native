@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Image } from 'react-native';
 import { translate } from 'react-i18next';
 
 import styles from './styles';
-import { Flex, Text, Button } from '../common';
+import { Image, Flex, Text, Button } from '../common';
 
 class ChannelInfo extends Component {
   handleButtonPress = () => {

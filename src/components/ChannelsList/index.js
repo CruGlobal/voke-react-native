@@ -1,8 +1,14 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { translate } from 'react-i18next';
-import { FlatList, Image } from 'react-native';
-import { Flex, RefreshControl, Text, Touchable } from '../common';
+import {
+  FlatList,
+  Image,
+  Flex,
+  RefreshControl,
+  Text,
+  Touchable,
+} from '../common';
 import LoadMore from '../LoadMore';
 import styles from './styles';
 import st from '../../st';

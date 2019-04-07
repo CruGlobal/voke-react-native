@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { translate } from 'react-i18next';
 
@@ -9,6 +8,7 @@ import theme, { COLORS } from '../../theme';
 import { getInitials } from '../../utils/common';
 
 import {
+  View,
   Flex,
   VokeIcon,
   Text,

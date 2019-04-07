@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Image } from 'react-native';
 
 // See this file for the names of all the voke icons
 import { vokeImages, vokeIcons } from '../../utils/iconMap';
-import { Icon } from '../common';
+import { Image, Icon } from '../common';
 import theme from '../../theme';
 
 export default class VokeIcon extends Component {

@@ -93,6 +93,7 @@ const st = {
   ovh: { overflow: 'hidden' },
 
   bold: { fontWeight: 'bold' },
+  light: { fontWeight: '300' },
   tac: { textAlign: 'center' },
   tal: { textAlign: 'left' },
   tar: { textAlign: 'right' },
@@ -135,6 +136,7 @@ const st = {
   ...generateSizes('brbr', 'borderBottomRightRadius'),
   ...generateSizes('brbl', 'borderBottomLeftRadius'),
 
+  ...generateSizes('p', 'padding'),
   ...generateSizes('pd', 'padding'),
   ...generateSizes('ph', 'paddingHorizontal'),
   ...generateSizes('pv', 'paddingVertical'),
@@ -161,6 +163,7 @@ const st = {
   ...generateFn('brtl', 'borderTopLeftRadius'),
   ...generateFn('brbr', 'borderBottomRightRadius'),
   ...generateFn('brbl', 'borderBottomLeftRadius'),
+  ...generateFn('p', 'padding'),
   ...generateFn('pd', 'padding'),
   ...generateFn('ph', 'paddingHorizontal'),
   ...generateFn('pv', 'paddingVertical'),
@@ -198,6 +201,17 @@ const st = {
   ...generatedColors,
   rgba: hexToRGB,
   hitSlop: n => ({ top: n, left: n, bottom: n, right: n }),
+
+  shadow: {
+    shadowOpacity: 0.35,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowColor: colors.black,
+    shadowRadius: 1,
+    elevation: 5,
+  },
 
   statusBar: {
     light: {

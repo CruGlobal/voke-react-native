@@ -346,14 +346,14 @@ export default {
     endpoint: API_URL + 'me/journey_invites',
   },
   GET_JOURNEY_INVITE: {
-    endpoint: API_URL + 'me/journey_invites/:journeyId',
+    endpoint: API_URL + 'me/journey_invites/:inviteId',
   },
   SEND_JOURNEY_INVITE: {
     endpoint: API_URL + 'me/journey_invites',
     method: 'post',
   },
   DELETE_JOURNEY_INVITE: {
-    endpoint: API_URL + 'me/journey_invites/:journeyId',
+    endpoint: API_URL + 'me/journey_invites/:inviteId',
     method: 'delete',
   },
   ACCEPT_JOURNEY_INVITE: {

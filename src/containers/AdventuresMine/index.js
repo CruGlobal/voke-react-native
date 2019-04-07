@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
-import { View, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
 import i18n from '../../i18n';
-import { Text, Flex, Button, Triangle } from '../../components/common';
-import { getMyJourneys, getJourneyInvites } from '../../actions/journeys';
+import {
+  View,
+  Image,
+  Text,
+  Flex,
+  Button,
+  Triangle,
+} from '../../components/common';
+import {
+  getMyJourneys,
+  getJourneyInvites,
+  deleteJourneyInvite,
+} from '../../actions/journeys';
 import { navigatePush } from '../../actions/nav';
 import { startupAction } from '../../actions/auth';
 import MyAdventuresList from '../../components/MyAdventuresList';
@@ -24,8 +34,7 @@ class AdventuresMine extends Component {
 
   componentDidMount() {
     const { me, dispatch } = this.props;
-    this.props.dispatch(getMyJourneys());
-    this.props.dispatch(getJourneyInvites());
+    this.load();
     if (me && me.language && me.language.language_code) {
       i18n.changeLanguage(me.language.language_code.toLowerCase());
     }
@@ -33,6 +42,14 @@ class AdventuresMine extends Component {
       dispatch(startupAction());
     }, 50);
   }
+
+  load = async () => {
+    const { dispatch } = this.props;
+    return Promise.all([
+      await dispatch(getMyJourneys()),
+      await dispatch(getJourneyInvites()),
+    ]);
+  };
 
   handleNextPage = () => {
     // // TODO:
@@ -59,7 +76,7 @@ class AdventuresMine extends Component {
   };
 
   handleRefresh = () => {
-    return this.props.dispatch(getMyJourneys());
+    return this.load();
   };
 
   handleAdventureCode = () => {
@@ -75,6 +92,15 @@ class AdventuresMine extends Component {
         trackingObj: buildTrackingObj('journey : mine', 'detail'),
       }),
     );
+  };
+  handleResendInvite = item => {
+    console.log('resend', item);
+  };
+  handleDeleteInvite = async item => {
+    console.log('delete invite', item);
+    const { dispatch } = this.props;
+    await dispatch(deleteJourneyInvite(item.id));
+    this.load();
   };
 
   renderAdventureCode = () => {
@@ -132,12 +158,14 @@ class AdventuresMine extends Component {
     const data = [].concat(invites, myJourneys);
     return (
       <View style={[st.f1, st.bgBlue]}>
-        {this.props.myJourneys < 1 ? (
+        {myJourneys.length < 1 && invites.length < 1 ? (
           this.renderNull()
         ) : (
           <MyAdventuresList
             items={data}
             onSelect={this.handleSelect}
+            onResendInvite={this.handleResendInvite}
+            onDeleteInvite={this.handleDeleteInvite}
             onRefresh={this.handleRefresh}
             onLoadMore={this.handleNextPage}
             isLoading={isLoading}

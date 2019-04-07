@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { View, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager';
@@ -15,7 +14,14 @@ import { navigatePush } from '../../actions/nav';
 import { setupFirebaseLinks } from '../../actions/auth';
 import theme, { COLORS } from '../../theme';
 
-import { Flex, Text, Button, Triangle } from '../../components/common';
+import {
+  View,
+  Image,
+  Flex,
+  Text,
+  Button,
+  Triangle,
+} from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import PrivacyToS from '../../components/PrivacyToS';
 import { trackState } from '../../actions/analytics';

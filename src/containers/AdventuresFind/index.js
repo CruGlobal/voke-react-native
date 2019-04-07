@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
-import { Image, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
 import styles from './styles';
-import { RefreshControl, Flex, Button } from '../../components/common';
+import {
+  FlatList,
+  RefreshControl,
+  Flex,
+  Button,
+} from '../../components/common';
 import { getOrgJourneys } from '../../actions/journeys';
 import OrgJourney from '../../components/OrgJourney';
 import { navigatePush } from '../../actions/nav';
 import { buildTrackingObj } from '../../utils/common';
-import VOKE_LINK from '../../../images/vokebot_whole.png';
 import { VIDEO_CONTENT_TYPES } from '../VideoContentWrap';
 
 import st from '../../st';
@@ -47,22 +50,35 @@ class AdventuresFind extends Component {
     );
   };
 
+  inviteFriend = item => {
+    const { dispatch } = this.props;
+    dispatch(navigatePush('voke.ShareEnterName', { item }));
+  };
+
   handleAdventureCode = () => {
     // todo
     this.props.dispatch(navigatePush('voke.AdventureCode'));
   };
 
   renderRow = ({ item }) => {
-    return <OrgJourney onPress={this.select} item={item} />;
+    const { myJourneyOrgIds } = this.props;
+    const startedWithMe = myJourneyOrgIds.find(id => id === item.id);
+    return (
+      <OrgJourney
+        onPress={this.select}
+        item={item}
+        onInviteFriend={
+          startedWithMe ? () => this.inviteFriend(item) : undefined
+        }
+      />
+    );
   };
 
   renderHeader = () => {
-    const { me } = this.props;
     return (
       <Flex justify="center" align="center">
         <Button
           text="I have an Adventure Code"
-          isLoading={this.state.isLoading}
           style={[st.w(st.fullWidth - 40), st.aic, st.mv5, st.asc]}
           buttonTextStyle={{ textAlign: 'center' }}
           onPress={this.handleAdventureCode}
@@ -94,6 +110,7 @@ class AdventuresFind extends Component {
 
 const mapStateToProps = ({ auth, journeys }) => ({
   me: auth.user,
+  myJourneyOrgIds: (journeys.mine || []).map(j => j.organization_journey_id),
   items: journeys.org,
 });
 

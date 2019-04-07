@@ -1,12 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Platform,
-  View,
-  Image,
-  Keyboard,
-  ScrollView,
-  Share,
-} from 'react-native';
+import { Platform, Keyboard, Share } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
@@ -28,7 +21,14 @@ import ApiLoading from '../ApiLoading';
 import ShareModal from '../ShareModal';
 import Modal from '../Modal';
 import Header from '../Header';
-import { Flex, Text, Button } from '../../components/common';
+import {
+  View,
+  Image,
+  ScrollView,
+  Flex,
+  Text,
+  Button,
+} from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import Permissions from '../../utils/permissions';
 import SelectNumber from '../../components/SelectNumber';

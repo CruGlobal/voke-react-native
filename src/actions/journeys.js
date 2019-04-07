@@ -19,22 +19,25 @@ export function getJourneyInvites() {
   };
 }
 
-export function getJourneyInvite(journeyId) {
+export function getJourneyInvite(inviteId) {
   return dispatch => {
-    return dispatch(callApi(REQUESTS.GET_JOURNEY_INVITE, { journeyId }));
+    return dispatch(callApi(REQUESTS.GET_JOURNEY_INVITE, { inviteId }));
   };
 }
 
 export function sendJourneyInvite(data) {
-  return dispatch => {
-    // { data: { organization_journey_id }}
-    return dispatch(callApi(REQUESTS.SEND_JOURNEY_INVITE, {}, data));
+  return async dispatch => {
+    const results = await dispatch(
+      callApi(REQUESTS.SEND_JOURNEY_INVITE, {}, data),
+    );
+    dispatch(getJourneyInvites());
+    return results;
   };
 }
 
-export function deleteJourneyInvite(journeyId) {
+export function deleteJourneyInvite(inviteId) {
   return dispatch => {
-    return dispatch(callApi(REQUESTS.DELETE_JOURNEY_INVITE, { journeyId }));
+    return dispatch(callApi(REQUESTS.DELETE_JOURNEY_INVITE, { inviteId }));
   };
 }
 

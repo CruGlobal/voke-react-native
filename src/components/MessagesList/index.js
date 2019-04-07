@@ -1,12 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { View, FlatList } from 'react-native';
 
 import CONSTANTS from '../../constants';
 import styles from './styles';
 import MessageItem from '../MessageItem';
 import LoadMore from '../../components/LoadMore';
-import { Flex } from '../../components/common';
+import { View, FlatList, Flex } from '../../components/common';
 
 class MessagesList extends Component {
   state = {

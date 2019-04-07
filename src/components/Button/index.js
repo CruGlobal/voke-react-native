@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Image } from 'react-native';
 import debounce from 'lodash/debounce';
 import Spinner from 'react-native-spinkit';
 
 import styles from './styles';
 
-import { Touchable, Text, Icon, Flex } from '../common';
+import { View, Image, Touchable, Text, Icon, Flex } from '../common';
 import theme from '../../theme';
 
 const TYPES = ['transparent', 'header', 'filled', 'disabled'];

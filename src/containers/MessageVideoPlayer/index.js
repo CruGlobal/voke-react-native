@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
@@ -10,7 +9,7 @@ import { createMessageInteraction } from '../../actions/messages';
 import styles from './styles';
 import WebviewVideo from '../../components/WebviewVideo';
 import webviewStates from '../../components/WebviewVideo/common';
-import { Icon, Flex, Touchable } from '../../components/common';
+import { View, Icon, Flex, Touchable } from '../../components/common';
 
 // Keep track of states that we want to make an API call if they happen
 const INTERACTION_STATES = [

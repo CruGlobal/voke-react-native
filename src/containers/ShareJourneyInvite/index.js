@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Image, Share } from 'react-native';
+import { Share } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import Analytics from '../../utils/analytics';
 import styles from './styles';
-import { navigateBack } from '../../actions/nav';
-import { Flex, Button, Text, Triangle } from '../../components/common';
+import { navigateTop } from '../../actions/nav';
+import { Image, Flex, Button, Text, Triangle } from '../../components/common';
 import SafeArea from '../../components/SafeArea';
 import VOKE_FIRST_NAME from '../../../images/vokebot_whole.png';
 import st from '../../st';
@@ -51,7 +51,7 @@ class ShareJourneyInvite extends Component {
 
   done = () => {
     const { dispatch } = this.props;
-    dispatch(navigateBack(3));
+    dispatch(navigateTop());
   };
 
   render() {

@@ -37,15 +37,13 @@ class ShareEnterName extends Component {
 
   continue = async () => {
     const { dispatch, item } = this.props;
+    const { firstName } = this.state;
     try {
       this.setState({ isLoading: true });
       const result = await dispatch(
         sendJourneyInvite({
           organization_journey_id: item.id,
-          code: new Array(5)
-            .fill(1)
-            .map(() => Math.floor(Math.random() * 10) + 1)
-            .join(''),
+          name: firstName,
         }),
       );
       dispatch(

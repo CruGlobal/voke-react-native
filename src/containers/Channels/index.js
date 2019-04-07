@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
@@ -17,7 +16,13 @@ import Header, { HeaderIcon } from '../Header';
 import PopupMenu from '../../components/PopupMenu';
 import ChannelsList from '../../components/ChannelsList';
 import StatusBar from '../../components/StatusBar';
-import { Flex, Text, RefreshControl } from '../../components/common';
+import {
+  View,
+  ScrollView,
+  Flex,
+  Text,
+  RefreshControl,
+} from '../../components/common';
 import theme from '../../theme';
 import { buildTrackingObj } from '../../utils/common';
 

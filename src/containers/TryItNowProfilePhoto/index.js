@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Image, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
@@ -10,7 +9,7 @@ import ImagePicker from '../../components/ImagePicker';
 import Analytics from '../../utils/analytics';
 import { navigateBack, navigateResetHome } from '../../actions/nav';
 
-import { Flex, Icon, Button, Text } from '../../components/common';
+import { Image, View, Flex, Icon, Button, Text } from '../../components/common';
 import SafeArea from '../../components/SafeArea';
 import VOKE_FIRST_NAME from '../../../images/vokebot_whole.png';
 import st from '../../st';
