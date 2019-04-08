@@ -27,7 +27,6 @@ import PrivacyToS from '../../components/PrivacyToS';
 import { trackState } from '../../actions/analytics';
 import { buildTrackingObj } from '../../utils/common';
 import st from '../../st';
-import { isAndroid } from '../../constants';
 
 const MARGIN = 40;
 const extraBottom = theme.isIphoneX ? 30 : 0;
@@ -206,14 +205,24 @@ class SignUpWelcome extends Component {
           />
           <Flex value={1} style={[st.bgDarkBlue]}>
             <Flex
-              style={{
-                position: st.isAndroid ? undefined : 'absolute',
-                bottom: 20 + extraBottom,
-                right: 0,
-                left: 0,
-                padding: 5,
-                marginHorizontal: 5,
-              }}
+              style={[
+                st.isAndroid
+                  ? {
+                      justifyContent: 'flex-end',
+                      flex: 1,
+                      marginBottom: 25,
+                    }
+                  : {
+                      position: 'absolute',
+                      bottom: 20 + extraBottom,
+                      right: 0,
+                      left: 0,
+                    },
+                {
+                  padding: 5,
+                  marginHorizontal: 5,
+                },
+              ]}
             >
               <Flex align="center" justify="center">
                 <Button
