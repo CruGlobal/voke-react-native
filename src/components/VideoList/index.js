@@ -180,6 +180,7 @@ class VideoList extends Component {
             onRefresh={this.handleRefresh}
           />
         }
+        extraData={{ isLoading: this.props.isLoading }}
         onEndReached={this.props.onLoadMore}
         ListHeaderComponent={this.renderNoText}
       />

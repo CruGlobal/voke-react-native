@@ -20,6 +20,7 @@ import {
   NO_BACKGROUND_ACTION,
   PUSH_PERMISSION,
   DONT_NAV_TO_VIDS,
+  RESET_FIRST_TIME,
 } from '../constants';
 import callApi, { REQUESTS } from './api';
 import {
@@ -57,11 +58,17 @@ export function startupAction() {
     Orientation.lockToPortrait();
     if (hasStartedUp) return;
 
+    const isFirstTime = getState().auth.isFirstTime;
+    if (isFirstTime) {
+      dispatch({ type: RESET_FIRST_TIME });
+    } else {
+      if (!__DEV__) {
+        dispatch(setOpenVoke());
+      }
+    }
+
     // Check push permissions and run 'establishDevice' if they have permission
     // TODO: Remove this for release
-    if (!__DEV__) {
-      dispatch(setOpenVoke());
-    }
 
     dispatch(checkPushPermissions());
     hasStartedUp = true;

@@ -100,7 +100,6 @@ class Videos extends Component {
       dispatch(getVideos(undefined, channel.id))
         .then(() => {
           this.updateVideoList('all');
-          this.setState({ isLoading: false });
         })
         .catch(() => {
           this.setState({ isLoading: false });
@@ -298,7 +297,6 @@ class Videos extends Component {
     if (filter === 'featured') {
       return dispatch(getFeaturedVideos(undefined, channelId))
         .then(r => {
-          this.setState({ isLoading: false });
           this.updateVideoList(filter);
           return r;
         })
@@ -306,7 +304,6 @@ class Videos extends Component {
     } else if (filter === 'popular') {
       return dispatch(getPopularVideos(undefined, channelId))
         .then(r => {
-          this.setState({ isLoading: false });
           this.updateVideoList(filter);
           return r;
         })
@@ -314,7 +311,6 @@ class Videos extends Component {
     } else if (filter === 'all') {
       return dispatch(getVideos(undefined, channelId))
         .then(r => {
-          this.setState({ isLoading: false });
           this.updateVideoList(filter);
           return r;
         })
@@ -322,7 +318,6 @@ class Videos extends Component {
     } else if (filter === 'themes') {
       return dispatch(getTags())
         .then(r => {
-          this.setState({ isLoading: false });
           this.showThemes();
           return r;
         })
@@ -330,7 +325,6 @@ class Videos extends Component {
     } else if (filter === 'favorites') {
       return dispatch(getFavorites(undefined, channelId))
         .then(r => {
-          this.setState({ isLoading: false });
           this.updateVideoList(filter);
           return r;
         })
@@ -359,6 +353,7 @@ class Videos extends Component {
     this.videoList &&
       this.videoList.getWrappedInstance &&
       this.videoList.getWrappedInstance().scrollToBeginning(false);
+    this.setState({ isLoading: false });
   }
 
   getSubscriberData() {

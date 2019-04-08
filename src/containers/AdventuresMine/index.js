@@ -19,6 +19,7 @@ import {
 import { navigatePush } from '../../actions/nav';
 import { startupAction } from '../../actions/auth';
 import MyAdventuresList from '../../components/MyAdventuresList';
+import NotificationToast from '../NotificationToast';
 import VOKE_LINK from '../../../images/vokebot_whole.png';
 import { buildTrackingObj } from '../../utils/common';
 import st from '../../st';
@@ -154,10 +155,11 @@ class AdventuresMine extends Component {
 
   render() {
     const { isLoading } = this.state;
-    const { me, myJourneys, invites } = this.props;
+    const { me, myJourneys, invites, dispatch } = this.props;
     const data = [].concat(invites, myJourneys);
     return (
       <View style={[st.f1, st.bgBlue]}>
+        <NotificationToast />
         {myJourneys.length < 1 && invites.length < 1 ? (
           this.renderNull()
         ) : (
@@ -171,6 +173,7 @@ class AdventuresMine extends Component {
             isLoading={isLoading}
             header={this.renderAdventureCode}
             me={me}
+            onClickProfile={() => dispatch(navigatePush('voke.Profile'))}
           />
         )}
       </View>

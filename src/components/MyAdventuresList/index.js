@@ -123,7 +123,7 @@ function ProgressDots({ index, isFilled }) {
   );
 }
 
-function MyAdventureCard({ me, item, onSelect }) {
+function MyAdventureCard({ me, item, onSelect, onClickProfile }) {
   const unreadCount = item.conversation.unread_messages;
   const hasUnread = unreadCount > 0;
   const available = item.progress.total;
@@ -207,11 +207,25 @@ function MyAdventureCard({ me, item, onSelect }) {
           </Flex>
         </Flex>
         <Flex align="center" justify="center" style={[st.tac, st.mr5]}>
-          <Image
-            source={{ uri: myUser.avatar.small }}
-            style={[st.circle(36)]}
-          />
-          <Text style={[st.charcoal, st.tac]}>
+          <Touchable onPress={() => onClickProfile()}>
+            <Image
+              source={{ uri: myUser.avatar.small }}
+              style={[st.circle(36)]}
+            />
+          </Touchable>
+          {!isSolo && otherUser && otherUser.avatar.small ? (
+            <Image
+              source={{ uri: otherUser.avatar.small }}
+              style={[st.circle(36), st.abstl, { left: -10 }]}
+            />
+          ) : null}
+          <Text
+            style={[
+              st.charcoal,
+              st.tac,
+              !isSolo ? { marginLeft: -10 } : { marginLeft: -3 },
+            ]}
+          >
             {isSolo ? '1 Player' : '2 Player'}
           </Text>
         </Flex>
@@ -247,7 +261,13 @@ class MyAdventuresList extends Component {
   }
 
   renderRow = ({ item }) => {
-    const { me, onSelect, onResendInvite, onDeleteInvite } = this.props;
+    const {
+      me,
+      onSelect,
+      onResendInvite,
+      onDeleteInvite,
+      onClickProfile,
+    } = this.props;
     if (item.code) {
       return (
         <InviteCard
@@ -258,7 +278,14 @@ class MyAdventuresList extends Component {
       );
     }
 
-    return <MyAdventureCard me={me} item={item} onSelect={onSelect} />;
+    return (
+      <MyAdventureCard
+        me={me}
+        item={item}
+        onSelect={onSelect}
+        onClickProfile={onClickProfile}
+      />
+    );
   };
 
   render() {
@@ -294,6 +321,7 @@ MyAdventuresList.propTypes = {
   onRefresh: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
   onResendInvite: PropTypes.func.isRequired,
+  onClickProfile: PropTypes.func.isRequired,
   onDeleteInvite: PropTypes.func.isRequired,
   items: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired,

@@ -158,7 +158,8 @@ class JourneyDetail extends Component {
     if (isLocked) {
       return;
     }
-    const { dispatch, item } = this.props;
+    const { dispatch, item, onPause } = this.props;
+    onPause();
     dispatch(
       navigatePush(
         'voke.VideoContentWrap',

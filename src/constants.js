@@ -26,6 +26,7 @@ export const RESET_ANON_USER = 'app/RESET_ANON_USER';
 export const PUSH_PERMISSION = 'app/PUSH_PERMISSION';
 export const SET_MESSAGE_MODAL = 'app/SET_MESSAGE_MODAL';
 export const DONT_NAV_TO_VIDS = 'app/DONT_NAV_TO_VIDS';
+export const RESET_FIRST_TIME = 'app/RESET_FIRST_TIME';
 // Overlays
 export const CLEAR_OVERLAY = 'app/CLEAR_OVERLAY';
 export const SET_OVERLAY = 'app/SET_OVERLAY';

@@ -9,6 +9,7 @@ import {
   Flex,
   Button,
 } from '../../components/common';
+import NotificationToast from '../NotificationToast';
 import { getOrgJourneys } from '../../actions/journeys';
 import OrgJourney from '../../components/OrgJourney';
 import { navigatePush } from '../../actions/nav';
@@ -77,6 +78,8 @@ class AdventuresFind extends Component {
   renderHeader = () => {
     return (
       <Flex justify="center" align="center">
+        <NotificationToast />
+
         <Button
           text="I have an Adventure Code"
           style={[st.w(st.fullWidth - 40), st.aic, st.mv5, st.asc]}
