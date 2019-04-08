@@ -223,6 +223,7 @@ const st = {
       barStyle: isAndroid ? 'light-content' : 'dark-content',
     },
   },
+  isAndroid,
   fullWidth: DEVICE_WIDTH,
   fullHeight: DEVICE_HEIGHT,
 };

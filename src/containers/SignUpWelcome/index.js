@@ -112,16 +112,16 @@ class SignUpWelcome extends Component {
         <View
           style={{
             overflow: 'hidden',
-            height: 80,
+            height: st.isAndroid ? 50 : 80,
             width: 160,
             position: 'absolute',
-            bottom: -80,
+            bottom: st.isAndroid ? -50 : -80,
             left: 0,
           }}
         >
           <Triangle
             width={160}
-            height={80}
+            height={st.isAndroid ? 50 : 80}
             color={'rgba(0,0,0,0.4)'}
             flip={true}
             slant="down"
@@ -198,18 +198,16 @@ class SignUpWelcome extends Component {
             </View>
           </IndicatorViewPager>
         </Flex>
-        <Flex style={[st.absb, st.fw100, st.fh40]}>
-          {isAndroid ? null : (
-            <Triangle
-              width={st.fullWidth}
-              height={160}
-              color={st.colors.darkBlue}
-            />
-          )}
+        <Flex style={[st.absb, st.fw100, st.isAndroid ? st.fh50 : st.fh40]}>
+          <Triangle
+            width={st.fullWidth}
+            height={st.isAndroid ? 120 : 160}
+            color={st.colors.darkBlue}
+          />
           <Flex value={1} style={[st.bgDarkBlue]}>
             <Flex
               style={{
-                position: 'absolute',
+                position: st.isAndroid ? undefined : 'absolute',
                 bottom: 20 + extraBottom,
                 right: 0,
                 left: 0,
@@ -230,7 +228,7 @@ class SignUpWelcome extends Component {
                 direction="row"
                 align="center"
                 justify="center"
-                style={[st.mt1, st.pt4]}
+                style={[st.mt2, st.pt4]}
               >
                 <Text style={styles.signIn}>{t('haveAccount')}</Text>
                 <Button
