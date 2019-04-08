@@ -40,7 +40,6 @@ class JourneyStepDetail extends Component {
   };
 
   componentDidMount() {
-    console.log('HERER');
     Analytics.screen(Analytics.s.JourneyStepDetail);
     this.setState({ viewRef: findNodeHandle(this.blurView) });
     this.getMessages();
@@ -49,7 +48,6 @@ class JourneyStepDetail extends Component {
   async getMessages() {
     const { dispatch, item, journey } = this.props;
     const { messages = [] } = await dispatch(getJourneyMessages(item, journey));
-    console.log('messages', messages);
     this.setState({ messages }, () => {
       this.setState({ viewRef: findNodeHandle(this.blurView) });
     });
@@ -171,7 +169,10 @@ class JourneyStepDetail extends Component {
     const isSkipped = response && response.content === '';
 
     return (
-      <ScrollView contentContainerStyle={[st.f1, st.bgBlue, st.minh(600)]}>
+      <ScrollView
+        style={[st.f1]}
+        contentContainerStyle={[st.bgBlue, st.minh(600)]}
+      >
         {!isComplete || hideOtherVokeOnboarding ? (
           <Flex align="center" style={[st.bgDarkBlue, st.ph1, st.pv4, st.ovh]}>
             <Text style={[st.fs4]}>

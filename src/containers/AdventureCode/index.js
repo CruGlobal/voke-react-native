@@ -34,6 +34,10 @@ class AdventureCode extends Component {
       this.goToPhoto();
       this.setState({ isLoading: false });
     } else {
+      if (!adventureCode) {
+        this.setState({ isLoading: false });
+        return;
+      }
       dispatch(acceptJourneyInvite(adventureCode))
         .then(r => {
           console.log('journey invite code results', r);
@@ -49,7 +53,11 @@ class AdventureCode extends Component {
         .catch(err => {
           console.log('error getting journey invite', err);
           this.setState({ isLoading: false });
-          Alert.alert('Oh no!', err.error);
+          let message = err.error;
+          if (!message && err.errors && err.errors[0]) {
+            message = err.errors[0];
+          }
+          Alert.alert('Oh no!', message);
         });
     }
   };
