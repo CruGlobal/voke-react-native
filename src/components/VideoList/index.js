@@ -173,6 +173,7 @@ class VideoList extends Component {
           index,
         })}
         style={[st.f1]}
+        removeClippedSubviews={false}
         contentContainerStyle={styles.content}
         refreshControl={
           <RefreshControl

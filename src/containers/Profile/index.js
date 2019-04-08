@@ -25,6 +25,7 @@ import {
   getMe,
   deleteAccount,
   logoutAction,
+  confirmAlert,
 } from '../../actions/auth';
 import Analytics from '../../utils/analytics';
 
@@ -184,23 +185,17 @@ class Profile extends Component {
   }
 
   handleDeleteAccount = () => {
-    const { t } = this.props;
-    Alert.alert(t('deleteSure'), t('deleteDescription'), [
-      {
-        text: t('cancel'),
-        onPress: () => console.log('canceled delete account'),
-        style: 'cancel',
-      },
-      { text: t('deleteAccount'), onPress: this.deleteAccount },
-    ]);
+    const { dispatch, t } = this.props;
+    dispatch(
+      confirmAlert(t('deleteSure'), t('deleteDescription'), this.deleteAccount),
+    );
   };
 
-  deleteAccount = () => {
-    this.props.dispatch(deleteAccount()).then(() => {
-      this.props.dispatch(logoutAction(true)).then(() => {
-        this.props.dispatch(navigateResetLogin());
-      });
-    });
+  deleteAccount = async () => {
+    const { dispatch } = this.props;
+    await dispatch(deleteAccount());
+    await dispatch(logoutAction(true));
+    dispatch(navigateResetLogin());
   };
 
   handleImageChange = data => {
@@ -557,7 +552,9 @@ class Profile extends Component {
                       text={
                         editEmail
                           ? t('cancel')
-                          : !user.email ? t('add') : t('edit')
+                          : !user.email
+                          ? t('add')
+                          : t('edit')
                       }
                       buttonTextStyle={styles.editText}
                       style={styles.inputButton}
@@ -578,7 +575,9 @@ class Profile extends Component {
                       text={
                         editPassword
                           ? t('cancel')
-                          : !user.email ? t('add') : t('edit')
+                          : !user.email
+                          ? t('add')
+                          : t('edit')
                       }
                       buttonTextStyle={styles.editText}
                       style={styles.inputButton}

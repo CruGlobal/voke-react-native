@@ -45,6 +45,8 @@ import { isArray, locale } from '../utils/common';
 import theme from '../theme';
 import Permissions from '../utils/permissions';
 import { logInAnalytics } from './analytics';
+import i18n from '../i18n';
+import { navigateResetMessage, navigateBack } from './nav';
 
 // Setup app state change listeners
 let appStateChangeFn;
@@ -602,6 +604,42 @@ export function setNoBackgroundAction(value) {
 export function setOpenVoke() {
   return dispatch => {
     return dispatch(callApi(REQUESTS.POST_OPEN_VOKE));
+  };
+}
+
+export function confirmAlert(title, message, onPress, text, onCancel) {
+  return () => {
+    Alert.alert(title, message, [
+      {
+        text: i18n.t('cancel'),
+        onPress: onCancel,
+        style: 'cancel',
+      },
+      { text: text || i18n.t('ok'), onPress },
+    ]);
+  };
+}
+
+export function shareVideo(video, onSelectVideo, conversation) {
+  return dispatch => {
+    dispatch(
+      confirmAlert(
+        i18n.t('videos:addToChat'),
+        i18n.t('videos:areYouSureAdd', {
+          name: video.name.substr(0, 25).trim(),
+        }),
+        () => {
+          onSelectVideo(video.id);
+          // Navigate back after selecting the video
+          if (conversation) {
+            dispatch(navigateResetMessage({ conversation }));
+          } else {
+            dispatch(navigateBack());
+          }
+        },
+        i18n.t('add'),
+      ),
+    );
   };
 }
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, View, ScrollView, Dimensions } from 'react-native';
+import { View, ScrollView, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Orientation from 'react-native-orientation';
@@ -7,12 +7,8 @@ import debounce from 'lodash/debounce';
 import { translate } from 'react-i18next';
 
 import Analytics from '../../utils/analytics';
-import {
-  navigateResetMessage,
-  navigateBack,
-  navigatePush,
-} from '../../actions/nav';
-import { toastAction } from '../../actions/auth';
+import { navigateBack, navigatePush } from '../../actions/nav';
+import { toastAction, shareVideo } from '../../actions/auth';
 import {
   favoriteVideo,
   unfavoriteVideo,
@@ -168,37 +164,13 @@ class VideoDetails extends Component {
   }
 
   handleShare = () => {
-    const { t, conversation, onSelectVideo, me, dispatch } = this.props;
+    const { conversation, onSelectVideo, me, dispatch } = this.props;
     const video = this.props.video || {};
 
     Orientation.lockToPortrait();
     // This logic exists in the VideoDetails and the VideoList
     if (onSelectVideo) {
-      Alert.alert(
-        t('addToChat'),
-        t('areYouSureAdd', {
-          name: video.name.substr(0, 25).trim(),
-        }),
-        [
-          { text: t('cancel') },
-          {
-            text: t('add'),
-            onPress: () => {
-              onSelectVideo(video.id);
-              // Navigate back after selecting the video
-              if (conversation) {
-                dispatch(
-                  navigateResetMessage({
-                    conversation: conversation,
-                  }),
-                );
-              } else {
-                dispatch(navigateBack());
-              }
-            },
-          },
-        ],
-      );
+      dispatch(shareVideo(video, onSelectVideo, conversation));
     } else {
       if (
         this.webview &&

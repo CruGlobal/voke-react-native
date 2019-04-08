@@ -17,7 +17,7 @@ import {
   deleteJourneyInvite,
 } from '../../actions/journeys';
 import { navigatePush } from '../../actions/nav';
-import { startupAction } from '../../actions/auth';
+import { startupAction, confirmAlert } from '../../actions/auth';
 import MyAdventuresList from '../../components/MyAdventuresList';
 import NotificationToast from '../NotificationToast';
 import VOKE_LINK from '../../../images/vokebot_whole.png';
@@ -97,11 +97,19 @@ class AdventuresMine extends Component {
   handleResendInvite = item => {
     console.log('resend', item);
   };
-  handleDeleteInvite = async item => {
-    console.log('delete invite', item);
+  handleDeleteInvite = item => {
     const { dispatch } = this.props;
-    await dispatch(deleteJourneyInvite(item.id));
-    this.load();
+    dispatch(
+      confirmAlert(
+        `Are you sure you want to delete ${item.name ||
+          'your friend'}'s invite?`,
+        `This cannot be undone. You can always invite them again by using "Invite a Friend".`,
+        async () => {
+          await dispatch(deleteJourneyInvite(item.id));
+          this.load();
+        },
+      ),
+    );
   };
 
   renderAdventureCode = () => {

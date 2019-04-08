@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, View, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
@@ -26,11 +26,10 @@ import Analytics from '../../utils/analytics';
 import {
   navigateBack,
   navigatePush,
-  navigateResetMessage,
   navigateResetToNumber,
   navigateResetToProfile,
 } from '../../actions/nav';
-import { startupAction } from '../../actions/auth';
+import { startupAction, shareVideo } from '../../actions/auth';
 
 import styles from './styles';
 import ApiLoading from '../ApiLoading';
@@ -466,34 +465,10 @@ class Videos extends Component {
   }
 
   handleShareVideo = video => {
-    const { t, onSelectVideo, conversation, user, dispatch } = this.props;
+    const { onSelectVideo, conversation, user, dispatch } = this.props;
     // This logic exists in the VideoDetails and the VideoList
     if (onSelectVideo) {
-      Alert.alert(
-        t('addToChat'),
-        t('areYouSureAdd', {
-          name: video.name.substr(0, 25).trim(),
-        }),
-        [
-          { text: t('cancel') },
-          {
-            text: t('add'),
-            onPress: () => {
-              onSelectVideo(video.id);
-              // Navigate back after selecting the video
-              if (conversation) {
-                dispatch(
-                  navigateResetMessage({
-                    conversation,
-                  }),
-                );
-              } else {
-                dispatch(navigateBack());
-              }
-            },
-          },
-        ],
-      );
+      dispatch(shareVideo(video, onSelectVideo, conversation));
     } else {
       if (!user.first_name) {
         dispatch(
