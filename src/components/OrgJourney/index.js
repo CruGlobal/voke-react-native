@@ -37,22 +37,26 @@ export default function OrgJourney({ onPress, item, onInviteFriend }) {
             {item.slogan}
           </Text>
         </Flex>
-        <Flex value={1} justify="end">
-          <Button
-            text="Invite a Friend"
-            onPress={onInviteFriend}
-            style={[
-              st.bgOrange,
-              st.mb5,
-              st.ph3,
-              st.pv6,
-              st.bw0,
-              st.br0,
-              st.br3,
-              st.aic,
-            ]}
-          />
-        </Flex>
+        {onInviteFriend ? (
+          <Flex value={1} justify="end">
+            <Button
+              text="Invite a Friend"
+              onPress={onInviteFriend}
+              style={[
+                st.bgOrange,
+                st.mb5,
+                st.ph3,
+                st.pv6,
+                st.bw0,
+                st.br0,
+                st.br3,
+                st.aic,
+              ]}
+            />
+          </Flex>
+        ) : (
+          <Flex value={1} />
+        )}
       </Flex>
     </Touchable>
   );
