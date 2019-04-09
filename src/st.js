@@ -1,6 +1,5 @@
-import { Platform, Dimensions } from 'react-native';
-
-const isAndroid = Platform.OS === 'android';
+import { StyleSheet, Platform, Dimensions } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 
 const colors = {
   blue: '#44c8e8',
@@ -28,6 +27,9 @@ const colors = {
   lightestGrey: '#ebebeb',
   transparent: 'transparent',
 };
+
+const isAndroid = Platform.OS === 'android';
+
 // Generate { color: ..., bgColor: ...} style object
 const generatedColors = Object.keys(colors).reduce((p, key) => {
   const value = colors[key];
@@ -44,29 +46,31 @@ const generatedColors = Object.keys(colors).reduce((p, key) => {
   };
 }, {});
 
-const DEVICE_WIDTH = Dimensions.get('window').width;
-const DEVICE_HEIGHT = Dimensions.get('window').height;
+const { width, height } = Dimensions.get('window');
 
 // Default styles
 
+const generateFn = (prefix, value) => ({ [prefix]: n => ({ [value]: n }) });
+const generate = (prefix, value, arr, calc) =>
+  arr.reduce(
+    (p, n, i) => ({
+      ...p,
+      [`${prefix}${calc ? n : i}`]: { [value]: calc ? calc(n) : n },
+    }),
+    generateFn(prefix, value),
+  );
+
 // pd0, pd1, ..., pd6
 const sizes = [0, 50, 30, 25, 15, 10, 5];
-const generateSizes = (prefix, value) =>
-  sizes.reduce((p, n, i) => ({ ...p, [`${prefix}${i}`]: { [value]: n } }), {});
+const generateSizes = (p, v) => generate(p, v, sizes);
 
 // w0, w10, ..., w100
 const percentages = [0, 10, 20, 25, 30, 40, 50, 60, 70, 75, 80, 90, 100];
-const generatePercentages = (prefix, value, calc) =>
-  percentages.reduce(
-    (p, n) => ({ ...p, [`${prefix}${n}`]: { [value]: calc(n) } }),
-    {},
-  );
+const generatePercentages = (p, v, calc) => generate(p, v, percentages, calc);
+
 // zi0, zi1, ..., zi5
 const nums = [0, 1, 2, 3, 4, 5];
-const generateNums = (prefix, value) =>
-  nums.reduce((p, n, i) => ({ ...p, [`${prefix}${i}`]: { [value]: n } }), {});
-
-const generateFn = (prefix, value) => ({ [prefix]: n => ({ [value]: n }) });
+const generateNums = (p, v) => generate(p, v, nums);
 
 function hexToRGB(hex, alpha, property) {
   const parse = c => parseInt(c, 16);
@@ -79,18 +83,26 @@ function hexToRGB(hex, alpha, property) {
   }
   return str;
 }
-const st = {
+
+// React Native StyleSheet for optimized styles
+const rnStyles = StyleSheet.create({
   abs: { position: 'absolute' },
   abst: { position: 'absolute', top: 0 },
+  absb: { position: 'absolute', bottom: 0 },
+  absl: { position: 'absolute', left: 0 },
+  absr: { position: 'absolute', right: 0 },
   abstr: { position: 'absolute', top: 0, right: 0 },
   abstl: { position: 'absolute', top: 0, left: 0 },
-  absb: { position: 'absolute', bottom: 0 },
+  abstlr: { position: 'absolute', top: 0, left: 0, right: 0 },
   absbr: { position: 'absolute', bottom: 0, right: 0 },
   absbl: { position: 'absolute', bottom: 0, left: 0 },
+  absblr: { position: 'absolute', bottom: 0, left: 0 },
+  abslr: { position: 'absolute', right: 0, left: 0 },
   absfill: { position: 'absolute', top: 0, right: 0, left: 0, bottom: 0 },
 
   rel: { position: 'relative' },
   ovh: { overflow: 'hidden' },
+  ovv: { overflow: 'visible' },
 
   bold: { fontWeight: 'bold' },
   light: { fontWeight: '300' },
@@ -98,16 +110,24 @@ const st = {
   tal: { textAlign: 'left' },
   tar: { textAlign: 'right' },
 
-  f1: { flex: 1 },
   aic: { alignItems: 'center' },
   ais: { alignItems: 'flex-start' },
   aie: { alignItems: 'flex-end' },
+  aist: { alignItems: 'stretch' },
   asc: { alignSelf: 'center' },
   ass: { alignSelf: 'flex-start' },
   ase: { alignSelf: 'flex-end' },
+  asa: { alignSelf: 'auto' },
+  asb: { alignSelf: 'baseline' },
+  asst: { alignSelf: 'stretch' },
   jcc: { justifyContent: 'center' },
   jcs: { justifyContent: 'flex-start' },
   jce: { justifyContent: 'flex-end' },
+  jcsb: { justifyContent: 'space-between' },
+  jcsa: { justifyContent: 'space-around' },
+  jcse: { justifyContent: 'space-evenly' },
+  fdr: { flexDirection: 'row' },
+  fdc: { flexDirection: 'column' },
 
   fs1: { fontSize: 32 },
   fs2: { fontSize: 24 },
@@ -116,91 +136,71 @@ const st = {
   fs5: { fontSize: 14 },
   fs6: { fontSize: 12 },
 
-  ...generatePercentages('op', 'opacity', n => n / 100),
-  ...generatePercentages('w', 'width', n => `${n}%`),
-  ...generatePercentages('minw', 'minWidth', n => `${n}%`),
-  ...generatePercentages('maxw', 'maxWidth', n => `${n}%`),
-  ...generatePercentages('fw', 'width', n => DEVICE_WIDTH * (n / 100)),
-  ...generatePercentages('minfw', 'minWidth', n => DEVICE_WIDTH * (n / 100)),
-  ...generatePercentages('maxfw', 'maxWidth', n => DEVICE_WIDTH * (n / 100)),
-  ...generatePercentages('h', 'height', n => `${n}%`),
-  ...generatePercentages('minh', 'minHeight', n => `${n}%`),
-  ...generatePercentages('maxh', 'maxHeight', n => `${n}%`),
-  ...generatePercentages('fh', 'height', n => DEVICE_HEIGHT * (n / 100)),
-  ...generatePercentages('minfh', 'minHeight', n => DEVICE_HEIGHT * (n / 100)),
-  ...generatePercentages('maxfh', 'maxHeight', n => DEVICE_HEIGHT * (n / 100)),
+  ...Object.assign(
+    generatePercentages('op', 'opacity', n => n / 100),
+    generatePercentages('w', 'width', n => `${n}%`),
+    generatePercentages('minw', 'minWidth', n => `${n}%`),
+    generatePercentages('maxw', 'maxWidth', n => `${n}%`),
+    generatePercentages('fw', 'width', n => width * (n / 100)),
+    generatePercentages('minfw', 'minWidth', n => width * (n / 100)),
+    generatePercentages('maxfw', 'maxWidth', n => width * (n / 100)),
+    generatePercentages('h', 'height', n => `${n}%`),
+    generatePercentages('minh', 'minHeight', n => `${n}%`),
+    generatePercentages('maxh', 'maxHeight', n => `${n}%`),
+    generatePercentages('fh', 'height', n => height * (n / 100)),
+    generatePercentages('minfh', 'minHeight', n => height * (n / 100)),
+    generatePercentages('maxfh', 'maxHeight', n => height * (n / 100)),
 
-  ...generateSizes('br', 'borderRadius'),
-  ...generateSizes('brtr', 'borderTopRightRadius'),
-  ...generateSizes('brtl', 'borderTopLeftRadius'),
-  ...generateSizes('brbr', 'borderBottomRightRadius'),
-  ...generateSizes('brbl', 'borderBottomLeftRadius'),
+    generateSizes('br', 'borderRadius'),
+    generateSizes('brtr', 'borderTopRightRadius'),
+    generateSizes('brtl', 'borderTopLeftRadius'),
+    generateSizes('brbr', 'borderBottomRightRadius'),
+    generateSizes('brbl', 'borderBottomLeftRadius'),
 
-  ...generateSizes('p', 'padding'),
-  ...generateSizes('pd', 'padding'),
-  ...generateSizes('ph', 'paddingHorizontal'),
-  ...generateSizes('pv', 'paddingVertical'),
-  ...generateSizes('pt', 'paddingTop'),
-  ...generateSizes('pb', 'paddingBottom'),
-  ...generateSizes('pl', 'paddingLeft'),
-  ...generateSizes('pr', 'paddingRight'),
+    generateSizes('p', 'padding'),
+    generateSizes('pd', 'padding'),
+    generateSizes('ph', 'paddingHorizontal'),
+    generateSizes('pv', 'paddingVertical'),
+    generateSizes('pt', 'paddingTop'),
+    generateSizes('pb', 'paddingBottom'),
+    generateSizes('pl', 'paddingLeft'),
+    generateSizes('pr', 'paddingRight'),
 
-  ...generateSizes('m', 'margin'),
-  ...generateSizes('mh', 'marginHorizontal'),
-  ...generateSizes('mv', 'marginVertical'),
-  ...generateSizes('mt', 'marginTop'),
-  ...generateSizes('mb', 'marginBottom'),
-  ...generateSizes('ml', 'marginLeft'),
-  ...generateSizes('mr', 'marginRight'),
+    generateSizes('m', 'margin'),
+    generateSizes('mh', 'marginHorizontal'),
+    generateSizes('mv', 'marginVertical'),
+    generateSizes('mt', 'marginTop'),
+    generateSizes('mb', 'marginBottom'),
+    generateSizes('ml', 'marginLeft'),
+    generateSizes('mr', 'marginRight'),
 
-  ...generateNums('bw', 'borderWidth'),
-  ...generateNums('zi', 'zIndex'),
-  ...generateNums('ls', 'letterSpacing'),
-  ...generateNums('lh', 'lineHeight'),
+    generateNums('bw', 'borderWidth'),
+    generateNums('zi', 'zIndex'),
+    generateNums('ls', 'letterSpacing'),
+    generateNums('lh', 'lineHeight'),
+    generateNums('f', 'flex'),
 
-  ...generateFn('br', 'borderRadius'),
-  ...generateFn('brtr', 'borderTopRightRadius'),
-  ...generateFn('brtl', 'borderTopLeftRadius'),
-  ...generateFn('brbr', 'borderBottomRightRadius'),
-  ...generateFn('brbl', 'borderBottomLeftRadius'),
-  ...generateFn('p', 'padding'),
-  ...generateFn('pd', 'padding'),
-  ...generateFn('ph', 'paddingHorizontal'),
-  ...generateFn('pv', 'paddingVertical'),
-  ...generateFn('pt', 'paddingTop'),
-  ...generateFn('pb', 'paddingBottom'),
-  ...generateFn('pl', 'paddingLeft'),
-  ...generateFn('pr', 'paddingRight'),
-  ...generateFn('m', 'margin'),
-  ...generateFn('mh', 'marginHorizontal'),
-  ...generateFn('mv', 'marginVertical'),
-  ...generateFn('mt', 'marginTop'),
-  ...generateFn('mb', 'marginBottom'),
-  ...generateFn('ml', 'marginLeft'),
-  ...generateFn('mr', 'marginRight'),
-  ...generateFn('fs', 'fontSize'),
-  ...generateFn('w', 'width'),
-  ...generateFn('minw', 'minWidth'),
-  ...generateFn('maxw', 'maxWidth'),
-  ...generateFn('h', 'height'),
-  ...generateFn('minh', 'minHeight'),
-  ...generateFn('maxh', 'maxHeight'),
-  ...generateFn('bw', 'borderWidth'),
-  ...generateFn('zi', 'zIndex'),
-  ...generateFn('ls', 'letterSpacing'),
-  ...generateFn('lh', 'lineHeight'),
-  ...generateFn('top', 'top'),
-  ...generateFn('left', 'left'),
-  ...generateFn('right', 'right'),
-  ...generateFn('bottom', 'bottom'),
+    generatedColors,
+  ),
+});
 
+// Additional styles and function helpers
+const extraStyles = {
+  ...Object.assign(
+    {},
+    generateFn('fs', 'fontSize'),
+    generateFn('top', 'top'),
+    generateFn('left', 'left'),
+    generateFn('right', 'right'),
+    generateFn('bottom', 'bottom'),
+  ),
   circle: s => ({ width: s, height: s, borderRadius: s / 2 }),
   rotate: n => ({ transform: [{ rotate: n }] }),
+  hitSlop: n => ({ top: n, left: n, bottom: n, right: n }),
 
   colors,
-  ...generatedColors,
   rgba: hexToRGB,
-  hitSlop: n => ({ top: n, left: n, bottom: n, right: n }),
+  hasNotch: DeviceInfo.hasNotch(),
 
   shadow: {
     shadowOpacity: 0.35,
@@ -210,7 +210,7 @@ const st = {
     },
     shadowColor: colors.black,
     shadowRadius: 1,
-    elevation: 5,
+    elevation: 4,
   },
 
   statusBar: {
@@ -224,8 +224,17 @@ const st = {
     },
   },
   isAndroid,
-  fullWidth: DEVICE_WIDTH,
-  fullHeight: DEVICE_HEIGHT,
+  fullWidth: width,
+  fullHeight: height,
 };
+
+const st = Object.assign({}, rnStyles, extraStyles);
+
+// Regex Helpers for find
+// Find all size/percentage layouts 'st\.[a-z]{0,5}[0-9]{2,3}'
+// Find all 1-6 layouts 'st\.[a-z]{0,5}[0-9]{1}'
+
+// const keys = Object.keys(st);
+// console.log('keys', keys);
 
 export default st;
