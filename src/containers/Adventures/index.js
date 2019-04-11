@@ -13,6 +13,7 @@ import Header, { HeaderIcon } from '../Header';
 import PopupMenu from '../../components/PopupMenu';
 import StatusBar from '../../components/StatusBar';
 import theme from '../../theme';
+import NotificationToast from '../NotificationToast';
 import AdventuresFind from '../AdventuresFind';
 import AdventuresMine from '../AdventuresMine';
 import st from '../../st';
@@ -35,7 +36,7 @@ class Adventures extends Component {
   };
 
   render() {
-    const { t, dispatch } = this.props;
+    const { t, dispatch, myJourneys, index } = this.props;
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
@@ -60,12 +61,16 @@ class Adventures extends Component {
           title={t('title.adventures')}
           shadow={false}
         />
+        <NotificationToast />
+
         <ScrollableTabView
           tabBarUnderlineStyle={{ backgroundColor: theme.white, height: 2 }}
           tabBarBackgroundColor={theme.secondaryColor}
           tabBarActiveTextColor={theme.white}
           tabBarInactiveTextColor={theme.primaryColor}
           tabBarTextStyle={{ fontWeight: 'normal' }}
+          initialPage={myJourneys && myJourneys.length > 0 ? 0 : 1}
+          page={index || null}
         >
           <View tabLabel={t('title.myAdventures')} style={[st.f1]}>
             <AdventuresMine />
@@ -82,9 +87,11 @@ class Adventures extends Component {
 
 Adventures.propTypes = {};
 
-const mapStateToProps = ({ auth }) => ({
+const mapStateToProps = ({ auth, journeys }, { navigation }) => ({
+  ...(navigation.state.params || {}),
   me: auth.user,
   isAnonUser: auth.isAnonUser, // Need this for the Android PopupMenu to determine which menu options to show
+  myJourneys: journeys.mine,
 });
 
 export default translate()(connect(mapStateToProps)(Adventures));

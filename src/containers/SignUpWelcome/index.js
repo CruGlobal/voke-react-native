@@ -68,7 +68,7 @@ class SignUpWelcome extends Component {
     return (
       <PagerDotIndicator
         style={{
-          marginBottom: st.fullWidth * 0.7,
+          marginBottom: st.fullHeight * 0.4,
           width: 100,
           marginHorizontal: st.fullWidth / 2 - 50,
         }}
@@ -197,7 +197,7 @@ class SignUpWelcome extends Component {
             </View>
           </IndicatorViewPager>
         </Flex>
-        <Flex style={[st.absb, st.fw100, st.isAndroid ? st.fh50 : st.fh40]}>
+        <Flex style={[st.absb, st.fw100, st.fh50]}>
           <Triangle
             width={st.fullWidth}
             height={st.isAndroid ? 120 : 160}

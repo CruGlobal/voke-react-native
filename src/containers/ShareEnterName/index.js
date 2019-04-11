@@ -47,7 +47,10 @@ class ShareEnterName extends Component {
         }),
       );
       dispatch(
-        navigatePush('voke.ShareJourneyInvite', { journeyInvite: result }),
+        navigatePush('voke.ShareJourneyInvite', {
+          journeyInvite: result,
+          friendName: firstName,
+        }),
       );
       console.log('result', result);
     } catch (error) {

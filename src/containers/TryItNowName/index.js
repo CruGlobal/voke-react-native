@@ -133,7 +133,7 @@ class TryItNowName extends Component {
                 placeholder="First"
                 autoCorrect={false}
                 autoCapitalize="words"
-                returnKeyType="done"
+                returnKeyType="next"
                 blurOnSubmit={true}
               />
               <Text style={styles.inputLabel}>Last Name</Text>

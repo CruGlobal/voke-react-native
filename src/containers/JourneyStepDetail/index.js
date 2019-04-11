@@ -37,6 +37,7 @@ class JourneyStepDetail extends Component {
     disabledInput: false,
     messages: [],
     completed: false,
+    skipped: false,
   };
 
   componentDidMount() {
@@ -68,7 +69,8 @@ class JourneyStepDetail extends Component {
     const { dispatch, item, journey } = this.props;
     await dispatch(skipJourneyMessage(item, journey));
     this.getMessages();
-    this.setState({ completed: true });
+    this.setState({ skipped: true });
+    this.load();
   };
 
   sendMessage = async () => {
@@ -80,19 +82,20 @@ class JourneyStepDetail extends Component {
     dispatch(createJourneyMessage(item, journey, text)).then(() => {
       this.getMessages();
       this.setState({ completed: true });
+      this.load();
     });
   };
 
   renderNext = () => {
     const { item } = this.props;
-    const { completed } = this.state;
-    const isComplete = item['completed_by_messenger?'] || completed;
+    const { completed, skipped } = this.state;
+    const isComplete = item['completed_by_messenger?'] || completed || skipped;
     if (!isComplete) return;
     return (
       <Button
         text="Next Video is Ready"
         onPress={() => {
-          this.load().then(() => this.props.dispatch(navigateBack()));
+          this.props.dispatch(navigateBack());
         }}
         style={[st.bgOrange, st.mt3, st.br1, st.bw0]}
       />
@@ -223,10 +226,11 @@ class JourneyStepDetail extends Component {
                 <Fragment>
                   <TextInput
                     autoCapitalize="sentences"
-                    returnKeyType="done"
+                    returnKeyType="send"
                     multiline={true}
                     blurOnSubmit={true}
                     disabled={disabledInput}
+                    onSubmitEditing={this.sendMessage}
                     placeholder="Your Answer..."
                     placeholderTextColor={st.colors.grey}
                     style={inputStyle}

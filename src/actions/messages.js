@@ -134,6 +134,9 @@ export function handleNewMessage(message) {
       });
       return;
     }
+    if (message.adventure_message) {
+      return;
+    }
     dispatch(vibrateAction());
     if (!theme.isAndroid) {
       dispatch(playSoundAction());

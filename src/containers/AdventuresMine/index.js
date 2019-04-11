@@ -19,7 +19,6 @@ import {
 import { navigatePush } from '../../actions/nav';
 import { startupAction, confirmAlert } from '../../actions/auth';
 import MyAdventuresList from '../../components/MyAdventuresList';
-import NotificationToast from '../NotificationToast';
 import VOKE_LINK from '../../../images/vokebot_whole.png';
 import { buildTrackingObj } from '../../utils/common';
 import st from '../../st';
@@ -167,7 +166,6 @@ class AdventuresMine extends Component {
     const data = [].concat(invites, myJourneys);
     return (
       <View style={[st.f1, st.bgBlue]}>
-        <NotificationToast />
         {myJourneys.length < 1 && invites.length < 1 ? (
           this.renderNull()
         ) : (
