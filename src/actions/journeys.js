@@ -83,7 +83,7 @@ export function getMyJourneySteps(journeyId) {
 export function getMyJourneyStep(journeyId, stepId) {
   return dispatch => {
     return dispatch(
-      callApi(REQUESTS.GET_MY_JOURNEY_STEPS, { journeyId, stepId }),
+      callApi(REQUESTS.GET_MY_JOURNEY_STEP, { journeyId, stepId }),
     );
   };
 }

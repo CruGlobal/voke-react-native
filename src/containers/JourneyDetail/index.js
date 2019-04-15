@@ -21,9 +21,9 @@ import { VIDEO_CONTENT_TYPES } from '../VideoContentWrap';
 
 function Item({ item, onSelect }) {
   const isActive = item.status === 'active';
-  const isCompleted = item['completed_by_messenger?'];
+  const isCompleted = item.status === 'completed';
   const isLocked = !isCompleted && !isActive;
-  const isWaiting = !isLocked && false; // TODO: Set this properly
+  const isWaiting = isActive && item['completed_by_messenger?'];
 
   const unreadCount = item.unread_messages;
   const hasUnread = unreadCount > 0;
@@ -193,7 +193,7 @@ class JourneyDetail extends Component {
         data={steps}
         renderItem={this.renderRow}
         keyExtractor={item => item.id}
-        style={[st.f1, st.bgBlue, st.pt5]}
+        style={[st.f1, st.bgBlue, st.pt5, st.minh100]}
         contentContainerStyle={[st.f1]}
         refreshControl={
           <RefreshControl

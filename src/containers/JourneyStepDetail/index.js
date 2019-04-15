@@ -24,6 +24,7 @@ import {
   createJourneyMessage,
   getJourneyMessages,
   getMyJourneySteps,
+  getMyJourneyStep,
 } from '../../actions/journeys';
 import { navigateBack } from '../../actions/nav';
 import { isAndroid } from '../../constants';
@@ -32,12 +33,9 @@ const dateFormat = 'MMM D @ h:mm A';
 
 class JourneyStepDetail extends Component {
   state = {
+    journeyStep: this.props.item,
     text: '',
     viewRef: null,
-    disabledInput: false,
-    messages: [],
-    completed: false,
-    skipped: false,
   };
 
   componentDidMount() {
@@ -46,21 +44,17 @@ class JourneyStepDetail extends Component {
     this.getMessages();
   }
 
-  async getMessages() {
+  getMessages() {
     const { dispatch, item, journey } = this.props;
-    const { messages = [] } = await dispatch(getJourneyMessages(item, journey));
-    this.setState({ messages }, () => {
-      this.setState({ viewRef: findNodeHandle(this.blurView) });
-    });
-    if (messages.length > 1) {
-      this.setState({ disabledInput: true });
-    }
+    dispatch(getJourneyMessages(item, journey));
+    this.load();
   }
 
   load = async () => {
-    const { dispatch, journey } = this.props;
-    const results = await dispatch(getMyJourneySteps(journey.id));
-    return results;
+    const { dispatch, item, journey } = this.props;
+    const journeyStep = await dispatch(getMyJourneyStep(journey.id, item.id));
+    this.setState({ journeyStep });
+    return await dispatch(getMyJourneySteps(journey.id));
   };
 
   changeText = t => this.setState({ text: t });
@@ -69,8 +63,6 @@ class JourneyStepDetail extends Component {
     const { dispatch, item, journey } = this.props;
     await dispatch(skipJourneyMessage(item, journey));
     this.getMessages();
-    this.setState({ skipped: true });
-    this.load();
   };
 
   sendMessage = async () => {
@@ -81,90 +73,97 @@ class JourneyStepDetail extends Component {
     }
     dispatch(createJourneyMessage(item, journey, text)).then(() => {
       this.getMessages();
-      this.setState({ completed: true });
-      this.load();
     });
   };
 
   renderNext = () => {
-    const { item } = this.props;
-    const { completed, skipped } = this.state;
-    const isComplete = item['completed_by_messenger?'] || completed || skipped;
-    if (!isComplete) return;
+    const { dispatch, steps } = this.props;
+    const { journeyStep } = this.state;
+    const isComplete = journeyStep.status === 'completed';
+    if (!isComplete) {
+      return;
+    }
+    // If this is the last step and it's complete, don't show this
+    if ((steps[steps.length - 1] || {}).id === journeyStep.id) {
+      return;
+    }
+
     return (
       <Button
         text="Next Video is Ready"
-        onPress={() => {
-          this.props.dispatch(navigateBack());
-        }}
+        onPress={() => dispatch(navigateBack())}
         style={[st.bgOrange, st.mt3, st.br1, st.bw0]}
       />
     );
   };
 
-  renderMessage() {
-    const { item } = this.props;
-    const { viewRef, messages, completed } = this.state;
-    const isComplete = item['completed_by_messenger?'] || completed;
+  renderMessages() {
+    const { me, messages } = this.props;
+    const { journeyStep, viewRef } = this.state;
+    const isComplete = journeyStep.status === 'completed';
 
-    const message = messages.find(
-      i =>
-        i.metadata &&
-        i.metadata.vokebot_action &&
-        i.metadata.vokebot_action === 'journey_step_comment',
-    );
-    if (!message) {
-      return null;
-    }
-    return (
-      <Fragment>
-        <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
-          <Flex
-            ref={c => (this.blurView = c)}
-            direction="column"
-            style={[st.w100, st.bgDarkBlue, st.br5, st.pd5]}
-          >
-            <Text style={[st.fs4]}>
-              {isAndroid && !isComplete ? '' : message.content}
-            </Text>
-            {isAndroid ? <Flex style={[st.pd4]} /> : null}
-          </Flex>
-          {!isComplete ? (
-            <Flex style={[st.absfill, st.br5]} align="center" justify="center">
-              {/* Blur stuff doesn't work on android */}
-              <BlurView
-                viewRef={viewRef}
-                blurType="dark"
-                blurAmount={3}
-                style={[st.absfill, st.br5]}
-              />
-              <Icon name="lock" size={40} style={[st.white]} />
+    const reversed = [...messages]
+      .reverse()
+      .filter(m => m.messenger_id !== me.id); // Remove my message
+    return reversed.map(m => {
+      const isVoke =
+        m.metadata &&
+        m.metadata.vokebot_action &&
+        m.metadata.vokebot_action === 'journey_step_comment';
+      return (
+        <Flex key={m.id} align="center" style={[st.fw100]}>
+          <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
+            <Flex
+              ref={c => (this.blurView = c)}
+              direction="column"
+              style={[st.w100, st.bgDarkBlue, st.br5, st.pd5]}
+            >
+              <Text style={[st.fs4]}>
+                {isAndroid && !isComplete ? '' : m.content}
+              </Text>
+              {isAndroid ? <Flex style={[st.pd4]} /> : null}
             </Flex>
-          ) : null}
-          <Image
-            source={VOKE_AVATAR}
-            style={[st.absbl, st.left(-30), st.circle(25), st.rotate('60deg')]}
-          />
+            {!isComplete ? (
+              <Flex
+                style={[st.absfill, st.br5]}
+                align="center"
+                justify="center"
+              >
+                {/* Blur stuff doesn't work on android */}
+                <BlurView
+                  viewRef={viewRef}
+                  blurType="dark"
+                  blurAmount={3}
+                  style={[st.absfill, st.br5]}
+                />
+                <Icon name="lock" size={40} style={[st.white]} />
+              </Flex>
+            ) : null}
+            <Image
+              source={isVoke ? VOKE_AVATAR : undefined}
+              style={[
+                st.absbl,
+                st.left(-30),
+                st.circle(25),
+                st.rotate('60deg'),
+              ]}
+            />
+          </Flex>
+          <Flex direction="column" style={[st.w80]}>
+            <DateComponent
+              style={[st.fs6]}
+              date={m.created_at}
+              format={dateFormat}
+            />
+          </Flex>
         </Flex>
-        <Flex direction="column" style={[st.w80]}>
-          <DateComponent
-            style={[st.fs6]}
-            date={message.created_at}
-            format={dateFormat}
-          />
-        </Flex>
-      </Fragment>
-    );
+      );
+    });
   }
 
   render() {
-    const { item, me, myJourneys } = this.props;
-    const { text, disabledInput, messages } = this.state;
-    const isComplete = item['completed_by_messenger?'];
-
-    const showFirstVokeMessage = item.position === 1;
-    // This is used to determine which hardcoded vokebot message we display at the top of the page
-    const hideOtherVokeOnboarding = myJourneys > 1;
+    const { me, messages } = this.props;
+    const { journeyStep, text } = this.state;
 
     const inputStyle = [st.f1, st.fs4, st.darkBlue];
 
@@ -175,18 +174,11 @@ class JourneyStepDetail extends Component {
       <ScrollView
         style={[st.f1]}
         contentContainerStyle={[st.bgBlue, st.minh(600)]}
+        keyboardShouldPersistTaps="handled"
       >
-        {!isComplete || hideOtherVokeOnboarding ? (
+        {journeyStep.status_message ? (
           <Flex align="center" style={[st.bgDarkBlue, st.ph1, st.pv4, st.ovh]}>
-            <Text style={[st.fs4]}>
-              {showFirstVokeMessage
-                ? `Hi ${
-                    me.first_name
-                  }! Watch the video then answer the question to unlock other people's answers!`
-                : `You are making great progress ${
-                    me.first_name
-                  }! I see you are getting the hang of it!`}
-            </Text>
+            <Text style={[st.fs4]}>{journeyStep.status_message}</Text>
             <Image
               source={VOKEBOT}
               style={[
@@ -208,7 +200,7 @@ class JourneyStepDetail extends Component {
               justify="center"
             >
               <Text style={[st.tac, st.fs(20), st.lh(24)]}>
-                {item.question}
+                {journeyStep.question}
               </Text>
             </Flex>
             <Flex
@@ -216,7 +208,7 @@ class JourneyStepDetail extends Component {
               align="center"
               style={[st.bgWhite, st.w100, st.pd4, st.brbl5, st.brbr5]}
             >
-              {disabledInput && response ? (
+              {response ? (
                 <Fragment>
                   <Text style={[inputStyle, isSkipped ? st.grey : null]}>
                     {isSkipped ? 'Skipped' : response.content}
@@ -229,7 +221,6 @@ class JourneyStepDetail extends Component {
                     returnKeyType="send"
                     multiline={true}
                     blurOnSubmit={true}
-                    disabled={disabledInput}
                     onSubmitEditing={this.sendMessage}
                     placeholder="Your Answer..."
                     placeholderTextColor={st.colors.grey}
@@ -268,7 +259,7 @@ class JourneyStepDetail extends Component {
               />
             </Flex>
           ) : null}
-          {this.renderMessage()}
+          {this.renderMessages()}
           {this.renderNext()}
         </Flex>
       </ScrollView>
@@ -281,9 +272,19 @@ JourneyStepDetail.propTypes = {
   onPause: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({ auth, journeys }, { navigation }) => ({
-  ...navigation.state.params,
+const mapStateToProps = (
+  { auth, journeys },
+  {
+    navigation: {
+      state: { params },
+    },
+  },
+) => ({
+  ...params,
+  // Get messages by step id
+  messages: journeys.messages[params.item.id] || [],
   me: auth.user,
+  steps: journeys.steps[params.journey.id] || [],
   myJourneys: journeys.mine,
 });
 

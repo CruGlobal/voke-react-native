@@ -7,6 +7,7 @@ export const SET_ALL_CONTACTS = 'app/SET_ALL_CONTACTS';
 export const SET_VOKE_CONTACTS = 'app/SET_VOKE_CONTACTS';
 export const SET_CONTACTS_LOADING = 'app/SET_CONTACTS_LOADING';
 export const NEW_MESSAGE = 'app/NEW_MESSAGE';
+export const NEW_JOURNEY_MESSAGE = 'app/NEW_JOURNEY_MESSAGE';
 export const TYPE_STATE_CHANGE = 'app/TYPE_STATE_CHANGE';
 export const MARK_READ = 'app/MARK_READ';
 export const SET_PUSH_TOKEN = 'app/SET_PUSH_TOKEN';

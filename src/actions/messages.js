@@ -8,12 +8,12 @@ import CONSTANTS, {
   MARK_READ,
   MESSAGE_CREATED,
   PREVIEW_MESSAGE_CREATED,
-  SET_MESSAGE_MODAL,
   SET_OVERLAY,
 } from '../constants';
 import callApi, { REQUESTS } from './api';
 import theme from '../theme';
 import { UTC_FORMAT } from '../utils/common';
+import { getJourneyMessages } from './journeys';
 
 export function getConversations() {
   return dispatch => {
@@ -135,6 +135,15 @@ export function handleNewMessage(message) {
       return;
     }
     if (message.adventure_message) {
+      // API call for getting journey step messages
+      // TODO: Only do this when the step screen is active
+      dispatch(
+        getJourneyMessages(
+          { id: message.messenger_journey_step_id },
+          { conversation_id: message.conversation_id },
+        ),
+      );
+      // dispatch({ type: NEW_JOURNEY_MESSAGE, message });
       return;
     }
     dispatch(vibrateAction());

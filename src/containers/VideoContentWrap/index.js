@@ -58,7 +58,9 @@ function getVideoType(item) {
   const media =
     (item.media
       ? item.media
-      : item.item && item.item.content ? item.item.content : {}) || {};
+      : item.item && item.item.content
+      ? item.item.content
+      : {}) || {};
   return media.type;
 }
 
@@ -253,6 +255,7 @@ class VideoContentWrap extends Component {
             style={[st.f1]}
             bounces={false}
             enableOnAndroid={true}
+            keyboardShouldPersistTaps="handled"
           >
             <Flex
               style={[styles.video, isLandscape ? [st.w100, st.h100] : null]}
