@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { Flex, Text, Touchable, Button, VokeIcon } from '../common';
+import { Flex, Text, Touchable, Button, VokeIcon, Icon } from '../common';
 import st from '../../st';
 
 export default function OrgJourney({ onPress, item, onInviteFriend }) {
@@ -28,20 +28,28 @@ export default function OrgJourney({ onPress, item, onInviteFriend }) {
             { backgroundColor: 'rgba(0, 0, 0, 0.6)' },
           ]}
         />
-        <Flex value={1}>
-          <Text> 8 part series</Text>
+        <Flex
+          justify="end"
+          direction="row"
+          self="stretch"
+          value={1}
+          style={[st.pr6, st.mt5]}
+        >
+          <Icon style={[st.white, st.mr6]} name="filter-none" size={14} />
+          <Text style={[st.bold, { letterSpacing: 2, fontSize: 10 }]}>
+            {' '}
+            8-PART SERIES
+          </Text>
         </Flex>
         <Flex value={1} align="center" justify="center">
           {onInviteFriend ? (
             <Flex
               direction="row"
               style={[
-                st.bgBlack,
-                st.op50,
                 st.br1,
                 st.ph6,
                 st.pl4,
-                { paddingVertical: 4 },
+                { paddingVertical: 4, backgroundColor: 'rgba(0,0,0,0.5)' },
                 st.mb6,
               ]}
               align="center"
