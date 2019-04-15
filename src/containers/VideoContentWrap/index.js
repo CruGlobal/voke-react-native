@@ -161,6 +161,13 @@ class VideoContentWrap extends Component {
       } else {
         id = item.item.id;
       }
+      if (
+        type === VIDEO_CONTENT_TYPES.ORGJOURNEY ||
+        type === VIDEO_CONTENT_TYPES.JOURNEYDETAIL
+      ) {
+        return;
+      }
+
       dispatch(createVideoInteraction(id));
     }
   };

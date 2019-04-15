@@ -12,9 +12,11 @@ import VOKE_FIRST_NAME from '../../../images/vokebot_whole.png';
 import st from '../../st';
 import { determinePushOverlay } from '../../actions/socket';
 
-const APP_URL = 'https://www.vokeapp.com/';
+const APP_URL = 'https://voke.page.link/app';
 function buildMessage(code, friend) {
-  return `Hi ${friend}. Download Voke and use this code: ${code} ${APP_URL}`;
+  return `Hi ${friend}. Download Voke and use this Adventure code: ${code} ${
+    APP_URL
+  }`;
 }
 
 class ShareJourneyInvite extends Component {
