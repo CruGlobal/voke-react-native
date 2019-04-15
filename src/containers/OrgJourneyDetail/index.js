@@ -24,7 +24,8 @@ class OrgJourneyDetail extends Component {
   myself = async () => {
     const { dispatch, item } = this.props;
     this.setState({ myselfIsLoading: true });
-    // TODO: Go to the new journey page
+    this.props.onPause();
+
     try {
       const result = await dispatch(
         createMyJourney({ organization_journey_id: item.id }),
@@ -50,6 +51,7 @@ class OrgJourneyDetail extends Component {
 
   friend = async () => {
     const { dispatch, item } = this.props;
+    this.props.onPause();
     dispatch(navigatePush('voke.ShareEnterName', { item }));
   };
 
