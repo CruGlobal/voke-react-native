@@ -37,8 +37,7 @@ export default function OrgJourney({ onPress, item, onInviteFriend }) {
         >
           <Icon style={[st.white, st.mr6]} name="filter-none" size={14} />
           <Text style={[st.bold, { letterSpacing: 2, fontSize: 10 }]}>
-            {' '}
-            8-PART SERIES
+            {item.total_steps}-PART SERIES
           </Text>
         </Flex>
         <Flex value={1} align="center" justify="center">
