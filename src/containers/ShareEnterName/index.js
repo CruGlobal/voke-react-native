@@ -12,9 +12,7 @@ import { translate } from 'react-i18next';
 
 import { navigatePush } from '../../actions/nav';
 import Analytics from '../../utils/analytics';
-import { createAccountAction, setupFirebaseLinks } from '../../actions/auth';
 import styles from './styles';
-import { updateMe } from '../../actions/auth';
 import { navigateBack } from '../../actions/nav';
 import { Flex, Button, Text } from '../../components/common';
 import SafeArea from '../../components/SafeArea';
@@ -38,21 +36,21 @@ class ShareEnterName extends Component {
   continue = async () => {
     const { dispatch, item } = this.props;
     const { firstName } = this.state;
+    const name = (firstName || '').trim();
     try {
       this.setState({ isLoading: true });
       const result = await dispatch(
         sendJourneyInvite({
           organization_journey_id: item.id,
-          name: firstName,
+          name,
         }),
       );
       dispatch(
         navigatePush('voke.ShareJourneyInvite', {
           journeyInvite: result,
-          friendName: firstName,
+          friendName: name,
         }),
       );
-      console.log('result', result);
     } catch (error) {
       console.log('error', error);
     } finally {

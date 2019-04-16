@@ -15,6 +15,7 @@ import {
   getMyJourneys,
   getJourneyInvites,
   deleteJourneyInvite,
+  resendJourneyInvite,
 } from '../../actions/journeys';
 import { navigatePush } from '../../actions/nav';
 import { startupAction, confirmAlert } from '../../actions/auth';
@@ -93,9 +94,12 @@ class AdventuresMine extends Component {
       }),
     );
   };
+
   handleResendInvite = item => {
-    console.log('resend', item);
+    const { dispatch } = this.props;
+    dispatch(resendJourneyInvite(item.id));
   };
+
   handleDeleteInvite = item => {
     const { dispatch } = this.props;
     dispatch(

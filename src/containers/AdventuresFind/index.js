@@ -103,6 +103,7 @@ class AdventuresFind extends Component {
             onRefresh={this.handleRefresh}
           />
         }
+        removeClippedSubviews={false}
       />
     );
   }

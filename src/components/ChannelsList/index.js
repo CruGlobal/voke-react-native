@@ -115,6 +115,7 @@ class ChannelsList extends Component {
               )
             : undefined
         }
+        removeClippedSubviews={false}
       />
     );
   }

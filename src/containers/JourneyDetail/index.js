@@ -201,6 +201,7 @@ class JourneyDetail extends Component {
             onRefresh={this.handleRefresh}
           />
         }
+        removeClippedSubviews={false}
       />
     );
   }

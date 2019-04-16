@@ -352,6 +352,10 @@ export default {
     endpoint: API_URL + 'me/journey_invites',
     method: 'post',
   },
+  RESEND_JOURNEY_INVITE: {
+    endpoint: API_URL + 'me/journey_invites/:inviteId/resend',
+    method: 'put',
+  },
   DELETE_JOURNEY_INVITE: {
     endpoint: API_URL + 'me/journey_invites/:inviteId',
     method: 'delete',

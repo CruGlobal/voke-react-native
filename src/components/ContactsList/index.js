@@ -138,6 +138,7 @@ class ContactsList extends Component {
       ),
       maxToRenderPerBatch: 30,
       style: { paddingBottom: 30 },
+      removeClippedSubviews: false,
     };
     if (theme.isAndroid) {
       return (

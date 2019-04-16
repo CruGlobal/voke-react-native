@@ -35,6 +35,16 @@ export function sendJourneyInvite(data) {
   };
 }
 
+export function resendJourneyInvite(inviteId) {
+  return async dispatch => {
+    const results = await dispatch(
+      callApi(REQUESTS.RESEND_JOURNEY_INVITE, { inviteId }),
+    );
+    dispatch(getJourneyInvites());
+    return results;
+  };
+}
+
 export function deleteJourneyInvite(inviteId) {
   return dispatch => {
     return dispatch(callApi(REQUESTS.DELETE_JOURNEY_INVITE, { inviteId }));

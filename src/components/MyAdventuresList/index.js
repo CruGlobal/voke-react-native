@@ -39,7 +39,7 @@ function getExpiredTimeFn(date) {
 const getExpiredTime = lodashMemoize(getExpiredTimeFn);
 
 function InviteCard({ item, onResend, onDelete }) {
-  const { name, expires_at } = item;
+  const { name, expires_at, code } = item;
   const { str, isExpired } = getExpiredTime(expires_at);
 
   return (
@@ -74,26 +74,34 @@ function InviteCard({ item, onResend, onDelete }) {
         <Text numberOfLines={1} style={[st.white, st.fs4]}>
           Waiting for {name || 'your friend'} to join...
         </Text>
-        {!isExpired ? (
-          <Text numberOfLines={1} style={[st.pb6, st.white, st.fs6]}>
-            {str}
+        <Flex direction="row" align="center" style={[st.pb6]}>
+          {!isExpired ? (
+            <Text numberOfLines={1} style={[st.white, st.fs6]}>
+              {str}
+            </Text>
+          ) : (
+            <Button
+              text="Resend"
+              onPress={() => onResend(item)}
+              style={[
+                st.bgOrange,
+                st.ph5,
+                st.pv(2),
+                st.bw0,
+                st.br0,
+                st.br3,
+                st.aic,
+              ]}
+              buttonTextStyle={[st.fs6]}
+            />
+          )}
+          <Text numberOfLines={1} style={[st.white, st.fs6]}>
+            {'  '}·{'  '}Code:{' '}
           </Text>
-        ) : (
-          <Button
-            text="Resend"
-            onPress={() => onResend(item)}
-            style={[
-              st.bgOrange,
-              st.ph5,
-              st.pv(2),
-              st.bw0,
-              st.br0,
-              st.br3,
-              st.aic,
-            ]}
-            buttonTextStyle={[st.fs6]}
-          />
-        )}
+          <Text selectable={true} style={[st.white, st.fs6, st.bold]}>
+            {code}
+          </Text>
+        </Flex>
       </Flex>
 
       <Flex align="center" justify="center" style={[st.tac, st.mr4, st.ml6]}>
@@ -311,6 +319,7 @@ class MyAdventuresList extends Component {
         }
         onEndReached={onLoadMore}
         ListHeaderComponent={header}
+        removeClippedSubviews={false}
       />
     );
   }

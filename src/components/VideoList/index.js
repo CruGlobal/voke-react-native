@@ -173,7 +173,6 @@ class VideoList extends Component {
           index,
         })}
         style={[st.f1]}
-        removeClippedSubviews={false}
         contentContainerStyle={styles.content}
         refreshControl={
           <RefreshControl
@@ -184,6 +183,7 @@ class VideoList extends Component {
         extraData={{ isLoading: this.props.isLoading }}
         onEndReached={this.props.onLoadMore}
         ListHeaderComponent={this.renderNoText}
+        removeClippedSubviews={false}
       />
     );
   }

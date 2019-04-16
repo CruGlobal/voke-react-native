@@ -31,6 +31,7 @@ class SettingsList extends Component {
           keyExtractor={item => item.name.replace(/\s/gi, '')}
           style={[st.f1]}
           contentContainerStyle={styles.content}
+          removeClippedSubviews={false}
         />
       </SafeArea>
     );

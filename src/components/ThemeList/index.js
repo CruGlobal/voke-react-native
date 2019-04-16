@@ -70,6 +70,7 @@ class ThemeList extends Component {
           keyExtractor={item => item.name.replace(/\s/gi, '')}
           style={styles.list}
           contentContainerStyle={styles.content}
+          removeClippedSubviews={false}
         />
         <Flex direction="row" style={styles.buttonWrapper}>
           <Flex value={1} style={styles.buttonBorder}>
