@@ -14,6 +14,7 @@ import RefreshControl from './RefreshControl';
 import Avatar from './Avatar';
 import VokeIcon from './VokeIcon';
 import Triangle from './Triangle';
+import StatusBar from './StatusBar';
 
 export {
   FlatList,
@@ -33,4 +34,5 @@ export {
   Avatar,
   Triangle,
   VokeIcon,
+  StatusBar,
 };

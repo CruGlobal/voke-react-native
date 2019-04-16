@@ -18,6 +18,7 @@ import st from '../../st';
 import { navigatePush } from '../../actions/nav';
 import { buildTrackingObj } from '../../utils/common';
 import { VIDEO_CONTENT_TYPES } from '../VideoContentWrap';
+import { isAndroid } from '../../constants';
 
 function Item({ item, onSelect }) {
   const isActive = item.status === 'active';
@@ -89,7 +90,13 @@ function Item({ item, onSelect }) {
               </Flex>
             ) : null}
           </Flex>
-          <Flex style={[st.absbr, st.bottom(-28), st.mh5]}>
+          <Flex
+            style={[
+              st.absbr,
+              isAndroid ? st.bottom(-23) : st.bottom(-28),
+              st.mh5,
+            ]}
+          >
             <Text style={[isWaiting ? st.orange : st.blue, st.fs(72)]}>
               {item.position}
             </Text>

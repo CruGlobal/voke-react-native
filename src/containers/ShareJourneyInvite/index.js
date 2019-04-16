@@ -14,9 +14,7 @@ import { determinePushOverlay } from '../../actions/socket';
 
 const APP_URL = 'https://voke.page.link/app';
 function buildMessage(code, friend) {
-  return `Hi ${friend}. Download Voke and use this Adventure code: ${code} ${
-    APP_URL
-  }`;
+  return `Hi ${friend}. Download Voke and use this Adventure code: ${code} ${APP_URL}`;
 }
 
 class ShareJourneyInvite extends Component {
@@ -74,7 +72,7 @@ class ShareJourneyInvite extends Component {
                 width={10}
                 height={20}
                 color={st.colors.offBlue}
-                style={[{ marginTop: -10 }, st.rotate('45deg')]}
+                style={[st.mt(-10), st.rotate('45deg')]}
               />
             </Flex>
             <Image
@@ -94,7 +92,7 @@ class ShareJourneyInvite extends Component {
                 onPress={this.share}
               />
             </Flex>
-            <Flex style={[st.abstr, st.ph3, st.pv6]}>
+            <Flex style={[st.abstr, st.ph3, st.pv4]}>
               <Button type="transparent" text="Done" onPress={this.done} />
             </Flex>
           </Flex>

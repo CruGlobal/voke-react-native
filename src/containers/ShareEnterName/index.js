@@ -14,7 +14,7 @@ import { navigatePush } from '../../actions/nav';
 import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { navigateBack } from '../../actions/nav';
-import { Flex, Button, Text } from '../../components/common';
+import { Flex, Button, Text, StatusBar } from '../../components/common';
 import SafeArea from '../../components/SafeArea';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
@@ -63,6 +63,7 @@ class ShareEnterName extends Component {
     const { isLoading, firstName } = this.state;
     return (
       <View style={styles.container} align="center">
+        <StatusBar hidden={false} />
         <SafeArea style={[st.f1, st.bgDarkBlue]} top={[st.bgBlue]}>
           <KeyboardAvoidingView
             style={styles.container}

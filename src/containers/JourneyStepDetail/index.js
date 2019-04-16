@@ -42,13 +42,12 @@ class JourneyStepDetail extends Component {
   state = {
     journeyStep: this.props.item,
     text: '',
-    viewRef: null,
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     Analytics.screen(Analytics.s.JourneyStepDetail);
-    this.setState({ viewRef: findNodeHandle(this.blurView) });
     this.getMessages();
+
     this.checkIfLast();
   }
 
@@ -126,7 +125,7 @@ class JourneyStepDetail extends Component {
 
   renderMessages() {
     const { me, messages } = this.props;
-    const { journeyStep, viewRef } = this.state;
+    const { journeyStep } = this.state;
     const isComplete = journeyStep.status === 'completed';
 
     const reversed = [...messages]
@@ -157,12 +156,13 @@ class JourneyStepDetail extends Component {
                 justify="center"
               >
                 {/* Blur stuff doesn't work on android */}
-                <BlurView
-                  viewRef={viewRef}
-                  blurType="dark"
-                  blurAmount={3}
-                  style={[st.absfill, st.br5]}
-                />
+                {isAndroid ? null : (
+                  <BlurView
+                    blurType="dark"
+                    blurAmount={3}
+                    style={[st.absfill, st.br5]}
+                  />
+                )}
                 <Icon name="lock" size={40} style={[st.white]} />
               </Flex>
             ) : null}
@@ -301,7 +301,11 @@ JourneyStepDetail.propTypes = {
 
 const mapStateToProps = (
   { auth, journeys },
-  { navigation: { state: { params } } },
+  {
+    navigation: {
+      state: { params },
+    },
+  },
 ) => ({
   ...params,
   // Get messages by step id

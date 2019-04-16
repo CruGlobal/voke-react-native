@@ -141,11 +141,9 @@ class AdventuresMine extends Component {
             color={st.colors.offBlue}
             style={[
               st.abs,
-              {
-                right: st.fullWidth - 170,
-                bottom: 60,
-                transform: [{ rotate: '45deg' }],
-              },
+              st.right(st.fullWidth - 170),
+              st.bottom(60),
+              st.rotate('45deg'),
             ]}
           />
           <Flex style={[st.br6, st.bgOffBlue, st.pd4, st.mh5]}>
