@@ -69,8 +69,11 @@ class Adventures extends Component {
           tabBarActiveTextColor={theme.white}
           tabBarInactiveTextColor={theme.primaryColor}
           tabBarTextStyle={{ fontWeight: 'normal' }}
-          initialPage={myJourneys && myJourneys.length > 0 ? 0 : 1}
-          page={index || null}
+          initialPage={
+            index !== undefined
+              ? index
+              : myJourneys && myJourneys.length > 0 ? 0 : 1
+          }
         >
           <View tabLabel={t('title.myAdventures')} style={[st.f1]}>
             <AdventuresMine />

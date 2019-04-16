@@ -40,16 +40,22 @@ export default function adventures(state = initialState, action) {
         invites: action.journey_invites,
       };
     case REQUESTS.GET_MY_JOURNEY_STEPS.SUCCESS:
-      const {
-        query: { journeyId: stepsJourneyId },
-        steps,
-      } = action;
+      const { query: { journeyId: stepsJourneyId }, steps } = action;
+      const completed = steps.reduce((previous, next) => {
+        return previous + (next.status === 'completed' ? 1 : 0);
+      }, 0);
       return {
         ...state,
         steps: {
           ...state.steps,
           [stepsJourneyId]: steps || [],
         },
+        mine: state.mine.map(
+          i =>
+            i.id === stepsJourneyId
+              ? { ...i, progress: { ...i.progress, completed } }
+              : i,
+        ),
       };
     case REQUESTS.GET_MESSAGES.SUCCESS:
       const {

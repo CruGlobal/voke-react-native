@@ -134,10 +134,12 @@ class TryItNowName extends Component {
                 autoCorrect={false}
                 autoCapitalize="words"
                 returnKeyType="next"
+                onSubmitEditing={() => this.lastNameInput.focus()}
                 blurOnSubmit={true}
               />
               <Text style={styles.inputLabel}>Last Name</Text>
               <SignUpInput
+                ref={c => (this.lastNameInput = c)}
                 value={this.state.lastName}
                 type="new"
                 onChangeText={t => this.setState({ lastName: t })}
@@ -146,6 +148,7 @@ class TryItNowName extends Component {
                 autoCorrect={false}
                 returnKeyType="done"
                 blurOnSubmit={true}
+                onSubmitEditing={this.createAccount}
               />
             </Flex>
             <Flex value={1} justify="end" style={[styles.buttonWrapper]}>

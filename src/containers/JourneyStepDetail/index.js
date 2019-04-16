@@ -1,5 +1,11 @@
 import React, { Component, Fragment } from 'react';
-import { findNodeHandle, TextInput, ScrollView, Image } from 'react-native';
+import {
+  findNodeHandle,
+  TextInput,
+  ScrollView,
+  Image,
+  Alert,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import { BlurView } from 'react-native-blur';
 
@@ -7,6 +13,7 @@ import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
 import Analytics from '../../utils/analytics';
+import { navigatePush } from '../../actions/nav';
 import VOKEBOT from '../../../images/vokebot_whole.png';
 import VOKE_AVATAR from '../../../images/voke_avatar_small.png';
 
@@ -42,6 +49,7 @@ class JourneyStepDetail extends Component {
     Analytics.screen(Analytics.s.JourneyStepDetail);
     this.setState({ viewRef: findNodeHandle(this.blurView) });
     this.getMessages();
+    this.checkIfLast();
   }
 
   getMessages() {
@@ -52,9 +60,26 @@ class JourneyStepDetail extends Component {
 
   load = async () => {
     const { dispatch, item, journey } = this.props;
-    const journeyStep = await dispatch(getMyJourneyStep(journey.id, item.id));
-    this.setState({ journeyStep });
+
+    const currentJourneyStep = await dispatch(
+      getMyJourneyStep(journey.id, item.id),
+    );
+    this.setState({ journeyStep: currentJourneyStep });
     return await dispatch(getMyJourneySteps(journey.id));
+  };
+
+  checkIfLast = () => {
+    const { dispatch, steps } = this.props;
+    const { journeyStep } = this.state;
+
+    if ((steps[steps.length - 1] || {}).id === journeyStep.id) {
+      Alert.alert('Congrats, you finished the journey!', '', [
+        {
+          text: 'OK',
+          onPress: () => dispatch(navigatePush('voke.Adventures')),
+        },
+      ]);
+    }
   };
 
   changeText = t => this.setState({ text: t });
@@ -63,6 +88,7 @@ class JourneyStepDetail extends Component {
     const { dispatch, item, journey } = this.props;
     await dispatch(skipJourneyMessage(item, journey));
     this.getMessages();
+    this.checkIfLast();
   };
 
   sendMessage = async () => {
@@ -73,6 +99,7 @@ class JourneyStepDetail extends Component {
     }
     dispatch(createJourneyMessage(item, journey, text)).then(() => {
       this.getMessages();
+      this.checkIfLast();
     });
   };
 
