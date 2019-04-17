@@ -1,11 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import {
-  findNodeHandle,
-  TextInput,
-  ScrollView,
-  Image,
-  Alert,
-} from 'react-native';
+import { TextInput, ScrollView, Image, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { BlurView } from 'react-native-blur';
 
@@ -47,8 +41,6 @@ class JourneyStepDetail extends Component {
   async componentDidMount() {
     Analytics.screen(Analytics.s.JourneyStepDetail);
     this.getMessages();
-
-    this.checkIfLast();
   }
 
   getMessages() {
@@ -124,7 +116,7 @@ class JourneyStepDetail extends Component {
   };
 
   renderMessages() {
-    const { me, messages } = this.props;
+    const { me, messages, messengers } = this.props;
     const { journeyStep } = this.state;
     const isComplete = journeyStep.status === 'completed';
 
@@ -136,6 +128,7 @@ class JourneyStepDetail extends Component {
         m.metadata &&
         m.metadata.vokebot_action &&
         m.metadata.vokebot_action === 'journey_step_comment';
+      const messenger = messengers.find(i => i.id === m.messenger_id) || {};
       return (
         <Flex key={m.id} align="center" style={[st.fw100]}>
           <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
@@ -149,6 +142,7 @@ class JourneyStepDetail extends Component {
               </Text>
               {isAndroid ? <Flex style={[st.pd4]} /> : null}
             </Flex>
+            {/* TODO: Tap to reveal */}
             {!isComplete ? (
               <Flex
                 style={[st.absfill, st.br5]}
@@ -167,12 +161,14 @@ class JourneyStepDetail extends Component {
               </Flex>
             ) : null}
             <Image
-              source={isVoke ? VOKE_AVATAR : undefined}
+              source={
+                isVoke ? VOKE_AVATAR : { uri: (messenger.avatar || {}).small }
+              }
               style={[
                 st.absbl,
                 st.left(-30),
                 st.circle(25),
-                st.rotate('60deg'),
+                isVoke ? st.rotate('60deg') : undefined,
               ]}
             />
           </Flex>
@@ -189,13 +185,14 @@ class JourneyStepDetail extends Component {
   }
 
   render() {
-    const { me, messages } = this.props;
+    const { me, messages, messengers } = this.props;
     const { journeyStep, text } = this.state;
 
     const inputStyle = [st.f1, st.fs4, st.darkBlue];
 
     const response = messages.find(i => i.messenger_id === me.id);
     const isSkipped = response && response.content === '';
+    const meMessenger = messengers.find(i => i.id === me.id);
 
     return (
       <ScrollView
@@ -276,6 +273,10 @@ class JourneyStepDetail extends Component {
                 </Fragment>
               )}
             </Flex>
+            <Image
+              source={{ uri: (meMessenger.avatar || {}).small }}
+              style={[st.absbr, st.right(-30), st.circle(25)]}
+            />
           </Flex>
           {response ? (
             <Flex direction="column" style={[st.w80]}>
@@ -309,6 +310,7 @@ const mapStateToProps = (
 ) => ({
   ...params,
   // Get messages by step id
+  messengers: params.journey.conversation.messengers || [],
   messages: journeys.messages[params.item.id] || [],
   me: auth.user,
   steps: journeys.steps[params.journey.id] || [],
