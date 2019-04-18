@@ -151,11 +151,20 @@ class JourneyStepDetail extends Component {
               >
                 {/* Blur stuff doesn't work on android */}
                 {isAndroid ? null : (
-                  <BlurView
-                    blurType="dark"
-                    blurAmount={3}
-                    style={[st.absfill, st.br5]}
-                  />
+                  <Fragment>
+                    <BlurView
+                      blurType="light"
+                      blurAmount={2}
+                      style={[st.absfill, st.br5]}
+                    />
+                    <Flex
+                      style={[
+                        st.absfill,
+                        st.br5,
+                        { backgroundColor: 'rgba(0,0,0,0.3)' },
+                      ]}
+                    />
+                  </Fragment>
                 )}
                 <Icon name="lock" size={40} style={[st.white]} />
               </Flex>
@@ -302,11 +311,7 @@ JourneyStepDetail.propTypes = {
 
 const mapStateToProps = (
   { auth, journeys },
-  {
-    navigation: {
-      state: { params },
-    },
-  },
+  { navigation: { state: { params } } },
 ) => ({
   ...params,
   // Get messages by step id
