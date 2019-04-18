@@ -13,7 +13,11 @@ import {
   Icon,
   VokeIcon,
 } from '../../components/common';
-import { getMyJourneySteps } from '../../actions/journeys';
+import {
+  getMyJourneySteps,
+  activeJourneyConversation,
+  inactiveJourneyConversation,
+} from '../../actions/journeys';
 import st from '../../st';
 import { navigatePush } from '../../actions/nav';
 import { buildTrackingObj } from '../../utils/common';
@@ -135,12 +139,18 @@ class JourneyDetail extends Component {
   };
 
   componentDidMount() {
-    console.log('items', this.props.item);
+    const { dispatch, item } = this.props;
+    dispatch(activeJourneyConversation(item));
 
     this.load();
     if (this.props.navToStep) {
       this.select(this.props.navToStep);
     }
+  }
+
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+    dispatch(inactiveJourneyConversation());
   }
 
   load = async () => {

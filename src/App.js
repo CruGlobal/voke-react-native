@@ -14,6 +14,7 @@ import getStore from './store';
 
 import AppWithNavigationState from './AppNavigator';
 import st from './st';
+import ToastManager from './containers/ToastManager';
 
 // TODO: Add loading stuff with redux persist
 class App extends Component {
@@ -36,6 +37,7 @@ class App extends Component {
           <View style={[st.f1]}>
             <AppWithNavigationState />
             <VokeOverlays />
+            <ToastManager />
           </View>
         </I18nextProvider>
       </Provider>

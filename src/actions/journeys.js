@@ -1,5 +1,6 @@
 import callApi, { REQUESTS } from './api';
 import { API_URL } from '../api/utils';
+import { INACTIVE_JOURNEY, ACTIVE_JOURNEY } from '../constants';
 
 export function getOrgJourneys() {
   return dispatch => {
@@ -52,8 +53,12 @@ export function deleteJourneyInvite(inviteId) {
 }
 
 export function acceptJourneyInvite(code) {
-  return dispatch => {
-    return dispatch(callApi(REQUESTS.ACCEPT_JOURNEY_INVITE, { code }));
+  return async dispatch => {
+    const results = await dispatch(
+      callApi(REQUESTS.ACCEPT_JOURNEY_INVITE, { code }),
+    );
+    dispatch(getMyJourneys());
+    return results;
   };
 }
 
@@ -130,5 +135,18 @@ export function getJourneyMessages(step, journey) {
     };
 
     return dispatch(callApi(REQUESTS.GET_MESSAGES, query));
+  };
+}
+
+export function activeJourneyConversation(journey) {
+  return {
+    type: ACTIVE_JOURNEY,
+    journey,
+  };
+}
+
+export function inactiveJourneyConversation() {
+  return {
+    type: INACTIVE_JOURNEY,
   };
 }

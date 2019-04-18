@@ -18,7 +18,7 @@ import {
   resendJourneyInvite,
 } from '../../actions/journeys';
 import { navigatePush } from '../../actions/nav';
-import { startupAction, confirmAlert } from '../../actions/auth';
+import { startupAction, confirmAlert, toastAction } from '../../actions/auth';
 import MyAdventuresList from '../../components/MyAdventuresList';
 import VOKE_LINK from '../../../images/vokebot_whole.png';
 import { buildTrackingObj } from '../../utils/common';

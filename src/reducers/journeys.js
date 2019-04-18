@@ -1,19 +1,15 @@
-import lodashUniqBy from 'lodash/uniqBy';
 import { REHYDRATE } from 'redux-persist/constants';
 import { REQUESTS } from '../actions/api';
-import { LOGOUT, NEW_JOURNEY_MESSAGE } from '../constants';
+import { LOGOUT, ACTIVE_JOURNEY, INACTIVE_JOURNEY } from '../constants';
 
 const initialState = {
+  activeJourney: null,
   org: [],
   mine: [],
   invites: [],
   steps: {},
   messages: {},
 };
-
-function removeDuplicateMessages(msgs = []) {
-  return lodashUniqBy(msgs, 'id');
-}
 
 export default function adventures(state = initialState, action) {
   switch (action.type) {
@@ -40,7 +36,10 @@ export default function adventures(state = initialState, action) {
         invites: action.journey_invites,
       };
     case REQUESTS.GET_MY_JOURNEY_STEPS.SUCCESS:
-      const { query: { journeyId: stepsJourneyId }, steps } = action;
+      const {
+        query: { journeyId: stepsJourneyId },
+        steps,
+      } = action;
       const completed = steps.reduce((previous, next) => {
         return previous + (next.status === 'completed' ? 1 : 0);
       }, 0);
@@ -50,11 +49,10 @@ export default function adventures(state = initialState, action) {
           ...state.steps,
           [stepsJourneyId]: steps || [],
         },
-        mine: state.mine.map(
-          i =>
-            i.id === stepsJourneyId
-              ? { ...i, progress: { ...i.progress, completed } }
-              : i,
+        mine: state.mine.map(i =>
+          i.id === stepsJourneyId
+            ? { ...i, progress: { ...i.progress, completed } }
+            : i,
         ),
       };
     case REQUESTS.GET_MESSAGES.SUCCESS:
@@ -94,6 +92,16 @@ export default function adventures(state = initialState, action) {
     //       [conversationId]: newCreatedMessages,
     //     },
     //   };
+    case ACTIVE_JOURNEY:
+      return {
+        ...state,
+        activeJourney: action.journey,
+      };
+    case INACTIVE_JOURNEY:
+      return {
+        ...state,
+        activeJourney: null,
+      };
     case LOGOUT:
       return initialState;
     default:

@@ -13,7 +13,7 @@ import CONSTANTS, {
 import callApi, { REQUESTS } from './api';
 import theme from '../theme';
 import { UTC_FORMAT } from '../utils/common';
-import { getJourneyMessages } from './journeys';
+import { getJourneyMessages, getMyJourneySteps } from './journeys';
 
 export function getConversations() {
   return dispatch => {
@@ -134,15 +134,21 @@ export function handleNewMessage(message) {
       });
       return;
     }
-    if (message.adventure_message) {
+    if (message['adventure_message?']) {
       // API call for getting journey step messages
       // TODO: Only do this when the step screen is active
-      dispatch(
-        getJourneyMessages(
-          { id: message.messenger_journey_step_id },
-          { conversation_id: message.conversation_id },
-        ),
-      );
+      const activeJourney = getState().journeys.activeJourney;
+      if (activeJourney) {
+        dispatch(getMyJourneySteps(activeJourney.id));
+        const cId =
+          activeJourney.conversation_id || activeJourney.conversation.id;
+        dispatch(
+          getJourneyMessages(
+            { id: message.messenger_journey_step_id },
+            { conversation_id: cId },
+          ),
+        );
+      }
       // dispatch({ type: NEW_JOURNEY_MESSAGE, message });
       return;
     }
@@ -160,6 +166,10 @@ export function handleNewMessage(message) {
 
 export function newMessageAction(message) {
   return (dispatch, getState) => {
+    if (message['adventure_message?']) {
+      dispatch(handleNewMessage(message));
+      return;
+    }
     const cId = message.conversation_id;
     // Check if conversation exists, just use it, otherwise get it
     const conversationExists = getState().messages.conversations.find(

@@ -21,6 +21,7 @@ import {
   PUSH_PERMISSION,
   DONT_NAV_TO_VIDS,
   RESET_FIRST_TIME,
+  SET_TOAST,
 } from '../constants';
 import callApi, { REQUESTS } from './api';
 import {
@@ -386,13 +387,16 @@ export function createAccountAction(email, password, isAnonymous = false) {
 }
 
 export function toastAction(text, length) {
-  return () => {
+  return dispatch => {
     if (theme.isAndroid) {
       const toastLength =
         length === 'long' ? ToastAndroid.LONG : ToastAndroid.SHORT;
       ToastAndroid.show(text, toastLength);
     } else {
-      Alert.alert(' ', text);
+      dispatch({
+        type: SET_TOAST,
+        props: { text, timeout: length === 'long' ? 8000 : undefined },
+      });
     }
   };
 }

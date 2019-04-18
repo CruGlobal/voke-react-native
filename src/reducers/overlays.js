@@ -3,6 +3,8 @@ import {
   SET_OVERLAY,
   CLEAR_OVERLAY,
   RESET_ANON_USER,
+  CLEAR_TOAST,
+  SET_TOAST,
 } from '../constants';
 import { exists } from '../utils/common';
 
@@ -12,6 +14,7 @@ const initialState = {
   messageModal: false,
   adventurePushPermissions: false,
   overlayProps: {},
+  toastProps: {},
 };
 
 export default function overlays(state = initialState, action) {
@@ -24,6 +27,16 @@ export default function overlays(state = initialState, action) {
     //     ...incoming,
     //   };
 
+    case SET_TOAST:
+      return {
+        ...state,
+        toastProps: action.props || {},
+      };
+    case CLEAR_TOAST:
+      return {
+        ...state,
+        toastProps: {},
+      };
     case SET_OVERLAY:
       if (!exists(state[action.value])) return state;
       return {

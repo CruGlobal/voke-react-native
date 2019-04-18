@@ -28,9 +28,13 @@ export const PUSH_PERMISSION = 'app/PUSH_PERMISSION';
 export const SET_MESSAGE_MODAL = 'app/SET_MESSAGE_MODAL';
 export const DONT_NAV_TO_VIDS = 'app/DONT_NAV_TO_VIDS';
 export const RESET_FIRST_TIME = 'app/RESET_FIRST_TIME';
+export const INACTIVE_JOURNEY = 'app/INACTIVE_JOURNEY';
+export const ACTIVE_JOURNEY = 'app/ACTIVE_JOURNEY';
 // Overlays
 export const CLEAR_OVERLAY = 'app/CLEAR_OVERLAY';
 export const SET_OVERLAY = 'app/SET_OVERLAY';
+export const CLEAR_TOAST = 'app/CLEAR_TOAST';
+export const SET_TOAST = 'app/SET_TOAST';
 // Navigation
 export const NAVIGATE_FORWARD = 'Navigation/NAVIGATE';
 export const NAVIGATE_RESET = 'Navigation/RESET';
