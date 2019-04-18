@@ -139,17 +139,19 @@ export function handleNewMessage(message) {
       // TODO: Only do this when the step screen is active
       const activeJourney = getState().journeys.activeJourney;
       if (activeJourney) {
-        dispatch(getMyJourneySteps(activeJourney.id));
         const cId =
-          activeJourney.conversation_id || activeJourney.conversation.id;
-        dispatch(
-          getJourneyMessages(
-            { id: message.messenger_journey_step_id },
-            { conversation_id: cId },
-          ),
-        );
+          activeJourney.conversation_id ||
+          (activeJourney.conversation || {}).id;
+        if (message.conversation_id == cId) {
+          dispatch(getMyJourneySteps(activeJourney.id));
+          dispatch(
+            getJourneyMessages(
+              { id: message.messenger_journey_step_id },
+              { conversation_id: cId },
+            ),
+          );
+        }
       }
-      // dispatch({ type: NEW_JOURNEY_MESSAGE, message });
       return;
     }
     dispatch(vibrateAction());

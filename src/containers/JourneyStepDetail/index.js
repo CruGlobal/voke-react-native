@@ -60,10 +60,12 @@ class JourneyStepDetail extends Component {
   };
 
   checkIfLast = () => {
-    const { dispatch, steps } = this.props;
+    const { dispatch, steps, messengers } = this.props;
     const { journeyStep } = this.state;
 
-    if ((steps[steps.length - 1] || {}).id === journeyStep.id) {
+    // Only show "Done" if in a solo journey
+    const isSolo = messengers.length === 2;
+    if (isSolo && (steps[steps.length - 1] || {}).id === journeyStep.id) {
       Alert.alert('Congrats, you finished the journey!', '', [
         {
           text: 'OK',
