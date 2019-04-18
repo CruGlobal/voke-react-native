@@ -195,7 +195,7 @@ class VideoContentWrap extends Component {
   };
 
   renderContent() {
-    const { type, item, ...rest } = this.props;
+    const { type, item, navToStep, ...rest } = this.props;
     const allProps = { item, onPause: this.pause, onPlay: this.play, ...rest };
     if (type === VIDEO_CONTENT_TYPES.VIDEODETAIL) {
       return <VideoDetailsContent video={item} {...allProps} />;
@@ -204,7 +204,7 @@ class VideoContentWrap extends Component {
       return <OrgJourneyDetail {...allProps} />;
     }
     if (type === VIDEO_CONTENT_TYPES.JOURNEYDETAIL) {
-      return <JourneyDetail {...allProps} />;
+      return <JourneyDetail navToStep={navToStep || undefined} {...allProps} />;
     }
     if (type === VIDEO_CONTENT_TYPES.JOURNEYSTEPDETAIL) {
       return <JourneyStepDetail {...allProps} />;
@@ -305,6 +305,7 @@ function BackButton({ onBack }) {
 VideoContentWrap.propTypes = {
   item: PropTypes.object.isRequired,
   type: PropTypes.oneOf(Object.keys(VIDEO_CONTENT_TYPES)),
+  navToStep: PropTypes.object,
 };
 
 const mapStateToProps = ({ auth }, { navigation }) => ({

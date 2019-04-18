@@ -15,13 +15,15 @@ import {
   getConversation,
   getConversations,
 } from './messages';
-import { navigateResetMessage } from './nav';
+import { navigateResetMessage, navigatePush } from './nav';
+import { getMyJourney, getMyJourneyStep } from './journeys';
 import callApi, { REQUESTS } from './api';
 import { SET_OVERLAY } from '../constants';
 import { isEquivalentObject } from '../utils/common';
 import theme from '../theme';
 import Permissions from '../utils/permissions';
 import Notifications from '../utils/notifications';
+import { VIDEO_CONTENT_TYPES } from '../containers/VideoContentWrap';
 
 // Push notification Android error
 // https://github.com/zo0r/react-native-push-notification/issues/495
@@ -38,10 +40,23 @@ let ws = null;
 export const NAMESPACES = {
   MESSAGE: 'messenger:conversation:message',
   ADVENTURE: 'platform:organization:adventure:challenge',
+  // JOURNEY: 'messenger_journeys'
 };
 
 const getCID = l =>
   l.substring(l.indexOf('conversations/') + 14, l.indexOf('/messages'));
+
+const getJID = l =>
+  l.substring(
+    l.indexOf('messenger_journeys/') + 19,
+    l.indexOf('/messenger_journey_steps'),
+  );
+
+const getOnlyJID = l =>
+  l.substring(l.indexOf('messenger_journeys/') + 19, l.length);
+
+const getSID = l =>
+  l.substring(l.indexOf('messenger_journey_steps/') + 24, l.length);
 
 export function checkAndRunSockets() {
   return (dispatch, getState) => {
@@ -234,7 +249,7 @@ export function handleNotifications(state, notification) {
   return (dispatch, getState) => {
     let data = notification.data;
     LOG('got notification', notification);
-
+    console.log('NOTITIFIFIFAITIONON', notification);
     const {
       activeConversationId,
       unReadBadgeCount,
@@ -336,8 +351,34 @@ export function handleNotifications(state, notification) {
     } else if (state === 'open' && namespace && link) {
       // Open
       // LOG('message came in with namespace and link', namespace, link);
-
-      if (namespace.includes(NAMESPACES.MESSAGE)) {
+      if (
+        link.includes('messenger_journeys') &&
+        link.includes('messenger_journey_steps')
+      ) {
+        const jId = getJID(link);
+        const sId = getSID(link);
+        dispatch(getMyJourney(jId)).then(r => {
+          dispatch(getMyJourneyStep(jId, sId)).then(res => {
+            dispatch(
+              navigatePush('voke.VideoContentWrap', {
+                item: r,
+                type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
+                navToStep: res,
+              }),
+            );
+          });
+        });
+      } else if (link.includes('messenger_journeys')) {
+        const onlyJId = getOnlyJID(link);
+        dispatch(getMyJourney(onlyJId)).then(r => {
+          dispatch(
+            navigatePush('voke.VideoContentWrap', {
+              item: r,
+              type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
+            }),
+          );
+        });
+      } else if (namespace.includes(NAMESPACES.MESSAGE)) {
         const cId = getCID(link);
         if (!cId) return;
 

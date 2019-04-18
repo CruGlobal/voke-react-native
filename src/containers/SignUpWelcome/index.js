@@ -197,7 +197,7 @@ class SignUpWelcome extends Component {
             </View>
           </IndicatorViewPager>
         </Flex>
-        <Flex style={[st.absb, st.fw100, st.fh40]}>
+        <Flex style={[st.absb, st.fw100, st.fh50]}>
           <Triangle
             width={st.fullWidth}
             height={120}

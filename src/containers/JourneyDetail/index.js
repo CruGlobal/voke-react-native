@@ -138,6 +138,9 @@ class JourneyDetail extends Component {
     console.log('items', this.props.item);
 
     this.load();
+    if (this.props.navToStep) {
+      this.select(this.props.navToStep);
+    }
   }
 
   load = async () => {
@@ -217,6 +220,7 @@ class JourneyDetail extends Component {
 JourneyDetail.propTypes = {
   item: PropTypes.object.isRequired,
   onPause: PropTypes.func.isRequired,
+  navToStep: PropTypes.object,
 };
 
 const mapStateToProps = ({ journeys }, { item }) => ({
