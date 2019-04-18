@@ -137,8 +137,7 @@ class VokeOverlays extends Component {
           resizeMode="contain"
         />
         <Text style={styles.adventurePushNotificationText}>
-          Voke sends notifications when your friends join and interact with the
-          adventures you share, but first we need your permission.
+          {t('adventurePush')}
         </Text>
         <Button
           onPress={this.allowNotifications}
@@ -156,7 +155,7 @@ class VokeOverlays extends Component {
   }
 
   renderMessageModal() {
-    const { overlayProps } = this.props;
+    const { t, overlayProps } = this.props;
     let messageData = overlayProps.messageData || {};
     return (
       <Touchable style={styles.overlay} onPress={this.close} activeOpacity={1}>
@@ -178,7 +177,7 @@ class VokeOverlays extends Component {
           <Button
             onPress={this.close}
             style={styles.clearButton}
-            text="Great!"
+            text={t('great')}
           />
         </Flex>
       </Touchable>
@@ -205,10 +204,12 @@ const mapStateToProps = ({ overlays, auth }) => {
   let type = overlays.tryItNowSignUp
     ? 'tryItNowSignUp'
     : overlays.pushPermissions
-      ? 'pushPermissions'
-      : overlays.messageModal
-        ? 'messageModal'
-        : overlays.adventurePushPermissions ? 'adventurePushPermissions' : null;
+    ? 'pushPermissions'
+    : overlays.messageModal
+    ? 'messageModal'
+    : overlays.adventurePushPermissions
+    ? 'adventurePushPermissions'
+    : null;
   return {
     overlayProps: overlays.overlayProps || {},
     type,

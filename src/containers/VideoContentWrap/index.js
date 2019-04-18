@@ -58,7 +58,9 @@ function getVideoType(item) {
   const media =
     (item.media
       ? item.media
-      : item.item && item.item.content ? item.item.content : {}) || {};
+      : item.item && item.item.content
+      ? item.item.content
+      : {}) || {};
   return media.type;
 }
 
@@ -211,7 +213,7 @@ class VideoContentWrap extends Component {
     }
     return (
       <Flex direction="column" style={{ paddingBottom: 110 }}>
-        <Text>CONTENT!!!</Text>
+        <Text> </Text>
       </Flex>
     );
   }

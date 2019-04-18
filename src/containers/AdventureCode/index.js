@@ -26,7 +26,7 @@ class AdventureCode extends Component {
   }
 
   handleCodeSearch = () => {
-    const { dispatch, onboarding } = this.props;
+    const { t, dispatch, onboarding } = this.props;
     const { adventureCode } = this.state;
     this.setState({ isLoading: true });
 
@@ -41,7 +41,6 @@ class AdventureCode extends Component {
       dispatch(acceptJourneyInvite(adventureCode))
         .then(r => {
           console.log('journey invite code results', r);
-          this.setState({ isLoading: false });
           if (onboarding) {
             this.goToPhoto();
           } else {
@@ -49,6 +48,7 @@ class AdventureCode extends Component {
               dispatch(navigateBack());
             });
           }
+          this.setState({ isLoading: false });
         })
         .catch(err => {
           console.log('error getting journey invite', err);
@@ -57,7 +57,7 @@ class AdventureCode extends Component {
           if (!message && err.errors && err.errors[0]) {
             message = err.errors[0];
           }
-          Alert.alert('Oh no!', message);
+          Alert.alert(t('ohNo'), message);
         });
     }
   };
@@ -68,7 +68,7 @@ class AdventureCode extends Component {
   };
 
   render() {
-    const { onboarding, dispatch } = this.props;
+    const { t, onboarding, dispatch } = this.props;
     const { adventureCode, isLoading } = this.state;
     return (
       <Flex value={1}>
@@ -79,12 +79,12 @@ class AdventureCode extends Component {
             keyboardVerticalOffset={theme.isAndroid ? undefined : 45}
           >
             <Flex value={3} align="center" justify="center" style={[st.pb3]}>
-              <Text style={styles.inputLabel}>Adventure Code</Text>
+              <Text style={styles.inputLabel}>{t('adventureCode')}</Text>
               <SignUpInput
                 value={adventureCode}
                 type="new"
                 onChangeText={t => this.setState({ adventureCode: t })}
-                placeholder="Adventure Code"
+                placeholder={t('adventureCode')}
                 autoCorrect={false}
                 returnKeyType="done"
                 blurOnSubmit={true}
@@ -93,7 +93,9 @@ class AdventureCode extends Component {
             <Flex value={1} justify="end" style={[styles.buttonWrapper]}>
               <Button
                 text={
-                  onboarding && !adventureCode ? `I Don't Have One` : 'Continue'
+                  onboarding && !adventureCode
+                    ? t('dontHaveOne')
+                    : t('continue')
                 }
                 type="filled"
                 disabled={isLoading || (!onboarding && !adventureCode)}
@@ -110,7 +112,7 @@ class AdventureCode extends Component {
             <Flex style={[st.abstr, st.pr3, st.pt3]}>
               <Button
                 type="transparent"
-                text="Cancel"
+                text={t('cancel')}
                 onPress={() => dispatch(navigateBack())}
               />
             </Flex>
@@ -128,4 +130,6 @@ const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
 });
 
-export default translate('tryItNow')(connect(mapStateToProps)(AdventureCode));
+export default translate('adventureCode')(
+  connect(mapStateToProps)(AdventureCode),
+);

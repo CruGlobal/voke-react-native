@@ -18,7 +18,7 @@ import {
   resendJourneyInvite,
 } from '../../actions/journeys';
 import { navigatePush } from '../../actions/nav';
-import { startupAction, confirmAlert, toastAction } from '../../actions/auth';
+import { startupAction, confirmAlert } from '../../actions/auth';
 import MyAdventuresList from '../../components/MyAdventuresList';
 import VOKE_LINK from '../../../images/vokebot_whole.png';
 import { buildTrackingObj } from '../../utils/common';
@@ -101,12 +101,11 @@ class AdventuresMine extends Component {
   };
 
   handleDeleteInvite = item => {
-    const { dispatch } = this.props;
+    const { t, dispatch } = this.props;
     dispatch(
       confirmAlert(
-        `Are you sure you want to delete ${item.name ||
-          'your friend'}'s invite?`,
-        `This cannot be undone. You can always invite them again by using "Invite a Friend".`,
+        t('areYouSureDelete', { name: item.name }),
+        t('deleteCannotBeUndone'),
         async () => {
           await dispatch(deleteJourneyInvite(item.id));
           this.load();
@@ -116,13 +115,14 @@ class AdventuresMine extends Component {
   };
 
   renderAdventureCode = () => {
+    const { t } = this.props;
     return (
       <Flex justify="center">
         <Button
-          text="I have an Adventure Code"
+          text={t('haveCode')}
           isLoading={this.state.isLoading}
           style={[st.w(st.fullWidth - 40), st.aic, st.mv5, st.asc]}
-          buttonTextStyle={{ textAlign: 'center' }}
+          buttonTextStyle={[st.tac]}
           onPress={this.handleAdventureCode}
         />
       </Flex>
@@ -130,7 +130,7 @@ class AdventuresMine extends Component {
   };
 
   renderNull = () => {
-    const { me } = this.props;
+    const { t, me } = this.props;
     return (
       <Flex value={1} align="center" justify="end" direction="column">
         {this.renderAdventureCode()}
@@ -148,8 +148,7 @@ class AdventuresMine extends Component {
           />
           <Flex style={[st.br6, st.bgOffBlue, st.pd4, st.mh5]}>
             <Text style={[st.white, st.fs5, st.tac]}>
-              Welcome{me.first_name ? ` ${me.first_name}` : ''}! This is where
-              you will find all of your adventures with your friends.
+              {t('welcomeToAdventures', { name: me.first_name })}
             </Text>
           </Flex>
           <Image
@@ -195,4 +194,6 @@ const mapStateToProps = ({ auth, journeys }) => ({
   invites: journeys.invites,
 });
 
-export default translate()(connect(mapStateToProps)(AdventuresMine));
+export default translate('adventuresTab')(
+  connect(mapStateToProps)(AdventuresMine),
+);

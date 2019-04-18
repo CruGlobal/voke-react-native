@@ -75,12 +75,13 @@ class AdventuresFind extends Component {
   };
 
   renderHeader = () => {
+    const { t } = this.props;
     return (
       <Flex justify="center" align="center">
         <Button
-          text="I have an Adventure Code"
+          text={t('haveCode')}
           style={[st.w(st.fullWidth - 40), st.aic, st.mv5, st.asc]}
-          buttonTextStyle={{ textAlign: 'center' }}
+          buttonTextStyle={[st.tac]}
           onPress={this.handleAdventureCode}
         />
       </Flex>
@@ -115,4 +116,6 @@ const mapStateToProps = ({ auth, journeys }) => ({
   items: journeys.org,
 });
 
-export default translate()(connect(mapStateToProps)(AdventuresFind));
+export default translate('adventuresTab')(
+  connect(mapStateToProps)(AdventuresFind),
+);

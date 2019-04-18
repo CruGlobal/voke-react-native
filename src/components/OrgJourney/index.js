@@ -1,11 +1,12 @@
 import React from 'react';
 import { View, Image } from 'react-native';
 import PropTypes from 'prop-types';
+import { translate } from 'react-i18next';
 
 import { Flex, Text, Touchable, Button, VokeIcon, Icon } from '../common';
 import st from '../../st';
 
-export default function OrgJourney({ onPress, item, onInviteFriend }) {
+function OrgJourney({ t, onPress, item, onInviteFriend }) {
   return (
     <Touchable onPress={() => onPress(item)}>
       <Flex
@@ -37,7 +38,7 @@ export default function OrgJourney({ onPress, item, onInviteFriend }) {
         >
           <Icon style={[st.white, st.mr6]} name="filter-none" size={14} />
           <Text style={[st.bold, { letterSpacing: 2, fontSize: 10 }]}>
-            {item.total_steps}-PART SERIES
+            {item.total_steps}-{t('partSeries').toUpperCase()}
           </Text>
         </Flex>
         <Flex value={1} align="center" justify="center">
@@ -57,7 +58,7 @@ export default function OrgJourney({ onPress, item, onInviteFriend }) {
               <Text
                 style={[st.bold, { letterSpacing: 2, fontSize: 10 }, st.mr6]}
               >
-                STARTED
+                {t('started').toUpperCase()}
               </Text>
               <VokeIcon name="play" size={16} />
             </Flex>
@@ -72,7 +73,7 @@ export default function OrgJourney({ onPress, item, onInviteFriend }) {
         {onInviteFriend ? (
           <Flex value={1} justify="end">
             <Button
-              text="Invite a Friend"
+              text={t('inviteFriend')}
               onPress={onInviteFriend}
               style={[
                 st.bgOrange,
@@ -93,9 +94,12 @@ export default function OrgJourney({ onPress, item, onInviteFriend }) {
     </Touchable>
   );
 }
+
 OrgJourney.propTypes = {
   item: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }).isRequired,
   onPress: PropTypes.func,
 };
+
+export default translate('orgJourney')(OrgJourney);

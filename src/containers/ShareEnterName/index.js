@@ -59,7 +59,7 @@ class ShareEnterName extends Component {
   };
 
   render() {
-    const { dispatch } = this.props;
+    const { t, dispatch } = this.props;
     const { isLoading, firstName } = this.state;
     return (
       <View style={styles.container} align="center">
@@ -77,9 +77,7 @@ class ShareEnterName extends Component {
             >
               <Flex align="center" justify="center">
                 <Flex style={styles.chatBubble}>
-                  <Text style={styles.chatText}>
-                    What is your friend's name?
-                  </Text>
+                  <Text style={styles.chatText}>{t('whatIsFriendsName')}</Text>
                 </Flex>
                 <Flex style={styles.chatTriangle} />
               </Flex>
@@ -94,12 +92,12 @@ class ShareEnterName extends Component {
               justify="start"
               style={[styles.actions, st.mb4]}
             >
-              <Text style={styles.inputLabel}>First Name (Required)</Text>
+              <Text style={styles.inputLabel}>{t('firstName')}</Text>
               <SignUpInput
                 value={firstName}
                 type="new"
-                onChangeText={t => this.setState({ firstName: t })}
-                placeholder="First"
+                onChangeText={text => this.setState({ firstName: text })}
+                placeholder={t('firstNamePlaceholder')}
                 autoCorrect={false}
                 autoCapitalize="words"
                 returnKeyType="done"
@@ -108,7 +106,7 @@ class ShareEnterName extends Component {
             </Flex>
             <Flex value={1} justify="end" style={[styles.buttonWrapper]}>
               <Button
-                text="Continue"
+                text={t('continue')}
                 type="filled"
                 isLoading={isLoading}
                 disabled={isLoading || !firstName}
@@ -134,4 +132,4 @@ const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
 });
 
-export default translate('tryItNow')(connect(mapStateToProps)(ShareEnterName));
+export default translate('share')(connect(mapStateToProps)(ShareEnterName));

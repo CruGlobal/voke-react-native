@@ -22,16 +22,16 @@ class OrgJourneyDetail extends Component {
     Analytics.screen(Analytics.s.OrgJourneyDetail);
   }
   myself = async () => {
-    const { dispatch, item } = this.props;
+    const { dispatch, item, onPause } = this.props;
     this.setState({ myselfIsLoading: true });
-    this.props.onPause();
+    onPause();
 
     try {
       const result = await dispatch(
         createMyJourney({ organization_journey_id: item.id }),
       );
       this.setState({ myselfIsLoading: false });
-      this.props.dispatch(
+      dispatch(
         navigatePush(
           'voke.VideoContentWrap',
           {
@@ -50,13 +50,13 @@ class OrgJourneyDetail extends Component {
   };
 
   friend = async () => {
-    const { dispatch, item } = this.props;
-    this.props.onPause();
+    const { dispatch, item, onPause } = this.props;
+    onPause();
     dispatch(navigatePush('voke.ShareEnterName', { item }));
   };
 
   render() {
-    const { item, myJourneys } = this.props;
+    const { t, item, myJourneys } = this.props;
     const { myselfIsLoading, friendIsLoading } = this.state;
 
     const haveStartedSolo = !!myJourneys.find(
@@ -75,14 +75,14 @@ class OrgJourneyDetail extends Component {
           <Flex style={[st.bgBlue, st.pv4]} align="center" justify="center">
             <Text style={[st.fs3, st.white, st.pb5]}>
               {haveStartedSolo
-                ? 'Who can you take with you?'
-                : `Start the ${item.name}`}
+                ? t('whoCanYouTake')
+                : t('startThe', { journey: item.name })}
             </Text>
             <Flex direction="row" justify="center" style={[st.w100]}>
               {!haveStartedSolo ? (
                 <Flex value={1} style={[st.ml3]}>
                   <Button
-                    text="By Myself"
+                    text={t('byMyself')}
                     onPress={this.myself}
                     isLoading={myselfIsLoading}
                     style={[
@@ -101,7 +101,7 @@ class OrgJourneyDetail extends Component {
               ) : null}
               <Flex value={1} style={[haveStartedSolo ? st.mh3 : st.mr3]}>
                 <Button
-                  text={haveStartedSolo ? 'Invite a Friend' : 'With a Friend'}
+                  text={haveStartedSolo ? t('inviteFriend') : t('withFriend')}
                   onPress={this.friend}
                   isLoading={friendIsLoading}
                   style={[

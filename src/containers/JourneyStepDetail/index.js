@@ -60,15 +60,15 @@ class JourneyStepDetail extends Component {
   };
 
   checkIfLast = () => {
-    const { dispatch, steps, messengers } = this.props;
+    const { t, dispatch, steps, messengers } = this.props;
     const { journeyStep } = this.state;
 
     // Only show "Done" if in a solo journey
     const isSolo = messengers.length === 2;
     if (isSolo && (steps[steps.length - 1] || {}).id === journeyStep.id) {
-      Alert.alert('Congrats, you finished the journey!', '', [
+      Alert.alert(t('finishedJourney'), '', [
         {
-          text: 'OK',
+          text: t('ok'),
           onPress: () => dispatch(navigatePush('voke.Adventures')),
         },
       ]);
@@ -97,7 +97,7 @@ class JourneyStepDetail extends Component {
   };
 
   renderNext = () => {
-    const { dispatch, steps } = this.props;
+    const { t, dispatch, steps } = this.props;
     const { journeyStep } = this.state;
     const isComplete = journeyStep.status === 'completed';
     if (!isComplete) {
@@ -110,7 +110,7 @@ class JourneyStepDetail extends Component {
 
     return (
       <Button
-        text="Next Video is Ready"
+        text={t('nextVideoReady')}
         onPress={() => dispatch(navigateBack())}
         style={[st.bgOrange, st.mt3, st.br1, st.bw0]}
       />
@@ -196,7 +196,7 @@ class JourneyStepDetail extends Component {
   }
 
   render() {
-    const { me, messages, messengers } = this.props;
+    const { t, me, messages, messengers } = this.props;
     const { journeyStep, text } = this.state;
 
     const inputStyle = [st.f1, st.fs4, st.darkBlue];
@@ -246,7 +246,7 @@ class JourneyStepDetail extends Component {
               {response ? (
                 <Fragment>
                   <Text style={[inputStyle, isSkipped ? st.grey : null]}>
-                    {isSkipped ? 'Skipped' : response.content}
+                    {isSkipped ? t('skipped') : response.content}
                   </Text>
                 </Fragment>
               ) : (
@@ -257,7 +257,7 @@ class JourneyStepDetail extends Component {
                     multiline={true}
                     blurOnSubmit={true}
                     onSubmitEditing={this.sendMessage}
-                    placeholder="Your Answer..."
+                    placeholder={t('yourAnswer')}
                     placeholderTextColor={st.colors.grey}
                     style={inputStyle}
                     underlineColorAndroid={st.colors.transparent}
@@ -269,7 +269,7 @@ class JourneyStepDetail extends Component {
                     <Button
                       type="transparent"
                       onPress={this.skip}
-                      text="SKIP"
+                      text={t('skip').toUpperCase()}
                       buttonTextStyle={[st.orange, st.bold, st.fs4, st.ls2]}
                     />
                   ) : (
@@ -313,7 +313,11 @@ JourneyStepDetail.propTypes = {
 
 const mapStateToProps = (
   { auth, journeys },
-  { navigation: { state: { params } } },
+  {
+    navigation: {
+      state: { params },
+    },
+  },
 ) => ({
   ...params,
   // Get messages by step id

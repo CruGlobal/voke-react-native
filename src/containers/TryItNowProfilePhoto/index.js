@@ -38,18 +38,17 @@ class TryItNowProfilePhoto extends Component {
   }
 
   uploadImage(uri) {
+    const { dispatch, user } = this.props;
     if (!uri) return;
     const updateData = {
       avatar: {
-        fileName: `${this.props.user.first_name}_${
-          this.props.user.last_name
-        }.png`,
+        fileName: `${user.first_name}_${user.last_name}.png`,
         // fileName: `new_user_${Date.now()}.png`,
         uri,
         // base64: data.imageBinary,
       },
     };
-    this.props.dispatch(updateMe(updateData));
+    dispatch(updateMe(updateData));
   }
 
   handleImageChange(data) {
@@ -58,13 +57,13 @@ class TryItNowProfilePhoto extends Component {
   }
 
   addProfile() {
-    const { t, dispatch } = this.props;
-    const { imageUri } = this.state;
+    const { dispatch } = this.props;
+    const { imageUri, disableSecondClick } = this.state;
     if (imageUri) {
-      if (this.state.disableSecondClick) {
+      if (disableSecondClick) {
         return;
       }
-      this.uploadImage(this.state.imageUri);
+      this.uploadImage(imageUri);
       this.setState({
         disableNext: false,
         disableSecondClick: true,
@@ -78,11 +77,12 @@ class TryItNowProfilePhoto extends Component {
   }
 
   renderImagePicker() {
+    const { imageUri } = this.state;
     return (
       <ImagePicker onSelectImage={this.handleImageChange}>
         <Flex align="center" justify="center" style={styles.imageSelect}>
-          {this.state.imageUri ? (
-            <Image source={{ uri: this.state.imageUri }} style={styles.image} />
+          {imageUri ? (
+            <Image source={{ uri: imageUri }} style={styles.image} />
           ) : (
             <Flex align="center" justify="center">
               <Icon name="camera-alt" style={styles.photoIcon} size={52} />
@@ -94,17 +94,15 @@ class TryItNowProfilePhoto extends Component {
   }
 
   render() {
-    const { t } = this.props;
+    const { t, dispatch } = this.props;
     return (
       <View style={styles.container}>
         <SafeArea style={[st.f1, st.bgDarkBlue]} top={[st.bgBlue]}>
           <View style={[st.bgBlue, st.f1]}>
-            <Flex style={{ marginTop: 70 }}>
+            <Flex style={[st.mt(70)]}>
               <Flex align="center" justify="center">
                 <Flex style={styles.chatBubble}>
-                  <Text style={styles.chatText}>
-                    Add a photo so your friends can recognize you.
-                  </Text>
+                  <Text style={styles.chatText}>{t('addPhoto')}</Text>
                 </Flex>
                 <Flex style={styles.chatTriangle} />
               </Flex>
@@ -125,7 +123,7 @@ class TryItNowProfilePhoto extends Component {
             </Flex>
             <Flex value={1} justify="end">
               <Button
-                text="Continue"
+                text={t('continue')}
                 type="filled"
                 buttonTextStyle={styles.signInButtonText}
                 style={styles.signInButton}
@@ -134,12 +132,14 @@ class TryItNowProfilePhoto extends Component {
             </Flex>
           </View>
           <Flex style={[st.abstl]}>
-            <SignUpHeaderBack
-              onPress={() => this.props.dispatch(navigateBack())}
-            />
+            <SignUpHeaderBack onPress={() => dispatch(navigateBack())} />
           </Flex>
           <Flex style={[st.abstr, st.pr3, st.pt3]}>
-            <Button type="transparent" text="Skip" onPress={this.addProfile} />
+            <Button
+              type="transparent"
+              text={t('skip')}
+              onPress={this.addProfile}
+            />
           </Flex>
         </SafeArea>
       </View>
@@ -155,6 +155,6 @@ const mapStateToProps = ({ auth }, { navigation }) => ({
   user: auth.user || {},
 });
 
-export default translate('signUp')(
+export default translate('tryItNow')(
   connect(mapStateToProps)(TryItNowProfilePhoto),
 );

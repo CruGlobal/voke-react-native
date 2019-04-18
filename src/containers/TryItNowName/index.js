@@ -14,7 +14,7 @@ import { CREATE_ANON_USER } from '../../constants';
 
 import { navigatePush } from '../../actions/nav';
 import Analytics from '../../utils/analytics';
-import { createAccountAction, setupFirebaseLinks } from '../../actions/auth';
+import { createAccountAction } from '../../actions/auth';
 import styles from './styles';
 import { updateMe } from '../../actions/auth';
 import { navigateBack } from '../../actions/nav';
@@ -23,7 +23,7 @@ import SafeArea from '../../components/SafeArea';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import VOKE_FIRST_NAME from '../../../images/vokebot_whole.png';
-import theme, { COLORS } from '../../theme';
+import theme from '../../theme';
 import st from '../../st';
 
 class TryItNowName extends Component {
@@ -60,31 +60,29 @@ class TryItNowName extends Component {
   };
 
   updateAcct = () => {
-    const { t } = this.props;
+    const { t, dispatch, onComplete } = this.props;
+    const { firstName, lastName } = this.state;
     this.setState({ isLoading: true });
     let nameData = {
       me: {
-        first_name: this.state.firstName,
+        first_name: firstName,
       },
     };
-    if (this.state.lastName) {
+    if (lastName) {
       nameData = {
         me: {
           ...nameData.me,
-          last_name: this.state.lastName,
+          last_name: lastName,
         },
       };
     }
-    this.props
-      .dispatch(updateMe(nameData))
+    dispatch(updateMe(nameData))
       .then(() => {
         this.setState({ isLoading: false });
-        if (this.props.onComplete) {
-          this.props.onComplete();
+        if (onComplete) {
+          onComplete();
         } else {
-          this.props.dispatch(
-            navigatePush('voke.AdventureCode', { onboarding: true }),
-          );
+          dispatch(navigatePush('voke.AdventureCode', { onboarding: true }));
         }
       })
       .catch(() => {
@@ -95,6 +93,7 @@ class TryItNowName extends Component {
 
   render() {
     const { t, dispatch } = this.props;
+    const { firstName, lastName, isLoading } = this.state;
     return (
       <View style={styles.container} align="center">
         <SafeArea style={[st.f1, st.bgDarkBlue]} top={[st.bgBlue]}>
@@ -125,25 +124,25 @@ class TryItNowName extends Component {
               justify="start"
               style={[styles.actions, st.mb4]}
             >
-              <Text style={styles.inputLabel}>First Name (Required)</Text>
+              <Text style={styles.inputLabel}>{t('firstName')}</Text>
               <SignUpInput
-                value={this.state.firstName}
+                value={firstName}
                 type="new"
-                onChangeText={t => this.setState({ firstName: t })}
-                placeholder="First"
+                onChangeText={text => this.setState({ firstName: text })}
+                placeholder={t('firstNamePlaceholder')}
                 autoCorrect={false}
                 autoCapitalize="words"
                 returnKeyType="next"
                 onSubmitEditing={() => this.lastNameInput.focus()}
                 blurOnSubmit={true}
               />
-              <Text style={styles.inputLabel}>Last Name</Text>
+              <Text style={styles.inputLabel}>{t('lastName')}</Text>
               <SignUpInput
                 ref={c => (this.lastNameInput = c)}
-                value={this.state.lastName}
+                value={lastName}
                 type="new"
-                onChangeText={t => this.setState({ lastName: t })}
-                placeholder="Last"
+                onChangeText={text => this.setState({ lastName: text })}
+                placeholder={t('lastNamePlaceholder')}
                 autoCapitalize="words"
                 autoCorrect={false}
                 returnKeyType="done"
@@ -153,9 +152,9 @@ class TryItNowName extends Component {
             </Flex>
             <Flex value={1} justify="end" style={[styles.buttonWrapper]}>
               <Button
-                text="Continue"
+                text={t('continue')}
                 type="filled"
-                disabled={this.state.isLoading || !this.state.firstName}
+                disabled={isLoading || !firstName}
                 buttonTextStyle={styles.signInButtonText}
                 style={styles.signInButton}
                 onPress={this.createAccount}

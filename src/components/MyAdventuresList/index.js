@@ -38,7 +38,7 @@ function getExpiredTimeFn(date) {
 }
 const getExpiredTime = lodashMemoize(getExpiredTimeFn);
 
-function InviteCard({ item, onResend, onDelete }) {
+function InviteCard({ t, item, onResend, onDelete }) {
   const { name, expires_at, code } = item;
   const { str, isExpired } = getExpiredTime(expires_at);
 
@@ -72,7 +72,7 @@ function InviteCard({ item, onResend, onDelete }) {
         style={[st.pv6, st.ph4]}
       >
         <Text numberOfLines={1} style={[st.white, st.fs4]}>
-          Waiting for {name || 'your friend'} to join...
+          {t('waitingForFriend', { name })}
         </Text>
         <Flex direction="row" align="center" style={[st.pb6]}>
           {!isExpired ? (
@@ -81,7 +81,7 @@ function InviteCard({ item, onResend, onDelete }) {
             </Text>
           ) : (
             <Button
-              text="Resend"
+              text={t('resend')}
               onPress={() => onResend(item)}
               style={[
                 st.bgOrange,
@@ -96,7 +96,7 @@ function InviteCard({ item, onResend, onDelete }) {
             />
           )}
           <Text numberOfLines={1} style={[st.white, st.fs6]}>
-            {'  '}·{'  '}Code:{' '}
+            {t('code')}
           </Text>
           <Text selectable={true} style={[st.white, st.fs6, st.bold]}>
             {code}
@@ -131,7 +131,7 @@ function ProgressDots({ index, isFilled }) {
   );
 }
 
-function MyAdventureCard({ me, item, onSelect, onClickProfile }) {
+function MyAdventureCard({ t, me, item, onSelect, onClickProfile }) {
   const unreadCount = item.conversation.unread_messages;
   const hasUnread = unreadCount > 0;
   const available = item.progress.total;
@@ -198,7 +198,7 @@ function MyAdventureCard({ me, item, onSelect, onClickProfile }) {
               </Flex>
             ) : null}
             <Text style={[st.charcoal, st.ml5, st.fs5]}>
-              {isSolo ? 'Me' : otherUser.first_name}
+              {isSolo ? t('me') : otherUser.first_name}
             </Text>
           </Flex>
           <Flex direction="row" align="center">
@@ -210,7 +210,7 @@ function MyAdventureCard({ me, item, onSelect, onClickProfile }) {
               />
             ))}
             <Text numberOfLines={2} style={[st.ml6, st.charcoal, st.fs5]}>
-              {completed}/{available} Complete
+              {completed}/{available} {t('complete')}
             </Text>
           </Flex>
         </Flex>
@@ -234,7 +234,7 @@ function MyAdventureCard({ me, item, onSelect, onClickProfile }) {
               !isSolo ? { marginLeft: -10 } : { marginLeft: -3 },
             ]}
           >
-            {isSolo ? '1 Player' : '2 Player'}
+            {isSolo ? t('1player') : t('2player')}
           </Text>
         </Flex>
       </Flex>
@@ -243,12 +243,9 @@ function MyAdventureCard({ me, item, onSelect, onClickProfile }) {
 }
 
 class MyAdventuresList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      refreshing: false,
-    };
-  }
+  state = {
+    refreshing: false,
+  };
 
   handleRefresh = () => {
     this.setState({ refreshing: true });
@@ -270,6 +267,7 @@ class MyAdventuresList extends Component {
 
   renderRow = ({ item }) => {
     const {
+      t,
       me,
       onSelect,
       onResendInvite,
@@ -279,6 +277,7 @@ class MyAdventuresList extends Component {
     if (item.code) {
       return (
         <InviteCard
+          t={t}
           onResend={onResendInvite}
           onDelete={onDeleteInvite}
           item={item}
@@ -288,6 +287,7 @@ class MyAdventuresList extends Component {
 
     return (
       <MyAdventureCard
+        t={t}
         me={me}
         item={item}
         onSelect={onSelect}
@@ -338,6 +338,6 @@ MyAdventuresList.propTypes = {
   me: PropTypes.object.isRequired,
 };
 
-export default translate('videos', { wait: true, withRef: true })(
+export default translate('advenutesList', { wait: true, withRef: true })(
   MyAdventuresList,
 );

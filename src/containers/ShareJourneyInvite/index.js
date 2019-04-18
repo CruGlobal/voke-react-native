@@ -13,8 +13,8 @@ import st from '../../st';
 import { determinePushOverlay } from '../../actions/socket';
 
 const APP_URL = 'https://voke.page.link/app';
-function buildMessage(code, friend) {
-  return `Hi ${friend}. Download Voke and use this Adventure code: ${code} ${APP_URL}`;
+function buildMessage(t, code, friend) {
+  return t('downloadMessage', { code, friend, appUrl: APP_URL });
 }
 
 class ShareJourneyInvite extends Component {
@@ -29,14 +29,14 @@ class ShareJourneyInvite extends Component {
   };
 
   share = () => {
-    const { journeyInvite, friendName } = this.props;
+    const { t, journeyInvite, friendName } = this.props;
 
     Share.share(
       {
-        message: buildMessage(journeyInvite.code, friendName),
+        message: buildMessage(t, journeyInvite.code, friendName),
       },
       {
-        dialogTitle: 'Share',
+        dialogTitle: t('share'),
       },
     )
       .then(({ action, activityType }) => {
@@ -55,7 +55,7 @@ class ShareJourneyInvite extends Component {
   };
 
   render() {
-    const { journeyInvite } = this.props;
+    const { t, journeyInvite } = this.props;
     return (
       <Flex value={1}>
         <SafeArea style={[st.f1, st.bgBlue]}>
@@ -63,10 +63,7 @@ class ShareJourneyInvite extends Component {
             <Flex align="center" justify="center">
               <Flex style={[st.mt1, st.pt1]} />
               <Flex style={styles.chatBubble}>
-                <Text style={styles.chatText}>
-                  Your friend's invite code is ready. Share it by clicking below
-                  or copy the code below and send it to them.
-                </Text>
+                <Text style={styles.chatText}>{t('codeReady')}</Text>
               </Flex>
               <Triangle
                 width={10}
@@ -85,7 +82,7 @@ class ShareJourneyInvite extends Component {
             </Text>
             <Flex value={1} justify="end" style={[styles.buttonWrapper]}>
               <Button
-                text="Share"
+                text={t('share')}
                 type="filled"
                 buttonTextStyle={styles.signInButtonText}
                 style={styles.signInButton}
@@ -93,7 +90,7 @@ class ShareJourneyInvite extends Component {
               />
             </Flex>
             <Flex style={[st.abstr, st.ph3, st.pv4]}>
-              <Button type="transparent" text="Done" onPress={this.done} />
+              <Button type="transparent" text={t('done')} onPress={this.done} />
             </Flex>
           </Flex>
         </SafeArea>
@@ -110,6 +107,4 @@ const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
 });
 
-export default translate('tryItNow')(
-  connect(mapStateToProps)(ShareJourneyInvite),
-);
+export default translate('share')(connect(mapStateToProps)(ShareJourneyInvite));

@@ -64,15 +64,17 @@ class Adventures extends Component {
         <NotificationToast />
 
         <ScrollableTabView
-          tabBarUnderlineStyle={{ backgroundColor: theme.white, height: 2 }}
+          tabBarUnderlineStyle={[st.bgWhite, st.h(2)]}
           tabBarBackgroundColor={theme.secondaryColor}
           tabBarActiveTextColor={theme.white}
           tabBarInactiveTextColor={theme.primaryColor}
-          tabBarTextStyle={{ fontWeight: 'normal' }}
+          tabBarTextStyle={[st.normal]}
           initialPage={
             index !== undefined
               ? index
-              : myJourneys && myJourneys.length > 0 ? 0 : 1
+              : myJourneys && myJourneys.length > 0
+              ? 0
+              : 1
           }
         >
           <View tabLabel={t('title.myAdventures')} style={[st.f1]}>

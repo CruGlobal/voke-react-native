@@ -105,6 +105,7 @@ const rnStyles = StyleSheet.create({
   ovv: { overflow: 'visible' },
 
   bold: { fontWeight: 'bold' },
+  normal: { fontWeight: 'normal' },
   light: { fontWeight: '300' },
   tac: { textAlign: 'center' },
   tal: { textAlign: 'left' },
