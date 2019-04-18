@@ -552,9 +552,7 @@ class Profile extends Component {
                       text={
                         editEmail
                           ? t('cancel')
-                          : !user.email
-                          ? t('add')
-                          : t('edit')
+                          : !user.email ? t('add') : t('edit')
                       }
                       buttonTextStyle={styles.editText}
                       style={styles.inputButton}
@@ -575,9 +573,7 @@ class Profile extends Component {
                       text={
                         editPassword
                           ? t('cancel')
-                          : !user.email
-                          ? t('add')
-                          : t('edit')
+                          : !user.email ? t('add') : t('edit')
                       }
                       buttonTextStyle={styles.editText}
                       style={styles.inputButton}
@@ -695,7 +691,11 @@ class Profile extends Component {
                 style={{ paddingHorizontal: 50, marginTop: 100 }}
               >
                 <Text style={styles.signUpText}>{t('signUp')}</Text>
-                <SignUpButtons filled={true} trackingPage="profile" />
+                <SignUpButtons
+                  isSignIn={true}
+                  filled={true}
+                  trackingPage="profile"
+                />
               </Flex>
             ) : null}
           </ScrollView>

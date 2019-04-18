@@ -197,28 +197,19 @@ class SignUpWelcome extends Component {
             </View>
           </IndicatorViewPager>
         </Flex>
-        <Flex style={[st.absb, st.fw100, st.fh50]}>
+        <Flex style={[st.absb, st.fw100, st.fh40]}>
           <Triangle
             width={st.fullWidth}
-            height={st.isAndroid ? 120 : 160}
+            height={120}
             color={st.colors.darkBlue}
           />
           <Flex value={1} style={[st.bgDarkBlue]}>
             <Flex
               style={[
-                st.isAndroid
-                  ? {
-                      justifyContent: 'flex-end',
-                      flex: 1,
-                      marginBottom: 25,
-                    }
-                  : {
-                      position: 'absolute',
-                      bottom: 20 + extraBottom,
-                      right: 0,
-                      left: 0,
-                    },
                 {
+                  justifyContent: 'flex-end',
+                  flex: 1,
+                  marginBottom: 25,
                   padding: 5,
                   marginHorizontal: 5,
                 },
@@ -228,10 +219,11 @@ class SignUpWelcome extends Component {
                 <Button
                   isAndroidOpacity={true}
                   text={t('start')}
-                  style={[styles.actionButton, st.mb4]}
+                  style={[styles.actionButton, st.mb3]}
+                  buttonTextStyle={[st.fs3]}
                   onPress={this.tryItNow}
                 />
-                <PrivacyToS style={styles.privacy} />
+                <PrivacyToS style={[st.fs5, st.ph1]} />
               </Flex>
               <Flex
                 direction="row"

@@ -75,7 +75,11 @@ class VokeOverlays extends Component {
           </Text>
         </Flex>
         <Flex value={1} align="center" justify="center">
-          <SignUpButtons filled={true} onNavigate={this.close} />
+          <SignUpButtons
+            isSignIn={true}
+            filled={true}
+            onNavigate={this.close}
+          />
         </Flex>
       </Flex>
     );
@@ -201,12 +205,10 @@ const mapStateToProps = ({ overlays, auth }) => {
   let type = overlays.tryItNowSignUp
     ? 'tryItNowSignUp'
     : overlays.pushPermissions
-    ? 'pushPermissions'
-    : overlays.messageModal
-    ? 'messageModal'
-    : overlays.adventurePushPermissions
-    ? 'adventurePushPermissions'
-    : null;
+      ? 'pushPermissions'
+      : overlays.messageModal
+        ? 'messageModal'
+        : overlays.adventurePushPermissions ? 'adventurePushPermissions' : null;
   return {
     overlayProps: overlays.overlayProps || {},
     type,
