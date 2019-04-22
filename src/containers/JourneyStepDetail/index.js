@@ -145,6 +145,7 @@ class JourneyStepDetail extends Component {
         m.metadata.vokebot_action === 'journey_step_comment';
       const isMine = m.messenger_id === me.id;
       const messenger = messengers.find(i => i.id === m.messenger_id) || {};
+      const isBlur = !isComplete && !isMine;
       return (
         <Flex key={m.id} align="center" style={[st.fw100]}>
           <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
@@ -154,12 +155,12 @@ class JourneyStepDetail extends Component {
               style={[st.w100, st.bgDarkBlue, st.br5, st.pd5]}
             >
               <Text style={[st.fs4]}>
-                {isAndroid && !isComplete ? '' : m.content}
+                {isAndroid && isBlur ? '' : m.content}
               </Text>
-              {isAndroid ? <Flex style={[st.pd4]} /> : null}
+              {isAndroid && isBlur ? <Flex style={[st.pd4]} /> : null}
             </Flex>
             {/* TODO: Tap to reveal */}
-            {!isComplete && !isMine ? (
+            {isBlur ? (
               <Flex
                 style={[st.absfill, st.br5]}
                 align="center"

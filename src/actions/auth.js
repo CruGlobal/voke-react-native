@@ -426,7 +426,7 @@ export function deleteAccount() {
 
 export function anonLogin(username, password, anonId) {
   return dispatch =>
-    new Promise((resolve, reject) => {
+    new Promise(async (resolve, reject) => {
       let data = {
         username,
         password,
@@ -434,15 +434,14 @@ export function anonLogin(username, password, anonId) {
       if (anonId) {
         data.anonymous_user_id = anonId;
       }
-      dispatch(callApi(REQUESTS.OAUTH, {}, data))
-        .then(results => {
-          dispatch(loginAction(results.access_token, results)).then(() => {
-            dispatch(getMe());
-          });
-          resolve(results);
-          return results;
-        })
-        .catch(reject);
+      try {
+        const results = await dispatch(callApi(REQUESTS.OAUTH, {}, data));
+        await dispatch(loginAction(results.access_token, results));
+        await dispatch(getMe());
+        resolve(results);
+      } catch (error) {
+        reject(error);
+      }
     });
 }
 
