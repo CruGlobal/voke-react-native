@@ -36,6 +36,8 @@ class JourneyStepDetail extends Component {
   state = {
     journeyStep: this.props.item,
     text: '',
+    height: 50,
+    newMsg: '',
   };
 
   async componentDidMount() {
@@ -84,9 +86,16 @@ class JourneyStepDetail extends Component {
     this.checkIfLast();
   };
 
-  sendMessage = async () => {
+  sendMessage = async isNewMsg => {
     const { dispatch, item, journey } = this.props;
-    const { text } = this.state;
+    const { text, newMsg } = this.state;
+    if (isNewMsg) {
+      dispatch(createJourneyMessage(item, journey, isNewMsg)).then(() => {
+        this.getMessages();
+        this.checkIfLast();
+      });
+      return;
+    }
     if (!text) {
       return this.skip();
     }
@@ -195,9 +204,22 @@ class JourneyStepDetail extends Component {
     });
   }
 
+  updateSize(height) {
+    height += 10;
+    this.setState({ height });
+  }
+
+  handleInputChange = text => {
+    this.setState({ newMsg: text });
+  };
+
+  handleInputSizeChange = e => {
+    this.updateSize(e.nativeEvent.contentSize.height);
+  };
+
   render() {
     const { t, me, messages, messengers } = this.props;
-    const { journeyStep, text } = this.state;
+    const { journeyStep, text, height } = this.state;
 
     const inputStyle = [st.f1, st.fs4, st.darkBlue];
 
@@ -205,8 +227,17 @@ class JourneyStepDetail extends Component {
     const isSkipped = response && response.content === '';
     const meMessenger = messengers.find(i => i.id === me.id);
 
+    let inputHeight = {
+      height: height < 45 ? 45 : height > 80 ? 80 : height,
+    };
+
+    let newWrap = {
+      height: inputHeight.height + 10,
+    };
+
     return (
       <ScrollView
+        ref={c => (this.list = c)}
         style={[st.f1]}
         contentContainerStyle={[st.bgBlue, st.minh(600)]}
         keyboardShouldPersistTaps="handled"
@@ -301,6 +332,44 @@ class JourneyStepDetail extends Component {
           {this.renderMessages()}
           {this.renderNext()}
         </Flex>
+        <Flex
+          direction="row"
+          style={[newWrap, st.w100, st.mv5, st.pv5]}
+          align="center"
+          justify="center"
+        >
+          <Flex
+            direction="row"
+            style={[st.pl5, st.bgDarkBlue, inputHeight]}
+            align="center"
+            value={1}
+          >
+            <Flex value={1}>
+              <TextInput
+                ref={c => (this.chatInput = c)}
+                autoCapitalize="sentences"
+                multiline={true}
+                value={this.state.newMsg}
+                placeholder={t('placeholder.newMessage')}
+                onChangeText={this.handleInputChange}
+                placeholderTextColor={st.colors.blue}
+                underlineColorAndroid={st.colors.transparent}
+                onContentSizeChange={this.handleInputSizeChange}
+                style={[st.white, st.pv6, st.mv6, st.fs4, inputHeight]}
+                autoCorrect={true}
+              />
+            </Flex>
+            <Button
+              type="transparent"
+              style={[st.w(55), st.aie, st.pv6]}
+              icon="send_message"
+              iconType="Voke"
+              iconStyle={[this.state.newMsg ? st.white : st.offBlue, st.fs2]}
+              onPress={this.sendMessage(true)}
+              preventTimeout={1000}
+            />
+          </Flex>
+        </Flex>
       </ScrollView>
     );
   }
@@ -313,11 +382,7 @@ JourneyStepDetail.propTypes = {
 
 const mapStateToProps = (
   { auth, journeys },
-  {
-    navigation: {
-      state: { params },
-    },
-  },
+  { navigation: { state: { params } } },
 ) => ({
   ...params,
   // Get messages by step id
