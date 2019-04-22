@@ -90,10 +90,10 @@ class JourneyStepDetail extends Component {
     const { dispatch, item, journey } = this.props;
     const { text, newMsg } = this.state;
     if (isNewMsg) {
-      dispatch(createJourneyMessage(item, journey, isNewMsg)).then(() => {
+      dispatch(createJourneyMessage(item, journey, newMsg)).then(() => {
         this.getMessages();
-        this.checkIfLast();
       });
+      this.setState({ newMsg: '' });
       this.chatInput.blur();
       return;
     }
@@ -132,14 +132,18 @@ class JourneyStepDetail extends Component {
     const { journeyStep } = this.state;
     const isComplete = journeyStep.status === 'completed';
 
-    const reversed = [...messages]
-      .reverse()
-      .filter(m => m.messenger_id !== me.id); // Remove my message
+    let reversed = [...messages].reverse();
+    const myFirstMessage = reversed.find(m => m.messenger_id === me.id);
+    if (myFirstMessage && myFirstMessage.id) {
+      reversed = reversed.filter(m => m.id !== myFirstMessage.id);
+    }
+    // .filter(m => m.messenger_id !== me.id); // Remove my message
     return reversed.map(m => {
       const isVoke =
         m.metadata &&
         m.metadata.vokebot_action &&
         m.metadata.vokebot_action === 'journey_step_comment';
+      const isMine = m.messenger_id === me.id;
       const messenger = messengers.find(i => i.id === m.messenger_id) || {};
       return (
         <Flex key={m.id} align="center" style={[st.fw100]}>
@@ -155,7 +159,7 @@ class JourneyStepDetail extends Component {
               {isAndroid ? <Flex style={[st.pd4]} /> : null}
             </Flex>
             {/* TODO: Tap to reveal */}
-            {!isComplete ? (
+            {!isComplete && !isMine ? (
               <Flex
                 style={[st.absfill, st.br5]}
                 align="center"
@@ -186,8 +190,7 @@ class JourneyStepDetail extends Component {
                 isVoke ? VOKE_AVATAR : { uri: (messenger.avatar || {}).small }
               }
               style={[
-                st.absbl,
-                st.left(-30),
+                isMine ? [st.absbr, st.right(-30)] : [st.absbl, st.left(-30)],
                 st.circle(25),
                 isVoke ? st.rotate('60deg') : undefined,
               ]}
@@ -195,7 +198,7 @@ class JourneyStepDetail extends Component {
           </Flex>
           <Flex direction="column" style={[st.w80]}>
             <DateComponent
-              style={[st.fs6]}
+              style={[st.fs6, isMine ? st.tar : null]}
               date={m.created_at}
               format={dateFormat}
             />
@@ -220,11 +223,12 @@ class JourneyStepDetail extends Component {
 
   render() {
     const { t, me, messages, messengers } = this.props;
-    const { journeyStep, text, height } = this.state;
+    const { journeyStep, text, height, newMsg } = this.state;
 
     const inputStyle = [st.f1, st.fs4, st.darkBlue];
 
-    const response = messages.find(i => i.messenger_id === me.id);
+    const reversed = [...messages].reverse();
+    const response = reversed.find(i => i.messenger_id === me.id);
     const isSkipped = response && response.content === '';
     const meMessenger = messengers.find(i => i.id === me.id);
 
@@ -288,7 +292,7 @@ class JourneyStepDetail extends Component {
                     returnKeyType="send"
                     multiline={true}
                     blurOnSubmit={true}
-                    onSubmitEditing={this.sendMessage}
+                    onSubmitEditing={() => this.sendMessage()}
                     placeholder={t('yourAnswer')}
                     placeholderTextColor={st.colors.grey}
                     style={inputStyle}
@@ -305,7 +309,10 @@ class JourneyStepDetail extends Component {
                       buttonTextStyle={[st.orange, st.bold, st.fs4, st.ls2]}
                     />
                   ) : (
-                    <Button type="transparent" onPress={this.sendMessage}>
+                    <Button
+                      type="transparent"
+                      onPress={() => this.sendMessage()}
+                    >
                       <VokeIcon
                         name="send_message"
                         size={20}
@@ -333,44 +340,45 @@ class JourneyStepDetail extends Component {
           {this.renderMessages()}
           {this.renderNext()}
         </Flex>
-        <Flex
-          direction="row"
-          style={[newWrap, st.w100, st.mv5, st.pv5]}
-          align="center"
-          justify="center"
-        >
+        {response ? (
           <Flex
             direction="row"
-            style={[st.pl5, st.bgDarkBlue, inputHeight]}
+            style={[newWrap, st.w100]}
             align="center"
-            value={1}
+            justify="center"
           >
-            <Flex value={1}>
+            <Flex
+              direction="row"
+              style={[st.pl5, st.bgDarkBlue, inputHeight]}
+              align="center"
+              value={1}
+            >
               <TextInput
                 ref={c => (this.chatInput = c)}
                 autoCapitalize="sentences"
-                multiline={true}
-                value={this.state.newMsg}
+                multiline={false}
+                value={newMsg}
+                returnKeyType="done"
                 placeholder={t('placeholder.newMessage')}
                 onChangeText={this.handleInputChange}
                 placeholderTextColor={st.colors.blue}
                 underlineColorAndroid={st.colors.transparent}
                 onContentSizeChange={this.handleInputSizeChange}
-                style={[st.white, st.pv6, st.mv6, st.fs4, inputHeight]}
+                style={[st.f1, st.white, st.pv6, st.mv6, st.fs4, inputHeight]}
                 autoCorrect={true}
               />
+              <Button
+                type="transparent"
+                style={[st.w(55), st.aie, st.pv6]}
+                icon="send_message"
+                iconType="Voke"
+                iconStyle={[newMsg ? st.white : st.offBlue, st.fs2]}
+                onPress={() => this.sendMessage(true)}
+                preventTimeout={1000}
+              />
             </Flex>
-            <Button
-              type="transparent"
-              style={[st.w(55), st.aie, st.pv6]}
-              icon="send_message"
-              iconType="Voke"
-              iconStyle={[this.state.newMsg ? st.white : st.offBlue, st.fs2]}
-              onPress={() => this.sendMessage(true)}
-              preventTimeout={1000}
-            />
           </Flex>
-        </Flex>
+        ) : null}
       </ScrollView>
     );
   }
@@ -383,7 +391,11 @@ JourneyStepDetail.propTypes = {
 
 const mapStateToProps = (
   { auth, journeys },
-  { navigation: { state: { params } } },
+  {
+    navigation: {
+      state: { params },
+    },
+  },
 ) => ({
   ...params,
   // Get messages by step id
