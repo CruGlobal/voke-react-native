@@ -70,3 +70,5 @@ export const buildTrackingObj = (section, subsection, level3, level4) => ({
   level3,
   level4,
 });
+
+export const keyExtractorId = i => i.id;

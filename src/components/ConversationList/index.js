@@ -5,7 +5,7 @@ import { translate } from 'react-i18next';
 
 import styles from './styles';
 import theme, { COLORS } from '../../theme';
-import { getInitials } from '../../utils/common';
+import { getInitials, keyExtractorId } from '../../utils/common';
 
 import {
   View,
@@ -184,7 +184,7 @@ class ConversationList extends Component {
     return (
       <SwipeListView
         useFlatList={true}
-        keyExtractor={item => item.id}
+        keyExtractor={keyExtractorId}
         data={this.props.items}
         renderItem={this.renderRow}
         directionalDistanceChangeThreshold={theme.isAndroid ? 12 : undefined}

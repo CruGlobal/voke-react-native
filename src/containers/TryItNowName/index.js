@@ -38,11 +38,11 @@ class TryItNowName extends Component {
   }
 
   createAccount = () => {
-    const { dispatch } = this.props;
+    const { dispatch, t } = this.props;
 
     Keyboard.dismiss();
     if (!this.state.firstName) {
-      Alert.alert('First Name is required');
+      Alert.alert(t('firstNameRequired'));
       return;
     }
 
@@ -69,12 +69,7 @@ class TryItNowName extends Component {
       },
     };
     if (lastName) {
-      nameData = {
-        me: {
-          ...nameData.me,
-          last_name: lastName,
-        },
-      };
+      nameData.me.last_name = lastName;
     }
     dispatch(updateMe(nameData))
       .then(() => {

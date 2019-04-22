@@ -46,6 +46,7 @@ export default {
     openSettings: 'Open Settings',
     or: 'OR',
     other: 'Other',
+    part: 'Part',
     popular: 'Popular',
     privacy: 'Privacy Policy',
     resend: 'Resend',
@@ -288,6 +289,7 @@ export default {
     firstNamePlaceholder: `First`,
     lastName: `Last Name (Required)`,
     lastNamePlaceholder: `Last`,
+    firstNameRequired: 'First Name is required',
   },
   videos: {
     shares: `{{total}} shares`,
@@ -303,6 +305,7 @@ export default {
     '1player': '1 Player',
     '2player': '2 Player',
     code: '  ·  Code: ',
+    expiresIn: 'Expires in {{time}}',
     waitingForFriend: 'Waiting for {{name}} to join...',
   },
   orgJourney: {
@@ -317,6 +320,7 @@ export default {
     byMyself: 'By Myself',
     whoCanYouTake: 'Who can you take with you?',
     startThe: 'Start the {{journey}}',
+    waitingForAnswer: 'Waiting for {{name}} to answer...',
   },
   adventureCode: {
     adventureCode: 'Adventure Code',

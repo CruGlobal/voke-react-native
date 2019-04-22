@@ -14,32 +14,28 @@ import {
   VokeIcon,
   Button,
 } from '../common';
-import { momentUtc } from '../../utils/common';
+import { momentUtc, keyExtractorId } from '../../utils/common';
 
 const ITEM_HEIGHT = 64 + 20;
 export const THUMBNAIL_HEIGHT = 78;
 export const THUMBNAIL_WIDTH = 64;
 
 function getExpiredTimeFn(date) {
-  const now = moment();
-  const expiration = momentUtc(date);
-  const diff = expiration.diff(now);
+  const diff = momentUtc(date).diff(moment());
   const diffDuration = moment.duration(diff);
   const days = diffDuration.days();
   const hours = diffDuration.hours();
   const minutes = diffDuration.minutes();
 
-  const str = `Expires in ${
-    days > 0 ? `${days} day${days !== 1 ? 's' : ''} ` : ''
-  }${hours > 0 ? `${hours} hr${hours !== 1 ? 's' : ''} ` : ''}${
-    minutes > 0 ? `${minutes} min ` : ''
-  }`;
+  const str = `${days > 0 ? `${days} day${days !== 1 ? 's' : ''} ` : ''}${
+    hours > 0 ? `${hours} hr${hours !== 1 ? 's' : ''} ` : ''
+  }${minutes > 0 ? `${minutes} min ` : ''}`;
   return { str, isExpired: diff < 0 };
 }
 const getExpiredTime = lodashMemoize(getExpiredTimeFn);
 
 function InviteCard({ t, item, onResend, onDelete }) {
-  const { name, expires_at, code } = item;
+  const { organization_journey, name, expires_at, code } = item;
   const { str, isExpired } = getExpiredTime(expires_at);
 
   return (
@@ -60,7 +56,7 @@ function InviteCard({ t, item, onResend, onDelete }) {
     >
       <Flex>
         <Image
-          source={{ uri: item.organization_journey.image.small }}
+          source={{ uri: organization_journey.image.small }}
           style={[st.f1, st.w(THUMBNAIL_WIDTH), st.brbl6, st.brtl6]}
         />
       </Flex>
@@ -77,7 +73,7 @@ function InviteCard({ t, item, onResend, onDelete }) {
         <Flex direction="row" align="center" style={[st.pb6]}>
           {!isExpired ? (
             <Text numberOfLines={1} style={[st.white, st.fs6]}>
-              {str}
+              {t('expiresIn', { time: str })}
             </Text>
           ) : (
             <Button
@@ -118,10 +114,9 @@ function InviteCard({ t, item, onResend, onDelete }) {
   );
 }
 
-function ProgressDots({ index, isFilled }) {
+function ProgressDots({ isFilled }) {
   return (
     <View
-      key={index}
       style={[
         isFilled ? st.bgBlue : [st.bgTransparent, st.bw1, st.borderCharcoal],
         st.mr6,
@@ -132,13 +127,23 @@ function ProgressDots({ index, isFilled }) {
 }
 
 function MyAdventureCard({ t, me, item, onSelect, onClickProfile }) {
-  const unreadCount = item.conversation.unread_messages;
+  const {
+    conversation,
+    progress,
+    name,
+    item: {
+      content: {
+        thumbnails: { small },
+      },
+    },
+  } = item;
+  const unreadCount = conversation.unread_messages;
   const hasUnread = unreadCount > 0;
-  const available = item.progress.total;
+  const available = progress.total;
   const totalSteps = new Array(available).fill(1);
-  const completed = item.progress.completed;
+  const completed = progress.completed;
 
-  const messengers = item.conversation.messengers;
+  const messengers = conversation.messengers;
 
   const isSolo = messengers.length === 2;
   const myUser = messengers.find(i => i.id === me.id);
@@ -169,7 +174,7 @@ function MyAdventureCard({ t, me, item, onSelect, onClickProfile }) {
       >
         <Flex>
           <Image
-            source={{ uri: item.item.content.thumbnails.small }}
+            source={{ uri: small }}
             style={[st.f1, st.w(THUMBNAIL_WIDTH), st.brbl6, st.brtl6]}
           />
         </Flex>
@@ -181,7 +186,7 @@ function MyAdventureCard({ t, me, item, onSelect, onClickProfile }) {
           style={[st.pv6, st.ph4]}
         >
           <Text numberOfLines={1} style={[st.pb6, st.blue, st.fs4]}>
-            {item.name}
+            {name}
           </Text>
           <Flex direction="row" align="center" style={[st.pb6]}>
             <VokeIcon
@@ -203,11 +208,7 @@ function MyAdventureCard({ t, me, item, onSelect, onClickProfile }) {
           </Flex>
           <Flex direction="row" align="center">
             {totalSteps.map((i, index) => (
-              <ProgressDots
-                key={index}
-                index={index}
-                isFilled={index < completed}
-              />
+              <ProgressDots key={index} isFilled={index < completed} />
             ))}
             <Text numberOfLines={2} style={[st.ml6, st.charcoal, st.fs5]}>
               {completed}/{available} {t('complete')}
@@ -304,7 +305,7 @@ class MyAdventuresList extends Component {
         initialNumToRender={10}
         data={items}
         renderItem={this.renderRow}
-        keyExtractor={item => item.id}
+        keyExtractor={keyExtractorId}
         getItemLayout={(data, index) => ({
           length: ITEM_HEIGHT,
           offset: ITEM_HEIGHT * index,

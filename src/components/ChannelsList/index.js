@@ -12,6 +12,7 @@ import {
 import LoadMore from '../LoadMore';
 import styles from './styles';
 import st from '../../st';
+import { keyExtractorId } from '../../utils/common';
 
 class ChannelsList extends Component {
   constructor(props) {
@@ -88,7 +89,7 @@ class ChannelsList extends Component {
         horizontal={true}
         data={items}
         renderItem={this.renderRow}
-        keyExtractor={item => item.id}
+        keyExtractor={keyExtractorId}
         // getItemLayout={(data, index) => ({
         //   length: ITEM_HEIGHT,
         //   offset: ITEM_HEIGHT * index,

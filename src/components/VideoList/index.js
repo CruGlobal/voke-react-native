@@ -9,6 +9,7 @@ import ANIMATION from '../../../images/VokeBotAnimation.gif';
 
 import { Flex, Text, Touchable, Icon, RefreshControl, Button } from '../common';
 import st from '../../st';
+import { keyExtractorId } from '../../utils/common';
 
 const ITEM_HEIGHT = THUMBNAIL_HEIGHT + 100 + 20;
 
@@ -166,7 +167,7 @@ class VideoList extends Component {
         initialNumToRender={4}
         data={this.props.items}
         renderItem={this.renderRow}
-        keyExtractor={item => item.id}
+        keyExtractor={keyExtractorId}
         getItemLayout={(data, index) => ({
           length: ITEM_HEIGHT,
           offset: ITEM_HEIGHT * index,

@@ -20,11 +20,11 @@ import {
 } from '../../actions/journeys';
 import st from '../../st';
 import { navigatePush } from '../../actions/nav';
-import { buildTrackingObj } from '../../utils/common';
+import { buildTrackingObj, keyExtractorId } from '../../utils/common';
 import { VIDEO_CONTENT_TYPES } from '../VideoContentWrap';
 import { isAndroid } from '../../constants';
 
-function Item({ item, onSelect }) {
+function StepItem({ t, me, item, journey, onSelect }) {
   const isActive = item.status === 'active';
   const isCompleted = item.status === 'completed';
   const isLocked = !isCompleted && !isActive;
@@ -32,6 +32,9 @@ function Item({ item, onSelect }) {
 
   const unreadCount = item.unread_messages;
   const hasUnread = unreadCount > 0;
+  const otherUser = journey.conversation.messengers.find(
+    i => i.id !== me.id && i.first_name !== 'VokeBot',
+  );
 
   return (
     <Touchable
@@ -74,7 +77,7 @@ function Item({ item, onSelect }) {
               {item.name}
             </Text>
             <Text style={[st.fs5, isActive ? st.darkBlue : st.white]}>
-              Part {item.position}
+              {t('part')} {item.position}
             </Text>
             {isActive ? (
               <Flex direction="row" align="center" style={[st.pt6]}>
@@ -111,7 +114,9 @@ function Item({ item, onSelect }) {
             align="center"
             style={[st.bgOrange, st.w100, st.pd6, st.brbl5, st.brbr5]}
           >
-            <Text style={[st.fs4]}>Waiting for ... to answer...</Text>
+            <Text style={[st.fs4]}>
+              {t('waitingForAnswer', { name: otherUser.first_name })}
+            </Text>
           </Flex>
         ) : null}
         {isCompleted ? (
@@ -139,12 +144,12 @@ class JourneyDetail extends Component {
   };
 
   componentDidMount() {
-    const { dispatch, item } = this.props;
+    const { dispatch, navToStep, item } = this.props;
     dispatch(activeJourneyConversation(item));
 
     this.load();
-    if (this.props.navToStep) {
-      this.select(this.props.navToStep);
+    if (navToStep) {
+      this.select(navToStep);
     }
   }
 
@@ -156,7 +161,6 @@ class JourneyDetail extends Component {
   load = async () => {
     const { dispatch, item } = this.props;
     const results = await dispatch(getMyJourneySteps(item.id));
-    console.log('results', results);
     return results;
   };
 
@@ -194,8 +198,17 @@ class JourneyDetail extends Component {
     );
   };
 
-  renderRow = ({ item }) => {
-    return <Item item={item} onSelect={this.select} />;
+  renderRow = ({ item: stepItem }) => {
+    const { t, me, item } = this.props;
+    return (
+      <StepItem
+        t={t}
+        me={me}
+        journey={item}
+        item={stepItem}
+        onSelect={this.select}
+      />
+    );
   };
 
   render() {
@@ -212,7 +225,7 @@ class JourneyDetail extends Component {
       <FlatList
         data={steps}
         renderItem={this.renderRow}
-        keyExtractor={item => item.id}
+        keyExtractor={keyExtractorId}
         style={[st.f1, st.bgBlue, st.pt5, st.minh100]}
         contentContainerStyle={[st.f1]}
         refreshControl={
@@ -228,15 +241,14 @@ class JourneyDetail extends Component {
 }
 
 JourneyDetail.propTypes = {
-  item: PropTypes.object.isRequired,
+  item: PropTypes.object.isRequired, // Journey object
   onPause: PropTypes.func.isRequired,
   navToStep: PropTypes.object,
 };
 
-const mapStateToProps = ({ journeys }, { item }) => ({
+const mapStateToProps = ({ auth, journeys }, { item }) => ({
+  me: auth.user,
   steps: journeys.steps[item.id] || [],
 });
 
-export default translate('journeyDetail')(
-  connect(mapStateToProps)(JourneyDetail),
-);
+export default translate('journey')(connect(mapStateToProps)(JourneyDetail));

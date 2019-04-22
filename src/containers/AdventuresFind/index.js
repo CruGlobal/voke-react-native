@@ -12,7 +12,7 @@ import {
 import { getOrgJourneys } from '../../actions/journeys';
 import OrgJourney from '../../components/OrgJourney';
 import { navigatePush } from '../../actions/nav';
-import { buildTrackingObj } from '../../utils/common';
+import { buildTrackingObj, keyExtractorId } from '../../utils/common';
 import { VIDEO_CONTENT_TYPES } from '../VideoContentWrap';
 
 import st from '../../st';
@@ -96,7 +96,7 @@ class AdventuresFind extends Component {
         data={items}
         renderItem={this.renderRow}
         ListHeaderComponent={this.renderHeader()}
-        keyExtractor={item => item.id}
+        keyExtractor={keyExtractorId}
         style={styles.list}
         refreshControl={
           <RefreshControl

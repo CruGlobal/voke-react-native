@@ -6,6 +6,7 @@ import styles from './styles';
 import MessageItem from '../MessageItem';
 import LoadMore from '../../components/LoadMore';
 import { View, FlatList, Flex } from '../../components/common';
+import { keyExtractorId } from '../../utils/common';
 
 class MessagesList extends Component {
   state = {
@@ -86,7 +87,7 @@ class MessagesList extends Component {
         <FlatList
           ref={c => (this.listView = c)}
           ListFooterComponent={this.renderLoadMore}
-          keyExtractor={item => item.id}
+          keyExtractor={keyExtractorId}
           initialNumToRender={CONSTANTS.PAGE_SIZE + 1}
           data={this.props.items}
           renderItem={this.renderRow}
