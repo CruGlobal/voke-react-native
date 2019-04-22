@@ -94,6 +94,7 @@ class JourneyStepDetail extends Component {
         this.getMessages();
         this.checkIfLast();
       });
+      this.chatInput.blur();
       return;
     }
     if (!text) {
@@ -365,7 +366,7 @@ class JourneyStepDetail extends Component {
               icon="send_message"
               iconType="Voke"
               iconStyle={[this.state.newMsg ? st.white : st.offBlue, st.fs2]}
-              onPress={this.sendMessage(true)}
+              onPress={() => this.sendMessage(true)}
               preventTimeout={1000}
             />
           </Flex>
