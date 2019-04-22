@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import Analytics from '../../utils/analytics';
 import styles from './styles';
-import { navigatePush } from '../../actions/nav';
+import { navigateResetHome } from '../../actions/nav';
 import { Image, Flex, Button, Text, Triangle } from '../../components/common';
 import SafeArea from '../../components/SafeArea';
 import VOKE_FIRST_NAME from '../../../images/vokebot_whole.png';
@@ -51,7 +51,7 @@ class ShareJourneyInvite extends Component {
 
   done = () => {
     const { dispatch } = this.props;
-    dispatch(navigatePush('voke.Adventures', { index: 0 }));
+    dispatch(navigateResetHome({ index: 0 }));
   };
 
   render() {

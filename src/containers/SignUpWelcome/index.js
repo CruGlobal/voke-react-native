@@ -36,6 +36,7 @@ class SignUpWelcome extends Component {
     selectedPage: 0,
     totalSteps: 3,
     isLoading: false,
+    bottomHeight: 0,
   };
 
   componentDidMount() {
@@ -153,12 +154,13 @@ class SignUpWelcome extends Component {
                 <Flex value={1} align="center" justify="center">
                   <Image
                     resizeMode="cover"
-                    source={ONBOARD_1}
+                    source={ONBOARD_2}
                     style={styles.onboardFull}
                   />
                 </Flex>
               </Flex>
               {this.renderTopTriangle('Grow in new ways.')}
+              {this.renderTopTriangle('Join the adventure.')}
             </View>
 
             <View style={styles.onboardingPage}>
@@ -171,12 +173,12 @@ class SignUpWelcome extends Component {
                 <Flex value={1} align="center" justify="center">
                   <Image
                     resizeMode="cover"
-                    source={ONBOARD_2}
+                    source={ONBOARD_1}
                     style={styles.onboardFull}
                   />
                 </Flex>
               </Flex>
-              {this.renderTopTriangle('Join the adventure.')}
+              {this.renderTopTriangle('Grow in new ways.')}
             </View>
             <View style={styles.onboardingPage}>
               <Flex
@@ -197,12 +199,18 @@ class SignUpWelcome extends Component {
             </View>
           </IndicatorViewPager>
         </Flex>
-        <Flex style={[st.absb, st.fw100, st.fh50]}>
-          <Triangle
-            width={st.fullWidth}
-            height={120}
-            color={st.colors.darkBlue}
-          />
+        <Triangle
+          width={st.fullWidth}
+          height={120}
+          color={st.colors.darkBlue}
+          style={[st.absb, { bottom: this.state.bottomHeight }]}
+        />
+        <Flex
+          style={[st.absb, st.fw100]}
+          onLayout={e =>
+            this.setState({ bottomHeight: e.nativeEvent.layout.height })
+          }
+        >
           <Flex value={1} style={[st.bgDarkBlue]}>
             <Flex
               style={[
