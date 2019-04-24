@@ -45,6 +45,10 @@ class TryItNowName extends Component {
       Alert.alert(t('firstNameRequired'));
       return;
     }
+    if (this.state.isLoading) {
+      return;
+    }
+    this.setState({ isLoading: true });
 
     dispatch(createAccountAction(null, null, true))
       .then(results => {
