@@ -90,9 +90,8 @@ class JourneyStepDetail extends Component {
     const { dispatch, item, journey } = this.props;
     const { text, newMsg } = this.state;
     if (isNewMsg) {
-      dispatch(createJourneyMessage(item, journey, newMsg)).then(() => {
-        this.getMessages();
-      });
+      await dispatch(createJourneyMessage(item, journey, newMsg));
+      this.getMessages();
       this.setState({ newMsg: '' });
       this.chatInput.blur();
       return;
@@ -100,10 +99,9 @@ class JourneyStepDetail extends Component {
     if (!text) {
       return this.skip();
     }
-    dispatch(createJourneyMessage(item, journey, text)).then(() => {
-      this.getMessages();
-      this.checkIfLast();
-    });
+    await dispatch(createJourneyMessage(item, journey, text));
+    this.getMessages();
+    this.checkIfLast();
   };
 
   renderNext = () => {
@@ -137,7 +135,6 @@ class JourneyStepDetail extends Component {
     if (myFirstMessage && myFirstMessage.id) {
       reversed = reversed.filter(m => m.id !== myFirstMessage.id);
     }
-    // .filter(m => m.messenger_id !== me.id); // Remove my message
     return reversed.map(m => {
       const isVoke =
         m.metadata &&
@@ -191,7 +188,8 @@ class JourneyStepDetail extends Component {
                 isVoke ? VOKE_AVATAR : { uri: (messenger.avatar || {}).small }
               }
               style={[
-                isMine ? [st.absbr, st.right(-30)] : [st.absbl, st.left(-30)],
+                st.absb,
+                isMine ? st.right(-30) : st.left(-30),
                 st.circle(25),
                 isVoke ? st.rotate('60deg') : undefined,
               ]}
@@ -326,7 +324,7 @@ class JourneyStepDetail extends Component {
             </Flex>
             <Image
               source={{ uri: (meMessenger.avatar || {}).small }}
-              style={[st.absbr, st.right(-30), st.circle(25)]}
+              style={[st.absb, st.right(-30), st.circle(25)]}
             />
           </Flex>
           {response ? (
