@@ -12,8 +12,10 @@ import { Flex, Button, Text } from '../../components/common';
 import SafeArea from '../../components/SafeArea';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
+import { buildTrackingObj } from '../../utils/common';
 import theme from '../../theme';
 import st from '../../st';
+import { VIDEO_CONTENT_TYPES } from '../VideoContentWrap';
 
 class AdventureCode extends Component {
   state = {
@@ -44,8 +46,15 @@ class AdventureCode extends Component {
           if (onboarding) {
             this.goToPhoto();
           } else {
-            dispatch(getMyJourneys()).then(() => {
+            dispatch(getMyJourneys()).then(r => {
               dispatch(navigateBack());
+              dispatch(
+                navigatePush('voke.VideoContentWrap', {
+                  item: r.journeys[r.journeys.length - 1],
+                  type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
+                  trackingObj: buildTrackingObj('journey : mine', 'detail'),
+                }),
+              );
             });
           }
           this.setState({ isLoading: false });
