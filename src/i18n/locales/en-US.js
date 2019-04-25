@@ -259,6 +259,9 @@ export default {
     tagline3: `Experience\nDeeper\nFriendships`,
     tagline4: `Find and\nShare Hope`,
     start: `Start Exploring`,
+    joinAdventure: 'Join the adventure.',
+    grow: 'Grow in new ways.',
+    bringOthers: 'Bring others.',
   },
   signUp: {
     and: 'and',

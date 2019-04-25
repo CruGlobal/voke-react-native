@@ -15,7 +15,8 @@ class TouchableIOS extends Component {
   }
 
   handlePress = (...args) => {
-    if (this.state.clickedDisabled) {
+    const { onPress } = this.props;
+    if (this.state.clickedDisabled || !onPress) {
       return;
     }
     requestAnimationFrame(() => {
@@ -27,7 +28,7 @@ class TouchableIOS extends Component {
       }, 1000);
       // Call the users click function with all the normal click parameters
 
-      this.props.onPress(...args);
+      onPress(...args);
     });
   };
 

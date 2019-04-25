@@ -12,7 +12,6 @@ import ONBOARD_3 from '../../../images/onboard3.jpg';
 import styles from './styles';
 import { navigatePush } from '../../actions/nav';
 import { setupFirebaseLinks } from '../../actions/auth';
-import theme, { COLORS } from '../../theme';
 
 import {
   View,
@@ -30,13 +29,61 @@ import { buildTrackingObj } from '../../utils/common';
 import st from '../../st';
 
 const MARGIN = 40;
-const extraBottom = theme.isIphoneX ? 30 : 0;
+
+function PageImage({ stopAutoPlay, image, text }) {
+  return (
+    <Touchable
+      onPressIn={stopAutoPlay}
+      style={[st.f1]}
+      activeOpacity={1}
+      isAndroidOpacity={true}
+    >
+      <Flex value={1} direction="column" align="center" justify="center">
+        <Flex value={1} align="center" justify="center">
+          <Image resizeMode="cover" source={image} style={styles.onboardFull} />
+        </Flex>
+      </Flex>
+      <Flex
+        direction="column"
+        align="end"
+        style={{
+          position: 'absolute',
+          top: 0,
+          paddingTop: MARGIN + 50,
+          right: MARGIN,
+          paddingHorizontal: 15,
+          backgroundColor: 'rgba(0,0,0,0.4)',
+        }}
+      >
+        <Text style={styles.tagline}>{text}</Text>
+        <View
+          style={{
+            overflow: 'hidden',
+            width: 160,
+            position: 'absolute',
+            left: 0,
+            height: st.isAndroid ? 50 : 80,
+            bottom: st.isAndroid ? -50 : -80,
+          }}
+        >
+          <Triangle
+            width={160}
+            height={st.isAndroid ? 50 : 80}
+            color={'rgba(0,0,0,0.4)'}
+            flip={true}
+            slant="down"
+            style={[st.absr]}
+          />
+        </View>
+      </Flex>
+    </Touchable>
+  );
+}
 
 class SignUpWelcome extends Component {
   state = {
     selectedPage: 0,
     totalSteps: 3,
-    isLoading: false,
     bottomHeight: 0,
     shouldAutoPlay: true,
   };
@@ -55,17 +102,17 @@ class SignUpWelcome extends Component {
     );
   };
 
-  handleNextPage(i) {
-    this.viewPager.setPage(i + 1);
-  }
+  nav = to => {
+    const { dispatch } = this.props;
+    this.setState({ shouldAutoPlay: false });
+    dispatch(navigatePush(to));
+  };
 
   tryItNow = () => {
-    const { dispatch } = this.props;
-    this.setState({ isLoading: true });
-    dispatch(navigatePush('voke.TryItNowName'));
-
-    this.setState({ isLoading: false });
+    this.nav('voke.TryItNowName');
   };
+
+  stopAutoPlay = () => this.setState({ shouldAutoPlay: false });
 
   renderDotIndicator() {
     return (
@@ -76,8 +123,8 @@ class SignUpWelcome extends Component {
           marginHorizontal: st.fullWidth / 2 - 50,
         }}
         dotStyle={{
-          backgroundColor: COLORS.TRANSPARENT,
-          borderColor: COLORS.WHITE,
+          backgroundColor: st.colors.transparent,
+          borderColor: st.colors.white,
           borderWidth: 1,
           marginHorizontal: 3,
           height: 12,
@@ -85,7 +132,7 @@ class SignUpWelcome extends Component {
           borderRadius: 12,
         }}
         selectedDotStyle={{
-          backgroundColor: COLORS.WHITE,
+          backgroundColor: st.colors.white,
           marginHorizontal: 3,
           height: 12,
           width: 12,
@@ -96,130 +143,40 @@ class SignUpWelcome extends Component {
     );
   }
 
-  renderTopTriangle = t => {
-    return (
-      <Flex
-        direction="column"
-        align="end"
-        style={{
-          position: 'absolute',
-          top: 0,
-          paddingTop: MARGIN + 50,
-          right: MARGIN,
-          paddingHorizontal: 15,
-          backgroundColor: 'rgba(0,0,0,0.4)',
-        }}
-      >
-        <Text style={styles.tagline}>{t}</Text>
-        <View
-          style={{
-            overflow: 'hidden',
-            height: st.isAndroid ? 50 : 80,
-            width: 160,
-            position: 'absolute',
-            bottom: st.isAndroid ? -50 : -80,
-            left: 0,
-          }}
-        >
-          <Triangle
-            width={160}
-            height={st.isAndroid ? 50 : 80}
-            color={'rgba(0,0,0,0.4)'}
-            flip={true}
-            slant="down"
-            style={[st.abs, { right: 0 }]}
-          />
-        </View>
-      </Flex>
-    );
-  };
-
   render() {
-    const { t, dispatch } = this.props;
+    const { t } = this.props;
     return (
-      <View style={{ flex: 1, backgroundColor: theme.primaryColor }}>
+      <View style={[st.f1, st.bgBlue]}>
         <StatusBar />
         <Flex value={1}>
           <IndicatorViewPager
             indicator={this.renderDotIndicator()}
             ref={c => (this.viewPager = c)}
-            style={{ flex: 1, flexDirection: 'column-reverse' }}
+            style={[st.f1, st.fdcr]}
             onPageSelected={this.onPageSelected}
             autoPlayEnable={this.state.shouldAutoPlay}
             autoPlayInterval={3000}
           >
-            <View style={styles.onboardingPage}>
-              <Touchable
-                onPress={() => this.setState({ shouldAutoPlay: false })}
-                style={[st.f1]}
-                activeOpacity={1}
-                isAndroidOpacity={true}
-              >
-                <Flex
-                  value={1}
-                  direction="column"
-                  align="center"
-                  justify="center"
-                >
-                  <Flex value={1} align="center" justify="center">
-                    <Image
-                      resizeMode="cover"
-                      source={ONBOARD_2}
-                      style={styles.onboardFull}
-                    />
-                  </Flex>
-                </Flex>
-                {this.renderTopTriangle('Join the adventure.')}
-              </Touchable>
+            <View style={[st.bgTransparent]}>
+              <PageImage
+                stopAutoPlay={this.stopAutoPlay}
+                image={ONBOARD_2}
+                text={t('joinAdventure')}
+              />
             </View>
-
-            <View style={styles.onboardingPage}>
-              <Touchable
-                onPress={() => this.setState({ shouldAutoPlay: false })}
-                style={[st.f1]}
-                activeOpacity={1}
-                isAndroidOpacity={true}
-              >
-                <Flex
-                  value={1}
-                  direction="column"
-                  align="center"
-                  justify="center"
-                >
-                  <Flex value={1} align="center" justify="center">
-                    <Image
-                      resizeMode="cover"
-                      source={ONBOARD_1}
-                      style={styles.onboardFull}
-                    />
-                  </Flex>
-                </Flex>
-                {this.renderTopTriangle('Grow in new ways.')}
-              </Touchable>
+            <View style={[st.bgTransparent]}>
+              <PageImage
+                stopAutoPlay={this.stopAutoPlay}
+                image={ONBOARD_1}
+                text={t('grow')}
+              />
             </View>
-            <View style={styles.onboardingPage}>
-              <Touchable
-                onPress={() => this.setState({ shouldAutoPlay: false })}
-                style={[st.f1]}
-                activeOpacity={1}
-                isAndroidOpacity={true}
-              >
-                <Flex
-                  value={1}
-                  direction="column"
-                  align="center"
-                  justify="center"
-                >
-                  <Flex value={1} align="center" justify="center">
-                    <Image
-                      resizeMode="cover"
-                      source={ONBOARD_3}
-                      style={styles.onboardFull}
-                    />
-                  </Flex>
-                </Flex>
-                {this.renderTopTriangle('Bring others.')}
-              </Touchable>
+            <View style={[st.bgTransparent]}>
+              <PageImage
+                stopAutoPlay={this.stopAutoPlay}
+                image={ONBOARD_3}
+                text={t('bringOthers')}
+              />
             </View>
           </IndicatorViewPager>
         </Flex>
@@ -227,7 +184,7 @@ class SignUpWelcome extends Component {
           width={st.fullWidth}
           height={120}
           color={st.colors.darkBlue}
-          style={[st.absb, { bottom: this.state.bottomHeight }]}
+          style={[st.abs, { bottom: this.state.bottomHeight || 200 }]}
         />
         <Flex
           style={[st.absb, st.fw100]}
@@ -236,17 +193,7 @@ class SignUpWelcome extends Component {
           }
         >
           <Flex value={1} style={[st.bgDarkBlue]}>
-            <Flex
-              style={[
-                {
-                  justifyContent: 'flex-end',
-                  flex: 1,
-                  marginBottom: 25,
-                  padding: 5,
-                  marginHorizontal: 5,
-                },
-              ]}
-            >
+            <Flex style={[st.f1, st.jce, st.mb3, st.p6, st.mh6]}>
               <Flex align="center" justify="center">
                 <Button
                   isAndroidOpacity={true}
@@ -268,7 +215,7 @@ class SignUpWelcome extends Component {
                   text={t('signIn')}
                   style={styles.signInButton}
                   buttonTextStyle={styles.signInText}
-                  onPress={() => dispatch(navigatePush('voke.LoginInput'))}
+                  onPress={() => this.nav('voke.LoginInput')}
                 />
               </Flex>
             </Flex>

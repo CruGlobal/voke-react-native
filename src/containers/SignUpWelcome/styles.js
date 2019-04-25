@@ -20,9 +20,6 @@ export default StyleSheet.create({
   headerWrap: {
     paddingVertical: 30,
   },
-  onboardingPage: {
-    backgroundColor: theme.transparent,
-  },
   headerText: {
     paddingHorizontal: 50,
     paddingVertical: 10,

@@ -84,8 +84,7 @@ function hexToRGB(hex, alpha, property) {
   return str;
 }
 
-// React Native StyleSheet for optimized styles
-const rnStyles = StyleSheet.create({
+const st = {
   abs: { position: 'absolute' },
   abst: { position: 'absolute', top: 0 },
   absb: { position: 'absolute', bottom: 0 },
@@ -129,6 +128,8 @@ const rnStyles = StyleSheet.create({
   jcse: { justifyContent: 'space-evenly' },
   fdr: { flexDirection: 'row' },
   fdc: { flexDirection: 'column' },
+  fdcr: { flexDirection: 'column-reverse' },
+  fdrr: { flexDirection: 'row-reverse' },
 
   fs1: { fontSize: 32 },
   fs2: { fontSize: 24 },
@@ -138,6 +139,7 @@ const rnStyles = StyleSheet.create({
   fs6: { fontSize: 12 },
 
   ...Object.assign(
+    {},
     generatePercentages('op', 'opacity', n => n / 100),
     generatePercentages('w', 'width', n => `${n}%`),
     generatePercentages('minw', 'minWidth', n => `${n}%`),
@@ -182,19 +184,14 @@ const rnStyles = StyleSheet.create({
     generateNums('f', 'flex'),
 
     generatedColors,
-  ),
-});
 
-// Additional styles and function helpers
-const extraStyles = {
-  ...Object.assign(
-    {},
     generateFn('fs', 'fontSize'),
     generateFn('top', 'top'),
     generateFn('left', 'left'),
     generateFn('right', 'right'),
     generateFn('bottom', 'bottom'),
   ),
+
   circle: s => ({ width: s, height: s, borderRadius: s / 2 }),
   rotate: n => ({ transform: [{ rotate: n }] }),
   hitSlop: n => ({ top: n, left: n, bottom: n, right: n }),
@@ -229,7 +226,7 @@ const extraStyles = {
   fullHeight: height,
 };
 
-const st = Object.assign({}, rnStyles, extraStyles);
+// const st = { ...rnStyles, ...extraStyles };
 
 // Regex Helpers for find
 // Find all size/percentage layouts 'st\.[a-z]{0,5}[0-9]{2,3}'
