@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { FlatList, Image, View } from 'react-native';
 import { translate } from 'react-i18next';
 import moment from 'moment';
-import lodashMemoize from 'lodash/memoize';
 
 import st from '../../st';
 import {
@@ -20,101 +19,131 @@ const ITEM_HEIGHT = 64 + 20;
 export const THUMBNAIL_HEIGHT = 78;
 export const THUMBNAIL_WIDTH = 64;
 
-function getExpiredTimeFn(date) {
+const TIMER_INTERVAL = 60;
+
+function getExpiredTime(date) {
   const diff = momentUtc(date).diff(moment());
   const diffDuration = moment.duration(diff);
   const days = diffDuration.days();
   const hours = diffDuration.hours();
   const minutes = diffDuration.minutes();
+  // const seconds = diffDuration.seconds();
 
   const str = `${days > 0 ? `${days} day${days !== 1 ? 's' : ''} ` : ''}${
     hours > 0 ? `${hours} hr${hours !== 1 ? 's' : ''} ` : ''
-  }${minutes > 0 ? `${minutes} min ` : ''}`;
+  }${minutes >= 0 ? `${minutes} min ` : ''}`;
   return { str, isExpired: diff < 0 };
 }
-const getExpiredTime = lodashMemoize(getExpiredTimeFn);
 
-function InviteCard({ t, item, onResend, onDelete }) {
-  const { organization_journey, name, expires_at, code } = item;
-  const { str, isExpired } = getExpiredTime(expires_at);
+class InviteCard extends Component {
+  state = { isExpired: false, time: '' };
 
-  return (
-    <Flex
-      style={[
-        st.mt6,
-        st.w(st.fullWidth - 40),
-        st.bgDarkBlue,
-        st.br6,
-        st.ovh,
-        st.asc,
-        st.shadow,
-      ]}
-      direction="row"
-      align="center"
-      justify="start"
-      animation="slideInUp"
-    >
-      <Flex>
-        <Image
-          source={{ uri: organization_journey.image.small }}
-          style={[st.f1, st.w(THUMBNAIL_WIDTH), st.brbl6, st.brtl6]}
-        />
-      </Flex>
+  componentDidMount() {
+    this.interval = setInterval(this.setTime, TIMER_INTERVAL * 1000);
+    this.setTime();
+  }
+
+  componentWillUnmount() {
+    this.clear();
+  }
+
+  clear() {
+    clearInterval(this.interval);
+  }
+
+  setTime = () => {
+    const { str, isExpired } = getExpiredTime(this.props.item.expires_at);
+    // Clear the interval when it is expired
+    if (isExpired && !this.state.isExpired) {
+      this.clear();
+    }
+    this.setState({ isExpired, time: str });
+  };
+
+  render() {
+    const { t, item, onDelete, onResend } = this.props;
+    const { organization_journey, name, code } = item;
+    const { isExpired, time } = this.state;
+
+    return (
       <Flex
-        value={1}
-        direction="column"
-        align="start"
+        style={[
+          st.mt6,
+          st.w(st.fullWidth - 40),
+          st.bgDarkBlue,
+          st.br6,
+          st.ovh,
+          st.asc,
+          st.shadow,
+        ]}
+        direction="row"
+        align="center"
         justify="start"
-        style={[st.pv6, st.ph4]}
+        animation="slideInUp"
       >
-        <Text numberOfLines={1} style={[st.white, st.fs4]}>
-          {t('waitingForFriend', { name })}
-        </Text>
-        <Flex direction="row" align="center" style={[st.pb6]}>
-          {!isExpired ? (
+        <Flex>
+          <Image
+            source={{ uri: organization_journey.image.small }}
+            style={[st.f1, st.w(THUMBNAIL_WIDTH), st.brbl6, st.brtl6]}
+          />
+        </Flex>
+        <Flex
+          value={1}
+          direction="column"
+          align="start"
+          justify="start"
+          style={[st.pv6, st.ph4]}
+        >
+          <Text numberOfLines={1} style={[st.white, st.fs4]}>
+            {t('waitingForFriend', { name })}
+          </Text>
+          <Flex direction="row" align="center" style={[st.pb6]}>
+            {!isExpired ? (
+              <Text numberOfLines={1} style={[st.white, st.fs6]}>
+                {t('expiresIn', { time })}
+              </Text>
+            ) : (
+              <Button
+                text={t('resend')}
+                onPress={() => onResend(item)}
+                style={[
+                  st.bgOrange,
+                  st.ph5,
+                  st.pv(2),
+                  st.bw0,
+                  st.br0,
+                  st.br3,
+                  st.aic,
+                ]}
+                buttonTextStyle={[st.fs6]}
+              />
+            )}
             <Text numberOfLines={1} style={[st.white, st.fs6]}>
-              {t('expiresIn', { time: str })}
+              {t('code')}
             </Text>
-          ) : (
-            <Button
-              text={t('resend')}
-              onPress={() => onResend(item)}
-              style={[
-                st.bgOrange,
-                st.ph5,
-                st.pv(2),
-                st.bw0,
-                st.br0,
-                st.br3,
-                st.aic,
-              ]}
-              buttonTextStyle={[st.fs6]}
-            />
-          )}
-          <Text numberOfLines={1} style={[st.white, st.fs6]}>
-            {t('code')}
-          </Text>
-          <Text selectable={true} style={[st.white, st.fs6, st.bold]}>
-            {code}
-          </Text>
+            <Text selectable={true} style={[st.white, st.fs6, st.bold]}>
+              {code}
+            </Text>
+          </Flex>
+        </Flex>
+
+        <Flex align="center" justify="center" style={[st.tac, st.mr4, st.ml6]}>
+          {isExpired ? (
+            <Touchable
+              onPress={() => onDelete(item)}
+              style={[st.br2, st.borderWhite, st.bw1, st.pd(7)]}
+            >
+              <VokeIcon name="close" style={[st.white, st.fs6]} />
+            </Touchable>
+          ) : null}
         </Flex>
       </Flex>
-
-      <Flex align="center" justify="center" style={[st.tac, st.mr4, st.ml6]}>
-        {isExpired ? (
-          <Touchable
-            onPress={() => onDelete(item)}
-            style={[st.br2, st.borderWhite, st.bw1, st.pd(7)]}
-          >
-            <VokeIcon name="close" style={[st.white, st.fs6]} />
-          </Touchable>
-        ) : null}
-      </Flex>
-    </Flex>
-  );
+    );
+  }
 }
 
-function ProgressDots({ isFilled }) {
+// Optimization
+const ProgressDots = React.memo(function({ isFilled }) {
   return (
     <View
       style={[
@@ -124,7 +153,7 @@ function ProgressDots({ isFilled }) {
       ]}
     />
   );
-}
+});
 
 function MyAdventureCard({ t, me, item, onSelect, onClickProfile }) {
   const {
