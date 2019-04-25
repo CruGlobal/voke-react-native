@@ -9,7 +9,6 @@ import { navigatePush } from '../../actions/nav';
 import { favoriteVideo, unfavoriteVideo } from '../../actions/videos';
 
 import styles from './styles';
-import FloatingButtonSingle from '../../components/FloatingButtonSingle';
 import { Flex, Text, Button } from '../../components/common';
 import { shareVideo } from '../../actions/auth';
 
@@ -118,7 +117,6 @@ class VideoDetails extends Component {
             ))}
           </Flex>
         </ScrollView>
-        <FloatingButtonSingle onSelect={this.handleShare} />
       </Fragment>
     );
   }

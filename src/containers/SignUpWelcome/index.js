@@ -21,6 +21,7 @@ import {
   Text,
   Button,
   Triangle,
+  Touchable,
 } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import PrivacyToS from '../../components/PrivacyToS';
@@ -37,6 +38,7 @@ class SignUpWelcome extends Component {
     totalSteps: 3,
     isLoading: false,
     bottomHeight: 0,
+    shouldAutoPlay: true,
   };
 
   componentDidMount() {
@@ -143,58 +145,81 @@ class SignUpWelcome extends Component {
             ref={c => (this.viewPager = c)}
             style={{ flex: 1, flexDirection: 'column-reverse' }}
             onPageSelected={this.onPageSelected}
+            autoPlayEnable={this.state.shouldAutoPlay}
+            autoPlayInterval={3000}
           >
             <View style={styles.onboardingPage}>
-              <Flex
-                value={1}
-                direction="column"
-                align="center"
-                justify="center"
+              <Touchable
+                onPress={() => this.setState({ shouldAutoPlay: false })}
+                style={[st.f1]}
+                activeOpacity={1}
+                isAndroidOpacity={true}
               >
-                <Flex value={1} align="center" justify="center">
-                  <Image
-                    resizeMode="cover"
-                    source={ONBOARD_2}
-                    style={styles.onboardFull}
-                  />
+                <Flex
+                  value={1}
+                  direction="column"
+                  align="center"
+                  justify="center"
+                >
+                  <Flex value={1} align="center" justify="center">
+                    <Image
+                      resizeMode="cover"
+                      source={ONBOARD_2}
+                      style={styles.onboardFull}
+                    />
+                  </Flex>
                 </Flex>
-              </Flex>
-              {this.renderTopTriangle('Join the adventure.')}
+                {this.renderTopTriangle('Join the adventure.')}
+              </Touchable>
             </View>
 
             <View style={styles.onboardingPage}>
-              <Flex
-                value={1}
-                direction="column"
-                align="center"
-                justify="center"
+              <Touchable
+                onPress={() => this.setState({ shouldAutoPlay: false })}
+                style={[st.f1]}
+                activeOpacity={1}
+                isAndroidOpacity={true}
               >
-                <Flex value={1} align="center" justify="center">
-                  <Image
-                    resizeMode="cover"
-                    source={ONBOARD_1}
-                    style={styles.onboardFull}
-                  />
+                <Flex
+                  value={1}
+                  direction="column"
+                  align="center"
+                  justify="center"
+                >
+                  <Flex value={1} align="center" justify="center">
+                    <Image
+                      resizeMode="cover"
+                      source={ONBOARD_1}
+                      style={styles.onboardFull}
+                    />
+                  </Flex>
                 </Flex>
-              </Flex>
-              {this.renderTopTriangle('Grow in new ways.')}
+                {this.renderTopTriangle('Grow in new ways.')}
+              </Touchable>
             </View>
             <View style={styles.onboardingPage}>
-              <Flex
-                value={1}
-                direction="column"
-                align="center"
-                justify="center"
+              <Touchable
+                onPress={() => this.setState({ shouldAutoPlay: false })}
+                style={[st.f1]}
+                activeOpacity={1}
+                isAndroidOpacity={true}
               >
-                <Flex value={1} align="center" justify="center">
-                  <Image
-                    resizeMode="cover"
-                    source={ONBOARD_3}
-                    style={styles.onboardFull}
-                  />
+                <Flex
+                  value={1}
+                  direction="column"
+                  align="center"
+                  justify="center"
+                >
+                  <Flex value={1} align="center" justify="center">
+                    <Image
+                      resizeMode="cover"
+                      source={ONBOARD_3}
+                      style={styles.onboardFull}
+                    />
+                  </Flex>
                 </Flex>
-              </Flex>
-              {this.renderTopTriangle('Bring others.')}
+                {this.renderTopTriangle('Bring others.')}
+              </Touchable>
             </View>
           </IndicatorViewPager>
         </Flex>

@@ -7,8 +7,8 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import debounce from 'lodash/debounce';
 import Orientation from 'react-native-orientation';
 
-import { navigateBack } from '../../actions/nav';
-import { toastAction } from '../../actions/auth';
+import { navigateBack, navigatePush } from '../../actions/nav';
+import { toastAction, shareVideo } from '../../actions/auth';
 import { createVideoInteraction } from '../../actions/videos';
 
 import styles from './styles';
@@ -24,6 +24,7 @@ import JourneyStepDetail from '../JourneyStepDetail';
 import st from '../../st';
 import theme from '../../theme';
 import { isAndroid } from '../../constants';
+import FloatingButtonSingle from '../../components/FloatingButtonSingle';
 
 export const VIDEO_CONTENT_TYPES = {
   VIDEODETAIL: 'VIDEODETAIL',
@@ -58,9 +59,7 @@ function getVideoType(item) {
   const media =
     (item.media
       ? item.media
-      : item.item && item.item.content
-      ? item.item.content
-      : {}) || {};
+      : item.item && item.item.content ? item.item.content : {}) || {};
   return media.type;
 }
 
@@ -149,6 +148,36 @@ class VideoContentWrap extends Component {
       Orientation.unlockAllOrientations();
     }
   }
+
+  handleShare = () => {
+    const { conversation, onSelectVideo, me, dispatch, item } = this.props;
+
+    Orientation.lockToPortrait();
+    // This logic exists in the VideoDetails and the VideoList
+    if (onSelectVideo) {
+      dispatch(shareVideo(item, onSelectVideo, conversation));
+    } else {
+      this.pause();
+      if (!me.first_name) {
+        dispatch(
+          navigatePush('voke.TryItNowName', {
+            onComplete: () =>
+              dispatch(
+                navigatePush('voke.ShareFlow', {
+                  video: item,
+                }),
+              ),
+          }),
+        );
+      } else {
+        dispatch(
+          navigatePush('voke.ShareFlow', {
+            video: item,
+          }),
+        );
+      }
+    }
+  };
 
   handleVideoChange = videoState => {
     const { t, dispatch, type, item } = this.props;
@@ -278,6 +307,9 @@ class VideoContentWrap extends Component {
             </Flex>
             {isLandscape ? null : this.renderContent()}
           </KeyboardAwareScrollView>
+          {type === VIDEO_CONTENT_TYPES.VIDEODETAIL ? (
+            <FloatingButtonSingle onSelect={this.handleShare} />
+          ) : null}
         </SafeArea>
       </Flex>
     );
