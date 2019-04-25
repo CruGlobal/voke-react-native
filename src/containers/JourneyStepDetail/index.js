@@ -8,6 +8,7 @@ import { translate } from 'react-i18next';
 
 import Analytics from '../../utils/analytics';
 import { navigatePush } from '../../actions/nav';
+import { createMessageInteraction } from '../../actions/messages';
 import VOKEBOT from '../../../images/vokebot_whole.png';
 import VOKE_AVATAR from '../../../images/voke_avatar_small.png';
 
@@ -43,11 +44,30 @@ class JourneyStepDetail extends Component {
   async componentDidMount() {
     Analytics.screen(Analytics.s.JourneyStepDetail);
     this.getMessages();
+
+    //
+  }
+
+  createMessageReadInteraction(msg) {
+    if (!msg) {
+      return;
+    }
+    const { dispatch, journey } = this.props;
+
+    const interaction = {
+      action: 'read',
+      conversationId: journey.conversation.id,
+      messageId: msg.id,
+    };
+
+    dispatch(createMessageInteraction(interaction));
   }
 
   getMessages() {
     const { dispatch, item, journey } = this.props;
-    dispatch(getJourneyMessages(item, journey));
+    dispatch(getJourneyMessages(item, journey)).then(() => {
+      this.createMessageReadInteraction(this.props.messages[0]);
+    });
     this.load();
   }
 
@@ -390,11 +410,7 @@ JourneyStepDetail.propTypes = {
 
 const mapStateToProps = (
   { auth, journeys },
-  {
-    navigation: {
-      state: { params },
-    },
-  },
+  { navigation: { state: { params } } },
 ) => ({
   ...params,
   // Get messages by step id
