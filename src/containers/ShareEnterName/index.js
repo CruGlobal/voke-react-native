@@ -52,7 +52,7 @@ class ShareEnterName extends Component {
         }),
       );
     } catch (error) {
-      console.log('error', error);
+      LOG('error', error);
     } finally {
       this.setState({ isLoading: false });
     }

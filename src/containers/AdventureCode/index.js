@@ -42,7 +42,6 @@ class AdventureCode extends Component {
       }
       dispatch(acceptJourneyInvite(adventureCode))
         .then(r => {
-          console.log('journey invite code results', r);
           if (onboarding) {
             this.goToPhoto();
           } else {
@@ -60,7 +59,6 @@ class AdventureCode extends Component {
           this.setState({ isLoading: false });
         })
         .catch(err => {
-          console.log('error getting journey invite', err);
           this.setState({ isLoading: false });
           let message = err.error;
           if (!message && err.errors && err.errors[0]) {

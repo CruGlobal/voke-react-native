@@ -59,7 +59,9 @@ function getVideoType(item) {
   const media =
     (item.media
       ? item.media
-      : item.item && item.item.content ? item.item.content : {}) || {};
+      : item.item && item.item.content
+      ? item.item.content
+      : {}) || {};
   return media.type;
 }
 
@@ -185,7 +187,6 @@ class VideoContentWrap extends Component {
       dispatch(toastAction(t('error.playingVideo')));
     }
     if (videoState === webviewStates.STARTED) {
-      console.log('video started');
       let id;
       if (type === VIDEO_CONTENT_TYPES.VIDEODETAIL) {
         id = item.id;

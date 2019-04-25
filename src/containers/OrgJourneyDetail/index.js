@@ -44,7 +44,7 @@ class OrgJourneyDetail extends Component {
         ),
       );
     } catch (e) {
-      console.log('Error starting adventure by myself', e);
+      LOG('Error starting adventure by myself', e);
       this.setState({ myselfIsLoading: false });
     }
   };

@@ -120,7 +120,6 @@ export function setupSocketAction(cableId) {
           if (type === 'welcome') {
             // LOG('socket welcome');
           } else if (data.message) {
-            console.log('data', data);
             const message = data.message.message;
             const notification = data.message.notification;
             if (
@@ -250,7 +249,6 @@ export function handleNotifications(state, notification) {
   return (dispatch, getState) => {
     let data = notification.data;
     LOG('got notification', notification);
-    console.log('NOTITIFIFIFAITIONON', notification);
     const {
       activeConversationId,
       unReadBadgeCount,

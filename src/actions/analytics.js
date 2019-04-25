@@ -25,7 +25,7 @@ export function trackAction(action, data) {
     {},
   );
 
-  console.log('tracking action', action, newData);
+  LOG('tracking action', action, newData);
   return () => {
     if (isEnabled) {
       return RNOmniture.trackAction(action, newData);
@@ -69,7 +69,7 @@ function trackStateWithMCID(context) {
 }
 
 function sendState(context) {
-  console.log('tracking state', context[ANALYTICS.SCREENNAME], context);
+  LOG('tracking state', context[ANALYTICS.SCREENNAME], context);
   if (isEnabled) {
     RNOmniture.trackState(context[ANALYTICS.SCREENNAME], context);
   }

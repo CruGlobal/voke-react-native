@@ -67,7 +67,11 @@ class WebviewVideo extends Component {
   }
 
   componentDidMount() {
-    const { forceNoAutoPlay, video: { type }, onChangeState } = this.props;
+    const {
+      forceNoAutoPlay,
+      video: { type },
+      onChangeState,
+    } = this.props;
     // Youtube and arclight autoplay, so fire off the 'Start' interaction immediately
     if (!forceNoAutoPlay) {
       if (type === 'youtube' || type === 'arclight') {
@@ -99,8 +103,11 @@ class WebviewVideo extends Component {
   }
 
   handleData(data) {
-    const { video: { type }, forceNoAutoPlay, onChangeState } = this.props;
-    // console.log('________________', data);
+    const {
+      video: { type },
+      forceNoAutoPlay,
+      onChangeState,
+    } = this.props;
     if (isObject(data) || data.indexOf('{') === 0) {
       let newData = data;
       if (isString(data)) {
@@ -218,7 +225,9 @@ class WebviewVideo extends Component {
   }
 
   renderVideo(html) {
-    const { video: { type, start, url } } = this.props;
+    const {
+      video: { type, start, url },
+    } = this.props;
     const { isPaused, replay, addMargin } = this.state;
     if (type === 'arclight' && isOlderAndroid) {
       // if (theme.isAndroid) {
@@ -253,7 +262,12 @@ class WebviewVideo extends Component {
   }
 
   render() {
-    const { t, video: { type }, isLandscape, width } = this.props;
+    const {
+      t,
+      video: { type },
+      isLandscape,
+      width,
+    } = this.props;
     const { isPaused, duration, replay, time } = this.state;
     const html = this.getHtml();
     if (!html) {

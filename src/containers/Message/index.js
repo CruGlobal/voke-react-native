@@ -242,7 +242,9 @@ class Message extends Component {
   }
 
   createMessageEmpty = () => {
-    this.createMessage();
+    requestAnimationFrame(() => {
+      this.createMessage();
+    });
   };
 
   createMessage(video) {

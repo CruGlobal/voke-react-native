@@ -84,6 +84,7 @@ class Profile extends Component {
   }
 
   handleLanguageChange = lang => {
+    const { dispatch } = this.props;
     let data = {
       me: {
         language: {
@@ -91,11 +92,11 @@ class Profile extends Component {
         },
       },
     };
-    this.props.dispatch(updateMe(data)).then(results => {
-      this.props.dispatch(getMe());
+    dispatch(updateMe(data)).then(results => {
+      dispatch(getMe());
       i18n.changeLanguage(lang.toLowerCase(), (err, key) => {
-        console.log('Translation error', err, key);
-        setTimeout(() => this.props.dispatch(navigateResetHome()), 500);
+        LOG('Translation error', err, key);
+        setTimeout(() => dispatch(navigateResetHome()), 500);
       });
     });
   };
@@ -552,7 +553,9 @@ class Profile extends Component {
                       text={
                         editEmail
                           ? t('cancel')
-                          : !user.email ? t('add') : t('edit')
+                          : !user.email
+                          ? t('add')
+                          : t('edit')
                       }
                       buttonTextStyle={styles.editText}
                       style={styles.inputButton}
@@ -573,7 +576,9 @@ class Profile extends Component {
                       text={
                         editPassword
                           ? t('cancel')
-                          : !user.email ? t('add') : t('edit')
+                          : !user.email
+                          ? t('add')
+                          : t('edit')
                       }
                       buttonTextStyle={styles.editText}
                       style={styles.inputButton}

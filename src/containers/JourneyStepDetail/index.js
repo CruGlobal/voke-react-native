@@ -99,29 +99,33 @@ class JourneyStepDetail extends Component {
 
   changeText = t => this.setState({ text: t });
 
-  skip = async () => {
-    const { dispatch, item, journey } = this.props;
-    await dispatch(skipJourneyMessage(item, journey));
-    this.getMessages();
-    this.checkIfLast();
+  skip = () => {
+    requestAnimationFrame(async () => {
+      const { dispatch, item, journey } = this.props;
+      await dispatch(skipJourneyMessage(item, journey));
+      this.getMessages();
+      this.checkIfLast();
+    });
   };
 
-  sendMessage = async isNewMsg => {
-    const { dispatch, item, journey } = this.props;
-    const { text, newMsg } = this.state;
-    if (isNewMsg) {
-      await dispatch(createJourneyMessage(item, journey, newMsg));
+  sendMessage = isNewMsg => {
+    requestAnimationFrame(async () => {
+      const { dispatch, item, journey } = this.props;
+      const { text, newMsg } = this.state;
+      if (isNewMsg) {
+        await dispatch(createJourneyMessage(item, journey, newMsg));
+        this.getMessages();
+        this.setState({ newMsg: '' });
+        this.chatInput.blur();
+        return;
+      }
+      if (!text) {
+        return this.skip();
+      }
+      await dispatch(createJourneyMessage(item, journey, text));
       this.getMessages();
-      this.setState({ newMsg: '' });
-      this.chatInput.blur();
-      return;
-    }
-    if (!text) {
-      return this.skip();
-    }
-    await dispatch(createJourneyMessage(item, journey, text));
-    this.getMessages();
-    this.checkIfLast();
+      this.checkIfLast();
+    });
   };
 
   renderNext = () => {
@@ -410,7 +414,11 @@ JourneyStepDetail.propTypes = {
 
 const mapStateToProps = (
   { auth, journeys },
-  { navigation: { state: { params } } },
+  {
+    navigation: {
+      state: { params },
+    },
+  },
 ) => ({
   ...params,
   // Get messages by step id

@@ -22,15 +22,17 @@ class TouchableAndroid extends Component {
     if (this.state.clickDisabled) {
       return;
     }
-    // Prevent the user from being able to click twice
-    this.setState({ clickDisabled: true });
-    // Re-enable the button after the timeout
-    this.clickDisableTimeout = setTimeout(() => {
-      this.setState({ clickDisabled: false });
-    }, 1000);
-    // Call the users click function with all the normal click parameters
+    requestAnimationFrame(() => {
+      // Prevent the user from being able to click twice
+      this.setState({ clickDisabled: true });
+      // Re-enable the button after the timeout
+      this.clickDisableTimeout = setTimeout(() => {
+        this.setState({ clickDisabled: false });
+      }, 1000);
+      // Call the users click function with all the normal click parameters
 
-    this.props.onPress(...args);
+      this.props.onPress(...args);
+    });
   };
 
   render() {

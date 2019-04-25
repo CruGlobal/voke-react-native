@@ -6,7 +6,6 @@ import {
   Keyboard,
   Alert,
   Share,
-  View,
   KeyboardAvoidingView,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -31,6 +30,8 @@ import SignUpInput from '../../components/SignUpInput';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import VOKE_LINK from '../../../images/vokebot_whole.png';
 import theme from '../../theme';
+import SafeArea from '../../components/SafeArea';
+import st from '../../st';
 
 class ShareFlow extends Component {
   state = {
@@ -183,7 +184,7 @@ class ShareFlow extends Component {
   render() {
     const { t } = this.props;
     return (
-      <View style={styles.container}>
+      <SafeArea style={styles.container}>
         <KeyboardAvoidingView behavior="position">
           <TouchableOpacity
             activeOpacity={1}
@@ -242,10 +243,13 @@ class ShareFlow extends Component {
         {this.state.isLoading ? (
           <ApiLoading force={true} text={t('loading.share')} />
         ) : null}
-        <Flex style={{ position: 'absolute', top: 0, left: 0 }} align="start">
+        <Flex
+          style={{ position: 'absolute', top: st.hasNotch ? 20 : 0, left: 0 }}
+          align="start"
+        >
           <SignUpHeaderBack onPress={this.quit} />
         </Flex>
-      </View>
+      </SafeArea>
     );
   }
 }

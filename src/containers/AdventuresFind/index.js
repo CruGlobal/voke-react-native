@@ -34,7 +34,7 @@ class AdventuresFind extends Component {
     try {
       await this.getJourneys();
     } catch (e) {
-      console.log('error getting org journeys');
+      LOG('error getting org journeys');
     } finally {
       this.setState({ refreshing: false });
     }
