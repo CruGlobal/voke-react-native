@@ -47,7 +47,7 @@ class AdventureCode extends Component {
             this.goToPhoto();
           } else {
             dispatch(getMyJourneys()).then(r => {
-              dispatch(navigateBack());
+              dispatch(navigateBack(1, { immediate: true }));
               dispatch(
                 navigatePush('voke.VideoContentWrap', {
                   item: r.journeys[r.journeys.length - 1],
