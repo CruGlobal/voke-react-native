@@ -159,7 +159,6 @@ class SignUpWelcome extends Component {
                   />
                 </Flex>
               </Flex>
-              {this.renderTopTriangle('Grow in new ways.')}
               {this.renderTopTriangle('Join the adventure.')}
             </View>
 
