@@ -17,14 +17,18 @@ import NotificationToast from '../NotificationToast';
 import AdventuresFind from '../AdventuresFind';
 import AdventuresMine from '../AdventuresMine';
 import st from '../../st';
+import { getConversations } from '../../actions/messages';
 
 class Adventures extends Component {
   componentDidMount() {
+    const { dispatch, me } = this.props;
     Analytics.screen(Analytics.s.AdventuresTab);
     Analytics.screen(Analytics.s.AdventuresTabMine);
-    if (!this.props.me.first_name) {
-      this.props.dispatch(navigatePush('voke.TryItNowName'));
+    if (!me.first_name) {
+      dispatch(navigatePush('voke.TryItNowName'));
     }
+    // Make sure to call this when this tab mounts to get the badge count
+    dispatch(getConversations());
   }
 
   onChangeTab = ({ i }) => {

@@ -7,6 +7,7 @@ import styles from './styles';
 
 import { View, Image, Touchable, Text, Icon, Flex } from '../common';
 import theme from '../../theme';
+import st from '../../st';
 
 const TYPES = ['transparent', 'header', 'filled', 'disabled'];
 function getTypeStyle(type) {
@@ -46,14 +47,15 @@ export default class Button extends Component {
   }
 
   handlePress(...args) {
+    const { preventTimeout, onPress } = this.props;
     // Prevent the user from being able to click twice
     this.setState({ clickedDisabled: true });
     // Re-enable the button after the timeout
     this.clickDisableTimeout = setTimeout(() => {
       this.setState({ clickedDisabled: false });
-    }, this.props.preventTimeout);
+    }, preventTimeout);
     // Call the users click function with all the normal click parameters
-    this.props.onPress(...args);
+    onPress(...args);
   }
 
   render() {
@@ -124,7 +126,7 @@ export default class Button extends Component {
         onPress={isDisabled ? () => {} : this.handlePress}
       >
         <View
-          hitSlop={hitSlop}
+          hitSlop={hitSlop || st.hitSlop(8)}
           style={[
             getTypeStyle(type),
             disabled || isLoading ? styles.disabled : null,
@@ -161,5 +163,5 @@ Button.defaultProps = {
   style: {},
   buttonTextStyle: {},
   iconStyle: {},
-  preventTimeout: 400,
+  preventTimeout: 1000,
 };
