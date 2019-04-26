@@ -2,14 +2,6 @@
   "name": "voke",
   "version": "1.0.0",
   "private": true,
-  "devDependencies": {
-    "babel-eslint": "7.2.3",
-    "babel-plugin-transform-async-to-generator": "6.24.1",
-    "eslint": "4.0.0",
-    "eslint-plugin-react": "7.1.0",
-    "jest-expo": "1.0.1",
-    "react-test-renderer": "16.3.0"
-  },
   "scripts": {
     "start": "react-native start",
     "ios": "react-native run-ios",
@@ -32,6 +24,19 @@
   "resolutions": {
     "react-deep-force-update": "1.1.2"
   },
+  "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/runtime": "^7.4.3",
+    "babel-jest": "^24.7.1",
+    "jest": "^24.7.1",
+    "babel-eslint": "7.2.3",
+    "metro-react-native-babel-preset": "^0.53.1",
+    "babel-plugin-transform-async-to-generator": "6.24.1",
+    "eslint": "4.0.0",
+    "eslint-plugin-react": "7.1.0",
+    "jest-expo": "1.0.1",
+    "react-test-renderer": "16.8.3"
+  },
   "dependencies": {
     "babel-preset-react-native": "2.1.0",
     "color": "1.0.3",
@@ -41,9 +46,9 @@
     "lodash": "4.17.5",
     "moment": "2.22.0",
     "prop-types": "15.6.1",
-    "react": "16.6.3",
+    "react": "16.8.3",
     "react-i18next": "7.8.0",
-    "react-native": "0.57.8",
+    "react-native": "0.59.4",
     "react-native-animatable": "1.2.4",
     "react-native-blur": "3.2.2",
     "react-native-communications": "2.2.1",
@@ -67,7 +72,7 @@
     "react-native-spinkit": "1.2.0",
     "react-native-swipe-list-view": "1.0.7",
     "react-native-vector-icons": "6.3.0",
-    "react-native-video": "2.0.0",
+    "react-native-video": "^4.4.1",
     "react-navigation": "3.3.2",
     "react-navigation-redux-helpers": "3.0.0",
     "react-redux": "5.0.5",

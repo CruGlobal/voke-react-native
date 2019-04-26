@@ -38,6 +38,7 @@
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
       android:theme="@style/AppTheme">
+      <!-- This goes in application config for round icon: android:roundIcon="@mipmap/ic_launcher_round" -->
 
       <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
       <meta-data

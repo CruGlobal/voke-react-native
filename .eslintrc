@@ -15,6 +15,7 @@
     "clearTimeout": true,
     "clearInterval": true,
     "requestAnimationFrame": true,
+    "module": true,
     "window": true,
     "global": true,
     "console": true,
