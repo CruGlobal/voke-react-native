@@ -155,6 +155,7 @@ class CountrySelect extends Component {
             offset: COUNTRY_HEIGHT * index,
             index,
           })}
+          removeClippedSubviews={false}
         />
       </View>
     );

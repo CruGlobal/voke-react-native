@@ -15,7 +15,6 @@ import {
 } from '../common';
 import { momentUtc, keyExtractorId } from '../../utils/common';
 
-const ITEM_HEIGHT = 64 + 20;
 export const THUMBNAIL_HEIGHT = 78;
 export const THUMBNAIL_WIDTH = 64;
 
@@ -79,7 +78,6 @@ class InviteCard extends Component {
         direction="row"
         align="center"
         justify="start"
-        animation="slideInUp"
       >
         <Flex>
           <Image
@@ -199,7 +197,6 @@ function MyAdventureCard({ t, me, item, onSelect, onClickProfile }) {
         direction="row"
         align="center"
         justify="start"
-        animation="slideInUp"
       >
         <Flex>
           <Image
@@ -335,11 +332,6 @@ class MyAdventuresList extends Component {
         data={items}
         renderItem={this.renderRow}
         keyExtractor={keyExtractorId}
-        getItemLayout={(data, index) => ({
-          length: ITEM_HEIGHT,
-          offset: ITEM_HEIGHT * index,
-          index,
-        })}
         style={[st.f1, st.mb5]}
         refreshControl={
           <RefreshControl
