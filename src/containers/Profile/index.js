@@ -523,7 +523,7 @@ class Profile extends Component {
               }
             />
             <Separator />
-            {isAnonUser || isEditing ? null : this.renderImagePicker()}
+            {isEditing ? null : this.renderImagePicker()}
             {isEditing && !editName ? null : (
               <View>
                 <ProfileRow
@@ -553,9 +553,7 @@ class Profile extends Component {
                       text={
                         editEmail
                           ? t('cancel')
-                          : !user.email
-                          ? t('add')
-                          : t('edit')
+                          : !user.email ? t('add') : t('edit')
                       }
                       buttonTextStyle={styles.editText}
                       style={styles.inputButton}
@@ -576,9 +574,7 @@ class Profile extends Component {
                       text={
                         editPassword
                           ? t('cancel')
-                          : !user.email
-                          ? t('add')
-                          : t('edit')
+                          : !user.email ? t('add') : t('edit')
                       }
                       buttonTextStyle={styles.editText}
                       style={styles.inputButton}
