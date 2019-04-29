@@ -290,7 +290,7 @@ export default {
     addPhoto: 'Add a photo so your friends can recognize you.',
     firstName: `First Name (Required)`,
     firstNamePlaceholder: `First`,
-    lastName: `Last Name (Required)`,
+    lastName: `Last Name`,
     lastNamePlaceholder: `Last`,
     firstNameRequired: 'First Name is required',
   },

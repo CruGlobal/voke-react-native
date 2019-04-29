@@ -68,7 +68,9 @@ class ShareEnterName extends Component {
           <KeyboardAvoidingView
             style={styles.container}
             behavior={theme.isAndroid ? undefined : 'padding'}
-            keyboardVerticalOffset={theme.isAndroid ? undefined : 45}
+            keyboardVerticalOffset={
+              theme.isAndroid ? undefined : st.hasNotch ? 45 : 20
+            }
           >
             <TouchableOpacity
               activeOpacity={1}
@@ -104,7 +106,7 @@ class ShareEnterName extends Component {
                 blurOnSubmit={true}
               />
             </Flex>
-            <Flex value={1} justify="end" style={[styles.buttonWrapper]}>
+            <Flex value={1} justify="end">
               <Button
                 text={t('continue')}
                 type="filled"

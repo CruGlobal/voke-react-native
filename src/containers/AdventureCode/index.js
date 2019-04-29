@@ -27,7 +27,7 @@ class AdventureCode extends Component {
     Analytics.screen(Analytics.s.AdventureCode);
   }
 
-  handleCodeSearch = () => {
+  handleCodeSearch = async () => {
     const { t, dispatch, onboarding } = this.props;
     const { adventureCode } = this.state;
     this.setState({ isLoading: true });
@@ -40,32 +40,32 @@ class AdventureCode extends Component {
         this.setState({ isLoading: false });
         return;
       }
-      dispatch(acceptJourneyInvite(adventureCode))
-        .then(r => {
-          if (onboarding) {
-            this.goToPhoto();
-          } else {
-            dispatch(getMyJourneys()).then(r => {
-              dispatch(navigateBack(1, { immediate: true }));
-              dispatch(
-                navigatePush('voke.VideoContentWrap', {
-                  item: r.journeys[r.journeys.length - 1],
-                  type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
-                  trackingObj: buildTrackingObj('journey : mine', 'detail'),
-                }),
-              );
-            });
-          }
-          this.setState({ isLoading: false });
-        })
-        .catch(err => {
-          this.setState({ isLoading: false });
-          let message = err.error;
-          if (!message && err.errors && err.errors[0]) {
-            message = err.errors[0];
-          }
-          Alert.alert(t('ohNo'), message);
-        });
+      try {
+        const r = await dispatch(acceptJourneyInvite(adventureCode));
+
+        if (onboarding) {
+          this.goToPhoto();
+        } else {
+          await dispatch(getMyJourneys());
+
+          dispatch(navigateBack(1, { immediate: true }));
+          dispatch(
+            navigatePush('voke.VideoContentWrap', {
+              item: r.journeys[r.journeys.length - 1],
+              type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
+              trackingObj: buildTrackingObj('journey : mine', 'detail'),
+            }),
+          );
+        }
+        this.setState({ isLoading: false });
+      } catch (err) {
+        this.setState({ isLoading: false });
+        let message = err.error;
+        if (!message && err.errors && err.errors[0]) {
+          message = err.errors[0];
+        }
+        Alert.alert(t('ohNo'), message);
+      }
     }
   };
 
@@ -83,7 +83,9 @@ class AdventureCode extends Component {
           <KeyboardAvoidingView
             style={[st.f1, st.bgBlue]}
             behavior={theme.isAndroid ? undefined : 'padding'}
-            keyboardVerticalOffset={theme.isAndroid ? undefined : 45}
+            keyboardVerticalOffset={
+              theme.isAndroid ? undefined : st.hasNotch ? 45 : 20
+            }
           >
             <Flex value={3} align="center" justify="center" style={[st.pb3]}>
               <Text style={styles.inputLabel}>{t('adventureCode')}</Text>

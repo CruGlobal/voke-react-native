@@ -60,7 +60,9 @@ class OrgJourneyDetail extends Component {
     const { myselfIsLoading, friendIsLoading } = this.state;
 
     const haveStartedSolo = !!myJourneys.find(
-      i => i.organization_journey_id === item.id,
+      i =>
+        i.organization_journey_id === item.id &&
+        i.conversation.messengers.length === 2,
     );
 
     return (
@@ -94,7 +96,7 @@ class OrgJourneyDetail extends Component {
                       st.brtl3,
                       st.brbl3,
                       st.aic,
-                      { marginRight: 1 },
+                      st.mr(1),
                     ]}
                   />
                 </Flex>
