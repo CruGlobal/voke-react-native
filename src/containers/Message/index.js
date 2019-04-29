@@ -429,8 +429,8 @@ class Message extends Component {
                 <HeaderIcon type="back" onPress={this.handleHeaderBack} />
               ) : (
                 <HeaderIcon
-                  image={this.state.showDot ? vokeImages['home-dot'] : null}
-                  icon={!this.state.showDot ? 'home' : null}
+                  icon="back_arrow"
+                  showDot={this.state.showDot}
                   onPress={this.handleHeaderBack}
                 />
               )

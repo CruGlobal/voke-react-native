@@ -70,16 +70,15 @@ export function navigateResetMessage(params = {}) {
   return dispatch => {
     dispatch(
       StackActions.reset({
-        index: 1,
+        index: 0,
         actions: [
           // Pass in a parameter to navigate through the home page without moving around as an Anon user first
           NavigationActions.navigate({
             routeName: 'MainTabs',
-            params: { navThrough: true },
-          }),
-          NavigationActions.navigate({
-            routeName: 'voke.Message',
-            params,
+            params: {
+              tabName: 'voke.Conversations',
+              navTo: { routName: 'voke.Message', params },
+            },
           }),
         ],
       }),

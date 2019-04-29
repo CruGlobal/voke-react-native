@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
@@ -6,9 +7,10 @@ import { translate } from 'react-i18next';
 import { navigateBack } from '../../actions/nav';
 import styles from './styles';
 import theme from '../../theme';
+import st from '../../st';
 import { Flex, Text, Button } from '../../components/common';
 
-export const HeaderIcon = ({ type, icon, ...rest }) => {
+export const HeaderIcon = ({ type, icon, showDot, ...rest }) => {
   let myProps = {};
   if (type) {
     if (type === 'back') {
@@ -30,6 +32,20 @@ export const HeaderIcon = ({ type, icon, ...rest }) => {
   }
   if (myProps.icon) {
     myProps.iconStyle = styles.headerIconSize;
+  }
+  if (showDot) {
+    console.log('herhkehrehrkl');
+    return (
+      <Flex direction="row" align="center" justify="center">
+        <Button
+          type="transparent"
+          style={styles.headerIcon}
+          {...rest}
+          {...myProps}
+        />
+        <View style={[st.bgYellow, st.circle(10), { marginLeft: -15 }]} />
+      </Flex>
+    );
   }
   return (
     <Button

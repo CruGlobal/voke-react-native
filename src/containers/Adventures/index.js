@@ -21,7 +21,7 @@ import { getConversations } from '../../actions/messages';
 
 class Adventures extends Component {
   componentDidMount() {
-    const { dispatch, me } = this.props;
+    const { dispatch, me, navigation } = this.props;
     Analytics.screen(Analytics.s.AdventuresTab);
     Analytics.screen(Analytics.s.AdventuresTabMine);
     if (!me.first_name) {
@@ -29,6 +29,23 @@ class Adventures extends Component {
     }
     // Make sure to call this when this tab mounts to get the badge count
     dispatch(getConversations());
+
+    if (
+      navigation &&
+      navigation.state &&
+      navigation.state.params &&
+      navigation.state.params.tabName
+    ) {
+      navigation.navigate(navigation.state.params.tabName);
+      if (navigation.state.params.navTo) {
+        dispatch(
+          navigatePush(
+            navigation.state.params.navTo.routName,
+            navigation.state.params.navTo.params,
+          ),
+        );
+      }
+    }
   }
 
   onChangeTab = ({ i }) => {
@@ -76,9 +93,7 @@ class Adventures extends Component {
           initialPage={
             index !== undefined
               ? index
-              : myJourneys && myJourneys.length > 0
-              ? 0
-              : 1
+              : myJourneys && myJourneys.length > 0 ? 0 : 1
           }
         >
           <View tabLabel={t('title.myAdventures')} style={[st.f1]}>
