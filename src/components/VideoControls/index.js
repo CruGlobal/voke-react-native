@@ -116,11 +116,7 @@ export default class VideoControls extends Component {
               minimumValue={0}
               maximumValue={duration}
               onSlidingComplete={this.seek}
-              onValueChange={value =>
-                this.setState({
-                  seekTime: value,
-                })
-              }
+              onValueChange={value => this.setState({ seekTime: value })}
               style={styles.slider}
             />
           </Flex>

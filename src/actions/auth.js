@@ -3,10 +3,10 @@ import {
   Linking,
   AppState,
   ToastAndroid,
-  AsyncStorage,
   Alert,
   PushNotificationIOS,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import Orientation from 'react-native-orientation';
 import DeviceInfo from 'react-native-device-info';
 import Firebase from 'react-native-firebase';
