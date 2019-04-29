@@ -39,6 +39,7 @@ class JourneyStepDetail extends Component {
     text: '',
     height: 50,
     newMsg: '',
+    stateResponse: null,
   };
 
   async componentDidMount() {
@@ -99,33 +100,41 @@ class JourneyStepDetail extends Component {
 
   changeText = t => this.setState({ text: t });
 
-  skip = () => {
-    requestAnimationFrame(async () => {
-      const { dispatch, item, journey } = this.props;
+  skip = async () => {
+    const { dispatch, item, journey } = this.props;
+    try {
+      this.setState({ stateResponse: { content: '', created_at: new Date() } });
       await dispatch(skipJourneyMessage(item, journey));
       this.getMessages();
       this.checkIfLast();
-    });
+    } catch (error) {
+      this.setState({ stateResponse: null });
+    }
   };
 
-  sendMessage = isNewMsg => {
-    requestAnimationFrame(async () => {
-      const { dispatch, item, journey } = this.props;
-      const { text, newMsg } = this.state;
-      if (isNewMsg) {
-        await dispatch(createJourneyMessage(item, journey, newMsg));
-        this.getMessages();
-        this.setState({ newMsg: '' });
-        this.chatInput.blur();
-        return;
-      }
-      if (!text) {
-        return this.skip();
-      }
+  sendMessage = async isNewMsg => {
+    const { dispatch, item, journey } = this.props;
+    const { text, newMsg } = this.state;
+    if (isNewMsg) {
+      await dispatch(createJourneyMessage(item, journey, newMsg));
+      this.getMessages();
+      this.setState({ newMsg: '' });
+      this.chatInput.blur();
+      return;
+    }
+    if (!text) {
+      return this.skip();
+    }
+    try {
+      this.setState({
+        stateResponse: { content: text, created_at: new Date() },
+      });
       await dispatch(createJourneyMessage(item, journey, text));
       this.getMessages();
       this.checkIfLast();
-    });
+    } catch (error) {
+      this.setState({ stateResponse: null });
+    }
   };
 
   renderNext = () => {
@@ -246,12 +255,14 @@ class JourneyStepDetail extends Component {
 
   render() {
     const { t, me, messages, messengers } = this.props;
-    const { journeyStep, text, height, newMsg } = this.state;
+    const { journeyStep, text, height, newMsg, stateResponse } = this.state;
 
     const inputStyle = [st.f1, st.fs4, st.darkBlue];
 
     const reversed = [...messages].reverse();
-    const response = reversed.find(i => i.messenger_id === me.id);
+    // Keep track of internal state and use that if it exists, otherwise find it in the messages
+    const response =
+      stateResponse || reversed.find(i => i.messenger_id === me.id);
     const isSkipped = response && response.content === '';
     const meMessenger = messengers.find(i => i.id === me.id);
 
