@@ -60,7 +60,7 @@ class InviteCard extends Component {
   };
 
   render() {
-    const { t, item, onDelete, onResend } = this.props;
+    const { t, item, onDelete, onResend, onSelect } = this.props;
     const { organization_journey, name, code } = item;
     const { isExpired, time } = this.state;
 
@@ -124,7 +124,11 @@ class InviteCard extends Component {
             </Text>
           </Flex>
         </Flex>
-
+        <Flex>
+          <Touchable onPress={() => onSelect(item)} style={[st.pd(7)]}>
+            <Text style={[st.bold, st.fs6, st.tac]}>GET {'\n'}STARTED</Text>
+          </Touchable>
+        </Flex>
         <Flex align="center" justify="center" style={[st.tac, st.mr4, st.ml6]}>
           {isExpired ? (
             <Touchable
@@ -158,11 +162,7 @@ function MyAdventureCard({ t, me, item, onSelect, onClickProfile }) {
     conversation,
     progress,
     name,
-    item: {
-      content: {
-        thumbnails: { small },
-      },
-    },
+    item: { content: { thumbnails: { small } } },
   } = item;
   const unreadCount = conversation.unread_messages;
   const hasUnread = unreadCount > 0;
@@ -308,6 +308,7 @@ class MyAdventuresList extends Component {
           onResend={onResendInvite}
           onDelete={onDeleteInvite}
           item={item}
+          onSelect={onSelect}
         />
       );
     }

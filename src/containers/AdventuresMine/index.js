@@ -16,6 +16,7 @@ import {
   getJourneyInvites,
   deleteJourneyInvite,
   resendJourneyInvite,
+  getMyJourney,
 } from '../../actions/journeys';
 import { navigatePush } from '../../actions/nav';
 import { startupAction, confirmAlert } from '../../actions/auth';
@@ -86,13 +87,25 @@ class AdventuresMine extends Component {
 
   handleSelect = item => {
     const { dispatch } = this.props;
-    dispatch(
-      navigatePush('voke.VideoContentWrap', {
-        item,
-        type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
-        trackingObj: buildTrackingObj('journey : mine', 'detail'),
-      }),
-    );
+    if (item.code) {
+      dispatch(getMyJourney(item.messenger_journey_id)).then(r => {
+        dispatch(
+          navigatePush('voke.VideoContentWrap', {
+            item: r,
+            type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
+            trackingObj: buildTrackingObj('journey : mine', 'detail'),
+          }),
+        );
+      });
+    } else {
+      dispatch(
+        navigatePush('voke.VideoContentWrap', {
+          item,
+          type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
+          trackingObj: buildTrackingObj('journey : mine', 'detail'),
+        }),
+      );
+    }
   };
 
   handleResendInvite = item => {
