@@ -18,6 +18,7 @@ import {
   navigatePush,
   navigateResetHome,
 } from '../../actions/nav';
+import { keyboardShow, keyboardHide } from '../../utils/common';
 
 class LoginInput extends Component {
   constructor(props) {
@@ -28,19 +29,11 @@ class LoginInput extends Component {
       password: '',
       emailValidation: false,
       anonUserId: undefined,
-      // TODO: Remove these things
-      // email: 'benlgauthier+voke1@gmail.com',
-      // emailValidation: true,
-      // password: 'password',
+      keyboardVisible: false,
     };
 
     this.login = this.login.bind(this);
     this.checkEmail = this.checkEmail.bind(this);
-  }
-
-  checkEmail(text) {
-    const emailValidation = CONSTANTS.EMAIL_REGEX.test(text);
-    this.setState({ email: text, emailValidation });
   }
 
   componentDidMount() {
@@ -50,6 +43,30 @@ class LoginInput extends Component {
       Alert.alert(t('login'), t('existingAccount'));
       this.setState({ anonUserId: myId });
     }
+
+    this.keyboardShowListener = keyboardShow(this.keyboardShow);
+    this.keyboardHideListener = keyboardHide(this.keyboardHide);
+  }
+
+  componentWillUnmount() {
+    this.keyboardShowListener.remove();
+    this.keyboardHideListener.remove();
+  }
+
+  keyboardShow = () => {
+    clearTimeout(this.keyboardHideTimeout);
+    this.setState({ keyboardVisible: true });
+  };
+
+  keyboardHide = () => {
+    this.keyboardHideTimeout = setTimeout(() => {
+      this.setState({ keyboardVisible: false });
+    }, 200);
+  };
+
+  checkEmail(text) {
+    const emailValidation = CONSTANTS.EMAIL_REGEX.test(text);
+    this.setState({ email: text, emailValidation });
   }
 
   login() {
@@ -88,7 +105,7 @@ class LoginInput extends Component {
 
   render() {
     const { t, dispatch, isApiLoading } = this.props;
-    const { email, password, isLoading } = this.state;
+    const { email, password, isLoading, keyboardVisible } = this.state;
     return (
       <Flex style={styles.container} value={1} align="center" justify="center">
         <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
@@ -99,13 +116,15 @@ class LoginInput extends Component {
             justify="end"
             style={styles.logoWrapper}
           >
-            <Flex style={styles.imageWrap} align="center" justify="center">
-              <Image
-                resizeMode="contain"
-                source={LOGO}
-                style={styles.imageLogo}
-              />
-            </Flex>
+            {keyboardVisible ? null : (
+              <Flex style={styles.imageWrap} align="center" justify="center">
+                <Image
+                  resizeMode="contain"
+                  source={LOGO}
+                  style={styles.imageLogo}
+                />
+              </Flex>
+            )}
           </Flex>
           <Flex
             align="center"

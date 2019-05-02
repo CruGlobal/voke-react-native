@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Image, TouchableOpacity, Keyboard, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -17,17 +17,35 @@ import SignUpInput from '../../components/SignUpInput';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import VOKE_FIRST_NAME from '../../../images/vokebot_whole.png';
 import st from '../../st';
+import { keyboardShow, keyboardHide } from '../../utils/common';
 
 class TryItNowName extends Component {
   state = {
     isLoading: false,
     firstName: '',
     lastName: '',
+    keyboardVisible: false,
   };
 
   componentDidMount() {
     Analytics.screen(Analytics.s.TryItName);
+
+    this.keyboardShowListener = keyboardShow(this.keyboardShow);
+    this.keyboardHideListener = keyboardHide(this.keyboardHide);
   }
+
+  componentWillUnmount() {
+    this.keyboardShowListener.remove();
+    this.keyboardHideListener.remove();
+  }
+
+  keyboardShow = () => {
+    this.setState({ keyboardVisible: true });
+  };
+
+  keyboardHide = () => {
+    this.setState({ keyboardVisible: false });
+  };
 
   createAccount = () => {
     const { dispatch, t } = this.props;
@@ -84,7 +102,7 @@ class TryItNowName extends Component {
 
   render() {
     const { t, dispatch } = this.props;
-    const { firstName, lastName, isLoading } = this.state;
+    const { firstName, lastName, isLoading, keyboardVisible } = this.state;
     // Not using SafeArea because Android doesn't scroll up to fields properly
     return (
       <Flex
@@ -98,17 +116,21 @@ class TryItNowName extends Component {
             onPress={() => dispatch(navigateBack())}
             style={st.hasNotch ? st.pt1 : undefined}
           />
-          <Flex align="center" justify="center">
-            <Flex style={styles.chatBubble}>
-              <Text style={styles.chatText}>{t('whatsYourName')}</Text>
-            </Flex>
-            <Flex style={styles.chatTriangle} />
-          </Flex>
-          <Image
-            resizeMode="contain"
-            source={VOKE_FIRST_NAME}
-            style={styles.imageLogo}
-          />
+          {keyboardVisible ? null : (
+            <Fragment>
+              <Flex align="center" justify="center">
+                <Flex style={styles.chatBubble}>
+                  <Text style={styles.chatText}>{t('whatsYourName')}</Text>
+                </Flex>
+                <Flex style={styles.chatTriangle} />
+              </Flex>
+              <Image
+                resizeMode="contain"
+                source={VOKE_FIRST_NAME}
+                style={styles.imageLogo}
+              />
+            </Fragment>
+          )}
           <Flex
             align="center"
             justify="end"
@@ -125,7 +147,7 @@ class TryItNowName extends Component {
               autoCapitalize="words"
               returnKeyType="next"
               onSubmitEditing={() => this.lastNameInput.focus()}
-              blurOnSubmit={true}
+              blurOnSubmit={false}
             />
             <Text style={styles.inputLabel}>{t('lastName')}</Text>
             <SignUpInput

@@ -22,16 +22,34 @@ import VOKE_FIRST_NAME from '../../../images/vokebot_whole.png';
 import theme from '../../theme';
 import st from '../../st';
 import { sendJourneyInvite } from '../../actions/journeys';
+import { keyboardShow, keyboardHide } from '../../utils/common';
 
 class ShareEnterName extends Component {
   state = {
     isLoading: false,
     firstName: '',
+    keyboardVisible: false,
   };
 
   componentDidMount() {
     Analytics.screen(Analytics.s.ShareEnterName);
+
+    this.keyboardShowListener = keyboardShow(this.keyboardShow);
+    this.keyboardHideListener = keyboardHide(this.keyboardHide);
   }
+
+  componentWillUnmount() {
+    this.keyboardShowListener.remove();
+    this.keyboardHideListener.remove();
+  }
+
+  keyboardShow = () => {
+    this.setState({ keyboardVisible: true });
+  };
+
+  keyboardHide = () => {
+    this.setState({ keyboardVisible: false });
+  };
 
   continue = async () => {
     const { dispatch, item } = this.props;
@@ -60,7 +78,7 @@ class ShareEnterName extends Component {
 
   render() {
     const { t, dispatch } = this.props;
-    const { isLoading, firstName } = this.state;
+    const { isLoading, firstName, keyboardVisible } = this.state;
     return (
       <View style={styles.container} align="center">
         <StatusBar hidden={false} />
@@ -72,23 +90,29 @@ class ShareEnterName extends Component {
               theme.isAndroid ? undefined : st.hasNotch ? 45 : 20
             }
           >
-            <TouchableOpacity
-              activeOpacity={1}
-              style={{ paddingTop: 60 }}
-              onPress={() => Keyboard.dismiss()}
-            >
-              <Flex align="center" justify="center">
-                <Flex style={styles.chatBubble}>
-                  <Text style={styles.chatText}>{t('whatIsFriendsName')}</Text>
+            {keyboardVisible ? (
+              <Flex style={[st.pt(60)]} />
+            ) : (
+              <TouchableOpacity
+                activeOpacity={1}
+                style={[st.pt(60)]}
+                onPress={() => Keyboard.dismiss()}
+              >
+                <Flex align="center" justify="center">
+                  <Flex style={styles.chatBubble}>
+                    <Text style={styles.chatText}>
+                      {t('whatIsFriendsName')}
+                    </Text>
+                  </Flex>
+                  <Flex style={styles.chatTriangle} />
                 </Flex>
-                <Flex style={styles.chatTriangle} />
-              </Flex>
-              <Image
-                resizeMode="contain"
-                source={VOKE_FIRST_NAME}
-                style={styles.imageLogo}
-              />
-            </TouchableOpacity>
+                <Image
+                  resizeMode="contain"
+                  source={VOKE_FIRST_NAME}
+                  style={styles.imageLogo}
+                />
+              </TouchableOpacity>
+            )}
             <Flex
               align="center"
               justify="start"

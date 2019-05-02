@@ -1,7 +1,8 @@
+import { Keyboard } from 'react-native';
 import hmacSHA512 from 'crypto-js/hmac-sha512';
 import moment from 'moment';
 import DeviceInfo from 'react-native-device-info';
-import CONSTANTS from '../constants';
+import CONSTANTS, { isAndroid } from '../constants';
 
 export const isFunction = fn => typeof fn === 'function';
 export const isArray = arr => Array.isArray(arr);
@@ -72,3 +73,19 @@ export const buildTrackingObj = (section, subsection, level3, level4) => ({
 });
 
 export const keyExtractorId = i => i.id;
+
+// iOS and Android handle the keyboard show event differently
+// https://facebook.github.io/react-native/docs/keyboard#addlistener
+export function keyboardShow(handler) {
+  if (isAndroid) {
+    return Keyboard.addListener('keyboardDidShow', handler);
+  }
+  return Keyboard.addListener('keyboardWillShow', handler);
+}
+
+export function keyboardHide(handler) {
+  if (isAndroid) {
+    return Keyboard.addListener('keyboardDidHide', handler);
+  }
+  return Keyboard.addListener('keyboardWillHide', handler);
+}

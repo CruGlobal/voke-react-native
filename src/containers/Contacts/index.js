@@ -22,6 +22,7 @@ import ContactsList from '../../components/ContactsList';
 import SelectNumber from '../../components/SelectNumber';
 import SearchBarIos from '../../components/SearchBarIos';
 import theme from '../../theme';
+import { keyboardShow, keyboardHide } from '../../utils/common';
 
 class Contacts extends Component {
   constructor(props) {
@@ -55,29 +56,20 @@ class Contacts extends Component {
     this.handleBack = this.handleBack.bind(this);
   }
 
-  componentWillMount() {
-    this.keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      this.keyboardDidShow,
-    );
-    this.keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      this.keyboardDidHide,
-    );
-  }
-
   componentDidMount() {
     Analytics.screen(Analytics.s.Contacts);
     if (this.props.isInvite) {
       this.checkContactsStatus();
     }
+    this.keyboardShowListener = keyboardShow(this.keyboardDidShow);
+    this.keyboardHideListener = keyboardHide(this.keyboardDidHide);
   }
 
   componentWillUnmount() {
     // Make sure to hide the share modal whenever the contacts page goes away
     this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
+    this.keyboardShowListener.remove();
+    this.keyboardHideListener.remove();
   }
 
   handleBack() {

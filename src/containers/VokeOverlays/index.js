@@ -12,36 +12,28 @@ import VOKEBOT from '../../../images/vokebot_whole.png';
 import NOTIFICATIONS from '../../../images/allow_notifications.png';
 import styles from './styles';
 import { enablePushNotifications } from '../../actions/socket';
+import { keyboardShow, keyboardHide } from '../../utils/common';
 
 class VokeOverlays extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      keyboardShown: false,
-    };
-  }
+  state = {
+    keyboardShown: false,
+  };
 
   componentDidMount() {
-    this.keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      this._keyboardDidShow,
-    );
-    this.keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      this._keyboardDidHide,
-    );
+    this.keyboardShowListener = keyboardShow(this.keyboardDidShow);
+    this.keyboardHideListener = keyboardHide(this.keyboardDidHide);
   }
 
   componentWillUnmount() {
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
+    this.keyboardShowListener.remove();
+    this.keyboardHideListener.remove();
   }
 
-  _keyboardDidShow = () => {
+  keyboardDidShow = () => {
     this.setState({ keyboardShown: true });
   };
 
-  _keyboardDidHide = () => {
+  keyboardDidHide = () => {
     this.setState({ keyboardShown: false });
   };
 
