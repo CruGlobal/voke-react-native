@@ -1,6 +1,11 @@
 import { REHYDRATE } from 'redux-persist/constants';
 import { REQUESTS } from '../actions/api';
-import { LOGOUT, ACTIVE_JOURNEY, INACTIVE_JOURNEY } from '../constants';
+import {
+  LOGOUT,
+  ACTIVE_JOURNEY,
+  INACTIVE_JOURNEY,
+  UPDATE_JOURNEY_STEP,
+} from '../constants';
 
 const initialState = {
   activeJourney: null,
@@ -38,22 +43,45 @@ export default function adventures(state = initialState, action) {
     case REQUESTS.GET_MY_JOURNEY_STEPS.SUCCESS:
       const {
         query: { journeyId: stepsJourneyId },
-        steps,
+        steps: myJourneySteps,
       } = action;
-      const completed = steps.reduce((previous, next) => {
+      const completed = myJourneySteps.reduce((previous, next) => {
         return previous + (next.status === 'completed' ? 1 : 0);
       }, 0);
       return {
         ...state,
         steps: {
           ...state.steps,
-          [stepsJourneyId]: steps || [],
+          [stepsJourneyId]: myJourneySteps || [],
         },
         mine: state.mine.map(i =>
           i.id === stepsJourneyId
             ? { ...i, progress: { ...i.progress, completed } }
             : i,
         ),
+      };
+    case UPDATE_JOURNEY_STEP:
+      const {
+        journeyId: updateJourneyId,
+        journeyStepId: updateJourneyStepId,
+        updateObj,
+      } = action;
+      const currentSteps = state.steps[updateJourneyId] || [];
+      const indexToUpdate = currentSteps.findIndex(
+        s => s.id === updateJourneyStepId,
+      );
+      if (indexToUpdate >= 0) {
+        currentSteps[indexToUpdate] = {
+          ...(currentSteps[indexToUpdate] || {}),
+          ...(updateObj || {}),
+        };
+      }
+      return {
+        ...state,
+        steps: {
+          ...state.steps,
+          [updateJourneyId]: currentSteps,
+        },
       };
     case REQUESTS.GET_MESSAGES.SUCCESS:
       const {

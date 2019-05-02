@@ -5,12 +5,17 @@ import { translate } from 'react-i18next';
 import { Flex, Text, Touchable } from '../../components/common';
 import st from '../../st';
 import SafeArea from '../../components/SafeArea';
+import { CLEAR_TOAST } from '../../constants';
 
 const DEFAULT_TIMEOUT = 5000;
 
 class ToastManager extends Component {
   state = { isVisible: false, text: '' };
   timeout = null;
+
+  componentWillUnmount() {
+    clearTimeout(this.timeout);
+  }
 
   componentDidUpdate(prevProps) {
     const {
@@ -20,13 +25,15 @@ class ToastManager extends Component {
       this.setState({ isVisible: true, text });
       this.timeout = setTimeout(() => {
         // TODO: Animate fade out
-        this.setState({ isVisible: false, text: '' });
+        this.close();
       }, timeout || DEFAULT_TIMEOUT);
     }
   }
 
   close = () => {
-    this.setState({ isVisible: false });
+    const { dispatch } = this.props;
+    this.setState({ isVisible: false, text: '' });
+    dispatch({ type: CLEAR_TOAST });
   };
 
   render() {

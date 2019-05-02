@@ -7,6 +7,7 @@ import {
   openSettingsAction,
   checkPushPermissions,
   getMe,
+  toastAction,
 } from './auth';
 import { SOCKET_URL } from '../api/utils';
 import {
@@ -16,9 +17,15 @@ import {
   getConversations,
 } from './messages';
 import { navigateResetMessage, navigatePush } from './nav';
-import { getMyJourney, getMyJourneyStep } from './journeys';
+import {
+  getMyJourney,
+  getMyJourneyStep,
+  getJourneyInvites,
+  getMyJourneys,
+  getMyJourneySteps,
+} from './journeys';
 import callApi, { REQUESTS } from './api';
-import { SET_OVERLAY } from '../constants';
+import { SET_OVERLAY, UPDATE_JOURNEY_STEP } from '../constants';
 import { isEquivalentObject } from '../utils/common';
 import theme from '../theme';
 import Permissions from '../utils/permissions';
@@ -115,6 +122,7 @@ export function setupSocketAction(cableId) {
         ws.onmessage = e => {
           const data = JSON.parse(e.data) || {};
           const type = data && data.type;
+          console.log('data', data);
           if (type === 'ping') return;
           // LOG('socket message received: data', data);
           if (type === 'welcome') {
@@ -122,6 +130,11 @@ export function setupSocketAction(cableId) {
           } else if (data.message) {
             const message = data.message.message;
             const notification = data.message.notification;
+
+            // If we're supposed to toast, show it
+            if (data.message['toast?'] && notification.alert) {
+              dispatch(toastAction(notification.alert));
+            }
             if (
               notification &&
               notification.category === 'CREATE_MESSAGE_CATEGORY'
@@ -139,6 +152,20 @@ export function setupSocketAction(cableId) {
                 notification.category === 'CREATE_ADVENTURE_CATEGORY')
             ) {
               dispatch(getMe());
+            } else if (
+              notification &&
+              notification.category === 'JOIN_JOURNEY_CATEGORY'
+            ) {
+              dispatch(getJourneyInvites());
+              dispatch(getMyJourneys());
+            } else if (
+              notification &&
+              notification.category === 'COMPLETE_STEP_CATEGORY'
+            ) {
+              const journeyId = (message.journey || {}).id;
+              if (journeyId) {
+                dispatch(getMyJourneySteps((message.journey || {}).id));
+              }
             }
           }
         };

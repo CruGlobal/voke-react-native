@@ -30,6 +30,7 @@ export const DONT_NAV_TO_VIDS = 'app/DONT_NAV_TO_VIDS';
 export const RESET_FIRST_TIME = 'app/RESET_FIRST_TIME';
 export const INACTIVE_JOURNEY = 'app/INACTIVE_JOURNEY';
 export const ACTIVE_JOURNEY = 'app/ACTIVE_JOURNEY';
+export const UPDATE_JOURNEY_STEP = 'app/UPDATE_JOURNEY_STEP';
 // Overlays
 export const CLEAR_OVERLAY = 'app/CLEAR_OVERLAY';
 export const SET_OVERLAY = 'app/SET_OVERLAY';

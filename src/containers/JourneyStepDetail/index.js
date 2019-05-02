@@ -30,12 +30,12 @@ import {
 } from '../../actions/journeys';
 import { navigateBack } from '../../actions/nav';
 import { isAndroid } from '../../constants';
+import { toastAction } from '../../actions/auth';
 
 const dateFormat = 'MMM D @ h:mm A';
 
 class JourneyStepDetail extends Component {
   state = {
-    journeyStep: this.props.item,
     text: '',
     height: 50,
     newMsg: '',
@@ -45,9 +45,23 @@ class JourneyStepDetail extends Component {
   async componentDidMount() {
     Analytics.screen(Analytics.s.JourneyStepDetail);
     this.getMessages();
-
-    //
+    setTimeout(() => {
+      this.props.dispatch(toastAction('Good jofaijoif jdas!'));
+    }, 3000);
   }
+
+  // componentDidUpdate(prevProps) {
+  //   // Update status message when it changes in props
+  //   const { journeyStepItem } = this.props;
+  //   if (prevProps.journeyStepItem.status_message !== journeyStepItem.status_message || prevProps.journeyStepItem.status !== journeyStepItem.status) {
+  //     this.setState({
+  //       journeyStep: {
+  //         ...this.state.journeyStep,
+  //         status_message: journeyStepItem.status_message,
+  //       },
+  //     });
+  //   }
+  // }
 
   createMessageReadInteraction(msg) {
     if (!msg) {
@@ -65,26 +79,26 @@ class JourneyStepDetail extends Component {
   }
 
   getMessages() {
-    const { dispatch, item, journey } = this.props;
-    dispatch(getJourneyMessages(item, journey)).then(() => {
+    const { dispatch, journeyStep, journey } = this.props;
+    dispatch(getJourneyMessages(journeyStep, journey)).then(() => {
       this.createMessageReadInteraction(this.props.messages[0]);
     });
     this.load();
   }
 
   load = async () => {
-    const { dispatch, item, journey } = this.props;
+    const { dispatch, journeyStep, journey } = this.props;
 
-    const currentJourneyStep = await dispatch(
-      getMyJourneyStep(journey.id, item.id),
-    );
-    this.setState({ journeyStep: currentJourneyStep });
+    await dispatch(getMyJourneyStep(journey.id, journeyStep.id));
+    // const currentJourneyStep = await dispatch(
+    //   getMyJourneyStep(journey.id, journeyStep.id),
+    // );
+    // this.setState({ journeyStep: currentJourneyStep });
     return await dispatch(getMyJourneySteps(journey.id));
   };
 
   checkIfLast = () => {
-    const { t, dispatch, steps, messengers } = this.props;
-    const { journeyStep } = this.state;
+    const { t, dispatch, steps, messengers, journeyStep } = this.props;
 
     // Only show "Done" if in a solo journey
     const isSolo = messengers.length === 2;
@@ -101,10 +115,10 @@ class JourneyStepDetail extends Component {
   changeText = t => this.setState({ text: t });
 
   skip = async () => {
-    const { dispatch, item, journey } = this.props;
+    const { dispatch, journeyStep, journey } = this.props;
     try {
       this.setState({ stateResponse: { content: '', created_at: new Date() } });
-      await dispatch(skipJourneyMessage(item, journey));
+      await dispatch(skipJourneyMessage(journeyStep, journey));
       this.getMessages();
       this.checkIfLast();
     } catch (error) {
@@ -113,10 +127,10 @@ class JourneyStepDetail extends Component {
   };
 
   sendMessage = async isNewMsg => {
-    const { dispatch, item, journey } = this.props;
+    const { dispatch, journeyStep, journey } = this.props;
     const { text, newMsg } = this.state;
     if (isNewMsg) {
-      await dispatch(createJourneyMessage(item, journey, newMsg));
+      await dispatch(createJourneyMessage(journeyStep, journey, newMsg));
       this.getMessages();
       this.setState({ newMsg: '' });
       this.chatInput.blur();
@@ -129,7 +143,7 @@ class JourneyStepDetail extends Component {
       this.setState({
         stateResponse: { content: text, created_at: new Date() },
       });
-      await dispatch(createJourneyMessage(item, journey, text));
+      await dispatch(createJourneyMessage(journeyStep, journey, text));
       this.getMessages();
       this.checkIfLast();
     } catch (error) {
@@ -138,8 +152,7 @@ class JourneyStepDetail extends Component {
   };
 
   renderNext = () => {
-    const { t, dispatch, steps } = this.props;
-    const { journeyStep } = this.state;
+    const { t, dispatch, steps, journeyStep } = this.props;
     const isComplete = journeyStep.status === 'completed';
     if (!isComplete) {
       return;
@@ -159,8 +172,7 @@ class JourneyStepDetail extends Component {
   };
 
   renderMessages() {
-    const { me, messages, messengers } = this.props;
-    const { journeyStep } = this.state;
+    const { me, messages, messengers, journeyStep } = this.props;
     const isComplete = journeyStep.status === 'completed';
 
     let reversed = [...messages].reverse();
@@ -254,8 +266,8 @@ class JourneyStepDetail extends Component {
   };
 
   render() {
-    const { t, me, messages, messengers } = this.props;
-    const { journeyStep, text, height, newMsg, stateResponse } = this.state;
+    const { t, me, messages, messengers, journeyStep } = this.props;
+    const { text, height, newMsg, stateResponse } = this.state;
 
     const inputStyle = [st.f1, st.fs4, st.darkBlue];
 
@@ -435,6 +447,10 @@ const mapStateToProps = (
   // Get messages by step id
   messengers: params.journey.conversation.messengers || [],
   messages: journeys.messages[params.item.id] || [],
+  journeyStep:
+    (journeys.steps[params.journey.id] || []).find(
+      i => i.id === params.item.id,
+    ) || params.item,
   me: auth.user,
   steps: journeys.steps[params.journey.id] || [],
   myJourneys: journeys.mine,
