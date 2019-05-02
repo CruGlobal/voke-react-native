@@ -41,12 +41,12 @@ class AdventureCode extends Component {
         return;
       }
       try {
-        const r = await dispatch(acceptJourneyInvite(adventureCode));
+        await dispatch(acceptJourneyInvite(adventureCode));
 
         if (onboarding) {
           this.goToPhoto();
         } else {
-          await dispatch(getMyJourneys());
+          const r = await dispatch(getMyJourneys());
 
           dispatch(navigateBack(1, { immediate: true }));
           dispatch(
