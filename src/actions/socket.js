@@ -122,7 +122,7 @@ export function setupSocketAction(cableId) {
         ws.onmessage = e => {
           const data = JSON.parse(e.data) || {};
           const type = data && data.type;
-          console.log('data', data);
+          // console.log('data', data);
           if (type === 'ping') return;
           // LOG('socket message received: data', data);
           if (type === 'welcome') {
