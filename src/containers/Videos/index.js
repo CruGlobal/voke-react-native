@@ -336,7 +336,7 @@ class Videos extends Component {
 
   updateVideoList(type) {
     if (this.props.channel && this.props.channel.id) {
-      this.setState({ videos: this.props.channelVideos });
+      this.setState({ videos: this.props.channelVideos, isLoading: false });
       return;
     }
     if (type === 'featured') {

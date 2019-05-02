@@ -37,6 +37,7 @@ class OrgJourneyDetail extends Component {
           {
             item: result,
             journey: item,
+            shouldNavigateHome: true,
             type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
             trackingObj: buildTrackingObj('journey : mine', 'detail'),
           },

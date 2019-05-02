@@ -90,6 +90,7 @@ class Adventures extends Component {
           tabBarActiveTextColor={theme.white}
           tabBarInactiveTextColor={theme.primaryColor}
           tabBarTextStyle={[st.normal]}
+          prerenderingSiblingsNumber={Infinity}
           initialPage={
             index !== undefined
               ? index

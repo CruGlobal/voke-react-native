@@ -95,7 +95,7 @@ class InviteCard extends Component {
           <Text numberOfLines={1} style={[st.white, st.fs4]}>
             {t('waitingForFriend', { name })}
           </Text>
-          <Flex direction="row" align="center" style={[st.pb6]}>
+          <Flex direction="column" align="start" style={[st.pb6]}>
             {!isExpired ? (
               <Text numberOfLines={1} style={[st.white, st.fs6]}>
                 {t('expiresIn', { time })}
@@ -116,12 +116,17 @@ class InviteCard extends Component {
                 buttonTextStyle={[st.fs6]}
               />
             )}
-            <Text numberOfLines={1} style={[st.white, st.fs6]}>
-              {t('code')}
-            </Text>
-            <Text selectable={true} style={[st.white, st.fs6, st.bold]}>
-              {code}
-            </Text>
+            <Flex direction="row">
+              <Text numberOfLines={1} style={[st.white, st.fs6, st.tal]}>
+                {t('code')}
+              </Text>
+              <Text
+                selectable={true}
+                style={[st.white, st.fs6, st.bold, st.tal]}
+              >
+                {code}
+              </Text>
+            </Flex>
           </Flex>
         </Flex>
         <Flex>

@@ -307,7 +307,7 @@ export default {
   advenutesList: {
     '1player': '1 Player',
     '2player': '2 Player',
-    code: '  ·  Code: ',
+    code: 'Code: ',
     expiresIn: 'Expires in {{time}}',
     waitingForFriend: 'Waiting for {{name}} to join...',
   },

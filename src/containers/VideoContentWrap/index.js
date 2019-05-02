@@ -7,7 +7,11 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import debounce from 'lodash/debounce';
 import Orientation from 'react-native-orientation';
 
-import { navigateBack, navigatePush } from '../../actions/nav';
+import {
+  navigateBack,
+  navigatePush,
+  navigateResetHome,
+} from '../../actions/nav';
 import { toastAction, shareVideo } from '../../actions/auth';
 import { createVideoInteraction } from '../../actions/videos';
 
@@ -59,9 +63,7 @@ function getVideoType(item) {
   const media =
     (item.media
       ? item.media
-      : item.item && item.item.content
-      ? item.item.content
-      : {}) || {};
+      : item.item && item.item.content ? item.item.content : {}) || {};
   return media.type;
 }
 
@@ -248,8 +250,17 @@ class VideoContentWrap extends Component {
     );
   }
 
+  handleBack = () => {
+    const { dispatch, shouldNavigateHome } = this.props;
+    if (shouldNavigateHome) {
+      dispatch(navigateResetHome({ index: 0 }));
+    } else {
+      dispatch(navigateBack());
+    }
+  };
+
   render() {
-    const { dispatch, item, type } = this.props;
+    const { item, type } = this.props;
     const { isLandscape } = this.state;
 
     const config = TYPE_CONFIGS[type] || {};
@@ -304,7 +315,7 @@ class VideoContentWrap extends Component {
                   {...videoProps}
                 />
               ) : null}
-              <BackButton onBack={() => dispatch(navigateBack())} />
+              <BackButton onBack={this.handleBack} />
             </Flex>
             {isLandscape ? null : this.renderContent()}
           </KeyboardAwareScrollView>
@@ -339,6 +350,7 @@ function BackButton({ onBack }) {
 
 VideoContentWrap.propTypes = {
   item: PropTypes.object.isRequired,
+  shouldNavigateHome: PropTypes.bool,
   type: PropTypes.oneOf(Object.keys(VIDEO_CONTENT_TYPES)),
   navToStep: PropTypes.object,
 };
