@@ -481,13 +481,8 @@ class Profile extends Component {
   }
 
   render() {
-    const {
-      dispatch,
-      editName,
-      editEmail,
-      editPassword,
-      hideAnonFields,
-    } = this.state;
+    const { dispatch } = this.props;
+    const { editName, editEmail, editPassword, hideAnonFields } = this.state;
     let { t, user, isAnonUser } = this.props;
     let name = null;
     if (user.first_name || user.last_name) {
@@ -553,7 +548,9 @@ class Profile extends Component {
                       text={
                         editEmail
                           ? t('cancel')
-                          : !user.email ? t('add') : t('edit')
+                          : !user.email
+                          ? t('add')
+                          : t('edit')
                       }
                       buttonTextStyle={styles.editText}
                       style={styles.inputButton}
@@ -574,7 +571,9 @@ class Profile extends Component {
                       text={
                         editPassword
                           ? t('cancel')
-                          : !user.email ? t('add') : t('edit')
+                          : !user.email
+                          ? t('add')
+                          : t('edit')
                       }
                       buttonTextStyle={styles.editText}
                       style={styles.inputButton}

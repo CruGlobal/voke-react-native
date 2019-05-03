@@ -21,6 +21,8 @@ import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import PrivacyToS from '../../components/PrivacyToS';
 import CONSTANTS, { RESET_ANON_USER } from '../../constants';
 import theme from '../../theme';
+import SafeArea from '../../components/SafeArea';
+import st from '../../st';
 
 class SignUpAccount extends Component {
   constructor(props) {
@@ -88,61 +90,63 @@ class SignUpAccount extends Component {
   render() {
     const { t, dispatch } = this.props;
     return (
-      <ScrollView
-        keyboardShouldPersistTaps={theme.isAndroid ? 'handled' : 'always'}
-        style={styles.container}
-      >
-        <SignUpHeaderBack onPress={() => dispatch(navigateBack())} />
-        <KeyboardAvoidingView
-          behavior={theme.isAndroid ? undefined : 'position'}
+      <SafeArea style={[st.f1, st.bgBlue]}>
+        <ScrollView
+          keyboardShouldPersistTaps={theme.isAndroid ? 'handled' : 'always'}
+          style={styles.container}
         >
-          <SignUpHeader
-            title={t('title.createAccount')}
-            description={t('accountDescription')}
-            onPress={() => Keyboard.dismiss()}
-          />
-          <Flex
-            value={1}
-            align="center"
-            justify="start"
-            style={styles.inputs}
-            ref={x => Analytics.markSensitive(x)}
+          <SignUpHeaderBack onPress={() => dispatch(navigateBack())} />
+          <KeyboardAvoidingView
+            behavior={theme.isAndroid ? undefined : 'position'}
           >
-            <SignUpInput
-              value={this.state.email}
-              onChangeText={this.checkEmail}
-              placeholder={t('placeholder.email')}
-              autoCorrect={true}
-              blurOnSubmit={false}
-              keyboardType="email-address"
-              returnKeyType="next"
-              onSubmitEditing={() => this.password.focus()}
+            <SignUpHeader
+              title={t('title.createAccount')}
+              description={t('accountDescription')}
+              onPress={() => Keyboard.dismiss()}
             />
-            <SignUpInput
-              ref={c => (this.password = c)}
-              value={this.state.password}
-              onChangeText={text => this.setState({ password: text })}
-              placeholder={t('placeholder.password')}
-              secureTextEntry={true}
-            />
-            <Flex style={styles.buttonWrapper}>
-              <Button
-                text={t('createAccount')}
-                buttonTextStyle={styles.signInButton}
-                style={styles.actionButton}
-                onPress={this.updateAnonAccount}
+            <Flex
+              value={1}
+              align="center"
+              justify="start"
+              style={styles.inputs}
+              ref={x => Analytics.markSensitive(x)}
+            >
+              <SignUpInput
+                value={this.state.email}
+                onChangeText={this.checkEmail}
+                placeholder={t('placeholder.email')}
+                autoCorrect={true}
+                blurOnSubmit={false}
+                keyboardType="email-address"
+                returnKeyType="next"
+                onSubmitEditing={() => this.password.focus()}
               />
-            </Flex>
-            <Flex direction="column">
-              <PrivacyToS style={styles.legalText} type="create" />
-              <Flex style={{ paddingTop: 20 }}>
-                <FacebookButton />
+              <SignUpInput
+                ref={c => (this.password = c)}
+                value={this.state.password}
+                onChangeText={text => this.setState({ password: text })}
+                placeholder={t('placeholder.password')}
+                secureTextEntry={true}
+              />
+              <Flex style={styles.buttonWrapper}>
+                <Button
+                  text={t('createAccount')}
+                  buttonTextStyle={styles.signInButton}
+                  style={styles.actionButton}
+                  onPress={this.updateAnonAccount}
+                />
+              </Flex>
+              <Flex direction="column">
+                <PrivacyToS style={styles.legalText} type="create" />
+                <Flex style={{ paddingTop: 20 }}>
+                  <FacebookButton />
+                </Flex>
               </Flex>
             </Flex>
-          </Flex>
-        </KeyboardAvoidingView>
-        {this.state.isLoading ? <ApiLoading force={true} /> : null}
-      </ScrollView>
+          </KeyboardAvoidingView>
+          {this.state.isLoading ? <ApiLoading force={true} /> : null}
+        </ScrollView>
+      </SafeArea>
     );
   }
 }

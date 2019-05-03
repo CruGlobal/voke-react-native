@@ -30,7 +30,6 @@ import {
 } from '../../actions/journeys';
 import { navigateBack } from '../../actions/nav';
 import { isAndroid } from '../../constants';
-import { toastAction } from '../../actions/auth';
 
 const dateFormat = 'MMM D @ h:mm A';
 
@@ -45,9 +44,6 @@ class JourneyStepDetail extends Component {
   async componentDidMount() {
     Analytics.screen(Analytics.s.JourneyStepDetail);
     this.getMessages();
-    setTimeout(() => {
-      this.props.dispatch(toastAction('Good jofaijoif jdas!'));
-    }, 3000);
   }
 
   // componentDidUpdate(prevProps) {
@@ -420,7 +416,7 @@ class JourneyStepDetail extends Component {
                 iconType="Voke"
                 iconStyle={[newMsg ? st.white : st.offBlue, st.fs2]}
                 onPress={() => this.sendMessage(true)}
-                preventTimeout={1000}
+                preventTimeout={2000}
               />
             </Flex>
           </Flex>
