@@ -321,7 +321,8 @@ export default {
     nextVideoReady: 'Next Video is Ready',
     yourAnswer: 'Your Answer...',
     skipped: 'Skipped',
-    finishedJourney: 'Congrats, you finished the journey!',
+    finishedJourney:
+      'Congrats, you finished the adventure! Go start another one!',
     byMyself: 'By Myself',
     whoCanYouTake: 'Who can you take with you?',
     startThe: 'Start the {{journey}}',
