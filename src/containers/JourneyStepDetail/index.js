@@ -121,38 +121,55 @@ class JourneyStepDetail extends Component {
   skip = async () => {
     const { dispatch, journeyStep, journey } = this.props;
     try {
-      this.setState({ stateResponse: { content: '', created_at: new Date() } });
+      this.setState({
+        isSending: true,
+        stateResponse: { content: '', created_at: new Date() },
+      });
       await dispatch(skipJourneyMessage(journeyStep, journey));
       this.getMessages();
       this.checkIfLast();
+      this.setState({ isSending: false });
     } catch (error) {
-      this.setState({ stateResponse: null });
+      this.setState({ isSending: false, stateResponse: null });
     }
   };
 
   sendMessage = async isNewMsg => {
     const { dispatch, journeyStep, journey } = this.props;
-    const { text, newMsg } = this.state;
+    const { text, newMsg, isSending } = this.state;
+    if (isSending) {
+      return null;
+    }
     if (isNewMsg) {
-      await dispatch(createJourneyMessage(journeyStep, journey, newMsg));
-      this.getMessages();
-      this.setState({ newMsg: '' });
-      this.chatInput.blur();
-      this.chatInput.clear();
-      return;
+      if (!newMsg) {
+        return null;
+      }
+      try {
+        this.setState({ isSending: true });
+        await dispatch(createJourneyMessage(journeyStep, journey, newMsg));
+        this.getMessages();
+        this.setState({ isSending: false, newMsg: '' });
+        this.chatInput.blur();
+        this.chatInput.clear();
+        return;
+      } catch (error) {
+        this.setState({ isSending: false });
+      }
     }
     if (!text) {
       return this.skip();
     }
     try {
       this.setState({
+        isSending: true,
         stateResponse: { content: text, created_at: new Date() },
       });
       await dispatch(createJourneyMessage(journeyStep, journey, text));
       this.getMessages();
       this.checkIfLast();
+      this.setState({ isSending: false });
     } catch (error) {
-      this.setState({ stateResponse: null });
+      this.setState({ isSending: false, stateResponse: null });
     }
   };
 
@@ -332,7 +349,7 @@ class JourneyStepDetail extends Component {
               iconType="Voke"
               iconStyle={[st.white, st.fs2]}
               onPress={() => this.sendMessage(true)}
-              preventTimeout={2000}
+              preventTimeout={3000}
             />
             {/* iconStyle={[newMsg ? st.white : st.offBlue, st.fs2]} */}
           </Flex>
