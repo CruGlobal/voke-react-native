@@ -87,9 +87,7 @@ function StepItem({ t, me, item, journey, onSelect }) {
                   style={[
                     hasUnread
                       ? st.orange
-                      : isCompleted
-                      ? st.white
-                      : st.charcoal,
+                      : isCompleted ? st.white : st.charcoal,
                   ]}
                 />
                 {hasUnread ? <JourneyUnreadCount count={unreadCount} /> : null}
@@ -114,7 +112,7 @@ function StepItem({ t, me, item, journey, onSelect }) {
             style={[st.bgOrange, st.w100, st.pd6, st.brbl5, st.brbr5]}
           >
             <Text style={[st.fs4]}>
-              {t('waitingForAnswer', { name: otherUser.first_name })}
+              {t('waitingForAnswer', { name: (otherUser || {}).first_name })}
             </Text>
           </Flex>
         ) : null}
