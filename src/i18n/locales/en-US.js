@@ -345,8 +345,7 @@ export default {
     whatIsFriendsName: `What is your friend's name?`,
     firstName: `First Name (Required)`,
     firstNamePlaceholder: `First`,
-    codeReady: `Your friend's invite code is ready. Share it by clicking below
-    or copy the code below and send it to them.`,
+    codeReady: `{{name}}'s invite code is ready. Share it by clicking below or copy the code below and send it to them.`,
     downloadMessage: `Hi {{friend}}. Download Voke and use this Adventure code: {{code}} {{appUrl}}`,
   },
 };

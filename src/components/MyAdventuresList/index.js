@@ -14,6 +14,7 @@ import {
   Button,
 } from '../common';
 import { momentUtc, keyExtractorId } from '../../utils/common';
+import JourneyUnreadCount from '../JourneyUnreadCount';
 
 export const THUMBNAIL_HEIGHT = 78;
 export const THUMBNAIL_WIDTH = 64;
@@ -167,7 +168,11 @@ function MyAdventureCard({ t, me, item, onSelect, onClickProfile }) {
     conversation,
     progress,
     name,
-    item: { content: { thumbnails: { small } } },
+    item: {
+      content: {
+        thumbnails: { small },
+      },
+    },
   } = item;
   const unreadCount = conversation.unread_messages;
   const hasUnread = unreadCount > 0;
@@ -224,15 +229,7 @@ function MyAdventureCard({ t, me, item, onSelect, onClickProfile }) {
               name="Chat"
               style={[hasUnread ? st.orange : st.charcoal]}
             />
-            {hasUnread ? (
-              <Flex
-                align="center"
-                justify="center"
-                style={[st.circle(20), st.bgOrange, st.ml6]}
-              >
-                <Text>{unreadCount}</Text>
-              </Flex>
-            ) : null}
+            {hasUnread ? <JourneyUnreadCount count={unreadCount} /> : null}
             <Text style={[st.charcoal, st.ml5, st.fs5]}>
               {isSolo ? t('me') : otherUser.first_name}
             </Text>

@@ -81,7 +81,7 @@ class ShareJourneyInvite extends Component {
   };
 
   render() {
-    const { t, journeyInvite } = this.props;
+    const { t, journeyInvite, friendName } = this.props;
     return (
       <Flex value={1}>
         <SafeArea style={[st.f1, st.bgBlue]}>
@@ -89,7 +89,9 @@ class ShareJourneyInvite extends Component {
             <Flex align="center" justify="center">
               <Flex style={[st.mt1, st.pt1]} />
               <Flex style={styles.chatBubble}>
-                <Text style={styles.chatText}>{t('codeReady')}</Text>
+                <Text style={styles.chatText}>
+                  {t('codeReady', { name: friendName || 'Your friend' })}
+                </Text>
               </Flex>
               <Triangle
                 width={10}

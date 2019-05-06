@@ -28,6 +28,7 @@ import JourneyStepDetail from '../JourneyStepDetail';
 import st from '../../st';
 import theme from '../../theme';
 import FloatingButtonSingle from '../../components/FloatingButtonSingle';
+import { isAndroid } from '../../constants';
 
 export const VIDEO_CONTENT_TYPES = {
   VIDEODETAIL: 'VIDEODETAIL',
@@ -329,15 +330,19 @@ class VideoContentWrap extends Component {
             {isLandscape ? null : this.renderContent()}
           </KeyboardAwareScrollView>
           {customRender ? (
-            <KeyboardAvoidingView
-              style={[st.bgBlue]}
-              behavior={theme.isAndroid ? undefined : 'padding'}
-              keyboardVerticalOffset={
-                theme.isAndroid ? undefined : st.hasNotch ? 45 : 20
-              }
-            >
-              {customRender}
-            </KeyboardAvoidingView>
+            isAndroid ? (
+              customRender
+            ) : (
+              <KeyboardAvoidingView
+                style={[st.bgBlue]}
+                behavior={theme.isAndroid ? undefined : 'padding'}
+                keyboardVerticalOffset={
+                  theme.isAndroid ? undefined : st.hasNotch ? 45 : 20
+                }
+              >
+                {customRender}
+              </KeyboardAvoidingView>
+            )
           ) : null}
           {type === VIDEO_CONTENT_TYPES.VIDEODETAIL ? (
             <FloatingButtonSingle onSelect={this.handleShare} />

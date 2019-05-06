@@ -23,6 +23,7 @@ import { navigatePush } from '../../actions/nav';
 import { buildTrackingObj, keyExtractorId } from '../../utils/common';
 import { VIDEO_CONTENT_TYPES } from '../VideoContentWrap';
 import { isAndroid } from '../../constants';
+import JourneyUnreadCount from '../../components/JourneyUnreadCount';
 
 function StepItem({ t, me, item, journey, onSelect }) {
   const isActive = item.status === 'active';
@@ -79,21 +80,19 @@ function StepItem({ t, me, item, journey, onSelect }) {
             <Text style={[st.fs5, isActive ? st.darkBlue : st.white]}>
               {t('part')} {item.position}
             </Text>
-            {isActive ? (
+            {isActive || isCompleted ? (
               <Flex direction="row" align="center" style={[st.pt6]}>
                 <VokeIcon
                   name="Chat"
-                  style={[hasUnread ? st.orange : st.charcoal]}
+                  style={[
+                    hasUnread
+                      ? st.orange
+                      : isCompleted
+                      ? st.white
+                      : st.charcoal,
+                  ]}
                 />
-                {hasUnread ? (
-                  <Flex
-                    align="center"
-                    justify="center"
-                    style={[st.circle(20), st.bgOrange, st.ml6]}
-                  >
-                    <Text>{unreadCount}</Text>
-                  </Flex>
-                ) : null}
+                {hasUnread ? <JourneyUnreadCount count={unreadCount} /> : null}
               </Flex>
             ) : null}
           </Flex>

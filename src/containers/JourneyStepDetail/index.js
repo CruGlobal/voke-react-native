@@ -221,12 +221,21 @@ class JourneyStepDetail extends Component {
                   isBlur || isMine ? st.bgDarkBlue : st.bgWhite,
                   st.br5,
                   st.pd5,
+                  st.w100,
                 ]}
               >
-                <Text style={[st.fs4, isBlur || isMine ? st.white : st.blue]}>
-                  {isAndroid && isBlur ? '' : m.content}
-                </Text>
-                {isAndroid && isBlur ? <Flex style={[st.pd4]} /> : null}
+                {isAndroid && isBlur ? (
+                  <Flex style={[st.pd4, st.f1, st.w100]} />
+                ) : (
+                  <Fragment>
+                    <Text
+                      style={[st.fs4, isBlur || isMine ? st.white : st.blue]}
+                    >
+                      {isAndroid && isBlur ? '' : m.content}
+                    </Text>
+                    {isAndroid && isBlur ? <Flex style={[st.pd4]} /> : null}
+                  </Fragment>
+                )}
               </Flex>
               {!isMine ? <Flex style={[st.f1]} /> : null}
             </Flex>
@@ -310,7 +319,7 @@ class JourneyStepDetail extends Component {
     // This needs to be wrapped in it's own <KeyboardAvoidingView>
     setCustomRender(
       <KeyboardAvoidingView
-        style={[st.bgBlue]}
+        style={[st.bgBlue, isAndroid ? [st.w100, st.absblr] : null]}
         behavior={theme.isAndroid ? undefined : 'padding'}
         keyboardVerticalOffset={
           theme.isAndroid ? undefined : st.hasNotch ? 45 : 20
@@ -318,7 +327,7 @@ class JourneyStepDetail extends Component {
       >
         <Flex
           direction="row"
-          style={[newWrap, st.w100, st.absblr]}
+          style={[newWrap, st.w100, !isAndroid ? st.absblr : null]}
           align="center"
           justify="center"
         >

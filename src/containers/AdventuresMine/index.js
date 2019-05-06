@@ -114,7 +114,7 @@ class AdventuresMine extends Component {
       dispatch(
         navigatePush('voke.ShareJourneyInvite', {
           journeyInvite: r,
-          friendName: item.name,
+          friendName: r.name,
         }),
       );
     });
