@@ -51,13 +51,15 @@ class AdventureCode extends Component {
           const r = await dispatch(getMyJourneys());
 
           dispatch(navigateBack(1, { immediate: true }));
-          dispatch(
-            navigatePush('voke.VideoContentWrap', {
-              item: r.journeys[r.journeys.length - 1],
-              type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
-              trackingObj: buildTrackingObj('journey : mine', 'detail'),
-            }),
-          );
+          if (r.journeys[0]) {
+            dispatch(
+              navigatePush('voke.VideoContentWrap', {
+                item: r.journeys[0],
+                type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
+                trackingObj: buildTrackingObj('journey : mine', 'detail'),
+              }),
+            );
+          }
         }
         this.setState({ isLoading: false });
       } catch (err) {
