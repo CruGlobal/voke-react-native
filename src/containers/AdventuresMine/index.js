@@ -110,7 +110,14 @@ class AdventuresMine extends Component {
 
   handleResendInvite = item => {
     const { dispatch } = this.props;
-    dispatch(resendJourneyInvite(item.id));
+    dispatch(resendJourneyInvite(item.id)).then(r => {
+      dispatch(
+        navigatePush('voke.ShareJourneyInvite', {
+          journeyInvite: r,
+          friendName: item.name,
+        }),
+      );
+    });
   };
 
   handleDeleteInvite = item => {

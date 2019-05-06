@@ -237,7 +237,7 @@ function MyAdventureCard({ t, me, item, onSelect, onClickProfile }) {
               {isSolo ? t('me') : otherUser.first_name}
             </Text>
           </Flex>
-          <Flex direction="row" align="center">
+          <Flex direction="row" align="center" style={[st.mt6]}>
             {totalSteps.map((i, index) => (
               <ProgressDots key={index} isFilled={index < completed} />
             ))}
