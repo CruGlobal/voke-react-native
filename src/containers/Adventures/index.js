@@ -37,14 +37,14 @@ class Adventures extends Component {
       navigation.state.params.tabName
     ) {
       navigation.navigate(navigation.state.params.tabName);
-      if (navigation.state.params.navTo) {
-        dispatch(
-          navigatePush(
-            navigation.state.params.navTo.routName,
-            navigation.state.params.navTo.params,
-          ),
-        );
-      }
+    }
+    if ((navigation.state.params || {}).navTo) {
+      dispatch(
+        navigatePush(
+          navigation.state.params.navTo.routeName,
+          navigation.state.params.navTo.params,
+        ),
+      );
     }
   }
 
@@ -57,7 +57,7 @@ class Adventures extends Component {
   };
 
   render() {
-    const { t, dispatch, myJourneys, index } = this.props;
+    const { t, dispatch, myJourneys, index, invites } = this.props;
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
@@ -94,7 +94,10 @@ class Adventures extends Component {
           initialPage={
             index !== undefined
               ? index
-              : myJourneys && myJourneys.length > 0 ? 0 : 1
+              : (myJourneys && myJourneys.length > 0) ||
+                (invites && invites.length > 0)
+                ? 0
+                : 1
           }
         >
           <View tabLabel={t('title.myAdventures')} style={[st.f1]}>
@@ -117,6 +120,7 @@ const mapStateToProps = ({ auth, journeys }, { navigation }) => ({
   me: auth.user,
   isAnonUser: auth.isAnonUser, // Need this for the Android PopupMenu to determine which menu options to show
   myJourneys: journeys.mine,
+  invites: journeys.invites,
 });
 
 export default translate()(connect(mapStateToProps)(Adventures));

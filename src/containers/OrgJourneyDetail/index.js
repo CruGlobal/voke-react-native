@@ -90,7 +90,7 @@ class OrgJourneyDetail extends Component {
                     isLoading={myselfIsLoading}
                     style={[
                       st.bgOrange,
-                      st.ph3,
+                      st.ph6,
                       st.pv5,
                       st.bw0,
                       st.br0,
@@ -109,7 +109,7 @@ class OrgJourneyDetail extends Component {
                   isLoading={friendIsLoading}
                   style={[
                     st.bgOrange,
-                    st.ph3,
+                    st.ph6,
                     st.pv5,
                     st.bw0,
                     st.br0,

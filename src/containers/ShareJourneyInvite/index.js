@@ -4,10 +4,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import Analytics from '../../utils/analytics';
+import { buildTrackingObj } from '../../utils/common';
 import styles from './styles';
 import { navigateResetHome } from '../../actions/nav';
+import { getMyJourney, getMyJourneySteps } from '../../actions/journeys';
 import { Image, Flex, Button, Text, Triangle } from '../../components/common';
 import SafeArea from '../../components/SafeArea';
+import { VIDEO_CONTENT_TYPES } from '../VideoContentWrap';
 import VOKE_FIRST_NAME from '../../../images/vokebot_whole.png';
 import st from '../../st';
 import { determinePushOverlay } from '../../actions/socket';
@@ -50,9 +53,25 @@ class ShareJourneyInvite extends Component {
       .catch(err => LOG('Share Error', err));
   };
 
-  done = () => {
-    const { dispatch } = this.props;
-    dispatch(navigateResetHome({ index: 0 }));
+  done = async () => {
+    const { dispatch, journeyInvite } = this.props;
+    const journey = await dispatch(
+      getMyJourney(journeyInvite.messenger_journey_id),
+    );
+    const { steps } = await dispatch(getMyJourneySteps(journey.id));
+    dispatch(
+      navigateResetHome({
+        navTo: {
+          routeName: 'voke.VideoContentWrap',
+          params: {
+            item: steps[0],
+            journey: journey,
+            type: VIDEO_CONTENT_TYPES.JOURNEYSTEPDETAIL,
+            trackingObj: buildTrackingObj('journey : mine', 'detail', 'step'),
+          },
+        },
+      }),
+    );
   };
 
   copy = () => {

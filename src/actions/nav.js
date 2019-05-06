@@ -77,7 +77,7 @@ export function navigateResetMessage(params = {}) {
             routeName: 'MainTabs',
             params: {
               tabName: 'voke.Conversations',
-              navTo: { routName: 'voke.Message', params },
+              navTo: { routeName: 'voke.Message', params },
             },
           }),
         ],
