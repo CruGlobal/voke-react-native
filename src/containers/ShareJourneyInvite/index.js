@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Share } from 'react-native';
+import { Share, Clipboard } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
@@ -11,6 +11,7 @@ import SafeArea from '../../components/SafeArea';
 import VOKE_FIRST_NAME from '../../../images/vokebot_whole.png';
 import st from '../../st';
 import { determinePushOverlay } from '../../actions/socket';
+import { toastAction } from '../../actions/auth';
 
 const APP_URL = 'https://voke.page.link/app';
 function buildMessage(t, code, friend) {
@@ -54,6 +55,12 @@ class ShareJourneyInvite extends Component {
     dispatch(navigateResetHome({ index: 0 }));
   };
 
+  copy = () => {
+    const { t, dispatch, journeyInvite } = this.props;
+    Clipboard.setString(`${journeyInvite.code}`);
+    dispatch(toastAction(t('copied')));
+  };
+
   render() {
     const { t, journeyInvite } = this.props;
     return (
@@ -80,6 +87,13 @@ class ShareJourneyInvite extends Component {
             <Text selectable={true} style={[st.white, st.fs1, st.w100, st.tac]}>
               {journeyInvite.code}
             </Text>
+            <Button
+              text={t('copy')}
+              type="transparent"
+              buttonTextStyle={styles.signInButtonText}
+              style={styles.signInButton}
+              onPress={this.copy}
+            />
             <Flex value={1} justify="end" style={[styles.buttonWrapper]}>
               <Button
                 text={t('share')}

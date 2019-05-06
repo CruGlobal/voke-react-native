@@ -14,6 +14,8 @@ export default {
     contacts: 'Contacts',
     continue: 'Continue',
     conversations: 'Conversations',
+    copied: 'Copied',
+    copy: 'Copy',
     createAccount: 'Create Account',
     delete: 'Delete',
     deleteAccount: 'Remove Account',
