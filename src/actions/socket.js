@@ -164,6 +164,7 @@ export function setupSocketAction(cableId) {
             ) {
               const journeyId = (message.journey || {}).id;
               if (journeyId) {
+                dispatch(getMyJourneys());
                 dispatch(getMyJourneySteps((message.journey || {}).id));
               }
             }

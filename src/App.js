@@ -15,6 +15,7 @@ import getStore from './store';
 import AppWithNavigationState from './AppNavigator';
 import st from './st';
 import ToastManager from './containers/ToastManager';
+console.disableYellowBox = true;
 
 // TODO: Add loading stuff with redux persist
 class App extends Component {

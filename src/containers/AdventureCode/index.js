@@ -12,6 +12,7 @@ import { Flex, Button, Text } from '../../components/common';
 import SafeArea from '../../components/SafeArea';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
+import { determinePushOverlay } from '../../actions/socket';
 import { buildTrackingObj } from '../../utils/common';
 import theme from '../../theme';
 import st from '../../st';
@@ -44,6 +45,7 @@ class AdventureCode extends Component {
         await dispatch(acceptJourneyInvite(adventureCode));
 
         if (onboarding) {
+          dispatch(determinePushOverlay('adventurePushPermissions'));
           this.goToPhoto();
         } else {
           const r = await dispatch(getMyJourneys());
