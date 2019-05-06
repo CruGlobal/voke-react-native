@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions, KeyboardAvoidingView } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
@@ -27,7 +27,6 @@ import JourneyDetail from '../JourneyDetail';
 import JourneyStepDetail from '../JourneyStepDetail';
 import st from '../../st';
 import theme from '../../theme';
-import { isAndroid } from '../../constants';
 import FloatingButtonSingle from '../../components/FloatingButtonSingle';
 
 export const VIDEO_CONTENT_TYPES = {
@@ -63,7 +62,9 @@ function getVideoType(item) {
   const media =
     (item.media
       ? item.media
-      : item.item && item.item.content ? item.item.content : {}) || {};
+      : item.item && item.item.content
+      ? item.item.content
+      : {}) || {};
   return media.type;
 }
 
@@ -153,6 +154,8 @@ class VideoContentWrap extends Component {
     }
   }
 
+  setCustomRender = item => this.setState({ customRender: item });
+
   handleShare = () => {
     const { conversation, onSelectVideo, me, dispatch, item } = this.props;
 
@@ -230,7 +233,13 @@ class VideoContentWrap extends Component {
 
   renderContent() {
     const { type, item, navToStep, ...rest } = this.props;
-    const allProps = { item, onPause: this.pause, onPlay: this.play, ...rest };
+    const allProps = {
+      item,
+      onPause: this.pause,
+      onPlay: this.play,
+      setCustomRender: this.setCustomRender,
+      ...rest,
+    };
     if (type === VIDEO_CONTENT_TYPES.VIDEODETAIL) {
       return <VideoDetailsContent video={item} {...allProps} />;
     }
@@ -261,7 +270,7 @@ class VideoContentWrap extends Component {
 
   render() {
     const { item, type } = this.props;
-    const { isLandscape } = this.state;
+    const { isLandscape, customRender } = this.state;
 
     const config = TYPE_CONFIGS[type] || {};
     let videoObj = {};
@@ -319,6 +328,17 @@ class VideoContentWrap extends Component {
             </Flex>
             {isLandscape ? null : this.renderContent()}
           </KeyboardAwareScrollView>
+          {customRender ? (
+            <KeyboardAvoidingView
+              style={[st.bgBlue]}
+              behavior={theme.isAndroid ? undefined : 'padding'}
+              keyboardVerticalOffset={
+                theme.isAndroid ? undefined : st.hasNotch ? 45 : 20
+              }
+            >
+              {customRender}
+            </KeyboardAvoidingView>
+          ) : null}
           {type === VIDEO_CONTENT_TYPES.VIDEODETAIL ? (
             <FloatingButtonSingle onSelect={this.handleShare} />
           ) : null}

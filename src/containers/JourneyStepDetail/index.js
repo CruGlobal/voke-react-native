@@ -1,5 +1,11 @@
 import React, { Component, Fragment } from 'react';
-import { TextInput, ScrollView, Image, Alert } from 'react-native';
+import {
+  TextInput,
+  ScrollView,
+  Image,
+  Alert,
+  KeyboardAvoidingView,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import { BlurView } from 'react-native-blur';
 
@@ -30,6 +36,7 @@ import {
 } from '../../actions/journeys';
 import { navigateBack } from '../../actions/nav';
 import { isAndroid } from '../../constants';
+import theme from '../../theme';
 
 const dateFormat = 'MMM D @ h:mm A';
 
@@ -39,6 +46,7 @@ class JourneyStepDetail extends Component {
     height: 50,
     newMsg: '',
     stateResponse: null,
+    isResponseSet: false,
   };
 
   async componentDidMount() {
@@ -130,6 +138,7 @@ class JourneyStepDetail extends Component {
       this.getMessages();
       this.setState({ newMsg: '' });
       this.chatInput.blur();
+      this.chatInput.clear();
       return;
     }
     if (!text) {
@@ -187,16 +196,24 @@ class JourneyStepDetail extends Component {
       return (
         <Flex key={m.id} align="center" style={[st.fw100]}>
           <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
-            <Flex
-              ref={c => (this.blurView = c)}
-              direction="column"
-              style={[st.w100, st.bgDarkBlue, st.br5, st.pd5]}
-            >
-              <Text style={[st.fs4]}>
-                {isAndroid && isBlur ? '' : m.content}
-              </Text>
-              {isAndroid && isBlur ? <Flex style={[st.pd4]} /> : null}
+            <Flex ref={c => (this.blurView = c)} direction="row">
+              {isMine ? <Flex style={[st.f1]} /> : null}
+              <Flex
+                direction="column"
+                style={[
+                  isBlur || isMine ? st.bgDarkBlue : st.bgWhite,
+                  st.br5,
+                  st.pd5,
+                ]}
+              >
+                <Text style={[st.fs4, isBlur || isMine ? st.white : st.blue]}>
+                  {isAndroid && isBlur ? '' : m.content}
+                </Text>
+                {isAndroid && isBlur ? <Flex style={[st.pd4]} /> : null}
+              </Flex>
+              {!isMine ? <Flex style={[st.f1]} /> : null}
             </Flex>
+
             {/* TODO: Tap to reveal */}
             {isBlur ? (
               <Flex
@@ -255,15 +272,78 @@ class JourneyStepDetail extends Component {
 
   handleInputChange = text => {
     this.setState({ newMsg: text });
+    this.setMessageBox();
   };
 
   handleInputSizeChange = e => {
     this.updateSize(e.nativeEvent.contentSize.height);
   };
 
+  setMessageBox = () => {
+    const { t, setCustomRender } = this.props;
+    const { height } = this.state;
+
+    let inputHeight = {
+      height: height < 45 ? 45 : height > 80 ? 80 : height,
+    };
+
+    let newWrap = {
+      height: inputHeight.height,
+    };
+    // This needs to be wrapped in it's own <KeyboardAvoidingView>
+    setCustomRender(
+      <KeyboardAvoidingView
+        style={[st.bgBlue]}
+        behavior={theme.isAndroid ? undefined : 'padding'}
+        keyboardVerticalOffset={
+          theme.isAndroid ? undefined : st.hasNotch ? 45 : 20
+        }
+      >
+        <Flex
+          direction="row"
+          style={[newWrap, st.w100, st.absblr]}
+          align="center"
+          justify="center"
+        >
+          <Flex
+            direction="row"
+            style={[st.pl5, st.bgDarkBlue, inputHeight]}
+            align="center"
+            value={1}
+          >
+            {/* THIS SHOULD NOT BE A CONTROLLED COMPONENT BECAUSE IT'S BEING RENDERED ON THE PARENT COMPONENT */}
+            <TextInput
+              ref={c => (this.chatInput = c)}
+              autoCapitalize="sentences"
+              multiline={false}
+              returnKeyType="done"
+              placeholder={t('placeholder.newMessage')}
+              onChangeText={this.handleInputChange}
+              placeholderTextColor={st.colors.blue}
+              underlineColorAndroid={st.colors.transparent}
+              onContentSizeChange={this.handleInputSizeChange}
+              style={[st.f1, st.white, st.pv6, st.mv6, st.fs4, inputHeight]}
+              autoCorrect={true}
+            />
+            <Button
+              type="transparent"
+              style={[st.w(55), st.aie, st.pv6]}
+              icon="send_message"
+              iconType="Voke"
+              iconStyle={[st.white, st.fs2]}
+              onPress={() => this.sendMessage(true)}
+              preventTimeout={2000}
+            />
+            {/* iconStyle={[newMsg ? st.white : st.offBlue, st.fs2]} */}
+          </Flex>
+        </Flex>
+      </KeyboardAvoidingView>,
+    );
+  };
+
   render() {
     const { t, me, messages, messengers, journeyStep } = this.props;
-    const { text, height, newMsg, stateResponse } = this.state;
+    const { text, stateResponse, isResponseSet } = this.state;
 
     const inputStyle = [st.f1, st.fs4, st.darkBlue];
 
@@ -272,21 +352,17 @@ class JourneyStepDetail extends Component {
     const response =
       stateResponse || reversed.find(i => i.messenger_id === me.id);
     const isSkipped = response && response.content === '';
+    if (response && !isResponseSet) {
+      this.setState({ isResponseSet: true });
+      this.setMessageBox();
+    }
     const meMessenger = messengers.find(i => i.id === me.id);
-
-    let inputHeight = {
-      height: height < 45 ? 45 : height > 80 ? 80 : height,
-    };
-
-    let newWrap = {
-      height: inputHeight.height + 10,
-    };
 
     return (
       <ScrollView
         ref={c => (this.list = c)}
         style={[st.f1]}
-        contentContainerStyle={[st.bgBlue, st.minh(600)]}
+        contentContainerStyle={[st.bgBlue, st.pb(70)]}
         keyboardShouldPersistTaps="handled"
       >
         {journeyStep.status_message ? (
@@ -382,45 +458,6 @@ class JourneyStepDetail extends Component {
           {this.renderMessages()}
           {this.renderNext()}
         </Flex>
-        {response ? (
-          <Flex
-            direction="row"
-            style={[newWrap, st.w100]}
-            align="center"
-            justify="center"
-          >
-            <Flex
-              direction="row"
-              style={[st.pl5, st.bgDarkBlue, inputHeight]}
-              align="center"
-              value={1}
-            >
-              <TextInput
-                ref={c => (this.chatInput = c)}
-                autoCapitalize="sentences"
-                multiline={false}
-                value={newMsg}
-                returnKeyType="done"
-                placeholder={t('placeholder.newMessage')}
-                onChangeText={this.handleInputChange}
-                placeholderTextColor={st.colors.blue}
-                underlineColorAndroid={st.colors.transparent}
-                onContentSizeChange={this.handleInputSizeChange}
-                style={[st.f1, st.white, st.pv6, st.mv6, st.fs4, inputHeight]}
-                autoCorrect={true}
-              />
-              <Button
-                type="transparent"
-                style={[st.w(55), st.aie, st.pv6]}
-                icon="send_message"
-                iconType="Voke"
-                iconStyle={[newMsg ? st.white : st.offBlue, st.fs2]}
-                onPress={() => this.sendMessage(true)}
-                preventTimeout={2000}
-              />
-            </Flex>
-          </Flex>
-        ) : null}
       </ScrollView>
     );
   }

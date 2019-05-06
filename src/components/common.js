@@ -1,4 +1,11 @@
-import { FlatList, ScrollView, View, Image, Alert } from 'react-native';
+import {
+  FlatList,
+  ScrollView,
+  View,
+  Image,
+  Alert,
+  KeyboardAvoidingView,
+} from 'react-native';
 
 // Common components that we can import with simple destructuring syntax
 // So when one of these components are loaded in, all files will be called also
@@ -19,6 +26,7 @@ import StatusBar from './StatusBar';
 export {
   FlatList,
   ScrollView,
+  KeyboardAvoidingView,
   View,
   Image,
   Alert,
