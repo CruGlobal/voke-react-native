@@ -206,7 +206,7 @@ function MyAdventureCard({ t, me, item, onSelect, onClickProfile }) {
         ]}
         direction="row"
         align="center"
-        justify="start"
+        justify="center"
       >
         <Flex>
           <Image
@@ -234,37 +234,41 @@ function MyAdventureCard({ t, me, item, onSelect, onClickProfile }) {
               {isSolo ? t('me') : otherUser.first_name}
             </Text>
           </Flex>
-          <Flex direction="row" align="center" style={[st.mt6]}>
-            {totalSteps.map((i, index) => (
-              <ProgressDots key={index} isFilled={index < completed} />
-            ))}
-            <Text numberOfLines={2} style={[st.ml6, st.charcoal, st.fs5]}>
+          <Flex direction="column" align="start" style={[st.mt6]}>
+            <Flex direction="row" align="center">
+              {totalSteps.map((i, index) => (
+                <ProgressDots key={index} isFilled={index < completed} />
+              ))}
+            </Flex>
+            <Text numberOfLines={2} style={[st.mt6, st.charcoal, st.fs5]}>
               {completed}/{available} {t('complete')}
             </Text>
           </Flex>
         </Flex>
-        <Flex align="center" justify="center" style={[st.tac, st.mr5]}>
-          <Touchable onPress={() => onClickProfile()}>
-            <Image
-              source={{ uri: myUser.avatar.small }}
-              style={[st.circle(36)]}
-            />
-          </Touchable>
-          {!isSolo && otherUser && otherUser.avatar.small ? (
-            <Image
-              source={{ uri: otherUser.avatar.small }}
-              style={[st.circle(36), st.abstl, { left: -10 }]}
-            />
-          ) : null}
-          <Text
-            style={[
-              st.charcoal,
-              st.tac,
-              !isSolo ? { marginLeft: -10 } : { marginLeft: -3 },
-            ]}
-          >
-            {isSolo ? t('1player') : t('2player')}
-          </Text>
+        <Flex align="center" justify="center" style={[st.bgWhite]}>
+          <Flex style={[st.mh5]}>
+            <Touchable onPress={() => onClickProfile()}>
+              <Image
+                source={{ uri: myUser.avatar.small }}
+                style={[st.circle(36)]}
+              />
+            </Touchable>
+            {!isSolo && otherUser && otherUser.avatar.small ? (
+              <Image
+                source={{ uri: otherUser.avatar.small }}
+                style={[st.circle(36), st.abstl, { left: -10 }]}
+              />
+            ) : null}
+            <Text
+              style={[
+                st.charcoal,
+                st.tac,
+                !isSolo ? { marginLeft: -10 } : { marginLeft: -3 },
+              ]}
+            >
+              {isSolo ? t('1player') : t('2player')}
+            </Text>
+          </Flex>
         </Flex>
       </Flex>
     </Touchable>
