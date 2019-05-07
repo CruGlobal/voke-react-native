@@ -85,7 +85,7 @@ class ShareJourneyInvite extends Component {
     return (
       <Flex value={1}>
         <SafeArea style={[st.f1, st.bgBlue]}>
-          <Flex style={[st.rel]} value={1}>
+          <Flex style={[st.rel]} value={1} align="center" justify="center">
             <Flex align="center" justify="center">
               <Flex style={[st.mt1, st.pt1]} />
               <Flex style={styles.chatBubble}>
@@ -110,9 +110,7 @@ class ShareJourneyInvite extends Component {
             </Text>
             <Button
               text={t('copy')}
-              type="transparent"
-              buttonTextStyle={styles.signInButtonText}
-              style={styles.signInButton}
+              style={[st.w(150), st.aic, st.mt5]}
               onPress={this.copy}
             />
             <Flex value={1} justify="end" style={[styles.buttonWrapper]}>

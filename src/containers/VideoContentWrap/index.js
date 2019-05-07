@@ -63,9 +63,7 @@ function getVideoType(item) {
   const media =
     (item.media
       ? item.media
-      : item.item && item.item.content
-      ? item.item.content
-      : {}) || {};
+      : item.item && item.item.content ? item.item.content : {}) || {};
   return media.type;
 }
 
@@ -337,7 +335,7 @@ class VideoContentWrap extends Component {
                 style={[st.bgBlue]}
                 behavior={theme.isAndroid ? undefined : 'padding'}
                 keyboardVerticalOffset={
-                  theme.isAndroid ? undefined : st.hasNotch ? 45 : 20
+                  theme.isAndroid ? undefined : st.hasNotch ? 45 : 0
                 }
               >
                 {customRender}

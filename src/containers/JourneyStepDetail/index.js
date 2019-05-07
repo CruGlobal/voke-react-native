@@ -195,9 +195,16 @@ class JourneyStepDetail extends Component {
 
   renderMessages() {
     const { me, messages, messengers, journeyStep } = this.props;
-    const isComplete = journeyStep.status === 'completed';
+    const { stateResponse } = this.state;
 
     let reversed = [...messages].reverse();
+    // Keep track of internal state and use that if it exists, otherwise find it in the messages
+    const response =
+      stateResponse || reversed.find(i => i.messenger_id === me.id);
+    const isSkipped = response && response.content === '';
+
+    const isComplete = journeyStep.status === 'completed';
+
     const myFirstMessage = reversed.find(m => m.messenger_id === me.id);
     if (myFirstMessage && myFirstMessage.id) {
       reversed = reversed.filter(m => m.id !== myFirstMessage.id);
@@ -209,7 +216,7 @@ class JourneyStepDetail extends Component {
         m.metadata.vokebot_action === 'journey_step_comment';
       const isMine = m.messenger_id === me.id;
       const messenger = messengers.find(i => i.id === m.messenger_id) || {};
-      const isBlur = !isComplete && !isMine;
+      const isBlur = (!isComplete && !isMine) || isSkipped;
       return (
         <Flex key={m.id} align="center" style={[st.fw100]}>
           <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
@@ -496,11 +503,7 @@ JourneyStepDetail.propTypes = {
 
 const mapStateToProps = (
   { auth, journeys },
-  {
-    navigation: {
-      state: { params },
-    },
-  },
+  { navigation: { state: { params } } },
 ) => ({
   ...params,
   // Get messages by step id

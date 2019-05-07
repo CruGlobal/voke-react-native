@@ -62,13 +62,13 @@ function PageImage({ stopAutoPlay, image, text }) {
             width: 160,
             position: 'absolute',
             left: 0,
-            height: st.isAndroid ? 50 : 80,
-            bottom: st.isAndroid ? -50 : -80,
+            height: 50,
+            bottom: -50,
           }}
         >
           <Triangle
             width={160}
-            height={st.isAndroid ? 50 : 80}
+            height={50}
             color={'rgba(0,0,0,0.4)'}
             flip={true}
             slant="down"
@@ -193,12 +193,12 @@ class SignUpWelcome extends Component {
           }
         >
           <Flex value={1} style={[st.bgDarkBlue]}>
-            <Flex style={[st.f1, st.jce, st.mb3, st.p6, st.mh6]}>
+            <Flex style={[st.f1, st.jce, st.m5, st.p6, st.mh6]}>
               <Flex align="center" justify="center">
                 <Button
                   isAndroidOpacity={true}
                   text={t('start')}
-                  style={[styles.actionButton, st.mb3]}
+                  style={[styles.actionButton, st.mb4]}
                   buttonTextStyle={[st.fs3]}
                   onPress={this.tryItNow}
                 />
@@ -208,7 +208,7 @@ class SignUpWelcome extends Component {
                 direction="row"
                 align="center"
                 justify="center"
-                style={[st.mt2, st.pt4]}
+                style={[st.mt6, st.pt5, st.mb4]}
               >
                 <Text style={styles.signIn}>{t('haveAccount')}</Text>
                 <Button
