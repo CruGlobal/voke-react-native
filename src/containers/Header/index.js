@@ -34,7 +34,6 @@ export const HeaderIcon = ({ type, icon, showDot, ...rest }) => {
     myProps.iconStyle = styles.headerIconSize;
   }
   if (showDot) {
-    console.log('herhkehrehrkl');
     return (
       <Flex direction="row" align="center" justify="center">
         <Button
