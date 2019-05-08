@@ -14,6 +14,7 @@ export default class Avatar extends Component {
       style,
       avatarTextStyle,
       imageStyle,
+      isVoke,
     } = this.props;
     let content = null;
 
@@ -33,7 +34,7 @@ export default class Avatar extends Component {
 
     return (
       <Flex
-        style={[sizeObj, styles.avatar, style]}
+        style={[sizeObj, styles.avatar, style, isVoke ? styles.rotateVoke : '']}
         align="center"
         justify="center"
       >

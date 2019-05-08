@@ -25,7 +25,7 @@ import { VIDEO_CONTENT_TYPES } from '../VideoContentWrap';
 import { isAndroid } from '../../constants';
 import JourneyUnreadCount from '../../components/JourneyUnreadCount';
 
-function StepItem({ t, me, item, journey, onSelect }) {
+function StepItem({ t, me, item, journey, onSelect, inviteName }) {
   const isActive = item.status === 'active';
   const isCompleted = item.status === 'completed';
   const isLocked = !isCompleted && !isActive;
@@ -33,9 +33,13 @@ function StepItem({ t, me, item, journey, onSelect }) {
 
   const unreadCount = item.unread_messages;
   const hasUnread = unreadCount > 0;
-  const otherUser = journey.conversation.messengers.find(
+  let otherUser = journey.conversation.messengers.find(
     i => i.id !== me.id && i.first_name !== 'VokeBot',
   );
+
+  if (journey.conversation.messengers.length === 2 && inviteName) {
+    otherUser = { first_name: inviteName };
+  }
 
   return (
     <Touchable
@@ -196,13 +200,14 @@ class JourneyDetail extends Component {
   };
 
   renderRow = ({ item: stepItem }) => {
-    const { t, me, item } = this.props;
+    const { t, me, item, inviteName } = this.props;
     return (
       <StepItem
         t={t}
         me={me}
         journey={item}
         item={stepItem}
+        inviteName={inviteName}
         onSelect={this.select}
       />
     );
@@ -241,6 +246,7 @@ JourneyDetail.propTypes = {
   item: PropTypes.object.isRequired, // Journey object
   onPause: PropTypes.func.isRequired,
   navToStep: PropTypes.object,
+  inviteName: PropTypes.string,
 };
 
 const mapStateToProps = ({ auth, journeys }, { item }) => ({

@@ -123,6 +123,7 @@ class ConversationList extends Component {
                   ? otherPerson.avatar.small
                   : null
               }
+              isVoke={otherPerson && otherPerson.bot}
               style={[
                 styles.avatar,
                 this.state.rowFocused === item.id

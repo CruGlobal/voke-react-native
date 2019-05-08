@@ -203,6 +203,7 @@ class MessageItem extends PureComponent {
               : null
           }
           text={getInitials(this.vokebotMessenger.initials)}
+          isVoke={isVoke}
         />
       );
     } else {
@@ -276,9 +277,7 @@ class MessageItem extends PureComponent {
                     styles.selectionCircle,
                     index === 0
                       ? styles.green
-                      : index === 1
-                      ? styles.yellow
-                      : styles.red,
+                      : index === 1 ? styles.yellow : styles.red,
                     {
                       paddingHorizontal: 0,
                       paddingVertical: 0,

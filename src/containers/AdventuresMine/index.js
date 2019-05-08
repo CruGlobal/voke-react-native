@@ -92,6 +92,7 @@ class AdventuresMine extends Component {
         dispatch(
           navigatePush('voke.VideoContentWrap', {
             item: r,
+            inviteName: item.name,
             type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
             trackingObj: buildTrackingObj('journey : mine', 'detail'),
           }),

@@ -111,6 +111,7 @@ class AdventureCode extends Component {
                     : t('continue')
                 }
                 type="filled"
+                isLoading={isLoading}
                 disabled={isLoading || (!onboarding && !adventureCode)}
                 buttonTextStyle={styles.signInButtonText}
                 style={styles.signInButton}

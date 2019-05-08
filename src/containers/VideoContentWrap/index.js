@@ -231,7 +231,7 @@ class VideoContentWrap extends Component {
   };
 
   renderContent() {
-    const { type, item, navToStep, ...rest } = this.props;
+    const { type, item, navToStep, inviteName, ...rest } = this.props;
     const allProps = {
       item,
       onPause: this.pause,
@@ -246,7 +246,13 @@ class VideoContentWrap extends Component {
       return <OrgJourneyDetail {...allProps} />;
     }
     if (type === VIDEO_CONTENT_TYPES.JOURNEYDETAIL) {
-      return <JourneyDetail navToStep={navToStep || undefined} {...allProps} />;
+      return (
+        <JourneyDetail
+          navToStep={navToStep || undefined}
+          inviteName={inviteName || undefined}
+          {...allProps}
+        />
+      );
     }
     if (type === VIDEO_CONTENT_TYPES.JOURNEYSTEPDETAIL) {
       return <JourneyStepDetail {...allProps} />;
@@ -376,6 +382,7 @@ VideoContentWrap.propTypes = {
   shouldNavigateHome: PropTypes.bool,
   type: PropTypes.oneOf(Object.keys(VIDEO_CONTENT_TYPES)),
   navToStep: PropTypes.object,
+  inviteName: PropTypes.string,
 };
 
 const mapStateToProps = ({ auth }, { navigation }) => ({

@@ -1,4 +1,3 @@
-
 import { StyleSheet } from 'react-native';
 import theme, { COLORS } from '../../theme';
 
@@ -6,6 +5,9 @@ export default StyleSheet.create({
   icon: {
     color: theme.buttonIconColor,
     fontSize: 24,
+  },
+  rotateVoke: {
+    transform: [{ rotate: '25deg' }],
   },
   textStyle: {
     alignItems: 'center',
