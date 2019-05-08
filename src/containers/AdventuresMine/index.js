@@ -116,6 +116,7 @@ class AdventuresMine extends Component {
         navigatePush('voke.ShareJourneyInvite', {
           journeyInvite: r,
           friendName: r.name,
+          isResend: true,
         }),
       );
     });

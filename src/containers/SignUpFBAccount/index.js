@@ -160,7 +160,7 @@ class SignUpFBAccount extends Component {
               />
             </Flex>
           </Flex>
-          <Flex direction="column">
+          <Flex direction="column" align="center">
             <PrivacyToS style={styles.legalText} type="create" />
           </Flex>
         </KeyboardAvoidingView>

@@ -63,7 +63,9 @@ function getVideoType(item) {
   const media =
     (item.media
       ? item.media
-      : item.item && item.item.content ? item.item.content : {}) || {};
+      : item.item && item.item.content
+      ? item.item.content
+      : {}) || {};
   return media.type;
 }
 
@@ -230,6 +232,10 @@ class VideoContentWrap extends Component {
     }
   };
 
+  scrollToEnd = () => {
+    setTimeout(() => this.scrollRef.props.scrollToEnd(), 10);
+  };
+
   renderContent() {
     const { type, item, navToStep, inviteName, ...rest } = this.props;
     const allProps = {
@@ -237,6 +243,7 @@ class VideoContentWrap extends Component {
       onPause: this.pause,
       onPlay: this.play,
       setCustomRender: this.setCustomRender,
+      scrollToEnd: this.scrollToEnd,
       ...rest,
     };
     if (type === VIDEO_CONTENT_TYPES.VIDEODETAIL) {
@@ -307,6 +314,7 @@ class VideoContentWrap extends Component {
         >
           <StatusBar hidden={!theme.isIphoneX} />
           <KeyboardAwareScrollView
+            innerRef={c => (this.scrollRef = c)}
             style={[st.f1]}
             bounces={false}
             enableOnAndroid={true}

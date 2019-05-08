@@ -81,7 +81,7 @@ class ShareJourneyInvite extends Component {
   };
 
   render() {
-    const { t, journeyInvite, friendName } = this.props;
+    const { t, journeyInvite, friendName, isResend } = this.props;
     return (
       <Flex value={1}>
         <SafeArea style={[st.f1, st.bgBlue]}>
@@ -90,7 +90,9 @@ class ShareJourneyInvite extends Component {
               <Flex style={[st.mt1, st.pt1]} />
               <Flex style={styles.chatBubble}>
                 <Text style={styles.chatText}>
-                  {t('codeReady', { name: friendName || 'Your friend' })}
+                  {t(isResend ? 'codeReadyResend' : 'codeReady', {
+                    name: friendName || 'Your friend',
+                  })}
                 </Text>
               </Flex>
               <Triangle
@@ -135,6 +137,7 @@ class ShareJourneyInvite extends Component {
 ShareJourneyInvite.propTypes = {
   journeyInvite: PropTypes.object,
   friendName: PropTypes.string,
+  isResend: PropTypes.bool,
 };
 const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),

@@ -136,7 +136,7 @@ class SignUpAccount extends Component {
                   onPress={this.updateAnonAccount}
                 />
               </Flex>
-              <Flex direction="column">
+              <Flex direction="column" align="center">
                 <PrivacyToS style={styles.legalText} type="create" />
                 <Flex style={{ paddingTop: 20 }}>
                   <FacebookButton />

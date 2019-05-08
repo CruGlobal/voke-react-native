@@ -10,6 +10,7 @@
   "globals": {
     "Promise": true,
     "__DEV__": true,
+    "ErrorUtils": true,
     "setTimeout": true,
     "setInterval": true,
     "clearTimeout": true,

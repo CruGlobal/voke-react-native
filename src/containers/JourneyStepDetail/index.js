@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import {
+  Keyboard,
   TextInput,
   ScrollView,
   Image,
@@ -51,7 +52,7 @@ class JourneyStepDetail extends Component {
 
   async componentDidMount() {
     Analytics.screen(Analytics.s.JourneyStepDetail);
-    this.getMessages();
+    this.getMessages(true);
   }
 
   // componentDidUpdate(prevProps) {
@@ -82,10 +83,13 @@ class JourneyStepDetail extends Component {
     dispatch(createMessageInteraction(interaction));
   }
 
-  getMessages() {
-    const { dispatch, journeyStep, journey } = this.props;
+  getMessages(isMount) {
+    const { dispatch, journeyStep, journey, scrollToEnd } = this.props;
     dispatch(getJourneyMessages(journeyStep, journey)).then(() => {
       this.createMessageReadInteraction(this.props.messages[0]);
+      if (!isMount) {
+        scrollToEnd();
+      }
     });
     this.load();
   }
@@ -119,7 +123,7 @@ class JourneyStepDetail extends Component {
   changeText = t => this.setState({ text: t });
 
   skip = async () => {
-    const { dispatch, journeyStep, journey } = this.props;
+    const { dispatch, journeyStep, journey, scrollToEnd } = this.props;
     try {
       this.setState({
         isSending: true,
@@ -137,6 +141,7 @@ class JourneyStepDetail extends Component {
   sendMessage = async isNewMsg => {
     const { dispatch, journeyStep, journey } = this.props;
     const { text, newMsg, isSending } = this.state;
+    Keyboard.dismiss();
     if (isSending) {
       return null;
     }
@@ -216,7 +221,7 @@ class JourneyStepDetail extends Component {
         m.metadata.vokebot_action === 'journey_step_comment';
       const isMine = m.messenger_id === me.id;
       const messenger = messengers.find(i => i.id === m.messenger_id) || {};
-      const isBlur = (!isComplete && !isMine) || isSkipped;
+      const isBlur = (!isComplete && !isMine) || (isSkipped && !isMine);
       return (
         <Flex key={m.id} align="center" style={[st.fw100]}>
           <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
@@ -503,7 +508,11 @@ JourneyStepDetail.propTypes = {
 
 const mapStateToProps = (
   { auth, journeys },
-  { navigation: { state: { params } } },
+  {
+    navigation: {
+      state: { params },
+    },
+  },
 ) => ({
   ...params,
   // Get messages by step id
