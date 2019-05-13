@@ -132,7 +132,12 @@ class InviteCard extends Component {
         </Flex>
         <Flex>
           <Touchable onPress={() => onSelect(item)} style={[st.pd(7)]}>
-            <Text style={[st.bold, st.fs6, st.tac]}>GET {'\n'}STARTED</Text>
+            <Text style={[st.bold, st.fs6, st.tac]}>
+              {t('getStarted')
+                .toUpperCase()
+                .split(' ')
+                .join('\n')}
+            </Text>
           </Touchable>
         </Flex>
         <Flex align="center" justify="center" style={[st.tac, st.mr4, st.ml6]}>
@@ -367,6 +372,6 @@ MyAdventuresList.propTypes = {
   me: PropTypes.object.isRequired,
 };
 
-export default translate('advenutesList', { wait: true, withRef: true })(
+export default translate('adventuresList', { wait: true, withRef: true })(
   MyAdventuresList,
 );
