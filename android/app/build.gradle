@@ -129,7 +129,7 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 310
+        versionCode 311
         versionName "5.0.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
