@@ -71,6 +71,8 @@ const PRIMARY = COLORS.BLUE;
 const SECONDARY = COLORS.DARK_BLUE;
 const ACCENT = COLORS.OFF_BLUE;
 
+const isAndroid = Platform.OS === 'android';
+
 export default {
   // base theme
   loadingColor: COLORS.WHITE,
@@ -96,8 +98,7 @@ export default {
   buttonTextColor: COLORS.WHITE,
   buttonIconColor: COLORS.WHITE,
   separatorColor: SECONDARY,
-  separatorHeight:
-    StyleSheet.hairlineWidth + (Platform.OS === 'android' ? 0.2 : 0),
+  separatorHeight: StyleSheet.hairlineWidth + (isAndroid ? 0.2 : 0),
   // separatorHeight: StyleSheet.hairlineWidth,
   // header
   headerBackgroundColor: SECONDARY,
@@ -108,7 +109,7 @@ export default {
   convert: colorConvert,
   fullWidth: deviceWidth,
   fullHeight: deviceHeight,
-  isAndroid: Platform.OS === 'android',
+  isAndroid,
   isIOS: Platform.OS === 'ios',
   isIphoneX:
     Platform.OS === 'ios' &&
@@ -117,4 +118,5 @@ export default {
     (deviceHeight === 812 ||
       deviceWidth === 812 ||
       (deviceHeight === 896 || deviceWidth === 896)),
+  isOlderAndroid: isAndroid && Platform.Version < 23,
 };

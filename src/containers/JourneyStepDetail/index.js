@@ -179,9 +179,19 @@ class JourneyStepDetail extends Component {
   };
 
   renderNext = () => {
-    const { t, dispatch, steps, journeyStep } = this.props;
+    const {
+      t,
+      dispatch,
+      me,
+      steps,
+      journey,
+      journeyStep,
+      messengers,
+    } = this.props;
     const isComplete = journeyStep.status === 'completed';
-    if (!isComplete) {
+    const isWaiting =
+      journeyStep.status === 'active' && journeyStep['completed_by_messenger?'];
+    if (!isComplete && !isWaiting) {
       return;
     }
     // If this is the last step and it's complete, don't show this
@@ -189,9 +199,26 @@ class JourneyStepDetail extends Component {
       return;
     }
 
+    const isSolo = messengers.length === 2;
+    if (isSolo) {
+      return;
+    }
+
+    let text = t('nextVideoReady');
+    if (isWaiting) {
+      const otherUser = journey.conversation.messengers.find(
+        i => i.id !== me.id && i.first_name !== 'VokeBot',
+      );
+      // TODO: Pass through invite name
+      // if (journey.conversation.messengers.length === 2 && inviteName) {
+      //   otherUser = { first_name: inviteName };
+      // }
+      text = t('waitingForAnswer', { name: (otherUser || {}).first_name });
+    }
+
     return (
       <Button
-        text={t('nextVideoReady')}
+        text={text}
         onPress={() => dispatch(navigateBack())}
         style={[st.bgOrange, st.mt3, st.br1, st.bw0]}
       />
@@ -361,6 +388,7 @@ class JourneyStepDetail extends Component {
               underlineColorAndroid={st.colors.transparent}
               onContentSizeChange={this.handleInputSizeChange}
               style={[st.f1, st.white, st.pv6, st.mv6, st.fs4, inputHeight]}
+              selectionColor={st.colors.yellow}
               autoCorrect={true}
             />
             <Button

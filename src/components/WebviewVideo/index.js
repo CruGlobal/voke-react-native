@@ -28,7 +28,6 @@ import YoutubeHTML from './youtube';
 import VimeoHTML from './vimeo';
 import html5HTML from './html5';
 
-const isOlderAndroid = theme.isAndroid && Platform.Version < 23;
 let shouldAddMargin = false;
 if (!theme.isAndroid) {
   const iosVersion = parseInt(Platform.Version, 10);
@@ -40,17 +39,19 @@ if (!theme.isAndroid) {
 class WebviewVideo extends Component {
   constructor(props) {
     super(props);
+    const { video } = props;
 
     this.state = {
-      duration: 0,
+      duration: video.duration || 0,
       isPaused:
-        (isOlderAndroid && props.video.type === 'arclight') ||
-        props.video.type === 'vimeo' ||
+        (theme.isOlderAndroid && video.type === 'arclight') ||
+        video.type === 'vimeo' ||
         props.forceNoAutoPlay,
       time: 0,
       numOfErrors: 0,
       addMargin: shouldAddMargin,
       replay: false,
+      isLoadingVideo: true,
     };
 
     this.webview = null;
@@ -77,9 +78,15 @@ class WebviewVideo extends Component {
       if (type === 'youtube' || type === 'arclight') {
         onChangeState(webviewCommon.STARTED);
       }
+      if (type === 'arclight') {
+        setTimeout(() => this.play(), 250);
+      }
     } else {
       this.pause();
     }
+
+    // Prevent the video from being touched while it's loading. Guess on the loading time.
+    setTimeout(() => this.setState({ isLoadingVideo: false }), 900);
   }
 
   addMargin() {
@@ -105,22 +112,25 @@ class WebviewVideo extends Component {
   handleData(data) {
     const {
       video: { type },
-      forceNoAutoPlay,
       onChangeState,
     } = this.props;
-    if (isObject(data) || data.indexOf('{') === 0) {
+    if (
+      isObject(data) ||
+      data.indexOf('{') === 0 ||
+      data.indexOf('%25') === 0
+    ) {
       let newData = data;
-      if (isString(data)) {
-        newData = JSON.parse(data);
+      if (isString(newData)) {
+        // Weird thing that webview does now where it replaces percentages with '%25', so we need to replace, then decode
+        // It comes in this ugly format: '%257B%2522time%2522%253A0.534431049%257D'
+        if (newData.indexOf('%25') === 0) {
+          newData = decodeURIComponent(
+            newData.replace(new RegExp('%25', 'ig'), '%'),
+          );
+        }
+        newData = JSON.parse(newData);
       }
       if (newData.duration) {
-        if (
-          type === 'arclight' &&
-          this.state.duration === 0 &&
-          !forceNoAutoPlay
-        ) {
-          this.play();
-        }
         this.setState({ duration: newData.duration });
       } else if (typeof newData.isPaused !== 'undefined') {
         this.setState({ isPaused: !!newData.isPaused });
@@ -131,7 +141,7 @@ class WebviewVideo extends Component {
       // Arclight videos throw a bad error, so don't do anything when that happens
       if (data === webviewCommon.ERROR && type === 'arclight') {
         // If this is the second time an arclight error is being called, fire the callback
-        if (this.state.numOfErrors > 0 || isOlderAndroid) {
+        if (this.state.numOfErrors > 0 || theme.isOlderAndroid) {
           onChangeState(data);
         }
         this.setState({ numOfErrors: this.state.numOfErrors + 1 });
@@ -194,8 +204,7 @@ class WebviewVideo extends Component {
     } else if (type === 'arclight') {
       return html5HTML(url, {
         thumbnail: thumbnail,
-        // forceNoAutoPlay: forceNoAutoPlay || false,
-        forceNoAutoPlay: true,
+        forceNoAutoPlay: forceNoAutoPlay || false,
       });
     }
     return null;
@@ -229,7 +238,7 @@ class WebviewVideo extends Component {
       video: { type, start, url },
     } = this.props;
     const { isPaused, replay, addMargin } = this.state;
-    if (type === 'arclight' && isOlderAndroid) {
+    if (type === 'arclight' && theme.isOlderAndroid) {
       // if (theme.isAndroid) {
       return (
         <RNVideo
@@ -268,7 +277,7 @@ class WebviewVideo extends Component {
       isLandscape,
       width,
     } = this.props;
-    const { isPaused, duration, replay, time } = this.state;
+    const { isPaused, duration, replay, time, isLoadingVideo } = this.state;
     const html = this.getHtml();
     if (!html) {
       return (
@@ -283,7 +292,7 @@ class WebviewVideo extends Component {
       );
     }
     return (
-      <View style={[st.f1]}>
+      <View style={[st.f1]} pointerEvents={isLoadingVideo ? 'none' : undefined}>
         {this.renderVideo(html)}
         <VideoControls
           isPaused={isPaused}

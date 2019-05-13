@@ -193,17 +193,18 @@ class VideoContentWrap extends Component {
       dispatch(toastAction(t('error.playingVideo')));
     }
     if (videoState === webviewStates.STARTED) {
+      if (
+        type === VIDEO_CONTENT_TYPES.ORGJOURNEY ||
+        type === VIDEO_CONTENT_TYPES.JOURNEYDETAIL ||
+        type === VIDEO_CONTENT_TYPES.JOURNEYSTEPDETAIL
+      ) {
+        return;
+      }
       let id;
       if (type === VIDEO_CONTENT_TYPES.VIDEODETAIL) {
         id = item.id;
       } else {
         id = item.item.id;
-      }
-      if (
-        type === VIDEO_CONTENT_TYPES.ORGJOURNEY ||
-        type === VIDEO_CONTENT_TYPES.JOURNEYDETAIL
-      ) {
-        return;
       }
 
       dispatch(createVideoInteraction(id));
@@ -302,6 +303,7 @@ class VideoContentWrap extends Component {
         end: item.item.media_end,
         type: item.item.content.type,
         url: item.item.content.url,
+        duration: item.item.content.duration,
         thumbnail: item.item.content.thumbnails.medium,
       };
     }
@@ -324,7 +326,13 @@ class VideoContentWrap extends Component {
               style={[
                 styles.video,
                 isLandscape
-                  ? [{ width: st.fullHeight, height: st.fullWidth - 20 }]
+                  ? [
+                      {
+                        width: '100%',
+                        height: st.fullWidth - 20,
+                        paddingTop: 20,
+                      },
+                    ]
                   : null,
               ]}
             >
@@ -341,7 +349,7 @@ class VideoContentWrap extends Component {
             </Flex>
             {isLandscape ? null : this.renderContent()}
           </KeyboardAwareScrollView>
-          {customRender ? (
+          {isLandscape ? null : customRender ? (
             isAndroid ? (
               customRender
             ) : (

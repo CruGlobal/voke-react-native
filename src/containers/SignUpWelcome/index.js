@@ -27,6 +27,7 @@ import PrivacyToS from '../../components/PrivacyToS';
 import { trackState } from '../../actions/analytics';
 import { buildTrackingObj } from '../../utils/common';
 import st from '../../st';
+import { IS_SMALL_ANDROID } from '../../constants';
 
 const MARGIN = 40;
 
@@ -182,7 +183,7 @@ class SignUpWelcome extends Component {
         </Flex>
         <Triangle
           width={st.fullWidth}
-          height={120}
+          height={IS_SMALL_ANDROID ? 90 : 120}
           color={st.colors.darkBlue}
           style={[st.abs, { bottom: this.state.bottomHeight || 200 }]}
         />
