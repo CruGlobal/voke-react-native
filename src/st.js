@@ -46,7 +46,12 @@ const generatedColors = Object.keys(colors).reduce((p, key) => {
   };
 }, {});
 
-const { width, height } = Dimensions.get('window');
+let { width, height } = Dimensions.get('window');
+
+if (width > height) {
+  width = Dimensions.get('window').height;
+  height = Dimensions.get('window').width;
+}
 
 // Default styles
 

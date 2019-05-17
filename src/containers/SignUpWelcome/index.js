@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager';
 import PropTypes from 'prop-types';
-import Orientation from 'react-native-orientation';
 import Analytics from '../../utils/analytics';
 
 import ONBOARD_1 from '../../../images/onboard1.jpg';
@@ -91,7 +90,6 @@ class SignUpWelcome extends Component {
 
   componentDidMount() {
     Analytics.screen(Analytics.s.Welcome);
-    Orientation.lockToPortrait();
     this.props.dispatch(setupFirebaseLinks());
     this.props.dispatch(trackState(buildTrackingObj('entry', 'screen1')));
   }

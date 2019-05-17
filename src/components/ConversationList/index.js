@@ -5,7 +5,7 @@ import { translate } from 'react-i18next';
 
 import styles from './styles';
 import theme, { COLORS } from '../../theme';
-import { getInitials, keyExtractorId } from '../../utils/common';
+import { getInitials, keyExtractorId, findVokebot } from '../../utils/common';
 
 import {
   View,
@@ -60,12 +60,12 @@ class ConversationList extends Component {
 
   getConversationParticipant = conversation => {
     const myId = this.props.me.id;
-    const voke = conversation.messengers.find(a => a.bot);
+    const voke = findVokebot(conversation.messengers);
 
     const otherPerson = conversation.messengers.find(
       a => a.id !== myId && !a.bot,
     );
-    if (voke && conversation.messengers.length === 2) {
+    if (voke && voke.id && conversation.messengers.length === 2) {
       return voke;
     }
     return otherPerson;

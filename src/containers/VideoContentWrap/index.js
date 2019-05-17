@@ -90,12 +90,10 @@ class VideoContentWrap extends Component {
     // `getInitialOrientation` returns directly because its a constant set at the
     // beginning of the JS runtime.
 
+    // Run getInitial and getOrientations
     const initial = Orientation.getInitialOrientation();
-    // LOG(initial);
-    // Only change this if the app is in landscape mode
-    if (initial === 'LANDSCAPE') {
-      this.setState({ isLandscape: true });
-    }
+    this.orientationDidChange(initial);
+    this.checkOrientation();
   }
 
   componentDidMount() {
@@ -125,12 +123,22 @@ class VideoContentWrap extends Component {
           this.webview.getWrappedInstance().removeMargin();
       });
     }, 1000);
+
+    // Check that the interval is correct every few seconds to fix it if it get's messed up.
+    this.orientationInterval = setInterval(this.checkOrientation, 3000);
   }
 
   componentWillUnmount() {
     Orientation.lockToPortrait();
     Orientation.removeOrientationListener(this.orientationDidChange);
+    clearTimeout(this.orientationInterval);
   }
+
+  checkOrientation = () => {
+    Orientation.getOrientation((err, orientation) => {
+      this.orientationDidChange(orientation);
+    });
+  };
 
   orientationDidChange(orientation) {
     if (getVideoType(this.props.item) === 'vimeo') {
@@ -139,11 +147,15 @@ class VideoContentWrap extends Component {
     if (orientation === 'LANDSCAPE') {
       // do something with landscape layout
       // LOG('landscape');
-      this.setState({ isLandscape: true });
+      if (!this.state.isLandscape) {
+        this.setState({ isLandscape: true });
+      }
     } else if (orientation === 'PORTRAIT') {
       // LOG('portrait');
       // do something with portrait layout
-      this.setState({ isLandscape: false });
+      if (this.state.isLandscape) {
+        this.setState({ isLandscape: false });
+      }
     }
   }
 

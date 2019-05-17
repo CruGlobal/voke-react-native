@@ -7,7 +7,6 @@ import {
   PushNotificationIOS,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import Orientation from 'react-native-orientation';
 import DeviceInfo from 'react-native-device-info';
 import Firebase from 'react-native-firebase';
 import * as RNOmniture from 'react-native-omniture';
@@ -58,7 +57,6 @@ let hasStartedUp = false;
 
 export function startupAction() {
   return (dispatch, getState) => {
-    Orientation.lockToPortrait();
     if (hasStartedUp) return;
 
     const isFirstTime = getState().auth.isFirstTime;

@@ -89,3 +89,18 @@ export function keyboardHide(handler) {
   }
   return Keyboard.addListener('keyboardWillHide', handler);
 }
+
+export const findVokebot = messengers => {
+  // Find messenger where 'bot' is true
+  let vb = messengers.find(m => m.bot);
+
+  // If there are no messengers with 'bot' set to true, find the name Voke from a messenger
+  if (!vb) {
+    // This is a silly fallback and should never happen
+    vb = messengers.find(
+      m => m.first_name === 'Voke' || m.first_name === 'VokeBot',
+    );
+  }
+  // Make sure bot is always set to true for this object
+  return { ...(vb || {}), bot: true };
+};

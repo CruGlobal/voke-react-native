@@ -16,7 +16,7 @@ import {
   Touchable,
   Button,
 } from '../common';
-import { momentUtc, getInitials } from '../../utils/common';
+import { momentUtc, getInitials, findVokebot } from '../../utils/common';
 import TO_CHAT from '../../../images/newShare.png';
 import Analytics from '../../utils/analytics';
 
@@ -26,15 +26,7 @@ class MessageItem extends PureComponent {
     this.state = {
       selectedAnswer: '',
     };
-    // Find messenger where 'bot' is true
-    let vb = props.messengers.find(m => m.bot);
-
-    // If there are no messengers with 'bot' set to true, find the name Voke from a messenger
-    if (!vb) {
-      // This is a silly fallback and should never happen
-      vb = props.messengers.find(m => m.first_name === 'Voke');
-    }
-    this.vokebotMessenger = vb || {};
+    this.vokebotMessenger = findVokebot(props.messengers);
   }
 
   getOther() {
@@ -277,7 +269,9 @@ class MessageItem extends PureComponent {
                     styles.selectionCircle,
                     index === 0
                       ? styles.green
-                      : index === 1 ? styles.yellow : styles.red,
+                      : index === 1
+                      ? styles.yellow
+                      : styles.red,
                     {
                       paddingHorizontal: 0,
                       paddingVertical: 0,

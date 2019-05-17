@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
+import Orientation from 'react-native-orientation';
 
 import './utils/globals';
 import Analytics from './utils/analytics';
@@ -19,6 +20,11 @@ console.disableYellowBox = true;
 
 class App extends Component {
   state = { store: null };
+
+  componentWillMount() {
+    // Lock it doesn on mount
+    Orientation.lockToPortrait();
+  }
 
   componentDidMount() {
     this.initializeErrorHandling();
