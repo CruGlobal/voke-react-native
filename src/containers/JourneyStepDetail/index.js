@@ -25,6 +25,7 @@ import {
   Button,
   Icon,
   DateComponent,
+  Avatar,
   VokeIcon,
 } from '../../components/common';
 import st from '../../st';
@@ -306,15 +307,15 @@ class JourneyStepDetail extends Component {
                 <Icon name="lock" size={40} style={[st.white]} />
               </Flex>
             ) : null}
-            <Image
-              source={
+            <Avatar
+              image={
                 isVoke ? VOKE_AVATAR : { uri: (messenger.avatar || {}).small }
               }
+              isVoke={isVoke}
               style={[
                 st.absb,
                 isMine ? st.right(-30) : st.left(-30),
                 st.circle(25),
-                isVoke ? st.rotate('60deg') : undefined,
               ]}
             />
           </Flex>
@@ -536,11 +537,7 @@ JourneyStepDetail.propTypes = {
 
 const mapStateToProps = (
   { auth, journeys },
-  {
-    navigation: {
-      state: { params },
-    },
-  },
+  { navigation: { state: { params } } },
 ) => ({
   ...params,
   // Get messages by step id
