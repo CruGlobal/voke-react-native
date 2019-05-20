@@ -51,10 +51,10 @@ class AdventureCode extends Component {
           const r = await dispatch(getMyJourneys());
 
           dispatch(navigateBack(1, { immediate: true }));
-          if (r.journeys[0]) {
+          if (r.journeys[r.journeys.length - 1]) {
             dispatch(
               navigatePush('voke.VideoContentWrap', {
-                item: r.journeys[0],
+                item: r.journeys[r.journeys.length - 1],
                 type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
                 trackingObj: buildTrackingObj('journey : mine', 'detail'),
               }),
