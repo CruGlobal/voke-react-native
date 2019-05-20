@@ -195,7 +195,7 @@ class MessageItem extends PureComponent {
               : null
           }
           text={getInitials(this.vokebotMessenger.initials)}
-          isVoke={isVoke}
+          isVoke={isVoke && this.vokebotMessenger.first_name === 'VokeBot'}
         />
       );
     } else {

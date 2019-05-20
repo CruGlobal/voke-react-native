@@ -89,6 +89,10 @@ class WebviewVideo extends Component {
     setTimeout(() => this.setState({ isLoadingVideo: false }), 900);
   }
 
+  componentWillUnmount() {
+    this.webview && this.webview.stopLoading();
+  }
+
   addMargin() {
     this.setState({ addMargin: true });
   }
@@ -263,6 +267,7 @@ class WebviewVideo extends Component {
         allowsInlineMediaPlayback={true}
         scrollEnabled={false}
         bounces={false}
+        useWebKit={true}
         injectedJavaScript={FIX_POSTMESSAGE}
         mediaPlaybackRequiresUserAction={false}
         onMessage={this.handleMessage}

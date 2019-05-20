@@ -17,7 +17,6 @@ import Analytics from '../../utils/analytics';
 import { navigatePush } from '../../actions/nav';
 import { createMessageInteraction } from '../../actions/messages';
 import VOKEBOT from '../../../images/vokebot_whole.png';
-import VOKE_AVATAR from '../../../images/voke_avatar_small.png';
 
 import {
   Flex,
@@ -53,7 +52,7 @@ class JourneyStepDetail extends Component {
 
   async componentDidMount() {
     Analytics.screen(Analytics.s.JourneyStepDetail);
-    this.getMessages(true);
+    this.getMessages();
   }
 
   // componentDidUpdate(prevProps) {
@@ -84,13 +83,11 @@ class JourneyStepDetail extends Component {
     dispatch(createMessageInteraction(interaction));
   }
 
-  getMessages(isMount) {
+  getMessages() {
     const { dispatch, journeyStep, journey, scrollToEnd } = this.props;
     dispatch(getJourneyMessages(journeyStep, journey)).then(() => {
       this.createMessageReadInteraction(this.props.messages[0]);
-      if (!isMount) {
-        scrollToEnd();
-      }
+      scrollToEnd();
     });
     this.load();
   }
@@ -308,15 +305,10 @@ class JourneyStepDetail extends Component {
               </Flex>
             ) : null}
             <Avatar
-              image={
-                isVoke ? VOKE_AVATAR : { uri: (messenger.avatar || {}).small }
-              }
+              image={(messenger.avatar || {}).small}
               isVoke={isVoke}
-              style={[
-                st.absb,
-                isMine ? st.right(-30) : st.left(-30),
-                st.circle(25),
-              ]}
+              size={25}
+              style={[st.absb, isMine ? st.right(-30) : st.left(-30)]}
             />
           </Flex>
           <Flex direction="column" style={[st.w80]}>
@@ -508,9 +500,10 @@ class JourneyStepDetail extends Component {
                 </Fragment>
               )}
             </Flex>
-            <Image
-              source={{ uri: (meMessenger.avatar || {}).small }}
-              style={[st.absb, st.right(-30), st.circle(25)]}
+            <Avatar
+              image={(meMessenger.avatar || {}).small}
+              size={25}
+              style={[st.absb, st.right(-30)]}
             />
           </Flex>
           {response ? (
@@ -537,7 +530,11 @@ JourneyStepDetail.propTypes = {
 
 const mapStateToProps = (
   { auth, journeys },
-  { navigation: { state: { params } } },
+  {
+    navigation: {
+      state: { params },
+    },
+  },
 ) => ({
   ...params,
   // Get messages by step id
