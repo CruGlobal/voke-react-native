@@ -8,7 +8,6 @@ import Video from 'react-native-video';
 import webviewCommon from './common';
 import { isString } from '../../utils/common';
 
-
 export default class RNVideo extends Component {
   constructor(props) {
     super(props);
@@ -24,24 +23,25 @@ export default class RNVideo extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const { isPaused, onUpdateData, replay, start } = this.props;
     // If 'isPaused' gets toggled, fire off the corresponding event
-    if (nextProps.isPaused !== this.props.isPaused) {
+    if (nextProps.isPaused !== isPaused) {
       if (nextProps.isPaused) {
-        this.props.onUpdateData(webviewCommon.PAUSED);
+        onUpdateData(webviewCommon.PAUSED);
       } else {
         if (this.state.hasPlayed) {
-          this.props.onUpdateData(webviewCommon.RESUMED);
+          onUpdateData(webviewCommon.RESUMED);
         } else {
           this.setState({ hasPlayed: true });
-          this.props.onUpdateData(webviewCommon.STARTED);
+          onUpdateData(webviewCommon.STARTED);
         }
       }
     }
 
     // If replay was set to true, but becomes false, force a replay
-    if (!nextProps.replay && this.props.replay) {
-      if (this.props.start) {
-        const start = isString(this.props.start) ? parseInt(this.props.start) : this.props.start;
+    if (!nextProps.replay && replay) {
+      if (start) {
+        const start = isString(start) ? parseInt(start) : start;
         // Restart at the correct start position
         this.player.seek(start || 0);
       } else {
@@ -72,7 +72,7 @@ export default class RNVideo extends Component {
     // playInBackground, playWhenInactive, ignoreSilentSwitch are all iOS properties
     return (
       <Video
-        ref={(c) => this.player = c}
+        ref={c => (this.player = c)}
         source={{ uri: url }}
         paused={isPaused}
         resizeMode="contain"
@@ -84,7 +84,8 @@ export default class RNVideo extends Component {
         onProgress={this.handleProgress}
         onEnd={() => this.props.onUpdateData(webviewCommon.FINISHED)}
         onError={() => this.props.onUpdateData(webviewCommon.ERROR)}
-        style={styles.video} />
+        style={styles.video}
+      />
     );
   }
 }

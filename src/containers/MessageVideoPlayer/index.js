@@ -58,6 +58,7 @@ class MessageVideoPlayer extends Component {
       end: video.media_end,
       type: videoMedia.type,
       url: videoMedia.url,
+      hls: videoMedia.hls,
     };
     return (
       <Flex style={styles.video}>

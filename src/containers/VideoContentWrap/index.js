@@ -307,6 +307,7 @@ class VideoContentWrap extends Component {
         end: item.media_end,
         type: videoMedia.type,
         url: videoMedia.url,
+        hls: videoMedia.hls,
       };
     } else {
       videoProps.forceNoAutoPlay = true;
@@ -315,6 +316,7 @@ class VideoContentWrap extends Component {
         end: item.item.media_end,
         type: item.item.content.type,
         url: item.item.content.url,
+        hls: item.item.content.hls,
         duration: item.item.content.duration,
         thumbnail: item.item.content.thumbnails.medium,
       };

@@ -36,6 +36,10 @@ if (!theme.isAndroid) {
   }
 }
 
+function shouldUseRNVideo({ type, hls }) {
+  return type === 'arclight' && (hls || theme.isOlderAndroid);
+}
+
 class WebviewVideo extends Component {
   constructor(props) {
     super(props);
@@ -238,16 +242,14 @@ class WebviewVideo extends Component {
   }
 
   renderVideo(html) {
-    const {
-      video: { type, start, url },
-    } = this.props;
+    const { video } = this.props;
+    const { start, url, hls } = video;
     const { isPaused, replay, addMargin } = this.state;
-    if (type === 'arclight' && theme.isOlderAndroid) {
-      // if (theme.isAndroid) {
+    if (shouldUseRNVideo(video)) {
       return (
         <RNVideo
           ref={c => (this.rnvideo = c)}
-          url={url}
+          url={hls || url}
           onUpdateData={this.handleData}
           isPaused={isPaused}
           replay={replay}
@@ -276,15 +278,10 @@ class WebviewVideo extends Component {
   }
 
   render() {
-    const {
-      t,
-      video: { type },
-      isLandscape,
-      width,
-    } = this.props;
+    const { t, video, isLandscape, width } = this.props;
     const { isPaused, duration, replay, time, isLoadingVideo } = this.state;
     const html = this.getHtml();
-    if (!html) {
+    if (!shouldUseRNVideo(video) && !html) {
       return (
         <Flex
           value={1}
@@ -307,7 +304,7 @@ class WebviewVideo extends Component {
           duration={duration}
           replay={replay}
           time={time}
-          type={type}
+          type={video.type}
           isLandscape={isLandscape}
           width={width}
         />
