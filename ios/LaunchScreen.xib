@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,19 +20,19 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="vokeSplash" translatesAutoresizingMaskIntoConstraints="NO" id="mfK-9s-JRH">
-                        <rect key="frame" x="69" y="269" width="236" height="129"/>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="beadventure" translatesAutoresizingMaskIntoConstraints="NO" id="HUU-Z8-Hdj">
+                        <rect key="frame" x="76.5" y="268" width="222" height="131"/>
                     </imageView>
                 </subviews>
                 <color key="backgroundColor" red="0.42375126481056213" green="0.77355068922042847" blue="0.89417070150375366" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                 <constraints>
-                    <constraint firstItem="mfK-9s-JRH" firstAttribute="centerX" secondItem="zSF-Kh-7sZ" secondAttribute="centerX" id="JPH-lM-Mw4"/>
-                    <constraint firstItem="mfK-9s-JRH" firstAttribute="centerY" secondItem="zSF-Kh-7sZ" secondAttribute="centerY" id="jcP-oR-ONM"/>
+                    <constraint firstItem="HUU-Z8-Hdj" firstAttribute="centerX" secondItem="zSF-Kh-7sZ" secondAttribute="centerX" id="0CR-UW-dl6"/>
+                    <constraint firstItem="HUU-Z8-Hdj" firstAttribute="centerY" secondItem="zSF-Kh-7sZ" secondAttribute="centerY" id="gbG-7r-3NY"/>
                 </constraints>
             </view>
         </viewController>
     </objects>
     <resources>
-        <image name="vokeSplash" width="236" height="129"/>
+        <image name="beadventure" width="222" height="131"/>
     </resources>
 </document>
