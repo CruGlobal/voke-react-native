@@ -82,7 +82,12 @@ export const tabs = {
     screen: Adventures,
     navigationOptions: () => ({
       tabBarLabel: i18n.t('title.adventures'),
-      tabBarIcon: navIcon('adventure'),
+      tabBarIcon: ({ tintColor }) => (
+        <BadgeHomeIcon
+          isAdventure={true}
+          isActive={tintColor === theme.lightText}
+        />
+      ),
     }),
   },
   'voke.Conversations': {

@@ -34,6 +34,7 @@ import {
   getJourneyMessages,
   getMyJourneySteps,
   getMyJourneyStep,
+  getMyJourneys,
 } from '../../actions/journeys';
 import { navigateBack } from '../../actions/nav';
 import { isAndroid } from '../../constants';
@@ -68,7 +69,7 @@ class JourneyStepDetail extends Component {
   //   }
   // }
 
-  createMessageReadInteraction(msg) {
+  async createMessageReadInteraction(msg) {
     if (!msg) {
       return;
     }
@@ -80,7 +81,8 @@ class JourneyStepDetail extends Component {
       messageId: msg.id,
     };
 
-    dispatch(createMessageInteraction(interaction));
+    await dispatch(createMessageInteraction(interaction));
+    await dispatch(getMyJourneys());
   }
 
   getMessages() {

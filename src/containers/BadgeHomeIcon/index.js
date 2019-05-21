@@ -12,7 +12,12 @@ const ICON_SIZE = theme.isAndroid ? 24 : 26;
 
 class BadgeHomeIcon extends Component {
   render() {
-    const { isActive, unReadBadgeCount } = this.props;
+    const {
+      isAdventure,
+      journeysUnreadCount,
+      isActive,
+      unReadBadgeCount,
+    } = this.props;
 
     return (
       <Flex
@@ -22,7 +27,7 @@ class BadgeHomeIcon extends Component {
         animation="bounceIn"
       >
         <VokeIcon
-          name="Chat"
+          name={isAdventure ? 'adventure' : 'Chat'}
           size={ICON_SIZE}
           style={{
             color: isActive ? theme.white : theme.primaryColor,
@@ -30,7 +35,16 @@ class BadgeHomeIcon extends Component {
         />
         {unReadBadgeCount ? (
           <Flex align="center" justify="center" style={styles.badgeWrap}>
-            <Text style={styles.badge}>{unReadBadgeCount}</Text>
+            <Text style={styles.badge}>
+              {unReadBadgeCount > 99 ? '99' : unReadBadgeCount}
+            </Text>
+          </Flex>
+        ) : null}
+        {isAdventure && journeysUnreadCount ? (
+          <Flex align="center" justify="center" style={styles.badgeWrap}>
+            <Text style={styles.badge}>
+              {journeysUnreadCount > 99 ? '99' : journeysUnreadCount}
+            </Text>
           </Flex>
         ) : null}
       </Flex>
@@ -40,11 +54,21 @@ class BadgeHomeIcon extends Component {
 
 BadgeHomeIcon.propTypes = {
   isActive: PropTypes.bool.isRequired,
+  isAdventure: PropTypes.bool,
   unReadBadgeCount: PropTypes.number, // Redux
 };
 
-const mapStateToProps = ({ messages }) => ({
-  unReadBadgeCount: messages.unReadBadgeCount,
-});
+const mapStateToProps = ({ messages, journeys }, { isAdventure }) => {
+  let journeysUnreadCount = 0;
+  if (isAdventure) {
+    (journeys.mine || []).forEach(j => {
+      journeysUnreadCount += (j.conversation || {}).unread_messages || 0;
+    });
+  }
+  return {
+    unReadBadgeCount: messages.unReadBadgeCount,
+    journeysUnreadCount,
+  };
+};
 
 export default translate()(connect(mapStateToProps)(BadgeHomeIcon));

@@ -70,9 +70,8 @@ class SignUpProfile extends Component {
   addProfile() {
     const { t, dispatch } = this.props;
     const { firstName, lastName } = this.state;
-    // TODO: Always allow the user to continue without entering more information
 
-    if (firstName && lastName) {
+    if (firstName) {
       if (this.state.disableSecondClick) {
         return;
       }
@@ -80,7 +79,7 @@ class SignUpProfile extends Component {
       const data = {
         me: {
           first_name: firstName,
-          last_name: lastName,
+          last_name: lastName || '',
         },
       };
       dispatch(updateMe(data))
