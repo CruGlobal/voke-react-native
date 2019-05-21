@@ -420,6 +420,7 @@ class JourneyStepDetail extends Component {
       this.setMessageBox();
     }
     const meMessenger = messengers.find(i => i.id === me.id);
+    const isSolo = messengers.length === 2;
 
     return (
       <ScrollView
@@ -482,7 +483,7 @@ class JourneyStepDetail extends Component {
                     value={text}
                     onChangeText={this.changeText}
                   />
-                  {!text ? (
+                  {!text && isSolo ? (
                     <Button
                       type="transparent"
                       onPress={this.skip}
