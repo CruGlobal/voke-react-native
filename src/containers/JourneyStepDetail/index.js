@@ -89,7 +89,9 @@ class JourneyStepDetail extends Component {
     const { dispatch, journeyStep, journey, scrollToEnd } = this.props;
     dispatch(getJourneyMessages(journeyStep, journey)).then(() => {
       this.createMessageReadInteraction(this.props.messages[0]);
-      scrollToEnd();
+      if (this.props.messages.length > 1) {
+        scrollToEnd();
+      }
     });
     this.load();
   }
@@ -532,11 +534,7 @@ JourneyStepDetail.propTypes = {
 
 const mapStateToProps = (
   { auth, journeys },
-  {
-    navigation: {
-      state: { params },
-    },
-  },
+  { navigation: { state: { params } } },
 ) => ({
   ...params,
   // Get messages by step id

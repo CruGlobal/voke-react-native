@@ -22,6 +22,7 @@ import {
   RESET_FIRST_TIME,
   SET_TOAST,
 } from '../constants';
+import { getJourneyInvites, getMyJourneys } from './journeys';
 import callApi, { REQUESTS } from './api';
 import {
   establishDevice,
@@ -226,6 +227,8 @@ function appStateChange(dispatch, getState, nextAppState) {
     // }
 
     dispatch(checkAndRunSockets());
+    dispatch(getJourneyInvites());
+    dispatch(getMyJourneys());
   } else if (nextAppState === 'background' || nextAppState === 'inactive') {
     LOG('App is going into the background');
 
