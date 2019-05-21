@@ -46,6 +46,9 @@ export function handleResponse(response) {
 }
 
 export function json(response) {
+  if (response && response.status === 401) {
+    return { error: 'Unauthorized' };
+  }
   return response.json ? response.json() : response;
 }
 

@@ -46,7 +46,7 @@ export const IS_SMALL_ANDROID = theme.isAndroid && theme.fullHeight < 600;
 export const isAndroid = theme.isAndroid;
 // export const IS_SMALL_ANDROID = true;
 
-const IS_STAGING = true;
+const IS_STAGING = false;
 
 const SALT_HASH_STAGING = 'nRgwCUrxKyWDytQDdfYpaJGrEjNQVUYHoDvHhtfgFvauvPrwIm';
 const SALT_HASH_PROD = 'sKgbotdipkiaPVmtViOPhJJidXPXthowELRKwGNwhOMHnIclxj';
