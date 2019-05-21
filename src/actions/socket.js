@@ -135,10 +135,14 @@ export function setupSocketAction(cableId) {
             if (data.message['toast?'] && notification.alert) {
               dispatch(toastAction(notification.alert));
             }
+
             if (
               notification &&
               notification.category === 'CREATE_MESSAGE_CATEGORY'
             ) {
+              if (message && message[`adventure_message?`]) {
+                dispatch(getMyJourneys());
+              }
               dispatch(newMessageAction(message));
             } else if (
               notification &&
