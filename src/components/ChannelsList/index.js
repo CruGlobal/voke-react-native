@@ -1,13 +1,18 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FlatList, Image } from 'react-native';
+import React, { Component } from 'react';
 import { translate } from 'react-i18next';
-
-import styles from './styles';
-import { Flex, Text, Touchable, RefreshControl } from '../common';
+import {
+  FlatList,
+  Image,
+  Flex,
+  RefreshControl,
+  Text,
+  Touchable,
+} from '../common';
 import LoadMore from '../LoadMore';
-
-const ITEM_HEIGHT = 120;
+import styles from './styles';
+import st from '../../st';
+import { keyExtractorId } from '../../utils/common';
 
 class ChannelsList extends Component {
   constructor(props) {
@@ -84,13 +89,8 @@ class ChannelsList extends Component {
         horizontal={true}
         data={items}
         renderItem={this.renderRow}
-        keyExtractor={item => item.id}
-        // getItemLayout={(data, index) => ({
-        //   length: ITEM_HEIGHT,
-        //   offset: ITEM_HEIGHT * index,
-        //   index,
-        // })}
-        style={{ flex: 1 }}
+        keyExtractor={keyExtractorId}
+        style={[st.f1]}
         contentContainerStyle={styles.content}
         refreshControl={
           <RefreshControl
@@ -111,6 +111,7 @@ class ChannelsList extends Component {
               )
             : undefined
         }
+        removeClippedSubviews={false}
       />
     );
   }

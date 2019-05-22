@@ -7,6 +7,7 @@ export const SET_ALL_CONTACTS = 'app/SET_ALL_CONTACTS';
 export const SET_VOKE_CONTACTS = 'app/SET_VOKE_CONTACTS';
 export const SET_CONTACTS_LOADING = 'app/SET_CONTACTS_LOADING';
 export const NEW_MESSAGE = 'app/NEW_MESSAGE';
+export const NEW_JOURNEY_MESSAGE = 'app/NEW_JOURNEY_MESSAGE';
 export const TYPE_STATE_CHANGE = 'app/TYPE_STATE_CHANGE';
 export const MARK_READ = 'app/MARK_READ';
 export const SET_PUSH_TOKEN = 'app/SET_PUSH_TOKEN';
@@ -26,9 +27,15 @@ export const RESET_ANON_USER = 'app/RESET_ANON_USER';
 export const PUSH_PERMISSION = 'app/PUSH_PERMISSION';
 export const SET_MESSAGE_MODAL = 'app/SET_MESSAGE_MODAL';
 export const DONT_NAV_TO_VIDS = 'app/DONT_NAV_TO_VIDS';
+export const RESET_FIRST_TIME = 'app/RESET_FIRST_TIME';
+export const INACTIVE_JOURNEY = 'app/INACTIVE_JOURNEY';
+export const ACTIVE_JOURNEY = 'app/ACTIVE_JOURNEY';
+export const UPDATE_JOURNEY_STEP = 'app/UPDATE_JOURNEY_STEP';
 // Overlays
 export const CLEAR_OVERLAY = 'app/CLEAR_OVERLAY';
 export const SET_OVERLAY = 'app/SET_OVERLAY';
+export const CLEAR_TOAST = 'app/CLEAR_TOAST';
+export const SET_TOAST = 'app/SET_TOAST';
 // Navigation
 export const NAVIGATE_FORWARD = 'Navigation/NAVIGATE';
 export const NAVIGATE_RESET = 'Navigation/RESET';
@@ -36,6 +43,7 @@ export const NAVIGATE_BACK = 'Navigation/BACK';
 export const NAVIGATE_POP = 'Navigation/POP';
 
 export const IS_SMALL_ANDROID = theme.isAndroid && theme.fullHeight < 600;
+export const isAndroid = theme.isAndroid;
 // export const IS_SMALL_ANDROID = true;
 
 const IS_STAGING = true;

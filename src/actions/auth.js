@@ -3,11 +3,10 @@ import {
   Linking,
   AppState,
   ToastAndroid,
-  AsyncStorage,
   Alert,
   PushNotificationIOS,
 } from 'react-native';
-import Orientation from 'react-native-orientation';
+import AsyncStorage from '@react-native-community/async-storage';
 import DeviceInfo from 'react-native-device-info';
 import Firebase from 'react-native-firebase';
 import * as RNOmniture from 'react-native-omniture';
@@ -20,7 +19,10 @@ import {
   NO_BACKGROUND_ACTION,
   PUSH_PERMISSION,
   DONT_NAV_TO_VIDS,
+  RESET_FIRST_TIME,
+  SET_TOAST,
 } from '../constants';
+import { getJourneyInvites, getMyJourneys } from './journeys';
 import callApi, { REQUESTS } from './api';
 import {
   establishDevice,
@@ -44,6 +46,8 @@ import { isArray, locale } from '../utils/common';
 import theme from '../theme';
 import Permissions from '../utils/permissions';
 import { logInAnalytics } from './analytics';
+import i18n from '../i18n';
+import { navigateResetMessage, navigateBack } from './nav';
 
 // Setup app state change listeners
 let appStateChangeFn;
@@ -54,11 +58,20 @@ let hasStartedUp = false;
 
 export function startupAction() {
   return (dispatch, getState) => {
-    Orientation.lockToPortrait();
     if (hasStartedUp) return;
 
+    const isFirstTime = getState().auth.isFirstTime;
+    if (isFirstTime) {
+      dispatch({ type: RESET_FIRST_TIME });
+    } else {
+      if (!__DEV__) {
+        dispatch(setOpenVoke());
+      }
+    }
+
     // Check push permissions and run 'establishDevice' if they have permission
-    dispatch(setOpenVoke());
+    // TODO: Remove this for release
+
     dispatch(checkPushPermissions());
     hasStartedUp = true;
     // If sockets have not started up, go ahead and do that
@@ -108,8 +121,6 @@ export function cleanupAction() {
   };
 }
 
-let backgroundTimeout;
-const BACKGROUND_TIMEOUT = 1500;
 let appCloseTime;
 
 // TODO: It would be nice to somehow do this in the background and not block the UI when coming back into the app
@@ -216,6 +227,8 @@ function appStateChange(dispatch, getState, nextAppState) {
     // }
 
     dispatch(checkAndRunSockets());
+    dispatch(getJourneyInvites());
+    dispatch(getMyJourneys());
   } else if (nextAppState === 'background' || nextAppState === 'inactive') {
     LOG('App is going into the background');
 
@@ -375,13 +388,16 @@ export function createAccountAction(email, password, isAnonymous = false) {
 }
 
 export function toastAction(text, length) {
-  return () => {
+  return dispatch => {
     if (theme.isAndroid) {
       const toastLength =
         length === 'long' ? ToastAndroid.LONG : ToastAndroid.SHORT;
       ToastAndroid.show(text, toastLength);
     } else {
-      Alert.alert(' ', text);
+      dispatch({
+        type: SET_TOAST,
+        props: { text, timeout: length === 'long' ? 8000 : undefined },
+      });
     }
   };
 }
@@ -411,7 +427,7 @@ export function deleteAccount() {
 
 export function anonLogin(username, password, anonId) {
   return dispatch =>
-    new Promise((resolve, reject) => {
+    new Promise(async (resolve, reject) => {
       let data = {
         username,
         password,
@@ -419,15 +435,14 @@ export function anonLogin(username, password, anonId) {
       if (anonId) {
         data.anonymous_user_id = anonId;
       }
-      dispatch(callApi(REQUESTS.OAUTH, {}, data))
-        .then(results => {
-          dispatch(loginAction(results.access_token, results)).then(() => {
-            dispatch(getMe());
-          });
-          resolve(results);
-          return results;
-        })
-        .catch(reject);
+      try {
+        const results = await dispatch(callApi(REQUESTS.OAUTH, {}, data));
+        await dispatch(loginAction(results.access_token, results));
+        await dispatch(getMe());
+        resolve(results);
+      } catch (error) {
+        reject(error);
+      }
     });
 }
 
@@ -593,6 +608,42 @@ export function setNoBackgroundAction(value) {
 export function setOpenVoke() {
   return dispatch => {
     return dispatch(callApi(REQUESTS.POST_OPEN_VOKE));
+  };
+}
+
+export function confirmAlert(title, message, onPress, text, onCancel) {
+  return () => {
+    Alert.alert(title, message, [
+      {
+        text: i18n.t('cancel'),
+        onPress: onCancel,
+        style: 'cancel',
+      },
+      { text: text || i18n.t('ok'), onPress },
+    ]);
+  };
+}
+
+export function shareVideo(video, onSelectVideo, conversation) {
+  return dispatch => {
+    dispatch(
+      confirmAlert(
+        i18n.t('videos:addToChat'),
+        i18n.t('videos:areYouSureAdd', {
+          name: video.name.substr(0, 25).trim(),
+        }),
+        () => {
+          onSelectVideo(video.id);
+          // Navigate back after selecting the video
+          if (conversation) {
+            dispatch(navigateResetMessage({ conversation }));
+          } else {
+            dispatch(navigateBack());
+          }
+        },
+        i18n.t('add'),
+      ),
+    );
   };
 }
 

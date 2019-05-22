@@ -10,16 +10,23 @@
   "globals": {
     "Promise": true,
     "__DEV__": true,
+    "ErrorUtils": true,
     "setTimeout": true,
+    "setInterval": true,
     "clearTimeout": true,
+    "clearInterval": true,
+    "requestAnimationFrame": true,
+    "module": true,
     "window": true,
+    "global": true,
+    "console": true,
+    "fetch": true,
     "LOG": true
   },
   "rules": {
     "strict": 0,
     "semi": [2, "always"],
     "comma-dangle": [2, "always-multiline"],
-    "space-before-function-paren": [2, "never"],
     "space-before-blocks": [
       2,
       { "functions": "always", "keywords": "always", "classes": "always" }

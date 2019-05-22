@@ -1,4 +1,3 @@
-
 import { StyleSheet } from 'react-native';
 import theme from '../../theme';
 
@@ -16,13 +15,10 @@ export default StyleSheet.create({
   },
   onboardHalf: {
     width: theme.fullWidth,
-    height: theme.fullHeight/2,
+    height: theme.fullHeight / 2,
   },
   headerWrap: {
     paddingVertical: 30,
-  },
-  onboardingPage: {
-    backgroundColor: theme.transparent,
   },
   headerText: {
     paddingHorizontal: 50,
@@ -48,8 +44,6 @@ export default StyleSheet.create({
     left: 0,
   },
   skipButton: {
-    // backgroundColor: theme.black,
-    // borderRadius: 25,
     width: 50,
     height: 50,
     alignItems: 'center',
@@ -111,11 +105,12 @@ export default StyleSheet.create({
   },
   actionButton: {
     width: theme.fullWidth - 110,
-    height: 40,
+    height: 50,
     backgroundColor: theme.primaryColor,
     borderWidth: 0,
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 8,
   },
   haveAccount: {
     paddingTop: 50,
@@ -128,13 +123,38 @@ export default StyleSheet.create({
     paddingRight: 5,
   },
   tagline: {
-    lineHeight: 40,
-    fontSize: 36,
-    fontWeight: 'bold',
+    lineHeight: 32,
+    fontSize: 28,
     backgroundColor: 'rgba(0,0,0,0)',
-    textAlign: 'right',
+    textAlign: 'left',
+    width: 130,
   },
   privacy: {
     marginHorizontal: 15,
+  },
+  bottomButtonsWrap: {
+    backgroundColor: theme.secondaryColor,
+  },
+  parallelogram: {
+    width: 150,
+    height: 100,
+  },
+  parallelogramInner: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    backgroundColor: 'red',
+    width: 150,
+    height: 100,
+  },
+  parallelogramRight: {
+    top: 0,
+    right: -50,
+    position: 'absolute',
+  },
+  parallelogramLeft: {
+    top: 0,
+    left: -50,
+    position: 'absolute',
   },
 });

@@ -7,6 +7,7 @@ import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { Touchable, Text, Flex, RefreshControl } from '../common';
 import theme from '../../theme';
+import { keyboardShow, keyboardHide } from '../../utils/common';
 
 // Format contacts for the section list
 function formatContacts(items) {
@@ -71,21 +72,15 @@ class ContactsList extends Component {
 
   componentDidMount() {
     if (!theme.isAndroid) {
-      this.keyboardDidShowListener = Keyboard.addListener(
-        'keyboardDidShow',
-        this.keyboardDidShow,
-      );
-      this.keyboardDidHideListener = Keyboard.addListener(
-        'keyboardDidHide',
-        this.keyboardDidHide,
-      );
+      this.keyboardShowListener = keyboardShow(this.keyboardDidShow);
+      this.keyboardHideListener = keyboardHide(this.keyboardDidHide);
     }
   }
 
   componentWillUnmount() {
     if (!theme.isAndroid) {
-      this.keyboardDidShowListener.remove();
-      this.keyboardDidHideListener.remove();
+      this.keyboardShowListener.remove();
+      this.keyboardHideListener.remove();
     }
   }
 
@@ -138,6 +133,7 @@ class ContactsList extends Component {
       ),
       maxToRenderPerBatch: 30,
       style: { paddingBottom: 30 },
+      removeClippedSubviews: false,
     };
     if (theme.isAndroid) {
       return (

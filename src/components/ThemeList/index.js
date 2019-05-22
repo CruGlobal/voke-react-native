@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, FlatList } from 'react-native';
 import { translate } from 'react-i18next';
 
 import styles from './styles';
-import { Flex, Touchable, Text, VokeIcon, Separator, Button } from '../common';
+import {
+  View,
+  FlatList,
+  Flex,
+  Touchable,
+  Text,
+  VokeIcon,
+  Separator,
+  Button,
+} from '../common';
 import CONSTANTS from '../../constants';
 
 class ThemeList extends Component {
@@ -41,6 +49,7 @@ class ThemeList extends Component {
           </Flex>
           <Flex value={0.5}>
             <VokeIcon
+              type="image"
               name={selectedTheme === item.id ? 'selected' : 'not-selected'}
             />
           </Flex>
@@ -61,6 +70,7 @@ class ThemeList extends Component {
           keyExtractor={item => item.name.replace(/\s/gi, '')}
           style={styles.list}
           contentContainerStyle={styles.content}
+          removeClippedSubviews={false}
         />
         <Flex direction="row" style={styles.buttonWrapper}>
           <Flex value={1} style={styles.buttonBorder}>

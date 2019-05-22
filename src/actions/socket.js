@@ -7,6 +7,7 @@ import {
   openSettingsAction,
   checkPushPermissions,
   getMe,
+  toastAction,
 } from './auth';
 import { SOCKET_URL } from '../api/utils';
 import {
@@ -15,13 +16,21 @@ import {
   getConversation,
   getConversations,
 } from './messages';
-import { navigateResetMessage } from './nav';
+import { navigateResetMessage, navigatePush } from './nav';
+import {
+  getMyJourney,
+  getMyJourneyStep,
+  getJourneyInvites,
+  getMyJourneys,
+  getMyJourneySteps,
+} from './journeys';
 import callApi, { REQUESTS } from './api';
-import { SET_OVERLAY } from '../constants';
+import { SET_OVERLAY, UPDATE_JOURNEY_STEP } from '../constants';
 import { isEquivalentObject } from '../utils/common';
 import theme from '../theme';
 import Permissions from '../utils/permissions';
 import Notifications from '../utils/notifications';
+import { VIDEO_CONTENT_TYPES } from '../containers/VideoContentWrap';
 
 // Push notification Android error
 // https://github.com/zo0r/react-native-push-notification/issues/495
@@ -38,10 +47,23 @@ let ws = null;
 export const NAMESPACES = {
   MESSAGE: 'messenger:conversation:message',
   ADVENTURE: 'platform:organization:adventure:challenge',
+  // JOURNEY: 'messenger_journeys'
 };
 
 const getCID = l =>
   l.substring(l.indexOf('conversations/') + 14, l.indexOf('/messages'));
+
+const getJID = l =>
+  l.substring(
+    l.indexOf('messenger_journeys/') + 19,
+    l.indexOf('/messenger_journey_steps'),
+  );
+
+const getOnlyJID = l =>
+  l.substring(l.indexOf('messenger_journeys/') + 19, l.length);
+
+const getSID = l =>
+  l.substring(l.indexOf('messenger_journey_steps/') + 24, l.length);
 
 export function checkAndRunSockets() {
   return (dispatch, getState) => {
@@ -100,6 +122,7 @@ export function setupSocketAction(cableId) {
         ws.onmessage = e => {
           const data = JSON.parse(e.data) || {};
           const type = data && data.type;
+          // console.log('socket data', data);
           if (type === 'ping') return;
           // LOG('socket message received: data', data);
           if (type === 'welcome') {
@@ -107,10 +130,19 @@ export function setupSocketAction(cableId) {
           } else if (data.message) {
             const message = data.message.message;
             const notification = data.message.notification;
+
+            // If we're supposed to toast, show it
+            if (data.message['toast?'] && notification.alert) {
+              dispatch(toastAction(notification.alert));
+            }
+
             if (
               notification &&
               notification.category === 'CREATE_MESSAGE_CATEGORY'
             ) {
+              if (message && message[`adventure_message?`]) {
+                dispatch(getMyJourneys());
+              }
               dispatch(newMessageAction(message));
             } else if (
               notification &&
@@ -124,6 +156,21 @@ export function setupSocketAction(cableId) {
                 notification.category === 'CREATE_ADVENTURE_CATEGORY')
             ) {
               dispatch(getMe());
+            } else if (
+              notification &&
+              notification.category === 'JOIN_JOURNEY_CATEGORY'
+            ) {
+              dispatch(getJourneyInvites());
+              dispatch(getMyJourneys());
+            } else if (
+              notification &&
+              notification.category === 'COMPLETE_STEP_CATEGORY'
+            ) {
+              const journeyId = (message.journey || {}).id;
+              if (journeyId) {
+                dispatch(getMyJourneys());
+                dispatch(getMyJourneySteps((message.journey || {}).id));
+              }
             }
           }
         };
@@ -234,7 +281,6 @@ export function handleNotifications(state, notification) {
   return (dispatch, getState) => {
     let data = notification.data;
     LOG('got notification', notification);
-
     const {
       activeConversationId,
       unReadBadgeCount,
@@ -336,8 +382,34 @@ export function handleNotifications(state, notification) {
     } else if (state === 'open' && namespace && link) {
       // Open
       // LOG('message came in with namespace and link', namespace, link);
-
-      if (namespace.includes(NAMESPACES.MESSAGE)) {
+      if (
+        link.includes('messenger_journeys') &&
+        link.includes('messenger_journey_steps')
+      ) {
+        const jId = getJID(link);
+        const sId = getSID(link);
+        dispatch(getMyJourney(jId)).then(r => {
+          dispatch(getMyJourneyStep(jId, sId)).then(res => {
+            dispatch(
+              navigatePush('voke.VideoContentWrap', {
+                item: r,
+                type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
+                navToStep: res,
+              }),
+            );
+          });
+        });
+      } else if (link.includes('messenger_journeys')) {
+        const onlyJId = getOnlyJID(link);
+        dispatch(getMyJourney(onlyJId)).then(r => {
+          dispatch(
+            navigatePush('voke.VideoContentWrap', {
+              item: r,
+              type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
+            }),
+          );
+        });
+      } else if (namespace.includes(NAMESPACES.MESSAGE)) {
         const cId = getCID(link);
         if (!cId) return;
 
@@ -559,11 +631,11 @@ export function enablePushNotifications(forceIfUndetermined = false) {
   };
 }
 
-export function determinePushOverlay() {
+export function determinePushOverlay(type = 'pushPermissions') {
   return (dispatch, getState) => {
     const permission = getState().auth.pushPermission;
     if (permission === 'authorized') return;
 
-    dispatch({ type: SET_OVERLAY, value: 'pushPermissions' });
+    dispatch({ type: SET_OVERLAY, value: type });
   };
 }

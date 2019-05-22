@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import theme, { COLORS } from '../../theme';
 import videoUtils from '../../utils/video';
+import st from '../../st';
 
 const CONTROLLS_HEIGHT = 30;
 
@@ -71,6 +72,8 @@ export default StyleSheet.create({
   },
   landscapeSize: {
     height: videoUtils.LANDSCAPE_HEIGHT,
-    width: videoUtils.LANDSCAPE_WIDTH,
+    width: st.hasNotch
+      ? videoUtils.LANDSCAPE_WIDTH - 80 // top+bottom notches
+      : videoUtils.LANDSCAPE_WIDTH,
   },
 });

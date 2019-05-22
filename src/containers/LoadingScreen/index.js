@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Image } from 'react-native';
 
-import VOKE_LOADING from '../../../images/vokeSplash.png';
+import VOKE_LOADING from '../../../images/beadventure.png';
 import styles from './styles';
-import { Flex } from '../../components/common';
+import { Image, Flex } from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 
 class LoadingScreen extends Component {

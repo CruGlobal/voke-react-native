@@ -137,7 +137,7 @@ export default function request(type, url, query, data, extra) {
   return fetch(newUrl, newObject)
     .then(handleResponse)
     .catch(err => {
-      LOG('fetch err', err);
+      LOG('fetch err', err, newUrl, newObject);
       return err;
     });
 }

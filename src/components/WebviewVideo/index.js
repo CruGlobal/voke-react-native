@@ -11,6 +11,7 @@ import { isObject, isString } from '../../utils/common';
 import theme from '../../theme';
 
 import webviewCommon from './common';
+import st from '../../st';
 
 const FIX_POSTMESSAGE = `(function() {
   var originalPostMessage = window.postMessage;
@@ -27,7 +28,6 @@ import YoutubeHTML from './youtube';
 import VimeoHTML from './vimeo';
 import html5HTML from './html5';
 
-const isOlderAndroid = theme.isAndroid && Platform.Version < 23;
 let shouldAddMargin = false;
 if (!theme.isAndroid) {
   const iosVersion = parseInt(Platform.Version, 10);
@@ -36,20 +36,26 @@ if (!theme.isAndroid) {
   }
 }
 
+function shouldUseRNVideo({ type, hls }) {
+  return type === 'arclight' && (hls || theme.isOlderAndroid);
+}
+
 class WebviewVideo extends Component {
   constructor(props) {
     super(props);
+    const { video } = props;
 
     this.state = {
-      duration: 0,
+      duration: video.duration || 0,
       isPaused:
-        (isOlderAndroid && props.type === 'arclight') ||
-        props.type === 'vimeo' ||
+        (theme.isOlderAndroid && video.type === 'arclight') ||
+        video.type === 'vimeo' ||
         props.forceNoAutoPlay,
       time: 0,
       numOfErrors: 0,
       addMargin: shouldAddMargin,
       replay: false,
+      isLoadingVideo: true,
     };
 
     this.webview = null;
@@ -66,14 +72,29 @@ class WebviewVideo extends Component {
   }
 
   componentDidMount() {
+    const {
+      forceNoAutoPlay,
+      video: { type },
+      onChangeState,
+    } = this.props;
     // Youtube and arclight autoplay, so fire off the 'Start' interaction immediately
-    if (!this.props.forceNoAutoPlay) {
-      if (this.props.type === 'youtube' || this.props.type === 'arclight') {
-        this.props.onChangeState(webviewCommon.STARTED);
+    if (!forceNoAutoPlay) {
+      if (type === 'youtube' || type === 'arclight') {
+        onChangeState(webviewCommon.STARTED);
+      }
+      if (type === 'arclight') {
+        setTimeout(() => this.play(), 250);
       }
     } else {
       this.pause();
     }
+
+    // Prevent the video from being touched while it's loading. Guess on the loading time.
+    setTimeout(() => this.setState({ isLoadingVideo: false }), 900);
+  }
+
+  componentWillUnmount() {
+    this.webview && this.webview.stopLoading();
   }
 
   addMargin() {
@@ -97,20 +118,27 @@ class WebviewVideo extends Component {
   }
 
   handleData(data) {
-    // console.log('________________', data);
-    if (isObject(data) || data.indexOf('{') === 0) {
+    const {
+      video: { type },
+      onChangeState,
+    } = this.props;
+    if (
+      isObject(data) ||
+      data.indexOf('{') === 0 ||
+      data.indexOf('%25') === 0
+    ) {
       let newData = data;
-      if (isString(data)) {
-        newData = JSON.parse(data);
+      if (isString(newData)) {
+        // Weird thing that webview does now where it replaces percentages with '%25', so we need to replace, then decode
+        // It comes in this ugly format: '%257B%2522time%2522%253A0.534431049%257D'
+        if (newData.indexOf('%25') === 0) {
+          newData = decodeURIComponent(
+            newData.replace(new RegExp('%25', 'ig'), '%'),
+          );
+        }
+        newData = JSON.parse(newData);
       }
       if (newData.duration) {
-        if (
-          this.props.type === 'arclight' &&
-          this.state.duration === 0 &&
-          !this.props.forceNoAutoPlay
-        ) {
-          this.play();
-        }
         this.setState({ duration: newData.duration });
       } else if (typeof newData.isPaused !== 'undefined') {
         this.setState({ isPaused: !!newData.isPaused });
@@ -119,10 +147,10 @@ class WebviewVideo extends Component {
       }
     } else {
       // Arclight videos throw a bad error, so don't do anything when that happens
-      if (data === webviewCommon.ERROR && this.props.type === 'arclight') {
+      if (data === webviewCommon.ERROR && type === 'arclight') {
         // If this is the second time an arclight error is being called, fire the callback
-        if (this.state.numOfErrors > 0 || isOlderAndroid) {
-          this.props.onChangeState(data);
+        if (this.state.numOfErrors > 0 || theme.isOlderAndroid) {
+          onChangeState(data);
         }
         this.setState({ numOfErrors: this.state.numOfErrors + 1 });
         return;
@@ -142,7 +170,7 @@ class WebviewVideo extends Component {
       } else if (data === webviewCommon.FINISHED) {
         this.setState({ replay: true });
       }
-      this.props.onChangeState(data);
+      onChangeState(data);
     }
   }
 
@@ -160,7 +188,10 @@ class WebviewVideo extends Component {
   }
 
   getHtml() {
-    const { type, start, end, thumbnail, url, forceNoAutoPlay } = this.props;
+    const {
+      video: { type, start, end, thumbnail, url },
+      forceNoAutoPlay,
+    } = this.props;
     if (type === 'youtube') {
       const id = webviewCommon.getYoutubeId(url);
       if (!id) {
@@ -181,8 +212,7 @@ class WebviewVideo extends Component {
     } else if (type === 'arclight') {
       return html5HTML(url, {
         thumbnail: thumbnail,
-        // forceNoAutoPlay: forceNoAutoPlay || false,
-        forceNoAutoPlay: true,
+        forceNoAutoPlay: forceNoAutoPlay || false,
       });
     }
     return null;
@@ -212,16 +242,18 @@ class WebviewVideo extends Component {
   }
 
   renderVideo(html) {
-    if (this.props.type === 'arclight' && isOlderAndroid) {
-      // if (theme.isAndroid) {
+    const { video } = this.props;
+    const { start, url, hls } = video;
+    const { isPaused, replay, addMargin } = this.state;
+    if (shouldUseRNVideo(video)) {
       return (
         <RNVideo
           ref={c => (this.rnvideo = c)}
-          url={this.props.url}
+          url={hls || url}
           onUpdateData={this.handleData}
-          isPaused={this.state.isPaused}
-          replay={this.state.replay}
-          start={this.props.start}
+          isPaused={isPaused}
+          replay={replay}
+          start={start}
         />
       );
     }
@@ -230,13 +262,14 @@ class WebviewVideo extends Component {
         ref={c => (this.webview = c)}
         source={{ html }}
         style={{
-          marginTop: this.state.addMargin ? -20 : 0,
+          marginTop: addMargin ? -20 : 0,
         }}
         mixedContentMode="always"
         mediaPlaybackRequiresUserAction={false}
         allowsInlineMediaPlayback={true}
         scrollEnabled={false}
         bounces={false}
+        useWebKit={true}
         injectedJavaScript={FIX_POSTMESSAGE}
         mediaPlaybackRequiresUserAction={false}
         onMessage={this.handleMessage}
@@ -245,9 +278,10 @@ class WebviewVideo extends Component {
   }
 
   render() {
-    const { t, type, isLandscape, width } = this.props;
+    const { t, video, isLandscape, width } = this.props;
+    const { isPaused, duration, replay, time, isLoadingVideo } = this.state;
     const html = this.getHtml();
-    if (!html) {
+    if (!shouldUseRNVideo(video) && !html) {
       return (
         <Flex
           value={1}
@@ -260,17 +294,17 @@ class WebviewVideo extends Component {
       );
     }
     return (
-      <View style={{ flex: 1 }}>
+      <View style={[st.f1]} pointerEvents={isLoadingVideo ? 'none' : undefined}>
         {this.renderVideo(html)}
         <VideoControls
-          isPaused={this.state.isPaused}
+          isPaused={isPaused}
           onSeek={this.seek}
           onPlayPause={this.togglePlay}
           onReplay={this.replayVideo}
-          duration={this.state.duration}
-          replay={this.state.replay}
-          time={this.state.time}
-          type={type}
+          duration={duration}
+          replay={replay}
+          time={time}
+          type={video.type}
           isLandscape={isLandscape}
           width={width}
         />
@@ -280,12 +314,14 @@ class WebviewVideo extends Component {
 }
 
 WebviewVideo.propTypes = {
-  type: PropTypes.oneOf(['youtube', 'arclight', 'vimeo']).isRequired,
-  url: PropTypes.string.isRequired,
+  video: PropTypes.shape({
+    type: PropTypes.oneOf(['youtube', 'arclight', 'vimeo']).isRequired,
+    url: PropTypes.string.isRequired,
+    start: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    end: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    thumbnail: PropTypes.string,
+  }),
   onChangeState: PropTypes.func.isRequired,
-  thumbnail: PropTypes.string,
-  start: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  end: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   isLandscape: PropTypes.bool.isRequired,
   forceNoAutoPlay: PropTypes.bool,
   width: PropTypes.number,

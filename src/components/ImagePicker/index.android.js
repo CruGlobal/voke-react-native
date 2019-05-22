@@ -17,7 +17,7 @@ const OPTIONS = {
   // This was causing crashing issues on some Android devices. No need to compress
   // compressImageQuality: 0.75,
   cropperCircleOverlay: true,
-  includeBase64: false,
+  includeBase64: theme.isOlderAndroid ? true : false,
   cropperToolbarColor: theme.primaryColor,
   cropperStatusBarColor: theme.statusBarColor,
 };
@@ -46,7 +46,7 @@ class ImagePicker extends Component {
       fileSize: response.size,
       width: response.width,
       height: response.height,
-      uri: response.path,
+      uri: response.path || (theme.isOlderAndroid && response.data),
     };
     LOG('image picker payload', payload);
     this.props.onSelectImage(payload);

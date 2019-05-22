@@ -25,6 +25,7 @@ import {
   getMe,
   deleteAccount,
   logoutAction,
+  confirmAlert,
 } from '../../actions/auth';
 import Analytics from '../../utils/analytics';
 
@@ -32,11 +33,11 @@ import ApiLoading from '../ApiLoading';
 import Header from '../Header';
 import SignUpButtons from '../SignUpButtons';
 import ProfileProgress from '../ProfileProgress';
-import VOKE_LOGO from '../../../images/nav_voke_logo.png';
-import nav, {
-  NavPropTypes,
+import VOKE_LOGO from '../../../images/voke_logo_words.png';
+import {
   navigateResetLogin,
   navigateResetHome,
+  navigatePush,
 } from '../../actions/nav';
 import theme, { COLORS } from '../../theme';
 import { SET_OVERLAY } from '../../constants';
@@ -83,6 +84,7 @@ class Profile extends Component {
   }
 
   handleLanguageChange = lang => {
+    const { dispatch } = this.props;
     let data = {
       me: {
         language: {
@@ -90,11 +92,11 @@ class Profile extends Component {
         },
       },
     };
-    this.props.dispatch(updateMe(data)).then(results => {
-      this.props.dispatch(getMe());
+    dispatch(updateMe(data)).then(results => {
+      dispatch(getMe());
       i18n.changeLanguage(lang.toLowerCase(), (err, key) => {
-        console.log('Translation error', err, key);
-        setTimeout(() => this.props.dispatch(navigateResetHome()), 500);
+        LOG('Translation error', err, key);
+        setTimeout(() => dispatch(navigateResetHome()), 500);
       });
     });
   };
@@ -184,23 +186,17 @@ class Profile extends Component {
   }
 
   handleDeleteAccount = () => {
-    const { t } = this.props;
-    Alert.alert(t('deleteSure'), t('deleteDescription'), [
-      {
-        text: t('cancel'),
-        onPress: () => console.log('canceled delete account'),
-        style: 'cancel',
-      },
-      { text: t('deleteAccount'), onPress: this.deleteAccount },
-    ]);
+    const { dispatch, t } = this.props;
+    dispatch(
+      confirmAlert(t('deleteSure'), t('deleteDescription'), this.deleteAccount),
+    );
   };
 
-  deleteAccount = () => {
-    this.props.dispatch(deleteAccount()).then(() => {
-      this.props.dispatch(logoutAction(true)).then(() => {
-        this.props.dispatch(navigateResetLogin());
-      });
-    });
+  deleteAccount = async () => {
+    const { dispatch } = this.props;
+    await dispatch(deleteAccount());
+    await dispatch(logoutAction(true));
+    dispatch(navigateResetLogin());
   };
 
   handleImageChange = data => {
@@ -485,6 +481,7 @@ class Profile extends Component {
   }
 
   render() {
+    const { dispatch } = this.props;
     const { editName, editEmail, editPassword, hideAnonFields } = this.state;
     let { t, user, isAnonUser } = this.props;
     let name = null;
@@ -510,16 +507,18 @@ class Profile extends Component {
           >
             <ProfileProgress
               onHandleSignUpAccount={() =>
-                this.props.navigatePush('voke.SignUpAccount', {
-                  trackingObj: buildTrackingObj('profile', 'signup'),
-                })
+                dispatch(
+                  navigatePush('voke.SignUpAccount', {
+                    trackingObj: buildTrackingObj('profile', 'signup'),
+                  }),
+                )
               }
               onHandleVerifyNumber={() =>
-                this.props.navigatePush('voke.SignUpNumber')
+                dispatch(navigatePush('voke.SignUpNumber'))
               }
             />
             <Separator />
-            {isAnonUser || isEditing ? null : this.renderImagePicker()}
+            {isEditing ? null : this.renderImagePicker()}
             {isEditing && !editName ? null : (
               <View>
                 <ProfileRow
@@ -597,7 +596,7 @@ class Profile extends Component {
                     onPress={() =>
                       user.mobile
                         ? undefined
-                        : this.props.navigatePush('voke.SignUpNumber')
+                        : dispatch(navigatePush('voke.SignUpNumber'))
                     }
                   />
                 }
@@ -692,7 +691,11 @@ class Profile extends Component {
                 style={{ paddingHorizontal: 50, marginTop: 100 }}
               >
                 <Text style={styles.signUpText}>{t('signUp')}</Text>
-                <SignUpButtons filled={true} trackingPage="profile" />
+                <SignUpButtons
+                  isSignIn={true}
+                  filled={true}
+                  trackingPage="profile"
+                />
               </Flex>
             ) : null}
           </ScrollView>
@@ -720,18 +723,11 @@ function ProfileRow({ text, left, right }) {
 }
 
 // Check out actions/nav.js to see the prop types and mapDispatchToProps
-Profile.propTypes = {
-  ...NavPropTypes,
-};
+Profile.propTypes = {};
 
 const mapStateToProps = ({ auth }) => ({
   user: auth.user,
   isAnonUser: auth.isAnonUser,
 });
 
-export default translate('profile')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(Profile),
-);
+export default translate('profile')(connect(mapStateToProps)(Profile));

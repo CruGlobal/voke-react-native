@@ -1,48 +1,45 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Image } from 'react-native';
 
 import styles from './styles';
-import { Text, Flex } from '../common';
+import { Image, Text, Flex } from '../common';
 
-export default class Avatar extends Component {
-  render() {
-    const {
-      present,
-      text,
-      image,
-      size,
-      style,
-      avatarTextStyle,
-      imageStyle,
-    } = this.props;
-    let content = null;
+export default function Avatar({
+  present,
+  text,
+  image,
+  size,
+  style,
+  avatarTextStyle,
+  imageStyle,
+  isVoke,
+}) {
+  let content = null;
 
-    const sizeObj = { width: size, height: size, borderRadius: size / 2 };
+  const sizeObj = { width: size, height: size, borderRadius: size / 2 };
 
-    if (image) {
-      content = (
-        <Image
-          resizeMode="cover"
-          source={{ uri: image }}
-          style={[imageStyle, sizeObj]}
-        />
-      );
-    } else if (text) {
-      content = <Text style={[styles.textStyle, avatarTextStyle]}>{text}</Text>;
-    }
-
-    return (
-      <Flex
-        style={[sizeObj, styles.avatar, style]}
-        align="center"
-        justify="center"
-      >
-        {content}
-        {present ? <Flex style={styles.present} /> : null}
-      </Flex>
+  if (image) {
+    content = (
+      <Image
+        resizeMode="cover"
+        source={{ uri: image }}
+        style={[imageStyle, sizeObj, isVoke ? styles.rotateVoke : '']}
+      />
     );
+  } else if (text) {
+    content = <Text style={[styles.textStyle, avatarTextStyle]}>{text}</Text>;
   }
+
+  return (
+    <Flex
+      style={[sizeObj, styles.avatar, style]}
+      align="center"
+      justify="center"
+    >
+      {content}
+      {present ? <Flex style={styles.present} /> : null}
+    </Flex>
+  );
 }
 
 const styleTypes = [PropTypes.array, PropTypes.object, PropTypes.number];

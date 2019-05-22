@@ -1,12 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Platform,
-  View,
-  Image,
-  Keyboard,
-  ScrollView,
-  Share,
-} from 'react-native';
+import { Platform, Keyboard, Share } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
@@ -21,14 +14,21 @@ import {
 import Analytics from '../../utils/analytics';
 import { SHOW_SHARE_MODAL } from '../../constants';
 import styles from './styles';
-import nav, { NavPropTypes } from '../../actions/nav';
+import { navigatePush, navigateResetMessage } from '../../actions/nav';
 import theme from '../../theme';
 import VOKE_BOT from '../../../images/voke_bot_face_large.png';
 import ApiLoading from '../ApiLoading';
 import ShareModal from '../ShareModal';
 import Modal from '../Modal';
 import Header from '../Header';
-import { Flex, Text, Button } from '../../components/common';
+import {
+  View,
+  Image,
+  ScrollView,
+  Flex,
+  Text,
+  Button,
+} from '../../components/common';
 import StatusBar from '../../components/StatusBar';
 import Permissions from '../../utils/permissions';
 import SelectNumber from '../../components/SelectNumber';
@@ -90,13 +90,15 @@ class SelectFriend extends Component {
   }
 
   goToContacts() {
-    this.props.navigatePush(
-      'voke.Contacts',
-      {
-        onSelect: this.selectContact,
-        video: this.props.video,
-      },
-      { overrideBackPress: true },
+    this.props.dispatch(
+      navigatePush(
+        'voke.Contacts',
+        {
+          onSelect: this.selectContact,
+          video: this.props.video,
+        },
+        { overrideBackPress: true },
+      ),
     );
   }
 
@@ -174,9 +176,11 @@ class SelectFriend extends Component {
         if (action === Share.sharedAction) {
           LOG('shared!', activityType);
           // Navigate to the new conversation after sharing
-          this.props.navigateResetMessage({
-            conversation,
-          });
+          this.props.dispatch(
+            navigateResetMessage({
+              conversation,
+            }),
+          );
         } else {
           LOG('not shared!');
           // Delete the conversation
@@ -189,6 +193,7 @@ class SelectFriend extends Component {
   };
 
   selectContact(c, index = 0) {
+    const { dispatch } = this.props;
     if (!c) return;
     this.setState({ selectNumberContact: null });
     Keyboard.dismiss();
@@ -217,48 +222,48 @@ class SelectFriend extends Component {
     };
     if (c.isVoke) {
       // LOG('voke contact selected', this.props.video);
-      this.props.dispatch(createConversation(createData)).then(results => {
+      dispatch(createConversation(createData)).then(results => {
         // LOG('create voke conversation results', results);
-        this.props.dispatch(getConversation(results.id)).then(c => {
+        dispatch(getConversation(results.id)).then(c => {
           // LOG('get voke conversation results', c);
-          this.props.navigateResetMessage({ conversation: c.conversation });
+          dispatch(navigateResetMessage({ conversation: c.conversation }));
         });
       });
     } else {
       // LOG('normal contact selected', this.props.video);
       // Set this up so background stuff doesn't try to do too much while in the share modal
       // this.setState({ loadingBeforeShareSheet: true });
-      // this.props.dispatch({ type: SET_IN_SHARE, bool: true });
+      // dispatch({ type: SET_IN_SHARE, bool: true });
       // Create the conversation
-      this.props.dispatch(createConversation(createData)).then(results => {
-        this.props.dispatch(getConversation(results.id)).then(c => {
+      dispatch(createConversation(createData)).then(results => {
+        dispatch(getConversation(results.id)).then(c => {
           LOG('get voke conversation results', c);
           const friend = results.messengers[0];
           this.shareDialog(friend.url, c.conversation);
 
           // Show the share modal
-          // this.props.dispatch({
+          // dispatch({
           //   type: SHOW_SHARE_MODAL,
           //   bool: true,
           //   props: {
           //     onComplete: () => {
           //       // Set these to false so we're not in the share modal anymore
-          //       this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
-          //       this.props.dispatch({ type: SET_IN_SHARE, bool: false });
+          //       dispatch({ type: SHOW_SHARE_MODAL, bool: false });
+          //       dispatch({ type: SET_IN_SHARE, bool: false });
           //
           //       // On android, put a timeout because the share stuff gets messed up otherwise
           //       if (theme.isAndroid) {
           //         this.setState({ setLoaderBeforePush: true });
           //         setTimeout(() => {
           //           this.setState({ setLoaderBeforePush: false });
-          //           this.props.navigateResetMessage({
+          //           dispatch(navigateResetMessage({
           //             conversation: c.conversation,
-          //           });
+          //           }));
           //         }, 50);
           //       } else {
-          //         this.props.navigateResetMessage({
+          //         dispatch(navigateResetMessage({
           //           conversation: c.conversation,
-          //         });
+          //         }));
           //       }
           //     },
           //     // This could also be called on the contacts page to cancel the share modal
@@ -266,9 +271,9 @@ class SelectFriend extends Component {
           //       LOG('canceling sharing');
           //
           //       // Set these to false and delete the conversation
-          //       this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
-          //       this.props.dispatch({ type: SET_IN_SHARE, bool: false });
-          //       this.props.dispatch(deleteConversation(results.id));
+          //       dispatch({ type: SHOW_SHARE_MODAL, bool: false });
+          //       dispatch({ type: SET_IN_SHARE, bool: false });
+          //       dispatch(deleteConversation(results.id));
           //     },
           //     friend,
           //     phoneNumber,
@@ -431,7 +436,6 @@ class SelectFriend extends Component {
 
 // Check out actions/nav.js to see the prop types and mapDispatchToProps
 SelectFriend.propTypes = {
-  ...NavPropTypes,
   video: PropTypes.string.isRequired,
   all: PropTypes.array.isRequired, // Redux
   isLoading: PropTypes.bool, // Redux
@@ -444,4 +448,4 @@ const mapStateToProps = ({ contacts }, { navigation }) => ({
   isLoading: contacts.isLoading,
 });
 
-export default translate()(connect(mapStateToProps, nav)(SelectFriend));
+export default translate()(connect(mapStateToProps)(SelectFriend));

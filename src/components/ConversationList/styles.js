@@ -31,18 +31,19 @@ export default StyleSheet.create({
     padding: 2,
     paddingRight: 5,
   },
+  conversationArrowIcon: {
+    color: COLORS.YELLOW,
+  },
   disabledButton: {
     opacity: 0.1,
   },
   // Create different object for ios/android
   arrowImage: Platform.select({
     ios: {
-      width: 20,
-      height: 10,
+      color: theme.secondaryColor,
     },
     android: {
-      width: 24,
-      height: 15,
+      color: theme.secondaryColor,
       paddingBottom: 10,
     },
   }),

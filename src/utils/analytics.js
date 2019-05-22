@@ -75,6 +75,8 @@ const s = {
   About: 'About',
   Acknowledgements: 'Acknowledgements',
   AdventuresTab: 'AdventuresTab',
+  AdventuresTabMine: 'AdventuresTabMine',
+  AdventuresTabFind: 'AdventuresTabFind',
   ChallengeModal: 'ChallengeModal',
   ChannelsTab: 'ChannelsTab',
   ChannelsPage: 'ChannelsPage',
@@ -103,6 +105,11 @@ const s = {
   VideoDetails: 'VideoDetails',
   VideosTab: 'VideosTab',
   VideosMessage: 'VideosMessage',
+  OrgJourneyDetail: 'OrgJourneyDetail',
+  JourneyDetail: 'JourneyDetail',
+  JourneyStepDetail: 'JourneyStepDetail',
+  ShareEnterName: 'ShareEnterName',
+  ShareJourneyInvite: 'ShareJourneyInvite',
 };
 
 export default {

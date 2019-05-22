@@ -9,7 +9,10 @@ import android.os.Bundle;
 import android.support.multidex.MultiDex; // For Multidex support Android <5.0
 
 import com.facebook.react.ReactApplication;
-import com.horcrux.svg.SvgPackage;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
+import com.cmcewen.blurview.BlurViewPackage;
+import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
@@ -25,7 +28,6 @@ import com.facebook.react.ReactNativeHost;
 // import com.facebook.soloader.SoLoader;
 
 import com.github.yamill.orientation.OrientationPackage;
-import com.RNFetchBlob.RNFetchBlobPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.rt2zz.reactnativecontacts.ReactNativeContacts;
@@ -59,7 +61,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-          new SvgPackage(),
+          new AsyncStoragePackage(),
+          new BlurViewPackage(),
+          new RNGestureHandlerPackage(),
           new RNFirebasePackage(),
           new RNFirebaseAnalyticsPackage(),
           new RNFirebaseMessagingPackage(),

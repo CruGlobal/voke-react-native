@@ -121,11 +121,16 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 280
-        versionName "4.4.3"
+        versionCode 313
+        versionName "5.0.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -135,6 +140,10 @@ android {
 
         // See https://github.com/zo0r/react-native-push-notification/issues/328
         multiDexEnabled true
+
+        // Added for react-native-blur-view
+        renderscriptTargetApi 23
+        renderscriptSupportModeEnabled true
     }
     signingConfigs {
         voketest {
@@ -148,12 +157,16 @@ android {
             // storePassword 'password'
         }
     }
+    packagingOptions {
+      pickFirst 'lib/x86_64/libjsc.so'
+      pickFirst 'lib/arm64-v8a/libjsc.so'
+    }
     splits {
         abi {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
             universalApk false  // If true, also generate a universal APK
-            include "armeabi-v7a", "x86"
+            include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }
     }
     buildTypes {
@@ -174,7 +187,7 @@ android {
         variant.outputs.each { output ->
             // For each separate APK per architecture, set a unique version code as described here:
             // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
-            def versionCodes = ["armeabi-v7a":1, "x86":2]
+            def versionCodes = ["armeabi-v7a":1, "x86":2, "arm64-v8a": 3, "x86_64": 4]
             def abi = output.getFilter(OutputFile.ABI)
             if (abi != null) {  // null for the universal-debug, universal-release variants
                 output.versionCodeOverride =
@@ -186,10 +199,12 @@ android {
 
 
 dependencies {
-    implementation project(':react-native-svg')
+    implementation project(':@react-native-community_async-storage')
+    implementation project(':react-native-fetch-blob')
+    implementation project(':react-native-blur')
+    implementation project(':react-native-gesture-handler')
     implementation project(':react-native-firebase')
     implementation project(':react-native-orientation')
-    implementation project(':react-native-fetch-blob')
     implementation project(':react-native-fabric')
     implementation project(':react-native-fbsdk')
     implementation(project(':react-native-device-info')) {
@@ -222,7 +237,8 @@ dependencies {
     implementation "com.google.firebase:firebase-invites:16.0.1"
 
     // This is for multidex support for Android versions <5.0
-    compile 'com.android.support:multidex:1.0.1'
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.android.support:design:27.1.0'
 }
 
 // Run this once to be able to run the application with BUCK

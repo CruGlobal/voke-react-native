@@ -13,6 +13,7 @@ import {
   RESET_ANON_USER,
   PUSH_PERMISSION,
   DONT_NAV_TO_VIDS,
+  RESET_FIRST_TIME,
 } from '../constants';
 import { REQUESTS } from '../actions/api';
 
@@ -40,6 +41,7 @@ const initialState = {
   pushPermission: '',
   showLanguageModal: false,
   dontNavigateToVideos: false,
+  isFirstTime: true,
 };
 
 export default function auth(state = initialState, action) {
@@ -79,6 +81,11 @@ export default function auth(state = initialState, action) {
         ...state,
         token: '',
         refreshToken: '',
+      };
+    case RESET_FIRST_TIME:
+      return {
+        ...state,
+        isFirstTime: false,
       };
     case UPDATE_TOKENS:
       return {
@@ -183,7 +190,7 @@ export default function auth(state = initialState, action) {
         noBackgroundAction: action.value,
       };
     case LOGOUT:
-      return initialState;
+      return { ...initialState, isFirstTime: false };
     default:
       return state;
   }

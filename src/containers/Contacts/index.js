@@ -9,7 +9,7 @@ import { openSettingsAction } from '../../actions/auth';
 import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { searchContacts, getContacts } from '../../actions/contacts';
-import nav, { NavPropTypes } from '../../actions/nav';
+import { navigateBack } from '../../actions/nav';
 import Permissions from '../../utils/permissions';
 import { Button, Flex } from '../../components/common';
 import { SHOW_SHARE_MODAL } from '../../constants';
@@ -22,6 +22,7 @@ import ContactsList from '../../components/ContactsList';
 import SelectNumber from '../../components/SelectNumber';
 import SearchBarIos from '../../components/SearchBarIos';
 import theme from '../../theme';
+import { keyboardShow, keyboardHide } from '../../utils/common';
 
 class Contacts extends Component {
   constructor(props) {
@@ -55,36 +56,27 @@ class Contacts extends Component {
     this.handleBack = this.handleBack.bind(this);
   }
 
-  componentWillMount() {
-    this.keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      this.keyboardDidShow,
-    );
-    this.keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      this.keyboardDidHide,
-    );
-  }
-
   componentDidMount() {
     Analytics.screen(Analytics.s.Contacts);
     if (this.props.isInvite) {
       this.checkContactsStatus();
     }
+    this.keyboardShowListener = keyboardShow(this.keyboardDidShow);
+    this.keyboardHideListener = keyboardHide(this.keyboardDidHide);
   }
 
   componentWillUnmount() {
     // Make sure to hide the share modal whenever the contacts page goes away
     this.props.dispatch({ type: SHOW_SHARE_MODAL, bool: false });
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
+    this.keyboardShowListener.remove();
+    this.keyboardHideListener.remove();
   }
 
   handleBack() {
     if (this.props.isShareModalVisible && this.props.shareModalCancel) {
       this.props.shareModalCancel();
     } else {
-      this.props.navigateBack();
+      this.props.dispatch(navigateBack());
     }
   }
 
@@ -295,7 +287,6 @@ class Contacts extends Component {
 
 // Check out actions/nav.js to see the prop types and mapDispatchToProps
 Contacts.propTypes = {
-  ...NavPropTypes,
   onSelect: PropTypes.func.isRequired,
   video: PropTypes.string,
   isInvite: PropTypes.bool,
@@ -311,9 +302,4 @@ const mapStateToProps = ({ contacts, messages }, { navigation }) => ({
   inShare: messages.inShare,
 });
 
-export default translate()(
-  connect(
-    mapStateToProps,
-    nav,
-  )(Contacts),
-);
+export default translate()(connect(mapStateToProps)(Contacts));

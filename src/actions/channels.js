@@ -1,6 +1,7 @@
 import { API_URL } from '../api/utils';
 import callApi, { REQUESTS } from './api';
 import { SET_OVERLAY } from '../constants';
+import { getConversations } from './messages';
 
 export function getAllOrganizations(query = {}) {
   return dispatch => {
@@ -53,6 +54,7 @@ export function subscribeChannel(channel) {
     };
     return dispatch(callApi(REQUESTS.ORGANIZATION_SUBSCRIBE, query)).then(r => {
       dispatch(getMyOrganizations());
+      dispatch(getConversations());
       return r;
     });
   };
@@ -63,9 +65,7 @@ export function unsubscribeChannel(channelId, subscriptionId) {
       return Promise.reject('NoSubscriptionId');
     }
     const query = {
-      endpoint: `${API_URL}organizations/${channelId}/subscriptions/${
-        subscriptionId
-      }`,
+      endpoint: `${API_URL}organizations/${channelId}/subscriptions/${subscriptionId}`,
     };
     return dispatch(callApi(REQUESTS.ORGANIZATION_UNSUBSCRIBE, query)).then(
       r => {

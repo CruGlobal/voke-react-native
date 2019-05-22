@@ -5,36 +5,29 @@ import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 
 import Analytics from '../../utils/analytics';
-import nav, { NavPropTypes } from '../../actions/nav';
 import { getKickstarters } from '../../actions/videos';
 
 import styles from './styles';
 import ApiLoading from '../ApiLoading';
 import Header from '../Header';
 import { Flex, Text, Touchable, VokeIcon } from '../../components/common';
+import st from '../../st';
 
 class KickstartersTab extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      text: '',
-      kickstarters: [],
-    };
-
-    this.getKickstarters = this.getKickstarters.bind(this);
-    this.renderRow = this.renderRow.bind(this);
-  }
+  state = {
+    text: '',
+    kickstarters: [],
+  };
 
   componentDidMount() {
     this.getKickstarters();
     Analytics.screen(Analytics.s.ChatKickstarters);
   }
 
-  getKickstarters() {
-    if (this.props.latestItem) {
-      this.props
-        .dispatch(getKickstarters(this.props.latestItem))
+  getKickstarters = () => {
+    const { dispatch, latestItem } = this.props;
+    if (latestItem) {
+      dispatch(getKickstarters(latestItem))
         .then(results => {
           this.setState({ kickstarters: results.questions });
         })
@@ -45,9 +38,9 @@ class KickstartersTab extends Component {
     } else {
       this.setState({ kickstarters: [] });
     }
-  }
+  };
 
-  renderRow(item) {
+  renderRow = item => {
     return (
       <Touchable
         highlight={false}
@@ -65,7 +58,7 @@ class KickstartersTab extends Component {
         </Flex>
       </Touchable>
     );
-  }
+  };
 
   renderHeader() {
     const { t } = this.props;
@@ -94,11 +87,11 @@ class KickstartersTab extends Component {
     }
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={[st.f1]}>
         <Header leftBack={true} title={t('title.kickstarters')} />
         <ScrollView
           style={styles.container}
-          contentContainerStyle={!hasKickstarters ? { flex: 1 } : undefined}
+          contentContainerStyle={!hasKickstarters ? [st.f1] : undefined}
         >
           {this.renderHeader()}
           <Flex
@@ -118,7 +111,6 @@ class KickstartersTab extends Component {
 }
 
 KickstartersTab.propTypes = {
-  ...NavPropTypes,
   onSelectKickstarter: PropTypes.func.isRequired,
   latestItem: PropTypes.string,
 };
@@ -127,8 +119,5 @@ const mapStateToProps = (state, { navigation }) => ({
 });
 
 export default translate('kickstarters')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(KickstartersTab),
+  connect(mapStateToProps)(KickstartersTab),
 );

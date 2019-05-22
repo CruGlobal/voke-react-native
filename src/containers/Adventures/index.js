@@ -1,39 +1,63 @@
 import React, { Component } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import Analytics from '../../utils/analytics';
-import nav, { NavPropTypes } from '../../actions/nav';
+import { navigatePush } from '../../actions/nav';
 import styles from './styles';
 import { navMenuOptions } from '../../utils/menu';
-import { vokeIcons } from '../../utils/iconMap';
 import ApiLoading from '../ApiLoading';
 import Header, { HeaderIcon } from '../Header';
 import PopupMenu from '../../components/PopupMenu';
 import StatusBar from '../../components/StatusBar';
-import AdventureMap from '../AdventureMap';
 import theme from '../../theme';
+import NotificationToast from '../NotificationToast';
+import AdventuresFind from '../AdventuresFind';
+import AdventuresMine from '../AdventuresMine';
+import st from '../../st';
+import { getConversations } from '../../actions/messages';
 
 class Adventures extends Component {
-  state = { refreshing: false };
-
   componentDidMount() {
+    const { dispatch, me, navigation } = this.props;
     Analytics.screen(Analytics.s.AdventuresTab);
+    Analytics.screen(Analytics.s.AdventuresTabMine);
+    if (!me.first_name) {
+      dispatch(navigatePush('voke.TryItNowName'));
+    }
+    // Make sure to call this when this tab mounts to get the badge count
+    dispatch(getConversations());
+
+    if (
+      navigation &&
+      navigation.state &&
+      navigation.state.params &&
+      navigation.state.params.tabName
+    ) {
+      navigation.navigate(navigation.state.params.tabName);
+    }
+    if ((navigation.state.params || {}).navTo) {
+      dispatch(
+        navigatePush(
+          navigation.state.params.navTo.routeName,
+          navigation.state.params.navTo.params,
+        ),
+      );
+    }
   }
 
-  scrollTo = y => {
-    if (!this.scrollView) return;
-
-    if (y === 'end') {
-      this.scrollView.scrollToEnd();
-    } else {
-      this.scrollView.scrollTo({ y, animated: true });
+  onChangeTab = ({ i }) => {
+    if (i === 0) {
+      Analytics.screen(Analytics.s.AdventuresTabMine);
+    } else if (i === 1) {
+      Analytics.screen(Analytics.s.AdventuresTabFind);
     }
   };
 
   render() {
-    const { t, navigatePush } = this.props;
+    const { t, dispatch, myJourneys, index, invites } = this.props;
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
@@ -43,34 +67,60 @@ class Adventures extends Component {
               undefined
             ) : (
               <HeaderIcon
-                image={vokeIcons['menu']}
-                onPress={() => navigatePush('voke.Menu')}
+                icon="menu"
+                onPress={() => dispatch(navigatePush('voke.Menu'))}
               />
             )
           }
           right={
             theme.isAndroid ? (
               <PopupMenu actions={navMenuOptions(this.props)} />
-            ) : null
+            ) : (
+              undefined
+            )
           }
-          title={t('title.adventure')}
+          title={t('title.adventures')}
+          shadow={false}
         />
-        <ScrollView ref={c => (this.scrollView = c)} bounces={false}>
-          <AdventureMap scrollTo={this.scrollTo} />
-        </ScrollView>
+        <NotificationToast />
+
+        <ScrollableTabView
+          tabBarUnderlineStyle={[st.bgWhite, st.h(2)]}
+          tabBarBackgroundColor={theme.secondaryColor}
+          tabBarActiveTextColor={theme.white}
+          tabBarInactiveTextColor={theme.primaryColor}
+          tabBarTextStyle={[st.normal]}
+          prerenderingSiblingsNumber={Infinity}
+          initialPage={
+            index !== undefined
+              ? index
+              : (myJourneys && myJourneys.length > 0) ||
+                (invites && invites.length > 0)
+                ? 0
+                : 1
+          }
+        >
+          <View tabLabel={t('title.myAdventures')} style={[st.f1]}>
+            <AdventuresMine />
+          </View>
+          <View tabLabel={t('title.findAdventures')} style={[st.f1]}>
+            <AdventuresFind />
+          </View>
+        </ScrollableTabView>
         <ApiLoading />
       </View>
     );
   }
 }
 
-Adventures.propTypes = {
-  ...NavPropTypes,
-};
+Adventures.propTypes = {};
 
-const mapStateToProps = ({ auth }) => ({
+const mapStateToProps = ({ auth, journeys }, { navigation }) => ({
+  ...(navigation.state.params || {}),
   me: auth.user,
   isAnonUser: auth.isAnonUser, // Need this for the Android PopupMenu to determine which menu options to show
+  myJourneys: journeys.mine,
+  invites: journeys.invites,
 });
 
-export default translate()(connect(mapStateToProps, nav)(Adventures));
+export default translate()(connect(mapStateToProps)(Adventures));

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
@@ -10,7 +9,7 @@ import { createMessageInteraction } from '../../actions/messages';
 import styles from './styles';
 import WebviewVideo from '../../components/WebviewVideo';
 import webviewStates from '../../components/WebviewVideo/common';
-import { Icon, Flex, Touchable } from '../../components/common';
+import { View, Icon, Flex, Touchable } from '../../components/common';
 
 // Keep track of states that we want to make an API call if they happen
 const INTERACTION_STATES = [
@@ -54,14 +53,18 @@ class MessageVideoPlayer extends Component {
     const { message, onClose } = this.props;
     const video = message.item;
     const videoMedia = video.media || {};
-    const videoType = videoMedia.type;
+    const videoObj = {
+      start: video.media_start,
+      end: video.media_end,
+      type: videoMedia.type,
+      url: videoMedia.url,
+      hls: videoMedia.hls,
+    };
     return (
       <Flex style={styles.video}>
         <WebviewVideo
           ref={c => (this.webview = c)}
-          type={videoType}
-          url={videoMedia.url}
-          start={video.media_start || 0}
+          video={videoObj}
           onChangeState={this.handleVideoChange}
           isLandscape={false}
         />
@@ -92,7 +95,10 @@ const mapStateToProps = ({ auth }, { message }) => ({
 });
 
 export default translate(undefined, { wait: true, withRef: true })(
-  connect(mapStateToProps, undefined, undefined, { withRef: true })(
-    MessageVideoPlayer,
-  ),
+  connect(
+    mapStateToProps,
+    undefined,
+    undefined,
+    { withRef: true },
+  )(MessageVideoPlayer),
 );

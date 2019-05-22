@@ -7,14 +7,12 @@ export default StyleSheet.create({
     backgroundColor: theme.backgroundColor,
   },
   inputWrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: theme.secondaryColor,
     paddingHorizontal: 7,
     paddingVertical: 4,
-    ...(theme.isIphoneX
-      ? {
-          paddingBottom: 40,
-        }
-      : {}),
   },
   chatBox: {
     flex: 1,
@@ -36,7 +34,7 @@ export default StyleSheet.create({
   },
   sendIcon: {
     color: theme.textColor,
-    fontSize: 30,
+    fontSize: 25,
   },
   sendButton: {
     width: 55,

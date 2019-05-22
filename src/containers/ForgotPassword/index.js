@@ -6,7 +6,7 @@ import { translate } from 'react-i18next';
 import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { forgotPasswordAction } from '../../actions/auth';
-import nav, { NavPropTypes } from '../../actions/nav';
+import { navigateBack } from '../../actions/nav';
 
 import { Flex, Text, Button } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
@@ -35,13 +35,15 @@ class ForgotPassword extends Component {
     this.setState({ email: text, emailValidation });
   }
 
+  back = () => this.props.dispatch(navigateBack());
+
   forgotPassword() {
-    const { t, dispatch, navigateBack } = this.props;
+    const { t, dispatch } = this.props;
     if (this.state.emailValidation) {
       dispatch(forgotPasswordAction(this.state.email)).then(() => {
         LOG('resetting password');
         Alert.alert(t('checkEmail'), t('emailPrompt'), [
-          { text: t('ok'), onPress: () => navigateBack() },
+          { text: t('ok'), onPress: this.back },
         ]);
       });
     } else {
@@ -50,11 +52,11 @@ class ForgotPassword extends Component {
   }
 
   render() {
-    const { t, navigateBack } = this.props;
+    const { t } = this.props;
     return (
       <Flex style={styles.container} value={1} align="center">
         <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
-          <SignUpHeaderBack onPress={() => navigateBack()} />
+          <SignUpHeaderBack onPress={this.back} />
           <Flex
             direction="column"
             align="center"
@@ -95,16 +97,4 @@ class ForgotPassword extends Component {
   }
 }
 
-ForgotPassword.propTypes = {
-  ...NavPropTypes,
-};
-const mapStateToProps = (state, { navigation }) => ({
-  ...(navigation.state.params || {}),
-});
-
-export default translate('forgotPassword')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(ForgotPassword),
-);
+export default translate('forgotPassword')(connect()(ForgotPassword));

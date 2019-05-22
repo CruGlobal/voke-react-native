@@ -10,7 +10,7 @@ import { buildTrackingObj } from '../../utils/common';
 
 class SignUpButtons extends Component {
   render() {
-    const { t, filled, trackingPage } = this.props;
+    const { t, filled, trackingPage, isSignIn } = this.props;
     return (
       <Flex align="center" justify="center" style={styles.actions}>
         <Flex style={styles.buttonWrapper}>
@@ -27,6 +27,7 @@ class SignUpButtons extends Component {
         </Flex>
         <Flex style={styles.buttonWrapper}>
           <FacebookButton
+            isSignIn={isSignIn || undefined}
             type={filled ? 'filled' : undefined}
             style={filled ? styles.filled : undefined}
             onNavigate={() => this.props.onNavigate && this.props.onNavigate()}

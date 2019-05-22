@@ -1,8 +1,6 @@
-
 import { StyleSheet } from 'react-native';
 import theme from '../../theme';
 import { IS_SMALL_ANDROID } from '../../constants';
-const isSmallScreen = IS_SMALL_ANDROID || theme.fullHeight < 600;
 
 export default StyleSheet.create({
   container: {
@@ -11,10 +9,7 @@ export default StyleSheet.create({
   },
   actions: {
     paddingBottom: 25,
-    paddingTop: isSmallScreen ? 20 : 40,
-  },
-  buttonWrapper: {
-    padding: 5,
+    paddingTop: 10,
   },
   headerText: {
     paddingHorizontal: 50,
@@ -33,36 +28,45 @@ export default StyleSheet.create({
     color: theme.textColor,
   },
   imageLogo: {
-    alignSelf: 'flex-end',
+    alignSelf: 'flex-start',
+    marginLeft: -50,
+    marginTop: -30,
+    transform: [{ rotate: '45deg' }],
   },
   signInButtonText: {
     fontSize: 16,
   },
   signInButton: {
-    width: theme.fullWidth - 110,
-    height: 40,
+    width: theme.fullWidth,
+    height: 50,
+    borderRadius: 0,
     alignItems: 'center',
     marginTop: 2,
   },
   chatBubble: {
     borderRadius: 5,
-    backgroundColor: theme.white,
+    backgroundColor: theme.accentColor,
     padding: 15,
     width: theme.fullWidth - 100,
   },
   chatText: {
-    color: theme.accentColor,
+    color: theme.white,
     fontSize: 16,
     textAlign: 'center',
   },
   chatTriangle: {
-    width: 17,
-    height: 0,
-    marginTop: 0,
-    marginLeft: theme.fullWidth - 140,
-    borderLeftWidth: 16,
-    borderLeftColor: 'transparent',
-    borderBottomWidth: 13,
-    borderBottomColor: theme.lightBackgroundColor,
+    width: 0,
+    height: 20,
+    marginTop: -5,
+    marginRight: theme.fullWidth - 140,
+    borderBottomWidth: 17,
+    borderBottomColor: 'transparent',
+    borderLeftWidth: 17,
+    borderLeftColor: theme.accentColor,
+  },
+  inputLabel: {
+    fontSize: 12,
+    color: theme.accentColor,
+    marginTop: 15,
   },
 });

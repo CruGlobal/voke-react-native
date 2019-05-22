@@ -9,38 +9,31 @@ import SignUpButtons from '../SignUpButtons';
 import { CLEAR_OVERLAY } from '../../constants';
 import VOKEBOT_UKE from '../../../images/voke_uke.png';
 import VOKEBOT from '../../../images/vokebot_whole.png';
+import NOTIFICATIONS from '../../../images/allow_notifications.png';
 import styles from './styles';
 import { enablePushNotifications } from '../../actions/socket';
+import { keyboardShow, keyboardHide } from '../../utils/common';
 
 class VokeOverlays extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      keyboardShown: false,
-    };
-  }
+  state = {
+    keyboardShown: false,
+  };
 
   componentDidMount() {
-    this.keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      this._keyboardDidShow,
-    );
-    this.keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      this._keyboardDidHide,
-    );
+    this.keyboardShowListener = keyboardShow(this.keyboardDidShow);
+    this.keyboardHideListener = keyboardHide(this.keyboardDidHide);
   }
 
   componentWillUnmount() {
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
+    this.keyboardShowListener.remove();
+    this.keyboardHideListener.remove();
   }
 
-  _keyboardDidShow = () => {
+  keyboardDidShow = () => {
     this.setState({ keyboardShown: true });
   };
 
-  _keyboardDidHide = () => {
+  keyboardDidHide = () => {
     this.setState({ keyboardShown: false });
   };
 
@@ -74,7 +67,11 @@ class VokeOverlays extends Component {
           </Text>
         </Flex>
         <Flex value={1} align="center" justify="center">
-          <SignUpButtons filled={true} onNavigate={this.close} />
+          <SignUpButtons
+            isSignIn={true}
+            filled={true}
+            onNavigate={this.close}
+          />
         </Flex>
       </Flex>
     );
@@ -117,8 +114,40 @@ class VokeOverlays extends Component {
     );
   }
 
+  renderAdventurePushPermissions() {
+    const { t } = this.props;
+    return (
+      <Flex
+        style={styles.overlay}
+        align="center"
+        justify="center"
+        self="stretch"
+      >
+        <Image
+          source={NOTIFICATIONS}
+          style={{ height: 150, marginBottom: 20 }}
+          resizeMode="contain"
+        />
+        <Text style={styles.adventurePushNotificationText}>
+          {t('adventurePush')}
+        </Text>
+        <Button
+          onPress={this.allowNotifications}
+          type="filled"
+          style={styles.closeButton}
+          text={t('allowNotifications')}
+        />
+        <Button
+          onPress={this.close}
+          style={styles.clearButton}
+          text={t('noThanks')}
+        />
+      </Flex>
+    );
+  }
+
   renderMessageModal() {
-    const { overlayProps } = this.props;
+    const { t, overlayProps } = this.props;
     let messageData = overlayProps.messageData || {};
     return (
       <Touchable style={styles.overlay} onPress={this.close} activeOpacity={1}>
@@ -140,7 +169,7 @@ class VokeOverlays extends Component {
           <Button
             onPress={this.close}
             style={styles.clearButton}
-            text="Great!"
+            text={t('great')}
           />
         </Flex>
       </Touchable>
@@ -156,6 +185,8 @@ class VokeOverlays extends Component {
       return this.renderPushPermissions();
     } else if (type === 'messageModal' && overlayProps.messageData) {
       return this.renderMessageModal();
+    } else if (type === 'adventurePushPermissions') {
+      return this.renderAdventurePushPermissions();
     }
     return null;
   }
@@ -165,8 +196,12 @@ const mapStateToProps = ({ overlays, auth }) => {
   let type = overlays.tryItNowSignUp
     ? 'tryItNowSignUp'
     : overlays.pushPermissions
-      ? 'pushPermissions'
-      : overlays.messageModal ? 'messageModal' : null;
+    ? 'pushPermissions'
+    : overlays.messageModal
+    ? 'messageModal'
+    : overlays.adventurePushPermissions
+    ? 'adventurePushPermissions'
+    : null;
   return {
     overlayProps: overlays.overlayProps || {},
     type,

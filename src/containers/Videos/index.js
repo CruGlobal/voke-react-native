@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, View, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
@@ -23,12 +23,15 @@ import {
 } from '../../actions/channels';
 import Analytics from '../../utils/analytics';
 
-import nav, { NavPropTypes } from '../../actions/nav';
-import { startupAction } from '../../actions/auth';
+import {
+  navigateBack,
+  navigatePush,
+  navigateResetToNumber,
+  navigateResetToProfile,
+} from '../../actions/nav';
+import { startupAction, shareVideo } from '../../actions/auth';
 
 import styles from './styles';
-import { vokeIcons } from '../../utils/iconMap';
-
 import ApiLoading from '../ApiLoading';
 import ThemeSelect from '../ThemeSelect';
 import Header, { HeaderIcon } from '../Header';
@@ -40,6 +43,7 @@ import { Flex } from '../../components/common';
 import theme from '../../theme';
 import { momentUtc, buildTrackingObj } from '../../utils/common';
 import { trackState } from '../../actions/analytics';
+import { VIDEO_CONTENT_TYPES } from '../VideoContentWrap';
 
 class Videos extends Component {
   constructor(props) {
@@ -76,8 +80,6 @@ class Videos extends Component {
       dispatch,
       channelVideos,
       all,
-      navigateResetToNumber,
-      navigateResetToProfile,
       user,
       isAnonUser,
     } = this.props;
@@ -97,7 +99,6 @@ class Videos extends Component {
       dispatch(getVideos(undefined, channel.id))
         .then(() => {
           this.updateVideoList('all');
-          this.setState({ isLoading: false });
         })
         .catch(() => {
           this.setState({ isLoading: false });
@@ -133,9 +134,9 @@ class Videos extends Component {
                   LOG(JSON.stringify(err));
                   if (err.error === 'Messenger not configured') {
                     if (user.first_name) {
-                      navigateResetToNumber();
+                      dispatch(navigateResetToNumber());
                     } else {
-                      navigateResetToProfile();
+                      dispatch(navigateResetToProfile());
                     }
                   }
                 });
@@ -295,7 +296,6 @@ class Videos extends Component {
     if (filter === 'featured') {
       return dispatch(getFeaturedVideos(undefined, channelId))
         .then(r => {
-          this.setState({ isLoading: false });
           this.updateVideoList(filter);
           return r;
         })
@@ -303,7 +303,6 @@ class Videos extends Component {
     } else if (filter === 'popular') {
       return dispatch(getPopularVideos(undefined, channelId))
         .then(r => {
-          this.setState({ isLoading: false });
           this.updateVideoList(filter);
           return r;
         })
@@ -311,7 +310,6 @@ class Videos extends Component {
     } else if (filter === 'all') {
       return dispatch(getVideos(undefined, channelId))
         .then(r => {
-          this.setState({ isLoading: false });
           this.updateVideoList(filter);
           return r;
         })
@@ -319,7 +317,6 @@ class Videos extends Component {
     } else if (filter === 'themes') {
       return dispatch(getTags())
         .then(r => {
-          this.setState({ isLoading: false });
           this.showThemes();
           return r;
         })
@@ -327,7 +324,6 @@ class Videos extends Component {
     } else if (filter === 'favorites') {
       return dispatch(getFavorites(undefined, channelId))
         .then(r => {
-          this.setState({ isLoading: false });
           this.updateVideoList(filter);
           return r;
         })
@@ -340,7 +336,7 @@ class Videos extends Component {
 
   updateVideoList(type) {
     if (this.props.channel && this.props.channel.id) {
-      this.setState({ videos: this.props.channelVideos });
+      this.setState({ videos: this.props.channelVideos, isLoading: false });
       return;
     }
     if (type === 'featured') {
@@ -356,6 +352,7 @@ class Videos extends Component {
     this.videoList &&
       this.videoList.getWrappedInstance &&
       this.videoList.getWrappedInstance().scrollToBeginning(false);
+    this.setState({ isLoading: false });
   }
 
   getSubscriberData() {
@@ -443,24 +440,24 @@ class Videos extends Component {
   }
 
   renderHeaderLeft() {
-    const { onSelectVideo, channel } = this.props;
+    const { onSelectVideo, channel, dispatch } = this.props;
     const showBack = !!onSelectVideo || !!channel;
     if (theme.isAndroid && !showBack) {
       return null;
     } else if (theme.isAndroid && showBack) {
       return (
-        <HeaderIcon type="back" onPress={() => this.props.navigateBack()} />
+        <HeaderIcon type="back" onPress={() => dispatch(navigateBack())} />
       );
     }
     return (
       <HeaderIcon
         type={showBack ? 'back' : undefined}
-        image={vokeIcons['menu']}
+        icon="menu"
         onPress={() => {
           if (showBack) {
-            this.props.navigateBack();
+            dispatch(navigateBack());
           } else {
-            this.props.navigatePush('voke.Menu');
+            dispatch(navigatePush('voke.Menu'));
           }
         }}
       />
@@ -468,65 +465,34 @@ class Videos extends Component {
   }
 
   handleShareVideo = video => {
-    const {
-      t,
-      onSelectVideo,
-      conversation,
-      navigateBack,
-      user,
-      navigatePush,
-      navigateResetMessage,
-    } = this.props;
+    const { onSelectVideo, conversation, user, dispatch } = this.props;
     // This logic exists in the VideoDetails and the VideoList
     if (onSelectVideo) {
-      Alert.alert(
-        t('addToChat'),
-        t('areYouSureAdd', {
-          name: video.name.substr(0, 25).trim(),
-        }),
-        [
-          { text: t('cancel') },
-          {
-            text: t('add'),
-            onPress: () => {
-              onSelectVideo(video.id);
-              // Navigate back after selecting the video
-              if (conversation) {
-                navigateResetMessage({
-                  conversation: conversation,
-                });
-              } else {
-                navigateBack();
-              }
-            },
-          },
-        ],
-      );
+      dispatch(shareVideo(video, onSelectVideo, conversation));
     } else {
       if (!user.first_name) {
-        navigatePush('voke.TryItNowName', {
-          onComplete: () =>
-            navigatePush('voke.ShareFlow', {
-              video: video,
-            }),
-        });
+        dispatch(
+          navigatePush('voke.TryItNowName', {
+            onComplete: () =>
+              dispatch(
+                navigatePush('voke.ShareFlow', {
+                  video,
+                }),
+              ),
+          }),
+        );
       } else {
-        navigatePush('voke.ShareFlow', {
-          video: video,
-        });
+        dispatch(
+          navigatePush('voke.ShareFlow', {
+            video,
+          }),
+        );
       }
     }
   };
 
   render() {
-    const {
-      t,
-      onSelectVideo,
-      navigatePush,
-      conversation,
-      tags,
-      channel,
-    } = this.props;
+    const { t, onSelectVideo, conversation, tags, dispatch } = this.props;
     const { selectedFilter, videos } = this.state;
 
     return (
@@ -581,13 +547,17 @@ class Videos extends Component {
           <VideoList
             ref={c => (this.videoList = c)}
             items={videos}
-            onSelect={c => {
-              navigatePush('voke.VideoDetails', {
-                video: c,
-                onSelectVideo,
-                conversation: conversation,
-                onUpdateVideos: () => this.updateVideoList(selectedFilter),
-              });
+            onSelect={v => {
+              dispatch(
+                navigatePush('voke.VideoContentWrap', {
+                  item: v,
+                  type: VIDEO_CONTENT_TYPES.VIDEODETAIL,
+                  onSelectVideo,
+                  conversation,
+                  onUpdateVideos: () => this.updateVideoList(selectedFilter),
+                  trackingObj: buildTrackingObj('video', 'preview'),
+                }),
+              );
             }}
             onRefresh={this.handleRefresh}
             onLoadMore={this.handleNextPage}
@@ -611,13 +581,13 @@ class Videos extends Component {
 }
 
 Videos.propTypes = {
-  ...NavPropTypes,
   channel: PropTypes.object,
   onSelectVideo: PropTypes.func,
   conversation: PropTypes.object,
 };
 
-const mapStateToProps = ({ auth, videos }) => ({
+const mapStateToProps = ({ auth, videos }, { navigation }) => ({
+  ...(navigation.state.params || {}),
   all: videos.all,
   user: auth.user,
   isAnonUser: auth.isAnonUser,
@@ -630,9 +600,4 @@ const mapStateToProps = ({ auth, videos }) => ({
   pagination: videos.pagination,
 });
 
-export default translate('videos')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(Videos),
-);
+export default translate('videos')(connect(mapStateToProps)(Videos));

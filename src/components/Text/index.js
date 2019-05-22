@@ -8,15 +8,17 @@ export default class MyText extends Component {
     this._text.setNativeProps(nativeProps);
   }
   render() {
-    const { children, style, ...rest } = this.props;
+    const { children, animation, style, ...rest } = this.props;
+    const Tag = animation ? Animatable.Text : Text;
     return (
-      <Animatable.Text
+      <Tag
         ref={c => (this._text = c)}
         {...rest}
+        animation={animation}
         style={[styles.text, style]}
       >
         {children}
-      </Animatable.Text>
+      </Tag>
     );
   }
 }

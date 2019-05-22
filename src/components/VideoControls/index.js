@@ -8,7 +8,7 @@ import styles from './styles';
 
 function convertTime(time) {
   const roundedTime = Math.round(time);
-  let seconds = '00' + roundedTime % 60;
+  let seconds = '00' + (roundedTime % 60);
   let minutes = '00' + Math.floor(roundedTime / 60);
   let hours = '';
   let str = `${minutes.substr(-2)}:${seconds.substr(-2)}`;
@@ -74,9 +74,10 @@ export default class VideoControls extends Component {
             >
               {isPaused || replay ? (
                 <Icon
-                  name={replay ? 'replay' : 'play-circle-filled'}
+                  type={replay ? undefined : 'Voke'}
+                  name={replay ? 'replay' : 'play'}
                   size={50}
-                  style={styles.playIcon}
+                  style={[{ color: 'rgba(255,255,255,0.6)' }]}
                 />
               ) : null}
             </Flex>
@@ -115,11 +116,7 @@ export default class VideoControls extends Component {
               minimumValue={0}
               maximumValue={duration}
               onSlidingComplete={this.seek}
-              onValueChange={value =>
-                this.setState({
-                  seekTime: value,
-                })
-              }
+              onValueChange={value => this.setState({ seekTime: value })}
               style={styles.slider}
             />
           </Flex>

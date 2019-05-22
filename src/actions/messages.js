@@ -8,12 +8,12 @@ import CONSTANTS, {
   MARK_READ,
   MESSAGE_CREATED,
   PREVIEW_MESSAGE_CREATED,
-  SET_MESSAGE_MODAL,
   SET_OVERLAY,
 } from '../constants';
 import callApi, { REQUESTS } from './api';
 import theme from '../theme';
 import { UTC_FORMAT } from '../utils/common';
+import { getJourneyMessages, getMyJourneySteps } from './journeys';
 
 export function getConversations() {
   return dispatch => {
@@ -134,6 +134,26 @@ export function handleNewMessage(message) {
       });
       return;
     }
+    if (message['adventure_message?']) {
+      // API call for getting journey step messages
+      // TODO: Only do this when the step screen is active
+      const activeJourney = getState().journeys.activeJourney;
+      if (activeJourney) {
+        const cId =
+          activeJourney.conversation_id ||
+          (activeJourney.conversation || {}).id;
+        if (message.conversation_id == cId) {
+          dispatch(getMyJourneySteps(activeJourney.id));
+          dispatch(
+            getJourneyMessages(
+              { id: message.messenger_journey_step_id },
+              { conversation_id: cId },
+            ),
+          );
+        }
+      }
+      return;
+    }
     dispatch(vibrateAction());
     if (!theme.isAndroid) {
       dispatch(playSoundAction());
@@ -148,6 +168,10 @@ export function handleNewMessage(message) {
 
 export function newMessageAction(message) {
   return (dispatch, getState) => {
+    if (message['adventure_message?']) {
+      dispatch(handleNewMessage(message));
+      return;
+    }
     const cId = message.conversation_id;
     // Check if conversation exists, just use it, otherwise get it
     const conversationExists = getState().messages.conversations.find(

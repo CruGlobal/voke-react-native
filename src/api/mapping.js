@@ -150,7 +150,7 @@ function formatConversation(c, getState) {
   c.unReadCount = c.unread_messages || 0;
 
   if (c.id === activeConversation) {
-    // console.log('not setting undread because there is an active conversation');
+    // not setting undread because there is an active conversation
     c.hasUnread = false;
     c.unReadCount = 0;
     c.shouldSubtract = c.unread_messages || 0;

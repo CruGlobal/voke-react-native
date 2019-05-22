@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Linking } from 'react-native';
 import { translate } from 'react-i18next';
 
@@ -10,15 +10,26 @@ class PrivacyToS extends Component {
   render() {
     const { t, type, style } = this.props;
     return (
-      <Text style={[styles.privacy, style]}>
-        {t(type || 'agree')}
-        &nbsp;
-        <Text style={styles.underline} onPress={() => Linking.openURL(CONSTANTS.WEB_URLS.PRIVACY)}>{t('privacy')}</Text>
-        &nbsp;
-        {t('and')}
-        &nbsp;
-        <Text style={styles.underline} onPress={() => Linking.openURL(CONSTANTS.WEB_URLS.TERMS)}>{t('tos')}</Text>
-      </Text>
+      <Fragment>
+        <Text style={[styles.privacy, style]}>{t(type || 'agree')}</Text>
+        <Text>
+          <Text
+            style={styles.underline}
+            onPress={() => Linking.openURL(CONSTANTS.WEB_URLS.PRIVACY)}
+          >
+            {t('privacy')}
+          </Text>
+          &nbsp;
+          {t('and')}
+          &nbsp;
+          <Text
+            style={styles.underline}
+            onPress={() => Linking.openURL(CONSTANTS.WEB_URLS.TERMS)}
+          >
+            {t('tos')}
+          </Text>
+        </Text>
+      </Fragment>
     );
   }
 }

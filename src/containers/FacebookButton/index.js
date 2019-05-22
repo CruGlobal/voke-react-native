@@ -123,8 +123,8 @@ class FacebookButton extends Component {
     return (
       <Button
         text={t('signUpFb')}
-        icon="facebook-square"
-        iconType="FontAwesome"
+        icon="facebook"
+        iconType="Voke"
         style={[styles.actionButton, style]}
         {...rest}
         onPress={this.facebookLogin}

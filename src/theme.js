@@ -44,7 +44,7 @@ export const COLORS = {
   PRIMARY_FADE: 'rgba(68, 200, 232, 0.3)',
   DARK_BLUE: '#186078',
   OFF_BLUE: '#3295AD',
-  ORANGE: '#f96332',
+  ORANGE: '#FF9900',
   RED: '#ee2f2f',
   PINK: '#DC608C',
   GREEN: '#00FF4F',
@@ -71,6 +71,8 @@ const PRIMARY = COLORS.BLUE;
 const SECONDARY = COLORS.DARK_BLUE;
 const ACCENT = COLORS.OFF_BLUE;
 
+const isAndroid = Platform.OS === 'android';
+
 export default {
   // base theme
   loadingColor: COLORS.WHITE,
@@ -82,6 +84,8 @@ export default {
   darkBackgroundColor: COLORS.BLACK,
   white: COLORS.WHITE,
   black: COLORS.BLACK,
+  deepBlack: COLORS.DEEP_BLACK,
+  orange: COLORS.ORANGE,
   textColor: COLORS.WHITE,
   lightText: COLORS.WHITE,
   darkText: COLORS.CHARCOAL,
@@ -94,8 +98,7 @@ export default {
   buttonTextColor: COLORS.WHITE,
   buttonIconColor: COLORS.WHITE,
   separatorColor: SECONDARY,
-  separatorHeight:
-    StyleSheet.hairlineWidth + (Platform.OS === 'android' ? 0.2 : 0),
+  separatorHeight: StyleSheet.hairlineWidth + (isAndroid ? 0.2 : 0),
   // separatorHeight: StyleSheet.hairlineWidth,
   // header
   headerBackgroundColor: SECONDARY,
@@ -106,7 +109,7 @@ export default {
   convert: colorConvert,
   fullWidth: deviceWidth,
   fullHeight: deviceHeight,
-  isAndroid: Platform.OS === 'android',
+  isAndroid,
   isIOS: Platform.OS === 'ios',
   isIphoneX:
     Platform.OS === 'ios' &&
@@ -115,4 +118,5 @@ export default {
     (deviceHeight === 812 ||
       deviceWidth === 812 ||
       (deviceHeight === 896 || deviceWidth === 896)),
+  isOlderAndroid: isAndroid && Platform.Version < 23,
 };

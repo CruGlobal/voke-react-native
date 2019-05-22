@@ -6,6 +6,7 @@ import {
   ANALYTICS_CONTEXT_CHANGED,
   ID_SCHEMA,
 } from '../constants';
+const isEnabled = false;
 
 export function updateAnalyticsContext(analyticsContext) {
   return {
@@ -24,8 +25,12 @@ export function trackAction(action, data) {
     {},
   );
 
-  console.log('tracking action', action, newData);
-  return () => RNOmniture.trackAction(action, newData);
+  LOG('tracking action', action, newData);
+  return () => {
+    if (isEnabled) {
+      return RNOmniture.trackAction(action, newData);
+    }
+  };
 }
 
 export function trackState(trackingObj) {
@@ -48,6 +53,9 @@ export function trackState(trackingObj) {
 
 function trackStateWithMCID(context) {
   return dispatch => {
+    if (!isEnabled) {
+      return;
+    }
     if (context[ANALYTICS.MCID]) {
       sendState(context);
     } else {
@@ -61,8 +69,10 @@ function trackStateWithMCID(context) {
 }
 
 function sendState(context) {
-  console.log('tracking state', context[ANALYTICS.SCREENNAME], context);
-  RNOmniture.trackState(context[ANALYTICS.SCREENNAME], context);
+  LOG('tracking state', context[ANALYTICS.SCREENNAME], context);
+  if (isEnabled) {
+    RNOmniture.trackState(context[ANALYTICS.SCREENNAME], context);
+  }
 }
 
 function addTrackingObjToContext(trackingObj, analytics, auth) {

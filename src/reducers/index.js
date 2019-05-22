@@ -1,23 +1,25 @@
 import { combineReducers } from 'redux';
 
-import auth from './auth';
-import contacts from './contacts';
-import videos from './videos';
-import messages from './messages';
-import channels from './channels';
-import nav from './nav';
-import overlays from './overlays';
 import adventures from './adventures';
 import analytics from './analytics';
+import auth from './auth';
+import channels from './channels';
+import contacts from './contacts';
+import journeys from './journeys';
+import messages from './messages';
+import nav from './nav';
+import overlays from './overlays';
+import videos from './videos';
 
 export default combineReducers({
-  auth,
-  contacts,
-  videos,
-  messages,
-  channels,
-  nav,
-  overlays,
   adventures,
   analytics,
+  auth,
+  channels,
+  contacts,
+  journeys,
+  messages,
+  nav,
+  overlays,
+  videos,
 });

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
@@ -6,30 +7,44 @@ import { translate } from 'react-i18next';
 import { navigateBack } from '../../actions/nav';
 import styles from './styles';
 import theme from '../../theme';
+import st from '../../st';
 import { Flex, Text, Button } from '../../components/common';
-import { vokeIcons } from '../../utils/iconMap';
 
-export const HeaderIcon = ({ type, icon, ...rest }) => {
+export const HeaderIcon = ({ type, icon, showDot, ...rest }) => {
   let myProps = {};
   if (type) {
     if (type === 'back') {
       if (theme.isAndroid) {
         myProps.icon = 'arrow-back';
       } else {
-        myProps.image = vokeIcons['back'];
+        myProps.icon = 'back_arrow';
+        myProps.iconType = 'Voke';
       }
     } else if (type === 'search') {
-      if (theme.isAndroid) {
-        myProps.icon = 'search';
-      } else {
-        myProps.image = vokeIcons['search'];
-      }
+      myProps.icon = 'search';
+      myProps.iconType = 'Voke';
     }
   } else {
     myProps.icon = icon;
   }
+  if (!type && myProps.icon) {
+    myProps.iconType = 'Voke';
+  }
   if (myProps.icon) {
     myProps.iconStyle = styles.headerIconSize;
+  }
+  if (showDot) {
+    return (
+      <Flex direction="row" align="center" justify="center">
+        <Button
+          type="transparent"
+          style={styles.headerIcon}
+          {...rest}
+          {...myProps}
+        />
+        <View style={[st.bgYellow, st.circle(10), { marginLeft: -15 }]} />
+      </Flex>
+    );
   }
   return (
     <Button
@@ -56,7 +71,7 @@ class Header extends Component {
       } else {
         left = (
           <HeaderIcon
-            image={vokeIcons['back']}
+            icon="back_arrow"
             onPress={() => this.props.dispatch(navigateBack())}
           />
         );

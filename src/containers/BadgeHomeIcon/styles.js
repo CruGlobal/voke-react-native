@@ -1,4 +1,3 @@
-
 import { StyleSheet } from 'react-native';
 import theme, { COLORS } from '../../theme';
 
@@ -10,10 +9,6 @@ export default StyleSheet.create({
     height: theme.isAndroid ? ICON_SIZE + 20 : ICON_SIZE,
     position: 'relative',
     overflow: 'visible',
-  },
-  image: {
-    width: ICON_SIZE,
-    height: ICON_SIZE,
   },
   badgeWrap: {
     width: 16,

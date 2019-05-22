@@ -28,12 +28,7 @@ const IMAGE_PICKER_OPTIONS = {
 };
 
 class ImagePicker extends Component {
-  constructor(props) {
-    super(props);
-    this.selectImage = this.selectImage.bind(this);
-  }
-
-  selectImage() {
+  selectImage = () => {
     RNImagePicker.showImagePicker(IMAGE_PICKER_OPTIONS, response => {
       if (response.didCancel) {
         // LOG('User cancelled image picker');
@@ -60,7 +55,7 @@ class ImagePicker extends Component {
         this.props.onSelectImage(payload);
       }
     });
-  }
+  };
 
   render() {
     return (

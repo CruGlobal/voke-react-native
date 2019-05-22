@@ -8,6 +8,8 @@ import TO_CHAT from '../../../images/newShare.png';
 import ANIMATION from '../../../images/VokeBotAnimation.gif';
 
 import { Flex, Text, Touchable, Icon, RefreshControl, Button } from '../common';
+import st from '../../st';
+import { keyExtractorId } from '../../utils/common';
 
 const ITEM_HEIGHT = THUMBNAIL_HEIGHT + 100 + 20;
 
@@ -82,7 +84,7 @@ class VideoList extends Component {
             source={{ uri: video.media.thumbnails.large }}
             style={styles.videoThumbnail}
           >
-            <Icon name="play-circle-filled" size={64} style={styles.playIcon} />
+            <Icon type="Voke" name="play" size={64} style={styles.playIcon} />
             <Flex
               direction="row"
               align="center"
@@ -165,13 +167,13 @@ class VideoList extends Component {
         initialNumToRender={4}
         data={this.props.items}
         renderItem={this.renderRow}
-        keyExtractor={item => item.id}
+        keyExtractor={keyExtractorId}
         getItemLayout={(data, index) => ({
           length: ITEM_HEIGHT,
           offset: ITEM_HEIGHT * index,
           index,
         })}
-        style={{ flex: 1 }}
+        style={[st.f1]}
         contentContainerStyle={styles.content}
         refreshControl={
           <RefreshControl
@@ -179,8 +181,10 @@ class VideoList extends Component {
             onRefresh={this.handleRefresh}
           />
         }
+        extraData={{ isLoading: this.props.isLoading }}
         onEndReached={this.props.onLoadMore}
         ListHeaderComponent={this.renderNoText}
+        removeClippedSubviews={false}
       />
     );
   }

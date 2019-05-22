@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { View, FlatList } from 'react-native';
 
 import CONSTANTS from '../../constants';
 import styles from './styles';
 import MessageItem from '../MessageItem';
 import LoadMore from '../../components/LoadMore';
-import { Flex } from '../../components/common';
+import { View, FlatList, Flex } from '../../components/common';
+import { keyExtractorId } from '../../utils/common';
 
 class MessagesList extends Component {
   state = {
@@ -87,7 +87,7 @@ class MessagesList extends Component {
         <FlatList
           ref={c => (this.listView = c)}
           ListFooterComponent={this.renderLoadMore}
-          keyExtractor={item => item.id}
+          keyExtractor={keyExtractorId}
           initialNumToRender={CONSTANTS.PAGE_SIZE + 1}
           data={this.props.items}
           renderItem={this.renderRow}

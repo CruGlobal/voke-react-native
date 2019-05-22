@@ -6,13 +6,9 @@ import CONSTANTS from '../constants';
 import theme from '../theme';
 import i18n from '../i18n';
 import { buildTrackingObj } from './common';
+import { navigateResetLogin, navigatePush } from '../actions/nav';
 // This is used by the android <MenuButton /> and the iOS <Menu />
-export function navMenuOptions({
-  dispatch,
-  navigatePush,
-  navigateResetLogin,
-  isAnonUser,
-} = {}) {
+export function navMenuOptions({ dispatch, isAnonUser } = {}) {
   let createButton = [];
   let signinButton = [];
   let logoutButton = [];
@@ -21,10 +17,21 @@ export function navMenuOptions({
       id: 'signout',
       name: i18n.t('signOut'),
       onPress: () => {
-        dispatch &&
-          dispatch(logoutAction()).then(() => {
-            navigateResetLogin && navigateResetLogin();
-          });
+        dispatch(logoutAction()).then(() => {
+          dispatch(navigateResetLogin());
+        });
+      },
+    });
+  }
+  // FOR TESTING
+  if (isAnonUser) {
+    logoutButton.push({
+      id: 'signout',
+      name: i18n.t('signOut'),
+      onPress: () => {
+        dispatch(logoutAction()).then(() => {
+          dispatch(navigateResetLogin());
+        });
       },
     });
   }
@@ -33,26 +40,28 @@ export function navMenuOptions({
       id: 'signin',
       name: i18n.t('signIn'),
       onPress: () =>
-        navigatePush &&
-        navigatePush('voke.LoginInput', {
-          trackingObj: buildTrackingObj('menu', 'signin'),
-        }),
+        dispatch(
+          navigatePush('voke.LoginInput', {
+            trackingObj: buildTrackingObj('menu', 'signin'),
+          }),
+        ),
     });
     createButton.push({
       id: 'createaccount',
       name: i18n.t('createAccount'),
       onPress: () =>
-        navigatePush &&
-        navigatePush('voke.SignUpAccount', {
-          trackingObj: buildTrackingObj('menu', 'createaccount'),
-        }),
+        dispatch(
+          navigatePush('voke.SignUpAccount', {
+            trackingObj: buildTrackingObj('menu', 'createaccount'),
+          }),
+        ),
     });
   }
   return [
     {
       id: 'profile',
       name: i18n.t('title.profile'),
-      onPress: () => navigatePush && navigatePush('voke.Profile'),
+      onPress: () => dispatch(navigatePush('voke.Profile')),
     },
     ...createButton,
     ...signinButton,
@@ -60,18 +69,19 @@ export function navMenuOptions({
       id: 'invite',
       name: i18n.t('inviteFriend'),
       onPress: () =>
-        navigatePush &&
-        navigatePush('voke.Contacts', {
-          trackingObj: buildTrackingObj('contacts', 'invite'),
-          isInvite: true,
-          onSelect: c => {
-            LOG('Invite this person:', c);
-            let phone = c.phone && c.phone[0] ? c.phone[0] : null;
-            LOG(phone);
-            let message = 'Check out this awesome app! https://vokeapp.com';
-            Communications.textWithoutEncoding(phone, message);
-          },
-        }),
+        dispatch(
+          navigatePush('voke.Contacts', {
+            trackingObj: buildTrackingObj('contacts', 'invite'),
+            isInvite: true,
+            onSelect: c => {
+              LOG('Invite this person:', c);
+              let phone = c.phone && c.phone[0] ? c.phone[0] : null;
+              LOG(phone);
+              let message = 'Check out this awesome app! https://vokeapp.com';
+              Communications.textWithoutEncoding(phone, message);
+            },
+          }),
+        ),
     },
     {
       id: 'review',
@@ -109,12 +119,12 @@ export function navMenuOptions({
     {
       id: 'help',
       name: i18n.t('title.help'),
-      onPress: () => navigatePush && navigatePush('voke.Help'),
+      onPress: () => dispatch(navigatePush('voke.Help')),
     },
     {
       id: 'about',
       name: i18n.t('title.about'),
-      onPress: () => navigatePush && navigatePush('voke.About'),
+      onPress: () => dispatch(navigatePush('voke.About')),
     },
     ...logoutButton,
   ];

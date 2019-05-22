@@ -14,7 +14,7 @@ import { translate } from 'react-i18next';
 import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { updateMe } from '../../actions/auth';
-import nav, { NavPropTypes } from '../../actions/nav';
+import { navigateBack, navigatePush } from '../../actions/nav';
 
 import { Flex, Button, Icon } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
@@ -74,7 +74,7 @@ class SignUpFBAccount extends Component {
   }
 
   addProfile() {
-    const { t } = this.props;
+    const { t, dispatch } = this.props;
     const { firstName, lastName, email } = this.state;
     if (firstName && lastName && email) {
       let data = {
@@ -84,10 +84,10 @@ class SignUpFBAccount extends Component {
           email: email,
         },
       };
-      this.props.dispatch(updateMe(data)).then(() => {
-        this.props.dispatch({ type: RESET_ANON_USER });
+      dispatch(updateMe(data)).then(() => {
+        dispatch({ type: RESET_ANON_USER });
 
-        this.props.navigatePush('voke.SignUpNumber');
+        dispatch(navigatePush('voke.SignUpNumber'));
       });
     } else {
       Alert.alert(t('fillInFields'));
@@ -111,7 +111,7 @@ class SignUpFBAccount extends Component {
   }
 
   render() {
-    const { t } = this.props;
+    const { t, dispatch } = this.props;
     return (
       <ScrollView
         style={styles.container}
@@ -122,7 +122,7 @@ class SignUpFBAccount extends Component {
         <KeyboardAvoidingView
           behavior={theme.isAndroid ? undefined : 'padding'}
         >
-          <SignUpHeaderBack onPress={() => this.props.navigateBack()} />
+          <SignUpHeaderBack onPress={() => dispatch(navigateBack())} />
           <SignUpHeader title={t('title.createAccount')} />
           <Flex value={1} align="center" justify="start" style={styles.inputs}>
             {this.renderImagePicker()}
@@ -160,7 +160,7 @@ class SignUpFBAccount extends Component {
               />
             </Flex>
           </Flex>
-          <Flex direction="column">
+          <Flex direction="column" align="center">
             <PrivacyToS style={styles.legalText} type="create" />
           </Flex>
         </KeyboardAvoidingView>
@@ -170,16 +170,10 @@ class SignUpFBAccount extends Component {
 }
 
 SignUpFBAccount.propTypes = {
-  ...NavPropTypes,
   me: PropTypes.object,
 };
 const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
 });
 
-export default translate('signUp')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(SignUpFBAccount),
-);
+export default translate('signUp')(connect(mapStateToProps)(SignUpFBAccount));

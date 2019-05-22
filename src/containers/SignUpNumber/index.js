@@ -15,7 +15,7 @@ import { createMobileVerification } from '../../actions/auth';
 import Analytics from '../../utils/analytics';
 
 import styles from './styles';
-import nav, { NavPropTypes } from '../../actions/nav';
+import { navigateBack, navigatePush } from '../../actions/nav';
 
 import { Flex, Text, Button, Icon } from '../../components/common';
 
@@ -23,6 +23,7 @@ import ApiLoading from '../ApiLoading';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeader from '../../components/SignUpHeader';
 import theme from '../../theme';
+import st from '../../st';
 
 class SignUpNumber extends Component {
   constructor(props) {
@@ -45,7 +46,7 @@ class SignUpNumber extends Component {
   }
 
   handleNext() {
-    const { t, navigatePush, dispatch } = this.props;
+    const { t, dispatch } = this.props;
     if (!this.state.phoneNumber) {
       Alert.alert(t('enterNumber'));
     } else {
@@ -66,11 +67,13 @@ class SignUpNumber extends Component {
               dispatch(createMobileVerification(data))
                 .then(() => {
                   this.setState({ disableNext: false, isLoading: false });
-                  navigatePush('voke.SignUpNumberVerify', {
-                    mobile: this.state.selectedCountryCode.concat(
-                      this.state.phoneNumber,
-                    ),
-                  });
+                  dispatch(
+                    navigatePush('voke.SignUpNumberVerify', {
+                      mobile: this.state.selectedCountryCode.concat(
+                        this.state.phoneNumber,
+                      ),
+                    }),
+                  );
                 })
                 .catch(err => {
                   this.setState({ disableNext: false, isLoading: false });
@@ -83,15 +86,17 @@ class SignUpNumber extends Component {
     }
 
     // // This is just for testing
-    // this.props.navigatePush('voke.SignUpNumberVerify', {
+    // this.props.dispatch(navigatePush('voke.SignUpNumberVerify', {
     //   mobile: this.state.selectedCountryCode.concat(this.state.phoneNumber),
-    // });
+    // }));
   }
 
   handleOpenCountry() {
-    this.props.navigatePush('voke.CountrySelect', {
-      onSelect: this.handleSelectCountry,
-    });
+    this.props.dispatch(
+      navigatePush('voke.CountrySelect', {
+        onSelect: this.handleSelectCountry,
+      }),
+    );
   }
 
   handleSelectCountry(country) {
@@ -104,17 +109,17 @@ class SignUpNumber extends Component {
   }
 
   skip = () => {
-    this.props.navigateBack(3);
+    this.props.dispatch(navigateBack(3));
   };
 
   render() {
     const { t } = this.props;
     const { selectedCountry, selectedCountryCode, phoneNumber } = this.state;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={[st.f1]}>
         <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
           <KeyboardAvoidingView
-            style={{ flex: 1 }}
+            style={[st.f1]}
             behavior={theme.isAndroid ? undefined : 'padding'}
           >
             <TouchableOpacity
@@ -180,11 +185,10 @@ class SignUpNumber extends Component {
 }
 
 SignUpNumber.propTypes = {
-  ...NavPropTypes,
   hideBack: PropTypes.bool,
 };
 const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
 });
 
-export default translate('signUp')(connect(mapStateToProps, nav)(SignUpNumber));
+export default translate('signUp')(connect(mapStateToProps)(SignUpNumber));

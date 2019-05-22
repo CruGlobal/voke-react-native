@@ -1,4 +1,4 @@
-import { NavigationActions } from 'react-navigation';
+import { StackActions, NavigationActions } from 'react-navigation';
 import { REHYDRATE } from 'redux-persist/constants';
 
 import { MainRoutes } from '../AppRoutes';
@@ -7,7 +7,7 @@ const initialState = MainRoutes.router.getStateForAction(
   MainRoutes.router.getActionForPathAndParams('voke.SignUpWelcome'),
 );
 const initialStateLoggedIn = MainRoutes.router.getStateForAction(
-  NavigationActions.reset({
+  StackActions.reset({
     index: 0,
     actions: [NavigationActions.navigate({ routeName: 'MainTabs' })],
   }),

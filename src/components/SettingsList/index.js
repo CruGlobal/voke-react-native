@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, FlatList, Picker } from 'react-native';
 import { translate } from 'react-i18next';
 
 import styles from './styles';
-import { Flex, Touchable, Text, Separator, Button } from '../common';
+import { FlatList, Flex, Touchable, Text, Separator } from '../common';
+import SafeArea from '../SafeArea';
+import st from '../../st';
 
 class SettingsList extends Component {
-  constructor(props) {
-    super(props);
-
-    this.renderRow = this.renderRow.bind(this);
-  }
-
-  renderRow({ item }) {
+  renderRow = ({ item }) => {
     return (
       <Touchable highlight={true} activeOpacity={0.6} onPress={item.onPress}>
         <Flex style={styles.row} direction="row" align="center">
@@ -21,11 +16,11 @@ class SettingsList extends Component {
         </Flex>
       </Touchable>
     );
-  }
+  };
 
   render() {
     return (
-      <View style={styles.container}>
+      <SafeArea style={[st.f1, st.bgWhite]}>
         <FlatList
           initialNumToRender={20}
           data={this.props.items}
@@ -34,10 +29,11 @@ class SettingsList extends Component {
           )}
           renderItem={this.renderRow}
           keyExtractor={item => item.name.replace(/\s/gi, '')}
-          style={{ flex: 1 }}
+          style={[st.f1]}
           contentContainerStyle={styles.content}
+          removeClippedSubviews={false}
         />
-      </View>
+      </SafeArea>
     );
   }
 }

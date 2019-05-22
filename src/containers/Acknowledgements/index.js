@@ -3,32 +3,26 @@ import { Linking, View } from 'react-native';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
-import nav, { NavPropTypes } from '../../actions/nav';
 import Analytics from '../../utils/analytics';
 
 import SettingsList from '../../components/SettingsList';
 import Header from '../Header';
 import CONSTANTS from '../../constants';
+import st from '../../st';
 
 class Acknowledgements extends Component {
-  constructor(props) {
-    super(props);
-
-    this.handleLink = this.handleLink.bind(this);
-  }
-
   componentDidMount() {
     Analytics.screen(Analytics.s.Acknowledgements);
   }
 
-  handleLink(url) {
+  handleLink = url => {
     Linking.openURL(url);
-  }
+  };
 
   render() {
     const { t } = this.props;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={[st.f1]}>
         <Header
           leftBack={true}
           title={t('title.acknowledgements')}
@@ -153,16 +147,9 @@ class Acknowledgements extends Component {
   }
 }
 
-Acknowledgements.propTypes = {
-  ...NavPropTypes,
-};
+Acknowledgements.propTypes = {};
 const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
 });
 
-export default translate()(
-  connect(
-    mapStateToProps,
-    nav,
-  )(Acknowledgements),
-);
+export default translate()(connect(mapStateToProps)(Acknowledgements));

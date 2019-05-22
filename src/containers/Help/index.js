@@ -4,13 +4,14 @@ import { connect } from 'react-redux';
 import Communications from 'react-native-communications';
 import { translate } from 'react-i18next';
 
-import nav, { NavPropTypes } from '../../actions/nav';
+import { navigateTop } from '../../actions/nav';
 import Analytics from '../../utils/analytics';
 import SettingsList from '../../components/SettingsList';
 import Button from '../../components/Button';
 import CONSTANTS from '../../constants';
 import Header from '../Header';
 import theme from '../../theme';
+import st from '../../st';
 
 const EMAIL = ['support@vokeapp.com'];
 const REPORT_TITLE = 'I would like to report a user';
@@ -18,21 +19,15 @@ const EMAIL_US_TITLE = 'Email to Voke Support';
 const FEATURE_REQUEST_TITLE = 'Feature Request for Voke';
 
 class Help extends Component {
-  constructor(props) {
-    super(props);
-    this.handleLink = this.handleLink.bind(this);
-    this.handleShare = this.handleShare.bind(this);
-  }
-
   componentDidMount() {
     Analytics.screen(Analytics.s.Help);
   }
 
-  handleLink(url) {
+  handleLink = url => {
     Linking.openURL(url);
-  }
+  };
 
-  handleShare(c) {
+  handleShare = c => {
     let title;
     if (c === 'feature') {
       title = FEATURE_REQUEST_TITLE;
@@ -42,12 +37,12 @@ class Help extends Component {
       title = EMAIL_US_TITLE;
     }
     Communications.email(EMAIL, null, null, title, null);
-  }
+  };
 
   render() {
-    const { t, navigateBack } = this.props;
+    const { t, dispatch } = this.props;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={[st.f1]}>
         <Header
           right={
             theme.isAndroid ? (
@@ -57,11 +52,7 @@ class Help extends Component {
                 type="transparent"
                 text={t('done')}
                 buttonTextStyle={{ padding: 10, fontSize: 16 }}
-                onPress={() => {
-                  // Close out of the settings by going back 2 times
-                  navigateBack();
-                  navigateBack();
-                }}
+                onPress={() => dispatch(navigateTop())}
               />
             )
           }
@@ -98,16 +89,4 @@ class Help extends Component {
   }
 }
 
-Help.propTypes = {
-  ...NavPropTypes,
-};
-const mapStateToProps = (state, { navigation }) => ({
-  ...(navigation.state.params || {}),
-});
-
-export default translate('settings')(
-  connect(
-    mapStateToProps,
-    nav,
-  )(Help),
-);
+export default translate('settings')(connect()(Help));

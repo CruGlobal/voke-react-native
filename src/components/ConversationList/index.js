@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { translate } from 'react-i18next';
 
 import styles from './styles';
 import theme, { COLORS } from '../../theme';
-import { getInitials } from '../../utils/common';
+import { getInitials, keyExtractorId, findVokebot } from '../../utils/common';
 
 import {
+  View,
   Flex,
   VokeIcon,
   Text,
@@ -19,6 +19,7 @@ import {
 import LoadMore from '../LoadMore';
 import NotificationToast from '../../containers/NotificationToast';
 import CONSTANTS from '../../constants';
+import st from '../../st';
 
 const SLIDE_ROW_WIDTH = 130;
 
@@ -59,12 +60,12 @@ class ConversationList extends Component {
 
   getConversationParticipant = conversation => {
     const myId = this.props.me.id;
-    const voke = conversation.messengers.find(a => a.bot);
+    const voke = findVokebot(conversation.messengers);
 
     const otherPerson = conversation.messengers.find(
       a => a.id !== myId && !a.bot,
     );
-    if (voke && conversation.messengers.length === 2) {
+    if (voke && voke.id && conversation.messengers.length === 2) {
       return voke;
     }
     return otherPerson;
@@ -122,6 +123,11 @@ class ConversationList extends Component {
                   ? otherPerson.avatar.small
                   : null
               }
+              isVoke={
+                otherPerson &&
+                otherPerson.bot &&
+                otherPerson.first_name === 'VokeBot'
+              }
               style={[
                 styles.avatar,
                 this.state.rowFocused === item.id
@@ -141,7 +147,11 @@ class ConversationList extends Component {
                   <Text style={styles.messagePreviewWrapper} numberOfLines={2}>
                     <Text style={styles.creatorText}>{contentCreator}</Text>
                     {theme.isAndroid ? ' ' : null}
-                    <VokeIcon name="arrow" style={styles.arrowImage} />
+                    <VokeIcon
+                      name="chat_name_arrow"
+                      size={10}
+                      style={styles.arrowImage}
+                    />
                     {theme.isAndroid ? ' ' : null}
                     <Text style={styles.messagePreviewText}>
                       {conversation.messagePreview || '...'}
@@ -158,8 +168,14 @@ class ConversationList extends Component {
               <VokeIcon
                 name={
                   conversation.hasUnread && unreadCount > 0
-                    ? 'unread-arrow'
-                    : 'read-arrow'
+                    ? 'next_arrow_yellow'
+                    : 'next_arrow'
+                }
+                size={20}
+                style={
+                  conversation.hasUnread && unreadCount > 0
+                    ? styles.conversationArrowIcon
+                    : { color: 'white' }
                 }
               />
             </Flex>
@@ -173,7 +189,7 @@ class ConversationList extends Component {
     return (
       <SwipeListView
         useFlatList={true}
-        keyExtractor={item => item.id}
+        keyExtractor={keyExtractorId}
         data={this.props.items}
         renderItem={this.renderRow}
         directionalDistanceChangeThreshold={theme.isAndroid ? 12 : undefined}
@@ -187,7 +203,7 @@ class ConversationList extends Component {
             >
               <Touchable
                 activeOpacity={0.9}
-                style={{ flex: 1 }}
+                style={[st.f1]}
                 disabled={item.messengers.length === 2}
                 onPress={() => {
                   this.handleDelete(item);
@@ -202,12 +218,12 @@ class ConversationList extends Component {
                     item.messengers.length === 2 ? styles.disabledButton : null,
                   ]}
                 >
-                  <VokeIcon name="delete" style={{ height: 40 }} />
+                  <VokeIcon name="delete_chat" size={40} />
                 </Flex>
               </Touchable>
               <Touchable
                 activeOpacity={0.9}
-                style={{ flex: 1 }}
+                style={[st.f1]}
                 disabled={item.messengers.length === 2}
                 onPress={() => {
                   this.handleBlock(item);
@@ -222,7 +238,7 @@ class ConversationList extends Component {
                     item.messengers.length === 2 ? styles.disabledButton : null,
                   ]}
                 >
-                  <VokeIcon name="block" style={{ height: 40 }} />
+                  <VokeIcon name="block_chat" size={40} />
                 </Flex>
               </Touchable>
             </Flex>

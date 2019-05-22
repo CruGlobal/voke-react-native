@@ -19,8 +19,34 @@ class SignUpInput extends Component {
   }
 
   render() {
-    const { style, onFocus, onBlur, ...rest } = this.props;
+    const { style, type, onFocus, onBlur, ...rest } = this.props;
     const isFocused = this.state.isFocused;
+
+    if (type === 'new') {
+      return (
+        <TextInput
+          ref={c => (this.input = c)}
+          onFocus={() => {
+            this.setState({ isFocused: true });
+            onFocus && onFocus();
+          }}
+          onBlur={() => {
+            this.setState({ isFocused: false });
+            onBlur && onBlur();
+          }}
+          autoCapitalize="none"
+          returnKeyType="done"
+          multiline={false}
+          blurOnSubmit={true}
+          placeholderTextColor={theme.white}
+          style={[styles.inputNew, style]}
+          autoCorrect={false}
+          underlineColorAndroid={COLORS.TRANSPARENT}
+          selectionColor={COLORS.YELLOW}
+          {...rest}
+        />
+      );
+    }
 
     // Get the url for the voke image if it is a voke contact
     return (

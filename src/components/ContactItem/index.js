@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Image } from 'react-native';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 
 import styles from './styles';
 import VOKE_ICON from '../../../images/voke_icon_chat.png';
-import { Flex, Text, Avatar, Button } from '../common';
+import { Image, Flex, Text, Avatar, Button } from '../common';
 import { getInitials } from '../../utils/common';
 
 class ContactItem extends Component {
