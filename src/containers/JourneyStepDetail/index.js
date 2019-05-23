@@ -108,10 +108,10 @@ class JourneyStepDetail extends Component {
   };
 
   checkIfLast = () => {
-    const { t, dispatch, steps, messengers, journeyStep } = this.props;
+    const { t, dispatch, steps, messengers, journeyStep, journey } = this.props;
 
     // Only show "Done" if in a solo journey
-    const isSolo = messengers.length === 2;
+    const isSolo = journey && journey.kind !== 'duo';
     if (isSolo && (steps[steps.length - 1] || {}).id === journeyStep.id) {
       Alert.alert(t('finishedJourney'), '', [
         {
@@ -201,7 +201,7 @@ class JourneyStepDetail extends Component {
       return;
     }
 
-    const isSolo = messengers.length === 2;
+    const isSolo = journey && journey.kind !== 'duo';
     if (isSolo) {
       return;
     }
@@ -405,7 +405,7 @@ class JourneyStepDetail extends Component {
   };
 
   render() {
-    const { t, me, messages, messengers, journeyStep } = this.props;
+    const { t, me, messages, messengers, journeyStep, journey } = this.props;
     const { text, stateResponse, isResponseSet } = this.state;
 
     const inputStyle = [st.f1, st.fs4, st.darkBlue];
@@ -420,7 +420,7 @@ class JourneyStepDetail extends Component {
       this.setMessageBox();
     }
     const meMessenger = messengers.find(i => i.id === me.id);
-    const isSolo = messengers.length === 2;
+    const isSolo = journey && journey.kind !== 'duo';
 
     return (
       <ScrollView
