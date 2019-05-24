@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import DeviceInfo from 'react-native-device-info';
 import Firebase from 'react-native-firebase';
 import * as RNOmniture from 'react-native-omniture';
+import NetInfo from '@react-native-community/netinfo';
 
 import {
   LOGIN,
@@ -139,96 +140,105 @@ function appStateChange(dispatch, getState, nextAppState) {
     RNOmniture.collectLifecycleData(getState().analytics);
 
     LOG('App has come to the foreground!');
+    NetInfo.fetch().then(netInfoState => {
+      console.log('net info state', netInfoState);
+      if (!netInfoState.isConnected) {
+        return;
+      }
 
-    // Don't run establish device if it's authorized
-    dispatch(checkPushPermissions(false));
+      // Don't run establish device if it's authorized
+      dispatch(checkPushPermissions(false));
 
-    let messages = getState().messages;
-    if (!theme.isAndroid) {
-      PushNotificationIOS.getDeliveredNotifications(results => {
-        if (results && results.length > 0)
-          PushNotificationIOS.removeAllDeliveredNotifications();
-        let conversations = getState().messages.conversations;
-        let link =
-          results[0] &&
-          results[0].userInfo &&
-          results[0].userInfo.data &&
-          results[0].userInfo.data.link;
-        if (!link) return;
-        if (link.includes('adventures')) {
-          dispatch(getMe());
-          return;
-        }
-        const cId = link.substring(
-          link.indexOf('conversations/') + 14,
-          link.indexOf('/messages'),
-        );
-        const mId = link.substring(link.indexOf('messages/') + 9, link.length);
-        // LOG('conversation ID: ', cId);
-        // LOG('message ID:', mId);
-        if (cId && mId) {
-          let conv = conversations.find(c => cId === c.id);
-          // if the conversation does not exist then call get conversations or if the message does not exist call get conversation
-          if (
-            !conv ||
-            (conv.latestMessage && conv.latestMessage.message_id !== mId)
-          ) {
-            // LOG('get conversations');
-            if (messages.activeConversationId === cId) {
-              dispatch(getMessages(cId)).then(() => {
-                const interaction = {
-                  action: 'read',
-                  conversationId: cId,
-                  messageId: mId,
-                };
-                dispatch(createMessageInteraction(interaction)).then(() => {
-                  dispatch(getConversations());
-                });
-              });
-            } else {
-              dispatch(getConversations());
-            }
+      let messages = getState().messages;
+      if (!theme.isAndroid) {
+        PushNotificationIOS.getDeliveredNotifications(results => {
+          if (results && results.length > 0)
+            PushNotificationIOS.removeAllDeliveredNotifications();
+          let conversations = getState().messages.conversations;
+          let link =
+            results[0] &&
+            results[0].userInfo &&
+            results[0].userInfo.data &&
+            results[0].userInfo.data.link;
+          if (!link) return;
+          if (link.includes('adventures')) {
+            dispatch(getMe());
+            return;
           }
-        }
-      });
-    } else {
-      if (messages.activeConversationId) {
-        dispatch(getMessages(messages.activeConversationId)).then(() => {
-          const message = getState().messages[messages.activeConversationId];
-          const mId = message ? message[0].id : null;
-          if (!mId) {
-            dispatch(getConversations());
-          } else {
-            const interaction = {
-              action: 'read',
-              conversationId: messages.activeConversationId,
-              messageId: mId,
-            };
-            dispatch(createMessageInteraction(interaction)).then(() => {
-              dispatch(getConversations());
-            });
+          const cId = link.substring(
+            link.indexOf('conversations/') + 14,
+            link.indexOf('/messages'),
+          );
+          const mId = link.substring(
+            link.indexOf('messages/') + 9,
+            link.length,
+          );
+          // LOG('conversation ID: ', cId);
+          // LOG('message ID:', mId);
+          if (cId && mId) {
+            let conv = conversations.find(c => cId === c.id);
+            // if the conversation does not exist then call get conversations or if the message does not exist call get conversation
+            if (
+              !conv ||
+              (conv.latestMessage && conv.latestMessage.message_id !== mId)
+            ) {
+              // LOG('get conversations');
+              if (messages.activeConversationId === cId) {
+                dispatch(getMessages(cId)).then(() => {
+                  const interaction = {
+                    action: 'read',
+                    conversationId: cId,
+                    messageId: mId,
+                  };
+                  dispatch(createMessageInteraction(interaction)).then(() => {
+                    dispatch(getConversations());
+                  });
+                });
+              } else {
+                dispatch(getConversations());
+              }
+            }
           }
         });
       } else {
-        dispatch(getConversations());
+        if (messages.activeConversationId) {
+          dispatch(getMessages(messages.activeConversationId)).then(() => {
+            const message = getState().messages[messages.activeConversationId];
+            const mId = message ? message[0].id : null;
+            if (!mId) {
+              dispatch(getConversations());
+            } else {
+              const interaction = {
+                action: 'read',
+                conversationId: messages.activeConversationId,
+                messageId: mId,
+              };
+              dispatch(createMessageInteraction(interaction)).then(() => {
+                dispatch(getConversations());
+              });
+            }
+          });
+        } else {
+          dispatch(getConversations());
+        }
       }
-    }
-    const now = Date.now();
-    const BACKGROUND_REFRESH_TIME = 1000 * 3600 * 24; // 24 hours
-    if (now - appCloseTime > BACKGROUND_REFRESH_TIME) {
-      dispatch(getAllOrganizations());
-      dispatch(getMyOrganizations());
-      dispatch(getFeaturedOrganizations());
-      dispatch(setOpenVoke());
-    }
-    // const currentConvId = getState().messages.activeConversationId;
-    // if (currentConvId) {
-    //   dispatch(getMessages(currentConvId));
-    // }
+      const now = Date.now();
+      const BACKGROUND_REFRESH_TIME = 1000 * 3600 * 24; // 24 hours
+      if (now - appCloseTime > BACKGROUND_REFRESH_TIME) {
+        dispatch(getAllOrganizations());
+        dispatch(getMyOrganizations());
+        dispatch(getFeaturedOrganizations());
+        dispatch(setOpenVoke());
+      }
+      // const currentConvId = getState().messages.activeConversationId;
+      // if (currentConvId) {
+      //   dispatch(getMessages(currentConvId));
+      // }
 
-    dispatch(checkAndRunSockets());
-    dispatch(getJourneyInvites());
-    dispatch(getMyJourneys());
+      dispatch(checkAndRunSockets());
+      dispatch(getJourneyInvites());
+      dispatch(getMyJourneys());
+    });
   } else if (nextAppState === 'background' || nextAppState === 'inactive') {
     LOG('App is going into the background');
 

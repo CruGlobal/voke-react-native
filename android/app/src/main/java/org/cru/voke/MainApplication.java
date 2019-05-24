@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.multidex.MultiDex; // For Multidex support Android <5.0
 
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.cmcewen.blurview.BlurViewPackage;
@@ -61,6 +62,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new NetInfoPackage(),
           new AsyncStoragePackage(),
           new BlurViewPackage(),
           new RNGestureHandlerPackage(),

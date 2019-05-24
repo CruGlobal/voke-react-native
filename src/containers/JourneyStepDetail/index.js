@@ -181,15 +181,7 @@ class JourneyStepDetail extends Component {
   };
 
   renderNext = () => {
-    const {
-      t,
-      dispatch,
-      me,
-      steps,
-      journey,
-      journeyStep,
-      messengers,
-    } = this.props;
+    const { t, dispatch, me, steps, journey, journeyStep } = this.props;
     const isComplete = journeyStep.status === 'completed';
     const isWaiting =
       journeyStep.status === 'active' && journeyStep['completed_by_messenger?'];
@@ -535,7 +527,11 @@ JourneyStepDetail.propTypes = {
 
 const mapStateToProps = (
   { auth, journeys },
-  { navigation: { state: { params } } },
+  {
+    navigation: {
+      state: { params },
+    },
+  },
 ) => ({
   ...params,
   // Get messages by step id
