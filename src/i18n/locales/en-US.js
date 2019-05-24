@@ -49,6 +49,7 @@ export default {
     or: 'OR',
     other: 'Other',
     part: 'Part',
+    partSeries: 'Part Series',
     popular: 'Popular',
     privacy: 'Privacy Policy',
     resend: 'Resend',
@@ -313,7 +314,6 @@ export default {
     waitingForFriend: 'Waiting for {{name}} to join...',
   },
   orgJourney: {
-    partSeries: 'Part Series',
     started: 'Started',
   },
   journey: {

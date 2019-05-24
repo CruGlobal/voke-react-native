@@ -70,7 +70,9 @@ class OrgJourneyDetail extends Component {
       <Flex value={1} style={[st.bgWhite]}>
         <Flex style={[st.pd3]}>
           <Text style={[st.fs2, st.blue]}>{item.name}</Text>
-          <Text style={[st.pt5, st.charcoal]}>8-part Series</Text>
+          <Text style={[st.pt5, st.charcoal]}>
+            {item.total_steps}-{t('partSeries')}
+          </Text>
           <Text style={[st.charcoal, st.pv4]}>{item.description}</Text>
         </Flex>
         <Flex value={1} justify="end">
