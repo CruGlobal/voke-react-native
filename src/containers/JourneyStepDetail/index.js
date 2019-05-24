@@ -193,13 +193,12 @@ class JourneyStepDetail extends Component {
       return;
     }
 
-    const isSolo = journey && journey.kind !== 'duo';
-    if (isSolo) {
-      return;
-    }
-
     let text = t('nextVideoReady');
     if (isWaiting) {
+      const isSolo = journey && journey.kind !== 'duo';
+      if (isSolo) {
+        return;
+      }
       const otherUser = journey.conversation.messengers.find(
         i => i.id !== me.id && i.first_name !== 'VokeBot',
       );
