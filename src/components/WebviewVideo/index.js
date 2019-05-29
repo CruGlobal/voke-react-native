@@ -250,6 +250,7 @@ class WebviewVideo extends Component {
         <RNVideo
           ref={c => (this.rnvideo = c)}
           url={hls || url}
+          isHLS={!!hls}
           onUpdateData={this.handleData}
           isPaused={isPaused}
           replay={replay}

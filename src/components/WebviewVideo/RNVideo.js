@@ -7,6 +7,7 @@ import Video from 'react-native-video';
 // import videoUtils from '../../utils/video';
 import webviewCommon from './common';
 import { isString } from '../../utils/common';
+import theme from '../../theme';
 
 export default class RNVideo extends Component {
   constructor(props) {
@@ -68,12 +69,16 @@ export default class RNVideo extends Component {
   }
 
   render() {
-    const { url, isPaused } = this.props;
+    const { url, isHLS, isPaused } = this.props;
     // playInBackground, playWhenInactive, ignoreSilentSwitch are all iOS properties
+    let source = { uri: url };
+    if (isHLS && theme.isAndroid) {
+      source.type = 'm3u8';
+    }
     return (
       <Video
         ref={c => (this.player = c)}
-        source={{ uri: url }}
+        source={source}
         paused={isPaused}
         resizeMode="contain"
         playInBackground={false}
