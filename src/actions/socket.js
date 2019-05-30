@@ -16,7 +16,7 @@ import {
   getConversation,
   getConversations,
 } from './messages';
-import { navigateResetMessage, navigatePush } from './nav';
+import { navigateResetMessage, navigatePush, navigateResetHome } from './nav';
 import {
   getMyJourney,
   getMyJourneyStep,
@@ -390,6 +390,7 @@ export function handleNotifications(state, notification) {
         const sId = getSID(link);
         dispatch(getMyJourney(jId)).then(r => {
           dispatch(getMyJourneyStep(jId, sId)).then(res => {
+            dispatch(navigateResetHome());
             dispatch(
               navigatePush('voke.VideoContentWrap', {
                 item: r,
@@ -402,6 +403,7 @@ export function handleNotifications(state, notification) {
       } else if (link.includes('messenger_journeys')) {
         const onlyJId = getOnlyJID(link);
         dispatch(getMyJourney(onlyJId)).then(r => {
+          dispatch(navigateResetHome());
           dispatch(
             navigatePush('voke.VideoContentWrap', {
               item: r,
