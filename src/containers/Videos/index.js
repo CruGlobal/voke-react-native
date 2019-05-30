@@ -209,13 +209,13 @@ class Videos extends Component {
   };
 
   handleNextPage() {
-    const pagination = this.props.pagination;
-    const filter = this.state.selectedFilter;
+    const { dispatch, pagination, channel, selectedThemeVideos } = this.props;
+    const { selectedFilter: filter, videos, selectedTag } = this.state;
 
     let page;
     let query = {};
     // Custom logic for channel pagination
-    const channelId = this.props.channel ? this.props.channel.id : undefined;
+    const channelId = channel ? channel.id : undefined;
     if (channelId) {
       // If there is a new filter for channel pagination, do nothing
       if (pagination.channel.type !== filter || !pagination.channel.hasMore) {
@@ -234,36 +234,34 @@ class Videos extends Component {
     // LOG('next page', filter, pagination[filter]);
 
     if (filter === 'featured') {
-      this.props.dispatch(getFeaturedVideos(query, channelId)).then(r => {
-        this.updateVideoList(filter);
+      dispatch(getFeaturedVideos(query, channelId)).then(r => {
+        this.updateVideoList(filter, true);
         return r;
       });
     } else if (filter === 'popular') {
-      this.props.dispatch(getPopularVideos(query, channelId)).then(r => {
-        this.updateVideoList(filter);
+      dispatch(getPopularVideos(query, channelId)).then(r => {
+        this.updateVideoList(filter, true);
         return r;
       });
     } else if (filter === 'all') {
-      this.props.dispatch(getVideos(query, channelId)).then(r => {
-        this.updateVideoList(filter);
+      dispatch(getVideos(query, channelId)).then(r => {
+        this.updateVideoList(filter, true);
         return r;
       });
     } else if (filter === 'favorites') {
-      this.props.dispatch(getFavorites(query, channelId)).then(r => {
-        this.updateVideoList(filter);
+      dispatch(getFavorites(query, channelId)).then(r => {
+        this.updateVideoList(filter, true);
         return r;
       });
     } else if (filter === 'themes') {
-      if (this.state.videos.length === 0 || !this.state.selectedTag) {
+      if (videos.length === 0 || !selectedTag) {
         return;
       }
-      this.props
-        .dispatch(
-          getSelectedThemeVideos(this.state.selectedTag, page, channelId),
-        )
-        .then(() => {
-          this.setState({ videos: this.props.selectedThemeVideos });
-        });
+      dispatch(getSelectedThemeVideos(selectedTag, page, channelId)).then(
+        () => {
+          this.setState({ videos: selectedThemeVideos });
+        },
+      );
     }
   }
 
@@ -334,7 +332,7 @@ class Videos extends Component {
     return Promise.resolve();
   }
 
-  updateVideoList(type) {
+  updateVideoList(type, shouldntScroll) {
     if (this.props.channel && this.props.channel.id) {
       this.setState({ videos: this.props.channelVideos, isLoading: false });
       return;
@@ -349,9 +347,11 @@ class Videos extends Component {
       this.setState({ videos: this.props.favorites });
     }
 
-    this.videoList &&
-      this.videoList.getWrappedInstance &&
-      this.videoList.getWrappedInstance().scrollToBeginning(false);
+    if (!shouldntScroll) {
+      this.videoList &&
+        this.videoList.getWrappedInstance &&
+        this.videoList.getWrappedInstance().scrollToBeginning(false);
+    }
     this.setState({ isLoading: false });
   }
 

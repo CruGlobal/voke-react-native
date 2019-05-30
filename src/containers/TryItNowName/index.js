@@ -182,8 +182,8 @@ class TryItNowName extends Component {
                 <Button
                   text={t('continue')}
                   type="filled"
-                  isLoading={this.state.isLoading}
-                  disabled={isLoading || !firstName}
+                  isLoading={isLoading}
+                  disabled={!firstName}
                   buttonTextStyle={styles.signInButtonText}
                   style={styles.signInButton}
                   onPress={this.createAccount}

@@ -42,19 +42,26 @@ class AdventureCode extends Component {
         return;
       }
       try {
-        await dispatch(acceptJourneyInvite(adventureCode));
+        const newJourney = await dispatch(acceptJourneyInvite(adventureCode));
 
         if (onboarding) {
           dispatch(determinePushOverlay('adventurePushPermissions'));
           this.goToPhoto(true);
         } else {
-          const r = await dispatch(getMyJourneys());
+          const myJourneys = await dispatch(getMyJourneys());
 
           dispatch(navigateBack(1, { immediate: true }));
-          if (r.journeys[r.journeys.length - 1]) {
+
+          let journeyItem = (myJourneys.journeys || []).find(
+            j => j.id === newJourney.messenger_journey_id,
+          );
+          if (!journeyItem) {
+            journeyItem = myJourneys.journeys[0];
+          }
+          if (journeyItem) {
             dispatch(
               navigatePush('voke.VideoContentWrap', {
-                item: r.journeys[r.journeys.length - 1],
+                item: journeyItem,
                 type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
                 trackingObj: buildTrackingObj('journey : mine', 'detail'),
               }),
@@ -74,7 +81,7 @@ class AdventureCode extends Component {
   };
 
   goToPhoto = (disableBack = false) => {
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: false });
     this.props.dispatch(
       navigatePush('voke.TryItNowProfilePhoto', { disableBack }),
     );
@@ -114,7 +121,7 @@ class AdventureCode extends Component {
                 }
                 type="filled"
                 isLoading={isLoading}
-                disabled={isLoading || (!onboarding && !adventureCode)}
+                disabled={!onboarding && !adventureCode}
                 buttonTextStyle={styles.signInButtonText}
                 style={styles.signInButton}
                 onPress={this.handleCodeSearch}

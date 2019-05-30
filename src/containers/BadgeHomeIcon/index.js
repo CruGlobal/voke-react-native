@@ -65,7 +65,6 @@ const mapStateToProps = ({ messages, journeys }, { isAdventure }) => {
       journeysUnreadCount += (j.conversation || {}).unread_messages || 0;
     });
   }
-  console.log('HEREHR', isAdventure, journeysUnreadCount);
   return {
     unReadBadgeCount: messages.unReadBadgeCount,
     journeysUnreadCount,
