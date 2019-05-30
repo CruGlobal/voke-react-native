@@ -11,8 +11,8 @@ export default StyleSheet.create({
     overflow: 'visible',
   },
   badgeWrap: {
-    width: 16,
     height: 16,
+    minWidth: 16,
     backgroundColor: COLORS.YELLOW,
     position: 'absolute',
     top: theme.isAndroid ? 11 : -3,

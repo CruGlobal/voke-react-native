@@ -49,16 +49,6 @@ class About extends Component {
         <SettingsList
           items={[
             {
-              name: t('why'),
-              onPress: () =>
-                dispatch(
-                  navigatePush('voke.SignUpWelcome', {
-                    noSignIn: true,
-                    trackingObj: buildTrackingObj('about', 'whyvoke'),
-                  }),
-                ),
-            },
-            {
               name: t('website'),
               onPress: () => this.handleLink(CONSTANTS.WEB_URLS.VOKE),
             },

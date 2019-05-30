@@ -33,17 +33,17 @@ class BadgeHomeIcon extends Component {
             color: isActive ? theme.white : theme.primaryColor,
           }}
         />
-        {unReadBadgeCount ? (
+        {unReadBadgeCount && !isAdventure ? (
           <Flex align="center" justify="center" style={styles.badgeWrap}>
-            <Text style={styles.badge}>
-              {unReadBadgeCount > 99 ? '99' : unReadBadgeCount}
+            <Text allowFontScaling={false} style={styles.badge}>
+              {unReadBadgeCount}
             </Text>
           </Flex>
         ) : null}
         {isAdventure && journeysUnreadCount ? (
           <Flex align="center" justify="center" style={styles.badgeWrap}>
-            <Text style={styles.badge}>
-              {journeysUnreadCount > 99 ? '99' : journeysUnreadCount}
+            <Text allowFontScaling={false} style={styles.badge}>
+              {journeysUnreadCount}
             </Text>
           </Flex>
         ) : null}
@@ -65,6 +65,7 @@ const mapStateToProps = ({ messages, journeys }, { isAdventure }) => {
       journeysUnreadCount += (j.conversation || {}).unread_messages || 0;
     });
   }
+  console.log('HEREHR', isAdventure, journeysUnreadCount);
   return {
     unReadBadgeCount: messages.unReadBadgeCount,
     journeysUnreadCount,
