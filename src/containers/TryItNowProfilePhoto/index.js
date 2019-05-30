@@ -94,7 +94,7 @@ class TryItNowProfilePhoto extends Component {
   }
 
   render() {
-    const { t, dispatch } = this.props;
+    const { t, dispatch, disableBack } = this.props;
     return (
       <View style={styles.container}>
         <SafeArea style={[st.f1, st.bgDarkBlue]} top={[st.bgBlue]}>
@@ -131,9 +131,11 @@ class TryItNowProfilePhoto extends Component {
               />
             </Flex>
           </View>
-          <Flex style={[st.abstl]}>
-            <SignUpHeaderBack onPress={() => dispatch(navigateBack())} />
-          </Flex>
+          {disableBack ? null : (
+            <Flex style={[st.abstl]}>
+              <SignUpHeaderBack onPress={() => dispatch(navigateBack())} />
+            </Flex>
+          )}
           <Flex style={[st.abstr, st.pr3, st.pt3]}>
             <Button
               type="transparent"
@@ -148,7 +150,7 @@ class TryItNowProfilePhoto extends Component {
 }
 
 TryItNowProfilePhoto.propTypes = {
-  hideBack: PropTypes.bool,
+  disableBack: PropTypes.bool,
 };
 const mapStateToProps = ({ auth }, { navigation }) => ({
   ...(navigation.state.params || {}),

@@ -46,7 +46,7 @@ class AdventureCode extends Component {
 
         if (onboarding) {
           dispatch(determinePushOverlay('adventurePushPermissions'));
-          this.goToPhoto();
+          this.goToPhoto(true);
         } else {
           const r = await dispatch(getMyJourneys());
 
@@ -73,9 +73,11 @@ class AdventureCode extends Component {
     }
   };
 
-  goToPhoto = () => {
+  goToPhoto = (disableBack = false) => {
     this.setState({ isLoading: true });
-    this.props.dispatch(navigatePush('voke.TryItNowProfilePhoto'));
+    this.props.dispatch(
+      navigatePush('voke.TryItNowProfilePhoto', { disableBack }),
+    );
   };
 
   render() {

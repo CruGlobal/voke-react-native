@@ -63,9 +63,7 @@ function getVideoType(item) {
   const media =
     (item.media
       ? item.media
-      : item.item && item.item.content
-      ? item.item.content
-      : {}) || {};
+      : item.item && item.item.content ? item.item.content : {}) || {};
   return media.type;
 }
 
@@ -322,6 +320,10 @@ class VideoContentWrap extends Component {
       };
     }
 
+    const isTrailer =
+      type === VIDEO_CONTENT_TYPES.ORGJOURNEY ||
+      type === VIDEO_CONTENT_TYPES.JOURNEYDETAIL;
+
     return (
       <Flex value={1}>
         <SafeArea
@@ -356,6 +358,7 @@ class VideoContentWrap extends Component {
                   video={videoObj}
                   onChangeState={this.handleVideoChange}
                   isLandscape={isLandscape}
+                  isTrailer={isTrailer}
                   {...videoProps}
                 />
               ) : null}

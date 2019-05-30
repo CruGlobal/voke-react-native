@@ -1,5 +1,11 @@
 import React, { Component, Fragment } from 'react';
-import { Image, TouchableOpacity, Keyboard, Alert } from 'react-native';
+import {
+  Image,
+  TouchableOpacity,
+  Keyboard,
+  Alert,
+  KeyboardAvoidingView,
+} from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
@@ -165,16 +171,25 @@ class TryItNowName extends Component {
           </Flex>
           <Flex style={st.fh10} />
           <SafeArea style={st.f1}>
-            <Flex value={1} justify="end" style={styles.buttonWrapper}>
-              <Button
-                text={t('continue')}
-                type="filled"
-                disabled={isLoading || !firstName}
-                buttonTextStyle={styles.signInButtonText}
-                style={styles.signInButton}
-                onPress={this.createAccount}
-              />
-            </Flex>
+            <KeyboardAvoidingView
+              style={[st.f1, st.bgBlue]}
+              behavior={st.isAndroid ? undefined : 'padding'}
+              keyboardVerticalOffset={
+                st.isAndroid ? undefined : st.hasNotch ? 45 : 20
+              }
+            >
+              <Flex value={1} justify="end">
+                <Button
+                  text={t('continue')}
+                  type="filled"
+                  isLoading={this.state.isLoading}
+                  disabled={isLoading || !firstName}
+                  buttonTextStyle={styles.signInButtonText}
+                  style={styles.signInButton}
+                  onPress={this.createAccount}
+                />
+              </Flex>
+            </KeyboardAvoidingView>
           </SafeArea>
         </TouchableOpacity>
       </Flex>

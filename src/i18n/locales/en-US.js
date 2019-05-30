@@ -2,6 +2,7 @@
 
 export default {
   common: {
+    watchTrailer: 'Watch Trailer',
     acceptChallenge: 'Accept Challenge',
     add: 'Add',
     all: 'All',

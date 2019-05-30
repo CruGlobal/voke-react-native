@@ -24,7 +24,7 @@ export function navMenuOptions({ dispatch, isAnonUser } = {}) {
     });
   }
   // FOR TESTING
-  if (isAnonUser) {
+  if (isAnonUser && __DEV__) {
     logoutButton.push({
       id: 'signout',
       name: i18n.t('signOut'),
