@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Slider from 'react-native-slider';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
@@ -9,7 +9,7 @@ import styles from './styles';
 
 function convertTime(time) {
   const roundedTime = Math.round(time);
-  let seconds = '00' + roundedTime % 60;
+  let seconds = '00' + (roundedTime % 60);
   let minutes = '00' + Math.floor(roundedTime / 60);
   let hours = '';
   let str = `${minutes.substr(-2)}:${seconds.substr(-2)}`;
@@ -107,34 +107,36 @@ class VideoControls extends Component {
           >
             <Flex align="center">
               <Touchable onPress={this.handleScreenPress}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    paddingHorizontal: 25,
-                    paddingVertical: 4,
-                  }}
-                >
-                  {videoName}
-                </Text>
-                <Flex
-                  style={{
-                    borderRadius: 20,
-                    backgroundColor: 'rgba(0,0,0,0.8)',
-                    width: '75%',
-                    alignSelf: 'center',
-                  }}
-                >
+                <Fragment>
                   <Text
                     style={{
-                      fontSize: 14,
-                      paddingHorizontal: 15,
+                      fontSize: 20,
+                      paddingHorizontal: 25,
                       paddingVertical: 4,
-                      textAlign: 'center',
                     }}
                   >
-                    {t('watchTrailer')}
+                    {videoName}
                   </Text>
-                </Flex>
+                  <Flex
+                    style={{
+                      borderRadius: 20,
+                      backgroundColor: 'rgba(0,0,0,0.8)',
+                      width: '75%',
+                      alignSelf: 'center',
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        paddingHorizontal: 15,
+                        paddingVertical: 4,
+                        textAlign: 'center',
+                      }}
+                    >
+                      {t('watchTrailer')}
+                    </Text>
+                  </Flex>
+                </Fragment>
               </Touchable>
             </Flex>
           </Flex>
