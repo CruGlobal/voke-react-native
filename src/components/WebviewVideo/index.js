@@ -272,7 +272,7 @@ class WebviewVideo extends Component {
   }
 
   render() {
-    const { t, video, isLandscape, width, isTrailer } = this.props;
+    const { t, video, isLandscape, width, isTrailer, videoName } = this.props;
     const { isPaused, duration, replay, time, isLoadingVideo } = this.state;
     const html = this.getHtml();
     if (!shouldUseRNVideo(video) && !html) {
@@ -302,6 +302,7 @@ class WebviewVideo extends Component {
           isLandscape={isLandscape}
           width={width}
           isTrailer={isTrailer}
+          videoName={videoName}
         />
       </View>
     );
@@ -321,6 +322,7 @@ WebviewVideo.propTypes = {
   forceNoAutoPlay: PropTypes.bool,
   width: PropTypes.number,
   isTrailer: PropTypes.bool,
+  videoName: PropTypes.string,
 };
 
 const styles = StyleSheet.create({

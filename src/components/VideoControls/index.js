@@ -57,6 +57,7 @@ class VideoControls extends Component {
       width,
       isLandscape,
       isTrailer,
+      videoName,
       t,
     } = this.props;
     const { seekTime, stateTime } = this.state;
@@ -82,7 +83,7 @@ class VideoControls extends Component {
                 styles.screenPress,
               ]}
             >
-              {isPaused || replay ? (
+              {(isPaused || replay) && !isTrailer ? (
                 <Icon
                   type={replay ? undefined : 'Voke'}
                   name={replay ? 'replay' : 'play'}
@@ -99,25 +100,36 @@ class VideoControls extends Component {
             style={[
               isLandscape ? styles.landscapeSize : styles.portraitSize,
               width ? { width } : {},
+              { backgroundColor: 'rgba(0,0,0,0.3)' },
             ]}
             align="center"
             justify="center"
           >
             <Flex align="center">
               <Touchable onPress={this.handleScreenPress}>
+                <Text
+                  style={{
+                    fontSize: 20,
+                    paddingHorizontal: 25,
+                    paddingVertical: 4,
+                  }}
+                >
+                  {videoName}
+                </Text>
                 <Flex
                   style={{
                     borderRadius: 20,
-                    backgroundColor: 'rgba(0,0,0,0.9)',
+                    backgroundColor: 'rgba(0,0,0,0.8)',
+                    width: '75%',
+                    alignSelf: 'center',
                   }}
-                  align="center"
-                  justify="center"
                 >
                   <Text
                     style={{
-                      fontSize: 16,
-                      paddingHorizontal: 25,
+                      fontSize: 14,
+                      paddingHorizontal: 15,
                       paddingVertical: 4,
+                      textAlign: 'center',
                     }}
                   >
                     {t('watchTrailer')}
@@ -184,6 +196,7 @@ VideoControls.propTypes = {
   isLandscape: PropTypes.bool.isRequired,
   replay: PropTypes.bool.isRequired,
   isTrailer: PropTypes.bool,
+  videoName: PropTypes.string,
   width: PropTypes.number,
   onReplay: PropTypes.func.isRequired,
   // buttonTextStyle: PropTypes.oneOfType(styleTypes),

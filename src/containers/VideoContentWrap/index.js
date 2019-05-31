@@ -359,6 +359,7 @@ class VideoContentWrap extends Component {
                   onChangeState={this.handleVideoChange}
                   isLandscape={isLandscape}
                   isTrailer={isTrailer}
+                  videoName={(item || {}).name}
                   {...videoProps}
                 />
               ) : null}
