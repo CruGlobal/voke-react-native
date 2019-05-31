@@ -173,11 +173,7 @@ function MyAdventureCard({ t, me, item, onSelect, onClickProfile }) {
     conversation,
     progress,
     name,
-    item: {
-      content: {
-        thumbnails: { small },
-      },
-    },
+    item: { content: { thumbnails: { small } } },
   } = item;
   const unreadCount = conversation.unread_messages;
   const hasUnread = unreadCount > 0;
@@ -312,6 +308,7 @@ class MyAdventuresList extends Component {
       onDeleteInvite,
       onClickProfile,
     } = this.props;
+    if (!item || !item.id) return null;
     if (item.code) {
       return (
         <InviteCard

@@ -28,17 +28,17 @@ export default function adventures(state = initialState, action) {
     case REQUESTS.GET_ORG_JOURNEYS.SUCCESS:
       return {
         ...state,
-        org: action.organization_journeys,
+        org: action.organization_journeys || [],
       };
     case REQUESTS.GET_MY_JOURNEYS.SUCCESS:
       return {
         ...state,
-        mine: action.journeys,
+        mine: action.journeys || [],
       };
     case REQUESTS.GET_JOURNEY_INVITES.SUCCESS:
       return {
         ...state,
-        invites: action.journey_invites,
+        invites: action.journey_invites || [],
       };
     case REQUESTS.GET_MY_JOURNEY_STEPS.SUCCESS:
       const {
@@ -54,10 +54,11 @@ export default function adventures(state = initialState, action) {
           ...state.steps,
           [stepsJourneyId]: myJourneySteps || [],
         },
-        mine: state.mine.map(i =>
-          i.id === stepsJourneyId
-            ? { ...i, progress: { ...i.progress, completed } }
-            : i,
+        mine: (state.mine || []).map(
+          i =>
+            i.id === stepsJourneyId
+              ? { ...i, progress: { ...i.progress, completed } }
+              : i,
         ),
       };
     case UPDATE_JOURNEY_STEP:
