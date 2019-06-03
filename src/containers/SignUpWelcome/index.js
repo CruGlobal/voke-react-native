@@ -117,7 +117,7 @@ class SignUpWelcome extends Component {
     return (
       <PagerDotIndicator
         style={{
-          marginBottom: st.fullHeight * 0.4,
+          marginBottom: st.fullHeight * (IS_SMALL_ANDROID ? 0.5 : 0.4),
           width: 100,
           marginHorizontal: st.fullWidth / 2 - 50,
         }}

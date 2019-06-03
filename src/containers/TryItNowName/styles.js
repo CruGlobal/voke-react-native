@@ -8,8 +8,8 @@ export default StyleSheet.create({
     backgroundColor: theme.primaryColor,
   },
   actions: {
-    paddingBottom: 25,
-    paddingTop: 10,
+    paddingBottom: 5,
+    paddingTop: IS_SMALL_ANDROID ? 3 : 10,
   },
   headerText: {
     paddingHorizontal: 50,
@@ -47,7 +47,7 @@ export default StyleSheet.create({
     borderRadius: 5,
     backgroundColor: theme.accentColor,
     padding: 15,
-    width: theme.fullWidth - 100,
+    width: theme.fullWidth - (IS_SMALL_ANDROID ? 60 : 100),
   },
   chatText: {
     color: theme.white,
@@ -67,6 +67,6 @@ export default StyleSheet.create({
   inputLabel: {
     fontSize: 12,
     color: theme.accentColor,
-    marginTop: 15,
+    marginTop: IS_SMALL_ANDROID ? 5 : 15,
   },
 });

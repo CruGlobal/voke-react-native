@@ -9,7 +9,7 @@ import {
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
-import { CREATE_ANON_USER } from '../../constants';
+import { CREATE_ANON_USER, IS_SMALL_ANDROID } from '../../constants';
 
 import { navigatePush } from '../../actions/nav';
 import Analytics from '../../utils/analytics';
@@ -169,7 +169,7 @@ class TryItNowName extends Component {
               onSubmitEditing={this.createAccount}
             />
           </Flex>
-          <Flex style={st.fh10} />
+          <Flex style={[IS_SMALL_ANDROID ? st.fh0 : st.fh10]} />
           <SafeArea style={st.f1}>
             <KeyboardAvoidingView
               style={[st.f1, st.bgBlue]}
