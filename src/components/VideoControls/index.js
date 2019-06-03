@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import Slider from 'react-native-slider';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
@@ -107,7 +107,7 @@ class VideoControls extends Component {
           >
             <Flex align="center">
               <Touchable onPress={this.handleScreenPress}>
-                <Fragment>
+                <Flex direction="column" align="center">
                   <Text
                     style={{
                       fontSize: 20,
@@ -123,6 +123,7 @@ class VideoControls extends Component {
                       backgroundColor: 'rgba(0,0,0,0.8)',
                       width: '75%',
                       alignSelf: 'center',
+                      marginBottom: 10,
                     }}
                   >
                     <Text
@@ -136,7 +137,7 @@ class VideoControls extends Component {
                       {t('watchTrailer')}
                     </Text>
                   </Flex>
-                </Fragment>
+                </Flex>
               </Touchable>
             </Flex>
           </Flex>
