@@ -322,7 +322,7 @@ export default {
     finishedJourney: `Congrats, you finished the adventure! Go start another one!`,
     nextVideoReady: 'Next Video is Ready',
     skipped: 'Skipped',
-    startThe: 'Start the {{journey}}',
+    startThe: 'Start this Adventure!',
     waitingForAnswer: 'Waiting for {{name}} to answer...',
     whoCanYouTake: 'Who can you take with you?',
     yourAnswer: 'Your Answer...',

@@ -183,7 +183,7 @@ class JourneyDetail extends Component {
     if (isLocked) {
       return;
     }
-    const { dispatch, item, onPause } = this.props;
+    const { dispatch, item, onPause, inviteName } = this.props;
     onPause();
     dispatch(
       navigatePush(
@@ -191,6 +191,7 @@ class JourneyDetail extends Component {
         {
           item: step,
           journey: item,
+          inviteName,
           type: VIDEO_CONTENT_TYPES.JOURNEYSTEPDETAIL,
           trackingObj: buildTrackingObj('journey : mine', 'detail', 'step'),
         },

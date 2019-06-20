@@ -81,7 +81,7 @@ class OrgJourneyDetail extends Component {
             <Text style={[st.fs3, st.white, st.pb5]}>
               {haveStartedSolo
                 ? t('whoCanYouTake')
-                : t('startThe', { journey: item.name })}
+                : t('startThe')}
             </Text>
             <Flex direction="row" justify="center" style={[st.w100]}>
               {!haveStartedSolo ? (

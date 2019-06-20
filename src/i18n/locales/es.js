@@ -322,7 +322,7 @@ export default {
     finishedJourney: `¡Felicitaciones, has completado la aventura! ¡Comienza una nueva!`,
     byMyself: 'Por mi cuenta',
     whoCanYouTake: ' ',
-    startThe: 'Comienza la {{journey}}',
+    startThe: 'Comienza esta aventura!',
     waitingForAnswer: 'Esperando a que {{name}} responda...',
   },
   adventureCode: {

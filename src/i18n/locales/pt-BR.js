@@ -323,7 +323,7 @@ export default {
     byMyself: 'Sozinho',
     finishedJourney: 'Parabéns, você terminou a aventura! Inicie outra!',
     whoCanYouTake: 'Quem você pode levar junto?',
-    startThe: 'Começar a {{journey}}',
+    startThe: 'Comece esta aventura!',
     waitingForAnswer: 'Esperando {{name}} responder...',
   },
   adventureCode: {

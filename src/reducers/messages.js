@@ -15,7 +15,7 @@ import {
 import { isArray } from '../utils/common';
 import Notifications from '../utils/notifications';
 
-const getBadgeCount = c => (c > 99 ? 99 : c);
+const getBadgeCount = c => (c > 99 ? 99 : c < 0 ? 0 : c);
 
 const initialState = {
   conversations: [],
