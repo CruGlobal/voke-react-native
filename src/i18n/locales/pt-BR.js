@@ -67,6 +67,7 @@ export default {
     skip: 'Pular',
     submit: 'Aceitar',
     subscribe: 'Inscrever-se',
+    saveProgress: 'Salve seu progresso',
     tellMeMore: 'Conte-me Mais',
     themes: 'Temas',
     today: 'Hoje',
@@ -200,6 +201,7 @@ export default {
   overlays: {
     playUkulele: `{{name}}, Vou emitir um alerta quando seus amigos come\u00e7arem a assistir aos v\u00eddeos. Este \u00e9 o melhor momento para iniciar conversas profundas com eles. \nPrimeiro, eu preciso da sua permiss\u00e3o para enviar notifica\u00e7\u00f5es.`,
     signUpChannel: `Se inscreva e o {{channel}} mostrar\u00e1 quando novos v\u00eddeos estiverem dispon\u00edveis.`,
+    saveYourProgress: `Você está indo muito bem! Crie uma conta para salvar seu progresso e se conectar com mais amigos.`,
   },
   profile: {
     addEmail: 'Adicionar Email',
@@ -344,6 +346,6 @@ export default {
     firstName: 'Primeiro Nome (Obrigatório)',
     firstNamePlaceholder: 'Primeiro',
     codeReady: `O código do seu amigo está pronto. Clique abaixo para compartilhar o código ou copie o código abaixo e envie para ele`,
-    downloadMessage: `Olá {{friend}}. Baixe o Voke e use este código de Aventura: {{code}} {{appUrl}}`,
+    downloadMessage: `Olá {{friend}}. Baixe o Voke e junte-se à minha Aventura. Usar código: {{code}} {{appUrl}}`,
   },
 };

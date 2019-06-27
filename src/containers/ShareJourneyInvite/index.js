@@ -54,7 +54,7 @@ class ShareJourneyInvite extends Component {
   };
 
   done = async () => {
-    const { dispatch, journeyInvite } = this.props;
+    const { dispatch, journeyInvite, friendName } = this.props;
     const journey = await dispatch(
       getMyJourney(journeyInvite.messenger_journey_id),
     );
@@ -66,6 +66,7 @@ class ShareJourneyInvite extends Component {
           params: {
             item: steps[0],
             journey: journey,
+            inviteName: friendName,
             type: VIDEO_CONTENT_TYPES.JOURNEYSTEPDETAIL,
             trackingObj: buildTrackingObj('journey : mine', 'detail', 'step'),
           },

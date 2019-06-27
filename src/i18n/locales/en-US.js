@@ -70,6 +70,7 @@ export default {
     skip: 'Skip',
     submit: 'Submit',
     subscribe: 'Subscribe',
+    saveProgress: 'Save Your Progress',
     tellMeMore: 'Tell Me More',
     themes: 'Themes',
     today: 'Today',
@@ -203,6 +204,7 @@ export default {
     adventurePush: `Voke sends notifications when your friends join and interact with the adventures you share, but first we need your permission.`,
     playUkulele: `{{name}}, I will play my ukulele when your friends start watching videos. This is the best time to have deeper conversations.\n\nFirst, I need your permission to send notifications.`,
     signUpChannel: `Sign up to subscribe and {{channel}} will let you know when new videos are published.`,
+    saveYourProgress: `You are doing great! Create an account to save your progress and connect with more friends.`,
   },
   profile: {
     addEmail: 'Add Email',
@@ -341,7 +343,7 @@ export default {
   share: {
     codeReady: `{{name}}'s invite code is ready. Share it by clicking below or copy the code below and send it to them.`,
     codeReadyResend: `The same adventure code is alive again. Send it if {{name}} needs it.`,
-    downloadMessage: `Hi {{friend}}. Download Voke and use this Adventure code: {{code}} {{appUrl}}`,
+    downloadMessage: `Hi {{friend}}. Download Voke and join my Adventure. Use code: {{code}} {{appUrl}}`,
     firstName: `First Name (Required)`,
     firstNamePlaceholder: `First`,
     whatIsFriendsName: `What is your friend's name?`,

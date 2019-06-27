@@ -12,6 +12,7 @@ const initialState = {
   tryItNowSignUp: false,
   pushPermissions: false,
   messageModal: false,
+  saveProgress: false,
   adventurePushPermissions: false,
   overlayProps: {},
   toastProps: {},

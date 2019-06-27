@@ -12,6 +12,7 @@ import { BlurView } from 'react-native-blur';
 
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
+import { SET_OVERLAY } from '../../constants';
 
 import Analytics from '../../utils/analytics';
 import { navigatePush } from '../../actions/nav';
@@ -83,6 +84,7 @@ class JourneyStepDetail extends Component {
 
     await dispatch(createMessageInteraction(interaction));
     await dispatch(getMyJourneys());
+
   }
 
   getMessages() {
@@ -141,7 +143,7 @@ class JourneyStepDetail extends Component {
   };
 
   sendMessage = async isNewMsg => {
-    const { dispatch, journeyStep, journey } = this.props;
+    const { dispatch, journeyStep, journey, isAnonUser } = this.props;
     const { text, newMsg, isSending } = this.state;
     Keyboard.dismiss();
     if (isSending) {
@@ -175,6 +177,15 @@ class JourneyStepDetail extends Component {
       this.getMessages();
       this.checkIfLast();
       this.setState({ isSending: false });
+      // show save progress if third step
+      if (journeyStep.position === 3) {
+        if (isAnonUser) {
+          this.props.dispatch({
+            type: SET_OVERLAY,
+            value: 'saveProgress',
+          });
+        }
+      }
     } catch (error) {
       this.setState({ isSending: false, stateResponse: null });
     }
@@ -543,6 +554,7 @@ const mapStateToProps = (
       i => i.id === params.item.id,
     ) || params.item,
   me: auth.user,
+  isAnonUser: auth.isAnonUser,
   steps: journeys.steps[params.journey.id] || [],
   myJourneys: journeys.mine,
 });

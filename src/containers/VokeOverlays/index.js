@@ -77,6 +77,35 @@ class VokeOverlays extends Component {
     );
   }
 
+  renderSaveProgress() {
+    const { t } = this.props;
+    return (
+      <Flex
+        style={styles.overlay}
+        align="center"
+        justify="center"
+        self="stretch"
+      >
+        <Flex style={styles.close}>
+          <CloseButton onClose={this.close} />
+        </Flex>
+        <Flex value={1} align="center" justify="center">
+          <Text style={styles.title}>{t('saveProgress')}</Text>
+          <Text style={styles.subtitle}>
+            {t('saveYourProgress')}
+          </Text>
+        </Flex>
+        <Flex value={1} align="center" justify="center">
+          <SignUpButtons
+            isSignIn={true}
+            filled={true}
+            onNavigate={this.close}
+          />
+        </Flex>
+      </Flex>
+    );
+  }
+
   renderPushPermissions() {
     const { t, user } = this.props;
     return (
@@ -187,6 +216,8 @@ class VokeOverlays extends Component {
       return this.renderMessageModal();
     } else if (type === 'adventurePushPermissions') {
       return this.renderAdventurePushPermissions();
+    } else if (type === 'saveProgress') {
+      return this.renderSaveProgress();
     }
     return null;
   }
@@ -196,12 +227,14 @@ const mapStateToProps = ({ overlays, auth }) => {
   let type = overlays.tryItNowSignUp
     ? 'tryItNowSignUp'
     : overlays.pushPermissions
-    ? 'pushPermissions'
-    : overlays.messageModal
-    ? 'messageModal'
-    : overlays.adventurePushPermissions
-    ? 'adventurePushPermissions'
-    : null;
+      ? 'pushPermissions'
+      : overlays.messageModal
+        ? 'messageModal'
+        : overlays.adventurePushPermissions
+          ? 'adventurePushPermissions'
+          : overlays.saveProgress
+            ? 'saveProgress'
+            : null;
   return {
     overlayProps: overlays.overlayProps || {},
     type,
