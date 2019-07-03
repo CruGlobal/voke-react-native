@@ -344,6 +344,6 @@ export default {
     firstNamePlaceholder: 'Primero',
     codeReady: `El código de invitación de {{name}} esta listo. Compártelo clikeando o copiando el código de abajo.`,
     codeReadyResend: `El mismo código de aventura esta vivo nuevamente. Envíaselo a {{name}} si lo necesita.`,
-    downloadMessage: `Hola {{friend}}. Instala Voke y únete a mi Aventura. Usar código: {{code}} {{appUrl}}`,
+    downloadMessage: `Hola {{friend}}! Instala Voke y únete a mi Aventura. Usar código: {{code}} {{appUrl}}`,
   },
 };

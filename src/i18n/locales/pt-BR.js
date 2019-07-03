@@ -346,6 +346,6 @@ export default {
     firstName: 'Primeiro Nome (Obrigatório)',
     firstNamePlaceholder: 'Primeiro',
     codeReady: `O código do seu amigo está pronto. Clique abaixo para compartilhar o código ou copie o código abaixo e envie para ele`,
-    downloadMessage: `Olá {{friend}}. Baixe o Voke e junte-se à minha Aventura. Usar código: {{code}} {{appUrl}}`,
+    downloadMessage: `Olá {{friend}}! Baixe o Voke e junte-se à minha Aventura. Usar código: {{code}} {{appUrl}}`,
   },
 };

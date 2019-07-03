@@ -343,7 +343,7 @@ export default {
   share: {
     codeReady: `{{name}}'s invite code is ready. Share it by clicking below or copy the code below and send it to them.`,
     codeReadyResend: `The same adventure code is alive again. Send it if {{name}} needs it.`,
-    downloadMessage: `Hi {{friend}}. Download Voke and join my Adventure. Use code: {{code}} {{appUrl}}`,
+    downloadMessage: `Hi {{friend}}! Download Voke and join my Adventure. Use code: {{code}} {{appUrl}}`,
     firstName: `First Name (Required)`,
     firstNamePlaceholder: `First`,
     whatIsFriendsName: `What is your friend's name?`,

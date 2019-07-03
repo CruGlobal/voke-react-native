@@ -63,7 +63,9 @@ function getVideoType(item) {
   const media =
     (item.media
       ? item.media
-      : item.item && item.item.content ? item.item.content : {}) || {};
+      : item.item && item.item.content
+      ? item.item.content
+      : {}) || {};
   return media.type;
 }
 
@@ -284,6 +286,7 @@ class VideoContentWrap extends Component {
 
   handleBack = () => {
     const { dispatch, shouldNavigateHome } = this.props;
+    this.pause();
     if (shouldNavigateHome) {
       dispatch(navigateResetHome({ index: 0 }));
     } else {
