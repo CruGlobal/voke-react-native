@@ -1,4 +1,3 @@
-
 import { StyleSheet } from 'react-native';
 import theme from '../../theme';
 import { IS_SMALL_ANDROID } from '../../constants';
@@ -37,5 +36,8 @@ export default StyleSheet.create({
     height: 40,
     alignItems: 'center',
     marginTop: 2,
+  },
+  input: {
+    height: 40,
   },
 });

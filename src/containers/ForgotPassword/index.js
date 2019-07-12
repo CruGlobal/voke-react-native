@@ -13,6 +13,7 @@ import SignUpInput from '../../components/SignUpInput';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import LOGO from '../../../images/initial_voke.png';
 import CONSTANTS from '../../constants';
+import st from '../../st';
 
 class ForgotPassword extends Component {
   constructor(props) {
@@ -81,6 +82,7 @@ class ForgotPassword extends Component {
               onChangeText={this.checkEmail}
               placeholder={t('placeholder.email')}
               keyboardType="email-address"
+              style={st.isAndroid ? styles.input : undefined}
             />
             <Flex style={styles.buttonWrapper}>
               <Button
