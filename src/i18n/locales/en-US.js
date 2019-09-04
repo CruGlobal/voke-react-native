@@ -133,7 +133,7 @@ export default {
       contacts: 'It’s empty in here...\nYou need some contacts',
       noResults: 'No results to display',
       nothingToShow: 'Nothing to show',
-      noVideos: 'No videos to show',
+      noVideos: 'Finding some awesome videos for you.',
     },
     error: {
       adventureLocked: `This adventure is locked until you complete the current adventure.`,
@@ -332,6 +332,9 @@ export default {
   adventureCode: {
     adventureCode: 'Adventure Code',
     dontHaveOne: "I Don't Have One",
+    adventureCodeWhatsThis: "What's this?",
+    adventureCodeWhatsThisExplanation:
+      'You get to do adventures with others in Voke, to do that invite a friend to your adventure and they get a code - which they enter on this screen to instantly join you',
   },
   adventuresTab: {
     areYouSureDelete: `Are you sure you want to delete your invite to "{{name}}"?`,

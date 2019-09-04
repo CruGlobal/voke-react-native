@@ -70,4 +70,11 @@ export default StyleSheet.create({
     color: theme.accentColor,
     marginTop: 15,
   },
+  inputLabelExplanation: {
+    fontSize: 12,
+    color: theme.accentColor,
+    marginTop: 15,
+    paddingHorizontal: 20,
+    textAlign: 'center',
+  },
 });

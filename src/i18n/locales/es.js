@@ -131,7 +131,7 @@ export default {
       contacts: `Est\u00e1 vac\u00edo aqu\u00ed...\nNecesitas algunos contactos`,
       noResults: 'No hay resultados para mostrar',
       nothingToShow: 'Nada que mostrar',
-      noVideos: 'No hay videos para mostrar',
+      noVideos: 'Encontrar videos increíbles para ti',
     },
     error: {
       adventureLocked: `Esta aventura est\u00e1 bloqueada hasta que completes tu aventura actual.`,
@@ -330,6 +330,9 @@ export default {
   adventureCode: {
     adventureCode: 'Código de Aventura',
     dontHaveOne: 'No Tengo Uno',
+    adventureCodeWhatsThis: '¿Qué es esto?',
+    adventureCodeWhatsThisExplanation:
+      'Puedes hacer aventuras con otros en Voke, invitar a un amigo a tu aventura y obtener un código, que ingresan en esta pantalla para unirse instantáneamente a ti.',
   },
   adventuresTab: {
     haveCode: 'Tengo un Código de Aventura',

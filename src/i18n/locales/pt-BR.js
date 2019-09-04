@@ -131,7 +131,7 @@ export default {
       contacts: 'N\u00e3o h\u00e1 nada aqui... \nVoc\u00ea precisa de contatos',
       noResults: 'Nenhum resultado para exibir',
       nothingToShow: 'Nada para Mostrar',
-      noVideos: 'Sem v\u00eddeos para mostrar',
+      noVideos: 'Encontrando vídeos incríveis para você',
     },
     error: {
       adventureLocked: `Esta aventura est\u00e1 bloqueada at\u00e9 voc\u00ea completar a atual`,
@@ -331,6 +331,9 @@ export default {
   adventureCode: {
     adventureCode: 'Código da Aventura',
     dontHaveOne: 'Eu Não Tenho',
+    adventureCodeWhatsThis: 'O que é isso?',
+    adventureCodeWhatsThisExplanation:
+      'Você faz aventuras com outras pessoas no Voke, para convidar um amigo para sua aventura e ele recebe um código - que eles inserem nessa tela para se juntar a você instantaneamente',
   },
   adventuresTab: {
     haveCode: 'Eu Não Tenho um Código de Aventura',

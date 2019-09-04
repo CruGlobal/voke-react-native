@@ -141,7 +141,7 @@ class VideoControls extends Component {
               </Touchable>
             </Flex>
           </Flex>
-        ) : (
+        ) : isPaused ? (
           <Flex
             direction="row"
             style={[
@@ -183,7 +183,7 @@ class VideoControls extends Component {
               <Text style={styles.time}>{convertTime(duration)}</Text>
             </Flex>
           </Flex>
-        )}
+        ) : null}
       </Flex>
     );
   }

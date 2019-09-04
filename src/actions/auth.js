@@ -617,7 +617,15 @@ export function setNoBackgroundAction(value) {
 
 export function setOpenVoke() {
   return dispatch => {
-    return dispatch(callApi(REQUESTS.POST_OPEN_VOKE));
+    return dispatch(
+      callApi(
+        REQUESTS.POST_OPEN_VOKE,
+        {},
+        {
+          version: DeviceInfo.getReadableVersion(),
+        },
+      ),
+    );
   };
 }
 

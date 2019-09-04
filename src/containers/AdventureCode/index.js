@@ -8,7 +8,7 @@ import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { navigateBack, navigatePush } from '../../actions/nav';
 import { acceptJourneyInvite, getMyJourneys } from '../../actions/journeys';
-import { Flex, Button, Text } from '../../components/common';
+import { Flex, Button, Text, Touchable } from '../../components/common';
 import SafeArea from '../../components/SafeArea';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
@@ -22,6 +22,7 @@ class AdventureCode extends Component {
   state = {
     isLoading: false,
     adventureCode: '',
+    showWhatsThis: false,
   };
 
   componentDidMount() {
@@ -89,7 +90,7 @@ class AdventureCode extends Component {
 
   render() {
     const { t, onboarding, dispatch } = this.props;
-    const { adventureCode, isLoading } = this.state;
+    const { adventureCode, isLoading, showWhatsThis } = this.state;
     return (
       <Flex value={1}>
         <SafeArea style={[st.f1, st.bgDarkBlue]} top={[st.bgBlue]}>
@@ -100,7 +101,7 @@ class AdventureCode extends Component {
               theme.isAndroid ? undefined : st.hasNotch ? 45 : 20
             }
           >
-            <Flex value={3} align="center" justify="center" style={[st.pb3]}>
+            <Flex value={1} align="center" justify="end" style={[st.pb3]}>
               <Text style={styles.inputLabel}>{t('adventureCode')}</Text>
               <SignUpInput
                 value={adventureCode}
@@ -111,8 +112,21 @@ class AdventureCode extends Component {
                 returnKeyType="done"
                 blurOnSubmit={true}
               />
+              <Touchable
+                onPress={() => this.setState({ showWhatsThis: !showWhatsThis })}
+              >
+                {showWhatsThis ? (
+                  <Text style={styles.inputLabelExplanation}>
+                    {t('adventureCodeWhatsThisExplanation')}
+                  </Text>
+                ) : (
+                  <Text style={styles.inputLabel}>
+                    {t('adventureCodeWhatsThis')}
+                  </Text>
+                )}
+              </Touchable>
             </Flex>
-            <Flex value={1} justify="end" style={[styles.buttonWrapper]}>
+            <Flex value={1} justify="start" style={[styles.buttonWrapper]}>
               <Button
                 text={
                   onboarding && !adventureCode

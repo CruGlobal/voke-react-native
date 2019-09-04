@@ -84,7 +84,6 @@ class JourneyStepDetail extends Component {
 
     await dispatch(createMessageInteraction(interaction));
     await dispatch(getMyJourneys());
-
   }
 
   getMessages() {
@@ -192,7 +191,15 @@ class JourneyStepDetail extends Component {
   };
 
   renderNext = () => {
-    const { t, dispatch, me, steps, journey, journeyStep, inviteName } = this.props;
+    const {
+      t,
+      dispatch,
+      me,
+      steps,
+      journey,
+      journeyStep,
+      inviteName,
+    } = this.props;
     const isComplete = journeyStep.status === 'completed';
     const isWaiting =
       journeyStep.status === 'active' && journeyStep['completed_by_messenger?'];
@@ -217,7 +224,12 @@ class JourneyStepDetail extends Component {
       // if (journey.conversation.messengers.length === 2 && inviteName) {
       //   otherUser = { first_name: inviteName };
       // }
-      let userName = otherUser && otherUser.first_name ? otherUser.first_name : inviteName ? inviteName : '';
+      let userName =
+        otherUser && otherUser.first_name
+          ? otherUser.first_name
+          : inviteName
+          ? inviteName
+          : '';
       text = t('waitingForAnswer', { name: userName });
     }
 
@@ -271,15 +283,15 @@ class JourneyStepDetail extends Component {
                 {isAndroid && isBlur ? (
                   <Flex style={[st.pd4, st.f1, st.w100]} />
                 ) : (
-                    <Fragment>
-                      <Text
-                        style={[st.fs4, isBlur || isMine ? st.white : st.blue]}
-                      >
-                        {isAndroid && isBlur ? '' : m.content}
-                      </Text>
-                      {isAndroid && isBlur ? <Flex style={[st.pd4]} /> : null}
-                    </Fragment>
-                  )}
+                  <Fragment>
+                    <Text
+                      style={[st.fs4, isBlur || isMine ? st.white : st.blue]}
+                    >
+                      {isAndroid && isBlur ? '' : m.content}
+                    </Text>
+                    {isAndroid && isBlur ? <Flex style={[st.pd4]} /> : null}
+                  </Fragment>
+                )}
               </Flex>
               {!isMine ? <Flex style={[st.f1]} /> : null}
             </Flex>
@@ -349,7 +361,7 @@ class JourneyStepDetail extends Component {
     const { height } = this.state;
 
     let inputHeight = {
-      height: height < 45 ? 45 : height > 80 ? 80 : height,
+      height: height < 45 ? 45 : height > 140 ? 140 : height,
     };
 
     let newWrap = {
@@ -387,9 +399,18 @@ class JourneyStepDetail extends Component {
               placeholderTextColor={st.colors.blue}
               underlineColorAndroid={st.colors.transparent}
               onContentSizeChange={this.handleInputSizeChange}
-              style={[st.f1, st.white, st.pv6, st.mv6, st.fs4, inputHeight]}
+              style={[
+                st.f1,
+                st.white,
+                st.pv6,
+                st.mv6,
+                st.fs4,
+                inputHeight,
+                st.pt4,
+              ]}
               selectionColor={st.colors.yellow}
               autoCorrect={true}
+              multiline={true}
             />
             <Button
               type="transparent"
@@ -471,42 +492,42 @@ class JourneyStepDetail extends Component {
                   </Text>
                 </Fragment>
               ) : (
-                  <Fragment>
-                    <TextInput
-                      autoCapitalize="sentences"
-                      returnKeyType="send"
-                      multiline={true}
-                      blurOnSubmit={true}
-                      onSubmitEditing={() => this.sendMessage()}
-                      placeholder={t('yourAnswer')}
-                      placeholderTextColor={st.colors.grey}
-                      style={inputStyle}
-                      underlineColorAndroid={st.colors.transparent}
-                      selectionColor={st.colors.darkBlue}
-                      value={text}
-                      onChangeText={this.changeText}
+                <Fragment>
+                  <TextInput
+                    autoCapitalize="sentences"
+                    returnKeyType="send"
+                    multiline={true}
+                    blurOnSubmit={true}
+                    onSubmitEditing={() => this.sendMessage()}
+                    placeholder={t('yourAnswer')}
+                    placeholderTextColor={st.colors.grey}
+                    style={inputStyle}
+                    underlineColorAndroid={st.colors.transparent}
+                    selectionColor={st.colors.darkBlue}
+                    value={text}
+                    onChangeText={this.changeText}
+                  />
+                  {!text && isSolo ? (
+                    <Button
+                      type="transparent"
+                      onPress={this.skip}
+                      text={t('skip').toUpperCase()}
+                      buttonTextStyle={[st.orange, st.bold, st.fs4, st.ls2]}
                     />
-                    {!text && isSolo ? (
-                      <Button
-                        type="transparent"
-                        onPress={this.skip}
-                        text={t('skip').toUpperCase()}
-                        buttonTextStyle={[st.orange, st.bold, st.fs4, st.ls2]}
+                  ) : (
+                    <Button
+                      type="transparent"
+                      onPress={() => this.sendMessage()}
+                    >
+                      <VokeIcon
+                        name="send_message"
+                        size={20}
+                        style={[st.offBlue]}
                       />
-                    ) : (
-                        <Button
-                          type="transparent"
-                          onPress={() => this.sendMessage()}
-                        >
-                          <VokeIcon
-                            name="send_message"
-                            size={20}
-                            style={[st.offBlue]}
-                          />
-                        </Button>
-                      )}
-                  </Fragment>
-                )}
+                    </Button>
+                  )}
+                </Fragment>
+              )}
             </Flex>
             <Avatar
               image={(meMessenger.avatar || {}).small}
