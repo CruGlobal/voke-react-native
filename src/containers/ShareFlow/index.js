@@ -183,6 +183,7 @@ class ShareFlow extends Component {
 
   render() {
     const { t } = this.props;
+    if (!this.props.video || !this.props.video.name) return null;
     return (
       <SafeArea style={styles.container}>
         <KeyboardAvoidingView behavior="position">

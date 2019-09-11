@@ -41,6 +41,7 @@ class KickstartersTab extends Component {
   };
 
   renderRow = item => {
+    if (!item || !item.content) return null;
     return (
       <Touchable
         highlight={false}

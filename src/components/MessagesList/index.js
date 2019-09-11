@@ -27,6 +27,7 @@ class MessagesList extends Component {
   };
 
   renderRow = ({ item }) => {
+    if (!item) return null;
     return (
       <Flex value={1} style={{}}>
         <MessageItem
@@ -82,6 +83,7 @@ class MessagesList extends Component {
   }
 
   render() {
+    if (!this.props.items) return null;
     return (
       <Fragment>
         <FlatList

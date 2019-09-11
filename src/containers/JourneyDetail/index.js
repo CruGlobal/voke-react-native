@@ -26,6 +26,17 @@ import { isAndroid } from '../../constants';
 import JourneyUnreadCount from '../../components/JourneyUnreadCount';
 
 function StepItem({ t, me, item, journey, onSelect, inviteName }) {
+  if (
+    !item ||
+    !item.status ||
+    item.unread_messages === null ||
+    !journey ||
+    !journey.conversation ||
+    !journey.conversation.messengers ||
+    !item.name ||
+    item.position === null
+  )
+    return null;
   const isActive = item.status === 'active';
   const isCompleted = item.status === 'completed';
   const isLocked = !isCompleted && !isActive;
@@ -91,7 +102,9 @@ function StepItem({ t, me, item, journey, onSelect, inviteName }) {
                   style={[
                     hasUnread
                       ? st.orange
-                      : isCompleted ? st.white : st.charcoal,
+                      : isCompleted
+                      ? st.white
+                      : st.charcoal,
                   ]}
                 />
                 {hasUnread ? <JourneyUnreadCount count={unreadCount} /> : null}

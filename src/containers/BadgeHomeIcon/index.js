@@ -60,6 +60,12 @@ BadgeHomeIcon.propTypes = {
 
 const mapStateToProps = ({ messages, journeys }, { isAdventure }) => {
   let journeysUnreadCount = 0;
+  if (!journeys || !journeys.mine || !Array.isArray(journeys.mine)) {
+    return {
+      unReadBadgeCount: messages.unReadBadgeCount,
+      journeysUnreadCount,
+    };
+  }
   if (isAdventure) {
     (journeys.mine || []).forEach(j => {
       journeysUnreadCount += (j.conversation || {}).unread_messages || 0;

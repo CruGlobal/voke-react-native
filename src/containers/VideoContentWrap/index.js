@@ -303,6 +303,9 @@ class VideoContentWrap extends Component {
     let videoProps = { ...(config.videoProps || {}) };
     if (type === VIDEO_CONTENT_TYPES.VIDEODETAIL) {
       const videoMedia = item.media || {};
+      if (!videoMedia || !videoMedia.type || !videoMedia.url) {
+        return null;
+      }
       videoObj = {
         start: item.media_start,
         end: item.media_end,
@@ -312,6 +315,19 @@ class VideoContentWrap extends Component {
       };
     } else {
       videoProps.forceNoAutoPlay = true;
+      if (
+        !item ||
+        !item.item ||
+        !item.item.content ||
+        !item.item.content.type ||
+        !item.item.content.url ||
+        !item.item.content.duration ||
+        !item.item.content.thumbnails ||
+        !item.item.content.thumbnails.medium
+      ) {
+        return null;
+      }
+
       videoObj = {
         start: item.item.media_start,
         end: item.item.media_end,

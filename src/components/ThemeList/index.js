@@ -36,7 +36,7 @@ class ThemeList extends Component {
 
   renderRow({ item }) {
     const { selectedTheme } = this.state;
-
+    if (!item || !item.name || !item.id) return null;
     return (
       <Touchable
         highlight={false}
@@ -60,6 +60,7 @@ class ThemeList extends Component {
 
   render() {
     const { t, onDismiss, items } = this.props;
+    if (!items) return null;
     return (
       <View style={styles.container}>
         <FlatList
@@ -67,7 +68,12 @@ class ThemeList extends Component {
           data={items}
           ItemSeparatorComponent={() => <Separator />}
           renderItem={this.renderRow}
-          keyExtractor={item => item.name.replace(/\s/gi, '')}
+          keyExtractor={item => {
+            if (!item || !item.name) {
+              return '';
+            }
+            return item.name.replace(/\s/gi, '');
+          }}
           style={styles.list}
           contentContainerStyle={styles.content}
           removeClippedSubviews={false}

@@ -200,6 +200,17 @@ class JourneyStepDetail extends Component {
       journeyStep,
       inviteName,
     } = this.props;
+    if (
+      !journeyStep ||
+      !journeyStep.status ||
+      !journeyStep['completed_by_messenger?'] ||
+      !steps ||
+      !journey ||
+      !journey.kind ||
+      !journey.conversation ||
+      !journey.conversation.messengers
+    )
+      return null;
     const isComplete = journeyStep.status === 'completed';
     const isWaiting =
       journeyStep.status === 'active' && journeyStep['completed_by_messenger?'];
@@ -251,7 +262,7 @@ class JourneyStepDetail extends Component {
     const response =
       stateResponse || reversed.find(i => i.messenger_id === me.id);
     const isSkipped = response && response.content === '';
-
+    if (!journeyStep || !journeyStep.status) return null;
     const isComplete = journeyStep.status === 'completed';
 
     const myFirstMessage = reversed.find(m => m.messenger_id === me.id);

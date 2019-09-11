@@ -80,7 +80,9 @@ export default function channels(state = initialState, action) {
         hasMore: action._links ? !!action._links.next : false,
         page: action.query.page || 1,
       };
-      featuredOrganizations = featuredOrganizations.concat(action.organizations || []);
+      featuredOrganizations = featuredOrganizations.concat(
+        action.organizations || [],
+      );
       return {
         ...state,
         featured: featuredOrganizations,

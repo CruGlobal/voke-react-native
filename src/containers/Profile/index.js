@@ -206,9 +206,7 @@ class Profile extends Component {
     if (data.uri) {
       const updateData = {
         avatar: {
-          fileName: `${this.props.user.first_name}_${
-            this.props.user.last_name
-          }.png`,
+          fileName: `${this.props.user.first_name}_${this.props.user.last_name}.png`,
           uri: data.uri,
           // base64: data.imageBinary,
         },

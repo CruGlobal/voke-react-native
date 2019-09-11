@@ -83,6 +83,7 @@ class ShareJourneyInvite extends Component {
 
   render() {
     const { t, journeyInvite, friendName, isResend } = this.props;
+    if (!journeyInvite || !journeyInvite.code) return null;
     return (
       <Flex value={1}>
         <SafeArea style={[st.f1, st.bgBlue]}>

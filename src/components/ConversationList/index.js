@@ -90,10 +90,16 @@ class ConversationList extends Component {
   renderRow = ({ item }) => {
     const { t, unreadCount } = this.props;
     const conversation = item;
+    if (
+      !conversation ||
+      !conversation.messengers ||
+      !Array.isArray(conversation.messengers)
+    )
+      return null;
     const contentCreator = this.getSenderName(conversation);
     const otherPerson = this.getConversationParticipant(conversation);
     const initials = otherPerson ? otherPerson.initials : t('vokebotInitials');
-
+    if (!conversation) return null;
     return (
       <Touchable
         highlight={true}
@@ -186,6 +192,7 @@ class ConversationList extends Component {
   };
 
   render() {
+    if (!this.props.items) return null;
     return (
       <SwipeListView
         useFlatList={true}
@@ -193,57 +200,65 @@ class ConversationList extends Component {
         data={this.props.items}
         renderItem={this.renderRow}
         directionalDistanceChangeThreshold={theme.isAndroid ? 12 : undefined}
-        renderHiddenItem={({ item }, rowMap) => (
-          <View style={styles.rowBack}>
-            <Flex
-              direction="row"
-              align="center"
-              justify="center"
-              style={{ width: SLIDE_ROW_WIDTH }}
-            >
-              <Touchable
-                activeOpacity={0.9}
-                style={[st.f1]}
-                disabled={item.messengers.length === 2}
-                onPress={() => {
-                  this.handleDelete(item);
-                  rowMap[item.id] && rowMap[item.id].closeRow();
-                }}
+        renderHiddenItem={({ item }, rowMap) => {
+          if (!item || !item.messengers || !Array.isArray(item.messengers))
+            return null;
+          return (
+            <View style={styles.rowBack}>
+              <Flex
+                direction="row"
+                align="center"
+                justify="center"
+                style={{ width: SLIDE_ROW_WIDTH }}
               >
-                <Flex
-                  align="center"
-                  justify="center"
-                  style={[
-                    styles.rowBackButton,
-                    item.messengers.length === 2 ? styles.disabledButton : null,
-                  ]}
+                <Touchable
+                  activeOpacity={0.9}
+                  style={[st.f1]}
+                  disabled={item.messengers.length === 2}
+                  onPress={() => {
+                    this.handleDelete(item);
+                    rowMap[item.id] && rowMap[item.id].closeRow();
+                  }}
                 >
-                  <VokeIcon name="delete_chat" size={40} />
-                </Flex>
-              </Touchable>
-              <Touchable
-                activeOpacity={0.9}
-                style={[st.f1]}
-                disabled={item.messengers.length === 2}
-                onPress={() => {
-                  this.handleBlock(item);
-                  rowMap[item.id] && rowMap[item.id].closeRow();
-                }}
-              >
-                <Flex
-                  align="center"
-                  justify="center"
-                  style={[
-                    styles.rowBackButton,
-                    item.messengers.length === 2 ? styles.disabledButton : null,
-                  ]}
+                  <Flex
+                    align="center"
+                    justify="center"
+                    style={[
+                      styles.rowBackButton,
+                      item.messengers.length === 2
+                        ? styles.disabledButton
+                        : null,
+                    ]}
+                  >
+                    <VokeIcon name="delete_chat" size={40} />
+                  </Flex>
+                </Touchable>
+                <Touchable
+                  activeOpacity={0.9}
+                  style={[st.f1]}
+                  disabled={item.messengers.length === 2}
+                  onPress={() => {
+                    this.handleBlock(item);
+                    rowMap[item.id] && rowMap[item.id].closeRow();
+                  }}
                 >
-                  <VokeIcon name="block_chat" size={40} />
-                </Flex>
-              </Touchable>
-            </Flex>
-          </View>
-        )}
+                  <Flex
+                    align="center"
+                    justify="center"
+                    style={[
+                      styles.rowBackButton,
+                      item.messengers.length === 2
+                        ? styles.disabledButton
+                        : null,
+                    ]}
+                  >
+                    <VokeIcon name="block_chat" size={40} />
+                  </Flex>
+                </Touchable>
+              </Flex>
+            </View>
+          );
+        }}
         initialListSize={CONSTANTS.CONVERSATIONS_PAGE_SIZE - 1}
         pageSize={CONSTANTS.CONVERSATIONS_PAGE_SIZE - 1}
         enableEmptySections={true}

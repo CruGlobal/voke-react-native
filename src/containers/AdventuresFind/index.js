@@ -62,6 +62,7 @@ class AdventuresFind extends Component {
 
   renderRow = ({ item }) => {
     const { myJourneyOrgIds } = this.props;
+    if (!item || !myJourneyOrgIds || !item.id) return null;
     const startedWithMe = myJourneyOrgIds.find(id => id === item.id);
     return (
       <OrgJourney
@@ -110,11 +111,28 @@ class AdventuresFind extends Component {
   }
 }
 
-const mapStateToProps = ({ auth, journeys }) => ({
-  me: auth.user,
-  myJourneyOrgIds: (journeys.mine || []).map(j => j.organization_journey_id),
-  items: journeys.org,
-});
+const mapStateToProps = ({ auth, journeys }) => {
+  if (
+    !journeys ||
+    !journeys.mine ||
+    !journeys.org ||
+    !Array.isArray(journeys.mine)
+  ) {
+    return {
+      me: auth.user,
+      myJourneyOrgIds: null,
+      items: null,
+    };
+  } else {
+    return {
+      me: auth.user,
+      myJourneyOrgIds: (journeys.mine || []).map(
+        j => j.organization_journey_id,
+      ),
+      items: journeys.org,
+    };
+  }
+};
 
 export default translate('adventuresTab')(
   connect(mapStateToProps)(AdventuresFind),

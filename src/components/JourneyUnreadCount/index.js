@@ -3,6 +3,7 @@ import { Flex, Text } from '../common';
 import st from '../../st';
 
 export default function JourneyUnreadCount({ count }) {
+  if (!count) return null;
   return (
     <Flex
       align="center"

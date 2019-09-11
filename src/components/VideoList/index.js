@@ -65,6 +65,17 @@ class VideoList extends Component {
   renderRow({ item }) {
     const { t } = this.props;
     const video = item;
+    if (
+      !video ||
+      !video.media ||
+      !video.media.thumbnails ||
+      !video.media.thumbnails.large ||
+      !video.description ||
+      !video.media.duration ||
+      !video.name ||
+      !video.shares
+    )
+      return null;
     const description = (video.description || '').replace(/^\s+|\s+$/g, '');
     return (
       <Touchable

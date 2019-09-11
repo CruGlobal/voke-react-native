@@ -48,7 +48,7 @@ class MessageItem extends PureComponent {
 
     const isMe = this.props.item.messenger_id === this.props.user.id;
     const isTypeState = message.type === 'typeState';
-
+    if (!message || !message.content) return null;
     return (
       <Flex
         style={[
@@ -81,6 +81,14 @@ class MessageItem extends PureComponent {
   }
 
   renderVideoImage(style) {
+    if (
+      !this.props.item ||
+      !this.props.item.item ||
+      !this.props.item.item.media ||
+      !this.props.item.item.media.thumbnails ||
+      !this.props.item.item.media.thumbnails.large
+    )
+      return null;
     return (
       <Touchable
         isAndroidOpacity={true}
@@ -101,6 +109,7 @@ class MessageItem extends PureComponent {
   renderVideoAndText() {
     const message = this.props.item;
     const isTypeState = message.type === 'typeState';
+    if (!message || !message.content) return null;
 
     return (
       <Flex direction="column">
@@ -151,7 +160,7 @@ class MessageItem extends PureComponent {
     const isVoke = message.messenger_id === this.vokebotMessenger.id;
     const isOnlyVoke = this.props.messengers.length < 3;
     const isMe = message.messenger_id === this.props.user.id;
-
+    if (!message) return null;
     return (
       <Flex
         value={1}
@@ -174,14 +183,14 @@ class MessageItem extends PureComponent {
   renderAvatar() {
     const message = this.props.item;
     const user = this.props.user;
+    if (!message || !user || !message.messenger_id) return null;
     const isVoke = message.messenger_id === this.vokebotMessenger.id;
     const isMe = message.messenger_id === this.props.user.id;
-
     if (isMe) {
       return (
         <Avatar
           size={28}
-          image={user.avatar ? user.avatar.small : null}
+          image={user.avatar && user.avatar.small ? user.avatar.small : null}
           text={getInitials(user.initials)}
         />
       );
@@ -225,6 +234,7 @@ class MessageItem extends PureComponent {
 
   renderRelevance() {
     const message = this.props.item;
+    if (!message || !message.metadata || !message.metadata.answers) return null;
     let answers =
       message.metadata && message.metadata.answers
         ? message.metadata.answers
@@ -299,6 +309,16 @@ class MessageItem extends PureComponent {
 
   render() {
     const message = this.props.item;
+    if (
+      !message ||
+      !message.created_at ||
+      !this.props.messengers ||
+      !message.messenger_id ||
+      !message.item ||
+      !message.kind ||
+      !message.content
+    )
+      return null;
     const isTypeState = message.type === 'typeState';
     const isVoke = message.messenger_id === this.vokebotMessenger.id;
 

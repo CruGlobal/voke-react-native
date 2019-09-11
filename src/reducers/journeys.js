@@ -54,11 +54,10 @@ export default function adventures(state = initialState, action) {
           ...state.steps,
           [stepsJourneyId]: myJourneySteps || [],
         },
-        mine: (state.mine || []).map(
-          i =>
-            i.id === stepsJourneyId
-              ? { ...i, progress: { ...i.progress, completed } }
-              : i,
+        mine: (state.mine || []).map(i =>
+          i.id === stepsJourneyId
+            ? { ...i, progress: { ...i.progress, completed } }
+            : i,
         ),
       };
     case UPDATE_JOURNEY_STEP:

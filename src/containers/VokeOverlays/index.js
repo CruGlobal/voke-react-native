@@ -91,9 +91,7 @@ class VokeOverlays extends Component {
         </Flex>
         <Flex value={1} align="center" justify="center">
           <Text style={styles.title}>{t('saveProgress')}</Text>
-          <Text style={styles.subtitle}>
-            {t('saveYourProgress')}
-          </Text>
+          <Text style={styles.subtitle}>{t('saveYourProgress')}</Text>
         </Flex>
         <Flex value={1} align="center" justify="center">
           <SignUpButtons
@@ -178,6 +176,7 @@ class VokeOverlays extends Component {
   renderMessageModal() {
     const { t, overlayProps } = this.props;
     let messageData = overlayProps.messageData || {};
+    if (!messageData.content) return null;
     return (
       <Touchable style={styles.overlay} onPress={this.close} activeOpacity={1}>
         <Flex
@@ -227,14 +226,14 @@ const mapStateToProps = ({ overlays, auth }) => {
   let type = overlays.tryItNowSignUp
     ? 'tryItNowSignUp'
     : overlays.pushPermissions
-      ? 'pushPermissions'
-      : overlays.messageModal
-        ? 'messageModal'
-        : overlays.adventurePushPermissions
-          ? 'adventurePushPermissions'
-          : overlays.saveProgress
-            ? 'saveProgress'
-            : null;
+    ? 'pushPermissions'
+    : overlays.messageModal
+    ? 'messageModal'
+    : overlays.adventurePushPermissions
+    ? 'adventurePushPermissions'
+    : overlays.saveProgress
+    ? 'saveProgress'
+    : null;
   return {
     overlayProps: overlays.overlayProps || {},
     type,

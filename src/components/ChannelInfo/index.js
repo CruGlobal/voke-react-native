@@ -17,6 +17,15 @@ class ChannelInfo extends Component {
   render() {
     const { t, channel, subscribeData } = this.props;
     const isSubscribed = subscribeData.isSubscribed;
+    if (
+      !subscribeData ||
+      subscribeData.total === null ||
+      !channel ||
+      !channel.name ||
+      !channel.avatar ||
+      !channel.avatar.large
+    )
+      return null;
     const avatar =
       channel.avatar && channel.avatar.large ? channel.avatar.large : undefined;
     return (

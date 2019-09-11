@@ -7,6 +7,15 @@ import { Flex, Text, Touchable, Button, VokeIcon, Icon } from '../common';
 import st from '../../st';
 
 function OrgJourney({ t, onPress, item, onInviteFriend }) {
+  if (
+    !item ||
+    !item.image ||
+    !item.image.medium ||
+    !item.total_steps ||
+    !item.slogan ||
+    !item.name
+  )
+    return null;
   return (
     <Touchable onPress={() => onPress(item)}>
       <Flex

@@ -230,7 +230,9 @@ class Conversations extends Component {
 
   render() {
     const { t, conversations, me, pagination, unreadCount } = this.props;
-    const cLength = conversations.length;
+
+    const newConversations = conversations || [];
+    const cLength = newConversations.length;
 
     return (
       <View style={styles.container}>
@@ -249,20 +251,29 @@ class Conversations extends Component {
           }
           right={
             theme.isAndroid ? (
-              <PopupMenu actions={navMenuOptions(this.props)} />
+              <PopupMenu
+                actions={navMenuOptions(!this.props ? {} : this.props)}
+              />
             ) : null
           }
           title={t('title.chats')}
         />
-        {cLength ? (
+        {cLength &&
+        (conversations &&
+          me &&
+          pagination &&
+          pagination.hasMore !== null &&
+          unreadCount !== null) ? (
           <ConversationList
-            items={conversations}
-            me={me}
+            items={!conversations ? [] : conversations}
+            me={!me ? {} : me}
             onRefresh={this.handleRefresh}
             onDelete={this.handleDelete}
-            unreadCount={unreadCount}
+            unreadCount={!unreadCount ? 0 : unreadCount}
             onBlock={this.handleBlock}
-            hasMore={pagination.hasMore}
+            hasMore={
+              !pagination || !pagination.hasMore ? false : pagination.hasMore
+            }
             onLoadMore={this.handleLoadMore}
             isLoading={this.state.loadingMore}
             onSelect={this.selectConversation}

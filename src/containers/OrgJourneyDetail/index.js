@@ -59,7 +59,7 @@ class OrgJourneyDetail extends Component {
   render() {
     const { t, item, myJourneys } = this.props;
     const { myselfIsLoading, friendIsLoading } = this.state;
-
+    if (!item || item.total_steps === null) return null;
     const haveStartedSolo = !!myJourneys.find(
       i =>
         i.organization_journey_id === item.id &&
@@ -79,9 +79,7 @@ class OrgJourneyDetail extends Component {
           <Triangle width={st.fullWidth} height={80} color={st.colors.blue} />
           <Flex style={[st.bgBlue, st.pv4]} align="center" justify="center">
             <Text style={[st.fs3, st.white, st.pb5]}>
-              {haveStartedSolo
-                ? t('whoCanYouTake')
-                : t('startThe')}
+              {haveStartedSolo ? t('whoCanYouTake') : t('startThe')}
             </Text>
             <Flex direction="row" justify="center" style={[st.w100]}>
               {!haveStartedSolo ? (
