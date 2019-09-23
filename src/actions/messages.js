@@ -168,6 +168,7 @@ export function handleNewMessage(message) {
 
 export function newMessageAction(message) {
   return (dispatch, getState) => {
+    console.log('GOT MESSAGE', message);
     if (message['adventure_message?']) {
       dispatch(handleNewMessage(message));
       return;
@@ -239,9 +240,7 @@ export function createMessageInteraction(interaction) {
       },
     };
     const query = {
-      endpoint: `${API_URL}me/conversations/${
-        interaction.conversationId
-      }/messages/${interaction.messageId}/interactions`,
+      endpoint: `${API_URL}me/conversations/${interaction.conversationId}/messages/${interaction.messageId}/interactions`,
     };
     return dispatch(callApi(REQUESTS.CREATE_MESSAGE_INTERACTION, query, data));
   };

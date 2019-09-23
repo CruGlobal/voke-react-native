@@ -332,7 +332,7 @@ export default {
     dontHaveOne: 'No Tengo Uno',
     adventureCodeWhatsThis: '¿Qué es esto?',
     adventureCodeWhatsThisExplanation:
-      'Puedes hacer aventuras con otros en Voke, invitar a un amigo a tu aventura y obtener un código, que ingresan en esta pantalla para unirse instantáneamente a ti.',
+      'Tienes la oportunidad de hacer video aventuras con otros en Voke. Este es el lugar para los invitados entrantes que recibieron un código de invitación de Aventura para unirse fácilmente a su amigo.',
   },
   adventuresTab: {
     haveCode: 'Tengo un Código de Aventura',

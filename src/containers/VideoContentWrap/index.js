@@ -364,8 +364,8 @@ class VideoContentWrap extends Component {
                   ? [
                       {
                         width: '100%',
-                        height: st.fullWidth - 20,
-                        paddingTop: 20,
+                        height: st.isAndroid ? st.fullWidth : st.fullWidth - 20,
+                        paddingTop: st.isAndroid ? 20 : undefined,
                       },
                     ]
                   : null,

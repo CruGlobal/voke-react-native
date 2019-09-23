@@ -502,8 +502,9 @@ export function updateMe(data) {
         dispatch(getMe());
         return results;
       })
-      .catch(() => {
+      .catch(error => {
         LOG('error updating me', error);
+        return Promise.reject(error);
       });
   };
 }

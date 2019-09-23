@@ -126,7 +126,7 @@ class AdventureCode extends Component {
                 )}
               </Touchable>
             </Flex>
-            <Flex value={1} justify="start" style={[styles.buttonWrapper]}>
+            <Flex value={1} justify="end" style={[styles.buttonWrapper]}>
               <Button
                 text={
                   onboarding && !adventureCode

@@ -334,7 +334,7 @@ export default {
     dontHaveOne: "I Don't Have One",
     adventureCodeWhatsThis: "What's this?",
     adventureCodeWhatsThisExplanation:
-      'You get to do adventures with others in Voke, to do that invite a friend to your adventure and they get a code - which they enter on this screen to instantly join you',
+      'You get to do video adventures with others in Voke.This is the place for incoming guests who recieved an Adventure invite code to easily join their friend.',
   },
   adventuresTab: {
     areYouSureDelete: `Are you sure you want to delete your invite to "{{name}}"?`,

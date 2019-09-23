@@ -176,9 +176,15 @@ class Profile extends Component {
         },
       };
     }
-    dispatch(updateMe(data)).then(() => {
-      this.resetState();
-    });
+    dispatch(updateMe(data))
+      .then(() => {
+        this.resetState();
+      })
+      .catch(e => {
+        if (e && e.errors && e.errors[0]) {
+          Alert.alert(e.errors[0]);
+        }
+      });
   };
 
   resetState() {
