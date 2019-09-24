@@ -314,9 +314,7 @@ class MessageItem extends PureComponent {
       !message.created_at ||
       !this.props.messengers ||
       !message.messenger_id ||
-      !message.item ||
-      !message.kind ||
-      !message.content
+      !message.kind
     )
       return null;
     const isTypeState = message.type === 'typeState';

@@ -328,7 +328,7 @@ export default {
     waitingForAnswer: 'Esperando a que {{name}} responda...',
   },
   adventureCode: {
-    adventureCode: 'Código de Aventura',
+    adventureCode: '¿Tienes un código de un amigo?',
     dontHaveOne: 'No Tengo Uno',
     adventureCodeWhatsThis: '¿Qué es esto?',
     adventureCodeWhatsThisExplanation:

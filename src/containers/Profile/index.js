@@ -465,6 +465,9 @@ class Profile extends Component {
               underlineColorAndroid="transparent"
               blurOnSubmit={true}
             />
+            {this.state.newPassword !== this.state.confirmPassword ? (
+              <Text style={styles.redText}>{t('passwordsMatch')}</Text>
+            ) : null}
           </Flex>
           <Flex value={1} align="center">
             <Button
@@ -472,9 +475,10 @@ class Profile extends Component {
               style={styles.saveButton}
               buttonTextStyle={styles.saveButtonText}
               disabled={
-                !this.state.currentPassword &&
-                !this.state.newPassword &&
-                !this.state.confirmPassword
+                !this.state.currentPassword ||
+                !this.state.newPassword ||
+                !this.state.confirmPassword ||
+                this.state.newPassword !== this.state.confirmPassword
               }
               onPress={this.handleUpdate}
             />

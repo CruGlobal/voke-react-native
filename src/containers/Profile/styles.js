@@ -95,4 +95,8 @@ export default StyleSheet.create({
     color: theme.darkText,
     fontSize: 16,
   },
+  redText: {
+    color: COLORS.RED,
+    fontSize: 10,
+  },
 });

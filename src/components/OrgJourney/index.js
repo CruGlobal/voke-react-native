@@ -12,7 +12,6 @@ function OrgJourney({ t, onPress, item, onInviteFriend }) {
     !item.image ||
     !item.image.medium ||
     !item.total_steps ||
-    !item.slogan ||
     !item.name
   )
     return null;
@@ -75,9 +74,11 @@ function OrgJourney({ t, onPress, item, onInviteFriend }) {
           <Text style={[st.fs6, st.bold]}>
             {(item.name || '').toUpperCase()}
           </Text>
-          <Text style={[st.fs(24), st.light, st.tac]} numberOfLines={2}>
-            {item.slogan}
-          </Text>
+          {item.slogan ? (
+            <Text style={[st.fs(24), st.light, st.tac]} numberOfLines={2}>
+              {item.slogan}
+            </Text>
+          ) : null}
         </Flex>
         {onInviteFriend ? (
           <Flex value={1} justify="end">

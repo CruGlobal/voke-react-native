@@ -329,11 +329,11 @@ export default {
     waitingForAnswer: 'Esperando {{name}} responder...',
   },
   adventureCode: {
-    adventureCode: 'Código da Aventura',
+    adventureCode: 'Tem um código de um amigo?',
     dontHaveOne: 'Eu Não Tenho',
     adventureCodeWhatsThis: 'O que é isso?',
     adventureCodeWhatsThisExplanation:
-      'Você pode fazer aventuras em vídeo com outras pessoas no Voke.Este é o local para os visitantes que receberam um código de convite de Aventura se juntarem facilmente ao amigo.',
+      'Você pode fazer aventuras em vídeo com outras pessoas no Voke. Este é o local para os visitantes que receberam um código de convite de Aventura se juntarem facilmente ao amigo.',
   },
   adventuresTab: {
     haveCode: 'Eu Não Tenho um Código de Aventura',

@@ -330,11 +330,11 @@ export default {
     yourAnswer: 'Your Answer...',
   },
   adventureCode: {
-    adventureCode: 'Adventure Code',
+    adventureCode: 'Have a code from a friend?',
     dontHaveOne: "I Don't Have One",
     adventureCodeWhatsThis: "What's this?",
     adventureCodeWhatsThisExplanation:
-      'You get to do video adventures with others in Voke.This is the place for incoming guests who recieved an Adventure invite code to easily join their friend.',
+      'You get to do video adventures with others in Voke. This is the place for incoming guests who received an Adventure invite code to easily join their friend.',
   },
   adventuresTab: {
     areYouSureDelete: `Are you sure you want to delete your invite to "{{name}}"?`,
