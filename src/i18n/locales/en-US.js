@@ -330,7 +330,8 @@ export default {
     yourAnswer: 'Your Answer...',
   },
   adventureCode: {
-    adventureCode: 'Have a code from a friend?',
+    adventureCode: 'Adventure Code',
+    adventureCodeHaveCode: 'Have a code from a friend?',
     dontHaveOne: "I Don't Have One",
     adventureCodeWhatsThis: "What's this?",
     adventureCodeWhatsThisExplanation:

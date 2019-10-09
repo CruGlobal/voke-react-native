@@ -102,7 +102,9 @@ class AdventureCode extends Component {
             }
           >
             <Flex value={1} align="center" justify="end" style={[st.pb3]}>
-              <Text style={styles.inputLabel}>{t('adventureCode')}</Text>
+              <Text style={styles.inputLabel}>
+                {t('adventureCodeHaveCode')}
+              </Text>
               <SignUpInput
                 value={adventureCode}
                 type="new"
