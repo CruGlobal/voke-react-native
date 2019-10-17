@@ -182,6 +182,7 @@ class TryItNowName extends Component {
                 <Button
                   text={t('continue')}
                   type="filled"
+                  preventTimeout={4000}
                   isLoading={isLoading}
                   disabled={!firstName}
                   buttonTextStyle={styles.signInButtonText}

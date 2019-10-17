@@ -96,8 +96,8 @@ class Adventures extends Component {
               ? index
               : (myJourneys && myJourneys.length > 0) ||
                 (invites && invites.length > 0)
-                ? 0
-                : 1
+              ? 0
+              : 1
           }
         >
           <View tabLabel={t('title.myAdventures')} style={[st.f1]}>
@@ -107,7 +107,7 @@ class Adventures extends Component {
             <AdventuresFind />
           </View>
         </ScrollableTabView>
-        <ApiLoading />
+        <ApiLoading showMS={15000} />
       </View>
     );
   }

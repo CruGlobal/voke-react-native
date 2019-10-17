@@ -53,14 +53,7 @@ class MessageVideoPlayer extends Component {
     const { message, onClose } = this.props;
     const video = message.item;
     const videoMedia = video.media || {};
-    if (
-      !video ||
-      !videoMedia.media_start ||
-      !videoMedia.media_end ||
-      !videoMedia.type ||
-      !videoMedia.url ||
-      !videoMedia.hls
-    )
+    if (!video || !videoMedia.type || !videoMedia.url || !videoMedia.hls)
       return null;
     const videoObj = {
       start: video.media_start,

@@ -178,7 +178,9 @@ class SignUpNumber extends Component {
             </TouchableOpacity>
           </KeyboardAvoidingView>
         </ScrollView>
-        {this.state.isLoading ? <ApiLoading force={true} /> : null}
+        {this.state.isLoading ? (
+          <ApiLoading showMS={15000} force={true} />
+        ) : null}
       </View>
     );
   }

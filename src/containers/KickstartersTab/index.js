@@ -104,7 +104,7 @@ class KickstartersTab extends Component {
           >
             {content}
           </Flex>
-          <ApiLoading />
+          <ApiLoading showMS={15000} />
         </ScrollView>
       </View>
     );

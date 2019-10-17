@@ -176,7 +176,9 @@ class LoginInput extends Component {
             </Flex>
           </Flex>
         </TouchableOpacity>
-        {isLoading || isApiLoading ? <ApiLoading force={true} /> : null}
+        {isLoading || isApiLoading ? (
+          <ApiLoading showMS={15000} force={true} />
+        ) : null}
       </Flex>
     );
   }

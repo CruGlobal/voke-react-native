@@ -2,6 +2,7 @@
 
 export default {
   common: {
+    watchTrailer: 'Assista ao Trailer',
     acceptChallenge: 'Aceitar o Desafio',
     add: 'Adicionar',
     all: 'Tudo',
@@ -34,6 +35,7 @@ export default {
     haveAccount: 'J\u00e1 tem uma conta?',
     invite: 'Convidar',
     inviteFriend: 'Convidar um amigo',
+    shareApp: 'Compartilhe esse aplicativo',
     language: 'Língua',
     loadMore: 'Carregar Mais',
     me: 'Eu',

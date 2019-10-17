@@ -36,6 +36,7 @@ export default {
     haveAccount: 'Already have an account?',
     invite: 'Invite',
     inviteFriend: 'Invite a Friend',
+    shareApp: 'Share this app',
     language: 'Language',
     loadMore: 'Load More',
     me: 'Me',

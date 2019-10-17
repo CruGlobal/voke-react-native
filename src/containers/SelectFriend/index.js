@@ -407,6 +407,7 @@ class SelectFriend extends Component {
         {isLoading || setLoaderBeforePush || loadingBeforeShareSheet ? (
           <ApiLoading
             force={true}
+            showMS={15000}
             text={
               setLoaderBeforePush || loadingBeforeShareSheet
                 ? ''

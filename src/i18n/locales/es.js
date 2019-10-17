@@ -2,6 +2,7 @@
 
 export default {
   common: {
+    watchTrailer: 'Assista ao Trailer',
     acceptChallenge: 'Aceptar Desaf\u00edo',
     add: 'Agregar',
     all: 'Todo',
@@ -34,6 +35,7 @@ export default {
     haveAccount: '\u00bfYa tienes una cuenta?',
     invite: 'Invita',
     inviteFriend: 'Invita a un Amigo ',
+    shareApp: 'Comparte esta aplicación',
     language: 'Idioma',
     loadMore: 'Cargar M\u00e1s',
     me: 'Yo',
@@ -323,7 +325,7 @@ export default {
     skipped: 'Saltar/ Saltado',
     finishedJourney: `¡Felicitaciones, has completado la aventura! ¡Comienza una nueva!`,
     byMyself: 'Por mi cuenta',
-    whoCanYouTake: ' ',
+    whoCanYouTake: 'Quem você pode levar junto?',
     startThe: 'Comienza esta aventura!',
     waitingForAnswer: 'Esperando a que {{name}} responda...',
   },

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image } from 'react-native';
+import { Image, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
@@ -19,6 +19,11 @@ class ApiLoading extends Component {
     if (this.props.showMS) {
       this.timeout = setTimeout(() => {
         this.setState({ showLoading: false });
+        if (this.props.isApiLoading) {
+          Alert.alert(
+            'There is a problem with your connectivity. Please try again later.',
+          );
+        }
       }, this.props.showMS);
     }
   }

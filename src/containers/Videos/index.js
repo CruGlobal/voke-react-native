@@ -183,7 +183,10 @@ class Videos extends Component {
     this.setState({ selectedTag: tag });
     const channelId = this.props.channel ? this.props.channel.id : undefined;
     this.props.dispatch(getSelectedThemeVideos(tag, 1, channelId)).then(() => {
-      this.setState({ videos: this.props.selectedThemeVideos, isLoading: false });
+      this.setState({
+        videos: this.props.selectedThemeVideos,
+        isLoading: false,
+      });
       // Scroll to the top after selecting a theme
       this.videoList &&
         this.videoList.getWrappedInstance &&
@@ -564,7 +567,7 @@ class Videos extends Component {
             handleShareVideo={this.handleShareVideo}
             isLoading={this.state.isLoading}
           />
-          <ApiLoading />
+          <ApiLoading showMS={15000} />
           {this.state.showThemeModal ? (
             <ThemeSelect
               onClose={this.closeThemeModal}

@@ -242,7 +242,7 @@ class ShareFlow extends Component {
           {this.renderOverlay()}
         </KeyboardAvoidingView>
         {this.state.isLoading ? (
-          <ApiLoading force={true} text={t('loading.share')} />
+          <ApiLoading showMS={15000} force={true} text={t('loading.share')} />
         ) : null}
         <Flex
           style={{ position: 'absolute', top: st.hasNotch ? 20 : 0, left: 0 }}

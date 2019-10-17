@@ -51,9 +51,7 @@ class SignUpProfile extends Component {
     if (!uri) return;
     const updateData = {
       avatar: {
-        fileName: `${this.props.user.first_name}_${
-          this.props.user.last_name
-        }.png`,
+        fileName: `${this.props.user.first_name}_${this.props.user.last_name}.png`,
         // fileName: `new_user_${Date.now()}.png`,
         uri,
         // base64: data.imageBinary,
@@ -197,7 +195,9 @@ class SignUpProfile extends Component {
             </Flex>
           </KeyboardAvoidingView>
         </ScrollView>
-        {this.state.isLoading ? <ApiLoading force={true} /> : null}
+        {this.state.isLoading ? (
+          <ApiLoading showMS={15000} force={true} />
+        ) : null}
       </View>
     );
   }

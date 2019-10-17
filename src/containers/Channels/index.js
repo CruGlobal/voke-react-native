@@ -163,7 +163,7 @@ class Channels extends Component {
           />
           <Flex self="stretch" style={styles.separator} />
         </ScrollView>
-        <ApiLoading />
+        <ApiLoading showMS={15000} />
       </View>
     );
   }

@@ -565,7 +565,7 @@ class Message extends Component {
               </Flex>
             </Flex>
           </SafeArea>
-          <ApiLoading text={t('loading.messages')} />
+          <ApiLoading showMS={15000} text={t('loading.messages')} />
         </KeyboardAvoidingView>
       </View>
     );

@@ -54,10 +54,10 @@
 		AE57876320B5D88B0004A3EA /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE57876220B5D88B0004A3EA /* FBSDKShareKit.framework */; };
 		AE5BE0301F607ACC0091810F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE5BE02F1F607ACC0091810F /* LaunchScreen.xib */; };
 		AE5BE03F1F609C860091810F /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE03E1F609C760091810F /* libRCTFBSDK.a */; };
-		AE5BE0C51F631E2F0091810F /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE0C31F631E2F0091810F /* Fabric.framework */; };
-		AE5BE0C61F631E2F0091810F /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5BE0C41F631E2F0091810F /* Crashlytics.framework */; };
 		AE6502A621514AF30031B7D1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AE65026E21514AF30031B7D1 /* GoogleService-Info.plist */; };
 		AE832BBE1F900CAA00ABEE80 /* ukulele-sound.wav in Resources */ = {isa = PBXBuildFile; fileRef = AE832BBD1F900CAA00ABEE80 /* ukulele-sound.wav */; };
+		AEA2D7602358C693003A11E2 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA2D75E2358C692003A11E2 /* Fabric.framework */; };
+		AEA2D7612358C693003A11E2 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA2D75F2358C693003A11E2 /* Crashlytics.framework */; };
 		AED242D41FD2F9E8007B9735 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AED242D11FD2F9CB007B9735 /* libRCTPushNotification.a */; };
 		AED975A2222F076400A0A953 /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AED975A1222F076400A0A953 /* icomoon.ttf */; };
 		B755555493DB46F6B6A74948 /* libRNCNetInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A8C4920304CA4C8CA6299935 /* libRNCNetInfo.a */; };
@@ -582,10 +582,10 @@
 		AE57876220B5D88B0004A3EA /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		AE5BE02F1F607ACC0091810F /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		AE5BE0391F609C760091810F /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
-		AE5BE0C31F631E2F0091810F /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
-		AE5BE0C41F631E2F0091810F /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		AE65026E21514AF30031B7D1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Voke/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AE832BBD1F900CAA00ABEE80 /* ukulele-sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "ukulele-sound.wav"; sourceTree = "<group>"; };
+		AEA2D75E2358C692003A11E2 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		AEA2D75F2358C693003A11E2 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		AED242CB1FD2F9CB007B9735 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		AED975A1222F076400A0A953 /* icomoon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = icomoon.ttf; sourceTree = "<group>"; };
 		B28BBB1231AA4B02BE808F38 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
@@ -610,6 +610,7 @@
 				93D2F6DB22553E100049C4F6 /* libRNFetchBlob.a in Frameworks */,
 				93B8E0FA21FBCC3A005621CC /* libreactnativeomnitureapi.a in Frameworks */,
 				9324CD4F21FBB90A0005E7A3 /* libsqlite3.0.tbd in Frameworks */,
+				AEA2D7612358C693003A11E2 /* Crashlytics.framework in Frameworks */,
 				93981C6B20F8FA9700298F4A /* nanopb.framework in Frameworks */,
 				93EA25DD2108D9E000E25254 /* FirebaseDynamicLinks.framework in Frameworks */,
 				AE57876120B5D87A0004A3EA /* FBSDKLoginKit.framework in Frameworks */,
@@ -617,10 +618,8 @@
 				AE57876320B5D88B0004A3EA /* FBSDKShareKit.framework in Frameworks */,
 				AE5BE03F1F609C860091810F /* libRCTFBSDK.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
-				AE5BE0C51F631E2F0091810F /* Fabric.framework in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
-				AE5BE0C61F631E2F0091810F /* Crashlytics.framework in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
@@ -649,6 +648,7 @@
 				FD06F992561D4A1CA3FB6AA7 /* libRNFirebase.a in Frameworks */,
 				5E800670D75D48D0BCA62A1C /* libRNGestureHandler.a in Frameworks */,
 				CEF5792097E74F70932280C6 /* libRNBlur.a in Frameworks */,
+				AEA2D7602358C693003A11E2 /* Fabric.framework in Frameworks */,
 				08ADB6764C9D4218A63BA647 /* libRNCAsyncStorage.a in Frameworks */,
 				B916FC6069F64FD193F7D9C3 /* libRCTVideo.a in Frameworks */,
 				B755555493DB46F6B6A74948 /* libRNCNetInfo.a in Frameworks */,
@@ -1003,6 +1003,8 @@
 		AE7B6DC71F59EA49008BC5B1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AEA2D75F2358C693003A11E2 /* Crashlytics.framework */,
+				AEA2D75E2358C692003A11E2 /* Fabric.framework */,
 				93B9400622735D590027A65C /* JavaScriptCore.framework */,
 				9324CD4E21FBB9090005E7A3 /* libsqlite3.0.tbd */,
 				93EA25DC2108D9E000E25254 /* FirebaseDynamicLinks.framework */,
@@ -1016,8 +1018,6 @@
 				AE57876020B5D8790004A3EA /* FBSDKLoginKit.framework */,
 				AE57875E20B5D86B0004A3EA /* FBSDKCoreKit.framework */,
 				AE57875C20B5D85A0004A3EA /* Bolts.framework */,
-				AE5BE0C41F631E2F0091810F /* Crashlytics.framework */,
-				AE5BE0C31F631E2F0091810F /* Fabric.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1770,7 +1770,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/Fabric.framework/run 4c6c9eb55214633c5eca4176c06b20bb8fd07a72 c71d676836deedca0040ec813caa99d5e9330f440319d855e82c69e75779518d";
+			shellScript = "${SRCROOT}/Fabric.framework/run 4c6c9eb55214633c5eca4176c06b20bb8fd07a72 c71d676836deedca0040ec813caa99d5e9330f440319d855e82c69e75779518d\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1836,6 +1836,7 @@
 					"\"$(SRCROOT)/Voke\"",
 					"\"$(SRCROOT)/Voke\"",
 				);
+				MARKETING_VERSION = 5.2.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lc++",
@@ -1898,6 +1899,7 @@
 					"\"$(SRCROOT)/Voke\"",
 					"\"$(SRCROOT)/Voke\"",
 				);
+				MARKETING_VERSION = 5.2.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lc++",

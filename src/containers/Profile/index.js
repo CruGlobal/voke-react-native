@@ -108,6 +108,8 @@ class Profile extends Component {
       return 'Portuguese';
     } else if (lang.toLowerCase().includes('es')) {
       return 'Spanish';
+    } else if (lang.toLowerCase().includes('fr')) {
+      return 'French';
     } else {
       return 'English';
     }
@@ -656,6 +658,7 @@ class Profile extends Component {
                         <Picker.Item label="English" value="EN" />
                         <Picker.Item label="Portuguese" value="PT" />
                         <Picker.Item label="Spanish" value="ES" />
+                        <Picker.Item label="French" value="FR" />
                       </Picker>
                     </Flex>
                   ) : null}
@@ -676,6 +679,7 @@ class Profile extends Component {
                 <Picker.Item label="English" value="EN" />
                 <Picker.Item label="Portuguese" value="PT" />
                 <Picker.Item label="Spanish" value="ES" />
+                <Picker.Item label="French" value="FR" />
               </Picker>
             )}
             <Separator />
@@ -708,7 +712,7 @@ class Profile extends Component {
             ) : null}
           </ScrollView>
         </Flex>
-        <ApiLoading />
+        <ApiLoading showMS={15000} />
       </View>
     );
   }

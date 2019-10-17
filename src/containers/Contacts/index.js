@@ -261,10 +261,14 @@ class Contacts extends Component {
           </Flex>
         )}
         {isLoading ? (
-          <ApiLoading force={true} text={t('loading.contacts')} />
+          <ApiLoading
+            showMS={15000}
+            force={true}
+            text={t('loading.contacts')}
+          />
         ) : null}
-        {inShare ? <ApiLoading force={true} /> : null}
-        <ApiLoading />
+        {inShare ? <ApiLoading force={true} showMS={15000} /> : null}
+        <ApiLoading showMS={15000} />
         {isAuthorized ? <ShareModal /> : null}
         {showPermissionModal ? (
           <Modal
