@@ -116,7 +116,9 @@ function appStateChange(dispatch, getState, nextAppState) {
 
     NetInfo.fetch().then(netInfoState => {
       if (!netInfoState.isConnected) {
-        // not connected to internet TODO
+        Alert.alert(
+          'Oops! It doesnt look like you are connected to the internet.',
+        );
         return;
       }
 
@@ -127,10 +129,10 @@ function appStateChange(dispatch, getState, nextAppState) {
         dispatch(getMyOrganizations());
         dispatch(getFeaturedOrganizations());
         dispatch(setOpenVoke());
+        dispatch(getJourneyInvites());
+        dispatch(getMyJourneys());
       }
       dispatch(checkAndRunSockets());
-      dispatch(getJourneyInvites());
-      dispatch(getMyJourneys());
     });
   } else if (nextAppState === 'background' || nextAppState === 'inactive') {
     dispatch(closeSocketAction());
@@ -225,11 +227,17 @@ export function logoutAction(isDelete = false) {
     });
 }
 
-export function createAccountAction(email, password, isAnonymous = false) {
+export function createAccountAction(
+  email,
+  password,
+  isAnonymous = false,
+  params = {},
+) {
   return dispatch =>
     new Promise((resolve, reject) => {
       let data = {
         me: {
+          ...params,
           timezone_name: DeviceInfo.getTimezone(),
           country_code: DeviceInfo.getDeviceCountry(),
           language: {
@@ -243,6 +251,7 @@ export function createAccountAction(email, password, isAnonymous = false) {
       if (isAnonymous) {
         data = {
           me: {
+            ...params,
             timezone_name: DeviceInfo.getTimezone(),
             anonymous: true,
             country_code: DeviceInfo.getDeviceCountry(),

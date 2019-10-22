@@ -57,19 +57,6 @@ class JourneyStepDetail extends Component {
     this.getMessages();
   }
 
-  // componentDidUpdate(prevProps) {
-  //   // Update status message when it changes in props
-  //   const { journeyStepItem } = this.props;
-  //   if (prevProps.journeyStepItem.status_message !== journeyStepItem.status_message || prevProps.journeyStepItem.status !== journeyStepItem.status) {
-  //     this.setState({
-  //       journeyStep: {
-  //         ...this.state.journeyStep,
-  //         status_message: journeyStepItem.status_message,
-  //       },
-  //     });
-  //   }
-  // }
-
   async createMessageReadInteraction(msg) {
     if (!msg) {
       return;
@@ -83,7 +70,6 @@ class JourneyStepDetail extends Component {
     };
 
     await dispatch(createMessageInteraction(interaction));
-    await dispatch(getMyJourneys());
   }
 
   getMessages() {
@@ -94,22 +80,22 @@ class JourneyStepDetail extends Component {
         scrollToEnd();
       }
     });
-    this.load();
+    // this.load();
   }
 
-  load = async () => {
-    const { dispatch, journeyStep, journey } = this.props;
+  // load = async () => {
+  //   const { dispatch, journeyStep, journey } = this.props;
 
-    await dispatch(getMyJourneyStep(journey.id, journeyStep.id));
-    // const currentJourneyStep = await dispatch(
-    //   getMyJourneyStep(journey.id, journeyStep.id),
-    // );
-    // this.setState({ journeyStep: currentJourneyStep });
-    return await dispatch(getMyJourneySteps(journey.id));
-  };
+  //   await dispatch(getMyJourneyStep(journey.id, journeyStep.id));
+  //   // const currentJourneyStep = await dispatch(
+  //   //   getMyJourneyStep(journey.id, journeyStep.id),
+  //   // );
+  //   // this.setState({ journeyStep: currentJourneyStep });
+  //   return await dispatch(getMyJourneySteps(journey.id));
+  // };
 
   checkIfLast = () => {
-    const { t, dispatch, steps, messengers, journeyStep, journey } = this.props;
+    const { t, dispatch, steps, journeyStep, journey } = this.props;
 
     // Only show "Done" if in a solo journey
     const isSolo = journey && journey.kind !== 'duo';
@@ -126,7 +112,7 @@ class JourneyStepDetail extends Component {
   changeText = t => this.setState({ text: t });
 
   skip = async () => {
-    const { dispatch, journeyStep, journey, scrollToEnd } = this.props;
+    const { dispatch, journeyStep, journey } = this.props;
     try {
       this.setState({
         isSending: true,

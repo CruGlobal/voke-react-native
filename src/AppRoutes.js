@@ -26,6 +26,7 @@ import TryItNowName from './containers/TryItNowName';
 import VideoContentWrap from './containers/VideoContentWrap';
 import Videos from './containers/Videos';
 import VideosTab from './containers/VideosTab';
+import VideosAndChannels from './containers/VideosAndChannels';
 import TryItNowProfilePhoto from './containers/TryItNowProfilePhoto';
 import AdventureCode from './containers/AdventureCode';
 import i18n from './i18n';
@@ -78,9 +79,9 @@ export const tabs = {
       ),
     }),
   },
-  'voke.Videos': {
+  'voke.VideosAndChannels': {
     tracking: buildTrackingObj('videos', 'home'),
-    screen: Videos,
+    screen: VideosAndChannels,
     navigationOptions: () => ({
       tabBarLabel: i18n.t('title.videos'),
       tabBarIcon: navIcon('video'),
@@ -158,6 +159,10 @@ const screens = {
   'voke.Profile': {
     screen: Profile,
     tracking: buildTrackingObj('menu', 'profile'),
+  },
+  'voke.Videos': {
+    screen: Videos,
+    tracking: buildTrackingObj('video', 'all'),
   },
   'voke.SignUpAccount': {
     screen: SignUpAccount,

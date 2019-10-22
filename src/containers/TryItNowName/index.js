@@ -15,7 +15,6 @@ import { navigatePush } from '../../actions/nav';
 import Analytics from '../../utils/analytics';
 import { createAccountAction } from '../../actions/auth';
 import styles from './styles';
-import { updateMe } from '../../actions/auth';
 import { navigateBack } from '../../actions/nav';
 import { Flex, Button, Text } from '../../components/common';
 import SafeArea from '../../components/SafeArea';
@@ -53,8 +52,9 @@ class TryItNowName extends Component {
     this.setState({ keyboardVisible: false });
   };
 
-  createAccount = () => {
-    const { dispatch, t } = this.props;
+  createAccount = async () => {
+    const { dispatch, t, onComplete } = this.props;
+    const { firstName, lastName } = this.state;
 
     Keyboard.dismiss();
     if (!this.state.firstName) {
@@ -65,38 +65,21 @@ class TryItNowName extends Component {
       return;
     }
     this.setState({ isLoading: true });
-
-    dispatch(createAccountAction(null, null, true))
-      .then(() => {
-        dispatch({ type: CREATE_ANON_USER });
-        this.updateAcct();
-        this.setState({ isLoading: false });
-      })
-      .catch(() => {
-        this.setState({ isLoading: false });
-      });
-  };
-
-  updateAcct = () => {
-    const { t, dispatch, onComplete } = this.props;
-    const { firstName, lastName } = this.state;
-    this.setState({ isLoading: true });
     let nameData = {
-      me: {
-        first_name: firstName,
-      },
+      first_name: firstName,
     };
     if (lastName) {
-      nameData.me.last_name = lastName;
+      nameData.last_name = lastName;
     }
-    dispatch(updateMe(nameData))
+    await dispatch(createAccountAction(null, null, true, nameData))
       .then(() => {
-        this.setState({ isLoading: false });
+        dispatch({ type: CREATE_ANON_USER });
         if (onComplete) {
           onComplete();
         } else {
           dispatch(navigatePush('voke.AdventureCode', { onboarding: true }));
         }
+        this.setState({ isLoading: false });
       })
       .catch(() => {
         this.setState({ isLoading: false });

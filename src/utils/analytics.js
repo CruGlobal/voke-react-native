@@ -104,6 +104,7 @@ const s = {
   TryItName: 'TryItName',
   VideoDetails: 'VideoDetails',
   VideosTab: 'VideosTab',
+  VideosAndChannels: 'VideosAndChannels',
   VideosMessage: 'VideosMessage',
   OrgJourneyDetail: 'OrgJourneyDetail',
   JourneyDetail: 'JourneyDetail',

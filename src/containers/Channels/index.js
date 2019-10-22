@@ -85,25 +85,6 @@ class Channels extends Component {
 
     return (
       <View style={styles.container}>
-        <StatusBar hidden={false} />
-        <Header
-          left={
-            theme.isAndroid ? (
-              undefined
-            ) : (
-              <HeaderIcon
-                icon="menu"
-                onPress={() => dispatch(navigatePush('voke.Menu'))}
-              />
-            )
-          }
-          right={
-            theme.isAndroid ? (
-              <PopupMenu actions={navMenuOptions(this.props)} />
-            ) : null
-          }
-          title={t('title.channels')}
-        />
         <ScrollView
           refreshControl={
             <RefreshControl

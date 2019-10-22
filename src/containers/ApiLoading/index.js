@@ -17,14 +17,18 @@ class ApiLoading extends Component {
 
   componentDidMount() {
     if (this.props.showMS) {
-      this.timeout = setTimeout(() => {
+      if (!this.props.isApiLoading) {
         this.setState({ showLoading: false });
-        if (this.props.isApiLoading) {
-          Alert.alert(
-            'There is a problem with your connectivity. Please try again later.',
-          );
-        }
-      }, this.props.showMS);
+      } else {
+        this.timeout = setTimeout(() => {
+          this.setState({ showLoading: false });
+          if (this.props.isApiLoading) {
+            Alert.alert(
+              'There is a problem with your connectivity. Please try again later.',
+            );
+          }
+        }, this.props.showMS);
+      }
     }
   }
 

@@ -173,9 +173,12 @@ class JourneyDetail extends Component {
   }
 
   load = async () => {
-    const { dispatch, item } = this.props;
-    const results = await dispatch(getMyJourneySteps(item.id));
-    return results;
+    const { dispatch, item, steps } = this.props;
+
+    if (steps.length === 0) {
+      const results = await dispatch(getMyJourneySteps(item.id));
+      return results;
+    }
   };
 
   handleRefresh = () => {

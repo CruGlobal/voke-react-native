@@ -31,7 +31,6 @@ export function sendJourneyInvite(data) {
     const results = await dispatch(
       callApi(REQUESTS.SEND_JOURNEY_INVITE, {}, data),
     );
-    dispatch(getJourneyInvites());
     return results;
   };
 }
@@ -41,7 +40,6 @@ export function resendJourneyInvite(inviteId) {
     const results = await dispatch(
       callApi(REQUESTS.RESEND_JOURNEY_INVITE, { inviteId }),
     );
-    dispatch(getJourneyInvites());
     return results;
   };
 }
@@ -77,7 +75,6 @@ export function getMyJourney(journeyId) {
 export function createMyJourney(data) {
   return dispatch => {
     return dispatch(callApi(REQUESTS.CREATE_MY_JOURNEY, {}, data)).then(r => {
-      dispatch(getMyJourneys());
       return r;
     });
   };
@@ -112,9 +109,7 @@ export function skipJourneyMessage(step, journey) {
 export function createJourneyMessage(step, journey, text) {
   return dispatch => {
     const query = {
-      endpoint: `${API_URL}me/conversations/${
-        journey.conversation.id
-      }/messages`,
+      endpoint: `${API_URL}me/conversations/${journey.conversation.id}/messages`,
     };
     const data = {
       message: {

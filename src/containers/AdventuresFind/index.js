@@ -34,7 +34,7 @@ class AdventuresFind extends Component {
     try {
       await this.getJourneys();
     } catch (e) {
-      LOG('error getting org journeys');
+      // LOG('error getting org journeys');
     } finally {
       this.setState({ refreshing: false });
     }
@@ -56,7 +56,6 @@ class AdventuresFind extends Component {
   };
 
   handleAdventureCode = () => {
-    // todo
     this.props.dispatch(navigatePush('voke.AdventureCode'));
   };
 

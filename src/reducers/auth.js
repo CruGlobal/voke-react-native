@@ -47,10 +47,13 @@ const initialState = {
 export default function auth(state = initialState, action) {
   // Keep track of API loading requests
   if (action.type && action.showApiLoading) {
+    console.log(action.type, action.showApiLoading);
     if (action.type.endsWith('_SUCCESS') || action.type.endsWith('_FAIL')) {
+      console.log('success or fail');
       const apiReqs = state.apiActive - 1;
       return { ...state, apiActive: apiReqs < 0 ? 0 : apiReqs };
     } else if (action.type.endsWith('_FETCH')) {
+      console.log('fetch');
       return { ...state, apiActive: state.apiActive + 1 };
     }
   }
@@ -62,7 +65,6 @@ export default function auth(state = initialState, action) {
       return {
         ...state,
         ...incoming,
-        // onboardCompleted: false,
         apiActive: 0,
         activeScreen: null,
         noBackgroundAction: false,
@@ -179,11 +181,6 @@ export default function auth(state = initialState, action) {
         ...state,
         isAnonUser: false,
       };
-    // case ONBOARD_FLAG:
-    //   return {
-    //     ...state,
-    //     onboardCompleted: action.completed,
-    //   };
     case NO_BACKGROUND_ACTION:
       return {
         ...state,

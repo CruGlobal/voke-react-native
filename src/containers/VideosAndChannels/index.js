@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import Analytics from '../../utils/analytics';
 import { navigatePush } from '../../actions/nav';
 import styles from './styles';
 import { navMenuOptions } from '../../utils/menu';
@@ -14,30 +13,13 @@ import PopupMenu from '../../components/PopupMenu';
 import StatusBar from '../../components/StatusBar';
 import theme from '../../theme';
 import NotificationToast from '../NotificationToast';
-import AdventuresFind from '../AdventuresFind';
-import AdventuresMine from '../AdventuresMine';
 import st from '../../st';
+import Videos from '../Videos';
+import Channels from '../Channels';
 
-class Adventures extends Component {
-  componentDidMount() {
-    const { dispatch, me } = this.props;
-    Analytics.screen(Analytics.s.AdventuresTab);
-    Analytics.screen(Analytics.s.AdventuresTabMine);
-    if (!me.first_name) {
-      dispatch(navigatePush('voke.TryItNowName'));
-    }
-  }
-
-  onChangeTab = ({ i }) => {
-    if (i === 0) {
-      Analytics.screen(Analytics.s.AdventuresTabMine);
-    } else if (i === 1) {
-      Analytics.screen(Analytics.s.AdventuresTabFind);
-    }
-  };
-
+class VideosAndChannels extends Component {
   render() {
-    const { t, dispatch, myJourneys, index, invites } = this.props;
+    const { t, dispatch, index } = this.props;
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
@@ -59,7 +41,7 @@ class Adventures extends Component {
               undefined
             )
           }
-          title={t('title.adventures')}
+          title={t('title.videos')}
           shadow={false}
         />
         <NotificationToast />
@@ -71,20 +53,13 @@ class Adventures extends Component {
           tabBarInactiveTextColor={theme.primaryColor}
           tabBarTextStyle={[st.normal]}
           prerenderingSiblingsNumber={Infinity}
-          initialPage={
-            index !== undefined
-              ? index
-              : (myJourneys && myJourneys.length > 0) ||
-                (invites && invites.length > 0)
-              ? 0
-              : 1
-          }
+          initialPage={index !== undefined ? index : 0}
         >
-          <View tabLabel={t('title.myAdventures')} style={[st.f1]}>
-            <AdventuresMine />
+          <View tabLabel={t('title.videos')} style={[st.f1]}>
+            <Videos />
           </View>
-          <View tabLabel={t('title.findAdventures')} style={[st.f1]}>
-            <AdventuresFind />
+          <View tabLabel={t('title.channels')} style={[st.f1]}>
+            <Channels />
           </View>
         </ScrollableTabView>
         <ApiLoading showMS={15000} />
@@ -93,14 +68,9 @@ class Adventures extends Component {
   }
 }
 
-Adventures.propTypes = {};
-
-const mapStateToProps = ({ auth, journeys }, { navigation }) => ({
+const mapStateToProps = ({ auth }, { navigation }) => ({
   ...(navigation.state.params || {}),
   me: auth.user,
-  isAnonUser: auth.isAnonUser, // Need this for the Android PopupMenu to determine which menu options to show
-  myJourneys: journeys.mine,
-  invites: journeys.invites,
 });
 
-export default translate()(connect(mapStateToProps)(Adventures));
+export default translate()(connect(mapStateToProps)(VideosAndChannels));
