@@ -32,7 +32,6 @@ import Analytics from '../../utils/analytics';
 import ApiLoading from '../ApiLoading';
 import Header from '../Header';
 import SignUpButtons from '../SignUpButtons';
-import ProfileProgress from '../ProfileProgress';
 import VOKE_LOGO from '../../../images/voke_logo_words.png';
 import {
   navigateResetLogin,
@@ -42,7 +41,6 @@ import {
 import theme, { COLORS } from '../../theme';
 import { SET_OVERLAY } from '../../constants';
 import i18n from '../../i18n';
-import { buildTrackingObj } from '../../utils/common';
 
 const defaultState = {
   imageUri: null,
@@ -515,18 +513,6 @@ class Profile extends Component {
             style={{ flex: 2 }}
             keyboardShouldPersistTaps="handled"
           >
-            <ProfileProgress
-              onHandleSignUpAccount={() =>
-                dispatch(
-                  navigatePush('voke.SignUpAccount', {
-                    trackingObj: buildTrackingObj('profile', 'signup'),
-                  }),
-                )
-              }
-              onHandleVerifyNumber={() =>
-                dispatch(navigatePush('voke.SignUpNumber'))
-              }
-            />
             <Separator />
             {isEditing ? null : this.renderImagePicker()}
             {isEditing && !editName ? null : (

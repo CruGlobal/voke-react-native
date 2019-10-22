@@ -11,23 +11,15 @@ import Acknowledgements from './containers/Acknowledgements';
 import Adventures from './containers/Adventures';
 import BadgeHomeIcon from './containers/BadgeHomeIcon';
 import Channels from './containers/Channels';
-import Contacts from './containers/Contacts';
-import Conversations from './containers/Conversations';
-import CountrySelect from './containers/CountrySelect';
 import ForgotPassword from './containers/ForgotPassword';
 import Help from './containers/Help';
-import KickstartersTab from './containers/KickstartersTab';
 import LoadingScreen from './containers/LoadingScreen';
 import LoginInput from './containers/LoginInput';
 import Menu from './containers/Menu';
-import Message from './containers/Message';
 import Profile from './containers/Profile';
-import SelectFriend from './containers/SelectFriend';
 import ShareFlow from './containers/ShareFlow';
 import SignUpAccount from './containers/SignUpAccount';
 import SignUpFBAccount from './containers/SignUpFBAccount';
-import SignUpNumber from './containers/SignUpNumber';
-import SignUpNumberVerify from './containers/SignUpNumberVerify';
 import SignUpProfile from './containers/SignUpProfile';
 import SignUpWelcome from './containers/SignUpWelcome';
 import TryItNowName from './containers/TryItNowName';
@@ -43,11 +35,7 @@ import ShareEnterName from './containers/ShareEnterName';
 import ShareJourneyInvite from './containers/ShareJourneyInvite';
 
 // Do custom animations between pages
-const verticalPages = [
-  'voke.Menu',
-  'voke.VideoContentWrap',
-  'voke.CountrySelect',
-];
+const verticalPages = ['voke.Menu', 'voke.VideoContentWrap'];
 let dynamicModalTransition = (transitionProps, prevTransitionProps) => {
   const tpScenes = ((transitionProps || {}).scenes || []).length || 0;
   const prevTpScenes = ((prevTransitionProps || {}).scenes || []).length || 0;
@@ -87,16 +75,6 @@ export const tabs = {
           isAdventure={true}
           isActive={tintColor === theme.lightText}
         />
-      ),
-    }),
-  },
-  'voke.Conversations': {
-    tracking: buildTrackingObj('chat', 'home'),
-    screen: Conversations,
-    navigationOptions: () => ({
-      tabBarLabel: i18n.t('conversations'),
-      tabBarIcon: ({ tintColor }) => (
-        <BadgeHomeIcon isActive={tintColor === theme.lightText} />
       ),
     }),
   },
@@ -161,10 +139,6 @@ const screens = {
     screen: Acknowledgements,
     tracking: buildTrackingObj('menu', 'acknowledgements'),
   },
-  'voke.CountrySelect': {
-    screen: CountrySelect,
-    tracking: buildTrackingObj('menu', 'countryselect'),
-  },
   'voke.ForgotPassword': {
     screen: ForgotPassword,
     tracking: buildTrackingObj('entry', 'forgotpassword'),
@@ -173,10 +147,6 @@ const screens = {
     screen: Help,
     tracking: buildTrackingObj('menu', 'help'),
   },
-  'voke.KickstartersTab': {
-    screen: KickstartersTab,
-    tracking: buildTrackingObj('chat', 'kickstarters'),
-  },
   'voke.Loading': {
     screen: LoadingScreen,
     tracking: buildTrackingObj('loading', 'loading'),
@@ -184,10 +154,6 @@ const screens = {
   'voke.LoginInput': {
     screen: LoginInput,
     tracking: buildTrackingObj('entry', 'signin'),
-  },
-  'voke.Message': {
-    screen: Message,
-    tracking: buildTrackingObj('chat', 'conversation'),
   },
   'voke.Profile': {
     screen: Profile,
@@ -200,16 +166,6 @@ const screens = {
   'voke.SignUpFBAccount': {
     screen: SignUpFBAccount,
     tracking: buildTrackingObj('entry', 'createaccountfb'),
-  },
-  'voke.SignUpNumber': {
-    screen: SignUpNumber,
-    tracking: buildTrackingObj('menu', 'signupmobile'),
-    ...noGestures,
-  },
-  'voke.SignUpNumberVerify': {
-    screen: SignUpNumberVerify,
-    tracking: buildTrackingObj('menu', 'verifymobile'),
-    ...noGestures,
   },
   'voke.SignUpProfile': {
     screen: SignUpProfile,
@@ -224,19 +180,6 @@ const screens = {
     screen: Menu,
     tracking: buildTrackingObj('menu', 'home'),
   },
-  'voke.Contacts': {
-    screen: Contacts,
-    tracking: buildTrackingObj('contacts', 'share'),
-  },
-  'voke.SelectFriend': {
-    screen: SelectFriend,
-    tracking: buildTrackingObj('contacts', 'selectfriend'),
-  },
-  // 'voke.VideoDetails': {
-  //   screen: VideoDetails,
-  //   tracking: buildTrackingObj('video', 'preview'),
-  //   ...noGestures,
-  // },
   'voke.VideosTab': {
     screen: VideosTab,
     tracking: buildTrackingObj('video', 'all'),

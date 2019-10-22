@@ -155,11 +155,6 @@ class ShareFlow extends Component {
 
   openAddrBook = () => {
     Keyboard.dismiss();
-    this.props.dispatch(
-      navigatePush('voke.SelectFriend', {
-        video: this.props.video.id,
-      }),
-    );
   };
 
   renderOverlay() {

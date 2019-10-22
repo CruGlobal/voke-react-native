@@ -50,10 +50,6 @@ class VideoDetails extends Component {
       dispatch(shareVideo(video, onSelectVideo, conversation));
     } else {
       this.props.onPause();
-      // dispatch(navigatePush('voke.SelectFriend', {
-      //   video: video.id,
-      //   isLandscape: this.state.isLandscape,
-      // }));
       if (!me.first_name) {
         dispatch(
           navigatePush('voke.TryItNowName', {

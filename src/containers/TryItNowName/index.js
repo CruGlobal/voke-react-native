@@ -67,11 +67,9 @@ class TryItNowName extends Component {
     this.setState({ isLoading: true });
 
     dispatch(createAccountAction(null, null, true))
-      .then(results => {
-        LOG('create try it now account results', results);
+      .then(() => {
         dispatch({ type: CREATE_ANON_USER });
         this.updateAcct();
-
         this.setState({ isLoading: false });
       })
       .catch(() => {

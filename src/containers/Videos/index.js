@@ -84,10 +84,6 @@ class Videos extends Component {
       isAnonUser,
     } = this.props;
 
-    this.startupTimeout = setTimeout(() => {
-      dispatch(startupAction());
-    }, 50);
-
     // When the user first does "Try it Now", their user is not set up, but they ARE an anon user
     // Check if the user is new within the past few days
     const isNewUser =
