@@ -11,7 +11,7 @@ import ANIMATION from '../../../images/VokeBotAnimation.gif';
 class ApiLoading extends Component {
   constructor(props) {
     super(props);
-    this.state = { showLoading: !!(props.showMS && props.showMS > 0) };
+    this.state = { showLoading: props.showMS && props.showMS > 0 };
     this.timeout = null;
   }
 

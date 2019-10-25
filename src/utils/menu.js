@@ -69,16 +69,9 @@ export function navMenuOptions({ dispatch, isAnonUser } = {}) {
       id: 'invite',
       name: i18n.t('shareApp'),
       onPress: () =>
-        dispatch(
-          navigatePush('voke.Contacts', {
-            trackingObj: buildTrackingObj('contacts', 'invite'),
-            isInvite: true,
-            onSelect: c => {
-              let phone = c.phone && c.phone[0] ? c.phone[0] : null;
-              let message = 'Check out this awesome app! https://vokeapp.com';
-              Communications.textWithoutEncoding(phone, message);
-            },
-          }),
+        Communications.textWithoutEncoding(
+          null,
+          'Check out this awesome app! https://vokeapp.com',
         ),
     },
     {

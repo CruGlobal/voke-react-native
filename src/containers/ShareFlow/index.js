@@ -128,7 +128,6 @@ class ShareFlow extends Component {
     )
       .then(({ action, activityType }) => {
         if (action === Share.sharedAction) {
-          LOG('shared!', activityType);
           // Navigate to the new conversation after sharing
           dispatch(
             navigateResetMessage({
@@ -136,7 +135,6 @@ class ShareFlow extends Component {
             }),
           );
         } else {
-          LOG('not shared!');
           this.setState({ showOverlay: false });
           // Delete the conversation
           dispatch(deleteConversation(this.state.conversation.id)).then(() => {
@@ -151,10 +149,6 @@ class ShareFlow extends Component {
         this.setState({ showOverlay: false });
         LOG('Share Error', err);
       });
-  };
-
-  openAddrBook = () => {
-    Keyboard.dismiss();
   };
 
   renderOverlay() {
@@ -220,17 +214,6 @@ class ShareFlow extends Component {
                 type={this.state.name ? 'filled' : 'disabled'}
                 style={styles.shareButton}
                 onPress={this.share}
-              />
-              <Flex direction="row" align="center">
-                <Flex value={1} style={styles.line} />
-                <Text style={styles.orText}>{t('or').toUpperCase()}</Text>
-                <Flex value={1} style={styles.line} />
-              </Flex>
-              <Button
-                text={t('openAddr')}
-                type="filled"
-                style={styles.addrButton}
-                onPress={this.openAddrBook}
               />
             </Flex>
           </TouchableOpacity>

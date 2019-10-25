@@ -33,8 +33,8 @@ class AppWithNavigationState extends Component {
   };
 
   render() {
-    const { nav, dispatch } = this.props;
-    return <AppNav state={nav} dispatch={dispatch} />;
+    const { nav, language, dispatch } = this.props;
+    return <AppNav state={nav} language={language} dispatch={dispatch} />;
   }
 }
 
@@ -42,8 +42,9 @@ AppWithNavigationState.propTypes = {
   nav: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = ({ nav }) => ({
+const mapStateToProps = ({ nav, auth }) => ({
   nav,
+  language: auth.language,
 });
 
 export default connect(mapStateToProps)(AppWithNavigationState);

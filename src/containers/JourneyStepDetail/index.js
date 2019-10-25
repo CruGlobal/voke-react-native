@@ -80,19 +80,19 @@ class JourneyStepDetail extends Component {
         scrollToEnd();
       }
     });
-    // this.load();
+    this.load();
   }
 
-  // load = async () => {
-  //   const { dispatch, journeyStep, journey } = this.props;
+  load = async () => {
+    const { dispatch, journeyStep, journey } = this.props;
 
-  //   await dispatch(getMyJourneyStep(journey.id, journeyStep.id));
-  //   // const currentJourneyStep = await dispatch(
-  //   //   getMyJourneyStep(journey.id, journeyStep.id),
-  //   // );
-  //   // this.setState({ journeyStep: currentJourneyStep });
-  //   return await dispatch(getMyJourneySteps(journey.id));
-  // };
+    await dispatch(getMyJourneyStep(journey.id, journeyStep.id));
+    // const currentJourneyStep = await dispatch(
+    //   getMyJourneyStep(journey.id, journeyStep.id),
+    // );
+    // this.setState({ journeyStep: currentJourneyStep });
+    return await dispatch(getMyJourneySteps(journey.id));
+  };
 
   checkIfLast = () => {
     const { t, dispatch, steps, journeyStep, journey } = this.props;

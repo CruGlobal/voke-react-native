@@ -114,6 +114,7 @@ export default {
       about: 'About',
       acknowledgements: 'Acknowledgements',
       adventures: 'Adventures',
+      notifications: 'Notifications',
       channels: 'Channels',
       chats: 'Chats',
       createAccount: 'Create Account',

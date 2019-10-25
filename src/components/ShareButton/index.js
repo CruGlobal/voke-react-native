@@ -27,7 +27,6 @@ class ShareButton extends Component {
     )
       .then(({ action, activityType }) => {
         if (action === Share.sharedAction) {
-          LOG('shared!', activityType);
         } else {
           LOG('not shared!');
         }

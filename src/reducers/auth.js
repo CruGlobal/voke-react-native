@@ -14,6 +14,7 @@ import {
   PUSH_PERMISSION,
   DONT_NAV_TO_VIDS,
   RESET_FIRST_TIME,
+  CHANGE_LANUGAGE,
 } from '../constants';
 import { REQUESTS } from '../actions/api';
 
@@ -42,18 +43,16 @@ const initialState = {
   showLanguageModal: false,
   dontNavigateToVideos: false,
   isFirstTime: true,
+  language: 'en',
 };
 
 export default function auth(state = initialState, action) {
   // Keep track of API loading requests
   if (action.type && action.showApiLoading) {
-    console.log(action.type, action.showApiLoading);
     if (action.type.endsWith('_SUCCESS') || action.type.endsWith('_FAIL')) {
-      console.log('success or fail');
       const apiReqs = state.apiActive - 1;
       return { ...state, apiActive: apiReqs < 0 ? 0 : apiReqs };
     } else if (action.type.endsWith('_FETCH')) {
-      console.log('fetch');
       return { ...state, apiActive: state.apiActive + 1 };
     }
   }
@@ -89,6 +88,11 @@ export default function auth(state = initialState, action) {
         ...state,
         isFirstTime: false,
       };
+    case CHANGE_LANUGAGE:
+      return {
+        ...state,
+        language: action.language,
+      };
     case UPDATE_TOKENS:
       return {
         ...state,
@@ -122,6 +126,11 @@ export default function auth(state = initialState, action) {
           os: action.os,
         },
         cableId: action.id,
+      };
+    case REQUESTS.UPDATE_ME.SUCCESS:
+      return {
+        ...state,
+        user: action,
       };
     case REQUESTS.CREATE_DEVICE.SUCCESS:
       return {

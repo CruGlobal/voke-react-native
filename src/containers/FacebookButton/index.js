@@ -34,7 +34,6 @@ class FacebookButton extends Component {
     LoginManager.logInWithReadPermissions(CONSTANTS.FACEBOOK_SCOPE)
       .then(
         result => {
-          LOG('Facebook login result', result);
           if (result.isCancelled) {
             return;
           }
@@ -62,7 +61,6 @@ class FacebookButton extends Component {
                   LOG('error getting facebook user', err);
                   return;
                 }
-                LOG('facebook me', meResult);
                 if (isAnonUser) {
                   dispatch(logoutAction()).then(() => {
                     dispatch(

@@ -259,7 +259,6 @@ export function gotDeviceToken(token) {
 export function handleNotifications(state, notification) {
   return (dispatch, getState) => {
     let data = notification.data;
-    LOG('got notification', notification);
     const {
       activeConversationId,
       unReadBadgeCount,

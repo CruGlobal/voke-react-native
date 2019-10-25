@@ -26,6 +26,7 @@ import {
   deleteAccount,
   logoutAction,
   confirmAlert,
+  changeLanguage,
 } from '../../actions/auth';
 import Analytics from '../../utils/analytics';
 
@@ -90,11 +91,12 @@ class Profile extends Component {
         },
       },
     };
-    dispatch(updateMe(data)).then(results => {
-      dispatch(getMe());
-      i18n.changeLanguage(lang.toLowerCase(), (err, key) => {
-        LOG('Translation error', err, key);
-        setTimeout(() => dispatch(navigateResetHome()), 500);
+    dispatch(updateMe(data)).then(() => {
+      i18n.changeLanguage(lang.toLowerCase(), () => {
+        dispatch(changeLanguage(lang.toLowerCase()));
+        setTimeout(() => {
+          dispatch(navigateResetHome());
+        }, 2000);
       });
     });
   };
@@ -580,24 +582,6 @@ class Profile extends Component {
                 {this.renderEditPassword()}
               </View>
             )}
-            {isAnonUser || isEditing ? null : (
-              <ProfileRow
-                text={user.mobile ? t('mobileVerified') : t('verifyMobile')}
-                right={
-                  <Button
-                    isAndroidOpacity={true}
-                    text={user.mobile ? '' : t('add')}
-                    buttonTextStyle={styles.editText}
-                    style={styles.inputButton}
-                    onPress={() =>
-                      user.mobile
-                        ? undefined
-                        : dispatch(navigatePush('voke.SignUpNumber'))
-                    }
-                  />
-                }
-              />
-            )}
             {isEditing ? null : !theme.isAndroid ? (
               <Touchable
                 onPress={() =>
@@ -635,7 +619,7 @@ class Profile extends Component {
                       <Picker
                         selectedValue={this.state.language}
                         style={{ height: 50, width: 100 }}
-                        onValueChange={(itemValue, itemIndex) =>
+                        onValueChange={itemValue =>
                           this.setState({ language: itemValue })
                         }
                         style={{ width: '100%' }}
@@ -654,7 +638,7 @@ class Profile extends Component {
               <Picker
                 selectedValue={this.state.language}
                 style={{ height: 50, width: 100 }}
-                onValueChange={(itemValue, itemIndex) => {
+                onValueChange={itemValue => {
                   this.setState({ language: itemValue }, () => {
                     this.handleLanguageChange(this.state.language);
                   });

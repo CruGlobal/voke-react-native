@@ -115,6 +115,7 @@ export default {
     title: {
       about: 'À propos de nous',
       acknowledgements: 'Remerciements',
+      notifications: 'Notifications',
       adventures: 'Aventures',
       channels: 'Postes',
       chats: 'Conversations',

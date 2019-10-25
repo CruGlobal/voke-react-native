@@ -34,6 +34,7 @@ import theme from './theme';
 import { buildTrackingObj } from './utils/common';
 import ShareEnterName from './containers/ShareEnterName';
 import ShareJourneyInvite from './containers/ShareJourneyInvite';
+import Notifications from './containers/Notifications';
 
 // Do custom animations between pages
 const verticalPages = ['voke.Menu', 'voke.VideoContentWrap'];
@@ -87,11 +88,11 @@ export const tabs = {
       tabBarIcon: navIcon('video'),
     }),
   },
-  'voke.Channels': {
-    tracking: buildTrackingObj('channel', 'home'),
-    screen: Channels,
+  'voke.Notifications': {
+    tracking: buildTrackingObj('notifications', 'home'),
+    screen: Notifications,
     navigationOptions: () => ({
-      tabBarLabel: i18n.t('title.channels'),
+      tabBarLabel: i18n.t('title.notifications'),
       tabBarIcon: navIcon('channel'),
     }),
   },
@@ -159,6 +160,10 @@ const screens = {
   'voke.Profile': {
     screen: Profile,
     tracking: buildTrackingObj('menu', 'profile'),
+  },
+  'voke.Channels': {
+    screen: Channels,
+    tracking: buildTrackingObj('channels', 'home'),
   },
   'voke.Videos': {
     screen: Videos,

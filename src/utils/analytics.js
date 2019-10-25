@@ -96,8 +96,6 @@ const s = {
   ShareModal: 'ShareModal',
   CreateAccount: 'CreateAccount',
   CreateFacebookAccount: 'CreateFacebookAccount',
-  SignUpNumber: 'SignUpNumber',
-  SignUpNumberVerify: 'SignUpNumberVerify',
   SignUpProfile: 'SignUpProfile',
   Welcome: 'Welcome',
   ThemeSelect: 'ThemeSelect',

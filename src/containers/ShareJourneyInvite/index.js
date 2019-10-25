@@ -43,14 +43,7 @@ class ShareJourneyInvite extends Component {
         dialogTitle: t('share'),
       },
     )
-      .then(({ action, activityType }) => {
-        if (action === Share.sharedAction) {
-          LOG('shared!', activityType);
-        } else {
-          LOG('not shared!');
-        }
-      })
-      .catch(err => LOG('Share Error', err));
+    .catch(err => LOG('Share Error', err));
   };
 
   done = async () => {

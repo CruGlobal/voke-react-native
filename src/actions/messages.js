@@ -168,7 +168,6 @@ export function handleNewMessage(message) {
 
 export function newMessageAction(message) {
   return (dispatch, getState) => {
-    console.log('GOT MESSAGE', message);
     if (message['adventure_message?']) {
       dispatch(handleNewMessage(message));
       return;

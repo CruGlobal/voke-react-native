@@ -15,6 +15,7 @@ import {
   PUSH_PERMISSION,
   RESET_FIRST_TIME,
   SET_TOAST,
+  CHANGE_LANUGAGE,
 } from '../constants';
 import { getJourneyInvites, getMyJourneys } from './journeys';
 import callApi, { REQUESTS } from './api';
@@ -151,6 +152,12 @@ export function checkPushPermissions() {
         dispatch(establishCableDevice());
       }
     });
+  };
+}
+
+export function changeLanguage(language) {
+  return dispatch => {
+    dispatch({ type: CHANGE_LANUGAGE, language });
   };
 }
 
@@ -388,7 +395,6 @@ export function updateMe(data) {
     newData.timezone_name = DeviceInfo.getTimezone();
     return dispatch(callApi(REQUESTS.UPDATE_ME, {}, newData))
       .then(results => {
-        dispatch(getMe());
         return results;
       })
       .catch(error => {

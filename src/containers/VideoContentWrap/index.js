@@ -37,6 +37,14 @@ export const VIDEO_CONTENT_TYPES = {
   JOURNEYSTEPDETAIL: 'JOURNEYSTEPDETAIL',
 };
 
+// Keep track of states that we want to make an API call if they happen
+const INTERACTION_STATES = [
+  webviewStates.STARTED,
+  webviewStates.PAUSED,
+  webviewStates.RESUMED,
+  webviewStates.FINISHED,
+];
+
 const TYPE_CONFIGS = {
   [VIDEO_CONTENT_TYPES.VIDEODETAIL]: {
     topColor: st.bgDeepBlack,
@@ -204,22 +212,30 @@ class VideoContentWrap extends Component {
     if (videoState === webviewStates.ERROR) {
       dispatch(toastAction(t('error.playingVideo')));
     }
-    if (videoState === webviewStates.STARTED) {
-      if (
-        type === VIDEO_CONTENT_TYPES.ORGJOURNEY ||
-        type === VIDEO_CONTENT_TYPES.JOURNEYDETAIL ||
-        type === VIDEO_CONTENT_TYPES.JOURNEYSTEPDETAIL
-      ) {
-        return;
-      }
+
+    if (INTERACTION_STATES.includes(videoState)) {
       let id;
+      let action = '';
+
       if (type === VIDEO_CONTENT_TYPES.VIDEODETAIL) {
         id = item.id;
       } else {
         id = item.item.id;
       }
 
-      dispatch(createVideoInteraction(id));
+      if (videoState === webviewStates.STARTED) {
+        action = 'started';
+      }
+      if (videoState === webviewStates.PAUSED) {
+        action = 'paused';
+      }
+      if (videoState === webviewStates.RESUMED) {
+        action = 'resumed';
+      }
+      if (videoState === webviewStates.FINISHED) {
+        action = 'finished';
+      }
+      dispatch(createVideoInteraction(id, action));
     }
   };
 

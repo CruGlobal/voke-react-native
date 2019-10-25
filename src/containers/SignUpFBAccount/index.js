@@ -14,7 +14,11 @@ import { translate } from 'react-i18next';
 import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { updateMe } from '../../actions/auth';
-import { navigateBack, navigatePush } from '../../actions/nav';
+import {
+  navigateBack,
+  navigatePush,
+  navigateResetHome,
+} from '../../actions/nav';
 
 import { Flex, Button, Icon } from '../../components/common';
 import SignUpInput from '../../components/SignUpInput';
@@ -87,7 +91,7 @@ class SignUpFBAccount extends Component {
       dispatch(updateMe(data)).then(() => {
         dispatch({ type: RESET_ANON_USER });
 
-        dispatch(navigatePush('voke.SignUpNumber'));
+        dispatch(navigateResetHome());
       });
     } else {
       Alert.alert(t('fillInFields'));

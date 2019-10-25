@@ -112,6 +112,7 @@ export default {
       about: 'Sobre',
       acknowledgements: 'Reconhecimentos',
       adventure: 'Aventuras',
+      notifications: 'Notifications',
       adventures: 'Aventuras',
       channels: 'Canais',
       chats: 'Conversas',

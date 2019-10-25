@@ -26,7 +26,6 @@ import Analytics from '../../utils/analytics';
 import {
   navigateBack,
   navigatePush,
-  navigateResetToNumber,
   navigateResetToProfile,
 } from '../../actions/nav';
 import { shareVideo } from '../../actions/auth';
@@ -123,11 +122,7 @@ class Videos extends Component {
                 .catch(err => {
                   LOG(JSON.stringify(err));
                   if (err.error === 'Messenger not configured') {
-                    if (user.first_name) {
-                      dispatch(navigateResetToNumber());
-                    } else {
-                      dispatch(navigateResetToProfile());
-                    }
+                    dispatch(navigateResetToProfile());
                   }
                 });
             }, 3000);

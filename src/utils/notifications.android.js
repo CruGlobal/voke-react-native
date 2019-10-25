@@ -16,31 +16,25 @@ async function init(config) {
   tokenRefresh = Firebase.messaging().onTokenRefresh(fcmToken => {
     if (config.onRegister) {
       config.onRegister(fcmToken);
-      LOG('TOKEN REFRESH', fcmToken);
     }
   });
 
   notificationDisplayedListener = Firebase.notifications().onNotificationDisplayed(
     notification => {
-      LOG('notification displayed', notification);
       // if (config.onNotification) config.onNotification('open', notification);
     },
   );
   notificationListener = Firebase.notifications().onNotification(
     notification => {
       // if (config.onNotification) config.onNotification('open', notification);
-      LOG('ON notification', notification);
     },
   );
-  messageListener = Firebase.messaging().onMessage(message => {
-    LOG('MESSAGE', message);
-  });
+  messageListener = Firebase.messaging().onMessage(message => {});
   notificationOpenedListener = Firebase.notifications().onNotificationOpened(
     notificationOpen => {
       // Get the action triggered by the notification being opened
       // const action = notificationOpen.action;
       const notification = notificationOpen.notification;
-      LOG('android notification', notification);
       if (config.onNotification) {
         config.onNotification('open', notification);
       }
