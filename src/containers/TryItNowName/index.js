@@ -13,7 +13,7 @@ import { CREATE_ANON_USER, IS_SMALL_ANDROID } from '../../constants';
 
 import { navigatePush } from '../../actions/nav';
 import Analytics from '../../utils/analytics';
-import { createAccountAction } from '../../actions/auth';
+import { createAccountAction, updateMe } from '../../actions/auth';
 import styles from './styles';
 import { navigateBack } from '../../actions/nav';
 import { Flex, Button, Text } from '../../components/common';
@@ -71,20 +71,43 @@ class TryItNowName extends Component {
     if (lastName) {
       nameData.last_name = lastName;
     }
-    await dispatch(createAccountAction(null, null, true, nameData))
-      .then(() => {
-        dispatch({ type: CREATE_ANON_USER });
-        if (onComplete) {
-          onComplete();
-        } else {
-          dispatch(navigatePush('voke.AdventureCode', { onboarding: true }));
-        }
-        this.setState({ isLoading: false });
-      })
-      .catch(() => {
-        this.setState({ isLoading: false });
-        Alert.alert('', t('error.tryAgain'));
-      });
+    if (this.props.isAnonUser) {
+      dispatch(
+        updateMe({
+          me: {
+            first_name: firstName,
+            last_name: lastName,
+          },
+        }),
+      )
+        .then(() => {
+          if (onComplete) {
+            onComplete();
+          } else {
+            dispatch(navigatePush('voke.AdventureCode', { onboarding: true }));
+          }
+          this.setState({ isLoading: false });
+        })
+        .catch(() => {
+          this.setState({ isLoading: false });
+          Alert.alert('', t('error.tryAgain'));
+        });
+    } else {
+      await dispatch(createAccountAction(null, null, true, nameData))
+        .then(() => {
+          dispatch({ type: CREATE_ANON_USER });
+          if (onComplete) {
+            onComplete();
+          } else {
+            dispatch(navigatePush('voke.AdventureCode', { onboarding: true }));
+          }
+          this.setState({ isLoading: false });
+        })
+        .catch(() => {
+          this.setState({ isLoading: false });
+          Alert.alert('', t('error.tryAgain'));
+        });
+    }
   };
 
   render() {
@@ -182,8 +205,9 @@ class TryItNowName extends Component {
 TryItNowName.propTypes = {
   onComplete: PropTypes.func,
 };
-const mapStateToProps = (state, { navigation }) => ({
+const mapStateToProps = ({ auth }, { navigation }) => ({
   ...(navigation.state.params || {}),
+  isAnonUser: auth.isAnonUser,
 });
 
 export default translate('tryItNow')(connect(mapStateToProps)(TryItNowName));

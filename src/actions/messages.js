@@ -47,29 +47,11 @@ export function getConversation(data) {
   };
 }
 
-export function deleteConversation(id) {
+export function createShare(data) {
   return dispatch => {
-    const query = {
-      id,
-      endpoint: `${API_URL}me/conversations/${id}`,
-    };
-    return dispatch(callApi(REQUESTS.DELETE_CONVERSATION, query)).then(
-      results => {
-        // dispatch(getConversations());
-        return results;
-      },
-    );
-  };
-}
-
-export function createConversation(data) {
-  return dispatch => {
-    return dispatch(callApi(REQUESTS.CREATE_CONVERSATION, {}, data)).then(
-      results => {
-        // dispatch(getConversations());
-        return results;
-      },
-    );
+    return dispatch(callApi(REQUESTS.CREATE_SHARE, {}, data)).then(results => {
+      return results;
+    });
   };
 }
 

@@ -63,6 +63,7 @@ export default {
     signIn: 'Ingresa',
     signInFb: 'Ingresa con Facebook',
     signOut: 'Desconectar',
+    signOutOfAccount: 'Salir de mi cuenta',
     signUp: 'Reg\u00edstrate',
     signUpEmail: 'Reg\u00edstrate con tu Email',
     signUpFb: 'Reg\u00edstrate con Facebook',

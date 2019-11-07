@@ -449,7 +449,6 @@ export function establishCableDevice(pushDeviceId) {
       name: DeviceInfo.getModel(),
       os: `${Platform.OS} ${DeviceInfo.getSystemVersion()}`,
     };
-
     const isEquivalent = isEquivalentObject(auth.device, currentDeviceInfo);
 
     if (pushDeviceId) {

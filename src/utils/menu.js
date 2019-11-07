@@ -1,7 +1,6 @@
-import { Linking } from 'react-native';
-import Communications from 'react-native-communications';
+import { Linking, Share } from 'react-native';
 
-import { logoutAction, showLanguageModal } from '../actions/auth';
+import { logoutAction } from '../actions/auth';
 import CONSTANTS from '../constants';
 import theme from '../theme';
 import i18n from '../i18n';
@@ -69,9 +68,16 @@ export function navMenuOptions({ dispatch, isAnonUser } = {}) {
       id: 'invite',
       name: i18n.t('shareApp'),
       onPress: () =>
-        Communications.textWithoutEncoding(
-          null,
-          'Check out this awesome app! https://vokeapp.com',
+        Share.share(
+          {
+            message:
+              "Check out this awesome app called Voke. Let's go deeper with God and others! https://vokeapp.com",
+            title: i18n.t('checkOut'),
+            url: '',
+          },
+          {
+            dialogTitle: i18n.t('share'),
+          },
         ),
     },
     {

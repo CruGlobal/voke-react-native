@@ -42,6 +42,8 @@ import {
 import theme, { COLORS } from '../../theme';
 import { SET_OVERLAY } from '../../constants';
 import i18n from '../../i18n';
+import ProfileProgress from '../../components/ProfileProgress';
+import { buildTrackingObj } from '../../utils/common';
 
 const defaultState = {
   imageUri: null,
@@ -84,6 +86,7 @@ class Profile extends Component {
 
   handleLanguageChange = lang => {
     const { dispatch } = this.props;
+    console.log(lang);
     let data = {
       me: {
         language: {
@@ -96,7 +99,7 @@ class Profile extends Component {
         dispatch(changeLanguage(lang.toLowerCase()));
         setTimeout(() => {
           dispatch(navigateResetHome());
-        }, 2000);
+        }, 1000);
       });
     });
   };
@@ -515,6 +518,15 @@ class Profile extends Component {
             style={{ flex: 2 }}
             keyboardShouldPersistTaps="handled"
           >
+            <ProfileProgress
+              onHandleSignUpAccount={() =>
+                dispatch(
+                  navigatePush('voke.SignUpAccount', {
+                    trackingObj: buildTrackingObj('profile', 'signup'),
+                  }),
+                )
+              }
+            />
             <Separator />
             {isEditing ? null : this.renderImagePicker()}
             {isEditing && !editName ? null : (
@@ -611,6 +623,10 @@ class Profile extends Component {
                           buttonTextStyle={styles.actionButtonText}
                           style={styles.actionButton}
                           onPress={() => {
+                            console.log(
+                              'this state language',
+                              this.state.language,
+                            );
                             this.handleLanguageChange(this.state.language);
                             this.setState({ showPicker: false });
                           }}
@@ -663,6 +679,22 @@ class Profile extends Component {
                   buttonTextStyle={styles.editText}
                   style={styles.inputButton}
                   onPress={this.handleDeleteAccount}
+                />
+              }
+            />
+            <ProfileRow
+              text={t('signOutOfAccount')}
+              right={
+                <Button
+                  isAndroidOpacity={true}
+                  text={t('signOut')}
+                  buttonTextStyle={styles.editText}
+                  style={styles.inputButton}
+                  onPress={() => {
+                    dispatch(logoutAction()).then(() => {
+                      dispatch(navigateResetLogin());
+                    });
+                  }}
                 />
               }
             />

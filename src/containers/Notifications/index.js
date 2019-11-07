@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Alert, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
-import Analytics from '../../utils/analytics';
 import { navigatePush } from '../../actions/nav';
 import styles from './styles';
 import { navMenuOptions } from '../../utils/menu';
@@ -13,28 +12,108 @@ import PopupMenu from '../../components/PopupMenu';
 import StatusBar from '../../components/StatusBar';
 import theme from '../../theme';
 import NotificationToast from '../NotificationToast';
-import { Text } from '../../components/common';
+import { Flex, Text } from '../../components/common';
+import { getConversation, getMessages } from '../../actions/messages';
+import { keyExtractorId } from '../../utils/common';
+import CONSTANTS from '../../constants';
+import NotificationItem from '../../components/NotificationItem';
+import LoadMore from '../../components/LoadMore';
+import NotificationVideoPlayer from '../../components/NotificationVideoPlayer';
 
 class Notifications extends Component {
+  state = {
+    refreshing: false,
+    scrollEnabled: true,
+    selectedVideo: null,
+    loadingMore: false,
+  };
+
   componentDidMount() {
     const { dispatch, me } = this.props;
-    Analytics.screen(Analytics.s.AdventuresTab);
-    Analytics.screen(Analytics.s.AdventuresTabMine);
-    if (!me.first_name) {
-      dispatch(navigatePush('voke.TryItNowName'));
+    if (!me.vokebot_conversation_id) {
+      Alert.alert('There was an error getting your conversations');
+    }
+    dispatch(getConversation(me.vokebot_conversation_id)).then(() =>
+      this.getMessages(),
+    );
+  }
+
+  renderLoadMore = () => {
+    if (this.props.hasMore) {
+      return (
+        <LoadMore
+          isLoading={this.state.loadingMore}
+          onLoad={this.handleLoadMore}
+        />
+      );
+    }
+    return null;
+  };
+
+  renderRow = ({ item }) => {
+    if (!item) return null;
+    return (
+      <Flex value={1} style={{}}>
+        <NotificationItem
+          item={item}
+          onSelectVideo={() => this.handleSelectVideo(item)}
+          onShareVideo={this.handleShareVideo}
+        />
+      </Flex>
+    );
+  };
+
+  handleLoadMore() {
+    if (this.props.pagination.hasMore) {
+      // Loading more messages
+      this.getMessages(this.props.pagination.page + 1);
     }
   }
 
-  onChangeTab = ({ i }) => {
-    if (i === 0) {
-      Analytics.screen(Analytics.s.AdventuresTabMine);
-    } else if (i === 1) {
-      Analytics.screen(Analytics.s.AdventuresTabFind);
+  getMessages(page = undefined) {
+    const { dispatch, me } = this.props;
+    this.setState({ loadingMore: true });
+    dispatch(getMessages(me.vokebot_conversation_id, page))
+      .then(() => {
+        this.setState({ loadingMore: false });
+      })
+      .catch(() => {
+        this.setState({ loadingMore: false });
+      });
+  }
+
+  clearSelectedVideo = () => {
+    this.setState({ selectedVideo: null });
+  };
+
+  handleSelectVideo = m => {
+    this.setState({ selectedVideo: m });
+  };
+
+  handleShareVideo = video => {
+    const { dispatch, me } = this.props;
+    if (!me.first_name) {
+      dispatch(
+        navigatePush('voke.TryItNowName', {
+          onComplete: () =>
+            dispatch(
+              navigatePush('voke.ShareFlow', {
+                video: video,
+              }),
+            ),
+        }),
+      );
+    } else {
+      dispatch(
+        navigatePush('voke.ShareFlow', {
+          video: video,
+        }),
+      );
     }
   };
 
   render() {
-    const { t, dispatch } = this.props;
+    const { t, dispatch, notifications } = this.props;
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
@@ -61,7 +140,30 @@ class Notifications extends Component {
         />
         <NotificationToast />
         <View>
-          <Text>Coming Soon</Text>
+          {this.state.selectedVideo ? (
+            <NotificationVideoPlayer
+              ref={c => (this.videoPlayer = c)}
+              message={this.state.selectedVideo}
+              onClose={this.clearSelectedVideo}
+            />
+          ) : null}
+          {notifications.length > 0 ? (
+            <FlatList
+              ref={c => (this.listView = c)}
+              ListFooterComponent={this.renderLoadMore}
+              keyExtractor={keyExtractorId}
+              initialNumToRender={CONSTANTS.PAGE_SIZE + 1}
+              data={notifications}
+              renderItem={this.renderRow}
+              contentContainerStyle={styles.content}
+              removeClippedSubviews={false}
+              bounces={true}
+            />
+          ) : (
+            <Flex align="center" justify="center">
+              <Text>No Notifications yet</Text>
+            </Flex>
+          )}
         </View>
         <ApiLoading showMS={15000} />
       </View>
@@ -71,12 +173,13 @@ class Notifications extends Component {
 
 Notifications.propTypes = {};
 
-const mapStateToProps = ({ auth, journeys }, { navigation }) => ({
+const mapStateToProps = ({ auth, messages }, { navigation }) => ({
   ...(navigation.state.params || {}),
   me: auth.user,
   isAnonUser: auth.isAnonUser, // Need this for the Android PopupMenu to determine which menu options to show
-  myJourneys: journeys.mine,
-  invites: journeys.invites,
+  notifications: messages.messages[auth.user.vokebot_conversation_id] || [],
+  pagination:
+    messages.pagination.messages[auth.user.vokebot_conversation_id] || {},
 });
 
 export default translate()(connect(mapStateToProps)(Notifications));

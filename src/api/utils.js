@@ -8,13 +8,13 @@ let authUrl;
 const API_VERSION = 'v1';
 
 let domain = '';
-// if (!CONSTANTS.IS_STAGING) {
-//   setTimeout(() => LOG('POINTING TO PROD'), 1);
-//   domain = '';
-// } else {
-//   // setTimeout(() => LOG('POINTING TO STAGING'), 1);
-//   domain = '-stage';
-// }
+if (!CONSTANTS.IS_STAGING) {
+  setTimeout(() => LOG('POINTING TO PROD'), 1);
+  domain = '';
+} else {
+  // setTimeout(() => LOG('POINTING TO STAGING'), 1);
+  domain = '-stage';
+}
 
 baseUrl = `https://api${domain}.vokeapp.com/api/messenger/${API_VERSION}`;
 authUrl = `https://auth${domain}.vokeapp.com`;

@@ -14,16 +14,8 @@ import { translate } from 'react-i18next';
 import Analytics from '../../utils/analytics';
 import styles from './styles';
 // import { getMe, facebookLoginAction, anonLogin } from '../../actions/auth';
-import {
-  createConversation,
-  getConversation,
-  deleteConversation,
-} from '../../actions/messages';
-import {
-  navigateBack,
-  navigateResetMessage,
-  navigatePush,
-} from '../../actions/nav';
+import { createShare } from '../../actions/messages';
+import { navigateBack, navigateResetHome } from '../../actions/nav';
 import { Flex, Button, Text } from '../../components/common';
 import ApiLoading from '../ApiLoading';
 import SignUpInput from '../../components/SignUpInput';
@@ -39,7 +31,6 @@ class ShareFlow extends Component {
     showOverlay: false,
     name: '',
     conversationUrl: '',
-    conversation: null,
   };
 
   componentDidMount() {
@@ -55,12 +46,8 @@ class ShareFlow extends Component {
     const { name } = this.state;
     return new Promise((resolve, reject) => {
       const createData = {
-        conversation: {
-          messengers_attributes: [
-            {
-              first_name: name,
-            },
-          ],
+        share: {
+          first_name: name,
           item_id: `${video.id}`,
         },
       };
@@ -73,23 +60,15 @@ class ShareFlow extends Component {
       };
 
       this.setState({ isLoading: true });
-      dispatch(createConversation(createData))
+      dispatch(createShare(createData))
         .then(results => {
-          // Grab the friendfrom the results
-          const friend = results.messengers[0];
-          // LOG('create voke conversation results', results);
-          dispatch(getConversation(results.id))
-            .then(c => {
-              this.setState(
-                {
-                  conversationUrl: friend.url,
-                  conversation: c.conversation,
-                  isLoading: false,
-                },
-                () => resolve(),
-              );
-            })
-            .catch(fail);
+          this.setState(
+            {
+              conversationUrl: results.url,
+              isLoading: false,
+            },
+            () => resolve(),
+          );
         })
         .catch(fail);
     });
@@ -128,20 +107,12 @@ class ShareFlow extends Component {
     )
       .then(({ action, activityType }) => {
         if (action === Share.sharedAction) {
-          // Navigate to the new conversation after sharing
-          dispatch(
-            navigateResetMessage({
-              conversation: this.state.conversation,
-            }),
-          );
+          this.setState({ showOverlay: true });
+          dispatch(navigateResetHome());
         } else {
           this.setState({ showOverlay: false });
-          // Delete the conversation
-          dispatch(deleteConversation(this.state.conversation.id)).then(() => {
-            this.setState({
-              conversationUrl: '',
-              conversation: null,
-            });
+          this.setState({
+            conversationUrl: '',
           });
         }
       })

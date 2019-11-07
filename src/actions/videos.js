@@ -121,7 +121,7 @@ export function unfavoriteVideo(videoId) {
   };
 }
 
-export function createVideoInteraction(videoId, action) {
+export function createVideoInteraction(videoId, action, mediaViewTime) {
   return (dispatch, getState) => {
     const deviceId = getState().auth.cableId;
 
@@ -132,6 +132,7 @@ export function createVideoInteraction(videoId, action) {
       interaction: {
         action: action,
         device_id: deviceId,
+        media_view_time: mediaViewTime,
       },
     };
     return dispatch(callApi(REQUESTS.CREATE_ITEM_INTERACTION, query, data));

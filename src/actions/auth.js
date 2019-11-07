@@ -46,7 +46,10 @@ let firebaseLinkHandler;
 
 export function startupAction() {
   return (dispatch, getState) => {
-    if (hasStartedUp) return;
+    if (hasStartedUp) {
+      dispatch(checkAndRunSockets());
+      return;
+    }
 
     // if its not the users first time in the app, send openVoke so that they get a welcome message
     const isFirstTime = getState().auth.isFirstTime;

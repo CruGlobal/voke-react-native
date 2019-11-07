@@ -207,7 +207,7 @@ class VideoContentWrap extends Component {
     }
   };
 
-  handleVideoChange = videoState => {
+  handleVideoChange = (videoState, mediaViewTime = 0) => {
     const { t, dispatch, type, item } = this.props;
     if (videoState === webviewStates.ERROR) {
       dispatch(toastAction(t('error.playingVideo')));
@@ -235,7 +235,7 @@ class VideoContentWrap extends Component {
       if (videoState === webviewStates.FINISHED) {
         action = 'finished';
       }
-      dispatch(createVideoInteraction(id, action));
+      dispatch(createVideoInteraction(id, action, mediaViewTime));
     }
   };
 
