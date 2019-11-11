@@ -24,7 +24,7 @@ import {
   getMyJourneySteps,
 } from './journeys';
 import callApi, { REQUESTS } from './api';
-import { SET_OVERLAY } from '../constants';
+import { SET_OVERLAY, PUSH_PERMISSION } from '../constants';
 import { isEquivalentObject } from '../utils/common';
 import theme from '../theme';
 import Permissions from '../utils/permissions';
@@ -526,6 +526,7 @@ export function enablePushNotifications(forceIfUndetermined = false) {
     let token = getState().auth.pushToken;
     Permissions.checkPush().then(response => {
       // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+      dispatch({ type: PUSH_PERMISSION, permission: response });
       if (response === 'undetermined' && !token) {
         if (forceIfUndetermined) {
           dispatch(establishDevice());

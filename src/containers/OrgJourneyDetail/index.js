@@ -60,12 +60,14 @@ class OrgJourneyDetail extends Component {
     const { t, item, myJourneys } = this.props;
     const { myselfIsLoading, friendIsLoading } = this.state;
     if (!item || item.total_steps === null) return null;
-    const haveStartedSolo = !!myJourneys.find(
-      i =>
-        i.organization_journey_id === item.id &&
-        i.conversation.messengers.length === 2,
-    );
-
+    let haveStartedSolo = false;
+    if ((myJourneys || []).length > 0) {
+      haveStartedSolo = !!myJourneys.find(
+        i =>
+          i.organization_journey_id === item.id &&
+          i.conversation.messengers.length === 2,
+      );
+    }
     return (
       <Flex value={1} style={[st.bgWhite]}>
         <Flex style={[st.pd3]}>

@@ -346,6 +346,7 @@ class MyAdventuresList extends Component {
     if (item.code) {
       return (
         <InviteCard
+          key={item.id}
           t={t}
           onResend={onResendInvite}
           onDelete={onDeleteInvite}
@@ -358,6 +359,7 @@ class MyAdventuresList extends Component {
     return (
       <MyAdventureCard
         t={t}
+        key={item.id}
         me={me}
         item={item}
         onSelect={onSelect}

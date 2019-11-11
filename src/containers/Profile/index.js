@@ -86,7 +86,6 @@ class Profile extends Component {
 
   handleLanguageChange = lang => {
     const { dispatch } = this.props;
-    console.log(lang);
     let data = {
       me: {
         language: {
