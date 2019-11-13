@@ -352,7 +352,7 @@ export default {
     areYouSureDelete: `Es-tu certain de vouloir suprimer ton invitation à "{{name}}"?`,
     deleteCannotBeUndone: `Ceci ne peut être défait. Tu peux aussi l’inviter en utilisant “Inviter un ami(e)”.`,
     dontHaveOne: "Je n'en ai pas",
-    haveCode: "J'ai un code d'aventure",
+    haveCode: "J'ai un Code d'Aventure",
     welcomeToAdventures: `Salut {{name}}! Voici où tu trouveras toutes les aventures que tu fais avec tes ami(e)s.`,
   },
   share: {

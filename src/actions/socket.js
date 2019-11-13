@@ -372,7 +372,7 @@ export function establishDevice() {
       onRegister(token) {
         // Update redux with the push notification permission value
         let newToken = token;
-
+        dispatch({ type: PUSH_PERMISSION, permission: 'authorized' });
         if (!theme.isAndroid) {
           newToken = token.token;
         }

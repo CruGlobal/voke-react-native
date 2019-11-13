@@ -214,12 +214,15 @@ export function createMessageInteraction(interaction) {
   return (dispatch, getState) => {
     const deviceId = getState().auth.cableId;
     if (!deviceId) return Promise.reject('NoDevice');
-    const data = {
+    let data = {
       interaction: {
         action: interaction.action,
         device_id: deviceId,
       },
     };
+    if (interaction.mediaViewTime || interaction.mediaViewTime === 0) {
+      data.interaction.media_view_time = interaction.mediaViewTime;
+    }
     const query = {
       endpoint: `${API_URL}me/conversations/${interaction.conversationId}/messages/${interaction.messageId}/interactions`,
     };

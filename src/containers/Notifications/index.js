@@ -139,32 +139,30 @@ class Notifications extends Component {
           shadow={false}
         />
         <NotificationToast />
-        <View>
-          {this.state.selectedVideo ? (
-            <NotificationVideoPlayer
-              ref={c => (this.videoPlayer = c)}
-              message={this.state.selectedVideo}
-              onClose={this.clearSelectedVideo}
-            />
-          ) : null}
-          {notifications.length > 0 ? (
-            <FlatList
-              ref={c => (this.listView = c)}
-              ListFooterComponent={this.renderLoadMore}
-              keyExtractor={keyExtractorId}
-              initialNumToRender={CONSTANTS.PAGE_SIZE + 1}
-              data={notifications}
-              renderItem={this.renderRow}
-              contentContainerStyle={styles.content}
-              removeClippedSubviews={false}
-              bounces={true}
-            />
-          ) : (
-            <Flex align="center" justify="center">
-              <Text>No Notifications yet</Text>
-            </Flex>
-          )}
-        </View>
+        {this.state.selectedVideo ? (
+          <NotificationVideoPlayer
+            ref={c => (this.videoPlayer = c)}
+            message={this.state.selectedVideo}
+            onClose={this.clearSelectedVideo}
+          />
+        ) : null}
+        {notifications.length > 0 ? (
+          <FlatList
+            ref={c => (this.listView = c)}
+            ListFooterComponent={this.renderLoadMore}
+            keyExtractor={keyExtractorId}
+            initialNumToRender={CONSTANTS.PAGE_SIZE + 1}
+            data={notifications}
+            renderItem={this.renderRow}
+            contentContainerStyle={styles.content}
+            removeClippedSubviews={false}
+            bounces={true}
+          />
+        ) : (
+          <Flex align="center" justify="center">
+            <Text>No Notifications yet</Text>
+          </Flex>
+        )}
         <ApiLoading showMS={15000} />
       </View>
     );

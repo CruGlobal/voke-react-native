@@ -6,10 +6,7 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: theme.primaryColor,
   },
-  content: {
-    paddingBottom: 70,
-    paddingTop: 20,
-  },
+  content: {},
   title: {
     fontWeight: 'bold',
     paddingHorizontal: 20,

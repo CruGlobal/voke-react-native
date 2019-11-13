@@ -231,7 +231,7 @@ class Profile extends Component {
     const newValue = !this.state[type];
     // If we are toggling the edit ON and the user is anonymous, show the popup
     // if (newValue && this.props.isAnonUser) {
-    if (newValue && (this.props.isAnonUser && type !== 'editName')) {
+    if (newValue && this.props.isAnonUser && type !== 'editName') {
       this.setState({ hideAnonFields: true });
       this.props.dispatch({
         type: SET_OVERLAY,
@@ -701,7 +701,7 @@ class Profile extends Component {
               <Flex
                 value={1}
                 align="center"
-                style={{ paddingHorizontal: 50, marginTop: 100 }}
+                style={{ paddingHorizontal: 50, marginTop: 60 }}
               >
                 <Text style={styles.signUpText}>{t('signUp')}</Text>
                 <SignUpButtons

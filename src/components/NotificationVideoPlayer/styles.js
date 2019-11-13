@@ -8,7 +8,6 @@ export default StyleSheet.create({
     backgroundColor: COLORS.DEEP_BLACK,
     height: videoUtils.HEIGHT,
     width: videoUtils.WIDTH,
-    marginTop: theme.isAndroid ? undefined : 20,
   },
   backHeader: {
     position: 'absolute',

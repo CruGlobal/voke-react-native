@@ -10,6 +10,7 @@ import styles from './styles';
 import WebviewVideo from '../../components/WebviewVideo';
 import webviewStates from '../../components/WebviewVideo/common';
 import { View, Icon, Flex, Touchable } from '../../components/common';
+import { createVideoInteraction } from '../../actions/videos';
 
 // Keep track of states that we want to make an API call if they happen
 const INTERACTION_STATES = [
@@ -30,8 +31,8 @@ class NotificationVideoPlayer extends Component {
     }
   };
 
-  handleVideoChange = videoState => {
-    const { t, message, dispatch, isMyMessage } = this.props;
+  handleVideoChange = (videoState, mediaViewTime) => {
+    const { t, message, dispatch } = this.props;
     let interaction = {
       conversationId: message.conversation_id,
       messageId: message.id,
@@ -40,11 +41,10 @@ class NotificationVideoPlayer extends Component {
       dispatch(toastAction(t('error.playingVideo')));
     } else if (INTERACTION_STATES.includes(videoState)) {
       interaction.action = videoState;
+      interaction.mediaViewTime = mediaViewTime;
     }
 
-    // If the user is interacting with a video and it was someone else that sent it,
-    // send the interaction to the API
-    if (interaction.action && !isMyMessage) {
+    if (interaction.action) {
       dispatch(createMessageInteraction(interaction));
     }
   };
@@ -92,10 +92,7 @@ const mapStateToProps = ({ auth }, { message }) => ({
 });
 
 export default translate(undefined, { wait: true, withRef: true })(
-  connect(
-    mapStateToProps,
-    undefined,
-    undefined,
-    { withRef: true },
-  )(NotificationVideoPlayer),
+  connect(mapStateToProps, undefined, undefined, { withRef: true })(
+    NotificationVideoPlayer,
+  ),
 );
