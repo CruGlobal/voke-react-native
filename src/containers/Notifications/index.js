@@ -160,7 +160,7 @@ class Notifications extends Component {
           />
         ) : (
           <Flex align="center" justify="center">
-            <Text>No Notifications yet</Text>
+            <Text>{t('noNotifications')}</Text>
           </Flex>
         )}
         <ApiLoading showMS={15000} />

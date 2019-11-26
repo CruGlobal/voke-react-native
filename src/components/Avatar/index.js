@@ -19,8 +19,6 @@ export default function Avatar({
 
   const sizeObj = { width: size, height: size, borderRadius: size / 2 };
 
-  if (!image && !text) return null;
-
   if (image) {
     if (isLocal) {
       content = (

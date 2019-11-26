@@ -64,18 +64,9 @@ class VideoList extends Component {
 
   renderRow({ item }) {
     const { t } = this.props;
-    const video = item;
-    if (
-      !video ||
-      !video.media ||
-      !video.media.thumbnails ||
-      !video.media.thumbnails.large ||
-      !video.description ||
-      !video.media.duration ||
-      !video.name ||
-      !video.shares
-    )
-      return null;
+    const video = item || {};
+
+    const thumbnail = ((video.media || {}).thumbnails || {}).large || undefined;
     const description = (video.description || '').replace(/^\s+|\s+$/g, '');
     return (
       <Touchable
@@ -92,7 +83,7 @@ class VideoList extends Component {
         >
           <ImageBackground
             resizeMode="cover"
-            source={{ uri: video.media.thumbnails.large }}
+            source={{ uri: thumbnail }}
             style={styles.videoThumbnail}
           >
             <Icon type="Voke" name="play" size={64} style={styles.playIcon} />

@@ -36,7 +36,7 @@ class ThemeList extends Component {
 
   renderRow({ item }) {
     const { selectedTheme } = this.state;
-    if (!item || !item.name || !item.id) return null;
+    item = item || {};
     return (
       <Touchable
         highlight={false}
@@ -60,7 +60,6 @@ class ThemeList extends Component {
 
   render() {
     const { t, onDismiss, items } = this.props;
-    if (!items) return null;
     return (
       <View style={styles.container}>
         <FlatList

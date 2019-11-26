@@ -59,7 +59,7 @@ class OrgJourneyDetail extends Component {
   render() {
     const { t, item, myJourneys } = this.props;
     const { myselfIsLoading, friendIsLoading } = this.state;
-    if (!item || item.total_steps === null) return null;
+    const newItem = item || {};
     let haveStartedSolo = false;
     if ((myJourneys || []).length > 0) {
       haveStartedSolo = !!myJourneys.find(
@@ -71,11 +71,11 @@ class OrgJourneyDetail extends Component {
     return (
       <Flex value={1} style={[st.bgWhite]}>
         <Flex style={[st.pd3]}>
-          <Text style={[st.fs2, st.blue]}>{item.name}</Text>
+          <Text style={[st.fs2, st.blue]}>{newItem.name}</Text>
           <Text style={[st.pt5, st.charcoal]}>
-            {item.total_steps}-{t('partSeries')}
+            {newItem.total_steps}-{t('partSeries')}
           </Text>
-          <Text style={[st.charcoal, st.pv4]}>{item.description}</Text>
+          <Text style={[st.charcoal, st.pv4]}>{newItem.description}</Text>
         </Flex>
         <Flex value={1} justify="end">
           <Triangle width={st.fullWidth} height={80} color={st.colors.blue} />

@@ -3,6 +3,7 @@
 export default {
   common: {
     watchTrailer: 'Bande annonce',
+    noNotifications: 'Aucune notification pour le moment',
     acceptChallenge: 'Relever le défi',
     add: 'Ajouter',
     all: 'Tous',
@@ -343,6 +344,7 @@ export default {
   },
   adventureCode: {
     adventureCode: "Code d'aventure",
+    adventureCodeHaveCode: "Vous avez un code d'un ami?",
     dontHaveOne: "Je n'en ai pas",
     adventureCodeWhatsThis: "Qu'est-ce que c'est?",
     adventureCodeWhatsThisExplanation:

@@ -47,14 +47,9 @@ class NotificationItem extends PureComponent {
   }
 
   renderVideoImage(style) {
-    if (
-      !this.props.item ||
-      !this.props.item.item ||
-      !this.props.item.item.media ||
-      !this.props.item.item.media.thumbnails ||
-      !this.props.item.item.media.thumbnails.large
-    )
-      return null;
+    const thumbnail =
+      ((((this.props.item || {}).item || {}).media || {}).thumbnails || {})
+        .large || undefined;
     return (
       <Touchable
         isAndroidOpacity={true}
@@ -63,7 +58,7 @@ class NotificationItem extends PureComponent {
       >
         <ImageBackground
           resizeMode="cover"
-          source={{ uri: this.props.item.item.media.thumbnails.large }}
+          source={{ uri: thumbnail }}
           style={style}
         >
           <Icon name="play-circle-filled" size={40} style={styles.playIcon} />

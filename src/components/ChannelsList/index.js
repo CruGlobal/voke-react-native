@@ -40,7 +40,6 @@ class ChannelsList extends Component {
   renderRow({ item }) {
     const channel = item;
     const avatar = channel.avatar || {};
-    // if (!avatar || !channel || !channel.name) return null;
     return (
       <Touchable
         highlight={false}

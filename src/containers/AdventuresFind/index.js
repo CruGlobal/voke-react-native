@@ -52,6 +52,7 @@ class AdventuresFind extends Component {
 
   inviteFriend = item => {
     const { dispatch } = this.props;
+    if (!item) return;
     dispatch(navigatePush('voke.ShareEnterName', { item }));
   };
 
@@ -61,7 +62,7 @@ class AdventuresFind extends Component {
 
   renderRow = ({ item }) => {
     const { myJourneyOrgIds } = this.props;
-    if (!item || !myJourneyOrgIds || !item.id) return null;
+    item = item || {};
     const startedWithMe = myJourneyOrgIds.find(id => id === item.id);
     return (
       <OrgJourney

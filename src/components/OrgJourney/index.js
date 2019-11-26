@@ -7,14 +7,8 @@ import { Flex, Text, Touchable, Button, VokeIcon, Icon } from '../common';
 import st from '../../st';
 
 function OrgJourney({ t, onPress, item, onInviteFriend }) {
-  if (
-    !item ||
-    !item.image ||
-    !item.image.medium ||
-    !item.total_steps ||
-    !item.name
-  )
-    return null;
+  item = item || {};
+  const newImage = (item.image || {}).medium || undefined;
   return (
     <Touchable onPress={() => onPress(item)}>
       <Flex
@@ -26,10 +20,7 @@ function OrgJourney({ t, onPress, item, onInviteFriend }) {
         uri:
           'https://www.tripsavvy.com/thmb/qSHJzk19KBq_LAuGDTriGhElfL8=/960x0/filters:no_upscale():max_bytes(150000):strip_icc()/GlacierNationalParkMontana-FengWeiPhotography-Getty-5711489a3df78c3fa2b5d2a2.jpg',
       }} */}
-        <Image
-          source={{ uri: item.image.medium }}
-          style={[st.absfill, st.br5]}
-        />
+        <Image source={{ uri: newImage }} style={[st.absfill, st.br5]} />
         <View
           style={[
             st.absfill,

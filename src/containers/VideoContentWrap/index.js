@@ -311,17 +311,13 @@ class VideoContentWrap extends Component {
   };
 
   render() {
-    const { item, type } = this.props;
+    let { item, type } = this.props;
     const { isLandscape, customRender } = this.state;
-
     const config = TYPE_CONFIGS[type] || {};
     let videoObj = {};
     let videoProps = { ...(config.videoProps || {}) };
     if (type === VIDEO_CONTENT_TYPES.VIDEODETAIL) {
       const videoMedia = item.media || {};
-      if (!videoMedia || !videoMedia.type || !videoMedia.url) {
-        return null;
-      }
       videoObj = {
         start: item.media_start,
         end: item.media_end,
@@ -331,27 +327,19 @@ class VideoContentWrap extends Component {
       };
     } else {
       videoProps.forceNoAutoPlay = true;
-      if (
-        !item ||
-        !item.item ||
-        !item.item.content ||
-        !item.item.content.type ||
-        !item.item.content.url ||
-        !item.item.content.duration ||
-        !item.item.content.thumbnails ||
-        !item.item.content.thumbnails.medium
-      ) {
-        return null;
-      }
+      const newItem = item || {};
+      const doubleItem = newItem.item || {};
+      const content = doubleItem.content || {};
+      const thumbnail = content.thumbnails || {};
 
       videoObj = {
-        start: item.item.media_start,
-        end: item.item.media_end,
-        type: item.item.content.type,
-        url: item.item.content.url,
-        hls: item.item.content.hls,
-        duration: item.item.content.duration,
-        thumbnail: item.item.content.thumbnails.medium,
+        start: doubleItem.media_start,
+        end: doubleItem.media_end,
+        type: content.type,
+        url: content.url,
+        hls: content.hls,
+        duration: content.duration,
+        thumbnail: thumbnail.medium,
       };
     }
 

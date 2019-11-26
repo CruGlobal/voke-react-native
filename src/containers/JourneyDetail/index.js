@@ -26,17 +26,10 @@ import { isAndroid } from '../../constants';
 import JourneyUnreadCount from '../../components/JourneyUnreadCount';
 
 function StepItem({ t, me, item, journey, onSelect, inviteName }) {
-  if (
-    !item ||
-    !item.status ||
-    item.unread_messages === null ||
-    !journey ||
-    !journey.conversation ||
-    !journey.conversation.messengers ||
-    !item.name ||
-    item.position === null
-  )
-    return null;
+  item = item || {};
+  journey = journey || {};
+  const messengers = (journey.conversation || {}).messengers || [];
+  const thumbnail = (((item.item || {}).content || {}).thumbnails || {}).small;
   const isActive = item.status === 'active';
   const isCompleted = item.status === 'completed';
   const isLocked = !isCompleted && !isActive;
@@ -44,11 +37,11 @@ function StepItem({ t, me, item, journey, onSelect, inviteName }) {
 
   const unreadCount = item.unread_messages;
   const hasUnread = unreadCount > 0;
-  let otherUser = journey.conversation.messengers.find(
+  let otherUser = messengers.find(
     i => i.id !== me.id && i.first_name !== 'VokeBot',
   );
 
-  if (journey.conversation.messengers.length === 2 && inviteName) {
+  if (messengers.length === 2 && inviteName) {
     otherUser = { first_name: inviteName };
   }
 
@@ -73,7 +66,7 @@ function StepItem({ t, me, item, journey, onSelect, inviteName }) {
         <Flex direction="row" style={[st.minh(84)]}>
           <Flex style={[st.m5, st.rel]}>
             <Image
-              source={{ uri: item.item.content.thumbnails.small }}
+              source={{ uri: thumbnail }}
               style={[st.w(100), st.bgBlack, st.f1]}
               resizeMode="contain"
             />

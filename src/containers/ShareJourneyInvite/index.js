@@ -42,8 +42,7 @@ class ShareJourneyInvite extends Component {
       {
         dialogTitle: t('share'),
       },
-    )
-    .catch(err => LOG('Share Error', err));
+    ).catch(err => LOG('Share Error', err));
   };
 
   done = async () => {
@@ -76,7 +75,7 @@ class ShareJourneyInvite extends Component {
 
   render() {
     const { t, journeyInvite, friendName, isResend } = this.props;
-    if (!journeyInvite || !journeyInvite.code) return null;
+    const newJourneyInvite = journeyInvite || {};
     return (
       <Flex value={1}>
         <SafeArea style={[st.f1, st.bgBlue]}>
@@ -103,7 +102,7 @@ class ShareJourneyInvite extends Component {
               style={styles.imageLogo}
             />
             <Text selectable={true} style={[st.white, st.fs1, st.w100, st.tac]}>
-              {journeyInvite.code}
+              {newJourneyInvite.code}
             </Text>
             <Button
               text={t('copy')}

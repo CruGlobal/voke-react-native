@@ -3,6 +3,7 @@
 export default {
   common: {
     watchTrailer: 'Assista ao Trailer',
+    noNotifications: 'Aún no hay notificaciones',
     acceptChallenge: 'Aceptar Desaf\u00edo',
     add: 'Agregar',
     all: 'Todo',

@@ -64,14 +64,8 @@ class InviteCard extends Component {
     const { t, item, onDelete, onResend, onSelect } = this.props;
     const { organization_journey, name, code } = item;
     const { isExpired, time } = this.state;
-    if (
-      !organization_journey ||
-      !organization_journey.image ||
-      !organization_journey.image.small ||
-      !name ||
-      !code
-    )
-      return null;
+    const orgJourney = organization_journey || {};
+    const orgJourneyImage = (orgJourney.image || {}).small || undefined;
     return (
       <Flex
         style={[
@@ -89,7 +83,7 @@ class InviteCard extends Component {
       >
         <Flex>
           <Image
-            source={{ uri: organization_journey.image.small }}
+            source={{ uri: orgJourneyImage }}
             style={[st.f1, st.w(THUMBNAIL_WIDTH), st.brbl6, st.brtl6]}
           />
         </Flex>
@@ -176,44 +170,25 @@ const ProgressDots = React.memo(function({ isFilled }) {
 });
 
 function MyAdventureCard({ t, me, item, onSelect, onClickProfile }) {
-  const {
-    conversation,
-    progress,
-    name,
-    item: {
-      content: {
-        thumbnails: { small },
-      },
-    },
-  } = item;
-  if (
-    !conversation ||
-    conversation.unread_messages === null ||
-    progress.total === null ||
-    progress.completed === null ||
-    !conversation.messengers ||
-    !progress ||
-    !name ||
-    !item ||
-    !item.item.content ||
-    !item.item.content.thumbnails ||
-    !item.item.content.thumbnails.small
-  ) {
-    return null;
-  }
+  item = item || {};
+  const conversation = item.conversation || {};
+  const progress = item.progress || {};
+  const thumbnail =
+    (((item.item || {}).content || {}).thumbnails || {}).small || undefined;
+  console.log(thumbnail);
+
   const unreadCount = conversation.unread_messages;
   const hasUnread = unreadCount > 0;
   const available = progress.total;
   const totalSteps = new Array(available).fill(1);
   const completed = progress.completed;
 
-  const messengers = conversation.messengers;
+  const messengers = conversation.messengers || [];
 
   const isSolo = messengers.length === 2;
-  const myUser = messengers.find(i => i.id === me.id);
-  const otherUser = messengers.find(
-    i => i.id !== me.id && i.first_name !== 'VokeBot',
-  );
+  const myUser = messengers.find(i => i.id === me.id) || {};
+  const otherUser =
+    messengers.find(i => i.id !== me.id && i.first_name !== 'VokeBot') || {};
 
   return (
     <Touchable
@@ -237,7 +212,7 @@ function MyAdventureCard({ t, me, item, onSelect, onClickProfile }) {
       >
         <Flex>
           <Image
-            source={{ uri: small }}
+            source={{ uri: thumbnail }}
             style={[st.f1, st.w(THUMBNAIL_WIDTH), st.brbl6, st.brtl6]}
           />
         </Flex>
@@ -249,7 +224,7 @@ function MyAdventureCard({ t, me, item, onSelect, onClickProfile }) {
           style={[st.pv6, st.ph4]}
         >
           <Text numberOfLines={1} style={[st.pb6, st.blue, st.fs4]}>
-            {name}
+            {item.name}
           </Text>
           <Flex direction="row" align="center" style={[st.pb6]}>
             <VokeIcon
@@ -277,20 +252,14 @@ function MyAdventureCard({ t, me, item, onSelect, onClickProfile }) {
             <Touchable onPress={() => onClickProfile()}>
               <Image
                 source={{
-                  uri:
-                    myUser && myUser.avatar && myUser.avatar.small
-                      ? myUser.avatar.small
-                      : null,
+                  uri: (myUser.avatar || {}).small || undefined,
                 }}
                 style={[st.circle(36)]}
               />
             </Touchable>
-            {!isSolo &&
-            otherUser &&
-            otherUser.avatar &&
-            otherUser.avatar.small ? (
+            {!isSolo ? (
               <Image
-                source={{ uri: otherUser.avatar.small }}
+                source={{ uri: (otherUser.avatar || {}).small || undefined }}
                 style={[st.circle(36), st.abstl, { left: -10 }]}
               />
             ) : null}
@@ -370,7 +339,6 @@ class MyAdventuresList extends Component {
 
   render() {
     const { items, onLoadMore, header } = this.props;
-    if (!items) return null;
     return (
       <FlatList
         ref={c => (this.list = c)}

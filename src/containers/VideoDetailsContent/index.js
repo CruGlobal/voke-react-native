@@ -76,8 +76,6 @@ class VideoDetails extends Component {
     // const video = this.state.video || this.props.video || {};
     const video = this.props.video || {};
     const isFavorite = this.state.isFavorite;
-    if (!video || !video.shares || !video.tags || !video.questions) return null;
-
     return (
       <Fragment>
         <ScrollView style={styles.content}>

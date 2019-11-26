@@ -44,8 +44,16 @@ let appStateChangeFn;
 let hasStartedUp = false;
 let firebaseLinkHandler;
 
+function handleConnectivityChange(connectionInfo) {
+  if (connectionInfo.type === 'none') {
+    Alert.alert('Oops! It doesnt look like you are connected to the internet.');
+  }
+}
+
 export function startupAction() {
   return (dispatch, getState) => {
+    NetInfo.addEventListener('connectionChange', handleConnectivityChange);
+
     if (hasStartedUp) {
       dispatch(checkAndRunSockets());
       return;
@@ -101,6 +109,7 @@ export function cleanupAction() {
   return () => {
     hasStartedUp = false;
     AppState.removeEventListener('change', appStateChangeFn);
+    NetInfo.removeEventListener('connectionChange', handleConnectivityChange);
   };
 }
 
