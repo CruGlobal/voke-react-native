@@ -37,7 +37,6 @@ function StepItem({ t, me, item, journey, onSelect, inviteName, onShare }) {
   const isCompleted = item.status === 'completed';
   const isLocked = !isCompleted && !isActive;
   const isWaiting = isActive && item['completed_by_messenger?'];
-
   const unreadCount = item.unread_messages;
   const hasUnread = unreadCount > 0;
   let otherUser = messengers.find(
@@ -119,7 +118,7 @@ function StepItem({ t, me, item, journey, onSelect, inviteName, onShare }) {
               <Button
                 type="transparent"
                 isAndroidOpacity={true}
-                onPress={() => onShare(item)}
+                onPress={() => onShare((item || {}).item || {})}
                 activeOpacity={0.6}
                 touchableStyle={[st.abs, st.right(15), st.top(-35), st.mh5]}
               >
