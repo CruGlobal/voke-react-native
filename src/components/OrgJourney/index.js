@@ -28,19 +28,9 @@ function OrgJourney({ t, onPress, item, onInviteFriend }) {
             { backgroundColor: 'rgba(0, 0, 0, 0.6)' },
           ]}
         />
-        <Flex
-          justify="end"
-          direction="row"
-          self="stretch"
-          value={1}
-          style={[st.pr6, st.mt5]}
-        >
-          <Icon style={[st.white, st.mr6]} name="filter-none" size={14} />
-          <Text style={[st.bold, { letterSpacing: 2, fontSize: 10 }]}>
-            {item.total_steps}-{t('partSeries').toUpperCase()}
-          </Text>
-        </Flex>
-        <Flex value={1} align="center" justify="center">
+        <Flex value={1} />
+
+        <Flex value={2} align="center" justify="center">
           {onInviteFriend ? (
             <Flex
               direction="row"
@@ -91,6 +81,24 @@ function OrgJourney({ t, onPress, item, onInviteFriend }) {
         ) : (
           <Flex value={1} />
         )}
+        <Flex
+          justify="between"
+          align="start"
+          direction="row"
+          self="stretch"
+          value={0.5}
+          style={[st.ph6]}
+        >
+          <Flex direction="row">
+            <Icon style={[st.white, st.mr6]} name="filter-none" size={14} />
+            <Text style={[st.bold, { letterSpacing: 2, fontSize: 10 }]}>
+              {item.total_steps}-{t('partSeries').toUpperCase()}
+            </Text>
+          </Flex>
+          <Text style={[st.bold, { letterSpacing: 2, fontSize: 10 }]}>
+            {item.total_shares || 0} {t('share').toUpperCase()}S
+          </Text>
+        </Flex>
       </Flex>
     </Touchable>
   );

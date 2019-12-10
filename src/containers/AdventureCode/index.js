@@ -113,6 +113,7 @@ class AdventureCode extends Component {
                 autoCorrect={false}
                 returnKeyType="done"
                 blurOnSubmit={true}
+                keyboardType={'numeric'}
               />
               <Touchable
                 onPress={() => this.setState({ showWhatsThis: !showWhatsThis })}

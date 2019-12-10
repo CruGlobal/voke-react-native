@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
+import TO_CHAT from '../../../images/newShare.png';
+import { shareVideo } from '../../actions/auth';
 
 import {
   FlatList,
@@ -12,6 +14,7 @@ import {
   Text,
   Icon,
   VokeIcon,
+  Button,
 } from '../../components/common';
 import {
   getMyJourneySteps,
@@ -25,7 +28,7 @@ import { VIDEO_CONTENT_TYPES } from '../VideoContentWrap';
 import { isAndroid } from '../../constants';
 import JourneyUnreadCount from '../../components/JourneyUnreadCount';
 
-function StepItem({ t, me, item, journey, onSelect, inviteName }) {
+function StepItem({ t, me, item, journey, onSelect, inviteName, onShare }) {
   item = item || {};
   journey = journey || {};
   const messengers = (journey.conversation || {}).messengers || [];
@@ -104,6 +107,30 @@ function StepItem({ t, me, item, journey, onSelect, inviteName }) {
               </Flex>
             ) : null}
           </Flex>
+          {isLocked ? null : (
+            <Flex
+              style={[
+                st.absbr,
+                isAndroid ? st.bottom(0) : st.bottom(5),
+                st.right(15),
+                st.mh5,
+              ]}
+            >
+              <Button
+                type="transparent"
+                isAndroidOpacity={true}
+                onPress={() => onShare(item)}
+                activeOpacity={0.6}
+                touchableStyle={[st.abs, st.right(15), st.top(-35), st.mh5]}
+              >
+                <Image
+                  resizeMode="cover"
+                  source={TO_CHAT}
+                  style={{ width: 50, height: 50, borderRadius: 25 }}
+                />
+              </Button>
+            </Flex>
+          )}
           <Flex
             style={[
               st.absbr,
@@ -209,6 +236,30 @@ class JourneyDetail extends Component {
     );
   };
 
+  handleShareVideo = video => {
+    console.log('herer');
+    const { me, dispatch } = this.props;
+    // This logic exists in the VideoDetails and the VideoList
+    if (!me.first_name) {
+      dispatch(
+        navigatePush('voke.TryItNowName', {
+          onComplete: () =>
+            dispatch(
+              navigatePush('voke.ShareFlow', {
+                video,
+              }),
+            ),
+        }),
+      );
+    } else {
+      dispatch(
+        navigatePush('voke.ShareFlow', {
+          video,
+        }),
+      );
+    }
+  };
+
   renderRow = ({ item: stepItem }) => {
     const { t, me, item, inviteName } = this.props;
     return (
@@ -219,6 +270,7 @@ class JourneyDetail extends Component {
         item={stepItem}
         inviteName={inviteName}
         onSelect={this.select}
+        onShare={this.handleShareVideo}
       />
     );
   };
