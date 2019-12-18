@@ -89,7 +89,7 @@ class AdventureCode extends Component {
   };
 
   render() {
-    const { t, onboarding, dispatch } = this.props;
+    const { t, onboarding, dispatch, autoShowKeyboard } = this.props;
     const { adventureCode, isLoading, showWhatsThis } = this.state;
     return (
       <Flex value={1}>
@@ -106,6 +106,7 @@ class AdventureCode extends Component {
                 {t('adventureCodeHaveCode')}
               </Text>
               <SignUpInput
+                autoFocus={autoShowKeyboard}
                 value={adventureCode}
                 type="new"
                 onChangeText={t => this.setState({ adventureCode: t })}
@@ -165,6 +166,7 @@ class AdventureCode extends Component {
 
 AdventureCode.propTypes = {
   onboarding: PropTypes.bool,
+  autoShowKeyboard: PropTypes.bool,
 };
 const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),

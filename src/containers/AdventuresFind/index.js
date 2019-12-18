@@ -57,7 +57,9 @@ class AdventuresFind extends Component {
   };
 
   handleAdventureCode = () => {
-    this.props.dispatch(navigatePush('voke.AdventureCode'));
+    this.props.dispatch(
+      navigatePush('voke.AdventureCode', { autoShowKeyboard: true }),
+    );
   };
 
   renderRow = ({ item }) => {

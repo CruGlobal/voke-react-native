@@ -343,7 +343,7 @@ export default {
     yourAnswer: 'Ta réponse...',
   },
   adventureCode: {
-    adventureCode: "Code d'aventure",
+    adventureCode: "Code d'Aventure",
     adventureCodeHaveCode: "Vous avez un code d'un ami?",
     dontHaveOne: "Je n'en ai pas",
     adventureCodeWhatsThis: "Qu'est-ce que c'est?",

@@ -334,15 +334,15 @@ export default {
     waitingForAnswer: 'Esperando {{name}} responder...',
   },
   adventureCode: {
-    adventureCode: 'Código da Aventura',
+    adventureCode: 'Código de Aventura',
     adventureCodeHaveCode: 'Tem um código de um amigo?',
     adventureCodeWhatsThis: 'O que é isso?',
     adventureCodeWhatsThisExplanation:
       'Você pode fazer aventuras em vídeo com outras pessoas no Voke. Este é o local para os visitantes que receberam um código de convite de Aventura se juntarem facilmente ao amigo.',
   },
   adventuresTab: {
-    haveCode: 'Eu Não Tenho um Código de Aventura',
-    dontHaveOne: 'Eu Não Tenho',
+    haveCode: 'Eu Tenho um Código de Aventura',
+    dontHaveOne: 'Eu Tenho',
     welcomeToAdventures: `Bem-vindo {{name}}! Aqui é onde você encontrará todas as suas aventuras com seus amigos.`,
     areYouSureDelete: `Tem certeza que deseja apagar seu convite para "{{name}}"?`,
     deleteCannotBeUndone: `Não pode ser desfeito. Mas você pode convidar novamente ao clicar em "Convidar um Amigo"`,
