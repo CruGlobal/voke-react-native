@@ -119,6 +119,11 @@ export function navMenuOptions({ dispatch, isAnonUser } = {}) {
       onPress: () => dispatch(navigatePush('voke.Help')),
     },
     {
+      id: 'oldConversations',
+      name: i18n.t('title.oldConversations'),
+      onPress: () => dispatch(navigatePush('voke.OldConversations')),
+    },
+    {
       id: 'about',
       name: i18n.t('title.about'),
       onPress: () => dispatch(navigatePush('voke.About')),

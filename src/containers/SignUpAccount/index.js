@@ -42,11 +42,15 @@ class SignUpAccount extends Component {
   }
 
   moveForward(results) {
-    const { t, dispatch } = this.props;
+    const { t, dispatch, isFromOldConversations } = this.props;
     if (results.errors) {
       Alert.alert(t('error.error'), `${results.errors}`);
     } else {
-      dispatch(navigatePush('voke.SignUpProfile'));
+      if (isFromOldConversations) {
+        dispatch(navigateBack());
+      } else {
+        dispatch(navigatePush('voke.SignUpProfile'));
+      }
     }
   }
 
@@ -139,7 +143,9 @@ class SignUpAccount extends Component {
               <Flex direction="column" align="center">
                 <PrivacyToS style={styles.legalText} type="create" />
                 <Flex style={{ paddingTop: 20 }}>
-                  <FacebookButton />
+                  <FacebookButton
+                    isFromOldConversations={this.props.isFromOldConversations}
+                  />
                 </Flex>
               </Flex>
             </Flex>

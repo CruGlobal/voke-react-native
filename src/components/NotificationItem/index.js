@@ -31,15 +31,12 @@ class NotificationItem extends PureComponent {
     if (!message || !message.content) return null;
     return (
       <Flex
-        style={[styles.row, styles.vokebot]}
+        style={[styles.row, styles.otherPerson]}
         direction="row"
         align="center"
         justify="start"
       >
-        <Text
-          selectable={true}
-          style={[styles.message, styles.otherText, styles.vokeText]}
-        >
+        <Text selectable={true} style={[styles.message, styles.otherText]}>
           {message.content}
         </Text>
       </Flex>

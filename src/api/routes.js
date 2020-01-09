@@ -389,4 +389,8 @@ export default {
     endpoint: API_URL + 'me/shares',
     method: 'post',
   },
+  OLD_CONVERSATIONS: {
+    endpoint: API_URL + 'me/export_data_requests',
+    method: 'post',
+  },
 };

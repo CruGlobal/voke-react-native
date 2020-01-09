@@ -75,6 +75,8 @@ class FacebookButton extends Component {
                             dispatch(
                               navigatePush('voke.SignUpFBAccount', {
                                 me: meResult,
+                                isFromOldConversations: this.props
+                                  .isFromOldConversations,
                               }),
                             );
                           }

@@ -73,6 +73,9 @@ class AdventuresFind extends Component {
         onInviteFriend={
           startedWithMe ? () => this.inviteFriend(item) : undefined
         }
+        onInviteFriendFirstTime={
+          startedWithMe ? undefined : () => this.inviteFriend(item)
+        }
       />
     );
   };

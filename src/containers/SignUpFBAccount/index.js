@@ -90,8 +90,11 @@ class SignUpFBAccount extends Component {
       };
       dispatch(updateMe(data)).then(() => {
         dispatch({ type: RESET_ANON_USER });
-
-        dispatch(navigateResetHome());
+        if (this.props.isFromOldConversations) {
+          dispatch(navigateBack(2, { immediate: true }));
+        } else {
+          dispatch(navigateResetHome());
+        }
       });
     } else {
       Alert.alert(t('fillInFields'));

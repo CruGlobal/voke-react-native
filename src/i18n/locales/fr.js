@@ -2,6 +2,12 @@
 
 export default {
   common: {
+    oldConversationsCreateAccount:
+      'Vous devez créer un compte avant de demander vos conversations.',
+    oldConversationsDescription:
+      'Un e-mail contenant vos conversations sera envoyé à:',
+    sentOldConversations:
+      'Succès! Vérifiez votre courrier électronique pour obtenir des informations sur vos anciennes conversations.',
     watchTrailer: 'Bande annonce',
     noNotifications: 'Aucune notification pour le moment',
     acceptChallenge: 'Relever le défi',
@@ -116,6 +122,7 @@ export default {
     },
     title: {
       about: 'À propos de nous',
+      oldConversations: 'Obtenez mes anciennes conversations',
       acknowledgements: 'Remerciements',
       notifications: 'Notifications',
       adventures: 'Aventures',

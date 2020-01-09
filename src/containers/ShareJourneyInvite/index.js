@@ -8,7 +8,14 @@ import { buildTrackingObj } from '../../utils/common';
 import styles from './styles';
 import { navigateResetHome } from '../../actions/nav';
 import { getMyJourney, getMyJourneySteps } from '../../actions/journeys';
-import { Image, Flex, Button, Text, Triangle } from '../../components/common';
+import {
+  Image,
+  Flex,
+  Button,
+  Text,
+  Triangle,
+  Touchable,
+} from '../../components/common';
 import SafeArea from '../../components/SafeArea';
 import { VIDEO_CONTENT_TYPES } from '../VideoContentWrap';
 import VOKE_FIRST_NAME from '../../../images/vokebot_whole.png';
@@ -101,20 +108,41 @@ class ShareJourneyInvite extends Component {
               source={VOKE_FIRST_NAME}
               style={styles.imageLogo}
             />
-            <Text selectable={true} style={[st.white, st.fs1, st.w100, st.tac]}>
-              {newJourneyInvite.code}
-            </Text>
-            <Button
-              text={t('copy')}
-              style={[st.w(150), st.aic, st.mt5]}
+            <Touchable
               onPress={this.copy}
-            />
-            <Flex value={1} justify="end" style={[styles.buttonWrapper]}>
+              style={[
+                st.bw1,
+                st.borderWhite,
+                st.bgOffBlue,
+                st.br6,
+                st.mt3,
+                st.pd6,
+                st.ph3,
+              ]}
+            >
+              <Text
+                selectable={true}
+                style={[st.white, st.fs1, st.w100, st.tac]}
+              >
+                {newJourneyInvite.code}
+              </Text>
+            </Touchable>
+            <Flex value={1} justify="center" align="center" self="stretch">
               <Button
                 text={t('share')}
                 type="filled"
                 buttonTextStyle={styles.signInButtonText}
-                style={styles.signInButton}
+                style={[
+                  st.bgOrange,
+                  st.pv5,
+                  st.bw0,
+                  st.br3,
+                  st.aic,
+                  st.jcc,
+                  {
+                    paddingHorizontal: 90,
+                  },
+                ]}
                 onPress={this.share}
               />
             </Flex>

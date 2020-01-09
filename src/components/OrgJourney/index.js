@@ -2,11 +2,18 @@ import React from 'react';
 import { View, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
+import TO_CHAT from '../../../images/newShare.png';
 
 import { Flex, Text, Touchable, Button, VokeIcon, Icon } from '../common';
 import st from '../../st';
 
-function OrgJourney({ t, onPress, item, onInviteFriend }) {
+function OrgJourney({
+  t,
+  onPress,
+  item,
+  onInviteFriend,
+  onInviteFriendFirstTime,
+}) {
   item = item || {};
   const newImage = (item.image || {}).medium || undefined;
   return (
@@ -25,7 +32,7 @@ function OrgJourney({ t, onPress, item, onInviteFriend }) {
           style={[
             st.absfill,
             st.br5,
-            { backgroundColor: 'rgba(0, 0, 0, 0.6)' },
+            { backgroundColor: 'rgba(0, 0, 0, 0.4)' },
           ]}
         />
         <Flex value={1} />
@@ -64,7 +71,6 @@ function OrgJourney({ t, onPress, item, onInviteFriend }) {
         {onInviteFriend ? (
           <Flex value={1} justify="end">
             <Button
-              text={t('inviteFriend')}
               onPress={onInviteFriend}
               style={[
                 st.bgOrange,
@@ -75,8 +81,17 @@ function OrgJourney({ t, onPress, item, onInviteFriend }) {
                 st.br0,
                 st.br3,
                 st.aic,
+                st.jcc,
+                st.fdr,
               ]}
-            />
+            >
+              <VokeIcon
+                name="shareArrow"
+                type="image"
+                style={[st.mr5, { height: 20, width: 20, marginBottom: 2 }]}
+              />
+              <Text style={[{ lineHeight: 20 }]}>{t('inviteFriend')}</Text>
+            </Button>
           </Flex>
         ) : (
           <Flex value={1} />
@@ -87,7 +102,17 @@ function OrgJourney({ t, onPress, item, onInviteFriend }) {
           direction="row"
           self="stretch"
           value={0.5}
-          style={[st.ph6]}
+          style={[
+            {
+              marginLeft: -15,
+              marginRight: -15,
+              backgroundColor: 'rgba(0,0,0,0.5)',
+            },
+            st.ph4,
+            st.pt6,
+            st.brbl5,
+            st.brbr5,
+          ]}
         >
           <Flex direction="row">
             <Icon style={[st.white, st.mr6]} name="filter-none" size={14} />
@@ -95,9 +120,26 @@ function OrgJourney({ t, onPress, item, onInviteFriend }) {
               {item.total_steps}-{t('partSeries').toUpperCase()}
             </Text>
           </Flex>
-          <Text style={[st.bold, { letterSpacing: 2, fontSize: 10 }]}>
-            {item.total_shares || 0} {t('share').toUpperCase()}S
-          </Text>
+          <Flex direction="row">
+            <Text style={[st.bold, { letterSpacing: 2, fontSize: 10 }]}>
+              {item.total_shares || 0} {t('share').toUpperCase()}S
+            </Text>
+            {onInviteFriend ? null : (
+              <Button
+                type="transparent"
+                isAndroidOpacity={true}
+                onPress={onInviteFriendFirstTime}
+                activeOpacity={0.6}
+                touchableStyle={[{ marginTop: -20 }, st.ml5]}
+              >
+                <Image
+                  resizeMode="cover"
+                  source={TO_CHAT}
+                  style={{ width: 50, height: 50, borderRadius: 25 }}
+                />
+              </Button>
+            )}
+          </Flex>
         </Flex>
       </Flex>
     </Touchable>

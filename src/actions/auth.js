@@ -515,6 +515,12 @@ export function setOpenVoke() {
   };
 }
 
+export function getOldConversations() {
+  return dispatch => {
+    return dispatch(callApi(REQUESTS.OLD_CONVERSATIONS));
+  };
+}
+
 export function confirmAlert(title, message, onPress, text, onCancel) {
   return () => {
     Alert.alert(title, message, [
