@@ -556,6 +556,13 @@ class Videos extends Component {
                   onPress={() => this.handleFilter('favorites')}
                   animation="slideInUp"
                 />
+                <PillButton
+                  icon="search"
+                  style={{ alignItems: 'center' }}
+                  filled={selectedFilter === 'themes'}
+                  onPress={() => this.handleFilter('themes')}
+                  animation="slideInUp"
+                />
               </Flex>
             </ScrollView>
           </Flex>

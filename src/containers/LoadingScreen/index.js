@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import VOKE_LOADING from '../../../images/beadventure.png';
+import VOKE_LOADING from '../../../images/goDeeper.png';
 import styles from './styles';
 import { Image, Flex } from '../../components/common';
 import StatusBar from '../../components/StatusBar';

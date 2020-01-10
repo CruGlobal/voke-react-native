@@ -36,6 +36,7 @@ import ShareEnterName from './containers/ShareEnterName';
 import ShareJourneyInvite from './containers/ShareJourneyInvite';
 import Notifications from './containers/Notifications';
 import OldConversations from './containers/OldConversations';
+import NotificationsIcon from './containers/NotificationsIcon';
 
 // Do custom animations between pages
 const verticalPages = ['voke.Menu', 'voke.VideoContentWrap'];
@@ -57,24 +58,12 @@ let dynamicModalTransition = (transitionProps, prevTransitionProps) => {
 };
 
 const ICON_SIZE = theme.isAndroid ? 25 : 26;
-const BELL_SIZE = theme.isAndroid ? 29 : 30;
-const navIcon = (icon, type) => ({ tintColor }) => (
+const navIcon = icon => ({ tintColor }) => (
   <VokeIcon
-    type={type}
-    name={
-      type === 'image' && icon === 'notificationBell'
-        ? tintColor === theme.lightText
-          ? 'notificationBell'
-          : 'notificationBellBlue'
-        : icon
-    }
+    name={icon}
     size={ICON_SIZE}
     style={{
       color: tintColor === theme.lightText ? 'white' : theme.primaryColor,
-      width:
-        type === 'image' && icon === 'notificationBell' ? BELL_SIZE : undefined,
-      height:
-        type === 'image' && icon === 'notificationBell' ? BELL_SIZE : undefined,
     }}
   />
 );
@@ -106,7 +95,9 @@ export const tabs = {
     screen: Notifications,
     navigationOptions: () => ({
       tabBarLabel: i18n.t('title.notifications'),
-      tabBarIcon: navIcon('notificationBell', 'image'),
+      tabBarIcon: ({ tintColor }) => (
+        <NotificationsIcon isActive={tintColor === theme.lightText} />
+      ),
     }),
   },
 };

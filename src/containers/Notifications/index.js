@@ -13,7 +13,13 @@ import StatusBar from '../../components/StatusBar';
 import theme from '../../theme';
 import NotificationToast from '../NotificationToast';
 import { Flex, Text } from '../../components/common';
-import { getConversation, getMessages } from '../../actions/messages';
+import {
+  getConversation,
+  getMessages,
+  getConversations,
+  createMessageInteraction,
+  markReadAction,
+} from '../../actions/messages';
 import { keyExtractorId } from '../../utils/common';
 import CONSTANTS from '../../constants';
 import NotificationItem from '../../components/NotificationItem';
@@ -33,10 +39,19 @@ class Notifications extends Component {
     if (!me.vokebot_conversation_id) {
       Alert.alert('There was an error getting your conversations');
     }
+    dispatch(getConversations());
     dispatch(getConversation(me.vokebot_conversation_id)).then(() =>
       this.getMessages(),
     );
+
+    this.focusListener = this.props.navigation.addListener('willFocus', () => {
+      if (this.props.notificationCount > 0) {
+        this.markAsRead(this.props.notifications[0].id);
+      }
+    });
   }
+
+  componentWillUnmount() {}
 
   renderLoadMore = () => {
     if (this.props.hasMore) {
@@ -74,13 +89,28 @@ class Notifications extends Component {
     const { dispatch, me } = this.props;
     this.setState({ loadingMore: true });
     dispatch(getMessages(me.vokebot_conversation_id, page))
-      .then(() => {
+      .then(results => {
+        this.markAsRead(
+          ((results || {}).messages || {}).id || this.props.notifications[0].id,
+        );
         this.setState({ loadingMore: false });
       })
       .catch(() => {
         this.setState({ loadingMore: false });
       });
   }
+
+  markAsRead = async msgId => {
+    const { dispatch, me } = this.props;
+
+    const interaction = {
+      action: 'read',
+      conversationId: me.vokebot_conversation_id,
+      messageId: msgId,
+    };
+    await dispatch(createMessageInteraction(interaction));
+    dispatch(getConversations());
+  };
 
   clearSelectedVideo = () => {
     this.setState({ selectedVideo: null });
@@ -176,6 +206,7 @@ const mapStateToProps = ({ auth, messages }, { navigation }) => ({
   me: auth.user,
   isAnonUser: auth.isAnonUser, // Need this for the Android PopupMenu to determine which menu options to show
   notifications: messages.messages[auth.user.vokebot_conversation_id] || [],
+  notificationCount: messages.unReadBadgeCount,
   pagination:
     messages.pagination.messages[auth.user.vokebot_conversation_id] || {},
 });

@@ -17,6 +17,7 @@ import NotificationToast from '../NotificationToast';
 import AdventuresFind from '../AdventuresFind';
 import AdventuresMine from '../AdventuresMine';
 import st from '../../st';
+import { getConversations } from '../../actions/messages';
 
 class Adventures extends Component {
   componentDidMount() {
@@ -26,6 +27,7 @@ class Adventures extends Component {
     if (!me.first_name) {
       dispatch(navigatePush('voke.TryItNowName'));
     }
+    dispatch(getConversations());
   }
 
   onChangeTab = ({ i }) => {
