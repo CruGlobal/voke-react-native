@@ -142,7 +142,7 @@ function StepItem({ t, me, item, journey, onSelect, inviteName, onShare }) {
             </Text>
           </Flex>
         </Flex>
-        {isWaiting ? (
+        {isWaiting && messengers.length > 2 ? (
           <Flex
             align="center"
             style={[st.bgOrange, st.w100, st.pd6, st.brbl5, st.brbr5]}

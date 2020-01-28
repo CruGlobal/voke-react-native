@@ -119,6 +119,10 @@ export default {
       reason: 'Raison',
       search: 'Rechercher',
       verification: 'Code de vérification',
+      whatIsFriendsName: `Quel est le nom de ton ami(e)?`,
+      whyDoWeWantThis: 'Pourquoi voulons-nous cela?',
+      whyNeedFriendsName:
+        'Nous utilisons le nom de votre ami pour vous aider à savoir qui a répondu aux vidéos que vous avez partagées.',
     },
     title: {
       about: 'À propos de nous',

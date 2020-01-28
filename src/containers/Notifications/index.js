@@ -46,7 +46,7 @@ class Notifications extends Component {
 
     this.focusListener = this.props.navigation.addListener('willFocus', () => {
       if (this.props.notificationCount > 0) {
-        this.markAsRead(this.props.notifications[0].id);
+        this.markAsRead((this.props.notifications[0] || {}).id);
       }
     });
   }
@@ -91,7 +91,8 @@ class Notifications extends Component {
     dispatch(getMessages(me.vokebot_conversation_id, page))
       .then(results => {
         this.markAsRead(
-          ((results || {}).messages || {}).id || this.props.notifications[0].id,
+          ((results || {}).messages || {}).id ||
+            (this.props.notifications[0] || {}).id,
         );
         this.setState({ loadingMore: false });
       })

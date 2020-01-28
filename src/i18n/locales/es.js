@@ -115,6 +115,10 @@ export default {
       reason: 'Razones',
       search: 'Buscar',
       verification: 'C\u00f3digo de Verificaci\u00f3n',
+      whatIsFriendsName: '¿Nombre de tu amigo?',
+      whyDoWeWantThis: '¿Por qué queremos esto?',
+      whyNeedFriendsName:
+        'Usamos el nombre de su amigo para ayudarlo a saber quién respondió a los videos que compartió.',
     },
     title: {
       about: 'Sobre',

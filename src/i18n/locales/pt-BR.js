@@ -115,6 +115,10 @@ export default {
       reason: 'Raz\u00e3o',
       search: 'Procurar',
       verification: 'C\u00f3digo de Verifica\u00e7\u00e3o',
+      whatIsFriendsName: 'Qual é o nome do seu amigo?',
+      whyDoWeWantThis: 'Por que queremos isso?',
+      whyNeedFriendsName:
+        'Usamos o nome do seu amigo para ajudar você a saber quem respondeu aos vídeos que você compartilhou.',
     },
     title: {
       about: 'Sobre',

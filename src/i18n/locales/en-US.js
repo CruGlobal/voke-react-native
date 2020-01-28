@@ -116,7 +116,11 @@ export default {
       password: 'Password',
       reason: 'Reason',
       search: 'Search',
+      whatIsFriendsName: `What is your friend's name?`,
       verification: 'Verification Code',
+      whyDoWeWantThis: 'Why do we want this?',
+      whyNeedFriendsName:
+        "We use your friend's name to help you know who responded to the videos you shared.",
     },
     title: {
       about: 'About',
