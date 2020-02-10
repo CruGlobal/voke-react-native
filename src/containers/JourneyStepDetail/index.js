@@ -49,6 +49,10 @@ class JourneyStepDetail extends Component {
   constructor(props) {
     super(props);
 
+    const selectedAnswer = (
+      ((props.journeyStep || {}).metadata || {}).answers || []
+    ).find(i => i.selected);
+
     this.state = {
       text: '',
       text2: '',
@@ -58,8 +62,7 @@ class JourneyStepDetail extends Component {
       stateResponse2: null,
       isResponseSet: false,
       isResponseSet2: false,
-      multiChoiceAnswer:
-        ((props.journeyStep || {}).metadata || {}).content || null,
+      multiChoiceAnswer: (selectedAnswer || {}).value || null,
       multiChoiceAnswer2: null,
     };
   }
@@ -151,6 +154,7 @@ class JourneyStepDetail extends Component {
     istMultiFromMulti,
     isQuestionFromMulti,
     stepId,
+    messageId,
   ) => {
     const { dispatch, journeyStep, journey, isAnonUser } = this.props;
     const {
@@ -205,6 +209,7 @@ class JourneyStepDetail extends Component {
           journey,
           null,
           multiChoiceAnswer2,
+          messageId,
         ),
       );
       this.getMessages();
@@ -219,7 +224,9 @@ class JourneyStepDetail extends Component {
         isSending: true,
         stateResponse2: { content: text2, created_at: new Date() },
       });
-      await dispatch(createJourneyMessage(stepId, journey, text2, null));
+      await dispatch(
+        createJourneyMessage(stepId, journey, text2, null, messageId),
+      );
       this.getMessages();
       this.checkIfLast();
       this.setState({ isSending: false });
@@ -352,9 +359,8 @@ class JourneyStepDetail extends Component {
         m.messenger_id === me.id &&
         reversed.find(i => {
           if (
-            m.messenger_journey_step_id === i.messenger_journey_step_id ||
             (i.metadata || {}).messenger_journey_step_id ===
-              m.messenger_journey_step_id
+            m.messenger_journey_step_id
           ) {
             if (m.id !== i.id) {
               return true;
@@ -363,7 +369,9 @@ class JourneyStepDetail extends Component {
           return false;
         });
 
-      if (isResponse) return null;
+      if (isResponse) {
+        return null;
+      }
 
       if (
         shouldOverrideBlur &&
@@ -394,7 +402,7 @@ class JourneyStepDetail extends Component {
               <Flex
                 direction="column"
                 style={[
-                  isBlur || isMine ? st.bgDarkBlue : st.bgWhite,
+                  isBlur || isMine ? st.bgWhite : st.bgDarkBlue,
                   st.br5,
                   st.pd5,
                   st.w100,
@@ -405,7 +413,7 @@ class JourneyStepDetail extends Component {
                 ) : (
                   <Fragment>
                     <Text
-                      style={[st.fs4, isBlur || isMine ? st.white : st.blue]}
+                      style={[st.fs4, isBlur || isMine ? st.blue : st.white]}
                     >
                       {isAndroid && isBlur ? '' : m.content}
                     </Text>
@@ -518,6 +526,7 @@ class JourneyStepDetail extends Component {
                             true,
                             false,
                             metadata.messenger_journey_step_id,
+                            message.id,
                           );
                         });
                       }}
@@ -525,7 +534,9 @@ class JourneyStepDetail extends Component {
                         index !== 0 ? st.bgOrange : st.bgWhite,
                         st.br1,
                         st.mh5,
-                        a.selected ? { opacity: 1 } : { opacity: 0.4 },
+                        a.selected || !hasSelected
+                          ? { opacity: 1 }
+                          : { opacity: 0.4 },
                       ]}
                       buttonTextStyle={[index !== 0 ? st.white : st.darkBlue]}
                     />
@@ -568,9 +579,10 @@ class JourneyStepDetail extends Component {
   };
 
   setMessageBox = () => {
-    const { t, setCustomRender } = this.props;
+    const { t, setCustomRender, journey } = this.props;
     const { height } = this.state;
-
+    const isSolo = journey && journey.kind !== 'duo';
+    if (isSolo) return;
     let inputHeight = {
       height: height < 45 ? 45 : height > 140 ? 140 : height,
     };
@@ -693,10 +705,17 @@ class JourneyStepDetail extends Component {
                   multiline={true}
                   blurOnSubmit={true}
                   onSubmitEditing={() =>
-                    this.sendMessage(false, false, false, true, {
-                      id: (messageFromMessages.metadata || {})
-                        .messenger_journey_step_id,
-                    })
+                    this.sendMessage(
+                      false,
+                      false,
+                      false,
+                      true,
+                      {
+                        id: (messageFromMessages.metadata || {})
+                          .messenger_journey_step_id,
+                      },
+                      messageFromMessages.id,
+                    )
                   }
                   placeholder={t('yourAnswer')}
                   placeholderTextColor={st.colors.grey}
@@ -713,6 +732,7 @@ class JourneyStepDetail extends Component {
                       this.skip(
                         (messageFromMessages.metadata || {})
                           .messenger_journey_step_id,
+                        messageFromMessages.id,
                       )
                     }
                     text={t('skip').toUpperCase()}
@@ -722,10 +742,17 @@ class JourneyStepDetail extends Component {
                   <Button
                     type="transparent"
                     onPress={() =>
-                      this.sendMessage(false, false, false, true, {
-                        id: (messageFromMessages.metadata || {})
-                          .messenger_journey_step_id,
-                      })
+                      this.sendMessage(
+                        false,
+                        false,
+                        false,
+                        true,
+                        {
+                          id: (messageFromMessages.metadata || {})
+                            .messenger_journey_step_id,
+                        },
+                        messageFromMessages.id,
+                      )
                     }
                   >
                     <VokeIcon
@@ -817,10 +844,15 @@ class JourneyStepDetail extends Component {
       : (journeyStep.metadata || {}).answers;
     if ((answers || []).length === 0) return;
 
-    const formattedAnswers = answers.map(a => ({
+    let formattedAnswers = answers.map(a => ({
       value: a.value,
       label: a.key,
     }));
+
+    const isComplete = journeyStep.status === 'completed';
+    if (isComplete) {
+      formattedAnswers = formattedAnswers.map(a => ({ ...a, disabled: true }));
+    }
 
     return (
       <Select

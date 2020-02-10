@@ -106,7 +106,13 @@ export function skipJourneyMessage(step, journey) {
   };
 }
 
-export function createJourneyMessage(step, journey, text, multiChoiceAnswer) {
+export function createJourneyMessage(
+  step,
+  journey,
+  text,
+  multiChoiceAnswer,
+  messageId,
+) {
   return dispatch => {
     const query = {
       endpoint: `${API_URL}me/conversations/${journey.conversation.id}/messages`,
@@ -125,6 +131,9 @@ export function createJourneyMessage(step, journey, text, multiChoiceAnswer) {
       ).messenger_journey_step_id;
       data.message.messenger_journey_step_option_id = multiChoiceAnswer;
     }
+    if (messageId) {
+      data.message.message_reference_id = messageId;
+    }
 
     return dispatch(callApi(REQUESTS.CREATE_MESSAGE, query, data));
   };
@@ -134,6 +143,7 @@ export function createJourneyMessageFromMessage(
   journey,
   text,
   multiChoiceAnswer,
+  messageId,
 ) {
   return dispatch => {
     const query = {
@@ -145,7 +155,9 @@ export function createJourneyMessageFromMessage(
         messenger_journey_step_id: stepId,
       },
     };
-
+    if (messageId) {
+      data.message.message_reference_id = messageId;
+    }
     if (multiChoiceAnswer && !text) {
       data.message.content = null;
       data.message.messenger_journey_step_option_id = multiChoiceAnswer;
