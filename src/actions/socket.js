@@ -116,6 +116,7 @@ export function setupSocketAction(cableId) {
 
         ws.onmessage = e => {
           const data = JSON.parse(e.data) || {};
+
           const type = data && data.type;
           if (type === 'ping') return;
           if (type === 'welcome') {
@@ -125,7 +126,7 @@ export function setupSocketAction(cableId) {
             const notification = data.message.notification;
 
             // If we're supposed to toast, show it
-            if (data.message['toast?'] && notification.alert) {
+            if (message['toast?'] && notification.alert) {
               dispatch(toastAction(notification.alert));
             }
 

@@ -321,8 +321,9 @@ class JourneyStepDetail extends Component {
   };
 
   renderMessages() {
-    const { me, messages, messengers, journeyStep } = this.props;
+    const { me, messages, messengers, journeyStep, journey } = this.props;
     const { stateResponse } = this.state;
+    const isSolo = journey && journey.kind !== 'duo';
 
     let reversed = [...messages].reverse();
     // Keep track of internal state and use that if it exists, otherwise find it in the messages
@@ -344,6 +345,13 @@ class JourneyStepDetail extends Component {
     const myFirstMessage = reversed.find(m => m.messenger_id === me.id);
     if (myFirstMessage && myFirstMessage.id) {
       reversed = reversed.filter(m => m.id !== myFirstMessage.id);
+    }
+    if (isSolo && (journeyStep.metadata || {}).comment) {
+      reversed.unshift({
+        messenger_id: (messengers.find(i => i.id !== me.id) || {}).id,
+        content: (journeyStep.metadata || {}).comment,
+        metadata: { vokebot_action: 'journey_step_comment' },
+      });
     }
     return reversed.map(m => {
       const isVoke =
@@ -393,7 +401,7 @@ class JourneyStepDetail extends Component {
         return this.renderStandardInputFromMessages(m);
       }
 
-      if (isMine && !m.content) return null;
+      if (!m.content) return null;
       return (
         <Flex key={m.id} align="center" style={[st.fw100]}>
           <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
@@ -402,7 +410,7 @@ class JourneyStepDetail extends Component {
               <Flex
                 direction="column"
                 style={[
-                  isBlur || isMine ? st.bgWhite : st.bgDarkBlue,
+                  isMine ? st.bgWhite : st.bgDarkBlue,
                   st.br5,
                   st.pd5,
                   st.w100,
@@ -413,7 +421,7 @@ class JourneyStepDetail extends Component {
                 ) : (
                   <Fragment>
                     <Text
-                      style={[st.fs4, isBlur || isMine ? st.blue : st.white]}
+                      style={[st.fs4, isMine ? st.blue : st.white]}
                     >
                       {isAndroid && isBlur ? '' : m.content}
                     </Text>
@@ -531,14 +539,14 @@ class JourneyStepDetail extends Component {
                         });
                       }}
                       style={[
-                        index !== 0 ? st.bgOrange : st.bgWhite,
+                        a.selected ? st.bgWhite : st.bgOrange,
                         st.br1,
                         st.mh5,
                         a.selected || !hasSelected
                           ? { opacity: 1 }
                           : { opacity: 0.4 },
                       ]}
-                      buttonTextStyle={[index !== 0 ? st.white : st.darkBlue]}
+                      buttonTextStyle={[a.selected ? st.orange : st.white]}
                     />
                   ))}
                 </Flex>

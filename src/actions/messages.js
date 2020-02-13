@@ -125,13 +125,21 @@ export function handleNewMessage(message) {
           activeJourney.conversation_id ||
           (activeJourney.conversation || {}).id;
         if (message.conversation_id == cId) {
-          dispatch(getMyJourneySteps(activeJourney.id));
           dispatch(
             getJourneyMessages(
               { id: message.messenger_journey_step_id },
               { conversation_id: cId },
             ),
-          );
+          ).then(msgs => {
+            const interaction = {
+              action: 'read',
+              conversationId: cId,
+              messageId: ((msgs || {}).messages || [])[0].id,
+            };
+            dispatch(createMessageInteraction(interaction)).then(() => {
+              dispatch(getMyJourneySteps(activeJourney.id));
+            });
+          });
         }
       }
       return;

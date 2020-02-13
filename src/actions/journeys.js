@@ -130,6 +130,7 @@ export function createJourneyMessage(
         (step || {}).metadata || {}
       ).messenger_journey_step_id;
       data.message.messenger_journey_step_option_id = multiChoiceAnswer;
+      data.message.kind = 'answer';
     }
     if (messageId) {
       data.message.message_reference_id = messageId;
@@ -161,6 +162,7 @@ export function createJourneyMessageFromMessage(
     if (multiChoiceAnswer && !text) {
       data.message.content = null;
       data.message.messenger_journey_step_option_id = multiChoiceAnswer;
+      data.message.kind = 'answer';
     }
 
     return dispatch(callApi(REQUESTS.CREATE_MESSAGE, query, data));
