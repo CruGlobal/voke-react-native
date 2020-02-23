@@ -114,14 +114,14 @@ class JourneyStepDetail extends Component {
 
     // Only show "Done" if in a solo journey
     const isSolo = journey && journey.kind !== 'duo';
-    if (isSolo && (steps[steps.length - 1] || {}).id === journeyStep.id) {
-      Alert.alert(t('finishedJourney'), '', [
-        {
-          text: t('ok'),
-          onPress: () => dispatch(navigatePush('voke.Adventures')),
-        },
-      ]);
-    }
+    // if (isSolo && (steps[steps.length - 1] || {}).id === journeyStep.id) {
+    //   Alert.alert(t('finishedJourney'), '', [
+    //     {
+    //       text: t('ok'),
+    //       onPress: () => dispatch(navigatePush('voke.Adventures')),
+    //     },
+    //   ]);
+    // }
   };
 
   changeText = t => this.setState({ text: t });
@@ -146,6 +146,29 @@ class JourneyStepDetail extends Component {
     } catch (error) {
       this.setState({ isSending: false, stateResponse: null });
     }
+  };
+
+  friend = () => {
+    const { dispatch, journey } = this.props;
+    try {
+      dispatch(
+        navigatePush('voke.ShareEnterName', {
+          item: { ...journey, id: journey.organization_journey_id },
+        }),
+      );
+    } catch {}
+  };
+
+  group = async () => {
+    const { dispatch, journey } = this.props;
+    try {
+      dispatch(
+        navigatePush('voke.ShareEnterName', {
+          item: { ...journey, id: journey.organization_journey_id },
+          isGroup: true,
+        }),
+      );
+    } catch {}
   };
 
   sendMessage = async (
@@ -286,7 +309,72 @@ class JourneyStepDetail extends Component {
     }
     // If this is the last step and it's complete, don't show this
     if ((steps[steps.length - 1] || {}).id === journeyStep.id) {
-      return;
+      return (
+        <Flex
+          direction="column"
+          justify="end"
+          align="center"
+          style={[st.bgBlue, st.ph2, st.pt2]}
+        >
+          <Text style={[st.aic, st.fs4, st.mb4, st.ph1, st.tac]}>
+            Congrats! You finished the adventure. Now start it with someone
+            else!
+          </Text>
+          <Button
+            onPress={this.friend}
+            style={[
+              st.bgOrange,
+              st.ph6,
+              st.pv5,
+              st.bw0,
+              st.br3,
+              st.aic,
+              { width: st.fullWidth - 60 },
+            ]}
+          >
+            <Flex direction="row" align="center">
+              <VokeIcon
+                type="image"
+                style={[{ height: 20 }, st.mr5]}
+                name={'withFriend'}
+              />
+              <Text>With a Friend</Text>
+              <VokeIcon
+                type="image"
+                style={[{ height: 15 }, st.ml5]}
+                name={'buttonArrow'}
+              />
+            </Flex>
+          </Button>
+          <Button
+            onPress={this.group}
+            style={[
+              st.bgOrange,
+              st.ph6,
+              st.pv5,
+              st.bw0,
+              st.br3,
+              st.mv4,
+              st.aic,
+              { width: st.fullWidth - 60 },
+            ]}
+          >
+            <Flex direction="row" align="center">
+              <VokeIcon
+                type="image"
+                style={[{ height: 20 }, st.mr5]}
+                name={'withGroup'}
+              />
+              <Text>With a Group</Text>
+              <VokeIcon
+                type="image"
+                style={[{ height: 15 }, st.ml5]}
+                name={'buttonArrow'}
+              />
+            </Flex>
+          </Button>
+        </Flex>
+      );
     }
 
     let text = t('nextVideoReady');
@@ -323,7 +411,8 @@ class JourneyStepDetail extends Component {
   renderMessages() {
     const { me, messages, messengers, journeyStep, journey } = this.props;
     const { stateResponse } = this.state;
-    const isSolo = journey && journey.kind !== 'duo';
+    const isSolo =
+      journey && journey.kind !== 'duo' && journey.kind !== 'multiple';
 
     let reversed = [...messages].reverse();
     // Keep track of internal state and use that if it exists, otherwise find it in the messages
@@ -362,6 +451,10 @@ class JourneyStepDetail extends Component {
       const shouldOverrideBlur = (m.metadata || {}).messenger_journey_step_id;
       const messenger = messengers.find(i => i.id === m.messenger_id) || {};
       const isBlur = !shouldOverrideBlur && !isComplete && !isMine;
+      const isShareAnswers =
+        m.metadata &&
+        m.metadata.vokebot_action &&
+        m.metadata.vokebot_action === 'share_answers';
 
       const isResponse =
         m.messenger_id === me.id &&
@@ -399,6 +492,12 @@ class JourneyStepDetail extends Component {
         (m.metadata || {}).step_kind === 'question'
       ) {
         return this.renderStandardInputFromMessages(m);
+      } else if (
+        shouldOverrideBlur &&
+        !m.content &&
+        (m.metadata || {}).step_kind === 'share'
+      ) {
+        return this.renderShareSelect(m);
       }
 
       if (!m.content) return null;
@@ -412,7 +511,7 @@ class JourneyStepDetail extends Component {
                 style={[
                   isMine ? st.bgWhite : st.bgDarkBlue,
                   st.br5,
-                  st.pd5,
+                  st.pd6,
                   st.w100,
                 ]}
               >
@@ -420,9 +519,14 @@ class JourneyStepDetail extends Component {
                   <Flex style={[st.pd4, st.f1, st.w100]} />
                 ) : (
                   <Fragment>
-                    <Text
-                      style={[st.fs4, isMine ? st.blue : st.white]}
-                    >
+                    {isShareAnswers ? (
+                      <Flex style={[st.bgOffBlue, st.pd5, st.br6]}>
+                        <Text style={[st.fs4, st.white]}>
+                          {(m.metadata || {}).messenger_answer || ''}
+                        </Text>
+                      </Flex>
+                    ) : null}
+                    <Text style={[st.pd6, st.fs4, isMine ? st.blue : st.white]}>
                       {isAndroid && isBlur ? '' : m.content}
                     </Text>
                     {isAndroid && isBlur ? <Flex style={[st.pd4]} /> : null}
@@ -550,6 +654,73 @@ class JourneyStepDetail extends Component {
                     />
                   ))}
                 </Flex>
+              </Flex>
+            </Flex>
+          </Flex>
+
+          <Avatar
+            image={(me.avatar || {}).small}
+            isVoke={false}
+            size={25}
+            style={[st.absb, st.right(-30)]}
+          />
+        </Flex>
+        <Flex direction="column" style={[st.w80]}>
+          <DateComponent
+            style={[st.fs6, st.tar]}
+            date={message.created_at}
+            format={dateFormat}
+          />
+        </Flex>
+      </Flex>
+    );
+  };
+  renderShareSelect = message => {
+    const { me } = this.props;
+    const metadata = message.metadata || {};
+    const answers = metadata.answers;
+    const hasSelected = (answers || []).find(a => a.selected);
+    return (
+      <Flex key={message.id} align="center" style={[st.fw100]}>
+        <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
+          <Flex direction="row">
+            <Flex style={[st.f1]} />
+            <Flex
+              direction="column"
+              align="center"
+              style={[st.bgDarkBlue, st.ovh, st.br5, st.w100]}
+            >
+              <Text style={[[st.pv4, st.tac, st.fs(20), st.lh(24)]]}>
+                {metadata.question}
+              </Text>
+              <Flex direction="row">
+                {answers.map((a, index) => (
+                  <Button
+                    text={a.key}
+                    disabled={hasSelected}
+                    onPress={() => {
+                      this.setState({ multiChoiceAnswer2: a.value }, () => {
+                        this.sendMessage(
+                          false,
+                          false,
+                          true,
+                          false,
+                          metadata.messenger_journey_step_id,
+                          message.id,
+                        );
+                      });
+                    }}
+                    style={[
+                      a.selected ? st.bgWhite : st.bgOrange,
+                      st.br1,
+                      st.mh5,
+                      a.selected || !hasSelected
+                        ? { opacity: 1 }
+                        : { opacity: 0.4 },
+                    ]}
+                    buttonTextStyle={[a.selected ? st.orange : st.white]}
+                  />
+                ))}
               </Flex>
             </Flex>
           </Flex>

@@ -6,6 +6,10 @@ import HOME_DOT from '../../images/homeBadge.png';
 import NOTIFICATION_WHITE from '../../images/notificationBell.png';
 import NOTIFICATION_BLUE from '../../images/notificationBellBlue.png';
 import SHARE_ARROW from '../../images/shareArrow.png';
+import GROUP from '../../images/withGroup.png';
+import FRIEND from '../../images/withFriend.png';
+import MYSELF from '../../images/byMyself.png';
+import BUTTON_ARROW from '../../images/buttonArrow.png';
 
 let iconsMap = {};
 const vokeIcons = {
@@ -45,6 +49,10 @@ const vokeImages = {
   notificationBell: NOTIFICATION_WHITE,
   notificationBellBlue: NOTIFICATION_BLUE,
   shareArrow: SHARE_ARROW,
+  byMyself: MYSELF,
+  withGroup: GROUP,
+  withFriend: FRIEND,
+  buttonArrow: BUTTON_ARROW,
 };
 
 export { iconsMap, vokeIcons, vokeImages };

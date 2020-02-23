@@ -28,6 +28,8 @@ import Videos from './containers/Videos';
 import VideosTab from './containers/VideosTab';
 import VideosAndChannels from './containers/VideosAndChannels';
 import TryItNowProfilePhoto from './containers/TryItNowProfilePhoto';
+import JoinGroup from './containers/JoinGroup';
+import SeeMoreMembers from './containers/SeeMoreMembers';
 import AdventureCode from './containers/AdventureCode';
 import i18n from './i18n';
 import theme from './theme';
@@ -211,6 +213,12 @@ const screens = {
   },
   'voke.TryItNowProfilePhoto': {
     screen: TryItNowProfilePhoto,
+  },
+  'voke.JoinGroup': {
+    screen: JoinGroup,
+  },
+  'voke.SeeMoreMembers': {
+    screen: SeeMoreMembers,
   },
   'voke.AdventureCode': {
     screen: AdventureCode,

@@ -5,16 +5,18 @@ export function mapMessages(results) {
   let messages = results.messages || [];
 
   messages.sort(function(a, b) {
-    if (a.created_at && !b.created_at) return -1;
-    else if (b.created_at && !a.created_at) return 1;
-    else if (!a.created_at && !b.created_at) return 0;
+    // if (a.created_at && !b.created_at) return -1;
+    // else if (b.created_at && !a.created_at) return 1;
+    // else if (!a.created_at && !b.created_at) return 0;
 
-    let keyA = momentUtc(a.created_at).local();
-    let keyB = momentUtc(b.created_at).local();
+    // let keyA = momentUtc(a.created_at).local();
+    // let keyB = momentUtc(b.created_at).local();
+    let keyA = a.position;
+    let keyB = b.position;
 
     // Compare the 2 dates
-    if (keyA > keyB) return -1;
-    if (keyA < keyB) return 1;
+    if (keyA > keyB) return 1;
+    if (keyA < keyB) return -1;
     return 0;
   });
 

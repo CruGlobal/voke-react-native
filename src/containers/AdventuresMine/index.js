@@ -219,6 +219,14 @@ class AdventuresMine extends Component {
             header={this.renderAdventureCode}
             me={me}
             onClickProfile={() => dispatch(navigatePush('voke.Profile'))}
+            onClickSeeMore={row => {
+              dispatch(
+                navigatePush('voke.SeeMoreMembers', {
+                  journeyItem: row,
+                  isAlreadyJoined: true,
+                }),
+              );
+            }}
           />
         )}
       </View>

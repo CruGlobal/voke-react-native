@@ -44,29 +44,35 @@ class AdventureCode extends Component {
       }
       try {
         const newJourney = await dispatch(acceptJourneyInvite(adventureCode));
-
+        const isGroup = newJourney.kind === 'multiple';
         if (onboarding) {
           dispatch(determinePushOverlay('adventurePushPermissions'));
-          this.goToPhoto(true);
+          if (isGroup) {
+            this.goToGroup(newJourney);
+          } else {
+            this.goToPhoto(true);
+          }
         } else {
           const myJourneys = await dispatch(getMyJourneys());
-
-          dispatch(navigateBack(1, { immediate: true }));
-
-          let journeyItem = (myJourneys.journeys || []).find(
-            j => j.id === newJourney.messenger_journey_id,
-          );
-          if (!journeyItem) {
-            journeyItem = myJourneys.journeys[0];
-          }
-          if (journeyItem) {
-            dispatch(
-              navigatePush('voke.VideoContentWrap', {
-                item: journeyItem,
-                type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
-                trackingObj: buildTrackingObj('journey : mine', 'detail'),
-              }),
+          if (!isGroup) {
+            dispatch(navigateBack(1, { immediate: true }));
+            let journeyItem = (myJourneys.journeys || []).find(
+              j => j.id === newJourney.messenger_journey_id,
             );
+            if (!journeyItem) {
+              journeyItem = myJourneys.journeys[0];
+            }
+            if (journeyItem && !isGroup) {
+              dispatch(
+                navigatePush('voke.VideoContentWrap', {
+                  item: journeyItem,
+                  type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
+                  trackingObj: buildTrackingObj('journey : mine', 'detail'),
+                }),
+              );
+            }
+          } else {
+            this.goToGroup(newJourney, myJourneys);
           }
         }
         this.setState({ isLoading: false });
@@ -85,6 +91,13 @@ class AdventureCode extends Component {
     this.setState({ isLoading: false });
     this.props.dispatch(
       navigatePush('voke.TryItNowProfilePhoto', { disableBack }),
+    );
+  };
+
+  goToGroup = (newJourney, myJourneys) => {
+    this.setState({ isLoading: false });
+    this.props.dispatch(
+      navigatePush('voke.JoinGroup', { newJourney, myJourneys }),
     );
   };
 

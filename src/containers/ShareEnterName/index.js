@@ -59,7 +59,7 @@ class ShareEnterName extends Component {
   };
 
   continue = async () => {
-    const { dispatch, item } = this.props;
+    const { dispatch, item, isGroup } = this.props;
     const { firstName } = this.state;
     const name = (firstName || '').trim();
     try {
@@ -68,12 +68,14 @@ class ShareEnterName extends Component {
         sendJourneyInvite({
           organization_journey_id: item.id,
           name,
+          kind: isGroup ? 'multiple' : 'duo',
         }),
       );
       dispatch(
         navigatePush('voke.ShareJourneyInvite', {
           journeyInvite: result,
           friendName: name,
+          isGroup,
         }),
       );
     } catch (error) {
@@ -84,7 +86,7 @@ class ShareEnterName extends Component {
   };
 
   render() {
-    const { t } = this.props;
+    const { t, isGroup } = this.props;
     return (
       <Flex value={1}>
         <SafeArea style={[st.f1, st.bgDarkBlue]} top={[st.bgBlue]}>
@@ -104,19 +106,21 @@ class ShareEnterName extends Component {
                 />
                 <Flex style={styles.shareBubble}>
                   <Text style={styles.chatText}>
-                    {t('placeholder.whatIsFriendsName')}
+                    {isGroup
+                      ? 'What is the name of your group?'
+                      : t('placeholder.whatIsFriendsName')}
                   </Text>
                 </Flex>
                 <Flex style={styles.chatTriangle} />
               </Flex>
               <Text style={styles.inputLabel}>
-                {t('placeholder.firstName')}
+                {isGroup ? 'Group Name' : t('placeholder.firstName')}
               </Text>
               <SignUpInput
                 value={this.state.name}
                 type="new"
                 onChangeText={t => this.setState({ firstName: t })}
-                placeholder={t('placeholder.friendsName')}
+                placeholder={isGroup ? 'Group' : t('placeholder.friendsName')}
                 autoCorrect={false}
                 returnKeyType="done"
                 blurOnSubmit={true}
@@ -128,7 +132,9 @@ class ShareEnterName extends Component {
               >
                 {this.state.showWhatsThis ? (
                   <Text style={styles.inputLabelExplanation}>
-                    {t('placeholder.whyNeedFriendsName')}
+                    {isGroup
+                      ? 'We use the group name to onboard your friends and help you manage your groups.'
+                      : t('placeholder.whyNeedFriendsName')}
                   </Text>
                 ) : (
                   <Text style={styles.inputLabel}>
@@ -162,6 +168,7 @@ class ShareEnterName extends Component {
 
 ShareEnterName.propTypes = {
   item: PropTypes.object,
+  isGroup: PropTypes.bool,
 };
 const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),
