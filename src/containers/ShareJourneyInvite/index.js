@@ -24,7 +24,10 @@ import { determinePushOverlay } from '../../actions/socket';
 import { toastAction } from '../../actions/auth';
 
 const APP_URL = 'https://voke.page.link/app';
-function buildMessage(t, code, friend) {
+function buildMessage(t, code, friend, isGroup) {
+  if (isGroup) {
+    return `Download Voke and join my ${friend} Adventure. Use code: ${code} ${APP_URL}`;
+  }
   return t('downloadMessage', { code, friend, appUrl: APP_URL });
 }
 
@@ -40,11 +43,11 @@ class ShareJourneyInvite extends Component {
   };
 
   share = () => {
-    const { t, journeyInvite, friendName } = this.props;
+    const { t, journeyInvite, friendName, isGroup } = this.props;
 
     Share.share(
       {
-        message: buildMessage(t, journeyInvite.code, friendName),
+        message: buildMessage(t, journeyInvite.code, friendName, isGroup),
       },
       {
         dialogTitle: t('share'),

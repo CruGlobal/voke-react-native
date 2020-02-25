@@ -63,7 +63,7 @@ class JourneyStepDetail extends Component {
       isResponseSet: false,
       isResponseSet2: false,
       multiChoiceAnswer: (selectedAnswer || {}).value || null,
-      multiChoiceAnswer2: null,
+      otherMultiChoiceAnswers: {},
     };
   }
 
@@ -178,16 +178,10 @@ class JourneyStepDetail extends Component {
     isQuestionFromMulti,
     stepId,
     messageId,
+    answerFromMultiChoice,
   ) => {
     const { dispatch, journeyStep, journey, isAnonUser } = this.props;
-    const {
-      text,
-      newMsg,
-      isSending,
-      multiChoiceAnswer,
-      multiChoiceAnswer2,
-      text2,
-    } = this.state;
+    const { text, newMsg, isSending, multiChoiceAnswer, text2 } = this.state;
     Keyboard.dismiss();
 
     if (isSending) {
@@ -222,7 +216,7 @@ class JourneyStepDetail extends Component {
       this.setState({ isSending: false });
     }
     if (istMultiFromMulti) {
-      if (!multiChoiceAnswer2) return;
+      if (!answerFromMultiChoice) return;
       this.setState({
         isSending: true,
       });
@@ -231,7 +225,7 @@ class JourneyStepDetail extends Component {
           stepId,
           journey,
           null,
-          multiChoiceAnswer2,
+          answerFromMultiChoice,
           messageId,
         ),
       );
@@ -521,13 +515,15 @@ class JourneyStepDetail extends Component {
                   <Fragment>
                     {isShareAnswers ? (
                       <Flex style={[st.bgOffBlue, st.pd5, st.br6]}>
-                        <Text style={[st.fs4, st.white]}>
-                          {(m.metadata || {}).messenger_answer || ''}
-                        </Text>
+                        <Text style={[st.fs4, st.white]}>{m.content}</Text>
                       </Flex>
                     ) : null}
                     <Text style={[st.pd6, st.fs4, isMine ? st.blue : st.white]}>
-                      {isAndroid && isBlur ? '' : m.content}
+                      {isAndroid && isBlur
+                        ? ''
+                        : isShareAnswers
+                        ? (m.metadata || {}).messenger_answer
+                        : m.content}
                     </Text>
                     {isAndroid && isBlur ? <Flex style={[st.pd4]} /> : null}
                   </Fragment>
@@ -584,6 +580,7 @@ class JourneyStepDetail extends Component {
 
   renderBinarySelect = message => {
     const { me } = this.props;
+    const { otherMultiChoiceAnswers } = this.state;
     const metadata = message.metadata || {};
     const answers = metadata.answers;
     const hasSelected = (answers || []).find(a => a.selected);
@@ -631,16 +628,25 @@ class JourneyStepDetail extends Component {
                       text={a.key}
                       disabled={hasSelected}
                       onPress={() => {
-                        this.setState({ multiChoiceAnswer2: a.value }, () => {
-                          this.sendMessage(
-                            false,
-                            false,
-                            true,
-                            false,
-                            metadata.messenger_journey_step_id,
-                            message.id,
-                          );
-                        });
+                        this.setState(
+                          {
+                            otherMultiChoiceAnswers: {
+                              ...otherMultiChoiceAnswers,
+                              [message.id]: a.value,
+                            },
+                          },
+                          () => {
+                            this.sendMessage(
+                              false,
+                              false,
+                              true,
+                              false,
+                              metadata.messenger_journey_step_id,
+                              message.id,
+                              a.value,
+                            );
+                          },
+                        );
                       }}
                       style={[
                         a.selected ? st.bgWhite : st.bgOrange,
@@ -677,6 +683,7 @@ class JourneyStepDetail extends Component {
   };
   renderShareSelect = message => {
     const { me } = this.props;
+    const { otherMultiChoiceAnswers } = this.state;
     const metadata = message.metadata || {};
     const answers = metadata.answers;
     const hasSelected = (answers || []).find(a => a.selected);
@@ -688,27 +695,36 @@ class JourneyStepDetail extends Component {
             <Flex
               direction="column"
               align="center"
-              style={[st.bgDarkBlue, st.ovh, st.br5, st.w100]}
+              style={[st.bgDarkBlue, st.br5, st.w100, st.pd4]}
             >
-              <Text style={[[st.pv4, st.tac, st.fs(20), st.lh(24)]]}>
+              <Text style={[[st.pd4, st.tac, st.fs(20), st.lh(24)]]}>
                 {metadata.question}
               </Text>
-              <Flex direction="row">
+              <Flex direction="row" style={[st.pb4]}>
                 {answers.map((a, index) => (
                   <Button
                     text={a.key}
                     disabled={hasSelected}
                     onPress={() => {
-                      this.setState({ multiChoiceAnswer2: a.value }, () => {
-                        this.sendMessage(
-                          false,
-                          false,
-                          true,
-                          false,
-                          metadata.messenger_journey_step_id,
-                          message.id,
-                        );
-                      });
+                      this.setState(
+                        {
+                          otherMultiChoiceAnswers: {
+                            ...otherMultiChoiceAnswers,
+                            [message.id]: a.value,
+                          },
+                        },
+                        () => {
+                          this.sendMessage(
+                            false,
+                            false,
+                            true,
+                            false,
+                            metadata.messenger_journey_step_id,
+                            message.id,
+                            a.value,
+                          );
+                        },
+                      );
                     }}
                     style={[
                       a.selected ? st.bgWhite : st.bgOrange,
@@ -760,7 +776,8 @@ class JourneyStepDetail extends Component {
   setMessageBox = () => {
     const { t, setCustomRender, journey } = this.props;
     const { height } = this.state;
-    const isSolo = journey && journey.kind !== 'duo';
+    const isSolo =
+      journey && journey.kind !== 'duo' && journey.kind !== 'multiple';
     if (isSolo) return;
     let inputHeight = {
       height: height < 45 ? 45 : height > 140 ? 140 : height,
@@ -1018,6 +1035,8 @@ class JourneyStepDetail extends Component {
 
   renderMultiSelect = messageFromMessages => {
     const { me, messages, messengers, journeyStep } = this.props;
+    const meMessenger = messengers.find(i => i.id === me.id);
+
     const answers = messageFromMessages
       ? (messageFromMessages.metadata || {}).answers
       : (journeyStep.metadata || {}).answers;
@@ -1031,6 +1050,61 @@ class JourneyStepDetail extends Component {
     const isComplete = journeyStep.status === 'completed';
     if (isComplete) {
       formattedAnswers = formattedAnswers.map(a => ({ ...a, disabled: true }));
+    }
+    const selectedAnswerForOtherMultiChoice = answers.find(a => a.selected);
+
+    if (messageFromMessages) {
+      return (
+        <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
+          <Flex
+            direction="column"
+            style={[st.w100, st.bgOrange, st.brtl5, st.brtr5, st.pd1]}
+            align="center"
+            justify="center"
+          >
+            <Text style={[st.tac, st.fs(20), st.lh(24)]}>
+              {(messageFromMessages.metadata || {}).question || null}
+            </Text>
+          </Flex>
+          <Avatar
+            image={(meMessenger.avatar || {}).small}
+            size={25}
+            style={[st.absb, st.right(-30)]}
+          />
+          <Select
+            isMulti={false}
+            options={formattedAnswers}
+            placeholder="Choose Your Answer..."
+            selectedValue={
+              this.state.otherMultiChoiceAnswers[messageFromMessages.id] ||
+              selectedAnswerForOtherMultiChoice.value
+            }
+            onUpdate={t => {
+              this.setState(
+                {
+                  otherMultiChoiceAnswers: {
+                    ...this.state.otherMultiChoiceAnswers,
+                    [messageFromMessages.id]: t.value,
+                  },
+                },
+                () => {
+                  this.sendMessage(
+                    false,
+                    false,
+                    true,
+                    false,
+                    (messageFromMessages.metadata || {})
+                      .messenger_journey_step_id,
+                    messageFromMessages.id,
+                    t.value,
+                  );
+                },
+              );
+            }}
+            containerColor={st.colors.orange}
+          />
+        </Flex>
+      );
     }
 
     return (

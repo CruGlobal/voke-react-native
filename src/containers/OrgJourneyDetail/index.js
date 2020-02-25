@@ -102,34 +102,157 @@ class OrgJourneyDetail extends Component {
             <Triangle width={st.fullWidth} height={80} color={st.colors.blue} />
             <Flex style={[st.bgBlue, st.pv4]} align="center" justify="center">
               <Text style={[st.fs3, st.white, st.pb5]}>
-                {haveStartedSolo ? t('whoCanYouTake') : t('startThe')}
+                {st.isAndroid && this.state.isModalShowing
+                  ? null
+                  : haveStartedSolo
+                  ? t('whoCanYouTake')
+                  : t('startThe')}
               </Text>
               <Flex direction="row" justify="center" style={[st.w100]}>
                 <Flex value={1} align="center" style={[]}>
-                  <Button
-                    text={'Start'}
-                    onPress={() => this.setState({ isModalShowing: true })}
-                    isLoading={friendIsLoading}
-                    style={[
-                      st.bgOrange,
-                      st.ph6,
-                      st.pv5,
-                      st.bw0,
-                      st.br3,
-                      { width: st.fullWidth - 60 },
-                      st.aic,
-                    ]}
-                  />
+                  {st.isAndroid ? (
+                    this.state.isModalShowing ? (
+                      <Flex
+                        direction="column"
+                        justify="end"
+                        align="center"
+                        style={[st.bgBlue, st.ph2, st.pt2]}
+                      >
+                        <Text style={[st.aic, st.fs4, st.mb4, st.ph1, st.tac]}>
+                          How would you like to start this adventure?
+                        </Text>
+                        <Button
+                          onPress={this.friend}
+                          isLoading={friendIsLoading}
+                          style={[
+                            st.bgOrange,
+                            st.ph6,
+                            st.pv5,
+                            st.bw0,
+                            st.br3,
+                            st.aic,
+                            { width: st.fullWidth - 60 },
+                          ]}
+                        >
+                          <Flex direction="row" align="center">
+                            <VokeIcon
+                              type="image"
+                              style={[{ height: 20 }, st.mr5]}
+                              name={'withFriend'}
+                            />
+                            <Text>With a Friend</Text>
+                            <VokeIcon
+                              type="image"
+                              style={[{ height: 15 }, st.ml5]}
+                              name={'buttonArrow'}
+                            />
+                          </Flex>
+                        </Button>
+                        <Button
+                          onPress={this.group}
+                          isLoading={groupIsLoading}
+                          style={[
+                            st.bgOrange,
+                            st.ph6,
+                            st.pv5,
+                            st.bw0,
+                            st.br3,
+                            st.mv4,
+                            st.aic,
+                            { width: st.fullWidth - 60 },
+                          ]}
+                        >
+                          <Flex direction="row" align="center">
+                            <VokeIcon
+                              type="image"
+                              style={[{ height: 20 }, st.mr5]}
+                              name={'withGroup'}
+                            />
+                            <Text>With a Group</Text>
+                            <VokeIcon
+                              type="image"
+                              style={[{ height: 15 }, st.ml5]}
+                              name={'buttonArrow'}
+                            />
+                          </Flex>
+                        </Button>
+
+                        {!haveStartedSolo ? (
+                          <Button
+                            text={t('byMyself')}
+                            onPress={this.myself}
+                            isLoading={myselfIsLoading}
+                            style={[
+                              st.bgOrange,
+                              st.ph6,
+                              st.pv5,
+                              st.bw0,
+                              st.br3,
+                              st.aic,
+                              { width: st.fullWidth - 60 },
+                            ]}
+                          >
+                            <Flex direction="row" align="center">
+                              <VokeIcon
+                                type="image"
+                                style={[{ height: 15 }, st.mr5]}
+                                name={'byMyself'}
+                              />
+                              <Text>By Myself</Text>
+                              <VokeIcon
+                                type="image"
+                                style={[{ height: 15 }, st.ml5]}
+                                name={'buttonArrow'}
+                              />
+                            </Flex>
+                          </Button>
+                        ) : null}
+                      </Flex>
+                    ) : (
+                      <Button
+                        text={'Start'}
+                        onPress={() => this.setState({ isModalShowing: true })}
+                        isLoading={friendIsLoading}
+                        style={[
+                          st.bgOrange,
+                          st.ph6,
+                          st.pv5,
+                          st.bw0,
+                          st.br3,
+                          { width: st.fullWidth - 60 },
+                          st.aic,
+                        ]}
+                      />
+                    )
+                  ) : (
+                    <Button
+                      text={'Start'}
+                      onPress={() => this.setState({ isModalShowing: true })}
+                      isLoading={friendIsLoading}
+                      style={[
+                        st.bgOrange,
+                        st.ph6,
+                        st.pv5,
+                        st.bw0,
+                        st.br3,
+                        { width: st.fullWidth - 60 },
+                        st.aic,
+                      ]}
+                    />
+                  )}
                 </Flex>
               </Flex>
             </Flex>
           </Flex>
         </Flex>
-        {this.state.isModalShowing ? (
+        {this.state.isModalShowing && !st.isAndroid ? (
           <Flex direction="column" style={[st.absfill, { zIndex: 100000 }]}>
             <Flex self="stretch" justify="end" value={1}>
               <Touchable
-                style={[{ width: st.fullWidth, height: st.fullHeight }]}
+                style={[
+                  { width: st.fullWidth, height: st.fullHeight },
+                  st.bgTransparent,
+                ]}
                 onPress={() => this.setState({ isModalShowing: false })}
               />
               <Flex

@@ -33,6 +33,12 @@ import { VIDEO_CONTENT_TYPES } from '../VideoContentWrap';
 import { buildTrackingObj } from '../../utils/common';
 const defaultAvatar =
   'https://assets-stage.vokeapp.com/images/user/medium/avatar.jpg';
+
+const smallCircle = st.fullWidth / 2 - 90;
+const smallBox = st.fullWidth / 2 - 50;
+const largeCircle = st.fullWidth / 2 - 80;
+const largeBox = st.fullWidth / 2 - 30;
+
 class JoinGroup extends Component {
   constructor(props) {
     super(props);
@@ -153,9 +159,10 @@ class JoinGroup extends Component {
                     st.bgDarkerBlue,
                     st.pd5,
                     st.m5,
+                    st.ml0,
                     {
-                      width: st.fullWidth / 2 - 30,
-                      height: st.fullWidth / 2 - 30,
+                      width: largeBox,
+                      height: largeBox,
                     },
                   ]}
                 >
@@ -164,10 +171,10 @@ class JoinGroup extends Component {
                     source={{ uri: square1User.image }}
                     style={[
                       {
-                        height: st.fullWidth / 2 - 80,
-                        width: st.fullWidth / 2 - 80,
-                        borderRadius: (st.fullWidth / 2 - 80) / 2,
-                        borderWidth: 1,
+                        height: largeCircle,
+                        width: largeCircle,
+                        borderRadius: largeCircle / 2,
+                        borderWidth: st.isAndroid ? 0 : 1,
                         borderColor: st.colors.red,
                       },
                     ]}
@@ -184,8 +191,9 @@ class JoinGroup extends Component {
                     st.pd5,
                     st.m5,
                     {
-                      width: st.fullWidth / 2 - 50,
-                      height: st.fullWidth / 2 - 50,
+                      width: smallBox,
+                      height: smallBox,
+                      marginRight: 15,
                     },
                   ]}
                 >
@@ -194,9 +202,9 @@ class JoinGroup extends Component {
                     source={{ uri: square2User.image }}
                     style={[
                       {
-                        height: st.fullWidth / 2 - 90,
-                        width: st.fullWidth / 2 - 90,
-                        borderRadius: (st.fullWidth / 2 - 90) / 2,
+                        height: smallCircle,
+                        width: smallCircle,
+                        borderRadius: smallCircle / 2,
                       },
                     ]}
                   />
@@ -214,8 +222,8 @@ class JoinGroup extends Component {
                     st.pd5,
                     st.m5,
                     {
-                      width: st.fullWidth / 2 - 50,
-                      height: st.fullWidth / 2 - 50,
+                      width: smallBox,
+                      height: smallBox,
                     },
                   ]}
                 >
@@ -224,9 +232,9 @@ class JoinGroup extends Component {
                     source={{ uri: square3User.image }}
                     style={[
                       {
-                        height: st.fullWidth / 2 - 90,
-                        width: st.fullWidth / 2 - 90,
-                        borderRadius: (st.fullWidth / 2 - 90) / 2,
+                        height: smallCircle,
+                        width: smallCircle,
+                        borderRadius: smallCircle / 2,
                       },
                     ]}
                   />
@@ -242,8 +250,8 @@ class JoinGroup extends Component {
                     st.pd5,
                     st.m5,
                     {
-                      width: st.fullWidth / 2 - 50,
-                      height: st.fullWidth / 2 - 50,
+                      width: smallBox,
+                      height: smallBox,
                     },
                   ]}
                 >
@@ -252,9 +260,9 @@ class JoinGroup extends Component {
                     source={{ uri: square4User.image }}
                     style={[
                       {
-                        height: st.fullWidth / 2 - 90,
-                        width: st.fullWidth / 2 - 90,
-                        borderRadius: (st.fullWidth / 2 - 90) / 2,
+                        height: smallCircle,
+                        width: smallCircle,
+                        borderRadius: smallCircle / 2,
                       },
                     ]}
                   />
@@ -272,8 +280,8 @@ class JoinGroup extends Component {
                     st.pd5,
                     st.m5,
                     {
-                      width: st.fullWidth / 2 - 50,
-                      height: st.fullWidth / 2 - 50,
+                      width: smallBox,
+                      height: smallBox,
                     },
                   ]}
                 >
@@ -282,9 +290,9 @@ class JoinGroup extends Component {
                     source={{ uri: square5User.image }}
                     style={[
                       {
-                        height: st.fullWidth / 2 - 90,
-                        width: st.fullWidth / 2 - 90,
-                        borderRadius: (st.fullWidth / 2 - 90) / 2,
+                        height: smallCircle,
+                        width: smallCircle,
+                        borderRadius: smallCircle / 2,
                       },
                     ]}
                   />
@@ -293,14 +301,15 @@ class JoinGroup extends Component {
                   </Text>
                 </Flex>
                 <Touchable
+                  isAndroidOpacity={true}
                   onPress={this.joinGroup}
                   style={[
                     st.bgOrange,
                     st.pd5,
                     st.m5,
                     {
-                      width: st.fullWidth / 2 - 50,
-                      height: st.fullWidth / 2 - 50,
+                      width: smallBox,
+                      height: smallBox,
                     },
                   ]}
                 >
