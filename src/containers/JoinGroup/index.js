@@ -63,11 +63,11 @@ class JoinGroup extends Component {
       this.goToPhoto();
     } else {
       dispatch(navigateBack(2, { immediate: true }));
-      let journeyItem = (myJourneys.journeys || []).find(
+      let journeyItem = ((myJourneys || {}).journeys || []).find(
         j => j.id === newJourney.messenger_journey_id,
       );
       if (!journeyItem) {
-        journeyItem = myJourneys.journeys[0];
+        journeyItem = ((myJourneys || {}).journeys || [])[0];
       }
       if (journeyItem) {
         dispatch(
@@ -83,11 +83,11 @@ class JoinGroup extends Component {
 
   render() {
     const { t, dispatch, newJourney, myJourneys, me } = this.props;
-    let journeyItem = (myJourneys.journeys || []).find(
+    let journeyItem = ((myJourneys || {}).journeys || []).find(
       j => j.id === newJourney.messenger_journey_id,
     );
     if (!journeyItem) {
-      journeyItem = myJourneys.journeys[0];
+      journeyItem = ((myJourneys || {}).journeys || [])[0];
     }
     const users = ((journeyItem || {}).conversation || {}).messengers || [];
     const usersWithoutVokeOrMe = users.filter(

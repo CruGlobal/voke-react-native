@@ -211,7 +211,11 @@ class OrgJourneyDetail extends Component {
                     ) : (
                       <Button
                         text={'Start'}
-                        onPress={() => this.setState({ isModalShowing: true })}
+                        onPress={() => {
+                          this.setState({ isModalShowing: true }, () => {
+                            this.props.scrollToEnd();
+                          });
+                        }}
                         isLoading={friendIsLoading}
                         style={[
                           st.bgOrange,
@@ -227,7 +231,11 @@ class OrgJourneyDetail extends Component {
                   ) : (
                     <Button
                       text={'Start'}
-                      onPress={() => this.setState({ isModalShowing: true })}
+                      onPress={() => {
+                        this.setState({ isModalShowing: true }, () => {
+                          this.props.scrollToEnd();
+                        });
+                      }}
                       isLoading={friendIsLoading}
                       style={[
                         st.bgOrange,

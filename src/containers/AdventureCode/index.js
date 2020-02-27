@@ -45,15 +45,15 @@ class AdventureCode extends Component {
       try {
         const newJourney = await dispatch(acceptJourneyInvite(adventureCode));
         const isGroup = newJourney.kind === 'multiple';
+        const myJourneys = await dispatch(getMyJourneys());
         if (onboarding) {
           dispatch(determinePushOverlay('adventurePushPermissions'));
           if (isGroup) {
-            this.goToGroup(newJourney);
+            this.goToGroup(newJourney, myJourneys);
           } else {
             this.goToPhoto(true);
           }
         } else {
-          const myJourneys = await dispatch(getMyJourneys());
           if (!isGroup) {
             dispatch(navigateBack(1, { immediate: true }));
             let journeyItem = (myJourneys.journeys || []).find(
@@ -94,7 +94,7 @@ class AdventureCode extends Component {
     );
   };
 
-  goToGroup = (newJourney, myJourneys) => {
+  goToGroup = async (newJourney, myJourneys) => {
     this.setState({ isLoading: false });
     this.props.dispatch(
       navigatePush('voke.JoinGroup', { newJourney, myJourneys }),

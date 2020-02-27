@@ -212,6 +212,10 @@ function MyAdventureCard({
     subGroup = usersExceptVokeAndMe.slice(0, 3);
     numberMore = totalGroupUsers - 4;
   }
+  let groupName;
+  if (isGroup) {
+    groupName = (item.journey_invite || {}).name || '';
+  }
 
   return (
     <Touchable
@@ -247,12 +251,15 @@ function MyAdventureCard({
           style={[st.pv6, st.ph4]}
         >
           <Text numberOfLines={1} style={[st.pb6, st.blue, st.fs4]}>
-            {item.name}
+            {isGroup ? groupName : item.name}
           </Text>
           <Flex direction="row" align="center" style={[st.pb6]}>
             <VokeIcon
               name="Chat"
-              style={[hasUnread ? st.orange : st.charcoal]}
+              style={[
+                hasUnread ? st.orange : st.charcoal,
+                hasUnread ? undefined : st.mr5,
+              ]}
             />
             {hasUnread ? <JourneyUnreadCount count={unreadCount} /> : null}
             {!isGroup ? (
@@ -260,8 +267,12 @@ function MyAdventureCard({
                 {isSolo ? t('me') : otherUser.first_name}
               </Text>
             ) : (
-              <Touchable onPress={() => onClickSeeMore(item)}>
-                <Flex direction="row" style={[st.ml4]}>
+              <Touchable
+                isAndroidOpacity={true}
+                onPress={() => onClickSeeMore(item)}
+                style={[st.pr1, st.ml5, { width: 100 }]}
+              >
+                <Flex direction="row" style={[]}>
                   <Image
                     source={{
                       uri: (myUser.avatar || {}).small || undefined,

@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import DeviceInfo from 'react-native-device-info';
 import {
   Keyboard,
   TextInput,
@@ -303,6 +304,8 @@ class JourneyStepDetail extends Component {
     }
     // If this is the last step and it's complete, don't show this
     if ((steps[steps.length - 1] || {}).id === journeyStep.id) {
+      this.props.scrollToEnd();
+
       return (
         <Flex
           direction="column"
@@ -392,6 +395,8 @@ class JourneyStepDetail extends Component {
           : '';
       text = t('waitingForAnswer', { name: userName });
     }
+
+    this.props.scrollToEnd();
 
     return (
       <Button
@@ -776,6 +781,11 @@ class JourneyStepDetail extends Component {
   setMessageBox = () => {
     const { t, setCustomRender, journey } = this.props;
     const { height } = this.state;
+    const modelName = DeviceInfo.getModel();
+    const isIphone11 =
+      modelName === 'iPhone 11' ||
+      modelName === 'iPhone 11 Pro' ||
+      modelName === 'iPhone 11 Pro Max';
     const isSolo =
       journey && journey.kind !== 'duo' && journey.kind !== 'multiple';
     if (isSolo) return;
@@ -797,7 +807,12 @@ class JourneyStepDetail extends Component {
       >
         <Flex
           direction="row"
-          style={[newWrap, st.w100, !isAndroid ? st.absblr : null]}
+          style={[
+            newWrap,
+            st.w100,
+            !isAndroid ? st.absblr : null,
+            isIphone11 ? { marginBottom: 45 } : undefined,
+          ]}
           align="center"
           justify="center"
         >
@@ -1051,7 +1066,8 @@ class JourneyStepDetail extends Component {
     if (isComplete) {
       formattedAnswers = formattedAnswers.map(a => ({ ...a, disabled: true }));
     }
-    const selectedAnswerForOtherMultiChoice = answers.find(a => a.selected);
+    const selectedAnswerForOtherMultiChoice =
+      answers.find(a => a.selected) || {};
 
     if (messageFromMessages) {
       return (
