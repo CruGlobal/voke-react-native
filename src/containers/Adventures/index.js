@@ -21,31 +21,13 @@ import { getConversations } from '../../actions/messages';
 
 class Adventures extends Component {
   componentDidMount() {
-    const { dispatch, me, navigation } = this.props;
+    const { dispatch, me } = this.props;
     Analytics.screen(Analytics.s.AdventuresTab);
     Analytics.screen(Analytics.s.AdventuresTabMine);
     if (!me.first_name) {
       dispatch(navigatePush('voke.TryItNowName'));
     }
-    // Make sure to call this when this tab mounts to get the badge count
     dispatch(getConversations());
-
-    if (
-      navigation &&
-      navigation.state &&
-      navigation.state.params &&
-      navigation.state.params.tabName
-    ) {
-      navigation.navigate(navigation.state.params.tabName);
-    }
-    if ((navigation.state.params || {}).navTo) {
-      dispatch(
-        navigatePush(
-          navigation.state.params.navTo.routeName,
-          navigation.state.params.navTo.params,
-        ),
-      );
-    }
   }
 
   onChangeTab = ({ i }) => {

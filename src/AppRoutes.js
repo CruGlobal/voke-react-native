@@ -11,43 +11,37 @@ import Acknowledgements from './containers/Acknowledgements';
 import Adventures from './containers/Adventures';
 import BadgeHomeIcon from './containers/BadgeHomeIcon';
 import Channels from './containers/Channels';
-import Contacts from './containers/Contacts';
-import Conversations from './containers/Conversations';
-import CountrySelect from './containers/CountrySelect';
 import ForgotPassword from './containers/ForgotPassword';
 import Help from './containers/Help';
-import KickstartersTab from './containers/KickstartersTab';
 import LoadingScreen from './containers/LoadingScreen';
 import LoginInput from './containers/LoginInput';
 import Menu from './containers/Menu';
-import Message from './containers/Message';
 import Profile from './containers/Profile';
-import SelectFriend from './containers/SelectFriend';
 import ShareFlow from './containers/ShareFlow';
 import SignUpAccount from './containers/SignUpAccount';
 import SignUpFBAccount from './containers/SignUpFBAccount';
-import SignUpNumber from './containers/SignUpNumber';
-import SignUpNumberVerify from './containers/SignUpNumberVerify';
 import SignUpProfile from './containers/SignUpProfile';
 import SignUpWelcome from './containers/SignUpWelcome';
 import TryItNowName from './containers/TryItNowName';
 import VideoContentWrap from './containers/VideoContentWrap';
 import Videos from './containers/Videos';
 import VideosTab from './containers/VideosTab';
+import VideosAndChannels from './containers/VideosAndChannels';
 import TryItNowProfilePhoto from './containers/TryItNowProfilePhoto';
+import JoinGroup from './containers/JoinGroup';
+import SeeMoreMembers from './containers/SeeMoreMembers';
 import AdventureCode from './containers/AdventureCode';
 import i18n from './i18n';
 import theme from './theme';
 import { buildTrackingObj } from './utils/common';
 import ShareEnterName from './containers/ShareEnterName';
 import ShareJourneyInvite from './containers/ShareJourneyInvite';
+import Notifications from './containers/Notifications';
+import OldConversations from './containers/OldConversations';
+import NotificationsIcon from './containers/NotificationsIcon';
 
 // Do custom animations between pages
-const verticalPages = [
-  'voke.Menu',
-  'voke.VideoContentWrap',
-  'voke.CountrySelect',
-];
+const verticalPages = ['voke.Menu', 'voke.VideoContentWrap'];
 let dynamicModalTransition = (transitionProps, prevTransitionProps) => {
   const tpScenes = ((transitionProps || {}).scenes || []).length || 0;
   const prevTpScenes = ((prevTransitionProps || {}).scenes || []).length || 0;
@@ -90,30 +84,22 @@ export const tabs = {
       ),
     }),
   },
-  'voke.Conversations': {
-    tracking: buildTrackingObj('chat', 'home'),
-    screen: Conversations,
-    navigationOptions: () => ({
-      tabBarLabel: i18n.t('conversations'),
-      tabBarIcon: ({ tintColor }) => (
-        <BadgeHomeIcon isActive={tintColor === theme.lightText} />
-      ),
-    }),
-  },
-  'voke.Videos': {
+  'voke.VideosAndChannels': {
     tracking: buildTrackingObj('videos', 'home'),
-    screen: Videos,
+    screen: VideosAndChannels,
     navigationOptions: () => ({
       tabBarLabel: i18n.t('title.videos'),
       tabBarIcon: navIcon('video'),
     }),
   },
-  'voke.Channels': {
-    tracking: buildTrackingObj('channel', 'home'),
-    screen: Channels,
+  'voke.Notifications': {
+    tracking: buildTrackingObj('notifications', 'home'),
+    screen: Notifications,
     navigationOptions: () => ({
-      tabBarLabel: i18n.t('title.channels'),
-      tabBarIcon: navIcon('channel'),
+      tabBarLabel: i18n.t('title.notifications'),
+      tabBarIcon: ({ tintColor }) => (
+        <NotificationsIcon isActive={tintColor === theme.lightText} />
+      ),
     }),
   },
 };
@@ -161,10 +147,6 @@ const screens = {
     screen: Acknowledgements,
     tracking: buildTrackingObj('menu', 'acknowledgements'),
   },
-  'voke.CountrySelect': {
-    screen: CountrySelect,
-    tracking: buildTrackingObj('menu', 'countryselect'),
-  },
   'voke.ForgotPassword': {
     screen: ForgotPassword,
     tracking: buildTrackingObj('entry', 'forgotpassword'),
@@ -172,10 +154,6 @@ const screens = {
   'voke.Help': {
     screen: Help,
     tracking: buildTrackingObj('menu', 'help'),
-  },
-  'voke.KickstartersTab': {
-    screen: KickstartersTab,
-    tracking: buildTrackingObj('chat', 'kickstarters'),
   },
   'voke.Loading': {
     screen: LoadingScreen,
@@ -185,13 +163,17 @@ const screens = {
     screen: LoginInput,
     tracking: buildTrackingObj('entry', 'signin'),
   },
-  'voke.Message': {
-    screen: Message,
-    tracking: buildTrackingObj('chat', 'conversation'),
-  },
   'voke.Profile': {
     screen: Profile,
     tracking: buildTrackingObj('menu', 'profile'),
+  },
+  'voke.Channels': {
+    screen: Channels,
+    tracking: buildTrackingObj('channels', 'home'),
+  },
+  'voke.Videos': {
+    screen: Videos,
+    tracking: buildTrackingObj('video', 'all'),
   },
   'voke.SignUpAccount': {
     screen: SignUpAccount,
@@ -200,16 +182,6 @@ const screens = {
   'voke.SignUpFBAccount': {
     screen: SignUpFBAccount,
     tracking: buildTrackingObj('entry', 'createaccountfb'),
-  },
-  'voke.SignUpNumber': {
-    screen: SignUpNumber,
-    tracking: buildTrackingObj('menu', 'signupmobile'),
-    ...noGestures,
-  },
-  'voke.SignUpNumberVerify': {
-    screen: SignUpNumberVerify,
-    tracking: buildTrackingObj('menu', 'verifymobile'),
-    ...noGestures,
   },
   'voke.SignUpProfile': {
     screen: SignUpProfile,
@@ -224,19 +196,6 @@ const screens = {
     screen: Menu,
     tracking: buildTrackingObj('menu', 'home'),
   },
-  'voke.Contacts': {
-    screen: Contacts,
-    tracking: buildTrackingObj('contacts', 'share'),
-  },
-  'voke.SelectFriend': {
-    screen: SelectFriend,
-    tracking: buildTrackingObj('contacts', 'selectfriend'),
-  },
-  // 'voke.VideoDetails': {
-  //   screen: VideoDetails,
-  //   tracking: buildTrackingObj('video', 'preview'),
-  //   ...noGestures,
-  // },
   'voke.VideosTab': {
     screen: VideosTab,
     tracking: buildTrackingObj('video', 'all'),
@@ -255,6 +214,12 @@ const screens = {
   'voke.TryItNowProfilePhoto': {
     screen: TryItNowProfilePhoto,
   },
+  'voke.JoinGroup': {
+    screen: JoinGroup,
+  },
+  'voke.SeeMoreMembers': {
+    screen: SeeMoreMembers,
+  },
   'voke.AdventureCode': {
     screen: AdventureCode,
   },
@@ -263,6 +228,9 @@ const screens = {
   },
   'voke.ShareJourneyInvite': {
     screen: ShareJourneyInvite,
+  },
+  'voke.OldConversations': {
+    screen: OldConversations,
   },
 };
 

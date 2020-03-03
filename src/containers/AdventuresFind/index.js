@@ -34,7 +34,7 @@ class AdventuresFind extends Component {
     try {
       await this.getJourneys();
     } catch (e) {
-      LOG('error getting org journeys');
+      // LOG('error getting org journeys');
     } finally {
       this.setState({ refreshing: false });
     }
@@ -52,17 +52,19 @@ class AdventuresFind extends Component {
 
   inviteFriend = item => {
     const { dispatch } = this.props;
+    if (!item) return;
     dispatch(navigatePush('voke.ShareEnterName', { item }));
   };
 
   handleAdventureCode = () => {
-    // todo
-    this.props.dispatch(navigatePush('voke.AdventureCode'));
+    this.props.dispatch(
+      navigatePush('voke.AdventureCode', { autoShowKeyboard: true }),
+    );
   };
 
   renderRow = ({ item }) => {
     const { myJourneyOrgIds } = this.props;
-    if (!item || !myJourneyOrgIds || !item.id) return null;
+    item = item || {};
     const startedWithMe = myJourneyOrgIds.find(id => id === item.id);
     return (
       <OrgJourney
@@ -70,6 +72,9 @@ class AdventuresFind extends Component {
         item={item}
         onInviteFriend={
           startedWithMe ? () => this.inviteFriend(item) : undefined
+        }
+        onInviteFriendFirstTime={
+          startedWithMe ? undefined : () => this.inviteFriend(item)
         }
       />
     );

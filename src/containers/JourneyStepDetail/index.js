@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import DeviceInfo from 'react-native-device-info';
 import {
   Keyboard,
   TextInput,
@@ -32,6 +33,7 @@ import st from '../../st';
 import {
   skipJourneyMessage,
   createJourneyMessage,
+  createJourneyMessageFromMessage,
   getJourneyMessages,
   getMyJourneySteps,
   getMyJourneyStep,
@@ -40,35 +42,37 @@ import {
 import { navigateBack } from '../../actions/nav';
 import { isAndroid } from '../../constants';
 import theme from '../../theme';
+import Select from '../../components/Select';
+import { toastAction } from '../../actions/auth';
 
 const dateFormat = 'MMM D @ h:mm A';
 
 class JourneyStepDetail extends Component {
-  state = {
-    text: '',
-    height: 50,
-    newMsg: '',
-    stateResponse: null,
-    isResponseSet: false,
-  };
+  constructor(props) {
+    super(props);
+
+    const selectedAnswer = (
+      ((props.journeyStep || {}).metadata || {}).answers || []
+    ).find(i => i.selected);
+
+    this.state = {
+      text: '',
+      text2: '',
+      height: 50,
+      newMsg: '',
+      stateResponse: null,
+      stateResponse2: null,
+      isResponseSet: false,
+      isResponseSet2: false,
+      multiChoiceAnswer: (selectedAnswer || {}).value || null,
+      otherMultiChoiceAnswers: {},
+    };
+  }
 
   async componentDidMount() {
     Analytics.screen(Analytics.s.JourneyStepDetail);
     this.getMessages();
   }
-
-  // componentDidUpdate(prevProps) {
-  //   // Update status message when it changes in props
-  //   const { journeyStepItem } = this.props;
-  //   if (prevProps.journeyStepItem.status_message !== journeyStepItem.status_message || prevProps.journeyStepItem.status !== journeyStepItem.status) {
-  //     this.setState({
-  //       journeyStep: {
-  //         ...this.state.journeyStep,
-  //         status_message: journeyStepItem.status_message,
-  //       },
-  //     });
-  //   }
-  // }
 
   async createMessageReadInteraction(msg) {
     if (!msg) {
@@ -83,7 +87,6 @@ class JourneyStepDetail extends Component {
     };
 
     await dispatch(createMessageInteraction(interaction));
-    await dispatch(getMyJourneys());
   }
 
   getMessages() {
@@ -109,30 +112,36 @@ class JourneyStepDetail extends Component {
   };
 
   checkIfLast = () => {
-    const { t, dispatch, steps, messengers, journeyStep, journey } = this.props;
+    const { t, dispatch, steps, journeyStep, journey } = this.props;
 
     // Only show "Done" if in a solo journey
     const isSolo = journey && journey.kind !== 'duo';
-    if (isSolo && (steps[steps.length - 1] || {}).id === journeyStep.id) {
-      Alert.alert(t('finishedJourney'), '', [
-        {
-          text: t('ok'),
-          onPress: () => dispatch(navigatePush('voke.Adventures')),
-        },
-      ]);
-    }
+    // if (isSolo && (steps[steps.length - 1] || {}).id === journeyStep.id) {
+    //   Alert.alert(t('finishedJourney'), '', [
+    //     {
+    //       text: t('ok'),
+    //       onPress: () => dispatch(navigatePush('voke.Adventures')),
+    //     },
+    //   ]);
+    // }
   };
 
   changeText = t => this.setState({ text: t });
+  changeText2 = t => this.setState({ text2: t });
 
-  skip = async () => {
-    const { dispatch, journeyStep, journey, scrollToEnd } = this.props;
+  skip = async subChallengeId => {
+    const { dispatch, journeyStep, journey } = this.props;
     try {
       this.setState({
         isSending: true,
         stateResponse: { content: '', created_at: new Date() },
       });
-      await dispatch(skipJourneyMessage(journeyStep, journey));
+      await dispatch(
+        skipJourneyMessage(
+          subChallengeId ? { id: subChallengeId } : journeyStep,
+          journey,
+        ),
+      );
       this.getMessages();
       this.checkIfLast();
       this.setState({ isSending: false });
@@ -141,10 +150,42 @@ class JourneyStepDetail extends Component {
     }
   };
 
-  sendMessage = async isNewMsg => {
+  friend = () => {
+    const { dispatch, journey } = this.props;
+    try {
+      dispatch(
+        navigatePush('voke.ShareEnterName', {
+          item: { ...journey, id: journey.organization_journey_id },
+        }),
+      );
+    } catch {}
+  };
+
+  group = async () => {
+    const { dispatch, journey } = this.props;
+    try {
+      dispatch(
+        navigatePush('voke.ShareEnterName', {
+          item: { ...journey, id: journey.organization_journey_id },
+          isGroup: true,
+        }),
+      );
+    } catch {}
+  };
+
+  sendMessage = async (
+    isNewMsg,
+    isMulti,
+    istMultiFromMulti,
+    isQuestionFromMulti,
+    stepId,
+    messageId,
+    answerFromMultiChoice,
+  ) => {
     const { dispatch, journeyStep, journey, isAnonUser } = this.props;
-    const { text, newMsg, isSending } = this.state;
+    const { text, newMsg, isSending, multiChoiceAnswer, text2 } = this.state;
     Keyboard.dismiss();
+
     if (isSending) {
       return null;
     }
@@ -163,6 +204,51 @@ class JourneyStepDetail extends Component {
       } catch (error) {
         this.setState({ isSending: false });
       }
+    }
+    if (isMulti) {
+      if (!multiChoiceAnswer) return;
+      this.setState({
+        isSending: true,
+      });
+      await dispatch(
+        createJourneyMessage(journeyStep, journey, null, multiChoiceAnswer),
+      );
+      this.getMessages();
+      this.checkIfLast();
+      this.setState({ isSending: false });
+    }
+    if (istMultiFromMulti) {
+      if (!answerFromMultiChoice) return;
+      this.setState({
+        isSending: true,
+      });
+      await dispatch(
+        createJourneyMessageFromMessage(
+          stepId,
+          journey,
+          null,
+          answerFromMultiChoice,
+          messageId,
+        ),
+      );
+      this.getMessages();
+      this.checkIfLast();
+      this.setState({ isSending: false });
+    }
+    if (isQuestionFromMulti) {
+      if (!text2) {
+        return this.skip();
+      }
+      this.setState({
+        isSending: true,
+        stateResponse2: { content: text2, created_at: new Date() },
+      });
+      await dispatch(
+        createJourneyMessage(stepId, journey, text2, null, messageId),
+      );
+      this.getMessages();
+      this.checkIfLast();
+      this.setState({ isSending: false });
     }
     if (!text) {
       return this.skip();
@@ -219,7 +305,74 @@ class JourneyStepDetail extends Component {
     }
     // If this is the last step and it's complete, don't show this
     if ((steps[steps.length - 1] || {}).id === journeyStep.id) {
-      return;
+      this.props.scrollToEnd();
+
+      return (
+        <Flex
+          direction="column"
+          justify="end"
+          align="center"
+          style={[st.bgBlue, st.ph2, st.pt2]}
+        >
+          <Text style={[st.aic, st.fs4, st.mb4, st.ph1, st.tac]}>
+            Congrats! You finished the adventure. Now start it with someone
+            else!
+          </Text>
+          <Button
+            onPress={this.friend}
+            style={[
+              st.bgOrange,
+              st.ph6,
+              st.pv5,
+              st.bw0,
+              st.br3,
+              st.aic,
+              { width: st.fullWidth - 60 },
+            ]}
+          >
+            <Flex direction="row" align="center">
+              <VokeIcon
+                type="image"
+                style={[{ height: 20 }, st.mr5]}
+                name={'withFriend'}
+              />
+              <Text>With a Friend</Text>
+              <VokeIcon
+                type="image"
+                style={[{ height: 15 }, st.ml5]}
+                name={'buttonArrow'}
+              />
+            </Flex>
+          </Button>
+          <Button
+            onPress={this.group}
+            style={[
+              st.bgOrange,
+              st.ph6,
+              st.pv5,
+              st.bw0,
+              st.br3,
+              st.mv4,
+              st.aic,
+              { width: st.fullWidth - 60 },
+            ]}
+          >
+            <Flex direction="row" align="center">
+              <VokeIcon
+                type="image"
+                style={[{ height: 20 }, st.mr5]}
+                name={'withGroup'}
+              />
+              <Text>With a Group</Text>
+              <VokeIcon
+                type="image"
+                style={[{ height: 15 }, st.ml5]}
+                name={'buttonArrow'}
+              />
+            </Flex>
+          </Button>
+        </Flex>
+      );
     }
 
     let text = t('nextVideoReady');
@@ -244,6 +397,8 @@ class JourneyStepDetail extends Component {
       text = t('waitingForAnswer', { name: userName });
     }
 
+    this.props.scrollToEnd();
+
     return (
       <Button
         text={text}
@@ -254,14 +409,25 @@ class JourneyStepDetail extends Component {
   };
 
   renderMessages() {
-    const { me, messages, messengers, journeyStep } = this.props;
+    const { me, messages, messengers, journeyStep, journey } = this.props;
     const { stateResponse } = this.state;
+    const isSolo =
+      journey && journey.kind !== 'duo' && journey.kind !== 'multiple';
 
     let reversed = [...messages].reverse();
     // Keep track of internal state and use that if it exists, otherwise find it in the messages
     const response =
       stateResponse || reversed.find(i => i.messenger_id === me.id);
-    const isSkipped = response && response.content === '';
+
+    // const response =
+    //   stateResponse2 ||
+    //   reversed.find(
+    //     i =>
+    //       i.messenger_id === me.id &&
+    //       i.messenger_journey_step_id ===
+    //       (messageFromMessages.metadata || {}).messenger_journey_step_id,
+    //   );
+
     if (!journeyStep || !journeyStep.status) return null;
     const isComplete = journeyStep.status === 'completed';
 
@@ -269,14 +435,72 @@ class JourneyStepDetail extends Component {
     if (myFirstMessage && myFirstMessage.id) {
       reversed = reversed.filter(m => m.id !== myFirstMessage.id);
     }
+    if (isSolo && (journeyStep.metadata || {}).comment) {
+      reversed.unshift({
+        messenger_id: (messengers.find(i => i.id !== me.id) || {}).id,
+        content: (journeyStep.metadata || {}).comment,
+        metadata: { vokebot_action: 'journey_step_comment' },
+      });
+    }
     return reversed.map(m => {
       const isVoke =
         m.metadata &&
         m.metadata.vokebot_action &&
         m.metadata.vokebot_action === 'journey_step_comment';
       const isMine = m.messenger_id === me.id;
+      const shouldOverrideBlur = (m.metadata || {}).messenger_journey_step_id;
       const messenger = messengers.find(i => i.id === m.messenger_id) || {};
-      const isBlur = (!isComplete && !isMine) || (isSkipped && !isMine);
+      const isBlur = !shouldOverrideBlur && !isComplete && !isMine;
+      const isShareAnswers =
+        m.metadata &&
+        m.metadata.vokebot_action &&
+        m.metadata.vokebot_action === 'share_answers';
+
+      const isResponse =
+        m.messenger_id === me.id &&
+        reversed.find(i => {
+          if (
+            (i.metadata || {}).messenger_journey_step_id ===
+            m.messenger_journey_step_id
+          ) {
+            if (m.id !== i.id) {
+              return true;
+            }
+          }
+          return false;
+        });
+
+      if (isResponse) {
+        return null;
+      }
+
+      if (
+        shouldOverrideBlur &&
+        !m.content &&
+        (m.metadata || {}).step_kind === 'binary'
+      ) {
+        return this.renderBinarySelect(m);
+      } else if (
+        shouldOverrideBlur &&
+        !m.content &&
+        (m.metadata || {}).step_kind === 'multi'
+      ) {
+        return this.renderMultiSelect(m);
+      } else if (
+        shouldOverrideBlur &&
+        !m.content &&
+        (m.metadata || {}).step_kind === 'question'
+      ) {
+        return this.renderStandardInputFromMessages(m);
+      } else if (
+        shouldOverrideBlur &&
+        !m.content &&
+        (m.metadata || {}).step_kind === 'share'
+      ) {
+        return this.renderShareSelect(m);
+      }
+
+      if (!m.content) return null;
       return (
         <Flex key={m.id} align="center" style={[st.fw100]}>
           <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
@@ -285,9 +509,9 @@ class JourneyStepDetail extends Component {
               <Flex
                 direction="column"
                 style={[
-                  isBlur || isMine ? st.bgDarkBlue : st.bgWhite,
+                  isMine ? st.bgWhite : st.bgDarkBlue,
                   st.br5,
-                  st.pd5,
+                  st.pd6,
                   st.w100,
                 ]}
               >
@@ -295,10 +519,17 @@ class JourneyStepDetail extends Component {
                   <Flex style={[st.pd4, st.f1, st.w100]} />
                 ) : (
                   <Fragment>
-                    <Text
-                      style={[st.fs4, isBlur || isMine ? st.white : st.blue]}
-                    >
-                      {isAndroid && isBlur ? '' : m.content}
+                    {isShareAnswers ? (
+                      <Flex style={[st.bgOffBlue, st.pd5, st.br6]}>
+                        <Text style={[st.fs4, st.white]}>{m.content}</Text>
+                      </Flex>
+                    ) : null}
+                    <Text style={[st.pd6, st.fs4, isMine ? st.blue : st.white]}>
+                      {isAndroid && isBlur
+                        ? ''
+                        : isShareAnswers
+                        ? (m.metadata || {}).messenger_answer
+                        : m.content}
                     </Text>
                     {isAndroid && isBlur ? <Flex style={[st.pd4]} /> : null}
                   </Fragment>
@@ -353,6 +584,187 @@ class JourneyStepDetail extends Component {
     });
   }
 
+  renderBinarySelect = message => {
+    const { me } = this.props;
+    const { otherMultiChoiceAnswers } = this.state;
+    const metadata = message.metadata || {};
+    const answers = metadata.answers;
+    const hasSelected = (answers || []).find(a => a.selected);
+    return (
+      <Flex key={message.id} align="center" style={[st.fw100]}>
+        <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
+          <Flex direction="row">
+            <Flex style={[st.f1]} />
+            <Flex
+              direction="column"
+              align="center"
+              style={[st.bgBlack, st.ovh, st.br5, st.w100]}
+            >
+              {(metadata.image || {}).small ? (
+                <Image
+                  source={{ uri: metadata.image.small }}
+                  style={[st.absfill]}
+                />
+              ) : null}
+              <Text style={[st.pd3, st.fs1, st.white]}>{metadata.name}</Text>
+              <Text style={[st.ph3, st.tal, st.fs4, st.white]}>
+                {metadata.comment}
+              </Text>
+              <Flex
+                direction="column"
+                align="center"
+                style={[
+                  st.ph4,
+                  st.pv4,
+                  st.mt4,
+                  st.w100,
+                  {
+                    marginRight: -20,
+                    marginLeft: -20,
+                    backgroundColor: st.colors.lightOrange,
+                  },
+                ]}
+              >
+                <Text style={[[st.pv4, st.tac, st.fs(20), st.lh(24)]]}>
+                  {metadata.question}
+                </Text>
+                <Flex direction="row">
+                  {answers.map((a, index) => (
+                    <Button
+                      text={a.key}
+                      disabled={hasSelected}
+                      onPress={() => {
+                        this.setState(
+                          {
+                            otherMultiChoiceAnswers: {
+                              ...otherMultiChoiceAnswers,
+                              [message.id]: a.value,
+                            },
+                          },
+                          () => {
+                            this.sendMessage(
+                              false,
+                              false,
+                              true,
+                              false,
+                              metadata.messenger_journey_step_id,
+                              message.id,
+                              a.value,
+                            );
+                          },
+                        );
+                      }}
+                      style={[
+                        a.selected ? st.bgWhite : st.bgOrange,
+                        st.br1,
+                        st.mh5,
+                        a.selected || !hasSelected
+                          ? { opacity: 1 }
+                          : { opacity: 0.4 },
+                      ]}
+                      buttonTextStyle={[a.selected ? st.orange : st.white]}
+                    />
+                  ))}
+                </Flex>
+              </Flex>
+            </Flex>
+          </Flex>
+
+          <Avatar
+            image={(me.avatar || {}).small}
+            isVoke={false}
+            size={25}
+            style={[st.absb, st.right(-30)]}
+          />
+        </Flex>
+        <Flex direction="column" style={[st.w80]}>
+          <DateComponent
+            style={[st.fs6, st.tar]}
+            date={message.created_at}
+            format={dateFormat}
+          />
+        </Flex>
+      </Flex>
+    );
+  };
+  renderShareSelect = message => {
+    const { me } = this.props;
+    const { otherMultiChoiceAnswers } = this.state;
+    const metadata = message.metadata || {};
+    const answers = metadata.answers;
+    const hasSelected = (answers || []).find(a => a.selected);
+    return (
+      <Flex key={message.id} align="center" style={[st.fw100]}>
+        <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
+          <Flex direction="row">
+            <Flex style={[st.f1]} />
+            <Flex
+              direction="column"
+              align="center"
+              style={[st.bgDarkBlue, st.br5, st.w100, st.pd4]}
+            >
+              <Text style={[[st.pd4, st.tac, st.fs(20), st.lh(24)]]}>
+                {metadata.question}
+              </Text>
+              <Flex direction="row" style={[st.pb4]}>
+                {answers.map((a, index) => (
+                  <Button
+                    text={a.key}
+                    disabled={hasSelected}
+                    onPress={() => {
+                      this.setState(
+                        {
+                          otherMultiChoiceAnswers: {
+                            ...otherMultiChoiceAnswers,
+                            [message.id]: a.value,
+                          },
+                        },
+                        () => {
+                          this.sendMessage(
+                            false,
+                            false,
+                            true,
+                            false,
+                            metadata.messenger_journey_step_id,
+                            message.id,
+                            a.value,
+                          );
+                        },
+                      );
+                    }}
+                    style={[
+                      a.selected ? st.bgWhite : st.bgOrange,
+                      st.br1,
+                      st.mh5,
+                      a.selected || !hasSelected
+                        ? { opacity: 1 }
+                        : { opacity: 0.4 },
+                    ]}
+                    buttonTextStyle={[a.selected ? st.orange : st.white]}
+                  />
+                ))}
+              </Flex>
+            </Flex>
+          </Flex>
+
+          <Avatar
+            image={(me.avatar || {}).small}
+            isVoke={false}
+            size={25}
+            style={[st.absb, st.right(-30)]}
+          />
+        </Flex>
+        <Flex direction="column" style={[st.w80]}>
+          <DateComponent
+            style={[st.fs6, st.tar]}
+            date={message.created_at}
+            format={dateFormat}
+          />
+        </Flex>
+      </Flex>
+    );
+  };
+
   updateSize(height) {
     height += 10;
     this.setState({ height });
@@ -368,9 +780,16 @@ class JourneyStepDetail extends Component {
   };
 
   setMessageBox = () => {
-    const { t, setCustomRender } = this.props;
+    const { t, setCustomRender, journey } = this.props;
     const { height } = this.state;
-
+    const modelName = DeviceInfo.getModel();
+    const isIphone11 =
+      modelName === 'iPhone 11' ||
+      modelName === 'iPhone 11 Pro' ||
+      modelName === 'iPhone 11 Pro Max';
+    const isSolo =
+      journey && journey.kind !== 'duo' && journey.kind !== 'multiple';
+    if (isSolo) return;
     let inputHeight = {
       height: height < 45 ? 45 : height > 140 ? 140 : height,
     };
@@ -389,7 +808,12 @@ class JourneyStepDetail extends Component {
       >
         <Flex
           direction="row"
-          style={[newWrap, st.w100, !isAndroid ? st.absblr : null]}
+          style={[
+            newWrap,
+            st.w100,
+            !isAndroid ? st.absblr : null,
+            isIphone11 ? { marginBottom: 45 } : undefined,
+          ]}
           align="center"
           justify="center"
         >
@@ -403,8 +827,9 @@ class JourneyStepDetail extends Component {
             <TextInput
               ref={c => (this.chatInput = c)}
               autoCapitalize="sentences"
-              multiline={false}
-              returnKeyType="done"
+              returnKeyType="send"
+              blurOnSubmit={true}
+              onSubmitEditing={() => this.sendMessage(true)}
               placeholder={t('placeholder.newMessage')}
               onChangeText={this.handleInputChange}
               placeholderTextColor={st.colors.blue}
@@ -439,8 +864,132 @@ class JourneyStepDetail extends Component {
     );
   };
 
-  render() {
-    const { t, me, messages, messengers, journeyStep, journey } = this.props;
+  renderStandardInputFromMessages = messageFromMessages => {
+    const { t, me, messages, journey } = this.props;
+    const { text2, stateResponse2, isResponseSet2 } = this.state;
+    const inputStyle = [st.f1, st.fs4, st.darkBlue];
+    const reversed = [...messages].reverse();
+    // Keep track of internal state and use that if it exists, otherwise find it in the messages
+    const response =
+      stateResponse2 ||
+      reversed.find(
+        i =>
+          i.messenger_id === me.id &&
+          i.messenger_journey_step_id ===
+            (messageFromMessages.metadata || {}).messenger_journey_step_id,
+      );
+    const isSkipped = response && response.content === '';
+    if (response && !isResponseSet2) {
+      this.setState({ isResponseSet2: true });
+    }
+    const isSolo = journey && journey.kind !== 'duo';
+    return (
+      <Flex key={messageFromMessages.id} align="center" style={[st.fw100]}>
+        <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
+          <Flex ref={c => (this.blurView = c)} direction="row">
+            <Flex style={[st.f1]} />
+            <Flex
+              direction="column"
+              style={[st.w100, st.bgOrange, st.brtl5, st.brtr5, st.pd1]}
+              align="center"
+              justify="center"
+            >
+              <Text style={[st.tac, st.fs(20), st.lh(24)]}>
+                {messageFromMessages.metadata.question}
+              </Text>
+            </Flex>
+          </Flex>
+          <Flex
+            direction="row"
+            align="center"
+            style={[st.bgWhite, st.w100, st.pd4, st.brbl5, st.brbr5]}
+          >
+            {response ? (
+              <Fragment>
+                <Text style={[inputStyle, isSkipped ? st.grey : null]}>
+                  {isSkipped ? t('skipped') : response.content}
+                </Text>
+              </Fragment>
+            ) : (
+              <Fragment>
+                <TextInput
+                  autoCapitalize="sentences"
+                  returnKeyType="send"
+                  multiline={true}
+                  blurOnSubmit={true}
+                  onSubmitEditing={() =>
+                    this.sendMessage(
+                      false,
+                      false,
+                      false,
+                      true,
+                      {
+                        id: (messageFromMessages.metadata || {})
+                          .messenger_journey_step_id,
+                      },
+                      messageFromMessages.id,
+                    )
+                  }
+                  placeholder={t('yourAnswer')}
+                  placeholderTextColor={st.colors.grey}
+                  style={inputStyle}
+                  underlineColorAndroid={st.colors.transparent}
+                  selectionColor={st.colors.darkBlue}
+                  value={text2}
+                  onChangeText={this.changeText2}
+                />
+                {!text2 && isSolo ? (
+                  <Button
+                    type="transparent"
+                    onPress={() =>
+                      this.skip(
+                        (messageFromMessages.metadata || {})
+                          .messenger_journey_step_id,
+                        messageFromMessages.id,
+                      )
+                    }
+                    text={t('skip').toUpperCase()}
+                    buttonTextStyle={[st.orange, st.bold, st.fs4, st.ls2]}
+                  />
+                ) : (
+                  <Button
+                    type="transparent"
+                    onPress={() =>
+                      this.sendMessage(
+                        false,
+                        false,
+                        false,
+                        true,
+                        {
+                          id: (messageFromMessages.metadata || {})
+                            .messenger_journey_step_id,
+                        },
+                        messageFromMessages.id,
+                      )
+                    }
+                  >
+                    <VokeIcon
+                      name="send_message"
+                      size={20}
+                      style={[st.offBlue]}
+                    />
+                  </Button>
+                )}
+              </Fragment>
+            )}
+            <Avatar
+              image={(me.avatar || {}).small}
+              isVoke={false}
+              size={25}
+              style={[st.absb, st.right(-30)]}
+            />
+          </Flex>
+        </Flex>
+      </Flex>
+    );
+  };
+  renderStandardInput = () => {
+    const { t, me, messages, journey } = this.props;
     const { text, stateResponse, isResponseSet } = this.state;
 
     const inputStyle = [st.f1, st.fs4, st.darkBlue];
@@ -454,8 +1003,194 @@ class JourneyStepDetail extends Component {
       this.setState({ isResponseSet: true });
       this.setMessageBox();
     }
-    const meMessenger = messengers.find(i => i.id === me.id);
     const isSolo = journey && journey.kind !== 'duo';
+    return (
+      <Flex
+        direction="row"
+        align="center"
+        style={[st.bgWhite, st.w100, st.pd4, st.brbl5, st.brbr5]}
+      >
+        {response ? (
+          <Fragment>
+            <Text style={[inputStyle, isSkipped ? st.grey : null]}>
+              {isSkipped ? t('skipped') : response.content}
+            </Text>
+          </Fragment>
+        ) : (
+          <Fragment>
+            <TextInput
+              autoCapitalize="sentences"
+              returnKeyType="send"
+              onFocus={() => {
+                if (this.props.hasClickedPlay) {
+                  return;
+                } else {
+                  this.props.dispatch(
+                    toastAction(
+                      'Please watch the video first before you answer. Thanks!',
+                    ),
+                  );
+                }
+              }}
+              multiline={true}
+              blurOnSubmit={true}
+              onSubmitEditing={() => this.sendMessage()}
+              placeholder={t('yourAnswer')}
+              placeholderTextColor={st.colors.grey}
+              style={inputStyle}
+              underlineColorAndroid={st.colors.transparent}
+              selectionColor={st.colors.darkBlue}
+              value={text}
+              onChangeText={this.changeText}
+            />
+            {!text && isSolo ? (
+              <Button
+                type="transparent"
+                onPress={() => this.skip()}
+                text={t('skip').toUpperCase()}
+                buttonTextStyle={[st.orange, st.bold, st.fs4, st.ls2]}
+              />
+            ) : (
+              <Button type="transparent" onPress={() => this.sendMessage()}>
+                <VokeIcon name="send_message" size={20} style={[st.offBlue]} />
+              </Button>
+            )}
+          </Fragment>
+        )}
+      </Flex>
+    );
+  };
+
+  renderMultiSelect = messageFromMessages => {
+    const { me, messages, messengers, journeyStep } = this.props;
+    const meMessenger = messengers.find(i => i.id === me.id);
+
+    const answers = messageFromMessages
+      ? (messageFromMessages.metadata || {}).answers
+      : (journeyStep.metadata || {}).answers;
+    if ((answers || []).length === 0) return;
+
+    let formattedAnswers = answers.map(a => ({
+      value: a.value,
+      label: a.key,
+    }));
+
+    const isComplete = journeyStep.status === 'completed';
+    if (isComplete) {
+      formattedAnswers = formattedAnswers.map(a => ({ ...a, disabled: true }));
+    }
+    const selectedAnswerForOtherMultiChoice =
+      answers.find(a => a.selected) || {};
+
+    if (messageFromMessages) {
+      return (
+        <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
+          <Flex
+            direction="column"
+            style={[st.w100, st.bgOrange, st.brtl5, st.brtr5, st.pd1]}
+            align="center"
+            justify="center"
+          >
+            <Text style={[st.tac, st.fs(20), st.lh(24)]}>
+              {(messageFromMessages.metadata || {}).question || null}
+            </Text>
+          </Flex>
+          <Avatar
+            image={(meMessenger.avatar || {}).small}
+            size={25}
+            style={[st.absb, st.right(-30)]}
+          />
+          <Select
+            isMulti={false}
+            options={formattedAnswers}
+            placeholder="Choose Your Answer..."
+            selectedValue={
+              this.state.otherMultiChoiceAnswers[messageFromMessages.id] ||
+              selectedAnswerForOtherMultiChoice.value
+            }
+            onUpdate={t => {
+              this.setState(
+                {
+                  otherMultiChoiceAnswers: {
+                    ...this.state.otherMultiChoiceAnswers,
+                    [messageFromMessages.id]: t.value,
+                  },
+                },
+                () => {
+                  this.sendMessage(
+                    false,
+                    false,
+                    true,
+                    false,
+                    (messageFromMessages.metadata || {})
+                      .messenger_journey_step_id,
+                    messageFromMessages.id,
+                    t.value,
+                  );
+                },
+              );
+            }}
+            containerColor={st.colors.orange}
+          />
+        </Flex>
+      );
+    }
+
+    return (
+      <Select
+        isMulti={false}
+        options={formattedAnswers}
+        onFocus={() => {
+          if (this.props.hasClickedPlay) {
+            return;
+          } else {
+            this.props.dispatch(
+              toastAction(
+                'Please watch the video first before you answer. Thanks!',
+              ),
+            );
+          }
+        }}
+        placeholder="Choose Your Answer..."
+        selectedValue={this.state.multiChoiceAnswer}
+        onUpdate={t => {
+          this.setState({ multiChoiceAnswer: t.value }, () => {
+            this.sendMessage(false, true);
+          });
+        }}
+        containerColor={st.colors.orange}
+      />
+    );
+  };
+
+  render() {
+    const { me, messages, messengers, journeyStep } = this.props;
+    const { stateResponse, isResponseSet } = this.state;
+
+    const isMulti = journeyStep.kind === 'multi';
+    const isMultiSelect = journeyStep.kind === 'binary' || isMulti;
+    const reversed = [...messages].reverse();
+    // Keep track of internal state and use that if it exists, otherwise find it in the messages
+    const response =
+      stateResponse || reversed.find(i => i.messenger_id === me.id);
+    if (response && !isResponseSet && !isMulti) {
+      this.setState({ isResponseSet: true });
+      this.setMessageBox();
+    } else if (response && !isResponseSet && isMulti) {
+      const questionStep = reversed.find(
+        i => ((i || {}).metadata || {}).step_kind === 'question',
+      );
+      const hasAnsweredLastQuestion = reversed.find(
+        i =>
+          i.messenger_journey_step_id ===
+          questionStep.messenger_journey_step_id,
+      );
+      if (hasAnsweredLastQuestion) {
+        this.setState({ isResponseSet: true });
+        this.setMessageBox();
+      }
+    }
+    const meMessenger = messengers.find(i => i.id === me.id);
 
     return (
       <ScrollView
@@ -491,61 +1226,16 @@ class JourneyStepDetail extends Component {
                 {journeyStep.question}
               </Text>
             </Flex>
-            <Flex
-              direction="row"
-              align="center"
-              style={[st.bgWhite, st.w100, st.pd4, st.brbl5, st.brbr5]}
-            >
-              {response ? (
-                <Fragment>
-                  <Text style={[inputStyle, isSkipped ? st.grey : null]}>
-                    {isSkipped ? t('skipped') : response.content}
-                  </Text>
-                </Fragment>
-              ) : (
-                <Fragment>
-                  <TextInput
-                    autoCapitalize="sentences"
-                    returnKeyType="send"
-                    multiline={true}
-                    blurOnSubmit={true}
-                    onSubmitEditing={() => this.sendMessage()}
-                    placeholder={t('yourAnswer')}
-                    placeholderTextColor={st.colors.grey}
-                    style={inputStyle}
-                    underlineColorAndroid={st.colors.transparent}
-                    selectionColor={st.colors.darkBlue}
-                    value={text}
-                    onChangeText={this.changeText}
-                  />
-                  {!text && isSolo ? (
-                    <Button
-                      type="transparent"
-                      onPress={this.skip}
-                      text={t('skip').toUpperCase()}
-                      buttonTextStyle={[st.orange, st.bold, st.fs4, st.ls2]}
-                    />
-                  ) : (
-                    <Button
-                      type="transparent"
-                      onPress={() => this.sendMessage()}
-                    >
-                      <VokeIcon
-                        name="send_message"
-                        size={20}
-                        style={[st.offBlue]}
-                      />
-                    </Button>
-                  )}
-                </Fragment>
-              )}
-            </Flex>
             <Avatar
               image={(meMessenger.avatar || {}).small}
               size={25}
               style={[st.absb, st.right(-30)]}
             />
+            {isMultiSelect
+              ? this.renderMultiSelect()
+              : this.renderStandardInput()}
           </Flex>
+
           {response ? (
             <Flex direction="column" style={[st.w80]}>
               <DateComponent
@@ -567,6 +1257,7 @@ JourneyStepDetail.propTypes = {
   item: PropTypes.object.isRequired,
   onPause: PropTypes.func.isRequired,
   inviteName: PropTypes.string,
+  hasClickedPlay: PropTypes.bool,
 };
 
 const mapStateToProps = (

@@ -2,7 +2,14 @@
 
 export default {
   common: {
+    oldConversationsCreateAccount:
+      'You need to create an account before requesting your conversations.',
+    oldConversationsDescription:
+      'An email containing your conversations will be sent to:',
+    sentOldConversations:
+      'Success! Check your email for information on your old conversations.',
     watchTrailer: 'Watch Trailer',
+    noNotifications: 'No Notifications yet',
     acceptChallenge: 'Accept Challenge',
     add: 'Add',
     all: 'All',
@@ -20,7 +27,7 @@ export default {
     copy: 'Copy',
     createAccount: 'Create Account',
     delete: 'Delete',
-    deleteAccount: 'Remove Account',
+    deleteAccount: 'Delete my Account',
     deleteDescription: `You are about to remove your Voke account - which will delete all conversations, Adventure progress and user data, login credentials etc. You will not be able to recover this account if you proceed, but you can create a new one. Are you sure you want to do this?`,
     deleteSure: 'Are you sure?',
     done: 'Done',
@@ -65,6 +72,7 @@ export default {
     signIn: 'Sign In',
     signInFb: 'Sign In with Facebook',
     signOut: 'Sign Out',
+    signOutOfAccount: 'Sign Out of my account',
     signUp: 'Sign Up',
     signUpEmail: 'Sign Up with Email',
     signUpFb: 'Sign Up with Facebook',
@@ -108,12 +116,18 @@ export default {
       password: 'Password',
       reason: 'Reason',
       search: 'Search',
+      whatIsFriendsName: `What is your friend's name?`,
       verification: 'Verification Code',
+      whyDoWeWantThis: 'Why do we want this?',
+      whyNeedFriendsName:
+        "We use your friend's name to help you know who responded to the videos you shared.",
     },
     title: {
       about: 'About',
+      oldConversations: 'Get my old conversations',
       acknowledgements: 'Acknowledgements',
       adventures: 'Adventures',
+      notifications: 'Notifications',
       channels: 'Channels',
       chats: 'Chats',
       createAccount: 'Create Account',

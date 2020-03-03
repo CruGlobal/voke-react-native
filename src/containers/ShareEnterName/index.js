@@ -14,11 +14,18 @@ import { navigatePush } from '../../actions/nav';
 import Analytics from '../../utils/analytics';
 import styles from './styles';
 import { navigateBack } from '../../actions/nav';
-import { Flex, Button, Text, StatusBar } from '../../components/common';
+import {
+  Flex,
+  Button,
+  Text,
+  StatusBar,
+  Touchable,
+} from '../../components/common';
 import SafeArea from '../../components/SafeArea';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import VOKE_FIRST_NAME from '../../../images/vokebot_whole.png';
+import VOKE_LINK from '../../../images/vokebot_whole.png';
 import theme from '../../theme';
 import st from '../../st';
 import { sendJourneyInvite } from '../../actions/journeys';
@@ -52,7 +59,7 @@ class ShareEnterName extends Component {
   };
 
   continue = async () => {
-    const { dispatch, item } = this.props;
+    const { dispatch, item, isGroup } = this.props;
     const { firstName } = this.state;
     const name = (firstName || '').trim();
     try {
@@ -61,12 +68,14 @@ class ShareEnterName extends Component {
         sendJourneyInvite({
           organization_journey_id: item.id,
           name,
+          kind: isGroup ? 'multiple' : 'duo',
         }),
       );
       dispatch(
         navigatePush('voke.ShareJourneyInvite', {
           journeyInvite: result,
           friendName: name,
+          isGroup,
         }),
       );
     } catch (error) {
@@ -77,65 +86,69 @@ class ShareEnterName extends Component {
   };
 
   render() {
-    const { t, dispatch } = this.props;
-    const { isLoading, firstName, keyboardVisible } = this.state;
+    const { t, isGroup } = this.props;
     return (
-      <View style={styles.container} align="center">
-        <StatusBar hidden={false} />
+      <Flex value={1}>
         <SafeArea style={[st.f1, st.bgDarkBlue]} top={[st.bgBlue]}>
           <KeyboardAvoidingView
-            style={styles.container}
+            style={[st.f1, st.bgBlue]}
             behavior={theme.isAndroid ? undefined : 'padding'}
             keyboardVerticalOffset={
               theme.isAndroid ? undefined : st.hasNotch ? 45 : 20
             }
           >
-            {keyboardVisible ? (
-              <Flex style={[st.pt(60)]} />
-            ) : (
-              <TouchableOpacity
-                activeOpacity={1}
-                style={[st.pt(60)]}
-                onPress={() => Keyboard.dismiss()}
-              >
-                <Flex align="center" justify="center">
-                  <Flex style={styles.chatBubble}>
-                    <Text style={styles.chatText}>
-                      {t('whatIsFriendsName')}
-                    </Text>
-                  </Flex>
-                  <Flex style={styles.chatTriangle} />
-                </Flex>
+            <Flex value={1} align="center" justify="end" style={[st.pb3]}>
+              <Flex style={styles.shareWith}>
                 <Image
                   resizeMode="contain"
-                  source={VOKE_FIRST_NAME}
-                  style={styles.imageLogo}
+                  source={VOKE_LINK}
+                  style={styles.shareImage}
                 />
-              </TouchableOpacity>
-            )}
-            <Flex
-              align="center"
-              justify="start"
-              style={[styles.actions, st.mb4]}
-            >
-              <Text style={styles.inputLabel}>{t('firstName')}</Text>
+                <Flex style={styles.shareBubble}>
+                  <Text style={styles.chatText}>
+                    {isGroup
+                      ? 'What is the name of your group?'
+                      : t('placeholder.whatIsFriendsName')}
+                  </Text>
+                </Flex>
+                <Flex style={styles.chatTriangle} />
+              </Flex>
+              <Text style={styles.inputLabel}>
+                {isGroup ? 'Group Name' : t('placeholder.firstName')}
+              </Text>
               <SignUpInput
-                value={firstName}
+                value={this.state.name}
                 type="new"
-                onChangeText={text => this.setState({ firstName: text })}
-                placeholder={t('firstNamePlaceholder')}
+                onChangeText={t => this.setState({ firstName: t })}
+                placeholder={isGroup ? 'Group' : t('placeholder.friendsName')}
                 autoCorrect={false}
-                autoCapitalize="words"
                 returnKeyType="done"
                 blurOnSubmit={true}
               />
+              <Touchable
+                onPress={() =>
+                  this.setState({ showWhatsThis: !this.state.showWhatsThis })
+                }
+              >
+                {this.state.showWhatsThis ? (
+                  <Text style={styles.inputLabelExplanation}>
+                    {isGroup
+                      ? 'We use the group name to onboard your friends and help you manage your groups.'
+                      : t('placeholder.whyNeedFriendsName')}
+                  </Text>
+                ) : (
+                  <Text style={styles.inputLabel}>
+                    {t('placeholder.whyDoWeWantThis')}
+                  </Text>
+                )}
+              </Touchable>
             </Flex>
-            <Flex value={1} justify="end">
+            <Flex value={1} justify="end" style={[styles.buttonWrapper]}>
               <Button
                 text={t('continue')}
                 type="filled"
-                isLoading={isLoading}
-                disabled={isLoading || !firstName}
+                isLoading={this.state.isLoading}
+                disabled={this.state.isLoading || !this.state.firstName}
                 buttonTextStyle={styles.signInButtonText}
                 style={styles.signInButton}
                 onPress={this.continue}
@@ -143,16 +156,19 @@ class ShareEnterName extends Component {
             </Flex>
           </KeyboardAvoidingView>
           <Flex style={[st.abstl]}>
-            <SignUpHeaderBack onPress={() => dispatch(navigateBack())} />
+            <SignUpHeaderBack
+              onPress={() => this.props.dispatch(navigateBack())}
+            />
           </Flex>
         </SafeArea>
-      </View>
+      </Flex>
     );
   }
 }
 
 ShareEnterName.propTypes = {
   item: PropTypes.object,
+  isGroup: PropTypes.bool,
 };
 const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),

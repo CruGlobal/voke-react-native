@@ -1,11 +1,5 @@
 import RNFetchBlob from 'react-native-fetch-blob';
-import {
-  Linking,
-  AppState,
-  ToastAndroid,
-  Alert,
-  PushNotificationIOS,
-} from 'react-native';
+import { Linking, AppState, ToastAndroid, Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import DeviceInfo from 'react-native-device-info';
 import Firebase from 'react-native-firebase';
@@ -19,9 +13,9 @@ import {
   SET_PUSH_TOKEN,
   NO_BACKGROUND_ACTION,
   PUSH_PERMISSION,
-  DONT_NAV_TO_VIDS,
   RESET_FIRST_TIME,
   SET_TOAST,
+  CHANGE_LANUGAGE,
 } from '../constants';
 import { getJourneyInvites, getMyJourneys } from './journeys';
 import callApi, { REQUESTS } from './api';
@@ -30,18 +24,13 @@ import {
   closeSocketAction,
   getDevices,
   checkAndRunSockets,
+  establishCableDevice,
 } from './socket';
-import {
-  getConversations,
-  getMessages,
-  createMessageInteraction,
-} from './messages';
 import {
   getAllOrganizations,
   getFeaturedOrganizations,
   getMyOrganizations,
 } from './channels';
-import { getAdventure } from './adventures';
 import { API_URL } from '../api/utils';
 import { isArray, locale } from '../utils/common';
 import theme from '../theme';
@@ -50,33 +39,37 @@ import { logInAnalytics } from './analytics';
 import i18n from '../i18n';
 import { navigateResetMessage, navigateBack } from './nav';
 
-// Setup app state change listeners
 let appStateChangeFn;
-// let currentAppState = AppState.currentState || '';
-let firebaseLinkHandler;
 
 let hasStartedUp = false;
+let firebaseLinkHandler;
+
+function handleConnectivityChange(connectionInfo) {
+  if (connectionInfo.type === 'none') {
+    Alert.alert('Oops! It doesnt look like you are connected to the internet.');
+  }
+}
 
 export function startupAction() {
   return (dispatch, getState) => {
-    if (hasStartedUp) return;
+    NetInfo.addEventListener('connectionChange', handleConnectivityChange);
 
+    if (hasStartedUp) {
+      dispatch(checkAndRunSockets());
+      return;
+    }
+
+    // if its not the users first time in the app, send openVoke so that they get a welcome message
     const isFirstTime = getState().auth.isFirstTime;
     if (isFirstTime) {
       dispatch({ type: RESET_FIRST_TIME });
     } else {
-      if (!__DEV__) {
-        dispatch(setOpenVoke());
-      }
+      dispatch(setOpenVoke());
     }
 
-    // Check push permissions and run 'establishDevice' if they have permission
-    // TODO: Remove this for release
-
+    // Check whether they have push permissions or not and set up sockets with the appropriate devices.
     dispatch(checkPushPermissions());
     hasStartedUp = true;
-    // If sockets have not started up, go ahead and do that
-    dispatch(checkAndRunSockets());
     if (appStateChangeFn) {
       AppState.removeEventListener('change', appStateChangeFn);
     } else {
@@ -93,7 +86,6 @@ export function startupAction() {
 
 export function setupFirebaseLinks() {
   return async dispatch => {
-    // if (firebaseLinkHandler) return;
     // Firebase dynamic links
     let initialLink;
     try {
@@ -102,126 +94,47 @@ export function setupFirebaseLinks() {
       LOG('error getting Firebase initial link');
     }
     if (initialLink) {
-      LOG('initial link', initialLink);
       dispatch(handleFirebaseLink(initialLink));
     }
   };
 }
 
 export function handleFirebaseLink(link) {
-  return dispatch => {
+  return () => {
     LOG('handling link', link);
   };
 }
 
 export function cleanupAction() {
-  return dispatch => {
+  return () => {
     hasStartedUp = false;
-    LOG('removing appState listener');
     AppState.removeEventListener('change', appStateChangeFn);
+    NetInfo.removeEventListener('connectionChange', handleConnectivityChange);
   };
 }
 
 let appCloseTime;
 
-// TODO: It would be nice to somehow do this in the background and not block the UI when coming back into the app
 function appStateChange(dispatch, getState, nextAppState) {
-  const { cableId, token, noBackgroundAction } = getState().auth;
-  LOG(nextAppState);
+  const { token } = getState().auth;
   // Sometimes this runs when logging out and causes a network error
   // Only run it when there is a valid token
   if (!token) {
     return;
   }
 
-  // LOG('appStateChange', nextAppState, currentAppState, cableId);
   if (nextAppState === 'active') {
     // Tracking
     RNOmniture.collectLifecycleData(getState().analytics);
 
-    LOG('App has come to the foreground!');
     NetInfo.fetch().then(netInfoState => {
-      console.log('net info state', netInfoState);
       if (!netInfoState.isConnected) {
+        Alert.alert(
+          'Oops! It doesnt look like you are connected to the internet.',
+        );
         return;
       }
 
-      // Don't run establish device if it's authorized
-      dispatch(checkPushPermissions(false));
-
-      let messages = getState().messages;
-      if (!theme.isAndroid) {
-        PushNotificationIOS.getDeliveredNotifications(results => {
-          if (results && results.length > 0)
-            PushNotificationIOS.removeAllDeliveredNotifications();
-          let conversations = getState().messages.conversations;
-          let link =
-            results[0] &&
-            results[0].userInfo &&
-            results[0].userInfo.data &&
-            results[0].userInfo.data.link;
-          if (!link) return;
-          if (link.includes('adventures')) {
-            dispatch(getMe());
-            return;
-          }
-          const cId = link.substring(
-            link.indexOf('conversations/') + 14,
-            link.indexOf('/messages'),
-          );
-          const mId = link.substring(
-            link.indexOf('messages/') + 9,
-            link.length,
-          );
-          // LOG('conversation ID: ', cId);
-          // LOG('message ID:', mId);
-          if (cId && mId) {
-            let conv = conversations.find(c => cId === c.id);
-            // if the conversation does not exist then call get conversations or if the message does not exist call get conversation
-            if (
-              !conv ||
-              (conv.latestMessage && conv.latestMessage.message_id !== mId)
-            ) {
-              // LOG('get conversations');
-              if (messages.activeConversationId === cId) {
-                dispatch(getMessages(cId)).then(() => {
-                  const interaction = {
-                    action: 'read',
-                    conversationId: cId,
-                    messageId: mId,
-                  };
-                  dispatch(createMessageInteraction(interaction)).then(() => {
-                    dispatch(getConversations());
-                  });
-                });
-              } else {
-                dispatch(getConversations());
-              }
-            }
-          }
-        });
-      } else {
-        if (messages.activeConversationId) {
-          dispatch(getMessages(messages.activeConversationId)).then(() => {
-            const message = getState().messages[messages.activeConversationId];
-            const mId = message ? message[0].id : null;
-            if (!mId) {
-              dispatch(getConversations());
-            } else {
-              const interaction = {
-                action: 'read',
-                conversationId: messages.activeConversationId,
-                messageId: mId,
-              };
-              dispatch(createMessageInteraction(interaction)).then(() => {
-                dispatch(getConversations());
-              });
-            }
-          });
-        } else {
-          dispatch(getConversations());
-        }
-      }
       const now = Date.now();
       const BACKGROUND_REFRESH_TIME = 1000 * 3600 * 24; // 24 hours
       if (now - appCloseTime > BACKGROUND_REFRESH_TIME) {
@@ -229,40 +142,34 @@ function appStateChange(dispatch, getState, nextAppState) {
         dispatch(getMyOrganizations());
         dispatch(getFeaturedOrganizations());
         dispatch(setOpenVoke());
+        dispatch(getJourneyInvites());
+        dispatch(getMyJourneys());
       }
-      // const currentConvId = getState().messages.activeConversationId;
-      // if (currentConvId) {
-      //   dispatch(getMessages(currentConvId));
-      // }
-
       dispatch(checkAndRunSockets());
-      dispatch(getJourneyInvites());
-      dispatch(getMyJourneys());
     });
   } else if (nextAppState === 'background' || nextAppState === 'inactive') {
-    LOG('App is going into the background');
-
     dispatch(closeSocketAction());
     appCloseTime = Date.now();
   }
-  // currentAppState = nextAppState;
 }
 
-export function checkPushPermissions(runIfTrue = true) {
+export function checkPushPermissions() {
   return dispatch => {
     Permissions.checkPush().then(response => {
       dispatch({ type: PUSH_PERMISSION, permission: response });
-      // After checking permissions, make sure we run 'establishDevice' if necessary
-      if (runIfTrue && response === 'authorized') {
+      // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+      if (response === 'authorized') {
         dispatch(establishDevice());
+      } else {
+        dispatch(establishCableDevice());
       }
     });
   };
 }
 
-export function dontNavigateToVideos() {
+export function changeLanguage(language) {
   return dispatch => {
-    dispatch({ type: DONT_NAV_TO_VIDS, bool: true });
+    dispatch({ type: CHANGE_LANUGAGE, language });
   };
 }
 
@@ -279,9 +186,7 @@ export function loginAction(token, allData = {}) {
       dispatch(logInAnalytics());
       const mePerson = await dispatch(getMe());
       RNOmniture.syncIdentifier(mePerson.global_registry_mdm_id);
-
       resolve();
-      // dispatch(resetHomeAction());
     });
 }
 
@@ -305,7 +210,6 @@ export function registerPushToken(token) {
         pushToken: token,
       });
       resolve();
-      // dispatch(resetHomeAction());
     });
 }
 
@@ -315,7 +219,6 @@ export function logoutAction(isDelete = false) {
       const token = getState().auth.token;
       if (token && !isDelete) {
         dispatch(getDevices()).then(results => {
-          LOG('get devices results', results);
           if (results && isArray(results.devices)) {
             // Pass the token into this function because the LOGOUT action will clear it out
             const deviceIds = results.devices.map(d => d.id);
@@ -340,15 +243,20 @@ export function logoutAction(isDelete = false) {
       dispatch({ type: LOGOUT });
       resolve();
       AsyncStorage.clear();
-      dispatch(clearAndroid());
     });
 }
 
-export function createAccountAction(email, password, isAnonymous = false) {
+export function createAccountAction(
+  email,
+  password,
+  isAnonymous = false,
+  params = {},
+) {
   return dispatch =>
     new Promise((resolve, reject) => {
       let data = {
         me: {
+          ...params,
           timezone_name: DeviceInfo.getTimezone(),
           country_code: DeviceInfo.getDeviceCountry(),
           language: {
@@ -362,6 +270,7 @@ export function createAccountAction(email, password, isAnonymous = false) {
       if (isAnonymous) {
         data = {
           me: {
+            ...params,
             timezone_name: DeviceInfo.getTimezone(),
             anonymous: true,
             country_code: DeviceInfo.getDeviceCountry(),
@@ -481,7 +390,6 @@ export function getMe() {
     return dispatch(callApi(REQUESTS.GET_ME))
       .then(results => {
         dispatch(setUserAction(results));
-        dispatch(getAdventure(results.main_adventure_id));
         return results;
       })
       .catch(() => {
@@ -499,7 +407,6 @@ export function updateMe(data) {
     newData.timezone_name = DeviceInfo.getTimezone();
     return dispatch(callApi(REQUESTS.UPDATE_ME, {}, newData))
       .then(results => {
-        dispatch(getMe());
         return results;
       })
       .catch(error => {
@@ -534,28 +441,6 @@ export function updateMeImage(avatar) {
       .catch(error => {
         LOG('error updating me image', error);
       });
-  };
-}
-
-export function createMobileVerification(data) {
-  return dispatch => {
-    let newData = { ...data };
-    newData.mobile.country_code = DeviceInfo.getDeviceCountry();
-    return dispatch(
-      callApi(REQUESTS.CREATE_MOBILE_VERIFICATION, {}, newData),
-    ).then(results => {
-      LOG('Verify mobile request successfully sent', results);
-      return results;
-    });
-  };
-}
-
-export function verifyMobile(data) {
-  return dispatch => {
-    return dispatch(callApi(REQUESTS.VERIFY_MOBILE, {}, data)).then(results => {
-      LOG('Mobile successfully verified', results);
-      return results;
-    });
   };
 }
 
@@ -630,6 +515,12 @@ export function setOpenVoke() {
   };
 }
 
+export function getOldConversations() {
+  return dispatch => {
+    return dispatch(callApi(REQUESTS.OLD_CONVERSATIONS));
+  };
+}
+
 export function confirmAlert(title, message, onPress, text, onCancel) {
   return () => {
     Alert.alert(title, message, [
@@ -663,20 +554,5 @@ export function shareVideo(video, onSelectVideo, conversation) {
         i18n.t('add'),
       ),
     );
-  };
-}
-
-export function clearAndroid() {
-  return () => {
-    // For Android, clear out the file system storage on logout so it doesn't get cached incorrectly
-    // if (theme.isAndroid) {
-    //   FilesystemStorage.getAllKeys((err, keys = []) => {
-    //     if (isArray(keys)) {
-    //       keys.forEach((k) => FilesystemStorage.removeItem(k, (err) => {
-    //         LOG('err', err);
-    //       }));
-    //     }
-    //   });
-    // }
   };
 }

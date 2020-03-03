@@ -2,7 +2,14 @@
 
 export default {
   common: {
+    oldConversationsCreateAccount:
+      'Você precisa criar uma conta antes de solicitar suas conversas.',
+    oldConversationsDescription:
+      'Um e-mail contendo suas conversas será enviado para:',
+    sentOldConversations:
+      'Sucesso! Verifique seu e-mail para obter informações sobre suas conversas antigas.',
     watchTrailer: 'Assista ao Trailer',
+    noNotifications: 'Ainda não há notificações',
     acceptChallenge: 'Aceitar o Desafio',
     add: 'Adicionar',
     all: 'Tudo',
@@ -63,6 +70,7 @@ export default {
     signIn: 'Entrar',
     signInFb: 'Entrar com o Facebook',
     signOut: 'Sair',
+    signOutOfAccount: 'Sair da minha conta',
     signUp: 'Criar Conta',
     signUpEmail: 'Criar Conta com Email',
     signUpFb: 'Criar Conta com Facebook',
@@ -107,11 +115,17 @@ export default {
       reason: 'Raz\u00e3o',
       search: 'Procurar',
       verification: 'C\u00f3digo de Verifica\u00e7\u00e3o',
+      whatIsFriendsName: 'Qual é o nome do seu amigo?',
+      whyDoWeWantThis: 'Por que queremos isso?',
+      whyNeedFriendsName:
+        'Usamos o nome do seu amigo para ajudar você a saber quem respondeu aos vídeos que você compartilhou.',
     },
     title: {
       about: 'Sobre',
+      oldConversations: 'Receba minhas conversas antigas',
       acknowledgements: 'Reconhecimentos',
       adventure: 'Aventuras',
+      notifications: 'Notifications',
       adventures: 'Aventuras',
       channels: 'Canais',
       chats: 'Conversas',
@@ -331,15 +345,15 @@ export default {
     waitingForAnswer: 'Esperando {{name}} responder...',
   },
   adventureCode: {
-    adventureCode: 'Código da Aventura',
+    adventureCode: 'Código de Aventura',
     adventureCodeHaveCode: 'Tem um código de um amigo?',
     adventureCodeWhatsThis: 'O que é isso?',
     adventureCodeWhatsThisExplanation:
       'Você pode fazer aventuras em vídeo com outras pessoas no Voke. Este é o local para os visitantes que receberam um código de convite de Aventura se juntarem facilmente ao amigo.',
   },
   adventuresTab: {
-    haveCode: 'Eu Não Tenho um Código de Aventura',
-    dontHaveOne: 'Eu Não Tenho',
+    haveCode: 'Eu Tenho um Código de Aventura',
+    dontHaveOne: 'Eu Tenho',
     welcomeToAdventures: `Bem-vindo {{name}}! Aqui é onde você encontrará todas as suas aventuras com seus amigos.`,
     areYouSureDelete: `Tem certeza que deseja apagar seu convite para "{{name}}"?`,
     deleteCannotBeUndone: `Não pode ser desfeito. Mas você pode convidar novamente ao clicar em "Convidar um Amigo"`,

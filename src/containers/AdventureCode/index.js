@@ -44,29 +44,35 @@ class AdventureCode extends Component {
       }
       try {
         const newJourney = await dispatch(acceptJourneyInvite(adventureCode));
-
+        const isGroup = newJourney.kind === 'multiple';
+        const myJourneys = await dispatch(getMyJourneys());
         if (onboarding) {
           dispatch(determinePushOverlay('adventurePushPermissions'));
-          this.goToPhoto(true);
-        } else {
-          const myJourneys = await dispatch(getMyJourneys());
-
-          dispatch(navigateBack(1, { immediate: true }));
-
-          let journeyItem = (myJourneys.journeys || []).find(
-            j => j.id === newJourney.messenger_journey_id,
-          );
-          if (!journeyItem) {
-            journeyItem = myJourneys.journeys[0];
+          if (isGroup) {
+            this.goToGroup(newJourney, myJourneys);
+          } else {
+            this.goToPhoto(true);
           }
-          if (journeyItem) {
-            dispatch(
-              navigatePush('voke.VideoContentWrap', {
-                item: journeyItem,
-                type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
-                trackingObj: buildTrackingObj('journey : mine', 'detail'),
-              }),
+        } else {
+          if (!isGroup) {
+            dispatch(navigateBack(1, { immediate: true }));
+            let journeyItem = (myJourneys.journeys || []).find(
+              j => j.id === newJourney.messenger_journey_id,
             );
+            if (!journeyItem) {
+              journeyItem = myJourneys.journeys[0];
+            }
+            if (journeyItem && !isGroup) {
+              dispatch(
+                navigatePush('voke.VideoContentWrap', {
+                  item: journeyItem,
+                  type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
+                  trackingObj: buildTrackingObj('journey : mine', 'detail'),
+                }),
+              );
+            }
+          } else {
+            this.goToGroup(newJourney, myJourneys);
           }
         }
         this.setState({ isLoading: false });
@@ -88,8 +94,15 @@ class AdventureCode extends Component {
     );
   };
 
+  goToGroup = async (newJourney, myJourneys) => {
+    this.setState({ isLoading: false });
+    this.props.dispatch(
+      navigatePush('voke.JoinGroup', { newJourney, myJourneys }),
+    );
+  };
+
   render() {
-    const { t, onboarding, dispatch } = this.props;
+    const { t, onboarding, dispatch, autoShowKeyboard } = this.props;
     const { adventureCode, isLoading, showWhatsThis } = this.state;
     return (
       <Flex value={1}>
@@ -106,6 +119,7 @@ class AdventureCode extends Component {
                 {t('adventureCodeHaveCode')}
               </Text>
               <SignUpInput
+                autoFocus={autoShowKeyboard}
                 value={adventureCode}
                 type="new"
                 onChangeText={t => this.setState({ adventureCode: t })}
@@ -113,6 +127,7 @@ class AdventureCode extends Component {
                 autoCorrect={false}
                 returnKeyType="done"
                 blurOnSubmit={true}
+                keyboardType={'numeric'}
               />
               <Touchable
                 onPress={() => this.setState({ showWhatsThis: !showWhatsThis })}
@@ -164,6 +179,7 @@ class AdventureCode extends Component {
 
 AdventureCode.propTypes = {
   onboarding: PropTypes.bool,
+  autoShowKeyboard: PropTypes.bool,
 };
 const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),

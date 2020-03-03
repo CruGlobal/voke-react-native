@@ -43,9 +43,7 @@ class TryItNowProfilePhoto extends Component {
     const updateData = {
       avatar: {
         fileName: `${user.first_name}_${user.last_name}.png`,
-        // fileName: `new_user_${Date.now()}.png`,
         uri,
-        // base64: data.imageBinary,
       },
     };
     dispatch(updateMe(updateData));
@@ -53,7 +51,6 @@ class TryItNowProfilePhoto extends Component {
 
   handleImageChange(data) {
     this.setState({ imageUri: data.uri });
-    // this.uploadImage(data.uri);
   }
 
   addProfile() {

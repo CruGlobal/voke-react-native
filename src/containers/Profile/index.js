@@ -26,13 +26,13 @@ import {
   deleteAccount,
   logoutAction,
   confirmAlert,
+  changeLanguage,
 } from '../../actions/auth';
 import Analytics from '../../utils/analytics';
 
 import ApiLoading from '../ApiLoading';
 import Header from '../Header';
 import SignUpButtons from '../SignUpButtons';
-import ProfileProgress from '../ProfileProgress';
 import VOKE_LOGO from '../../../images/voke_logo_words.png';
 import {
   navigateResetLogin,
@@ -42,6 +42,7 @@ import {
 import theme, { COLORS } from '../../theme';
 import { SET_OVERLAY } from '../../constants';
 import i18n from '../../i18n';
+import ProfileProgress from '../../components/ProfileProgress';
 import { buildTrackingObj } from '../../utils/common';
 
 const defaultState = {
@@ -92,11 +93,12 @@ class Profile extends Component {
         },
       },
     };
-    dispatch(updateMe(data)).then(results => {
-      dispatch(getMe());
-      i18n.changeLanguage(lang.toLowerCase(), (err, key) => {
-        LOG('Translation error', err, key);
-        setTimeout(() => dispatch(navigateResetHome()), 500);
+    dispatch(updateMe(data)).then(() => {
+      i18n.changeLanguage(lang.toLowerCase(), () => {
+        dispatch(changeLanguage(lang.toLowerCase()));
+        setTimeout(() => {
+          dispatch(navigateResetHome());
+        }, 1000);
       });
     });
   };
@@ -229,7 +231,7 @@ class Profile extends Component {
     const newValue = !this.state[type];
     // If we are toggling the edit ON and the user is anonymous, show the popup
     // if (newValue && this.props.isAnonUser) {
-    if (newValue && (this.props.isAnonUser && type !== 'editName')) {
+    if (newValue && this.props.isAnonUser && type !== 'editName') {
       this.setState({ hideAnonFields: true });
       this.props.dispatch({
         type: SET_OVERLAY,
@@ -523,9 +525,6 @@ class Profile extends Component {
                   }),
                 )
               }
-              onHandleVerifyNumber={() =>
-                dispatch(navigatePush('voke.SignUpNumber'))
-              }
             />
             <Separator />
             {isEditing ? null : this.renderImagePicker()}
@@ -594,24 +593,6 @@ class Profile extends Component {
                 {this.renderEditPassword()}
               </View>
             )}
-            {isAnonUser || isEditing ? null : (
-              <ProfileRow
-                text={user.mobile ? t('mobileVerified') : t('verifyMobile')}
-                right={
-                  <Button
-                    isAndroidOpacity={true}
-                    text={user.mobile ? '' : t('add')}
-                    buttonTextStyle={styles.editText}
-                    style={styles.inputButton}
-                    onPress={() =>
-                      user.mobile
-                        ? undefined
-                        : dispatch(navigatePush('voke.SignUpNumber'))
-                    }
-                  />
-                }
-              />
-            )}
             {isEditing ? null : !theme.isAndroid ? (
               <Touchable
                 onPress={() =>
@@ -641,6 +622,10 @@ class Profile extends Component {
                           buttonTextStyle={styles.actionButtonText}
                           style={styles.actionButton}
                           onPress={() => {
+                            console.log(
+                              'this state language',
+                              this.state.language,
+                            );
                             this.handleLanguageChange(this.state.language);
                             this.setState({ showPicker: false });
                           }}
@@ -649,7 +634,7 @@ class Profile extends Component {
                       <Picker
                         selectedValue={this.state.language}
                         style={{ height: 50, width: 100 }}
-                        onValueChange={(itemValue, itemIndex) =>
+                        onValueChange={itemValue =>
                           this.setState({ language: itemValue })
                         }
                         style={{ width: '100%' }}
@@ -668,7 +653,7 @@ class Profile extends Component {
               <Picker
                 selectedValue={this.state.language}
                 style={{ height: 50, width: 100 }}
-                onValueChange={(itemValue, itemIndex) => {
+                onValueChange={itemValue => {
                   this.setState({ language: itemValue }, () => {
                     this.handleLanguageChange(this.state.language);
                   });
@@ -696,11 +681,27 @@ class Profile extends Component {
                 />
               }
             />
+            <ProfileRow
+              text={t('signOutOfAccount')}
+              right={
+                <Button
+                  isAndroidOpacity={true}
+                  text={t('signOut')}
+                  buttonTextStyle={styles.editText}
+                  style={styles.inputButton}
+                  onPress={() => {
+                    dispatch(logoutAction()).then(() => {
+                      dispatch(navigateResetLogin());
+                    });
+                  }}
+                />
+              }
+            />
             {isAnonUser && !hideAnonFields ? (
               <Flex
                 value={1}
                 align="center"
-                style={{ paddingHorizontal: 50, marginTop: 100 }}
+                style={{ paddingHorizontal: 50, marginTop: 60 }}
               >
                 <Text style={styles.signUpText}>{t('signUp')}</Text>
                 <SignUpButtons

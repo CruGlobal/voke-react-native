@@ -8,7 +8,14 @@ import { buildTrackingObj } from '../../utils/common';
 import styles from './styles';
 import { navigateResetHome } from '../../actions/nav';
 import { getMyJourney, getMyJourneySteps } from '../../actions/journeys';
-import { Image, Flex, Button, Text, Triangle } from '../../components/common';
+import {
+  Image,
+  Flex,
+  Button,
+  Text,
+  Triangle,
+  Touchable,
+} from '../../components/common';
 import SafeArea from '../../components/SafeArea';
 import { VIDEO_CONTENT_TYPES } from '../VideoContentWrap';
 import VOKE_FIRST_NAME from '../../../images/vokebot_whole.png';
@@ -17,7 +24,10 @@ import { determinePushOverlay } from '../../actions/socket';
 import { toastAction } from '../../actions/auth';
 
 const APP_URL = 'https://voke.page.link/app';
-function buildMessage(t, code, friend) {
+function buildMessage(t, code, friend, isGroup) {
+  if (isGroup) {
+    return `Download Voke and join my ${friend} Adventure. Use code: ${code} ${APP_URL}`;
+  }
   return t('downloadMessage', { code, friend, appUrl: APP_URL });
 }
 
@@ -33,24 +43,16 @@ class ShareJourneyInvite extends Component {
   };
 
   share = () => {
-    const { t, journeyInvite, friendName } = this.props;
+    const { t, journeyInvite, friendName, isGroup } = this.props;
 
     Share.share(
       {
-        message: buildMessage(t, journeyInvite.code, friendName),
+        message: buildMessage(t, journeyInvite.code, friendName, isGroup),
       },
       {
         dialogTitle: t('share'),
       },
-    )
-      .then(({ action, activityType }) => {
-        if (action === Share.sharedAction) {
-          LOG('shared!', activityType);
-        } else {
-          LOG('not shared!');
-        }
-      })
-      .catch(err => LOG('Share Error', err));
+    ).catch(err => LOG('Share Error', err));
   };
 
   done = async () => {
@@ -82,8 +84,8 @@ class ShareJourneyInvite extends Component {
   };
 
   render() {
-    const { t, journeyInvite, friendName, isResend } = this.props;
-    if (!journeyInvite || !journeyInvite.code) return null;
+    const { t, journeyInvite, friendName, isResend, isGroup } = this.props;
+    const newJourneyInvite = journeyInvite || {};
     return (
       <Flex value={1}>
         <SafeArea style={[st.f1, st.bgBlue]}>
@@ -92,9 +94,12 @@ class ShareJourneyInvite extends Component {
               <Flex style={[st.mt1, st.pt1]} />
               <Flex style={styles.chatBubble}>
                 <Text style={styles.chatText}>
-                  {t(isResend ? 'codeReadyResend' : 'codeReady', {
-                    name: friendName || 'Your friend',
-                  })}
+                  {isGroup
+                    ? `${friendName ||
+                        'Your group'}’s  invite code is ready! Hit Share and choose how you’d like to send this invite code to each of your group members.`
+                    : t(isResend ? 'codeReadyResend' : 'codeReady', {
+                        name: friendName || 'Your friend',
+                      })}
                 </Text>
               </Flex>
               <Triangle
@@ -109,20 +114,41 @@ class ShareJourneyInvite extends Component {
               source={VOKE_FIRST_NAME}
               style={styles.imageLogo}
             />
-            <Text selectable={true} style={[st.white, st.fs1, st.w100, st.tac]}>
-              {journeyInvite.code}
-            </Text>
-            <Button
-              text={t('copy')}
-              style={[st.w(150), st.aic, st.mt5]}
+            <Touchable
               onPress={this.copy}
-            />
-            <Flex value={1} justify="end" style={[styles.buttonWrapper]}>
+              style={[
+                st.bw1,
+                st.borderWhite,
+                st.bgOffBlue,
+                st.br6,
+                st.mt3,
+                st.pd6,
+                st.ph3,
+              ]}
+            >
+              <Text
+                selectable={true}
+                style={[st.white, st.fs1, st.w100, st.tac]}
+              >
+                {newJourneyInvite.code}
+              </Text>
+            </Touchable>
+            <Flex value={1} justify="center" align="center" self="stretch">
               <Button
                 text={t('share')}
                 type="filled"
                 buttonTextStyle={styles.signInButtonText}
-                style={styles.signInButton}
+                style={[
+                  st.bgOrange,
+                  st.pv5,
+                  st.bw0,
+                  st.br3,
+                  st.aic,
+                  st.jcc,
+                  {
+                    paddingHorizontal: 90,
+                  },
+                ]}
                 onPress={this.share}
               />
             </Flex>
@@ -140,6 +166,7 @@ ShareJourneyInvite.propTypes = {
   journeyInvite: PropTypes.object,
   friendName: PropTypes.string,
   isResend: PropTypes.bool,
+  isGroup: PropTypes.bool,
 };
 const mapStateToProps = (state, { navigation }) => ({
   ...(navigation.state.params || {}),

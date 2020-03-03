@@ -72,11 +72,15 @@ class WebviewVideo extends Component {
   }
 
   componentDidMount() {
-    const { forceNoAutoPlay, video: { type }, onChangeState } = this.props;
+    const {
+      forceNoAutoPlay,
+      video: { type },
+      onChangeState,
+    } = this.props;
     // Youtube and arclight autoplay, so fire off the 'Start' interaction immediately
     if (!forceNoAutoPlay) {
       if (type === 'youtube' || type === 'arclight') {
-        onChangeState(webviewCommon.STARTED);
+        onChangeState(webviewCommon.STARTED, this.state.time);
       }
       if (type === 'arclight') {
         setTimeout(() => this.play(), 250);
@@ -114,7 +118,10 @@ class WebviewVideo extends Component {
   }
 
   handleData(data) {
-    const { video: { type }, onChangeState } = this.props;
+    const {
+      video: { type },
+      onChangeState,
+    } = this.props;
     if (
       isObject(data) ||
       data.indexOf('{') === 0 ||
@@ -143,7 +150,7 @@ class WebviewVideo extends Component {
       if (data === webviewCommon.ERROR && type === 'arclight') {
         // If this is the second time an arclight error is being called, fire the callback
         if (this.state.numOfErrors > 0 || theme.isOlderAndroid) {
-          onChangeState(data);
+          onChangeState(data, this.state.time);
         }
         this.setState({ numOfErrors: this.state.numOfErrors + 1 });
         return;
@@ -163,7 +170,7 @@ class WebviewVideo extends Component {
       } else if (data === webviewCommon.FINISHED) {
         this.setState({ replay: true });
       }
-      onChangeState(data);
+      onChangeState(data, this.state.time);
     }
   }
 

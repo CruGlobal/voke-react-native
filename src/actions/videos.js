@@ -2,9 +2,8 @@ import callApi, { REQUESTS } from './api';
 import { API_URL } from '../api/utils';
 import { CLEAR_CHANNEL_VIDEOS } from '../constants';
 
-
 export function getVideo(videoId) {
-  return (dispatch) => {
+  return dispatch => {
     const query = {
       endpoint: `${API_URL}items/${videoId}`,
     };
@@ -13,7 +12,7 @@ export function getVideo(videoId) {
 }
 
 export function getVideos(query = {}, channelId) {
-  return (dispatch) => {
+  return dispatch => {
     if (channelId) {
       const newQuery = {
         ...(query || {}),
@@ -26,52 +25,58 @@ export function getVideos(query = {}, channelId) {
 }
 
 export function getFeaturedVideos(query = {}, channelId) {
-  return (dispatch) => {
+  return dispatch => {
     if (channelId) {
       const newQuery = {
         ...(query || {}),
         organization_id: channelId,
       };
-      return dispatch(callApi(REQUESTS.GET_FEATURED_ORGANIZATION_VIDEOS, newQuery));
+      return dispatch(
+        callApi(REQUESTS.GET_FEATURED_ORGANIZATION_VIDEOS, newQuery),
+      );
     }
     return dispatch(callApi(REQUESTS.GET_FEATURED_VIDEOS, query));
   };
 }
 
 export function getPopularVideos(query = {}, channelId) {
-  return (dispatch) => {
+  return dispatch => {
     if (channelId) {
       const newQuery = {
         ...(query || {}),
         organization_id: channelId,
       };
-      return dispatch(callApi(REQUESTS.GET_POPULAR_ORGANIZATION_VIDEOS, newQuery));
+      return dispatch(
+        callApi(REQUESTS.GET_POPULAR_ORGANIZATION_VIDEOS, newQuery),
+      );
     }
     return dispatch(callApi(REQUESTS.GET_POPULAR_VIDEOS, query));
   };
 }
 
 export function getFavorites(query = {}, channelId) {
-  return (dispatch) => {
+  return dispatch => {
     if (channelId) {
       const newQuery = {
         ...(query || {}),
         organization_id: channelId,
       };
-      return dispatch(callApi(REQUESTS.GET_FAVORITES_ORGANIZATION_VIDEOS, newQuery));
+      return dispatch(
+        callApi(REQUESTS.GET_FAVORITES_ORGANIZATION_VIDEOS, newQuery),
+      );
     }
     return dispatch(callApi(REQUESTS.GET_FAVORITES_VIDEOS, query));
   };
 }
 
 export function getTags() {
-  return (dispatch) => {
+  return dispatch => {
     return dispatch(callApi(REQUESTS.GET_TAGS));
   };
 }
 
 export function getKickstarters(item) {
-  return (dispatch) => {
+  return dispatch => {
     const query = {
       endpoint: `${API_URL}items/${item}/questions`,
     };
@@ -80,7 +85,7 @@ export function getKickstarters(item) {
 }
 
 export function getSelectedThemeVideos(tag, page, channelId) {
-  return (dispatch) => {
+  return dispatch => {
     let query = { tag_id: tag };
     if (page && page > 1) {
       query.page = page;
@@ -90,14 +95,16 @@ export function getSelectedThemeVideos(tag, page, channelId) {
         ...(query || {}),
         organization_id: channelId,
       };
-      return dispatch(callApi(REQUESTS.GET_ORGANIZATION_VIDEOS_BY_TAG, newQuery));
+      return dispatch(
+        callApi(REQUESTS.GET_ORGANIZATION_VIDEOS_BY_TAG, newQuery),
+      );
     }
     return dispatch(callApi(REQUESTS.GET_VIDEOS_BY_TAG, query));
   };
 }
 
 export function favoriteVideo(videoId) {
-  return (dispatch) => {
+  return dispatch => {
     const query = {
       endpoint: `${API_URL}items/${videoId}/favorite`,
     };
@@ -106,7 +113,7 @@ export function favoriteVideo(videoId) {
 }
 
 export function unfavoriteVideo(videoId) {
-  return (dispatch) => {
+  return dispatch => {
     const query = {
       endpoint: `${API_URL}items/${videoId}/favorite`,
     };
@@ -114,7 +121,7 @@ export function unfavoriteVideo(videoId) {
   };
 }
 
-export function createVideoInteraction(videoId) {
+export function createVideoInteraction(videoId, action, mediaViewTime) {
   return (dispatch, getState) => {
     const deviceId = getState().auth.cableId;
 
@@ -123,8 +130,9 @@ export function createVideoInteraction(videoId) {
     };
     const data = {
       interaction: {
-        action: 'started',
+        action: action,
         device_id: deviceId,
+        media_view_time: mediaViewTime,
       },
     };
     return dispatch(callApi(REQUESTS.CREATE_ITEM_INTERACTION, query, data));

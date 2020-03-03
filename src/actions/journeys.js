@@ -31,7 +31,6 @@ export function sendJourneyInvite(data) {
     const results = await dispatch(
       callApi(REQUESTS.SEND_JOURNEY_INVITE, {}, data),
     );
-    dispatch(getJourneyInvites());
     return results;
   };
 }
@@ -41,7 +40,6 @@ export function resendJourneyInvite(inviteId) {
     const results = await dispatch(
       callApi(REQUESTS.RESEND_JOURNEY_INVITE, { inviteId }),
     );
-    dispatch(getJourneyInvites());
     return results;
   };
 }
@@ -77,7 +75,6 @@ export function getMyJourney(journeyId) {
 export function createMyJourney(data) {
   return dispatch => {
     return dispatch(callApi(REQUESTS.CREATE_MY_JOURNEY, {}, data)).then(r => {
-      dispatch(getMyJourneys());
       return r;
     });
   };
@@ -109,12 +106,16 @@ export function skipJourneyMessage(step, journey) {
   };
 }
 
-export function createJourneyMessage(step, journey, text) {
+export function createJourneyMessage(
+  step,
+  journey,
+  text,
+  multiChoiceAnswer,
+  messageId,
+) {
   return dispatch => {
     const query = {
-      endpoint: `${API_URL}me/conversations/${
-        journey.conversation.id
-      }/messages`,
+      endpoint: `${API_URL}me/conversations/${journey.conversation.id}/messages`,
     };
     const data = {
       message: {
@@ -122,6 +123,47 @@ export function createJourneyMessage(step, journey, text) {
         messenger_journey_step_id: step.id,
       },
     };
+
+    if (multiChoiceAnswer && !text) {
+      data.message.content = null;
+      data.message.messenger_journey_step_id = (
+        (step || {}).metadata || {}
+      ).messenger_journey_step_id;
+      data.message.messenger_journey_step_option_id = multiChoiceAnswer;
+      data.message.kind = 'answer';
+    }
+    if (messageId) {
+      data.message.message_reference_id = messageId;
+    }
+
+    return dispatch(callApi(REQUESTS.CREATE_MESSAGE, query, data));
+  };
+}
+export function createJourneyMessageFromMessage(
+  stepId,
+  journey,
+  text,
+  multiChoiceAnswer,
+  messageId,
+) {
+  return dispatch => {
+    const query = {
+      endpoint: `${API_URL}me/conversations/${journey.conversation.id}/messages`,
+    };
+    const data = {
+      message: {
+        content: text,
+        messenger_journey_step_id: stepId,
+      },
+    };
+    if (messageId) {
+      data.message.message_reference_id = messageId;
+    }
+    if (multiChoiceAnswer && !text) {
+      data.message.content = null;
+      data.message.messenger_journey_step_option_id = multiChoiceAnswer;
+      data.message.kind = 'answer';
+    }
 
     return dispatch(callApi(REQUESTS.CREATE_MESSAGE, query, data));
   };

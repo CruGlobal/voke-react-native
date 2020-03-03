@@ -11,20 +11,24 @@ import ANIMATION from '../../../images/VokeBotAnimation.gif';
 class ApiLoading extends Component {
   constructor(props) {
     super(props);
-    this.state = { showLoading: !!(props.showMS && props.showMS > 0) };
+    this.state = { showLoading: props.showMS && props.showMS > 0 };
     this.timeout = null;
   }
 
   componentDidMount() {
     if (this.props.showMS) {
-      this.timeout = setTimeout(() => {
+      if (!this.props.isApiLoading) {
         this.setState({ showLoading: false });
-        if (this.props.isApiLoading) {
-          Alert.alert(
-            'There is a problem with your connectivity. Please try again later.',
-          );
-        }
-      }, this.props.showMS);
+      } else {
+        this.timeout = setTimeout(() => {
+          this.setState({ showLoading: false });
+          if (this.props.isApiLoading) {
+            Alert.alert(
+              'There is a problem with your connectivity. Please try again later.',
+            );
+          }
+        }, this.props.showMS);
+      }
     }
   }
 

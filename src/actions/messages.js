@@ -47,29 +47,11 @@ export function getConversation(data) {
   };
 }
 
-export function deleteConversation(id) {
+export function createShare(data) {
   return dispatch => {
-    const query = {
-      id,
-      endpoint: `${API_URL}me/conversations/${id}`,
-    };
-    return dispatch(callApi(REQUESTS.DELETE_CONVERSATION, query)).then(
-      results => {
-        // dispatch(getConversations());
-        return results;
-      },
-    );
-  };
-}
-
-export function createConversation(data) {
-  return dispatch => {
-    return dispatch(callApi(REQUESTS.CREATE_CONVERSATION, {}, data)).then(
-      results => {
-        // dispatch(getConversations());
-        return results;
-      },
-    );
+    return dispatch(callApi(REQUESTS.CREATE_SHARE, {}, data)).then(results => {
+      return results;
+    });
   };
 }
 
@@ -143,13 +125,21 @@ export function handleNewMessage(message) {
           activeJourney.conversation_id ||
           (activeJourney.conversation || {}).id;
         if (message.conversation_id == cId) {
-          dispatch(getMyJourneySteps(activeJourney.id));
           dispatch(
             getJourneyMessages(
               { id: message.messenger_journey_step_id },
               { conversation_id: cId },
             ),
-          );
+          ).then(msgs => {
+            const interaction = {
+              action: 'read',
+              conversationId: cId,
+              messageId: ((msgs || {}).messages || [])[0].id,
+            };
+            dispatch(createMessageInteraction(interaction)).then(() => {
+              dispatch(getMyJourneySteps(activeJourney.id));
+            });
+          });
         }
       }
       return;
@@ -168,7 +158,6 @@ export function handleNewMessage(message) {
 
 export function newMessageAction(message) {
   return (dispatch, getState) => {
-    console.log('GOT MESSAGE', message);
     if (message['adventure_message?']) {
       dispatch(handleNewMessage(message));
       return;
@@ -233,12 +222,15 @@ export function createMessageInteraction(interaction) {
   return (dispatch, getState) => {
     const deviceId = getState().auth.cableId;
     if (!deviceId) return Promise.reject('NoDevice');
-    const data = {
+    let data = {
       interaction: {
         action: interaction.action,
         device_id: deviceId,
       },
     };
+    if (interaction.mediaViewTime || interaction.mediaViewTime === 0) {
+      data.interaction.media_view_time = interaction.mediaViewTime;
+    }
     const query = {
       endpoint: `${API_URL}me/conversations/${interaction.conversationId}/messages/${interaction.messageId}/interactions`,
     };

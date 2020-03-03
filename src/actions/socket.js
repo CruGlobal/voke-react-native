@@ -5,7 +5,6 @@ import { API_URL } from '../api/utils';
 import {
   registerPushToken,
   openSettingsAction,
-  checkPushPermissions,
   getMe,
   toastAction,
 } from './auth';
@@ -25,7 +24,7 @@ import {
   getMyJourneySteps,
 } from './journeys';
 import callApi, { REQUESTS } from './api';
-import { SET_OVERLAY, UPDATE_JOURNEY_STEP } from '../constants';
+import { SET_OVERLAY, PUSH_PERMISSION } from '../constants';
 import { isEquivalentObject } from '../utils/common';
 import theme from '../theme';
 import Permissions from '../utils/permissions';
@@ -47,7 +46,6 @@ let ws = null;
 export const NAMESPACES = {
   MESSAGE: 'messenger:conversation:message',
   ADVENTURE: 'platform:organization:adventure:challenge',
-  // JOURNEY: 'messenger_journeys'
 };
 
 const getCID = l =>
@@ -67,12 +65,11 @@ const getSID = l =>
 
 export function checkAndRunSockets() {
   return (dispatch, getState) => {
-    // LOG('check and run');
     if (ws && ws.readyState === WEBSOCKET_STATES.OPEN) return;
     if (getState().auth.cableId) {
       dispatch(setupSocketAction(getState().auth.cableId));
-    } else if (getState().auth.pushToken) {
-      dispatch(establishCableDevice(getState().auth.pushToken));
+    } else if (getState().auth.pushId) {
+      dispatch(establishCableDevice(getState().auth.pushId));
     } else {
       dispatch(establishCableDevice(null));
     }
@@ -84,10 +81,8 @@ export function setupSocketAction(cableId) {
     if (!cableId) return;
     const token = getState().auth.token;
     if (!token) {
-      LOG('could not start sockets because there is no access_token');
       return;
     }
-
     // Do a try/catch just to stop any errors
     try {
       ws = new WebSocket(`${SOCKET_URL}cable?access_token=${token}`);
@@ -121,18 +116,17 @@ export function setupSocketAction(cableId) {
 
         ws.onmessage = e => {
           const data = JSON.parse(e.data) || {};
+
           const type = data && data.type;
-          // console.log('socket data', data);
           if (type === 'ping') return;
-          // LOG('socket message received: data', data);
           if (type === 'welcome') {
             // LOG('socket welcome');
           } else if (data.message) {
             const message = data.message.message;
             const notification = data.message.notification;
-
+            console.log(data);
             // If we're supposed to toast, show it
-            if (data.message['toast?'] && notification.alert) {
+            if (message['toast?'] && notification.alert) {
               dispatch(toastAction(notification.alert));
             }
 
@@ -187,7 +181,6 @@ export function setupSocketAction(cableId) {
       }
     } catch (socketErr) {
       // Do nothing with the error
-      LOG('socket error in setup', socketErr);
     }
   };
 }
@@ -229,7 +222,6 @@ export function destroyDevice(cableId, token) {
 
 export function updateDevice(device) {
   return (dispatch, getState) => {
-    // LOG('UPDATING DEVICE');
     const cableId = getState().auth.cableId;
     const query = {
       endpoint: `${API_URL}/me/devices/${cableId}`,
@@ -244,14 +236,12 @@ export function updateDevice(device) {
 
 export function getDevices() {
   return dispatch => {
-    // LOG('GETTING DEVICES');
     return dispatch(callApi(REQUESTS.GET_DEVICES));
   };
 }
 
 export function gotDeviceToken(token) {
   return (dispatch, getState) => {
-    LOG('RECEIVED PUSH TOKEN:', token);
     const auth = getState().auth;
 
     if ((token && !auth.pushToken) || token !== auth.pushToken) {
@@ -261,18 +251,8 @@ export function gotDeviceToken(token) {
           dispatch(establishCableDevice(updatedPushId));
         });
       });
-    } else if (!token || !auth.pushToken) {
-      dispatch(establishCableDevice(null));
-    } else if (!token && auth.pushToken) {
-      dispatch(establishCableDevice(null));
-    } else if (auth.cableId) {
-      dispatch(setupSocketAction(auth.cableId));
-    } else if (token && auth.pushToken && token === auth.pushToken) {
-      // Don't run the setup socket or push device if the token is the same
-      // as before
-      LOG('dont establish any socket or push devices');
-    } else {
-      dispatch(establishCableDevice(null));
+    } else if (token && token === auth.pushToken && auth.pushId) {
+      dispatch(establishCableDevice(auth.pushId));
     }
   };
 }
@@ -280,7 +260,6 @@ export function gotDeviceToken(token) {
 export function handleNotifications(state, notification) {
   return (dispatch, getState) => {
     let data = notification.data;
-    LOG('got notification', notification);
     const {
       activeConversationId,
       unReadBadgeCount,
@@ -297,36 +276,6 @@ export function handleNotifications(state, notification) {
         link = data.data.link;
       }
     } else if (data) {
-      // Android
-      // Old GCM code
-      // if (notification && notification.namespace) {
-      //   namespace = notification.namespace;
-      //   if (notification.link) {
-      //     link = notification.link;
-      //   } else if (
-      //     notification.notification &&
-      //     notification.notification.click_action
-      //   ) {
-      //     link = notification.notification.click_action;
-      //   }
-      // } else if (
-      //   notification.message_object &&
-      //   notification.message_object.indexOf('{') === 0
-      // ) {
-      //   data = JSON.parse(notification.message);
-      //   if (data) {
-      //     data = data.notification;
-      //     if (data && data.namespace) {
-      //       namespace = data.namespace;
-      //       if (data.link) {
-      //         link = data.link;
-      //       } else if (data.notification && data.notification.click_action) {
-      //         link = data.notification.click_action;
-      //       }
-      //     }
-      //   }
-      // }
-
       if (data.link) {
         link = data.link;
       }
@@ -334,14 +283,6 @@ export function handleNotifications(state, notification) {
         namespace = data.namespace;
       }
     }
-
-    LOG(
-      'notification state, data, link, namespace',
-      state,
-      data,
-      link,
-      namespace,
-    );
 
     if (state === 'foreground' && namespace && link) {
       // Foreground
@@ -353,21 +294,9 @@ export function handleNotifications(state, notification) {
           const cId = getCID(link);
           if (!cId) return;
 
-          // If on message screen, get the latest messages
-          // const activeScreen = getState().auth.activeScreen;
-          // const conversationId = activeConversationId;
-          // LOG('activeScreen, conversationId, cId', activeScreen, conversationId, cId);
-
-          // if (activeScreen === 'voke.Message' && cId === conversationId) {
-          //   dispatch(getConversation(cId));
-          // } else {
-          //   dispatch(getConversations());
-          // }
-
           const conversationId = activeConversationId;
           if (conversationId && cId === conversationId) {
             dispatch(getConversation(cId));
-            // dispatch(getMessages(cId));
           } else {
             dispatch(getConversations());
           }
@@ -376,12 +305,8 @@ export function handleNotifications(state, notification) {
         }
       }
     } else if (state === 'background') {
-      // Background
-      // LOG('Background notification', data);
       Notifications.setBadge(unReadBadgeCount + 1);
     } else if (state === 'open' && namespace && link) {
-      // Open
-      // LOG('message came in with namespace and link', namespace, link);
       if (
         link.includes('messenger_journeys') &&
         link.includes('messenger_journey_steps')
@@ -445,16 +370,15 @@ export function handleNotifications(state, notification) {
 export function establishDevice() {
   return dispatch => {
     let configs = {
-      // (optional) Called when Token is generated (iOS and Android)
       onRegister(token) {
-        // LOG('in push notification register', token);
         // Update redux with the push notification permission value
-        dispatch(checkPushPermissions(false));
-        if (theme.isAndroid) {
-          dispatch(gotDeviceToken(token));
-        } else {
-          dispatch(gotDeviceToken(token.token));
+        let newToken = token;
+        dispatch({ type: PUSH_PERMISSION, permission: 'authorized' });
+        if (!theme.isAndroid) {
+          newToken = token.token;
         }
+
+        dispatch(gotDeviceToken(newToken));
       },
     };
 
@@ -463,7 +387,6 @@ export function establishDevice() {
       configs = {
         ...configs,
         onNotification(state, notification) {
-          LOG('onNotification state android', state);
           dispatch(handleNotifications(state, notification));
         },
       };
@@ -473,7 +396,6 @@ export function establishDevice() {
         ...configs,
         // (required) Called when a remote or local notification is opened or received
         onNotification(notification) {
-          // LOG('onNotification came in', notification);
           let state;
           if (
             notification &&
@@ -490,7 +412,6 @@ export function establishDevice() {
           } else {
             state = 'open';
           }
-          LOG('onNotification state', state);
           dispatch(handleNotifications(state, notification));
         },
         // ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)
@@ -518,7 +439,7 @@ export function establishDevice() {
   };
 }
 
-export function establishCableDevice(token) {
+export function establishCableDevice(pushDeviceId) {
   return (dispatch, getState) => {
     const auth = getState().auth;
     const currentDeviceInfo = {
@@ -529,28 +450,23 @@ export function establishCableDevice(token) {
       name: DeviceInfo.getModel(),
       os: `${Platform.OS} ${DeviceInfo.getSystemVersion()}`,
     };
-
     const isEquivalent = isEquivalentObject(auth.device, currentDeviceInfo);
 
-    if (token) {
-      LOG('token exists in establishCableDevice');
+    if (pushDeviceId) {
       let data = {
         device: {
           ...currentDeviceInfo,
-          key: token,
+          key: pushDeviceId,
           kind: 'cable',
         },
       };
       if (auth.cableId) {
-        LOG('cableID exists in establishCableDevice', auth.cableId);
         // UPDATE THE CABLE DEVICE WITH DATA
         dispatch(updateDevice(data));
       } else {
-        LOG('cableID does not exists in establishCableDevice');
         // CREATE THE CABLE DEVICE WITH DATA
         return dispatch(callApi(REQUESTS.CREATE_DEVICE, {}, data)).then(
           results => {
-            LOG('Creating Cable Device Results: ', JSON.stringify(results));
             dispatch(setupSocketAction(results.id));
           },
         );
@@ -570,7 +486,6 @@ export function establishCableDevice(token) {
         // CREATE THE CABLE DEVICE WITH DATA
         return dispatch(callApi(REQUESTS.CREATE_DEVICE, {}, data)).then(
           results => {
-            LOG('Creating Cable Device Results: ', JSON.stringify(results));
             dispatch(setupSocketAction(results.id));
           },
         );
@@ -602,11 +517,7 @@ export function establishPushDevice() {
           kind: theme.isAndroid ? 'fcm' : 'apple',
         },
       };
-      return dispatch(callApi(REQUESTS.CREATE_PUSH_DEVICE, {}, data)).then(
-        results => {
-          LOG('Create Push Device Results: ', JSON.stringify(results));
-        },
-      );
+      return dispatch(callApi(REQUESTS.CREATE_PUSH_DEVICE, {}, data));
     }
   };
 }
@@ -616,6 +527,7 @@ export function enablePushNotifications(forceIfUndetermined = false) {
     let token = getState().auth.pushToken;
     Permissions.checkPush().then(response => {
       // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+      dispatch({ type: PUSH_PERMISSION, permission: response });
       if (response === 'undetermined' && !token) {
         if (forceIfUndetermined) {
           dispatch(establishDevice());
@@ -637,7 +549,6 @@ export function determinePushOverlay(type = 'pushPermissions') {
   return (dispatch, getState) => {
     const permission = getState().auth.pushPermission;
     if (permission === 'authorized') return;
-
     dispatch({ type: SET_OVERLAY, value: type });
   };
 }

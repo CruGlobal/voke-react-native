@@ -1,6 +1,4 @@
 import { StackActions, NavigationActions } from 'react-navigation';
-import PropTypes from 'prop-types';
-import debounce from 'lodash/debounce';
 
 export function navigatePush(screen, props = {}, key) {
   return dispatch => {
@@ -51,12 +49,6 @@ export function navigateResetHome(params) {
 export function navigateResetLogin(params) {
   return dispatch => {
     dispatch(navigateResetTo('voke.SignUpWelcome', params));
-  };
-}
-
-export function navigateResetToNumber(params) {
-  return dispatch => {
-    dispatch(navigateResetTo('voke.SignUpNumber', params));
   };
 }
 

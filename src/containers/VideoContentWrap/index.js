@@ -37,6 +37,14 @@ export const VIDEO_CONTENT_TYPES = {
   JOURNEYSTEPDETAIL: 'JOURNEYSTEPDETAIL',
 };
 
+// Keep track of states that we want to make an API call if they happen
+const INTERACTION_STATES = [
+  webviewStates.STARTED,
+  webviewStates.PAUSED,
+  webviewStates.RESUMED,
+  webviewStates.FINISHED,
+];
+
 const TYPE_CONFIGS = {
   [VIDEO_CONTENT_TYPES.VIDEODETAIL]: {
     topColor: st.bgDeepBlack,
@@ -76,6 +84,7 @@ class VideoContentWrap extends Component {
     this.state = {
       isLandscape: false,
       showVideo: false,
+      hasClickedPlay: false,
     };
 
     this.orientationDidChange = debounce(
@@ -199,27 +208,36 @@ class VideoContentWrap extends Component {
     }
   };
 
-  handleVideoChange = videoState => {
+  handleVideoChange = (videoState, mediaViewTime = 0) => {
     const { t, dispatch, type, item } = this.props;
     if (videoState === webviewStates.ERROR) {
       dispatch(toastAction(t('error.playingVideo')));
     }
-    if (videoState === webviewStates.STARTED) {
-      if (
-        type === VIDEO_CONTENT_TYPES.ORGJOURNEY ||
-        type === VIDEO_CONTENT_TYPES.JOURNEYDETAIL ||
-        type === VIDEO_CONTENT_TYPES.JOURNEYSTEPDETAIL
-      ) {
-        return;
-      }
+
+    if (INTERACTION_STATES.includes(videoState)) {
       let id;
+      let action = '';
+
       if (type === VIDEO_CONTENT_TYPES.VIDEODETAIL) {
         id = item.id;
       } else {
         id = item.item.id;
       }
 
-      dispatch(createVideoInteraction(id));
+      if (videoState === webviewStates.STARTED) {
+        action = 'started';
+        this.setState({ hasClickedPlay: true });
+      }
+      if (videoState === webviewStates.PAUSED) {
+        action = 'paused';
+      }
+      if (videoState === webviewStates.RESUMED) {
+        action = 'resumed';
+      }
+      if (videoState === webviewStates.FINISHED) {
+        action = 'finished';
+      }
+      dispatch(createVideoInteraction(id, action, mediaViewTime));
     }
   };
 
@@ -275,7 +293,12 @@ class VideoContentWrap extends Component {
       );
     }
     if (type === VIDEO_CONTENT_TYPES.JOURNEYSTEPDETAIL) {
-      return <JourneyStepDetail {...allProps} />;
+      return (
+        <JourneyStepDetail
+          {...allProps}
+          hasClickedPlay={this.state.hasClickedPlay}
+        />
+      );
     }
     return (
       <Flex direction="column" style={{ paddingBottom: 110 }}>
@@ -295,17 +318,13 @@ class VideoContentWrap extends Component {
   };
 
   render() {
-    const { item, type } = this.props;
+    let { item, type } = this.props;
     const { isLandscape, customRender } = this.state;
-
     const config = TYPE_CONFIGS[type] || {};
     let videoObj = {};
     let videoProps = { ...(config.videoProps || {}) };
     if (type === VIDEO_CONTENT_TYPES.VIDEODETAIL) {
       const videoMedia = item.media || {};
-      if (!videoMedia || !videoMedia.type || !videoMedia.url) {
-        return null;
-      }
       videoObj = {
         start: item.media_start,
         end: item.media_end,
@@ -315,27 +334,19 @@ class VideoContentWrap extends Component {
       };
     } else {
       videoProps.forceNoAutoPlay = true;
-      if (
-        !item ||
-        !item.item ||
-        !item.item.content ||
-        !item.item.content.type ||
-        !item.item.content.url ||
-        !item.item.content.duration ||
-        !item.item.content.thumbnails ||
-        !item.item.content.thumbnails.medium
-      ) {
-        return null;
-      }
+      const newItem = item || {};
+      const doubleItem = newItem.item || {};
+      const content = doubleItem.content || {};
+      const thumbnail = content.thumbnails || {};
 
       videoObj = {
-        start: item.item.media_start,
-        end: item.item.media_end,
-        type: item.item.content.type,
-        url: item.item.content.url,
-        hls: item.item.content.hls,
-        duration: item.item.content.duration,
-        thumbnail: item.item.content.thumbnails.medium,
+        start: doubleItem.media_start,
+        end: doubleItem.media_end,
+        type: content.type,
+        url: content.url,
+        hls: content.hls,
+        duration: content.duration,
+        thumbnail: thumbnail.medium,
       };
     }
 

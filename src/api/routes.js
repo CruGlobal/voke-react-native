@@ -385,4 +385,12 @@ export default {
   GET_MY_JOURNEY_STEP: {
     endpoint: API_URL + 'me/journeys/:journeyId/steps/:stepId',
   },
+  CREATE_SHARE: {
+    endpoint: API_URL + 'me/shares',
+    method: 'post',
+  },
+  OLD_CONVERSATIONS: {
+    endpoint: API_URL + 'me/export_data_requests',
+    method: 'post',
+  },
 };

@@ -35,6 +35,22 @@ export default function adventures(state = initialState, action) {
         ...state,
         mine: action.journeys || [],
       };
+    case REQUESTS.CREATE_MY_JOURNEY.SUCCESS:
+      return {
+        ...state,
+        mine: state.mine.unshift(action) || [],
+      };
+    case REQUESTS.SEND_JOURNEY_INVITE.SUCCESS:
+      let newInvites = state.invites || [];
+      return {
+        ...state,
+        invites: newInvites.unshift(action),
+      };
+    case REQUESTS.RESEND_JOURNEY_INVITE.SUCCESS:
+      return {
+        ...state,
+        invites: state.invites.map(i => (i.id === action.id ? action : i)),
+      };
     case REQUESTS.GET_JOURNEY_INVITES.SUCCESS:
       return {
         ...state,
@@ -54,11 +70,14 @@ export default function adventures(state = initialState, action) {
           ...state.steps,
           [stepsJourneyId]: myJourneySteps || [],
         },
-        mine: (state.mine || []).map(i =>
-          i.id === stepsJourneyId
-            ? { ...i, progress: { ...i.progress, completed } }
-            : i,
-        ),
+        mine:
+          state.mine && (state.mine || []).length > 0
+            ? state.mine.map(i =>
+                i.id === stepsJourneyId
+                  ? { ...i, progress: { ...i.progress, completed } }
+                  : i,
+              )
+            : [],
       };
     case UPDATE_JOURNEY_STEP:
       const {
@@ -98,28 +117,6 @@ export default function adventures(state = initialState, action) {
           [messageStepId]: messages || [],
         },
       };
-    // // Fired from a socket event to new messages
-    // case NEW_JOURNEY_MESSAGE:
-    //   return state;
-    //   const conversationNewMessageId = action.message
-    //     ? action.message.conversation_id
-    //     : null;
-    //   if (!conversationNewMessageId) {
-    //     return state;
-    //   }
-    //   const currentMessages = state.messages[conversationNewMessageId] || [];
-    //   const newCreatedMessages = removeDuplicateMessages([
-    //     action.message,
-    //     ...currentMessages,
-    //   ]);
-
-    //   return {
-    //     ...state,
-    //     messages: {
-    //       ...state.messages,
-    //       [conversationId]: newCreatedMessages,
-    //     },
-    //   };
     case ACTIVE_JOURNEY:
       return {
         ...state,

@@ -30,19 +30,33 @@ const VB_WIDTH = st.fullWidth * 0.2;
 const VB_MARGIN = -35;
 
 class AdventuresMine extends Component {
-  state = {
-    isLoading: false,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLoading: false,
+      language: props.language,
+    };
+  }
 
   componentDidMount() {
     const { me, dispatch } = this.props;
     this.load();
-    if (me && me.language && me.language.language_code) {
-      i18n.changeLanguage(me.language.language_code.toLowerCase());
+    const code = ((me || {}).language || {}).language_code;
+    if (code) {
+      this.setState({ language: code });
+      i18n.changeLanguage(code.toLowerCase());
     }
     this.startupTimeout = setTimeout(() => {
       dispatch(startupAction());
     }, 50);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.language !== this.state.language) {
+      this.setState({ language: nextProps.language });
+      i18n.changeLanguage(nextProps.language.toLowerCase());
+    }
   }
 
   load = async () => {
@@ -82,7 +96,9 @@ class AdventuresMine extends Component {
   };
 
   handleAdventureCode = () => {
-    this.props.dispatch(navigatePush('voke.AdventureCode'));
+    this.props.dispatch(
+      navigatePush('voke.AdventureCode', { autoShowKeyboard: true }),
+    );
   };
 
   handleSelect = item => {
@@ -203,6 +219,14 @@ class AdventuresMine extends Component {
             header={this.renderAdventureCode}
             me={me}
             onClickProfile={() => dispatch(navigatePush('voke.Profile'))}
+            onClickSeeMore={row => {
+              dispatch(
+                navigatePush('voke.SeeMoreMembers', {
+                  journeyItem: row,
+                  isAlreadyJoined: true,
+                }),
+              );
+            }}
           />
         )}
       </View>
@@ -212,6 +236,7 @@ class AdventuresMine extends Component {
 
 const mapStateToProps = ({ auth, journeys }) => ({
   me: auth.user,
+  language: auth.language,
   myJourneys: journeys.mine,
   invites: journeys.invites,
 });

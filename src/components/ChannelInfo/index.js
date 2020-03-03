@@ -7,7 +7,7 @@ import { Image, Flex, Text, Button } from '../common';
 
 class ChannelInfo extends Component {
   handleButtonPress = () => {
-    if (this.props.subscribeData.isSubscribed) {
+    if ((this.props.subscribeData || {}).isSubscribed) {
       this.props.onUnsubscribe();
     } else {
       this.props.onSubscribe();
@@ -16,29 +16,20 @@ class ChannelInfo extends Component {
 
   render() {
     const { t, channel, subscribeData } = this.props;
-    const isSubscribed = subscribeData.isSubscribed;
-    if (
-      !subscribeData ||
-      subscribeData.total === null ||
-      !channel ||
-      !channel.name ||
-      !channel.avatar ||
-      !channel.avatar.large
-    )
-      return null;
-    const avatar =
-      channel.avatar && channel.avatar.large ? channel.avatar.large : undefined;
+    const newSubscribeData = subscribeData || {};
+    const isSubscribed = newSubscribeData.isSubscribed;
+    const avatar = ((channel || {}).avatar || {}).large || undefined;
     return (
       <Flex direction="row" style={styles.channel}>
         <Flex direction="column" value={1} style={styles.infoWrap}>
           <Text style={styles.name}>{channel.name}</Text>
           <Text style={styles.subscribers}>
-            {subscribeData
-              ? t('subscribers', { total: subscribeData.total })
+            {newSubscribeData
+              ? t('subscribers', { total: newSubscribeData.total })
               : '-'}
           </Text>
           <Flex value={1} justify="end">
-            {subscribeData ? (
+            {newSubscribeData ? (
               <Button
                 onPress={this.handleButtonPress}
                 text={isSubscribed ? t('unsubscribe') : t('subscribe')}

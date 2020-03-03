@@ -2,7 +2,14 @@
 
 export default {
   common: {
+    oldConversationsCreateAccount:
+      'Debe crear una cuenta antes de solicitar sus conversaciones.',
+    oldConversationsDescription:
+      'Se enviará un correo electrónico con sus conversaciones a:',
+    sentOldConversations:
+      '¡Éxito! Revise su correo electrónico para obtener información sobre sus conversaciones anteriores.',
     watchTrailer: 'Assista ao Trailer',
+    noNotifications: 'Aún no hay notificaciones',
     acceptChallenge: 'Aceptar Desaf\u00edo',
     add: 'Agregar',
     all: 'Todo',
@@ -63,6 +70,7 @@ export default {
     signIn: 'Ingresa',
     signInFb: 'Ingresa con Facebook',
     signOut: 'Desconectar',
+    signOutOfAccount: 'Salir de mi cuenta',
     signUp: 'Reg\u00edstrate',
     signUpEmail: 'Reg\u00edstrate con tu Email',
     signUpFb: 'Reg\u00edstrate con Facebook',
@@ -107,11 +115,17 @@ export default {
       reason: 'Razones',
       search: 'Buscar',
       verification: 'C\u00f3digo de Verificaci\u00f3n',
+      whatIsFriendsName: '¿Nombre de tu amigo?',
+      whyDoWeWantThis: '¿Por qué queremos esto?',
+      whyNeedFriendsName:
+        'Usamos el nombre de su amigo para ayudarlo a saber quién respondió a los videos que compartió.',
     },
     title: {
       about: 'Sobre',
+      oldConversations: 'Obtén mis viejas conversaciones',
       acknowledgements: 'Reconocimiento',
       adventure: 'Aventuras',
+      notifications: 'Notifications',
       adventures: 'Aventuras',
       channels: 'Canales',
       chats: 'Chats',

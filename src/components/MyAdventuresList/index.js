@@ -15,6 +15,7 @@ import {
 } from '../common';
 import { momentUtc, keyExtractorId } from '../../utils/common';
 import JourneyUnreadCount from '../JourneyUnreadCount';
+import { navigatePush } from '../../actions/nav';
 
 export const THUMBNAIL_HEIGHT = 78;
 export const THUMBNAIL_WIDTH = 64;
@@ -64,14 +65,10 @@ class InviteCard extends Component {
     const { t, item, onDelete, onResend, onSelect } = this.props;
     const { organization_journey, name, code } = item;
     const { isExpired, time } = this.state;
-    if (
-      !organization_journey ||
-      !organization_journey.image ||
-      !organization_journey.image.small ||
-      !name ||
-      !code
-    )
-      return null;
+    const orgJourney = organization_journey || {};
+    const orgJourneyImage = (orgJourney.image || {}).small || undefined;
+
+    const isGroup = item.kind === 'multiple';
     return (
       <Flex
         style={[
@@ -89,7 +86,7 @@ class InviteCard extends Component {
       >
         <Flex>
           <Image
-            source={{ uri: organization_journey.image.small }}
+            source={{ uri: orgJourneyImage }}
             style={[st.f1, st.w(THUMBNAIL_WIDTH), st.brbl6, st.brtl6]}
           />
         </Flex>
@@ -101,10 +98,12 @@ class InviteCard extends Component {
           style={[st.pv6, st.ph4]}
         >
           <Text numberOfLines={1} style={[st.white, st.fs4]}>
-            {t('waitingForFriend', { name })}
+            {isGroup
+              ? `${name}: Waiting for group`
+              : t('waitingForFriend', { name })}
           </Text>
           <Flex direction="column" align="start" style={[st.pb6]}>
-            {!isExpired ? (
+            {!isExpired && !isGroup ? (
               <Text numberOfLines={1} style={[st.white, st.fs6]}>
                 {t('expiresIn', { time })}
               </Text>
@@ -175,45 +174,48 @@ const ProgressDots = React.memo(function({ isFilled }) {
   );
 });
 
-function MyAdventureCard({ t, me, item, onSelect, onClickProfile }) {
-  const {
-    conversation,
-    progress,
-    name,
-    item: {
-      content: {
-        thumbnails: { small },
-      },
-    },
-  } = item;
-  if (
-    !conversation ||
-    conversation.unread_messages === null ||
-    progress.total === null ||
-    progress.completed === null ||
-    !conversation.messengers ||
-    !progress ||
-    !name ||
-    !item ||
-    !item.item.content ||
-    !item.item.content.thumbnails ||
-    !item.item.content.thumbnails.small
-  ) {
-    return null;
-  }
+function MyAdventureCard({
+  t,
+  me,
+  item,
+  onSelect,
+  onClickProfile,
+  onClickSeeMore,
+}) {
+  item = item || {};
+  const conversation = item.conversation || {};
+  const progress = item.progress || {};
+  const thumbnail =
+    (((item.item || {}).content || {}).thumbnails || {}).small || undefined;
+
   const unreadCount = conversation.unread_messages;
   const hasUnread = unreadCount > 0;
   const available = progress.total;
   const totalSteps = new Array(available).fill(1);
   const completed = progress.completed;
 
-  const messengers = conversation.messengers;
+  const messengers = conversation.messengers || [];
 
   const isSolo = messengers.length === 2;
-  const myUser = messengers.find(i => i.id === me.id);
-  const otherUser = messengers.find(
+  const isGroup = item.kind === 'multiple';
+  const myUser = messengers.find(i => i.id === me.id) || {};
+  const otherUser =
+    messengers.find(i => i.id !== me.id && i.first_name !== 'VokeBot') || {};
+
+  const usersExceptVokeAndMe = messengers.filter(
     i => i.id !== me.id && i.first_name !== 'VokeBot',
   );
+  const totalGroupUsers = usersExceptVokeAndMe.length;
+  let subGroup = usersExceptVokeAndMe;
+  let numberMore = 0;
+  if (totalGroupUsers > 4) {
+    subGroup = usersExceptVokeAndMe.slice(0, 3);
+    numberMore = totalGroupUsers - 4;
+  }
+  let groupName;
+  if (isGroup) {
+    groupName = (item.journey_invite || {}).name || '';
+  }
 
   return (
     <Touchable
@@ -237,7 +239,7 @@ function MyAdventureCard({ t, me, item, onSelect, onClickProfile }) {
       >
         <Flex>
           <Image
-            source={{ uri: small }}
+            source={{ uri: thumbnail }}
             style={[st.f1, st.w(THUMBNAIL_WIDTH), st.brbl6, st.brtl6]}
           />
         </Flex>
@@ -249,17 +251,66 @@ function MyAdventureCard({ t, me, item, onSelect, onClickProfile }) {
           style={[st.pv6, st.ph4]}
         >
           <Text numberOfLines={1} style={[st.pb6, st.blue, st.fs4]}>
-            {name}
+            {isGroup ? groupName : item.name}
           </Text>
           <Flex direction="row" align="center" style={[st.pb6]}>
             <VokeIcon
               name="Chat"
-              style={[hasUnread ? st.orange : st.charcoal]}
+              style={[
+                hasUnread ? st.orange : st.charcoal,
+                hasUnread ? undefined : st.mr5,
+              ]}
             />
             {hasUnread ? <JourneyUnreadCount count={unreadCount} /> : null}
-            <Text style={[st.charcoal, st.ml5, st.fs5]}>
-              {isSolo ? t('me') : otherUser.first_name}
-            </Text>
+            {!isGroup ? (
+              <Text style={[st.charcoal, st.ml5, st.fs5]}>
+                {isSolo ? t('me') : otherUser.first_name}
+              </Text>
+            ) : (
+              <Touchable
+                isAndroidOpacity={true}
+                onPress={() => onClickSeeMore(item)}
+                style={[st.pr1, st.ml5, { width: 100 }]}
+              >
+                <Flex direction="row" style={[]}>
+                  <Image
+                    source={{
+                      uri: (myUser.avatar || {}).small || undefined,
+                    }}
+                    style={[
+                      st.circle(22),
+                      { borderWidth: 1, borderColor: st.colors.orange },
+                    ]}
+                  />
+                  {subGroup.map((i, index) => (
+                    <Image
+                      source={{ uri: (i.avatar || {}).small || undefined }}
+                      style={[
+                        st.circle(22),
+                        st.abstl,
+                        { left: (index + 1) * 10 },
+                        { borderWidth: 1, borderColor: st.colors.orange },
+                      ]}
+                    />
+                  ))}
+                  {numberMore ? (
+                    <View
+                      style={[
+                        st.circle(22),
+                        st.abstl,
+                        { left: 50 },
+                        st.bgBlue,
+                        { borderWidth: 1, borderColor: st.colors.orange },
+                      ]}
+                    >
+                      <Flex self="stretch" align="center" justify="center">
+                        <Text style={[{ fontSize: 12 }]}>+{numberMore}</Text>
+                      </Flex>
+                    </View>
+                  ) : null}
+                </Flex>
+              </Touchable>
+            )}
           </Flex>
           <Flex direction="column" align="start" style={[st.mt6]}>
             <Flex direction="row" align="center">
@@ -272,39 +323,35 @@ function MyAdventureCard({ t, me, item, onSelect, onClickProfile }) {
             </Text>
           </Flex>
         </Flex>
-        <Flex align="center" justify="center" style={[st.bgWhite]}>
-          <Flex style={[st.mh5]}>
-            <Touchable onPress={() => onClickProfile()}>
-              <Image
-                source={{
-                  uri:
-                    myUser && myUser.avatar && myUser.avatar.small
-                      ? myUser.avatar.small
-                      : null,
-                }}
-                style={[st.circle(36)]}
-              />
-            </Touchable>
-            {!isSolo &&
-            otherUser &&
-            otherUser.avatar &&
-            otherUser.avatar.small ? (
-              <Image
-                source={{ uri: otherUser.avatar.small }}
-                style={[st.circle(36), st.abstl, { left: -10 }]}
-              />
-            ) : null}
-            <Text
-              style={[
-                st.charcoal,
-                st.tac,
-                !isSolo ? { marginLeft: -10 } : { marginLeft: -3 },
-              ]}
-            >
-              {isSolo ? t('1player') : t('2player')}
-            </Text>
+        {!isGroup ? (
+          <Flex align="center" justify="center" style={[st.bgWhite]}>
+            <Flex style={[st.mh5]}>
+              <Touchable onPress={() => onClickProfile()}>
+                <Image
+                  source={{
+                    uri: (myUser.avatar || {}).small || undefined,
+                  }}
+                  style={[st.circle(36)]}
+                />
+              </Touchable>
+              {!isSolo ? (
+                <Image
+                  source={{ uri: (otherUser.avatar || {}).small || undefined }}
+                  style={[st.circle(36), st.abstl, { left: -10 }]}
+                />
+              ) : null}
+              <Text
+                style={[
+                  st.charcoal,
+                  st.tac,
+                  !isSolo ? { marginLeft: -10 } : { marginLeft: -3 },
+                ]}
+              >
+                {isSolo ? t('1player') : isGroup ? 'Group' : t('2player')}
+              </Text>
+            </Flex>
           </Flex>
-        </Flex>
+        ) : null}
       </Flex>
     </Touchable>
   );
@@ -341,11 +388,13 @@ class MyAdventuresList extends Component {
       onResendInvite,
       onDeleteInvite,
       onClickProfile,
+      onClickSeeMore,
     } = this.props;
     if (!item || !item.id) return null;
     if (item.code) {
       return (
         <InviteCard
+          key={item.id}
           t={t}
           onResend={onResendInvite}
           onDelete={onDeleteInvite}
@@ -358,17 +407,18 @@ class MyAdventuresList extends Component {
     return (
       <MyAdventureCard
         t={t}
+        key={item.id}
         me={me}
         item={item}
         onSelect={onSelect}
         onClickProfile={onClickProfile}
+        onClickSeeMore={onClickSeeMore}
       />
     );
   };
 
   render() {
     const { items, onLoadMore, header } = this.props;
-    if (!items) return null;
     return (
       <FlatList
         ref={c => (this.list = c)}
@@ -397,6 +447,7 @@ MyAdventuresList.propTypes = {
   onSelect: PropTypes.func.isRequired,
   onResendInvite: PropTypes.func.isRequired,
   onClickProfile: PropTypes.func.isRequired,
+  onClickSeeMore: PropTypes.func.isRequired,
   onDeleteInvite: PropTypes.func.isRequired,
   items: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired,

@@ -26,10 +26,9 @@ import Analytics from '../../utils/analytics';
 import {
   navigateBack,
   navigatePush,
-  navigateResetToNumber,
   navigateResetToProfile,
 } from '../../actions/nav';
-import { startupAction, shareVideo } from '../../actions/auth';
+import { shareVideo } from '../../actions/auth';
 
 import styles from './styles';
 import ApiLoading from '../ApiLoading';
@@ -79,14 +78,9 @@ class Videos extends Component {
       channel,
       dispatch,
       channelVideos,
-      all,
       user,
       isAnonUser,
     } = this.props;
-
-    this.startupTimeout = setTimeout(() => {
-      dispatch(startupAction());
-    }, 50);
 
     // When the user first does "Try it Now", their user is not set up, but they ARE an anon user
     // Check if the user is new within the past few days
@@ -108,14 +102,9 @@ class Videos extends Component {
     } else if (onSelectVideo) {
       this.handleFilter('all', true);
     } else if (isNewUser) {
+      dispatch(getVideos());
       this.handleFilter('popular', true);
     } else {
-      // Always make an API call when the videos tab mounts
-      // Show existing videos if they're there
-      if (all.length > 0) {
-        this.setState({ videos: all });
-      }
-      // If there are no videos when the component mounts, get them, otherwise just set it
       dispatch(getVideos())
         .then(() => {
           this.track('all');
@@ -133,11 +122,7 @@ class Videos extends Component {
                 .catch(err => {
                   LOG(JSON.stringify(err));
                   if (err.error === 'Messenger not configured') {
-                    if (user.first_name) {
-                      dispatch(navigateResetToNumber());
-                    } else {
-                      dispatch(navigateResetToProfile());
-                    }
+                    dispatch(navigateResetToProfile());
                   }
                 });
             }, 3000);
@@ -145,14 +130,36 @@ class Videos extends Component {
         });
     }
 
-    // TODO: Handle filter
-
     if (onSelectVideo) {
       Analytics.screen(Analytics.s.VideosMessage);
     } else if (channel && channel.id) {
       Analytics.screen(Analytics.s.ChannelsPage);
     } else {
       Analytics.screen(Analytics.s.VideosTab);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.favorites.length > 0 &&
+      this.state.selectedFilter === 'favorites'
+    ) {
+      this.setState({ videos: nextProps.favorites });
+    }
+    if (
+      nextProps.popular.length > 0 &&
+      this.state.selectedFilter === 'popular'
+    ) {
+      this.setState({ videos: nextProps.popular });
+    }
+    if (
+      nextProps.featured.length > 0 &&
+      this.state.selectedFilter === 'featured'
+    ) {
+      this.setState({ videos: nextProps.featured });
+    }
+    if (nextProps.all.length > 0 && this.state.selectedFilter === 'all') {
+      this.setState({ videos: nextProps.all });
     }
   }
 
@@ -294,21 +301,21 @@ class Videos extends Component {
 
     this.track(filter);
 
-    if (filter === 'featured') {
+    if (filter === 'featured' && this.props.featured.length === 0) {
       return dispatch(getFeaturedVideos(undefined, channelId))
         .then(r => {
           this.updateVideoList(filter);
           return r;
         })
         .catch(() => this.setState({ isLoading: false }));
-    } else if (filter === 'popular') {
+    } else if (filter === 'popular' && this.props.popular.length === 0) {
       return dispatch(getPopularVideos(undefined, channelId))
         .then(r => {
           this.updateVideoList(filter);
           return r;
         })
         .catch(() => this.setState({ isLoading: false }));
-    } else if (filter === 'all') {
+    } else if (filter === 'all' && this.props.all.length === 0) {
       return dispatch(getVideos(undefined, channelId))
         .then(r => {
           this.updateVideoList(filter);
@@ -322,7 +329,7 @@ class Videos extends Component {
           return r;
         })
         .catch(() => this.setState({ isLoading: false }));
-    } else if (filter === 'favorites') {
+    } else if (filter === 'favorites' && this.props.favorites.length === 0) {
       return dispatch(getFavorites(undefined, channelId))
         .then(r => {
           this.updateVideoList(filter);
@@ -330,6 +337,7 @@ class Videos extends Component {
         })
         .catch(() => this.setState({ isLoading: false }));
     } else {
+      this.updateVideoList(filter);
       this.setState({ isLoading: false });
     }
     return Promise.resolve();
@@ -501,17 +509,21 @@ class Videos extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.container}>
-          <StatusBar hidden={false} />
-          <Header
-            left={this.renderHeaderLeft()}
-            right={
-              <HeaderIcon
-                type="search"
-                onPress={() => this.handleFilter('themes')}
+          {this.props.channel ? (
+            <>
+              <StatusBar hidden={false} />
+              <Header
+                left={this.renderHeaderLeft()}
+                right={
+                  <HeaderIcon
+                    type="search"
+                    onPress={() => this.handleFilter('themes')}
+                  />
+                }
+                title={t('title.videos')}
               />
-            }
-            title={t('title.videos')}
-          />
+            </>
+          ) : null}
           {this.renderChannel()}
           <Flex style={{ height: 50 }} align="center" justify="center">
             <ScrollView
@@ -542,6 +554,13 @@ class Videos extends Component {
                   style={{ alignItems: 'center' }}
                   filled={selectedFilter === 'favorites'}
                   onPress={() => this.handleFilter('favorites')}
+                  animation="slideInUp"
+                />
+                <PillButton
+                  icon="search"
+                  style={{ alignItems: 'center' }}
+                  filled={selectedFilter === 'themes'}
+                  onPress={() => this.handleFilter('themes')}
                   animation="slideInUp"
                 />
               </Flex>
@@ -589,8 +608,7 @@ Videos.propTypes = {
   conversation: PropTypes.object,
 };
 
-const mapStateToProps = ({ auth, videos }, { navigation }) => ({
-  ...(navigation.state.params || {}),
+const mapStateToProps = ({ auth, videos }) => ({
   all: videos.all,
   user: auth.user,
   isAnonUser: auth.isAnonUser,

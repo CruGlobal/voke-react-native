@@ -13,21 +13,30 @@ export default function Avatar({
   avatarTextStyle,
   imageStyle,
   isVoke,
+  isLocal,
 }) {
   let content = null;
 
   const sizeObj = { width: size, height: size, borderRadius: size / 2 };
 
-  if (!image && !text) return null;
-
   if (image) {
-    content = (
-      <Image
-        resizeMode="cover"
-        source={{ uri: image }}
-        style={[imageStyle, sizeObj, isVoke ? styles.rotateVoke : '']}
-      />
-    );
+    if (isLocal) {
+      content = (
+        <Image
+          resizeMode="cover"
+          source={image}
+          style={[imageStyle, sizeObj, isVoke ? styles.rotateVoke : '']}
+        />
+      );
+    } else {
+      content = (
+        <Image
+          resizeMode="cover"
+          source={{ uri: image }}
+          style={[imageStyle, sizeObj, isVoke ? styles.rotateVoke : '']}
+        />
+      );
+    }
   } else if (text) {
     content = <Text style={[styles.textStyle, avatarTextStyle]}>{text}</Text>;
   }
@@ -47,7 +56,7 @@ export default function Avatar({
 const styleTypes = [PropTypes.array, PropTypes.object, PropTypes.number];
 Avatar.propTypes = {
   text: PropTypes.string,
-  image: PropTypes.string,
+  image: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   size: PropTypes.number,
   present: PropTypes.bool,
   style: PropTypes.oneOfType(styleTypes),

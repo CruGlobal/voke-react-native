@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
+import TO_CHAT from '../../../images/newShare.png';
+import { shareVideo } from '../../actions/auth';
 
 import {
   FlatList,
@@ -12,6 +14,7 @@ import {
   Text,
   Icon,
   VokeIcon,
+  Button,
 } from '../../components/common';
 import {
   getMyJourneySteps,
@@ -25,30 +28,22 @@ import { VIDEO_CONTENT_TYPES } from '../VideoContentWrap';
 import { isAndroid } from '../../constants';
 import JourneyUnreadCount from '../../components/JourneyUnreadCount';
 
-function StepItem({ t, me, item, journey, onSelect, inviteName }) {
-  if (
-    !item ||
-    !item.status ||
-    item.unread_messages === null ||
-    !journey ||
-    !journey.conversation ||
-    !journey.conversation.messengers ||
-    !item.name ||
-    item.position === null
-  )
-    return null;
+function StepItem({ t, me, item, journey, onSelect, inviteName, onShare }) {
+  item = item || {};
+  journey = journey || {};
+  const messengers = (journey.conversation || {}).messengers || [];
+  const thumbnail = (((item.item || {}).content || {}).thumbnails || {}).small;
   const isActive = item.status === 'active';
   const isCompleted = item.status === 'completed';
   const isLocked = !isCompleted && !isActive;
   const isWaiting = isActive && item['completed_by_messenger?'];
-
   const unreadCount = item.unread_messages;
   const hasUnread = unreadCount > 0;
-  let otherUser = journey.conversation.messengers.find(
+  let otherUser = messengers.find(
     i => i.id !== me.id && i.first_name !== 'VokeBot',
   );
 
-  if (journey.conversation.messengers.length === 2 && inviteName) {
+  if (messengers.length === 2 && inviteName) {
     otherUser = { first_name: inviteName };
   }
 
@@ -73,7 +68,7 @@ function StepItem({ t, me, item, journey, onSelect, inviteName }) {
         <Flex direction="row" style={[st.minh(84)]}>
           <Flex style={[st.m5, st.rel]}>
             <Image
-              source={{ uri: item.item.content.thumbnails.small }}
+              source={{ uri: thumbnail }}
               style={[st.w(100), st.bgBlack, st.f1]}
               resizeMode="contain"
             />
@@ -111,6 +106,30 @@ function StepItem({ t, me, item, journey, onSelect, inviteName }) {
               </Flex>
             ) : null}
           </Flex>
+          {isLocked ? null : (
+            <Flex
+              style={[
+                st.absbr,
+                isAndroid ? st.bottom(0) : st.bottom(5),
+                st.right(15),
+                st.mh5,
+              ]}
+            >
+              <Button
+                type="transparent"
+                isAndroidOpacity={true}
+                onPress={() => onShare((item || {}).item || {})}
+                activeOpacity={0.6}
+                touchableStyle={[st.abs, st.right(15), st.top(-35), st.mh5]}
+              >
+                <Image
+                  resizeMode="cover"
+                  source={TO_CHAT}
+                  style={{ width: 50, height: 50, borderRadius: 25 }}
+                />
+              </Button>
+            </Flex>
+          )}
           <Flex
             style={[
               st.absbr,
@@ -123,7 +142,7 @@ function StepItem({ t, me, item, journey, onSelect, inviteName }) {
             </Text>
           </Flex>
         </Flex>
-        {isWaiting ? (
+        {isWaiting && messengers.length > 2 ? (
           <Flex
             align="center"
             style={[st.bgOrange, st.w100, st.pd6, st.brbl5, st.brbr5]}
@@ -173,9 +192,12 @@ class JourneyDetail extends Component {
   }
 
   load = async () => {
-    const { dispatch, item } = this.props;
-    const results = await dispatch(getMyJourneySteps(item.id));
-    return results;
+    const { dispatch, item, steps } = this.props;
+
+    if (steps.length === 0) {
+      const results = await dispatch(getMyJourneySteps(item.id));
+      return results;
+    }
   };
 
   handleRefresh = () => {
@@ -213,6 +235,30 @@ class JourneyDetail extends Component {
     );
   };
 
+  handleShareVideo = video => {
+    console.log('herer');
+    const { me, dispatch } = this.props;
+    // This logic exists in the VideoDetails and the VideoList
+    if (!me.first_name) {
+      dispatch(
+        navigatePush('voke.TryItNowName', {
+          onComplete: () =>
+            dispatch(
+              navigatePush('voke.ShareFlow', {
+                video,
+              }),
+            ),
+        }),
+      );
+    } else {
+      dispatch(
+        navigatePush('voke.ShareFlow', {
+          video,
+        }),
+      );
+    }
+  };
+
   renderRow = ({ item: stepItem }) => {
     const { t, me, item, inviteName } = this.props;
     return (
@@ -223,6 +269,7 @@ class JourneyDetail extends Component {
         item={stepItem}
         inviteName={inviteName}
         onSelect={this.select}
+        onShare={this.handleShareVideo}
       />
     );
   };

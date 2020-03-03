@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 
 import styles from './styles';
-import { navigatePush } from '../../actions/nav';
+import { navigatePush, navigateResetHome } from '../../actions/nav';
 import { updateMe } from '../../actions/auth';
 import ImagePicker from '../../components/ImagePicker';
 import Analytics from '../../utils/analytics';
@@ -29,7 +29,7 @@ class SignUpProfile extends Component {
     super(props);
 
     this.state = {
-      imageUri: null,
+      imageUri: props.user.avatar.small,
       firstName: props.user.first_name,
       lastName: props.user.last_name,
       disableNext: false,
@@ -90,7 +90,8 @@ class SignUpProfile extends Component {
             disableSecondClick: true,
             isLoading: false,
           });
-          dispatch(navigatePush('voke.SignUpNumber'));
+          dispatch(navigateResetHome());
+
           // Enable the second click after a second
           setTimeout(() => this.setState({ disableSecondClick: false }), 1000);
         })
@@ -100,12 +101,10 @@ class SignUpProfile extends Component {
     } else {
       Alert.alert('', t('fillInName'));
     }
-    // // This is just for testing
-    // this.props.dispatch(navigatePush('voke.SignUpNumber'));
   }
 
   skip() {
-    this.props.dispatch(navigatePush('voke.SignUpNumber'));
+    this.props.dispatch(navigateResetHome());
   }
 
   renderImagePicker() {

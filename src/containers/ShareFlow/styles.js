@@ -1,6 +1,5 @@
-
 import { StyleSheet } from 'react-native';
-import theme from '../../theme';
+import theme, { COLORS } from '../../theme';
 import { IS_SMALL_ANDROID } from '../../constants';
 const isSmallScreen = IS_SMALL_ANDROID || theme.fullHeight < 600;
 
@@ -16,6 +15,7 @@ export default StyleSheet.create({
   },
   shareWith: {
     height: 200,
+    width: theme.fullWidth,
   },
   inputBox: {
     marginTop: 8,
@@ -49,7 +49,11 @@ export default StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: theme.convert({ color: theme.secondaryColor, alpha: 0.9, darken: 0.4 }),
+    backgroundColor: theme.convert({
+      color: theme.secondaryColor,
+      alpha: 0.9,
+      darken: 0.4,
+    }),
   },
   overlayImage: {
     position: 'absolute',
@@ -58,17 +62,17 @@ export default StyleSheet.create({
   },
   shareImage: {
     position: 'absolute',
-    right: -40,
-    top: 100,
+    left: -40,
+    top: 80,
+    transform: [{ rotateY: '180deg' }],
   },
   shareBubble: {
     borderRadius: 5,
-    backgroundColor: theme.white,
-    padding: 25,
+    backgroundColor: COLORS.OFF_BLUE,
+    padding: 15,
     position: 'absolute',
-    right: 50,
+    left: 70,
     top: 30,
-    width: theme.fullWidth - 90,
   },
   chatBubble: {
     borderRadius: 5,
@@ -80,7 +84,7 @@ export default StyleSheet.create({
     width: theme.fullWidth - 90,
   },
   chatText: {
-    color: theme.accentColor,
+    color: theme.white,
     fontSize: 16,
     textAlign: 'center',
   },
@@ -90,7 +94,33 @@ export default StyleSheet.create({
     marginBottom: 10,
     borderBottomWidth: 10,
     borderBottomColor: 'transparent',
-    borderRightWidth: 13,
-    borderRightColor: theme.lightBackgroundColor,
+    borderLeftWidth: 13,
+    borderLeftColor: COLORS.OFF_BLUE,
+    position: 'absolute',
+    bottom: 100,
+    left: 70,
+  },
+  inputLabel: {
+    fontSize: 12,
+    color: theme.accentColor,
+    marginTop: 15,
+  },
+  inputLabelExplanation: {
+    fontSize: 12,
+    color: theme.accentColor,
+    marginTop: 15,
+    paddingHorizontal: 20,
+    maxWidth: 200,
+    textAlign: 'center',
+  },
+  signInButtonText: {
+    fontSize: 16,
+  },
+  signInButton: {
+    width: theme.fullWidth,
+    height: 50,
+    borderRadius: 0,
+    alignItems: 'center',
+    marginTop: 2,
   },
 });

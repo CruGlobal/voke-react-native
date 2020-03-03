@@ -132,7 +132,6 @@ export default function callApi(requestObject, query = {}, data = {}) {
                 reject(err);
                 refreshTokenRequest(refreshToken)
                   .then(tokenResults => {
-                    LOG('refresh token results', tokenResults);
                     if (!tokenResults || !tokenResults.access_token) {
                       unauthAlert();
                       return;
@@ -141,15 +140,12 @@ export default function callApi(requestObject, query = {}, data = {}) {
                       type: UPDATE_TOKENS,
                       data: tokenResults,
                     });
-                    LOG('CALL SAME API CALL AGAIN: ', action.name);
                   })
                   .catch(() => {
-                    LOG('caught in refresh token');
                     unauthAlert();
                   });
                 return;
               }
-              LOG('no refresh token exists');
               // There was a problem authenticating the user, log them out
               unauthAlert();
               reject(err);
@@ -202,7 +198,7 @@ export default function callApi(requestObject, query = {}, data = {}) {
       API_CALLS[action.name](newQuery, data)
         .then(results => {
           let actionResults = results || {};
-          // LOG('API results', actionResults);
+          LOG('API results', actionResults);
           // If the results have an error object, call this to reject it
           if (actionResults.error || actionResults.errors) {
             handleError(actionResults);

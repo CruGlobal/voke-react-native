@@ -14,6 +14,7 @@ import {
   PUSH_PERMISSION,
   DONT_NAV_TO_VIDS,
   RESET_FIRST_TIME,
+  CHANGE_LANUGAGE,
 } from '../constants';
 import { REQUESTS } from '../actions/api';
 
@@ -42,6 +43,7 @@ const initialState = {
   showLanguageModal: false,
   dontNavigateToVideos: false,
   isFirstTime: true,
+  language: 'en',
 };
 
 export default function auth(state = initialState, action) {
@@ -62,7 +64,6 @@ export default function auth(state = initialState, action) {
       return {
         ...state,
         ...incoming,
-        // onboardCompleted: false,
         apiActive: 0,
         activeScreen: null,
         noBackgroundAction: false,
@@ -86,6 +87,11 @@ export default function auth(state = initialState, action) {
       return {
         ...state,
         isFirstTime: false,
+      };
+    case CHANGE_LANUGAGE:
+      return {
+        ...state,
+        language: action.language,
       };
     case UPDATE_TOKENS:
       return {
@@ -120,6 +126,11 @@ export default function auth(state = initialState, action) {
           os: action.os,
         },
         cableId: action.id,
+      };
+    case REQUESTS.UPDATE_ME.SUCCESS:
+      return {
+        ...state,
+        user: action,
       };
     case REQUESTS.CREATE_DEVICE.SUCCESS:
       return {
@@ -179,11 +190,6 @@ export default function auth(state = initialState, action) {
         ...state,
         isAnonUser: false,
       };
-    // case ONBOARD_FLAG:
-    //   return {
-    //     ...state,
-    //     onboardCompleted: action.completed,
-    //   };
     case NO_BACKGROUND_ACTION:
       return {
         ...state,

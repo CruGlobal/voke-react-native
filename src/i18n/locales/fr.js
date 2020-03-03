@@ -2,7 +2,14 @@
 
 export default {
   common: {
+    oldConversationsCreateAccount:
+      'Vous devez créer un compte avant de demander vos conversations.',
+    oldConversationsDescription:
+      'Un e-mail contenant vos conversations sera envoyé à:',
+    sentOldConversations:
+      'Succès! Vérifiez votre courrier électronique pour obtenir des informations sur vos anciennes conversations.',
     watchTrailer: 'Bande annonce',
+    noNotifications: 'Aucune notification pour le moment',
     acceptChallenge: 'Relever le défi',
     add: 'Ajouter',
     all: 'Tous',
@@ -66,6 +73,7 @@ export default {
     signIn: 'Connexion',
     signInFb: 'Se connecter avec Facebook',
     signOut: 'Déconnexion',
+    signOutOfAccount: 'Se déconnecter de mon compte',
     signUp: "S'inscrire",
     signUpEmail: "S'inscrire par courriel",
     signUpFb: "S'inscrire avec Facebook",
@@ -111,10 +119,16 @@ export default {
       reason: 'Raison',
       search: 'Rechercher',
       verification: 'Code de vérification',
+      whatIsFriendsName: `Quel est le nom de ton ami(e)?`,
+      whyDoWeWantThis: 'Pourquoi voulons-nous cela?',
+      whyNeedFriendsName:
+        'Nous utilisons le nom de votre ami pour vous aider à savoir qui a répondu aux vidéos que vous avez partagées.',
     },
     title: {
       about: 'À propos de nous',
+      oldConversations: 'Obtenez mes anciennes conversations',
       acknowledgements: 'Remerciements',
+      notifications: 'Notifications',
       adventures: 'Aventures',
       channels: 'Postes',
       chats: 'Conversations',
@@ -340,7 +354,8 @@ export default {
     yourAnswer: 'Ta réponse...',
   },
   adventureCode: {
-    adventureCode: "Code d'aventure",
+    adventureCode: "Code d'Aventure",
+    adventureCodeHaveCode: "Vous avez un code d'un ami?",
     dontHaveOne: "Je n'en ai pas",
     adventureCodeWhatsThis: "Qu'est-ce que c'est?",
     adventureCodeWhatsThisExplanation:
@@ -350,7 +365,7 @@ export default {
     areYouSureDelete: `Es-tu certain de vouloir suprimer ton invitation à "{{name}}"?`,
     deleteCannotBeUndone: `Ceci ne peut être défait. Tu peux aussi l’inviter en utilisant “Inviter un ami(e)”.`,
     dontHaveOne: "Je n'en ai pas",
-    haveCode: "J'ai un code d'aventure",
+    haveCode: "J'ai un Code d'Aventure",
     welcomeToAdventures: `Salut {{name}}! Voici où tu trouveras toutes les aventures que tu fais avec tes ami(e)s.`,
   },
   share: {

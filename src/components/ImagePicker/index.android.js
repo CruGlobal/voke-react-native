@@ -48,7 +48,6 @@ class ImagePicker extends Component {
       height: response.height,
       uri: response.path || (theme.isOlderAndroid && response.data),
     };
-    LOG('image picker payload', payload);
     this.props.onSelectImage(payload);
   }
 

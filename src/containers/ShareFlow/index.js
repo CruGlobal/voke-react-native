@@ -14,17 +14,9 @@ import { translate } from 'react-i18next';
 import Analytics from '../../utils/analytics';
 import styles from './styles';
 // import { getMe, facebookLoginAction, anonLogin } from '../../actions/auth';
-import {
-  createConversation,
-  getConversation,
-  deleteConversation,
-} from '../../actions/messages';
-import {
-  navigateBack,
-  navigateResetMessage,
-  navigatePush,
-} from '../../actions/nav';
-import { Flex, Button, Text } from '../../components/common';
+import { createShare } from '../../actions/messages';
+import { navigateBack, navigateResetHome } from '../../actions/nav';
+import { Flex, Button, Text, Touchable } from '../../components/common';
 import ApiLoading from '../ApiLoading';
 import SignUpInput from '../../components/SignUpInput';
 import SignUpHeaderBack from '../../components/SignUpHeaderBack';
@@ -39,7 +31,7 @@ class ShareFlow extends Component {
     showOverlay: false,
     name: '',
     conversationUrl: '',
-    conversation: null,
+    showWhatsThis: false,
   };
 
   componentDidMount() {
@@ -55,12 +47,8 @@ class ShareFlow extends Component {
     const { name } = this.state;
     return new Promise((resolve, reject) => {
       const createData = {
-        conversation: {
-          messengers_attributes: [
-            {
-              first_name: name,
-            },
-          ],
+        share: {
+          first_name: name,
           item_id: `${video.id}`,
         },
       };
@@ -73,23 +61,15 @@ class ShareFlow extends Component {
       };
 
       this.setState({ isLoading: true });
-      dispatch(createConversation(createData))
+      dispatch(createShare(createData))
         .then(results => {
-          // Grab the friendfrom the results
-          const friend = results.messengers[0];
-          // LOG('create voke conversation results', results);
-          dispatch(getConversation(results.id))
-            .then(c => {
-              this.setState(
-                {
-                  conversationUrl: friend.url,
-                  conversation: c.conversation,
-                  isLoading: false,
-                },
-                () => resolve(),
-              );
-            })
-            .catch(fail);
+          this.setState(
+            {
+              conversationUrl: results.url,
+              isLoading: false,
+            },
+            () => resolve(),
+          );
         })
         .catch(fail);
     });
@@ -128,22 +108,12 @@ class ShareFlow extends Component {
     )
       .then(({ action, activityType }) => {
         if (action === Share.sharedAction) {
-          LOG('shared!', activityType);
-          // Navigate to the new conversation after sharing
-          dispatch(
-            navigateResetMessage({
-              conversation: this.state.conversation,
-            }),
-          );
+          this.setState({ showOverlay: true });
+          dispatch(navigateResetHome());
         } else {
-          LOG('not shared!');
           this.setState({ showOverlay: false });
-          // Delete the conversation
-          dispatch(deleteConversation(this.state.conversation.id)).then(() => {
-            this.setState({
-              conversationUrl: '',
-              conversation: null,
-            });
+          this.setState({
+            conversationUrl: '',
           });
         }
       })
@@ -151,15 +121,6 @@ class ShareFlow extends Component {
         this.setState({ showOverlay: false });
         LOG('Share Error', err);
       });
-  };
-
-  openAddrBook = () => {
-    Keyboard.dismiss();
-    this.props.dispatch(
-      navigatePush('voke.SelectFriend', {
-        video: this.props.video.id,
-      }),
-    );
   };
 
   renderOverlay() {
@@ -173,7 +134,7 @@ class ShareFlow extends Component {
           style={styles.overlayImage}
         />
         <Flex style={styles.chatBubble}>
-          <Text style={styles.chatText}>
+          <Text style={[st.blue]}>
             {t('linkReady', { name: this.state.name })}
           </Text>
         </Flex>
@@ -185,72 +146,82 @@ class ShareFlow extends Component {
     const { t } = this.props;
     if (!this.props.video || !this.props.video.name) return null;
     return (
-      <SafeArea style={styles.container}>
-        <KeyboardAvoidingView behavior="position">
-          <TouchableOpacity
-            activeOpacity={1}
-            onPress={() => Keyboard.dismiss()}
-            style={{ paddingTop: 50 }}
+      <Flex value={1}>
+        <SafeArea style={[st.f1, st.bgDarkBlue]} top={[st.bgBlue]}>
+          <KeyboardAvoidingView
+            style={[st.f1, st.bgBlue]}
+            behavior={theme.isAndroid ? undefined : 'padding'}
+            keyboardVerticalOffset={
+              theme.isAndroid ? undefined : st.hasNotch ? 45 : 20
+            }
           >
-            <Flex style={styles.shareWith}>
-              <Image
-                resizeMode="contain"
-                source={VOKE_LINK}
-                style={styles.shareImage}
-              />
-              <Flex style={styles.shareBubble}>
-                <Text style={styles.chatText}>
-                  {t('who')}{' '}
-                  <Text style={{ color: theme.secondaryColor }}>
-                    "{this.props.video.name}"
-                  </Text>{' '}
-                  {t('with')} {this.props.isFirstTime ? t('noNeed') : null}
-                </Text>
+            <Flex value={1} align="center" justify="end" style={[st.pb3]}>
+              <Flex style={styles.shareWith}>
+                <Image
+                  resizeMode="contain"
+                  source={VOKE_LINK}
+                  style={styles.shareImage}
+                />
+                <Flex style={styles.shareBubble}>
+                  <Text style={styles.chatText}>
+                    {t('placeholder.whatIsFriendsName')}
+                  </Text>
+                </Flex>
+                <Flex style={styles.chatTriangle} />
               </Flex>
-            </Flex>
-            <Flex justify="center" align="center" style={styles.actions}>
+              <Text style={styles.inputLabel}>
+                {t('placeholder.firstName')}
+              </Text>
               <SignUpInput
-                ref={x => Analytics.markSensitive(x)}
                 value={this.state.name}
+                type="new"
                 onChangeText={t => this.setState({ name: t })}
                 placeholder={t('placeholder.friendsName')}
-                autoCapitalize="words"
                 autoCorrect={false}
                 returnKeyType="done"
                 blurOnSubmit={true}
               />
+              <Touchable
+                onPress={() =>
+                  this.setState({ showWhatsThis: !this.state.showWhatsThis })
+                }
+              >
+                {this.state.showWhatsThis ? (
+                  <Text style={styles.inputLabelExplanation}>
+                    {t('placeholder.whyNeedFriendsName')}
+                  </Text>
+                ) : (
+                  <Text style={styles.inputLabel}>
+                    {t('placeholder.whyDoWeWantThis')}
+                  </Text>
+                )}
+              </Touchable>
+            </Flex>
+            <Flex value={1} justify="end" style={[styles.buttonWrapper]}>
               <Button
-                text={t('share')}
+                text={t('continue')}
+                type="filled"
+                isLoading={this.state.isLoading}
                 disabled={this.state.isLoading || !this.state.name}
-                type={this.state.name ? 'filled' : 'disabled'}
-                style={styles.shareButton}
+                buttonTextStyle={styles.signInButtonText}
+                style={styles.signInButton}
                 onPress={this.share}
               />
-              <Flex direction="row" align="center">
-                <Flex value={1} style={styles.line} />
-                <Text style={styles.orText}>{t('or').toUpperCase()}</Text>
-                <Flex value={1} style={styles.line} />
-              </Flex>
-              <Button
-                text={t('openAddr')}
-                type="filled"
-                style={styles.addrButton}
-                onPress={this.openAddrBook}
-              />
             </Flex>
-          </TouchableOpacity>
-          {this.renderOverlay()}
-        </KeyboardAvoidingView>
-        {this.state.isLoading ? (
-          <ApiLoading showMS={15000} force={true} text={t('loading.share')} />
-        ) : null}
-        <Flex
-          style={{ position: 'absolute', top: st.hasNotch ? 20 : 0, left: 0 }}
-          align="start"
-        >
-          <SignUpHeaderBack onPress={this.quit} />
-        </Flex>
-      </SafeArea>
+            {this.renderOverlay()}
+            {this.state.isLoading ? (
+              <ApiLoading
+                showMS={15000}
+                force={true}
+                text={t('loading.share')}
+              />
+            ) : null}
+          </KeyboardAvoidingView>
+          <Flex style={[st.abstl]}>
+            <SignUpHeaderBack onPress={this.quit} />
+          </Flex>
+        </SafeArea>
+      </Flex>
     );
   }
 }
