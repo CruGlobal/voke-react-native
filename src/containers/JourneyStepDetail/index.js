@@ -572,7 +572,18 @@ class JourneyStepDetail extends Component {
               style={[st.absb, isMine ? st.right(-30) : st.left(-30)]}
             />
           </Flex>
-          <Flex direction="column" style={[st.w80]}>
+          <Flex
+            direction="row"
+            align="center"
+            justify={isMine ? 'end' : 'start'}
+            style={[st.w80]}
+          >
+            {isMine ? null : (
+              <Text>
+                {messenger.first_name} {messenger.last_name}
+                {` • `}
+              </Text>
+            )}
             <DateComponent
               style={[st.fs6, isMine ? st.tar : null]}
               date={m.created_at}
