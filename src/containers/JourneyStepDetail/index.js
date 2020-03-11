@@ -1188,9 +1188,10 @@ class JourneyStepDetail extends Component {
       this.setState({ isResponseSet: true });
       this.setMessageBox();
     } else if (response && !isResponseSet && isMulti) {
-      const questionStep = reversed.find(
-        i => ((i || {}).metadata || {}).step_kind === 'question',
-      );
+      const questionStep =
+        reversed.find(
+          i => ((i || {}).metadata || {}).step_kind === 'question',
+        ) || {};
       const hasAnsweredLastQuestion = reversed.find(
         i =>
           i.messenger_journey_step_id ===
