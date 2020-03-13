@@ -31,8 +31,7 @@ import SignUpHeaderBack from '../../components/SignUpHeaderBack';
 import messages from '../../reducers/messages';
 import { VIDEO_CONTENT_TYPES } from '../VideoContentWrap';
 import { buildTrackingObj } from '../../utils/common';
-const defaultAvatar =
-  'https://assets-stage.vokeapp.com/images/user/medium/avatar.jpg';
+const defaultAvatar = 'https://stage.vokeapp.com/images/user/medium/avatar.jpg';
 
 const smallCircle = st.fullWidth / 2 - 90;
 const smallBox = st.fullWidth / 2 - 50;
@@ -59,10 +58,12 @@ class JoinGroup extends Component {
 
   joinGroup = () => {
     const { dispatch, me, myJourneys, newJourney } = this.props;
-    if (((me || {}).avatar || {}).medium === defaultAvatar) {
+    if ((((me || {}).avatar || {}).medium || '').includes('/avatar.jpg')) {
       this.goToPhoto();
     } else {
-      dispatch(navigateBack(2, { immediate: true }));
+      // dispatch(navigateBack(2, { immediate: true }));
+      dispatch(navigateResetHome());
+
       let journeyItem = ((myJourneys || {}).journeys || []).find(
         j => j.id === newJourney.messenger_journey_id,
       );
