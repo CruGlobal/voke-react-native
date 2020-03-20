@@ -34,7 +34,7 @@ function PageImage({ stopAutoPlay, image, text, description }) {
   return (
     <Touchable
       onPressIn={stopAutoPlay}
-      style={[st.f1, { paddingTop: 90 }]}
+      style={[st.f1, { paddingTop: IS_SMALL_ANDROID ? 10 : 90 }]}
       activeOpacity={1}
       isAndroidOpacity={true}
     >
@@ -44,7 +44,7 @@ function PageImage({ stopAutoPlay, image, text, description }) {
         <Image
           resizeMode="contain"
           source={image}
-          style={[st.w(st.fullWidth - 50), st.h(200), st.mt1]}
+          style={[st.w(st.fullWidth - 50), st.h(st.fullHeight / 5), st.mt1]}
         />
       </Flex>
     </Touchable>

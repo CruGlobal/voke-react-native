@@ -166,37 +166,37 @@ class AdventuresMine extends Component {
     const { t } = this.props;
     return (
       <Flex direction="column" align="center" justify="center" self="stretch">
-        <Touchable
-          style={[
-            st.bgWhite,
-            st.p4,
-            st.br5,
-            st.mv6,
-            st.mt5,
-            { width: st.fullWidth - 30 },
-          ]}
-          onPress={this.handleAdventureCode}
-        >
-          <Flex direction="column" align="center" justify="center">
+        <Flex style={[st.h(10)]}></Flex>
+        <Touchable onPress={this.handleAdventureCode}>
+          <Flex
+            direction="column"
+            align="center"
+            justify="center"
+            style={[
+              st.ph4,
+              st.pv4,
+              st.bgWhite,
+              st.br5,
+              { width: st.fullWidth - 30 },
+            ]}
+          >
             <Text style={[st.darkBlue, st.fs18]}>Enter an Adventure Code</Text>
             <Text style={[st.fs14, st.grey]}>Did someone send you a code?</Text>
           </Flex>
         </Touchable>
-        <Touchable
-          style={[
-            st.bgWhite,
-            st.p4,
-            st.br5,
-            st.mv6,
-            { width: st.fullWidth - 30 },
-          ]}
-          onPress={this.group}
-        >
+        <Flex style={[st.h(10)]}></Flex>
+        <Touchable onPress={this.group}>
           <Flex
             direction="row"
             align="center"
             justify="between"
-            style={[st.ph4]}
+            style={[
+              st.ph4,
+              st.pv4,
+              st.bgWhite,
+              st.br5,
+              { width: st.fullWidth - 30 },
+            ]}
           >
             <VokeIcon
               type="image"
