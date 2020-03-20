@@ -1,108 +1,149 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
-import { connect } from 'react-redux';
-import { translate } from 'react-i18next';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
-
-import Analytics from '../../utils/analytics';
-import { navigatePush } from '../../actions/nav';
-import styles from './styles';
-import { navMenuOptions } from '../../utils/menu';
-import ApiLoading from '../ApiLoading';
-import Header, { HeaderIcon } from '../Header';
-import PopupMenu from '../../components/PopupMenu';
+import React, { useState, useRef, forwardRef, useEffect } from 'react';
+import { useSafeArea } from 'react-native-safe-area-context';
+import LinearGradient from 'react-native-linear-gradient';
+import Flex from '../../components/Flex';
+import Text from '../../components/Text';
+import Icon from '../../components/Icon';
+import Image from '../../components/Image';
 import StatusBar from '../../components/StatusBar';
-import theme from '../../theme';
-import NotificationToast from '../NotificationToast';
-import AdventuresFind from '../AdventuresFind';
-import AdventuresMine from '../AdventuresMine';
+import Triangle from '../../components/Triangle';
+import VokeIcon from '../../components/VokeIcon';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { sum } from '../../utils';
+
 import st from '../../st';
-import { getConversations } from '../../actions/messages';
+import Button from '../../components/Button';
+import { useNavigation } from '@react-navigation/native';
+// import { MONTHLY_PRICE } from '../../constants';
+import { useDispatch } from 'react-redux';
+import {
+  logoutAction,
+  loginAction,
+  login,
+  register,
+  passwordReset,
+} from '../../actions/auth';
+import {
+  TextInput,
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Alert,
+  Keyboard,
+  ScrollView,
+  Animated,
+} from 'react-native';
 
-class Adventures extends Component {
-  componentDidMount() {
-    const { dispatch, me } = this.props;
-    Analytics.screen(Analytics.s.AdventuresTab);
-    Analytics.screen(Analytics.s.AdventuresTabMine);
-    if (!me.first_name) {
-      dispatch(navigatePush('voke.TryItNowName'));
-    }
-    dispatch(getConversations());
-  }
+import VOKE_BOT from '../../assets/voke_bot_face_large.png';
+import Touchable from '../../components/Touchable';
 
-  onChangeTab = ({ i }) => {
-    if (i === 0) {
-      Analytics.screen(Analytics.s.AdventuresTabMine);
-    } else if (i === 1) {
-      Analytics.screen(Analytics.s.AdventuresTabFind);
-    }
-  };
-
-  render() {
-    const { t, dispatch, myJourneys, index, invites } = this.props;
-    return (
-      <View style={styles.container}>
-        <StatusBar hidden={false} />
-        <Header
-          left={
-            theme.isAndroid ? (
-              undefined
-            ) : (
-              <HeaderIcon
-                icon="menu"
-                onPress={() => dispatch(navigatePush('voke.Menu'))}
-              />
-            )
-          }
-          right={
-            theme.isAndroid ? (
-              <PopupMenu actions={navMenuOptions(this.props)} />
-            ) : (
-              undefined
-            )
-          }
-          title={t('title.adventures')}
-          shadow={false}
-        />
-        <NotificationToast />
-
-        <ScrollableTabView
-          tabBarUnderlineStyle={[st.bgWhite, st.h(2)]}
-          tabBarBackgroundColor={theme.secondaryColor}
-          tabBarActiveTextColor={theme.white}
-          tabBarInactiveTextColor={theme.primaryColor}
-          tabBarTextStyle={[st.normal]}
-          prerenderingSiblingsNumber={Infinity}
-          initialPage={
-            index !== undefined
-              ? index
-              : (myJourneys && myJourneys.length > 0) ||
-                (invites && invites.length > 0)
-              ? 0
-              : 1
-          }
-        >
-          <View tabLabel={t('title.myAdventures')} style={[st.f1]}>
-            <AdventuresMine />
-          </View>
-          <View tabLabel={t('title.findAdventures')} style={[st.f1]}>
-            <AdventuresFind />
-          </View>
-        </ScrollableTabView>
-        <ApiLoading showMS={15000} />
-      </View>
-    );
-  }
+function CallToActions() {
+  return (
+    <Flex direction="column" align="center" justify="center" self="stretch">
+      <Touchable
+        style={[
+          st.bgWhite,
+          st.p4,
+          st.br5,
+          st.mv6,
+          st.mt5,
+          { width: st.fullWidth - 30 },
+        ]}
+        onPress={() => {}}
+      >
+        <Flex direction="column" align="center" justify="center">
+          <Text style={[st.darkBlue, st.fs18]}>Enter an Adventure Code</Text>
+          <Text style={[st.fs14, st.grey]}>Did someone send you a code?</Text>
+        </Flex>
+      </Touchable>
+      <Touchable
+        style={[
+          st.bgWhite,
+          st.p4,
+          st.br5,
+          st.mv6,
+          { width: st.fullWidth - 30 },
+        ]}
+        onPress={() => {}}
+      >
+        <Flex direction="row" align="center" justify="between" style={[st.ph4]}>
+          <VokeIcon
+            type="image"
+            name="groupDark"
+            style={[st.w(40), st.h(40)]}
+          />
+          <Flex direction="column" align="center" justify="center">
+            <Text style={[st.darkBlue, st.fs18]}>Start a Group</Text>
+            <Text style={[st.fs14, st.grey]}>
+              Do The Faith Adventure together!
+            </Text>
+          </Flex>
+          <VokeIcon
+            type="image"
+            name="buttonArrowDark"
+            style={[st.w(20), st.h(20)]}
+          />
+        </Flex>
+      </Touchable>
+    </Flex>
+  );
 }
 
-Adventures.propTypes = {};
+function MyAdventures() {
+  return (
+    <ScrollView style={[st.f1, st.bgBlue]}>
+      <CallToActions />
+      <Text>HERHER</Text>
+    </ScrollView>
+  );
+}
 
-const mapStateToProps = ({ auth, journeys }, { navigation }) => ({
-  ...(navigation.state.params || {}),
-  me: auth.user,
-  isAnonUser: auth.isAnonUser, // Need this for the Android PopupMenu to determine which menu options to show
-  myJourneys: journeys.mine,
-  invites: journeys.invites,
-});
+function CustomTabBar(props) {
+  return (
+    <TabBar
+      {...props}
+      indicatorStyle={[st.bgWhite]}
+      style={[st.bgDarkBlue]}
+      activeColor={st.colors.white}
+      inactiveColor={st.colors.blue}
+      renderLabel={({ route, focused, color }) => (
+        <Text style={[{ color }, st.fs16, st.fontFamilyMain, st.pv5]}>
+          {route.title}
+        </Text>
+      )}
+    />
+  );
+}
 
-export default translate()(connect(mapStateToProps)(Adventures));
+function Adventures(props) {
+  const insets = useSafeArea();
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [index, setIndex] = React.useState(0);
+
+  const [routes] = React.useState([
+    { key: 'my', title: 'My Adventures' },
+    { key: 'find', title: 'Find Adventures' },
+  ]);
+
+  const renderScene = SceneMap({
+    my: MyAdventures,
+    find: MyAdventures,
+  });
+  return (
+    <>
+      <StatusBar />
+      <Flex direction="column" justify="end" style={[st.w100, st.h100]}>
+        <TabView
+          navigationState={{ index, routes }}
+          renderScene={renderScene}
+          onIndexChange={setIndex}
+          initialLayout={{ width: st.fullWidth }}
+          renderTabBar={props => <CustomTabBar {...props} />}
+        />
+      </Flex>
+    </>
+  );
+}
+
+export default Adventures;

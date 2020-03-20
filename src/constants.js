@@ -1,51 +1,46 @@
-import theme from './theme';
+import st from './st';
 
-export const LOGIN = 'app/LOGIN';
-export const LOGOUT = 'app/LOGOUT';
-export const SET_USER = 'app/SET_USER';
-export const SET_ALL_CONTACTS = 'app/SET_ALL_CONTACTS';
-export const SET_VOKE_CONTACTS = 'app/SET_VOKE_CONTACTS';
-export const SET_CONTACTS_LOADING = 'app/SET_CONTACTS_LOADING';
-export const NEW_MESSAGE = 'app/NEW_MESSAGE';
-export const NEW_JOURNEY_MESSAGE = 'app/NEW_JOURNEY_MESSAGE';
-export const TYPE_STATE_CHANGE = 'app/TYPE_STATE_CHANGE';
-export const MARK_READ = 'app/MARK_READ';
-export const SET_PUSH_TOKEN = 'app/SET_PUSH_TOKEN';
-export const UPDATE_TOKENS = 'app/UPDATE_TOKENS';
-export const ACTIVE_SCREEN = 'app/ACTIVE_SCREEN';
-export const NO_BACKGROUND_ACTION = 'app/NO_BACKGROUND_ACTION';
-export const RESET_TOKEN = 'app/RESET_TOKEN';
-export const SET_ACTIVE_CONVERSATION = 'app/SET_ACTIVE_CONVERSATION';
-export const ONBOARD_FLAG = 'app/ONBOARD_FLAG';
-export const SET_IN_SHARE = 'app/SET_IN_SHARE';
-export const SHOW_SHARE_MODAL = 'app/SHOW_SHARE_MODAL';
-export const PREVIEW_MESSAGE_CREATED = 'app/PREVIEW_MESSAGE_CREATED';
-export const MESSAGE_CREATED = 'app/MESSAGE_CREATED';
-export const CLEAR_CHANNEL_VIDEOS = 'app/CLEAR_CHANNEL_VIDEOS';
-export const CREATE_ANON_USER = 'app/CREATE_ANON_USER';
-export const RESET_ANON_USER = 'app/RESET_ANON_USER';
-export const PUSH_PERMISSION = 'app/PUSH_PERMISSION';
-export const SET_MESSAGE_MODAL = 'app/SET_MESSAGE_MODAL';
-export const DONT_NAV_TO_VIDS = 'app/DONT_NAV_TO_VIDS';
-export const RESET_FIRST_TIME = 'app/RESET_FIRST_TIME';
-export const INACTIVE_JOURNEY = 'app/INACTIVE_JOURNEY';
-export const ACTIVE_JOURNEY = 'app/ACTIVE_JOURNEY';
-export const UPDATE_JOURNEY_STEP = 'app/UPDATE_JOURNEY_STEP';
-export const CHANGE_LANUGAGE = 'app/CHANGE_LANUGAGE';
-// Overlays
-export const CLEAR_OVERLAY = 'app/CLEAR_OVERLAY';
-export const SET_OVERLAY = 'app/SET_OVERLAY';
-export const CLEAR_TOAST = 'app/CLEAR_TOAST';
-export const SET_TOAST = 'app/SET_TOAST';
-// Navigation
-export const NAVIGATE_FORWARD = 'Navigation/NAVIGATE';
-export const NAVIGATE_RESET = 'Navigation/RESET';
-export const NAVIGATE_BACK = 'Navigation/BACK';
-export const NAVIGATE_POP = 'Navigation/POP';
+export const REDUX_ACTIONS = {
+  REQUEST_FETCH: 'REQUEST_FETCH',
+  REQUEST_FAIL: 'REQUEST_FAIL',
+  REQUEST_SUCCESS: 'REQUEST_SUCCESS',
+  TOGGLE_PLAY_STATUS: 'TOGGLE_PLAY_STATUS',
+  TOGGLE_SHUFFLE_STATUS: 'TOGGLE_SHUFFLE_STATUS',
+  TOGGLE_REPEAT_STATUS: 'TOGGLE_REPEAT_STATUS',
+  LOADING_STATUS: 'LOADING_STATUS',
+  INIT_LOADING_STATUS: 'INIT_LOADING_STATUS',
+  LOGIN: 'LOGIN',
+  LOGOUT: 'LOGOUT',
+  SET_USER: 'SET_USER',
+  SHOW_MODAL: 'SHOW_MODAL',
+  HIDE_MODAL: 'HIDE_MODAL',
+  HAS_SEEN_SUBSCRIPTION_MODAL: 'HAS_SEEN_SUBSCRIPTION_MODAL',
+};
 
-export const IS_SMALL_ANDROID = theme.isAndroid && theme.fullHeight < 600;
-export const isAndroid = theme.isAndroid;
-// export const IS_SMALL_ANDROID = true;
+export const PLAYLIST_CARD_WIDTH = st.fullWidth / 2 - 23;
+export const PLAYLIST_CARD_HEIGHT = (st.fullWidth / 2 - 23) * 0.7;
+export const PLAYLIST_CARD_LARGE_WIDTH = st.fullWidth - 30;
+export const PLAYLIST_CARD_LARGE_HEIGHT = st.fullWidth * 0.7 - 30;
+export const ARTIST_CARD_LARGE = st.fullWidth * 0.6;
+export const isAndroid = st.isAndroid;
+
+export const MONTHLY_PRICE = '$5.99';
+
+export const TriblDomain = 'https://tribl.com';
+export const APIKeyYoutubeAndroid = 'AIzaSyDD6ZLpIfae7W6ym5LuQnioxcs5tcSmgbg';
+export const androidBundleId = 'com.whoagency.tribl';
+export const iosBundleId = 'com.tribl.app';
+export const zendeskAppId = 'c410d18f689e561834bb289207fb198cb5c0386b36c3efdf';
+export const zendeskUrl = 'https://tribl.zendesk.com';
+export const zendeskClientId = 'mobile_sdk_client_efe19ba3a3064fec83dc';
+export const firebaseApiKey = 'AIzaSyC5vqHH0xc3ntY1zm0kMfqdrzorUmSdQ40';
+export const appleSharedSecret = '9e08445f2f994a47afda4aafea594c89';
+const fbAdPlacementIdAndroid = '357304994814116_357305211480761';
+const fbAdPlacementIdIOS = '164993704441079_164994227774360';
+
+export const facebookAdPlacementId = isAndroid
+  ? fbAdPlacementIdAndroid
+  : fbAdPlacementIdIOS;
 
 const IS_STAGING = true;
 
@@ -64,8 +59,6 @@ const CLIENT_SECRET_PROD =
 
 const IOS_APP_ID = 'id1056168356';
 const ANDROID_APP_ID = 'org.cru.voke';
-
-// Analytics
 export const ANALYTICS_CONTEXT_CHANGED = 'app/ANALYTICS_CONTEXT_CHANGED';
 export const ANALYTICS = {
   MCID: 'cru.mcid',
@@ -294,8 +287,6 @@ export const ACTIONS = {
 
 export default {
   IS_STAGING,
-  IS_ANDROID: theme.isAndroid,
-
   EMAIL_REGEX: new RegExp(/^\w+([.+-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/),
   GA_TRACKER: 'UA-39188989-7', // Google Analytics
   // APPSEE_KEY: 'f12ec0fba0e24c6e80fa2f8fcbf1eb04',

@@ -1,15 +1,18 @@
 // Voke Icons from images
-import TO_CHAT from '../../images/newShare.png';
-import SELECTED from '../../images/circle-filled.png';
-import NOT_SELECTED from '../../images/circle-empty.png';
-import HOME_DOT from '../../images/homeBadge.png';
-import NOTIFICATION_WHITE from '../../images/notificationBell.png';
-import NOTIFICATION_BLUE from '../../images/notificationBellBlue.png';
-import SHARE_ARROW from '../../images/shareArrow.png';
-import GROUP from '../../images/withGroup.png';
-import FRIEND from '../../images/withFriend.png';
-import MYSELF from '../../images/byMyself.png';
-import BUTTON_ARROW from '../../images/buttonArrow.png';
+import TO_CHAT from '../assets/buttonArrow.png';
+import SELECTED from '../assets/buttonArrow.png';
+import NOT_SELECTED from '../assets/buttonArrow.png';
+import HOME_DOT from '../assets/buttonArrow.png';
+import NOTIFICATION_WHITE from '../assets/notificationBell.png';
+import NOTIFICATION_BLUE from '../assets/notificationBellBlue.png';
+import SHARE_ARROW from '../assets/buttonArrow.png';
+import GROUP from '../assets/buttonArrow.png';
+import FRIEND from '../assets/buttonArrow.png';
+import MYSELF from '../assets/buttonArrow.png';
+import BUTTON_ARROW from '../assets/buttonArrow.png';
+import CAMERA from '../assets/camera.png';
+import GROUP_DARK from '../assets/groupDark.png';
+import BUTTON_ARROW_DARK from '../assets/buttonArrowDark.png';
 
 let iconsMap = {};
 const vokeIcons = {
@@ -51,8 +54,11 @@ const vokeImages = {
   shareArrow: SHARE_ARROW,
   byMyself: MYSELF,
   withGroup: GROUP,
+  groupDark: GROUP_DARK,
   withFriend: FRIEND,
   buttonArrow: BUTTON_ARROW,
+  buttonArrowDark: BUTTON_ARROW_DARK,
+  camera: CAMERA,
 };
 
 export { iconsMap, vokeIcons, vokeImages };

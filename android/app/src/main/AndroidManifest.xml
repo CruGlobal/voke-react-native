@@ -1,128 +1,26 @@
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="org.cru.voke">
-
-    <!-- RELEASE: Use this line for release builds -->
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" tools:node="remove"/>
-    <!-- <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  package="com.voke">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <!-- These are for AsyncStorage and the image picker -->
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission-sdk-23 android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-
-    <permission
-        android:name="${applicationId}.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
-    <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
-
-    <uses-sdk
-        android:minSdkVersion="16"
-        android:targetSdkVersion="22" />
-
     <application
       android:name=".MainApplication"
-      android:allowBackup="true"
-      android:hardwareAccelerated="true"
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
-      android:theme="@style/AppTheme"
-      android:networkSecurityConfig="@xml/network_security_config">
-      <!-- This goes in application config for round icon: android:roundIcon="@mipmap/ic_launcher_round" -->
-
-      <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
-      <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="4c6c9eb55214633c5eca4176c06b20bb8fd07a72" />
-
+      android:roundIcon="@mipmap/ic_launcher_round"
+      android:allowBackup="false"
+      android:theme="@style/AppTheme">
+      <activity
+        android:name=".MainActivity"
+        android:label="@string/app_name"
+        android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+        android:windowSoftInputMode="adjustResize">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+      </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
-
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="adjustResize"
-            android:launchMode="singleTask"
-            >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:host="voke.page.link" android:scheme="http" />
-                <data android:host="voke.page.link" android:scheme="https" />
-            </intent-filter>
-        </activity>
-
-        <!-- Push Notification Configurations -->
-       <!-- <receiver
-           android:name="com.google.android.gms.gcm.GcmReceiver"
-           android:exported="true"
-           android:permission="com.google.android.c2dm.permission.SEND" >
-           <intent-filter>
-               <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-               <category android:name="${applicationId}" />
-           </intent-filter>
-       </receiver>
-
-       <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher" />
-       <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationBootEventReceiver">
-           <intent-filter>
-               <action android:name="android.intent.action.BOOT_COMPLETED" />
-           </intent-filter>
-       </receiver>
-       <service android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationRegistrationService"/>
-       <service
-           android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationListenerService"
-           android:exported="false" >
-           <intent-filter>
-               <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-           </intent-filter>
-       </service> -->
-      <!--  End push notification configs-->
-
-        <!-- Firebase push config -->
-        <service android:name="io.invertase.firebase.messaging.RNFirebaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <service android:name="io.invertase.firebase.messaging.RNFirebaseInstanceIdService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
-            </intent-filter>
-        </service>
-
-        <!-- Optional Firebase config -->
-        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
-             See README(https://goo.gl/l4GJaQ) for more. -->
-        <!-- <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_stat_ic_notification" /> -->
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
-        <!-- <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorAccent" /> -->
-        <!-- From Android 8.0 (API level 26) and higher, notification channels are supported and recommended. FCM provides a default notification channel with basic settings. If you prefer to create and use your own default channel, set default_notification_channel_id to the ID of your notification channel object as shown; FCM will use this value whenever incoming messages do not explicitly set a notification channel. -->
-        <!-- <meta-data
-            android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="@string/default_notification_channel_id"/> -->
-
     </application>
 
 </manifest>
