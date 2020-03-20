@@ -5,9 +5,9 @@ import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager';
 import PropTypes from 'prop-types';
 import Analytics from '../../utils/analytics';
 
-import ONBOARD_1 from '../../../images/onboard1.jpg';
-import ONBOARD_2 from '../../../images/onboard2.jpg';
-import ONBOARD_3 from '../../../images/onboard3.jpg';
+import ONBOARD_1 from '../../../images/carousel1.png';
+import ONBOARD_2 from '../../../images/carousel2.png';
+import ONBOARD_3 from '../../../images/carousel3.png';
 import styles from './styles';
 import { navigatePush } from '../../actions/nav';
 import { setupFirebaseLinks } from '../../actions/auth';
@@ -30,51 +30,22 @@ import { IS_SMALL_ANDROID } from '../../constants';
 
 const MARGIN = 40;
 
-function PageImage({ stopAutoPlay, image, text }) {
+function PageImage({ stopAutoPlay, image, text, description }) {
   return (
     <Touchable
       onPressIn={stopAutoPlay}
-      style={[st.f1]}
+      style={[st.f1, { paddingTop: 90 }]}
       activeOpacity={1}
       isAndroidOpacity={true}
     >
-      <Flex value={1} direction="column" align="center" justify="center">
-        <Flex value={1} align="center" justify="center">
-          <Image resizeMode="cover" source={image} style={styles.onboardFull} />
-        </Flex>
-      </Flex>
-      <Flex
-        direction="column"
-        align="end"
-        style={{
-          position: 'absolute',
-          top: 0,
-          paddingTop: MARGIN + 50,
-          right: MARGIN,
-          paddingHorizontal: 15,
-          backgroundColor: 'rgba(0,0,0,0.4)',
-        }}
-      >
-        <Text style={styles.tagline}>{text}</Text>
-        <View
-          style={{
-            overflow: 'hidden',
-            width: 160,
-            position: 'absolute',
-            left: 0,
-            height: 50,
-            bottom: -50,
-          }}
-        >
-          <Triangle
-            width={160}
-            height={50}
-            color={'rgba(0,0,0,0.4)'}
-            flip={true}
-            slant="down"
-            style={[st.absr]}
-          />
-        </View>
+      <Flex value={1} align="center" justify="start">
+        <Text style={[st.fs1, st.bold]}>{text}</Text>
+        <Text style={[st.tac, st.fs4, st.ph1]}>{description}</Text>
+        <Image
+          resizeMode="contain"
+          source={image}
+          style={[st.w(st.fullWidth - 50), st.h(200), st.mt1]}
+        />
       </Flex>
     </Touchable>
   );
@@ -159,22 +130,29 @@ class SignUpWelcome extends Component {
             <View style={[st.bgTransparent]}>
               <PageImage
                 stopAutoPlay={this.stopAutoPlay}
-                image={ONBOARD_2}
-                text={t('joinAdventure')}
+                image={ONBOARD_1}
+                text={'Start an Adventure'}
+                description={'Explore videos about Faith and other topics.'}
               />
             </View>
             <View style={[st.bgTransparent]}>
               <PageImage
                 stopAutoPlay={this.stopAutoPlay}
-                image={ONBOARD_1}
-                text={t('grow')}
+                image={ONBOARD_2}
+                text={'Join in with Friends'}
+                description={
+                  ' Choose your Adventure then share your 6-digit Adventure Code to add people to your Voke Group in seconds.'
+                }
               />
             </View>
             <View style={[st.bgTransparent]}>
               <PageImage
                 stopAutoPlay={this.stopAutoPlay}
                 image={ONBOARD_3}
-                text={t('bringOthers')}
+                text={'Talk about it'}
+                description={
+                  'Message each other in real-time, chat about what you just watched— just as if you were in the room together.'
+                }
               />
             </View>
           </IndicatorViewPager>

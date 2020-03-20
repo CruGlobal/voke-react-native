@@ -84,7 +84,10 @@ class TryItNowName extends Component {
           if (onComplete) {
             onComplete();
           } else {
-            dispatch(navigatePush('voke.AdventureCode', { onboarding: true }));
+            // dispatch(navigatePush('voke.AdventureCode', { onboarding: true }));
+            dispatch(
+              navigatePush('voke.TryItNowProfilePhoto', { disableBack: true }),
+            );
           }
           this.setState({ isLoading: false });
         })
@@ -99,7 +102,12 @@ class TryItNowName extends Component {
           if (onComplete) {
             onComplete();
           } else {
-            dispatch(navigatePush('voke.AdventureCode', { onboarding: true }));
+            // dispatch(navigatePush('voke.AdventureCode', { onboarding: true }));
+            dispatch(
+              navigatePush('voke.TryItNowProfilePhoto', {
+                disableBack: true,
+              }),
+            );
           }
           this.setState({ isLoading: false });
         })

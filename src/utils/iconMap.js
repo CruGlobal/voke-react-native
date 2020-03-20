@@ -10,6 +10,8 @@ import GROUP from '../../images/withGroup.png';
 import FRIEND from '../../images/withFriend.png';
 import MYSELF from '../../images/byMyself.png';
 import BUTTON_ARROW from '../../images/buttonArrow.png';
+import BUTTON_ARROW_DARK from '../../images/buttonArrowDark.png';
+import GROUP_DARK from '../../images/groupDark.png';
 
 let iconsMap = {};
 const vokeIcons = {
@@ -53,6 +55,8 @@ const vokeImages = {
   withGroup: GROUP,
   withFriend: FRIEND,
   buttonArrow: BUTTON_ARROW,
+  buttonArrowDark: BUTTON_ARROW_DARK,
+  groupDark: GROUP_DARK,
 };
 
 export { iconsMap, vokeIcons, vokeImages };

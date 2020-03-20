@@ -8,6 +8,9 @@ import {
   RefreshControl,
   Flex,
   Button,
+  Touchable,
+  Text,
+  VokeIcon,
 } from '../../components/common';
 import { getOrgJourneys } from '../../actions/journeys';
 import OrgJourney from '../../components/OrgJourney';
@@ -38,6 +41,14 @@ class AdventuresFind extends Component {
     } finally {
       this.setState({ refreshing: false });
     }
+  };
+
+  group = async () => {
+    const { dispatch, items } = this.props;
+    const item = items.find(i => i.name === 'The Faith Adventure');
+    try {
+      dispatch(navigatePush('voke.ShareEnterName', { item, isGroup: true }));
+    } catch {}
   };
 
   select = item => {
@@ -83,13 +94,57 @@ class AdventuresFind extends Component {
   renderHeader = () => {
     const { t } = this.props;
     return (
-      <Flex justify="center" align="center">
-        <Button
-          text={t('haveCode')}
-          style={[st.w(st.fullWidth - 40), st.aic, st.mv5, st.asc]}
-          buttonTextStyle={[st.tac]}
+      <Flex direction="column" align="center" justify="center" self="stretch">
+        <Touchable
+          style={[
+            st.bgWhite,
+            st.p4,
+            st.br5,
+            st.mv6,
+            st.mt5,
+            { width: st.fullWidth - 30 },
+          ]}
           onPress={this.handleAdventureCode}
-        />
+        >
+          <Flex direction="column" align="center" justify="center">
+            <Text style={[st.darkBlue, st.fs18]}>Enter an Adventure Code</Text>
+            <Text style={[st.fs14, st.grey]}>Did someone send you a code?</Text>
+          </Flex>
+        </Touchable>
+        <Touchable
+          style={[
+            st.bgWhite,
+            st.p4,
+            st.br5,
+            st.mv6,
+            { width: st.fullWidth - 30 },
+          ]}
+          onPress={this.group}
+        >
+          <Flex
+            direction="row"
+            align="center"
+            justify="between"
+            style={[st.ph4]}
+          >
+            <VokeIcon
+              type="image"
+              name="groupDark"
+              style={[st.w(40), st.h(40)]}
+            />
+            <Flex direction="column" align="center" justify="center">
+              <Text style={[st.darkBlue, st.fs18]}>Start a Group</Text>
+              <Text style={[st.fs14, st.grey]}>
+                Do The Faith Adventure together!
+              </Text>
+            </Flex>
+            <VokeIcon
+              type="image"
+              name="buttonArrowDark"
+              style={[st.w(20), st.h(20)]}
+            />
+          </Flex>
+        </Touchable>
       </Flex>
     );
   };
