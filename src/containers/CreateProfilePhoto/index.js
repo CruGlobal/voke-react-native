@@ -1,6 +1,7 @@
 import React, { useState, useRef, forwardRef, useEffect } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
-import LinearGradient from 'react-native-linear-gradient';
+import ImagePicker from 'react-native-image-picker';
+
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import Icon from '../../components/Icon';
@@ -18,7 +19,8 @@ import {
   loginAction,
   login,
   register,
-  passwordReset,
+  createAccount,
+  updateMe,
 } from '../../actions/auth';
 import {
   TextInput,
@@ -31,41 +33,65 @@ import {
 import VOKE_BOT from '../../assets/voke_bot_face_large.png';
 import Touchable from '../../components/Touchable';
 
-function CreateProfilePhoto(props) {
+const imagePickerOptions = {
+  title: 'Select Avatar',
+  maxWidth: 500, // photos only
+  maxHeight: 500, // photos only
+  allowsEditing: true,
+  noData: true,
+  mediaType: 'photo',
+  cameraType: 'back',
+};
+
+function CreateProfilePhoto({ route }) {
   const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [loginLoading, setLoginLoading] = useState(false);
-
-  function handleContinue() {
-    dispatch(loginAction({ id: 123 }));
-    return;
-
-    if (isValidLoginInfo()) {
-      try {
-        setLoginLoading(true);
-        dispatch(login(firstName, lastName));
-      } finally {
-        setLoginLoading(false);
+  const [avatarSource, setAvatarSource] = useState(null);
+  const { firstName, lastName } = route.params;
+  async function handleContinue() {
+    const avatarData = {
+      avatar: {
+        fileName: `${firstName}_${lastName}.png`,
+        uri: avatarSource,
+      },
+    };
+    const userData = {
+      first_name: firstName,
+      last_name: lastName,
+    };
+    try {
+      setLoginLoading(true);
+      await dispatch(createAccount(userData));
+      if (avatarSource) {
+        dispatch(updateMe(avatarData));
       }
-    } else {
-      Alert.alert(
-        'Login Failed',
-        'Email or password are too short. Please try again.',
-      );
+    } finally {
+      setLoginLoading(false);
     }
+  }
+
+  function handleSelectImage() {
+    ImagePicker.showImagePicker(imagePickerOptions, response => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = { uri: response.uri };
+        setAvatarSource(source);
+      }
+    });
   }
 
   return (
     <Flex
-      style={[
-        st.aic,
-        st.w100,
-        st.jcsb,
-        { opacity: loginLoading ? 0 : 1 },
-        st.bgBlue,
-        { paddingTop: insets.top },
-      ]}
+      style={[st.aic, st.w100, st.jcsb, st.bgBlue, { paddingTop: insets.top }]}
     >
       <StatusBar />
       <Flex direction="column" justify="end" style={[st.w100, st.h100]}>
@@ -118,19 +144,36 @@ function CreateProfilePhoto(props) {
               />
             </Flex>
           </Flex>
-          <Flex
-            direction="column"
-            align="center"
-            justify="center"
-            style={[
-              st.w(st.fullWidth / 1.8),
-              st.h(st.fullWidth / 1.8),
-              st.bgOffBlue,
-              { borderRadius: st.fullWidth / 1.8 },
-            ]}
-          >
-            <VokeIcon type="image" name="camera" style={[st.w(70), st.h(70)]} />
-          </Flex>
+          <Touchable onPress={handleSelectImage}>
+            <Flex
+              direction="column"
+              align="center"
+              justify="center"
+              style={[
+                st.w(st.fullWidth / 1.8),
+                st.h(st.fullWidth / 1.8),
+                st.bgOffBlue,
+                { borderRadius: st.fullWidth / 1.8 },
+              ]}
+            >
+              {!avatarSource ? (
+                <VokeIcon
+                  type="image"
+                  name="camera"
+                  style={[st.w(70), st.h(70)]}
+                />
+              ) : (
+                <Image
+                  source={avatarSource}
+                  style={[
+                    st.w(st.fullWidth / 1.8),
+                    st.h(st.fullWidth / 1.8),
+                    { borderRadius: st.fullWidth / 1.8 },
+                  ]}
+                />
+              )}
+            </Flex>
+          </Touchable>
         </Flex>
         <Flex value={1} />
         <Button
@@ -141,6 +184,7 @@ function CreateProfilePhoto(props) {
             st.p4,
             { paddingBottom: insets.bottom },
           ]}
+          isLoading={loginLoading}
         >
           <Text style={[st.white, st.fs20, st.tac]}>Continue</Text>
         </Button>

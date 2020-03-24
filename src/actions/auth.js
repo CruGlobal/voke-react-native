@@ -1,8 +1,11 @@
+import RNFetchBlob from 'rn-fetch-blob';
 import { Alert } from 'react-native';
 import { REDUX_ACTIONS, isAndroid } from '../constants';
+
+import { getTimeZone, getCountry, getLocales } from 'react-native-localize';
+
 import ROUTES from './routes';
 import request from './utils';
-import auth from '@react-native-firebase/auth';
 import { firebaseErrorAlert } from '../utils/native';
 
 export function loginAction(user) {
@@ -60,34 +63,7 @@ export function hasSeenSubscriptionModal(bool) {
 // }
 
 export function login(username, password) {
-  return async (dispatch, getState) => {
-    try {
-      const user = await auth().signInWithEmailAndPassword(username, password);
-      if (user) {
-        dispatch(loginAction(user));
-      }
-    } catch (error) {
-      console.log('error', error);
-      firebaseErrorAlert(error, 'Login Error');
-    }
-  };
-}
-
-export function register(username, password) {
-  auth().signOut();
-  return async (dispatch, getState) => {
-    try {
-      const user = await auth().createUserWithEmailAndPassword(
-        username,
-        password,
-      );
-      if (user) {
-        dispatch(loginAction(user));
-      }
-    } catch (error) {
-      firebaseErrorAlert(error, 'Login Error');
-    }
-  };
+  return async (dispatch, getState) => {};
 }
 
 export function passwordReset(username) {
@@ -109,36 +85,50 @@ export function passwordReset(username) {
 
 export function getMe() {
   return async (dispatch, getState) => {
-    const result = await dispatch(request({ ...ROUTES.USERS_ACCOUNT_GET }));
-    if (result.length !== 0) {
-      dispatch({ type: REDUX_ACTIONS.SET_USER, user: result[0] });
-    }
+    const result = await dispatch(request({ ...ROUTES.GET_ME }));
+    console.log(result);
     return result;
   };
 }
 
-export function createMe(user) {
+export function createAccount(user) {
   return async (dispatch, getState) => {
     const data = {
-      status: 'inactive',
-      receipt: null,
-      platfrom: isAndroid ? 'android' : 'apple',
+      me: {
+        ...user,
+        timezone_name: getTimeZone(),
+        anonymous: true,
+        country_code: getCountry(),
+        language: {
+          language_code: getLocales(),
+        },
+      },
     };
-    const result = await dispatch(
-      request({ ...ROUTES.USERS_ACCOUNT_POST, data }),
-    );
-    dispatch(getMe());
+    const newUser =
+      (await dispatch(request({ ...ROUTES.CREATE_ACCOUNT, data }))) || {};
+    console.log(newUser);
+    if (!newUser.errors && newUser.access_token.access_token) {
+      dispatch(loginAction(newUser));
+    }
   };
 }
 
 export function updateMe(data) {
   return async (dispatch, getState) => {
-    const userId = getState().userData.id;
+    const userId = getState().auth.user.id;
     if (!userId) {
       return;
     }
+    if (data.avatar) {
+      data = {
+        name: 'me[avatar]',
+        filename: data.avatar.fileName,
+        type: 'image/jpeg',
+        data: RNFetchBlob.wrap(data.avatar.uri.uri.replace('file://', '')),
+      };
+    }
     const result = await dispatch(
-      request({ ...ROUTES.USERS_ACCOUNT_ID_PUT, pathParams: { userId }, data }),
+      request({ ...ROUTES.UPDATE_ME, pathParams: { userId }, data }),
     );
     return result;
   };

@@ -1,19 +1,28 @@
-import auth from '@react-native-firebase/auth';
+import RNFetchBlob from 'rn-fetch-blob';
 import qs from 'qs';
-import { REDUX_ACTIONS } from '../constants';
+import CONSTANTS, { REDUX_ACTIONS } from '../constants';
 
-let baseUrl = 'https://a.tribl.com/';
+let baseUrl;
+let authUrl;
 
-export const ImageBaseHref = 'https://diq8orop83eh2.cloudfront.net/';
-// export const ImageBaseHref = 'https://aimg.tribl.com/';
-export const APIBaseHref = 'https://a.tribl.com/';
-// export const APIBaseHref = 'http://localhost:3003/';
-// export const APIBaseHref = 'http://192.168.0.173:3003/';
+const API_VERSION = 'v1';
 
-export const API_BASE_URL = baseUrl;
-export const IMAGE_BASE_URL = 'https://diq8orop83eh2.cloudfront.net/';
-export const IS_LOCAL = baseUrl.startsWith('http://localhost') || baseUrl.startsWith('http://192.168');
-export const IS_DEV = baseUrl.startsWith('https://api-dev.hummingbirdtool.com');
+let domain = '';
+if (!CONSTANTS.IS_STAGING) {
+  setTimeout(() => console.log('POINTING TO PROD'), 1);
+  domain = '';
+} else {
+  // setTimeout(() => LOG('POINTING TO STAGING'), 1);
+  domain = '-stage';
+}
+
+baseUrl = `https://api${domain}.vokeapp.com/api/messenger/${API_VERSION}`;
+authUrl = `https://auth${domain}.vokeapp.com`;
+
+export const BASE_URL = baseUrl;
+export const API_BASE_URL = BASE_URL + '/';
+export const AUTH_URL = authUrl + '/';
+export const SOCKET_URL = `wss://api${domain}.vokeapp.com/`;
 
 const DEFAULT_HEADERS = {
   Accept: 'application/json',
@@ -48,12 +57,12 @@ function replaceUrlParam(url, pathParams) {
 function buildParams(options, getState) {
   const params = options.params || {};
   // Add on the version as a query parameter
-  params.version = 'v2';
+  console.log('options', options);
   if (options.anonymous) {
     return params;
   }
 
-  const token = getState().auth.token;
+  const token = getState().auth.authToken;
 
   return {
     access_token: token,
@@ -63,25 +72,59 @@ function buildParams(options, getState) {
 
 export default function request(options) {
   return async (dispatch, getState) => {
+    console.log('making api request');
     let finalUrl = replaceUrlParam(options.url, options.pathParams);
     const params = qs.stringify(buildParams(options, getState));
     finalUrl = `${API_BASE_URL}${finalUrl}?${params}`;
+    if (options.isAuth) {
+      finalUrl = `${AUTH_URL}${finalUrl}?${params}`;
+    }
     const newObj = {
-      headers: options.headers ? { ...DEFAULT_HEADERS, ...options.headers } : DEFAULT_HEADERS,
+      headers: options.headers
+        ? { ...DEFAULT_HEADERS, ...options.headers }
+        : DEFAULT_HEADERS,
       method: (options.method || 'GET').toUpperCase(),
       url: finalUrl,
     };
     if (!options.anonymous) {
-      const userToken = await auth().currentUser.getIdToken();
+      const userToken = getState().auth.authToken;
       newObj.headers['x-access-token'] = userToken;
     }
-    if (options.method !== 'get') {
-      newObj.body = options.stringify === false ? options.data : JSON.stringify(options.data);
+
+    if ((options.data || {}).name === 'me[avatar]') {
+      // we are uploading an image
+      return RNFetchBlob.fetch(
+        'PUT',
+        finalUrl,
+        {
+          Authorization: newObj.headers.Authorization,
+          'Content-Type': 'multipart/form-data',
+        },
+        [options.data],
+      )
+        .then(json)
+        .then(resp => resp.data)
+        .catch(err => {
+          console.log('fetch blob err', err);
+          return err;
+        });
     }
 
-    dispatch({ type: REDUX_ACTIONS.REQUEST_FETCH, url: finalUrl, method: newObj.method, body: options.data });
+    if (options.method !== 'get') {
+      newObj.body =
+        options.stringify === false
+          ? { ...options.data, ...(options.customData || {}) }
+          : JSON.stringify({ ...options.data, ...(options.customData || {}) });
+    }
+    dispatch({
+      type: REDUX_ACTIONS.REQUEST_FETCH,
+      url: finalUrl,
+      method: newObj.method,
+      body: options.data,
+    });
     return fetch(finalUrl, newObj)
-      .then((response) => {
+      .then(response => {
+        console.log('API resonse', response);
         if (!response.ok) {
           return response
             .json()
@@ -89,7 +132,7 @@ export default function request(options) {
               // Got valid JSON with error response, use it
               throw new Error(message || response.status);
             })
-            .catch((e) => {
+            .catch(e => {
               // Couldn't parse the JSON
               throw e;
             });
@@ -98,14 +141,24 @@ export default function request(options) {
           return response.blob();
         }
         // Successful response, parse the JSON and return the data
-        return response.json().then((r) => {
-          dispatch({ type: REDUX_ACTIONS.REQUEST_SUCCESS, url: finalUrl, method: newObj.method, result: r });
+        return response.json().then(r => {
+          dispatch({
+            type: REDUX_ACTIONS.REQUEST_SUCCESS,
+            url: finalUrl,
+            method: newObj.method,
+            result: r,
+          });
           return r;
         });
       })
-      .catch((e) => {
+      .catch(e => {
         console.log('fetch error', e);
-        dispatch({ type: REDUX_ACTIONS.REQUEST_FAIL, url: finalUrl, method: newObj.method, error: e });
+        dispatch({
+          type: REDUX_ACTIONS.REQUEST_FAIL,
+          url: finalUrl,
+          method: newObj.method,
+          error: e,
+        });
         // if (options.url !== ROUTES.LOGOUT.url) {
         //   const unauthMessages = [
         //     'Missing active access token',
@@ -130,19 +183,24 @@ export default function request(options) {
   };
 }
 
-export async function uploadToS3({ url, fields, file }) {
-  const form = new FormData();
-  // Append all the fields from the server into the FormData
-  for (const field in fields) {
-    form.append(field, fields[field]);
-  }
+function imageUpload(url, headers, data) {
+  return RNFetchBlob.fetch(
+    'PUT',
+    url,
+    {
+      Authorization: headers.Authorization,
+      'Content-Type': 'multipart/form-data',
+    },
+    [data],
+  )
+    .then(json)
+    .then(resp => resp.data)
+    .catch(err => {
+      console.log('fetch blob err', err);
+      return err;
+    });
+}
 
-  // Always append the file last
-  form.append('file', file);
-
-  const options = {
-    method: 'POST',
-    body: form,
-  };
-  await fetch(url, options);
+export function json(response) {
+  return response.json ? response.json() : response;
 }

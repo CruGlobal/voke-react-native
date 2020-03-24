@@ -101,21 +101,17 @@ function CreateName(props) {
   const isValidLoginInfo = () => firstName.length > 0;
 
   function handleContinue() {
-    // dispatch(loginAction({ id: 123 }));
-    navigation.navigate('CreateProfilePhoto');
-    return;
-
     if (isValidLoginInfo()) {
       try {
         setLoginLoading(true);
-        dispatch(login(firstName, lastName));
+        navigation.navigate('CreateProfilePhoto', { firstName, lastName });
       } finally {
         setLoginLoading(false);
       }
     } else {
       Alert.alert(
-        'Login Failed',
-        'Email or password are too short. Please try again.',
+        'Please provide your first name',
+        'We need atleast your first name so your friends know who you are',
       );
     }
   }

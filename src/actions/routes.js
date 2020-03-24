@@ -1,5 +1,38 @@
+import CONSTANTS from '../constants';
+
+const CLIENT = {
+  id: CONSTANTS.CLIENT_ID,
+  secret: CONSTANTS.CLIENT_SECRET,
+};
+
 const ROUTES = {
-  LOGIN: { method: 'post', url: 'login', anonymous: true },
+  LOGIN: {
+    method: 'post',
+    url: 'oauth/token',
+    anonymous: true,
+    isAuth: true,
+    customData: {
+      client: CLIENT,
+      grant_type: 'password',
+      scope: 'messenger',
+    },
+  },
+  CREATE_ACCOUNT: {
+    method: 'post',
+    url: 'me',
+    anonymous: true,
+    customData: {
+      client: CLIENT,
+    },
+  },
+  UPDATE_ME: {
+    method: 'put',
+    url: 'me',
+  },
+  GET_ME: {
+    method: 'get',
+    url: 'me',
+  },
   ALBUMS_GET: { method: 'get', url: `albums` },
   ARTISTS_GET: { method: 'get', url: `artists` },
   ARTISTS_ID_GET: { method: 'get', url: `artists/{artistId}` },
@@ -20,26 +53,59 @@ const ROUTES = {
   USERS_ACCOUNT_GET: { method: 'get', url: `users/account` },
   USERS_ACCOUNT_ID_PUT: { method: 'put', url: `users/account/{userID}` },
   USERS_ACCOUNT_POST: { method: 'post', url: `users/account` },
-  USERS_FAVORITE_ALBUMS_DELETE: { method: 'delete', url: `users/favorite/albums` },
+  USERS_FAVORITE_ALBUMS_DELETE: {
+    method: 'delete',
+    url: `users/favorite/albums`,
+  },
   USERS_FAVORITE_ALBUMS_GET: { method: 'get', url: `users/favorite/albums` },
   USERS_FAVORITE_ALBUMS_POST: { method: 'post', url: `users/favorite/albums` },
-  USERS_FAVORITE_ARTISTS_DELETE: { method: 'delete', url: `users/favorite/artists` },
+  USERS_FAVORITE_ARTISTS_DELETE: {
+    method: 'delete',
+    url: `users/favorite/artists`,
+  },
   USERS_FAVORITE_ARTISTS_GET: { method: 'get', url: `users/favorite/artists` },
-  USERS_FAVORITE_ARTISTS_POST: { method: 'post', url: `users/favorite/artists` },
-  USERS_FAVORITE_PLAYLISTS_DELETE: { method: 'delete', url: `users/favorite/playlists` },
-  USERS_FAVORITE_PLAYLISTS_GET: { method: 'get', url: `users/favorite/playlists` },
-  USERS_FAVORITE_PLAYLISTS_POST: { method: 'post', url: `users/favorite/playlists` },
-  USERS_FAVORITE_TRACKS_DELETE: { method: 'delete', url: `users/favorite/tracks` },
+  USERS_FAVORITE_ARTISTS_POST: {
+    method: 'post',
+    url: `users/favorite/artists`,
+  },
+  USERS_FAVORITE_PLAYLISTS_DELETE: {
+    method: 'delete',
+    url: `users/favorite/playlists`,
+  },
+  USERS_FAVORITE_PLAYLISTS_GET: {
+    method: 'get',
+    url: `users/favorite/playlists`,
+  },
+  USERS_FAVORITE_PLAYLISTS_POST: {
+    method: 'post',
+    url: `users/favorite/playlists`,
+  },
+  USERS_FAVORITE_TRACKS_DELETE: {
+    method: 'delete',
+    url: `users/favorite/tracks`,
+  },
   USERS_FAVORITE_TRACKS_GET: { method: 'get', url: `users/favorite/tracks` },
   USERS_FAVORITE_TRACKS_POST: { method: 'post', url: `users/favorite/tracks` },
   USERS_PLAYLIST__IDPUT: { method: 'put', url: `users/playlists/{playlistId}` },
   USERS_PLAYLIST_GET: { method: 'get', url: `users/playlists` },
-  USERS_PLAYLIST_ID_DELETE: { method: 'delete', url: `users/playlists/{playlistId}` },
+  USERS_PLAYLIST_ID_DELETE: {
+    method: 'delete',
+    url: `users/playlists/{playlistId}`,
+  },
   USERS_PLAYLIST_ID_GET: { method: 'get', url: `users/playlists/{playlistId}` },
-  USERS_PLAYLIST_ID_TRACKS_ID_DELETE: { method: 'delete', url: `users/playlists/{playlistId}/tracks/{trackId}` },
-  USERS_PLAYLIST_ID_TRACKS_POST: { method: 'post', url: `users/playlists/{playlistId}/tracks` },
+  USERS_PLAYLIST_ID_TRACKS_ID_DELETE: {
+    method: 'delete',
+    url: `users/playlists/{playlistId}/tracks/{trackId}`,
+  },
+  USERS_PLAYLIST_ID_TRACKS_POST: {
+    method: 'post',
+    url: `users/playlists/{playlistId}/tracks`,
+  },
   USERS_PLAYLIST_POST: { method: 'post', url: `users/playlists` },
-  USERS_PLAYLIST_TRACKS_ID_GET: { method: 'get', url: `users/playlists/tracks/{trackId}` },
+  USERS_PLAYLIST_TRACKS_ID_GET: {
+    method: 'get',
+    url: `users/playlists/tracks/{trackId}`,
+  },
   VIDEOS_GET: { method: 'get', url: `videos` },
 };
 

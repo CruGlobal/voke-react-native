@@ -22,6 +22,7 @@ import {
   login,
   register,
   passwordReset,
+  getMe,
 } from '../../actions/auth';
 import {
   TextInput,
@@ -37,6 +38,7 @@ import VOKE_BOT from '../../assets/voke_bot_face_large.png';
 import Touchable from '../../components/Touchable';
 
 function CallToActions() {
+  const dispatch = useDispatch();
   return (
     <Flex direction="column" align="center" justify="center" self="stretch">
       <Touchable
@@ -48,7 +50,7 @@ function CallToActions() {
           st.mt5,
           { width: st.fullWidth - 30 },
         ]}
-        onPress={() => {}}
+        onPress={() => dispatch(logoutAction())}
       >
         <Flex direction="column" align="center" justify="center">
           <Text style={[st.darkBlue, st.fs18]}>Enter an Adventure Code</Text>
@@ -63,7 +65,7 @@ function CallToActions() {
           st.mv6,
           { width: st.fullWidth - 30 },
         ]}
-        onPress={() => {}}
+        onPress={() => dispatch(getMe())}
       >
         <Flex direction="row" align="center" justify="between" style={[st.ph4]}>
           <VokeIcon
