@@ -63,10 +63,7 @@ function CreateProfilePhoto({ route }) {
     };
     try {
       setLoginLoading(true);
-      await dispatch(createAccount(userData));
-      if (avatarSource) {
-        dispatch(updateMe(avatarData));
-      }
+      await dispatch(createAccount(userData, avatarSource ? avatarData : null));
     } finally {
       setLoginLoading(false);
     }

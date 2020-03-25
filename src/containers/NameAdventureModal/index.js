@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, forwardRef, useEffect } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
+import LinearGradient from 'react-native-linear-gradient';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import NameInput from '../../components/NameInput';
@@ -30,14 +31,15 @@ import {
 import VOKE_BOT from '../../assets/voke_bot_face_large.png';
 import Touchable from '../../components/Touchable';
 
-function CreateName(props) {
+function NameAdventureModal(props) {
   const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const lastNameRef = useRef(null);
-  const [loginLoading, setLoginLoading] = useState(false);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
+  const [name, setName] = useState('');
+
+  const { item, withGroup } = props.route.params;
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
@@ -61,20 +63,19 @@ function CreateName(props) {
     };
   }, []);
 
-  const isValidLoginInfo = () => firstName.length > 0;
+  const isValidName = () => name.length > 0;
 
   function handleContinue() {
-    if (isValidLoginInfo()) {
+    if (isValidName()) {
       try {
-        setLoginLoading(true);
-        navigation.navigate('CreateProfilePhoto', { firstName, lastName });
+        setIsLoading(true);
       } finally {
-        setLoginLoading(false);
+        setIsLoading(false);
       }
     } else {
       Alert.alert(
-        'Please provide your first name',
-        'We need atleast your first name so your friends know who you are',
+        'Please provide a name',
+        'We need a name so you can manage your adventures',
       );
     }
   }
@@ -129,7 +130,9 @@ function CreateName(props) {
               >
                 <Flex style={[st.bgOffBlue, st.ph3, st.pv5, st.br5]}>
                   <Text style={[st.white, st.fs20, st.tac]}>
-                    Hi! My name is Vokebot. What is your name?
+                    {withGroup
+                      ? "What's the name of your group?"
+                      : "What is your friend's name?"}
                   </Text>
                 </Flex>
                 <Triangle
@@ -145,23 +148,22 @@ function CreateName(props) {
             <Flex direction="column" align="center" style={[st.ph1, st.w100]}>
               <NameInput
                 blurOnSubmit={false}
-                label="First Name (Required)"
-                onSubmitEditing={() => lastNameRef.current.focus()}
-                placeholder={'First'}
-                value={firstName}
-                onChangeText={text => setFirstName(text)}
-                returnKeyType={'next'}
-              />
-              <NameInput
-                ref={lastNameRef}
-                blurOnSubmit={true}
-                label="Last Name"
-                placeholder={'Last'}
-                value={lastName}
-                onChangeText={text => setLastName(text)}
-                returnKeyType={'done'}
+                label={withGroup ? 'Group Name' : 'First Name'}
                 onSubmitEditing={handleContinue}
+                placeholder={withGroup ? 'Group Name' : "Friend's Name"}
+                value={name}
+                onChangeText={text => setName(text)}
+                returnKeyType={'done'}
               />
+              <Touchable onPress={() => setShowHelp(!showHelp)}>
+                <Text style={[st.offBlue, st.fs14, st.pt3, st.tac, st.ph1]}>
+                  {showHelp
+                    ? withGroup
+                      ? 'We use the group name to onboard your friends and help you manage your groups'
+                      : "We use your friend's name to help you know who responded to the videos you shared."
+                    : 'Why do we need this?'}
+                </Text>
+              </Touchable>
             </Flex>
           </Flex>
           <Flex value={1} />
@@ -173,6 +175,7 @@ function CreateName(props) {
               st.p4,
               { paddingBottom: isKeyboardVisible ? 15 : insets.bottom },
             ]}
+            isLoading={isLoading}
           >
             <Text style={[st.white, st.fs20, st.tac]}>Continue</Text>
           </Button>
@@ -182,4 +185,4 @@ function CreateName(props) {
   );
 }
 
-export default CreateName;
+export default NameAdventureModal;

@@ -91,7 +91,7 @@ export function getMe() {
   };
 }
 
-export function createAccount(user) {
+export function createAccount(user, createWithAvatarData) {
   return async (dispatch, getState) => {
     const data = {
       me: {
@@ -108,7 +108,10 @@ export function createAccount(user) {
       (await dispatch(request({ ...ROUTES.CREATE_ACCOUNT, data }))) || {};
     console.log(newUser);
     if (!newUser.errors && newUser.access_token.access_token) {
-      dispatch(loginAction(newUser));
+      await dispatch(loginAction(newUser));
+      if (createWithAvatarData) {
+        await dispatch(updateMe(createWithAvatarData));
+      }
     }
   };
 }

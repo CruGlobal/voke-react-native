@@ -1,4 +1,5 @@
-import React, { useState, useRef, forwardRef } from 'react';
+import React, { useState } from 'react';
+import Orientation from 'react-native-orientation-locker';
 import { Linking } from 'react-native';
 import { useSafeArea } from 'react-native-safe-area-context';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
@@ -17,7 +18,7 @@ import Triangle from '../../components/Triangle';
 import CAROUSEL_1 from '../../assets/carousel1.png';
 import CAROUSEL_2 from '../../assets/carousel2.png';
 import CAROUSEL_3 from '../../assets/carousel3.png';
-import { loginAction } from '../../actions/auth';
+import { useMount } from '../../utils';
 
 const CAROUSEL_CARDS = [
   {
@@ -68,6 +69,9 @@ function Welcome(props) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [activeSlide, setActiveSlide] = useState(0);
+  useMount(() => {
+    Orientation.lockToPortrait();
+  });
 
   return (
     <Flex value={1} style={[st.bgBlue, { paddingTop: insets.top }]}>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
+
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Login from './containers/Login';
@@ -9,8 +10,11 @@ import Home from './containers/Home';
 import MusicPlayerModal from './containers/MusicPlayerModal';
 import FilterModal from './containers/FilterModal';
 import SearchModal from './containers/SearchModal';
+import SettingsModal from './containers/SettingsModal';
 import Adventures from './containers/Adventures';
-import InfoModal from './containers/InfoModal';
+import AvailableAdventureModal from './containers/AvailableAdventureModal';
+import StartAdventureModal from './containers/StartAdventureModal';
+import NameAdventureModal from './containers/NameAdventureModal';
 import PlaylistDetail from './containers/PlaylistDetail';
 import ArtistDetail from './containers/ArtistDetail';
 import CreateName from './containers/CreateName';
@@ -43,10 +47,32 @@ const LoggedInAppContainer = () => {
     headerLeft: () => <HeaderLeft />,
   };
 
-  function AdventureStackScreens() {
+  function AdventureStackScreens({ navigation, route }: any) {
+    navigation.setOptions({
+      tabBarVisible: route.state
+        ? route.state.index > 0
+          ? false
+          : true
+        : null,
+    });
     return (
       <AdventureStack.Navigator screenOptions={defaultHeaderConfig}>
         <AdventureStack.Screen name="Adventures" component={Adventures} />
+        <AdventureStack.Screen
+          name="AvailableAdventureModal"
+          component={AvailableAdventureModal}
+          options={{ headerShown: false }}
+        />
+        <AdventureStack.Screen
+          name="StartAdventureModal"
+          component={StartAdventureModal}
+          options={{ headerShown: false }}
+        />
+        <AdventureStack.Screen
+          name="NameAdventureModal"
+          component={NameAdventureModal}
+          options={{ headerShown: false }}
+        />
         <AdventureStack.Screen
           name="PlaylistDetail"
           component={PlaylistDetail}
@@ -101,7 +127,11 @@ const LoggedInAppContainer = () => {
       }}
     >
       <MainStack.Screen name="Tabs" component={TabNavigator} />
-      <MainStack.Screen name="InfoModal" component={InfoModal} />
+      <MainStack.Screen
+        name="SettingsModal"
+        component={SettingsModal}
+        options={{ cardStyle: { backgroundColor: st.colors.transparent } }}
+      />
       <MainStack.Screen
         name="FilterModal"
         component={FilterModal}
@@ -137,7 +167,7 @@ const WelcomeAppContainer = () => {
 
 const App = () => {
   const isLoggedIn = useSelector(({ auth }: any) => auth.isLoggedIn);
-  AsyncStorage.clear();
+  // AsyncStorage.clear();
   return (
     <NavigationContainer>
       {isLoggedIn ? <LoggedInAppContainer /> : <WelcomeAppContainer />}

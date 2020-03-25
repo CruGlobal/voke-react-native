@@ -22,7 +22,10 @@ function HeaderLeft({ hasBack = false }) {
           />
         </Touchable>
       ) : (
-        <Touchable style={[st.p5, st.pl4]} onPress={() => {}}>
+        <Touchable
+          style={[st.p5, st.pl4]}
+          onPress={() => navigation.navigate('SettingsModal')}
+        >
           <VokeIcon name="menu" size={25} style={[st.h(25)]} />
         </Touchable>
       )}

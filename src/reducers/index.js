@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import auth from './auth';
 import player from './player';
+import data from './data';
 import { persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -16,6 +17,7 @@ const rootReducer = () =>
     combineReducers({
       auth: persistReducer({ key: 'auth', storage: AsyncStorage }, auth),
       player,
+      data,
     }),
   );
 
