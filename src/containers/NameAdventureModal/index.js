@@ -30,6 +30,7 @@ import {
 
 import VOKE_BOT from '../../assets/voke_bot_face_large.png';
 import Touchable from '../../components/Touchable';
+import { sendAdventureInvitation } from '../../actions/requests';
 
 function NameAdventureModal(props) {
   const insets = useSafeArea();
@@ -65,10 +66,23 @@ function NameAdventureModal(props) {
 
   const isValidName = () => name.length > 0;
 
-  function handleContinue() {
+  async function handleContinue() {
     if (isValidName()) {
       try {
         setIsLoading(true);
+        console.log(item);
+        const result = await dispatch(
+          sendAdventureInvitation({
+            organization_journey_id: item.id,
+            name,
+            kind: withGroup ? 'multiple' : 'duo',
+          }),
+        );
+        console.log('INVITATION', result);
+        navigation.navigate('ShareAdventureCodeModal', {
+          invitation: result,
+          withGroup,
+        });
       } finally {
         setIsLoading(false);
       }

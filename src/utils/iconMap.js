@@ -5,7 +5,7 @@ import NOT_SELECTED from '../assets/buttonArrow.png';
 import HOME_DOT from '../assets/buttonArrow.png';
 import NOTIFICATION_WHITE from '../assets/notificationBell.png';
 import NOTIFICATION_BLUE from '../assets/notificationBellBlue.png';
-import SHARE_ARROW from '../assets/buttonArrow.png';
+import SHARE_ARROW from '../assets/shareArrow.png';
 import GROUP from '../assets/withGroup.png';
 import FRIEND from '../assets/withFriend.png';
 import MYSELF from '../assets/byMyself.png';
@@ -13,6 +13,8 @@ import BUTTON_ARROW from '../assets/buttonArrow.png';
 import CAMERA from '../assets/camera.png';
 import GROUP_DARK from '../assets/groupDark.png';
 import BUTTON_ARROW_DARK from '../assets/buttonArrowDark.png';
+import VOKEBOT_AVATAR from '../assets/vokeAvatar.png';
+import VOKEBOT from '../assets/vokebot_whole.png';
 
 let iconsMap = {};
 const vokeIcons = {
@@ -59,6 +61,10 @@ const vokeImages = {
   buttonArrow: BUTTON_ARROW,
   buttonArrowDark: BUTTON_ARROW_DARK,
   camera: CAMERA,
+  lock: CAMERA,
+  play_filled: CAMERA,
+  vokebot_avatar: VOKEBOT_AVATAR,
+  vokebot: VOKEBOT,
 };
 
 export { iconsMap, vokeIcons, vokeImages };

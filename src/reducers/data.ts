@@ -4,12 +4,16 @@ import { exists } from '../utils';
 export type DataKeys =
   | 'availableAdventures'
   | 'myAdventures'
+  | 'adventureSteps'
+  | 'adventureStepMessages'
   | 'adventureInvitations';
 
 const initialState = {
   availableAdventures: [],
   myAdventures: [],
   adventureInvitations: [],
+  adventureSteps: {},
+  adventureStepMessages: {},
 };
 
 export default function(state = initialState, action: any) {
@@ -26,7 +30,25 @@ export default function(state = initialState, action: any) {
         updatedMyAdventures.push(action.result);
       }
       return { ...state, myAdventures: updatedMyAdventures };
+    case REDUX_ACTIONS.SEND_ADVENTURE_INVITATION:
+      let updatedAdventureInvitations: any = state.adventureInvitations;
+      if (action.result) {
+        updatedAdventureInvitations.push(action.result);
+      }
+      return { ...state, adventureInvitations: updatedAdventureInvitations };
+    case REDUX_ACTIONS.GET_ADVENTURE_STEPS:
+      let updatedAdventureSteps: any = state.adventureSteps;
+      updatedAdventureSteps[action.result.adventureId] =
+        action.result.adventureSteps;
+      return { ...state, adventureSteps: updatedAdventureSteps };
+    case REDUX_ACTIONS.GET_ADVENTURE_STEP_MESSAGES:
+      let updatedAdventureStepMessages: any = state.adventureStepMessages;
+      updatedAdventureStepMessages[action.result.adventureStepId] =
+        action.result.adventureStepMessages;
+      return { ...state, adventureStepMessages: updatedAdventureStepMessages };
     case REDUX_ACTIONS.LOGOUT:
+      return initialState;
+    case REDUX_ACTIONS.RESET:
       return initialState;
     default:
       return state;

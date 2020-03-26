@@ -18,7 +18,7 @@ const colors: { [key: string]: string } = {
   green: '#5abc86',
   black: '#1d1d26',
   deepBlack: '#000000',
-  darkGrey: '#565c67',
+  darkGrey: '#646464',
   grey: '#979797',
   grey2: '#a1a1a1',
   offWhite: '#acb1d0',

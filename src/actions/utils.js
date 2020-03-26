@@ -72,7 +72,7 @@ function buildParams(options, getState) {
 
 export default function request(options) {
   return async (dispatch, getState) => {
-    console.log('making api request');
+    console.log('making api request', options);
     let finalUrl = replaceUrlParam(options.url, options.pathParams);
     const params = qs.stringify(buildParams(options, getState));
     finalUrl = `${API_BASE_URL}${finalUrl}?${params}`;

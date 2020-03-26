@@ -7,7 +7,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login from './containers/Login';
 import Welcome from './containers/Welcome';
 import Home from './containers/Home';
-import MusicPlayerModal from './containers/MusicPlayerModal';
 import FilterModal from './containers/FilterModal';
 import SearchModal from './containers/SearchModal';
 import SettingsModal from './containers/SettingsModal';
@@ -15,6 +14,9 @@ import Adventures from './containers/Adventures';
 import AvailableAdventureModal from './containers/AvailableAdventureModal';
 import StartAdventureModal from './containers/StartAdventureModal';
 import NameAdventureModal from './containers/NameAdventureModal';
+import ShareAdventureCodeModal from './containers/ShareAdventureCodeModal';
+import ActiveAdventureModal from './containers/ActiveAdventureModal';
+import AdventureStepModal from './containers/AdventureStepModal';
 import PlaylistDetail from './containers/PlaylistDetail';
 import ArtistDetail from './containers/ArtistDetail';
 import CreateName from './containers/CreateName';
@@ -24,6 +26,8 @@ import TabBar from './components/TabBar';
 import st from './st';
 import HeaderRight from './components/HeaderRight';
 import HeaderLeft from './components/HeaderLeft';
+import Text from './components/Text';
+import Touchable from './components/Touchable';
 
 const LoggedInAppContainer = () => {
   const MainStack = createStackNavigator();
@@ -74,6 +78,21 @@ const LoggedInAppContainer = () => {
           options={{ headerShown: false }}
         />
         <AdventureStack.Screen
+          name="ShareAdventureCodeModal"
+          component={ShareAdventureCodeModal}
+          options={{ headerShown: false }}
+        />
+        <AdventureStack.Screen
+          name="ActiveAdventureModal"
+          component={ActiveAdventureModal}
+          options={{ headerShown: false }}
+        />
+        <AdventureStack.Screen
+          name="AdventureStepModal"
+          component={AdventureStepModal}
+          options={{ headerShown: false }}
+        />
+        <AdventureStack.Screen
           name="PlaylistDetail"
           component={PlaylistDetail}
           options={{ headerLeft: () => <HeaderLeft hasBack={true} /> }}
@@ -101,10 +120,7 @@ const LoggedInAppContainer = () => {
         mode="card"
         screenOptions={defaultHeaderConfig}
       >
-        <NotificationStack.Screen
-          name="Favorite"
-          component={MusicPlayerModal}
-        />
+        <NotificationStack.Screen name="Featured" component={Home} />
       </NotificationStack.Navigator>
     );
   }
@@ -130,7 +146,27 @@ const LoggedInAppContainer = () => {
       <MainStack.Screen
         name="SettingsModal"
         component={SettingsModal}
-        options={{ cardStyle: { backgroundColor: st.colors.transparent } }}
+        options={({ navigation }) => ({
+          headerShown: true,
+          headerRight: () => (
+            <Touchable onPress={() => navigation.goBack()}>
+              <Text style={[st.white, st.mr4, st.fs16]}>Done</Text>
+            </Touchable>
+          ),
+          headerLeft: () => {},
+          cardStyle: { backgroundColor: st.colors.transparent },
+          headerStyle: {
+            backgroundColor: st.colors.blue,
+            elevation: 0,
+            shadowOpacity: 0,
+          },
+          headerTitleStyle: {
+            color: st.colors.white,
+            fontSize: 18,
+            fontWeight: 'normal',
+          },
+          title: 'Settings',
+        })}
       />
       <MainStack.Screen
         name="FilterModal"

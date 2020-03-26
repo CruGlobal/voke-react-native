@@ -69,7 +69,11 @@ function Video({
   return (
     <View
       style={[
-        st.h(dimensions.height),
+        st.h(
+          dimensions.height === VIDEO_HEIGHT
+            ? dimensions.height + insets.top
+            : dimensions.height,
+        ),
         st.w(dimensions.width),
         st.bgBlack,
         { paddingTop: dimensions.height === VIDEO_HEIGHT ? insets.top : 0 },

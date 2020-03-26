@@ -7,6 +7,7 @@ import uniqBy from 'lodash/uniqBy';
 import xor from 'lodash/xor';
 // import clone from 'lodash/clone';
 import difference from 'lodash/difference';
+import moment from 'moment';
 import { useEffect, useRef } from 'react';
 
 export { difference, memoize, orderBy, range, debounce, throttle, xor, uniqBy };
@@ -115,4 +116,28 @@ export function ellipsisUtil(str, len) {
 }
 export function useMount(cb) {
   useEffect(cb, []);
+}
+
+// Pull dates out of UTC format into a moment object
+export const UTC_FORMAT = 'YYYY-MM-DD HH:mm:ss UTC';
+export const momentUtc = time => moment.utc(time, UTC_FORMAT);
+
+export function useInterval(callback, delay) {
+  const savedCallback = useRef();
+
+  // Remember the latest callback.
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  // Set up the interval.
+  useEffect(() => {
+    function tick() {
+      savedCallback.current();
+    }
+    if (delay !== null) {
+      let id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }
+  }, [delay]);
 }

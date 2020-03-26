@@ -7,7 +7,6 @@ import { DataKeys } from '../reducers/data';
 type Dispatch = ThunkDispatch<any, any, any>;
 
 export function setData(key: DataKeys, data: any) {
-  console.log('data', data);
   return {
     type: REDUX_ACTIONS.SET_DATA,
     key,
@@ -39,10 +38,51 @@ export function getMyAdventures() {
 
 export function getAdventuresInvitations() {
   return async (dispatch: Dispatch, getState: any) => {
-    const results = await dispatch(
+    const results: any = await dispatch(
       request({ ...ROUTES.GET_ADVENTURE_INVITATIONS }),
     );
-    dispatch(setData('adventureInvitations', results));
+    const adventureInvitations = results.journey_invites;
+    dispatch(setData('adventureInvitations', adventureInvitations));
+    return results;
+  };
+}
+
+export function getAdventureSteps(adventureId: any) {
+  return async (dispatch: Dispatch, getState: any) => {
+    const results: any = await dispatch(
+      request({
+        ...ROUTES.GET_ADVENTURE_STEPS,
+        pathParams: { adventureId },
+      }),
+    );
+    console.warn(results);
+    const adventureSteps = results.steps;
+    dispatch({
+      type: REDUX_ACTIONS.GET_ADVENTURE_STEPS,
+      result: { adventureId, adventureSteps },
+    });
+    return results;
+  };
+}
+
+export function getAdventureStepMessages(
+  adventureConversationId: any,
+  adventureStepId: any,
+) {
+  return async (dispatch: Dispatch, getState: any) => {
+    const results: any = await dispatch(
+      request({
+        ...ROUTES.GET_ADVENTURE_STEP_MESSAGES,
+        pathParams: { adventureConversationId },
+        messenger_journey_step_id: adventureStepId,
+      }),
+    );
+    console.warn(results);
+    const adventureStepMessages = results.messages;
+    dispatch({
+      type: REDUX_ACTIONS.GET_ADVENTURE_STEP_MESSAGES,
+      result: { adventureStepId, adventureStepMessages },
+    });
     return results;
   };
 }
@@ -52,6 +92,19 @@ export function startAdventure(data: any) {
     const result = await dispatch(request({ ...ROUTES.START_ADVENTURE, data }));
     dispatch({
       type: REDUX_ACTIONS.START_ADVENTURE,
+      result,
+    });
+    return result;
+  };
+}
+
+export function sendAdventureInvitation(data: any) {
+  return async (dispatch: Dispatch, getState: any) => {
+    const result = await dispatch(
+      request({ ...ROUTES.SEND_ADVENTURE_INVITATION, data }),
+    );
+    dispatch({
+      type: REDUX_ACTIONS.SEND_ADVENTURE_INVITATION,
       result,
     });
     return result;

@@ -35,6 +35,14 @@ const ROUTES = {
   },
   GET_AVAILABLE_ADVENTURES: { method: 'get', url: `organization_journeys` },
   GET_MY_ADVENTURES: { method: 'get', url: `me/journeys` },
+  GET_ADVENTURE_STEPS: {
+    method: 'get',
+    url: `me/journeys/{adventureId}/steps`,
+  },
+  GET_ADVENTURE_STEP_MESSAGES: {
+    method: 'get',
+    url: `me/conversations/{adventureConversationId}/messages`,
+  },
   START_ADVENTURE: { method: 'post', url: `me/journeys` },
   GET_ADVENTURE_INVITATIONS: { method: 'get', url: `me/journey_invites` },
   SEND_ADVENTURE_INVITATION: { method: 'post', url: `me/journey_invites` },

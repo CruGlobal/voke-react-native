@@ -74,7 +74,12 @@ function AvailableAdventureItem({
               justify="center"
             >
               <Text
-                style={[st.bold, { letterSpacing: 2, fontSize: 10 }, st.mr6]}
+                style={[
+                  st.bold,
+                  st.white,
+                  { letterSpacing: 2, fontSize: 10 },
+                  st.mr6,
+                ]}
               >
                 {'started'.toUpperCase()}
               </Text>
@@ -114,7 +119,9 @@ function AvailableAdventureItem({
                 type="image"
                 style={[st.mr5, { height: 20, width: 20, marginBottom: 2 }]}
               />
-              <Text style={[{ lineHeight: 20 }]}>{'Invite friend'}</Text>
+              <Text style={[st.white, { lineHeight: 20 }]}>
+                {'Invite friend'}
+              </Text>
             </Button>
           </Flex>
         ) : (

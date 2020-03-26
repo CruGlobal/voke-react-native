@@ -10,7 +10,7 @@ import { useMount } from '../../utils';
 
 import st from '../../st';
 import { useNavigation } from '@react-navigation/native';
-// import { MONTHLY_PRICE } from '../../constants';
+import { REDUX_ACTIONS } from '../../constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutAction, getMe } from '../../actions/auth';
 import { ActivityIndicator, ScrollView, FlatList } from 'react-native';
@@ -19,8 +19,10 @@ import Touchable from '../../components/Touchable';
 import {
   getAvailableAdventures,
   getMyAdventures,
+  getAdventuresInvitations,
 } from '../../actions/requests';
 import AvailableAdventureItem from '../../components/AvailableAdventureItem';
+import MyAdventureItem from '../../components/MyAdventureItem';
 
 function CallToActions() {
   const dispatch = useDispatch();
@@ -77,17 +79,38 @@ function CallToActions() {
 
 function MyAdventures() {
   const myAdventures = useSelector(({ data }) => data.myAdventures);
+  const adventureInvitations = useSelector(
+    ({ data }) => data.adventureInvitations,
+  );
+  const [combinedData, setCombinedData] = useState(
+    [].concat(adventureInvitations, myAdventures),
+  );
   const dispatch = useDispatch();
   useMount(() => {
+    // dispatch({ type: REDUX_ACTIONS.RESET });
     if (myAdventures.length === 0) {
       // TODO: Do some kind of time based caching for these requests
       dispatch(getMyAdventures());
     }
+    if (adventureInvitations.length === 0) {
+      // TODO: Do some kind of time based caching for these requests
+      dispatch(getAdventuresInvitations());
+    }
   });
+
+  useEffect(() => {
+    setCombinedData([].concat(adventureInvitations, myAdventures));
+  }, [myAdventures, adventureInvitations]);
+
   return (
     <ScrollView style={[st.f1, st.bgBlue]}>
       <CallToActions />
-      <Text>HERHER</Text>
+      <FlatList
+        renderItem={props => <MyAdventureItem {...props} />}
+        data={combinedData}
+        style={[st.w(st.fullWidth)]}
+        removeClippedSubviews={true}
+      />
     </ScrollView>
   );
 }
@@ -103,7 +126,6 @@ function FindAdventures() {
       dispatch(getAvailableAdventures());
     }
   });
-  console.log(availableAdventures);
   return (
     <ScrollView style={[st.f1, st.bgBlue]}>
       <CallToActions />
