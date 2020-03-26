@@ -46,14 +46,6 @@ function AdventureStepModal(props) {
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
-  let bottomInputHeight = {
-    height: inputHeight < 45 ? 45 : inputHeight > 140 ? 140 : inputHeight,
-  };
-
-  let newWrap = {
-    height: inputHeight.height,
-  };
-
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardWillShow',
@@ -159,11 +151,13 @@ function AdventureStepModal(props) {
             <Flex
               direction="row"
               style={[
-                newWrap,
                 st.bgDarkBlue,
                 st.w100,
                 st.ph4,
-                { paddingBottom: isKeyboardVisible ? 50 : insets.bottom },
+                {
+                  paddingBottom: isKeyboardVisible ? 50 : insets.bottom,
+                  maxHeight: 140,
+                },
               ]}
               align="center"
               justify="center"
