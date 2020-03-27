@@ -10,7 +10,6 @@ import { useMount } from '../../utils';
 
 import st from '../../st';
 import { useNavigation } from '@react-navigation/native';
-import { REDUX_ACTIONS } from '../../constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutAction, getMe } from '../../actions/auth';
 import { ActivityIndicator, ScrollView, FlatList } from 'react-native';
@@ -88,14 +87,14 @@ function MyAdventures() {
   const dispatch = useDispatch();
   useMount(() => {
     // dispatch({ type: REDUX_ACTIONS.RESET });
-    if (myAdventures.length === 0) {
-      // TODO: Do some kind of time based caching for these requests
-      dispatch(getMyAdventures());
-    }
-    if (adventureInvitations.length === 0) {
-      // TODO: Do some kind of time based caching for these requests
-      dispatch(getAdventuresInvitations());
-    }
+    // if (myAdventures.length === 0) {
+    // TODO: Do some kind of time based caching for these requests
+    dispatch(getMyAdventures());
+    // }
+    // if (adventureInvitations.length === 0) {
+    // TODO: Do some kind of time based caching for these requests
+    dispatch(getAdventuresInvitations());
+    // }
   });
 
   useEffect(() => {

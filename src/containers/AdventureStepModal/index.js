@@ -1,34 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
-import LinearGradient from 'react-native-linear-gradient';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import st from '../../st';
-import Button from '../../components/Button';
+import MainMessagingInput from '../../components/MainMessagingInput';
 import AdventureStepMessage from '../../components/AdventureStepMessage';
 import AdventureStepMessageInput from '../../components/AdventureStepMessageInput';
 import Image from '../../components/Image';
 import VokeIcon from '../../components/VokeIcon';
-import {
-  ScrollView,
-  Linking,
-  FlatList,
-  KeyboardAvoidingView,
-  Keyboard,
-  TextInput,
-} from 'react-native';
-import { MONTHLY_PRICE, VIDEO_HEIGHT, REDUX_ACTIONS } from '../../constants';
+import { KeyboardAvoidingView, findNodeHandle } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutAction } from '../../actions/auth';
-import ModalBackButton from '../../components/ModalBackButton';
 import Video from '../../components/Video';
 import { useNavigation } from '@react-navigation/native';
-import { useMount } from '../../utils';
-import {
-  getAdventureSteps,
-  getAdventureStepMessages,
-} from '../../actions/requests';
-import AdventureStepCard from '../../components/AdventureStepCard';
+import { useMount, useKeyboard } from '../../utils';
+import { getAdventureStepMessages } from '../../actions/requests';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 function AdventureStepModal(props) {
   const dispatch = useDispatch();
@@ -36,41 +22,42 @@ function AdventureStepModal(props) {
   const navigation = useNavigation();
   const [isLandscape, setIsLandscape] = useState(false);
   const { step, adventure } = props.route.params;
-  const [inputHeight, setInputHeight] = useState(0);
-  const [text, setText] = useState('');
   const me = useSelector(({ auth }) => auth.user);
   const messages = useSelector(({ data }) => data.adventureStepMessages);
   const [currentMessages, setCurrentMessages] = useState(
-    messages[step.id] || [],
+    [...(messages[step.id] || [])].reverse(),
   );
 
+  const scroll = useRef();
+  const isSolo = step.kind !== 'duo' && step.kind !== 'group';
+  let mainAnswer = '';
+
+  if (!['multi', 'binary'].includes(step.kind)) {
+    mainAnswer = (currentMessages.find(m => m.messenger_id === me.id) || {})
+      .content;
+  } else {
+    mainAnswer = (step.metadata.answers.find(a => a.selected) || {}).value;
+  }
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-
-  useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener(
-      'keyboardWillShow',
-      () => {
-        setKeyboardVisible(true);
-      },
-    );
-    const keyboardDidHideListener = Keyboard.addListener(
-      'keyboardWillHide',
-      () => {
-        setKeyboardVisible(false);
-      },
-    );
-
-    return () => {
-      keyboardDidHideListener.remove();
-      keyboardDidShowListener.remove();
-    };
-  }, []);
+  useKeyboard(bool => setKeyboardVisible(bool));
 
   useMount(() => {
     dispatch(getAdventureStepMessages(adventure.conversation.id, step.id));
   });
   useEffect(() => {
-    setCurrentMessages(messages[step.id]);
+    let newMsgs = [...(messages[step.id] || [])].reverse();
+    if (isSolo) {
+      newMsgs.unshift({
+        id: new Date().toISOString(),
+        messenger_id: (
+          adventure.conversation.messengers.find(i => i.id !== me.id) || {}
+        ).id,
+        content: (step.metadata || {}).comment,
+        metadata: { vokebot_action: 'journey_step_comment' },
+      });
+    }
+    setCurrentMessages(newMsgs);
+    console.log('NEW MSGS', newMsgs);
   }, [messages]);
 
   return (
@@ -78,7 +65,12 @@ function AdventureStepModal(props) {
       behavior="padding"
       style={[st.aic, st.w100, st.jcsb, st.bgBlue]}
     >
-      <Flex direction="column" justify="end" style={[st.w100, st.h100]}>
+      <Flex
+        direction="column"
+        justify="end"
+        align="center"
+        style={[st.w100, st.h100]}
+      >
         <Video
           onOrientationChange={orientation =>
             orientation === 'portrait'
@@ -88,117 +80,98 @@ function AdventureStepModal(props) {
         />
         {isLandscape ? null : (
           <>
-            {step.status_message ? (
-              <Flex
-                align="center"
-                style={[st.bgDarkBlue, st.ph1, st.pv4, st.ovh]}
-              >
-                <Text style={[st.fs4, st.white]}>{step.status_message}</Text>
-                <VokeIcon
-                  type="image"
-                  name="vokebot"
-                  style={[
-                    st.abs,
-                    st.left(-25),
-                    st.bottom(-20),
-                    st.h(70),
-                    st.rotate('40deg'),
-                    st.w(70),
-                  ]}
+            <KeyboardAwareScrollView
+              style={[
+                st.w(st.fullWidth),
+                st.bgBlue,
+                { paddingBottom: insets.bottom },
+                st.f1,
+              ]}
+              enableAutomaticScroll={false}
+              innerRef={ref => {
+                this.scroll = ref;
+              }}
+            >
+              {step.status_message ? (
+                <Flex
+                  align="center"
+                  style={[st.bgDarkBlue, st.ph1, st.pv4, st.ovh]}
+                >
+                  <Text style={[st.fs4, st.white]}>{step.status_message}</Text>
+                  <VokeIcon
+                    type="image"
+                    name="vokebot"
+                    style={[
+                      st.abs,
+                      st.left(-25),
+                      st.bottom(-20),
+                      st.h(70),
+                      st.rotate('40deg'),
+                      st.w(70),
+                    ]}
+                  />
+                </Flex>
+              ) : null}
+              <Flex direction="column" self="center" style={[st.w80, st.mt4]}>
+                <Flex
+                  direction="column"
+                  style={[st.w100, st.bgOrange, st.brtl5, st.brtr5, st.pd1]}
+                  align="center"
+                  justify="center"
+                >
+                  <Text style={[st.tac, st.white, st.fs20, st.lh(24)]}>
+                    {step.question}
+                  </Text>
+                </Flex>
+                <Image
+                  source={{ uri: me.avatar.small }}
+                  style={[st.absb, st.right(-30), st.h(25), st.w(25), st.br1]}
+                />
+                <AdventureStepMessageInput
+                  onFocus={event => {
+                    this.scroll.props.scrollToFocusedInput(
+                      findNodeHandle(event.target),
+                    );
+                  }}
+                  kind={step.kind}
+                  adventure={adventure}
+                  step={step}
+                  defaultValue={mainAnswer}
                 />
               </Flex>
-            ) : null}
-            <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
+              {currentMessages.map(item => (
+                <AdventureStepMessage
+                  key={item.id}
+                  item={item}
+                  adventure={adventure}
+                  step={step}
+                  onFocus={event => {
+                    this.scroll.props.scrollToFocusedInput(
+                      findNodeHandle(event.target),
+                    );
+                  }}
+                />
+              ))}
+              <Flex style={[st.h(insets.bottom)]}></Flex>
+            </KeyboardAwareScrollView>
+            {isSolo ? null : (
               <Flex
-                direction="column"
-                style={[st.w100, st.bgOrange, st.brtl5, st.brtr5, st.pd1]}
+                direction="row"
+                style={[
+                  st.bgDarkBlue,
+                  st.w100,
+                  st.ph4,
+                  {
+                    paddingBottom: isKeyboardVisible ? 0 : insets.bottom,
+                    maxHeight: 140,
+                  },
+                ]}
                 align="center"
                 justify="center"
               >
-                <Text style={[st.tac, st.white, st.fs20, st.lh(24)]}>
-                  {step.question}
-                </Text>
+                <MainMessagingInput adventure={adventure} step={step} />
               </Flex>
-              <Image
-                source={{ uri: me.avatar.small }}
-                size={25}
-                style={[st.absb, st.right(-30)]}
-              />
-              <AdventureStepMessageInput
-                kind={step.kind}
-                adventure={adventure}
-                stepp={step}
-              />
-            </Flex>
-            <FlatList
-              renderItem={props => (
-                <AdventureStepMessage
-                  {...props}
-                  adventure={adventure}
-                  step={step}
-                />
-              )}
-              data={currentMessages}
-              style={[
-                st.w(st.fullWidth),
-                st.pt4,
-                st.bgBlue,
-                { paddingBottom: insets.bottom },
-              ]}
-              removeClippedSubviews={true}
-            />
-
-            <Flex
-              direction="row"
-              style={[
-                st.bgDarkBlue,
-                st.w100,
-                st.ph4,
-                {
-                  paddingBottom: isKeyboardVisible ? 50 : insets.bottom,
-                  maxHeight: 140,
-                },
-              ]}
-              align="center"
-              justify="center"
-            >
-              <Flex
-                direction="row"
-                style={[st.pl5, st.bgDarkBlue, inputHeight]}
-                align="center"
-                value={1}
-              >
-                <TextInput
-                  ref={c => (this.chatInput = c)}
-                  autoCapitalize="sentences"
-                  returnKeyType="send"
-                  blurOnSubmit={true}
-                  onSubmitEditing={() => {}}
-                  placeholder={'New Message'}
-                  onChangeText={t => setText(t)}
-                  placeholderTextColor={st.colors.blue}
-                  underlineColorAndroid={st.colors.transparent}
-                  onContentSizeChange={event =>
-                    setInputHeight(event.nativeEvent.contentSize.height + 10)
-                  }
-                  style={[
-                    st.f1,
-                    st.white,
-                    st.pv6,
-                    st.mv6,
-                    st.fs4,
-                    inputHeight,
-                    st.pt4,
-                  ]}
-                  selectionColor={st.colors.yellow}
-                  autoCorrect={true}
-                  multiline={true}
-                />
-                <Button style={[st.w(55), st.aie, st.pv6]} onPress={() => {}}>
-                  <VokeIcon name="send_message" style={[st.white]} size={20} />
-                </Button>
-              </Flex>
-            </Flex>
+            )}
           </>
         )}
       </Flex>

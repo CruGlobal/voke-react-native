@@ -1,33 +1,14 @@
-import React, { useState, useRef, forwardRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
-import LinearGradient from 'react-native-linear-gradient';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
-import Icon from '../../components/Icon';
 import Image from '../../components/Image';
 import Triangle from '../../components/Triangle';
-import StatusBar from '../../components/StatusBar';
-import ModalBackButton from '../../components/ModalBackButton';
 import VokeIcon from '../../components/VokeIcon';
 import st from '../../st';
 import Button from '../../components/Button';
 import { useNavigation } from '@react-navigation/native';
-// import { MONTHLY_PRICE } from '../../constants';
 import { useDispatch } from 'react-redux';
-import {
-  logoutAction,
-  loginAction,
-  login,
-  register,
-  passwordReset,
-} from '../../actions/auth';
-import {
-  TextInput,
-  ActivityIndicator,
-  KeyboardAvoidingView,
-  Alert,
-  Keyboard,
-} from 'react-native';
 
 import VOKE_BOT from '../../assets/voke_bot_face_large.png';
 import Touchable from '../../components/Touchable';

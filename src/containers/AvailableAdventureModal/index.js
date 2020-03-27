@@ -1,17 +1,12 @@
 import React, { useState } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
-import LinearGradient from 'react-native-linear-gradient';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import st from '../../st';
 import Button from '../../components/Button';
 import Triangle from '../../components/Triangle';
-import VokeIcon from '../../components/VokeIcon';
-import { ScrollView, Linking } from 'react-native';
-import { MONTHLY_PRICE, VIDEO_HEIGHT } from '../../constants';
+import { ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { logoutAction } from '../../actions/auth';
-import ModalBackButton from '../../components/ModalBackButton';
 import Video from '../../components/Video';
 import { useNavigation } from '@react-navigation/native';
 

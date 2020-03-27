@@ -4,11 +4,6 @@ export const REDUX_ACTIONS = {
   REQUEST_FETCH: 'REQUEST_FETCH',
   REQUEST_FAIL: 'REQUEST_FAIL',
   REQUEST_SUCCESS: 'REQUEST_SUCCESS',
-  TOGGLE_PLAY_STATUS: 'TOGGLE_PLAY_STATUS',
-  TOGGLE_SHUFFLE_STATUS: 'TOGGLE_SHUFFLE_STATUS',
-  TOGGLE_REPEAT_STATUS: 'TOGGLE_REPEAT_STATUS',
-  SET_PLAYING_INDEX: 'SET_PLAYING_INDEX',
-  SET_PLAYING_TRACKS: 'SET_PLAYING_TRACKS',
   LOADING_STATUS: 'LOADING_STATUS',
   INIT_LOADING_STATUS: 'INIT_LOADING_STATUS',
   LOGIN: 'LOGIN',
@@ -16,14 +11,13 @@ export const REDUX_ACTIONS = {
   SET_USER: 'SET_USER',
   SHOW_MODAL: 'SHOW_MODAL',
   HIDE_MODAL: 'HIDE_MODAL',
-  HAS_SEEN_SUBSCRIPTION_MODAL: 'HAS_SEEN_SUBSCRIPTION_MODAL',
-  SET_SUBSCRIPTION: 'SET_SUBSCRIPTION',
-  SET_BANNER_ERROR: 'SET_BANNER_ERROR',
   SET_DATA: 'SET_DATA',
   START_ADVENTURE: 'START_ADVENTURE',
   SEND_ADVENTURE_INVITATION: 'SEND_ADVENTURE_INVITATION',
   GET_ADVENTURE_STEPS: 'GET_ADVENTURE_STEPS',
   GET_ADVENTURE_STEP_MESSAGES: 'GET_ADVENTURE_STEP_MESSAGES',
+  CREATE_ADVENTURE_STEP_MESSAGE: 'CREATE_ADVENTURE_STEP_MESSAGE',
+  UPDATE_ADVENTURE_STEP: 'UPDATE_ADVENTURE_STEP',
   RESET: 'RESET',
 };
 
@@ -32,30 +26,7 @@ export const VIDEO_HEIGHT = st.fullWidth * (9 / 16);
 export const VIDEO_LANDSCAPE_WIDTH = st.fullHeight;
 export const VIDEO_LANDSCAPE_HEIGHT = st.fullWidth;
 
-export const PLAYLIST_CARD_WIDTH = st.fullWidth / 2 - 23;
-export const PLAYLIST_CARD_HEIGHT = (st.fullWidth / 2 - 23) * 0.7;
-export const PLAYLIST_CARD_LARGE_WIDTH = st.fullWidth - 30;
-export const PLAYLIST_CARD_LARGE_HEIGHT = st.fullWidth * 0.7 - 30;
-export const ARTIST_CARD_LARGE = st.fullWidth * 0.6;
 export const isAndroid = st.isAndroid;
-
-export const MONTHLY_PRICE = '$5.99';
-
-export const TriblDomain = 'https://tribl.com';
-export const APIKeyYoutubeAndroid = 'AIzaSyDD6ZLpIfae7W6ym5LuQnioxcs5tcSmgbg';
-export const androidBundleId = 'com.whoagency.tribl';
-export const iosBundleId = 'com.tribl.app';
-export const zendeskAppId = 'c410d18f689e561834bb289207fb198cb5c0386b36c3efdf';
-export const zendeskUrl = 'https://tribl.zendesk.com';
-export const zendeskClientId = 'mobile_sdk_client_efe19ba3a3064fec83dc';
-export const firebaseApiKey = 'AIzaSyC5vqHH0xc3ntY1zm0kMfqdrzorUmSdQ40';
-export const appleSharedSecret = '9e08445f2f994a47afda4aafea594c89';
-const fbAdPlacementIdAndroid = '357304994814116_357305211480761';
-const fbAdPlacementIdIOS = '164993704441079_164994227774360';
-
-export const facebookAdPlacementId = isAndroid
-  ? fbAdPlacementIdAndroid
-  : fbAdPlacementIdIOS;
 
 const IS_STAGING = true;
 

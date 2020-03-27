@@ -36,6 +36,18 @@ export function getMyAdventures() {
   };
 }
 
+export function getMyAdventure(adventureId: any) {
+  return async (dispatch: Dispatch, getState: any) => {
+    const result: any = await dispatch(
+      request({
+        ...ROUTES.GET_MY_ADVENTURE,
+        pathParams: { adventureId },
+      }),
+    );
+    return result;
+  };
+}
+
 export function getAdventuresInvitations() {
   return async (dispatch: Dispatch, getState: any) => {
     const results: any = await dispatch(
@@ -55,7 +67,6 @@ export function getAdventureSteps(adventureId: any) {
         pathParams: { adventureId },
       }),
     );
-    console.warn(results);
     const adventureSteps = results.steps;
     dispatch({
       type: REDUX_ACTIONS.GET_ADVENTURE_STEPS,
@@ -74,10 +85,9 @@ export function getAdventureStepMessages(
       request({
         ...ROUTES.GET_ADVENTURE_STEP_MESSAGES,
         pathParams: { adventureConversationId },
-        messenger_journey_step_id: adventureStepId,
+        params: { messenger_journey_step_id: adventureStepId },
       }),
     );
-    console.warn(results);
     const adventureStepMessages = results.messages;
     dispatch({
       type: REDUX_ACTIONS.GET_ADVENTURE_STEP_MESSAGES,
@@ -111,11 +121,60 @@ export function sendAdventureInvitation(data: any) {
   };
 }
 
-export function putUsersAccountId(userId: any, data: any) {
+export function createAdventureStepMessage(params: {
+  value: any;
+  adventure: any;
+  step: any;
+  kind: any;
+  internalMessageId?: any;
+}) {
   return async (dispatch: Dispatch, getState: any) => {
-    const results = await dispatch(
-      request({ ...ROUTES.USERS_ACCOUNT_ID_PUT, pathParams: { userId }, data }),
+    let data: any = {
+      message: {},
+    };
+    if (params.kind === 'question' || params.kind === 'standard') {
+      data.message.content = params.value;
+      data.message.messenger_journey_step_id = params.step.id;
+    }
+    if (
+      params.kind === 'multi' ||
+      params.kind === 'binary' ||
+      params.kind === 'share'
+    ) {
+      data.message.messenger_journey_step_id =
+        params.step.metadata.messenger_journey_step_id;
+      data.message.messenger_journey_step_option_id = params.value;
+      data.message.kind = 'answer';
+    }
+    if (params.internalMessageId) {
+      data.message.message_reference_id = params.internalMessageId;
+    }
+    const result = await dispatch(
+      request({
+        ...ROUTES.CREATE_ADVENTURE_STEP_MESSAGE,
+        pathParams: {
+          adventureConversationId: params.adventure.conversation.id,
+        },
+        data,
+      }),
     );
-    return results;
+    dispatch({
+      type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
+      result: { adventureStepId: params.step.id, newMessage: result },
+    });
+    console.log(params.adventure);
+    dispatch(getAdventureSteps(params.adventure.id));
+    // if (!params.internalMessageId) {
+    //   // this is the answer to the main question, so update the status to complete
+    //   dispatch({
+    //     type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEP,
+    //     update: {
+    //       adventureStepId: params.step.id,
+    //       adventureId: params.adventure.id,
+    //       fieldsToUpdate: { status: 'completed' },
+    //     },
+    //   });
+    // }
+    return result;
   };
 }

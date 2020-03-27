@@ -4,11 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import Login from './containers/Login';
 import Welcome from './containers/Welcome';
-import Home from './containers/Home';
-import FilterModal from './containers/FilterModal';
-import SearchModal from './containers/SearchModal';
 import SettingsModal from './containers/SettingsModal';
 import Adventures from './containers/Adventures';
 import AvailableAdventureModal from './containers/AvailableAdventureModal';
@@ -17,8 +13,6 @@ import NameAdventureModal from './containers/NameAdventureModal';
 import ShareAdventureCodeModal from './containers/ShareAdventureCodeModal';
 import ActiveAdventureModal from './containers/ActiveAdventureModal';
 import AdventureStepModal from './containers/AdventureStepModal';
-import PlaylistDetail from './containers/PlaylistDetail';
-import ArtistDetail from './containers/ArtistDetail';
 import CreateName from './containers/CreateName';
 import CreateProfilePhoto from './containers/CreateProfilePhoto';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -92,16 +86,6 @@ const LoggedInAppContainer = () => {
           component={AdventureStepModal}
           options={{ headerShown: false }}
         />
-        <AdventureStack.Screen
-          name="PlaylistDetail"
-          component={PlaylistDetail}
-          options={{ headerLeft: () => <HeaderLeft hasBack={true} /> }}
-        />
-        <AdventureStack.Screen
-          name="ArtistDetail"
-          component={ArtistDetail}
-          options={{ headerLeft: () => <HeaderLeft hasBack={true} /> }}
-        />
       </AdventureStack.Navigator>
     );
   }
@@ -109,7 +93,7 @@ const LoggedInAppContainer = () => {
   function VideoStackScreens() {
     return (
       <VideoStack.Navigator screenOptions={defaultHeaderConfig}>
-        <VideoStack.Screen name="Featured" component={Home} />
+        <VideoStack.Screen name="Videos" component={Adventures} />
       </VideoStack.Navigator>
     );
   }
@@ -120,7 +104,7 @@ const LoggedInAppContainer = () => {
         mode="card"
         screenOptions={defaultHeaderConfig}
       >
-        <NotificationStack.Screen name="Featured" component={Home} />
+        <NotificationStack.Screen name="Notifications" component={Adventures} />
       </NotificationStack.Navigator>
     );
   }
@@ -167,16 +151,6 @@ const LoggedInAppContainer = () => {
           },
           title: 'Settings',
         })}
-      />
-      <MainStack.Screen
-        name="FilterModal"
-        component={FilterModal}
-        options={{ cardStyle: { backgroundColor: st.colors.transparent } }}
-      />
-      <MainStack.Screen
-        name="SearchModal"
-        component={SearchModal}
-        options={{ cardStyle: { backgroundColor: st.colors.transparent } }}
       />
     </MainStack.Navigator>
   );

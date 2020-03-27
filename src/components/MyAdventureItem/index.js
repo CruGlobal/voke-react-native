@@ -10,7 +10,7 @@ import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
 import { useSelector, useDispatch } from 'react-redux';
 import { useMount, momentUtc, useInterval } from '../../utils';
-import { getMyAdventures } from '../../actions/requests';
+import { getMyAdventure } from '../../actions/requests';
 import { useNavigation } from '@react-navigation/native';
 
 const THUMBNAIL_HEIGHT = 78;
@@ -43,16 +43,16 @@ function getExpiredTime(date) {
   return { str, isTimeExpired: diff < 0 };
 }
 
-function InviteItem({
-  item = {
+function InviteItem({ item }) {
+  const adventureItem = {
     code: '',
     conversation: {},
     progress: {},
     item: { content: { thumbnails: { small: '' } } },
     name: '',
     expires_at: '',
-  },
-}) {
+    ...item,
+  };
   const [isExpired, setIsExpired] = useState(false);
   const [time, setTime] = useState('');
   const { organization_journey, name, code } = item;
@@ -60,6 +60,7 @@ function InviteItem({
   const orgJourneyImage = (orgJourney.image || {}).small || undefined;
   const isGroup = item.kind === 'multiple';
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -138,9 +139,14 @@ function InviteItem({
       </Flex>
       <Flex>
         <Touchable
-          onPress={() =>
-            navigation.navigate('ActiveAdventureModal', { adventure: item })
-          }
+          onPress={async () => {
+            const adv = await dispatch(
+              getMyAdventure(adventureItem.messenger_journey_id),
+            );
+            navigation.navigate('ActiveAdventureModal', {
+              adventure: adv,
+            });
+          }}
           style={[st.pd(7)]}
         >
           <Text style={[st.bold, st.white, st.fs6, st.tac]}>

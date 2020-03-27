@@ -1,13 +1,10 @@
 import React from 'react';
 import Flex from '../Flex';
-import LinearGradient from 'react-native-linear-gradient';
 import Touchable from '../Touchable';
 import VokeIcon from '../VokeIcon';
-import Icon from '../Icon';
 import Text from '../Text';
 import { useSafeArea } from 'react-native-safe-area-context';
 import st from '../../st';
-import MusicPlayer from '../MusicPlayer';
 
 function getContent(label, isFocused) {
   let iconName = 'adventure';
@@ -34,7 +31,6 @@ function getContent(label, isFocused) {
   return (
     <Flex
       direction="column"
-      justify="center"
       align="center"
       style={[st.h(60)]}
       justify="between"

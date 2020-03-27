@@ -9,6 +9,7 @@ import xor from 'lodash/xor';
 import difference from 'lodash/difference';
 import moment from 'moment';
 import { useEffect, useRef } from 'react';
+import { Keyboard } from 'react-native';
 
 export { difference, memoize, orderBy, range, debounce, throttle, xor, uniqBy };
 
@@ -140,4 +141,26 @@ export function useInterval(callback, delay) {
       return () => clearInterval(id);
     }
   }, [delay]);
+}
+
+export function useKeyboard(callback) {
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardWillShow',
+      () => {
+        callback(true);
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardWillHide',
+      () => {
+        callback(false);
+      },
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
 }

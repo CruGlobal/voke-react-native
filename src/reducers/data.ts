@@ -41,11 +41,36 @@ export default function(state = initialState, action: any) {
       updatedAdventureSteps[action.result.adventureId] =
         action.result.adventureSteps;
       return { ...state, adventureSteps: updatedAdventureSteps };
+    case REDUX_ACTIONS.UPDATE_ADVENTURE_STEP:
+      let updatedAdventureSteps2: any = state.adventureSteps;
+      let newStepsArr = updatedAdventureSteps2[action.update.adventureId];
+      let stepToUpdate =
+        newStepsArr.find(
+          (step: any) => step.id === action.update.adventureStepId,
+        ) || {};
+      stepToUpdate = { ...stepToUpdate, ...action.update.fieldsToUpdate };
+      newStepsArr[
+        newStepsArr.findIndex(
+          (i: any) => i.id === action.update.adventureStepId,
+        )
+      ] = stepToUpdate;
+      updatedAdventureSteps2[action.update.adventureId] = newStepsArr;
+      return { ...state, adventureSteps: updatedAdventureSteps2 };
     case REDUX_ACTIONS.GET_ADVENTURE_STEP_MESSAGES:
       let updatedAdventureStepMessages: any = state.adventureStepMessages;
       updatedAdventureStepMessages[action.result.adventureStepId] =
         action.result.adventureStepMessages;
       return { ...state, adventureStepMessages: updatedAdventureStepMessages };
+    case REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE:
+      let updatedAdventureStepMessagesAfterCreate: any =
+        state.adventureStepMessages;
+      updatedAdventureStepMessagesAfterCreate[
+        action.result.adventureStepId
+      ].push(action.result.newMessage);
+      return {
+        ...state,
+        adventureStepMessages: updatedAdventureStepMessagesAfterCreate,
+      };
     case REDUX_ACTIONS.LOGOUT:
       return initialState;
     case REDUX_ACTIONS.RESET:

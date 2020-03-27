@@ -1,37 +1,20 @@
-import React, { useState, useRef, forwardRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
-import LinearGradient from 'react-native-linear-gradient';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
-import NameInput from '../../components/NameInput';
 import Image from '../../components/Image';
 import StatusBar from '../../components/StatusBar';
 import Triangle from '../../components/Triangle';
-import VokeIcon from '../../components/VokeIcon';
 import st from '../../st';
 import Button from '../../components/Button';
 import { useNavigation } from '@react-navigation/native';
 // import { MONTHLY_PRICE } from '../../constants';
 import { useDispatch } from 'react-redux';
-import {
-  logoutAction,
-  loginAction,
-  login,
-  register,
-  passwordReset,
-} from '../../actions/auth';
-import {
-  TextInput,
-  ActivityIndicator,
-  KeyboardAvoidingView,
-  Alert,
-  Keyboard,
-  Share,
-} from 'react-native';
+
+import { Share } from 'react-native';
 
 import VOKE_BOT from '../../assets/vokebot_whole.png';
 import Touchable from '../../components/Touchable';
-import { sendAdventureInvitation } from '../../actions/requests';
 import CONSTANTS from '../../constants';
 function ShareAdventureCodeModal(props) {
   const insets = useSafeArea();

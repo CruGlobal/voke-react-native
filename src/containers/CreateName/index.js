@@ -12,20 +12,8 @@ import Button from '../../components/Button';
 import { useNavigation } from '@react-navigation/native';
 // import { MONTHLY_PRICE } from '../../constants';
 import { useDispatch } from 'react-redux';
-import {
-  logoutAction,
-  loginAction,
-  login,
-  register,
-  passwordReset,
-} from '../../actions/auth';
-import {
-  TextInput,
-  ActivityIndicator,
-  KeyboardAvoidingView,
-  Alert,
-  Keyboard,
-} from 'react-native';
+
+import { KeyboardAvoidingView, Alert, Keyboard } from 'react-native';
 
 import VOKE_BOT from '../../assets/voke_bot_face_large.png';
 import Touchable from '../../components/Touchable';
@@ -33,7 +21,6 @@ import Touchable from '../../components/Touchable';
 function CreateName(props) {
   const insets = useSafeArea();
   const navigation = useNavigation();
-  const dispatch = useDispatch();
   const lastNameRef = useRef(null);
   const [loginLoading, setLoginLoading] = useState(false);
   const [firstName, setFirstName] = useState('');

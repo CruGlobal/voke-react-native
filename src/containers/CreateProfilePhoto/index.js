@@ -1,10 +1,9 @@
-import React, { useState, useRef, forwardRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import ImagePicker from 'react-native-image-picker';
 
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
-import Icon from '../../components/Icon';
 import Image from '../../components/Image';
 import StatusBar from '../../components/StatusBar';
 import Triangle from '../../components/Triangle';
@@ -12,24 +11,8 @@ import VokeIcon from '../../components/VokeIcon';
 import st from '../../st';
 import Button from '../../components/Button';
 import { useNavigation } from '@react-navigation/native';
-// import { MONTHLY_PRICE } from '../../constants';
 import { useDispatch } from 'react-redux';
-import {
-  logoutAction,
-  loginAction,
-  login,
-  register,
-  createAccount,
-  updateMe,
-} from '../../actions/auth';
-import {
-  TextInput,
-  ActivityIndicator,
-  KeyboardAvoidingView,
-  Alert,
-  Keyboard,
-} from 'react-native';
-
+import { createAccount } from '../../actions/auth';
 import VOKE_BOT from '../../assets/voke_bot_face_large.png';
 import Touchable from '../../components/Touchable';
 
