@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Picker, View } from 'react-native';
 import Image from '../Image';
 import Touchable from '../Touchable';
@@ -6,15 +6,16 @@ import st from '../../st';
 import SCROLL_WHEEL_BUTTON from '../../assets/scrollWheelButton.png';
 import SCROLL_WHEEL_LINE from '../../assets/scrollWheelLine.png';
 
-function ScrollWheel({ source, style, badge, onPress, ...rest }) {
-  const [pickerItems, setPickerItems] = useState([
-    'worship',
-    'live',
-    'fresh',
-    'living room',
-    'raw',
-  ]);
+function ScrollWheel({ items, onSelect, ...rest }) {
+  const [pickerItems, setPickerItems] = useState(items);
   const [selectedItem, setSelectedItem] = useState(pickerItems[0]);
+
+  useEffect(() => {
+    setPickerItems(items);
+  }, [items]);
+
+  console.log(pickerItems);
+
   return (
     <>
       <Picker
@@ -29,14 +30,14 @@ function ScrollWheel({ source, style, badge, onPress, ...rest }) {
           },
         ]}
         onValueChange={(itemValue, itemIndex) => setSelectedItem(itemValue)}
-        itemStyle={[
-          st.normalText,
-          st.fs2,
-          { fontFamily: st.fontFamilyMainSemiBold },
-        ]}
+        itemStyle={[st.white, st.fs2]}
       >
-        {pickerItems.map((value, i) => (
-          <Picker.Item label={value.toUpperCase()} value={value} key={value} />
+        {(pickerItems || []).map((value, i) => (
+          <Picker.Item
+            label={(value.name || '').toUpperCase()}
+            value={value.id}
+            key={value.name}
+          />
         ))}
       </Picker>
       <View
@@ -45,6 +46,7 @@ function ScrollWheel({ source, style, badge, onPress, ...rest }) {
       >
         <Image
           source={SCROLL_WHEEL_LINE}
+          resizeMode="contain"
           style={[
             st.ase,
             { height: st.fullWidth * 0.17, width: st.fullWidth * 0.8 },
@@ -54,29 +56,18 @@ function ScrollWheel({ source, style, badge, onPress, ...rest }) {
       <Touchable
         style={[st.abs, st.ase, { width: st.fullWidth * 0.17 }]}
         onPress={async () => {
-          // if (
-          //   this.props.libraryTags.indexOf(
-          //     this.state.dataSource[this.state.selectedItem],
-          //   ) == -1
-          // ) {
-          //   var tags = this.props.libraryTags.concat(
-          //     this.state.dataSource[this.state.selectedItem].text,
-          //   );
-          //   this.props.filterLibrary(tags);
-          //   this.props.setScrollModal('Closed');
-          // } else {
-          //   this.props.setScrollModal('Closed');
-          // }
+          onSelect(selectedItem);
         }}
       >
         <Image
           source={SCROLL_WHEEL_BUTTON}
+          resizeMode="contain"
           style={[
             st.ase,
             {
-              height: st.fullWidth * 0.17,
-              width: st.fullWidth * 0.17,
-              right: 0,
+              height: 30,
+              width: 30,
+              right: 20,
             },
           ]}
         />

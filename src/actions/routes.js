@@ -25,6 +25,11 @@ const ROUTES = {
       client: CLIENT,
     },
   },
+  REVOKE_TOKEN: {
+    method: 'post',
+    url: 'oauth/revoke',
+    isAuth: true,
+  },
   UPDATE_ME: {
     method: 'put',
     url: 'me',
@@ -62,6 +67,34 @@ const ROUTES = {
   ACCEPT_ADVENTURE_INVITATION: {
     method: 'post',
     url: `me/journey_invites/accept`,
+  },
+  GET_VIDEOS: {
+    method: 'get',
+    url: `items`,
+  },
+  GET_VIDEO_TAGS: {
+    method: 'get',
+    url: `tags`,
+  },
+  DESTROY_DEVICE: {
+    method: 'delete',
+    url: `me/devices/{cableId}`,
+  },
+  UPDATE_DEVICE: {
+    method: 'put',
+    url: `me/devices/{cableId}`,
+  },
+  GET_DEVICES: {
+    method: 'get',
+    url: `me/devices`,
+  },
+  CREATE_DEVICE: {
+    method: 'post',
+    url: `me/devices`,
+  },
+  GET_NOTIFICATIONS: {
+    method: 'get',
+    url: `me/conversations/{notificationId}/messages`,
   },
 };
 

@@ -21,43 +21,56 @@ function AdventureStepModal(props) {
   const insets = useSafeArea();
   const navigation = useNavigation();
   const [isLandscape, setIsLandscape] = useState(false);
-  const { step, adventure } = props.route.params;
+  const { stepId, adventure } = props.route.params;
+  const steps = useSelector(({ data }) => data.adventureSteps);
+  const [currentSteps, setCurrentSteps] = useState(steps[adventure.id] || []);
+  const [currentStep, setCurrentStep] = useState(
+    currentSteps.find(s => s.id === stepId),
+  );
+
   const me = useSelector(({ auth }) => auth.user);
   const messages = useSelector(({ data }) => data.adventureStepMessages);
   const [currentMessages, setCurrentMessages] = useState(
-    [...(messages[step.id] || [])].reverse(),
+    [...(messages[currentStep.id] || [])].reverse(),
   );
 
+  useEffect(() => {
+    setCurrentSteps(steps[adventure.id]);
+    setCurrentStep(steps[adventure.id].find(s => s.id === stepId));
+  }, [steps]);
+
   const scroll = useRef();
-  const isSolo = step.kind !== 'duo' && step.kind !== 'group';
+  const isSolo = currentStep.kind !== 'duo' && currentStep.kind !== 'multiple';
   let mainAnswer = '';
 
-  if (!['multi', 'binary'].includes(step.kind)) {
+  if (!['multi', 'binary'].includes(currentStep.kind)) {
     mainAnswer = (currentMessages.find(m => m.messenger_id === me.id) || {})
       .content;
   } else {
-    mainAnswer = (step.metadata.answers.find(a => a.selected) || {}).value;
+    mainAnswer = (currentStep.metadata.answers.find(a => a.selected) || {})
+      .value;
   }
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   useKeyboard(bool => setKeyboardVisible(bool));
 
   useMount(() => {
-    dispatch(getAdventureStepMessages(adventure.conversation.id, step.id));
+    dispatch(
+      getAdventureStepMessages(adventure.conversation.id, currentStep.id),
+    );
   });
   useEffect(() => {
-    let newMsgs = [...(messages[step.id] || [])].reverse();
+    let newMsgs = [...(messages[currentStep.id] || [])].reverse();
     if (isSolo) {
       newMsgs.unshift({
         id: new Date().toISOString(),
         messenger_id: (
           adventure.conversation.messengers.find(i => i.id !== me.id) || {}
         ).id,
-        content: (step.metadata || {}).comment,
+        content: (currentStep.metadata || {}).comment,
         metadata: { vokebot_action: 'journey_step_comment' },
       });
     }
     setCurrentMessages(newMsgs);
-    console.log('NEW MSGS', newMsgs);
   }, [messages]);
 
   return (
@@ -77,6 +90,7 @@ function AdventureStepModal(props) {
               ? setIsLandscape(false)
               : setIsLandscape(true)
           }
+          item={currentStep.item.content}
         />
         {isLandscape ? null : (
           <>
@@ -92,12 +106,14 @@ function AdventureStepModal(props) {
                 this.scroll = ref;
               }}
             >
-              {step.status_message ? (
+              {currentStep.status_message ? (
                 <Flex
                   align="center"
                   style={[st.bgDarkBlue, st.ph1, st.pv4, st.ovh]}
                 >
-                  <Text style={[st.fs4, st.white]}>{step.status_message}</Text>
+                  <Text style={[st.fs4, st.white]}>
+                    {currentStep.status_message}
+                  </Text>
                   <VokeIcon
                     type="image"
                     name="vokebot"
@@ -120,7 +136,7 @@ function AdventureStepModal(props) {
                   justify="center"
                 >
                   <Text style={[st.tac, st.white, st.fs20, st.lh(24)]}>
-                    {step.question}
+                    {currentStep.question}
                   </Text>
                 </Flex>
                 <Image
@@ -133,9 +149,9 @@ function AdventureStepModal(props) {
                       findNodeHandle(event.target),
                     );
                   }}
-                  kind={step.kind}
+                  kind={currentStep.kind}
                   adventure={adventure}
-                  step={step}
+                  step={currentStep}
                   defaultValue={mainAnswer}
                 />
               </Flex>
@@ -144,7 +160,7 @@ function AdventureStepModal(props) {
                   key={item.id}
                   item={item}
                   adventure={adventure}
-                  step={step}
+                  step={currentStep}
                   onFocus={event => {
                     this.scroll.props.scrollToFocusedInput(
                       findNodeHandle(event.target),
@@ -169,7 +185,7 @@ function AdventureStepModal(props) {
                 align="center"
                 justify="center"
               >
-                <MainMessagingInput adventure={adventure} step={step} />
+                <MainMessagingInput adventure={adventure} step={currentStep} />
               </Flex>
             )}
           </>

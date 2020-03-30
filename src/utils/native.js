@@ -1,4 +1,12 @@
-import { ToastAndroid, Platform, Clipboard, findNodeHandle, UIManager, ActionSheetIOS, Alert } from 'react-native';
+import {
+  ToastAndroid,
+  Platform,
+  Clipboard,
+  findNodeHandle,
+  UIManager,
+  ActionSheetIOS,
+  Alert,
+} from 'react-native';
 import {
   useNavigation,
   useNavigationParam,
@@ -14,7 +22,7 @@ export const isAndroid = Platform.OS === 'android';
 
 export const URL_SCHEME = 'tribl';
 
-export const keyExtractorId = (i) => `${i.id}`;
+export const keyExtractorId = i => `${i.id}`;
 
 export {
   useNavigation,
@@ -32,16 +40,17 @@ export function copyText(string) {
 }
 export function toast(text, duration) {
   if (isAndroid) {
-    const toastDuration = duration === 'long' ? ToastAndroid.LONG : ToastAndroid.SHORT;
+    const toastDuration =
+      duration === 'long' ? ToastAndroid.LONG : ToastAndroid.SHORT;
     ToastAndroid.show(text, toastDuration);
   }
 }
 
 // Actions should be array of [{ text: '', onPress: fn, destructive: Bool (iOS) }]
 export function showMenu(actions, ref) {
-  let filteredActions = actions.filter((a) => a && a.text);
-  const actionsText = filteredActions.map((a) => a.text);
-  const select = (i) => {
+  let filteredActions = actions.filter(a => a && a.text);
+  const actionsText = filteredActions.map(a => a.text);
+  const select = i => {
     if (filteredActions[i] && isFunction(filteredActions[i].onPress)) {
       filteredActions[i].onPress();
     }
@@ -51,12 +60,17 @@ export function showMenu(actions, ref) {
     // Android menu
     const handleError = () => {};
     const handleItemPress = (e, i) => select(i);
-    UIManager.showPopupMenu(findNodeHandle(ref), actionsText, handleError, handleItemPress);
+    UIManager.showPopupMenu(
+      findNodeHandle(ref),
+      actionsText,
+      handleError,
+      handleItemPress,
+    );
   } else {
     // iOS menu
     const options = actionsText.concat('Cancel');
 
-    let destructiveButtonIndex = filteredActions.findIndex((o) => o.destructive);
+    let destructiveButtonIndex = filteredActions.findIndex(o => o.destructive);
     if (destructiveButtonIndex < 0) {
       destructiveButtonIndex = undefined;
     }
@@ -67,7 +81,9 @@ export function showMenu(actions, ref) {
       destructiveButtonIndex,
     };
 
-    ActionSheetIOS.showActionSheetWithOptions(params, (btnIndex) => select(btnIndex));
+    ActionSheetIOS.showActionSheetWithOptions(params, btnIndex =>
+      select(btnIndex),
+    );
   }
 }
 
@@ -76,7 +92,3 @@ const FB_ERRORS = {
   'auth/email-already-in-use': 'Email already in use.',
   'auth/wrong-password': 'The user or password is invalid.',
 };
-
-export function firebaseErrorAlert(error, title) {
-  Alert.alert(title || 'Error', FB_ERRORS[error.code] || error.message || 'Sorry, something went wrong');
-}

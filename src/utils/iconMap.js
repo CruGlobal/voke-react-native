@@ -15,6 +15,8 @@ import GROUP_DARK from '../assets/groupDark.png';
 import BUTTON_ARROW_DARK from '../assets/buttonArrowDark.png';
 import VOKEBOT_AVATAR from '../assets/vokeAvatar.png';
 import VOKEBOT from '../assets/vokebot_whole.png';
+import LOCK from '../assets/lock.png';
+import CHECK from '../assets/check.png';
 
 let iconsMap = {};
 const vokeIcons = {
@@ -61,10 +63,11 @@ const vokeImages = {
   buttonArrow: BUTTON_ARROW,
   buttonArrowDark: BUTTON_ARROW_DARK,
   camera: CAMERA,
-  lock: CAMERA,
+  lock: LOCK,
   play_filled: CAMERA,
   vokebot_avatar: VOKEBOT_AVATAR,
   vokebot: VOKEBOT,
+  check: CHECK,
 };
 
 export { iconsMap, vokeIcons, vokeImages };

@@ -25,7 +25,7 @@ function AdventureStepMessageInput({
   const isBinaryQuestion = kind === 'binary';
   const isTextQuestion = kind === 'question';
   const isShareQuestion = kind === 'share';
-  const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'group';
+  const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'multiple';
   const isComplete = step.status === 'completed';
   function handleSendMessage(newValue) {
     setMesssageSent(true);

@@ -68,9 +68,7 @@ function ShareAdventureCodeModal(props) {
                 <Text style={[st.white, st.fs20, st.tac]}>
                   {withGroup
                     ? `${invitation.name}’s  invite code is ready! Hit Share and choose how you’d like to send this invite code to each of your group members.`
-                    : `
-                    ${invitation.name}’s invite code is ready! Hit Share and choose how you’d like to send this trailer with ${invitation.name}.
-                    `}
+                    : `${invitation.name}’s invite code is ready! Hit Share and choose how you’d like to send this trailer with ${invitation.name}.`}
                 </Text>
               </Flex>
               <Triangle

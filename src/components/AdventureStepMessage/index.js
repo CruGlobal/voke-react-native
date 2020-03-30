@@ -35,7 +35,7 @@ function AdventureStepMessage({ item, step, adventure }) {
   };
   const isAdventureStepComplete = step.status === 'completed';
 
-  const isSolo = step.kind !== 'duo' && step.kind !== 'group';
+  const isSolo = step.kind !== 'duo' && step.kind !== 'multiple';
   const isMe = message.messenger_id === me.id;
   if (isSolo && isMe) return null;
   const isSharedAnswer = message.metadata.vokebot_action === 'share_answers';

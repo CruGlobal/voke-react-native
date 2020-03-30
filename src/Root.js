@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import App from './App';
+import '@react-native-firebase/crashlytics';
+
 import { PersistGate } from 'redux-persist/integration/react';
 import LoadingRedux from './components/LoadingRedux';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import configureStore from './store';
 import { YellowBox } from 'react-native';
+import ToastManager from './components/ToastManager';
 // import ModalHandler from './containers/ModalHandler';
 
 const { store, persistor } = configureStore();
@@ -18,7 +21,7 @@ export default class Root extends Component {
         <Provider store={store}>
           <PersistGate loading={<LoadingRedux />} persistor={persistor}>
             <App />
-            {/* <ModalHandler /> */}
+            <ToastManager />
           </PersistGate>
         </Provider>
       </SafeAreaProvider>

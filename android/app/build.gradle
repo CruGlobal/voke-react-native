@@ -128,11 +128,11 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.voke"
+        applicationId "org.cru.voke"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 500
+        versionName "5.0.0"
     }
     splits {
         abi {
@@ -205,3 +205,5 @@ project.ext.vectoricons = [
 ]
 
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+
+apply plugin: 'com.google.gms.google-services'

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import Image from '../Image';
 import st from '../../st';
@@ -8,8 +8,6 @@ import Button from '../Button';
 import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
 import { useSelector, useDispatch } from 'react-redux';
-import { useMount } from '../../utils';
-import { getMyAdventures } from '../../actions/requests';
 import { useNavigation } from '@react-navigation/native';
 
 function AvailableAdventureItem({
@@ -22,17 +20,20 @@ function AvailableAdventureItem({
   },
 }) {
   const myAdventures = useSelector(({ data }) => data.myAdventures);
-  const dispatch = useDispatch();
   const navigation = useNavigation();
-  useMount(() => {
-    if (myAdventures.length === 0) {
-      dispatch(getMyAdventures());
-    }
-  });
-
-  const shouldInviteFriend = myAdventures.find(
-    adventure => adventure.organization_journey_id === item.id,
+  const [shouldInviteFriend, setShouldInviteFriend] = useState(
+    myAdventures.find(
+      adventure => adventure.organization_journey_id === item.id,
+    ),
   );
+  useEffect(() => {
+    setShouldInviteFriend(
+      myAdventures.find(
+        adventure => adventure.organization_journey_id === item.id,
+      ),
+    );
+  }, [myAdventures]);
+
   return (
     <Touchable
       onPress={() =>

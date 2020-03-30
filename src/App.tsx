@@ -8,11 +8,16 @@ import Welcome from './containers/Welcome';
 import SettingsModal from './containers/SettingsModal';
 import Adventures from './containers/Adventures';
 import AvailableAdventureModal from './containers/AvailableAdventureModal';
+import VideoDetailModal from './containers/VideoDetailModal';
 import StartAdventureModal from './containers/StartAdventureModal';
 import NameAdventureModal from './containers/NameAdventureModal';
 import ShareAdventureCodeModal from './containers/ShareAdventureCodeModal';
 import ActiveAdventureModal from './containers/ActiveAdventureModal';
 import AdventureStepModal from './containers/AdventureStepModal';
+import SearchVideosModal from './containers/SearchVideosModal';
+import EnterAdventureCode from './containers/EnterAdventureCode';
+import Videos from './containers/Videos';
+import Notifications from './containers/Notifications';
 import CreateName from './containers/CreateName';
 import CreateProfilePhoto from './containers/CreateProfilePhoto';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -62,6 +67,11 @@ const LoggedInAppContainer = () => {
           options={{ headerShown: false }}
         />
         <AdventureStack.Screen
+          name="EnterAdventureCode"
+          component={EnterAdventureCode}
+          options={{ headerShown: false }}
+        />
+        <AdventureStack.Screen
           name="StartAdventureModal"
           component={StartAdventureModal}
           options={{ headerShown: false }}
@@ -90,10 +100,22 @@ const LoggedInAppContainer = () => {
     );
   }
 
-  function VideoStackScreens() {
+  function VideoStackScreens({ navigation, route }: any) {
+    navigation.setOptions({
+      tabBarVisible: route.state
+        ? route.state.index > 0
+          ? false
+          : true
+        : null,
+    });
     return (
       <VideoStack.Navigator screenOptions={defaultHeaderConfig}>
-        <VideoStack.Screen name="Videos" component={Adventures} />
+        <VideoStack.Screen name="Videos" component={Videos} />
+        <VideoStack.Screen
+          name="VideoDetailModal"
+          component={VideoDetailModal}
+          options={{ headerShown: false }}
+        />
       </VideoStack.Navigator>
     );
   }
@@ -104,7 +126,10 @@ const LoggedInAppContainer = () => {
         mode="card"
         screenOptions={defaultHeaderConfig}
       >
-        <NotificationStack.Screen name="Notifications" component={Adventures} />
+        <NotificationStack.Screen
+          name="Notifications"
+          component={Notifications}
+        />
       </NotificationStack.Navigator>
     );
   }
@@ -151,6 +176,14 @@ const LoggedInAppContainer = () => {
           },
           title: 'Settings',
         })}
+      />
+      <MainStack.Screen
+        name="SearchVideosModal"
+        component={SearchVideosModal}
+        options={{
+          headerShown: false,
+          cardStyle: { backgroundColor: st.colors.transparent },
+        }}
       />
     </MainStack.Navigator>
   );

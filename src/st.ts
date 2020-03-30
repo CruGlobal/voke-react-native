@@ -24,6 +24,7 @@ const colors: { [key: string]: string } = {
   offWhite: '#acb1d0',
   lightGrey: '#ebebeb',
   lightGrey2: '#f1f2f2',
+  lightGrey3: '#bbbbbb',
 };
 
 // Generate { color: ..., bgColor: ...} style object

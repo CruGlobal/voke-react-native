@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import YouTube from 'react-native-youtube';
+import RNVideo from 'react-native-video';
 import { View } from 'react-native';
 import Orientation from 'react-native-orientation-locker';
 import st from '../../st';
 import ModalBackButton from '../ModalBackButton';
-import { useMount } from '../../utils';
+import { useMount, youtube_parser } from '../../utils';
 import { useSafeArea } from 'react-native-safe-area-context';
 import {
   VIDEO_WIDTH,
@@ -16,6 +18,7 @@ function Video({
   onOrientationChange,
   hideBack = false,
   blockRotation = false,
+  item,
   ...rest
 }) {
   const insets = useSafeArea();
@@ -75,12 +78,50 @@ function Video({
             : dimensions.height,
         ),
         st.w(dimensions.width),
-        st.bgBlack,
+        st.bgDeepBlack,
         { paddingTop: dimensions.height === VIDEO_HEIGHT ? insets.top : 0 },
       ]}
     >
+      {item.type === 'youtube' ? (
+        <YouTube
+          videoId={youtube_parser(item.url)}
+          play={true}
+          // loop={true}
+          controls={2}
+          style={[
+            st.h(
+              dimensions.height === VIDEO_HEIGHT
+                ? dimensions.height + insets.top
+                : dimensions.height,
+            ),
+            st.w(dimensions.width),
+          ]}
+        />
+      ) : (
+        <RNVideo
+          source={{
+            uri: item.hls || item.url,
+            type: !!item.hls ? 'm3u8' : undefined,
+          }}
+          // onUpdateData={handleData}
+          // isPaused={isPaused}
+          // replay={replay}
+          playInBackground={false}
+          playWhenInactive={false}
+          ignoreSilentSwitch="ignore"
+          // start={start}
+          style={[
+            st.h(
+              dimensions.height === VIDEO_HEIGHT
+                ? dimensions.height + insets.top
+                : dimensions.height,
+            ),
+            st.w(dimensions.width),
+          ]}
+        />
+      )}
       {hideBack ? null : (
-        <View>
+        <View style={[st.abstl, { top: insets.top }]}>
           <ModalBackButton />
         </View>
       )}

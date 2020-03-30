@@ -37,7 +37,7 @@ function replaceUrlParam(url, pathParams) {
     for (const [key, value] of Object.entries(pathParams)) {
       // Match the route/{routeId}
       let param = (tempUrl.match(/\{[A-Za-z0-9]*\}/) || [])[0];
-      console.log('param, value', param, value);
+      // console.log('param, value', param, value);
       // Remove the brackets from the matching result
       if (param) {
         // eslint-disable-next-line no-useless-escape

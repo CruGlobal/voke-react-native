@@ -11,7 +11,7 @@ import { useMount } from '../../utils';
 import st from '../../st';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutAction, getMe } from '../../actions/auth';
+import { logoutAction, getMe, startupAction } from '../../actions/auth';
 import { ActivityIndicator, ScrollView, FlatList } from 'react-native';
 
 import Touchable from '../../components/Touchable';
@@ -22,9 +22,11 @@ import {
 } from '../../actions/requests';
 import AvailableAdventureItem from '../../components/AvailableAdventureItem';
 import MyAdventureItem from '../../components/MyAdventureItem';
+import Triangle from '../../components/Triangle';
 
 function CallToActions() {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   return (
     <Flex direction="column" align="center" justify="center" self="stretch">
       <Touchable
@@ -36,7 +38,7 @@ function CallToActions() {
           st.mt5,
           { width: st.fullWidth - 30 },
         ]}
-        onPress={() => dispatch(logoutAction())}
+        onPress={() => navigation.navigate('EnterAdventureCode')}
       >
         <Flex direction="column" align="center" justify="center">
           <Text style={[st.darkBlue, st.fs18]}>Enter an Adventure Code</Text>
@@ -78,6 +80,7 @@ function CallToActions() {
 
 function MyAdventures() {
   const myAdventures = useSelector(({ data }) => data.myAdventures);
+  const me = useSelector(({ auth }) => auth.user);
   const adventureInvitations = useSelector(
     ({ data }) => data.adventureInvitations,
   );
@@ -86,6 +89,7 @@ function MyAdventures() {
   );
   const dispatch = useDispatch();
   useMount(() => {
+    dispatch(startupAction());
     // dispatch({ type: REDUX_ACTIONS.RESET });
     // if (myAdventures.length === 0) {
     // TODO: Do some kind of time based caching for these requests
@@ -109,6 +113,41 @@ function MyAdventures() {
         data={combinedData}
         style={[st.w(st.fullWidth)]}
         removeClippedSubviews={true}
+        ListEmptyComponent={() => (
+          <Flex
+            direction="row"
+            align="start"
+            justify="between"
+            style={[st.mb4, st.mh4, st.mt1, st.h(230)]}
+          >
+            <Flex justify="end" self="stretch" style={[]}>
+              <VokeIcon
+                type="image"
+                name="vokebot"
+                style={[
+                  st.asc,
+                  st.w(st.fullWidth * 0.2),
+                  { marginBottom: -35, marginRight: -20 },
+                ]}
+              />
+            </Flex>
+            <Flex direction="column" value={1} justify="start" style={[st.pr3]}>
+              <Flex style={[st.bgOffBlue, st.ph3, st.pv5, st.br5]}>
+                <Text style={[st.white, st.fs18, st.tac]}>
+                  {`Welcome ${me.first_name}! This is where you will find all of your adventures with your friends.`}
+                </Text>
+              </Flex>
+              <Triangle
+                width={20}
+                height={15}
+                color={st.colors.offBlue}
+                slant="down"
+                flip={true}
+                style={[st.rotate(90), st.mt(-6)]}
+              />
+            </Flex>
+          </Flex>
+        )}
       />
     </ScrollView>
   );
@@ -118,19 +157,22 @@ function FindAdventures() {
   const availableAdventures = useSelector(
     ({ data }) => data.availableAdventures,
   );
+  const [adventures, setAdventures] = useState(availableAdventures);
   const dispatch = useDispatch();
   useMount(() => {
     if (availableAdventures.length === 0) {
-      // TODO: Do some kind of time based caching for these requests
       dispatch(getAvailableAdventures());
     }
   });
+  useEffect(() => {
+    setAdventures(availableAdventures);
+  }, [availableAdventures]);
   return (
     <ScrollView style={[st.f1, st.bgBlue]}>
       <CallToActions />
       <FlatList
         renderItem={props => <AvailableAdventureItem {...props} />}
-        data={availableAdventures}
+        data={adventures}
         style={[st.w(st.fullWidth)]}
         removeClippedSubviews={true}
       />
@@ -156,9 +198,6 @@ function CustomTabBar(props) {
 }
 
 function Adventures(props) {
-  const insets = useSafeArea();
-  const navigation = useNavigation();
-  const dispatch = useDispatch();
   const [index, setIndex] = React.useState(0);
 
   useMount(() => {

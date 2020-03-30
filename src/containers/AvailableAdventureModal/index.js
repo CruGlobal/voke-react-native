@@ -24,6 +24,7 @@ function AvailableAdventureModal(props) {
             ? setIsLandscape(false)
             : setIsLandscape(true)
         }
+        item={item.item.content}
       />
       {isLandscape ? null : (
         <ScrollView

@@ -6,7 +6,10 @@ import { getTimeZone, getCountry, getLocales } from 'react-native-localize';
 
 import ROUTES from './routes';
 import request from './utils';
-import { firebaseErrorAlert } from '../utils/native';
+import AsyncStorage from '@react-native-community/async-storage';
+import { getDevices, revokeAuthToken } from './requests';
+import { isArray } from '../utils';
+import { checkForPermissionsAndSetupSockets } from './socket';
 
 export function loginAction(user) {
   return async dispatch => {
@@ -14,13 +17,32 @@ export function loginAction(user) {
   };
 }
 
-export function logoutAction(user, token) {
+export function startupAction() {
   return async dispatch => {
-    // if (auth().currentUser) {
-    //   auth().signOut();
-    // }
+    await dispatch(checkForPermissionsAndSetupSockets());
+  };
+}
 
-    dispatch({ type: REDUX_ACTIONS.LOGOUT, user, token });
+export function logoutAction(user, token, isDelete = false) {
+  return async (dispatch, getState) => {
+    if (token && !isDelete) {
+      const devices = await dispatch(getDevices());
+
+      if (devices && isArray(devices.devices)) {
+        const deviceIds = devices.devices.map(d => d.id);
+        if (deviceIds.length > 0) {
+          dispatch(
+            revokeAuthToken({
+              device_ids: deviceIds,
+              token: null,
+            }),
+          );
+        }
+      }
+    }
+    // dispatch(cleanupAction());
+    await dispatch({ type: REDUX_ACTIONS.LOGOUT, user, token });
+    AsyncStorage.clear();
   };
 }
 
