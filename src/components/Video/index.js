@@ -39,6 +39,8 @@ function Video({
   hideBack = false,
   blockRotation = false,
   item,
+  onCancel,
+  hideInsets,
   ...rest
 }) {
   const insets = useSafeArea();
@@ -119,13 +121,16 @@ function Video({
     <View
       style={[
         st.h(
-          dimensions.height === VIDEO_HEIGHT
+          dimensions.height === VIDEO_HEIGHT && !hideInsets
             ? dimensions.height + insets.top
             : dimensions.height,
         ),
         st.w(dimensions.width),
         st.bgDeepBlack,
-        { paddingTop: dimensions.height === VIDEO_HEIGHT ? insets.top : 0 },
+        {
+          paddingTop:
+            dimensions.height === VIDEO_HEIGHT && !hideInsets ? insets.top : 0,
+        },
       ]}
     >
       {item.type === 'youtube' ? (
@@ -178,6 +183,11 @@ function Video({
             <ModalBackButton />
           </View>
         )}
+        {onCancel ? (
+          <View style={[]}>
+            <ModalBackButton onPress={onCancel} size={15} isClose={true} />
+          </View>
+        ) : null}
         <Flex value={1} style={[]} justify="center" align="center">
           <Touchable style={[st.f1, st.aic, st.jcc]} onPress={togglePlayState}>
             <VokeIcon

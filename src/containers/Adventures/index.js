@@ -27,6 +27,13 @@ import Triangle from '../../components/Triangle';
 function CallToActions() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const availableAdventures = useSelector(
+    ({ data }) => data.availableAdventures,
+  );
+  const [adventures, setAdventures] = useState(availableAdventures);
+  useEffect(() => {
+    setAdventures(availableAdventures);
+  }, [availableAdventures]);
   return (
     <Flex direction="column" align="center" justify="center" self="stretch">
       <Touchable
@@ -53,7 +60,12 @@ function CallToActions() {
           st.mv6,
           { width: st.fullWidth - 30 },
         ]}
-        onPress={() => dispatch(getMe())}
+        onPress={() =>
+          navigation.navigate('NameAdventureModal', {
+            item: adventures.find(a => a.name === 'The Faith Adventure'),
+            withGroup: true,
+          })
+        }
       >
         <Flex direction="row" align="center" justify="between" style={[st.ph4]}>
           <VokeIcon

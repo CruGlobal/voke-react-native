@@ -290,7 +290,12 @@ function MyAdventureItem({ item }) {
             ) : (
               <Touchable
                 isAndroidOpacity={true}
-                onPress={() => {}}
+                onPress={() =>
+                  navigation.navigate('AllMembersModal', {
+                    adventure: item,
+                    isJoined: true,
+                  })
+                }
                 style={[st.pr1, st.ml5, { width: 100 }]}
               >
                 <Flex direction="row" style={[]}>

@@ -460,18 +460,108 @@ export function getNotifications(params: any = {}) {
     console.log(notificationId, 'ASDFASDF');
     if (!notificationId) return;
 
-    const results = await dispatch(
+    const results: any = await dispatch(
       request({
         ...ROUTES.GET_NOTIFICATIONS,
         pathParams: { notificationId },
         params: { ...params },
       }),
     );
-
+    console.log('NOTIFICATIONS', results);
     dispatch({
       type: REDUX_ACTIONS.UPDATE_NOTIFICATION_PAGINATION,
-      result: { results },
+      result: { results, params },
     });
+
+    return results;
+  };
+}
+
+export function sendVideoInvitation(params: any = {}) {
+  return async (dispatch: Dispatch, getState: any) => {
+    const createData = {
+      share: {
+        first_name: params.name,
+        item_id: params.item_id,
+      },
+    };
+
+    const results = await dispatch(
+      request({
+        ...ROUTES.SEND_VIDEO_INVITATION,
+        data: createData,
+      }),
+    );
+
+    return results;
+  };
+}
+
+export function toggleFavoriteVideo(shouldFavorite: boolean, video: any) {
+  return async (dispatch: Dispatch, getState: any) => {
+    const allVideos = getState().data.allVideos || [];
+    const featuredVideos = getState().data.featuredVideos || [];
+    const popularVideos = getState().data.popularVideos || [];
+    const searchVideos = getState().data.searchVideos || [];
+    const favoriteVideos = getState().data.favoriteVideos || [];
+    let results: any;
+    if (shouldFavorite) {
+      results = await dispatch(
+        request({
+          ...ROUTES.FAVORITE_VIDEO,
+          pathParams: { videoId: video.id },
+        }),
+      );
+    } else {
+      results = await dispatch(
+        request({
+          ...ROUTES.UNFAVORITE_VIDEO,
+          pathParams: { videoId: video.id },
+        }),
+      );
+    }
+
+    if (shouldFavorite) {
+      const newFavoriteVideos = [...favoriteVideos, video];
+      await dispatch(setData('favoriteVideos', newFavoriteVideos));
+    } else {
+      const newUnFavoriteVideos = favoriteVideos.filter(
+        (v: any) => v.id !== video.id,
+      );
+      await dispatch(setData('favoriteVideos', newUnFavoriteVideos));
+    }
+    if (allVideos.find((v: any) => v.id === video.id)) {
+      const newAllVideos = allVideos.map((v: any) => {
+        if (v.id === video.id) {
+          return { ...v, 'favorite?': shouldFavorite };
+        } else return v;
+      });
+      await dispatch(setData('allVideos', newAllVideos));
+    }
+    if (featuredVideos.find((v: any) => v.id === video.id)) {
+      const newFeaturedVideos = featuredVideos.map((v: any) => {
+        if (v.id === video.id) {
+          return { ...v, 'favorite?': shouldFavorite };
+        } else return v;
+      });
+      await dispatch(setData('featuredVideos', newFeaturedVideos));
+    }
+    if (popularVideos.find((v: any) => v.id === video.id)) {
+      const newPopularVideos = popularVideos.map((v: any) => {
+        if (v.id === video.id) {
+          return { ...v, 'favorite?': shouldFavorite };
+        } else return v;
+      });
+      await dispatch(setData('popularVideos', newPopularVideos));
+    }
+    if (searchVideos.find((v: any) => v.id === video.id)) {
+      const newSearchVideos = searchVideos.map((v: any) => {
+        if (v.id === video.id) {
+          return { ...v, 'favorite?': shouldFavorite };
+        } else return v;
+      });
+      await dispatch(setData('searchVideos', newSearchVideos));
+    }
 
     return results;
   };

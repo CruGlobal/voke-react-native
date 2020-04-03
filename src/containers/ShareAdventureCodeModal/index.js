@@ -22,12 +22,14 @@ function ShareAdventureCodeModal(props) {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
-  const { invitation, withGroup } = props.route.params;
+  const { invitation, withGroup, isVideoInvite } = props.route.params;
 
   function handleShare() {
     Share.share(
       {
-        message: `Download Voke and join my ${invitation.name} Adventure. Use code: ${invitation.code} ${CONSTANTS.APP_URL}`,
+        message: isVideoInvite
+          ? `Check out this video from Voke! ${invitation.url}`
+          : `Download Voke and join my ${invitation.name} Adventure. Use code: ${invitation.code} ${CONSTANTS.APP_URL}`,
       },
       {
         dialogTitle: 'Share',
@@ -49,7 +51,7 @@ function ShareAdventureCodeModal(props) {
               style={[st.p5, st.pr4, st.mb3]}
               onPress={() =>
                 navigation.reset({
-                  index: 1,
+                  index: 0,
                   routes: [{ name: 'Adventures' }],
                 })
               }
@@ -68,6 +70,8 @@ function ShareAdventureCodeModal(props) {
                 <Text style={[st.white, st.fs20, st.tac]}>
                   {withGroup
                     ? `${invitation.name}’s  invite code is ready! Hit Share and choose how you’d like to send this invite code to each of your group members.`
+                    : isVideoInvite
+                    ? `Your link is ready! Hit share and choose how you want to send it.`
                     : `${invitation.name}’s invite code is ready! Hit Share and choose how you’d like to send this trailer with ${invitation.name}.`}
                 </Text>
               </Flex>
@@ -101,7 +105,9 @@ function ShareAdventureCodeModal(props) {
                   st.ph2,
                 ]}
               >
-                <Text style={[st.white, st.fs24]}>{invitation.code}</Text>
+                <Text style={[st.white, st.fs24]}>
+                  {isVideoInvite ? invitation.url : invitation.code}
+                </Text>
               </Flex>
             </Touchable>
             <Button

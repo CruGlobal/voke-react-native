@@ -15,11 +15,13 @@ import ShareAdventureCodeModal from './containers/ShareAdventureCodeModal';
 import ActiveAdventureModal from './containers/ActiveAdventureModal';
 import AdventureStepModal from './containers/AdventureStepModal';
 import SearchVideosModal from './containers/SearchVideosModal';
+import AllMembersModal from './containers/AllMembersModal';
 import EnterAdventureCode from './containers/EnterAdventureCode';
 import Videos from './containers/Videos';
 import Notifications from './containers/Notifications';
 import CreateName from './containers/CreateName';
 import CreateProfilePhoto from './containers/CreateProfilePhoto';
+import GroupModal from './containers/GroupModal';
 import AsyncStorage from '@react-native-community/async-storage';
 import TabBar from './components/TabBar';
 import st from './st';
@@ -94,6 +96,21 @@ const LoggedInAppContainer = () => {
         <AdventureStack.Screen
           name="AdventureStepModal"
           component={AdventureStepModal}
+          options={{ headerShown: false }}
+        />
+        <AdventureStack.Screen
+          name="GroupModal"
+          component={GroupModal}
+          options={{ headerShown: false }}
+        />
+        <AdventureStack.Screen
+          name="AllMembersModal"
+          component={AllMembersModal}
+          options={{ headerShown: false }}
+        />
+        <AdventureStack.Screen
+          name="CreateProfilePhoto"
+          component={CreateProfilePhoto}
           options={{ headerShown: false }}
         />
       </AdventureStack.Navigator>

@@ -174,7 +174,7 @@ export default function(state = initialState, action: any) {
         page: action.result.params.page || 1,
       };
       newNotifications = newNotifications.concat(
-        action.result.results.items || [],
+        action.result.results.messages || [],
       );
       return {
         ...state,

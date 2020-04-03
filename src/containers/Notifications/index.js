@@ -31,6 +31,8 @@ function Notifications(props) {
     [notifications].reverse(),
   );
 
+  const [videoToShow, setVideoToShow] = useState(null);
+
   useEffect(() => {
     setUpdatedPagination(notificationPagination);
   }, [notificationPagination]);
@@ -64,6 +66,10 @@ function Notifications(props) {
     setCurrentNotifications(notifications);
   }, [notifications]);
 
+  function handleSelectVideo(message) {
+    setVideoToShow(message);
+  }
+
   return (
     <Flex
       direction="column"
@@ -71,14 +77,20 @@ function Notifications(props) {
       align="center"
       style={[st.w100, st.h100]}
     >
-      <Video
-        onOrientationChange={orientation =>
-          orientation === 'portrait'
-            ? setIsLandscape(false)
-            : setIsLandscape(true)
-        }
-      />
-      {isLandscape ? null : (
+      {videoToShow ? (
+        <Video
+          hideBack={true}
+          hideInsets={true}
+          onCancel={() => setVideoToShow(null)}
+          onOrientationChange={orientation =>
+            orientation === 'portrait'
+              ? setIsLandscape(false)
+              : setIsLandscape(true)
+          }
+          item={videoToShow.item.media}
+        />
+      ) : null}
+      {isLandscape && videoToShow ? null : (
         <>
           <ScrollView
             style={[
@@ -88,15 +100,21 @@ function Notifications(props) {
               st.f1,
             ]}
           >
-            {/* <FlatList
-              renderItem={props => <NotificationItem {...props} />}
+            <FlatList
+              renderItem={props => (
+                <NotificationItem
+                  key={props.item.id}
+                  onSelectVideo={message => handleSelectVideo(message)}
+                  {...props}
+                />
+              )}
               data={currentNotifications}
               style={[st.w(st.fullWidth)]}
               removeClippedSubviews={true}
               onRefresh={() => loadMore(true)}
               refreshing={isLoading}
               onEndReached={() => loadMore()}
-            /> */}
+            />
           </ScrollView>
         </>
       )}

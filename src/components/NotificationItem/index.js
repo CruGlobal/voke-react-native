@@ -9,6 +9,7 @@ import { momentUtc } from '../../utils';
 import DateComponent from '../DateComponent';
 import VokeIcon from '../VokeIcon';
 import { VIDEO_WIDTH, VIDEO_HEIGHT } from '../../constants';
+import { useNavigation } from '@react-navigation/native';
 
 function renderText(item) {
   const notification = item;
@@ -16,7 +17,7 @@ function renderText(item) {
   if (!notification || !notification.content) return null;
   return (
     <Flex
-      style={[st.ph4, st.pv5, st.br5, st.m5, st.mr1, st.ml0, st.bgWhite]}
+      style={[st.ph4, st.pv5, st.br5, st.ml0, st.bgWhite]}
       direction="row"
       align="center"
       justify="start"
@@ -28,7 +29,7 @@ function renderText(item) {
   );
 }
 
-function renderVideoImage(message) {
+function renderVideoImage(message, onSelectVideo) {
   const thumbnail =
     ((((message || {}).item || {}).media || {}).thumbnails || {}).large ||
     undefined;
@@ -36,37 +37,33 @@ function renderVideoImage(message) {
     <Touchable
       isAndroidOpacity={true}
       activeOpacity={0.7}
-      onPress={this.props.onSelectVideo}
+      onPress={() => onSelectVideo(message)}
+      style={[st.aic, st.jcc]}
     >
       <Image
         resizeMode="cover"
         source={{ uri: thumbnail }}
-        style={[st.w(VIDEO_WIDTH * 0.9), st.h(VIDEO_HEIGHT * 0.9), st.br5]}
+        style={[st.w(VIDEO_WIDTH * 0.7), st.h(VIDEO_HEIGHT * 0.7), st.br5]}
       />
       <VokeIcon
         name="play"
         size={40}
-        style={[{ backgroundColor: 'rgba(255,255,255,0.75)' }]}
+        style={[{ color: 'rgba(255,255,255,0.75)' }, st.abs]}
       />
     </Touchable>
   );
 }
 
-function renderVideoAndText(message) {
+function renderVideoAndText(message, onSelectVideo, handleShare) {
   if (!message || !message.content) return null;
 
   return (
-    <Flex direction="column">
-      <Flex value={1} direction="row" align="center" justify="start">
-        {renderVideoImage(message)}
-        {renderShareVideo(message)}
+    <Flex direction="column" style={[st.w(st.fullWidth - 80)]}>
+      <Flex direction="row" align="center" justify="start">
+        {renderVideoImage(message, onSelectVideo)}
+        {renderShareVideo(handleShare)}
       </Flex>
-      <Flex
-        style={[st.ph4, st.pv5, st.br5, st.m5, st.mr1, st.ml0, st.bgWhite]}
-        direction="row"
-        align="center"
-        justify="start"
-      >
+      <Flex style={[st.ph4, st.pv5, st.br5, st.m5, st.ml0, st.bgWhite]}>
         <Text selectable={true} style={[st.fs16, st.lh(22), st.blue]}>
           {message.content}
         </Text>
@@ -75,14 +72,14 @@ function renderVideoAndText(message) {
   );
 }
 
-function renderShareVideo() {
+function renderShareVideo(handleShare) {
   const SIZE = 55;
   return (
     <Touchable
       isAndroidOpacity={true}
-      onPress={this.shareVideo}
+      onPress={handleShare}
       activeOpacity={0.6}
-      style={[]}
+      style={[st.ml5]}
     >
       <VokeIcon
         name="to-chat"
@@ -93,17 +90,25 @@ function renderShareVideo() {
   );
 }
 
-function renderVideo(message) {
+function renderVideo(message, onSelectVideo, handleShare) {
   if (!message) return null;
   return (
     <Flex value={1} direction="row" align="center" justify={'start'}>
-      {renderVideoImage(message)}
-      {renderShareVideo(message)}
+      {renderVideoImage(message, onSelectVideo)}
+      {renderShareVideo(handleShare)}
     </Flex>
   );
 }
 
-function NotificationItem({ item }) {
+function NotificationItem({ item, onSelectVideo }) {
+  const navigation = useNavigation();
+  function handleShare() {
+    navigation.navigate('NameAdventureModal', {
+      item,
+      withGroup: false,
+      isVideoInvite: true,
+    });
+  }
   const message = item;
   const isVideo = message.item && message.kind !== 'question';
   const isVideoAndText =
@@ -119,20 +124,15 @@ function NotificationItem({ item }) {
   if (message.kind === 'answer') return null;
   let content;
   if (isVideoAndText) {
-    content = renderVideoAndText(message);
+    content = renderVideoAndText(message, onSelectVideo, handleShare);
   } else if (isVideo) {
-    content = renderVideo(message);
+    content = renderVideo(message, onSelectVideo, handleShare);
   } else {
     content = renderText(message);
   }
 
   return (
-    <Flex
-      direction="column"
-      style={{ margin: 6 }}
-      animation="fadeIn"
-      align={'start'}
-    >
+    <Flex direction="column" style={{ margin: 6 }} align={'start'}>
       <Flex align="center" justify="center" style={[st.asc, st.pv5]}>
         <Text style={[st.fs12, st.white]}>{separatorTime}</Text>
       </Flex>
@@ -160,12 +160,8 @@ function NotificationItem({ item }) {
           ]}
         />
         {content}
-        {/* <Flex
-          self="end"
-          style={[styles.triangle, !isVideo ? styles.vokeTriangle : null]}
-        /> */}
       </Flex>
-      <Flex align="end" justify="start" style={[st.mr1]}>
+      <Flex align="end" justify="start" style={[]}>
         <DateComponent
           style={[st.fs12, st.white]}
           date={message.created_at}

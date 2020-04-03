@@ -72,6 +72,18 @@ const ROUTES = {
     method: 'get',
     url: `items`,
   },
+  FAVORITE_VIDEO: {
+    method: 'post',
+    url: `items/{videoId}/favorite`,
+  },
+  UNFAVORITE_VIDEO: {
+    method: 'delete',
+    url: `items/{videoId}/favorite`,
+  },
+  SEND_VIDEO_INVITATION: {
+    method: 'post',
+    url: `me/shares`,
+  },
   GET_VIDEO_TAGS: {
     method: 'get',
     url: `tags`,

@@ -16,7 +16,10 @@ import { KeyboardAvoidingView, Alert, Keyboard } from 'react-native';
 
 import VOKE_BOT from '../../assets/voke_bot_face_large.png';
 import Touchable from '../../components/Touchable';
-import { sendAdventureInvitation } from '../../actions/requests';
+import {
+  sendAdventureInvitation,
+  sendVideoInvitation,
+} from '../../actions/requests';
 
 function NameAdventureModal(props) {
   const insets = useSafeArea();
@@ -26,7 +29,7 @@ function NameAdventureModal(props) {
   const [showHelp, setShowHelp] = useState(false);
   const [name, setName] = useState('');
 
-  const { item, withGroup } = props.route.params;
+  const { item, withGroup, isVideoInvite = false } = props.route.params;
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
@@ -57,17 +60,27 @@ function NameAdventureModal(props) {
       try {
         setIsLoading(true);
         console.log(item);
-        const result = await dispatch(
-          sendAdventureInvitation({
-            organization_journey_id: item.id,
-            name,
-            kind: withGroup ? 'multiple' : 'duo',
-          }),
-        );
-        console.log('INVITATION', result);
+        let result;
+        if (isVideoInvite) {
+          result = await dispatch(
+            sendVideoInvitation({
+              name,
+              item_id: `${item.id}`,
+            }),
+          );
+        } else {
+          result = await dispatch(
+            sendAdventureInvitation({
+              organization_journey_id: item.id,
+              name,
+              kind: withGroup ? 'multiple' : 'duo',
+            }),
+          );
+        }
         navigation.navigate('ShareAdventureCodeModal', {
           invitation: result,
           withGroup,
+          isVideoInvite,
         });
       } finally {
         setIsLoading(false);

@@ -11,6 +11,10 @@ import Video from '../../components/Video';
 import { useNavigation } from '@react-navigation/native';
 import VokeIcon from '../../components/VokeIcon';
 import Touchable from '../../components/Touchable';
+import {
+  toggleFavoriteVideo,
+  sendVideoInvitation,
+} from '../../actions/requests';
 
 function VideoDetailModal(props) {
   const dispatch = useDispatch();
@@ -20,12 +24,17 @@ function VideoDetailModal(props) {
   const { item } = props.route.params;
   const [isFavorited, setIsFavorited] = useState(item['favorite?']);
 
-  function handleFavorite() {
+  async function handleFavorite() {
     setIsFavorited(!isFavorited);
+    await dispatch(toggleFavoriteVideo(!isFavorited, item));
   }
 
   function handleShare() {
-    //
+    navigation.navigate('NameAdventureModal', {
+      item,
+      withGroup: false,
+      isVideoInvite: true,
+    });
   }
 
   return (

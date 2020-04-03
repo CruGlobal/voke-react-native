@@ -83,7 +83,6 @@ function VideoList() {
   }, [allVideos, featuredVideos, popularVideos, favoriteVideos]);
 
   async function loadMore(resetToPageOne = false) {
-    console.log('HERHERHER');
     let page;
     let query = {};
 

@@ -36,6 +36,14 @@ function VideoItem({ item }) {
 
   const thumbnail = ((video.media || {}).thumbnails || {}).large || undefined;
   const description = (video.description || '').replace(/^\s+|\s+$/g, '');
+
+  function handleShare() {
+    navigation.navigate('NameAdventureModal', {
+      item,
+      withGroup: false,
+      isVideoInvite: true,
+    });
+  }
   return (
     <Touchable
       highlight={false}
@@ -96,7 +104,7 @@ function VideoItem({ item }) {
           <Button
             type="transparent"
             isAndroidOpacity={true}
-            onPress={() => {}}
+            onPress={handleShare}
             activeOpacity={0.6}
             touchableStyle={[st.abs, st.mh5, { right: 15, top: -35 }]}
           >

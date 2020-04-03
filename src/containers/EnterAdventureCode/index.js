@@ -58,6 +58,14 @@ function EnterAdventureCode(props) {
           acceptAdventureInvitation(adventureCode),
         );
         const isGroup = newAdventure.kind === 'multiple';
+        if (isGroup) {
+          navigation.navigate('GroupModal', {
+            adventure: newAdventure.journeys[0] || {},
+          });
+        } else {
+          navigation.goBack();
+          // TODO: GO STRAIGHT INTO ADVENTURE
+        }
       } finally {
         setIsLoading(false);
       }

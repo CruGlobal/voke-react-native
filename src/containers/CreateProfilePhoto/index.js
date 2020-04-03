@@ -12,7 +12,7 @@ import st from '../../st';
 import Button from '../../components/Button';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
-import { createAccount } from '../../actions/auth';
+import { createAccount, updateMe } from '../../actions/auth';
 import VOKE_BOT from '../../assets/voke_bot_face_large.png';
 import Touchable from '../../components/Touchable';
 
@@ -32,7 +32,7 @@ function CreateProfilePhoto({ route }) {
   const dispatch = useDispatch();
   const [loginLoading, setLoginLoading] = useState(false);
   const [avatarSource, setAvatarSource] = useState(null);
-  const { firstName, lastName } = route.params;
+  const { firstName, lastName, hasAccount } = route.params;
   async function handleContinue() {
     const avatarData = {
       avatar: {
@@ -46,7 +46,21 @@ function CreateProfilePhoto({ route }) {
     };
     try {
       setLoginLoading(true);
-      await dispatch(createAccount(userData, avatarSource ? avatarData : null));
+      if (hasAccount) {
+        if (!avatarSource) {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'Adventures' }],
+          });
+        } else {
+          await dispatch(updateMe(avatarData));
+          navigation.reset({ index: 0, routes: [{ name: 'Adventures' }] });
+        }
+      } else {
+        await dispatch(
+          createAccount(userData, avatarSource ? avatarData : null),
+        );
+      }
     } finally {
       setLoginLoading(false);
     }
@@ -76,16 +90,20 @@ function CreateProfilePhoto({ route }) {
       <StatusBar />
       <Flex direction="column" justify="end" style={[st.w100, st.h100]}>
         <Flex direction="row" justify="between">
-          <Touchable
-            style={[st.p5, st.pl4, st.mb3]}
-            onPress={() => navigation.goBack()}
-          >
-            <VokeIcon
-              type="image"
-              name="buttonArrow"
-              style={[st.rotate('180deg'), st.h(22), st.w(22)]}
-            />
-          </Touchable>
+          {hasAccount ? (
+            <Flex />
+          ) : (
+            <Touchable
+              style={[st.p5, st.pl4, st.mb3]}
+              onPress={() => navigation.goBack()}
+            >
+              <VokeIcon
+                type="image"
+                name="buttonArrow"
+                style={[st.rotate('180deg'), st.h(22), st.w(22)]}
+              />
+            </Touchable>
+          )}
           <Touchable style={[st.p5, st.pl4, st.mb3]} onPress={handleContinue}>
             <Text style={[st.white, st.fs16, st.pr5]}>Skip</Text>
           </Touchable>
