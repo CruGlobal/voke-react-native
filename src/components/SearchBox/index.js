@@ -34,10 +34,7 @@ function SearchBox({ source, style, badge, onPress, ...rest }) {
         keyboardAppearance={'dark'}
         returnKeyType={'search'}
         autoCorrect={true}
-        onSubmitEditing={() => {
-          // this.props.searchLibrary(this.state.searchText);
-          // this.props.setSearchModal('Closed');
-        }}
+        onSubmitEditing={() => {}}
       />
       <Icon
         name="search"
