@@ -11,14 +11,14 @@ import st from '../../st';
 import Button from '../../components/Button';
 import { useNavigation } from '@react-navigation/native';
 // import { MONTHLY_PRICE } from '../../constants';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 
 import { KeyboardAvoidingView, Alert, Keyboard } from 'react-native';
 
 import VOKE_BOT from '../../assets/voke_bot_face_large.png';
 import Touchable from '../../components/Touchable';
 
-function CreateName(props) {
+const CreateName = (props) => {
   const insets = useSafeArea();
   const navigation = useNavigation();
   const lastNameRef = useRef(null);
@@ -54,6 +54,7 @@ function CreateName(props) {
     if (isValidLoginInfo()) {
       try {
         setLoginLoading(true);
+        // Go to the next step and pass user details as route parammeters.
         navigation.navigate('CreateProfilePhoto', { firstName, lastName });
       } finally {
         setLoginLoading(false);
@@ -61,7 +62,7 @@ function CreateName(props) {
     } else {
       Alert.alert(
         'Please provide your first name',
-        'We need atleast your first name so your friends know who you are',
+        'We need at least your first name so your friends know who you are',
       );
     }
   }
@@ -167,6 +168,6 @@ function CreateName(props) {
       </KeyboardAvoidingView>
     </>
   );
-}
+};
 
 export default CreateName;

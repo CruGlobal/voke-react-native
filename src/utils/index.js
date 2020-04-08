@@ -147,6 +147,11 @@ export function ellipsisUtil(str, len) {
   q = q.length > len ? q.substr(0, len).trim() + '...' : q;
   return q;
 }
+
+/**
+ * React lifecycle hook that calls a function after the component is mounted. 
+ * @param {*} cb 
+ */
 export function useMount(cb) {
   useEffect(cb, []);
 }

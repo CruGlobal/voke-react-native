@@ -46,6 +46,7 @@ function CreateProfilePhoto({ route }) {
     };
     try {
       setLoginLoading(true);
+      console.log( "hasAccount:" ); console.log( hasAccount );
       if (hasAccount) {
         if (!avatarSource) {
           navigation.reset({

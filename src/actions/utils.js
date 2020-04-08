@@ -1,5 +1,5 @@
 import RNFetchBlob from 'rn-fetch-blob';
-import qs from 'qs';
+import qs from 'qs'; // querystring parsing and stringifying
 import CONSTANTS, { REDUX_ACTIONS } from '../constants';
 
 let baseUrl;
@@ -9,10 +9,10 @@ const API_VERSION = 'v1';
 
 let domain = '';
 if (!CONSTANTS.IS_STAGING) {
-  setTimeout(() => console.log('POINTING TO PROD'), 1);
+  setTimeout(() => console.log('🛑 POINTING TO PROD'), 1);
   domain = '';
 } else {
-  // setTimeout(() => LOG('POINTING TO STAGING'), 1);
+  setTimeout(() => console.log('🟢 POINTING TO STAGING'), 1);
   domain = '-stage';
 }
 
@@ -57,7 +57,7 @@ function replaceUrlParam(url, pathParams) {
 function buildParams(options, getState) {
   const params = options.params || {};
   // Add on the version as a query parameter
-  console.log('options', options);
+  console.log('buildParams > options', options);
   if (options.anonymous) {
     return params;
   }
@@ -69,16 +69,35 @@ function buildParams(options, getState) {
     ...params,
   };
 }
-
+// TODO: Needs refactoring.
 export default function request(options) {
   return async (dispatch, getState) => {
-    console.log('making api request', options);
+
+    console.log( "⤴️ function request INITIAL" , options );
+    // console.trace();
+
+  //   LOGIN: {
+  //   method: 'post',
+  //   url: 'oauth/token',
+  //   anonymous: true,
+  //   isAuth: true,
+  //   customData: {
+  //     client: CLIENT,
+  //     grant_type: 'password',
+  //     scope: 'messenger',
+  //   },
+  // },
+
     let finalUrl = replaceUrlParam(options.url, options.pathParams);
     const params = qs.stringify(buildParams(options, getState));
-    finalUrl = `${API_BASE_URL}${finalUrl}?${params}`;
+    // finalUrl = `${API_BASE_URL}${finalUrl}?${params}`;
+
     if (options.isAuth) {
       finalUrl = `${AUTH_URL}${finalUrl}?${params}`;
+    } else {
+      finalUrl = `${API_BASE_URL}${finalUrl}?${params}`;
     }
+
     const newObj = {
       headers: options.headers
         ? { ...DEFAULT_HEADERS, ...options.headers }
@@ -86,6 +105,7 @@ export default function request(options) {
       method: (options.method || 'GET').toUpperCase(),
       url: finalUrl,
     };
+
     if (!options.anonymous) {
       const userToken = getState().auth.authToken;
       newObj.headers['x-access-token'] = userToken;
@@ -116,15 +136,21 @@ export default function request(options) {
           ? { ...options.data, ...(options.customData || {}) }
           : JSON.stringify({ ...options.data, ...(options.customData || {}) });
     }
+
+    // Log redux action.
     dispatch({
       type: REDUX_ACTIONS.REQUEST_FETCH,
       url: finalUrl,
       method: newObj.method,
       body: options.data,
     });
+
+    console.log( "⤴️ function request FINAL" , finalUrl, newObj );
+
+    // Do request.
     return fetch(finalUrl, newObj)
       .then(response => {
-        console.log('API resonse', response);
+        console.log("⤵️ API response \n", response);
         if (!response.ok) {
           return response
             .json()

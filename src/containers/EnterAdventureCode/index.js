@@ -20,6 +20,7 @@ import Touchable from '../../components/Touchable';
 import { acceptAdventureInvitation } from '../../actions/requests';
 
 function EnterAdventureCode(props) {
+  console.log( "📟Container > EnterAdventureCode:" );
   const insets = useSafeArea();
   const navigation = useNavigation();
   const [adventureCode, setAdventureCode] = useState('');

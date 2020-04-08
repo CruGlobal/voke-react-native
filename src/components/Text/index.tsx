@@ -4,7 +4,7 @@ import st from '../../st';
 
 const Text = forwardRef(
   (
-    { children, style, ...rest }: { children: React.ReactNode; style: StyleProp<TextStyle> },
+    { children, style, ...rest }: { children: React.ReactNode; style: StyleProp<TextStyle>; [x:string]: any },
     ref: React.Ref<RNText>,
   ) => {
     return (

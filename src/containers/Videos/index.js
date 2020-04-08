@@ -255,6 +255,7 @@ function CustomTabBar(props) {
 }
 
 function Videos(props) {
+  console.log('📟 Containers > Videos')
   const insets = useSafeArea();
   const dispatch = useDispatch();
   const [index, setIndex] = React.useState(0);

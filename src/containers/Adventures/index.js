@@ -45,7 +45,9 @@ function CallToActions() {
           st.mt5,
           { width: st.fullWidth - 30 },
         ]}
-        onPress={() => navigation.navigate('EnterAdventureCode')}
+        onPress={
+          () => navigation.navigate('EnterAdventureCode')
+        }
       >
         <Flex direction="column" align="center" justify="center">
           <Text style={[st.darkBlue, st.fs18]}>Enter an Adventure Code</Text>
@@ -100,6 +102,8 @@ function MyAdventures() {
     [].concat(adventureInvitations, myAdventures),
   );
   const dispatch = useDispatch();
+
+  // Actions to run when component mounted.
   useMount(() => {
     dispatch(startupAction());
     // dispatch({ type: REDUX_ACTIONS.RESET });
@@ -210,6 +214,7 @@ function CustomTabBar(props) {
 }
 
 function Adventures(props) {
+  console.log( "📟Container > Adventures" );
   const [index, setIndex] = React.useState(0);
 
   useMount(() => {

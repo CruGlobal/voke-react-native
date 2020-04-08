@@ -10,7 +10,7 @@ import Text from '../Text';
 
 const DEFAULT_TIMEOUT = 4000;
 
-function ToastManager() {
+const ToastManager = () => {
   const toastProps = useSelector(({ info }) => info.toastProps);
   const [isVisible, setIsVisible] = useState(false);
   const [text, setText] = useState('');
@@ -25,7 +25,7 @@ function ToastManager() {
       }, toastProps.timeout || DEFAULT_TIMEOUT);
     }
 
-    return (cleanUp = () => {
+    return ( () => {
       clearTimeout(this.timeout);
     });
   }, [toastProps]);
@@ -50,6 +50,6 @@ function ToastManager() {
       </SafeAreaView>
     </Flex>
   );
-}
+};
 
 export default ToastManager;

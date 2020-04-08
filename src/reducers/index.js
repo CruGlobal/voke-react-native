@@ -5,6 +5,7 @@ import info from './info';
 import { persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
 
+// Defines what data to store in the local storage.
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,

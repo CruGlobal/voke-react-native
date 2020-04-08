@@ -54,7 +54,9 @@ function SettingsModal(props) {
         />
         <SettingsRow
           title="Sign In"
-          onSelect={() => navigation.navigate('Login', { shouldMerge: true })}
+          onSelect={() =>
+            navigation.navigate('SignInModal', { shouldMerge: true })
+          }
         />
         <SettingsRow
           title="Share this App"
@@ -104,7 +106,7 @@ function SettingsModal(props) {
           }}
         />
         <SettingsRow
-          title="Help"
+          title="Get Help"
           onSelect={() => navigation.navigate('Help')}
         />
         <SettingsRow
@@ -117,45 +119,59 @@ function SettingsModal(props) {
         />
         <SettingsRow
           title="Sign Out"
-          onSelect={() => dispatch(logoutAction())}
+          onSelect={() => {
+            dispatch(logoutAction()).then(()=>{
+              // Navigate back to the very first screen.
+              // 🤦🏻‍♂️Give React 10ms to render WelcomeApp component.
+              setTimeout(() => {
+                navigation.reset({
+                  index: 1,
+                  routes: [{ name: 'WelcomeApp' }],
+                })
+              }, 10);
+            });
+          }}
         />
+        {/* SECTION: OUR PARTNERS */}
+        {/* TODO: Tidy up */}
         <Flex
           direction="row"
           align="center"
-          justify="start"
-          style={[st.bbLightGrey, st.bbw1, st.pv5, st.ph4]}
+          justify="center"
+          style={[  st.pv5, st.ph4, {marginTop: 30}]}
         >
-          <Text style={[st.darkGrey, st.fs16]}>Our Partners</Text>
+          <Text style={[st.darkGrey, st.fs14, st.ls2]}>OUR PARTNERS</Text>
         </Flex>
-        <Flex direction="row" align="center" justify="center" wrap="wrap">
+        <Flex direction="row" align="center" justify="around" wrap="wrap"
+          style={[ st.ph5]}>
           <Image
             source={SU}
-            style={[st.w(st.fullWidth / 2.3), st.h(st.fullWidth / 2.3)]}
+            style={[st.w(st.fullWidth / 2), st.h(st.fullWidth / 2.3)]}
             resizeMode="contain"
           />
           <Image
             source={JF}
-            style={[st.w(st.fullWidth / 2.3), st.h(st.fullWidth / 2.3)]}
+            style={[st.w(st.fullWidth / 3), st.h(st.fullWidth / 3)]}
             resizeMode="contain"
           />
           <Image
             source={OH}
-            style={[st.w(st.fullWidth / 2.3), st.h(st.fullWidth / 2.3)]}
+            style={[st.w(st.fullWidth / 3), st.h(st.fullWidth / 2)]}
             resizeMode="contain"
           />
           <Image
             source={YS}
-            style={[st.w(st.fullWidth / 2.3), st.h(st.fullWidth / 2.3)]}
+            style={[st.w(st.fullWidth / 3), st.h(st.fullWidth / 2)]}
             resizeMode="contain"
           />
           <Image
             source={IAS}
-            style={[st.w(st.fullWidth / 2.3), st.h(st.fullWidth / 2.3)]}
+            style={[st.w(st.fullWidth / 2.3), st.h(st.fullWidth / 3)]}
             resizeMode="contain"
           />
           <Image
             source={CRU}
-            style={[st.w(st.fullWidth / 2.3), st.h(st.fullWidth / 2.3)]}
+            style={[st.w(st.fullWidth / 3), st.h(st.fullWidth / 3)]}
             resizeMode="contain"
           />
         </Flex>

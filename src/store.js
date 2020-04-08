@@ -4,7 +4,6 @@ import createRootReducer from './reducers';
 import { persistStore } from 'redux-persist';
 
 const persistedReducer = createRootReducer();
-
 const enhancers = [];
 const middlewares = [thunk];
 const composeEnhancers =

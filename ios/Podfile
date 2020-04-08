@@ -29,14 +29,13 @@ target 'Voke' do
   pod 'React-jsi', :path => '../node_modules/react-native/ReactCommon/jsi'
   pod 'React-jsiexecutor', :path => '../node_modules/react-native/ReactCommon/jsiexecutor'
   pod 'React-jsinspector', :path => '../node_modules/react-native/ReactCommon/jsinspector'
-  pod 'ReactCommon/jscallinvoker', :path => "../node_modules/react-native/ReactCommon"
+  pod 'ReactCommon/callinvoker', :path => "../node_modules/react-native/ReactCommon"
   pod 'ReactCommon/turbomodule/core', :path => "../node_modules/react-native/ReactCommon"
   pod 'Yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
 
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
     pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
   pod 'Permission-MediaLibrary', :path => "#{permissions_path}/MediaLibrary.podspec"
@@ -45,6 +44,5 @@ target 'Voke' do
 
 
   use_native_modules!
-  pod 'RNCPushNotificationIOS', :path => '../node_modules/@react-native-community/push-notification-ios'
 
 end

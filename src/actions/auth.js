@@ -3,6 +3,7 @@ import { Alert } from 'react-native';
 import { REDUX_ACTIONS, isAndroid } from '../constants';
 
 import { getTimeZone, getCountry, getLocales } from 'react-native-localize';
+import { CommonActions } from '@react-navigation/native';
 
 import ROUTES from './routes';
 import request from './utils';
@@ -11,7 +12,17 @@ import { getDevices, revokeAuthToken } from './requests';
 import { isArray } from '../utils';
 import { checkForPermissionsAndSetupSockets } from './socket';
 
+
+// results = await dispatch(
+//       request({
+//         ...ROUTES.UPDATE_DEVICE,
+//         pathParams: { cableId },
+//         data: device,
+//       }),
+//     );
+
 export function loginAction(user) {
+  console.log( "loginAction:" ); console.log( {user} );
   return async dispatch => {
     dispatch({ type: REDUX_ACTIONS.LOGIN, user });
   };
@@ -24,6 +35,7 @@ export function startupAction() {
 }
 
 export function logoutAction(user, token, isDelete = false) {
+  console.log( "🚶‍♂️🚪 logoutAction \n\n", {user}, "\n", {token}, "\n", {isDelete} );
   return async (dispatch, getState) => {
     if (token && !isDelete) {
       const devices = await dispatch(getDevices());
@@ -40,8 +52,10 @@ export function logoutAction(user, token, isDelete = false) {
         }
       }
     }
-    // dispatch(cleanupAction());
+    // Set redux store into empty state.
     await dispatch({ type: REDUX_ACTIONS.LOGOUT, user, token });
+    console.log('done!');
+    // Clear data in the local storage if user logout.
     AsyncStorage.clear();
   };
 }
@@ -84,13 +98,50 @@ export function hasSeenSubscriptionModal(bool) {
 //   };
 // }
 
+export function userLogin(username, password) {
+  console.log( "function userLogin:" ,{username,password});
+  return async (dispatch, getState) => {
+    const data = {
+      username,
+      password,
+    };
+
+    const auth = getState().auth;
+    if ( auth.user.id ) {
+      data.anonymous_user_id = auth.user.id;
+    }
+
+    console.log( "userLogin data:" ); console.log( data );
+
+    // try {
+    const loginResults = await dispatch(request({ ...ROUTES.LOGIN, data }));
+
+    console.log( "loginResults:" ); console.log( {loginResults} );
+    /* if (!loginResults.errors && loginResults.access_token.access_token) {
+      await dispatch(loginAction(results.access_token, results));
+      if (createWithAvatarData) {
+        await dispatch(updateMe(createWithAvatarData));
+      }
+    } */
+     /*  await dispatch(loginAction(results.access_token, results));
+      console.log( "🚪🚶‍♂️ login \n\n", {loginResults} ); */
+   /*  } catch (error) {
+      reject(error);
+    } */
+
+  };
+}
+
+/*
+BEN
 export function login(username, password) {
   return async (dispatch, getState) => {};
-}
+} */
 
 export function passwordReset(username) {
   return async (dispatch, getState) => {
     try {
+      // TODO: Finish this password reset functionality.
       const user = await auth().sendPasswordResetEmail(username);
       Alert.alert(
         'Check Your Email',
@@ -128,7 +179,7 @@ export function createAccount(user, createWithAvatarData) {
     };
     const newUser =
       (await dispatch(request({ ...ROUTES.CREATE_ACCOUNT, data }))) || {};
-    console.log(newUser);
+    console.log( "👤 createAccount \n\n", {newUser} );
     if (!newUser.errors && newUser.access_token.access_token) {
       await dispatch(loginAction(newUser));
       if (createWithAvatarData) {
@@ -138,6 +189,10 @@ export function createAccount(user, createWithAvatarData) {
   };
 }
 
+/**
+ * Update user's data.
+ * @param {object} data - user data to update.
+ */
 export function updateMe(data) {
   return async (dispatch, getState) => {
     const userId = getState().auth.user.id;
