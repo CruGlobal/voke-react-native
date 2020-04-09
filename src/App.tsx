@@ -9,6 +9,8 @@ import SettingsModal from './containers/SettingsModal';
 import HelpModal from './containers/HelpModal';
 import AboutModal from './containers/AboutModal';
 import SignInModal from './containers/SignInModal';
+import ProfileModal from './containers/ProfileModal';
+import SignUpModal from './containers/SignUpModal';
 import ForgotPasswordModal from './containers/ForgotPasswordModal';
 import GetConversationsModal from './containers/GetConversationsModal';
 import Adventures from './containers/Adventures';
@@ -319,6 +321,46 @@ const App = () => {
             },
             headerLeft: () => <HeaderLeft  hasBack= {true} />,
           }}
+        />
+         <AppStack.Screen
+          name="Profile"
+          component={ProfileModal}
+          options={({ navigation }) => ({
+            headerShown: true,
+            headerLeft: () => <HeaderLeft  hasBack= {true} />,
+            cardStyle: { backgroundColor: st.colors.transparent },
+            headerStyle: {
+              backgroundColor: st.colors.blue,
+              elevation: 0,
+              shadowOpacity: 0,
+            },
+            headerTitleStyle: {
+              color: st.colors.white,
+              fontSize: 18,
+              fontWeight: 'normal',
+            },
+            title: 'Profile',
+          })}
+        />
+        <AppStack.Screen
+          name="SignUp"
+          component={SignUpModal}
+          options={({ navigation }) => ({
+            headerShown: true,
+            headerLeft: () => <HeaderLeft  hasBack= {true} />,
+            cardStyle: { backgroundColor: st.colors.transparent },
+            headerStyle: {
+              backgroundColor: st.colors.blue,
+              elevation: 0,
+              shadowOpacity: 0,
+            },
+            headerTitleStyle: {
+              color: st.colors.white,
+              fontSize: 18,
+              fontWeight: 'normal',
+            },
+            title: 'Sign Up',
+          })}
         />
         <AppStack.Screen
           name="Help"

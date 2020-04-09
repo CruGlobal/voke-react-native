@@ -6,7 +6,6 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch,useSelector } from 'react-redux';
 import { useMount } from '../../utils';
 import st from '../../st';
-import { getMe} from '../../actions/auth';
 
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
