@@ -8,6 +8,7 @@ import { useMount } from '../../utils';
 import st from '../../st';
 import { logoutAction, userLogin } from '../../actions/auth';
 import { useSelector } from 'react-redux';
+import VokeIcon from '../../components/VokeIcon';
 
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
@@ -22,6 +23,7 @@ import CONSTANTS from '../../constants';
 type SignInModalProps = {
   props: any
 }
+
 const SignInModal = ( props: SignInModalProps  ) => {
   const insets = useSafeArea();
   const navigation = useNavigation();
@@ -124,6 +126,9 @@ const SignInModal = ( props: SignInModalProps  ) => {
     >
       <StatusBar />
       <Flex direction="column" align="center" style={[st.ph1, st.w100,{marginBottom:30}]}>
+      <Text style={[styles.TextSmall,{textAlign:'center'}]}>
+            Successful login to an existing account will merge your current progress with saved data.
+          </Text>
         <TextField
           // blurOnSubmit={false}
           label="Email"
@@ -179,8 +184,7 @@ const SignInModal = ( props: SignInModalProps  ) => {
               onPress={() => navigation.navigate('ForgotPassword')}
             >
               Forgot Password?
-            </Text>{"\n\n"}
-            Successful login to an existing account will merge your current progress with saved data.
+            </Text>
           </Text>
         </Flex>
       </Flex>
@@ -200,12 +204,24 @@ const SignInModal = ( props: SignInModalProps  ) => {
         </View> */}
         <Button
           isAndroidOpacity={true}
-          style={[styles.ButtonSignIn, {marginLeft:20}]}
+          style={[styles.ButtonSignIn]}
           /* onPress={
             () => navigation.navigate('ForgotPassword')
           } */
         >
+          <Flex
+          // value={1}
+          direction="row"
+          align="center"
+          justify="center"
+        >
+          <VokeIcon
+        type="image"
+        name="facebook"
+        style={[st.h(22), st.w(22), st.mr5]}
+      />
           <Text style={styles.ButtonSignInLabel}>Sign In with Facebook</Text>
+          </Flex>
         </Button>
       </Flex>
       {/* Safe area bottom spacing */}

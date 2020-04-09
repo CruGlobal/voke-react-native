@@ -12,7 +12,6 @@ import { getDevices, revokeAuthToken } from './requests';
 import { isArray } from '../utils';
 import { checkForPermissionsAndSetupSockets } from './socket';
 
-
 // results = await dispatch(
 //       request({
 //         ...ROUTES.UPDATE_DEVICE,
@@ -22,7 +21,8 @@ import { checkForPermissionsAndSetupSockets } from './socket';
 //     );
 
 export function loginAction(user) {
-  console.log( "loginAction:" ); console.log( {user} );
+  console.log('loginAction:');
+  console.log({ user });
   return async dispatch => {
     dispatch({ type: REDUX_ACTIONS.LOGIN, user });
   };
@@ -35,7 +35,9 @@ export function startupAction() {
 }
 
 export function logoutAction(user, token, isDelete = false) {
-  console.log( "🚶‍♂️🚪 logoutAction \n\n", {user}, "\n", {token}, "\n", {isDelete} );
+  console.log('🚶‍♂️🚪 logoutAction \n\n', { user }, '\n', { token }, '\n', {
+    isDelete,
+  });
   return async (dispatch, getState) => {
     if (token && !isDelete) {
       const devices = await dispatch(getDevices());
@@ -99,7 +101,7 @@ export function hasSeenSubscriptionModal(bool) {
 // }
 
 export function userLogin(username, password) {
-  console.log( "function userLogin:" ,{username,password});
+  console.log('function userLogin:', { username, password });
   return async (dispatch, getState) => {
     const data = {
       username,
@@ -107,28 +109,29 @@ export function userLogin(username, password) {
     };
 
     const auth = getState().auth;
-    if ( auth.user.id ) {
+    if (auth.user.id) {
       data.anonymous_user_id = auth.user.id;
     }
 
-    console.log( "userLogin data:" ); console.log( data );
+    console.log('userLogin data:');
+    console.log(data);
 
     // try {
     const loginResults = await dispatch(request({ ...ROUTES.LOGIN, data }));
 
-    console.log( "loginResults:" ); console.log( {loginResults} );
+    console.log('loginResults:');
+    console.log({ loginResults });
     /* if (!loginResults.errors && loginResults.access_token.access_token) {
       await dispatch(loginAction(results.access_token, results));
       if (createWithAvatarData) {
         await dispatch(updateMe(createWithAvatarData));
       }
     } */
-     /*  await dispatch(loginAction(results.access_token, results));
+    /*  await dispatch(loginAction(results.access_token, results));
       console.log( "🚪🚶‍♂️ login \n\n", {loginResults} ); */
-   /*  } catch (error) {
+    /*  } catch (error) {
       reject(error);
     } */
-
   };
 }
 
@@ -159,7 +162,7 @@ export function passwordReset(username) {
 export function getMe() {
   return async (dispatch, getState) => {
     const result = await dispatch(request({ ...ROUTES.GET_ME }));
-    console.log(result);
+    console.log('THIS IS MEEEEEEEEE', result);
     return result;
   };
 }
@@ -179,7 +182,7 @@ export function createAccount(user, createWithAvatarData) {
     };
     const newUser =
       (await dispatch(request({ ...ROUTES.CREATE_ACCOUNT, data }))) || {};
-    console.log( "👤 createAccount \n\n", {newUser} );
+    console.log('👤 createAccount \n\n', { newUser });
     if (!newUser.errors && newUser.access_token.access_token) {
       await dispatch(loginAction(newUser));
       if (createWithAvatarData) {

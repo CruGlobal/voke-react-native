@@ -17,8 +17,8 @@ function HeaderLeft({ hasBack = false }) {
         >
           <VokeIcon
             type="image"
-            name="buttonArrow"
-            style={[st.rotate('180deg'), st.h(22), st.w(22)]}
+            name="leftArrow"
+            style={[st.h(22), st.w(22), st.mt3]}
           />
         </Touchable>
       ) : (

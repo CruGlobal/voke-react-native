@@ -35,7 +35,7 @@ const styles: { [key: string]: any } = {
 		background-color: ${theme.colors.darkBlue};
 		padding-left:${theme.spacing.xl + 'px'};
 		padding-right:${theme.spacing.xl + 'px'};
-		padding-bottom:${theme.spacing.l + 'px'};
+		padding-bottom:${theme.spacing.m + 'px'};
 	`,
 	ButtonStart: [
 		ui.button.size.l,
@@ -51,7 +51,7 @@ const styles: { [key: string]: any } = {
 		ui.buttonText.size.l
 	],
 	ButtonSignIn: [
-		ui.button.size.m,
+		ui.button.size.l,
 		ui.button.style.outline
 	],
 	ButtonSignInLabel: [
@@ -59,7 +59,7 @@ const styles: { [key: string]: any } = {
 	],
 	SignInText: css`
 		color: ${theme.colors.white};
-		font-size: ${theme.fontSizes.l + 'px'};
+		font-size: ${theme.fontSizes.m + 'px'};
 		font-family: ${theme.fonts.regular};
 	`,
 	TextSmall: css`
@@ -73,10 +73,8 @@ const styles: { [key: string]: any } = {
 	`,
 	SectionSignIn: css`
 		background-color: ${theme.colors.darkBlue};
-		padding-top:${theme.spacing.l + 'px'};
+		padding-top:${theme.spacing.m + 'px'};
 		padding-bottom:${theme.spacing.xl + 'px'};
-		border-top-width: 1px;
-		border-top-color: rgba(0,0,0,.2);
 	`,
 }
 

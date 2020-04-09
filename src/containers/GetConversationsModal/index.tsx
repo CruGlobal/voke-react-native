@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import Orientation from 'react-native-orientation-locker';
 import { useSafeArea } from 'react-native-safe-area-context';
-import { KeyboardAvoidingView, Alert, Keyboard, View, Linking, useWindowDimensions } from 'react-native';
+import {  View, useWindowDimensions, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { useMount } from '../../utils';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
-import { passwordReset } from '../../actions/auth';
 import st from '../../st';
+import { getMe} from '../../actions/auth';
 
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
-import Image from '../../components/Image';
 import TextField from '../../components/TextField';
 import StatusBar from '../../components/StatusBar';
 import Button from '../../components/Button';
@@ -19,43 +17,42 @@ import Triangle from '../../components/Triangle';
 import styles from './styles';
 import CONSTANTS from '../../constants';
 
-type ForgotPasswordModalProps = {
+type GetConversationsModalProps = {
   props: any
 }
-const ForgotPasswordModal = ( props: ForgotPasswordModalProps  ) => {
+
+const GetConversationsModal = ( props: GetConversationsModalProps  ) => {
   const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [activeSlide, setActiveSlide] = useState(0);
+  const me = useSelector(({ auth }) => auth.user);
   useMount(() => {
     Orientation.lockToPortrait();
   });
+
 
   return (
     <Flex
       value={1}
       style={[
         styles.SectionOnboarding,
-        // { paddingTop: insets.top }
       ]}
     >
       <StatusBar />
       <Flex direction="column" align="center" style={[st.ph1, st.w100,{marginBottom:130}]}>
-         {/* TEXT: FORGOT PASSWORD */}
+         {/* TEXT: Email will be sent */}
          <Text style={[styles.TextSmall,{textAlign:'center', marginBottom:40}]}>
-            Please enter the correct email address associated with your Voke account to reset your password
-          </Text>
+An email containing your conversations will be sent to the email address below. If email is unknown, please create an account</Text>
         <TextField
-          blurOnSubmit={false}
-          label="Email"
+          label="Send Email to"
           // onSubmitEditing={() => lastNameRef.current.focus()}
-          placeholder={'Email'}
-          // value={firstName}
+          value={me.email || "email unknown"}
           // onChangeText={text => setFirstName(text)}
           textContentType='emailAddress'
           autoCompleteType='email'
           keyboardType='email-address'
           returnKeyType={'next'}
+          editable={false}
         />
       </Flex>
       {/* SECTION: CALL TO ACTION BUTTON */}
@@ -71,19 +68,32 @@ const ForgotPasswordModal = ( props: ForgotPasswordModalProps  ) => {
           value={1}
           justify="center"
         >
-          {/* BUTTON: SIGN IN*/}
+                      {/* BUTTON: Send email*/}
+
+          {me.email ?
+          (
           <Button
             isAndroidOpacity={true}
             style={styles.ButtonStart}
             onPress={
-              () => dispatch(passwordReset( 'example@example.com' )).then(() => {
-                 console.log('DONE PASSWORD RESET')
-                //  navigation.navigate('CreateName')
+              () => dispatch(getOldConversations( 'example@example.com' )).then(() => {
+                Alert.alert('sentOldConversations');
+                // dispatch(navigateBack());
                })
             }
           >
-            <Text style={styles.ButtonStartLabel}>Reset Password</Text>
-          </Button>
+            <Text style={styles.ButtonStartLabel}>Send Email</Text>
+          </Button>)
+          : (<Button
+          isAndroidOpacity={true}
+          style={styles.ButtonStart}
+          onPress={
+            () => navigation.navigate('Profile')
+          }
+        >
+          <Text style={styles.ButtonStartLabel}>Create Account</Text>
+        </Button>
+        )}
          
         </Flex>
       </Flex>
@@ -120,4 +130,4 @@ const ForgotPasswordModal = ( props: ForgotPasswordModalProps  ) => {
   );
 }
 
-export default ForgotPasswordModal;
+export default GetConversationsModal;

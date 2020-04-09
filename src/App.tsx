@@ -7,8 +7,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Welcome from './containers/Welcome';
 import SettingsModal from './containers/SettingsModal';
 import HelpModal from './containers/HelpModal';
+import AboutModal from './containers/AboutModal';
 import SignInModal from './containers/SignInModal';
 import ForgotPasswordModal from './containers/ForgotPasswordModal';
+import GetConversationsModal from './containers/GetConversationsModal';
 import Adventures from './containers/Adventures';
 import AvailableAdventureModal from './containers/AvailableAdventureModal';
 import VideoDetailModal from './containers/VideoDetailModal';
@@ -336,6 +338,46 @@ const App = () => {
               fontWeight: 'normal',
             },
             title: 'Help Center',
+          })}
+        />
+        <AppStack.Screen
+          name="About"
+          component={AboutModal}
+          options={({ navigation }) => ({
+            headerShown: true,
+            headerLeft: () => <HeaderLeft  hasBack= {true} />,
+            cardStyle: { backgroundColor: st.colors.transparent },
+            headerStyle: {
+              backgroundColor: st.colors.blue,
+              elevation: 0,
+              shadowOpacity: 0,
+            },
+            headerTitleStyle: {
+              color: st.colors.white,
+              fontSize: 18,
+              fontWeight: 'normal',
+            },
+            title: 'About Voke',
+          })}
+        />
+         <AppStack.Screen
+          name="OldConversations"
+          component={GetConversationsModal}
+          options={({ navigation }) => ({
+            headerShown: true,
+            headerLeft: () => <HeaderLeft  hasBack= {true} />,
+            cardStyle: { backgroundColor: st.colors.transparent },
+            headerStyle: {
+              backgroundColor: st.colors.blue,
+              elevation: 0,
+              shadowOpacity: 0,
+            },
+            headerTitleStyle: {
+              color: st.colors.white,
+              fontSize: 18,
+              fontWeight: 'normal',
+            },
+            title: 'Get my Old Conversations',
           })}
         />
       </AppStack.Navigator>
