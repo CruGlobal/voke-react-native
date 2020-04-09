@@ -43,6 +43,8 @@ const ProfileModal = ( props: ProfileModalProps  ) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const me = useSelector(({ auth }) => auth.user);
+
+  console.log("*************MEEEEEE**************", me.avatar)
   return (
     <Flex
     value={1}
@@ -54,6 +56,8 @@ const ProfileModal = ( props: ProfileModalProps  ) => {
       <ScrollView>
       <StatusBar />
       <Flex direction="column" align="center" style={[st.ph1, st.w100,{marginBottom:10}]}>
+      <Image resizeMode="contain" source={{uri: me.avatar.large}} style={{width:200}} />
+
         <SettingsRow
           title="Change Photo"
           // onSelect={() => Linking.openURL(CONSTANTS.WEB_URLS.VOKE)}
