@@ -6,6 +6,9 @@ import { Platform, Dimensions } from 'react-native';
 
 const theme: { [key: string]: {[key: string]: string | number} } = {
   colors: {
+    primary: '#44c8e8', // Blue
+    secondary: '#216373', // Dark Blue
+
     transparent: 'transparent',
     blue: '#44c8e8',
     darkBlue: '#216373',

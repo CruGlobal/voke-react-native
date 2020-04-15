@@ -52,6 +52,7 @@ const ForgotPasswordModal = ( props: ForgotPasswordModalProps  ) => {
           placeholder={'Email'}
           // value={firstName}
           // onChangeText={text => setFirstName(text)}
+          autoCapitalize="none"
           textContentType='emailAddress'
           autoCompleteType='email'
           keyboardType='email-address'

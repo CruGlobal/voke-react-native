@@ -11,7 +11,7 @@ import { useMount } from '../../utils';
 import st from '../../st';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutAction, getMe, startupAction } from '../../actions/auth';
+import { logoutAction, startupAction } from '../../actions/auth';
 import { ActivityIndicator, ScrollView, FlatList } from 'react-native';
 
 import Touchable from '../../components/Touchable';
@@ -150,7 +150,7 @@ function MyAdventures() {
             <Flex direction="column" value={1} justify="start" style={[st.pr3]}>
               <Flex style={[st.bgOffBlue, st.ph3, st.pv5, st.br5]}>
                 <Text style={[st.white, st.fs18, st.tac]}>
-                  {`Welcome ${me.first_name}! This is where you will find all of your adventures with your friends.`}
+                  {`Welcome ${me.firstName}! This is where you will find all of your adventures with your friends.`}
                 </Text>
               </Flex>
               <Triangle

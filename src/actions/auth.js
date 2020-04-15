@@ -1,30 +1,18 @@
 import RNFetchBlob from 'rn-fetch-blob';
 import { Alert } from 'react-native';
-import { REDUX_ACTIONS, isAndroid } from '../constants';
-
 import { getTimeZone, getCountry, getLocales } from 'react-native-localize';
-import { CommonActions } from '@react-navigation/native';
-
+import AsyncStorage from '@react-native-community/async-storage';
+import { REDUX_ACTIONS } from '../constants';
 import ROUTES from './routes';
 import request from './utils';
-import AsyncStorage from '@react-native-community/async-storage';
-import { getDevices, revokeAuthToken } from './requests';
+import { getDevices, revokeAuthToken, setUser } from './requests';
 import { isArray } from '../utils';
 import { checkForPermissionsAndSetupSockets } from './socket';
 
-// results = await dispatch(
-//       request({
-//         ...ROUTES.UPDATE_DEVICE,
-//         pathParams: { cableId },
-//         data: device,
-//       }),
-//     );
-
-export function loginAction(user) {
-  console.log('loginAction:');
-  console.log({ user });
+export function loginAction(authToken) {
+  // const authToken = authData.access_token;
   return async dispatch => {
-    dispatch({ type: REDUX_ACTIONS.LOGIN, user });
+    dispatch({ type: REDUX_ACTIONS.LOGIN, authToken });
   };
 }
 
@@ -39,26 +27,30 @@ export function logoutAction(user, token, isDelete = false) {
     isDelete,
   });
   return async (dispatch, getState) => {
-    if (token && !isDelete) {
-      const devices = await dispatch(getDevices());
+    try {
+      if (token && !isDelete) {
+        const devices = await dispatch(getDevices());
 
-      if (devices && isArray(devices.devices)) {
-        const deviceIds = devices.devices.map(d => d.id);
-        if (deviceIds.length > 0) {
-          dispatch(
-            revokeAuthToken({
-              device_ids: deviceIds,
-              token: null,
-            }),
-          );
+        if (devices && isArray(devices.devices)) {
+          const deviceIds = devices.devices.map(d => d.id);
+          if (deviceIds.length > 0) {
+            dispatch(
+              revokeAuthToken({
+                device_ids: deviceIds,
+                token: null,
+              }),
+            );
+          }
         }
       }
+      // Set redux store into empty state.
+      await dispatch({ type: REDUX_ACTIONS.LOGOUT, user, token });
+      // Clear data in the local storage if user logout.
+      AsyncStorage.clear();
+    } catch (error) {
+      console.log('🛑 Logout error', error);
+      throw error;
     }
-    // Set redux store into empty state.
-    await dispatch({ type: REDUX_ACTIONS.LOGOUT, user, token });
-    console.log('done!');
-    // Clear data in the local storage if user logout.
-    AsyncStorage.clear();
   };
 }
 
@@ -100,40 +92,6 @@ export function hasSeenSubscriptionModal(bool) {
 //   };
 // }
 
-export function userLogin(username, password) {
-  console.log('function userLogin:', { username, password });
-  return async (dispatch, getState) => {
-    const data = {
-      username,
-      password,
-    };
-
-    const auth = getState().auth;
-    if (auth.user.id) {
-      data.anonymous_user_id = auth.user.id;
-    }
-
-    console.log('userLogin data:');
-    console.log(data);
-
-    // try {
-    const loginResults = await dispatch(request({ ...ROUTES.LOGIN, data }));
-
-    console.log('loginResults:');
-    console.log({ loginResults });
-    /* if (!loginResults.errors && loginResults.access_token.access_token) {
-      await dispatch(loginAction(results.access_token, results));
-      if (createWithAvatarData) {
-        await dispatch(updateMe(createWithAvatarData));
-      }
-    } */
-    /*  await dispatch(loginAction(results.access_token, results));
-      console.log( "🚪🚶‍♂️ login \n\n", {loginResults} ); */
-    /*  } catch (error) {
-      reject(error);
-    } */
-  };
-}
 
 /*
 BEN
@@ -159,15 +117,91 @@ export function passwordReset(username) {
   };
 }
 
+/**
+ * Update store.auth.user branch with user data fetched from the server.
+ */
 export function getMe() {
+  console.log( "🤷‍♂ function getMe" );
   return async (dispatch, getState) => {
-    const result = await dispatch(request({ ...ROUTES.GET_ME }));
-    console.log('THIS IS MEEEEEEEEE', result);
-    return result;
+    /* 
+    // Fetch user data from the server.
+    const userData = await dispatch(request({ ...ROUTES.GET_ME }));
+    // TODO: add data validation here.
+    // Update redux store with data received.
+    return dispatch({
+        type: REDUX_ACTIONS.SET_USER,
+        user: userData,
+    });
+ */
+
+    // Fetch user data from the server.
+    return dispatch(request({ ...ROUTES.GET_ME })).then(
+      userData => {
+        // eslint-disable-next-line no-console
+        console.log('👤 getMe > Updated user data:\n', userData);
+        // Update redux store with data received.
+        return dispatch(setUser(userData));
+      },
+      error => {
+        // eslint-disable-next-line no-console
+        console.log('👤 getMe > Fetch error', error);
+        throw error;
+      },
+    );
   };
 }
 
-export function createAccount(user, createWithAvatarData) {
+export function userLogin(username, password) {
+  return async (dispatch, getState) => {
+    // try {
+    const data = {
+      username,
+      password,
+    };
+
+    // Important! It tells the server to merge anonymous_user_id
+    // with provided login details.
+    const auth = getState().auth;
+    if ( auth.user.id ) {
+      data.anonymous_user_id = auth.user.id;
+    }
+
+    console.log( "function userLogin > data:" ); console.log( data );
+
+
+
+    return dispatch(request({ ...ROUTES.LOGIN, data })).then(
+      authData => {
+        // eslint-disable-next-line no-console
+        console.log('🚪🚶‍♂️loginResults:\n', authData);
+        // Received login response do Logout/reset state.
+        logoutAction();
+        // Update user data in the state with ones received.
+        dispatch( loginAction(authData.access_token) );
+        // await dispatch(getMe());
+        // After all download user details from server.
+        return dispatch(getMe());
+      },
+      error => {
+        // eslint-disable-next-line no-console
+        console.log('Login error', error);
+        throw error;
+      },
+    );
+
+
+   /*  } catch (error) {
+      console.log('Login error', error);
+      // Some error action.
+      // throw new Error(error);
+      throw error;
+    } */
+  };
+}
+
+
+export function createAccount(user) {
+  console.log( "Auth > createAccount\n", {user}  );
   return async (dispatch, getState) => {
     const data = {
       me: {
@@ -180,28 +214,43 @@ export function createAccount(user, createWithAvatarData) {
         },
       },
     };
-    const newUser =
-      (await dispatch(request({ ...ROUTES.CREATE_ACCOUNT, data }))) || {};
-    console.log('👤 createAccount \n\n', { newUser });
-    if (!newUser.errors && newUser.access_token.access_token) {
-      await dispatch(loginAction(newUser));
-      if (createWithAvatarData) {
-        await dispatch(updateMe(createWithAvatarData));
-      }
-    }
+
+    return dispatch(request({ ...ROUTES.CREATE_ACCOUNT, data })).then(
+      userData => {
+        // eslint-disable-next-line no-console
+        console.log( "👤 createAccount \n\n", userData );
+        // Received login response do Logout/reset state.
+        // logoutAction();
+        // Update user data in the state with ones received.
+        return dispatch(setUser(userData))
+
+        // await dispatch(getMe());
+        // After all download user details from server.
+        // return dispatch(getMe());
+      },
+      error => {
+        // eslint-disable-next-line no-console
+        console.log('🛑 Create account error', error);
+        throw error;
+      },
+    );
   };
 }
 
 /**
- * Update user's data.
+ * Update user's data on the server
+ * and then download it back to refresh a local store.
+ *
  * @param {object} data - user data to update.
  */
 export function updateMe(data) {
+  console.log( "🔄 auth > updateMe()", {data} );
   return async (dispatch, getState) => {
     const userId = getState().auth.user.id;
     if (!userId) {
       return;
     }
+    // Additional transformations if updating with new avatar.
     if (data.avatar) {
       data = {
         name: 'me[avatar]',
@@ -210,9 +259,28 @@ export function updateMe(data) {
         data: RNFetchBlob.wrap(data.avatar.uri.uri.replace('file://', '')),
       };
     }
-    const result = await dispatch(
-      request({ ...ROUTES.UPDATE_ME, pathParams: { userId }, data }),
+
+    // await dispatch( request({ ...ROUTES.UPDATE_ME_IMAGE, pathParams: { userId }, data })  );
+    return dispatch( request({ ...ROUTES.UPDATE_ME, pathParams: { userId }, data })  ).then(
+      userData => {
+        console.log( "User update result:\n", userData );
+        // dispatch(getMe());
+        // Update redux store with data received.
+        console.log( "🏁beofre setUser!" );
+        return dispatch(setUser(userData))
+      },
+      error => {
+        console.log('🛑 Error while updating the user.', error);
+        throw error;
+      }
     );
-    return result;
+    // TODO: Add some validation here?
+    /* if ( uploadResults.error || uploadResults.errors ) {
+      console.log( 'ERRORS' );
+    } else {
+      console.log( "uploadResults:" ); console.log( uploadResults );
+      // return dispatch(getMe());
+    } */
+    // return dispatch(getMe());
   };
 }

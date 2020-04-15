@@ -18,6 +18,7 @@ import OH from '../../assets/oneHope.png';
 import YS from '../../assets/youthSpecialties.png';
 import { logoutAction } from '../../actions/auth';
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 function SettingsRow({ title, onSelect }) {
   return (
@@ -38,6 +39,7 @@ function SettingsModal(props) {
   const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const email = useSelector(({ auth }: any) => auth?.user?.email);
 
   return (
     <Flex value={1} style={[st.bgWhite, { paddingBottom: insets.bottom }]}>
@@ -46,18 +48,21 @@ function SettingsModal(props) {
           title="Profile"
           onSelect={() => navigation.navigate('Profile')}
         />
-        <SettingsRow
-          title="Create Account"
-          onSelect={() =>
-            navigation.navigate('CreateAccount', { shouldMerge: true })
-          }
-        />
+        { !email &&
+          <SettingsRow
+            title="Create Account"
+            onSelect={() =>
+              navigation.navigate('AccountCreate', { shouldMerge: true })
+            }
+          />
+        }
+        { ! email &&
         <SettingsRow
           title="Sign In"
           onSelect={() =>
             navigation.navigate('SignInModal', { shouldMerge: true })
           }
-        />
+        />}
         <SettingsRow
           title="Share this App"
           onSelect={() =>
@@ -126,7 +131,7 @@ function SettingsModal(props) {
               setTimeout(() => {
                 navigation.reset({
                   index: 1,
-                  routes: [{ name: 'WelcomeApp' }],
+                  routes: [{ name: 'Welcome' }],
                 })
               }, 10);
             });
