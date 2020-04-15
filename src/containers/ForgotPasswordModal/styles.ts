@@ -9,7 +9,7 @@ const styles: { [key: string]: any } = {
 		background-color: ${theme.colors.blue};
 	`,
 	SectionAction: css`
-		background-color: ${theme.colors.darkBlue};
+		background-color: ${theme.colors.secondary};
 		padding-left:${theme.spacing.xl + 'px'};
 		padding-right:${theme.spacing.xl + 'px'};
 	`,
@@ -46,7 +46,7 @@ const styles: { [key: string]: any } = {
 		color: ${theme.colors.white};
 	`,
 	SectionSignIn: css`
-		background-color: ${theme.colors.darkBlue};
+		background-color: ${theme.colors.secondary};
 		padding-bottom:${theme.spacing.xl + 'px'};
 	`,
 }

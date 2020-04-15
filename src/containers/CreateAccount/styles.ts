@@ -32,7 +32,7 @@ const styles: { [key: string]: any } = {
 		/* margin-top: 30px; */
 	`,
 	SectionAction: css`
-		background-color: ${theme.colors.darkBlue};
+		background-color: ${theme.colors.secondary};
 		padding-left:${theme.spacing.xl + 'px'};
 		padding-right:${theme.spacing.xl + 'px'};
 		padding-bottom:${theme.spacing.l + 'px'};
@@ -72,7 +72,7 @@ const styles: { [key: string]: any } = {
 		color: ${theme.colors.white};
 	`,
 	SectionSignIn: css`
-		background-color: ${theme.colors.darkBlue};
+		background-color: ${theme.colors.secondary};
 		padding-top:${theme.spacing.l + 'px'};
 		padding-bottom:${theme.spacing.xl + 'px'};
 		border-top-width: 1px;

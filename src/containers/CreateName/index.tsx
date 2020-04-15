@@ -202,7 +202,7 @@ const CreateName: React.FC = (): React.ReactElement => {
           </Flex>
           <Button
             onPress={handleContinue}
-            touchableStyle={[st.w100, st.bgDarkBlue, st.p4]}
+            touchableStyle={[st.w100, st.p4, {backgroundColor: styles.colors.secondary}]}
             isLoading={isLoading}
           >
             <Text style={[st.white, st.fs20, st.tac]}>Continue</Text>

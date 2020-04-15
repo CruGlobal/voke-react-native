@@ -59,7 +59,7 @@ An email containing your conversations will be sent to the email address below. 
         <Triangle
           width={useWindowDimensions().width}
           height={40}
-          color={styles.colors.darkBlue}
+          color={styles.colors.secondary}
         />
         <Flex
           direction="column"
@@ -121,7 +121,7 @@ An email containing your conversations will be sent to the email address below. 
       {/* Safe area bottom spacing */}
       <Flex
         style={{
-          backgroundColor: styles.colors.darkBlue,
+          backgroundColor: styles.colors.secondary,
           paddingBottom: insets.bottom
         }}
       ></Flex>

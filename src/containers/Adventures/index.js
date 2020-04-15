@@ -9,6 +9,7 @@ import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { useMount } from '../../utils';
 
 import st from '../../st';
+import theme from '../../theme';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutAction, startupAction } from '../../actions/auth';
@@ -201,7 +202,7 @@ function CustomTabBar(props) {
     <TabBar
       {...props}
       indicatorStyle={[st.bgWhite]}
-      style={[st.bgDarkBlue]}
+      style={{backgroundColor: theme.colors.secondary}}
       activeColor={st.colors.white}
       inactiveColor={st.colors.blue}
       renderLabel={({ route, focused, color }) => (

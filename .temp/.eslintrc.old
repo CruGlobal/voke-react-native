@@ -1,0 +1,44 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "@react-native-community",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "airbnb-base"
+  ],
+  "plugins": ["react", "jsx-a11y", "import"],
+  "parserOptions": {
+    "ecmaVersion": 7,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "jsx": true,
+      "modules": true
+    }
+  },
+  "env": {
+    "node": true,
+    "es6": true,
+    "jest": true
+  },
+  "globals": {
+    "Promise": true,
+    "window": true,
+    "FormData": true,
+    "ErrorUtils": true,
+    "heap": true
+  },
+  "rules": {
+    "semi": 2,
+    "import/order": [
+      "off",
+      {
+        "groups": ["external"],
+        "newlines-between": "ignore"
+      }
+    ],
+    "no-mixed-spaces-and-tabs": ["error"],
+    "react/jsx-indent-props": [2, 2],
+    "react-hooks/exhaustive-deps": 0
+  }
+}

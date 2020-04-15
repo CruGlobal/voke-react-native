@@ -32,6 +32,7 @@ import CreateProfilePhoto from './containers/CreateProfilePhoto';
 import GroupModal from './containers/GroupModal';
 import AsyncStorage from '@react-native-community/async-storage';
 import TabBar from './components/TabBar';
+import theme from './theme';
 import st from './st';
 import HeaderRight from './components/HeaderRight';
 import HeaderLeft from './components/HeaderLeft';
@@ -43,12 +44,12 @@ import { useSafeArea } from 'react-native-safe-area-context';
 // https://reactnavigation.org/docs/stack-navigator#options
 const defaultHeaderConfig = {
   headerStyle: {
-    backgroundColor: st.colors.darkBlue,
+    backgroundColor: theme.colors.secondary,
     elevation: 0,
     shadowOpacity: 0,
   },
   headerTitleStyle: {
-    color: st.colors.white,
+    color: theme.colors.white,
     fontSize: 14,
     fontWeight: 'normal',
   },
@@ -58,17 +59,17 @@ const defaultHeaderConfig = {
 // https://reactnavigation.org/docs/stack-navigator#options
 const altHeaderConfig = {
   headerStyle: {
-    backgroundColor: st.colors.blue,
+    backgroundColor: theme.colors.primary,
     elevation: 0,
     shadowOpacity: 0,
     // paddingTop: insets.top // TODO: Check if it really works here?
   },
   headerTitleStyle: {
-    color: st.colors.white,
+    color: theme.colors.white,
     fontSize: 18,
     fontWeight: 'normal',
   },
-  headerTintColor: st.colors.white,
+  headerTintColor: theme.colors.white,
   // headerBackTitle: ' ',
   // headerLeft: () => <HeaderLeft  hasBack={true} />,
 };
@@ -180,7 +181,7 @@ function VideoStackScreens({ navigation, route }: any) {
         component={SearchVideosModal}
         options={{
           headerShown: false,
-          cardStyle: { backgroundColor: st.colors.transparent },
+          cardStyle: { backgroundColor: theme.colors.transparent },
         }}
       />
     </VideoStack.Navigator>
@@ -357,14 +358,14 @@ const App = () => {
               </Touchable>
             ),
             headerLeft: () => {},
-            cardStyle: { backgroundColor: st.colors.transparent },
+            cardStyle: { backgroundColor: theme.colors.transparent },
             headerStyle: {
-              backgroundColor: st.colors.blue,
+              backgroundColor: theme.colors.primary,
               elevation: 0,
               shadowOpacity: 0,
             },
             headerTitleStyle: {
-              color: st.colors.white,
+              color: theme.colors.white,
               fontSize: 18,
               fontWeight: 'normal',
             },
@@ -379,7 +380,7 @@ const App = () => {
             title: 'Create Account',
             headerShown: true,
             /* headerStyle: {
-              backgroundColor: st.colors.blue,
+              backgroundColor: theme.colors.primary,
               paddingTop: insets.top // TODO: Check if it really works here?
             }, */
           } }
@@ -406,13 +407,13 @@ const App = () => {
             title: 'Get New Password',
             headerShown: true,
             headerStyle: {
-              backgroundColor: st.colors.blue,
+              backgroundColor: theme.colors.primary,
               elevation: 0,
               shadowOpacity: 0,
               paddingTop: insets.top // TODO: Check if it really works here?
             },
             headerTitleStyle: {
-              color: st.colors.white,
+              color: theme.colors.white,
               fontSize: 18,
               fontWeight: 'normal',
             },
@@ -425,14 +426,14 @@ const App = () => {
           options={({ navigation }) => ({
             headerShown: true,
             headerLeft: () => <HeaderLeft  hasBack= {true} />,
-            cardStyle: { backgroundColor: st.colors.transparent },
+            cardStyle: { backgroundColor: theme.colors.transparent },
             headerStyle: {
-              backgroundColor: st.colors.blue,
+              backgroundColor: theme.colors.primary,
               elevation: 0,
               shadowOpacity: 0,
             },
             headerTitleStyle: {
-              color: st.colors.white,
+              color: theme.colors.white,
               fontSize: 18,
               fontWeight: 'normal',
             },
@@ -445,14 +446,14 @@ const App = () => {
           options={({ navigation }) => ({
             headerShown: true,
             headerLeft: () => <HeaderLeft  hasBack= {true} />,
-            cardStyle: { backgroundColor: st.colors.transparent },
+            cardStyle: { backgroundColor: theme.colors.transparent },
             headerStyle: {
-              backgroundColor: st.colors.blue,
+              backgroundColor: theme.colors.primary,
               elevation: 0,
               shadowOpacity: 0,
             },
             headerTitleStyle: {
-              color: st.colors.white,
+              color: theme.colors.white,
               fontSize: 18,
               fontWeight: 'normal',
             },
@@ -465,14 +466,14 @@ const App = () => {
           options={({ navigation }) => ({
             headerShown: true,
             headerLeft: () => <HeaderLeft  hasBack= {true} />,
-            cardStyle: { backgroundColor: st.colors.transparent },
+            cardStyle: { backgroundColor: theme.colors.transparent },
             headerStyle: {
-              backgroundColor: st.colors.blue,
+              backgroundColor: theme.colors.primary,
               elevation: 0,
               shadowOpacity: 0,
             },
             headerTitleStyle: {
-              color: st.colors.white,
+              color: theme.colors.white,
               fontSize: 18,
               fontWeight: 'normal',
             },
@@ -485,14 +486,14 @@ const App = () => {
           options={({ navigation }) => ({
             headerShown: true,
             headerLeft: () => <HeaderLeft  hasBack= {true} />,
-            cardStyle: { backgroundColor: st.colors.transparent },
+            cardStyle: { backgroundColor: theme.colors.transparent },
             headerStyle: {
-              backgroundColor: st.colors.blue,
+              backgroundColor: theme.colors.primary,
               elevation: 0,
               shadowOpacity: 0,
             },
             headerTitleStyle: {
-              color: st.colors.white,
+              color: theme.colors.white,
               fontSize: 18,
               fontWeight: 'normal',
             },
@@ -505,14 +506,14 @@ const App = () => {
           options={({ navigation }) => ({
             headerShown: true,
             headerLeft: () => <HeaderLeft  hasBack= {true} />,
-            cardStyle: { backgroundColor: st.colors.transparent },
+            cardStyle: { backgroundColor: theme.colors.transparent },
             headerStyle: {
-              backgroundColor: st.colors.blue,
+              backgroundColor: theme.colors.primary,
               elevation: 0,
               shadowOpacity: 0,
             },
             headerTitleStyle: {
-              color: st.colors.white,
+              color: theme.colors.white,
               fontSize: 18,
               fontWeight: 'normal',
             },

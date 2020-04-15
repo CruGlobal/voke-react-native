@@ -196,7 +196,7 @@ const CreateAccount = (props: CreateAccountProps) => {
         <Triangle
           width={useWindowDimensions().width}
           height={40}
-          color={styles.colors.darkBlue}
+          color={styles.colors.secondary}
         />
         <Flex
           direction="column"
@@ -259,7 +259,7 @@ const CreateAccount = (props: CreateAccountProps) => {
       {/* Safe area bottom spacing */}
       <Flex
         style={{
-          backgroundColor: styles.colors.darkBlue,
+          backgroundColor: styles.colors.secondary,
           paddingBottom: insets.bottom,
         }}
       />

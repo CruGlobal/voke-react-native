@@ -150,7 +150,7 @@ const AccountCreate: React.FC = (): React.ReactElement => {
           <Triangle
             width={useWindowDimensions().width}
             height={40}
-            color={styles.colors.darkBlue}
+            color={styles.colors.secondary}
           />
         </Flex>
         {/* SECTION: CALL TO ACTION BUTTON */}

@@ -161,7 +161,7 @@ const SignUpModal = ( props: SignUpModalProps  ) => {
         <Triangle
           width={useWindowDimensions().width}
           height={40}
-          color={styles.colors.darkBlue}
+          color={styles.colors.secondary}
         />
         <Flex
           direction="column"
@@ -207,7 +207,7 @@ const SignUpModal = ( props: SignUpModalProps  ) => {
       {/* Safe area bottom spacing */}
       <Flex
         style={{
-          backgroundColor: styles.colors.darkBlue,
+          backgroundColor: styles.colors.secondary,
           paddingBottom: insets.bottom
         }}
       ></Flex>

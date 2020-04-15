@@ -55,10 +55,7 @@ const CarouselItem = ({ item, index }:CarouselProps) => {
       value={1}
       align="center"
       justify="start"
-      style={{
-        paddingTop:styles.spacing.xl,
-        paddingHorizontal:styles.spacing.m
-      }}
+      style={styles.Slide}
     >
       <Text style={styles.SliderTitle}>
         {item.title}
@@ -99,31 +96,37 @@ const Welcome = ( props: WelcomeProps  ) => {
         { paddingTop: insets.top }
       ]}
     >
-      <StatusBar />
-      <Carousel
-        data={CAROUSEL_CARDS}
-        renderItem={props => <CarouselItem {...props} />}
-        sliderWidth={useWindowDimensions().width}
-        itemWidth={useWindowDimensions().width}
-        onSnapToItem={index => setActiveSlide(index)}
-        enableMomentum={false}
-        lockScrollWhileSnapping={true}
-        autoplay={true}
-      />
-      <Pagination
-        dotsLength={3}
-        activeDotIndex={activeSlide}
-        dotColor={styles.colors.white}
-        inactiveDotColor={'rgba(255,255,255,0.7)'}
-        dotStyle={styles.dotStyle}
-        inactiveDotScale={0.8}
-      />
+      <Flex value={2}>
+        {/* <StatusBar /> */}
+          {/* <Flex value={8}> */}
+        <Carousel
+          data={CAROUSEL_CARDS}
+          renderItem={props => <CarouselItem {...props} />}
+          sliderWidth={useWindowDimensions().width}
+          itemWidth={useWindowDimensions().width}
+          onSnapToItem={index => setActiveSlide(index)}
+          enableMomentum={false}
+          lockScrollWhileSnapping={true}
+          autoplay={true}
+        />
+        {/* </Flex> */}
+        <Flex style={{position:'absolute', width:'100%', bottom:-30}}>
+        <Pagination
+          dotsLength={3}
+          activeDotIndex={activeSlide}
+          dotColor={styles.colors.white}
+          inactiveDotColor={'rgba(255,255,255,0.7)'}
+          dotStyle={styles.dotStyle}
+          inactiveDotScale={0.8}
+        />
+        </Flex>
+      </Flex>
       {/* SECTION: CALL TO ACTION BUTTON */}
       <Flex value={1}>
         <Triangle
           width={useWindowDimensions().width}
           height={40}
-          color={styles.colors.darkBlue}
+          color={styles.colors.secondary}
         />
         <Flex
           direction="column"
@@ -186,7 +189,7 @@ const Welcome = ( props: WelcomeProps  ) => {
       {/* Safe area bottom spacing */}
       <Flex
         style={{
-          backgroundColor: styles.colors.darkBlue,
+          backgroundColor: styles.colors.secondary,
           paddingBottom: insets.bottom
         }}
       ></Flex>

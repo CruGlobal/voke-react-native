@@ -5,6 +5,7 @@ import VokeIcon from '../VokeIcon';
 import Text from '../Text';
 import { useSafeArea } from 'react-native-safe-area-context';
 import st from '../../st';
+import theme from '../../theme';
 
 function getContent(label, isFocused) {
   let iconName = 'adventure';
@@ -40,7 +41,7 @@ function getContent(label, isFocused) {
         size={24}
         style={[
           {
-            color: isFocused ? st.colors.white : st.colors.blue,
+            color: isFocused ? theme.colors.white : theme.colors.primary,
           },
           st.mt5,
         ]}
@@ -59,7 +60,7 @@ function TabBar({ state, descriptors, navigation }) {
         direction="row"
         align="center"
         justify="between"
-        style={[st.ph2, { paddingBottom: insets.bottom }, st.bgDarkBlue]}
+        style={[st.ph2, { paddingBottom: insets.bottom, backgroundColor: theme.colors.secondary, }]}
       >
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];

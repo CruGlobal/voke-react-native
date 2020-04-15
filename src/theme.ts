@@ -7,7 +7,7 @@ import { Platform, Dimensions } from 'react-native';
 const theme: { [key: string]: {[key: string]: string | number} } = {
   colors: {
     primary: '#44c8e8', // Blue
-    secondary: '#216373', // Dark Blue
+    secondary: '#186078', // Dark Blue
 
     transparent: 'transparent',
     blue: '#44c8e8',
@@ -38,9 +38,9 @@ const theme: { [key: string]: {[key: string]: string | number} } = {
   // Font sizes based on iOS guidelines:
   // https://learnui.design/blog/ios-font-size-guidelines.html
   fontSizes: {
-    xxs: 10,
-    xs: 12,
-    s: 13,
+    xxs: 11,
+    xs: 13,
+    s: 14,
     m: 15,
     l: 17,
     xl: 21,

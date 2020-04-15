@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, Keyboard } from 'react-native';
 import st from '../../st';
+import theme from '../../theme';
 import Flex from '../Flex';
 import Button from '../Button';
 import VokeIcon from '../VokeIcon';
@@ -27,7 +28,7 @@ function AdventureStepMessageInput({ adventure, step }) {
   return (
     <Flex
       direction="row"
-      style={[st.pl5, st.bgDarkBlue, inputHeight]}
+      style={[st.pl5, inputHeight, {backgroundColor: theme.colors.secondary}]}
       align="center"
       value={1}
     >

@@ -64,7 +64,7 @@ const ForgotPasswordModal = ( props: ForgotPasswordModalProps  ) => {
         <Triangle
           width={useWindowDimensions().width}
           height={40}
-          color={styles.colors.darkBlue}
+          color={styles.colors.secondary}
         />
         <Flex
           direction="column"
@@ -113,7 +113,7 @@ const ForgotPasswordModal = ( props: ForgotPasswordModalProps  ) => {
       {/* Safe area bottom spacing */}
       <Flex
         style={{
-          backgroundColor: styles.colors.darkBlue,
+          backgroundColor: styles.colors.secondary,
           paddingBottom: insets.bottom
         }}
       ></Flex>

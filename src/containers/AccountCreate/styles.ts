@@ -58,7 +58,7 @@ const styles: { [key: string]: any } = {
     margin-top: -${`${theme.spacing.l}px`};
   `,
   SectionFB: css`
-    background-color: ${theme.colors.darkBlue};
+    background-color: ${theme.colors.secondary};
     padding-top: ${`${theme.spacing.l}px`};
     padding-bottom: ${`${theme.spacing.l}px`};
     border-top-width: 1px;
