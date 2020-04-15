@@ -174,7 +174,7 @@ const SignInModal: React.FC = (): React.ReactElement => {
       >
         <Button
           isAndroidOpacity
-          style={styles.ButtonSignIn}
+          style={styles.ButtonFBSignIn}
           // TODO: link to Facebook Auth.
           /* onPress={
             () => navigation.navigate('ForgotPassword')
@@ -188,9 +188,9 @@ const SignInModal: React.FC = (): React.ReactElement => {
           <VokeIcon
             type="image"
             name="facebook"
-            style={[st.h(22), st.w(22), st.mr5]}
+            style={styles.ButtonFBSignInIcon}
           />
-          <Text style={styles.ButtonSignInLabel}>Sign In with Facebook</Text>
+          <Text style={styles.ButtonFBSignInLabel}>Sign In with Facebook</Text>
           </Flex>
         </Button>
       </Flex>

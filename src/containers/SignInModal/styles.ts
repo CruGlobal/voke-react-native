@@ -69,6 +69,13 @@ const styles: { [key: string]: any } = {
     ui.button.size.m,
     ui.button.style.outline,
   ],
+  ButtonFBSignInIcon: [
+    css`
+      width: 22px;
+      height: 22px;
+      margin-right: ${`${theme.spacing.l}px`};
+    `,
+  ],
   ButtonFBSignInLabel: [ui.buttonText.size.m],
 };
 

@@ -441,7 +441,7 @@ const App = () => {
         />
         <AppStack.Screen
           name="SignUp"
-          component={SignUpModal}
+          component={AccountCreate}
           options={({ navigation }) => ({
             headerShown: true,
             headerLeft: () => <HeaderLeft  hasBack= {true} />,
