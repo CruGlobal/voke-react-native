@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import React, { useState, useRef } from 'react';
 import {
   KeyboardAvoidingView,
@@ -5,14 +6,16 @@ import {
   Alert,
   useWindowDimensions,
   TextInput,
+  Linking,
 } from 'react-native';
 
 import Orientation from 'react-native-orientation-locker';
 import { useNavigation } from '@react-navigation/native';
+import { getTimeZone } from 'react-native-localize';
 import { useSafeArea } from 'react-native-safe-area-context';
-import { useDispatch } from 'react-redux';
-import { logoutAction, userLogin, getMe } from '../../actions/auth';
+import { useDispatch, useSelector } from 'react-redux';
 import { useMount } from '../../utils';
+import { userLogin, updateMe } from '../../actions/auth';
 
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
 import TextField from '../../components/TextField';
@@ -23,10 +26,13 @@ import Text from '../../components/Text';
 import styles from './styles';
 import CONSTANTS from '../../constants';
 
-const SignInModal: React.FC = (): React.ReactElement => {
+const AccountCreate: React.FC = (): React.ReactElement => {
   const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
+  const firstName = useSelector(({ auth }: any) => auth.user.firstName);
+  const lastName = useSelector(({ auth }: any) => auth.user.lastName);
 
   const [email, setEmail] = useState('');
   const [emailValid, setEmailValid] = useState(false);
@@ -48,26 +54,36 @@ const SignInModal: React.FC = (): React.ReactElement => {
     setEmail(text);
   };
 
-  const login = async (): Promise<void> => {
+  const register = async (): Promise<void> => {
     // According to Voke API, password should be at least 8 characters long.
     if (emailValid && password.length > 7) {
       setIsLoading(true);
 
       try {
-        // await dispatch(logoutAction()); // Logout/reset state first.
-        await dispatch(userLogin(email, password)); // Then try to login.
-        // await dispatch(getMe()); // After all download user details from server.
+        await dispatch(
+          // API docs: https://docs.vokeapp.com/#me-update-me
+          updateMe({
+            me: {
+              first_name: firstName,
+              last_name: lastName,
+              email,
+              password,
+              timezone_name: getTimeZone(),
+              /* country_code: getCountry(),
+              language: {
+                language_code: getLocales(),
+              }, */
+            },
+          }),
+        );
 
+        // await dispatch(userLogin(email, password));
         setIsLoading(false);
-        navigation.navigate('LoggedInApp');
+        navigation.navigate('CreateName');
       } catch (e) {
         // eslint-disable-next-line no-console
-        console.log('🛑 Error on login \n', { e });
-        Alert.alert(
-          "Can't Login",
-          e.error_description ? e.error_description : e.errors[0],
-        );
-        setIsLoading(false);
+        console.log("🛑 Error updating the user's Email/Pass \n", e);
+        Alert.alert(e.error_description ? e.error_description : e.errors[0]);
       }
     } else {
       Alert.alert(
@@ -93,7 +109,12 @@ const SignInModal: React.FC = (): React.ReactElement => {
           direction="column"
           align="center"
           justify="center"
-          style={[styles.PrimaryContent, { paddingTop: insets.top + 30 }]}
+          style={[
+            styles.PrimaryContent,
+            {
+              /* padding: insets.top + 30 */
+            },
+          ]}
         >
           {/* INPUT FIELD: EMAIL */}
           <TextField
@@ -121,7 +142,7 @@ const SignInModal: React.FC = (): React.ReactElement => {
             textContentType="password"
             autoCompleteType="password"
             returnKeyType="send"
-            onSubmitEditing={(): Promise<void> => login()}
+            onSubmitEditing={(): Promise<void> => register()}
           />
         </Flex>
         {/* TRIANGLE DIVIDER */}
@@ -143,25 +164,32 @@ const SignInModal: React.FC = (): React.ReactElement => {
           <Button
             isAndroidOpacity
             style={styles.ButtonStart}
-            onPress={(): Promise<void> => login()}
+            onPress={(): Promise<void> => register()}
             isLoading={isLoading}
           >
             <Text style={styles.ButtonStartLabel}>Sign In</Text>
           </Button>
-          {/* TEXT: FORGOT PASSWORD */}
-          <Text
-            style={styles.Link}
-            onPress={(): void => navigation.navigate('ForgotPassword')}
-          >
-            Forgot Password?
-          </Text>
         </Flex>
       </KeyboardAvoidingView>
       {/* TEXT: NOTICE */}
       <Flex direction="column" justify="start" style={styles.SectionNotice}>
-        <Text style={styles.TextSmall}>
-          Successful login to an existing account will merge your current
-          progress with saved data.
+        {/* TEXT: TERMS OF SERVICE */}
+        <Text style={[styles.TextSmall, { textAlign: 'center' }]}>
+          By creating an account you agree to our
+          {'\n'}
+          <Text
+            style={styles.Link}
+            onPress={(): void => Linking.openURL(CONSTANTS.WEB_URLS.PRIVACY)}
+          >
+            Privacy Policy
+          </Text>
+          &nbsp; and &nbsp;
+          <Text
+            style={styles.Link}
+            onPress={(): void => Linking.openURL(CONSTANTS.WEB_URLS.TERMS)}
+          >
+            Terms of Service
+          </Text>
         </Text>
       </Flex>
       {/* SECTION: FACEBOOK SIGN IN */}
@@ -177,7 +205,7 @@ const SignInModal: React.FC = (): React.ReactElement => {
           // TODO: link to Facebook Auth.
           onPress={(): void => console.log("navigation.navigate('ForgotPassword')")}
         >
-          <Text style={styles.ButtonFBSignInLabel}>Sign In with Facebook</Text>
+          <Text style={styles.ButtonFBSignInLabel}>Sign Up with Facebook</Text>
         </Button>
       </Flex>
 
@@ -191,4 +219,4 @@ const SignInModal: React.FC = (): React.ReactElement => {
   );
 };
 
-export default SignInModal;
+export default AccountCreate;

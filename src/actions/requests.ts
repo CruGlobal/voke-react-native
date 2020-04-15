@@ -6,11 +6,35 @@ import { DataKeys } from '../reducers/data';
 import deviceInfoModule from 'react-native-device-info';
 import { Platform } from 'react-native';
 import st from '../st';
-import { isEquivalentObject } from '../utils';
+import { isEquivalentObject, exists } from '../utils';
 import { setupSockets } from './socket';
 import { AuthDataKeys } from '../reducers/auth';
 
 type Dispatch = ThunkDispatch<any, any, any>;
+
+export function setUser(userData: any) {
+  return async (dispatch: Dispatch, getState: any) => {
+    // Reducer expects the root object to be user.
+    let newUserData = userData;
+
+    // Access token is missing from some of the server replies. Recreate it.
+    if (!exists(userData?.access_token?.access_token)) {
+      const auth = getState().auth;
+
+      newUserData = {
+        ...newUserData,
+        access_token: {
+          access_token: auth.authToken,
+        },
+      }
+    }
+
+    return dispatch({
+      type: REDUX_ACTIONS.SET_USER,
+      user: newUserData,
+    });
+  };
+}
 
 export function setData(key: DataKeys, data: any) {
   return {
@@ -456,7 +480,7 @@ export function registerPushToken(token: any) {
 
 export function getNotifications(params: any = {}) {
   return async (dispatch: Dispatch, getState: any) => {
-    const notificationId = getState().auth.user.vokebot_conversation_id;
+    const notificationId = getState().auth.user.vokebotConversationId;
     console.log(notificationId, 'ASDFASDF');
     if (!notificationId) return;
 
@@ -520,6 +544,8 @@ export function toggleFavoriteVideo(shouldFavorite: boolean, video: any) {
         }),
       );
     }
+
+    // let hello = async () => { return "Hello" };
 
     if (shouldFavorite) {
       const newFavoriteVideos = [...favoriteVideos, video];

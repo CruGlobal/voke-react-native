@@ -1,9 +1,10 @@
 import { combineReducers } from 'redux';
+import { persistReducer } from 'redux-persist';
+import AsyncStorage from '@react-native-community/async-storage';
+import FilesystemStorage from 'redux-persist-filesystem-storage';
 import auth from './auth';
 import data from './data';
 import info from './info';
-import { persistReducer } from 'redux-persist';
-import AsyncStorage from '@react-native-community/async-storage';
 
 // Defines what data to store in the local storage.
 const persistConfig = {
@@ -12,14 +13,14 @@ const persistConfig = {
   blacklist: ['auth'],
 };
 
-const rootReducer = () =>
-  persistReducer(
-    persistConfig,
-    combineReducers({
-      auth: persistReducer({ key: 'auth', storage: AsyncStorage }, auth),
-      data,
-      info,
-    }),
-  );
+const store = combineReducers({
+  auth: persistReducer({ key: 'auth', storage: AsyncStorage }, auth),
+  data,
+  info,
+});
+
+const rootReducer = () => persistReducer(persistConfig, store);
+
+export type RootState = ReturnType<typeof store>;
 
 export default rootReducer;

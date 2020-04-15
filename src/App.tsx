@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
+import { Button } from 'react-native';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -8,6 +9,7 @@ import Welcome from './containers/Welcome';
 import SettingsModal from './containers/SettingsModal';
 import HelpModal from './containers/HelpModal';
 import SignInModal from './containers/SignInModal';
+import AccountCreate from './containers/AccountCreate';
 import ForgotPasswordModal from './containers/ForgotPasswordModal';
 import Adventures from './containers/Adventures';
 import AvailableAdventureModal from './containers/AvailableAdventureModal';
@@ -30,10 +32,12 @@ import TabBar from './components/TabBar';
 import st from './st';
 import HeaderRight from './components/HeaderRight';
 import HeaderLeft from './components/HeaderLeft';
-import Text from './components/Text';
 import Touchable from './components/Touchable';
+import Text from './components/Text';
+
 import { useSafeArea } from 'react-native-safe-area-context';
 
+// https://reactnavigation.org/docs/stack-navigator#options
 const defaultHeaderConfig = {
   headerStyle: {
     backgroundColor: st.colors.darkBlue,
@@ -47,6 +51,33 @@ const defaultHeaderConfig = {
   },
   headerLeft: () => <HeaderLeft />,
 };
+
+// https://reactnavigation.org/docs/stack-navigator#options
+const altHeaderConfig = {
+  headerStyle: {
+    backgroundColor: st.colors.blue,
+    elevation: 0,
+    shadowOpacity: 0,
+    // paddingTop: insets.top // TODO: Check if it really works here?
+  },
+  headerTitleStyle: {
+    color: st.colors.white,
+    fontSize: 18,
+    fontWeight: 'normal',
+  },
+  headerTintColor: st.colors.white,
+  // headerBackTitle: ' ',
+  // headerLeft: () => <HeaderLeft  hasBack={true} />,
+};
+
+const transparentHeaderConfig = {
+  ...altHeaderConfig,
+  headerStyle: {
+    ...altHeaderConfig.headerStyle,
+    backgroundColor: 'transparent',
+  },
+  headerTransparent: true,
+}
 
 
 const AdventureStack = createStackNavigator();
@@ -62,7 +93,11 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
       : null,
   });
   return (
-    <AdventureStack.Navigator screenOptions={defaultHeaderConfig}>
+    <AdventureStack.Navigator
+      screenOptions={{
+        ...defaultHeaderConfig,
+      }}
+    >
       <AdventureStack.Screen name="Adventures" component={Adventures} />
       <AdventureStack.Screen
         name="AvailableAdventureModal"
@@ -169,26 +204,28 @@ const LoggedInAppContainer = () => {
   const Tabs = createBottomTabNavigator();
   return (
     <Tabs.Navigator tabBar={props => <TabBar {...props} />}>
-      <Tabs.Screen name="Adventures" component={AdventureStackScreens} />
-      <Tabs.Screen name="Videos" component={VideoStackScreens} />
-      <Tabs.Screen name="Notifications" component={NotificationStackScreens} />
-    </Tabs.Navigator>
-  );
-};
-
-const WelcomeAppContainer = () => {
-  const WelcomeStack = createStackNavigator();
-  return (
-    <WelcomeStack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <WelcomeStack.Screen name="Welcome" component={Welcome} />
-      <WelcomeStack.Screen name="CreateName" component={CreateName} />
-      <WelcomeStack.Screen name="CreateProfilePhoto"component={CreateProfilePhoto}
+      <Tabs.Screen
+        name="Adventures"
+        component={AdventureStackScreens}
+        options={{
+          title: 'Adventures',
+        }}
       />
-    </WelcomeStack.Navigator>
+      <Tabs.Screen
+        name="Videos"
+        component={VideoStackScreens}
+        options={{
+          title: 'Videos',
+        }}
+      />
+      <Tabs.Screen
+        name="Notifications"
+        component={NotificationStackScreens}
+        options={{
+          title: 'Notifications',
+        }}
+      />
+    </Tabs.Navigator>
   );
 };
 
@@ -215,9 +252,11 @@ const App = () => {
   const insets = useSafeArea();
 
   React.useEffect(() => {
+    console.log('APP useEffect')
     const state = navigationRef.current.getRootState();
     // Save the initial route name
     routeNameRef.current = getActiveRouteName(state);
+    console.log( "routeNameRef.current:" ); console.log( routeNameRef.current );
   }, []);
 
   return (
@@ -226,7 +265,7 @@ const App = () => {
       onStateChange={state => {
         const previousRouteName = routeNameRef.current;
         const currentRouteName = getActiveRouteName(state);
-        console.log( "%c🧭 Navigated to " + currentRouteName, 'color: #bada55' );
+        console.log( "%c🧭 Navigated to / Re-rendered " + currentRouteName, 'color: #bada55' );
 
         /* if (previousRouteName !== currentRouteName) {
           // The line below uses the @react-native-firebase/analytics tracker
@@ -238,63 +277,122 @@ const App = () => {
         routeNameRef.current = currentRouteName;
       }}
 
+      // initialState={ ( isLoggedIn ? ({ index: 0, routes: [{ name: 'LoggedInApp' }] }) : ({ index: 0, routes: [{ name: 'WelcomeApp' }] }) ) }
+
     >
-      <AppStack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      {isLoggedIn ? (
-        <AppStack.Screen name="LoggedInApp" component={LoggedInAppContainer} />
-      ) : (
-        <AppStack.Screen name="WelcomeApp" component={WelcomeAppContainer} />
-      )}
-      <AppStack.Screen
-        name="SettingsModal"
-        component={SettingsModal}
-        options={({ navigation }) => ({
-          headerShown: true,
-          headerRight: () => (
-            <Touchable onPress={() => navigation.goBack()}>
-              <Text style={[st.white, st.mr4, st.fs16]}>Done</Text>
-            </Touchable>
-          ),
-          headerLeft: () => {},
-          cardStyle: { backgroundColor: st.colors.transparent },
-          headerStyle: {
-            backgroundColor: st.colors.blue,
-            elevation: 0,
-            shadowOpacity: 0,
-          },
-          headerTitleStyle: {
-            color: st.colors.white,
-            fontSize: 18,
-            fontWeight: 'normal',
-          },
-          title: 'Settings',
-        })}
-      />
-      <AppStack.Screen
-        name="SignInModal"
-        component={SignInModal}
-        options={ {
-          ...defaultHeaderConfig,
-          title: 'Sign In',
-          headerShown: true,
-          headerStyle: {
+      <AppStack.Navigator screenOptions={{
+        // headerShown: false
+        }} >
+        { isLoggedIn ? (
+          <AppStack.Screen
+            name="LoggedInApp"
+            component={LoggedInAppContainer}
+            options={{
+              headerShown: false,
+            }}
+          />
+        ) : (
+          <AppStack.Screen
+            name="Welcome"
+            component={Welcome}
+            options={{
+              title: '',
+              headerShown: false,
+            }}
+          />
+        ) }
+        {/* <AppStack.Screen name="WelcomeApp" component={WelcomeAppContainer} /> */}
+        {/* <AppStack.Screen name="Welcome" component={Welcome} /> */}
+        {/* Don't hide these Welcome screens under !isLoggedIn
+            as we need to access these when editing name and image
+            for already logged in users.   */}
+        <AppStack.Screen
+          name="CreateName"
+          component={CreateName}
+          options={{
+            ...transparentHeaderConfig,
+            headerStyle: {
+              ...transparentHeaderConfig.headerStyle,
+              paddingTop: insets.top // TODO: Check if it really works here?
+            },
+            title: '',
+            // headerShown: true,
+          }}
+        />
+        <AppStack.Screen
+          name="CreateProfilePhoto"
+          component={CreateProfilePhoto}
+          options={ ({ navigation }) =>({
+            ...transparentHeaderConfig,
+            headerStyle: {
+              ...transparentHeaderConfig.headerStyle,
+              paddingTop: insets.top // TODO: Check if it really works here?
+            },
+            headerRight: () => (
+              <Touchable
+                // style={[st.p5, st.pl4, st.mb3]}
+                onPress={() => navigation.navigate('LoggedInApp')}
+              >
+                <Text
+                  style={[st.white, st.fs16, st.pr5]}
+                >Skip</Text>
+              </Touchable>
+              // <Button onPress={() => navigation.navigate('LoggedInApp')} title="Skip" />
+            ),
+            title: '',
+            // headerShown: true,
+          })}
+        />
+        <AppStack.Screen
+          name="SettingsModal"
+          component={SettingsModal}
+          options={({ navigation }) => ({
+            headerShown: true,
+            headerRight: () => (
+              <Touchable onPress={() => navigation.goBack()}>
+                <Text style={[st.white, st.mr4, st.fs16]}>Done</Text>
+              </Touchable>
+            ),
+            headerLeft: () => {},
+            cardStyle: { backgroundColor: st.colors.transparent },
+            headerStyle: {
               backgroundColor: st.colors.blue,
               elevation: 0,
               shadowOpacity: 0,
+            },
+            headerTitleStyle: {
+              color: st.colors.white,
+              fontSize: 18,
+              fontWeight: 'normal',
+            },
+            title: 'Settings',
+          })}
+        />
+        <AppStack.Screen
+          name="AccountCreate"
+          component={AccountCreate}
+          options={ {
+            ...altHeaderConfig,
+            title: 'Create Account',
+            headerShown: true,
+            /* headerStyle: {
+              backgroundColor: st.colors.blue,
               paddingTop: insets.top // TODO: Check if it really works here?
-          },
-          headerTitleStyle: {
-            color: st.colors.white,
-            fontSize: 18,
-            fontWeight: 'normal',
-            // paddingTop: insets.top
-          },
-          headerLeft: () => <HeaderLeft  hasBack= {true} />
+            }, */
           } }
+        />
+        <AppStack.Screen
+          name="SignInModal"
+          component={SignInModal}
+          options={{
+            ...transparentHeaderConfig,
+            headerStyle: {
+              ...transparentHeaderConfig.headerStyle,
+              paddingTop: insets.top // TODO: Check if it really works here?
+            },
+            title: 'Sign In',
+            // headerShown: true,
+          }}
         />
         <AppStack.Screen
           name="ForgotPassword"

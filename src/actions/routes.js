@@ -6,17 +6,19 @@ const CLIENT = {
 };
 
 const ROUTES = {
+  // https://docs.vokeapp.com/#o-auth-token-via-password
   LOGIN: {
     method: 'post',
     url: 'oauth/token',
-    anonymous: true,
-    isAuth: true,
+    anonymous: true, // x-access-token = userToken
+    isAuth: true, // Resuest to be made on auth subdomain.
     customData: {
       client: CLIENT,
       grant_type: 'password',
       scope: 'messenger',
     },
   },
+  // https://docs.vokeapp.com/#me-create-me
   CREATE_ACCOUNT: {
     method: 'post',
     url: 'me',
@@ -34,6 +36,15 @@ const ROUTES = {
     method: 'put',
     url: 'me',
   },
+  /* UPDATE_ME_IMAGE: {
+    url: 'me',
+    method: 'put',
+    // Force this request to use a custom imageUpload method
+    extra: {
+      imageUpload: true,
+    },
+  }, */
+  // https://docs.vokeapp.com/#me-get-me
   GET_ME: {
     method: 'get',
     url: 'me',

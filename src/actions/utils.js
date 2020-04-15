@@ -57,7 +57,6 @@ function replaceUrlParam(url, pathParams) {
 function buildParams(options, getState) {
   const params = options.params || {};
   // Add on the version as a query parameter
-  console.log('buildParams > options', options);
   if (options.anonymous) {
     return params;
   }
@@ -72,21 +71,8 @@ function buildParams(options, getState) {
 // TODO: Needs refactoring.
 export default function request(options) {
   return async (dispatch, getState) => {
-
-    console.log( "⤴️ function request INITIAL" , options );
+    // console.log( "⤴️ function request INITIAL" , options );
     // console.trace();
-
-  //   LOGIN: {
-  //   method: 'post',
-  //   url: 'oauth/token',
-  //   anonymous: true,
-  //   isAuth: true,
-  //   customData: {
-  //     client: CLIENT,
-  //     grant_type: 'password',
-  //     scope: 'messenger',
-  //   },
-  // },
 
     let finalUrl = replaceUrlParam(options.url, options.pathParams);
     const params = qs.stringify(buildParams(options, getState));
@@ -109,10 +95,12 @@ export default function request(options) {
     if (!options.anonymous) {
       const userToken = getState().auth.authToken;
       newObj.headers['x-access-token'] = userToken;
+      console.log( "TOKEN: " + userToken );
     }
 
     if ((options.data || {}).name === 'me[avatar]') {
       // we are uploading an image
+      console.log( "we are uploading an image" );
       return RNFetchBlob.fetch(
         'PUT',
         finalUrl,
@@ -122,12 +110,24 @@ export default function request(options) {
         },
         [options.data],
       )
-        .then(json)
-        .then(resp => resp.data)
-        .catch(err => {
+      .then(json)
+      .then(resp => {
+          // resp.data;
+          console.log( "RNFetchBlob > resp:" ); console.log( resp );
+          // return resp.data;
+          dispatch({
+            type: REDUX_ACTIONS.REQUEST_SUCCESS,
+            url: finalUrl,
+            method: newObj.method,
+            result: resp,
+          });
+
+          return resp;
+      })
+      .catch(err => {
           console.log('fetch blob err', err);
           return err;
-        });
+      });
     }
 
     if (options.method !== 'get') {
@@ -154,9 +154,10 @@ export default function request(options) {
         if (!response.ok) {
           return response
             .json()
-            .then(({ message }) => {
+            .then(( message ) => {
               // Got valid JSON with error response, use it
-              throw new Error(message || response.status);
+              // throw new Error(message || response.status); << not working.
+              throw message;
             })
             .catch(e => {
               // Couldn't parse the JSON
@@ -210,7 +211,8 @@ export default function request(options) {
 }
 
 function imageUpload(url, headers, data) {
-  return RNFetchBlob.fetch(
+  console.log( "🖼 imageUpload\n", {url, headers, data} );
+  RNFetchBlob.fetch(
     'PUT',
     url,
     {
@@ -219,12 +221,113 @@ function imageUpload(url, headers, data) {
     },
     [data],
   )
-    .then(json)
-    .then(resp => resp.data)
-    .catch(err => {
-      console.log('fetch blob err', err);
-      return err;
-    });
+  
+  .then(response => {
+    console.log("⤵️ imageUpload response \n", response);
+    let status = response.info().status;
+
+    console.log( "status:" ); console.log( status );
+
+    if(status === 200) {
+    // if (!response.ok) {
+      /* 
+      return response
+        .json();
+        .then(({ message }) => {
+          // Got valid JSON with error response, use it
+          throw new Error(message || response.status);
+        })
+        .catch(e => {
+          // Couldn't parse the JSON
+          throw e;
+        }); */
+
+        /* return response.blob().then(({ message }) => {
+          console.log( "message:" ); console.log( message );
+          // Got valid JSON with error response, use it
+          throw new Error(message || response.status);
+        })
+        .catch(e => {
+          // Couldn't parse the JSON
+          throw e;
+        });; */
+    }
+     /* return response.blob(); */
+    /* if (options.blob) {
+      return response.blob();
+    } */
+     return response.blob();
+    // let json = response.json();
+    // return json;
+    // Successful response, parse the JSON and return the data
+   /*  dispatch({
+        type: REDUX_ACTIONS.REQUEST_SUCCESS,
+        url: url,
+        method: 'PUT',
+        result: json,
+    }); */
+
+   
+  })
+  .catch(e => {
+    console.log('fetch error', e);
+   /*  dispatch({
+      type: REDUX_ACTIONS.REQUEST_FAIL,
+      url: url,
+      method: 'PUT',
+      error: e,
+    }); */
+    // if (options.url !== ROUTES.LOGOUT.url) {
+    //   const unauthMessages = [
+    //     'Missing active access token',
+    //     'Unable to validate token',
+    //     'Sorry, that token is no longer valid',
+    //     'Valid token is missing user',
+    //   ];
+    //   if (e && unauthMessages.includes(e.message)) {
+    //     console.log('unable to validate token. User needs to login again.');
+    //     if ([ROUTES.LOGIN.url, ROUTES.LOGIN_WITH_TOKEN.url].includes(options.url)) {
+    //       // Trying to login, but got an error message, just show the toast
+    //       toast.error({ message: e.message });
+    //     } else {
+    //       dispatch(showModal({ type: 'UserUnauth' }));
+    //     }
+    //   }
+    // }
+
+    // Couldn't parse the JSON
+    throw e;
+  });
+
+  
+  
+  
+  /* 
+  .then((res) => {
+    let status = res.info().status;
+
+    console.log( "status:" ); console.log( status );
+
+    if(status == 200) {
+      // the conversion is done in native code
+      let base64Str = res.base64()
+      // the following conversions are done in js, it's SYNC
+      let text = res.text()
+      let json = res.json()
+      console.log( "json:" ); console.log( json );
+      return json;
+    } else {
+      // handle other status codes
+      console.log( 'wrong status!' )
+    }
+  })
+  // Something went wrong:
+  .catch((errorMessage, statusCode) => {
+    // error handling
+    console.log( "errorMessage:" ); console.log( errorMessage );
+    console.log( "statusCode:" ); console.log( statusCode );
+  }) */
+
 }
 
 export function json(response) {
