@@ -23,7 +23,9 @@ export function startupAction() {
 }
 
 export function logoutAction(user, token, isDelete = false) {
-  console.log( "🚶‍♂️🚪 logoutAction \n\n", {user}, "\n", {token}, "\n", {isDelete} );
+  console.log('🚶‍♂️🚪 logoutAction \n\n', { user }, '\n', { token }, '\n', {
+    isDelete,
+  });
   return async (dispatch, getState) => {
     try {
       if (token && !isDelete) {
@@ -89,6 +91,7 @@ export function hasSeenSubscriptionModal(bool) {
 //     }
 //   };
 // }
+
 
 /*
 BEN

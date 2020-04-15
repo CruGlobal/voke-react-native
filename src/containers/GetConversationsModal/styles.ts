@@ -4,7 +4,7 @@ import theme from '../../theme';
 import ui from '../../ui';
 
 const styles: { [key: string]: any } = {
-	...ui,
+	...theme,
 	SectionOnboarding: css`
 		background-color: ${theme.colors.blue};
 	`,

@@ -4,7 +4,7 @@ import theme from '../../theme';
 import ui from '../../ui';
 
 const styles: { [key: string]: any } = {
-	...ui,
+	...theme,
 	SectionOnboarding: css`
 		background-color: ${theme.colors.blue};
 	`,
@@ -12,28 +12,32 @@ const styles: { [key: string]: any } = {
 		background-color: ${theme.colors.darkBlue};
 		padding-left:${theme.spacing.xl + 'px'};
 		padding-right:${theme.spacing.xl + 'px'};
+		padding-bottom:${theme.spacing.m + 'px'};
 	`,
 	ButtonStart: [
 		ui.button.size.l,
 		ui.button.style.solid,
 		css`
+			margin-top:${theme.spacing.m + 'px'};
 			margin-left:${theme.spacing.l + 'px'};
 			margin-right:${theme.spacing.l + 'px'};
+			margin-bottom:${theme.spacing.l + 'px'};
 		`,
 	],
 	ButtonStartLabel: [
 		ui.buttonText.size.l
 	],
-	ButtonSignIn: [
-		ui.button.size.m,
-		ui.button.style.outline
+	ButtonSignUp: [
+		ui.button.size.l,
+		ui.button.style.outline,
+		
 	],
-	ButtonSignInLabel: [
+	ButtonSignUpLabel: [
 		ui.buttonText.size.m
 	],
 	SignInText: css`
 		color: ${theme.colors.white};
-		font-size: ${theme.fontSizes.l + 'px'};
+		font-size: ${theme.fontSizes.m + 'px'};
 		font-family: ${theme.fonts.regular};
 	`,
 	TextSmall: css`
@@ -47,6 +51,7 @@ const styles: { [key: string]: any } = {
 	`,
 	SectionSignIn: css`
 		background-color: ${theme.colors.darkBlue};
+		padding-top:${theme.spacing.m + 'px'};
 		padding-bottom:${theme.spacing.xl + 'px'};
 	`,
 }

@@ -17,6 +17,9 @@ import VOKEBOT_AVATAR from '../assets/vokeAvatar.png';
 import VOKEBOT from '../assets/vokebot_whole.png';
 import LOCK from '../assets/lock.png';
 import CHECK from '../assets/check.png';
+import LEFT_ARROW from '../assets/left-arrow.png';
+import FACEBOOK from '../assets/facebook.png';
+import EMAIL from '../assets/mail.png';
 
 let iconsMap = {};
 const vokeIcons = {
@@ -62,12 +65,15 @@ const vokeImages = {
   withFriend: FRIEND,
   buttonArrow: BUTTON_ARROW,
   buttonArrowDark: BUTTON_ARROW_DARK,
+  leftArrow: LEFT_ARROW,
   camera: CAMERA,
   lock: LOCK,
   play_filled: CAMERA,
   vokebot_avatar: VOKEBOT_AVATAR,
   vokebot: VOKEBOT,
   check: CHECK,
+  facebook: FACEBOOK,
+  email: EMAIL,
 };
 
 export { iconsMap, vokeIcons, vokeImages };

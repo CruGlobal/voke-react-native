@@ -53,33 +53,39 @@ function HelpModal(props) {
         />
         <SettingsRow
           title="Make a Feature Request"
-          onPress={() =>Communications.email(
-            ['support@vokeapp.com'], // TO
-            null, // CC
-            null, // BCC
-            'Feature Request for Voke', // SUBJECT
-            null // BODY
-          )}
+          onPress={() =>
+            Communications.email(
+              ['support@vokeapp.com'], // TO
+              null, // CC
+              null, // BCC
+              'Feature Request for Voke', // SUBJECT
+              null, // BODY
+            )
+          }
         />
         <SettingsRow
           title="Report a User"
-          onPress={() =>Communications.email(
-            ['support@vokeapp.com'], // TO
-            null, // CC
-            null, // BCC
-            'I would like to report a user', // SUBJECT
-            null // BODY
-          )}
+          onPress={() =>
+            Communications.email(
+              ['support@vokeapp.com'], // TO
+              null, // CC
+              null, // BCC
+              'I would like to report a user', // SUBJECT
+              null, // BODY
+            )
+          }
         />
         <SettingsRow
           title="Email Us"
-          onPress={() =>Communications.email(
-            ['support@vokeapp.com'], // TO
-            null, // CC
-            null, // BCC
-            'Email to Voke Support', // SUBJECT
-            null // BODY
-          )}
+          onPress={() =>
+            Communications.email(
+              ['support@vokeapp.com'], // TO
+              null, // CC
+              null, // BCC
+              'Email to Voke Support', // SUBJECT
+              null, // BODY
+            )
+          }
         />
       </ScrollView>
     </Flex>

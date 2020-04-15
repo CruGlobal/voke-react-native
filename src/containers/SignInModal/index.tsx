@@ -15,6 +15,7 @@ import { logoutAction, userLogin, getMe } from '../../actions/auth';
 import { useMount } from '../../utils';
 
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
+import VokeIcon from '../../components/VokeIcon';
 import TextField from '../../components/TextField';
 import Triangle from '../../components/Triangle';
 import Button from '../../components/Button';
@@ -173,11 +174,24 @@ const SignInModal: React.FC = (): React.ReactElement => {
       >
         <Button
           isAndroidOpacity
-          style={styles.ButtonFBSignIn}
+          style={styles.ButtonSignIn}
           // TODO: link to Facebook Auth.
-          onPress={(): void => console.log("navigation.navigate('ForgotPassword')")}
+          /* onPress={
+            () => navigation.navigate('ForgotPassword')
+          } */
         >
-          <Text style={styles.ButtonFBSignInLabel}>Sign In with Facebook</Text>
+        <Flex
+          direction="row"
+          align="center"
+          justify="center"
+        >
+          <VokeIcon
+            type="image"
+            name="facebook"
+            style={[st.h(22), st.w(22), st.mr5]}
+          />
+          <Text style={styles.ButtonSignInLabel}>Sign In with Facebook</Text>
+          </Flex>
         </Button>
       </Flex>
 
