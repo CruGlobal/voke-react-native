@@ -1,10 +1,18 @@
 package com.voke;
 
 import com.facebook.react.ReactActivity;
+import org.devio.rn.splashscreen.SplashScreen; // Voke: Splash Screen
 import android.content.Intent; // Voke: Needed for orientation changes
 import android.content.res.Configuration; // Voke: Needed for orientation changes
 
 public class MainActivity extends ReactActivity {
+
+  // Voke: Splash Screen
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+      SplashScreen.show(this);  // here
+      super.onCreate(savedInstanceState);
+  }
 
   // Voke: Needed for orientation changes
   @Override

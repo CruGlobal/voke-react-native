@@ -12,6 +12,7 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#import "RNSplashScreen.h" // Voke: Splash Screen
 #import "Orientation.h" // Voke: Needed to handle orientation changes
 #import <RNCPushNotificationIOS.h> // Voke: Needed for push notifications
 #import <UserNotifications/UserNotifications.h> // Voke: Needed for push notifications
@@ -46,6 +47,9 @@
   // VOKE: Facebook SDK
   [[FBSDKApplicationDelegate sharedInstance] application:application
     didFinishLaunchingWithOptions:launchOptions];
+
+  // VOKE: Splash Screen
+  [RNSplashScreen show];
 
   return YES;
 }

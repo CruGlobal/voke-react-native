@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { updateMe } from '../../actions/auth';
 
 import st from '../../st';
+import theme from '../../theme';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import Image from '../../components/Image';
@@ -171,7 +172,7 @@ function CreateProfilePhoto() {
         <Flex value={1} />
         <Button
           onPress={handleContinue}
-          touchableStyle={[st.w100, st.bgDarkBlue, st.p4]}
+          touchableStyle={[st.w100, st.p4, {backgroundColor: theme.colors.secondary}]}
           isLoading={loginLoading}
         >
           <Text style={[st.white, st.fs20, st.tac]}>Continue</Text>
