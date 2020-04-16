@@ -18,6 +18,18 @@ const ROUTES = {
       scope: 'messenger',
     },
   },
+  // https://docs.vokeapp.com/#o-auth-token-via-assertion
+  FACEBOOK_LOGIN: {
+    method: 'post',
+    endpoint: 'oauth/token',
+    anonymous: true,
+    customData: {
+      client: CLIENT,
+      grant_type: 'assertion',
+      scope: 'messenger',
+    },
+    // showApiLoading: true, //NOT USED: Used to show a loading overlay on the login page with Facebook login
+  },
   // https://docs.vokeapp.com/#me-create-me
   CREATE_ACCOUNT: {
     method: 'post',

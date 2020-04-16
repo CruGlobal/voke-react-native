@@ -291,7 +291,7 @@ const constants:{ [key: string]: {[key: string]: string | number} | any } = {
 
   FACEBOOK_VERSION: 'v2.8',
   FACEBOOK_FIELDS: 'name,email,picture,about,cover,first_name,last_name',
-  FACEBOOK_SCOPE: ['public_profile', 'email'],
+  FACEBOOK_SCOPE: ['public_profile', 'email'], // FB data we want access to.
   // FACEBOOK_FIELDS: 'name,picture,about,cover,first_name,last_name',
   // FACEBOOK_SCOPE: ['public_profile'],
 

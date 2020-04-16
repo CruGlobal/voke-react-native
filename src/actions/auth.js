@@ -2,12 +2,18 @@ import RNFetchBlob from 'rn-fetch-blob';
 import { Alert } from 'react-native';
 import { getTimeZone, getCountry, getLocales } from 'react-native-localize';
 import AsyncStorage from '@react-native-community/async-storage';
-import { REDUX_ACTIONS } from '../constants';
+import { FACEBOOK_FIELDS, FACEBOOK_VERSION, FACEBOOK_SCOPE, REDUX_ACTIONS } from '../constants';
 import ROUTES from './routes';
 import request from './utils';
 import { getDevices, revokeAuthToken, setUser } from './requests';
 import { isArray } from '../utils';
 import { checkForPermissionsAndSetupSockets } from './socket';
+import {
+  LoginManager,
+  GraphRequestManager,
+  GraphRequest,
+  AccessToken,
+} from 'react-native-fbsdk';
 
 export function loginAction(authToken) {
   // const authToken = authData.access_token;
@@ -59,39 +65,166 @@ export function hasSeenSubscriptionModal(bool) {
     dispatch({ type: REDUX_ACTIONS.HAS_SEEN_SUBSCRIPTION_MODAL, bool });
   };
 }
+/* 
+export function facebookLogin() {
+  if (auth().currentUser) {
+    auth().signOut();
+  }
+  return async (dispatch) => {
+    try {
+      const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
+      if (result.isCancelled) {
+        // alert('Canceled');
+        dispatch(LOGIN_LOADING(false));
+      }
+      // get the access token
+      const data = await AccessToken.getCurrentAccessToken();
 
-// export function facebookLogin() {
-//   if (auth().currentUser) {
-//     auth().signOut();
-//   }
-//   return async (dispatch) => {
-//     try {
-//       const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
-//       if (result.isCancelled) {
-//         // alert('Canceled');
-//         dispatch(LOGIN_LOADING(false));
-//       }
-//       // get the access token
-//       const data = await AccessToken.getCurrentAccessToken();
+      if (!data) {
+        // alert('Something Went Wrong!');
+        dispatch(LOGIN_LOADING(false));
+      }
+      // create a new firebase credential with the token
+      const credential = auth.FacebookAuthProvider.credential(data.accessToken);
 
-//       if (!data) {
-//         // alert('Something Went Wrong!');
-//         dispatch(LOGIN_LOADING(false));
-//       }
-//       // create a new firebase credential with the token
-//       const credential = auth.FacebookAuthProvider.credential(data.accessToken);
+      const user = await auth().signInWithCredential(credential);
+      if (user) {
+        dispatch(loginAction(user));
+      }
+    } catch (error) {
+      console.log('error', error);
+      firebaseErrorAlert(error, 'Login Error');
+    }
+  };
+}
+ */
 
-//       const user = await auth().signInWithCredential(credential);
-//       if (user) {
-//         dispatch(loginAction(user));
-//       }
-//     } catch (error) {
-//       console.log('error', error);
-//       firebaseErrorAlert(error, 'Login Error');
-//     }
-//   };
-// }
+export function facebookLoginAction(accessToken) {
+  // LOG('access token for fb', accessToken);
+/*   return dispatch => {
+    let data = { assertion: accessToken };
+    if (anonId) {
+      data.anonymous_user_id = anonId;
+    }
+    return dispatch(callApi(REQUESTS.FACEBOOK_LOGIN, {}, data))
+      .then(results => {
+        dispatch(loginAction(results.access_token, results));
+        // dispatch(messagesAction());
+        // Do something with the results
+        return results;
+      })
+      .catch(error => {
+        LOG('error logging in', error);
+      });
+  }; */
 
+  return async (dispatch, getState) => {
+    // Important! It tells the server to merge anonymous_user_id
+    // with provided login details.
+    const auth = getState().auth;
+    if ( auth.user.id ) {
+      data.anonymous_user_id = auth.user.id;
+    }
+
+    console.log( "function facebookLoginAction > data:" ); console.log( data );
+
+
+    return dispatch(request({ ...ROUTES.FACEBOOK_LOGIN, data })).then(
+      authData => {
+        // eslint-disable-next-line no-console
+        console.log('🚪🚶‍♂️Facebook loginResults:\n', authData);
+        // Received login response do Logout/reset state.
+        logoutAction();
+        // Update user data in the state with ones received.
+        dispatch( loginAction(authData.access_token) );
+        // await dispatch(getMe());
+        // After all download user details from server.
+        return dispatch(getMe());
+      },
+      error => {
+        // eslint-disable-next-line no-console
+        console.log('facebookLoginAction > Login error', error);
+        throw error;
+      },
+    );
+  }
+}
+
+const facebookGetUserInfo = (accessToken) => {
+  const getMeConfig = {
+    version: FACEBOOK_VERSION,
+    accessToken,
+    parameters: {
+      fields: {
+        string: FACEBOOK_FIELDS,
+      },
+    },
+  };
+
+  console.log( "👤FB getMeConfig:", getMeConfig );
+
+  // Prepare a graph request asking for user information
+  // with a callback to handle the response.
+  const infoRequest = new GraphRequest(
+    '/me',
+    getMeConfig,
+    (err, meResult) => {
+      if (err) {
+        console.log('👤 getMe > error getting facebook user data\n', error);
+        throw error;
+      }
+
+      dispatch(facebookLoginAction(accessToken))
+        .then((result) => {
+          console.log( "facebookLoginAction >>>> result:" ); console.log( result );
+        })
+        .catch((error) => {
+          console.log( "facebookLoginAction >>>> error:" ); console.log( error );
+        });
+
+    },
+  );
+
+  // Send the graph request.
+  new GraphRequestManager().addRequest(infoRequest).start();
+
+}
+
+export async function facebookLogin() {
+  // Attempt to login using the Facebook login dialog asking for permissions.
+  LoginManager.logInWithPermissions(FACEBOOK_SCOPE)
+    .then(
+      result => {
+        if (result.isCancelled) {
+          console.log('👤FB Login cancelled');
+          // setIsSignedIn(false);
+          return;
+        }
+        console.log(
+          `👤FB Login success with permissions: ${result.grantedPermissions.toString()}`,
+        );
+
+        // Generate FB access token.
+        AccessToken.getCurrentAccessToken().then(data => {
+          console.log('👤FB AccessToken:', data);
+          if (!data || !data.accessToken) {
+            console.log('👤FB access token doesnt exist');
+            return;
+          }
+
+          const accessToken = data.accessToken.toString();
+
+          facebookGetUserInfo(accessToken)
+        });
+      },
+      error => {
+        console.log(`👤FB Login fail with error: ${error}`);
+      },
+    )
+    .catch(error => {
+      console.log(`👤FB Login failed with error: ${error}`);
+    });
+}
 
 /*
 BEN

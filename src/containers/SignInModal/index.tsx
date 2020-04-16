@@ -11,7 +11,7 @@ import Orientation from 'react-native-orientation-locker';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
-import { logoutAction, userLogin, getMe } from '../../actions/auth';
+import { userLogin, facebookLogin } from '../../actions/auth';
 import { useMount } from '../../utils';
 
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
@@ -55,10 +55,7 @@ const SignInModal: React.FC = (): React.ReactElement => {
       setIsLoading(true);
 
       try {
-        // await dispatch(logoutAction()); // Logout/reset state first.
         await dispatch(userLogin(email, password)); // Then try to login.
-        // await dispatch(getMe()); // After all download user details from server.
-
         setIsLoading(false);
         navigation.navigate('LoggedInApp');
       } catch (e) {
@@ -175,22 +172,21 @@ const SignInModal: React.FC = (): React.ReactElement => {
         <Button
           isAndroidOpacity
           style={styles.ButtonFBSignIn}
-          // TODO: link to Facebook Auth.
-          /* onPress={
-            () => navigation.navigate('ForgotPassword')
-          } */
+          onPress={(): Promise<void> => facebookLogin().then(
+            result => {
+              // TODO: redirect to the main screen?
+            })
+          }
         >
-        <Flex
-          direction="row"
-          align="center"
-          justify="center"
-        >
-          <VokeIcon
-            type="image"
-            name="facebook"
-            style={styles.ButtonFBSignInIcon}
-          />
-          <Text style={styles.ButtonFBSignInLabel}>Sign In with Facebook</Text>
+          <Flex direction="row" align="center" justify="center">
+            <VokeIcon
+              type="image"
+              name="facebook"
+              style={styles.ButtonFBSignInIcon}
+            />
+            <Text style={styles.ButtonFBSignInLabel}>
+              Sign In with Facebook
+            </Text>
           </Flex>
         </Button>
       </Flex>
