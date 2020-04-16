@@ -31,6 +31,7 @@ import CreateName from './containers/CreateName';
 import CreateProfilePhoto from './containers/CreateProfilePhoto';
 import GroupModal from './containers/GroupModal';
 import AsyncStorage from '@react-native-community/async-storage';
+import SplashScreen from 'react-native-splash-screen';
 import TabBar from './components/TabBar';
 import theme from './theme';
 import st from './st';
@@ -38,6 +39,7 @@ import HeaderRight from './components/HeaderRight';
 import HeaderLeft from './components/HeaderLeft';
 import Touchable from './components/Touchable';
 import Text from './components/Text';
+import { useMount } from './utils';
 
 import { useSafeArea } from 'react-native-safe-area-context';
 
@@ -254,6 +256,9 @@ const App = () => {
   const routeNameRef = React.useRef();
   const navigationRef = React.useRef();
   const insets = useSafeArea();
+
+  // Hide splash screen on load.
+  useMount(() => SplashScreen.hide());
 
   React.useEffect(() => {
     console.log('APP useEffect')
