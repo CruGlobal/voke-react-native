@@ -143,7 +143,7 @@ function InviteItem({ item }) {
             const adv = await dispatch(
               getMyAdventure(adventureItem.messenger_journey_id),
             );
-            navigation.navigate('ActiveAdventureModal', {
+            navigation.navigate('AdventureActive', {
               adventure: adv,
             });
           }}
@@ -228,7 +228,7 @@ function MyAdventureItem({ item }) {
       highlight={false}
       activeOpacity={0.8}
       onPress={() =>
-        navigation.navigate('ActiveAdventureModal', {
+        navigation.navigate('AdventureActive', {
           adventure: adventureItem,
         })
       }

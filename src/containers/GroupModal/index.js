@@ -46,7 +46,7 @@ function GroupModal(props) {
 
   function handleJoinGroup() {
     if ((((me || {}).avatar || {}).medium || '').includes('/avatar.jpg')) {
-      navigation.navigate('CreateProfilePhoto', { hasAccount: true });
+      navigation.navigate('AccountPhoto', { hasAccount: true });
     } else {
       navigation.reset({ index: 0, routes: [{ name: 'Adventures' }] });
     }

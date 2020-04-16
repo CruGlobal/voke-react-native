@@ -118,7 +118,7 @@ function VideoList() {
 
   useEffect(() => {
     if (filter === 'Search') {
-      navigation.navigate('SearchVideosModal', {
+      navigation.navigate('VideosSearch', {
         onSelect: async tagId => {
           await dispatch(getVideos({ tag_id: tagId }));
           setVideos(searchVideos);
@@ -178,7 +178,7 @@ function VideoList() {
                     key={item}
                     onPress={() => {
                       if (filter === item && item === 'Search') {
-                        navigation.navigate('SearchVideosModal', {
+                        navigation.navigate('VideosSearch', {
                           onSelect: async tagId => {
                             await dispatch(getVideos({ tag_id: tagId }));
                             setVideos(searchVideos);
@@ -278,13 +278,14 @@ function Videos(props) {
     <>
       <StatusBar />
       <Flex direction="column" justify="end" style={[st.w100, st.h100]}>
-        <TabView
+        {/* <TabView
           navigationState={{ index, routes }}
           renderScene={renderScene}
           onIndexChange={setIndex}
           initialLayout={{ width: st.fullWidth }}
           renderTabBar={props => <CustomTabBar {...props} />}
-        />
+        /> */}
+        <VideoList />
       </Flex>
     </>
   );

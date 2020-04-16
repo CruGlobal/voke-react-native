@@ -38,7 +38,7 @@ export const VIDEO_LANDSCAPE_HEIGHT = st.fullWidth;
 
 export const isAndroid = st.isAndroid;
 
-const IS_STAGING = true;
+const IS_STAGING = false;
 
 const SALT_HASH_STAGING = 'nRgwCUrxKyWDytQDdfYpaJGrEjNQVUYHoDvHhtfgFvauvPrwIm';
 const SALT_HASH_PROD = 'sKgbotdipkiaPVmtViOPhJJidXPXthowELRKwGNwhOMHnIclxj';
