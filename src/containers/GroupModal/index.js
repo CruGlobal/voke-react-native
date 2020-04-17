@@ -18,6 +18,7 @@ import Touchable from '../../components/Touchable';
 import CONSTANTS from '../../constants';
 import VokeIcon from '../../components/VokeIcon';
 import DEFAULT_AVATAR from '../../assets/defaultAvatar.png';
+
 function GroupModal(props) {
   const insets = useSafeArea();
   const navigation = useNavigation();

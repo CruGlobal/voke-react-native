@@ -8,6 +8,7 @@ const theme: { [key: string]: {[key: string]: string | number} } = {
   colors: {
     primary: '#44c8e8', // Blue
     secondary: '#186078', // Dark Blue
+    secondaryAlt: '#3295ad', // offBlue
 
     transparent: 'transparent',
     blue: '#44c8e8',
