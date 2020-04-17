@@ -5,10 +5,13 @@ import { Button } from 'react-native';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+import AsyncStorage from '@react-native-community/async-storage';
+import { useSafeArea } from 'react-native-safe-area-context';
 import Welcome from './containers/Welcome';
 import Menu from './containers/Menu';
 import MenuHelp from './containers/MenuHelp';
 import MenuAbout from './containers/MenuAbout';
+import MenuAcknowledgements from './containers/MenuAcknowledgements';
 import AccountSignIn from './containers/AccountSignIn';
 import AccountProfile from './containers/AccountProfile';
 import AccountCreate from './containers/AccountCreate';
@@ -30,7 +33,6 @@ import Notifications from './containers/Notifications';
 import AccountName from './containers/AccountName';
 import AccountPhoto from './containers/AccountPhoto';
 import GroupModal from './containers/GroupModal';
-import AsyncStorage from '@react-native-community/async-storage';
 import TabBar from './components/TabBar';
 import theme from './theme';
 import st from './st';
@@ -38,8 +40,6 @@ import HeaderRight from './components/HeaderRight';
 import HeaderLeft from './components/HeaderLeft';
 import Touchable from './components/Touchable';
 import Text from './components/Text';
-
-import { useSafeArea } from 'react-native-safe-area-context';
 
 // https://reactnavigation.org/docs/stack-navigator#options
 const defaultHeaderConfig = {
@@ -81,20 +81,15 @@ const transparentHeaderConfig = {
     backgroundColor: 'transparent',
   },
   headerTransparent: true,
-}
-
+};
 
 const AdventureStack = createStackNavigator();
 
 const AdventureStackScreens = ({ navigation, route }: any) => {
-  console.log( '⏩ AdventureStackScreens' );
+  console.log('⏩ AdventureStackScreens');
   // Make top bar visible dynamically.
   navigation.setOptions({
-    tabBarVisible: route.state
-      ? route.state.index > 0
-        ? false
-        : true
-      : null,
+    tabBarVisible: route.state ? !(route.state.index > 0) : null,
   });
   return (
     <AdventureStack.Navigator
@@ -155,18 +150,14 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
       />
     </AdventureStack.Navigator>
   );
-}
+};
 
 function VideoStackScreens({ navigation, route }: any) {
-  console.log( '⏩ VideoStackScreens' );
+  console.log('⏩ VideoStackScreens');
   const VideoStack = createStackNavigator();
   // TODO: extract into utility function.
   navigation.setOptions({
-    tabBarVisible: route.state
-      ? route.state.index > 0
-        ? false
-        : true
-      : null,
+    tabBarVisible: route.state ? !(route.state.index > 0) : null,
   });
   return (
     <VideoStack.Navigator screenOptions={defaultHeaderConfig}>
@@ -189,7 +180,7 @@ function VideoStackScreens({ navigation, route }: any) {
 }
 
 const NotificationStackScreens = () => {
-  console.log( '⏩ NotificationStackScreens' );
+  console.log('⏩ NotificationStackScreens');
   const NotificationStack = createStackNavigator();
   return (
     <NotificationStack.Navigator
@@ -202,7 +193,7 @@ const NotificationStackScreens = () => {
       />
     </NotificationStack.Navigator>
   );
-}
+};
 
 const LoggedInAppContainer = () => {
   const Tabs = createBottomTabNavigator();
@@ -256,11 +247,12 @@ const App = () => {
   const insets = useSafeArea();
 
   React.useEffect(() => {
-    console.log('APP useEffect')
+    console.log('APP useEffect');
     const state = navigationRef.current.getRootState();
     // Save the initial route name
     routeNameRef.current = getActiveRouteName(state);
-    console.log( "routeNameRef.current:" ); console.log( routeNameRef.current );
+    console.log('routeNameRef.current:');
+    console.log(routeNameRef.current);
   }, []);
 
   return (
@@ -269,7 +261,10 @@ const App = () => {
       onStateChange={state => {
         const previousRouteName = routeNameRef.current;
         const currentRouteName = getActiveRouteName(state);
-        console.log( "%c🧭 Navigated to / Re-rendered " + currentRouteName, 'color: #bada55' );
+        console.log(
+          `%c🧭 Navigated to / Re-rendered ${currentRouteName}`,
+          'color: #bada55',
+        );
 
         /* if (previousRouteName !== currentRouteName) {
           // The line below uses the @react-native-firebase/analytics tracker
@@ -282,12 +277,15 @@ const App = () => {
       }}
 
       // initialState={ ( isLoggedIn ? ({ index: 0, routes: [{ name: 'LoggedInApp' }] }) : ({ index: 0, routes: [{ name: 'WelcomeApp' }] }) ) }
-
     >
-      <AppStack.Navigator screenOptions={{
-        // headerShown: false
-        }} >
-        { isLoggedIn ? (
+      <AppStack.Navigator
+        screenOptions={
+          {
+            // headerShown: false
+          }
+        }
+      >
+        {isLoggedIn ? (
           <AppStack.Screen
             name="LoggedInApp"
             component={LoggedInAppContainer}
@@ -304,7 +302,7 @@ const App = () => {
               headerShown: false,
             }}
           />
-        ) }
+        )}
         {/* <AppStack.Screen name="WelcomeApp" component={WelcomeAppContainer} /> */}
         {/* <AppStack.Screen name="Welcome" component={Welcome} /> */}
         {/* Don't hide these Welcome screens under !isLoggedIn
@@ -317,7 +315,7 @@ const App = () => {
             ...transparentHeaderConfig,
             headerStyle: {
               ...transparentHeaderConfig.headerStyle,
-              paddingTop: insets.top // TODO: Check if it really works here?
+              paddingTop: insets.top, // TODO: Check if it really works here?
             },
             title: '',
             // headerShown: true,
@@ -326,20 +324,18 @@ const App = () => {
         <AppStack.Screen
           name="AccountPhoto"
           component={AccountPhoto}
-          options={ ({ navigation }) =>({
+          options={({ navigation }) => ({
             ...transparentHeaderConfig,
             headerStyle: {
               ...transparentHeaderConfig.headerStyle,
-              paddingTop: insets.top // TODO: Check if it really works here?
+              paddingTop: insets.top, // TODO: Check if it really works here?
             },
             headerRight: () => (
               <Touchable
                 // style={[st.p5, st.pl4, st.mb3]}
                 onPress={() => navigation.navigate('LoggedInApp')}
               >
-                <Text
-                  style={[st.white, st.fs16, st.pr5]}
-                >Skip</Text>
+                <Text style={[st.white, st.fs16, st.pr5]}>Skip</Text>
               </Touchable>
               // <Button onPress={() => navigation.navigate('LoggedInApp')} title="Skip" />
             ),
@@ -375,7 +371,7 @@ const App = () => {
         <AppStack.Screen
           name="AccountCreate"
           component={AccountCreate}
-          options={ {
+          options={{
             ...altHeaderConfig,
             title: 'Create Account',
             headerShown: true,
@@ -383,7 +379,7 @@ const App = () => {
               backgroundColor: theme.colors.primary,
               paddingTop: insets.top // TODO: Check if it really works here?
             }, */
-          } }
+          }}
         />
         <AppStack.Screen
           name="AccountSignIn"
@@ -392,7 +388,7 @@ const App = () => {
             ...transparentHeaderConfig,
             headerStyle: {
               ...transparentHeaderConfig.headerStyle,
-              paddingTop: insets.top // TODO: Check if it really works here?
+              paddingTop: insets.top, // TODO: Check if it really works here?
             },
             title: 'Sign In',
             // headerShown: true,
@@ -401,7 +397,6 @@ const App = () => {
         <AppStack.Screen
           name="ForgotPassword"
           component={AccountForgotPassword}
-
           options={{
             ...defaultHeaderConfig,
             title: 'Get New Password',
@@ -410,22 +405,22 @@ const App = () => {
               backgroundColor: theme.colors.primary,
               elevation: 0,
               shadowOpacity: 0,
-              paddingTop: insets.top // TODO: Check if it really works here?
+              paddingTop: insets.top, // TODO: Check if it really works here?
             },
             headerTitleStyle: {
               color: theme.colors.white,
               fontSize: 18,
               fontWeight: 'normal',
             },
-            headerLeft: () => <HeaderLeft  hasBack= {true} />,
+            headerLeft: () => <HeaderLeft hasBack />,
           }}
         />
-         <AppStack.Screen
+        <AppStack.Screen
           name="Profile"
           component={AccountProfile}
           options={({ navigation }) => ({
             headerShown: true,
-            headerLeft: () => <HeaderLeft  hasBack= {true} />,
+            headerLeft: () => <HeaderLeft hasBack />,
             cardStyle: { backgroundColor: theme.colors.transparent },
             headerStyle: {
               backgroundColor: theme.colors.primary,
@@ -445,7 +440,7 @@ const App = () => {
           component={AccountCreate}
           options={({ navigation }) => ({
             headerShown: true,
-            headerLeft: () => <HeaderLeft  hasBack= {true} />,
+            headerLeft: () => <HeaderLeft hasBack />,
             cardStyle: { backgroundColor: theme.colors.transparent },
             headerStyle: {
               backgroundColor: theme.colors.primary,
@@ -465,7 +460,7 @@ const App = () => {
           component={MenuHelp}
           options={({ navigation }) => ({
             headerShown: true,
-            headerLeft: () => <HeaderLeft  hasBack= {true} />,
+            headerLeft: () => <HeaderLeft hasBack />,
             cardStyle: { backgroundColor: theme.colors.transparent },
             headerStyle: {
               backgroundColor: theme.colors.primary,
@@ -485,7 +480,7 @@ const App = () => {
           component={MenuAbout}
           options={({ navigation }) => ({
             headerShown: true,
-            headerLeft: () => <HeaderLeft  hasBack= {true} />,
+            headerLeft: () => <HeaderLeft hasBack />,
             cardStyle: { backgroundColor: theme.colors.transparent },
             headerStyle: {
               backgroundColor: theme.colors.primary,
@@ -500,12 +495,12 @@ const App = () => {
             title: 'About Voke',
           })}
         />
-         <AppStack.Screen
+        <AppStack.Screen
           name="OldConversations"
           component={AccountGetConversations}
           options={({ navigation }) => ({
             headerShown: true,
-            headerLeft: () => <HeaderLeft  hasBack= {true} />,
+            headerLeft: () => <HeaderLeft hasBack />,
             cardStyle: { backgroundColor: theme.colors.transparent },
             headerStyle: {
               backgroundColor: theme.colors.primary,
@@ -518,6 +513,26 @@ const App = () => {
               fontWeight: 'normal',
             },
             title: 'Get my Old Conversations',
+          })}
+        />
+        <AppStack.Screen
+          name="Acknowledgements"
+          component={MenuAcknowledgements}
+          options={({ navigation }) => ({
+            headerShown: true,
+            headerLeft: () => <HeaderLeft hasBack />,
+            cardStyle: { backgroundColor: theme.colors.transparent },
+            headerStyle: {
+              backgroundColor: theme.colors.primary,
+              elevation: 0,
+              shadowOpacity: 0,
+            },
+            headerTitleStyle: {
+              color: theme.colors.white,
+              fontSize: 18,
+              fontWeight: 'normal',
+            },
+            title: 'Acknowledgements',
           })}
         />
       </AppStack.Navigator>
