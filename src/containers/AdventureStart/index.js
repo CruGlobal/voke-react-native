@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import Image from '../../components/Image';
@@ -7,8 +9,6 @@ import Triangle from '../../components/Triangle';
 import VokeIcon from '../../components/VokeIcon';
 import st from '../../st';
 import Button from '../../components/Button';
-import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
 
 import VOKE_BOT from '../../assets/voke_bot_face_large.png';
 import Touchable from '../../components/Touchable';
@@ -60,8 +60,8 @@ function AdventureStart(props) {
           >
             <VokeIcon
               type="image"
-              name="buttonArrow"
-              style={[st.rotate('180deg'), st.h(22), st.w(22)]}
+              name="leftArrow"
+              style={[st.h(22), st.w(22)]}
             />
           </Touchable>
           <Flex
@@ -92,14 +92,14 @@ function AdventureStart(props) {
                 height={15}
                 color={st.colors.offBlue}
                 slant="down"
-                flip={true}
+                flip
                 style={[st.rotate(90), st.mt(-6)]}
               />
             </Flex>
           </Flex>
           <Flex direction="column" align="center" style={[st.ph1, st.w100]}>
             <Button
-              isAndroidOpacity={true}
+              isAndroidOpacity
               style={[
                 st.pd4,
                 st.br1,
@@ -122,11 +122,11 @@ function AdventureStart(props) {
               >
                 <VokeIcon type="image" name="withFriend" />
                 <Text style={[st.white, st.fs20]}>With a Friend</Text>
-                <VokeIcon type="image" name="buttonArrow" />
+                <VokeIcon type="image" name="leftArrow" />
               </Flex>
             </Button>
             <Button
-              isAndroidOpacity={true}
+              isAndroidOpacity
               style={[
                 st.pd4,
                 st.br1,
@@ -149,12 +149,12 @@ function AdventureStart(props) {
               >
                 <VokeIcon type="image" name="withGroup" />
                 <Text style={[st.white, st.fs20]}>With a Group</Text>
-                <VokeIcon type="image" name="buttonArrow" />
+                <VokeIcon type="image" name="leftArrow" />
               </Flex>
             </Button>
             {alreadyStartedByMe ? null : (
               <Button
-                isAndroidOpacity={true}
+                isAndroidOpacity
                 style={[
                   st.pd4,
                   st.br1,
@@ -172,7 +172,7 @@ function AdventureStart(props) {
                 >
                   <VokeIcon type="image" name="byMyself" />
                   <Text style={[st.white, st.fs20]}>By Myself</Text>
-                  <VokeIcon type="image" name="buttonArrow" />
+                  <VokeIcon type="image" name="leftArrow" />
                 </Flex>
               </Button>
             )}

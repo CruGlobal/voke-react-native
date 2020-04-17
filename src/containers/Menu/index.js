@@ -1,12 +1,13 @@
 import React from 'react';
+import { useSafeArea } from 'react-native-safe-area-context';
+import { ScrollView, Share, Linking } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
 import Flex from '../../components/Flex';
 import st from '../../st';
 import Image from '../../components/Image';
 import Text from '../../components/Text';
 import Touchable from '../../components/Touchable';
-import { useSafeArea } from 'react-native-safe-area-context';
-import { ScrollView, Share, Linking } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
 import CONSTANTS from '../../constants';
 
@@ -17,8 +18,6 @@ import IAS from '../../assets/iAmSecond.png';
 import OH from '../../assets/oneHope.png';
 import YS from '../../assets/youthSpecialties.png';
 import { logoutAction } from '../../actions/auth';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
 
 function SettingsRow({ title, onSelect }) {
   return (
@@ -48,21 +47,22 @@ function Menu(props) {
           title="Profile"
           onSelect={() => navigation.navigate('Profile')}
         />
-        { !email &&
+        {!email && (
           <SettingsRow
             title="Create Account"
             onSelect={() =>
               navigation.navigate('AccountCreate', { shouldMerge: true })
             }
           />
-        }
-        { ! email &&
-        <SettingsRow
-          title="Sign In"
-          onSelect={() =>
-            navigation.navigate('AccountSignIn', { shouldMerge: true })
-          }
-        />}
+        )}
+        {!email && (
+          <SettingsRow
+            title="Sign In"
+            onSelect={() =>
+              navigation.navigate('AccountSignIn', { shouldMerge: true })
+            }
+          />
+        )}
         <SettingsRow
           title="Share this App"
           onSelect={() =>
@@ -101,7 +101,7 @@ function Menu(props) {
         <SettingsRow
           title="Follow us on Instagram"
           onSelect={() => {
-            let link = CONSTANTS.WEB_URLS.INSTAGRAM;
+            const link = CONSTANTS.WEB_URLS.INSTAGRAM;
             Linking.canOpenURL(link).then(
               isSupported => {
                 isSupported && Linking.openURL(link);
@@ -125,14 +125,14 @@ function Menu(props) {
         <SettingsRow
           title="Sign Out"
           onSelect={() => {
-            dispatch(logoutAction()).then(()=>{
+            dispatch(logoutAction()).then(() => {
               // Navigate back to the very first screen.
               // 🤦🏻‍♂️Give React 10ms to render WelcomeApp component.
               setTimeout(() => {
                 navigation.reset({
                   index: 1,
                   routes: [{ name: 'Welcome' }],
-                })
+                });
               }, 10);
             });
           }}
@@ -143,15 +143,20 @@ function Menu(props) {
           direction="row"
           align="center"
           justify="center"
-          style={[  st.pv5, st.ph4, {marginTop: 30}]}
+          style={[st.pv5, st.ph4, { marginTop: 30 }]}
         >
           <Text style={[st.darkGrey, st.fs14, st.ls2]}>OUR PARTNERS</Text>
         </Flex>
-        <Flex direction="row" align="center" justify="around" wrap="wrap"
-          style={[ st.ph5]}>
+        <Flex
+          direction="row"
+          align="center"
+          justify="around"
+          wrap="wrap"
+          style={[st.ph5]}
+        >
           <Image
             source={SU}
-            style={[st.w(st.fullWidth / 2), st.h(st.fullWidth / 2.3)]}
+            style={[st.w(st.fullWidth / 3), st.h(st.fullWidth / 3)]}
             resizeMode="contain"
           />
           <Image
@@ -161,17 +166,17 @@ function Menu(props) {
           />
           <Image
             source={OH}
-            style={[st.w(st.fullWidth / 3), st.h(st.fullWidth / 2)]}
+            style={[st.w(st.fullWidth / 3), st.h(st.fullWidth / 3)]}
             resizeMode="contain"
           />
           <Image
             source={YS}
-            style={[st.w(st.fullWidth / 3), st.h(st.fullWidth / 2)]}
+            style={[st.w(st.fullWidth / 3), st.h(st.fullWidth / 3)]}
             resizeMode="contain"
           />
           <Image
             source={IAS}
-            style={[st.w(st.fullWidth / 2.3), st.h(st.fullWidth / 3)]}
+            style={[st.w(st.fullWidth / 3), st.h(st.fullWidth / 3)]}
             resizeMode="contain"
           />
           <Image

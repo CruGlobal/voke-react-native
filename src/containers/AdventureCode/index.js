@@ -1,5 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { KeyboardAvoidingView, Alert, Keyboard } from 'react-native';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import NameInput from '../../components/NameInput';
@@ -9,18 +12,14 @@ import Triangle from '../../components/Triangle';
 import VokeIcon from '../../components/VokeIcon';
 import st from '../../st';
 import Button from '../../components/Button';
-import { useNavigation } from '@react-navigation/native';
 // import { MONTHLY_PRICE } from '../../constants';
-import { useDispatch } from 'react-redux';
-
-import { KeyboardAvoidingView, Alert, Keyboard } from 'react-native';
 
 import VOKE_BOT from '../../assets/voke_bot_face_large.png';
 import Touchable from '../../components/Touchable';
 import { acceptAdventureInvitation } from '../../actions/requests';
 
 function AdventureCode(props) {
-  console.log( "📟Container > EnterAdventureCode:" );
+  console.log('📟Container > EnterAdventureCode:');
   const insets = useSafeArea();
   const navigation = useNavigation();
   const [adventureCode, setAdventureCode] = useState('');
@@ -94,18 +93,18 @@ function AdventureCode(props) {
             >
               <VokeIcon
                 type="image"
-                name="buttonArrow"
-                style={[st.rotate('180deg'), st.h(22), st.w(22)]}
+                name="leftArrow"
+                style={[st.h(22), st.w(22)]}
               />
             </Touchable>
             <Flex direction="column" align="center" style={[st.ph1, st.w100]}>
               <NameInput
-                blurOnSubmit={true}
+                blurOnSubmit
                 label="Have a code from a friend?"
-                placeholder={'Adventure Code'}
+                placeholder="Adventure Code"
                 value={adventureCode}
                 onChangeText={text => setAdventureCode(text)}
-                returnKeyType={'done'}
+                returnKeyType="done"
                 onSubmitEditing={handleContinue}
               />
             </Flex>
