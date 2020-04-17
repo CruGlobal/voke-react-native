@@ -62,7 +62,10 @@ const ROUTES = {
     url: 'me',
   },
   GET_AVAILABLE_ADVENTURES: { method: 'get', url: `organization_journeys` },
-  GET_MY_ADVENTURES: { method: 'get', url: `me/journeys` },
+  GET_MY_ADVENTURES: {
+    method: 'get',
+    url: `me/journeys`
+  },
   GET_MY_ADVENTURE: { method: 'get', url: `me/journeys/{adventureId}` },
   GET_ADVENTURE_STEPS: {
     method: 'get',

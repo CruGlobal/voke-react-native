@@ -6,7 +6,7 @@ import ui from '../../ui';
 const styles: { [key: string]: any } = {
 	...theme,
 	SectionOnboarding: css`
-		background-color: ${theme.colors.blue};
+		background-color: ${theme.colors.primary};
 	`,
 	// [st.fontFamilyMainBold, st.fs24, st.white, st.bold]
 	SliderTitle: css`

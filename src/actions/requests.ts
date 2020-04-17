@@ -63,14 +63,27 @@ export function getAvailableAdventures() {
   };
 }
 
+/**
+ * Get active adventures.
+ */
 export function getMyAdventures() {
   return async (dispatch: Dispatch, getState: any) => {
-    const results: any = await dispatch(
+    await dispatch(
       request({ ...ROUTES.GET_MY_ADVENTURES }),
+    ).then(
+      data => {
+        // eslint-disable-next-line no-console
+        console.log('🧗‍♂️ adventures:\n', data);
+        const myAdventures = data.journeys;
+        // Update my adventures in store.
+        return dispatch(setData('myAdventures', myAdventures));
+      },
+      error => {
+        // eslint-disable-next-line no-console
+        console.log('🛑 getMyAdventures error', error);
+        throw error;
+      },
     );
-    const myAdventures = results.journeys;
-    dispatch(setData('myAdventures', myAdventures));
-    return results;
   };
 }
 

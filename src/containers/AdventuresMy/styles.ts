@@ -4,16 +4,14 @@ import ui from '../../ui';
 
 const styles: { [key: string]: any } = {
   ...ui,
-  BotContainer: css`
-    padding-top: ${`${theme.spacing.m}px`};
-    padding-bottom: ${`${theme.spacing.m}px`};
+  AdventuresList: css`
     width: 100%;
-  `,
-  BotMessage: css`
-    width: 100%;
-    background-color: ${theme.colors.secondaryAlt};
-    padding: ${`${theme.spacing.l}px`};
-    border-radius:  ${`${theme.radius.m}px`};
+    height: 100%;
+    background-color: ${theme.colors.primary};
+    padding-top: ${`${theme.spacing.s}px`};
+    padding-bottom: ${`${theme.spacing.s}px`};
+    padding-left:${theme.spacing.m + 'px'};
+		padding-right:${theme.spacing.m + 'px'};
   `,
   BotText: css`
     color: ${theme.colors.white};

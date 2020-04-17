@@ -1,24 +1,15 @@
 import React from 'react';
-import Flex from '../../components/Flex';
-import st from '../../st';
-import Image from '../../components/Image';
-import Text from '../../components/Text';
-import Touchable from '../../components/Touchable';
 import { useSafeArea } from 'react-native-safe-area-context';
-import { ScrollView, Share, Linking } from 'react-native';
+import { ScrollView, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Communications from 'react-native-communications';
+import { useDispatch } from 'react-redux';
+import Flex from '../../components/Flex';
+import st from '../../st';
+import Text from '../../components/Text';
+import Touchable from '../../components/Touchable';
 
 import CONSTANTS from '../../constants';
-
-import CRU from '../../assets/cru.jpg';
-import SU from '../../assets/scriptureUnion.png';
-import JF from '../../assets/jesusFilm.png';
-import IAS from '../../assets/iAmSecond.png';
-import OH from '../../assets/oneHope.png';
-import YS from '../../assets/youthSpecialties.png';
-import { logoutAction } from '../../actions/auth';
-import { useDispatch } from 'react-redux';
 
 function SettingsRow({ title, onSelect }) {
   return (
@@ -55,36 +46,36 @@ function MenuHelp(props) {
           title="Make a Feature Request"
           onPress={() =>
             Communications.email(
-              ['support@vokeapp.com'], // TO
-              null, // CC
-              null, // BCC
-              'Feature Request for Voke', // SUBJECT
-              null, // BODY
-            )
+            ['support@vokeapp.com'], // TO
+            null, // CC
+            null, // BCC
+            'Feature Request for Voke', // SUBJECT
+            null, // BODY
+          )
           }
         />
         <SettingsRow
           title="Report a User"
           onPress={() =>
             Communications.email(
-              ['support@vokeapp.com'], // TO
-              null, // CC
-              null, // BCC
-              'I would like to report a user', // SUBJECT
-              null, // BODY
-            )
+            ['support@vokeapp.com'], // TO
+            null, // CC
+            null, // BCC
+            'I would like to report a user', // SUBJECT
+            null, // BODY
+          )
           }
         />
         <SettingsRow
           title="Email Us"
           onPress={() =>
             Communications.email(
-              ['support@vokeapp.com'], // TO
-              null, // CC
-              null, // BCC
-              'Email to Voke Support', // SUBJECT
-              null, // BODY
-            )
+            ['support@vokeapp.com'], // TO
+            null, // CC
+            null, // BCC
+            'Email to Voke Support', // SUBJECT
+            null, // BODY
+          )
           }
         />
       </ScrollView>
