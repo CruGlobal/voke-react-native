@@ -1,21 +1,28 @@
-import { REDUX_ACTIONS } from '../constants';
-import { SOCKET_URL } from './utils';
-import Notifications from 'react-native-push-notification';
+import PushNotification from 'react-native-push-notification';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
+// Following https://github.com/react-native-community/push-notification-ios
+// - Added these configs: https://d.pr/i/AoUUxy
 
 import { ThunkDispatch } from 'redux-thunk';
 import { checkNotifications } from 'react-native-permissions';
-
 import { toastAction } from './info';
+
+import { REDUX_ACTIONS } from '../constants';
+import { SOCKET_URL } from './utils';
 import st from '../st';
 import {
-  registerPushToken,
   establishPushDevice,
   establishCableDevice,
   getAdventureStepMessages,
+  // getAvailableAdventures,
+  getMyAdventures,
+  getAdventuresInvitations,
 } from './requests';
-import PushNotificationIOS from '@react-native-community/push-notification-ios';
 
 type Dispatch = ThunkDispatch<any, any, any>;
+
+// Push notification Android error
+// https://github.com/zo0r/react-native-push-notification/issues/495
 
 const WEBSOCKET_STATES = {
   CONNECTING: 0,
@@ -31,122 +38,127 @@ export const NAMESPACES = {
   ADVENTURE: 'platform:organization:adventure:challenge',
 };
 
-export function setupSockets(cableId: any) {
+// https://docs.vokeapp.com/#cable-device
+// The Cable Messaging API allows you to receive events from Voke in real time.
+// It is based on Ruby on Rails Action Cable websocket implementation.
+export function setupSockets(deviceId: string) {
   return async (dispatch: Dispatch, getState: any) => {
-    if (!cableId) return;
-    const authToken = getState().auth.authToken;
-    if (!authToken) {
-      return;
-    }
+    const { authToken } = getState().auth;
+    console.log( "🔌🔌🔌🔌🔌🔌🔌 SETUPSOCKETS > deviceId:", deviceId );
+    if (!deviceId || !authToken) return;
     try {
+      // Create WS object.
       ws = new WebSocket(`${SOCKET_URL}cable?access_token=${authToken}`);
       if (ws) {
-        console.log('setting up sockets');
-        ws.onopen = () => {
-          console.log('socket opened');
-          const obj = {
-            command: 'subscribe',
-            identifier: `{"channel":"DeviceChannel","id":"${cableId}"}`,
-          };
-          if (ws && ws.send) {
-            if (ws.readyState === WEBSOCKET_STATES.OPEN) {
-              try {
-                ws.send(JSON.stringify(obj));
-              } catch (e) {
-                console.log('error sending websocket object', e);
-              }
-            } else {
-              console.log(
-                'websocket state not open, cannot send: Websocket readyState',
-                ws.readyState,
+        console.log('🔌 setupSockets > setting up sockets');
+        // Socket opened: the connection is ready to send and receive data.
+        ws.onopen = (): void => {
+          console.log('🔌 setupSockets > socket opened');
+          if (ws && ws.send && ws.readyState === WEBSOCKET_STATES.OPEN) {
+            try {
+              ws.send(
+                JSON.stringify({
+                  command: 'subscribe',
+                  identifier: `{"channel":"DeviceChannel","id":"${deviceId}"}`,
+                })
               );
+            } catch (e) {
+              console.log('error sending websocket object', e);
             }
+          } else {
+            console.log(
+              '🛑 websocket state not open, cannot send: Websocket readyState',
+              ws.readyState,
+            );
           }
         };
-
+        // Message is received from the server.
+        // Example: https://d.pr/i/IvhXzq
         ws.onmessage = e => {
           const data = JSON.parse(e.data) || {};
           const type = data && data.type;
-          if (type === 'ping') return;
-          if (type === 'welcome') {
-            // console.log('socket welcome');
-          } else if (data.message) {
-            const message = data.message.message;
-            const notification = data.message.notification;
-            console.log(data);
-            // If we're supposed to toast, show it
-            if (message['toast?'] && notification.alert) {
-              dispatch(toastAction(notification.alert));
-            }
 
-            if (
-              notification &&
-              notification.category === 'CREATE_MESSAGE_CATEGORY'
-            ) {
-              if (message && message[`adventure_message?`]) {
-                // update unready count on step card.
-                const adventureId = (
-                  getState().data.myAdventures.find(
-                    (a: any) => a.conversation.id === message.conversation_id,
-                  ) || {}
-                ).id;
-                const currentStep = getState().data.adventureSteps[adventureId];
-                dispatch(
-                  getAdventureStepMessages(
-                    message.conversation_id,
-                    message.messenger_journey_step_id,
-                  ),
-                );
+          if (type === 'ping'){ console.log( "."); }
+          if (type === 'ping' || type === 'welcome' || !data.message) return;
 
-                dispatch({
-                  type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEP,
-                  update: {
-                    adventureStepId: message.messenger_journey_step_id,
-                    adventureId: adventureId,
-                    fieldsToUpdate: {
-                      unread_messages: currentStep.unread_messages + 1,
-                    },
+          const { message, notification } = data.message;
+          if (!notification) return;
+
+          console.log('🔌 setupSockets > socket onmessage\n', data);
+          // Got a toast message: show it
+          if (message['toast?'] && notification.alert) {
+            dispatch(toastAction(notification.alert));
+          }
+
+          if (notification.category === 'CREATE_MESSAGE_CATEGORY') {
+            // When new message posted.
+            if (message && message['adventure_message?']) {
+              // update unread count on step card.
+              const adventureId = (
+                getState().data.myAdventures.find(
+                  (a: any) => a.conversation.id === message.conversation_id,
+                ) || {}
+              ).id;
+              if (!adventureId) return;
+              const currentStep =
+                getState().data.adventureSteps[adventureId] || 0;
+              dispatch(
+                getAdventureStepMessages(
+                  message.conversation_id,
+                  message.messenger_journey_step_id,
+                ),
+              );
+
+              dispatch({
+                type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEP,
+                update: {
+                  adventureStepId: message.messenger_journey_step_id,
+                  adventureId: adventureId,
+                  fieldsToUpdate: {
+                    unread_messages: currentStep.unread_messages + 1,
                   },
-                });
-              }
-              // dispatch(newMessageAction(message));
-            } else if (
-              notification &&
-              (notification.category === 'CREATE_TYPESTATE_CATEGORY' ||
-                notification.category === 'DESTROY_TYPESTATE_CATEGORY')
-            ) {
-              // dispatch(typeStateChangeAction(data.message));
-            } else if (
-              notification &&
-              notification.category === 'JOIN_JOURNEY_CATEGORY'
-            ) {
-              // dispatch(getJourneyInvites());
+                },
+              });
+            }
+            // dispatch(newMessageAction(message));
+          } else if (
+            notification.category === 'CREATE_TYPESTATE_CATEGORY' ||
+            notification.category === 'DESTROY_TYPESTATE_CATEGORY'
+          ) {
+            // dispatch(typeStateChangeAction(data.message));
+          } else if (
+            notification.category === 'JOIN_JOURNEY_CATEGORY'
+          ) {
+            dispatch(getAdventuresInvitations());
+            dispatch(getMyAdventures());
+            // dispatch(getJourneyInvites());
+            // dispatch(getMyJourneys());
+          } else if (
+            notification.category === 'COMPLETE_STEP_CATEGORY'
+          ) {
+            const journeyId = (message.journey || {}).id;
+            if (journeyId) {
               // dispatch(getMyJourneys());
-            } else if (
-              notification &&
-              notification.category === 'COMPLETE_STEP_CATEGORY'
-            ) {
-              const journeyId = (message.journey || {}).id;
-              if (journeyId) {
-                // dispatch(getMyJourneys());
-                // dispatch(getMyJourneySteps((message.journey || {}).id));
-              }
+              // dispatch(getMyJourneySteps((message.journey || {}).id));
             }
           }
         };
 
-        // ws.onerror = (err) => {
-        //   // an error occurred
-        //   LOG('socket message error', err.message);
-        // };
+        ws.onerror = (err) => {
+          // an error occurred
+          console.log( "🛑 socket error\n", err.message);
+        };
 
-        // ws.onclose = (err) => {
-        //   // connection closed
-        //   LOG('socket closed', err.code, err.reason);
-        // };
+        ws.onclose = (err) => {
+          // connection closed
+          console.log('🛑 socket closed\n', err.code, err.reason );
+        };
+      } else {
+        console.log( "🛑 WebSocket Error" );
       }
     } catch (socketErr) {
       // Do nothing with the error
+      console.log( "🛑 socketErr:\n" , socketErr );
     }
   };
 }
@@ -174,20 +186,39 @@ export function closeSocketAction() {
   };
 }
 
-export function gotDeviceToken(token: any) {
+// Push token generated by device when notifications open and configured in
+// PushNotification.onRegister()
+export function gotPushToken(newPushToken: any) {
   return async (dispatch: Dispatch, getState: any) => {
-    const auth = getState().auth;
+    if (!newPushToken) return;
+    const { pushToken, pushDeviceId } = getState().auth;
+    let newPushDeviceId = null;
 
-    if ((token && !auth.pushToken) || token !== auth.pushToken) {
-      await dispatch(registerPushToken(token));
-      const newPushDevice: any = await dispatch(establishPushDevice());
-      await dispatch({
-        type: REDUX_ACTIONS.SET_PUSH_DEVICE_ID,
-        deviceId: newPushDevice.id,
+    // TODO: do we really need first condition here?
+    if ( !pushToken || newPushToken !== pushToken) {
+      // Save new push token in the store.
+      dispatch({
+        type: REDUX_ACTIONS.SET_PUSH_TOKEN,
+        pushToken: token,
       });
-      await dispatch(establishCableDevice(newPushDevice.id));
-    } else if (token && token === auth.pushToken && auth.pushDeviceId) {
-      dispatch(establishCableDevice(auth.pushDeviceId));
+      // FIRST: REGISTER DEVICE ON THE SERVER FOR PUSH NOTIFICATIONS.
+      // Register new push token on the remote server.
+      newPushDeviceId = await dispatch(establishPushDevice(newPushToken));
+      // Save returned by the server pushDeviceId in the store.
+      dispatch({
+        type: REDUX_ACTIONS.SET_PUSH_DEVICE_ID,
+        deviceId: newPushDeviceId,
+      });
+      // await dispatch(establishCableDevice(newPushDevice.id));
+    }
+
+    if ( !newPushDeviceId ) {
+      newPushDeviceId = pushDeviceId;
+    }
+
+    if (newPushDeviceId) {
+      // THEN: REGISTER DEVICE ON THE SERVER FOR WEBSOCKETS.
+      await dispatch(establishCableDevice(newPushDeviceId));
     }
   };
 }
@@ -304,25 +335,30 @@ export function handleNotifications(
   };
 }
 
-export function establishDevice() {
+export function establishDevice(): Promise<void> {
   return async (dispatch: Dispatch, getState: any) => {
+    console.log( "👺EXPORT FUNCTION ESTABLISHDEVICE" );
+    // Shared configs for both Android and iOS.
     let configs: any = {
+      // (optional) Called when Token is generated (iOS and Android)
+      // Push token generated by device when notifications open and configured.
       onRegister(token: { token: any }) {
+        console.log( "function establishDevice > PushNotification.onRegister(newPushToken)" , newPushToken );
         // Update redux with the push notification permission value
-        let newToken = token;
+        let newPushToken = token;
         dispatch({
           type: REDUX_ACTIONS.PUSH_PERMISSION,
-          permission: 'authorized',
+          permission: 'granted',
         });
         if (!st.isAndroid) {
-          newToken = token.token;
+          newPushToken = token.token;
         }
-        dispatch(gotDeviceToken(newToken));
+        dispatch(gotPushToken(newPushToken));
       },
     };
 
     if (st.isAndroid) {
-      // Android configs
+      // Android only configs
       configs = {
         ...configs,
         onNotification(state: string, notification: { data: any }) {
@@ -330,7 +366,7 @@ export function establishDevice() {
         },
       };
     } else {
-      // iOS configs
+      // iOS only configs
       configs = {
         ...configs,
         // (required) Called when a remote or local notification is opened or received
@@ -359,8 +395,12 @@ export function establishDevice() {
           dispatch(handleNotifications(state, notification));
 
           notification.finish(PushNotificationIOS.FetchResult.NoData);
+          // https://github.com/react-native-community/push-notification-ios#update-appdelegateh
+
         },
-        // ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)
+        // ANDROID ONLY: GCM Sender ID
+        // (optional - not required for local notifications,
+        // but is need to receive remote push notifications)
         // senderID: CONSTANTS.GCM_SENDER_ID,
 
         // IOS ONLY (optional): default: all - Permissions to register.
@@ -381,12 +421,66 @@ export function establishDevice() {
       };
     }
 
-    Notifications.configure(configs);
+    PushNotification.configure(configs);
   };
 }
 
 type PermissionStatus = 'unavailable' | 'denied' | 'blocked' | 'granted';
-export function enablePushNotifications(forceIfUndetermined = false) {
+export function permissionsAndSockets( askPermission = false) {
+  console.log( "👺permissionsAndSockets" );
+  return async (dispatch: Dispatch, getState: any) => {
+    let pushToken = getState().auth.pushToken;
+
+    // Check notifications permission status and get notifications settings.
+    // https://d.pr/bbVk5I
+    checkNotifications().then(({ status }: { status: PermissionStatus }) => {
+      // Save current premissions status in
+      // store.info.pushNotificationPermission
+      dispatch({
+        type: REDUX_ACTIONS.PUSH_PERMISSION,
+        permission: status, // 'unavailable' | 'denied' | 'blocked' | 'granted'
+      });
+
+      // if (status === 'blocked') {
+        // User selected: DON'T ALLOW notifications.
+        // console.log( "👺PUSH_PERMISSION = blocked" );
+        // console.log( "👺BEFORE establishCableDevice" );
+        // dispatch(establishCableDevice());
+        // console.log( "👺AFTER establishCableDevice" );
+      if ( status === 'granted' || (status === 'denied' && askPermission) ) {
+        // User  selected: ALLOW notifications.
+        console.log( "👺PUSH_PERMISSION = granted" );
+        console.log( "👺BEFORE establishDevice" );
+        dispatch(establishDevice());
+        console.log( "👺AFTER establishDevice" );
+
+      // } else if (status === 'denied') {
+        // console.log( "👺PUSH_PERMISSION = denied" );
+      // } else if (status === 'unavailable') {
+      //  console.log( "👺PUSH_PERMISSION = unavailable" );
+      } else {
+        // User selected: DON'T ALLOW notifications.
+        // blocked
+        console.log( "👺PUSH_PERMISSION = ELSE" );
+        console.log( "👺BEFORE establishCableDevice" );
+        dispatch(establishCableDevice());
+        console.log( "👺AFTER establishCableDevice" );
+      }
+
+      /* if (status === 'granted') {
+        console.log( "👺BEFORE establishDevice" );
+        dispatch(establishDevice());
+        console.log( "👺AFTER establishDevice" );
+      } else {
+        console.log( "👺BEFORE establishCableDevice" );
+        dispatch(establishCableDevice());
+        console.log( "👺AFTER establishCableDevice" );
+      } */
+    });
+  };
+}
+
+/* export function enablePushNotifications(forceIfUndetermined = false) {
   return async (dispatch: Dispatch, getState: any) => {
     let token = getState().auth.pushToken;
     checkNotifications().then(({ status }: { status: PermissionStatus }) => {
@@ -412,20 +506,5 @@ export function enablePushNotifications(forceIfUndetermined = false) {
       }
     });
   };
-}
+} */
 
-export function checkForPermissionsAndSetupSockets() {
-  return async (dispatch: Dispatch, getState: any) => {
-    checkNotifications().then(({ status }: { status: PermissionStatus }) => {
-      dispatch({
-        type: REDUX_ACTIONS.PUSH_PERMISSION,
-        permission: status,
-      });
-      if (status === 'granted') {
-        dispatch(establishDevice());
-      } else {
-        dispatch(establishCableDevice());
-      }
-    });
-  };
-}

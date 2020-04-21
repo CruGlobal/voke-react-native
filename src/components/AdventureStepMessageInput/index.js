@@ -27,6 +27,8 @@ function AdventureStepMessageInput({
   const isShareQuestion = kind === 'share';
   const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'multiple';
   const isComplete = step.status === 'completed';
+
+  // When SEND message button clicked.
   function handleSendMessage(newValue) {
     setMesssageSent(true);
     Keyboard.dismiss();
@@ -195,7 +197,7 @@ function AdventureStepMessageInput({
             {!value && isSolo ? (
               <Button onPress={() => {}} style={[st.pv4]}>
                 <Text style={[st.orange, st.bold, st.fs4, st.ls2]}>
-                  {'skip'.toUpperCase()}
+                  {'Skip'.toUpperCase()}
                 </Text>
               </Button>
             ) : (
@@ -209,7 +211,7 @@ function AdventureStepMessageInput({
     );
   }
   if (isShareQuestion) {
-    const metadata = internalMessage.metadata || {};
+    const metadata = internalMessage?.metadata || {};
     const answers = metadata.answers;
     const hasSelected = (answers || []).find(a => a.selected);
     return (

@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="com.voke">
 
+    <!-- Permissions -->
+    <!-- https://github.com/react-native-community/react-native-permissions#android -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
 

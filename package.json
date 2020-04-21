@@ -38,6 +38,7 @@
     "@types/react-native-vector-icons": "^6.4.5",
     "lodash": "4.17.15",
     "moment": "^2.24.0",
+    "object-hash": "^2.0.3",
     "qs": "6.9.1",
     "react": "16.9.0",
     "react-i18next": "^11.3.4",

@@ -21,6 +21,7 @@ function configureStore(initialState) {
     initialState,
     composedEnhancers,
   );
+
   return { store, persistor: persistStore(store) };
 }
 

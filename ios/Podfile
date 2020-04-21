@@ -37,10 +37,11 @@ target 'Voke' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-    pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
-  pod 'Permission-MediaLibrary', :path => "#{permissions_path}/MediaLibrary.podspec"
+  # Permissions https://github.com/react-native-community/react-native-permissions#ios
+  pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
   pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications.podspec"
   pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary.podspec"
+  # pod 'Permission-MediaLibrary', :path => "#{permissions_path}/MediaLibrary.podspec"
 
 
   use_native_modules!

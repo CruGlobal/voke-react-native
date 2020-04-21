@@ -19,7 +19,7 @@ export function youtube_parser(url) {
   return match && match[7].length === 11 ? match[7] : false;
 }
 
-export const isEquivalentObject = (a, b) => {
+export const isEqualObject = (a, b) => {
   // Create arrays of property names
   var aProps = Object.getOwnPropertyNames(a);
   var bProps = Object.getOwnPropertyNames(b);

@@ -7,7 +7,7 @@ import ROUTES from './routes';
 import request from './utils';
 import { getDevices, revokeAuthToken, setUser } from './requests';
 import { isArray } from '../utils';
-import { checkForPermissionsAndSetupSockets } from './socket';
+import { permissionsAndSockets } from './socket';
 import {
   LoginManager,
   GraphRequestManager,
@@ -23,8 +23,10 @@ export function loginAction(authToken) {
 }
 
 export function startupAction() {
+  console.log( 'FUNCTION STARTUPACTION' );
+
   return async dispatch => {
-    await dispatch(checkForPermissionsAndSetupSockets());
+    await dispatch(permissionsAndSockets());
   };
 }
 
@@ -121,9 +123,9 @@ export function facebookLoginAction(accessToken) {
   return async (dispatch, getState) => {
     // Important! It tells the server to merge anonymous_user_id
     // with provided login details.
-    const auth = getState().auth;
-    if ( auth.user.id ) {
-      data.anonymous_user_id = auth.user.id;
+    const userId = getState().auth.user.id;
+    if (userId) {
+      data.anonymous_user_id = userId;
     }
 
     console.log( "function facebookLoginAction > data:" ); console.log( data );
@@ -294,9 +296,9 @@ export function userLogin(username, password) {
 
     // Important! It tells the server to merge anonymous_user_id
     // with provided login details.
-    const auth = getState().auth;
-    if ( auth.user.id ) {
-      data.anonymous_user_id = auth.user.id;
+    const userId = getState().auth.user.id;
+    if ( userId ) {
+      data.anonymous_user_id = userId;
     }
 
     console.log( "function userLogin > data:" ); console.log( data );
@@ -380,9 +382,7 @@ export function updateMe(data) {
   console.log( "🔄 auth > updateMe()", {data} );
   return async (dispatch, getState) => {
     const userId = getState().auth.user.id;
-    if (!userId) {
-      return;
-    }
+    if (!userId) return;
     // Additional transformations if updating with new avatar.
     if (data.avatar) {
       data = {

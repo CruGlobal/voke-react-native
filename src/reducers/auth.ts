@@ -2,18 +2,19 @@
 import { REDUX_ACTIONS } from '../constants';
 import { exists } from '../utils';
 
-export type AuthDataKeys = 'deviceInformation' | 'adventureInvitations';
+export type AuthDataKeys = 'device' | 'adventureInvitations';
 interface InitialStateTypes {
-  isLoggedIn: boolean,
-  authToken?: string,
-  pushToken?: string,
-  pushDeviceId?: string,
-  deviceInformation: object, // TODO: IDeviceInformation interface here
+  isLoggedIn: boolean;
+  authToken?: string;
+  pushToken?: string;
+  pushDeviceId?: string;
+  language?: string;
+  device: object; // TODO: IDeviceInformation interface here
   user: {
-    firstName?: string,
-    lastName?: string,
-  },
-  modalProps: object, // TODO: IModalProps interface here
+    firstName?: string;
+    lastName?: string;
+  };
+  modalProps: object; // TODO: IModalProps interface here
 }
 
 const initialState: InitialStateTypes = {
@@ -22,7 +23,9 @@ const initialState: InitialStateTypes = {
   pushToken: '',
   pushDeviceId: '',
   language: '',
-  deviceInformation: {},
+  device: {
+    id: '',
+  },
   user: {
     firstName: '',
     lastName: '',
@@ -38,12 +41,13 @@ export default function (
     data: any;
     modalProps: any;
     user: any;
-    pushToken: any;
-    deviceId: any;
+    device: any;
+    pushToken: any; // delete?
+    deviceId: any; // delete?
     authToken: any;
   },
 ) {
-  console.log( "action:" ); console.log( action );
+  console.log( "Redux action: " + action.type, action );
   switch (action.type) {
     case REDUX_ACTIONS.SET_AUTH_DATA:
       // @ts-ignore
@@ -82,6 +86,29 @@ export default function (
           // initials: action.user.initials, - don't use it.
           // presentAt: action.user.present_at,
         }
+      };
+    case REDUX_ACTIONS.SET_DEVICE:
+      return {
+        ...state,
+        device: {
+          // See available fields at:
+          // https://docs.vokeapp.com/#me-devices-create-device
+          id: action.device.id,
+          version: action.device.version,
+          local_version: action.device.local_version,
+          local_id: action.device.local_id,
+          family: action.device.family,
+          name: action.device.name,
+          os: action.device.os,
+          /*
+          Not stored data:
+          queue_name(pin):null
+          queue_url(pin):null
+          backup_queue_name(pin):null
+          backup_queue_url(pin):null
+          created_at(pin):"2020-04-18T16:39:37.620Z"
+          updated_at(pin):"2020-04-19T03:29:31.587Z" */
+        },
       };
     case REDUX_ACTIONS.SET_PUSH_TOKEN:
       return { ...state, pushToken: action.pushToken };

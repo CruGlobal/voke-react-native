@@ -79,6 +79,8 @@
   return [Orientation getOrientation];
 }
 
+// NOTIFICATIONS:
+// https://github.com/react-native-community/push-notification-ios#update-appdelegatem
 // Required to register for notifications
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
 {

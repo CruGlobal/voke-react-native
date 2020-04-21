@@ -108,6 +108,7 @@ export default function(state = initialState, action: any) {
       updatedAdventureStepMessages[action.result.adventureStepId] =
         action.result.adventureStepMessages;
       return { ...state, adventureStepMessages: updatedAdventureStepMessages };
+
     case REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE:
       let updatedAdventureStepMessagesAfterCreate: any = lodash.cloneDeep(
         state.adventureStepMessages,

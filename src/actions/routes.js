@@ -116,16 +116,17 @@ const ROUTES = {
   },
   DESTROY_DEVICE: {
     method: 'delete',
-    url: `me/devices/{cableId}`,
+    url: `me/devices/{deviceId}`,
   },
   UPDATE_DEVICE: {
     method: 'put',
-    url: `me/devices/{cableId}`,
+    url: `me/devices/{deviceId}`,
   },
   GET_DEVICES: {
     method: 'get',
     url: `me/devices`,
   },
+  // https://docs.vokeapp.com/#me-devices-create-device
   CREATE_DEVICE: {
     method: 'post',
     url: `me/devices`,
