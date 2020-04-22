@@ -71,7 +71,7 @@
             ]
         }
     ],
-    /* "comma-dangle": [
+    "comma-dangle": [
       "error", {
         // "arrays": "never",
         // "objects": "never",
@@ -79,7 +79,8 @@
         // "exports": "never",
         "functions": "never"
       }
-    ], */
+    ],
+    "prettier/prettier": ["error", {"trailingComma": "es5"}],
     "import/extensions": [
         "error",
         "ignorePackages",
