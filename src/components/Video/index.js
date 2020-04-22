@@ -3,7 +3,7 @@ import YouTube from 'react-native-youtube';
 import RNVideo from 'react-native-video';
 import Slider from '@react-native-community/slider';
 
-import { View } from 'react-native';
+import { View, useWindowDimensions } from 'react-native';
 import Orientation from 'react-native-orientation-locker';
 import st from '../../st';
 import ModalBackButton from '../ModalBackButton';
@@ -47,6 +47,7 @@ function Video({
   const youtubeVideo = useRef();
   const arclightVideo = useRef();
 
+  // System lock (android only).
   const [rotationLock, setRotationLock] = useState(false);
   const [dimensions, setDimensions] = useState({
     width: VIDEO_WIDTH,
@@ -54,12 +55,24 @@ function Video({
   });
   const [sliderValue, setSliderValue] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [screenOrientation, setScreenOrientation] = useState('portrait');
 
   function getLandscapeOrPortrait(orientation) {
-    if (orientation !== 'PORTRAIT' && orientation !== 'UNKNOWN') {
-      return 'landscape';
+    let newOrientation = screenOrientation;
+    if (
+      orientation !== 'PORTRAIT' ||
+      orientation !== 'PORTRAIT-UPSIDEDOWN' // ot supported on iOS
+    ) {
+      newOrientation = 'portrait';
+    } else if (
+      orientation !== 'LANDSCAPE-LEFT' ||
+      orientation !== 'LANDSCAPE-RIGHT'
+    ) {
+      newOrientation = 'landscape';
     }
-    return 'portrait';
+    // In all other cases (FACE-UP,FACE-DOWN,UNKNOWN) leave current value as is.
+    setScreenOrientation( newOrientation );
+    return newOrientation;
   }
 
   useMount(() => {
@@ -67,9 +80,11 @@ function Video({
       Orientation.unlockAllOrientations();
       var initial = Orientation.getInitialOrientation();
       onOrientationChange(getLandscapeOrPortrait(initial));
-      Orientation.getAutoRotateState(rotationLock =>
-        setRotationLock(rotationLock),
-      );
+      // Check if the system autolock is enabled or not (android only).
+      // TODO: NOT WOKRING PROPERLY IN IOS.
+      /* Orientation.getAutoRotateState( systemRotationLock =>
+        setRotationLock(systemRotationLock),
+      ); */
       Orientation.addOrientationListener(handleOrientationChange);
     }
     return function cleanup() {
@@ -80,11 +95,9 @@ function Video({
     };
   });
 
-  function handleOrientationChange(orientation) {
-    if (rotationLock) {
-      return;
-    }
-    if (orientation !== 'PORTRAIT' && orientation !== 'UNKNOWN') {
+  const handleOrientationChange = (orientation) => {
+    const newOrientation = getLandscapeOrPortrait(orientation);
+    if (newOrientation === 'landscape') {
       setDimensions({
         width: VIDEO_LANDSCAPE_WIDTH,
         height: VIDEO_LANDSCAPE_HEIGHT,
@@ -92,7 +105,7 @@ function Video({
     } else {
       setDimensions({ width: VIDEO_WIDTH, height: VIDEO_HEIGHT });
     }
-    onOrientationChange(getLandscapeOrPortrait(orientation));
+    onOrientationChange(newOrientation);
   }
 
   function handleVideoStateChange(event) {
@@ -125,9 +138,10 @@ function Video({
             ? dimensions.height + insets.top
             : dimensions.height,
         ),
-        st.w(dimensions.width),
+        // st.w(dimensions.width), - NOT WORKING RIGHT
         st.bgDeepBlack,
         {
+          width: useWindowDimensions().width,
           paddingTop:
             dimensions.height === VIDEO_HEIGHT && !hideInsets ? insets.top : 0,
         },
@@ -149,7 +163,8 @@ function Video({
                 ? dimensions.height + insets.top
                 : dimensions.height,
             ),
-            st.w(dimensions.width),
+            /* st.w(dimensions.width), NOT WORKING RIGHT */
+            {width: useWindowDimensions().width,}
           ]}
         />
       ) : (
