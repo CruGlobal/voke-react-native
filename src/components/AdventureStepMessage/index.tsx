@@ -183,6 +183,7 @@ function AdventureStepMessage({ item, step, adventure }) {
                     { backgroundColor: 'rgba(0,0,0,0.3)' },
                   ]}
                 />
+                <VokeIcon type="image" name="lock" style={[st.h(30), st.w(30)]} />
               </>
             )}
             {/* {<VokeIcon type="image" name="camera" style={[st.h(30), st.w(30)]} />} */}
