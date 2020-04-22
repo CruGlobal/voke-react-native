@@ -5,6 +5,7 @@ import Slider from '@react-native-community/slider';
 
 import { View, useWindowDimensions } from 'react-native';
 import Orientation from 'react-native-orientation-locker';
+import { useFocusEffect } from '@react-navigation/native';
 import st from '../../st';
 import ModalBackButton from '../ModalBackButton';
 import { useMount, youtube_parser } from '../../utils';
@@ -96,6 +97,20 @@ function Video({
       }
     };
   });
+
+  // Events firing when user leaves the screen with player or comes back.
+  useFocusEffect(
+    // eslint-disable-next-line arrow-body-style
+    React.useCallback(() => {
+      // When the screen with player is focused:
+      // - Do something here.
+      return (): void => {
+        // When the screen with a player is unfocused:
+        // - Pause video.
+        setIsPlaying(false);
+      };
+    }, [])
+  );
 
   const handleOrientationChange = (orientation) => {
     const newOrientation = getLandscapeOrPortrait(orientation);
