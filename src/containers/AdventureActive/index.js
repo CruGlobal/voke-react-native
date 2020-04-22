@@ -9,12 +9,13 @@ import { useNavigation } from '@react-navigation/native';
 import { useMount } from '../../utils';
 import { getAdventureSteps } from '../../actions/requests';
 import AdventureStepCard from '../../components/AdventureStepCard';
+import Text from '../../components/Text';
 
 function AdventureActive(props) {
   const dispatch = useDispatch();
   const insets = useSafeArea();
   const navigation = useNavigation();
-  const [isLandscape, setIsLandscape] = useState(false);
+  const [isPortrait, setIsPortrait] = useState(true);
   const { adventure } = props.route.params;
   const steps = useSelector(({ data }) => data.adventureSteps);
   const [currentSteps, setCurrentSteps] = useState(steps[adventure.id] || []);
@@ -26,19 +27,56 @@ function AdventureActive(props) {
   }, [steps]);
   return (
     <Flex value={1}>
-      <Video
-        onOrientationChange={orientation =>
-          orientation === 'portrait'
-            ? setIsLandscape(false)
-            : setIsLandscape(true)
-        }
-        item={adventure.item.content}
-      />
-      {isLandscape ? null : (
-        <ScrollView
-          bounces={true}
-          style={[st.bgBlue, { paddingBottom: insets.bottom }]}
+      <ScrollView
+        bounces
+        style={[st.bgBlue, { paddingBottom: insets.bottom }]}
+      >
+        <Video
+          onOrientationChange={ orientation =>
+            orientation === 'portrait'
+              ? setIsPortrait(true)
+              : setIsPortrait(false)
+          }
+          item={adventure.item.content}
         >
+          <Flex direction="column" align="center">
+            {/* Call to action overlay to be rendered over the video. */}
+            <Text
+              style={{
+                fontSize: 24,
+                paddingHorizontal: 25,
+                paddingVertical: 4,
+                color: 'white',
+              }}
+            >
+              {adventure.name}
+            </Text>
+            <Flex
+              style={{
+                borderRadius: 20,
+                backgroundColor: 'rgba(0,0,0,0.8)',
+                // minWidth: '50%',
+                alignSelf: 'center',
+                marginBottom: 10,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 16,
+                  paddingHorizontal: 24,
+                  paddingTop: 8,
+                  paddingBottom: 10,
+                  textAlign: 'center',
+                  color: 'white',
+                }}
+              >
+                Watch Trailer
+              </Text>
+            </Flex>
+          </Flex>
+        </Video>
+
+        {isPortrait && (
           <FlatList
             renderItem={props => (
               <AdventureStepCard {...props} adventure={adventure} />
@@ -49,10 +87,11 @@ function AdventureActive(props) {
               st.pt4,
               { paddingBottom: insets.bottom },
             ]}
-            removeClippedSubviews={true}
+            // removeClippedSubviews={true}
           />
-        </ScrollView>
-      )}
+        )}
+      </ScrollView>
+
     </Flex>
   );
 }

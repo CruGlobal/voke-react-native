@@ -41,6 +41,8 @@ function Video({
   item,
   onCancel,
   hideInsets,
+  autoPlay = false,
+  children, // Used to create custom overlay/play button. Ex: "Watch Trailer".
   ...rest
 }) {
   const insets = useSafeArea();
@@ -54,19 +56,19 @@ function Video({
     height: VIDEO_HEIGHT,
   });
   const [sliderValue, setSliderValue] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(autoPlay);
   const [screenOrientation, setScreenOrientation] = useState('portrait');
 
   function getLandscapeOrPortrait(orientation) {
     let newOrientation = screenOrientation;
     if (
-      orientation !== 'PORTRAIT' ||
-      orientation !== 'PORTRAIT-UPSIDEDOWN' // ot supported on iOS
+      orientation === 'PORTRAIT' ||
+      orientation === 'PORTRAIT-UPSIDEDOWN' // ot supported on iOS
     ) {
       newOrientation = 'portrait';
     } else if (
-      orientation !== 'LANDSCAPE-LEFT' ||
-      orientation !== 'LANDSCAPE-RIGHT'
+      orientation === 'LANDSCAPE-LEFT' ||
+      orientation === 'LANDSCAPE-RIGHT'
     ) {
       newOrientation = 'landscape';
     }
@@ -109,11 +111,10 @@ function Video({
   }
 
   function handleVideoStateChange(event) {
-    if (event.state === 'playing') {
-      setIsPlaying(true);
-    }
     if (event.state === 'paused') {
       setIsPlaying(false);
+    } else {
+      setIsPlaying(true);
     }
   }
 
@@ -134,16 +135,17 @@ function Video({
     <View
       style={[
         st.h(
-          dimensions.height === VIDEO_HEIGHT && !hideInsets
+          /* dimensions.height === VIDEO_HEIGHT && !hideInsets
             ? dimensions.height + insets.top
-            : dimensions.height,
+            : dimensions.height, */
+          dimensions.height,
         ),
         // st.w(dimensions.width), - NOT WORKING RIGHT
         st.bgDeepBlack,
         {
           width: useWindowDimensions().width,
-          paddingTop:
-            dimensions.height === VIDEO_HEIGHT && !hideInsets ? insets.top : 0,
+          /* paddingTop:
+            dimensions.height === VIDEO_HEIGHT && !hideInsets ? insets.top : 0, */
         },
       ]}
     >
@@ -157,15 +159,11 @@ function Video({
           onChangeState={e => handleVideoStateChange(e)}
           onError={e => setIsPlaying(false)}
           onProgress={e => setSliderValue(e.currentTime)}
-          style={[
-            st.h(
-              dimensions.height === VIDEO_HEIGHT
-                ? dimensions.height + insets.top
-                : dimensions.height,
-            ),
+          style={{
             /* st.w(dimensions.width), NOT WORKING RIGHT */
-            {width: useWindowDimensions().width,}
-          ]}
+            width: useWindowDimensions().width,
+            height: dimensions.height,
+          }}
         />
       ) : (
         <RNVideo
@@ -178,14 +176,11 @@ function Video({
           playInBackground={false}
           playWhenInactive={false}
           ignoreSilentSwitch="ignore"
-          style={[
-            st.h(
-              dimensions.height === VIDEO_HEIGHT
-                ? dimensions.height + insets.top
-                : dimensions.height,
-            ),
-            st.w(dimensions.width),
-          ]}
+          style={{
+            /* st.w(dimensions.width), NOT WORKING RIGHT */
+            width: useWindowDimensions().width,
+            height: dimensions.height,
+          }}
         />
       )}
       <Flex
@@ -193,64 +188,102 @@ function Video({
         style={[st.absblr, st.bgTransparent, st.w100, st.h100]}
         self="stretch"
       >
+        {/* Back button (zIndex needed to render it above overlay ) */}
         {hideBack ? null : (
-          <View style={[]}>
+          <View style={{zIndex:1, top: insets.top,}}>
             <ModalBackButton />
           </View>
         )}
         {onCancel ? (
-          <View style={[]}>
+          <View style={{zIndex:1}}>
             <ModalBackButton onPress={onCancel} size={15} isClose={true} />
           </View>
         ) : null}
-        <Flex value={1} style={[]} justify="center" align="center">
-          <Touchable style={[st.f1, st.aic, st.jcc]} onPress={togglePlayState}>
-            <VokeIcon
-              name={isPlaying ? 'pause' : 'play'}
-              size={50}
+        {/* Custom overlay to be used instead of play/pause button. */}
+        { children ? (
+          <Touchable
+            onPress={togglePlayState}
+            style={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              justifyContent: 'center',
+            }}
+          >
+            <View
               style={[
                 {
-                  color: isPlaying
-                    ? st.colors.transparent
-                    : 'rgba(255,255,255,0.6)',
+                  // Can't apply opacity to Touchable!
+                  // https://stackoverflow.com/a/47984095/655381
+                  opacity: isPlaying ? 0 : 1,
+                  backgroundColor: 'rgba(0,0,0,0.4)',
+                  position: 'absolute',
+                  width: '100%',
+                  height: '100%',
+                  justifyContent: 'center',
                 },
               ]}
-            />
+            >
+              <Flex align="center">{children}</Flex>
+            </View>
           </Touchable>
-        </Flex>
-        <Flex
-          direction="row"
-          justify="between"
-          align="center"
-          style={[st.ph5, { backgroundColor: 'rgba(255,255,255,0.2)' }]}
-        >
-          <Flex value={1}>
-            <Touchable onPress={togglePlayState}>
-              <VokeIcon name={isPlaying ? 'pause' : 'play'} size={20} />
-            </Touchable>
-          </Flex>
-          <Flex value={1}>
-            <Text style={[st.white, st.fs12]}>{convertTime(sliderValue)}</Text>
-          </Flex>
-          <Flex value={5}>
-            <Slider
-              minimumValue={0}
-              maximumValue={item.duration}
-              step={1}
-              minimumTrackTintColor={st.colors.blue}
-              maximumTrackTintColor={st.colors.lightGrey}
-              onValueChange={value => handleSliderChange(value)}
-              value={sliderValue}
-              style={[st.mr4]}
-              thumbImage={SLIDER_THUMB}
-            />
-          </Flex>
-          <Flex value={1}>
-            <Text style={[st.white, st.fs12]}>
-              {convertTime(item.duration)}
-            </Text>
-          </Flex>
-        </Flex>
+        ) : (
+          <>
+            <Flex value={1} style={[]} justify="center" align="center">
+              <Touchable
+                style={[st.f1, st.aic, st.jcc]}
+                onPress={togglePlayState}
+              >
+                <VokeIcon
+                  name={isPlaying ? 'pause' : 'play'}
+                  size={50}
+                  style={[
+                    {
+                      color: isPlaying
+                        ? st.colors.transparent
+                        : 'rgba(255,255,255,0.6)',
+                    },
+                  ]}
+                />
+              </Touchable>
+            </Flex>
+            <Flex
+              direction="row"
+              justify="between"
+              align="center"
+              style={[st.ph5, { backgroundColor: 'rgba(255,255,255,0.2)' }]}
+            >
+              <Flex value={1}>
+                <Touchable onPress={togglePlayState}>
+                  <VokeIcon name={isPlaying ? 'pause' : 'play'} size={20} />
+                </Touchable>
+              </Flex>
+              <Flex value={1}>
+                <Text style={[st.white, st.fs12]}>
+                  {convertTime(sliderValue)}
+                </Text>
+              </Flex>
+              <Flex value={5}>
+                <Slider
+                  minimumValue={0}
+                  maximumValue={item.duration}
+                  step={1}
+                  minimumTrackTintColor={st.colors.blue}
+                  maximumTrackTintColor={st.colors.lightGrey}
+                  onValueChange={value => handleSliderChange(value)}
+                  value={sliderValue}
+                  style={[st.mr4]}
+                  thumbImage={SLIDER_THUMB}
+                />
+              </Flex>
+              <Flex value={1}>
+                <Text style={[st.white, st.fs12]}>
+                  {convertTime(item.duration)}
+                </Text>
+              </Flex>
+            </Flex>
+          </>
+        )}
       </Flex>
     </View>
   );
