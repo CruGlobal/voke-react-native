@@ -28,7 +28,7 @@ const AdventureStepModal = ( { route }: ModalProps ) => {
   const dispatch = useDispatch();
   const insets = useSafeArea();
   const navigation = useNavigation();
-  const [isLandscape, setIsLandscape] = useState(false);
+  const [isPortrait, setIsPortrait] = useState(true);
   const { stepId, adventure } = route.params;
   const steps = useSelector(({ data }) => data.adventureSteps);
   const [currentSteps, setCurrentSteps] = useState(steps[adventure.id] || []);
@@ -47,7 +47,7 @@ const AdventureStepModal = ( { route }: ModalProps ) => {
     setCurrentStep(steps[adventure.id].find(s => s.id === stepId));
   }, [steps]);
 
-  const scroll = useRef();
+  const scrollRef = useRef(null);
   const isSolo = currentStep.kind !== 'duo' && currentStep.kind !== 'multiple';
   let mainAnswer = '';
 
@@ -92,112 +92,139 @@ const AdventureStepModal = ( { route }: ModalProps ) => {
         align="center"
         style={[st.w100, st.h100]}
       >
-        <Video
-          onOrientationChange={orientation =>
-            orientation === 'portrait'
-              ? setIsLandscape(false)
-              : setIsLandscape(true)
-          }
-          item={currentStep.item.content}
-        />
-        {isLandscape ? null : (
+        <KeyboardAwareScrollView
+          style={[
+            // st.w(st.fullWidth),
+            st.bgBlue,
+            { paddingBottom: insets.bottom },
+            st.f1,
+          ]}
+          enableAutomaticScroll
+          /* innerRef={ref => {
+            scrollRef = ref;
+          }} */
+        >
+          <Video
+            onOrientationChange={orientation =>
+              orientation === 'portrait'
+                ? setIsPortrait(true)
+                : setIsPortrait(false)
+            }
+            item={currentStep.item.content}
+          />
+          {isPortrait && (
           <>
-            <KeyboardAwareScrollView
-              style={[
-                st.w(st.fullWidth),
-                st.bgBlue,
-                { paddingBottom: insets.bottom },
-                st.f1,
-              ]}
-              enableAutomaticScroll={false}
-              innerRef={ref => {
-                this.scroll = ref;
-              }}
-            >
-              {currentStep.status_message ? (
-                <Flex
-                  align="center"
-                  style={[st.bgDarkBlue, st.ph1, st.pv4, st.ovh]}
-                >
-                  <Text style={[st.fs4, st.white]}>
-                    {currentStep.status_message}
-                  </Text>
-                  <VokeIcon
-                    type="image"
-                    name="vokebot"
-                    style={[
-                      st.abs,
-                      st.left(-25),
-                      st.bottom(-20),
-                      st.h(70),
-                      st.rotate('40deg'),
-                      st.w(70),
-                    ]}
-                  />
-                </Flex>
-              ) : null}
-              <Flex direction="column" self="center" style={[st.w80, st.mt4]}>
-                <Flex
-                  direction="column"
-                  style={[st.w100, st.bgOrange, st.brtl5, st.brtr5, st.pd1]}
-                  align="center"
-                  justify="center"
-                >
-                  <Text style={[st.tac, st.white, st.fs20, st.lh(24)]}>
-                    {currentStep.question}
-                  </Text>
-                </Flex>
-                <Image
-                  source={{ uri: me.avatar.small }}
-                  style={[st.absb, st.right(-30), st.h(25), st.w(25), st.br1]}
-                />
-                <AdventureStepMessageInput
-                  onFocus={event => {
-                    this.scroll.props.scrollToFocusedInput(
-                      findNodeHandle(event.target),
-                    );
-                  }}
-                  kind={currentStep.kind}
-                  adventure={adventure}
-                  step={currentStep}
-                  defaultValue={mainAnswer}
+            {currentStep.status_message ? (
+              <Flex
+                align="center"
+                style={[st.bgDarkBlue, st.ph1, st.pv4, st.ovh]}
+              >
+                <Text style={[st.fs4, st.white]}>
+                  {currentStep.status_message}
+                </Text>
+                <VokeIcon
+                  type="image"
+                  name="vokebot"
+                  style={[
+                    st.abs,
+                    st.left(-25),
+                    st.bottom(-20),
+                    st.h(70),
+                    st.rotate('40deg'),
+                    st.w(70),
+                  ]}
                 />
               </Flex>
-              {currentMessages.map(item => (
-                <AdventureStepMessage
-                  key={item.id}
-                  item={item}
-                  adventure={adventure}
-                  step={currentStep}
-                  onFocus={event => {
-                    this.scroll.props.scrollToFocusedInput(
-                      findNodeHandle(event.target),
-                    );
-                  }}
-                />
-              ))}
-              <Flex style={[st.h(insets.bottom)]}></Flex>
-            </KeyboardAwareScrollView>
-            {isSolo ? null : (
+            ) : null}
+
+            {/* First card with question */}
+            <Flex direction="column" self="center" style={[st.w80, st.mt4]}>
               <Flex
-                direction="row"
-                style={[
-                  st.bgDarkBlue,
-                  st.w100,
-                  st.ph4,
-                  {
-                    paddingBottom: isKeyboardVisible ? 0 : insets.bottom,
-                    maxHeight: 140,
-                  },
-                ]}
+                direction="column"
+                style={[st.w100, st.bgOrange, st.brtl5, st.brtr5, st.pd1]}
                 align="center"
                 justify="center"
               >
-                <MainMessagingInput adventure={adventure} step={currentStep} />
+                <Text style={[st.tac, st.white, st.fs20, st.lh(24)]}>
+                  {currentStep.question}
+                </Text>
               </Flex>
-            )}
-          </>
+              <Image
+                source={{ uri: me.avatar.small }}
+                style={[st.absb, st.right(-30), st.h(25), st.w(25), st.br1]}
+              />
+              <AdventureStepMessageInput
+                /*  onFocus={event => {
+                  scrollRef.current.props.scrollToFocusedInput(
+                    findNodeHandle(event.target),
+                  );
+                }} */
+                kind={currentStep.kind}
+                adventure={adventure}
+                step={currentStep}
+                defaultValue={mainAnswer}
+              />
+            </Flex>
+
+            {currentMessages.map(item => (
+              <AdventureStepMessage
+                key={item.id}
+                item={item}
+                adventure={adventure}
+                step={currentStep}
+                /* onFocus={event => {
+                  scrollRef.current.props.scrollToFocusedInput(
+                    findNodeHandle(event.target),
+                  );
+                }} */
+              />
+            ))}
+            <Flex style={[st.h(insets.bottom)]}></Flex>
+          </>)}
+        </KeyboardAwareScrollView>
+
+        {isSolo ? null : (
+          <Flex
+            direction="row"
+            style={[
+              st.bgDarkBlue,
+              st.w100,
+              st.ph4,
+              {
+                paddingBottom: isKeyboardVisible ? 0 : insets.bottom,
+                maxHeight: 140,
+              },
+            ]}
+            align="center"
+            justify="center"
+          >
+            <MainMessagingInput adventure={adventure} step={currentStep} />
+          </Flex>
         )}
+
+      {/* next Video Ready Button
+        let text = t('nextVideoReady');
+        if (isWaiting) {
+          const isSolo = journey && journey.kind !== 'duo';
+          if (isSolo) {
+            return;
+          }
+          const otherUser = journey.conversation.messengers.find(
+            i => i.id !== me.id && i.first_name !== 'VokeBot',
+          );
+          // TODO: Pass through invite name
+          // if (journey.conversation.messengers.length === 2 && inviteName) {
+          //   otherUser = { first_name: inviteName };
+          // }
+          let userName =
+            otherUser && otherUser.first_name
+              ? otherUser.first_name
+              : inviteName
+              ? inviteName
+              : '';
+          text = t('waitingForAnswer', { name: userName });
+        }
+      */}
       </Flex>
     </KeyboardAvoidingView>
   );

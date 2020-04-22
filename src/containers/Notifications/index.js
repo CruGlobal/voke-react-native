@@ -17,7 +17,7 @@ function Notifications(props) {
   const dispatch = useDispatch();
   const insets = useSafeArea();
   const navigation = useNavigation();
-  const [isLandscape, setIsLandscape] = useState(false);
+  const [isPortrait, setIsPortrait] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const me = useSelector(({ auth }) => auth.user);
   const notifications = useSelector(({ data }) => data.notifications);
@@ -84,13 +84,13 @@ function Notifications(props) {
           onCancel={() => setVideoToShow(null)}
           onOrientationChange={orientation =>
             orientation === 'portrait'
-              ? setIsLandscape(false)
-              : setIsLandscape(true)
+              ? setIsPortrait(true)
+              : setIsPortrait(false)
           }
           item={videoToShow.item.media}
         />
       ) : null}
-      {isLandscape && videoToShow ? null : (
+      {isPortrait && videoToShow ? null : (
         <>
           <ScrollView
             style={[

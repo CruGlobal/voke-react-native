@@ -7,6 +7,7 @@ import android.content.res.Configuration; // Voke: Needed for orientation change
 public class MainActivity extends ReactActivity {
 
   // Voke: Needed for orientation changes
+  // https://github.com/wonday/react-native-orientation-locker#android
   @Override
   public void onConfigurationChanged(Configuration newConfig) {
       super.onConfigurationChanged(newConfig);

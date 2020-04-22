@@ -4,7 +4,7 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../reducers';
 import { startupAction } from '../../actions/auth';
-import { FlatList, View } from 'react-native';
+import { FlatList, View, Text } from 'react-native';
 import { useMount, isEqualObject } from '../../utils';
 
 import BotTalking from '../../components/BotTalking';

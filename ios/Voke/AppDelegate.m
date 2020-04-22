@@ -75,6 +75,7 @@
 }
 
 // Voke: Needed for handling orientation changes
+// https://github.com/wonday/react-native-orientation-locker
 - (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
   return [Orientation getOrientation];
 }

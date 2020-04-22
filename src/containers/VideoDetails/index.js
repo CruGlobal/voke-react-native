@@ -20,7 +20,7 @@ function VideoDetails(props) {
   const dispatch = useDispatch();
   const insets = useSafeArea();
   const navigation = useNavigation();
-  const [isPortrait, setIsPortrait] = useState(false);
+  const [isPortrait, setIsPortrait] = useState(true);
   const { item } = props.route.params;
   const [isFavorited, setIsFavorited] = useState(item['favorite?']);
 
