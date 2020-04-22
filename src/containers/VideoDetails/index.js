@@ -20,7 +20,7 @@ function VideoDetails(props) {
   const dispatch = useDispatch();
   const insets = useSafeArea();
   const navigation = useNavigation();
-  const [isLandscape, setIsLandscape] = useState(false);
+  const [isPortrait, setIsPortrait] = useState(false);
   const { item } = props.route.params;
   const [isFavorited, setIsFavorited] = useState(item['favorite?']);
 
@@ -39,23 +39,21 @@ function VideoDetails(props) {
 
   return (
     <Flex value={1}>
-      <Video
-        onOrientationChange={orientation =>
-          orientation === 'portrait'
-            ? setIsLandscape(false)
-            : setIsLandscape(true)
-        }
-        item={item.media}
-      />
-      {isLandscape ? null : (
-        <>
-          <ScrollView
-            bounces={true}
-            style={[st.bgWhite, st.f1, st.p4, { paddingBottom: insets.bottom }]}
-          >
+      <>
+        <ScrollView bounces={true}>
+          <Video
+            onOrientationChange={ (orientation => {
+              orientation === 'portrait'
+                ? setIsPortrait(true)
+                : setIsPortrait(false);
+              })
+            }
+            item={item.media}
+          />
+          { isPortrait && (
             <Flex
               direction="column"
-              style={[{ paddingBottom: insets.bottom + 25 }]}
+              style={[st.bgWhite, st.f1, st.p4, { paddingBottom: insets.bottom + 25 }]}
             >
               <Button
                 style={[
@@ -102,28 +100,29 @@ function VideoDetails(props) {
                 </Flex>
               ))}
             </Flex>
-          </ScrollView>
-          <Touchable
-            isAndroidOpacity={true}
-            onPress={handleShare}
-            activeOpacity={0.6}
-            style={[
-              st.abs,
-              st.aic,
-              st.jcc,
-              { bottom: insets.bottom + 25, right: 25 },
-            ]}
-          >
-            <Flex align="center" justify="center" style={[]}>
-              <VokeIcon
-                type="image"
-                name="to-chat"
-                style={{ width: 70, height: 70 }}
-              />
-            </Flex>
-          </Touchable>
-        </>
-      )}
+          )}
+        </ScrollView>
+        {/* Call to action button: */}
+        <Touchable
+          isAndroidOpacity={true}
+          onPress={handleShare}
+          activeOpacity={0.6}
+          style={[
+            st.abs,
+            st.aic,
+            st.jcc,
+            { bottom: insets.bottom + 25, right: 25 },
+          ]}
+        >
+          <Flex align="center" justify="center" style={[]}>
+            <VokeIcon
+              type="image"
+              name="to-chat"
+              style={{ width: 70, height: 70 }}
+            />
+          </Flex>
+        </Touchable>
+      </>
     </Flex>
   );
 }
