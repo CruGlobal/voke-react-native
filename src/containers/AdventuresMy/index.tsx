@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import hash from 'object-hash';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../reducers';
