@@ -1,9 +1,15 @@
 package com.voke;
 
+// https://github.com/crazycodeboy/react-native-splash-screen/issues/418
+import android.os.Bundle;
+
 import com.facebook.react.ReactActivity;
 import org.devio.rn.splashscreen.SplashScreen; // Voke: Splash Screen
-import android.content.Intent; // Voke: Needed for orientation changes
-import android.content.res.Configuration; // Voke: Needed for orientation changes
+
+// Voke: RN Orientation Locker
+// https://github.com/wonday/react-native-orientation-locker#android
+import android.content.Intent;
+import android.content.res.Configuration;
 
 public class MainActivity extends ReactActivity {
 

@@ -133,6 +133,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 500
         versionName "5.0.0"
+        multiDexEnabled true
     }
     splits {
         abi {
@@ -183,6 +184,7 @@ dependencies {
     implementation project(':react-native-splash-screen')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation 'com.android.support:multidex:1.0.3' // https://medium.com/@jQN/react-native-multidex-error-8f9a1daf8c34
 
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
