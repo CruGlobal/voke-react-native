@@ -69,7 +69,7 @@ function AdventureStepCard({ item, adventure }) {
       disabled={isLocked}
       activeOpacity={0.8}
       onPress={() =>
-        navigation.navigate('AdventureStep', {
+        navigation.navigate('AdventureStepScreen', {
           stepId: currentStep.id,
           adventure,
         })
