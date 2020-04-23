@@ -1,5 +1,5 @@
-import { REDUX_ACTIONS } from '../constants';
 import { ThunkDispatch } from 'redux-thunk';
+import { REDUX_ACTIONS } from '../constants';
 
 type Dispatch = ThunkDispatch<any, any, any>;
 
@@ -10,4 +10,8 @@ export function toastAction(text: string, length?: string) {
       props: { text, timeout: length === 'long' ? 8000 : undefined },
     });
   };
+}
+
+export function next() {
+  return {};
 }

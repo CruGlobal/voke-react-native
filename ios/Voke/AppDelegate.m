@@ -12,6 +12,7 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#import "RNSplashScreen.h" // Voke: Splash Screen
 #import "Orientation.h" // Voke: Needed to handle orientation changes
 #import <RNCPushNotificationIOS.h> // Voke: Needed for push notifications
 #import <UserNotifications/UserNotifications.h> // Voke: Needed for push notifications
@@ -47,6 +48,9 @@
   [[FBSDKApplicationDelegate sharedInstance] application:application
     didFinishLaunchingWithOptions:launchOptions];
 
+  // VOKE: Splash Screen
+  [RNSplashScreen show];
+
   return YES;
 }
 
@@ -75,10 +79,13 @@
 }
 
 // Voke: Needed for handling orientation changes
+// https://github.com/wonday/react-native-orientation-locker
 - (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
   return [Orientation getOrientation];
 }
 
+// NOTIFICATIONS:
+// https://github.com/react-native-community/push-notification-ios#update-appdelegatem
 // Required to register for notifications
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
 {

@@ -1,6 +1,6 @@
 {
   "name": "RCTYouTube",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "summary": "A <YouTube/> component for React Native.",
   "homepage": "https://github.com/inProgress-team/react-native-youtube#readme",
   "license": "MIT",
@@ -14,7 +14,7 @@
   },
   "source": {
     "git": "https://github.com/inProgress-team/react-native-youtube.git",
-    "tag": "v2.0.0"
+    "tag": "v2.0.1"
   },
   "source_files": "RCTYouTube*.{h,m}",
   "preserve_paths": "*.js",

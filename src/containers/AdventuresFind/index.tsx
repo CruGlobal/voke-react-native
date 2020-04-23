@@ -12,7 +12,6 @@ import st from '../../st';
 import theme from '../../theme';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutAction, startupAction } from '../../actions/auth';
 import { ActivityIndicator, ScrollView, FlatList } from 'react-native';
 
 import Touchable from '../../components/Touchable';

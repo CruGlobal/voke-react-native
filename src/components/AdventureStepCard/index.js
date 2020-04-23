@@ -10,6 +10,7 @@ import Button from '../Button';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
+// Renders Cards on this screen https://d.pr/i/WsCCf2
 function AdventureStepCard({ item, adventure }) {
   item = item || {};
   adventure = adventure || {};

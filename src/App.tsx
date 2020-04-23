@@ -33,6 +33,7 @@ import Notifications from './containers/Notifications';
 import AccountName from './containers/AccountName';
 import AccountPhoto from './containers/AccountPhoto';
 import GroupModal from './containers/GroupModal';
+import SplashScreen from 'react-native-splash-screen';
 import TabBar from './components/TabBar';
 import theme from './theme';
 import st from './st';
@@ -40,6 +41,7 @@ import HeaderRight from './components/HeaderRight';
 import HeaderLeft from './components/HeaderLeft';
 import Touchable from './components/Touchable';
 import Text from './components/Text';
+import { useMount } from './utils';
 
 // https://reactnavigation.org/docs/stack-navigator#options
 const defaultHeaderConfig = {
@@ -245,6 +247,9 @@ const App = () => {
   const routeNameRef = React.useRef();
   const navigationRef = React.useRef();
   const insets = useSafeArea();
+
+  // Hide splash screen on load.
+  useMount(() => SplashScreen.hide());
 
   React.useEffect(() => {
     console.log('APP useEffect');

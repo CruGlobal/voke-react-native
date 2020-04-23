@@ -1,12 +1,27 @@
 package com.voke;
 
+// https://github.com/crazycodeboy/react-native-splash-screen/issues/418
+import android.os.Bundle;
+
 import com.facebook.react.ReactActivity;
-import android.content.Intent; // Voke: Needed for orientation changes
-import android.content.res.Configuration; // Voke: Needed for orientation changes
+import org.devio.rn.splashscreen.SplashScreen; // Voke: Splash Screen
+
+// Voke: RN Orientation Locker
+// https://github.com/wonday/react-native-orientation-locker#android
+import android.content.Intent;
+import android.content.res.Configuration;
 
 public class MainActivity extends ReactActivity {
 
+  // Voke: Splash Screen
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+      SplashScreen.show(this);  // here
+      super.onCreate(savedInstanceState);
+  }
+
   // Voke: Needed for orientation changes
+  // https://github.com/wonday/react-native-orientation-locker#android
   @Override
   public void onConfigurationChanged(Configuration newConfig) {
       super.onConfigurationChanged(newConfig);

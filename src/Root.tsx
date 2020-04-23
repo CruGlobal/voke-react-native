@@ -17,6 +17,7 @@ const { store, persistor } = configureStore();
 YellowBox.ignoreWarnings(['FlatList:', '']);
 YellowBox.ignoreWarnings(['Require cycle:', 'Warning: componentWill']);
 
+
 const Root = () => {
   const [showLoader, setShowLoader] = useState( true );
   const onBeforeLift = () => {

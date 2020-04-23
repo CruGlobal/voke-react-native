@@ -14,19 +14,19 @@ function AdventureAvailable(props) {
   const dispatch = useDispatch();
   const insets = useSafeArea();
   const navigation = useNavigation();
-  const [isLandscape, setIsLandscape] = useState(false);
+  const [isPortrait, setIsPortrait] = useState(true);
   const { item, alreadyStartedByMe } = props.route.params;
   return (
     <Flex value={1}>
       <Video
         onOrientationChange={orientation =>
           orientation === 'portrait'
-            ? setIsLandscape(false)
-            : setIsLandscape(true)
+            ? setIsPortrait(true)
+            : setIsPortrait(false)
         }
         item={item.item.content}
       />
-      {isLandscape ? null : (
+      {isPortrait && (
         <ScrollView
           bounces={false}
           style={[st.bgBlue, { paddingBottom: insets.bottom }]}

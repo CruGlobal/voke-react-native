@@ -1,5 +1,11 @@
 import React from 'react';
-import { Image as ReactNativeImage, Animated, StyleProp, ImageStyle, ImagePropsBase } from 'react-native';
+import {
+  Image as ReactNativeImage,
+  Animated,
+  StyleProp,
+  ImageStyle,
+  ImagePropsBase,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import st from '../../st';
 
@@ -12,7 +18,7 @@ interface ImageProps extends ImagePropsBase {
 function Image({ source, style, ...rest }: ImageProps) {
   // thumbnailAnimated = new Animated.Value(0);
 
-  let imageAnimated = new Animated.Value(0);
+  const imageAnimated = new Animated.Value(0);
 
   function onImageLoad() {
     Animated.timing(imageAnimated, {
@@ -30,7 +36,13 @@ function Image({ source, style, ...rest }: ImageProps) {
         <ReactNativeImage {...rest} source={source} style={style} />
       ) : (
         // Only use FastImage for remote images
-        <AnimatedFastImage {...rest} source={source} style={[{ opacity: imageAnimated }, style]} onLoad={onImageLoad} />
+        // https://github.com/DylanVann/react-native-fast-image
+        <AnimatedFastImage
+          {...rest}
+          source={source}
+          style={[{ opacity: imageAnimated }, style]}
+          onLoad={onImageLoad}
+        />
       )}
     </>
   );
