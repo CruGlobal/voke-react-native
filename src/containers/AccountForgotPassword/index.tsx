@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
 import Orientation from 'react-native-orientation-locker';
 import { useSafeArea } from 'react-native-safe-area-context';
-import { KeyboardAvoidingView, Alert, Keyboard, View, Linking, useWindowDimensions } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Alert,
+  Keyboard,
+  Platform,
+  View,
+  Linking,
+  useWindowDimensions,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { useMount } from '../../utils';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { passwordReset } from '../../actions/auth';
 import st from '../../st';
+import DismissKeyboardView from '../../components/DismissKeyboardHOC';
 
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
@@ -20,74 +28,100 @@ import styles from './styles';
 import CONSTANTS from '../../constants';
 
 type ForgotPasswordModalProps = {
-  props: any
-}
-const AccountForgotPassword = ( props: ForgotPasswordModalProps  ) => {
+  props: any;
+};
+const AccountForgotPassword: React.FC = (): React.ReactElement => {
   const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [activeSlide, setActiveSlide] = useState(0);
+  const [email, setEmail] = useState('');
+  const [emailValid, setEmailValid] = useState(false);
+
   useMount(() => {
     Orientation.lockToPortrait();
   });
 
+  const checkEmail = (text: string) => {
+    const emailValidation = CONSTANTS.EMAIL_REGEX.test(text);
+    if (emailValidation) {
+      setEmailValid(true);
+    }
+    setEmail(text);
+  };
+
   return (
-    <Flex
-      value={1}
-      style={[
-        styles.SectionOnboarding,
-        // { paddingTop: insets.top }
-      ]}
+    <DismissKeyboardView
+      style={{ backgroundColor: styles.colors.secondary, height: '100%' }}
     >
-      <StatusBar />
-      <Flex direction="column" align="center" style={[st.ph1, st.w100,{marginBottom:130}]}>
-         {/* TEXT: FORGOT PASSWORD */}
-         <Text style={[styles.TextSmall,{textAlign:'center', marginBottom:40}]}>
-            Please enter the correct email address associated with your Voke account to reset your password
-          </Text>
-        <TextField
-          blurOnSubmit={false}
-          label="Email"
-          // onSubmitEditing={() => lastNameRef.current.focus()}
-          placeholder={'Email'}
-          // value={firstName}
-          // onChangeText={text => setFirstName(text)}
-          autoCapitalize="none"
-          textContentType='emailAddress'
-          autoCompleteType='email'
-          keyboardType='email-address'
-          returnKeyType={'next'}
-        />
-      </Flex>
-      {/* SECTION: CALL TO ACTION BUTTON */}
-      <Flex value={1}>
-        <Triangle
-          width={useWindowDimensions().width}
-          height={40}
-          color={styles.colors.secondary}
-        />
+      {/* <StatusBar /> <- TODO: Not sure why we need it here? */}
+
+      {/* Makes possible to hide keyboard when tapping outside. */}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // TODO: Verify!
+        style={styles.MainContainer}
+      >
         <Flex
+          value={4}
           direction="column"
-          style={[styles.SectionAction]}
-          value={1}
+          align="center"
           justify="center"
+          style={[styles.PrimaryContent, { paddingTop: insets.top + 30 }]}
         >
-          {/* BUTTON: SIGN IN*/}
+          <Text
+            style={[
+              styles.TextLarge,
+              {
+                textAlign: 'center',
+                backgroundColor: styles.colors.primary,
+              },
+            ]}
+          >
+            Please enter the correct email address associated with your Voke
+            account to reset your password.
+          </Text>
+          <TextField
+            // blurOnSubmit={false}
+            label="Email"
+            onSubmitEditing={() => passwordRef.current.focus()}
+            placeholder="Email"
+            value={email}
+            onChangeText={checkEmail}
+            autoCapitalize="none"
+            textContentType="emailAddress"
+            autoCompleteType="email"
+            keyboardType="email-address"
+            returnKeyType="next"
+          />
+        </Flex>
+        {/* TRIANGLE DIVIDER */}
+        <Flex value={1} justify="end" style={styles.Divider}>
+          <Triangle
+            width={useWindowDimensions().width}
+            height={40}
+            color={styles.colors.secondary}
+          />
+        </Flex>
+        <Flex
+          value={2}
+          direction="column"
+          justify="start"
+          style={styles.SectionAction}
+        >
+          {/* BUTTON: SIGN IN */}
           <Button
-            isAndroidOpacity={true}
+            isAndroidOpacity
             style={styles.ButtonStart}
-            onPress={
-              () => dispatch(passwordReset( 'example@example.com' )).then(() => {
-                 console.log('DONE PASSWORD RESET')
-                //  navigation.navigate('AccountName')
-               })
+            onPress={() =>
+              dispatch(passwordReset('example@example.com')).then(() => {
+              console.log('DONE PASSWORD RESET');
+              //  navigation.navigate('AccountName')
+            })
             }
           >
             <Text style={styles.ButtonStartLabel}>Reset Password</Text>
           </Button>
-         
         </Flex>
-      </Flex>
+      </KeyboardAvoidingView>
       {/* SECTION: FACEBOOK SIGN IN */}
       <Flex
         // value={1}
@@ -98,27 +132,24 @@ const AccountForgotPassword = ( props: ForgotPasswordModalProps  ) => {
         // width={useWindowDimensions().width}
       >
         <View>
-          <Text style={styles.SignInText}>
-            Need some help?
-          </Text>
+          <Text style={styles.SignInText}>Need some help?</Text>
         </View>
         <Button
-          isAndroidOpacity={true}
-          style={[styles.ButtonSignIn, {marginLeft:20}]}
+          isAndroidOpacity
+          style={[styles.ButtonSignIn, { marginLeft: 20 }]}
           onPress={() => navigation.navigate('Help')}
         >
           <Text style={styles.ButtonSignInLabel}>Support</Text>
         </Button>
       </Flex>
-      {/* Safe area bottom spacing */}
+      {/* Safe area at the bottom for phone with exotic notches */}
       <Flex
         style={{
-          backgroundColor: styles.colors.secondary,
-          paddingBottom: insets.bottom
+          paddingBottom: insets.bottom,
         }}
-      ></Flex>
-    </Flex>
+      />
+    </DismissKeyboardView>
   );
-}
+};
 
 export default AccountForgotPassword;
