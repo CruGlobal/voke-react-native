@@ -5,4 +5,8 @@
     <color name="colorAccent">@color/app_main_color</color>
     <color name="statusbar_color">#186078</color>
     <color name="app_main_color">#186078</color>
+    <color name="splash_screen">#44c8e8</color>
+    <!-- For splash screen -->
+    <!-- https://github.com/crazycodeboy/react-native-splash-screen#android -->
+    <color name="status_bar_color">#186078</color>
 </resources>
