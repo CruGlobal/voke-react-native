@@ -3,6 +3,7 @@ import { useSafeArea } from 'react-native-safe-area-context';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import st from '../../st';
+import theme from '../../theme';
 import MainMessagingInput from '../../components/MainMessagingInput';
 import AdventureStepMessage from '../../components/AdventureStepMessage';
 import AdventureStepMessageInput from '../../components/AdventureStepMessageInput';
@@ -24,7 +25,7 @@ type ModalProps = {
     }
   }
 }
-const AdventureStepModal = ( { route }: ModalProps ) => {
+const AdventureStepScreen = ( { route }: ModalProps ) => {
   const dispatch = useDispatch();
   const insets = useSafeArea();
   const navigation = useNavigation();
@@ -48,7 +49,7 @@ const AdventureStepModal = ( { route }: ModalProps ) => {
   }, [steps]);
 
   const scrollRef = useRef(null);
-  const isSolo = currentStep.kind !== 'duo' && currentStep.kind !== 'multiple';
+  const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'multiple';
   let mainAnswer = '';
 
   if (!['multi', 'binary'].includes(currentStep.kind)) {
@@ -68,6 +69,7 @@ const AdventureStepModal = ( { route }: ModalProps ) => {
   });
   useEffect(() => {
     let newMsgs = [...(messages[currentStep.id] || [])].reverse();
+    // If solo adventure, render bot's messages.
     if (isSolo) {
       newMsgs.unshift({
         id: new Date().toISOString(),
@@ -113,92 +115,99 @@ const AdventureStepModal = ( { route }: ModalProps ) => {
             item={currentStep.item.content}
           />
           {isPortrait && (
-          <>
-            {currentStep.status_message ? (
-              <Flex
-                align="center"
-                style={[st.bgDarkBlue, st.ph1, st.pv4, st.ovh]}
-              >
-                <Text style={[st.fs4, st.white]}>
-                  {currentStep.status_message}
-                </Text>
-                <VokeIcon
-                  type="image"
-                  name="vokebot"
-                  style={[
-                    st.abs,
-                    st.left(-25),
-                    st.bottom(-20),
-                    st.h(70),
-                    st.rotate('40deg'),
-                    st.w(70),
-                  ]}
+            <>
+              {currentStep.status_message ? (
+                <Flex
+                  align="center"
+                  style={[st.bgDarkBlue, st.ph1, st.pv4, st.ovh]}
+                >
+                  <Text style={[st.fs4, st.white]}>
+                    {currentStep.status_message}
+                  </Text>
+                  <VokeIcon
+                    type="image"
+                    name="vokebot"
+                    style={[
+                      st.abs,
+                      st.left(-25),
+                      st.bottom(-20),
+                      st.h(70),
+                      st.rotate('40deg'),
+                      st.w(70),
+                    ]}
+                  />
+                </Flex>
+              ) : null}
+
+              {/* First card with question */}
+              <Flex direction="column" self="center" style={[st.w80, st.mt4]}>
+                <Flex
+                  direction="column"
+                  style={[st.w100, st.bgOrange, st.brtl5, st.brtr5, st.pd1]}
+                  align="center"
+                  justify="center"
+                >
+                  <Text style={[st.tac, st.white, st.fs20, st.lh(24)]}>
+                    {currentStep.question}
+                  </Text>
+                </Flex>
+                <Image
+                  source={{ uri: me.avatar.small }}
+                  style={[st.absb, st.right(-30), st.h(25), st.w(25), st.br1]}
+                />
+                <AdventureStepMessageInput
+                  onFocus={() => {
+                    /* scrollRef.current.props.scrollToFocusedInput(
+                      findNodeHandle(event.target),
+                    ); */
+                  }}
+                  kind={currentStep.kind}
+                  adventure={adventure}
+                  step={currentStep}
+                  defaultValue={mainAnswer}
                 />
               </Flex>
-            ) : null}
-
-            {/* First card with question */}
-            <Flex direction="column" self="center" style={[st.w80, st.mt4]}>
-              <Flex
-                direction="column"
-                style={[st.w100, st.bgOrange, st.brtl5, st.brtr5, st.pd1]}
-                align="center"
-                justify="center"
-              >
-                <Text style={[st.tac, st.white, st.fs20, st.lh(24)]}>
-                  {currentStep.question}
-                </Text>
-              </Flex>
-              <Image
-                source={{ uri: me.avatar.small }}
-                style={[st.absb, st.right(-30), st.h(25), st.w(25), st.br1]}
-              />
-              <AdventureStepMessageInput
-                /*  onFocus={event => {
-                  scrollRef.current.props.scrollToFocusedInput(
-                    findNodeHandle(event.target),
-                  );
-                }} */
-                kind={currentStep.kind}
-                adventure={adventure}
-                step={currentStep}
-                defaultValue={mainAnswer}
-              />
-            </Flex>
-
-            {currentMessages.map(item => (
-              <AdventureStepMessage
-                key={item.id}
-                item={item}
-                adventure={adventure}
-                step={currentStep}
-                /* onFocus={event => {
-                  scrollRef.current.props.scrollToFocusedInput(
-                    findNodeHandle(event.target),
-                  );
-                }} */
-              />
-            ))}
-            <Flex style={[st.h(insets.bottom)]}></Flex>
-          </>)}
+              {currentMessages.map(item => (
+                <AdventureStepMessage
+                  key={item.id}
+                  item={item}
+                  adventure={adventure}
+                  step={currentStep}
+                  onFocus={event => {
+                    /* scrollRef.current.props.scrollToFocusedInput(
+                      findNodeHandle(event.target),
+                    ); */
+                  }}
+                />
+              ))}
+            </>
+          )}
         </KeyboardAwareScrollView>
-
-        {isSolo ? null : (
+        {/*
+          NEW MESSAGE FIELD (at the bottom of the screen).
+          But only if it's portrait orientation and not solo adventure.
+          It makes no sense to talk to yourself in solo mode.
+        */}
+        {!isSolo && isPortrait && (
           <Flex
             direction="row"
+            align="center"
+            justify="center"
             style={[
-              st.bgDarkBlue,
               st.w100,
               st.ph4,
               {
+                backgroundColor: theme.colors.secondary,
                 paddingBottom: isKeyboardVisible ? 0 : insets.bottom,
                 maxHeight: 140,
               },
             ]}
-            align="center"
-            justify="center"
           >
-            <MainMessagingInput adventure={adventure} step={currentStep} />
+            <MainMessagingInput
+              adventure={adventure}
+              step={currentStep}
+              keyboardAppearance="dark"
+            />
           </Flex>
         )}
 
@@ -230,4 +239,4 @@ const AdventureStepModal = ( { route }: ModalProps ) => {
   );
 }
 
-export default AdventureStepModal;
+export default AdventureStepScreen;

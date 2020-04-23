@@ -8,7 +8,7 @@ import VokeIcon from '../VokeIcon';
 import { createAdventureStepMessage } from '../../actions/requests';
 import { useDispatch } from 'react-redux';
 
-function AdventureStepMessageInput({ adventure, step }) {
+function AdventureStepMessageInput({ adventure, step, ...rest }) {
   const [text, setText] = useState('');
   const [inputHeight, setInputHeight] = useState(0);
   const dispatch = useDispatch();
@@ -21,8 +21,9 @@ function AdventureStepMessageInput({ adventure, step }) {
         step,
         value: text,
         kind: 'standard',
-      }),
+      })
     );
+    setText('');
   }
 
   return (
@@ -32,7 +33,6 @@ function AdventureStepMessageInput({ adventure, step }) {
       align="center"
       value={1}
     >
-      <Text>TEST</Text>
       <TextInput
         autoCapitalize="sentences"
         returnKeyType="send"
@@ -50,6 +50,7 @@ function AdventureStepMessageInput({ adventure, step }) {
         selectionColor={st.colors.yellow}
         autoCorrect={true}
         multiline={false}
+        {...rest}
       />
       <Button style={[st.w(55), st.aie, st.pv6]} onPress={handleSendMessage}>
         <VokeIcon name="send_message" style={[st.white]} size={20} />

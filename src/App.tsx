@@ -24,7 +24,7 @@ import AdventureStart from './containers/AdventureStart';
 import AdventureName from './containers/AdventureName';
 import AdventureShareCode from './containers/AdventureShareCode';
 import AdventureActive from './containers/AdventureActive';
-import AdventureStep from './containers/AdventureStep';
+import AdventureStepScreen from './containers/AdventureStepScreen';
 import VideosSearch from './containers/VideosSearch';
 import AllMembersModal from './containers/AllMembersModal';
 import AdventureCode from './containers/AdventureCode';
@@ -131,8 +131,8 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
         options={{ headerShown: false }}
       />
       <AdventureStack.Screen
-        name="AdventureStep"
-        component={AdventureStep}
+        name="AdventureStepScreen"
+        component={AdventureStepScreen}
         options={{ headerShown: false }}
       />
       <AdventureStack.Screen
