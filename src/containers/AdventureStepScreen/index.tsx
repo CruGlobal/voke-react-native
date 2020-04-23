@@ -31,8 +31,6 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
   const navigation = useNavigation();
   const [isPortrait, setIsPortrait] = useState(true);
   const { stepId, adventure } = route.params;
-  console.log( "🤢adventure:" , adventure );
-  console.log( "🤢stepId:" , stepId );
   const steps = useSelector(({ data }) => data.adventureSteps);
   const [currentSteps, setCurrentSteps] = useState(steps[adventure.id] || []);
   const [currentStep, setCurrentStep] = useState(
@@ -65,7 +63,6 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
   useKeyboard(bool => setKeyboardVisible(bool));
 
   useMount(() => {
-    console.log( "currentStep.kind:" ); console.log( currentStep.kind );
     dispatch(
       getAdventureStepMessages(adventure.conversation.id, currentStep.id),
     );
