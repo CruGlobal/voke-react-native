@@ -73,8 +73,8 @@
     ],
     "comma-dangle": [
       "error", {
-        // "arrays": "never",
-        // "objects": "never",
+        "arrays": "always",
+        "objects": "always",
         // "imports": "never",
         // "exports": "never",
         "functions": "never"
