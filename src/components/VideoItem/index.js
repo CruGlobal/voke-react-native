@@ -38,7 +38,7 @@ function VideoItem({ item }) {
   const description = (video.description || '').replace(/^\s+|\s+$/g, '');
 
   function handleShare() {
-    navigation.navigate('NameAdventureModal', {
+    navigation.navigate('AdventureName', {
       item,
       withGroup: false,
       isVideoInvite: true,
@@ -48,7 +48,7 @@ function VideoItem({ item }) {
     <Touchable
       highlight={false}
       activeOpacity={0.8}
-      onPress={() => navigation.navigate('VideoDetailModal', { item })}
+      onPress={() => navigation.navigate('VideoDetails', { item })}
     >
       <Flex
         style={[st.bgWhite, st.mv5, st.mh5]}

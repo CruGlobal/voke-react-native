@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="com.voke">
 
+    <!-- Permissions -->
+    <!-- https://github.com/react-native-community/react-native-permissions#android -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
 
@@ -11,6 +13,7 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
+      <!-- https://github.com/wonday/react-native-orientation-locker#android -->
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"

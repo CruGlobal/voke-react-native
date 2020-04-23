@@ -6,7 +6,7 @@ import { DataKeys } from '../reducers/data';
 import deviceInfoModule from 'react-native-device-info';
 import { Platform } from 'react-native';
 import st from '../st';
-import { isEquivalentObject, exists } from '../utils';
+import { isEqualObject, exists } from '../utils';
 import { setupSockets } from './socket';
 import { AuthDataKeys } from '../reducers/auth';
 
@@ -63,14 +63,29 @@ export function getAvailableAdventures() {
   };
 }
 
+/**
+ * Get active adventures.
+ */
 export function getMyAdventures() {
+  // var t0 = performance.now()
   return async (dispatch: Dispatch, getState: any) => {
-    const results: any = await dispatch(
+    await dispatch(
       request({ ...ROUTES.GET_MY_ADVENTURES }),
+    ).then(
+      data => {
+        // eslint-disable-next-line no-console
+        // var t1 = performance.now()
+        // console.log('🧗‍♂️ adventures in ' + (t1 - t0) + " milliseconds. \n", data);
+        const myAdventures = data.journeys;
+        // Update my adventures in store.
+        return dispatch(setData('myAdventures', myAdventures));
+      },
+      error => {
+        // eslint-disable-next-line no-console
+        console.log('🛑 getMyAdventures error', error);
+        throw error;
+      },
     );
-    const myAdventures = results.journeys;
-    dispatch(setData('myAdventures', myAdventures));
-    return results;
   };
 }
 
@@ -87,10 +102,13 @@ export function getMyAdventure(adventureId: any) {
 }
 
 export function getAdventuresInvitations() {
+  // var t0 = performance.now()
   return async (dispatch: Dispatch, getState: any) => {
     const results: any = await dispatch(
       request({ ...ROUTES.GET_ADVENTURE_INVITATIONS }),
     );
+    // var t1 = performance.now()
+    // console.log('🎫 invitations in ' + (t1 - t0) + " milliseconds. \n", results);
     const adventureInvitations = results.journey_invites;
     dispatch(setData('adventureInvitations', adventureInvitations));
     return results;
@@ -171,7 +189,7 @@ export function sendAdventureInvitation(data: any) {
     return result;
   };
 }
-
+// Create new message in Adventure chat.
 export function createAdventureStepMessage(params: {
   value: any;
   adventure: any;
@@ -200,6 +218,8 @@ export function createAdventureStepMessage(params: {
     if (params.internalMessageId) {
       data.message.message_reference_id = params.internalMessageId;
     }
+
+    // SEND MESSAGE TO THE SERVER.
     const result = await dispatch(
       request({
         ...ROUTES.CREATE_ADVENTURE_STEP_MESSAGE,
@@ -209,6 +229,8 @@ export function createAdventureStepMessage(params: {
         data,
       }),
     );
+
+    // SAVE RESPONSE FROM THE SERVER TO THE STORE.
     dispatch({
       type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
       result: { adventureStepId: params.step.id, newMessage: result },
@@ -314,13 +336,13 @@ export function getVideoTags() {
   };
 }
 
-export function destroyDevice(cableId: any) {
+export function destroyDevice(deviceId: string) {
   return async (dispatch: Dispatch, getState: any) => {
     let results: any;
     results = await dispatch(
       request({
         ...ROUTES.DESTROY_DEVICE,
-        pathParams: { cableId },
+        pathParams: { deviceId },
       }),
     );
 
@@ -328,24 +350,30 @@ export function destroyDevice(cableId: any) {
   };
 }
 
-export function updateDevice(device: any) {
+export function updateDevice(newDeviceData: any) {
   return async (dispatch: Dispatch, getState: any) => {
-    const cableId = getState().auth.cableId;
+    const deviceId = getState().auth.device.id;
     let results: any;
-    results = await dispatch(
+    returnedDevice = await dispatch(
       request({
         ...ROUTES.UPDATE_DEVICE,
-        pathParams: { cableId },
-        data: device,
+        pathParams: { deviceId },
+        data: newDeviceData,
       }),
     );
 
-    if (results.id) {
-      dispatch(setupSockets(results.id));
-    }
-    dispatch(setAuthData('deviceInformation', results));
+    // dispatch(setAuthData('device', results));
+    // Update info in store.auth.device.
+    dispatch({
+      type: REDUX_ACTIONS.SET_DEVICE,
+      device: returnedDevice,
+    });
 
-    return results;
+    /* if (returnedDevice.id) {
+      dispatch(setupSockets(returnedDevice.id));
+    }
+ */
+    return returnedDevice;
   };
 }
 
@@ -360,16 +388,56 @@ export function getDevices() {
   };
 }
 
-export function createDevice(data: any) {
+
+// Register new device on the server for receiving push notifications.
+// https://docs.vokeapp.com/#me-devices-create-device
+export function createDevice(newDeviceData: any) {
   return async (dispatch: Dispatch, getState: any) => {
-    const results = await dispatch(
+    console.log( "function createDevice:",  newDeviceData);
+
+    await dispatch(
       request({
         ...ROUTES.CREATE_DEVICE,
-        data,
+        data: newDeviceData,
       }),
     );
-    dispatch(setAuthData('deviceInformation', results));
-    return results;
+
+    /* const returnedDeviceData = await dispatch(
+      request({
+        ...ROUTES.CREATE_DEVICE,
+        data: newDeviceData,
+      }),
+    );
+    console.log( "CREATE_DEVICE results:" ); console.log( returnedDevice );
+
+    // Update info in store.auth.device.
+    dispatch({
+      type: REDUX_ACTIONS.SET_DEVICE,
+      device: returnedDeviceData,
+    });
+    return returnedDeviceData; */
+
+    // Fetch user data from the server.
+    return dispatch(request({
+        ...ROUTES.CREATE_DEVICE,
+        data: newDeviceData,
+      })).then(
+      returnedDeviceData => {
+        // eslint-disable-next-line no-console
+        console.log('📱 createDevice > returnedDeviceData:\n', returnedDeviceData);
+       // Update info in store.auth.device.
+        dispatch({
+          type: REDUX_ACTIONS.SET_DEVICE,
+          device: returnedDeviceData,
+        });
+        return returnedDeviceData;
+      },
+      error => {
+        // eslint-disable-next-line no-console
+        console.log('📱🛑 createDevice > error', error);
+        throw error;
+      },
+    );
   };
 }
 
@@ -385,10 +453,18 @@ export function revokeAuthToken(data: any) {
   };
 }
 
-export function establishCableDevice(pushDeviceId?: any) {
+// Prepare device for sockets.
+// https://docs.vokeapp.com/#me-devices
+// Devices are an important part of establishing real time connectivity in Voke.
+// Devices allow the API to send the user information relative to them.
+export function establishCableDevice(pushDeviceId?: string) {
   return async (dispatch: Dispatch, getState: any) => {
-    const auth = getState().auth;
-    const currentDeviceInfo = {
+    console.log( "🧵🧵🧵🧵🧵establishCableDevice:" , pushDeviceId );
+    const savedDeviceInfo = getState().auth.device;
+    let deviceId = null;
+    const currentDeviceId = getState().auth.device.id;
+    const currentDeviceData = {
+      id: currentDeviceId,
       version: 1,
       local_id: deviceInfoModule.getDeviceId(),
       local_version: deviceInfoModule.getVersion(),
@@ -396,57 +472,63 @@ export function establishCableDevice(pushDeviceId?: any) {
       name: deviceInfoModule.getModel(),
       os: `${Platform.OS} ${deviceInfoModule.getSystemVersion()}`,
     };
-    const isEquivalent = isEquivalentObject(
-      auth.deviceInformation,
-      currentDeviceInfo,
-    );
-    if (pushDeviceId) {
-      let data = {
+    let returnedDeviceData = {};
+
+    const deviceInfoChanged = (): boolean => {
+      return !isEqualObject(savedDeviceInfo, currentDeviceData);
+    };
+
+    console.log( "📱‼️ deviceInfoChanged:" , deviceInfoChanged(), savedDeviceInfo, currentDeviceData );
+    console.log( "pushDeviceId:",pushDeviceId );
+
+    // If device info or push device id changed:
+    // pushDeviceId - if provided, need to update device.
+    if (pushDeviceId || deviceInfoChanged || (!deviceInfoChanged && !currentDeviceId)) {
+      const newDeviceData = {
         device: {
-          ...currentDeviceInfo,
-          key: pushDeviceId,
+          ...currentDeviceData,
+          // TODO: do I needed these?
+          key: pushDeviceId || null,
           kind: 'cable',
+          // Possible variations:
+          // key: pushDeviceId for websokets,
+          // kind: 'cable' for websokets.
+          // ----------------------------
+          // key: pushToken for notifications.
+          // kind: 'fcm'/'apple' for push notifications.
         },
       };
-      if (auth.cableId) {
-        // UPDATE THE CABLE DEVICE WITH DATA
-        dispatch(updateDevice(data));
+
+      if (currentDeviceId) {
+        console.log( "UPDATE DEVICE data:" , newDeviceData );
+        // UPDATE existing cable with new device data.
+        returnedDeviceData = await dispatch(updateDevice(newDeviceData));
       } else {
-        // CREATE THE CABLE DEVICE WITH DATA
-        const newDevice: any = await dispatch(createDevice(data));
-        if (newDevice.id) {
-          dispatch(setupSockets(newDevice.id));
-        }
+        console.log( "CREATE DEVICE data:" , newDeviceData );
+        // CREATE new cable with new device data.
+        returnedDeviceData = await dispatch(createDevice(newDeviceData));
       }
-    } else if (!isEquivalent || (isEquivalent && !auth.cableId)) {
-      let data = {
-        device: {
-          ...currentDeviceInfo,
-          key: null,
-          kind: 'cable',
-        },
-      };
-      if (auth.cableId) {
-        // UPDATE THE CABLE DEVICE WITH DATA
-        dispatch(updateDevice(data));
-      } else {
-        // CREATE THE CABLE DEVICE WITH DATA
-        const newDevice: any = await dispatch(createDevice(data));
-        if (newDevice.id) {
-          dispatch(setupSockets(newDevice.id));
-        }
-      }
+
+      console.log( "!!!!!!! returnedDeviceData:" ); console.log( returnedDeviceData );
+    }
+
+    if (returnedDeviceData.id) {
+      deviceId = returnedDeviceData.id;
     } else {
-      dispatch(setupSockets(auth.cableId));
+      deviceId = currentDeviceId;
     }
+    console.log( ">>>>>>>>>>>>>Setup web sockets.:", deviceId );
+    // Setup web sockets.
+    dispatch(setupSockets(deviceId));
   };
 }
 
-export function establishPushDevice() {
+// Register device token on the remote server.
+export function establishPushDevice(pushToken: string) {
   return async (dispatch: Dispatch, getState: any) => {
-    const auth = getState().auth;
-
-    const currentDeviceInfo = {
+    if (!pushToken) return;
+    // Compose current device info to be sent to the server.
+    const currentDeviceData = {
       version: 1,
       local_id: deviceInfoModule.getDeviceId(),
       local_version: deviceInfoModule.getVersion(),
@@ -454,27 +536,22 @@ export function establishPushDevice() {
       name: deviceInfoModule.getModel(),
       os: `${Platform.OS} ${deviceInfoModule.getSystemVersion()}`,
     };
+    const data = {
+      device: {
+        ...currentDeviceData,
+        key: pushToken,
+        kind: st.isAndroid ? 'fcm' : 'apple',
+        // Possible variations:
+        // key: pushDeviceId for websokets,
+        // kind: 'cable' for websokets.
+        // ----------------------------
+        // key: pushToken for notifications.
+        // kind: 'fcm'/'apple' for push notifications.
+      },
+    };
+    const newPushDevice: any = await dispatch(createDevice(data));
 
-    if (auth.pushToken) {
-      let data = {
-        device: {
-          ...currentDeviceInfo,
-          key: auth.pushToken,
-          kind: st.isAndroid ? 'fcm' : 'apple',
-        },
-      };
-      const newDevice: any = await dispatch(createDevice(data));
-      return newDevice;
-    }
-  };
-}
-
-export function registerPushToken(token: any) {
-  return async (dispatch: Dispatch, getState: any) => {
-    dispatch({
-      type: REDUX_ACTIONS.SET_PUSH_TOKEN,
-      pushToken: token,
-    });
+    return newPushDevice.id;
   };
 }
 

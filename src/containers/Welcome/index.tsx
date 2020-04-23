@@ -138,7 +138,7 @@ const Welcome = ( props: WelcomeProps  ) => {
           <Button
             isAndroidOpacity={true}
             style={styles.ButtonStart}
-            onPress={() => navigation.navigate('CreateName')}
+            onPress={() => navigation.navigate('AccountName')}
           >
             <Text style={styles.ButtonStartLabel}>Start Exploring</Text>
           </Button>
@@ -179,8 +179,8 @@ const Welcome = ( props: WelcomeProps  ) => {
           isAndroidOpacity={true}
           style={[styles.ButtonSignIn, {marginLeft:20}]}
           onPress={() => {
-            navigation.navigate('SignInModal');
-            // navigation.navigate('SignInModal', { shouldMerge: true })
+            navigation.navigate('AccountSignIn');
+            // navigation.navigate('AccountSignIn', { shouldMerge: true })
           }}
         >
           <Text style={styles.ButtonSignInLabel}>Sign In</Text>

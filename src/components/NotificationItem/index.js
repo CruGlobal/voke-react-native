@@ -103,7 +103,7 @@ function renderVideo(message, onSelectVideo, handleShare) {
 function NotificationItem({ item, onSelectVideo }) {
   const navigation = useNavigation();
   function handleShare() {
-    navigation.navigate('NameAdventureModal', {
+    navigation.navigate('AdventureName', {
       item,
       withGroup: false,
       isVideoInvite: true,

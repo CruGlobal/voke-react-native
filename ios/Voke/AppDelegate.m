@@ -79,10 +79,13 @@
 }
 
 // Voke: Needed for handling orientation changes
+// https://github.com/wonday/react-native-orientation-locker
 - (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
   return [Orientation getOrientation];
 }
 
+// NOTIFICATIONS:
+// https://github.com/react-native-community/push-notification-ios#update-appdelegatem
 // Required to register for notifications
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
 {

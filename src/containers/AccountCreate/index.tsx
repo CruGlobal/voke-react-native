@@ -79,7 +79,7 @@ const AccountCreate: React.FC = (): React.ReactElement => {
 
         // await dispatch(userLogin(email, password));
         setIsLoading(false);
-        navigation.navigate('CreateName');
+        navigation.navigate('AccountName');
       } catch (e) {
         // eslint-disable-next-line no-console
         console.log("🛑 Error updating the user's Email/Pass \n", e);

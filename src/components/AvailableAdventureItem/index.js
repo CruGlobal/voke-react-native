@@ -37,7 +37,7 @@ function AvailableAdventureItem({
   return (
     <Touchable
       onPress={() =>
-        navigation.navigate('AvailableAdventureModal', {
+        navigation.navigate('AdventureAvailable', {
           item,
           alreadyStartedByMe: shouldInviteFriend,
         })

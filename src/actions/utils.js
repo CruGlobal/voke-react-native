@@ -145,12 +145,10 @@ export default function request(options) {
       body: options.data,
     });
 
-    console.log( "⤴️ function request FINAL" , finalUrl, newObj );
-
     // Do request.
     return fetch(finalUrl, newObj)
       .then(response => {
-        console.log("⤵️ API response \n", response);
+        console.log("🧶Fetch API response \n",newObj.url, response);
         if (!response.ok) {
           return response
             .json()

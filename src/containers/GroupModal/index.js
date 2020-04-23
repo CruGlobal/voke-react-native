@@ -18,6 +18,7 @@ import Touchable from '../../components/Touchable';
 import CONSTANTS from '../../constants';
 import VokeIcon from '../../components/VokeIcon';
 import DEFAULT_AVATAR from '../../assets/defaultAvatar.png';
+
 function GroupModal(props) {
   const insets = useSafeArea();
   const navigation = useNavigation();
@@ -46,7 +47,7 @@ function GroupModal(props) {
 
   function handleJoinGroup() {
     if ((((me || {}).avatar || {}).medium || '').includes('/avatar.jpg')) {
-      navigation.navigate('CreateProfilePhoto', { hasAccount: true });
+      navigation.navigate('AccountPhoto', { hasAccount: true });
     } else {
       navigation.reset({ index: 0, routes: [{ name: 'Adventures' }] });
     }

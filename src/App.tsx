@@ -6,29 +6,29 @@ import { Button } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Welcome from './containers/Welcome';
-import SettingsModal from './containers/SettingsModal';
-import HelpModal from './containers/HelpModal';
-import AboutModal from './containers/AboutModal';
-import SignInModal from './containers/SignInModal';
-import ProfileModal from './containers/ProfileModal';
+import Menu from './containers/Menu';
+import MenuHelp from './containers/MenuHelp';
+import MenuAbout from './containers/MenuAbout';
+import AccountSignIn from './containers/AccountSignIn';
+import AccountProfile from './containers/AccountProfile';
 import AccountCreate from './containers/AccountCreate';
-import ForgotPasswordModal from './containers/ForgotPasswordModal';
-import GetConversationsModal from './containers/GetConversationsModal';
+import AccountForgotPassword from './containers/AccountForgotPassword';
+import AccountGetConversations from './containers/AccountGetConversations';
 import Adventures from './containers/Adventures';
-import AvailableAdventureModal from './containers/AvailableAdventureModal';
-import VideoDetailModal from './containers/VideoDetailModal';
-import StartAdventureModal from './containers/StartAdventureModal';
-import NameAdventureModal from './containers/NameAdventureModal';
-import ShareAdventureCodeModal from './containers/ShareAdventureCodeModal';
-import ActiveAdventureModal from './containers/ActiveAdventureModal';
-import AdventureStepModal from './containers/AdventureStepModal';
-import SearchVideosModal from './containers/SearchVideosModal';
+import AdventureAvailable from './containers/AdventureAvailable';
+import VideoDetails from './containers/VideoDetails';
+import AdventureStart from './containers/AdventureStart';
+import AdventureName from './containers/AdventureName';
+import AdventureShareCode from './containers/AdventureShareCode';
+import AdventureActive from './containers/AdventureActive';
+import AdventureStep from './containers/AdventureStep';
+import VideosSearch from './containers/VideosSearch';
 import AllMembersModal from './containers/AllMembersModal';
-import EnterAdventureCode from './containers/EnterAdventureCode';
+import AdventureCode from './containers/AdventureCode';
 import Videos from './containers/Videos';
 import Notifications from './containers/Notifications';
-import CreateName from './containers/CreateName';
-import CreateProfilePhoto from './containers/CreateProfilePhoto';
+import AccountName from './containers/AccountName';
+import AccountPhoto from './containers/AccountPhoto';
 import GroupModal from './containers/GroupModal';
 import AsyncStorage from '@react-native-community/async-storage';
 import SplashScreen from 'react-native-splash-screen';
@@ -106,38 +106,38 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
     >
       <AdventureStack.Screen name="Adventures" component={Adventures} />
       <AdventureStack.Screen
-        name="AvailableAdventureModal"
-        component={AvailableAdventureModal}
+        name="AdventureAvailable"
+        component={AdventureAvailable}
         options={{ headerShown: false }}
       />
       <AdventureStack.Screen
-        name="EnterAdventureCode"
-        component={EnterAdventureCode}
+        name="AdventureCode"
+        component={AdventureCode}
         options={{ headerShown: false }}
       />
       <AdventureStack.Screen
-        name="StartAdventureModal"
-        component={StartAdventureModal}
+        name="AdventureStart"
+        component={AdventureStart}
         options={{ headerShown: false }}
       />
       <AdventureStack.Screen
-        name="NameAdventureModal"
-        component={NameAdventureModal}
+        name="AdventureName"
+        component={AdventureName}
         options={{ headerShown: false }}
       />
       <AdventureStack.Screen
-        name="ShareAdventureCodeModal"
-        component={ShareAdventureCodeModal}
+        name="AdventureShareCode"
+        component={AdventureShareCode}
         options={{ headerShown: false }}
       />
       <AdventureStack.Screen
-        name="ActiveAdventureModal"
-        component={ActiveAdventureModal}
+        name="AdventureActive"
+        component={AdventureActive}
         options={{ headerShown: false }}
       />
       <AdventureStack.Screen
-        name="AdventureStepModal"
-        component={AdventureStepModal}
+        name="AdventureStep"
+        component={AdventureStep}
         options={{ headerShown: false }}
       />
       <AdventureStack.Screen
@@ -151,8 +151,8 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
         options={{ headerShown: false }}
       />
       <AdventureStack.Screen
-        name="CreateProfilePhoto"
-        component={CreateProfilePhoto}
+        name="AccountPhoto"
+        component={AccountPhoto}
         options={{ headerShown: false }}
       />
     </AdventureStack.Navigator>
@@ -174,13 +174,13 @@ function VideoStackScreens({ navigation, route }: any) {
     <VideoStack.Navigator screenOptions={defaultHeaderConfig}>
       <VideoStack.Screen name="Videos" component={Videos} />
       <VideoStack.Screen
-        name="VideoDetailModal"
-        component={VideoDetailModal}
+        name="VideoDetails"
+        component={VideoDetails}
         options={{ headerShown: false }}
       />
       <VideoStack.Screen
-        name="SearchVideosModal"
-        component={SearchVideosModal}
+        name="VideosSearch"
+        component={VideosSearch}
         options={{
           headerShown: false,
           cardStyle: { backgroundColor: theme.colors.transparent },
@@ -316,8 +316,8 @@ const App = () => {
             as we need to access these when editing name and image
             for already logged in users.   */}
         <AppStack.Screen
-          name="CreateName"
-          component={CreateName}
+          name="AccountName"
+          component={AccountName}
           options={{
             ...transparentHeaderConfig,
             headerStyle: {
@@ -329,8 +329,8 @@ const App = () => {
           }}
         />
         <AppStack.Screen
-          name="CreateProfilePhoto"
-          component={CreateProfilePhoto}
+          name="AccountPhoto"
+          component={AccountPhoto}
           options={ ({ navigation }) =>({
             ...transparentHeaderConfig,
             headerStyle: {
@@ -353,8 +353,8 @@ const App = () => {
           })}
         />
         <AppStack.Screen
-          name="SettingsModal"
-          component={SettingsModal}
+          name="Menu"
+          component={Menu}
           options={({ navigation }) => ({
             headerShown: true,
             headerRight: () => (
@@ -391,8 +391,8 @@ const App = () => {
           } }
         />
         <AppStack.Screen
-          name="SignInModal"
-          component={SignInModal}
+          name="AccountSignIn"
+          component={AccountSignIn}
           options={{
             ...transparentHeaderConfig,
             headerStyle: {
@@ -405,7 +405,7 @@ const App = () => {
         />
         <AppStack.Screen
           name="ForgotPassword"
-          component={ForgotPasswordModal}
+          component={AccountForgotPassword}
 
           options={{
             ...defaultHeaderConfig,
@@ -427,7 +427,7 @@ const App = () => {
         />
          <AppStack.Screen
           name="Profile"
-          component={ProfileModal}
+          component={AccountProfile}
           options={({ navigation }) => ({
             headerShown: true,
             headerLeft: () => <HeaderLeft  hasBack= {true} />,
@@ -467,7 +467,7 @@ const App = () => {
         />
         <AppStack.Screen
           name="Help"
-          component={HelpModal}
+          component={MenuHelp}
           options={({ navigation }) => ({
             headerShown: true,
             headerLeft: () => <HeaderLeft  hasBack= {true} />,
@@ -487,7 +487,7 @@ const App = () => {
         />
         <AppStack.Screen
           name="About"
-          component={AboutModal}
+          component={MenuAbout}
           options={({ navigation }) => ({
             headerShown: true,
             headerLeft: () => <HeaderLeft  hasBack= {true} />,
@@ -507,7 +507,7 @@ const App = () => {
         />
          <AppStack.Screen
           name="OldConversations"
-          component={GetConversationsModal}
+          component={AccountGetConversations}
           options={({ navigation }) => ({
             headerShown: true,
             headerLeft: () => <HeaderLeft  hasBack= {true} />,

@@ -31,6 +31,7 @@
     "jest": true
   },
   "globals": {
+    "WebSocket": true,
     "Promise": true,
     "window": true,
     "FormData": true,
@@ -55,8 +56,10 @@
     // "react/jsx-indent-props": [2, 2],
     "react-hooks/exhaustive-deps": 0,
     "react/jsx-props-no-spreading": 0,
+    "@typescript-eslint/interface-name-prefix": ["warn", { "prefixWithI": "always" }],
     // "@typescript-eslint/no-explicit-any": 0,
     "import/no-unresolved": "off",
+    "operator-linebreak": [2, "after"],
     "react/jsx-filename-extension": [
         1,
         {
@@ -68,6 +71,16 @@
             ]
         }
     ],
+    "comma-dangle": [
+      "error", {
+        // "arrays": "never",
+        // "objects": "never",
+        // "imports": "never",
+        // "exports": "never",
+        "functions": "never"
+      }
+    ],
+    "prettier/prettier": ["error", {"trailingComma": "es5"}],
     "import/extensions": [
         "error",
         "ignorePackages",
