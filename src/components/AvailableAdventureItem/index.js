@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import Image from '../Image';
 import st from '../../st';
 import Touchable from '../Touchable';
@@ -7,8 +9,6 @@ import Text from '../Text';
 import Button from '../Button';
 import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
 
 function AvailableAdventureItem({
   item = {
@@ -84,7 +84,7 @@ function AvailableAdventureItem({
               >
                 {'started'.toUpperCase()}
               </Text>
-              <VokeIcon name="play" size={16} />
+              <VokeIcon name="icon-play" size={16} />
             </Flex>
           ) : null}
           <Text style={[st.fs6, st.bold, st.white]}>
@@ -120,9 +120,7 @@ function AvailableAdventureItem({
                 type="image"
                 style={[st.mr5, { height: 20, width: 20, marginBottom: 2 }]}
               />
-              <Text style={[st.white, { lineHeight: 20 }]}>
-                {'Invite friend'}
-              </Text>
+              <Text style={[st.white, { lineHeight: 20 }]}>Invite friend</Text>
             </Button>
           </Flex>
         ) : (
@@ -164,7 +162,7 @@ function AvailableAdventureItem({
             {shouldInviteFriend ? null : (
               <Button
                 type="transparent"
-                isAndroidOpacity={true}
+                isAndroidOpacity
                 onPress={() => {}}
                 activeOpacity={0.6}
                 touchableStyle={[{ marginTop: -20 }, st.ml5]}

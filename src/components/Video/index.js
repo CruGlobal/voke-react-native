@@ -5,10 +5,10 @@ import Slider from '@react-native-community/slider';
 
 import { View } from 'react-native';
 import Orientation from 'react-native-orientation-locker';
+import { useSafeArea } from 'react-native-safe-area-context';
 import st from '../../st';
 import ModalBackButton from '../ModalBackButton';
 import { useMount, youtube_parser } from '../../utils';
-import { useSafeArea } from 'react-native-safe-area-context';
 import {
   VIDEO_WIDTH,
   VIDEO_HEIGHT,
@@ -23,8 +23,8 @@ import SLIDER_THUMB from '../../assets/sliderThumb.png';
 
 function convertTime(time) {
   const roundedTime = Math.round(time);
-  let seconds = '00' + (roundedTime % 60);
-  let minutes = '00' + Math.floor(roundedTime / 60);
+  const seconds = `00${roundedTime % 60}`;
+  const minutes = `00${Math.floor(roundedTime / 60)}`;
   let hours = '';
   let str = `${minutes.substr(-2)}:${seconds.substr(-2)}`;
   if (time / 3600 >= 1) {
@@ -65,7 +65,7 @@ function Video({
   useMount(() => {
     if (!blockRotation) {
       Orientation.unlockAllOrientations();
-      var initial = Orientation.getInitialOrientation();
+      const initial = Orientation.getInitialOrientation();
       onOrientationChange(getLandscapeOrPortrait(initial));
       Orientation.getAutoRotateState(rotationLock =>
         setRotationLock(rotationLock),
@@ -157,7 +157,7 @@ function Video({
           ref={arclightVideo}
           source={{
             uri: item.hls || item.url,
-            type: !!item.hls ? 'm3u8' : undefined,
+            type: item.hls ? 'm3u8' : undefined,
           }}
           paused={!isPlaying}
           playInBackground={false}
@@ -185,13 +185,13 @@ function Video({
         )}
         {onCancel ? (
           <View style={[]}>
-            <ModalBackButton onPress={onCancel} size={15} isClose={true} />
+            <ModalBackButton onPress={onCancel} size={15} isClose />
           </View>
         ) : null}
         <Flex value={1} style={[]} justify="center" align="center">
           <Touchable style={[st.f1, st.aic, st.jcc]} onPress={togglePlayState}>
             <VokeIcon
-              name={isPlaying ? 'pause' : 'play'}
+              name={isPlaying ? 'pause' : 'icon-play'}
               size={50}
               style={[
                 {
@@ -211,7 +211,7 @@ function Video({
         >
           <Flex value={1}>
             <Touchable onPress={togglePlayState}>
-              <VokeIcon name={isPlaying ? 'pause' : 'play'} size={20} />
+              <VokeIcon name={isPlaying ? 'pause' : 'icon-play'} size={20} />
             </Touchable>
           </Flex>
           <Flex value={1}>

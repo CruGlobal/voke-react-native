@@ -16,9 +16,8 @@ function HeaderLeft({ hasBack = false }) {
           onPress={() => navigation.goBack()}
         >
           <VokeIcon
-            type="image"
-            name="leftArrow"
-            style={[st.h(22), st.w(22), st.mt3]}
+            name="backVoke"
+            style={[st.h(22), st.w(22), st.mt3, { fontSize: 22 }]}
           />
         </Touchable>
       ) : (
@@ -26,7 +25,7 @@ function HeaderLeft({ hasBack = false }) {
           style={[st.p5, st.pl4]}
           onPress={() => navigation.navigate('Menu')}
         >
-          <VokeIcon type="image" name="menuIcon" style={[st.h(22), st.w(22)]} />
+          <VokeIcon name="menu-2" style={{ fontSize: 22 }} />
         </Touchable>
       )}
     </Flex>
