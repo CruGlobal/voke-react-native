@@ -191,11 +191,11 @@ export function sendAdventureInvitation(data: any) {
 }
 // Create new message in Adventure chat.
 export function createAdventureStepMessage(params: {
-  value: any;
+  value: string;
   adventure: any;
   step: any;
-  kind: any;
-  internalMessageId?: any;
+  kind: string;
+  internalMessageId?: string;
 }) {
   return async (dispatch: Dispatch, getState: any) => {
     let data: any = {
@@ -235,9 +235,15 @@ export function createAdventureStepMessage(params: {
       type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
       result: { adventureStepId: params.step.id, newMessage: result },
     });
-    // dispatch(getAdventureSteps(params.adventure.id));
-    if (params.kind === 'question') {
-      // this is the answer to the main question, so update the status to complete
+
+    // Update adventure steps to mark the current step as completed
+    // and unlock the next one.
+    dispatch(getAdventureSteps(params.adventure.id));
+
+    if (params.kind === 'question' && false) {
+      // If this is the answer to the main question
+      // update the adventure step status as completed
+      // and unlock the next step (status:active).
       const adventureSteps = getState().data.adventureSteps[
         params.adventure.id
       ];
@@ -246,38 +252,45 @@ export function createAdventureStepMessage(params: {
       );
       const stepsLength = adventureSteps.length;
       let shouldUpdateNext = false;
+      // If not the last step in the adventure.
       if (stepsLength - 1 !== currentIndex) {
         shouldUpdateNext = true;
       }
-      let newFieldToUpdate = {};
-      let nextFieldToUpdate = {};
+      let currentStepFieldsToUpdate = {};
+      let nextStepFieldsToUpdate = {};
+      // If solo adventure.
       if (
         params.adventure.kind !== 'multiple' &&
         params.adventure.kind !== 'duo'
       ) {
-        newFieldToUpdate = { status: 'completed' };
+        currentStepFieldsToUpdate = { status: 'completed' };
         if (shouldUpdateNext) {
-          nextFieldToUpdate = { status: 'active' };
+          nextStepFieldsToUpdate = { status: 'active' };
         }
       }
-      if (params.adventure.kind === 'duo') {
-        newFieldToUpdate = { 'completed_by_messenger?': true };
+      // If duo adventure
+      /* if (params.adventure.kind === 'duo') {
+        currentStepFieldsToUpdate = { 'completed_by_messenger?': true };
         if (false) {
           // TODO
-          newFieldToUpdate = {
+          currentStepFieldsToUpdate = {
             'completed_by_messenger?': true,
             status: 'completed',
           };
-          nextFieldToUpdate = { status: 'active' };
+          nextStepFieldsToUpdate = { status: 'active' };
         }
-      }
-      if (params.adventure.kind === 'multiple') {
-        newFieldToUpdate = {
+      } */
+      // If duo or group adventure.
+      if (
+        params.adventure.kind === 'multiple' ||
+        params.adventure.kind === 'duo'
+      ) {
+        currentStepFieldsToUpdate = {
           'completed_by_messenger?': true,
-          status: 'completed',
+          // status: 'completed', // TODO: change this only if all other answered?
         };
         if (shouldUpdateNext) {
-          nextFieldToUpdate = { status: 'active' };
+          nextStepFieldsToUpdate = { status: 'active' };
         }
       }
       dispatch({
@@ -285,16 +298,19 @@ export function createAdventureStepMessage(params: {
         update: {
           adventureStepId: params.step.id,
           adventureId: params.adventure.id,
-          fieldsToUpdate: newFieldToUpdate,
+          fieldsToUpdate: currentStepFieldsToUpdate,
         },
       });
-      if (shouldUpdateNext && nextFieldToUpdate) {
+      // If posting message to the question should trigger other changes
+      // in the adventure like: reveal other users replies and marking
+      // the next step as active.
+      if (shouldUpdateNext && nextStepFieldsToUpdate) {
         dispatch({
           type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEP,
           update: {
             adventureStepId: adventureSteps[currentIndex + 1].id,
             adventureId: params.adventure.id,
-            fieldsToUpdate: nextFieldToUpdate,
+            fieldsToUpdate: nextStepFieldsToUpdate,
           },
         });
       }

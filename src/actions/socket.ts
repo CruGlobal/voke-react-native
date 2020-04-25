@@ -14,7 +14,7 @@ import {
   establishPushDevice,
   establishCableDevice,
   getAdventureStepMessages,
-  // getAvailableAdventures,
+  getAdventureSteps,
   getMyAdventures,
   getAdventuresInvitations,
 } from './requests';
@@ -109,7 +109,12 @@ export function setupSockets(deviceId: string) {
                 ),
               );
 
-              dispatch({
+              // TODO: optimize the next call. It can be expensive?
+              // Update adventure steps to mark the current step as completed
+              // and unlock the next one.
+              dispatch(getAdventureSteps(adventureId));
+              // TODO: Review the next action?
+              /* dispatch({
                 type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEP,
                 update: {
                   adventureStepId: message.messenger_journey_step_id,
@@ -118,7 +123,7 @@ export function setupSockets(deviceId: string) {
                     unread_messages: currentStep.unread_messages + 1,
                   },
                 },
-              });
+              }); */
             }
             // dispatch(newMessageAction(message));
           } else if (
