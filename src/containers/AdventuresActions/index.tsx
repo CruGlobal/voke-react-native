@@ -21,7 +21,6 @@ import {
   getAdventuresInvitations,
 } from '../../actions/requests';
 import AvailableAdventureItem from '../../components/AvailableAdventureItem';
-import MyAdventureItem from '../../components/MyAdventureItem';
 import Triangle from '../../components/Triangle';
 
 

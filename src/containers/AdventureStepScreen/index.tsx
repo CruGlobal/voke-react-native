@@ -7,6 +7,7 @@ import theme from '../../theme';
 import MainMessagingInput from '../../components/MainMessagingInput';
 import AdventureStepMessage from '../../components/AdventureStepMessage';
 import AdventureStepMessageInput from '../../components/AdventureStepMessageInput';
+import AdventureStepNextAction from '../../components/AdventureStepNextAction';
 import Image from '../../components/Image';
 import VokeIcon from '../../components/VokeIcon';
 import { KeyboardAvoidingView, findNodeHandle } from 'react-native';
@@ -16,6 +17,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useMount, useKeyboard } from '../../utils';
 import { getAdventureStepMessages } from '../../actions/requests';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
 
 type ModalProps = {
   route: {
@@ -180,6 +182,10 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
                   }}
                 />
               ))}
+              <AdventureStepNextAction
+                adventureId={adventure.id}
+                stepId={stepId}
+              />
             </>
           )}
         </KeyboardAwareScrollView>
