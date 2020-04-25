@@ -9,6 +9,7 @@ const theme: { [key: string]: {[key: string]: string | number} } = {
     primary: '#44c8e8', // Blue
     secondary: '#186078', // Dark Blue
     secondaryAlt: '#3295ad', // offBlue
+    accent: '#FF9900', // Orange
 
     transparent: 'transparent',
     blue: '#44c8e8',
@@ -61,8 +62,8 @@ const theme: { [key: string]: {[key: string]: string | number} } = {
     s: 7,
     m: 10,
     l: 12,
-    // xl: 44,
-    // xxl: 88,
+    xl: 18,
+    xxl: 88,
   },
  /*  dimensions: {
     fullWidth: screenWidth,

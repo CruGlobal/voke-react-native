@@ -126,7 +126,7 @@ const InviteItem = ({ item }) => {
                 getMyAdventure(adventureItem.messenger_journey_id),
               );
               navigation.navigate('AdventureActive', {
-                adventure: adv,
+                adventureId: adv.id,
               });
             }}
             style={[st.pd(7)]}

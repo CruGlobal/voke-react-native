@@ -72,13 +72,17 @@ function MyAdventureItem({ item }) {
     return <InviteItem item={adventureItem} />;
   }
 
+  if ( !adventureItem.id ) {
+    return <></>;
+  }
+
   return (
     <Touchable
       highlight={false}
       activeOpacity={0.8}
       onPress={() =>
         navigation.navigate('AdventureActive', {
-          adventure: adventureItem,
+          adventureId: adventureItem.id,
         })
       }
     >

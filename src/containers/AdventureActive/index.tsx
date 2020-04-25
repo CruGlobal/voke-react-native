@@ -4,6 +4,7 @@ import Flex from '../../components/Flex';
 import st from '../../st';
 import { ScrollView, Linking, FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../reducers';
 import Video from '../../components/Video';
 import { useNavigation } from '@react-navigation/native';
 import { useMount } from '../../utils';
@@ -11,32 +12,42 @@ import { getAdventureSteps } from '../../actions/requests';
 import AdventureStepCard from '../../components/AdventureStepCard';
 import Text from '../../components/Text';
 
-function AdventureActive(props) {
+type AdventureActiveProps = {
+  route: {
+    params: {
+      adventureId: string;
+    };
+  };
+}
+
+function AdventureActive({ route }: AdventureActiveProps): React.ReactElement {
+  const { adventureId } = route.params;
+  const { myAdventures } = useSelector(({ data }: RootState) => data) || {};
+  const adventure =
+    myAdventures.find((item: { id: string }) => item.id === adventureId) || {};
   const dispatch = useDispatch();
   const insets = useSafeArea();
-  const navigation = useNavigation();
   const [isPortrait, setIsPortrait] = useState(true);
-  const { adventure } = props.route.params;
   const steps = useSelector(({ data }) => data.adventureSteps);
-  const [currentSteps, setCurrentSteps] = useState(steps[adventure.id] || []);
+  const [currentSteps, setCurrentSteps] = useState(steps[adventureId] || []);
   useMount(() => {
-    dispatch(getAdventureSteps(adventure.id));
+    dispatch(getAdventureSteps(adventureId));
   });
   useEffect(() => {
-    setCurrentSteps(steps[adventure.id]);
+    setCurrentSteps(steps[adventureId]);
   }, [steps]);
+
   return (
     <Flex value={1}>
-      <ScrollView
-        bounces
-        style={[st.bgBlue, { paddingBottom: insets.bottom }]}
-      >
+      <ScrollView bounces style={[st.bgBlue, { paddingBottom: insets.bottom }]}>
         <Video
-          onOrientationChange={ orientation =>
-            orientation === 'portrait'
-              ? setIsPortrait(true)
-              : setIsPortrait(false)
-          }
+          onOrientationChange={(orientation: string): void => {
+            if (orientation === 'portrait') {
+              setIsPortrait(true);
+            } else {
+              setIsPortrait(false);
+            }
+          }}
           item={adventure.item.content}
         >
           <Flex direction="column" align="center">
@@ -79,7 +90,10 @@ function AdventureActive(props) {
         {isPortrait && (
           <FlatList
             renderItem={props => (
-              <AdventureStepCard {...props} adventure={adventure} />
+              <AdventureStepCard
+                {...props}
+                adventure={adventure} //!!!
+              />
             )}
             data={currentSteps}
             style={[
@@ -91,7 +105,6 @@ function AdventureActive(props) {
           />
         )}
       </ScrollView>
-
     </Flex>
   );
 }
