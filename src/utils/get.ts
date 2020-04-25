@@ -27,3 +27,8 @@ export function getCurrentUserId(): string {
   const userId = useSelector(({ auth }: RootState) => auth.user.id);
   return userId;
 }
+
+export function getCurrentUser(): string {
+  const { user } = useSelector(({ auth }: RootState) => auth);
+  return user;
+}

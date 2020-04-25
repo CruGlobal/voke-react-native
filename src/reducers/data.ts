@@ -81,14 +81,15 @@ export default function(state = initialState, action: any) {
         updatedAdventureInvitations.push(action.result);
       }
       return { ...state, adventureInvitations: updatedAdventureInvitations };
-    case REDUX_ACTIONS.GET_ADVENTURE_STEPS:
+    case REDUX_ACTIONS.GET_ADVENTURE_STEPS: {
       let updatedAdventureSteps: any = lodash.cloneDeep(state.adventureSteps);
       updatedAdventureSteps[action.result.adventureId] =
         action.result.adventureSteps;
       return { ...state, adventureSteps: updatedAdventureSteps };
-    case REDUX_ACTIONS.UPDATE_ADVENTURE_STEP:
-      let updatedAdventureSteps2: any = lodash.cloneDeep(state.adventureSteps);
-      let newStepsArr = updatedAdventureSteps2[action.update.adventureId];
+    }
+    case REDUX_ACTIONS.UPDATE_ADVENTURE_STEP: {
+      const adventureStepsUpdated: any = lodash.cloneDeep(state.adventureSteps);
+      const newStepsArr = adventureStepsUpdated[action.update.adventureId];
       let stepToUpdate =
         newStepsArr.find(
           (step: any) => step.id === action.update.adventureStepId,
@@ -99,8 +100,9 @@ export default function(state = initialState, action: any) {
           (i: any) => i.id === action.update.adventureStepId,
         )
       ] = stepToUpdate;
-      updatedAdventureSteps2[action.update.adventureId] = newStepsArr;
-      return { ...state, adventureSteps: updatedAdventureSteps2 };
+      adventureStepsUpdated[action.update.adventureId] = newStepsArr;
+      return { ...state, adventureSteps: adventureStepsUpdated };
+    }
     case REDUX_ACTIONS.GET_ADVENTURE_STEP_MESSAGES:
       let updatedAdventureStepMessages: any = lodash.cloneDeep(
         state.adventureStepMessages,

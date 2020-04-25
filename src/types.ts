@@ -117,3 +117,41 @@ export type TAdventureStepSingle = {
 
 // Typing for myAdventures.
 export type TAdventureSteps = TAdventureStepSingle[];
+
+// Typing for single Message from myAdventures.
+export type TMessage = {
+  id: string;
+  content: string;
+  position: number;
+  messenger_id: string;
+  messenger_answer: string;
+  conversation_id: string;
+  messenger_journey_step_id: string;
+  kind: 'text' | 'request' | 'response';
+  direct_message: boolean;
+  'adventure_message?': boolean;
+  metadata?: {
+    created_at: string;
+    step_kind: string;
+    answers: any;
+    question: string;
+    vokebot_action: string;
+    messenger_journey_step_id: string;
+  };
+  item?: {
+    id: string;
+    name: string;
+    description: string;
+    content: string;
+    content_type: string;
+    media: {
+      id: string;
+      url: string;
+      type: string;
+      thumbnails: TImage;
+      duration: number;
+    };
+    media_start: number;
+    media_end: number;
+  };
+};
