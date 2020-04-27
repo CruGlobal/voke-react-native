@@ -1,10 +1,10 @@
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 import Flex from '../Flex';
 import Text from '../Text';
 import VokeIcon from '../VokeIcon';
 import Touchable from '../Touchable';
 import st from '../../st';
-import { useNavigation } from '@react-navigation/native';
 
 function HeaderLeft({ hasBack = false }) {
   const navigation = useNavigation();
@@ -16,9 +16,8 @@ function HeaderLeft({ hasBack = false }) {
           onPress={() => navigation.goBack()}
         >
           <VokeIcon
-            type="image"
-            name="leftArrow"
-            style={[st.h(22), st.w(22), st.mt3]}
+            name="backVoke"
+            style={[st.h(22), st.w(22), st.mt3, { fontSize: 22 }]}
           />
         </Touchable>
       ) : (
@@ -26,7 +25,7 @@ function HeaderLeft({ hasBack = false }) {
           style={[st.p5, st.pl4]}
           onPress={() => navigation.navigate('Menu')}
         >
-          <VokeIcon name="menu" size={25} style={[st.h(25)]} />
+          <VokeIcon name="menu-2" style={{ fontSize: 22 }} />
         </Touchable>
       )}
     </Flex>

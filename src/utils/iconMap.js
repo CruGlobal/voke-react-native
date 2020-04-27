@@ -20,8 +20,9 @@ import CHECK from '../assets/check.png';
 import LEFT_ARROW from '../assets/left-arrow.png';
 import FACEBOOK from '../assets/facebook.png';
 import EMAIL from '../assets/mail.png';
+import MENU from '../assets/menu.png';
 
-let iconsMap = {};
+const iconsMap = {};
 const vokeIcons = {
   back_button: true,
   pause: true,
@@ -74,6 +75,7 @@ const vokeImages = {
   check: CHECK,
   facebook: FACEBOOK,
   email: EMAIL,
+  menuIcon: MENU,
 };
 
 export { iconsMap, vokeIcons, vokeImages };
