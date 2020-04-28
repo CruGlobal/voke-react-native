@@ -1,6 +1,6 @@
 <resources>
     <!-- FACEBOOK SDK -->
     <string name="app_name">Voke</string>
-    <string name="facebook_app_id">443564615845137</string>
-    <string name="fb_login_protocol_scheme">fb443564615845137-</string>
+    <string name="facebook_app_id">443564482511817</string>
+    <string name="fb_login_protocol_scheme">fb443564482511817-</string>
 </resources>
