@@ -21,6 +21,7 @@
     "@emotion/react": "^11.0.0-next.12",
     "@react-native-community/async-storage": "1.8.1",
     "@react-native-community/blur": "^3.6.0",
+    "@react-native-community/clipboard": "^1.2.2",
     "@react-native-community/masked-view": "0.1.7",
     "@react-native-community/push-notification-ios": "^1.1.1",
     "@react-native-community/slider": "^2.0.9",
