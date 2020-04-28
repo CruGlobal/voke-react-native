@@ -50,7 +50,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
     ({ data }: RootState) => data.adventureStepMessages
   );
   const [currentMessages, setCurrentMessages] = useState(
-    [...(messages[currentStep.id] || [])].reverse(),
+    [...(messages[currentStep.id] || [])]//.reverse(),
   );
 
   useEffect(() => {
@@ -60,10 +60,14 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
 
   const scrollRef = useRef(null);
   const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'multiple';
+  // Find a reply to the main question (if already answered).
   let mainAnswer = '';
 
   if (!['multi', 'binary'].includes(currentStep.kind)) {
-    mainAnswer = (currentMessages.find(m => m.messenger_id === currentUser.id) || {})
+    // At this currentMessages is reversed.
+    // So we need to flip it with slice().reverse() to find the first message
+    // of the current author from the start.
+    mainAnswer = (currentMessages.slice().reverse().find(m => m.messenger_id === currentUser.id) || {})
       .content;
   } else {
     mainAnswer = (currentStep.metadata.answers.find(a => a.selected) || {})
@@ -74,13 +78,14 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
 
   useMount(() => {
     dispatch(
-      getAdventureStepMessages(adventure.conversation.id, currentStep.id),
+      getAdventureStepMessages(adventure.conversation.id, currentStep.id)
     );
   });
   useEffect(() => {
     let newMsgs = [...(messages[currentStep.id] || [])].reverse();
     // If solo adventure, render bot's messages.
     if (isSolo) {
+      // newMsgs.push({
       newMsgs.unshift({
         id: new Date().toISOString(),
         messenger_id: (
@@ -126,6 +131,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
           />
           {isPortrait && (
             <>
+              {/* Special Bot message at the top */}
               {currentStep.status_message ? (
                 <Flex
                   align="center"

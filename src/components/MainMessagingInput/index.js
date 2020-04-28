@@ -13,7 +13,7 @@ function AdventureStepMessageInput({ adventure, step, ...rest }) {
   const [inputHeight, setInputHeight] = useState(0);
   const dispatch = useDispatch();
 
-  function handleSendMessage() {
+  const handleSendMessage = () => {
     Keyboard.dismiss();
     dispatch(
       createAdventureStepMessage({

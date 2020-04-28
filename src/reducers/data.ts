@@ -117,7 +117,7 @@ export default function(state = initialState, action: any) {
       );
       updatedAdventureStepMessagesAfterCreate[
         action.result.adventureStepId
-      ].push(action.result.newMessage);
+      ].unshift(action.result.newMessage);
       return {
         ...state,
         adventureStepMessages: updatedAdventureStepMessagesAfterCreate,
