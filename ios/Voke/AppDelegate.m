@@ -6,7 +6,7 @@
  */
 
 #import "AppDelegate.h"
-#import <Firebase.h>
+#import <Firebase.h> // Voke: https://rnfirebase.io/#validate-ios-credentials
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 #import <React/RCTBridge.h>
@@ -39,7 +39,7 @@
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
   center.delegate = self;
 
-  // VOKE: Configure Firebase
+  // VOKE: Configure Firebase - https://rnfirebase.io/#validate-ios-credentials
   if ([FIRApp defaultApp] == nil) {
     [FIRApp configure];
   }

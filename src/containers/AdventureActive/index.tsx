@@ -40,7 +40,7 @@ function AdventureActive({ route }: AdventureActiveProps): React.ReactElement {
   return (
     <Flex value={1}>
       <ScrollView bounces style={[st.bgBlue, { paddingBottom: insets.bottom }]}>
-        <Video
+        { adventure && <Video
           onOrientationChange={(orientation: string): void => {
             if (orientation === 'portrait') {
               setIsPortrait(true);
@@ -48,7 +48,7 @@ function AdventureActive({ route }: AdventureActiveProps): React.ReactElement {
               setIsPortrait(false);
             }
           }}
-          item={adventure.item.content}
+          item={adventure?.item?.content}
         >
           <Flex direction="column" align="center">
             {/* Call to action overlay to be rendered over the video. */}
@@ -85,7 +85,7 @@ function AdventureActive({ route }: AdventureActiveProps): React.ReactElement {
               </Text>
             </Flex>
           </Flex>
-        </Video>
+        </Video> }
 
         {isPortrait && (
           <FlatList

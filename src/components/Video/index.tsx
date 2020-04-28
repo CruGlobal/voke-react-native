@@ -138,7 +138,7 @@ function Video({
   }
 
   function handleSliderChange(value) {
-    if (item.type === 'youtube') {
+    if (item?.type === 'youtube') {
       youtubeVideo.current.seekTo(value);
     } else {
       arclightVideo.current.seek(value);
@@ -164,7 +164,7 @@ function Video({
         },
       ]}
     >
-      {item.type === 'youtube' ? (
+      {item?.type === 'youtube' ? (
         <YouTube
           ref={youtubeVideo}
           videoId={youtube_parser(item.url)}
