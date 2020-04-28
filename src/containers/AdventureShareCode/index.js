@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
+import Clipboard from "@react-native-community/clipboard";
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import Image from '../../components/Image';
@@ -11,11 +12,12 @@ import { useNavigation } from '@react-navigation/native';
 // import { MONTHLY_PRICE } from '../../constants';
 import { useDispatch } from 'react-redux';
 
-import { Share } from 'react-native';
+import { Share, TouchableWithoutFeedback } from 'react-native';
 
 import VOKE_BOT from '../../assets/vokebot_whole.png';
 import Touchable from '../../components/Touchable';
 import CONSTANTS from '../../constants';
+
 function AdventureShareCode(props) {
   const insets = useSafeArea();
   const navigation = useNavigation();
@@ -24,7 +26,7 @@ function AdventureShareCode(props) {
 
   const { invitation, withGroup, isVideoInvite } = props.route.params;
 
-  function handleShare() {
+  const handleShare = () => {
     Share.share(
       {
         message: isVideoInvite
@@ -36,6 +38,10 @@ function AdventureShareCode(props) {
       },
     ).catch(err => console.log('Share Error', err));
   }
+
+  const copyToClipboard = () => {
+    Clipboard.setString(isVideoInvite ? invitation.url : invitation.code);
+  };
 
   return (
     <>
@@ -94,7 +100,7 @@ function AdventureShareCode(props) {
           </Flex>
           <Flex direction="column" align="center" style={[st.ph1, st.w100]}>
             <Text style={[st.fs22, st.white, st.pb4]}>Invite Code:</Text>
-            <Touchable>
+            <Touchable onPress={copyToClipboard}>
               <Flex
                 style={[
                   st.bw1,
