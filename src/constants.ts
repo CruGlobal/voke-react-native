@@ -286,7 +286,7 @@ export const ACTIONS = {
   },
 };
 
-const constants:{ [key: string]: {[key: string]: string | number} | any } = {
+const CONSTANTS:{ [key: string]: {[key: string]: string | number} | any } = {
   IS_STAGING,
   EMAIL_REGEX: new RegExp(/^\w+([.+-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/),
   GA_TRACKER: 'UA-39188989-7', // Google Analytics
@@ -368,4 +368,4 @@ const constants:{ [key: string]: {[key: string]: string | number} | any } = {
   },
 };
 
-export default constants;
+export default CONSTANTS;

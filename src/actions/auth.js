@@ -2,29 +2,27 @@ import RNFetchBlob from 'rn-fetch-blob';
 import { Alert } from 'react-native';
 import { getTimeZone, getCountry, getLocales } from 'react-native-localize';
 import AsyncStorage from '@react-native-community/async-storage';
-import { FACEBOOK_FIELDS, FACEBOOK_VERSION, FACEBOOK_SCOPE, REDUX_ACTIONS } from '../constants';
-import ROUTES from './routes';
-import request from './utils';
-import { getDevices, revokeAuthToken, setUser } from './requests';
-import { isArray } from '../utils';
-import { permissionsAndSockets } from './socket';
 import {
   LoginManager,
   GraphRequestManager,
   GraphRequest,
   AccessToken,
 } from 'react-native-fbsdk';
+import CONSTANTS, { REDUX_ACTIONS } from '../constants';
+import ROUTES from './routes';
+import request from './utils';
+import { getDevices, revokeAuthToken, setUser } from './requests';
+import { isArray } from '../utils';
+import { permissionsAndSockets } from './socket';
 
 export function loginAction(authToken) {
   // const authToken = authData.access_token;
   return async dispatch => {
-    dispatch({ type: REDUX_ACTIONS.LOGIN, authToken });
+    await dispatch({ type: REDUX_ACTIONS.LOGIN, authToken });
   };
 }
 
 export function startupAction() {
-  console.log( 'FUNCTION STARTUPACTION' );
-
   return async dispatch => {
     await dispatch(permissionsAndSockets());
   };
@@ -34,7 +32,7 @@ export function logoutAction(user, token, isDelete = false) {
   console.log('🚶‍♂️🚪 logoutAction \n\n', { user }, '\n', { token }, '\n', {
     isDelete,
   });
-  return async (dispatch, getState) => {
+  return async dispatch => {
     try {
       if (token && !isDelete) {
         const devices = await dispatch(getDevices());
@@ -44,9 +42,10 @@ export function logoutAction(user, token, isDelete = false) {
           if (deviceIds.length > 0) {
             dispatch(
               revokeAuthToken({
+                // eslint-disable-next-line @typescript-eslint/camelcase
                 device_ids: deviceIds,
                 token: null,
-              }),
+              })
             );
           }
         }
@@ -56,9 +55,33 @@ export function logoutAction(user, token, isDelete = false) {
       // Clear data in the local storage if user logout.
       AsyncStorage.clear();
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.log('🛑 Logout error', error);
       throw error;
     }
+  };
+}
+
+/**
+ * Update store.auth.user branch with user data fetched from the server.
+ */
+export function getMe() {
+  console.log("🤷‍♂ function getMe");
+  return async dispatch => {
+    // Fetch user data from the server.
+    return dispatch(request({ ...ROUTES.GET_ME })).then(
+      userData => {
+        // eslint-disable-next-line no-console
+        console.log('👤 getMe > Updated user data:\n', userData);
+        // Update redux store with data received.
+        return dispatch(setUser(userData));
+      },
+      error => {
+        // eslint-disable-next-line no-console
+        console.log('👤 getMe > Fetch error', error);
+        throw error;
+      }
+    );
   };
 }
 
@@ -67,69 +90,17 @@ export function hasSeenSubscriptionModal(bool) {
     dispatch({ type: REDUX_ACTIONS.HAS_SEEN_SUBSCRIPTION_MODAL, bool });
   };
 }
-/* 
-export function facebookLogin() {
-  if (auth().currentUser) {
-    auth().signOut();
-  }
-  return async (dispatch) => {
-    try {
-      const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
-      if (result.isCancelled) {
-        // alert('Canceled');
-        dispatch(LOGIN_LOADING(false));
-      }
-      // get the access token
-      const data = await AccessToken.getCurrentAccessToken();
-
-      if (!data) {
-        // alert('Something Went Wrong!');
-        dispatch(LOGIN_LOADING(false));
-      }
-      // create a new firebase credential with the token
-      const credential = auth.FacebookAuthProvider.credential(data.accessToken);
-
-      const user = await auth().signInWithCredential(credential);
-      if (user) {
-        dispatch(loginAction(user));
-      }
-    } catch (error) {
-      console.log('error', error);
-      firebaseErrorAlert(error, 'Login Error');
-    }
-  };
-}
- */
 
 export function facebookLoginAction(accessToken) {
-  // LOG('access token for fb', accessToken);
-/*   return dispatch => {
-    let data = { assertion: accessToken };
-    if (anonId) {
-      data.anonymous_user_id = anonId;
-    }
-    return dispatch(callApi(REQUESTS.FACEBOOK_LOGIN, {}, data))
-      .then(results => {
-        dispatch(loginAction(results.access_token, results));
-        // dispatch(messagesAction());
-        // Do something with the results
-        return results;
-      })
-      .catch(error => {
-        LOG('error logging in', error);
-      });
-  }; */
-
   return async (dispatch, getState) => {
     // Important! It tells the server to merge anonymous_user_id
     // with provided login details.
     const userId = getState().auth.user.id;
+    const data = { assertion: accessToken };
     if (userId) {
+      // eslint-disable-next-line @typescript-eslint/camelcase
       data.anonymous_user_id = userId;
     }
-
-    console.log( "function facebookLoginAction > data:" ); console.log( data );
-
 
     return dispatch(request({ ...ROUTES.FACEBOOK_LOGIN, data })).then(
       authData => {
@@ -138,7 +109,7 @@ export function facebookLoginAction(accessToken) {
         // Received login response do Logout/reset state.
         logoutAction();
         // Update user data in the state with ones received.
-        dispatch( loginAction(authData.access_token) );
+        dispatch(loginAction(authData.access_token));
         // await dispatch(getMe());
         // After all download user details from server.
         return dispatch(getMe());
@@ -147,92 +118,95 @@ export function facebookLoginAction(accessToken) {
         // eslint-disable-next-line no-console
         console.log('facebookLoginAction > Login error', error);
         throw error;
-      },
-    );
-  }
-}
-
-const facebookGetUserInfo = (accessToken) => {
-  const getMeConfig = {
-    version: FACEBOOK_VERSION,
-    accessToken,
-    parameters: {
-      fields: {
-        string: FACEBOOK_FIELDS,
-      },
-    },
-  };
-
-  console.log( "👤FB getMeConfig:", getMeConfig );
-
-  // Prepare a graph request asking for user information
-  // with a callback to handle the response.
-  const infoRequest = new GraphRequest(
-    '/me',
-    getMeConfig,
-    (err, meResult) => {
-      if (err) {
-        console.log('👤 getMe > error getting facebook user data\n', error);
-        throw error;
       }
-
-      dispatch(facebookLoginAction(accessToken))
-        .then((result) => {
-          console.log( "facebookLoginAction >>>> result:" ); console.log( result );
-        })
-        .catch((error) => {
-          console.log( "facebookLoginAction >>>> error:" ); console.log( error );
-        });
-
-    },
-  );
-
-  // Send the graph request.
-  new GraphRequestManager().addRequest(infoRequest).start();
-
+    );
+  };
 }
 
-export async function facebookLogin() {
-  // Attempt to login using the Facebook login dialog asking for permissions.
-  LoginManager.logInWithPermissions(FACEBOOK_SCOPE)
-    .then(
-      result => {
-        if (result.isCancelled) {
-          console.log('👤FB Login cancelled');
-          // setIsSignedIn(false);
-          return;
-        }
-        console.log(
-          `👤FB Login success with permissions: ${result.grantedPermissions.toString()}`,
-        );
+export async function facebookGetUserInfo(accessToken) {
+  return new Promise((resolve, reject) => {
+    const getMeConfig = {
+      version: CONSTANTS.FACEBOOK_VERSION,
+      accessToken,
+      parameters: {
+        fields: {
+          string: CONSTANTS.FACEBOOK_FIELDS,
+        },
+      },
+    };
 
-        // Generate FB access token.
-        AccessToken.getCurrentAccessToken().then(data => {
-          console.log('👤FB AccessToken:', data);
-          if (!data || !data.accessToken) {
-            console.log('👤FB access token doesnt exist');
-            return;
+    try {
+      // Prepare a graph request asking for user information
+      // with a callback to handle the response.
+      const infoRequest = new GraphRequest(
+        '/me',
+        getMeConfig, // What information we want back from Facebook?
+        (err, meResult) => {
+          // Callback to run when FB returns a value.
+          if (err) {
+            reject(err);
+          } else {
+            resolve(meResult);
           }
-
-          const accessToken = data.accessToken.toString();
-
-          facebookGetUserInfo(accessToken)
-        });
-      },
-      error => {
-        console.log(`👤FB Login fail with error: ${error}`);
-      },
-    )
-    .catch(error => {
-      console.log(`👤FB Login failed with error: ${error}`);
-    });
+        }
+      );
+      // Send the graph request.
+      new GraphRequestManager().addRequest(infoRequest).start();
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log('🛑 facebookGetUserInfo > GraphRequestManager:', error);
+    }
+  });
 }
 
-/*
-BEN
-export function login(username, password) {
-  return async (dispatch, getState) => {};
-} */
+export async function facebookRequestPermissions() {
+  // Attempt to login using the Facebook login dialog asking for permissions.
+  const fbPermissionsRequest = await LoginManager.logInWithPermissions(
+    CONSTANTS.FACEBOOK_SCOPE
+  );
+  if (!fbPermissionsRequest.isCancelled) {
+    return true;
+  }
+  // eslint-disable-next-line no-console
+  console.log('🛑 👤FB Login cancelled');
+  return false;
+}
+
+export async function facebookGetAccessToken() {
+  // Generate FB access token.
+  const fbAccessTokenInfo = await AccessToken.getCurrentAccessToken();
+
+  if (fbAccessTokenInfo && fbAccessTokenInfo.accessToken) {
+    // Permission given - get current user info.
+    const accessToken = fbAccessTokenInfo.accessToken.toString();
+    return accessToken;
+  }
+  // eslint-disable-next-line no-console
+  console.log("🛑👤FB access token doesn't exist");
+  return false;
+}
+
+export function facebookLogin() {
+  return async dispatch => {
+    // 1. Request permission to use Facebook for Sign In.
+    const fbPermissions = await facebookRequestPermissions();
+    if (fbPermissions) {
+      // 2. Accepted by the user. Facebook returns us token.
+      const accessToken = await facebookGetAccessToken();
+      if (accessToken) {
+        // 3. Get the user's info from Facebook.
+        await facebookGetUserInfo(accessToken);
+        // 4. Login on our server using Facebook token.
+        const result = await dispatch(facebookLoginAction(accessToken));
+        return result.user.id;
+      }
+    } else {
+      // eslint-disable-next-line no-console
+      console.log('🛑👤FB Login cancelled');
+      return false;
+    }
+  };
+}
 
 export function passwordReset(username) {
   return async (dispatch, getState) => {
@@ -252,43 +226,8 @@ export function passwordReset(username) {
   };
 }
 
-/**
- * Update store.auth.user branch with user data fetched from the server.
- */
-export function getMe() {
-  console.log( "🤷‍♂ function getMe" );
-  return async (dispatch, getState) => {
-    /* 
-    // Fetch user data from the server.
-    const userData = await dispatch(request({ ...ROUTES.GET_ME }));
-    // TODO: add data validation here.
-    // Update redux store with data received.
-    return dispatch({
-        type: REDUX_ACTIONS.SET_USER,
-        user: userData,
-    });
- */
-
-    // Fetch user data from the server.
-    return dispatch(request({ ...ROUTES.GET_ME })).then(
-      userData => {
-        // eslint-disable-next-line no-console
-        console.log('👤 getMe > Updated user data:\n', userData);
-        // Update redux store with data received.
-        return dispatch(setUser(userData));
-      },
-      error => {
-        // eslint-disable-next-line no-console
-        console.log('👤 getMe > Fetch error', error);
-        throw error;
-      },
-    );
-  };
-}
-
 export function userLogin(username, password) {
   return async (dispatch, getState) => {
-    // try {
     const data = {
       username,
       password,
@@ -297,13 +236,10 @@ export function userLogin(username, password) {
     // Important! It tells the server to merge anonymous_user_id
     // with provided login details.
     const userId = getState().auth.user.id;
-    if ( userId ) {
+    if (userId) {
+      // eslint-disable-next-line @typescript-eslint/camelcase
       data.anonymous_user_id = userId;
     }
-
-    console.log( "function userLogin > data:" ); console.log( data );
-
-
 
     return dispatch(request({ ...ROUTES.LOGIN, data })).then(
       authData => {
@@ -312,8 +248,7 @@ export function userLogin(username, password) {
         // Received login response do Logout/reset state.
         logoutAction();
         // Update user data in the state with ones received.
-        dispatch( loginAction(authData.access_token) );
-        // await dispatch(getMe());
+        dispatch(loginAction(authData.access_token));
         // After all download user details from server.
         return dispatch(getMe());
       },
@@ -321,22 +256,14 @@ export function userLogin(username, password) {
         // eslint-disable-next-line no-console
         console.log('Login error', error);
         throw error;
-      },
+      }
     );
-
-
-   /*  } catch (error) {
-      console.log('Login error', error);
-      // Some error action.
-      // throw new Error(error);
-      throw error;
-    } */
   };
 }
 
 
 export function createAccount(user) {
-  console.log( "Auth > createAccount\n", {user}  );
+  console.log( "Auth > createAccount\n", { user } );
   return async (dispatch, getState) => {
     const data = {
       me: {
@@ -357,7 +284,7 @@ export function createAccount(user) {
         // Received login response do Logout/reset state.
         // logoutAction();
         // Update user data in the state with ones received.
-        return dispatch(setUser(userData))
+        return dispatch(setUser(userData));
 
         // await dispatch(getMe());
         // After all download user details from server.
@@ -367,7 +294,7 @@ export function createAccount(user) {
         // eslint-disable-next-line no-console
         console.log('🛑 Create account error', error);
         throw error;
-      },
+      }
     );
   };
 }
@@ -379,7 +306,7 @@ export function createAccount(user) {
  * @param {object} data - user data to update.
  */
 export function updateMe(data) {
-  console.log( "🔄 auth > updateMe()", {data} );
+  console.log( "🔄 auth > updateMe()", { data } );
   return async (dispatch, getState) => {
     const userId = getState().auth.user.id;
     if (!userId) return;
@@ -393,14 +320,12 @@ export function updateMe(data) {
       };
     }
 
-    // await dispatch( request({ ...ROUTES.UPDATE_ME_IMAGE, pathParams: { userId }, data })  );
-    return dispatch( request({ ...ROUTES.UPDATE_ME, pathParams: { userId }, data })  ).then(
+    return dispatch(request({ ...ROUTES.UPDATE_ME, pathParams: {userId}, data })).then(
       userData => {
         console.log( "User update result:\n", userData );
         // dispatch(getMe());
         // Update redux store with data received.
-        console.log( "🏁beofre setUser!" );
-        return dispatch(setUser(userData))
+        return dispatch(setUser(userData));
       },
       error => {
         console.log('🛑 Error while updating the user.', error);

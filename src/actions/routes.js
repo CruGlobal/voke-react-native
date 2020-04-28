@@ -11,7 +11,7 @@ const ROUTES = {
     method: 'post',
     url: 'oauth/token',
     anonymous: true, // x-access-token = userToken
-    isAuth: true, // Resuest to be made on auth subdomain.
+    isAuth: true, // Request to be made on auth subdomain.
     customData: {
       client: CLIENT,
       grant_type: 'password',
@@ -21,8 +21,9 @@ const ROUTES = {
   // https://docs.vokeapp.com/#o-auth-token-via-assertion
   FACEBOOK_LOGIN: {
     method: 'post',
-    endpoint: 'oauth/token',
-    anonymous: true,
+    url: 'oauth/token',
+    anonymous: true, // x-access-token = userToken
+    isAuth: true, // Request to be made on auth subdomain.
     customData: {
       client: CLIENT,
       grant_type: 'assertion',
