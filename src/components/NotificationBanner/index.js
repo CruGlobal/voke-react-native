@@ -1,47 +1,101 @@
-import React from 'react';
-import moment from 'moment';
+import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import Modal from 'react-native-modal';
+import { Alert } from 'react-native';
 import Image from '../Image';
 import st from '../../st';
 import Flex from '../Flex';
 import Text from '../Text';
 import Button from '../Button';
-import Touchable from '../Touchable';
-import { momentUtc } from '../../utils';
-import DateComponent from '../DateComponent';
 import VokeIcon from '../VokeIcon';
-import { VIDEO_WIDTH, VIDEO_HEIGHT } from '../../constants';
 import theme from '../../theme';
+import BotTalking from '../BotTalking';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../reducers';
 
-function renderText(item) {
-  const notification = item;
+function NotificationBanner() {
+  const [isVisible, setVisible] = useState(false);
+  const me = useSelector(({ auth }: RootState) => auth.user);
 
-  if (!notification || !notification.content) return null;
-  return (
-    <Flex
-      style={[st.ph4, st.pv5, st.br5, st.ml0, st.bgWhite]}
-      direction="row"
-      align="center"
-      justify="start"
-    >
-      <Text selectable style={[st.fs16, st.lh(22), st.blue]}>
-        {notification.content}
-      </Text>
-    </Flex>
+  //NotificationModal
+  const notificationModal = (
+    <Modal isVisible={isVisible} backdropOpacity={0.9}>
+      <Flex
+        style={{ justifyContent: 'space-between', width: '100%' }}
+        direction="column"
+        align="center"
+      >
+        <Flex>
+          <BotTalking type="reverse">
+            {`${me.firstName}, I play my ukelele when your friends start watching the videos you share, and I let you know. But first, I need your permission to send notifications.`}
+          </BotTalking>
+        </Flex>
+
+        <Button
+          isAndroidOpacity
+          style={[
+            {
+              backgroundColor: theme.colors.primary,
+              borderRadius: 8,
+              paddingLeft: 40,
+              paddingRight: 40,
+              paddingTop: 10,
+              height: 50,
+              width: 250,
+              marginBottom: 10,
+              marginTop: 10,
+            },
+          ]}
+          onPress={() => Alert.alert('pressed')}
+        >
+          <Text
+            style={{
+              color: theme.colors.white,
+              fontSize: 18,
+              textAlign: 'center',
+            }}
+          >
+            Allow Notifications
+          </Text>
+        </Button>
+
+        <Button
+          isAndroidOpacity
+          style={[
+            {
+              alignSelf: 'flex-end',
+              alignContent: 'center',
+              borderColor: theme.colors.white,
+              borderWidth: 1,
+              borderRadius: 8,
+              paddingLeft: 40,
+              paddingRight: 40,
+              paddingTop: 10,
+              height: 50,
+              width: 250,
+              marginBottom: 10,
+              marginTop: 10,
+            },
+          ]}
+          onPress={() => setVisible(false)}
+        >
+          <Text
+            style={{
+              color: theme.colors.white,
+              fontSize: 18,
+              textAlign: 'center',
+            }}
+          >
+            No Thanks
+          </Text>
+        </Button>
+      </Flex>
+    </Modal>
   );
-}
-function NotificationBanner({ item, onSelectVideo }) {
-  const navigation = useNavigation();
-  function handleShare() {
-    navigation.navigate('AdventureName', {
-      item,
-      withGroup: false,
-      isVideoInvite: true,
-    });
-  }
 
   return (
     <>
+      {notificationModal}
       <Flex
         direction="row"
         style={{ padding: 15, backgroundColor: '#000', height: 60 }}
@@ -72,7 +126,7 @@ function NotificationBanner({ item, onSelectVideo }) {
               paddingLeft: 15,
             },
           ]}
-          onPress={() => {}}
+          onPress={() => setVisible(true)}
         >
           <Text style={{ color: theme.colors.white, fontSize: 18 }}>
             Turn On

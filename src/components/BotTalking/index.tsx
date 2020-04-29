@@ -10,26 +10,44 @@ import styles from './styles';
 interface IBotTalking {
   reference?: React.RefObject<HTMLButtonElement>;
   children?: React.ReactNode;
+  type?: React.ReactText 
 }
 /**
  * Displays speech bubble with Voke bot underneath.
  * Wraps provided content with <Text> element.
  */
-const BotTalking: React.FC = ({reference, children}: IBotTalking): React.ReactElement => (
+const BotTalking: React.FC = ({reference, children, type}: IBotTalking): React.ReactElement => (
+  type=== "reverse" ?
   <Flex style={styles.BotContainer}>
-    <Flex style={styles.BotMessage}>
-      <Text style={styles.BotText}>{children}</Text>
-    </Flex>
-    <Triangle
-      width={20}
-      height={20}
-      flip
-      slant="down"
-      color={styles.colors.secondaryAlt}
-      style={styles.BotMessageTail}
-    />
-    <Image width={80} style={styles.BotImage} source={vokeImages.vokebot} />
+  <Flex style={styles.BotMessage_reverse}>
+    <Text style={styles.BotText_reverse}>{children}</Text>
   </Flex>
+  <Triangle
+    width={20}
+    height={20}
+    flip
+    slant="down"
+    color={styles.colors.white}
+    style={styles.BotMessageTail}
+  />
+  <Image width={110} style={styles.BotImage_reverse} source={vokeImages.VokeBot_Ukelele} />
+</Flex>
+:
+<Flex style={styles.BotContainer}>
+  <Flex style={styles.BotMessage}>
+    <Text style={styles.BotText}>{children}</Text>
+  </Flex>
+  <Triangle
+    width={20}
+    height={20}
+    flip
+    slant="down"
+    color={styles.colors.secondaryAlt}
+    style={styles.BotMessageTail}
+  />
+  <Image width={80} style={styles.BotImage} source={vokeImages.vokebot} />
+</Flex>
+
 );
 
 export default BotTalking;
