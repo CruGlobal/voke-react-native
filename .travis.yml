@@ -41,7 +41,7 @@ jobs:
     osx_image: xcode11.1
 
     env:
-      - ENVFILE=.env.production
+    - ENVFILE=.env.production
 
     before_install:
     - brew update
