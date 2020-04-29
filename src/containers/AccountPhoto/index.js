@@ -45,9 +45,9 @@ function AccountPhoto() {
   const [avatarSource, setAvatarSource] = useState(currentAvatar);
 
   async function handleContinue() {
-    if (!avatarSource) {
+    if (!avatarSource || avatarSource === null) {
       // No image selected - skip to the next screen.
-      navigation.navigate('LoggedInApp');
+      return navigation.navigate('Adventures');
     }
 
     const avatarData = {
@@ -172,13 +172,18 @@ function AccountPhoto() {
         <Flex value={1} />
         <Button
           onPress={handleContinue}
-          touchableStyle={[st.w100, st.p4, {backgroundColor: theme.colors.secondary}]}
+          touchableStyle={[
+            st.w100,
+            st.p4,
+            {
+              backgroundColor: theme.colors.secondary,
+              paddingBottom: insets.bottom,
+            },
+          ]}
           isLoading={loginLoading}
         >
-          <Text style={[st.white, st.fs20, st.tac]}>Continue</Text>
+          <Text style={[st.white, st.fs20, st.touchableStyle, st.tac]}>Continue</Text>
         </Button>
-        {/* Safety spacing. */}
-        <Flex style={{ paddingBottom: insets.bottom }} />
       </Flex>
     </Flex>
   );

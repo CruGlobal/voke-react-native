@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import Orientation from 'react-native-orientation-locker';
 import { TabView, SceneMap } from 'react-native-tab-view';
 import TabBarStyled from './TabBarStyled';
-import { useMount } from '../../utils';
+import { useMount, lockToPortrait } from '../../utils';
 
 type TabsProps = {
   tabs: {
@@ -23,7 +22,7 @@ const CustomTabs = ({ tabs }: TabsProps): React.ReactElement => {
   const scenes: { [key: string]: React.ComponentType } = {};
 
   useMount(() => {
-    Orientation.lockToPortrait();
+    lockToPortrait();
   });
 
   tabs.forEach(tab => {

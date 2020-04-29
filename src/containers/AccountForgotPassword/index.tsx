@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Orientation from 'react-native-orientation-locker';
 import { useSafeArea } from 'react-native-safe-area-context';
 import {
   KeyboardAvoidingView,
@@ -12,7 +11,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
-import { useMount } from '../../utils';
+import { useMount, lockToPortrait } from '../../utils';
 import { passwordReset } from '../../actions/auth';
 import st from '../../st';
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
@@ -38,7 +37,7 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
   const [emailValid, setEmailValid] = useState(false);
 
   useMount(() => {
-    Orientation.lockToPortrait();
+    lockToPortrait();
   });
 
   const checkEmail = (text: string) => {

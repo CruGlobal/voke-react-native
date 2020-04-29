@@ -9,12 +9,11 @@ import {
   Linking,
 } from 'react-native';
 
-import Orientation from 'react-native-orientation-locker';
 import { useNavigation } from '@react-navigation/native';
 import { getTimeZone } from 'react-native-localize';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
-import { useMount } from '../../utils';
+import { useMount, lockToPortrait } from '../../utils';
 import { userLogin, updateMe } from '../../actions/auth';
 
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
@@ -43,7 +42,7 @@ const AccountCreate: React.FC = (): React.ReactElement => {
   // const passwordRef = useRef<HTMLInputElement>(null);
 
   useMount(() => {
-    Orientation.lockToPortrait();
+    lockToPortrait();
   });
 
   const checkEmail = (text: string): void => {

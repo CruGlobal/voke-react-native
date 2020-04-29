@@ -7,12 +7,11 @@ import {
   TextInput,
 } from 'react-native';
 
-import Orientation from 'react-native-orientation-locker';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 import { userLogin, facebookLogin } from '../../actions/auth';
-import { useMount } from '../../utils';
+import { useMount, lockToPortrait } from '../../utils';
 
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
 import VokeIcon from '../../components/VokeIcon';
@@ -37,7 +36,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
   const passwordRef = useRef<TextInput>(null);
 
   useMount(() => {
-    Orientation.lockToPortrait();
+    lockToPortrait();
   });
 
   const checkEmail = (text: string): void => {

@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import Orientation from 'react-native-orientation-locker';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { View, Linking, useWindowDimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
-import { useMount } from '../../utils';
+import { useMount, lockToPortrait } from '../../utils';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 import Flex from '../../components/Flex';
@@ -85,7 +84,7 @@ const Welcome = ( props: WelcomeProps  ) => {
   const dispatch = useDispatch();
   const [activeSlide, setActiveSlide] = useState(0);
   useMount(() => {
-    Orientation.lockToPortrait();
+    lockToPortrait();
   });
 
   return (
