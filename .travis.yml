@@ -36,7 +36,7 @@ jobs:
     if: type = push
 
     language: objective-c
-    xcode_workspace: ios/MissionHub.xcworkspace
+    xcode_workspace: ios/Voke.xcworkspace
     os: osx
     osx_image: xcode11.1
 
