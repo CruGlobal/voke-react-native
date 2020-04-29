@@ -1,7 +1,9 @@
 fastlane_version '2.146.1'
 
 before_all do
-  unless is_ci
+  if is_ci
+    setup_travis
+  else
     ensure_git_branch
     ensure_git_status_clean
     git_pull
