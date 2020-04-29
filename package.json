@@ -13,7 +13,9 @@
     "open:ios": "open ios/Voke.xcworkspace/",
     "open": "npm run open:ios",
     "o": "npm run open:ios",
-    "clean": "react-native-clean-project"
+    "clean": "react-native-clean-project",
+    "ios:beta": "fastlane ios beta",
+    "android:beta": "fastlane android beta"
   },
   "dependencies": {
     "@emotion/core": "^10.0.28",

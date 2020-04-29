@@ -1,0 +1,9 @@
+stages:
+- name: Deploy iOS 🍏
+  if: branch = master AND type = push
+  language: node_js
+  node_js: 10
+  os: osx
+  osx_image: xcode11.3
+  before_install: bundle install
+  script: npm run ios:beta
