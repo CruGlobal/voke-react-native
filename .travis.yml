@@ -32,7 +32,8 @@ jobs:
   #   - yarn
 
   - name: 'iOS Testflight Build'
-    if: branch = master and type = push
+    # if: branch = master and type = push
+    if: type = push
 
     language: objective-c
     xcode_workspace: ios/MissionHub.xcworkspace
