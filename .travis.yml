@@ -1,16 +1,36 @@
 env:
   global:
-    # MATCH_PASSWORD={password}
-    secure: VXh9XD8fKZ5/uuxF+2Vj8thBWTptCi1sOp1H7KPN+D69lXK+GxK3FvFeA9hfHCGLuTN4JJ3RL3gDVD4xZVNHs3PZ3UO/03583hGXPvh3pASrnQJqJtiSfgODMcRkmdL4dCAtgtQCVA67YODYny1J58HiRECyhcePTtxY8L7QweamucUcpwWYDt9G2biLXEk1nY2494+izPTmUvuYI4XxYv5sHOIMVSg1tOe1K2wI4IX/KBNzuexdUI8oPzSgSbf9V9xQ8lBHuhQJbUqSPLnIYq/VJcjBN0Rc8rmX8B8k9zOo9LkIXs98HV2rmAYX6PJaw2YqZhVpUHGRpexQ07DJwYilmXuyN425ZjXE6+L/SRNSd9IMtR/kkguAKOaNRXYThbB1zEABXIz5BtYA/ks/mfeoEIbyZrSQlY9PnMgp3oi/E5kuQOKYB53HfWucIsMHZbFaKpqQkJw7m1dBIzp9lMf/Jz7LAlLQNBxwbEwRx+fc833DaOqLyD/rgbXsmWPqYiWiuatNd5Wth0ZF5OcAIlBjReEt5ZCNa53zGUWyQzQunM6YocRfeM/sscBDdD8sZUyBrXcqHzvokI7x3vmWNIS6at/5w78yOqmDf4OWSTROuJcj10WLp2e4hfJsiM8DrRcv02OwifOIppiv7vnfBv7WigwQLQjYq6sRjOLLbHs=
+  # MATCH_PASSWORD={password}
+  - secure: VXh9XD8fKZ5/uuxF+2Vj8thBWTptCi1sOp1H7KPN+D69lXK+GxK3FvFeA9hfHCGLuTN4JJ3RL3gDVD4xZVNHs3PZ3UO/03583hGXPvh3pASrnQJqJtiSfgODMcRkmdL4dCAtgtQCVA67YODYny1J58HiRECyhcePTtxY8L7QweamucUcpwWYDt9G2biLXEk1nY2494+izPTmUvuYI4XxYv5sHOIMVSg1tOe1K2wI4IX/KBNzuexdUI8oPzSgSbf9V9xQ8lBHuhQJbUqSPLnIYq/VJcjBN0Rc8rmX8B8k9zOo9LkIXs98HV2rmAYX6PJaw2YqZhVpUHGRpexQ07DJwYilmXuyN425ZjXE6+L/SRNSd9IMtR/kkguAKOaNRXYThbB1zEABXIz5BtYA/ks/mfeoEIbyZrSQlY9PnMgp3oi/E5kuQOKYB53HfWucIsMHZbFaKpqQkJw7m1dBIzp9lMf/Jz7LAlLQNBxwbEwRx+fc833DaOqLyD/rgbXsmWPqYiWiuatNd5Wth0ZF5OcAIlBjReEt5ZCNa53zGUWyQzQunM6YocRfeM/sscBDdD8sZUyBrXcqHzvokI7x3vmWNIS6at/5w78yOqmDf4OWSTROuJcj10WLp2e4hfJsiM8DrRcv02OwifOIppiv7vnfBv7WigwQLQjYq6sRjOLLbHs=
 jobs:
   include:
-    - stage: Deploy iOS 🍏
-      if: branch = master AND type = push
-      language: node_js
-      node_js: 10
-      os: osx
-      osx_image: xcode11.3
-      install:
-        - bundle install
-        - npm install
-      script: npm run ios:beta
+  - name: 'JS lint, test, i18n, and Codepush'
+
+    language: node_js
+    node_js: '11'
+
+    before_install:
+    # Fix node file watchers issue https://github.com/gatsbyjs/gatsby/issues/11406#issuecomment-458769756
+    - echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+
+    before_script:
+    - echo "TRAVIS_COMMIT=$TRAVIS_COMMIT" >> ./.env.production
+    - |
+      if [ "$TRAVIS_BRANCH" == "master" ]; then
+        echo "Setting ENVFILE to .env.production"
+        export ENVFILE=.env.production
+      else
+        echo "Setting ENVFILE to .env.staging"
+        export ENVFILE=.env.staging
+      fi
+    script:
+    - yarn test:coverage --maxWorkers=4
+    - yarn lint
+    - yarn lint:ts
+    - yarn prettier:check
+
+    cache:
+    - yarn
+
+notifications:
+  email: false
