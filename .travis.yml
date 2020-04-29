@@ -1,12 +1,13 @@
-stages:
-- name: Deploy iOS 🍏
-  if: branch = master AND type = push
-  language: node_js
-  node_js: 10
-  os: osx
-  osx_image: xcode11.3
-  install:
-    - bundle install
-  before_script:
-    - bundle exec fastlane run setup_travis
-  script: npm run ios:beta
+jobs:
+  include:
+    - stage: Deploy iOS 🍏
+      if: branch = master AND type = push
+      language: node_js
+      node_js: 10
+      os: osx
+      osx_image: xcode11.3
+      install:
+        - bundle install
+      before_script:
+        - bundle exec fastlane run setup_travis
+      script: npm run ios:beta
