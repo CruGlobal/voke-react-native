@@ -24,7 +24,6 @@ jobs:
         export ENVFILE=.env.staging
       fi
     script:
-    - yarn test:coverage --maxWorkers=4
     - yarn lint
     - yarn lint:ts
     - yarn prettier:check
