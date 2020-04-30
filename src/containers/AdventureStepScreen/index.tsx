@@ -18,27 +18,21 @@ import { useMount, useKeyboard } from '../../utils';
 import { getAdventureStepMessages } from '../../actions/requests';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { RootState } from '../reducers';
-import {
-  getStepsByAdventureId,
-  getAdventureById,
-  getCurrentUserId,
-} from '../../utils/get';
+import { TAdventureSingle } from '../../types';
 
 type ModalProps = {
   route: {
     params: {
-      stepId: string,
-      adventureId: string,
+      stepId: string;
+      adventure: TAdventureSingle;
     }
   }
 }
 const AdventureStepScreen = ( { route }: ModalProps ) => {
   const dispatch = useDispatch();
   const insets = useSafeArea();
-  const navigation = useNavigation();
   const [isPortrait, setIsPortrait] = useState(true);
-  const { stepId, adventureId } = route.params;
-  const adventure = getAdventureById(adventureId);
+  const { stepId, adventure } = route.params;
   const steps = useSelector(({ data }) => data.adventureSteps);
   const [currentSteps, setCurrentSteps] = useState(steps[adventure.id] || []);
   const [currentStep, setCurrentStep] = useState(
@@ -117,6 +111,10 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
             st.f1,
           ]}
           enableAutomaticScroll
+          keyboardShouldPersistTaps ='always'
+          // ☝️needed to solve the bug with a need to double tap
+          // on the send message icon.
+
           /* innerRef={ref => {
             scrollRef = ref;
           }} */

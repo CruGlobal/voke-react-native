@@ -36,6 +36,21 @@ type TMessenger = {
   avatar: TImage;
 };
 
+export type TStep = {
+  id: string;
+  name: string;
+  position: number;
+  status: string;
+  item: {
+    content: {
+      thumbnails: TImage;
+    };
+  };
+  // eslint-disable-next-line camelcase
+  unread_messages: number;
+  'completed_by_messenger?': boolean;
+};
+
 // Typing for single Adventure from myAdventures.
 export type TAdventureSingle = {
   id: string;

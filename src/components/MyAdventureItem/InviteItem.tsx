@@ -1,5 +1,7 @@
+/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/camelcase */
 import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
 import Image from '../Image';
 import st from '../../st';
@@ -8,16 +10,13 @@ import Text from '../Text';
 import Button from '../Button';
 import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
-import { useSelector, useDispatch } from 'react-redux';
-import { useMount, momentUtc, useInterval } from '../../utils';
-import { getMyAdventure } from '../../actions/requests';
-import { useNavigation } from '@react-navigation/native';
+import { momentUtc } from '../../utils';
 import styles from './styles';
 
 const THUMBNAIL_WIDTH = 64;
 const TIMER_INTERVAL = 60;
 
-function getExpiredTime(date) {
+function getExpiredTime(date: string) {
   const diff = momentUtc(date).diff(moment());
   const diffDuration = moment.duration(diff);
   const days = diffDuration.days();
@@ -31,7 +30,18 @@ function getExpiredTime(date) {
   return { str, isTimeExpired: diff < 0 };
 }
 
-const InviteItem = ({ item }) => {
+type InviteItemProps = {
+  item: {
+    kind: string;
+    expires_at: string;
+    organization_journey: string;
+    messenger_journey_id: string;
+    name: string;
+    code: string;
+  };
+};
+
+const InviteItem = ({ item }: InviteItemProps): React.ReactElement => {
   const adventureItem = {
     code: '',
     conversation: {},
@@ -48,7 +58,6 @@ const InviteItem = ({ item }) => {
   const orgJourneyImage = (orgJourney.image || {}).small || undefined;
   const isGroup = item.kind === 'multiple';
   const navigation = useNavigation();
-  const dispatch = useDispatch();
 
   useEffect(() => {
     // TODO: make sure timeres are cleared properly of find another way.
@@ -61,7 +70,7 @@ const InviteItem = ({ item }) => {
       setIsExpired(isTimeExpired);
       setTime(str);
     }, TIMER_INTERVAL * 1000);
-    return () => clearInterval(interval);
+    return (): void => clearInterval(interval);
   }, []);
 
   return (
@@ -95,8 +104,10 @@ const InviteItem = ({ item }) => {
               </Text>
             ) : (
               <Button
-                text={'Resend'}
-                onPress={() => {}}
+                text="Resend"
+                onPress={(): void => {
+                  //TODO: add reset functionality
+                }}
                 style={[
                   st.bgOrange,
                   st.ph5,
@@ -113,7 +124,7 @@ const InviteItem = ({ item }) => {
               <Text numberOfLines={1} style={[st.white, st.fs6, st.tal]}>
                 Code
               </Text>
-              <Text selectable={true} style={[st.white, st.fs6, st.bold, st.tal]}>
+              <Text selectable style={[st.white, st.fs6, st.bold, st.tal]}>
                 {code}
               </Text>
             </Flex>
@@ -121,28 +132,24 @@ const InviteItem = ({ item }) => {
         </Flex>
         <Flex>
           <Touchable
-            onPress={async () => {
-              const adv = await dispatch(
-                getMyAdventure(adventureItem.messenger_journey_id),
-              );
+            onPress={async (): Promise<void> => {
               navigation.navigate('AdventureActive', {
-                adventureId: adv.id,
+                adventureId: adventureItem.messenger_journey_id,
               });
             }}
             style={[st.pd(7)]}
           >
             <Text style={[st.bold, st.white, st.fs6, st.tac]}>
-              {'Get Started'
-                .toUpperCase()
-                .split(' ')
-                .join('\n')}
+              {'Get Started'.toUpperCase().split(' ').join('\n')}
             </Text>
           </Touchable>
         </Flex>
         <Flex align="center" justify="center" style={[st.tac, st.mr4, st.ml6]}>
           {isExpired ? (
             <Touchable
-              onPress={() => {}}
+              onPress={(): void => {
+                //TODO: add on press function here.
+              }}
               style={[st.br2, st.borderWhite, st.bw1, st.pd(7)]}
             >
               <VokeIcon name="close" style={[st.white, st.fs6]} />
@@ -152,6 +159,6 @@ const InviteItem = ({ item }) => {
       </Flex>
     </Flex>
   );
-}
+};
 
 export default InviteItem;
