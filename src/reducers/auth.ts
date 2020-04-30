@@ -11,6 +11,8 @@ interface InitialStateTypes {
   language?: string;
   device: object; // TODO: IDeviceInformation interface here
   user: {
+    id: string;
+    email?: string;
     firstName?: string;
     lastName?: string;
   };

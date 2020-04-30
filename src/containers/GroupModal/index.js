@@ -26,9 +26,11 @@ function GroupModal(props) {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
-  const { adventure } = props.route.params;
+  const adventureId = props.route.params.adventure.messenger_journey_id;
 
-  const allMessengers = adventure.conversation.messengers || [];
+  const myAdventures = useSelector(({ data }) => data.myAdventures);
+  const adventure = myAdventures.find(adv => adv.id === adventureId);
+  const allMessengers = adventure.conversation.messengers;
   const messengers = allMessengers.filter(
     i => i.first_name !== 'VokeBot' && (i || {}).id !== (me || {}).id,
   );
@@ -47,7 +49,7 @@ function GroupModal(props) {
 
   function handleJoinGroup() {
     if ((((me || {}).avatar || {}).medium || '').includes('/avatar.jpg')) {
-      navigation.navigate('AccountPhoto', { hasAccount: true });
+      navigation.navigate('AccountPhoto');
     } else {
       navigation.reset({ index: 0, routes: [{ name: 'Adventures' }] });
     }

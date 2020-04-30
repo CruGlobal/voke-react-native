@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Orientation from 'react-native-orientation-locker';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { KeyboardAvoidingView, Alert, Keyboard, View, Linking, useWindowDimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
-import { useMount } from '../../utils';
+import { useMount, lockToPortrait } from '../../utils';
 import st from '../../st';
 import { logoutAction, userLogin } from '../../actions/auth';
 import { useSelector } from 'react-redux';
@@ -39,7 +38,7 @@ const AccountSignUp = ( props: AccountSignUpProps  ) => {
 
 
   useMount(() => {
-    Orientation.lockToPortrait();
+    lockToPortrait();
   });
 
   /* useEffect(() => {

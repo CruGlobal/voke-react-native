@@ -1,7 +1,5 @@
-import React, {
- useState, useRef, forwardRef, useEffect 
-} from 'react';
-import Orientation from 'react-native-orientation-locker';
+
+import React, { useState, useRef, forwardRef, useEffect } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { useNavigation } from '@react-navigation/native';
@@ -24,7 +22,6 @@ import {
   getAdventuresInvitations
 } from '../../actions/requests';
 import AvailableAdventureItem from '../../components/AvailableAdventureItem';
-import MyAdventureItem from '../../components/MyAdventureItem';
 import Triangle from '../../components/Triangle';
 
 function AdventuresActions() {

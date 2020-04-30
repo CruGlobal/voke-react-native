@@ -18,9 +18,11 @@ xcuserdata
 *.moved-aside
 DerivedData
 *.hmap
+*.dSYM.zip
 *.ipa
 *.xcuserstate
 project.xcworkspace
+ios/Pods/
 
 # Android/IntelliJ
 #

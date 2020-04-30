@@ -10,6 +10,8 @@ import difference from 'lodash/difference';
 import moment from 'moment';
 import { useEffect, useRef } from 'react';
 import { Keyboard } from 'react-native';
+import Orientation from 'react-native-orientation-locker';
+import CONSTANTS from '../constants';
 
 export { difference, memoize, orderBy, range, debounce, throttle, xor, uniqBy };
 
@@ -200,4 +202,13 @@ export function useKeyboard(callback) {
       keyboardDidShowListener.remove();
     };
   }, []);
+}
+
+export function lockToPortrait() {
+  const UNLOCK_ORIENTATIONS = true;
+  if (!CONSTANTS.IS_STAGING) {
+    Orientation.lockToPortrait();
+  } else if ( UNLOCK_ORIENTATIONS ) {
+    Orientation.unlockAllOrientations();
+  }
 }

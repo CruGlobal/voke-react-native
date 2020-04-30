@@ -7,6 +7,7 @@ import theme from '../../theme';
 import MainMessagingInput from '../../components/MainMessagingInput';
 import AdventureStepMessage from '../../components/AdventureStepMessage';
 import AdventureStepMessageInput from '../../components/AdventureStepMessageInput';
+import AdventureStepNextAction from '../../components/AdventureStepNextAction';
 import Image from '../../components/Image';
 import VokeIcon from '../../components/VokeIcon';
 import { KeyboardAvoidingView, findNodeHandle } from 'react-native';
@@ -16,19 +17,20 @@ import { useNavigation } from '@react-navigation/native';
 import { useMount, useKeyboard } from '../../utils';
 import { getAdventureStepMessages } from '../../actions/requests';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { RootState } from '../reducers';
+import { TAdventureSingle } from '../../types';
 
 type ModalProps = {
   route: {
     params: {
-      stepId: string,
-      adventure: object,
+      stepId: string;
+      adventure: TAdventureSingle;
     }
   }
 }
 const AdventureStepScreen = ( { route }: ModalProps ) => {
   const dispatch = useDispatch();
   const insets = useSafeArea();
-  const navigation = useNavigation();
   const [isPortrait, setIsPortrait] = useState(true);
   const { stepId, adventure } = route.params;
   const steps = useSelector(({ data }) => data.adventureSteps);
@@ -37,10 +39,12 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
     currentSteps.find(s => s.id === stepId),
   );
 
-  const me = useSelector(({ auth }) => auth.user);
-  const messages = useSelector(({ data }) => data.adventureStepMessages);
+  const currentUser = useSelector(({ auth }: RootState) => auth.user);
+  const messages = useSelector(
+    ({ data }: RootState) => data.adventureStepMessages
+  );
   const [currentMessages, setCurrentMessages] = useState(
-    [...(messages[currentStep.id] || [])].reverse(),
+    [...(messages[currentStep.id] || [])]//.reverse(),
   );
 
   useEffect(() => {
@@ -50,10 +54,14 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
 
   const scrollRef = useRef(null);
   const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'multiple';
+  // Find a reply to the main question (if already answered).
   let mainAnswer = '';
 
   if (!['multi', 'binary'].includes(currentStep.kind)) {
-    mainAnswer = (currentMessages.find(m => m.messenger_id === me.id) || {})
+    // At this currentMessages is reversed.
+    // So we need to flip it with slice().reverse() to find the first message
+    // of the current author from the start.
+    mainAnswer = (currentMessages.slice().reverse().find(m => m.messenger_id === currentUser.id) || {})
       .content;
   } else {
     mainAnswer = (currentStep.metadata.answers.find(a => a.selected) || {})
@@ -64,17 +72,18 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
 
   useMount(() => {
     dispatch(
-      getAdventureStepMessages(adventure.conversation.id, currentStep.id),
+      getAdventureStepMessages(adventure.conversation.id, currentStep.id)
     );
   });
   useEffect(() => {
     let newMsgs = [...(messages[currentStep.id] || [])].reverse();
     // If solo adventure, render bot's messages.
     if (isSolo) {
+      // newMsgs.push({
       newMsgs.unshift({
         id: new Date().toISOString(),
         messenger_id: (
-          adventure.conversation.messengers.find(i => i.id !== me.id) || {}
+          adventure.conversation.messengers.find(i => i.id !== currentUser.id) || {}
         ).id,
         content: (currentStep.metadata || {}).comment,
         metadata: { vokebot_action: 'journey_step_comment' },
@@ -102,6 +111,10 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
             st.f1,
           ]}
           enableAutomaticScroll
+          keyboardShouldPersistTaps ='always'
+          // ☝️needed to solve the bug with a need to double tap
+          // on the send message icon.
+
           /* innerRef={ref => {
             scrollRef = ref;
           }} */
@@ -116,6 +129,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
           />
           {isPortrait && (
             <>
+              {/* Special Bot message at the top */}
               {currentStep.status_message ? (
                 <Flex
                   align="center"
@@ -152,7 +166,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
                   </Text>
                 </Flex>
                 <Image
-                  source={{ uri: me.avatar.small }}
+                  source={{ uri: currentUser.avatar.small }}
                   style={[st.absb, st.right(-30), st.h(25), st.w(25), st.br1]}
                 />
                 <AdventureStepMessageInput
@@ -180,6 +194,10 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
                   }}
                 />
               ))}
+              <AdventureStepNextAction
+                adventureId={adventure.id}
+                stepId={stepId}
+              />
             </>
           )}
         </KeyboardAwareScrollView>
@@ -219,7 +237,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
             return;
           }
           const otherUser = journey.conversation.messengers.find(
-            i => i.id !== me.id && i.first_name !== 'VokeBot',
+            i => i.id !== currentUser.id && i.first_name !== 'VokeBot',
           );
           // TODO: Pass through invite name
           // if (journey.conversation.messengers.length === 2 && inviteName) {

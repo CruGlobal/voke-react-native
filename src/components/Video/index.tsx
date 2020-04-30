@@ -46,6 +46,10 @@ function Video({
   children, // Used to create custom overlay/play button. Ex: "Watch Trailer".
   ...rest
 }) {
+  // Don't even bother if there is no info about video provided.
+  if (!item) {
+    return <></>;
+  }
   const insets = useSafeArea();
   const youtubeVideo = useRef();
   const arclightVideo = useRef();
@@ -138,7 +142,7 @@ function Video({
   }
 
   function handleSliderChange(value) {
-    if (item.type === 'youtube') {
+    if (item?.type === 'youtube') {
       youtubeVideo.current.seekTo(value);
     } else {
       arclightVideo.current.seek(value);
@@ -164,7 +168,7 @@ function Video({
         },
       ]}
     >
-      {item.type === 'youtube' ? (
+      {item?.type === 'youtube' ? (
         <YouTube
           ref={youtubeVideo}
           videoId={youtube_parser(item.url)}

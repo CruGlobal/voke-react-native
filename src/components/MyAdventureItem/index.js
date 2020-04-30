@@ -10,7 +10,6 @@ import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
 import { useSelector, useDispatch } from 'react-redux';
 import { useMount, momentUtc, useInterval } from '../../utils';
-import { getMyAdventure } from '../../actions/requests';
 import { useNavigation } from '@react-navigation/native';
 import ProgressDots from './ProgressDots';
 import InviteItem from './InviteItem';
@@ -72,13 +71,17 @@ function MyAdventureItem({ item }) {
     return <InviteItem item={adventureItem} />;
   }
 
+  if ( !adventureItem.id ) {
+    return <></>;
+  }
+
   return (
     <Touchable
       highlight={false}
       activeOpacity={0.8}
       onPress={() =>
         navigation.navigate('AdventureActive', {
-          adventure: adventureItem,
+          adventureId: adventureItem.id,
         })
       }
     >

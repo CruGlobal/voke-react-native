@@ -13,7 +13,7 @@ function AdventureStepMessageInput({ adventure, step, ...rest }) {
   const [inputHeight, setInputHeight] = useState(0);
   const dispatch = useDispatch();
 
-  function handleSendMessage() {
+  const handleSendMessage = () => {
     Keyboard.dismiss();
     dispatch(
       createAdventureStepMessage({
@@ -37,7 +37,7 @@ function AdventureStepMessageInput({ adventure, step, ...rest }) {
         autoCapitalize="sentences"
         returnKeyType="send"
         blurOnSubmit={true}
-        onSubmitEditing={() => {}}
+        onSubmitEditing={handleSendMessage}
         placeholder={'New Message'}
         onChangeText={t => setText(t)}
         value={text}

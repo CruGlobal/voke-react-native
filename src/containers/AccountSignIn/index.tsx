@@ -7,12 +7,11 @@ import {
   TextInput,
 } from 'react-native';
 
-import Orientation from 'react-native-orientation-locker';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 import { userLogin, facebookLogin } from '../../actions/auth';
-import { useMount } from '../../utils';
+import { useMount, lockToPortrait } from '../../utils';
 
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
 import VokeIcon from '../../components/VokeIcon';
@@ -35,10 +34,9 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
   const [isLoading, setIsLoading] = useState(false);
 
   const passwordRef = useRef<TextInput>(null);
-  // const passwordRef = useRef<HTMLInputElement>(null);
 
   useMount(() => {
-    Orientation.lockToPortrait();
+    lockToPortrait();
   });
 
   const checkEmail = (text: string): void => {
@@ -63,15 +61,30 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
         console.log('🛑 Error on login \n', { e });
         Alert.alert(
           "Can't Login",
-          e.error_description ? e.error_description : e.errors[0],
+          e.error_description ? e.error_description : e.errors[0]
         );
         setIsLoading(false);
       }
     } else {
       Alert.alert(
         'Invalid email/password',
-        'Please enter a valid email and password',
+        'Please enter a valid email and password'
       );
+    }
+  };
+
+  // Facebook Login.
+  const fbLogin = async (): Promise<void> => {
+    setIsLoading(true);
+    const userId = await dispatch(facebookLogin());
+    setIsLoading(false);
+    if (!userId) {
+      Alert.alert(
+        "Can't sign in with Facebook",
+        'Facebook authentication is not available at this moment'
+      );
+    } else {
+      navigation.navigate('LoggedInApp');
     }
   };
 
@@ -172,11 +185,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
         <Button
           isAndroidOpacity
           style={styles.ButtonFBSignIn}
-          onPress={(): Promise<void> => facebookLogin().then(
-            result => {
-              // TODO: redirect to the main screen?
-            })
-          }
+          onPress={(): Promise<void> => fbLogin()}
         >
           <Flex direction="row" align="center" justify="center">
             <VokeIcon
