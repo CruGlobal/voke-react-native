@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import Orientation from 'react-native-orientation-locker';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { View, useWindowDimensions, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { useMount } from '../../utils';
+import { useMount, lockToPortrait } from '../../utils';
 import st from '../../st';
 
 import Flex from '../../components/Flex';
@@ -14,7 +13,6 @@ import StatusBar from '../../components/StatusBar';
 import Button from '../../components/Button';
 import Triangle from '../../components/Triangle';
 import styles from './styles';
-import CONSTANTS from '../../constants';
 
 type GetConversationsModalProps = {
   props: any;
@@ -26,7 +24,7 @@ const AccountGetConversations = (props: GetConversationsModalProps) => {
   const dispatch = useDispatch();
   const me = useSelector(({ auth }) => auth.user);
   useMount(() => {
-    Orientation.lockToPortrait();
+    lockToPortrait();
   });
 
   return (

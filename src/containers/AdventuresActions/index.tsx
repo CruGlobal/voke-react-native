@@ -1,5 +1,4 @@
 import React, { useState, useRef, forwardRef, useEffect } from 'react';
-import Orientation from 'react-native-orientation-locker';
 import { useSafeArea } from 'react-native-safe-area-context';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';

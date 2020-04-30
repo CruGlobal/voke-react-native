@@ -48,10 +48,8 @@ function AdventureCode(props) {
     };
   }, []);
 
-  const isValidAdventureCode = () => adventureCode.length > 0;
-
   async function handleContinue() {
-    if (isValidAdventureCode()) {
+    if (adventureCode.length > 3) {
       try {
         setIsLoading(true);
 
@@ -61,7 +59,7 @@ function AdventureCode(props) {
         const isGroup = newAdventure.kind === 'multiple';
         if (isGroup) {
           navigation.navigate('GroupModal', {
-            adventure: newAdventure.journeys[0] || {},
+            adventure: newAdventure || {},
           });
         } else {
           navigation.goBack();

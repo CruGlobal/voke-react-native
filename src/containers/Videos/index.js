@@ -1,12 +1,11 @@
 import React, { useState, useRef, forwardRef, useEffect } from 'react';
-import Orientation from 'react-native-orientation-locker';
 import { useSafeArea } from 'react-native-safe-area-context';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import StatusBar from '../../components/StatusBar';
 import VokeIcon from '../../components/VokeIcon';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
-import { useMount } from '../../utils';
+import { useMount, lockToPortrait } from '../../utils';
 
 import st from '../../st';
 import theme from '../../theme';
@@ -262,7 +261,7 @@ function Videos(props) {
   const [index, setIndex] = React.useState(0);
 
   useMount(() => {
-    Orientation.lockToPortrait();
+    lockToPortrait();
   });
 
   const [routes] = React.useState([
