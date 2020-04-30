@@ -59,7 +59,7 @@ jobs:
     - directories:
       - $HOME/Library/Developer/Xcode/DerivedData
 
-  - name: 'Android Beta Build'
+  - name: 'Android Internal Test Build'
     # if: branch = master and type = push
     if: type = push
 
@@ -78,6 +78,10 @@ jobs:
 
     #   licenses:
     #     - android-sdk-license-.+
+
+    env:
+    # GOOGLE_PLAY_UPLOAD_KEY_PASSWORD={password}
+    - secure: Bvy6+b6u+avJDACeOBEht5mXUn11GUHk96XMpFQfu47RXTtl398FMYL9phrxJRgsAkHVr0LcmwjJa5AfQupLcnCIIXhaJLyFn+vegzn82XelCvWT26JdXineH1pVIYq6vRS1XFmgvaf/ohRuZQ/epVq563AsRWr/CbNmRMEvo6/oSglYDnSdommKuOngd4VoDMU0dyBB55tnOJkWZlDXZT6ObsskzNUyLNJVjZlPTCIyTY9Tf14Pu0/lksUv+JGCpTUq20M866veUQASjAo3xXFUspJ8lu+P/LR6Gt9NUBh40YwwTlu7NZxLm1fLX29i5md+zU0yuDNAJuY1wrROpT5h1iQRo1K/Ap+m1wFTYQx4y7zj1+Nz2VLgcIbl1V8DFwJ9XwbG3pHDuqkry8vnSf/ieQtmVnwGV2OzSO2jUvLqwKyGaCODwy+fqNv2ABbbc74bZouwQNCRQDjGTWol88QpV/W7dskAJd9U7QctBXA/EpxVgo3b/blZ9awoh7m8C1T0is491r0Pq183eb9ylJeIjPQUgVxZl5ZiWHxaRu1CGjI+LrVdnT2xoWEXc0mgRIdUhzHyZQITzkRpe55rRtbGymQJHdR6hrEKMkI5GEgCmABkopJDFRZIKML7fNki4HLObs/UKgB2ZwqSqDysHFqDt9t8UrEZEDC8+x0J0GE=
 
     before_install:
     # Fix node file watchers issue https://github.com/gatsbyjs/gatsby/issues/11406#issuecomment-458769756
