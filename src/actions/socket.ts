@@ -86,6 +86,10 @@ export function setupSockets(deviceId: string) {
 
           console.log('🔌 setupSockets > socket onmessage\n', data);
           // Got a toast message: show it
+          // There are 2 types of WS notifications that have the toast? field:
+          // -- Journey: dispatched when a friend joins the journey
+          //    or when the journey gets completed
+          // -- Step: dispatched when a friend answers or completes the step
           if (message['toast?'] && notification.alert) {
             dispatch(toastAction(notification.alert));
           }
