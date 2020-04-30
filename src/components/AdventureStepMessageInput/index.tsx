@@ -10,14 +10,14 @@ import { useDispatch } from 'react-redux';
 import { createAdventureStepMessage } from '../../actions/requests';
 import Select from '../Select';
 
-function AdventureStepMessageInput({
+const AdventureStepMessageInput = ({
   kind,
   adventure,
   step,
   internalMessage,
   defaultValue,
   onFocus,
-}) {
+}): React.ReactElement => {
   const [value, setValue] = useState(defaultValue || '');
   const [messageSent, setMesssageSent] = useState(!!defaultValue);
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ function AdventureStepMessageInput({
   const isComplete = step.status === 'completed';
 
   // When SEND message button clicked.
-  function handleSendMessage(newValue) {
+  const handleSendMessage = (newValue: any): void => {
     setMesssageSent(true);
     Keyboard.dismiss();
     dispatch(
@@ -39,15 +39,15 @@ function AdventureStepMessageInput({
         value: newValue || value,
         internalMessageId: internalMessage ? internalMessage.id : null,
         kind,
-      }),
+      })
     );
-  }
+  };
 
   if (isMultiQuestion) {
     const answers = internalMessage
       ? (internalMessage.metadata || {}).answers
       : (step.metadata || {}).answers;
-    if ((answers || []).length === 0) return;
+    if ((answers || []).length === 0) return <></>;
 
     let formattedAnswers = answers.map(a => ({
       value: a.value,
@@ -157,59 +157,7 @@ function AdventureStepMessageInput({
       </Flex>
     );
   }
-  if (isTextQuestion) {
-    return (
-      <Flex
-        direction="row"
-        align="center"
-        style={[st.bgWhite, st.w100, st.ph4, st.brbl5, st.brbr5]}
-      >
-        {messageSent ? (
-          <Text style={[st.fs4, st.pt4, st.pb4, st.darkBlue]}>{value}</Text>
-        ) : (
-          <>
-            <TextInput
-              autoCapitalize="sentences"
-              returnKeyType="send"
-              onFocus={event => {
-                onFocus(event);
-                // if (this.props.hasClickedPlay) {
-                //   return;
-                // } else {
-                //   this.props.dispatch(
-                //     toastAction(
-                //       'Please watch the video first before you answer. Thanks!',
-                //     ),
-                //   );
-                // }
-              }}
-              multiline={false}
-              blurOnSubmit={true}
-              onSubmitEditing={() => {}}
-              placeholder={'Enter your answer'}
-              placeholderTextColor={st.colors.grey}
-              style={[st.f1, st.fs4, st.pt4, st.pb4, st.darkBlue]}
-              underlineColorAndroid={st.colors.transparent}
-              selectionColor={st.colors.darkBlue}
-              value={value}
-              onChangeText={t => setValue(t)}
-            />
-            {!value && isSolo ? (
-              <Button onPress={() => {}} style={[st.pv4]}>
-                <Text style={[st.orange, st.bold, st.fs4, st.ls2]}>
-                  {'Skip'.toUpperCase()}
-                </Text>
-              </Button>
-            ) : (
-              <Button onPress={handleSendMessage} style={[st.pv4]}>
-                <VokeIcon name="send_message" style={[st.offBlue]} size={24} />
-              </Button>
-            )}
-          </>
-        )}
-      </Flex>
-    );
-  }
+
   if (isShareQuestion) {
     const metadata = internalMessage?.metadata || {};
     const answers = metadata.answers;
@@ -252,6 +200,66 @@ function AdventureStepMessageInput({
       </Flex>
     );
   }
+  // Text Question:
+  // if (isTextQuestion)
+  return (
+    <Flex
+      direction="row"
+      align="center"
+      style={[st.bgWhite, st.w100, st.pl4, st.brbl5, st.brbr5]}
+    >
+      {messageSent ? (
+        <Text style={[st.fs4, st.pt4, st.pb4, st.darkBlue]}>{value}</Text>
+      ) : (
+        <>
+          <TextInput
+            autoCapitalize="sentences"
+            returnKeyType="send"
+            onFocus={event => {
+              onFocus(event);
+              // if (this.props.hasClickedPlay) {
+              //   return;
+              // } else {
+              //   this.props.dispatch(
+              //     toastAction(
+              //       'Please watch the video first before you answer. Thanks!',
+              //     ),
+              //   );
+              // }
+            }}
+            multiline={false}
+            blurOnSubmit={true}
+            onSubmitEditing={handleSendMessage}
+            placeholder={'Enter your answer'}
+            placeholderTextColor={st.colors.grey}
+            style={[st.f1, st.fs4, st.pt4, st.pb4, st.bgDarkBlue, {marginRight:6}]}
+            underlineColorAndroid={st.colors.transparent}
+            selectionColor={st.colors.darkBlue}
+            value={value}
+            onChangeText={t => setValue(t)}
+          />
+          {!value && isSolo ? (
+            <Button onPress={() => {}} style={[st.pv4]}>
+              <Text style={[st.orange, st.bold, st.fs4, st.ls2]}>
+                {'Skip'.toUpperCase()}
+              </Text>
+            </Button>
+          ) : (
+            <Button
+              // onPress={handleSendMessage}
+              onPress={() => {
+                    // setValue(a.value);
+                    console.log('clock');
+                    handleSendMessage();
+                  }}
+              style={[st.p4, {backgroundColor: 'red'}]}>
+              <VokeIcon name="send_message" style={[st.offBlue]} size={24} />
+            </Button>
+          )}
+        </>
+      )}
+    </Flex>
+  );
 }
 
 export default AdventureStepMessageInput;

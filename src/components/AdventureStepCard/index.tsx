@@ -65,7 +65,7 @@ function AdventureStepCard({
       onPress={(): void =>
         navigation.navigate('AdventureStepScreen', {
           stepId: step.id,
-          adventureId: adventure.id,
+          adventure: adventure,
         })
       }
     >
