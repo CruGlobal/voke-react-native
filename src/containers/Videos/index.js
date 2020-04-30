@@ -1,5 +1,9 @@
 import React, { useState, useRef, forwardRef, useEffect } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { ActivityIndicator, ScrollView, FlatList, View } from 'react-native';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import StatusBar from '../../components/StatusBar';
@@ -9,9 +13,6 @@ import { useMount, lockToPortrait } from '../../utils';
 
 import st from '../../st';
 import theme from '../../theme';
-import { useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
-import { ActivityIndicator, ScrollView, FlatList, View } from 'react-native';
 
 import { getVideos } from '../../actions/requests';
 import VideoItem from '../../components/VideoItem';
@@ -48,7 +49,7 @@ function VideoList() {
   });
 
   async function loadVideos(overrideIsLoading) {
-    let query = {};
+    const query = {};
     if (filter === 'Featured') {
       query.featured = true;
     }
@@ -84,7 +85,7 @@ function VideoList() {
 
   async function loadMore(resetToPageOne = false) {
     let page;
-    let query = {};
+    const query = {};
 
     if (
       (!updatedPagination[filter] || !updatedPagination[filter].hasMore) &&
@@ -165,63 +166,61 @@ function VideoList() {
         onRefresh={() => loadMore(true)}
         refreshing={isLoading}
         onEndReached={() => loadMore()}
-        ListHeaderComponent={() => {
-          return (
-            <>
-              <FlatList
-                horizontal={true}
-                style={[st.pv5, st.ph5]}
-                data={['All', 'Featured', 'Popular', 'Favorite', 'Search']}
-                renderItem={({ item }) => (
-                  <Button
-                    key={item}
-                    onPress={() => {
-                      if (filter === item && item === 'Search') {
-                        navigation.navigate('VideosSearch', {
-                          onSelect: async tagId => {
-                            await dispatch(getVideos({ tag_id: tagId }));
-                            setVideos(searchVideos);
-                          },
-                        });
-                      } else {
-                        setFilter(item);
-                      }
-                    }}
-                    style={[
-                      st.pv7,
-                      st.ph4,
-                      st.aic,
-                      st.jcc,
-                      st.mr5,
-                      st.bw1,
-                      st.br1,
-                      filter === item
-                        ? [st.bgDarkBlue, st.borderDarkBlue]
-                        : [st.bgTransparent, st.borderWhite],
-                    ]}
-                  >
-                    {item === 'Favorite' || item === 'Search' ? (
-                      <VokeIcon
-                        name={item === 'Favorite' ? 'heart' : 'search'}
-                        size={28}
-                      />
-                    ) : (
-                      <Text style={[st.white, st.fs18]}>{item}</Text>
-                    )}
-                  </Button>
-                )}
-              />
-              {videos.length === 0 ? (
-                <Flex align="center" justify="center">
-                  <Text style={[st.fs16, st.white, st.pt5, st.tac]}>
-                    {'No Videos'}
-                  </Text>
-                </Flex>
-              ) : null}
-            </>
-          );
-        }}
-        removeClippedSubviews={true}
+        ListHeaderComponent={() => (
+          <>
+            <FlatList
+              horizontal
+              style={[st.pv5, st.ph5]}
+              data={['All', 'Featured', 'Popular', 'Favorite', 'Search']}
+              renderItem={({ item }) => (
+                <Button
+                  key={item}
+                  onPress={() => {
+                    if (filter === item && item === 'Search') {
+                      navigation.navigate('VideosSearch', {
+                        onSelect: async tagId => {
+                          await dispatch(getVideos({ tag_id: tagId }));
+                          setVideos(searchVideos);
+                        },
+                      });
+                    } else {
+                      setFilter(item);
+                    }
+                  }}
+                  style={[
+                    st.pv7,
+                    st.ph4,
+                    st.aic,
+                    st.jcc,
+                    st.mr5,
+                    st.bw1,
+                    st.br1,
+                    filter === item
+                      ? [st.bgDarkBlue, st.borderDarkBlue]
+                      : [st.bgTransparent, st.borderWhite],
+                  ]}
+                >
+                  {item === 'Favorite' || item === 'Search' ? (
+                    <VokeIcon
+                      name={item === 'Favorite' ? 'heart' : 'search'}
+                      size={22}
+                    />
+                  ) : (
+                    <Text style={[st.white, st.fs18]}>{item}</Text>
+                  )}
+                </Button>
+              )}
+            />
+            {videos.length === 0 ? (
+              <Flex align="center" justify="center">
+                <Text style={[st.fs16, st.white, st.pt5, st.tac]}>
+                  No Videos
+                </Text>
+              </Flex>
+            ) : null}
+          </>
+        )}
+        removeClippedSubviews
       />
     </View>
   );
@@ -242,7 +241,7 @@ function CustomTabBar(props) {
     <TabBar
       {...props}
       indicatorStyle={[st.bgWhite]}
-      style={{backgroundColor: theme.colors.secondary}}
+      style={{ backgroundColor: theme.colors.secondary }}
       activeColor={st.colors.white}
       inactiveColor={st.colors.blue}
       renderLabel={({ route, focused, color }) => (
@@ -255,7 +254,7 @@ function CustomTabBar(props) {
 }
 
 function Videos(props) {
-  console.log('📟 Containers > Videos')
+  console.log('📟 Containers > Videos');
   const insets = useSafeArea();
   const dispatch = useDispatch();
   const [index, setIndex] = React.useState(0);

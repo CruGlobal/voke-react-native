@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, ImageBackground } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import Image from '../Image';
 import st from '../../st';
 import Button from '../Button';
@@ -7,26 +8,25 @@ import Flex from '../Flex';
 import Text from '../Text';
 import Touchable from '../Touchable';
 import VokeIcon from '../VokeIcon';
-import { useNavigation } from '@react-navigation/native';
 
 const THUMBNAIL_HEIGHT = ((st.fullWidth - 20) * 1) / 2;
 
 function formatDuration(seconds) {
   if (!seconds) return '00:00';
   // Hours, minutes and seconds
-  var hrs = ~~(seconds / 3600);
-  var mins = ~~((seconds % 3600) / 60);
-  var secs = seconds % 60;
+  const hrs = ~~(seconds / 3600);
+  const mins = ~~((seconds % 3600) / 60);
+  const secs = seconds % 60;
 
   // Output like "1:01" or "4:03:59" or "123:03:59"
-  var ret = '';
+  let ret = '';
 
   if (hrs > 0) {
-    ret += '' + hrs + ':' + (mins < 10 ? '0' : '');
+    ret += `${hrs}:${mins < 10 ? '0' : ''}`;
   }
 
-  ret += '' + mins + ':' + (secs < 10 ? '0' : '');
-  ret += '' + secs;
+  ret += `${mins}:${secs < 10 ? '0' : ''}`;
+  ret += `${secs}`;
   return ret;
 }
 
@@ -68,7 +68,7 @@ function VideoItem({ item }) {
             st.bgBlack,
           ]}
         >
-          <VokeIcon name="play" size={64} style={[st.bgTransparent]} />
+          <VokeIcon name="icon-play" size={64} style={[st.bgTransparent]} />
           <Flex
             direction="row"
             align="center"
@@ -103,7 +103,7 @@ function VideoItem({ item }) {
         >
           <Button
             type="transparent"
-            isAndroidOpacity={true}
+            isAndroidOpacity
             onPress={handleShare}
             activeOpacity={0.6}
             touchableStyle={[st.abs, st.mh5, { right: 15, top: -35 }]}

@@ -7,6 +7,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useSafeArea } from 'react-native-safe-area-context';
+import SplashScreen from 'react-native-splash-screen';
 import Welcome from './containers/Welcome';
 import Menu from './containers/Menu';
 import MenuHelp from './containers/MenuHelp';
@@ -33,7 +34,6 @@ import Notifications from './containers/Notifications';
 import AccountName from './containers/AccountName';
 import AccountPhoto from './containers/AccountPhoto';
 import GroupModal from './containers/GroupModal';
-import SplashScreen from 'react-native-splash-screen';
 import TabBar from './components/TabBar';
 import theme from './theme';
 import st from './st';
@@ -268,7 +268,7 @@ const App = () => {
         const currentRouteName = getActiveRouteName(state);
         console.log(
           `%c🧭 Navigated to / Re-rendered ${currentRouteName}`,
-          'color: #bada55',
+          'color: #bada55'
         );
 
         /* if (previousRouteName !== currentRouteName) {

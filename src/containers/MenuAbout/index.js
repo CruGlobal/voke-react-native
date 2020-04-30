@@ -1,14 +1,15 @@
 import React from 'react';
-import Flex from '../../components/Flex';
-import st from '../../st';
-import Image from '../../components/Image';
-import Text from '../../components/Text';
-import Touchable from '../../components/Touchable';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { ScrollView, Share, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Communications from 'react-native-communications';
 import DeviceInfo from 'react-native-device-info';
+import { useDispatch } from 'react-redux';
+import Flex from '../../components/Flex';
+import st from '../../st';
+import Image from '../../components/Image';
+import Text from '../../components/Text';
+import Touchable from '../../components/Touchable';
 
 import CONSTANTS from '../../constants';
 
@@ -19,7 +20,6 @@ import IAS from '../../assets/iAmSecond.png';
 import OH from '../../assets/oneHope.png';
 import YS from '../../assets/youthSpecialties.png';
 import { logoutAction } from '../../actions/auth';
-import { useDispatch } from 'react-redux';
 
 function SettingsRow({ title, onSelect }) {
   return (
@@ -64,7 +64,7 @@ function MenuAbout(props) {
           title="Acknowledgements"
           onSelect={() => navigation.navigate('Acknowledgements')}
         />
-        <SettingsRow title={'Version ' + DeviceInfo.getReadableVersion()} />
+        <SettingsRow title={`Version ${DeviceInfo.getReadableVersion()}`} />
         <Flex
           direction="row"
           align="center"
@@ -82,7 +82,7 @@ function MenuAbout(props) {
         >
           <Image
             source={SU}
-            style={[st.w(st.fullWidth / 2), st.h(st.fullWidth / 2.3)]}
+            style={[st.w(st.fullWidth / 3), st.h(st.fullWidth / 3)]}
             resizeMode="contain"
           />
           <Image
@@ -92,17 +92,17 @@ function MenuAbout(props) {
           />
           <Image
             source={OH}
-            style={[st.w(st.fullWidth / 3), st.h(st.fullWidth / 2)]}
+            style={[st.w(st.fullWidth / 3), st.h(st.fullWidth / 3)]}
             resizeMode="contain"
           />
           <Image
             source={YS}
-            style={[st.w(st.fullWidth / 3), st.h(st.fullWidth / 2)]}
+            style={[st.w(st.fullWidth / 3), st.h(st.fullWidth / 3)]}
             resizeMode="contain"
           />
           <Image
             source={IAS}
-            style={[st.w(st.fullWidth / 2.3), st.h(st.fullWidth / 3)]}
+            style={[st.w(st.fullWidth / 3), st.h(st.fullWidth / 3)]}
             resizeMode="contain"
           />
           <Image

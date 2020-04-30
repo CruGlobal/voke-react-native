@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { KeyboardAvoidingView, Alert, Keyboard } from 'react-native';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import NameInput from '../../components/NameInput';
@@ -9,10 +12,6 @@ import Triangle from '../../components/Triangle';
 import VokeIcon from '../../components/VokeIcon';
 import st from '../../st';
 import Button from '../../components/Button';
-import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
-
-import { KeyboardAvoidingView, Alert, Keyboard } from 'react-native';
 
 import VOKE_BOT from '../../assets/voke_bot_face_large.png';
 import Touchable from '../../components/Touchable';
@@ -114,8 +113,8 @@ function AdventureName(props) {
             >
               <VokeIcon
                 type="image"
-                name="buttonArrow"
-                style={[st.rotate('180deg'), st.h(22), st.w(22)]}
+                name="leftArrow"
+                style={[st.h(22), st.w(22)]}
               />
             </Touchable>
             <Flex
@@ -153,7 +152,7 @@ function AdventureName(props) {
                   height={15}
                   color={st.colors.offBlue}
                   slant="down"
-                  flip={true}
+                  flip
                   style={[st.rotate(90), st.mt(-6)]}
                 />
               </Flex>
@@ -166,7 +165,7 @@ function AdventureName(props) {
                 placeholder={withGroup ? 'Group Name' : "Friend's Name"}
                 value={name}
                 onChangeText={text => setName(text)}
-                returnKeyType={'done'}
+                returnKeyType="done"
               />
               <Touchable onPress={() => setShowHelp(!showHelp)}>
                 <Text style={[st.offBlue, st.fs14, st.pt3, st.tac, st.ph1]}>

@@ -29,6 +29,21 @@ const styles: { [key: string]: any } = {
     margin-top: -10px;
     transform: rotate(-90deg);
   `,
+  BotMessage_reverse: css`
+  width: 100%;
+  background-color: ${theme.colors.white};
+  padding: ${`${theme.spacing.l}px`};
+  border-radius:  ${`${theme.radius.m}px`};
+`,
+BotText_reverse: css`
+    color: ${theme.colors.secondaryAlt};
+    font-size: ${`${theme.fontSizes.xl}px`};
+    font-family: ${theme.fonts.regular};
+    text-align: center;
+  `,
+  BotImage_reverse: css`
+    margin-left: -30px;
+  `, 
 };
 
 export default styles;

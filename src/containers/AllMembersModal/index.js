@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { Share, ScrollView } from 'react-native';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import Image from '../../components/Image';
@@ -7,17 +10,14 @@ import StatusBar from '../../components/StatusBar';
 import Triangle from '../../components/Triangle';
 import st from '../../st';
 import Button from '../../components/Button';
-import { useNavigation } from '@react-navigation/native';
 // import { MONTHLY_PRICE } from '../../constants';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { Share, ScrollView } from 'react-native';
 
 import VOKE_BOT from '../../assets/vokebot_whole.png';
 import Touchable from '../../components/Touchable';
 import CONSTANTS from '../../constants';
 import VokeIcon from '../../components/VokeIcon';
 import DEFAULT_AVATAR from '../../assets/defaultAvatar.png';
+
 function AllMembersModal(props) {
   const insets = useSafeArea();
   const navigation = useNavigation();
@@ -49,8 +49,8 @@ function AllMembersModal(props) {
             >
               <VokeIcon
                 type="image"
-                name="buttonArrow"
-                style={[st.rotate('180deg'), st.h(22), st.w(22)]}
+                name="leftArrow"
+                style={[st.h(22), st.w(22)]}
               />
             </Touchable>
           </Flex>

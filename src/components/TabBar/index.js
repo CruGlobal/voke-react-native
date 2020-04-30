@@ -1,34 +1,21 @@
 import React from 'react';
+import { useSafeArea } from 'react-native-safe-area-context';
 import Flex from '../Flex';
 import Touchable from '../Touchable';
 import VokeIcon from '../VokeIcon';
 import Text from '../Text';
-import { useSafeArea } from 'react-native-safe-area-context';
 import st from '../../st';
 import theme from '../../theme';
 
 function getContent(label, isFocused) {
   let iconName = 'adventure';
   if (label === 'Videos') {
-    iconName = 'video';
+    iconName = 'film';
   }
   if (label === 'Notifications') {
-    return (
-      <Flex
-        direction="column"
-        align="center"
-        style={[st.h(60)]}
-        justify="between"
-      >
-        <VokeIcon
-          name={isFocused ? 'notificationBell' : 'notificationBellBlue'}
-          type={'image'}
-          style={[st.h(28), st.w(28), st.mt5]}
-        />
-        <Text style={[isFocused ? st.white : st.blue, st.fs14]}>{label}</Text>
-      </Flex>
-    );
+    iconName = 'notification';
   }
+
   return (
     <Flex
       direction="column"
@@ -60,7 +47,13 @@ function TabBar({ state, descriptors, navigation }) {
         direction="row"
         align="center"
         justify="between"
-        style={[st.ph2, { paddingBottom: insets.bottom, backgroundColor: theme.colors.secondary, }]}
+        style={[
+          st.ph2,
+          {
+            paddingBottom: insets.bottom,
+            backgroundColor: theme.colors.secondary,
+          },
+        ]}
       >
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
