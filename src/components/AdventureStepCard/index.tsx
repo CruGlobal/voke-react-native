@@ -1,62 +1,56 @@
 import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import Image from '../Image';
-import st from '../../st';
 import Touchable from '../Touchable';
 import Flex from '../Flex';
-import VokeIcon from '../VokeIcon';
 import Text from '../Text';
 import Button from '../Button';
-import { useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import VokeIcon from '../VokeIcon';
+import st from '../../st';
+import { TAdventureSingle, TStep } from '../../types';
+
+type StepProps = {
+  status: string;
+  // eslint-disable-next-line camelcase
+  unread_messages: number;
+  'completed_by_messenger?': boolean;
+};
+
+type AdventureStepCardProps = {
+  step: TStep;
+  steps: StepProps[];
+  adventure: TAdventureSingle;
+};
 
 // Renders Cards on this screen https://d.pr/i/WsCCf2
-function AdventureStepCard({ item, adventure }) {
-  item = item || {};
-  adventure = adventure || {};
+function AdventureStepCard({
+  step,
+  steps,
+  adventure,
+}: AdventureStepCardProps): React.ReactElement {
   const navigation = useNavigation();
-  const me = useSelector(({ auth }) => auth.user);
-  const steps = useSelector(({ data }) => data.adventureSteps);
-  const [currentSteps, setCurrentSteps] = useState(steps[adventure.id] || []);
-  const [currentStep, setCurrentStep] = useState(
-    currentSteps.find(s => s.id === item.id),
-  );
-
-  const [isActive, setIsActive] = useState(currentStep.status === 'active');
-  const [isCompleted, setIsCompleted] = useState(
-    currentStep.status === 'completed',
-  );
+  const [isActive, setIsActive] = useState(step.status === 'active');
+  const [isCompleted, setIsCompleted] = useState(step.status === 'completed');
   const [isWaiting, setIsWaiting] = useState(
-    isActive && currentStep['completed_by_messenger?'],
+    isActive && step['completed_by_messenger?']
   );
-  const [unreadCount, setUnreadCount] = useState(currentStep.unread_messages);
+  const [unreadCount, setUnreadCount] = useState(step.unread_messages);
   const [isLocked, setIsLocked] = useState(!isCompleted && !isActive);
   const [hasUnread, setHasUnread] = useState(unreadCount > 0);
+  // Monitor any changes in steps and step parammeters of the component
+  // to update the card elements accordingly.
+  // For example we need to update unread count on the card when state changed.
   useEffect(() => {
-    const newSteps = steps[adventure.id];
-    const newCurrentStep = newSteps.find(s => s.id === item.id);
-    setCurrentSteps(newSteps);
-    setCurrentStep(newCurrentStep);
-    setIsActive(newCurrentStep.status === 'active');
-    setIsCompleted(newCurrentStep.status === 'completed');
-    setIsWaiting(
-      newCurrentStep.status === 'active' &&
-        newCurrentStep['completed_by_messenger?'],
-    );
-    setUnreadCount(newCurrentStep.unread_messages);
-    setIsLocked(
-      newCurrentStep.status !== 'completed' &&
-        newCurrentStep.status !== 'active',
-    );
-    setHasUnread(newCurrentStep.unread_messages > 0);
-  }, [steps]);
+    setIsActive(step.status === 'active');
+    setIsCompleted(step.status === 'completed');
+    setIsWaiting(step.status === 'active' && step['completed_by_messenger?']);
+    setUnreadCount(step.unread_messages);
+    setIsLocked(step.status !== 'completed' && step.status !== 'active');
+    setHasUnread(step.unread_messages > 0);
+  }, [steps, step]);
 
   const messengers = (adventure.conversation || {}).messengers || [];
-  const thumbnail = (((currentStep.item || {}).content || {}).thumbnails || {})
-    .small;
-  let otherUser = messengers.find(
-    i => i.id !== me.id && i.first_name !== 'VokeBot',
-  );
+  const thumbnail = (((step.item || {}).content || {}).thumbnails || {}).small;
   const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'multiple';
 
   // if (messengers.length === 2 && inviteName) {
@@ -68,9 +62,9 @@ function AdventureStepCard({ item, adventure }) {
       highlight={false}
       disabled={isLocked}
       activeOpacity={0.8}
-      onPress={() =>
+      onPress={(): void =>
         navigation.navigate('AdventureStepScreen', {
-          stepId: currentStep.id,
+          stepId: step.id,
           adventureId: adventure.id,
         })
       }
@@ -107,21 +101,17 @@ function AdventureStepCard({ item, adventure }) {
               numberOfLines={1}
               style={[st.fs4, isActive ? st.darkBlue : st.white]}
             >
-              {currentStep.name}
+              {step.name}
             </Text>
             <Text style={[st.fs5, isActive ? st.darkBlue : st.white]}>
-              {'Part'} {currentStep.position}
+              Part {step.position}
             </Text>
             {isActive || isCompleted ? (
               <Flex direction="row" align="center" style={[st.pt6]}>
                 <VokeIcon
                   name="Chat"
                   style={[
-                    hasUnread && !isSolo
-                      ? st.orange
-                      : isCompleted
-                      ? st.white
-                      : st.charcoal,
+                    hasUnread && !isSolo ? st.orange : isCompleted ? st.white : st.charcoal,
                   ]}
                 />
                 {hasUnread && !isSolo ? (
@@ -149,8 +139,8 @@ function AdventureStepCard({ item, adventure }) {
             >
               <Button
                 type="transparent"
-                isAndroidOpacity={true}
-                onPress={() => {}}
+                isAndroidOpacity
+                onPress={(): void => {}}
                 activeOpacity={0.6}
                 touchableStyle={[st.abs, st.right(15), st.top(-35), st.mh5]}
               >
@@ -170,7 +160,7 @@ function AdventureStepCard({ item, adventure }) {
             ]}
           >
             <Text style={[isWaiting ? st.orange : st.blue, st.fs(72)]}>
-              {currentStep.position}
+              {step.position}
             </Text>
           </Flex>
         </Flex>
@@ -179,7 +169,7 @@ function AdventureStepCard({ item, adventure }) {
             align="center"
             style={[st.bgOrange, st.w100, st.pd6, st.brbl5, st.brbr5]}
           >
-            <Text style={[st.fs4]}>'waiting for answer'</Text>
+            <Text style={[st.fs4]}>waiting for answer</Text>
           </Flex>
         ) : null}
         {isCompleted ? (

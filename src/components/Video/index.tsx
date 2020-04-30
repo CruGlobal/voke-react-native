@@ -46,6 +46,10 @@ function Video({
   children, // Used to create custom overlay/play button. Ex: "Watch Trailer".
   ...rest
 }) {
+  // Don't even bother if there is no info about video provided.
+  if (!item) {
+    return <></>;
+  }
   const insets = useSafeArea();
   const youtubeVideo = useRef();
   const arclightVideo = useRef();

@@ -10,7 +10,6 @@ import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
 import { useSelector, useDispatch } from 'react-redux';
 import { useMount, momentUtc, useInterval } from '../../utils';
-import { getMyAdventure } from '../../actions/requests';
 import { useNavigation } from '@react-navigation/native';
 import ProgressDots from './ProgressDots';
 import InviteItem from './InviteItem';
