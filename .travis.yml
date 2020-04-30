@@ -6,6 +6,11 @@ env:
   - secure: j9de5vNOqMIohC52pIWfzyDNjkpgqc5725ahpfC1AyB+LTPnJS1rsY2E3Y3HReQyg1mRDrwF2gI080AW37WvNzd4gll28qs5yu6ySc5jUOnls8o5ZIkqEmY7Ma/hAnKw5K9BinqlMjEudtpQsKVsdgEmOfyB4X+bXO1wcXECqPGc6hWJeIxakIFMcBEuFbo4BSE94tVPYR27qyxT+e0Cxt3+MCAlQ6++gCuK07mrNlcYbvOieR6kz3bjF4K4jd1RNtqXUXiWEL03N9gDDY/GSKQZg/xkDRlld9idzTLvsBOndDIL8CtNwrPvjP6HKj74QTQ3nH+//U2Fkx1gG2WXtAWAdWqFwkMZE3jc3/j/kV5dy9anNxzLdC6DDtzZ1BVtptziLqcmwcvuHkpluo11zsvluYw/daHa5NYgM0HlH5A3aTaJ2Lz4S8tjZLpGhK808WmLvyfpII9uISWyCOqXxna+5/IIjYWD1fZNAaY2potJinWe5zVJ9wYzYt1VWYN7D8fOHywLknux2XGUE1wC7QLRO63AxpTRim4j6UkAlyh5RjY8NUTqryO+E3lLjUsyzIOKEnuq9/RLLkyd/Ua+ecVjjGqIzXw/i6RrtpJ/wTsXLcAj30hNBQOmmSKzj/mAHmsreT7oqgqW0/6u9HWLNV4BWPZLRu/ozu1Kc6vE58A=
   # MATCH_PASSWORD={password}
   - secure: VXh9XD8fKZ5/uuxF+2Vj8thBWTptCi1sOp1H7KPN+D69lXK+GxK3FvFeA9hfHCGLuTN4JJ3RL3gDVD4xZVNHs3PZ3UO/03583hGXPvh3pASrnQJqJtiSfgODMcRkmdL4dCAtgtQCVA67YODYny1J58HiRECyhcePTtxY8L7QweamucUcpwWYDt9G2biLXEk1nY2494+izPTmUvuYI4XxYv5sHOIMVSg1tOe1K2wI4IX/KBNzuexdUI8oPzSgSbf9V9xQ8lBHuhQJbUqSPLnIYq/VJcjBN0Rc8rmX8B8k9zOo9LkIXs98HV2rmAYX6PJaw2YqZhVpUHGRpexQ07DJwYilmXuyN425ZjXE6+L/SRNSd9IMtR/kkguAKOaNRXYThbB1zEABXIz5BtYA/ks/mfeoEIbyZrSQlY9PnMgp3oi/E5kuQOKYB53HfWucIsMHZbFaKpqQkJw7m1dBIzp9lMf/Jz7LAlLQNBxwbEwRx+fc833DaOqLyD/rgbXsmWPqYiWiuatNd5Wth0ZF5OcAIlBjReEt5ZCNa53zGUWyQzQunM6YocRfeM/sscBDdD8sZUyBrXcqHzvokI7x3vmWNIS6at/5w78yOqmDf4OWSTROuJcj10WLp2e4hfJsiM8DrRcv02OwifOIppiv7vnfBv7WigwQLQjYq6sRjOLLbHs=
+
+stages:
+- test
+- deploy
+
 jobs:
   include:
   # - name: 'JS lint, test, i18n, and Codepush'
@@ -35,7 +40,32 @@ jobs:
   #   cache:
   #   - yarn
 
-  - name: 'iOS Testflight Build'
+  - name: 'Build iOS app'
+    stage: test
+    if: branch != master or type != push
+
+    language: objective-c
+    xcode_workspace: ios/Voke.xcworkspace
+    os: osx
+    osx_image: xcode11.1
+
+    install:
+    - npm install
+    - echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
+    - (cd ios && bundler install)
+
+    script:
+    - (cd ios && fastlane ios cru_build_app)
+
+    cache:
+    - npm
+    - cocoapods
+    - bundler
+    - directories:
+      - $HOME/Library/Developer/Xcode/DerivedData
+
+  - name: 'Upload Build to iOS Testflight'
+    stage: deploy
     if: branch = master and type = push
 
     language: objective-c
@@ -59,9 +89,9 @@ jobs:
     - directories:
       - $HOME/Library/Developer/Xcode/DerivedData
 
-  - name: 'Android Internal Test Build'
-    # if: branch = master and type = push
-    if: type = push
+  - name: 'Build Android app'
+    stage: test
+    if: branch != master or type != push
 
     language: android
     dist: trusty
