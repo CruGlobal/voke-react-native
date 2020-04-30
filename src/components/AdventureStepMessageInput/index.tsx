@@ -232,7 +232,7 @@ const AdventureStepMessageInput = ({
             onSubmitEditing={handleSendMessage}
             placeholder={'Enter your answer'}
             placeholderTextColor={st.colors.grey}
-            style={[st.f1, st.fs4, st.pt4, st.pb4, st.bgDarkBlue, {marginRight:6}]}
+            style={[st.f1, st.fs4, st.pt4, st.pb4, st.darkBlue, {marginRight:6}]}
             underlineColorAndroid={st.colors.transparent}
             selectionColor={st.colors.darkBlue}
             value={value}
@@ -252,7 +252,7 @@ const AdventureStepMessageInput = ({
                     console.log('clock');
                     handleSendMessage();
                   }}
-              style={[st.p4, {backgroundColor: 'red'}]}>
+              style={[st.p4]}>
               <VokeIcon name="send_message" style={[st.offBlue]} size={24} />
             </Button>
           )}
