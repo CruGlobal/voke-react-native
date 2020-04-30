@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { ScrollView, FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMyAdventure } from '../../actions/requests';
+import { getMyAdventure, getAdventureSteps } from '../../actions/requests';
 import { RootState } from '../../reducers';
 import { useMount } from '../../utils';
 import AdventureStepCard from '../../components/AdventureStepCard';
@@ -45,8 +45,9 @@ function AdventureActive({ route }: AdventureActiveProps): React.ReactElement {
     if (Object.keys(adventure).length === 0) {
       getPendingAdventure();
     }
-    // dispatch(getAdventureSteps(adventureId));
-    // -- ☝️call to update steps from the server. (NOT SURE IF REALLY NEEDED)
+    dispatch(getAdventureSteps(adventureId));
+    // -- ☝️call to update steps from the server.
+    // Without it new Adventures won't show any steps.
   });
 
   useEffect(() => {
