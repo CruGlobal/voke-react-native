@@ -60,7 +60,8 @@ jobs:
       - $HOME/Library/Developer/Xcode/DerivedData
 
   - name: 'Android Beta Build'
-    if: branch = master and type = push
+    # if: branch = master and type = push
+    if: type = push
 
     language: android
     dist: trusty
