@@ -59,5 +59,57 @@ jobs:
     - directories:
       - $HOME/Library/Developer/Xcode/DerivedData
 
+  - name: 'Android Beta Build'
+    if: branch = master and type = push
+
+    language: android
+    dist: trusty
+    # android:
+    #   components:
+    #     - tools
+    #     - build-tools-28.0.3
+    #     - platform-tools
+    #     - tools
+
+    #     - android-28
+
+    #     - extra-google-google_play_services
+
+    #   licenses:
+    #     - android-sdk-license-.+
+
+    before_install:
+    # Fix node file watchers issue https://github.com/gatsbyjs/gatsby/issues/11406#issuecomment-458769756
+    - echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+    - rvm install 2.6.3
+    - gem install bundler
+    - git fetch --unshallow
+    # - openssl aes-256-cbc -pass "pass:$GOOGLE_PLAY_API_FILE_PASSWORD" -in ./android/fastlane/GooglePlayAPI.enc -out ./android/fastlane/GooglePlayAPI.json -d -a
+    - curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
+    - sudo apt-get install nodejs -y
+    # - curl -o- -L https://yarnpkg.com/install.sh | bash
+    # - export PATH="$HOME/.yarn/bin:$PATH"
+    # - echo yes | sdkmanager "build-tools;28.0.3" # Android platform required by app
+    # - echo yes | sdkmanager "build-tools;25.0.3" # Android platform required by some dependency
+    # - echo yes | sdkmanager "build-tools;23.0.1" # Android platform required by some dependency
+    install:
+    - npm install
+    - (cd android && bundler install)
+
+    script:
+#    - (cd android && fastlane android beta)
+    - (cd android && fastlane android cru_build_app)
+
+    before_cache:
+    - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+    - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+    cache:
+    - npm
+    - bundler
+    - directories:
+      - $HOME/.android/build-cache
+      - $HOME/.gradle/caches/
+      - $HOME/.gradle/wrapper/
+
 notifications:
   email: false
