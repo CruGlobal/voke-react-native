@@ -131,7 +131,7 @@ android {
         applicationId "org.cru.voke"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode grgit.log(includes:['HEAD']).size() - 500
+        versionCode grgit.log(includes:['HEAD']).size()
         versionName "5.0.0"
         multiDexEnabled true
     }
