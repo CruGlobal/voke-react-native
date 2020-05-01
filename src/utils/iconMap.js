@@ -24,6 +24,7 @@ import MENU from '../assets/menu.png';
 import VOKEBOT_UKELELE from '../assets/VokeBot_Ukelele.png';
 
 const iconsMap = {};
+/*
 const vokeIcons = {
   back_button: true,
   pause: true,
@@ -52,6 +53,7 @@ const vokeIcons = {
   plus: true,
   Chat: true,
 };
+*/
 
 const vokeImages = {
   'to-chat': TO_CHAT,
@@ -80,4 +82,4 @@ const vokeImages = {
   VokeBot_Ukelele: VOKEBOT_UKELELE,
 };
 
-export { iconsMap, vokeIcons, vokeImages };
+export { iconsMap, vokeImages };

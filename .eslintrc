@@ -36,7 +36,9 @@
     "window": true,
     "FormData": true,
     "ErrorUtils": true,
-    "heap": true
+    "heap": true,
+    "LOG": true,
+    "WARN": true
   },
   "settings": {
     "import/extensions": [".js",".jsx",".ts",".tsx"],

@@ -47,7 +47,6 @@ const AdventuresMy: React.FC = (): React.ReactElement => {
   };
 
   /* const updateAdventures = async (): Promise<void> => {
-    console.log( "updateAdventures:🔁🔁🔁🔁🔁" );
     setIsLoading(true);
     // if (myAdventures.length === 0) {
     // TODO: Do some kind of time based caching for these requests
@@ -63,23 +62,19 @@ const AdventuresMy: React.FC = (): React.ReactElement => {
   }
  */
   const updateAdventures = async (): Promise<void> => {
-    console.log('updateAdventures:🔁🔁🔁🔁🔁');
+    // LOG('🔁 updateAdventures');
     setIsLoading(true);
     // if (myAdventures.length === 0) {
     // TODO: Do some kind of time based caching for these requests
     await dispatch(getMyAdventures());
     // then(
-    console.log('🩳getMyAdventures');
     // );
     // }
     // if (adventureInvitations.length === 0) {
     // TODO: Do some kind of time based caching for these requests
     await dispatch(getAdventuresInvitations());
-    console.log('🦺getAdventuresInvitations');
 
-    console.log('updateAdventures:🔁🔁🔁🔁🔁 COMPLETED');
     setIsLoading(false);
-
     // setDataHash( getCurrentDataHash() );
   };
   const refreshData = async (): Promise<void> => {
@@ -94,7 +89,6 @@ const AdventuresMy: React.FC = (): React.ReactElement => {
 
   // Actions to run once component mounted.
   /* useMount(() => {
-    console.log( 'AdventuresMy: useMount >>>>>>>>>>>>>' );
     // Check notifications permission and setup sockets.
     // dispatch(startupAction());
     // Load my adventures + invites. Note: async function can't be part of hook!
@@ -102,11 +96,10 @@ const AdventuresMy: React.FC = (): React.ReactElement => {
   });
  */
   useEffect(() => {
-    console.log('AdventuresMy: useEffect >>>>>>>>>>>>>');
     // var y0 = performance.now()
 
     // Check notifications permission and setup sockets.
-    dispatch(startupAction());
+    // dispatch(startupAction());
 
     // Load my adventures + invites. Note: async function can't be part of hook!
     updateAdventures();

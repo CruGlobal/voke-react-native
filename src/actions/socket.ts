@@ -4,7 +4,7 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios';
 // - Added these configs: https://d.pr/i/AoUUxy
 
 import { ThunkDispatch } from 'redux-thunk';
-import { checkNotifications } from 'react-native-permissions';
+import { checkNotifications, openSettings } from 'react-native-permissions';
 import { toastAction } from './info';
 
 import { REDUX_ACTIONS } from '../constants';
@@ -278,7 +278,7 @@ export function handleNotifications(
           //     dispatch(getConversations());
           //   }
           // } else if (namespace.includes(NAMESPACES.ADVENTURE)) {
-          //   dispatch(getMe());
+          //   dispatch(getMeAction());
           // }
         }
       } else if (state === 'background') {
@@ -337,7 +337,7 @@ export function handleNotifications(
           //   });
           // }
         } else if (namespace.includes(NAMESPACES.ADVENTURE)) {
-          // dispatch(getMe());
+          // dispatch(getMeAction());
         }
       }
     }
@@ -450,6 +450,34 @@ export function permissionsAndSockets( askPermission = false) {
         permission: status, // 'unavailable' | 'denied' | 'blocked' | 'granted'
       });
 
+      console.log( "🐸 status:", status );
+
+      // Blocked before but now clicked to allow notifications.
+      // If permission denied once it's not requestable anymore.
+      // Send the user to the settings.
+      if (status === 'blocked' && askPermission) {
+        console.log( "👽 BEFORE requestNotifications");
+        openSettings().catch(
+          // TODO: process this case somehow?
+          () => console.warn('cannot open settings')
+        );
+        console.log( "👽 AFTER requestNotifications");
+
+        // Assume user activate notifications.
+        // If not app will detect it next time it opened.
+        // Save new premissions status in
+        // store.info.pushNotificationPermission
+        dispatch({
+          type: REDUX_ACTIONS.PUSH_PERMISSION,
+          permission: 'granted', // 'unavailable' | 'denied' | 'blocked' | 'granted'
+        });
+
+        /* requestNotifications(['alert', 'sound']).then(({status, settings}) => {
+          console.log( "🐸 status:", status );
+          console.log( "🐸 settings:", settings );
+        }); */
+      }
+
       // if (status === 'blocked') {
         // User selected: DON'T ALLOW notifications.
         // console.log( "👺PUSH_PERMISSION = blocked" );
@@ -460,7 +488,7 @@ export function permissionsAndSockets( askPermission = false) {
         // User  selected: ALLOW notifications.
         console.log( "👺PUSH_PERMISSION = granted" );
         console.log( "👺BEFORE establishDevice" );
-        dispatch(establishDevice());
+        return dispatch(establishDevice());
         console.log( "👺AFTER establishDevice" );
 
       // } else if (status === 'denied') {
@@ -472,7 +500,7 @@ export function permissionsAndSockets( askPermission = false) {
         // blocked
         console.log( "👺PUSH_PERMISSION = ELSE" );
         console.log( "👺BEFORE establishCableDevice" );
-        dispatch(establishCableDevice());
+        return dispatch(establishCableDevice());
         console.log( "👺AFTER establishCableDevice" );
       }
 

@@ -49,7 +49,7 @@ export default function (
     authToken: any;
   },
 ) {
-  console.log( "Redux action: " + action.type, action );
+  // console.log( "Redux action: " + action.type, action );
   switch (action.type) {
     case REDUX_ACTIONS.SET_AUTH_DATA:
       // @ts-ignore

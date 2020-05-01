@@ -1,7 +1,8 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { Button } from 'react-native';
+import { startupAction } from './actions/auth';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -88,7 +89,6 @@ const transparentHeaderConfig = {
 const AdventureStack = createStackNavigator();
 
 const AdventureStackScreens = ({ navigation, route }: any) => {
-  console.log('⏩ AdventureStackScreens');
   // Make top bar visible dynamically.
   navigation.setOptions({
     tabBarVisible: route.state ? !(route.state.index > 0) : null,
@@ -155,7 +155,6 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
 };
 
 function VideoStackScreens({ navigation, route }: any) {
-  console.log('⏩ VideoStackScreens');
   const VideoStack = createStackNavigator();
   // TODO: extract into utility function.
   navigation.setOptions({
@@ -198,7 +197,15 @@ const NotificationStackScreens = () => {
 };
 
 const LoggedInAppContainer = () => {
+  const dispatch = useDispatch();
   const Tabs = createBottomTabNavigator();
+  useEffect(() => {
+    // Check notifications permission and setup sockets.
+    dispatch(startupAction()).then(
+      success => LOG(' 🧛‍♂️ startupAction > SUCCESS'),
+      error => WARN(' 🧚‍♂️ startupAction > ERROR', error)
+    );
+  }, []);
   return (
     <Tabs.Navigator tabBar={props => <TabBar {...props} />}>
       <Tabs.Screen
@@ -252,12 +259,9 @@ const App = () => {
   useMount(() => SplashScreen.hide());
 
   React.useEffect(() => {
-    console.log('APP useEffect');
     const state = navigationRef.current.getRootState();
     // Save the initial route name
     routeNameRef.current = getActiveRouteName(state);
-    console.log('routeNameRef.current:');
-    console.log(routeNameRef.current);
   }, []);
 
   return (
@@ -266,10 +270,6 @@ const App = () => {
       onStateChange={state => {
         const previousRouteName = routeNameRef.current;
         const currentRouteName = getActiveRouteName(state);
-        console.log(
-          `%c🧭 Navigated to / Re-rendered ${currentRouteName}`,
-          'color: #bada55'
-        );
 
         /* if (previousRouteName !== currentRouteName) {
           // The line below uses the @react-native-firebase/analytics tracker

@@ -10,6 +10,8 @@ import LoadingRedux from './components/LoadingRedux';
 import configureStore from './store';
 import App from './App';
 import ToastManager from './components/ToastManager';
+import { registerLogs } from './utils';
+import './actions/AppStateActions';
 // import ModalHandler from './containers/ModalHandler';
 
 const { store, persistor } = configureStore();
@@ -20,6 +22,7 @@ YellowBox.ignoreWarnings(['Require cycle:', 'Warning: componentWill']);
 
 const Root = () => {
   const [showLoader, setShowLoader] = useState( true );
+  registerLogs();
   const onBeforeLift = () => {
     // Add any actions here to run before the loading gate lifts...
     // Delay for at least one second to reduce loading gate flashing.

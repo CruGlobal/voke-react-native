@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import Modal from 'react-native-modal';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../reducers';
+import { useDispatch } from 'react-redux';
 import { Alert } from 'react-native';
-import Image from '../Image';
+import Modal from 'react-native-modal';
 import st from '../../st';
 import Flex from '../Flex';
 import Text from '../Text';
@@ -10,16 +11,22 @@ import Button from '../Button';
 import VokeIcon from '../VokeIcon';
 import theme from '../../theme';
 import BotTalking from '../BotTalking';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../reducers';
+import { requestPremissions } from '../../actions/auth';
 
-function NotificationBanner() {
-  const [isVisible, setVisible] = useState(false);
+const NotificationBanner = (): React.ReactElement => {
+  const dispatch = useDispatch();
+  const [modalOpen, setModalOpen] = useState(false);
   const me = useSelector(({ auth }: RootState) => auth.user);
+  // Current premissions status stroed in
+  // store.info.pushNotificationPermission
+  const { pushNotificationPermission } = useSelector(({ info }: RootState) => info);
+  // Ignore component if permissions already granted.
+  if ( pushNotificationPermission === 'granted') {
+    return <></>;
+  }
 
-  //NotificationModal
   const notificationModal = (
-    <Modal isVisible={isVisible} backdropOpacity={0.9}>
+    <Modal isVisible={modalOpen} backdropOpacity={0.9}>
       <Flex
         style={{ justifyContent: 'space-between', width: '100%' }}
         direction="column"
@@ -46,7 +53,7 @@ function NotificationBanner() {
               marginTop: 10,
             },
           ]}
-          onPress={() => Alert.alert('pressed')}
+          onPress={ () =>{ return dispatch(requestPremissions()) } }
         >
           <Text
             style={{
@@ -77,7 +84,7 @@ function NotificationBanner() {
               marginTop: 10,
             },
           ]}
-          onPress={() => setVisible(false)}
+          onPress={() => setModalOpen(false)}
         >
           <Text
             style={{
@@ -115,6 +122,7 @@ function NotificationBanner() {
 
         <Button
           isAndroidOpacity
+          onPress={() => setModalOpen(true)}
           style={[
             st.ml2,
             {
@@ -126,7 +134,6 @@ function NotificationBanner() {
               paddingLeft: 15,
             },
           ]}
-          onPress={() => setVisible(true)}
         >
           <Text style={{ color: theme.colors.white, fontSize: 18 }}>
             Turn On

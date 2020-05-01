@@ -1,24 +1,33 @@
 import React from 'react';
-import { vokeImages, vokeIcons } from '../../utils/iconMap';
+import { createIconSetFromIcoMoon } from 'react-native-vector-icons';
+import { StyleProp, ImageStyle } from 'react-native';
+import { vokeImages } from '../../utils/iconMap';
+import icoMoonConfig from '../../utils/selection.json';
 import Image from '../Image';
 import st from '../../st';
-import { createIconSetFromIcoMoon } from 'react-native-vector-icons';
-import icoMoonConfig from '../../utils/selection.json';
+
 const CustomIcon = createIconSetFromIcoMoon(
   icoMoonConfig,
   'icoMoon',
   'icomoon.ttf',
 );
 
-function VokeIcon({ name, type, style, ...rest }) {
+type VokeIconProps = {
+  name: string;
+  type: string;
+  style: StyleProp<ImageStyle>;
+  [x: string]: any; // ..rest
+}
+
+const VokeIcon = ({ name, type, style, ...rest }: VokeIconProps) => {
   if (type === 'image' && !vokeImages[name]) return null;
   if (type === 'image') {
     return (
       <Image
         resizeMode="contain"
-        {...rest}
         style={style}
         source={vokeImages[name]}
+        {...rest}
       />
     );
   } else {

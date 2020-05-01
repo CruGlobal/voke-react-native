@@ -55,7 +55,7 @@ export function setAuthData(key: AuthDataKeys, data: any) {
 export function getAvailableAdventures() {
   return async (dispatch: Dispatch, getState: any) => {
     const results: any = await dispatch(
-      request({ ...ROUTES.GET_AVAILABLE_ADVENTURES }),
+      request({ ...ROUTES.GET_AVAILABLE_ADVENTURES, description: 'Get Available Adventures' }),
     );
     const adventures = results.organization_journeys;
     dispatch(setData('availableAdventures', adventures));
@@ -70,7 +70,7 @@ export function getMyAdventures() {
   // var t0 = performance.now()
   return async (dispatch: Dispatch, getState: any) => {
     await dispatch(
-      request({ ...ROUTES.GET_MY_ADVENTURES }),
+      request({ ...ROUTES.GET_MY_ADVENTURES, description: 'Get My Adventures' }),
     ).then(
       data => {
         // eslint-disable-next-line no-console
@@ -95,6 +95,7 @@ export function getMyAdventure(adventureId: any) {
       request({
         ...ROUTES.GET_MY_ADVENTURE,
         pathParams: { adventureId },
+        description: 'Get My Adventure'
       }),
     );
     return result;
@@ -105,7 +106,7 @@ export function getAdventuresInvitations() {
   // var t0 = performance.now()
   return async (dispatch: Dispatch, getState: any) => {
     const results: any = await dispatch(
-      request({ ...ROUTES.GET_ADVENTURE_INVITATIONS }),
+      request({ ...ROUTES.GET_ADVENTURE_INVITATIONS, description: 'Get Adventures Invitations' }),
     );
     // var t1 = performance.now()
     // console.log('🎫 invitations in ' + (t1 - t0) + " milliseconds. \n", results);
@@ -121,6 +122,7 @@ export function acceptAdventureInvitation(adventureCode: string) {
       request({
         ...ROUTES.ACCEPT_ADVENTURE_INVITATION,
         data: { code: adventureCode },
+        description: 'Accept Adventure Invitation'
       }),
     );
     await dispatch(getMyAdventures());
@@ -134,6 +136,7 @@ export function getAdventureSteps(adventureId: any) {
       request({
         ...ROUTES.GET_ADVENTURE_STEPS,
         pathParams: { adventureId },
+        description: 'Get Adventure Steps'
       }),
     );
     const adventureSteps = results.steps;
@@ -155,6 +158,7 @@ export function getAdventureStepMessages(
         ...ROUTES.GET_ADVENTURE_STEP_MESSAGES,
         pathParams: { adventureConversationId },
         params: { messenger_journey_step_id: adventureStepId },
+        description: 'Get Adventure Step Messages'
       }),
     );
     const adventureStepMessages = results.messages;
@@ -168,7 +172,7 @@ export function getAdventureStepMessages(
 
 export function startAdventure(data: any) {
   return async (dispatch: Dispatch, getState: any) => {
-    const result = await dispatch(request({ ...ROUTES.START_ADVENTURE, data }));
+    const result = await dispatch(request({ ...ROUTES.START_ADVENTURE, data, description: 'Start Adventure' }));
     dispatch({
       type: REDUX_ACTIONS.START_ADVENTURE,
       result,
@@ -180,7 +184,7 @@ export function startAdventure(data: any) {
 export function sendAdventureInvitation(data: any) {
   return async (dispatch: Dispatch, getState: any) => {
     const result = await dispatch(
-      request({ ...ROUTES.SEND_ADVENTURE_INVITATION, data }),
+      request({ ...ROUTES.SEND_ADVENTURE_INVITATION, data, description: 'Send Adventure Invitation' }),
     );
     dispatch({
       type: REDUX_ACTIONS.SEND_ADVENTURE_INVITATION,
@@ -227,6 +231,7 @@ export function createAdventureStepMessage(params: {
           adventureConversationId: params.adventure.conversation.id,
         },
         data,
+        description: 'Create Adventure Step Message'
       }),
     );
 
@@ -326,6 +331,7 @@ export function getVideos(params: any = {}) {
       request({
         ...ROUTES.GET_VIDEOS,
         params: { ...params },
+        description: 'Get Videos'
       }),
     );
     dispatch({
@@ -343,6 +349,7 @@ export function getVideoTags() {
     results = await dispatch(
       request({
         ...ROUTES.GET_VIDEO_TAGS,
+        description: 'Get Video Tags'
       }),
     );
 
@@ -359,6 +366,7 @@ export function destroyDevice(deviceId: string) {
       request({
         ...ROUTES.DESTROY_DEVICE,
         pathParams: { deviceId },
+        description: 'Destroy Device'
       }),
     );
 
@@ -375,6 +383,7 @@ export function updateDevice(newDeviceData: any) {
         ...ROUTES.UPDATE_DEVICE,
         pathParams: { deviceId },
         data: newDeviceData,
+        description: 'Update Device'
       }),
     );
 
@@ -398,6 +407,7 @@ export function getDevices() {
     const results = await dispatch(
       request({
         ...ROUTES.GET_DEVICES,
+        description: 'Get Devices'
       }),
     );
     return results;
@@ -415,6 +425,7 @@ export function createDevice(newDeviceData: any) {
       request({
         ...ROUTES.CREATE_DEVICE,
         data: newDeviceData,
+        description: 'Create Device'
       }),
     );
 
@@ -437,6 +448,7 @@ export function createDevice(newDeviceData: any) {
     return dispatch(request({
         ...ROUTES.CREATE_DEVICE,
         data: newDeviceData,
+        description: 'Create Device'
       })).then(
       returnedDeviceData => {
         // eslint-disable-next-line no-console
@@ -463,6 +475,7 @@ export function revokeAuthToken(data: any) {
       request({
         ...ROUTES.REVOKE_TOKEN,
         data,
+        description: 'Revoke Auth Token'
       }),
     );
     return results;
@@ -475,7 +488,7 @@ export function revokeAuthToken(data: any) {
 // Devices allow the API to send the user information relative to them.
 export function establishCableDevice(pushDeviceId?: string) {
   return async (dispatch: Dispatch, getState: any) => {
-    console.log( "🧵🧵🧵🧵🧵establishCableDevice:" , pushDeviceId );
+    LOG( "🧵🧵🧵🧵🧵establishCableDevice:" , pushDeviceId );
     const savedDeviceInfo = getState().auth.device;
     let deviceId = null;
     const currentDeviceId = getState().auth.device.id;
@@ -582,6 +595,7 @@ export function getNotifications(params: any = {}) {
         ...ROUTES.GET_NOTIFICATIONS,
         pathParams: { notificationId },
         params: { ...params },
+        description: 'Get Notifications'
       }),
     );
     console.log('NOTIFICATIONS', results);
@@ -607,6 +621,7 @@ export function sendVideoInvitation(params: any = {}) {
       request({
         ...ROUTES.SEND_VIDEO_INVITATION,
         data: createData,
+        description: 'Send Video Invitation'
       }),
     );
 
@@ -627,6 +642,7 @@ export function toggleFavoriteVideo(shouldFavorite: boolean, video: any) {
         request({
           ...ROUTES.FAVORITE_VIDEO,
           pathParams: { videoId: video.id },
+          description: 'Toggle Favorite Video: Add'
         }),
       );
     } else {
@@ -634,6 +650,7 @@ export function toggleFavoriteVideo(shouldFavorite: boolean, video: any) {
         request({
           ...ROUTES.UNFAVORITE_VIDEO,
           pathParams: { videoId: video.id },
+          description: 'Toggle Favorite Video: Remove'
         }),
       );
     }

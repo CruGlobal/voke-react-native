@@ -4,7 +4,13 @@ import { Platform, Dimensions } from 'react-native';
 
 // const { width, height } = Dimensions.get('window');
 
-const theme: { [key: string]: {[key: string]: string | number} } = {
+
+const theme: {
+  colors: {
+    [key: string]: string
+  },
+  [key: string]: {[key: string]: string | number}
+  } = {
   colors: {
     primary: '#44c8e8', // Blue
     secondary: '#186078', // Dark Blue

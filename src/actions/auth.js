@@ -13,7 +13,7 @@ import ROUTES from './routes';
 import request from './utils';
 import { getDevices, revokeAuthToken, setUser } from './requests';
 import { isArray } from '../utils';
-import { permissionsAndSockets } from './socket';
+import { permissionsAndSockets, closeSocketAction } from './socket';
 
 export function loginAction(authToken) {
   // const authToken = authData.access_token;
@@ -22,9 +22,24 @@ export function loginAction(authToken) {
   };
 }
 
+// When app starts or focused back.
 export function startupAction() {
+  LOG( "🦸‍♂️ function startupAction", );
   return async dispatch => {
     await dispatch(permissionsAndSockets());
+  };
+}
+
+// When app goes to background.
+export function sleepAction() {
+  LOG( "💤 function sleepAction", );
+  dispatch(closeSocketAction());
+}
+
+export function requestPremissions(askPermission = true) {
+  console.log( "🐸 requestPremissions: 1" );
+  return async dispatch => {
+    await dispatch(permissionsAndSockets(askPermission));
   };
 }
 
@@ -65,7 +80,7 @@ export function logoutAction(user, token, isDelete = false) {
 /**
  * Update store.auth.user branch with user data fetched from the server.
  */
-export function getMe() {
+export function getMeAction() {
   console.log("🤷‍♂ function getMe");
   return async dispatch => {
     // Fetch user data from the server.
@@ -110,9 +125,9 @@ export function facebookLoginAction(accessToken) {
         logoutAction();
         // Update user data in the state with ones received.
         dispatch(loginAction(authData.access_token));
-        // await dispatch(getMe());
+        // await dispatch(getMeAction());
         // After all download user details from server.
-        return dispatch(getMe());
+        return dispatch(getMeAction());
       },
       error => {
         // eslint-disable-next-line no-console
@@ -208,7 +223,7 @@ export function facebookLogin() {
   };
 }
 
-export function passwordReset(username) {
+export function passwordResetAction(username) {
   return async (dispatch, getState) => {
     try {
       // TODO: Finish this password reset functionality.
@@ -250,7 +265,7 @@ export function userLogin(username, password) {
         // Update user data in the state with ones received.
         dispatch(loginAction(authData.access_token));
         // After all download user details from server.
-        return dispatch(getMe());
+        return dispatch(getMeAction());
       },
       error => {
         // eslint-disable-next-line no-console
@@ -286,9 +301,9 @@ export function createAccount(user) {
         // Update user data in the state with ones received.
         return dispatch(setUser(userData));
 
-        // await dispatch(getMe());
+        // await dispatch(getMeAction());
         // After all download user details from server.
-        // return dispatch(getMe());
+        // return dispatch(getMeAction());
       },
       error => {
         // eslint-disable-next-line no-console
@@ -323,7 +338,7 @@ export function updateMe(data) {
     return dispatch(request({ ...ROUTES.UPDATE_ME, pathParams: {userId}, data })).then(
       userData => {
         console.log( "User update result:\n", userData );
-        // dispatch(getMe());
+        // dispatch(getMeAction());
         // Update redux store with data received.
         return dispatch(setUser(userData));
       },
@@ -337,8 +352,8 @@ export function updateMe(data) {
       console.log( 'ERRORS' );
     } else {
       console.log( "uploadResults:" ); console.log( uploadResults );
-      // return dispatch(getMe());
+      // return dispatch(getMeAction());
     } */
-    // return dispatch(getMe());
+    // return dispatch(getMeAction());
   };
 }
