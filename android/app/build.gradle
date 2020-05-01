@@ -132,7 +132,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode grgit.log(includes:['HEAD']).size()
-        versionName "5.0.0"
+        versionName "5.5.0"
         multiDexEnabled true
     }
     splits {
