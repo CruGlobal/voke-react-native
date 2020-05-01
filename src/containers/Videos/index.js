@@ -3,13 +3,12 @@ import { useSafeArea } from 'react-native-safe-area-context';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
+import { useMount, lockToPortrait } from '../../utils';
 import { ActivityIndicator, ScrollView, FlatList, View } from 'react-native';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import StatusBar from '../../components/StatusBar';
 import VokeIcon from '../../components/VokeIcon';
-import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
-import { useMount, lockToPortrait } from '../../utils';
 
 import st from '../../st';
 import theme from '../../theme';
