@@ -402,7 +402,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.cru.voke;
 				PRODUCT_NAME = Voke;
-				PROVISIONING_PROFILE_SPECIFIER = "match Development org.cru.voke";
+				PROVISIONING_PROFILE_SPECIFIER = "Voke - Development";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
