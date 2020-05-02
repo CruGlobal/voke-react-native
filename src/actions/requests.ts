@@ -378,12 +378,12 @@ export function updateDevice(newDeviceData: any) {
   return async (dispatch: Dispatch, getState: any) => {
     const deviceId = getState().auth.device.id;
     let results: any;
-    returnedDevice = await dispatch(
+    const returnedDevice = await dispatch(
       request({
         ...ROUTES.UPDATE_DEVICE,
         pathParams: { deviceId },
         data: newDeviceData,
-        description: 'Update Device'
+        description: 'Update device data on our server'
       }),
     );
 
@@ -392,6 +392,7 @@ export function updateDevice(newDeviceData: any) {
     dispatch({
       type: REDUX_ACTIONS.SET_DEVICE,
       device: returnedDevice,
+      description: 'Calling from updateDevice. Save returned from the server device data.'
     });
 
     /* if (returnedDevice.id) {
@@ -421,13 +422,13 @@ export function createDevice(newDeviceData: any) {
   return async (dispatch: Dispatch, getState: any) => {
     console.log( "function createDevice:",  newDeviceData);
 
-    await dispatch(
+    /* await dispatch(
       request({
         ...ROUTES.CREATE_DEVICE,
         data: newDeviceData,
         description: 'Create Device'
       }),
-    );
+    ); */
 
     /* const returnedDeviceData = await dispatch(
       request({
@@ -486,14 +487,14 @@ export function revokeAuthToken(data: any) {
 // https://docs.vokeapp.com/#me-devices
 // Devices are an important part of establishing real time connectivity in Voke.
 // Devices allow the API to send the user information relative to them.
-export function establishCableDevice(pushDeviceId?: string) {
+export function establishCableDevice(deviceId?: string) {
   return async (dispatch: Dispatch, getState: any) => {
-    LOG( "🧵🧵🧵🧵🧵establishCableDevice:" , pushDeviceId );
+    LOG( "🧵🧵🧵🧵🧵establishCableDevice:" , deviceId );
     const savedDeviceInfo = getState().auth.device;
     let deviceId = null;
     const currentDeviceId = getState().auth.device.id;
     const currentDeviceData = {
-      id: currentDeviceId,
+      // id: currentDeviceId,
       version: 1,
       local_id: deviceInfoModule.getDeviceId(),
       local_version: deviceInfoModule.getVersion(),
@@ -508,19 +509,19 @@ export function establishCableDevice(pushDeviceId?: string) {
     };
 
     console.log( "📱‼️ deviceInfoChanged:" , deviceInfoChanged(), savedDeviceInfo, currentDeviceData );
-    console.log( "pushDeviceId:",pushDeviceId );
+    console.log( "deviceId:",deviceId );
 
     // If device info or push device id changed:
-    // pushDeviceId - if provided, need to update device.
-    if (pushDeviceId || deviceInfoChanged || (!deviceInfoChanged && !currentDeviceId)) {
+    // deviceId - if provided, need to update device.
+    if (deviceId || deviceInfoChanged || (!deviceInfoChanged && !currentDeviceId)) {
       const newDeviceData = {
         device: {
           ...currentDeviceData,
           // TODO: do I needed these?
-          key: pushDeviceId || null,
+          key: deviceId || null,
           kind: 'cable',
           // Possible variations:
-          // key: pushDeviceId for websokets,
+          // key: deviceId for websokets,
           // kind: 'cable' for websokets.
           // ----------------------------
           // key: pushToken for notifications.
@@ -552,7 +553,8 @@ export function establishCableDevice(pushDeviceId?: string) {
   };
 }
 
-// Register device token on the remote server.
+// Register new push notification token on our server,
+// so it knows where to deliver notifications.
 export function establishPushDevice(pushToken: string) {
   return async (dispatch: Dispatch, getState: any) => {
     if (!pushToken) return;
@@ -571,7 +573,7 @@ export function establishPushDevice(pushToken: string) {
         key: pushToken,
         kind: st.isAndroid ? 'fcm' : 'apple',
         // Possible variations:
-        // key: pushDeviceId for websokets,
+        // key: deviceId for websokets,
         // kind: 'cable' for websokets.
         // ----------------------------
         // key: pushToken for notifications.

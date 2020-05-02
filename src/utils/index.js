@@ -206,10 +206,11 @@ export function useKeyboard(callback) {
 
 export function lockToPortrait() {
   const UNLOCK_ORIENTATIONS = true;
-  if (!CONSTANTS.IS_STAGING) {
-    Orientation.lockToPortrait();
-  } else if ( UNLOCK_ORIENTATIONS ) {
+
+  if ( UNLOCK_ORIENTATIONS ) {
     Orientation.unlockAllOrientations();
+  } else {
+    Orientation.lockToPortrait();
   }
 }
 

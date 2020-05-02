@@ -6,8 +6,8 @@ export type AuthDataKeys = 'device' | 'adventureInvitations';
 interface InitialStateTypes {
   isLoggedIn: boolean;
   authToken?: string;
-  pushToken?: string;
-  pushDeviceId?: string;
+  pushToken?: string; // Push Notifications token receved from apple/google.
+  deviceId?: string; // Device ID returend by server after provided with Push Notfications Tocken.
   language?: string;
   device: object; // TODO: IDeviceInformation interface here
   user: {
@@ -23,7 +23,7 @@ const initialState: InitialStateTypes = {
   isLoggedIn: false,
   authToken: '',
   pushToken: '',
-  pushDeviceId: '',
+  deviceId: '',
   language: '',
   device: {
     id: '',
@@ -44,9 +44,9 @@ export default function (
     modalProps: any;
     user: any;
     device: any;
-    pushToken: any; // delete?
-    deviceId: any; // delete?
     authToken: any;
+    pushToken: any;
+    deviceId: any;
   },
 ) {
   // console.log( "Redux action: " + action.type, action );
@@ -114,8 +114,8 @@ export default function (
       };
     case REDUX_ACTIONS.SET_PUSH_TOKEN:
       return { ...state, pushToken: action.pushToken };
-    case REDUX_ACTIONS.SET_PUSH_DEVICE_ID:
-      return { ...state, pushDeviceId: action.deviceId };
+    case REDUX_ACTIONS.SET_PUSH_DEVICE_ID: // TODO: delete.
+      return { ...state, deviceId: action.deviceId };
     case REDUX_ACTIONS.LOGOUT:
       return initialState;
     default:
