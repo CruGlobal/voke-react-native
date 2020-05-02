@@ -60,7 +60,7 @@
     "react-native-multiple-select": "^0.5.5",
     "react-native-orientation-locker": "^1.1.8",
     "react-native-permissions": "^2.1.3",
-    "react-native-push-notification": "^3.1.9",
+    "react-native-push-notification": "3.2.0",
     "react-native-reanimated": "1.7.0",
     "react-native-safe-area-context": "0.7.3",
     "react-native-scalable-image": "^1.0.0",

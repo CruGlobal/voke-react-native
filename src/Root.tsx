@@ -11,7 +11,6 @@ import configureStore from './store';
 import App from './App';
 import ToastManager from './components/ToastManager';
 import { registerLogs } from './utils';
-import './actions/AppStateActions';
 // import ModalHandler from './containers/ModalHandler';
 
 const { store, persistor } = configureStore();

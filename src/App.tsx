@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { Button } from 'react-native';
 import { startupAction } from './actions/auth';
+import appStateActions from './actions/appStateActions';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -205,6 +206,8 @@ const LoggedInAppContainer = () => {
       success => LOG(' 🧛‍♂️ startupAction > SUCCESS'),
       error => WARN(' 🧚‍♂️ startupAction > ERROR', error)
     );
+
+     dispatch(appStateActions());
   }, []);
   return (
     <Tabs.Navigator tabBar={props => <TabBar {...props} />}>

@@ -33,7 +33,9 @@ export function startupAction() {
 // When app goes to background.
 export function sleepAction() {
   LOG( "💤 function sleepAction", );
-  dispatch(closeSocketAction());
+  return async dispatch => {
+    dispatch(closeSocketAction());
+  }
 }
 
 export function requestPremissions(askPermission = true) {
