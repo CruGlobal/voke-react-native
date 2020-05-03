@@ -108,18 +108,18 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
  [RNCPushNotificationIOS didFailToRegisterForRemoteNotificationsWithError:error];
 }
 // IOS 10+ Required for localNotification event
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center
-didReceiveNotificationResponse:(UNNotificationResponse *)response
-         withCompletionHandler:(void (^)(void))completionHandler
-{
-  [RNCPushNotificationIOS didReceiveNotificationResponse:response];
-  completionHandler();
-}
+//- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+//didReceiveNotificationResponse:(UNNotificationResponse *)response
+//         withCompletionHandler:(void (^)(void))completionHandler
+//{
+//  [RNCPushNotificationIOS didReceiveNotificationResponse:response];
+//  completionHandler();
+//}
 // IOS 4-10 Required for the localNotification event.
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
-{
- [RNCPushNotificationIOS didReceiveLocalNotification:notification];
-}
+//- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+//{
+// [RNCPushNotificationIOS didReceiveLocalNotification:notification];
+//}
 
 //Called when a notification is delivered to a foreground app.
 -(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler

@@ -10,15 +10,17 @@ import AdventureStepMessageInput from '../../components/AdventureStepMessageInpu
 import AdventureStepNextAction from '../../components/AdventureStepNextAction';
 import Image from '../../components/Image';
 import VokeIcon from '../../components/VokeIcon';
-import { KeyboardAvoidingView, findNodeHandle } from 'react-native';
+import { KeyboardAvoidingView, findNodeHandle, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import Video from '../../components/Video';
 import { useNavigation } from '@react-navigation/native';
 import { useMount, useKeyboard } from '../../utils';
-import { getAdventureStepMessages } from '../../actions/requests';
+import { getAdventureStepMessages, markMessageAsRead } from '../../actions/requests';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { RootState } from '../reducers';
 import { TAdventureSingle } from '../../types';
+import { useFocusEffect } from '@react-navigation/native';
+import { getAdventureSteps } from '../../actions/requests';
 
 type ModalProps = {
   route: {
@@ -92,6 +94,41 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
     setCurrentMessages(newMsgs);
   }, [messages]);
 
+  // Events firing when user leaves the screen or comes back.
+  useFocusEffect(
+    React.useCallback(() => {
+      // Actions to run when the screen focused:
+
+      // If there are unread messages in current conversation
+      // mark them as read on the backend.
+      if (currentStep.unread_messages) {
+        // See documentation for marking message as read:
+        // https://docs.vokeapp.com/#me-conversations-messages-interactions
+        // To mark as read we need converstation id and message id.
+
+        const conversationId = adventure.conversation.id;
+        console.log( "🐸 conversationId:", conversationId );
+
+        currentMessages.forEach( msg => {
+          dispatch(
+            markMessageAsRead( { conversationId: conversationId, messageId: msg.id})
+          );
+        });
+      }
+
+      return () => {
+        // Actions to run when the screen unfocused:
+        console.log('UNFOCUSED 💂‍♂️');
+        // If we had unread messages, then we marked them as read,
+        // so on leaving this screen we need to udpate current Adventure steps
+        // to have right unread bages next to each step.
+        if (currentStep.unread_messages) {
+          dispatch(getAdventureSteps(adventure.id));
+        }
+      };
+    }, [])
+  )
+
   return (
     <KeyboardAvoidingView
       behavior="padding"
@@ -112,13 +149,26 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
           ]}
           enableAutomaticScroll
           keyboardShouldPersistTaps ='always'
-          // ☝️needed to solve the bug with a need to double tap
+          // ☝️required to fix the bug with a need to double tap
           // on the send message icon.
 
           /* innerRef={ref => {
             scrollRef = ref;
           }} */
         >
+          {/* This View stays outside of the screen on top
+          and covers blue area with solid black on pull. */}
+          <View
+            style={{
+              position:'absolute',
+              backgroundColor: 'black',
+              left: 0,
+              right: 0,
+              top: -300,
+              height: 300,
+            }}
+          ></View>
+          {/* Video Player */}
           <Video
             onOrientationChange={orientation =>
               orientation === 'portrait'

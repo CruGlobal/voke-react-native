@@ -90,6 +90,8 @@ const transparentHeaderConfig = {
 const AdventureStack = createStackNavigator();
 
 const AdventureStackScreens = ({ navigation, route }: any) => {
+  const insets = useSafeArea();
+
   // Make top bar visible dynamically.
   navigation.setOptions({
     tabBarVisible: route.state ? !(route.state.index > 0) : null,
@@ -129,12 +131,31 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
       <AdventureStack.Screen
         name="AdventureActive"
         component={AdventureActive}
-        options={{ headerShown: false }}
+
+        // Fixed header with back button.
+        options={{
+          ...transparentHeaderConfig,
+          headerStyle: {
+            ...transparentHeaderConfig.headerStyle,
+            paddingTop: insets.top,
+          },
+          title: '',
+          headerLeft: () => <HeaderLeft hasBack />,
+        }}
       />
       <AdventureStack.Screen
         name="AdventureStepScreen"
         component={AdventureStepScreen}
-        options={{ headerShown: false }}
+        // Fixed header with back button.
+        options={{
+          ...transparentHeaderConfig,
+          headerStyle: {
+            ...transparentHeaderConfig.headerStyle,
+            paddingTop: insets.top,
+          },
+          title: '',
+          headerLeft: () => <HeaderLeft hasBack />,
+        }}
       />
       <AdventureStack.Screen
         name="GroupModal"
@@ -156,6 +177,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
 };
 
 function VideoStackScreens({ navigation, route }: any) {
+  const insets = useSafeArea();
   const VideoStack = createStackNavigator();
   // TODO: extract into utility function.
   navigation.setOptions({
@@ -167,7 +189,17 @@ function VideoStackScreens({ navigation, route }: any) {
       <VideoStack.Screen
         name="VideoDetails"
         component={VideoDetails}
-        options={{ headerShown: false }}
+
+        // Fixed header with back button.
+        options={{
+          ...transparentHeaderConfig,
+          headerStyle: {
+            ...transparentHeaderConfig.headerStyle,
+            paddingTop: insets.top, // TODO: Check if it really works here?
+          },
+          title: '',
+          headerLeft: () => <HeaderLeft hasBack />,
+        }}
       />
       <VideoStack.Screen
         name="VideosSearch"
@@ -341,7 +373,7 @@ const App = () => {
             headerRight: () => (
               <Touchable
                 // style={[st.p5, st.pl4, st.mb3]}
-                onPress={() => navigation.navigate('LoggedInApp')}
+                onPress={() => navigation.navigate('LoggedInApp', { screen: 'Adventures' })}
               >
                 <Text style={[st.white, st.fs16, st.pr5]}>Skip</Text>
               </Touchable>

@@ -111,7 +111,9 @@ export function getAdventuresInvitations() {
     // var t1 = performance.now()
     // console.log('🎫 invitations in ' + (t1 - t0) + " milliseconds. \n", results);
     const adventureInvitations = results.journey_invites;
-    dispatch(setData('adventureInvitations', adventureInvitations));
+    if ( adventureInvitations.length ) {
+      dispatch(setData('adventureInvitations', adventureInvitations));
+    }
     return results;
   };
 }
@@ -143,30 +145,39 @@ export function getAdventureSteps(adventureId: any) {
     dispatch({
       type: REDUX_ACTIONS.GET_ADVENTURE_STEPS,
       result: { adventureId, adventureSteps },
+      description: 'Get Adventure Steps'
     });
     return results;
   };
 }
 
 export function getAdventureStepMessages(
-  adventureConversationId: any,
-  adventureStepId: any,
+  adventureConversationId: string,
+  adventureStepId: string,
 ) {
   return async (dispatch: Dispatch, getState: any) => {
-    const results: any = await dispatch(
-      request({
-        ...ROUTES.GET_ADVENTURE_STEP_MESSAGES,
-        pathParams: { adventureConversationId },
-        params: { messenger_journey_step_id: adventureStepId },
-        description: 'Get Adventure Step Messages'
-      }),
-    );
-    const adventureStepMessages = results.messages;
-    dispatch({
-      type: REDUX_ACTIONS.GET_ADVENTURE_STEP_MESSAGES,
-      result: { adventureStepId, adventureStepMessages },
-    });
-    return results;
+    console.log( "🐸 getAdventureStepMessages----", adventureConversationId, adventureStepId);
+    try {
+
+      const results: any = await dispatch(
+        request({
+          ...ROUTES.GET_ADVENTURE_STEP_MESSAGES,
+          pathParams: { adventureConversationId },
+          params: { messenger_journey_step_id: adventureStepId },
+          description: 'Get Adventure Step Messages for conversation id: ' + adventureConversationId
+        }),
+      );
+      console.log( "🐸 results:", results );
+      const adventureStepMessages = results.messages;
+      console.log( "🦙 adventureStepMessages:", adventureStepMessages );
+      dispatch({
+        type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEP_MESSAGES,
+        result: { adventureStepId, adventureStepMessages },
+      });
+      return results;
+    } catch (error) {
+      console.log( "🐙 error:", error );
+    }
   };
 }
 
@@ -491,10 +502,9 @@ export function establishCableDevice(deviceId?: string) {
   return async (dispatch: Dispatch, getState: any) => {
     LOG( "🧵🧵🧵🧵🧵establishCableDevice:" , deviceId );
     const savedDeviceInfo = getState().auth.device;
-    let deviceId = null;
     const currentDeviceId = getState().auth.device.id;
     const currentDeviceData = {
-      // id: currentDeviceId,
+      id: currentDeviceId,
       version: 1,
       local_id: deviceInfoModule.getDeviceId(),
       local_version: deviceInfoModule.getVersion(),
@@ -513,7 +523,7 @@ export function establishCableDevice(deviceId?: string) {
 
     // If device info or push device id changed:
     // deviceId - if provided, need to update device.
-    if (deviceId || deviceInfoChanged || (!deviceInfoChanged && !currentDeviceId)) {
+    if (currentDeviceId !== deviceId || deviceInfoChanged() || !currentDeviceId) {
       const newDeviceData = {
         device: {
           ...currentDeviceData,
@@ -542,7 +552,7 @@ export function establishCableDevice(deviceId?: string) {
       console.log( "!!!!!!! returnedDeviceData:" ); console.log( returnedDeviceData );
     }
 
-    if (returnedDeviceData.id) {
+    if (returnedDeviceData?.id) {
       deviceId = returnedDeviceData.id;
     } else {
       deviceId = currentDeviceId;
@@ -702,5 +712,49 @@ export function toggleFavoriteVideo(shouldFavorite: boolean, video: any) {
     }
 
     return results;
+  };
+}
+
+type markMessageAsRead = {
+  conversationId: string,
+  messageId: string,
+}
+
+// Mark message as read on the server.
+export function markMessageAsRead(params: markMessageAsRead) {
+  return async (dispatch: Dispatch, getState: any) => {
+    const { conversationId, messageId } = params;
+    const deviceId = getState().auth.device.id;
+    console.log( " 👨‍🌾deviceId:", deviceId );
+
+    // See: https://docs.vokeapp.com/#me-conversations-messages-interactions
+    let data: any = {
+      interaction: {
+        action: "read", // Message read.
+        device_id: deviceId,
+      }
+    };
+
+    // SEND INTERACTION DATA TO THE SERVER.
+    const result = await dispatch(
+      request({
+        ...ROUTES.CREATE_INTERACTION,
+        pathParams: {
+          conversationId: conversationId,
+          messageId: messageId,
+        },
+        data,
+        description: 'Create Interaction: Message Read'
+      }),
+    );
+
+    return result;
+  };
+}
+
+// Mark message as read.
+export function markReadAction(conversationId, messageId) {
+  return dispatch => {
+    dispatch({ type: REDUX_ACTIONS.MARK_READ, conversationId, messageId });
   };
 }

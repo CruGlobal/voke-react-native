@@ -294,7 +294,11 @@ export function createAccount(user) {
       },
     };
 
-    return dispatch(request({ ...ROUTES.CREATE_ACCOUNT, data })).then(
+    return dispatch(request({
+      ...ROUTES.CREATE_ACCOUNT,
+      data,
+      description: "Request CREATE_ACCOUNT"
+      })).then(
       userData => {
         // eslint-disable-next-line no-console
         console.log( "👤 createAccount \n\n", userData );

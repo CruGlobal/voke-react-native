@@ -45,8 +45,13 @@ function AccountPhoto() {
   const [avatarSource, setAvatarSource] = useState(currentAvatar);
 
   async function handleContinue() {
+    console.log( "🐸 handleContinue:", avatarSource );
     if (!avatarSource || avatarSource === null) {
       // No image selected - skip to the next screen.
+      // return navigation.navigate('LoggedInApp');
+      navigation.navigate('LoggedInApp', { screen: 'Adventures' });
+      // If above not working it will redirect with the second rule.
+      // TODO: add redirection parammeter to this screen.
       return navigation.navigate('Adventures');
     }
 
@@ -62,7 +67,7 @@ function AccountPhoto() {
     try {
       await dispatch(updateMe(avatarData));
       setLoginLoading(false);
-      navigation.navigate('LoggedInApp');
+      navigation.navigate('LoggedInApp', { screen: 'Adventures' }); // LoggedInApp
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log('error updating me image 4', error);

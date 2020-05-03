@@ -20,14 +20,21 @@ import NotificationBanner from '../../components/NotificationBanner';
 import Triangle from '../../components/Triangle';
 import AdventuresActions from '../AdventuresActions';
 
-const AdventuresMy: React.FC = (): React.ReactElement => {
+const AdventuresMy = (): React.ReactElement => {
   // var z0 = performance.now()
 
   const dispatch = useDispatch();
   const me = useSelector(({ auth }: RootState) => auth.user);
   const myAdventures = useSelector(({ data }: RootState) => data.myAdventures);
+  const myAdventuresTracker = useSelector(
+    ({ data }: RootState) => data.dataChangeTracker.myAdventures
+  );
+
   const adventureInvitations = useSelector(
     ({ data }: RootState) => data.adventureInvitations
+  );
+  const adventureInvitationsTracker = useSelector(
+    ({ data }: RootState) => data.dataChangeTracker.adventureInvitations
   );
   const [dataHash, setDataHash] = useState('');
   const [isLoading, setIsLoading] = useState(false); // Initial loading.
@@ -62,8 +69,7 @@ const AdventuresMy: React.FC = (): React.ReactElement => {
   }
  */
   const updateAdventures = async (): Promise<void> => {
-    // LOG('🔁 updateAdventures');
-    setIsLoading(true);
+    // setIsLoading(true);
     // if (myAdventures.length === 0) {
     // TODO: Do some kind of time based caching for these requests
     await dispatch(getMyAdventures());
@@ -74,14 +80,14 @@ const AdventuresMy: React.FC = (): React.ReactElement => {
     // TODO: Do some kind of time based caching for these requests
     await dispatch(getAdventuresInvitations());
 
-    setIsLoading(false);
+    // setIsLoading(false);
     // setDataHash( getCurrentDataHash() );
   };
   const refreshData = async (): Promise<void> => {
     setIsRefreshing(true);
     try {
       setIsRefreshing(true);
-      // await dispatch(updateAdventures());
+      await dispatch(updateAdventures());
     } finally {
       setIsRefreshing(false);
     }
@@ -96,6 +102,7 @@ const AdventuresMy: React.FC = (): React.ReactElement => {
   });
  */
   useEffect(() => {
+    console.log( "🐸 myAdventures:", myAdventures );
     // var y0 = performance.now()
 
     // Check notifications permission and setup sockets.
@@ -110,7 +117,10 @@ const AdventuresMy: React.FC = (): React.ReactElement => {
      * 36ms with empty component/screen
      * 150ms with <FlatList>
      */
-  }, []);
+  // }, []);
+  }, [myAdventuresTracker, adventureInvitationsTracker ]);
+
+  // myAdventures
 
   // Events firing when user leaves the screen or comes back.
   useFocusEffect(
@@ -132,6 +142,8 @@ const AdventuresMy: React.FC = (): React.ReactElement => {
 
       // Do something when the screen is focused
       console.log('>>>>>>> Screen focused <<<<<<<<');
+
+      updateAdventures();
 
       // isEqualObject !!!!!!!!!!!!!!!!!!!!!!!!!!!
 

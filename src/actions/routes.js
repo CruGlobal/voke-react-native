@@ -80,6 +80,10 @@ const ROUTES = {
     method: 'post',
     url: `me/conversations/{adventureConversationId}/messages`,
   },
+  CREATE_INTERACTION: {
+    method: 'post',
+    url: `me/conversations/{conversationId}/messages/{messageId}/interactions/`,
+  },
   START_ADVENTURE: { method: 'post', url: `me/journeys` },
   GET_ADVENTURE_INVITATIONS: { method: 'get', url: `me/journey_invites` },
   SEND_ADVENTURE_INVITATION: { method: 'post', url: `me/journey_invites` },

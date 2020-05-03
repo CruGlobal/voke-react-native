@@ -7,7 +7,7 @@ import { View, useWindowDimensions } from 'react-native';
 import Orientation from 'react-native-orientation-locker';
 import { useFocusEffect } from '@react-navigation/native';
 import st from '../../st';
-import ModalBackButton from '../ModalBackButton';
+import BackButton from '../BackButton';
 import { useMount, youtube_parser } from '../../utils';
 import { useSafeArea } from 'react-native-safe-area-context';
 import {
@@ -163,6 +163,7 @@ function Video({
         st.bgDeepBlack,
         {
           width: useWindowDimensions().width,
+          // paddingTop: -insets.top,
           /* paddingTop:
             dimensions.height === VIDEO_HEIGHT && !hideInsets ? insets.top : 0, */
         },
@@ -179,7 +180,7 @@ function Video({
           onError={e => setIsPlaying(false)}
           onProgress={e => setSliderValue(e.currentTime)}
           style={{
-            /* st.w(dimensions.width), NOT WORKING RIGHT */
+            // st.w(dimensions.width), NOT WORKING RIGHT
             width: useWindowDimensions().width,
             height: dimensions.height,
           }}
@@ -207,15 +208,9 @@ function Video({
         style={[st.absblr, st.bgTransparent, st.w100, st.h100]}
         self="stretch"
       >
-        {/* Back button (zIndex needed to render it above overlay ) */}
-        {hideBack ? null : (
-          <View style={{zIndex:1, top: insets.top,}}>
-            <ModalBackButton />
-          </View>
-        )}
         {onCancel ? (
           <View style={{zIndex:1}}>
-            <ModalBackButton onPress={onCancel} size={15} isClose={true} />
+            <BackButton onPress={onCancel} size={15} isClose={true} />
           </View>
         ) : null}
         {/* Custom overlay to be used instead of play/pause button. */}
@@ -274,7 +269,7 @@ function Video({
             >
               <Flex value={1}>
                 <Touchable onPress={togglePlayState}>
-                  <VokeIcon name={isPlaying ? 'pause' : 'play'} size={20} />
+                  <VokeIcon name={isPlaying ? 'pause' : 'icon-play'} size={20} />
                 </Touchable>
               </Flex>
               <Flex value={1}>

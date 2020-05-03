@@ -73,7 +73,7 @@ export function setupSockets(deviceId: string) {
             );
           }
         };
-        // Message is received from the server.
+        // Message received from the server.
         // Example: https://d.pr/i/IvhXzq
         ws.onmessage = e => {
           const data = JSON.parse(e.data) || {};
@@ -81,6 +81,7 @@ export function setupSockets(deviceId: string) {
 
           if (type === 'ping'){ console.log( "."); }
           if (type === 'ping' || type === 'welcome' || !data.message) return;
+          console.log( "🐸 data.message:", data.message );
 
           const { message, notification } = data.message;
           if (!notification) return;
@@ -96,17 +97,20 @@ export function setupSockets(deviceId: string) {
           }
 
           if (notification.category === 'CREATE_MESSAGE_CATEGORY') {
-            // When new message posted.
+            // When new message posted by another user.
             if (message && message['adventure_message?']) {
-              // update unread count on step card.
+              // If updated message in one of the Adventures.
+              // Update unread count on the Adventure step card.
               const adventureId = (
                 getState().data.myAdventures.find(
-                  (a: any) => a.conversation.id === message.conversation_id,
+                  (adv: any) => adv.conversation.id === message.conversation_id,
                 ) || {}
               ).id;
+              console.log( "😰 adv.conversation.id to update:", adventureId );
+              console.log( "🐸 message:", message );
               if (!adventureId) return;
-              const currentStep =
-                getState().data.adventureSteps[adventureId] || 0;
+              /* const currentStep =
+                getState().data.adventureSteps[adventureId] || 0; */
               dispatch(
                 getAdventureStepMessages(
                   message.conversation_id,
@@ -151,6 +155,11 @@ export function setupSockets(deviceId: string) {
               // dispatch(getMyJourneys());
               // dispatch(getMyJourneySteps((message.journey || {}).id));
             }
+          } else if (
+            notification.category === 'CREATE_INTERACTION_CATEGORY'
+            // Ofthen used with 'message ✅read' status.
+          ) {
+
           }
         };
 
@@ -205,6 +214,7 @@ export function gotPushToken(newPushToken: any) {
   return async (dispatch: Dispatch, getState: any) => {
     if (!newPushToken) return;
     const { pushToken } = getState().auth;
+    const deviceId = getState().auth.device.id;
     let newDeviceId = null;
 
     if ( newPushToken !== pushToken) {
@@ -212,7 +222,7 @@ export function gotPushToken(newPushToken: any) {
       dispatch({
         type: REDUX_ACTIONS.SET_PUSH_TOKEN,
         pushToken: newPushToken,
-        description: 'Called from gotPushToken. Ready to send token to our backend.'
+        description: 'Called from gotPushToken. Push Token Changes. Will send it to our backend.'
       });
       // FIRST: REGISTER DEVICE ON THE SERVER FOR PUSH NOTIFICATIONS.
       // Register new push token on our server.
@@ -224,15 +234,17 @@ export function gotPushToken(newPushToken: any) {
         description: 'Called from gotPushToken. Push device id returned after we sent push token.'
       }); */
 
-      return newDeviceId;
+      // return newDeviceId;
       // await dispatch(establishCableDevice(newPushDevice.id));
     }
 
-    console.log( "newDeviceId:", newDeviceId );
-    if (newDeviceId) {
-      // THEN: REGISTER DEVICE ON THE SERVER FOR WEBSOCKETS.
-      await dispatch(establishCableDevice(newDeviceId));
+    if (!newDeviceId) {
+      newDeviceId = deviceId;
     }
+
+    console.log( "newDeviceId:", newDeviceId );
+    // THEN: SETUP WEBSOCKETS CONNECTION.
+    await dispatch(establishCableDevice(newDeviceId));
   };
 }
 
