@@ -249,7 +249,7 @@ function Video({
                 onPress={togglePlayState}
               >
                 <VokeIcon
-                  name={isPlaying ? 'pause' : 'play'}
+                  name={isPlaying ? 'pause' : 'play-circle'}
                   size={50}
                   style={[
                     {

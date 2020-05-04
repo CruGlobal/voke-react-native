@@ -106,7 +106,16 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
       <AdventureStack.Screen
         name="AdventureAvailable"
         component={AdventureAvailable}
-        options={{ headerShown: false }}
+        // Fixed header with back button.
+        options={{
+          ...transparentHeaderConfig,
+          headerStyle: {
+            ...transparentHeaderConfig.headerStyle,
+            paddingTop: insets.top,
+          },
+          title: '',
+          headerLeft: () => <HeaderLeft hasBack />,
+        }}
       />
       <AdventureStack.Screen
         name="AdventureCode"

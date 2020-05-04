@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
-import Modal from 'react-native-modal';
 import { useNavigation } from '@react-navigation/native';
 import Clipboard from "@react-native-community/clipboard";
 import Flex from '../../components/Flex';
@@ -12,10 +11,9 @@ import st from '../../st';
 import Button from '../../components/Button';
 // import { MONTHLY_PRICE } from '../../constants';
 import { useDispatch } from 'react-redux';
-import theme from '../../theme';
-import NotificationGraphic from '../../assets/graphic-allownotifications.png';
-import { Share, Alert } from 'react-native';
 
+import NotificationModal from '../../components/NotificationModal';
+import { Share, Alert } from 'react-native';
 
 import VOKE_BOT from '../../assets/vokebot_whole.png';
 import Touchable from '../../components/Touchable';
@@ -29,98 +27,6 @@ function AdventureShareCode(props) {
   const [isModalVisible, setModalVisible] = useState(true); //Set TO Truue FOR NOW-----PLEASE CHANGE ONCE FUNCTIONALITY IS HOOKED UP
 
   const { invitation, withGroup, isVideoInvite } = props.route.params;
-
-  //NotificationModal
-  const notificationModal = (
-    <Modal isVisible={isModalVisible} backdropOpacity={0.9}>
-      <Flex
-        style={{ justifyContent: 'space-between', width: '100%' }}
-        direction="column"
-        align="center"
-      >
-        <Flex>
-          <Image
-            source={NotificationGraphic}
-            style={{
-              alignSelf: 'center',
-            }}
-          />
-          <Text
-            style={{
-              color: theme.colors.white,
-              textAlign: 'center',
-              paddingRight: 20,
-              paddingLeft: 20,
-              marginBottom: 20,
-              marginTop: 20,
-            }}
-          >
-            Voke sends notifications when your friends join and interact withthe
-            adventures you share, but first we need your permission.
-          </Text>
-        </Flex>
-
-        <Button
-          isAndroidOpacity
-          style={[
-            {
-              backgroundColor: theme.colors.primary,
-              borderRadius: 8,
-              paddingLeft: 40,
-              paddingRight: 40,
-              paddingTop: 10,
-              height: 50,
-              width: 250,
-              marginBottom: 10,
-              marginTop: 10,
-            },
-          ]}
-          onPress={() => Alert.alert('pressed')}
-        >
-          <Text
-            style={{
-              color: theme.colors.white,
-              fontSize: 18,
-              textAlign: 'center',
-            }}
-          >
-            Allow Notifications
-          </Text>
-        </Button>
-
-        <Button
-          isAndroidOpacity
-          style={[
-            {
-              alignSelf: 'flex-end',
-              alignContent: 'center',
-              borderColor: theme.colors.white,
-              borderWidth: 1,
-              borderRadius: 8,
-              paddingLeft: 40,
-              paddingRight: 40,
-              paddingTop: 10,
-              height: 50,
-              width: 250,
-              marginBottom: 10,
-              marginTop: 10,
-            },
-          ]}
-          onPress={() => setModalVisible(false)}
-        >
-          <Text
-            style={{
-              color: theme.colors.white,
-              fontSize: 18,
-              textAlign: 'center',
-            }}
-          >
-            No Thanks
-          </Text>
-        </Button>
-      </Flex>
-    </Modal>
-  );
 
   const handleShare = () => {
     Share.share(
@@ -142,7 +48,7 @@ function AdventureShareCode(props) {
   return (
     <>
       {/* Notification Modal */}
-      {notificationModal}
+      <NotificationModal />
 
       <StatusBar />
       <Flex

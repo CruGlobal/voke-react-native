@@ -36,6 +36,10 @@ const AdventuresMy = (): React.ReactElement => {
   const adventureInvitationsTracker = useSelector(
     ({ data }: RootState) => data.dataChangeTracker.adventureInvitations
   );
+
+  const adventureStepMessagesTracker = useSelector(
+    ({ data }: RootState) => data.dataChangeTracker.adventureStepMessages
+  );
   const [dataHash, setDataHash] = useState('');
   const [isLoading, setIsLoading] = useState(false); // Initial loading.
   const [isRefreshing, setIsRefreshing] = useState(false); // Pull-to-refresh.
@@ -118,7 +122,7 @@ const AdventuresMy = (): React.ReactElement => {
      * 150ms with <FlatList>
      */
   // }, []);
-  }, [myAdventuresTracker, adventureInvitationsTracker ]);
+  }, [myAdventuresTracker, adventureInvitationsTracker, adventureStepMessagesTracker ]);
 
   // myAdventures
 
@@ -143,7 +147,7 @@ const AdventuresMy = (): React.ReactElement => {
       // Do something when the screen is focused
       console.log('>>>>>>> Screen focused <<<<<<<<');
 
-      updateAdventures();
+      // updateAdventures();
 
       // isEqualObject !!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -170,6 +174,8 @@ const AdventuresMy = (): React.ReactElement => {
         data={[].concat(adventureInvitations, myAdventures)}
         renderItem={(props): JSX.Element => <MyAdventureItem {...props} />}
         style={styles.AdventuresList}
+        contentContainerStyle={{paddingBottom:80}}
+        // Extra padding to comensave last item covered with TabBar.
         onRefresh={() => refreshData()}
         refreshing={isRefreshing}
         ListEmptyComponent={(

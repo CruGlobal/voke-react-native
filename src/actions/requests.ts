@@ -143,7 +143,7 @@ export function getAdventureSteps(adventureId: any) {
     );
     const adventureSteps = results.steps;
     dispatch({
-      type: REDUX_ACTIONS.GET_ADVENTURE_STEPS,
+      type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEPS,
       result: { adventureId, adventureSteps },
       description: 'Get Adventure Steps'
     });
@@ -725,7 +725,6 @@ export function markMessageAsRead(params: markMessageAsRead) {
   return async (dispatch: Dispatch, getState: any) => {
     const { conversationId, messageId } = params;
     const deviceId = getState().auth.device.id;
-    console.log( " 👨‍🌾deviceId:", deviceId );
 
     // See: https://docs.vokeapp.com/#me-conversations-messages-interactions
     let data: any = {
@@ -744,9 +743,10 @@ export function markMessageAsRead(params: markMessageAsRead) {
           messageId: messageId,
         },
         data,
-        description: 'Create Interaction: Message Read'
       }),
     );
+
+    console.log( "🦞 result:", result );
 
     return result;
   };

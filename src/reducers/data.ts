@@ -121,11 +121,32 @@ export default function(state = initialState, action: any) {
         updatedAdventureInvitations.push(action.result);
       }
       return { ...state, adventureInvitations: updatedAdventureInvitations };
-    case REDUX_ACTIONS.GET_ADVENTURE_STEPS: {
-      let updatedAdventureSteps: any = lodash.cloneDeep(state.adventureSteps);
+    case REDUX_ACTIONS.UPDATE_ADVENTURE_STEPS: {
+      let updatedAdventureSteps: any = null;
+
+      // Don't proceed if nothing changed in the data.
+      if (lodash.isEqual(
+        state.adventureSteps[action.result.adventureId],
+        action.result.adventureSteps
+      )) {
+        return state;
+      }
+
+      updatedAdventureSteps = lodash.cloneDeep(state.adventureSteps);
+
+      // Update the branch needed.
       updatedAdventureSteps[action.result.adventureId] =
         action.result.adventureSteps;
-      return { ...state, adventureSteps: updatedAdventureSteps };
+
+      return {
+        ...state,
+        adventureSteps: updatedAdventureSteps,
+        // Change tracker value to signal deep data change.
+        dataChangeTracker: {
+          ...state.dataChangeTracker,
+          adventureSteps: state.dataChangeTracker.adventureSteps + 1
+        }
+      };
     }
     case REDUX_ACTIONS.UPDATE_ADVENTURE_STEP: {
       const adventureStepsUpdated: any = lodash.cloneDeep(state.adventureSteps);

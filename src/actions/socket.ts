@@ -217,7 +217,10 @@ export function gotPushToken(newPushToken: any) {
     const deviceId = getState().auth.device.id;
     let newDeviceId = null;
 
-    if ( newPushToken !== pushToken) {
+
+    console.log( "🦂 newPushToken:", newPushToken );
+
+    // if ( newPushToken !== pushToken) {
       // Save new push token in the store.
       dispatch({
         type: REDUX_ACTIONS.SET_PUSH_TOKEN,
@@ -236,7 +239,7 @@ export function gotPushToken(newPushToken: any) {
 
       // return newDeviceId;
       // await dispatch(establishCableDevice(newPushDevice.id));
-    }
+    // }
 
     if (!newDeviceId) {
       newDeviceId = deviceId;
@@ -254,6 +257,7 @@ export function handleNotifications(
 ) {
   return async (dispatch: Dispatch, getState: any) => {
     let data = notification.data;
+    console.log( "🦄  handleNotifications > notification. data:", data );
     // const {
     //   activeConversationId,
     //   unReadBadgeCount,
@@ -378,9 +382,28 @@ export function handleNotifications(
 //   }
 // }
 
+const onRemoteNotification = notification => {
+    const result = `Message: ${notification.getMessage()};\n
+      badge: ${notification.getBadgeCount()};\n
+      sound: ${notification.getSound()};\n
+      category: ${notification.getCategory()};\n
+      content-available: ${notification.getContentAvailable()}.`;
+
+    Alert.alert('Push Notification Received', result, [
+      {
+        text: 'Dismiss',
+        onPress: null,
+      },
+    ]);
+  };
+
 export function establishDevice(): Promise<void> {
   return async (dispatch: Dispatch, getState: any) => {
-    console.log( "👺EXPORT FUNCTION ESTABLISHDEVICE" );
+    console.log( "🐍🐍🐍🐍EXPORT FUNCTION ESTABLISHDEVICE" );
+    PushNotificationIOS.addEventListener('notification', (notification) => {
+        console.log("🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩notification", notification)
+        // PushNotificationIOS.finish(PushNotificationIOS.FetchResult.NoData);
+    });
     // Shared configs for both Android and iOS.
     let configs: any = {
       // Called when Token is generated (iOS and Android)
@@ -422,7 +445,7 @@ export function establishDevice(): Promise<void> {
           finish?: any;
           data?: any;
         }) {
-          console.log( "🇦🇺 onNotification:" );
+          console.log( "🇦🇺 onNotification:", notification );
           let state;
           if (
             notification &&
@@ -441,9 +464,9 @@ export function establishDevice(): Promise<void> {
           }
           dispatch(handleNotifications(state, notification));
 
-          // Why? not in the old version.
-          // notification.finish(PushNotificationIOS.FetchResult.NoData);
-          // https://github.com/react-native-community/push-notification-ios#update-appdelegateh
+          // required on iOS only (see fetchCompletionHandler docs: https://github.com/react-native-community/react-native-push-notification-ios)
+          // https://github.com/zo0r/react-native-push-notification#usage
+          notification.finish(PushNotificationIOS.FetchResult.NoData);
 
         },
         // ANDROID ONLY: GCM Sender ID

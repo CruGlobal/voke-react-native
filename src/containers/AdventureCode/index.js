@@ -104,6 +104,7 @@ function AdventureCode(props) {
                 onChangeText={text => setAdventureCode(text)}
                 returnKeyType="done"
                 onSubmitEditing={handleContinue}
+                keyboardType="number-pad"
               />
             </Flex>
           </Flex>
