@@ -599,7 +599,6 @@ export function establishPushDevice(pushToken: string) {
 export function getNotifications(params: any = {}) {
   return async (dispatch: Dispatch, getState: any) => {
     const notificationId = getState().auth.user.vokebotConversationId;
-    console.log(notificationId, 'ASDFASDF');
     if (!notificationId) return;
 
     const results: any = await dispatch(

@@ -12,6 +12,7 @@ import Triangle from '../../components/Triangle';
 import VokeIcon from '../../components/VokeIcon';
 import st from '../../st';
 import Button from '../../components/Button';
+import { toastAction } from '../../actions/info';
 // import { MONTHLY_PRICE } from '../../constants';
 
 import VOKE_BOT from '../../assets/voke_bot_face_large.png';
@@ -48,6 +49,7 @@ function AdventureCode(props) {
   }, []);
 
   async function handleContinue() {
+    console.log( "🐸 handleContinue" );
     if (adventureCode.length > 3) {
       try {
         setIsLoading(true);
@@ -64,6 +66,8 @@ function AdventureCode(props) {
           navigation.goBack();
           // TODO: GO STRAIGHT INTO ADVENTURE
         }
+      } catch (error) {
+        dispatch(toastAction( 'Invalid code', 'short' ));
       } finally {
         setIsLoading(false);
       }
@@ -115,10 +119,11 @@ function AdventureCode(props) {
               st.w100,
               st.bgDarkBlue,
               st.p4,
-              { paddingBottom: isKeyboardVisible ? 15 : insets.bottom },
+              // { paddingBottom: isKeyboardVisible ? 15 : insets.bottom },
             ]}
           >
             <Text style={[st.white, st.fs20, st.tac]}>Continue</Text>
+            <Flex style={{height: insets.bottom}}  />
           </Button>
         </Flex>
       </KeyboardAvoidingView>

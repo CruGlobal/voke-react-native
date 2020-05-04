@@ -18,6 +18,7 @@ import { Share, Alert } from 'react-native';
 import VOKE_BOT from '../../assets/vokebot_whole.png';
 import Touchable from '../../components/Touchable';
 import CONSTANTS from '../../constants';
+import { toastAction } from '../../actions/info';
 
 function AdventureShareCode(props) {
   const insets = useSafeArea();
@@ -43,6 +44,7 @@ function AdventureShareCode(props) {
 
   const copyToClipboard = () => {
     Clipboard.setString(isVideoInvite ? invitation.url : invitation.code);
+    dispatch(toastAction( 'Copied', 'short' ));
   };
 
   return (

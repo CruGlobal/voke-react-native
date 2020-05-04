@@ -382,7 +382,14 @@ const App = () => {
             headerRight: () => (
               <Touchable
                 // style={[st.p5, st.pl4, st.mb3]}
-                onPress={() => navigation.navigate('LoggedInApp', { screen: 'Adventures' })}
+                onPress={ () => {
+                    try {
+                      navigation.navigate('LoggedInApp', { screen: 'Adventures' });
+                    } catch (error) {
+                      navigation.navigate('Adventures');
+                    }
+                  }
+                }
               >
                 <Text style={[st.white, st.fs16, st.pr5]}>Skip</Text>
               </Touchable>

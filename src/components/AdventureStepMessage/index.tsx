@@ -24,6 +24,8 @@ function AdventureStepMessage({
   step,
   adventure,
 }: MessageProps): React.ReactElement | null {
+  console.log( "🦚 item:", item );
+
   const isAndroid = Platform.OS === 'android';
   const userId = getCurrentUserId();
   const message = {
@@ -42,6 +44,7 @@ function AdventureStepMessage({
   };
 
   const isMyMessage = message.messenger_id === userId;
+  // const myFirstMessage = reversed.find(m => m.messenger_id === me.id);
   if (isMyMessage && adventure.kind === 'solo') return null;
   const isSharedAnswer = message.metadata.vokebot_action === 'share_answers';
   // User who left the message.

@@ -185,11 +185,12 @@ function AdventureName(props) {
               st.w100,
               st.bgDarkBlue,
               st.p4,
-              { paddingBottom: isKeyboardVisible ? 15 : insets.bottom },
+              // { paddingBottom: isKeyboardVisible ? 15 : insets.bottom },
             ]}
             isLoading={isLoading}
           >
             <Text style={[st.white, st.fs20, st.tac]}>Continue</Text>
+            <Flex style={{height: insets.bottom}}  />
           </Button>
         </Flex>
       </KeyboardAvoidingView>

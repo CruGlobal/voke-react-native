@@ -17,8 +17,8 @@ import { useNavigation } from '@react-navigation/native';
 import { useMount, useKeyboard } from '../../utils';
 import { getAdventureStepMessages, markMessageAsRead } from '../../actions/requests';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { RootState } from '../reducers';
-import { TAdventureSingle } from '../../types';
+import { RootState } from '../../reducers';
+import { TAdventureSingle, TStep } from '../../types';
 import { useFocusEffect } from '@react-navigation/native';
 import { getAdventureSteps } from '../../actions/requests';
 
@@ -35,10 +35,10 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
   const insets = useSafeArea();
   const [isPortrait, setIsPortrait] = useState(true);
   const { stepId, adventure } = route.params;
-  const steps = useSelector(({ data }) => data.adventureSteps);
+  const steps = useSelector(({ data }: RootState) => data.adventureSteps);
   const [currentSteps, setCurrentSteps] = useState(steps[adventure.id] || []);
   const [currentStep, setCurrentStep] = useState(
-    currentSteps.find(s => s.id === stepId),
+    currentSteps.find( (s:TStep) => s.id === stepId),
   );
 
   const currentUser = useSelector(({ auth }: RootState) => auth.user);
@@ -51,26 +51,35 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
 
   useEffect(() => {
     setCurrentSteps(steps[adventure.id]);
-    setCurrentStep(steps[adventure.id].find(s => s.id === stepId));
+    setCurrentStep(steps[adventure.id].find( (s:TStep) => s.id === stepId));
   }, [steps]);
 
   const scrollRef = useRef(null);
   const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'multiple';
   // Find a reply to the main question (if already answered).
-  let mainAnswer = '';
+  const myMainAnswer = {
+    id: null,
+    content: ''
+  };
+
+  console.log( "🐸 currentMessages:", currentMessages );
 
   if (!['multi', 'binary'].includes(currentStep.kind)) {
-    // At this currentMessages is reversed.
-    // So we need to flip it with slice().reverse() to find the first message
-    // of the current author from the start.
-    mainAnswer = (currentMessages.slice().reverse().find(m => m.messenger_id === currentUser.id) || {})
-      .content;
+    // Find the first message of the current author from the start.
+    const mainAnswer = (currentMessages.reverse().slice().find(m => m.messenger_id === currentUser.id));
+    if ( mainAnswer ) {
+      myMainAnswer.id = mainAnswer.id;
+      myMainAnswer.content = mainAnswer.content;
+    }
   } else {
-    mainAnswer = (currentStep.metadata.answers.find(a => a.selected) || {})
-      .value;
+    const mainAnswer = (currentStep.metadata.answers.find( (a: any) => a.selected) || {});
+    if ( mainAnswer ) {
+      myMainAnswer.id = mainAnswer.id;
+      myMainAnswer.content = mainAnswer.value;
+    }
   }
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  useKeyboard(bool => setKeyboardVisible(bool));
+  useKeyboard( (bool: boolean) => setKeyboardVisible(bool));
 
   useMount(() => {
     dispatch(
@@ -78,7 +87,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
     );
   });
   useEffect(() => {
-    let newMsgs = [...(messages[currentStep.id] || [])].reverse();
+    let newMsgs = [...(messages[currentStep.id] || [])];//.reverse();
     // If solo adventure, render bot's messages.
     if (isSolo) {
       // newMsgs.push({
@@ -170,7 +179,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
           ></View>
           {/* Video Player */}
           <Video
-            onOrientationChange={orientation =>
+            onOrientationChange={ (orientation: string) =>
               orientation === 'portrait'
                 ? setIsPortrait(true)
                 : setIsPortrait(false)
@@ -219,6 +228,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
                   source={{ uri: currentUser.avatar.small }}
                   style={[st.absb, st.right(-30), st.h(25), st.w(25), st.br1]}
                 />
+                {/* <Text>{myMainAnswer.content}</Text> */}
                 <AdventureStepMessageInput
                   onFocus={() => {
                     /* scrollRef.current.props.scrollToFocusedInput(
@@ -228,22 +238,31 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
                   kind={currentStep.kind}
                   adventure={adventure}
                   step={currentStep}
-                  defaultValue={mainAnswer}
+                  defaultValue={myMainAnswer.content}
                 />
               </Flex>
-              {currentMessages.map(item => (
-                <AdventureStepMessage
-                  key={item.id}
-                  item={item}
-                  adventure={adventure}
-                  step={currentStep}
-                  onFocus={event => {
-                    /* scrollRef.current.props.scrollToFocusedInput(
-                      findNodeHandle(event.target),
-                    ); */
-                  }}
-                />
-              ))}
+              {currentMessages.map(item =>  {
+                  return(
+                    <>
+                      {
+                        (myMainAnswer?.id === item?.id)
+                          ? null
+                         : <AdventureStepMessage
+                            key={item.id}
+                            item={item}
+                            adventure={adventure}
+                            step={currentStep}
+                            onFocus={event => {
+                              /* scrollRef.current.props.scrollToFocusedInput(
+                                findNodeHandle(event.target),
+                              ); */
+                            }}
+                          />
+                      }
+                    </>
+                  )
+                }
+              )}
               <AdventureStepNextAction
                 adventureId={adventure.id}
                 stepId={stepId}
@@ -256,7 +275,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
           But only if it's portrait orientation and not solo adventure.
           It makes no sense to talk to yourself in solo mode.
         */}
-        {!isSolo && isPortrait && (
+        {!isSolo && isPortrait && myMainAnswer.id && (
           <Flex
             direction="row"
             align="center"
