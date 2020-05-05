@@ -169,6 +169,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
         </Flex>
       </KeyboardAvoidingView>
       {/* TEXT: NOTICE */}
+      {/* TODO: hide this notice if it's on the welcome stage (no progress) */}
       <Flex direction="column" justify="start" style={styles.SectionNotice}>
         <Text style={styles.TextSmall}>
           Successful login to an existing account will merge your current

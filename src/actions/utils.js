@@ -71,8 +71,6 @@ function buildParams(options, getState) {
 // TODO: Needs refactoring.
 export default function request(options) {
   return async (dispatch, getState) => {
-    // console.log( "⤴️ function request INITIAL" , options );
-    // console.trace();
 
     let finalUrl = replaceUrlParam(options.url, options.pathParams);
     const params = qs.stringify(buildParams(options, getState));
@@ -95,12 +93,10 @@ export default function request(options) {
     if (!options.anonymous) {
       const userToken = getState().auth.authToken;
       newObj.headers['x-access-token'] = userToken;
-      console.log( "TOKEN: " + userToken );
     }
 
     if ((options.data || {}).name === 'me[avatar]') {
       // we are uploading an image
-      console.log( "we are uploading an image" );
       return RNFetchBlob.fetch(
         'PUT',
         finalUrl,
@@ -116,6 +112,7 @@ export default function request(options) {
           console.log( "RNFetchBlob > resp:" ); console.log( resp );
           // return resp.data;
           dispatch({
+            description: options.description,
             type: REDUX_ACTIONS.REQUEST_SUCCESS,
             url: finalUrl,
             method: newObj.method,
@@ -139,16 +136,15 @@ export default function request(options) {
 
     // Log redux action.
     dispatch({
+      description: options.description,
       type: REDUX_ACTIONS.REQUEST_FETCH,
-      url: finalUrl,
-      method: newObj.method,
-      body: options.data,
+      options,
+      // body: options.data,
     });
 
     // Do request.
     return fetch(finalUrl, newObj)
       .then(response => {
-        console.log("🧶Fetch API response \n",newObj.url, response);
         if (!response.ok) {
           return response
             .json()
@@ -168,6 +164,7 @@ export default function request(options) {
         // Successful response, parse the JSON and return the data
         return response.json().then(r => {
           dispatch({
+            description: options.description,
             type: REDUX_ACTIONS.REQUEST_SUCCESS,
             url: finalUrl,
             method: newObj.method,
@@ -259,6 +256,7 @@ function imageUpload(url, headers, data) {
     // return json;
     // Successful response, parse the JSON and return the data
    /*  dispatch({
+        description: options.description,
         type: REDUX_ACTIONS.REQUEST_SUCCESS,
         url: url,
         method: 'PUT',

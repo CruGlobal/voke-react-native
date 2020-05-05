@@ -18,6 +18,7 @@ const ToastManager = (): React.ReactElement => {
   const { text, timeout } = useSelector(
     ({ info }: RootState) => info.toastProps
   );
+
   const [toastText, setToastText] = useState('');
   const [toastTimeout, setToastTimeout] = useState(null);
   const dispatch = useDispatch();

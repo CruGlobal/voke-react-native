@@ -17,8 +17,25 @@ export type DataKeys =
   | 'adventureInvitations';
 
 const initialState = {
+  dataChangeTracker: {
+    /*
+    Used to log/track if data in any of related deep objects changed.
+    This makes easy to update the components when really needed
+    without deep comparison of the objects to see changes.
+    */
+    notifications: 0,
+    myAdventures: 0,
+    adventureInvitations: 0,
+    availableAdventures: 0,
+    adventureSteps: 0,
+    adventureStepMessages: 0,
+    allVideos: 0,
+    featuredVideos: 0,
+    favoriteVideos: 0,
+  },
   notifications: [],
   notificationPagination: { hasMore: false, page: 1 },
+  unReadBadgeCount: 0,
   availableAdventures: [],
   myAdventures: [],
   adventureInvitations: [],
@@ -66,7 +83,25 @@ export default function(state = initialState, action: any) {
       if (!exists(state[action.key]) || !action.data) {
         return state;
       }
+
+      // Don't proceed if nothing changed in the data.
+      if (lodash.isEqual(state[action.key], action.data)) {
+        return state;
+      }
+
+      if ( exists(state.dataChangeTracker[action.key]) ) {
+        return {
+          ...state,
+          [action.key]: action.data,
+          dataChangeTracker: {
+            ...state.dataChangeTracker,
+            [action.key] : state.dataChangeTracker[action.key] + 1
+          }
+        };
+      }
+
       return { ...state, [action.key]: action.data };
+
     case REDUX_ACTIONS.START_ADVENTURE:
       let updatedMyAdventures: any = lodash.cloneDeep(state.myAdventures);
       if (action.result) {
@@ -81,11 +116,32 @@ export default function(state = initialState, action: any) {
         updatedAdventureInvitations.push(action.result);
       }
       return { ...state, adventureInvitations: updatedAdventureInvitations };
-    case REDUX_ACTIONS.GET_ADVENTURE_STEPS: {
-      let updatedAdventureSteps: any = lodash.cloneDeep(state.adventureSteps);
+    case REDUX_ACTIONS.UPDATE_ADVENTURE_STEPS: {
+      let updatedAdventureSteps: any = null;
+
+      // Don't proceed if nothing changed in the data.
+      if (lodash.isEqual(
+        state.adventureSteps[action.result.adventureId],
+        action.result.adventureSteps
+      )) {
+        return state;
+      }
+
+      updatedAdventureSteps = lodash.cloneDeep(state.adventureSteps);
+
+      // Update the branch needed.
       updatedAdventureSteps[action.result.adventureId] =
         action.result.adventureSteps;
-      return { ...state, adventureSteps: updatedAdventureSteps };
+
+      return {
+        ...state,
+        adventureSteps: updatedAdventureSteps,
+        // Change tracker value to signal deep data change.
+        dataChangeTracker: {
+          ...state.dataChangeTracker,
+          adventureSteps: state.dataChangeTracker.adventureSteps + 1
+        }
+      };
     }
     case REDUX_ACTIONS.UPDATE_ADVENTURE_STEP: {
       const adventureStepsUpdated: any = lodash.cloneDeep(state.adventureSteps);
@@ -103,13 +159,23 @@ export default function(state = initialState, action: any) {
       adventureStepsUpdated[action.update.adventureId] = newStepsArr;
       return { ...state, adventureSteps: adventureStepsUpdated };
     }
-    case REDUX_ACTIONS.GET_ADVENTURE_STEP_MESSAGES:
+    case REDUX_ACTIONS.UPDATE_ADVENTURE_STEP_MESSAGES:
+      console.log( "UPDATE_ADVENTURE_STEP_MESSAGES" );
       let updatedAdventureStepMessages: any = lodash.cloneDeep(
         state.adventureStepMessages,
       );
       updatedAdventureStepMessages[action.result.adventureStepId] =
         action.result.adventureStepMessages;
-      return { ...state, adventureStepMessages: updatedAdventureStepMessages };
+
+      return {
+        ...state,
+        adventureStepMessages: updatedAdventureStepMessages,
+
+        dataChangeTracker: {
+          ...state.dataChangeTracker,
+          adventureStepMessages : state.dataChangeTracker.adventureStepMessages + 1
+        }
+      };
 
     case REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE:
       let updatedAdventureStepMessagesAfterCreate: any = lodash.cloneDeep(
@@ -183,6 +249,35 @@ export default function(state = initialState, action: any) {
         ...state,
         notifications: newNotifications,
         notificationPagination: newNotificationPagination,
+      };
+    case REDUX_ACTIONS.MARK_READ: // CONTINUE FROM HERE!!!!!!!!
+      console.log( "🧑‍🚒 MARK_READ" );
+      let currentBadgeCount2 = state.unReadBadgeCount;
+      console.log( "🧑‍🚒 currentBadgeCount2:", currentBadgeCount2 );
+      const readConversations = state.adventureStepMessages.map(c => {
+        console.log( "🧑‍🚒 c:", c );
+        if (c.id === action.conversationId) {
+          currentBadgeCount2 =
+            c.unReadCount > 0
+              ? currentBadgeCount2 - c.unReadCount
+              : currentBadgeCount2;
+          return {
+            ...c,
+            hasUnread: false,
+            unReadCount: 0,
+            myLatestReadId: action.messageId,
+          };
+        }
+        return c;
+      });
+
+      currentBadgeCount2 = currentBadgeCount2 >= 0 ? currentBadgeCount2 : 0;
+      // Notifications.setBadge(currentBadgeCount2);
+      return state;
+      return {
+        ...state,
+        conversations: readConversations,
+        unReadBadgeCount: getBadgeCount(currentBadgeCount2),
       };
     case REDUX_ACTIONS.LOGOUT:
       return initialState;

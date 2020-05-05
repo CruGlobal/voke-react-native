@@ -90,7 +90,7 @@ function AdventureStepCard({
             <Flex style={[st.absfill]} align="center" justify="center">
               <VokeIcon
                 type={isLocked ? 'image' : undefined}
-                name={isLocked ? 'lock' : 'play'}
+                name={isLocked ? 'lock' : 'icon-play'}
                 size={30}
                 style={[st.op90, st.w(30), st.h(30)]}
               />
@@ -109,7 +109,7 @@ function AdventureStepCard({
             {isActive || isCompleted ? (
               <Flex direction="row" align="center" style={[st.pt6]}>
                 <VokeIcon
-                  name="Chat"
+                  name="speech-bubble-full"
                   style={[
                     hasUnread && !isSolo ? st.orange : isCompleted ? st.white : st.charcoal,
                   ]}

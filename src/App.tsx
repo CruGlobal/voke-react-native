@@ -1,7 +1,8 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { NavigationContainer } from '@react-navigation/native';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { NavigationContainer, useRoute } from '@react-navigation/native';
 import { Button } from 'react-native';
+import { startupAction, sleepAction, wakeupAction } from './actions/auth';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -42,6 +43,7 @@ import HeaderLeft from './components/HeaderLeft';
 import Touchable from './components/Touchable';
 import Text from './components/Text';
 import { useMount } from './utils';
+import useAppState from 'react-native-appstate-hook';
 
 // https://reactnavigation.org/docs/stack-navigator#options
 const defaultHeaderConfig = {
@@ -88,7 +90,8 @@ const transparentHeaderConfig = {
 const AdventureStack = createStackNavigator();
 
 const AdventureStackScreens = ({ navigation, route }: any) => {
-  console.log('⏩ AdventureStackScreens');
+  const insets = useSafeArea();
+
   // Make top bar visible dynamically.
   navigation.setOptions({
     tabBarVisible: route.state ? !(route.state.index > 0) : null,
@@ -103,7 +106,16 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
       <AdventureStack.Screen
         name="AdventureAvailable"
         component={AdventureAvailable}
-        options={{ headerShown: false }}
+        // Fixed header with back button.
+        options={{
+          ...transparentHeaderConfig,
+          headerStyle: {
+            ...transparentHeaderConfig.headerStyle,
+            paddingTop: insets.top,
+          },
+          title: '',
+          headerLeft: () => <HeaderLeft hasBack />,
+        }}
       />
       <AdventureStack.Screen
         name="AdventureCode"
@@ -128,12 +140,31 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
       <AdventureStack.Screen
         name="AdventureActive"
         component={AdventureActive}
-        options={{ headerShown: false }}
+
+        // Fixed header with back button.
+        options={{
+          ...transparentHeaderConfig,
+          headerStyle: {
+            ...transparentHeaderConfig.headerStyle,
+            paddingTop: insets.top,
+          },
+          title: '',
+          headerLeft: () => <HeaderLeft hasBack />,
+        }}
       />
       <AdventureStack.Screen
         name="AdventureStepScreen"
         component={AdventureStepScreen}
-        options={{ headerShown: false }}
+        // Fixed header with back button.
+        options={{
+          ...transparentHeaderConfig,
+          headerStyle: {
+            ...transparentHeaderConfig.headerStyle,
+            paddingTop: insets.top,
+          },
+          title: '',
+          headerLeft: () => <HeaderLeft hasBack />,
+        }}
       />
       <AdventureStack.Screen
         name="GroupModal"
@@ -155,7 +186,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
 };
 
 function VideoStackScreens({ navigation, route }: any) {
-  console.log('⏩ VideoStackScreens');
+  const insets = useSafeArea();
   const VideoStack = createStackNavigator();
   // TODO: extract into utility function.
   navigation.setOptions({
@@ -167,7 +198,17 @@ function VideoStackScreens({ navigation, route }: any) {
       <VideoStack.Screen
         name="VideoDetails"
         component={VideoDetails}
-        options={{ headerShown: false }}
+
+        // Fixed header with back button.
+        options={{
+          ...transparentHeaderConfig,
+          headerStyle: {
+            ...transparentHeaderConfig.headerStyle,
+            paddingTop: insets.top, // TODO: Check if it really works here?
+          },
+          title: '',
+          headerLeft: () => <HeaderLeft hasBack />,
+        }}
       />
       <VideoStack.Screen
         name="VideosSearch"
@@ -198,7 +239,36 @@ const NotificationStackScreens = () => {
 };
 
 const LoggedInAppContainer = () => {
+  const dispatch = useDispatch();
   const Tabs = createBottomTabNavigator();
+  const route = useRoute();
+
+
+  // Handle iOS & Android appState changes.
+  const { appState } = useAppState({
+    // Callback function to be executed once appState is changed to
+    // active, inactive, or background
+    onChange: (newAppState) => console.warn('App state changed to ', newAppState),
+    // Callback function to be executed once app go to foreground
+    onForeground: () => {
+      console.warn('App went to Foreground');
+      console.log( "🌷 route:", route );
+      dispatch(wakeupAction({currentScreen:route.name}));
+    },
+    // Callback function to be executed once app go to background
+    onBackground: () => {
+      console.warn('App went to background');
+      dispatch(sleepAction());
+    }
+  });
+
+  useEffect(() => {
+    // Check notifications permission and setup sockets.
+    dispatch(startupAction()).then(
+      success => LOG(' 🧛‍♂️ startupAction > SUCCESS'),
+      error => WARN(' 🧚‍♂️ startupAction > ERROR', error)
+    );
+  }, []);
   return (
     <Tabs.Navigator tabBar={props => <TabBar {...props} />}>
       <Tabs.Screen
@@ -252,12 +322,9 @@ const App = () => {
   useMount(() => SplashScreen.hide());
 
   React.useEffect(() => {
-    console.log('APP useEffect');
     const state = navigationRef.current.getRootState();
     // Save the initial route name
     routeNameRef.current = getActiveRouteName(state);
-    console.log('routeNameRef.current:');
-    console.log(routeNameRef.current);
   }, []);
 
   return (
@@ -266,10 +333,6 @@ const App = () => {
       onStateChange={state => {
         const previousRouteName = routeNameRef.current;
         const currentRouteName = getActiveRouteName(state);
-        console.log(
-          `%c🧭 Navigated to / Re-rendered ${currentRouteName}`,
-          'color: #bada55'
-        );
 
         /* if (previousRouteName !== currentRouteName) {
           // The line below uses the @react-native-firebase/analytics tracker
@@ -338,7 +401,14 @@ const App = () => {
             headerRight: () => (
               <Touchable
                 // style={[st.p5, st.pl4, st.mb3]}
-                onPress={() => navigation.navigate('LoggedInApp')}
+                onPress={ () => {
+                    try {
+                      navigation.navigate('LoggedInApp', { screen: 'Adventures' });
+                    } catch (error) {
+                      navigation.navigate('Adventures');
+                    }
+                  }
+                }
               >
                 <Text style={[st.white, st.fs16, st.pr5]}>Skip</Text>
               </Touchable>

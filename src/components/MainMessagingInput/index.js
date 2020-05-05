@@ -53,7 +53,7 @@ function AdventureStepMessageInput({ adventure, step, ...rest }) {
         {...rest}
       />
       <Button style={[st.w(55), st.aie, st.pv6]} onPress={handleSendMessage}>
-        <VokeIcon name="send_message" style={[st.white]} size={20} />
+        <VokeIcon name="send" style={[st.white]} size={20} />
       </Button>
     </Flex>
   );

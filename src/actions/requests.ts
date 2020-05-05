@@ -55,7 +55,7 @@ export function setAuthData(key: AuthDataKeys, data: any) {
 export function getAvailableAdventures() {
   return async (dispatch: Dispatch, getState: any) => {
     const results: any = await dispatch(
-      request({ ...ROUTES.GET_AVAILABLE_ADVENTURES }),
+      request({ ...ROUTES.GET_AVAILABLE_ADVENTURES, description: 'Get Available Adventures' }),
     );
     const adventures = results.organization_journeys;
     dispatch(setData('availableAdventures', adventures));
@@ -70,7 +70,7 @@ export function getMyAdventures() {
   // var t0 = performance.now()
   return async (dispatch: Dispatch, getState: any) => {
     await dispatch(
-      request({ ...ROUTES.GET_MY_ADVENTURES }),
+      request({ ...ROUTES.GET_MY_ADVENTURES, description: 'Get My Adventures' }),
     ).then(
       data => {
         // eslint-disable-next-line no-console
@@ -95,6 +95,7 @@ export function getMyAdventure(adventureId: any) {
       request({
         ...ROUTES.GET_MY_ADVENTURE,
         pathParams: { adventureId },
+        description: 'Get My Adventure'
       }),
     );
     return result;
@@ -105,12 +106,14 @@ export function getAdventuresInvitations() {
   // var t0 = performance.now()
   return async (dispatch: Dispatch, getState: any) => {
     const results: any = await dispatch(
-      request({ ...ROUTES.GET_ADVENTURE_INVITATIONS }),
+      request({ ...ROUTES.GET_ADVENTURE_INVITATIONS, description: 'Get Adventures Invitations' }),
     );
     // var t1 = performance.now()
     // console.log('🎫 invitations in ' + (t1 - t0) + " milliseconds. \n", results);
     const adventureInvitations = results.journey_invites;
-    dispatch(setData('adventureInvitations', adventureInvitations));
+    if ( adventureInvitations.length ) {
+      dispatch(setData('adventureInvitations', adventureInvitations));
+    }
     return results;
   };
 }
@@ -121,6 +124,7 @@ export function acceptAdventureInvitation(adventureCode: string) {
       request({
         ...ROUTES.ACCEPT_ADVENTURE_INVITATION,
         data: { code: adventureCode },
+        description: 'Accept Adventure Invitation'
       }),
     );
     await dispatch(getMyAdventures());
@@ -134,41 +138,52 @@ export function getAdventureSteps(adventureId: any) {
       request({
         ...ROUTES.GET_ADVENTURE_STEPS,
         pathParams: { adventureId },
+        description: 'Get Adventure Steps'
       }),
     );
     const adventureSteps = results.steps;
     dispatch({
-      type: REDUX_ACTIONS.GET_ADVENTURE_STEPS,
+      type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEPS,
       result: { adventureId, adventureSteps },
+      description: 'Get Adventure Steps'
     });
     return results;
   };
 }
 
 export function getAdventureStepMessages(
-  adventureConversationId: any,
-  adventureStepId: any,
+  adventureConversationId: string,
+  adventureStepId: string,
 ) {
   return async (dispatch: Dispatch, getState: any) => {
-    const results: any = await dispatch(
-      request({
-        ...ROUTES.GET_ADVENTURE_STEP_MESSAGES,
-        pathParams: { adventureConversationId },
-        params: { messenger_journey_step_id: adventureStepId },
-      }),
-    );
-    const adventureStepMessages = results.messages;
-    dispatch({
-      type: REDUX_ACTIONS.GET_ADVENTURE_STEP_MESSAGES,
-      result: { adventureStepId, adventureStepMessages },
-    });
-    return results;
+    console.log( "🐸 getAdventureStepMessages----", adventureConversationId, adventureStepId);
+    try {
+
+      const results: any = await dispatch(
+        request({
+          ...ROUTES.GET_ADVENTURE_STEP_MESSAGES,
+          pathParams: { adventureConversationId },
+          params: { messenger_journey_step_id: adventureStepId },
+          description: 'Get Adventure Step Messages for conversation id: ' + adventureConversationId
+        }),
+      );
+      console.log( "🐸 results:", results );
+      const adventureStepMessages = results.messages;
+      console.log( "🦙 adventureStepMessages:", adventureStepMessages );
+      dispatch({
+        type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEP_MESSAGES,
+        result: { adventureStepId, adventureStepMessages },
+      });
+      return results;
+    } catch (error) {
+      console.log( "🐙 error:", error );
+    }
   };
 }
 
 export function startAdventure(data: any) {
   return async (dispatch: Dispatch, getState: any) => {
-    const result = await dispatch(request({ ...ROUTES.START_ADVENTURE, data }));
+    const result = await dispatch(request({ ...ROUTES.START_ADVENTURE, data, description: 'Start Adventure' }));
     dispatch({
       type: REDUX_ACTIONS.START_ADVENTURE,
       result,
@@ -180,7 +195,7 @@ export function startAdventure(data: any) {
 export function sendAdventureInvitation(data: any) {
   return async (dispatch: Dispatch, getState: any) => {
     const result = await dispatch(
-      request({ ...ROUTES.SEND_ADVENTURE_INVITATION, data }),
+      request({ ...ROUTES.SEND_ADVENTURE_INVITATION, data, description: 'Send Adventure Invitation' }),
     );
     dispatch({
       type: REDUX_ACTIONS.SEND_ADVENTURE_INVITATION,
@@ -227,6 +242,7 @@ export function createAdventureStepMessage(params: {
           adventureConversationId: params.adventure.conversation.id,
         },
         data,
+        description: 'Create Adventure Step Message'
       }),
     );
 
@@ -326,6 +342,7 @@ export function getVideos(params: any = {}) {
       request({
         ...ROUTES.GET_VIDEOS,
         params: { ...params },
+        description: 'Get Videos'
       }),
     );
     dispatch({
@@ -343,6 +360,7 @@ export function getVideoTags() {
     results = await dispatch(
       request({
         ...ROUTES.GET_VIDEO_TAGS,
+        description: 'Get Video Tags'
       }),
     );
 
@@ -359,6 +377,7 @@ export function destroyDevice(deviceId: string) {
       request({
         ...ROUTES.DESTROY_DEVICE,
         pathParams: { deviceId },
+        description: 'Destroy Device'
       }),
     );
 
@@ -370,11 +389,12 @@ export function updateDevice(newDeviceData: any) {
   return async (dispatch: Dispatch, getState: any) => {
     const deviceId = getState().auth.device.id;
     let results: any;
-    returnedDevice = await dispatch(
+    const returnedDevice = await dispatch(
       request({
         ...ROUTES.UPDATE_DEVICE,
         pathParams: { deviceId },
         data: newDeviceData,
+        description: 'Update device data on our server'
       }),
     );
 
@@ -383,6 +403,7 @@ export function updateDevice(newDeviceData: any) {
     dispatch({
       type: REDUX_ACTIONS.SET_DEVICE,
       device: returnedDevice,
+      description: 'Calling from updateDevice. Save returned from the server device data.'
     });
 
     /* if (returnedDevice.id) {
@@ -398,6 +419,7 @@ export function getDevices() {
     const results = await dispatch(
       request({
         ...ROUTES.GET_DEVICES,
+        description: 'Get Devices'
       }),
     );
     return results;
@@ -411,32 +433,11 @@ export function createDevice(newDeviceData: any) {
   return async (dispatch: Dispatch, getState: any) => {
     console.log( "function createDevice:",  newDeviceData);
 
-    await dispatch(
-      request({
-        ...ROUTES.CREATE_DEVICE,
-        data: newDeviceData,
-      }),
-    );
-
-    /* const returnedDeviceData = await dispatch(
-      request({
-        ...ROUTES.CREATE_DEVICE,
-        data: newDeviceData,
-      }),
-    );
-    console.log( "CREATE_DEVICE results:" ); console.log( returnedDevice );
-
-    // Update info in store.auth.device.
-    dispatch({
-      type: REDUX_ACTIONS.SET_DEVICE,
-      device: returnedDeviceData,
-    });
-    return returnedDeviceData; */
-
     // Fetch user data from the server.
     return dispatch(request({
         ...ROUTES.CREATE_DEVICE,
         data: newDeviceData,
+        description: 'Create Device'
       })).then(
       returnedDeviceData => {
         // eslint-disable-next-line no-console
@@ -463,6 +464,7 @@ export function revokeAuthToken(data: any) {
       request({
         ...ROUTES.REVOKE_TOKEN,
         data,
+        description: 'Revoke Auth Token'
       }),
     );
     return results;
@@ -473,11 +475,9 @@ export function revokeAuthToken(data: any) {
 // https://docs.vokeapp.com/#me-devices
 // Devices are an important part of establishing real time connectivity in Voke.
 // Devices allow the API to send the user information relative to them.
-export function establishCableDevice(pushDeviceId?: string) {
+export function establishCableDevice(deviceId?: string) {
   return async (dispatch: Dispatch, getState: any) => {
-    console.log( "🧵🧵🧵🧵🧵establishCableDevice:" , pushDeviceId );
     const savedDeviceInfo = getState().auth.device;
-    let deviceId = null;
     const currentDeviceId = getState().auth.device.id;
     const currentDeviceData = {
       id: currentDeviceId,
@@ -494,20 +494,17 @@ export function establishCableDevice(pushDeviceId?: string) {
       return !isEqualObject(savedDeviceInfo, currentDeviceData);
     };
 
-    console.log( "📱‼️ deviceInfoChanged:" , deviceInfoChanged(), savedDeviceInfo, currentDeviceData );
-    console.log( "pushDeviceId:",pushDeviceId );
-
     // If device info or push device id changed:
-    // pushDeviceId - if provided, need to update device.
-    if (pushDeviceId || deviceInfoChanged || (!deviceInfoChanged && !currentDeviceId)) {
+    // deviceId - if provided, need to update device.
+    if (currentDeviceId !== deviceId || deviceInfoChanged() || !currentDeviceId) {
       const newDeviceData = {
         device: {
           ...currentDeviceData,
           // TODO: do I needed these?
-          key: pushDeviceId || null,
+          key: deviceId || null,
           kind: 'cable',
           // Possible variations:
-          // key: pushDeviceId for websokets,
+          // key: deviceId for websokets,
           // kind: 'cable' for websokets.
           // ----------------------------
           // key: pushToken for notifications.
@@ -524,22 +521,20 @@ export function establishCableDevice(pushDeviceId?: string) {
         // CREATE new cable with new device data.
         returnedDeviceData = await dispatch(createDevice(newDeviceData));
       }
-
-      console.log( "!!!!!!! returnedDeviceData:" ); console.log( returnedDeviceData );
     }
 
-    if (returnedDeviceData.id) {
+    if (returnedDeviceData?.id) {
       deviceId = returnedDeviceData.id;
     } else {
       deviceId = currentDeviceId;
     }
-    console.log( ">>>>>>>>>>>>>Setup web sockets.:", deviceId );
     // Setup web sockets.
-    dispatch(setupSockets(deviceId));
+    // dispatch(setupSockets(deviceId));
   };
 }
 
-// Register device token on the remote server.
+// Register new push notification token on our server,
+// so it knows where to deliver notifications.
 export function establishPushDevice(pushToken: string) {
   return async (dispatch: Dispatch, getState: any) => {
     if (!pushToken) return;
@@ -558,7 +553,7 @@ export function establishPushDevice(pushToken: string) {
         key: pushToken,
         kind: st.isAndroid ? 'fcm' : 'apple',
         // Possible variations:
-        // key: pushDeviceId for websokets,
+        // key: deviceId for websokets,
         // kind: 'cable' for websokets.
         // ----------------------------
         // key: pushToken for notifications.
@@ -574,7 +569,6 @@ export function establishPushDevice(pushToken: string) {
 export function getNotifications(params: any = {}) {
   return async (dispatch: Dispatch, getState: any) => {
     const notificationId = getState().auth.user.vokebotConversationId;
-    console.log(notificationId, 'ASDFASDF');
     if (!notificationId) return;
 
     const results: any = await dispatch(
@@ -582,6 +576,7 @@ export function getNotifications(params: any = {}) {
         ...ROUTES.GET_NOTIFICATIONS,
         pathParams: { notificationId },
         params: { ...params },
+        description: 'Get Notifications'
       }),
     );
     console.log('NOTIFICATIONS', results);
@@ -607,6 +602,7 @@ export function sendVideoInvitation(params: any = {}) {
       request({
         ...ROUTES.SEND_VIDEO_INVITATION,
         data: createData,
+        description: 'Send Video Invitation'
       }),
     );
 
@@ -627,6 +623,7 @@ export function toggleFavoriteVideo(shouldFavorite: boolean, video: any) {
         request({
           ...ROUTES.FAVORITE_VIDEO,
           pathParams: { videoId: video.id },
+          description: 'Toggle Favorite Video: Add'
         }),
       );
     } else {
@@ -634,6 +631,7 @@ export function toggleFavoriteVideo(shouldFavorite: boolean, video: any) {
         request({
           ...ROUTES.UNFAVORITE_VIDEO,
           pathParams: { videoId: video.id },
+          description: 'Toggle Favorite Video: Remove'
         }),
       );
     }
@@ -683,5 +681,49 @@ export function toggleFavoriteVideo(shouldFavorite: boolean, video: any) {
     }
 
     return results;
+  };
+}
+
+type markMessageAsRead = {
+  conversationId: string,
+  messageId: string,
+}
+
+// Mark message as read on the server.
+export function markMessageAsRead(params: markMessageAsRead) {
+  return async (dispatch: Dispatch, getState: any) => {
+    const { conversationId, messageId } = params;
+    const deviceId = getState().auth.device.id;
+
+    // See: https://docs.vokeapp.com/#me-conversations-messages-interactions
+    let data: any = {
+      interaction: {
+        action: "read", // Message read.
+        device_id: deviceId,
+      }
+    };
+
+    // SEND INTERACTION DATA TO THE SERVER.
+    const result = await dispatch(
+      request({
+        ...ROUTES.CREATE_INTERACTION,
+        pathParams: {
+          conversationId: conversationId,
+          messageId: messageId,
+        },
+        data,
+      }),
+    );
+
+    console.log( "🦞 result:", result );
+
+    return result;
+  };
+}
+
+// Mark message as read.
+export function markReadAction(conversationId, messageId) {
+  return dispatch => {
+    dispatch({ type: REDUX_ACTIONS.MARK_READ, conversationId, messageId });
   };
 }

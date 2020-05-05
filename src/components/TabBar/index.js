@@ -6,14 +6,16 @@ import VokeIcon from '../VokeIcon';
 import Text from '../Text';
 import st from '../../st';
 import theme from '../../theme';
+import { BlurView, VibrancyView } from "@react-native-community/blur";
+import { StyleSheet } from 'react-native';
 
 function getContent(label, isFocused) {
-  let iconName = 'adventure';
+  let iconName = 'tab-adventure';
   if (label === 'Videos') {
-    iconName = 'film';
+    iconName = 'tab-video';
   }
   if (label === 'Notifications') {
-    iconName = 'notification';
+    iconName = 'tab-notification';
   }
 
   return (
@@ -43,6 +45,15 @@ function TabBar({ state, descriptors, navigation }) {
 
   return (
     <>
+     {/* <View style={{
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0
+  }}> */}
+   
+        {/* </View> */}
       <Flex
         direction="row"
         align="center"
@@ -51,10 +62,32 @@ function TabBar({ state, descriptors, navigation }) {
           st.ph2,
           {
             paddingBottom: insets.bottom,
-            backgroundColor: theme.colors.secondary,
+            // backgroundColor: theme.colors.secondary,
+            // backgroundColor: "rgba(0,0,0,.4)",
+            position: "absolute",
+            width: "100%",
+            bottom: 0,
+
+            // Hairline border
+            // borderTopColor: "rgba(90, 205, 225, .4)",
+            //  borderTopColor: "rgba(0,0,0, .5)",
+            // borderTopWidth: StyleSheet.hairlineWidth,
           },
         ]}
       >
+         <BlurView
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0
+          }}
+          // viewRef={this.state.viewRef}
+          blurType="dark"
+          blurAmount={10}
+          reducedTransparencyFallbackColor={theme.colors.secondary}
+        />
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
           const label =

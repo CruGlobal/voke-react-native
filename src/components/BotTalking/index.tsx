@@ -10,13 +10,13 @@ import styles from './styles';
 interface IBotTalking {
   reference?: React.RefObject<HTMLButtonElement>;
   children?: React.ReactNode;
-  type?: React.ReactText 
+  type?: string
 }
 /**
  * Displays speech bubble with Voke bot underneath.
  * Wraps provided content with <Text> element.
  */
-const BotTalking: React.FC = ({reference, children, type}: IBotTalking): React.ReactElement => (
+const BotTalking = ({reference, children, type}: IBotTalking): React.ReactElement => (
   type=== "reverse" ?
   <Flex style={styles.BotContainer}>
   <Flex style={styles.BotMessage_reverse}>

@@ -109,27 +109,25 @@ function MyAdventureItem({ item }) {
               {name}
             </Text>
             <Flex direction="row" align="center" style={[st.pb6]}>
+              {/* { hasUnread ?
               <VokeIcon
-                name="Chat"
-                style={[
-                  hasUnread ? st.orange : st.darkGrey,
-                  hasUnread ? undefined : st.mr5,
-                ]}
+                name="speech-bubble-full"
+                style={[ st.orange ]}
+                size={20}
+              /> :
+              <VokeIcon
+                name="speech-bubble"
+                style={[ st.darkGrey, st.mr5 ]}
                 size={20}
               />
-              {hasUnread ? (
-                <Flex
-                  align="center"
-                  justify="center"
-                  style={[st.circle(20), st.bgOrange, st.ml6]}
-                >
-                  <Text style={[st.white]}>
-                    {unreadCount > 99 ? '99' : unreadCount}
-                  </Text>
-                </Flex>
-              ) : null}
+              } */}
+              <VokeIcon
+                name="speech-bubble"
+                style={[ st.darkGrey, {marginTop: 3} ]}
+                size={20}
+              />
               {!isGroup ? (
-                <Text style={[st.charcoal, st.ml5, st.fs5]}>
+                <Text style={[st.charcoal, st.fs4, {marginLeft: 6}]}>
                   {isSolo ? 'me' : otherUser.first_name}
                 </Text>
               ) : (
@@ -190,7 +188,7 @@ function MyAdventureItem({ item }) {
                 ))}
               </Flex>
               <Text numberOfLines={2} style={[st.mt6, st.charcoal, st.fs5]}>
-                {completed}/{available} {'complete'}
+                {completed}/{available} {'completed'}
               </Text>
             </Flex>
           </Flex>
@@ -225,6 +223,27 @@ function MyAdventureItem({ item }) {
           ) : null}
         </Flex>
       </Flex>
+      {hasUnread ? (
+        <Flex
+          align="center"
+          justify="center"
+          style={[st.circle(26), st.bgOrange, st.ml6,
+          {
+            position: "absolute",
+            right: -8,
+            top: 2,
+          }]}
+        >
+          <VokeIcon
+            name="notification-full"
+            style={[ st.white, {marginTop: -1} ]}
+            size={14}
+          />
+          {/* <Text style={[st.orange]}>
+            {unreadCount > 99 ? '99' : unreadCount}
+          </Text> */}
+        </Flex>
+      ) : null}
     </Touchable>
   );
 }

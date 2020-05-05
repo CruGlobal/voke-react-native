@@ -206,9 +206,9 @@ const AccountName: React.FC = (): React.ReactElement => {
             isLoading={isLoading}
           >
             <Text style={[st.white, st.fs20, st.tac]}>Continue</Text>
+            {/* Safety spacing. */}
+            <Flex style={{ height: insets.bottom }} />
           </Button>
-          {/* Safety spacing. */}
-          <Flex style={{ paddingBottom: insets.bottom }} />
         </Flex>
       </KeyboardAvoidingView>
     </DismissKeyboardView>

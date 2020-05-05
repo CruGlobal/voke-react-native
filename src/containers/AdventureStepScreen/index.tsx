@@ -10,15 +10,17 @@ import AdventureStepMessageInput from '../../components/AdventureStepMessageInpu
 import AdventureStepNextAction from '../../components/AdventureStepNextAction';
 import Image from '../../components/Image';
 import VokeIcon from '../../components/VokeIcon';
-import { KeyboardAvoidingView, findNodeHandle } from 'react-native';
+import { KeyboardAvoidingView, findNodeHandle, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import Video from '../../components/Video';
 import { useNavigation } from '@react-navigation/native';
 import { useMount, useKeyboard } from '../../utils';
-import { getAdventureStepMessages } from '../../actions/requests';
+import { getAdventureStepMessages, markMessageAsRead } from '../../actions/requests';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { RootState } from '../reducers';
-import { TAdventureSingle } from '../../types';
+import { RootState } from '../../reducers';
+import { TAdventureSingle, TStep } from '../../types';
+import { useFocusEffect } from '@react-navigation/native';
+import { getAdventureSteps } from '../../actions/requests';
 
 type ModalProps = {
   route: {
@@ -33,10 +35,10 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
   const insets = useSafeArea();
   const [isPortrait, setIsPortrait] = useState(true);
   const { stepId, adventure } = route.params;
-  const steps = useSelector(({ data }) => data.adventureSteps);
+  const steps = useSelector(({ data }: RootState) => data.adventureSteps);
   const [currentSteps, setCurrentSteps] = useState(steps[adventure.id] || []);
   const [currentStep, setCurrentStep] = useState(
-    currentSteps.find(s => s.id === stepId),
+    currentSteps.find( (s:TStep) => s.id === stepId),
   );
 
   const currentUser = useSelector(({ auth }: RootState) => auth.user);
@@ -49,26 +51,35 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
 
   useEffect(() => {
     setCurrentSteps(steps[adventure.id]);
-    setCurrentStep(steps[adventure.id].find(s => s.id === stepId));
+    setCurrentStep(steps[adventure.id].find( (s:TStep) => s.id === stepId));
   }, [steps]);
 
   const scrollRef = useRef(null);
   const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'multiple';
   // Find a reply to the main question (if already answered).
-  let mainAnswer = '';
+  const myMainAnswer = {
+    id: null,
+    content: ''
+  };
+
+  console.log( "🐸 currentMessages:", currentMessages );
 
   if (!['multi', 'binary'].includes(currentStep.kind)) {
-    // At this currentMessages is reversed.
-    // So we need to flip it with slice().reverse() to find the first message
-    // of the current author from the start.
-    mainAnswer = (currentMessages.slice().reverse().find(m => m.messenger_id === currentUser.id) || {})
-      .content;
+    // Find the first message of the current author from the start.
+    const mainAnswer = (currentMessages.reverse().slice().find(m => m.messenger_id === currentUser.id));
+    if ( mainAnswer ) {
+      myMainAnswer.id = mainAnswer.id;
+      myMainAnswer.content = mainAnswer.content;
+    }
   } else {
-    mainAnswer = (currentStep.metadata.answers.find(a => a.selected) || {})
-      .value;
+    const mainAnswer = (currentStep.metadata.answers.find( (a: any) => a.selected) || {});
+    if ( mainAnswer ) {
+      myMainAnswer.id = mainAnswer.id;
+      myMainAnswer.content = mainAnswer.value;
+    }
   }
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  useKeyboard(bool => setKeyboardVisible(bool));
+  useKeyboard( (bool: boolean) => setKeyboardVisible(bool));
 
   useMount(() => {
     dispatch(
@@ -76,7 +87,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
     );
   });
   useEffect(() => {
-    let newMsgs = [...(messages[currentStep.id] || [])].reverse();
+    let newMsgs = [...(messages[currentStep.id] || [])];//.reverse();
     // If solo adventure, render bot's messages.
     if (isSolo) {
       // newMsgs.push({
@@ -91,6 +102,41 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
     }
     setCurrentMessages(newMsgs);
   }, [messages]);
+
+  // Events firing when user leaves the screen or comes back.
+  useFocusEffect(
+    React.useCallback(() => {
+      // Actions to run when the screen focused:
+
+      // If there are unread messages in current conversation
+      // mark them as read on the backend.
+      if (currentStep.unread_messages) {
+        // See documentation for marking message as read:
+        // https://docs.vokeapp.com/#me-conversations-messages-interactions
+        // To mark as read we need converstation id and message id.
+
+        const conversationId = adventure.conversation.id;
+        console.log( "🐸 conversationId:", conversationId );
+
+        currentMessages.forEach( msg => {
+          dispatch(
+            markMessageAsRead( { conversationId: conversationId, messageId: msg.id})
+          );
+        });
+      }
+
+      return () => {
+        // Actions to run when the screen unfocused:
+        console.log('UNFOCUSED 💂‍♂️');
+        // If we had unread messages, then we marked them as read,
+        // so on leaving this screen we need to udpate current Adventure steps
+        // to have right unread bages next to each step.
+        if (currentStep.unread_messages) {
+          dispatch(getAdventureSteps(adventure.id));
+        }
+      };
+    }, [])
+  )
 
   return (
     <KeyboardAvoidingView
@@ -112,15 +158,28 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
           ]}
           enableAutomaticScroll
           keyboardShouldPersistTaps ='always'
-          // ☝️needed to solve the bug with a need to double tap
+          // ☝️required to fix the bug with a need to double tap
           // on the send message icon.
 
           /* innerRef={ref => {
             scrollRef = ref;
           }} */
         >
+          {/* This View stays outside of the screen on top
+          and covers blue area with solid black on pull. */}
+          <View
+            style={{
+              position:'absolute',
+              backgroundColor: 'black',
+              left: 0,
+              right: 0,
+              top: -300,
+              height: 300,
+            }}
+          ></View>
+          {/* Video Player */}
           <Video
-            onOrientationChange={orientation =>
+            onOrientationChange={ (orientation: string) =>
               orientation === 'portrait'
                 ? setIsPortrait(true)
                 : setIsPortrait(false)
@@ -169,6 +228,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
                   source={{ uri: currentUser.avatar.small }}
                   style={[st.absb, st.right(-30), st.h(25), st.w(25), st.br1]}
                 />
+                {/* <Text>{myMainAnswer.content}</Text> */}
                 <AdventureStepMessageInput
                   onFocus={() => {
                     /* scrollRef.current.props.scrollToFocusedInput(
@@ -178,22 +238,31 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
                   kind={currentStep.kind}
                   adventure={adventure}
                   step={currentStep}
-                  defaultValue={mainAnswer}
+                  defaultValue={myMainAnswer.content}
                 />
               </Flex>
-              {currentMessages.map(item => (
-                <AdventureStepMessage
-                  key={item.id}
-                  item={item}
-                  adventure={adventure}
-                  step={currentStep}
-                  onFocus={event => {
-                    /* scrollRef.current.props.scrollToFocusedInput(
-                      findNodeHandle(event.target),
-                    ); */
-                  }}
-                />
-              ))}
+              {currentMessages.map(item =>  {
+                  return(
+                    <>
+                      {
+                        (myMainAnswer?.id === item?.id)
+                          ? null
+                         : <AdventureStepMessage
+                            key={item.id}
+                            item={item}
+                            adventure={adventure}
+                            step={currentStep}
+                            onFocus={event => {
+                              /* scrollRef.current.props.scrollToFocusedInput(
+                                findNodeHandle(event.target),
+                              ); */
+                            }}
+                          />
+                      }
+                    </>
+                  )
+                }
+              )}
               <AdventureStepNextAction
                 adventureId={adventure.id}
                 stepId={stepId}
@@ -206,7 +275,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
           But only if it's portrait orientation and not solo adventure.
           It makes no sense to talk to yourself in solo mode.
         */}
-        {!isSolo && isPortrait && (
+        {!isSolo && isPortrait && myMainAnswer.id && (
           <Flex
             direction="row"
             align="center"
