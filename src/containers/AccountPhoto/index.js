@@ -49,38 +49,36 @@ function AccountPhoto() {
     if (!avatarSource || avatarSource === null) {
       // No image selected - skip to the next screen.
 
-      try {
-        navigation.navigate('LoggedInApp', { screen: 'Adventures' });
-      } catch (error) {
-        console.log( "🐸 error:", error );
+     /*  try {
         navigation.navigate('Adventures');
-      } finally {
-        return;
-      }
-    }
-
-    const avatarData = {
-      avatar: {
-        // fileName: `${firstName}_${lastName}.png`,
-        fileName: `${userId}.png`, // Why png not jpeg?
-        uri: avatarSource,
-      },
-    };
-    setLoginLoading(true);
-
-    try {
-      await dispatch(updateMe(avatarData));
-      setLoginLoading(false);
-      // navigation.navigate('LoggedInApp', { screen: 'Adventures' }); // LoggedInApp
-      try {
+      } finally { */
         navigation.navigate('LoggedInApp', { screen: 'Adventures' });
+      // }
+    } else {
+
+      const avatarData = {
+        avatar: {
+          // fileName: `${firstName}_${lastName}.png`,
+          fileName: `${userId}.png`, // Why png not jpeg?
+          uri: avatarSource,
+        },
+      };
+      setLoginLoading(true);
+
+      try {
+        await dispatch(updateMe(avatarData));
+        setLoginLoading(false);
+        // navigation.navigate('LoggedInApp', { screen: 'Adventures' }); // LoggedInApp
+        try {
+          navigation.navigate('LoggedInApp', { screen: 'Adventures' });
+        } catch (error) {
+          console.log( "🐸 error:", error );
+          navigation.navigate('Adventures');
+        }
       } catch (error) {
-        console.log( "🐸 error:", error );
-        navigation.navigate('Adventures');
+        // eslint-disable-next-line no-console
+        console.log('error updating me image 4', error);
       }
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log('error updating me image 4', error);
     }
   }
 

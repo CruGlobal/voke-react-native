@@ -17,6 +17,7 @@ interface InitialStateTypes {
     lastName?: string;
   };
   modalProps: object; // TODO: IModalProps interface here
+  ws?: object; 
 }
 
 const initialState: InitialStateTypes = {
@@ -33,6 +34,7 @@ const initialState: InitialStateTypes = {
     lastName: '',
   },
   modalProps: {},
+  ws: undefined,
 };
 
 export default function (
@@ -61,6 +63,8 @@ export default function (
       return { ...state, modalProps: action.modalProps || {} };
     case REDUX_ACTIONS.HIDE_MODAL:
       return { ...state, modalProps: {} };
+    case REDUX_ACTIONS.STARTUP:
+      return state;
     case REDUX_ACTIONS.LOGIN:
       return { ...state, authToken: action.authToken };
     case REDUX_ACTIONS.SET_USER:
@@ -116,6 +120,8 @@ export default function (
       return { ...state, pushToken: action.pushToken };
     case REDUX_ACTIONS.SET_PUSH_DEVICE_ID: // TODO: delete.
       return { ...state, deviceId: action.deviceId };
+    case REDUX_ACTIONS.OPEN_SOCKETS:
+      return state;
     case REDUX_ACTIONS.LOGOUT:
       return initialState;
     default:

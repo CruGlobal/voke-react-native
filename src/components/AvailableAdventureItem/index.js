@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
+import { View, Alert } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import Image from '../Image';
@@ -101,7 +101,7 @@ function AvailableAdventureItem({
         {shouldInviteFriend ? (
           <Flex value={1} justify="end">
             <Button
-              onPress={() => {}}
+              onPress={() => {Alert.alert('TODO')}}
               style={[
                 st.bgOrange,
                 st.mb4,

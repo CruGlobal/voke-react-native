@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useRoute } from '@react-navigation/native';
 import { Button } from 'react-native';
-import { startupAction } from './actions/auth';
-import appStateActions from './actions/appStateActions';
+import { startupAction, sleepAction, wakeupAction } from './actions/auth';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -44,6 +43,7 @@ import HeaderLeft from './components/HeaderLeft';
 import Touchable from './components/Touchable';
 import Text from './components/Text';
 import { useMount } from './utils';
+import useAppState from 'react-native-appstate-hook';
 
 // https://reactnavigation.org/docs/stack-navigator#options
 const defaultHeaderConfig = {
@@ -241,14 +241,33 @@ const NotificationStackScreens = () => {
 const LoggedInAppContainer = () => {
   const dispatch = useDispatch();
   const Tabs = createBottomTabNavigator();
+  const route = useRoute();
+
+
+  // Handle iOS & Android appState changes.
+  const { appState } = useAppState({
+    // Callback function to be executed once appState is changed to
+    // active, inactive, or background
+    onChange: (newAppState) => console.warn('App state changed to ', newAppState),
+    // Callback function to be executed once app go to foreground
+    onForeground: () => {
+      console.warn('App went to Foreground');
+      console.log( "🌷 route:", route );
+      dispatch(wakeupAction({currentScreen:route.name}));
+    },
+    // Callback function to be executed once app go to background
+    onBackground: () => {
+      console.warn('App went to background');
+      dispatch(sleepAction());
+    }
+  });
+
   useEffect(() => {
     // Check notifications permission and setup sockets.
     dispatch(startupAction()).then(
       success => LOG(' 🧛‍♂️ startupAction > SUCCESS'),
       error => WARN(' 🧚‍♂️ startupAction > ERROR', error)
     );
-
-     dispatch(appStateActions());
   }, []);
   return (
     <Tabs.Navigator tabBar={props => <TabBar {...props} />}>

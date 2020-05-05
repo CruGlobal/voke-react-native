@@ -433,29 +433,6 @@ export function createDevice(newDeviceData: any) {
   return async (dispatch: Dispatch, getState: any) => {
     console.log( "function createDevice:",  newDeviceData);
 
-    /* await dispatch(
-      request({
-        ...ROUTES.CREATE_DEVICE,
-        data: newDeviceData,
-        description: 'Create Device'
-      }),
-    ); */
-
-    /* const returnedDeviceData = await dispatch(
-      request({
-        ...ROUTES.CREATE_DEVICE,
-        data: newDeviceData,
-      }),
-    );
-    console.log( "CREATE_DEVICE results:" ); console.log( returnedDevice );
-
-    // Update info in store.auth.device.
-    dispatch({
-      type: REDUX_ACTIONS.SET_DEVICE,
-      device: returnedDeviceData,
-    });
-    return returnedDeviceData; */
-
     // Fetch user data from the server.
     return dispatch(request({
         ...ROUTES.CREATE_DEVICE,
@@ -500,7 +477,6 @@ export function revokeAuthToken(data: any) {
 // Devices allow the API to send the user information relative to them.
 export function establishCableDevice(deviceId?: string) {
   return async (dispatch: Dispatch, getState: any) => {
-    LOG( "🧵🧵🧵🧵🧵establishCableDevice:" , deviceId );
     const savedDeviceInfo = getState().auth.device;
     const currentDeviceId = getState().auth.device.id;
     const currentDeviceData = {
@@ -517,9 +493,6 @@ export function establishCableDevice(deviceId?: string) {
     const deviceInfoChanged = (): boolean => {
       return !isEqualObject(savedDeviceInfo, currentDeviceData);
     };
-
-    console.log( "📱‼️ deviceInfoChanged:" , deviceInfoChanged(), savedDeviceInfo, currentDeviceData );
-    console.log( "deviceId:",deviceId );
 
     // If device info or push device id changed:
     // deviceId - if provided, need to update device.
@@ -548,8 +521,6 @@ export function establishCableDevice(deviceId?: string) {
         // CREATE new cable with new device data.
         returnedDeviceData = await dispatch(createDevice(newDeviceData));
       }
-
-      console.log( "!!!!!!! returnedDeviceData:" ); console.log( returnedDeviceData );
     }
 
     if (returnedDeviceData?.id) {
@@ -557,9 +528,8 @@ export function establishCableDevice(deviceId?: string) {
     } else {
       deviceId = currentDeviceId;
     }
-    console.log( ">>>>>>>>>>>>>Setup web sockets.:", deviceId );
     // Setup web sockets.
-    dispatch(setupSockets(deviceId));
+    // dispatch(setupSockets(deviceId));
   };
 }
 

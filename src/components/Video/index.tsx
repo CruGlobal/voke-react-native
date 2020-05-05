@@ -151,6 +151,8 @@ function Video({
     setSliderValue(value);
   }
 
+  console.log( "🐸 sliderValue:", sliderValue );
+ 
   return (
     <View
       style={[
@@ -164,6 +166,7 @@ function Video({
         st.bgDeepBlack,
         {
           width: useWindowDimensions().width,
+          // width: '100%',
           // paddingTop: -insets.top,
           /* paddingTop:
             dimensions.height === VIDEO_HEIGHT && !hideInsets ? insets.top : 0, */
@@ -178,8 +181,12 @@ function Video({
           st.jcc,
           st.bgBlack,
           {
+            position: 'absolute',
+            top: 0,
+            left: 0,
             width:'100%',
-            height:'100%',
+            height: '100%',
+            zIndex:1,
           }
         ]}
       ></ImageBackground>
@@ -221,7 +228,9 @@ function Video({
         )}
         <Flex
           direction="column"
-          style={[st.absblr, st.bgTransparent, st.w100, st.h100]}
+          style={[st.absblr, st.bgTransparent, st.w100, st.h100, {
+            zIndex:2,
+          }]}
           self="stretch"
         >
           {onCancel ? (

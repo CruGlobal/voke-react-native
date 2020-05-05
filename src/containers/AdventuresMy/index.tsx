@@ -1,91 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { FlatList, View, Text } from 'react-native';
 import { RootState } from '../../reducers';
-import { startupAction } from '../../actions/auth';
-import { useMount, isEqualObject } from '../../utils';
 
 import BotTalking from '../../components/BotTalking';
 import styles from './styles';
 
 import {
-  getAvailableAdventures,
   getMyAdventures,
   getAdventuresInvitations
 } from '../../actions/requests';
-import AvailableAdventureItem from '../../components/AvailableAdventureItem';
 import MyAdventureItem from '../../components/MyAdventureItem';
 import NotificationBanner from '../../components/NotificationBanner';
-import Triangle from '../../components/Triangle';
 import AdventuresActions from '../AdventuresActions';
 
 const AdventuresMy = (): React.ReactElement => {
-  // var z0 = performance.now()
-
   const dispatch = useDispatch();
-  const me = useSelector(({ auth }: RootState) => auth.user);
-  const myAdventures = useSelector(({ data }: RootState) => data.myAdventures);
-  const myAdventuresTracker = useSelector(
-    ({ data }: RootState) => data.dataChangeTracker.myAdventures
-  );
-
-  const adventureInvitations = useSelector(
-    ({ data }: RootState) => data.adventureInvitations
-  );
-  const adventureInvitationsTracker = useSelector(
-    ({ data }: RootState) => data.dataChangeTracker.adventureInvitations
-  );
-
-  const adventureStepMessagesTracker = useSelector(
-    ({ data }: RootState) => data.dataChangeTracker.adventureStepMessages
-  );
-  const [dataHash, setDataHash] = useState('');
-  const [isLoading, setIsLoading] = useState(false); // Initial loading.
   const [isRefreshing, setIsRefreshing] = useState(false); // Pull-to-refresh.
 
-  const getCurrentDataHash = (): string => {
-    // var t0 = performance.now()
-    console.log('adventureInvitations:');
-    console.log(adventureInvitations);
-    console.log('myAdventures:');
-    console.log(myAdventures);
-    hashedData = hash.sha1([].concat(adventureInvitations, myAdventures));
-    console.log('🔑 hashedData>>>>>>>>>:\n', hashedData);
-    // var t1 = performance.now()
-    // console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
-    return hashedData;
-  };
+  const me = useSelector(({ auth }: RootState) => auth.user);
+  const myAdventures = useSelector(({ data }: RootState) => data.myAdventures);
+  const invitations = useSelector(
+    ({ data }: RootState) => data.adventureInvitations
+  );
 
-  /* const updateAdventures = async (): Promise<void> => {
-    setIsLoading(true);
-    // if (myAdventures.length === 0) {
-    // TODO: Do some kind of time based caching for these requests
-    await dispatch(getMyAdventures());
-    // }
-    // if (adventureInvitations.length === 0) {
-    // TODO: Do some kind of time based caching for these requests
-    await dispatch(getAdventuresInvitations());
-    // await setTimeout(function(){ console.log("Hello"); }, 9000);
-    setIsLoading(false);
+  const trackAdventures = useSelector(
+    ({ data }: RootState) => data.dataChangeTracker.myAdventures
+  );
+  const trackInvitations = useSelector(
+    ({ data }: RootState) => data.dataChangeTracker.adventureInvitations
+  );
+  const trackSteps = useSelector(
+    ({ data }: RootState) => data.dataChangeTracker.adventureStepMessages
+  );
 
-    // setDataHash( getCurrentDataHash() );
-  }
- */
   const updateAdventures = async (): Promise<void> => {
-    // setIsLoading(true);
-    // if (myAdventures.length === 0) {
     // TODO: Do some kind of time based caching for these requests
     await dispatch(getMyAdventures());
-    // then(
-    // );
-    // }
-    // if (adventureInvitations.length === 0) {
-    // TODO: Do some kind of time based caching for these requests
     await dispatch(getAdventuresInvitations());
-
-    // setIsLoading(false);
-    // setDataHash( getCurrentDataHash() );
   };
   const refreshData = async (): Promise<void> => {
     setIsRefreshing(true);
@@ -97,69 +50,16 @@ const AdventuresMy = (): React.ReactElement => {
     }
   };
 
-  // Actions to run once component mounted.
-  /* useMount(() => {
-    // Check notifications permission and setup sockets.
-    // dispatch(startupAction());
-    // Load my adventures + invites. Note: async function can't be part of hook!
-    // updateAdventures();
-  });
- */
   useEffect(() => {
-    console.log( "🐸 myAdventures:", myAdventures );
-    // var y0 = performance.now()
-
-    // Check notifications permission and setup sockets.
-    // dispatch(startupAction());
-
     // Load my adventures + invites. Note: async function can't be part of hook!
     updateAdventures();
-
-    // var z1 = performance.now()
-    // console.log( "⏱ Call to useEffect took " + (z1 - z0) + " milliseconds.")
-    /* Performance:
-     * 36ms with empty component/screen
-     * 150ms with <FlatList>
-     */
-  // }, []);
-  }, [myAdventuresTracker, adventureInvitationsTracker, adventureStepMessagesTracker ]);
-
-  // myAdventures
+  }, [trackAdventures, trackInvitations, trackSteps ]);
 
   // Events firing when user leaves the screen or comes back.
   useFocusEffect(
-    React.useCallback(() => {
-      // TODO: refresh data if users comes back here from new code generating screen.
-      // TODO: refresh data if comes back from adventure and interacted there (left comment/went to the next).
-      // if CREATE_ADVENTURE_STEP_MESSAGE
-      // if store.data.myAdventures.[0...xx].progress changed
-      //
-      // OR hash data from:
-      // store.data.myAdventures,
-      // store.data.AdventureInvitations,
-      // - update the view if hash changed.
-
-      // Also consider:
-      // store.data.availableAdventures,
-      // store.data.AdventureSteps
-      // store.data.AdventureMessages
-
+    useCallback(() => {
       // Do something when the screen is focused
-      console.log('>>>>>>> Screen focused <<<<<<<<');
-
-      // updateAdventures();
-
-      // isEqualObject !!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-      /* const newHash = getCurrentDataHash();
-      if ( newHash === dataHash ) {
-        console.log( "🔑 🛑 NOTHING CHANGED:", dataHash, newHash );
-      } else {
-        console.log( "🔑 ✅ DATA CHANGED:", dataHash, newHash );
-      } */
-
       return () => {
-        console.log('xxxxxxxx Screen UNfocused xxxxxxxx');
         // Do something when the screen is unfocused
         // Useful for cleanup functions
       };
@@ -171,7 +71,7 @@ const AdventuresMy = (): React.ReactElement => {
       <NotificationBanner />
       <FlatList
         ListHeaderComponent={<AdventuresActions />}
-        data={[].concat(adventureInvitations, myAdventures)}
+        data={[].concat(invitations, myAdventures)}
         renderItem={(props): JSX.Element => <MyAdventureItem {...props} />}
         style={styles.AdventuresList}
         contentContainerStyle={{paddingBottom:80}}

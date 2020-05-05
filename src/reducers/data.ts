@@ -79,10 +79,6 @@ const initialState = {
 export default function(state = initialState, action: any) {
   switch (action.type) {
     case REDUX_ACTIONS.SET_DATA:
-      console.log( "🦑  REDUX_ACTIONS.SET_DATA: " + action.key);
-      console.log( "🐸 state[action.key]:", state[action.key] );
-      console.log( "🐸 action.data:", action.data );
-
       // @ts-ignore
       if (!exists(state[action.key]) || !action.data) {
         return state;
@@ -90,7 +86,6 @@ export default function(state = initialState, action: any) {
 
       // Don't proceed if nothing changed in the data.
       if (lodash.isEqual(state[action.key], action.data)) {
-        console.log( "🐸 isEqual!" );
         return state;
       }
 

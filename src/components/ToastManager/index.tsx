@@ -18,7 +18,7 @@ const ToastManager = (): React.ReactElement => {
   const { text, timeout } = useSelector(
     ({ info }: RootState) => info.toastProps
   );
-  console.log( "🐸 timeout:", timeout );
+
   const [toastText, setToastText] = useState('');
   const [toastTimeout, setToastTimeout] = useState(null);
   const dispatch = useDispatch();
@@ -42,7 +42,6 @@ const ToastManager = (): React.ReactElement => {
       setToastText('');
       setToastTimeout(null);
     }
-    console.log( "🐸 ToastTimeout:", toastTimeout );
   }, [text, toastText, toastTimeout]);
 
   return (

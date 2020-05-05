@@ -11,9 +11,17 @@ import {
 import CONSTANTS, { REDUX_ACTIONS } from '../constants';
 import ROUTES from './routes';
 import request from './utils';
-import { getDevices, revokeAuthToken, setUser } from './requests';
+import {
+  getDevices,
+  revokeAuthToken,
+  setUser,
+  getMyAdventures,
+  getAdventuresInvitations
+} from './requests';
+
 import { isArray } from '../utils';
-import { permissionsAndSockets, closeSocketAction } from './socket';
+import { openSocketAction } from './socket';
+import { permissionsAndNotifications } from './notifications';
 
 export function loginAction(authToken) {
   // const authToken = authData.access_token;
@@ -22,26 +30,48 @@ export function loginAction(authToken) {
   };
 }
 
-// When app starts or focused back.
+// When app starts.
 export function startupAction() {
   LOG( "🦸‍♂️ function startupAction", );
   return async dispatch => {
-    await dispatch(permissionsAndSockets());
+    await dispatch({
+      type: REDUX_ACTIONS.STARTUP,
+    });
+    await dispatch(permissionsAndNotifications());
   };
+}
+
+// When app focussed again.
+export function wakeupAction({currentScreen}) {
+  LOG( "🌝 function wakeupAction", );
+  return async (dispatch, getState)  => {
+    const deviceId = getState().auth.device.id;
+    dispatch( openSocketAction(deviceId) );
+
+    console.log( "🐸 curentScreen:", currentScreen );
+    // Check on what screen we are and update the required info.
+    if (currentScreen === 'LoggedInApp') {
+       console.log( "🐸🐸🐸🐸🐸🐸🐸" );
+      dispatch(getAdventuresInvitations());
+      dispatch(getMyAdventures());
+    }
+  }
 }
 
 // When app goes to background.
 export function sleepAction() {
-  LOG( "💤 function sleepAction", );
+  LOG( "🌘 function sleepAction", );
   return async dispatch => {
-    dispatch(closeSocketAction());
+    // No need to close/reopen WebSocket connection anymore:
+    // https://github.com/facebook/react-native/issues/26731
+    // dispatch(closeSocketAction());
   }
 }
 
 export function requestPremissions(askPermission = true) {
   console.log( "🐸 requestPremissions: 1" );
   return async dispatch => {
-    await dispatch(permissionsAndSockets(askPermission));
+    await dispatch(permissionsAndNotifications(askPermission));
   };
 }
 
