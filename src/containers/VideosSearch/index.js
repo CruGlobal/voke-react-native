@@ -4,7 +4,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Flex from '../../components/Flex';
 import st from '../../st';
 import ScrollWheel from '../../components/ScrollWheel';
-import ModalBackButton from '../../components/ModalBackButton';
+import BackButton from '../../components/BackButton';
 import { useSelector, useDispatch } from 'react-redux';
 import { useMount } from '../../utils';
 
@@ -35,7 +35,7 @@ function VideosSearch({ route }) {
         colors={['rgba(0,0,0,0.9)', 'rgba(0,0,0,0.8)']}
         style={[{ paddingTop: insets.top, height: st.fullHeight }]}
       >
-        <ModalBackButton />
+        <BackButton />
         <Flex value={1} justify="center">
           <ScrollWheel
             items={tags}

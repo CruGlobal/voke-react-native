@@ -19,13 +19,50 @@ function AdventureAvailable(props) {
   return (
     <Flex value={1}>
       <Video
-        onOrientationChange={orientation =>
-          orientation === 'portrait'
-            ? setIsPortrait(true)
-            : setIsPortrait(false)
-        }
-        item={item.item.content}
-      />
+        onOrientationChange={(orientation: string): void => {
+          if (orientation === 'portrait') {
+            setIsPortrait(true);
+          } else {
+            setIsPortrait(false);
+          }
+        }}
+        item={item?.item?.content}
+      >
+        <Flex direction="column" align="center">
+          {/* Call to action overlay to be rendered over the video. */}
+          <Text
+            style={{
+              fontSize: 24,
+              paddingHorizontal: 25,
+              paddingVertical: 4,
+              color: 'white',
+            }}
+          >
+            {item.name}
+          </Text>
+          <Flex
+            style={{
+              borderRadius: 20,
+              backgroundColor: 'rgba(0,0,0,0.8)',
+              alignSelf: 'center',
+              marginBottom: 10,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 16,
+                paddingHorizontal: 24,
+                paddingTop: 8,
+                paddingBottom: 10,
+                textAlign: 'center',
+                color: 'white',
+              }}
+            >
+              Watch Trailer
+            </Text>
+          </Flex>
+        </Flex>
+      </Video>
       {isPortrait && (
         <ScrollView
           bounces={false}

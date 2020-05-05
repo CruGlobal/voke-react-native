@@ -1,4 +1,9 @@
 {
   "java.configuration.updateBuildConfiguration": "disabled",
-  "eslint.enable": false
+  "eslint.enable": false,
+  "workbench.colorCustomizations": {
+    "badge.background": "#caa863",
+    "activityBarBadge.background": "#caa863",
+    "tab.activeForeground": "#caa863"
+  }
 }

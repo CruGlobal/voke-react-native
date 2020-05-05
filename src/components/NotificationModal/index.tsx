@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../reducers';
+import { useDispatch } from 'react-redux';
+import { Image } from 'react-native';
 import Modal from 'react-native-modal';
-import { Alert } from 'react-native';
-import Image from '../Image';
 import st from '../../st';
 import Flex from '../Flex';
 import Text from '../Text';
@@ -10,25 +11,48 @@ import Button from '../Button';
 import VokeIcon from '../VokeIcon';
 import theme from '../../theme';
 import BotTalking from '../BotTalking';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../reducers';
+import { requestPremissions } from '../../actions/auth';
 
-function NotificationBanner() {
-  const [isVisible, setVisible] = useState(false);
+import NotificationGraphic from '../../assets/graphic-allownotifications.png';
+const NotificationModal = (): React.ReactElement => {
+  const dispatch = useDispatch();
+  const [modalOpen, setModalOpen] = useState(false);
   const me = useSelector(({ auth }: RootState) => auth.user);
+  // Current premissions status stroed in
+  // store.info.pushNotificationPermission
+  const { pushNotificationPermission } = useSelector(({ info }: RootState) => info);
+  // Ignore component if permissions already granted.
+  if ( pushNotificationPermission === 'granted') {
+    return <></>;
+  }
 
-  //NotificationModal
-  const notificationModal = (
-    <Modal isVisible={isVisible} backdropOpacity={0.9}>
+  return (
+    <Modal backdropOpacity={0.9}>
       <Flex
         style={{ justifyContent: 'space-between', width: '100%' }}
         direction="column"
         align="center"
       >
         <Flex>
-          <BotTalking type="reverse">
-            {`${me.firstName}, I play my ukelele when your friends start watching the videos you share, and I let you know. But first, I need your permission to send notifications.`}
-          </BotTalking>
+          <Image
+            source={NotificationGraphic}
+            style={{
+              alignSelf: 'center',
+            }}
+          />
+          <Text
+            style={{
+              color: theme.colors.white,
+              textAlign: 'center',
+              paddingRight: 20,
+              paddingLeft: 20,
+              marginBottom: 20,
+              marginTop: 20,
+            }}
+          >
+            Voke sends notifications when your friends join and interact withthe
+            adventures you share, but first we need your permission.
+          </Text>
         </Flex>
 
         <Button
@@ -46,7 +70,7 @@ function NotificationBanner() {
               marginTop: 10,
             },
           ]}
-          onPress={() => Alert.alert('pressed')}
+          onPress={ () =>{ return dispatch(requestPremissions()) } }
         >
           <Text
             style={{
@@ -77,7 +101,7 @@ function NotificationBanner() {
               marginTop: 10,
             },
           ]}
-          onPress={() => setVisible(false)}
+          onPress={() => setModalOpen(false)}
         >
           <Text
             style={{
@@ -92,49 +116,6 @@ function NotificationBanner() {
       </Flex>
     </Modal>
   );
-
-  return (
-    <>
-      {notificationModal}
-      <Flex
-        direction="row"
-        style={{ padding: 15, backgroundColor: '#000', height: 60 }}
-        align="start"
-      >
-        <VokeIcon
-          name="notification"
-          style={[
-            st.mt6,
-            st.mr4,
-            { fontSize: 22, color: theme.colors.primary },
-          ]}
-        />
-        <Text style={[st.mt7, { color: theme.colors.white, fontSize: 18 }]}>
-          Notifications turned off.
-        </Text>
-
-        <Button
-          isAndroidOpacity
-          style={[
-            st.ml2,
-            {
-              alignSelf: 'flex-end',
-              borderColor: theme.colors.primary,
-              borderWidth: 2,
-              borderRadius: 32,
-              paddingRight: 15,
-              paddingLeft: 15,
-            },
-          ]}
-          onPress={() => setVisible(true)}
-        >
-          <Text style={{ color: theme.colors.white, fontSize: 18 }}>
-            Turn On
-          </Text>
-        </Button>
-      </Flex>
-    </>
-  );
 }
 
-export default NotificationBanner;
+export default NotificationModal;

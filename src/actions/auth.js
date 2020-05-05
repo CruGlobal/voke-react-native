@@ -11,9 +11,17 @@ import {
 import CONSTANTS, { REDUX_ACTIONS } from '../constants';
 import ROUTES from './routes';
 import request from './utils';
-import { getDevices, revokeAuthToken, setUser } from './requests';
+import {
+  getDevices,
+  revokeAuthToken,
+  setUser,
+  getMyAdventures,
+  getAdventuresInvitations
+} from './requests';
+
 import { isArray } from '../utils';
-import { permissionsAndSockets } from './socket';
+import { openSocketAction } from './socket';
+import { permissionsAndNotifications } from './notifications';
 
 export function loginAction(authToken) {
   // const authToken = authData.access_token;
@@ -22,9 +30,48 @@ export function loginAction(authToken) {
   };
 }
 
+// When app starts.
 export function startupAction() {
+  LOG( "🦸‍♂️ function startupAction", );
   return async dispatch => {
-    await dispatch(permissionsAndSockets());
+    await dispatch({
+      type: REDUX_ACTIONS.STARTUP,
+    });
+    await dispatch(permissionsAndNotifications());
+  };
+}
+
+// When app focussed again.
+export function wakeupAction({currentScreen}) {
+  LOG( "🌝 function wakeupAction", );
+  return async (dispatch, getState)  => {
+    const deviceId = getState().auth.device.id;
+    dispatch( openSocketAction(deviceId) );
+
+    console.log( "🐸 curentScreen:", currentScreen );
+    // Check on what screen we are and update the required info.
+    if (currentScreen === 'LoggedInApp') {
+       console.log( "🐸🐸🐸🐸🐸🐸🐸" );
+      dispatch(getAdventuresInvitations());
+      dispatch(getMyAdventures());
+    }
+  }
+}
+
+// When app goes to background.
+export function sleepAction() {
+  LOG( "🌘 function sleepAction", );
+  return async dispatch => {
+    // No need to close/reopen WebSocket connection anymore:
+    // https://github.com/facebook/react-native/issues/26731
+    // dispatch(closeSocketAction());
+  }
+}
+
+export function requestPremissions(askPermission = true) {
+  console.log( "🐸 requestPremissions: 1" );
+  return async dispatch => {
+    await dispatch(permissionsAndNotifications(askPermission));
   };
 }
 
@@ -65,7 +112,7 @@ export function logoutAction(user, token, isDelete = false) {
 /**
  * Update store.auth.user branch with user data fetched from the server.
  */
-export function getMe() {
+export function getMeAction() {
   console.log("🤷‍♂ function getMe");
   return async dispatch => {
     // Fetch user data from the server.
@@ -110,9 +157,9 @@ export function facebookLoginAction(accessToken) {
         logoutAction();
         // Update user data in the state with ones received.
         dispatch(loginAction(authData.access_token));
-        // await dispatch(getMe());
+        // await dispatch(getMeAction());
         // After all download user details from server.
-        return dispatch(getMe());
+        return dispatch(getMeAction());
       },
       error => {
         // eslint-disable-next-line no-console
@@ -208,7 +255,7 @@ export function facebookLogin() {
   };
 }
 
-export function passwordReset(username) {
+export function passwordResetAction(username) {
   return async (dispatch, getState) => {
     try {
       // TODO: Finish this password reset functionality.
@@ -250,7 +297,7 @@ export function userLogin(username, password) {
         // Update user data in the state with ones received.
         dispatch(loginAction(authData.access_token));
         // After all download user details from server.
-        return dispatch(getMe());
+        return dispatch(getMeAction());
       },
       error => {
         // eslint-disable-next-line no-console
@@ -277,7 +324,11 @@ export function createAccount(user) {
       },
     };
 
-    return dispatch(request({ ...ROUTES.CREATE_ACCOUNT, data })).then(
+    return dispatch(request({
+      ...ROUTES.CREATE_ACCOUNT,
+      data,
+      description: "Request CREATE_ACCOUNT"
+      })).then(
       userData => {
         // eslint-disable-next-line no-console
         console.log( "👤 createAccount \n\n", userData );
@@ -286,9 +337,9 @@ export function createAccount(user) {
         // Update user data in the state with ones received.
         return dispatch(setUser(userData));
 
-        // await dispatch(getMe());
+        // await dispatch(getMeAction());
         // After all download user details from server.
-        // return dispatch(getMe());
+        // return dispatch(getMeAction());
       },
       error => {
         // eslint-disable-next-line no-console
@@ -323,7 +374,7 @@ export function updateMe(data) {
     return dispatch(request({ ...ROUTES.UPDATE_ME, pathParams: {userId}, data })).then(
       userData => {
         console.log( "User update result:\n", userData );
-        // dispatch(getMe());
+        // dispatch(getMeAction());
         // Update redux store with data received.
         return dispatch(setUser(userData));
       },
@@ -337,8 +388,8 @@ export function updateMe(data) {
       console.log( 'ERRORS' );
     } else {
       console.log( "uploadResults:" ); console.log( uploadResults );
-      // return dispatch(getMe());
+      // return dispatch(getMeAction());
     } */
-    // return dispatch(getMe());
+    // return dispatch(getMeAction());
   };
 }

@@ -111,7 +111,7 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
             isAndroidOpacity
             style={styles.ButtonStart}
             onPress={() =>
-              dispatch(passwordReset('example@example.com')).then(() => {
+              dispatch(passwordResetAction('example@example.com')).then(() => {
               console.log('DONE PASSWORD RESET');
               //  navigation.navigate('AccountName')
             })

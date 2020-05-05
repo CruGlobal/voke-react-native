@@ -78,7 +78,7 @@ const Button = ({
     >
       <View
         style={[
-          disabled || isLoading ? [st.bgDarkBlue, st.bw0, st.aic] : [],
+          disabled || isLoading ? [ st.bw0, st.aic] : [],
           style,
         ]}
       >

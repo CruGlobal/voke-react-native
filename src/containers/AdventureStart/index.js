@@ -59,7 +59,7 @@ function AdventureStart(props) {
             onPress={() => navigation.goBack()}
           >
             <VokeIcon
-              name="backVoke"
+              name="chevron-back-outline"
               style={[st.h(22), st.w(22), st.mt3, { fontSize: 22 }]}
             />
           </Touchable>
@@ -121,10 +121,10 @@ function AdventureStart(props) {
               >
                 <VokeIcon type="image" name="withFriend" />
                 <Text style={[st.white, st.fs20]}>With a Friend</Text>
-                <VokeIcon
-                  name="backVoke"
+                {/* <VokeIcon
+                  name="chevron-back-outline"
                   style={[st.h(22), st.w(22), st.mt3, { fontSize: 22 }]}
-                />{' '}
+                /> */}
               </Flex>
             </Button>
             <Button
@@ -151,10 +151,10 @@ function AdventureStart(props) {
               >
                 <VokeIcon type="image" name="withGroup" />
                 <Text style={[st.white, st.fs20]}>With a Group</Text>
-                <VokeIcon
-                  name="backVoke"
+                {/* <VokeIcon
+                  name="chevron-back-outline"
                   style={[st.h(22), st.w(22), st.mt3, { fontSize: 22 }]}
-                />
+                /> */}
               </Flex>
             </Button>
             {alreadyStartedByMe ? null : (
@@ -177,10 +177,10 @@ function AdventureStart(props) {
                 >
                   <VokeIcon type="image" name="byMyself" />
                   <Text style={[st.white, st.fs20]}>By Myself</Text>
-                  <VokeIcon
-                    name="backVoke"
+                  {/* <VokeIcon
+                    name="chevron-back-outline"
                     style={[st.h(22), st.w(22), st.mt3, { fontSize: 22 }]}
-                  />
+                  /> */}
                 </Flex>
               </Button>
             )}

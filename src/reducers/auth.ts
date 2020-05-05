@@ -6,8 +6,8 @@ export type AuthDataKeys = 'device' | 'adventureInvitations';
 interface InitialStateTypes {
   isLoggedIn: boolean;
   authToken?: string;
-  pushToken?: string;
-  pushDeviceId?: string;
+  pushToken?: string; // Push Notifications token receved from apple/google.
+  deviceId?: string; // Device ID returend by server after provided with Push Notfications Tocken.
   language?: string;
   device: object; // TODO: IDeviceInformation interface here
   user: {
@@ -17,13 +17,14 @@ interface InitialStateTypes {
     lastName?: string;
   };
   modalProps: object; // TODO: IModalProps interface here
+  ws?: object; 
 }
 
 const initialState: InitialStateTypes = {
   isLoggedIn: false,
   authToken: '',
   pushToken: '',
-  pushDeviceId: '',
+  deviceId: '',
   language: '',
   device: {
     id: '',
@@ -33,6 +34,7 @@ const initialState: InitialStateTypes = {
     lastName: '',
   },
   modalProps: {},
+  ws: undefined,
 };
 
 export default function (
@@ -44,12 +46,12 @@ export default function (
     modalProps: any;
     user: any;
     device: any;
-    pushToken: any; // delete?
-    deviceId: any; // delete?
     authToken: any;
+    pushToken: any;
+    deviceId: any;
   },
 ) {
-  console.log( "Redux action: " + action.type, action );
+  // console.log( "Redux action: " + action.type, action );
   switch (action.type) {
     case REDUX_ACTIONS.SET_AUTH_DATA:
       // @ts-ignore
@@ -61,6 +63,8 @@ export default function (
       return { ...state, modalProps: action.modalProps || {} };
     case REDUX_ACTIONS.HIDE_MODAL:
       return { ...state, modalProps: {} };
+    case REDUX_ACTIONS.STARTUP:
+      return state;
     case REDUX_ACTIONS.LOGIN:
       return { ...state, authToken: action.authToken };
     case REDUX_ACTIONS.SET_USER:
@@ -114,8 +118,10 @@ export default function (
       };
     case REDUX_ACTIONS.SET_PUSH_TOKEN:
       return { ...state, pushToken: action.pushToken };
-    case REDUX_ACTIONS.SET_PUSH_DEVICE_ID:
-      return { ...state, pushDeviceId: action.deviceId };
+    case REDUX_ACTIONS.SET_PUSH_DEVICE_ID: // TODO: delete.
+      return { ...state, deviceId: action.deviceId };
+    case REDUX_ACTIONS.OPEN_SOCKETS:
+      return state;
     case REDUX_ACTIONS.LOGOUT:
       return initialState;
     default:

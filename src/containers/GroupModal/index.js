@@ -48,11 +48,11 @@ function GroupModal(props) {
   const largeBox = st.fullWidth / 2 - 30;
 
   function handleJoinGroup() {
-    if ((((me || {}).avatar || {}).medium || '').includes('/avatar.jpg')) {
+   /*  if ((((me || {}).avatar || {}).medium || '').includes('/avatar.jpg')) {
       navigation.navigate('AccountPhoto');
-    } else {
+    } else { */
       navigation.reset({ index: 0, routes: [{ name: 'Adventures' }] });
-    }
+    // }
   }
 
   return (
