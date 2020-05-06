@@ -33,7 +33,6 @@ export function loginAction(authToken) {
 // When app starts.
 export function startupAction() {
   LOG( "🦸‍♂️ function startupAction", );
-<<<<<<< HEAD:src/actions/auth.ts
   return async dispatch => {
     await dispatch({
       type: REDUX_ACTIONS.STARTUP,
@@ -72,46 +71,6 @@ export function sleepAction() {
 export function requestPremissions(askPermission = true) {
   console.log( "🐸 requestPremissions: 1" );
   return async dispatch => {
-=======
-  return async dispatch => {
-    await dispatch({
-      type: REDUX_ACTIONS.STARTUP,
-    });
-    await dispatch(permissionsAndNotifications());
-  };
-}
-
-// When app focussed again.
-export function wakeupAction({currentScreen}) {
-  LOG( "🌝 function wakeupAction", );
-  return async (dispatch, getState)  => {
-    const deviceId = getState().auth.device.id;
-    dispatch( openSocketAction(deviceId) );
-
-    console.log( "🐸 curentScreen:", currentScreen );
-    // Check on what screen we are and update the required info.
-    if (currentScreen === 'LoggedInApp') {
-       console.log( "🐸🐸🐸🐸🐸🐸🐸" );
-      dispatch(getAdventuresInvitations());
-      dispatch(getMyAdventures());
-    }
-  }
-}
-
-// When app goes to background.
-export function sleepAction() {
-  LOG( "🌘 function sleepAction", );
-  return async dispatch => {
-    // No need to close/reopen WebSocket connection anymore:
-    // https://github.com/facebook/react-native/issues/26731
-    // dispatch(closeSocketAction());
-  }
-}
-
-export function requestPremissions(askPermission = true) {
-  console.log( "🐸 requestPremissions: 1" );
-  return async dispatch => {
->>>>>>> origin/develop:src/actions/auth.js
     await dispatch(permissionsAndNotifications(askPermission));
   };
 }
