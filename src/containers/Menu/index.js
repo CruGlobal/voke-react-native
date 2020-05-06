@@ -114,10 +114,11 @@ function Menu(props) {
           title="Get Help"
           onSelect={() => navigation.navigate('Help')}
         />
-        <SettingsRow
+        {/* Show 'Get My Old Conversations' item only when we know user's email */}
+        {!!email && <SettingsRow
           title="Get my old conversations"
-          onSelect={() => navigation.navigate('OldConversations')}
-        />
+          onSelect={() => navigation.navigate('AccountGetConversations')}
+        />}
         <SettingsRow
           title="About"
           onSelect={() => navigation.navigate('About')}

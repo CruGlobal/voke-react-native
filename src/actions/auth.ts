@@ -23,6 +23,9 @@ import { isArray } from '../utils';
 import { openSocketAction } from './socket';
 import { permissionsAndNotifications } from './notifications';
 
+// TODO: move into a file with all types
+type ThunkResult<R> = ThunkAction<R, State, undefined, Actions>;
+
 export function loginAction(authToken) {
   // const authToken = authData.access_token;
   return async dispatch => {
@@ -391,5 +394,16 @@ export function updateMe(data) {
       // return dispatch(getMeAction());
     } */
     // return dispatch(getMeAction());
+  };
+}
+
+/**
+ * Get old conversations.
+ */
+export function getOldConversations(): any {
+  console.log("getOldConversations");
+  return async dispatch => {
+    // Fetch user data from the server.
+    return dispatch(request({ ...ROUTES.GET_OLD_CONVERSATIONS }));
   };
 }
