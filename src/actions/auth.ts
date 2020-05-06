@@ -23,9 +23,6 @@ import { isArray } from '../utils';
 import { openSocketAction } from './socket';
 import { permissionsAndNotifications } from './notifications';
 
-// TODO: move into a file with all types
-type ThunkResult<R> = ThunkAction<R, State, undefined, Actions>;
-
 export function loginAction(authToken) {
   // const authToken = authData.access_token;
   return async dispatch => {
