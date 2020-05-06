@@ -571,7 +571,7 @@ const App = () => {
           })}
         />
         <AppStack.Screen
-          name="OldConversations"
+          name="AccountGetConversations"
           component={AccountGetConversations}
           options={({ navigation }) => ({
             headerShown: true,

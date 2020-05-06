@@ -5,8 +5,12 @@ import ui from '../../ui';
 
 const styles: { [key: string]: any } = {
   ...theme,
-  SectionOnboarding: css`
+  MainContainer: css`
     background-color: ${theme.colors.blue};
+  `,
+  SectionPrimary: css`
+    padding-left: ${`${theme.spacing.xl}px`};
+    padding-right: ${`${theme.spacing.xl}px`};
   `,
   SectionAction: css`
     background-color: ${theme.colors.secondary};
