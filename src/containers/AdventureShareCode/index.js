@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import Clipboard from "@react-native-community/clipboard";
+import Clipboard from '@react-native-community/clipboard';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import Image from '../../components/Image';
@@ -40,11 +40,11 @@ function AdventureShareCode(props) {
         dialogTitle: 'Share',
       },
     ).catch(err => console.log('Share Error', err));
-  }
+  };
 
   const copyToClipboard = () => {
     Clipboard.setString(isVideoInvite ? invitation.url : invitation.code);
-    dispatch(toastAction( 'Copied', 'short' ));
+    dispatch(toastAction('Copied', 'short'));
   };
 
   return (
@@ -106,7 +106,7 @@ function AdventureShareCode(props) {
             </Flex>
           </Flex>
           <Flex direction="column" align="center" style={[st.ph1, st.w100]}>
-            <Text style={[st.fs22, st.white, st.pb4]}>Invite Code:</Text>
+            <Text style={[st.fs22, st.white, st.pb4]}>Invite Link:</Text>
             <Touchable onPress={copyToClipboard}>
               <Flex
                 style={[
