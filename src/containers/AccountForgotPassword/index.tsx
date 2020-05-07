@@ -120,7 +120,7 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
             <Text style={styles.ButtonStartLabel}>Reset Password</Text>
           </Button>
         </Flex>
-      </KeyboardAvoidingView>
+    
       {/* SECTION: FACEBOOK SIGN IN */}
       <Flex
         // value={1}
@@ -141,6 +141,7 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
           <Text style={styles.ButtonSignInLabel}>Support</Text>
         </Button>
       </Flex>
+      </KeyboardAvoidingView>
       {/* Safe area at the bottom for phone with exotic notches */}
       <Flex
         style={{
