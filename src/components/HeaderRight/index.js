@@ -1,25 +1,44 @@
 import React from 'react';
 import Flex from '../Flex';
-import Icon from '../Icon';
+import VokeIcon from '../VokeIcon';
+import Image from '../Image';
 import st from '../../st';
+import Touchable from '../Touchable';
+import { useSelector } from 'react-redux';
+
 import { useNavigation } from '@react-navigation/native';
 
 function HeaderRight() {
   const navigation = useNavigation();
+  const me = useSelector(({ auth }) => auth.user);
   return (
-    <Flex direction="row" style={[st.pr4]} align="center">
-      <Icon
-        name="filter"
-        style={[{ width: 20, height: 20 }]}
-        containerStyle={[st.pl4, st.pr5]}
-        onPress={() => navigation.navigate('FilterModal')}
-      />
-      <Icon
-        name="search"
-        style={[{ width: 20, height: 20 }]}
-        containerStyle={[st.pl4]}
-        onPress={() => navigation.navigate('SearchModal')}
-      />
+    <Flex value={1} justify="center">
+      <Touchable
+        style={[
+          {
+            // backgroundColor:'red',
+            // Extra padding to make taps more responsive.
+            paddingTop: 6,
+            paddingLeft: 16,
+            paddingRight: 20,
+            paddingBottom: 8,
+          },
+        ]}
+        onPress={() => navigation.navigate('Profile')}
+      >
+        <Image
+          source={{
+            uri: 'https://assets.vokeapp.com/images/user/medium/avatar.jpg',
+          }}
+          style={{
+            width: 32,
+            borderColor: '#fff',
+            borderWidth: 1,
+            height: 32,
+            borderRadius: 16,
+          }}
+        />
+      </Touchable>
     </Flex>
   );
 }

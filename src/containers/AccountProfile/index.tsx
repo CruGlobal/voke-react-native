@@ -44,7 +44,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
   const dispatch = useDispatch();
   const me = useSelector(({ auth }) => auth.user);
 
-  console.log("*************MEEEEEE**************", me.avatar)
+  console.log("*************MEEEEEE**************", me)
   return (
     <Flex
     value={1}
@@ -55,36 +55,42 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
   >
       <ScrollView>
       <StatusBar />
-      <Flex direction="column" align="center" style={[st.ph1, st.w100,{marginBottom:10}]}>
-      <Image resizeMode="contain" source={{uri: me.avatar.large}} style={{width:200}} />
+      <Flex direction="column" align="center" style={[st.ph1, st.w100,{marginBottom:10, marginTop:30}]}>
+      <Image resizeMode="contain" source={{uri: me.avatar.large}} style={{width:100, height:100, borderColor: '#fff',
+            borderWidth: 1, borderRadius: 50}} />
 
         <SettingsRow
           title="Change Photo"
           // onSelect={() => Linking.openURL(CONSTANTS.WEB_URLS.VOKE)}
         />
-       <TextField
-          label="Name"
-          // onSubmitEditing={() => lastNameRef.current.focus()}
-          value={me.first_name+" "+ me.last_name}
-          // onChangeText={text => setFirstName(text)}
-          textContentType='name'
-          autoCompleteType='name'
-          keyboardType='default'
-          returnKeyType={'next'}
-          editable={false}
-        />
-        <SettingsRow
-          title="Language"
-          // onSelect={() => Linking.openURL(CONSTANTS.WEB_URLS.TERMS)}
-        />
+        <Text style={{color:"#fff", fontSize:24, marginTop:20, marginBottom:50}}>
+        {me.firstName+" "+ me.lastName}
+        </Text>
+        <Text style={{color:"#fff", fontSize:18, textDecorationLine:'underline'}}>
+        Profile Info
+        </Text>
+        <Flex direction="row" align="center" justify="center" style={{marginTop:20, marginBottom:20}}>
+        <Text style={{color:"#fff", fontSize:18, width:150}}>Language</Text>
+  <Text style={{color:"#fff", fontSize:18,}}>{me.firstName}</Text>
+        </Flex>
+        <Flex direction="row" align="center">
+
         <SettingsRow
           title="Delete My Account"
           // onSelect={() => Linking.openURL(CONSTANTS.WEB_URLS.PRIVACY)}
         />
-        <SettingsRow
+
+</Flex>
+<Flex direction="row" align="center">
+
+<SettingsRow
           title="Sign out of my account"
           // onSelect={() => navigation.navigate('Acknowledgements')}
         />
+
+</Flex>
+      
+       
         </Flex>
       </ScrollView>
       {/* SECTION: CALL TO ACTION BUTTON */}
