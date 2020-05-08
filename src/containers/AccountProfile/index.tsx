@@ -71,7 +71,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
         </Text>
         <Flex direction="row" align="center" justify="center" style={{marginTop:20, marginBottom:20}}>
         <Text style={{color:"#fff", fontSize:18, width:150}}>Language</Text>
-  <Text style={{color:"#fff", fontSize:18,}}>{me.firstName}</Text>
+  <Text style={{color:"#fff", fontSize:18,}}>English</Text>
         </Flex>
         <Flex direction="row" align="center">
 
