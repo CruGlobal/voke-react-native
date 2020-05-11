@@ -9,16 +9,15 @@ import StatusBar from '../../components/StatusBar';
 import Triangle from '../../components/Triangle';
 import st from '../../st';
 import Button from '../../components/Button';
+import { useFocusEffect } from '@react-navigation/native';
 // import { MONTHLY_PRICE } from '../../constants';
 import { useDispatch } from 'react-redux';
-
-import NotificationModal from '../../components/NotificationModal';
 import { Share, Alert } from 'react-native';
 
 import VOKE_BOT from '../../assets/vokebot_whole.png';
 import Touchable from '../../components/Touchable';
-import CONSTANTS from '../../constants';
 import { toastAction } from '../../actions/info';
+import CONSTANTS, { REDUX_ACTIONS } from '../../constants';
 
 function AdventureShareCode(props) {
   const insets = useSafeArea();
@@ -47,11 +46,25 @@ function AdventureShareCode(props) {
     dispatch(toastAction( 'Copied', 'short' ));
   };
 
+  // Events firing when user leaves the screen with player or comes back.
+  useFocusEffect(
+    // eslint-disable-next-line arrow-body-style
+    React.useCallback(() => {
+      // When the screen is focused:
+      // Ask for notifications permissions.
+      dispatch({
+        type: REDUX_ACTIONS.TOGGLE_NOTIFICATION_REQUEST,
+        // props: true,
+        description: 'Show notification request modal. Called from AdventureShareCode.useFocusEffect()'
+      });
+      return (): void => {
+        // When the screen is unfocused:
+      };
+    }, [])
+  );
+
   return (
     <>
-      {/* Notification Modal */}
-      <NotificationModal />
-
       <StatusBar />
       <Flex
         direction="column"

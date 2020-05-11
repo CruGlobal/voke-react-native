@@ -1,12 +1,11 @@
 import PushNotification from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-
+import DeviceInfo from 'react-native-device-info';
 // Following https://github.com/react-native-community/push-notification-ios
 // - Added these configs: https://d.pr/i/AoUUxy
 
 import { ThunkDispatch } from 'redux-thunk';
 import { checkNotifications, openSettings } from 'react-native-permissions';
-import { toastAction } from './info';
 
 import { REDUX_ACTIONS } from '../constants';
 import { SOCKET_URL } from './utils';
@@ -43,7 +42,7 @@ function gotPushToken(newPushToken: any) {
     if (!newPushToken) return;
     const { pushToken } = getState().auth;
     const deviceId = getState().auth.device.id;
-    let newDeviceId = null;
+    let newPushDeviceId = null;
 
     // if ( newPushToken !== pushToken) {
       // Save new push token in the store.
@@ -54,25 +53,21 @@ function gotPushToken(newPushToken: any) {
       });
       // FIRST: REGISTER DEVICE ON THE SERVER FOR PUSH NOTIFICATIONS.
       // Register new push token on our server.
-      newDeviceId = await dispatch(establishPushDevice(newPushToken));
-      // Save returned by the server deviceId in the store.
-     /*  dispatch({
-        type: REDUX_ACTIONS.SET_PUSH_DEVICE_ID,
-        pushDeviceId: newPushDeviceId,
-        description: 'Called from gotPushToken. Push device id returned after we sent push token.'
-      }); */
+      newPushDeviceId = await dispatch(establishPushDevice(newPushToken));
 
-      // return newDeviceId;
-      // await dispatch(establishCableDevice(newPushDevice.id));
+      dispatch({
+        type: REDUX_ACTIONS.SET_PUSH_DEVICE_ID,
+        deviceId: newPushDeviceId,
+        description: 'Called from gotPushToken. Push device ID Changes. Will send it to our backend.'
+      });
     // }
 
-    if (!newDeviceId) {
-      newDeviceId = deviceId;
-    }
+    /* if (!newPushDeviceId) {
+      newPushDeviceId = deviceId;
+    } */
 
-    console.log( "newDeviceId:", newDeviceId );
     // THEN: SETUP WEBSOCKETS CONNECTION.
-    await dispatch(establishCableDevice(newDeviceId));
+    await dispatch(establishCableDevice(newPushDeviceId));
   };
 }
 
@@ -83,7 +78,6 @@ function handleNotifications(
   return async (dispatch: Dispatch, getState: any) => {
     // TODO: We don't use any of these as all happening in WebSockets.
     let data = notification.data;
-    console.log( "🦄  handleNotifications > notification. data:", data );
     // const {
     //   activeConversationId,
     //   unReadBadgeCount,
@@ -190,25 +184,6 @@ function handleNotifications(
   };
 }
 
-// export function establishDevice(): Promise<void> {
-//   return async (dispatch: Dispatch, getState: any) => {
-//     console.log( "🚣‍♂️ establishDevice!" );
-//     PushNotificationIOS.requestPermissions();
-
-//     PushNotificationIOS.checkPermissions( permissions => {
-//       console.log( "👺checkPermissions > ", permissions );
-//       PushNotificationIOS.getInitialNotification();
-//       PushNotificationIOS.addEventListener('register', (token) => {
-//         console.log("🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩MyAPNSTOKEN", token)
-//       });
-//       PushNotificationIOS.addEventListener('registrationError', (error) => {
-//         console.log("🚩🚩🚩🚩MyAPNSTOKEN ERROR", error)
-//       });
-//     });
-//   }
-// }
-
-
 function establishDevice(): Promise<void> {
   return async (dispatch: Dispatch, getState: any) => {
     // Shared configs for both Android and iOS.
@@ -305,7 +280,6 @@ function establishDevice(): Promise<void> {
 
 type PermissionStatus = 'unavailable' | 'denied' | 'blocked' | 'granted';
 export function permissionsAndNotifications( askPermission = false) {
-  console.log( "permissionsAndNotifications" );
   return async (dispatch: Dispatch, getState: any) => {
     let pushToken = getState().auth.pushToken;
 
@@ -324,12 +298,10 @@ export function permissionsAndNotifications( askPermission = false) {
       // If permission denied once it's not requestable anymore.
       // Send the user to the settings.
       if (status === 'blocked' && askPermission) {
-        console.log( "👽 BEFORE requestNotifications");
         openSettings().catch(
           // TODO: process this case somehow?
           () => console.warn('cannot open settings')
         );
-        console.log( "👽 AFTER requestNotifications");
 
         // Assume user activate notifications.
         // If not app will detect it next time it opened.
@@ -345,60 +317,30 @@ export function permissionsAndNotifications( askPermission = false) {
         }); */
       }
 
-
-      return dispatch(establishCableDevice());
-
-      /* if ( status === 'granted' || (status === 'denied' && askPermission) ) {
+      if ( status === 'granted' || (status === 'denied' && askPermission) ) {
         // User  selected: ALLOW notifications.
-        return dispatch(establishDevice());
+        // 1. Register Apple/Google device on server
+        // 2. Create a WebSocket cable.
+        DeviceInfo.isEmulator().then(
+          isEmulator => {
+            if (isEmulator) {
+              // Notifications won't work in simulator.
+              return dispatch(establishCableDevice());
+            } else {
+              return dispatch(establishDevice());
+            }
+          }
+        );
       } else {
         // User selected: DON'T ALLOW notifications.
         // blocked
+        // Create a WebSocket cable.
         return dispatch(establishCableDevice());
 
-      } */
-
-      /* if (status === 'granted') {
-        dispatch(establishDevice());
-        console.log( "👺AFTER establishDevice" );
-      } else {
-        console.log( "👺BEFORE establishCableDevice" );
-        dispatch(establishCableDevice());
-        console.log( "👺AFTER establishCableDevice" );
-      } */
-    });
-  };
-}
-
-/* export function enablePushNotifications(forceIfUndetermined = false) {
-  return async (dispatch: Dispatch, getState: any) => {
-    let token = getState().auth.pushToken;
-    checkNotifications().then(({ status }: { status: PermissionStatus }) => {
-      dispatch({
-        type: REDUX_ACTIONS.PUSH_PERMISSION,
-        permission: status,
-      });
-      if (status === 'unavailable' && !token) {
-        if (forceIfUndetermined) {
-          dispatch(establishDevice());
-        } else {
-          // dispatch({
-          //   type: SET_OVERLAY,
-          //   value: 'pushPermissions',
-          // });
-        }
-      } else if (status !== 'granted') {
-        // go to settings
-        //  dispatch(openSettingsAction());
-      } else {
-        // if it comes back as Authorized then establish the device
-        dispatch(establishDevice());
       }
     });
   };
-} */
-
-
+}
 
 /*
 HOW NOTIFICATIONS WORK:

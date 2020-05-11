@@ -50,7 +50,6 @@ function Video({
   if (!item) {
     return <></>;
   }
-  console.log( "🐸 item:", item );
   const insets = useSafeArea();
   const youtubeVideo = useRef();
   const arclightVideo = useRef();
@@ -151,8 +150,6 @@ function Video({
     setSliderValue(value);
   }
 
-  console.log( "🐸 sliderValue:", sliderValue );
- 
   return (
     <View
       style={[
@@ -173,7 +170,7 @@ function Video({
         },
       ]}
     >
-      { !isPlaying && !sliderValue && <ImageBackground
+      { !isPlaying && sliderValue < 1 && <ImageBackground
         resizeMode="cover"
         source={{ uri: item.thumbnails.large }}
         style={[

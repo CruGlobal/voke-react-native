@@ -1,6 +1,7 @@
 import React from 'react';
 // import moment from 'moment';
-
+import { RootState } from '../../reducers';
+import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { TAdventureStepSingle } from '../../types';
 import styles from './styles';
@@ -26,8 +27,8 @@ const AdventureStepNextAction = ({
   const navigation = useNavigation();
   const userId = getCurrentUserId();
   const adventure = getAdventureById(adventureId);
-  const steps = getStepsByAdventureId(adventureId);
-  const step = steps.find((s: TAdventureStepSingle) => s.id === stepId);
+  const steps = useSelector(({ data }: RootState) => data.adventureSteps[adventureId].byId);
+  const step = steps[stepId];
   if (!step) return null;
   const isComplete = step.status === 'completed';
   const isWaiting = step.status === 'active' && step['completed_by_messenger?'];

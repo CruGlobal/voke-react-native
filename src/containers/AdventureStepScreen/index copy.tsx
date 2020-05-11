@@ -22,7 +22,6 @@ import { TAdventureSingle, TStep } from '../../types';
 import { useFocusEffect } from '@react-navigation/native';
 import { getAdventureSteps } from '../../actions/requests';
 import styles from './styles';
-import { REDUX_ACTIONS } from '../../constants';
 
 type ModalProps = {
   route: {
@@ -38,13 +37,24 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
   const [isPortrait, setIsPortrait] = useState(true);
   const { stepId, adventureId } = route.params;
   const adventure = useSelector(({ data }: RootState) => data.myAdventures.byId[adventureId]);
-  const currentStep = useSelector(({ data }: RootState) =>
-    data.adventureSteps[adventureId].byId[stepId]
+  const steps = useSelector(({ data }: RootState) => data.adventureSteps[adventureId].byId);
+  const [currentSteps, setCurrentSteps] = useState(steps || []);
+  const [currentStep, setCurrentStep] = useState(
+    currentSteps[stepId] || {},
   );
+
   const currentUser = useSelector(({ auth }: RootState) => auth.user);
-  const currentMessages = useSelector(
-    ({ data }: RootState) => data.adventureStepMessages[currentStep?.id] || []
+  const messages = useSelector(
+    ({ data }: RootState) => data.adventureStepMessages
   );
+  const [currentMessages, setCurrentMessages] = useState(
+    [...(messages[currentStep?.id] || [])]//.reverse(),
+  );
+
+  useEffect(() => {
+    setCurrentSteps(steps);
+    setCurrentStep(steps[stepId]);
+  }, [steps]);
 
   let scrollRef = useRef(null);
   const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'multiple';
@@ -56,8 +66,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
 
   if (!['multi', 'binary'].includes(currentStep.kind)) {
     // Find the first message of the current author from the start.
-    const mainAnswer = (currentMessages.slice().find(m => m.messenger_id === currentUser.id));
-    // .reverse()
+    const mainAnswer = (currentMessages.reverse().slice().find(m => m.messenger_id === currentUser.id));
     if ( mainAnswer ) {
       myMainAnswer.id = mainAnswer.id;
       myMainAnswer.content = mainAnswer.content;
@@ -72,39 +81,29 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   useKeyboard( (bool: boolean) => setKeyboardVisible(bool));
 
-  // Load messages for current conversation on initial screen reader.
   useEffect(() => {
     dispatch(
       getAdventureStepMessages(adventure.conversation.id, currentStep.id)
     );
   }, []);
 
-
   useEffect(() => {
-    // let newMsgs = [...(messages[currentStep.id] || [])];//.reverse();
+    let newMsgs = [...(messages[currentStep.id] || [])];//.reverse();
     // If solo adventure, render bot's messages.
     if (isSolo) {
       // newMsgs.push({
-      let botMessage ={
+      newMsgs.unshift({
         id: new Date().toISOString(),
         messenger_id: (
           adventure.conversation.messengers.find(i => i.id !== currentUser.id) || {}
         ).id,
         content: (currentStep.metadata || {}).comment,
         metadata: { vokebot_action: 'journey_step_comment' },
-      };
-
-      // Send this new pseudo-message to redux.
-      dispatch({
-        type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
-        result: {
-          adventureStepId: currentStep.id,
-          newMessage: botMessage
-        },
       });
     }
-  }, [currentMessages]);
- 
+    setCurrentMessages(newMsgs);
+  }, [messages]);
+
   // Events firing when user leaves the screen or comes back.
   useFocusEffect(
     useCallback(() => {
@@ -125,16 +124,16 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
         dispatch(
           markMessageAsRead({
             conversationId: conversationId,
-            messageId: currentMessages.slice(-1)[0]?.id
+            messageId: currentMessages.slice(-1)[0].id
           })
         );
       }
+
       return () => {
         // Actions to run when the screen unfocused:
         // If we had unread messages, then we marked them as read,
-        // so on leaving this screen we need to update the current Adventure steps
+        // so on leaving this screen we need to update current Adventure steps
         // to have right unread badges next to each step.
-        // TODO: Most likely it's not needed anymore. Test it!
         if (currentStep.unread_messages) {
           dispatch(getAdventureSteps(adventure.id));
         }
@@ -161,7 +160,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
             st.f1,
           ]}
           enableAutomaticScroll
-          // extraScrollHeight={-200}
+          extraScrollHeight={-200}
           keyboardShouldPersistTaps ='always'
           // ☝️required to fix the bug with a need to double tap
           // on the send message icon.
@@ -274,8 +273,6 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
               />
             </>
           )}
-          {/* Extra spacing on the bottom */}
-          <View style={{height:60}}></View>
         </KeyboardAwareScrollView>
         {/*
           NEW MESSAGE FIELD (at the bottom of the screen).
@@ -304,6 +301,30 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
             />
           </Flex>
         )}
+
+      {/* next Video Ready Button
+        let text = t('nextVideoReady');
+        if (isWaiting) {
+          const isSolo = journey && journey.kind !== 'duo';
+          if (isSolo) {
+            return;
+          }
+          const otherUser = journey.conversation.messengers.find(
+            i => i.id !== currentUser.id && i.first_name !== 'VokeBot',
+          );
+          // TODO: Pass through invite name
+          // if (journey.conversation.messengers.length === 2 && inviteName) {
+          //   otherUser = { first_name: inviteName };
+          // }
+          let userName =
+            otherUser && otherUser.first_name
+              ? otherUser.first_name
+              : inviteName
+              ? inviteName
+              : '';
+          text = t('waitingForAnswer', { name: userName });
+        }
+      */}
       </Flex>
     </KeyboardAvoidingView>
   );

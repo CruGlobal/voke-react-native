@@ -6,6 +6,7 @@ import auth from './auth';
 import data from './data';
 import info from './info';
 
+
 // Defines what data to store in the local storage.
 const persistConfig = {
   key: 'root',
@@ -22,5 +23,4 @@ const store = combineReducers({
 const rootReducer = () => persistReducer(persistConfig, store);
 
 export type RootState = ReturnType<typeof store>;
-
 export default rootReducer;

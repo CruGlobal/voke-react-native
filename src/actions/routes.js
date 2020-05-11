@@ -140,6 +140,10 @@ const ROUTES = {
     method: 'get',
     url: `me/conversations/{notificationId}/messages`,
   },
+  GET_OLD_CONVERSATIONS: {
+    method: 'post',
+    url: `me/export_data_requests`,
+  }
 };
 
 export default ROUTES;

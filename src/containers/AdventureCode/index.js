@@ -14,13 +14,13 @@ import st from '../../st';
 import Button from '../../components/Button';
 import { toastAction } from '../../actions/info';
 // import { MONTHLY_PRICE } from '../../constants';
+import theme from '../../theme';
 
 import VOKE_BOT from '../../assets/voke_bot_face_large.png';
 import Touchable from '../../components/Touchable';
 import { acceptAdventureInvitation } from '../../actions/requests';
 
 function AdventureCode(props) {
-  console.log('📟Container > EnterAdventureCode:');
   const insets = useSafeArea();
   const navigation = useNavigation();
   const [adventureCode, setAdventureCode] = useState('');
@@ -115,15 +115,12 @@ function AdventureCode(props) {
           <Flex value={1} />
           <Button
             onPress={handleContinue}
-            touchableStyle={[
-              st.w100,
-              st.bgDarkBlue,
-              st.p4,
-              // { paddingBottom: isKeyboardVisible ? 15 : insets.bottom },
-            ]}
+            touchableStyle={[st.w100, st.p4, {backgroundColor: theme.colors.secondary}]}
+            isLoading={isLoading}
           >
             <Text style={[st.white, st.fs20, st.tac]}>Continue</Text>
-            <Flex style={{height: insets.bottom}}  />
+            {/* Safety spacing. */}
+            <Flex style={{ height: (isKeyboardVisible ? 0 : insets.bottom ) }} />
           </Button>
         </Flex>
       </KeyboardAvoidingView>

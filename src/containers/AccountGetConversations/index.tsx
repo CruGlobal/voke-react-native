@@ -3,13 +3,14 @@ import { useSafeArea } from 'react-native-safe-area-context';
 import { View, useWindowDimensions, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../reducers';
 import { useMount, lockToPortrait } from '../../utils';
+import { getOldConversations } from '../../actions/auth';
 import st from '../../st';
 
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import TextField from '../../components/TextField';
-import StatusBar from '../../components/StatusBar';
 import Button from '../../components/Button';
 import Triangle from '../../components/Triangle';
 import styles from './styles';
@@ -22,41 +23,42 @@ const AccountGetConversations = (props: GetConversationsModalProps) => {
   const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const me = useSelector(({ auth }) => auth.user);
+  const me = useSelector(({ auth }: RootState) => auth.user);
   useMount(() => {
     lockToPortrait();
   });
 
   return (
-    <Flex value={1} style={[styles.SectionOnboarding]}>
-      <StatusBar />
-      <Text
-        style={[
-          styles.TextLarge,
-          { textAlign: 'center', marginBottom: 40, marginTop: 20 },
-        ]}
-      >
-        An email containing your conversations will be sent to the email address
-        below. If email is unknown, please create an account.
-      </Text>
-      <Flex
-        direction="column"
-        align="center"
-        style={[st.ph1, st.w100, { marginBottom: 130 }]}
-      >
-        {/* TEXT: Email will be sent */}
+    <Flex value={1} style={[styles.MainContainer]}>
+      <Flex value={1} style={[styles.SectionPrimary]}>
+        <Text
+          style={[
+            styles.TextLarge,
+            { textAlign: 'center', marginBottom: 40, marginTop: 60 },
+          ]}
+        >
+          An email containing your conversations will be sent to the email address
+          below. If email is unknown, please create an account.
+        </Text>
+        <Flex
+          direction="column"
+          align="center"
+          style={[st.ph1, st.w100, { marginBottom: 130 }]}
+        >
+          {/* TEXT: Email will be sent */}
 
-        <TextField
-          label="Send Email to"
-          // onSubmitEditing={() => lastNameRef.current.focus()}
-          value={me.email || 'email unknown'}
-          // onChangeText={text => setFirstName(text)}
-          textContentType="emailAddress"
-          autoCompleteType="email"
-          keyboardType="email-address"
-          returnKeyType="next"
-          editable={false}
-        />
+          <TextField
+            label="Send Email to"
+            // onSubmitEditing={() => lastNameRef.current.focus()}
+            value={me.email || 'email unknown'}
+            // onChangeText={text => setFirstName(text)}
+            textContentType="emailAddress"
+            autoCompleteType="email"
+            keyboardType="email-address"
+            returnKeyType="next"
+            editable={false}
+          />
+        </Flex>
       </Flex>
       {/* SECTION: CALL TO ACTION BUTTON */}
       <Flex value={1}>
@@ -77,12 +79,19 @@ const AccountGetConversations = (props: GetConversationsModalProps) => {
             <Button
               isAndroidOpacity
               style={styles.ButtonStart}
-              onPress={() => dispatch(getOldConversations('example@example.com')).then(
+              onPress={(): void => {
+                dispatch(getOldConversations()).then(
                   () => {
-                    Alert.alert('sentOldConversations');
-                    // dispatch(navigateBack());
+                    Alert.alert(
+                      'Success!',
+                      'Check your email for information on your old conversations.',
+                      [
+                        { text: "OK", onPress: () => navigation.goBack() }
+                      ]
+                    );
                   },
-                )}
+                );
+              }}
             >
               <Text style={styles.ButtonStartLabel}>Send Email</Text>
             </Button>
@@ -90,7 +99,7 @@ const AccountGetConversations = (props: GetConversationsModalProps) => {
             <Button
               isAndroidOpacity
               style={styles.ButtonStart}
-              onPress={() => navigation.navigate('Profile')}
+              onPress={() => navigation.navigate('AccountCreate')}
             >
               <Text style={styles.ButtonStartLabel}>Create Account</Text>
             </Button>
