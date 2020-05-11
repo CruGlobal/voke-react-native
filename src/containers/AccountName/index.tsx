@@ -60,7 +60,7 @@ const AccountName: React.FC = (): React.ReactElement => {
 
   useEffect(() => {
     if (isKeyboardVisible) {
-      setTopMargin(-200);
+      setTopMargin(-250);
     } else {
       setTopMargin(60);
     }
@@ -177,7 +177,7 @@ const AccountName: React.FC = (): React.ReactElement => {
             style={[
               st.ph1,
               st.w100,
-              { paddingTop: isKeyboardVisible ? 50 : 0 },
+              { paddingTop: isKeyboardVisible ? 120 : 0 },
             ]}
           >
             <NameInput
@@ -207,7 +207,7 @@ const AccountName: React.FC = (): React.ReactElement => {
           >
             <Text style={[st.white, st.fs20, st.tac]}>Continue</Text>
             {/* Safety spacing. */}
-            <Flex style={{ height: insets.bottom }} />
+            <Flex style={{ height: (isKeyboardVisible ? 0 : insets.bottom ) }} />
           </Button>
         </Flex>
       </KeyboardAvoidingView>

@@ -37,10 +37,13 @@ function Image({ source, style, ...rest }: ImageProps) {
       ) : (
         // Only use FastImage for remote images
         // https://github.com/DylanVann/react-native-fast-image
+        // TODO: Delete this repo. Too many bugs!
         <AnimatedFastImage
           {...rest}
           source={source}
-          style={[{ opacity: imageAnimated }, style]}
+          style={[{
+            // opacity: imageAnimated
+          }, style]}
           onLoad={onImageLoad}
         />
       )}

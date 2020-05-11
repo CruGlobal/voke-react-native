@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Alert } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import lodash from 'lodash';
 import Image from '../Image';
 import st from '../../st';
 import Touchable from '../Touchable';
@@ -19,17 +20,19 @@ function AvailableAdventureItem({
     slogan: '',
   },
 }) {
-  const myAdventures = useSelector(({ data }) => data.myAdventures);
+  const myAdventures = useSelector(({ data }) => data.myAdventures.byId);
   const navigation = useNavigation();
   const [shouldInviteFriend, setShouldInviteFriend] = useState(
-    myAdventures.find(
-      adventure => adventure.organization_journey_id === item.id,
+    lodash.find( myAdventures,
+     // TODO try to optimize
+     function(adv) { return adv.organization_journey_id === item.id; }
     ),
   );
   useEffect(() => {
     setShouldInviteFriend(
-      myAdventures.find(
-        adventure => adventure.organization_journey_id === item.id,
+      lodash.find( myAdventures,
+        // TODO try to optimize
+        function(adv) { return adv.organization_journey_id === item.id; }
       ),
     );
   }, [myAdventures]);
@@ -159,7 +162,7 @@ function AvailableAdventureItem({
             >
               {item.total_shares || 0} {'shares'.toUpperCase()}S
             </Text>
-            {shouldInviteFriend ? null : (
+            {/* {shouldInviteFriend ? null : (
               <Button
                 type="transparent"
                 isAndroidOpacity
@@ -173,7 +176,7 @@ function AvailableAdventureItem({
                   style={{ width: 50, height: 50 }}
                 />
               </Button>
-            )}
+            )} */}
           </Flex>
         </Flex>
       </Flex>

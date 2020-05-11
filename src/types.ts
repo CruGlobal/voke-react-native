@@ -170,3 +170,58 @@ export type TMessage = {
     media_end: number;
   };
 };
+
+export type TDataState {
+  dataChangeTracker: {
+    notifications: number;
+    myAdventures: number;
+    adventureInvitations: number;
+    availableAdventures: number;
+    adventureSteps: number;
+    adventureStepMessages: number;
+    allVideos: number;
+    featuredVideos: number;
+    favoriteVideos: number;
+  };
+  notifications: any;
+  notificationPagination: { hasMore: boolean; page: number };
+  unReadBadgeCount: number;
+  availableAdventures: any;
+  myAdventures: any;
+  adventureInvitations: { byId: any; allIds: any };
+  adventureSteps: any;
+  adventureStepMessages: any;
+  allVideos: any;
+  featuredVideos: any;
+  popularVideos: any;
+  favoriteVideos: any;
+  searchVideos: any;
+  videoTags: any;
+  videoPagination: {
+    All: {
+      hasMore: boolean;
+      page: number;
+    };
+    Featured: {
+      hasMornumber: boolean;
+      page: number;
+    };
+    Popular: {
+      hasMore: boolean;
+      page: number;
+    };
+    Search: {
+      hasMore: boolean;
+      page: number;
+    };
+    Favorite: {
+      hasMore: boolean;
+      page: number;
+    };
+    channel: {
+      type: string;
+      hasMore: boolean;
+      page: number;
+    };
+  };
+}

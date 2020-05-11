@@ -7,14 +7,11 @@ import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import Image from '../../components/Image';
 import StatusBar from '../../components/StatusBar';
-import Triangle from '../../components/Triangle';
 import st from '../../st';
 import Button from '../../components/Button';
 // import { MONTHLY_PRICE } from '../../constants';
 
-import VOKE_BOT from '../../assets/vokebot_whole.png';
 import Touchable from '../../components/Touchable';
-import CONSTANTS from '../../constants';
 import VokeIcon from '../../components/VokeIcon';
 import DEFAULT_AVATAR from '../../assets/defaultAvatar.png';
 
@@ -29,7 +26,8 @@ function AllMembersModal(props) {
 
   const allMessengers = adventure.conversation.messengers || [];
   const messengers = allMessengers.filter(
-    i => i.first_name !== 'VokeBot' && (i || {}).id !== (me || {}).id,
+    i => i.first_name !== 'VokeBot'
+    // i => i.first_name !== 'VokeBot' && (i || {}).id !== (me || {}).id,
   );
 
   const smallCircle = st.fullWidth / 2 - 90;
@@ -54,8 +52,8 @@ function AllMembersModal(props) {
               />
             </Touchable>
           </Flex>
-          <Flex value={1}>
-            <Text style={[st.white, st.fs16, st.tac]}>{adventure.name}!</Text>
+          <Flex value={3}>
+            <Text style={[st.white, st.fs18, st.tac]}>{adventure.name}!</Text>
           </Flex>
           <Flex value={1} />
         </Flex>
@@ -64,9 +62,10 @@ function AllMembersModal(props) {
           <Flex align="center" justify="center">
             <Flex align="center" self="stretch">
               {isJoined ? (
-                <Text style={[st.white]}>
-                  Group Code: {adventure.journey_invite.code}
-                </Text>
+                <>
+                  <Text style={[st.white, {textAlign:'center'}]}>Group Code:</Text>
+                  <Text style={[st.white, {fontSize:21, marginTop:-6}]}>{adventure.journey_invite.code}</Text>
+                </>
               ) : (
                 <Button
                   onPress={() => {}}
@@ -95,7 +94,7 @@ function AllMembersModal(props) {
             wrap="wrap"
             align="end"
             justify="start"
-            style={[st.w(st.fullWidth - 20)]}
+            // style={[st.w(st.fullWidth - 20)]}
           >
             {messengers.map((messenger, index) => (
               <Flex
@@ -103,7 +102,7 @@ function AllMembersModal(props) {
                 direction="column"
                 align="center"
                 style={[
-                  st.bgOffBlue,
+                  // st.bgOffBlue,
                   st.pd5,
                   st.m5,
                   {
@@ -118,7 +117,13 @@ function AllMembersModal(props) {
                     <Image
                       resizeMode="contain"
                       source={DEFAULT_AVATAR}
-                      style={[st.h(70), st.w(70)]}
+                      style={{
+                        height: smallCircle,
+                        width: smallCircle,
+                        borderRadius: smallCircle / 2,
+                        borderWidth: st.isAndroid || index !== 0 ? 1 : 2,
+                        borderColor: st.colors.white,
+                      }}
                     />
                   </Flex>
                 ) : (
@@ -130,14 +135,13 @@ function AllMembersModal(props) {
                         height: smallCircle,
                         width: smallCircle,
                         borderRadius: smallCircle / 2,
-                        borderWidth: st.isAndroid || index !== 0 ? 0 : 1,
-                        borderColor: st.colors.red,
+                        borderWidth: 2,
+                        borderColor: st.colors.white,
                       },
                     ]}
                   />
                 )}
-
-                <Text style={[st.fs5, st.white, st.tac]}>
+                <Text style={[st.fs3, st.white, st.tac,{marginTop:6}]}>
                   {messenger.first_name}
                 </Text>
               </Flex>

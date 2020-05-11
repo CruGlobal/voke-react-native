@@ -45,13 +45,12 @@ export function startupAction() {
 export function wakeupAction({currentScreen}) {
   LOG( "🌝 function wakeupAction", );
   return async (dispatch, getState)  => {
+    await dispatch(permissionsAndNotifications());
     const deviceId = getState().auth.device.id;
     dispatch( openSocketAction(deviceId) );
 
-    console.log( "🐸 curentScreen:", currentScreen );
     // Check on what screen we are and update the required info.
     if (currentScreen === 'LoggedInApp') {
-       console.log( "🐸🐸🐸🐸🐸🐸🐸" );
       dispatch(getAdventuresInvitations());
       dispatch(getMyAdventures());
     }
@@ -69,7 +68,6 @@ export function sleepAction() {
 }
 
 export function requestPremissions(askPermission = true) {
-  console.log( "🐸 requestPremissions: 1" );
   return async dispatch => {
     await dispatch(permissionsAndNotifications(askPermission));
   };
@@ -113,7 +111,6 @@ export function logoutAction(user, token, isDelete = false) {
  * Update store.auth.user branch with user data fetched from the server.
  */
 export function getMeAction() {
-  console.log("🤷‍♂ function getMe");
   return async dispatch => {
     // Fetch user data from the server.
     return dispatch(request({ ...ROUTES.GET_ME })).then(
@@ -301,7 +298,7 @@ export function userLogin(username, password) {
       },
       error => {
         // eslint-disable-next-line no-console
-        console.log('Login error', error);
+        console.log('🛑 Login error', error);
         throw error;
       }
     );
@@ -391,5 +388,15 @@ export function updateMe(data) {
       // return dispatch(getMeAction());
     } */
     // return dispatch(getMeAction());
+  };
+}
+
+/**
+ * Get old conversations.
+ */
+export function getOldConversations(): any {
+  return async dispatch => {
+    // Fetch user data from the server.
+    return dispatch(request({ ...ROUTES.GET_OLD_CONVERSATIONS }));
   };
 }

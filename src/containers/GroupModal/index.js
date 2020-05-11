@@ -28,8 +28,8 @@ function GroupModal(props) {
 
   const adventureId = props.route.params.adventure.messenger_journey_id;
 
-  const myAdventures = useSelector(({ data }) => data.myAdventures);
-  const adventure = myAdventures.find(adv => adv.id === adventureId);
+  const myAdventures = useSelector(({ data }) => data.myAdventures.byId);
+  const adventure = myAdventures.byId[adventureId];
   const allMessengers = adventure.conversation.messengers;
   const messengers = allMessengers.filter(
     i => i.first_name !== 'VokeBot' && (i || {}).id !== (me || {}).id,

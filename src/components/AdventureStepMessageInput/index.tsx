@@ -31,12 +31,13 @@ const AdventureStepMessageInput = ({
   // When SEND message button clicked.
   const handleSendMessage = (newValue: any): void => {
     setMesssageSent(true);
-    Keyboard.dismiss();
+    // Keyboard.dismiss();
     dispatch(
       createAdventureStepMessage({
         adventure,
         step,
-        value: newValue || value,
+        // value: newValue || value,
+        value: newValue,
         internalMessageId: internalMessage ? internalMessage.id : null,
         kind,
       })
@@ -61,8 +62,12 @@ const AdventureStepMessageInput = ({
     }
 
     return (
+      <View style={[st.ovh, st.w100,{
+        backgroundColor: st.colors.white,
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
+      }]}>
       <Select
-        isMulti={false}
         options={formattedAnswers}
         onFocus={() => {
           // if (this.props.hasClickedPlay) {
@@ -75,14 +80,16 @@ const AdventureStepMessageInput = ({
           //   );
           // }
         }}
-        placeholder="Choose Your Answer..."
+        // placeholder="Choose Your Answer..."
         selectedValue={value}
         onUpdate={t => {
           setValue(t.value);
           handleSendMessage(t.value);
         }}
         containerColor={st.colors.orange}
+        isDisabled={ value ? true : false   }
       />
+      </View>
     );
   }
   if (isBinaryQuestion) {
@@ -90,7 +97,7 @@ const AdventureStepMessageInput = ({
     const answers = metadata.answers;
     const hasSelected = (answers || []).find(a => a.selected);
     return (
-      <Flex direction="column" style={[st.mh1, st.mt4]}>
+      <Flex direction="column" style={[st.mt4]}>
         <Flex direction="row">
           <Flex style={[st.f1]} />
           <Flex
@@ -105,7 +112,7 @@ const AdventureStepMessageInput = ({
               />
             ) : null}
             <Text style={[st.pd3, st.fs1, st.white]}>{metadata.name}</Text>
-            <Text style={[st.ph3, st.tal, st.fs4, st.white]}>
+            <Text style={[st.ph3, st.tal, st.fs3, st.white]}>
               {metadata.comment}
             </Text>
             <Flex
@@ -132,7 +139,7 @@ const AdventureStepMessageInput = ({
                     disabled={hasSelected}
                     onPress={() => {
                       setValue(a.value);
-                      handleSendMessage();
+                      handleSendMessage(value);
                     }}
                     style={[
                       a.selected ? st.bgWhite : st.bgOrange,
@@ -181,7 +188,7 @@ const AdventureStepMessageInput = ({
                   disabled={hasSelected}
                   onPress={() => {
                     setValue(a.value);
-                    handleSendMessage();
+                    handleSendMessage(value);
                   }}
                   style={[
                     a.selected ? st.bgWhite : st.bgOrange,
@@ -202,14 +209,20 @@ const AdventureStepMessageInput = ({
   }
   // Text Question:
   // if (isTextQuestion)
+
+  console.log( "🐻 messageSent:", messageSent );
+  console.log( "🐻 isComplete:", isComplete );
+  console.log( "🐻 value:", value );
   return (
     <Flex
       direction="row"
       align="center"
       style={[st.bgWhite, st.w100, st.pl4, st.brbl5, st.brbr5]}
     >
-      {messageSent ? (
-        <Text style={[st.fs4, st.pt4, st.pb4, st.darkBlue]}>{value}</Text>
+      {messageSent || isComplete ? (
+        value ?
+          <Text style={[st.fs4, st.pt4, st.pb4, st.darkBlue]}>{value}</Text> :
+          <Text style={[st.fs4, st.pt4, st.pb4, {opacity:.5}]}>Skipped</Text>
       ) : (
         <>
           <TextInput
@@ -238,24 +251,23 @@ const AdventureStepMessageInput = ({
             value={value}
             onChangeText={t => setValue(t)}
           />
-          {!value && isSolo ? (
+          {/* {!value && isSolo ? (
             <Button onPress={() => {}} style={[st.pv4]}>
               <Text style={[st.orange, st.bold, st.fs4, st.ls2]}>
                 {'Skip'.toUpperCase()}
               </Text>
             </Button>
-          ) : (
+          ) : ( */}
             <Button
               // onPress={handleSendMessage}
               onPress={() => {
                     // setValue(a.value);
-                    console.log('clock');
-                    handleSendMessage();
+                    handleSendMessage(value);
                   }}
               style={[st.p4]}>
               <VokeIcon name="send" style={[st.offBlue]} size={24} />
             </Button>
-          )}
+          {/* )} */}
         </>
       )}
     </Flex>

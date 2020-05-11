@@ -24,7 +24,7 @@ const initialState: InitialStateTypes = {
   isLoggedIn: false,
   authToken: '',
   pushToken: '',
-  deviceId: '',
+  pushDeviceId: '',
   language: '',
   device: {
     id: '',
@@ -119,7 +119,7 @@ export default function (
     case REDUX_ACTIONS.SET_PUSH_TOKEN:
       return { ...state, pushToken: action.pushToken };
     case REDUX_ACTIONS.SET_PUSH_DEVICE_ID: // TODO: delete.
-      return { ...state, deviceId: action.deviceId };
+      return { ...state, pushDeviceId: action.deviceId };
     case REDUX_ACTIONS.OPEN_SOCKETS:
       return state;
     case REDUX_ACTIONS.LOGOUT:

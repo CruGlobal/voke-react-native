@@ -1,6 +1,6 @@
 import PushNotification from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-
+import lodash from 'lodash';
 // Following https://github.com/react-native-community/push-notification-ios
 // - Added these configs: https://d.pr/i/AoUUxy
 
@@ -12,8 +12,6 @@ import { REDUX_ACTIONS } from '../constants';
 import { SOCKET_URL } from './utils';
 import st from '../st';
 import {
-  establishPushDevice,
-  establishCableDevice,
   getAdventureStepMessages,
   getAdventureSteps,
   getMyAdventures,
@@ -43,26 +41,32 @@ export const NAMESPACES = {
 // The Cable Messaging API allows you to receive events from Voke in real time.
 // It is based on Ruby on Rails Action Cable websocket implementation.
 export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
-  let ws: any = null;
+  // let ws: any = null;
 
   return next => action => {
     // Open WebSockets on STARTUP redux action.
-    if (action.type === 'STARTUP') {
+    if (action.type === 'STARTUP' || action.type === 'SET_DEVICE') {
+      // Check if we have websockets already defined and running in the memory.
+      // Otherwise it will create nwe ws object on every file save while in dev.
+      if (global.ws && global.ws.send && global.ws.readyState === WEBSOCKET_STATES.OPEN) {
+        return
+      }
+
       const { authToken } = getState().auth;
       const deviceId = getState().auth.device.id;
 
       if (deviceId && authToken) {
         try {
           // Create WS object.
-          ws = new WebSocket(`${SOCKET_URL}cable?access_token=${authToken}`);
-          if (ws) {
-            console.log('🔌 setupSockets > setting up sockets', ws);
+          global.ws = new WebSocket(`${SOCKET_URL}cable?access_token=${authToken}`);
+          if (global.ws) {
+            console.log('🔌 setupSockets > setting up sockets', global.ws);
             // Socket opened: the connection is ready to send and receive data.
-            ws.onopen = (): void => {
+            global.ws.onopen = (): void => {
               console.log('🔌 setupSockets > socket opened');
-              if (ws && ws.send && ws.readyState === WEBSOCKET_STATES.OPEN) {
+              if (global.ws && global.ws.send && global.ws.readyState === WEBSOCKET_STATES.OPEN) {
                 try {
-                  ws.send(
+                  global.ws.send(
                     JSON.stringify({
                       command: 'subscribe',
                       identifier: `{"channel":"DeviceChannel","id":"${deviceId}"}`,
@@ -77,31 +81,31 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
               } else {
                 console.log(
                   '🛑 websocket state not open, cannot send: Websocket readyState',
-                  ws.readyState,
+                  global.ws.readyState,
                 );
               }
             };
             // Message received from the server.
             // Example: https://d.pr/i/IvhXzq
-            ws.onmessage = e => {
+            global.ws.onmessage = e => {
               const data = JSON.parse(e.data) || {};
               const type = data && data.type;
 
               if (type === 'ping'){ console.log( "."); }
               if (type === 'ping' || type === 'welcome' || !data.message) return;
-              console.log( "🐸 data.message:", data.message );
 
               const { message, notification } = data.message;
               if (!notification) return;
+              if (message.action === 'read') return; // Ignore 'read' interactions.
 
-              console.log('🔌 setupSockets > socket onmessage\n', data);
+              console.log('🔌 setupSockets > socket onmessage');
+              console.log( "🔌 data.message:", data.message );
               // Got a toast message: show it
               // There are 2 types of WS notifications that have the toast? field:
               // -- Journey: dispatched when a friend joins the journey
               //    or when the journey gets completed
               // -- Step: dispatched when a friend answers or completes the step
               if (message['toast?'] && notification.alert) {
-                // dispatch(toastAction(notification.alert));
                 dispatch(toastAction(notification.alert));
               }
 
@@ -111,21 +115,33 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
                   // If updated message in one of the Adventures.
                   // Update unread count on the Adventure step card.
                   const adventureId = (
-                    getState().data.myAdventures.find(
-                      (adv: any) => adv.conversation.id === message.conversation_id,
+                    lodash.find( getState().data.myAdventures.byId,
+                      // TODO try to optimize
+                      function(adv) { return adv.conversation.id === message.conversation_id; }
                     ) || {}
                   ).id;
-                  console.log( "😰 adv.conversation.id to update:", adventureId );
-                  console.log( "🐸 message:", message );
                   if (!adventureId) return;
-                  /* const currentStep =
-                    getState().data.adventureSteps[adventureId] || 0; */
-                  dispatch(
-                    getAdventureStepMessages(
-                      message.conversation_id,
-                      message.messenger_journey_step_id,
-                    ),
-                  );
+
+                  if (message.kind === 'text') {
+                    // If simple text: save new message in the store
+                    // without requesting update from the server via API.
+                    dispatch({
+                      type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
+                      result: {
+                        adventureStepId: message.messenger_journey_step_id,
+                        newMessage: message
+                      },
+                    });
+                  } else {
+                    // If not just a text: update messages in conversation
+                    // via extra call to API.
+                    dispatch(
+                      getAdventureStepMessages(
+                        message.conversation_id,
+                        message.messenger_journey_step_id,
+                      ),
+                    );
+                  }
 
                   // TODO: optimize the next call. It can be expensive?
                   // Update adventure steps to mark the current step as completed
@@ -143,7 +159,6 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
                     },
                   }); */
                 }
-                // dispatch(newMessageAction(message));
               } else if (
                 notification.category === 'CREATE_TYPESTATE_CATEGORY' ||
                 notification.category === 'DESTROY_TYPESTATE_CATEGORY'
@@ -152,10 +167,9 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
               } else if (
                 notification.category === 'JOIN_JOURNEY_CATEGORY'
               ) {
+                // FRIEND JOINED OUR ADVENTURE.
                 dispatch(getAdventuresInvitations());
                 dispatch(getMyAdventures());
-                // dispatch(getJourneyInvites());
-                // dispatch(getMyJourneys());
               } else if (
                 notification.category === 'COMPLETE_STEP_CATEGORY'
               ) {
@@ -172,30 +186,34 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
               }
             };
 
-            ws.onerror = (err) => {
+            global.ws.onerror = (error) => {
               // an error occurred
-              console.log( "🛑 socket error\n", err.message);
+              console.log( "🛑 socket error\n", error.message);
+              throw error;
             };
 
-            ws.onclose = (err) => {
+            global.ws.onclose = (error) => {
               // connection closed
-              console.log('🛑 socket closed\n', err.code, err.reason );
+              console.log('🛑 socket closed\n', error.code, error.reason );
             };
           } else {
             console.log( "🛑 WebSocket Error" );
+            throw 'WebSocket Error';
           }
 
         } catch (socketErr) {
           // Do nothing with the error
           console.log( "🛑 socketErr:\n" , socketErr );
+          // Try to restart:
+          dispatch({
+            type: REDUX_ACTIONS.STARTUP,
+          });
         }
       }
 
     }
 
     if (action.type === 'OPEN_SOCKETS') {
-      console.log( "🐸 ws :", ws  );
-
       // Do a try/catch just to stop any errors
       try {
         if ( !ws || !ws.send || ws.readyState !== WEBSOCKET_STATES.OPEN) {
