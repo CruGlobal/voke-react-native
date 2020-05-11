@@ -1,6 +1,8 @@
 import { REDUX_ACTIONS } from '../constants';
+import { normalize, schema } from 'normalizr';
 import lodash from 'lodash';
 import { exists } from '../utils';
+import { TDataState } from '../types';
 
 export type DataKeys =
   | 'availableAdventures'
@@ -16,7 +18,9 @@ export type DataKeys =
   | 'notifications'
   | 'adventureInvitations';
 
-const initialState = {
+
+
+const initialState: TDataState = {
   dataChangeTracker: {
     /*
     Used to log/track if data in any of related deep objects changed.
@@ -37,8 +41,14 @@ const initialState = {
   notificationPagination: { hasMore: false, page: 1 },
   unReadBadgeCount: 0,
   availableAdventures: [],
-  myAdventures: [],
-  adventureInvitations: [],
+  myAdventures: {
+    byId: {},
+    allIds: []
+  },
+  adventureInvitations: {
+    byId: {},
+    allIds: []
+  },
   adventureSteps: {},
   adventureStepMessages: {},
   allVideos: [],
@@ -78,7 +88,7 @@ const initialState = {
 
 export default function(state = initialState, action: any) {
   switch (action.type) {
-    case REDUX_ACTIONS.SET_DATA:
+    case REDUX_ACTIONS.SET_DATA: {
       // @ts-ignore
       if (!exists(state[action.key]) || !action.data) {
         return state;
@@ -101,48 +111,194 @@ export default function(state = initialState, action: any) {
       }
 
       return { ...state, [action.key]: action.data };
+    }
 
-    case REDUX_ACTIONS.START_ADVENTURE:
+    case REDUX_ACTIONS.START_ADVENTURE: {
       let updatedMyAdventures: any = lodash.cloneDeep(state.myAdventures);
       if (action.result) {
         updatedMyAdventures.push(action.result);
       }
       return { ...state, myAdventures: updatedMyAdventures };
-    case REDUX_ACTIONS.SEND_ADVENTURE_INVITATION:
-      let updatedAdventureInvitations: any = lodash.cloneDeep(
-        state.adventureInvitations,
-      );
-      if (action.result) {
-        updatedAdventureInvitations.push(action.result);
-      }
-      return { ...state, adventureInvitations: updatedAdventureInvitations };
-    case REDUX_ACTIONS.UPDATE_ADVENTURE_STEPS: {
-      let updatedAdventureSteps: any = null;
+    }
 
+    case REDUX_ACTIONS.SEND_ADVENTURE_INVITATION: {
+
+      const allIds = state.adventureInvitations.allIds||[];
+
+      return {
+        ...state,
+        adventureInvitations: {
+          byId: {
+            ...state.adventureInvitations.byId,
+            [action.result.id]: action.result
+          },
+          allIds: allIds.concat([action.result.id]),
+        }
+      };
+    }
+
+    case REDUX_ACTIONS.UPDATE_INVITATIONS: {
+      // See 'UPDATE_INVITATIONS NORMALIZATION EXAMPLE' at the end of this file.
+      const invitationSchema = new schema.Entity('byId');
+      const invitationsSchema = new schema.Array(invitationSchema);
+      const normalizedInvitations = normalize( // Result.
+        action.data, // Data received.
+        invitationsSchema // Transformation schema.
+      );
+
+      // Since we are getting all invitations at once,
+      // we relace all of them in the storage, not updating.
+      return {
+        ...state,
+        adventureInvitations: {
+          byId: normalizedInvitations.entities.byId,
+          allIds: normalizedInvitations.result,
+        },
+        // Change tracker value to signal deep data change.
+        dataChangeTracker: {
+          ...state.dataChangeTracker,
+          adventureInvitations: state.dataChangeTracker.adventureInvitations + 1
+        }
+      };
+    }
+
+    case REDUX_ACTIONS.UPDATE_ADVENTURES: {
+      // See 'UPDATE_ADVENTURES NORMALIZATION EXAMPLE' at the end of this file.
+      const adventureSchema = new schema.Entity('byId');
+      const adventuresSchema = new schema.Array(adventureSchema);
+      const normalizedAdventures = normalize( // Result.
+        action.data, // Data received.
+        adventuresSchema // Transformation schema.
+      );
+
+      return {
+        ...state,
+        myAdventures: {
+          byId: normalizedAdventures.entities.byId || {},
+          allIds: normalizedAdventures.result,
+        },
+        // Change tracker value to signal deep data change.
+        dataChangeTracker: {
+          ...state.dataChangeTracker,
+          myAdventures: state.dataChangeTracker.myAdventures + 1
+        }
+      };
+    }
+
+    case REDUX_ACTIONS.UPDATE_ADVENTURE: {
+      return {
+        ...state,
+        myAdventures: {
+          ...state.myAdventures,
+          byId: {
+            ...state.myAdventures.byId,
+            [action.data.id]: action.data
+          },
+        },
+        // Change tracker value to signal deep data change.
+        dataChangeTracker: {
+          ...state.dataChangeTracker,
+          myAdventures: state.dataChangeTracker.myAdventures + 1
+        }
+      };
+    }
+
+    case REDUX_ACTIONS.UPDATE_ADVENTURE_STEPS: {
+      /*
+      Adventure steps received:
+      {
+        id:"7290f105-ac6b-40df-ad41-47a5501e91b1"
+        status:"completed"
+        name:"Was Jesus the Real Deal?"
+        question:"Does it surprise you to hear that more ancient documents help us verify Jesus' existence than other well known figures such as Alexander the Great or Julius Caesar?"
+        position:1
+        kind:"question"
+        internal_step:false
+        status_message:null
+        unread_messages:1
+        completed_by_messenger?:true
+        created_at:"2020-05-06T19:12:45.218Z"
+        updated_at:"2020-05-06T19:13:52.392Z"
+      },
+      {
+        ..
+      }
+
+      will normalize into:
+        byId: {
+          "7290f105-ac6b-40df-ad41-47a5501e91b1" : {
+            ...
+          },
+          ...,
+          ...
+        },
+        allIds: ["7290f105-ac6b-40df-ad41-47a5501e91b1", ..., ...]
+
+      */
       // Don't proceed if nothing changed in the data.
-      if (lodash.isEqual(
+/*       if (lodash.isEqual(
         state.adventureSteps[action.result.adventureId],
         action.result.adventureSteps
       )) {
         return state;
       }
+ */
+      const stepSchema = new schema.Entity('byId');
+      const stepsSchema = new schema.Array(stepSchema);
+      const normalizedSteps = normalize( // Result.
+        action.result.adventureSteps, // Data received.
+        stepsSchema // Transformation schema.
+      );
 
-      updatedAdventureSteps = lodash.cloneDeep(state.adventureSteps);
+      // Calculate new unread count for the affected adventure card.
+      const adventureId = action.result.adventureId;
 
-      // Update the branch needed.
-      updatedAdventureSteps[action.result.adventureId] =
-        action.result.adventureSteps;
+      let advUnreadCount = 0;
+      action.result.adventureSteps.forEach(advStep => {
+        advUnreadCount = advUnreadCount + advStep.unread_messages;
+      });
 
+      // return state;
+
+      // CONTINUE FROM HERE!!!!
       return {
         ...state,
-        adventureSteps: updatedAdventureSteps,
+
+        // Update Adventure Steps.
+        adventureSteps: {
+          ...state.adventureSteps,
+
+          [adventureId]: {
+            byId: normalizedSteps.entities.byId,
+            allIds: normalizedSteps.result,
+          }
+        },
+
+        // Update MyAdventures with new 'unread' value for current adventure.
+        myAdventures: {
+          ...state.myAdventures,
+          byId:{
+            ...state.myAdventures.byId,
+            [adventureId]: {
+              ...state.myAdventures.byId[adventureId],
+              conversation:{
+                ...state.myAdventures.byId[adventureId].conversation,
+                unread_messages: advUnreadCount
+              }
+            }
+
+          }
+        },
+
         // Change tracker value to signal deep data change.
         dataChangeTracker: {
           ...state.dataChangeTracker,
-          adventureSteps: state.dataChangeTracker.adventureSteps + 1
+          adventureSteps: state.dataChangeTracker.adventureSteps + 1,
+          myAdventures: state.dataChangeTracker.myAdventures + 1
         }
       };
     }
+
     case REDUX_ACTIONS.UPDATE_ADVENTURE_STEP: {
       const adventureStepsUpdated: any = lodash.cloneDeep(state.adventureSteps);
       const newStepsArr = adventureStepsUpdated[action.update.adventureId];
@@ -159,36 +315,42 @@ export default function(state = initialState, action: any) {
       adventureStepsUpdated[action.update.adventureId] = newStepsArr;
       return { ...state, adventureSteps: adventureStepsUpdated };
     }
-    case REDUX_ACTIONS.UPDATE_ADVENTURE_STEP_MESSAGES:
-      console.log( "UPDATE_ADVENTURE_STEP_MESSAGES" );
-      let updatedAdventureStepMessages: any = lodash.cloneDeep(
-        state.adventureStepMessages,
-      );
-      updatedAdventureStepMessages[action.result.adventureStepId] =
-        action.result.adventureStepMessages;
 
+    case REDUX_ACTIONS.UPDATE_ADVENTURE_STEP_MESSAGES: {
+      // Flip messages as they come reversed:
+      const newMessages = action.result.adventureStepMessages.reverse();
+      const adventureStepId = action.result.adventureStepId;
       return {
         ...state,
-        adventureStepMessages: updatedAdventureStepMessages,
+        adventureStepMessages: {
+          ...state.adventureStepMessages,
+          [adventureStepId]: newMessages
+        },
 
         dataChangeTracker: {
           ...state.dataChangeTracker,
           adventureStepMessages : state.dataChangeTracker.adventureStepMessages + 1
         }
       };
+    }
 
-    case REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE:
-      let updatedAdventureStepMessagesAfterCreate: any = lodash.cloneDeep(
-        state.adventureStepMessages,
+    case REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE: {
+      const adventureStepId = action.result.adventureStepId
+      const stepMessages = [].concat(
+        state.adventureStepMessages[adventureStepId], // Existing messages.
+        [action.result.newMessage] // New message.
       );
-      updatedAdventureStepMessagesAfterCreate[
-        action.result.adventureStepId
-      ].unshift(action.result.newMessage);
+
       return {
         ...state,
-        adventureStepMessages: updatedAdventureStepMessagesAfterCreate,
+        // adventureStepMessages: updatedAdventureStepMessagesAfterCreate,
+        adventureStepMessages: {
+          ...state.adventureStepMessages,
+          [adventureStepId]: stepMessages
+        }
       };
-    case REDUX_ACTIONS.UPDATE_VIDEO_PAGINATION:
+    }
+    case REDUX_ACTIONS.UPDATE_VIDEO_PAGINATION: {
       let newVideos: any = [];
       let videoArrToUpdate = 'allVideos';
       let paginationArrToUpdate = 'All';
@@ -231,7 +393,8 @@ export default function(state = initialState, action: any) {
           [paginationArrToUpdate]: newPagination,
         },
       };
-    case REDUX_ACTIONS.UPDATE_NOTIFICATION_PAGINATION:
+    }
+    case REDUX_ACTIONS.UPDATE_NOTIFICATION_PAGINATION: {
       let newNotifications: any = [];
       if (action.result.params.page && action.result.params.page > 1) {
         newNotifications = lodash.cloneDeep(state.notifications);
@@ -250,35 +413,35 @@ export default function(state = initialState, action: any) {
         notifications: newNotifications,
         notificationPagination: newNotificationPagination,
       };
-    case REDUX_ACTIONS.MARK_READ: // CONTINUE FROM HERE!!!!!!!!
-      console.log( "🧑‍🚒 MARK_READ" );
-      let currentBadgeCount2 = state.unReadBadgeCount;
-      console.log( "🧑‍🚒 currentBadgeCount2:", currentBadgeCount2 );
-      const readConversations = state.adventureStepMessages.map(c => {
-        console.log( "🧑‍🚒 c:", c );
-        if (c.id === action.conversationId) {
-          currentBadgeCount2 =
-            c.unReadCount > 0
-              ? currentBadgeCount2 - c.unReadCount
-              : currentBadgeCount2;
-          return {
-            ...c,
-            hasUnread: false,
-            unReadCount: 0,
-            myLatestReadId: action.messageId,
-          };
+    }
+    case REDUX_ACTIONS.MARK_READ: {
+      // PARAMS: adventureId, conversationId, messageId
+      // Set state.adventureSteps[adventureId][currentStepId].unread_messages = 0
+      // state.adventureSteps[adventureId]
+      const adventureId = action.adventureId;
+      const stepId = action.stepId;
+      const newState = lodash.merge(
+        {},
+        state,
+        {
+          // Set 'unread_messages' to 0 at current adventure step.
+          adventureSteps: {
+            [adventureId]: {
+              byId:{
+                [stepId]:{
+                  unread_messages: 0
+                }
+              }
+            }
+          },
+          // Change tracker value to force adventure step component refresh.
+          dataChangeTracker: {
+            adventureSteps: state.dataChangeTracker.adventureSteps + 1,
+          }
         }
-        return c;
-      });
-
-      currentBadgeCount2 = currentBadgeCount2 >= 0 ? currentBadgeCount2 : 0;
-      // Notifications.setBadge(currentBadgeCount2);
-      return state;
-      return {
-        ...state,
-        conversations: readConversations,
-        unReadBadgeCount: getBadgeCount(currentBadgeCount2),
-      };
+      )
+      return newState;
+    }
     case REDUX_ACTIONS.LOGOUT:
       return initialState;
     case REDUX_ACTIONS.RESET:
@@ -287,3 +450,67 @@ export default function(state = initialState, action: any) {
       return state;
   }
 }
+
+/*
+  ============================================================
+  UPDATE_ADVENTURES NORMALIZATION EXAMPLE.
+
+  Adventures received:
+  {
+    id:"00a2262d-99cd-4d54-b5ba-d7032b25d640"
+    status:"active"
+    name:"Is Jesus Real?"
+    kind:"duo"
+    slogan:""
+    description:"Take this adventure to journey..."
+    organization_journey_id:"778e3d9b-8bb9-4a7f-94bb-41a7c8942681"
+    created_at:"2020-05-06T19:12:45.071Z"
+    updated_at:"2020-05-06T19:26:37.662Z"
+  },
+  {
+    ..
+  }
+
+  Will normalize into:
+  {
+    byId: {
+      "00a2262d-99cd-4d54-b5ba-d7032b25d640" : {
+        ...
+      },
+      ...,
+    },
+    allIds: ["00a2262d-99cd-4d54-b5ba-d7032b25d640", ..., ...]
+  }
+
+  ============================================================
+  UPDATE_INVITATIONS NORMALIZATION EXAMPLE.
+
+  Invitations received:
+  {
+    id:"7af395ad-2a75-4893-ba19-71f5931f70d1"
+    messenger_journey_id:"ec833567-0e84-46e3-8a09-0c1d7cbf5820"
+    code:"927422"
+    name:"Irina"
+    kind:"duo"
+    status:"waiting"
+    expires_at:"2020-05-07T05:50:27.104Z"
+    created_at:"2020-05-06T21:50:27.104Z"
+    updated_at:"2020-05-06T21:50:27.112Z"
+  },
+  {
+    ...
+  }
+
+  Will normalize into:
+  {
+    byId: {
+      "7af395ad-2a75-4893-ba19-71f5931f70d1" : {
+        ...
+      },
+      ...,
+      ...
+    },
+    allIds: ["7af395ad-2a75-4893-ba19-71f5931f70d1", ..., ...]
+  }
+
+*/

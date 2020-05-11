@@ -57,6 +57,7 @@ const theme: {
     xxxxl: 50,
   },
   spacing: {
+    xs: 4,
     s: 8,
     m: 16,
     l: 22,

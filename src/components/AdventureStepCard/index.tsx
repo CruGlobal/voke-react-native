@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../reducers';
 import Image from '../Image';
 import Touchable from '../Touchable';
 import Flex from '../Flex';
@@ -7,6 +9,7 @@ import Text from '../Text';
 import Button from '../Button';
 import VokeIcon from '../VokeIcon';
 import st from '../../st';
+import styles from './styles';
 import { TAdventureSingle, TStep } from '../../types';
 
 type StepProps = {
@@ -17,26 +20,33 @@ type StepProps = {
 };
 
 type AdventureStepCardProps = {
-  step: TStep;
-  steps: StepProps[];
-  adventure: TAdventureSingle;
+  stepId: string;
+  adventureId: string;
+  // step?: TStep;
+  steps?: StepProps[];
+  adventure?: TAdventureSingle;
 };
 
 // Renders Cards on this screen https://d.pr/i/WsCCf2
 function AdventureStepCard({
-  step,
-  steps,
-  adventure,
+  stepId,
+  adventureId,
+  // step,
+  // steps,
+  // adventure,
 }: AdventureStepCardProps): React.ReactElement {
   const navigation = useNavigation();
+  const adventure = useSelector(({ data }: RootState) => data.myAdventures.byId[adventureId]);
+  const step = useSelector(({ data }: RootState) => data.adventureSteps[adventureId].byId[stepId]);
   const [isActive, setIsActive] = useState(step.status === 'active');
   const [isCompleted, setIsCompleted] = useState(step.status === 'completed');
   const [isWaiting, setIsWaiting] = useState(
     isActive && step['completed_by_messenger?']
   );
-  const [unreadCount, setUnreadCount] = useState(step.unread_messages);
   const [isLocked, setIsLocked] = useState(!isCompleted && !isActive);
-  const [hasUnread, setHasUnread] = useState(unreadCount > 0);
+  const messengers = (adventure?.conversation || {}).messengers || [];
+  const thumbnail = (((step.item || {}).content || {}).thumbnails || {}).small;
+  const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'multiple';
   // Monitor any changes in steps and step parammeters of the component
   // to update the card elements accordingly.
   // For example we need to update unread count on the card when state changed.
@@ -44,20 +54,18 @@ function AdventureStepCard({
     setIsActive(step.status === 'active');
     setIsCompleted(step.status === 'completed');
     setIsWaiting(step.status === 'active' && step['completed_by_messenger?']);
-    setUnreadCount(step.unread_messages);
     setIsLocked(step.status !== 'completed' && step.status !== 'active');
-    setHasUnread(step.unread_messages > 0);
-  }, [steps, step]);
+  // },[]);
+  }, [step]);
+  // }, [steps, step]);
 
-  const messengers = (adventure.conversation || {}).messengers || [];
-  const thumbnail = (((step.item || {}).content || {}).thumbnails || {}).small;
-  const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'multiple';
 
   // if (messengers.length === 2 && inviteName) {
   //   otherUser = { first_name: inviteName };
   // }
 
   return (
+    <Flex style={styles.StepWrapper}>
     <Touchable
       highlight={false}
       disabled={isLocked}
@@ -65,27 +73,27 @@ function AdventureStepCard({
       onPress={(): void =>
         navigation.navigate('AdventureStepScreen', {
           stepId: step.id,
-          adventure: adventure,
+          adventureId: adventure.id,
         })
       }
+      style={[styles.StepCard]}
     >
       <Flex
         style={[
           isActive ? st.bgWhite : st.bgOffBlue,
           isLocked ? st.op50 : null,
-          st.mv6,
-          st.mh4,
           st.br5,
         ]}
         align="center"
         justify="start"
+        // direction="row"
       >
-        <Flex direction="row" style={[st.minh(84)]}>
-          <Flex style={[st.m5, st.rel]}>
+        <Flex direction="row" style={[st.minh(110)]} >
+          <Flex style={[styles.Thumbnail]}>
             <Image
               source={{ uri: thumbnail }}
-              style={[st.w(100), st.f1]}
-              resizeMode="contain"
+              style={[st.w(140), st.f1]}
+              resizeMode="cover"
             />
             <Flex style={[st.absfill]} align="center" justify="center">
               <VokeIcon
@@ -96,9 +104,9 @@ function AdventureStepCard({
               />
             </Flex>
           </Flex>
-          <Flex value={1} direction="column" self="start" style={[st.pv6]}>
+          <Flex value={1} direction="column" self="start" style={[styles.Content]}>
             <Text
-              numberOfLines={1}
+              numberOfLines={2}
               style={[st.fs4, isActive ? st.darkBlue : st.white]}
             >
               {step.name}
@@ -106,52 +114,28 @@ function AdventureStepCard({
             <Text style={[st.fs5, isActive ? st.darkBlue : st.white]}>
               Part {step.position}
             </Text>
-            {isActive || isCompleted ? (
+            {/* {isActive || isCompleted ? ( */}
               <Flex direction="row" align="center" style={[st.pt6]}>
                 <VokeIcon
                   name="speech-bubble-full"
                   style={[
-                    hasUnread && !isSolo ? st.orange : isCompleted ? st.white : st.charcoal,
+                    step.unread_messages && !isSolo ? st.orange : isCompleted ? st.white : st.charcoal,
                   ]}
                 />
-                {hasUnread && !isSolo ? (
+                {step.unread_messages && !isSolo ? (
                   <Flex
                     align="center"
                     justify="center"
                     style={[st.circle(20), st.bgOrange, st.ml6]}
                   >
                     <Text style={[st.white]}>
-                      {unreadCount > 99 ? '99' : unreadCount}
+                      {step.unread_messages > 99 ? '99' : step.unread_messages}
                     </Text>
                   </Flex>
                 ) : null}
               </Flex>
-            ) : null}
+            {/* ) : null} */}
           </Flex>
-          {isLocked ? null : (
-            <Flex
-              style={[
-                st.absbr,
-                st.isAndroid ? st.bottom(0) : st.bottom(5),
-                st.right(15),
-                st.mh5,
-              ]}
-            >
-              <Button
-                type="transparent"
-                isAndroidOpacity
-                onPress={(): void => {}}
-                activeOpacity={0.6}
-                touchableStyle={[st.abs, st.right(15), st.top(-35), st.mh5]}
-              >
-                <VokeIcon
-                  type="image"
-                  name="to-chat"
-                  style={{ width: 50, height: 50 }}
-                />
-              </Button>
-            </Flex>
-          )}
           <Flex
             style={[
               st.absbr,
@@ -172,22 +156,47 @@ function AdventureStepCard({
             <Text style={[st.fs4]}>waiting for answer</Text>
           </Flex>
         ) : null}
-        {isCompleted ? (
-          <Flex
-            style={[
-              st.abs,
-              st.top(-15),
-              st.right(-15),
-              st.bgDarkerBlue,
-              st.pd6,
-              st.br2,
-            ]}
-          >
-            <VokeIcon type="image" name="check" size={16} style={[]} />
-          </Flex>
-        ) : null}
       </Flex>
     </Touchable>
+    {/* {isLocked ? null : (
+      <Flex
+        style={[
+          st.absbr,
+          st.isAndroid ? st.bottom(10) : st.bottom(15),
+          st.right(15),
+          st.mh5,
+        ]}
+      >
+        <Button
+          type="transparent"
+          isAndroidOpacity
+          onPress={(): void => {}}
+          activeOpacity={0.6}
+          touchableStyle={[st.abs, st.right(15), st.top(-35), st.mh5]}
+        >
+          <VokeIcon
+            type="image"
+            name="to-chat"
+            style={{ width: 50, height: 50 }}
+          />
+        </Button>
+      </Flex>
+    )} */}
+    {isCompleted ? (
+      <Flex
+        style={[
+          st.abs,
+          st.top(-10),
+          st.right(-10),
+          st.bgDarkerBlue,
+          st.pd6,
+          st.br2,
+        ]}
+      >
+        <VokeIcon type="image" name="check" size={16} style={[]} />
+      </Flex>
+    ) : null}
+    </Flex>
   );
 }
 

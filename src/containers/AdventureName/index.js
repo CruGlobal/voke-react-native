@@ -58,9 +58,9 @@ function AdventureName(props) {
     if (isValidName()) {
       try {
         setIsLoading(true);
-        console.log(item);
         let result;
         if (isVideoInvite) {
+          // TODO: check this scenario.
           result = await dispatch(
             sendVideoInvitation({
               name,
@@ -81,6 +81,8 @@ function AdventureName(props) {
           withGroup,
           isVideoInvite,
         });
+      } catch (error) {
+        console.error(error)
       } finally {
         setIsLoading(false);
       }

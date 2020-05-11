@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { ScrollView, FlatList } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { getMyAdventure, getAdventureSteps } from '../../actions/requests';
-import { RootState } from '../../reducers';
-import { useMount } from '../../utils';
 import AdventureStepCard from '../../components/AdventureStepCard';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import Video from '../../components/Video';
 import st from '../../st';
+import { TDataState } from '../../types'
+import styles from './styles';
 
 type AdventureActiveProps = {
   route: {
@@ -20,44 +20,40 @@ type AdventureActiveProps = {
 };
 
 function AdventureActive({ route }: AdventureActiveProps): React.ReactElement {
-  const { adventureId } = route.params;
-  const { myAdventures } = useSelector(({ data }: RootState) => data) || {};
-  const [adventure, setAdventure] = useState(
-    myAdventures.find((item: { id: string }) => item.id === adventureId) || {}
-  );
-
   const dispatch = useDispatch();
   const insets = useSafeArea();
-  const [isPortrait, setIsPortrait] = useState(true);
-  const steps = useSelector(({ data }: RootState) => data.adventureSteps);
-  const [currentSteps, setCurrentSteps] = useState(steps[adventureId] || []);
+  const { adventureId } = route.params;
+  const adventure = useSelector(({ data }: {data: TDataState}) =>
+    data.myAdventures?.byId[adventureId] || {});
 
-  const getPendingAdventure = async (): Promise<void> => {
-    const pendingAdventure = await dispatch(getMyAdventure(adventureId));
-    if (pendingAdventure && pendingAdventure?.id) {
-      setAdventure(pendingAdventure);
-    }
+  const steps = useSelector(({ data }: {data: TDataState}) =>
+    data.adventureSteps[adventureId], shallowEqual)  || {};
+  const [isPortrait, setIsPortrait] = useState(true);
+
+  const getPendingAdventure = async () => {
+    await dispatch(getMyAdventure(adventureId));
   };
 
-  useMount(() => {
-    // If adventure wasn't accepeted by a friend yet and not started.
-    // (if adventure.status = pending)
-    if (Object.keys(adventure).length === 0) {
+  useEffect(() => {
+    // If adventure wasn't accepted by a friend yet and not started.
+    if (Object.keys(adventure).length === 0 ) {
       getPendingAdventure();
     }
-    dispatch(getAdventureSteps(adventureId));
-    // -- ☝️call to update steps from the server.
-    // Without it new Adventures won't show any steps.
-  });
+    // -- ☝️call to import pending adventure info from the server.
+  },[]);
 
   useEffect(() => {
-    setCurrentSteps(steps[adventureId]);
-  }, [adventure, steps, currentSteps]);
+    if (Object.keys(adventure).length > 0 ) {
+      dispatch(getAdventureSteps(adventureId));
+    }
+    // -- ☝️call to update steps from the server.
+    // Without it new Adventures won't show any steps.
+  },[adventure?.id]);
 
   return (
     <Flex value={1}>
       <ScrollView bounces style={[st.bgBlue, { paddingBottom: insets.bottom }]}>
-        {adventure && (
+        {Object.keys(adventure).length > 0 && (
           <Video
             onOrientationChange={(orientation: string): void => {
               if (orientation === 'portrait') {
@@ -106,25 +102,24 @@ function AdventureActive({ route }: AdventureActiveProps): React.ReactElement {
           </Video>
         )}
 
-        {isPortrait && (
+        {isPortrait && Object.keys(adventure).length > 0 && (
           <FlatList
-            data={currentSteps}
-            renderItem={(step): React.ReactElement => (
-              <AdventureStepCard
+            data={steps.allIds}
+            renderItem={({item}): React.ReactElement => (
+              item && <AdventureStepCard
                 // {...props}
-                step={step.item}
-                steps={currentSteps}
-                adventure={adventure} //! !!
+                // step={steps.byId[stepId].item}
+                stepId = {item}
+                adventureId={adventureId}
+                // steps={currentSteps}
+                // adventure={adventure} //! !!
               />
             )}
-            style={[
-              st.w(st.fullWidth),
-              st.pt4,
-              { paddingBottom: insets.bottom },
-            ]}
+            style={[styles.ListOfSteps]}
             // removeClippedSubviews={true}
           />
         )}
+        <Flex value={1} style={{ paddingBottom: insets.bottom }}></Flex>
       </ScrollView>
     </Flex>
   );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
+import { View, Alert } from 'react-native';
 import moment from 'moment';
 import Image from '../Image';
 import st from '../../st';
@@ -12,16 +12,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useMount, momentUtc, useInterval } from '../../utils';
 import { useNavigation } from '@react-navigation/native';
 import ProgressDots from './ProgressDots';
-import InviteItem from './InviteItem';
 import styles from './styles';
 
 const THUMBNAIL_HEIGHT = 78;
-const THUMBNAIL_WIDTH = 64;
+const THUMBNAIL_WIDTH = 140;
 
 
-function MyAdventureItem({ item }) {
+function AdventureCard({ adventureId }) {
   const me = useSelector(({ auth }) => auth.user);
-  const adventureItem = {
+  const adventureItem = useSelector(({ data }) => data.myAdventures.byId[adventureId])||null;
+  if (adventureItem==null) {
+    return <></>;
+  }
+
+/*   const adventureItem = {
     code: '',
     conversation: {},
     progress: {},
@@ -29,7 +33,7 @@ function MyAdventureItem({ item }) {
     name: '',
     ...item,
   };
-
+ */
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -65,10 +69,11 @@ function MyAdventureItem({ item }) {
     groupName = (adventureItem.journey_invite || {}).name || '';
   }
 
-  const name = isGroup ? groupName : adventureItem.name;
+  const name = adventureItem.name;
+  const inviteCode = adventureItem?.journey_invite?.code || '';
 
   if (adventureItem.code) {
-    return <InviteItem item={adventureItem} />;
+    // return <InviteItem item={adventureItem} />;
   }
 
   if ( !adventureItem.id ) {
@@ -76,18 +81,18 @@ function MyAdventureItem({ item }) {
   }
 
   return (
-    <Touchable
-      highlight={false}
-      activeOpacity={0.8}
-      onPress={() =>
-        navigation.navigate('AdventureActive', {
-          adventureId: adventureItem.id,
-        })
-      }
-    >
-      <Flex style={styles.MyAdventureWrapper}>
+    <Flex style={styles.Wrapper}>
+      <Touchable
+        highlight={false}
+        activeOpacity={0.8}
+        onPress={() =>
+          navigation.navigate('AdventureActive', {
+            adventureId: adventureItem.id,
+          })
+        }
+      >
         <Flex
-          style={[styles.MyAdventureBlock, styles.MyAdventureBlockActive]}
+          style={[styles.Card]}
           direction="row"
           align="center"
           justify="center"
@@ -103,12 +108,15 @@ function MyAdventureItem({ item }) {
             direction="column"
             align="start"
             justify="start"
-            style={[st.pv6, st.ph4]}
+            style={[styles.Content]}
           >
-            <Text numberOfLines={1} style={[st.pb6, st.blue, st.fs4]}>
+            <Text numberOfLines={2} style={styles.Participants}>
+              {isSolo ? 'Your Adventure' : isGroup ? groupName + ' Adventure' : 'Adventure with ' + otherUser.first_name}
+            </Text>
+            <Text numberOfLines={2} style={styles.Title}>
               {name}
             </Text>
-            <Flex direction="row" align="center" style={[st.pb6]}>
+            <Flex value={1} direction="row" align="center">
               {/* { hasUnread ?
               <VokeIcon
                 name="speech-bubble-full"
@@ -121,44 +129,66 @@ function MyAdventureItem({ item }) {
                 size={20}
               />
               } */}
-              <VokeIcon
+              {/* <VokeIcon
                 name="speech-bubble"
                 style={[ st.darkGrey, {marginTop: 3} ]}
                 size={20}
-              />
+              /> */}
               {!isGroup ? (
-                <Text style={[st.charcoal, st.fs4, {marginLeft: 6}]}>
-                  {isSolo ? 'me' : otherUser.first_name}
-                </Text>
+                <Flex value={1} style={[{paddingBottom:10}]} direction="row" align="center">
+                  <Touchable onPress={() => {Alert.alert('TODO!')}}>
+                    <Image
+                      source={{
+                        uri: (myUser.avatar || {}).small || undefined,
+                      }}
+                      style={[st.circle(36), { borderWidth: 2, borderColor: st.colors.white, marginLeft: -3 }]}
+                    />
+                  </Touchable>
+                  {!isSolo ? (
+                    <Image
+                      source={{ uri: (otherUser.avatar || {}).small || undefined }}
+                      style={[st.circle(36),{marginLeft: -12}, { borderWidth: 2, borderColor: st.colors.white }]}
+                    />
+                  ) : null}
+                  <Text
+                    style={[
+                      st.charcoal,
+                      st.tac,
+                      { marginLeft: 10 },
+                    ]}
+                  >
+                    {isSolo ? '1 person' : isGroup ? 'Group' : '2 people'}
+                  </Text>
+                </Flex>
               ) : (
                 <Touchable
                   isAndroidOpacity={true}
                   onPress={() =>
                     navigation.navigate('AllMembersModal', {
-                      adventure: item,
+                      adventure: adventureItem,
                       isJoined: true,
                     })
                   }
-                  style={[st.pr1, st.ml5, { width: 100 }]}
+                  style={{ width: '100%' }}
                 >
-                  <Flex direction="row" style={[]}>
+                  <Flex direction="row" align="center" style={[{paddingBottom:10}]}>
                     <Image
                       source={{
                         uri: (myUser.avatar || {}).small || undefined,
                       }}
                       style={[
-                        st.circle(22),
-                        { borderWidth: 1, borderColor: st.colors.orange },
+                        st.circle(36),
+                        { borderWidth: 2, borderColor: st.colors.white, marginLeft: -3 }
                       ]}
                     />
                     {subGroup.map((i, index) => (
                       <Image
                         source={{ uri: (i.avatar || {}).small || undefined }}
                         style={[
-                          st.circle(22),
-                          st.abstl,
-                          { left: (index + 1) * 10 },
-                          { borderWidth: 1, borderColor: st.colors.orange },
+                          st.circle(36),
+                          // st.abstl,
+                          // { left: (index + 1) * 10 },
+                          { borderWidth: 2, borderColor: st.colors.white, marginLeft: -12 },
                         ]}
                       />
                     ))}
@@ -176,76 +206,60 @@ function MyAdventureItem({ item }) {
                           <Text style={[{ fontSize: 12 }]}>+{numberMore}</Text>
                         </Flex>
                       </View>
-                    ) : null}
+                    ) :
+                      <Text
+                        style={[
+                          st.charcoal,
+                          st.tac,
+                          { marginLeft: 10 },
+                        ]}
+                      >
+                        { 'Group of ' + (totalGroupUsers+1) }
+                      </Text>
+                    }
                   </Flex>
                 </Touchable>
               )}
             </Flex>
-            <Flex direction="column" align="start" style={[st.mt6]}>
-              <Flex direction="row" align="center">
+            <Flex value={1} direction="column" align="start" style={{width:'100%'}}>
+              <Flex value={1} direction="row" align="center">
                 {totalSteps.map((i, index) => (
                   <ProgressDots key={index} isFilled={index < completed} />
                 ))}
               </Flex>
-              <Text numberOfLines={2} style={[st.mt6, st.charcoal, st.fs5]}>
-                {completed}/{available} {'completed'}
-              </Text>
-            </Flex>
-          </Flex>
-          {!isGroup ? (
-            <Flex align="center" justify="center" style={[st.bgWhite]}>
-              <Flex style={[st.mh5]}>
-                <Touchable onPress={() => {}}>
-                  <Image
-                    source={{
-                      uri: (myUser.avatar || {}).small || undefined,
-                    }}
-                    style={[st.circle(36)]}
-                  />
-                </Touchable>
-                {!isSolo ? (
-                  <Image
-                    source={{ uri: (otherUser.avatar || {}).small || undefined }}
-                    style={[st.circle(36), st.abstl, { left: -10 }]}
-                  />
-                ) : null}
-                <Text
-                  style={[
-                    st.charcoal,
-                    st.tac,
-                    !isSolo ? { marginLeft: -10 } : { marginLeft: -3 },
-                  ]}
-                >
-                  {isSolo ? '1 player' : isGroup ? 'Group' : '2 player'}
+              <Flex value={1} direction="row" align="center" justify="between" style={{width:'100%'}}>
+                <Text numberOfLines={1} style={[st.charcoal, st.fs5]}>
+                  {completed}/{available} {'completed'}
                 </Text>
+                {inviteCode ? <Text style={styles.InviteCode}>{inviteCode}</Text>:<></>}
               </Flex>
             </Flex>
-          ) : null}
+          </Flex>
         </Flex>
-      </Flex>
-      {hasUnread ? (
-        <Flex
-          align="center"
-          justify="center"
-          style={[st.circle(26), st.bgOrange, st.ml6,
-          {
-            position: "absolute",
-            right: -8,
-            top: 2,
-          }]}
-        >
-          <VokeIcon
-            name="notification-full"
-            style={[ st.white, {marginTop: -1} ]}
-            size={14}
-          />
-          {/* <Text style={[st.orange]}>
-            {unreadCount > 99 ? '99' : unreadCount}
-          </Text> */}
-        </Flex>
-      ) : null}
-    </Touchable>
+        {hasUnread ? (
+          <Flex
+            align="center"
+            justify="center"
+            style={[st.circle(26), st.bgOrange, st.ml6,
+            {
+              position: "absolute",
+              right: -8,
+              top: 2,
+            }]}
+          >
+            <VokeIcon
+              name="notification-full"
+              style={[ st.white, {marginTop: -1} ]}
+              size={14}
+            />
+            {/* <Text style={[st.orange]}>
+              {unreadCount > 99 ? '99' : unreadCount}
+            </Text> */}
+          </Flex>
+        ) : null}
+      </Touchable>
+    </Flex>
   );
 }
 
-export default MyAdventureItem;
+export default AdventureCard;

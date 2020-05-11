@@ -16,10 +16,8 @@ export function getStepsByAdventureId(adventureId: string): TAdventureSteps {
 
 // Get Single Adventure by Id.
 export function getAdventureById(adventureId: string): TAdventureSingle {
-  const adventures = useSelector(({ data }: RootState) => data.myAdventures);
-  const adventure = adventures.find(
-    (a: TAdventureSingle) => a.id === adventureId
-  );
+  const adventures = useSelector(({ data }: RootState) => data.myAdventures.byId);
+  const adventure = adventures[adventureId];
   return adventure;
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../reducers';
 import { useDispatch } from 'react-redux';
@@ -12,22 +12,29 @@ import VokeIcon from '../VokeIcon';
 import theme from '../../theme';
 import BotTalking from '../BotTalking';
 import { requestPremissions } from '../../actions/auth';
+import { REDUX_ACTIONS } from '../../constants';
 
 import NotificationGraphic from '../../assets/graphic-allownotifications.png';
 const NotificationModal = (): React.ReactElement => {
   const dispatch = useDispatch();
-  const [modalOpen, setModalOpen] = useState(false);
-  const me = useSelector(({ auth }: RootState) => auth.user);
   // Current premissions status stroed in
   // store.info.pushNotificationPermission
-  const { pushNotificationPermission } = useSelector(({ info }: RootState) => info);
+  const { pushNotificationPermission, notificationsRequest } = useSelector(({ info }: RootState) => info);
   // Ignore component if permissions already granted.
   if ( pushNotificationPermission === 'granted') {
     return <></>;
   }
 
+  const toggleModal = () => {
+    dispatch({
+      type: REDUX_ACTIONS.TOGGLE_NOTIFICATION_REQUEST,
+      // props: true,
+      description: 'Show notification request modal. Called from NotificationBanner.openModal()'
+    });
+  }
+
   return (
-    <Modal backdropOpacity={0.9}>
+    <Modal backdropOpacity={0.9} isVisible={notificationsRequest}>
       <Flex
         style={{ justifyContent: 'space-between', width: '100%' }}
         direction="column"
@@ -48,6 +55,7 @@ const NotificationModal = (): React.ReactElement => {
               paddingLeft: 20,
               marginBottom: 20,
               marginTop: 20,
+              fontSize: 18,
             }}
           >
             Voke sends notifications when your friends join and interact withthe
@@ -70,7 +78,10 @@ const NotificationModal = (): React.ReactElement => {
               marginTop: 10,
             },
           ]}
-          onPress={ () =>{ return dispatch(requestPremissions()) } }
+          onPress={ () =>{
+            toggleModal();
+            return dispatch(requestPremissions());
+          }}
         >
           <Text
             style={{
@@ -101,7 +112,7 @@ const NotificationModal = (): React.ReactElement => {
               marginTop: 10,
             },
           ]}
-          onPress={() => setModalOpen(false)}
+          onPress={() => toggleModal()}
         >
           <Text
             style={{

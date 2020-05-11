@@ -166,7 +166,7 @@ const AccountCreate: React.FC = (): React.ReactElement => {
             onPress={(): Promise<void> => register()}
             isLoading={isLoading}
           >
-            <Text style={styles.ButtonStartLabel}>Sign In</Text>
+            <Text style={styles.ButtonStartLabel}>Sign Up</Text>
           </Button>
         </Flex>
       </KeyboardAvoidingView>

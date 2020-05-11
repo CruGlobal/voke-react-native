@@ -7,8 +7,8 @@ import deviceInfoModule from 'react-native-device-info';
 import { Platform } from 'react-native';
 import st from '../st';
 import { isEqualObject, exists } from '../utils';
-import { setupSockets } from './socket';
 import { AuthDataKeys } from '../reducers/auth';
+import { debounce } from 'lodash';
 
 type Dispatch = ThunkDispatch<any, any, any>;
 
@@ -67,18 +67,19 @@ export function getAvailableAdventures() {
  * Get active adventures.
  */
 export function getMyAdventures() {
-  // var t0 = performance.now()
   return async (dispatch: Dispatch, getState: any) => {
     await dispatch(
       request({ ...ROUTES.GET_MY_ADVENTURES, description: 'Get My Adventures' }),
     ).then(
       data => {
-        // eslint-disable-next-line no-console
-        // var t1 = performance.now()
-        // console.log('🧗‍♂️ adventures in ' + (t1 - t0) + " milliseconds. \n", data);
         const myAdventures = data.journeys;
         // Update my adventures in store.
-        return dispatch(setData('myAdventures', myAdventures));
+        // return dispatch(setData('myAdventures', myAdventures));
+        return dispatch({
+          type: REDUX_ACTIONS.UPDATE_ADVENTURES,
+          data: myAdventures,
+          description: 'Update myAdventure In Store'
+        });
       },
       error => {
         // eslint-disable-next-line no-console
@@ -89,31 +90,50 @@ export function getMyAdventures() {
   };
 }
 
+// Used only when clicking 'get started' on adventure invite
+// for fetching pendign adventure.
+// For performance considerations we save it with other adventures in store.
+// It's not listed with other adventures as it have status: "pending"
 export function getMyAdventure(adventureId: any) {
   return async (dispatch: Dispatch, getState: any) => {
-    const result: any = await dispatch(
+    await dispatch(
       request({
         ...ROUTES.GET_MY_ADVENTURE,
         pathParams: { adventureId },
         description: 'Get My Adventure'
       }),
+    ).then(
+      data => {
+        // const myAdventures = data.journeys;
+        // Add pending adventure to store.
+        dispatch({
+          type: REDUX_ACTIONS.UPDATE_ADVENTURE,
+          data: data,
+          description: 'Update single adventure In Store'
+        });
+
+        return data;
+      },
+      error => {
+        // eslint-disable-next-line no-console
+        console.log('🛑 getMyAdventures error', error);
+        throw error;
+      },
     );
-    return result;
   };
 }
 
 export function getAdventuresInvitations() {
-  // var t0 = performance.now()
   return async (dispatch: Dispatch, getState: any) => {
     const results: any = await dispatch(
       request({ ...ROUTES.GET_ADVENTURE_INVITATIONS, description: 'Get Adventures Invitations' }),
     );
-    // var t1 = performance.now()
-    // console.log('🎫 invitations in ' + (t1 - t0) + " milliseconds. \n", results);
     const adventureInvitations = results.journey_invites;
-    if ( adventureInvitations.length ) {
-      dispatch(setData('adventureInvitations', adventureInvitations));
-    }
+    dispatch({
+      type: REDUX_ACTIONS.UPDATE_INVITATIONS,
+      data: adventureInvitations,
+      description: 'Update Invitations In Store'
+    });
     return results;
   };
 }
@@ -132,22 +152,31 @@ export function acceptAdventureInvitation(adventureCode: string) {
   };
 }
 
+// We are calling for updated adventure steps after each message,
+// that can be expensive so we have to debounce this action.
+const getAdventureStepsDebounced = debounce(
+    async (dispatch, adventureId) => {
+      const results: any = await dispatch(
+        request({
+          ...ROUTES.GET_ADVENTURE_STEPS,
+          pathParams: { adventureId },
+          description: 'Get Adventure Steps'
+        }),
+      );
+      const adventureSteps = results.steps;
+      dispatch({
+        type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEPS,
+        result: { adventureId, adventureSteps },
+        description: 'Get Adventure Steps'
+      });
+      return results;
+    }
+  , 2000, { 'leading': true, 'trailing': true }
+);
+
 export function getAdventureSteps(adventureId: any) {
   return async (dispatch: Dispatch, getState: any) => {
-    const results: any = await dispatch(
-      request({
-        ...ROUTES.GET_ADVENTURE_STEPS,
-        pathParams: { adventureId },
-        description: 'Get Adventure Steps'
-      }),
-    );
-    const adventureSteps = results.steps;
-    dispatch({
-      type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEPS,
-      result: { adventureId, adventureSteps },
-      description: 'Get Adventure Steps'
-    });
-    return results;
+    return await getAdventureStepsDebounced(dispatch, adventureId)
   };
 }
 
@@ -156,7 +185,6 @@ export function getAdventureStepMessages(
   adventureStepId: string,
 ) {
   return async (dispatch: Dispatch, getState: any) => {
-    console.log( "🐸 getAdventureStepMessages----", adventureConversationId, adventureStepId);
     try {
 
       const results: any = await dispatch(
@@ -167,9 +195,7 @@ export function getAdventureStepMessages(
           description: 'Get Adventure Step Messages for conversation id: ' + adventureConversationId
         }),
       );
-      console.log( "🐸 results:", results );
       const adventureStepMessages = results.messages;
-      console.log( "🦙 adventureStepMessages:", adventureStepMessages );
       dispatch({
         type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEP_MESSAGES,
         result: { adventureStepId, adventureStepMessages },
@@ -183,7 +209,13 @@ export function getAdventureStepMessages(
 
 export function startAdventure(data: any) {
   return async (dispatch: Dispatch, getState: any) => {
-    const result = await dispatch(request({ ...ROUTES.START_ADVENTURE, data, description: 'Start Adventure' }));
+    const result = await dispatch(
+      request({
+        ...ROUTES.START_ADVENTURE,
+        data,
+        description: 'Start Adventure'
+      }));
+
     dispatch({
       type: REDUX_ACTIONS.START_ADVENTURE,
       result,
@@ -204,6 +236,25 @@ export function sendAdventureInvitation(data: any) {
     return result;
   };
 }
+
+export function resendAdventureInvitation(inviteId: string) {
+  return async dispatch => {
+    const result = await dispatch(
+      request({
+        ...ROUTES.RESEND_ADVENTURE_INVITATION,
+        pathParams: { inviteId },
+      })
+    );
+
+    dispatch({
+      type: REDUX_ACTIONS.RESEND_ADVENTURE_INVITATION,
+      result,
+    });
+    return result;
+  };
+}
+
+
 // Create new message in Adventure chat.
 export function createAdventureStepMessage(params: {
   value: string;
@@ -229,6 +280,7 @@ export function createAdventureStepMessage(params: {
         params.step.metadata.messenger_journey_step_id;
       data.message.messenger_journey_step_option_id = params.value;
       data.message.kind = 'answer';
+      data.message.content = null;
     }
     if (params.internalMessageId) {
       data.message.message_reference_id = params.internalMessageId;
@@ -252,11 +304,20 @@ export function createAdventureStepMessage(params: {
       result: { adventureStepId: params.step.id, newMessage: result },
     });
 
+    // Refresh all messages when answering a quiestion to multi challenge.
+    if ( params.kind === 'answer' ) {
+      dispatch(
+        getAdventureStepMessages(
+          params.adventure.conversation.id,
+          params.step.id
+        ));
+    }
+
     // Update adventure steps to mark the current step as completed
     // and unlock the next one.
     dispatch(getAdventureSteps(params.adventure.id));
 
-    if (params.kind === 'question' && false) {
+    if (params.kind === 'question') {
       // If this is the answer to the main question
       // update the adventure step status as completed
       // and unlock the next step (status:active).
@@ -406,10 +467,6 @@ export function updateDevice(newDeviceData: any) {
       description: 'Calling from updateDevice. Save returned from the server device data.'
     });
 
-    /* if (returnedDevice.id) {
-      dispatch(setupSockets(returnedDevice.id));
-    }
- */
     return returnedDevice;
   };
 }
@@ -431,7 +488,6 @@ export function getDevices() {
 // https://docs.vokeapp.com/#me-devices-create-device
 export function createDevice(newDeviceData: any) {
   return async (dispatch: Dispatch, getState: any) => {
-    console.log( "function createDevice:",  newDeviceData);
 
     // Fetch user data from the server.
     return dispatch(request({
@@ -441,12 +497,13 @@ export function createDevice(newDeviceData: any) {
       })).then(
       returnedDeviceData => {
         // eslint-disable-next-line no-console
-        console.log('📱 createDevice > returnedDeviceData:\n', returnedDeviceData);
-       // Update info in store.auth.device.
+       // Update info in store.auth.device if it's a cable device not apple/adnriod.
+       if(returnedDeviceData.kind === 'cable'){
         dispatch({
           type: REDUX_ACTIONS.SET_DEVICE,
           device: returnedDeviceData,
         });
+       }
         return returnedDeviceData;
       },
       error => {
@@ -475,12 +532,12 @@ export function revokeAuthToken(data: any) {
 // https://docs.vokeapp.com/#me-devices
 // Devices are an important part of establishing real time connectivity in Voke.
 // Devices allow the API to send the user information relative to them.
-export function establishCableDevice(deviceId?: string) {
+export function establishCableDevice(pushDeviceId?: string) {
   return async (dispatch: Dispatch, getState: any) => {
     const savedDeviceInfo = getState().auth.device;
     const currentDeviceId = getState().auth.device.id;
     const currentDeviceData = {
-      id: currentDeviceId,
+      // id: currentDeviceId,
       version: 1,
       local_id: deviceInfoModule.getDeviceId(),
       local_version: deviceInfoModule.getVersion(),
@@ -496,12 +553,12 @@ export function establishCableDevice(deviceId?: string) {
 
     // If device info or push device id changed:
     // deviceId - if provided, need to update device.
-    if (currentDeviceId !== deviceId || deviceInfoChanged() || !currentDeviceId) {
+    if (pushDeviceId || deviceInfoChanged() || !currentDeviceId) {
       const newDeviceData = {
         device: {
           ...currentDeviceData,
           // TODO: do I needed these?
-          key: deviceId || null,
+          key: pushDeviceId || null,
           kind: 'cable',
           // Possible variations:
           // key: deviceId for websokets,
@@ -513,11 +570,9 @@ export function establishCableDevice(deviceId?: string) {
       };
 
       if (currentDeviceId) {
-        console.log( "UPDATE DEVICE data:" , newDeviceData );
         // UPDATE existing cable with new device data.
         returnedDeviceData = await dispatch(updateDevice(newDeviceData));
       } else {
-        console.log( "CREATE DEVICE data:" , newDeviceData );
         // CREATE new cable with new device data.
         returnedDeviceData = await dispatch(createDevice(newDeviceData));
       }
@@ -528,8 +583,6 @@ export function establishCableDevice(deviceId?: string) {
     } else {
       deviceId = currentDeviceId;
     }
-    // Setup web sockets.
-    // dispatch(setupSockets(deviceId));
   };
 }
 
@@ -561,7 +614,6 @@ export function establishPushDevice(pushToken: string) {
       },
     };
     const newPushDevice: any = await dispatch(createDevice(data));
-
     return newPushDevice.id;
   };
 }
@@ -579,7 +631,6 @@ export function getNotifications(params: any = {}) {
         description: 'Get Notifications'
       }),
     );
-    console.log('NOTIFICATIONS', results);
     dispatch({
       type: REDUX_ACTIONS.UPDATE_NOTIFICATION_PAGINATION,
       result: { results, params },
@@ -712,18 +763,17 @@ export function markMessageAsRead(params: markMessageAsRead) {
           messageId: messageId,
         },
         data,
+        description: 'Mark message as read on the server.'
       }),
     );
-
-    console.log( "🦞 result:", result );
-
     return result;
   };
 }
 
-// Mark message as read.
-export function markReadAction(conversationId, messageId) {
+// Mark all messages as read in the current step.
+export function markReadStepAction({adventureId, stepId}) {
   return dispatch => {
-    dispatch({ type: REDUX_ACTIONS.MARK_READ, conversationId, messageId });
+    // Mark message as read in the store for immediate feedback.
+    dispatch({ type: REDUX_ACTIONS.MARK_READ, adventureId, stepId });
   };
 }
