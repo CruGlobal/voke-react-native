@@ -22,28 +22,16 @@ const AdventuresMy = (): React.ReactElement => {
   const [isRefreshing, setIsRefreshing] = useState(false); // Pull-to-refresh.
 
   const me = useSelector(({ auth }: any) => auth.user);
+  const adventureSteps = useSelector(({ data }: {data: TDataState}) => data.adventureSteps) || {};
   const myAdventuresIds = useSelector(({ data }: {data: TDataState}) => data.myAdventures.allIds)|| [];
   const invitationsIds = useSelector(({ data }: {data: TDataState}) => data.adventureInvitations.allIds) || [];
 
-  // const invitations = useSelector(
-  //   ({ data }: RootState) => data.adventureInvitations
-  // );
-
- /*  const trackAdventures = useSelector(
-    ({ data }: RootState) => data.dataChangeTracker.myAdventures
-  );
-  const trackInvitations = useSelector(
-    ({ data }: RootState) => data.dataChangeTracker.adventureInvitations
-  );
-  const trackSteps = useSelector(
-    ({ data }: RootState) => data.dataChangeTracker.adventureStepMessages
-  );
- */
   const updateAdventures = async (): Promise<void> => {
     // TODO: Do some kind of time based caching for these requests
     await dispatch(getMyAdventures());
     await dispatch(getAdventuresInvitations());
   };
+
   const refreshData = async (): Promise<void> => {
     setIsRefreshing(true);
     try {
@@ -54,10 +42,10 @@ const AdventuresMy = (): React.ReactElement => {
     }
   };
 
-  /* useEffect(() => {
-  // Load my adventures + invites. Note: async function can't be part of hook!
+  useEffect(() => {
+    // Load my adventures + invites. Note: async function can't be part of hook!
     updateAdventures();
-  }, [trackAdventures, trackInvitations, trackSteps ]); */
+  }, [adventureSteps ]); // Steps object have unread_messages field that we track.
 
   // On first component loading update adventures and invites via API.
   useEffect(() => {

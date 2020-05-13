@@ -210,9 +210,6 @@ const AdventureStepMessageInput = ({
   // Text Question:
   // if (isTextQuestion)
 
-  console.log( "🐻 messageSent:", messageSent );
-  console.log( "🐻 isComplete:", isComplete );
-  console.log( "🐻 value:", value );
   return (
     <Flex
       direction="row"
