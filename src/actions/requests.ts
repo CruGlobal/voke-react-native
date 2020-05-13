@@ -254,6 +254,18 @@ export function resendAdventureInvitation(inviteId: string) {
   };
 }
 
+export function deleteAdventureInvitation(inviteId: string) {
+  return async dispatch => {
+    const result = await dispatch(
+      request({
+        ...ROUTES.DELETE_ADVENTURE_INVITATION,
+        pathParams: { inviteId },
+      })
+    );
+    return result;
+  };
+}
+
 
 // Create new message in Adventure chat.
 export function createAdventureStepMessage(params: {
@@ -759,11 +771,11 @@ export function markMessageAsRead(params: markMessageAsRead) {
       request({
         ...ROUTES.CREATE_INTERACTION,
         pathParams: {
-          conversationId: conversationId,
-          messageId: messageId,
+          conversationId,
+          messageId,
         },
         data,
-        description: 'Mark message as read on the server.'
+        description: 'Mark message as read on the server.' +  messageId
       }),
     );
     return result;

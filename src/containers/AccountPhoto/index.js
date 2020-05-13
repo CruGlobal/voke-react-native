@@ -45,15 +45,14 @@ function AccountPhoto() {
   const [avatarSource, setAvatarSource] = useState(currentAvatar);
 
   async function handleContinue() {
-    console.log( "🐸 handleContinue:", avatarSource );
     if (!avatarSource || avatarSource === null) {
       // No image selected - skip to the next screen.
 
-     /*  try {
-        navigation.navigate('Adventures');
-      } finally { */
+      try {
         navigation.navigate('LoggedInApp', { screen: 'Adventures' });
-      // }
+      } catch (error) {
+        navigation.navigate('Adventures');
+      }
     } else {
 
       const avatarData = {
@@ -72,7 +71,6 @@ function AccountPhoto() {
         try {
           navigation.navigate('LoggedInApp', { screen: 'Adventures' });
         } catch (error) {
-          console.log( "🐸 error:", error );
           navigation.navigate('Adventures');
         }
       } catch (error) {

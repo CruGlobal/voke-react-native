@@ -89,11 +89,11 @@ const ROUTES = {
   SEND_ADVENTURE_INVITATION: { method: 'post', url: `me/journey_invites` },
   RESEND_ADVENTURE_INVITATION: {
     method: 'put',
-    url: `me/journey_invites/:inviteId/resend`,
+    url: `me/journey_invites/{inviteId}/resend`,
   },
   DELETE_ADVENTURE_INVITATION: {
     method: 'delete',
-    url: `me/journey_invites/:inviteId`,
+    url: `me/journey_invites/{inviteId}`,
   },
   ACCEPT_ADVENTURE_INVITATION: {
     method: 'post',

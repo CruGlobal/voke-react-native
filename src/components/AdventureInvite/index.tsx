@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/camelcase */
 import React, { useState, useEffect } from 'react';
+import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
 import Image from '../Image';
@@ -14,7 +15,7 @@ import { momentUtc } from '../../utils';
 import styles from './styles';
 import { useSelector, useDispatch } from 'react-redux';
 import useInterval from '../../utils/useInterval';
-import { resendAdventureInvitation } from '../../actions/requests';
+import { resendAdventureInvitation, deleteAdventureInvitation, getAdventuresInvitations } from '../../actions/requests';
 
 const THUMBNAIL_WIDTH = 140;
 
@@ -92,19 +93,29 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
     }
   };
 
- /*  const deleteInvite = item => {
-    const { t, dispatch } = this.props;
-    dispatch(
-      confirmAlert(
-        t('areYouSureDelete', { name: item.name }),
-        t('deleteCannotBeUndone'),
-        async () => {
-          await dispatch(deleteJourneyInvite(item.id));
-          this.load();
-        },
-      ),
-    );
-  }; */
+
+  const deleteInvite = inviteID => {
+    // dispatch(
+      Alert.alert(
+        'Are you sure you want to delete your invite?',
+        'This cannot be undone. You can always invite them again by using "Invite a Friend".',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => {},
+            style: "cancel"
+          },
+          {
+            text: 'Delete',
+            onPress: async () => {
+              await dispatch(deleteAdventureInvitation(inviteID));
+              await dispatch(getAdventuresInvitations());
+            },
+          }
+        ]
+      )
+    // );
+  };
 
   return (
     <Flex style={styles.InviteWrapper}>
@@ -176,7 +187,7 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
 
               <Touchable
                 onPress={(): void => {
-                  //TODO: add on press function here.
+                  deleteInvite(inviteID)
                 }}
                 style={[st.br2, st.borderWhite, st.bw1, st.pd(7)]}
               >
