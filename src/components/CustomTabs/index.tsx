@@ -10,14 +10,15 @@ type TabsProps = {
     testID?: string;
     component: React.ComponentType;
   }[];
+  initial: number;
 };
 
 /**
  * Custom Tabs
  * @param tabs array of objects {key, title, testID, component}
  */
-const CustomTabs = ({ tabs }: TabsProps): React.ReactElement => {
-  const [index, setIndex] = React.useState(0);
+const CustomTabs = ({ tabs, initial }: TabsProps): React.ReactElement => {
+  const [index, setIndex] = React.useState(initial||0);
   const [routes] = useState(tabs);
   const scenes: { [key: string]: React.ComponentType } = {};
 
