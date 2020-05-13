@@ -41,7 +41,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
   const currentStep = useSelector(({ data }: RootState) =>
     data.adventureSteps[adventureId].byId[stepId]
   );
-  const currentUser = useSelector(({ auth }: RootState) => auth.user);
+  const currentUser = useSelector(({ auth }: RootState) => auth.user) || {};
   const currentMessages = useSelector(
     ({ data }: RootState) => data.adventureStepMessages[currentStep?.id] || []
   );
@@ -56,9 +56,11 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
 
   if (!['multi', 'binary'].includes(currentStep.kind)) {
     // Find the first message of the current author from the start.
-    const mainAnswer = (currentMessages.slice().find(m => m.messenger_id === currentUser.id));
+    const mainAnswer = (currentMessages.slice().find( m => {
+        m?.messenger_id === currentUser.id
+      })) || {};
     // .reverse()
-    if ( mainAnswer ) {
+    if ( Object.keys(mainAnswer).length > 0 ) {
       myMainAnswer.id = mainAnswer.id;
       myMainAnswer.content = mainAnswer.content;
     }
@@ -250,7 +252,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
                   return(
                     <>
                       {
-                        (myMainAnswer?.id === item?.id)
+                        ( !item || myMainAnswer?.id === item?.id)
                           ? null
                          : <AdventureStepMessage
                             key={item.id}

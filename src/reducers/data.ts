@@ -98,7 +98,7 @@ export default function(state = initialState, action: any) {
       if (lodash.isEqual(state[action.key], action.data)) {
         return state;
       }
-
+/*
       if ( exists(state.dataChangeTracker[action.key]) ) {
         return {
           ...state,
@@ -108,7 +108,7 @@ export default function(state = initialState, action: any) {
             [action.key] : state.dataChangeTracker[action.key] + 1
           }
         };
-      }
+      } */
 
       return { ...state, [action.key]: action.data };
     }
@@ -155,10 +155,11 @@ export default function(state = initialState, action: any) {
           allIds: normalizedInvitations.result,
         },
         // Change tracker value to signal deep data change.
+        /* 
         dataChangeTracker: {
           ...state.dataChangeTracker,
           adventureInvitations: state.dataChangeTracker.adventureInvitations + 1
-        }
+        } */
       };
     }
 
@@ -178,10 +179,11 @@ export default function(state = initialState, action: any) {
           allIds: normalizedAdventures.result,
         },
         // Change tracker value to signal deep data change.
+        /* 
         dataChangeTracker: {
           ...state.dataChangeTracker,
           myAdventures: state.dataChangeTracker.myAdventures + 1
-        }
+        } */
       };
     }
 
@@ -196,10 +198,11 @@ export default function(state = initialState, action: any) {
           },
         },
         // Change tracker value to signal deep data change.
+        /* 
         dataChangeTracker: {
           ...state.dataChangeTracker,
           myAdventures: state.dataChangeTracker.myAdventures + 1
-        }
+        } */
       };
     }
 
@@ -291,11 +294,12 @@ export default function(state = initialState, action: any) {
         },
 
         // Change tracker value to signal deep data change.
+        /* 
         dataChangeTracker: {
           ...state.dataChangeTracker,
           adventureSteps: state.dataChangeTracker.adventureSteps + 1,
           myAdventures: state.dataChangeTracker.myAdventures + 1
-        }
+        } */
       };
     }
 
@@ -327,10 +331,10 @@ export default function(state = initialState, action: any) {
           [adventureStepId]: newMessages
         },
 
-        dataChangeTracker: {
-          ...state.dataChangeTracker,
-          adventureStepMessages : state.dataChangeTracker.adventureStepMessages + 1
-        }
+        // dataChangeTracker: {
+        //   ...state.dataChangeTracker,
+        //   adventureStepMessages : state.dataChangeTracker.adventureStepMessages + 1
+        // }
       };
     }
 
@@ -435,9 +439,10 @@ export default function(state = initialState, action: any) {
             }
           },
           // Change tracker value to force adventure step component refresh.
+          /* 
           dataChangeTracker: {
             adventureSteps: state.dataChangeTracker.adventureSteps + 1,
-          }
+          } */
         }
       )
       return newState;
