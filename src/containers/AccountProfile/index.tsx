@@ -16,6 +16,7 @@ import { logoutAction } from '../../actions/auth';
 import { useDispatch,useSelector } from 'react-redux';
 import styles from './styles';
 import VokeIcon from '../../components/VokeIcon';
+import Seperator from '../../components/se'
 
 type ProfileModalProps = {
   props: any
@@ -38,13 +39,26 @@ function SettingsRow({ title, value, onSelect }) {
   );
 }
 
+function ProfileRow({ text, value,toggle }) {
+  return (
+    <Flex direction="row" align="center" justify="center">
+    <Text style={{color:"#fff", fontSize:18, width:150}}>{text}</Text>
+  <Text style={{color:"#fff", fontSize:18,}} onPress={() => {toggle}}>{value}</Text>
+    </Flex>
+  );
+}
+
+
 const AccountProfile = ( props: ProfileModalProps  ) => {
   const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const me = useSelector(({ auth }) => auth.user);
 
-  console.log("*************MEEEEEE**************", me)
+  toggleEdit = type => {
+   console.log("EDit", type)
+  };
+
   return (
     <Flex
     value={1}
@@ -53,7 +67,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
       // { paddingTop: insets.top }
     ]}
   >
-      <ScrollView>
+    <ScrollView style={[st.f1, st.bgBlue]}>
       <StatusBar />
       <Flex direction="column" align="center" style={[st.ph1, st.w100,{marginBottom:10, marginTop:30}]}>
       <Image resizeMode="contain" source={{uri: me.avatar.large}} style={{width:100, height:100, borderColor: '#fff',
@@ -63,43 +77,46 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
           title="Change Photo"
           // onSelect={() => Linking.openURL(CONSTANTS.WEB_URLS.VOKE)}
         />
-        <Text style={{color:"#fff", fontSize:24, marginTop:20, marginBottom:50}}>
+        <Text style={{color:"#fff", fontSize:24, marginTop:20}}>
         {me.firstName+" "+ me.lastName}
         </Text>
+        {me.email == null || me.email=="" ?  <Text style={{color:"#fff", fontSize:18, marginTop:5, marginBottom:50}}>
+        Guest Profile</Text>:  <Text style={{color:"#fff", fontSize:18, marginTop:5, marginBottom:50}}>
+        User Account
+        
+        </Text> }
         <Text style={{color:"#fff", fontSize:18, textDecorationLine:'underline'}}>
         Profile Info
         </Text>
-        <Flex direction="row" align="center" justify="center" style={{marginTop:20, marginBottom:20}}>
-        <Text style={{color:"#fff", fontSize:18, width:150}}>Language</Text>
-  <Text style={{color:"#fff", fontSize:18,}}>English</Text>
-        </Flex>
-        <Flex direction="row" align="center">
+        <ProfileRow text="Language" value="English"/>
+
+        {me.email == null || me.email=="" ?null :
+          <>
+          <ProfileRow text="Email" value={me.email}/>
+          <ProfileRow text="PAssword" value="*****"/>
+          </>
+        }
+        <Flex direction="row" align="center"  style={{marginTop:20}}>
 
         <SettingsRow
           title="Delete My Account"
           // onSelect={() => Linking.openURL(CONSTANTS.WEB_URLS.PRIVACY)}
         />
+        </Flex>
+        <Flex direction="row" align="center">
 
-</Flex>
-<Flex direction="row" align="center">
+        <SettingsRow
+                  title="Sign out of my account"
+                  // onSelect={() => navigation.navigate('Acknowledgements')}
+                />
 
-<SettingsRow
-          title="Sign out of my account"
-          // onSelect={() => navigation.navigate('Acknowledgements')}
-        />
-
-</Flex>
+        </Flex>
       
        
         </Flex>
-      </ScrollView>
-      {/* SECTION: CALL TO ACTION BUTTON */}
-      <Flex value={3}>
-        <Triangle
-          width={useWindowDimensions().width}
-          height={40}
-          color={styles.colors.secondary}
-        />
+      
+        {me.email == null || me.email=="" ?
+      // {/* SECTION: CALL TO ACTION BUTTON */}
         <Flex
           direction="column"
           style={[styles.SectionAction]}
@@ -107,12 +124,10 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
           justify="evenly"
         >
           {/* TEXT:TEXT */}
-          <Text style={[styles.TextSmall,{textAlign:'center'}]}>
-            <Text style={[styles.TextSmall,{textAlign:'center', paddingBottom:30}]
+            <Text style={[styles.TextMedium,{textAlign:'center', paddingBottom:10}]
                         }            >
              Sign up to save your progress and access your account from anywhere.
             </Text>
-          </Text>
 
           {/* BUTTON:SIGN UP WITH EMAIL */}
           <Button
@@ -162,12 +177,13 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
           </Flex>
         </Button>
         </Flex>
-      </Flex>
+        :null}
+      </ScrollView>
 
       {/* Safe area bottom spacing */}
       <Flex
         style={{
-          backgroundColor: styles.colors.secondary,
+          backgroundColor: styles.colors.primary,
           paddingBottom: insets.bottom
         }}
       ></Flex>

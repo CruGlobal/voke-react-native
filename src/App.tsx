@@ -57,7 +57,6 @@ const defaultHeaderConfig = {
     fontWeight: 'normal',
   },
   headerLeft: () => <HeaderLeft />,
-  headerRight:()=> <HeaderRight/>
 };
 
 // https://reactnavigation.org/docs/stack-navigator#options
