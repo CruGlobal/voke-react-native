@@ -33,7 +33,6 @@ const NameInput = forwardRef(({ ...rest }, ref) => {
         spellCheck={false}
         keyboardAppearance={'dark'}
         selectionColor={st.colors.white}
-        colo
         {...rest}
       />
     </Flex>

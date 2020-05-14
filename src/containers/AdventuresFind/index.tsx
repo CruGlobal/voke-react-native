@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ScrollView, FlatList } from 'react-native';
+import { View, ScrollView, FlatList } from 'react-native';
 import { useMount } from '../../utils';
 import { RootState } from '../../reducers';
 import { getAvailableAdventures } from '../../actions/requests';
@@ -36,6 +36,8 @@ const AdventuresFind = (): React.ReactElement => {
         data={adventures}
         style={[st.w(st.fullWidth)]}
       />
+      {/* Extra spacing for bottom navigation tabs */}
+      <View style={{height:120}}></View>
     </ScrollView>
   );
 };

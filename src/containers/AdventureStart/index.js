@@ -106,11 +106,12 @@ function AdventureStart(props) {
                 st.w(st.fullWidth - 50),
                 st.mt2,
               ]}
-              onPress={() =>
+              onPress={() =>{
                 navigation.navigate('AdventureName', {
                   item,
                   withGroup: false,
                 })
+                }
               }
             >
               <Flex

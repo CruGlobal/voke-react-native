@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import VokeIcon from '../../components/VokeIcon';
+import lodash from 'lodash';
+
 
 import st from '../../st';
 import theme from '../../theme';
@@ -48,7 +50,9 @@ function AdventuresActions() {
           { width: st.fullWidth - 30 },
         ]}
         onPress={() => navigation.navigate('AdventureName', {
-            item: adventures.find(a => a.name === 'The Faith Adventure'),
+            item: lodash.find( adventures, // TODO try to optimize
+              {'name':'The Faith Adventure'}
+            ),
             withGroup: true,
           })}
       >

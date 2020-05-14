@@ -71,11 +71,9 @@ function buildParams(options, getState) {
 // TODO: Needs refactoring.
 export default function request(options) {
   return async (dispatch, getState) => {
-
     let finalUrl = replaceUrlParam(options.url, options.pathParams);
     const params = qs.stringify(buildParams(options, getState));
     // finalUrl = `${API_BASE_URL}${finalUrl}?${params}`;
-
     if (options.isAuth) {
       finalUrl = `${AUTH_URL}${finalUrl}?${params}`;
     } else {

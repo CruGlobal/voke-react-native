@@ -25,11 +25,9 @@ function GroupModal(props) {
   const me = useSelector(({ auth }) => auth.user);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-
   const adventureId = props.route.params.adventure.messenger_journey_id;
-
-  const myAdventures = useSelector(({ data }) => data.myAdventures);
-  const adventure = myAdventures.find(adv => adv.id === adventureId);
+  const myAdventures = useSelector(({ data }) => data.myAdventures.byId);
+  const adventure = myAdventures[adventureId];
   const allMessengers = adventure.conversation.messengers;
   const messengers = allMessengers.filter(
     i => i.first_name !== 'VokeBot' && (i || {}).id !== (me || {}).id,
@@ -128,8 +126,8 @@ function GroupModal(props) {
                         width: index === 0 ? largeCircle : smallCircle,
                         borderRadius:
                           index === 0 ? largeCircle / 2 : smallCircle / 2,
-                        borderWidth: st.isAndroid || index !== 0 ? 0 : 1,
-                        borderColor: st.colors.red,
+                        borderWidth: 2,
+                        borderColor: st.colors.white,
                       },
                     ]}
                   />

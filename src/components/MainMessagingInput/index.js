@@ -14,7 +14,11 @@ function AdventureStepMessageInput({ adventure, step, ...rest }) {
   const dispatch = useDispatch();
 
   const handleSendMessage = () => {
-    Keyboard.dismiss();
+    // Keyboard.dismiss();
+    // Don't send empty messages.
+    if ( text.length === 0 ) {
+      return;
+    }
     dispatch(
       createAdventureStepMessage({
         adventure,

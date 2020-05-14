@@ -10,6 +10,7 @@ import LoadingRedux from './components/LoadingRedux';
 import configureStore from './store';
 import App from './App';
 import ToastManager from './components/ToastManager';
+import NotificationModal from './components/NotificationModal';
 import { registerLogs } from './utils';
 // import ModalHandler from './containers/ModalHandler';
 
@@ -40,6 +41,8 @@ const Root = () => {
           persistor={persistor} onBeforeLift={onBeforeLift}>
             { showLoader ? <LoadingRedux /> :  <App />}
           <ToastManager />
+          {/* Notification Modal */}
+          <NotificationModal />
         </PersistGate>
       </Provider>
     </SafeAreaProvider>

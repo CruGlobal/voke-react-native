@@ -14,7 +14,7 @@ const TextField = forwardRef(
   // TODO: try to find an appropriate type for ref: any?
   ({ label, ...restProps }: CustomProps, ref: any) => (
     <Flex direction="column" self="stretch" align="center" style={[st.mt2]}>
-      <Text style={[st.offBlue, st.fs14]}>{label}</Text>
+      <Text style={[st.offBlue, st.fs16]}>{label}</Text>
       <TextInput
         ref={ref}
         style={[
@@ -32,7 +32,7 @@ const TextField = forwardRef(
 
           st.fontFamilyMain,
         ]}
-        underlineColorAndroid={st.colors.offBlue}
+        underlineColorAndroid={st.colors.transparent}
         placeholderTextColor={st.colors.white}
         contextMenuHidden
         autoCapitalize={

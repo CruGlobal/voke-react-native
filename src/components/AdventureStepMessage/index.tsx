@@ -24,8 +24,6 @@ function AdventureStepMessage({
   step,
   adventure,
 }: MessageProps): React.ReactElement | null {
-  console.log( "🦚 item:", item );
-
   const isAndroid = Platform.OS === 'android';
   const userId = getCurrentUserId();
   const message = {
@@ -67,7 +65,8 @@ function AdventureStepMessage({
   // SPECIAL MESSAGE: QUESTION / MULTI / BINARY / SHARE
   if (['binary', 'multi', 'question', 'share'].includes(msgKind)) {
     return (
-      <Flex direction="column" style={[st.mt4]}>
+      <Flex align="center" style={[st.fw100]}>
+      <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
         {msgKind === 'multi' || msgKind === 'question' ? (
           /* MESSAGE QUESTION AREA: */
           <Flex
@@ -93,12 +92,19 @@ function AdventureStepMessage({
           step={step}
           internalMessage={message}
           defaultValue={selectedAnswer}
+          onFocus={() => {
+            /* scrollRef.current.props.scrollToFocusedInput(
+              findNodeHandle(event.target),
+            ); */
+          }}
         />
+      </Flex>
       </Flex>
     );
   }
   // REGULAR MESSAGE: TEXT
   return (
+    <>{ !message.content && isMyMessage ? null :
     <Flex align="center" style={[st.fw100]}>
       <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
         <Flex direction="row">
@@ -112,8 +118,14 @@ function AdventureStepMessage({
                 <Text style={[st.fs4, st.white]}>{message.content}</Text>
               </Flex>
             ) : null}
-            <Text style={[st.pd6, st.fs4, isMyMessage ? st.blue : st.white]}>
-              {isSharedAnswer ? message.messenger_answer : message.content}
+            <Text style={[st.pd6, st.fs4, isMyMessage ? st.blue : st.white, {
+              opacity: message.content ? 1 : .5
+            }]}>
+              {isSharedAnswer ?
+                message.messenger_answer :
+                message.content ?
+                  message.content :
+                  'Skipped'}
             </Text>
           </Flex>
           {!isMyMessage ? <Flex style={[st.f1]} /> : null}
@@ -145,6 +157,7 @@ function AdventureStepMessage({
             {/* {<VokeIcon type="image" name="camera" style={[st.h(30), st.w(30)]} />} */}
           </Flex>
         ) : null}
+        {/* User Avatar */}
         <Image
           source={{ uri: (messenger.avatar || {}).small }}
           style={[
@@ -156,6 +169,7 @@ function AdventureStepMessage({
           ]}
         />
       </Flex>
+      {/* Message Footer: Name + Date */}
       <Flex
         direction="row"
         align="center"
@@ -164,7 +178,9 @@ function AdventureStepMessage({
       >
         {isMyMessage ? null : (
           <Text style={[st.white]}>
-            {`${messenger.first_name} ${messenger.last_name} • `}
+            { messenger.first_name ? messenger.first_name + ' ' : '' }
+            { messenger.last_name ? messenger.last_name + ' ' : '' }
+            {`• `}
           </Text>
         )}
         <DateComponent
@@ -173,7 +189,8 @@ function AdventureStepMessage({
           format="MMM D @ h:mm A"
         />
       </Flex>
-    </Flex>
+    </Flex> }
+    </>
   );
 }
 
