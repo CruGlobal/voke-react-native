@@ -42,11 +42,12 @@ const AdventuresMy = (): React.ReactElement => {
     }
   };
 
-  useEffect(() => {
+/*
+    useEffect(() => {
     // Load my adventures + invites. Note: async function can't be part of hook!
     updateAdventures();
   }, [adventureSteps ]); // Steps object have unread_messages field that we track.
-
+ */
   // On first component loading update adventures and invites via API.
   useEffect(() => {
   // Load my adventures + invites. Note: async function can't be part of hook!

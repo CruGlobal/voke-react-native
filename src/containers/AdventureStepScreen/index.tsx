@@ -284,7 +284,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
           But only if it's portrait orientation and not solo adventure.
           It makes no sense to talk to yourself in solo mode.
         */}
-        {!isSolo && isPortrait && myMainAnswer.id && (
+        {!isSolo && isPortrait && currentStep['completed_by_messenger?'] && (
           <Flex
             direction="row"
             align="center"

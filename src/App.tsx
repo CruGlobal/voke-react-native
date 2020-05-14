@@ -18,7 +18,6 @@ import AccountSignIn from './containers/AccountSignIn';
 import AccountProfile from './containers/AccountProfile';
 import AccountCreate from './containers/AccountCreate';
 import AccountForgotPassword from './containers/AccountForgotPassword';
-import AccountGetConversations from './containers/AccountGetConversations';
 import Adventures from './containers/Adventures';
 import AdventureAvailable from './containers/AdventureAvailable';
 import VideoDetails from './containers/VideoDetails';
@@ -569,26 +568,6 @@ const App = () => {
               fontWeight: 'normal',
             },
             title: 'About Voke',
-          })}
-        />
-        <AppStack.Screen
-          name="AccountGetConversations"
-          component={AccountGetConversations}
-          options={({ navigation }) => ({
-            headerShown: true,
-            headerLeft: () => <HeaderLeft hasBack />,
-            cardStyle: { backgroundColor: theme.colors.transparent },
-            headerStyle: {
-              backgroundColor: theme.colors.primary,
-              elevation: 0,
-              shadowOpacity: 0,
-            },
-            headerTitleStyle: {
-              color: theme.colors.white,
-              fontSize: 18,
-              fontWeight: 'normal',
-            },
-            title: 'Get my Old Conversations',
           })}
         />
         <AppStack.Screen
