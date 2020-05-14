@@ -183,17 +183,25 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
               </Text>
             </Flex> */}
           </Flex>
-          {isExpired ? (<Flex align="center" justify="center" style={[st.tac, st.mr4, st.ml6]}>
-
+          {isExpired ? (
+            <Flex
+              align="center"
+              justify="center"
+              style={{
+                position: 'absolute',
+                top: 4,
+                right: 4,
+              }}>
               <Touchable
                 onPress={(): void => {
                   deleteInvite(inviteID)
                 }}
-                style={[st.br2, st.borderWhite, st.bw1, st.pd(7)]}
+                style={[st.br2, st.borderTransparent, st.bw1, st.pd(7)]}
               >
                 <VokeIcon name="close" style={[st.white, st.fs6]} />
               </Touchable>
-          </Flex>) : null}
+            </Flex>)
+            : null}
         </Flex>
       </Touchable>
     </Flex>

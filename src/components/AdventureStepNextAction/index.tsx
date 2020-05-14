@@ -7,6 +7,8 @@ import { TAdventureStepSingle } from '../../types';
 import styles from './styles';
 import Text from '../Text';
 import Button from '../Button';
+import st from '../../st';
+import VokeIcon from '../../components/VokeIcon';
 // import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
 import {
@@ -28,6 +30,7 @@ const AdventureStepNextAction = ({
   const userId = getCurrentUserId();
   const adventure = getAdventureById(adventureId);
   const steps = useSelector(({ data }: RootState) => data.adventureSteps[adventureId].byId);
+  const stepsIds = useSelector(({ data }: RootState) => data.adventureSteps[adventureId].allIds);
   const step = steps[stepId];
   if (!step) return null;
   const isComplete = step.status === 'completed';
@@ -40,9 +43,9 @@ const AdventureStepNextAction = ({
   }
 
   // If this is the last step and it's complete, don't show this.
-  if ((steps[steps.length - 1] || {}).id === step.id) {
-    return null;
-    /* TODO: Return this COMPLETE message;
+  if ((stepsIds[stepsIds.length - 1] || {}) === step.id) {
+    // return null;
+    /* TODO: Return this COMPLETE message; */
     // this.props.scrollToEnd();
 
     return (
@@ -53,11 +56,16 @@ const AdventureStepNextAction = ({
         style={[st.bgBlue, st.ph2, st.pt2]}
       >
         <Text style={[st.aic, st.fs4, st.mb4, st.ph1, st.tac]}>
-          Congrats! You finished the adventure. Now start it with someone
-          else!
+          Congrats! You finished the adventure. Now start it with someone else!
         </Text>
         <Button
-          onPress={this.friend}
+          onPress={ () =>
+            navigation.navigate('AdventureName', {
+              item: {
+                id: adventure.organization_journey_id
+              },
+              withGroup: false,
+            })}
           style={[
             st.bgOrange,
             st.ph6,
@@ -83,7 +91,13 @@ const AdventureStepNextAction = ({
           </Flex>
         </Button>
         <Button
-          onPress={this.group}
+          onPress={ () =>
+            navigation.navigate('AdventureName', {
+              item: {
+                id: adventure.organization_journey_id
+              },
+              withGroup: true,
+            })}
           style={[
             st.bgOrange,
             st.ph6,
@@ -111,7 +125,6 @@ const AdventureStepNextAction = ({
         </Button>
       </Flex>
     );
-    */
   }
 
   let text = 'Next Video is Ready';
