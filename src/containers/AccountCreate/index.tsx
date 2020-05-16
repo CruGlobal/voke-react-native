@@ -124,7 +124,7 @@ const AccountCreate: React.FC = (): React.ReactElement => {
             value={email}
             onChangeText={checkEmail}
             autoCapitalize="none"
-            textContentType="emailAddress"
+            textContentType="username"
             autoCompleteType="email"
             keyboardType="email-address"
             returnKeyType="next"

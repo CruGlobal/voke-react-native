@@ -324,6 +324,7 @@ export default function(state = initialState, action: any) {
       // Flip messages as they come reversed:
       const newMessages = action.result.adventureStepMessages.reverse();
       const adventureStepId = action.result.adventureStepId;
+      console.log( "🐙 adventureStepId:", adventureStepId );
       return {
         ...state,
         adventureStepMessages: {
@@ -340,17 +341,15 @@ export default function(state = initialState, action: any) {
 
     case REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE: {
       const adventureStepId = action.result.adventureStepId
-      const stepMessages = [].concat(
-        state.adventureStepMessages[adventureStepId], // Existing messages.
-        [action.result.newMessage] // New message.
-      );
 
       return {
         ...state,
-        // adventureStepMessages: updatedAdventureStepMessagesAfterCreate,
         adventureStepMessages: {
           ...state.adventureStepMessages,
-          [adventureStepId]: stepMessages
+          [adventureStepId]: [
+            ...state.adventureStepMessages[adventureStepId], // Existing messages.
+            action.result.newMessage // New message.
+          ]
         }
       };
     }
