@@ -97,15 +97,15 @@ target 'Voke' do
   add_flipper_pods!
   post_install do |installer|
     flipper_post_install(installer)
-  end
-end
 
-# Fix ios target version warrnings on build.
-# https://stackoverflow.com/a/51416359
-post_install do |lib|
-    lib.pods_project.targets.each do |target|
-        target.build_configurations.each do |config|
-            config.build_settings.delete 'IPHONEOS_DEPLOYMENT_TARGET'
-        end
+    # Fix ios target version warrnings on build.
+    # https://stackoverflow.com/a/51416359
+
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings.delete 'IPHONEOS_DEPLOYMENT_TARGET'
+        # config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.2'
+      end
     end
+  end
 end
