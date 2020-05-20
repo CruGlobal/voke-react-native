@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavigationContainer, useRoute } from '@react-navigation/native';
+import { NavigationContainer, useRoute, useNavigationState } from '@react-navigation/native';
 import { Button } from 'react-native';
 import { startupAction, sleepAction, wakeupAction } from './actions/auth';
+import { routeNameRef, navigationRef } from './RootNavigation';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -242,6 +243,8 @@ const LoggedInAppContainer = () => {
   const dispatch = useDispatch();
   const Tabs = createBottomTabNavigator();
   const route = useRoute();
+  const state = useNavigationState(state => state);
+  const routeName = (state.routeNames[state.index]);
 
 
   // Handle iOS & Android appState changes.
@@ -251,9 +254,7 @@ const LoggedInAppContainer = () => {
     onChange: (newAppState) => console.warn('App state changed to ', newAppState),
     // Callback function to be executed once app go to foreground
     onForeground: () => {
-      console.warn('App went to Foreground');
-      console.log( "🌷 route:", route );
-      dispatch(wakeupAction({currentScreen:route.name}));
+      dispatch(wakeupAction({currentScreen:routeNameRef?.current}));
     },
     // Callback function to be executed once app go to background
     onBackground: () => {
@@ -314,8 +315,6 @@ const App = () => {
   // Extract store.auth.isLoggedIn value.
   const isLoggedIn = useSelector(({ auth }: any) => auth.isLoggedIn);
   const AppStack = createStackNavigator();
-  const routeNameRef = React.useRef();
-  const navigationRef = React.useRef();
   const insets = useSafeArea();
 
   // Hide splash screen on load.

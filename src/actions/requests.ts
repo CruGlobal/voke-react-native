@@ -185,13 +185,14 @@ export function getAdventureStepMessages(
   adventureStepId: string,
 ) {
   return async (dispatch: Dispatch, getState: any) => {
+    console.log( "🐴 getAdventureStepMessages:", {adventureConversationId}, {adventureStepId} );
     try {
 
       const results: any = await dispatch(
         request({
           ...ROUTES.GET_ADVENTURE_STEP_MESSAGES,
           pathParams: { adventureConversationId },
-          params: { messenger_journey_step_id: adventureStepId },
+          params: adventureStepId ? { messenger_journey_step_id: adventureStepId } : null,
           description: 'Get Adventure Step Messages for conversation id: ' + adventureConversationId
         }),
       );

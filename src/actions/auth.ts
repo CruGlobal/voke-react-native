@@ -20,8 +20,9 @@ import {
 } from './requests';
 
 import { isArray } from '../utils';
-import { openSocketAction } from './socket';
+import { openSocketAction, closeSocketAction } from './socket';
 import { permissionsAndNotifications } from './notifications';
+import { getAdventureStepMessages } from './requests';
 
 export function loginAction(authToken) {
   // const authToken = authData.access_token;
@@ -43,16 +44,30 @@ export function startupAction() {
 
 // When app focussed again.
 export function wakeupAction({currentScreen}) {
-  LOG( "🌝 function wakeupAction", );
+  LOG( "🌝 function wakeupAction",  {currentScreen});
   return async (dispatch, getState)  => {
     await dispatch(permissionsAndNotifications());
     const deviceId = getState().auth.device.id;
     dispatch( openSocketAction(deviceId) );
 
     // Check on what screen we are and update the required info.
-    if (currentScreen === 'LoggedInApp') {
+    if (currentScreen === '"Adventures"') {
       dispatch(getAdventuresInvitations());
       dispatch(getMyAdventures());
+    }
+
+    // AdventureActive
+
+    if (currentScreen === 'AdventureStepScreen') {
+      const { conversationId, adventureStepId } = getState().info?.currentScreen?.data;
+      console.log( "🐸 adventureStepId:", conversationId );
+      dispatch(
+        getAdventureStepMessages(
+          conversationId,
+          adventureStepId
+        ),
+      );
+
     }
   }
 }
@@ -63,7 +78,9 @@ export function sleepAction() {
   return async dispatch => {
     // No need to close/reopen WebSocket connection anymore:
     // https://github.com/facebook/react-native/issues/26731
-    // dispatch(closeSocketAction());
+    // Not so fast! We need to close sockets to tell the backend to send
+    // new notifications via push changed instead of WS.
+    dispatch(closeSocketAction());
   }
 }
 

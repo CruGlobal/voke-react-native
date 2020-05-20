@@ -24,6 +24,17 @@ export function toastAction(text: string, length?: 'long' | 'short' | null) {
   };
 }
 
+export function setCurrentScreen({ screen, data }) {
+  return async (dispatch: Dispatch, getState: any) => {
+    dispatch({
+      type: REDUX_ACTIONS.SET_SCREEN,
+      screen: screen,
+      data: data,
+      description: 'Set current screen: ' + screen + '. Called from setCurrentScreen()'
+    });
+  };
+}
+
 export function next() {
   return {};
 }

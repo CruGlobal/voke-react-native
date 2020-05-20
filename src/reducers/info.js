@@ -4,9 +4,23 @@ const initialState = {
   pushNotificationPermission: '',
   notificationsRequest: false,
   toastProps: {},
+  currentScreen: {
+    screen: '',
+    data: {},
+  },
 };
 
-export default function(state = initialState, action) {
+export default function(
+  state = initialState,
+  action: {
+    props: any;
+    toastProps: any;
+    permission: any;
+    notificationsRequest: any;
+    screen: any;
+    data: any;
+  },
+  ) {
   switch (action.type) {
     case REDUX_ACTIONS.SET_TOAST:
       return {
@@ -30,6 +44,17 @@ export default function(state = initialState, action) {
         ...state,
         notificationsRequest: ! state.notificationsRequest,
       };
+    }
+    case REDUX_ACTIONS.SET_SCREEN: {
+      return {
+        ...state,
+        currentScreen: {
+          screen: action.screen || '',
+          data: action.data || {},
+        },
+      };
+
+      // return newState;
     }
     default:
       return state;
