@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { ScrollView, FlatList } from 'react-native';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { getMyAdventure, getAdventureSteps } from '../../actions/requests';
+import { setCurrentScreen } from '../../actions/info';
+import { useFocusEffect } from '@react-navigation/native';
 import AdventureStepCard from '../../components/AdventureStepCard';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
@@ -13,6 +15,7 @@ import styles from './styles';
 
 type AdventureActiveProps = {
   route: {
+    name: string,
     params: {
       adventureId: string;
     };
@@ -49,6 +52,24 @@ function AdventureActive({ route }: AdventureActiveProps): React.ReactElement {
     // -- ☝️call to update steps from the server.
     // Without it new Adventures won't show any steps.
   },[adventure?.id]);
+
+  // Events firing when user leaves the screen or comes back.
+  useFocusEffect(
+    useCallback(() => {
+      // Actions to run when the screen focused:
+      // Save current screen and it's parammeters in store.
+      dispatch(setCurrentScreen({
+        screen: route?.name,
+        data: {
+          adventureId,
+        },
+      }));
+
+      return () => {
+        // Actions to run when the screen unfocused:
+      };
+    }, [])
+  )
 
   return (
     <Flex value={1}>

@@ -75,8 +75,10 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
                 } catch (e) {
                   console.log('error sending websocket object', e);
                 } finally {
-                  // TODO: Update data.
-                  console.log('TODO PULL FRESH DATA FROM THE SERVER.')
+                  // Update data every time sockets reopenned.
+                  // Don't do it here. We have wake-up action for that.
+                 /*  dispatch(getAdventuresInvitations());
+                  dispatch(getMyAdventures()); */
                 }
               } else {
                 console.log(
@@ -216,7 +218,7 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
     if (action.type === 'OPEN_SOCKETS') {
       // Do a try/catch just to stop any errors
       try {
-        if ( !ws || !ws.send || ws.readyState !== WEBSOCKET_STATES.OPEN) {
+        if ( !global.ws || !global.ws.send || global.ws.readyState !== WEBSOCKET_STATES.OPEN) {
           // If can't open connection then reinstall websockets connection.
           dispatch({
             type: REDUX_ACTIONS.STARTUP,
@@ -241,14 +243,17 @@ export function openSocketAction(deviceId: string) {
 }
 
 /*
-NOT NEEDED FOR NOW, BUT LEAVE IT HERE.
+Close the sockets when app goes into background.
+Need that so backend knows when to send push notifications instead of cabel.
+*/
 export function closeSocketAction() {
   return () => {
     // Do a try/catch just to stop any errors
     try {
-      if (ws) {
-        ws.close(undefined, 'client closed');
-        ws = null; //  to avoid multiply ws objects and eventHandligs;
+      if (global.ws) {
+        global.ws.close(undefined, 'client closed');
+        global.ws = null; //  to avoid multiply ws objects and eventHandligs;
+        console.log('sockets closed', global.ws);
       }
     } catch (socketErr) {
       // Do nothing with the error
@@ -256,4 +261,3 @@ export function closeSocketAction() {
     }
   };
 }
- */
