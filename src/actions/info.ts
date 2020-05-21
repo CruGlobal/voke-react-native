@@ -24,7 +24,7 @@ export function toastAction(text: string, length?: 'long' | 'short' | null) {
   };
 }
 
-export function setCurrentScreen({ screen, data }) {
+export function setCurrentScreen({ screen, data = null }) {
   return async (dispatch: Dispatch, getState: any) => {
     dispatch({
       type: REDUX_ACTIONS.SET_SCREEN,

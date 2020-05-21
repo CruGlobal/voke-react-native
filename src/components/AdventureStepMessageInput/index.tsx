@@ -262,7 +262,7 @@ const AdventureStepMessageInput = ({
                     // setValue(a.value);
                     handleSendMessage(value);
                   }}
-              style={[st.p4, {backgroundColor:'red'}]}>
+              style={[st.p4]}>
               <VokeIcon name="send" style={[st.offBlue]} size={24} />
             </Button>
           {/* )} */}

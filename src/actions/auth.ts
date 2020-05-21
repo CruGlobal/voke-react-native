@@ -43,15 +43,17 @@ export function startupAction() {
 }
 
 // When app focussed again.
-export function wakeupAction({currentScreen}) {
-  LOG( "🌝 function wakeupAction",  {currentScreen});
+export function wakeupAction() {
   return async (dispatch, getState)  => {
+    const currentScreen = getState().info?.currentScreen?.screen;
+    LOG( "🌝 function wakeupAction",  {currentScreen});
     await dispatch(permissionsAndNotifications());
     const deviceId = getState().auth.device.id;
     dispatch( openSocketAction(deviceId) );
 
     // Check on what screen we are and update the required info.
-    if (currentScreen === '"Adventures"') {
+    // My Adventures screen: update invitations and adventures.
+    if (currentScreen === 'AdventuresMy') {
       dispatch(getAdventuresInvitations());
       dispatch(getMyAdventures());
     }
@@ -60,7 +62,6 @@ export function wakeupAction({currentScreen}) {
 
     if (currentScreen === 'AdventureStepScreen') {
       const { conversationId, adventureStepId } = getState().info?.currentScreen?.data;
-      console.log( "🐸 adventureStepId:", conversationId );
       dispatch(
         getAdventureStepMessages(
           conversationId,

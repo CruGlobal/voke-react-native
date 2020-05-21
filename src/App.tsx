@@ -254,7 +254,7 @@ const LoggedInAppContainer = () => {
     onChange: (newAppState) => console.warn('App state changed to ', newAppState),
     // Callback function to be executed once app go to foreground
     onForeground: () => {
-      dispatch(wakeupAction({currentScreen:routeNameRef?.current}));
+      dispatch(wakeupAction());
     },
     // Callback function to be executed once app go to background
     onBackground: () => {
