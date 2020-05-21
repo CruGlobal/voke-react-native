@@ -88,7 +88,6 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
       })
     );
 
-    console.log(currentMessages.slice(-1)[0].content);
     // We mark only the latest message as read,
     // all others will be marked as read automatically according to Pablo :)
     dispatch(

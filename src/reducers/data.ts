@@ -347,7 +347,7 @@ export default function(state = initialState, action: any) {
         adventureStepMessages: {
           ...state.adventureStepMessages,
           [adventureStepId]: [
-            ...state.adventureStepMessages[adventureStepId], // Existing messages.
+            ...state.adventureStepMessages[adventureStepId] || [], // Existing messages.
             action.result.newMessage // New message.
           ]
         }
