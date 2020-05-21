@@ -206,6 +206,13 @@ export default function(state = initialState, action: any) {
       };
     }
 
+    case REDUX_ACTIONS.UPDATE_UNREAD_TOTAL: {
+      return {
+        ...state,
+        unReadBadgeCount: action.data
+      };
+    }
+
     case REDUX_ACTIONS.UPDATE_ADVENTURE_STEPS: {
       /*
       Adventure steps received:

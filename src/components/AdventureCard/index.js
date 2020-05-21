@@ -123,7 +123,12 @@ function AdventureCard({ adventureId }) {
             <Text numberOfLines={2} style={styles.Title}>
               {name}
             </Text>
-            <Flex value={1} direction="row" align="center">
+            <Flex value={1} direction="row" align="center" justify="between"
+              style={{
+                width:'100%',
+                paddingBottom: 10,
+              }}
+            >
               {/* { hasUnread ?
               <VokeIcon
                 name="speech-bubble-full"
@@ -178,9 +183,8 @@ function AdventureCard({ adventureId }) {
                       isJoined: true,
                     })
                   }
-                  style={{ width: '100%', flex: 1 }}
                 >
-                  <Flex direction="row" align="center" style={[{paddingBottom:10}]}>
+                  <Flex direction="row" align="center" style={[{paddingBottom:0}]}>
                     <Image
                       source={{
                         uri: (myUser.avatar || {}).small || undefined,
