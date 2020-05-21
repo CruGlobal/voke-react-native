@@ -408,13 +408,3 @@ export function updateMe(data) {
     // return dispatch(getMeAction());
   };
 }
-
-/**
- * Get old conversations.
- */
-export function getOldConversations(): any {
-  return async dispatch => {
-    // Fetch user data from the server.
-    return dispatch(request({ ...ROUTES.GET_OLD_CONVERSATIONS }));
-  };
-}

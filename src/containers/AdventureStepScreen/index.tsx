@@ -42,6 +42,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
   const [isPortrait, setIsPortrait] = useState(true);
   const { stepId, adventureId } = route.params;
   const adventure = useSelector(({ data }: RootState) => data.myAdventures.byId[adventureId]);
+  const conversationId = adventure.conversation.id;
   const currentStep = useSelector(({ data }: RootState) =>
     data.adventureSteps[adventureId].byId[stepId]
   );
@@ -58,23 +59,45 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
 
   if (!['multi', 'binary'].includes(currentStep.kind)) {
     // Find the first message of the current author from the start.
-    const mainAnswer = (currentMessages.slice().find( m => {
-        m?.messenger_id === currentUser.id
-      })) || {};
+    const mainAnswer = (currentMessages.slice().find( m => m?.messenger_id === currentUser.id))||{};
     // .reverse()
     if ( Object.keys(mainAnswer).length > 0 ) {
       myMainAnswer.id = mainAnswer.id;
       myMainAnswer.content = mainAnswer.content;
     }
   } else {
-    const mainAnswer = (currentStep.metadata.answers.find( (a: any) => a.selected) || {});
-    if ( mainAnswer ) {
+    const mainAnswer = (currentStep.metadata.answers.find( (a: any) => a.selected)||{});
+    if (  Object.keys(mainAnswer).length > 0 ) {
       myMainAnswer.id = mainAnswer.id;
       myMainAnswer.content = mainAnswer.value;
     }
   }
+
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   useKeyboard( (bool: boolean) => setKeyboardVisible(bool));
+
+  // Mark messages in the current conversation as read.
+  const markAsRead = () => {
+    // See documentation for marking message as read:
+    // https://docs.vokeapp.com/#me-conversations-messages-interactions
+    // To mark as read we need converstation id and message id.
+    dispatch(
+      markReadStepAction({
+        adventureId: adventure.id,
+        stepId: currentStep.id,
+      })
+    );
+
+    console.log(currentMessages.slice(-1)[0].content);
+    // We mark only the latest message as read,
+    // all others will be marked as read automatically according to Pablo :)
+    dispatch(
+      markMessageAsRead({
+        conversationId: conversationId,
+        messageId: currentMessages.slice(-1)[0]?.id
+      })
+    );
+  }
 
   // Load messages for current conversation on initial screen reader.
   useEffect(() => {
@@ -91,6 +114,12 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
       // Scroll to the end when we added new message.
       scrollRef?.current?.scrollToEnd();
     }
+
+    // Once new message received mark it as read, but only if messages unblured/unlocked.
+    if ( currentStep['completed_by_messenger?'] ) {
+      markAsRead();
+    }
+
     // this.scroll.props.scrollToFocusedInput(reactNode)
     // scrollRef.current.props.scrollToPosition(0, 999999)
     // let newMsgs = [...(messages[currentStep.id] || [])];//.reverse();
@@ -121,8 +150,6 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
   useFocusEffect(
     useCallback(() => {
       // Actions to run when the screen focused:
-      const conversationId = adventure.conversation.id;
-
       // Save current screen and it's parammeters in store.
       dispatch(setCurrentScreen({
         screen: route?.name,
@@ -133,25 +160,12 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
       }));
 
       // If there are unread messages in current conversation
-      // mark them as read on the backend.
-      if (currentStep.unread_messages) {
-        // See documentation for marking message as read:
-        // https://docs.vokeapp.com/#me-conversations-messages-interactions
-        // To mark as read we need converstation id and message id.
-        dispatch(markReadStepAction({
-          adventureId: adventure.id,
-          stepId: currentStep.id,
-        }));
-        // We mark only the latest message as read,
-        // all others will be marked as read automatically according to Pablo :)
-        dispatch(
-          markMessageAsRead({
-            conversationId: conversationId,
-            messageId: currentMessages.slice(-1)[0]?.id
-          })
-        );
+      // mark them as read on the backend but only if they were unlocked/unblured.
+      if (currentStep.unread_messages && currentStep['completed_by_messenger?']) {
+        markAsRead();
       }
       return () => {
+        console.log( "📙 LEAVING:", currentStep );
         // Actions to run when the screen unfocused:
         // If we had unread messages, then we marked them as read,
         // so on leaving this screen we need to update the current Adventure steps

@@ -18,7 +18,7 @@ const AdventureStepMessageInput = ({
   defaultValue,
   onFocus,
 }): React.ReactElement => {
-  const [value, setValue] = useState(defaultValue || '');
+  const [value, setValue] = useState(defaultValue||'');
   const [messageSent, setMesssageSent] = useState(!!defaultValue);
   const dispatch = useDispatch();
   const isMultiQuestion = kind === 'multi';

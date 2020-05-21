@@ -154,7 +154,7 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
                     `Waiting for ${name} to join...`
             }
             </Text>
-            <Flex value={1} direction="row" align="center" justify="between">
+            <Flex value={1} direction="column" align="left" justify="between">
               <Flex value={1} direction="row" align="center" style={styles.CodeBlock}>
                 <Text numberOfLines={1} style={styles.Code}>
                   Code:

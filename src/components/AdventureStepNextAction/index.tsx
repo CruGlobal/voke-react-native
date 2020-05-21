@@ -55,7 +55,7 @@ const AdventureStepNextAction = ({
         align="center"
         style={[st.bgBlue, st.ph2, st.pt2]}
       >
-        <Text style={[st.aic, st.fs4, st.mb4, st.ph1, st.tac]}>
+        <Text style={[st.aic, st.fs2, st.mb4, st.ph1, st.tac, st.white]}>
           Congrats! You finished the adventure. Now start it with someone else!
         </Text>
         <Button
@@ -82,7 +82,7 @@ const AdventureStepNextAction = ({
               style={[{ height: 20 }, st.mr5]}
               name={'withFriend'}
             />
-            <Text>With a Friend</Text>
+            <Text style={[st.white, st.fs3]}>With a Friend</Text>
             <VokeIcon
               type="image"
               style={[{ height: 15 }, st.ml5]}
@@ -115,7 +115,7 @@ const AdventureStepNextAction = ({
               style={[{ height: 20 }, st.mr5]}
               name={'withGroup'}
             />
-            <Text>With a Group</Text>
+            <Text style={[st.white, st.fs3]}>With a Group</Text>
             <VokeIcon
               type="image"
               style={[{ height: 15 }, st.ml5]}

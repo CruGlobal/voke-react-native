@@ -111,6 +111,8 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
                 dispatch(toastAction(notification.alert));
               }
 
+              console.log( "🐸 notification:", notification, data.message );
+
               if (notification.category === 'CREATE_MESSAGE_CATEGORY') {
                 // When new message posted by another user.
                 if (message && message['adventure_message?']) {
@@ -148,7 +150,8 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
                   // TODO: optimize the next call. It can be expensive?
                   // Update adventure steps to mark the current step as completed
                   // and unlock the next one.
-                  dispatch(getAdventureSteps(adventureId));
+                  // (Need short timeout to not conflict with Mark As Read functionality)
+                  setTimeout(() => dispatch(getAdventureSteps(adventureId)) , 500);
                   // TODO: Review the next action?
                   /* dispatch({
                     type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEP,
