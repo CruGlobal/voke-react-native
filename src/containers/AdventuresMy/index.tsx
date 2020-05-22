@@ -15,9 +15,16 @@ import AdventureInvite from '../../components/AdventureInvite';
 import AdventureCard from '../../components/AdventureCard';
 import NotificationBanner from '../../components/NotificationBanner';
 import AdventuresActions from '../AdventuresActions';
+import { setCurrentScreen } from '../../actions/info';
 import Flex from 'src/components/Flex';
 
-const AdventuresMy = (): React.ReactElement => {
+type AdventuresMyProps = {
+  route: {
+    name: string,
+  };
+};
+
+const AdventuresMy = ({ route }: AdventuresMyProps): React.ReactElement => {
   const dispatch = useDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false); // Pull-to-refresh.
 
@@ -58,6 +65,10 @@ const AdventuresMy = (): React.ReactElement => {
   useFocusEffect(
     useCallback(() => {
       // Do something when the screen is focused
+      // Save current screen and it's parammeters in store.
+      dispatch(setCurrentScreen({
+        screen: 'AdventuresMy'
+      }));
       return () => {
         // Do something when the screen is unfocused
         // Useful for cleanup functions

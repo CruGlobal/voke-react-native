@@ -1,6 +1,7 @@
 // import React, { Component } from 'react';
 import React, { Component, useState, useEffect } from 'react';
-import '@react-native-firebase/crashlytics';
+// import '@react-native-firebase/crashlytics';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
@@ -24,6 +25,8 @@ const Root = () => {
   const [showLoader, setShowLoader] = useState( true );
   registerLogs();
   const onBeforeLift = () => {
+    crashlytics().log('App mounted.');
+    // crashlytics().crash();
     // Add any actions here to run before the loading gate lifts...
     // Delay for at least one second to reduce loading gate flashing.
     setTimeout(() => {

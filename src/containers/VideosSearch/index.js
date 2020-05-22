@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
-import LinearGradient from 'react-native-linear-gradient';
 import Flex from '../../components/Flex';
 import st from '../../st';
 import ScrollWheel from '../../components/ScrollWheel';
@@ -31,21 +30,16 @@ function VideosSearch({ route }) {
 
   return (
     <Flex style={[st.bgTransparent]}>
-      <LinearGradient
-        colors={['rgba(0,0,0,0.9)', 'rgba(0,0,0,0.8)']}
-        style={[{ paddingTop: insets.top, height: st.fullHeight }]}
-      >
-        <BackButton />
-        <Flex value={1} justify="center">
-          <ScrollWheel
-            items={tags}
-            onSelect={tagId => {
-              onSelect(tagId);
-              navigation.goBack();
-            }}
-          />
-        </Flex>
-      </LinearGradient>
+      <BackButton />
+      <Flex value={1} justify="center">
+        <ScrollWheel
+          items={tags}
+          onSelect={tagId => {
+            onSelect(tagId);
+            navigation.goBack();
+          }}
+        />
+      </Flex>
     </Flex>
   );
 }

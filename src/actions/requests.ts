@@ -152,6 +152,24 @@ export function acceptAdventureInvitation(adventureCode: string) {
   };
 }
 
+// Iterate through adventures to find total number of unread messages.
+function updateTotalUnreadCounter() {
+  return async (dispatch: Dispatch, getState: any) => {
+    const myAdventures = getState().data.myAdventures.byId;
+    let unreadTotal = 0;
+    for (let [key, value] of Object.entries(myAdventures)) {
+      unreadTotal += value.conversation.unread_messages;
+    }
+
+    return dispatch({
+      type: REDUX_ACTIONS.UPDATE_UNREAD_TOTAL,
+      data: unreadTotal,
+      description: 'Update Unread Total Counter'
+    });
+  };
+}
+
+
 // We are calling for updated adventure steps after each message,
 // that can be expensive so we have to debounce this action.
 const getAdventureStepsDebounced = debounce(
@@ -169,6 +187,9 @@ const getAdventureStepsDebounced = debounce(
         result: { adventureId, adventureSteps },
         description: 'Get Adventure Steps'
       });
+
+      dispatch(updateTotalUnreadCounter());
+
       return results;
     }
   , 2000, { 'leading': true, 'trailing': true }
@@ -185,13 +206,14 @@ export function getAdventureStepMessages(
   adventureStepId: string,
 ) {
   return async (dispatch: Dispatch, getState: any) => {
+    console.log( "🐴 getAdventureStepMessages:", {adventureConversationId}, {adventureStepId} );
     try {
 
       const results: any = await dispatch(
         request({
           ...ROUTES.GET_ADVENTURE_STEP_MESSAGES,
           pathParams: { adventureConversationId },
-          params: { messenger_journey_step_id: adventureStepId },
+          params: adventureStepId ? { messenger_journey_step_id: adventureStepId } : null,
           description: 'Get Adventure Step Messages for conversation id: ' + adventureConversationId
         }),
       );

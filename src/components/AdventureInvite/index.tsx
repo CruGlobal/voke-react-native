@@ -154,7 +154,7 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
                     `Waiting for ${name} to join...`
             }
             </Text>
-            <Flex value={1} direction="row" align="center" justify="between">
+            <Flex value={1} direction="column" align="left" justify="between">
               <Flex value={1} direction="row" align="center" style={styles.CodeBlock}>
                 <Text numberOfLines={1} style={styles.Code}>
                   Code:
@@ -163,7 +163,7 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
                   {' ' + code}
                 </Text>
               </Flex>
-              <Flex>
+              <Flex style={{width: '100%'}}>
                 {!isExpired && !isGroup ? (
                   <Text numberOfLines={1} style={[st.white, st.fs6]}>
                     Expires in {time}

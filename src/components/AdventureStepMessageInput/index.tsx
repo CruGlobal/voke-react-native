@@ -18,7 +18,7 @@ const AdventureStepMessageInput = ({
   defaultValue,
   onFocus,
 }): React.ReactElement => {
-  const [value, setValue] = useState(defaultValue || '');
+  const [value, setValue] = useState(defaultValue||'');
   const [messageSent, setMesssageSent] = useState(!!defaultValue);
   const dispatch = useDispatch();
   const isMultiQuestion = kind === 'multi';
@@ -92,6 +92,7 @@ const AdventureStepMessageInput = ({
       </View>
     );
   }
+
   if (isBinaryQuestion) {
     const metadata = internalMessage.metadata || {};
     const answers = metadata.answers;
@@ -218,13 +219,15 @@ const AdventureStepMessageInput = ({
     >
       {messageSent || isComplete ? (
         value ?
-          <Text style={[st.fs4, st.pt4, st.pb4, st.darkBlue]}>{value}</Text> :
-          <Text style={[st.fs4, st.pt4, st.pb4, {opacity:.5}]}>Skipped</Text>
+          <Text style={[st.fs4, st.pt4, st.w100, st.pb4, st.darkBlue]}>{value}</Text> :
+          <Text style={[st.fs4, st.pt4, st.w100, st.pb4, {opacity:.5}]}>Skipped</Text>
       ) : (
         <>
           <TextInput
+            // returnKeyType="send"
+            // blurOnSubmit={true}
+            // onSubmitEditing={handleSendMessage}
             autoCapitalize="sentences"
-            returnKeyType="send"
             onFocus={event => {
               onFocus(event);
               // if (this.props.hasClickedPlay) {
@@ -237,9 +240,7 @@ const AdventureStepMessageInput = ({
               //   );
               // }
             }}
-            multiline={false}
-            blurOnSubmit={true}
-            onSubmitEditing={handleSendMessage}
+            multiline={true}
             placeholder={'Enter your answer'}
             placeholderTextColor={st.colors.grey}
             style={[st.f1, st.fs4, st.pt4, st.pb4, st.darkBlue, {marginRight:6}]}

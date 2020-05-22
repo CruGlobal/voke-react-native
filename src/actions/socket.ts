@@ -75,8 +75,10 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
                 } catch (e) {
                   console.log('error sending websocket object', e);
                 } finally {
-                  // TODO: Update data.
-                  console.log('TODO PULL FRESH DATA FROM THE SERVER.')
+                  // Update data every time sockets reopenned.
+                  // Don't do it here. We have wake-up action for that.
+                 /*  dispatch(getAdventuresInvitations());
+                  dispatch(getMyAdventures()); */
                 }
               } else {
                 console.log(
@@ -120,11 +122,12 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
                       function(adv) { return adv.conversation.id === message.conversation_id; }
                     ) || {}
                   ).id;
-                  if (!adventureId) return;
 
-                  if (message.kind === 'text') {
+                  if (message.kind === 'text' && adventureId !== undefined ) {
                     // If simple text: save new message in the store
                     // without requesting update from the server via API.
+                    // BUT only if we have conversation array ready
+                    // for that message ( adventureId !== undefined ).
                     dispatch({
                       type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
                       result: {
@@ -146,7 +149,10 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
                   // TODO: optimize the next call. It can be expensive?
                   // Update adventure steps to mark the current step as completed
                   // and unlock the next one.
-                  dispatch(getAdventureSteps(adventureId));
+                  // (Need short timeout to not conflict with Mark As Read functionality)
+                  if ( adventureId !== undefined ) {
+                    setTimeout(() => dispatch(getAdventureSteps(adventureId)) , 500);
+                  }
                   // TODO: Review the next action?
                   /* dispatch({
                     type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEP,
@@ -216,7 +222,7 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
     if (action.type === 'OPEN_SOCKETS') {
       // Do a try/catch just to stop any errors
       try {
-        if ( !ws || !ws.send || ws.readyState !== WEBSOCKET_STATES.OPEN) {
+        if ( !global.ws || !global.ws.send || global.ws.readyState !== WEBSOCKET_STATES.OPEN) {
           // If can't open connection then reinstall websockets connection.
           dispatch({
             type: REDUX_ACTIONS.STARTUP,
@@ -241,14 +247,17 @@ export function openSocketAction(deviceId: string) {
 }
 
 /*
-NOT NEEDED FOR NOW, BUT LEAVE IT HERE.
+Close the sockets when app goes into background.
+Need that so backend knows when to send push notifications instead of cabel.
+*/
 export function closeSocketAction() {
   return () => {
     // Do a try/catch just to stop any errors
     try {
-      if (ws) {
-        ws.close(undefined, 'client closed');
-        ws = null; //  to avoid multiply ws objects and eventHandligs;
+      if (global.ws) {
+        global.ws.close(undefined, 'client closed');
+        global.ws = null; //  to avoid multiply ws objects and eventHandligs;
+        console.log('sockets closed', global.ws);
       }
     } catch (socketErr) {
       // Do nothing with the error
@@ -256,4 +265,3 @@ export function closeSocketAction() {
     }
   };
 }
- */

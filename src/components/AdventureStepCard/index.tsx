@@ -47,6 +47,7 @@ function AdventureStepCard({
   const messengers = (adventure?.conversation || {}).messengers || [];
   const thumbnail = (((step.item || {}).content || {}).thumbnails || {}).small;
   const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'multiple';
+
   // Monitor any changes in steps and step parammeters of the component
   // to update the card elements accordingly.
   // For example we need to update unread count on the card when state changed.
@@ -115,7 +116,32 @@ function AdventureStepCard({
               Part {step.position}
             </Text>
             {/* {isActive || isCompleted ? ( */}
-              <Flex direction="row" align="center" style={[st.pt6]}>
+            {/* UNREAD COUNTER */}
+            { step.unread_messages && !isSolo ? (
+              <Flex
+                direction="row"
+                align="center"
+                // justify="left"
+                self="start"
+                style={[ st.br2, st.bgOrange, st.mr4, st.mt5, st.p6, st.pl5, st.pr5,
+                {
+                  // position: "absolute",
+                  // right: -2,
+                  // top: 0,
+                }
+                ]}
+              >
+                <VokeIcon
+                  name="speech-bubble-full"
+                  style={[ st.white, {marginTop: -1, marginRight: 6} ]}
+                  size={14}
+                />
+                <Text style={[st.white, {fontWeight: 'bold'}]}>
+                  {step.unread_messages > 99 ? '99' : step.unread_messages}
+                </Text>
+              </Flex>
+              ) : null}
+              {/* <Flex direction="row" align="center" style={[st.pt6]}>
                 <VokeIcon
                   name="speech-bubble-full"
                   style={[
@@ -133,8 +159,7 @@ function AdventureStepCard({
                     </Text>
                   </Flex>
                 ) : null}
-              </Flex>
-            {/* ) : null} */}
+              </Flex> */}
           </Flex>
           <Flex
             style={[
