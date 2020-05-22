@@ -805,6 +805,10 @@ SPEC CHECKSUMS:
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
   YoutubePlayer-in-WKWebView: af2f5929fc78882d94bfdfeea999b661b78d9717
 
+<<<<<<< HEAD
 PODFILE CHECKSUM: 59b4e223188d681ad5a0fd3f94f70d6e7942c93c
+=======
+PODFILE CHECKSUM: f8e2133df14dab46c06242ed646f45ec219813c3
+>>>>>>> origin/feature/upgrade-react-native
 
 COCOAPODS: 1.9.1
