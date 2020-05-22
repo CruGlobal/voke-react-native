@@ -70,7 +70,7 @@ jobs:
     - defaults write com.apple.dt.XCBuild IgnoreFileSystemDeviceInodeChanges -bool YES
 
     script:
-    - (cd ios && fastlane ios cru_build_app)
+    - (cd ios && travis_wait 30 fastlane ios cru_build_app)
 
     cache:
     - npm
@@ -97,7 +97,7 @@ jobs:
     - defaults write com.apple.dt.XCBuild IgnoreFileSystemDeviceInodeChanges -bool YES
 
     script:
-    - (cd ios && travis_wait fastlane ios beta )
+    - (cd ios && travis_wait 30 fastlane ios beta )
 
     cache:
     - npm
