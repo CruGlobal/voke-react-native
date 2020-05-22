@@ -97,7 +97,7 @@ jobs:
     - defaults write com.apple.dt.XCBuild IgnoreFileSystemDeviceInodeChanges -bool YES
 
     script:
-    - (cd ios && fastlane ios beta | sed -nE '/error:/,/^[[:digit:]] errors? generated/ p' )
+    - (cd ios && ( fastlane ios beta | sed -nE '/error:/,/^[[:digit:]] errors? generated/ p' ) )
 
     cache:
     - npm
