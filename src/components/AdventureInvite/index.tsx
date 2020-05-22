@@ -163,7 +163,7 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
                   {' ' + code}
                 </Text>
               </Flex>
-              <Flex>
+              <Flex style={{width: '100%'}}>
                 {!isExpired && !isGroup ? (
                   <Text numberOfLines={1} style={[st.white, st.fs6]}>
                     Expires in {time}

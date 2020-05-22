@@ -35,6 +35,13 @@ const styles: { [key: string]: any } = {
 	ButtonSignUpLabel: [
 		ui.buttonText.size.m
 	],
+	ButtonAction: [
+		ui.button.size.m,
+		ui.button.style.outline,
+	],
+	ButtonActionLabel: [
+		ui.buttonText.size.m
+	],
 	SignInText: css`
 		color: ${theme.colors.white};
 		font-size: ${theme.fontSizes.m + 'px'};
