@@ -40,6 +40,17 @@ const ROUTES = {
       client: CLIENT,
     },
   },
+  FORGOT_PASSWORD: {
+    method: 'post',
+    url: 'me/forgot',
+    anonymous: true, // x-access-token = userToken
+    // isAuth: true, // Request to be made on auth subdomain.
+    customData: {
+      client: CLIENT,
+      // grant_type: 'password',
+      // scope: 'messenger',
+    },
+  },
   REVOKE_TOKEN: {
     method: 'post',
     url: 'oauth/revoke',
@@ -47,6 +58,10 @@ const ROUTES = {
   },
   UPDATE_ME: {
     method: 'put',
+    url: 'me',
+  },
+  DELETE_ACCOUNT: {
+    method: 'delete',
     url: 'me',
   },
   /* UPDATE_ME_IMAGE: {

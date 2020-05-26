@@ -45,7 +45,7 @@ function Menu(props) {
       <ScrollView>
         <SettingsRow
           title="Profile"
-          onSelect={() => navigation.navigate('Profile')}
+          onSelect={() => navigation.navigate('AccountProfile')}
         />
         {!email && (
           <SettingsRow

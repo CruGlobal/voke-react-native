@@ -11,7 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 function HeaderRight() {
   const navigation = useNavigation();
   const me = useSelector(({ auth }) => auth.user);
-  const myAvatar = me.avatar.medium;
+  const myAvatar = me?.avatar?.medium;
   return (
     <Flex value={1} justify="center">
       <Touchable
@@ -24,7 +24,7 @@ function HeaderRight() {
             paddingBottom: 8,
           },
         ]}
-        onPress={() => navigation.navigate('Profile')}
+        onPress={() => navigation.navigate('AccountProfile')}
       >
         <Image
           source={{

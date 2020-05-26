@@ -25,6 +25,7 @@ import styles from './styles';
 import { REDUX_ACTIONS } from '../../constants';
 import { setCurrentScreen } from '../../actions/info';
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
+import { createAdventureStepMessage } from '../../actions/requests';
 
 type ModalProps = {
   route: {
@@ -57,6 +58,9 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
     content: ''
   };
 
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  useKeyboard( (bool: boolean) => setKeyboardVisible(bool));
+
   if (!['multi', 'binary'].includes(currentStep.kind)) {
     // Find the first message of the current author from the start.
     const mainAnswer = (currentMessages.slice().find( m => m?.messenger_id === currentUser.id))||{};
@@ -72,9 +76,6 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
       myMainAnswer.content = mainAnswer.value;
     }
   }
-
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  useKeyboard( (bool: boolean) => setKeyboardVisible(bool));
 
   // Mark messages in the current conversation as read.
   const markAsRead = () => {
@@ -96,6 +97,32 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
         messageId: currentMessages.slice(-1)[0]?.id
       })
     );
+  }
+
+  const botMessage = () => {
+    const botUserId = adventure.conversation.messengers.find(i => i.id !== currentUser.id) || null;
+    if (!botUserId) return;
+    const existingBotMessage = currentMessages.find(m=>m.messenger_id === botUserId.id) || null;
+    if (!existingBotMessage) {
+
+      let newBotMessage ={
+        id: new Date().toISOString(),
+        messenger_id: (
+          adventure.conversation.messengers.find(i => i.id !== currentUser.id) || {}
+        ).id,
+        content: (currentStep.metadata || {}).comment,
+        metadata: { vokebot_action: 'journey_step_comment' },
+      };
+
+      // Send this new pseudo-message to redux.
+      dispatch({
+        type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
+        result: {
+          adventureStepId: currentStep.id,
+          newMessage: newBotMessage
+        },
+      });
+    }
   }
 
   // Load messages for current conversation on initial screen reader.
@@ -122,26 +149,10 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
     // this.scroll.props.scrollToFocusedInput(reactNode)
     // scrollRef.current.props.scrollToPosition(0, 999999)
     // let newMsgs = [...(messages[currentStep.id] || [])];//.reverse();
+
     // If solo adventure, render bot's messages.
     if (isSolo) {
-      // newMsgs.push({
-      let botMessage ={
-        id: new Date().toISOString(),
-        messenger_id: (
-          adventure.conversation.messengers.find(i => i.id !== currentUser.id) || {}
-        ).id,
-        content: (currentStep.metadata || {}).comment,
-        metadata: { vokebot_action: 'journey_step_comment' },
-      };
-
-      // Send this new pseudo-message to redux.
-      dispatch({
-        type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
-        result: {
-          adventureStepId: currentStep.id,
-          newMessage: botMessage
-        },
-      });
+      botMessage();
     }
   }, [currentMessages]);
 
