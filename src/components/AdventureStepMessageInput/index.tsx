@@ -62,7 +62,7 @@ const AdventureStepMessageInput = ({
     }
 
     return (
-      <View style={[st.ovh, st.w100,{
+      <View style={[st.ovh, {
         backgroundColor: st.colors.white,
         borderBottomLeftRadius: 10,
         borderBottomRightRadius: 10,
@@ -87,7 +87,7 @@ const AdventureStepMessageInput = ({
           handleSendMessage(t.value);
         }}
         containerColor={st.colors.orange}
-        isDisabled={ value ? true : false   }
+        // isDisabled={ value ? true : false   }
       />
       </View>
     );

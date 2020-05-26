@@ -175,7 +175,6 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
         markAsRead();
       }
       return () => {
-        console.log( "📙 LEAVING:", currentStep );
         // Actions to run when the screen unfocused:
         // If we had unread messages, then we marked them as read,
         // so on leaving this screen we need to update the current Adventure steps
@@ -301,7 +300,6 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
                     source={{ uri: currentUser.avatar.small }}
                     style={[st.absb, st.right(-30), st.h(25), st.w(25), st.br1]}
                   />
-                  {/* <Text>{myMainAnswer.content}</Text> */}
                   <AdventureStepMessageInput
                     onFocus={() => {
                       /* scrollRef.current.props.scrollToFocusedInput(

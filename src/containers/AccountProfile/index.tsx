@@ -33,7 +33,6 @@ function SettingsRow({ title, value, onSelect }) {
       >
         <Text style={[st.darkGrey, st.fs16]}>{title}</Text>
         <Text style={[st.darkGrey, st.fs16]}>{value}</Text>
-
       </Flex>
     </Touchable>
   );
@@ -96,7 +95,6 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                 />
               </Flex>
             </Touchable>
-
             {/* <SettingsRow
               title="Change Photo"
               // onSelect={() => Linking.openURL(CONSTANTS.WEB_URLS.VOKE)}
@@ -128,7 +126,6 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
             {/* <Flex direction="row" align="center" justify="center" style={{marginTop:20, marginBottom:20}}>
               <Text style={{color:"#fff", fontSize:18,}}>English</Text>
             </Flex> */}
-
             {/* <Button
               isAndroidOpacity={true}
               style={[styles.ButtonAction, {
@@ -180,10 +177,8 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
               />
               { !!!me.email && <>
                 {/* TEXT:TEXT */}
-                <Text style={[styles.TextSmall,{textAlign:'center'}]}>
-                  <Text style={[styles.TextSmall,{textAlign:'center', paddingBottom:30}]}>
+                <Text style={[styles.TextSmall,{textAlign:'center', paddingBottom:30}]}>
                     Sign up to save your progress and access your account from anywhere.
-                  </Text>
                 </Text>
                 <Flex
                   style={{
@@ -246,7 +241,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                   }}
                 />
               </>}
-              { me.email && <>
+              { !!me.email && <>
                 <Button
                   isAndroidOpacity={true}
                   style={[styles.ButtonActio, {
