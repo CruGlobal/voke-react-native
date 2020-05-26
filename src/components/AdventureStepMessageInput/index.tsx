@@ -28,6 +28,8 @@ const AdventureStepMessageInput = ({
   const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'multiple';
   const isComplete = step.status === 'completed';
 
+  console.log( "🐸 step:", step );
+
   // When SEND message button clicked.
   const handleSendMessage = (newValue: any): void => {
     setMesssageSent(true);

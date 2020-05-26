@@ -315,6 +315,7 @@ export function createAdventureStepMessage(params: {
       data.message.messenger_journey_step_option_id = params.value;
       data.message.kind = 'answer';
       data.message.content = null;
+      console.log( "💂‍♂️ data.message:", data.message );
     }
     if (params.internalMessageId) {
       data.message.message_reference_id = params.internalMessageId;
@@ -336,10 +337,12 @@ export function createAdventureStepMessage(params: {
     dispatch({
       type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
       result: { adventureStepId: params.step.id, newMessage: result },
+      description: 'Response: Create Adventure Step Message'
     });
 
     // Refresh all messages when answering a quiestion to multi challenge.
-    if ( params.kind === 'answer' ) {
+    if ( data.message.kind === 'answer' ) {
+      console.log('👩‍🔬 getAdventureStepMessages')
       dispatch(
         getAdventureStepMessages(
           params.adventure.conversation.id,
