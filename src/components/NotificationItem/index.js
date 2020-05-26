@@ -122,7 +122,7 @@ function NotificationItem({ item, onSelectVideo }) {
   const navigation = useNavigation();
   function handleShare() {
     navigation.navigate('AdventureName', {
-      item,
+      item: item?.item,
       withGroup: false,
       isVideoInvite: true,
     });
