@@ -181,9 +181,8 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
               { !!!me.email && <>
                 {/* TEXT:TEXT */}
                 <Text style={[styles.TextSmall,{textAlign:'center'}]}>
-                  <Text style={[styles.TextSmall,{textAlign:'center', paddingBottom:30}]
-                              }            >
-                  Sign up to save your progress and access your account from anywhere.
+                  <Text style={[styles.TextSmall,{textAlign:'center', paddingBottom:30}]}>
+                    Sign up to save your progress and access your account from anywhere.
                   </Text>
                 </Text>
                 <Flex
@@ -268,15 +267,18 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                           text: 'Delete',
                           onPress: async () => {
                             await dispatch(deleteAccountAction()).then(() => {
+                              // logoutAction();
                               // Navigate back to the very first screen.
                               // 🤦🏻‍♂️Give React 10ms to render WelcomeApp component.
-                              setTimeout(() => {
+                             /*  setTimeout(() => {
                                 navigation.reset({
                                   index: 1,
                                   routes: [{ name: 'Welcome' }],
                                 });
-                              }, 10);
-                            })
+                              }, 10); */
+                            }).finally(
+                              dispatch(logoutAction())
+                            )
                           },
                         }
                       ]

@@ -11,7 +11,7 @@ import Video from '../../components/Video';
 import { useNavigation } from '@react-navigation/native';
 import { useMount } from '../../utils';
 import NotificationItem from '../../components/NotificationItem';
-import { getNotifications } from '../../actions/requests';
+import { getNotifications, markReadNotification } from '../../actions/requests';
 
 function Notifications(props) {
   const dispatch = useDispatch();
@@ -21,6 +21,8 @@ function Notifications(props) {
   const [isLoading, setIsLoading] = useState(false);
   const me = useSelector(({ auth }) => auth.user);
   const notifications = useSelector(({ data }) => data.notifications);
+  const notificationLatestId = useSelector(({ data }) => data.notificationLatestId);
+  const notificationUnreadBadge = useSelector(({ data }) => data.notificationUnreadBadge);
   const notificationPagination = useSelector(
     ({ data }) => data.notificationPagination,
   );
@@ -63,7 +65,11 @@ function Notifications(props) {
   }
 
   useEffect(() => {
+    const latestNotification = notifications[0];
     setCurrentNotifications(notifications);
+    if ( notificationLatestId !== latestNotification?.id || notificationUnreadBadge > 0 ) {
+      dispatch(markReadNotification(latestNotification?.id));
+    }
   }, [notifications]);
 
   function handleSelectVideo(message) {

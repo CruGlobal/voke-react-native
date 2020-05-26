@@ -21,7 +21,7 @@ function tabElement(label, isFocused) {
 
   const unReadBadgeCount = useSelector(({ data }) =>
     iconName === 'tab-adventure' ? data.unReadBadgeCount :
-    iconName === 'tab-notification' ? data.notifications.length :
+    iconName === 'tab-notification' ? data.notificationUnreadBadge :
     null
   );
 
