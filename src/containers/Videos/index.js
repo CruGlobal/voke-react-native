@@ -182,7 +182,11 @@ function VideoList() {
             <FlatList
               horizontal
               style={[st.pv5, st.ph5]}
-              data={['All', 'Featured', 'Popular', 'Favorite', 'Search']}
+              contentContainerStyle={{
+                width: '100%',
+                justifyContent: 'center',
+              }}
+              data={['All', 'Featured', 'Popular', /* 'Favorite', 'Search' */]}
               renderItem={({ item }) => (
                 <Button
                   key={item}
