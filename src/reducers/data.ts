@@ -206,6 +206,13 @@ export default function(state = initialState, action: any) {
       };
     }
 
+    case REDUX_ACTIONS.UPDATE_UNREAD_TOTAL: {
+      return {
+        ...state,
+        unReadBadgeCount: action.data
+      };
+    }
+
     case REDUX_ACTIONS.UPDATE_ADVENTURE_STEPS: {
       /*
       Adventure steps received:
@@ -324,6 +331,7 @@ export default function(state = initialState, action: any) {
       // Flip messages as they come reversed:
       const newMessages = action.result.adventureStepMessages.reverse();
       const adventureStepId = action.result.adventureStepId;
+      console.log( "🐙 adventureStepId:", adventureStepId );
       return {
         ...state,
         adventureStepMessages: {
@@ -340,17 +348,15 @@ export default function(state = initialState, action: any) {
 
     case REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE: {
       const adventureStepId = action.result.adventureStepId
-      const stepMessages = [].concat(
-        state.adventureStepMessages[adventureStepId], // Existing messages.
-        [action.result.newMessage] // New message.
-      );
 
       return {
         ...state,
-        // adventureStepMessages: updatedAdventureStepMessagesAfterCreate,
         adventureStepMessages: {
           ...state.adventureStepMessages,
-          [adventureStepId]: stepMessages
+          [adventureStepId]: [
+            ...state.adventureStepMessages[adventureStepId] || [], // Existing messages.
+            action.result.newMessage // New message.
+          ]
         }
       };
     }
@@ -424,28 +430,24 @@ export default function(state = initialState, action: any) {
       // state.adventureSteps[adventureId]
       const adventureId = action.adventureId;
       const stepId = action.stepId;
-      const newState = lodash.merge(
-        {},
-        state,
-        {
-          // Set 'unread_messages' to 0 at current adventure step.
-          adventureSteps: {
-            [adventureId]: {
-              byId:{
-                [stepId]:{
-                  unread_messages: 0
-                }
+
+      return {
+        ...state,
+        // Set 'unread_messages' to 0 at current adventure step.
+        adventureSteps: {
+          ...state.adventureSteps,
+          [adventureId]: {
+            ...state.adventureSteps[adventureId],
+            byId:{
+              ...state.adventureSteps[adventureId].byId,
+              [stepId]:{
+                ...state.adventureSteps[adventureId].byId[stepId],
+                unread_messages: 0
               }
             }
-          },
-          // Change tracker value to force adventure step component refresh.
-          /* 
-          dataChangeTracker: {
-            adventureSteps: state.dataChangeTracker.adventureSteps + 1,
-          } */
-        }
-      )
-      return newState;
+          }
+        },
+      };
     }
     case REDUX_ACTIONS.LOGOUT:
       return initialState;

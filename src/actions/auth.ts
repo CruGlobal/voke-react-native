@@ -20,8 +20,9 @@ import {
 } from './requests';
 
 import { isArray } from '../utils';
-import { openSocketAction } from './socket';
+import { openSocketAction, closeSocketAction } from './socket';
 import { permissionsAndNotifications } from './notifications';
+import { getAdventureStepMessages } from './requests';
 
 export function loginAction(authToken) {
   // const authToken = authData.access_token;
@@ -42,17 +43,32 @@ export function startupAction() {
 }
 
 // When app focussed again.
-export function wakeupAction({currentScreen}) {
-  LOG( "🌝 function wakeupAction", );
+export function wakeupAction() {
   return async (dispatch, getState)  => {
+    const currentScreen = getState().info?.currentScreen?.screen;
+    LOG( "🌝 function wakeupAction",  {currentScreen});
     await dispatch(permissionsAndNotifications());
     const deviceId = getState().auth.device.id;
     dispatch( openSocketAction(deviceId) );
 
     // Check on what screen we are and update the required info.
-    if (currentScreen === 'LoggedInApp') {
+    // My Adventures screen: update invitations and adventures.
+    if (currentScreen === 'AdventuresMy') {
       dispatch(getAdventuresInvitations());
       dispatch(getMyAdventures());
+    }
+
+    // AdventureActive
+
+    if (currentScreen === 'AdventureStepScreen') {
+      const { conversationId, adventureStepId } = getState().info?.currentScreen?.data;
+      dispatch(
+        getAdventureStepMessages(
+          conversationId,
+          adventureStepId
+        ),
+      );
+
     }
   }
 }
@@ -63,7 +79,9 @@ export function sleepAction() {
   return async dispatch => {
     // No need to close/reopen WebSocket connection anymore:
     // https://github.com/facebook/react-native/issues/26731
-    // dispatch(closeSocketAction());
+    // Not so fast! We need to close sockets to tell the backend to send
+    // new notifications via push changed instead of WS.
+    dispatch(closeSocketAction());
   }
 }
 
@@ -388,15 +406,5 @@ export function updateMe(data) {
       // return dispatch(getMeAction());
     } */
     // return dispatch(getMeAction());
-  };
-}
-
-/**
- * Get old conversations.
- */
-export function getOldConversations(): any {
-  return async dispatch => {
-    // Fetch user data from the server.
-    return dispatch(request({ ...ROUTES.GET_OLD_CONVERSATIONS }));
   };
 }

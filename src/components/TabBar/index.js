@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
+import { useSelector } from 'react-redux';
 import Flex from '../Flex';
 import Touchable from '../Touchable';
 import VokeIcon from '../VokeIcon';
@@ -9,7 +10,7 @@ import theme from '../../theme';
 import { BlurView, VibrancyView } from "@react-native-community/blur";
 import { StyleSheet } from 'react-native';
 
-function getContent(label, isFocused) {
+function tabElement(label, isFocused) {
   let iconName = 'tab-adventure';
   if (label === 'Videos') {
     iconName = 'tab-video';
@@ -17,6 +18,12 @@ function getContent(label, isFocused) {
   if (label === 'Notifications') {
     iconName = 'tab-notification';
   }
+
+  const unReadBadgeCount = useSelector(({ data }) =>
+    iconName === 'tab-adventure' ? data.unReadBadgeCount :
+    iconName === 'tab-notification' ? data.notifications.length :
+    null
+  );
 
   return (
     <Flex
@@ -36,6 +43,26 @@ function getContent(label, isFocused) {
         ]}
       />
       <Text style={[isFocused ? st.white : st.blue, st.fs14]}>{label}</Text>
+      {unReadBadgeCount > 0 ? (
+        <Flex
+          direction="row"
+          align="right"
+          justify="right"
+          self="end"
+          style={[ st.br2, st.bgOrange, st.mr4, st.mt5, st.p8,
+          {
+            position: "absolute",
+            right: -20,
+            top: -4,
+            paddingHorizontal: 6,
+          }
+          ]}
+        >
+          <Text style={[st.fs12, st.white, {fontWeight: 'bold'}]}>
+            {unReadBadgeCount > 99 ? '99' : unReadBadgeCount}
+          </Text>
+        </Flex>
+        ) : null}
     </Flex>
   );
 }
@@ -45,15 +72,6 @@ function TabBar({ state, descriptors, navigation }) {
 
   return (
     <>
-     {/* <View style={{
-    position: "absolute",
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0
-  }}> */}
-   
-        {/* </View> */}
       <Flex
         direction="row"
         align="center"
@@ -128,7 +146,7 @@ function TabBar({ state, descriptors, navigation }) {
               onPress={onPress}
               onLongPress={onLongPress}
             >
-              {getContent(label, isFocused)}
+              {tabElement(label, isFocused)}
             </Touchable>
           );
         })}

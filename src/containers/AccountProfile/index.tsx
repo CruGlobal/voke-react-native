@@ -44,7 +44,6 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
   const dispatch = useDispatch();
   const me = useSelector(({ auth }) => auth.user);
 
-  console.log("*************MEEEEEE**************", me)
   return (
     <Flex
     value={1}
@@ -55,42 +54,105 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
   >
       <ScrollView>
       <StatusBar />
-      <Flex direction="column" align="center" style={[st.ph1, st.w100,{marginBottom:10, marginTop:30}]}>
-      <Image resizeMode="contain" source={{uri: me.avatar.large}} style={{width:100, height:100, borderColor: '#fff',
-            borderWidth: 1, borderRadius: 50}} />
+        <Flex direction="column" align="center" style={[st.ph1, st.w100,{marginBottom:10, marginTop:30}]}>
+          <Touchable onPress={ () => navigation.navigate('AccountPhoto')}>
+            <Flex
+              direction="column"
+              align="center"
+              justify="center"
+              style={[
+                st.w(st.fullWidth / 2.6),
+                st.h(st.fullWidth / 2.6),
+                { borderRadius: st.fullWidth / 2.6,
+                  backgroundColor: styles.colors.secondaryAlt,
+                },
+              ]}
+            >
+              <Image
+                source={{uri: me.avatar?.large || ''}}
+                style={[
+                  st.w(st.fullWidth / 2.6),
+                  st.h(st.fullWidth / 2.6),
+                  {
+                    borderRadius: st.fullWidth / 2.6,
+                    borderColor: styles.colors.white,
+                    borderWidth: 2
+                  },
+                ]}
+              />
+            </Flex>
+          </Touchable>
 
-        <SettingsRow
-          title="Change Photo"
-          // onSelect={() => Linking.openURL(CONSTANTS.WEB_URLS.VOKE)}
-        />
-        <Text style={{color:"#fff", fontSize:24, marginTop:20, marginBottom:50}}>
-        {me.firstName+" "+ me.lastName}
-        </Text>
-        <Text style={{color:"#fff", fontSize:18, textDecorationLine:'underline'}}>
-        Profile Info
-        </Text>
-        <Flex direction="row" align="center" justify="center" style={{marginTop:20, marginBottom:20}}>
-        <Text style={{color:"#fff", fontSize:18, width:150}}>Language</Text>
-  <Text style={{color:"#fff", fontSize:18,}}>English</Text>
-        </Flex>
-        <Flex direction="row" align="center">
+          {/* <SettingsRow
+            title="Change Photo"
+            // onSelect={() => Linking.openURL(CONSTANTS.WEB_URLS.VOKE)}
+          /> */}
+          <Touchable onPress={ () => navigation.navigate('AccountName')}>
+            <Text style={{
+              color: styles.colors.white,
+              fontSize: styles.fontSizes.xxxl,
+              paddingTop:20,
+              paddingBottom:20}}>
+              {me.firstName+" "+ me.lastName}
+            </Text>
+          </Touchable>
+          {/* <Text style={{color:"#fff", fontSize:18, textDecorationLine:'underline'}}>
+          Profile Info
+          </Text> */}
+          {/* <Flex direction="row" align="center" justify="center" style={{marginTop:20, marginBottom:20}}>
+            <Text style={{color:"#fff", fontSize:18,}}>English</Text>
+          </Flex> */}
 
-        <SettingsRow
-          title="Delete My Account"
-          // onSelect={() => Linking.openURL(CONSTANTS.WEB_URLS.PRIVACY)}
-        />
+          <Button
+            isAndroidOpacity={true}
+            style={[styles.ButtonAction, {
+              marginTop: 40,
+              marginBottom: 40
+            }]}
+            onPress={
+              () => dispatch(logoutAction()).then(() => {
+                // Navigate back to the very first screen.
+                // 🤦🏻‍♂️Give React 10ms to render WelcomeApp component.
+                setTimeout(() => {
+                  navigation.reset({
+                    index: 1,
+                    routes: [{ name: 'Welcome' }],
+                  });
+                }, 10);
+              })
+            }
+          >
+            <Flex
+              // value={1}
+              direction="row"
+              align="center"
+              justify="center"
 
-</Flex>
-<Flex direction="row" align="center">
+            >
+              <Text style={styles.ButtonActionLabel}>Sign out</Text>
+            </Flex>
+          </Button>
 
-<SettingsRow
-          title="Sign out of my account"
-          // onSelect={() => navigation.navigate('Acknowledgements')}
-        />
+          <Button
+            isAndroidOpacity={true}
+            style={[styles.ButtonActio, {
+              borderColor: 'transparent'
+            }]}
+            onPress={
+              () => navigation.navigate('SignUp')
+            }
+          >
+            <Flex
+              // value={1}
+              direction="row"
+              align="center"
+              justify="center"
 
-</Flex>
-      
-       
+            >
+              <Text style={styles.ButtonActionLabel}>Delete My Account</Text>
+            </Flex>
+          </Button>
+
         </Flex>
       </ScrollView>
       {/* SECTION: CALL TO ACTION BUTTON */}
@@ -116,27 +178,27 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
 
           {/* BUTTON:SIGN UP WITH EMAIL */}
           <Button
-          isAndroidOpacity={true}
-          style={[styles.ButtonSignUp]}
-          onPress={
-            () => navigation.navigate('SignUp')
-          }
-        >
-          <Flex
-          // value={1}
-          direction="row"
-          align="center"
-          justify="center"
+            isAndroidOpacity={true}
+            style={[styles.ButtonSignUp]}
+            onPress={
+              () => navigation.navigate('SignUp')
+            }
+          >
+            <Flex
+              // value={1}
+              direction="row"
+              align="center"
+              justify="center"
 
-        >
-          <VokeIcon
-        type="image"
-        name="email"
-        style={[st.h(22), st.w(22), st.mr5]}
-      />
-          <Text style={styles.ButtonSignUpLabel}>Sign up with Email</Text>
-          </Flex>
-        </Button>
+            >
+            <VokeIcon
+              type="image"
+              name="email"
+              style={[st.h(22), st.w(22), st.mr5]}
+            />
+              <Text style={styles.ButtonSignUpLabel}>Sign up with Email</Text>
+            </Flex>
+          </Button>
 
                   {/* BUTTON:SIGN UP WITH FACBOOK */}
 
