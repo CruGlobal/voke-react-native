@@ -25,6 +25,7 @@ import styles from './styles';
 import { REDUX_ACTIONS } from '../../constants';
 import { setCurrentScreen } from '../../actions/info';
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
+import { createAdventureStepMessage } from '../../actions/requests';
 
 type ModalProps = {
   route: {
@@ -41,7 +42,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
   const insets = useSafeArea();
   const [isPortrait, setIsPortrait] = useState(true);
   const { stepId, adventureId } = route.params;
-  const adventure = useSelector(({ data }: RootState) => data.myAdventures.byId[adventureId]);
+  const adventure = useSelector(({ data }: RootState) => data.myAdventures.byId[adventureId]) || {};
   const conversationId = adventure.conversation.id;
   const currentStep = useSelector(({ data }: RootState) =>
     data.adventureSteps[adventureId].byId[stepId]
@@ -56,6 +57,9 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
     id: null,
     content: ''
   };
+
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  useKeyboard( (bool: boolean) => setKeyboardVisible(bool));
 
   if (!['multi', 'binary'].includes(currentStep.kind)) {
     // Find the first message of the current author from the start.
@@ -72,9 +76,6 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
       myMainAnswer.content = mainAnswer.value;
     }
   }
-
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  useKeyboard( (bool: boolean) => setKeyboardVisible(bool));
 
   // Mark messages in the current conversation as read.
   const markAsRead = () => {
@@ -96,6 +97,32 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
         messageId: currentMessages.slice(-1)[0]?.id
       })
     );
+  }
+
+  const botMessage = () => {
+    const botUserId = adventure.conversation.messengers.find(i => i.id !== currentUser.id) || null;
+    if (!botUserId) return;
+    const existingBotMessage = currentMessages.find(m=>m.messenger_id === botUserId.id) || null;
+    if (!existingBotMessage) {
+
+      let newBotMessage ={
+        id: new Date().toISOString(),
+        messenger_id: (
+          adventure.conversation.messengers.find(i => i.id !== currentUser.id) || {}
+        ).id,
+        content: (currentStep.metadata || {}).comment,
+        metadata: { vokebot_action: 'journey_step_comment' },
+      };
+
+      // Send this new pseudo-message to redux.
+      dispatch({
+        type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
+        result: {
+          adventureStepId: currentStep.id,
+          newMessage: newBotMessage
+        },
+      });
+    }
   }
 
   // Load messages for current conversation on initial screen reader.
@@ -122,26 +149,10 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
     // this.scroll.props.scrollToFocusedInput(reactNode)
     // scrollRef.current.props.scrollToPosition(0, 999999)
     // let newMsgs = [...(messages[currentStep.id] || [])];//.reverse();
+
     // If solo adventure, render bot's messages.
     if (isSolo) {
-      // newMsgs.push({
-      let botMessage ={
-        id: new Date().toISOString(),
-        messenger_id: (
-          adventure.conversation.messengers.find(i => i.id !== currentUser.id) || {}
-        ).id,
-        content: (currentStep.metadata || {}).comment,
-        metadata: { vokebot_action: 'journey_step_comment' },
-      };
-
-      // Send this new pseudo-message to redux.
-      dispatch({
-        type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
-        result: {
-          adventureStepId: currentStep.id,
-          newMessage: botMessage
-        },
-      });
+      botMessage();
     }
   }, [currentMessages]);
 
@@ -164,7 +175,6 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
         markAsRead();
       }
       return () => {
-        console.log( "📙 LEAVING:", currentStep );
         // Actions to run when the screen unfocused:
         // If we had unread messages, then we marked them as read,
         // so on leaving this screen we need to update the current Adventure steps
@@ -290,7 +300,6 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
                     source={{ uri: currentUser.avatar.small }}
                     style={[st.absb, st.right(-30), st.h(25), st.w(25), st.br1]}
                   />
-                  {/* <Text>{myMainAnswer.content}</Text> */}
                   <AdventureStepMessageInput
                     onFocus={() => {
                       /* scrollRef.current.props.scrollToFocusedInput(

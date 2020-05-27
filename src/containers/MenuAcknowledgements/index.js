@@ -19,7 +19,6 @@ import JF from '../../assets/jesusFilm.png';
 import IAS from '../../assets/iAmSecond.png';
 import OH from '../../assets/oneHope.png';
 import YS from '../../assets/youthSpecialties.png';
-import { logoutAction } from '../../actions/auth';
 
 function SettingsRow({ title, onSelect }) {
   return (

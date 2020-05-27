@@ -43,6 +43,8 @@ function Video({
   onCancel,
   hideInsets,
   autoPlay = false,
+  fullscreen = false,
+  fullscreenOrientation = 'all',
   children, // Used to create custom overlay/play button. Ex: "Watch Trailer".
   ...rest
 }) {
@@ -221,6 +223,8 @@ function Video({
               width: useWindowDimensions().width,
               height: dimensions.height,
             }}
+            fullscreen={fullscreen}
+            fullscreenOrientation={fullscreenOrientation}
           />
         )}
         <Flex

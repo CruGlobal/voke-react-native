@@ -336,10 +336,12 @@ export function createAdventureStepMessage(params: {
     dispatch({
       type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
       result: { adventureStepId: params.step.id, newMessage: result },
+      description: 'Response: Create Adventure Step Message'
     });
 
     // Refresh all messages when answering a quiestion to multi challenge.
-    if ( params.kind === 'answer' ) {
+    if ( data.message.kind === 'answer' ) {
+      console.log('👩‍🔬 getAdventureStepMessages')
       dispatch(
         getAdventureStepMessages(
           params.adventure.conversation.id,
@@ -670,7 +672,37 @@ export function getNotifications(params: any = {}) {
       result: { results, params },
     });
 
+    dispatch(updateUnReadNotificationsBadge( results.messages ));
+
     return results;
+  };
+}
+
+export function updateUnReadNotificationsBadge(updatedMessages: any) {
+  return async (dispatch: Dispatch, getState: any) => {
+    if ( updatedMessages.length < 1 ) return;
+    const notificationLatestId = getState().data.notificationLatestId;
+    const unreadNotificationsBadge = getState().data.notificationUnreadBadge;
+    if ( updatedMessages[0]?.id !== notificationLatestId ) {
+      dispatch({
+        type: REDUX_ACTIONS.UPDATE_NOTIFICATION_UNREAD_BADGE,
+        count: unreadNotificationsBadge + 1,
+      });
+    }
+  };
+}
+
+export function markReadNotification(notificationId: string) {
+  return async (dispatch: Dispatch, getState: any) => {
+    dispatch({
+      type: REDUX_ACTIONS.UPDATE_NOTIFICATION_READ,
+      notificationId,
+    });
+
+    dispatch({
+        type: REDUX_ACTIONS.UPDATE_NOTIFICATION_UNREAD_BADGE,
+        count: 0,
+      });
   };
 }
 

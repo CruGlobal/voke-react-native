@@ -21,19 +21,21 @@ import { toastAction } from '../../actions/info';
 function VideoList() {
   const navigation = useNavigation();
 
-  const allVideos = useSelector(({ data }) => data.allVideos);
-  const featuredVideos = useSelector(({ data }) => data.featuredVideos);
-  const popularVideos = useSelector(({ data }) => data.popularVideos);
-  const favoriteVideos = useSelector(({ data }) => data.favoriteVideos);
-  const searchVideos = useSelector(({ data }) => data.searchVideos);
-  const videoPagination = useSelector(({ data }) => data.videoPagination);
+  const allVideos = useSelector(({ data }) => data.allVideos.allIds) || [];
+  const featuredVideos = useSelector(({ data }) => data.featuredVideos.allIds) || [];
+  const popularVideos = useSelector(({ data }) => data.popularVideos.allIds) || [];
+  const favoriteVideos = useSelector(({ data }) => data.favoriteVideos.allIds) || [];
+  const searchVideos = useSelector(({ data }) => data.searchVideos.allIds) || [];
+  const videoPagination = useSelector(({ data }) => data.videoPagination) || [];
+
+  const [videos, setVideos] = useState( allVideos || [] );
 
   const [updatedPagination, setUpdatedPagination] = useState(videoPagination);
   const THUMBNAIL_HEIGHT = ((st.fullWidth - 20) * 1) / 2;
   const [isLoading, setIsLoading] = useState(false);
-  const [videos, setVideos] = useState(allVideos || []);
   const ITEM_HEIGHT = THUMBNAIL_HEIGHT + 100 + 20;
   const [filter, setFilter] = useState('All');
+  const [filterId, setFilterId] = useState('allVideos');
   const dispatch = useDispatch();
   function handleRefresh() {
     loadVideos();
@@ -68,17 +70,22 @@ function VideoList() {
   }
 
   useEffect(() => {
-    if (filter === 'All') {
-      setVideos(allVideos);
-    }
-    if (filter === 'Featured') {
-      setVideos(featuredVideos);
-    }
-    if (filter === 'Popular') {
-      setVideos(popularVideos);
-    }
-    if (filter === 'Favorite') {
-      setVideos(favoriteVideos);
+    switch (filterId) {
+      case 'featuredVideos':
+         setVideos(featuredVideos);
+        break;
+      case 'popularVideos':
+         setVideos(popularVideos);
+        break;
+      case 'favoriteVideos':
+         setVideos(favoriteVideos);
+        break;
+      case 'searchVideos':
+         setVideos(searchVideos);
+        break;
+      default:
+        setVideos(allVideos);
+        break;
     }
   }, [allVideos, featuredVideos, popularVideos, favoriteVideos]);
 
@@ -87,23 +94,23 @@ function VideoList() {
     const query = {};
 
     if (
-      (!updatedPagination[filter] || !updatedPagination[filter].hasMore) &&
+      (!updatedPagination[filterId] || !updatedPagination[filterId].hasMore) &&
       !resetToPageOne
     ) {
       return;
     }
-    page = updatedPagination[filter].page + 1;
+    page = updatedPagination[filterId].page + 1;
     query.page = page;
     if (resetToPageOne) {
       query.page = 1;
     }
-    if (filter === 'Featured') {
+    if (filterId === 'featuredVideos') {
       query.featured = true;
     }
-    if (filter === 'Popular') {
+    if (filterId === 'popularVideos') {
       query.popularity = true;
     }
-    if (filter === 'Favorite') {
+    if (filterId === 'favoriteVideos') {
       query.favorite = '#<Messenger::Favorite:0x007ffd7c4afb60>';
     }
 
@@ -116,15 +123,16 @@ function VideoList() {
   }
 
   useEffect(() => {
-    if (filter === 'Search') {
+    /* if (filter === 'Search') {
       navigation.navigate('VideosSearch', {
         onSelect: async tagId => {
           await dispatch(getVideos({ tag_id: tagId }));
           setVideos(searchVideos);
         },
       });
-    }
+    } */
     if (filter === 'All') {
+      setFilterId('allVideos');
       if (allVideos.length === 0) {
         loadVideos();
       } else {
@@ -132,6 +140,7 @@ function VideoList() {
       }
     }
     if (filter === 'Featured') {
+      setFilterId('featuredVideos');
       if (featuredVideos.length === 0) {
         loadVideos();
       } else {
@@ -139,22 +148,25 @@ function VideoList() {
       }
     }
     if (filter === 'Popular') {
+      setFilterId('popularVideos');
       if (popularVideos.length === 0) {
         loadVideos();
       } else {
         setVideos(popularVideos);
       }
     }
-    if (filter === 'Favorite') {
+    /* if (filter === 'Favorite') {
+      setFilterId('favoriteVideos');
       loadVideos();
-    }
+    } */
   }, [filter]);
+
   return (
     <View style={[st.f1, st.bgBlue]}>
       <FlatList
         initialNumToRender={4}
         data={videos}
-        renderItem={props => <VideoItem key={props.item.id} {...props} />}
+        renderItem={ props => <VideoItem key={props.item} id={props.item} category={filterId} />}
         getItemLayout={(data, index) => ({
           length: ITEM_HEIGHT,
           offset: ITEM_HEIGHT * index,
@@ -170,7 +182,11 @@ function VideoList() {
             <FlatList
               horizontal
               style={[st.pv5, st.ph5]}
-              data={['All', 'Featured', 'Popular', 'Favorite', 'Search']}
+              contentContainerStyle={{
+                width: '100%',
+                justifyContent: 'center',
+              }}
+              data={['All', 'Featured', 'Popular', /* 'Favorite', 'Search' */]}
               renderItem={({ item }) => (
                 <Button
                   key={item}
@@ -179,7 +195,7 @@ function VideoList() {
                       navigation.navigate('VideosSearch', {
                         onSelect: async tagId => {
                           await dispatch(getVideos({ tag_id: tagId }));
-                          setVideos(searchVideos);
+                          // setVideos(searchVideos);
                         },
                       });
                     } else {
@@ -253,7 +269,6 @@ function CustomTabBar(props) {
 }
 
 function Videos(props) {
-  console.log('📟 Containers > Videos');
   const insets = useSafeArea();
   const dispatch = useDispatch();
   const [index, setIndex] = React.useState(0);
@@ -273,7 +288,6 @@ function Videos(props) {
   });
   return (
     <>
-      <StatusBar />
       <Flex direction="column" justify="end" style={[st.w100, st.h100]}>
         {/* <TabView
           navigationState={{ index, routes }}

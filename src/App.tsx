@@ -41,6 +41,7 @@ import st from './st';
 import HeaderRight from './components/HeaderRight';
 import HeaderLeft from './components/HeaderLeft';
 import Touchable from './components/Touchable';
+import SignOut from './components/SignOut';
 import Text from './components/Text';
 import { useMount } from './utils';
 import useAppState from 'react-native-appstate-hook';
@@ -151,6 +152,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
           },
           title: '',
           headerLeft: () => <HeaderLeft hasBack />,
+          headerRight: undefined,
         }}
       />
       <AdventureStack.Screen
@@ -165,6 +167,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
           },
           title: '',
           headerLeft: () => <HeaderLeft hasBack />,
+          headerRight: undefined,
         }}
       />
       <AdventureStack.Screen
@@ -398,7 +401,8 @@ const App = () => {
               paddingTop: insets.top, // TODO: Check if it really works here?
             },
             headerRight: () => (
-              <Touchable
+              <>
+              {/* <Touchable
                 // style={[st.p5, st.pl4, st.mb3]}
                 onPress={ () => {
                     try {
@@ -410,8 +414,8 @@ const App = () => {
                 }
               >
                 <Text style={[st.white, st.fs16, st.pr5]}>Skip</Text>
-              </Touchable>
-              // <Button onPress={() => navigation.navigate('LoggedInApp')} title="Skip" />
+              </Touchable> */}
+              </>
             ),
             title: '',
             // headerShown: true,
@@ -490,11 +494,12 @@ const App = () => {
           }}
         />
         <AppStack.Screen
-          name="Profile"
+          name="AccountProfile"
           component={AccountProfile}
           options={({ navigation }) => ({
             headerShown: true,
             headerLeft: () => <HeaderLeft hasBack />,
+            headerRight: () => <SignOut />,
             cardStyle: { backgroundColor: theme.colors.transparent },
             headerStyle: {
               backgroundColor: theme.colors.primary,

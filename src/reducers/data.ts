@@ -39,6 +39,8 @@ const initialState: TDataState = {
   },
   notifications: [],
   notificationPagination: { hasMore: false, page: 1 },
+  notificationLatestId: '',
+  notificationUnreadBadge: 0,
   unReadBadgeCount: 0,
   availableAdventures: [],
   myAdventures: {
@@ -51,11 +53,26 @@ const initialState: TDataState = {
   },
   adventureSteps: {},
   adventureStepMessages: {},
-  allVideos: [],
-  featuredVideos: [],
-  popularVideos: [],
-  favoriteVideos: [],
-  searchVideos: [],
+  allVideos: {
+    byId: {},
+    allIds: []
+  },
+  featuredVideos: {
+    byId: {},
+    allIds: []
+  },
+  popularVideos: {
+    byId: {},
+    allIds: []
+  },
+  favoriteVideos: {
+    byId: {},
+    allIds: []
+  },
+  searchVideos: {
+    byId: {},
+    allIds: []
+  },
   videoTags: [],
   videoPagination: {
     All: {
@@ -153,13 +170,7 @@ export default function(state = initialState, action: any) {
         adventureInvitations: {
           byId: normalizedInvitations.entities.byId,
           allIds: normalizedInvitations.result,
-        },
-        // Change tracker value to signal deep data change.
-        /* 
-        dataChangeTracker: {
-          ...state.dataChangeTracker,
-          adventureInvitations: state.dataChangeTracker.adventureInvitations + 1
-        } */
+        }
       };
     }
 
@@ -177,13 +188,7 @@ export default function(state = initialState, action: any) {
         myAdventures: {
           byId: normalizedAdventures.entities.byId || {},
           allIds: normalizedAdventures.result,
-        },
-        // Change tracker value to signal deep data change.
-        /* 
-        dataChangeTracker: {
-          ...state.dataChangeTracker,
-          myAdventures: state.dataChangeTracker.myAdventures + 1
-        } */
+        }
       };
     }
 
@@ -196,13 +201,14 @@ export default function(state = initialState, action: any) {
             ...state.myAdventures.byId,
             [action.data.id]: action.data
           },
-        },
-        // Change tracker value to signal deep data change.
-        /* 
-        dataChangeTracker: {
-          ...state.dataChangeTracker,
-          myAdventures: state.dataChangeTracker.myAdventures + 1
-        } */
+        }
+      };
+    }
+
+    case REDUX_ACTIONS.UPDATE_UNREAD_TOTAL: {
+      return {
+        ...state,
+        unReadBadgeCount: action.data
       };
     }
 
@@ -245,14 +251,7 @@ export default function(state = initialState, action: any) {
         allIds: ["7290f105-ac6b-40df-ad41-47a5501e91b1", ..., ...]
 
       */
-      // Don't proceed if nothing changed in the data.
-/*       if (lodash.isEqual(
-        state.adventureSteps[action.result.adventureId],
-        action.result.adventureSteps
-      )) {
-        return state;
-      }
- */
+
       const stepSchema = new schema.Entity('byId');
       const stepsSchema = new schema.Array(stepSchema);
       const normalizedSteps = normalize( // Result.
@@ -268,9 +267,6 @@ export default function(state = initialState, action: any) {
         advUnreadCount = advUnreadCount + advStep.unread_messages;
       });
 
-      // return state;
-
-      // CONTINUE FROM HERE!!!!
       return {
         ...state,
 
@@ -299,14 +295,6 @@ export default function(state = initialState, action: any) {
 
           }
         },
-
-        // Change tracker value to signal deep data change.
-        /* 
-        dataChangeTracker: {
-          ...state.dataChangeTracker,
-          adventureSteps: state.dataChangeTracker.adventureSteps + 1,
-          myAdventures: state.dataChangeTracker.myAdventures + 1
-        } */
       };
     }
 
@@ -337,12 +325,7 @@ export default function(state = initialState, action: any) {
         adventureStepMessages: {
           ...state.adventureStepMessages,
           [adventureStepId]: newMessages
-        },
-
-        // dataChangeTracker: {
-        //   ...state.dataChangeTracker,
-        //   adventureStepMessages : state.dataChangeTracker.adventureStepMessages + 1
-        // }
+        }
       };
     }
 
@@ -361,49 +344,78 @@ export default function(state = initialState, action: any) {
       };
     }
     case REDUX_ACTIONS.UPDATE_VIDEO_PAGINATION: {
-      let newVideos: any = [];
+      let existingVideos: any = lodash.cloneDeep(state.allVideos) || [];
       let videoArrToUpdate = 'allVideos';
+      let newVideos = { 
+        byId: {},
+        allIds: []
+      };
       let paginationArrToUpdate = 'All';
-      if (action.result.params.page && action.result.params.page > 1) {
-        newVideos = lodash.cloneDeep(state.allVideos);
+      console.log( "🤦‍♀️  action:", action );
 
-        if (action.result.params.featured) {
-          newVideos = lodash.cloneDeep(state.featuredVideos);
-          videoArrToUpdate = 'featuredVideos';
-          paginationArrToUpdate = 'All';
-        }
-        if (action.result.params.popularity) {
-          newVideos = lodash.cloneDeep(state.popularVideos);
-          videoArrToUpdate = 'popularVideos';
-          paginationArrToUpdate = 'Popular';
-        }
-        if (action.result.params.favorite) {
-          newVideos = lodash.cloneDeep(state.favoriteVideos);
-          videoArrToUpdate = 'favoriteVideos';
-          paginationArrToUpdate = 'Favorite';
-        }
-        if (action.result.params.tag_id) {
-          newVideos = lodash.cloneDeep(state.searchVideos);
-          videoArrToUpdate = 'searchVideos';
-          paginationArrToUpdate = 'Search';
-        }
+      if (action.result.params.featured) {
+        existingVideos = lodash.cloneDeep(state.featuredVideos);
+        videoArrToUpdate = 'featuredVideos';
+        paginationArrToUpdate = 'All';
+      } else if (action.result.params.popularity) {
+        existingVideos = lodash.cloneDeep(state.popularVideos);
+        videoArrToUpdate = 'popularVideos';
+        paginationArrToUpdate = 'Popular';
+      } else if (action.result.params.favorite) {
+        existingVideos = lodash.cloneDeep(state.favoriteVideos);
+        videoArrToUpdate = 'favoriteVideos';
+        paginationArrToUpdate = 'Favorite';
+      } else if (action.result.params.tag_id) {
+        existingVideos = lodash.cloneDeep(state.searchVideos);
+        videoArrToUpdate = 'searchVideos';
+        paginationArrToUpdate = 'Search';
       }
+      /* if (action.result.params.page && action.result.params.page > 1) {
+
+      } */
       const newPagination = {
         hasMore: action.result.results._links
           ? !!action.result.results._links.next
           : false,
         page: action.result.params.page || 1,
       };
-      newVideos = newVideos.concat(action.result.results.items || []);
+      // ============================================================
+
+      const videoSchema = new schema.Entity('byId');
+      const videosSchema = new schema.Array(videoSchema);
+      const normalizedVideos = normalize( // Result.
+        action.result.results.items, // Data received.
+        videosSchema // Transformation schema.
+      );
+
+      console.log( "🐸 existingVideos:", existingVideos );
+      console.log( "🐻");
+      const newItems = action.result.results.items || [];
+      console.log( "🐸 newItems:", newItems );
+      console.log( "😜 existingVideos:", existingVideos );
+      newVideos = { 
+        byId: {
+          ...existingVideos.byId,
+          ...normalizedVideos.entities.byId
+        },
+        allIds: lodash.union([], existingVideos.allIds, normalizedVideos.result),
+      };
+      // newVideos = newVideos.concat( existingVideos.byId ,newItems );
+      console.log( "😜");
+      console.log( "🐸 newVideos:", newVideos );
+
+      console.log( "🤮");
       return {
         ...state,
         [videoArrToUpdate]: newVideos,
         videoPagination: {
           ...state.videoPagination,
-          [paginationArrToUpdate]: newPagination,
-        },
+          [videoArrToUpdate]: newPagination,
+
+        }
       };
     }
+
     case REDUX_ACTIONS.UPDATE_NOTIFICATION_PAGINATION: {
       let newNotifications: any = [];
       if (action.result.params.page && action.result.params.page > 1) {
@@ -422,6 +434,20 @@ export default function(state = initialState, action: any) {
         ...state,
         notifications: newNotifications,
         notificationPagination: newNotificationPagination,
+      };
+    }
+    case REDUX_ACTIONS.UPDATE_NOTIFICATION_READ: {
+      console.log( "🐸+ action.notificationId:", action );
+      console.log( "🐸- action.notificationId:", action.notificationId );
+      return {
+        ...state,
+        notificationLatestId:  action.notificationId,
+      };
+    }
+    case REDUX_ACTIONS.UPDATE_NOTIFICATION_UNREAD_BADGE: {
+      return {
+        ...state,
+        notificationUnreadBadge:  action.count,
       };
     }
     case REDUX_ACTIONS.MARK_READ: {
