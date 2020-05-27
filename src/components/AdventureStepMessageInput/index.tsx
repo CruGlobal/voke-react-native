@@ -142,7 +142,7 @@ const AdventureStepMessageInput = ({
                     disabled={hasSelected}
                     onPress={() => {
                       setValue(a.value);
-                      handleSendMessage(value);
+                      handleSendMessage(a.value);
                     }}
                     style={[
                       a.selected ? st.bgWhite : st.bgOrange,

@@ -315,7 +315,6 @@ export function createAdventureStepMessage(params: {
       data.message.messenger_journey_step_option_id = params.value;
       data.message.kind = 'answer';
       data.message.content = null;
-      console.log( "💂‍♂️ data.message:", data.message );
     }
     if (params.internalMessageId) {
       data.message.message_reference_id = params.internalMessageId;

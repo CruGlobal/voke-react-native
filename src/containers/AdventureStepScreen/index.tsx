@@ -42,7 +42,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
   const insets = useSafeArea();
   const [isPortrait, setIsPortrait] = useState(true);
   const { stepId, adventureId } = route.params;
-  const adventure = useSelector(({ data }: RootState) => data.myAdventures.byId[adventureId]);
+  const adventure = useSelector(({ data }: RootState) => data.myAdventures.byId[adventureId]) || {};
   const conversationId = adventure.conversation.id;
   const currentStep = useSelector(({ data }: RootState) =>
     data.adventureSteps[adventureId].byId[stepId]
