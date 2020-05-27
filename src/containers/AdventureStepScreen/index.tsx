@@ -180,9 +180,9 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
         // so on leaving this screen we need to update the current Adventure steps
         // to have right unread badges next to each step.
         // TODO: Most likely it's not needed anymore. Test it!
-        if (currentStep.unread_messages) {
+        /* if (currentStep.unread_messages) {
           dispatch(getAdventureSteps(adventure.id));
-        }
+        } */
       };
     }, [])
   )
