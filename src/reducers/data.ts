@@ -183,6 +183,8 @@ export default function(state = initialState, action: any) {
         adventuresSchema // Transformation schema.
       );
 
+      // console.log('UPDATE_ADVENTURES', normalizedAdventures.result)
+
       return {
         ...state,
         myAdventures: {

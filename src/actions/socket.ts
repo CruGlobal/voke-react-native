@@ -101,7 +101,7 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
               if (message.action === 'read') return; // Ignore 'read' interactions.
 
               console.log('🔌 setupSockets > socket onmessage');
-              console.log( "🔌 data.message:", data.message );
+              console.log( "💬 notification / message:", notification, message,  );
               // Got a toast message: show it
               // There are 2 types of WS notifications that have the toast? field:
               // -- Journey: dispatched when a friend joins the journey
