@@ -183,8 +183,6 @@ export default function(state = initialState, action: any) {
         adventuresSchema // Transformation schema.
       );
 
-      // console.log('UPDATE_ADVENTURES', normalizedAdventures.result)
-
       return {
         ...state,
         myAdventures: {
@@ -314,7 +312,6 @@ export default function(state = initialState, action: any) {
       // Flip messages as they come reversed:
       const newMessages = action.result.adventureStepMessages.reverse();
       const adventureStepId = action.result.adventureStepId;
-      console.log( "🐙 adventureStepId:", adventureStepId );
       return {
         ...state,
         adventureStepMessages: {
