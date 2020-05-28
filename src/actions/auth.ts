@@ -20,8 +20,9 @@ import {
 } from './requests';
 
 import { isArray } from '../utils';
-import { openSocketAction } from './socket';
+import { openSocketAction, closeSocketAction } from './socket';
 import { permissionsAndNotifications } from './notifications';
+import { getAdventureStepMessages } from './requests';
 
 export function loginAction(authToken) {
   // const authToken = authData.access_token;
@@ -42,17 +43,32 @@ export function startupAction() {
 }
 
 // When app focussed again.
-export function wakeupAction({currentScreen}) {
-  LOG( "🌝 function wakeupAction", );
+export function wakeupAction() {
   return async (dispatch, getState)  => {
+    const currentScreen = getState().info?.currentScreen?.screen;
+    LOG( "🌝 function wakeupAction",  {currentScreen});
     await dispatch(permissionsAndNotifications());
     const deviceId = getState().auth.device.id;
     dispatch( openSocketAction(deviceId) );
 
     // Check on what screen we are and update the required info.
-    if (currentScreen === 'LoggedInApp') {
+    // My Adventures screen: update invitations and adventures.
+    if (currentScreen === 'AdventuresMy') {
       dispatch(getAdventuresInvitations());
       dispatch(getMyAdventures());
+    }
+
+    // AdventureActive
+
+    if (currentScreen === 'AdventureStepScreen') {
+      const { conversationId, adventureStepId } = getState().info?.currentScreen?.data;
+      dispatch(
+        getAdventureStepMessages(
+          conversationId,
+          adventureStepId
+        ),
+      );
+
     }
   }
 }
@@ -63,7 +79,9 @@ export function sleepAction() {
   return async dispatch => {
     // No need to close/reopen WebSocket connection anymore:
     // https://github.com/facebook/react-native/issues/26731
-    // dispatch(closeSocketAction());
+    // Not so fast! We need to close sockets to tell the backend to send
+    // new notifications via push changed instead of WS.
+    dispatch(closeSocketAction());
   }
 }
 
@@ -73,30 +91,28 @@ export function requestPremissions(askPermission = true) {
   };
 }
 
-export function logoutAction(user, token, isDelete = false) {
-  console.log('🚶‍♂️🚪 logoutAction \n\n', { user }, '\n', { token }, '\n', {
-    isDelete,
-  });
+export function logoutAction() {
+  console.log('🚶‍♂️🚪 logoutAction \n\n');
   return async dispatch => {
     try {
-      if (token && !isDelete) {
-        const devices = await dispatch(getDevices());
 
-        if (devices && isArray(devices.devices)) {
-          const deviceIds = devices.devices.map(d => d.id);
-          if (deviceIds.length > 0) {
-            dispatch(
-              revokeAuthToken({
-                // eslint-disable-next-line @typescript-eslint/camelcase
-                device_ids: deviceIds,
-                token: null,
-              })
-            );
-          }
+      const devices = await dispatch(getDevices());
+
+      if (devices && isArray(devices.devices)) {
+        const deviceIds = devices.devices.map(d => d.id);
+        if (deviceIds.length > 0) {
+          dispatch(
+            revokeAuthToken({
+              // eslint-disable-next-line @typescript-eslint/camelcase
+              device_ids: deviceIds,
+              token: null,
+            })
+          );
         }
       }
+
       // Set redux store into empty state.
-      await dispatch({ type: REDUX_ACTIONS.LOGOUT, user, token });
+      await dispatch({ type: REDUX_ACTIONS.LOGOUT });
       // Clear data in the local storage if user logout.
       AsyncStorage.clear();
     } catch (error) {
@@ -252,11 +268,32 @@ export function facebookLogin() {
   };
 }
 
-export function passwordResetAction(username) {
+export function passwordResetAction(email) {
   return async (dispatch, getState) => {
     try {
-      // TODO: Finish this password reset functionality.
-      const user = await auth().sendPasswordResetEmail(username);
+      const data = {
+        me: {
+          email
+        }
+      }
+      return dispatch(request({ ...ROUTES.FORGOT_PASSWORD, data })).then(
+        result => {
+          // eslint-disable-next-line no-console
+          console.log('🗝 Reset Password:\n', result);
+          // Received login response do Logout/reset state.
+          // logoutAction();
+          // Update user data in the state with ones received.
+          // dispatch(loginAction(authData.access_token));
+          // After all download user details from server.
+          // return dispatch(getMeAction());
+          return;
+        },
+        error => {
+          // eslint-disable-next-line no-console
+          console.log('🛑 Login error', error);
+          throw error;
+        }
+      );
       Alert.alert(
         'Check Your Email',
         'Please check your email for a link to reset your password.',
@@ -347,6 +384,30 @@ export function createAccount(user) {
   };
 }
 
+export function deleteAccountAction() {
+  console.log( "Auth > deleteAccount" );
+  return async (dispatch, getState) => {
+    const data = {};
+    return dispatch(request({
+      ...ROUTES.DELETE_ACCOUNT,
+      data,
+      description: "Request DELETE_ACCOUNT"
+      })).then(
+      success => {
+        // eslint-disable-next-line no-console
+        console.log( "👤 Account Deleted \n\n", success );
+        // Clear data in the local storage if user logout.
+        AsyncStorage.clear();
+      },
+      error => {
+        // eslint-disable-next-line no-console
+        console.log('🛑 Delete account error', error);
+        throw error;
+      }
+    );
+  };
+}
+
 /**
  * Update user's data on the server
  * and then download it back to refresh a local store.
@@ -388,15 +449,5 @@ export function updateMe(data) {
       // return dispatch(getMeAction());
     } */
     // return dispatch(getMeAction());
-  };
-}
-
-/**
- * Get old conversations.
- */
-export function getOldConversations(): any {
-  return async dispatch => {
-    // Fetch user data from the server.
-    return dispatch(request({ ...ROUTES.GET_OLD_CONVERSATIONS }));
   };
 }

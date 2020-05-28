@@ -104,7 +104,14 @@ function AvailableAdventureItem({
         {shouldInviteFriend ? (
           <Flex value={1} justify="end">
             <Button
-              onPress={() => {Alert.alert('TODO')}}
+              onPress={ () =>
+                navigation.navigate('AdventureName', {
+                  item: {
+                    id: item.id
+                  },
+                  withGroup: false,
+                })
+              }
               style={[
                 st.bgOrange,
                 st.mb4,
@@ -123,7 +130,7 @@ function AvailableAdventureItem({
                 type="image"
                 style={[st.mr5, { height: 20, width: 20, marginBottom: 2 }]}
               />
-              <Text style={[st.white, { lineHeight: 20 }]}>Invite friend</Text>
+              <Text style={[st.white, { lineHeight: 20 }]}>Invite a Friend</Text>
             </Button>
           </Flex>
         ) : (
@@ -162,11 +169,18 @@ function AvailableAdventureItem({
             >
               {item.total_shares || 0} {'shares'.toUpperCase()}S
             </Text>
-            {/* {shouldInviteFriend ? null : (
+            {shouldInviteFriend ? null : (
               <Button
                 type="transparent"
                 isAndroidOpacity
-                onPress={() => {}}
+                onPress={ () =>
+                  navigation.navigate('AdventureName', {
+                    item: {
+                      id: item.id
+                    },
+                    withGroup: false,
+                  })
+                }
                 activeOpacity={0.6}
                 touchableStyle={[{ marginTop: -20 }, st.ml5]}
               >
@@ -176,7 +190,7 @@ function AvailableAdventureItem({
                   style={{ width: 50, height: 50 }}
                 />
               </Button>
-            )} */}
+            )}
           </Flex>
         </Flex>
       </Flex>

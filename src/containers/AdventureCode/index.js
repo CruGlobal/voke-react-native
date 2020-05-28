@@ -49,7 +49,6 @@ function AdventureCode(props) {
   }, []);
 
   async function handleContinue() {
-    console.log( "🐸 handleContinue" );
     if (adventureCode.length > 3) {
       try {
         setIsLoading(true);

@@ -6,7 +6,7 @@ import ui from '../../ui';
 const styles: { [key: string]: any } = {
 	...theme,
 	SectionOnboarding: css`
-		background-color: ${theme.colors.blue};
+		background-color: ${theme.colors.secondary};
 	`,
 	SectionAction: css`
 		background-color: ${theme.colors.secondary};
@@ -33,6 +33,13 @@ const styles: { [key: string]: any } = {
 		
 	],
 	ButtonSignUpLabel: [
+		ui.buttonText.size.m
+	],
+	ButtonAction: [
+		ui.button.size.m,
+		ui.button.style.outline,
+	],
+	ButtonActionLabel: [
 		ui.buttonText.size.m
 	],
 	SignInText: css`

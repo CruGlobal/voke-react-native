@@ -7,6 +7,7 @@ import Button from '../Button';
 import VokeIcon from '../VokeIcon';
 import { createAdventureStepMessage } from '../../actions/requests';
 import { useDispatch } from 'react-redux';
+import useInterval from '../../utils/useInterval';
 
 function AdventureStepMessageInput({ adventure, step, ...rest }) {
   const [text, setText] = useState('');
@@ -19,15 +20,20 @@ function AdventureStepMessageInput({ adventure, step, ...rest }) {
     if ( text.length === 0 ) {
       return;
     }
-    dispatch(
-      createAdventureStepMessage({
-        adventure,
-        step,
-        value: text,
-        kind: 'standard',
-      })
-    );
-    setText('');
+
+    // Give autocorrection a few ms to replace the text.
+    // setTimeout(() => {
+      console.log( "🐸 text:", text );
+      dispatch(
+        createAdventureStepMessage({
+          adventure,
+          step,
+          value: text,
+          kind: 'standard',
+        })
+      );
+      setText('');
+    // }, 4000)
   }
 
   return (
@@ -39,9 +45,9 @@ function AdventureStepMessageInput({ adventure, step, ...rest }) {
     >
       <TextInput
         autoCapitalize="sentences"
-        returnKeyType="send"
-        blurOnSubmit={true}
-        onSubmitEditing={handleSendMessage}
+        // returnKeyType="send"
+        // blurOnSubmit={true}
+        // onSubmitEditing={handleSendMessage}
         placeholder={'New Message'}
         onChangeText={t => setText(t)}
         value={text}
@@ -53,10 +59,10 @@ function AdventureStepMessageInput({ adventure, step, ...rest }) {
         style={[st.f1, st.white, st.pv6, st.mv6, st.fs4, inputHeight, st.pt4]}
         selectionColor={st.colors.yellow}
         autoCorrect={true}
-        multiline={false}
+        multiline={true}
         {...rest}
       />
-      <Button style={[st.w(55), st.aie, st.pv6]} onPress={handleSendMessage}>
+      <Button style={[st.w(55), st.aie, st.pv4]} onPress={handleSendMessage}>
         <VokeIcon name="send" style={[st.white]} size={20} />
       </Button>
     </Flex>

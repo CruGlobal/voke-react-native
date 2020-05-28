@@ -18,7 +18,7 @@ const AdventureStepMessageInput = ({
   defaultValue,
   onFocus,
 }): React.ReactElement => {
-  const [value, setValue] = useState(defaultValue || '');
+  const [value, setValue] = useState(defaultValue||'');
   const [messageSent, setMesssageSent] = useState(!!defaultValue);
   const dispatch = useDispatch();
   const isMultiQuestion = kind === 'multi';
@@ -27,6 +27,8 @@ const AdventureStepMessageInput = ({
   const isShareQuestion = kind === 'share';
   const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'multiple';
   const isComplete = step.status === 'completed';
+
+  console.log( "🐸 step:", step );
 
   // When SEND message button clicked.
   const handleSendMessage = (newValue: any): void => {
@@ -62,7 +64,7 @@ const AdventureStepMessageInput = ({
     }
 
     return (
-      <View style={[st.ovh, st.w100,{
+      <View style={[st.ovh, {
         backgroundColor: st.colors.white,
         borderBottomLeftRadius: 10,
         borderBottomRightRadius: 10,
@@ -87,11 +89,12 @@ const AdventureStepMessageInput = ({
           handleSendMessage(t.value);
         }}
         containerColor={st.colors.orange}
-        isDisabled={ value ? true : false   }
+        // isDisabled={ value ? true : false   }
       />
       </View>
     );
   }
+
   if (isBinaryQuestion) {
     const metadata = internalMessage.metadata || {};
     const answers = metadata.answers;
@@ -139,7 +142,7 @@ const AdventureStepMessageInput = ({
                     disabled={hasSelected}
                     onPress={() => {
                       setValue(a.value);
-                      handleSendMessage(value);
+                      handleSendMessage(a.value);
                     }}
                     style={[
                       a.selected ? st.bgWhite : st.bgOrange,
@@ -218,13 +221,15 @@ const AdventureStepMessageInput = ({
     >
       {messageSent || isComplete ? (
         value ?
-          <Text style={[st.fs4, st.pt4, st.pb4, st.darkBlue]}>{value}</Text> :
-          <Text style={[st.fs4, st.pt4, st.pb4, {opacity:.5}]}>Skipped</Text>
+          <Text style={[st.fs4, st.pt4, st.w100, st.pb4, st.darkBlue]}>{value}</Text> :
+          <Text style={[st.fs4, st.pt4, st.w100, st.pb4, {opacity:.5}]}>Skipped</Text>
       ) : (
         <>
           <TextInput
+            // returnKeyType="send"
+            // blurOnSubmit={true}
+            // onSubmitEditing={handleSendMessage}
             autoCapitalize="sentences"
-            returnKeyType="send"
             onFocus={event => {
               onFocus(event);
               // if (this.props.hasClickedPlay) {
@@ -237,9 +242,7 @@ const AdventureStepMessageInput = ({
               //   );
               // }
             }}
-            multiline={false}
-            blurOnSubmit={true}
-            onSubmitEditing={handleSendMessage}
+            multiline={true}
             placeholder={'Enter your answer'}
             placeholderTextColor={st.colors.grey}
             style={[st.f1, st.fs4, st.pt4, st.pb4, st.darkBlue, {marginRight:6}]}

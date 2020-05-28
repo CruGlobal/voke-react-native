@@ -27,7 +27,8 @@ const imagePickerOptions = {
   cameraType: 'back',
 };
 
-function AccountPhoto() {
+function AccountPhoto(props) {
+  const onComplete = props?.route?.params?.onComplete;
   const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -44,15 +45,27 @@ function AccountPhoto() {
 
   const [avatarSource, setAvatarSource] = useState(currentAvatar);
 
+  const nextScreen = ( screenName = 'Adventures' ) => {
+    if (onComplete) {
+      return onComplete();
+    } else {
+      try {
+        navigation.navigate('LoggedInApp', { screen: screenName });
+      } catch (error) {
+        navigation.navigate(screenName);
+      }
+    }
+  }
+
   async function handleContinue() {
-    if (!avatarSource || avatarSource === null) {
+    if (
+      !avatarSource ||
+      avatarSource === null ||
+      avatarSource?.uri.includes('vokeapi')
+    ) {
       // No image selected - skip to the next screen.
 
-      try {
-        navigation.navigate('LoggedInApp', { screen: 'Adventures' });
-      } catch (error) {
-        navigation.navigate('Adventures');
-      }
+      return nextScreen();
     } else {
 
       const avatarData = {
@@ -67,12 +80,7 @@ function AccountPhoto() {
       try {
         await dispatch(updateMe(avatarData));
         setLoginLoading(false);
-        // navigation.navigate('LoggedInApp', { screen: 'Adventures' }); // LoggedInApp
-        try {
-          navigation.navigate('LoggedInApp', { screen: 'Adventures' });
-        } catch (error) {
-          navigation.navigate('Adventures');
-        }
+        nextScreen();
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log('error updating me image 4', error);

@@ -39,8 +39,8 @@ function AdventureCard({ adventureId }) {
 
   const conversation = adventureItem.conversation;
   const progress = adventureItem.progress;
-  const thumbnail = adventureItem.item.content.thumbnails.medium;
-  const unreadCount = conversation.unread_messages;
+  const thumbnail = adventureItem.item.content.thumbnails.large;
+  const [unreadCount, setUnreadCount] = useState(conversation.unread_messages || 0)
   const hasUnread = unreadCount > 0;
   const available = progress.total;
   const totalSteps = new Array(available).fill(1);
@@ -80,6 +80,13 @@ function AdventureCard({ adventureId }) {
     return <></>;
   }
 
+  useEffect(() => {
+    setUnreadCount(conversation.unread_messages);
+    return () => {
+      // cleanup
+    }
+  }, [adventureItem])
+
   return (
     <Flex style={styles.Wrapper}>
       <Touchable
@@ -116,7 +123,12 @@ function AdventureCard({ adventureId }) {
             <Text numberOfLines={2} style={styles.Title}>
               {name}
             </Text>
-            <Flex value={1} direction="row" align="center">
+            <Flex value={1} direction="row" align="center" justify="between"
+              style={{
+                width:'100%',
+                paddingBottom: 10,
+              }}
+            >
               {/* { hasUnread ?
               <VokeIcon
                 name="speech-bubble-full"
@@ -134,6 +146,8 @@ function AdventureCard({ adventureId }) {
                 style={[ st.darkGrey, {marginTop: 3} ]}
                 size={20}
               /> */}
+
+              {/* AVATARS */}
               {!isGroup ? (
                 <Flex value={1} style={[{paddingBottom:10}]} direction="row" align="center">
                   <Touchable onPress={() => {Alert.alert('TODO!')}}>
@@ -169,9 +183,8 @@ function AdventureCard({ adventureId }) {
                       isJoined: true,
                     })
                   }
-                  style={{ width: '100%' }}
                 >
-                  <Flex direction="row" align="center" style={[{paddingBottom:10}]}>
+                  <Flex direction="row" align="center" style={[{paddingBottom:0}]}>
                     <Image
                       source={{
                         uri: (myUser.avatar || {}).small || undefined,
@@ -220,6 +233,30 @@ function AdventureCard({ adventureId }) {
                   </Flex>
                 </Touchable>
               )}
+              {/* UNREAD COUNTER */}
+              {hasUnread ? (
+                <Flex
+                  direction="row"
+                  align="center"
+                  justify="center"
+                  style={[ st.br2, st.bgOrange, st.mr4, st.p6, st.pl5, st.pr5,
+                  {
+                    // position: "absolute",
+                    // right: -2,
+                    // top: 0,
+                  }
+                  ]}
+                >
+                  <VokeIcon
+                    name="speech-bubble-full"
+                    style={[ st.white, {marginTop: -1, marginRight: 6} ]}
+                    size={14}
+                  />
+                  <Text style={[st.white, {fontWeight: 'bold'}]}>
+                    {unreadCount > 99 ? '99' : unreadCount}
+                  </Text>
+                </Flex>
+              ) : null}
             </Flex>
             <Flex value={1} direction="column" align="start" style={{width:'100%'}}>
               <Flex value={1} direction="row" align="center">
@@ -236,27 +273,6 @@ function AdventureCard({ adventureId }) {
             </Flex>
           </Flex>
         </Flex>
-        {hasUnread ? (
-          <Flex
-            align="center"
-            justify="center"
-            style={[st.circle(26), st.bgOrange, st.ml6,
-            {
-              position: "absolute",
-              right: -8,
-              top: 2,
-            }]}
-          >
-            <VokeIcon
-              name="notification-full"
-              style={[ st.white, {marginTop: -1} ]}
-              size={14}
-            />
-            {/* <Text style={[st.orange]}>
-              {unreadCount > 99 ? '99' : unreadCount}
-            </Text> */}
-          </Flex>
-        ) : null}
       </Touchable>
     </Flex>
   );

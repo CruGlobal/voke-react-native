@@ -14,7 +14,6 @@ function HeaderLeft({ hasBack = false }) {
     <Flex value={1} justify="center">
         <Touchable
           style={[{
-            // backgroundColor:'red',
             // Extra padding to make taps more responsive.
             paddingTop: 6,
             paddingLeft: 16,
