@@ -28,8 +28,6 @@ PODS:
     - FBSDKShareKit/Share (= 5.8.0)
   - FBSDKShareKit/Share (5.8.0):
     - FBSDKCoreKit (~> 5.0)
-  - Firebase/Analytics (6.13.0):
-    - Firebase/Core
   - Firebase/Core (6.13.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 6.1.6)
@@ -448,20 +446,21 @@ PODS:
     - React
     - SDWebImage (~> 5.0)
     - SDWebImageWebPCoder (~> 0.4.1)
-  - RNFBAnalytics (7.0.1):
-    - Firebase/Analytics (~> 6.13.0)
+  - RNFBAnalytics (6.3.4):
+    - Firebase/Core (~> 6.13.0)
     - React
     - RNFBApp
-  - RNFBApp (7.0.1):
-    - Firebase/CoreOnly (~> 6.13.0)
+  - RNFBApp (6.7.1):
+    - Firebase/Core (~> 6.13.0)
     - React
-  - RNFBCrashlytics (7.0.1):
+  - RNFBCrashlytics (6.7.1):
     - Crashlytics (~> 3.14.0)
     - Fabric (~> 1.10.2)
+    - Firebase/Core (~> 6.13.0)
     - React
     - RNFBApp
-  - RNFBDynamicLinks (7.0.1):
-    - Firebase/Analytics (~> 6.13.0)
+  - RNFBDynamicLinks (6.3.4):
+    - Firebase/Core (~> 6.13.0)
     - Firebase/DynamicLinks (~> 6.13.0)
     - React
     - RNFBApp
@@ -789,10 +788,10 @@ SPEC CHECKSUMS:
   RNCPushNotificationIOS: 9aa40ed0ff0e53f8ecf3baaaa7e5ccbaa5ba3894
   RNDeviceInfo: c3ea4a4d4547740c548cdd1e5a78f9b04e524688
   RNFastImage: 35ae972d6727c84ee3f5c6897e07f84d0a3445e9
-  RNFBAnalytics: d6826c50cbdc60a67795e5d30f1673e1ee420b3c
-  RNFBApp: 2b3860f4512363a614fe56b3567a20dac91207d8
-  RNFBCrashlytics: a417a34e6a0b4e2b46055f54300b576a4546db03
-  RNFBDynamicLinks: 1b887ef49aa5e8c8a0396b816444b1c2b9c0d67e
+  RNFBAnalytics: b8bad44e6653af73219b1a7af24bf3452cb02c1b
+  RNFBApp: a8a70521201eb3e75761e5495ebf3be319a3a9bc
+  RNFBCrashlytics: d58339337bf676e0f44deed7825be264e4e8b75f
+  RNFBDynamicLinks: e0d320b2bd02dee6ed1f0a7d8deecdf3469db461
   RNGestureHandler: dde546180bf24af0b5f737c8ad04b6f3fa51609a
   RNLocalize: fc27ee5878ce5a3af73873fb2d8e866e0d1e6d84
   RNPermissions: 69dc24ae1a9507576e2e9cf70ceed51065311da8
@@ -807,4 +806,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 54b7f715e657399d3a1ba87987901c400023391f
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.9.2

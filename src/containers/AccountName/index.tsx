@@ -62,7 +62,7 @@ const AccountName: React.FC = (): React.ReactElement => {
     if (isKeyboardVisible) {
       setTopMargin(-250);
     } else {
-      setTopMargin(60);
+      setTopMargin(100);
     }
     refBotBlock?.current?.animateNextTransition();
   }, [isKeyboardVisible]);
