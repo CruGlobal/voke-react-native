@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Video from '../../components/Video';
 import { useNavigation } from '@react-navigation/native';
 import { useMount, useKeyboard } from '../../utils';
-import { getAdventureStepMessages, markMessageAsRead, markReadStepAction } from '../../actions/requests';
+import { getAdventureStepMessages, markMessageAsRead, markReadStepAction, interactionVideoPlay } from '../../actions/requests';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { RootState } from '../../reducers';
 import { TAdventureSingle, TStep } from '../../types';
@@ -25,7 +25,7 @@ import styles from './styles';
 import { REDUX_ACTIONS } from '../../constants';
 import { setCurrentScreen } from '../../actions/info';
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
-import { createAdventureStepMessage } from '../../actions/requests';
+
 
 type ModalProps = {
   route: {
@@ -121,6 +121,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
           adventureStepId: currentStep.id,
           newMessage: newBotMessage
         },
+        description: 'From botMessage()'
       });
     }
   }
@@ -257,6 +258,14 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
                   : setIsPortrait(false)
               }
               item={currentStep.item.content}
+              onPlay={
+                () => {
+                dispatch( interactionVideoPlay({
+                  adventureId: adventure.id,
+                  stepId: currentStep.id,
+                }))
+                }
+              }
             />
             {isPortrait && (
               <>

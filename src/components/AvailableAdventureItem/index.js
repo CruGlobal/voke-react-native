@@ -169,11 +169,18 @@ function AvailableAdventureItem({
             >
               {item.total_shares || 0} {'shares'.toUpperCase()}S
             </Text>
-            {/* {shouldInviteFriend ? null : (
+            {shouldInviteFriend ? null : (
               <Button
                 type="transparent"
                 isAndroidOpacity
-                onPress={() => {}}
+                onPress={ () =>
+                  navigation.navigate('AdventureName', {
+                    item: {
+                      id: item.id
+                    },
+                    withGroup: false,
+                  })
+                }
                 activeOpacity={0.6}
                 touchableStyle={[{ marginTop: -20 }, st.ml5]}
               >
@@ -183,7 +190,7 @@ function AvailableAdventureItem({
                   style={{ width: 50, height: 50 }}
                 />
               </Button>
-            )} */}
+            )}
           </Flex>
         </Flex>
       </Flex>

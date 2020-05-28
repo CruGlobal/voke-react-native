@@ -123,7 +123,7 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
                     ) || {}
                   ).id;
 
-                  if (message.kind === 'text' && adventureId !== undefined ) {
+                  // if (message.kind === 'text' && adventureId !== undefined ) {
                     // If simple text: save new message in the store
                     // without requesting update from the server via API.
                     // BUT only if we have conversation array ready
@@ -134,8 +134,11 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
                         adventureStepId: message.messenger_journey_step_id,
                         newMessage: message
                       },
+                      description: 'From sockets > onmessage()'
                     });
-                  } else {
+                  // }
+                  /* 
+                  else {
                     // If not just a text: update messages in conversation
                     // via extra call to API.
                     dispatch(
@@ -144,7 +147,7 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
                         message.messenger_journey_step_id,
                       ),
                     );
-                  }
+                  } */
 
                   // TODO: optimize the next call. It can be expensive?
                   // Update adventure steps to mark the current step as completed
@@ -164,6 +167,8 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
                       },
                     },
                   }); */
+                } else {
+                  console.log( "🛑🛑🛑🛑🛑🛑 message:", message );
                 }
               } else if (
                 notification.category === 'CREATE_TYPESTATE_CATEGORY' ||

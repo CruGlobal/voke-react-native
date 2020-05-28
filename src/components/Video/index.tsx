@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import YouTube from 'react-native-youtube';
 import RNVideo from 'react-native-video';
 import Slider from '@react-native-community/slider';
@@ -37,6 +37,7 @@ function convertTime(time) {
 
 function Video({
   onOrientationChange,
+  onPlay,
   hideBack = false,
   blockRotation = false,
   item,
@@ -140,6 +141,10 @@ function Video({
   }
 
   function togglePlayState() {
+    // Send an interaction when the user press play.
+    if( !isPlaying ) {
+      onPlay();
+    }
     setIsPlaying(!isPlaying);
   }
 

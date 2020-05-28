@@ -214,13 +214,6 @@ export default function(state = initialState, action: any) {
       };
     }
 
-    case REDUX_ACTIONS.UPDATE_UNREAD_TOTAL: {
-      return {
-        ...state,
-        unReadBadgeCount: action.data
-      };
-    }
-
     case REDUX_ACTIONS.UPDATE_ADVENTURE_STEPS: {
       /*
       Adventure steps received:
@@ -333,7 +326,6 @@ export default function(state = initialState, action: any) {
 
     case REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE: {
       const adventureStepId = action.result.adventureStepId
-
       return {
         ...state,
         adventureStepMessages: {

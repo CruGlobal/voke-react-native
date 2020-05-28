@@ -129,6 +129,7 @@ jobs:
 
     install:
     - npm install
+    - bundle update --bundler
     - (cd android && bundler install)
 
     script:
@@ -169,6 +170,7 @@ jobs:
 
     install:
     - npm install
+    - bundle update --bundler
     - (cd android && bundler install)
 
     script:

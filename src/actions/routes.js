@@ -95,9 +95,13 @@ const ROUTES = {
     method: 'post',
     url: `me/conversations/{adventureConversationId}/messages`,
   },
-  CREATE_INTERACTION: {
+  CREATE_INTERACTION_READ: {
     method: 'post',
     url: `me/conversations/{conversationId}/messages/{messageId}/interactions/`,
+  },
+  CREATE_INTERACTION_PLAY: {
+    method: 'post',
+    url: `me/journeys/{adventureId}/steps/{stepId}/interactions/`,
   },
   START_ADVENTURE: { method: 'post', url: `me/journeys` },
   GET_ADVENTURE_INVITATIONS: { method: 'get', url: `me/journey_invites` },
