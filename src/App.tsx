@@ -49,17 +49,16 @@ import useAppState from 'react-native-appstate-hook';
 // https://reactnavigation.org/docs/stack-navigator#options
 const defaultHeaderConfig = {
   headerStyle: {
-    backgroundColor: theme.colors.secondary,
+    backgroundColor: theme.colors.primary,
     elevation: 0,
     shadowOpacity: 0,
   },
   headerTitleStyle: {
-    color: theme.colors.white,
-    fontSize: 14,
+    color: theme.colors.secondary,
+    fontSize: 16,
     fontWeight: 'normal',
   },
-  headerLeft: () => <HeaderLeft />,
-  headerRight:()=> <HeaderRight/>
+  headerLeft: () => <HeaderLeft />
 };
 
 // https://reactnavigation.org/docs/stack-navigator#options
@@ -198,7 +197,7 @@ function VideoStackScreens({ navigation, route }: any) {
   });
   return (
     <VideoStack.Navigator screenOptions={defaultHeaderConfig}>
-      <VideoStack.Screen name="Videos" component={Videos} />
+      <VideoStack.Screen name="Explore" component={Videos} />
       <VideoStack.Screen
         name="VideoDetails"
         component={VideoDetails}
@@ -283,10 +282,10 @@ const LoggedInAppContainer = () => {
         }}
       />
       <Tabs.Screen
-        name="Videos"
+        name="Explore"
         component={VideoStackScreens}
         options={{
-          title: 'Videos',
+          title: 'Explore',
         }}
       />
       <Tabs.Screen
