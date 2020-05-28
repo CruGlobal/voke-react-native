@@ -61,6 +61,11 @@ const AdventuresMy = ({ route }: AdventuresMyProps): React.ReactElement => {
     updateAdventures();
   }, []);
 
+  /* useEffect(() => {
+    // Load my adventures + invites. Note: async function can't be part of hook!
+    console.log('Something updated! Refresh the screen.')
+  }, [myAdventuresIds, invitationsIds ]); */
+
   // Events firing when user leaves the screen or comes back.
   useFocusEffect(
     useCallback(() => {

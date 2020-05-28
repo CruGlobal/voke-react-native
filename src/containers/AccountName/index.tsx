@@ -24,7 +24,8 @@ import styles from './styles';
 
 import VOKE_BOT from '../../assets/voke_bot_face_large.png';
 
-const AccountName: React.FC = (): React.ReactElement => {
+const AccountName = ( props ): React.ReactElement => {
+  const onComplete = props?.route?.params?.onComplete;
   const insets = useSafeArea();
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -67,6 +68,14 @@ const AccountName: React.FC = (): React.ReactElement => {
     refBotBlock?.current?.animateNextTransition();
   }, [isKeyboardVisible]);
 
+  const nextScreen = ( screenName = 'AccountPhoto' ) => {
+    if (onComplete) {
+      return onComplete();
+    } else {
+      return navigation.navigate(screenName);
+    }
+  }
+
   const handleContinue = async () => {
     if (!firstName || firstName.length < 1) {
       return Alert.alert(
@@ -76,7 +85,7 @@ const AccountName: React.FC = (): React.ReactElement => {
     }
     if (firstName === initialFirstName && lastName === initialLastName) {
       // Nothing changed
-      return navigation.navigate('AccountPhoto');
+      return nextScreen();
     }
     setIsLoading(true);
 
@@ -105,8 +114,9 @@ const AccountName: React.FC = (): React.ReactElement => {
     }
 
     setIsLoading(false);
+
     // Go to the next screen.
-    return navigation.navigate('AccountPhoto');
+    return nextScreen();
   };
 
   return (

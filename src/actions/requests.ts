@@ -75,11 +75,13 @@ export function getMyAdventures() {
         const myAdventures = data.journeys;
         // Update my adventures in store.
         // return dispatch(setData('myAdventures', myAdventures));
-        return dispatch({
+        dispatch({
           type: REDUX_ACTIONS.UPDATE_ADVENTURES,
           data: myAdventures,
           description: 'Update myAdventure In Store'
         });
+
+        return dispatch(updateTotalUnreadCounter());
       },
       error => {
         // eslint-disable-next-line no-console
@@ -154,6 +156,7 @@ export function acceptAdventureInvitation(adventureCode: string) {
 
 // Iterate through adventures to find total number of unread messages.
 function updateTotalUnreadCounter() {
+  console.log( "🤖 updateTotalUnreadCounter" );
   return async (dispatch: Dispatch, getState: any) => {
     const myAdventures = getState().data.myAdventures.byId;
     let unreadTotal = 0;
@@ -336,10 +339,12 @@ export function createAdventureStepMessage(params: {
     dispatch({
       type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
       result: { adventureStepId: params.step.id, newMessage: result },
+      description: 'createAdventureStepMessage(): Create Adventure Step Message'
     });
 
     // Refresh all messages when answering a quiestion to multi challenge.
-    if ( params.kind === 'answer' ) {
+    if ( data.message.kind === 'answer' ) {
+      console.log('👩‍🔬 getAdventureStepMessages')
       dispatch(
         getAdventureStepMessages(
           params.adventure.conversation.id,
@@ -670,7 +675,37 @@ export function getNotifications(params: any = {}) {
       result: { results, params },
     });
 
+    dispatch(updateUnReadNotificationsBadge( results.messages ));
+
     return results;
+  };
+}
+
+export function updateUnReadNotificationsBadge(updatedMessages: any) {
+  return async (dispatch: Dispatch, getState: any) => {
+    if ( updatedMessages.length < 1 ) return;
+    const notificationLatestId = getState().data.notificationLatestId;
+    const unreadNotificationsBadge = getState().data.notificationUnreadBadge;
+    if ( updatedMessages[0]?.id !== notificationLatestId ) {
+      dispatch({
+        type: REDUX_ACTIONS.UPDATE_NOTIFICATION_UNREAD_BADGE,
+        count: unreadNotificationsBadge + 1,
+      });
+    }
+  };
+}
+
+export function markReadNotification(notificationId: string) {
+  return async (dispatch: Dispatch, getState: any) => {
+    dispatch({
+      type: REDUX_ACTIONS.UPDATE_NOTIFICATION_READ,
+      notificationId,
+    });
+
+    dispatch({
+        type: REDUX_ACTIONS.UPDATE_NOTIFICATION_UNREAD_BADGE,
+        count: 0,
+      });
   };
 }
 
@@ -791,7 +826,7 @@ export function markMessageAsRead(params: markMessageAsRead) {
     // SEND INTERACTION DATA TO THE SERVER.
     const result = await dispatch(
       request({
-        ...ROUTES.CREATE_INTERACTION,
+        ...ROUTES.CREATE_INTERACTION_READ,
         pathParams: {
           conversationId,
           messageId,
@@ -811,3 +846,30 @@ export function markReadStepAction({adventureId, stepId}) {
     dispatch({ type: REDUX_ACTIONS.MARK_READ, adventureId, stepId });
   };
 }
+
+// Send an interaction when the user press play.
+export function interactionVideoPlay({adventureId, stepId}) {
+  return async (dispatch: Dispatch, getState: any) => {
+    const deviceId = getState().auth.device.id;
+    // See: https://docs.vokeapp.com/#me-journeys-steps-interactions-create-interaction
+    let data: any = {
+      interaction: {
+        action: "started", // Message read.
+        device_id: deviceId,
+      }
+    };
+    // SEND INTERACTION DATA TO THE SERVER.
+    const result = await dispatch(
+      request({
+        ...ROUTES.CREATE_INTERACTION_PLAY,
+        pathParams: {
+          adventureId,
+          stepId,
+        },
+        data,
+      }),
+    );
+    return result;
+  };
+}
+
