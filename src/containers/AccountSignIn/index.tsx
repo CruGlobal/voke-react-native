@@ -60,8 +60,9 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
         // eslint-disable-next-line no-console
         console.log('🛑 Error on login \n', { e });
         Alert.alert(
-          "Can't Login",
-          e.error_description ? e.error_description : e.errors[0]
+          'Invalid email/password',
+          'Please enter a valid email and password'
+          // e.error_description ? e.error_description : e.errors[0]
         );
         setIsLoading(false);
       }

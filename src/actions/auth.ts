@@ -91,30 +91,28 @@ export function requestPremissions(askPermission = true) {
   };
 }
 
-export function logoutAction(user, token, isDelete = false) {
-  console.log('🚶‍♂️🚪 logoutAction \n\n', { user }, '\n', { token }, '\n', {
-    isDelete,
-  });
+export function logoutAction() {
+  console.log('🚶‍♂️🚪 logoutAction \n\n');
   return async dispatch => {
     try {
-      if (token && !isDelete) {
-        const devices = await dispatch(getDevices());
 
-        if (devices && isArray(devices.devices)) {
-          const deviceIds = devices.devices.map(d => d.id);
-          if (deviceIds.length > 0) {
-            dispatch(
-              revokeAuthToken({
-                // eslint-disable-next-line @typescript-eslint/camelcase
-                device_ids: deviceIds,
-                token: null,
-              })
-            );
-          }
+      const devices = await dispatch(getDevices());
+
+      if (devices && isArray(devices.devices)) {
+        const deviceIds = devices.devices.map(d => d.id);
+        if (deviceIds.length > 0) {
+          dispatch(
+            revokeAuthToken({
+              // eslint-disable-next-line @typescript-eslint/camelcase
+              device_ids: deviceIds,
+              token: null,
+            })
+          );
         }
       }
+
       // Set redux store into empty state.
-      await dispatch({ type: REDUX_ACTIONS.LOGOUT, user, token });
+      await dispatch({ type: REDUX_ACTIONS.LOGOUT });
       // Clear data in the local storage if user logout.
       AsyncStorage.clear();
     } catch (error) {
@@ -270,11 +268,32 @@ export function facebookLogin() {
   };
 }
 
-export function passwordResetAction(username) {
+export function passwordResetAction(email) {
   return async (dispatch, getState) => {
     try {
-      // TODO: Finish this password reset functionality.
-      const user = await auth().sendPasswordResetEmail(username);
+      const data = {
+        me: {
+          email
+        }
+      }
+      return dispatch(request({ ...ROUTES.FORGOT_PASSWORD, data })).then(
+        result => {
+          // eslint-disable-next-line no-console
+          console.log('🗝 Reset Password:\n', result);
+          // Received login response do Logout/reset state.
+          // logoutAction();
+          // Update user data in the state with ones received.
+          // dispatch(loginAction(authData.access_token));
+          // After all download user details from server.
+          // return dispatch(getMeAction());
+          return;
+        },
+        error => {
+          // eslint-disable-next-line no-console
+          console.log('🛑 Login error', error);
+          throw error;
+        }
+      );
       Alert.alert(
         'Check Your Email',
         'Please check your email for a link to reset your password.',
@@ -359,6 +378,30 @@ export function createAccount(user) {
       error => {
         // eslint-disable-next-line no-console
         console.log('🛑 Create account error', error);
+        throw error;
+      }
+    );
+  };
+}
+
+export function deleteAccountAction() {
+  console.log( "Auth > deleteAccount" );
+  return async (dispatch, getState) => {
+    const data = {};
+    return dispatch(request({
+      ...ROUTES.DELETE_ACCOUNT,
+      data,
+      description: "Request DELETE_ACCOUNT"
+      })).then(
+      success => {
+        // eslint-disable-next-line no-console
+        console.log( "👤 Account Deleted \n\n", success );
+        // Clear data in the local storage if user logout.
+        AsyncStorage.clear();
+      },
+      error => {
+        // eslint-disable-next-line no-console
+        console.log('🛑 Delete account error', error);
         throw error;
       }
     );

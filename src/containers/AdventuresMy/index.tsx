@@ -29,7 +29,6 @@ const AdventuresMy = ({ route }: AdventuresMyProps): React.ReactElement => {
   const [isRefreshing, setIsRefreshing] = useState(false); // Pull-to-refresh.
 
   const me = useSelector(({ auth }: any) => auth.user);
-  const adventureSteps = useSelector(({ data }: {data: TDataState}) => data.adventureSteps) || {};
   const myAdventuresIds = useSelector(({ data }: {data: TDataState}) => data.myAdventures.allIds)|| [];
   const invitationsIds = useSelector(({ data }: {data: TDataState}) => data.adventureInvitations.allIds) || [];
 
@@ -60,6 +59,11 @@ const AdventuresMy = ({ route }: AdventuresMyProps): React.ReactElement => {
   // Load my adventures + invites. Note: async function can't be part of hook!
     updateAdventures();
   }, []);
+
+  /* useEffect(() => {
+    // Load my adventures + invites. Note: async function can't be part of hook!
+    console.log('Something updated! Refresh the screen.')
+  }, [myAdventuresIds, invitationsIds ]); */
 
   // Events firing when user leaves the screen or comes back.
   useFocusEffect(

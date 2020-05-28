@@ -16,7 +16,6 @@ const styles: { [key: string]: any } = {
     padding-bottom: ${`${theme.spacing.s}px`};
     padding-left: ${`${theme.spacing.m}px`};
     width: 100%;
-    /* background-color: yellow; */
   `,
   Title: css`
     width: 100%;

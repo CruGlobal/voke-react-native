@@ -28,6 +28,8 @@ const AdventureStepMessageInput = ({
   const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'multiple';
   const isComplete = step.status === 'completed';
 
+  console.log( "🐸 step:", step );
+
   // When SEND message button clicked.
   const handleSendMessage = (newValue: any): void => {
     setMesssageSent(true);
@@ -62,7 +64,7 @@ const AdventureStepMessageInput = ({
     }
 
     return (
-      <View style={[st.ovh, st.w100,{
+      <View style={[st.ovh, {
         backgroundColor: st.colors.white,
         borderBottomLeftRadius: 10,
         borderBottomRightRadius: 10,
@@ -87,7 +89,7 @@ const AdventureStepMessageInput = ({
           handleSendMessage(t.value);
         }}
         containerColor={st.colors.orange}
-        isDisabled={ value ? true : false   }
+        // isDisabled={ value ? true : false   }
       />
       </View>
     );
@@ -140,7 +142,7 @@ const AdventureStepMessageInput = ({
                     disabled={hasSelected}
                     onPress={() => {
                       setValue(a.value);
-                      handleSendMessage(value);
+                      handleSendMessage(a.value);
                     }}
                     style={[
                       a.selected ? st.bgWhite : st.bgOrange,

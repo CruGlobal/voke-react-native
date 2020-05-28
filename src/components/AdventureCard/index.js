@@ -39,7 +39,7 @@ function AdventureCard({ adventureId }) {
 
   const conversation = adventureItem.conversation;
   const progress = adventureItem.progress;
-  const thumbnail = adventureItem.item.content.thumbnails.medium;
+  const thumbnail = adventureItem.item.content.thumbnails.large;
   const [unreadCount, setUnreadCount] = useState(conversation.unread_messages || 0)
   const hasUnread = unreadCount > 0;
   const available = progress.total;
