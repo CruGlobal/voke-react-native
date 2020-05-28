@@ -29,6 +29,7 @@ const AdventuresMy = ({ route }: AdventuresMyProps): React.ReactElement => {
   const [isRefreshing, setIsRefreshing] = useState(false); // Pull-to-refresh.
 
   const me = useSelector(({ auth }: any) => auth.user);
+  const adventureSteps = useSelector(({ data }: {data: TDataState}) => data.adventureSteps) || {};
   const myAdventuresIds = useSelector(({ data }: {data: TDataState}) => data.myAdventures.allIds)|| [];
   const invitationsIds = useSelector(({ data }: {data: TDataState}) => data.adventureInvitations.allIds) || [];
 

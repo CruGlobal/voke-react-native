@@ -341,25 +341,19 @@ export default function(state = initialState, action: any) {
         byId: {},
         allIds: []
       };
-      let paginationArrToUpdate = 'All';
-      console.log( "🤦‍♀️  action:", action );
 
       if (action.result.params.featured) {
         existingVideos = lodash.cloneDeep(state.featuredVideos);
         videoArrToUpdate = 'featuredVideos';
-        paginationArrToUpdate = 'All';
       } else if (action.result.params.popularity) {
         existingVideos = lodash.cloneDeep(state.popularVideos);
         videoArrToUpdate = 'popularVideos';
-        paginationArrToUpdate = 'Popular';
       } else if (action.result.params.favorite) {
         existingVideos = lodash.cloneDeep(state.favoriteVideos);
         videoArrToUpdate = 'favoriteVideos';
-        paginationArrToUpdate = 'Favorite';
       } else if (action.result.params.tag_id) {
         existingVideos = lodash.cloneDeep(state.searchVideos);
         videoArrToUpdate = 'searchVideos';
-        paginationArrToUpdate = 'Search';
       }
       /* if (action.result.params.page && action.result.params.page > 1) {
 
@@ -379,23 +373,14 @@ export default function(state = initialState, action: any) {
         videosSchema // Transformation schema.
       );
 
-      console.log( "🐸 existingVideos:", existingVideos );
-      console.log( "🐻");
       const newItems = action.result.results.items || [];
-      console.log( "🐸 newItems:", newItems );
-      console.log( "😜 existingVideos:", existingVideos );
-      newVideos = { 
+      newVideos = {
         byId: {
           ...existingVideos.byId,
           ...normalizedVideos.entities.byId
         },
         allIds: lodash.union([], existingVideos.allIds, normalizedVideos.result),
       };
-      // newVideos = newVideos.concat( existingVideos.byId ,newItems );
-      console.log( "😜");
-      console.log( "🐸 newVideos:", newVideos );
-
-      console.log( "🤮");
       return {
         ...state,
         [videoArrToUpdate]: newVideos,
@@ -428,8 +413,6 @@ export default function(state = initialState, action: any) {
       };
     }
     case REDUX_ACTIONS.UPDATE_NOTIFICATION_READ: {
-      console.log( "🐸+ action.notificationId:", action );
-      console.log( "🐸- action.notificationId:", action.notificationId );
       return {
         ...state,
         notificationLatestId:  action.notificationId,
