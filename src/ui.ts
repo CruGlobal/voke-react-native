@@ -14,14 +14,17 @@ const ui: { [key: string]: any } = {
         border-radius: ${theme.radius.s + 'px'};
       `,
       l: css`
-        padding: 10px 16px;
-        border-radius: ${theme.radius.m + 'px'};
+        padding: 20px 16px;
+        border-radius: ${theme.radius.xxl + 'px'};
       `,
     },
     style: {
-      solid: css`
+      fillPrimary: css`
         background-color: ${theme.colors.primary};
       `,
+      fillWhite: css`
+      background-color: ${theme.colors.white};
+    `,
       outline: css`
         border: solid 1px ${theme.colors.white};
       `,
@@ -32,12 +35,18 @@ const ui: { [key: string]: any } = {
       m: css`
         color: ${theme.colors.white};
         font-size: ${theme.fontSizes.l + 'px'};
-
         font-family: ${theme.fonts.regular};
         text-align:center;
       `,
       l: css`
         color: ${theme.colors.white};
+        font-size: ${theme.fontSizes.xl + 'px'};
+        line-height: ${theme.fontSizes.xl * 1.35 + 'px'};
+        font-family: ${theme.fonts.regular};
+        text-align:center;
+      `,
+      wl: css`
+        color: ${theme.colors.secondary};
         font-size: ${theme.fontSizes.xl + 'px'};
         line-height: ${theme.fontSizes.xl * 1.35 + 'px'};
         font-family: ${theme.fonts.regular};

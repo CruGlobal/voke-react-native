@@ -14,7 +14,7 @@ import CAMERA from '../assets/camera.png';
 import GROUP_DARK from '../assets/groupDark.png';
 import BUTTON_ARROW_DARK from '../assets/buttonArrowDark.png';
 import VOKEBOT_AVATAR from '../assets/vokeAvatar.png';
-import VOKEBOT from '../assets/vokebot_whole.png';
+import VOKEBOT from '../assets/vokeBot.png';
 import LOCK from '../assets/lock.png';
 import CHECK from '../assets/check.png';
 import LEFT_ARROW from '../assets/left-arrow.png';

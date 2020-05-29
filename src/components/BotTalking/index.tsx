@@ -11,12 +11,13 @@ interface IBotTalking {
   reference?: React.RefObject<HTMLButtonElement>;
   children?: React.ReactNode;
   type?: string
+  heading?: string
 }
 /**
  * Displays speech bubble with Voke bot underneath.
  * Wraps provided content with <Text> element.
  */
-const BotTalking = ({reference, children, type}: IBotTalking): React.ReactElement => (
+const BotTalking = ({reference, children, type, heading}: IBotTalking): React.ReactElement => (
   type=== "reverse" ?
   <Flex style={styles.BotContainer}>
   <Flex style={styles.BotMessage_reverse}>
@@ -35,6 +36,7 @@ const BotTalking = ({reference, children, type}: IBotTalking): React.ReactElemen
 :
 <Flex style={styles.BotContainer}>
   <Flex style={styles.BotMessage}>
+    { heading ?<Text style={styles.BotHeading}>{heading}</Text>:null}
     <Text style={styles.BotText}>{children}</Text>
   </Flex>
   <Triangle
@@ -42,10 +44,10 @@ const BotTalking = ({reference, children, type}: IBotTalking): React.ReactElemen
     height={20}
     flip
     slant="down"
-    color={styles.colors.secondaryAlt}
+    color={styles.colors.secondary}
     style={styles.BotMessageTail}
   />
-  <Image width={80} style={styles.BotImage} source={vokeImages.vokebot} />
+  <Image width={150} style={styles.BotImage} source={vokeImages.vokebot} />
 </Flex>
 
 );
