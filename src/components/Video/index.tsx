@@ -300,7 +300,7 @@ function Video({
               >
                 <Flex value={1}>
                   <Touchable onPress={togglePlayState}>
-                    <VokeIcon name={isPlaying ? 'pause' : 'icon-play'} size={20} />
+                    <VokeIcon name={isPlaying ? 'pause' : 'play-full'} size={20} />
                   </Touchable>
                 </Flex>
                 <Flex value={1}>
