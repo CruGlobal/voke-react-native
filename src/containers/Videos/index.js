@@ -255,8 +255,8 @@ function CustomTabBar(props) {
   return (
     <TabBar
       {...props}
-      indicatorStyle={[st.bgWhite]}
-      style={{ backgroundColor: theme.colors.secondary }}
+      indicatorStyle={[theme.colors.primary]}
+      style={{ backgroundColor: theme.colors.primary }}
       activeColor={st.colors.white}
       inactiveColor={st.colors.blue}
       renderLabel={({ route, focused, color }) => (

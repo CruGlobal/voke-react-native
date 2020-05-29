@@ -5,7 +5,7 @@ import ui from '../../ui';
 const styles: { [key: string]: any } = {
   ...ui,
   TabBarTitle: css`
-    color: ${theme.colors.white};
+    color: ${theme.colors.secondary};
     font-size: ${`${theme.fontSizes.m}px`};
     font-family: ${theme.fonts.regular};
     padding-top: ${`${theme.spacing.s}px`};

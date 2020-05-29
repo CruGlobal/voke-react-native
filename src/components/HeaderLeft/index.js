@@ -6,6 +6,7 @@ import Text from '../Text';
 import VokeIcon from '../VokeIcon';
 import Touchable from '../Touchable';
 import st from '../../st';
+import theme from '../../theme';
 
 
 function HeaderLeft({ hasBack = false }) {
@@ -49,14 +50,13 @@ function HeaderLeft({ hasBack = false }) {
           </View>
           ) : (
             <VokeIcon
-              name="menu-outline"
-
+              name="menu"
               style={[
               {
-                fontSize: 24,
+                fontSize: 26,
                 marginTop: 1,
                 marginLeft: 6,
-                color: 'rgba(255,255,255,0.9)',
+                color: theme.colors.secondary,
               }]}
             />
           )}
