@@ -12,7 +12,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { useMount, lockToPortrait } from '../../utils';
-import { passwordReset } from '../../actions/auth';
+import { passwordResetAction } from '../../actions/auth';
 import st from '../../st';
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
 
@@ -82,7 +82,7 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
             // blurOnSubmit={false}
             label="Email"
             onSubmitEditing={() => passwordRef.current.focus()}
-            placeholder="Email"
+            placeholder=""
             value={email}
             onChangeText={checkEmail}
             autoCapitalize="none"
@@ -90,6 +90,7 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
             autoCompleteType="email"
             keyboardType="email-address"
             returnKeyType="next"
+            autoFocus={true}
           />
         </Flex>
         {/* TRIANGLE DIVIDER */}
@@ -111,9 +112,15 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
             isAndroidOpacity
             style={styles.ButtonStart}
             onPress={() =>
-              dispatch(passwordResetAction('example@example.com')).then(() => {
-              console.log('DONE PASSWORD RESET');
-              //  navigation.navigate('AccountName')
+              dispatch(passwordResetAction( email )).then(() => {
+                Alert.alert(
+                  'Check your Email',
+                  `If you don't receive an email, it's most likely because you used a different email address. If so, try a different email address for password recovery`,
+                  [
+                    { text: 'OK',
+                      onPress: () => navigation.goBack() },
+                  ]
+                );
             })
             }
           >

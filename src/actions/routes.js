@@ -40,6 +40,17 @@ const ROUTES = {
       client: CLIENT,
     },
   },
+  FORGOT_PASSWORD: {
+    method: 'post',
+    url: 'me/forgot',
+    anonymous: true, // x-access-token = userToken
+    // isAuth: true, // Request to be made on auth subdomain.
+    customData: {
+      client: CLIENT,
+      // grant_type: 'password',
+      // scope: 'messenger',
+    },
+  },
   REVOKE_TOKEN: {
     method: 'post',
     url: 'oauth/revoke',
@@ -47,6 +58,10 @@ const ROUTES = {
   },
   UPDATE_ME: {
     method: 'put',
+    url: 'me',
+  },
+  DELETE_ACCOUNT: {
+    method: 'delete',
     url: 'me',
   },
   /* UPDATE_ME_IMAGE: {
@@ -80,9 +95,13 @@ const ROUTES = {
     method: 'post',
     url: `me/conversations/{adventureConversationId}/messages`,
   },
-  CREATE_INTERACTION: {
+  CREATE_INTERACTION_READ: {
     method: 'post',
     url: `me/conversations/{conversationId}/messages/{messageId}/interactions/`,
+  },
+  CREATE_INTERACTION_PLAY: {
+    method: 'post',
+    url: `me/journeys/{adventureId}/steps/{stepId}/interactions/`,
   },
   START_ADVENTURE: { method: 'post', url: `me/journeys` },
   GET_ADVENTURE_INVITATIONS: { method: 'get', url: `me/journey_invites` },

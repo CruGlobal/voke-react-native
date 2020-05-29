@@ -197,31 +197,5 @@ export type TDataState {
   favoriteVideos: any;
   searchVideos: any;
   videoTags: any;
-  videoPagination: {
-    All: {
-      hasMore: boolean;
-      page: number;
-    };
-    Featured: {
-      hasMornumber: boolean;
-      page: number;
-    };
-    Popular: {
-      hasMore: boolean;
-      page: number;
-    };
-    Search: {
-      hasMore: boolean;
-      page: number;
-    };
-    Favorite: {
-      hasMore: boolean;
-      page: number;
-    };
-    channel: {
-      type: string;
-      hasMore: boolean;
-      page: number;
-    };
-  };
+  videoPagination: any;
 }

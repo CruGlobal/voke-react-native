@@ -15,9 +15,16 @@ import AdventureInvite from '../../components/AdventureInvite';
 import AdventureCard from '../../components/AdventureCard';
 import NotificationBanner from '../../components/NotificationBanner';
 import AdventuresActions from '../AdventuresActions';
+import { setCurrentScreen } from '../../actions/info';
 import Flex from 'src/components/Flex';
 
-const AdventuresMy = (): React.ReactElement => {
+type AdventuresMyProps = {
+  route: {
+    name: string,
+  };
+};
+
+const AdventuresMy = ({ route }: AdventuresMyProps): React.ReactElement => {
   const dispatch = useDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false); // Pull-to-refresh.
 
@@ -42,21 +49,31 @@ const AdventuresMy = (): React.ReactElement => {
     }
   };
 
-  useEffect(() => {
+/*
+    useEffect(() => {
     // Load my adventures + invites. Note: async function can't be part of hook!
     updateAdventures();
   }, [adventureSteps ]); // Steps object have unread_messages field that we track.
-
+ */
   // On first component loading update adventures and invites via API.
   useEffect(() => {
   // Load my adventures + invites. Note: async function can't be part of hook!
     updateAdventures();
   }, []);
 
+  /* useEffect(() => {
+    // Load my adventures + invites. Note: async function can't be part of hook!
+    console.log('Something updated! Refresh the screen.')
+  }, [myAdventuresIds, invitationsIds ]); */
+
   // Events firing when user leaves the screen or comes back.
   useFocusEffect(
     useCallback(() => {
       // Do something when the screen is focused
+      // Save current screen and it's parammeters in store.
+      dispatch(setCurrentScreen({
+        screen: 'AdventuresMy'
+      }));
       return () => {
         // Do something when the screen is unfocused
         // Useful for cleanup functions

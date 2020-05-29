@@ -20,7 +20,10 @@ const Select = ({
 }) => {
 
   return (
-    <View>
+    <View 
+      style={{
+        width: '100%',
+      }}>
       {
         options.map( item => (
           <TouchableOpacity

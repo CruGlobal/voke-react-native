@@ -8,6 +8,7 @@ import Flex from '../Flex';
 import Text from '../Text';
 import Touchable from '../Touchable';
 import VokeIcon from '../VokeIcon';
+import { useSelector } from 'react-redux';
 
 const THUMBNAIL_HEIGHT = ((st.fullWidth - 20) * 1) / 2;
 
@@ -30,16 +31,17 @@ function formatDuration(seconds) {
   return ret;
 }
 
-function VideoItem({ item }) {
+function VideoItem({ id = null, category = 'allVideos' }) {
+  if (!id) return <></>;
   const navigation = useNavigation();
-  const video = item || {};
-
+  const video = useSelector(({ data }: any) => data[category].byId[id]) || {};
+  if (Object.keys(video).length === 0 ) return <></>;
   const thumbnail = ((video.media || {}).thumbnails || {}).large || undefined;
   const description = (video.description || '').replace(/^\s+|\s+$/g, '');
 
   function handleShare() {
     navigation.navigate('AdventureName', {
-      item,
+      item: video,
       withGroup: false,
       isVideoInvite: true,
     });
@@ -48,7 +50,7 @@ function VideoItem({ item }) {
     <Touchable
       highlight={false}
       activeOpacity={0.8}
-      onPress={() => navigation.navigate('VideoDetails', { item })}
+      onPress={() => navigation.navigate('VideoDetails', { item: video })}
     >
       <Flex
         style={[st.bgWhite, st.mv5, st.mh5]}

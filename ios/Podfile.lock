@@ -1,7 +1,5 @@
 PODS:
   - boost-for-react-native (1.63.0)
-  - BVLinearGradient (2.5.6):
-    - React
   - Crashlytics (3.14.0):
     - Fabric (~> 1.10.2)
   - DoubleConversion (1.1.6)
@@ -28,9 +26,8 @@ PODS:
     - FBSDKShareKit/Share (= 5.8.0)
   - FBSDKShareKit/Share (5.8.0):
     - FBSDKCoreKit (~> 5.0)
-  - Firebase/Auth (6.13.0):
-    - Firebase/CoreOnly
-    - FirebaseAuth (~> 6.4.0)
+  - Firebase/Analytics (6.13.0):
+    - Firebase/Core
   - Firebase/Core (6.13.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 6.1.6)
@@ -49,13 +46,6 @@ PODS:
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
     - nanopb (= 0.3.9011)
   - FirebaseAnalyticsInterop (1.5.0)
-  - FirebaseAuth (6.4.2):
-    - FirebaseAuthInterop (~> 1.0)
-    - FirebaseCore (~> 6.2)
-    - GoogleUtilities/AppDelegateSwizzler (~> 6.2)
-    - GoogleUtilities/Environment (~> 6.2)
-    - GTMSessionFetcher/Core (~> 1.1)
-  - FirebaseAuthInterop (1.1.0)
   - FirebaseCore (6.4.0):
     - FirebaseCoreDiagnostics (~> 1.0)
     - FirebaseCoreDiagnosticsInterop (~> 1.0)
@@ -114,7 +104,6 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (6.6.0):
     - GoogleUtilities/Logger
-  - GTMSessionFetcher/Core (1.3.1)
   - libwebp (1.1.0):
     - libwebp/demux (= 1.1.0)
     - libwebp/mux (= 1.1.0)
@@ -408,26 +397,20 @@ PODS:
     - React
     - SDWebImage (~> 5.0)
     - SDWebImageWebPCoder (~> 0.4.1)
-  - RNFBAnalytics (6.3.4):
-    - Firebase/Core (~> 6.13.0)
+  - RNFBAnalytics (7.0.1):
+    - Firebase/Analytics (~> 6.13.0)
     - React
     - RNFBApp
-  - RNFBApp (6.7.1):
-    - Firebase/Core (~> 6.13.0)
+  - RNFBApp (7.0.1):
+    - Firebase/CoreOnly (~> 6.13.0)
     - React
-  - RNFBAuth (6.3.4):
-    - Firebase/Auth (~> 6.13.0)
-    - Firebase/Core (~> 6.13.0)
-    - React
-    - RNFBApp
-  - RNFBCrashlytics (6.7.1):
+  - RNFBCrashlytics (7.0.1):
     - Crashlytics (~> 3.14.0)
     - Fabric (~> 1.10.2)
-    - Firebase/Core (~> 6.13.0)
     - React
     - RNFBApp
-  - RNFBDynamicLinks (6.3.4):
-    - Firebase/Core (~> 6.13.0)
+  - RNFBDynamicLinks (7.0.1):
+    - Firebase/Analytics (~> 6.13.0)
     - Firebase/DynamicLinks (~> 6.13.0)
     - React
     - RNFBApp
@@ -453,7 +436,6 @@ PODS:
   - YoutubePlayer-in-WKWebView (0.3.4)
 
 DEPENDENCIES:
-  - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/Libraries/FBReactNativeSpec`)
@@ -502,7 +484,6 @@ DEPENDENCIES:
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
-  - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBCrashlytics (from `../node_modules/@react-native-firebase/crashlytics`)"
   - "RNFBDynamicLinks (from `../node_modules/@react-native-firebase/dynamic-links`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -524,8 +505,6 @@ SPEC REPOS:
     - Firebase
     - FirebaseAnalytics
     - FirebaseAnalyticsInterop
-    - FirebaseAuth
-    - FirebaseAuthInterop
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseCoreDiagnosticsInterop
@@ -535,7 +514,6 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleDataTransportCCTSupport
     - GoogleUtilities
-    - GTMSessionFetcher
     - libwebp
     - nanopb
     - PromisesObjC
@@ -544,8 +522,6 @@ SPEC REPOS:
     - YoutubePlayer-in-WKWebView
 
 EXTERNAL SOURCES:
-  BVLinearGradient:
-    :path: "../node_modules/react-native-linear-gradient"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   FBLazyVector:
@@ -636,8 +612,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/analytics"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
-  RNFBAuth:
-    :path: "../node_modules/@react-native-firebase/auth"
   RNFBCrashlytics:
     :path: "../node_modules/@react-native-firebase/crashlytics"
   RNFBDynamicLinks:
@@ -659,7 +633,6 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
@@ -671,8 +644,6 @@ SPEC CHECKSUMS:
   Firebase: 458d109512200d1aca2e1b9b6cf7d68a869a4a46
   FirebaseAnalytics: 45f36d9c429fc91d206283900ab75390cd05ee8a
   FirebaseAnalyticsInterop: 3f86269c38ae41f47afeb43ebf32a001f58fcdae
-  FirebaseAuth: ce45d7c5d46bed90159f3a73b6efbe8976ed3573
-  FirebaseAuthInterop: a0f37ae05833af156e72028f648d313f7e7592e9
   FirebaseCore: 307ea2508df730c5865334e41965bd9ea344b0e5
   FirebaseCoreDiagnostics: b59c024493a409f8aecba02c99928d0d8431d159
   FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
@@ -684,7 +655,6 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 061fe7d9b476710e3cd8ea51e8e07d8b67c2b420
   GoogleDataTransportCCTSupport: 0f39025e8cf51f168711bd3fb773938d7e62ddb5
   GoogleUtilities: 39530bc0ad980530298e9c4af8549e991fd033b1
-  GTMSessionFetcher: cea130bbfe5a7edc8d06d3f0d17288c32ffe9925
   libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   Permission-Camera: 2465b21ce0e0e1ab720d52609a9300a29125aad8
@@ -726,11 +696,10 @@ SPEC CHECKSUMS:
   RNCPushNotificationIOS: 9aa40ed0ff0e53f8ecf3baaaa7e5ccbaa5ba3894
   RNDeviceInfo: c3ea4a4d4547740c548cdd1e5a78f9b04e524688
   RNFastImage: 35ae972d6727c84ee3f5c6897e07f84d0a3445e9
-  RNFBAnalytics: b8bad44e6653af73219b1a7af24bf3452cb02c1b
-  RNFBApp: 7b539bb25520fa73d6a240f5c6ea569e27683645
-  RNFBAuth: ed8b865db45f7ded9dbf535e390cba2ba672aede
-  RNFBCrashlytics: b34063b906dd0c57a5d286dd743a40c90c8326c7
-  RNFBDynamicLinks: e0d320b2bd02dee6ed1f0a7d8deecdf3469db461
+  RNFBAnalytics: 8a6e95050f3705269e96d1604bc224618ef8a979
+  RNFBApp: 78294eaec65c393c599db5b691a64a4d5f5e5a8d
+  RNFBCrashlytics: 49d69ebbaaa0474169f63a25aeafcdd05d988d90
+  RNFBDynamicLinks: e14794d9461482714542e8d07fa1eaa8f54f1ecb
   RNGestureHandler: dde546180bf24af0b5f737c8ad04b6f3fa51609a
   RNLocalize: fc27ee5878ce5a3af73873fb2d8e866e0d1e6d84
   RNPermissions: 69dc24ae1a9507576e2e9cf70ceed51065311da8

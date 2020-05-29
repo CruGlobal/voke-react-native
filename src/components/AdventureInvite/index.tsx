@@ -154,7 +154,7 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
                     `Waiting for ${name} to join...`
             }
             </Text>
-            <Flex value={1} direction="row" align="center" justify="between">
+            <Flex value={1} direction="column" align="left" justify="between">
               <Flex value={1} direction="row" align="center" style={styles.CodeBlock}>
                 <Text numberOfLines={1} style={styles.Code}>
                   Code:
@@ -163,7 +163,7 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
                   {' ' + code}
                 </Text>
               </Flex>
-              <Flex>
+              <Flex style={{width: '100%'}}>
                 {!isExpired && !isGroup ? (
                   <Text numberOfLines={1} style={[st.white, st.fs6]}>
                     Expires in {time}
@@ -183,17 +183,25 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
               </Text>
             </Flex> */}
           </Flex>
-          {isExpired ? (<Flex align="center" justify="center" style={[st.tac, st.mr4, st.ml6]}>
-
+          {isExpired ? (
+            <Flex
+              align="center"
+              justify="center"
+              style={{
+                position: 'absolute',
+                top: 4,
+                right: 4,
+              }}>
               <Touchable
                 onPress={(): void => {
                   deleteInvite(inviteID)
                 }}
-                style={[st.br2, st.borderWhite, st.bw1, st.pd(7)]}
+                style={[st.br2, st.borderTransparent, st.bw1, st.pd(7)]}
               >
                 <VokeIcon name="close" style={[st.white, st.fs6]} />
               </Touchable>
-          </Flex>) : null}
+            </Flex>)
+            : null}
         </Flex>
       </Touchable>
     </Flex>

@@ -5,13 +5,13 @@ import Text from '../../components/Text';
 import st from '../../st';
 import Image from '../../components/Image';
 import VokeIcon from '../../components/VokeIcon';
-import { ScrollView, FlatList } from 'react-native';
+import { ScrollView, FlatList, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import Video from '../../components/Video';
 import { useNavigation } from '@react-navigation/native';
 import { useMount } from '../../utils';
 import NotificationItem from '../../components/NotificationItem';
-import { getNotifications } from '../../actions/requests';
+import { getNotifications, markReadNotification } from '../../actions/requests';
 
 function Notifications(props) {
   const dispatch = useDispatch();
@@ -21,6 +21,8 @@ function Notifications(props) {
   const [isLoading, setIsLoading] = useState(false);
   const me = useSelector(({ auth }) => auth.user);
   const notifications = useSelector(({ data }) => data.notifications);
+  const notificationLatestId = useSelector(({ data }) => data.notificationLatestId);
+  const notificationUnreadBadge = useSelector(({ data }) => data.notificationUnreadBadge);
   const notificationPagination = useSelector(
     ({ data }) => data.notificationPagination,
   );
@@ -63,7 +65,11 @@ function Notifications(props) {
   }
 
   useEffect(() => {
+    const latestNotification = notifications[0];
     setCurrentNotifications(notifications);
+    if ( notificationLatestId !== latestNotification?.id || notificationUnreadBadge > 0 ) {
+      dispatch(markReadNotification(latestNotification?.id));
+    }
   }, [notifications]);
 
   function handleSelectVideo(message) {
@@ -73,30 +79,42 @@ function Notifications(props) {
   return (
     <Flex
       direction="column"
-      justify="end"
+      justify={ videoToShow ? "start" : "end"}
       align="center"
-      style={[st.w100, st.h100]}
+      style={[
+        {
+          width:'100%',
+        },
+        st.h100
+      ]}
     >
-      {videoToShow ? (
+      { videoToShow && (
         <Video
-          hideBack={true}
-          hideInsets={true}
+          // hideBack={true}
+          // hideInsets={true}
           onCancel={() => setVideoToShow(null)}
-          onOrientationChange={orientation =>
-            orientation === 'portrait'
-              ? setIsPortrait(true)
-              : setIsPortrait(false)
-          }
+          onOrientationChange={(orientation: string): void => {
+            if (orientation === 'portrait') {
+              setIsPortrait(true);
+            } else {
+              setIsPortrait(false);
+            }
+          }}
           item={videoToShow.item.media}
+          fullscreen={true}
+          fullscreenOrientation={'landscape'}
+          autoPlay = {true}
         />
-      ) : null}
-      {isPortrait && videoToShow ? null : (
+      ) }
+      { isPortrait && (
         <>
           <ScrollView
             style={[
-              st.w(st.fullWidth),
+              {
+                width:'100%',
+                paddingBottom: insets.bottom,
+              },
               st.bgBlue,
-              { paddingBottom: insets.bottom },
               st.f1,
             ]}
           >
@@ -109,12 +127,16 @@ function Notifications(props) {
                 />
               )}
               data={currentNotifications}
-              style={[st.w(st.fullWidth)]}
+              style={{
+                width:'100%'
+              }}
               removeClippedSubviews={true}
               onRefresh={() => loadMore(true)}
               refreshing={isLoading}
               onEndReached={() => loadMore()}
             />
+            {/* Extra spacing for bottom navigation tabs */}
+            <View style={{height:120}}></View>
           </ScrollView>
         </>
       )}

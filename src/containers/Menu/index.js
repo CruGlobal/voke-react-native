@@ -45,7 +45,7 @@ function Menu(props) {
       <ScrollView>
         <SettingsRow
           title="Profile"
-          onSelect={() => navigation.navigate('Profile')}
+          onSelect={() => navigation.navigate('AccountProfile')}
         />
         {!email && (
           <SettingsRow
@@ -114,11 +114,6 @@ function Menu(props) {
           title="Get Help"
           onSelect={() => navigation.navigate('Help')}
         />
-        {/* Show 'Get My Old Conversations' item only when we know user's email */}
-        {!!email && <SettingsRow
-          title="Get my old conversations"
-          onSelect={() => navigation.navigate('AccountGetConversations')}
-        />}
         <SettingsRow
           title="About"
           onSelect={() => navigation.navigate('About')}

@@ -11,12 +11,12 @@ import { useNavigation } from '@react-navigation/native';
 function HeaderRight() {
   const navigation = useNavigation();
   const me = useSelector(({ auth }) => auth.user);
+  const myAvatar = me?.avatar?.medium;
   return (
     <Flex value={1} justify="center">
       <Touchable
         style={[
           {
-            // backgroundColor:'red',
             // Extra padding to make taps more responsive.
             paddingTop: 6,
             paddingLeft: 16,
@@ -24,18 +24,18 @@ function HeaderRight() {
             paddingBottom: 8,
           },
         ]}
-        onPress={() => navigation.navigate('Profile')}
+        onPress={() => navigation.navigate('AccountProfile')}
       >
         <Image
           source={{
-            uri: 'https://assets.vokeapp.com/images/user/medium/avatar.jpg',
+            uri: myAvatar || undefined,
           }}
           style={{
             width: 32,
-            borderColor: '#fff',
-            borderWidth: 1,
             height: 32,
-            borderRadius: 16,
+            // borderColor: '#fff',
+            // borderWidth: 1,
+            borderRadius: 99,
           }}
         />
       </Touchable>

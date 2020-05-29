@@ -9,8 +9,8 @@ import {
   Linking,
 } from 'react-native';
 
+import { getTimeZone, getCountry, getLocales } from 'react-native-localize';
 import { useNavigation } from '@react-navigation/native';
-import { getTimeZone } from 'react-native-localize';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMount, lockToPortrait } from '../../utils';
@@ -68,10 +68,10 @@ const AccountCreate: React.FC = (): React.ReactElement => {
               email,
               password,
               timezone_name: getTimeZone(),
-              /* country_code: getCountry(),
+              country_code: getCountry(),
               language: {
                 language_code: getLocales(),
-              }, */
+              },
             },
           }),
         );
@@ -124,7 +124,7 @@ const AccountCreate: React.FC = (): React.ReactElement => {
             value={email}
             onChangeText={checkEmail}
             autoCapitalize="none"
-            textContentType="emailAddress"
+            textContentType="username"
             autoCompleteType="email"
             keyboardType="email-address"
             returnKeyType="next"

@@ -57,6 +57,8 @@ jobs:
     if: branch != master or type != push
 
     language: objective-c
+    podfile: ios/Podfile
+    gemfile: ios/Gemfile
     xcode_workspace: ios/Voke.xcworkspace
     os: osx
     osx_image: xcode11.1
@@ -65,9 +67,10 @@ jobs:
     - npm install
     - echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
     - (cd ios && bundler install)
+    - defaults write com.apple.dt.XCBuild IgnoreFileSystemDeviceInodeChanges -bool YES
 
     script:
-    - (cd ios && fastlane ios cru_build_app)
+    - (cd ios && travis_wait 30 fastlane ios cru_build_app)
 
     cache:
     - npm
@@ -81,6 +84,8 @@ jobs:
     if: branch = master and type = push
 
     language: objective-c
+    podfile: ios/Podfile
+    gemfile: ios/Gemfile
     xcode_workspace: ios/Voke.xcworkspace
     os: osx
     osx_image: xcode11.1
@@ -89,9 +94,10 @@ jobs:
     - npm install
     - echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
     - (cd ios && bundler install)
+    - defaults write com.apple.dt.XCBuild IgnoreFileSystemDeviceInodeChanges -bool YES
 
     script:
-    - (cd ios && fastlane ios beta)
+    - (cd ios && travis_wait 30 fastlane ios beta )
 
     cache:
     - npm
@@ -105,7 +111,6 @@ jobs:
     if: branch != master or type != push
 
     language: android
-    dist: trusty
 
     before_install:
     # Fix node file watchers issue https://github.com/gatsbyjs/gatsby/issues/11406#issuecomment-458769756
@@ -113,7 +118,7 @@ jobs:
     - rvm install 2.6.5
     - gem install bundler
     - git fetch --unshallow
-    - curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
+    - curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
     - sudo apt-get install nodejs -y
 
     # Accept Android SDK licenses so Android Gradle plugin can install dependencies.
@@ -124,7 +129,7 @@ jobs:
 
     install:
     - npm install
-    - (cd android && bundler install)
+    - (cd android && bundle update --bundler && bundler install)
 
     script:
     - (cd android && fastlane android cru_build_app)
@@ -145,7 +150,6 @@ jobs:
     if: branch = master and type = push
 
     language: android
-    dist: trusty
 
     before_install:
     # Fix node file watchers issue https://github.com/gatsbyjs/gatsby/issues/11406#issuecomment-458769756
@@ -154,7 +158,7 @@ jobs:
     - gem install bundler
     - git fetch --unshallow
     - openssl aes-256-cbc -K $GOOGLE_PLAY_API_FILE_KEY -iv $GOOGLE_PLAY_API_FILE_IV -in ./android/fastlane/GooglePlayAPI.enc -out ./android/fastlane/GooglePlayAPI.json -d
-    - curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
+    - curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
     - sudo apt-get install nodejs -y
 
     # Accept Android SDK licenses so Android Gradle plugin can install dependencies.
@@ -165,6 +169,7 @@ jobs:
 
     install:
     - npm install
+    - bundle update --bundler
     - (cd android && bundler install)
 
     script:

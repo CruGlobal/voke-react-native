@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavigationContainer, useRoute } from '@react-navigation/native';
+import { NavigationContainer, useRoute, useNavigationState } from '@react-navigation/native';
 import { Button } from 'react-native';
 import { startupAction, sleepAction, wakeupAction } from './actions/auth';
+import { routeNameRef, navigationRef } from './RootNavigation';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -18,7 +19,6 @@ import AccountSignIn from './containers/AccountSignIn';
 import AccountProfile from './containers/AccountProfile';
 import AccountCreate from './containers/AccountCreate';
 import AccountForgotPassword from './containers/AccountForgotPassword';
-import AccountGetConversations from './containers/AccountGetConversations';
 import Adventures from './containers/Adventures';
 import AdventureAvailable from './containers/AdventureAvailable';
 import VideoDetails from './containers/VideoDetails';
@@ -41,6 +41,7 @@ import st from './st';
 import HeaderRight from './components/HeaderRight';
 import HeaderLeft from './components/HeaderLeft';
 import Touchable from './components/Touchable';
+import SignOut from './components/SignOut';
 import Text from './components/Text';
 import { useMount } from './utils';
 import useAppState from 'react-native-appstate-hook';
@@ -151,6 +152,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
           },
           title: '',
           headerLeft: () => <HeaderLeft hasBack />,
+          headerRight: undefined,
         }}
       />
       <AdventureStack.Screen
@@ -165,6 +167,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
           },
           title: '',
           headerLeft: () => <HeaderLeft hasBack />,
+          headerRight: undefined,
         }}
       />
       <AdventureStack.Screen
@@ -243,6 +246,8 @@ const LoggedInAppContainer = () => {
   const dispatch = useDispatch();
   const Tabs = createBottomTabNavigator();
   const route = useRoute();
+  const state = useNavigationState(state => state);
+  const routeName = (state.routeNames[state.index]);
 
 
   // Handle iOS & Android appState changes.
@@ -252,9 +257,7 @@ const LoggedInAppContainer = () => {
     onChange: (newAppState) => console.warn('App state changed to ', newAppState),
     // Callback function to be executed once app go to foreground
     onForeground: () => {
-      console.warn('App went to Foreground');
-      console.log( "🌷 route:", route );
-      dispatch(wakeupAction({currentScreen:route.name}));
+      dispatch(wakeupAction());
     },
     // Callback function to be executed once app go to background
     onBackground: () => {
@@ -315,8 +318,6 @@ const App = () => {
   // Extract store.auth.isLoggedIn value.
   const isLoggedIn = useSelector(({ auth }: any) => auth.isLoggedIn);
   const AppStack = createStackNavigator();
-  const routeNameRef = React.useRef();
-  const navigationRef = React.useRef();
   const insets = useSafeArea();
 
   // Hide splash screen on load.
@@ -400,7 +401,8 @@ const App = () => {
               paddingTop: insets.top, // TODO: Check if it really works here?
             },
             headerRight: () => (
-              <Touchable
+              <>
+              {/* <Touchable
                 // style={[st.p5, st.pl4, st.mb3]}
                 onPress={ () => {
                     try {
@@ -412,8 +414,8 @@ const App = () => {
                 }
               >
                 <Text style={[st.white, st.fs16, st.pr5]}>Skip</Text>
-              </Touchable>
-              // <Button onPress={() => navigation.navigate('LoggedInApp')} title="Skip" />
+              </Touchable> */}
+              </>
             ),
             title: '',
             // headerShown: true,
@@ -492,11 +494,12 @@ const App = () => {
           }}
         />
         <AppStack.Screen
-          name="Profile"
+          name="AccountProfile"
           component={AccountProfile}
           options={({ navigation }) => ({
             headerShown: true,
             headerLeft: () => <HeaderLeft hasBack />,
+            headerRight: () => <SignOut />,
             cardStyle: { backgroundColor: theme.colors.transparent },
             headerStyle: {
               backgroundColor: theme.colors.primary,
@@ -569,26 +572,6 @@ const App = () => {
               fontWeight: 'normal',
             },
             title: 'About Voke',
-          })}
-        />
-        <AppStack.Screen
-          name="AccountGetConversations"
-          component={AccountGetConversations}
-          options={({ navigation }) => ({
-            headerShown: true,
-            headerLeft: () => <HeaderLeft hasBack />,
-            cardStyle: { backgroundColor: theme.colors.transparent },
-            headerStyle: {
-              backgroundColor: theme.colors.primary,
-              elevation: 0,
-              shadowOpacity: 0,
-            },
-            headerTitleStyle: {
-              color: theme.colors.white,
-              fontSize: 18,
-              fontWeight: 'normal',
-            },
-            title: 'Get my Old Conversations',
           })}
         />
         <AppStack.Screen
