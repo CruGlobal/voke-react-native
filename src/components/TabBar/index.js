@@ -11,17 +11,17 @@ import { BlurView, VibrancyView } from "@react-native-community/blur";
 import { StyleSheet } from 'react-native';
 
 function tabElement(label, isFocused) {
-  let iconName = 'tab-adventure';
-  if (label === 'Videos') {
-    iconName = 'tab-video';
+  let iconName = 'adventure';
+  if (label === 'Explore') {
+    iconName = 'compass';
   }
   if (label === 'Notifications') {
-    iconName = 'tab-notification';
+    iconName = 'notifications';
   }
 
   const unReadBadgeCount = useSelector(({ data }) =>
-    iconName === 'tab-adventure' ? data.unReadBadgeCount :
-    iconName === 'tab-notification' ? data.notificationUnreadBadge :
+    iconName === 'adventure' ? data.unReadBadgeCount :
+    iconName === 'notifications' ? data.notificationUnreadBadge :
     null
   );
 
@@ -80,7 +80,7 @@ function TabBar({ state, descriptors, navigation }) {
           st.ph2,
           {
             paddingBottom: insets.bottom,
-            // backgroundColor: theme.colors.secondary,
+            backgroundColor: theme.colors.secondary,
             // backgroundColor: "rgba(0,0,0,.4)",
             position: "absolute",
             width: "100%",
@@ -93,7 +93,7 @@ function TabBar({ state, descriptors, navigation }) {
           },
         ]}
       >
-         <BlurView
+         {/* <BlurView
           style={{
             position: "absolute",
             top: 0,
@@ -105,7 +105,7 @@ function TabBar({ state, descriptors, navigation }) {
           blurType="dark"
           blurAmount={10}
           reducedTransparencyFallbackColor={theme.colors.secondary}
-        />
+        /> */}
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
           const label =

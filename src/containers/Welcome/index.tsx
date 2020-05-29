@@ -57,7 +57,7 @@ const Welcome = (props: WelcomeProps) => {
   {/* Informtion Icon */}
   <TouchableOpacity onPress={toggleTrueFalse}>
       <VokeIcon
-        name="help-circle-1"
+        name="help-circle"
         size={30}
         style={{ textAlign:'right', marginRight:20}}
       />
