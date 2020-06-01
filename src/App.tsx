@@ -22,7 +22,6 @@ import AccountForgotPassword from './containers/AccountForgotPassword';
 import Adventures from './containers/Adventures';
 import AdventureAvailable from './containers/AdventureAvailable';
 import VideoDetails from './containers/VideoDetails';
-import AdventureStart from './containers/AdventureStart';
 import AdventureName from './containers/AdventureName';
 import AdventureShareCode from './containers/AdventureShareCode';
 import AdventureActive from './containers/AdventureActive';
@@ -49,17 +48,16 @@ import useAppState from 'react-native-appstate-hook';
 // https://reactnavigation.org/docs/stack-navigator#options
 const defaultHeaderConfig = {
   headerStyle: {
-    backgroundColor: theme.colors.secondary,
+    backgroundColor: theme.colors.primary,
     elevation: 0,
     shadowOpacity: 0,
   },
   headerTitleStyle: {
-    color: theme.colors.white,
-    fontSize: 14,
+    color: theme.colors.secondary,
+    fontSize: 16,
     fontWeight: 'normal',
   },
-  headerLeft: () => <HeaderLeft />,
-  headerRight:()=> <HeaderRight/>
+  headerLeft: () => <HeaderLeft />
 };
 
 // https://reactnavigation.org/docs/stack-navigator#options
@@ -76,8 +74,8 @@ const altHeaderConfig = {
     fontWeight: 'normal',
   },
   headerTintColor: theme.colors.white,
-  // headerBackTitle: ' ',
-  // headerLeft: () => <HeaderLeft  hasBack={true} />,
+  headerBackTitle: ' ',
+  // headerLeft: () => <HeaderLeft hasBack={true} />,
 };
 
 const transparentHeaderConfig = {
@@ -119,16 +117,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
           headerLeft: () => <HeaderLeft hasBack />,
         }}
       />
-      <AdventureStack.Screen
-        name="AdventureCode"
-        component={AdventureCode}
-        options={{ headerShown: false }}
-      />
-      <AdventureStack.Screen
-        name="AdventureStart"
-        component={AdventureStart}
-        options={{ headerShown: false }}
-      />
+     
       <AdventureStack.Screen
         name="AdventureName"
         component={AdventureName}
@@ -198,7 +187,7 @@ function VideoStackScreens({ navigation, route }: any) {
   });
   return (
     <VideoStack.Navigator screenOptions={defaultHeaderConfig}>
-      <VideoStack.Screen name="Videos" component={Videos} />
+      <VideoStack.Screen name="Explore" component={Videos} />
       <VideoStack.Screen
         name="VideoDetails"
         component={VideoDetails}
@@ -283,10 +272,10 @@ const LoggedInAppContainer = () => {
         }}
       />
       <Tabs.Screen
-        name="Videos"
+        name="Explore"
         component={VideoStackScreens}
         options={{
-          title: 'Videos',
+          title: 'Explore',
         }}
       />
       <Tabs.Screen
@@ -391,6 +380,19 @@ const App = () => {
             // headerShown: true,
           }}
         />
+         <AppStack.Screen
+        name="AdventureCode"
+        component={AdventureCode}
+        options={{
+          ...transparentHeaderConfig,
+          headerStyle: {
+            ...transparentHeaderConfig.headerStyle,
+            paddingTop: insets.top, // TODO: Check if it really works here?
+          },
+          title: '',
+          // headerShown: true,
+        }}
+      />
         <AppStack.Screen
           name="AccountPhoto"
           component={AccountPhoto}

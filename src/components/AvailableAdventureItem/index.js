@@ -87,7 +87,7 @@ function AvailableAdventureItem({
               >
                 {'started'.toUpperCase()}
               </Text>
-              <VokeIcon name="icon-play" size={16} />
+              <VokeIcon name="play-full" size={16} />
             </Flex>
           ) : null}
           <Text style={[st.fs6, st.bold, st.white]}>

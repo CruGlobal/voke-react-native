@@ -70,7 +70,7 @@ function VideoItem({ id = null, category = 'allVideos' }) {
             st.bgBlack,
           ]}
         >
-          <VokeIcon name="icon-play" size={64} style={[st.bgTransparent]} />
+          <VokeIcon name="play-full" size={64} style={[st.bgTransparent]} />
           <Flex
             direction="row"
             align="center"

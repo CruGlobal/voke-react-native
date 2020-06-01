@@ -5,32 +5,41 @@ import ui from '../../ui';
 const styles: { [key: string]: any } = {
   ...ui,
   BotContainer: css`
-    padding-top: ${`${theme.spacing.m}px`};
     padding-bottom: ${`${theme.spacing.m}px`};
-    width: 100%;
+    width: 90%;
+    margin: auto;
+    margin-top: ${`${theme.spacing.m}px`};
+
   `,
   BotMessage: css`
     width: 100%;
-    background-color: ${theme.colors.secondaryAlt};
-    padding: ${`${theme.spacing.l}px`};
+    background-color: ${theme.colors.secondary};
+    padding: ${`${theme.spacing.s}px`};
     border-radius:  ${`${theme.radius.m}px`};
+  `,
+  BotHeading: css`
+    color: ${theme.colors.white};
+    font-size: ${`${theme.fontSizes.xl}px`};
+    font-family: ${theme.fonts.semiBold};
+    text-align: center;
   `,
   BotText: css`
     color: ${theme.colors.white};
-    font-size: ${`${theme.fontSizes.xl}px`};
+    font-size: ${`${theme.fontSizes.l}px`};
     font-family: ${theme.fonts.regular};
     text-align: center;
   `,
   BotImage: css`
-    margin-left: -30px;
+    margin-left: -70px;
+    margin-top:-15px;
   `,
   BotMessageTail: css`
-    margin-left: 30px;
+    margin-left: 50px;
     margin-top: -10px;
     transform: rotate(-90deg);
   `,
   BotMessage_reverse: css`
-  width: 100%;
+  width: 80%;
   background-color: ${theme.colors.white};
   padding: ${`${theme.spacing.l}px`};
   border-radius:  ${`${theme.radius.m}px`};

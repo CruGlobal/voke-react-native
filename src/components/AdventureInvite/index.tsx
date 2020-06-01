@@ -15,7 +15,7 @@ import { momentUtc } from '../../utils';
 import styles from './styles';
 import { useSelector, useDispatch } from 'react-redux';
 import useInterval from '../../utils/useInterval';
-import { resendAdventureInvitation, deleteAdventureInvitation, getAdventuresInvitations } from '../../actions/requests';
+import { resendAdventureInvitation, deleteAdventureInvitation, getAdventuresInvitations, getAvailableAdventures } from '../../actions/requests';
 
 const THUMBNAIL_WIDTH = 140;
 
@@ -110,6 +110,7 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
             onPress: async () => {
               await dispatch(deleteAdventureInvitation(inviteID));
               await dispatch(getAdventuresInvitations());
+              await dispatch(getAvailableAdventures());
             },
           }
         ]

@@ -1,74 +1,25 @@
 import React, { useState } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
-import { View, Linking, useWindowDimensions } from 'react-native';
+import { View, Linking, useWindowDimensions, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { useMount, lockToPortrait } from '../../utils';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import Image from '../../components/Image';
 import StatusBar from '../../components/StatusBar';
 import Button from '../../components/Button';
-import Triangle from '../../components/Triangle';
+import BotTalking from '../../components/BotTalking';
+import VokeIcon from '../../components/VokeIcon';
+
 import styles from './styles';
 import CONSTANTS from '../../constants';
+import st from '../../st';
 
-import CAROUSEL_1 from '../../assets/carousel1.png';
-import CAROUSEL_2 from '../../assets/carousel2.png';
-import CAROUSEL_3 from '../../assets/carousel3.png';
+import Background from '../../assets/vokeWelcome.png';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const CAROUSEL_CARDS = [
-  {
-    title: 'Start an Adventure',
-    description:
-      'Adventures contain videos about Faith and other topics. Explore any adventure, and grow your faith.',
-    image: CAROUSEL_1,
-  },
-  {
-    title: 'Join in with Friends',
-    description:
-      ' Choose your Adventure then share your 6-digit Adventure Code to add people to your Voke Group in seconds.',
-    image: CAROUSEL_2,
-  },
-  {
-    title: 'Talk about it',
-    description:
-      'Message each other in real-time, chat about what you just watched— just as if you were in the room together.',
-    image: CAROUSEL_3,
-  },
-];
-
-type CarouselProps = {
-  item: {
-    title: string;
-    description: string;
-    image: string;
-  };
-  index: number;
-};
-const CarouselItem = ({ item, index }: CarouselProps) => (
-  <Flex
-    direction="column"
-    value={1}
-    align="center"
-    justify="start"
-    style={styles.Slide}
-  >
-    <Text style={styles.SliderTitle}>{item.title}</Text>
-    <Text style={styles.SliderDescription}>{item.description}</Text>
-    {/* TODO: Recreate images to be square, hi-res, and same size  */}
-    <Image
-      source={item.image}
-      resizeMode="contain"
-      style={{
-        width: useWindowDimensions().width - styles.spacing.m * 2,
-        height: useWindowDimensions().height / 4,
-      }}
-    />
-  </Flex>
-);
 
 type WelcomeProps = {
   props: any;
@@ -77,64 +28,73 @@ const Welcome = (props: WelcomeProps) => {
   const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [activeSlide, setActiveSlide] = useState(0);
+  const [helpMode, setHelpMode]= useState(false)
   useMount(() => {
     lockToPortrait();
   });
+  const toggleTrueFalse = () => setHelpMode(!helpMode);
 
   return (
-    <Flex
-      value={1}
-      style={[styles.SectionOnboarding, { paddingTop: insets.top }]}
-    >
-      <Flex value={2}>
-        {/* <StatusBar /> */}
-        {/* <Flex value={8}> */}
-        <Carousel
-          data={CAROUSEL_CARDS}
-          renderItem={props => <CarouselItem {...props} />}
-          sliderWidth={useWindowDimensions().width}
-          itemWidth={useWindowDimensions().width}
-          onSnapToItem={index => setActiveSlide(index)}
-          enableMomentum={false}
-          lockScrollWhileSnapping
-          autoplay
-        />
-        {/* </Flex> */}
-        <Flex style={{ position: 'absolute', width: '100%', bottom: -30 }}>
-          <Pagination
-            dotsLength={3}
-            activeDotIndex={activeSlide}
-            dotColor={styles.colors.white}
-            inactiveDotColor="rgba(255,255,255,0.7)"
-            dotStyle={styles.dotStyle}
-            inactiveDotScale={0.8}
-          />
-        </Flex>
-      </Flex>
-      {/* SECTION: CALL TO ACTION BUTTON */}
-      <Flex value={1}>
-        <Triangle
-          width={useWindowDimensions().width}
-          height={40}
-          color={styles.colors.secondary}
-        />
-        <Flex
-          direction="column"
-          style={[styles.SectionAction]}
-          value={1}
-          justify="evenly"
-        >
-          {/* BUTTON: CALL TO ACTION */}
-          <Button
+    <Flex value={1} >
+
+<ImageBackground source={Background} style={{width: '100%', height: '100%'}}>
+<StatusBar />
+  <Flex value={1} direction="column" justify="flex-start" style={[styles.SectionOnboarding, {marginTop:60}]}>
+  <BotTalking heading="Welcome to Voke">
+    Discuss and explore videos about Faith and other topics.          
+  </BotTalking>
+
+  {/* Help Mode Text */}
+
+  <Flex direction="column" justify="center" style={styles.HelpSection}>
+  {helpMode?
+    <Flex><Text style={styles.HelpSectionHeading}>I have an adventure Code</Text>
+    <Text style={styles.TextSmall}>You get to do video adventures with others in Voke. This is the place for incoming guests who recieved an Adventure invite code to easily join their friend. </Text>
+ </Flex>
+    : null   }
+    </Flex>
+
+  {/* Informtion Icon */}
+  <TouchableOpacity onPress={toggleTrueFalse}>
+      <VokeIcon
+        name="help-circle"
+        size={30}
+        style={{ textAlign:'right', marginRight:20}}
+      />
+</TouchableOpacity>
+ {/* BUTTON: CALL TO ACTION */}
+ <Button
             isAndroidOpacity
-            style={styles.ButtonStart}
-            onPress={() => navigation.navigate('AccountName')}
+            style={styles.ButtonPrimary}
+            onPress={() => navigation.navigate('AdventureCode')}
           >
-            <Text style={styles.ButtonStartLabel}>Start Exploring</Text>
+            <Flex direction="row" justify="center">
+            <Text style={styles.ButtonLabelPrimary}>I have an Adventure Code</Text>
+            {/* <VokeIcon
+                    name="arrow-left2"
+                    size={22}
+                    style={{ transform: [{ rotateY: '180deg' }]} }
+                  /> */}
+                  </Flex>
           </Button>
-          {/* TEXT: TERMS OF SERVICE */}
-          <Text style={[styles.TextSmall, { textAlign: 'center' }]}>
+           {/* BUTTON: CALL TO ACTION */}
+           <Button
+            isAndroidOpacity
+            style={styles.ButtonWhite}
+            onPress={() => navigation.navigate('AccountName')}
+          >            
+          <Flex direction="row" justify="center">
+            <Text style={styles.ButtonLabelWhite}>I'd like to Explore</Text>
+            {/* <VokeIcon
+                    name="arrow-left2"
+                    size={22}
+                    style={{ transform: [{ rotateY: '180deg' }], color: styles.colors.secondary} }
+                  /> */}
+                  </Flex>
+          </Button>
+<Flex>
+      {/* TEXT: TERMS OF SERVICE */}
+      <Text style={[styles.TextSmall]}>
             By exploring, you agree to our
             {'\n'}
             <Text
@@ -152,7 +112,7 @@ const Welcome = (props: WelcomeProps) => {
             </Text>
           </Text>
         </Flex>
-      </Flex>
+
       {/* SECTION: SIGN IN */}
       <Flex
         // value={1}
@@ -160,7 +120,6 @@ const Welcome = (props: WelcomeProps) => {
         align="center"
         justify="center"
         style={styles.SectionSignIn}
-        // width={useWindowDimensions().width}
       >
         <View>
           <Text style={styles.SignInText}>Already have an account?</Text>
@@ -170,7 +129,6 @@ const Welcome = (props: WelcomeProps) => {
           style={[styles.ButtonSignIn, { marginLeft: 20 }]}
           onPress={() => {
             navigation.navigate('AccountSignIn');
-            // navigation.navigate('AccountSignIn', { shouldMerge: true })
           }}
         >
           <Text style={styles.ButtonSignInLabel}>Sign In</Text>
@@ -179,10 +137,12 @@ const Welcome = (props: WelcomeProps) => {
       {/* Safe area bottom spacing */}
       <Flex
         style={{
-          backgroundColor: styles.colors.secondary,
+          backgroundColor: 'transparent',
           paddingBottom: insets.bottom,
         }}
       />
+</Flex>
+</ImageBackground>
     </Flex>
   );
 };

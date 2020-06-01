@@ -130,10 +130,7 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
                     // for that message ( adventureId !== undefined ).
                     dispatch({
                       type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
-                      result: {
-                        adventureStepId: message.messenger_journey_step_id,
-                        newMessage: message
-                      },
+                      message,
                       description: 'From sockets > onmessage()'
                     });
                   // }

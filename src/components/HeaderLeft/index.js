@@ -6,6 +6,7 @@ import Text from '../Text';
 import VokeIcon from '../VokeIcon';
 import Touchable from '../Touchable';
 import st from '../../st';
+import theme from '../../theme';
 
 
 function HeaderLeft({ hasBack = false }) {
@@ -25,10 +26,8 @@ function HeaderLeft({ hasBack = false }) {
           {hasBack ? (
           <View
             style={[{
-              backgroundColor:'rgba(0,0,0,0.3)',
               width: 38,
               height: 38,
-              borderRadius: 99,
               justifyContent:'center',
               alignItems:'center',
               padding:0,
@@ -40,23 +39,22 @@ function HeaderLeft({ hasBack = false }) {
 
               style={[
               {
-                fontSize: 16,
+                fontSize: 18,
                 marginTop: 1,
-                marginLeft: -4,
+                marginLeft: -35,
                 color: 'rgba(255,255,255,0.9)',
               }]}
             />
           </View>
           ) : (
             <VokeIcon
-              name="menu-outline"
-
+              name="menu"
               style={[
               {
-                fontSize: 24,
+                fontSize: 26,
                 marginTop: 1,
                 marginLeft: 6,
-                color: 'rgba(255,255,255,0.9)',
+                color: theme.colors.secondary,
               }]}
             />
           )}

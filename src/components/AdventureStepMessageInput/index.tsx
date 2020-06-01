@@ -28,8 +28,6 @@ const AdventureStepMessageInput = ({
   const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'multiple';
   const isComplete = step.status === 'completed';
 
-  console.log( "🐸 step:", step );
-
   // When SEND message button clicked.
   const handleSendMessage = (newValue: any): void => {
     setMesssageSent(true);
@@ -40,7 +38,7 @@ const AdventureStepMessageInput = ({
         step,
         // value: newValue || value,
         value: newValue,
-        internalMessageId: internalMessage ? internalMessage.id : null,
+        internalMessage: internalMessage ? internalMessage : null,
         kind,
       })
     );
@@ -173,7 +171,7 @@ const AdventureStepMessageInput = ({
     const answers = metadata.answers;
     const hasSelected = (answers || []).find(a => a.selected);
     return (
-      <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
+      <Flex direction="column" style={[st.w100, st.mt4]}>
         <Flex direction="row">
           <Flex style={[st.f1]} />
           <Flex
@@ -181,28 +179,28 @@ const AdventureStepMessageInput = ({
             align="center"
             style={[st.bgDarkBlue, st.br5, st.w100, st.pd4]}
           >
-            <Text style={[[st.pd4, st.tac, st.fs(20), st.lh(24)]]}>
+            <Text style={[[st.pd4, st.tac, st.fs(20), st.lh(24), st.white]]}>
               {metadata.question}
             </Text>
             <Flex direction="row" style={[st.pb4]}>
-              {answers.map((a, index) => (
+              {answers.map((a) => (
                 <Button
-                  text={a.key}
                   disabled={hasSelected}
                   onPress={() => {
                     setValue(a.value);
-                    handleSendMessage(value);
+                    handleSendMessage(a.value);
                   }}
                   style={[
                     a.selected ? st.bgWhite : st.bgOrange,
                     st.br1,
                     st.mh5,
+                    st.ph2,
+                    st.pv5,
                     a.selected || !hasSelected
                       ? { opacity: 1 }
                       : { opacity: 0.4 },
                   ]}
-                  buttonTextStyle={[a.selected ? st.orange : st.white]}
-                />
+                ><Text style={[a.selected ? st.orange : st.white, st.fs18]}>{a.key}</Text></Button>
               ))}
             </Flex>
           </Flex>
