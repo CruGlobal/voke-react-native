@@ -117,10 +117,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
       // Send this new pseudo-message to redux.
       dispatch({
         type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
-        result: {
-          adventureStepId: currentStep.id,
-          newMessage: newBotMessage
-        },
+        message: newBotMessage,
         description: 'From botMessage()'
       });
     }
@@ -135,7 +132,6 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
 
 
   useEffect(() => {
-    console.log( "🐷 currentMessages:", currentMessages );
     // If new message posted by the current user
     if(currentMessages[currentMessages.length - 1]?.messenger_id === currentUser.id){
       // Scroll to the end when we added new message.
@@ -143,7 +139,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
     }
 
     // Once new message received mark it as read, but only if messages unblured/unlocked.
-    if ( currentStep['completed_by_messenger?'] ) {
+    if (currentStep['completed_by_messenger?']) {
       markAsRead();
     }
 

@@ -37,7 +37,7 @@ function convertTime(time) {
 
 function Video({
   onOrientationChange,
-  onPlay,
+  onPlay = ()=>{},
   hideBack = false,
   blockRotation = false,
   item,
