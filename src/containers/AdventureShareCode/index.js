@@ -101,7 +101,7 @@ function AdventureShareCode(props) {
 
           </Flex>
           <Flex direction="column" align="center" style={[st.ph1, st.w100]}>
-            <Text style={[st.fs22, st.white, st.pb4]}>Invite Code:</Text>
+            {isVideoInvite ? <Text style={[st.fs22, st.white, st.pb4]}>Invite Link: </Text>: <Text style={[st.fs22, st.white, st.pb4]}>Invite Code:</Text>}
             <Touchable onPress={copyToClipboard}>
               <Flex
                 style={[
