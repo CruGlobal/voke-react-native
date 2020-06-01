@@ -282,7 +282,6 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
                         st.left(-25),
                         st.bottom(-20),
                         st.h(70),
-                        st.rotate('40deg'),
                         st.w(70),
                       ]}
                     />

@@ -156,7 +156,10 @@ function AvailableAdventureItem({
           ]}
         >
           <Flex direction="row">
-            {/* <Icon style={[st.white, st.mr6]} name="filter-none" size={14} /> */}
+            <VokeIcon
+                name="copy"
+                style={[ { height: 20, width: 20 }]}
+              />
             <Text
               style={[st.bold, st.white, { letterSpacing: 2, fontSize: 10 }]}
             >
