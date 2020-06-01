@@ -191,8 +191,6 @@ const getAdventureStepsDebounced = debounce(
         description: 'Get Adventure Steps'
       });
 
-      dispatch(updateTotalUnreadCounter());
-
       return results;
     }
   , 2000, { 'leading': true, 'trailing': true }
@@ -223,7 +221,7 @@ export function getAdventureStepMessages(
       const adventureStepMessages = results.messages;
       dispatch({
         type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEP_MESSAGES,
-        result: { adventureStepId, adventureStepMessages },
+        messages:adventureStepMessages,
       });
       return results;
     } catch (error) {
@@ -298,9 +296,10 @@ export function createAdventureStepMessage(params: {
   adventure: any;
   step: any;
   kind: string;
-  internalMessageId?: string;
+  internalMessage?: any;
 }) {
   return async (dispatch: Dispatch, getState: any) => {
+    const { internalMessage, value, kind, adventure, step } = params;
     let data: any = {
       message: {},
     };
@@ -313,14 +312,21 @@ export function createAdventureStepMessage(params: {
       params.kind === 'binary' ||
       params.kind === 'share'
     ) {
+      data.message.content = null;
+      // Step ID.
       data.message.messenger_journey_step_id =
         params.step.metadata.messenger_journey_step_id;
-      data.message.messenger_journey_step_option_id = params.value;
+
       data.message.kind = 'answer';
-      data.message.content = null;
+      // ID of the selected answer/choice/option.
+      data.message.messenger_journey_step_option_id = params.value;
     }
-    if (params.internalMessageId) {
-      data.message.message_reference_id = params.internalMessageId;
+
+    // Need to provide parent question ID when answering a secondary/internal question.
+    if (params.internalMessage) {
+      // If internal message then step ID is different.
+      data.message.messenger_journey_step_id = internalMessage?.metadata?.messenger_journey_step_id;
+      data.message.message_reference_id = internalMessage?.id;
     }
 
     // SEND MESSAGE TO THE SERVER.
@@ -338,13 +344,12 @@ export function createAdventureStepMessage(params: {
     // SAVE RESPONSE FROM THE SERVER TO THE STORE.
     dispatch({
       type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
-      result: { adventureStepId: params.step.id, newMessage: result },
+      message: result,
       description: 'createAdventureStepMessage(): Create Adventure Step Message'
     });
 
     // Refresh all messages when answering a quiestion to multi challenge.
     if ( data.message.kind === 'answer' ) {
-      console.log('👩‍🔬 getAdventureStepMessages')
       dispatch(
         getAdventureStepMessages(
           params.adventure.conversation.id,
@@ -835,6 +840,8 @@ export function markMessageAsRead(params: markMessageAsRead) {
         description: 'Mark message as read on the server.' +  messageId
       }),
     );
+
+    dispatch( getMyAdventures() );
     return result;
   };
 }

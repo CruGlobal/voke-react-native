@@ -310,8 +310,9 @@ export default function(state = initialState, action: any) {
 
     case REDUX_ACTIONS.UPDATE_ADVENTURE_STEP_MESSAGES: {
       // Flip messages as they come reversed:
-      const newMessages = action.result.adventureStepMessages.reverse();
-      const adventureStepId = action.result.adventureStepId;
+      const newMessages = action.messages.reverse();
+      const adventureStepId = action.messages[0]?.grouping_journey_step_id;
+
       return {
         ...state,
         adventureStepMessages: {
@@ -322,14 +323,14 @@ export default function(state = initialState, action: any) {
     }
 
     case REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE: {
-      const adventureStepId = action.result.adventureStepId
+      const adventureStepId = action.message?.grouping_journey_step_id;
       return {
         ...state,
         adventureStepMessages: {
           ...state.adventureStepMessages,
           [adventureStepId]: [
             ...state.adventureStepMessages[adventureStepId] || [], // Existing messages.
-            action.result.newMessage // New message.
+            action.message // New message.
           ]
         }
       };
@@ -337,7 +338,7 @@ export default function(state = initialState, action: any) {
     case REDUX_ACTIONS.UPDATE_VIDEO_PAGINATION: {
       let existingVideos: any = lodash.cloneDeep(state.allVideos) || [];
       let videoArrToUpdate = 'allVideos';
-      let newVideos = { 
+      let newVideos = {
         byId: {},
         allIds: []
       };
