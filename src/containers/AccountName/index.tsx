@@ -19,10 +19,11 @@ import Button from '../../components/Button';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import Image from '../../components/Image';
+import BotTalking from '../../components/BotTalking';
 import st from '../../st';
 import styles from './styles';
+import theme from '../../theme';
 
-import VOKE_BOT from '../../assets/voke_bot_face_large.png';
 
 const AccountName = ( props ): React.ReactElement => {
   const onComplete = props?.route?.params?.onComplete;
@@ -63,7 +64,7 @@ const AccountName = ( props ): React.ReactElement => {
     if (isKeyboardVisible) {
       setTopMargin(-250);
     } else {
-      setTopMargin(100);
+      setTopMargin(60);
     }
     refBotBlock?.current?.animateNextTransition();
   }, [isKeyboardVisible]);
@@ -142,39 +143,8 @@ const AccountName = ( props ): React.ReactElement => {
               justify="between"
               style={[st.h(180)]}
             >
-              <Flex justify="end" self="stretch" style={[]}>
-                <Image
-                  source={VOKE_BOT}
-                  resizeMode="contain"
-                  style={[
-                    st.w(80),
-                    st.h(120),
-                    { transform: [{ rotateY: '180deg' }] },
-                  ]}
-                />
-              </Flex>
-              <Flex
-                direction="column"
-                value={1}
-                justify="start"
-                style={[st.pr1]}
-              >
-                <Flex style={[st.bgOffBlue, st.ph3, st.pv5, st.br5]}>
-                  <Text style={[st.white, st.fs20, st.tac]}>
-                    {initialFirstName
-                      ? 'Please confirm your name'
-                      : 'Hi! My name is Vokebot. What is your name?'}
-                  </Text>
-                </Flex>
-                <Triangle
-                  width={20}
-                  height={15}
-                  color={st.colors.offBlue}
-                  slant="down"
-                  flip
-                  style={[st.rotate(90), st.mt(-6)]}
-                />
-              </Flex>
+            <BotTalking heading="I’d love to get to know you!">Glad you’re here! I’m Vokebot and I talk to you here in Voke.
+</BotTalking>
             </Flex>
           </Transitioning.View>
 
@@ -210,15 +180,18 @@ const AccountName = ( props ): React.ReactElement => {
               onSubmitEditing={handleContinue}
             />
           </Flex>
+          <Flex direction="row" justify="center" style={[st.w100, st.mt1]}/>
+          <Flex value={1} align="center">
           <Button
             onPress={handleContinue}
-            touchableStyle={[st.w100, st.p4, {backgroundColor: styles.colors.secondary}]}
+            touchableStyle={[st.pd4, st.br1, st.w(st.fullWidth - 70),{backgroundColor: theme.colors.white, textAlign:"center", marginTop: isKeyboardVisible ? 70 : 20 ,}]}
             isLoading={isLoading}
           >
-            <Text style={[st.white, st.fs20, st.tac]}>Continue</Text>
+            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>Next</Text>
             {/* Safety spacing. */}
             <Flex style={{ height: (isKeyboardVisible ? 0 : insets.bottom ) }} />
           </Button>
+          </Flex>
         </Flex>
       </KeyboardAvoidingView>
     </DismissKeyboardView>

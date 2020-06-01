@@ -8,15 +8,15 @@ import Text from '../../components/Text';
 import NameInput from '../../components/NameInput';
 import Image from '../../components/Image';
 import StatusBar from '../../components/StatusBar';
-import Triangle from '../../components/Triangle';
+import BotTalking from '../../components/BotTalking'
 import VokeIcon from '../../components/VokeIcon';
 import st from '../../st';
 import Button from '../../components/Button';
 import { toastAction } from '../../actions/info';
+
 // import { MONTHLY_PRICE } from '../../constants';
 import theme from '../../theme';
 
-import VOKE_BOT from '../../assets/voke_bot_face_large.png';
 import Touchable from '../../components/Touchable';
 import { acceptAdventureInvitation } from '../../actions/requests';
 
@@ -86,23 +86,16 @@ function AdventureCode(props) {
           { paddingTop: insets.top },
         ]}
       >
-        <Flex direction="column" justify="end" style={[st.w100, st.h100]}>
-          <Flex direction="column" self="stretch">
-            <Touchable
-              style={[st.p5, st.pl4, st.mb3]}
-              onPress={() => navigation.goBack()}
-            >
-              <VokeIcon
-                type="image"
-                name="leftArrow"
-                style={[st.h(22), st.w(22)]}
-              />
-            </Touchable>
+        <Flex direction="column" justify="center" style={[st.w100, st.h100]}>
+          <Flex direction="column" style={[st.mt1]}>
+            <BotTalking heading="Have a code from a friend?">Easily join your friend with an 
+adventure invite Code.
+</BotTalking>
             <Flex direction="column" align="center" style={[st.ph1, st.w100]}>
-              <NameInput
+            <NameInput
                 blurOnSubmit
-                label="Have a code from a friend?"
-                placeholder="Adventure Code"
+                label="Adventure Code"
+                placeholder="00000"
                 value={adventureCode}
                 onChangeText={text => setAdventureCode(text)}
                 returnKeyType="done"
@@ -111,16 +104,18 @@ function AdventureCode(props) {
               />
             </Flex>
           </Flex>
-          <Flex value={1} />
+          <Flex direction="row" justify="center" style={[st.w100, st.mt2]}/>
+          <Flex value={1} align="center">
           <Button
             onPress={handleContinue}
-            touchableStyle={[st.w100, st.p4, {backgroundColor: theme.colors.secondary}]}
+            touchableStyle={[st.pd4, st.br1, st.mb3, st.w(st.fullWidth - 70),{backgroundColor: theme.colors.white, textAlign:"center"}]}
             isLoading={isLoading}
           >
-            <Text style={[st.white, st.fs20, st.tac]}>Continue</Text>
+            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>Continue</Text>
             {/* Safety spacing. */}
             <Flex style={{ height: (isKeyboardVisible ? 0 : insets.bottom ) }} />
           </Button>
+          </Flex>
         </Flex>
       </KeyboardAvoidingView>
     </>

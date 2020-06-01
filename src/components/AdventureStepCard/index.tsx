@@ -99,7 +99,7 @@ function AdventureStepCard({
             <Flex style={[st.absfill]} align="center" justify="center">
               <VokeIcon
                 type={isLocked ? 'image' : undefined}
-                name={isLocked ? 'lock' : 'icon-play'}
+                name={isLocked ? 'lock' : 'play-full'}
                 size={30}
                 style={[st.op90, st.w(30), st.h(30)]}
               />
