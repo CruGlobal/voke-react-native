@@ -8,13 +8,14 @@ import Image from '../../components/Image';
 import StatusBar from '../../components/StatusBar';
 import Triangle from '../../components/Triangle';
 import st from '../../st';
+import theme from '../../theme';
 import Button from '../../components/Button';
 import { useFocusEffect } from '@react-navigation/native';
 // import { MONTHLY_PRICE } from '../../constants';
 import { useDispatch } from 'react-redux';
 import { Share, Alert } from 'react-native';
 
-import VOKE_BOT from '../../assets/vokebot_whole.png';
+import BotTalking from '../../components/BotTalking';
 import Touchable from '../../components/Touchable';
 import { toastAction } from '../../actions/info';
 import CONSTANTS, { REDUX_ACTIONS } from '../../constants';
@@ -91,32 +92,13 @@ function AdventureShareCode(props) {
             justify="center"
             style={[st.mb4]}
           >
-            <Flex direction="column" align="center" style={[]}>
-              <Flex style={[st.bgOffBlue, st.ph3, st.pv5, st.br5, st.mh3]}>
-                <Text style={[st.white, st.fs20, st.tac]}>
-                  {withGroup
+              <BotTalking>  {withGroup
                     ? `${invitation.name}’s  invite code is ready! Hit Share and choose how you’d like to send this invite code to each of your group members.`
                     : isVideoInvite
                     ? 'Your link is ready! Hit share and choose how you want to send it.'
                     : `${invitation.name}’s invite code is ready! Hit Share and choose how you’d like to send this trailer with ${invitation.name}.`}
-                </Text>
-              </Flex>
-              <Triangle
-                width={20}
-                height={15}
-                color={st.colors.offBlue}
-                slant="down"
-                flip
-                style={[st.rotate(90), st.mt(-6), st.mr1]}
-              />
-            </Flex>
-            <Flex justify="center" style={[st.pt4]}>
-              <Image
-                source={VOKE_BOT}
-                resizeMode="contain"
-                style={[st.w(120), st.h(120)]}
-              />
-            </Flex>
+</BotTalking>
+
           </Flex>
           <Flex direction="column" align="center" style={[st.ph1, st.w100]}>
             <Text style={[st.fs22, st.white, st.pb4]}>Invite Code:</Text>
@@ -141,13 +123,13 @@ function AdventureShareCode(props) {
               style={[
                 st.pd4,
                 st.br1,
-                st.bgOrange,
-                st.w(st.fullWidth - 50),
+                st.white,
                 st.mt1,
+                st.w(st.fullWidth - 70),{backgroundColor: theme.colors.white, textAlign:"center"}
               ]}
               onPress={handleShare}
             >
-              <Text style={[st.white, st.fs20, st.tac]}>Share</Text>
+            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>Share</Text>
             </Button>
           </Flex>
         </Flex>

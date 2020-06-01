@@ -62,7 +62,7 @@ const Button = ({
     content = (
       <View style={{ justifyContent: 'center' }}>
         <View style={{ position: 'absolute', alignSelf: 'center' }}>
-          <ActivityIndicator size="small" color="white" />
+          <ActivityIndicator size="small" color="#216373" />
         </View>
         <View style={{ opacity: 0 }}>{content}</View>
       </View>

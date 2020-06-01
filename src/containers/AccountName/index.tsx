@@ -62,7 +62,7 @@ const AccountName = ( props ): React.ReactElement => {
 
   useEffect(() => {
     if (isKeyboardVisible) {
-      setTopMargin(-250);
+      setTopMargin(-300);
     } else {
       setTopMargin(60);
     }
@@ -188,9 +188,9 @@ const AccountName = ( props ): React.ReactElement => {
             isLoading={isLoading}
           >
             <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>Next</Text>
+          </Button>
             {/* Safety spacing. */}
             <Flex style={{ height: (isKeyboardVisible ? 0 : insets.bottom ) }} />
-          </Button>
           </Flex>
         </Flex>
       </KeyboardAvoidingView>
