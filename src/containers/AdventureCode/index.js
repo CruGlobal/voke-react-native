@@ -88,7 +88,7 @@ function AdventureCode(props) {
       >
         <Flex direction="column" justify="center" style={[st.w100, st.h100]}>
           <Flex direction="column" style={[st.mt1]}>
-            <BotTalking heading="Have a code from a friend?">Easily join your friend with an 
+            <BotTalking heading="Have a code from a friend?">Easily join your friend with an
 adventure invite Code.
 </BotTalking>
             <Flex direction="column" align="center" style={[st.ph1, st.w100]}>
@@ -112,7 +112,7 @@ adventure invite Code.
             isLoading={isLoading}
           >
             <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>Continue</Text>
-           
+
           </Button>
            {/* Safety spacing. */}
            <Flex style={{ height: (isKeyboardVisible ? 0 : insets.bottom ) }} />
