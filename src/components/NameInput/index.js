@@ -19,6 +19,7 @@ const NameInput = forwardRef(({ ...rest }, ref) => {
             height: 50,
             color: 'white',
             fontSize: 24,
+            opacity: rest?.value ? 1 : 0.6,
           },
           st.bbOffBlue,
           st.bbw1,

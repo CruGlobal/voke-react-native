@@ -82,17 +82,12 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
     // See documentation for marking message as read:
     // https://docs.vokeapp.com/#me-conversations-messages-interactions
     // To mark as read we need converstation id and message id.
-    dispatch(
-      markReadStepAction({
-        adventureId: adventure.id,
-        stepId: currentStep.id,
-      })
-    );
-
     // We mark only the latest message as read,
     // all others will be marked as read automatically according to Pablo :)
     dispatch(
       markMessageAsRead({
+        adventureId: adventure.id,
+        stepId: currentStep.id,
         conversationId: conversationId,
         messageId: currentMessages.slice(-1)[0]?.id
       })
@@ -139,7 +134,9 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
     }
 
     // Once new message received mark it as read, but only if messages unblured/unlocked.
-    if (currentStep['completed_by_messenger?']) {
+    if(currentStep['completed_by_messenger?'] ||
+      currentMessages[currentMessages.length - 1]?.messenger_id !== currentUser.id){
+      // If the last message from someone else, mark it as read.
       markAsRead();
     }
 

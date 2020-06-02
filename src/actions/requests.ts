@@ -66,10 +66,10 @@ export function getAvailableAdventures() {
 /**
  * Get active adventures.
  */
-export function getMyAdventures() {
+export function getMyAdventures( comment = '' ) {
   return async (dispatch: Dispatch, getState: any) => {
     await dispatch(
-      request({ ...ROUTES.GET_MY_ADVENTURES, description: 'Get My Adventures' }),
+      request({ ...ROUTES.GET_MY_ADVENTURES, description: 'Get My Adventures. Called from ' + comment }),
     ).then(
       data => {
         const myAdventures = data.journeys;
@@ -78,7 +78,7 @@ export function getMyAdventures() {
         dispatch({
           type: REDUX_ACTIONS.UPDATE_ADVENTURES,
           data: myAdventures,
-          description: 'Update myAdventure In Store'
+          description: 'Update myAdventure In Store. Called from ' + comment,
         });
 
         return dispatch(updateTotalUnreadCounter());
@@ -118,7 +118,7 @@ export function getMyAdventure(adventureId: any) {
       },
       error => {
         // eslint-disable-next-line no-console
-        console.log('🛑 getMyAdventures error', error);
+        console.log('🛑 getMyAdventure error', error);
         throw error;
       },
     );
@@ -149,7 +149,7 @@ export function acceptAdventureInvitation(adventureCode: string) {
         description: 'Accept Adventure Invitation'
       }),
     );
-    await dispatch(getMyAdventures());
+    await dispatch(getMyAdventures('Accept Adventure Invitation'));
     return results;
   };
 }
@@ -809,50 +809,58 @@ export function toggleFavoriteVideo(shouldFavorite: boolean, video: any) {
   };
 }
 
+export function markMessageAsRead(params: markMessageAsRead) {
+  return async (dispatch: Dispatch, getState: any) => {
+    return await markMessageAsReadDebounced(dispatch, getState, params)
+  };
+}
+
 type markMessageAsRead = {
   conversationId: string,
   messageId: string,
+  adventureId: string,
+  stepId: string,
 }
 
-// Mark message as read on the server.
-export function markMessageAsRead(params: markMessageAsRead) {
-  return async (dispatch: Dispatch, getState: any) => {
-    const { conversationId, messageId } = params;
-    const deviceId = getState().auth.device.id;
+// We are calling for updated adventure steps after each message,
+// that can be expensive so we have to debounce this action.
+const markMessageAsReadDebounced = debounce(
+    // Mark message as read on the server.
+    async (dispatch, getState, params: markMessageAsRead) => {
+      const { conversationId, messageId, adventureId, stepId } = params;
+      const deviceId = getState().auth.device.id;
 
-    // See: https://docs.vokeapp.com/#me-conversations-messages-interactions
-    let data: any = {
-      interaction: {
-        action: "read", // Message read.
-        device_id: deviceId,
-      }
-    };
+      // Mark message as read in the store for immediate feedback.
+      dispatch({ type: REDUX_ACTIONS.MARK_READ, adventureId, stepId });
 
-    // SEND INTERACTION DATA TO THE SERVER.
-    const result = await dispatch(
-      request({
-        ...ROUTES.CREATE_INTERACTION_READ,
-        pathParams: {
-          conversationId,
-          messageId,
-        },
-        data,
-        description: 'Mark message as read on the server.' +  messageId
-      }),
-    );
+      // See: https://docs.vokeapp.com/#me-conversations-messages-interactions
+      let data: any = {
+        interaction: {
+          action: "read", // Message read.
+          device_id: deviceId,
+        }
+      };
 
-    dispatch( getMyAdventures() );
-    return result;
-  };
-}
+      console.log( "🐸 CREATE_INTERACTION_READ:", conversationId, messageId, data );
 
-// Mark all messages as read in the current step.
-export function markReadStepAction({adventureId, stepId}) {
-  return dispatch => {
-    // Mark message as read in the store for immediate feedback.
-    dispatch({ type: REDUX_ACTIONS.MARK_READ, adventureId, stepId });
-  };
-}
+      // SEND INTERACTION DATA TO THE SERVER.
+      const result = await dispatch(
+        request({
+          ...ROUTES.CREATE_INTERACTION_READ,
+          pathParams: {
+            conversationId,
+            messageId,
+          },
+          data,
+          description: 'Mark message as read on the server.' +  messageId
+        }),
+      );
+
+      return result;
+    }
+  // }
+  , 2000, { 'leading': true, 'trailing': false }
+);
 
 // Send an interaction when the user press play.
 export function interactionVideoPlay({adventureId, stepId}) {
