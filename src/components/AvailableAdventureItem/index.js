@@ -87,7 +87,7 @@ function AvailableAdventureItem({
               >
                 {'started'.toUpperCase()}
               </Text>
-              <VokeIcon name="icon-play" size={16} />
+              <VokeIcon name="play-full" size={16} />
             </Flex>
           ) : null}
           <Text style={[st.fs6, st.bold, st.white]}>
@@ -156,7 +156,10 @@ function AvailableAdventureItem({
           ]}
         >
           <Flex direction="row">
-            {/* <Icon style={[st.white, st.mr6]} name="filter-none" size={14} /> */}
+            <VokeIcon
+                name="copy"
+                style={[ { height: 20, width: 20 }]}
+              />
             <Text
               style={[st.bold, st.white, { letterSpacing: 2, fontSize: 10 }]}
             >

@@ -22,7 +22,6 @@ import AccountForgotPassword from './containers/AccountForgotPassword';
 import Adventures from './containers/Adventures';
 import AdventureAvailable from './containers/AdventureAvailable';
 import VideoDetails from './containers/VideoDetails';
-import AdventureStart from './containers/AdventureStart';
 import AdventureName from './containers/AdventureName';
 import AdventureShareCode from './containers/AdventureShareCode';
 import AdventureActive from './containers/AdventureActive';
@@ -75,8 +74,8 @@ const altHeaderConfig = {
     fontWeight: 'normal',
   },
   headerTintColor: theme.colors.white,
-  // headerBackTitle: ' ',
-  // headerLeft: () => <HeaderLeft  hasBack={true} />,
+  headerBackTitle: ' ',
+  // headerLeft: () => <HeaderLeft hasBack={true} />,
 };
 
 const transparentHeaderConfig = {
@@ -118,16 +117,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
           headerLeft: () => <HeaderLeft hasBack />,
         }}
       />
-      <AdventureStack.Screen
-        name="AdventureCode"
-        component={AdventureCode}
-        options={{ headerShown: false }}
-      />
-      <AdventureStack.Screen
-        name="AdventureStart"
-        component={AdventureStart}
-        options={{ headerShown: false }}
-      />
+     
       <AdventureStack.Screen
         name="AdventureName"
         component={AdventureName}
@@ -390,6 +380,19 @@ const App = () => {
             // headerShown: true,
           }}
         />
+         <AppStack.Screen
+        name="AdventureCode"
+        component={AdventureCode}
+        options={{
+          ...transparentHeaderConfig,
+          headerStyle: {
+            ...transparentHeaderConfig.headerStyle,
+            paddingTop: insets.top, // TODO: Check if it really works here?
+          },
+          title: '',
+          // headerShown: true,
+        }}
+      />
         <AppStack.Screen
           name="AccountPhoto"
           component={AccountPhoto}

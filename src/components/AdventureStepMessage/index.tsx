@@ -66,39 +66,39 @@ function AdventureStepMessage({
   if (['binary', 'multi', 'question', 'share'].includes(msgKind)) {
     return (
       <Flex align="center" style={[st.fw100]}>
-      <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
-        {msgKind === 'multi' || msgKind === 'question' ? (
-          /* MESSAGE QUESTION AREA: */
-          <Flex
-            direction="column"
-            style={[st.w100, st.bgOrange, st.brtl5, st.brtr5, st.pd1]}
-            align="center"
-            justify="center"
-          >
-            <Text style={[st.tac, st.white, st.fs(20), st.lh(24)]}>
-              {(message.metadata || {}).question || null}
-            </Text>
-          </Flex>
-        ) : null}
-        {/* <Image
-          source={{ uri: (messenger.avatar || {}).small }}
-          style={[st.absb, st.right(-30), st.h(25), st.w(25), st.br1]}
-        /> */}
+        <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
+          {msgKind === 'multi' || msgKind === 'question' ? (
+            /* MESSAGE QUESTION AREA: */
+            <Flex
+              direction="column"
+              style={[st.w100, st.bgOrange, st.brtl5, st.brtr5, st.pd1]}
+              align="center"
+              justify="center"
+            >
+              <Text style={[st.tac, st.white, st.fs(20), st.lh(24)]}>
+                {(message.metadata || {}).question || null}
+              </Text>
+            </Flex>
+          ) : null}
+          {/* <Image
+            source={{ uri: (messenger.avatar || {}).small }}
+            style={[st.absb, st.right(-30), st.h(25), st.w(25), st.br1]}
+          /> */}
 
-        {/* MESSAGE INPUT FIELD: */}
-        <AdventureStepMessageInput
-          kind={msgKind}
-          adventure={adventure}
-          step={step}
-          internalMessage={message}
-          defaultValue={selectedAnswer}
-          onFocus={() => {
-            /* scrollRef.current.props.scrollToFocusedInput(
-              findNodeHandle(event.target),
-            ); */
-          }}
-        />
-      </Flex>
+          {/* MESSAGE INPUT FIELD: */}
+          <AdventureStepMessageInput
+            kind={msgKind}
+            adventure={adventure}
+            step={step}
+            internalMessage={message}
+            defaultValue={selectedAnswer}
+            onFocus={() => {
+              /* scrollRef.current.props.scrollToFocusedInput(
+                findNodeHandle(event.target),
+              ); */
+            }}
+          />
+        </Flex>
       </Flex>
     );
   }
@@ -122,7 +122,7 @@ function AdventureStepMessage({
               opacity: message.content ? 1 : .5
             }]}>
               {isSharedAnswer ?
-                message.messenger_answer :
+                message.metadata.messenger_answer :
                 message.content ?
                   message.content :
                   'Skipped'}

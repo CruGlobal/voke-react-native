@@ -19,13 +19,13 @@ const styles: { [key: string]: any } = {
   `,
   BotHeading: css`
     color: ${theme.colors.white};
-    font-size: ${`${theme.fontSizes.xxl}px`};
+    font-size: ${`${theme.fontSizes.xl}px`};
     font-family: ${theme.fonts.semiBold};
     text-align: center;
   `,
   BotText: css`
     color: ${theme.colors.white};
-    font-size: ${`${theme.fontSizes.xl}px`};
+    font-size: ${`${theme.fontSizes.l}px`};
     font-family: ${theme.fonts.regular};
     text-align: center;
   `,

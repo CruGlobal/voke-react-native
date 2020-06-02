@@ -14,8 +14,7 @@ import Button from '../../components/Button';
 import Triangle from '../../components/Triangle';
 import VokeIcon from '../../components/VokeIcon';
 import Touchable from '../../components/Touchable';
-
-import VOKE_BOT from '../../assets/voke_bot_face_large.png';
+import BotTalking from '../../components/BotTalking'
 
 const imagePickerOptions = {
   title: 'Select Avatar',
@@ -119,42 +118,16 @@ function AccountPhoto(props) {
             <Text style={[st.white, st.fs16, st.pr5]}>Skip</Text>
           </Touchable>
         </Flex> */}
-        <Flex direction="column" self="stretch" align="center">
-          <Flex
-            direction="row"
-            align="start"
-            justify="between"
-            style={[st.mb4, st.h(180), { marginTop: 60 }]}
-          >
-            <Flex
-              direction="column"
-              value={1}
-              justify="start"
-              align="end"
-              style={[st.pl1]}
+        <Flex direction="column" align="center">
+        <Flex
+              direction="row"
+              align="start"
+              justify="between"
+              style={[st.h(180), st.mt2]}
             >
-              <Flex style={[st.bgOffBlue, st.ph3, st.pv5, st.br5]}>
-                <Text style={[st.white, st.fs20, st.tac]}>
-                  { avatarSource ?
-                  'Looking good? Tap on photo to change or click continue.':
-                  'Add a photo so your friends can recognize you'}
-                </Text>
-              </Flex>
-              <Triangle
-                width={20}
-                height={15}
-                color={st.colors.offBlue}
-                style={[st.rotate(120), st.mt(-6)]}
-              />
-            </Flex>
-            <Flex justify="end" self="stretch" style={[]}>
-              <Image
-                source={VOKE_BOT}
-                resizeMode="contain"
-                style={[st.w(80), st.h(120)]}
-              />
-            </Flex>
-          </Flex>
+        <BotTalking heading="Add a photo!">Photos help your friends recognize you when you do adventures.
+</BotTalking>
+</Flex>
           <Touchable onPress={handleSelectImage}>
             <Flex
               direction="column"
@@ -189,22 +162,19 @@ function AccountPhoto(props) {
             </Flex>
           </Touchable>
         </Flex>
-        <Flex value={1} />
-        <Button
-          onPress={handleContinue}
-          touchableStyle={[
-            st.w100,
-            st.p4,
-            {
-              backgroundColor: theme.colors.secondary,
-            },
-          ]}
-          isLoading={loginLoading}
-        >
-          <Text style={[st.white, st.fs20, st.touchableStyle, st.tac]}>Continue</Text>
-          <Flex style={{height: insets.bottom}}  />
-        </Button>
-      </Flex>
+        <Flex direction="row" justify="center" style={[st.w100, st.mt1]}/>
+          <Flex value={1} align="center">
+          <Button
+            onPress={handleContinue}
+            touchableStyle={[st.pd4, st.br1, st.w(st.fullWidth - 70),{backgroundColor: theme.colors.white, textAlign:"center", marginTop: 20 }]}
+            isLoading={loginLoading}
+          >
+            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>Next</Text>
+            {/* Safety spacing. */}
+            <Flex style={{ height: insets.bottom }} />
+          </Button>
+          </Flex>
+        </Flex>
     </Flex>
   );
 }

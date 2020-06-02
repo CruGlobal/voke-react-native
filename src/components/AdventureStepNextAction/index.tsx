@@ -149,7 +149,7 @@ const AdventureStepNextAction = ({
       userName = inviteName;
     }
 
-    text = `Waiting for ${userName} to answer`;
+    text = `Waiting for ${userName} to answer...`;
     buttonActive = false;
   }
 
