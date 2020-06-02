@@ -20,6 +20,7 @@ const styles: { [key: string]: any } = {
     text-transform: uppercase;
     padding-top: ${`${theme.spacing.m}px`};
     padding-bottom: ${`${theme.spacing.s}px`};
+    letter-spacing: .75;
   `,
   BotText: css`
     color: ${theme.colors.white};

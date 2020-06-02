@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import {
   KeyboardAvoidingView,
@@ -35,6 +35,8 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [emailValid, setEmailValid] = useState(false);
+
+  const passwordRef = useRef<TextInput>(null);
 
   useMount(() => {
     lockToPortrait();

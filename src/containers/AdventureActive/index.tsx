@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { ScrollView, FlatList } from 'react-native';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import { getMyAdventure, getAdventureSteps } from '../../actions/requests';
+import { getMyAdventure, getMyAdventures, getAdventureSteps } from '../../actions/requests';
 import { setCurrentScreen } from '../../actions/info';
 import { useFocusEffect } from '@react-navigation/native';
 import AdventureStepCard from '../../components/AdventureStepCard';

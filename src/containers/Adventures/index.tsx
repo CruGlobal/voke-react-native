@@ -9,7 +9,7 @@ import AdventuresFind from '../AdventuresFind';
 const Adventures = (): React.ReactElement => {
   const myAdventuresIds = useSelector(({ data }: {data: TDataState}) => data.myAdventures.allIds)|| [];
   const invitationsIds = useSelector(({ data }: {data: TDataState}) => data.adventureInvitations.allIds) || [];
-  const showMyAdvetures = (myAdventuresIds.length > 0 || invitationsIds.length > 0) ? true : false;
+  const showMyAdventures = (myAdventuresIds.length > 0 || invitationsIds.length > 0) ? true : false;
 
   useMount(() => {
     lockToPortrait();
@@ -40,7 +40,7 @@ const Adventures = (): React.ReactElement => {
       // If there are any Adventures or Invites:
       // Show My Adventures tab first.
       // Otherwise redirect user to Find Adventures.
-      initial={ showMyAdvetures ? 0 : 1}
+      initial={ showMyAdventures ? 0 : 1}
     />
   );
 };

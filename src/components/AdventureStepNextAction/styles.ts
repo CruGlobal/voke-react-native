@@ -14,15 +14,15 @@ const styles: { [key: string]: any } = {
     ui.button.size.l,
     ui.button.style.solid,
     css`
-      background-color: ${theme.colors.secondary};
     `,
   ],
   ButtonActive: [
     css`
-      background-color: ${theme.colors.accent};
     `,
   ],
-  NextActionButtonLabel: [ui.buttonText.size.l],
+  NextActionButtonLabel: [ui.buttonText.size.wm, 
+    css`
+  text-transform: uppercase`],
 };
 
 export default styles;

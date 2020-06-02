@@ -12,8 +12,8 @@ import Triangle from '../../components/Triangle';
 import VokeIcon from '../../components/VokeIcon';
 import st from '../../st';
 import Button from '../../components/Button';
-
-import VOKE_BOT from '../../assets/voke_bot_face_large.png';
+import theme from '../../theme'
+import BotTalking from '../../components/BotTalking';
 import Touchable from '../../components/Touchable';
 import {
   sendAdventureInvitation,
@@ -107,57 +107,28 @@ function AdventureName(props) {
           { paddingTop: insets.top },
         ]}
       >
-        <Flex direction="column" justify="end" style={[st.w100, st.h100]}>
+        <Flex direction="column" justify="end" style={[st.h100]}>
           <Flex direction="column" self="stretch">
             <Touchable
-              style={[st.p5, st.pl4, st.mb3]}
+              style={[st.pt5, st.mb3]}
               onPress={() => navigation.goBack()}
             >
               <VokeIcon
-                type="image"
-                name="leftArrow"
-                style={[st.h(22), st.w(22)]}
+                name="chevron-back-outline"
+                style={[st.fs18]}
               />
             </Touchable>
             <Flex
               direction="row"
-              align="start"
-              justify="between"
+              align="center"
+              justify="center"
               style={[st.mb4, st.h(180)]}
             >
-              <Flex justify="end" self="stretch" style={[]}>
-                <Image
-                  source={VOKE_BOT}
-                  resizeMode="contain"
-                  style={[
-                    st.w(80),
-                    st.h(120),
-                    { transform: [{ rotateY: '180deg' }] },
-                  ]}
-                />
-              </Flex>
-              <Flex
-                direction="column"
-                value={1}
-                justify="start"
-                style={[st.pr1]}
-              >
-                <Flex style={[st.bgOffBlue, st.ph3, st.pv5, st.br5]}>
-                  <Text style={[st.white, st.fs20, st.tac]}>
-                    {withGroup
-                      ? "What's the name of your group?"
-                      : "What is your friend's name?"}
-                  </Text>
-                </Flex>
-                <Triangle
-                  width={20}
-                  height={15}
-                  color={st.colors.offBlue}
-                  slant="down"
-                  flip
-                  style={[st.rotate(90), st.mt(-6)]}
-                />
-              </Flex>
+              <BotTalking heading={withGroup
+                      ? "Let's name your group!"
+                      : "What's your friend's name?"}> 
+          </BotTalking>
+        
             </Flex>
             <Flex direction="column" align="center" style={[st.ph1, st.w100]}>
               <NameInput
@@ -175,26 +146,26 @@ function AdventureName(props) {
                     ? withGroup
                       ? 'We use the group name to onboard your friends and help you manage your groups'
                       : "We use your friend's name to help you know who responded to the videos you shared."
-                    : 'Why do we need this?'}
+                    : 'Why do we ask this?'}
                 </Text>
               </Touchable>
             </Flex>
-          </Flex>
-          <Flex value={1} />
+            </Flex>
+
+          <Flex direction="row" justify="center" style={[st.w100, st.mt1]}/>
+          <Flex value={1} align="center">
           <Button
             onPress={handleContinue}
-            touchableStyle={[
-              st.w100,
-              st.bgDarkBlue,
-              st.p4,
-              // { paddingBottom: isKeyboardVisible ? 15 : insets.bottom },
-            ]}
+            touchableStyle={[st.pd4, st.br1, st.w(st.fullWidth - 70),{backgroundColor: theme.colors.white, textAlign:"center", marginTop: isKeyboardVisible ? 0 : 85}]}
             isLoading={isLoading}
           >
-            <Text style={[st.white, st.fs20, st.tac]}>Continue</Text>
-            <Flex style={{height: insets.bottom}}  />
+            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>Continue</Text>
+           
           </Button>
-        </Flex>
+           {/* Safety spacing. */}
+            <Flex style={{ height: (isKeyboardVisible ? 0 : insets.bottom ) }} />
+          </Flex>
+          </Flex>
       </KeyboardAvoidingView>
     </>
   );
