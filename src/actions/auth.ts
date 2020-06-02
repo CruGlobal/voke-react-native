@@ -55,7 +55,7 @@ export function wakeupAction() {
     // My Adventures screen: update invitations and adventures.
     if (currentScreen === 'AdventuresMy') {
       dispatch(getAdventuresInvitations());
-      dispatch(getMyAdventures());
+      dispatch(getMyAdventures('Wakeup Action'));
     }
 
     // AdventureActive

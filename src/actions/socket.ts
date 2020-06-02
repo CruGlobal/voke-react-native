@@ -177,7 +177,7 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
               ) {
                 // FRIEND JOINED OUR ADVENTURE.
                 dispatch(getAdventuresInvitations());
-                dispatch(getMyAdventures());
+                dispatch(getMyAdventures('Sockets'));
               } else if (
                 notification.category === 'COMPLETE_STEP_CATEGORY'
               ) {

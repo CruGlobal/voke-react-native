@@ -47,6 +47,7 @@ function AdventureAvailable(props) {
   const [isPortrait, setIsPortrait] = useState(true);
   const { item, alreadyStartedByMe } = props.route.params;
   const [isLoading, setIsLoading] = useState(false);
+  const [soloStarted, setSoloStarted] = useState(alreadyStartedByMe);
 
   async function startByMyself() {
     try {
@@ -54,20 +55,12 @@ function AdventureAvailable(props) {
       const result = await dispatch(
         startAdventure({ organization_journey_id: item.id }),
       );
-      console.log('result', result);
-      // dispatch(
-      //   navigatePush(
-      //     'voke.VideoContentWrap',
-      //     {
-      //       item: result,
-      //       journey: item,
-      //       shouldNavigateHome: true,
-      //       type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
-      //       trackingObj: buildTrackingObj('journey : mine', 'detail'),
-      //     },
-      //     VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
-      //   ),
-      // );
+
+      setSoloStarted(true);
+
+      navigation.navigate('AdventureActive', {
+        adventureId: result.id,
+      })
     } catch (e) {
       console.log('Error starting adventure by myself', e);
     } finally {
@@ -135,36 +128,41 @@ function AdventureAvailable(props) {
             <Text style={[st.charcoal, st.pv4]}>{item.description}</Text>
           </Flex>
           <Flex justify="end" style={[st.bgWhite]}>
-              <Text style={[st.fs3, st.pb5, st.ml2]}>
-                {'Who can you take with you?'}
-              </Text>
-              <Flex
-                style={{
-                  borderBottomColor: theme.colors.secondary,
-                  borderBottomWidth: 2,
-                  width:140,
-                  marginLeft: 30
-                }}
-              />
-              <Flex direction="row" justify="center" style={[st.w100, st.mt4]}>
-                <Flex value={1} align="center">
-                  <ActionButton text="Go with a friend" icon="couple" onPress={() =>
-                navigation.navigate('AdventureName', {
-                  item,
-                  withGroup: false,
-                })
-              }/>
-                  <ActionButton text="Go with a group" icon="group" onPress={() =>
-                navigation.navigate('AdventureName', {
-                  item,
-                  withGroup: true,
-                })
-              }/>
-                  {alreadyStartedByMe ? null : (
+            <Text style={[st.fs3, st.pb5, st.ml2]}>
+              {'Who can you take with you?'}
+            </Text>
+            <Flex
+              style={{
+                borderBottomColor: theme.colors.secondary,
+                borderBottomWidth: 2,
+                width:140,
+                marginLeft: 30
+              }}
+            />
+            <Flex direction="row" justify="center" style={[st.w100, st.mt4]}>
+              <Flex value={1} align="center">
+                <ActionButton
+                  text="Go with a friend"
+                  icon="couple"
+                  onPress={() =>
+                    navigation.navigate('AdventureName', {
+                      item,
+                      withGroup: false,
+                    })
+                  }/>
+                <ActionButton
+                  text="Go with a group"
+                  icon="group"
+                  onPress={() =>
+                    navigation.navigate('AdventureName', {
+                      item,
+                      withGroup: true,
+                    })
+                  }/>
+                {soloStarted ? null : (
                   <ActionButton text="Go by myself" icon="person" onPress={startByMyself}/>
-                  )}
-
-                </Flex>
+                )}
+              </Flex>
             </Flex>
           </Flex>
         </ScrollView>

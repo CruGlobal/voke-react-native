@@ -35,7 +35,7 @@ const AdventuresMy = ({ route }: AdventuresMyProps): React.ReactElement => {
 
   const updateAdventures = async (): Promise<void> => {
     // TODO: Do some kind of time based caching for these requests
-    await dispatch(getMyAdventures());
+    await dispatch(getMyAdventures('AdventuresMy'));
     await dispatch(getAdventuresInvitations());
   };
 
@@ -74,6 +74,10 @@ const AdventuresMy = ({ route }: AdventuresMyProps): React.ReactElement => {
       dispatch(setCurrentScreen({
         screen: 'AdventuresMy'
       }));
+
+      // Update adventures so we have up to date unreads badge.
+      dispatch( getMyAdventures('AdventureActive') );
+
       return () => {
         // Do something when the screen is unfocused
         // Useful for cleanup functions

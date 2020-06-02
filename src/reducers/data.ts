@@ -132,10 +132,19 @@ export default function(state = initialState, action: any) {
 
     case REDUX_ACTIONS.START_ADVENTURE: {
       let updatedMyAdventures: any = lodash.cloneDeep(state.myAdventures);
-      if (action.result) {
-        updatedMyAdventures.push(action.result);
-      }
-      return { ...state, myAdventures: updatedMyAdventures };
+
+      const allIds = state.myAdventures.allIds||[];
+      return {
+        ...state,
+        myAdventures: {
+          ...state.myAdventures,
+          byId: {
+            ...state.myAdventures.byId,
+            [action.result.id]: action.result
+          },
+          allIds: allIds.concat([action.result.id]),
+        }
+      };
     }
 
     case REDUX_ACTIONS.SEND_ADVENTURE_INVITATION: {
