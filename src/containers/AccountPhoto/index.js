@@ -50,6 +50,10 @@ function AccountPhoto(props) {
     } else {
       try {
         navigation.navigate('LoggedInApp', { screen: screenName });
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'LoggedInApp' }],
+        })
       } catch (error) {
         navigation.navigate(screenName);
       }
