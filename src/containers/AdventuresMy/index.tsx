@@ -76,7 +76,7 @@ const AdventuresMy = ({ route }: AdventuresMyProps): React.ReactElement => {
       }));
 
       // Update adventures so we have up to date unreads badge.
-      dispatch( getMyAdventures('AdventureActive') );
+      // dispatch( getMyAdventures('AdventuresMy - Use Focus Effect') );
 
       return () => {
         // Do something when the screen is unfocused

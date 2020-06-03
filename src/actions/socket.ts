@@ -16,6 +16,7 @@ import {
   getAdventureSteps,
   getMyAdventures,
   getAdventuresInvitations,
+  getNotifications,
 } from './requests';
 
 type Dispatch = ThunkDispatch<any, any, any>;
@@ -178,6 +179,7 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
                 // FRIEND JOINED OUR ADVENTURE.
                 dispatch(getAdventuresInvitations());
                 dispatch(getMyAdventures('Sockets'));
+                dispatch(getNotifications());
               } else if (
                 notification.category === 'COMPLETE_STEP_CATEGORY'
               ) {
