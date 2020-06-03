@@ -84,21 +84,25 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
     // To mark as read we need converstation id and message id.
     // We mark only the latest message as read,
     // all others will be marked as read automatically according to Pablo :)
-    dispatch(
-      markMessageAsRead({
-        adventureId: adventure.id,
-        stepId: currentStep.id,
-        conversationId: conversationId,
-        messageId: currentMessages.slice(-1)[0]?.id
-      })
-    );
+    if (currentMessages.slice(-1)[0]?.id) {
+      dispatch(
+        markMessageAsRead({
+          adventureId: adventure.id,
+          stepId: currentStep.id,
+          conversationId: conversationId,
+          messageId: currentMessages.slice(-1)[0]?.id
+        })
+      );
+    } else {
+      console.log('🛑no message ID provided')
+    }
   }
 
   const botMessage = () => {
     const botUserId = adventure.conversation.messengers.find(i => i.id !== currentUser.id) || null;
     if (!botUserId) return;
     const existingBotMessage = currentMessages.find(m=>m.messenger_id === botUserId.id) || null;
-    if (!existingBotMessage) {
+    if (!existingBotMessage ) {
 
       let newBotMessage ={
         id: new Date().toISOString(),
@@ -107,6 +111,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
         ).id,
         content: (currentStep.metadata || {}).comment,
         metadata: { vokebot_action: 'journey_step_comment' },
+        grouping_journey_step_id: currentStep.id,
       };
 
       // Send this new pseudo-message to redux.
@@ -134,8 +139,10 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
     }
 
     // Once new message received mark it as read, but only if messages unblured/unlocked.
-    if(currentStep['completed_by_messenger?'] ||
-      currentMessages[currentMessages.length - 1]?.messenger_id !== currentUser.id){
+    if(currentMessages.length && (
+      currentStep['completed_by_messenger?'] ||
+      currentMessages[currentMessages.length - 1]?.messenger_id !== currentUser.id)
+      ){
       // If the last message from someone else, mark it as read.
       markAsRead();
     }
