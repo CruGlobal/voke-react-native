@@ -191,6 +191,8 @@ const getAdventureStepsDebounced = debounce(
         description: 'Get Adventure Steps'
       });
 
+       dispatch(getMyAdventure(adventureId));
+
       return results;
     }
   , 2000, { 'leading': true, 'trailing': true }
@@ -809,8 +811,30 @@ export function toggleFavoriteVideo(shouldFavorite: boolean, video: any) {
   };
 }
 
+export function updateAdventureUnreads(adventureId) {
+  return async (dispatch: Dispatch, getState: any) => {
+    const adventureSteps = getState().data.adventureSteps[adventureId].byId;
+    let advUnreadCount = 0;
+
+    for (let [key, step] of Object.entries(adventureSteps)) {
+      const stepUnreadCnt =  step.unread_messages;
+      if ( stepUnreadCnt > 0 ) {
+        advUnreadCount = advUnreadCount + stepUnreadCnt;
+      }
+    }
+    // Then call debounced update on the server.
+    return dispatch({ type: REDUX_ACTIONS.UPDATE_ADVENTURE_UNREADS, adventureId, advUnreadCount });
+  };
+}
+
 export function markMessageAsRead(params: markMessageAsRead) {
   return async (dispatch: Dispatch, getState: any) => {
+    const {adventureId, stepId } = params;
+
+    // Mark message as read in the store for immediate feedback.
+    dispatch({ type: REDUX_ACTIONS.MARK_READ, adventureId, stepId });
+    dispatch(updateAdventureUnreads(adventureId));
+    // Then call debounced update on the server.
     return await markMessageAsReadDebounced(dispatch, getState, params)
   };
 }
@@ -827,11 +851,8 @@ type markMessageAsRead = {
 const markMessageAsReadDebounced = debounce(
     // Mark message as read on the server.
     async (dispatch, getState, params: markMessageAsRead) => {
-      const { conversationId, messageId, adventureId, stepId } = params;
+      const { conversationId, messageId } = params;
       const deviceId = getState().auth.device.id;
-
-      // Mark message as read in the store for immediate feedback.
-      dispatch({ type: REDUX_ACTIONS.MARK_READ, adventureId, stepId });
 
       // See: https://docs.vokeapp.com/#me-conversations-messages-interactions
       let data: any = {
@@ -859,7 +880,7 @@ const markMessageAsReadDebounced = debounce(
       return result;
     }
   // }
-  , 2000, { 'leading': true, 'trailing': false }
+  , 2000, { 'leading': false, 'trailing': true }
 );
 
 // Send an interaction when the user press play.

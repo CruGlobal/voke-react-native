@@ -459,6 +459,32 @@ export default function(state = initialState, action: any) {
         },
       };
     }
+    case REDUX_ACTIONS.UPDATE_ADVENTURE_UNREADS: {
+      // PARAMS: adventureId, conversationId, messageId
+      // Set state.adventureSteps[adventureId][currentStepId].unread_messages = 0
+      // state.adventureSteps[adventureId]
+      const adventureId = action.adventureId;
+      const advUnreadCount = action.advUnreadCount;
+
+      return {
+        ...state,
+        // Update 'unread_messages' for particular adventure.
+        myAdventures: {
+          ...state.myAdventures,
+          byId:{
+            ...state.myAdventures.byId,
+            [adventureId]: {
+              ...state.myAdventures.byId[adventureId],
+              conversation:{
+                ...state.myAdventures.byId[adventureId].conversation,
+                unread_messages: advUnreadCount
+              }
+            }
+
+          }
+        },
+      };
+    }
     case REDUX_ACTIONS.LOGOUT:
       return initialState;
     case REDUX_ACTIONS.RESET:
