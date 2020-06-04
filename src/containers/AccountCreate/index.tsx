@@ -23,7 +23,11 @@ import Button from '../../components/Button';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import styles from './styles';
+import st from '../../st';
+import theme from '../../theme';
+import BotTalking from '../../components/BotTalking'
 import CONSTANTS from '../../constants';
+import VokeIcon from '../../components/VokeIcon'
 
 const AccountCreate: React.FC = (): React.ReactElement => {
   const insets = useSafeArea();
@@ -94,9 +98,10 @@ const AccountCreate: React.FC = (): React.ReactElement => {
 
   return (
     <DismissKeyboardView
-      style={{ backgroundColor: styles.colors.secondary, height: '100%' }}
+      style={{ backgroundColor: styles.colors.primary, height: '100%' }}
     >
       {/* <StatusBar /> <- TODO: Not sure why we need it here? */}
+      <BotTalking heading="Save your progress in the app"> Just enter an email and password</BotTalking>
 
       {/* Makes possible to hide keyboard when tapping outside. */}
       <KeyboardAvoidingView
@@ -104,7 +109,7 @@ const AccountCreate: React.FC = (): React.ReactElement => {
         style={styles.MainContainer}
       >
         <Flex
-          value={4}
+          value={2}
           direction="column"
           align="center"
           justify="center"
@@ -144,17 +149,9 @@ const AccountCreate: React.FC = (): React.ReactElement => {
             onSubmitEditing={(): Promise<void> => register()}
           />
         </Flex>
-        {/* TRIANGLE DIVIDER */}
-        <Flex value={1} justify="end" style={styles.Divider}>
-          <Triangle
-            width={useWindowDimensions().width}
-            height={40}
-            color={styles.colors.secondary}
-          />
-        </Flex>
         {/* SECTION: CALL TO ACTION BUTTON */}
         <Flex
-          value={2}
+          value={1}
           direction="column"
           justify="start"
           style={styles.SectionAction}
@@ -162,11 +159,11 @@ const AccountCreate: React.FC = (): React.ReactElement => {
           {/* BUTTON: SIGN IN */}
           <Button
             isAndroidOpacity
-            style={styles.ButtonStart}
+            style={[st.pd4, st.br1, st.w(st.fullWidth - 70),{backgroundColor: theme.colors.white, textAlign:"center", marginTop:20 }]}
             onPress={(): Promise<void> => register()}
             isLoading={isLoading}
           >
-            <Text style={styles.ButtonStartLabel}>Sign Up</Text>
+            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>Sign Up</Text>
           </Button>
         </Flex>
       </KeyboardAvoidingView>
@@ -190,22 +187,6 @@ const AccountCreate: React.FC = (): React.ReactElement => {
             Terms of Service
           </Text>
         </Text>
-      </Flex>
-      {/* SECTION: FACEBOOK SIGN IN */}
-      <Flex
-        direction="row"
-        align="center"
-        justify="center"
-        style={styles.SectionFB}
-      >
-        <Button
-          isAndroidOpacity
-          style={styles.ButtonFBSignIn}
-          // TODO: link to Facebook Auth.
-          onPress={(): void => console.log("navigation.navigate('ForgotPassword')")}
-        >
-          <Text style={styles.ButtonFBSignInLabel}>Sign Up with Facebook</Text>
-        </Button>
       </Flex>
 
       {/* Safe area at the bottom for phone with exotic notches */}
