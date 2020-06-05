@@ -111,21 +111,54 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                 {me.firstName + ' ' + me.lastName}
               </Text>
             </Touchable>
-            <Touchable onPress={ () => navigation.navigate('AccountName')}>
-              <Text style={{
+           
+            { !!!me.email? <Text style={{
                 color: styles.colors.white,
-                fontSize: styles.fontSizes.xl,
+                fontSize: styles.fontSizes.l,
                 textAlign:'center',
-                }}>
-                {me.email}
-              </Text>
-            </Touchable>
+                }}>Guest Profile</Text>:<Text style={{
+                  color: styles.colors.white,
+                  fontSize: styles.fontSizes.l,
+                  textAlign:'center',
+                  }}>User Profile</Text>}
             {/* <Text style={{color:"#fff", fontSize:18, textDecorationLine:'underline'}}>
             Profile Info
             </Text> */}
-            {/* <Flex direction="row" align="center" justify="center" style={{marginTop:20, marginBottom:20}}>
-              <Text style={{color:"#fff", fontSize:18,}}>English</Text>
-            </Flex> */}
+             { me.email ?
+             <>
+            <Touchable onPress={ () => navigation.navigate('AccountName')}>
+            <Flex direction="row" align="center" justify="space-around" style={{marginTop:30}}>
+              <Text style={{color:"#fff", fontSize:18, width:'50%'}}>Language</Text>
+              <Text style={{color:"#fff", fontSize:18, width:'50%'}}>English</Text>
+            </Flex>
+            </Touchable>
+            <Touchable onPress={ () => navigation.navigate('AccountName')}>
+            <Flex direction="row" align="center" justify="space-around">
+            <Text style={{color:"#fff", fontSize:18, width:'50%'}}>Email</Text>
+            <Text style={{color:"#fff", fontSize:18,width:'50%'}}>
+                {me.email}
+              </Text>
+            </Flex>
+            </Touchable>
+            <Touchable onPress={ () => navigation.navigate('AccountName')}>
+            <Flex direction="row" align="center" justify="space-around">
+            <Text style={{color:"#fff", fontSize:18, width:'50%'}}>Password</Text>
+            <Text style={{color:"#fff", fontSize:18,width:'50%'}}>
+                ******
+              </Text>
+            </Flex>
+            </Touchable>
+
+            <Flex direction="row" align="flex-start" justify="flex-start" style={{marginTop:30}}>
+            <VokeIcon
+                    name="create"
+                    size={18}
+                    style={st.mr6}
+                  />
+              <Text style={{color:"#fff", fontSize:14}}>To edit, select the item you would like to edit.</Text>
+            </Flex>
+</>:
+            <></>}
             {/* <Button
               isAndroidOpacity={true}
               style={[styles.ButtonAction, {
@@ -159,11 +192,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
 
           {/* SECTION: CALL TO ACTION BUTTON */}
           <Flex>
-            <Triangle
-              width={useWindowDimensions().width}
-              height={40}
-              color={styles.colors.secondary}
-            />
+
             <Flex
               direction="column"
               style={[styles.SectionAction]}
@@ -177,7 +206,12 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
               />
               { !!!me.email && <>
                 {/* TEXT:TEXT */}
-                <Text style={[styles.TextSmall,{textAlign:'center', paddingBottom:30}]}>
+                <Text style={{
+                color: styles.colors.white,
+                fontSize: styles.fontSizes.l,
+                textAlign:'center',
+                paddingBottom:20,
+                }}>
                     Sign up to save your progress and access your account from anywhere.
                 </Text>
                 <Flex
@@ -201,9 +235,9 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
 
                   >
                   <VokeIcon
-                    type="image"
-                    name="email"
-                    style={[st.h(22), st.w(22), st.mr5]}
+                    name="mail"
+                    size={22}
+                    style={st.mr5}
                   />
                     <Text style={styles.ButtonSignUpLabel}>Sign up with Email</Text>
                   </Flex>
@@ -228,9 +262,9 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                     justify="center"
                   >
                     <VokeIcon
-                      type="image"
-                      name="facebook"
-                      style={[st.h(22), st.w(22), st.mr5]}
+                      name="logo-facebook"
+                      size={22}
+                      style={st.mr5}
                     />
                     <Text style={styles.ButtonSignUpLabel}>Sign Up with Facebook</Text>
                   </Flex>
@@ -244,9 +278,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
               { !!me.email && <>
                 <Button
                   isAndroidOpacity={true}
-                  style={[styles.ButtonActio, {
-                    borderColor: 'transparent'
-                  }]}
+                  style={[styles.ButtonAction]}
                   onPress={
                     () =>
                     Alert.alert(
@@ -299,7 +331,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
       {/* Safe area bottom spacing */}
       <Flex
         style={{
-          backgroundColor: styles.colors.secondary,
+          backgroundColor: styles.colors.primary,
           paddingBottom: insets.bottom
         }}
       ></Flex>

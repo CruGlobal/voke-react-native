@@ -174,9 +174,10 @@ function AccountPhoto(props) {
             isLoading={loginLoading}
           >
             <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>Next</Text>
+          
+          </Button>
             {/* Safety spacing. */}
             <Flex style={{ height: insets.bottom }} />
-          </Button>
           </Flex>
         </Flex>
     </Flex>

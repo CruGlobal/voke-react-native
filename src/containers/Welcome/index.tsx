@@ -41,8 +41,7 @@ const Welcome = (props: WelcomeProps) => {
 <StatusBar />
   <Flex value={1} direction="column" justify="flex-start" style={[styles.SectionOnboarding, {marginTop:60}]}>
   <BotTalking heading="Welcome to Voke">
-    Discuss and explore videos about Faith and other topics.          
-  </BotTalking>
+  We’re engaging in video series exploring questions about faith and Jesus, together.  </BotTalking>
 
   {/* Help Mode Text */}
 

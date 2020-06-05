@@ -9,7 +9,7 @@ const styles: { [key: string]: any } = {
     ui.container.default,
     css`
       flex: 1;
-      background-color: ${theme.colors.secondary};
+      background-color: ${theme.colors.primary};
     `,
   ],
   PrimaryContent: css`
@@ -17,6 +17,7 @@ const styles: { [key: string]: any } = {
     background-color: ${theme.colors.primary};
     padding-left: ${`${theme.spacing.xl}px`};
     padding-right: ${`${theme.spacing.xl}px`};
+    margin-top:-35px;
   `,
   Divider: css`
     width: 100%;
@@ -24,7 +25,7 @@ const styles: { [key: string]: any } = {
   `,
   SectionAction: css`
     width: 100%;
-    background-color: ${theme.colors.secondary};
+    background-color: ${theme.colors.primary};
     padding-left: ${`${theme.spacing.xl}px`};
     padding-right: ${`${theme.spacing.xl}px`};
     padding-bottom: ${`${theme.spacing.l}px`};
@@ -58,7 +59,7 @@ const styles: { [key: string]: any } = {
     margin-top: -${`${theme.spacing.l}px`};
   `,
   SectionFB: css`
-    background-color: ${theme.colors.secondary};
+    background-color: ${theme.colors.primary};
     padding-top: ${`${theme.spacing.l}px`};
     padding-bottom: ${`${theme.spacing.l}px`};
     border-top-width: 1px;
@@ -66,8 +67,8 @@ const styles: { [key: string]: any } = {
     width: 100%;
   `,
   ButtonFBSignIn: [
-    ui.button.size.m,
-    ui.button.style.outline,
+    ui.button.size.outlinel,
+		ui.button.style.outline,
   ],
   ButtonFBSignInLabel: [ui.buttonText.size.m],
 };
