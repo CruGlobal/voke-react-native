@@ -12,6 +12,9 @@ const styles: { [key: string]: any } = {
     padding-left:${theme.spacing.m + 'px'};
 		padding-right:${theme.spacing.m + 'px'};
   `,
+  AdventureActions: css`
+  margin-left:-12px;
+  `,
   Heading: css`
     color: ${theme.colors.secondary};
     font-size: ${`${theme.fontSizes.m}px`};

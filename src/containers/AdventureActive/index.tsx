@@ -32,7 +32,8 @@ function AdventureActive({ route }: AdventureActiveProps): React.ReactElement {
   const steps = useSelector(({ data }: {data: TDataState}) =>
     data.adventureSteps[adventureId], shallowEqual)  || {};
   const [isPortrait, setIsPortrait] = useState(true);
-
+   const isGroup = adventure.kind === 'multiple';
+console.log(adventure)
   const getPendingAdventure = async () => {
     await dispatch(getMyAdventure(adventureId));
   };
@@ -73,7 +74,12 @@ function AdventureActive({ route }: AdventureActiveProps): React.ReactElement {
 
   return (
     <Flex value={1}>
-      <ScrollView bounces style={[st.bgBlue, { paddingBottom: insets.bottom }]}>
+      <ScrollView bounces style={[st.bgBlue, { paddingBottom: insets.bottom, paddingTop: insets.top }]}>
+        <Flex value={1} direction="row" align="center" justify="center" style={{padding:5}}>
+          <Text style={[st.fs18,{ color:'white'}]}> 
+            {isGroup? adventure.journey_invite.name : adventure.name}
+          </Text>
+        </Flex>
         {Object.keys(adventure).length > 0 && (
           <Video
             onOrientationChange={(orientation: string): void => {
