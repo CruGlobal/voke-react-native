@@ -32,7 +32,7 @@ const theme: {
     deepBlack: '#000000',
     darkGrey: '#646464',
     grey: '#979797',
-    grey2: '#a1a1a1',
+    grey2: '#DADADA',
     offWhite: '#acb1d0',
     lightGrey: '#ebebeb',
     lightGrey2: '#f1f2f2',
@@ -57,6 +57,7 @@ const theme: {
     xxxxl: 50,
   },
   spacing: {
+    xxs:2,
     xs: 4,
     s: 8,
     m: 16,

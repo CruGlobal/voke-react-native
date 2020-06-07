@@ -20,7 +20,7 @@ const colors: { [key: string]: string } = {
   deepBlack: '#000000',
   darkGrey: '#646464',
   grey: '#979797',
-  grey2: '#a1a1a1',
+  grey2: '#DADADA',
   offWhite: '#acb1d0',
   lightGrey: '#ebebeb',
   lightGrey2: '#f1f2f2',

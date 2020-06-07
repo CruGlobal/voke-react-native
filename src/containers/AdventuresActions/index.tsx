@@ -27,7 +27,7 @@ function AdventuresActions() {
       <Touchable
         style={[
           st.p4,
-          st.mt6,
+          st.mt6
         ]}
         onPress={() => navigation.navigate('AdventureCode')}
       >

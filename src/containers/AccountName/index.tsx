@@ -143,7 +143,7 @@ const AccountName = ( props ): React.ReactElement => {
               justify="between"
               style={[st.h(180)]}
             >
-            <BotTalking heading="I’d love to get to know you!">Glad you’re here! I’m Vokebot and I talk to you here in Voke.
+            <BotTalking heading="Hello!"> I’m Vokebot, I'm glad you're here.
 </BotTalking>
             </Flex>
           </Transitioning.View>

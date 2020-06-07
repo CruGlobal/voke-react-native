@@ -40,7 +40,7 @@ const Welcome = (props: WelcomeProps) => {
 <ImageBackground source={Background} style={{width: '100%', height: '100%'}}>
 <StatusBar />
   <Flex value={1} direction="column" justify="flex-start" style={[styles.SectionOnboarding, {marginTop:60}]}>
-  <BotTalking heading="Welcome to Voke">
+  <BotTalking heading="Welcome to Voke!">
   We’re engaging in video series exploring questions about faith and Jesus, together.  </BotTalking>
 
   {/* Help Mode Text */}
@@ -48,7 +48,7 @@ const Welcome = (props: WelcomeProps) => {
   <Flex direction="column" justify="center" style={styles.HelpSection}>
   {helpMode?
     <Flex><Text style={styles.HelpSectionHeading}>I have an adventure Code</Text>
-    <Text style={styles.TextSmall}>You get to do video adventures with others in Voke. This is the place for incoming guests who recieved an Adventure invite code to easily join their friend. </Text>
+    <Text style={styles.TextSmall}>You get to do video adventures with others in Voke. Choose this if you recieved an Adventure invite code to easily join your friend or group. </Text>
  </Flex>
     : null   }
     </Flex>
