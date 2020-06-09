@@ -5,12 +5,13 @@ import Text from '../../components/Text';
 import st from '../../st';
 import Button from '../../components/Button';
 import Triangle from '../../components/Triangle';
-import { ScrollView } from 'react-native';
+import { View, ScrollView, StatusBar, Platform } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Video from '../../components/Video';
 import { useNavigation } from '@react-navigation/native';
 import VokeIcon from '../../components/VokeIcon';
 import Touchable from '../../components/Touchable';
+
 import {
   toggleFavoriteVideo,
   sendVideoInvitation,
@@ -40,14 +41,41 @@ function VideoDetails(props) {
   return (
     <Flex value={1}>
       <>
-        <ScrollView bounces={true}>
+        <View style={{
+          // flex:1,
+          height: insets.top,
+          backgroundColor: isPortrait && insets.top > 0 ? '#000' : 'transparent',
+        }}>
+          <StatusBar
+            animated={true}
+            barStyle="light-content"
+            translucent={ isPortrait && insets.top > 0 ? false : true } // Android. The app will draw under the status bar.
+            backgroundColor="transparent" // Android. The background color of the status bar.
+          />
+        </View>
+        <ScrollView
+          bounces={true}
+          scrollEnabled={isPortrait? true: false}
+        >
+          {/* This View stays outside of the screen on top
+            and covers blue area with solid black on pull. */}
+          <View
+            style={{
+              position:'absolute',
+              backgroundColor: 'black',
+              left: 0,
+              right: 0,
+              top: -300,
+              height: 300,
+              zIndex:1,
+            }}
+          ></View>
+          {/* Video Player */}
           <Video
-            onOrientationChange={ (orientation => {
-              orientation === 'portrait'
-                ? setIsPortrait(true)
-                : setIsPortrait(false);
-              })
-            }
+            onOrientationChange={(orientation: string): void => {
+              setIsPortrait( orientation === 'portrait' ? true : false);
+            }}
+            autoPlay={true}
             item={item.media}
           />
           { isPortrait && (
@@ -103,7 +131,7 @@ function VideoDetails(props) {
           )}
         </ScrollView>
         {/* Call to action button: */}
-        <Touchable
+        { isPortrait && <Touchable
           isAndroidOpacity={true}
           onPress={handleShare}
           activeOpacity={0.6}
@@ -121,7 +149,7 @@ function VideoDetails(props) {
               style={{ width: 70, height: 70 }}
             />
           </Flex>
-        </Touchable>
+        </Touchable> }
       </>
     </Flex>
   );

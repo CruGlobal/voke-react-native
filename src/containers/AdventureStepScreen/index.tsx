@@ -10,7 +10,7 @@ import AdventureStepMessageInput from '../../components/AdventureStepMessageInpu
 import AdventureStepNextAction from '../../components/AdventureStepNextAction';
 import Image from '../../components/Image';
 import VokeIcon from '../../components/VokeIcon';
-import { KeyboardAvoidingView, findNodeHandle, View, ScrollView, Keyboard } from 'react-native';
+import { KeyboardAvoidingView, findNodeHandle, View, ScrollView, Keyboard, StatusBar, Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import Video from '../../components/Video';
 import { useNavigation } from '@react-navigation/native';
@@ -25,6 +25,7 @@ import styles from './styles';
 import { REDUX_ACTIONS } from '../../constants';
 import { setCurrentScreen } from '../../actions/info';
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
+import { toastAction } from '../../actions/info';
 
 
 type ModalProps = {
@@ -41,6 +42,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
   const dispatch = useDispatch();
   const insets = useSafeArea();
   const [isPortrait, setIsPortrait] = useState(true);
+  const [hasClickedPlay, setHasClickedPlay] = useState(false);
   const { stepId, adventureId } = route.params;
   const adventure = useSelector(({ data }: RootState) => data.myAdventures.byId[adventureId]) || {};
   const conversationId = adventure.conversation.id;
@@ -190,17 +192,34 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
 
   return (
     <View
-      style={[st.w100, st.h100, st.bgBlue,
-      {
-        flexDirection: 'column',
-        alignContent: 'center',
-        justifyContent: 'flex-end',
-      }]}
+      style={[
+        st.w100,
+        st.h100,
+        // st.bgBlue,
+        {
+          backgroundColor: isPortrait ? st.colors.blue : st.colors.deepBlack,
+          flexDirection: 'column',
+          alignContent: 'center',
+          justifyContent: 'flex-end',
+        }
+      ]}
     >
       <KeyboardAvoidingView
         behavior="position"
-        style={[st.aic, st.w100, st.jcsb, st.bgBlue]}
+        style={[st.aic, st.w100, st.jcsb]}
       >
+        <View style={{
+          // flex:1,
+          height: insets.top,
+          backgroundColor: isPortrait && insets.top > 0 ? '#000' : 'transparent',
+        }}>
+          <StatusBar
+            animated={true}
+            barStyle="light-content"
+            translucent={ isPortrait && insets.top > 0 ? false : true } // Android. The app will draw under the status bar.
+            backgroundColor="transparent" // Android. The background color of the status bar.
+          />
+        </View>
         <ScrollView
           ref={(scroll) => {
             if ( ! scrollRef?.current ) {
@@ -213,6 +232,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
           }
           scrollEventThrottle={0}
           contentContainerStyle={[st.aic, st.w100, st.jcsb]}
+          scrollEnabled={isPortrait? true: false}
           keyboardShouldPersistTaps ='always'
             // ☝️required to fix the bug with a need to double tap
             // on the send message icon.
@@ -220,8 +240,8 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
           <View
             style={[
               // st.w(st.fullWidth),
-              st.bgBlue,
-              { paddingBottom: insets.bottom },
+              // st.bgBlue,
+              { paddingBottom: isPortrait? insets.bottom : 0 },
               st.f1,
             ]}
             enableAutomaticScroll
@@ -252,22 +272,24 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
             ></View>
             {/* Video Player */}
             <Video
-              onOrientationChange={ (orientation: string) =>
-                orientation === 'portrait'
-                  ? setIsPortrait(true)
-                  : setIsPortrait(false)
-              }
+              onOrientationChange={(orientation: string): void => {
+                setIsPortrait( orientation === 'portrait' ? true : false);
+              }}
               item={currentStep.item.content}
               onPlay={
                 () => {
-                dispatch( interactionVideoPlay({
-                  adventureId: adventure.id,
-                  stepId: currentStep.id,
-                }))
+                  dispatch( interactionVideoPlay({
+                    adventureId: adventure.id,
+                    stepId: currentStep.id,
+                  }))
+
+                  if (!hasClickedPlay) {
+                    setHasClickedPlay(true);
+                  }
                 }
               }
             />
-            {isPortrait && (
+              {isPortrait && (
               <>
                 {/* Special Bot message at the top */}
                 {currentStep.status_message ? (
@@ -309,7 +331,16 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
                     style={[st.absb, st.right(-30), st.h(25), st.w(25), st.br1]}
                   />
                   <AdventureStepMessageInput
-                    onFocus={() => {
+                    onFocus={(event) => {
+                      if (hasClickedPlay) {
+                        return;
+                      } else {
+                        dispatch(
+                          toastAction(
+                            'Please watch the video first before you answer. Thanks!',
+                          ),
+                        );
+                      }
                       /* scrollRef.current.props.scrollToFocusedInput(
                         findNodeHandle(event.target),
                       ); */
@@ -348,14 +379,11 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
                   stepId={stepId}
                 />}
               </>
-            )}
+              )}
             {/* Extra spacing on the bottom */}
-            <View style={{height:60}}></View>
-        </View>
-
-      </ScrollView>
-
-
+            { isPortrait && <View style={{height:60}}></View> }
+          </View>
+        </ScrollView>
         {/*
           NEW MESSAGE FIELD (at the bottom of the screen).
           But only if it's portrait orientation and not solo adventure.
@@ -383,7 +411,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
             />
           </Flex>
         )}
-        </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
     </View>
   );
 }
