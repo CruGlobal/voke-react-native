@@ -14,7 +14,7 @@ const CustomIcon = createIconSetFromIcoMoon(
 
 type VokeIconProps = {
   name: string;
-  type: string;
+  type?: string;
   style: StyleProp<ImageStyle>;
   [x: string]: any; // ..rest
 }

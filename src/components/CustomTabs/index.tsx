@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TabView, SceneMap } from 'react-native-tab-view';
 import TabBarStyled from './TabBarStyled';
 import { useMount, lockToPortrait } from '../../utils';
@@ -17,10 +17,14 @@ type TabsProps = {
  * Custom Tabs
  * @param tabs array of objects {key, title, testID, component}
  */
-const CustomTabs = ({ tabs, initial }: TabsProps): React.ReactElement => {
-  const [index, setIndex] = React.useState(initial||0);
+const CustomTabs = ({ tabs, selectedIndex = 0 }: TabsProps): React.ReactElement => {
+  const [index, setIndex] = useState(selectedIndex);
   const [routes] = useState(tabs);
   const scenes: { [key: string]: React.ComponentType } = {};
+
+  useEffect(() => {
+    setIndex(selectedIndex);
+  }, [selectedIndex])
 
   useMount(() => {
     lockToPortrait();

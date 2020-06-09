@@ -218,7 +218,7 @@ function AdventureStepCard({
           st.br2,
         ]}
       >
-        <VokeIcon name="check" size={16} style={[]} />
+        <VokeIcon name="check" type="image" size={16} style={[]} />
       </Flex>
     ) : null}
     </Flex>

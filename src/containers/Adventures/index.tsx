@@ -15,32 +15,26 @@ const Adventures = (): React.ReactElement => {
     lockToPortrait();
   });
 
-  const getTabs = () => {
-    const tabs= [
-      {
-        key: 'my',
-        title: 'My Adventures',
-        testID: 'adventuresMy',
-        component: AdventuresMy,
-      },
-      {
-        key: 'find',
-        title: 'Find Adventures',
-        testID: 'adventuresFind',
-        component: AdventuresFind,
-      }
-    ];
-
-    return tabs;
-  }
-
   return (
     <CustomTabs
-      tabs={getTabs()}
+      tabs={[
+        {
+          key: 'my',
+          title: 'My Adventures',
+          testID: 'adventuresMy',
+          component: AdventuresMy,
+        },
+        {
+          key: 'find',
+          title: 'Find Adventures',
+          testID: 'adventuresFind',
+          component: AdventuresFind,
+        }
+      ]}
       // If there are any Adventures or Invites:
       // Show My Adventures tab first.
       // Otherwise redirect user to Find Adventures.
-      initial={ showMyAdventures ? 0 : 1}
+      selectedIndex={ showMyAdventures ? 0 : 1}
     />
   );
 };

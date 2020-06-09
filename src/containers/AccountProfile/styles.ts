@@ -30,10 +30,10 @@ const styles: { [key: string]: any } = {
 	ButtonSignUp: [
 		ui.button.size.outlinel,
 		ui.button.style.outline,
-		
 	],
 	ButtonSignUpLabel: [
-		ui.buttonText.size.m
+		ui.buttonText.size.m,
+		ui.buttonText.style.outline
 	],
 	ButtonAction: [
 		ui.button.size.m,

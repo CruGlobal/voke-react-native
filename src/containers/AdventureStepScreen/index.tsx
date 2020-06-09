@@ -239,24 +239,13 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
         >
           <View
             style={[
-              // st.w(st.fullWidth),
-              // st.bgBlue,
               { paddingBottom: isPortrait? insets.bottom : 0 },
               st.f1,
             ]}
             enableAutomaticScroll
-            // extraScrollHeight={-200}
             keyboardShouldPersistTaps ='always'
             // ☝️required to fix the bug with a need to double tap
             // on the send message icon.
-
-            /* innerRef={ref => {
-              console.log('Want to set scrollRef to ', ref);
-              if ( ! scrollRef?.current ) {
-                console.log('Setting scrollRef to ', ref);
-                scrollRef.current = ref;
-              }
-            }} */
           >
             {/* This View stays outside of the screen on top
             and covers blue area with solid black on pull. */}
