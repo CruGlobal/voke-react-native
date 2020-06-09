@@ -3,12 +3,12 @@ import YouTube from 'react-native-youtube';
 import RNVideo from 'react-native-video';
 import Slider from '@react-native-community/slider';
 
-import { View, useWindowDimensions, ImageBackground } from 'react-native';
+import { View, useWindowDimensions, ImageBackground, ActivityIndicator } from 'react-native';
 import Orientation from 'react-native-orientation-locker';
 import { useFocusEffect } from '@react-navigation/native';
 import st from '../../st';
 import BackButton from '../BackButton';
-import { useMount, youtube_parser } from '../../utils';
+import { useMount, youtube_parser, lockToPortrait } from '../../utils';
 import { useSafeArea } from 'react-native-safe-area-context';
 import {
   VIDEO_WIDTH,
@@ -39,14 +39,15 @@ function Video({
   onOrientationChange,
   onPlay = ()=>{},
   hideBack = false,
-  blockRotation = false,
   item,
   onCancel,
   hideInsets,
   autoPlay = false,
   fullscreen = false,
   fullscreenOrientation = 'all',
+  lockOrientation = false,
   children, // Used to create custom overlay/play button. Ex: "Watch Trailer".
+  containerStyles = {},
   ...rest
 }) {
   // Don't even bother if there is no info about video provided.
@@ -54,18 +55,26 @@ function Video({
     return <></>;
   }
   const insets = useSafeArea();
+  const topInset = insets.top;
   const youtubeVideo = useRef();
   const arclightVideo = useRef();
 
   // System lock (android only).
   const [rotationLock, setRotationLock] = useState(false);
-  const [dimensions, setDimensions] = useState({
-    width: VIDEO_WIDTH,
-    height: VIDEO_HEIGHT,
-  });
+  const [videoReady, setVideoReady] = useState(false);
   const [sliderValue, setSliderValue] = useState(0);
   const [isPlaying, setIsPlaying] = useState(autoPlay);
   const [screenOrientation, setScreenOrientation] = useState('portrait');
+  const window = useWindowDimensions();
+
+  const getDimensions = ()=> {
+    return {
+      width: window.width ,
+      height: item?.type === 'youtube' ?
+        window.width / 1.7 :
+        window.width / 1.8,
+    }
+  }
 
   function getLandscapeOrPortrait(orientation) {
     let newOrientation = screenOrientation;
@@ -86,22 +95,24 @@ function Video({
   }
 
   useMount(() => {
-    if (!blockRotation) {
-      Orientation.unlockAllOrientations();
-      var initial = Orientation.getInitialOrientation();
-      onOrientationChange(getLandscapeOrPortrait(initial));
-      // Check if the system autolock is enabled or not (android only).
-      // TODO: NOT WOKRING PROPERLY IN IOS.
-      /* Orientation.getAutoRotateState( systemRotationLock =>
-        setRotationLock(systemRotationLock),
-      ); */
-      Orientation.addOrientationListener(handleOrientationChange);
+    Orientation.unlockAllOrientations();
+    var initial = Orientation.getInitialOrientation();
+    onOrientationChange(getLandscapeOrPortrait(initial));
+    // Check if the system autolock is enabled or not (android only).
+    // TODO: NOT WOKRING PROPERLY IN IOS.
+    /* Orientation.getAutoRotateState( systemRotationLock =>
+      setRotationLock(systemRotationLock),
+    ); */
+    Orientation.addOrientationListener(handleOrientationChange);
+
+    if (lockOrientation) {
+      lockToPortrait();
     }
+
+
     return function cleanup() {
-      if (!blockRotation) {
         Orientation.removeOrientationListener(handleOrientationChange);
         Orientation.lockToPortrait();
-      }
     };
   });
 
@@ -120,16 +131,7 @@ function Video({
   );
 
   const handleOrientationChange = (orientation) => {
-    const newOrientation = getLandscapeOrPortrait(orientation);
-    if (newOrientation === 'landscape') {
-      setDimensions({
-        width: VIDEO_LANDSCAPE_WIDTH,
-        height: VIDEO_LANDSCAPE_HEIGHT,
-      });
-    } else {
-      setDimensions({ width: VIDEO_WIDTH, height: VIDEO_HEIGHT });
-    }
-    onOrientationChange(newOrientation);
+    onOrientationChange(getLandscapeOrPortrait(orientation));
   }
 
   function handleVideoStateChange(event) {
@@ -160,36 +162,43 @@ function Video({
   return (
     <View
       style={[
-        st.h(
-          /* dimensions.height === VIDEO_HEIGHT && !hideInsets
+       /*  st.h(
+         dimensions.height === VIDEO_HEIGHT && !hideInsets
             ? dimensions.height + insets.top
-            : dimensions.height, */
-          dimensions.height,
-        ),
+            : dimensions.height, 
+
+        ), */
         // st.w(dimensions.width), - NOT WORKING RIGHT
         st.bgDeepBlack,
         {
-          width: useWindowDimensions().width,
+          ...containerStyles,
+          overflow: "hidden",
+          width: window.width,
+          height: screenOrientation === 'portrait' ? getDimensions().height : window.height,
           // width: '100%',
-          // paddingTop: -insets.top,
+          // paddingTop: topInset,
+          // marginTop: item?.type === 'youtube' ? 0 : -20
           /* paddingTop:
             dimensions.height === VIDEO_HEIGHT && !hideInsets ? insets.top : 0, */
         },
       ]}
     >
-      { !isPlaying && sliderValue < 1 && <ImageBackground
+      { ( !videoReady ||
+          !isPlaying && ( sliderValue < 1 || sliderValue >= item.duration ) ||
+          isPlaying && sliderValue < .05
+        ) && <ImageBackground
         resizeMode="cover"
         source={{ uri: item.thumbnails.large }}
         style={[
           st.aic,
           st.jcc,
-          st.bgBlack,
+          st.bgDeepBlack,
           {
             position: 'absolute',
             top: 0,
+            bottom: 0,
             left: 0,
-            width:'100%',
-            height: '100%',
+            right: 0,
             zIndex:1,
           }
         ]}
@@ -201,14 +210,16 @@ function Video({
             videoId={youtube_parser(item.url)}
             play={isPlaying}
             // loop={true}
-            controls={2}
+            controls={0}
             onChangeState={e => handleVideoStateChange(e)}
             onError={e => setIsPlaying(false)}
             onProgress={e => setSliderValue(e.currentTime)}
+            onReady={ e => setVideoReady(true)}
             style={{
               // st.w(dimensions.width), NOT WORKING RIGHT
-              width: useWindowDimensions().width,
-              height: dimensions.height,
+              width: window.width,
+              height: getDimensions().height,
+              opacity: videoReady ? 1 : 0,
             }}
           />
         ) : (
@@ -218,23 +229,47 @@ function Video({
               uri: item.hls || item.url,
               type: !!item.hls ? 'm3u8' : undefined,
             }}
+            onLoad={ e => setVideoReady(true)}
             paused={!isPlaying}
             playInBackground={false}
             playWhenInactive={false}
             ignoreSilentSwitch="ignore"
-            onProgress={e => setSliderValue(e.currentTime)}
-            style={{
-              /* st.w(dimensions.width), NOT WORKING RIGHT */
-              width: useWindowDimensions().width,
-              height: dimensions.height,
+            onProgress={e => {
+              setSliderValue(e.currentTime)
             }}
+            onEnd={e => {
+              setIsPlaying(false)
+              setSliderValue(0)
+            }}
+            resizeMode="cover"
+            repeat={true}
+            style={{
+              position: 'absolute',
+              top: screenOrientation === 'portrait' ? window.width / -9 : 0,
+              bottom: screenOrientation === 'portrait' ? window.width / -9: 0,
+              // bottom: screenOrientation === 'portrait' ? getDimensions().width / -9 : 0,
+              left: 0,
+              right: 0,
+              // height: '100%',
+              // zIndex:1,
+
+              /* st.w(dimensions.width), NOT WORKING RIGHT */
+              // width: dimensions.width,
+              // height: dimensions.height,
+              // marginTop: dimensions.width / -12,//-34,
+              // marginBottom: useWindowDimensions().width / -12,
+            }}
+
+            // w425 / h175
             fullscreen={fullscreen}
             fullscreenOrientation={fullscreenOrientation}
           />
         )}
         <Flex
           direction="column"
-          style={[st.absblr, st.bgTransparent, st.w100, st.h100, {
+          style={[st.absblr, st.bgTransparent, st.w100, {
+            top: 0,
+            bottom: 0,
             zIndex:2,
           }]}
           self="stretch"
@@ -251,8 +286,12 @@ function Video({
               style={{
                 position: 'absolute',
                 width: '100%',
-                height: '100%',
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
                 justifyContent: 'center',
+                zIndex:10,
               }}
             >
               <View
@@ -264,7 +303,8 @@ function Video({
                     backgroundColor: 'rgba(0,0,0,0.4)',
                     position: 'absolute',
                     width: '100%',
-                    height: '100%',
+                    top: 0,
+                    bottom: 0,
                     justifyContent: 'center',
                   },
                 ]}
@@ -276,9 +316,19 @@ function Video({
             <>
               <Flex value={1} style={[]} justify="center" align="center">
                 <Touchable
-                  style={[st.f1, st.aic, st.jcc]}
+                  style={[st.f1, st.aic,{
+                    position: 'absolute',
+                    width: '100%',
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    justifyContent: 'center',
+                    zIndex:10,
+                  }]}
                   onPress={togglePlayState}
                 >
+                  { videoReady ?
                   <VokeIcon
                     name={isPlaying ? 'pause' : 'play-circle'}
                     size={50}
@@ -289,14 +339,20 @@ function Video({
                           : 'rgba(255,255,255,0.6)',
                       },
                     ]}
-                  />
+                  /> : <ActivityIndicator size="large" color='rgba(255,255,255,0.6)' /> }
                 </Touchable>
               </Flex>
               <Flex
                 direction="row"
                 justify="between"
                 align="center"
-                style={[st.ph5, { backgroundColor: 'rgba(255,255,255,0.2)' }]}
+                style={[
+                  st.ph5,
+                  {
+                    backgroundColor: item?.type === 'youtube' ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,0.4)',
+                    opacity: isPlaying ? 0 : 1,
+                    minHeight: 50,
+                }]}
               >
                 <Flex value={1}>
                   <Touchable onPress={togglePlayState}>

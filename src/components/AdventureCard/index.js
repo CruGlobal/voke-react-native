@@ -107,7 +107,7 @@ function AdventureCard({ adventureId }) {
           <Flex>
             <Image
               source={{ uri: thumbnail }}
-              style={[st.f1, st.w(THUMBNAIL_WIDTH), st.brbl6, st.brtl6]}
+              style={[st.f1, st.w(THUMBNAIL_WIDTH),st.ml6, st.mt6, st.mb6]}
             />
           </Flex>
           <Flex
@@ -117,6 +117,18 @@ function AdventureCard({ adventureId }) {
             justify="start"
             style={[styles.Content]}
           >
+             <Touchable
+                  isAndroidOpacity={true}
+                  onPress={() => alert("Delete pressed")
+                  }
+                  style={{position: "absolute",right:2, top:4}}
+                >
+              <VokeIcon
+                name="close-circle"
+                style={[ st.grey2 ]}
+                size={26}
+              />
+              </Touchable>
             <Text numberOfLines={2} style={styles.Participants}>
               {isSolo ? 'Your Adventure' : isGroup ? groupName + ' Adventure' : 'Adventure with ' + otherUser.first_name}
             </Text>
@@ -141,11 +153,7 @@ function AdventureCard({ adventureId }) {
                 size={20}
               />
               } */}
-              {/* <VokeIcon
-                name="speech-bubble"
-                style={[ st.darkGrey, {marginTop: 3} ]}
-                size={20}
-              /> */}
+              {/* */}
 
               {/* AVATARS */}
               {!isGroup ? (
@@ -171,7 +179,7 @@ function AdventureCard({ adventureId }) {
                       { marginLeft: 10 },
                     ]}
                   >
-                    {isSolo ? '1 person' : isGroup ? 'Group' : '2 people'}
+                    {isSolo ? 'You' : isGroup ? 'Group' : 'You and ' +otherUser.first_name}
                   </Text>
                 </Flex>
               ) : (
@@ -227,7 +235,7 @@ function AdventureCard({ adventureId }) {
                           { marginLeft: 10 },
                         ]}
                       >
-                        { 'Group of ' + (totalGroupUsers+1) }
+                        { (totalGroupUsers+1) + ' members' }
                       </Text>
                     }
                   </Flex>
@@ -268,7 +276,10 @@ function AdventureCard({ adventureId }) {
                 <Text numberOfLines={1} style={[st.charcoal, st.fs5]}>
                   {completed}/{available} {'completed'}
                 </Text>
-                {inviteCode ? <Text style={styles.InviteCode}>{inviteCode}</Text>:<></>}
+                {isSolo ? <Text style={styles.SoloTag}>Solo</Text> : isGroup ? <Text style={styles.GroupTag}>Group</Text> : <Text style={styles.DuoTag}>Duo</Text>}
+
+                {/* {inviteCode ? <Text style={styles.InviteCode}>{inviteCode}</Text>:<></>} */}
+                {/* {inviteCode ? <Text style={styles.InviteCode}>{inviteCode}</Text>:<></>} */}
               </Flex>
             </Flex>
           </Flex>

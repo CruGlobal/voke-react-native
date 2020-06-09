@@ -37,6 +37,7 @@ const styles: { [key: string]: any } = {
     margin-left: 50px;
     margin-top: -10px;
     transform: rotate(-90deg);
+    z-index:-1
   `,
   BotMessage_reverse: css`
   width: 80%;

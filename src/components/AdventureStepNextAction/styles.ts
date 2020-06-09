@@ -14,6 +14,7 @@ const styles: { [key: string]: any } = {
     ui.button.size.l,
     ui.button.style.solid,
     css`
+      background-color: transparent
     `,
   ],
   ButtonActive: [

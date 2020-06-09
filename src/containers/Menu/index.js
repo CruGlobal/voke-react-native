@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
-import { ScrollView, Share, Linking } from 'react-native';
+import { ScrollView, Share, Linking, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import Flex from '../../components/Flex';
@@ -39,6 +39,19 @@ function Menu(props) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const email = useSelector(({ auth }: any) => auth?.user?.email);
+
+  const signOut = () => {
+    dispatch(logoutAction()).then(() => {
+      // Navigate back to the very first screen.
+      // 🤦🏻‍♂️Give React 10ms to render WelcomeApp component.
+      setTimeout(() => {
+        navigation.reset({
+          index: 1,
+          routes: [{ name: 'Welcome' }],
+        });
+      }, 10);
+    });
+  }
 
   return (
     <Flex value={1} style={[st.bgWhite, { paddingBottom: insets.bottom }]}>
@@ -121,16 +134,26 @@ function Menu(props) {
         <SettingsRow
           title="Sign Out"
           onSelect={() => {
-            dispatch(logoutAction()).then(() => {
-              // Navigate back to the very first screen.
-              // 🤦🏻‍♂️Give React 10ms to render WelcomeApp component.
-              setTimeout(() => {
-                navigation.reset({
-                  index: 1,
-                  routes: [{ name: 'Welcome' }],
-                });
-              }, 10);
-            });
+            !email && Alert.alert(
+              'Are you sure?',
+              'You are about to remove your guest account - which will delete all conversations, progress and user data.',
+              [
+                {
+                  text: 'Confirm',
+                  onPress: () => {
+                    return signOut()
+                  },
+                },
+                {
+                  text: 'Cancel',
+                  onPress: () => {
+                    return
+                  },
+                  style: "cancel"
+                }
+              ]
+            );
+            email && signOut();
           }}
         />
         {/* SECTION: OUR PARTNERS */}

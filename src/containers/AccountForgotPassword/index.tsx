@@ -109,7 +109,7 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
           justify="start"
           style={styles.SectionAction}
         >
-          {/* BUTTON: SIGN IN */}
+          {/* BUTTON: RESET PASSWORD */}
           <Button
             isAndroidOpacity
             style={styles.ButtonStart}

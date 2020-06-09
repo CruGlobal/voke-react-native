@@ -6,10 +6,10 @@ import ui from '../../ui';
 const styles: { [key: string]: any } = {
 	...theme,
 	SectionOnboarding: css`
-		background-color: ${theme.colors.secondary};
+		background-color: ${theme.colors.primary};
 	`,
 	SectionAction: css`
-		background-color: ${theme.colors.secondary};
+		background-color: ${theme.colors.primary};
 		padding-left:${theme.spacing.xl + 'px'};
 		padding-right:${theme.spacing.xl + 'px'};
 		padding-bottom:${theme.spacing.m + 'px'};
@@ -28,12 +28,12 @@ const styles: { [key: string]: any } = {
 		ui.buttonText.size.l
 	],
 	ButtonSignUp: [
-		ui.button.size.l,
+		ui.button.size.outlinel,
 		ui.button.style.outline,
-		
 	],
 	ButtonSignUpLabel: [
-		ui.buttonText.size.m
+		ui.buttonText.size.m,
+		ui.buttonText.style.outline
 	],
 	ButtonAction: [
 		ui.button.size.m,
@@ -57,7 +57,7 @@ const styles: { [key: string]: any } = {
 		color: ${theme.colors.white};
 	`,
 	SectionSignIn: css`
-		background-color: ${theme.colors.secondary};
+		background-color: ${theme.colors.primary};
 		padding-top:${theme.spacing.m + 'px'};
 		padding-bottom:${theme.spacing.xl + 'px'};
 	`,
