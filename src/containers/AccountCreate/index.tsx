@@ -156,7 +156,7 @@ const AccountCreate: React.FC = (): React.ReactElement => {
           justify="start"
           style={styles.SectionAction}
         >
-          {/* BUTTON: SIGN IN */}
+          {/* BUTTON: SIGN UP */}
           <Button
             isAndroidOpacity
             style={[st.pd4, st.br1, st.w(st.fullWidth - 70),{backgroundColor: theme.colors.white, textAlign:"center", marginTop:20 }]}

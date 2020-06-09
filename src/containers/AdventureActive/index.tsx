@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
-import { ScrollView, FlatList } from 'react-native';
+// import { StatusBar as RNStatusBar, StatusBarProps } from 'react-native';
+import { View, ScrollView, FlatList, StatusBar, Platform } from 'react-native';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { getMyAdventure, getMyAdventures, getAdventureSteps } from '../../actions/requests';
 import { setCurrentScreen } from '../../actions/info';
+
 import { useFocusEffect } from '@react-navigation/native';
 import AdventureStepCard from '../../components/AdventureStepCard';
 import Flex from '../../components/Flex';
@@ -74,20 +76,33 @@ console.log(adventure)
 
   return (
     <Flex value={1}>
-      <ScrollView bounces style={[st.bgBlue, { paddingBottom: insets.bottom, paddingTop: insets.top }]}>
-        <Flex value={1} direction="row" align="center" justify="center" style={{padding:5}}>
+      <View style={{
+        // flex:1,
+        height: insets.top,
+        backgroundColor: isPortrait && insets.top > 0 ? '#000' : 'transparent',
+      }}>
+        <StatusBar
+          animated={true}
+          barStyle="light-content"
+          translucent={ isPortrait && insets.top > 0 ? false : true } // Android. The app will draw under the status bar.
+          backgroundColor="transparent" // Android. The background color of the status bar.
+        />
+      </View>
+      <ScrollView
+        scrollEnabled={isPortrait? true: false}
+        bounces
+        style={[
+        isPortrait ? st.bgBlue: st.bgDeepBlack,
+        { paddingBottom: isPortrait ? insets.bottom : 0 }]}>
+        {/* <Flex value={1} direction="row" align="center" justify="center" style={{padding:5}}>
           <Text style={[st.fs18,{ color:'white'}]}> 
             {isGroup? adventure.journey_invite.name : adventure.name}
           </Text>
-        </Flex>
+        </Flex> */}
         {Object.keys(adventure).length > 0 && (
           <Video
             onOrientationChange={(orientation: string): void => {
-              if (orientation === 'portrait') {
-                setIsPortrait(true);
-              } else {
-                setIsPortrait(false);
-              }
+              setIsPortrait( orientation === 'portrait' ? true : false);
             }}
             item={adventure?.item?.content}
           >
