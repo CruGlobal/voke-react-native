@@ -84,7 +84,7 @@ const AccountName = ( props ): React.ReactElement => {
         'We need at least your first name so your friends know who you are',
       );
     }
-    if (firstName === initialFirstName && lastName === initialLastName) {
+    if (firstName === initialFirstName && lastName === initialLastName && isLoggedIn) {
       // Nothing changed
       return nextScreen();
     }
@@ -143,8 +143,7 @@ const AccountName = ( props ): React.ReactElement => {
               justify="between"
               style={[st.h(180)]}
             >
-            <BotTalking heading="I’d love to get to know you!">Glad you’re here! I’m Vokebot and I talk to you here in Voke.
-</BotTalking>
+              <BotTalking heading="Hello!">I’m Vokebot, I'm glad you're here.</BotTalking>
             </Flex>
           </Transitioning.View>
 

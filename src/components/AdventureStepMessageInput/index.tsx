@@ -69,16 +69,8 @@ const AdventureStepMessageInput = ({
       }]}>
       <Select
         options={formattedAnswers}
-        onFocus={() => {
-          // if (this.props.hasClickedPlay) {
-          //   return;
-          // } else {
-          //   this.props.dispatch(
-          //     toastAction(
-          //       'Please watch the video first before you answer. Thanks!',
-          //     ),
-          //   );
-          // }
+        onFocus={event => {
+              onFocus(event);
         }}
         // placeholder="Choose Your Answer..."
         selectedValue={value}
@@ -230,15 +222,6 @@ const AdventureStepMessageInput = ({
             autoCapitalize="sentences"
             onFocus={event => {
               onFocus(event);
-              // if (this.props.hasClickedPlay) {
-              //   return;
-              // } else {
-              //   this.props.dispatch(
-              //     toastAction(
-              //       'Please watch the video first before you answer. Thanks!',
-              //     ),
-              //   );
-              // }
             }}
             multiline={true}
             placeholder={'Enter your answer'}

@@ -5,7 +5,7 @@ import Text from '../../components/Text';
 import st from '../../st';
 import Button from '../../components/Button';
 import Triangle from '../../components/Triangle';
-import { ScrollView } from 'react-native';
+import { View, ScrollView, StatusBar } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Video from '../../components/Video';
 import { useNavigation } from '@react-navigation/native';
@@ -70,13 +70,21 @@ function AdventureAvailable(props) {
 
   return (
     <Flex value={1} style={[st.bgWhite]}>
+      <View style={{
+        // flex:1,
+        height: insets.top,
+        backgroundColor: isPortrait && insets.top > 0 ? '#000' : 'transparent',
+      }}>
+        <StatusBar
+          animated={true}
+          barStyle="light-content"
+          translucent={ isPortrait && insets.top > 0 ? false : true } // Android. The app will draw under the status bar.
+          backgroundColor="transparent" // Android. The background color of the status bar.
+        />
+      </View>
       <Video
         onOrientationChange={(orientation: string): void => {
-          if (orientation === 'portrait') {
-            setIsPortrait(true);
-          } else {
-            setIsPortrait(false);
-          }
+          setIsPortrait( orientation === 'portrait' ? true : false);
         }}
         item={item?.item?.content}
       >

@@ -103,8 +103,11 @@ const AdventuresMy = ({ route }: AdventuresMyProps): React.ReactElement => {
           </BotTalking>
         )}
       /> */}
+         
       <ScrollView style={styles.AdventuresList}>
-        <AdventuresActions />
+        <View style={styles.AdventureActions}>
+      <AdventuresActions/>
+      </View>
         { invitationsIds.length > 0 &&
           <>
             <Text style={styles.Heading}>Invitations</Text>

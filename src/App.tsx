@@ -312,7 +312,7 @@ const App = () => {
   // Hide splash screen on load.
   useMount(() => SplashScreen.hide());
 
-  React.useEffect(() => {
+  useEffect(() => {
     const state = navigationRef.current.getRootState();
     // Save the initial route name
     routeNameRef.current = getActiveRouteName(state);

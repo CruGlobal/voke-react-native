@@ -23,12 +23,12 @@ const ui: { [key: string]: any } = {
       `,
     },
     style: {
-      fillPrimary: css`
+      primary: css`
         background-color: ${theme.colors.primary};
       `,
-      fillWhite: css`
-      background-color: ${theme.colors.white};
-    `,
+      solid: css`
+        background-color: ${theme.colors.white};
+      `,
       outline: css`
         border: solid 1px ${theme.colors.white};
       `,
@@ -37,31 +37,42 @@ const ui: { [key: string]: any } = {
   buttonText: {
     size: {
       m: css`
-        color: ${theme.colors.white};
+        /* color: ${theme.colors.secondary}; */
         font-size: ${theme.fontSizes.l + 'px'};
         font-family: ${theme.fonts.regular};
         text-align:center;
       `,
       l: css`
-        color: ${theme.colors.white};
+        /* color: ${theme.colors.secondary}; */
         font-size: ${theme.fontSizes.xl + 'px'};
         line-height: ${theme.fontSizes.xl * 1.35 + 'px'};
         font-family: ${theme.fonts.regular};
         text-align:center;
       `,
       wl: css`
-        color: ${theme.colors.secondary};
+        /* color: ${theme.colors.secondary}; */
         font-size: ${theme.fontSizes.xl + 'px'};
         line-height: ${theme.fontSizes.xl * 1.35 + 'px'};
         font-family: ${theme.fonts.regular};
         text-align:center;
       `,
-      wm: css`
-      color: ${theme.colors.lightGrey};
-      font-size: ${theme.fontSizes.l + 'px'};
-      font-family: ${theme.fonts.semiBold};
-      text-align:center;
-    `,
+        wm: css`
+        /* color: ${theme.colors.lightGrey}; */
+        font-size: ${theme.fontSizes.l + 'px'};
+        font-family: ${theme.fonts.semiBold};
+        text-align:center;
+      `,
+    },
+    style: {
+      primary: css`
+        color: ${theme.colors.white};
+      `,
+      solid: css`
+        color: ${theme.colors.secondary};
+      `,
+      outline: css`
+        color: ${theme.colors.white};
+      `,
     },
   },
   container: {

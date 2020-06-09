@@ -28,7 +28,7 @@ const AdventuresFind = (): React.ReactElement => {
 
   return (
     <ScrollView style={[st.f1, st.bgBlue]}>
-      <AdventuresActions />
+      <AdventuresActions style={[st.mr3]}/>
       <FlatList
         renderItem={(props): React.ReactElement => (
           <AvailableAdventureItem {...props} />
