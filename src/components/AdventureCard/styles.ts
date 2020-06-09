@@ -8,7 +8,7 @@ const styles: { [key: string]: any } = {
     padding-bottom: ${`${theme.spacing.m}px`};
   `,
   Card: css`
-    border-radius:  ${`${theme.radius.m}px`};
+    border-radius:  ${`${theme.radius.s}px`};
     background-color: ${theme.colors.white};
   `,
   Content: css`
@@ -23,8 +23,8 @@ const styles: { [key: string]: any } = {
     padding-bottom: ${`${theme.spacing.s}px`};
     /* background-color: red; */
 
-    color: ${theme.colors.black};
-    font-size: ${`${theme.fontSizes.xl}px`};
+    color: ${theme.colors.darkGrey};
+    font-size: ${`${theme.fontSizes.l}px`};
     font-family: ${theme.fonts.regular};
     line-height: ${theme.fontSizes.xl * 1.25 + 'px'};
     /* font-weight: 400; */
@@ -34,12 +34,30 @@ const styles: { [key: string]: any } = {
    color: ${theme.colors.secondary};
    font-size: ${`${theme.fontSizes.m}px`};
   `,
-  InviteCode: css`
-    opacity: .5;
-    color: ${theme.colors.black};
+  SoloTag: css`
+    color: ${theme.colors.white};
     font-size: ${`${theme.fontSizes.s}px`};
-    padding-right: ${`${theme.spacing.s}px`};
+    padding: ${`${theme.spacing.xxs}px ${theme.spacing.s}px`};
+    background-color:${theme.colors.primary};
+    margin-bottom: -5%;
+    margin-right:10px;
   `,
+  DuoTag: css`
+    color: ${theme.colors.white};
+    font-size: ${`${theme.fontSizes.s}px`};
+    padding: ${`${theme.spacing.xxs}px ${theme.spacing.s}px`};
+    background-color:${theme.colors.secondary};
+    margin-bottom: -5%;
+    margin-right:10px;
+  `,
+  GroupTag: css`
+  color: ${theme.colors.white};
+  font-size: ${`${theme.fontSizes.s}px`};
+  padding: ${`${theme.spacing.xxs}px ${theme.spacing.s}px`};
+  background-color: #EC5569 ;
+  margin-bottom: -5%;
+  margin-right:10px;
+`,
   Progress: css`
     padding-top: ${`${theme.spacing.m}px`};
   `,

@@ -39,12 +39,15 @@ const styles: { [key: string]: any } = {
       margin-bottom: ${`${theme.spacing.l}px`};
     `,
   ],
+  ButtonStartLabel: [
+    ui.buttonText.size.l,
+    ui.buttonText.style.solid,
+  ],
   Link: css`
     text-align: center;
     text-decoration-line: underline;
     color: ${theme.colors.white};
   `,
-  ButtonStartLabel: [ui.buttonText.size.l],
   SectionNotice: css`
     padding-left: ${`${theme.spacing.xl}px`};
     padding-right: ${`${theme.spacing.xl}px`};
@@ -76,7 +79,10 @@ const styles: { [key: string]: any } = {
       margin-right: ${`${theme.spacing.l}px`};
     `,
   ],
-  ButtonFBSignInLabel: [ui.buttonText.size.m],
+  ButtonFBSignInLabel: [
+    ui.buttonText.size.m,
+    ui.buttonText.style.outline
+  ],
 };
 
 export default styles;

@@ -10,7 +10,7 @@ const styles: { [key: string]: any } = {
   `,
   ButtonPrimary: [
     ui.button.size.l,
-    ui.button.style.fillPrimary,
+    ui.button.style.primary,
     css`
       margin-top: ${`${theme.spacing.m}px`};
       margin-left: ${`${theme.spacing.l}px`};
@@ -20,7 +20,7 @@ const styles: { [key: string]: any } = {
   ],
   ButtonWhite: [
     ui.button.size.l,
-    ui.button.style.fillWhite,
+    ui.button.style.solid,
     css`
       margin-top: ${`${theme.spacing.m}px`};
       margin-left: ${`${theme.spacing.l}px`};
@@ -39,7 +39,10 @@ const styles: { [key: string]: any } = {
   padding-right:${`${theme.spacing.m}px`};
 `],
   ButtonSignIn: [ui.button.size.m, ui.button.style.outline],
-  ButtonSignInLabel: [ui.buttonText.size.m],
+  ButtonSignInLabel: [
+    ui.buttonText.size.m,
+    ui.buttonText.style.outline
+  ],
   SignInText: css`
     color: ${theme.colors.white};
     font-size: ${`${theme.fontSizes.l}px`};

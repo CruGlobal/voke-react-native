@@ -173,10 +173,10 @@ function AccountPhoto(props) {
             touchableStyle={[st.pd4, st.br1, st.w(st.fullWidth - 70),{backgroundColor: theme.colors.white, textAlign:"center", marginTop: 20 }]}
             isLoading={loginLoading}
           >
-            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>Next</Text>
+            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>{ avatarSource ? 'Next' : 'Skip' }</Text>
+          </Button>
             {/* Safety spacing. */}
             <Flex style={{ height: insets.bottom }} />
-          </Button>
           </Flex>
         </Flex>
     </Flex>

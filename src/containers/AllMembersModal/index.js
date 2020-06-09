@@ -32,7 +32,7 @@ function AllMembersModal(props) {
 
   const smallCircle = st.fullWidth / 2 - 90;
   const smallBox = st.fullWidth / 2 - 50;
-
+ console.log(adventure.journey_invite)
   return (
     <>
       <StatusBar />
@@ -53,7 +53,7 @@ function AllMembersModal(props) {
             </Touchable>
           </Flex>
           <Flex value={3}>
-            <Text style={[st.white, st.fs18, st.tac]}>{adventure.name}!</Text>
+            <Text style={[st.white, st.fs18, st.tac]}>{ adventure.journey_invite.name || adventure.name || ''}</Text>
           </Flex>
           <Flex value={1} />
         </Flex>
