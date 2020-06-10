@@ -4,7 +4,6 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
-import VokeIcon from '../../components/VokeIcon';
 import lodash from 'lodash';
 
 
@@ -28,7 +27,7 @@ function AdventuresActions() {
       <Touchable
         style={[
           st.p4,
-          st.mt6,
+          st.mt6
         ]}
         onPress={() => navigation.navigate('AdventureCode')}
       >

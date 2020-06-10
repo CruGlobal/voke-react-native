@@ -862,8 +862,6 @@ const markMessageAsReadDebounced = debounce(
         }
       };
 
-      console.log( "🐸 CREATE_INTERACTION_READ:", conversationId, messageId, data );
-
       // SEND INTERACTION DATA TO THE SERVER.
       const result = await dispatch(
         request({

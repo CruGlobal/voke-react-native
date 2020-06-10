@@ -9,7 +9,7 @@ import { ScrollView, FlatList, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import Video from '../../components/Video';
 import { useNavigation } from '@react-navigation/native';
-import { useMount } from '../../utils';
+import { useMount, lockToPortrait } from '../../utils';
 import NotificationItem from '../../components/NotificationItem';
 import { getNotifications, markReadNotification } from '../../actions/requests';
 
@@ -41,6 +41,7 @@ function Notifications(props) {
 
   useMount(() => {
     dispatch(getNotifications());
+    lockToPortrait();
   });
 
   async function loadMore(resetToPageOne = false) {
@@ -94,15 +95,10 @@ function Notifications(props) {
           // hideInsets={true}
           onCancel={() => setVideoToShow(null)}
           onOrientationChange={(orientation: string): void => {
-            if (orientation === 'portrait') {
-              setIsPortrait(true);
-            } else {
-              setIsPortrait(false);
-            }
+            // setIsPortrait( orientation === 'portrait' ? true : false);
           }}
           item={videoToShow.item.media}
-          fullscreen={true}
-          fullscreenOrientation={'landscape'}
+          lockOrientation={true}
           autoPlay = {true}
         />
       ) }
