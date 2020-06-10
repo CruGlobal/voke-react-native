@@ -34,6 +34,23 @@ const BotTalking = ({reference, children, type, heading}: IBotTalking): React.Re
   <Image width={110} style={styles.BotImage_reverse} source={vokeImages.VokeBot_Ukelele} />
 </Flex>
 :
+type=== "overlay" ?
+<Flex style={styles.BotContainer}>
+<Flex style={styles.BotMessage_overlay}>
+{ heading ?<Text style={styles.BotHeading_overlay}>{heading}</Text>:null}
+  <Text style={styles.BotText_reverse}>{children}</Text>
+</Flex>
+<Triangle
+  width={20}
+  height={20}
+  flip
+  slant="down"
+  color={styles.colors.white}
+  style={styles.BotMessageTail}
+/>
+<Image width={150} style={styles.BotImage_overlay} source={vokeImages.vokebot} />
+</Flex>
+:
 <Flex style={styles.BotContainer}>
   <Flex style={styles.BotMessage}>
     { heading ?<Text style={styles.BotHeading}>{heading}</Text>:null}

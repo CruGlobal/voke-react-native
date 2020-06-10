@@ -5,7 +5,7 @@ import ui from '../../ui';
 const styles: { [key: string]: any } = {
   ...ui,
   Wrapper: css`
-    padding-bottom: ${`${theme.spacing.m}px`};
+    padding-bottom: ${`${theme.spacing.s}px`};
   `,
   Card: css`
     border-radius:  ${`${theme.radius.s}px`};
