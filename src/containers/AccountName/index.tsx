@@ -183,7 +183,11 @@ const AccountName = ( props ): React.ReactElement => {
           <Flex value={1} align="center">
           <Button
             onPress={handleContinue}
-            touchableStyle={[st.pd4, st.br1, st.w(st.fullWidth - 70),{backgroundColor: theme.colors.white, textAlign:"center", marginTop: isKeyboardVisible ? 70 : 20 ,}]}
+            touchableStyle={[st.pd4, st.br1, st.w(st.fullWidth - 70),{backgroundColor: theme.colors.white, textAlign:"center", marginTop: isKeyboardVisible ? 70 : 20 , shadowColor: 'rgba(0, 0, 0, 0.5)',
+            shadowOpacity: 0.5,
+            elevation: 4,
+            shadowRadius: 5 ,
+            shadowOffset : { width: 1, height: 8}}]}
             isLoading={isLoading}
           >
             <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>Next</Text>

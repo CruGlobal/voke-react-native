@@ -125,7 +125,11 @@ function AdventureShareCode(props) {
                 st.br1,
                 st.white,
                 st.mt1,
-                st.w(st.fullWidth - 70),{backgroundColor: theme.colors.white, textAlign:"center"}
+                st.w(st.fullWidth - 70),{backgroundColor: theme.colors.white, textAlign:"center",shadowColor: 'rgba(0, 0, 0, 0.5)',
+                shadowOpacity: 0.5,
+                elevation: 4,
+                shadowRadius: 5 ,
+                shadowOffset : { width: 1, height: 8}}
               ]}
               onPress={handleShare}
             >

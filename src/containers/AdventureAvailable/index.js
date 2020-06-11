@@ -1,306 +1,21 @@
 import React, { useState } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
-import Modal from 'react-native-modal'
+import { useSelector } from 'react-redux';
+import { RootState } from '../../reducers';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import st from '../../st';
 import Button from '../../components/Button';
-import Triangle from '../../components/Triangle';
 import { View, ScrollView, StatusBar } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Video from '../../components/Video';
 import { useNavigation } from '@react-navigation/native';
 import VokeIcon from '../../components/VokeIcon';
-import { RotationGestureHandler } from 'react-native-gesture-handler';
 import theme from '../../theme';
 import { startAdventure } from '../../actions/requests';
-import BotTalking from '../../components/BotTalking'
-import Image from 'react-native-scalable-image';
+import TipsModal from '../../components/TipsModal';
+import { REDUX_ACTIONS } from '../../constants';
 
-import ChatExample from '../../assets/ChatExample.png';
-import VideoExample from '../../assets/VideoExample.png';
-import InviteCodeExample from '../../assets/InviteCodeExample.png';
-import GroupWelcomeExample from '../../assets/GroupWelcomeExample.png';
-
-function GroupOnboardingModal(props){
-return(
-<Modal backdropOpacity={0.9} isVisible={props.isVisible} style={{margin:0}}>
-      <ScrollView   bounces={false}
-          style={ { paddingBottom: props.insets.bottom, paddingTop: props.insets.Top }}>
-    <Flex
-      style={{ justifyContent: 'space-between', width: '100%' }}
-      direction="column"
-      align="center"
-    >
-    <BotTalking type="overlay" heading="Welcome to Groups!"> 
-    Learn more about how they work below, or get started right away.</BotTalking>
-<Flex value={1} style={{marginTop:-55}}>
-<Button
-    isAndroidOpacity={true}
-    style={[
-      st.pd4,
-      st.bgBlue,
-      st.mb4,
-      st.br6,
-      st.w(st.fullWidth - 120),
-    ]}
-    onPress={() => props.onPressStart()}
-  >
-    <Flex direction="row" align="center" justify="center">
-
-  <Text style={[st.white, st.fs20]}>Get Started</Text>
-    </Flex>
-  </Button>
-  <Button
-    isAndroidOpacity={true}
-    style={[
-      st.pd4,
-      st.mb3,
-      st.br6,
-      st.w(st.fullWidth - 120),
-      st.bw1,
-      {borderColor: "white"}
-    ]}
-    onPress={() => props.onPressCancel()}
-  >
-    <Flex direction="row" align="center" justify="center">
-
-  <Text style={[st.white, st.fs20]}>Cancel</Text>
-    </Flex>
-  </Button>
-  </Flex>
-  <Flex align="center" justify="center">
-  <Text style={{
-              fontSize: 24,
-              paddingHorizontal: 25,
-              paddingVertical: 8,
-              color: 'white',
-              marginTop:10
-            }}>How Groups Work</Text>
-  <Flex direction="row" align="center" justify="center" style={{marginVertical:10, marginHorizontal:20}}>
-              <Image width={130} source={VideoExample}/>
-            <Text style={{
-              fontSize: 18,
-              paddingHorizontal: 25,
-              paddingVertical: 4,
-              color: 'white',
-              width:"60%"
-            }}>Watch each episode, answer the question, and unlock your friends’ answers.</Text>
-            </Flex>
-            <Flex direction="row" align="center" justify="center" style={{marginTop:20}}>
-            <Text style={{
-              fontSize: 18,
-              paddingHorizontal: 25,
-              paddingVertical: 4,
-              color: 'white',
-              width:"60%"
-            }}>Then chat with your friend about the video and their answers.</Text>
-            <Image width={130} source={ChatExample}/>
-            </Flex>
-            <Flex direction="row" align="center" justify="center" style={{marginTop:20}}>
-            <Image width={130} source={GroupWelcomeExample}/>
-
-              <Text style={{
-                fontSize: 18,
-                paddingHorizontal: 25,
-                paddingVertical: 4,
-                color: 'white',
-                width:"60%"
-              }}>You can have up to 20 members in your Voke Group.</Text>
-              </Flex>
-            <Flex direction="row" align="center" justify="center" style={{marginTop:20}}>
-              <Text style={{
-                fontSize: 18,
-                paddingHorizontal: 25,
-                paddingVertical: 4,
-                color: 'white',
-                width:"60%"
-              }}>Share the Link / Adventure Code to the friend you want to join.</Text>
-              <Image width={130} source={InviteCodeExample}/>
-
-              </Flex>
-              <Text style={{
-              fontSize: 20,
-              paddingHorizontal: 25,
-              paddingVertical: 25,
-              color: 'white',
-              textAlign:"center"
-            }}>Hit ‘Get Started’ if you’re ready to start with a friend.</Text>    
-            <Flex>
-<Button
-    isAndroidOpacity={true}
-    style={[
-      st.pd4,
-      st.bgBlue,
-      st.mb4,
-      st.br6,
-      st.w(st.fullWidth - 120),
-    ]}
-    onPress={() => props.onPressStart()}
-  >
-    <Flex direction="row" align="center" justify="center">
-
-  <Text style={[st.white, st.fs20]}>Get Started</Text>
-    </Flex>
-  </Button>
-  <Button
-    isAndroidOpacity={true}
-    style={[
-      st.pd4,
-      st.mb1,
-      st.br6,
-      st.w(st.fullWidth - 120),
-      st.bw1,
-      {borderColor: "white"}
-    ]}
-    onPress={() => props.onPressCancel()}
-  >
-    <Flex direction="row" align="center" justify="center">
-
-  <Text style={[st.white, st.fs20]}>Cancel</Text>
-    </Flex>
-  </Button>
-  </Flex>  
-  </Flex>
-      </Flex>
-      </ScrollView>
-      </Modal>
-)
-}
-function DuoOnboardingModal(props){
-  return(
-    <Modal backdropOpacity={0.9} isVisible={props.isVisible} style={{margin:0}}>
-      <ScrollView   bounces={false}
-          style={ { paddingBottom: props.insets.bottom, paddingTop: props.insets.Top }}>
-    <Flex
-      style={{ justifyContent: 'space-between', width: '100%' }}
-      direction="column"
-      align="center"
-    >
-    <BotTalking type="overlay" heading="Welcome to Duo Adventures!"> 
-    Learn more about it works, or get started right away.</BotTalking>
-<Flex value={1} style={{marginTop:-55}}>
-<Button
-    isAndroidOpacity={true}
-    style={[
-      st.pd4,
-      st.bgBlue,
-      st.mb4,
-      st.br6,
-      st.w(st.fullWidth - 120),
-    ]}
-    onPress={() => props.onPressStart()}
-  >
-    <Flex direction="row" align="center" justify="center">
-
-  <Text style={[st.white, st.fs20]}>Get Started</Text>
-    </Flex>
-  </Button>
-  <Button
-    isAndroidOpacity={true}
-    style={[
-      st.pd4,
-      st.mb3,
-      st.br6,
-      st.w(st.fullWidth - 120),
-      st.bw1,
-      {borderColor: "white"}
-    ]}
-    onPress={() => props.onPressCancel()}
-  >
-    <Flex direction="row" align="center" justify="center">
-
-  <Text style={[st.white, st.fs20]}>Cancel</Text>
-    </Flex>
-  </Button>
-  </Flex>
-  <Flex align="center" justify="center">
-  <Text style={{
-              fontSize: 24,
-              paddingHorizontal: 25,
-              paddingVertical: 8,
-              color: 'white',
-              marginTop:10
-            }}>How Duo Adventures Work</Text>
-  <Flex direction="row" align="center" justify="center" style={{marginVertical:10, marginHorizontal:20}}>
-              <Image width={130} source={VideoExample}/>
-            <Text style={{
-              fontSize: 18,
-              paddingHorizontal: 25,
-              paddingVertical: 4,
-              color: 'white',
-              width:"60%"
-            }}>Watch each episode, answer the question, and unlock your friend's answers.</Text>
-            </Flex>
-            <Flex direction="row" align="center" justify="center" style={{marginTop:20}}>
-            <Text style={{
-              fontSize: 18,
-              paddingHorizontal: 25,
-              paddingVertical: 4,
-              color: 'white',
-              width:"60%"
-            }}>Then chat with your friend about the video and their answers.</Text>
-            <Image width={130} source={ChatExample}/>
-            </Flex>
-            <Flex direction="row" align="center" justify="center" style={{marginTop:20}}>
-            <Image width={130} source={InviteCodeExample}/>
-
-              <Text style={{
-                fontSize: 18,
-                paddingHorizontal: 25,
-                paddingVertical: 4,
-                color: 'white',
-                width:"60%"
-              }}>Share the Link / Adventure Code to the friend you want to join.</Text>
-              </Flex>
-              <Text style={{
-              fontSize: 20,
-              paddingHorizontal: 25,
-              paddingVertical: 25,
-              color: 'white',
-              textAlign:"center"
-            }}>Hit ‘Get Started’ if you’re ready to start with a friend.</Text>    
-            <Flex>
-<Button
-    isAndroidOpacity={true}
-    style={[
-      st.pd4,
-      st.bgBlue,
-      st.mb4,
-      st.br6,
-      st.w(st.fullWidth - 120),
-    ]}
-    onPress={() => props.onPressStart()}
-  >
-    <Flex direction="row" align="center" justify="center">
-
-  <Text style={[st.white, st.fs20]}>Get Started</Text>
-    </Flex>
-  </Button>
-  <Button
-    isAndroidOpacity={true}
-    style={[
-      st.pd4,
-      st.mb1,
-      st.br6,
-      st.w(st.fullWidth - 120),
-      st.bw1,
-      {borderColor: "white"}
-    ]}
-    onPress={() => props.onPressCancel()}
-  >
-    <Flex direction="row" align="center" justify="center">
-
-  <Text style={[st.white, st.fs20]}>Cancel</Text>
-    </Flex>
-  </Button>
-  </Flex>  
-  </Flex>
-      </Flex>
-      </ScrollView>
-      </Modal>
-  )
-}
 
 function ActionButton(props){
   return(
@@ -334,9 +49,20 @@ function AdventureAvailable(props) {
   const [isPortrait, setIsPortrait] = useState(true);
   const { item, alreadyStartedByMe } = props.route.params;
   const [isLoading, setIsLoading] = useState(false);
-  const [showGroupTips, setShowGroupTips] = useState(false);
-  const [showDuoTips, setShowDuoTips] = useState(false);
   const [soloStarted, setSoloStarted] = useState(alreadyStartedByMe);
+const [withGroup, setWithGroup] = useState(0)
+const {duoTutorialCount, groupTutorialCount } = useSelector(({ info }: RootState) => info);
+
+
+  const toggleModal = (withGroup) => {
+    setWithGroup(withGroup);
+    dispatch({
+      type: REDUX_ACTIONS.TOGGLE_TIPS,
+      // props: true,
+      description: 'Show Tips Modal. Called from AdventureAvailable.toggleModal()'
+    });
+  }
+
 
   async function startByMyself() {
     try {
@@ -442,22 +168,29 @@ function AdventureAvailable(props) {
                 <ActionButton
                   text="Go with a friend"
                   icon="couple"
-                  onPress={() => setShowDuoTips(true)
-
-                    // navigation.navigate('AdventureName', {
-                    //   item,
-                    //   withGroup: false,
-                    // })
-                  }/>
+                  onPress={() => { 
+                    if(duoTutorialCount >2) {  
+                    navigation.navigate('AdventureName', {
+                    item,
+                    withGroup: false,
+                  })
+                }else{
+                  toggleModal('withFriend')
+                }
+                  }}/>
                 <ActionButton
                   text="Go with a group"
                   icon="group"
-                  onPress={() => setShowGroupTips(true)
-
-                    // navigation.navigate('AdventureName', {
-                    //   item,
-                    //   withGroup: true,
-                    // })
+                  onPress={() => {
+                    if(groupTutorialCount > 2) {  
+                      navigation.navigate('AdventureName', {
+                        item,
+                        withGroup: true,
+                      })
+                   
+                  }else{toggleModal('withGroup')}
+                }
+                   
                   }/>
                 {soloStarted ? null : (
                   <ActionButton text="Go by myself" icon="person" onPress={startByMyself}/>
@@ -467,14 +200,7 @@ function AdventureAvailable(props) {
           </Flex>
         </ScrollView>
       )}
-      <GroupOnboardingModal isVisible={showGroupTips} insets={insets} onPressCancel={()=>setShowGroupTips(false)} onPressStart={()=> navigation.navigate('AdventureName', {
-                      item,
-                      withGroup: true,
-                    })}/>
-      <DuoOnboardingModal isVisible={showDuoTips} insets={insets}  onPressCancel={()=>setShowDuoTips(false)}  onPressStart={()=>  navigation.navigate('AdventureName', {
-                      item,
-                      withGroup: false,
-                    })}/>
+                    <TipsModal group={withGroup} item={item}/>
 
     </Flex>
   );
