@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
-import { createMigrate, persistReducer, persistStore, getStoredState } from 'redux-persist';
-import {getStoredStateMigrateV4, createAsyncLocalStorage} from 'redux-persist/lib/integration/getStoredStateMigrateV4'
+import { createMigrate, persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
 import FilesystemStorage from 'redux-persist-filesystem-storage';
 import auth from './auth';
