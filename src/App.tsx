@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavigationContainer, useRoute, useNavigationState } from '@react-navigation/native';
 import { Button } from 'react-native';
-import { startupAction, sleepAction, wakeupAction } from './actions/auth';
+import { startupAction, sleepAction, wakeupAction, getMeAction } from './actions/auth';
 import { routeNameRef, navigationRef } from './RootNavigation';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -306,11 +306,18 @@ const App = () => {
   // AsyncStorage.clear();
   // Extract store.auth.isLoggedIn value.
   const isLoggedIn = useSelector(({ auth }: any) => auth.isLoggedIn);
+  const userId = useSelector(({ auth }: any) => auth.user?.id);
   const AppStack = createStackNavigator();
   const insets = useSafeArea();
+  const dispatch = useDispatch();
 
   // Hide splash screen on load.
-  useMount(() => SplashScreen.hide());
+  useMount(() => {
+    SplashScreen.hide();
+    if(!isLoggedIn && userId) {
+      dispatch(getMeAction());
+    }
+  });
 
   useEffect(() => {
     const state = navigationRef.current.getRootState();
