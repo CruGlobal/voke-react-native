@@ -83,20 +83,19 @@ const Welcome = (props: WelcomeProps) => {
       <Flex>
         {/* TEXT: TERMS OF SERVICE */}
         <Text style={[styles.TextSmall]}>
-          {t('agreement')}
-          {'\n'}
+          {t('agreementExplore')}{'\n'}
           <Text
             style={styles.Link}
             onPress={() => Linking.openURL(CONSTANTS.WEB_URLS.PRIVACY)}
           >
-            {t('privacyPolicy')}
+            {t('privacy')}
           </Text>
-          &nbsp; and &nbsp;
+          &nbsp; {t('and')} &nbsp;
           <Text
             style={styles.Link}
             onPress={() => Linking.openURL(CONSTANTS.WEB_URLS.TERMS)}
           >
-            {t('termsOfService')}
+            {t('tos')}
           </Text>
         </Text>
       </Flex>
