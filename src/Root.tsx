@@ -43,7 +43,7 @@ const Root = () => {
         <PersistGate
           // loading={<LoadingRedux />}
           persistor={persistor} onBeforeLift={onBeforeLift}>
-            { showLoader ? <LoadingRedux /> :  <App />}
+            { showLoader ? <LoadingRedux /> : <App />}
           <ToastManager />
           {/* Notification Modal */}
           <NotificationModal />

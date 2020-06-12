@@ -1,8 +1,28 @@
 /* eslint-disable */
 
 export default {
-  botWelcomeMessage:
-    "We’re engaging in video series exploring questions about faith and Jesus, together.",
+  welcome: {
+    botMessageTitle:
+      'Welcome to Voke!',
+    botMessageContent:
+      `We’re engaging in video series exploring questions about faith and Jesus, together.`,
+    haveCode:
+      'I have an adventure Code',
+    haveCodeInfo:
+      'You get to do video adventures with others in Voke. Choose this if you received an Adventure invite code to easily join your friend or group.',
+    toExplore:
+      `I'd like to Explore`,
+    agreement:
+      'By exploring, you agree to our',
+    privacyPolicy:
+      'Privacy Policy',
+    termsOfService:
+      'Terms of Service',
+    haveAccount:
+      'Already have an account?',
+    signIn:
+      'Sign In',
+  },
   common: {
     oldConversationsCreateAccount:
       'You need to create an account before requesting your conversations.',
