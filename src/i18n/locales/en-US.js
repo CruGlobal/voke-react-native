@@ -12,16 +12,6 @@ export default {
       'You get to do video adventures with others in Voke. Choose this if you received an Adventure invite code to easily join your friend or group.',
     toExplore:
       `I'd like to Explore`,
-    agreement:
-      'By exploring, you agree to our',
-    privacyPolicy:
-      'Privacy Policy',
-    termsOfService:
-      'Terms of Service',
-    haveAccount:
-      'Already have an account?',
-    signIn:
-      'Sign In',
   },
   common: {
     oldConversationsCreateAccount:
@@ -33,6 +23,7 @@ export default {
     watchTrailer: 'Watch Trailer',
     noNotifications: 'No Notifications yet',
     acceptChallenge: 'Accept Challenge',
+    and: 'and',
     add: 'Add',
     all: 'All',
     allowContacts: 'Allow Contacts',
@@ -105,6 +96,8 @@ export default {
     tellMeMore: 'Tell Me More',
     themes: 'Themes',
     today: 'Today',
+    agreementExplore: 'By exploring, you agree to our',
+    agreementCreate: 'By creating an account you agree to our',
     tos: 'Terms of Service',
     turnOn: 'Turn On',
     unsubscribe: 'Unsubscribe',
@@ -341,10 +334,6 @@ export default {
     areYouSureAdd: `Are you sure you want to add "{{name}}" video to your chat?`,
     kickstarters: 'Voke kickstarters',
     shares: `{{total}} shares`,
-  },
-  exploring: {
-    agree: 'By exploring, you agree to our',
-    create: 'By creating an account you agree to our',
   },
   adventuresList: {
     '1player': '1 Player',
