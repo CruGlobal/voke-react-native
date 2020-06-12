@@ -1,6 +1,8 @@
 /* eslint-disable */
 
 export default {
+  botWelcomeMessage:
+    "We’re engaging in video series exploring questions about faith and Jesus, together.",
   common: {
     oldConversationsCreateAccount:
       'You need to create an account before requesting your conversations.',

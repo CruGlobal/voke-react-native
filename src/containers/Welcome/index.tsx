@@ -4,6 +4,7 @@ import { View, Linking, useWindowDimensions, ImageBackground } from 'react-nativ
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { useMount, lockToPortrait } from '../../utils';
+import { useTranslation, initReactI18next } from "react-i18next";
 
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
@@ -29,6 +30,8 @@ const Welcome = (props: WelcomeProps) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [helpMode, setHelpMode]= useState(false)
+  const { t, i18n } = useTranslation();
+
   useMount(() => {
     lockToPortrait();
   });
@@ -40,8 +43,8 @@ const Welcome = (props: WelcomeProps) => {
 <ImageBackground source={Background} style={{width: '100%', height: '100%'}}>
 <StatusBar />
   <Flex value={1} direction="column" justify="flex-start" style={[styles.SectionOnboarding, {marginTop:60}]}>
-  <BotTalking heading="Welcome to Voke!">
-  We’re engaging in video series exploring questions about faith and Jesus, together.  </BotTalking>
+  <BotTalking heading="Welcome to Voke!">{t('botWelcomeMessage')}</BotTalking>
+  {/* We’re engaging in video series exploring questions about faith and Jesus, together. */}
 
   {/* Help Mode Text */}
 

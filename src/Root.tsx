@@ -13,6 +13,7 @@ import App from './App';
 import ToastManager from './components/ToastManager';
 import NotificationModal from './components/NotificationModal';
 import { registerLogs } from './utils';
+import './i18n';
 // import ModalHandler from './containers/ModalHandler';
 
 const { store, persistor } = configureStore();
