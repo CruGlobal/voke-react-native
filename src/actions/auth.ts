@@ -170,7 +170,6 @@ export function facebookLoginAction(accessToken) {
         logoutAction();
         // Update user data in the state with ones received.
         dispatch(loginAction(authData.access_token));
-        // await dispatch(getMeAction());
         // After all download user details from server.
         return dispatch(getMeAction());
       },
@@ -285,7 +284,6 @@ export function passwordResetAction(email) {
           // Update user data in the state with ones received.
           // dispatch(loginAction(authData.access_token));
           // After all download user details from server.
-          // return dispatch(getMeAction());
           return;
         },
         error => {
@@ -370,10 +368,6 @@ export function createAccount(user) {
         // logoutAction();
         // Update user data in the state with ones received.
         return dispatch(setUser(userData));
-
-        // await dispatch(getMeAction());
-        // After all download user details from server.
-        // return dispatch(getMeAction());
       },
       error => {
         // eslint-disable-next-line no-console
@@ -432,7 +426,6 @@ export function updateMe(data) {
     return dispatch(request({ ...ROUTES.UPDATE_ME, pathParams: {userId}, data })).then(
       userData => {
         console.log( "User update result:\n", userData );
-        // dispatch(getMeAction());
         // Update redux store with data received.
         return dispatch(setUser(userData));
       },
@@ -441,13 +434,5 @@ export function updateMe(data) {
         throw error;
       }
     );
-    // TODO: Add some validation here?
-    /* if ( uploadResults.error || uploadResults.errors ) {
-      console.log( 'ERRORS' );
-    } else {
-      console.log( "uploadResults:" ); console.log( uploadResults );
-      // return dispatch(getMeAction());
-    } */
-    // return dispatch(getMeAction());
   };
 }
