@@ -133,7 +133,7 @@ function Menu(props) {
           title="About"
           onSelect={() => navigation.navigate('About')}
         />
-        <SettingsRow
+        {!!email && (<SettingsRow
           title="Sign Out"
           onSelect={() => {
             !email && Alert.alert(
@@ -157,7 +157,7 @@ function Menu(props) {
             );
             email && signOut();
           }}
-        />
+        />)}
         {/* SECTION: OUR PARTNERS */}
         {/* TODO: Tidy up */}
         <Flex
