@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { Share, ScrollView } from 'react-native';
+import { ScrollView } from 'react-native';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import Image from '../../components/Image';
