@@ -8,6 +8,9 @@ const initialState = {
     screen: '',
     data: {},
   },
+  groupTutorialCount: 0,
+  duoTutorialCount: 0,
+  tutorialMode: false
 };
 
 export default function(
@@ -19,6 +22,9 @@ export default function(
     notificationsRequest: any;
     screen: any;
     data: any;
+    groupTutorialCount: Number;
+    duoTutorialCount: Number;
+    tutorialMode:any;
   },
   ) {
   switch (action.type) {
@@ -43,6 +49,22 @@ export default function(
       return {
         ...state,
         notificationsRequest: ! state.notificationsRequest,
+      };
+    };
+    case REDUX_ACTIONS.TUTORIAL_COUNTDOWN_GROUP:
+      return {
+        ...state,
+        groupTutorialCount: action.groupTutorialCount,
+      };
+      case REDUX_ACTIONS.TUTORIAL_COUNTDOWN_DUO:
+        return {
+          ...state,
+          duoTutorialCount: action.duoTutorialCount,
+        };
+    case REDUX_ACTIONS.TOGGLE_TIPS:{
+      return {
+        ...state,
+        tutorialMode: ! state.tutorialMode,
       };
     }
     case REDUX_ACTIONS.SET_SCREEN: {

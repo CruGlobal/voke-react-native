@@ -23,6 +23,12 @@ const styles: { [key: string]: any } = {
     font-family: ${theme.fonts.semiBold};
     text-align: center;
   `,
+  BotHeading_overlay: css`
+  color: ${theme.colors.secondaryAlt};
+  font-size: ${`${theme.fontSizes.xl}px`};
+  font-family: ${theme.fonts.semiBold};
+  text-align: center;
+`,
   BotText: css`
     color: ${theme.colors.white};
     font-size: ${`${theme.fontSizes.l}px`};
@@ -54,6 +60,19 @@ BotText_reverse: css`
   BotImage_reverse: css`
     margin-left: -30px;
   `, 
+  BotMessage_overlay: css`
+  width: 90%;
+  background-color: ${theme.colors.white};
+  padding: ${`${theme.spacing.s}px`};
+  border-radius:  ${`${theme.radius.m}px`};
+  margin:auto;
+  margin-top:40px;
+`,
+BotImage_overlay: css`
+margin-left: -85px;
+margin-top:-25px;
+`,
+
 };
 
 export default styles;

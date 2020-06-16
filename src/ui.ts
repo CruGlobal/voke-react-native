@@ -43,7 +43,7 @@ const ui: { [key: string]: any } = {
         text-align:center;
       `,
       l: css`
-        /* color: ${theme.colors.secondary}; */
+        /* color: ${theme.colors.white}; */
         font-size: ${theme.fontSizes.xl + 'px'};
         line-height: ${theme.fontSizes.xl * 1.35 + 'px'};
         font-family: ${theme.fonts.regular};

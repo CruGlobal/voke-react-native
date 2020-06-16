@@ -28,6 +28,7 @@ function AvailableAdventureItem({
      function(adv) { return adv.organization_journey_id === item.id; }
     ),
   );
+
   useEffect(() => {
     setShouldInviteFriend(
       lodash.find( myAdventures,
@@ -59,7 +60,7 @@ function AvailableAdventureItem({
           style={[
             st.absfill,
             st.br5,
-            { backgroundColor: 'rgba(0, 0, 0, 0.4)' },
+            { backgroundColor: 'rgba(0, 0, 0, 0.35)' },
           ]}
         />
         <Flex value={1} />
@@ -89,8 +90,10 @@ function AvailableAdventureItem({
               </Text>
               <VokeIcon name="play-full" size={16} />
             </Flex>
-          ) : null}
-          <Text style={[st.fs6, st.bold, st.white]}>
+          ) :  <Text style={[st.fs12, st.bold, st.white]}>
+          ADVENTURE
+        </Text>}
+          <Text style={[st.fs20, st.white]}>
             {item.name.toUpperCase()}
           </Text>
           <Text
@@ -170,7 +173,7 @@ function AvailableAdventureItem({
             <Text
               style={[st.bold, st.white, { letterSpacing: 2, fontSize: 10 }]}
             >
-              {item.total_shares || 0} {'shares'.toUpperCase()}S
+              {item.total_shares || 0} {'shares'.toUpperCase()}
             </Text>
             {shouldInviteFriend ? null : (
               <Button

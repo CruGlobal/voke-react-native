@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../reducers';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import st from '../../st';
 import Button from '../../components/Button';
-import Triangle from '../../components/Triangle';
 import { View, ScrollView, StatusBar } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Video from '../../components/Video';
 import { useNavigation } from '@react-navigation/native';
 import VokeIcon from '../../components/VokeIcon';
-import { RotationGestureHandler } from 'react-native-gesture-handler';
 import theme from '../../theme';
 import { startAdventure } from '../../actions/requests';
+import TipsModal from '../../components/TipsModal';
+import { REDUX_ACTIONS } from '../../constants';
 
 
 function ActionButton(props){
@@ -48,6 +50,19 @@ function AdventureAvailable(props) {
   const { item, alreadyStartedByMe } = props.route.params;
   const [isLoading, setIsLoading] = useState(false);
   const [soloStarted, setSoloStarted] = useState(alreadyStartedByMe);
+const [withGroup, setWithGroup] = useState(0)
+const {duoTutorialCount, groupTutorialCount } = useSelector(({ info }: RootState) => info);
+
+
+  const toggleModal = (withGroup) => {
+    setWithGroup(withGroup);
+    dispatch({
+      type: REDUX_ACTIONS.TOGGLE_TIPS,
+      // props: true,
+      description: 'Show Tips Modal. Called from AdventureAvailable.toggleModal()'
+    });
+  }
+
 
   async function startByMyself() {
     try {
@@ -75,6 +90,7 @@ function AdventureAvailable(props) {
         height: insets.top,
         backgroundColor: isPortrait && insets.top > 0 ? '#000' : 'transparent',
       }}>
+        
         <StatusBar
           animated={true}
           barStyle="light-content"
@@ -152,20 +168,29 @@ function AdventureAvailable(props) {
                 <ActionButton
                   text="Go with a friend"
                   icon="couple"
-                  onPress={() =>
+                  onPress={() => { 
+                    if(duoTutorialCount >2) {  
                     navigation.navigate('AdventureName', {
-                      item,
-                      withGroup: false,
-                    })
-                  }/>
+                    item,
+                    withGroup: false,
+                  })
+                }else{
+                  toggleModal('withFriend')
+                }
+                  }}/>
                 <ActionButton
                   text="Go with a group"
                   icon="group"
-                  onPress={() =>
-                    navigation.navigate('AdventureName', {
-                      item,
-                      withGroup: true,
-                    })
+                  onPress={() => {
+                    if(groupTutorialCount > 2) {  
+                      navigation.navigate('AdventureName', {
+                        item,
+                        withGroup: true,
+                      })
+                   
+                  }else{toggleModal('withGroup')}
+                }
+                   
                   }/>
                 {soloStarted ? null : (
                   <ActionButton text="Go by myself" icon="person" onPress={startByMyself}/>
@@ -175,6 +200,8 @@ function AdventureAvailable(props) {
           </Flex>
         </ScrollView>
       )}
+                    <TipsModal group={withGroup} item={item}/>
+
     </Flex>
   );
 }
