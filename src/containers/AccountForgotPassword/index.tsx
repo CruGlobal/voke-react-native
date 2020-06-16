@@ -12,6 +12,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { useMount, lockToPortrait } from '../../utils';
+import { useTranslation } from "react-i18next";
 import { passwordResetAction } from '../../actions/auth';
 import st from '../../st';
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
@@ -35,7 +36,7 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [emailValid, setEmailValid] = useState(false);
-
+  const { t } = useTranslation('forgotPassword', 'placeholder');
   const passwordRef = useRef<TextInput>(null);
 
   useMount(() => {
@@ -49,6 +50,19 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
     }
     setEmail(text);
   };
+
+  const handleSubmit = async () => {
+    await dispatch(passwordResetAction( email )).then(() => {
+      Alert.alert(
+        t('checkEmail'),
+        t('emailPrompt'),
+        [
+          { text: 'OK',
+            onPress: () => navigation.goBack() },
+        ]
+      );
+    })
+  }
 
   return (
     <DismissKeyboardView
@@ -82,8 +96,8 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
           </Text>
           <TextField
             // blurOnSubmit={false}
-            label="Email"
-            onSubmitEditing={() => passwordRef.current.focus()}
+            label={t('placeholder:email')}
+            onSubmitEditing={handleSubmit}
             placeholder=""
             value={email}
             onChangeText={checkEmail}
@@ -91,7 +105,7 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
             textContentType="emailAddress"
             autoCompleteType="email"
             keyboardType="email-address"
-            returnKeyType="next"
+            returnKeyType="send"
             autoFocus={true}
           />
         </Flex>
@@ -113,20 +127,9 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
           <Button
             isAndroidOpacity
             style={styles.ButtonStart}
-            onPress={() =>
-              dispatch(passwordResetAction( email )).then(() => {
-                Alert.alert(
-                  'Check your Email',
-                  `If you don't receive an email, it's most likely because you used a different email address. If so, try a different email address for password recovery`,
-                  [
-                    { text: 'OK',
-                      onPress: () => navigation.goBack() },
-                  ]
-                );
-            })
-            }
+            onPress={handleSubmit}
           >
-            <Text style={styles.ButtonStartLabel}>Reset Password</Text>
+            <Text style={styles.ButtonStartLabel}>{t('forgotPassword:resetPassword')}</Text>
           </Button>
         </Flex>
       </KeyboardAvoidingView>

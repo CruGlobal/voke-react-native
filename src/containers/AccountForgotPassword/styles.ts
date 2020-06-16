@@ -39,7 +39,7 @@ const styles: { [key: string]: any } = {
       margin-bottom: ${`${theme.spacing.l}px`};
     `,
   ],
-  ButtonStartLabel: [ui.buttonText.size.l],
+  ButtonStartLabel: [ui.buttonText.size.l, ui.buttonText.style.solid],
   ButtonSignIn: [ui.button.size.m, ui.button.style.outline],
   ButtonSignInLabel: [ui.buttonText.size.m, ui.buttonText.style.outline],
   SignInText: css`

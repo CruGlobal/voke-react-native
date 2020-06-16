@@ -194,6 +194,7 @@ export default {
     emailPrompt: `If you don't receive an email, it's most likely because you used a different email address. If so, try a different email address for password recovery`,
     enter: 'Please enter a valid email',
     invalid: 'Invalid Email',
+    resetPassword: 'Reset Password',
   },
   conversations: {
     areYouSureBlock: `Are you sure you want to block {{name}}?`,
