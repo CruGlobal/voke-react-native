@@ -5,7 +5,7 @@ import Image from '../../components/Image';
 import Text from '../../components/Text';
 import Touchable from '../../components/Touchable';
 import { useSafeArea } from 'react-native-safe-area-context';
-import { Alert, ScrollView, Share, Linking, useWindowDimensions } from 'react-native';
+import { Alert, ScrollView, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import TextField from '../../components/TextField';
 import StatusBar from '../../components/StatusBar';
@@ -111,7 +111,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                 {me.firstName + ' ' + me.lastName}
               </Text>
             </Touchable>
-           
+
             { !!!me.email? <Text style={{
                 color: styles.colors.white,
                 fontSize: styles.fontSizes.l,
@@ -121,44 +121,41 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                   fontSize: styles.fontSizes.l,
                   textAlign:'center',
                   }}>User Profile</Text>}
-            {/* <Text style={{color:"#fff", fontSize:18, textDecorationLine:'underline'}}>
-            Profile Info
-            </Text> */}
-             { me.email ?
-             <>
-            <Touchable onPress={ () => navigation.navigate('AccountName')}>
-            <Flex direction="row" align="center" justify="space-around" style={{marginTop:30}}>
-              <Text style={{color:"#fff", fontSize:18, width:'50%'}}>Language</Text>
-              <Text style={{color:"#fff", fontSize:18, width:'50%'}}>English</Text>
-            </Flex>
-            </Touchable>
-            <Touchable onPress={ () => navigation.navigate('AccountName')}>
-            <Flex direction="row" align="center" justify="space-around">
-            <Text style={{color:"#fff", fontSize:18, width:'50%'}}>Email</Text>
-            <Text style={{color:"#fff", fontSize:18,width:'50%'}}>
-                {me.email}
-              </Text>
-            </Flex>
-            </Touchable>
-            <Touchable onPress={ () => navigation.navigate('AccountName')}>
-            <Flex direction="row" align="center" justify="space-around">
-            <Text style={{color:"#fff", fontSize:18, width:'50%'}}>Password</Text>
-            <Text style={{color:"#fff", fontSize:18,width:'50%'}}>
-                ******
-              </Text>
-            </Flex>
-            </Touchable>
-
-            <Flex direction="row" align="flex-start" justify="flex-start" style={{marginTop:30}}>
-            <VokeIcon
-                    name="create"
-                    size={18}
-                    style={st.mr6}
-                  />
-              <Text style={{color:"#fff", fontSize:14}}>To edit, select the item you would like to edit.</Text>
-            </Flex>
-</>:
-            <></>}
+            { me.email ?
+            <>
+              {/* <Touchable onPress={ () => navigation.navigate('AccountEmailPass')}> */}
+                <Flex direction="row" align="center" justify="space-around" style={{marginTop:30}}>
+                  <Text style={{color:"#fff", fontSize:18, width:'40%', textAlign: 'right', paddingRight: 20}}>Language</Text>
+                  <Text style={{color:"#fff", fontSize:18, width:'60%'}}>English</Text>
+                </Flex>
+              {/* </Touchable> */}
+              <View style={{minHeight: 12}} />
+              {/* Extra spacing for fingers to touch the right line. */}
+              <Touchable onPress={ () => navigation.navigate('AccountEmail')}>
+                <Flex direction="row" align="center" justify="space-around">
+                  <Text style={{color:"#fff", fontSize:18, width:'40%', textAlign: 'right', paddingRight: 20}}>Email</Text>
+                  <Text style={{color:"#fff", fontSize:18, width:'60%' }} numberOfLines={1}>
+                    {me.email}
+                  </Text>
+                </Flex>
+              </Touchable>
+              <View style={{minHeight: 12}} />
+              {/* Extra spacing for fingers to touch the right line. */}
+              <Touchable onPress={ () => navigation.navigate('AccountPass')}>
+                <Flex direction="row" align="center" justify="space-around">
+                  <Text style={{color:"#fff", fontSize:18, width:'40%', textAlign: 'right', paddingRight: 20}}>Password</Text>
+                  <Text style={{color:"#fff", fontSize:18,width:'60%'}}>******</Text>
+                </Flex>
+              </Touchable>
+              <Flex direction="row" align="flex-start" justify="flex-start" style={{marginTop:30}}>
+                <VokeIcon
+                      name="create"
+                      size={18}
+                      style={st.mr6}
+                    />
+                <Text style={{color:"#fff", fontSize:14}}>To edit, select the item you would like to edit.</Text>
+              </Flex>
+            </>:<></>}
             {/* <Button
               isAndroidOpacity={true}
               style={[styles.ButtonAction, {
