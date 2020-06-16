@@ -11,7 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 // import { MONTHLY_PRICE } from '../../constants';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Share, ScrollView } from 'react-native';
+import { ScrollView } from 'react-native';
 
 import VOKE_BOT from '../../assets/vokebot_whole.png';
 import Touchable from '../../components/Touchable';

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import Clipboard from "@react-native-community/clipboard";
+import { useTranslation } from "react-i18next";
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import Image from '../../components/Image';
@@ -13,7 +14,7 @@ import Button from '../../components/Button';
 import { useFocusEffect } from '@react-navigation/native';
 // import { MONTHLY_PRICE } from '../../constants';
 import { useDispatch } from 'react-redux';
-import { Share, Alert } from 'react-native';
+import { Share } from 'react-native';
 
 import BotTalking from '../../components/BotTalking';
 import Touchable from '../../components/Touchable';
@@ -24,6 +25,7 @@ function AdventureShareCode(props) {
   const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const { t } = useTranslation('share', 'shareFlow');
   const [isLoading, setIsLoading] = useState(false);
   const [isModalVisible, setModalVisible] = useState(true); //Set TO Truue FOR NOW-----PLEASE CHANGE ONCE FUNCTIONALITY IS HOOKED UP
 
@@ -33,18 +35,19 @@ function AdventureShareCode(props) {
     Share.share(
       {
         message: isVideoInvite
-          ? `Check out this video from Voke! ${invitation.url}`
-          : `Download Voke and join my ${invitation.name} Adventure. Use code: ${invitation.code} ${CONSTANTS.APP_URL}`,
+          ? (t('checkOut') + ` ${invitation.url}`)
+          : t('share:downloadMessage', { friend:invitation?.name, code: invitation?.code, appUrl: CONSTANTS.APP_URL })
+          // {t('downloadMessage')}`Download Voke and join my ${invitation.name} Adventure. Use code: ${invitation.code} ${CONSTANTS.APP_URL}`,
       },
       {
-        dialogTitle: 'Share',
+        dialogTitle: t('share'),
       },
     ).catch(err => console.log('Share Error', err));
   }
 
   const copyToClipboard = () => {
     Clipboard.setString(isVideoInvite ? invitation.url : invitation.code);
-    dispatch(toastAction( 'Copied', 'short' ));
+    dispatch(toastAction( t('copied'), 'short' ));
   };
 
   // Events firing when user leaves the screen with player or comes back.
@@ -92,12 +95,13 @@ function AdventureShareCode(props) {
             justify="center"
             style={[st.mb4]}
           >
-              <BotTalking>  {withGroup
-                    ? `${invitation.name}’s  invite code is ready! Hit Share and choose how you’d like to send this invite code to each of your group members.`
-                    : isVideoInvite
-                    ? 'Your link is ready! Hit share and choose how you want to send it.'
-                    : `${invitation.name}’s invite code is ready! Hit Share and choose how you’d like to send this trailer with ${invitation.name}.`}
-</BotTalking>
+            {/* TODO: Add translation for the next strings */}
+            <BotTalking>  {withGroup
+              ? `${invitation.name}’s  invite code is ready! Hit Share and choose how you’d like to send this invite code to each of your group members.`
+              : isVideoInvite
+              ? 'Your link is ready! Hit share and choose how you want to send it.'
+              : `${invitation.name}’s invite code is ready! Hit Share and choose how you’d like to send this trailer with ${invitation.name}.`}
+            </BotTalking>
 
           </Flex>
           <Flex direction="column" align="center" style={[st.ph1, st.w100]}>
@@ -133,7 +137,7 @@ function AdventureShareCode(props) {
               ]}
               onPress={handleShare}
             >
-            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>Share</Text>
+            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>{t('share')}</Text>
             </Button>
           </Flex>
         </Flex>
