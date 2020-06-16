@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from "react-i18next";
 import { NavigationContainer, useRoute, useNavigationState } from '@react-navigation/native';
 import { Button } from 'react-native';
 import { startupAction, sleepAction, wakeupAction, getMeAction } from './actions/auth';
@@ -16,6 +17,8 @@ import MenuHelp from './containers/MenuHelp';
 import MenuAbout from './containers/MenuAbout';
 import MenuAcknowledgements from './containers/MenuAcknowledgements';
 import AccountSignIn from './containers/AccountSignIn';
+import AccountPass from './containers/AccountPass';
+import AccountEmail from './containers/AccountEmail';
 import AccountProfile from './containers/AccountProfile';
 import AccountCreate from './containers/AccountCreate';
 import AccountForgotPassword from './containers/AccountForgotPassword';
@@ -310,6 +313,7 @@ const App = () => {
   const AppStack = createStackNavigator();
   const insets = useSafeArea();
   const dispatch = useDispatch();
+  const { t } = useTranslation(['common', 'profile']);
 
   // Hide splash screen on load.
   useMount(() => {
@@ -541,6 +545,46 @@ const App = () => {
               fontWeight: 'normal',
             },
             title: 'Sign Up',
+          })}
+        />
+        <AppStack.Screen
+          name="AccountEmail"
+          component={AccountEmail}
+          options={({ navigation }) => ({
+            headerShown: true,
+            headerLeft: () => <HeaderLeft hasBack />,
+            cardStyle: { backgroundColor: theme.colors.transparent },
+            headerStyle: {
+              backgroundColor: theme.colors.primary,
+              elevation: 0,
+              shadowOpacity: 0,
+            },
+            headerTitleStyle: {
+              color: theme.colors.white,
+              fontSize: 18,
+              fontWeight: 'normal',
+            },
+            title: t('profile:changeEmail'),
+          })}
+        />
+        <AppStack.Screen
+          name="AccountPass"
+          component={AccountPass}
+          options={({ navigation }) => ({
+            headerShown: true,
+            headerLeft: () => <HeaderLeft hasBack />,
+            cardStyle: { backgroundColor: theme.colors.transparent },
+            headerStyle: {
+              backgroundColor: theme.colors.primary,
+              elevation: 0,
+              shadowOpacity: 0,
+            },
+            headerTitleStyle: {
+              color: theme.colors.white,
+              fontSize: 18,
+              fontWeight: 'normal',
+            },
+            title: t('profile:changePassword'),
           })}
         />
         <AppStack.Screen
