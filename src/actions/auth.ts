@@ -93,27 +93,27 @@ export function requestPremissions(askPermission = true) {
 
 export function logoutAction() {
   console.log('🚶‍♂️🚪 logoutAction \n\n');
-  return async dispatch => {
+  return async (dispatch, getState)  => {
+    const deviceId = getState().device?.id;
     try {
-
-      const devices = await dispatch(getDevices());
-
-      if (devices && isArray(devices.devices)) {
-        const deviceIds = devices.devices.map(d => d.id);
+      // const devices = await dispatch(getDevices());
+      // if (devices && isArray(devices.devices)) {
+      if (deviceId) {
+        // const deviceIds = devices.devices.map(d => d.id);
         if (deviceIds.length > 0) {
           dispatch(
             revokeAuthToken({
               // eslint-disable-next-line @typescript-eslint/camelcase
-              device_ids: deviceIds,
+              device_ids: [deviceId],
               token: null,
             })
           );
         }
       }
-
       // Set redux store into empty state.
       await dispatch({ type: REDUX_ACTIONS.LOGOUT });
       // Clear data in the local storage if user logout.
+      // TODO: ANDROID!
       AsyncStorage.clear();
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -391,12 +391,13 @@ export function deleteAccountAction() {
         // eslint-disable-next-line no-console
         console.log( "👤 Account Deleted \n\n", success );
         // Clear data in the local storage if user logout.
-        AsyncStorage.clear();
+        // AsyncStorage.clear(); - we do that in the parrent functions
+        // return;
       },
       error => {
         // eslint-disable-next-line no-console
         console.log('🛑 Delete account error', error);
-        throw error;
+        // return;
       }
     );
   };

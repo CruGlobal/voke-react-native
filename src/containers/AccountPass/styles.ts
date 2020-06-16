@@ -1,5 +1,5 @@
-import { ReactText } from 'react';
-import { css, ReactNativeStyle } from '@emotion/native';
+// import { ReactText } from 'react';
+import { css } from '@emotion/native';
 import theme from '../../theme';
 import ui from '../../ui';
 
@@ -39,34 +39,50 @@ const styles: { [key: string]: any } = {
       margin-bottom: ${`${theme.spacing.l}px`};
     `,
   ],
-  ButtonStartLabel: [ui.buttonText.size.l],
-  ButtonSignIn: [ui.button.size.m, ui.button.style.outline],
-  ButtonSignInLabel: [ui.buttonText.size.m, ui.buttonText.style.outline],
-  SignInText: css`
+  ButtonStartLabel: [
+    ui.buttonText.size.l,
+    ui.buttonText.style.solid,
+  ],
+  Link: css`
+    text-align: center;
+    text-decoration-line: underline;
     color: ${theme.colors.white};
-    font-size: ${`${theme.fontSizes.l}px`};
-    font-family: ${theme.fonts.regular};
+  `,
+  SectionNotice: css`
+    padding-left: ${`${theme.spacing.xl}px`};
+    padding-right: ${`${theme.spacing.xl}px`};
+    padding-bottom: ${`${theme.spacing.l}px`};
   `,
   TextSmall: css`
     color: ${theme.colors.white};
     font-size: 12px;
     font-family: ${theme.fonts.regular};
+    text-align: center;
+    margin-top: -${`${theme.spacing.l}px`};
   `,
-  TextLarge: css`
-    color: ${theme.colors.white};
-    font-size: ${`${theme.fontSizes.l}px`};
-    font-family: ${theme.fonts.regular};
-    padding-right: ${`${theme.spacing.m}px`};
-    padding-left: ${`${theme.spacing.m}px`};
-  `,
-  Link: css`
-    text-decoration-line: underline;
-    color: ${theme.colors.white};
-  `,
-  SectionSignIn: css`
+  SectionFB: css`
     background-color: ${theme.colors.secondary};
-    padding-bottom: ${`${theme.spacing.xl}px`};
+    padding-top: ${`${theme.spacing.l}px`};
+    padding-bottom: ${`${theme.spacing.l}px`};
+    border-top-width: 1px;
+    border-top-color: rgba(0, 0, 0, 0.2);
+    width: 100%;
   `,
+  ButtonFBSignIn: [
+    ui.button.size.m,
+    ui.button.style.outline,
+  ],
+  ButtonFBSignInIcon: [
+    css`
+      width: 22px;
+      height: 22px;
+      margin-right: ${`${theme.spacing.l}px`};
+    `,
+  ],
+  ButtonFBSignInLabel: [
+    ui.buttonText.size.m,
+    ui.buttonText.style.outline
+  ],
 };
 
 export default styles;

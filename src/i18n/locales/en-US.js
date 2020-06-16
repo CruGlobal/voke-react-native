@@ -1,6 +1,39 @@
 /* eslint-disable */
 
 export default {
+  welcome: {
+    botMessageTitle:
+      'Welcome to Voke!',
+    botMessageContent:
+      `We’re engaging in video series exploring questions about faith and Jesus, together.`,
+    haveCode:
+      'I have an adventure Code',
+    haveCodeInfo:
+      'You get to do video adventures with others in Voke. Choose this if you received an Adventure invite code to easily join your friend or group.',
+    toExplore:
+      `I'd like to Explore`,
+  },
+  placeholder: {
+    confirmEmail: 'Confirm Email',
+    confirmNewPassword: 'Confirm New Password',
+    currentPassword: 'Current Password',
+    email: 'Email',
+    firstName: 'First Name',
+    friendsName: `Friend's name`,
+    lastName: 'Last Name',
+    mobileNumber: 'Your Mobile Number',
+    newEmail: 'New Email',
+    newMessage: 'New Message',
+    newPassword: 'New Password',
+    password: 'Password',
+    reason: 'Reason',
+    search: 'Search',
+    whatIsFriendsName: `What is your friend's name?`,
+    verification: 'Verification Code',
+    whyDoWeWantThis: 'Why do we want this?',
+    whyNeedFriendsName:
+      "We use your friend's name to help you know who responded to the videos you shared.",
+  },
   common: {
     oldConversationsCreateAccount:
       'You need to create an account before requesting your conversations.',
@@ -11,6 +44,7 @@ export default {
     watchTrailer: 'Watch Trailer',
     noNotifications: 'No Notifications yet',
     acceptChallenge: 'Accept Challenge',
+    and: 'and',
     add: 'Add',
     all: 'All',
     allowContacts: 'Allow Contacts',
@@ -83,6 +117,8 @@ export default {
     tellMeMore: 'Tell Me More',
     themes: 'Themes',
     today: 'Today',
+    agreementExplore: 'By exploring, you agree to our',
+    agreementCreate: 'By creating an account you agree to our',
     tos: 'Terms of Service',
     turnOn: 'Turn On',
     unsubscribe: 'Unsubscribe',
@@ -100,27 +136,6 @@ export default {
       selectFriend: 'Search your contacts or take a step of faith with...',
       share: 'Creating a link for you to share with your friend',
       videos: 'Loading Some Awesome Videos for You',
-    },
-    placeholder: {
-      confirmEmail: 'Confirm Email',
-      confirmNewPassword: 'Confirm New Password',
-      currentPassword: 'Current Password',
-      email: 'Email',
-      firstName: 'First Name',
-      friendsName: `Friend's name`,
-      lastName: 'Last Name',
-      mobileNumber: 'Your Mobile Number',
-      newEmail: 'New Email',
-      newMessage: 'New Message',
-      newPassword: 'New Password',
-      password: 'Password',
-      reason: 'Reason',
-      search: 'Search',
-      whatIsFriendsName: `What is your friend's name?`,
-      verification: 'Verification Code',
-      whyDoWeWantThis: 'Why do we want this?',
-      whyNeedFriendsName:
-        "We use your friend's name to help you know who responded to the videos you shared.",
     },
     title: {
       about: 'About',
@@ -150,20 +165,20 @@ export default {
       nothingToShow: 'Nothing to show',
       noVideos: 'Finding some awesome videos for you.',
     },
-    error: {
-      adventureLocked: `This adventure is locked until you complete the current adventure.`,
-      contactsDescription: 'There was an error getting your contacts.',
-      contactsTitle: 'Could not get contacts',
-      error: 'Error',
-      playingVideo: 'There was an error playing the video.',
-      somethingWentWrong: 'Uh oh! It looks like something went wrong.',
-      sorryUnauth: `Sorry, it looks like there was an error authorizing your request.`,
-      troubleVideo: 'We had trouble finding that video',
-      tryAgain: 'There was an error, please try again.',
-      unauthorized: 'Unauthorized',
-      userpass: 'Sorry, that username/password combination is not correct.',
-      vokePermission: `First grant Voke permission to access your contacts. Go to Settings / Voke and allow the permission for Contacts`,
-    },
+  },
+  error: {
+    adventureLocked: `This adventure is locked until you complete the current adventure.`,
+    contactsDescription: 'There was an error getting your contacts.',
+    contactsTitle: 'Could not get contacts',
+    error: 'Error',
+    playingVideo: 'There was an error playing the video.',
+    somethingWentWrong: 'Uh oh! It looks like something went wrong.',
+    sorryUnauth: `Sorry, it looks like there was an error authorizing your request.`,
+    troubleVideo: 'We had trouble finding that video',
+    tryAgain: 'There was an error, please try again.',
+    unauthorized: 'Unauthorized',
+    userpass: 'Sorry, that username/password combination is not correct.',
+    vokePermission: `First grant Voke permission to access your contacts. Go to Settings / Voke and allow the permission for Contacts`,
   },
   channels: {
     browse: 'Browse',
@@ -256,6 +271,8 @@ export default {
     why: 'Why Voke?',
   },
   shareFlow: {
+    checkTitle: `Check out`,
+    checkMessage: `Check out this awesome app called Voke. Let's go deeper with God and others!`,
     checkOut: 'Check this out on Voke!',
     enterName: 'Please enter a name to continue',
     errorCreating: `Sorry, there was an error creating the conversation. Please try again.`,
@@ -319,10 +336,6 @@ export default {
     areYouSureAdd: `Are you sure you want to add "{{name}}" video to your chat?`,
     kickstarters: 'Voke kickstarters',
     shares: `{{total}} shares`,
-  },
-  exploring: {
-    agree: 'By exploring, you agree to our',
-    create: 'By creating an account you agree to our',
   },
   adventuresList: {
     '1player': '1 Player',

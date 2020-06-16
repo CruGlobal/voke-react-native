@@ -5,7 +5,7 @@ import Image from '../../components/Image';
 import Text from '../../components/Text';
 import Touchable from '../../components/Touchable';
 import { useSafeArea } from 'react-native-safe-area-context';
-import { Alert, ScrollView, Share, Linking, useWindowDimensions } from 'react-native';
+import { Alert, ScrollView, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import TextField from '../../components/TextField';
 import StatusBar from '../../components/StatusBar';
@@ -111,7 +111,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                 {me.firstName + ' ' + me.lastName}
               </Text>
             </Touchable>
-           
+
             { !!!me.email? <Text style={{
                 color: styles.colors.white,
                 fontSize: styles.fontSizes.l,
@@ -121,44 +121,41 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                   fontSize: styles.fontSizes.l,
                   textAlign:'center',
                   }}>User Profile</Text>}
-            {/* <Text style={{color:"#fff", fontSize:18, textDecorationLine:'underline'}}>
-            Profile Info
-            </Text> */}
-             { me.email ?
-             <>
-            <Touchable onPress={ () => navigation.navigate('AccountName')}>
-            <Flex direction="row" align="center" justify="space-around" style={{marginTop:30}}>
-              <Text style={{color:"#fff", fontSize:18, width:'50%'}}>Language</Text>
-              <Text style={{color:"#fff", fontSize:18, width:'50%'}}>English</Text>
-            </Flex>
-            </Touchable>
-            <Touchable onPress={ () => navigation.navigate('AccountName')}>
-            <Flex direction="row" align="center" justify="space-around">
-            <Text style={{color:"#fff", fontSize:18, width:'50%'}}>Email</Text>
-            <Text style={{color:"#fff", fontSize:18,width:'50%'}}>
-                {me.email}
-              </Text>
-            </Flex>
-            </Touchable>
-            <Touchable onPress={ () => navigation.navigate('AccountName')}>
-            <Flex direction="row" align="center" justify="space-around">
-            <Text style={{color:"#fff", fontSize:18, width:'50%'}}>Password</Text>
-            <Text style={{color:"#fff", fontSize:18,width:'50%'}}>
-                ******
-              </Text>
-            </Flex>
-            </Touchable>
-
-            <Flex direction="row" align="flex-start" justify="flex-start" style={{marginTop:30}}>
-            <VokeIcon
-                    name="create"
-                    size={18}
-                    style={st.mr6}
-                  />
-              <Text style={{color:"#fff", fontSize:14}}>To edit, select the item you would like to edit.</Text>
-            </Flex>
-</>:
-            <></>}
+            { me.email ?
+            <>
+              {/* <Touchable onPress={ () => navigation.navigate('AccountEmailPass')}> */}
+                <Flex direction="row" align="center" justify="space-around" style={{marginTop:30}}>
+                  <Text style={{color:"#fff", fontSize:18, width:'40%', textAlign: 'right', paddingRight: 20}}>Language</Text>
+                  <Text style={{color:"#fff", fontSize:18, width:'60%'}}>English</Text>
+                </Flex>
+              {/* </Touchable> */}
+              <View style={{minHeight: 12}} />
+              {/* Extra spacing for fingers to touch the right line. */}
+              <Touchable onPress={ () => navigation.navigate('AccountEmail')}>
+                <Flex direction="row" align="center" justify="space-around">
+                  <Text style={{color:"#fff", fontSize:18, width:'40%', textAlign: 'right', paddingRight: 20}}>Email</Text>
+                  <Text style={{color:"#fff", fontSize:18, width:'60%' }} numberOfLines={1}>
+                    {me.email}
+                  </Text>
+                </Flex>
+              </Touchable>
+              <View style={{minHeight: 12}} />
+              {/* Extra spacing for fingers to touch the right line. */}
+              <Touchable onPress={ () => navigation.navigate('AccountPass')}>
+                <Flex direction="row" align="center" justify="space-around">
+                  <Text style={{color:"#fff", fontSize:18, width:'40%', textAlign: 'right', paddingRight: 20}}>Password</Text>
+                  <Text style={{color:"#fff", fontSize:18,width:'60%'}}>******</Text>
+                </Flex>
+              </Touchable>
+              <Flex direction="row" align="flex-start" justify="flex-start" style={{marginTop:30}}>
+                <VokeIcon
+                      name="create"
+                      size={18}
+                      style={st.mr6}
+                    />
+                <Text style={{color:"#fff", fontSize:14}}>To edit, select the item you would like to edit.</Text>
+              </Flex>
+            </>:<></>}
             {/* <Button
               isAndroidOpacity={true}
               style={[styles.ButtonAction, {
@@ -275,54 +272,52 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                   }}
                 />
               </>}
-              { !!me.email && <>
-                <Button
-                  isAndroidOpacity={true}
-                  style={[styles.ButtonAction]}
-                  onPress={
-                    () =>
-                    Alert.alert(
-                      'Are you sure?',
-                      `You are about to remove your Voke account - which will delete all conversations, Adventure progress and user data, login credentials etc. You will not be able to recover this account if you proceed, but you can create a new one. Are you sure you want to do this?`,
-                      [
-                        {
-                          text: 'Cancel',
-                          onPress: () => {},
-                          style: "cancel"
+              <Button
+                isAndroidOpacity={true}
+                style={[ !!me.email ? styles.ButtonAction : styles.ButtonActionTextOnly ]}
+                onPress={
+                  () =>
+                  Alert.alert(
+                    'Are you sure?',
+                    `You are about to remove your Voke account - which will delete all conversations, Adventure progress and user data, login credentials etc. You will not be able to recover this account if you proceed, but you can create a new one. Are you sure you want to do this?`,
+                    [
+                      {
+                        text: 'Cancel',
+                        onPress: () => {},
+                        style: "cancel"
+                      },
+                      {
+                        text: 'Delete',
+                        onPress: async () => {
+                          try {
+                            await dispatch(deleteAccountAction());
+                            dispatch(logoutAction());
+                          } finally {
+                            // Navigate back to the very first screen.
+                            // 🤦🏻‍♂️Give React 10ms to render WelcomeApp component.
+                             setTimeout(() => {
+                              navigation.reset({
+                                index: 1,
+                                routes: [{ name: 'Welcome' }],
+                              });
+                            }, 10);
+                          }
                         },
-                        {
-                          text: 'Delete',
-                          onPress: async () => {
-                            await dispatch(deleteAccountAction()).then(() => {
-                              // logoutAction();
-                              // Navigate back to the very first screen.
-                              // 🤦🏻‍♂️Give React 10ms to render WelcomeApp component.
-                             /*  setTimeout(() => {
-                                navigation.reset({
-                                  index: 1,
-                                  routes: [{ name: 'Welcome' }],
-                                });
-                              }, 10); */
-                            }).finally(
-                              dispatch(logoutAction())
-                            )
-                          },
-                        }
-                      ]
-                    )
-                  }
-                >
-                  <Flex
-                    // value={1}
-                    direction="row"
-                    align="center"
-                    justify="center"
+                      }
+                    ]
+                  )
+                }
+              >
+                <Flex
+                  // value={1}
+                  direction="row"
+                  align="center"
+                  justify="center"
 
-                  >
-                    <Text style={styles.ButtonActionLabel}>Delete My Account</Text>
-                  </Flex>
-                </Button>
-              </>}
+                >
+                  <Text style={styles.ButtonActionLabel}>Delete my Account</Text>
+                </Flex>
+              </Button>
             </Flex>
           </Flex>
         </Flex>

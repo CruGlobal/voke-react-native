@@ -4,6 +4,7 @@ import { View, Linking, useWindowDimensions, ImageBackground } from 'react-nativ
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { useMount, lockToPortrait } from '../../utils';
+import { useTranslation, initReactI18next } from "react-i18next";
 
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
@@ -29,89 +30,75 @@ const Welcome = (props: WelcomeProps) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [helpMode, setHelpMode]= useState(false)
+  const { t, i18n } = useTranslation('welcome');
+  const toggleTrueFalse = () => setHelpMode(!helpMode);
+
   useMount(() => {
     lockToPortrait();
   });
-  const toggleTrueFalse = () => setHelpMode(!helpMode);
 
   return (
     <Flex value={1} >
-
-<ImageBackground source={Background} style={{width: '100%', height: '100%'}}>
-<StatusBar />
-  <Flex value={1} direction="column" justify="flex-start" style={[styles.SectionOnboarding, {marginTop:60}]}>
-  <BotTalking heading="Welcome to Voke!">
-  We’re engaging in video series exploring questions about faith and Jesus, together.  </BotTalking>
-
-  {/* Help Mode Text */}
-
-  <Flex direction="column" justify="center" style={styles.HelpSection}>
-  {helpMode?
-    <Flex><Text style={styles.HelpSectionHeading}>I have an adventure Code</Text>
-    <Text style={styles.TextSmall}>You get to do video adventures with others in Voke. Choose this if you recieved an Adventure invite code to easily join your friend or group. </Text>
- </Flex>
-    : null   }
-    </Flex>
-
-  {/* Informtion Icon */}
-  <TouchableOpacity onPress={toggleTrueFalse}>
-      <VokeIcon
-        name="help-circle"
-        size={30}
-        style={{ textAlign:'right', marginRight:20}}
-      />
-</TouchableOpacity>
- {/* BUTTON: CALL TO ACTION */}
- <Button
-            isAndroidOpacity
-            style={styles.ButtonPrimary}
-            onPress={() => navigation.navigate('AdventureCode')}
-          >
-            <Flex direction="row" justify="center">
-            <Text style={styles.ButtonLabelPrimary}>I have an Adventure Code</Text>
-            {/* <VokeIcon
-                    name="arrow-left2"
-                    size={22}
-                    style={{ transform: [{ rotateY: '180deg' }]} }
-                  /> */}
-                  </Flex>
-          </Button>
-           {/* BUTTON: CALL TO ACTION */}
-           <Button
-            isAndroidOpacity
-            style={styles.ButtonWhite}
-            onPress={() => navigation.navigate('AccountName')}
-          >            
-          <Flex direction="row" justify="center">
-            <Text style={styles.ButtonLabelWhite}>I'd like to Explore</Text>
-            {/* <VokeIcon
-                    name="arrow-left2"
-                    size={22}
-                    style={{ transform: [{ rotateY: '180deg' }], color: styles.colors.secondary} }
-                  /> */}
-                  </Flex>
-          </Button>
-<Flex>
-      {/* TEXT: TERMS OF SERVICE */}
-      <Text style={[styles.TextSmall]}>
-            By exploring, you agree to our
-            {'\n'}
-            <Text
-              style={styles.Link}
-              onPress={() => Linking.openURL(CONSTANTS.WEB_URLS.PRIVACY)}
-            >
-              Privacy Policy
-            </Text>
-            &nbsp; and &nbsp;
-            <Text
-              style={styles.Link}
-              onPress={() => Linking.openURL(CONSTANTS.WEB_URLS.TERMS)}
-            >
-              Terms of Service
-            </Text>
-          </Text>
+      <ImageBackground source={Background} style={{width: '100%', height: '100%'}}>
+      <StatusBar />
+      <Flex value={1} direction="column" justify="flex-start" style={[styles.SectionOnboarding, {marginTop:60}]}>
+      <BotTalking heading={t('botMessageTitle')}>{t('botMessageContent')}</BotTalking>
+      {/* Help Mode Text */}
+      <Flex direction="column" justify="center" style={styles.HelpSection}>
+        { helpMode?
+          <Flex>
+            <Text style={styles.HelpSectionHeading}>{t('haveCode')}</Text>
+            <Text style={styles.TextSmall}>{t('haveCodeInfo')}</Text>
+          </Flex>
+        : null }
+      </Flex>
+      {/* Information Icon */}
+      <TouchableOpacity onPress={toggleTrueFalse}>
+        <VokeIcon
+          name="help-circle"
+          size={30}
+          style={{ textAlign:'right', marginRight:20}}
+        />
+      </TouchableOpacity>
+      {/* BUTTON: CALL TO ACTION */}
+      <Button
+        isAndroidOpacity
+        style={styles.ButtonPrimary}
+        onPress={() => navigation.navigate('AdventureCode')}
+      >
+        <Flex direction="row" justify="center">
+          <Text style={styles.ButtonLabelPrimary}>{t('haveCode')}</Text>
         </Flex>
-
+      </Button>
+      {/* BUTTON: CALL TO ACTION */}
+      <Button
+        isAndroidOpacity
+        style={styles.ButtonWhite}
+        onPress={() => navigation.navigate('AccountName')}
+      >
+        <Flex direction="row" justify="center">
+          <Text style={styles.ButtonLabelWhite}>{t('toExplore')}</Text>
+        </Flex>
+      </Button>
+      <Flex>
+        {/* TEXT: TERMS OF SERVICE */}
+        <Text style={[styles.TextSmall]}>
+          {t('agreementExplore')}{'\n'}
+          <Text
+            style={styles.Link}
+            onPress={() => Linking.openURL(CONSTANTS.WEB_URLS.PRIVACY)}
+          >
+            {t('privacy')}
+          </Text>
+          &nbsp; {t('and')} &nbsp;
+          <Text
+            style={styles.Link}
+            onPress={() => Linking.openURL(CONSTANTS.WEB_URLS.TERMS)}
+          >
+            {t('tos')}
+          </Text>
+        </Text>
+      </Flex>
       {/* SECTION: SIGN IN */}
       <Flex
         // value={1}
@@ -121,7 +108,7 @@ const Welcome = (props: WelcomeProps) => {
         style={styles.SectionSignIn}
       >
         <View>
-          <Text style={styles.SignInText}>Already have an account?</Text>
+          <Text style={styles.SignInText}>{t('haveAccount')}</Text>
         </View>
         <Button
           isAndroidOpacity
@@ -130,7 +117,7 @@ const Welcome = (props: WelcomeProps) => {
             navigation.navigate('AccountSignIn');
           }}
         >
-          <Text style={styles.ButtonSignInLabel}>Sign In</Text>
+          <Text style={styles.ButtonSignInLabel}>{t('signIn')}</Text>
         </Button>
       </Flex>
       {/* Safe area bottom spacing */}

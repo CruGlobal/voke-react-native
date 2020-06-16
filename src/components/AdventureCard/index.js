@@ -158,14 +158,14 @@ function AdventureCard({ adventureId }) {
               {/* AVATARS */}
               {!isGroup ? (
                 <Flex value={1} style={[{paddingBottom:10}]} direction="row" align="center">
-                  <Touchable onPress={() => {Alert.alert('TODO!')}}>
+                  <View>
                     <Image
                       source={{
                         uri: (myUser.avatar || {}).small || undefined,
                       }}
                       style={[st.circle(36), { borderWidth: 2, borderColor: st.colors.white, marginLeft: -3 }]}
                     />
-                  </Touchable>
+                  </View>
                   {!isSolo ? (
                     <Image
                       source={{ uri: (otherUser.avatar || {}).small || undefined }}

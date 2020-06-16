@@ -3,6 +3,7 @@ import { useSafeArea } from 'react-native-safe-area-context';
 import { ScrollView, Share, Linking, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from "react-i18next";
 import Flex from '../../components/Flex';
 import st from '../../st';
 import Image from '../../components/Image';
@@ -39,6 +40,7 @@ function Menu(props) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const email = useSelector(({ auth }: any) => auth?.user?.email);
+  const { t, i18n } = useTranslation('shareFlow');
 
   const signOut = () => {
     dispatch(logoutAction()).then(() => {
@@ -81,10 +83,10 @@ function Menu(props) {
           onSelect={() =>
             Share.share(
               {
-                message:
-                  "Check out this awesome app called Voke. Let's go deeper with God and others! https://vokeapp.com",
-                title: 'Check out',
-                url: '',
+                subject: t('checkTitle'),
+                title: t('checkTitle'),
+                message: t('checkMessage'),
+                url: 'https://voke.page.link/app', // At least one of URL and message is required.
               },
               {
                 dialogTitle: 'Share',
@@ -131,7 +133,7 @@ function Menu(props) {
           title="About"
           onSelect={() => navigation.navigate('About')}
         />
-        <SettingsRow
+        {!!email && (<SettingsRow
           title="Sign Out"
           onSelect={() => {
             !email && Alert.alert(
@@ -155,7 +157,7 @@ function Menu(props) {
             );
             email && signOut();
           }}
-        />
+        />)}
         {/* SECTION: OUR PARTNERS */}
         {/* TODO: Tidy up */}
         <Flex

@@ -10,7 +10,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
-import { userLogin, facebookLogin } from '../../actions/auth';
+import { updateMe } from '../../actions/auth';
 import { useMount, lockToPortrait } from '../../utils';
 import { useTranslation } from "react-i18next";
 
@@ -24,20 +24,25 @@ import Text from '../../components/Text';
 import styles from './styles';
 import CONSTANTS from '../../constants';
 
-const AccountSignIn: React.FC = (): React.ReactElement => {
+const AccountEmailPass: React.FC = (): React.ReactElement => {
   const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState('');
-  const [emailValid, setEmailValid] = useState(false);
+  const [confirmEmail, setConfirmEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [emailValid, setEmailValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { t } = useTranslation('common');
+  const { t } = useTranslation(['common','placeholder', 'profile', 'forgotPassword', 'login', 'error']);
+
+  const emailRef = useRef<TextInput>(null);
+  const emailConfirmRef = useRef<TextInput>(null);
   const passwordRef = useRef<TextInput>(null);
 
   useMount(() => {
     lockToPortrait();
+    emailRef?.current?.focus();
   });
 
   const checkEmail = (text: string): void => {
@@ -48,45 +53,64 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
     setEmail(text);
   };
 
-  const login = async (): Promise<void> => {
-    // According to Voke API, password should be at least 8 characters long.
-    if (emailValid && password.length > 7) {
+  const save = async (): Promise<void> => {
+
+    const emailValidation = CONSTANTS.EMAIL_REGEX.test(email);
+    const confirmEmailValidation = CONSTANTS.EMAIL_REGEX.test(confirmEmail);
+
+    if (!emailValidation || !confirmEmailValidation) {
+      Alert.alert(
+        t('forgotPassword:invalid'),
+      );
+      return;
+    } else if( email !== confirmEmail ) {
+      Alert.alert(
+        t('profile:emailsMatch'),
+      );
+      return;
+    } else if( password.length <= 7 ) {
+      // According to Voke API, password should be at least 8 characters long.
+      Alert.alert(
+        t('profile:passwordsLength'),
+      );
+      return;
+    } else {
       setIsLoading(true);
 
+      let data = {
+        me: {
+          // first_name: firstName,
+          // last_name: lastName,
+          email: email,
+          current_password: password,
+          // password: newPassword,
+        },
+      };
+
+      console.log( "🐸 data:", data );
+
       try {
-        await dispatch(userLogin(email, password)); // Then try to login.
+        const result = await dispatch(updateMe(data));
+        console.log( "🐸 result:", result );
+        /* .then(() => {
+          this.resetState();
+        })
+        .catch(e => {
+          if (e && e.errors && e.errors[0]) {
+            Alert.alert(e.errors[0]);
+          }
+        }); */
         setIsLoading(false);
-        navigation.navigate('LoggedInApp');
+        navigation.navigate('AccountProfile');
       } catch (e) {
         // eslint-disable-next-line no-console
-        console.log('🛑 Error on login \n', { e });
+        console.log('🛑 Error on email/pass change \n', { e });
         Alert.alert(
-          'Invalid email/password',
-          'Please enter a valid email and password'
-          // e.error_description ? e.error_description : e.errors[0]
+          t('error:error'),
+          e?.errors[0]
         );
         setIsLoading(false);
       }
-    } else {
-      Alert.alert(
-        'Invalid email/password',
-        'Please enter a valid email and password'
-      );
-    }
-  };
-
-  // Facebook Login.
-  const fbLogin = async (): Promise<void> => {
-    setIsLoading(true);
-    const userId = await dispatch(facebookLogin());
-    setIsLoading(false);
-    if (!userId) {
-      Alert.alert(
-        "Can't sign in with Facebook",
-        'Facebook authentication is not available at this moment'
-      );
-    } else {
-      navigation.navigate('LoggedInApp');
     }
   };
 
@@ -110,10 +134,11 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
         >
           {/* INPUT FIELD: EMAIL */}
           <TextField
+            ref={emailRef}
             // blurOnSubmit={false}
-            label="Email"
-            onSubmitEditing={(): void => passwordRef?.current?.focus()}
-            placeholder="Email"
+            label={t('placeholder:newEmail')}
+            onSubmitEditing={(): void => emailConfirmRef?.current?.focus()}
+            placeholder=""
             value={email}
             onChangeText={checkEmail}
             autoCapitalize="none"
@@ -121,20 +146,37 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
             autoCompleteType="email"
             keyboardType="email-address"
             returnKeyType="next"
+            autoFocus={true}
+          />
+          {/* INPUT FIELD: CONFIRM NEW EMAIL */}
+          <TextField
+            ref={emailConfirmRef}
+            // blurOnSubmit={true}
+            label={t('placeholder:confirmEmail')}
+            placeholder=""
+            value={confirmEmail}
+            onChangeText={(text: string): void => setConfirmEmail(text)}
+            onSubmitEditing={(): void => passwordRef?.current?.focus()}
+            autoCapitalize="none"
+            textContentType="username"
+            autoCompleteType="email"
+            keyboardType="email-address"
+            returnKeyType="next"
+            onSubmitEditing={(): void => passwordRef?.current?.focus()}
           />
           {/* INPUT FIELD: PASSWORD */}
           <TextField
             ref={passwordRef}
             // blurOnSubmit={true}
-            label="Password"
-            placeholder="Password"
+            label={t('placeholder:password')}
+            placeholder=""
             value={password}
             onChangeText={(text: string): void => setPassword(text)}
             secureTextEntry
             textContentType="password"
             autoCompleteType="password"
             returnKeyType="send"
-            onSubmitEditing={(): Promise<void> => login()}
+            onSubmitEditing={(): Promise<void> => save()}
           />
         </Flex>
         {/* TRIANGLE DIVIDER */}
@@ -156,53 +198,13 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
           <Button
             isAndroidOpacity
             style={styles.ButtonStart}
-            onPress={(): Promise<void> => login()}
+            onPress={(): Promise<void> => save()}
             isLoading={isLoading}
           >
-            <Text style={styles.ButtonStartLabel}>Sign In</Text>
+            <Text style={styles.ButtonStartLabel}>{t('save')}</Text>
           </Button>
-          {/* TEXT: FORGOT PASSWORD */}
-          <Text
-            style={styles.Link}
-            onPress={(): void => navigation.navigate('ForgotPassword')}
-          >
-            {t('forgotPassword')}
-          </Text>
         </Flex>
       </KeyboardAvoidingView>
-      {/* TEXT: NOTICE */}
-      {/* TODO: hide this notice if it's on the welcome stage (no progress) */}
-      <Flex direction="column" justify="start" style={styles.SectionNotice}>
-        <Text style={styles.TextSmall}>
-          Successful login to an existing account will merge your current
-          progress with saved data.
-        </Text>
-      </Flex>
-      {/* SECTION: FACEBOOK SIGN IN */}
-      <Flex
-        direction="row"
-        align="center"
-        justify="center"
-        style={styles.SectionFB}
-      >
-        <Button
-          isAndroidOpacity
-          style={styles.ButtonFBSignIn}
-          onPress={(): Promise<void> => fbLogin()}
-        >
-          <Flex direction="row" align="center" justify="center">
-            <VokeIcon
-              type="image"
-              name="facebook"
-              style={styles.ButtonFBSignInIcon}
-            />
-            <Text style={styles.ButtonFBSignInLabel}>
-              Sign In with Facebook
-            </Text>
-          </Flex>
-        </Button>
-      </Flex>
-
       {/* Safe area at the bottom for phone with exotic notches */}
       <Flex
         style={{
@@ -213,4 +215,4 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
   );
 };
 
-export default AccountSignIn;
+export default AccountEmailPass;
