@@ -12,6 +12,7 @@ import { useSafeArea } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 import { userLogin, facebookLogin } from '../../actions/auth';
 import { useMount, lockToPortrait } from '../../utils';
+import { useTranslation } from "react-i18next";
 
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
 import VokeIcon from '../../components/VokeIcon';
@@ -32,7 +33,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
   const [emailValid, setEmailValid] = useState(false);
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
+  const { t } = useTranslation('common');
   const passwordRef = useRef<TextInput>(null);
 
   useMount(() => {
@@ -165,7 +166,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
             style={styles.Link}
             onPress={(): void => navigation.navigate('ForgotPassword')}
           >
-            Forgot Password?
+            {t('forgotPassword')}
           </Text>
         </Flex>
       </KeyboardAvoidingView>

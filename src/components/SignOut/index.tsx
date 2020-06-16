@@ -12,7 +12,7 @@ import Button from '../Button';
 import Touchable from '../Touchable';
 import { useDispatch,useSelector } from 'react-redux';
 import theme from '../../theme';
-import { logoutAction, deleteAccountAction } from '../../actions/auth';
+import { logoutAction } from '../../actions/auth';
 import { useNavigation } from '@react-navigation/native';
 
 type SignOutProps = {
@@ -44,6 +44,7 @@ const SignOut = ({
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [clickDisabled, setClickDisabled] = useState(false);
+  const email = useSelector(({ auth }: any) => auth?.user?.email);
   let clickDisableTimeout = null;
   useEffect(
     () =>
@@ -62,7 +63,7 @@ const SignOut = ({
   }
 
   return (
-    <Button
+    <>{!!email && (<Button
       isAndroidOpacity={true}
       onPress={
         () => dispatch(logoutAction()).then(() => {
@@ -94,7 +95,7 @@ const SignOut = ({
           }}
         >Sign out</Text>
       </Flex>
-    </Button>
+    </Button>)}</>
   );
 };
 export default SignOut;

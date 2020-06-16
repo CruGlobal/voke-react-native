@@ -16,9 +16,12 @@
     "o": "npm run open:ios",
     "clean": "react-native-clean-project",
     "ios:beta": "bundle exec fastlane ios beta",
-    "android:beta": "bundle exec fastlane android beta"
+    "android:beta": "bundle exec fastlane android beta",
+    "onesky:upload": "babel-node ./bin/oneskyUpload.js",
+    "onesky:download": "babel-node ./bin/oneskyDownload.js"
   },
   "dependencies": {
+    "@brainly/onesky-utils": "^1.4.0",
     "@emotion/core": "^10.0.28",
     "@emotion/native": "^11.0.0-next.12",
     "@emotion/react": "^11.0.0-next.12",
@@ -81,6 +84,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.6.2",
+    "@babel/node": "^7.10.1",
     "@babel/runtime": "7.6.2",
     "@react-native-community/eslint-config": "1.0.0",
     "@types/jest": "24.0.24",

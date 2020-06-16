@@ -42,6 +42,15 @@ const styles: { [key: string]: any } = {
 	ButtonActionLabel: [
 		ui.buttonText.size.m
 	],
+	ButtonActionTextOnly: [
+		{marginTop: 10},
+		css`
+			text-align: center;
+			text-decoration-line: underline;
+			color: ${theme.colors.white};
+		`,
+	],
+
 	SignInText: css`
 		color: ${theme.colors.white};
 		font-size: ${theme.fontSizes.m + 'px'};

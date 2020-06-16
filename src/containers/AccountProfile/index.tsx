@@ -275,54 +275,52 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                   }}
                 />
               </>}
-              { !!me.email && <>
-                <Button
-                  isAndroidOpacity={true}
-                  style={[styles.ButtonAction]}
-                  onPress={
-                    () =>
-                    Alert.alert(
-                      'Are you sure?',
-                      `You are about to remove your Voke account - which will delete all conversations, Adventure progress and user data, login credentials etc. You will not be able to recover this account if you proceed, but you can create a new one. Are you sure you want to do this?`,
-                      [
-                        {
-                          text: 'Cancel',
-                          onPress: () => {},
-                          style: "cancel"
+              <Button
+                isAndroidOpacity={true}
+                style={[ !!me.email ? styles.ButtonAction : styles.ButtonActionTextOnly ]}
+                onPress={
+                  () =>
+                  Alert.alert(
+                    'Are you sure?',
+                    `You are about to remove your Voke account - which will delete all conversations, Adventure progress and user data, login credentials etc. You will not be able to recover this account if you proceed, but you can create a new one. Are you sure you want to do this?`,
+                    [
+                      {
+                        text: 'Cancel',
+                        onPress: () => {},
+                        style: "cancel"
+                      },
+                      {
+                        text: 'Delete',
+                        onPress: async () => {
+                          try {
+                            await dispatch(deleteAccountAction());
+                            dispatch(logoutAction());
+                          } finally {
+                            // Navigate back to the very first screen.
+                            // 🤦🏻‍♂️Give React 10ms to render WelcomeApp component.
+                             setTimeout(() => {
+                              navigation.reset({
+                                index: 1,
+                                routes: [{ name: 'Welcome' }],
+                              });
+                            }, 10);
+                          }
                         },
-                        {
-                          text: 'Delete',
-                          onPress: async () => {
-                            await dispatch(deleteAccountAction()).then(() => {
-                              // logoutAction();
-                              // Navigate back to the very first screen.
-                              // 🤦🏻‍♂️Give React 10ms to render WelcomeApp component.
-                             /*  setTimeout(() => {
-                                navigation.reset({
-                                  index: 1,
-                                  routes: [{ name: 'Welcome' }],
-                                });
-                              }, 10); */
-                            }).finally(
-                              dispatch(logoutAction())
-                            )
-                          },
-                        }
-                      ]
-                    )
-                  }
-                >
-                  <Flex
-                    // value={1}
-                    direction="row"
-                    align="center"
-                    justify="center"
+                      }
+                    ]
+                  )
+                }
+              >
+                <Flex
+                  // value={1}
+                  direction="row"
+                  align="center"
+                  justify="center"
 
-                  >
-                    <Text style={styles.ButtonActionLabel}>Delete My Account</Text>
-                  </Flex>
-                </Button>
-              </>}
+                >
+                  <Text style={styles.ButtonActionLabel}>Delete my Account</Text>
+                </Flex>
+              </Button>
             </Flex>
           </Flex>
         </Flex>
