@@ -291,6 +291,18 @@ export function deleteAdventureInvitation(inviteId: string) {
   };
 }
 
+export function deleteAdventure(adventureId: string) {
+  return async dispatch => {
+    const result = await dispatch(
+      request({
+        ...ROUTES.DELETE_ADVENTURE,
+        pathParams: { adventureId },
+      })
+    );
+    return result;
+  };
+}
+
 
 // Create new message in Adventure chat.
 export function createAdventureStepMessage(params: {
