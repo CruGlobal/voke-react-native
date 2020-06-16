@@ -6,7 +6,7 @@ const styles: { [key: string]: any } = {
   ...ui,
   TabBarTitle: css`
     color: ${theme.colors.secondary};
-    font-size: ${`${theme.fontSizes.m}px`};
+    font-size: ${`${theme.fontSizes.l}px`};
     font-family: ${theme.fonts.regular};
     padding-top: ${`${theme.spacing.s}px`};
     padding-bottom: ${`${theme.spacing.s}px`};

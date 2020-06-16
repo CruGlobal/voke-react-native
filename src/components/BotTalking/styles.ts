@@ -5,17 +5,17 @@ import ui from '../../ui';
 const styles: { [key: string]: any } = {
   ...ui,
   BotContainer: css`
-    padding-bottom: ${`${theme.spacing.m}px`};
     width: 90%;
     margin: auto;
     margin-top: ${`${theme.spacing.m}px`};
-
+    padding-bottom: ${`${theme.spacing.m}px`};    
   `,
   BotMessage: css`
     width: 100%;
     background-color: ${theme.colors.secondary};
     padding: ${`${theme.spacing.s}px`};
     border-radius:  ${`${theme.radius.m}px`};
+    padding-bottom: 12px;
   `,
   BotHeading: css`
     color: ${theme.colors.white};
@@ -31,7 +31,7 @@ const styles: { [key: string]: any } = {
 `,
   BotText: css`
     color: ${theme.colors.white};
-    font-size: ${`${theme.fontSizes.l}px`};
+    font-size: ${`${theme.fontSizes.xl}px`};
     font-family: ${theme.fonts.regular};
     text-align: center;
   `,
@@ -43,7 +43,7 @@ const styles: { [key: string]: any } = {
     margin-left: 50px;
     margin-top: -10px;
     transform: rotate(-90deg);
-    z-index:-1
+    z-index:-1;
   `,
   BotMessage_reverse: css`
   width: 80%;

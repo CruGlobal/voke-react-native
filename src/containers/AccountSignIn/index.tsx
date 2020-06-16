@@ -13,16 +13,19 @@ import { useDispatch } from 'react-redux';
 import { userLogin, facebookLogin } from '../../actions/auth';
 import { useMount, lockToPortrait } from '../../utils';
 import { useTranslation } from "react-i18next";
+import useKeyboard from '@rnhooks/keyboard';
 
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
 import VokeIcon from '../../components/VokeIcon';
 import TextField from '../../components/TextField';
-import Triangle from '../../components/Triangle';
+import BotTalking from '../../components/BotTalking';
 import Button from '../../components/Button';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import styles from './styles';
 import CONSTANTS from '../../constants';
+import st from '../../st';
+import theme from '../../theme';
 
 const AccountSignIn: React.FC = (): React.ReactElement => {
   const insets = useSafeArea();
@@ -35,6 +38,10 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation('common');
   const passwordRef = useRef<TextInput>(null);
+  const [isKeyboardVisible] = useKeyboard({
+    useWillShow: true,
+    useWillHide: true,
+  });
 
   useMount(() => {
     lockToPortrait();
@@ -92,7 +99,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
 
   return (
     <DismissKeyboardView
-      style={{ backgroundColor: styles.colors.secondary, height: '100%' }}
+      style={{ backgroundColor: styles.colors.primary, height: '100%' }}
     >
       {/* <StatusBar /> <- TODO: Not sure why we need it here? */}
 
@@ -101,12 +108,23 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // TODO: Verify!
         style={styles.MainContainer}
       >
-        <Flex
-          value={4}
+        <Flex   
+        value={2}
           direction="column"
           align="center"
           justify="center"
-          style={[styles.PrimaryContent, { paddingTop: insets.top + 30 }]}
+          style={ { paddingTop: insets.top + 30, zIndex:10 }}
+          >
+          <BotTalking>Successful login to an existing account will merge your current
+            progress with saved data.
+          </BotTalking>
+        </Flex>
+        <Flex
+          value={3}
+          direction="column"
+          align="center"
+          justify="center"
+          style={[styles.PrimaryContent]}
         >
           {/* INPUT FIELD: EMAIL */}
           <TextField
@@ -137,14 +155,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
             onSubmitEditing={(): Promise<void> => login()}
           />
         </Flex>
-        {/* TRIANGLE DIVIDER */}
-        <Flex value={1} justify="end" style={styles.Divider}>
-          <Triangle
-            width={useWindowDimensions().width}
-            height={40}
-            color={styles.colors.secondary}
-          />
-        </Flex>
+
         {/* SECTION: CALL TO ACTION BUTTON */}
         <Flex
           value={2}
@@ -155,7 +166,11 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
           {/* BUTTON: SIGN IN */}
           <Button
             isAndroidOpacity
-            style={styles.ButtonStart}
+            style={[st.pd4, st.br1, st.w(st.fullWidth - 70),{backgroundColor: theme.colors.white, textAlign:"center", marginTop: isKeyboardVisible ? 70 : 20 , shadowColor: 'rgba(0, 0, 0, 0.5)',
+            shadowOpacity: 0.5,
+            elevation: 4,
+            shadowRadius: 5 ,
+            shadowOffset : { width: 1, height: 8}}]}            
             onPress={(): Promise<void> => login()}
             isLoading={isLoading}
           >
@@ -171,42 +186,39 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
         </Flex>
       </KeyboardAvoidingView>
       {/* TEXT: NOTICE */}
-      {/* TODO: hide this notice if it's on the welcome stage (no progress) */}
-      <Flex direction="column" justify="start" style={styles.SectionNotice}>
-        <Text style={styles.TextSmall}>
-          Successful login to an existing account will merge your current
-          progress with saved data.
-        </Text>
-      </Flex>
+
       {/* SECTION: FACEBOOK SIGN IN */}
       <Flex
         direction="row"
         align="center"
         justify="center"
-        style={styles.SectionFB}
       >
+        {/* BUTTON:SIGN IN WITH FACBOOK */}
         <Button
-          isAndroidOpacity
-          style={styles.ButtonFBSignIn}
-          onPress={(): Promise<void> => fbLogin()}
-        >
-          <Flex direction="row" align="center" justify="center">
-            <VokeIcon
-              type="image"
-              name="facebook"
-              style={styles.ButtonFBSignInIcon}
-            />
-            <Text style={styles.ButtonFBSignInLabel}>
-              Sign In with Facebook
-            </Text>
-          </Flex>
-        </Button>
+                  isAndroidOpacity={true}
+                  style={[styles.ButtonSignUp]}
+                  onPress={(): Promise<void> => fbLogin()}
+                >
+                  <Flex
+                    // value={1}
+                    direction="row"
+                    align="center"
+                    justify="center"
+                  >
+                    <VokeIcon
+                      name="logo-facebook"
+                      size={22}
+                      style={st.mr5}
+                    />
+                    <Text style={styles.ButtonSignUpLabel}>Sign in with Facebook</Text>
+                  </Flex>
+                </Button>
       </Flex>
 
       {/* Safe area at the bottom for phone with exotic notches */}
       <Flex
         style={{
-          paddingBottom: insets.bottom,
+          paddingBottom: (insets.bottom +30),
         }}
       />
     </DismissKeyboardView>

@@ -159,7 +159,11 @@ const AccountCreate: React.FC = (): React.ReactElement => {
           {/* BUTTON: SIGN UP */}
           <Button
             isAndroidOpacity
-            style={[st.pd4, st.br1, st.w(st.fullWidth - 70),{backgroundColor: theme.colors.white, textAlign:"center", marginTop:20 }]}
+            style={[st.pd4, st.br1, st.w(st.fullWidth - 70),{backgroundColor: theme.colors.white, textAlign:"center", marginTop:20, shadowColor: 'rgba(0, 0, 0, 0.5)',
+            shadowOpacity: 0.5,
+            elevation: 4,
+            shadowRadius: 5 ,
+            shadowOffset : { width: 1, height: 8}}]}
             onPress={(): Promise<void> => register()}
             isLoading={isLoading}
           >

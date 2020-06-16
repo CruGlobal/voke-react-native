@@ -9,7 +9,7 @@ const styles: { [key: string]: any } = {
     ui.container.default,
     css`
       flex: 1;
-      background-color: ${theme.colors.secondary};
+      background-color: ${theme.colors.primary};
     `,
   ],
   PrimaryContent: css`
@@ -24,10 +24,9 @@ const styles: { [key: string]: any } = {
   `,
   SectionAction: css`
     width: 100%;
-    background-color: ${theme.colors.secondary};
+    background-color: ${theme.colors.primary};
     padding-left: ${`${theme.spacing.xl}px`};
     padding-right: ${`${theme.spacing.xl}px`};
-    padding-bottom: ${`${theme.spacing.l}px`};
   `,
   ButtonStart: [
     ui.button.size.l,
@@ -47,6 +46,7 @@ const styles: { [key: string]: any } = {
     text-align: center;
     text-decoration-line: underline;
     color: ${theme.colors.white};
+    margin-top: ${`${theme.spacing.l}px`};
   `,
   SectionNotice: css`
     padding-left: ${`${theme.spacing.xl}px`};
@@ -60,29 +60,15 @@ const styles: { [key: string]: any } = {
     text-align: center;
     margin-top: -${`${theme.spacing.l}px`};
   `,
-  SectionFB: css`
-    background-color: ${theme.colors.secondary};
-    padding-top: ${`${theme.spacing.l}px`};
-    padding-bottom: ${`${theme.spacing.l}px`};
-    border-top-width: 1px;
-    border-top-color: rgba(0, 0, 0, 0.2);
-    width: 100%;
-  `,
-  ButtonFBSignIn: [
-    ui.button.size.m,
-    ui.button.style.outline,
-  ],
-  ButtonFBSignInIcon: [
-    css`
-      width: 22px;
-      height: 22px;
-      margin-right: ${`${theme.spacing.l}px`};
-    `,
-  ],
-  ButtonFBSignInLabel: [
-    ui.buttonText.size.m,
-    ui.buttonText.style.outline
-  ],
+
+  ButtonSignUp: [
+		ui.button.size.outlinel,
+		ui.button.style.outline,
+	],
+	ButtonSignUpLabel: [
+		ui.buttonText.size.m,
+		ui.buttonText.style.outline
+	],
 };
 
 export default styles;

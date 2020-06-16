@@ -40,7 +40,10 @@ const styles: { [key: string]: any } = {
 		ui.button.style.outline,
 	],
 	ButtonActionLabel: [
-		ui.buttonText.size.m
+		ui.buttonText.size.m,
+		css`
+		margin-top:${theme.spacing.l + 'px'};
+		`
 	],
 	ButtonActionTextOnly: [
 		{marginTop: 10},

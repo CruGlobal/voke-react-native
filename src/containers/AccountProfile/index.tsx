@@ -311,8 +311,8 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                 <Flex
                   // value={1}
                   direction="row"
-                  align="center"
-                  justify="center"
+                  align="start"
+                  justify="start"
 
                 >
                   <Text style={styles.ButtonActionLabel}>Delete my Account</Text>

@@ -90,11 +90,11 @@ function AvailableAdventureItem({
               </Text>
               <VokeIcon name="play-full" size={16} />
             </Flex>
-          ) :  <Text style={[st.fs12, st.bold, st.white]}>
+          ) :  <Text style={[st.fs14, st.bold, st.white]}>
           ADVENTURE
         </Text>}
-          <Text style={[st.fs20, st.white]}>
-            {item.name.toUpperCase()}
+          <Text style={[st.fs24, st.white]}>
+            {item.name}
           </Text>
           <Text
             style={[st.fs(24), st.white, st.light, st.tac]}
