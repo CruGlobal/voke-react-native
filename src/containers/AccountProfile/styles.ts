@@ -44,6 +44,11 @@ const styles: { [key: string]: any } = {
 	],
 	ButtonActionTextOnly: [
 		{marginTop: 10},
+		css`
+			text-align: center;
+			text-decoration-line: underline;
+			color: ${theme.colors.white};
+		`,
 	],
 
 	SignInText: css`
