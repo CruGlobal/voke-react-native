@@ -86,13 +86,18 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
     // To mark as read we need converstation id and message id.
     // We mark only the latest message as read,
     // all others will be marked as read automatically according to Pablo :)
-    if (currentMessages.slice(-1)[0]?.id) {
+
+    // We can't use our own message to mark conversation as read.
+    // So find the latest message that doesn't belong to the current user.
+    let latestMessage = currentMessages.slice().reverse().find(message => message?.messenger_id !== currentUser.id);
+
+    if ( latestMessage?.id ) {
       dispatch(
         markMessageAsRead({
           adventureId: adventure.id,
           stepId: currentStep.id,
           conversationId: conversationId,
-          messageId: currentMessages.slice(-1)[0]?.id
+          messageId: latestMessage?.id
         })
       );
       dispatch(updateTotalUnreadCounter());
