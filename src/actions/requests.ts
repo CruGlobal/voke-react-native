@@ -516,7 +516,6 @@ export function updateDevice(newDeviceData: any) {
         description: 'Update device data on our server'
       }),
     );
-
     // dispatch(setAuthData('device', results));
     // Update info in store.auth.device.
     dispatch({
@@ -680,7 +679,6 @@ export function getNotifications(params: any = {}) {
   return async (dispatch: Dispatch, getState: any) => {
     const notificationId = getState().auth.user.vokebotConversationId;
     if (!notificationId) return;
-
     const results: any = await dispatch(
       request({
         ...ROUTES.GET_NOTIFICATIONS,
@@ -693,9 +691,6 @@ export function getNotifications(params: any = {}) {
       type: REDUX_ACTIONS.UPDATE_NOTIFICATION_PAGINATION,
       result: { results, params },
     });
-
-    dispatch(updateUnReadNotificationsBadge( results.messages ));
-
     return results;
   };
 }

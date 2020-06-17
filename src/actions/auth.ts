@@ -22,7 +22,7 @@ import {
 import { isArray } from '../utils';
 import { openSocketAction, closeSocketAction } from './socket';
 import { permissionsAndNotifications } from './notifications';
-import { getAdventureStepMessages } from './requests';
+import { getAdventureStepMessages, getNotifications } from './requests';
 
 export function loginAction(authToken) {
   // const authToken = authData.access_token;
@@ -39,6 +39,8 @@ export function startupAction() {
       type: REDUX_ACTIONS.STARTUP,
     });
     await dispatch(permissionsAndNotifications());
+    // Get notifications every time sockets connections reestablished.
+    await dispatch(getNotifications());
   };
 }
 
@@ -68,8 +70,10 @@ export function wakeupAction() {
           adventureStepId
         ),
       );
-
     }
+
+    // Get notifications every time sockets connections reestablished.
+    await dispatch(getNotifications());
   }
 }
 
