@@ -76,6 +76,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
   };
 
   // Facebook Login.
+  // TODO: Create FB Button component.
   const fbLogin = async (): Promise<void> => {
     setIsLoading(true);
     const userId = await dispatch(facebookLogin());
