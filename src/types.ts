@@ -185,6 +185,7 @@ export type TDataState {
   };
   notifications: any;
   notificationPagination: { hasMore: boolean; page: number };
+  notificationUnreadBadge: number,
   unReadBadgeCount: number;
   availableAdventures: any;
   myAdventures: any;

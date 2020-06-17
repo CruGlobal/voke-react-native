@@ -312,7 +312,6 @@ export function permissionsAndNotifications( askPermission = false) {
           permission: 'granted', // 'unavailable' | 'denied' | 'blocked' | 'granted'
           description: 'Called from checkNotifications()'
         });
-
         /* requestNotifications(['alert', 'sound']).then(({status, settings}) => {
         }); */
       }
