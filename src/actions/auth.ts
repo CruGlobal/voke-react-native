@@ -395,6 +395,7 @@ export function deleteAccountAction() {
       success => {
         // eslint-disable-next-line no-console
         console.log( "👤 Account Deleted \n\n", success );
+        setAppIconBadgeNumber(0);
         // Clear data in the local storage if user logout.
         // AsyncStorage.clear(); - we do that in the parrent functions
         // return;
