@@ -18,7 +18,7 @@ import { REDUX_ACTIONS } from '../../constants';
 
 import ChatExample from '../../assets/ChatExample.png';
 import VideoExample from '../../assets/VideoExample.png';
-import InviteCodeExample from '../../assets/InviteCodeExample.png';
+import InviteCodeExample from '../../assets/InviteCodeExample2.png';
 import GroupWelcomeExample from '../../assets/GroupWelcomeExample.png';
 
 const TipsModal = (props: { group: any; item:any }): React.ReactElement => {
@@ -28,12 +28,6 @@ const TipsModal = (props: { group: any; item:any }): React.ReactElement => {
   // store.info.groupTutorialCount
   const {duoTutorialCount, groupTutorialCount, tutorialMode } = useSelector(({ info }: RootState) => info);
   const withGroup = (props.group==='withGroup')? true: false;
-
-  console.log("props-------", props)
-
-  console.log("DUO-------", duoTutorialCount)
-  console.log("GROUP-------", groupTutorialCount)
-
 
   const navigateToNextScreen=()=>{
     let item =props.item;
@@ -171,7 +165,7 @@ if (withGroup){
                 paddingVertical: 4,
                 color: 'white',
                 width:"60%"
-              }}>Share the Link / Adventure Code to the friends you want to join.</Text>
+              }}>Share the Link or Adventure Code to the friends you want to join.</Text>
               <Image width={130} source={InviteCodeExample}/>
 
               </Flex>
@@ -306,7 +300,7 @@ if (withGroup){
                     paddingVertical: 4,
                     color: 'white',
                     width:"60%"
-                  }}>Share the Link / Adventure Code to the friend you want to join.</Text>
+                  }}>Share the Link or Adventure Code to the friend you want to join.</Text>
                   </Flex>
                   <Text style={{
                   fontSize: 20,

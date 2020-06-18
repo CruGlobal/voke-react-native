@@ -100,7 +100,7 @@ function AdventureShareCode(props) {
               ? `${invitation.name}’s  invite code is ready! Hit Share and choose how you’d like to send this invite code to each of your group members.`
               : isVideoInvite
               ? 'Your link is ready! Hit share and choose how you want to send it.'
-              : `${invitation.name}’s invite code is ready! Hit Share and choose how you’d like to send this trailer with ${invitation.name}.`}
+              : `${invitation.name}’s invite code is ready! Hit Share and choose how you’d like to send this invite code with ${invitation.name}.`}
             </BotTalking>
 
           </Flex>
