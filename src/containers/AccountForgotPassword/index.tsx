@@ -128,7 +128,7 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
           </Button>
         </Flex>
       </KeyboardAvoidingView>
-      {/* SECTION: FACEBOOK SIGN IN */}
+      {/* SECTION: NEED HELP? */}
       <Flex
         // value={1}
         direction="row"

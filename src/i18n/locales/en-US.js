@@ -274,7 +274,7 @@ export default {
   shareFlow: {
     checkTitle: `Check out`,
     checkMessage: `Check out this awesome app called Voke. Let's go deeper with God and others!`,
-    checkOut: 'Check this out on Voke!',
+    checkOut: 'Check this out on Voke!', // Check out this video from Voke!
     enterName: 'Please enter a name to continue',
     errorCreating: `Sorry, there was an error creating the conversation. Please try again.`,
     friend: 'friend',

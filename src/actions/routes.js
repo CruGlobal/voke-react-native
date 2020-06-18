@@ -104,6 +104,11 @@ const ROUTES = {
     url: `me/journeys/{adventureId}/steps/{stepId}/interactions/`,
   },
   START_ADVENTURE: { method: 'post', url: `me/journeys` },
+  // https://docs.vokeapp.com/#me-journeys-cancels-a-messenger-journey
+  DELETE_ADVENTURE: {
+    method: 'delete',
+    url: `me/journeys/{adventureId}`,
+  },
   GET_ADVENTURE_INVITATIONS: { method: 'get', url: `me/journey_invites` },
   SEND_ADVENTURE_INVITATION: { method: 'post', url: `me/journey_invites` },
   RESEND_ADVENTURE_INVITATION: {

@@ -10,6 +10,7 @@ import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
 import { useSelector, useDispatch } from 'react-redux';
 import { useMount, momentUtc, useInterval } from '../../utils';
+import { deleteAdventure, getMyAdventures } from '../../actions/requests';
 import { useNavigation } from '@react-navigation/native';
 import ProgressDots from './ProgressDots';
 import styles from './styles';
@@ -87,6 +88,29 @@ function AdventureCard({ adventureId }) {
     }
   }, [adventureItem])
 
+  const onDeleteAdventure = adventureId => {
+    // dispatch(
+      Alert.alert(
+        'Are you sure you want to unsubscribe from this adventure?',
+        'This cannot be undone.',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => {},
+            style: "cancel"
+          },
+          {
+            text: 'Delete',
+            onPress: async () => {
+              await dispatch(deleteAdventure(adventureId));
+              await dispatch(getMyAdventures());
+            },
+          }
+        ]
+      )
+    // );
+  };
+
   return (
     <Flex style={styles.Wrapper}>
       <Touchable
@@ -119,8 +143,9 @@ function AdventureCard({ adventureId }) {
           >
              <Touchable
                   isAndroidOpacity={true}
-                  onPress={() => alert("Delete pressed")
-                  }
+                  onPress={(): void => {
+                    onDeleteAdventure(adventureId)
+                  }}
                   style={{position: "absolute",right:2, top:4}}
                 >
               <VokeIcon

@@ -110,7 +110,7 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
             onPress: async () => {
               await dispatch(deleteAdventureInvitation(inviteID));
               await dispatch(getAdventuresInvitations());
-              await dispatch(getAvailableAdventures());
+              // await dispatch(getAvailableAdventures());
             },
           }
         ]

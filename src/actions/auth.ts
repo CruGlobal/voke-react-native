@@ -21,8 +21,8 @@ import {
 
 import { isArray } from '../utils';
 import { openSocketAction, closeSocketAction } from './socket';
-import { permissionsAndNotifications } from './notifications';
-import { getAdventureStepMessages } from './requests';
+import { permissionsAndNotifications, setAppIconBadgeNumber } from './notifications';
+import { getAdventureStepMessages, getNotifications } from './requests';
 
 export function loginAction(authToken) {
   // const authToken = authData.access_token;
@@ -39,6 +39,8 @@ export function startupAction() {
       type: REDUX_ACTIONS.STARTUP,
     });
     await dispatch(permissionsAndNotifications());
+    // Get notifications every time sockets connections reestablished.
+    await dispatch(getNotifications());
   };
 }
 
@@ -68,8 +70,10 @@ export function wakeupAction() {
           adventureStepId
         ),
       );
-
     }
+
+    // Get notifications every time sockets connections reestablished.
+    await dispatch(getNotifications());
   }
 }
 
@@ -112,6 +116,7 @@ export function logoutAction() {
       }
       // Set redux store into empty state.
       await dispatch({ type: REDUX_ACTIONS.LOGOUT });
+      setAppIconBadgeNumber(0);
       // Clear data in the local storage if user logout.
       // TODO: ANDROID!
       AsyncStorage.clear();
@@ -390,6 +395,7 @@ export function deleteAccountAction() {
       success => {
         // eslint-disable-next-line no-console
         console.log( "👤 Account Deleted \n\n", success );
+        setAppIconBadgeNumber(0);
         // Clear data in the local storage if user logout.
         // AsyncStorage.clear(); - we do that in the parrent functions
         // return;

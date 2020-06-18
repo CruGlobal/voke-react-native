@@ -113,11 +113,13 @@ const AccountCreate: React.FC = (): React.ReactElement => {
         setIsLoading(false);
         navigation.navigate('AccountName');
       } catch (e) {
+        setIsLoading(false);
         // eslint-disable-next-line no-console
         console.log("🛑 Error updating the user's Email/Pass \n", e);
         Alert.alert(e.error_description ? e.error_description : e.errors[0]);
       }
     } else {
+      setIsLoading(false);
       Alert.alert(
         'Invalid email/password',
         'Please enter a valid email and password',

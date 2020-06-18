@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Video from '../../components/Video';
 import { useNavigation } from '@react-navigation/native';
 import { useMount, useKeyboard } from '../../utils';
-import { getAdventureStepMessages, markMessageAsRead, markReadStepAction, interactionVideoPlay } from '../../actions/requests';
+import { getAdventureStepMessages, markMessageAsRead, updateTotalUnreadCounter, interactionVideoPlay } from '../../actions/requests';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { RootState } from '../../reducers';
 import { TAdventureSingle, TStep } from '../../types';
@@ -86,15 +86,21 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
     // To mark as read we need converstation id and message id.
     // We mark only the latest message as read,
     // all others will be marked as read automatically according to Pablo :)
-    if (currentMessages.slice(-1)[0]?.id) {
+
+    // We can't use our own message to mark conversation as read.
+    // So find the latest message that doesn't belong to the current user.
+    let latestMessage = currentMessages.slice().reverse().find(message => message?.messenger_id !== currentUser.id);
+
+    if ( latestMessage?.id ) {
       dispatch(
         markMessageAsRead({
           adventureId: adventure.id,
           stepId: currentStep.id,
           conversationId: conversationId,
-          messageId: currentMessages.slice(-1)[0]?.id
+          messageId: latestMessage?.id
         })
       );
+      dispatch(updateTotalUnreadCounter());
     } else {
       console.log('🛑no message ID provided')
     }
@@ -139,12 +145,9 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
       // Scroll to the end when we added new message.
       scrollRef?.current?.scrollToEnd();
     }
-
     // Once new message received mark it as read, but only if messages unblured/unlocked.
     if(currentMessages.length && (
-      currentStep['completed_by_messenger?'] ||
-      currentMessages[currentMessages.length - 1]?.messenger_id !== currentUser.id)
-      ){
+      currentStep['completed_by_messenger?'] || currentMessages[currentMessages.length - 1]?.messenger_id === currentUser.id )){
       // If the last message from someone else, mark it as read.
       markAsRead();
     }
@@ -157,7 +160,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
     if (isSolo) {
       botMessage();
     }
-  }, [currentMessages]);
+  }, [currentMessages.length]);
 
   // Events firing when user leaves the screen or comes back.
   useFocusEffect(
@@ -174,9 +177,10 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
 
       // If there are unread messages in current conversation
       // mark them as read on the backend but only if they were unlocked/unblured.
-      if (currentStep.unread_messages && currentStep['completed_by_messenger?']) {
+      // Not sure if wee need it as it will mark as read anyway from code in useEffect.
+      /* if (currentStep.unread_messages && currentStep['completed_by_messenger?']) {
         markAsRead();
-      }
+      } */
       return () => {
         // Actions to run when the screen unfocused:
         // If we had unread messages, then we marked them as read,

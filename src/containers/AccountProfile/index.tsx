@@ -12,7 +12,7 @@ import StatusBar from '../../components/StatusBar';
 import Button from '../../components/Button';
 import Triangle from '../../components/Triangle';
 import CONSTANTS from '../../constants';
-import { logoutAction, deleteAccountAction } from '../../actions/auth';
+import { logoutAction, deleteAccountAction, facebookLogin } from '../../actions/auth';
 import { useDispatch,useSelector } from 'react-redux';
 import styles from './styles';
 import VokeIcon from '../../components/VokeIcon';
@@ -22,27 +22,25 @@ type ProfileModalProps = {
   props: any
 }
 
-function SettingsRow({ title, value, onSelect }) {
-  return (
-    <Touchable onPress={onSelect}>
-      <Flex
-        direction="row"
-        align="center"
-        justify="evenly"
-        style={[st.pv5, st.ph4]}
-      >
-        <Text style={[st.darkGrey, st.fs16]}>{title}</Text>
-        <Text style={[st.darkGrey, st.fs16]}>{value}</Text>
-      </Flex>
-    </Touchable>
-  );
-}
-
 const AccountProfile = ( props: ProfileModalProps  ) => {
   const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const me = useSelector(({ auth }) => auth.user);
+
+  // Facebook Login.
+  // TODO: Create FB Button component.
+  const fbLogin = async (): Promise<void> => {
+    const userId = await dispatch(facebookLogin());
+    if (!userId) {
+      Alert.alert(
+        "Can't sign in with Facebook",
+        'Facebook authentication is not available at this moment'
+      );
+    } else {
+      navigation.navigate('LoggedInApp');
+    }
+  };
 
   return (
     <Flex
@@ -246,9 +244,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                 <Button
                   isAndroidOpacity={true}
                   style={[styles.ButtonSignUp]}
-                  /* onPress={
-                    () => navigation.navigate('ForgotPassword')
-                  } */
+                  onPress={(): Promise<void> => fbLogin()}
                 >
                   <Flex
                     // value={1}
@@ -288,7 +284,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                         text: 'Delete',
                         onPress: async () => {
                           try {
-                            await dispatch(deleteAccountAction());
+                            dispatch(deleteAccountAction());
                             dispatch(logoutAction());
                           } finally {
                             // Navigate back to the very first screen.
