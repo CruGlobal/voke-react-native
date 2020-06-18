@@ -104,7 +104,7 @@ function Notifications(props) {
       ) }
       { isPortrait && (
         <>
-          <ScrollView
+          <View
             style={[
               {
                 width:'100%',
@@ -129,11 +129,11 @@ function Notifications(props) {
               removeClippedSubviews={true}
               onRefresh={() => loadMore(true)}
               refreshing={isLoading}
-              onEndReached={() => loadMore()}
+              onEndReached={() => loadMore() }
             />
             {/* Extra spacing for bottom navigation tabs */}
-            <View style={{height:120}}></View>
-          </ScrollView>
+            {/* <View style={{height:120}}></View> */}
+          </View>
         </>
       )}
     </Flex>
