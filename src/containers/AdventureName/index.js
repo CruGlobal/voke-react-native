@@ -125,7 +125,7 @@ function AdventureName(props) {
               style={[st.mb4, st.h(180)]}
             >
               <BotTalking heading={withGroup
-                      ? "Let's name your group!"
+                      ? "Let's name your Group!"
                       : "What's your friend's name?"}> 
           </BotTalking>
         
@@ -144,7 +144,7 @@ function AdventureName(props) {
                 <Text style={[st.offBlue, st.fs14, st.pt3, st.tac, st.ph1]}>
                   {showHelp
                     ? withGroup
-                      ? 'We use the group name to onboard your friends and help you manage your groups'
+                      ? 'We use the Group name to onboard your friends and help you manage your Groups'
                       : "We use your friend's name to help you know who responded to the videos you shared."
                     : 'Why do we ask this?'}
                 </Text>

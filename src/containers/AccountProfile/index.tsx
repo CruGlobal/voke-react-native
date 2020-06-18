@@ -63,7 +63,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
           backgroundColor: styles.colors.primary,
           minHeight: '100%',
         }}>
-          <Flex value={1} direction="column" align="center" style={[st.ph1, st.w100,{marginBottom:10, marginTop:30}]}>
+          <Flex value={1} direction="column" align="center" style={[st.ph1, st.w100,{marginTop:30}]}>
             <Touchable onPress={ () => navigation.navigate('AccountPhoto', {
               onComplete: () => navigation.navigate('AccountProfile'),
             })}>
@@ -93,6 +93,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                 />
               </Flex>
             </Touchable>
+
             <Touchable onPress={ () => navigation.navigate('AccountName', {
               onComplete: () => navigation.navigate('AccountProfile'),
             })}>
@@ -115,20 +116,21 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                   fontSize: styles.fontSizes.l,
                   textAlign:'center',
                   }}>User Profile</Text>}
+                  </Flex>
             { me.email ?
-            <>
+            <Flex value={1} direction="column" align="flex-start" style={[st.ml2, st.w100,{marginBottom:10}]}>
               {/* <Touchable onPress={ () => navigation.navigate('AccountEmailPass')}> */}
-                <Flex direction="row" align="center" justify="space-around" style={{marginTop:30}}>
-                  <Text style={{color:"#fff", fontSize:18, width:'40%', textAlign: 'right', paddingRight: 20}}>Language</Text>
-                  <Text style={{color:"#fff", fontSize:18, width:'60%'}}>English</Text>
+                <Flex direction="row" align="start" justify="space-around">
+                  <Text style={{color:"#fff", fontSize:18, width:'30%', textAlign: 'left', paddingRight: 20}}>Language</Text>
+                  <Text style={{color:"#fff", fontSize:18, width:'70%'}}>English</Text>
                 </Flex>
               {/* </Touchable> */}
               <View style={{minHeight: 12}} />
               {/* Extra spacing for fingers to touch the right line. */}
               <Touchable onPress={ () => navigation.navigate('AccountEmail')}>
-                <Flex direction="row" align="center" justify="space-around">
-                  <Text style={{color:"#fff", fontSize:18, width:'40%', textAlign: 'right', paddingRight: 20}}>Email</Text>
-                  <Text style={{color:"#fff", fontSize:18, width:'60%' }} numberOfLines={1}>
+                <Flex direction="row" align="start" justify="space-around">
+                  <Text style={{color:"#fff", fontSize:18, width:'30%', textAlign: 'left', paddingRight: 20}} numberOfLines={2}>Email</Text>
+                  <Text style={{color:"#fff", fontSize:18, width:'70%' }} numberOfLines={2}>
                     {me.email}
                   </Text>
                 </Flex>
@@ -136,20 +138,20 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
               <View style={{minHeight: 12}} />
               {/* Extra spacing for fingers to touch the right line. */}
               <Touchable onPress={ () => navigation.navigate('AccountPass')}>
-                <Flex direction="row" align="center" justify="space-around">
-                  <Text style={{color:"#fff", fontSize:18, width:'40%', textAlign: 'right', paddingRight: 20}}>Password</Text>
-                  <Text style={{color:"#fff", fontSize:18,width:'60%'}}>******</Text>
+                <Flex direction="row" align="start" justify="space-around">
+                  <Text style={{color:"#fff", fontSize:18, width:'30%', textAlign: 'left', paddingRight: 20}}>Password</Text>
+                  <Text style={{color:"#fff", fontSize:18,width:'70%'}}>******</Text>
                 </Flex>
               </Touchable>
               <Flex direction="row" align="flex-start" justify="flex-start" style={{marginTop:30}}>
                 <VokeIcon
                       name="create"
                       size={18}
-                      style={st.mr6}
+                      style={[st.ml7]}
                     />
                 <Text style={{color:"#fff", fontSize:14}}>To edit, select the item you would like to edit.</Text>
               </Flex>
-            </>:<></>}
+            </Flex>:<></>}
             {/* <Button
               isAndroidOpacity={true}
               style={[styles.ButtonAction, {
@@ -179,7 +181,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                 <Text style={styles.ButtonActionLabel}>Sign out</Text>
               </Flex>
             </Button> */}
-          </Flex>
+          
 
           {/* SECTION: CALL TO ACTION BUTTON */}
           <Flex>
@@ -266,7 +268,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
               </>}
               <Button
                 isAndroidOpacity={true}
-                style={[ !!me.email ? styles.ButtonAction : styles.ButtonActionTextOnly ]}
+                style={[ styles.ButtonActionTextOnly ]}
                 onPress={
                   () =>
                   Alert.alert(
@@ -303,8 +305,8 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                 <Flex
                   // value={1}
                   direction="row"
-                  align="center"
-                  justify="center"
+                  align="start"
+                  justify="start"
 
                 >
                   <Text style={styles.ButtonActionLabel}>Delete my Account</Text>

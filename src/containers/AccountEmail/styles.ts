@@ -37,6 +37,11 @@ const styles: { [key: string]: any } = {
       margin-left: ${`${theme.spacing.l}px`};
       margin-right: ${`${theme.spacing.l}px`};
       margin-bottom: ${`${theme.spacing.l}px`};
+      shadowColor: 'rgba(0, 0, 0, 0.5)';
+      shadowOpacity: 0.5;
+      elevation: 4;
+      shadowRadius: 5 ;
+      shadowOffset : 1px 8px;
     `,
   ],
   ButtonStartLabel: [

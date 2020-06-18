@@ -38,7 +38,7 @@ const styles: { [key: string]: any } = {
     color: ${theme.colors.white};
     font-size: ${`${theme.fontSizes.s}px`};
     padding: ${`${theme.spacing.xxs}px ${theme.spacing.s}px`};
-    background-color:${theme.colors.primary};
+    background-color:${theme.colors.secondaryAlt};
     margin-bottom: -5%;
     margin-right:10px;
   `,

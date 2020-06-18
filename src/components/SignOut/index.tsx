@@ -92,6 +92,7 @@ const SignOut = ({
             padding: theme.spacing.m,
             color:  theme.colors.white,
             fontSize:  theme.fontSizes.l,
+            paddingTop: 12
           }}
         >Sign out</Text>
       </Flex>

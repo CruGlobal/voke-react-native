@@ -20,9 +20,9 @@ interface IBotTalking {
 const BotTalking = ({reference, children, type, heading}: IBotTalking): React.ReactElement => (
   type=== "reverse" ?
   <Flex style={styles.BotContainer}>
-  <Flex style={styles.BotMessage_reverse}>
+  {children? <Flex style={styles.BotMessage_reverse}>
     <Text style={styles.BotText_reverse}>{children}</Text>
-  </Flex>
+  </Flex>: null}
   <Triangle
     width={20}
     height={20}
@@ -38,7 +38,7 @@ type=== "overlay" ?
 <Flex style={styles.BotContainer}>
 <Flex style={styles.BotMessage_overlay}>
 { heading ?<Text style={styles.BotHeading_overlay}>{heading}</Text>:null}
-  <Text style={styles.BotText_reverse}>{children}</Text>
+{ children? <Text style={styles.BotText_reverse}>{children}</Text>:null}
 </Flex>
 <Triangle
   width={20}
@@ -54,7 +54,7 @@ type=== "overlay" ?
 <Flex style={styles.BotContainer}>
   <Flex style={styles.BotMessage}>
     { heading ?<Text style={styles.BotHeading}>{heading}</Text>:null}
-    <Text style={styles.BotText}>{children}</Text>
+    {children? <Text style={styles.BotText}>{children}</Text>: null}
   </Flex>
   <Triangle
     width={20}

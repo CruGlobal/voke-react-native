@@ -23,6 +23,8 @@ import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import styles from './styles';
 import CONSTANTS from '../../constants';
+import st from '../../st';
+import theme from '../../theme';
 
 const AccountSignIn: React.FC = (): React.ReactElement => {
   const insets = useSafeArea();
@@ -93,7 +95,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
 
   return (
     <DismissKeyboardView
-      style={{ backgroundColor: styles.colors.secondary, height: '100%' }}
+      style={{ backgroundColor: styles.colors.primary, height: '100%' }}
     >
       {/* <StatusBar /> <- TODO: Not sure why we need it here? */}
 
@@ -138,14 +140,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
             onSubmitEditing={(): Promise<void> => login()}
           />
         </Flex>
-        {/* TRIANGLE DIVIDER */}
-        <Flex value={1} justify="end" style={styles.Divider}>
-          <Triangle
-            width={useWindowDimensions().width}
-            height={40}
-            color={styles.colors.secondary}
-          />
-        </Flex>
+
         {/* SECTION: CALL TO ACTION BUTTON */}
         <Flex
           value={2}
@@ -154,13 +149,17 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
           style={styles.SectionAction}
         >
           {/* BUTTON: SIGN IN */}
+
           <Button
-            isAndroidOpacity
-            style={styles.ButtonStart}
             onPress={(): Promise<void> => login()}
+            touchableStyle={[st.pd4, st.br1, st.w(st.fullWidth - 70),{backgroundColor: theme.colors.white, textAlign:"center",shadowColor: 'rgba(0, 0, 0, 0.5)',
+            shadowOpacity: 0.5,
+            elevation: 4,
+            shadowRadius: 5 ,
+            shadowOffset : { width: 1, height: 8}}]}
             isLoading={isLoading}
           >
-            <Text style={styles.ButtonStartLabel}>Sign In</Text>
+            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>Sign In</Text>
           </Button>
           {/* TEXT: FORGOT PASSWORD */}
           <Text
@@ -174,7 +173,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
       {/* TEXT: NOTICE */}
       {/* TODO: hide this notice if it's on the welcome stage (no progress) */}
       <Flex direction="column" justify="start" style={styles.SectionNotice}>
-        <Text style={styles.TextSmall}>
+        <Text style={styles.TextMedium}>
           Successful login to an existing account will merge your current
           progress with saved data.
         </Text>
@@ -192,11 +191,11 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
           onPress={(): Promise<void> => fbLogin()}
         >
           <Flex direction="row" align="center" justify="center">
-            <VokeIcon
-              type="image"
-              name="facebook"
-              style={styles.ButtonFBSignInIcon}
-            />
+          <VokeIcon
+                      name="logo-facebook"
+                      size={22}
+                      style={st.mr5}
+                    />
             <Text style={styles.ButtonFBSignInLabel}>
               Sign In with Facebook
             </Text>
