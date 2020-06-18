@@ -46,7 +46,7 @@ const styles: { [key: string]: any } = {
     z-index:-1;
   `,
   BotMessage_reverse: css`
-  width: 80%;
+  width: 100%;
   background-color: ${theme.colors.white};
   padding: ${`${theme.spacing.l}px`};
   border-radius:  ${`${theme.radius.m}px`};
