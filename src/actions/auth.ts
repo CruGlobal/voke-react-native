@@ -21,7 +21,7 @@ import {
 
 import { isArray } from '../utils';
 import { openSocketAction, closeSocketAction } from './socket';
-import { permissionsAndNotifications } from './notifications';
+import { permissionsAndNotifications, setAppIconBadgeNumber } from './notifications';
 import { getAdventureStepMessages, getNotifications } from './requests';
 
 export function loginAction(authToken) {
@@ -116,6 +116,7 @@ export function logoutAction() {
       }
       // Set redux store into empty state.
       await dispatch({ type: REDUX_ACTIONS.LOGOUT });
+      setAppIconBadgeNumber(0);
       // Clear data in the local storage if user logout.
       // TODO: ANDROID!
       AsyncStorage.clear();

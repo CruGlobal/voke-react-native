@@ -282,7 +282,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                         text: 'Delete',
                         onPress: async () => {
                           try {
-                            await dispatch(deleteAccountAction());
+                            dispatch(deleteAccountAction());
                             dispatch(logoutAction());
                           } finally {
                             // Navigate back to the very first screen.
