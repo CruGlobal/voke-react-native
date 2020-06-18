@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, TextInput, Keyboard } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, TextInput } from 'react-native';
 import Image from '../Image';
 import st from '../../st';
 import Flex from '../Flex';
@@ -17,6 +17,7 @@ const AdventureStepMessageInput = ({
   internalMessage,
   defaultValue,
   onFocus,
+  isLoading,
 }): React.ReactElement => {
   const [value, setValue] = useState(defaultValue||'');
   const [messageSent, setMesssageSent] = useState(!!defaultValue);
@@ -27,6 +28,11 @@ const AdventureStepMessageInput = ({
   const isShareQuestion = kind === 'share';
   const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'multiple';
   const isComplete = step.status === 'completed';
+
+  // In case component rendered before default/current value fetched from the server.
+  useEffect(() => {
+    setValue(defaultValue)
+  }, [defaultValue])
 
   // When SEND message button clicked.
   const handleSendMessage = (newValue: any): void => {
@@ -209,48 +215,53 @@ const AdventureStepMessageInput = ({
       align="center"
       style={[st.bgWhite, st.w100, st.pl4, st.brbl5, st.brbr5]}
     >
-      {messageSent || isComplete ? (
-        value ?
-          <Text style={[st.fs4, st.pt4, st.w100, st.pb4, st.darkBlue]}>{value}</Text> :
-          <Text style={[st.fs4, st.pt4, st.w100, st.pb4, {opacity:.5}]}>Skipped</Text>
-      ) : (
-        <>
-          <TextInput
-            // returnKeyType="send"
-            // blurOnSubmit={true}
-            // onSubmitEditing={handleSendMessage}
-            autoCapitalize="sentences"
-            onFocus={event => {
-              onFocus(event);
-            }}
-            multiline={true}
-            placeholder={'Enter your answer'}
-            placeholderTextColor={st.colors.grey}
-            style={[st.f1, st.fs4, st.pt4, st.pb4, st.darkBlue, {marginRight:6}]}
-            underlineColorAndroid={st.colors.transparent}
-            selectionColor={st.colors.darkBlue}
-            value={value}
-            onChangeText={t => setValue(t)}
-          />
-          {/* {!value && isSolo ? (
-            <Button onPress={() => {}} style={[st.pv4]}>
-              <Text style={[st.orange, st.bold, st.fs4, st.ls2]}>
-                {'Skip'.toUpperCase()}
-              </Text>
-            </Button>
-          ) : ( */}
-            <Button
-              // onPress={handleSendMessage}
-              onPress={() => {
-                    // setValue(a.value);
-                    handleSendMessage(value);
-                  }}
-              style={[st.p4]}>
-              <VokeIcon name="send" style={[st.offBlue]} size={24} />
-            </Button>
-          {/* )} */}
-        </>
-      )}
+      { isLoading ?
+        <View style={[st.w100]}>
+          <Text style={[st.fs4, st.pt4, st.w100, st.pb4, st.op0]}>.</Text>
+        </View> :
+        messageSent || isComplete ? (
+          value ?
+            <Text style={[st.fs4, st.pt4, st.w100, st.pb4, st.darkBlue]}>{value}</Text> :
+            <Text style={[st.fs4, st.pt4, st.w100, st.pb4, {opacity:.5}]}>Skipped</Text>
+        ) : (
+          <>
+            <TextInput
+              // returnKeyType="send"
+              // blurOnSubmit={true}
+              // onSubmitEditing={handleSendMessage}
+              autoCapitalize="sentences"
+              onFocus={event => {
+                onFocus(event);
+              }}
+              multiline={true}
+              placeholder={'Enter your answer'}
+              placeholderTextColor={st.colors.grey}
+              style={[st.f1, st.fs4, st.pt4, st.pb4, st.darkBlue, {marginRight:6}]}
+              underlineColorAndroid={st.colors.transparent}
+              selectionColor={st.colors.darkBlue}
+              value={value}
+              onChangeText={t => setValue(t)}
+            />
+            {/* {!value && isSolo ? (
+              <Button onPress={() => {}} style={[st.pv4]}>
+                <Text style={[st.orange, st.bold, st.fs4, st.ls2]}>
+                  {'Skip'.toUpperCase()}
+                </Text>
+              </Button>
+            ) : ( */}
+              <Button
+                // onPress={handleSendMessage}
+                onPress={() => {
+                      // setValue(a.value);
+                      handleSendMessage(value);
+                    }}
+                style={[st.p4]}>
+                <VokeIcon name="send" style={[st.offBlue]} size={24} />
+              </Button>
+            {/* )} */}
+          </>
+        )
+      }
     </Flex>
   );
 }

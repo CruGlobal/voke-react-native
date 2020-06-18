@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 // import { StatusBar as RNStatusBar, StatusBarProps } from 'react-native';
 import { View, ScrollView, FlatList, StatusBar, Platform } from 'react-native';
-import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import { getMyAdventure, getMyAdventures, getAdventureSteps } from '../../actions/requests';
+import { useDispatch, useSelector, shallowEqual, useStore } from 'react-redux';
+import { getMyAdventure, getAdventureStepMessages, getAdventureSteps } from '../../actions/requests';
 import { setCurrentScreen } from '../../actions/info';
 
 import { useFocusEffect } from '@react-navigation/native';
@@ -27,15 +27,16 @@ type AdventureActiveProps = {
 function AdventureActive({ route }: AdventureActiveProps): React.ReactElement {
   const dispatch = useDispatch();
   const insets = useSafeArea();
+  const store = useStore()
+  const allMessages = store.getState().data.adventureStepMessages;
   const { adventureId } = route.params;
   const adventure = useSelector(({ data }: {data: TDataState}) =>
     data.myAdventures?.byId[adventureId] || {});
-
   const steps = useSelector(({ data }: {data: TDataState}) =>
-    data.adventureSteps[adventureId], shallowEqual)  || {};
+    data.adventureSteps[adventureId], shallowEqual)  || {byId:{}, allIds: []};
   const [isPortrait, setIsPortrait] = useState(true);
-   const isGroup = adventure.kind === 'multiple';
-console.log(adventure)
+  const isGroup = adventure.kind === 'multiple';
+  console.log(adventure)
   const getPendingAdventure = async () => {
     await dispatch(getMyAdventure(adventureId));
   };
@@ -48,13 +49,34 @@ console.log(adventure)
     // -- ☝️call to import pending adventure info from the server.
   },[]);
 
+  const getSteps = async () => {
+    await dispatch(getAdventureSteps(adventureId));
+  }
+
   useEffect(() => {
     if (Object.keys(adventure).length > 0 ) {
-      dispatch(getAdventureSteps(adventureId));
+      getSteps()
     }
     // -- ☝️call to update steps from the server.
     // Without it new Adventures won't show any steps.
   },[adventure?.id]);
+
+  const preFetchStep = async(step: any) => {
+    const existingMessages = allMessages[step?.id] || [];
+    if (step?.unread_messages > 0 ||
+        (step?.status === 'active' && existingMessages.length > 0 ) ) {
+      await dispatch(
+        getAdventureStepMessages(adventure.conversation.id, step.id)
+      );
+    }
+  }
+
+  // Prefetch data for the next active step and the steps with new messages.
+  useEffect(() => {
+    for (let [key, step] of Object.entries(steps?.byId)) {
+      preFetchStep(step);
+    }
+  }, [steps?.allIds.length])
 
   // Events firing when user leaves the screen or comes back.
   useFocusEffect(
