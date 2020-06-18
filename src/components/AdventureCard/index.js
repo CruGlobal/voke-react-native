@@ -172,15 +172,6 @@ function AdventureCard({ adventureId }) {
                       style={[st.circle(36),{marginLeft: -12}, { borderWidth: 2, borderColor: st.colors.white }]}
                     />
                   ) : null}
-                  <Text
-                    style={[
-                      st.charcoal,
-                      st.tac,
-                      { marginLeft: 10 },
-                    ]}
-                  >
-                    {isSolo ? 'You' : isGroup ? 'Group' : 'You and ' +otherUser.first_name}
-                  </Text>
                 </Flex>
               ) : (
                 <Touchable
@@ -228,15 +219,7 @@ function AdventureCard({ adventureId }) {
                         </Flex>
                       </View>
                     ) :
-                      <Text
-                        style={[
-                          st.charcoal,
-                          st.tac,
-                          { marginLeft: 10 },
-                        ]}
-                      >
-                        { (totalGroupUsers+1) + ' members' }
-                      </Text>
+                      <></>
                     }
                   </Flex>
                 </Touchable>

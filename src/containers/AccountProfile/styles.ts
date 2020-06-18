@@ -43,6 +43,7 @@ const styles: { [key: string]: any } = {
 		ui.buttonText.size.m,
 		css`
 		margin-top:${theme.spacing.l + 'px'};
+		text-decoration-line: underline;
 		`
 	],
 	ButtonActionTextOnly: [

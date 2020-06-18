@@ -387,7 +387,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
               st.w100,
               st.ph4,
               {
-                backgroundColor: theme.colors.secondary,
+                backgroundColor: theme.colors.primary,
                 paddingBottom: isKeyboardVisible ? 0 : insets.bottom,
                 maxHeight: 140,
               },

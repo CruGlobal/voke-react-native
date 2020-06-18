@@ -41,7 +41,7 @@ const styles: { [key: string]: any } = {
       shadowOpacity: 0.5;
       elevation: 4;
       shadowRadius: 5 ;
-      shadowOffset : { width: 1, height: 8};
+      shadowOffset : 1px 8px;
     `,
   ],
   ButtonStartLabel: [

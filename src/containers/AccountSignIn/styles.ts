@@ -27,6 +27,7 @@ const styles: { [key: string]: any } = {
     background-color: ${theme.colors.primary};
     padding-left: ${`${theme.spacing.xl}px`};
     padding-right: ${`${theme.spacing.xl}px`};
+    padding-bottom: ${`${theme.spacing.m}px`};
   `,
   ButtonStart: [
     ui.button.size.l,
@@ -46,26 +47,31 @@ const styles: { [key: string]: any } = {
     text-align: center;
     text-decoration-line: underline;
     color: ${theme.colors.white};
-    margin-top: ${`${theme.spacing.l}px`};
+    margin-top:20px;
   `,
   SectionNotice: css`
     padding-left: ${`${theme.spacing.xl}px`};
     padding-right: ${`${theme.spacing.xl}px`};
     padding-bottom: ${`${theme.spacing.l}px`};
   `,
-  TextSmall: css`
+  TextMedium: css`
     color: ${theme.colors.white};
-    font-size: 12px;
+    font-size: 16px;
     font-family: ${theme.fonts.regular};
     text-align: center;
-    margin-top: -${`${theme.spacing.l}px`};
+    margin-top: -${`${theme.spacing.xl}px`};
   `,
-
-  ButtonSignUp: [
+  SectionFB: css`
+    background-color: ${theme.colors.primary};
+    padding-top: ${`${theme.spacing.l}px`};
+    padding-bottom: ${`${theme.spacing.l}px`};
+    width: 100%;
+  `,
+  ButtonFBSignIn: [
 		ui.button.size.outlinel,
 		ui.button.style.outline,
 	],
-	ButtonSignUpLabel: [
+	ButtonFBSignInLabel: [
 		ui.buttonText.size.m,
 		ui.buttonText.style.outline
 	],

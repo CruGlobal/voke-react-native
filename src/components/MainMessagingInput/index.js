@@ -39,7 +39,7 @@ function AdventureStepMessageInput({ adventure, step, ...rest }) {
   return (
     <Flex
       direction="row"
-      style={[st.pl5, inputHeight, {backgroundColor: theme.colors.secondary}]}
+      style={[st.pl5, inputHeight, {backgroundColor: theme.colors.primary}]}
       align="center"
       value={1}
     >
@@ -48,22 +48,22 @@ function AdventureStepMessageInput({ adventure, step, ...rest }) {
         // returnKeyType="send"
         // blurOnSubmit={true}
         // onSubmitEditing={handleSendMessage}
-        placeholder={'New Message'}
+        placeholder={'Chat about your answers'}
         onChangeText={t => setText(t)}
         value={text}
-        placeholderTextColor={st.colors.blue}
+        placeholderTextColor={theme.colors.secondary}
         underlineColorAndroid={st.colors.transparent}
         onContentSizeChange={event =>
-          setInputHeight(event.nativeEvent.contentSize.height + 10)
+          setInputHeight(event.nativeEvent.contentSize.height + 20)
         }
-        style={[st.f1, st.white, st.pv6, st.mv6, st.fs4, inputHeight, st.pt4]}
+        style={[st.f1, st.pv6, st.mv6, st.fs4, inputHeight, st.pt4, st.pb4, st.pl3, st.br2, st.mr5,{backgroundColor: theme.colors.white}]}
         selectionColor={st.colors.yellow}
         autoCorrect={true}
         multiline={true}
         {...rest}
       />
-      <Button style={[st.w(55), st.aie, st.pv4]} onPress={handleSendMessage}>
-        <VokeIcon name="send" style={[st.white]} size={20} />
+      <Button style={[st.w(45), st.h(45), st.aie, {backgroundColor: theme.colors.secondaryAlt, borderColor: theme.colors.secondaryAlt, borderRadius:23}]} onPress={handleSendMessage}>
+        <VokeIcon name="send" style={[st.white, {marginRight:10, marginTop: 10, transform: [{ rotate: '45deg'}]}]} size={25} />
       </Button>
     </Flex>
   );
