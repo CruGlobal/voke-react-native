@@ -10,7 +10,7 @@ import AdventureStepMessageInput from '../../components/AdventureStepMessageInpu
 import AdventureStepNextAction from '../../components/AdventureStepNextAction';
 import Image from '../../components/Image';
 import VokeIcon from '../../components/VokeIcon';
-import { KeyboardAvoidingView, findNodeHandle, View, ScrollView, Keyboard, StatusBar, Platform } from 'react-native';
+import { KeyboardAvoidingView, findNodeHandle, View, ScrollView, Keyboard, StatusBar, ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import Video from '../../components/Video';
 import { useNavigation } from '@react-navigation/native';
@@ -42,6 +42,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
   const dispatch = useDispatch();
   const insets = useSafeArea();
   const [isPortrait, setIsPortrait] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [hasClickedPlay, setHasClickedPlay] = useState(false);
   const { stepId, adventureId } = route.params;
   const adventure = useSelector(({ data }: RootState) => data.myAdventures.byId[adventureId]) || {};
@@ -131,11 +132,17 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
     }
   }
 
-  // Load messages for current conversation on initial screen reader.
-  useEffect(() => {
-    dispatch(
+
+  const getMessages = async () =>{
+    await dispatch(
       getAdventureStepMessages(adventure.conversation.id, currentStep.id)
     );
+    setIsLoading (false);
+  }
+  // Load messages for current conversation on initial screen reader.
+  useEffect(() => {
+    setIsLoading (true);
+    getMessages();
   }, []);
 
 
@@ -342,31 +349,37 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
                     adventure={adventure}
                     step={currentStep}
                     defaultValue={myMainAnswer.content}
+                    isLoading={isLoading}
                   />
                 </Flex>
 
-                { currentMessages.map(item =>  {
-                    return(
-                      <>
-                        {
-                          ( !item || myMainAnswer?.id === item?.id)
-                            ? null
-                          : <AdventureStepMessage
-                              key={item.id}
-                              item={item}
-                              adventure={adventure}
-                              step={currentStep}
-                              onFocus={event => {
-                                /* scrollRef.current.props.scrollToFocusedInput(
-                                  findNodeHandle(event.target),
-                                ); */
-                              }}
-                            />
-                        }
-                      </>
-                    )
-                  }
-                )}
+                {isLoading && !!! currentMessages.length ?
+                  <ActivityIndicator size="large" color="rgba(255,255,255,.5)" style={{
+                    paddingTop: 50
+                  }} />:
+                  currentMessages.map(item =>  {
+                      return(
+                        <>
+                          {
+                            ( !item || myMainAnswer?.id === item?.id)
+                              ? null
+                            : <AdventureStepMessage
+                                key={item.id}
+                                item={item}
+                                adventure={adventure}
+                                step={currentStep}
+                                onFocus={event => {
+                                  /* scrollRef.current.props.scrollToFocusedInput(
+                                    findNodeHandle(event.target),
+                                  ); */
+                                }}
+                              />
+                          }
+                        </>
+                      )
+                    }
+                  )
+                }
                 {!isKeyboardVisible && <AdventureStepNextAction
                   adventureId={adventure.id}
                   stepId={stepId}
