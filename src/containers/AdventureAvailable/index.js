@@ -27,7 +27,11 @@ function ActionButton(props){
       st.bgBlue,
       st.mb3,
       st.w(st.fullWidth - 50),
-    ]}
+    {shadowColor: 'rgba(0, 0, 0, 0.5)',
+    shadowOpacity: 0.5,
+    elevation: 2,
+    shadowRadius: 3 ,
+    shadowOffset : { width: 1, height: 5}}] }
     onPress={() => props.onPress()}
   >
     <Flex direction="row" align="center" justify="center">
@@ -40,7 +44,6 @@ function ActionButton(props){
   </Button>
   )
 }
-
 
 function AdventureAvailable(props) {
   const dispatch = useDispatch();
@@ -119,7 +122,7 @@ const {duoTutorialCount, groupTutorialCount } = useSelector(({ info }: RootState
           <Flex
             style={{
               borderRadius: 20,
-              backgroundColor: 'rgba(0,0,0,0.8)',
+              backgroundColor: 'rgba(0,0,0,0.4)',
               alignSelf: 'center',
               marginBottom: 10,
             }}
@@ -145,7 +148,7 @@ const {duoTutorialCount, groupTutorialCount } = useSelector(({ info }: RootState
           style={ { paddingBottom: insets.bottom }}
         >
           <Flex style={[st.pd3]}>
-            <Text style={[st.fs2]}>{item.name}</Text>
+            <Text style={[st.fs2, st.blue]}>{item.name}</Text>
             <Text style={[st.pt5, st.charcoal]}>
               {item.total_steps}-{'part series'}
             </Text>
@@ -166,7 +169,7 @@ const {duoTutorialCount, groupTutorialCount } = useSelector(({ info }: RootState
             <Flex direction="row" justify="center" style={[st.w100, st.mt4]}>
               <Flex value={1} align="center">
                 <ActionButton
-                  text="Go with a friend"
+                  text="Go with a Friend"
                   icon="couple"
                   onPress={() => { 
                     if(duoTutorialCount >2) {  
@@ -179,7 +182,7 @@ const {duoTutorialCount, groupTutorialCount } = useSelector(({ info }: RootState
                 }
                   }}/>
                 <ActionButton
-                  text="Go with a group"
+                  text="Go with a Group"
                   icon="group"
                   onPress={() => {
                     if(groupTutorialCount > 2) {  
@@ -193,7 +196,7 @@ const {duoTutorialCount, groupTutorialCount } = useSelector(({ info }: RootState
                    
                   }/>
                 {soloStarted ? null : (
-                  <ActionButton text="Go by myself" icon="person" onPress={startByMyself}/>
+                  <ActionButton text="Go by Myself" icon="person" onPress={startByMyself}/>
                 )}
               </Flex>
             </Flex>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { RootState } from '../../reducers';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Image } from 'react-native';
 import Modal from 'react-native-modal';
 import st from '../../st';
@@ -15,6 +14,7 @@ import { requestPremissions } from '../../actions/auth';
 import { REDUX_ACTIONS } from '../../constants';
 
 import NotificationGraphic from '../../assets/graphic-allownotifications.png';
+import auth from 'src/reducers/auth';
 const NotificationModal = (): React.ReactElement => {
   const dispatch = useDispatch();
   // Current premissions status stroed in
@@ -24,6 +24,7 @@ const NotificationModal = (): React.ReactElement => {
   if ( pushNotificationPermission === 'granted') {
     return <></>;
   }
+  const me = useSelector(({ auth }) => auth.user);
 
   const toggleModal = () => {
     dispatch({
@@ -40,7 +41,8 @@ const NotificationModal = (): React.ReactElement => {
         direction="column"
         align="center"
       >
-        <Flex>
+        <BotTalking type="reverse">{me.firstName}, I play my Ukulele so you don’t miss out when your friends interact or join your adventures!{'\n'}{'\n'}But first, I need your permission to send you notifications.</BotTalking>
+        {/* <Flex>
           <Image
             source={NotificationGraphic}
             style={{
@@ -61,7 +63,7 @@ const NotificationModal = (): React.ReactElement => {
             Voke sends notifications when your friends join and interact withthe
             adventures you share, but first we need your permission.
           </Text>
-        </Flex>
+        </Flex> */}
 
         <Button
           isAndroidOpacity

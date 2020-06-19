@@ -48,7 +48,7 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
     // Open WebSockets on STARTUP redux action.
     if (action.type === 'STARTUP' || action.type === 'SET_DEVICE') {
       // Check if we have websockets already defined and running in the memory.
-      // Otherwise it will create nwe ws object on every file save while in dev.
+      // Otherwise it will create new ws object on every file save while in dev.
       if (global.ws && global.ws.send && global.ws.readyState === WEBSOCKET_STATES.OPEN) {
         return
       }
@@ -80,6 +80,9 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
                   // Don't do it here. We have wake-up action for that.
                  /*  dispatch(getAdventuresInvitations());
                   dispatch(getMyAdventures()); */
+
+                  // Get notifications every time sockets connections reestablished.
+                  dispatch(getNotifications());
                 }
               } else {
                 console.log(

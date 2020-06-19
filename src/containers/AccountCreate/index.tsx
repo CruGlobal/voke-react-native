@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -7,6 +7,7 @@ import {
   useWindowDimensions,
   TextInput,
   Linking,
+  ScrollView
 } from 'react-native';
 
 import { getTimeZone, getCountry, getLocales } from 'react-native-localize';
@@ -15,10 +16,14 @@ import { useSafeArea } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMount, lockToPortrait } from '../../utils';
 import { userLogin, updateMe } from '../../actions/auth';
-
+import {
+  Transitioning,
+  Transition,
+  TransitioningView,
+} from 'react-native-reanimated';
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
 import TextField from '../../components/TextField';
-import Triangle from '../../components/Triangle';
+import useKeyboard from '@rnhooks/keyboard';
 import Button from '../../components/Button';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
@@ -44,7 +49,31 @@ const AccountCreate: React.FC = (): React.ReactElement => {
 
   const passwordRef = useRef<TextInput>(null);
   // const passwordRef = useRef<HTMLInputElement>(null);
+  const [topMargin, setTopMargin] = useState(0);
+  // https://github.com/react-native-hooks/keyboard#configuration
+  const [isKeyboardVisible] = useKeyboard({
+    useWillShow: true,
+    useWillHide: true,
+  });
 
+  // const refBotBlock = useRef();
+  const refBotBlock = useRef<TransitioningView>(null);
+
+  // const transition = <Transition.Change interpolation="easeInOut" />;
+  const transition = (
+    <Transition.Together>
+      <Transition.Change interpolation="easeInOut" />
+    </Transition.Together>
+  );
+
+  useEffect(() => {
+    if (isKeyboardVisible) {
+      setTopMargin(-250);
+    } else {
+      setTopMargin(0);
+    }
+    refBotBlock?.current?.animateNextTransition();
+  }, [isKeyboardVisible]);
   useMount(() => {
     lockToPortrait();
   });
@@ -84,11 +113,13 @@ const AccountCreate: React.FC = (): React.ReactElement => {
         setIsLoading(false);
         navigation.navigate('AccountName');
       } catch (e) {
+        setIsLoading(false);
         // eslint-disable-next-line no-console
         console.log("🛑 Error updating the user's Email/Pass \n", e);
         Alert.alert(e.error_description ? e.error_description : e.errors[0]);
       }
     } else {
+      setIsLoading(false);
       Alert.alert(
         'Invalid email/password',
         'Please enter a valid email and password',
@@ -100,8 +131,24 @@ const AccountCreate: React.FC = (): React.ReactElement => {
     <DismissKeyboardView
       style={{ backgroundColor: styles.colors.primary, height: '100%' }}
     >
+      <ScrollView>
       {/* <StatusBar /> <- TODO: Not sure why we need it here? */}
+      <Transitioning.View
+            ref={refBotBlock}
+            transition={transition}
+            style={{
+              marginTop: topMargin,
+            }}
+          >
+            <Flex
+              direction="row"
+              align="start"
+              justify="between"
+              style={[st.h(260)]}
+            >
       <BotTalking heading="Save your progress in the app"> Just enter an email and password</BotTalking>
+            </Flex>
+          </Transitioning.View>
 
       {/* Makes possible to hide keyboard when tapping outside. */}
       <KeyboardAvoidingView
@@ -151,7 +198,7 @@ const AccountCreate: React.FC = (): React.ReactElement => {
         </Flex>
         {/* SECTION: CALL TO ACTION BUTTON */}
         <Flex
-          value={1}
+          value={2}
           direction="column"
           justify="start"
           style={styles.SectionAction}
@@ -159,16 +206,19 @@ const AccountCreate: React.FC = (): React.ReactElement => {
           {/* BUTTON: SIGN UP */}
           <Button
             isAndroidOpacity
-            style={[st.pd4, st.br1, st.w(st.fullWidth - 70),{backgroundColor: theme.colors.white, textAlign:"center", marginTop:20 }]}
+            style={[st.pd4, st.br1, st.w(st.fullWidth - 70),{backgroundColor: theme.colors.white, textAlign:"center", marginTop:20, shadowColor: 'rgba(0, 0, 0, 0.5)',
+            shadowOpacity: 0.5,
+            elevation: 4,
+            shadowRadius: 5 ,
+            shadowOffset : { width: 1, height: 8}}]}
             onPress={(): Promise<void> => register()}
             isLoading={isLoading}
           >
             <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>Sign Up</Text>
           </Button>
         </Flex>
-      </KeyboardAvoidingView>
       {/* TEXT: NOTICE */}
-      <Flex direction="column" justify="start" style={styles.SectionNotice}>
+      <Flex direction="column" justify="start" style={styles.SectionNotice} value={1}>
         {/* TEXT: TERMS OF SERVICE */}
         <Text style={[styles.TextSmall, { textAlign: 'center' }]}>
           By creating an account you agree to our
@@ -188,6 +238,7 @@ const AccountCreate: React.FC = (): React.ReactElement => {
           </Text>
         </Text>
       </Flex>
+      </KeyboardAvoidingView>
 
       {/* Safe area at the bottom for phone with exotic notches */}
       <Flex
@@ -195,6 +246,7 @@ const AccountCreate: React.FC = (): React.ReactElement => {
           paddingBottom: insets.bottom,
         }}
       />
+      </ScrollView>
     </DismissKeyboardView>
   );
 };

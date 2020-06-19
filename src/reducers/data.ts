@@ -416,24 +416,30 @@ export default function(state = initialState, action: any) {
       newNotifications = newNotifications.concat(
         action.result.results.messages || [],
       );
+      const newMessagesCount = newNotifications.length - state.notifications.length;
+      const unreadNotificationsCount = state.notificationUnreadBadge + newMessagesCount;
       return {
         ...state,
         notifications: newNotifications,
         notificationPagination: newNotificationPagination,
+        notificationUnreadBadge: unreadNotificationsCount,
       };
     }
+
     case REDUX_ACTIONS.UPDATE_NOTIFICATION_READ: {
       return {
         ...state,
         notificationLatestId:  action.notificationId,
       };
     }
+
     case REDUX_ACTIONS.UPDATE_NOTIFICATION_UNREAD_BADGE: {
       return {
         ...state,
         notificationUnreadBadge:  action.count,
       };
     }
+
     case REDUX_ACTIONS.MARK_READ: {
       // PARAMS: adventureId, conversationId, messageId
       // Set state.adventureSteps[adventureId][currentStepId].unread_messages = 0

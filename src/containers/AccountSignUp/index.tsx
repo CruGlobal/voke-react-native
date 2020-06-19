@@ -57,61 +57,11 @@ const AccountSignUp = ( props: AccountSignUpProps  ) => {
   }
 
   const login = () => {
-    // const { t, isAnonUser, dispatch } = this.props;
-    // const {  email, password, anonUserId } = this.state;
-    console.log( "login" );
     if (emailValid && password) {
       setIsLoading(true);
-
-      // NEW
-
       dispatch(logoutAction()).then(() => {
-        console.log('login > loggedout 2'  );
-
         dispatch( userLogin(email, password) )
-            /* .then(() => {
-              setIsLoading(false );
-              console.log('login > success'  );
-              // dispatch({ type: RESET_ANON_USER });
-              // dispatch(navigateResetHome());
-            })
-            .catch((e) => {
-              console.log('login > error', {e}  );
-              setIsLoading(false );
-            }); */
       });
-      console.log('login > loggedout 1'  );
-      // () => navigation.navigate('Adventures')
-      // OLD
-      /* if (isAnonUser) {
-        // log out and destroy anon devices
-        dispatch(logoutAction()).then(() => {
-          dispatch(anonLogin(email, password, anonUserId))
-            .then(() => {
-              this.setState({ isLoading: false });
-              dispatch({ type: RESET_ANON_USER });
-              dispatch(navigateResetHome());
-            })
-            .catch(() => {
-              this.setState({ isLoading: false });
-            });
-        });
-      } else {
-        dispatch(anonLogin(email, password))
-          .then(() => {
-            this.setState({ isLoading: false });
-            dispatch({ type: RESET_ANON_USER });
-            dispatch(navigateResetHome());
-          })
-          .catch(() => {
-            this.setState({ isLoading: false });
-          });
-      }
-    */
-
-    /* } else {
-      // Alert.alert(t('invalid'), t('enterValid'));
-    } */
     }
   }
 

@@ -9,7 +9,7 @@ export default {
     haveCode:
       'I have an adventure Code',
     haveCodeInfo:
-      'You get to do video adventures with others in Voke. Choose this if you received an Adventure invite code to easily join your friend or group.',
+      'You get to do video adventures with others in Voke. Choose this if you received an Adventure invite code to easily join your friend or Group.',
     toExplore:
       `I'd like to Explore`,
   },

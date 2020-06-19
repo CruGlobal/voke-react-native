@@ -12,7 +12,7 @@ import StatusBar from '../../components/StatusBar';
 import Button from '../../components/Button';
 import Triangle from '../../components/Triangle';
 import CONSTANTS from '../../constants';
-import { logoutAction, deleteAccountAction } from '../../actions/auth';
+import { logoutAction, deleteAccountAction, facebookLogin } from '../../actions/auth';
 import { useDispatch,useSelector } from 'react-redux';
 import styles from './styles';
 import VokeIcon from '../../components/VokeIcon';
@@ -22,27 +22,25 @@ type ProfileModalProps = {
   props: any
 }
 
-function SettingsRow({ title, value, onSelect }) {
-  return (
-    <Touchable onPress={onSelect}>
-      <Flex
-        direction="row"
-        align="center"
-        justify="evenly"
-        style={[st.pv5, st.ph4]}
-      >
-        <Text style={[st.darkGrey, st.fs16]}>{title}</Text>
-        <Text style={[st.darkGrey, st.fs16]}>{value}</Text>
-      </Flex>
-    </Touchable>
-  );
-}
-
 const AccountProfile = ( props: ProfileModalProps  ) => {
   const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const me = useSelector(({ auth }) => auth.user);
+
+  // Facebook Login.
+  // TODO: Create FB Button component.
+  const fbLogin = async (): Promise<void> => {
+    const userId = await dispatch(facebookLogin());
+    if (!userId) {
+      Alert.alert(
+        "Can't sign in with Facebook",
+        'Facebook authentication is not available at this moment'
+      );
+    } else {
+      navigation.navigate('LoggedInApp');
+    }
+  };
 
   return (
     <Flex
@@ -65,7 +63,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
           backgroundColor: styles.colors.primary,
           minHeight: '100%',
         }}>
-          <Flex value={1} direction="column" align="center" style={[st.ph1, st.w100,{marginBottom:10, marginTop:30}]}>
+          <Flex value={1} direction="column" align="center" style={[st.ph1, st.w100,{marginTop:30}]}>
             <Touchable onPress={ () => navigation.navigate('AccountPhoto', {
               onComplete: () => navigation.navigate('AccountProfile'),
             })}>
@@ -95,10 +93,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                 />
               </Flex>
             </Touchable>
-            {/* <SettingsRow
-              title="Change Photo"
-              // onSelect={() => Linking.openURL(CONSTANTS.WEB_URLS.VOKE)}
-            /> */}
+
             <Touchable onPress={ () => navigation.navigate('AccountName', {
               onComplete: () => navigation.navigate('AccountProfile'),
             })}>
@@ -121,20 +116,21 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                   fontSize: styles.fontSizes.l,
                   textAlign:'center',
                   }}>User Profile</Text>}
+                  </Flex>
             { me.email ?
-            <>
+            <Flex value={1} direction="column" align="flex-start" style={[st.ml2, st.w100,{marginBottom:10}]}>
               {/* <Touchable onPress={ () => navigation.navigate('AccountEmailPass')}> */}
-                <Flex direction="row" align="center" justify="space-around" style={{marginTop:30}}>
-                  <Text style={{color:"#fff", fontSize:18, width:'40%', textAlign: 'right', paddingRight: 20}}>Language</Text>
-                  <Text style={{color:"#fff", fontSize:18, width:'60%'}}>English</Text>
+                <Flex direction="row" align="start" justify="space-around">
+                  <Text style={{color:"#fff", fontSize:18, width:'30%', textAlign: 'left', paddingRight: 20}}>Language</Text>
+                  <Text style={{color:"#fff", fontSize:18, width:'70%'}}>English</Text>
                 </Flex>
               {/* </Touchable> */}
               <View style={{minHeight: 12}} />
               {/* Extra spacing for fingers to touch the right line. */}
               <Touchable onPress={ () => navigation.navigate('AccountEmail')}>
-                <Flex direction="row" align="center" justify="space-around">
-                  <Text style={{color:"#fff", fontSize:18, width:'40%', textAlign: 'right', paddingRight: 20}}>Email</Text>
-                  <Text style={{color:"#fff", fontSize:18, width:'60%' }} numberOfLines={1}>
+                <Flex direction="row" align="start" justify="space-around">
+                  <Text style={{color:"#fff", fontSize:18, width:'30%', textAlign: 'left', paddingRight: 20}} numberOfLines={2}>Email</Text>
+                  <Text style={{color:"#fff", fontSize:18, width:'70%' }} numberOfLines={2}>
                     {me.email}
                   </Text>
                 </Flex>
@@ -142,20 +138,20 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
               <View style={{minHeight: 12}} />
               {/* Extra spacing for fingers to touch the right line. */}
               <Touchable onPress={ () => navigation.navigate('AccountPass')}>
-                <Flex direction="row" align="center" justify="space-around">
-                  <Text style={{color:"#fff", fontSize:18, width:'40%', textAlign: 'right', paddingRight: 20}}>Password</Text>
-                  <Text style={{color:"#fff", fontSize:18,width:'60%'}}>******</Text>
+                <Flex direction="row" align="start" justify="space-around">
+                  <Text style={{color:"#fff", fontSize:18, width:'30%', textAlign: 'left', paddingRight: 20}}>Password</Text>
+                  <Text style={{color:"#fff", fontSize:18,width:'70%'}}>******</Text>
                 </Flex>
               </Touchable>
               <Flex direction="row" align="flex-start" justify="flex-start" style={{marginTop:30}}>
                 <VokeIcon
                       name="create"
                       size={18}
-                      style={st.mr6}
+                      style={[st.ml7]}
                     />
                 <Text style={{color:"#fff", fontSize:14}}>To edit, select the item you would like to edit.</Text>
               </Flex>
-            </>:<></>}
+            </Flex>:<></>}
             {/* <Button
               isAndroidOpacity={true}
               style={[styles.ButtonAction, {
@@ -185,7 +181,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                 <Text style={styles.ButtonActionLabel}>Sign out</Text>
               </Flex>
             </Button> */}
-          </Flex>
+          
 
           {/* SECTION: CALL TO ACTION BUTTON */}
           <Flex>
@@ -248,9 +244,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                 <Button
                   isAndroidOpacity={true}
                   style={[styles.ButtonSignUp]}
-                  /* onPress={
-                    () => navigation.navigate('ForgotPassword')
-                  } */
+                  onPress={(): Promise<void> => fbLogin()}
                 >
                   <Flex
                     // value={1}
@@ -274,7 +268,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
               </>}
               <Button
                 isAndroidOpacity={true}
-                style={[ !!me.email ? styles.ButtonAction : styles.ButtonActionTextOnly ]}
+                style={[ styles.ButtonActionTextOnly ]}
                 onPress={
                   () =>
                   Alert.alert(
@@ -290,7 +284,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                         text: 'Delete',
                         onPress: async () => {
                           try {
-                            await dispatch(deleteAccountAction());
+                            dispatch(deleteAccountAction());
                             dispatch(logoutAction());
                           } finally {
                             // Navigate back to the very first screen.
@@ -311,8 +305,8 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                 <Flex
                   // value={1}
                   direction="row"
-                  align="center"
-                  justify="center"
+                  align="start"
+                  justify="start"
 
                 >
                   <Text style={styles.ButtonActionLabel}>Delete my Account</Text>

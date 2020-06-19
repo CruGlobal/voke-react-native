@@ -19,12 +19,10 @@ import DismissKeyboardView from '../../components/DismissKeyboardHOC';
 
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
-import Image from '../../components/Image';
 import TextField from '../../components/TextField';
-import StatusBar from '../../components/StatusBar';
 import Button from '../../components/Button';
-import Triangle from '../../components/Triangle';
 import styles from './styles';
+import theme from '../../theme';
 import CONSTANTS from '../../constants';
 
 type ForgotPasswordModalProps = {
@@ -66,7 +64,7 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
 
   return (
     <DismissKeyboardView
-      style={{ backgroundColor: styles.colors.secondary, height: '100%' }}
+      style={{ backgroundColor: styles.colors.primary, height: '100%' }}
     >
       {/* <StatusBar /> <- TODO: Not sure why we need it here? */}
 
@@ -98,7 +96,7 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
             // blurOnSubmit={false}
             label={t('placeholder:email')}
             onSubmitEditing={handleSubmit}
-            placeholder=""
+            placeholder="Email"
             value={email}
             onChangeText={checkEmail}
             autoCapitalize="none"
@@ -109,14 +107,7 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
             autoFocus={true}
           />
         </Flex>
-        {/* TRIANGLE DIVIDER */}
-        <Flex value={1} justify="end" style={styles.Divider}>
-          <Triangle
-            width={useWindowDimensions().width}
-            height={40}
-            color={styles.colors.secondary}
-          />
-        </Flex>
+
         <Flex
           value={2}
           direction="column"
@@ -126,14 +117,18 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
           {/* BUTTON: RESET PASSWORD */}
           <Button
             isAndroidOpacity
-            style={styles.ButtonStart}
+            touchableStyle={[st.pd4, st.br1, st.w(st.fullWidth - 70),{backgroundColor: theme.colors.white, textAlign:"center",shadowColor: 'rgba(0, 0, 0, 0.5)',
+            shadowOpacity: 0.5,
+            elevation: 4,
+            shadowRadius: 5 ,
+            shadowOffset : { width: 1, height: 8}}]}
             onPress={handleSubmit}
           >
             <Text style={styles.ButtonStartLabel}>{t('forgotPassword:resetPassword')}</Text>
           </Button>
         </Flex>
       </KeyboardAvoidingView>
-      {/* SECTION: FACEBOOK SIGN IN */}
+      {/* SECTION: NEED HELP? */}
       <Flex
         // value={1}
         direction="row"

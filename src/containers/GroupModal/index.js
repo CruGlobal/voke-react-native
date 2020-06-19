@@ -65,7 +65,7 @@ function GroupModal(props) {
               style={[st.br5, st.bgOffBlue, st.p4, st.w(st.fullWidth - 100)]}
             >
               <Text style={[st.white, st.fs16, st.tac]}>
-                Welcome to {adventure.name}!
+                Welcome to { adventure.journey_invite.name || adventure.name || ''}!
               </Text>
             </Flex>
             <Flex
@@ -110,11 +110,10 @@ function GroupModal(props) {
               >
                 {!messenger.avatar ? (
                   <Flex align="center" justify="center" style={[st.pt3]}>
-                    <Image
-                      resizeMode="contain"
-                      source={DEFAULT_AVATAR}
-                      style={[st.h(70), st.w(70)]}
-                    />
+                    <VokeIcon
+                name="person"
+                size={80}
+              />
                   </Flex>
                 ) : (
                   <Image
@@ -140,7 +139,7 @@ function GroupModal(props) {
             ))}
             <Flex
               direction="column"
-              align="end"
+              align="center"
               style={[
                 st.bgOrange,
                 st.pd5,
@@ -148,7 +147,6 @@ function GroupModal(props) {
                 {
                   width: smallBox,
                   height: smallBox,
-                  marginRight: 15,
                 },
               ]}
             >
@@ -183,10 +181,10 @@ function GroupModal(props) {
                     Join the Group
                   </Text>
                   <VokeIcon
-                    type="image"
-                    style={[st.ml4, st.h(25), st.w(25)]}
-                    name={'buttonArrow'}
-                  />
+                name="arrow-left2"
+                size={40}
+                style={{transform: [{ rotate: '180deg'}]}}
+              />
                 </Flex>
               </Touchable>
             </Flex>

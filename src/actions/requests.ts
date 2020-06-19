@@ -155,7 +155,7 @@ export function acceptAdventureInvitation(adventureCode: string) {
 }
 
 // Iterate through adventures to find total number of unread messages.
-function updateTotalUnreadCounter() {
+export function updateTotalUnreadCounter() {
   console.log( "🤖 updateTotalUnreadCounter" );
   return async (dispatch: Dispatch, getState: any) => {
     const myAdventures = getState().data.myAdventures.byId;
@@ -191,7 +191,8 @@ const getAdventureStepsDebounced = debounce(
         description: 'Get Adventure Steps'
       });
 
-       dispatch(getMyAdventure(adventureId));
+      dispatch(getMyAdventure(adventureId));
+      dispatch(updateTotalUnreadCounter());
 
       return results;
     }
@@ -516,7 +517,6 @@ export function updateDevice(newDeviceData: any) {
         description: 'Update device data on our server'
       }),
     );
-
     // dispatch(setAuthData('device', results));
     // Update info in store.auth.device.
     dispatch({
@@ -680,7 +680,6 @@ export function getNotifications(params: any = {}) {
   return async (dispatch: Dispatch, getState: any) => {
     const notificationId = getState().auth.user.vokebotConversationId;
     if (!notificationId) return;
-
     const results: any = await dispatch(
       request({
         ...ROUTES.GET_NOTIFICATIONS,
@@ -693,9 +692,6 @@ export function getNotifications(params: any = {}) {
       type: REDUX_ACTIONS.UPDATE_NOTIFICATION_PAGINATION,
       result: { results, params },
     });
-
-    dispatch(updateUnReadNotificationsBadge( results.messages ));
-
     return results;
   };
 }
@@ -839,18 +835,6 @@ export function updateAdventureUnreads(adventureId) {
   };
 }
 
-export function markMessageAsRead(params: markMessageAsRead) {
-  return async (dispatch: Dispatch, getState: any) => {
-    const {adventureId, stepId } = params;
-
-    // Mark message as read in the store for immediate feedback.
-    dispatch({ type: REDUX_ACTIONS.MARK_READ, adventureId, stepId });
-    dispatch(updateAdventureUnreads(adventureId));
-    // Then call debounced update on the server.
-    return await markMessageAsReadDebounced(dispatch, getState, params)
-  };
-}
-
 type markMessageAsRead = {
   conversationId: string,
   messageId: string,
@@ -858,40 +842,41 @@ type markMessageAsRead = {
   stepId: string,
 }
 
-// We are calling for updated adventure steps after each message,
-// that can be expensive so we have to debounce this action.
-const markMessageAsReadDebounced = debounce(
-    // Mark message as read on the server.
-    async (dispatch, getState, params: markMessageAsRead) => {
-      const { conversationId, messageId } = params;
-      const deviceId = getState().auth.device.id;
+export function markMessageAsRead(params: markMessageAsRead) {
+  return async (dispatch: Dispatch, getState: any) => {
+    const {adventureId, stepId } = params;
 
-      // See: https://docs.vokeapp.com/#me-conversations-messages-interactions
-      let data: any = {
-        interaction: {
-          action: "read", // Message read.
-          device_id: deviceId,
-        }
-      };
+    // Mark message as read in the store for immediate feedback.
+    dispatch({ type: REDUX_ACTIONS.MARK_READ, adventureId, stepId });
+    dispatch(updateAdventureUnreads(adventureId));
 
-      // SEND INTERACTION DATA TO THE SERVER.
-      const result = await dispatch(
-        request({
-          ...ROUTES.CREATE_INTERACTION_READ,
-          pathParams: {
-            conversationId,
-            messageId,
-          },
-          data,
-          description: 'Mark message as read on the server.' +  messageId
-        }),
-      );
+    const { conversationId, messageId } = params;
+    const deviceId = getState().auth.device.id;
 
-      return result;
-    }
-  // }
-  , 2000, { 'leading': false, 'trailing': true }
-);
+    // See: https://docs.vokeapp.com/#me-conversations-messages-interactions
+    let data: any = {
+      interaction: {
+        action: "read", // Message read.
+        device_id: deviceId,
+      }
+    };
+
+    // SEND INTERACTION DATA TO THE SERVER.
+    const result = await dispatch(
+      request({
+        ...ROUTES.CREATE_INTERACTION_READ,
+        pathParams: {
+          conversationId,
+          messageId,
+        },
+        data,
+        description: 'Mark message as read on the server.' +  messageId
+      }),
+    );
+
+    return result;
+  };
+}
 
 // Send an interaction when the user press play.
 export function interactionVideoPlay({adventureId, stepId}) {
