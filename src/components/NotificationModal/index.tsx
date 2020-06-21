@@ -20,11 +20,11 @@ const NotificationModal = (): React.ReactElement => {
   // Current premissions status stroed in
   // store.info.pushNotificationPermission
   const { pushNotificationPermission, notificationsRequest } = useSelector(({ info }: RootState) => info);
+  const me = useSelector(({ auth }) => auth.user);
   // Ignore component if permissions already granted.
   if ( pushNotificationPermission === 'granted') {
     return <></>;
   }
-  const me = useSelector(({ auth }) => auth.user);
 
   const toggleModal = () => {
     dispatch({
