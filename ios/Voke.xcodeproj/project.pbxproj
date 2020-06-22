@@ -14,6 +14,7 @@
 		265204408AB243A6A24045A4 /* TitilliumWeb-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FAAE28D2645345F0BF879DCB /* TitilliumWeb-Regular.ttf */; };
 		509400B42B20E0885920D253 /* libPods-Voke.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F97D8241315ACF52F895540 /* libPods-Voke.a */; };
 		547198C7EA864666A357D9FD /* TitilliumWeb-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 72741BF68E8F4274A61E2204 /* TitilliumWeb-Bold.ttf */; };
+		553B853324A1525400D84CDB /* ukulele-sound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 553B853224A1525400D84CDB /* ukulele-sound.wav */; };
 		55ED17C76FAD4DC0AED0964E /* TitilliumWeb-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2951C46454834E6B93707B85 /* TitilliumWeb-SemiBold.ttf */; };
 		AE843B4F2424606300570270 /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE843B4E2424606300570270 /* icomoon.ttf */; };
 		AEB091AF243228F300B58657 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AEB091AE243228F300B58657 /* GoogleService-Info.plist */; };
@@ -32,6 +33,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Voke/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Voke/main.m; sourceTree = "<group>"; };
 		2951C46454834E6B93707B85 /* TitilliumWeb-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "TitilliumWeb-SemiBold.ttf"; path = "../assets/fonts/TitilliumWeb-SemiBold.ttf"; sourceTree = "<group>"; };
+		553B853224A1525400D84CDB /* ukulele-sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "ukulele-sound.wav"; sourceTree = "<group>"; };
 		559A22F4244B526000CA5A84 /* Voke.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Voke.entitlements; path = Voke/Voke.entitlements; sourceTree = "<group>"; };
 		5AF1EB86063CFE1D515DA91E /* Pods-Voke.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Voke.release.xcconfig"; path = "Target Support Files/Pods-Voke/Pods-Voke.release.xcconfig"; sourceTree = "<group>"; };
 		72741BF68E8F4274A61E2204 /* TitilliumWeb-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "TitilliumWeb-Bold.ttf"; path = "../assets/fonts/TitilliumWeb-Bold.ttf"; sourceTree = "<group>"; };
@@ -75,6 +77,7 @@
 		13B07FAE1A68108700A75B9A /* Voke */ = {
 			isa = PBXGroup;
 			children = (
+				553B853224A1525400D84CDB /* ukulele-sound.wav */,
 				559A22F4244B526000CA5A84 /* Voke.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -215,6 +218,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				553B853324A1525400D84CDB /* ukulele-sound.wav in Resources */,
 				547198C7EA864666A357D9FD /* TitilliumWeb-Bold.ttf in Resources */,
 				AE843B4F2424606300570270 /* icomoon.ttf in Resources */,
 				265204408AB243A6A24045A4 /* TitilliumWeb-Regular.ttf in Resources */,
