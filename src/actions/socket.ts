@@ -7,6 +7,7 @@ import lodash from 'lodash';
 import { ThunkDispatch } from 'redux-thunk';
 import { checkNotifications, openSettings } from 'react-native-permissions';
 import { toastAction } from './info';
+import { Vibration } from 'react-native';
 
 import { REDUX_ACTIONS } from '../constants';
 import { SOCKET_URL } from './utils';
@@ -137,6 +138,8 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
                       message,
                       description: 'From sockets > onmessage()'
                     });
+
+                    dispatch(vibrateAction());
                   // }
                   /* 
                   else {
@@ -270,5 +273,12 @@ export function closeSocketAction() {
       // Do nothing with the error
       console.log('socket error in close', socketErr);
     }
+  };
+}
+
+export function vibrateAction() {
+  return () => {
+    // Vibrate when receiving a new message
+    Vibration.vibrate(100);
   };
 }
