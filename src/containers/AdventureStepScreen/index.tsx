@@ -90,9 +90,15 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
 
     // We can't use our own message to mark conversation as read.
     // So find the latest message that doesn't belong to the current user.
-    let latestMessage = currentMessages.slice().reverse().find(message => message?.messenger_id !== currentUser.id);
+    let latestMessage = currentMessages.slice().reverse().find(message => message?.messenger_id !== currentUser.id) || null;
 
-    if ( latestMessage?.id ) {
+    // I some cases there is bug in API that shows unread messages even when
+    // there is only one person in the chat 🤪.
+    if (!latestMessage) {
+      latestMessage = currentMessages.slice().reverse()[0] || null;
+    }
+
+    if ( latestMessage && latestMessage?.id ) {
       dispatch(
         markMessageAsRead({
           adventureId: adventure.id,

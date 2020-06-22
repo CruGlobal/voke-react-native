@@ -2,13 +2,11 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from "react-i18next";
 import { NavigationContainer, useRoute, useNavigationState } from '@react-navigation/native';
-import { Button } from 'react-native';
 import { startupAction, sleepAction, wakeupAction, getMeAction } from './actions/auth';
 import { routeNameRef, navigationRef } from './RootNavigation';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import AsyncStorage from '@react-native-community/async-storage';
 import { useSafeArea } from 'react-native-safe-area-context';
 import SplashScreen from 'react-native-splash-screen';
 import Welcome from './containers/Welcome';
@@ -40,7 +38,6 @@ import GroupModal from './containers/GroupModal';
 import TabBar from './components/TabBar';
 import theme from './theme';
 import st from './st';
-import HeaderRight from './components/HeaderRight';
 import HeaderLeft from './components/HeaderLeft';
 import Touchable from './components/Touchable';
 import SignOut from './components/SignOut';
@@ -265,6 +262,7 @@ const LoggedInAppContainer = () => {
       error => WARN(' 🧚‍♂️ startupAction > ERROR', error)
     );
   }, []);
+
   return (
     <Tabs.Navigator tabBar={props => <TabBar {...props} />}>
       <Tabs.Screen
@@ -305,8 +303,6 @@ const getActiveRouteName = state => {
 };
 
 const App = () => {
-  // Quickly clears local storage for debugging.
-  // AsyncStorage.clear();
   // Extract store.auth.isLoggedIn value.
   const isLoggedIn = useSelector(({ auth }: any) => auth.isLoggedIn);
   const userId = useSelector(({ auth }: any) => auth.user?.id);

@@ -16,7 +16,6 @@ import AdventureCard from '../../components/AdventureCard';
 import NotificationBanner from '../../components/NotificationBanner';
 import AdventuresActions from '../AdventuresActions';
 import { setCurrentScreen } from '../../actions/info';
-import Flex from 'src/components/Flex';
 
 type AdventuresMyProps = {
   route: {
@@ -27,7 +26,6 @@ type AdventuresMyProps = {
 const AdventuresMy = ({ route }: AdventuresMyProps): React.ReactElement => {
   const dispatch = useDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false); // Pull-to-refresh.
-
   const me = useSelector(({ auth }: any) => auth.user);
   const adventureSteps = useSelector(({ data }: {data: TDataState}) => data.adventureSteps) || {};
   const myAdventuresIds = useSelector(({ data }: {data: TDataState}) => data.myAdventures.allIds)|| [];
@@ -103,7 +101,6 @@ const AdventuresMy = ({ route }: AdventuresMyProps): React.ReactElement => {
           </BotTalking>
         )}
       /> */}
-         
       <ScrollView style={styles.AdventuresList}>
         <View style={styles.AdventureActions}>
       <AdventuresActions/>
