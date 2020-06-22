@@ -210,7 +210,6 @@ export function getAdventureStepMessages(
   adventureStepId: string,
 ) {
   return async (dispatch: Dispatch, getState: any) => {
-    console.log( "🐴 getAdventureStepMessages:", {adventureConversationId}, {adventureStepId} );
     try {
 
       const results: any = await dispatch(
@@ -228,7 +227,7 @@ export function getAdventureStepMessages(
       });
       return results;
     } catch (error) {
-      console.log( "🐙 error:", error );
+      console.log( "getAdventureStepMessages error:", error );
     }
   };
 }
