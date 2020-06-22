@@ -139,7 +139,12 @@ export function getMeAction() {
         // eslint-disable-next-line no-console
         console.log('👤 getMe > Updated user data:\n', userData);
         // Update redux store with data received.
-        return dispatch(setUser(userData));
+        const me = dispatch(setUser(userData));
+        // After user signin by merging guest account we need to refresh adventures.
+        dispatch(getMyAdventures('getMeAction'));
+        dispatch(getAdventuresInvitations());
+
+        return me;
       },
       error => {
         // eslint-disable-next-line no-console
