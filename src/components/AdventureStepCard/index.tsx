@@ -11,6 +11,9 @@ import VokeIcon from '../VokeIcon';
 import st from '../../st';
 import styles from './styles';
 import { TAdventureSingle, TStep } from '../../types';
+import {
+  getCurrentUserId,
+} from '../../utils/get';
 
 type StepProps = {
   status: string;
@@ -36,6 +39,7 @@ function AdventureStepCard({
   // adventure,
 }: AdventureStepCardProps): React.ReactElement {
   const navigation = useNavigation();
+  const userId = getCurrentUserId();
   const adventure = useSelector(({ data }: RootState) => data.myAdventures.byId[adventureId]);
   const step = useSelector(({ data }: RootState) => data.adventureSteps[adventureId].byId[stepId]);
   const [isActive, setIsActive] = useState(step.status === 'active');
@@ -47,6 +51,19 @@ function AdventureStepCard({
   const messengers = (adventure?.conversation || {}).messengers || [];
   const thumbnail = (((step.item || {}).content || {}).thumbnails || {}).small;
   const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'multiple';
+
+  const inviteName = adventure.journey_invite.name;
+  let invitedUserName = '';
+
+  const otherUser = messengers.find(
+    i => i.id !== userId && i.first_name !== 'VokeBot'
+  );
+
+  if (otherUser && otherUser.first_name) {
+    invitedUserName = otherUser.first_name;
+  } else if (inviteName) {
+    invitedUserName = inviteName;
+  }
 
   // Monitor any changes in steps and step parammeters of the component
   // to update the card elements accordingly.
@@ -178,7 +195,13 @@ function AdventureStepCard({
             align="center"
             style={[st.bgOrange, st.w100, st.pd6, st.brbl5, st.brbr5]}
           >
-            <Text style={[st.fs4]}>waiting for answer</Text>
+            {
+              invitedUserName ? (
+                <Text style={[st.fs4]}>Waiting for {invitedUserName} to answer</Text>
+              ) : (
+                <Text style={[st.fs4]}>waiting for answer</Text>
+              )
+            }
           </Flex>
         ) : null}
       </Flex>
