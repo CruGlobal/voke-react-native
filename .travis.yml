@@ -86,6 +86,9 @@ jobs:
     - cocoapods
     - bundler
     - directories:
+      - Pods
+      - $HOME/.cocoapods
+      - $HOME/Library/Caches/CocoaPods
       - $HOME/Library/Developer/Xcode/DerivedData
 
   - name: 'Upload Build to iOS Testflight'
