@@ -52,7 +52,7 @@ function AdventureStepCard({
   const thumbnail = (((step.item || {}).content || {}).thumbnails || {}).small;
   const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'multiple';
 
-  const inviteName = adventure.journey_invite.name;
+  const inviteName = adventure?.journey_invite?.name;
   let invitedUserName = '';
 
   const otherUser = messengers.find(
