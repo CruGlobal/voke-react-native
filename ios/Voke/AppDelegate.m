@@ -18,7 +18,7 @@
 #import <UserNotifications/UserNotifications.h> // Voke: Needed for push notifications
 
 
-@implementation AppDelegate
+ @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -89,13 +89,11 @@
 // Required to register for notifications
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
 {
-  NSLog(@"🦖🦖🦖🦖🦖🦖🦖 didRegisterUserNotificationSettings 🦖🦖🦖🦖🦖🦖🦖🦖");
  [RNCPushNotificationIOS didRegisterUserNotificationSettings:notificationSettings];
 }
 // Required for the register event.
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-  NSLog(@"🐙🐙🐙🐙🐙The code runs through here!🐙🐙🐙🐙🐙🐙");
  [RNCPushNotificationIOS didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 // Required for the notification event.
@@ -103,7 +101,6 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
-  NSLog(@"🦖🦖🦖🦖🦖🦖🦖 didReceiveRemoteNotification 🦖🦖🦖🦖🦖🦖🦖🦖");
   [RNCPushNotificationIOS didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
 }
 // Required for the registrationError event.
