@@ -91,7 +91,7 @@ function AdventureCard({ adventureId }) {
   const onDeleteAdventure = adventureId => {
     // dispatch(
       Alert.alert(
-        'Are you sure you want to unsubscribe from this adventure?',
+        'Are you sure you want to unsubscribe from this Adventure?',
         'This cannot be undone.',
         [
           {
@@ -232,15 +232,15 @@ function AdventureCard({ adventureId }) {
                     {numberMore ? (
                       <View
                         style={[
-                          st.circle(22),
+                          st.circle(36),
                           st.abstl,
-                          { left: 50 },
+                          { left: 90 },
                           st.bgBlue,
-                          { borderWidth: 1, borderColor: st.colors.orange },
+                          { borderWidth: 1, borderColor: st.colors.white },
                         ]}
                       >
                         <Flex self="stretch" align="center" justify="center">
-                          <Text style={[{ fontSize: 12 }]}>+{numberMore}</Text>
+                        <Text style={[st.pv6, st.white, { fontSize: 16 }]}>+{numberMore}</Text>
                         </Flex>
                       </View>
                     ) :

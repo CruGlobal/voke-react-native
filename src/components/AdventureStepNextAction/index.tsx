@@ -9,7 +9,7 @@ import Text from '../Text';
 import Button from '../Button';
 import st from '../../st';
 import VokeIcon from '../../components/VokeIcon';
-// import VokeIcon from '../VokeIcon';
+import ActionButton from '../../containers/AdventureAvailable';
 import Flex from '../Flex';
 import {
   getStepsByAdventureId,
@@ -53,76 +53,69 @@ const AdventureStepNextAction = ({
         direction="column"
         justify="end"
         align="center"
-        style={[st.bgBlue, st.ph2, st.pt2]}
+        style={[st.bgBlue, st.ph5, st.pt2]}
       >
-        <Text style={[st.aic, st.fs2, st.mb4, st.ph1, st.tac, st.white]}>
-          Congrats! You finished the adventure. Now start it with someone else!
+        <Text style={[st.aic, st.mb4, st.ph3, st.tac, st.white, {fontSize:20}]}>
+          Congrats! You finished the Adventure. Now start it with someone else!
         </Text>
         <Button
-          onPress={ () =>
-            navigation.navigate('AdventureName', {
-              item: {
-                id: adventure.organization_journey_id
-              },
-              withGroup: false,
-            })}
-          style={[
-            st.bgOrange,
-            st.ph6,
-            st.pv5,
-            st.bw0,
-            st.br3,
-            st.aic,
-            { width: st.fullWidth - 60 },
-          ]}
-        >
-          <Flex direction="row" align="center">
-            <VokeIcon
-              type="image"
-              style={[{ height: 20 }, st.mr5]}
-              name={'withFriend'}
-            />
-            <Text style={[st.white, st.fs3]}>With a Friend</Text>
-            <VokeIcon
-              type="image"
-              style={[{ height: 15 }, st.ml5]}
-              name={'buttonArrow'}
-            />
-          </Flex>
-        </Button>
-        <Button
-          onPress={ () =>
-            navigation.navigate('AdventureName', {
-              item: {
-                id: adventure.organization_journey_id
-              },
-              withGroup: true,
-            })}
-          style={[
-            st.bgOrange,
-            st.ph6,
-            st.pv5,
-            st.bw0,
-            st.br3,
-            st.mv4,
-            st.aic,
-            { width: st.fullWidth - 60 },
-          ]}
-        >
-          <Flex direction="row" align="center">
-            <VokeIcon
-              type="image"
-              style={[{ height: 20 }, st.mr5]}
-              name={'withGroup'}
-            />
-            <Text style={[st.white, st.fs3]}>With a Group</Text>
-            <VokeIcon
-              type="image"
-              style={[{ height: 15 }, st.ml5]}
-              name={'buttonArrow'}
-            />
-          </Flex>
-        </Button>
+    isAndroidOpacity={true}
+    style={[
+      st.pd4,
+      st.br1,
+      st.bgWhite,
+      st.mb4,
+      st.w(st.fullWidth - 80),
+    {shadowColor: 'rgba(0, 0, 0, 0.5)',
+    shadowOpacity: 0.5,
+    elevation: 2,
+    shadowRadius: 3 ,
+    shadowOffset : { width: 1, height: 5}}] }
+    onPress={ () =>
+      navigation.navigate('AdventureName', {
+        item: {
+          id: adventure.organization_journey_id
+        },
+        withGroup: false,
+      })}
+  >
+    <Flex direction="row" align="center" justify="center">
+    <VokeIcon
+                name='couple'
+                size={26}
+                style={[st.darkBlue,{paddingRight:10}]} />
+  <Text style={[st.darkBlue, st.fs20]}>With a Friend</Text>
+    </Flex>
+  </Button>
+  <Button
+    isAndroidOpacity={true}
+    style={[
+      st.pd4,
+      st.br1,
+      st.bgWhite,
+      st.mb3,
+      st.w(st.fullWidth - 80),
+    {shadowColor: 'rgba(0, 0, 0, 0.5)',
+    shadowOpacity: 0.5,
+    elevation: 2,
+    shadowRadius: 3 ,
+    shadowOffset : { width: 1, height: 5}}] }
+    onPress={ () =>
+      navigation.navigate('AdventureName', {
+        item: {
+          id: adventure.organization_journey_id
+        },
+        withGroup: true,
+      })}
+  >
+    <Flex direction="row" align="center" justify="center">
+    <VokeIcon
+                name='group'
+                size={36}
+                style={[st.darkBlue,{paddingRight:10}]} />
+  <Text style={[st.darkBlue, st.fs20]}>With a Group</Text>
+    </Flex>
+  </Button>
       </Flex>
     );
   }
