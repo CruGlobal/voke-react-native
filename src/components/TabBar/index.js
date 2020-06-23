@@ -10,12 +10,12 @@ import theme from '../../theme';
 import { BlurView, VibrancyView } from "@react-native-community/blur";
 import { StyleSheet } from 'react-native';
 
-function tabElement(label, isFocused) {
+function tabElement(index, label, isFocused) {
   let iconName = 'adventure';
-  if (label === 'Explore') {
+  if (index === 1) {
     iconName = 'compass';
   }
-  if (label === 'Notifications') {
+  if (index === 2) {
     iconName = 'notifications';
   }
 
@@ -114,7 +114,6 @@ function TabBar({ state, descriptors, navigation }) {
               : options.title !== undefined
               ? options.title
               : route.name;
-
           const isFocused = state.index === index;
 
           const onPress = () => {
@@ -146,7 +145,7 @@ function TabBar({ state, descriptors, navigation }) {
               onPress={onPress}
               onLongPress={onLongPress}
             >
-              {tabElement(label, isFocused)}
+              {tabElement(index, label, isFocused,)}
             </Touchable>
           );
         })}

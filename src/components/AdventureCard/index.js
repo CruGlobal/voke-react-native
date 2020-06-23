@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useMount, momentUtc, useInterval } from '../../utils';
 import { deleteAdventure, getMyAdventures } from '../../actions/requests';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from "react-i18next";
 import ProgressDots from './ProgressDots';
 import styles from './styles';
 
@@ -25,18 +26,9 @@ function AdventureCard({ adventureId }) {
   if (adventureItem==null) {
     return <></>;
   }
-
-/*   const adventureItem = {
-    code: '',
-    conversation: {},
-    progress: {},
-    item: { content: { thumbnails: { medium: '' } } },
-    name: '',
-    ...item,
-  };
- */
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const { t } = useTranslation('journey');
 
   const conversation = adventureItem.conversation;
   const progress = adventureItem.progress;
@@ -91,16 +83,16 @@ function AdventureCard({ adventureId }) {
   const onDeleteAdventure = adventureId => {
     // dispatch(
       Alert.alert(
-        'Are you sure you want to unsubscribe from this adventure?',
-        'This cannot be undone.',
+        t('unsubscribeTitle'),
+        t('unsubscribeBody'),
         [
           {
-            text: 'Cancel',
+            text: t('cancel'),
             onPress: () => {},
             style: "cancel"
           },
           {
-            text: 'Delete',
+            text: t('delete'),
             onPress: async () => {
               await dispatch(deleteAdventure(adventureId));
               await dispatch(getMyAdventures());
@@ -155,7 +147,7 @@ function AdventureCard({ adventureId }) {
               />
               </Touchable>
             <Text numberOfLines={2} style={styles.Participants}>
-              {isSolo ? 'Your Adventure' : isGroup ? groupName + ' Adventure' : 'Adventure with ' + otherUser.first_name}
+              {isSolo ? t('yourAdventure') : isGroup ? groupName + ' ' + t('adventure') : t('adventureWith') + ' ' + otherUser.first_name}
             </Text>
             <Text numberOfLines={2} style={styles.Title}>
               {name}
@@ -223,8 +215,6 @@ function AdventureCard({ adventureId }) {
                         source={{ uri: (i.avatar || {}).small || undefined }}
                         style={[
                           st.circle(36),
-                          // st.abstl,
-                          // { left: (index + 1) * 10 },
                           { borderWidth: 2, borderColor: st.colors.white, marginLeft: -12 },
                         ]}
                       />
@@ -282,9 +272,9 @@ function AdventureCard({ adventureId }) {
               </Flex>
               <Flex value={1} direction="row" align="center" justify="between" style={{width:'100%'}}>
                 <Text numberOfLines={1} style={[st.charcoal, st.fs5]}>
-                  {completed}/{available} {'completed'}
+                  {completed}/{available} {t('completed').toLowerCase()}
                 </Text>
-                {isSolo ? <Text style={styles.SoloTag}>Solo</Text> : isGroup ? <Text style={styles.GroupTag}>Group</Text> : <Text style={styles.DuoTag}>Duo</Text>}
+                {isSolo ? <Text style={styles.SoloTag}>{t('solo')}</Text> : isGroup ? <Text style={styles.GroupTag}>{t('group')}</Text> : <Text style={styles.DuoTag}>{t('duo')}</Text>}
 
                 {/* {inviteCode ? <Text style={styles.InviteCode}>{inviteCode}</Text>:<></>} */}
                 {/* {inviteCode ? <Text style={styles.InviteCode}>{inviteCode}</Text>:<></>} */}

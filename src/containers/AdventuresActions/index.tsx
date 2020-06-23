@@ -1,6 +1,7 @@
 
 import React, { useState, useRef, forwardRef, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from 'react-redux';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
@@ -15,6 +16,7 @@ import Touchable from '../../components/Touchable';
 function AdventuresActions() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const { t } = useTranslation('adventureCode' );
   const availableAdventures = useSelector(
     ({ data }) => data.availableAdventures
   );
@@ -32,7 +34,7 @@ function AdventuresActions() {
         onPress={() => navigation.navigate('AdventureCode')}
       >
         <Flex direction="column" align="center" justify="center">
-          <Text style={[st.white, st.fs18, {textDecorationLine:'underline'}]}>Have an Adventure Code?</Text>
+          <Text style={[st.white, st.fs18, {textDecorationLine:'underline'}]}>{t('adventureCodeHaveCode')}</Text>
         </Flex>
       </Touchable>
     </Flex>

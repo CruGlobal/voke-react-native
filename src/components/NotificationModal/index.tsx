@@ -15,8 +15,10 @@ import { REDUX_ACTIONS } from '../../constants';
 
 import NotificationGraphic from '../../assets/graphic-allownotifications.png';
 import auth from 'src/reducers/auth';
+import { useTranslation } from 'react-i18next';
 const NotificationModal = (): React.ReactElement => {
   const dispatch = useDispatch();
+  const { t } = useTranslation('overlays');
   // Current premissions status stroed in
   // store.info.pushNotificationPermission
   const { pushNotificationPermission, notificationsRequest } = useSelector(({ info }: RootState) => info);
@@ -41,7 +43,7 @@ const NotificationModal = (): React.ReactElement => {
         direction="column"
         align="center"
       >
-        <BotTalking type="reverse">{me.firstName}, I play my Ukulele so you don’t miss out when your friends interact or join your adventures!{'\n'}{'\n'}But first, I need your permission to send you notifications.</BotTalking>
+        <BotTalking type="reverse">{t('playUkulele', {name: me.firstName})}</BotTalking>
         {/* <Flex>
           <Image
             source={NotificationGraphic}
@@ -92,7 +94,7 @@ const NotificationModal = (): React.ReactElement => {
               textAlign: 'center',
             }}
           >
-            Allow Notifications
+            {t('allowNotifications')}
           </Text>
         </Button>
 
@@ -123,7 +125,7 @@ const NotificationModal = (): React.ReactElement => {
               textAlign: 'center',
             }}
           >
-            No Thanks
+            {t('noThanks')}
           </Text>
         </Button>
       </Flex>

@@ -10,6 +10,7 @@ import { View, ScrollView, StatusBar } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Video from '../../components/Video';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from "react-i18next";
 import VokeIcon from '../../components/VokeIcon';
 import theme from '../../theme';
 import { startAdventure } from '../../actions/requests';
@@ -46,6 +47,7 @@ function ActionButton(props){
 }
 
 function AdventureAvailable(props) {
+  const { t } = useTranslation('journey');
   const dispatch = useDispatch();
   const insets = useSafeArea();
   const navigation = useNavigation();
@@ -93,7 +95,6 @@ const {duoTutorialCount, groupTutorialCount } = useSelector(({ info }: RootState
         height: insets.top,
         backgroundColor: isPortrait && insets.top > 0 ? '#000' : 'transparent',
       }}>
-        
         <StatusBar
           animated={true}
           barStyle="light-content"
@@ -137,7 +138,7 @@ const {duoTutorialCount, groupTutorialCount } = useSelector(({ info }: RootState
                 color: 'white',
               }}
             >
-              Watch Trailer
+              {t('watchTrailer')}
             </Text>
           </Flex>
         </Flex>
@@ -150,13 +151,13 @@ const {duoTutorialCount, groupTutorialCount } = useSelector(({ info }: RootState
           <Flex style={[st.pd3]}>
             <Text style={[st.fs2, st.blue]}>{item.name}</Text>
             <Text style={[st.pt5, st.charcoal]}>
-              {item.total_steps}-{'part series'}
+              {item.total_steps}-{t('partSeries').toLowerCase()}
             </Text>
             <Text style={[st.charcoal, st.pv4]}>{item.description}</Text>
           </Flex>
           <Flex justify="end" style={[st.bgWhite]}>
             <Text style={[st.fs3, st.pb5, st.ml2]}>
-              {'Who can you take with you?'}
+              {t('whoCanYouTake')}
             </Text>
             <Flex
               style={{
@@ -169,41 +170,45 @@ const {duoTutorialCount, groupTutorialCount } = useSelector(({ info }: RootState
             <Flex direction="row" justify="center" style={[st.w100, st.mt4]}>
               <Flex value={1} align="center">
                 <ActionButton
-                  text="Go with a Friend"
+                  text={t('goWithFriend')}
                   icon="couple"
-                  onPress={() => { 
-                    if(duoTutorialCount >2) {  
-                    navigation.navigate('AdventureName', {
-                    item,
-                    withGroup: false,
-                  })
-                }else{
-                  toggleModal('withFriend')
-                }
+                  onPress={() => {
+                    if(duoTutorialCount >2) {
+                        navigation.navigate('AdventureName', {
+                        item,
+                        withGroup: false,
+                      })
+                    } else {
+                      toggleModal('withFriend')
+                    }
                   }}/>
                 <ActionButton
-                  text="Go with a Group"
+                  text={t('goWithGroup')}
                   icon="group"
                   onPress={() => {
-                    if(groupTutorialCount > 2) {  
+                    if(groupTutorialCount > 2) {
                       navigation.navigate('AdventureName', {
                         item,
                         withGroup: true,
                       })
-                   
-                  }else{toggleModal('withGroup')}
-                }
-                   
+                    } else {
+                      toggleModal('withGroup');
+                    }
+                  }
                   }/>
                 {soloStarted ? null : (
-                  <ActionButton text="Go by Myself" icon="person" onPress={startByMyself}/>
+                  <ActionButton
+                    text={t('goByMyself')}
+                    icon="person"
+                    onPress={startByMyself}
+                  />
                 )}
               </Flex>
             </Flex>
           </Flex>
         </ScrollView>
       )}
-                    <TipsModal group={withGroup} item={item}/>
+      <TipsModal group={withGroup} item={item}/>
 
     </Flex>
   );

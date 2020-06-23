@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import Flex from '../../components/Flex';
-import Text from '../../components/Text';
 import st from '../../st';
-import Image from '../../components/Image';
-import VokeIcon from '../../components/VokeIcon';
-import { ScrollView, FlatList, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import Video from '../../components/Video';
-import { useNavigation } from '@react-navigation/native';
 import { useMount, lockToPortrait } from '../../utils';
 import NotificationItem from '../../components/NotificationItem';
 import { getNotifications, markReadNotification } from '../../actions/requests';
@@ -16,7 +12,6 @@ import { getNotifications, markReadNotification } from '../../actions/requests';
 function Notifications(props) {
   const dispatch = useDispatch();
   const insets = useSafeArea();
-  const navigation = useNavigation();
   const [isPortrait, setIsPortrait] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const me = useSelector(({ auth }) => auth.user);

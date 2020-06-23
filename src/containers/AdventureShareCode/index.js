@@ -86,7 +86,7 @@ function AdventureShareCode(props) {
                 })
               }
             >
-              <Text style={[st.fs18, st.white]}>Done</Text>
+              <Text style={[st.fs18, st.white]}>{t('done')}</Text>
             </Touchable>
           </Flex>
           <Flex
@@ -96,16 +96,17 @@ function AdventureShareCode(props) {
             style={[st.mb4]}
           >
             {/* TODO: Add translation for the next strings */}
-            <BotTalking>  {withGroup
-              ? `${invitation.name}’s  invite code is ready! Hit Share and choose how you’d like to send this invite code to each of your group members.`
-              : isVideoInvite
-              ? 'Your link is ready! Hit share and choose how you want to send it.'
-              : `${invitation.name}’s invite code is ready! Hit Share and choose how you’d like to send this invite code with ${invitation.name}.`}
+            <BotTalking>
+              { withGroup ?
+                  t('share:groupCodeReady', {name:invitation.name}) :
+                  isVideoInvite ?
+                    t('share:linkReady') :
+                    t('share:codeReady', {name:invitation.name})}
             </BotTalking>
 
           </Flex>
           <Flex direction="column" align="center" style={[st.ph1, st.w100]}>
-            {isVideoInvite ? <Text style={[st.fs22, st.white, st.pb4]}>Invite Link: </Text>: <Text style={[st.fs22, st.white, st.pb4]}>Invite Code:</Text>}
+            {isVideoInvite ? <Text style={[st.fs22, st.white, st.pb4]}>{t('inviteLink')}: </Text>: <Text style={[st.fs22, st.white, st.pb4]}>{t('inviteCode')}:</Text>}
             <Touchable onPress={copyToClipboard}>
               <Flex
                 style={[

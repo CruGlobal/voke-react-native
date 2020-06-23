@@ -11,6 +11,7 @@ import VokeIcon from '../VokeIcon';
 import { VIDEO_WIDTH, VIDEO_HEIGHT } from '../../constants';
 import { useNavigation } from '@react-navigation/native';
 import theme from '../../theme';
+import { useTranslation } from 'react-i18next';
 
 function renderText(item) {
   const notification = item;
@@ -120,6 +121,7 @@ function renderVideo(message, onSelectVideo, handleShare) {
 
 function NotificationItem({ item, onSelectVideo }) {
   const navigation = useNavigation();
+  const { t } = useTranslation();
   function handleShare() {
     navigation.navigate('AdventureName', {
       item: item?.item,
@@ -138,7 +140,7 @@ function NotificationItem({ item, onSelectVideo }) {
   const momentNow = moment()
     .local()
     .format('LL');
-  const separatorTime = momentTime === momentNow ? 'today' : momentTime;
+  const separatorTime = momentTime === momentNow ? t('today') : momentTime;
   if (message.kind === 'answer') return null;
   let content;
   if (isVideoAndText) {

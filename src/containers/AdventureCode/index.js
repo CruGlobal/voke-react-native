@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Alert, Keyboard } from 'react-native';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
@@ -21,6 +22,7 @@ import Touchable from '../../components/Touchable';
 import { acceptAdventureInvitation } from '../../actions/requests';
 
 function AdventureCode(props) {
+  const { t } = useTranslation('haveCode');
   const insets = useSafeArea();
   const navigation = useNavigation();
   const [adventureCode, setAdventureCode] = useState('');
@@ -66,10 +68,12 @@ function AdventureCode(props) {
           // TODO: GO STRAIGHT INTO ADVENTURE
         }
       } catch (error) {
-        dispatch(toastAction( 'Invalid code', 'short' ));
+        dispatch(toastAction( t('signUp:invalidCode'), 'short' ));
       } finally {
         setIsLoading(false);
       }
+    } else {
+      dispatch(toastAction( t('signUp:invalidCode'), 'short' ));
     }
   }
 
@@ -88,13 +92,11 @@ function AdventureCode(props) {
       >
         <Flex direction="column" justify="center" style={[st.w100, st.h100]}>
           <Flex direction="column" style={[st.mt1]}>
-            <BotTalking heading="Have a code from a friend?">Easily join your friend with an
-adventure invite Code.
-</BotTalking>
+            <BotTalking heading={t('botMessageTitle')}>{t('botMessageContent')}</BotTalking>
             <Flex direction="column" align="center" style={[st.ph1, st.w100]}>
             <NameInput
                 blurOnSubmit
-                label="Adventure Code"
+                label={t('adventureCode:adventureCode')}
                 placeholder="00000"
                 value={adventureCode}
                 onChangeText={text => setAdventureCode(text)}
@@ -115,7 +117,7 @@ adventure invite Code.
             shadowOffset : { width: 1, height: 8}}]}
             isLoading={isLoading}
           >
-            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>Continue</Text>
+            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>{t('continue')}</Text>
 
           </Button>
            {/* Safety spacing. */}
