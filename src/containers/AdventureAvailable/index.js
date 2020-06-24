@@ -55,8 +55,8 @@ function AdventureAvailable(props) {
   const { item, alreadyStartedByMe } = props.route.params;
   const [isLoading, setIsLoading] = useState(false);
   const [soloStarted, setSoloStarted] = useState(alreadyStartedByMe);
-const [withGroup, setWithGroup] = useState(0)
-const {duoTutorialCount, groupTutorialCount } = useSelector(({ info }: RootState) => info);
+  const [withGroup, setWithGroup] = useState(0)
+  const {duoTutorialCount, groupTutorialCount } = useSelector(({ info }: RootState) => info);
 
 
   const toggleModal = (withGroup) => {
