@@ -83,13 +83,8 @@ function AdventureCard({ adventureId }) {
   const onDeleteAdventure = adventureId => {
     // dispatch(
       Alert.alert(
-<<<<<<< HEAD
-        'Are you sure you want to unsubscribe from this Adventure?',
-        'This cannot be undone.',
-=======
         t('unsubscribeTitle'),
         t('unsubscribeBody'),
->>>>>>> develop
         [
           {
             text: t('cancel'),

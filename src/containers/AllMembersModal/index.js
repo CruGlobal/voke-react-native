@@ -29,15 +29,10 @@ function AllMembersModal(props) {
     i => i.first_name !== 'VokeBot'
     // i => i.first_name !== 'VokeBot' && (i || {}).id !== (me || {}).id,
   );
-<<<<<<< HEAD
   
   const smallCircle = st.fullWidth / 2 - 90;
   const smallBox = st.fullWidth / 2 - 50;
   const leaderBox = st.fullWidth / 2 - 30;
-=======
-  const smallCircle = st.fullWidth / 2 - 90;
-  const smallBox = st.fullWidth / 2 - 50;
->>>>>>> develop
 
   return (
     <>
@@ -99,11 +94,7 @@ function AllMembersModal(props) {
             direction="row"
             wrap="wrap"
             align="end"
-<<<<<<< HEAD
             justify="center"
-=======
-            justify="start"
->>>>>>> develop
           >
             {messengers.map((messenger, index) => (
               
