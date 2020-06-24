@@ -9,7 +9,6 @@ import Text from '../Text';
 import Button from '../Button';
 import st from '../../st';
 import VokeIcon from '../../components/VokeIcon';
-import ActionButton from '../../containers/AdventureAvailable';
 import Flex from '../Flex';
 import {
   getStepsByAdventureId,
