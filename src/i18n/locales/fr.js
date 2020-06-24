@@ -1,7 +1,34 @@
 /* eslint-disable */
 
 export default {
+  welcome: {
+    botMessageTitle:
+      'Welcome to Voke!',
+    botMessageContent:
+      `Nous utilisons des séries vidéos pour examiner des questions sur la foi et Jesus ensemble`,
+    haveCode:
+      `J'ai un code d'aventure`,
+    haveCodeInfo:
+      `Joins-toi à une aventure vidéo avec tes ami(e)s dans Voke. Choisi ceci si tu as un code d'invité pour rejoindre tes amis ou ton groupe.`,
+    toExplore:
+      `Je veux explorer`,
+  },
+  haveCode: {
+    botMessageTitle:
+      `Ton ami(e) t'a donné un code?`,
+    botMessageContent:
+      `Joins-toi à tes amis facilement à l'aide du code d'invité`,
+    /* haveCode:
+      'I have an adventure Code',
+    haveCodeInfo:
+      'You get to do video adventures with others in Voke. Choose this if you received an Adventure invite code to easily join your friend or Group.',
+    toExplore:
+      `I'd like to Explore`, */
+  },
   common: {
+    yourAdventure: 'Ton Aventure',
+    adventure: 'Aventure',
+    adventureWith: 'Explore avec',
     oldConversationsCreateAccount:
       'Vous devez créer un compte avant de demander vos conversations.',
     oldConversationsDescription:
@@ -15,6 +42,7 @@ export default {
     all: 'Tous',
     allowContacts: 'Autoriser liste de contacts',
     allowNotifications: 'Autoriser notifications',
+    confirm: 'Confirmer',
     cancel: 'Annuler',
     challengeAccepted: 'Accepter le défi',
     changePhoto: 'Changer Photo',
@@ -32,6 +60,7 @@ export default {
       'Tu es sur le point de supprimer ton compte Voke. Ceci effacera: toutes conversations, niveaux d’aventures, informations d’usager, identifiants de connexion, etc. Si tu continues, tu ne pourras pas récupérer ce compte mais tu pourras créer un nouveau comte. Es-tu certain de vouloir continuer?',
     deleteSure: 'Es-tu certain?',
     done: 'Terminé',
+    duo: 'Duo',
     edit: 'Modifier',
     featured: 'En vedette',
     followInstagram: 'Suis nous sur Instagram',
@@ -42,7 +71,10 @@ export default {
     gotIt: 'Je comprends',
     great: 'Trѐs bien!',
     haveAccount: 'As-tu déja un compte?',
+    invitations: 'Invitations',
     invite: 'Inviter',
+    inviteCode: `Code d'invitation`,
+    inviteLink: `Lien d'invitation`,
     inviteFriend: 'Inviter un(e) ami(e)',
     shareApp: 'Comparte esta aplicación',
     language: 'Langue',
@@ -52,12 +84,14 @@ export default {
     next: 'Suivant',
     noThanks: 'Non merci',
     notNow: 'Pas maintenant',
+    noVideos: 'Nos vidéos',
     ohNo: 'Oh non!',
     ok: 'OK',
     openAddr: 'Ouvrir mes contacts',
     openSettings: 'Ouvrir paramѐtres',
     or: 'OU',
     other: 'Autre',
+    ourPartners: 'Nos Partenaires',
     part: 'Partie',
     partSeries: 'Parties',
     popular: 'Populaire',
@@ -68,6 +102,7 @@ export default {
     send: 'Envoyer',
     setLanguage: 'Choisir une langue',
     settings: 'Paramѐtres',
+    solo: 'Solo',
     share: 'Partager',
     shortPassword: 'Ton mot de passe doit contenir au moins 8 caractѐres',
     signIn: 'Connexion',
@@ -84,91 +119,112 @@ export default {
     tellMeMore: 'Savoir plus',
     themes: 'Thѐmes',
     today: "Aujourd'hui",
+    group: 'Groupe',
+    agreementExplore: 'En explorant, tu acceptes nos',
+    agreementCreate: 'En créant un compte, tu acceptes nos',
     tos: "Conditions d'utilisation",
     turnOn: 'Activer',
     unsubscribe: 'Désabonner',
     vokebot: 'Vokebot',
     vokebotInitials: 'VB',
     withFriend: 'Avec un ami',
+    withGroup: 'Avec un groupe',
     writeReview: 'Donne nous tes commentaires',
+    joinGroup: 'Joindre ce groupe',
+    allMembers: 'Voir les membres',
     you: 'Toi',
-    loading: {
-      adventures: 'Chargement de tes aventures',
-      allowContact: "SVP autorise l'accѐs à tes contacts.",
-      contacts:
-        "Je cherche tes contacts...et tu es tellement populaire que j'ai besoin jusqu'a 30 secondes",
-      findingContacts: 'Je trouve tes contacts',
-      messages: 'Chargement de tes messages',
-      selectFriend: 'Regarde tes contacts ou prend un pas de foi avec...',
-      share: 'Je crée un lien que tu peux partager avec ton ami(e)',
-      videos: 'Je cherche des vidéos géniales pour toi',
-    },
-    placeholder: {
-      confirmEmail: 'Confirme ton courriel',
-      confirmNewPassword: 'Confirmer nouveau mot de passe',
-      currentPassword: 'Mot de passe actuel',
-      email: 'Courriel',
-      firstName: 'Prénom',
-      friendsName: `Nom de ton ami`,
-      lastName: 'Nom de famille',
-      mobileNumber: 'Ton numéro de cellulaire',
-      newEmail: 'Nouveau courriel',
-      newMessage: 'Nouveau message',
-      newPassword: 'Nouveau mot de passe',
-      password: 'Mot de passe',
-      reason: 'Raison',
-      search: 'Rechercher',
-      verification: 'Code de vérification',
-      whatIsFriendsName: `Quel est le nom de ton ami(e)?`,
-      whyDoWeWantThis: 'Pourquoi voulons-nous cela?',
-      whyNeedFriendsName:
-        'Nous utilisons le nom de votre ami pour vous aider à savoir qui a répondu aux vidéos que vous avez partagées.',
-    },
-    title: {
-      about: 'À propos de nous',
-      oldConversations: 'Obtenez mes anciennes conversations',
-      acknowledgements: 'Remerciements',
-      notifications: 'Notifications',
-      adventures: 'Aventures',
-      channels: 'Postes',
-      chats: 'Conversations',
-      createAccount: 'Créer un compte',
-      createProfile: 'Créer un profil',
-      findAdventures: 'Trouver des Aventures',
-      help: 'Aide',
-      kickstarters: 'Brise-glaces',
-      myAdventures: 'Mes Aventures',
-      number: 'Numéro de cellulaire',
-      profile: 'Profil',
-      selectAFriend: 'Choisir un(e) ami(e)',
-      selectCountry: 'Choisir un pays',
-      selectFriend: 'Choisir un ami',
-      verification: 'Vérification',
-      videos: 'Vidéos',
-    },
-    empty: {
-      contacts: "C'est vide ici...\nTu as besoin de contacts",
-      noResults: 'Aucun résultat',
-      nothingToShow: 'Rien à montrer',
-      noVideos: 'Je cherche des vidéos géniales pour toi.',
-    },
-    error: {
-      adventureLocked: `Cette aventure est bloquée jusqu'à ce que tu complѐtes l'aventure courante.`,
-      contactsDescription: "Erreur; incapable d'obtenir tes contacts.",
-      contactsTitle: 'Incapable de trouver contacts',
-      error: 'Erreur',
-      playingVideo: 'Erreur; incapable de montrer la vidéo.',
-      somethingWentWrong: 'Oops! On dirait que quelque chose fonctionne pas.',
-      sorryUnauth:
-        'Désolé, il semble avoir une erreur d’autorisation de ta demande.',
-      troubleVideo: 'On a de la difficulté à trouver cette vidéo',
-      tryAgain: 'Erreur, svp essayer à nouveau.',
-      unauthorized: 'Non autorisé',
-      userpass:
-        'Désolé, cette combinaison de nom d’utilisateur/mot de passe est incorrect.',
-      vokePermission:
-        "Avant tout, autorise Voke à acceder tes contacts. Va dans paramètres / Voke et autorise l'accès à tes contacts",
-    },
+  },
+  name: {
+    introTitle:'Salut! ',
+    introMessage: `Je m'apelle Vokebot. Heureux de te rencontrer.`,
+    needNameTitle: `Écrit un nom`,
+    needNameMessage: `Écris ton prénom pour que tes amis te reconnaissent`,
+  },
+
+  loading: {
+    adventures: 'Chargement de tes aventures',
+    allowContact: "SVP autorise l'accѐs à tes contacts.",
+    contacts:
+      "Je cherche tes contacts...et tu es tellement populaire que j'ai besoin jusqu'a 30 secondes",
+    findingContacts: 'Je trouve tes contacts',
+    messages: 'Chargement de tes messages',
+    selectFriend: 'Regarde tes contacts ou prend un pas de foi avec...',
+    share: 'Je crée un lien que tu peux partager avec ton ami(e)',
+    videos: 'Je cherche des vidéos géniales pour toi',
+  },
+  placeholder: {
+    confirmEmail: 'Confirme ton courriel',
+    confirmNewPassword: 'Confirmer nouveau mot de passe',
+    currentPassword: 'Mot de passe actuel',
+    email: 'Courriel',
+    firstName: 'Prénom',
+    friendsName: `Nom de ton ami`,
+    lastName: 'Nom de famille',
+    mobileNumber: 'Ton numéro de cellulaire',
+    newEmail: 'Nouveau courriel',
+    newMessage: 'Nouveau message',
+    newPassword: 'Nouveau mot de passe',
+    password: 'Mot de passe',
+    reason: 'Raison',
+    search: 'Rechercher',
+    verification: 'Code de vérification',
+    whatIsFriendsName: `Quel est le nom de ton ami(e)?`,
+    needNameTitle: `Écrit un nom`,
+    needNameMessage: `Écrit un nom pour gérer tes aventures`,
+    nameYourGroup: `Choisis un nom pour ton groupe`,
+    groupName: `Nom du groupe`,
+    whyDoWeWantThis: 'Pourquoi voulons-nous cela?',
+    whyNeedGroupName:
+      `Le nom du groupe nous aide à inviter tes amis et t'aidera  à gérer tes groupes`,
+    whyNeedFriendsName:
+      'Nous utilisons le nom de votre ami pour vous aider à savoir qui a répondu aux vidéos que vous avez partagées.',
+  },
+  title: {
+    about: 'À propos de nous',
+    oldConversations: 'Obtenez mes anciennes conversations',
+    acknowledgements: 'Remerciements',
+    notifications: 'Notifications',
+    adventures: 'Aventures',
+    explore: 'Explore',
+    notifications: 'Notifications',
+    channels: 'Postes',
+    chats: 'Conversations',
+    createAccount: 'Créer un compte',
+    createProfile: 'Créer un profil',
+    findAdventures: 'Trouver des Aventures',
+    help: 'Aide',
+    kickstarters: 'Brise-glaces',
+    myAdventures: 'Mes Aventures',
+    number: 'Numéro de cellulaire',
+    profile: 'Profil',
+    selectAFriend: 'Choisir un(e) ami(e)',
+    selectCountry: 'Choisir un pays',
+    selectFriend: 'Choisir un ami',
+    verification: 'Vérification',
+    videos: 'Vidéos',
+  },
+  empty: {
+    contacts: "C'est vide ici...\nTu as besoin de contacts",
+    noResults: 'Aucun résultat',
+    nothingToShow: 'Rien à montrer',
+    noVideos: 'Je cherche des vidéos géniales pour toi.',
+  },
+  error: {
+    adventureLocked: `Cette aventure est bloquée jusqu'à ce que tu complѐtes l'aventure courante.`,
+    contactsDescription: "Erreur; incapable d'obtenir tes contacts.",
+    contactsTitle: 'Incapable de trouver contacts',
+    error: 'Erreur',
+    playingVideo: 'Erreur; incapable de montrer la vidéo.',
+    somethingWentWrong: 'Oops! On dirait que quelque chose fonctionne pas.',
+    sorryUnauth:
+      'Désolé, il semble avoir une erreur d’autorisation de ta demande.',
+    troubleVideo: 'On a de la difficulté à trouver cette vidéo',
+    tryAgain: 'Erreur, svp essayer à nouveau.',
+    unauthorized: 'Non autorisé',
+    userpass:
+      'Désolé, cette combinaison de nom d’utilisateur/mot de passe est incorrect.',
+    vokePermission:
+      "Avant tout, autorise Voke à acceder tes contacts. Va dans paramètres / Voke et autorise l'accès à tes contacts",
   },
   channels: {
     browse: "Jette un coup d'oeil",
@@ -220,6 +276,30 @@ export default {
     moreTitle:
       'Voke t’aide a commencer des conversations plus profondes en deux étapes',
     title: 'Liste de contacts des utilisateur?',
+
+    howDuoWorksBotTitle:'Bienvenue aux Aventures Duo!',
+    howGroupsWorkBotTitle: 'Bienvenue aux Groupes!',
+
+    howDuoWorksBotBody:'Explore comment une Aventure Duo fonctionne ou commence dès maintenant',
+    howGroupsWorkBotBody:'Explore comment les Groupes fonctionnent ou commence dès maintenant',
+
+    howItWorksWatch: 'Regarde chaque épisode et réponds aux questions pour voir les réponses de tes ami(e)s.',
+
+    howDuoWorksChat: 'Envoi des messages à ton ami(e) pour discuter du vidéo et ses réponses.',
+    howGroupsWorkChat: 'Envoi des messages à tes ami(e)s pour discuter du vidéo et leurs réponses.',
+
+    howGroupsWorkLimit:`Tu peux avoir jusqu'à 20 membres dans ton Groupe Voke.`,
+
+    howDuoWorksShare: `Envoie le lien ou le code d’Aventure à ton ami(e) pour qu’il/elle participe à l'aventure.`,
+    howGroupsWorkShare: `Envoie le lien ou le code d’Aventure à tes ami(e)s pour qu’ils/elles participent à l’aventure.`,
+
+    howDuoWorksStart:`Appuie sur ‘Commencer’ pour débuter avec un(e) ami(e)`,
+    howGroupsWorkStart:`Appuie sur ‘Commencer’ pour débuter avec ton groupe`,
+
+    howDuoWorksTitle: 'Comment fonctionne les Aventures Duo?',
+    howGroupsWorkTitle: 'Comment fonctionne les Groupes?',
+
+    welcomeTo: 'Bienvenue au ',
   },
   notifications: {
     off: 'Notification désactivées.',
@@ -246,6 +326,7 @@ export default {
     user: "Compte d'usager",
     verified: 'Compe vérifié',
     verifyMobile: 'Vérifier numéro de cellulaire',
+    toEdit: `Pour modifier, sélectionne l'élément à modifier`,
   },
   reportModal: {
     title: 'SVP décrire pourquoi vous rapportez cette personne',
@@ -263,16 +344,6 @@ export default {
     visitWebsite: 'Visite notre page de support',
     website: 'Visite notre site web',
     why: 'Pourquoi Voke?',
-  },
-  shareFlow: {
-    checkOut: 'Regarde ça sur Voke!',
-    enterName: 'SVP entrer un prénom pour continuer',
-    errorCreating: `Désolé, une erreur est survenu en créant la conversation. Essaie à nouveau.`,
-    friend: 'Ami(e)',
-    friendCheckOut: `Salut {{name}}, regarde cette vidéo {{url}}`,
-    linkReady: `Le lien destiné à {{name}} est prêt! Où veux tu le partager?`,
-    noNeed: `- (il/elle n'a pas besoin d'avoir Voke)`,
-    who: 'Avec qui veux-tu partager',
   },
   sharePopup: {
     copy: 'Copier',
@@ -313,6 +384,7 @@ export default {
     verifyDescription: `Entrer le code de 4 chiffres reçu par texto pour confirmer que tu es un humain.`,
   },
   tryItNow: {
+    addPhotoTitle: 'Ajoute une photo!',
     addPhoto: 'Ajoute un numéro pour que tes ami(e)s te reconnaissent',
     enterName: 'SVP entrer un prénom pour continuer',
     firstName: `Prénom (champ obligatoire)`,
@@ -337,11 +409,10 @@ export default {
     '1player': '1 Joueur',
     '2player': '2 Joueurs',
     code: 'Code:',
+    codeExpired: `Le code de {{name}} est expiré`,
     expiresIn: 'Expire dans {{time}}',
+    waitingForGroup: 'En attente du groupe',
     waitingForFriend: 'En attente de {{name}} ...',
-  },
-  orgJourney: {
-    started: 'Commencé',
   },
   journey: {
     byMyself: 'Tout seul',
@@ -352,10 +423,16 @@ export default {
     waitingForAnswer: 'En attente de la réponse de {{name}}',
     whoCanYouTake: 'Qui peux-tu ammener avec toi?',
     yourAnswer: 'Ta réponse...',
+    unsubscribeTitle: `Es-tu certain de vouloir te désabonner de l'Aventure?`,
+    unsubscribeBody: 'Ceci ne peut être défait',
+    goWithFriend: 'Explore avec un(e) ami(e)',
+    goWithGroup: 'Explore avec un groupe ',
+    goByMyself: 'Explorer seul',
+    started: 'Commencé',
   },
   adventureCode: {
     adventureCode: "Code d'Aventure",
-    adventureCodeHaveCode: "Vous avez un code d'un ami?",
+    adventureCodeHaveCode: "As-tu un code d'Aventure?",
     dontHaveOne: "Je n'en ai pas",
     adventureCodeWhatsThis: "Qu'est-ce que c'est?",
     adventureCodeWhatsThisExplanation:
@@ -369,11 +446,20 @@ export default {
     welcomeToAdventures: `Salut {{name}}! Voici où tu trouveras toutes les aventures que tu fais avec tes ami(e)s.`,
   },
   share: {
-    codeReady: `Le code de {{name}} est prêt. Partage le code en cliquant sous ce message ou copie et envoie le.`,
+    codeReady: `Le code de {{name}} est prêt. Appui sur Partager et choisis comment envoyer cette invitation à {{name}}.`,
+    groupCodeReady: `Le code de {{name}} est prêt. Appui sur Partager et choisis comment envoyer cette invitation aux membres de ton groupe.`,
     codeReadyResend: `Le même code d’aventure est actif à nouveau. Envoi le si {{name}} en a besoin.`,
     downloadMessage: `Salut {{friend}}! Télécharge Voke et partons à l’aventure ensemble! Code: {{code}} {{appUrl}}`,
     firstName: `Prénom (champ obligatoire)`,
     firstNamePlaceholder: `Prénom`,
     whatIsFriendsName: `Quel est le nom de ton ami(e)?`,
+    checkOut: 'Regarde ça sur Voke!',
+    enterName: 'SVP entrer un prénom pour continuer',
+    errorCreating: `Désolé, une erreur est survenu en créant la conversation. Essaie à nouveau.`,
+    friend: 'Ami(e)',
+    friendCheckOut: `Salut {{name}}, regarde cette vidéo {{url}}`,
+    linkReady: `Ton lien est prêt! Appui sur Partager et choisis comment l’envoyer.`,
+    noNeed: `- (il/elle n'a pas besoin d'avoir Voke)`,
+    who: 'Avec qui veux-tu partager',
   },
 };

@@ -3,6 +3,7 @@ import React from 'react';
 import { RootState } from '../../reducers';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from "react-i18next";
 import { TAdventureStepSingle } from '../../types';
 import styles from './styles';
 import Text from '../Text';
@@ -26,6 +27,7 @@ const AdventureStepNextAction = ({
   adventureId,
 }: NextActionProps): React.ReactElement | null => {
   const navigation = useNavigation();
+  const { t } = useTranslation('journey');
   const userId = getCurrentUserId();
   const adventure = getAdventureById(adventureId);
   const steps = useSelector(({ data }: RootState) => data.adventureSteps[adventureId].byId);
@@ -54,6 +56,7 @@ const AdventureStepNextAction = ({
         align="center"
         style={[st.bgBlue, st.ph5, st.pt2]}
       >
+<<<<<<< HEAD
         <Text style={[st.aic, st.mb4, st.ph3, st.tac, st.white, {fontSize:20}]}>
           Congrats! You finished the Adventure. Now start it with someone else!
         </Text>
@@ -115,11 +118,81 @@ const AdventureStepNextAction = ({
   <Text style={[st.darkBlue, st.fs20]}>With a Group</Text>
     </Flex>
   </Button>
+=======
+        <Text style={[st.aic, st.fs2, st.mb4, st.ph1, st.tac, st.white]}>
+          {t('finishedJourney')}
+        </Text>
+        <Button
+          onPress={ () =>
+            navigation.navigate('AdventureName', {
+              item: {
+                id: adventure.organization_journey_id
+              },
+              withGroup: false,
+            })}
+          style={[
+            st.bgOrange,
+            st.ph6,
+            st.pv5,
+            st.bw0,
+            st.br3,
+            st.aic,
+            { width: st.fullWidth - 60 },
+          ]}
+        >
+          <Flex direction="row" align="center">
+            <VokeIcon
+              type="image"
+              style={[{ height: 20 }, st.mr5]}
+              name={'withFriend'}
+            />
+            <Text style={[st.white, st.fs3]}>{t('withFriend')}</Text>
+            <VokeIcon
+              type="image"
+              style={[{ height: 15 }, st.ml5]}
+              name={'buttonArrow'}
+            />
+          </Flex>
+        </Button>
+        <Button
+          onPress={ () =>
+            navigation.navigate('AdventureName', {
+              item: {
+                id: adventure.organization_journey_id
+              },
+              withGroup: true,
+            })}
+          style={[
+            st.bgOrange,
+            st.ph6,
+            st.pv5,
+            st.bw0,
+            st.br3,
+            st.mv4,
+            st.aic,
+            { width: st.fullWidth - 60 },
+          ]}
+        >
+          <Flex direction="row" align="center">
+            <VokeIcon
+              type="image"
+              style={[{ height: 20 }, st.mr5]}
+              name={'withGroup'}
+            />
+            <Text style={[st.white, st.fs3]}>{t('withGroup')}</Text>
+            <VokeIcon
+              type="image"
+              style={[{ height: 15 }, st.ml5]}
+              name={'buttonArrow'}
+            />
+          </Flex>
+        </Button>
+>>>>>>> develop
       </Flex>
     );
   }
 
-  let text = 'Next Video is Ready';
+  let text = t('nextVideoReady');
   let buttonActive = true;
   if (isWaiting) {
     const isSolo = adventure && adventure.kind !== 'duo';
@@ -141,7 +214,7 @@ const AdventureStepNextAction = ({
       userName = inviteName;
     }
 
-    text = `Waiting for ${userName} to answer...`;
+    text =  t('waitingForAnswer', {name: userName});
     buttonActive = false;
   }
 

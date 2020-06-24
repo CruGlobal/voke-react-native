@@ -7,6 +7,7 @@ import Touchable from '../../components/Touchable';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { Alert, ScrollView, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from "react-i18next";
 import TextField from '../../components/TextField';
 import StatusBar from '../../components/StatusBar';
 import Button from '../../components/Button';
@@ -16,6 +17,9 @@ import { logoutAction, deleteAccountAction, facebookLogin } from '../../actions/
 import { useDispatch,useSelector } from 'react-redux';
 import styles from './styles';
 import VokeIcon from '../../components/VokeIcon';
+import languageCodes from '../../i18n/languageCodes'
+import i18next from 'i18next';
+
 
 
 type ProfileModalProps = {
@@ -23,10 +27,16 @@ type ProfileModalProps = {
 }
 
 const AccountProfile = ( props: ProfileModalProps  ) => {
+  const { t } = useTranslation();
   const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const me = useSelector(({ auth }) => auth.user);
+
+  // To change language use:
+  // https://www.i18next.com/overview/api#changelanguage
+  // change the language
+  // i18next.changeLanguage("en-US-xx");
 
   // Facebook Login.
   // TODO: Create FB Button component.
@@ -111,25 +121,27 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                 color: styles.colors.white,
                 fontSize: styles.fontSizes.l,
                 textAlign:'center',
-                }}>Guest Profile</Text>:<Text style={{
+                }}>{t('profile:guest')}</Text>:<Text style={{
                   color: styles.colors.white,
                   fontSize: styles.fontSizes.l,
                   textAlign:'center',
-                  }}>User Profile</Text>}
+                  }}>{t('profile:user')}</Text>}
                   </Flex>
             { me.email ?
             <Flex value={1} direction="column" align="flex-start" style={[st.ml2, st.w100,{marginBottom:10}]}>
               {/* <Touchable onPress={ () => navigation.navigate('AccountEmailPass')}> */}
                 <Flex direction="row" align="start" justify="space-around">
-                  <Text style={{color:"#fff", fontSize:18, width:'30%', textAlign: 'left', paddingRight: 20}}>Language</Text>
-                  <Text style={{color:"#fff", fontSize:18, width:'70%'}}>English</Text>
+                  <Text style={{color:"#fff", fontSize:18, width:'30%', textAlign: 'left', paddingRight: 20}}>{t('language')}</Text>
+                  {/* <Button onPress={()=>console.log('test')} > */}
+                    <Text style={{color:"#fff", fontSize:18, width:'70%'}}>{languageCodes[i18next.language].name} {languageCodes[i18next.language].name !== 'English' ? '(' + languageCodes[i18next.language].nativeName + ')' : '' }</Text>
+                  {/* </Button> */}
                 </Flex>
               {/* </Touchable> */}
               <View style={{minHeight: 12}} />
               {/* Extra spacing for fingers to touch the right line. */}
               <Touchable onPress={ () => navigation.navigate('AccountEmail')}>
                 <Flex direction="row" align="start" justify="space-around">
-                  <Text style={{color:"#fff", fontSize:18, width:'30%', textAlign: 'left', paddingRight: 20}} numberOfLines={2}>Email</Text>
+                  <Text style={{color:"#fff", fontSize:18, width:'30%', textAlign: 'left', paddingRight: 20}} numberOfLines={2}>{t('settings:email')}</Text>
                   <Text style={{color:"#fff", fontSize:18, width:'70%' }} numberOfLines={2}>
                     {me.email}
                   </Text>
@@ -139,7 +151,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
               {/* Extra spacing for fingers to touch the right line. */}
               <Touchable onPress={ () => navigation.navigate('AccountPass')}>
                 <Flex direction="row" align="start" justify="space-around">
-                  <Text style={{color:"#fff", fontSize:18, width:'30%', textAlign: 'left', paddingRight: 20}}>Password</Text>
+                  <Text style={{color:"#fff", fontSize:18, width:'30%', textAlign: 'left', paddingRight: 20}}>{t('placeholder:password')}</Text>
                   <Text style={{color:"#fff", fontSize:18,width:'70%'}}>******</Text>
                 </Flex>
               </Touchable>
@@ -149,7 +161,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                       size={18}
                       style={[st.ml7]}
                     />
-                <Text style={{color:"#fff", fontSize:14}}>To edit, select the item you would like to edit.</Text>
+                <Text style={{color:"#fff", fontSize:14}}>{t('profile:toEdit')}</Text>
               </Flex>
             </Flex>:<></>}
             {/* <Button
@@ -204,9 +216,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                 fontSize: styles.fontSizes.l,
                 textAlign:'center',
                 paddingBottom:20,
-                }}>
-                    Sign up to save your progress and access your account from anywhere.
-                </Text>
+                }}>{t('profile:signUp')}</Text>
                 <Flex
                   style={{
                     height: styles.spacing.s
@@ -232,7 +242,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                     size={22}
                     style={st.mr5}
                   />
-                    <Text style={styles.ButtonSignUpLabel}>Sign up with Email</Text>
+                    <Text style={styles.ButtonSignUpLabel}>{t('signUpEmail')}</Text>
                   </Flex>
                 </Button>
                 <Flex
@@ -257,7 +267,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                       size={22}
                       style={st.mr5}
                     />
-                    <Text style={styles.ButtonSignUpLabel}>Sign Up with Facebook</Text>
+                    <Text style={styles.ButtonSignUpLabel}>{t('signUpFb')}</Text>
                   </Flex>
                 </Button>
                 <Flex
@@ -272,16 +282,16 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                 onPress={
                   () =>
                   Alert.alert(
-                    'Are you sure?',
-                    `You are about to remove your Voke account - which will delete all conversations, Adventure progress and user data, login credentials etc. You will not be able to recover this account if you proceed, but you can create a new one. Are you sure you want to do this?`,
+                    t('deleteSure'),
+                    t('deleteDescription'),
                     [
                       {
-                        text: 'Cancel',
+                        text: t('cancel'),
                         onPress: () => {},
                         style: "cancel"
                       },
                       {
-                        text: 'Delete',
+                        text: t('delete'),
                         onPress: async () => {
                           try {
                             dispatch(deleteAccountAction());
@@ -309,7 +319,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                   justify="start"
 
                 >
-                  <Text style={styles.ButtonActionLabel}>Delete my Account</Text>
+                  <Text style={styles.ButtonActionLabel}>{t('deleteAccount')}</Text>
                 </Flex>
               </Button>
             </Flex>

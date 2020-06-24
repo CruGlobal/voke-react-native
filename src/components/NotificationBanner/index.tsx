@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../reducers';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from "react-i18next";
 import { Alert } from 'react-native';
 import Modal from 'react-native-modal';
 import st from '../../st';
@@ -16,6 +17,7 @@ import { REDUX_ACTIONS } from '../../constants';
 
 const NotificationBanner = (): React.ReactElement => {
   const dispatch = useDispatch();
+  const { t } = useTranslation('notifications' );
   const [modalOpen, setModalOpen] = useState(false);
   const me = useSelector(({ auth }: RootState) => auth.user);
   // Current premissions status stroed in
@@ -52,7 +54,7 @@ const NotificationBanner = (): React.ReactElement => {
           ]}
         />
         <Text style={[st.mt7, { color: theme.colors.white, fontSize: 18 }]}>
-          Notifications turned off.
+          {t('off')}
         </Text>
 
         <Button
@@ -71,7 +73,7 @@ const NotificationBanner = (): React.ReactElement => {
           ]}
         >
           <Text style={{ color: theme.colors.white, fontSize: 18 }}>
-            Turn On
+            {t('turnOn')}
           </Text>
         </Button>
       </Flex>

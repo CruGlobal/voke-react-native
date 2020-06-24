@@ -63,16 +63,16 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
         // eslint-disable-next-line no-console
         console.log('🛑 Error on login \n', { e });
         Alert.alert(
-          'Invalid email/password',
-          'Please enter a valid email and password'
+          t('login:invalid'),
+          t('login:enterValid')
           // e.error_description ? e.error_description : e.errors[0]
         );
         setIsLoading(false);
       }
     } else {
       Alert.alert(
-        'Invalid email/password',
-        'Please enter a valid email and password'
+        t('login:invalid'),
+        t('login:enterValid')
       );
     }
   };
@@ -114,9 +114,9 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
           {/* INPUT FIELD: EMAIL */}
           <TextField
             // blurOnSubmit={false}
-            label="Email"
+            label={t('placeholder:email')}
             onSubmitEditing={(): void => passwordRef?.current?.focus()}
-            placeholder="Email"
+            placeholder={t('placeholder:email')}
             value={email}
             onChangeText={checkEmail}
             autoCapitalize="none"
@@ -129,8 +129,8 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
           <TextField
             ref={passwordRef}
             // blurOnSubmit={true}
-            label="Password"
-            placeholder="Password"
+            label={t('placeholder:password')}
+            placeholder={t('placeholder:password')}
             value={password}
             onChangeText={(text: string): void => setPassword(text)}
             secureTextEntry
@@ -159,7 +159,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
             shadowOffset : { width: 1, height: 8}}]}
             isLoading={isLoading}
           >
-            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>Sign In</Text>
+            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>{t('signIn')}</Text>
           </Button>
           {/* TEXT: FORGOT PASSWORD */}
           <Text
@@ -174,8 +174,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
       {/* TODO: hide this notice if it's on the welcome stage (no progress) */}
       <Flex direction="column" justify="start" style={styles.SectionNotice}>
         <Text style={styles.TextMedium}>
-          Successful login to an existing account will merge your current
-          progress with saved data.
+          {t('login:existingAccount')}
         </Text>
       </Flex>
       {/* SECTION: FACEBOOK SIGN IN */}
@@ -197,7 +196,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
                       style={st.mr5}
                     />
             <Text style={styles.ButtonFBSignInLabel}>
-              Sign In with Facebook
+              {t('signInFb')}
             </Text>
           </Flex>
         </Button>

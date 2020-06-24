@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { KeyboardAvoidingView, Alert, Keyboard, View, Linking, useWindowDimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from "react-i18next";
 import { useDispatch } from 'react-redux';
 import { useMount, lockToPortrait } from '../../utils';
 import st from '../../st';
@@ -75,9 +76,7 @@ const AccountSignUp = ( props: AccountSignUpProps  ) => {
     >
       <StatusBar />
       <Flex direction="column" align="center" style={[st.ph1, st.w100,{marginBottom:70}]}>
-      <Text style={[styles.TextSmall,{textAlign:'center'}]}>
-            Sign up to save your current progress using the Voke app.
-          </Text>
+      <Text style={[styles.TextSmall,{textAlign:'center'}]}>{t('profile:signUp')}</Text>
         <TextField
           // blurOnSubmit={false}
           label="Email"
@@ -150,7 +149,7 @@ const AccountSignUp = ( props: AccountSignUpProps  ) => {
             // navigation.navigate('AccountSignIn', { shouldMerge: true })
           }}
         >
-          <Text style={styles.ButtonSignInLabel}>Sign In</Text>
+          <Text style={styles.ButtonSignInLabel}>{t('signIn')}</Text>
         </Button>
       </Flex>
       {/* Safe area bottom spacing */}

@@ -33,7 +33,6 @@ export function loginAction(authToken) {
 
 // When app starts.
 export function startupAction() {
-  LOG( "🦸‍♂️ function startupAction", );
   return async dispatch => {
     await dispatch({
       type: REDUX_ACTIONS.STARTUP,

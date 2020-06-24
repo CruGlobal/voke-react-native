@@ -9,6 +9,7 @@ import Text from '../Text';
 import Touchable from '../Touchable';
 import VokeIcon from '../VokeIcon';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 const THUMBNAIL_HEIGHT = ((st.fullWidth - 20) * 1) / 2;
 
@@ -34,6 +35,7 @@ function formatDuration(seconds) {
 function VideoItem({ id = null, category = 'allVideos' }) {
   if (!id) return <></>;
   const navigation = useNavigation();
+  const { t } = useTranslation('videos');
   const video = useSelector(({ data }: any) => data[category].byId[id]) || {};
   if (Object.keys(video).length === 0 ) return <></>;
   const thumbnail = ((video.media || {}).thumbnails || {}).large || undefined;
@@ -92,7 +94,7 @@ function VideoItem({ id = null, category = 'allVideos' }) {
                 numberOfLines={1}
                 style={[st.fs10, st.white, st.ph5, { paddingRight: 100 }]}
               >
-                Shares {video.shares}
+                {t('shares', {total:video.shares})}
               </Text>
             </Flex>
           </Flex>

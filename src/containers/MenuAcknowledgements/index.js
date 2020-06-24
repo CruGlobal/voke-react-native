@@ -2,6 +2,7 @@ import React from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { ScrollView, Share, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from "react-i18next";
 import Communications from 'react-native-communications';
 import DeviceInfo from 'react-native-device-info';
 import { useDispatch } from 'react-redux';
@@ -37,6 +38,7 @@ function SettingsRow({ title, onSelect }) {
 
 function MenuAcknowledgements(props) {
   const insets = useSafeArea();
+  const { t } = useTranslation();
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -163,7 +165,7 @@ function MenuAcknowledgements(props) {
           justify="center"
           style={[st.pv5, st.ph4, { marginTop: 30 }]}
         >
-          <Text style={[st.darkGrey, st.fs14, st.ls2]}>OUR PARTNERS</Text>
+          <Text style={[st.darkGrey, st.fs14, st.ls2]}>{t('ourPartners').toUpperCase()}</Text>
         </Flex>
         <Flex
           direction="row"

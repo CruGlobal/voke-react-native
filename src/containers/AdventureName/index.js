@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Alert, Keyboard } from 'react-native';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
@@ -21,6 +22,7 @@ import {
 } from '../../actions/requests';
 
 function AdventureName(props) {
+  const { t } = useTranslation('share');
   const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -55,7 +57,7 @@ function AdventureName(props) {
   const isValidName = () => name.length > 0;
 
   async function handleContinue() {
-    if (isValidName()) {
+    if (isValidName() && !isLoading) {
       try {
         setIsLoading(true);
         let result;
@@ -88,8 +90,8 @@ function AdventureName(props) {
       }
     } else {
       Alert.alert(
-        'Please provide a name',
-        'We need a name so you can manage your adventures',
+        t('needNameTitle'),
+        t('needNameMessage'),
       );
     }
   }
@@ -124,18 +126,16 @@ function AdventureName(props) {
               justify="center"
               style={[st.mb4, st.h(180)]}
             >
-              <BotTalking heading={withGroup
-                      ? "Let's name your Group!"
-                      : "What's your friend's name?"}> 
-          </BotTalking>
-        
+              <BotTalking
+                heading={withGroup ? t('nameYourGroup') : t('whatIsFriendsName')}>
+              </BotTalking>
             </Flex>
             <Flex direction="column" align="center" style={[st.ph1, st.w100]}>
               <NameInput
                 blurOnSubmit={false}
-                label={withGroup ? 'Group Name' : 'First Name'}
+                label={withGroup ? t('groupName') : t('placeholder:firstName')}
                 onSubmitEditing={handleContinue}
-                placeholder={withGroup ? 'Group Name' : "Friend's Name"}
+                placeholder={withGroup ? t('groupName') : t('placeholder:friendsName')}
                 value={name}
                 onChangeText={text => setName(text)}
                 returnKeyType="done"
@@ -144,9 +144,9 @@ function AdventureName(props) {
                 <Text style={[st.offBlue, st.fs14, st.pt3, st.tac, st.ph1]}>
                   {showHelp
                     ? withGroup
-                      ? 'We use the Group name to onboard your friends and help you manage your Groups'
-                      : "We use your friend's name to help you know who responded to the videos you shared."
-                    : 'Why do we ask this?'}
+                      ? t('placeholder:whyNeedGroupName')
+                      : t('placeholder:whyNeedFriendsName')
+                    : t('placeholder:whyDoWeWantThis')}
                 </Text>
               </Touchable>
             </Flex>
@@ -163,8 +163,7 @@ function AdventureName(props) {
             shadowOffset : { width: 1, height: 8}}]}
             isLoading={isLoading}
           >
-            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>Continue</Text>
-           
+            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>{t('continue')}</Text>
           </Button>
            {/* Safety spacing. */}
             <Flex style={{ height: (isKeyboardVisible ? 0 : insets.bottom ) }} />

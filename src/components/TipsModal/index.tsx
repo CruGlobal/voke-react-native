@@ -20,8 +20,10 @@ import ChatExample from '../../assets/ChatExample.png';
 import VideoExample from '../../assets/VideoExample.png';
 import InviteCodeExample from '../../assets/InviteCodeExample2.png';
 import GroupWelcomeExample from '../../assets/GroupWelcomeExample.png';
+import { useTranslation } from 'react-i18next';
 
 const TipsModal = (props: { group: any; item:any }): React.ReactElement => {
+  const { t } = useTranslation('modal');
   const dispatch = useDispatch();
   const navigation = useNavigation();
   // Current user tutorial mode status stored in
@@ -82,23 +84,24 @@ if (withGroup){
       direction="column"
       align="center"
     >
-    <BotTalking type="overlay" heading="Welcome to Groups!"> 
-    Learn more about how they work below, or get started right away.</BotTalking>
-<Flex value={1} style={{marginTop:-55}}>
-<Button
-    isAndroidOpacity={true}
-    style={[
-      st.pd4,
-      st.bgBlue,
-      st.mb4,
-      st.br6,
-      st.w(st.fullWidth - 120),
-    ]}
-    onPress={() => handleGetStarted()}
-  >
+      <BotTalking type="overlay" heading={t('howGroupsWorkBotTitle')}>
+          {t('howGroupsWorkBotBody')}
+      </BotTalking>
+      <Flex value={1} style={{marginTop:-55}}>
+      <Button
+          isAndroidOpacity={true}
+          style={[
+            st.pd4,
+            st.bgBlue,
+            st.mb4,
+            st.br6,
+            st.w(st.fullWidth - 120),
+          ]}
+          onPress={() => handleGetStarted()}
+        >
     <Flex direction="row" align="center" justify="center">
 
-  <Text style={[st.white, st.fs20]}>Get Started</Text>
+  <Text style={[st.white, st.fs20]}>{t('getStarted')}</Text>
     </Flex>
   </Button>
   <Button
@@ -115,7 +118,7 @@ if (withGroup){
     >
     <Flex direction="row" align="center" justify="center">
 
-  <Text style={[st.white, st.fs20]}>Cancel</Text>
+  <Text style={[st.white, st.fs20]}>{t('cancel')}</Text>
     </Flex>
   </Button>
   </Flex>
@@ -126,7 +129,7 @@ if (withGroup){
               paddingVertical: 8,
               color: 'white',
               marginTop:10
-            }}>How Groups Work</Text>
+            }}>{t('howGroupsWorkTitle')}</Text>
   <Flex direction="row" align="center" justify="center" style={{marginVertical:10, marginHorizontal:20}}>
               <Image width={130} source={VideoExample}/>
             <Text style={{
@@ -135,7 +138,7 @@ if (withGroup){
               paddingVertical: 4,
               color: 'white',
               width:"60%"
-            }}>Watch each episode, answer the question, and unlock your friends’ answers.</Text>
+            }}>{t('howItWorksWatch')}</Text>
             </Flex>
             <Flex direction="row" align="center" justify="center" style={{marginTop:20}}>
             <Text style={{
@@ -144,7 +147,7 @@ if (withGroup){
               paddingVertical: 4,
               color: 'white',
               width:"60%"
-            }}>Then chat with your friends about the video and their answers.</Text>
+            }}>{t('howGroupsWorkChat')}</Text>
             <Image width={130} source={ChatExample}/>
             </Flex>
             <Flex direction="row" align="center" justify="center" style={{marginTop:20}}>
@@ -156,7 +159,7 @@ if (withGroup){
                 paddingVertical: 4,
                 color: 'white',
                 width:"60%"
-              }}>You can have up to 20 members in your Voke Group.</Text>
+              }}>{t('howGroupsWorkLimit')}</Text>
               </Flex>
             <Flex direction="row" align="center" justify="center" style={{marginTop:20}}>
               <Text style={{
@@ -165,7 +168,7 @@ if (withGroup){
                 paddingVertical: 4,
                 color: 'white',
                 width:"60%"
-              }}>Share the Link or Adventure Code to the friends you want to join.</Text>
+              }}>{t('howGroupsWorkShare')}</Text>
               <Image width={130} source={InviteCodeExample}/>
 
               </Flex>
@@ -175,7 +178,7 @@ if (withGroup){
               paddingVertical: 25,
               color: 'white',
               textAlign:"center"
-            }}>Hit ‘Get Started’ if you’re ready to start your Group.</Text>    
+            }}>{t('howGroupsWorkStart')}</Text>    
             <Flex>
 <Button
     isAndroidOpacity={true}
@@ -190,7 +193,7 @@ if (withGroup){
   >
     <Flex direction="row" align="center" justify="center">
 
-  <Text style={[st.white, st.fs20]}>Get Started</Text>
+  <Text style={[st.white, st.fs20]}>{t('getStarted')}</Text>
     </Flex>
   </Button>
   <Button
@@ -207,7 +210,7 @@ if (withGroup){
     >
     <Flex direction="row" align="center" justify="center">
 
-  <Text style={[st.white, st.fs20]}>Cancel</Text>
+  <Text style={[st.white, st.fs20]}>{t('cancel')}</Text>
     </Flex>
   </Button>
   </Flex>  
@@ -227,8 +230,9 @@ if (withGroup){
           direction="column"
           align="center"
         >
-        <BotTalking type="overlay" heading="Welcome to Duo Adventures!"> 
-        Learn more about it works, or get started right away.</BotTalking>
+        <BotTalking type="overlay" heading={t('howDuoWorksBotTitle')}>
+          {t('howDuoWorksBotBody')}
+        </BotTalking>
     <Flex value={1} style={{marginTop:-55}}>
     <Button
         isAndroidOpacity={true}
@@ -242,8 +246,7 @@ if (withGroup){
         onPress={() => handleGetStarted()}
       >
         <Flex direction="row" align="center" justify="center">
-    
-      <Text style={[st.white, st.fs20]}>Get Started</Text>
+          <Text style={[st.white, st.fs20]}>{t('getStarted')}</Text>
         </Flex>
       </Button>
       <Button
@@ -259,8 +262,7 @@ if (withGroup){
         onPress={() => toggleModal()}
         >
         <Flex direction="row" align="center" justify="center">
-    
-      <Text style={[st.white, st.fs20]}>Cancel</Text>
+          <Text style={[st.white, st.fs20]}>{t('cancel')}</Text>
         </Flex>
       </Button>
       </Flex>
@@ -271,7 +273,7 @@ if (withGroup){
                   paddingVertical: 8,
                   color: 'white',
                   marginTop:10
-                }}>How Duo Works</Text>
+                }}>{t('howDuoWorksTitle')}</Text>
       <Flex direction="row" align="center" justify="center" style={{marginVertical:10, marginHorizontal:20}}>
                   <Image width={130} source={VideoExample}/>
                 <Text style={{
@@ -280,7 +282,7 @@ if (withGroup){
                   paddingVertical: 4,
                   color: 'white',
                   width:"60%"
-                }}>Watch each episode, answer the question, and unlock your friends’ answers.</Text>
+                }}>{t('howItWorksWatch')}</Text>
                 </Flex>
                 <Flex direction="row" align="center" justify="center" style={{marginTop:20}}>
                 <Text style={{
@@ -289,7 +291,7 @@ if (withGroup){
                   paddingVertical: 4,
                   color: 'white',
                   width:"60%"
-                }}>Then chat with your friend about the video and their answers.</Text>
+                }}>{t('howDuoWorksChat')}</Text>
                 <Image width={130} source={ChatExample}/>
                 </Flex>
                 <Flex direction="row" align="center" justify="center" style={{marginTop:20}}>
@@ -300,7 +302,7 @@ if (withGroup){
                     paddingVertical: 4,
                     color: 'white',
                     width:"60%"
-                  }}>Share the Link or Adventure Code to the friend you want to join.</Text>
+                  }}>{t('howDuoWorksShare')}</Text>
                   </Flex>
                   <Text style={{
                   fontSize: 20,
@@ -308,7 +310,7 @@ if (withGroup){
                   paddingVertical: 25,
                   color: 'white',
                   textAlign:"center"
-                }}>Hit ‘Get Started’ if you’re ready to start with a friend.</Text>    
+                }}>{t('howDuoWorksStart')}</Text>
                 <Flex>
     <Button
         isAndroidOpacity={true}
@@ -322,8 +324,7 @@ if (withGroup){
         onPress={() => handleGetStarted()}
       >
         <Flex direction="row" align="center" justify="center">
-    
-      <Text style={[st.white, st.fs20]}>Get Started</Text>
+          <Text style={[st.white, st.fs20]}>{t('getStarted')}</Text>
         </Flex>
       </Button>
       <Button
@@ -339,8 +340,7 @@ if (withGroup){
         onPress={() => toggleModal()}
         >
         <Flex direction="row" align="center" justify="center">
-    
-      <Text style={[st.white, st.fs20]}>Cancel</Text>
+          <Text style={[st.white, st.fs20]}>{t('cancel')}</Text>
         </Flex>
       </Button>
       </Flex>  

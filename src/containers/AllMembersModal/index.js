@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from 'react-redux';
 import { ScrollView } from 'react-native';
 import Flex from '../../components/Flex';
@@ -16,23 +17,27 @@ import VokeIcon from '../../components/VokeIcon';
 import DEFAULT_AVATAR from '../../assets/defaultAvatar.png';
 
 function AllMembersModal(props) {
+  const { t } = useTranslation();
   const insets = useSafeArea();
   const navigation = useNavigation();
   const me = useSelector(({ auth }) => auth.user);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-
   const { adventure, isJoined } = props.route.params;
-
   const allMessengers = adventure.conversation.messengers || [];
   const messengers = allMessengers.filter(
     i => i.first_name !== 'VokeBot'
     // i => i.first_name !== 'VokeBot' && (i || {}).id !== (me || {}).id,
   );
+<<<<<<< HEAD
   
   const smallCircle = st.fullWidth / 2 - 90;
   const smallBox = st.fullWidth / 2 - 50;
   const leaderBox = st.fullWidth / 2 - 30;
+=======
+  const smallCircle = st.fullWidth / 2 - 90;
+  const smallBox = st.fullWidth / 2 - 50;
+>>>>>>> develop
 
   return (
     <>
@@ -64,7 +69,7 @@ function AllMembersModal(props) {
             <Flex align="center" self="stretch">
               {isJoined ? (
                 <>
-                  <Text style={[st.white, {textAlign:'center'}]}>Group Code:</Text>
+                  <Text style={[st.white, {textAlign:'center'}]}>{t('inviteCode')}:</Text>
                   <Text style={[st.white, {fontSize:21, marginTop:-6}]}>{adventure.journey_invite.code}</Text>
                 </>
               ) : (
@@ -82,7 +87,7 @@ function AllMembersModal(props) {
                   ]}
                 >
                   <Flex direction="row" align="center">
-                    <Text style={[st.white, st.fs16]}>Join the Group</Text>
+                    <Text style={[st.white, st.fs16]}>{t('joinGroup')}</Text>
                   </Flex>
                 </Button>
               )}
@@ -94,7 +99,11 @@ function AllMembersModal(props) {
             direction="row"
             wrap="wrap"
             align="end"
+<<<<<<< HEAD
             justify="center"
+=======
+            justify="start"
+>>>>>>> develop
           >
             {messengers.map((messenger, index) => (
               
