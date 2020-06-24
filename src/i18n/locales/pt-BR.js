@@ -1,8 +1,34 @@
 /* eslint-disable */
 
 export default {
+  welcome: {
+    botMessageTitle:
+      'Bem-vindo ao Voke!',
+    botMessageContent:
+      `Estamos envolvidos em uma série de vídeos que explora perguntas sobre fé e Jesus.`,
+    haveCode:
+      'Já tenho um código de aventura',
+    haveCodeInfo:
+      'Você começa a fazer aventuras em vídeo com outras pessoas no Voke. Escolha esta opção se você recebeu um código de convite de Aventura para se juntar ao seu amigo ou grupo.',
+    toExplore:
+      `Eu gostaria de explorar`,
+  },
+  haveCode: {
+    botMessageTitle:
+      'Obter um código de um amigo?',
+    botMessageContent:
+      `Junte-se ao seu amigo com um código de convite de aventura`,
+    /* haveCode:
+      'I have an adventure Code',
+    haveCodeInfo:
+      'You get to do video adventures with others in Voke. Choose this if you received an Adventure invite code to easily join your friend or Group.',
+    toExplore:
+      `I'd like to Explore`, */
+  },
   common: {
-    adventure: 'Aventuras',
+    yourAdventure: 'Sua aventura',
+    adventure: 'Aventura',
+    adventureWith: 'Aventura com',
     oldConversationsCreateAccount:
       'Você precisa criar uma conta antes de solicitar suas conversas.',
     oldConversationsDescription:
@@ -16,6 +42,7 @@ export default {
     all: 'Tudo',
     allowContacts: 'Permitir Contatos',
     allowNotifications: 'Permitir Notifica\u00e7\u00f5es',
+    confirm: 'Confirmar',
     cancel: 'Cancelar',
     challengeAccepted: 'Desafio Aceito',
     changePhoto: 'Mudar Foto',
@@ -32,16 +59,21 @@ export default {
     deleteDescription: `Você está prestes a arquivar sua conta Voke - que excluirá todas as conversas, o progresso da aventura e os dados do usuário, as credenciais de login, etc. - Você não poderá recuperar essa conta se continuar. Mas pode fazer um novo. Você tem certeza de que quer fazer isso?`,
     deleteSure: 'Você tem certeza?',
     done: 'Feito',
+    duo: 'Dupla',
     edit: 'Editar',
     featured: 'Apresentados',
     followInstagram: 'Siga-nos no Instagram',
     forgotPassword: 'Esqueceu a Senha? ',
     friend: 'Amigo',
+    getStarted: 'Começar',
     giveAccess: 'Permitir Acesso',
     gotIt: 'Entendi!',
     great: 'Ótimo!',
     haveAccount: 'J\u00e1 tem uma conta?',
+    invitations: 'Convites',
     invite: 'Convidar',
+    inviteCode: 'Código do convite',
+    inviteLink: 'Link do convite',
     inviteFriend: 'Convidar um amigo',
     shareApp: 'Compartilhe esse aplicativo',
     language: 'Língua',
@@ -51,12 +83,14 @@ export default {
     next: 'Pr\u00f3ximo',
     noThanks: 'N\u00e3o, obrigado',
     notNow: 'Agora N\u00e3o',
+    noVideos: 'Sem vídeos',
     ohNo: 'Ah não',
     ok: 'Ok',
     openAddr: 'Abrir Minha Lista',
     openSettings: 'Abrir Configura\u00e7\u00f5es',
     or: 'Ou',
     other: 'Outros',
+    ourPartners: 'Nossos Parceiros',
     part: 'Parte',
     partSeries: 'Séries',
     popular: 'Popular',
@@ -67,6 +101,7 @@ export default {
     send: 'Enviar',
     setLanguage: 'Definir idioma',
     settings: 'Configura\u00e7\u00f5es',
+    solo: 'Solo',
     share: 'Compartilhar',
     shortPassword: 'Sua senha deve ter no mínimo 8 caracteres',
     signIn: 'Entrar',
@@ -83,15 +118,29 @@ export default {
     tellMeMore: 'Conte-me Mais',
     themes: 'Temas',
     today: 'Hoje',
+    group: 'Grupo',
+    agreementExplore: 'Ao explorar, você concorda com a nossa',
+    agreementCreate: 'Ao criar uma conta, você concorda com a nossa',
     tos: 'Termos de Uso',
     turnOn: 'Ligar',
     unsubscribe: 'Apagar Conta',
     vokebot: 'Vokebot',
     vokebotInitials: 'VB',
     withFriend: 'Com um amigo',
+    withGroup: 'Com um grupo',
     writeReview: 'Escreva uma crítica',
+    joinGroup: 'Juntar-se ao grupo',
+    allMembers: 'Ver todos os membros',
     you: 'Voc\u00ea',
   },
+
+  name: {
+    introTitle:'Olá!',
+    introMessage: 'Sou o Vokebot. Fico feliz que você esteja aqui.',
+    needNameTitle: `Por favor, informe um nome`,
+    needNameMessage: `Precisamos de pelo menos seu primeiro nome para que seus amigos saibam quem você é`,
+  },
+
   loading: {
     adventures: 'Carregando suas Aventuras',
     allowContact: 'Favor permitir acesso aos seus contatos.',
@@ -119,6 +168,10 @@ export default {
     search: 'Procurar',
     verification: 'C\u00f3digo de Verifica\u00e7\u00e3o',
     whatIsFriendsName: 'Qual é o nome do seu amigo?',
+    needNameTitle: `Por favor, informe um nome`,
+    needNameMessage: `Precisamos de um nome para que você possa gerenciar suas aventuras`,
+    nameYourGroup: `Vamos dar um nome ao seu grupo!`,
+    groupName: `Nome do grupo`,
     whyDoWeWantThis: 'Por que queremos isso?',
     whyNeedFriendsName:
       'Usamos o nome do seu amigo para ajudar você a saber quem respondeu aos vídeos que você compartilhou.',
@@ -128,12 +181,14 @@ export default {
     oldConversations: 'Receba minhas conversas antigas',
     acknowledgements: 'Reconhecimentos',
     adventures: 'Aventuras',
+    explore: 'Explorar',
+    notifications: 'Notificações',
     channels: 'Canais',
     chats: 'Conversas',
     createAccount: 'Criar Conta',
     createProfile: 'Criar Perfil',
     findAdventures: 'Encontrar Aventuras',
-    help: 'Ajuda',
+    help: 'Obter Ajuda',
     kickstarters: 'Perguntas sugeridas',
     myAdventures: 'Minhas Aventuras',
     number: 'N\u00famero do Telefone Celular',
@@ -143,6 +198,11 @@ export default {
     selectFriend: 'Selecionar Amigo',
     verification: 'Verifica\u00e7\u00e3o',
     videos: 'V\u00eddeos',
+    whyDoWeWantThis: 'Por que perguntamos isso?',
+    whyNeedFriendsName:
+      'Usamos o nome do seu amigo para ajudar você a saber quem respondeu aos vídeos que você compartilhou.',
+    whyNeedGroupName:
+      'Usamos o nome do grupo para integrar seus amigos e ajudá-lo a gerenciar seus grupos',
   },
   empty: {
     contacts: 'N\u00e3o h\u00e1 nada aqui... \nVoc\u00ea precisa de contatos',
@@ -210,6 +270,30 @@ export default {
     moreDescription: `1. Localizando amigos em seus contatos, com os quais voc\u00ea pode compartilhar v\u00eddeos;\n2. Encorajando voc\u00ea quando seus amigos estiverem usando o aplicativo.`,
     moreTitle: `O Voke ajuda voc\u00ea a come\u00e7ar conversas profundas de duas maneiras`,
     title: 'Usar Lista?',
+
+    howDuoWorksBotTitle:'Bem-vindo às Aventuras em Dupla',
+    howGroupsWorkBotTitle: 'Bem-vindo aos Grupos!',
+
+    howDuoWorksBotBody:'Saiba mais sobre o funcionamento ou inicie imediatamente.',
+    howGroupsWorkBotBody:'Saiba mais sobre como funciona ou comece imediatamente.',
+
+    howItWorksWatch: 'Assista a cada episódio, responda à pergunta e desbloqueie as respostas de seus amigos.',
+
+    howDuoWorksChat: 'Depois converse com seu amigo sobre o vídeo e suas respostas.',
+    howGroupsWorkChat: 'Em seguida, converse com seus amigos sobre o vídeo e suas respostas.',
+
+    howGroupsWorkLimit:'Você pode ter até 20 membros no seu grupo Voke.',
+
+    howDuoWorksShare: 'Compartilhe o Link ou o Código de Aventura com o amigo que você deseja adicionar.',
+    howGroupsWorkShare: 'Compartilhe o link ou o código de aventura com os amigos aos quais deseja convidar.',
+
+    howDuoWorksStart:`Clique em ""Começar"" se você estiver pronto para iniciar com um amigo.`,
+    howGroupsWorkStart:`Clique em ""Começar"" se você estiver pronto para iniciar seu grupo.`,
+
+    howDuoWorksTitle: 'Como funciona a Dupla',
+    howGroupsWorkTitle: 'Como os grupos funcionam',
+
+    welcomeTo: 'Bem-vindo ao ',
   },
   notifications: {
     off: 'Notifica\u00e7\u00f5es desligadas.',
@@ -235,6 +319,7 @@ export default {
     user: 'Conta do Usu\u00e1rio',
     verified: 'Conta Verificada',
     verifyMobile: 'Verificar N\u00famero do Celular ',
+    toEdit: 'Para editar, selecione o item que você deseja editar.',
   },
   reportModal: {
     title: `Por favor, informe o motivo de voc\u00ea estar denunciando esta pessoa `,
@@ -292,6 +377,7 @@ export default {
     verifyDescription: `Informe os 4 d\u00edgitos do c\u00f3digo que voc\u00ea recebeu por mensagem de texto.`,
   },
   tryItNow: {
+    addPhotoTitle: 'Adicionar uma foto!',
     enterName: 'Informe um nome para continuar',
     whatsYourName: `Qual \u00e9 o seu nome? Dessa forma, seus amigos saber\u00e3o quem voc\u00ea \u00e9 na hora do compartilhamento!`,
     addPhoto: 'Adicionar foto para que seus amigos reconheçam você',
@@ -315,8 +401,10 @@ export default {
     '1player': 'Jogador 1',
     '2player': 'Jogador 2',
     code: 'Código: ',
+    codeExpired: `{{name}} código expirou...`,
     expiresIn: 'Expira em {{time}}',
     waitingForFriend: 'Esperando {{name}} entrar...',
+    waitingForGroup: 'Esperando pelo grupo',
   },
   journey: {
     nextVideoReady: 'O Próximo Vídeo está Pronto',
@@ -328,11 +416,18 @@ export default {
     whoCanYouTake: 'Quem você pode levar junto?',
     startThe: 'Comece esta aventura!',
     waitingForAnswer: 'Esperando {{name}} responder...',
+
+    unsubscribeTitle: 'Tem certeza de que deseja cancelar a inscrição desta aventura?',
+    unsubscribeBody: 'Isto não pode ser desfeito.',
+    goWithFriend: 'Ir com um amigo',
+    goWithGroup: 'Ir com um grupo',
+    goByMyself: 'Ir sozinho',
+
     started: 'Commencé',
   },
   adventureCode: {
     adventureCode: 'Código de Aventura',
-    adventureCodeHaveCode: 'Tem um código de um amigo?',
+    adventureCodeHaveCode: 'Obter um código para a aventura?',
     adventureCodeWhatsThis: 'O que é isso?',
     adventureCodeWhatsThisExplanation:
       'Você pode fazer aventuras em vídeo com outras pessoas no Voke. Este é o local para os visitantes que receberam um código de convite de Aventura se juntarem facilmente ao amigo.',
@@ -345,8 +440,8 @@ export default {
     deleteCannotBeUndone: `Não pode ser desfeito. Mas você pode convidar novamente ao clicar em "Convidar um Amigo"`,
   },
   share: {
-    codeReady: `O código do convite de {{name}} está pronto. Compartilhe-o clicando abaixo ou copie o código abaixo e envie-o para ele(a).`,
-    codeReadyResend: `O mesmo código de aventura está vivo novamente. Envie se {{name}} precisar.`,
+    codeReady: `O código de convite de {{name}} está pronto! Clique em Compartilhar e escolha como você deseja enviar este código de convite com {{name}}.`,
+    codeReadyResend: `O código de convite de {{name}} está pronto! Clique em Compartilhar e escolha como você deseja enviar esse código de convite para cada um dos membros do seu grupo.`,
     whatIsFriendsName: 'Qual é o nome do seu amigo?',
     firstName: 'Primeiro Nome (Obrigatório)',
     firstNamePlaceholder: 'Primeiro',
@@ -357,7 +452,7 @@ export default {
     errorCreating: `Desculpe, mas houve um erro ao gerar a conversa. Tente novamente.`,
     friend: 'amigo ',
     friendCheckOut: 'Ol\u00e1 {{name}}, confira este v\u00eddeo {{url}} ',
-    linkReady: `O link de {{name}} est\u00e1 pronto! Onde voc\u00ea deseja compartilhar?`,
+    linkReady: `O seu link está pronto! Clique em compartilhar e escolha como deseja enviá-lo.`,
     noNeed: '- (eles n\u00e3o precisam estar cadastrados no Voke)',
     who: 'Compartilhar ',
     with: 'com quem?',
