@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from "react-i18next";
 import { ScrollView, FlatList, View, Text } from 'react-native';
 import { TDataState } from '../../types'
 
@@ -30,6 +31,7 @@ const AdventuresMy = ({ route }: AdventuresMyProps): React.ReactElement => {
   const adventureSteps = useSelector(({ data }: {data: TDataState}) => data.adventureSteps) || {};
   const myAdventuresIds = useSelector(({ data }: {data: TDataState}) => data.myAdventures.allIds)|| [];
   const invitationsIds = useSelector(({ data }: {data: TDataState}) => data.adventureInvitations.allIds) || [];
+  const { t } = useTranslation('title' );
 
   const updateAdventures = async (): Promise<void> => {
     // TODO: Do some kind of time based caching for these requests
@@ -107,7 +109,7 @@ const AdventuresMy = ({ route }: AdventuresMyProps): React.ReactElement => {
       </View>
         { invitationsIds.length > 0 &&
           <>
-            <Text style={styles.Heading}>Invitations</Text>
+            <Text style={styles.Heading}>{t('invitations')}</Text>
             { invitationsIds.map(
               (inviteID: string) => (
                 <AdventureInvite inviteID={inviteID} />
@@ -117,7 +119,7 @@ const AdventuresMy = ({ route }: AdventuresMyProps): React.ReactElement => {
         }
         { myAdventuresIds.length > 0 &&
           <>
-            <Text style={styles.Heading}>Adventures</Text>
+            <Text style={styles.Heading}>{t('adventures')}</Text>
             { myAdventuresIds.map(
               (advId: string) => (
                 <AdventureCard adventureId={advId} />

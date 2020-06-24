@@ -2,6 +2,7 @@ import React from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { ScrollView, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from "react-i18next";
 import Communications from 'react-native-communications';
 import { useDispatch } from 'react-redux';
 import Flex from '../../components/Flex';
@@ -30,20 +31,21 @@ function MenuHelp(props) {
   const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const { t } = useTranslation('settings');
 
   return (
     <Flex value={1} style={[st.bgWhite, { paddingBottom: insets.bottom }]}>
       <ScrollView>
         <SettingsRow
-          title="Visit our Help Website"
+          title={t('visitWebsite')}
           onPress={() => Linking.openURL(CONSTANTS.WEB_URLS.HELP)}
         />
         <SettingsRow
-          title="Visit our FAQ Website"
+          title={t('visitFAQ')}
           onPress={() => Linking.openURL(CONSTANTS.WEB_URLS.FAQ)}
         />
         <SettingsRow
-          title="Make a Feature Request"
+          title={t('featureRequest')}
           onPress={() =>
             Communications.email(
             ['support@vokeapp.com'], // TO
@@ -55,7 +57,7 @@ function MenuHelp(props) {
           }
         />
         <SettingsRow
-          title="Report a User"
+          title={t('report')}
           onPress={() =>
             Communications.email(
             ['support@vokeapp.com'], // TO
@@ -67,7 +69,7 @@ function MenuHelp(props) {
           }
         />
         <SettingsRow
-          title="Email Us"
+          title={t('email')}
           onPress={() =>
             Communications.email(
             ['support@vokeapp.com'], // TO

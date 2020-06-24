@@ -2,6 +2,7 @@ import React from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { ScrollView, Share, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from "react-i18next";
 import Communications from 'react-native-communications';
 import DeviceInfo from 'react-native-device-info';
 import { useDispatch } from 'react-redux';
@@ -36,6 +37,7 @@ function SettingsRow({ title, onSelect }) {
 }
 
 function MenuAbout(props) {
+  const { t } = useTranslation();
   const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -44,33 +46,33 @@ function MenuAbout(props) {
     <Flex value={1} style={[st.bgWhite, { paddingBottom: insets.bottom }]}>
       <ScrollView>
         <SettingsRow
-          title="Visit Voke Website"
+          title={t('settings:website')}
           onSelect={() => Linking.openURL(CONSTANTS.WEB_URLS.VOKE)}
         />
         <SettingsRow
-          title="Follow us on Facebook"
+          title={t('settings:followFb')}
           onSelect={() => Linking.openURL(CONSTANTS.WEB_URLS.FACEBOOK)}
         />
         <SettingsRow
-          title="Terms of Service"
+          title={t('settings:tos')}
           onSelect={() => Linking.openURL(CONSTANTS.WEB_URLS.TERMS)}
         />
         <SettingsRow
-          title="Privacy Policy"
+          title={t('settings:privacy')}
           onSelect={() => Linking.openURL(CONSTANTS.WEB_URLS.PRIVACY)}
         />
         <SettingsRow
-          title="Acknowledgements"
+          title={t('settings:acknowledgements')}
           onSelect={() => navigation.navigate('Acknowledgements')}
         />
-        <SettingsRow title={`Version ${DeviceInfo.getReadableVersion()}`} />
+        <SettingsRow title={t('settings:version', {build:DeviceInfo.getReadableVersion()})} />
         <Flex
           direction="row"
           align="center"
           justify="center"
           style={[st.pv5, st.ph4, { marginTop: 30 }]}
         >
-          <Text style={[st.darkGrey, st.fs14, st.ls2]}>OUR PARTNERS</Text>
+          <Text style={[st.darkGrey, st.fs14, st.ls2]}>{t('ourPartners').toUpperCase()}</Text>
         </Flex>
         <Flex
           direction="row"

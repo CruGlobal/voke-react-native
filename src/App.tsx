@@ -91,6 +91,7 @@ const AdventureStack = createStackNavigator();
 
 const AdventureStackScreens = ({ navigation, route }: any) => {
   const insets = useSafeArea();
+  const { t } = useTranslation('title' );
 
   // Make top bar visible dynamically.
   navigation.setOptions({
@@ -102,7 +103,13 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
         ...defaultHeaderConfig,
       }}
     >
-      <AdventureStack.Screen name="Adventures" component={Adventures} />
+      <AdventureStack.Screen
+        name="Adventures"
+        component={Adventures}
+        options={{
+          title: t('adventures'),
+        }}
+        />
       <AdventureStack.Screen
         name="AdventureAvailable"
         component={AdventureAvailable}
@@ -117,7 +124,6 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
           headerLeft: () => <HeaderLeft hasBack />,
         }}
       />
-     
       <AdventureStack.Screen
         name="AdventureName"
         component={AdventureName}
@@ -179,6 +185,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
 };
 
 function VideoStackScreens({ navigation, route }: any) {
+  const { t } = useTranslation('title');
   const insets = useSafeArea();
   const VideoStack = createStackNavigator();
   // TODO: extract into utility function.
@@ -187,7 +194,13 @@ function VideoStackScreens({ navigation, route }: any) {
   });
   return (
     <VideoStack.Navigator screenOptions={defaultHeaderConfig}>
-      <VideoStack.Screen name="Explore" component={Videos} />
+      <VideoStack.Screen
+        name="Explore"
+        component={Videos}
+        options={{
+          title: t('explore'),
+        }}
+      />
       <VideoStack.Screen
         name="VideoDetails"
         component={VideoDetails}
@@ -216,7 +229,7 @@ function VideoStackScreens({ navigation, route }: any) {
 }
 
 const NotificationStackScreens = () => {
-  console.log('⏩ NotificationStackScreens');
+  const { t } = useTranslation('title');
   const NotificationStack = createStackNavigator();
   return (
     <NotificationStack.Navigator
@@ -226,6 +239,9 @@ const NotificationStackScreens = () => {
       <NotificationStack.Screen
         name="Notifications"
         component={Notifications}
+        options={{
+          title: t('notifications'),
+        }}
       />
     </NotificationStack.Navigator>
   );
@@ -237,6 +253,7 @@ const LoggedInAppContainer = () => {
   const route = useRoute();
   const state = useNavigationState(state => state);
   const routeName = (state.routeNames[state.index]);
+  const { t } = useTranslation('title' );
 
 
   // Handle iOS & Android appState changes.
@@ -269,21 +286,21 @@ const LoggedInAppContainer = () => {
         name="Adventures"
         component={AdventureStackScreens}
         options={{
-          title: 'Adventures',
+          title: t('adventures'),
         }}
       />
       <Tabs.Screen
         name="Explore"
         component={VideoStackScreens}
         options={{
-          title: 'Explore',
+          title: t('explore'),
         }}
       />
       <Tabs.Screen
         name="Notifications"
         component={NotificationStackScreens}
         options={{
-          title: 'Notifications',
+          title: t('notifications'),
         }}
       />
     </Tabs.Navigator>
@@ -437,7 +454,7 @@ const App = () => {
             headerShown: true,
             headerRight: () => (
               <Touchable onPress={() => navigation.goBack()}>
-                <Text style={[st.white, st.mr4, st.fs16]}>Done</Text>
+                <Text style={[st.white, st.mr4, st.fs16]}>{t('done')}</Text>
               </Touchable>
             ),
             headerLeft: () => {},
@@ -452,7 +469,7 @@ const App = () => {
               fontSize: 18,
               fontWeight: 'normal',
             },
-            title: 'Settings',
+            title: t('settings'),
           })}
         />
         <AppStack.Screen
@@ -460,7 +477,7 @@ const App = () => {
           component={AccountCreate}
           options={{
             ...altHeaderConfig,
-            title: 'Create Account',
+            title: t('createAccount'),
             headerShown: true,
             /* headerStyle: {
               backgroundColor: theme.colors.primary,
@@ -477,7 +494,7 @@ const App = () => {
               ...transparentHeaderConfig.headerStyle,
               paddingTop: insets.top, // TODO: Check if it really works here?
             },
-            title: 'Sign In',
+            title: t('signIn'),
             // headerShown: true,
           }}
         />
@@ -520,7 +537,7 @@ const App = () => {
               fontSize: 18,
               fontWeight: 'normal',
             },
-            title: 'Profile',
+            title: t('title:profile'),
           })}
         />
         <AppStack.Screen
@@ -600,7 +617,7 @@ const App = () => {
               fontSize: 18,
               fontWeight: 'normal',
             },
-            title: 'Help Center',
+            title: t('title:helpCenter'),
           })}
         />
         <AppStack.Screen
@@ -620,7 +637,7 @@ const App = () => {
               fontSize: 18,
               fontWeight: 'normal',
             },
-            title: 'About Voke',
+            title: t('title:about'),
           })}
         />
         <AppStack.Screen
@@ -640,7 +657,7 @@ const App = () => {
               fontSize: 18,
               fontWeight: 'normal',
             },
-            title: 'Acknowledgements',
+            title: t('title:acknowledgements'),
           })}
         />
       </AppStack.Navigator>

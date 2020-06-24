@@ -3,6 +3,7 @@ import React from 'react';
 import { RootState } from '../../reducers';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from "react-i18next";
 import { TAdventureStepSingle } from '../../types';
 import styles from './styles';
 import Text from '../Text';
@@ -27,6 +28,7 @@ const AdventureStepNextAction = ({
   adventureId,
 }: NextActionProps): React.ReactElement | null => {
   const navigation = useNavigation();
+  const { t } = useTranslation('journey');
   const userId = getCurrentUserId();
   const adventure = getAdventureById(adventureId);
   const steps = useSelector(({ data }: RootState) => data.adventureSteps[adventureId].byId);
@@ -56,7 +58,7 @@ const AdventureStepNextAction = ({
         style={[st.bgBlue, st.ph2, st.pt2]}
       >
         <Text style={[st.aic, st.fs2, st.mb4, st.ph1, st.tac, st.white]}>
-          Congrats! You finished the adventure. Now start it with someone else!
+          {t('finishedJourney')}
         </Text>
         <Button
           onPress={ () =>
@@ -82,7 +84,7 @@ const AdventureStepNextAction = ({
               style={[{ height: 20 }, st.mr5]}
               name={'withFriend'}
             />
-            <Text style={[st.white, st.fs3]}>With a Friend</Text>
+            <Text style={[st.white, st.fs3]}>{t('withFriend')}</Text>
             <VokeIcon
               type="image"
               style={[{ height: 15 }, st.ml5]}
@@ -115,7 +117,7 @@ const AdventureStepNextAction = ({
               style={[{ height: 20 }, st.mr5]}
               name={'withGroup'}
             />
-            <Text style={[st.white, st.fs3]}>With a Group</Text>
+            <Text style={[st.white, st.fs3]}>{t('withGroup')}</Text>
             <VokeIcon
               type="image"
               style={[{ height: 15 }, st.ml5]}
@@ -127,7 +129,7 @@ const AdventureStepNextAction = ({
     );
   }
 
-  let text = 'Next Video is Ready';
+  let text = t('nextVideoReady');
   let buttonActive = true;
   if (isWaiting) {
     const isSolo = adventure && adventure.kind !== 'duo';
@@ -149,7 +151,7 @@ const AdventureStepNextAction = ({
       userName = inviteName;
     }
 
-    text = `Waiting for ${userName} to answer...`;
+    text =  t('waitingForAnswer', {name: userName});
     buttonActive = false;
   }
 

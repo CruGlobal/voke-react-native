@@ -3,6 +3,7 @@ import ImagePicker from 'react-native-image-picker';
 import { useSelector, useDispatch } from 'react-redux';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from "react-i18next";
 import { updateMe } from '../../actions/auth';
 
 import st from '../../st';
@@ -17,7 +18,7 @@ import Touchable from '../../components/Touchable';
 import BotTalking from '../../components/BotTalking'
 
 const imagePickerOptions = {
-  title: 'Select Avatar',
+  title: '',
   maxWidth: 500, // photos only
   maxHeight: 500, // photos only
   allowsEditing: true,
@@ -27,6 +28,7 @@ const imagePickerOptions = {
 };
 
 function AccountPhoto(props) {
+  const { t } = useTranslation('tryItNow');
   const onComplete = props?.route?.params?.onComplete;
   const insets = useSafeArea();
   const navigation = useNavigation();
@@ -92,6 +94,7 @@ function AccountPhoto(props) {
   }
 
   function handleSelectImage() {
+    imagePickerOptions.title = t('imagePicker:selectOrNew');
     ImagePicker.showImagePicker(imagePickerOptions, response => {
       if (response.didCancel) {
         // eslint-disable-next-line no-console
@@ -129,9 +132,8 @@ function AccountPhoto(props) {
               justify="between"
               style={[st.h(180), st.mt2]}
             >
-        <BotTalking heading="Add a photo!">Photos help your friends recognize you when you do adventures.
-</BotTalking>
-</Flex>
+          <BotTalking heading={t('addPhotoTitle')}>{t('addPhoto')}</BotTalking>
+        </Flex>
           <Touchable onPress={handleSelectImage}>
             <Flex
               direction="column"
@@ -177,7 +179,7 @@ function AccountPhoto(props) {
             shadowOffset : { width: 1, height: 8} }]}
             isLoading={loginLoading}
           >
-            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>{ avatarSource ? 'Next' : 'Skip' }</Text>
+            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>{ avatarSource ? t('next') : t('skip') }</Text>
           </Button>
             {/* Safety spacing. */}
             <Flex style={{ height: insets.bottom }} />

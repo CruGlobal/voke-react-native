@@ -7,6 +7,7 @@ import { getMyAdventure, getAdventureStepMessages, getAdventureSteps } from '../
 import { setCurrentScreen } from '../../actions/info';
 
 import { useFocusEffect } from '@react-navigation/native';
+import { useTranslation } from "react-i18next";
 import AdventureStepCard from '../../components/AdventureStepCard';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
@@ -25,6 +26,7 @@ type AdventureActiveProps = {
 };
 
 function AdventureActive({ route }: AdventureActiveProps): React.ReactElement {
+  const { t } = useTranslation('journey');
   const dispatch = useDispatch();
   const insets = useSafeArea();
   const store = useStore()
@@ -159,7 +161,7 @@ function AdventureActive({ route }: AdventureActiveProps): React.ReactElement {
                     color: 'white',
                   }}
                 >
-                  Watch Trailer
+                  {t('watchTrailer')}
                 </Text>
               </Flex>
             </Flex>

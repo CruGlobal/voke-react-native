@@ -10,6 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useSelector, useDispatch } from 'react-redux';
 import useKeyboard from '@rnhooks/keyboard';
+import { useTranslation } from "react-i18next";
 import { RootState } from '../../reducers';
 import { createAccount, updateMe } from '../../actions/auth';
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
@@ -24,6 +25,7 @@ import theme from '../../theme';
 
 
 const AccountName = ( props ): React.ReactElement => {
+  const { t } = useTranslation('name');
   const onComplete = props?.route?.params?.onComplete;
   const insets = useSafeArea();
   const dispatch = useDispatch();
@@ -78,8 +80,8 @@ const AccountName = ( props ): React.ReactElement => {
   const handleContinue = async () => {
     if (!firstName || firstName.length < 1) {
       return Alert.alert(
-        'Please provide your first name',
-        'We need at least your first name so your friends know who you are',
+        t('needNameTitle'),
+        t('needNameMessage'),
       );
     }
     if (firstName === initialFirstName && lastName === initialLastName && isLoggedIn) {
@@ -141,7 +143,7 @@ const AccountName = ( props ): React.ReactElement => {
               justify="between"
               style={[st.h(180)]}
             >
-              <BotTalking heading="Hello!">I’m Vokebot, I'm glad you're here.</BotTalking>
+              <BotTalking heading={t('introTitle')}>{t('introMessage')}</BotTalking>
             </Flex>
           </Transitioning.View>
 
@@ -159,9 +161,9 @@ const AccountName = ( props ): React.ReactElement => {
           >
             <NameInput
               blurOnSubmit={false}
-              label="First Name (Required)"
+              label={t('tryItNow:firstName')}
               onSubmitEditing={() => lastNameRef.current.focus()}
-              placeholder="First"
+              placeholder={t('tryItNow:firstNamePlaceholder')}
               value={firstName}
               onChangeText={text => setFirstName(text)}
               returnKeyType="next"
@@ -169,8 +171,8 @@ const AccountName = ( props ): React.ReactElement => {
             <NameInput
               ref={lastNameRef}
               blurOnSubmit
-              label="Last Name"
-              placeholder="Last"
+              label={t('tryItNow:lastName')}
+              placeholder={t('tryItNow:lastNamePlaceholder')}
               value={lastName}
               onChangeText={text => setLastName(text)}
               returnKeyType="done"
@@ -188,7 +190,7 @@ const AccountName = ( props ): React.ReactElement => {
             shadowOffset : { width: 1, height: 8}}]}
             isLoading={isLoading}
           >
-            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>Next</Text>
+            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>{t('next')}</Text>
           </Button>
             {/* Safety spacing. */}
             <Flex style={{ height: (isKeyboardVisible ? 0 : insets.bottom ) }} />

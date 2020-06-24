@@ -14,6 +14,7 @@ import { getTimeZone, getCountry, getLocales } from 'react-native-localize';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from "react-i18next";
 import { useMount, lockToPortrait } from '../../utils';
 import { userLogin, updateMe } from '../../actions/auth';
 import {
@@ -35,6 +36,7 @@ import CONSTANTS from '../../constants';
 import VokeIcon from '../../components/VokeIcon'
 
 const AccountCreate: React.FC = (): React.ReactElement => {
+  const { t } = useTranslation('signUp');
   const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -121,8 +123,8 @@ const AccountCreate: React.FC = (): React.ReactElement => {
     } else {
       setIsLoading(false);
       Alert.alert(
-        'Invalid email/password',
-        'Please enter a valid email and password',
+        t('login:invalid'),
+        t('login:enterValid')
       );
     }
   };
@@ -133,22 +135,22 @@ const AccountCreate: React.FC = (): React.ReactElement => {
     >
       <ScrollView>
       {/* <StatusBar /> <- TODO: Not sure why we need it here? */}
-      <Transitioning.View
-            ref={refBotBlock}
-            transition={transition}
-            style={{
-              marginTop: topMargin,
-            }}
+        <Transitioning.View
+          ref={refBotBlock}
+          transition={transition}
+          style={{
+            marginTop: topMargin,
+          }}
+        >
+          <Flex
+            direction="row"
+            align="start"
+            justify="between"
+            style={[st.h(260)]}
           >
-            <Flex
-              direction="row"
-              align="start"
-              justify="between"
-              style={[st.h(260)]}
-            >
-      <BotTalking heading="Save your progress in the app"> Just enter an email and password</BotTalking>
-            </Flex>
-          </Transitioning.View>
+            <BotTalking heading={t('profile:saveProgress')}>{ t('login:enterValid') }</BotTalking>
+          </Flex>
+        </Transitioning.View>
 
       {/* Makes possible to hide keyboard when tapping outside. */}
       <KeyboardAvoidingView
@@ -170,9 +172,9 @@ const AccountCreate: React.FC = (): React.ReactElement => {
           {/* INPUT FIELD: EMAIL */}
           <TextField
             // blurOnSubmit={false}
-            label="Email"
+            label={t('placeholder:email')}
             onSubmitEditing={(): void => passwordRef?.current?.focus()}
-            placeholder="Email"
+            placeholder={t('placeholder:email')}
             value={email}
             onChangeText={checkEmail}
             autoCapitalize="none"
@@ -185,8 +187,8 @@ const AccountCreate: React.FC = (): React.ReactElement => {
           <TextField
             ref={passwordRef}
             // blurOnSubmit={true}
-            label="Password"
-            placeholder="Password"
+            label={t('placeholder:password')}
+            placeholder={t('placeholder:password')}
             value={password}
             onChangeText={(text: string): void => setPassword(text)}
             secureTextEntry
@@ -214,27 +216,27 @@ const AccountCreate: React.FC = (): React.ReactElement => {
             onPress={(): Promise<void> => register()}
             isLoading={isLoading}
           >
-            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>Sign Up</Text>
+            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>{t('signUp')}</Text>
           </Button>
         </Flex>
       {/* TEXT: NOTICE */}
       <Flex direction="column" justify="start" style={styles.SectionNotice} value={1}>
         {/* TEXT: TERMS OF SERVICE */}
         <Text style={[styles.TextSmall, { textAlign: 'center' }]}>
-          By creating an account you agree to our
+          {t('agreementCreate')}
           {'\n'}
           <Text
             style={styles.Link}
             onPress={(): void => Linking.openURL(CONSTANTS.WEB_URLS.PRIVACY)}
           >
-            Privacy Policy
+            {t('privacy')}
           </Text>
-          &nbsp; and &nbsp;
+          &nbsp; {t('and')} &nbsp;
           <Text
             style={styles.Link}
             onPress={(): void => Linking.openURL(CONSTANTS.WEB_URLS.TERMS)}
           >
-            Terms of Service
+            {t('tos')}
           </Text>
         </Text>
       </Flex>

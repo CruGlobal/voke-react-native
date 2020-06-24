@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from "react-i18next";
 import moment from 'moment';
 import Image from '../Image';
 import st from '../../st';
@@ -27,6 +28,7 @@ function getExpiredTime(date: string) {
   const minutes = diffDuration.minutes();
   // const seconds = diffDuration.seconds();
 
+  // TODO: Translate it.
   const str = `${days > 0 ? `${days} day${days !== 1 ? 's' : ''} ` : ''}${
     hours > 0 ? `${hours} hr${hours !== 1 ? 's' : ''} ` : ''
   }${minutes >= 0 ? `${minutes} min ` : ''}`;
@@ -59,6 +61,7 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
   const isGroup = inviteItem.kind === 'multiple';
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const { t } = useTranslation(['adventuresTab', 'adventuresList']);
 
   useEffect(() => {
     updateExpire();
@@ -97,16 +100,16 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
   const deleteInvite = inviteID => {
     // dispatch(
       Alert.alert(
-        'Are you sure you want to delete your invite?',
-        'This cannot be undone. You can always invite them again by using "Invite a Friend".',
+        t('areYouSureDelete', {name: inviteItem?.name || ''}),
+        t('deleteCannotBeUndone'),
         [
           {
-            text: 'Cancel',
+            text: t('cancel'),
             onPress: () => {},
             style: "cancel"
           },
           {
-            text: 'Delete',
+            text: t('delete'),
             onPress: async () => {
               await dispatch(deleteAdventureInvitation(inviteID));
               await dispatch(getAdventuresInvitations());
@@ -149,16 +152,16 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
             <Text numberOfLines={2} style={[st.white, st.fs4]}>
             {
               isExpired ?
-                `${name}'s code expired...` :
+                t('adventuresList:codeExpired', {name}) :
                   isGroup ?
-                    `${name}: \nWaiting for group` :
-                    `Waiting for ${name} to join...`
+                    `${name}: \n` + t('adventuresList:waitingForGroup') :
+                    t('adventuresList:waitingForFriend', {name})
             }
             </Text>
             <Flex value={1} direction="column" align="left" justify="between">
               <Flex value={1} direction="row" align="center" style={styles.CodeBlock}>
                 <Text numberOfLines={1} style={styles.Code}>
-                  Code:
+                  {t('adventuresList:code')}
                 </Text>
                 <Text selectable style={[st.white, st.bold]}>
                   {' ' + code}
@@ -167,22 +170,17 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
               <Flex style={{width: '100%'}}>
                 {!isExpired && !isGroup ? (
                   <Text numberOfLines={1} style={[st.white, st.fs6]}>
-                    Expires in {time}
+                    {t('adventuresList:expiresIn', {time})}
                   </Text>
                 ) : (
                   <Button
                     onPress={()=>resendInvite(inviteID)}
                     style={styles.ButtonReset}
                     buttonTextStyle={[st.fs6]}
-                  ><Text style={styles.ButtonResetLabel}>Resend</Text></Button>
+                  ><Text style={styles.ButtonResetLabel}>{t('resend')}</Text></Button>
                 )}
               </Flex>
             </Flex>
-            {/* <Flex>
-              <Text style={[st.bold, st.white, st.fs6, st.tac]}>
-                {'Get Started'.toUpperCase()}
-              </Text>
-            </Flex> */}
           </Flex>
           {isExpired ? (
             <Flex
