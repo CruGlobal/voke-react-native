@@ -10,7 +10,6 @@ import Text from '../Text';
 import Button from '../Button';
 import st from '../../st';
 import VokeIcon from '../../components/VokeIcon';
-// import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
 import {
   getStepsByAdventureId,
@@ -55,7 +54,7 @@ const AdventureStepNextAction = ({
         direction="column"
         justify="end"
         align="center"
-        style={[st.bgBlue, st.ph2, st.pt2]}
+        style={[st.bgBlue, st.ph5, st.pt2]}
       >
         <Text style={[st.aic, st.fs2, st.mb4, st.ph1, st.tac, st.white]}>
           {t('finishedJourney')}

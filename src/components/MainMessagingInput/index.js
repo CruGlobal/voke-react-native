@@ -39,7 +39,7 @@ function AdventureStepMessageInput({ adventure, step, ...rest }) {
   return (
     <Flex
       direction="row"
-      style={[st.pl5, inputHeight, {backgroundColor: theme.colors.primary}]}
+      style={[st.pl5, inputHeight, st.btWhite, st.btw1,{backgroundColor: theme.colors.primary, paddingTop: 10}]}
       align="center"
       value={1}
     >

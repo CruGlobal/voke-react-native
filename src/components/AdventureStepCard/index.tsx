@@ -117,7 +117,6 @@ function AdventureStepCard({
             />
             <Flex style={[st.absfill]} align="center" justify="center">
               <VokeIcon
-                type={isLocked ? 'image' : undefined}
                 name={isLocked ? 'lock' : 'play-full'}
                 size={30}
                 style={[st.op90, st.w(30), st.h(30)]}
@@ -232,14 +231,14 @@ function AdventureStepCard({
       <Flex
         style={[
           st.abs,
-          st.top(-10),
+          st.top(-8),
           st.right(-10),
           st.bgDarkerBlue,
           st.pd6,
           st.br2,
         ]}
       >
-        <VokeIcon name="check" type="image" size={16} style={[]} />
+        <VokeIcon name="checkmark-outline" size={16} style={[]} />
       </Flex>
     ) : null}
     </Flex>

@@ -222,15 +222,15 @@ function AdventureCard({ adventureId }) {
                     {numberMore ? (
                       <View
                         style={[
-                          st.circle(22),
+                          st.circle(36),
                           st.abstl,
-                          { left: 50 },
+                          { left: 90 },
                           st.bgBlue,
-                          { borderWidth: 1, borderColor: st.colors.orange },
+                          { borderWidth: 1, borderColor: st.colors.white },
                         ]}
                       >
                         <Flex self="stretch" align="center" justify="center">
-                          <Text style={[{ fontSize: 12 }]}>+{numberMore}</Text>
+                        <Text style={[st.pv6, st.white, { fontSize: 16 }]}>+{numberMore}</Text>
                         </Flex>
                       </View>
                     ) :

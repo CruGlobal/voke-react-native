@@ -29,8 +29,10 @@ function AllMembersModal(props) {
     i => i.first_name !== 'VokeBot'
     // i => i.first_name !== 'VokeBot' && (i || {}).id !== (me || {}).id,
   );
+  
   const smallCircle = st.fullWidth / 2 - 90;
   const smallBox = st.fullWidth / 2 - 50;
+  const leaderBox = st.fullWidth / 2 - 30;
 
   return (
     <>
@@ -87,25 +89,26 @@ function AllMembersModal(props) {
             </Flex>
           </Flex>
         </Flex>
-        <Flex align="center" justify="center" style={[]}>
+        <Flex align="center" justify="center">
           <Flex
             direction="row"
             wrap="wrap"
             align="end"
-            justify="start"
+            justify="center"
           >
             {messengers.map((messenger, index) => (
+              
               <Flex
                 key={messenger.id}
                 direction="column"
                 align="center"
                 style={[
-                  // st.bgOffBlue,
+                  messenger.group_leader?st.bgDarkBlue: st.bgOffBlue,
                   st.pd5,
                   st.m5,
                   {
-                    width: smallBox,
-                    height: smallBox,
+                    width:  messenger.group_leader? leaderBox:smallBox,
+                    height: messenger.group_leader? leaderBox:smallBox,
                     marginRight: 15,
                   },
                 ]}
@@ -139,7 +142,7 @@ function AllMembersModal(props) {
                     ]}
                   />
                 )}
-                <Text style={[st.fs3, st.white, st.tac,{marginTop:6}]}>
+                <Text style={[st.fs3, st.white, st.tac,{marginTop:3}]}>
                   {messenger.first_name}
                 </Text>
               </Flex>
