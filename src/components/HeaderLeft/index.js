@@ -9,8 +9,24 @@ import st from '../../st';
 import theme from '../../theme';
 
 
-function HeaderLeft({ hasBack = false }) {
+function HeaderLeft({ hasBack = false, resetTo = null }) {
   const navigation = useNavigation();
+
+  const goBack = () => {
+    if ( hasBack ) {
+      if ( resetTo ) {
+        navigation.reset({
+          index: 1,
+          routes: [{ name: resetTo }],
+        });
+      } else {
+        navigation.goBack()
+      }
+    } else {
+      navigation.navigate('Menu')
+    }
+  }
+
   return (
     <Flex value={1} justify="center">
         <Touchable
@@ -21,7 +37,7 @@ function HeaderLeft({ hasBack = false }) {
             paddingRight: 8,
             paddingBottom: 8,
           }]}
-          onPress={() => ( hasBack ? navigation.goBack() : navigation.navigate('Menu') )}
+          onPress={() => goBack()}
         >
           {hasBack ? (
           <View
@@ -32,7 +48,7 @@ function HeaderLeft({ hasBack = false }) {
               alignItems:'center',
               padding:0,
             }]}
-            onPress={() => navigation.goBack()}
+            onPress={() => goBack()}
           >
             <VokeIcon
               name="chevron-back-outline"

@@ -146,7 +146,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
             paddingTop: insets.top,
           },
           title: '',
-          headerLeft: () => <HeaderLeft hasBack />,
+          headerLeft: () => <HeaderLeft hasBack resetTo='Adventures' />,
           headerRight: undefined,
         }}
       />
