@@ -7,6 +7,7 @@ import { getMyAdventure, getAdventureStepMessages, getAdventureSteps } from '../
 import { setCurrentScreen } from '../../actions/info';
 
 import { useFocusEffect } from '@react-navigation/native';
+import { useTranslation } from "react-i18next";
 import AdventureStepCard from '../../components/AdventureStepCard';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
@@ -25,6 +26,7 @@ type AdventureActiveProps = {
 };
 
 function AdventureActive({ route }: AdventureActiveProps): React.ReactElement {
+  const { t } = useTranslation('journey');
   const dispatch = useDispatch();
   const insets = useSafeArea();
   const store = useStore()
@@ -38,16 +40,17 @@ function AdventureActive({ route }: AdventureActiveProps): React.ReactElement {
   const isGroup = adventure.kind === 'multiple';
   console.log(adventure)
   const getPendingAdventure = async () => {
+    console.log( 'getPendingAdventure' );
     await dispatch(getMyAdventure(adventureId));
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     // If adventure wasn't accepted by a friend yet and not started.
     if (Object.keys(adventure).length === 0 ) {
       getPendingAdventure();
     }
     // -- ☝️call to import pending adventure info from the server.
-  },[]);
+  },[]); */
 
   const getSteps = async () => {
     await dispatch(getAdventureSteps(adventureId));
@@ -56,10 +59,19 @@ function AdventureActive({ route }: AdventureActiveProps): React.ReactElement {
   useEffect(() => {
     if (Object.keys(adventure).length > 0 ) {
       getSteps()
+    } else {
+      getPendingAdventure();
     }
     // -- ☝️call to update steps from the server.
     // Without it new Adventures won't show any steps.
   },[adventure?.id]);
+
+  // Prefetch data for the next active step and the steps with new messages.
+  useEffect(() => {
+    for (let [key, step] of Object.entries(steps?.byId)) {
+      preFetchStep(step);
+    }
+  }, [steps?.allIds.length])
 
   const preFetchStep = async(step: any) => {
     const existingMessages = allMessages[step?.id] || [];
@@ -70,13 +82,6 @@ function AdventureActive({ route }: AdventureActiveProps): React.ReactElement {
       );
     }
   }
-
-  // Prefetch data for the next active step and the steps with new messages.
-  useEffect(() => {
-    for (let [key, step] of Object.entries(steps?.byId)) {
-      preFetchStep(step);
-    }
-  }, [steps?.allIds.length])
 
   // Events firing when user leaves the screen or comes back.
   useFocusEffect(
@@ -117,7 +122,7 @@ function AdventureActive({ route }: AdventureActiveProps): React.ReactElement {
         isPortrait ? st.bgBlue: st.bgDeepBlack,
         { paddingBottom: isPortrait ? insets.bottom : 0 }]}>
         {/* <Flex value={1} direction="row" align="center" justify="center" style={{padding:5}}>
-          <Text style={[st.fs18,{ color:'white'}]}> 
+          <Text style={[st.fs18,{ color:'white'}]}>
             {isGroup? adventure.journey_invite.name : adventure.name}
           </Text>
         </Flex> */}
@@ -159,7 +164,7 @@ function AdventureActive({ route }: AdventureActiveProps): React.ReactElement {
                     color: 'white',
                   }}
                 >
-                  Watch Trailer
+                  {t('watchTrailer')}
                 </Text>
               </Flex>
             </Flex>

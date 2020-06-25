@@ -14,6 +14,7 @@ import { useDispatch,useSelector } from 'react-redux';
 import theme from '../../theme';
 import { logoutAction } from '../../actions/auth';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
 type SignOutProps = {
   onPress?: Function;
@@ -41,6 +42,7 @@ const SignOut = ({
   touchableStyle,
   ...rest
 }: SignOutProps) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [clickDisabled, setClickDisabled] = useState(false);
@@ -94,7 +96,7 @@ const SignOut = ({
             fontSize:  theme.fontSizes.l,
             paddingTop: 12
           }}
-        >Sign out</Text>
+        >{t('signOut')}</Text>
       </Flex>
     </Button>)}</>
   );

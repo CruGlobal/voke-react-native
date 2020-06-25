@@ -2,6 +2,7 @@ import React, { useState, useRef, forwardRef, useEffect } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from 'react-redux';
 import { useMount, lockToPortrait } from '../../utils';
 import { ActivityIndicator, ScrollView, FlatList, View } from 'react-native';
@@ -20,6 +21,7 @@ import { toastAction } from '../../actions/info';
 
 function VideoList() {
   const navigation = useNavigation();
+  const { t } = useTranslation();
 
   const allVideos = useSelector(({ data }) => data.allVideos.allIds) || [];
   const featuredVideos = useSelector(({ data }) => data.featuredVideos.allIds) || [];
@@ -34,7 +36,6 @@ function VideoList() {
   const THUMBNAIL_HEIGHT = ((st.fullWidth - 20) * 1) / 2;
   const [isLoading, setIsLoading] = useState(false);
   const ITEM_HEIGHT = THUMBNAIL_HEIGHT + 100 + 20;
-  const [filter, setFilter] = useState('All');
   const [filterId, setFilterId] = useState('allVideos');
   const dispatch = useDispatch();
   function handleRefresh() {
@@ -51,13 +52,14 @@ function VideoList() {
 
   async function loadVideos(overrideIsLoading) {
     const query = {};
-    if (filter === 'Featured') {
+
+    if (filterId === 'featuredVideos') {
       query.featured = true;
     }
-    if (filter === 'Popular') {
+    if (filterId === 'popularVideos') {
       query.popularity = true;
     }
-    if (filter === 'Favorite') {
+    if (filterId === 'favoriteVideos') {
       query.favorite = '#<Messenger::Favorite:0x007ffd7c4afb60>';
     }
 
@@ -131,24 +133,24 @@ function VideoList() {
         },
       });
     } */
-    if (filter === 'All') {
-      setFilterId('allVideos');
+    if (filterId === 'allVideos') {
+      // setFilterId('allVideos');
       if (allVideos.length === 0) {
         loadVideos();
       } else {
         setVideos(allVideos);
       }
     }
-    if (filter === 'Featured') {
-      setFilterId('featuredVideos');
+    if (filterId === 'featuredVideos') {
+      // setFilterId('featuredVideos');
       if (featuredVideos.length === 0) {
         loadVideos();
       } else {
         setVideos(featuredVideos);
       }
     }
-    if (filter === 'Popular') {
-      setFilterId('popularVideos');
+    if (filterId === 'popularVideos') {
+      // setFilterId('popularVideos');
       if (popularVideos.length === 0) {
         loadVideos();
       } else {
@@ -159,7 +161,7 @@ function VideoList() {
       setFilterId('favoriteVideos');
       loadVideos();
     } */
-  }, [filter]);
+  }, [filterId]);
 
   return (
     <View style={[st.f1, st.bgBlue]}>
@@ -186,12 +188,29 @@ function VideoList() {
                 width: '100%',
                 justifyContent: 'center',
               }}
-              data={['All', 'Featured', 'Popular', /* 'Favorite', 'Search' */]}
-              renderItem={({ item }) => (
+              data={[
+                {
+                  id: 'allVideos',
+                  title: t('all'),
+                },
+                {
+                  id: 'featuredVideos',
+                  title: t('featured'),
+                },
+                {
+                  id: 'popularVideos',
+                  title: t('popular'),
+                },
+              ]}
+
+    /* 'Favorite', 'Search' */
+              // data={['allVideos','featuredVideos','popularVideos' ]}
+              // keyExtractor={item => item.id}
+              renderItem={({ item, index, separators }) => (
                 <Button
-                  key={item}
+                  key={item.id}
                   onPress={() => {
-                    if (filter === item && item === 'Search') {
+                    if (filterId === item.id && item.title === 'Search') {
                       navigation.navigate('VideosSearch', {
                         onSelect: async tagId => {
                           await dispatch(getVideos({ tag_id: tagId }));
@@ -199,7 +218,7 @@ function VideoList() {
                         },
                       });
                     } else {
-                      setFilter(item);
+                      setFilterId(item.id);
                     }
                   }}
                   style={[
@@ -210,18 +229,18 @@ function VideoList() {
                     st.mr5,
                     st.bw1,
                     st.br1,
-                    filter === item
+                    filterId === item.id
                       ? [st.bgDarkBlue, st.borderDarkBlue]
                       : [st.bgTransparent, st.borderWhite],
                   ]}
                 >
-                  {item === 'Favorite' || item === 'Search' ? (
+                  {item.id === 'favorite' || item.id === 'search' ? (
                     <VokeIcon
-                      name={item === 'Favorite' ? 'heart' : 'search'}
+                      name={item.id === 'favorite' ? 'heart' : 'search'}
                       size={22}
                     />
                   ) : (
-                    <Text style={[st.white, st.fs18]}>{item}</Text>
+                    <Text style={[st.white, st.fs18]}>{item.title}</Text>
                   )}
                 </Button>
               )}
@@ -229,7 +248,7 @@ function VideoList() {
             {videos.length === 0 ? (
               <Flex align="center" justify="center">
                 <Text style={[st.fs16, st.white, st.pt5, st.tac]}>
-                  No Videos
+                  {t('noVideos')}
                 </Text>
               </Flex>
             ) : null}

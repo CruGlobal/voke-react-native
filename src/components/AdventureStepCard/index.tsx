@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
+import { useTranslation } from "react-i18next";
 import { RootState } from '../../reducers';
 import Image from '../Image';
 import Touchable from '../Touchable';
@@ -38,6 +39,7 @@ function AdventureStepCard({
   // steps,
   // adventure,
 }: AdventureStepCardProps): React.ReactElement {
+  const { t } = useTranslation('journey');
   const navigation = useNavigation();
   const userId = getCurrentUserId();
   const adventure = useSelector(({ data }: RootState) => data.myAdventures.byId[adventureId]);
@@ -115,7 +117,6 @@ function AdventureStepCard({
             />
             <Flex style={[st.absfill]} align="center" justify="center">
               <VokeIcon
-                type={isLocked ? 'image' : undefined}
                 name={isLocked ? 'lock' : 'play-full'}
                 size={30}
                 style={[st.op90, st.w(30), st.h(30)]}
@@ -130,7 +131,7 @@ function AdventureStepCard({
               {step.name}
             </Text>
             <Text style={[st.fs5, isActive ? st.darkBlue : st.white]}>
-              Part {step.position}
+              {t('part')} {step.position}
             </Text>
             {/* {isActive || isCompleted ? ( */}
             {/* UNREAD COUNTER */}
@@ -196,11 +197,7 @@ function AdventureStepCard({
             style={[st.bgOrange, st.w100, st.pd6, st.brbl5, st.brbr5]}
           >
             {
-              invitedUserName ? (
-                <Text style={[st.fs4]}>Waiting for {invitedUserName} to answer</Text>
-              ) : (
-                <Text style={[st.fs4]}>waiting for answer</Text>
-              )
+              <Text style={[st.fs4]}>{t('waitingForAnswer', {name: invitedUserName})}</Text>
             }
           </Flex>
         ) : null}
@@ -234,14 +231,14 @@ function AdventureStepCard({
       <Flex
         style={[
           st.abs,
-          st.top(-10),
+          st.top(-8),
           st.right(-10),
           st.bgDarkerBlue,
           st.pd6,
           st.br2,
         ]}
       >
-        <VokeIcon name="check" type="image" size={16} style={[]} />
+        <VokeIcon name="checkmark-outline" size={16} style={[]} />
       </Flex>
     ) : null}
     </Flex>

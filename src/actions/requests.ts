@@ -8,6 +8,7 @@ import { Platform } from 'react-native';
 import st from '../st';
 import { isEqualObject, exists } from '../utils';
 import { AuthDataKeys } from '../reducers/auth';
+import { setAppIconBadgeNumber } from './notifications';
 import { debounce } from 'lodash';
 
 type Dispatch = ThunkDispatch<any, any, any>;
@@ -163,6 +164,8 @@ export function updateTotalUnreadCounter() {
     for (let [key, value] of Object.entries(myAdventures)) {
       unreadTotal += value.conversation.unread_messages;
     }
+    // Update app icon counter.
+    setAppIconBadgeNumber(unreadTotal);
 
     return dispatch({
       type: REDUX_ACTIONS.UPDATE_UNREAD_TOTAL,

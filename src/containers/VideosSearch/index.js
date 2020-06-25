@@ -9,6 +9,7 @@ import { useMount } from '../../utils';
 
 import { getVideoTags } from '../../actions/requests';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from "react-i18next";
 
 function VideosSearch({ route }) {
   const insets = useSafeArea();

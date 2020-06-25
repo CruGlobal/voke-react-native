@@ -9,6 +9,7 @@ import { View, ScrollView, StatusBar, Platform } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Video from '../../components/Video';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from "react-i18next";
 import VokeIcon from '../../components/VokeIcon';
 import Touchable from '../../components/Touchable';
 
@@ -18,6 +19,7 @@ import {
 } from '../../actions/requests';
 
 function VideoDetails(props) {
+  const { t } = useTranslation('videos');
   const dispatch = useDispatch();
   const insets = useSafeArea();
   const navigation = useNavigation();
@@ -99,12 +101,14 @@ function VideoDetails(props) {
               </Button>
               <Text style={[st.blue, st.fs20, st.semi]}>{item.name}</Text>
               <Text style={[st.darkGrey, st.fs14, st.mb7]}>
-                {item.shares} shares
+                {t('shares', {total:item.shares})}
               </Text>
               <Text style={[st.darkGrey, st.fs14, st.mb7]}>
                 {item.description}
               </Text>
-              <Text style={[st.blue, st.fs16, st.mb6, st.semi]}>Themes</Text>
+              <Text style={[st.blue, st.fs16, st.mb6, st.semi]}>
+                {t('themes')}
+              </Text>
               <Flex direction="row">
                 {(item.tags || []).map((t, index) => (
                   <Text
@@ -117,7 +121,7 @@ function VideoDetails(props) {
                 ))}
               </Flex>
               <Text style={[st.blue, st.fs16, st.mb6, st.semi]}>
-                Voke Kickstarters
+                {t('kickstarters')}
               </Text>
               {item.questions.map(q => (
                 <Flex key={q.id} direction="column">

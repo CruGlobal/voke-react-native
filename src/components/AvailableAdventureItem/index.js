@@ -10,6 +10,7 @@ import Text from '../Text';
 import Button from '../Button';
 import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
+import { useTranslation } from 'react-i18next';
 
 function AvailableAdventureItem({
   item = {
@@ -20,6 +21,7 @@ function AvailableAdventureItem({
     slogan: '',
   },
 }) {
+  const { t } = useTranslation('journey');
   const myAdventures = useSelector(({ data }) => data.myAdventures.byId);
   const navigation = useNavigation();
   const [shouldInviteFriend, setShouldInviteFriend] = useState(
@@ -86,13 +88,13 @@ function AvailableAdventureItem({
                   st.mr6,
                 ]}
               >
-                {'started'.toUpperCase()}
+                {t('started').toUpperCase()}
               </Text>
               <VokeIcon name="play-full" size={16} />
             </Flex>
-          ) :  <Text style={[st.fs14, st.bold, st.white]}>
-          ADVENTURE
-        </Text>}
+          ) : <Text style={[st.fs14, st.bold, st.white]}>
+            {t('adventure').toUpperCase()}
+          </Text>}
           <Text style={[st.fs24, st.white]}>
             {item.name}
           </Text>
@@ -133,7 +135,7 @@ function AvailableAdventureItem({
                 type="image"
                 style={[st.mr5, { height: 20, width: 20, marginBottom: 2 }]}
               />
-              <Text style={[st.white, { lineHeight: 20 }]}>Invite a Friend</Text>
+              <Text style={[st.white, { lineHeight: 20 }]}>{t('inviteFriend')}</Text>
             </Button>
           </Flex>
         ) : (
@@ -166,14 +168,14 @@ function AvailableAdventureItem({
             <Text
               style={[st.bold, st.white, { letterSpacing: 2, fontSize: 10 }]}
             >
-              {item.total_steps}-{'part series'.toUpperCase()}
+              {item.total_steps}-{t('partSeries').toUpperCase()}
             </Text>
           </Flex>
           <Flex direction="row">
             <Text
               style={[st.bold, st.white, { letterSpacing: 2, fontSize: 10 }]}
             >
-              {item.total_shares || 0} {'shares'.toUpperCase()}
+              {t('videos:shares', {total: item.total_shares || 0}).toUpperCase()}
             </Text>
             {shouldInviteFriend ? null : (
               <Button

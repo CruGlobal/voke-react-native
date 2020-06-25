@@ -59,12 +59,12 @@ function Menu(props) {
     <Flex value={1} style={[st.bgWhite, { paddingBottom: insets.bottom }]}>
       <ScrollView>
         <SettingsRow
-          title="Profile"
+          title={t('title:profile')}
           onSelect={() => navigation.navigate('AccountProfile')}
         />
         {!email && (
           <SettingsRow
-            title="Create Account"
+            title={t('createAccount')}
             onSelect={() =>
               navigation.navigate('AccountCreate', { shouldMerge: true })
             }
@@ -72,14 +72,14 @@ function Menu(props) {
         )}
         {!email && (
           <SettingsRow
-            title="Sign In"
+            title={t('signIn')}
             onSelect={() =>
               navigation.navigate('AccountSignIn', { shouldMerge: true })
             }
           />
         )}
         <SettingsRow
-          title="Share this App"
+          title={t('shareApp')}
           onSelect={() =>
             Share.share(
               {
@@ -95,7 +95,7 @@ function Menu(props) {
           }
         />
         <SettingsRow
-          title="Write a Review"
+          title={t('writeReview')}
           onSelect={() => {
             let link;
             if (!st.isAndroid) {
@@ -114,7 +114,7 @@ function Menu(props) {
           }}
         />
         <SettingsRow
-          title="Follow us on Instagram"
+          title={t('followInstagram')}
           onSelect={() => {
             const link = CONSTANTS.WEB_URLS.INSTAGRAM;
             Linking.canOpenURL(link).then(
@@ -126,28 +126,28 @@ function Menu(props) {
           }}
         />
         <SettingsRow
-          title="Get Help"
+          title={t('title:help')}
           onSelect={() => navigation.navigate('Help')}
         />
         <SettingsRow
-          title="About"
+          title={t('title:about')}
           onSelect={() => navigation.navigate('About')}
         />
         {!!email && (<SettingsRow
-          title="Sign Out"
+          title={t('signOut')}
           onSelect={() => {
             !email && Alert.alert(
-              'Are you sure?',
-              'You are about to remove your guest account - which will delete all conversations, progress and user data.',
+              t('deleteSure'),
+              t('deleteDescription'),
               [
                 {
-                  text: 'Confirm',
+                  text: t('confirm'),
                   onPress: () => {
                     return signOut()
                   },
                 },
                 {
-                  text: 'Cancel',
+                  text: t('cancel'),
                   onPress: () => {
                     return
                   },
@@ -166,7 +166,7 @@ function Menu(props) {
           justify="center"
           style={[st.pv5, st.ph4, { marginTop: 30 }]}
         >
-          <Text style={[st.darkGrey, st.fs14, st.ls2]}>OUR PARTNERS</Text>
+          <Text style={[st.darkGrey, st.fs14, st.ls2]}>{t('ourPartners').toUpperCase()}</Text>
         </Flex>
         <Flex
           direction="row"

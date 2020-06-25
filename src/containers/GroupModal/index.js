@@ -1,25 +1,21 @@
 import React, { useState } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from 'react-redux';
+import { ScrollView } from 'react-native';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import Image from '../../components/Image';
 import StatusBar from '../../components/StatusBar';
 import Triangle from '../../components/Triangle';
-import st from '../../st';
 import Button from '../../components/Button';
-import { useNavigation } from '@react-navigation/native';
-// import { MONTHLY_PRICE } from '../../constants';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { ScrollView } from 'react-native';
-
-import VOKE_BOT from '../../assets/vokebot_whole.png';
 import Touchable from '../../components/Touchable';
-import CONSTANTS from '../../constants';
 import VokeIcon from '../../components/VokeIcon';
-import DEFAULT_AVATAR from '../../assets/defaultAvatar.png';
+import st from '../../st';
 
 function GroupModal(props) {
+  const { t } = useTranslation();
   const insets = useSafeArea();
   const navigation = useNavigation();
   const me = useSelector(({ auth }) => auth.user);
@@ -65,7 +61,7 @@ function GroupModal(props) {
               style={[st.br5, st.bgOffBlue, st.p4, st.w(st.fullWidth - 100)]}
             >
               <Text style={[st.white, st.fs16, st.tac]}>
-                Welcome to { adventure.journey_invite.name || adventure.name || ''}!
+                {t('modal:welcomeTo')}{ adventure.journey_invite.name || adventure.name || ''}!
               </Text>
             </Flex>
             <Flex
@@ -111,9 +107,9 @@ function GroupModal(props) {
                 {!messenger.avatar ? (
                   <Flex align="center" justify="center" style={[st.pt3]}>
                     <VokeIcon
-                name="person"
-                size={80}
-              />
+                      name="person"
+                      size={80}
+                    />
                   </Flex>
                 ) : (
                   <Image
@@ -178,7 +174,7 @@ function GroupModal(props) {
                       { fontSize: st.isAndroid ? 16 : 20, maxWidth: 80 },
                     ]}
                   >
-                    Join the Group
+                    {t('joinGroup')}
                   </Text>
                   <VokeIcon
                 name="arrow-left2"
@@ -211,7 +207,7 @@ function GroupModal(props) {
               ]}
             >
               <Flex direction="row" align="center">
-                <Text style={[st.white, st.fs16]}>See all members</Text>
+                <Text style={[st.white, st.fs16]}>{t('allMembers')}</Text>
               </Flex>
             </Button>
           </Flex>
