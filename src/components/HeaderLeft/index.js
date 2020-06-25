@@ -16,7 +16,7 @@ function HeaderLeft({ hasBack = false, resetTo = null }) {
     if ( hasBack ) {
       if ( resetTo ) {
         navigation.reset({
-          index: 1,
+          index: 0,
           routes: [{ name: resetTo }],
         });
       } else {
