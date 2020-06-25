@@ -297,7 +297,7 @@ export default {
   },
   overlays: {
     adventurePush: `Voke sends notifications when your friends join and interact with the adventures you share, but first we need your permission.`,
-    playUkulele: `{{name}}, I play my Ukulele so you don’t miss out when your friends interact or join your adventures!{'\n'}{'\n'}But first, I need your permission to send you notifications.`,
+    playUkulele: `{{name}}, I play my Ukulele so you don’t miss out when your friends interact or join your adventures!\n\nBut first, I need your permission to send you notifications.`,
     signUpChannel: `Sign up to subscribe and {{channel}} will let you know when new videos are published.`,
     saveYourProgress: `You are doing great! Create an account to save your progress and connect with more friends.`,
   },
