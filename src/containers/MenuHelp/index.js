@@ -38,46 +38,46 @@ function MenuHelp(props) {
       <ScrollView>
         <SettingsRow
           title={t('visitWebsite')}
-          onPress={() => Linking.openURL(CONSTANTS.WEB_URLS.HELP)}
+          onSelect={() => Linking.openURL(CONSTANTS.WEB_URLS.HELP)}
         />
         <SettingsRow
           title={t('visitFAQ')}
-          onPress={() => Linking.openURL(CONSTANTS.WEB_URLS.FAQ)}
+          onSelect={() => Linking.openURL(CONSTANTS.WEB_URLS.FAQ)}
         />
         <SettingsRow
           title={t('featureRequest')}
-          onPress={() =>
+          onSelect={() =>
             Communications.email(
-            ['support@vokeapp.com'], // TO
-            null, // CC
-            null, // BCC
-            'Feature Request for Voke', // SUBJECT
-            null, // BODY
-          )
+              ['support@vokeapp.com'], // TO
+              null, // CC
+              null, // BCC
+              'Feature Request for Voke', // SUBJECT
+              null, // BODY
+            )
           }
         />
         <SettingsRow
           title={t('report')}
-          onPress={() =>
+          onSelect={() =>
             Communications.email(
-            ['support@vokeapp.com'], // TO
-            null, // CC
-            null, // BCC
-            'I would like to report a user', // SUBJECT
-            null, // BODY
-          )
+              ['support@vokeapp.com'], // TO
+              null, // CC
+              null, // BCC
+              'I would like to report a user', // SUBJECT
+              null, // BODY
+            )
           }
         />
         <SettingsRow
           title={t('email')}
-          onPress={() =>
+          onSelect={() =>
             Communications.email(
-            ['support@vokeapp.com'], // TO
-            null, // CC
-            null, // BCC
-            'Email to Voke Support', // SUBJECT
-            null, // BODY
-          )
+              ['support@vokeapp.com'], // TO
+              null, // CC
+              null, // BCC
+              'Email to Voke Support', // SUBJECT
+              null, // BODY
+            )
           }
         />
       </ScrollView>
