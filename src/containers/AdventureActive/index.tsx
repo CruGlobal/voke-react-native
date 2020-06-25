@@ -17,6 +17,7 @@ import { TDataState } from '../../types'
 import styles from './styles';
 
 type AdventureActiveProps = {
+  navigation: any,
   route: {
     name: string,
     params: {
@@ -25,7 +26,7 @@ type AdventureActiveProps = {
   };
 };
 
-function AdventureActive({ route }: AdventureActiveProps): React.ReactElement {
+function AdventureActive({ navigation, route }: AdventureActiveProps): React.ReactElement {
   const { t } = useTranslation('journey');
   const dispatch = useDispatch();
   const insets = useSafeArea();
@@ -38,9 +39,9 @@ function AdventureActive({ route }: AdventureActiveProps): React.ReactElement {
     data.adventureSteps[adventureId], shallowEqual)  || {byId:{}, allIds: []};
   const [isPortrait, setIsPortrait] = useState(true);
   const isGroup = adventure.kind === 'multiple';
-  console.log(adventure)
+
+
   const getPendingAdventure = async () => {
-    console.log( 'getPendingAdventure' );
     await dispatch(getMyAdventure(adventureId));
   };
 
@@ -71,7 +72,7 @@ function AdventureActive({ route }: AdventureActiveProps): React.ReactElement {
     for (let [key, step] of Object.entries(steps?.byId)) {
       preFetchStep(step);
     }
-  }, [steps?.allIds.length])
+  }, [steps?.allIds.length]);
 
   const preFetchStep = async(step: any) => {
     const existingMessages = allMessages[step?.id] || [];
@@ -99,7 +100,7 @@ function AdventureActive({ route }: AdventureActiveProps): React.ReactElement {
         // Actions to run when the screen unfocused:
       };
     }, [])
-  )
+  );
 
   return (
     <Flex value={1}>

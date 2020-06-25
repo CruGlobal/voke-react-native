@@ -95,7 +95,9 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
 
   // Make top bar visible dynamically.
   navigation.setOptions({
-    tabBarVisible: route.state ? !(route.state.index > 0) : null,
+    tabBarVisible: route?.state && route?.state?.type === 'stack' ?
+      !(route?.state?.routes.length > 1) :
+      null,
   });
   return (
     <AdventureStack.Navigator
@@ -109,7 +111,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
         options={{
           title: t('adventures'),
         }}
-        />
+      />
       <AdventureStack.Screen
         name="AdventureAvailable"
         component={AdventureAvailable}
