@@ -440,7 +440,7 @@ export default {
     firstNamePlaceholder: `First`,
     whatIsFriendsName: `What is your friend's name?`,
     needNameTitle: `Please provide a name`,
-    needNameMessage: `We need a name so you can manage your adventures`,
+    needNameMessage: `We need a name so you can manage your Adventures`,
     nameYourGroup: `Let’s name your Group!`,
     groupName: `Group Name`,
     checkTitle: `Check out`,

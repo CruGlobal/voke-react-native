@@ -373,7 +373,6 @@ export function createAdventureStepMessage(params: {
           params.step.id
         ));
     }
-
     // Update adventure steps to mark the current step as completed
     // and unlock the next one.
     dispatch(getAdventureSteps(params.adventure.id));

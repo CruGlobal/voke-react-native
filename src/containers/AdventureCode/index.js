@@ -64,8 +64,14 @@ function AdventureCode(props) {
             adventure: newAdventure || {},
           });
         } else {
-          navigation.goBack();
-          // TODO: GO STRAIGHT INTO ADVENTURE
+          if ( newAdventure?.messenger_journey_id ) {
+            // GO STRAIGHT INTO ADVENTURE
+            navigation.navigate('AdventureActive', {
+              adventureId: newAdventure?.messenger_journey_id,
+            })
+          } else {
+            navigation.goBack();
+          }
         }
       } catch (error) {
         dispatch(toastAction( t('signUp:invalidCode'), 'short' ));

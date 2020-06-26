@@ -65,7 +65,10 @@ function MenuAbout(props) {
           title={t('settings:acknowledgements')}
           onSelect={() => navigation.navigate('Acknowledgements')}
         />
-        <SettingsRow title={t('settings:version', {build:DeviceInfo.getReadableVersion()})} />
+        <SettingsRow
+          title={t('settings:version', {build:DeviceInfo.getReadableVersion()})}
+          onSelect={() => {return}}
+        />
         <Flex
           direction="row"
           align="center"
