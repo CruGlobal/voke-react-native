@@ -45,7 +45,11 @@ function GroupModal(props) {
    /*  if ((((me || {}).avatar || {}).medium || '').includes('/avatar.jpg')) {
       navigation.navigate('AccountPhoto');
     } else { */
-      navigation.reset({ index: 0, routes: [{ name: 'Adventures' }] });
+    // Go to the adventure steps screen.
+    navigation.navigate('AdventureActive', {
+      adventureId: adventureId,
+    })
+      // navigation.reset({ index: 0, routes: [{ name: 'Adventures' }] });
     // }
   }
 
