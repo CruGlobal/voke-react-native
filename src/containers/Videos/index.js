@@ -254,7 +254,7 @@ function VideoList() {
             ) : null}
           </>
         )}
-        removeClippedSubviews
+        // removeClippedSubviews // vc-1022
       />
     </View>
   );
