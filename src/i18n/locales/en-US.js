@@ -7,9 +7,9 @@ export default {
     botMessageContent:
       `We’re engaging in video series exploring questions about faith and Jesus, together.`,
     haveCode:
-      'I have an adventure Code',
+      'I have an Adventure Code',
     haveCodeInfo:
-      'You get to do video adventures with others in Voke. Choose this if you received an Adventure invite code to easily join your friend or Group.',
+      'You get to do video Adventures with others in Voke. Choose this if you received an Adventure invite code to easily join your friend or Group.',
     toExplore:
       `I'd like to Explore`,
   },
@@ -17,7 +17,7 @@ export default {
     botMessageTitle:
       'Have a code from a friend?',
     botMessageContent:
-      `Easily join your friend with an adventure invite Code.`,
+      `Easily join your friend with an Adventure invite Code.`,
     /* haveCode:
       'I have an adventure Code',
     haveCodeInfo:
@@ -207,7 +207,7 @@ export default {
     videos: 'Videos',
   },
   error: {
-    adventureLocked: `This adventure is locked until you complete the current adventure.`,
+    adventureLocked: `This Adventure is locked until you complete the current Adventure.`,
     contactsDescription: 'There was an error getting your contacts.',
     contactsTitle: 'Could not get contacts',
     error: 'Error',
@@ -296,8 +296,8 @@ export default {
     off: 'Notifications turned off.',
   },
   overlays: {
-    adventurePush: `Voke sends notifications when your friends join and interact with the adventures you share, but first we need your permission.`,
-    playUkulele: `{{name}}, I play my Ukulele so you don’t miss out when your friends interact or join your adventures!\n\nBut first, I need your permission to send you notifications.`,
+    adventurePush: `Voke sends notifications when your friends join and interact with the Adventures you share, but first we need your permission.`,
+    playUkulele: `{{name}}, I play my Ukulele so you don’t miss out when your friends interact or join your Adventures!\n\nBut first, I need your permission to send you notifications.`,
     signUpChannel: `Sign up to subscribe and {{channel}} will let you know when new videos are published.`,
     saveYourProgress: `You are doing great! Create an account to save your progress and connect with more friends.`,
   },
@@ -318,6 +318,7 @@ export default {
     verified: 'Verified Account',
     verifyMobile: 'Verify Mobile Number',
     toEdit: 'To edit, select the item you would like to edit.',
+    email:'Email'
   },
   reportModal: {
     title: 'Please describe why you are reporting this person',
@@ -346,7 +347,7 @@ export default {
   signUpWelcome: {
     bringOthers: 'Bring others.',
     grow: 'Grow in new ways.',
-    joinAdventure: 'Join the adventure.',
+    joinAdventure: 'Join the Adventure.',
     start: `Start Exploring`,
     tagline1: `Share\nVideos\nWorth\nSharing`,
     tagline2: `Inspire\nDeeper\nConversations`,
@@ -376,7 +377,7 @@ export default {
   },
   tryItNow: {
     addPhotoTitle: 'Add a photo!',
-    addPhoto: 'Photos help your friends recognize you when you do adventures.',
+    addPhoto: 'Photos help your friends recognize you when you do Adventures.',
     enterName: 'Please enter a name to continue',
     firstName: `First Name (Required)`,
     firstNamePlaceholder: `First`,
@@ -422,19 +423,19 @@ export default {
     dontHaveOne: "I Don't Have One",
     adventureCodeWhatsThis: "What's this?",
     adventureCodeWhatsThisExplanation:
-      'You get to do video adventures with others in Voke. This is the place for incoming guests who received an Adventure invite code to easily join their friend.',
+      'You get to do video Adventures with others in Voke. This is the place for incoming guests who received an Adventure invite code to easily join their friend.',
   },
   adventuresTab: {
     areYouSureDelete: `Are you sure you want to delete your invite to "{{name}}"?`,
     deleteCannotBeUndone: `This cannot be undone. You can always invite them again by using "Invite a Friend".`,
     dontHaveOne: "I Don't Have One",
     haveCode: 'I Have an Adventure Code',
-    welcomeToAdventures: `Welcome {{name}}! This is where you will find all of your adventures with your friends.`,
+    welcomeToAdventures: `Welcome {{name}}! This is where you will find all of your Adventures with your friends.`,
   },
   share: {
     codeReady: `{{name}}’s invite code is ready! Hit Share and choose how you’d like to send this invite code with {{name}}.`,
     groupCodeReady: `{{name}}’s invite code is ready! Hit Share and choose how you’d like to send this invite code to each of your group members.`,
-    codeReadyResend: `The same adventure code is alive again. Send it if {{name}} needs it.`,
+    codeReadyResend: `The same Adventure code is alive again. Send it if {{name}} needs it.`,
     downloadMessage: `Hi {{friend}}! Download Voke and join my Adventure. Use code: {{code}} {{appUrl}}`,
     firstName: `First Name (Required)`,
     firstNamePlaceholder: `First`,
