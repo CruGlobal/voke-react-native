@@ -45,6 +45,8 @@
 	<string>443564482511817</string>
 	<key>FacebookDisplayName</key>
 	<string>Voke</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>

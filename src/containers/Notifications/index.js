@@ -121,7 +121,7 @@ function Notifications(props) {
               style={{
                 width:'100%'
               }}
-              removeClippedSubviews={true}
+              // removeClippedSubviews={true} // vc-1022
               onRefresh={() => loadMore(true)}
               refreshing={isLoading}
               onEndReached={() => loadMore() }

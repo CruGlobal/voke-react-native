@@ -186,7 +186,7 @@ function AdventureActive({ navigation, route }: AdventureActiveProps): React.Rea
               />
             )}
             style={[styles.ListOfSteps]}
-            // removeClippedSubviews={true}
+            // removeClippedSubviews={true} // vc-1022
           />
         )}
         <Flex value={1} style={{ paddingBottom: insets.bottom }}></Flex>
