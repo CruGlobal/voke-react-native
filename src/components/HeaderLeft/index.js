@@ -20,7 +20,17 @@ function HeaderLeft({ hasBack = false, resetTo = null }) {
           routes: [{ name: resetTo }],
         });
       } else {
-        navigation.goBack()
+        // navigation.goBack()
+        // Get the index of the route to see if we can go back.
+        let index = navigation.dangerouslyGetState().index;
+        if (index > 0) {
+          navigation.goBack()
+        } else {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'LoggedInApp' }],
+          })
+        }
       }
     } else {
       navigation.navigate('Menu')

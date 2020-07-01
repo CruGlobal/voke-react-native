@@ -23,7 +23,22 @@ function BackButton({ isClose = false, size, onPress }) {
           position: 'absolute',
         }]}
         size={size || 21}
-        onPress={() => (onPress ? onPress() : navigation.goBack())}
+        onPress={() => {
+          if(onPress) {
+            onPress();
+          } else {
+            // Get the index of the route to see if we can go back.
+            let index = navigation.dangerouslyGetState().index;
+            if (index > 0) {
+              navigation.goBack()
+            } else {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'LoggedInApp' }],
+              })
+            }
+          }
+        }}
       />
     </Flex>
   );
