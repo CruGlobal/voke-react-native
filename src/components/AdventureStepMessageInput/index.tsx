@@ -9,6 +9,7 @@ import Text from '../Text';
 import { useDispatch } from 'react-redux';
 import { createAdventureStepMessage } from '../../actions/requests';
 import Select from '../Select';
+import { getCurrentUserId } from '../../utils/get';
 
 const AdventureStepMessageInput = ({
   kind,
@@ -28,6 +29,7 @@ const AdventureStepMessageInput = ({
   const isShareQuestion = kind === 'share';
   const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'multiple';
   const isComplete = step.status === 'completed';
+  const userId = getCurrentUserId();
 
   // In case component rendered before default/current value fetched from the server.
   useEffect(() => {
@@ -46,6 +48,7 @@ const AdventureStepMessageInput = ({
         value: newValue,
         internalMessage: internalMessage ? internalMessage : null,
         kind,
+        userId
       })
     );
   };

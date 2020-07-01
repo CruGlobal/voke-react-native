@@ -22,7 +22,7 @@ import {
 import { isArray } from '../utils';
 import { openSocketAction, closeSocketAction } from './socket';
 import { permissionsAndNotifications, setAppIconBadgeNumber } from './notifications';
-import { getAdventureStepMessages, getNotifications } from './requests';
+import { getAdventureStepMessages, getNotifications, getAdventureSteps } from './requests';
 
 export function loginAction(authToken) {
   // const authToken = authData.access_token;
@@ -62,13 +62,14 @@ export function wakeupAction() {
     // AdventureActive
 
     if (currentScreen === 'AdventureStepScreen') {
-      const { conversationId, adventureStepId } = getState().info?.currentScreen?.data;
+      const { conversationId, adventureStepId, adventureId } = getState().info?.currentScreen?.data;
       dispatch(
         getAdventureStepMessages(
           conversationId,
           adventureStepId
-        ),
+        )
       );
+      dispatch(getAdventureSteps(adventureId));
     }
 
     // Get notifications every time sockets connections reestablished.

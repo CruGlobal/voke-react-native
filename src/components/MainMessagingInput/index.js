@@ -7,12 +7,15 @@ import Button from '../Button';
 import VokeIcon from '../VokeIcon';
 import { createAdventureStepMessage } from '../../actions/requests';
 import { useDispatch } from 'react-redux';
+import { getCurrentUserId } from '../../utils/get';
 import useInterval from '../../utils/useInterval';
+
 
 function AdventureStepMessageInput({ adventure, step, ...rest }) {
   const [text, setText] = useState('');
   const [inputHeight, setInputHeight] = useState(0);
   const dispatch = useDispatch();
+  const userId = getCurrentUserId();
 
   const handleSendMessage = () => {
     // Keyboard.dismiss();
@@ -23,16 +26,16 @@ function AdventureStepMessageInput({ adventure, step, ...rest }) {
 
     // Give autocorrection a few ms to replace the text.
     // setTimeout(() => {
-      console.log( "🐸 text:", text );
-      dispatch(
-        createAdventureStepMessage({
-          adventure,
-          step,
-          value: text,
-          kind: 'standard',
-        })
-      );
-      setText('');
+    dispatch(
+      createAdventureStepMessage({
+        adventure,
+        step,
+        value: text,
+        kind: 'standard',
+        userId
+      })
+    );
+    setText('');
     // }, 4000)
   }
 

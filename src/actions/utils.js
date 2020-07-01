@@ -261,7 +261,7 @@ function imageUpload(url, headers, data) {
         result: json,
     }); */
 
-   
+
   })
   .catch(e => {
     console.log('fetch error', e);

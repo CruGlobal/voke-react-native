@@ -313,6 +313,7 @@ export function createAdventureStepMessage(params: {
   adventure: any;
   step: any;
   kind: string;
+  userId: string;
   internalMessage?: any;
 }) {
   return async (dispatch: Dispatch, getState: any) => {
@@ -346,6 +347,104 @@ export function createAdventureStepMessage(params: {
       data.message.message_reference_id = internalMessage?.id;
     }
 
+    // CHANGE SOME DATA LOCALLY.
+    // Local changes to the data store (not requiring sending message to the server)
+    // if (params.kind === 'question' || 1===1) {
+      // If this is the answer to the main question
+      // update the adventure step status as completed
+      // and unlock the next step (status:active).
+      let shouldUpdateNext = false;
+      let currentStepFieldsToUpdate = {};
+      let nextStepFieldsToUpdate = {};
+      const userId = params.userId;
+      const adventureSteps = getState().data.adventureSteps[
+        params.adventure.id
+      ];
+      const stepsLength = adventureSteps?.allIds.length;
+      const currentIndex = adventureSteps?.allIds.findIndex(
+        (s: any) => s === params.step.id,
+      );
+      const nextStepId = adventureSteps?.allIds[currentIndex + 1];
+      // If not the last step in the adventure.
+      if (stepsLength - 1 !== currentIndex) {
+        shouldUpdateNext = true;
+      }
+      // If solo adventure.
+      if (
+        params.adventure.kind !== 'multiple' &&
+        params.adventure.kind !== 'duo'
+      ) {
+        currentStepFieldsToUpdate = { status: 'completed' };
+        if (shouldUpdateNext) {
+          nextStepFieldsToUpdate = { status: 'active' };
+        }
+      }
+
+      // If duo adventure.
+      if (
+        params.adventure.kind === 'duo'
+      ) {
+        const otherUser =
+          params.adventure.conversation.messengers.find(
+            i => i.id !== userId && i.first_name !== 'VokeBot'
+          ) || {};
+        let otherUserReplied = false;
+        if ( otherUser?.id ) {
+          const currentStepMessages = getState().data.adventureStepMessages[
+            params.step.metadata.messenger_journey_step_id
+          ] || {};
+          for (let [key, message] of Object.entries(currentStepMessages)) {
+            if ( message.messenger_id === otherUser.id ) {
+              otherUserReplied = true;
+              break;
+            }
+          }
+        }
+        currentStepFieldsToUpdate = {
+          'completed_by_messenger?': true,
+        };
+        if ( otherUserReplied ) {
+          // In Duo Adventures we are waiting for a friend to answer.
+          currentStepFieldsToUpdate['status'] = 'completed';
+          if (shouldUpdateNext) {
+            nextStepFieldsToUpdate = { status: 'active' };
+          }
+        }
+      }
+      // If group adventure.
+      if ( params.adventure.kind === 'multiple' ) {
+        currentStepFieldsToUpdate = {
+          'completed_by_messenger?': true,
+          status: 'completed', // In groups we don't wait others.
+        };
+        if (shouldUpdateNext) {
+          nextStepFieldsToUpdate = { status: 'active' };
+        }
+      }
+
+      dispatch({
+        type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEP,
+        update: {
+          adventureStepId: params.step.id,
+          adventureId: params.adventure.id,
+          fieldsToUpdate: currentStepFieldsToUpdate,
+        },
+      });
+
+      // If posting message to the question should trigger other changes
+      // in the adventure like: reveal other users replies and marking
+      // the next step as active.
+      if (shouldUpdateNext && nextStepFieldsToUpdate) {
+        dispatch({
+          type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEP,
+          update: {
+            adventureStepId: nextStepId,
+            adventureId: params.adventure.id,
+            fieldsToUpdate: nextStepFieldsToUpdate,
+          },
+        });
+      }
+    // }
     // SEND MESSAGE TO THE SERVER.
     const result = await dispatch(
       request({
@@ -362,6 +461,7 @@ export function createAdventureStepMessage(params: {
     dispatch({
       type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
       message: result,
+      adventureId: params.adventure.id,
       description: 'createAdventureStepMessage(): Create Adventure Step Message'
     });
 
@@ -377,81 +477,6 @@ export function createAdventureStepMessage(params: {
     // and unlock the next one.
     dispatch(getAdventureSteps(params.adventure.id));
 
-    if (params.kind === 'question') {
-      // If this is the answer to the main question
-      // update the adventure step status as completed
-      // and unlock the next step (status:active).
-      const adventureSteps = getState().data.adventureSteps[
-        params.adventure.id
-      ];
-      const currentIndex = adventureSteps.findIndex(
-        (s: any) => s.id === params.step.id,
-      );
-      const stepsLength = adventureSteps.length;
-      let shouldUpdateNext = false;
-      // If not the last step in the adventure.
-      if (stepsLength - 1 !== currentIndex) {
-        shouldUpdateNext = true;
-      }
-      let currentStepFieldsToUpdate = {};
-      let nextStepFieldsToUpdate = {};
-      // If solo adventure.
-      if (
-        params.adventure.kind !== 'multiple' &&
-        params.adventure.kind !== 'duo'
-      ) {
-        currentStepFieldsToUpdate = { status: 'completed' };
-        if (shouldUpdateNext) {
-          nextStepFieldsToUpdate = { status: 'active' };
-        }
-      }
-      // If duo adventure
-      /* if (params.adventure.kind === 'duo') {
-        currentStepFieldsToUpdate = { 'completed_by_messenger?': true };
-        if (false) {
-          // TODO
-          currentStepFieldsToUpdate = {
-            'completed_by_messenger?': true,
-            status: 'completed',
-          };
-          nextStepFieldsToUpdate = { status: 'active' };
-        }
-      } */
-      // If duo or group adventure.
-      if (
-        params.adventure.kind === 'multiple' ||
-        params.adventure.kind === 'duo'
-      ) {
-        currentStepFieldsToUpdate = {
-          'completed_by_messenger?': true,
-          // status: 'completed', // TODO: change this only if all other answered?
-        };
-        if (shouldUpdateNext) {
-          nextStepFieldsToUpdate = { status: 'active' };
-        }
-      }
-      dispatch({
-        type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEP,
-        update: {
-          adventureStepId: params.step.id,
-          adventureId: params.adventure.id,
-          fieldsToUpdate: currentStepFieldsToUpdate,
-        },
-      });
-      // If posting message to the question should trigger other changes
-      // in the adventure like: reveal other users replies and marking
-      // the next step as active.
-      if (shouldUpdateNext && nextStepFieldsToUpdate) {
-        dispatch({
-          type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEP,
-          update: {
-            adventureStepId: adventureSteps[currentIndex + 1].id,
-            adventureId: params.adventure.id,
-            fieldsToUpdate: nextStepFieldsToUpdate,
-          },
-        });
-      }
-    }
     return result;
   };
 }
@@ -850,6 +875,7 @@ export function markMessageAsRead(params: markMessageAsRead) {
     // Mark message as read in the store for immediate feedback.
     dispatch({ type: REDUX_ACTIONS.MARK_READ, adventureId, stepId });
     dispatch(updateAdventureUnreads(adventureId));
+    dispatch(updateTotalUnreadCounter()); // Update App Counter.
 
     const { conversationId, messageId } = params;
     const deviceId = getState().auth.device.id;

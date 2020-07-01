@@ -136,10 +136,13 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
                     dispatch({
                       type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
                       message,
+                      adventureId,
                       description: 'From sockets > onmessage()'
                     });
 
+                  if (message.kind === 'text' && message?.content) {
                     dispatch(vibrateAction());
+                  }
                   // }
                   /* 
                   else {
@@ -160,17 +163,6 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
                   if ( adventureId !== undefined ) {
                     setTimeout(() => dispatch(getAdventureSteps(adventureId)) , 500);
                   }
-                  // TODO: Review the next action?
-                  /* dispatch({
-                    type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEP,
-                    update: {
-                      adventureStepId: message.messenger_journey_step_id,
-                      adventureId: adventureId,
-                      fieldsToUpdate: {
-                        unread_messages: currentStep.unread_messages + 1,
-                      },
-                    },
-                  }); */
                 } else {
                   console.log( "🛑🛑🛑🛑🛑🛑 message:", message );
                 }
