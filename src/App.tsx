@@ -455,7 +455,20 @@ const App = () => {
           options={({ navigation }) => ({
             headerShown: true,
             headerRight: () => (
-              <Touchable onPress={() => navigation.goBack()}>
+              <Touchable
+                onPress={
+                  () => {
+                    // Get the index of the route to see if we can go back.
+                    let index = navigation.dangerouslyGetState().index;
+                    if (index > 0) {
+                      navigation.goBack()
+                    } else {
+                      navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'LoggedInApp' }],
+                      })
+                    }
+                  }}>
                 <Text style={[st.white, st.mr4, st.fs16]}>{t('done')}</Text>
               </Touchable>
             ),
