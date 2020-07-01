@@ -141,7 +141,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
               {/* Extra spacing for fingers to touch the right line. */}
               <Touchable onPress={ () => navigation.navigate('AccountEmail')}>
                 <Flex direction="row" align="start" justify="space-around">
-                  <Text style={{color:"#fff", fontSize:18, width:'30%', textAlign: 'left', paddingRight: 20}} numberOfLines={2}>{t('profile:email')}</Text>
+                  <Text style={{color:"#fff", fontSize:18, width:'30%', textAlign: 'left', paddingRight: 20}} numberOfLines={2}>{t('placeholder:email')}</Text>
                   <Text style={{color:"#fff", fontSize:18, width:'70%', paddingRight:60 }} numberOfLines={2}>
                     {me.email}
                   </Text>
