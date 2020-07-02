@@ -46,7 +46,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
   const [hasClickedPlay, setHasClickedPlay] = useState(false);
   const { stepId, adventureId } = route.params;
   const adventure = useSelector(({ data }: RootState) => data.myAdventures.byId[adventureId]) || {};
-  const conversationId = adventure.conversation.id;
+  const conversationId = adventure.conversation?.id;
   const currentStep = useSelector(({ data }: RootState) =>
     data.adventureSteps[adventureId].byId[stepId]
   );
