@@ -6,7 +6,7 @@ import Flex from '../Flex';
 import Button from '../Button';
 import VokeIcon from '../VokeIcon';
 import Text from '../Text';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createAdventureStepMessage } from '../../actions/requests';
 import Select from '../Select';
 import { getCurrentUserId } from '../../utils/get';
@@ -20,21 +20,39 @@ const AdventureStepMessageInput = ({
   onFocus,
   isLoading,
 }): React.ReactElement => {
-  const [value, setValue] = useState(defaultValue||null);
-  const [messageSent, setMesssageSent] = useState(value !== null);
   const dispatch = useDispatch();
+  const userId = getCurrentUserId();
+  const [value, setValue] = useState(defaultValue||null);
+  const [messageSent, setMesssageSent] = useState(false);
   const isMultiQuestion = kind === 'multi';
   const isBinaryQuestion = kind === 'binary';
-  const isTextQuestion = kind === 'question';
   const isShareQuestion = kind === 'share';
-  const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'multiple';
   const isComplete = step.status === 'completed';
-  const userId = getCurrentUserId();
+  const isLocked = step['completed_by_messenger?'];
+
+  const currentMessages = useSelector(
+    ({ data }: RootState) => data.adventureStepMessages[step?.id] || []
+  );
 
   // In case component rendered before default/current value fetched from the server.
   useEffect(() => {
     setValue(defaultValue)
   }, [defaultValue])
+
+  useEffect(() => {
+    if(!currentMessages.length) {
+      setMesssageSent(false);
+    } else if( isComplete || value ) {
+      setMesssageSent(true);
+    } else {
+      for ( let [key, msg] of Object.entries(currentMessages) ) {
+        if( msg.messenger_id === userId && !msg?.metadata?.question && msg?.kind!=='answer' ) {
+          setMesssageSent(true);
+          break;
+        }
+      }
+    }
+  }, [currentMessages.length])
 
   // When SEND message button clicked.
   const handleSendMessage = (newValue: any): void => {
@@ -88,7 +106,7 @@ const AdventureStepMessageInput = ({
           handleSendMessage(t.value);
         }}
         containerColor={st.colors.orange}
-        // isDisabled={ value ? true : false   }
+        isDisabled={ isLocked  }
       />
       </View>
     );
@@ -209,8 +227,6 @@ const AdventureStepMessageInput = ({
       </Flex>
     );
   }
-  // Text Question:
-  // if (isTextQuestion)
 
   return (
     <Flex
@@ -229,9 +245,6 @@ const AdventureStepMessageInput = ({
         ) : (
           <>
             <TextInput
-              // returnKeyType="send"
-              // blurOnSubmit={true}
-              // onSubmitEditing={handleSendMessage}
               autoCapitalize="sentences"
               onFocus={event => {
                 onFocus(event);
@@ -245,23 +258,13 @@ const AdventureStepMessageInput = ({
               value={value}
               onChangeText={t => setValue(t)}
             />
-            {/* {!value && isSolo ? (
-              <Button onPress={() => {}} style={[st.pv4]}>
-                <Text style={[st.orange, st.bold, st.fs4, st.ls2]}>
-                  {'Skip'.toUpperCase()}
-                </Text>
-              </Button>
-            ) : ( */}
-              <Button
-                // onPress={handleSendMessage}
-                onPress={() => {
-                      // setValue(a.value);
-                      handleSendMessage(value);
-                    }}
-                style={[st.p4]}>
-                <VokeIcon name="send" style={[st.offBlue]} size={24} />
-              </Button>
-            {/* )} */}
+            <Button
+              onPress={() => {
+                    handleSendMessage(value);
+                  }}
+              style={[st.p4]}>
+              <VokeIcon name="send" style={[st.offBlue]} size={24} />
+            </Button>
           </>
         )
       }
