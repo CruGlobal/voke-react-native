@@ -30,9 +30,22 @@ function Notifications(props) {
 
   const [videoToShow, setVideoToShow] = useState(null);
 
+
   useEffect(() => {
     setUpdatedPagination(notificationPagination);
   }, [notificationPagination]);
+
+  useEffect(() => {
+    const latestNotification = notifications[0];
+    setCurrentNotifications(notifications);
+    if ( notificationLatestId !== latestNotification?.id || notificationUnreadBadge > 0 ) {
+      dispatch(
+        markReadNotification({
+          conversationId: latestNotification?.conversation_id,
+          notificationId: latestNotification?.id,
+      }));
+    }
+  }, [notifications.length]);
 
   useMount(() => {
     dispatch(getNotifications());
@@ -59,14 +72,6 @@ function Notifications(props) {
       setIsLoading(false);
     }
   }
-
-  useEffect(() => {
-    const latestNotification = notifications[0];
-    setCurrentNotifications(notifications);
-    if ( notificationLatestId !== latestNotification?.id || notificationUnreadBadge > 0 ) {
-      dispatch(markReadNotification(latestNotification?.id));
-    }
-  }, [notifications]);
 
   function handleSelectVideo(message) {
     setVideoToShow(message);
