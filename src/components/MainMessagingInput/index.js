@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, Keyboard } from 'react-native';
+import { TextInput } from 'react-native';
 import st from '../../st';
 import theme from '../../theme';
 import Flex from '../Flex';
@@ -7,12 +7,14 @@ import Button from '../Button';
 import VokeIcon from '../VokeIcon';
 import { createAdventureStepMessage } from '../../actions/requests';
 import { useDispatch } from 'react-redux';
-import useInterval from '../../utils/useInterval';
+import { getCurrentUserId } from '../../utils/get';
+
 
 function AdventureStepMessageInput({ adventure, step, ...rest }) {
   const [text, setText] = useState('');
   const [inputHeight, setInputHeight] = useState(0);
   const dispatch = useDispatch();
+  const userId = getCurrentUserId();
 
   const handleSendMessage = () => {
     // Keyboard.dismiss();
@@ -23,16 +25,16 @@ function AdventureStepMessageInput({ adventure, step, ...rest }) {
 
     // Give autocorrection a few ms to replace the text.
     // setTimeout(() => {
-      console.log( "🐸 text:", text );
-      dispatch(
-        createAdventureStepMessage({
-          adventure,
-          step,
-          value: text,
-          kind: 'standard',
-        })
-      );
-      setText('');
+    dispatch(
+      createAdventureStepMessage({
+        adventure,
+        step,
+        value: text,
+        kind: 'standard',
+        userId
+      })
+    );
+    setText('');
     // }, 4000)
   }
 
@@ -48,7 +50,7 @@ function AdventureStepMessageInput({ adventure, step, ...rest }) {
         // returnKeyType="send"
         // blurOnSubmit={true}
         // onSubmitEditing={handleSendMessage}
-        placeholder={'Chat about your answers'}
+        placeholder={'Chat about your answers'} // TODO: Translate it.
         onChangeText={t => setText(t)}
         value={text}
         placeholderTextColor={theme.colors.secondary}

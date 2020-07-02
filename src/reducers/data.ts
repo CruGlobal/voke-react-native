@@ -294,27 +294,35 @@ export default function(state = initialState, action: any) {
                 unread_messages: advUnreadCount
               }
             }
-
           }
         },
       };
     }
 
     case REDUX_ACTIONS.UPDATE_ADVENTURE_STEP: {
-      const adventureStepsUpdated: any = lodash.cloneDeep(state.adventureSteps);
-      const newStepsArr = adventureStepsUpdated[action.update.adventureId];
-      let stepToUpdate =
-        newStepsArr.find(
-          (step: any) => step.id === action.update.adventureStepId,
-        ) || {};
-      stepToUpdate = { ...stepToUpdate, ...action.update.fieldsToUpdate };
-      newStepsArr[
-        newStepsArr.findIndex(
-          (i: any) => i.id === action.update.adventureStepId,
-        )
-      ] = stepToUpdate;
-      adventureStepsUpdated[action.update.adventureId] = newStepsArr;
-      return { ...state, adventureSteps: adventureStepsUpdated };
+      const adventureId = action.update.adventureId;
+      const stepId = action.update.adventureStepId;
+
+      return {
+        ...state,
+
+        // Update Adventure Steps.
+        adventureSteps: {
+          ...state.adventureSteps,
+
+          [adventureId]: {
+            ...state.adventureSteps[adventureId],
+            byId: {
+              ...state.adventureSteps[adventureId].byId,
+              [stepId]: {
+                ...state.adventureSteps[adventureId].byId[stepId],
+                ...action.update.fieldsToUpdate,
+              }
+            },
+            // allIds: normalizedSteps.result,
+          }
+        },
+      };
     }
 
     case REDUX_ACTIONS.UPDATE_ADVENTURE_STEP_MESSAGES: {
@@ -333,15 +341,52 @@ export default function(state = initialState, action: any) {
 
     case REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE: {
       const adventureStepId = action.message?.grouping_journey_step_id;
+      const adventureId = action.adventureId;
       return {
         ...state,
+
+        // Update the message.
         adventureStepMessages: {
           ...state.adventureStepMessages,
           [adventureStepId]: [
             ...state.adventureStepMessages[adventureStepId] || [], // Existing messages.
             action.message // New message.
           ]
-        }
+        },
+
+        // Update Adventure Steps  with new 'unread' value for current step.
+        adventureSteps: {
+          ...state.adventureSteps,
+          [adventureId]: {
+            ...state.adventureSteps[adventureId],
+            byId: {
+              ...state.adventureSteps[adventureId].byId||{},
+              [adventureStepId]: {
+                ...state.adventureSteps[adventureId].byId[adventureStepId],
+                unread_messages: state.adventureSteps[adventureId].byId[adventureStepId].unread_messages + 1,
+              }
+            },
+            // allIds: normalizedSteps.result,
+          }
+        },
+
+        // Update MyAdventures with new 'unread' value for current adventure.
+        myAdventures: {
+          ...state.myAdventures,
+          byId:{
+            ...state.myAdventures.byId,
+            [adventureId]: {
+              ...state.myAdventures.byId[adventureId],
+              conversation:{
+                ...state.myAdventures.byId[adventureId].conversation,
+                unread_messages: state.myAdventures.byId[adventureId].conversation.unread_messages + 1,
+              }
+            }
+          }
+        },
+
+        // Update global 'unread' value for the whole app.
+        unReadBadgeCount: state.unReadBadgeCount + 1
       };
     }
     case REDUX_ACTIONS.UPDATE_VIDEO_PAGINATION: {

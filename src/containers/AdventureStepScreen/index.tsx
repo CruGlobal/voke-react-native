@@ -46,7 +46,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
   const [hasClickedPlay, setHasClickedPlay] = useState(false);
   const { stepId, adventureId } = route.params;
   const adventure = useSelector(({ data }: RootState) => data.myAdventures.byId[adventureId]) || {};
-  const conversationId = adventure.conversation.id;
+  const conversationId = adventure.conversation?.id;
   const currentStep = useSelector(({ data }: RootState) =>
     data.adventureSteps[adventureId].byId[stepId]
   );
@@ -107,7 +107,6 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
           messageId: latestMessage?.id
         })
       );
-      dispatch(updateTotalUnreadCounter());
     } else {
       console.log('🛑no message ID provided')
     }
@@ -133,6 +132,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
       dispatch({
         type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
         message: newBotMessage,
+        adventureId: adventure.id,
         description: 'From botMessage()'
       });
     }
@@ -140,10 +140,13 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
 
 
   const getMessages = async () =>{
+
     await dispatch(
       getAdventureStepMessages(adventure.conversation.id, currentStep.id)
     );
     setIsLoading (false);
+    // Also update the current step (solves a bug with stuck blurred messages).
+    dispatch(getAdventureSteps(adventure.id));
   }
   // Load messages for current conversation on initial screen reader.
   useEffect(() => {
@@ -153,14 +156,17 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
 
 
   useEffect(() => {
+    const latestMessage = currentMessages[currentMessages.length - 1];
     // If new message posted by the current user
     if(currentMessages[currentMessages.length - 1]?.messenger_id === currentUser.id){
       // Scroll to the end when we added new message.
       scrollRef?.current?.scrollToEnd();
     }
-    // Once new message received mark it as read, but only if messages unblured/unlocked.
+
+    // Once a new message from another participant received mark it as read,
+    // but only if messages unblured/unlocked.
     if(currentMessages.length && (
-      currentStep['completed_by_messenger?'] || currentMessages[currentMessages.length - 1]?.messenger_id === currentUser.id )){
+      currentStep['completed_by_messenger?'] || latestMessage?.messenger_id !== currentUser.id )){
       // If the last message from someone else, mark it as read.
       markAsRead();
     }
@@ -185,6 +191,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
         data: {
           conversationId: conversationId,
           adventureStepId: currentStep.id,
+          adventureId: adventure.id,
         },
       }));
 

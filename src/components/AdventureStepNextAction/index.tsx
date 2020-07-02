@@ -159,7 +159,17 @@ const AdventureStepNextAction = ({
   return (
     <Flex style={styles.NextActionContainer}>
       <Button
-        onPress={(): void => navigation.goBack()}
+        onPress={(): void => {
+          // Get the index of the route to see if we can go back.
+          let index = navigation.dangerouslyGetState().index;
+          if (index > 0) {
+            navigation.goBack()
+          } else {
+            navigation.navigate('AdventureActive', {
+              adventureId: adventure.id,
+            });
+          }
+        }}
         style={[
           styles.NextActionButton,
           buttonActive ? styles.ButtonActive : null,

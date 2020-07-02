@@ -22,7 +22,8 @@ import Button from '../../components/Button';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import styles from './styles';
-import CONSTANTS from '../../constants';
+import st from '../../st';
+import theme from '../../theme';
 
 const AccountPass: React.FC = (): React.ReactElement => {
   const insets = useSafeArea();
@@ -97,7 +98,7 @@ const AccountPass: React.FC = (): React.ReactElement => {
 
   return (
     <DismissKeyboardView
-      style={{ backgroundColor: styles.colors.secondary, height: '100%' }}
+      style={{ backgroundColor: styles.colors.primary, height: '100%' }}
     >
       {/* <StatusBar /> <- TODO: Not sure why we need it here? */}
 
@@ -107,18 +108,18 @@ const AccountPass: React.FC = (): React.ReactElement => {
         style={styles.MainContainer}
       >
         <Flex
-          value={4}
+          value={8}
           direction="column"
           align="center"
           justify="center"
-          style={[styles.PrimaryContent, { paddingTop: insets.top + 30 }]}
+          style={[styles.PrimaryContent]}
         >
           {/* INPUT FIELD: PASSWORD */}
           <TextField
             ref={passwordRef}
             // blurOnSubmit={true}
             label={t('placeholder:currentPassword')}
-            placeholder=""
+            placeholder={t('placeholder:currentPassword')}
             value={password}
             onChangeText={(text: string): void => setPassword(text)}
             secureTextEntry
@@ -132,7 +133,7 @@ const AccountPass: React.FC = (): React.ReactElement => {
             ref={newPasswordRef}
             // blurOnSubmit={true}
             label={t('placeholder:newPassword')}
-            placeholder=""
+            placeholder={t('placeholder:newPassword')}
             value={newPassword}
             onChangeText={(text: string): void => setNewPassword(text)}
             secureTextEntry
@@ -146,7 +147,7 @@ const AccountPass: React.FC = (): React.ReactElement => {
             ref={confirmNewPasswordRef}
             // blurOnSubmit={true}
             label={t('placeholder:confirmNewPassword')}
-            placeholder=""
+            placeholder={t('placeholder:confirmNewPassword')}
             value={confirmNewPassword}
             onChangeText={(text: string): void => setConfirmNewPassword(text)}
             secureTextEntry
@@ -156,25 +157,22 @@ const AccountPass: React.FC = (): React.ReactElement => {
             onSubmitEditing={(): Promise<void> => save()}
           />
         </Flex>
-        {/* TRIANGLE DIVIDER */}
-        <Flex value={1} justify="end" style={styles.Divider}>
-          <Triangle
-            width={useWindowDimensions().width}
-            height={40}
-            color={styles.colors.secondary}
-          />
-        </Flex>
+      
         {/* SECTION: CALL TO ACTION BUTTON */}
         <Flex
-          value={2}
+          value={1}
           direction="column"
-          justify="start"
+          justify="center"
           style={styles.SectionAction}
         >
           {/* BUTTON: SIGN IN */}
           <Button
             isAndroidOpacity
-            style={styles.ButtonStart}
+            touchableStyle={[st.pd4, st.br1, st.w(st.fullWidth - 80),{backgroundColor: theme.colors.white, textAlign:"center",shadowColor: 'rgba(0, 0, 0, 0.5)',
+            shadowOpacity: 0.5,
+            elevation: 4,
+            shadowRadius: 5 ,
+            shadowOffset : { width: 1, height: 8}}]}            
             onPress={(): Promise<void> => save()}
             isLoading={isLoading}
           >

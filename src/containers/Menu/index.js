@@ -40,7 +40,7 @@ function Menu(props) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const email = useSelector(({ auth }: any) => auth?.user?.email);
-  const { t, i18n } = useTranslation('shareFlow');
+  const { t, i18n } = useTranslation('share');
 
   const signOut = () => {
     dispatch(logoutAction()).then(() => {
