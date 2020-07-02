@@ -23,6 +23,8 @@ import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import styles from './styles';
 import CONSTANTS from '../../constants';
+import st from '../../st';
+import theme from '../../theme';
 
 const AccountEmailPass: React.FC = (): React.ReactElement => {
   const insets = useSafeArea();
@@ -116,7 +118,7 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
 
   return (
     <DismissKeyboardView
-      style={{ backgroundColor: styles.colors.secondary, height: '100%' }}
+      style={{ backgroundColor: styles.colors.primary, height: '100%' }}
     >
       {/* <StatusBar /> <- TODO: Not sure why we need it here? */}
 
@@ -126,11 +128,11 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
         style={styles.MainContainer}
       >
         <Flex
-          value={4}
+          value={8}
           direction="column"
           align="center"
           justify="center"
-          style={[styles.PrimaryContent, { paddingTop: insets.top + 30 }]}
+          style={[styles.PrimaryContent]}
         >
           {/* INPUT FIELD: EMAIL */}
           <TextField
@@ -138,7 +140,7 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
             // blurOnSubmit={false}
             label={t('placeholder:newEmail')}
             onSubmitEditing={(): void => emailConfirmRef?.current?.focus()}
-            placeholder=""
+            placeholder={t('placeholder:newEmail')}
             value={email}
             onChangeText={checkEmail}
             autoCapitalize="none"
@@ -153,7 +155,7 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
             ref={emailConfirmRef}
             // blurOnSubmit={true}
             label={t('placeholder:confirmEmail')}
-            placeholder=""
+            placeholder={t('placeholder:confirmEmail')}
             value={confirmEmail}
             onChangeText={(text: string): void => setConfirmEmail(text)}
             onSubmitEditing={(): void => passwordRef?.current?.focus()}
@@ -169,7 +171,7 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
             ref={passwordRef}
             // blurOnSubmit={true}
             label={t('placeholder:password')}
-            placeholder=""
+            placeholder={t('placeholder:password')}
             value={password}
             onChangeText={(text: string): void => setPassword(text)}
             secureTextEntry
@@ -179,25 +181,22 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
             onSubmitEditing={(): Promise<void> => save()}
           />
         </Flex>
-        {/* TRIANGLE DIVIDER */}
-        <Flex value={1} justify="end" style={styles.Divider}>
-          <Triangle
-            width={useWindowDimensions().width}
-            height={40}
-            color={styles.colors.secondary}
-          />
-        </Flex>
+
         {/* SECTION: CALL TO ACTION BUTTON */}
         <Flex
-          value={2}
+          value={1}
           direction="column"
-          justify="start"
+          justify="center"
           style={styles.SectionAction}
         >
           {/* BUTTON: SIGN IN */}
           <Button
             isAndroidOpacity
-            style={styles.ButtonStart}
+            touchableStyle={[st.pd4, st.br1, st.w(st.fullWidth - 80),{backgroundColor: theme.colors.white, textAlign:"center",shadowColor: 'rgba(0, 0, 0, 0.5)',
+            shadowOpacity: 0.5,
+            elevation: 4,
+            shadowRadius: 5 ,
+            shadowOffset : { width: 1, height: 8}}]}
             onPress={(): Promise<void> => save()}
             isLoading={isLoading}
           >

@@ -9,7 +9,7 @@ const styles: { [key: string]: any } = {
     ui.container.default,
     css`
       flex: 1;
-      background-color: ${theme.colors.secondary};
+      background-color: ${theme.colors.primary};
     `,
   ],
   PrimaryContent: css`
@@ -24,7 +24,7 @@ const styles: { [key: string]: any } = {
   `,
   SectionAction: css`
     width: 100%;
-    background-color: ${theme.colors.secondary};
+    background-color: ${theme.colors.primary};
     padding-left: ${`${theme.spacing.xl}px`};
     padding-right: ${`${theme.spacing.xl}px`};
     padding-bottom: ${`${theme.spacing.l}px`};

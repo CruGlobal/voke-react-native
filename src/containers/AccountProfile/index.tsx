@@ -141,8 +141,8 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
               {/* Extra spacing for fingers to touch the right line. */}
               <Touchable onPress={ () => navigation.navigate('AccountEmail')}>
                 <Flex direction="row" align="start" justify="space-around">
-                  <Text style={{color:"#fff", fontSize:18, width:'30%', textAlign: 'left', paddingRight: 20}} numberOfLines={2}>{t('settings:email')}</Text>
-                  <Text style={{color:"#fff", fontSize:18, width:'70%' }} numberOfLines={2}>
+                  <Text style={{color:"#fff", fontSize:18, width:'30%', textAlign: 'left', paddingRight: 20}} numberOfLines={2}>{t('placeholder:email')}</Text>
+                  <Text style={{color:"#fff", fontSize:18, width:'70%', paddingRight:60 }} numberOfLines={2}>
                     {me.email}
                   </Text>
                 </Flex>
@@ -152,7 +152,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
               <Touchable onPress={ () => navigation.navigate('AccountPass')}>
                 <Flex direction="row" align="start" justify="space-around">
                   <Text style={{color:"#fff", fontSize:18, width:'30%', textAlign: 'left', paddingRight: 20}}>{t('placeholder:password')}</Text>
-                  <Text style={{color:"#fff", fontSize:18,width:'70%'}}>******</Text>
+                  <Text style={{color:"#fff", fontSize:18, width:'70%', paddingRight:60 }}>******</Text>
                 </Flex>
               </Touchable>
               <Flex direction="row" align="flex-start" justify="flex-start" style={{marginTop:30}}>
