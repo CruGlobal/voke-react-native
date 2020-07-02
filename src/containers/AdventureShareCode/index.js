@@ -25,7 +25,7 @@ function AdventureShareCode(props) {
   const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { t } = useTranslation('share', 'shareFlow');
+  const { t } = useTranslation('share');
   const [isLoading, setIsLoading] = useState(false);
   const [isModalVisible, setModalVisible] = useState(true); //Set TO Truue FOR NOW-----PLEASE CHANGE ONCE FUNCTIONALITY IS HOOKED UP
 
