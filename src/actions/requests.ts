@@ -736,19 +736,50 @@ export function updateUnReadNotificationsBadge(updatedMessages: any) {
   };
 }
 
-export function markReadNotification(notificationId: string) {
+type markReadNotification = {
+  conversationId: string,
+  notificationId: string,
+}
+
+export function markReadNotification(params: markReadNotification) {
   return async (dispatch: Dispatch, getState: any) => {
+    const { notificationId, conversationId } = params;
+    const deviceId = getState().auth.device.id;
+
+    // See: https://docs.vokeapp.com/#me-conversations-messages-interactions
+    let data: any = {
+      interaction: {
+        action: "read", // Message read.
+        device_id: deviceId,
+      }
+    };
+
     dispatch({
       type: REDUX_ACTIONS.UPDATE_NOTIFICATION_READ,
       notificationId,
     });
 
     dispatch({
-        type: REDUX_ACTIONS.UPDATE_NOTIFICATION_UNREAD_BADGE,
-        count: 0,
-      });
+      type: REDUX_ACTIONS.UPDATE_NOTIFICATION_UNREAD_BADGE,
+      count: 0,
+    });
+
+    // SEND INTERACTION DATA TO THE SERVER.
+    const result = await dispatch(
+      request({
+        ...ROUTES.CREATE_INTERACTION_READ,
+        pathParams: {
+          conversationId,
+          messageId: notificationId,
+        },
+        data,
+      }),
+    );
+
+    return result;
   };
 }
+
 
 export function sendVideoInvitation(params: any = {}) {
   return async (dispatch: Dispatch, getState: any) => {
