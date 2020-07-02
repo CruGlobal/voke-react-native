@@ -157,7 +157,6 @@ export function acceptAdventureInvitation(adventureCode: string) {
 
 // Iterate through adventures to find total number of unread messages.
 export function updateTotalUnreadCounter() {
-  console.log( "🤖 updateTotalUnreadCounter" );
   return async (dispatch: Dispatch, getState: any) => {
     const myAdventures = getState().data.myAdventures.byId;
     let unreadTotal = 0;
@@ -347,8 +346,6 @@ export function createAdventureStepMessage(params: {
       data.message.message_reference_id = internalMessage?.id;
     }
 
-    console.log( "🐸 params:", params );
-
     // CHANGE SOME DATA LOCALLY.
     if (params.kind === 'question') {
       // If this is the answer to the main question
@@ -465,8 +462,6 @@ export function createAdventureStepMessage(params: {
       adventureId: params.adventure.id,
       description: 'createAdventureStepMessage(): Create Adventure Step Message'
     });
-
-    console.log( "🐸 data.message.kind:", data.message.kind );
 
     // Refresh all messages when answering a quiestion to multi challenge.
     if ( data.message.kind === 'answer' ) {
