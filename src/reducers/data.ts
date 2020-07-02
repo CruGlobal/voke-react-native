@@ -360,7 +360,7 @@ export default function(state = initialState, action: any) {
           [adventureId]: {
             ...state.adventureSteps[adventureId],
             byId: {
-              ...state.adventureSteps[adventureId].byId,
+              ...state.adventureSteps[adventureId].byId||{},
               [adventureStepId]: {
                 ...state.adventureSteps[adventureId].byId[adventureStepId],
                 unread_messages: state.adventureSteps[adventureId].byId[adventureStepId].unread_messages + 1,

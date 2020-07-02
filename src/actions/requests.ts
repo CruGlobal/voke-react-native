@@ -347,9 +347,10 @@ export function createAdventureStepMessage(params: {
       data.message.message_reference_id = internalMessage?.id;
     }
 
+    console.log( "🐸 params:", params );
+
     // CHANGE SOME DATA LOCALLY.
-    // Local changes to the data store (not requiring sending message to the server)
-    // if (params.kind === 'question' || 1===1) {
+    if (params.kind === 'question') {
       // If this is the answer to the main question
       // update the adventure step status as completed
       // and unlock the next step (status:active).
@@ -444,7 +445,7 @@ export function createAdventureStepMessage(params: {
           },
         });
       }
-    // }
+    }
     // SEND MESSAGE TO THE SERVER.
     const result = await dispatch(
       request({
@@ -464,6 +465,8 @@ export function createAdventureStepMessage(params: {
       adventureId: params.adventure.id,
       description: 'createAdventureStepMessage(): Create Adventure Step Message'
     });
+
+    console.log( "🐸 data.message.kind:", data.message.kind );
 
     // Refresh all messages when answering a quiestion to multi challenge.
     if ( data.message.kind === 'answer' ) {

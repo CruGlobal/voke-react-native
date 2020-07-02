@@ -20,8 +20,8 @@ const AdventureStepMessageInput = ({
   onFocus,
   isLoading,
 }): React.ReactElement => {
-  const [value, setValue] = useState(defaultValue||'');
-  const [messageSent, setMesssageSent] = useState(!!defaultValue);
+  const [value, setValue] = useState(defaultValue||null);
+  const [messageSent, setMesssageSent] = useState(value !== null);
   const dispatch = useDispatch();
   const isMultiQuestion = kind === 'multi';
   const isBinaryQuestion = kind === 'binary';
@@ -237,7 +237,7 @@ const AdventureStepMessageInput = ({
                 onFocus(event);
               }}
               multiline={true}
-              placeholder={'Enter your answer'}
+              placeholder={'Enter your answer'} // TODO: Translate!
               placeholderTextColor={st.colors.grey}
               style={[st.f1, st.fs4, st.pt4, st.pb4, st.darkBlue, {marginRight:6}]}
               underlineColorAndroid={st.colors.transparent}
