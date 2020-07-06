@@ -1,4 +1,4 @@
-package com.voke;
+package org.cru.voke;
 
 // https://github.com/crazycodeboy/react-native-splash-screen/issues/418
 import android.os.Bundle;
