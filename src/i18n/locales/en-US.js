@@ -317,8 +317,7 @@ export default {
     user: 'User Account',
     verified: 'Verified Account',
     verifyMobile: 'Verify Mobile Number',
-    toEdit: 'To edit, select the item you would like to edit.',
-    email:'Email'
+    toEdit: 'To edit, select the item you would like to edit.'
   },
   reportModal: {
     title: 'Please describe why you are reporting this person',
@@ -398,7 +397,7 @@ export default {
     code: 'Code: ',
     codeExpired: `{{name}}’s code expired...`,
     expiresIn: 'Expires in {{time}}',
-    waitingForGroup: 'Waiting for group',
+    waitingForGroup: 'Waiting for Group',
     waitingForFriend: 'Waiting for {{name}} to join...',
   },
   journey: {
@@ -434,7 +433,7 @@ export default {
   },
   share: {
     codeReady: `{{name}}’s invite code is ready! Hit Share and choose how you’d like to send this invite code with {{name}}.`,
-    groupCodeReady: `{{name}}’s invite code is ready! Hit Share and choose how you’d like to send this invite code to each of your group members.`,
+    groupCodeReady: `{{name}}’s invite code is ready! Hit Share and choose how you’d like to send this invite code to each of your Group members.`,
     codeReadyResend: `The same Adventure code is alive again. Send it if {{name}} needs it.`,
     downloadMessage: `Hi {{friend}}! Download Voke and join my Adventure. Use code: {{code}} {{appUrl}}`,
     firstName: `First Name (Required)`,

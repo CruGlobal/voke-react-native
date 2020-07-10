@@ -67,28 +67,24 @@ const AdventureStepNextAction = ({
               },
               withGroup: false,
             })}
-          style={[
-            st.bgOrange,
-            st.ph6,
-            st.pv5,
-            st.bw0,
-            st.br3,
-            st.aic,
-            { width: st.fullWidth - 60 },
-          ]}
+            style={[
+              st.pd4,
+              st.br1,
+              st.bgWhite,
+              st.mb3,
+              st.w(st.fullWidth - 50),
+            {shadowColor: 'rgba(0, 0, 0, 0.5)',
+            shadowOpacity: 0.5,
+            elevation: 2,
+            shadowRadius: 3 ,
+            shadowOffset : { width: 1, height: 5}}] }
         >
-          <Flex direction="row" align="center">
+          <Flex direction="row" align="center" justify="center">
             <VokeIcon
-              type="image"
-              style={[{ height: 20 }, st.mr5]}
-              name={'withFriend'}
-            />
-            <Text style={[st.white, st.fs3]}>{t('withFriend')}</Text>
-            <VokeIcon
-              type="image"
-              style={[{ height: 15 }, st.ml5]}
-              name={'buttonArrow'}
-            />
+                name='couple'
+                size={26}
+                style={[st.darkBlue, {paddingRight:10}]} />
+            <Text style={[st.darkBlue, st.fs20]}>{t('withFriend')}</Text>
           </Flex>
         </Button>
         <Button
@@ -99,29 +95,24 @@ const AdventureStepNextAction = ({
               },
               withGroup: true,
             })}
-          style={[
-            st.bgOrange,
-            st.ph6,
-            st.pv5,
-            st.bw0,
-            st.br3,
-            st.mv4,
-            st.aic,
-            { width: st.fullWidth - 60 },
-          ]}
+            style={[
+              st.pd4,
+              st.br1,
+              st.bgWhite,
+              st.mb3,
+              st.w(st.fullWidth - 50),
+            {shadowColor: 'rgba(0, 0, 0, 0.5)',
+            shadowOpacity: 0.5,
+            elevation: 2,
+            shadowRadius: 3 ,
+            shadowOffset : { width: 1, height: 5}}] }
         >
-          <Flex direction="row" align="center">
+           <Flex direction="row" align="center" justify="center">
             <VokeIcon
-              type="image"
-              style={[{ height: 20 }, st.mr5]}
-              name={'withGroup'}
-            />
-            <Text style={[st.white, st.fs3]}>{t('withGroup')}</Text>
-            <VokeIcon
-              type="image"
-              style={[{ height: 15 }, st.ml5]}
-              name={'buttonArrow'}
-            />
+                name='group'
+                size={32}
+                style={[st.darkBlue, {paddingRight:10}]} />
+            <Text style={[st.darkBlue, st.fs20]}>{t('withGroup')}</Text>
           </Flex>
         </Button>
       </Flex>
