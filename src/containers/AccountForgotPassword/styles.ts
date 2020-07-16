@@ -27,7 +27,7 @@ const styles: { [key: string]: any } = {
     background-color: ${theme.colors.primary};
     padding-left: ${`${theme.spacing.xl}px`};
     padding-right: ${`${theme.spacing.xl}px`};
-    padding-bottom: ${`${theme.spacing.l}px`};
+    padding-top: ${`${theme.spacing.m}px`};
   `,
   ButtonStart: [
     ui.button.size.l,

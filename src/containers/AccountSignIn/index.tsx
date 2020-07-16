@@ -5,14 +5,17 @@ import {
   Alert,
   useWindowDimensions,
   TextInput,
+  View,
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
+import { useHeaderHeight } from '@react-navigation/stack';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 import { userLogin, facebookLogin } from '../../actions/auth';
 import { useMount, lockToPortrait } from '../../utils';
 import { useTranslation } from "react-i18next";
+import useKeyboard from '@rnhooks/keyboard';
 
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
 import VokeIcon from '../../components/VokeIcon';
@@ -30,6 +33,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
   const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const headerHeight = useHeaderHeight();
 
   const [email, setEmail] = useState('');
   const [emailValid, setEmailValid] = useState(false);
@@ -37,6 +41,9 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation('common');
   const passwordRef = useRef<TextInput>(null);
+
+  // https://github.com/react-native-hooks/keyboard#configuration
+  const [isKeyboardVisible] = useKeyboard();
 
   useMount(() => {
     lockToPortrait();
@@ -95,21 +102,47 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
 
   return (
     <DismissKeyboardView
-      style={{ backgroundColor: styles.colors.primary, height: '100%' }}
+      style={{
+        backgroundColor: styles.colors.primary,
+        // flex:1,
+        // flexGrow: 1,
+        // justifyContent: 'center',
+        // align: 'center',
+        height:'100%',
+        // flexDirection:'column',
+        // alignContent: 'stretch',
+        // alignItems: 'stretch',
+      }}
     >
       {/* <StatusBar /> <- TODO: Not sure why we need it here? */}
 
       {/* Makes possible to hide keyboard when tapping outside. */}
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // TODO: Verify!
-        style={styles.MainContainer}
-      >
+     {/*  <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'height' : 'height'} // TODO: Verify!
+        style={[
+          // styles.MainContainer,
+        {
+          position: 'absolute',
+          // flexGrow: 1,
+          flex:2,
+          // flexDirection:'column',
+          // alignItems: 'stretch',
+          // alignContent: 'stretch',
+          backgroundColor: 'green',
+          // height: isKeyboardVisible ? '100%' : 'auto',
+          // height: '100%',
+        }]}
+
+        // keyboardVerticalOffset={headerHeight}
+      > */}
         <Flex
-          value={4}
-          direction="column"
-          align="center"
-          justify="center"
-          style={[styles.PrimaryContent, { paddingTop: insets.top + 30 }]}
+          // value={2}
+          // direction="column"
+          // align="center"
+          // justify="center"
+          style={[styles.PrimaryContent, {
+            paddingTop: insets.top + headerHeight,
+          }]}
         >
           {/* INPUT FIELD: EMAIL */}
           <TextField
@@ -139,24 +172,31 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
             returnKeyType="send"
             onSubmitEditing={(): Promise<void> => login()}
           />
-        </Flex>
+        {/* </Flex> */}
 
-        {/* SECTION: CALL TO ACTION BUTTON */}
         <Flex
-          value={2}
-          direction="column"
-          justify="start"
-          style={styles.SectionAction}
-        >
-          {/* BUTTON: SIGN IN */}
+            style={{
+              minHeight: 40,
+            }}
+          />
 
+          {/* BUTTON: SIGN IN */}
           <Button
             onPress={(): Promise<void> => login()}
-            touchableStyle={[st.pd4, st.br1, st.w(st.fullWidth - 70),{backgroundColor: theme.colors.white, textAlign:"center",shadowColor: 'rgba(0, 0, 0, 0.5)',
-            shadowOpacity: 0.5,
-            elevation: 4,
-            shadowRadius: 5 ,
-            shadowOffset : { width: 1, height: 8}}]}
+            touchableStyle={[
+              st.pd4,
+              st.br1,
+              st.w(st.fullWidth - 70),
+              {
+                backgroundColor: theme.colors.white,
+                textAlign:"center",
+                shadowColor: 'rgba(0, 0, 0, 0.5)',
+                shadowOpacity: 0.5,
+                elevation: 4,
+                shadowRadius: 5 ,
+                shadowOffset : { width: 1, height: 8}
+              }
+            ]}
             isLoading={isLoading}
           >
             <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>{t('signIn')}</Text>
@@ -169,45 +209,47 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
             {t('forgotPassword')}
           </Text>
         </Flex>
-      </KeyboardAvoidingView>
-      {/* TEXT: NOTICE */}
-      {/* TODO: hide this notice if it's on the welcome stage (no progress) */}
-      <Flex direction="column" justify="start" style={styles.SectionNotice}>
-        <Text style={styles.TextMedium}>
-          {t('login:existingAccount')}
-        </Text>
-      </Flex>
-      {/* SECTION: FACEBOOK SIGN IN */}
-      <Flex
-        direction="row"
-        align="center"
-        justify="center"
-        style={styles.SectionFB}
-      >
-        <Button
-          isAndroidOpacity
-          style={styles.ButtonFBSignIn}
-          onPress={(): Promise<void> => fbLogin()}
+      {/* </KeyboardAvoidingView> */}
+      {
+      <View style={{flex:1, opacity: isKeyboardVisible ? 0 : 1, }}>
+        {/* TEXT: NOTICE */}
+        {/* TODO: hide this notice if it's on the welcome stage (no progress) */}
+        <Flex direction="column" justify="start" style={styles.SectionNotice}>
+          <Text style={styles.TextMedium}>
+            {t('login:existingAccount')}
+          </Text>
+        </Flex>
+        {/* SECTION: FACEBOOK SIGN IN */}
+        <Flex
+          direction="row"
+          align="center"
+          justify="center"
+          style={styles.SectionFB}
         >
-          <Flex direction="row" align="center" justify="center">
-          <VokeIcon
-                      name="logo-facebook"
-                      size={22}
-                      style={st.mr5}
-                    />
-            <Text style={styles.ButtonFBSignInLabel}>
-              {t('signInFb')}
-            </Text>
-          </Flex>
-        </Button>
-      </Flex>
-
-      {/* Safe area at the bottom for phone with exotic notches */}
-      <Flex
-        style={{
-          paddingBottom: insets.bottom,
-        }}
-      />
+          <Button
+            isAndroidOpacity
+            style={styles.ButtonFBSignIn}
+            onPress={(): Promise<void> => fbLogin()}
+          >
+            <Flex direction="row" align="center" justify="center">
+            <VokeIcon
+                        name="logo-facebook"
+                        size={22}
+                        style={st.mr5}
+                      />
+              <Text style={styles.ButtonFBSignInLabel}>
+                {t('signInFb')}
+              </Text>
+            </Flex>
+          </Button>
+          {/* Safe area at the bottom for phone with exotic notches */}
+          <Flex
+            style={{
+              paddingBottom: insets.bottom,
+            }}
+          />
+        </Flex>
+      </View>}
     </DismissKeyboardView>
   );
 };

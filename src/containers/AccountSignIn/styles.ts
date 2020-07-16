@@ -8,13 +8,12 @@ const styles: { [key: string]: any } = {
   MainContainer: [
     ui.container.default,
     css`
-      flex: 1;
+      height:100%;
       background-color: ${theme.colors.primary};
     `,
   ],
   PrimaryContent: css`
     width: 100%;
-    background-color: ${theme.colors.primary};
     padding-left: ${`${theme.spacing.xl}px`};
     padding-right: ${`${theme.spacing.xl}px`};
   `,
@@ -59,7 +58,6 @@ const styles: { [key: string]: any } = {
     font-size: 16px;
     font-family: ${theme.fonts.regular};
     text-align: center;
-    margin-top: -${`${theme.spacing.xl}px`};
   `,
   SectionFB: css`
     background-color: ${theme.colors.primary};

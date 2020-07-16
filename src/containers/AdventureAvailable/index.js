@@ -14,7 +14,6 @@ import { useTranslation } from "react-i18next";
 import VokeIcon from '../../components/VokeIcon';
 import theme from '../../theme';
 import { startAdventure } from '../../actions/requests';
-import TipsModal from '../../components/TipsModal';
 import { REDUX_ACTIONS } from '../../constants';
 
 
@@ -58,14 +57,22 @@ function AdventureAvailable(props) {
   const [withGroup, setWithGroup] = useState(0)
   const {duoTutorialCount, groupTutorialCount } = useSelector(({ info }: RootState) => info);
 
-
-  const toggleModal = (withGroup) => {
-    setWithGroup(withGroup);
-    dispatch({
-      type: REDUX_ACTIONS.TOGGLE_TIPS,
-      // props: true,
-      description: 'Show Tips Modal. Called from AdventureAvailable.toggleModal()'
-    });
+  const updateCountDown=( withGroup )=>{
+    if(withGroup){
+      let countdown = groupTutorialCount+1;
+      dispatch({
+        type: REDUX_ACTIONS.TUTORIAL_COUNTDOWN_GROUP,
+        groupTutorialCount: countdown,
+        description: 'Tutorial Countdown group updated. Called from TipsModal.updateCountDown()'
+      });
+    }else{
+      let countdown = duoTutorialCount+1;
+      dispatch({
+        type: REDUX_ACTIONS.TUTORIAL_COUNTDOWN_DUO,
+        duoTutorialCount: countdown,
+        description: 'Tutorial Countdown duo updated. Called from TipsModal.updateCountDown()'
+      });
+    }
   }
 
 
@@ -179,7 +186,17 @@ function AdventureAvailable(props) {
                         withGroup: false,
                       })
                     } else {
-                      toggleModal('withFriend')
+                      updateCountDown(false);
+                      navigation.navigate( 'CustomModal',
+                        {
+                          modalId: 'howDuoWorks',
+                          primaryAction: () => {
+                            navigation.navigate('AdventureName', {
+                              item,
+                              withGroup: false,
+                            })
+                          },
+                      });
                     }
                   }}/>
                 <ActionButton
@@ -192,7 +209,16 @@ function AdventureAvailable(props) {
                         withGroup: true,
                       })
                     } else {
-                      toggleModal('withGroup');
+                      updateCountDown(true);
+                      navigation.navigate('CustomModal', {
+                        modalId: 'howGroupsWork',
+                        primaryAction: () => {
+                          navigation.navigate('AdventureName', {
+                            item,
+                            withGroup: true,
+                          })
+                        },
+                      });
                     }
                   }
                   }/>
@@ -208,8 +234,6 @@ function AdventureAvailable(props) {
           </Flex>
         </ScrollView>
       )}
-      <TipsModal group={withGroup} item={item}/>
-
     </Flex>
   );
 }
