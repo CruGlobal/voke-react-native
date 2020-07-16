@@ -11,7 +11,6 @@ import LoadingRedux from './components/LoadingRedux';
 import configureStore from './store';
 import App from './App';
 import ToastManager from './components/ToastManager';
-import NotificationModal from './components/NotificationModal';
 import { registerLogs } from './utils';
 import './i18n';
 // import ModalHandler from './containers/ModalHandler';
@@ -20,7 +19,6 @@ const { store, persistor } = configureStore();
 // While waiting for fix here: https://github.com/archriss/react-native-snap-carousel/issues/672
 YellowBox.ignoreWarnings(['FlatList:', '']);
 YellowBox.ignoreWarnings(['Require cycle:', 'Warning: componentWill']);
-
 
 const Root = () => {
   const [showLoader, setShowLoader] = useState( true );
@@ -45,8 +43,6 @@ const Root = () => {
           persistor={persistor} onBeforeLift={onBeforeLift}>
             { showLoader ? <LoadingRedux /> : <App />}
           <ToastManager />
-          {/* Notification Modal */}
-          <NotificationModal />
         </PersistGate>
       </Provider>
     </SafeAreaProvider>

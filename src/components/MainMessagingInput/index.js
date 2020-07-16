@@ -62,6 +62,7 @@ function AdventureStepMessageInput({ adventure, step, ...rest }) {
         selectionColor={st.colors.yellow}
         autoCorrect={true}
         multiline={true}
+        keyboardAppearance="dark"
         {...rest}
       />
       <Button style={[st.w(45), st.h(45), st.aie, {backgroundColor: theme.colors.secondaryAlt, borderColor: theme.colors.secondaryAlt, borderRadius:23}]} onPress={handleSendMessage}>

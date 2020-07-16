@@ -257,6 +257,7 @@ const AdventureStepMessageInput = ({
               selectionColor={st.colors.darkBlue}
               value={value}
               onChangeText={t => setValue(t)}
+              keyboardAppearance="dark"
             />
             <Button
               onPress={() => {

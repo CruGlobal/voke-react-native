@@ -1,11 +1,11 @@
 import React, { useState, forwardRef } from 'react';
+import { useMount } from '../../utils';
 import {
   TouchableOpacity,
   TouchableNativeFeedback,
   Platform,
   View,
 } from 'react-native';
-import { useMount } from '../../utils';
 
 const TouchableAndroid = forwardRef(
   (
@@ -50,7 +50,7 @@ const TouchableAndroid = forwardRef(
           activeOpacity={0.6}
           style={style}
           {...rest}
-          onPress={clickDisabled ? () => {} : handlePress}
+          onPressIn={()=>{onPress()}}
         >
           {children}
         </TouchableOpacity>
@@ -77,8 +77,8 @@ const TouchableAndroid = forwardRef(
         ref={ref}
         accessibilityTraits="button"
         background={background}
+        onPressIn={()=>{onPress()}}
         {...rest}
-        onPress={handlePress}
       >
         {content}
       </TouchableNativeFeedback>

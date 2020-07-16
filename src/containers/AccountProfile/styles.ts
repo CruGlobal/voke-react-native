@@ -9,10 +9,8 @@ const styles: { [key: string]: any } = {
 		background-color: ${theme.colors.primary};
 	`,
 	SectionAction: css`
-		background-color: ${theme.colors.primary};
 		padding-left:${theme.spacing.xl + 'px'};
 		padding-right:${theme.spacing.xl + 'px'};
-		padding-bottom:${theme.spacing.m + 'px'};
 	`,
 	ButtonStart: [
 		ui.button.size.l,
@@ -42,8 +40,8 @@ const styles: { [key: string]: any } = {
 	ButtonActionLabel: [
 		ui.buttonText.size.m,
 		css`
-		margin-top:${theme.spacing.l + 'px'};
-		text-decoration-line: underline;
+			margin-top:${theme.spacing.l + 'px'};
+			text-decoration-line: underline;
 		`
 	],
 	ButtonActionTextOnly: [

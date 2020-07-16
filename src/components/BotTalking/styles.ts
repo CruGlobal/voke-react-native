@@ -8,7 +8,7 @@ const styles: { [key: string]: any } = {
     width: 90%;
     margin: auto;
     margin-top: ${`${theme.spacing.m}px`};
-    padding-bottom: ${`${theme.spacing.m}px`};    
+    /* padding-bottom-off: ${`${theme.spacing.m}px`}; */
   `,
   BotMessage: css`
     width: 100%;

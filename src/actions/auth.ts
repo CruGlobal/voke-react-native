@@ -2,6 +2,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import { Alert } from 'react-native';
 import { getTimeZone, getCountry, getLocales } from 'react-native-localize';
 import AsyncStorage from '@react-native-community/async-storage';
+import dynamicLinks from '@react-native-firebase/dynamic-links';
 import {
   LoginManager,
   GraphRequestManager,
@@ -48,8 +49,19 @@ export function wakeupAction() {
   return async (dispatch, getState)  => {
     const currentScreen = getState().info?.currentScreen?.screen;
     LOG( "🌝 function wakeupAction",  {currentScreen});
+
+    /*
+    Try to extract dynamiclink with Adventure code passed by Firebase.
+    dynamicLinks()
+      .getInitialLink()
+      .then(link => {
+        if (link.url === 'https://invertase.io/offer') {
+          // ...set initial route as offers screen
+        }
+      }); */
+
     await dispatch(permissionsAndNotifications());
-    const deviceId = getState().auth.device.id;
+    const deviceId = getState().auth.device.id; // TODO: can I move it to the top?
     dispatch( openSocketAction(deviceId) );
 
     // Check on what screen we are and update the required info.

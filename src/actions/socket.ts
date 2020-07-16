@@ -122,7 +122,7 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
                   // If updated message in one of the Adventures.
                   // Update unread count on the Adventure step card.
                   const adventureId = (
-                    lodash.find( getState().data.myAdventures.byId,
+                    lodash.find( getState().data.myAdventures?.byId,
                       // TODO try to optimize
                       function(adv) { return adv.conversation.id === message.conversation_id; }
                     ) || {}
