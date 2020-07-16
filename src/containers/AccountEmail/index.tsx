@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -13,7 +13,7 @@ import { useDispatch } from 'react-redux';
 import { updateMe } from '../../actions/auth';
 import { useMount, lockToPortrait } from '../../utils';
 import { useTranslation } from "react-i18next";
-
+import useKeyboard from '@rnhooks/keyboard';
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
 import VokeIcon from '../../components/VokeIcon';
 import TextField from '../../components/TextField';
@@ -37,10 +37,24 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
   const [emailValid, setEmailValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation(['common','placeholder', 'profile', 'forgotPassword', 'login', 'error']);
+  const [topMargin, setTopMargin] = useState(0);
 
   const emailRef = useRef<TextInput>(null);
   const emailConfirmRef = useRef<TextInput>(null);
   const passwordRef = useRef<TextInput>(null);
+
+  const [isKeyboardVisible] = useKeyboard({
+    useWillShow: true,
+    useWillHide: true,
+  });
+
+  useEffect(() => {
+    if (isKeyboardVisible) {
+      setTopMargin(-50);
+    } else {
+      setTopMargin(0);
+    }
+  }, [isKeyboardVisible]);
 
   useMount(() => {
     lockToPortrait();
@@ -118,7 +132,7 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
 
   return (
     <DismissKeyboardView
-      style={{ backgroundColor: styles.colors.primary, height: '100%' }}
+      style={{ backgroundColor: styles.colors.primary, height: '100%', marginTop:topMargin }}
     >
       {/* <StatusBar /> <- TODO: Not sure why we need it here? */}
 
@@ -193,6 +207,7 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
           <Button
             isAndroidOpacity
             touchableStyle={[st.pd4, st.br1, st.w(st.fullWidth - 80),{backgroundColor: theme.colors.white, textAlign:"center",shadowColor: 'rgba(0, 0, 0, 0.5)',
+            marginTop: isKeyboardVisible ? -120 : 0 ,
             shadowOpacity: 0.5,
             elevation: 4,
             shadowRadius: 5 ,
@@ -205,11 +220,7 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
         </Flex>
       </KeyboardAvoidingView>
       {/* Safe area at the bottom for phone with exotic notches */}
-      <Flex
-        style={{
-          paddingBottom: insets.bottom,
-        }}
-      />
+      <Flex style={{ height: (isKeyboardVisible ? 0 : insets.bottom ) }} />
     </DismissKeyboardView>
   );
 };
