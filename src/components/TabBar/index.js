@@ -45,20 +45,17 @@ function tabElement(index, label, isFocused) {
       <Text style={[isFocused ? st.white : st.blue, st.fs14]}>{label}</Text>
       {unReadBadgeCount > 0 ? (
         <Flex
-          direction="row"
-          align="right"
-          justify="right"
-          self="end"
-          style={[ st.br2, st.bgOrange, st.mr4, st.mt5, st.p8,
+          style={[ st.br2, st.bgOrange, st.p8,
           {
             position: "absolute",
-            right: -20,
+            right: "50%",
             top: -4,
-            paddingHorizontal: 6,
+            paddingHorizontal: 7,
+            marginRight: -30,
           }
           ]}
         >
-          <Text style={[st.fs12, st.white, {fontWeight: 'bold'}]}>
+          <Text style={[st.fs12, st.white, {fontWeight: 'bold', marginBottom: 2}]}>
             {unReadBadgeCount > 99 ? '99' : unReadBadgeCount}
           </Text>
         </Flex>
@@ -73,11 +70,12 @@ function TabBar({ state, descriptors, navigation }) {
   return (
     <>
       <Flex
+        value={1}
         direction="row"
         align="center"
-        justify="between"
+        // justify="center"
         style={[
-          st.ph2,
+          // st.ph2,
           {
             paddingBottom: insets.bottom,
             backgroundColor: theme.colors.secondary,
@@ -85,6 +83,7 @@ function TabBar({ state, descriptors, navigation }) {
             position: "absolute",
             width: "100%",
             bottom: 0,
+            // alignContent: "stretch"
 
             // Hairline border
             // borderTopColor: "rgba(90, 205, 225, .4)",
@@ -128,12 +127,12 @@ function TabBar({ state, descriptors, navigation }) {
             }
           };
 
-          const onLongPress = () => {
+          /* const onLongPress = () => {
             navigation.emit({
               type: 'tabLongPress',
               target: route.key,
             });
-          };
+          }; */
 
           return (
             <Touchable
@@ -142,8 +141,8 @@ function TabBar({ state, descriptors, navigation }) {
               accessibilityStates={isFocused ? ['selected'] : []}
               accessibilityLabel={options.tabBarAccessibilityLabel}
               testID={options.tabBarTestID}
-              onPress={onPress}
-              onLongPress={onLongPress}
+              onPress={()=>{onPress()}}
+              style={{flex:1}}
             >
               {tabElement(index, label, isFocused,)}
             </Touchable>

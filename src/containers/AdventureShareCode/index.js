@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import Clipboard from "@react-native-community/clipboard";
@@ -26,17 +26,16 @@ function AdventureShareCode(props) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { t } = useTranslation('share');
-  const [isLoading, setIsLoading] = useState(false);
-  const [isModalVisible, setModalVisible] = useState(true); //Set TO Truue FOR NOW-----PLEASE CHANGE ONCE FUNCTIONALITY IS HOOKED UP
-
+  const [askedNotifications, setAskedNotifications] = useState(false);
   const { invitation, withGroup, isVideoInvite } = props.route.params;
+  let popupTimeout = null;
 
   const handleShare = () => {
     Share.share(
       {
         message: isVideoInvite
           ? (t('checkOut') + ` ${invitation.url}`)
-          : t('share:downloadMessage', { friend:invitation?.name, code: invitation?.code, appUrl: CONSTANTS.APP_URL })
+          : t('share:shareMessage', { friend:  withGroup ? '': ' ' + invitation?.name, link: invitation?.preview_journey_url, code: invitation?.code })
           // {t('downloadMessage')}`Download Voke and join my ${invitation.name} Adventure. Use code: ${invitation.code} ${CONSTANTS.APP_URL}`,
       },
       {
@@ -46,25 +45,29 @@ function AdventureShareCode(props) {
   }
 
   const copyToClipboard = () => {
-    Clipboard.setString(isVideoInvite ? invitation.url : invitation.code);
+    Clipboard.setString(isVideoInvite ? invitation.url : invitation.preview_journey_url);
     dispatch(toastAction( t('copied'), 'short' ));
   };
 
-  // Events firing when user leaves the screen with player or comes back.
+  const askNotificationPermissions = () => {
+    if ( !askedNotifications ) {
+        setAskedNotifications(true);
+        navigation.navigate( 'CustomModal',{ modalId: 'notifications' })
+      }
+  };
+
+  // Events firing when user leaves the screen or comes back.
   useFocusEffect(
     // eslint-disable-next-line arrow-body-style
     React.useCallback(() => {
       // When the screen is focused:
       // Ask for notifications permissions.
-      dispatch({
-        type: REDUX_ACTIONS.TOGGLE_NOTIFICATION_REQUEST,
-        // props: true,
-        description: 'Show notification request modal. Called from AdventureShareCode.useFocusEffect()'
-      });
+      popupTimeout = setTimeout(() => askNotificationPermissions() , 600);
       return (): void => {
         // When the screen is unfocused:
+        clearTimeout(popupTimeout);
       };
-    }, [])
+    })
   );
 
   return (
@@ -95,18 +98,17 @@ function AdventureShareCode(props) {
             justify="center"
             style={[st.mb4]}
           >
-            {/* TODO: Add translation for the next strings */}
             <BotTalking>
               { withGroup ?
-                  t('share:groupCodeReady', {name:invitation.name}) :
+                  t('share:groupPreviewLinkReady', {name:invitation.name}) :
                   isVideoInvite ?
                     t('share:linkReady') :
-                    t('share:codeReady', {name:invitation.name})}
+                    t('share:previewLinkReady', {name:invitation.name})}
             </BotTalking>
 
           </Flex>
-          <Flex direction="column" align="center" style={[st.ph1, st.w100]}>
-            {isVideoInvite ? <Text style={[st.fs22, st.white, st.pb4]}>{t('inviteLink')}: </Text>: <Text style={[st.fs22, st.white, st.pb4]}>{t('inviteCode')}:</Text>}
+          { isVideoInvite && <Flex direction="column" align="center" style={[st.ph1, st.w100]}>
+            { isVideoInvite ? <Text style={[st.fs22, st.white, st.pb4]}>{t('inviteLink')}: </Text>: <Text style={[st.fs22, st.white, st.pb4]}>{t('inviteCode')}:</Text>}
             <Touchable onPress={copyToClipboard}>
               <Flex
                 style={[
@@ -138,9 +140,98 @@ function AdventureShareCode(props) {
               ]}
               onPress={handleShare}
             >
-            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>{t('share')}</Text>
+              <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>{t('share')}</Text>
             </Button>
-          </Flex>
+          </Flex> }
+          { !isVideoInvite &&
+            <Flex direction="column" align="center"
+              style={[
+                st.ph1,
+                st.w100,
+              ]}
+            >
+              <Touchable onPress={copyToClipboard}
+                style={{
+                  width:'100%',
+                }}
+              >
+                <Flex
+                  style={[
+                    st.bw1,
+                    st.borderWhite,
+                    st.br5,
+                    st.bgOffBlue,
+                    st.pv5,
+                    st.ph4,
+                  ]}
+                >
+                  <Text style={[
+                    st.white,
+                    st.tac,
+                    {
+                      fontSize: 19,
+                    }]}
+                  >
+                    {invitation.preview_journey_url}
+                  </Text>
+                </Flex>
+              </Touchable>
+
+              <Touchable onPress={
+                    () => {
+                      const navState=navigation.dangerouslyGetState()
+                      navigation.navigate( 'CustomModal',
+                        {
+                          modalId: 'howSharingWorks',
+                          primaryAction: () => {},
+                      })
+                    }}>
+                <Text style={[{color:theme.colors.white}, st.fs14, st.pt3, st.tac, st.ph1, st.underline]}>
+                  {t('howSharingWorks')}
+                </Text>
+              </Touchable>
+              <Flex style={{minHeight:40}} />
+              <Button
+                isAndroidOpacity
+                style={[
+                  st.pd4,
+                  st.br1,
+                  st.white,
+                  // st.fullWidth,
+                  // st.w100,
+                  // st.w(st.fullWidth - 70),
+                  {
+                    // width:'100%',
+                    backgroundColor: theme.colors.white,
+                    textAlign: 'center',
+                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+                    shadowOpacity: 0.5,
+                    elevation: 4,
+                    shadowRadius: 5,
+                    shadowOffset : {
+                      width: 1,
+                      height: 8
+                    }
+                  }
+                ]}
+                touchableStyle = {{
+                  width:'100%',
+                }}
+                onPress={handleShare}
+              >
+                <Text style={[st.fs18, st.tac, {color:theme.colors.secondary}]}>{t('shareLink')}</Text>
+              </Button>
+              <Flex style={{minHeight:40}} />
+              <Text style={[st.fs22, st.white]}>
+                {t('adventureCode:adventureCode')}:{' '}
+                <Text style={{
+                  color:theme.colors.secondary,
+                  paddingLeft: 20,
+                  fontWeight: '500',
+                }}>{invitation.code}</Text>
+              </Text>
+            </Flex>
+          }
         </Flex>
       </Flex>
     </>

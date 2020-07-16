@@ -45,12 +45,6 @@ export default function(
       };
     case REDUX_ACTIONS.LOGOUT:
       return initialState;
-    case REDUX_ACTIONS.TOGGLE_NOTIFICATION_REQUEST:{
-      return {
-        ...state,
-        notificationsRequest: ! state.notificationsRequest,
-      };
-    };
     case REDUX_ACTIONS.TUTORIAL_COUNTDOWN_GROUP:
       return {
         ...state,
@@ -61,12 +55,6 @@ export default function(
           ...state,
           duoTutorialCount: action.duoTutorialCount,
         };
-    case REDUX_ACTIONS.TOGGLE_TIPS:{
-      return {
-        ...state,
-        tutorialMode: ! state.tutorialMode,
-      };
-    }
     case REDUX_ACTIONS.SET_SCREEN: {
       return {
         ...state,

@@ -61,17 +61,16 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
       ]}
     >
       {/* Overscroll background color protection */}
-      <Flex style={{
+      {/* <Flex style={{
           backgroundColor: styles.colors.primary,
           height: 400,
           position: 'absolute',
           zIndex:0,
           width: '100%',
-        }} />
-      <ScrollView>
+        }} /> */}
+      {/* <ScrollView> */}
         <Flex style={{
-          backgroundColor: styles.colors.primary,
-          minHeight: '100%',
+          height: '100%',
         }}>
           <Flex value={1} direction="column" align="center" style={[st.ph1, st.w100,{marginTop:30}]}>
             <Touchable onPress={ () => navigation.navigate('AccountPhoto', {
@@ -193,10 +192,9 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                 <Text style={styles.ButtonActionLabel}>Sign out</Text>
               </Flex>
             </Button> */}
-          
+
 
           {/* SECTION: CALL TO ACTION BUTTON */}
-          <Flex>
 
             <Flex
               direction="column"
@@ -276,6 +274,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                   }}
                 />
               </>}
+
               <Button
                 isAndroidOpacity={true}
                 style={[ styles.ButtonActionTextOnly ]}
@@ -299,7 +298,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                           } finally {
                             // Navigate back to the very first screen.
                             // 🤦🏻‍♂️Give React 10ms to render WelcomeApp component.
-                             setTimeout(() => {
+                            setTimeout(() => {
                               navigation.reset({
                                 index: 1,
                                 routes: [{ name: 'Welcome' }],
@@ -312,20 +311,17 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                   )
                 }
               >
-                <Flex
-                  // value={1}
-                  direction="row"
-                  align="start"
-                  justify="start"
-
-                >
-                  <Text style={styles.ButtonActionLabel}>{t('deleteAccount')}</Text>
-                </Flex>
+                <Text style={styles.ButtonActionLabel}>{t('deleteAccount')}</Text>
               </Button>
+              <Flex
+                style={{
+                  height: styles.spacing.xl
+                }}
+              />
             </Flex>
-          </Flex>
+
         </Flex>
-      </ScrollView>
+      {/* </ScrollView> */}
 
       {/* Safe area bottom spacing */}
       <Flex

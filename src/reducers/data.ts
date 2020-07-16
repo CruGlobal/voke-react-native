@@ -354,16 +354,16 @@ export default function(state = initialState, action: any) {
           ]
         },
 
-        // Update Adventure Steps  with new 'unread' value for current step.
+        // Update Adventure Steps with new 'unread' value for current step.
         adventureSteps: {
           ...state.adventureSteps,
           [adventureId]: {
             ...state.adventureSteps[adventureId],
             byId: {
-              ...state.adventureSteps[adventureId].byId||{},
+              ...state.adventureSteps[adventureId]?.byId||{},
               [adventureStepId]: {
-                ...state.adventureSteps[adventureId].byId[adventureStepId],
-                unread_messages: state.adventureSteps[adventureId].byId[adventureStepId].unread_messages + 1,
+                ...state.adventureSteps[adventureId]?.byId[adventureStepId],
+                unread_messages: state.adventureSteps[adventureId]?.byId[adventureStepId].unread_messages + 1,
               }
             },
             // allIds: normalizedSteps.result,

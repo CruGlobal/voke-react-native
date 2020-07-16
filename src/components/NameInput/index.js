@@ -19,14 +19,13 @@ const NameInput = forwardRef(({ ...rest }, ref) => {
             height: 50,
             color: 'white',
             fontSize: 24,
-            opacity: rest?.value ? 1 : 0.6,
+            // opacity: rest?.value ? 1 : 0.6,
           },
           st.bbOffBlue,
           st.bbw1,
-
           st.fontFamilyMain,
         ]}
-        underlineColorAndroid={st.colors.offBlue}
+        underlineColorAndroid={st.colors.transparent}
         placeholderTextColor={st.colors.white}
         contextMenuHidden={true}
         returnKeyType={'done'}

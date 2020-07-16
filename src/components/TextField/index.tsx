@@ -29,12 +29,10 @@ const TextField = forwardRef(
           },
           st.bbOffBlue,
           st.bbw1,
-
           st.fontFamilyMain,
         ]}
         underlineColorAndroid={st.colors.transparent}
         placeholderTextColor={st.colors.white}
-        contextMenuHidden
         autoCapitalize={
           restProps.autoCapitalize ? restProps.autoCapitalize : 'words'
         }
