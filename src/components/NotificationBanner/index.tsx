@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../reducers';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from "react-i18next";
+import { useNavigation } from '@react-navigation/native';
 import { Alert } from 'react-native';
 import Modal from 'react-native-modal';
 import st from '../../st';
@@ -16,6 +17,7 @@ import { requestPremissions } from '../../actions/auth';
 import { REDUX_ACTIONS } from '../../constants';
 
 const NotificationBanner = (): React.ReactElement => {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const { t } = useTranslation('notifications' );
   const [modalOpen, setModalOpen] = useState(false);
@@ -30,10 +32,9 @@ const NotificationBanner = (): React.ReactElement => {
 
 
   const toggleModal = () => {
-    dispatch({
-      type: REDUX_ACTIONS.TOGGLE_NOTIFICATION_REQUEST,
-      // props: true,
-      description: 'Show notification request modal. Called from NotificationBanner.toggleModal()'
+    navigation.navigate('CustomModal', {
+      modalId: 'notifications',
+      primaryAction: () => {},
     });
   }
 

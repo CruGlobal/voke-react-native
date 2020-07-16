@@ -1,4 +1,4 @@
-package com.voke;
+package org.cru.voke;
 
 import android.app.Application;
 import android.content.Context;
@@ -8,7 +8,6 @@ import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
-import org.wonday.orientation.OrientationPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
@@ -34,7 +33,7 @@ public class MainApplication extends Application implements ReactApplication {
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
           // https://github.com/wonday/react-native-orientation-locker#android
-          packages.add(new OrientationPackage());
+          // packages.add(new OrientationPackage());
           return packages;
         }
 

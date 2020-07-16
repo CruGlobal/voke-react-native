@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { NavigationContainer, useRoute, useNavigationState } from '@react-navigation/native';
 import { startupAction, sleepAction, wakeupAction, getMeAction } from './actions/auth';
 import { routeNameRef, navigationRef } from './RootNavigation';
+import dynamicLinks from '@react-native-firebase/dynamic-links';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -35,13 +36,16 @@ import Notifications from './containers/Notifications';
 import AccountName from './containers/AccountName';
 import AccountPhoto from './containers/AccountPhoto';
 import GroupModal from './containers/GroupModal';
+import CustomModal from './containers/CustomModal';
 import TabBar from './components/TabBar';
 import theme from './theme';
 import st from './st';
 import HeaderLeft from './components/HeaderLeft';
 import Touchable from './components/Touchable';
+import Flex from './components/Flex';
 import SignOut from './components/SignOut';
 import Text from './components/Text';
+import Button from './components/Button'
 import { useMount } from './utils';
 import useAppState from 'react-native-appstate-hook';
 
@@ -73,6 +77,7 @@ const altHeaderConfig = {
     fontSize: 18,
     fontWeight: 'normal',
   },
+  headerTitleAlign: 'center',
   headerTintColor: theme.colors.white,
   headerBackTitle: ' ',
   // headerLeft: () => <HeaderLeft hasBack={true} />,
@@ -186,10 +191,11 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
   );
 };
 
+
+const VideoStack = createStackNavigator();
 function VideoStackScreens({ navigation, route }: any) {
   const { t } = useTranslation('title');
   const insets = useSafeArea();
-  const VideoStack = createStackNavigator();
   // TODO: extract into utility function.
   navigation.setOptions({
     tabBarVisible: route.state ? !(route.state.index > 0) : null,
@@ -230,9 +236,9 @@ function VideoStackScreens({ navigation, route }: any) {
   );
 }
 
+const NotificationStack = createStackNavigator();
 const NotificationStackScreens = () => {
   const { t } = useTranslation('title');
-  const NotificationStack = createStackNavigator();
   return (
     <NotificationStack.Navigator
       mode="card"
@@ -321,57 +327,18 @@ const getActiveRouteName = state => {
   return route.name;
 };
 
-const App = () => {
-  // Extract store.auth.isLoggedIn value.
+const RootStack = createStackNavigator();
+const RootStackScreens = () => {
   const isLoggedIn = useSelector(({ auth }: any) => auth.isLoggedIn);
-  const userId = useSelector(({ auth }: any) => auth.user?.id);
-  const AppStack = createStackNavigator();
   const insets = useSafeArea();
-  const dispatch = useDispatch();
-  const { t } = useTranslation(['common', 'profile']);
-
-  // Hide splash screen on load.
-  useMount(() => {
-    SplashScreen.hide();
-    if(!isLoggedIn && userId) {
-      dispatch(getMeAction());
-    }
-  });
-
-  useEffect(() => {
-    const state = navigationRef.current.getRootState();
-    // Save the initial route name
-    routeNameRef.current = getActiveRouteName(state);
-  }, []);
-
+  const { t } = useTranslation('title');
   return (
-    <NavigationContainer
-      ref={navigationRef}
-      onStateChange={state => {
-        const previousRouteName = routeNameRef.current;
-        const currentRouteName = getActiveRouteName(state);
-
-        /* if (previousRouteName !== currentRouteName) {
-          // The line below uses the @react-native-firebase/analytics tracker
-          // Change this line to use another Mobile analytics SDK
-          analytics().setCurrentScreen(currentRouteName, currentRouteName);
-        } */
-
-        // Save the current route name for later comparision
-        routeNameRef.current = currentRouteName;
-      }}
-
-      // initialState={ ( isLoggedIn ? ({ index: 0, routes: [{ name: 'LoggedInApp' }] }) : ({ index: 0, routes: [{ name: 'WelcomeApp' }] }) ) }
+    <RootStack.Navigator
+      mode="card"
+      screenOptions={defaultHeaderConfig}
     >
-      <AppStack.Navigator
-        screenOptions={
-          {
-            // headerShown: false
-          }
-        }
-      >
-        {isLoggedIn ? (
-          <AppStack.Screen
+      {isLoggedIn ? (
+          <RootStack.Screen
             name="LoggedInApp"
             component={LoggedInAppContainer}
             options={{
@@ -379,7 +346,7 @@ const App = () => {
             }}
           />
         ) : (
-          <AppStack.Screen
+          <RootStack.Screen
             name="Welcome"
             component={Welcome}
             options={{
@@ -393,7 +360,7 @@ const App = () => {
         {/* Don't hide these Welcome screens under !isLoggedIn
             as we need to access these when editing name and image
             for already logged in users.   */}
-        <AppStack.Screen
+        <RootStack.Screen
           name="AccountName"
           component={AccountName}
           options={{
@@ -406,20 +373,21 @@ const App = () => {
             // headerShown: true,
           }}
         />
-         <AppStack.Screen
-        name="AdventureCode"
-        component={AdventureCode}
-        options={{
-          ...transparentHeaderConfig,
-          headerStyle: {
-            ...transparentHeaderConfig.headerStyle,
-            paddingTop: insets.top, // TODO: Check if it really works here?
-          },
-          title: '',
-          // headerShown: true,
-        }}
-      />
-        <AppStack.Screen
+        <RootStack.Screen
+          name="AdventureCode"
+          component={AdventureCode}
+          options={{
+            ...transparentHeaderConfig,
+            headerStyle: {
+              ...transparentHeaderConfig.headerStyle,
+              paddingTop: insets.top, // TODO: Check if it really works here?
+            },
+            title: '',
+            // headerShown: true,
+            headerLeft: () => <HeaderLeft hasBack />,
+          }}
+        />
+        <RootStack.Screen
           name="AccountPhoto"
           component={AccountPhoto}
           options={({ navigation }) => ({
@@ -449,7 +417,7 @@ const App = () => {
             // headerShown: true,
           })}
         />
-        <AppStack.Screen
+        <RootStack.Screen
           name="Menu"
           component={Menu}
           options={({ navigation }) => ({
@@ -487,7 +455,7 @@ const App = () => {
             title: t('settings'),
           })}
         />
-        <AppStack.Screen
+        <RootStack.Screen
           name="AccountCreate"
           component={AccountCreate}
           options={{
@@ -500,7 +468,7 @@ const App = () => {
             }, */
           }}
         />
-        <AppStack.Screen
+        <RootStack.Screen
           name="AccountSignIn"
           component={AccountSignIn}
           options={{
@@ -513,7 +481,7 @@ const App = () => {
             // headerShown: true,
           }}
         />
-        <AppStack.Screen
+        <RootStack.Screen
           name="ForgotPassword"
           component={AccountForgotPassword}
           options={{
@@ -534,7 +502,7 @@ const App = () => {
             headerLeft: () => <HeaderLeft hasBack />,
           }}
         />
-        <AppStack.Screen
+        <RootStack.Screen
           name="AccountProfile"
           component={AccountProfile}
           options={({ navigation }) => ({
@@ -555,7 +523,7 @@ const App = () => {
             title: t('title:profile'),
           })}
         />
-        <AppStack.Screen
+        <RootStack.Screen
           name="SignUp"
           component={AccountCreate}
           options={({ navigation }) => ({
@@ -575,7 +543,7 @@ const App = () => {
             title: 'Sign Up',
           })}
         />
-        <AppStack.Screen
+        <RootStack.Screen
           name="AccountEmail"
           component={AccountEmail}
           options={({ navigation }) => ({
@@ -595,7 +563,7 @@ const App = () => {
             title: t('profile:changeEmail'),
           })}
         />
-        <AppStack.Screen
+        <RootStack.Screen
           name="AccountPass"
           component={AccountPass}
           options={({ navigation }) => ({
@@ -615,7 +583,7 @@ const App = () => {
             title: t('profile:changePassword'),
           })}
         />
-        <AppStack.Screen
+        <RootStack.Screen
           name="Help"
           component={MenuHelp}
           options={({ navigation }) => ({
@@ -635,7 +603,7 @@ const App = () => {
             title: t('title:helpCenter'),
           })}
         />
-        <AppStack.Screen
+        <RootStack.Screen
           name="About"
           component={MenuAbout}
           options={({ navigation }) => ({
@@ -655,7 +623,7 @@ const App = () => {
             title: t('title:about'),
           })}
         />
-        <AppStack.Screen
+        <RootStack.Screen
           name="Acknowledgements"
           component={MenuAcknowledgements}
           options={({ navigation }) => ({
@@ -673,6 +641,123 @@ const App = () => {
               fontWeight: 'normal',
             },
             title: t('title:acknowledgements'),
+          })}
+        />
+    </RootStack.Navigator>
+  );
+};
+
+const AppStack = createStackNavigator();
+
+const App = () => {
+  // Extract store.auth.isLoggedIn value.
+  const isLoggedIn = useSelector(({ auth }: any) => auth.isLoggedIn);
+  const userId = useSelector(({ auth }: any) => auth.user?.id);
+  const dispatch = useDispatch();
+  const { t } = useTranslation(['common', 'profile']);
+
+  /*
+    Try to extract dynamiclink with Adventure code passed by Firebase.
+  const handleDynamicLink = link => {
+    console.log( "🦒🦒🦒🦒🦒 link:", link );
+    // Handle dynamic link inside your own application
+    if (link.url === 'https://invertase.io/offer') {
+      // ...navigate to your offers screen
+    }
+  };
+  */
+
+  // Hide splash screen on load.
+  useMount(() => {
+    SplashScreen.hide();
+    if(!isLoggedIn && userId) {
+      dispatch(getMeAction());
+    }
+  });
+
+  useEffect(() => {
+    const state = navigationRef.current.getRootState();
+    // Save the initial route name
+    routeNameRef.current = getActiveRouteName(state);
+
+    // const unsubscribe = dynamicLinks().onLink(handleDynamicLink);
+    // When the is component unmounted, remove the listener
+    // return () => unsubscribe();
+  }, []);
+
+  return (
+    <NavigationContainer
+      ref={navigationRef}
+      onStateChange={state => {
+        const previousRouteName = routeNameRef.current;
+        const currentRouteName = getActiveRouteName(state);
+
+        /* if (previousRouteName !== currentRouteName) {
+          // The line below uses the @react-native-firebase/analytics tracker
+          // Change this line to use another Mobile analytics SDK
+          analytics().setCurrentScreen(currentRouteName, currentRouteName);
+        } */
+
+        // Save the current route name for later comparision
+        routeNameRef.current = currentRouteName;
+      }}
+
+      // initialState={ ( isLoggedIn ? ({ index: 0, routes: [{ name: 'LoggedInApp' }] }) : ({ index: 0, routes: [{ name: 'WelcomeApp' }] }) ) }
+    >
+      <AppStack.Navigator
+        screenOptions={
+          {
+            // headerShown: false
+          }
+        }
+        mode="modal"
+      >
+        <AppStack.Screen
+            name="Root"
+            component={RootStackScreens}
+            options={{
+              headerShown: false,
+            }}
+        />
+       <AppStack.Screen
+          name="CustomModal"
+          component={CustomModal}
+          // options={{ headerShown: false }}
+          options={({ navigation }) => ({
+            headerShown: true,
+            headerLeft: false,
+            headerRight: () => (
+              <Touchable
+                onPress={
+                  () => {
+                    // Get the index of the route to see if we can go back.
+                    let index = navigation.dangerouslyGetState().index;
+                    if (index > 0) {
+                      navigation.goBack()
+                    } else {
+                      navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'LoggedInApp' }],
+                      })
+                    }
+                  }}>
+                <Text style={[st.white, st.fs18, {
+                  paddingHorizontal:theme.spacing.l,
+                }]}>{t('close')}</Text>
+              </Touchable>
+            ),
+            cardStyle: { backgroundColor: 'rgba(0,0,0,.9)'},
+            headerStyle: {
+              backgroundColor: theme.colors.transparent,
+              elevation: 0,
+              shadowOpacity: 0,
+            },
+            headerTitleStyle: {
+              color: theme.colors.white,
+              fontSize: 18,
+              fontWeight: 'normal',
+            },
+            title: '',
           })}
         />
       </AppStack.Navigator>

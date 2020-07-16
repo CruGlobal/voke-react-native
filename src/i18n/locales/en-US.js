@@ -77,6 +77,7 @@ export default {
     conversations: 'Conversations',
     copied: 'Copied',
     copy: 'Copy',
+    close: 'Close',
     createAccount: 'Create Account',
     delete: 'Delete',
     deleteAccount: 'Delete my Account',
@@ -127,6 +128,7 @@ export default {
     settings: 'Settings',
     solo: 'Solo',
     share: 'Share',
+    shareLink: 'Share Link',
     shortPassword: 'Your password must be at least 8 characters',
     signIn: 'Sign In',
     signInFb: 'Sign In with Facebook',
@@ -273,6 +275,7 @@ export default {
 
     howDuoWorksBotBody:'Learn more about it works, or get started right away.',
     howGroupsWorkBotBody:'Learn more about how they work below, or get started right away.',
+    howSharingWorksBotBody: 'Here’s how Invite sharing works.',
 
     howItWorksWatch: 'Watch each episode, answer the question, and unlock your friends’ answers.',
 
@@ -287,10 +290,16 @@ export default {
     howDuoWorksStart:`Hit ‘Get Started’ if you’re ready to start with a friend.`,
     howGroupsWorkStart:`Hit ‘Get Started’ if you’re ready to start your Group.`,
 
+    howSharingWorksLink: `Your friends will receive a link to a web page where they can watch a trailer and decide to join your Adventure.`,
+    howSharingWorksPersonalize: `It’s helpful to personalize what you say when you send the invite to your friends.`,
+    howSharingWorksLetYouKnow: `We’ll let you know when your friends join your Adventure.`,
+    howSharingWorksLinkAccess:`Anyone with the link has access to the code to join your Adventure.`,
+
     howDuoWorksTitle: 'How Duo Works',
     howGroupsWorkTitle: 'How Groups Work',
 
     welcomeTo: 'Welcome to ',
+
   },
   notifications: {
     off: 'Notifications turned off.',
@@ -433,10 +442,13 @@ export default {
     welcomeToAdventures: `Welcome {{name}}! This is where you will find all of your Adventures with your friends.`,
   },
   share: {
+    previewLinkReady: `{{name}}’s invite is ready! The link below shares the Adventure trailer for {{name}} to watch and decide on joining you.`,
     codeReady: `{{name}}’s invite code is ready! Hit Share and choose how you’d like to send this invite code with {{name}}.`,
     groupCodeReady: `{{name}}’s invite code is ready! Hit Share and choose how you’d like to send this invite code to each of your group members.`,
+    groupPreviewLinkReady: `{{name}}’s invite is ready! The link below shares the Adventure trailer so your friends can watch and decide on joining you.`,
     codeReadyResend: `The same Adventure code is alive again. Send it if {{name}} needs it.`,
     downloadMessage: `Hi {{friend}}! Download Voke and join my Adventure. Use code: {{code}} {{appUrl}}`,
+    shareMessage: `Hey{{friend}}, I’d like you to join my video Adventure in Voke. Check out this short trailer. Use Adventure code {{code}}. {{link}} `,
     firstName: `First Name (Required)`,
     firstNamePlaceholder: `First`,
     whatIsFriendsName: `What is your friend's name?`,
@@ -455,5 +467,6 @@ export default {
     noNeed: `- (they don't need to have Voke)`,
     who: 'Who do you want to share',
     with: 'with?',
+    howSharingWorks: `Tell me how sharing works`,
   },
 };

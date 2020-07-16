@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.voke">
+  package="org.cru.voke">
 
     <!-- Permissions -->
     <!-- https://github.com/react-native-community/react-native-permissions#android -->

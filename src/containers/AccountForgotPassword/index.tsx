@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux';
 import { useMount, lockToPortrait } from '../../utils';
 import { useTranslation } from "react-i18next";
 import { passwordResetAction } from '../../actions/auth';
+import useKeyboard from '@rnhooks/keyboard';
 import st from '../../st';
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
 
@@ -36,6 +37,9 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
   const [emailValid, setEmailValid] = useState(false);
   const { t } = useTranslation('forgotPassword', 'placeholder');
   const passwordRef = useRef<TextInput>(null);
+
+  // https://github.com/react-native-hooks/keyboard#configuration
+  const [isKeyboardVisible] = useKeyboard();
 
   useMount(() => {
     lockToPortrait();
@@ -92,6 +96,7 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
             Please enter the correct email address associated with your Voke
             account to reset your password.
           </Text>
+          <View style={{minHeight:10}} />
           <TextField
             // blurOnSubmit={false}
             label={t('placeholder:email')}
@@ -128,6 +133,7 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
           </Button>
         </Flex>
       </KeyboardAvoidingView>
+      {!isKeyboardVisible && <>
       {/* SECTION: NEED HELP? */}
       <Flex
         // value={1}
@@ -154,6 +160,7 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
           paddingBottom: insets.bottom,
         }}
       />
+      </>}
     </DismissKeyboardView>
   );
 };

@@ -55,7 +55,7 @@ const Flex = ( props:FlexProps) => {
     else if (justify === 'around') styleObj.justifyContent = 'space-around';
     else if (justify === 'between') styleObj.justifyContent = 'space-between';
     else if (justify === 'evenly') styleObj.justifyContent = 'space-evenly';
-    else if (justify === 'stretch') styleObj.justifyContent = 'stretch';
+    // else if (justify === 'stretch') styleObj.justifyContent = 'stretch';
   }
   return (
     <View
