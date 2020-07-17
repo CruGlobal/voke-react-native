@@ -88,25 +88,10 @@ const AdventuresMy = ({ route }: AdventuresMyProps): React.ReactElement => {
   return (
     <>
       <NotificationBanner />
-      {/* <FlatList
-        ListHeaderComponent={<AdventuresActions />}
-        data={[].concat(invitations, myAdventuresIds)}
-        renderItem={(props): JSX.Element => <MyAdventureItem {...props} />}
-        style={styles.AdventuresList}
-        contentContainerStyle={{paddingBottom:80}}
-        // Extra padding to comensave last item covered with TabBar.
-        onRefresh={() => refreshData()}
-        refreshing={isRefreshing}
-        ListEmptyComponent={(
-          <BotTalking>
-            {`Welcome ${me.firstName}! This is where you will find all of your adventures with your friends.`}
-          </BotTalking>
-        )}
-      /> */}
       <ScrollView style={styles.AdventuresList}>
         <View style={styles.AdventureActions}>
-      <AdventuresActions/>
-      </View>
+          <AdventuresActions/>
+        </View>
         { invitationsIds.length > 0 &&
           <>
             <Text style={styles.Heading}>{t('invitations')}</Text>

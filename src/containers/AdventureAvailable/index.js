@@ -98,14 +98,13 @@ function AdventureAvailable(props) {
   return (
     <Flex value={1} style={[st.bgWhite]}>
       <View style={{
-        // flex:1,
-        height: insets.top,
+        height: isPortrait ? insets.top : 0,
         backgroundColor: isPortrait && insets.top > 0 ? '#000' : 'transparent',
       }}>
         <StatusBar
           animated={true}
           barStyle="light-content"
-          translucent={ isPortrait && insets.top > 0 ? false : true } // Android. The app will draw under the status bar.
+          translucent={true} // Android. The app will draw under the status bar.
           backgroundColor="transparent" // Android. The background color of the status bar.
         />
       </View>

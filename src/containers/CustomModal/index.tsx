@@ -14,6 +14,7 @@ import BotTalking from '../../components/BotTalking';
 import Image from 'react-native-scalable-image';
 import { useNavigation } from '@react-navigation/native';
 import { requestPremissions } from '../../actions/auth';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { REDUX_ACTIONS } from '../../constants';
 
@@ -79,6 +80,22 @@ export default function CustomModal(props:any): React.ReactElement {
     navigateToNextScreen()
   }
 
+  // Events firing when user leaves the screen or comes back.
+  useFocusEffect(
+    // eslint-disable-next-line arrow-body-style
+    React.useCallback(() => {
+      // When the screen is focused:
+
+      // If notifications enabled close modal.
+      if ( (modalId === 'notifications') && ( pushNotificationPermission !== 'granted') ) {
+         props.navigation.popToTop()
+      }
+      return (): void => {
+        // When the screen is unfocused:
+      };
+    }, [])
+  );
+
   return (
     <View /* backdropOpacity={0.9} isVisible={true} style={{margin:0}} */>
       {/* // HOW DUO and GROUP WORKS */}
@@ -102,7 +119,7 @@ export default function CustomModal(props:any): React.ReactElement {
                 t('howGroupsWorkBotBody')
               }
             </BotTalking>
-            <Flex value={1} style={{marginTop:-55}}>
+            <Flex value={1} style={{marginTop:-15}}>
               <Button
                 isAndroidOpacity={true}
                 style={[
@@ -291,7 +308,7 @@ export default function CustomModal(props:any): React.ReactElement {
                  t('howSharingWorksBotBody')
               }
             </BotTalking>
-            <Flex value={1} style={{marginTop:-55}}>
+            <Flex value={1} style={{marginTop:-15}}>
               {/* <Button
                 isAndroidOpacity={true}
                 style={[
