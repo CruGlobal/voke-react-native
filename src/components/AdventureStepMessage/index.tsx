@@ -148,10 +148,9 @@ function AdventureStepMessage({
                   ]}
                 />
                 <VokeIcon
-                  type="image"
                   name="lock"
-                  style={[st.h(30), st.w(30)]}
-                />
+                  size={30}
+                  />
               </>
             )}
             {/* {<VokeIcon type="image" name="camera" style={[st.h(30), st.w(30)]} />} */}
