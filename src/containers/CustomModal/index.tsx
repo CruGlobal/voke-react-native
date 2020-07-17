@@ -17,16 +17,20 @@ import { requestPremissions } from '../../actions/auth';
 
 import { REDUX_ACTIONS } from '../../constants';
 
+import ChatExample from '../../assets/ChatExample.png';
+import VideoExample from '../../assets/VideoExample.png';
+import InviteCodeExample from '../../assets/InviteCodeExample2.png';
+import GroupWelcomeExample from '../../assets/GroupWelcomeExample.png';
+
 import ModalSharingCode from '../../assets/ModalSharingCode.png';
 import ModalSharingLink from '../../assets/ModalSharingLink.png';
 import ModalSharingNotification from '../../assets/ModalSharingNotification.png';
 import ModalSharingPersonalize from '../../assets/ModalSharingPersonalize.png';
+
 import { useTranslation } from 'react-i18next';
 
 export default function CustomModal(props:any): React.ReactElement {
   // const AccountForgotPassword: React.FC = (): React.ReactElement => {
-
-console.log( "🐸 props:", props );
   const { t } = useTranslation('modal');
   const { modalId, primaryAction } = props.route.params;
   const dispatch = useDispatch();

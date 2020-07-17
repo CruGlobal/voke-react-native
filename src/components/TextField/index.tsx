@@ -13,7 +13,11 @@ interface CustomProps extends TextInputProps {
 const TextField = forwardRef(
   // TODO: try to find an appropriate type for ref: any?
   ({ label, ...restProps }: CustomProps, ref: any) => (
-    <Flex direction="column" self="stretch" align="center" style={[st.mt2]}>
+    <Flex
+      direction="column"
+      self="stretch"
+      align="center"
+    >
       <Text style={[st.offBlue, st.fs16]}>{label}</Text>
       <TextInput
         ref={ref}

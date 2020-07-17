@@ -371,6 +371,7 @@ const RootStackScreens = () => {
             },
             title: '',
             // headerShown: true,
+            headerLeft: () => <HeaderLeft hasBack />,
           }}
         />
         <RootStack.Screen
@@ -413,6 +414,7 @@ const RootStackScreens = () => {
               </Touchable> */}
               </>
             ),
+            headerLeft: () => <HeaderLeft hasBack />,
             title: '',
             // headerShown: true,
           })}
@@ -479,6 +481,7 @@ const RootStackScreens = () => {
             },
             title: t('signIn'),
             // headerShown: true,
+            headerLeft: () => <HeaderLeft hasBack />,
           }}
         />
         <RootStack.Screen
@@ -655,17 +658,6 @@ const App = () => {
   const userId = useSelector(({ auth }: any) => auth.user?.id);
   const dispatch = useDispatch();
   const { t } = useTranslation(['common', 'profile']);
-
-  /*
-    Try to extract dynamiclink with Adventure code passed by Firebase.
-  const handleDynamicLink = link => {
-    console.log( "🦒🦒🦒🦒🦒 link:", link );
-    // Handle dynamic link inside your own application
-    if (link.url === 'https://invertase.io/offer') {
-      // ...navigate to your offers screen
-    }
-  };
-  */
 
   // Hide splash screen on load.
   useMount(() => {

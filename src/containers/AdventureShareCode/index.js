@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
+import { RootState } from '../../reducers';
 import { useNavigation } from '@react-navigation/native';
 import Clipboard from "@react-native-community/clipboard";
 import { useTranslation } from "react-i18next";
@@ -13,7 +14,7 @@ import theme from '../../theme';
 import Button from '../../components/Button';
 import { useFocusEffect } from '@react-navigation/native';
 // import { MONTHLY_PRICE } from '../../constants';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Share } from 'react-native';
 
 import BotTalking from '../../components/BotTalking';
@@ -26,6 +27,7 @@ function AdventureShareCode(props) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { t } = useTranslation('share');
+  const { pushNotificationPermission } = useSelector(({ info }: RootState) => info);
   const [askedNotifications, setAskedNotifications] = useState(false);
   const { invitation, withGroup, isVideoInvite } = props.route.params;
   let popupTimeout = null;
@@ -52,7 +54,9 @@ function AdventureShareCode(props) {
   const askNotificationPermissions = () => {
     if ( !askedNotifications ) {
         setAskedNotifications(true);
-        navigation.navigate( 'CustomModal',{ modalId: 'notifications' })
+        if ( pushNotificationPermission !== 'granted') {
+          navigation.navigate( 'CustomModal',{ modalId: 'notifications' })
+        }
       }
   };
 
