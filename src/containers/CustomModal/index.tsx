@@ -102,7 +102,7 @@ export default function CustomModal(props:any): React.ReactElement {
                 t('howGroupsWorkBotBody')
               }
             </BotTalking>
-            <Flex value={1} style={{marginTop:-55}}>
+            <Flex value={1} style={{marginTop:-15}}>
               <Button
                 isAndroidOpacity={true}
                 style={[
@@ -291,7 +291,7 @@ export default function CustomModal(props:any): React.ReactElement {
                  t('howSharingWorksBotBody')
               }
             </BotTalking>
-            <Flex value={1} style={{marginTop:-55}}>
+            <Flex value={1} style={{marginTop:-15}}>
               {/* <Button
                 isAndroidOpacity={true}
                 style={[

@@ -1,6 +1,7 @@
 import React from 'react';
 import Flex from '../../components/Flex';
 import st from '../../st';
+import theme from '../../theme';
 import Image from '../../components/Image';
 import Text from '../../components/Text';
 import Touchable from '../../components/Touchable';
@@ -126,6 +127,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                   textAlign:'center',
                   }}>{t('profile:user')}</Text>}
                   </Flex>
+            <View style={{minHeight:theme.spacing.xl}} />
             { me.email ?
             <Flex value={1} direction="column" align="flex-start" style={[st.ml2, st.w100,{marginBottom:10}]}>
               {/* <Touchable onPress={ () => navigation.navigate('AccountEmailPass')}> */}
