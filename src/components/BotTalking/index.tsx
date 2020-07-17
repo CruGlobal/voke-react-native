@@ -38,8 +38,8 @@ const BotTalking = ({reference, children, type, heading, style}: IBotTalking): R
   type=== "overlay" ?
   <Flex style={[styles.BotContainer, style]}>
     <Flex style={styles.BotMessage_overlay}>
-      { heading ?<Text style={styles.BotHeading_overlay}>{heading}</Text>:null}
-      { children? <Text style={styles.BotText_reverse}>{children}</Text>:null}
+      {heading ?<Text style={styles.BotHeading_overlay}>{heading}</Text>:null}
+      {children?<Text style={styles.BotText_reverse}>{children}</Text>:null}
     </Flex>
     <Triangle
       width={20}
@@ -54,8 +54,8 @@ const BotTalking = ({reference, children, type, heading, style}: IBotTalking): R
   :
   <Flex style={[styles.BotContainer, style]}>
     <Flex style={styles.BotMessage}>
-      { heading ?<Text style={styles.BotHeading}>{heading}</Text>:null}
-      {children? <Text style={styles.BotText}>{children}</Text>: null}
+      {heading?<Text style={styles.BotHeading}>{heading}</Text>:null}
+      {children?<Text style={styles.BotText}>{children}</Text>: null}
     </Flex>
     <Triangle
       width={20}

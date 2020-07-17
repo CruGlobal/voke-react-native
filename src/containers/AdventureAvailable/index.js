@@ -180,7 +180,7 @@ function AdventureAvailable(props) {
                   text={t('goWithFriend')}
                   icon="couple"
                   onPress={() => {
-                    if(duoTutorialCount >2) {
+                    if(duoTutorialCount>2) {
                         navigation.navigate('AdventureName', {
                         item,
                         withGroup: false,
@@ -203,7 +203,7 @@ function AdventureAvailable(props) {
                   text={t('goWithGroup')}
                   icon="group"
                   onPress={() => {
-                    if(groupTutorialCount > 2) {
+                    if(groupTutorialCount>2) {
                       navigation.navigate('AdventureName', {
                         item,
                         withGroup: true,

@@ -60,7 +60,6 @@ const styles: { [key: string]: any } = {
     text-align: center;
   `,
   SectionFB: css`
-    background-color: ${theme.colors.primary};
     padding-top: ${`${theme.spacing.l}px`};
     padding-bottom: ${`${theme.spacing.l}px`};
     width: 100%;
