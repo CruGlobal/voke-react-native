@@ -47,9 +47,8 @@ function AllMembersModal(props) {
               onPress={() => navigation.goBack()}
             >
               <VokeIcon
-                type="image"
-                name="leftArrow"
-                style={[st.h(22), st.w(22)]}
+                name="chevron-back-outline"
+                size={18}
               />
             </Touchable>
           </Flex>

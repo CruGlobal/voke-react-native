@@ -5,7 +5,9 @@ import { View, ScrollView, FlatList, StatusBar, Platform } from 'react-native';
 import { useDispatch, useSelector, shallowEqual, useStore } from 'react-redux';
 import { getMyAdventure, getAdventureStepMessages, getAdventureSteps } from '../../actions/requests';
 import { setCurrentScreen } from '../../actions/info';
-
+import {
+  getCurrentUserId,
+} from '../../utils/get';
 import { useFocusEffect } from '@react-navigation/native';
 import { useTranslation } from "react-i18next";
 import AdventureStepCard from '../../components/AdventureStepCard';
@@ -15,6 +17,8 @@ import Video from '../../components/Video';
 import st from '../../st';
 import { TDataState } from '../../types'
 import styles from './styles';
+import VokeIcon from '../../components/VokeIcon';
+import Touchable from '../../components/Touchable';
 
 type AdventureActiveProps = {
   navigation: any,
@@ -39,7 +43,9 @@ function AdventureActive({ navigation, route }: AdventureActiveProps): React.Rea
     data.adventureSteps[adventureId], shallowEqual)  || {byId:{}, allIds: []};
   const [isPortrait, setIsPortrait] = useState(true);
   const isGroup = adventure.kind === 'multiple';
-
+  const allMessengers = adventure.conversation.messengers || [];
+  const userId = getCurrentUserId();
+  const isLeader = allMessengers.find(m => m.group_leader && m.id == userId ) || false;
 
   const getPendingAdventure = async () => {
     await dispatch(getMyAdventure(adventureId));
@@ -171,8 +177,18 @@ function AdventureActive({ navigation, route }: AdventureActiveProps): React.Rea
             </Flex>
           </Video>
         )}
+        {isGroup && isLeader? (<Touchable onPress={ () =>
+            navigation.navigate('AdventureManage', {
+              adventureId: adventure.id,
+            })}>
+              <Flex direction="row" justify="end" style={{marginTop:10, marginRight:10}}>
+                <Text style={{fontSize: 18, marginRight:5, color: 'white', textDecorationLine: 'underline'}}>Manage Group</Text>
+                <VokeIcon name="stats-chart-1" size={24}/>
+              </Flex>
+            </Touchable>):null}
 
         {isPortrait && Object.keys(adventure).length > 0 && (
+          
           <FlatList
             data={steps.allIds}
             renderItem={({item}): React.ReactElement => (

@@ -27,6 +27,7 @@ import VideoDetails from './containers/VideoDetails';
 import AdventureName from './containers/AdventureName';
 import AdventureShareCode from './containers/AdventureShareCode';
 import AdventureActive from './containers/AdventureActive';
+import AdventureManage from './containers/AdventureManage';
 import AdventureStepScreen from './containers/AdventureStepScreen';
 import VideosSearch from './containers/VideosSearch';
 import AllMembersModal from './containers/AllMembersModal';
@@ -155,6 +156,20 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
           title: '',
           headerLeft: () => <HeaderLeft hasBack resetTo='Adventures' />,
           headerRight: undefined,
+        }}
+      />
+       <AdventureStack.Screen
+        name="AdventureManage"
+        component={AdventureManage}
+        // Fixed header with back button.
+        options={{
+          ...transparentHeaderConfig,
+          headerStyle: {
+            ...transparentHeaderConfig.headerStyle,
+            paddingTop: insets.top,
+          },
+          title: '',
+          headerLeft: () => <HeaderLeft hasBack />
         }}
       />
       <AdventureStack.Screen
