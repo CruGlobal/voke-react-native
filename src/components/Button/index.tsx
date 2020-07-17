@@ -38,20 +38,20 @@ const Button = ({
 }: ButtonProps) => {
   const [clickDisabled, setClickDisabled] = useState(false);
   let clickDisableTimeout = null;
-  useEffect(
-    () =>
-      (cleanUp = () => {
+
+
+  useEffect(() => {
+    return () => {
       clearTimeout(clickDisableTimeout);
-    }),
-    [],
-  );
+    }
+  }, [])
 
   function handlePress() {
     setClickDisabled(true);
+    onPress();
     clickDisableTimeout = setTimeout(() => {
       setClickDisabled(false);
     }, 500);
-    onPress();
   }
 
   let content = children;
