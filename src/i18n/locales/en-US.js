@@ -447,7 +447,7 @@ export default {
     groupPreviewLinkReady: `{{name}}’s invite is ready! The link below shares the Adventure trailer so your friends can watch and decide on joining you.`,
     codeReadyResend: `The same Adventure code is alive again. Send it if {{name}} needs it.`,
     downloadMessage: `Hi {{friend}}! Download Voke and join my Adventure. Use code: {{code}} {{appUrl}}`,
-    shareMessage: `Hey{{friend}}, I’d like you to join my video Adventure in Voke. Check out this short trailer. Use Adventure code {{code}}. {{link}} `,
+    shareMessage: `Hey{{friend}}, I’d like you to join my video Adventure in Voke. Check out this short trailer. Use Adventure code {{code}}. {{link}}`,
     firstName: `First Name (Required)`,
     firstNamePlaceholder: `First`,
     whatIsFriendsName: `What is your friend's name?`,
