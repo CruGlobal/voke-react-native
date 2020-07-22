@@ -30,6 +30,12 @@ export function setUser(userData: any) {
       }
     }
 
+    // Update unread broadcast notifications counter.
+    dispatch({
+      type: REDUX_ACTIONS.UPDATE_NOTIFICATION_UNREAD_BADGE,
+      count: newUserData?.user?.pending_notifications || 0,
+    });
+
     return dispatch({
       type: REDUX_ACTIONS.SET_USER,
       user: newUserData,
@@ -720,20 +726,6 @@ export function getNotifications(params: any = {}) {
   };
 }
 
-export function updateUnReadNotificationsBadge(updatedMessages: any) {
-  return async (dispatch: Dispatch, getState: any) => {
-    if ( updatedMessages.length < 1 ) return;
-    const notificationLatestId = getState().data.notificationLatestId;
-    const unreadNotificationsBadge = getState().data.notificationUnreadBadge;
-    if ( updatedMessages[0]?.id !== notificationLatestId ) {
-      dispatch({
-        type: REDUX_ACTIONS.UPDATE_NOTIFICATION_UNREAD_BADGE,
-        count: unreadNotificationsBadge + 1,
-      });
-    }
-  };
-}
-
 type markReadNotification = {
   conversationId: string,
   notificationId: string,
@@ -751,11 +743,6 @@ export function markReadNotification(params: markReadNotification) {
         device_id: deviceId,
       }
     };
-
-    dispatch({
-      type: REDUX_ACTIONS.UPDATE_NOTIFICATION_READ,
-      notificationId,
-    });
 
     dispatch({
       type: REDUX_ACTIONS.UPDATE_NOTIFICATION_UNREAD_BADGE,
