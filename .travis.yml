@@ -141,7 +141,7 @@ jobs:
 
     install:
     - npm install
-    - (cd android && bundle update --bundler && bundler install)
+    - (cd android && bundler install)
 
     script:
     - (cd android && fastlane android cru_build_app)

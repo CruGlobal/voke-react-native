@@ -80,16 +80,26 @@ export default function CustomModal(props:any): React.ReactElement {
     navigateToNextScreen()
   }
 
+  const checkNotificationsPopupVisibility = () => {
+    // If notifications enabled close modal.
+    if ( (modalId === 'notifications') && ( pushNotificationPermission === 'granted') ) {
+        props.navigation.popToTop()
+    }
+  }
+
+  useEffect(() => {
+    checkNotificationsPopupVisibility();
+    return () => {
+      /* cleanup */
+    }
+  }, [pushNotificationPermission])
+
   // Events firing when user leaves the screen or comes back.
   useFocusEffect(
     // eslint-disable-next-line arrow-body-style
     React.useCallback(() => {
       // When the screen is focused:
-
-      // If notifications enabled close modal.
-      if ( (modalId === 'notifications') && ( pushNotificationPermission !== 'granted') ) {
-         props.navigation.popToTop()
-      }
+      checkNotificationsPopupVisibility();
       return (): void => {
         // When the screen is unfocused:
       };
