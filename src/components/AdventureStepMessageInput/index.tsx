@@ -23,6 +23,7 @@ const AdventureStepMessageInput = ({
   const dispatch = useDispatch();
   const userId = getCurrentUserId();
   const [value, setValue] = useState(defaultValue||null);
+  const [draft, setDraft] = useState(null);
   const [messageSent, setMesssageSent] = useState(false);
   const isMultiQuestion = kind === 'multi';
   const isBinaryQuestion = kind === 'binary';
@@ -239,8 +240,8 @@ const AdventureStepMessageInput = ({
           <Text style={[st.fs4, st.pt4, st.w100, st.pb4, st.op0]}>.</Text>
         </View> :
         messageSent || isComplete ? (
-          value ?
-            <Text style={[st.fs4, st.pt4, st.w100, st.pb4, st.darkBlue]}>{value}</Text> :
+          value || draft ?
+            <Text style={[st.fs4, st.pt4, st.w100, st.pb4, st.darkBlue]}>{value ? value : draft}</Text> :
             <Text style={[st.fs4, st.pt4, st.w100, st.pb4, {opacity:.5}]}>Skipped</Text>
         ) : (
           <>
@@ -255,14 +256,14 @@ const AdventureStepMessageInput = ({
               style={[st.f1, st.fs4, st.pt4, st.pb4, st.darkBlue, {marginRight:6}]}
               underlineColorAndroid={st.colors.transparent}
               selectionColor={st.colors.darkBlue}
-              value={value}
-              onChangeText={t => setValue(t)}
+              value={value ? value : draft}
+              onChangeText={t => setDraft(t)}
               keyboardAppearance="dark"
             />
             <Button
               onPress={() => {
-                    handleSendMessage(value);
-                  }}
+                handleSendMessage(draft);
+              }}
               style={[st.p4]}>
               <VokeIcon name="send" style={[st.offBlue]} size={24} />
             </Button>
