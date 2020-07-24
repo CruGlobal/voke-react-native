@@ -32,7 +32,7 @@ function getExpiredTime(date: string) {
   const str = `${days > 0 ? `${days} day${days !== 1 ? 's' : ''} ` : ''}${
     hours > 0 ? `${hours} hr${hours !== 1 ? 's' : ''} ` : ''
   }${minutes >= 0 ? `${minutes} min ` : ''}`;
-  return { str, isTimeExpired: diff < 0 };
+  return { str, isTimeExpired: (diff < 0) };
 }
 
 type InviteItemProps = {
