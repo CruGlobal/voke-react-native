@@ -43,6 +43,30 @@ export function setUser(userData: any) {
   };
 }
 
+export function getNotificationsTabUnreads() {
+  return async dispatch => {
+    // Fetch user data from the server.
+    return dispatch(request({ ...ROUTES.GET_ME })).then(
+      userData => {
+        // eslint-disable-next-line no-console
+        const newNotificationsCounter = userData?.pending_notifications || 0;
+        // Update unread broadcast notifications counter.
+        dispatch({
+          type: REDUX_ACTIONS.UPDATE_NOTIFICATION_UNREAD_BADGE,
+          count: newNotificationsCounter,
+        });
+
+        return newNotificationsCounter;
+      },
+      error => {
+        // eslint-disable-next-line no-console
+        console.log('👤 getNotificationsTabUnreads > Fetch error', error);
+        throw error;
+      }
+    );
+  };
+}
+
 export function setData(key: DataKeys, data: any) {
   return {
     type: REDUX_ACTIONS.SET_DATA,
@@ -710,6 +734,9 @@ export function getNotifications(params: any = {}) {
   return async (dispatch: Dispatch, getState: any) => {
     const notificationId = getState().auth.user.vokebotConversationId;
     if (!notificationId) return;
+    // Request new value for Notifications Unreads counter.
+    dispatch(getNotificationsTabUnreads());
+
     const results: any = await dispatch(
       request({
         ...ROUTES.GET_NOTIFICATIONS,
@@ -744,11 +771,6 @@ export function markReadNotification(params: markReadNotification) {
       }
     };
 
-    dispatch({
-      type: REDUX_ACTIONS.UPDATE_NOTIFICATION_UNREAD_BADGE,
-      count: 0,
-    });
-
     // SEND INTERACTION DATA TO THE SERVER.
     const result = await dispatch(
       request({
@@ -760,6 +782,13 @@ export function markReadNotification(params: markReadNotification) {
         data,
       }),
     );
+
+    if ( ! result?.errors ) {
+      dispatch({
+        type: REDUX_ACTIONS.UPDATE_NOTIFICATION_UNREAD_BADGE,
+        count: 0,
+      });
+    }
 
     return result;
   };

@@ -103,11 +103,8 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
         },
       };
 
-      console.log( "🐸 data:", data );
-
       try {
         const result = await dispatch(updateMe(data));
-        console.log( "🐸 result:", result );
         /* .then(() => {
           this.resetState();
         })

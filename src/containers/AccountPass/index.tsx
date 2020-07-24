@@ -83,19 +83,8 @@ const AccountPass: React.FC = (): React.ReactElement => {
         },
       };
 
-      console.log( "🐸 data:", data );
-
       try {
         const result = await dispatch(updateMe(data));
-        console.log( "🐸 result:", result );
-        /* .then(() => {
-          this.resetState();
-        })
-        .catch(e => {
-          if (e && e.errors && e.errors[0]) {
-            Alert.alert(e.errors[0]);
-          }
-        }); */
         setIsLoading(false);
         navigation.navigate('AccountProfile');
       } catch (e) {

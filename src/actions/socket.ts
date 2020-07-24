@@ -164,7 +164,11 @@ export const createWebSocketMiddleware =  ({ dispatch, getState }) => {
                     setTimeout(() => dispatch(getAdventureSteps(adventureId)) , 500);
                   }
                 } else {
-                  console.log( "🛑🛑🛑🛑🛑🛑 message:", message );
+                  if ( message?.messenger_journey_step_id === null ) {
+                    // New notification for 'Notifications' tab.
+                    // Update notifications.
+                    dispatch(getNotifications());
+                  }
                 }
               } else if (
                 notification.category === 'CREATE_TYPESTATE_CATEGORY' ||
