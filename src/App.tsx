@@ -350,8 +350,10 @@ const getActiveRouteName = state => {
 const RootStack = createStackNavigator();
 const RootStackScreens = () => {
   const isLoggedIn = useSelector(({ auth }: any) => auth.isLoggedIn);
+  const firstName = useSelector(({ auth }: any) => auth.user.firstName);
   const insets = useSafeArea();
   const { t } = useTranslation('title');
+  console.log( "🇳🇿 firstName:", firstName );
   return (
     <RootStack.Navigator
       mode="card"
