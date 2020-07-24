@@ -140,7 +140,27 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
       <AdventureStack.Screen
         name="AdventureShareCode"
         component={AdventureShareCode}
-        options={{ headerShown: false }}
+        options={{
+          ...transparentHeaderConfig,
+          headerStyle: {
+            ...transparentHeaderConfig.headerStyle,
+            paddingTop: insets.top,
+          },
+          title: '',
+          headerLeft: () => <></>,
+          headerRight: () => (
+            <Touchable
+              onPress={
+                () => {
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Adventures' }],
+                  })
+                }}>
+              <Text style={[st.white, st.mr4, st.fs16]}>{t('done')}</Text>
+            </Touchable>
+          ),
+        }}
       />
       <AdventureStack.Screen
         name="AdventureActive"

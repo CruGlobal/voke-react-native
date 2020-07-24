@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 // import { StatusBar as RNStatusBar, StatusBarProps } from 'react-native';
-import { View, ScrollView, FlatList, StatusBar, Platform } from 'react-native';
+import { View, ScrollView, FlatList, StatusBar, ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector, shallowEqual, useStore } from 'react-redux';
 import { getMyAdventure, getAdventureStepMessages, getAdventureSteps } from '../../actions/requests';
 import { setCurrentScreen } from '../../actions/info';
@@ -42,13 +42,17 @@ function AdventureActive({ navigation, route }: AdventureActiveProps): React.Rea
   const steps = useSelector(({ data }: {data: TDataState}) =>
     data.adventureSteps[adventureId], shallowEqual)  || {byId:{}, allIds: []};
   const [isPortrait, setIsPortrait] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const isGroup = adventure.kind === 'multiple';
   const allMessengers = adventure.conversation.messengers || [];
   const userId = getCurrentUserId();
   const isLeader = allMessengers.find(m => m.group_leader && m.id == userId ) || false;
 
   const getPendingAdventure = async () => {
+    setIsLoading(true);
     await dispatch(getMyAdventure(adventureId));
+    setIsLoading(false);
+    getSteps();
   };
 
   /* useEffect(() => {
@@ -118,7 +122,7 @@ function AdventureActive({ navigation, route }: AdventureActiveProps): React.Rea
         <StatusBar
           animated={true}
           barStyle="light-content"
-          translucent={ isPortrait && insets.top > 0 ? false : true } // Android. The app will draw under the status bar.
+          translucent={true} // Android. The app will draw under the status bar.
           backgroundColor="transparent" // Android. The background color of the status bar.
         />
       </View>
@@ -133,50 +137,60 @@ function AdventureActive({ navigation, route }: AdventureActiveProps): React.Rea
             {isGroup? adventure.journey_invite.name : adventure.name}
           </Text>
         </Flex> */}
-        {Object.keys(adventure).length > 0 && (
-          <Video
-            onOrientationChange={(orientation: string): void => {
-              setIsPortrait( orientation === 'portrait' ? true : false);
+        {isLoading &&
+          <ActivityIndicator
+            size="large"
+            color="rgba(255,255,255,.5)"
+            style={{
+              paddingTop: 50
             }}
-            item={adventure?.item?.content}
-          >
-            <Flex direction="column" align="center">
-              {/* Call to action overlay to be rendered over the video. */}
-              <Text
-                style={{
-                  fontSize: 24,
-                  paddingHorizontal: 25,
-                  paddingVertical: 4,
-                  color: 'white',
-                }}
-              >
-                {adventure.name}
-              </Text>
-              <Flex
-                style={{
-                  borderRadius: 20,
-                  backgroundColor: 'rgba(0,0,0,0.8)',
-                  // minWidth: '50%',
-                  alignSelf: 'center',
-                  marginBottom: 10,
-                }}
-              >
+          />}
+
+        { ( !isLoading && Object.keys(adventure).length > 0 ) && (
+            <Video
+              onOrientationChange={(orientation: string): void => {
+                setIsPortrait( orientation === 'portrait' ? true : false);
+              }}
+              item={adventure?.item?.content}
+            >
+              <Flex direction="column" align="center">
+                {/* Call to action overlay to be rendered over the video. */}
                 <Text
                   style={{
-                    fontSize: 16,
-                    paddingHorizontal: 24,
-                    paddingTop: 8,
-                    paddingBottom: 10,
-                    textAlign: 'center',
+                    fontSize: 24,
+                    paddingHorizontal: 25,
+                    paddingVertical: 4,
                     color: 'white',
                   }}
                 >
-                  {t('watchTrailer')}
+                  {adventure.name}
                 </Text>
+                <Flex
+                  style={{
+                    borderRadius: 20,
+                    backgroundColor: 'rgba(0,0,0,0.8)',
+                    // minWidth: '50%',
+                    alignSelf: 'center',
+                    marginBottom: 10,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      paddingHorizontal: 24,
+                      paddingTop: 8,
+                      paddingBottom: 10,
+                      textAlign: 'center',
+                      color: 'white',
+                    }}
+                  >
+                    {t('watchTrailer')}
+                  </Text>
+                </Flex>
               </Flex>
-            </Flex>
           </Video>
         )}
+        
         {isGroup && isLeader? (<Touchable onPress={ () =>
             navigation.navigate('AdventureManage', {
               adventureId: adventure.id,
@@ -187,7 +201,7 @@ function AdventureActive({ navigation, route }: AdventureActiveProps): React.Rea
               </Flex>
             </Touchable>):null}
 
-        {isPortrait && Object.keys(adventure).length > 0 && (
+            { ( !isLoading && isPortrait && Object.keys(adventure).length > 0 ) && (
           
           <FlatList
             data={steps.allIds}

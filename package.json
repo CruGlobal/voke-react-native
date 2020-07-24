@@ -45,7 +45,7 @@
     "@types/react-native-snap-carousel": "^3.8.1",
     "@types/react-native-vector-icons": "^6.4.5",
     "i18next": "^19.4.5",
-    "lodash": "4.17.15",
+    "lodash": "4.17.19",
     "moment": "^2.24.0",
     "normalizr": "^3.6.0",
     "qs": "6.9.1",

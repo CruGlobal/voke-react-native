@@ -110,10 +110,10 @@ const AccountCreate: React.FC = (): React.ReactElement => {
             },
           }),
         );
-
         // await dispatch(userLogin(email, password));
         setIsLoading(false);
-        navigation.navigate('AccountName');
+        navigation.navigate('LoggedInApp');
+        // navigation.navigate('AccountName');
       } catch (e) {
         setIsLoading(false);
         // eslint-disable-next-line no-console
@@ -133,7 +133,10 @@ const AccountCreate: React.FC = (): React.ReactElement => {
     <DismissKeyboardView
       style={{ backgroundColor: styles.colors.primary, height: '100%' }}
     >
-      <ScrollView>
+      <ScrollView
+        keyboardShouldPersistTaps='handled'
+        // ☝️ Important! https://stackoverflow.com/a/50510934
+      >
       {/* <StatusBar /> <- TODO: Not sure why we need it here? */}
         <Transitioning.View
           ref={refBotBlock}

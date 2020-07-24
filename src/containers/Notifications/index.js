@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
+import { useFocusEffect } from '@react-navigation/native';
 import Flex from '../../components/Flex';
 import st from '../../st';
 import { FlatList, View } from 'react-native';
@@ -16,7 +17,6 @@ function Notifications(props) {
   const [isLoading, setIsLoading] = useState(false);
   const me = useSelector(({ auth }) => auth.user);
   const notifications = useSelector(({ data }) => data.notifications);
-  const notificationLatestId = useSelector(({ data }) => data.notificationLatestId);
   const notificationUnreadBadge = useSelector(({ data }) => data.notificationUnreadBadge);
   const notificationPagination = useSelector(
     ({ data }) => data.notificationPagination,
@@ -36,16 +36,26 @@ function Notifications(props) {
   }, [notificationPagination]);
 
   useEffect(() => {
-    const latestNotification = notifications[0];
     setCurrentNotifications(notifications);
-    if ( notificationLatestId !== latestNotification?.id || notificationUnreadBadge > 0 ) {
-      dispatch(
-        markReadNotification({
-          conversationId: latestNotification?.conversation_id,
-          notificationId: latestNotification?.id,
-      }));
-    }
   }, [notifications.length]);
+
+  // Events firing when user leaves the screen
+  useFocusEffect(
+    // eslint-disable-next-line arrow-body-style
+    React.useCallback(() => {
+      // When the screen is focused:
+      if ( notificationUnreadBadge > 0 ) {
+        dispatch(
+          markReadNotification({
+            conversationId: latestNotification?.conversation_id,
+            notificationId: latestNotification?.id,
+        }));
+      }
+      return (): void => {
+        // When the screen is unfocused:
+      };
+    }, [])
+  );
 
   useMount(() => {
     dispatch(getNotifications());

@@ -40,7 +40,12 @@ const Welcome = (props: WelcomeProps) => {
   return (
     <Flex value={1} >
       <ImageBackground source={Background} style={{width: '100%', height: '100%'}}>
-      <StatusBar />
+      <StatusBar
+        animated={true}
+        barStyle="light-content"
+        translucent={true} // Android. The app will draw under the status bar.
+        backgroundColor="transparent" // Android. The background color of the status bar.
+      />
       <Flex value={1} direction="column" justify="flex-start" style={[styles.SectionOnboarding, {marginTop:60}]}>
       <BotTalking heading={t('botMessageTitle')}>{t('botMessageContent')}</BotTalking>
       {/* Help Mode Text */}
