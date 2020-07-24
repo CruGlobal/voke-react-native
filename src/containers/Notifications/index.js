@@ -16,41 +16,52 @@ function Notifications(props) {
   const [isPortrait, setIsPortrait] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const me = useSelector(({ auth }) => auth.user);
-  const notifications = useSelector(({ data }) => data.notifications);
-  const notificationUnreadBadge = useSelector(({ data }) => data.notificationUnreadBadge);
   const notificationPagination = useSelector(
     ({ data }) => data.notificationPagination,
   );
+  // We have to use Ref here to be able to get current value within useCallback.
+  const notifications = React.useRef([]);
+  const notificationUnreads = React.useRef(0);
+  notifications.current = useSelector(({ data }) => data.notifications);
+  notificationUnreads.current = useSelector(({ data }) => data.notificationUnreadBadge);
   const [updatedPagination, setUpdatedPagination] = useState(
     notificationPagination,
   );
   const [currentNotifications, setCurrentNotifications] = useState(
-    [notifications].reverse(),
+    [notifications.current].reverse(),
   );
 
   const [videoToShow, setVideoToShow] = useState(null);
 
+  const markNotificationsAsRead = () => {
+    const notificationUnreadBadge = notificationUnreads.current;
+    // When the screen is focused:
+    if ( notificationUnreadBadge > 0 ) {
+      const latestNotification = notifications.current[0];
 
-  useEffect(() => {
-    setUpdatedPagination(notificationPagination);
-  }, [notificationPagination]);
-
-  useEffect(() => {
-    setCurrentNotifications(notifications);
-  }, [notifications.length]);
-
-  // Events firing when user leaves the screen
-  useFocusEffect(
-    // eslint-disable-next-line arrow-body-style
-    React.useCallback(() => {
-      // When the screen is focused:
-      if ( notificationUnreadBadge > 0 ) {
+      if ( latestNotification?.id ) {
         dispatch(
           markReadNotification({
             conversationId: latestNotification?.conversation_id,
             notificationId: latestNotification?.id,
         }));
       }
+    }
+  }
+
+  useEffect(() => {
+    setUpdatedPagination(notificationPagination);
+  }, [notificationPagination]);
+
+  useEffect(() => {
+    setCurrentNotifications(notifications.current);
+  }, [notifications.current.length]);
+
+  // Events firing when user leaves the screen
+  useFocusEffect(
+    // eslint-disable-next-line arrow-body-style
+    React.useCallback(() => {
+      markNotificationsAsRead();
       return (): void => {
         // When the screen is unfocused:
       };

@@ -460,24 +460,18 @@ export default function(state = initialState, action: any) {
       newNotifications = newNotifications.concat(
         action.result.results.messages || [],
       );
-      let newMessagesCount = newNotifications.length - state.notifications.length;
-      // Don't trust this method when there were no other notifications in the store before it.
-      if ( state.notifications.length === 0 ) {
-        newMessagesCount = 0;
-      }
-      const unreadNotificationsCount = state.notificationUnreadBadge + newMessagesCount;
+
       return {
         ...state,
         notifications: newNotifications,
         notificationPagination: newNotificationPagination,
-        notificationUnreadBadge: unreadNotificationsCount,
       };
     }
 
     case REDUX_ACTIONS.UPDATE_NOTIFICATION_UNREAD_BADGE: {
       return {
         ...state,
-        notificationUnreadBadge:  action.count,
+        notificationUnreadBadge: action.count,
       };
     }
 
