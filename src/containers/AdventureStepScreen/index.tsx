@@ -400,7 +400,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
               </>
               )}
             {/* Extra spacing on the bottom */}
-            { isPortrait && <View style={{height:60}}></View> }
+            { isPortrait && <View style={{height:theme.spacing.m}}></View> }
           </View>
         </ScrollView>
         {/*
