@@ -8,7 +8,7 @@ import { setCurrentScreen } from '../../actions/info';
 
 import { useFocusEffect } from '@react-navigation/native';
 import { useTranslation } from "react-i18next";
-import AdventureStepCard from '../../components/AdventureStepCard';
+import AdventureStepReportCard from '../../components/AdventureStepReportCard';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import Video from '../../components/Video';
@@ -29,6 +29,19 @@ type AdventureManageProps = {
   };
 };
 
+// function AdventureJourneyRow(stepId){
+//   const step = useSelector(({ data }: RootState) => data.adventureSteps[adventureId].byId[stepId]);
+
+//   return(
+//     <Flex direction="row" style={[st.bgWhite, st.br6, st.mt6,{height:60}]}>
+//     <Flex>
+//       <Text>How did we get here?</Text>
+//       <Text>Part 1</Text>
+//     </Flex>
+//     </Flex>
+//   )
+// }
+
 function AdventureManage({ navigation, route }: AdventureManageProps): React.ReactElement {
   const { t } = useTranslation('journey');
   const dispatch = useDispatch();
@@ -36,11 +49,11 @@ function AdventureManage({ navigation, route }: AdventureManageProps): React.Rea
   const store = useStore()
   const me = useSelector(({ auth }) => auth.user);
   const allMessages = store.getState().data.adventureStepMessages;
-  const { adventureId } = route.params;
+  const { adventureId} = route.params;
   const adventure = useSelector(({ data }: {data: TDataState}) =>
     data.myAdventures?.byId[adventureId] || {});
   const steps = useSelector(({ data }: {data: TDataState}) =>
-    data.adventureSteps[adventureId], shallowEqual)  || {byId:{}, allIds: []};
+    data.adventureSteps[adventureId], shallowEqual)  || {byId:[], allIds: []};
 
   const messengers = adventure.conversation.messengers || [];
   const myUser = messengers.find(i => i.id === me.id) || {};
@@ -56,12 +69,13 @@ function AdventureManage({ navigation, route }: AdventureManageProps): React.Rea
       subGroup = usersExceptVokeAndMe.slice(0, 6);
       numberMore = totalGroupUsers - 7;
     }
-  return (
+
+    return (
       <ScrollView style={[st.bgBlue, st.pr4, st.pl4, { paddingTop: insets.top, paddingBottom: insets.bottom}]}>
         <Flex style={[st.mb4]} align="center" justify="center">
           <Text style={[st.white, {textAlign:'center'}]}></Text>
-          <Text style={[st.white, {fontSize:21, marginTop:-6}]}>Kahlea's Middle School Group</Text>
-          <Text style={[st.white, {fontSize:18, fontWeight: 'bold'}]}>Group Code: xxxxxx</Text>
+  <Text style={[st.white, {fontSize:21, marginTop:-6}]}>{adventure.journey_invite.name}</Text>
+          <Text style={[st.white, {fontSize:18, fontWeight: 'bold'}]}>Group Code: {adventure.journey_invite.code}</Text>
         </Flex>
         <Flex style={[st.mt2]}>
           <Flex direction="row" align="end" justify="between">
@@ -134,13 +148,36 @@ function AdventureManage({ navigation, route }: AdventureManageProps): React.Rea
         </Flex>
         <Flex direction="column" justify="between" style={[st.mt2]}>
           <Text style={[st.white,{fontSize:18}]}>Member Journey Status</Text>
-          <Flex direction="row">
-            
+          <FlatList
+            data={steps.allIds}
+            renderItem={({item}): React.ReactElement => (
+              item && <AdventureStepReportCard
+                // {...props}
+                // step={steps.byId[stepId].item}
+                stepId = {item}
+                adventureId={adventureId}
+                // steps={currentSteps}
+                // adventure={adventure} //! !!
+              />
+            )}
+          />
           </Flex>
-        </Flex>
         <Flex direction="column" justify="between" style={[st.mt2]}>
           <Text style={[st.white,{fontSize:18}]}>Reported Messages</Text>
+          <Flex  direction="column" align="center" justify="center" style={[st.minh(170), st.mt4, st.mb1, st.p4]}>
+            <Text style={[st.offBlue, st.fs18]}>No Reported Messages</Text>
+          </Flex>
         </Flex>
+
+        <Flex direction="column" style={[st.mb1]}>
+          <Touchable>
+          <Text style={[st.fs18, st.red, st.mb5]}>Delete Group</Text>
+          </Touchable>
+            <Text style={[st.fs16, st.darkBlue, st.mb5]}> Started on: {new Date(adventure.created_at).toDateString()}</Text>
+        </Flex>
+
+        <Flex value={1} style={{ paddingBottom: insets.bottom }}></Flex>
+
       </ScrollView>
   );
 }

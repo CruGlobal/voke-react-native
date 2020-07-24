@@ -190,10 +190,10 @@ function AdventureActive({ navigation, route }: AdventureActiveProps): React.Rea
               </Flex>
           </Video>
         )}
-        
+
         {isGroup && isLeader? (<Touchable onPress={ () =>
             navigation.navigate('AdventureManage', {
-              adventureId: adventure.id,
+              adventureId: adventure.id
             })}>
               <Flex direction="row" justify="end" style={{marginTop:10, marginRight:10}}>
                 <Text style={{fontSize: 18, marginRight:5, color: 'white', textDecorationLine: 'underline'}}>Manage Group</Text>
