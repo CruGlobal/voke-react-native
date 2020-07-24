@@ -60,7 +60,6 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
     id: null,
     content: ''
   };
-
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   useKeyboard( (bool: boolean) => setKeyboardVisible(bool));
 
