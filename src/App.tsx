@@ -359,7 +359,7 @@ const RootStackScreens = () => {
       mode="card"
       screenOptions={defaultHeaderConfig}
     >
-      {isLoggedIn ? (
+      {isLoggedIn && firstName.length ? (
           <RootStack.Screen
             name="LoggedInApp"
             component={LoggedInAppContainer}
