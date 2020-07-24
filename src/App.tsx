@@ -353,7 +353,6 @@ const RootStackScreens = () => {
   const firstName = useSelector(({ auth }: any) => auth.user.firstName);
   const insets = useSafeArea();
   const { t } = useTranslation('title');
-  console.log( "🇳🇿 firstName:", firstName );
   return (
     <RootStack.Navigator
       mode="card"
