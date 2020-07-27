@@ -66,7 +66,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
       try {
         await dispatch(userLogin(email, password)); // Then try to login.
         setIsLoading(false);
-        navigation.navigate('LoggedInApp');
+        navigation.navigate('AccountProfile');
       } catch (e) {
         // eslint-disable-next-line no-console
         console.log('🛑 Error on login \n', { e });
@@ -97,7 +97,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
         'Facebook authentication is not available at this moment'
       );
     } else {
-      navigation.navigate('LoggedInApp');
+      navigation.navigate('AccountProfile');
     }
   };
 

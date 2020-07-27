@@ -350,6 +350,7 @@ const getActiveRouteName = state => {
 const RootStack = createStackNavigator();
 const RootStackScreens = () => {
   const isLoggedIn = useSelector(({ auth }: any) => auth.isLoggedIn);
+  const firstName = useSelector(({ auth }: any) => auth.user.firstName);
   const insets = useSafeArea();
   const { t } = useTranslation('title');
   return (
@@ -357,7 +358,7 @@ const RootStackScreens = () => {
       mode="card"
       screenOptions={defaultHeaderConfig}
     >
-      {isLoggedIn ? (
+      {isLoggedIn && firstName.length ? (
           <RootStack.Screen
             name="LoggedInApp"
             component={LoggedInAppContainer}
