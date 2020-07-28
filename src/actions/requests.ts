@@ -951,7 +951,7 @@ export function markMessageAsRead(params: markMessageAsRead) {
 }
 
 // Send an interaction when the user press play.
-export function interactionVideoPlay({adventureId, stepId}) {
+export function interactionAdventureVideoPlay({adventureId, stepId}) {
   return async (dispatch: Dispatch, getState: any) => {
     const deviceId = getState().auth.device.id;
     // See: https://docs.vokeapp.com/#me-journeys-steps-interactions-create-interaction
@@ -964,10 +964,35 @@ export function interactionVideoPlay({adventureId, stepId}) {
     // SEND INTERACTION DATA TO THE SERVER.
     const result = await dispatch(
       request({
-        ...ROUTES.CREATE_INTERACTION_PLAY,
+        ...ROUTES.CREATE_INTERACTION_PLAY_ADVENTURE_VIDEO,
         pathParams: {
           adventureId,
           stepId,
+        },
+        data,
+      }),
+    );
+    return result;
+  };
+}
+
+// Send an interaction when the user press play.
+// https://docs.vokeapp.com/#items-interactions-create-item-interaction
+export function interactionVideoPlay({videoId}) {
+  return async (dispatch: Dispatch, getState: any) => {
+    const deviceId = getState().auth.device.id;
+    let data: any = {
+      interaction: {
+        action: "started", // Message read.
+        device_id: deviceId,
+      }
+    };
+    // SEND INTERACTION DATA TO THE SERVER.
+    const result = await dispatch(
+      request({
+        ...ROUTES.CREATE_INTERACTION_PLAY_VIDEO,
+        pathParams: {
+          videoId,
         },
         data,
       }),

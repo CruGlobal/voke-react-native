@@ -13,7 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from "react-i18next";
 import VokeIcon from '../../components/VokeIcon';
 import theme from '../../theme';
-import { startAdventure } from '../../actions/requests';
+import { startAdventure, interactionVideoPlay } from '../../actions/requests';
 import { REDUX_ACTIONS } from '../../constants';
 
 
@@ -113,6 +113,13 @@ function AdventureAvailable(props) {
           setIsPortrait( orientation === 'portrait' ? true : false);
         }}
         item={item?.item?.content}
+        onPlay={
+          () => {
+            dispatch( interactionVideoPlay({
+              videoId: item?.item?.content?.id,
+            }))
+          }
+        }
       >
         <Flex direction="column" align="center">
           {/* Call to action overlay to be rendered over the video. */}

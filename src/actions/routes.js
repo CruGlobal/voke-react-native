@@ -99,9 +99,13 @@ const ROUTES = {
     method: 'post',
     url: `me/conversations/{conversationId}/messages/{messageId}/interactions/`,
   },
-  CREATE_INTERACTION_PLAY: {
+  CREATE_INTERACTION_PLAY_ADVENTURE_VIDEO: {
     method: 'post',
     url: `me/journeys/{adventureId}/steps/{stepId}/interactions/`,
+  },
+  CREATE_INTERACTION_PLAY_VIDEO: {
+    method: 'post',
+    url: `items/{videoId}/interactions`,
   },
   START_ADVENTURE: { method: 'post', url: `me/journeys` },
   // https://docs.vokeapp.com/#me-journeys-cancels-a-messenger-journey
