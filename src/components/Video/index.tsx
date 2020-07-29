@@ -143,12 +143,18 @@ function Video({
   }
 
   function togglePlayState() {
-    // Send an interaction when the user press play.
-    if( !isPlaying ) {
-      onPlay();
-    }
     setIsPlaying(!isPlaying);
   }
+
+  useEffect(() => {
+    // / Send an interaction when the user press play.
+    if( isPlaying ) {
+      onPlay();
+    }
+    return () => {
+      // cleanup
+    }
+  }, [isPlaying])
 
   function handleSliderChange(value) {
     if (item?.type === 'youtube') {

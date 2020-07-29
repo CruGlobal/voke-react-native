@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Video from '../../components/Video';
 import { useMount, lockToPortrait } from '../../utils';
 import NotificationItem from '../../components/NotificationItem';
-import { getNotifications, markReadNotification } from '../../actions/requests';
+import { getNotifications, markReadNotification, interactionVideoPlay } from '../../actions/requests';
 
 function Notifications(props) {
   const dispatch = useDispatch();
@@ -121,6 +121,14 @@ function Notifications(props) {
           item={videoToShow.item.media}
           lockOrientation={true}
           autoPlay = {true}
+          onPlay={
+            () => {
+              dispatch( interactionVideoPlay({
+                videoId: videoToShow.item.id,
+                context: 'notifications'
+              }))
+            }
+          }
         />
       ) }
       { isPortrait && (

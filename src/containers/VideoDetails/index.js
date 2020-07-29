@@ -12,6 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from "react-i18next";
 import VokeIcon from '../../components/VokeIcon';
 import Touchable from '../../components/Touchable';
+import { interactionVideoPlay } from '../../actions/requests';
 
 import {
   toggleFavoriteVideo,
@@ -78,6 +79,14 @@ function VideoDetails(props) {
             }}
             autoPlay={true}
             item={item.media}
+            onPlay={
+              () => {
+                dispatch( interactionVideoPlay({
+                  videoId: item.id,
+                  context: 'resource'
+                }))
+              }
+            }
           />
           { isPortrait && (
             <Flex
