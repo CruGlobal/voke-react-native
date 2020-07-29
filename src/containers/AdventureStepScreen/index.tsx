@@ -369,7 +369,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
                   <ActivityIndicator size="large" color="rgba(255,255,255,.5)" style={{
                     paddingTop: 50
                   }} />:
-                  currentMessages.map(item =>  {
+                  currentMessages.map( (item, index) =>  {
                       return(
                         <>
                           {
@@ -380,6 +380,9 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
                                 item={item}
                                 adventure={adventure}
                                 step={currentStep}
+                                // In multichoise questions, we need previous and next.
+                                previous={ index > 0 ? currentMessages[index-1] : null}
+                                next={ currentMessages.length > index + 1 ? currentMessages[index+1] : null}
                                 onFocus={event => {
                                   /* scrollRef.current.props.scrollToFocusedInput(
                                     findNodeHandle(event.target),

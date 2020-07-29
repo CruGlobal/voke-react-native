@@ -17,12 +17,16 @@ type MessageProps = {
   item: TMessage;
   step: TAdventureStepSingle;
   adventure: TAdventureSingle;
+  previous: TMessage,
+  next: TMessage,
 }
 
 function AdventureStepMessage({
   item,
   step,
   adventure,
+  previous,
+  next
 }: MessageProps): React.ReactElement | null {
   const isAndroid = Platform.OS === 'android';
   const userId = getCurrentUserId();
@@ -41,6 +45,7 @@ function AdventureStepMessage({
     ...item,
   };
 
+  const isAnswerToQuestionBox = previous?.metadata?.step_kind === 'question';
   const isMyMessage = message.messenger_id === userId;
   // const myFirstMessage = reversed.find(m => m.messenger_id === me.id);
   if (isMyMessage && adventure.kind === 'solo') return null;
@@ -58,9 +63,27 @@ function AdventureStepMessage({
     !message.metadata.messenger_journey_step_id; // If I didn't left the message.
 
   const msgKind = message.metadata.step_kind;
-  const selectedAnswer = (
+  let selectedAnswer = (
     ((message.metadata || {}).answers || []).find(i => i.selected) || {}
   ).value;
+
+
+  // If current message is a question box and next message is answer,
+  // render next message here (https://d.pr/i/YHrv4N).
+  if ( msgKind === 'question'
+      && !selectedAnswer
+      && message?.metadata?.vokebot_action === 'journey_step'
+      && next?.content ) {
+    selectedAnswer = next?.content;
+  }
+
+  // Do not output answer to the previous question box
+  // as it was already rendered above.
+  if ( isAnswerToQuestionBox
+      && message?.content
+      && previous?.metadata?.step_kind === 'question' ) {
+    return null;
+  }
 
   // SPECIAL MESSAGE: QUESTION / MULTI / BINARY / SHARE
   if (['binary', 'multi', 'question', 'share'].includes(msgKind)) {
