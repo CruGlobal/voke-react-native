@@ -564,7 +564,7 @@ const RootStackScreens = () => {
               fontSize: 18,
               fontWeight: 'normal',
             },
-            title: 'Sign Up',
+            title: t('signUp'),
           })}
         />
         <RootStack.Screen

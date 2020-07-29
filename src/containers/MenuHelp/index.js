@@ -37,10 +37,6 @@ function MenuHelp(props) {
     <Flex value={1} style={[st.bgWhite, { paddingBottom: insets.bottom }]}>
       <ScrollView>
         <SettingsRow
-          title={t('visitWebsite')}
-          onSelect={() => Linking.openURL(CONSTANTS.WEB_URLS.HELP)}
-        />
-        <SettingsRow
           title={t('visitFAQ')}
           onSelect={() => Linking.openURL(CONSTANTS.WEB_URLS.FAQ)}
         />
