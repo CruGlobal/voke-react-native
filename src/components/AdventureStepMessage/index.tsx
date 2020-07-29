@@ -45,7 +45,6 @@ function AdventureStepMessage({
     ...item,
   };
 
-  const isAnswerToQuestionBox = previous?.metadata?.step_kind === 'question';
   const isMyMessage = message.messenger_id === userId;
   // const myFirstMessage = reversed.find(m => m.messenger_id === me.id);
   if (isMyMessage && adventure.kind === 'solo') return null;
@@ -67,31 +66,26 @@ function AdventureStepMessage({
     ((message.metadata || {}).answers || []).find(i => i.selected) || {}
   ).value;
 
-
-/*   console.log( "========================================" );
-  console.log( "🐸 message:", message );
-  console.log( "🐸 isMyMessage:", isMyMessage );
-  console.log( "🐸 msgKind:", msgKind );
-  console.log( "🐸 selectedAnswer:", selectedAnswer );
-  console.log( "🐸 previous:", previous );
-  console.log( "🐸 next:", next );
-  console.log( "🐸 isAnswerToQuestionBox:", isAnswerToQuestionBox );
- */
-
   // If current message is a question box and next message is answer,
   // render next message here (https://d.pr/i/YHrv4N).
   if ( msgKind === 'question'
       && !selectedAnswer
       && message?.metadata?.vokebot_action === 'journey_step'
-      && next?.content ) {
+      && next?.content
+      && next?.direct_message ) {
     selectedAnswer = next?.content;
   }
 
   // Do not output answer to the previous question box
   // as it was already rendered above.
-  if ( isAnswerToQuestionBox
+  if ((
+      // If the previous message is a question box type.
+      previous?.metadata?.step_kind === 'question' ||
+      // ... or if the previous message is a share message box
+      // with the current message shared.
+      previous?.metadata?.messenger_answer === message?.content )
       && message?.content
-      && previous?.metadata?.step_kind === 'question' ) {
+      && message?.direct_message ) {
     return null;
   }
 
