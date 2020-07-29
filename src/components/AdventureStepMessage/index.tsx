@@ -68,6 +68,16 @@ function AdventureStepMessage({
   ).value;
 
 
+/*   console.log( "========================================" );
+  console.log( "🐸 message:", message );
+  console.log( "🐸 isMyMessage:", isMyMessage );
+  console.log( "🐸 msgKind:", msgKind );
+  console.log( "🐸 selectedAnswer:", selectedAnswer );
+  console.log( "🐸 previous:", previous );
+  console.log( "🐸 next:", next );
+  console.log( "🐸 isAnswerToQuestionBox:", isAnswerToQuestionBox );
+ */
+
   // If current message is a question box and next message is answer,
   // render next message here (https://d.pr/i/YHrv4N).
   if ( msgKind === 'question'
