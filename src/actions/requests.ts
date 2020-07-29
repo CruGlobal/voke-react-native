@@ -976,15 +976,22 @@ export function interactionAdventureVideoPlay({adventureId, stepId}) {
   };
 }
 
+type interactionVideoPlay = {
+  videoId: string,
+  context: 'resource' | 'journey' | 'step' | 'notifications',
+  // Where the interaction is comming from?
+}
+
 // Send an interaction when the user press play.
 // https://docs.vokeapp.com/#items-interactions-create-item-interaction
-export function interactionVideoPlay({videoId}) {
+export function interactionVideoPlay(params:interactionVideoPlay) {
   return async (dispatch: Dispatch, getState: any) => {
     const deviceId = getState().auth.device.id;
     let data: any = {
       interaction: {
         action: "started", // Message read.
         device_id: deviceId,
+        context: params.context
       }
     };
     // SEND INTERACTION DATA TO THE SERVER.
@@ -992,7 +999,7 @@ export function interactionVideoPlay({videoId}) {
       request({
         ...ROUTES.CREATE_INTERACTION_PLAY_VIDEO,
         pathParams: {
-          videoId,
+          videoId: params.videoId,
         },
         data,
       }),

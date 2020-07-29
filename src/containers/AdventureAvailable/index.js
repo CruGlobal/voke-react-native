@@ -117,6 +117,7 @@ function AdventureAvailable(props) {
           () => {
             dispatch( interactionVideoPlay({
               videoId: item?.item?.id,
+              context: 'journey'
             }))
           }
         }

@@ -124,7 +124,8 @@ function Notifications(props) {
           onPlay={
             () => {
               dispatch( interactionVideoPlay({
-                videoId: videoToShow.item.media.id,
+                videoId: videoToShow.item.id,
+                context: 'notifications'
               }))
             }
           }

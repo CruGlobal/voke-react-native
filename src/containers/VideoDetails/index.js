@@ -83,6 +83,7 @@ function VideoDetails(props) {
               () => {
                 dispatch( interactionVideoPlay({
                   videoId: item.id,
+                  context: 'resource'
                 }))
               }
             }
