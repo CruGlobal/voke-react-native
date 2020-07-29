@@ -9,6 +9,9 @@ import {
   ScrollView,
 } from 'react-native';
 
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+
 import { useNavigation } from '@react-navigation/native';
 import { useHeaderHeight } from '@react-navigation/stack';
 import { useSafeArea } from 'react-native-safe-area-context';
@@ -30,6 +33,7 @@ import CONSTANTS from '../../constants';
 import st from '../../st';
 import theme from '../../theme';
 
+
 const AccountSignIn: React.FC = (): React.ReactElement => {
   const insets = useSafeArea();
   const navigation = useNavigation();
@@ -46,42 +50,53 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
   // https://github.com/react-native-hooks/keyboard#configuration
   const [isKeyboardVisible] = useKeyboard();
 
+  const SigninSchema = Yup.object().shape({
+    email: Yup.string()
+      .email(t('forgotPassword:invalid'))
+      .required(t('required')),
+    // According to Voke API, password should be at least 8 characters long.
+    password: Yup.string()
+      .min(8, t('shortPassword'))
+      .required(t('required')),
+  });
+
+  const formik = useFormik({
+     initialValues: {
+       email: '',
+       password: '',
+     },
+     validationSchema: SigninSchema,
+     onSubmit: async values => {
+      await login()
+      //  console.log(JSON.stringify(values, null, 2));
+     },
+   });
+
   useMount(() => {
     lockToPortrait();
   });
 
-  const checkEmail = (text: string): void => {
-    const emailValidation = CONSTANTS.EMAIL_REGEX.test(text);
-    if (emailValidation) {
-      setEmailValid(true);
-    }
-    setEmail(text);
-  };
-
   const login = async (): Promise<void> => {
-    // According to Voke API, password should be at least 8 characters long.
-    if (emailValid && password.length > 7) {
-      setIsLoading(true);
+    setIsLoading(true);
 
-      try {
-        await dispatch(userLogin(email, password)); // Then try to login.
-        setIsLoading(false);
-        navigation.navigate('AccountProfile');
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.log('🛑 Error on login \n', { e });
-        Alert.alert(
-          t('login:invalid'),
-          t('login:enterValid')
-          // e.error_description ? e.error_description : e.errors[0]
-        );
-        setIsLoading(false);
-      }
-    } else {
+    try {
+      await dispatch(
+        userLogin(
+          formik.values.email,
+          formik.values.password
+        )
+      );
+      setIsLoading(false);
+      navigation.navigate('LoggedInApp');
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log('🛑 Error on login \n', { e });
       Alert.alert(
         t('login:invalid'),
         t('login:enterValid')
+        // e.error_description ? e.error_description : e.errors[0]
       );
+      setIsLoading(false);
     }
   };
 
@@ -97,7 +112,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
         'Facebook authentication is not available at this moment'
       );
     } else {
-      navigation.navigate('AccountProfile');
+      navigation.navigate('LoggedInApp');
     }
   };
 
@@ -150,13 +165,17 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
             label={t('placeholder:email')}
             onSubmitEditing={(): void => passwordRef?.current?.focus()}
             placeholder={t('placeholder:email')}
-            value={email}
-            onChangeText={checkEmail}
+            // value={email}
+            value={formik.values.email}
+            // onChangeText={checkEmail}
+            onChangeText={formik.handleChange('email')}
+            onBlur={formik.handleBlur('email')}
             autoCapitalize="none"
             textContentType="username"
             autoCompleteType="email"
             keyboardType="email-address"
             returnKeyType="next"
+            error={ formik.touched.email && formik.errors.email ? formik.errors.email : null  }
           />
           {/* INPUT FIELD: PASSWORD */}
           <TextField
@@ -164,13 +183,17 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
             // blurOnSubmit={true}
             label={t('placeholder:password')}
             placeholder={t('placeholder:password')}
-            value={password}
-            onChangeText={(text: string): void => setPassword(text)}
+            // value={password}
+            value={formik.values.password}
+            // onChangeText={(text: string): void => setPassword(text)}
+            onChangeText={formik.handleChange('password')}
+            onBlur={formik.handleBlur('password')}
             secureTextEntry
             textContentType="password"
             autoCompleteType="password"
             returnKeyType="send"
-            onSubmitEditing={(): Promise<void> => login()}
+            onSubmitEditing={formik.handleSubmit}
+            error={ formik.touched.password && formik.errors.password ? formik.errors.password : null  }
           />
           <Flex
             style={{
@@ -179,7 +202,8 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
           />
           {/* BUTTON: SIGN IN */}
           <Button
-            onPress={(): Promise<void> => login()}
+            onPress={formik.handleSubmit}
+            // onPress={(): Promise<void> => login()}
             touchableStyle={[
               st.pd4,
               st.br1,
@@ -228,9 +252,8 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
           </Flex>
           {/* SECTION: FACEBOOK SIGN IN */}
           <Flex
-            direction="row"
             align="center"
-            justify="center"
+            // justify="center"
             style={styles.SectionFB}
           >
             <Button
@@ -252,7 +275,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
             {/* Safe area at the bottom for phone with exotic notches */}
             <Flex
               style={{
-                paddingBottom: 80 + insets.bottom,
+                minHeight: theme.spacing.xl + insets.bottom,
               }}
             />
           </Flex>

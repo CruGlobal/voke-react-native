@@ -9,6 +9,9 @@ const theme: {
   colors: {
     [key: string]: string
   },
+  spacing: {
+    [key: string]: number
+  },
   [key: string]: {[key: string]: string | number}
   } = {
   colors: {
@@ -66,6 +69,7 @@ const theme: {
     xxl: 88,
   },
   radius: {
+    xxs: 3,
     xs: 5,
     s: 7,
     m: 10,
