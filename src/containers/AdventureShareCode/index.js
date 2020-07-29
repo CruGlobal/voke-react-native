@@ -38,10 +38,14 @@ function AdventureShareCode(props) {
     Share.share(
       {
         message: isVideoInvite
-          ? (t('checkOut') + ` ${invitation.url}`)
+          ? t(
+            'share:shareMessageVideo', {
+              friend: ' ' + invitation?.first_name,
+              link: invitation.url,
+            })
           : t(
             'share:shareMessage', {
-              friend:  withGroup ? '': ' ' + invitation?.name,
+              friend: withGroup ? '': ' ' + invitation?.name,
               link: invitation?.preview_journey_url,
               code: invitation?.code
             })

@@ -123,7 +123,7 @@ const AccountSignUp = ( props: AccountSignUpProps  ) => {
             style={styles.ButtonStart}
             onPress={ () => login() }
           >
-            <Text style={styles.ButtonStartLabel}>Sign Up</Text>
+            <Text style={styles.ButtonStartLabel}>{t('signUp')}</Text>
           </Button>
         </Flex>
       </Flex>
@@ -145,8 +145,7 @@ const AccountSignUp = ( props: AccountSignUpProps  ) => {
           isAndroidOpacity={true}
           style={[styles.ButtonSignIn, {marginLeft:20}]}
           onPress={() => {
-            navigation.navigate('AccountSignIn');
-            // navigation.navigate('AccountSignIn', { shouldMerge: true })
+            navigation.navigate('AccountProfile');
           }}
         >
           <Text style={styles.ButtonSignInLabel}>{t('signIn')}</Text>
