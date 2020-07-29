@@ -149,8 +149,8 @@ function AdventureActive({ navigation, route }: AdventureActiveProps): React.Rea
               onPlay={
                 () => {
                   dispatch( interactionVideoPlay({
-                    videoId: adventure?.item?.content?.id,
-                    context: 'step'
+                    videoId: adventure?.item?.id,
+                    context: 'journey'
                   }))
                 }
               }
