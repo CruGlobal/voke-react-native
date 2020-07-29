@@ -116,7 +116,7 @@ function AdventureAvailable(props) {
         onPlay={
           () => {
             dispatch( interactionVideoPlay({
-              videoId: item?.item?.content?.id,
+              videoId: item?.item?.id,
             }))
           }
         }
