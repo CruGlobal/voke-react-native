@@ -52,10 +52,12 @@ export function wakeupAction() {
 
     await Linking.getInitialURL().then(
         (data) => {
-          Alert.alert(
-            'LINK',
-            data?.url,
-          );
+          if ( data ) {
+            Alert.alert(
+              'Deep Link:',
+              data?.url,
+            );
+          }
           console.log( "🦜 data:", data );
         }
       );

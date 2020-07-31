@@ -85,9 +85,10 @@ const aliasedResourceLanguages: Resource = aliasLanguages(
 
 const languageDetector: LanguageDetectorModule = {
   type: 'languageDetector',
-  detect: () =>
-    (findBestAvailableLanguage(Object.keys(aliasedResourceLanguages)) || {})
-      .languageTag,
+  detect: () => {
+    return (findBestAvailableLanguage(Object.keys(aliasedResourceLanguages)) || {})
+      .languageTag;
+  },
   init: () => {},
   cacheUserLanguage: () => {},
 };
@@ -110,13 +111,9 @@ export default i18n
     // whitelist: ['en', 'es', 'fr', 'pt' ],
     fallbackLng:  ['en', 'es', 'fr', 'pt' ],
     debug: true,
-
     // Use downloaded translations if available but use en-US from source to make development easier
-    resources: resourceLanguages,
-    debug: true,
-
+    resources: aliasedResourceLanguages,
     keySeparator: false, // we do not use keys in form messages.welcome
-
     // have a common namespace used around the full app
     ns: ['common'],
     defaultNS: 'common',
@@ -131,3 +128,6 @@ export default i18n
       nsMode: 'fallback',
     }, */
   });
+
+
+  console.log( "🐸 i18n.language:", i18n.language );
