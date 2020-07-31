@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from "react-i18next";
-import { NavigationContainer, useRoute, useNavigationState } from '@react-navigation/native';
+import { NavigationContainer, useRoute, useNavigationState, useFocusEffect } from '@react-navigation/native';
 import { startupAction, sleepAction, wakeupAction, getMeAction } from './actions/auth';
 import { routeNameRef, navigationRef } from './RootNavigation';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
-
+import { Alert, Linking } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useSafeArea } from 'react-native-safe-area-context';
@@ -284,13 +284,26 @@ const LoggedInAppContainer = () => {
   const { t } = useTranslation('title' );
 
 
+
   // Handle iOS & Android appState changes.
   const { appState } = useAppState({
     // Callback function to be executed once appState is changed to
     // active, inactive, or background
     onChange: (newAppState) => console.warn('App state changed to ', newAppState),
     // Callback function to be executed once app go to foreground
-    onForeground: () => {
+    onForeground: async () => {
+      console.log( "😢 useFocusEffect" );
+      // Get the deep link used to open the app
+      await Linking.getInitialURL().then(
+        (data) => {
+          Alert.alert(
+            'LINK',
+            data?.url,
+          );
+          console.log( "🦜 data:", data );
+        }
+      );
+
       dispatch(wakeupAction());
     },
     // Callback function to be executed once app go to background
@@ -353,6 +366,7 @@ const RootStackScreens = () => {
   const firstName = useSelector(({ auth }: any) => auth.user.firstName);
   const insets = useSafeArea();
   const { t } = useTranslation('title');
+
   return (
     <RootStack.Navigator
       mode="card"
@@ -698,6 +712,29 @@ const App = () => {
     // return () => unsubscribe();
   }, []);
 
+  const linking = {
+    prefixes: ['https://the.vokeapp.com', 'voke:://'],
+    config: {
+      screens: {
+        // "voke:://messenger_journeys/e579effe-3b01-4054-bca7-db912fe463e6/messenger_journey_steps/227a52a4-2025-4770-b792-f51f3f3ab4c0"
+        AdventureStepScreen: {
+          path: 'messenger_journeys/:adventureId/messenger_journey_steps/:stepId',
+          parse: {
+            // adventureId: (adventureId) => adventureId,
+          },
+        },
+        // Profile: 'user',
+      },
+    },
+    getStateFromPath: (path, options) => {
+    // Return a state object here
+    // You can also reuse the default logic by importing `getStateFromPath` from `@react-navigation/native`
+      console.log( "🐙 getStateFromPath:", {path}, {options}  );
+    },
+
+    // Here Chat is the name of the screen that handles the URL /feed, and Profile handles the URL /user.
+  };
+
   return (
     <NavigationContainer
       ref={navigationRef}
@@ -714,6 +751,7 @@ const App = () => {
         // Save the current route name for later comparision
         routeNameRef.current = currentRouteName;
       }}
+      linking={linking}
 
       // initialState={ ( isLoggedIn ? ({ index: 0, routes: [{ name: 'LoggedInApp' }] }) : ({ index: 0, routes: [{ name: 'WelcomeApp' }] }) ) }
     >
