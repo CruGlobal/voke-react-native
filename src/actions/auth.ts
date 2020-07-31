@@ -1,5 +1,5 @@
 import RNFetchBlob from 'rn-fetch-blob';
-import { Alert } from 'react-native';
+import { Alert, Linking } from 'react-native';
 import { getTimeZone, getCountry, getLocales } from 'react-native-localize';
 import AsyncStorage from '@react-native-community/async-storage';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
@@ -49,6 +49,16 @@ export function wakeupAction() {
   return async (dispatch, getState)  => {
     const currentScreen = getState().info?.currentScreen?.screen;
     LOG( "🌝 function wakeupAction",  {currentScreen});
+
+    await Linking.getInitialURL().then(
+        (data) => {
+          Alert.alert(
+            'LINK',
+            data?.url,
+          );
+          console.log( "🦜 data:", data );
+        }
+      );
 
     /*
     Try to extract dynamiclink with Adventure code passed by Firebase.
