@@ -1,5 +1,6 @@
 import PushNotification from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import * as RootNavigation from '../RootNavigation';
 import DeviceInfo from 'react-native-device-info';
 // Following https://github.com/react-native-community/push-notification-ios
 // - Added these configs: https://d.pr/i/AoUUxy
@@ -33,6 +34,22 @@ export const NAMESPACES = {
   MESSAGE: 'messenger:conversation:message',
   ADVENTURE: 'platform:organization:adventure:challenge',
 };
+
+const getCID = l =>
+  l.substring(l.indexOf('conversations/') + 14, l.indexOf('/messages'));
+
+const getJID = l =>
+  l.substring(
+    l.indexOf('messenger_journeys/') + 19,
+    l.indexOf('/messenger_journey_steps'),
+  );
+
+const getOnlyJID = l =>
+  l.substring(l.indexOf('messenger_journeys/') + 19, l.length);
+
+const getSID = l =>
+  l.substring(l.indexOf('messenger_journey_steps/') + 24, l.length);
+
 
 export function setAppIconBadgeNumber( newValue: number ) {
   PushNotification.setApplicationIconBadgeNumber(newValue);
@@ -125,64 +142,63 @@ function handleNotifications(
             dispatch(getMeAction());
           }
         } */
-      } else if (state === 'background') {
+      }
+
+    } else if (state === 'background') {
         // Notifications.setBadge(unReadBadgeCount + 1);
-      } else if (state === 'open' && namespace && link) {
-        if (
-          link.includes('messenger_journeys') &&
-          link.includes('messenger_journey_steps')
-        ) {
-          // const jId = getJID(link);
-          // const sId = getSID(link);
-          // dispatch(getMyJourney(jId)).then(r => {
-          //   dispatch(getMyJourneyStep(jId, sId)).then(res => {
-          //     dispatch(navigateResetHome());
-          //     dispatch(
-          //       navigatePush('voke.VideoContentWrap', {
-          //         item: r,
-          //         type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
-          //         navToStep: res,
-          //       }),
-          //     );
-          //   });
-          // });
-        } else if (link.includes('messenger_journeys')) {
-          // const onlyJId = getOnlyJID(link);
-          // dispatch(getMyJourney(onlyJId)).then(r => {
-          //   dispatch(navigateResetHome());
-          //   dispatch(
-          //     navigatePush('voke.VideoContentWrap', {
-          //       item: r,
-          //       type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
-          //     }),
-          //   );
-          // });
-        } else if (namespace.includes(NAMESPACES.MESSAGE)) {
-          // // const cId = getCID(link);
-          // if (!cId) return;
-          // Check if conversation exists, just use it, otherwise get it
-          // const conversationExists = conversations.find(c => c.id === cId);
-          // After getting the conversation, reset to the message screen
-          // const navToConv = c =>
-          //   dispatch(
-          //     navigateResetMessage({
-          //       conversation: c,
-          //       forceUpdate: true,
-          //     }),
-          //   );
-          // if (conversationExists) {
-          //   navToConv(conversationExists);
-          // } else {
-          //   dispatch(getConversation(cId)).then(results => {
-          //     if (!results || !results.conversation) {
-          //       return;
-          //     }
-          //     navToConv(results.conversation);
-          //   });
-          // }
-        } else if (namespace.includes(NAMESPACES.ADVENTURE)) {
-          // dispatch(getMeAction());
-        }
+    } else if (state === 'open' && namespace && link) {
+      if (
+        link.includes('messenger_journeys') &&
+        link.includes('messenger_journey_steps')
+      ) {
+        const adventureId = getJID(link);
+        const stepId = getSID(link);
+        // TODO: add push previous Steps screen https://reactnavigation.org/docs/navigating-without-navigation-prop/
+        // TODO: what happen if can't find route?
+        RootNavigation.navigate('AdventureStepScreen', {
+          stepId,
+          adventureId,
+        })
+      } else if (link.includes('messenger_journeys')) {
+        const adventureId = getJID(link);
+        RootNavigation.navigate('AdventureActive', {
+          adventureId
+        })
+        // const onlyJId = getOnlyJID(link);
+        // dispatch(getMyJourney(onlyJId)).then(r => {
+        //   dispatch(navigateResetHome());
+        //   dispatch(
+        //     navigatePush('voke.VideoContentWrap', {
+        //       item: r,
+        //       type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
+        //     }),
+        //   );
+        // });
+      } else if (namespace.includes(NAMESPACES.MESSAGE)) {
+        // // const cId = getCID(link);
+        // if (!cId) return;
+        // Check if conversation exists, just use it, otherwise get it
+        // const conversationExists = conversations.find(c => c.id === cId);
+        // After getting the conversation, reset to the message screen
+        // const navToConv = c =>
+        //   dispatch(
+        //     navigateResetMessage({
+        //       conversation: c,
+        //       forceUpdate: true,
+        //     }),
+        //   );
+        // if (conversationExists) {
+        //   navToConv(conversationExists);
+        // } else {
+        //   dispatch(getConversation(cId)).then(results => {
+        //     if (!results || !results.conversation) {
+        //       return;
+        //     }
+        //     navToConv(results.conversation);
+        //   });
+        // }
+      } else if (namespace.includes(NAMESPACES.ADVENTURE)) {
+        // dispatch(getMeAction());
       }
     }
   };
@@ -231,7 +247,6 @@ function establishDevice(): Promise<void> {
           finish?: any;
           data?: any;
         }) {
-          console.log( "🇦🇺 onNotification:", notification );
           let state;
           if (
             notification &&
@@ -324,7 +339,7 @@ export function permissionsAndNotifications( askPermission = false) {
         // User  selected: ALLOW notifications.
         // 1. Register Apple/Google device on server
         // 2. Create a WebSocket cable.
-        DeviceInfo.isEmulator().then(
+        /* DeviceInfo.isEmulator().then(
           isEmulator => {
             if (isEmulator) {
               // Notifications won't work in simulator.
@@ -333,7 +348,8 @@ export function permissionsAndNotifications( askPermission = false) {
               return dispatch(establishDevice());
             }
           }
-        );
+        ); */
+        return dispatch(establishDevice());
       } else {
         // User selected: DON'T ALLOW notifications.
         // blocked

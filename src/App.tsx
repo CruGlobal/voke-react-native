@@ -296,10 +296,10 @@ const LoggedInAppContainer = () => {
       // Get the deep link used to open the app
       await Linking.getInitialURL().then(
         (data) => {
-          Alert.alert(
+          /* Alert.alert(
             'LINK',
             data?.url,
-          );
+          ); */
           console.log( "🦜 data:", data );
         }
       );
