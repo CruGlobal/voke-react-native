@@ -38,6 +38,16 @@
 				<string>org.cru.voke</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>voke</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>voke</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>530</string>

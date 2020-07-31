@@ -15,8 +15,8 @@ async function downloadTranslations() {
   };
   const multilingualOptions = {
     ...options,
-    fileName: 'en-us.json',
-    format: 'I18NEXT_MULTILINGUAL_JSON',
+    fileName: 'en_us.json',
+    // format: 'HIERARCHICAL_JSON',
   };
 
   console.log('Downloading from OneSky...');
@@ -28,6 +28,8 @@ async function downloadTranslations() {
     console.log('Successfully Downloaded.');
 
     console.log('Writing translations.json...');
+    console.log( "🐸 translationsRaw:", translationsRaw );
+    console.log( "🐸 languagesRaw:", languagesRaw );
     fs.writeFileSync(
       path.resolve(__dirname, '../src/i18n/locales/translations.json'),
       filterReadyTranslations(translationsRaw, languagesRaw),

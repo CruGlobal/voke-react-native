@@ -3,7 +3,7 @@ import { useSafeArea } from 'react-native-safe-area-context';
 // import { StatusBar as RNStatusBar, StatusBarProps } from 'react-native';
 import { View, ScrollView, FlatList, StatusBar, ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector, shallowEqual, useStore } from 'react-redux';
-import { getMyAdventure, getAdventureStepMessages, getAdventureSteps } from '../../actions/requests';
+import { getMyAdventure, getAdventureStepMessages, getAdventureSteps, interactionVideoPlay } from '../../actions/requests';
 import { setCurrentScreen } from '../../actions/info';
 
 import { useFocusEffect } from '@react-navigation/native';
@@ -146,6 +146,14 @@ function AdventureActive({ navigation, route }: AdventureActiveProps): React.Rea
                 setIsPortrait( orientation === 'portrait' ? true : false);
               }}
               item={adventure?.item?.content}
+              onPlay={
+                () => {
+                  dispatch( interactionVideoPlay({
+                    videoId: adventure?.item?.id,
+                    context: 'journey'
+                  }))
+                }
+              }
             >
               <Flex direction="column" align="center">
                 {/* Call to action overlay to be rendered over the video. */}

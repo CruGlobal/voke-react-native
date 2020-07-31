@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Video from '../../components/Video';
 import { useNavigation } from '@react-navigation/native';
 import { useMount, useKeyboard } from '../../utils';
-import { getAdventureStepMessages, markMessageAsRead, updateTotalUnreadCounter, interactionVideoPlay } from '../../actions/requests';
+import { getAdventureStepMessages, markMessageAsRead, updateTotalUnreadCounter, interactionAdventureVideoPlay } from '../../actions/requests';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { RootState } from '../../reducers';
 import { TAdventureSingle, TStep } from '../../types';
@@ -290,7 +290,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
               item={currentStep.item.content}
               onPlay={
                 () => {
-                  dispatch( interactionVideoPlay({
+                  dispatch( interactionAdventureVideoPlay({
                     adventureId: adventure.id,
                     stepId: currentStep.id,
                   }))

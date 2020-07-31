@@ -16,6 +16,7 @@
 #import "Orientation.h" // Voke: Needed to handle orientation changes
 #import <RNCPushNotificationIOS.h> // Voke: Needed for push notifications
 #import <UserNotifications/UserNotifications.h> // Voke: Needed for push notifications
+#import <React/RCTLinkingManager.h> //Voke: Deeplinking
 
 
  @implementation AppDelegate
@@ -65,17 +66,27 @@
 
 // Voke: Facebook SDK
 
-- (BOOL)application:(UIApplication *)application 
-            openURL:(NSURL *)url 
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
 
-  BOOL handled = [[FBSDKApplicationDelegate sharedInstance] application:application
+  // Deeplink from Facebook
+  BOOL handleFBSDK = [[FBSDKApplicationDelegate sharedInstance] application:application
     openURL:url
     sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
     annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
   ];
-  // Add any custom logic here.
-  return handled;
+  // Deeplink for React Native
+  BOOL handleRCT = [RCTLinkingManager application:application
+    openURL:url
+    options:options
+  ];
+
+  // Firebase?
+  // BOOL handleFirebase = [[RNFBDynamicLinksAppDelegateInterceptor sharedInstance] application:application openURL:url options:options];
+
+
+  return handleFBSDK || handleRCT;
 }
 
 // Voke: Needed for handling orientation changes
@@ -125,8 +136,16 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 //Called when a notification is delivered to a foreground app.
 -(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler
 {
-  NSLog(@"🦖🦖🦖🦖🦖🦖🦖 willPresentNotification 🦖🦖🦖🦖🦖🦖🦖🦖");
   completionHandler(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge);
+}
+
+// React Native Universal Links.
+- (BOOL)application:(UIApplication *)application continueUserActivity:(nonnull NSUserActivity *)userActivity
+ restorationHandler:(nonnull void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler
+{
+ return [RCTLinkingManager application:application
+                  continueUserActivity:userActivity
+                    restorationHandler:restorationHandler];
 }
 
 
