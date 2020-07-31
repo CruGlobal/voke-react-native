@@ -41,11 +41,20 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
   const scrollRef = useRef();
   const dispatch = useDispatch();
   const insets = useSafeArea();
+  const navigation = useNavigation();
   const [isPortrait, setIsPortrait] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [hasClickedPlay, setHasClickedPlay] = useState(false);
   const { stepId, adventureId } = route.params;
   const adventure = useSelector(({ data }: RootState) => data.myAdventures.byId[adventureId]) || {};
+  // Go back to Home Screen if can't find adventure.
+  if ( Object.keys(adventure).length === 0 ) {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'LoggedInApp' }],
+    });
+    return <></>;
+  }
   const conversationId = adventure.conversation?.id;
   const currentStep = useSelector(({ data }: RootState) =>
     data.adventureSteps[adventureId].byId[stepId]
