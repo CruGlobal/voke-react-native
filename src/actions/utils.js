@@ -264,7 +264,7 @@ function imageUpload(url, headers, data) {
 
   })
   .catch(e => {
-    console.log('fetch error', e);
+    console.log('imageUpload fetch error', e);
    /*  dispatch({
       type: REDUX_ACTIONS.REQUEST_FAIL,
       url: url,
