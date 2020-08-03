@@ -14,6 +14,8 @@ import { KeyboardAvoidingView, findNodeHandle, View, ScrollView, Keyboard, Statu
 import { useDispatch, useSelector } from 'react-redux';
 import Video from '../../components/Video';
 import { useNavigation } from '@react-navigation/native';
+import { CommonActions } from '@react-navigation/native';
+import { insertBeforeLast } from '../../RootNavigation'
 import { useMount, useKeyboard } from '../../utils';
 import { getAdventureStepMessages, markMessageAsRead, updateTotalUnreadCounter, interactionAdventureVideoPlay } from '../../actions/requests';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -56,9 +58,21 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
     return <></>;
   }
   const conversationId = adventure.conversation?.id;
-  const currentStep = useSelector(({ data }: RootState) =>
-    data.adventureSteps[adventureId].byId[stepId]
-  );
+  const currentStep = useSelector(({ data }: RootState) => {
+    // When opening push notification step information can be missing.
+    if ( data.adventureSteps[adventureId] && data.adventureSteps[adventureId].byId[stepId] ) {
+      return data.adventureSteps[adventureId].byId[stepId]
+    } else {
+      return {};
+    }
+  });
+  // Go back to Adventure Steps if can't find current step.
+  if ( Object.keys(currentStep).length === 0 ) {
+    navigation.navigate('AdventureActive', {
+      adventureId,
+    })
+    return <></>;
+  }
   const currentUser = useSelector(({ auth }: RootState) => auth.user) || {};
   const currentMessages = useSelector(
     ({ data }: RootState) => data.adventureStepMessages[currentStep?.id] || []
@@ -71,6 +85,17 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
   };
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   useKeyboard( (bool: boolean) => setKeyboardVisible(bool));
+
+  // If the previous screen isn't active Adventure (Steps Screen) add it manually.
+  const navRoutes = navigation.dangerouslyGetState()?.routes;
+  const prevScreen = navRoutes[navRoutes.length - 2]?.name;
+  if ( prevScreen !== 'AdventureActive' ) {
+    // Insert Previous Route Screen.
+    // https://reactnavigation.org/docs/navigation-prop/#dispatch
+    navigation.dispatch(insertBeforeLast('AdventureActive', {
+      adventureId
+    }));
+  }
 
   if (!['multi', 'binary'].includes(currentStep.kind)) {
     // Find the first message of the current author from the start.

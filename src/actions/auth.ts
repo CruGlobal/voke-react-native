@@ -50,17 +50,16 @@ export function wakeupAction() {
     const currentScreen = getState().info?.currentScreen?.screen;
     LOG( "🌝 function wakeupAction",  {currentScreen});
 
-    await Linking.getInitialURL().then(
-        (data) => {
-          if ( data ) {
-            Alert.alert(
-              'Deep Link:',
-              data?.url,
-            );
-          }
-          console.log( "🦜 data:", data );
+    /* await Linking.getInitialURL().then(
+      (data) => {
+        if ( data ) {
+          Alert.alert(
+            'Deep Link:',
+            data?.url,
+          );
         }
-      );
+      }
+    ); */
 
     /*
     Try to extract dynamiclink with Adventure code passed by Firebase.

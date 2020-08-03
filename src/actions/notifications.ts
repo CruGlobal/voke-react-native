@@ -155,12 +155,22 @@ function handleNotifications(
         const stepId = getSID(link);
         // TODO: add push previous Steps screen https://reactnavigation.org/docs/navigating-without-navigation-prop/
         // TODO: what happen if can't find route?
-        RootNavigation.navigate('AdventureStepScreen', {
-          stepId,
-          adventureId,
-        })
+
+        try {
+          RootNavigation.navigate('AdventureStepScreen', {
+            stepId,
+            adventureId,
+          })
+        } catch (error) {
+          RootNavigation.reset({
+            index: 0,
+            routes: [{ name: 'LoggedInApp' }],
+          })
+        }
       } else if (link.includes('messenger_journeys')) {
-        const adventureId = getJID(link);
+        const adventureId = getOnlyJID(link);
+        console.log( "📹 adventureId:", adventureId, link );
+
         RootNavigation.navigate('AdventureActive', {
           adventureId
         })
