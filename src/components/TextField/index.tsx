@@ -1,7 +1,10 @@
-import React, { forwardRef } from 'react';
-import { TextInput, TextInputProps } from 'react-native';
+import React, { forwardRef, useState } from 'react';
+import { TextInput, TextInputProps, View } from 'react-native';
 import Text from '../Text';
 import Flex from '../Flex';
+import VokeIcon from '../VokeIcon';
+import Triangle from '../Triangle';
+import theme from '../../theme';
 import st from '../../st'; // TODO: use new styles here.
 
 // TextInputProps already have all the property definitions used here,
@@ -12,44 +15,76 @@ interface CustomProps extends TextInputProps {
 
 const TextField = forwardRef(
   // TODO: try to find an appropriate type for ref: any?
-  ({ label, ...restProps }: CustomProps, ref: any) => (
+  ({ label, ...restProps }: CustomProps, ref: any) => {
+
+  const [focused, setFocused] = useState(false);
+
+  return (
     <Flex
       direction="column"
       self="stretch"
       align="center"
     >
-      <Text style={[st.offBlue, st.fs16]}>{label}</Text>
+      <Text style={[st.fs16, {
+        fontSize: theme.fontSizes.l,
+        color: theme.colors.secondary,
+        minHeight: 26,
+      }]}>{label}</Text>
       <TextInput
         ref={ref}
         style={[
           st.w100,
           st.tac,
           {
-            backgroundColor: st.colors.transparent,
+            backgroundColor: theme.colors.transparent,
+            borderBottomWidth: 1,
+            borderBottomColor: focused ? theme.colors.white : theme.colors.secondaryAlt,
             margin: 5,
+            marginBottom: 0,
             height: 50,
-            color: 'white',
-            fontSize: 24,
+            color: theme.colors.white,
+            fontSize: restProps.value.length < 20 ? theme.fontSizes.xxl : theme.fontSizes.xl,
           },
-          st.bbOffBlue,
-          st.bbw1,
+          // st.bbOffBlue,
+          // st.bbw1,
           st.fontFamilyMain,
         ]}
-        underlineColorAndroid={st.colors.transparent}
-        placeholderTextColor={st.colors.white}
+        underlineColorAndroid={theme.colors.transparent}
+        placeholderTextColor={theme.colors.white}
         autoCapitalize={
           restProps.autoCapitalize ? restProps.autoCapitalize : 'words'
         }
         spellCheck={false}
         keyboardAppearance="dark"
-        selectionColor={st.colors.white}
+        selectionColor={theme.colors.white}
         returnKeyType={
           restProps.returnKeyType ? restProps.returnKeyType : 'done'
         }
+        onFocus={()=>{
+          setFocused(true)}
+        }
+        onEndEditing={()=>{
+          setFocused(false);
+        }}
         {...restProps}
       />
+      <View
+        style={{
+          width:'100%',
+          minHeight: 26,
+        }}
+      >
+        <Text
+          style={{
+            color: theme.colors.red,
+            paddingTop: 2,
+            fontSize: theme.fontSizes.s,
+            alignSelf: 'center',
+          }}
+        >{restProps?.error}</Text>
+      </View>
     </Flex>
-  ),
+  )}
 );
 
 export default TextField;
