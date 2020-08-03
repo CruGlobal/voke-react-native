@@ -110,10 +110,8 @@ const AccountCreate: React.FC = (): React.ReactElement => {
             },
           }),
         );
-        // await dispatch(userLogin(email, password));
         setIsLoading(false);
-        navigation.navigate('LoggedInApp');
-        // navigation.navigate('AccountName');
+        navigation.navigate('AccountProfile');
       } catch (e) {
         setIsLoading(false);
         // eslint-disable-next-line no-console
