@@ -539,7 +539,7 @@ const RootStackScreens = () => {
           component={AccountProfile}
           options={({ navigation }) => ({
             headerShown: true,
-            headerLeft: () => <HeaderLeft hasBack />,
+            headerLeft: () => <HeaderLeft hasBack resetTo='Menu' />,
             headerRight: () => <SignOut />,
             cardStyle: { backgroundColor: theme.colors.transparent },
             headerStyle: {
