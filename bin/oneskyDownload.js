@@ -26,10 +26,7 @@ async function downloadTranslations() {
     );
     const languagesRaw = await oneSky.getLanguages(options);
     console.log('Successfully Downloaded.');
-
     console.log('Writing translations.json...');
-    console.log( "🐸 translationsRaw:", translationsRaw );
-    console.log( "🐸 languagesRaw:", languagesRaw );
     fs.writeFileSync(
       path.resolve(__dirname, '../src/i18n/locales/translations.json'),
       filterReadyTranslations(translationsRaw, languagesRaw),
