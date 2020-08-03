@@ -27,7 +27,7 @@ const theme: {
     offBlue: '#3295ad',
     orange: '#FF9900',
     lightOrange: 'rgba(255,153,0, 0.7)',
-    red: '#ee2f2f',
+    red: '#ff0000',
     white: '#fff',
     yellow: '#ffbb42',
     green: '#5abc86',

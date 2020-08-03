@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useState } from 'react';
 import { TextInput, TextInputProps, View } from 'react-native';
 import Text from '../Text';
 import Flex from '../Flex';
@@ -15,28 +15,38 @@ interface CustomProps extends TextInputProps {
 
 const TextField = forwardRef(
   // TODO: try to find an appropriate type for ref: any?
-  ({ label, ...restProps }: CustomProps, ref: any) => (
+  ({ label, ...restProps }: CustomProps, ref: any) => {
+
+  const [focused, setFocused] = useState(false);
+
+  return (
     <Flex
       direction="column"
       self="stretch"
       align="center"
     >
-      <Text style={[st.offBlue, st.fs16]}>{label}</Text>
+      <Text style={[st.fs16, {
+        fontSize: theme.fontSizes.l,
+        color: theme.colors.secondary,
+        minHeight: 26,
+      }]}>{label}</Text>
       <TextInput
         ref={ref}
         style={[
           st.w100,
           st.tac,
           {
-            backgroundColor: st.colors.transparent,
+            backgroundColor: theme.colors.transparent,
+            borderBottomWidth: 1,
+            borderBottomColor: focused ? theme.colors.white : theme.colors.secondaryAlt,
             margin: 5,
             marginBottom: 0,
             height: 50,
-            color: 'white',
-            fontSize: restProps.value.length < 20 ? 24 : 21,
+            color: theme.colors.white,
+            fontSize: restProps.value.length < 20 ? theme.fontSizes.xxl : theme.fontSizes.xl,
           },
-          st.bbOffBlue,
-          st.bbw1,
+          // st.bbOffBlue,
+          // st.bbw1,
           st.fontFamilyMain,
         ]}
         underlineColorAndroid={theme.colors.transparent}
@@ -50,45 +60,31 @@ const TextField = forwardRef(
         returnKeyType={
           restProps.returnKeyType ? restProps.returnKeyType : 'done'
         }
+        onFocus={()=>{
+          setFocused(true)}
+        }
+        onEndEditing={()=>{
+          setFocused(false);
+        }}
         {...restProps}
       />
       <View
         style={{
-          marginTop: -2,
-          paddingTop: 3,
-          paddingHorizontal:12,
-          height: 29,
           width:'100%',
-          // alignSelf: 'flex-end',
-          backgroundColor: restProps?.error ? theme.colors.secondary : 'transparent',
-          borderRadius: theme.radius.xxs,
-          borderBottomLeftRadius: theme.radius.xs,
-          borderBottomRightRadius: theme.radius.xs,
-
+          minHeight: 26,
         }}
       >
-        <Triangle
-          width={8}
-          height={8}
-          flip
-          slant="down"
-          color={ restProps?.error ? theme.colors.secondary : 'transparent'}
-          style={{position: 'absolute',
-          marginTop: -7,
-          marginLeft: 10,
-          transform: [{ rotate: '180deg'}]
-          }}
-        />
         <Text
           style={{
-            color: theme.colors.white,
-            fontSize: 14,
-            fontFamily: theme.fonts.semiBold,
+            color: theme.colors.red,
+            paddingTop: 2,
+            fontSize: theme.fontSizes.s,
+            alignSelf: 'center',
           }}
         >{restProps?.error}</Text>
       </View>
     </Flex>
-  ),
+  )}
 );
 
 export default TextField;

@@ -121,6 +121,7 @@ export default {
     popular: 'Popular',
     privacy: 'Privacy Policy',
     resend: 'Resend',
+    required: 'Required',
     save: 'Save',
     searchContacts: 'Search Contacts',
     send: 'Send',

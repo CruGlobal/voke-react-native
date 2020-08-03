@@ -140,7 +140,9 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
         }}
         // keyboardVerticalOffset={headerHeight}
       >
-        <ScrollView contentContainerStyle={{
+        <ScrollView
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{
           flexDirection:'column',
           alignContent: 'stretch',
           justifyContent: 'space-evenly',
