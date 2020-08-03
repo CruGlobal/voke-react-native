@@ -20,6 +20,7 @@ import styles from './styles';
 import VokeIcon from '../../components/VokeIcon';
 import languageCodes from '../../i18n/languageCodes'
 import i18next from 'i18next';
+import { createBaseLocaleAliases } from '../../i18n'
 
 
 
@@ -52,6 +53,8 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
       navigation.navigate('LoggedInApp');
     }
   };
+
+  const currLang =  languageCodes[i18next.language.substr(0, 2).toLowerCase()];
 
   return (
     <Flex
@@ -134,7 +137,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
                 <Flex direction="row" align="start" justify="space-around">
                   <Text style={{color:"#fff", fontSize:18, width:'30%', textAlign: 'left', paddingRight: 20}}>{t('language')}</Text>
                   {/* <Button onPress={()=>console.log('test')} > */}
-                    <Text style={{color:"#fff", fontSize:18, width:'70%'}}>{languageCodes[i18next.language].name} {languageCodes[i18next.language].name !== 'English' ? '(' + languageCodes[i18next.language].nativeName + ')' : '' }</Text>
+                    <Text style={{color:"#fff", fontSize:18, width:'70%'}}>{currLang.name} {currLang.name !== 'English' ? '(' + currLang.nativeName + ')' : '' }</Text>
                   {/* </Button> */}
                 </Flex>
               {/* </Touchable> */}

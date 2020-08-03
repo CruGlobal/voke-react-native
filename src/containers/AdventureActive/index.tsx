@@ -41,12 +41,24 @@ function AdventureActive({ navigation, route }: AdventureActiveProps): React.Rea
   const [isLoading, setIsLoading] = useState(false);
   const isGroup = adventure.kind === 'multiple';
 
-
   const getPendingAdventure = async () => {
     setIsLoading(true);
-    await dispatch(getMyAdventure(adventureId));
-    setIsLoading(false);
-    getSteps();
+    await dispatch(getMyAdventure(adventureId)).then(
+      data => {
+        // Received Adventure from the server.
+        setIsLoading(false);
+        getSteps();
+      },
+      error => {
+        // Can't Find Adventure.
+        // eslint-disable-next-line no-console
+        console.log('🛑 Can not Find Adventure.', adventureId);
+        navigation.reset({
+            index: 0,
+            routes: [{ name: 'LoggedInApp' }],
+        })
+      },
+    );
   };
 
   /* useEffect(() => {

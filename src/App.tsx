@@ -292,17 +292,11 @@ const LoggedInAppContainer = () => {
     onChange: (newAppState) => console.warn('App state changed to ', newAppState),
     // Callback function to be executed once app go to foreground
     onForeground: async () => {
-      console.log( "😢 useFocusEffect" );
       // Get the deep link used to open the app
-      await Linking.getInitialURL().then(
+      /* await Linking.getInitialURL().then(
         (data) => {
-          /* Alert.alert(
-            'LINK',
-            data?.url,
-          ); */
-          console.log( "🦜 data:", data );
         }
-      );
+      ); */
 
       dispatch(wakeupAction());
     },
