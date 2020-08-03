@@ -169,7 +169,6 @@ function handleNotifications(
         }
       } else if (link.includes('messenger_journeys')) {
         const adventureId = getOnlyJID(link);
-        console.log( "📹 adventureId:", adventureId, link );
 
         RootNavigation.navigate('AdventureActive', {
           adventureId
