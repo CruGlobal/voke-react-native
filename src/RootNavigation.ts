@@ -32,7 +32,3 @@ export const insertBeforeLast = (routeName, params) => (state) => {
     index: routes.length - 1,
   });
 };
-
-export function insertBefore(...args) {
-  navigationRef.current?.dispatch(CommonActions.reset(...args));
-}

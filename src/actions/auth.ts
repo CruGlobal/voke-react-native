@@ -1,7 +1,8 @@
 import RNFetchBlob from 'rn-fetch-blob';
-import { Alert, Linking } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import { getTimeZone, getCountry, getLocales } from 'react-native-localize';
 import AsyncStorage from '@react-native-community/async-storage';
+import FilesystemStorage from 'redux-persist-filesystem-storage';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import {
   LoginManager,
@@ -153,8 +154,11 @@ export function logoutAction() {
       await dispatch({ type: REDUX_ACTIONS.LOGOUT });
       setAppIconBadgeNumber(0);
       // Clear data in the local storage if user logout.
-      // TODO: ANDROID!
-      AsyncStorage.clear();
+      if ( Platform.OS === 'android' ) {
+        FilesystemStorage.clear();
+      } else {
+        AsyncStorage.clear();
+      }
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log('🛑 Logout error', error);

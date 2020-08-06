@@ -93,14 +93,8 @@ const languageDetector: LanguageDetectorModule = {
   cacheUserLanguage: () => {},
 };
 
-console.log( "🐸 deviceLanguage.substr(0, 2).toLowerCase():", deviceLanguage.substr(0, 2).toLowerCase() );
-
 // Set the date locale
 // moment.locale(locale);
-
-
-
-console.log( "🐸 resourceLanguages:", resourceLanguages );
 
 export default i18n
   .use(languageDetector)
@@ -110,7 +104,7 @@ export default i18n
     // lng: 'es',
     // whitelist: ['en', 'es', 'fr', 'pt' ],
     fallbackLng:  ['en', 'es', 'fr', 'pt' ],
-    debug: true,
+    // debug: true,
     // Use downloaded translations if available but use en-US from source to make development easier
     resources: aliasedResourceLanguages,
     keySeparator: false, // we do not use keys in form messages.welcome

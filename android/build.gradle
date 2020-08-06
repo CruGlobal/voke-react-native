@@ -13,6 +13,7 @@ buildscript {
     }
     dependencies {
         classpath('com.android.tools.build:gradle:3.6.3')
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.0.0'
         classpath 'com.google.gms:google-services:4.3.3'
         classpath 'org.ajoberstar:gradle-git:1.7.2'
     }
@@ -36,5 +37,15 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://jitpack.io' }
-    }
+
+        // https://github.com/facebook/SoLoader/issues/59#issuecomment-669161376
+        // force dependency versions on all subprojects
+        configurations.all {
+            resolutionStrategy {
+
+                // use 0.9.0 to fix crash on Android 11
+                force "com.facebook.soloader:soloader:0.9.0"
+			}
+		}
+	}
 }
