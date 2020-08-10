@@ -915,14 +915,13 @@ type markMessageAsRead = {
 
 export function markMessageAsRead(params: markMessageAsRead) {
   return async (dispatch: Dispatch, getState: any) => {
-    const {adventureId, stepId } = params;
+    const {adventureId, stepId, conversationId, messageId } = params;
 
     // Mark message as read in the store for immediate feedback.
     dispatch({ type: REDUX_ACTIONS.MARK_READ, adventureId, stepId });
     dispatch(updateAdventureUnreads(adventureId));
     dispatch(updateTotalUnreadCounter()); // Update App Counter.
 
-    const { conversationId, messageId } = params;
     const deviceId = getState().auth.device.id;
 
     // See: https://docs.vokeapp.com/#me-conversations-messages-interactions

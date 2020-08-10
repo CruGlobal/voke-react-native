@@ -28,7 +28,7 @@ const TouchableAndroid = forwardRef(
     useMount(() => () => clearTimeout(clickDisableTimeout));
 
     function handlePress(...args) {
-      if (clickDisabled) {
+      /* if (clickDisabled) {
         return;
       }
       // Prevent the user from being able to click twice
@@ -37,7 +37,7 @@ const TouchableAndroid = forwardRef(
       clickDisableTimeout = setTimeout(() => {
         setClickDisabled(false);
       }, disableTimeout || 200);
-      // Call the users click function with all the normal click parameters
+      // Call the users click function with all the normal click parameters */
 
       onPress(...args);
     }
@@ -50,7 +50,7 @@ const TouchableAndroid = forwardRef(
           activeOpacity={0.6}
           style={style}
           {...rest}
-          onPress={()=>{onPress()}}
+          onPress={()=>{handlePress()}}
         >
           {children}
         </TouchableOpacity>
@@ -61,7 +61,7 @@ const TouchableAndroid = forwardRef(
     // Android > 5.0 support
     if (Platform.Version >= 21) {
       background = TouchableNativeFeedback.Ripple(
-        androidRippleColor || 'rgba(150, 150, 150, 0.5)',
+        androidRippleColor || 'rgba(150, 150, 150, 0.2)',
         borderless,
       );
     } else {
