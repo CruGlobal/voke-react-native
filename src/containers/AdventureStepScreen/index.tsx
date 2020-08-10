@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, createRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
@@ -10,15 +10,11 @@ import AdventureStepMessageInput from '../../components/AdventureStepMessageInpu
 import AdventureStepNextAction from '../../components/AdventureStepNextAction';
 import Image from '../../components/Image';
 import VokeIcon from '../../components/VokeIcon';
-import { KeyboardAvoidingView, findNodeHandle, View, ScrollView, Keyboard, StatusBar, ActivityIndicator } from 'react-native';
+import { KeyboardAvoidingView, View, ScrollView, Keyboard, StatusBar, ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import Video from '../../components/Video';
-import { useNavigation } from '@react-navigation/native';
-import { CommonActions } from '@react-navigation/native';
-import { insertBeforeLast } from '../../RootNavigation'
 import { useMount, useKeyboard } from '../../utils';
-import { getAdventureStepMessages, markMessageAsRead, updateTotalUnreadCounter, interactionAdventureVideoPlay } from '../../actions/requests';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { getAdventureStepMessages, markMessageAsRead, interactionVideoPlay } from '../../actions/requests';
 import { RootState } from '../../reducers';
 import { TAdventureSingle, TStep } from '../../types';
 import { useFocusEffect } from '@react-navigation/native';
@@ -43,36 +39,16 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
   const scrollRef = useRef();
   const dispatch = useDispatch();
   const insets = useSafeArea();
-  const navigation = useNavigation();
   const [isPortrait, setIsPortrait] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [hasClickedPlay, setHasClickedPlay] = useState(false);
   const { stepId, adventureId } = route.params;
   const adventure = useSelector(({ data }: RootState) => data.myAdventures.byId[adventureId]) || {};
-  // Go back to Home Screen if can't find adventure.
-  if ( Object.keys(adventure).length === 0 ) {
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'LoggedInApp' }],
-    });
-    return <></>;
-  }
   const conversationId = adventure.conversation?.id;
-  const currentStep = useSelector(({ data }: RootState) => {
-    // When opening push notification step information can be missing.
-    if ( data.adventureSteps[adventureId] && data.adventureSteps[adventureId].byId[stepId] ) {
-      return data.adventureSteps[adventureId].byId[stepId]
-    } else {
-      return {};
-    }
-  });
-  // Go back to Adventure Steps if can't find current step.
-  if ( Object.keys(currentStep).length === 0 ) {
-    navigation.navigate('AdventureActive', {
-      adventureId,
-    })
-    return <></>;
-  }
+  const currentStep = useSelector(({ data }: RootState) =>
+    data.adventureSteps[adventureId].byId[stepId]
+  );
   const currentUser = useSelector(({ auth }: RootState) => auth.user) || {};
   const currentMessages = useSelector(
     ({ data }: RootState) => data.adventureStepMessages[currentStep?.id] || []
@@ -83,19 +59,8 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
     id: null,
     content: ''
   };
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  useKeyboard( (bool: boolean) => setKeyboardVisible(bool));
 
-  // If the previous screen isn't active Adventure (Steps Screen) add it manually.
-  const navRoutes = navigation.dangerouslyGetState()?.routes;
-  const prevScreen = navRoutes[navRoutes.length - 2]?.name;
-  if ( prevScreen !== 'AdventureActive' ) {
-    // Insert Previous Route Screen.
-    // https://reactnavigation.org/docs/navigation-prop/#dispatch
-    navigation.dispatch(insertBeforeLast('AdventureActive', {
-      adventureId
-    }));
-  }
+  useKeyboard( (bool: boolean) => setKeyboardVisible(bool));
 
   if (!['multi', 'binary'].includes(currentStep.kind)) {
     // Find the first message of the current author from the start.
@@ -171,9 +136,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
     }
   }
 
-
   const getMessages = async () =>{
-
     await dispatch(
       getAdventureStepMessages(adventure.conversation.id, currentStep.id)
     );
@@ -181,12 +144,12 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
     // Also update the current step (solves a bug with stuck blurred messages).
     dispatch(getAdventureSteps(adventure.id));
   }
+
   // Load messages for current conversation on initial screen reader.
   useEffect(() => {
     setIsLoading (true);
     getMessages();
   }, []);
-
 
   useEffect(() => {
     const latestMessage = currentMessages[currentMessages.length - 1];
@@ -247,94 +210,100 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
     }, [])
   )
 
+  console.log( "🐸 insets.top:", insets.top );
+
   return (
-    <View
-      style={[
-        st.w100,
-        st.h100,
-        // st.bgBlue,
-        {
-          backgroundColor: isPortrait ? st.colors.blue : st.colors.deepBlack,
-          flexDirection: 'column',
-          alignContent: 'center',
-          justifyContent: 'flex-end',
-        }
-      ]}
-    >
-      <KeyboardAvoidingView
-        behavior="position"
-        style={[st.aic, st.w100, st.jcsb]}
-      >
-        <View style={{
+    <>
+      <View style={{
           // flex:1,
           height: insets.top,
           backgroundColor: isPortrait && insets.top > 0 ? '#000' : 'transparent',
-        }}>
-          <StatusBar
-            animated={true}
-            barStyle="light-content"
-            translucent={ isPortrait && insets.top > 0 ? false : true } // Android. The app will draw under the status bar.
-            backgroundColor="transparent" // Android. The background color of the status bar.
-          />
-        </View>
-        <ScrollView
-          ref={(scroll) => {
-            if ( ! scrollRef?.current ) {
-              scrollRef.current = scroll;
-            }
-          }}
-          // Close keyboard if scrolling.
-          onScroll={
-            Keyboard.dismiss
+      }}>
+        <StatusBar
+          animated={true}
+          barStyle="dark-content"
+          translucent={false}
+          // translucent={ isPortrait && insets.top > 0 ? false : true } // Android. The app will draw under the status bar.
+          backgroundColor='#000' // Android. The background color of the status bar.
+        />
+      </View>
+      <View
+        style={[
+          st.w100,
+          st.h100,
+          // st.bgBlue,
+          {
+            backgroundColor: isPortrait ? st.colors.blue : st.colors.deepBlack,
+            flexDirection: 'column',
+            alignContent: 'center',
+            justifyContent: 'flex-end',
           }
-          scrollEventThrottle={0}
-          contentContainerStyle={[st.aic, st.w100, st.jcsb]}
-          scrollEnabled={isPortrait? true: false}
-          keyboardShouldPersistTaps ='always'
-            // ☝️required to fix the bug with a need to double tap
-            // on the send message icon.
+        ]}
+      >
+        <KeyboardAvoidingView
+          behavior="position"
+          style={[st.aic, st.w100, st.jcsb]}
         >
-          <View
-            style={[
-              { paddingBottom: isPortrait? insets.bottom : 0 },
-              st.f1,
-            ]}
-            enableAutomaticScroll
+          <ScrollView
+            ref={(scroll) => {
+              if ( ! scrollRef?.current ) {
+                scrollRef.current = scroll;
+              }
+            }}
+            // Close keyboard if scrolling.
+            onScroll={
+              Keyboard.dismiss
+            }
+            scrollEventThrottle={0}
+            contentContainerStyle={[st.aic, st.w100, st.jcsb]}
+            scrollEnabled={isPortrait? true: false}
             keyboardShouldPersistTaps ='always'
-            // ☝️required to fix the bug with a need to double tap
-            // on the send message icon.
+              // ☝️required to fix the bug with a need to double tap
+              // on the send message icon.
           >
-            {/* This View stays outside of the screen on top
-            and covers blue area with solid black on pull. */}
             <View
-              style={{
-                position:'absolute',
-                backgroundColor: 'black',
-                left: 0,
-                right: 0,
-                top: -300,
-                height: 300,
-              }}
-            ></View>
-            {/* Video Player */}
-            <Video
-              onOrientationChange={(orientation: string): void => {
-                setIsPortrait( orientation === 'portrait' ? true : false);
-              }}
-              item={currentStep.item.content}
-              onPlay={
-                () => {
-                  dispatch( interactionAdventureVideoPlay({
-                    adventureId: adventure.id,
-                    stepId: currentStep.id,
-                  }))
+              style={[
+                {
+                  paddingBottom: isPortrait? insets.bottom : 0,
+                },
+                st.f1,
+              ]}
+              enableAutomaticScroll
+              keyboardShouldPersistTaps ='always'
+              // ☝️required to fix the bug with a need to double tap
+              // on the send message icon.
+            >
+              {/* This View stays outside of the screen on top
+              and covers blue area with solid black on pull. */}
+              <View
+                style={{
+                  position:'absolute',
+                  backgroundColor: 'black',
+                  left: 0,
+                  right: 0,
+                  top: -300,
+                  height: 300,
+                }}
+              ></View>
+              {/* Video Player */}
+              <Video
+                onOrientationChange={(orientation: string): void => {
+                  setIsPortrait( orientation === 'portrait' ? true : false);
+                }}
+                item={currentStep.item.content}
+                onPlay={
+                  () => {
+                    dispatch( interactionVideoPlay({
+                      videoId: adventure.id,
+                      context: 'journey'
+                    }))
 
-                  if (!hasClickedPlay) {
-                    setHasClickedPlay(true);
+                    if (!hasClickedPlay) {
+                      setHasClickedPlay(true);
+                    }
                   }
                 }
-              }
-            />
+              />
               {isPortrait && (
               <>
                 {/* Special Bot message at the top */}
@@ -403,7 +372,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
                   <ActivityIndicator size="large" color="rgba(255,255,255,.5)" style={{
                     paddingTop: 50
                   }} />:
-                  currentMessages.map( (item, index) =>  {
+                  currentMessages.map(item =>  {
                       return(
                         <>
                           {
@@ -414,9 +383,6 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
                                 item={item}
                                 adventure={adventure}
                                 step={currentStep}
-                                // In multichoise questions, we need previous and next.
-                                previous={ index > 0 ? currentMessages[index-1] : null}
-                                next={ currentMessages.length > index + 1 ? currentMessages[index+1] : null}
                                 onFocus={event => {
                                   /* scrollRef.current.props.scrollToFocusedInput(
                                     findNodeHandle(event.target),
@@ -435,39 +401,40 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
                 />}
               </>
               )}
-            {/* Extra spacing on the bottom */}
-            { isPortrait && <View style={{height:theme.spacing.m}}></View> }
-          </View>
-        </ScrollView>
-        {/*
-          NEW MESSAGE FIELD (at the bottom of the screen).
-          But only if it's portrait orientation and not solo adventure.
-          It makes no sense to talk to yourself in solo mode.
-        */}
-        {!isSolo && isPortrait && currentStep['completed_by_messenger?'] && (
-          <Flex
-            direction="row"
-            align="center"
-            justify="center"
-            style={[
-              st.w100,
-              st.ph4,
-              {
-                backgroundColor: theme.colors.primary,
-                paddingBottom: isKeyboardVisible ? 0 : insets.bottom,
-                maxHeight: 140,
-              },
-            ]}
-          >
-            <MainMessagingInput
-              adventure={adventure}
-              step={currentStep}
-              keyboardAppearance="dark"
-            />
-          </Flex>
-        )}
-      </KeyboardAvoidingView>
-    </View>
+              {/* Extra spacing on the bottom */}
+              { isPortrait && <View style={{height:60}}></View> }
+            </View>
+          </ScrollView>
+          {/*
+            NEW MESSAGE FIELD (at the bottom of the screen).
+            But only if it's portrait orientation and not solo adventure.
+            It makes no sense to talk to yourself in solo mode.
+          */}
+          {!isSolo && isPortrait && currentStep['completed_by_messenger?'] && (
+            <Flex
+              direction="row"
+              align="center"
+              justify="center"
+              style={[
+                st.w100,
+                st.ph4,
+                {
+                  backgroundColor: theme.colors.primary,
+                  paddingBottom: isKeyboardVisible ? 0 : insets.bottom,
+                  maxHeight: 140,
+                },
+              ]}
+            >
+              <MainMessagingInput
+                adventure={adventure}
+                step={currentStep}
+                keyboardAppearance="dark"
+              />
+            </Flex>
+          )}
+        </KeyboardAvoidingView>
+      </View>
+    </>
   );
 }
 

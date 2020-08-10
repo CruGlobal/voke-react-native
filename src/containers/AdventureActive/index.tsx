@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
-// import { StatusBar as RNStatusBar, StatusBarProps } from 'react-native';
 import { View, ScrollView, FlatList, StatusBar, ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector, shallowEqual, useStore } from 'react-redux';
 import { getMyAdventure, getAdventureStepMessages, getAdventureSteps, interactionVideoPlay } from '../../actions/requests';
@@ -128,8 +127,8 @@ function AdventureActive({ navigation, route }: AdventureActiveProps): React.Rea
         <StatusBar
           animated={true}
           barStyle="light-content"
-          translucent={true} // Android. The app will draw under the status bar.
-          backgroundColor="transparent" // Android. The background color of the status bar.
+          translucent={false} // Android. The app will draw under the status bar.
+          backgroundColor='#000' // Android. The background color of the status bar.
         />
       </View>
       <ScrollView

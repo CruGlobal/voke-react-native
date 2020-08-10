@@ -2,8 +2,9 @@
 
 buildscript {
     ext {
+        // https://source.android.com/setup/start/build-numbers
         buildToolsVersion = "28.0.3"
-        minSdkVersion = 16
+        minSdkVersion = 21
         compileSdkVersion = 28
         targetSdkVersion = 28
     }
