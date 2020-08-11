@@ -217,228 +217,223 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
   )
 
   return (
-    <>
+    <View
+      style={[
+        st.w100,
+        st.h100,
+        {
+          backgroundColor: isPortrait ? st.colors.blue : st.colors.deepBlack,
+          flexDirection: 'column',
+          alignContent: 'center',
+          justifyContent: 'space-between',
+        }
+      ]}
+    >
       <View style={{
-          // flex:1,
-          height: insets.top,
-          backgroundColor: isPortrait && insets.top > 0 ? '#000' : 'transparent',
+        height: Platform.OS === 'ios' ? ( insets.top ? insets.top : 20) : 0,
+        backgroundColor: isPortrait && insets.top > 0 ? '#000' : 'transparent',
       }}>
         <StatusBar
           animated={true}
-          barStyle="dark-content"
+          barStyle="light-content"
           translucent={false}
           // translucent={ isPortrait && insets.top > 0 ? false : true } // Android. The app will draw under the status bar.
           backgroundColor='#000' // Android. The background color of the status bar.
         />
       </View>
-      <DismissKeyboardView
-        style={[
-          st.w100,
-          st.h100,
-          {
-            backgroundColor: isPortrait ? st.colors.blue : st.colors.deepBlack,
-            flexDirection: 'column',
-            alignContent: 'center',
-            justifyContent: 'space-between',
-          }
-        ]}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        style={[st.aic, st.w100, st.jcsb,{
+          flex: 1,
+        }]}
       >
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-          style={[st.aic, st.w100, st.jcsb,{
-            height: '100%',
-          }]}
+        <KeyboardAwareScrollView
+          ref={(scroll) => {
+            if ( ! scrollRef?.current ) {
+              scrollRef.current = scroll;
+            }
+          }}
+          enableOnAndroid={true}
+          extraHeight={windowDimentions.height/10}
+          // Close keyboard if scrolling.
+          /*  onScroll={ (e)=>{
+            // Keyboard.dismiss
+          }} */
+          // scrollEventThrottle={0}
+          contentContainerStyle={[st.aic, st.w100, st.jcsb]}
+          scrollEnabled={isPortrait? true: false}
+          keyboardShouldPersistTaps ='always'
+            // ☝️required to fix the bug with a need to double tap
+            // on the send message icon.
         >
-          <KeyboardAwareScrollView
-            ref={(scroll) => {
-              if ( ! scrollRef?.current ) {
-                scrollRef.current = scroll;
-              }
-            }}
-            enableOnAndroid={true}
-            extraHeight={windowDimentions.height/10}
-            // Close keyboard if scrolling.
-            onScroll={ (e)=>{
-              // Keyboard.dismiss
-            }}
-            scrollEventThrottle={0}
-            contentContainerStyle={[st.aic, st.w100, st.jcsb]}
-            scrollEnabled={isPortrait? true: false}
+          <DismissKeyboardView
+            style={[
+              {
+                // paddingBottom: isPortrait? insets.bottom : 0,
+              },
+              // st.f1,
+            ]}
+            enableAutomaticScroll
             keyboardShouldPersistTaps ='always'
-              // ☝️required to fix the bug with a need to double tap
-              // on the send message icon.
+            // ☝️required to fix the bug with a need to double tap
+            // on the send message icon.
           >
+            {/* This View stays outside of the screen on top
+            and covers blue area with solid black on pull. */}
             <View
-              style={[
-                {
-                  paddingBottom: isPortrait? insets.bottom : 0,
-                },
-                st.f1,
-              ]}
-              enableAutomaticScroll
-              keyboardShouldPersistTaps ='always'
-              // ☝️required to fix the bug with a need to double tap
-              // on the send message icon.
-            >
-              {/* This View stays outside of the screen on top
-              and covers blue area with solid black on pull. */}
-              <View
-                style={{
-                  position:'absolute',
-                  backgroundColor: 'black',
-                  left: 0,
-                  right: 0,
-                  top: -300,
-                  height: 300,
-                }}
-              ></View>
-              {/* Video Player */}
-              <Video
-                onOrientationChange={(orientation: string): void => {
-                  setIsPortrait( orientation === 'portrait' ? true : false);
-                }}
-                item={currentStep.item.content}
-                onPlay={
-                  () => {
-                    dispatch( interactionVideoPlay({
-                      videoId: adventure.id,
-                      context: 'journey'
-                    }))
+              style={{
+                position:'absolute',
+                backgroundColor: 'black',
+                left: 0,
+                right: 0,
+                top: -300,
+                height: 300,
+              }}
+            ></View>
+            {/* Video Player */}
+            <Video
+              onOrientationChange={(orientation: string): void => {
+                setIsPortrait( orientation === 'portrait' ? true : false);
+              }}
+              item={currentStep.item.content}
+              onPlay={
+                () => {
+                  dispatch( interactionVideoPlay({
+                    videoId: adventure.id,
+                    context: 'journey'
+                  }))
 
-                    if (!hasClickedPlay) {
-                      setHasClickedPlay(true);
-                    }
+                  if (!hasClickedPlay) {
+                    setHasClickedPlay(true);
                   }
                 }
-              />
-              {isPortrait && (
-              <>
-                {/* Special Bot message at the top */}
-                {currentStep.status_message ? (
-                  <Flex
-                    align="center"
-                    style={[st.bgDarkBlue, st.ph1, st.pv4, st.ovh]}
-                  >
-                    <Text style={[st.fs4, st.white]}>
-                      {currentStep.status_message}
-                    </Text>
-                    <VokeIcon
-                      type="image"
-                      name="vokebot"
-                      style={[
-                        st.abs,
-                        st.left(-25),
-                        st.bottom(-20),
-                        st.h(70),
-                        st.w(70),
-                      ]}
-                    />
-                  </Flex>
-                ) : null}
-
-                {/* First card with question */}
-                <Flex direction="column" self="center" style={[st.w80, st.mt2]}>
-                  <Flex
-                    direction="column"
-                    style={[st.bgOrange, st.brtl5, st.brtr5, st.pd1]}
-                    align="center"
-                    justify="center"
-                  >
-                    <Text style={[st.tac, st.white, st.fs20, st.lh(24)]}>
-                      {currentStep.question}
-                    </Text>
-                  </Flex>
-                  <Image
-                    source={{ uri: currentUser.avatar.small }}
-                    style={[st.absb, st.right(-30), st.h(25), st.w(25), st.br1]}
-                  />
-                  <AdventureStepMessageInput
-                    onFocus={(event) => {
-                      if (hasClickedPlay) {
-                        return;
-                      } else {
-                        dispatch(
-                          toastAction(
-                            'Please watch the video first before you answer. Thanks!',
-                          ),
-                        );
-                      }
-                    }}
-                    kind={currentStep.kind}
-                    adventure={adventure}
-                    step={currentStep}
-                    defaultValue={myMainAnswer.content}
-                    isLoading={isLoading}
+              }
+            />
+            {isPortrait && (
+            <>
+              {/* Special Bot message at the top */}
+              {currentStep.status_message ? (
+                <Flex
+                  align="center"
+                  style={[st.bgDarkBlue, st.ph1, st.pv4, st.ovh]}
+                >
+                  <Text style={[st.fs4, st.white]}>
+                    {currentStep.status_message}
+                  </Text>
+                  <VokeIcon
+                    type="image"
+                    name="vokebot"
+                    style={[
+                      st.abs,
+                      st.left(-25),
+                      st.bottom(-20),
+                      st.h(70),
+                      st.w(70),
+                    ]}
                   />
                 </Flex>
+              ) : null}
 
-                {isLoading && !!! currentMessages.length ?
-                  <ActivityIndicator size="large" color="rgba(255,255,255,.5)" style={{
-                    paddingTop: 50
-                  }} />:
-                  currentMessages.map(item =>  {
-                      return(
-                        <>
-                          {
-                            ( !item || myMainAnswer?.id === item?.id)
-                              ? null
-                            : <AdventureStepMessage
-                                key={item.id}
-                                item={item}
-                                adventure={adventure}
-                                step={currentStep}
-                                onFocus={event => {
-                                  /* scrollRef.current.props.scrollToFocusedInput(
-                                    findNodeHandle(event.target),
-                                  ); */
-                                }}
-                              />
-                          }
-                        </>
-                      )
+              {/* First card with question */}
+              <Flex direction="column" self="center" style={[st.w80, st.mt2]}>
+                <Flex
+                  direction="column"
+                  style={[st.bgOrange, st.brtl5, st.brtr5, st.pd1]}
+                  align="center"
+                  justify="center"
+                >
+                  <Text style={[st.tac, st.white, st.fs20, st.lh(24)]}>
+                    {currentStep.question}
+                  </Text>
+                </Flex>
+                <Image
+                  source={{ uri: currentUser.avatar.small }}
+                  style={[st.absb, st.right(-30), st.h(25), st.w(25), st.br1]}
+                />
+                <AdventureStepMessageInput
+                  onFocus={(event) => {
+                    if (hasClickedPlay) {
+                      return;
+                    } else {
+                      dispatch(
+                        toastAction(
+                          'Please watch the video first before you answer. Thanks!',
+                        ),
+                      );
                     }
-                  )
-                }
-                {!isKeyboardVisible && <AdventureStepNextAction
-                  adventureId={adventure.id}
-                  stepId={stepId}
-                />}
-              </>
-              )}
-              {/* Extra spacing on the bottom */}
-              { isPortrait && <View style={{height:60}}></View> }
-            </View>
-          </KeyboardAwareScrollView>
-          {/*
-            NEW MESSAGE FIELD (at the bottom of the screen).
-            But only if it's portrait orientation and not solo adventure.
-            It makes no sense to talk to yourself in solo mode.
-          */}
-          {!isSolo && isPortrait && currentStep['completed_by_messenger?'] && (
-            <Flex
-              direction="row"
-              align="center"
-              justify="center"
-              style={[
-                st.w100,
-                st.ph4,
-                {
-                  backgroundColor: theme.colors.primary,
-                  paddingBottom: isKeyboardVisible ? 0 : insets.bottom,
-                  maxHeight: 140,
-                },
-              ]}
-            >
-              <MainMessagingInput
-                adventure={adventure}
-                step={currentStep}
-                keyboardAppearance="dark"
-              />
-            </Flex>
-          )}
-        </KeyboardAvoidingView>
-      </DismissKeyboardView>
-    </>
+                  }}
+                  kind={currentStep.kind}
+                  adventure={adventure}
+                  step={currentStep}
+                  defaultValue={myMainAnswer.content}
+                  isLoading={isLoading}
+                />
+              </Flex>
+
+              {isLoading && !!! currentMessages.length ?
+                <ActivityIndicator size="large" color="rgba(255,255,255,.5)" style={{
+                  paddingTop: 50
+                }} />:
+                currentMessages.map(item =>  {
+                    return(
+                      <>
+                        {
+                          ( !item || myMainAnswer?.id === item?.id)
+                            ? null
+                          : <AdventureStepMessage
+                              key={item.id}
+                              item={item}
+                              adventure={adventure}
+                              step={currentStep}
+                              onFocus={event => {
+                                /* scrollRef.current.props.scrollToFocusedInput(
+                                  findNodeHandle(event.target),
+                                ); */
+                              }}
+                            />
+                        }
+                      </>
+                    )
+                  }
+                )
+              }
+              {!isKeyboardVisible && <AdventureStepNextAction
+                adventureId={adventure.id}
+                stepId={stepId}
+              />}
+            </>
+            )}
+            {/* Extra spacing on the bottom */}
+            { isPortrait && <View style={{height:60}}></View> }
+          </DismissKeyboardView>
+        </KeyboardAwareScrollView>
+        {/*
+          NEW MESSAGE FIELD (at the bottom of the screen).
+          But only if it's portrait orientation and not solo adventure.
+          It makes no sense to talk to yourself in solo mode.
+        */}
+        {!isSolo && isPortrait && currentStep['completed_by_messenger?'] && (
+          <Flex
+            direction="row"
+            align="center"
+            justify="center"
+            style={{
+              width: '100%',
+              paddingHorizontal: theme.spacing.l,
+              paddingBottom: isKeyboardVisible ? 0 : insets.bottom,
+              backgroundColor: theme.colors.primary,
+              maxHeight: 140,
+            }}
+          >
+            <MainMessagingInput
+              adventure={adventure}
+              step={currentStep}
+              keyboardAppearance="dark"
+            />
+          </Flex>
+        )}
+      </KeyboardAvoidingView>
+    </View>
   );
 }
 

@@ -41,7 +41,10 @@ function AdventureStepMessageInput({ adventure, step, ...rest }) {
   return (
     <Flex
       direction="row"
-      style={[st.pl5, inputHeight, st.btWhite, st.btw1,{backgroundColor: theme.colors.primary, paddingTop: 10}]}
+      style={[ inputHeight, st.btWhite, st.btw1,{
+        backgroundColor: theme.colors.primary,
+        paddingVertical: theme.spacing.s,
+      }]}
       align="center"
       value={1}
     >
@@ -58,7 +61,7 @@ function AdventureStepMessageInput({ adventure, step, ...rest }) {
         onContentSizeChange={event =>
           setInputHeight(event.nativeEvent.contentSize.height + 20)
         }
-        style={[st.f1, st.pv6, st.mv6, st.fs4, inputHeight, st.pt4, st.pb4, st.pl3, st.br2, st.mr5,{backgroundColor: theme.colors.white}]}
+        style={[st.f1, st.pv6, st.fs4, inputHeight, st.pt4, st.pb4, st.pl3, st.br2, st.mr5,{backgroundColor: theme.colors.white}]}
         selectionColor={st.colors.yellow}
         autoCorrect={true}
         multiline={true}
