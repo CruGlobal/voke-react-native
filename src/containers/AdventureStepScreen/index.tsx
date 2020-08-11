@@ -260,7 +260,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
             // Close keyboard if scrolling.
             onScroll={ (e)=>{
               // Keyboard.dismiss
-            }
+            }}
             scrollEventThrottle={0}
             contentContainerStyle={[st.aic, st.w100, st.jcsb]}
             scrollEnabled={isPortrait? true: false}
