@@ -9,7 +9,6 @@ import { ThunkDispatch } from 'redux-thunk';
 import { checkNotifications, openSettings } from 'react-native-permissions';
 
 import { REDUX_ACTIONS } from '../constants';
-import { SOCKET_URL } from './utils';
 import st from '../st';
 import {
   establishPushDevice,
@@ -222,10 +221,11 @@ function establishDevice(): Promise<void> {
       // and configured to receive notifications.
       onRegister(token: { token: any }) {
         // Update redux with the push notification permission value
-        let newPushToken = token;
-        if (!st.isAndroid) {
+        // let newPushToken = token;
+        const newPushToken = token?.token;
+        /* if (!st.isAndroid) {
           newPushToken = token.token;
-        }
+        } */
         dispatch({
           type: REDUX_ACTIONS.PUSH_PERMISSION,
           permission: 'granted',

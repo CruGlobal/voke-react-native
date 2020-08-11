@@ -2,8 +2,9 @@
 
 buildscript {
     ext {
+        // https://source.android.com/setup/start/build-numbers
         buildToolsVersion = "28.0.3"
-        minSdkVersion = 16
+        minSdkVersion = 21
         compileSdkVersion = 28
         targetSdkVersion = 28
     }
@@ -12,7 +13,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath('com.android.tools.build:gradle:3.6.3')
+        classpath('com.android.tools.build:gradle:3.6.1')
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.0.0'
         classpath 'com.google.gms:google-services:4.3.3'
         classpath 'org.ajoberstar:gradle-git:1.7.2'
