@@ -151,41 +151,43 @@ function GroupModal(props) {
               ]}
             >
               <Touchable onPress={handleJoinGroup}>
-                <Flex justify="end">
-                  <Image
-                    resizeMode="contain"
-                    source={{ uri: me.avatar.medium }}
-                    style={[
-                      {
-                        height: st.fullWidth / 2 - 140,
-                        width: st.fullWidth / 2 - 140,
-                        borderRadius: (st.fullWidth / 2 - 140) / 2,
-                      },
-                    ]}
-                  />
-                </Flex>
-                <Flex
-                  direction="row"
-                  align="center"
-                  justify="between"
-                  value={1}
-                  self="stretch"
-                >
-                  <Text
-                    style={[
-                      st.white,
-                      st.tal,
-                      { fontSize: st.isAndroid ? 16 : 20, maxWidth: 80 },
-                    ]}
+                <>
+                  <Flex justify="end">
+                    <Image
+                      resizeMode="contain"
+                      source={{ uri: me.avatar.medium }}
+                      style={[
+                        {
+                          height: st.fullWidth / 2 - 140,
+                          width: st.fullWidth / 2 - 140,
+                          borderRadius: (st.fullWidth / 2 - 140) / 2,
+                        },
+                      ]}
+                    />
+                  </Flex>
+                  <Flex
+                    direction="row"
+                    align="center"
+                    justify="between"
+                    value={1}
+                    self="stretch"
                   >
-                    {t('joinGroup')}
-                  </Text>
-                  <VokeIcon
-                name="arrow-left2"
-                size={40}
-                style={{transform: [{ rotate: '180deg'}]}}
-              />
-                </Flex>
+                    <Text
+                      style={[
+                        st.white,
+                        st.tal,
+                        { fontSize: st.isAndroid ? 16 : 20, maxWidth: 80 },
+                      ]}
+                    >
+                      {t('joinGroup')}
+                    </Text>
+                    <VokeIcon
+                      name="arrow-left2"
+                      size={40}
+                      style={{transform: [{ rotate: '180deg'}]}}
+                    />
+                  </Flex>
+                </>
               </Touchable>
             </Flex>
           </Flex>

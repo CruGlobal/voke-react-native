@@ -86,8 +86,6 @@ function Video({
   const [currentTime, setCurrentTime] = useState(0);
   const window = useWindowDimensions();
 
-  console.log( "🐸 sliderValue:", sliderValue );
-
   // const time = youtubeVideo.current.getCurrentTime();
   // const duration = youtubeVideo.current.getDuration();
 
@@ -174,8 +172,6 @@ function Video({
   }
 
   function handleVideoStateChange(event:string) {
-    console.log( "🐸 handleVideoStateChange:", event );
-
     switch (event) {
       case 'buffering':
         setIsBuffering(true);
@@ -207,14 +203,10 @@ function Video({
   }
 
   function togglePlayState() {
-    console.log( "🐸 togglePlayState:", !isPlaying );
     handleVideoStateChange( isPlaying ? 'paused' : 'play')
   }
 
   function handleSliderChange(value:number) {
-    console.log( "🐸🐸🐸🐸🐸🐸 value:", value );
-    console.log( "🐸 youtubeVideo:", youtubeVideo );
-    console.log( "🐸 arclightVideo:", arclightVideo );
     if ( youtubeVideo.current ) {
       youtubeVideo.current.seekTo(value);
     } else if (arclightVideo.current) {
@@ -222,11 +214,6 @@ function Video({
     }
     setSliderValue(value);
   }
-
-  console.log( "🐸 videoReady:", videoReady );
-  console.log( "🐸 started:", started );
-  console.log( "🐸 isPlaying:", isPlaying );
-  console.log( "🐸 isBuffering:", isBuffering );
 
   return (
     <View
@@ -310,7 +297,7 @@ function Video({
               uri: item.hls || item.url,
               type: !!item.hls ? 'm3u8' : undefined,
             }}
-            onLoad={() => { console.log( "🐸 onLoad!!!!" );handleVideoStateChange('ready') }}
+            onLoad={() => { handleVideoStateChange('ready') }}
             paused={!isPlaying}
             onProgress={e => {
               setSliderValue(e.currentTime)
@@ -319,8 +306,8 @@ function Video({
               handleVideoStateChange('paused');
               setSliderValue(0)
             }}
-            onBuffer={(e)=>{console.log( "🐸 onBuffer", e );}}                // Callback when remote video is buffering
-            onError={(e)=>{console.log( "🐸 videoError:", e );}}  
+            onBuffer={(e)=>{}}                // Callback when remote video is buffering
+            onError={(e)=>{}}  
             playInBackground={false}
             playWhenInactive={false}
             ignoreSilentSwitch="ignore"

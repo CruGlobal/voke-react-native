@@ -132,10 +132,10 @@ function AdventureActive({ navigation, route }: AdventureActiveProps): React.Rea
         />
       </View>
       <ScrollView
-        scrollEnabled={isPortrait? true: false}
+        scrollEnabled={isPortrait ? true : false}
         bounces
         style={[
-        isPortrait ? st.bgBlue: st.bgDeepBlack,
+          isPortrait ? st.bgBlue : st.bgDeepBlack,
         { paddingBottom: isPortrait ? insets.bottom : 0 }]}>
         {/* <Flex value={1} direction="row" align="center" justify="center" style={{padding:5}}>
           <Text style={[st.fs18,{ color:'white'}]}>

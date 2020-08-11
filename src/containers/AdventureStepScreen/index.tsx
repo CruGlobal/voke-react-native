@@ -1,29 +1,39 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
+import { useFocusEffect } from '@react-navigation/native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAvoidingView,
+         View,
+         ScrollView,
+         Keyboard,
+         StatusBar,
+         ActivityIndicator,
+         Dimensions,
+         findNodeHandle } from 'react-native';
+import { useMount, useKeyboard } from '../../utils';
+import { useDispatch, useSelector } from 'react-redux';
+import { REDUX_ACTIONS } from '../../constants';
+import { RootState } from '../../reducers';
+import { getAdventureStepMessages,
+         markMessageAsRead,
+         interactionVideoPlay } from '../../actions/requests';
+import { TAdventureSingle, TStep } from '../../types';
+import { getAdventureSteps } from '../../actions/requests';
+import { setCurrentScreen } from '../../actions/info';
+import { toastAction } from '../../actions/info';
+import AdventureStepMessageInput from '../../components/AdventureStepMessageInput';
+import AdventureStepNextAction from '../../components/AdventureStepNextAction';
+import AdventureStepMessage from '../../components/AdventureStepMessage';
+import DismissKeyboardView from '../../components/DismissKeyboardHOC';
+import MainMessagingInput from '../../components/MainMessagingInput';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import st from '../../st';
+import styles from './styles';
 import theme from '../../theme';
-import MainMessagingInput from '../../components/MainMessagingInput';
-import AdventureStepMessage from '../../components/AdventureStepMessage';
-import AdventureStepMessageInput from '../../components/AdventureStepMessageInput';
-import AdventureStepNextAction from '../../components/AdventureStepNextAction';
+import Video from '../../components/Video';
 import Image from '../../components/Image';
 import VokeIcon from '../../components/VokeIcon';
-import { KeyboardAvoidingView, View, ScrollView, Keyboard, StatusBar, ActivityIndicator } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import Video from '../../components/Video';
-import { useMount, useKeyboard } from '../../utils';
-import { getAdventureStepMessages, markMessageAsRead, interactionVideoPlay } from '../../actions/requests';
-import { RootState } from '../../reducers';
-import { TAdventureSingle, TStep } from '../../types';
-import { useFocusEffect } from '@react-navigation/native';
-import { getAdventureSteps } from '../../actions/requests';
-import styles from './styles';
-import { REDUX_ACTIONS } from '../../constants';
-import { setCurrentScreen } from '../../actions/info';
-import DismissKeyboardView from '../../components/DismissKeyboardHOC';
-import { toastAction } from '../../actions/info';
 
 
 type ModalProps = {
@@ -39,6 +49,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
   const scrollRef = useRef();
   const dispatch = useDispatch();
   const insets = useSafeArea();
+  const windowDimentions = Dimensions.get('window');
   const [isPortrait, setIsPortrait] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
@@ -166,11 +177,6 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
       // If the last message from someone else, mark it as read.
       markAsRead();
     }
-
-    // this.scroll.props.scrollToFocusedInput(reactNode)
-    // scrollRef.current.props.scrollToPosition(0, 999999)
-    // let newMsgs = [...(messages[currentStep.id] || [])];//.reverse();
-
     // If solo adventure, render bot's messages.
     if (isSolo) {
       botMessage();
@@ -210,8 +216,6 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
     }, [])
   )
 
-  console.log( "🐸 insets.top:", insets.top );
-
   return (
     <>
       <View style={{
@@ -227,32 +231,35 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
           backgroundColor='#000' // Android. The background color of the status bar.
         />
       </View>
-      <View
+      <DismissKeyboardView
         style={[
           st.w100,
           st.h100,
-          // st.bgBlue,
           {
             backgroundColor: isPortrait ? st.colors.blue : st.colors.deepBlack,
             flexDirection: 'column',
             alignContent: 'center',
-            justifyContent: 'flex-end',
+            justifyContent: 'space-between',
           }
         ]}
       >
         <KeyboardAvoidingView
-          behavior="position"
-          style={[st.aic, st.w100, st.jcsb]}
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          style={[st.aic, st.w100, st.jcsb,{
+            height: '100%',
+          }]}
         >
-          <ScrollView
+          <KeyboardAwareScrollView
             ref={(scroll) => {
               if ( ! scrollRef?.current ) {
                 scrollRef.current = scroll;
               }
             }}
+            enableOnAndroid={true}
+            extraHeight={windowDimentions.height/10}
             // Close keyboard if scrolling.
-            onScroll={
-              Keyboard.dismiss
+            onScroll={ (e)=>{
+              // Keyboard.dismiss
             }
             scrollEventThrottle={0}
             contentContainerStyle={[st.aic, st.w100, st.jcsb]}
@@ -356,9 +363,6 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
                           ),
                         );
                       }
-                      /* scrollRef.current.props.scrollToFocusedInput(
-                        findNodeHandle(event.target),
-                      ); */
                     }}
                     kind={currentStep.kind}
                     adventure={adventure}
@@ -404,7 +408,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
               {/* Extra spacing on the bottom */}
               { isPortrait && <View style={{height:60}}></View> }
             </View>
-          </ScrollView>
+          </KeyboardAwareScrollView>
           {/*
             NEW MESSAGE FIELD (at the bottom of the screen).
             But only if it's portrait orientation and not solo adventure.
@@ -433,7 +437,7 @@ const AdventureStepScreen = ( { route }: ModalProps ) => {
             </Flex>
           )}
         </KeyboardAvoidingView>
-      </View>
+      </DismissKeyboardView>
     </>
   );
 }
