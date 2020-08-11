@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React, { useState, useRef, useEffect } from 'react';
-import { Platform, Alert, KeyboardAvoidingView } from 'react-native';
+import { Platform, Alert, KeyboardAvoidingView, ScrollView, Dimensions } from 'react-native';
 import {
   Transitioning,
   Transition,
   TransitioningView,
 } from 'react-native-reanimated';
 import { useNavigation } from '@react-navigation/native';
+import { useHeaderHeight } from '@react-navigation/stack';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useSelector, useDispatch } from 'react-redux';
 import useKeyboard from '@rnhooks/keyboard';
@@ -30,6 +31,7 @@ const AccountName = ( props ): React.ReactElement => {
   const insets = useSafeArea();
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const headerHeight = useHeaderHeight();
   // State:
   const initialFirstName = useSelector(
     ({ auth }: RootState) => auth.user.firstName,
@@ -46,9 +48,12 @@ const AccountName = ( props ): React.ReactElement => {
   const [topMargin, setTopMargin] = useState(0);
   // https://github.com/react-native-hooks/keyboard#configuration
   const [isKeyboardVisible] = useKeyboard({
-    useWillShow: true,
-    useWillHide: true,
+    useWillShow: Platform.OS === 'android' ? false : true,
+    useWillHide: Platform.OS === 'android' ? false : true,
+    // Not availabe on Android https://reactnative.dev/docs/keyboard#addlistener
   });
+
+  const { width, height } = Dimensions.get('window');
 
   // const refBotBlock = useRef();
   const refBotBlock = useRef<TransitioningView>(null);
@@ -64,7 +69,7 @@ const AccountName = ( props ): React.ReactElement => {
     if (isKeyboardVisible) {
       setTopMargin(-300);
     } else {
-      setTopMargin(60);
+      setTopMargin(theme.spacing.l);
     }
     refBotBlock?.current?.animateNextTransition();
   }, [isKeyboardVisible]);
@@ -84,7 +89,9 @@ const AccountName = ( props ): React.ReactElement => {
         t('needNameMessage'),
       );
     }
-    if (firstName === initialFirstName && lastName === initialLastName && isLoggedIn) {
+    if (firstName === initialFirstName
+        && lastName === initialLastName
+        && isLoggedIn) {
       // Nothing changed
       return nextScreen();
     }
@@ -121,81 +128,111 @@ const AccountName = ( props ): React.ReactElement => {
   };
 
   return (
-    <DismissKeyboardView style={styles.colors.primary}>
+    <DismissKeyboardView
+      style={{
+        backgroundColor: styles.colors.primary,
+        paddingTop: headerHeight,
+        flex:1,
+      }}
+    >
       {/* <StatusBar /> <- TODO: Not sure why we need it here? */}
-
       {/* Makes possible to hide keyboard when tapping outside. */}
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // TODO: Verify!
-        style={[{ paddingTop: insets.top }, styles.container.default]}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        style={{
+          flex:1,
+        }}
       >
-        <Flex direction="column" justify="end" style={styles.MainContainer}>
-          <Transitioning.View
-            ref={refBotBlock}
-            transition={transition}
-            style={{
-              marginTop: topMargin,
-            }}
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={{
+            flex: 1,
+            flexDirection:'column',
+            alignContent: 'stretch',
+            justifyContent: 'flex-end',
+        }}>
+          <Flex
+            style={[
+              styles.MainContainer,
+              {
+                alignItems: 'center', // Horizontal.
+                justifyContent: 'flex-end', // Vertical.
+                flexGrow: 1,
+                minHeight: '100%',
+              }
+            ]}
           >
             <Flex
               direction="row"
               align="start"
               justify="between"
-              style={[st.h(180)]}
+              style={{
+                  display: isKeyboardVisible ? 'none' : 'flex',
+                  paddingTop: height > 800 ? theme.spacing.xl : 0,
+                  minHeight: 230,
+              }}
             >
-              <BotTalking heading={t('introTitle')}>{t('introMessage')}</BotTalking>
+              <BotTalking
+                heading={t('introTitle')}
+                style={{
+                  opacity: isKeyboardVisible ? 0 : 1,
+                }}
+              >{t('introMessage')}</BotTalking>
             </Flex>
-          </Transitioning.View>
-
-          <Flex
-            value={1}
-            direction="column"
-            align="center"
-            justify="flex-start"
-            self="stretch"
-            style={[
-              st.ph1,
-              st.w100,
-              { paddingTop: isKeyboardVisible ? 120 : 0 },
-            ]}
-          >
-            <NameInput
-              blurOnSubmit={false}
-              label={t('tryItNow:firstName')}
-              onSubmitEditing={() => lastNameRef.current.focus()}
-              placeholder={t('tryItNow:firstNamePlaceholder')}
-              value={firstName}
-              onChangeText={text => setFirstName(text)}
-              returnKeyType="next"
-            />
-            <NameInput
-              ref={lastNameRef}
-              blurOnSubmit
-              label={t('tryItNow:lastName')}
-              placeholder={t('tryItNow:lastNamePlaceholder')}
-              value={lastName}
-              onChangeText={text => setLastName(text)}
-              returnKeyType="done"
-              onSubmitEditing={handleContinue}
-            />
+            <Flex
+              value={1}
+              direction="column"
+              align="center"
+              self="stretch"
+              style={{
+                width: '100%',
+                paddingHorizontal: theme.spacing.xl,
+                justifyContent: isKeyboardVisible ? 'flex-end' : 'flex-start',
+              }}
+            >
+              <NameInput
+                blurOnSubmit={false}
+                label={t('tryItNow:firstName')}
+                onSubmitEditing={() => lastNameRef.current.focus()}
+                placeholder={t('tryItNow:firstNamePlaceholder')}
+                value={firstName}
+                onChangeText={text => setFirstName(text)}
+                returnKeyType="next"
+              />
+              <NameInput
+                ref={lastNameRef}
+                blurOnSubmit
+                label={t('tryItNow:lastName')}
+                placeholder={t('tryItNow:lastNamePlaceholder')}
+                value={lastName}
+                onChangeText={text => setLastName(text)}
+                returnKeyType="done"
+                onSubmitEditing={handleContinue}
+              />
+              <Button
+                onPress={handleContinue}
+                touchableStyle={[st.pd4, st.br1, st.w(st.fullWidth - 70),{
+                  backgroundColor: theme.colors.white, textAlign:"center",
+                  marginTop: isKeyboardVisible ? theme.spacing.l : theme.spacing.xl ,
+                  shadowColor: 'rgba(0, 0, 0, 0.5)',
+                  shadowOpacity: 0.5,
+                  elevation: 4,
+                  shadowRadius: 5 ,
+                  shadowOffset : { width: 1, height: 8}
+                }]}
+                isLoading={isLoading}
+              >
+                <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>{t('next')}</Text>
+              </Button>
+              {/* Safety spacing. */}
+              <Flex
+                style={{
+                  minHeight: theme.spacing.xl + insets.bottom,
+                }}
+              />
+            </Flex>
           </Flex>
-          <Flex direction="row" justify="center" style={[st.w100, st.mt1]}/>
-          <Flex value={1} align="center">
-          <Button
-            onPress={handleContinue}
-            touchableStyle={[st.pd4, st.br1, st.w(st.fullWidth - 70),{backgroundColor: theme.colors.white, textAlign:"center", marginTop: isKeyboardVisible ? 70 : 20 , shadowColor: 'rgba(0, 0, 0, 0.5)',
-            shadowOpacity: 0.5,
-            elevation: 4,
-            shadowRadius: 5 ,
-            shadowOffset : { width: 1, height: 8}}]}
-            isLoading={isLoading}
-          >
-            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>{t('next')}</Text>
-          </Button>
-            {/* Safety spacing. */}
-            <Flex style={{ height: (isKeyboardVisible ? 0 : insets.bottom ) }} />
-          </Flex>
-        </Flex>
+        </ScrollView>
       </KeyboardAvoidingView>
     </DismissKeyboardView>
   );
