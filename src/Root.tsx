@@ -45,7 +45,7 @@ const Root = () => {
     // Add any actions here to run before the loading gate lifts...
     // Delay for at least one second to reduce loading gate flashing.
     setTimeout(() => {
-      setShowLoader( false );
+      setShowLoader(false);
     }, 1000);
   }
 
