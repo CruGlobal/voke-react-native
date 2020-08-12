@@ -134,7 +134,10 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
       <AdventureStack.Screen
         name="AdventureName"
         component={AdventureName}
-        options={{ headerShown: false }}
+        options={{
+          title: '',
+          headerLeft: () => <HeaderLeft hasBack />,
+        }}
       />
       <AdventureStack.Screen
         name="AdventureShareCode"
