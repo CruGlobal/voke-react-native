@@ -16,7 +16,6 @@ import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 // https://github.com/wonday/react-native-orientation-locker#android
-import org.wonday.orientation.OrientationPackage;
 
 
 public class MainApplication extends Application implements ReactApplication {
@@ -35,7 +34,6 @@ public class MainApplication extends Application implements ReactApplication {
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
           // https://github.com/wonday/react-native-orientation-locker#android
-          // packages.add(new OrientationPackage());
           return packages;
         }
 
@@ -54,7 +52,7 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
-    initializeFlipper(this); // Remove this line if you don't want Flipper enabled
+    // initializeFlipper(this); // Remove this line if you don't want Flipper enabled
   }
 
   /**
