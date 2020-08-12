@@ -8,7 +8,7 @@ import moment from 'moment';
 import { momentUtc } from '../../utils';
 import DateComponent from '../DateComponent';
 import VokeIcon from '../VokeIcon';
-import { VIDEO_WIDTH, VIDEO_HEIGHT } from '../../constants';
+import { VIDEO_HEIGHT } from '../../constants';
 import { useNavigation } from '@react-navigation/native';
 import theme from '../../theme';
 import { useTranslation } from 'react-i18next';

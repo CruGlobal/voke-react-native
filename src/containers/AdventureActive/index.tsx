@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
-import { View, ScrollView, FlatList, StatusBar, ActivityIndicator } from 'react-native';
+import { View, ScrollView, FlatList, StatusBar, ActivityIndicator, Platform } from 'react-native';
 import { useDispatch, useSelector, shallowEqual, useStore } from 'react-redux';
 import { getMyAdventure, getAdventureStepMessages, getAdventureSteps, interactionVideoPlay } from '../../actions/requests';
 import { setCurrentScreen } from '../../actions/info';
@@ -119,18 +119,25 @@ function AdventureActive({ navigation, route }: AdventureActiveProps): React.Rea
 
   return (
     <Flex value={1}>
-      <View style={{
-        // flex:1,
-        height: insets.top,
-        backgroundColor: isPortrait && insets.top > 0 ? '#000' : 'transparent',
-      }}>
-        <StatusBar
-          animated={true}
-          barStyle="light-content"
-          translucent={false} // Android. The app will draw under the status bar.
-          backgroundColor='#000' // Android. The background color of the status bar.
-        />
-      </View>
+      {isPortrait && insets.top > 20 ? (
+        <View
+          style={{
+            height: Platform.OS === 'ios' ? insets.top : 0,
+            backgroundColor:
+              isPortrait && insets.top > 0 ? '#000' : 'transparent',
+          }}
+        >
+          <StatusBar
+            animated={true}
+            barStyle="light-content"
+            translucent={false}
+            // translucent={ isPortrait && insets.top > 0 ? false : true } // Android. The app will draw under the status bar.
+            backgroundColor="#000" // Android. The background color of the status bar.
+          />
+        </View>
+      ) : (
+        <StatusBar hidden={true} />
+      )}
       <ScrollView
         scrollEnabled={isPortrait ? true : false}
         bounces
