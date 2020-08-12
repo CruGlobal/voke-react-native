@@ -47,8 +47,6 @@ export const REDUX_ACTIONS:{ [key: string]: string } = {
   TUTORIAL_COUNTDOWN_DUO: 'TUTORIAL_COUNTDOWN_DUO',
   TUTORIAL_COUNTDOWN_GROUP: 'TUTORIAL_COUNTDOWN_GROUP'
 };
-
-export const VIDEO_WIDTH = st.fullWidth;
 export const VIDEO_HEIGHT = st.fullWidth * (9 / 16);
 export const VIDEO_LANDSCAPE_WIDTH = st.fullHeight;
 export const VIDEO_LANDSCAPE_HEIGHT = st.fullWidth;

@@ -120,25 +120,17 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
     <DismissKeyboardView
       style={{
         backgroundColor: styles.colors.primary,
-        // height:'100%',
         paddingTop: headerHeight,
         flex:1,
-        // flexGrow: 1,
-        // justifyContent: 'center',
-        // align: 'center',
-        // flexDirection:'column',
-        // alignContent: 'stretch',
-        // alignItems: 'stretch',
       }}
     >
       {/* <StatusBar /> <- TODO: Not sure why we need it here? */}
       {/* Makes possible to hide keyboard when tapping outside. */}
-     <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : null} // TODO: Verify!
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={{
           flex:1,
         }}
-        // keyboardVerticalOffset={headerHeight}
       >
         <ScrollView
         keyboardShouldPersistTaps="handled"
@@ -277,7 +269,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
             {/* Safe area at the bottom for phone with exotic notches */}
             <Flex
               style={{
-                minHeight: theme.spacing.xl + insets.bottom,
+                minHeight: (isKeyboardVisible ? 0 : theme.spacing.xl + insets.bottom),
               }}
             />
           </Flex>
