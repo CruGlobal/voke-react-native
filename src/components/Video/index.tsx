@@ -192,7 +192,7 @@ function Video({
         setVideoReady(true);
         // AUTOPLAY.
         if (!started && autoPlay) {
-          setIsPlaying(true);
+          handleVideoStateChange('play');
         }
         break;
       // default:
@@ -358,9 +358,12 @@ function Video({
         self="stretch"
       >
         {onCancel ? (
-          <View style={{ zIndex: 1 }}>
-            <BackButton onPress={onCancel} size={15} isClose={true} />
-          </View>
+          <BackButton
+            onPress={onCancel}
+            size={18}
+            isClose={true}
+            style={{ zIndex: 99 }}
+          />
         ) : null}
         {/* Custom overlay to be used instead of play/pause button. */}
         {children ? (
