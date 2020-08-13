@@ -85,7 +85,16 @@ const BotTalking = ({
         color={styles.colors.secondary}
         style={styles.BotMessageTail}
       />
-      <Image width={150} style={styles.BotImage} source={vokeImages.vokebot} />
+      <Image
+        width={150}
+        style={{
+          zIndex: 0,
+          marginLeft: -70,
+          marginTop:-25,
+          marginBottom:-125
+        }}
+        source={vokeImages.vokebot}
+      />
     </Flex>
   );
 

@@ -3,9 +3,10 @@ import ImagePicker from 'react-native-image-picker';
 import { useSelector, useDispatch } from 'react-redux';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import { useTranslation } from "react-i18next";
-import { updateMe } from '../../actions/auth';
+import { useTranslation } from 'react-i18next';
+import { ScrollView, Dimensions } from 'react-native';
 
+import { updateMe } from '../../actions/auth';
 import st from '../../st';
 import theme from '../../theme';
 import Flex from '../../components/Flex';
@@ -15,7 +16,7 @@ import Button from '../../components/Button';
 import Triangle from '../../components/Triangle';
 import VokeIcon from '../../components/VokeIcon';
 import Touchable from '../../components/Touchable';
-import BotTalking from '../../components/BotTalking'
+import BotTalking from '../../components/BotTalking';
 
 const imagePickerOptions = {
   title: '',
@@ -35,6 +36,7 @@ function AccountPhoto(props) {
   const dispatch = useDispatch();
   const [loginLoading, setLoginLoading] = useState(false);
   const userId = useSelector(({ auth }) => auth.user.id);
+  const windowDimensions = Dimensions.get('window');
   // Check if there is custom avatar already defined.
   const initialAvatarUrl = useSelector(({ auth }) => auth.user?.avatar?.medium);
   let currentAvatar = null;
@@ -46,7 +48,7 @@ function AccountPhoto(props) {
 
   const [avatarSource, setAvatarSource] = useState(currentAvatar);
 
-  const nextScreen = ( screenName = 'Adventures' ) => {
+  const nextScreen = (screenName = 'Adventures') => {
     if (onComplete) {
       return onComplete();
     } else {
@@ -55,12 +57,12 @@ function AccountPhoto(props) {
         navigation.reset({
           index: 0,
           routes: [{ name: 'LoggedInApp' }],
-        })
+        });
       } catch (error) {
         navigation.navigate(screenName);
       }
     }
-  }
+  };
 
   async function handleContinue() {
     if (
@@ -72,7 +74,6 @@ function AccountPhoto(props) {
 
       return nextScreen();
     } else {
-
       const avatarData = {
         avatar: {
           // fileName: `${firstName}_${lastName}.png`,
@@ -113,79 +114,100 @@ function AccountPhoto(props) {
   }
 
   return (
-    <Flex
-      style={[st.aic, st.w100, st.jcsb, st.bgBlue, { paddingTop: insets.top }]}
+    <ScrollView
+      keyboardShouldPersistTaps="handled"
+      contentContainerStyle={{
+        // flex: 1, // Will break scrolling on Android
+        // height:'100%', // Will break scrolling on Android
+        backgroundColor: theme.colors.primary,
+        minHeight: '100%',
+        paddingTop: insets.top,
+      }}
     >
-      <Flex direction="column" justify="end" style={[st.w100, st.h100]}>
-        {/* <Flex direction="row" justify="between">
-          <Touchable
-            style={[st.p5, st.pl4, st.mb3]}
-            onPress={() => navigation.navigate('LoggedInApp')}
-          >
-            <Text style={[st.white, st.fs16, st.pr5]}>Skip</Text>
-          </Touchable>
-        </Flex> */}
-        <Flex direction="column" align="center">
+      <Flex
+        direction="column"
+        align="center"
+        justify="center"
+        style={[st.w100, st.h100]}
+      >
         <Flex
-              direction="row"
-              align="start"
-              justify="between"
-              style={[st.h(180), st.mt2]}
-            >
+          direction="row"
+          align="start"
+          justify="between"
+          style={{
+            paddingBottom:
+              windowDimensions.height > 600 ? theme.spacing.xxl : 0,
+            // Don't set height for bot messages!
+            // It should be flexible for every screen.
+          }}
+        >
           <BotTalking heading={t('addPhotoTitle')}>{t('addPhoto')}</BotTalking>
         </Flex>
-          <Touchable onPress={handleSelectImage}>
-            <Flex
-              direction="column"
-              align="center"
-              justify="center"
-              style={[
-                st.w(st.fullWidth / 1.8),
-                st.h(st.fullWidth / 1.8),
-                { borderRadius: st.fullWidth / 1.8,
-                  backgroundColor: theme.colors.secondaryAlt,
-                },
-              ]}
-            >
-              {!avatarSource ? (
-                <VokeIcon
-                  type="image"
-                  name="camera"
-                  style={[st.w(70), st.h(70)]}
-                />
-              ) : (
-                <>
-                  <Image
-                    source={avatarSource}
-                    style={[
-                      st.w(st.fullWidth / 1.8),
-                      st.h(st.fullWidth / 1.8),
-                      { borderRadius: st.fullWidth / 1.8 },
-                    ]}
-                  />
-                </>
-              )}
-            </Flex>
-          </Touchable>
-        </Flex>
-        <Flex direction="row" justify="center" style={[st.w100, st.mt1]}/>
-          <Flex value={1} align="center">
-          <Button
-            onPress={handleContinue}
-            touchableStyle={[st.pd4, st.br1, st.w(st.fullWidth - 70),{backgroundColor: theme.colors.white, textAlign:"center", marginTop: 20,shadowColor: 'rgba(0, 0, 0, 0.5)',
-            shadowOpacity: 0.5,
-            elevation: 4,
-            shadowRadius: 5 ,
-            shadowOffset : { width: 1, height: 8} }]}
-            isLoading={loginLoading}
+        <Flex />
+        <Touchable onPress={handleSelectImage}>
+          <Flex
+            direction="column"
+            align="center"
+            justify="center"
+            style={[
+              st.w(st.fullWidth / 1.8),
+              st.h(st.fullWidth / 1.8),
+              {
+                borderRadius: st.fullWidth / 1.8,
+                backgroundColor: theme.colors.secondaryAlt,
+              },
+            ]}
           >
-            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>{ avatarSource ? t('next') : t('skip') }</Text>
-          </Button>
-            {/* Safety spacing. */}
-            <Flex style={{ height: insets.bottom }} />
+            {!avatarSource ? (
+              <VokeIcon
+                type="image"
+                name="camera"
+                style={[st.w(70), st.h(70)]}
+              />
+            ) : (
+              <>
+                <Image
+                  source={avatarSource}
+                  style={[
+                    st.w(st.fullWidth / 1.8),
+                    st.h(st.fullWidth / 1.8),
+                    { borderRadius: st.fullWidth / 1.8 },
+                  ]}
+                />
+              </>
+            )}
           </Flex>
-        </Flex>
-    </Flex>
+        </Touchable>
+        <Button
+          onPress={handleContinue}
+          touchableStyle={[
+            st.pd4,
+            st.br1,
+            st.w(st.fullWidth - 70),
+            {
+              marginTop:
+                windowDimensions.height > 800
+                  ? theme.spacing.xxl
+                  : theme.spacing.xl,
+              backgroundColor: theme.colors.white,
+              textAlign: 'center',
+              shadowColor: 'rgba(0, 0, 0, 0.5)',
+              shadowOpacity: 0.5,
+              elevation: 4,
+              shadowRadius: 5,
+              shadowOffset: { width: 1, height: 8 },
+            },
+          ]}
+          isLoading={loginLoading}
+        >
+          <Text style={[st.fs20, st.tac, { color: theme.colors.secondary }]}>
+            {avatarSource ? t('next') : t('skip')}
+          </Text>
+        </Button>
+        {/* Safety spacing. */}
+        <Flex style={{ height: insets.bottom }} />
+      </Flex>
+    </ScrollView>
   );
 }
 
