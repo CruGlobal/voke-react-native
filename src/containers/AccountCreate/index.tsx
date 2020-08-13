@@ -7,33 +7,36 @@ import {
   useWindowDimensions,
   TextInput,
   Linking,
-  ScrollView
+  ScrollView,
+  Dimensions,
 } from 'react-native';
-
 import { getTimeZone, getCountry, getLocales } from 'react-native-localize';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
-import { useTranslation } from "react-i18next";
-import { useMount, lockToPortrait } from '../../utils';
-import { userLogin, updateMe } from '../../actions/auth';
+import { useHeaderHeight } from '@react-navigation/stack';
+import { useTranslation } from 'react-i18next';
 import {
   Transitioning,
   Transition,
   TransitioningView,
 } from 'react-native-reanimated';
+import useKeyboard from '@rnhooks/keyboard';
+
+import { userLogin, updateMe } from '../../actions/auth';
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
 import TextField from '../../components/TextField';
-import useKeyboard from '@rnhooks/keyboard';
+import { useMount, lockToPortrait } from '../../utils';
 import Button from '../../components/Button';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
-import styles from './styles';
 import st from '../../st';
 import theme from '../../theme';
-import BotTalking from '../../components/BotTalking'
+import BotTalking from '../../components/BotTalking';
 import CONSTANTS from '../../constants';
-import VokeIcon from '../../components/VokeIcon'
+import VokeIcon from '../../components/VokeIcon';
+
+import styles from './styles';
 
 const AccountCreate: React.FC = (): React.ReactElement => {
   const { t } = useTranslation('signUp');
@@ -54,12 +57,14 @@ const AccountCreate: React.FC = (): React.ReactElement => {
   const [topMargin, setTopMargin] = useState(0);
   // https://github.com/react-native-hooks/keyboard#configuration
   const [isKeyboardVisible] = useKeyboard({
-    useWillShow: true,
-    useWillHide: true,
+    useWillShow: Platform.OS === 'android' ? false : true,
+    useWillHide: Platform.OS === 'android' ? false : true,
+    // Not availabe on Android https://reactnative.dev/docs/keyboard#addlistener
   });
-
   // const refBotBlock = useRef();
   const refBotBlock = useRef<TransitioningView>(null);
+  const headerHeight = useHeaderHeight();
+  const { width, height } = Dimensions.get('window');
 
   // const transition = <Transition.Change interpolation="easeInOut" />;
   const transition = (
@@ -120,137 +125,174 @@ const AccountCreate: React.FC = (): React.ReactElement => {
       }
     } else {
       setIsLoading(false);
-      Alert.alert(
-        t('login:invalid'),
-        t('login:enterValid')
-      );
+      Alert.alert(t('login:invalid'), t('login:enterValid'));
     }
   };
 
   return (
-    <DismissKeyboardView
-      style={{ backgroundColor: styles.colors.primary, height: '100%' }}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      style={{
+        backgroundColor: styles.colors.primary,
+        flex: 1,
+        height:'100%',
+      }}
     >
       <ScrollView
-        keyboardShouldPersistTaps='handled'
-        // ☝️ Important! https://stackoverflow.com/a/50510934
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{
+          // flex: 1, // Will break scrolling on Android
+          // height:'100%', // Will break scrolling on Android
+          flexDirection: 'column',
+          alignContent: 'stretch',
+          justifyContent: 'flex-end',
+        }}
       >
-      {/* <StatusBar /> <- TODO: Not sure why we need it here? */}
-        <Transitioning.View
-          ref={refBotBlock}
-          transition={transition}
+        <DismissKeyboardView
           style={{
-            marginTop: topMargin,
+            flex: 1,
           }}
         >
+          {/* <StatusBar /> <- TODO: Not sure why we need it here? */}
           <Flex
-            direction="row"
-            align="start"
-            justify="between"
-            style={[st.h(260)]}
+            // direction="row"
+            // align="end"
+            // justify="end"
+            style={{
+              // flexShrink: 0,
+              display: isKeyboardVisible ? 'none' : 'flex',
+              // paddingTop: height > 800 ? theme.spacing.xl : 0,
+              height: 240,
+            }}
           >
-            <BotTalking heading={t('profile:saveProgress')}>{ t('login:enterValid') }</BotTalking>
+            <BotTalking
+              heading={t('profile:saveProgress')}
+              style={{
+                opacity: isKeyboardVisible ? 0 : 1,
+              }}
+            >
+              {t('login:enterValid')}
+            </BotTalking>
           </Flex>
-        </Transitioning.View>
+          {/* Makes possible to hide keyboard when tapping outside. */}
+          {/* <KeyboardAvoidingView
+              behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // TODO: Verify!
+              style={styles.MainContainer}
+            > */}
+          <Flex
+            // value={1}
+            direction="column"
+            align="center"
+            justify="center"
+            style={{
+              paddingTop: isKeyboardVisible ? theme.spacing.m : 0,
+              paddingHorizontal: theme.spacing.xl,
+            }}
+          >
+            {/* INPUT FIELD: EMAIL */}
+            <TextField
+              // blurOnSubmit={false}
+              label={t('placeholder:email')}
+              onSubmitEditing={(): void => passwordRef?.current?.focus()}
+              placeholder={t('placeholder:email')}
+              value={email}
+              onChangeText={checkEmail}
+              autoCapitalize="none"
+              textContentType="username"
+              autoCompleteType="email"
+              keyboardType="email-address"
+              returnKeyType="next"
+            />
+            {/* INPUT FIELD: PASSWORD */}
+            <TextField
+              ref={passwordRef}
+              // blurOnSubmit={true}
+              label={t('placeholder:password')}
+              placeholder={t('placeholder:password')}
+              value={password}
+              onChangeText={(text: string): void => setPassword(text)}
+              secureTextEntry
+              textContentType="password"
+              autoCompleteType="password"
+              returnKeyType="send"
+              onSubmitEditing={(): Promise<void> => register()}
+            />
+            {/* SECTION: CALL TO ACTION BUTTON */}
+            {/* BUTTON: SIGN UP */}
+            <Button
+              isAndroidOpacity
+              style={[
+                st.pd4,
+                st.br1,
+                st.w(st.fullWidth - 70),
+                {
+                  backgroundColor: theme.colors.white,
+                  textAlign: 'center',
+                  marginTop: 20,
+                  shadowColor: 'rgba(0, 0, 0, 0.5)',
+                  shadowOpacity: 0.5,
+                  elevation: 4,
+                  shadowRadius: 5,
+                  shadowOffset: { width: 1, height: 8 },
+                },
+              ]}
+              onPress={(): Promise<void> => register()}
+              isLoading={isLoading}
+            >
+              <Text
+                style={[st.fs20, st.tac, { color: theme.colors.secondary }]}
+              >
+                {t('signUp')}
+              </Text>
+            </Button>
+            {/* TEXT: NOTICE */}
+            <Flex
+              direction="column"
+              justify="start"
+              style={
+                (styles.SectionNotice,
+                {
+                  paddingTop: theme.spacing.xl,
+                  paddingBottom: theme.spacing.xl,
+                })
+              }
+              // value={1}
+            >
+              {/* TEXT: TERMS OF SERVICE */}
+              <Text style={[styles.TextSmall, { textAlign: 'center' }]}>
+                {t('agreementCreate')}
+                {'\n'}
+                <Text
+                  style={styles.Link}
+                  onPress={(): void =>
+                    Linking.openURL(CONSTANTS.WEB_URLS.PRIVACY)
+                  }
+                >
+                  {t('privacy')}
+                </Text>
+                &nbsp; {t('and')} &nbsp;
+                <Text
+                  style={styles.Link}
+                  onPress={(): void =>
+                    Linking.openURL(CONSTANTS.WEB_URLS.TERMS)
+                  }
+                >
+                  {t('tos')}
+                </Text>
+              </Text>
+            </Flex>
+          </Flex>
+          {/* </KeyboardAvoidingView> */}
 
-      {/* Makes possible to hide keyboard when tapping outside. */}
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // TODO: Verify!
-        style={styles.MainContainer}
-      >
-        <Flex
-          value={2}
-          direction="column"
-          align="center"
-          justify="center"
-          style={[
-            styles.PrimaryContent,
-            {
-              /* padding: insets.top + 30 */
-            },
-          ]}
-        >
-          {/* INPUT FIELD: EMAIL */}
-          <TextField
-            // blurOnSubmit={false}
-            label={t('placeholder:email')}
-            onSubmitEditing={(): void => passwordRef?.current?.focus()}
-            placeholder={t('placeholder:email')}
-            value={email}
-            onChangeText={checkEmail}
-            autoCapitalize="none"
-            textContentType="username"
-            autoCompleteType="email"
-            keyboardType="email-address"
-            returnKeyType="next"
-          />
-          {/* INPUT FIELD: PASSWORD */}
-          <TextField
-            ref={passwordRef}
-            // blurOnSubmit={true}
-            label={t('placeholder:password')}
-            placeholder={t('placeholder:password')}
-            value={password}
-            onChangeText={(text: string): void => setPassword(text)}
-            secureTextEntry
-            textContentType="password"
-            autoCompleteType="password"
-            returnKeyType="send"
-            onSubmitEditing={(): Promise<void> => register()}
-          />
-        </Flex>
-        {/* SECTION: CALL TO ACTION BUTTON */}
-        <Flex
-          value={2}
-          direction="column"
-          justify="start"
-          style={styles.SectionAction}
-        >
-          {/* BUTTON: SIGN UP */}
-          <Button
-            isAndroidOpacity
-            style={[st.pd4, st.br1, st.w(st.fullWidth - 70),{backgroundColor: theme.colors.white, textAlign:"center", marginTop:20, shadowColor: 'rgba(0, 0, 0, 0.5)',
-            shadowOpacity: 0.5,
-            elevation: 4,
-            shadowRadius: 5 ,
-            shadowOffset : { width: 1, height: 8}}]}
-            onPress={(): Promise<void> => register()}
-            isLoading={isLoading}
-          >
-            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>{t('signUp')}</Text>
-          </Button>
-        </Flex>
-      {/* TEXT: NOTICE */}
-      <Flex direction="column" justify="start" style={styles.SectionNotice} value={1}>
-        {/* TEXT: TERMS OF SERVICE */}
-        <Text style={[styles.TextSmall, { textAlign: 'center' }]}>
-          {t('agreementCreate')}
-          {'\n'}
-          <Text
-            style={styles.Link}
-            onPress={(): void => Linking.openURL(CONSTANTS.WEB_URLS.PRIVACY)}
-          >
-            {t('privacy')}
-          </Text>
-          &nbsp; {t('and')} &nbsp;
-          <Text
-            style={styles.Link}
-            onPress={(): void => Linking.openURL(CONSTANTS.WEB_URLS.TERMS)}
-          >
-            {t('tos')}
-          </Text>
-        </Text>
-      </Flex>
-      </KeyboardAvoidingView>
-
-      {/* Safe area at the bottom for phone with exotic notches */}
-      <Flex
-        style={{
-          paddingBottom: insets.bottom,
-        }}
-      />
+          {/* Safe area at the bottom for phone with exotic notches */}
+          {/* <Flex
+              style={{
+                paddingBottom: insets.bottom,
+              }}
+            /> */}
+        </DismissKeyboardView>
       </ScrollView>
-    </DismissKeyboardView>
+    </KeyboardAvoidingView>
   );
 };
 

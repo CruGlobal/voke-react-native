@@ -49,8 +49,8 @@ const styles: { [key: string]: any } = {
   `,
   ButtonStartLabel: [ui.buttonText.size.l],
   SectionNotice: css`
-  padding-top: ${`${theme.spacing.m}px`};
-  padding-left: ${`${theme.spacing.xl}px`};
+    padding-top: ${`${theme.spacing.m}px`};
+    padding-left: ${`${theme.spacing.xl}px`};
     padding-right: ${`${theme.spacing.xl}px`};
     padding-bottom: ${`${theme.spacing.l}px`};
   `,
