@@ -5,9 +5,6 @@ import ui from '../../ui';
 
 const styles: { [key: string]: any } = {
 	...theme,
-	SectionOnboarding: css`
-		background-color: ${theme.colors.primary};
-	`,
 	SectionAction: css`
 		padding-left:${theme.spacing.xl + 'px'};
 		padding-right:${theme.spacing.xl + 'px'};
