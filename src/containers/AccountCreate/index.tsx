@@ -4,7 +4,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
-  useWindowDimensions,
   TextInput,
   Linking,
   ScrollView,

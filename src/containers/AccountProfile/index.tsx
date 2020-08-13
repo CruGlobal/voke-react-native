@@ -1,39 +1,44 @@
 import React from 'react';
+import { useSafeArea } from 'react-native-safe-area-context';
+import { Alert, ScrollView, View, Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import i18next from 'i18next';
+
 import Flex from '../../components/Flex';
 import st from '../../st';
 import theme from '../../theme';
 import Image from '../../components/Image';
 import Text from '../../components/Text';
 import Touchable from '../../components/Touchable';
-import { useSafeArea } from 'react-native-safe-area-context';
-import { Alert, ScrollView, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { useTranslation } from "react-i18next";
 import TextField from '../../components/TextField';
 import StatusBar from '../../components/StatusBar';
 import Button from '../../components/Button';
 import Triangle from '../../components/Triangle';
 import CONSTANTS from '../../constants';
-import { logoutAction, deleteAccountAction, facebookLogin } from '../../actions/auth';
-import { useDispatch,useSelector } from 'react-redux';
-import styles from './styles';
+import {
+  logoutAction,
+  deleteAccountAction,
+  facebookLogin,
+} from '../../actions/auth';
 import VokeIcon from '../../components/VokeIcon';
-import languageCodes from '../../i18n/languageCodes'
-import i18next from 'i18next';
-import { createBaseLocaleAliases } from '../../i18n'
+import languageCodes from '../../i18n/languageCodes';
+import { createBaseLocaleAliases } from '../../i18n';
 
-
+import styles from './styles';
 
 type ProfileModalProps = {
-  props: any
-}
+  props: any;
+};
 
-const AccountProfile = ( props: ProfileModalProps  ) => {
+const AccountProfile = (props: ProfileModalProps) => {
   const { t } = useTranslation();
   const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const me = useSelector(({ auth }) => auth.user);
+  const windowDimensions = Dimensions.get('window');
 
   // To change language use:
   // https://www.i18next.com/overview/api#changelanguage
@@ -47,127 +52,241 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
     if (!userId) {
       Alert.alert(
         "Can't sign in with Facebook",
-        'Facebook authentication is not available at this moment'
+        'Facebook authentication is not available at this moment',
       );
     } else {
       navigation.navigate('LoggedInApp');
     }
   };
 
-  const currLang =  languageCodes[i18next.language.substr(0, 2).toLowerCase()];
+  const currLang = languageCodes[i18next.language.substr(0, 2).toLowerCase()];
 
   return (
     <Flex
       value={1}
-      style={[
-        styles.SectionOnboarding,
-        // { paddingTop: insets.top }
-      ]}
+      style={{
+        backgroundColor: theme.colors.primary,
+      }}
     >
-      {/* Overscroll background color protection */}
-      {/* <Flex style={{
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{
+          // flex: 1,
+          minHeight: '100%',
+          flexDirection: 'column',
+          alignContent: 'stretch',
+          justifyContent: 'flex-end',
+        }}
+      >
+        <Flex
+          value={1}
+          style={[
+            styles.SectionOnboarding,
+            // { paddingTop: insets.top }
+          ]}
+        >
+          {/* Overscroll background color protection */}
+          {/* <Flex style={{
           backgroundColor: styles.colors.primary,
           height: 400,
           position: 'absolute',
           zIndex:0,
           width: '100%',
         }} /> */}
-      {/* <ScrollView> */}
-        <Flex style={{
-          height: '100%',
-        }}>
-          <Flex value={1} direction="column" align="center" style={[st.ph1, st.w100,{marginTop:30}]}>
-            <Touchable onPress={ () => navigation.navigate('AccountPhoto', {
-              onComplete: () => navigation.navigate('AccountProfile'),
-            })}>
-              <Flex
-                direction="column"
-                align="center"
-                justify="center"
-                style={[
-                  st.w(st.fullWidth / 2.6),
-                  st.h(st.fullWidth / 2.6),
-                  { borderRadius: st.fullWidth / 2.6,
-                    backgroundColor: styles.colors.secondaryAlt,
-                  },
-                ]}
+          {/* <ScrollView> */}
+          <Flex
+            style={{
+              height: '100%',
+            }}
+          >
+            <Flex
+              value={1}
+              direction="column"
+              align="center"
+              style={[st.ph1, st.w100, { marginTop: 30 }]}
+            >
+              <Touchable
+                onPress={() =>
+                  navigation.navigate('AccountPhoto', {
+                    onComplete: () => navigation.navigate('AccountProfile'),
+                  })
+                }
               >
-                <Image
-                  source={{uri: me.avatar?.large || ''}}
+                <Flex
+                  direction="column"
+                  align="center"
+                  justify="center"
                   style={[
                     st.w(st.fullWidth / 2.6),
                     st.h(st.fullWidth / 2.6),
                     {
                       borderRadius: st.fullWidth / 2.6,
-                      borderColor: styles.colors.white,
-                      borderWidth: 2
+                      backgroundColor: styles.colors.secondaryAlt,
                     },
                   ]}
-                />
-              </Flex>
-            </Touchable>
+                >
+                  <Image
+                    source={{ uri: me.avatar?.large || '' }}
+                    style={[
+                      st.w(st.fullWidth / 2.6),
+                      st.h(st.fullWidth / 2.6),
+                      {
+                        borderRadius: st.fullWidth / 2.6,
+                        borderColor: styles.colors.white,
+                        borderWidth: 2,
+                      },
+                    ]}
+                  />
+                </Flex>
+              </Touchable>
 
-            <Touchable onPress={ () => navigation.navigate('AccountName', {
-              onComplete: () => navigation.navigate('AccountProfile'),
-            })}>
-              <Text style={{
-                color: styles.colors.white,
-                fontSize: styles.fontSizes.xxxl,
-                textAlign:'center',
-                paddingTop:20,
-                }}>
-                {me.firstName + ' ' + me.lastName}
-              </Text>
-            </Touchable>
+              <Touchable
+                onPress={() =>
+                  navigation.navigate('AccountName', {
+                    onComplete: () => navigation.navigate('AccountProfile'),
+                  })
+                }
+              >
+                <Text
+                  style={{
+                    color: styles.colors.white,
+                    fontSize: styles.fontSizes.xxxl,
+                    textAlign: 'center',
+                    paddingTop: 20,
+                  }}
+                >
+                  {me.firstName + ' ' + me.lastName}
+                </Text>
+              </Touchable>
 
-            { !!!me.email? <Text style={{
-                color: styles.colors.white,
-                fontSize: styles.fontSizes.l,
-                textAlign:'center',
-                }}>{t('profile:guest')}</Text>:<Text style={{
-                  color: styles.colors.white,
-                  fontSize: styles.fontSizes.l,
-                  textAlign:'center',
-                  }}>{t('profile:user')}</Text>}
-                  </Flex>
-            <View style={{minHeight:theme.spacing.xl}} />
-            { me.email ?
-            <Flex value={1} direction="column" align="flex-start" style={[st.ml2, st.w100,{marginBottom:10}]}>
-              {/* <Touchable onPress={ () => navigation.navigate('AccountEmailPass')}> */}
+              {!me.email ? (
+                <Text
+                  style={{
+                    color: styles.colors.white,
+                    fontSize: styles.fontSizes.l,
+                    textAlign: 'center',
+                  }}
+                >
+                  {t('profile:guest')}
+                </Text>
+              ) : (
+                <Text
+                  style={{
+                    color: styles.colors.white,
+                    fontSize: styles.fontSizes.l,
+                    textAlign: 'center',
+                  }}
+                >
+                  {t('profile:user')}
+                </Text>
+              )}
+            </Flex>
+            <View
+              style={{
+                minHeight: windowDimensions.height > 700 ? theme.spacing.xl : 0,
+              }}
+            />
+            {me.email ? (
+              <Flex
+                value={1}
+                direction="column"
+                align="flex-start"
+                style={[st.ml2, st.w100, { marginBottom: 10 }]}
+              >
+                {/* <Touchable onPress={ () => navigation.navigate('AccountEmailPass')}> */}
                 <Flex direction="row" align="start" justify="space-around">
-                  <Text style={{color:"#fff", fontSize:18, width:'30%', textAlign: 'left', paddingRight: 20}}>{t('language')}</Text>
+                  <Text
+                    style={{
+                      color: '#fff',
+                      fontSize: 18,
+                      width: '30%',
+                      textAlign: 'left',
+                      paddingRight: 20,
+                    }}
+                  >
+                    {t('language')}
+                  </Text>
                   {/* <Button onPress={()=>console.log('test')} > */}
-                    <Text style={{color:"#fff", fontSize:18, width:'70%'}}>{currLang.name} {currLang.name !== 'English' ? '(' + currLang.nativeName + ')' : '' }</Text>
+                  <Text style={{ color: '#fff', fontSize: 18, width: '70%' }}>
+                    {currLang.name}{' '}
+                    {currLang.name !== 'English'
+                      ? '(' + currLang.nativeName + ')'
+                      : ''}
+                  </Text>
                   {/* </Button> */}
                 </Flex>
-              {/* </Touchable> */}
-              <View style={{minHeight: 12}} />
-              {/* Extra spacing for fingers to touch the right line. */}
-              <Touchable onPress={ () => navigation.navigate('AccountEmail')}>
-                <Flex direction="row" align="start" justify="space-around">
-                  <Text style={{color:"#fff", fontSize:18, width:'30%', textAlign: 'left', paddingRight: 20}} numberOfLines={2}>{t('placeholder:email')}</Text>
-                  <Text style={{color:"#fff", fontSize:18, width:'70%', paddingRight:60 }} numberOfLines={2}>
-                    {me.email}
+                {/* </Touchable> */}
+                <View style={{ minHeight: 12 }} />
+                {/* Extra spacing for fingers to touch the right line. */}
+                <Touchable onPress={() => navigation.navigate('AccountEmail')}>
+                  <Flex direction="row" align="start" justify="space-around">
+                    <Text
+                      style={{
+                        color: '#fff',
+                        fontSize: 18,
+                        width: '30%',
+                        textAlign: 'left',
+                        paddingRight: 20,
+                      }}
+                      numberOfLines={2}
+                    >
+                      {t('placeholder:email')}
+                    </Text>
+                    <Text
+                      style={{
+                        color: '#fff',
+                        fontSize: 18,
+                        width: '70%',
+                        paddingRight: 60,
+                      }}
+                      numberOfLines={2}
+                    >
+                      {me.email}
+                    </Text>
+                  </Flex>
+                </Touchable>
+                <View style={{ minHeight: 12 }} />
+                {/* Extra spacing for fingers to touch the right line. */}
+                <Touchable onPress={() => navigation.navigate('AccountPass')}>
+                  <Flex direction="row" align="start" justify="space-around">
+                    <Text
+                      style={{
+                        color: '#fff',
+                        fontSize: 18,
+                        width: '30%',
+                        textAlign: 'left',
+                        paddingRight: 20,
+                      }}
+                    >
+                      {t('placeholder:password')}
+                    </Text>
+                    <Text
+                      style={{
+                        color: '#fff',
+                        fontSize: 18,
+                        width: '70%',
+                        paddingRight: 60,
+                      }}
+                    >
+                      ******
+                    </Text>
+                  </Flex>
+                </Touchable>
+                <Flex
+                  direction="row"
+                  align="flex-start"
+                  justify="flex-start"
+                  style={{ marginTop: 30 }}
+                >
+                  <VokeIcon name="create" size={18} style={[st.ml7]} />
+                  <Text style={{ color: '#fff', fontSize: 14 }}>
+                    {t('profile:toEdit')}
                   </Text>
                 </Flex>
-              </Touchable>
-              <View style={{minHeight: 12}} />
-              {/* Extra spacing for fingers to touch the right line. */}
-              <Touchable onPress={ () => navigation.navigate('AccountPass')}>
-                <Flex direction="row" align="start" justify="space-around">
-                  <Text style={{color:"#fff", fontSize:18, width:'30%', textAlign: 'left', paddingRight: 20}}>{t('placeholder:password')}</Text>
-                  <Text style={{color:"#fff", fontSize:18, width:'70%', paddingRight:60 }}>******</Text>
-                </Flex>
-              </Touchable>
-              <Flex direction="row" align="flex-start" justify="flex-start" style={{marginTop:30}}>
-                <VokeIcon
-                      name="create"
-                      size={18}
-                      style={[st.ml7]}
-                    />
-                <Text style={{color:"#fff", fontSize:14}}>{t('profile:toEdit')}</Text>
               </Flex>
-            </Flex>:<></>}
+            ) : (
+              <></>
+            )}
             {/* <Button
               isAndroidOpacity={true}
               style={[styles.ButtonAction, {
@@ -198,8 +317,7 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
               </Flex>
             </Button> */}
 
-
-          {/* SECTION: CALL TO ACTION BUTTON */}
+            {/* SECTION: CALL TO ACTION BUTTON */}
 
             <Flex
               direction="column"
@@ -209,134 +327,131 @@ const AccountProfile = ( props: ProfileModalProps  ) => {
             >
               <Flex
                 style={{
-                  height: styles.spacing.m
+                  height: styles.spacing.m,
                 }}
               />
-              { !!!me.email && <>
-                {/* TEXT:TEXT */}
-                <Text style={{
-                color: styles.colors.white,
-                fontSize: styles.fontSizes.l,
-                textAlign:'center',
-                paddingBottom:20,
-                }}>{t('profile:signUp')}</Text>
-                <Flex
-                  style={{
-                    height: styles.spacing.s
-                  }}
-                />
-                {/* BUTTON:SIGN UP WITH EMAIL */}
-                <Button
-                  isAndroidOpacity={true}
-                  style={[styles.ButtonSignUp]}
-                  onPress={
-                    () => navigation.navigate('SignUp')
-                  }
-                >
-                  <Flex
-                    // value={1}
-                    direction="row"
-                    align="center"
-                    justify="center"
-
+              {!me.email && (
+                <>
+                  {/* TEXT:TEXT */}
+                  <Text
+                    style={{
+                      color: styles.colors.white,
+                      fontSize: styles.fontSizes.l,
+                      textAlign: 'center',
+                      paddingBottom: 20,
+                    }}
                   >
-                  <VokeIcon
-                    name="mail"
-                    size={22}
-                    style={st.mr5}
+                    {t('profile:signUp')}
+                  </Text>
+                  <Flex
+                    style={{
+                      height: styles.spacing.s,
+                    }}
                   />
-                    <Text style={styles.ButtonSignUpLabel}>{t('signUpEmail')}</Text>
-                  </Flex>
-                </Button>
-                <Flex
-                  style={{
-                    height: styles.spacing.m
-                  }}
-                />
-                {/* BUTTON:SIGN UP WITH FACBOOK */}
-                <Button
-                  isAndroidOpacity={true}
-                  style={[styles.ButtonSignUp]}
-                  onPress={(): Promise<void> => fbLogin()}
-                >
-                  <Flex
-                    // value={1}
-                    direction="row"
-                    align="center"
-                    justify="center"
+                  {/* BUTTON:SIGN UP WITH EMAIL */}
+                  <Button
+                    isAndroidOpacity={true}
+                    style={[styles.ButtonSignUp]}
+                    onPress={() => navigation.navigate('SignUp')}
                   >
-                    <VokeIcon
-                      name="logo-facebook"
-                      size={22}
-                      style={st.mr5}
-                    />
-                    <Text style={styles.ButtonSignUpLabel}>{t('signUpFb')}</Text>
-                  </Flex>
-                </Button>
-                <Flex
-                  style={{
-                    height: styles.spacing.m
-                  }}
-                />
-              </>}
+                    <Flex
+                      // value={1}
+                      direction="row"
+                      align="center"
+                      justify="center"
+                    >
+                      <VokeIcon name="mail" size={22} style={st.mr5} />
+                      <Text style={styles.ButtonSignUpLabel}>
+                        {t('signUpEmail')}
+                      </Text>
+                    </Flex>
+                  </Button>
+                  <Flex
+                    style={{
+                      height: styles.spacing.m,
+                    }}
+                  />
+                  {/* BUTTON:SIGN UP WITH FACBOOK */}
+                  <Button
+                    isAndroidOpacity={true}
+                    style={[styles.ButtonSignUp]}
+                    onPress={(): Promise<void> => fbLogin()}
+                  >
+                    <Flex
+                      // value={1}
+                      direction="row"
+                      align="center"
+                      justify="center"
+                    >
+                      <VokeIcon name="logo-facebook" size={22} style={st.mr5} />
+                      <Text style={styles.ButtonSignUpLabel}>
+                        {t('signUpFb')}
+                      </Text>
+                    </Flex>
+                  </Button>
+                  <Flex
+                    style={{
+                      height: styles.spacing.m,
+                    }}
+                  />
+                </>
+              )}
 
               <Button
                 isAndroidOpacity={true}
-                style={[ styles.ButtonActionTextOnly ]}
-                onPress={
-                  () =>
-                  Alert.alert(
-                    t('deleteSure'),
-                    t('deleteDescription'),
-                    [
-                      {
-                        text: t('cancel'),
-                        onPress: () => {},
-                        style: "cancel"
+                style={[styles.ButtonActionTextOnly]}
+                onPress={() =>
+                  Alert.alert(t('deleteSure'), t('deleteDescription'), [
+                    {
+                      text: t('cancel'),
+                      onPress: () => {},
+                      style: 'cancel',
+                    },
+                    {
+                      text: t('delete'),
+                      onPress: async () => {
+                        try {
+                          dispatch(deleteAccountAction());
+                          dispatch(logoutAction());
+                        } finally {
+                          // Navigate back to the very first screen.
+                          // 🤦🏻‍♂️Give React 10ms to render WelcomeApp component.
+                          setTimeout(() => {
+                            navigation.reset({
+                              index: 1,
+                              routes: [{ name: 'Welcome' }],
+                            });
+                          }, 10);
+                        }
                       },
-                      {
-                        text: t('delete'),
-                        onPress: async () => {
-                          try {
-                            dispatch(deleteAccountAction());
-                            dispatch(logoutAction());
-                          } finally {
-                            // Navigate back to the very first screen.
-                            // 🤦🏻‍♂️Give React 10ms to render WelcomeApp component.
-                            setTimeout(() => {
-                              navigation.reset({
-                                index: 1,
-                                routes: [{ name: 'Welcome' }],
-                              });
-                            }, 10);
-                          }
-                        },
-                      }
-                    ]
-                  )
+                    },
+                  ])
                 }
               >
-                <Text style={styles.ButtonActionLabel}>{t('deleteAccount')}</Text>
+                <Text style={styles.ButtonActionLabel}>
+                  {t('deleteAccount')}
+                </Text>
               </Button>
               <Flex
                 style={{
-                  height: styles.spacing.xl
+                  height: styles.spacing.xl,
                 }}
               />
             </Flex>
+          </Flex>
+          {/* </ScrollView> */}
 
+          {/* Safe area bottom spacing */}
+          <Flex
+            style={{
+              backgroundColor: styles.colors.primary,
+              paddingBottom: insets.bottom,
+            }}
+          />
         </Flex>
-      {/* </ScrollView> */}
-
-      {/* Safe area bottom spacing */}
-      <Flex
-        style={{
-          backgroundColor: styles.colors.primary,
-          paddingBottom: insets.bottom
-        }}
-      ></Flex>
+      </ScrollView>
     </Flex>
   );
-}
+};
 
 export default AccountProfile;

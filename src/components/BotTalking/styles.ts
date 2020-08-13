@@ -5,10 +5,10 @@ import ui from '../../ui';
 const styles: { [key: string]: any } = {
   ...ui,
   BotContainer: css`
-    width: 90%;
-    margin: auto;
+    padding-right: ${`${theme.spacing.l}px`};
+    padding-left: ${`${theme.spacing.l}px`};
     margin-top: ${`${theme.spacing.m}px`};
-    /* padding-bottom-off: ${`${theme.spacing.m}px`}; */
+    width: 100%;
   `,
   BotMessage: css`
     width: 100%;
