@@ -34,6 +34,7 @@ type TMessenger = {
   last_name: string;
   group_leader?: boolean;
   avatar: TImage;
+  status: string;
 };
 
 export type TStep = {
