@@ -15,9 +15,14 @@ interface InitialStateTypes {
     email?: string;
     firstName?: string;
     lastName?: string;
+    avatar?: {
+      small?: string;
+      medium?: string;
+      large?: string;
+    };
   };
   modalProps: object; // TODO: IModalProps interface here
-  ws?: object; 
+  ws?: object;
 }
 
 const initialState: InitialStateTypes = {
