@@ -14,7 +14,7 @@ const ui: { [key: string]: any } = {
         border-radius: ${theme.radius.s + 'px'};
       `,
       l: css`
-        padding: 20px 16px;
+        padding: 20px ${theme.spacing.s + 'px'};
         border-radius: ${theme.radius.xxl + 'px'};
       `,
       outlinel: css`
