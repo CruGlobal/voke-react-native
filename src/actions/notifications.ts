@@ -1,6 +1,5 @@
 import PushNotification from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import * as RootNavigation from '../RootNavigation';
 import DeviceInfo from 'react-native-device-info';
 // Following https://github.com/react-native-community/push-notification-ios
 // - Added these configs: https://d.pr/i/AoUUxy
@@ -8,12 +7,11 @@ import DeviceInfo from 'react-native-device-info';
 import { ThunkDispatch } from 'redux-thunk';
 import { checkNotifications, openSettings } from 'react-native-permissions';
 
+import * as RootNavigation from '../RootNavigation';
 import { REDUX_ACTIONS } from '../constants';
 import st from '../st';
-import {
-  establishPushDevice,
-  establishCableDevice,
-} from './requests';
+
+import { establishPushDevice, establishCableDevice } from './requests';
 
 type Dispatch = ThunkDispatch<any, any, any>;
 
@@ -49,8 +47,7 @@ const getOnlyJID = l =>
 const getSID = l =>
   l.substring(l.indexOf('messenger_journey_steps/') + 24, l.length);
 
-
-export function setAppIconBadgeNumber( newValue: number ) {
+export function setAppIconBadgeNumber(newValue: number) {
   PushNotification.setApplicationIconBadgeNumber(newValue);
 }
 
@@ -65,21 +62,23 @@ function gotPushToken(newPushToken: any) {
     let newPushDeviceId = null;
 
     // if ( newPushToken !== pushToken) {
-      // Save new push token in the store.
-      dispatch({
-        type: REDUX_ACTIONS.SET_PUSH_TOKEN,
-        pushToken: newPushToken,
-        description: 'Called from gotPushToken. Push Token Changes. Will send it to our backend.'
-      });
-      // FIRST: REGISTER DEVICE ON THE SERVER FOR PUSH NOTIFICATIONS.
-      // Register new push token on our server.
-      newPushDeviceId = await dispatch(establishPushDevice(newPushToken));
+    // Save new push token in the store.
+    dispatch({
+      type: REDUX_ACTIONS.SET_PUSH_TOKEN,
+      pushToken: newPushToken,
+      description:
+        'Called from gotPushToken. Push Token Changes. Will send it to our backend.',
+    });
+    // FIRST: REGISTER DEVICE ON THE SERVER FOR PUSH NOTIFICATIONS.
+    // Register new push token on our server.
+    newPushDeviceId = await dispatch(establishPushDevice(newPushToken));
 
-      dispatch({
-        type: REDUX_ACTIONS.SET_PUSH_DEVICE_ID,
-        deviceId: newPushDeviceId,
-        description: 'Called from gotPushToken. Push device ID Changes. Will send it to our backend.'
-      });
+    dispatch({
+      type: REDUX_ACTIONS.SET_PUSH_DEVICE_ID,
+      deviceId: newPushDeviceId,
+      description:
+        'Called from gotPushToken. Push device ID Changes. Will send it to our backend.',
+    });
     // }
 
     /* if (!newPushDeviceId) {
@@ -91,13 +90,10 @@ function gotPushToken(newPushToken: any) {
   };
 }
 
-function handleNotifications(
-  state: string,
-  notification: { data?: any },
-) {
+function handleNotifications(state: string, notification: { data?: any }) {
   return async (dispatch: Dispatch, getState: any) => {
     // TODO: We don't use any of these as all happening in WebSockets.
-    let data = notification.data;
+    const { data } = notification;
     // const {
     //   activeConversationId,
     //   unReadBadgeCount,
@@ -142,9 +138,8 @@ function handleNotifications(
           }
         } */
       }
-
     } else if (state === 'background') {
-        // Notifications.setBadge(unReadBadgeCount + 1);
+      // Notifications.setBadge(unReadBadgeCount + 1);
     } else if (state === 'open' && namespace && link) {
       if (
         link.includes('messenger_journeys') &&
@@ -159,19 +154,19 @@ function handleNotifications(
           RootNavigation.navigate('AdventureStepScreen', {
             stepId,
             adventureId,
-          })
+          });
         } catch (error) {
           RootNavigation.reset({
             index: 0,
             routes: [{ name: 'LoggedInApp' }],
-          })
+          });
         }
       } else if (link.includes('messenger_journeys')) {
         const adventureId = getOnlyJID(link);
 
         RootNavigation.navigate('AdventureActive', {
-          adventureId
-        })
+          adventureId,
+        });
         // const onlyJId = getOnlyJID(link);
         // dispatch(getMyJourney(onlyJId)).then(r => {
         //   dispatch(navigateResetHome());
@@ -229,8 +224,11 @@ function establishDevice(): Promise<void> {
         dispatch({
           type: REDUX_ACTIONS.PUSH_PERMISSION,
           permission: 'granted',
-          description: 'Called from PushNotification > onRegister (received new token): ' + newPushToken
+          description:
+            'Called from PushNotification > onRegister (received new token): ' +
+            newPushToken,
         });
+
         // Once we have a new token send it to our backend,
         // so the server knows where to send notifications.
         return dispatch(gotPushToken(newPushToken));
@@ -277,7 +275,6 @@ function establishDevice(): Promise<void> {
           // required on iOS only (see fetchCompletionHandler docs: https://github.com/react-native-community/react-native-push-notification-ios)
           // https://github.com/zo0r/react-native-push-notification#usage
           notification.finish(PushNotificationIOS.FetchResult.NoData);
-
         },
         // ANDROID ONLY: GCM Sender ID
         // (optional - not required for local notifications,
@@ -302,14 +299,13 @@ function establishDevice(): Promise<void> {
       };
     }
     PushNotification.configure(configs);
-
   };
 }
 
 type PermissionStatus = 'unavailable' | 'denied' | 'blocked' | 'granted';
-export function permissionsAndNotifications( askPermission = false) {
+export function permissionsAndNotifications(askPermission = false) {
   return async (dispatch: Dispatch, getState: any) => {
-    let pushToken = getState().auth.pushToken;
+    const { pushToken } = getState().auth;
 
     // Check notifications permission status and get notifications settings.
     // https://d.pr/bbVk5I
@@ -319,7 +315,7 @@ export function permissionsAndNotifications( askPermission = false) {
       dispatch({
         type: REDUX_ACTIONS.PUSH_PERMISSION,
         permission: status, // 'unavailable' | 'denied' | 'blocked' | 'granted'
-        description: 'Called from checkNotifications()'
+        description: 'Called from checkNotifications()',
       });
 
       // Blocked before but now clicked to allow notifications.
@@ -328,7 +324,7 @@ export function permissionsAndNotifications( askPermission = false) {
       if (status === 'blocked' && askPermission) {
         openSettings().catch(
           // TODO: process this case somehow?
-          () => console.warn('cannot open settings')
+          () => console.warn('cannot open settings'),
         );
 
         // Assume user activate notifications.
@@ -338,33 +334,30 @@ export function permissionsAndNotifications( askPermission = false) {
         dispatch({
           type: REDUX_ACTIONS.PUSH_PERMISSION,
           permission: 'granted', // 'unavailable' | 'denied' | 'blocked' | 'granted'
-          description: 'Called from checkNotifications()'
+          description: 'Called from checkNotifications()',
         });
         /* requestNotifications(['alert', 'sound']).then(({status, settings}) => {
         }); */
       }
 
-      if ( status === 'granted' || (status === 'denied' && askPermission) ) {
+      if (status === 'granted' || (status === 'denied' && askPermission)) {
         // User  selected: ALLOW notifications.
         // 1. Register Apple/Google device on server
         // 2. Create a WebSocket cable.
-        /* DeviceInfo.isEmulator().then(
-          isEmulator => {
-            if (isEmulator) {
-              // Notifications won't work in simulator.
-              return dispatch(establishCableDevice());
-            } else {
-              return dispatch(establishDevice());
-            }
+        DeviceInfo.isEmulator().then(isEmulator => {
+          if (isEmulator) {
+            // Notifications won't work in simulator.
+            return dispatch(establishCableDevice());
+          } else {
+            return dispatch(establishDevice());
           }
-        ); */
+        });
         return dispatch(establishDevice());
       } else {
         // User selected: DON'T ALLOW notifications.
         // blocked
         // Create a WebSocket cable.
         return dispatch(establishCableDevice());
-
       }
     });
   };

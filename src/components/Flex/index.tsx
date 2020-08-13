@@ -5,7 +5,7 @@ type FlexProps = {
   value?: number,
   direction?: string,
   align?: string,
-  justify?: string,
+  justify?: 'center' | 'start' | 'end' | 'around' | 'between' | 'evenly',
   self?: string,
   grow?: number,
   wrap?: string,

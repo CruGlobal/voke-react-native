@@ -12,9 +12,6 @@ import Text from '../Text';
 import Button from '../Button';
 import VokeIcon from '../VokeIcon';
 import theme from '../../theme';
-import BotTalking from '../BotTalking';
-import { requestPremissions } from '../../actions/auth';
-import { REDUX_ACTIONS } from '../../constants';
 
 const NotificationBanner = (): React.ReactElement => {
   const navigation = useNavigation();
