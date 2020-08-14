@@ -173,7 +173,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
           ...transparentHeaderConfig,
           headerStyle: {
             ...transparentHeaderConfig.headerStyle,
-            paddingTop: insets.top,
+            // paddingTop: insets.top,
           },
           title: '',
           headerLeft: () => <HeaderLeft hasBack resetTo='Adventures' />,
