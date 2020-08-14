@@ -2,42 +2,45 @@ import React, { useState, useEffect } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import {
+  KeyboardAvoidingView,
+  Alert,
+  Keyboard,
+  View,
+  Dimensions,
+  ScrollView,
+} from 'react-native';
+import useKeyboard from '@rnhooks/keyboard';
+
 import { RootState } from '../../reducers';
-import { useTranslation } from "react-i18next";
-import { KeyboardAvoidingView, Alert, Keyboard, View } from 'react-native';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import TextField from '../../components/TextField';
-import StatusBar from '../../components/StatusBar';
-import BotTalking from '../../components/BotTalking'
+import BotTalking from '../../components/BotTalking';
 import st from '../../st';
 import Button from '../../components/Button';
 import { toastAction } from '../../actions/info';
-import useKeyboard from '@rnhooks/keyboard';
-
-// import { MONTHLY_PRICE } from '../../constants';
 import theme from '../../theme';
 import { createAccount, updateMe } from '../../actions/auth';
 import { acceptAdventureInvitation } from '../../actions/requests';
+import DismissKeyboardView from '../../components/DismissKeyboardHOC';
 
 function AdventureCode(props) {
   const { t } = useTranslation('haveCode');
   const insets = useSafeArea();
+  const windowDimensions = Dimensions.get('window');
   const navigation = useNavigation();
   const isLoggedIn = useSelector(({ auth }: RootState) => auth.isLoggedIn);
-  const userId = useSelector(
-    ({ auth }: RootState) => auth.user.id,
-  );
-  const firstName = useSelector(
-    ({ auth }: RootState) => auth.user.firstName,
-  );
+  const userId = useSelector(({ auth }: RootState) => auth.user.id);
+  const firstName = useSelector(({ auth }: RootState) => auth.user.firstName);
   const [adventureCode, setAdventureCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   // https://github.com/react-native-hooks/keyboard#configuration
   const [isKeyboardVisible] = useKeyboard();
 
- /*  useEffect(() => {
+  /*  useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardWillShow',
       () => {
@@ -74,7 +77,7 @@ function AdventureCode(props) {
               last_name: '',
             }),
           );
-          currentUserId = results?.user?.id || null
+          currentUserId = results?.user?.id || null;
         } else {
           currentUserId = userId;
         }
@@ -93,7 +96,7 @@ function AdventureCode(props) {
         if (!firstName) {
           // No first name > user came here from the Welcome screen,
           // continue onboarding process.
-          navigation.navigate('AccountName')
+          navigation.navigate('AccountName');
         } else {
           // Otherwise, invitation accepted from within an app.
           const isGroup = newAdventure.kind === 'multiple';
@@ -104,71 +107,89 @@ function AdventureCode(props) {
               adventure: newAdventure || {},
             });
           } else {
-            if ( newAdventure?.messenger_journey_id ) {
+            if (newAdventure?.messenger_journey_id) {
               // Go straight into Adventure.
               navigation.navigate('AdventureActive', {
                 adventureId: newAdventure?.messenger_journey_id,
-              })
+              });
             }
           }
           // Backup plan: Redirect to My Adventures screen.
           navigation.navigate('LoggedInApp');
         }
       } catch (error) {
-        dispatch(toastAction( t('signUp:invalidCode'), 'short' ));
+        dispatch(toastAction(t('signUp:invalidCode'), 'short'));
       } finally {
         setIsLoading(false);
       }
     } else {
-      dispatch(toastAction( t('signUp:invalidCode'), 'short' ));
+      dispatch(toastAction(t('signUp:invalidCode'), 'short'));
     }
   }
 
   return (
-    <>
-      <StatusBar />
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined} // 'height'
-        // removeClippedSubviews={false}
-        // ☝️ trying to fix Paste bug: https://github.com/facebook/react-native/issues/18926#issuecomment-490541013
-        style={[
-          // st.aic,
-          st.w100,
-          st.h100,
-          // st.jcsb,
-          st.bgBlue,
-          {
-            paddingTop: insets.top,
-            justifyContent: "flex-start",
-          },
-        ]}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      style={{
+        backgroundColor: theme.colors.primary,
+        paddingTop: insets.top,
+        flex: 1,
+        height: '100%',
+      }}
+    >
+      {/* <StatusBar /> <- TODO: Not sure why we need it here? */}
+      {/* Makes possible to hide keyboard when tapping outside. */}
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{
+          // flex: 1,
+          minHeight: '100%',
+          flexDirection: 'column',
+          alignContent: 'stretch',
+          justifyContent: 'center',
+        }}
       >
-        {/* <Flex direction="column" justify="center" align="center" style={[st.w100, st.h100]}> */}
-          <View style={[
-            // st.mt1,
-            {
-              // paddingTop: isKeyboardVisible ? 0 : 45,
+        <DismissKeyboardView
+          style={{
+            flex: 1,
+          }}
+        >
+          {/* <Flex direction="column" justify="center" align="center" style={[st.w100, st.h100]}> */}
+          <View
+            style={{
               alignItems: 'center',
-              // justifyContent:'space-around',
-              // backgroundColor:'green',
               height: '100%',
-              // flex:1,
-            }]}>
-            <BotTalking
-              heading={t('botMessageTitle')}
+            }}
+          >
+            <View
               style={{
-                marginTop: isKeyboardVisible ? 45 : 85,
-              }}>{t('botMessageContent')}</BotTalking>
-            <Flex direction="column" align="center" style={[
-              st.ph1,
-              st.w100,
-              {
-                // backgroundColor:'yellow',
-                justifyContent: 'center',
-                // flex:1,
-                marginTop: isKeyboardVisible ? -60 : 0,
-              }
-            ]}>
+                display: isKeyboardVisible && windowDimensions.width < 340 ? 'none' : 'flex',
+              }}
+            >
+              <BotTalking
+                heading={t('botMessageTitle')}
+                style={{
+                  marginTop: isKeyboardVisible && windowDimensions.height < 700 ? 45 : 85,
+                  opacity: isKeyboardVisible && windowDimensions.width < 340 ? 0 : 1,
+                }}
+              >
+                {t('botMessageContent')}
+              </BotTalking>
+            </View>
+            <Flex style={{marginTop: isKeyboardVisible ? theme.spacing.xl : theme.spacing.xxl}} />
+            <Flex
+              direction="column"
+              align="center"
+              style={[
+                st.w100,
+                {
+                  // backgroundColor:'yellow',
+                  paddingHorizontal: theme.spacing.xl,
+                  justifyContent: 'center',
+                  // flex:1,
+                },
+              ]}
+            >
               <TextField
                 // blurOnSubmit
                 label={t('adventureCode:adventureCode')}
@@ -180,45 +201,39 @@ function AdventureCode(props) {
                 keyboardType="number-pad"
               />
             </Flex>
-            {/* </Flex> */}
-            {/* <Flex direction="row" justify="center" style={[st.w100, st.mt2]}/> */}
-            <View style={[
-              {
-                alignItems: 'center',
-                justifyContent: 'center',
-                // backgroundColor:'orange',
-                // height: '100%',
-                flex:1,
-              }]}>
-              <Button
-                onPress={handleContinue}
-                touchableStyle={[
-                  st.pd4,
-                  st.br1,
-                  isKeyboardVisible ? null : st.mb3,
-                  st.w(st.fullWidth - 70),
-                  {
-                    backgroundColor: theme.colors.white,
-                    textAlign:"center",
-                    // marginTop: isKeyboardVisible ? 0 : 85,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)',
-                    shadowOpacity: 0.5,
-                    elevation: 4,
-                    shadowRadius: 5 ,
-                    shadowOffset : { width: 1, height: 8},
-                  }
-                ]}
-                isLoading={isLoading}
+            <Flex style={{ minHeight: theme.spacing.l }} />
+            <Button
+              onPress={handleContinue}
+              touchableStyle={[
+                st.pd4,
+                st.br1,
+                isKeyboardVisible ? null : st.mb3,
+                st.w(st.fullWidth - 70),
+                {
+                  backgroundColor: theme.colors.white,
+                  textAlign: 'center',
+                  // marginTop: isKeyboardVisible ? 0 : 85,
+                  shadowColor: 'rgba(0, 0, 0, 0.5)',
+                  shadowOpacity: 0.5,
+                  elevation: 4,
+                  shadowRadius: 5,
+                  shadowOffset: { width: 1, height: 8 },
+                },
+              ]}
+              isLoading={isLoading}
+            >
+              <Text
+                style={[st.fs20, st.tac, { color: theme.colors.secondary }]}
               >
-                <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>{t('continue')}</Text>
-              </Button>
-              {/* Safety spacing. */}
-              <Flex style={{ minHeight: insets.bottom }} />
-            </View>
+                {t('continue')}
+              </Text>
+            </Button>
+            {/* Safety spacing. */}
+            <Flex style={{ minHeight: insets.bottom }} />
           </View>
-        {/* </Flex> */}
-      </KeyboardAvoidingView>
-    </>
+        </DismissKeyboardView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
