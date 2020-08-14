@@ -199,7 +199,9 @@ const AccountName = (props): React.ReactElement => {
               style={{
                 width: '100%',
                 paddingHorizontal: theme.spacing.xl,
-                justifyContent: isKeyboardVisible ? 'flex-end' : 'flex-start',
+                justifyContent: isKeyboardVisible
+                  ? 'flex-start'
+                  : 'flex-start',
               }}
             >
               <NameInput
