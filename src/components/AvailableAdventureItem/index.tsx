@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Alert } from 'react-native';
+import { View, Alert, Dimensions } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import lodash from 'lodash';
+import { useTranslation } from 'react-i18next';
+
 import Image from '../Image';
 import st from '../../st';
 import Touchable from '../Touchable';
@@ -10,7 +12,6 @@ import Text from '../Text';
 import Button from '../Button';
 import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
-import { useTranslation } from 'react-i18next';
 
 function AvailableAdventureItem({
   item = {
@@ -22,23 +23,32 @@ function AvailableAdventureItem({
   },
 }) {
   const { t } = useTranslation('journey');
+  const windowDimensions = Dimensions.get('window');
   const myAdventures = useSelector(({ data }) => data.myAdventures.byId);
   const navigation = useNavigation();
   const [shouldInviteFriend, setShouldInviteFriend] = useState(
-    lodash.find( myAdventures,
-     // TODO try to optimize
-     function(adv) { return adv.organization_journey_id === item.id; }
+    lodash.find(
+      myAdventures,
+      // TODO try to optimize
+      function (adv) {
+        return adv.organization_journey_id === item.id;
+      },
     ),
   );
 
   useEffect(() => {
     setShouldInviteFriend(
-      lodash.find( myAdventures,
+      lodash.find(
+        myAdventures,
         // TODO try to optimize
-        function(adv) { return adv.organization_journey_id === item.id; }
+        function (adv) {
+          return adv.organization_journey_id === item.id;
+        },
       ),
     );
   }, [myAdventures]);
+
+  console.log( "🐸 windowDimensions.width:", windowDimensions.width );
 
   return (
     <Touchable
@@ -92,12 +102,12 @@ function AvailableAdventureItem({
               </Text>
               <VokeIcon name="play-full" size={16} />
             </Flex>
-          ) : <Text style={[st.fs14, st.bold, st.white]}>
-            {t('adventure').toUpperCase()}
-          </Text>}
-          <Text style={[st.fs24, st.white]}>
-            {item.name}
-          </Text>
+          ) : (
+            <Text style={[st.fs14, st.bold, st.white]}>
+              {t('adventure').toUpperCase()}
+            </Text>
+          )}
+          <Text style={[st.fs24, st.white]}>{item.name}</Text>
           <Text
             style={[st.fs(24), st.white, st.light, st.tac]}
             numberOfLines={2}
@@ -109,10 +119,10 @@ function AvailableAdventureItem({
         {shouldInviteFriend ? (
           <Flex value={1} justify="end">
             <Button
-              onPress={ () =>
+              onPress={() =>
                 navigation.navigate('AdventureName', {
                   item: {
-                    id: item.id
+                    id: item.id,
                   },
                   withGroup: false,
                 })
@@ -135,7 +145,9 @@ function AvailableAdventureItem({
                 type="image"
                 style={[st.mr5, { height: 20, width: 20, marginBottom: 2 }]}
               />
-              <Text style={[st.white, { lineHeight: 20 }]}>{t('inviteFriend')}</Text>
+              <Text style={[st.white, { lineHeight: 20 }]}>
+                {t('inviteFriend')}
+              </Text>
             </Button>
           </Flex>
         ) : (
@@ -161,10 +173,7 @@ function AvailableAdventureItem({
           ]}
         >
           <Flex direction="row">
-            <VokeIcon
-                name="copy"
-                style={[ { height: 20, width: 20 }]}
-              />
+            <VokeIcon name="copy" style={[{ height: 20, width: 20 }]} />
             <Text
               style={[st.bold, st.white, { letterSpacing: 2, fontSize: 10 }]}
             >
@@ -172,19 +181,23 @@ function AvailableAdventureItem({
             </Text>
           </Flex>
           <Flex direction="row">
+            { (windowDimensions.width > 360) &&
             <Text
               style={[st.bold, st.white, { letterSpacing: 2, fontSize: 10 }]}
             >
-              {t('videos:shares', {total: item.total_shares || 0}).toUpperCase()}
+              {t('videos:shares', {
+                total: item.total_shares || 0,
+              }).toUpperCase()}
             </Text>
+            }
             {shouldInviteFriend ? null : (
               <Button
                 type="transparent"
                 isAndroidOpacity
-                onPress={ () =>
+                onPress={() =>
                   navigation.navigate('AdventureName', {
                     item: {
-                      id: item.id
+                      id: item.id,
                     },
                     withGroup: false,
                   })
