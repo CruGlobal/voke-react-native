@@ -4,6 +4,7 @@ import { Platform } from 'react-native';
 import { BlurView } from '@react-native-community/blur';
 
 import Image from '../Image';
+import theme from '../../theme';
 import st from '../../st';
 import Text from '../Text';
 import VokeIcon from '../VokeIcon';
@@ -17,16 +18,16 @@ type MessageProps = {
   item: TMessage;
   step: TAdventureStepSingle;
   adventure: TAdventureSingle;
-  previous: TMessage,
-  next: TMessage,
-}
+  previous: TMessage;
+  next: TMessage;
+};
 
 function AdventureStepMessage({
   item,
   step,
   adventure,
   previous,
-  next
+  next,
 }: MessageProps): React.ReactElement | null {
   const isAndroid = Platform.OS === 'android';
   const userId = getCurrentUserId();
@@ -68,24 +69,27 @@ function AdventureStepMessage({
 
   // If current message is a question box and next message is answer,
   // render next message here (https://d.pr/i/YHrv4N).
-  if ( msgKind === 'question'
-      && !selectedAnswer
-      && message?.metadata?.vokebot_action === 'journey_step'
-      && next?.content
-      && next?.direct_message ) {
+  if (
+    msgKind === 'question' &&
+    !selectedAnswer &&
+    message?.metadata?.vokebot_action === 'journey_step' &&
+    next?.content &&
+    next?.direct_message
+  ) {
     selectedAnswer = next?.content;
   }
 
   // Do not output answer to the previous question box
   // as it was already rendered above.
-  if ((
-      // If the previous message is a question box type.
-      previous?.metadata?.step_kind === 'question' ||
+  if (
+    // If the previous message is a question box type.
+    (previous?.metadata?.step_kind === 'question' ||
       // ... or if the previous message is a share message box
       // with the current message shared.
-      previous?.metadata?.messenger_answer === message?.content )
-      && message?.content
-      && message?.direct_message ) {
+      previous?.metadata?.messenger_answer === message?.content) &&
+    message?.content &&
+    message?.direct_message
+  ) {
     return null;
   }
 
@@ -131,91 +135,107 @@ function AdventureStepMessage({
   }
   // REGULAR MESSAGE: TEXT
   return (
-    <>{ !message.content && isMyMessage ? null :
-    <Flex align="center" style={[st.fw100]}>
-      <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
-        <Flex direction="row">
-          {isMyMessage ? <Flex style={[st.f1]} /> : null}
-          <Flex
-            direction="column"
-            style={[isMyMessage ? st.bgWhite : st.bgDarkBlue, st.br5, st.pd6, st.w100]}
-          >
-            {isSharedAnswer ? (
-              <Flex style={[st.bgOffBlue, st.pd5, st.br6]}>
-                <Text style={[st.fs4, st.white]}>{message.content}</Text>
-              </Flex>
-            ) : null}
-            <Text style={[st.pd6, st.fs4, isMyMessage ? st.blue : st.white, {
-              opacity: message.content ? 1 : .5
-            }]}>
-              {isSharedAnswer ?
-                message.metadata.messenger_answer :
-                message.content ?
-                  message.content :
-                  'Skipped'}
-            </Text>
-          </Flex>
-          {!isMyMessage ? <Flex style={[st.f1]} /> : null}
-        </Flex>
-        {isBlured ? (
-          <Flex style={[st.absfill, st.br5]} align="center" justify="center">
-            {/* Blur stuff doesn't work on android */}
-            {isAndroid ? null : (
-              <>
-                <BlurView
-                  blurType="light"
-                  blurAmount={2}
-                  style={[st.absfill, st.br5]}
-                />
+    <>
+      {!message.content && isMyMessage ? null : (
+        <Flex align="center" style={[st.fw100]}>
+          <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
+            <Flex direction="row">
+              {isMyMessage ? <Flex style={[st.f1]} /> : null}
+              <Flex
+                style={{
+                  backgroundColor: isMyMessage
+                    ? theme.colors.white
+                    : theme.colors.secondary,
+                  borderRadius: 8,
+                  overflow: 'hidden', // Need this to hide overflow blur effect.
+                }}
+              >
                 <Flex
+                  direction="column"
                   style={[
-                    st.absfill,
-                    st.br5,
-                    { backgroundColor: 'rgba(0,0,0,0.3)' },
+                    st.pd6,
+                    st.w100,
                   ]}
-                />
-                <VokeIcon
-                  name="lock"
-                  size={30}
-                  />
-              </>
-            )}
-            {/* {<VokeIcon type="image" name="camera" style={[st.h(30), st.w(30)]} />} */}
+                >
+                  {isSharedAnswer ? (
+                    <Flex style={[st.bgOffBlue, st.pd5]}>
+                      <Text style={[st.fs4, st.white]}>{message.content}</Text>
+                    </Flex>
+                  ) : null}
+                  <Text
+                    style={[
+                      st.pd6,
+                      st.fs4,
+                      isMyMessage ? st.blue : st.white,
+                      {
+                        opacity: message.content ? 1 : 0.5,
+                      },
+                    ]}
+                  >
+                    {isSharedAnswer
+                      ? message.metadata.messenger_answer
+                      : message.content
+                      ? message.content
+                      : 'Skipped'}
+                  </Text>
+                </Flex>
+                {!isMyMessage ? <Flex style={[st.f1]} /> : null}
+
+                {isBlured ? (
+                  <Flex align="center" justify="center" style={[st.absfill]}>
+                    <>
+                      <BlurView
+                        blurType="light"
+                        blurAmount={2}
+                        style={[st.absfill]}
+                      />
+                      <Flex
+                        style={[
+                          st.absfill,
+                          // st.br5,
+                          { backgroundColor: 'rgba(0,0,0,.2)' },
+                        ]}
+                      />
+                      <VokeIcon name="lock" size={30} />
+                    </>
+                  </Flex>
+                ) : null}
+              </Flex>
+            </Flex>
+            {/* User Avatar */}
+            <Image
+              source={{ uri: (messenger.avatar || {}).small }}
+              style={[
+                st.absb,
+                isMyMessage ? st.right(-30) : st.left(-30),
+                st.h(25),
+                st.w(25),
+                st.br1,
+              ]}
+            />
           </Flex>
-        ) : null}
-        {/* User Avatar */}
-        <Image
-          source={{ uri: (messenger.avatar || {}).small }}
-          style={[
-            st.absb,
-            isMyMessage ? st.right(-30) : st.left(-30),
-            st.h(25),
-            st.w(25),
-            st.br1,
-          ]}
-        />
-      </Flex>
-      {/* Message Footer: Name + Date */}
-      <Flex
-        direction="row"
-        align="center"
-        justify={isMyMessage ? 'end' : 'start'}
-        style={[st.w80]}
-      >
-        {isMyMessage ? null : (
-          <Text style={[st.white]}>
-            { messenger.first_name ? messenger.first_name + ' ' : '' }
-            { messenger.last_name ? messenger.last_name + ' ' : '' }
-            {`• `}
-          </Text>
-        )}
-        <DateComponent
-          style={[st.fs6, st.white, isMyMessage ? st.tar : null]}
-          date={message.created_at}
-          format="MMM D @ h:mm A"
-        />
-      </Flex>
-    </Flex> }
+          {/* Message Footer: Name + Date */}
+          <Flex
+            direction="row"
+            align="center"
+            justify={isMyMessage ? 'end' : 'start'}
+            style={[st.w80]}
+          >
+            {isMyMessage ? null : (
+              <Text style={[st.white]}>
+                {messenger.first_name ? messenger.first_name + ' ' : ''}
+                {messenger.last_name ? messenger.last_name + ' ' : ''}
+                {`• `}
+              </Text>
+            )}
+            <DateComponent
+              style={[st.fs6, st.white, isMyMessage ? st.tar : null]}
+              date={message.created_at}
+              format="MMM D @ h:mm A"
+            />
+          </Flex>
+        </Flex>
+      )}
     </>
   );
 }
