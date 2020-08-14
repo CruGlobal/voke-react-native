@@ -117,166 +117,164 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
   };
 
   return (
-    <DismissKeyboardView
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       style={{
         backgroundColor: styles.colors.primary,
         paddingTop: headerHeight,
         flex:1,
       }}
     >
-      {/* <StatusBar /> <- TODO: Not sure why we need it here? */}
-      {/* Makes possible to hide keyboard when tapping outside. */}
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        style={{
-          flex:1,
-        }}
-      >
-        <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          flexDirection:'column',
-          alignContent: 'stretch',
-          justifyContent: 'space-evenly',
-          minHeight:isKeyboardVisible ? 'auto': '100%',
-        }}>
-        <Flex
-          style={[
-            styles.PrimaryContent,{
-              alignItems: 'center', // Horizontal.
-              justifyContent: 'center', // Vertical.
-              flexGrow: 1,
-          }]}
+      <ScrollView
+      keyboardShouldPersistTaps="handled"
+      contentContainerStyle={{
+        flexDirection:'column',
+        alignContent: 'stretch',
+        justifyContent: 'space-evenly',
+        minHeight:isKeyboardVisible ? 'auto': '100%',
+      }}>
+        <DismissKeyboardView
+          style={{
+            flex:1,
+          }}
         >
           <Flex
-            style={{
-              minHeight: 40,
-            }}
-          />
-          {/* INPUT FIELD: EMAIL */}
-          <TextField
-            // blurOnSubmit={false}
-            label={t('placeholder:email')}
-            onSubmitEditing={(): void => passwordRef?.current?.focus()}
-            placeholder={t('placeholder:email')}
-            // value={email}
-            value={formik.values.email}
-            // onChangeText={checkEmail}
-            onChangeText={formik.handleChange('email')}
-            onBlur={formik.handleBlur('email')}
-            autoCapitalize="none"
-            textContentType="username"
-            autoCompleteType="email"
-            keyboardType="email-address"
-            returnKeyType="next"
-            error={ formik.touched.email && formik.errors.email ? formik.errors.email : null  }
-          />
-          {/* INPUT FIELD: PASSWORD */}
-          <TextField
-            ref={passwordRef}
-            // blurOnSubmit={true}
-            label={t('placeholder:password')}
-            placeholder={t('placeholder:password')}
-            // value={password}
-            value={formik.values.password}
-            // onChangeText={(text: string): void => setPassword(text)}
-            onChangeText={formik.handleChange('password')}
-            onBlur={formik.handleBlur('password')}
-            secureTextEntry
-            textContentType="password"
-            autoCompleteType="password"
-            returnKeyType="send"
-            onSubmitEditing={formik.handleSubmit}
-            error={ formik.touched.password && formik.errors.password ? formik.errors.password : null  }
-          />
-          <Flex
-            style={{
-              minHeight: 40,
-            }}
-          />
-          {/* BUTTON: SIGN IN */}
-          <Button
-            onPress={formik.handleSubmit}
-            // onPress={(): Promise<void> => login()}
-            touchableStyle={[
-              st.pd4,
-              st.br1,
-              st.w(st.fullWidth - 70),
-              {
-                backgroundColor: theme.colors.white,
-                textAlign:"center",
-                shadowColor: 'rgba(0, 0, 0, 0.5)',
-                shadowOpacity: 0.5,
-                elevation: 4,
-                shadowRadius: 5 ,
-                shadowOffset : { width: 1, height: 8}
-              }
-            ]}
-            isLoading={isLoading}
+            style={[
+              styles.PrimaryContent,{
+                alignItems: 'center', // Horizontal.
+                justifyContent: 'center', // Vertical.
+                flexGrow: 1,
+            }]}
           >
-            <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>{t('signIn')}</Text>
-          </Button>
-          {/* TEXT: FORGOT PASSWORD */}
-          <Text
-            style={styles.Link}
-            onPress={(): void => navigation.navigate('ForgotPassword')}
-          >
-            {t('forgotPassword')}
-          </Text>
-          <Flex
-            style={{
-              minHeight: 20,
-            }}
-          />
-        </Flex>
-        <View style={{
-          justifyContent: 'center', // Vertical.
-        }}>
-          <Flex
-            style={{
-              minHeight: 20,
-            }}
-          />
-          {/* TEXT: NOTICE */}
-          {/* TODO: hide this notice if it's on the welcome stage (no progress) */}
-          <Flex direction="column" justify="start" style={styles.SectionNotice}>
-            <Text style={styles.TextMedium}>
-              {t('login:existingAccount')}
-            </Text>
-          </Flex>
-          {/* SECTION: FACEBOOK SIGN IN */}
-          <Flex
-            align="center"
-            // justify="center"
-            style={styles.SectionFB}
-          >
-            <Button
-              isAndroidOpacity
-              style={styles.ButtonFBSignIn}
-              onPress={(): Promise<void> => fbLogin()}
-            >
-              <Flex direction="row" align="center" justify="center">
-                <VokeIcon
-                  name="logo-facebook"
-                  size={22}
-                  style={st.mr5}
-                />
-                <Text style={styles.ButtonFBSignInLabel}>
-                  {t('signInFb')}
-                </Text>
-              </Flex>
-            </Button>
-            {/* Safe area at the bottom for phone with exotic notches */}
             <Flex
               style={{
-                minHeight: (isKeyboardVisible ? 0 : theme.spacing.xl + insets.bottom),
+                minHeight: 40,
+              }}
+            />
+            {/* INPUT FIELD: EMAIL */}
+            <TextField
+              // blurOnSubmit={false}
+              label={t('placeholder:email')}
+              onSubmitEditing={(): void => passwordRef?.current?.focus()}
+              placeholder={t('placeholder:email')}
+              // value={email}
+              value={formik.values.email}
+              // onChangeText={checkEmail}
+              onChangeText={formik.handleChange('email')}
+              onBlur={formik.handleBlur('email')}
+              autoCapitalize="none"
+              textContentType="username"
+              autoCompleteType="email"
+              keyboardType="email-address"
+              returnKeyType="next"
+              error={ formik.touched.email && formik.errors.email ? formik.errors.email : null  }
+            />
+            {/* INPUT FIELD: PASSWORD */}
+            <TextField
+              ref={passwordRef}
+              // blurOnSubmit={true}
+              label={t('placeholder:password')}
+              placeholder={t('placeholder:password')}
+              // value={password}
+              value={formik.values.password}
+              // onChangeText={(text: string): void => setPassword(text)}
+              onChangeText={formik.handleChange('password')}
+              onBlur={formik.handleBlur('password')}
+              secureTextEntry
+              textContentType="password"
+              autoCompleteType="password"
+              returnKeyType="send"
+              onSubmitEditing={formik.handleSubmit}
+              error={ formik.touched.password && formik.errors.password ? formik.errors.password : null  }
+            />
+            <Flex
+              style={{
+                minHeight: 40,
+              }}
+            />
+            {/* BUTTON: SIGN IN */}
+            <Button
+              onPress={formik.handleSubmit}
+              // onPress={(): Promise<void> => login()}
+              touchableStyle={[
+                st.pd4,
+                st.br1,
+                st.w(st.fullWidth - 70),
+                {
+                  backgroundColor: theme.colors.white,
+                  textAlign:"center",
+                  shadowColor: 'rgba(0, 0, 0, 0.5)',
+                  shadowOpacity: 0.5,
+                  elevation: 4,
+                  shadowRadius: 5 ,
+                  shadowOffset : { width: 1, height: 8}
+                }
+              ]}
+              isLoading={isLoading}
+            >
+              <Text style={[st.fs20, st.tac, {color:theme.colors.secondary}]}>{t('signIn')}</Text>
+            </Button>
+            {/* TEXT: FORGOT PASSWORD */}
+            <Text
+              style={styles.Link}
+              onPress={(): void => navigation.navigate('ForgotPassword')}
+            >
+              {t('forgotPassword')}
+            </Text>
+            <Flex
+              style={{
+                minHeight: 20,
               }}
             />
           </Flex>
-        </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </DismissKeyboardView>
+          <View style={{
+            justifyContent: 'center', // Vertical.
+          }}>
+            <Flex
+              style={{
+                minHeight: 20,
+              }}
+            />
+            {/* TEXT: NOTICE */}
+            {/* TODO: hide this notice if it's on the welcome stage (no progress) */}
+            <Flex direction="column" justify="start" style={styles.SectionNotice}>
+              <Text style={styles.TextMedium}>
+                {t('login:existingAccount')}
+              </Text>
+            </Flex>
+            {/* SECTION: FACEBOOK SIGN IN */}
+            <Flex
+              align="center"
+              // justify="center"
+              style={styles.SectionFB}
+            >
+              <Button
+                isAndroidOpacity
+                style={styles.ButtonFBSignIn}
+                onPress={(): Promise<void> => fbLogin()}
+              >
+                <Flex direction="row" align="center" justify="center">
+                  <VokeIcon
+                    name="logo-facebook"
+                    size={22}
+                    style={st.mr5}
+                  />
+                  <Text style={styles.ButtonFBSignInLabel}>
+                    {t('signInFb')}
+                  </Text>
+                </Flex>
+              </Button>
+              {/* Safe area at the bottom for phone with exotic notches */}
+              <Flex
+                style={{
+                  minHeight: (isKeyboardVisible ? 0 : theme.spacing.xl + insets.bottom),
+                }}
+              />
+            </Flex>
+          </View>
+        </DismissKeyboardView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
