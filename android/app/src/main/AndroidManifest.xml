@@ -20,7 +20,9 @@
         android:name=".MainActivity"
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-        android:windowSoftInputMode="adjustResize">
+        android:windowSoftInputMode="adjustPan">
+        <!-- Don't change windowSoftInputMode as it will messup focus on signin page for small devices -->
+        <!-- https://github.com/expo/expo/issues/7815#issuecomment-614721573 -->
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />

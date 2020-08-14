@@ -53,7 +53,6 @@ const AccountCreate: React.FC = (): React.ReactElement => {
 
   const passwordRef = useRef<TextInput>(null);
   // const passwordRef = useRef<HTMLInputElement>(null);
-  const [topMargin, setTopMargin] = useState(0);
   // https://github.com/react-native-hooks/keyboard#configuration
   const [isKeyboardVisible] = useKeyboard({
     useWillShow: Platform.OS === 'android' ? false : true,
@@ -72,14 +71,6 @@ const AccountCreate: React.FC = (): React.ReactElement => {
     </Transition.Together>
   );
 
-  useEffect(() => {
-    if (isKeyboardVisible) {
-      setTopMargin(-250);
-    } else {
-      setTopMargin(0);
-    }
-    refBotBlock?.current?.animateNextTransition();
-  }, [isKeyboardVisible]);
   useMount(() => {
     lockToPortrait();
   });
@@ -134,7 +125,7 @@ const AccountCreate: React.FC = (): React.ReactElement => {
       style={{
         backgroundColor: styles.colors.primary,
         flex: 1,
-        height:'100%',
+        height: '100%',
       }}
     >
       <ScrollView
@@ -143,7 +134,7 @@ const AccountCreate: React.FC = (): React.ReactElement => {
           // flex: 1, // Will break scrolling on Android
           // height:'100%', // Will break scrolling on Android
           flexDirection: 'column',
-          alignContent: 'stretch',
+          // alignContent: 'stretch',
           justifyContent: 'flex-end',
         }}
       >
