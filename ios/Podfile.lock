@@ -306,18 +306,18 @@ PODS:
     - React
   - react-native-image-picker (2.3.1):
     - React
-  - react-native-orientation-locker (1.1.8):
+  - react-native-orientation-locker (1.2.0):
     - React
-  - react-native-safe-area-context (0.7.3):
+  - react-native-safe-area-context (3.1.3):
     - React
   - react-native-slider (2.0.9):
     - React
   - react-native-splash-screen (3.2.0):
     - React
-  - react-native-video (4.4.5):
+  - react-native-video (5.0.2):
     - React
-    - react-native-video/Video (= 4.4.5)
-  - react-native-video/Video (4.4.5):
+    - react-native-video/Video (= 5.0.2)
+  - react-native-video/Video (5.0.2):
     - React
   - react-native-webview (10.4.0):
     - React
@@ -419,7 +419,7 @@ PODS:
     - React
   - RNPermissions (2.1.3):
     - React
-  - RNReanimated (1.10.2):
+  - RNReanimated (1.11.0):
     - React
   - RNScreens (2.3.0):
     - React
@@ -672,11 +672,11 @@ SPEC CHECKSUMS:
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
   react-native-fbsdk: c35d42169e64aaf66f01713c1e18d0674f7f6519
   react-native-image-picker: 668e72d0277dc8c12ae90e835507c1eddd2e4f85
-  react-native-orientation-locker: f0ca1a8e5031dab6b74bfb4ab33a17ed2c2fcb0d
-  react-native-safe-area-context: 8260e5157617df4b72865f44006797f895b2ada7
+  react-native-orientation-locker: 47aaa55d59bfc1613804dc22f159e6bb1cca5f30
+  react-native-safe-area-context: 7eca954ce96d0ef464b65cf765ecc14461ca4cc2
   react-native-slider: b34d943dc60deb96d952ba6b6b249aa8091e86da
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
-  react-native-video: aa527b0acb37f94c4491e70df0274cb26979405d
+  react-native-video: 961749da457e73bf0b5565edfbaffc25abfb8974
   react-native-webview: d2ddd1c9a3c04b2c7a034df1d14b7cd80dbb0a05
   React-RCTActionSheet: f41ea8a811aac770e0cc6e0ad6b270c644ea8b7c
   React-RCTAnimation: 49ab98b1c1ff4445148b72a3d61554138565bad0
@@ -702,7 +702,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: dde546180bf24af0b5f737c8ad04b6f3fa51609a
   RNLocalize: fc27ee5878ce5a3af73873fb2d8e866e0d1e6d84
   RNPermissions: 69dc24ae1a9507576e2e9cf70ceed51065311da8
-  RNReanimated: 7de2dca51deacff78bb880f63c1389a24311b376
+  RNReanimated: f05ea1c5ee07891aaefee662f073f4944c87ac4d
   RNScreens: 03bf608b92ac0acf323f47d8f5b63a8f829340c8
   RNSentry: 2bae4ffee2e66376ef42cb845a494c3bde17bc56
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4

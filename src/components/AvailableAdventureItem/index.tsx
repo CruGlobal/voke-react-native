@@ -48,8 +48,6 @@ function AvailableAdventureItem({
     );
   }, [myAdventures]);
 
-  console.log( "🐸 windowDimensions.width:", windowDimensions.width );
-
   return (
     <Touchable
       onPress={() =>
@@ -181,7 +179,7 @@ function AvailableAdventureItem({
             </Text>
           </Flex>
           <Flex direction="row">
-            { (windowDimensions.width > 360) &&
+            { (windowDimensions.width > 320) &&
             <Text
               style={[st.bold, st.white, { letterSpacing: 2, fontSize: 10 }]}
             >
