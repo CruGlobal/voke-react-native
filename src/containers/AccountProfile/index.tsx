@@ -183,7 +183,7 @@ const AccountProfile = (props: ProfileModalProps) => {
             </Flex>
             <View
               style={{
-                minHeight: windowDimensions.height > 700 ? theme.spacing.xl : 0,
+                minHeight: windowDimensions.height > 700 ? theme.spacing.xl : theme.spacing.m,
               }}
             />
             {me.email ? (
@@ -191,95 +191,140 @@ const AccountProfile = (props: ProfileModalProps) => {
                 value={1}
                 direction="column"
                 align="flex-start"
-                style={[st.ml2, st.w100, { marginBottom: 10 }]}
+                style={{
+                  width: '100%',
+                  paddingHorizontal: theme.spacing.l,
+                  marginBottom: theme.spacing.l,
+                }}
               >
                 {/* <Touchable onPress={ () => navigation.navigate('AccountEmailPass')}> */}
-                <Flex direction="row" align="start" justify="space-around">
-                  <Text
+                <Flex direction="row" align="start" justify="start">
+                  <Flex
                     style={{
-                      color: '#fff',
-                      fontSize: 18,
-                      width: '30%',
-                      textAlign: 'left',
-                      paddingRight: 20,
+                      width: 80,
                     }}
                   >
-                    {t('language')}
-                  </Text>
-                  {/* <Button onPress={()=>console.log('test')} > */}
-                  <Text style={{ color: '#fff', fontSize: 18, width: '70%' }}>
-                    {currLang.name}{' '}
-                    {currLang.name !== 'English'
-                      ? '(' + currLang.nativeName + ')'
-                      : ''}
-                  </Text>
-                  {/* </Button> */}
-                </Flex>
-                {/* </Touchable> */}
-                <View style={{ minHeight: 12 }} />
-                {/* Extra spacing for fingers to touch the right line. */}
-                <Touchable onPress={() => navigation.navigate('AccountEmail')}>
-                  <Flex direction="row" align="start" justify="space-around">
                     <Text
                       style={{
                         color: '#fff',
-                        fontSize: 18,
-                        width: '30%',
-                        textAlign: 'left',
-                        paddingRight: 20,
+                        fontSize: theme.fontSizes.l,
                       }}
-                      numberOfLines={2}
+                    >
+                      {t('language')}
+                    </Text>
+                  </Flex>
+                  <Flex
+                    value={1}
+                    style={{
+                      paddingLeft: theme.spacing.m,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: '#fff',
+                        fontSize: theme.fontSizes.l,
+                      }}
+                    >
+                      {currLang.name}{' '}
+                      {currLang.name !== 'English'
+                        ? '(' + currLang.nativeName + ')'
+                        : ''}
+                    </Text>
+                  </Flex>
+                </Flex>
+                <View style={{ minHeight: theme.spacing.xs }} />
+                <Flex direction="row" align="start" justify="start">
+                  <Flex
+                    style={{
+                      width: 80,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: '#fff',
+                        fontSize: theme.fontSizes.l,
+                      }}
                     >
                       {t('placeholder:email')}
                     </Text>
-                    <Text
-                      style={{
-                        color: '#fff',
-                        fontSize: 18,
-                        width: '70%',
-                        paddingRight: 60,
-                      }}
-                      numberOfLines={2}
-                    >
-                      {me.email}
-                    </Text>
                   </Flex>
-                </Touchable>
-                <View style={{ minHeight: 12 }} />
-                {/* Extra spacing for fingers to touch the right line. */}
-                <Touchable onPress={() => navigation.navigate('AccountPass')}>
-                  <Flex direction="row" align="start" justify="space-around">
+                  <Flex
+                    value={1}
+                    style={{
+                      paddingLeft: theme.spacing.m,
+                    }}
+                  >
+                    <Touchable
+                      onPress={() => navigation.navigate('AccountEmail')}
+                    >
+                      <Text
+                        style={{
+                          // width:'100%',
+                          color: '#fff',
+                          fontSize: theme.fontSizes.l,
+                        }}
+                        numberOfLines={2}
+                      >
+                        {me.email}
+                      </Text>
+                    </Touchable>
+                  </Flex>
+                </Flex>
+                <View style={{ minHeight: theme.spacing.xs }} />
+                <Flex direction="row" align="start" justify="start">
+                  <Flex
+                    style={{
+                      width: 80,
+                    }}
+                  >
                     <Text
                       style={{
                         color: '#fff',
-                        fontSize: 18,
-                        width: '30%',
-                        textAlign: 'left',
-                        paddingRight: 20,
+                        fontSize: theme.fontSizes.l,
                       }}
                     >
                       {t('placeholder:password')}
                     </Text>
-                    <Text
-                      style={{
-                        color: '#fff',
-                        fontSize: 18,
-                        width: '70%',
-                        paddingRight: 60,
-                      }}
-                    >
-                      ******
-                    </Text>
                   </Flex>
-                </Touchable>
+                  <Flex
+                    value={1}
+                    style={{
+                      paddingLeft: theme.spacing.m,
+                    }}
+                  >
+                    <Touchable
+                      onPress={() => navigation.navigate('AccountPass')}
+                    >
+                      <Text
+                        style={{
+                          color: '#fff',
+                          fontSize: theme.fontSizes.xl,
+                        }}
+                        numberOfLines={2}
+                      >
+                        ********
+                      </Text>
+                    </Touchable>
+                  </Flex>
+                </Flex>
+                <View style={{ minHeight: theme.spacing.m }} />
+
                 <Flex
                   direction="row"
-                  align="flex-start"
-                  justify="flex-start"
-                  style={{ marginTop: 30 }}
+                  align="start"
+                  justify="start"
+                  style={{
+                    paddingHorizontal: theme.spacing.l,
+                  }}
                 >
-                  <VokeIcon name="create" size={18} style={[st.ml7]} />
-                  <Text style={{ color: '#fff', fontSize: 14 }}>
+                  <VokeIcon name="create" size={18} />
+                  <Text
+                    style={{
+                      color: theme.colors.white,
+                      fontSize: theme.fontSizes.xs,
+                      paddingLeft: theme.spacing.s,
+                    }}
+                  >
                     {t('profile:toEdit')}
                   </Text>
                 </Flex>

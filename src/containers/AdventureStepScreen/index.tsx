@@ -1,4 +1,11 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+/* eslint-disable camelcase */
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  ReactElement,
+} from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -44,7 +51,7 @@ type ModalProps = {
     };
   };
 };
-const AdventureStepScreen = ({ route }: ModalProps) => {
+const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
   const scrollRef = useRef();
   const dispatch = useDispatch();
   const insets = useSafeArea();

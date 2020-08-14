@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useSafeArea } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { View, ScrollView, FlatList, StatusBar, ActivityIndicator, Platform } from 'react-native';
 import { useDispatch, useSelector, shallowEqual, useStore } from 'react-redux';
 import { getMyAdventure, getAdventureStepMessages, getAdventureSteps, interactionVideoPlay } from '../../actions/requests';
 import { setCurrentScreen } from '../../actions/info';
+import DeviceInfo from 'react-native-device-info';
 
 import { useFocusEffect } from '@react-navigation/native';
 import { useTranslation } from "react-i18next";
@@ -28,7 +29,8 @@ type AdventureActiveProps = {
 function AdventureActive({ navigation, route }: AdventureActiveProps): React.ReactElement {
   const { t } = useTranslation('journey');
   const dispatch = useDispatch();
-  const insets = useSafeArea();
+  const insets = useSafeAreaInsets();
+  const hasNotch = DeviceInfo.hasNotch();
   const store = useStore()
   const allMessages = store.getState().data.adventureStepMessages;
   const { adventureId } = route.params;
@@ -119,7 +121,7 @@ function AdventureActive({ navigation, route }: AdventureActiveProps): React.Rea
 
   return (
     <Flex value={1}>
-      {isPortrait && insets.top > 20 ? (
+      {isPortrait && hasNotch ? (
         <View
           style={{
             height: Platform.OS === 'ios' ? insets.top : 0,
@@ -128,16 +130,14 @@ function AdventureActive({ navigation, route }: AdventureActiveProps): React.Rea
           }}
         >
           <StatusBar
-            animated={true}
+            animated={false}
             barStyle="light-content"
             translucent={false}
             // translucent={ isPortrait && insets.top > 0 ? false : true } // Android. The app will draw under the status bar.
             backgroundColor="#000" // Android. The background color of the status bar.
           />
         </View>
-      ) : (
-        <StatusBar hidden={true} />
-      )}
+      ) : null}
       <ScrollView
         scrollEnabled={isPortrait ? true : false}
         bounces

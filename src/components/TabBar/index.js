@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { useSafeArea } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
 import Flex from '../Flex';
 import Touchable from '../Touchable';
@@ -29,7 +29,9 @@ function tabElement(index, label, isFocused) {
     <Flex
       direction="column"
       align="center"
-      style={[st.h(60)]}
+      style={{
+        height: 60,
+      }}
       justify="between"
     >
       <VokeIcon
@@ -65,19 +67,14 @@ function tabElement(index, label, isFocused) {
 }
 
 function TabBar({ state, descriptors, navigation }) {
-  const insets = useSafeArea();
-
   return (
     <>
-      <Flex
-        value={1}
-        direction="row"
-        align="center"
-        // justify="center"
-        style={[
-          // st.ph2,
-          {
-            paddingBottom: insets.bottom,
+      <SafeAreaView
+        edges={['right', 'bottom', 'left']}
+        style={{
+            flex: 1,
+            flexDirection: 'row',
+            alignItems: 'center',
             backgroundColor: theme.colors.secondary,
             // backgroundColor: "rgba(0,0,0,.4)",
             position: "absolute",
@@ -89,8 +86,7 @@ function TabBar({ state, descriptors, navigation }) {
             // borderTopColor: "rgba(90, 205, 225, .4)",
             //  borderTopColor: "rgba(0,0,0, .5)",
             // borderTopWidth: StyleSheet.hairlineWidth,
-          },
-        ]}
+        }}
       >
          {/* <BlurView
           style={{
@@ -148,7 +144,7 @@ function TabBar({ state, descriptors, navigation }) {
             </Touchable>
           );
         })}
-      </Flex>
+      </SafeAreaView>
     </>
   );
 }
