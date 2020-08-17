@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { TextInput } from 'react-native';
+import { useDispatch } from 'react-redux';
+
 import st from '../../st';
 import theme from '../../theme';
 import Flex from '../Flex';
 import Button from '../Button';
 import VokeIcon from '../VokeIcon';
 import { createAdventureStepMessage } from '../../actions/requests';
-import { useDispatch } from 'react-redux';
 import { getCurrentUserId } from '../../utils/get';
-
 
 function AdventureStepMessageInput({ adventure, step, ...rest }) {
   const [text, setText] = useState('');
@@ -19,7 +19,7 @@ function AdventureStepMessageInput({ adventure, step, ...rest }) {
   const handleSendMessage = () => {
     // Keyboard.dismiss();
     // Don't send empty messages.
-    if ( text.length === 0 ) {
+    if (text.length === 0) {
       return;
     }
 
@@ -31,20 +31,25 @@ function AdventureStepMessageInput({ adventure, step, ...rest }) {
         step,
         value: text,
         kind: 'standard',
-        userId
-      })
+        userId,
+      }),
     );
     setText('');
     // }, 4000)
-  }
+  };
 
   return (
     <Flex
       direction="row"
-      style={[ inputHeight, st.btWhite, st.btw1,{
-        backgroundColor: theme.colors.primary,
-        paddingVertical: theme.spacing.s,
-      }]}
+      style={[
+        inputHeight,
+        st.btWhite,
+        st.btw1,
+        {
+          backgroundColor: 'theme.colors.primary',
+          paddingVertical: theme.spacing.s,
+        },
+      ]}
       align="center"
       value={1}
     >
@@ -61,15 +66,49 @@ function AdventureStepMessageInput({ adventure, step, ...rest }) {
         onContentSizeChange={event =>
           setInputHeight(event.nativeEvent.contentSize.height + 20)
         }
-        style={[st.f1, st.pv6, st.fs4, inputHeight, st.pt4, st.pb4, st.pl3, st.br2, st.mr5,{backgroundColor: theme.colors.white}]}
+        style={[
+          st.f1,
+          st.pv6,
+          st.fs4,
+          inputHeight,
+          st.pt4,
+          st.pb4,
+          st.pl3,
+          st.br2,
+          st.mr5,
+          { backgroundColor: theme.colors.white },
+        ]}
         selectionColor={st.colors.yellow}
         autoCorrect={true}
         multiline={true}
         keyboardAppearance="dark"
         {...rest}
       />
-      <Button style={[st.w(45), st.h(45), st.aie, {backgroundColor: theme.colors.secondaryAlt, borderColor: theme.colors.secondaryAlt, borderRadius:23}]} onPress={handleSendMessage}>
-        <VokeIcon name="send" style={[st.white, {marginRight:10, marginTop: 10, transform: [{ rotate: '45deg'}]}]} size={25} />
+      <Button
+        style={[
+          st.w(45),
+          st.h(45),
+          st.aie,
+          {
+            backgroundColor: theme.colors.secondaryAlt,
+            borderColor: theme.colors.secondaryAlt,
+            borderRadius: 23,
+          },
+        ]}
+        onPress={handleSendMessage}
+      >
+        <VokeIcon
+          name="send"
+          style={[
+            st.white,
+            {
+              marginRight: 10,
+              marginTop: 10,
+              transform: [{ rotate: '45deg' }],
+            },
+          ]}
+          size={25}
+        />
       </Button>
     </Flex>
   );
