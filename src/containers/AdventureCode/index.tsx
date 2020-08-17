@@ -191,7 +191,7 @@ function AdventureCode(): ReactElement {
               <TextField
                 // blurOnSubmit
                 label={t('adventureCode:adventureCode')}
-                placeholder="00000"
+                placeholder="000000"
                 value={adventureCode}
                 onChangeText={text => setAdventureCode(text)}
                 returnKeyType="done"
