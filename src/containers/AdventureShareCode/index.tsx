@@ -11,7 +11,6 @@ import { RootState } from '../../reducers';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import StatusBar from '../../components/StatusBar';
-import Triangle from '../../components/Triangle';
 import st from '../../st';
 import theme from '../../theme';
 import Button from '../../components/Button';
@@ -74,12 +73,14 @@ function AdventureShareCode(props) {
     React.useCallback(() => {
       // When the screen is focused:
       // Ask for notifications permissions.
-      popupTimeout = setTimeout(() => askNotificationPermissions(), 600);
+      if (pushNotificationPermission !== 'granted') {
+        popupTimeout = setTimeout(() => askNotificationPermissions(), 600);
+      }
       return (): void => {
         // When the screen is unfocused:
         clearTimeout(popupTimeout);
       };
-    }),
+    }, []),
   );
 
   return (
@@ -92,7 +93,6 @@ function AdventureShareCode(props) {
         alignContent: 'stretch',
         justifyContent: 'flex-end',
         backgroundColor: theme.colors.primary,
-        paddingTop: insets.top,
       }}
     >
       <StatusBar />
@@ -100,7 +100,7 @@ function AdventureShareCode(props) {
       {/* Extra space to compensate for header */}
       <Flex direction="column" align="center" justify="center">
         <BotTalking>
-          {withGroup
+          ????{withGroup
             ? t('share:groupPreviewLinkReady', { name: invitation.name })
             : isVideoInvite
             ? t('share:linkReady')
@@ -109,9 +109,13 @@ function AdventureShareCode(props) {
       </Flex>
       <Flex style={{ minHeight: theme.spacing.xxxl }} />
       {isVideoInvite && (
-        <Flex direction="column" align="center" style={{
-          paddingHorizontal: theme.spacing.l,
-        }}>
+        <Flex
+          direction="column"
+          align="center"
+          style={{
+            paddingHorizontal: theme.spacing.l,
+          }}
+        >
           <Text style={[st.fs22, st.white, st.pb4]}>{t('inviteLink')}: </Text>
           <Touchable onPress={() => copyToClipboard(invitation.url)}>
             <Flex
@@ -156,9 +160,13 @@ function AdventureShareCode(props) {
         </Flex>
       )}
       {!isVideoInvite && (
-        <Flex direction="column" align="center" style={{
-          paddingHorizontal: theme.spacing.l,
-        }}>
+        <Flex
+          direction="column"
+          align="center"
+          style={{
+            paddingHorizontal: theme.spacing.l,
+          }}
+        >
           <Touchable
             onPress={() => copyToClipboard(invitation.preview_journey_url)}
             style={{
@@ -182,7 +190,10 @@ function AdventureShareCode(props) {
                   st.white,
                   st.tac,
                   {
-                    fontSize: windowDimensions.width < 340 ? theme.fontSizes.l : theme.fontSizes.xl ,
+                    fontSize:
+                      windowDimensions.width < 400
+                        ? theme.fontSizes.l
+                        : theme.fontSizes.xl,
                   },
                 ]}
               >

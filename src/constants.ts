@@ -333,7 +333,7 @@ const CONSTANTS:{ [key: string]: {[key: string]: string | number} | any } = {
     INSTAGRAM: 'https://instagram.com/_u/vokeapp',
     VOKE: 'https://www.vokeapp.com',
     HELP: 'https://help.vokeapp.com/',
-    FAQ: 'https://www.vokeapp.com/faq',
+    FAQ: 'https://www.vokeapp.com/faq/',
     TERMS: 'https://www.vokeapp.com/terms-in-app/',
     PRIVACY: 'https://www.vokeapp.com/privacy-in-app/',
     FACEBOOK: 'https://www.facebook.com/vokeapp/',

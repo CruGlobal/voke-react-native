@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactElement } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import {
   KeyboardAvoidingView,
-  Alert,
-  Keyboard,
   View,
   Dimensions,
   ScrollView,
@@ -26,7 +24,7 @@ import { createAccount, updateMe } from '../../actions/auth';
 import { acceptAdventureInvitation } from '../../actions/requests';
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
 
-function AdventureCode(props) {
+function AdventureCode(): ReactElement {
   const { t } = useTranslation('haveCode');
   const insets = useSafeArea();
   const windowDimensions = Dimensions.get('window');
@@ -193,7 +191,7 @@ function AdventureCode(props) {
               <TextField
                 // blurOnSubmit
                 label={t('adventureCode:adventureCode')}
-                placeholder="00000"
+                placeholder="000000"
                 value={adventureCode}
                 onChangeText={text => setAdventureCode(text)}
                 returnKeyType="done"
