@@ -8,10 +8,12 @@ import {
   useWindowDimensions,
   ImageBackground,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
-import Orientation, {OrientationType} from 'react-native-orientation-locker';
+import Orientation, { OrientationType } from 'react-native-orientation-locker';
 import { useFocusEffect } from '@react-navigation/native';
 import { useSafeArea } from 'react-native-safe-area-context';
+
 import BackButton from '../BackButton';
 import { useMount, youtube_parser, lockToPortrait } from '../../utils';
 import useInterval from '../../utils/useInterval';
@@ -21,6 +23,7 @@ import {
   VIDEO_LANDSCAPE_WIDTH,
 } from '../../constants';
 import st from '../../st';
+import theme from '../../theme';
 import Flex from '../Flex';
 import Touchable from '../Touchable';
 import VokeIcon from '../VokeIcon';
@@ -472,12 +475,17 @@ function Video({
                   minimumValue={0}
                   maximumValue={item.duration}
                   step={1}
-                  minimumTrackTintColor={st.colors.blue}
+                  minimumTrackTintColor={theme.colors.primary}
                   maximumTrackTintColor={st.colors.lightGrey}
-                  onValueChange={value => handleSliderChange(value)}
+                  onValueChange={(value: number): void =>
+                    handleSliderChange(value)
+                  }
                   value={sliderValue}
-                  style={[st.mr4]}
-                  thumbImage={SLIDER_THUMB}
+                  style={{
+                    marginRight: 15,
+                  }}
+                  thumbTintColor={ Platform.OS === 'android' ? theme.colors.primary : undefined}
+                  thumbImage={ Platform.OS === 'android' ? undefined : SLIDER_THUMB}
                 />
               </Flex>
               <Flex value={1}>

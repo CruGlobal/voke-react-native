@@ -6,7 +6,7 @@ import React, {
   useCallback,
   ReactElement,
 } from 'react';
-import { useSafeArea } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {
@@ -16,10 +16,12 @@ import {
   ActivityIndicator,
   Dimensions,
   Platform,
+  SafeAreaView,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import DeviceInfo from 'react-native-device-info';
+import useKeyboard from '@rnhooks/keyboard';
 
-import { useKeyboard } from '../../utils';
 import { REDUX_ACTIONS } from '../../constants';
 import { RootState } from '../../reducers';
 import {
@@ -54,11 +56,16 @@ type ModalProps = {
 const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
   const scrollRef = useRef();
   const dispatch = useDispatch();
-  const insets = useSafeArea();
+  const hasNotch = DeviceInfo.hasNotch();
+  const insets = useSafeAreaInsets();
   const windowDimentions = Dimensions.get('window');
   const [isPortrait, setIsPortrait] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  const [isKeyboardVisible] = useKeyboard({
+    useWillShow: Platform.OS === 'android' ? false : true,
+    useWillHide: Platform.OS === 'android' ? false : true,
+    // Not availabe on Android https://reactnative.dev/docs/keyboard#addlistener
+  });
   const [hasClickedPlay, setHasClickedPlay] = useState(false);
   const { stepId, adventureId } = route.params;
   const adventure =
@@ -78,8 +85,6 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
     id: null,
     content: '',
   };
-
-  useKeyboard((bool: boolean) => setKeyboardVisible(bool));
 
   if (!['multi', 'binary'].includes(currentStep.kind)) {
     // Find the first message of the current author from the start.
@@ -256,7 +261,7 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
         },
       ]}
     >
-      {isPortrait && insets.top > 20 ? (
+      {isPortrait && hasNotch ? (
         <View
           style={{
             height: Platform.OS === 'ios' ? insets.top : 0,
@@ -265,7 +270,7 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
           }}
         >
           <StatusBar
-            animated={true}
+            animated={false}
             barStyle="light-content"
             translucent={false}
             // translucent={ isPortrait && insets.top > 0 ? false : true } // Android. The app will draw under the status bar.
@@ -456,14 +461,17 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
           It makes no sense to talk to yourself in solo mode.
         */}
         {!isSolo && isPortrait && currentStep['completed_by_messenger?'] && (
-          <Flex
-            direction="row"
-            align="center"
-            justify="center"
+          <SafeAreaView
             style={{
+              flexDirection: 'row',
+              alignContent: 'center',
+              justifyContent: 'center',
               width: '100%',
               paddingHorizontal: theme.spacing.l,
-              paddingBottom: isKeyboardVisible ? 0 : insets.bottom,
+              paddingBottom:
+                isKeyboardVisible && Platform.OS === 'android'
+                  ? theme.spacing.s
+                  : undefined,
               backgroundColor: theme.colors.primary,
               maxHeight: 140,
             }}
@@ -473,7 +481,7 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
               step={currentStep}
               keyboardAppearance="dark"
             />
-          </Flex>
+          </SafeAreaView>
         )}
       </KeyboardAvoidingView>
     </View>
