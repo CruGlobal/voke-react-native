@@ -67,6 +67,7 @@ const theme: {
     l: 22,
     xl: 44,
     xxl: 88,
+    xxxl: 110,
   },
   radius: {
     xxs: 3,
