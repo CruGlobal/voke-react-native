@@ -109,9 +109,13 @@ function AdventureShareCode(props) {
       </Flex>
       <Flex style={{ minHeight: theme.spacing.xxxl }} />
       {isVideoInvite && (
-        <Flex direction="column" align="center" style={{
-          paddingHorizontal: theme.spacing.l,
-        }}>
+        <Flex
+          direction="column"
+          align="center"
+          style={{
+            paddingHorizontal: theme.spacing.l,
+          }}
+        >
           <Text style={[st.fs22, st.white, st.pb4]}>{t('inviteLink')}: </Text>
           <Touchable onPress={() => copyToClipboard(invitation.url)}>
             <Flex
@@ -156,9 +160,13 @@ function AdventureShareCode(props) {
         </Flex>
       )}
       {!isVideoInvite && (
-        <Flex direction="column" align="center" style={{
-          paddingHorizontal: theme.spacing.l,
-        }}>
+        <Flex
+          direction="column"
+          align="center"
+          style={{
+            paddingHorizontal: theme.spacing.l,
+          }}
+        >
           <Touchable
             onPress={() => copyToClipboard(invitation.preview_journey_url)}
             style={{
@@ -182,7 +190,10 @@ function AdventureShareCode(props) {
                   st.white,
                   st.tac,
                   {
-                    fontSize: windowDimensions.width < 340 ? theme.fontSizes.l : theme.fontSizes.xl ,
+                    fontSize:
+                      windowDimensions.width < 400
+                        ? theme.fontSizes.l
+                        : theme.fontSizes.xl,
                   },
                 ]}
               >
