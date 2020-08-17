@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { SafeAreaView, useSafeArea } from 'react-native-safe-area-context';
+/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/camelcase */
+import React, { useState, ReactElement } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import { useHeaderHeight } from '@react-navigation/stack';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import useKeyboard from '@rnhooks/keyboard';
 import {
   KeyboardAvoidingView,
   Alert,
-  Keyboard,
   ScrollView,
-  Dimensions,
   Platform,
 } from 'react-native';
 
@@ -18,8 +17,6 @@ import DismissKeyboardView from '../../components/DismissKeyboardHOC';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import NameInput from '../../components/NameInput';
-import StatusBar from '../../components/StatusBar';
-import VokeIcon from '../../components/VokeIcon';
 import st from '../../st';
 import Button from '../../components/Button';
 import theme from '../../theme';
@@ -30,16 +27,13 @@ import {
   sendVideoInvitation,
 } from '../../actions/requests';
 
-function AdventureName(props) {
+function AdventureName(props: any): ReactElement {
   const { t } = useTranslation('share');
-  const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const headerHeight = useHeaderHeight();
   const [isLoading, setIsLoading] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const [name, setName] = useState('');
-  const { width, height } = Dimensions.get('window');
 
   const { item, withGroup, isVideoInvite = false } = props.route.params;
 
@@ -89,32 +83,34 @@ function AdventureName(props) {
   }
 
   return (
-    <DismissKeyboardView
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       style={{
         backgroundColor: theme.colors.primary,
-        // paddingTop: headerHeight,
         flex: 1,
+        height: '100%',
       }}
     >
-      <StatusBar barStyle="dark-content" />
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        style={{
-          flex: 1,
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{
+          minHeight: '100%',
+          flexDirection: 'column',
+          alignContent: 'stretch',
+          justifyContent: 'center',
         }}
       >
-        <SafeAreaView
+        <DismissKeyboardView
           style={{
-            height: '100%',
-            flexDirection: 'column',
-            // justifyContent: 'flex-end',
+            flex: 1,
           }}
         >
-          <ScrollView
-            keyboardShouldPersistTaps="handled"
-            contentContainerStyle={{
-              flex: 1,
+          <SafeAreaView
+            edges={['left', 'right', 'bottom']}
+            style={{
+              height: '100%',
               flexDirection: 'column',
+              flex: 1,
               alignContent: 'stretch',
               justifyContent: 'center',
             }}
@@ -127,7 +123,8 @@ function AdventureName(props) {
                   display: isKeyboardVisible ? 'none' : 'flex',
                   // paddingBottom: theme.spacing.xl,
                   // paddingTop: height > 800 ? theme.spacing.xl : 0,
-                  minHeight: 200,
+                  // minHeight: 200,
+                  paddingBottom: theme.spacing.xl,
                 }}
               >
                 <BotTalking
@@ -150,7 +147,7 @@ function AdventureName(props) {
                     withGroup ? t('groupName') : t('placeholder:friendsName')
                   }
                   value={name}
-                  onChangeText={text => setName(text)}
+                  onChangeText={(text: string): void => setName(text)}
                   returnKeyType="done"
                 />
                 <Touchable onPress={() => setShowHelp(!showHelp)}>
@@ -171,7 +168,9 @@ function AdventureName(props) {
               justify="center"
               style={{
                 paddingHorizontal: theme.spacing.xl,
-                paddingTop: theme.spacing.xl,
+                paddingTop: isKeyboardVisible
+                  ? theme.spacing.l
+                  : theme.spacing.xl,
                 paddingBottom: theme.spacing.xl,
               }}
             >
@@ -183,7 +182,6 @@ function AdventureName(props) {
                   // st.w(st.fullWidth - 70),
                   {
                     backgroundColor: theme.colors.white,
-                    textAlign: 'center',
                     // marginTop: isKeyboardVisible ? 0 : 85,
                     shadowColor: 'rgba(0, 0, 0, 0.5)',
                     shadowOpacity: 0.5,
@@ -204,10 +202,10 @@ function AdventureName(props) {
               {/* Safety spacing. */}
               {/* <Flex style={{ minHeight: theme.spacing.xxl }} /> */}
             </Flex>
-          </ScrollView>
-        </SafeAreaView>
-      </KeyboardAvoidingView>
-    </DismissKeyboardView>
+          </SafeAreaView>
+        </DismissKeyboardView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 

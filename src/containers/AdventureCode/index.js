@@ -1,7 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactElement } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, NavigationContainerProps } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import {
+  KeyboardAvoidingView,
+  View,
+  Dimensions,
+  ScrollView,
+} from 'react-native';
+import useKeyboard from '@rnhooks/keyboard';
+
 import { RootState } from '../../reducers';
 import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Alert, Keyboard, View } from 'react-native';
@@ -20,7 +29,7 @@ import theme from '../../theme';
 import { createAccount, updateMe } from '../../actions/auth';
 import { acceptAdventureInvitation } from '../../actions/requests';
 
-function AdventureCode(props) {
+function AdventureCode(): ReactElement {
   const { t } = useTranslation('haveCode');
   const insets = useSafeArea();
   const navigation = useNavigation();
