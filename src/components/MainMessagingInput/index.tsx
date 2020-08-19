@@ -10,6 +10,8 @@ import VokeIcon from '../VokeIcon';
 import { createAdventureStepMessage } from '../../actions/requests';
 import { getCurrentUserId } from '../../utils/get';
 
+import styles from './styles';
+
 function AdventureStepMessageInput({ adventure, step, ...rest }) {
   const [text, setText] = useState('');
   const [inputHeight, setInputHeight] = useState(0);
@@ -39,20 +41,7 @@ function AdventureStepMessageInput({ adventure, step, ...rest }) {
   };
 
   return (
-    <Flex
-      direction="row"
-      style={[
-        inputHeight,
-        st.btWhite,
-        st.btw1,
-        {
-          backgroundColor: 'theme.colors.primary',
-          paddingVertical: theme.spacing.s,
-        },
-      ]}
-      align="center"
-      value={1}
-    >
+    <Flex direction="row" style={styles.wrapper} align="center" value={1}>
       <TextInput
         autoCapitalize="sentences"
         // returnKeyType="send"
@@ -66,18 +55,7 @@ function AdventureStepMessageInput({ adventure, step, ...rest }) {
         onContentSizeChange={event =>
           setInputHeight(event.nativeEvent.contentSize.height + 20)
         }
-        style={[
-          st.f1,
-          st.pv6,
-          st.fs4,
-          inputHeight,
-          st.pt4,
-          st.pb4,
-          st.pl3,
-          st.br2,
-          st.mr5,
-          { backgroundColor: theme.colors.white },
-        ]}
+        style={styles.input}
         selectionColor={st.colors.yellow}
         autoCorrect={true}
         multiline={true}
@@ -85,30 +63,10 @@ function AdventureStepMessageInput({ adventure, step, ...rest }) {
         {...rest}
       />
       <Button
-        style={[
-          st.w(45),
-          st.h(45),
-          st.aie,
-          {
-            backgroundColor: theme.colors.secondaryAlt,
-            borderColor: theme.colors.secondaryAlt,
-            borderRadius: 23,
-          },
-        ]}
+        style={styles.sendButton}
         onPress={handleSendMessage}
       >
-        <VokeIcon
-          name="send"
-          style={[
-            st.white,
-            {
-              marginRight: 10,
-              marginTop: 10,
-              transform: [{ rotate: '45deg' }],
-            },
-          ]}
-          size={25}
-        />
+        <VokeIcon name="send" style={styles.sendButtonIcon} size={25} />
       </Button>
     </Flex>
   );
