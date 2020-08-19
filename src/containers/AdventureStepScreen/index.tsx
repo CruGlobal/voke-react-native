@@ -265,8 +265,8 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
         <View
           style={{
             height: Platform.OS === 'ios' ? insets.top : 0,
-            backgroundColor:
-              isPortrait && insets.top > 0 ? '#000' : 'transparent',
+            /* backgroundColor:
+              isPortrait && insets.top > 0 ? '#000' : 'transparent', */
           }}
         >
           <StatusBar
@@ -280,50 +280,41 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
       ) : (
         <StatusBar hidden={true} />
       )}
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        style={[
-          st.aic,
-          st.w100,
-          st.jcsb,
-          {
-            flex: 1,
-          },
-        ]}
-      >
-        <KeyboardAwareScrollView
-          ref={scroll => {
-            if (!scrollRef?.current) {
-              scrollRef.current = scroll;
-            }
-          }}
-          enableOnAndroid={true}
-          extraHeight={windowDimentions.height / 10}
-          // Close keyboard if scrolling.
-          /*  onScroll={ (e)=>{
+      <KeyboardAwareScrollView
+        ref={scroll => {
+          if (!scrollRef?.current) {
+            scrollRef.current = scroll;
+          }
+        }}
+        enableOnAndroid={false}
+        extraHeight={windowDimentions.height / 10}
+        // Close keyboard if scrolling.
+        /*  onScroll={ (e)=>{
             // Keyboard.dismiss
           }} */
-          // scrollEventThrottle={0}
-          contentContainerStyle={[st.aic, st.w100, st.jcsb]}
-          scrollEnabled={isPortrait ? true : false}
-          keyboardShouldPersistTaps="always"
-          // ☝️required to fix the bug with a need to double tap
-          // on the send message icon.
+        // scrollEventThrottle={0}
+        contentContainerStyle={[st.aic, st.w100, st.jcsb]}
+        scrollEnabled={isPortrait ? true : false}
+        keyboardShouldPersistTaps="always"
+        // ☝️required to fix the bug with a need to double tap
+        // on the send message icon.
+      >
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          style={[
+            st.aic,
+            st.w100,
+            st.jcsb,
+          ]}
         >
           <DismissKeyboardView
-            style={[
-              {
-                // paddingBottom: isPortrait? insets.bottom : 0,
-              },
-              // st.f1,
-            ]}
             enableAutomaticScroll
             keyboardShouldPersistTaps="always"
             // ☝️required to fix the bug with a need to double tap
             // on the send message icon.
           >
             {/* This View stays outside of the screen on top
-            and covers blue area with solid black on pull. */}
+              and covers blue area with solid black on pull. */}
             <View
               style={{
                 position: 'absolute',
@@ -434,8 +425,8 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
                             step={currentStep}
                             onFocus={event => {
                               /* scrollRef.current.props.scrollToFocusedInput(
-                                  findNodeHandle(event.target),
-                                ); */
+                                    findNodeHandle(event.target),
+                                  ); */
                             }}
                           />
                         )}
@@ -454,36 +445,36 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
             {/* Extra spacing on the bottom */}
             {isPortrait && <View style={{ height: 60 }} />}
           </DismissKeyboardView>
-        </KeyboardAwareScrollView>
-        {/*
+        </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
+      {/*
           NEW MESSAGE FIELD (at the bottom of the screen).
           But only if it's portrait orientation and not solo adventure.
           It makes no sense to talk to yourself in solo mode.
         */}
-        {!isSolo && isPortrait && currentStep['completed_by_messenger?'] && (
-          <SafeAreaView
-            style={{
-              flexDirection: 'row',
-              alignContent: 'center',
-              justifyContent: 'center',
-              width: '100%',
-              paddingHorizontal: theme.spacing.l,
-              paddingBottom:
-                isKeyboardVisible && Platform.OS === 'android'
-                  ? theme.spacing.s
-                  : undefined,
-              backgroundColor: theme.colors.primary,
-              maxHeight: 140,
-            }}
-          >
-            <MainMessagingInput
-              adventure={adventure}
-              step={currentStep}
-              keyboardAppearance="dark"
-            />
-          </SafeAreaView>
-        )}
-      </KeyboardAvoidingView>
+      {!isSolo && isPortrait && currentStep['completed_by_messenger?'] && (
+        <SafeAreaView
+          style={{
+            flexDirection: 'row',
+            alignContent: 'center',
+            justifyContent: 'center',
+            width: '100%',
+            paddingHorizontal: theme.spacing.l,
+            paddingBottom:
+              isKeyboardVisible && Platform.OS === 'android'
+                ? theme.spacing.s
+                : undefined,
+            backgroundColor: theme.colors.primary,
+            maxHeight: 140,
+          }}
+        >
+          <MainMessagingInput
+            adventure={adventure}
+            step={currentStep}
+            keyboardAppearance="dark"
+          />
+        </SafeAreaView>
+      )}
     </View>
   );
 };
