@@ -7,9 +7,8 @@ import {
   ImagePropsBase,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import st from '../../st';
 
-const AnimatedFastImage = Animated.createAnimatedComponent(FastImage);
+// const AnimatedFastImage = Animated.createAnimatedComponent(FastImage);
 
 interface ImageProps extends ImagePropsBase {
   source: any;
@@ -38,13 +37,14 @@ function Image({ source, style, ...rest }: ImageProps) {
         // Only use FastImage for remote images
         // https://github.com/DylanVann/react-native-fast-image
         // TODO: Delete this repo. Too many bugs!
-        <AnimatedFastImage
-          {...rest}
+        <FastImage
+          style={style}
           source={source}
-          style={[{
+          {...rest}
+          /* style={[{
             // opacity: imageAnimated
-          }, style]}
-          onLoad={onImageLoad}
+          }, style]} */
+          // onLoad={onImageLoad}
         />
       )}
     </>

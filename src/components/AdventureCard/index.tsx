@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Alert } from 'react-native';
+import { View, Alert, StyleSheet } from 'react-native';
 import moment from 'moment';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
+
 import Image from '../Image';
 import st from '../../st';
 import Touchable from '../Touchable';
@@ -8,36 +12,35 @@ import Text from '../Text';
 import Button from '../Button';
 import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
-import { useSelector, useDispatch } from 'react-redux';
 import { useMount, momentUtc, useInterval } from '../../utils';
 import { deleteAdventure, getMyAdventures } from '../../actions/requests';
-import { useNavigation } from '@react-navigation/native';
-import { useTranslation } from "react-i18next";
+
 import ProgressDots from './ProgressDots';
 import styles from './styles';
 
 const THUMBNAIL_HEIGHT = 78;
-const THUMBNAIL_WIDTH = 140;
-
 
 function AdventureCard({ adventureId }) {
   const me = useSelector(({ auth }) => auth.user);
-  const adventureItem = useSelector(({ data }) => data.myAdventures.byId[adventureId])||null;
-  if (adventureItem==null) {
+  const adventureItem =
+    useSelector(({ data }) => data.myAdventures.byId[adventureId]) || null;
+  if (adventureItem == null) {
     return <></>;
   }
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { t } = useTranslation('journey');
 
-  const conversation = adventureItem.conversation;
-  const progress = adventureItem.progress;
+  const { conversation } = adventureItem;
+  const { progress } = adventureItem;
   const thumbnail = adventureItem.item.content.thumbnails.large;
-  const [unreadCount, setUnreadCount] = useState(conversation.unread_messages || 0)
+  const [unreadCount, setUnreadCount] = useState(
+    conversation.unread_messages || 0,
+  );
   const hasUnread = unreadCount > 0;
   const available = progress.total;
   const totalSteps = new Array(available).fill(1);
-  const completed = progress.completed;
+  const { completed } = progress;
 
   const messengers = conversation.messengers || [];
 
@@ -62,14 +65,14 @@ function AdventureCard({ adventureId }) {
     groupName = (adventureItem.journey_invite || {}).name || '';
   }
 
-  const name = adventureItem.name;
+  const { name } = adventureItem;
   const inviteCode = adventureItem?.journey_invite?.code || '';
 
   if (adventureItem.code) {
     // return <InviteItem item={adventureItem} />;
   }
 
-  if ( !adventureItem.id ) {
+  if (!adventureItem.id) {
     return <></>;
   }
 
@@ -77,116 +80,107 @@ function AdventureCard({ adventureId }) {
     setUnreadCount(conversation.unread_messages);
     return () => {
       // cleanup
-    }
-  }, [adventureItem])
+    };
+  }, [adventureItem]);
 
   const onDeleteAdventure = adventureId => {
     // dispatch(
-      Alert.alert(
-        t('unsubscribeTitle'),
-        t('unsubscribeBody'),
-        [
-          {
-            text: t('cancel'),
-            onPress: () => {},
-            style: "cancel"
-          },
-          {
-            text: t('delete'),
-            onPress: async () => {
-              await dispatch(deleteAdventure(adventureId));
-              await dispatch(getMyAdventures());
-            },
-          }
-        ]
-      )
+    Alert.alert(t('unsubscribeTitle'), t('unsubscribeBody'), [
+      {
+        text: t('cancel'),
+        onPress: () => {},
+        style: 'cancel',
+      },
+      {
+        text: t('delete'),
+        onPress: async () => {
+          await dispatch(deleteAdventure(adventureId));
+          await dispatch(getMyAdventures());
+        },
+      },
+    ]);
     // );
   };
 
   return (
-    <Flex style={styles.Wrapper}>
+    <Flex style={styles.wrapper}>
       <Touchable
         highlight={false}
         activeOpacity={0.8}
-        onPress={() =>
+        onPress={(): void =>
           navigation.navigate('AdventureActive', {
             adventureId: adventureItem.id,
           })
         }
       >
         <Flex
-          style={[styles.Card]}
+          style={styles.card}
           direction="row"
           align="center"
           justify="center"
         >
           <Flex>
-            <Image
-              source={{ uri: thumbnail }}
-              style={[st.f1, st.w(THUMBNAIL_WIDTH),st.ml6, st.mt6, st.mb6]}
-            />
+            <Image source={{ uri: thumbnail }} style={styles.thumbnail} />
           </Flex>
           <Flex
             value={1}
             direction="column"
             align="start"
             justify="start"
-            style={[styles.Content]}
+            style={styles.content}
           >
-             <Touchable
-                  isAndroidOpacity={true}
-                  onPress={(): void => {
-                    onDeleteAdventure(adventureId)
-                  }}
-                  style={{position: "absolute",right:2, top:4}}
-                >
+            <Touchable
+              isAndroidOpacity={true}
+              onPress={(): void => {
+                onDeleteAdventure(adventureId);
+              }}
+              style={styles.iconDeleteWrapper}
+            >
               <VokeIcon
                 name="close-circle"
-                style={[ st.grey2 ]}
+                style={styles.iconDeleteIcon}
                 size={26}
               />
-              </Touchable>
-            <Text numberOfLines={2} style={styles.Participants}>
-              {isSolo ? t('yourAdventure') : isGroup ? groupName + ' ' + t('adventure') : t('adventureWith') + ' ' + otherUser.first_name}
+            </Touchable>
+            <Text numberOfLines={2} style={styles.participants}>
+              {isSolo
+                ? t('yourAdventure')
+                : isGroup
+                ? groupName + ' ' + t('adventure')
+                : t('adventureWith') + ' ' + otherUser.first_name}
             </Text>
-            <Text numberOfLines={2} style={styles.Title}>
+            <Text numberOfLines={2} style={styles.title}>
               {name}
             </Text>
-            <Flex value={1} direction="row" align="center" justify="between"
-              style={{
-                width:'100%',
-                paddingBottom: 10,
-              }}
+            <Flex
+              value={1}
+              direction="row"
+              align="center"
+              justify="between"
+              style={styles.avatars}
             >
-              {/* { hasUnread ?
-              <VokeIcon
-                name="speech-bubble-full"
-                style={[ st.orange ]}
-                size={20}
-              /> :
-              <VokeIcon
-                name="speech-bubble"
-                style={[ st.darkGrey, st.mr5 ]}
-                size={20}
-              />
-              } */}
-              {/* */}
-
               {/* AVATARS */}
               {!isGroup ? (
-                <Flex value={1} style={[{paddingBottom:10}]} direction="row" align="center">
+                <Flex
+                  value={1}
+                  style={{ paddingBottom: 10 }}
+                  direction="row"
+                  align="center"
+                >
                   <View>
                     <Image
                       source={{
                         uri: (myUser.avatar || {}).small || undefined,
                       }}
-                      style={[st.circle(36), { borderWidth: 2, borderColor: st.colors.white, marginLeft: -3 }]}
+                      style={styles.avatar}
                     />
                   </View>
                   {!isSolo ? (
                     <Image
-                      source={{ uri: (otherUser.avatar || {}).small || undefined }}
-                      style={[st.circle(36),{marginLeft: -12}, { borderWidth: 2, borderColor: st.colors.white }]}
+                      source={{
+                        uri: (otherUser.avatar || {}).small || undefined,
+                      }}
+                      style={[styles.avatar, styles.avatarSolo]}
                     />
                   ) : null}
                 </Flex>
@@ -200,14 +194,22 @@ function AdventureCard({ adventureId }) {
                     })
                   }
                 >
-                  <Flex direction="row" align="center" style={[{paddingBottom:0}]}>
+                  <Flex
+                    direction="row"
+                    align="center"
+                    style={{ paddingBottom: 0 }}
+                  >
                     <Image
                       source={{
                         uri: (myUser.avatar || {}).small || undefined,
                       }}
                       style={[
                         st.circle(36),
-                        { borderWidth: 2, borderColor: st.colors.white, marginLeft: -3 }
+                        {
+                          borderWidth: 2,
+                          borderColor: st.colors.white,
+                          marginLeft: -3,
+                        },
                       ]}
                     />
                     {subGroup.map((i, index) => (
@@ -215,7 +217,11 @@ function AdventureCard({ adventureId }) {
                         source={{ uri: (i.avatar || {}).small || undefined }}
                         style={[
                           st.circle(36),
-                          { borderWidth: 2, borderColor: st.colors.white, marginLeft: -12 },
+                          {
+                            borderWidth: 2,
+                            borderColor: st.colors.white,
+                            marginLeft: -12,
+                          },
                         ]}
                       />
                     ))}
@@ -230,12 +236,14 @@ function AdventureCard({ adventureId }) {
                         ]}
                       >
                         <Flex self="stretch" align="center" justify="center">
-                        <Text style={[st.pv6, st.white, { fontSize: 16 }]}>+{numberMore}</Text>
+                          <Text style={[st.pv6, st.white, { fontSize: 16 }]}>
+                            +{numberMore}
+                          </Text>
                         </Flex>
                       </View>
-                    ) :
+                    ) : (
                       <></>
-                    }
+                    )}
                   </Flex>
                 </Touchable>
               )}
@@ -245,36 +253,59 @@ function AdventureCard({ adventureId }) {
                   direction="row"
                   align="center"
                   justify="center"
-                  style={[ st.br2, st.bgOrange, st.mr4, st.p6, st.pl5, st.pr5,
-                  {
-                    // position: "absolute",
-                    // right: -2,
-                    // top: 0,
-                  }
+                  style={[
+                    st.br2,
+                    st.bgOrange,
+                    st.mr4,
+                    st.p6,
+                    st.pl5,
+                    st.pr5,
+                    {
+                      // position: "absolute",
+                      // right: -2,
+                      // top: 0,
+                    },
                   ]}
                 >
                   <VokeIcon
                     name="speech-bubble-full"
-                    style={[ st.white, {marginTop: -1, marginRight: 6} ]}
+                    style={[st.white, { marginTop: -1, marginRight: 6 }]}
                     size={14}
                   />
-                  <Text style={[st.white, {fontWeight: 'bold'}]}>
+                  <Text style={[st.white, { fontWeight: 'bold' }]}>
                     {unreadCount > 99 ? '99' : unreadCount}
                   </Text>
                 </Flex>
               ) : null}
             </Flex>
-            <Flex value={1} direction="column" align="start" style={{width:'100%'}}>
+            <Flex
+              value={1}
+              direction="column"
+              align="start"
+              style={{ width: '100%' }}
+            >
               <Flex value={1} direction="row" align="center">
                 {totalSteps.map((i, index) => (
                   <ProgressDots key={index} isFilled={index < completed} />
                 ))}
               </Flex>
-              <Flex value={1} direction="row" align="center" justify="between" style={{width:'100%'}}>
+              <Flex
+                value={1}
+                direction="row"
+                align="center"
+                justify="between"
+                style={{ width: '100%' }}
+              >
                 <Text numberOfLines={1} style={[st.charcoal, st.fs5]}>
                   {completed}/{available} {t('completed').toLowerCase()}
                 </Text>
-                {isSolo ? <Text style={styles.SoloTag}>{t('solo')}</Text> : isGroup ? <Text style={styles.GroupTag}>{t('group')}</Text> : <Text style={styles.DuoTag}>{t('duo')}</Text>}
+                {isSolo ? (
+                  <Text style={styles.solotag}>{t('solo')}</Text>
+                ) : isGroup ? (
+                  <Text style={styles.grouptag}>{t('group')}</Text>
+                ) : (
+                  <Text style={styles.duotag}>{t('duo')}</Text>
+                )}
 
                 {/* {inviteCode ? <Text style={styles.InviteCode}>{inviteCode}</Text>:<></>} */}
                 {/* {inviteCode ? <Text style={styles.InviteCode}>{inviteCode}</Text>:<></>} */}

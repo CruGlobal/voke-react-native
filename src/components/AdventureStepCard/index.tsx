@@ -116,11 +116,11 @@ function AdventureStepCard({
               resizeMode="cover"
             />
             <Flex style={[st.absfill]} align="center" justify="center">
-              <VokeIcon
+              {/* <VokeIcon
                 name={isLocked ? 'lock' : 'play-full'}
                 size={30}
                 style={[st.op90, st.w(30), st.h(30)]}
-              />
+              /> */}
             </Flex>
           </Flex>
           <Flex value={1} direction="column" self="start" style={[styles.Content]}>
@@ -149,11 +149,11 @@ function AdventureStepCard({
                 }
                 ]}
               >
-                <VokeIcon
+                {/* <VokeIcon
                   name="speech-bubble-full"
                   style={[ st.white, {marginTop: -1, marginRight: 6} ]}
                   size={14}
-                />
+                /> */}
                 <Text style={[st.white, {fontWeight: 'bold'}]}>
                   {step.unread_messages > 99 ? '99' : step.unread_messages}
                 </Text>
@@ -238,7 +238,7 @@ function AdventureStepCard({
           st.br2,
         ]}
       >
-        <VokeIcon name="checkmark-outline" size={16} style={[]} />
+        {/* <VokeIcon name="checkmark-outline" size={16} style={[]} /> */}
       </Flex>
     ) : null}
     </Flex>

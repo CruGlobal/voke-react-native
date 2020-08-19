@@ -46,11 +46,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
   const passwordRef = useRef<TextInput>(null);
 
   // https://github.com/react-native-hooks/keyboard#configuration
-  const [isKeyboardVisible] = useKeyboard({
-    useWillShow: Platform.OS === 'android' ? false : true,
-    useWillHide: Platform.OS === 'android' ? false : true,
-    // Not availabe on Android https://reactnative.dev/docs/keyboard#addlistener
-  });
+  const [isKeyboardVisible] = useKeyboard();
 
   const SigninSchema = Yup.object().shape({
     email: Yup.string()

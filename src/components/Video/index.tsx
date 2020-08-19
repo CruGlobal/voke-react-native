@@ -30,7 +30,7 @@ import VokeIcon from '../VokeIcon';
 import Text from '../Text';
 import SLIDER_THUMB from '../../assets/sliderThumb.png';
 
-function convertTime(time) {
+function convertTime(time): string {
   const roundedTime = Math.round(time);
   const seconds = '00' + (roundedTime % 60);
   const minutes = '00' + Math.floor(roundedTime / 60);
@@ -55,7 +55,7 @@ interface RefArcLight {
 }
 
 function Video({
-  onOrientationChange,
+  onOrientationChange = () => {},
   onPlay = () => {},
   hideBack = false,
   item,
@@ -73,20 +73,21 @@ function Video({
   if (!item) {
     return <></>;
   }
-  const insets = useSafeArea();
-  const youtubeVideo = useRef<RefYouTube>(null);
-  const arclightVideo = useRef<RefArcLight>(null);
+  let youtubeVideo = useRef<RefYouTube>(null);
+  let arclightVideo = useRef<RefArcLight>(null);
 
   // System lock (android only).
-  const [rotationLock, setRotationLock] = useState(false);
-  const [screenOrientation, setScreenOrientation] = useState('portrait');
-  const [isBuffering, setIsBuffering] = useState(false);
-  const [videoReady, setVideoReady] = useState(false);
-  const [started, setStarted] = useState(false);
+  // const [rotationLock, setRotationLock] = useState(false);
+  const [screenOrientation, setScreenOrientation] = useState<string>(
+    'portrait',
+  );
+  const [isBuffering, setIsBuffering] = useState<boolean>(false);
+  const [videoReady, setVideoReady] = useState<boolean>(false);
+  const [started, setStarted] = useState<boolean>(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [refreshInterval, setRefreshInterval] = useState<number | null>(null);
-  const [sliderValue, setSliderValue] = useState(0);
-  const [currentTime, setCurrentTime] = useState(0);
+  const [sliderValue, setSliderValue] = useState<number>(0);
+  const [currentTime, setCurrentTime] = useState<number>(0);
   const window = useWindowDimensions();
 
   // const time = youtubeVideo.current.getCurrentTime();
@@ -164,6 +165,8 @@ function Video({
         // When the screen with a player is unfocused:
         // - Pause video.
         setIsPlaying(false);
+        youtubeVideo = null;
+        arclightVideo = null;
       };
     }, []),
   );
@@ -271,30 +274,27 @@ function Video({
           width={window.width}
           height={getDimensions().height}
           play={isPlaying}
-          onChangeState={state => {
-            console.log('🐸 state:', state);
+          onChangeState={(state): void => {
             handleVideoStateChange(state);
           }}
-          onReady={() => {
+          onReady={(): void => {
             handleVideoStateChange('ready');
           }}
-          onError={e => {
+          onError={(e): void => {
             setIsPlaying(false);
             console.log('🐸 YouTube player error:', e);
           }}
-          onPlaybackQualityChange={q => console.log(q)}
-          onEnd={() => {
+          onPlaybackQualityChange={(q): void => console.log(q)}
+          onEnd={(): void => {
             console.log('Player -> onEnd');
           }}
           volume={100}
           initialPlayerParams={{
-            // cc_lang_pref: "us",
             controls: false,
             showClosedCaptions: false,
             modestbranding: true,
           }}
           webViewStyle={{
-            // st.w(dimensions.width), NOT WORKING RIGHT
             width: window.width,
             height: getDimensions().height,
             opacity: videoReady ? 1 : 0,
@@ -307,16 +307,23 @@ function Video({
             uri: item.hls || item.url,
             type: item.hls ? 'm3u8' : undefined,
           }}
-          onLoad={() => {
+          onLoad={e => {
+            console.log('🐸 onLoad:', e);
             handleVideoStateChange('ready');
           }}
           paused={!isPlaying}
           onProgress={e => {
-            setSliderValue(e.currentTime);
+            console.log('🐸 onProgress:', e);
+            if (e.currentTime !== sliderValue) {
+              setSliderValue(e.currentTime);
+            }
           }}
           onEnd={e => {
-            handleVideoStateChange('paused');
-            setSliderValue(0);
+            console.log('🐸 onEnd:', e);
+            if (sliderValue >= 1) {
+              handleVideoStateChange('paused');
+              setSliderValue(0);
+            }
           }}
           onBuffer={e => {}} // Callback when remote video is buffering
           onError={e => {}}
@@ -329,19 +336,9 @@ function Video({
             position: 'absolute',
             top: screenOrientation === 'portrait' ? window.width / -9 : 0,
             bottom: screenOrientation === 'portrait' ? window.width / -9 : 0,
-            // bottom: screenOrientation === 'portrait' ? getDimensions().width / -9 : 0,
             left: 0,
             right: 0,
-            // height: '100%',
-            // zIndex:1,
-
-            /* st.w(dimensions.width), NOT WORKING RIGHT */
-            // width: dimensions.width,
-            // height: dimensions.height,
-            // marginTop: dimensions.width / -12,//-34,
-            // marginBottom: useWindowDimensions().width / -12,
           }}
-          // w425 / h175
           fullscreen={fullscreen}
           fullscreenOrientation={fullscreenOrientation}
         />
@@ -484,8 +481,12 @@ function Video({
                   style={{
                     marginRight: 15,
                   }}
-                  thumbTintColor={ Platform.OS === 'android' ? theme.colors.primary : undefined}
-                  thumbImage={ Platform.OS === 'android' ? undefined : SLIDER_THUMB}
+                  thumbTintColor={
+                    Platform.OS === 'android' ? theme.colors.primary : undefined
+                  }
+                  thumbImage={
+                    Platform.OS === 'android' ? undefined : SLIDER_THUMB
+                  }
                 />
               </Flex>
               <Flex value={1}>
