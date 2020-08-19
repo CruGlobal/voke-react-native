@@ -8,6 +8,7 @@
     "ios8": "react-native run-ios --simulator='iPhone 8'",
     "ios:release": "react-native run-ios --configuration=release",
     "start": "react-native start",
+    "start clean": "react-native start --reset-cache",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "pi": "cd ios/ && pod install",
