@@ -38,6 +38,8 @@ allprojects {
 
         google()
         jcenter()
+        // https://github.com/ivpusic/react-native-image-crop-picker
+        maven { url 'https://maven.google.com' }
         maven { url 'https://jitpack.io' }
 
         // https://github.com/facebook/SoLoader/issues/59#issuecomment-669161376

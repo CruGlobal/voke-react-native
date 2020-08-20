@@ -150,13 +150,7 @@ function AdventureStepMessage({
                   overflow: 'hidden', // Need this to hide overflow blur effect.
                 }}
               >
-                <Flex
-                  direction="column"
-                  style={[
-                    st.pd6,
-                    st.w100,
-                  ]}
-                >
+                <Flex direction="column" style={[st.pd6, st.w100]}>
                   {isSharedAnswer ? (
                     <Flex style={[st.bgOffBlue, st.pd5]}>
                       <Text style={[st.fs4, st.white]}>{message.content}</Text>
@@ -196,7 +190,11 @@ function AdventureStepMessage({
                           { backgroundColor: 'rgba(0,0,0,.2)' },
                         ]}
                       />
-                      <VokeIcon name="lock" size={30} />
+                      <VokeIcon
+                        name="lock"
+                        size={30}
+                        style={{ color: theme.colors.white }}
+                      />
                     </>
                   </Flex>
                 ) : null}

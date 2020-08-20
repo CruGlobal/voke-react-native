@@ -135,6 +135,7 @@ android {
         applicationId "org.cru.voke"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        vectorDrawables.useSupportLibrary = true
         versionCode grgit.log(includes:['HEAD']).size()
         versionName "5.5.0"
         multiDexEnabled true

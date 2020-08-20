@@ -126,7 +126,7 @@ const Welcome = (props: WelcomeProps) => {
               <VokeIcon
                 name="help-circle"
                 size={30}
-                style={{ textAlign: 'right', marginRight: 20 }}
+                style={{ textAlign: 'right', marginRight: 20, color: theme.colors.white }}
               />
             </TouchableOpacity>
             <Flex style={{ paddingHorizontal: theme.spacing.l }}>

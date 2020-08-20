@@ -110,7 +110,7 @@ function GroupModal(props) {
             >
               {!messenger.avatar ? (
                 <Flex align="center" justify="center" style={[st.pt3]}>
-                  <VokeIcon name="person" size={80} />
+                  <VokeIcon name="person" size={80} style={[st.white]} />
                 </Flex>
               ) : (
                 <Image
@@ -217,7 +217,10 @@ function GroupModal(props) {
                   <VokeIcon
                     name="arrow-left2"
                     size={30}
-                    style={{ transform: [{ rotate: '180deg' }] }}
+                    style={{
+                      transform: [{ rotate: '180deg' }],
+                      color: theme.colors.white,
+                    }}
                   />
                 </Flex>
               </>

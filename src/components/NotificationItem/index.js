@@ -102,7 +102,8 @@ function renderShareVideo(handleShare) {
           marginLeft: -SIZE/1.25,
           width: SIZE,
           height: SIZE,
-          borderRadius: SIZE / 2
+          borderRadius: SIZE / 2,
+          color: theme.colors.white,
         }}
       />
     </Touchable>
@@ -173,7 +174,8 @@ function NotificationItem({ item, onSelectVideo }) {
                   // position: 'absolute',
                 },
                 st.w(30),
-                st.h(30)
+                st.h(30),
+                st.white
               ]}
             />
           </Flex>

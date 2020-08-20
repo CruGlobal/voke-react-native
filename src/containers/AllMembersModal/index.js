@@ -49,7 +49,7 @@ function AllMembersModal(props) {
               <VokeIcon
                 type="image"
                 name="leftArrow"
-                style={[st.h(22), st.w(22)]}
+                style={[st.h(22), st.w(22), st.white]}
               />
             </Touchable>
           </Flex>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import ImagePicker from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-picker'; // Used for native selector between gallery and cammera.
+import ImagePickerWithCrop from 'react-native-image-crop-picker'; // Used for image cropping features.
 import { useSelector, useDispatch } from 'react-redux';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
@@ -17,16 +18,6 @@ import Triangle from '../../components/Triangle';
 import VokeIcon from '../../components/VokeIcon';
 import Touchable from '../../components/Touchable';
 import BotTalking from '../../components/BotTalking';
-
-const imagePickerOptions = {
-  title: '',
-  maxWidth: 500, // photos only
-  maxHeight: 500, // photos only
-  allowsEditing: true,
-  noData: true,
-  mediaType: 'photo',
-  cameraType: 'back',
-};
 
 function AccountPhoto(props) {
   const { t } = useTranslation('tryItNow');
@@ -94,24 +85,67 @@ function AccountPhoto(props) {
     }
   }
 
-  function handleSelectImage() {
-    imagePickerOptions.title = t('imagePicker:selectOrNew');
-    ImagePicker.showImagePicker(imagePickerOptions, response => {
-      if (response.didCancel) {
-        // eslint-disable-next-line no-console
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        // eslint-disable-next-line no-console
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        // eslint-disable-next-line no-console
-        console.log('User tapped custom button: ', response.customButton);
-      } else {
-        const source = { uri: response.uri };
-        setAvatarSource(source);
-      }
-    });
-  }
+  const imageTakeCrop = (mode: string): void => {
+    const options = {
+      width: 500,
+      height: 500,
+      cropping: true,
+      avoidEmptySpaceAroundImage: true,
+      cropperToolbarTitle: t('imagePicker:selectOrNew'),
+      cropperCircleOverlay: true,
+      mediaType: 'photo',
+    };
+    if (mode === 'camera') {
+      ImagePickerWithCrop.openCamera(options).then(image => {
+        // const source = { uri: response.uri };
+        setAvatarSource({ uri: image.path });
+      });
+    } else {
+      ImagePickerWithCrop.openPicker(options).then(image => {
+        // const source = { uri: response.uri };
+        setAvatarSource({ uri: image.path });
+      });
+    }
+  };
+
+  const handleSelectImage = (): void => {
+    ImagePicker.showImagePicker(
+      {
+        title: t('imagePicker:selectOrNew'),
+        maxWidth: 500, // photos only
+        maxHeight: 500, // photos only
+        // allowsEditing: true,
+        noData: true,
+        mediaType: 'photo',
+        // cameraType: 'back',
+        storageOptions: {
+          cameraRoll: false,
+          privateDirectory: true,
+        },
+
+        // Remove default buttons. We use this library it for UI dialog only.
+        takePhotoButtonTitle: null,
+        chooseFromLibraryButtonTitle: null,
+        customButtons: [
+          { name: 'camera', title: t('imagePicker:camera') },
+          { name: 'gallery', title: t('imagePicker:gallery') },
+        ],
+      },
+      response => {
+        if (response.didCancel) {
+          // eslint-disable-next-line no-console
+          console.log('User cancelled image picker');
+        } else if (response.error) {
+          // eslint-disable-next-line no-console
+          console.log('ImagePicker Error: ', response.error);
+        } else if (response.customButton === 'camera') {
+          imageTakeCrop('camera');
+        } else if (response.customButton === 'gallery') {
+          imageTakeCrop('gallery');
+        }
+      },
+    );
+  };
 
   return (
     <ScrollView
@@ -162,7 +196,7 @@ function AccountPhoto(props) {
               <VokeIcon
                 type="image"
                 name="camera"
-                style={[st.w(70), st.h(70)]}
+                style={[st.w(70), st.h(70), st.white]}
               />
             ) : (
               <>
