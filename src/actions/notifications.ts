@@ -48,6 +48,9 @@ const getSID = l =>
   l.substring(l.indexOf('messenger_journey_steps/') + 24, l.length);
 
 export function setAppIconBadgeNumber(newValue: number) {
+  // https://github.com/zo0r/react-native-push-notification#set-application-badge-icon
+  // Works natively in iOS.
+  // Uses the ShortcutBadger on Android, and as such will not work on all Android devices.
   PushNotification.setApplicationIconBadgeNumber(newValue);
 }
 
@@ -61,7 +64,6 @@ function gotPushToken(newPushToken: any) {
     const deviceId = getState().auth.device.id;
     let newPushDeviceId = null;
 
-    // if ( newPushToken !== pushToken) {
     // Save new push token in the store.
     dispatch({
       type: REDUX_ACTIONS.SET_PUSH_TOKEN,
@@ -79,11 +81,6 @@ function gotPushToken(newPushToken: any) {
       description:
         'Called from gotPushToken. Push device ID Changes. Will send it to our backend.',
     });
-    // }
-
-    /* if (!newPushDeviceId) {
-      newPushDeviceId = deviceId;
-    } */
 
     // THEN: SETUP WEBSOCKETS CONNECTION.
     await dispatch(establishCableDevice(newPushDeviceId));
@@ -94,11 +91,6 @@ function handleNotifications(state: string, notification: { data?: any }) {
   return async (dispatch: Dispatch, getState: any) => {
     // TODO: We don't use any of these as all happening in WebSockets.
     const { data } = notification;
-    // const {
-    //   activeConversationId,
-    //   unReadBadgeCount,
-    //   conversations,
-    // } = getState().messages;
 
     // Get the namespace and link differently for ios and android
     let namespace;
@@ -118,29 +110,7 @@ function handleNotifications(state: string, notification: { data?: any }) {
       }
     }
 
-    if (state === 'foreground' && namespace && link) {
-      // Foreground
-      // If the user receives a push notification while in the app and sockets
-      // are not connected, grab the new conversation info
-      if (!ws || (ws && ws.readyState !== WEBSOCKET_STATES.OPEN)) {
-        // LOG('got foreground notification and socket is closed');
-        /* if (namespace.includes(NAMESPACES.MESSAGE)) {
-          const cId = getCID(link);
-          if (!cId) return;
-          const conversationId = activeConversationId;
-            if (conversationId && cId === conversationId) {
-              dispatch(getConversation(cId));
-            } else {
-              dispatch(getConversations());
-            }
-          } else if (namespace.includes(NAMESPACES.ADVENTURE)) {
-            dispatch(getMeAction());
-          }
-        } */
-      }
-    } else if (state === 'background') {
-      // Notifications.setBadge(unReadBadgeCount + 1);
-    } else if (state === 'open' && namespace && link) {
+    if (state === 'open' && namespace && link) {
       if (
         link.includes('messenger_journeys') &&
         link.includes('messenger_journey_steps')
@@ -167,41 +137,6 @@ function handleNotifications(state: string, notification: { data?: any }) {
         RootNavigation.navigate('AdventureActive', {
           adventureId,
         });
-        // const onlyJId = getOnlyJID(link);
-        // dispatch(getMyJourney(onlyJId)).then(r => {
-        //   dispatch(navigateResetHome());
-        //   dispatch(
-        //     navigatePush('voke.VideoContentWrap', {
-        //       item: r,
-        //       type: VIDEO_CONTENT_TYPES.JOURNEYDETAIL,
-        //     }),
-        //   );
-        // });
-      } else if (namespace.includes(NAMESPACES.MESSAGE)) {
-        // // const cId = getCID(link);
-        // if (!cId) return;
-        // Check if conversation exists, just use it, otherwise get it
-        // const conversationExists = conversations.find(c => c.id === cId);
-        // After getting the conversation, reset to the message screen
-        // const navToConv = c =>
-        //   dispatch(
-        //     navigateResetMessage({
-        //       conversation: c,
-        //       forceUpdate: true,
-        //     }),
-        //   );
-        // if (conversationExists) {
-        //   navToConv(conversationExists);
-        // } else {
-        //   dispatch(getConversation(cId)).then(results => {
-        //     if (!results || !results.conversation) {
-        //       return;
-        //     }
-        //     navToConv(results.conversation);
-        //   });
-        // }
-      } else if (namespace.includes(NAMESPACES.ADVENTURE)) {
-        // dispatch(getMeAction());
       }
     }
   };
@@ -216,11 +151,7 @@ function establishDevice(): Promise<void> {
       // and configured to receive notifications.
       onRegister(token: { token: any }) {
         // Update redux with the push notification permission value
-        // let newPushToken = token;
         const newPushToken = token?.token;
-        /* if (!st.isAndroid) {
-          newPushToken = token.token;
-        } */
         dispatch({
           type: REDUX_ACTIONS.PUSH_PERMISSION,
           permission: 'granted',
@@ -305,8 +236,6 @@ function establishDevice(): Promise<void> {
 type PermissionStatus = 'unavailable' | 'denied' | 'blocked' | 'granted';
 export function permissionsAndNotifications(askPermission = false) {
   return async (dispatch: Dispatch, getState: any) => {
-    const { pushToken } = getState().auth;
-
     // Check notifications permission status and get notifications settings.
     // https://d.pr/bbVk5I
     checkNotifications().then(({ status }: { status: PermissionStatus }) => {
@@ -336,8 +265,6 @@ export function permissionsAndNotifications(askPermission = false) {
           permission: 'granted', // 'unavailable' | 'denied' | 'blocked' | 'granted'
           description: 'Called from checkNotifications()',
         });
-        /* requestNotifications(['alert', 'sound']).then(({status, settings}) => {
-        }); */
       }
 
       if (status === 'granted' || (status === 'denied' && askPermission)) {
@@ -352,7 +279,7 @@ export function permissionsAndNotifications(askPermission = false) {
             return dispatch(establishDevice());
           }
         });
-        return dispatch(establishDevice());
+        // return dispatch(establishDevice());
       } else {
         // User selected: DON'T ALLOW notifications.
         // blocked
