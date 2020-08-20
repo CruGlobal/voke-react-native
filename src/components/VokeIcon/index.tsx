@@ -34,7 +34,7 @@ const VokeIcon = ({ name, type, style, ...rest }: VokeIconProps) => {
     return (
       <CustomIcon
         name={name}
-        style={[{ color: st.colors.white }, style]}
+        style={style}
         {...rest}
       />
     );
