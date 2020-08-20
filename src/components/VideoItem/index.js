@@ -1,15 +1,17 @@
 import React from 'react';
 import { View, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+
 import Image from '../Image';
 import st from '../../st';
+import theme from '../../theme';
 import Button from '../Button';
 import Flex from '../Flex';
 import Text from '../Text';
 import Touchable from '../Touchable';
 import VokeIcon from '../VokeIcon';
-import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
 
 const THUMBNAIL_HEIGHT = ((st.fullWidth - 20) * 1) / 2;
 
@@ -37,7 +39,7 @@ function VideoItem({ id = null, category = 'allVideos' }) {
   const navigation = useNavigation();
   const { t } = useTranslation('videos');
   const video = useSelector(({ data }: any) => data[category].byId[id]) || {};
-  if (Object.keys(video).length === 0 ) return <></>;
+  if (Object.keys(video).length === 0) return <></>;
   const thumbnail = ((video.media || {}).thumbnails || {}).large || undefined;
   const description = (video.description || '').replace(/^\s+|\s+$/g, '');
 
@@ -72,7 +74,11 @@ function VideoItem({ id = null, category = 'allVideos' }) {
             st.bgBlack,
           ]}
         >
-          <VokeIcon name="play-full" size={64} style={[st.bgTransparent]} />
+          <VokeIcon
+            name="play-full"
+            size={64}
+            style={[st.bgTransparent, st.white]}
+          />
           <Flex
             direction="row"
             align="center"
@@ -94,7 +100,7 @@ function VideoItem({ id = null, category = 'allVideos' }) {
                 numberOfLines={1}
                 style={[st.fs10, st.white, st.ph5, { paddingRight: 100 }]}
               >
-                {t('shares', {total:video.shares})}
+                {t('shares', { total: video.shares })}
               </Text>
             </Flex>
           </Flex>
@@ -115,7 +121,12 @@ function VideoItem({ id = null, category = 'allVideos' }) {
             <VokeIcon
               type="image"
               name="to-chat"
-              style={{ width: 50, height: 50, borderRadius: 25 }}
+              style={{
+                width: 50,
+                height: 50,
+                borderRadius: 25,
+                color: theme.colors.white,
+              }}
             />
           </Button>
           <Text numberOfLines={1} style={[st.blue, st.fs20]}>

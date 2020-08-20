@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { ScrollView } from 'react-native';
+
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import Image from '../../components/Image';
@@ -24,15 +25,22 @@ function AllMembersModal(props) {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const { adventure, isJoined } = props.route.params;
+  const adventureId = props.route.params.adventure.messenger_journey_id;
   const allMessengers = adventure.conversation.messengers || [];
   const messengers = allMessengers.filter(
-    i => i.first_name !== 'VokeBot'
+    i => i.first_name !== 'VokeBot',
     // i => i.first_name !== 'VokeBot' && (i || {}).id !== (me || {}).id,
   );
-  
   const smallCircle = st.fullWidth / 2 - 90;
   const smallBox = st.fullWidth / 2 - 50;
   const leaderBox = st.fullWidth / 2 - 30;
+
+  const handleJoinGroup = (): void => {
+    // Go to the adventure steps screen.
+    navigation.navigate('AdventureActive', {
+      adventureId: adventureId,
+    });
+  };
 
   return (
     <>
@@ -49,12 +57,14 @@ function AllMembersModal(props) {
               <VokeIcon
                 type="image"
                 name="leftArrow"
-                style={[st.h(22), st.w(22)]}
+                style={[st.h(22), st.w(22), st.white]}
               />
             </Touchable>
           </Flex>
           <Flex value={3}>
-            <Text style={[st.white, st.fs18, st.tac]}>{ adventure.journey_invite.name || adventure.name || ''}</Text>
+            <Text style={[st.white, st.fs18, st.tac]}>
+              {adventure.journey_invite.name || adventure.name || ''}
+            </Text>
           </Flex>
           <Flex value={1} />
         </Flex>
@@ -64,12 +74,16 @@ function AllMembersModal(props) {
             <Flex align="center" self="stretch">
               {isJoined ? (
                 <>
-                  <Text style={[st.white, {textAlign:'center'}]}>{t('inviteCode')}:</Text>
-                  <Text style={[st.white, {fontSize:21, marginTop:-6}]}>{adventure.journey_invite.code}</Text>
+                  <Text style={[st.white, { textAlign: 'center' }]}>
+                    {t('inviteCode')}:
+                  </Text>
+                  <Text style={[st.white, { fontSize: 21, marginTop: -6 }]}>
+                    {adventure.journey_invite.code}
+                  </Text>
                 </>
               ) : (
                 <Button
-                  onPress={() => {}}
+                  onPress={handleJoinGroup}
                   style={[
                     st.bgOrange,
                     st.ph6,
@@ -90,25 +104,19 @@ function AllMembersModal(props) {
           </Flex>
         </Flex>
         <Flex align="center" justify="center">
-          <Flex
-            direction="row"
-            wrap="wrap"
-            align="end"
-            justify="center"
-          >
+          <Flex direction="row" wrap="wrap" align="end" justify="center">
             {messengers.map((messenger, index) => (
-              
               <Flex
                 key={messenger.id}
                 direction="column"
                 align="center"
                 style={[
-                  messenger.group_leader?st.bgDarkBlue: st.bgOffBlue,
+                  messenger.group_leader ? st.bgDarkBlue : st.bgOffBlue,
                   st.pd5,
                   st.m5,
                   {
-                    width:  messenger.group_leader? leaderBox:smallBox,
-                    height: messenger.group_leader? leaderBox:smallBox,
+                    width: messenger.group_leader ? leaderBox : smallBox,
+                    height: messenger.group_leader ? leaderBox : smallBox,
                     marginRight: 15,
                   },
                 ]}
@@ -142,7 +150,7 @@ function AllMembersModal(props) {
                     ]}
                   />
                 )}
-                <Text style={[st.fs3, st.white, st.tac,{marginTop:3}]}>
+                <Text style={[st.fs3, st.white, st.tac, { marginTop: 3 }]}>
                   {messenger.first_name}
                 </Text>
               </Flex>

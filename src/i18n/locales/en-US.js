@@ -254,6 +254,8 @@ export default {
     select: 'Select Picture',
     selectOrNew: 'Would you like to select a photo or take a new picture?',
     where: 'Where is your photo?',
+    camera: 'Take Photo...',
+    gallery: 'Choose from Library...',
   },
   kickstarters: {
     description: 'Add one of these kickstarters to your chat.',
