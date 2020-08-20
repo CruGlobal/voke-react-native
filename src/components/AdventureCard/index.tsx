@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Alert, StyleSheet } from 'react-native';
+import { View, Alert, StyleSheet, Dimensions } from 'react-native';
 import moment from 'moment';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -42,6 +42,8 @@ function AdventureCard({ adventureId }) {
   const totalSteps = new Array(available).fill(1);
   const { completed } = progress;
 
+  const windowDimensions = Dimensions.get('window');
+
   const messengers = conversation.messengers || [];
 
   const isSolo = messengers.length === 2;
@@ -56,9 +58,10 @@ function AdventureCard({ adventureId }) {
   const totalGroupUsers = usersExceptVokeAndMe.length;
   let subGroup = usersExceptVokeAndMe;
   let numberMore = 0;
-  if (totalGroupUsers > 4) {
-    subGroup = usersExceptVokeAndMe.slice(0, 3);
-    numberMore = totalGroupUsers - 4;
+  const maxNumberOfAvatars = windowDimensions.width < 400 ? 3 : 4;
+  if (totalGroupUsers > maxNumberOfAvatars) {
+    subGroup = usersExceptVokeAndMe.slice(0, maxNumberOfAvatars - 1);
+    numberMore = totalGroupUsers - maxNumberOfAvatars;
   }
   let groupName;
   if (isGroup) {
@@ -161,12 +164,7 @@ function AdventureCard({ adventureId }) {
             >
               {/* AVATARS */}
               {!isGroup ? (
-                <Flex
-                  value={1}
-                  style={{ paddingBottom: 10 }}
-                  direction="row"
-                  align="center"
-                >
+                <Flex value={1} direction="row" align="center">
                   <View>
                     <Image
                       source={{
@@ -187,7 +185,7 @@ function AdventureCard({ adventureId }) {
               ) : (
                 <Touchable
                   isAndroidOpacity={true}
-                  onPress={() =>
+                  onPress={(): void =>
                     navigation.navigate('AllMembersModal', {
                       adventure: adventureItem,
                       isJoined: true,
@@ -220,7 +218,7 @@ function AdventureCard({ adventureId }) {
                           {
                             borderWidth: 2,
                             borderColor: st.colors.white,
-                            marginLeft: -12,
+                            marginLeft: -14,
                           },
                         ]}
                       />
@@ -229,14 +227,25 @@ function AdventureCard({ adventureId }) {
                       <View
                         style={[
                           st.circle(36),
-                          st.abstl,
-                          { left: 90 },
                           st.bgBlue,
-                          { borderWidth: 1, borderColor: st.colors.white },
+                          {
+                            borderWidth: 2,
+                            borderColor: st.colors.white,
+                            marginLeft: -14,
+                          },
                         ]}
                       >
                         <Flex self="stretch" align="center" justify="center">
-                          <Text style={[st.pv6, st.white, { fontSize: 16 }]}>
+                          <Text
+                            style={[
+                              st.white,
+                              {
+                                fontSize: 16,
+                                height: '100%',
+                                lineHeight: 29,
+                              },
+                            ]}
+                          >
                             +{numberMore}
                           </Text>
                         </Flex>
