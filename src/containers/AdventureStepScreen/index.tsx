@@ -364,6 +364,7 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
                         st.bottom(-20),
                         st.h(70),
                         st.w(70),
+                        st.white
                       ]}
                     />
                   </Flex>

@@ -238,6 +238,7 @@ function VideoList() {
                     <VokeIcon
                       name={item.id === 'favorite' ? 'heart' : 'search'}
                       size={22}
+                      style={{color: theme.colors.white}}
                     />
                   ) : (
                     <Text style={[st.white, st.fs18]}>{item.title}</Text>

@@ -317,7 +317,9 @@ const AccountProfile = (props: ProfileModalProps) => {
                     paddingHorizontal: theme.spacing.l,
                   }}
                 >
-                  <VokeIcon name="create" size={18} />
+                  <VokeIcon name="create" size={18} style={{
+                    color: theme.colors.white
+                  }} />
                   <Text
                     style={{
                       color: theme.colors.white,
@@ -405,7 +407,7 @@ const AccountProfile = (props: ProfileModalProps) => {
                       align="center"
                       justify="center"
                     >
-                      <VokeIcon name="mail" size={22} style={st.mr5} />
+                      <VokeIcon name="mail" size={22} style={[st.mr5, st.white]} />
                       <Text style={styles.ButtonSignUpLabel}>
                         {t('signUpEmail')}
                       </Text>
@@ -428,7 +430,7 @@ const AccountProfile = (props: ProfileModalProps) => {
                       align="center"
                       justify="center"
                     >
-                      <VokeIcon name="logo-facebook" size={22} style={st.mr5} />
+                      <VokeIcon name="logo-facebook" size={22} style={[st.mr5, st.white]} />
                       <Text style={styles.ButtonSignUpLabel}>
                         {t('signUpFb')}
                       </Text>

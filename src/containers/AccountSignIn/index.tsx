@@ -266,7 +266,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
                 onPress={(): Promise<void> => fbLogin()}
               >
                 <Flex direction="row" align="center" justify="center">
-                  <VokeIcon name="logo-facebook" size={22} style={st.mr5} />
+                  <VokeIcon name="logo-facebook" size={22} style={[st.mr5, st.white]} />
                   <Text style={styles.ButtonFBSignInLabel}>
                     {t('signInFb')}
                   </Text>

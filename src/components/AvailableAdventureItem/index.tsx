@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 import Image from '../Image';
 import st from '../../st';
+import theme from '../../theme';
 import Touchable from '../Touchable';
 import Text from '../Text';
 import Button from '../Button';
@@ -98,7 +99,11 @@ function AvailableAdventureItem({
               >
                 {t('started').toUpperCase()}
               </Text>
-              <VokeIcon name="play-full" size={16} />
+              <VokeIcon
+                name="play-full"
+                size={16}
+                style={{ color: theme.colors.white }}
+              />
             </Flex>
           ) : (
             <Text style={[st.fs14, st.bold, st.white]}>
@@ -141,7 +146,7 @@ function AvailableAdventureItem({
               <VokeIcon
                 name="shareArrow"
                 type="image"
-                style={[st.mr5, { height: 20, width: 20, marginBottom: 2 }]}
+                style={[st.mr5, st.white, { height: 20, width: 20, marginBottom: 2 }]}
               />
               <Text style={[st.white, { lineHeight: 20 }]}>
                 {t('inviteFriend')}
@@ -171,7 +176,7 @@ function AvailableAdventureItem({
           ]}
         >
           <Flex direction="row">
-            <VokeIcon name="copy" style={[{ height: 20, width: 20 }]} />
+            <VokeIcon name="copy" style={[st.white,{ height: 20, width: 20 }]} />
             <Text
               style={[st.bold, st.white, { letterSpacing: 2, fontSize: 10 }]}
             >
@@ -179,15 +184,15 @@ function AvailableAdventureItem({
             </Text>
           </Flex>
           <Flex direction="row">
-            { (windowDimensions.width > 320) &&
-            <Text
-              style={[st.bold, st.white, { letterSpacing: 2, fontSize: 10 }]}
-            >
-              {t('videos:shares', {
-                total: item.total_shares || 0,
-              }).toUpperCase()}
-            </Text>
-            }
+            {windowDimensions.width > 320 && (
+              <Text
+                style={[st.bold, st.white, { letterSpacing: 2, fontSize: 10 }]}
+              >
+                {t('videos:shares', {
+                  total: item.total_shares || 0,
+                }).toUpperCase()}
+              </Text>
+            )}
             {shouldInviteFriend ? null : (
               <Button
                 type="transparent"
@@ -206,7 +211,7 @@ function AvailableAdventureItem({
                 <VokeIcon
                   type="image"
                   name="to-chat"
-                  style={{ width: 50, height: 50 }}
+                  style={{ width: 50, height: 50, color: theme.colors.white }}
                 />
               </Button>
             )}

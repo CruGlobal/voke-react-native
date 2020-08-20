@@ -313,7 +313,6 @@ function Video({
           }}
           paused={!isPlaying}
           onProgress={e => {
-            console.log('🐸 onProgress:', e);
             if (e.currentTime !== sliderValue) {
               setSliderValue(e.currentTime);
             }
@@ -459,6 +458,7 @@ function Video({
                   <VokeIcon
                     name={isPlaying ? 'pause' : 'play-full'}
                     size={20}
+                    style={{color: theme.colors.white}}
                   />
                 </Touchable>
               </Flex>
