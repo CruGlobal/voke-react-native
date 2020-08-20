@@ -122,6 +122,3 @@ export default i18n
       nsMode: 'fallback',
     }, */
   });
-
-
-  console.log( "🐸 i18n.language:", i18n.language );
