@@ -12,8 +12,14 @@ const theme: {
   spacing: {
     [key: string]: number
   },
+  fontSizes: {
+    [key: string]: number
+  },
+  radius: {
+    [key: string]: number
+  },
   [key: string]: {[key: string]: string | number}
-  } = {
+} = {
   colors: {
     primary: '#44c8e8', // Blue
     secondary: '#186078', // Dark Blue
@@ -84,4 +90,4 @@ const theme: {
   }, */
 };
 
-export default theme
+export default theme;
