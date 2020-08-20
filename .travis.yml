@@ -182,6 +182,7 @@ jobs:
 
     install:
     - npm install
+    - npx jetify
     - (cd android && bundle update --bundler && bundler install)
 
     script:
