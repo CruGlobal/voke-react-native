@@ -47,11 +47,12 @@ function renderVideoImage(message, onSelectVideo) {
       isAndroidOpacity={true}
       activeOpacity={0.7}
       onPress={() => onSelectVideo(message)}
-      style={[{
+      style={{
           width: '100%',
           marginBottom: 20,
-
-        },st.aic, st.jcc]}
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
     >
       <Image
         resizeMode="cover"
@@ -94,12 +95,17 @@ function renderShareVideo(handleShare) {
       isAndroidOpacity={true}
       onPress={handleShare}
       activeOpacity={0.6}
+      style={{
+        position: 'absolute',
+        right: SIZE * -0.5,
+        width: SIZE * 1.25,
+        height: SIZE * 1.25,
+      }}
     >
       <VokeIcon
         name="to-chat"
         type="image"
         style={{
-          marginLeft: -SIZE/1.25,
           width: SIZE,
           height: SIZE,
           borderRadius: SIZE / 2,
@@ -113,7 +119,7 @@ function renderShareVideo(handleShare) {
 function renderVideo(message, onSelectVideo, handleShare) {
   if (!message) return null;
   return (
-    <Flex value={1} direction="row" align="center" justify={'start'}>
+    <Flex value={1} direction="row" align="center" justify={'end'}>
       {renderVideoImage(message, onSelectVideo)}
       {renderShareVideo(handleShare)}
     </Flex>
@@ -123,7 +129,7 @@ function renderVideo(message, onSelectVideo, handleShare) {
 function NotificationItem({ item, onSelectVideo }) {
   const navigation = useNavigation();
   const { t } = useTranslation();
-  function handleShare() {
+  function handleShare(): void {
     navigation.navigate('AdventureName', {
       item: item?.item,
       withGroup: false,

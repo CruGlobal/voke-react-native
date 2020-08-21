@@ -107,11 +107,17 @@ function Video({
     setRefreshInterval(isPlaying ? 1000 : null);
   }, [isPlaying]);
 
-  const getDimensions = () => {
+  const getPlayerDimensions = () => {
+    let shortSize = window.width;
+    if (window.width > window.height) {
+      shortSize = window.height;
+    }
+    const currentWidth = lockOrientation ? shortSize : window.width;
+
     return {
-      width: window.width,
+      width: currentWidth,
       height:
-        item?.type === 'youtube' ? window.width / 1.7 : window.width / 1.8,
+        item?.type === 'youtube' ? currentWidth / 1.7 : currentWidth / 1.7,
     };
   };
 
@@ -233,16 +239,13 @@ function Video({
         {
           ...containerStyles,
           overflow: 'hidden',
-          width: window.width,
+          width: getPlayerDimensions().width,
           height:
             screenOrientation === 'portrait'
-              ? getDimensions().height
-              : window.height,
-          // width: '100%',
-          // paddingTop: topInset,
-          // marginTop: item?.type === 'youtube' ? 0 : -20
-          /* paddingTop:
-            dimensions.height === VIDEO_HEIGHT && !hideInsets ? insets.top : 0, */
+              ? getPlayerDimensions().height
+              : (lockOrientation
+                  ? getPlayerDimensions().height
+                  : window.height),
         },
       ]}
     >
@@ -271,8 +274,8 @@ function Video({
         <YoutubePlayer
           ref={youtubeVideo}
           videoId={youtube_parser(item?.url)}
-          width={window.width}
-          height={getDimensions().height}
+          width={getPlayerDimensions().width}
+          height={getPlayerDimensions().height}
           play={isPlaying}
           onChangeState={(state): void => {
             handleVideoStateChange(state);
@@ -295,8 +298,8 @@ function Video({
             modestbranding: true,
           }}
           webViewStyle={{
-            width: window.width,
-            height: getDimensions().height,
+            width: getPlayerDimensions().width,
+            height: getPlayerDimensions().height,
             opacity: videoReady ? 1 : 0,
           }}
         />
@@ -333,8 +336,14 @@ function Video({
           repeat={true}
           style={{
             position: 'absolute',
-            top: screenOrientation === 'portrait' ? window.width / -9 : 0,
-            bottom: screenOrientation === 'portrait' ? window.width / -9 : 0,
+            top:
+              screenOrientation === 'portrait'
+                ? getPlayerDimensions().width / -9
+                : 0,
+            bottom:
+              screenOrientation === 'portrait'
+                ? getPlayerDimensions().width / -9
+                : 0,
             left: 0,
             right: 0,
           }}
@@ -458,7 +467,7 @@ function Video({
                   <VokeIcon
                     name={isPlaying ? 'pause' : 'play-full'}
                     size={20}
-                    style={{color: theme.colors.white}}
+                    style={{ color: theme.colors.white }}
                   />
                 </Touchable>
               </Flex>

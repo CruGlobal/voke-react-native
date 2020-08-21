@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
-import Flex from '../../components/Flex';
-import st from '../../st';
 import { FlatList, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+
+import Flex from '../../components/Flex';
+import st from '../../st';
 import Video from '../../components/Video';
 import { useMount, lockToPortrait } from '../../utils';
 import NotificationItem from '../../components/NotificationItem';
-import { getNotifications, markReadNotification, interactionVideoPlay } from '../../actions/requests';
+import {
+  getNotifications,
+  markReadNotification,
+  interactionVideoPlay,
+} from '../../actions/requests';
 
 function Notifications(props) {
   const dispatch = useDispatch();
@@ -23,7 +28,9 @@ function Notifications(props) {
   const notifications = React.useRef([]);
   const notificationUnreads = React.useRef(0);
   notifications.current = useSelector(({ data }) => data.notifications);
-  notificationUnreads.current = useSelector(({ data }) => data.notificationUnreadBadge);
+  notificationUnreads.current = useSelector(
+    ({ data }) => data.notificationUnreadBadge,
+  );
   const [updatedPagination, setUpdatedPagination] = useState(
     notificationPagination,
   );
@@ -36,18 +43,19 @@ function Notifications(props) {
   const markNotificationsAsRead = () => {
     const notificationUnreadBadge = notificationUnreads.current;
     // When the screen is focused:
-    if ( notificationUnreadBadge > 0 ) {
+    if (notificationUnreadBadge > 0) {
       const latestNotification = notifications.current[0];
 
-      if ( latestNotification?.id ) {
+      if (latestNotification?.id) {
         dispatch(
           markReadNotification({
             conversationId: latestNotification?.conversation_id,
             notificationId: latestNotification?.id,
-        }));
+          }),
+        );
       }
     }
-  }
+  };
 
   useEffect(() => {
     setUpdatedPagination(notificationPagination);
@@ -65,7 +73,7 @@ function Notifications(props) {
       return (): void => {
         // When the screen is unfocused:
       };
-    }, [])
+    }, []),
   );
 
   useMount(() => {
@@ -74,13 +82,12 @@ function Notifications(props) {
   });
 
   async function loadMore(resetToPageOne = false) {
-    let page;
-    let query = {};
+    const query = {};
 
     if ((!updatedPagination || !updatedPagination.hasMore) && !resetToPageOne) {
       return;
     }
-    page = updatedPagination.page + 1;
+    const page = updatedPagination.page + 1;
     query.page = page;
     if (resetToPageOne) {
       query.page = 1;
@@ -101,16 +108,16 @@ function Notifications(props) {
   return (
     <Flex
       direction="column"
-      justify={ videoToShow ? "start" : "end"}
+      justify={videoToShow ? 'start' : 'end'}
       align="center"
       style={[
         {
-          width:'100%',
+          width: '100%',
         },
-        st.h100
+        st.h100,
       ]}
     >
-      { videoToShow && (
+      {videoToShow && (
         <Video
           // hideBack={true}
           // hideInsets={true}
@@ -120,51 +127,45 @@ function Notifications(props) {
           }}
           item={videoToShow.item.media}
           lockOrientation={true}
-          autoPlay = {true}
-          onPlay={
-            () => {
-              dispatch( interactionVideoPlay({
+          autoPlay={true}
+          onPlay={() => {
+            dispatch(
+              interactionVideoPlay({
                 videoId: videoToShow.item.id,
-                context: 'notifications'
-              }))
-            }
-          }
+                context: 'notifications',
+              }),
+            );
+          }}
         />
-      ) }
-      { isPortrait && (
-        <>
-          <View
-            style={[
-              {
-                width:'100%',
-                paddingBottom: insets.bottom,
-              },
-              st.bgBlue,
-              st.f1,
-            ]}
-          >
-            <FlatList
-              renderItem={props => (
-                <NotificationItem
-                  key={props.item.id}
-                  onSelectVideo={message => handleSelectVideo(message)}
-                  {...props}
-                />
-              )}
-              data={currentNotifications}
-              style={{
-                width:'100%'
-              }}
-              // removeClippedSubviews={true} // vc-1022
-              onRefresh={() => loadMore(true)}
-              refreshing={isLoading}
-              onEndReached={() => loadMore() }
-            />
-            {/* Extra spacing for bottom navigation tabs */}
-            {/* <View style={{height:120}}></View> */}
-          </View>
-        </>
       )}
+      <>
+        <View
+          style={[
+            {
+              width: '100%',
+              paddingBottom: insets.bottom,
+            },
+            st.bgBlue,
+            st.f1,
+          ]}
+        >
+          <FlatList
+            renderItem={props => (
+              <NotificationItem
+                key={props.item.id}
+                onSelectVideo={message => handleSelectVideo(message)}
+                {...props}
+              />
+            )}
+            data={currentNotifications}
+            contentContainerStyle={{ paddingBottom: 120 }}
+            // removeClippedSubviews={true} // vc-1022
+            onRefresh={() => loadMore(true)}
+            refreshing={isLoading}
+            onEndReached={() => loadMore()}
+          />
+        </View>
+      </>
     </Flex>
   );
 }
