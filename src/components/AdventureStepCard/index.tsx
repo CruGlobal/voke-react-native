@@ -263,7 +263,7 @@ AdventureStepCardProps): React.ReactElement {
             st.br2,
           ]}
         >
-          <VokeIcon name="checkmark-outline" size={16} style={[]} />
+          <VokeIcon name="checkmark-outline" size={16} style={[st.white]} />
         </Flex>
       ) : null}
     </Flex>

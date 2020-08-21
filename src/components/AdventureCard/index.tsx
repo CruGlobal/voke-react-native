@@ -317,7 +317,6 @@ function AdventureCard({ adventureId }) {
                 )}
 
                 {/* {inviteCode ? <Text style={styles.InviteCode}>{inviteCode}</Text>:<></>} */}
-                {/* {inviteCode ? <Text style={styles.InviteCode}>{inviteCode}</Text>:<></>} */}
               </Flex>
             </Flex>
           </Flex>

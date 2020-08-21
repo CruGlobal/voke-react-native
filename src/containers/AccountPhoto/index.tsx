@@ -96,13 +96,16 @@ function AccountPhoto(props) {
       mediaType: 'photo',
     };
     if (mode === 'camera') {
-      ImagePickerWithCrop.openCamera(options).then(image => {
-        // const source = { uri: response.uri };
-        setAvatarSource({ uri: image.path });
-      });
+      ImagePickerWithCrop.openCamera({ ...options, useFrontCamera: true }).then(
+        image => {
+          setAvatarSource({ uri: image.path });
+        },
+      );
     } else {
-      ImagePickerWithCrop.openPicker(options).then(image => {
-        // const source = { uri: response.uri };
+      ImagePickerWithCrop.openPicker({
+        ...options,
+        smartAlbums: ['SelfPortraits', 'UserLibrary', 'PhotoStream'],
+      }).then(image => {
         setAvatarSource({ uri: image.path });
       });
     }

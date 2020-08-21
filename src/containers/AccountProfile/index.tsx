@@ -155,7 +155,7 @@ const AccountProfile = (props: ProfileModalProps) => {
                     paddingTop: 20,
                   }}
                 >
-                  {me.firstName + ' ' + me.lastName}
+                  {me.firstName + ( me.lastName ? ' ' + me.lastName : '' ) }
                 </Text>
               </Touchable>
 
