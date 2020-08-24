@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: theme.colors.primary,
     paddingVertical: theme.spacing.s,
+    paddingHorizontal: theme.spacing.l,
     borderTopColor: theme.colors.white,
     borderTopWidth: 1,
   },
@@ -18,6 +19,7 @@ const styles = StyleSheet.create({
     paddingLeft: 25,
     paddingVertical: 15,
     fontSize: 16,
+    lineHeight: 27,
   },
   sendButton: {
     width: 45,

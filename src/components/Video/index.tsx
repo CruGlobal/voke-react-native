@@ -243,9 +243,9 @@ function Video({
           height:
             screenOrientation === 'portrait'
               ? getPlayerDimensions().height
-              : (lockOrientation
-                  ? getPlayerDimensions().height
-                  : window.height),
+              : lockOrientation
+              ? getPlayerDimensions().height
+              : window.height,
         },
       ]}
     >

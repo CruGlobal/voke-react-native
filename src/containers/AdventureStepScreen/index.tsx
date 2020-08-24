@@ -17,10 +17,14 @@ import {
   Dimensions,
   Platform,
   SafeAreaView,
+  ScrollView,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import DeviceInfo from 'react-native-device-info';
 import useKeyboard from '@rnhooks/keyboard';
+// import {
+// 	useHeaderHeight
+// } from '@react-navigation/stack';
 
 import { REDUX_ACTIONS } from '../../constants';
 import { RootState } from '../../reducers';
@@ -280,32 +284,42 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
       ) : (
         <StatusBar hidden={true} />
       )}
-      <KeyboardAwareScrollView
-        ref={scroll => {
-          if (!scrollRef?.current) {
-            scrollRef.current = scroll;
-          }
-        }}
-        enableOnAndroid={false}
-        extraHeight={windowDimentions.height / 10}
-        // Close keyboard if scrolling.
-        /*  onScroll={ (e)=>{
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'height' : undefined}
+        style={[
+          st.aic,
+          st.w100,
+          st.jcsb,
+          {
+            position: 'relative',
+          },
+        ]}
+        // keyboardVerticalOffset={headerHeight}
+        // https://github.com/facebook/react-native/issues/13393#issuecomment-310431054
+      >
+        <ScrollView
+          ref={scroll => {
+            if (!scrollRef?.current) {
+              scrollRef.current = scroll;
+            }
+          }}
+          enableOnAndroid={false}
+          extraHeight={windowDimentions.height / 10}
+          // Close keyboard if scrolling.
+          /*  onScroll={ (e)=>{
             // Keyboard.dismiss
           }} */
-        // scrollEventThrottle={0}
-        contentContainerStyle={[st.aic, st.w100, st.jcsb]}
-        scrollEnabled={isPortrait ? true : false}
-        keyboardShouldPersistTaps="always"
-        // ☝️required to fix the bug with a need to double tap
-        // on the send message icon.
-      >
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-          style={[
+          // scrollEventThrottle={0}
+          contentContainerStyle={[
             st.aic,
             st.w100,
             st.jcsb,
           ]}
+          scrollEnabled={isPortrait ? true : false}
+          keyboardShouldPersistTaps="always"
+          // ☝️required to fix the bug with a need to double tap
+          // on the send message icon.
+          removeClippedSubviews={true}
         >
           <DismissKeyboardView
             enableAutomaticScroll
@@ -364,7 +378,7 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
                         st.bottom(-20),
                         st.h(70),
                         st.w(70),
-                        st.white
+                        st.white,
                       ]}
                     />
                   </Flex>
@@ -397,6 +411,8 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
                           ),
                         );
                       }
+
+                      scrollRef.current.scrollToEnd();
                     }}
                     kind={currentStep.kind}
                     adventure={adventure}
@@ -424,58 +440,58 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
                             item={item}
                             adventure={adventure}
                             step={currentStep}
-                            onFocus={event => {
-                              /* scrollRef.current.props.scrollToFocusedInput(
-                                    findNodeHandle(event.target),
-                                  ); */
-                            }}
                           />
                         )}
                       </>
                     );
                   })
                 )}
-                {!isKeyboardVisible && (
-                  <AdventureStepNextAction
-                    adventureId={adventure.id}
-                    stepId={stepId}
-                  />
-                )}
+                <AdventureStepNextAction
+                  adventureId={adventure.id}
+                  stepId={stepId}
+                />
               </>
             )}
             {/* Extra spacing on the bottom */}
             {isPortrait && <View style={{ height: 60 }} />}
           </DismissKeyboardView>
-        </KeyboardAvoidingView>
-      </KeyboardAwareScrollView>
-      {/*
-          NEW MESSAGE FIELD (at the bottom of the screen).
-          But only if it's portrait orientation and not solo adventure.
-          It makes no sense to talk to yourself in solo mode.
-        */}
-      {!isSolo && isPortrait && currentStep['completed_by_messenger?'] && (
-        <SafeAreaView
-          style={{
-            flexDirection: 'row',
-            alignContent: 'center',
-            justifyContent: 'center',
-            width: '100%',
-            paddingHorizontal: theme.spacing.l,
-            paddingBottom:
-              isKeyboardVisible && Platform.OS === 'android'
-                ? theme.spacing.s
-                : undefined,
-            backgroundColor: theme.colors.primary,
-            maxHeight: 140,
-          }}
-        >
-          <MainMessagingInput
-            adventure={adventure}
-            step={currentStep}
-            keyboardAppearance="dark"
-          />
-        </SafeAreaView>
-      )}
+        </ScrollView>
+
+        {/*
+            NEW MESSAGE FIELD (at the bottom of the screen).
+            But only if it's portrait orientation and not solo adventure.
+            It makes no sense to talk to yourself in solo mode.
+          */}
+        {!isSolo && isPortrait && currentStep['completed_by_messenger?'] && (
+          <SafeAreaView
+            style={{
+              flexDirection: 'row',
+              alignContent: 'center',
+              justifyContent: 'center',
+              width: '100%',
+              paddingBottom:
+                isKeyboardVisible && Platform.OS === 'android'
+                  ? theme.spacing.s
+                  : undefined,
+              backgroundColor: 'theme.colors.primary',
+              maxHeight: 140,
+              zIndex: 99,
+              position: 'absolute',
+              bottom: 0,
+            }}
+          >
+            <MainMessagingInput
+              adventure={adventure}
+              step={currentStep}
+              keyboardAppearance="dark"
+              onFocus={() => {
+                console.log('🐸 onFocus');
+                scrollRef.current.scrollToEnd();
+              }}
+            />
+          </SafeAreaView>
+        )}
+      </KeyboardAvoidingView>
     </View>
   );
 };
