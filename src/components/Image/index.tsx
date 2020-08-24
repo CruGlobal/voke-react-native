@@ -17,14 +17,14 @@ interface ImageProps extends ImagePropsBase {
 function Image({ source, style, ...rest }: ImageProps) {
   // thumbnailAnimated = new Animated.Value(0);
 
-  const imageAnimated = new Animated.Value(0);
+  /* const imageAnimated = new Animated.Value(0);
 
   function onImageLoad() {
     Animated.timing(imageAnimated, {
       toValue: 1,
       duration: 150,
     }).start();
-  }
+  } */
 
   const isRemoteImage = source && source.uri && source.uri.startsWith('http');
   const isSourceNull = source && source.uri && source.uri === null;

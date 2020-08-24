@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React from 'react';
-import { Platform } from 'react-native';
+import { Image as ReactNativeImage, Platform, View } from 'react-native';
 import { BlurView } from '@react-native-community/blur';
 
 import Image from '../Image';
@@ -9,6 +9,7 @@ import st from '../../st';
 import Text from '../Text';
 import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
+import bluredText from '../../assets/bluredText.png';
 import DateComponent from '../DateComponent';
 import AdventureStepMessageInput from '../AdventureStepMessageInput';
 import { getCurrentUserId } from '../../utils/get';
@@ -160,8 +161,13 @@ function AdventureStepMessage({
                     style={[
                       st.pd6,
                       st.fs4,
-                      isMyMessage ? st.blue : st.white,
                       {
+                        color:
+                          isBlured && isAndroid
+                            ? 'rgba(0,0,0,0)'
+                            : isMyMessage
+                            ? '#44c8e8'
+                            : '#fff',
                         opacity: message.content ? 1 : 0.5,
                       },
                     ]}
@@ -178,11 +184,27 @@ function AdventureStepMessage({
                 {isBlured ? (
                   <Flex align="center" justify="center" style={[st.absfill]}>
                     <>
-                      <BlurView
-                        blurType="light"
-                        blurAmount={2}
-                        style={[st.absfill]}
-                      />
+                      {isAndroid && (
+                          <ReactNativeImage
+                            source={bluredText}
+                            resizeMode={'cover'}
+                            resizeMethod={'resize'}
+                            style={{
+                              width: 300,
+                              height: 140,
+                              position: 'absolute',
+                              left:5,
+                              top: 6,
+                            }}
+                          />
+                      )}
+                      {!isAndroid && (
+                        <BlurView
+                          blurType="light"
+                          blurAmount={2}
+                          style={[st.absfill]}
+                        />
+                      )}
                       <Flex
                         style={[
                           st.absfill,
@@ -192,7 +214,7 @@ function AdventureStepMessage({
                       />
                       <VokeIcon
                         name="lock"
-                        size={30}
+                        size={16}
                         style={{ color: theme.colors.white }}
                       />
                     </>

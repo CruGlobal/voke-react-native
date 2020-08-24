@@ -12,7 +12,7 @@ import { getCurrentUserId } from '../../utils/get';
 
 import styles from './styles';
 
-function AdventureStepMessageInput({ adventure, step, ...rest }) {
+function MainMessagingInput({ adventure, step, onFocus, ...rest }) {
   const [text, setText] = useState('');
   const [inputHeight, setInputHeight] = useState(0);
   const dispatch = useDispatch();
@@ -60,6 +60,7 @@ function AdventureStepMessageInput({ adventure, step, ...rest }) {
         autoCorrect={true}
         multiline={true}
         keyboardAppearance="dark"
+        onFocus={onFocus}
         {...rest}
       />
       <Button
@@ -72,4 +73,4 @@ function AdventureStepMessageInput({ adventure, step, ...rest }) {
   );
 }
 
-export default AdventureStepMessageInput;
+export default MainMessagingInput;

@@ -181,10 +181,8 @@ function AdventureCode(): ReactElement {
               style={[
                 st.w100,
                 {
-                  // backgroundColor:'yellow',
                   paddingHorizontal: theme.spacing.xl,
                   justifyContent: 'center',
-                  // flex:1,
                 },
               ]}
             >
