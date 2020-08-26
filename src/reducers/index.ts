@@ -37,9 +37,7 @@ const store = combineReducers({
   auth: persistReducer({
     key: 'auth',
     version: 3,
-    storage: Platform.OS === 'android' ?
-        FilesystemStorage : // Android
-        AsyncStorage, // Android
+    storage: AsyncStorage,
     // migrate: createMigrate(migrations, { debug: true }),
   }, auth),
   data,

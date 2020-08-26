@@ -163,9 +163,9 @@ export function logoutAction() {
       // Clear data in the local storage if user logout.
       if (Platform.OS === 'android') {
         FilesystemStorage.clear();
-      } else {
-        AsyncStorage.clear();
       }
+      // Both iOS and Android.
+      AsyncStorage.clear();
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log('🛑 Logout error', error);
