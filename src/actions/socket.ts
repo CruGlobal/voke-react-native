@@ -127,7 +127,23 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
               //    or when the journey gets completed
               // -- Step: dispatched when a friend answers or completes the step
               if (message['toast?'] && notification.alert) {
-                dispatch(toastAction(notification.alert));
+                const currentScreen = getState().info?.currentScreen?.screen;
+                const adventureStepId = getState().info?.currentScreen?.data
+                  ?.adventureStepId;
+                let showToast = true;
+
+                // Don't show toasts for new messages
+                // in the current chat/conversation.
+                if (
+                  currentScreen === 'AdventureStepScreen' &&
+                  adventureStepId === message.messenger_journey_step_id
+                ) {
+                  showToast = false;
+                }
+
+                if (showToast) {
+                  dispatch(toastAction(notification.alert));
+                }
               }
 
               if (notification.category === 'CREATE_MESSAGE_CATEGORY') {
@@ -216,7 +232,11 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
             global.ws.onerror = error => {
               // an error occurred
               console.log('🛑 socket error\n', error.message);
-              throw error;
+              // throw error;
+              // Try to restart:
+              /* dispatch({
+                type: REDUX_ACTIONS.STARTUP,
+              }); */
             };
 
             global.ws.onclose = error => {
@@ -231,9 +251,9 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
           // Do nothing with the error
           console.log('🛑 socketErr:\n', socketErr);
           // Try to restart:
-          dispatch({
+          /* dispatch({
             type: REDUX_ACTIONS.STARTUP,
-          });
+          }); */
         }
       }
     }

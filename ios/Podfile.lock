@@ -401,6 +401,15 @@ PODS:
     - RNFBApp
   - RNGestureHandler (1.6.0):
     - React
+  - RNImageCropPicker (0.32.2):
+    - React-Core
+    - React-RCTImage
+    - RNImageCropPicker/QBImagePickerController (= 0.32.2)
+    - TOCropViewController
+  - RNImageCropPicker/QBImagePickerController (0.32.2):
+    - React-Core
+    - React-RCTImage
+    - TOCropViewController
   - RNLocalize (1.4.1):
     - React
   - RNPermissions (2.1.5):
@@ -423,6 +432,7 @@ PODS:
   - Sentry (5.2.0):
     - Sentry/Core (= 5.2.0)
   - Sentry/Core (5.2.0)
+  - TOCropViewController (2.5.4)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -476,6 +486,7 @@ DEPENDENCIES:
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBDynamicLinks (from `../node_modules/@react-native-firebase/dynamic-links`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNLocalize (from `../node_modules/react-native-localize`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -505,6 +516,7 @@ SPEC REPOS:
     - SDWebImage
     - SDWebImageWebPCoder
     - Sentry
+    - TOCropViewController
 
 EXTERNAL SOURCES:
   DoubleConversion:
@@ -601,6 +613,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/dynamic-links"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNImageCropPicker:
+    :path: "../node_modules/react-native-image-crop-picker"
   RNLocalize:
     :path: "../node_modules/react-native-localize"
   RNPermissions:
@@ -680,6 +694,7 @@ SPEC CHECKSUMS:
   RNFBApp: d55b3a69d199cff25ecf4f3bf41a86c47aa37d57
   RNFBDynamicLinks: fd4c16a951c04442881578a0c33d58034008b4e4
   RNGestureHandler: dde546180bf24af0b5f737c8ad04b6f3fa51609a
+  RNImageCropPicker: f0557a908758c4a3f83978894ec7227651529b45
   RNLocalize: c388679af021ddd6069c215f7fdd2acf4e77ede5
   RNPermissions: 1888705aebcc81714efa5dbff94351e4388ae012
   RNReanimated: f05ea1c5ee07891aaefee662f073f4944c87ac4d
@@ -689,6 +704,7 @@ SPEC CHECKSUMS:
   SDWebImage: cf6922231e95550934da2ada0f20f2becf2ceba9
   SDWebImageWebPCoder: 36f8f47bd9879a8aea6044765c1351120fd8e3a8
   Sentry: 6e04bc3e11bf771ca79140a112de64dcfbc7d8cb
+  TOCropViewController: 2a1ae1242600b1f2d996fd91a5268b2309a33b5c
   Yoga: 3ebccbdd559724312790e7742142d062476b698e
 
 PODFILE CHECKSUM: 912c94729801426bed5301bfea64e4e2181e7b5b

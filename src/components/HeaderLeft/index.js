@@ -40,15 +40,13 @@ function HeaderLeft({ hasBack = false, resetTo = null }) {
   return (
     <Flex value={1} justify="center">
       <Touchable
-        style={[
-          {
+        style={{
             // Extra padding to make taps more responsive.
             paddingTop: 6,
             paddingLeft: 16,
             paddingRight: 8,
             paddingBottom: 8,
-          },
-        ]}
+          }}
         onPress={() => goBack()}
       >
         {hasBack ? (
