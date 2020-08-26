@@ -55,8 +55,9 @@ interface RefArcLight {
 }
 
 function Video({
-  onOrientationChange = () => {},
+  onOrientationChange = (orientation: string) => {},
   onPlay = () => {},
+  onStop = () => {},
   hideBack = false,
   item,
   onCancel,
@@ -189,6 +190,10 @@ function Video({
       case 'paused':
         setIsPlaying(false);
         setIsBuffering(false);
+        if (started) {
+          // Send an interaction when the user press pause.
+          onStop();
+        }
         break;
       case 'play':
       case 'playing':
@@ -311,7 +316,6 @@ function Video({
             type: item.hls ? 'm3u8' : undefined,
           }}
           onLoad={e => {
-            console.log('🐸 onLoad:', e);
             handleVideoStateChange('ready');
           }}
           paused={!isPlaying}

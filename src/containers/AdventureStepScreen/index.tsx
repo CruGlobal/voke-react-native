@@ -18,6 +18,7 @@ import {
   Platform,
   SafeAreaView,
   ScrollView,
+  Keyboard,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import DeviceInfo from 'react-native-device-info';
@@ -25,6 +26,8 @@ import useKeyboard from '@rnhooks/keyboard';
 // import {
 // 	useHeaderHeight
 // } from '@react-navigation/stack';
+
+import { TextInput } from 'react-native-gesture-handler';
 
 import { REDUX_ACTIONS } from '../../constants';
 import { RootState } from '../../reducers';
@@ -58,19 +61,22 @@ type ModalProps = {
   };
 };
 const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
-  const scrollRef = useRef();
+  const scrollRef = useRef<ScrollView>();
   const dispatch = useDispatch();
   const hasNotch = DeviceInfo.hasNotch();
   const insets = useSafeAreaInsets();
   const windowDimentions = Dimensions.get('window');
   const [isPortrait, setIsPortrait] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [isKeyboardVisible] = useKeyboard({
     useWillShow: Platform.OS === 'android' ? false : true,
     useWillHide: Platform.OS === 'android' ? false : true,
     // Not availabe on Android https://reactnative.dev/docs/keyboard#addlistener
   });
+  const keyBoardCollapsePos = Platform.OS === 'ios' ? 200 : 50;
   const [hasClickedPlay, setHasClickedPlay] = useState(false);
+  const [answerPosY, setAnswerPosY] = useState(0);
   const { stepId, adventureId } = route.params;
   const adventure =
     useSelector(({ data }: RootState) => data.myAdventures.byId[adventureId]) ||
@@ -192,12 +198,15 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
 
   useEffect(() => {
     const latestMessage = currentMessages[currentMessages.length - 1];
-    // If new message posted by the current user
+
     if (
-      currentMessages[currentMessages.length - 1]?.messenger_id ===
-      currentUser.id
+      currentStep['completed_by_messenger?'] &&
+      !isVideoPlaying
+      // && latestMessage?.messenger_id !== currentUser.id
     ) {
-      // Scroll to the end when we added new message.
+      // Scroll to the end when we added new message,
+      // but only when video isn't playing,
+      // and current user answered the main question.
       scrollRef?.current?.scrollToEnd();
     }
 
@@ -254,23 +263,19 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
 
   return (
     <View
-      style={[
-        st.w100,
-        st.h100,
-        {
-          backgroundColor: isPortrait ? st.colors.blue : st.colors.deepBlack,
-          flexDirection: 'column',
-          alignContent: 'center',
-          justifyContent: 'space-between',
-        },
-      ]}
+      style={{
+        width: '100%',
+        height: '100%',
+        backgroundColor: isPortrait ? st.colors.blue : st.colors.deepBlack,
+        flexDirection: 'column',
+        alignContent: 'center',
+        justifyContent: 'space-between',
+      }}
     >
       {isPortrait && hasNotch ? (
         <View
           style={{
             height: Platform.OS === 'ios' ? insets.top : 0,
-            /* backgroundColor:
-              isPortrait && insets.top > 0 ? '#000' : 'transparent', */
           }}
         >
           <StatusBar
@@ -285,16 +290,19 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
         <StatusBar hidden={true} />
       )}
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'height' : undefined}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        // behavior={'padding'}
         style={[
           st.aic,
           st.w100,
           st.jcsb,
           {
-            position: 'relative',
+            flex: 1,
+            paddingBottom: 0,
+            // position: 'relative',
           },
         ]}
-        // keyboardVerticalOffset={headerHeight}
+        keyboardVerticalOffset={0}
         // https://github.com/facebook/react-native/issues/13393#issuecomment-310431054
       >
         <ScrollView
@@ -305,10 +313,14 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
           }}
           enableOnAndroid={false}
           extraHeight={windowDimentions.height / 10}
-          // Close keyboard if scrolling.
-          /*  onScroll={ (e)=>{
-            // Keyboard.dismiss
-          }} */
+          overScrollMode={'always'}
+           onScroll={ (e)=>{
+             // Close keyboard if scrolling toward the very top of the screen.
+             if( isKeyboardVisible && e.nativeEvent.contentOffset.y < keyBoardCollapsePos ) {
+               Keyboard.dismiss()
+             }
+            console.log( "💿 e:", e.nativeEvent.contentOffset.y );
+          }}
           // scrollEventThrottle={0}
           contentContainerStyle={[
             st.aic,
@@ -345,7 +357,8 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
                 setIsPortrait(orientation === 'portrait' ? true : false);
               }}
               item={currentStep.item.content}
-              onPlay={() => {
+              onPlay={(): void => {
+                setIsVideoPlaying(true);
                 dispatch(
                   interactionVideoPlay({
                     videoId: adventure.id,
@@ -356,6 +369,9 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
                 if (!hasClickedPlay) {
                   setHasClickedPlay(true);
                 }
+              }}
+              onStop={(): void => {
+                setIsVideoPlaying(false);
               }}
             />
             {isPortrait && (
@@ -385,7 +401,18 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
                 ) : null}
 
                 {/* First card with question */}
-                <Flex direction="column" self="center" style={[st.w80, st.mt2]}>
+                <Flex
+                  direction="column"
+                  self="center"
+                  style={[st.w80, st.mt2]}
+                  onLayout={({ nativeEvent }) => {
+                    // Calculate vertical offset to be usef on answer field focus.
+                    const layout = nativeEvent?.layout;
+                    if (layout && layout?.y && layout?.height) {
+                      setAnswerPosY(layout.y);
+                    }
+                  }}
+                >
                   <Flex
                     direction="column"
                     style={[st.bgOrange, st.brtl5, st.brtr5, st.pd1]}
@@ -412,7 +439,13 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
                         );
                       }
 
-                      scrollRef.current.scrollToEnd();
+                      if (Platform.OS === 'ios') {
+                        scrollRef.current.scrollTo({
+                          x: 0,
+                          y: answerPosY,
+                          animated: true,
+                        });
+                      }
                     }}
                     kind={currentStep.kind}
                     adventure={adventure}
@@ -463,21 +496,22 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
             It makes no sense to talk to yourself in solo mode.
           */}
         {!isSolo && isPortrait && currentStep['completed_by_messenger?'] && (
-          <SafeAreaView
+          <View
             style={{
               flexDirection: 'row',
               alignContent: 'center',
               justifyContent: 'center',
+              alignSelf: 'flex-end',
               width: '100%',
               paddingBottom:
                 isKeyboardVisible && Platform.OS === 'android'
                   ? theme.spacing.s
                   : undefined,
-              backgroundColor: 'theme.colors.primary',
               maxHeight: 140,
               zIndex: 99,
-              position: 'absolute',
-              bottom: 0,
+              position: 'relative',
+              padding: 0,
+              // bottom: isKeyboardVisible && Platform.OS === 'android' ? 0 : 200,
             }}
           >
             <MainMessagingInput
@@ -485,11 +519,10 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
               step={currentStep}
               keyboardAppearance="dark"
               onFocus={() => {
-                console.log('🐸 onFocus');
                 scrollRef.current.scrollToEnd();
               }}
             />
-          </SafeAreaView>
+          </View>
         )}
       </KeyboardAvoidingView>
     </View>
