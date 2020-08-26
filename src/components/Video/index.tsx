@@ -63,6 +63,7 @@ function Video({
   onCancel,
   hideInsets,
   autoPlay = false,
+  pauseNow = false,
   fullscreen = false,
   fullscreenOrientation = 'all',
   lockOrientation = false,
@@ -220,6 +221,12 @@ function Video({
   function togglePlayState() {
     handleVideoStateChange(isPlaying ? 'paused' : 'play');
   }
+
+  useEffect(() => {
+    if (pauseNow) {
+      handleVideoStateChange('paused');
+    }
+  }, [pauseNow]);
 
   function handleSliderChange(value: number) {
     if (youtubeVideo.current) {
