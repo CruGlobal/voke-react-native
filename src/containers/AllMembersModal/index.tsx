@@ -10,6 +10,7 @@ import Text from '../../components/Text';
 import Image from '../../components/Image';
 import StatusBar from '../../components/StatusBar';
 import st from '../../st';
+import theme from '../../theme';
 import Button from '../../components/Button';
 // import { MONTHLY_PRICE } from '../../constants';
 
@@ -46,7 +47,7 @@ function AllMembersModal(props) {
     <>
       <StatusBar />
       <ScrollView
-        style={[st.f1, st.w100, st.h100, st.bgBlue, { paddingTop: insets.top }]}
+        style={[st.f1, st.w100, st.h100, st.bgBlue, { paddingTop: insets.top}]}
       >
         <Flex direction="row" align="center">
           <Flex value={1}>
@@ -103,7 +104,7 @@ function AllMembersModal(props) {
             </Flex>
           </Flex>
         </Flex>
-        <Flex align="center" justify="center">
+        <Flex align="center" justify="center" style={{paddingBottom: theme.spacing.xl}}>
           <Flex direction="row" wrap="wrap" align="end" justify="center">
             {messengers.map((messenger, index) => (
               <Flex

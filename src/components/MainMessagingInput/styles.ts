@@ -24,15 +24,14 @@ const styles = StyleSheet.create({
   sendButton: {
     width: 45,
     height: 45,
-    alignItems: 'flex-end',
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: theme.colors.secondaryAlt,
     borderColor: theme.colors.secondaryAlt,
     borderRadius: 99,
   },
   sendButtonIcon: {
     color: theme.colors.white,
-    marginRight: 10,
-    marginTop: 10,
   },
 });
 

@@ -100,7 +100,7 @@ function AdventureShareCode(props) {
       {/* Extra space to compensate for header */}
       <Flex direction="column" align="center" justify="center">
         <BotTalking>
-          ????{withGroup
+          {withGroup
             ? t('share:groupPreviewLinkReady', { name: invitation.name })
             : isVideoInvite
             ? t('share:linkReady')

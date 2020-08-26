@@ -67,7 +67,7 @@ function MainMessagingInput({ adventure, step, onFocus, ...rest }) {
         style={styles.sendButton}
         onPress={handleSendMessage}
       >
-        <VokeIcon name="send" style={styles.sendButtonIcon} size={25} />
+        <VokeIcon name="send" style={styles.sendButtonIcon} size={22} />
       </Button>
     </Flex>
   );

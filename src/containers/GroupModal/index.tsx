@@ -57,6 +57,7 @@ function GroupModal(props) {
         alignContent: 'stretch',
         justifyContent: 'center',
         backgroundColor: theme.colors.primary,
+        paddingVertical: theme.spacing.xl,
       }}
     >
       <Flex style={[st.mb4]}>

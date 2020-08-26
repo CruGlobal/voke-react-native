@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Alert, StyleSheet, Dimensions } from 'react-native';
-import moment from 'moment';
+import { View, Alert, Dimensions } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
@@ -9,10 +8,8 @@ import Image from '../Image';
 import st from '../../st';
 import Touchable from '../Touchable';
 import Text from '../Text';
-import Button from '../Button';
 import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
-import { useMount, momentUtc, useInterval } from '../../utils';
 import { deleteAdventure, getMyAdventures } from '../../actions/requests';
 
 import ProgressDots from './ProgressDots';
