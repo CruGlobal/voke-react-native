@@ -76,6 +76,7 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
   });
   const [prevContentOffset, setPrevContentOffset] = useState(100);
   const [hasClickedPlay, setHasClickedPlay] = useState(false);
+  const [initialRender, setInitialRender] = useState(true);
   const [answerPosY, setAnswerPosY] = useState(0);
   const { stepId, adventureId } = route.params;
   const adventure =
@@ -201,21 +202,19 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
 
     if (
       currentStep['completed_by_messenger?'] &&
-      !isVideoPlaying
-      // && latestMessage?.messenger_id !== currentUser.id
+      !isVideoPlaying && ( !initialRender || currentStep.unread_messages )
     ) {
       // Scroll to the end when we added new message,
       // but only when video isn't playing,
       // and current user answered the main question.
       scrollRef?.current?.scrollToEnd();
     }
-
     // Once a new message from another participant received mark it as read,
     // but only if messages unblured/unlocked.
     if (
       currentMessages.length &&
-      currentStep['completed_by_messenger?'] &&
-      latestMessage?.messenger_id !== currentUser.id
+      currentStep['completed_by_messenger?']
+      // && latestMessage?.messenger_id !== currentUser.id -- needed.
     ) {
       // If the last message from someone else, mark it as read.
       markAsRead();
@@ -224,6 +223,7 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
     if (isSolo) {
       botMessage();
     }
+    setInitialRender(false);
   }, [currentMessages.length]);
 
   // Events firing when user leaves the screen or comes back.
@@ -276,6 +276,7 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
         <View
           style={{
             height: Platform.OS === 'ios' ? insets.top : 0,
+            backgroundColor: '#000',
           }}
         >
           <StatusBar
@@ -320,11 +321,18 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
             // Close keyboard if scrolling toward the very top of the screen.
             if (
               isKeyboardVisible &&
-              scrollDiff > 50
+              scrollDiff > 100
             ) {
                 Keyboard.dismiss();
             }
             setPrevContentOffset(e.nativeEvent.contentOffset.y);
+          }}
+
+          onScrollBeginDrag={e => {
+            // Scroll if there is no way to scroll to the top anymore.
+            if (  isKeyboardVisible && e.nativeEvent.contentOffset.y < 30 ) {
+              Keyboard.dismiss();
+            }
           }}
           contentContainerStyle={[st.aic, st.w100, st.jcsb]}
           scrollEnabled={isPortrait ? true : false}
@@ -498,20 +506,12 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
         {!isSolo && isPortrait && currentStep['completed_by_messenger?'] && (
           <View
             style={{
-              // flex:1,
               flexDirection: 'row',
-              // alignContent: 'center',
-              // justifyContent: 'center',
-              // alignSelf: 'flex-end',
               width: '100%',
               paddingBottom:
                 isKeyboardVisible && Platform.OS === 'android'
                   ? theme.spacing.s
                   : undefined,
-              // zIndex: 99,
-              // position: 'relative',
-              // padding: 0,
-              // bottom: isKeyboardVisible && Platform.OS === 'android' ? 0 : 200,
             }}
           >
             <MainMessagingInput
