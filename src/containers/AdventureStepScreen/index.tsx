@@ -205,8 +205,8 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
     // but only if messages unblured/unlocked.
     if (
       currentMessages.length &&
-      (currentStep['completed_by_messenger?'] ||
-        latestMessage?.messenger_id !== currentUser.id)
+      currentStep['completed_by_messenger?'] &&
+      latestMessage?.messenger_id !== currentUser.id
     ) {
       // If the last message from someone else, mark it as read.
       markAsRead();
