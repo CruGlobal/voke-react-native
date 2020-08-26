@@ -70,11 +70,11 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
   const [isLoading, setIsLoading] = useState(false);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [isKeyboardVisible] = useKeyboard({
-    useWillShow: Platform.OS === 'android' ? false : true,
-    useWillHide: Platform.OS === 'android' ? false : true,
+    /* useWillShow: Platform.OS === 'android' ? false : true,
+    useWillHide: Platform.OS === 'android' ? false : true, */
     // Not availabe on Android https://reactnative.dev/docs/keyboard#addlistener
   });
-  const keyBoardCollapsePos = Platform.OS === 'ios' ? 200 : 50;
+  const [prevContentOffset, setPrevContentOffset] = useState(100);
   const [hasClickedPlay, setHasClickedPlay] = useState(false);
   const [answerPosY, setAnswerPosY] = useState(0);
   const { stepId, adventureId } = route.params;
@@ -314,19 +314,19 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
           enableOnAndroid={false}
           extraHeight={windowDimentions.height / 10}
           overScrollMode={'always'}
-           onScroll={ (e)=>{
-             // Close keyboard if scrolling toward the very top of the screen.
-             if( isKeyboardVisible && e.nativeEvent.contentOffset.y < keyBoardCollapsePos ) {
-               Keyboard.dismiss()
-             }
-            console.log( "💿 e:", e.nativeEvent.contentOffset.y );
+          // scrollEventThrottle={16} // Don't activate. Works bad on Android.
+          onScroll={e => {
+            const scrollDiff = Math.abs( e.nativeEvent.contentOffset.y - prevContentOffset );
+            // Close keyboard if scrolling toward the very top of the screen.
+            if (
+              isKeyboardVisible &&
+              scrollDiff > 50
+            ) {
+                Keyboard.dismiss();
+            }
+            setPrevContentOffset(e.nativeEvent.contentOffset.y);
           }}
-          // scrollEventThrottle={0}
-          contentContainerStyle={[
-            st.aic,
-            st.w100,
-            st.jcsb,
-          ]}
+          contentContainerStyle={[st.aic, st.w100, st.jcsb]}
           scrollEnabled={isPortrait ? true : false}
           keyboardShouldPersistTaps="always"
           // ☝️required to fix the bug with a need to double tap
@@ -498,19 +498,19 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
         {!isSolo && isPortrait && currentStep['completed_by_messenger?'] && (
           <View
             style={{
+              // flex:1,
               flexDirection: 'row',
-              alignContent: 'center',
-              justifyContent: 'center',
-              alignSelf: 'flex-end',
+              // alignContent: 'center',
+              // justifyContent: 'center',
+              // alignSelf: 'flex-end',
               width: '100%',
               paddingBottom:
                 isKeyboardVisible && Platform.OS === 'android'
                   ? theme.spacing.s
                   : undefined,
-              maxHeight: 140,
-              zIndex: 99,
-              position: 'relative',
-              padding: 0,
+              // zIndex: 99,
+              // position: 'relative',
+              // padding: 0,
               // bottom: isKeyboardVisible && Platform.OS === 'android' ? 0 : 200,
             }}
           >
