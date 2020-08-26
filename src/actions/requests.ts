@@ -495,7 +495,7 @@ export function createAdventureStepMessage(params: {
     // If new message is a simple text message:
     // don't wait response from the server before adding new message
     // to the chat array in the store.
-    if (params.kind === 'standard' || params.kind === 'question') {
+    if (params.kind === 'standard') {
       const date = new Date().toISOString();
       // Create pseudo structure as we expect it from the server.
       const newMessageData = {
