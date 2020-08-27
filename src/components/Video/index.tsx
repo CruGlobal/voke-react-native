@@ -252,12 +252,7 @@ function Video({
           ...containerStyles,
           overflow: 'hidden',
           width: getPlayerDimensions().width,
-          height:
-            screenOrientation === 'portrait'
-              ? getPlayerDimensions().height
-              : lockOrientation
-              ? getPlayerDimensions().height
-              : window.height,
+          height: getPlayerDimensions().height,
         },
       ]}
     >
@@ -348,11 +343,11 @@ function Video({
           style={{
             position: 'absolute',
             top:
-              screenOrientation === 'portrait'
+              screenOrientation === 'portrait' || lockOrientation
                 ? getPlayerDimensions().width / -9
                 : 0,
             bottom:
-              screenOrientation === 'portrait'
+              screenOrientation === 'portrait' || lockOrientation
                 ? getPlayerDimensions().width / -9
                 : 0,
             left: 0,
