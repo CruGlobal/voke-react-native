@@ -52,6 +52,10 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
 
   const inviteItem = useSelector(({ data }) => data.adventureInvitations.byId[inviteID]);
 
+  if( ! inviteItem?.code ) {
+    return <></>;
+  }
+
   const [isExpired, setIsExpired] = useState(false);
   const [time, setTime] = useState('');
   const [timer, setTimer] = useState(60000); // 1 minute timer step

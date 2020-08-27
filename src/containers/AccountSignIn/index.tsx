@@ -82,11 +82,19 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
     } catch (e) {
       // eslint-disable-next-line no-console
       console.log('🛑 Error on login \n', { e });
-      Alert.alert(
-        t('login:invalid'),
-        t('login:enterValid'),
-        // e.error_description ? e.error_description : e.errors[0]
-      );
+      if ( e?.message === 'Network request failed' ) {
+        Alert.alert(
+          e?.message,
+          t('checkInternet')
+        );
+      } else {
+        Alert.alert(
+          t('login:invalid'),
+          t('login:enterValid'),
+          // e.error_description ? e.error_description : e.errors[0]
+        );
+      }
+
       setIsLoading(false);
     }
   };
