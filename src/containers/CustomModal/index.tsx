@@ -82,10 +82,15 @@ export default function CustomModal(props:any): React.ReactElement {
 
   const checkNotificationsPopupVisibility = () => {
     // If notifications enabled close modal.
-    if ( (modalId === 'notifications') && ( pushNotificationPermission === 'granted') ) {
-        props.navigation.popToTop()
+    if (
+      modalId === 'notifications' &&
+      pushNotificationPermission === 'granted'
+    ) {
+      props.navigation.goBack(null);
+      // props.navigation.popToTop(); <- don't use this as it will send user
+      // to my adventures screen when back from the settings to enable notifications
     }
-  }
+  };
 
   useEffect(() => {
     checkNotificationsPopupVisibility();
