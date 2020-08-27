@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import Clipboard from '@react-native-community/clipboard';
@@ -26,7 +26,7 @@ function AdventureShareCode(props) {
   const { pushNotificationPermission } = useSelector(
     ({ info }: RootState) => info,
   );
-  const [askedNotifications, setAskedNotifications] = useState(false);
+  const askedNotifications = useRef(false);
   const { invitation, withGroup, isVideoInvite } = props.route.params;
   const headerHeight = useHeaderHeight();
   const windowDimensions = Dimensions.get('window');
@@ -58,9 +58,9 @@ function AdventureShareCode(props) {
     dispatch(toastAction(t('copied'), 'short'));
   };
 
-  const askNotificationPermissions = () => {
-    if (!askedNotifications) {
-      setAskedNotifications(true);
+  const askNotificationPermissions = (): void => {
+    if (!askedNotifications.current) {
+      askedNotifications.current = true;
       if (pushNotificationPermission !== 'granted') {
         navigation.navigate('CustomModal', { modalId: 'notifications' });
       }
