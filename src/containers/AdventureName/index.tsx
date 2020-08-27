@@ -45,7 +45,7 @@ function AdventureName(props: any): ReactElement {
 
   const isValidName = (): boolean => name.length > 0;
 
-  async function handleContinue() {
+  const handleContinue = async (): Promise<void> => {
     if (isValidName() && !isLoading) {
       try {
         setIsLoading(true);
@@ -67,20 +67,42 @@ function AdventureName(props: any): ReactElement {
             }),
           );
         }
-        navigation.navigate('AdventureShareCode', {
-          invitation: result,
-          withGroup,
-          isVideoInvite,
-        });
-      } catch (error) {
-        console.error(error);
+
+        if (result?.code) {
+          navigation.navigate('AdventureShareCode', {
+            invitation: result,
+            withGroup,
+            isVideoInvite,
+          });
+        } else {
+          Alert.alert('Failed to create a valid invite.', 'Please try again.');
+        }
+
+        /* SUCCESS RESULT EXAMPLE
+        {
+          id: "78b4bf04-6630-46af-8e9f-7cc70e05b5bb"
+          messenger_journey_id: "52ca64d4-2a53-4e41-a755-5002e3b29900"
+          code: "386621"
+          name: "Sdsdfsdfdf"
+          kind: "duo"
+          status: "waiting"
+          ...
+        } */
+      } catch (e) {
+        if (e?.message === 'Network request failed') {
+          Alert.alert(e?.message, t('checkInternet'));
+        } else if (e?.message) {
+          Alert.alert(e?.message);
+        } else {
+          console.error(e);
+        }
       } finally {
         setIsLoading(false);
       }
     } else {
       Alert.alert(t('needNameTitle'), t('needNameMessage'));
     }
-  }
+  };
 
   return (
     <KeyboardAvoidingView

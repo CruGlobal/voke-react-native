@@ -188,9 +188,10 @@ function AdventureActive({
         {!isLoading && Object.keys(adventure).length > 0 && (
           <Video
             onOrientationChange={(orientation: string): void => {
-              setIsPortrait(orientation === 'portrait' ? true : false);
+              // setIsPortrait(orientation === 'portrait' ? true : false);
             }}
             item={adventure?.item?.content}
+            lockOrientation={true}
             onPlay={(): void => {
               dispatch(
                 interactionVideoPlay({
