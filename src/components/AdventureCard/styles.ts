@@ -41,6 +41,11 @@ const styles = StyleSheet.create({
     right: 2,
     top: 4,
   },
+  iconUnread: {
+    color: theme.colors.white,
+    marginTop: -1,
+    marginRight: 6,
+  },
   iconDeleteIcon: {
     color: '#DADADA',
   },
@@ -60,8 +65,25 @@ const styles = StyleSheet.create({
     borderColor: '#fff',
     marginLeft: -3,
   },
+  avatarInGroup: {
+    // avatar
+    width: 36,
+    height: 36,
+    borderRadius: 99,
+    borderWidth: 2,
+    borderColor: '#fff',
+
+    marginLeft: -14,
+  },
   avatarSolo: {
-    marginLeft: -12
+    // avatar
+    width: 36,
+    height: 36,
+    borderRadius: 99,
+    borderWidth: 2,
+    borderColor: '#fff',
+
+    marginLeft: -12,
   },
   solotag: {
     color: theme.colors.white,

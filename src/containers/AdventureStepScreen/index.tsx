@@ -5,6 +5,7 @@ import React, {
   useRef,
   useCallback,
   ReactElement,
+  useMemo,
 } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
@@ -50,6 +51,7 @@ import theme from '../../theme';
 import Video from '../../components/Video';
 import Image from '../../components/Image';
 import VokeIcon from '../../components/VokeIcon';
+import styles from './styles'
 
 type ModalProps = {
   route: {
@@ -80,24 +82,28 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
   const [answerPosY, setAnswerPosY] = useState(0);
   const { stepId, adventureId } = route.params;
   const adventure =
-    useSelector(({ data }: RootState) => data.myAdventures.byId[adventureId]) ||
+    useSelector(({ data }: RootState) => data?.myAdventures?.byId[adventureId]) ||
     {};
-  const conversationId = adventure.conversation?.id;
+  const conversationId = adventure?.conversation?.id;
   const currentStep = useSelector(
-    ({ data }: RootState) => data.adventureSteps[adventureId].byId[stepId],
+    ({ data }: RootState) => data.adventureSteps[adventureId]?.byId[stepId],
   );
   const currentUser = useSelector(({ auth }: RootState) => auth.user) || {};
+  const currentUserAvatar = useMemo(() => currentUser?.avatar?.small, [
+    currentUser?.avatar?.small,
+  ]);
   const currentMessages = useSelector(
     ({ data }: RootState) => data.adventureStepMessages[currentStep?.id] || [],
   );
-  const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'multiple';
+
+  const isSolo = adventure?.kind !== 'duo' && adventure?.kind !== 'multiple';
   // Find a reply to the main question (if already answered).
   const myMainAnswer = {
     id: null,
     content: '',
   };
 
-  if (!['multi', 'binary'].includes(currentStep.kind)) {
+  if (!['multi', 'binary'].includes(currentStep?.kind)) {
     // Find the first message of the current author from the start.
     const mainAnswer =
       currentMessages.slice().find(m => m?.messenger_id === currentUser.id) ||
@@ -364,7 +370,7 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
               onOrientationChange={(orientation: string): void => {
                 setIsPortrait(orientation === 'portrait' ? true : false);
               }}
-              item={currentStep.item.content}
+              item={currentStep?.item?.content}
               onPlay={(): void => {
                 setIsVideoPlaying(true);
                 dispatch(
@@ -396,14 +402,7 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
                     <VokeIcon
                       type="image"
                       name="vokebot"
-                      style={[
-                        st.abs,
-                        st.left(-25),
-                        st.bottom(-20),
-                        st.h(70),
-                        st.w(70),
-                        st.white,
-                      ]}
+                      style={styles.vokebot}
                     />
                   </Flex>
                 ) : null}
@@ -428,12 +427,12 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
                     justify="center"
                   >
                     <Text style={[st.tac, st.white, st.fs20, st.lh(24)]}>
-                      {currentStep.question}
+                      {currentStep?.question}
                     </Text>
                   </Flex>
                   <Image
-                    source={{ uri: currentUser.avatar.small }}
-                    style={[st.absb, st.right(-30), st.h(25), st.w(25), st.br1]}
+                    uri={currentUserAvatar}
+                    style={styles.avatar}
                   />
                   <AdventureStepMessageInput
                     onFocus={event => {

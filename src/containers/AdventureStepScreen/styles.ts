@@ -1,18 +1,24 @@
-import { css } from '@emotion/native';
-import theme from '../../theme';
-import ui from '../../ui';
+import { StyleSheet } from 'react-native';
 
-const styles: { [key: string]: any } = {
-  ...ui,
-  // AdventuresList: css`
-  //   width: 100%;
-  //   height: 100%;
-  //   background-color: ${theme.colors.primary};
-  //   padding-top: ${`${theme.spacing.s}px`};
-  //   padding-bottom: 100;
-  //   padding-left:${theme.spacing.m + 'px'};
-	// 	padding-right:${theme.spacing.m + 'px'};
-  // `,
-};
+import theme from '../../theme';
+const THUMBNAIL_WIDTH = 140;
+
+const styles = StyleSheet.create({
+  vokebot: {
+    position: 'absolute',
+    left:-25,
+    bottom:-20,
+    width:70,
+    height:70,
+    color: theme.colors.white,
+  },
+  avatar: {
+    position: 'absolute',
+    right: -30,
+    height: 25,
+    width: 25,
+    borderRadius: 50,
+  }
+});
 
 export default styles;

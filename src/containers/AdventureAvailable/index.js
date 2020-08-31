@@ -15,6 +15,7 @@ import VokeIcon from '../../components/VokeIcon';
 import theme from '../../theme';
 import { startAdventure, interactionVideoPlay } from '../../actions/requests';
 import { REDUX_ACTIONS } from '../../constants';
+import styles from './styles';
 
 function ActionButton(props) {
   return (
@@ -40,7 +41,7 @@ function ActionButton(props) {
         <VokeIcon
           name={props.icon}
           size={props.icon == 'group' ? 32 : 26}
-          style={{ paddingRight: 10, color: theme.colors.white }}
+          style={styles.iconAction}
         />
         <Text style={[st.white, st.fs20]}>{props.text}</Text>
       </Flex>

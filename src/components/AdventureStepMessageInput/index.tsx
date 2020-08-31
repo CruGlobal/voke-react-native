@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, TextInput } from 'react-native';
 import Image from '../Image';
 import st from '../../st';
+import styles from './styles'
 import Flex from '../Flex';
 import Button from '../Button';
 import VokeIcon from '../VokeIcon';
@@ -265,7 +266,7 @@ const AdventureStepMessageInput = ({
                 handleSendMessage(draft);
               }}
               style={[st.p4]}>
-              <VokeIcon name="send" style={[st.offBlue]} size={24} />
+              <VokeIcon name="send" style={styles.iconSend} size={24} />
             </Button>
           </>
         )

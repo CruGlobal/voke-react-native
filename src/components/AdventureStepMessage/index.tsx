@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Image as ReactNativeImage, Platform, View } from 'react-native';
 import { BlurView } from '@react-native-community/blur';
 
@@ -14,6 +14,8 @@ import DateComponent from '../DateComponent';
 import AdventureStepMessageInput from '../AdventureStepMessageInput';
 import { getCurrentUserId } from '../../utils/get';
 import { TAdventureSingle, TAdventureStepSingle, TMessage } from '../../types';
+
+import styles from './styles';
 
 type MessageProps = {
   item: TMessage;
@@ -55,6 +57,10 @@ function AdventureStepMessage({
     adventure.conversation.messengers.find(
       i => i.id === message.messenger_id,
     ) || {};
+
+  const messengerAvatar = useMemo(() => messenger?.avatar?.small, [
+    messenger?.avatar?.small,
+  ]);
 
   // Blur other answers until step completed.
   const isBlured =
@@ -179,18 +185,18 @@ function AdventureStepMessage({
                   <Flex align="center" justify="center" style={[st.absfill]}>
                     <>
                       {isAndroid && (
-                          <ReactNativeImage
-                            source={bluredText}
-                            resizeMode={'cover'}
-                            resizeMethod={'resize'}
-                            style={{
-                              width: 300,
-                              height: 140,
-                              position: 'absolute',
-                              left:5,
-                              top: 6,
-                            }}
-                          />
+                        <ReactNativeImage
+                          source={bluredText}
+                          resizeMode={'cover'}
+                          resizeMethod={'resize'}
+                          style={{
+                            width: 300,
+                            height: 140,
+                            position: 'absolute',
+                            left: 5,
+                            top: 6,
+                          }}
+                        />
                       )}
                       {!isAndroid && (
                         <BlurView
@@ -206,11 +212,7 @@ function AdventureStepMessage({
                           { backgroundColor: 'rgba(0,0,0,.2)' },
                         ]}
                       />
-                      <VokeIcon
-                        name="lock"
-                        size={16}
-                        style={{ color: theme.colors.white }}
-                      />
+                      <VokeIcon name="lock" size={16} style={styles.icon} />
                     </>
                   </Flex>
                 ) : null}
@@ -218,14 +220,8 @@ function AdventureStepMessage({
             </Flex>
             {/* User Avatar */}
             <Image
-              source={{ uri: (messenger.avatar || {}).small }}
-              style={[
-                st.absb,
-                isMyMessage ? st.right(-30) : st.left(-30),
-                st.h(25),
-                st.w(25),
-                st.br1,
-              ]}
+              uri={messengerAvatar}
+              style={isMyMessage ? styles.myAvatar : styles.userAvatar}
             />
           </Flex>
           {/* Message Footer: Name + Date */}

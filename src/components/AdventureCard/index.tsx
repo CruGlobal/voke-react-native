@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { View, Alert, Dimensions } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -30,7 +30,8 @@ function AdventureCard({ adventureId }) {
 
   const { conversation } = adventureItem;
   const { progress } = adventureItem;
-  const thumbnail = adventureItem.item.content.thumbnails.large;
+  const adventureImage = adventureItem?.item?.content?.thumbnails?.large;
+  const thumbnail = useMemo(() => adventureImage || '', [adventureImage]);
   const [unreadCount, setUnreadCount] = useState(
     conversation.unread_messages || 0,
   );
@@ -46,8 +47,15 @@ function AdventureCard({ adventureId }) {
   const isSolo = messengers.length === 2;
   const isGroup = adventureItem.kind === 'multiple';
   const myUser = messengers.find(i => i.id === me.id) || {};
+  const myAvatar = useMemo(() => myUser?.avatar?.small, [
+    myUser?.avatar?.small,
+  ]);
   const otherUser =
     messengers.find(i => i.id !== me.id && i.first_name !== 'VokeBot') || {};
+
+  const otherUserAvatar = useMemo(() => otherUser?.avatar?.small, [
+    otherUser?.avatar?.small,
+  ]);
 
   const usersExceptVokeAndMe = messengers.filter(
     i => i.id !== me.id && i.first_name !== 'VokeBot',
@@ -120,7 +128,7 @@ function AdventureCard({ adventureId }) {
           justify="center"
         >
           <Flex>
-            <Image source={{ uri: thumbnail }} style={styles.thumbnail} />
+            <Image uri={thumbnail} style={styles.thumbnail} />
           </Flex>
           <Flex
             value={1}
@@ -163,20 +171,10 @@ function AdventureCard({ adventureId }) {
               {!isGroup ? (
                 <Flex value={1} direction="row" align="center">
                   <View>
-                    <Image
-                      source={{
-                        uri: (myUser.avatar || {}).small || undefined,
-                      }}
-                      style={styles.avatar}
-                    />
+                    <Image uri={myAvatar} style={styles.avatar} />
                   </View>
                   {!isSolo ? (
-                    <Image
-                      source={{
-                        uri: (otherUser.avatar || {}).small || undefined,
-                      }}
-                      style={[styles.avatar, styles.avatarSolo]}
-                    />
+                    <Image uri={otherUserAvatar} style={styles.avatarSolo} />
                   ) : null}
                 </Flex>
               ) : (
@@ -194,30 +192,12 @@ function AdventureCard({ adventureId }) {
                     align="center"
                     style={{ paddingBottom: 0 }}
                   >
-                    <Image
-                      source={{
-                        uri: (myUser.avatar || {}).small || undefined,
-                      }}
-                      style={[
-                        st.circle(36),
-                        {
-                          borderWidth: 2,
-                          borderColor: st.colors.white,
-                          marginLeft: -3,
-                        },
-                      ]}
-                    />
+                    <Image uri={myAvatar} style={styles.avatar} />
+
                     {subGroup.map((i, index) => (
                       <Image
-                        source={{ uri: (i.avatar || {}).small || undefined }}
-                        style={[
-                          st.circle(36),
-                          {
-                            borderWidth: 2,
-                            borderColor: st.colors.white,
-                            marginLeft: -14,
-                          },
-                        ]}
+                        uri={i?.avatar?.small}
+                        style={styles.avatarInGroup}
                       />
                     ))}
                     {numberMore ? (
@@ -275,7 +255,7 @@ function AdventureCard({ adventureId }) {
                 >
                   <VokeIcon
                     name="speech-bubble-full"
-                    style={[st.white, { marginTop: -1, marginRight: 6 }]}
+                    style={styles.iconUnread}
                     size={14}
                   />
                   <Text style={[st.white, { fontWeight: 'bold' }]}>

@@ -134,7 +134,7 @@ const Welcome = (props: WelcomeProps) => {
               <Button
                 isAndroidOpacity
                 style={styles.ButtonPrimary}
-                onPress={() => navigation.navigate('AdventureCode')}
+                onPress={():void =>{navigation.navigate('AdventureCode')}}
               >
                 <Flex direction="row" justify="center">
                   <Text style={styles.ButtonLabelPrimary}>{t('haveCode')}</Text>
@@ -144,7 +144,7 @@ const Welcome = (props: WelcomeProps) => {
               <Button
                 isAndroidOpacity
                 style={styles.ButtonWhite}
-                onPress={() => navigation.navigate('AccountName')}
+                onPress={():void => navigation.navigate('AccountName')}
               >
                 <Flex direction="row" justify="center">
                   <Text style={styles.ButtonLabelWhite}>{t('toExplore')}</Text>
