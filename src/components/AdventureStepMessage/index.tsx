@@ -50,6 +50,7 @@ function AdventureStepMessage({
   };
 
   const isMyMessage = message.messenger_id === userId;
+  // const myFirstMessage = reversed.find(m => m.messenger_id === me.id);
   if (isMyMessage && adventure.kind === 'solo') return null;
   const isSharedAnswer = message.metadata.vokebot_action === 'share_answers';
   // User who left the message.
@@ -117,6 +118,11 @@ function AdventureStepMessage({
               </Text>
             </Flex>
           ) : null}
+          {/* <Image
+            source={{ uri: (messenger.avatar || {}).small }}
+            style={[st.absb, st.right(-30), st.h(25), st.w(25), st.br1]}
+          /> */}
+
           {/* MESSAGE INPUT FIELD: */}
           <AdventureStepMessageInput
             kind={msgKind}

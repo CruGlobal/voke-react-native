@@ -395,6 +395,75 @@ export function createAdventureStepMessage(params: {
       data.message.message_reference_id = internalMessage?.id;
     }
 
+    // If new message is a simple text message:
+    // don't wait response from the server before adding new message
+    // to the chat array in the store.
+    if (params.kind === 'standard') {
+      const date = new Date().toISOString();
+      // Create pseudo structure as we expect it from the server.
+      const newMessageData = {
+        position: 1,
+        content: params.value,
+        messenger_id: params.userId,
+        conversation_id: params.adventure.conversation.id,
+        messenger_journey_step_id: params.step.id,
+        grouping_journey_step_id: params.step.id,
+        kind: 'text',
+        direct_message: false,
+        item: null,
+        reactions: [],
+        'adventure_message?': true,
+        metadata: {},
+        created_at: date,
+      };
+
+      // Save message to the store.
+      dispatch({
+        type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
+        message: newMessageData,
+        adventureId: params.adventure.id,
+        ownMessage: true,
+        description:
+          'createAdventureStepMessage(): Create Adventure Step Message (A)',
+      });
+
+      // Send message to the server in a non-async manner.
+      dispatch(
+        request({
+          ...ROUTES.CREATE_ADVENTURE_STEP_MESSAGE,
+          pathParams: {
+            adventureConversationId: params.adventure.conversation.id,
+          },
+          data,
+          description: 'Create Adventure Step Message',
+        }),
+      );
+    } else {
+      // If not a plain text message: go a slow route -
+      // send message to the server in async manner and only then updatie the store.
+      // SEND MESSAGE TO THE SERVER.
+      const result = await dispatch(
+        request({
+          ...ROUTES.CREATE_ADVENTURE_STEP_MESSAGE,
+          pathParams: {
+            adventureConversationId: params.adventure.conversation.id,
+          },
+          data,
+          description: 'Create Adventure Step Message',
+        }),
+      );
+
+      // SAVE RESPONSE FROM THE SERVER TO THE STORE.
+      dispatch({
+        type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
+        message: result,
+        adventureId: params.adventure.id,
+        ownMessage: true,
+        description:
+          'createAdventureStepMessage(): Create Adventure Step Message (B)',
+      });
+    }
+
     // CHANGE SOME DATA LOCALLY.
     if (params.kind === 'question') {
       // If this is the answer to the main question
@@ -490,75 +559,6 @@ export function createAdventureStepMessage(params: {
           },
         });
       }
-    }
-
-    // If new message is a simple text message:
-    // don't wait response from the server before adding new message
-    // to the chat array in the store.
-    if (params.kind === 'standard') {
-      const date = new Date().toISOString();
-      // Create pseudo structure as we expect it from the server.
-      const newMessageData = {
-        position: 1,
-        content: params.value,
-        messenger_id: params.userId,
-        conversation_id: params.adventure.conversation.id,
-        messenger_journey_step_id: params.step.id,
-        grouping_journey_step_id: params.step.id,
-        kind: 'text',
-        direct_message: false,
-        item: null,
-        reactions: [],
-        'adventure_message?': true,
-        metadata: {},
-        created_at: date,
-      };
-
-      // Save message to the store.
-      dispatch({
-        type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
-        message: newMessageData,
-        adventureId: params.adventure.id,
-        ownMessage: true,
-        description:
-          'createAdventureStepMessage(): Create Adventure Step Message (A)',
-      });
-
-      // Send message to the server in a non-async manner.
-      dispatch(
-        request({
-          ...ROUTES.CREATE_ADVENTURE_STEP_MESSAGE,
-          pathParams: {
-            adventureConversationId: params.adventure.conversation.id,
-          },
-          data,
-          description: 'Create Adventure Step Message',
-        }),
-      );
-    } else {
-      // If not a plain text message: go a slow route -
-      // send message to the server in async manner and only then updatie the store.
-      // SEND MESSAGE TO THE SERVER.
-      const result = await dispatch(
-        request({
-          ...ROUTES.CREATE_ADVENTURE_STEP_MESSAGE,
-          pathParams: {
-            adventureConversationId: params.adventure.conversation.id,
-          },
-          data,
-          description: 'Create Adventure Step Message',
-        }),
-      );
-
-      // SAVE RESPONSE FROM THE SERVER TO THE STORE.
-      dispatch({
-        type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
-        message: result,
-        adventureId: params.adventure.id,
-        ownMessage: true,
-        description:
-          'createAdventureStepMessage(): Create Adventure Step Message (B)',
-      });
     }
 
     // Refresh all messages when answering a quiestion to multi challenge.
