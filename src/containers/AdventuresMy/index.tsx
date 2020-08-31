@@ -34,7 +34,7 @@ const AdventuresMy = ({ route }: AdventuresMyProps): React.ReactElement => {
     ) || [];
   const { t } = useTranslation('title');
 
-  const updateAdventures = async (): Promise<void> => {
+  const updateAdventures = (): void => {
     // TODO: Do some kind of time based caching for these requests
     dispatch(getMyAdventures('AdventuresMy'));
     dispatch(getAdventuresInvitations());
