@@ -5,6 +5,7 @@ import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from "react-i18next";
 import moment from 'moment';
+
 import Image from '../Image';
 import st from '../../st';
 import Touchable from '../Touchable';
@@ -12,7 +13,6 @@ import Text from '../Text';
 import Button from '../Button';
 import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
-import { momentUtc } from '../../utils';
 import styles from './styles';
 import { useSelector, useDispatch } from 'react-redux';
 import useInterval from '../../utils/useInterval';
@@ -21,12 +21,13 @@ import { resendAdventureInvitation, deleteAdventureInvitation, getAdventuresInvi
 const THUMBNAIL_WIDTH = 140;
 
 function getExpiredTime(date: string) {
-  const diff = momentUtc(date).diff(moment());
+  const nowMoment = moment();
+  const expireMoment = moment.utc(date);
+  const diff = moment(expireMoment).diff(nowMoment);
   const diffDuration = moment.duration(diff);
   const days = diffDuration.days();
   const hours = diffDuration.hours();
   const minutes = diffDuration.minutes();
-  // const seconds = diffDuration.seconds();
 
   // TODO: Translate it.
   const str = `${days > 0 ? `${days} day${days !== 1 ? 's' : ''} ` : ''}${
