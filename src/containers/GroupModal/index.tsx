@@ -15,6 +15,8 @@ import Touchable from '../../components/Touchable';
 import VokeIcon from '../../components/VokeIcon';
 import st from '../../st';
 
+import styles from './styles';
+
 function GroupModal(props) {
   const { t } = useTranslation();
   const insets = useSafeArea();
@@ -50,19 +52,10 @@ function GroupModal(props) {
   };
 
   return (
-    <ScrollView
-      contentContainerStyle={{
-        minHeight: '100%',
-        flexDirection: 'column',
-        alignContent: 'stretch',
-        justifyContent: 'center',
-        backgroundColor: theme.colors.primary,
-        paddingVertical: theme.spacing.xl,
-      }}
-    >
+    <ScrollView contentContainerStyle={styles.container}>
       <Flex style={[st.mb4]}>
         <Flex align="center" justify="center">
-          <Flex style={[st.br5, st.bgOffBlue, st.p4, st.w(st.fullWidth - 100)]}>
+          <Flex style={styles.title}>
             <Text style={[st.white, st.fs16, st.tac]}>
               {t('modal:welcomeTo')}
               {adventure.journey_invite.name || adventure.name || ''}!
@@ -131,14 +124,13 @@ function GroupModal(props) {
               )}
 
               <Text
-                style={[
-                  st.fs5,
-                  st.white,
-                  st.tac,
-                  {
-                    paddingTop: theme.spacing.s,
-                  },
-                ]}
+                style={{
+                  fontSize: theme.fontSizes.l,
+                  paddingTop: 3,
+                  color: theme.colors.white,
+                  textAlign:'center',
+                }}
+                numberOfLines={1}
               >
                 {messenger.first_name}
               </Text>

@@ -68,7 +68,7 @@ function AdventureName(props: any): ReactElement {
           );
         }
 
-        if (result?.code) {
+        if (result?.id) {
           navigation.navigate('AdventureShareCode', {
             invitation: result,
             withGroup,

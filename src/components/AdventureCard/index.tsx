@@ -66,7 +66,7 @@ function AdventureCard({ adventureId }) {
   const maxNumberOfAvatars = windowDimensions.width < 400 ? 3 : 4;
   if (totalGroupUsers > maxNumberOfAvatars) {
     subGroup = usersExceptVokeAndMe.slice(0, maxNumberOfAvatars - 1);
-    numberMore = totalGroupUsers - maxNumberOfAvatars;
+    numberMore = totalGroupUsers - subGroup.length;
   }
   let groupName;
   if (isGroup) {
@@ -74,11 +74,6 @@ function AdventureCard({ adventureId }) {
   }
 
   const { name } = adventureItem;
-  const inviteCode = adventureItem?.journey_invite?.code || '';
-
-  if (adventureItem.code) {
-    // return <InviteItem item={adventureItem} />;
-  }
 
   if (!adventureItem.id) {
     return <></>;
@@ -168,16 +163,7 @@ function AdventureCard({ adventureId }) {
               style={styles.avatars}
             >
               {/* AVATARS */}
-              {!isGroup ? (
-                <Flex value={1} direction="row" align="center">
-                  <View>
-                    <Image uri={myAvatar} style={styles.avatar} />
-                  </View>
-                  {!isSolo ? (
-                    <Image uri={otherUserAvatar} style={styles.avatarSolo} />
-                  ) : null}
-                </Flex>
-              ) : (
+              { isGroup ? (
                 <Touchable
                   isAndroidOpacity={true}
                   onPress={(): void =>
@@ -232,6 +218,15 @@ function AdventureCard({ adventureId }) {
                     )}
                   </Flex>
                 </Touchable>
+              ) : (
+                <Flex value={1} direction="row" align="center">
+                  <View>
+                    <Image uri={myAvatar} style={styles.avatar} />
+                  </View>
+                  {!isSolo ? (
+                    <Image uri={otherUserAvatar} style={styles.avatarSolo} />
+                  ) : null}
+                </Flex>
               )}
               {/* UNREAD COUNTER */}
               {hasUnread ? (
@@ -292,8 +287,6 @@ function AdventureCard({ adventureId }) {
                 ) : (
                   <Text style={styles.duotag}>{t('duo')}</Text>
                 )}
-
-                {/* {inviteCode ? <Text style={styles.InviteCode}>{inviteCode}</Text>:<></>} */}
               </Flex>
             </Flex>
           </Flex>

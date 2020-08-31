@@ -8,16 +8,23 @@ import Touchable from '../Touchable';
 
 import styles from './styles';
 
-function HeaderLeft({ hasBack = false, resetTo = null }) {
+function HeaderLeft({ hasBack = false, resetTo = '' }) {
   const navigation = useNavigation();
 
   const goBack = (): void => {
     if (hasBack) {
       if (resetTo) {
-        navigation.reset({
-          index: 0,
-          routes: [{ name: resetTo }],
-        });
+        const { index, routes } =  navigation.dangerouslyGetState();
+
+        if (index > 0 && routes.length && routes[0]?.name === resetTo) {
+          // .goBack is 2s. faster than .reset(), so if possible use it.
+          navigation.goBack();
+        } else {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: resetTo }],
+          });
+        }
       } else {
         // navigation.goBack()
         // Get the index of the route to see if we can go back.

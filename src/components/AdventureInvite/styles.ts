@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
     // ui.button.size.m:
     paddingVertical: 4,
     paddingHorizontal: 14,
-
     borderRadius: theme.radius.xl,
     backgroundColor: theme.colors.accent,
   },
@@ -44,7 +43,9 @@ const styles = StyleSheet.create({
   thumbnail: {
     flex: 1,
     width: THUMBNAIL_WIDTH,
-    borderRadius: theme.radius.s,
+    // borderRadius: theme.radius.s,
+    borderTopLeftRadius: theme.radius.s,
+    borderBottomLeftRadius: theme.radius.s,
   },
   iconDelete: {
     color: theme.colors.white,
