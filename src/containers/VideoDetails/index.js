@@ -26,7 +26,6 @@ function VideoDetails(props) {
   const insets = useSafeArea();
   const navigation = useNavigation();
   const [isPortrait, setIsPortrait] = useState(true);
-  const [pauseNow, setPauseNow] = useState(false);
   const { item } = props.route.params;
   const [isFavorited, setIsFavorited] = useState(item['favorite?']);
 
@@ -36,7 +35,6 @@ function VideoDetails(props) {
   }
 
   function handleShare() {
-    setPauseNow(true);
     navigation.navigate('AdventureName', {
       item,
       withGroup: false,
@@ -90,7 +88,6 @@ function VideoDetails(props) {
                 }),
               );
             }}
-            pauseNow={pauseNow}
           />
           {isPortrait && (
             <Flex
