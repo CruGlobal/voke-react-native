@@ -113,8 +113,8 @@ function AdventureCard({ adventureId }) {
   return (
     <Flex style={styles.wrapper}>
       <Touchable
-        highlight={false}
-        activeOpacity={0.8}
+        // highlight={false}
+        // activeOpacity={0.8}
         onPress={(): void =>
           navigation.navigate('AdventureActive', {
             adventureId: adventureItem.id,
