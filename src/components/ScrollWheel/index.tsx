@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Picker, View } from 'react-native';
+
 import Image from '../Image';
 import Touchable from '../Touchable';
 import st from '../../st';
@@ -20,15 +21,13 @@ function ScrollWheel({ items, onSelect, ...rest }) {
     <>
       <Picker
         selectedValue={selectedItem}
-        style={[
-          st.asc,
-          st.abs,
-          {
-            height: !st.isAndroid ? null : '100%',
-            width: st.fullWidth,
-            left: !st.isAndroid ? st.fullWidth * 0.04 : st.fullWidth * 0.09,
-          },
-        ]}
+        style={{
+          position: 'absolute',
+          alignSelf: 'center',
+          height: !st.isAndroid ? null : '100%',
+          width: st.fullWidth,
+          left: !st.isAndroid ? st.fullWidth * 0.04 : st.fullWidth * 0.09,
+        }}
         onValueChange={(itemValue, itemIndex) => setSelectedItem(itemValue)}
         itemStyle={[st.white, st.fs2]}
       >
@@ -41,20 +40,29 @@ function ScrollWheel({ items, onSelect, ...rest }) {
         ))}
       </Picker>
       <View
-        style={[st.abs, st.asc, { width: st.fullWidth }]}
+        style={{
+          position: 'absolute',
+          alignSelf: 'center',
+          width: st.fullWidth,
+        }}
         pointerEvents="none"
       >
         <Image
           source={SCROLL_WHEEL_LINE}
           resizeMode="contain"
-          style={[
-            st.ase,
-            { height: st.fullWidth * 0.17, width: st.fullWidth * 0.8 },
-          ]}
+          style={{
+            alignSelf: 'flex-end',
+            height: st.fullWidth * 0.17,
+            width: st.fullWidth * 0.8,
+          }}
         />
       </View>
       <Touchable
-        style={[st.abs, st.ase, { width: st.fullWidth * 0.17 }]}
+        style={{
+          position: 'absolute',
+          alignSelf: 'flex-end',
+          width: st.fullWidth * 0.17,
+        }}
         onPress={async () => {
           onSelect(selectedItem);
         }}
@@ -62,14 +70,12 @@ function ScrollWheel({ items, onSelect, ...rest }) {
         <Image
           source={SCROLL_WHEEL_BUTTON}
           resizeMode="contain"
-          style={[
-            st.ase,
-            {
-              height: 30,
-              width: 30,
-              right: 20,
-            },
-          ]}
+          style={{
+            alignSelf: 'flex-end',
+            height: 30,
+            width: 30,
+            right: 20,
+          }}
         />
       </Touchable>
     </>

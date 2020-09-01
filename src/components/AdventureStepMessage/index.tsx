@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import React from 'react';
+import React, { useMemo, useState, useRef } from 'react';
 import { Image as ReactNativeImage, Platform, View } from 'react-native';
 import { BlurView } from '@react-native-community/blur';
 
@@ -15,6 +15,8 @@ import AdventureStepMessageInput from '../AdventureStepMessageInput';
 import { getCurrentUserId } from '../../utils/get';
 import { TAdventureSingle, TAdventureStepSingle, TMessage } from '../../types';
 
+import styles from './styles';
+
 type MessageProps = {
   item: TMessage;
   step: TAdventureStepSingle;
@@ -29,7 +31,9 @@ function AdventureStepMessage({
   adventure,
   previous,
   next,
+  onFocus
 }: MessageProps): React.ReactElement | null {
+  const [answerPosY, setAnswerPosY] = useState(0);
   const isAndroid = Platform.OS === 'android';
   const userId = getCurrentUserId();
   const message = {
@@ -48,6 +52,7 @@ function AdventureStepMessage({
   };
 
   const isMyMessage = message.messenger_id === userId;
+  // const myFirstMessage = reversed.find(m => m.messenger_id === me.id);
   if (isMyMessage && adventure.kind === 'solo') return null;
   const isSharedAnswer = message.metadata.vokebot_action === 'share_answers';
   // User who left the message.
@@ -55,6 +60,10 @@ function AdventureStepMessage({
     adventure.conversation.messengers.find(
       i => i.id === message.messenger_id,
     ) || {};
+
+  const messengerAvatar = useMemo(() => messenger?.avatar?.small, [
+    messenger?.avatar?.small,
+  ]);
 
   // Blur other answers until step completed.
   const isBlured =
@@ -96,13 +105,27 @@ function AdventureStepMessage({
   // SPECIAL MESSAGE: QUESTION / MULTI / BINARY / SHARE
   if (['binary', 'multi', 'question', 'share'].includes(msgKind)) {
     return (
-      <Flex align="center" style={[st.fw100]}>
-        <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
+      <Flex
+        style={styles.mainQuestionCard}
+        onLayout={({ nativeEvent }) => {
+          // Calculate vertical offset to be usef on answer field focus.
+          const layout = nativeEvent?.layout;
+          if (layout && layout?.y && layout?.height) {
+            setAnswerPosY(layout.y);
+          }
+        }}
+      >
+        <Flex
+          direction="column"
+          style={styles.mainQuestionContainer}
+          // style={[st.w80, st.mh1, st.mt4]}
+        >
           {msgKind === 'multi' || msgKind === 'question' ? (
             /* MESSAGE QUESTION AREA: */
             <Flex
               direction="column"
-              style={[st.w100, st.bgOrange, st.brtl5, st.brtr5, st.pd1]}
+              // style={[st.w100, st.bgOrange, st.brtl5, st.brtr5, st.pd1]}
+              style={styles.mainQuestion}
               align="center"
               justify="center"
             >
@@ -111,6 +134,10 @@ function AdventureStepMessage({
               </Text>
             </Flex>
           ) : null}
+          {/* <Image
+            source={{ uri: (messenger.avatar || {}).small }}
+            style={[st.absb, st.right(-30), st.h(25), st.w(25), st.br1]}
+          /> */}
           {/* MESSAGE INPUT FIELD: */}
           <AdventureStepMessageInput
             kind={msgKind}
@@ -118,10 +145,8 @@ function AdventureStepMessage({
             step={step}
             internalMessage={message}
             defaultValue={selectedAnswer}
-            onFocus={() => {
-              /* scrollRef.current.props.scrollToFocusedInput(
-                findNodeHandle(event.target),
-              ); */
+            onFocus={event => {
+              onFocus(event);
             }}
           />
         </Flex>
@@ -132,12 +157,13 @@ function AdventureStepMessage({
   return (
     <>
       {!message.content && isMyMessage ? null : (
-        <Flex align="center" style={[st.fw100]}>
-          <Flex direction="column" style={[st.w80, st.mh1, st.mt4]}>
+        <Flex align="between" style={styles.messageContainer}>
+          <Flex direction="column" style={styles.messageContent}>
             <Flex direction="row">
               {isMyMessage ? <Flex style={[st.f1]} /> : null}
               <Flex
                 style={{
+                  width: isSharedAnswer ? '100%' : 'auto',
                   backgroundColor: isMyMessage
                     ? theme.colors.white
                     : theme.colors.secondary,
@@ -145,26 +171,25 @@ function AdventureStepMessage({
                   overflow: 'hidden', // Need this to hide overflow blur effect.
                 }}
               >
-                <Flex direction="column" style={[st.pd6, st.w100]}>
+                <Flex direction="column">
                   {isSharedAnswer ? (
-                    <Flex style={[st.bgOffBlue, st.pd5]}>
+                    <Flex style={styles.messageSharedContent}>
                       <Text style={[st.fs4, st.white]}>{message.content}</Text>
                     </Flex>
                   ) : null}
                   <Text
-                    style={[
-                      st.pd6,
-                      st.fs4,
-                      {
-                        color:
-                          isBlured && isAndroid
-                            ? 'rgba(0,0,0,0)'
-                            : isMyMessage
-                            ? '#44c8e8'
-                            : '#fff',
-                        opacity: message.content ? 1 : 0.5,
-                      },
-                    ]}
+                    style={{
+                      color:
+                        isBlured && isAndroid
+                          ? 'rgba(0,0,0,0)'
+                          : isMyMessage
+                          ? '#44c8e8'
+                          : '#fff',
+                      opacity: message.content ? 1 : 0.5,
+                      paddingHorizontal: theme.spacing.m,
+                      paddingVertical: theme.spacing.s,
+                      fontSize: theme.fontSizes.l,
+                    }}
                   >
                     {isSharedAnswer
                       ? message.metadata.messenger_answer
@@ -179,18 +204,18 @@ function AdventureStepMessage({
                   <Flex align="center" justify="center" style={[st.absfill]}>
                     <>
                       {isAndroid && (
-                          <ReactNativeImage
-                            source={bluredText}
-                            resizeMode={'cover'}
-                            resizeMethod={'resize'}
-                            style={{
-                              width: 300,
-                              height: 140,
-                              position: 'absolute',
-                              left:5,
-                              top: 6,
-                            }}
-                          />
+                        <ReactNativeImage
+                          source={bluredText}
+                          resizeMode={'cover'}
+                          resizeMethod={'resize'}
+                          style={{
+                            width: 300,
+                            height: 140,
+                            position: 'absolute',
+                            left: 5,
+                            top: 6,
+                          }}
+                        />
                       )}
                       {!isAndroid && (
                         <BlurView
@@ -202,51 +227,40 @@ function AdventureStepMessage({
                       <Flex
                         style={[
                           st.absfill,
-                          // st.br5,
                           { backgroundColor: 'rgba(0,0,0,.2)' },
                         ]}
                       />
-                      <VokeIcon
-                        name="lock"
-                        size={16}
-                        style={{ color: theme.colors.white }}
-                      />
+                      <VokeIcon name="lock" size={16} style={styles.icon} />
                     </>
                   </Flex>
                 ) : null}
               </Flex>
+              {/* User Avatar */}
+              <Image
+                uri={messengerAvatar}
+                style={isMyMessage ? styles.myAvatar : styles.userAvatar}
+              />
             </Flex>
-            {/* User Avatar */}
-            <Image
-              source={{ uri: (messenger.avatar || {}).small }}
-              style={[
-                st.absb,
-                isMyMessage ? st.right(-30) : st.left(-30),
-                st.h(25),
-                st.w(25),
-                st.br1,
-              ]}
-            />
-          </Flex>
-          {/* Message Footer: Name + Date */}
-          <Flex
-            direction="row"
-            align="center"
-            justify={isMyMessage ? 'end' : 'start'}
-            style={[st.w80]}
-          >
-            {isMyMessage ? null : (
-              <Text style={[st.white]}>
-                {messenger.first_name ? messenger.first_name + ' ' : ''}
-                {messenger.last_name ? messenger.last_name + ' ' : ''}
-                {`• `}
-              </Text>
-            )}
-            <DateComponent
-              style={[st.fs6, st.white, isMyMessage ? st.tar : null]}
-              date={message.created_at}
-              format="MMM D @ h:mm A"
-            />
+            {/* Message Footer: Name + Date */}
+            <Flex
+              direction="row"
+              align="center"
+              justify={isMyMessage ? 'end' : 'start'}
+              style={styles.messageMeta}
+            >
+              {isMyMessage ? null : (
+                <Text style={[st.white]}>
+                  {messenger.first_name ? messenger.first_name + ' ' : ''}
+                  {messenger.last_name ? messenger.last_name + ' ' : ''}
+                  {`• `}
+                </Text>
+              )}
+              <DateComponent
+                style={[st.fs6, st.white, isMyMessage ? st.tar : null]}
+                date={message.created_at}
+                format="MMM D @ h:mm A"
+              />
+            </Flex>
           </Flex>
         </Flex>
       )}

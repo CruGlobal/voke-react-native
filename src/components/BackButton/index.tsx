@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import VokeIcon from '../VokeIcon';
 import theme from '../../theme';
+import { StyleSheet } from 'react-native';
 
 function BackButton({ isClose = false, size, onPress, style }) {
   const navigation = useNavigation();
@@ -10,16 +11,7 @@ function BackButton({ isClose = false, size, onPress, style }) {
   return (
     <VokeIcon
       name={isClose ? 'close' : 'chevron-back-outline'}
-      style={{
-        ...style,
-        marginTop: theme.spacing.l,
-        marginLeft: theme.spacing.l,
-        backgroundColor: 'rgba(0,0,0,0.3)',
-        color: 'rgba(255,255,255,0.7)',
-        padding: 6,
-        borderRadius: 99,
-        position: 'absolute',
-      }}
+      style={styles.backButton}
       size={size || 21}
       onPress={() => {
         if (onPress) {
@@ -40,5 +32,17 @@ function BackButton({ isClose = false, size, onPress, style }) {
     />
   );
 }
+
+const styles = StyleSheet.create({
+  backButton: {
+    marginTop: theme.spacing.l,
+    marginLeft: theme.spacing.l,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    color: 'rgba(255,255,255,0.7)',
+    padding: 6,
+    borderRadius: 99,
+    position: 'absolute',
+  },
+});
 
 export default BackButton;

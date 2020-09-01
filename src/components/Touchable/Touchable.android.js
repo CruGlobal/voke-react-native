@@ -61,7 +61,7 @@ const TouchableAndroid = forwardRef(
     // Android > 5.0 support
     if (Platform.Version >= 21) {
       background = TouchableNativeFeedback.Ripple(
-        androidRippleColor || 'rgba(150, 150, 150, 0.2)',
+        androidRippleColor || 'rgba(76, 200, 230, .5)',
         borderless,
       );
     } else {

@@ -27,10 +27,12 @@ import info from './info';
 const persistConfig = {
   key: 'root',
   version: 2,
-  storage: Platform.OS === 'android' ?
-        FilesystemStorage : // Android
-        AsyncStorage, // iOS
-  blacklist: ['auth'],
+  storage:
+    // Platform.OS === 'android' ?
+    // FilesystemStorage : // Android
+    AsyncStorage, // iOS
+  blacklist: ['auth', 'data'],
+  // timeout: 0,
 };
 
 const store = combineReducers({

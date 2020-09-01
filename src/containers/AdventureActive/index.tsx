@@ -1,31 +1,27 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useMemo } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   View,
   ScrollView,
-  FlatList,
   StatusBar,
-  ActivityIndicator,
   Platform,
+  useWindowDimensions,
 } from 'react-native';
-import { useDispatch, useSelector, shallowEqual, useStore } from 'react-redux';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import DeviceInfo from 'react-native-device-info';
 import { useFocusEffect } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
+import SkeletonContent from 'react-native-skeleton-content-nonexpo';
 
 import { setCurrentScreen } from '../../actions/info';
-import {
-  getMyAdventure,
-  getAdventureStepMessages,
-  getAdventureSteps,
-  interactionVideoPlay,
-} from '../../actions/requests';
-import AdventureStepCard from '../../components/AdventureStepCard';
+import { getMyAdventure, interactionVideoPlay } from '../../actions/requests';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import Video from '../../components/Video';
 import st from '../../st';
 import { TDataState } from '../../types';
+import theme from '../../theme';
+import AdventureStepsList from '../../components/AdventureStepsList';
 
 import styles from './styles';
 
@@ -44,35 +40,37 @@ function AdventureActive({
   route,
 }: AdventureActiveProps): React.ReactElement {
   const { t } = useTranslation('journey');
+  const window = useWindowDimensions();
   const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
   const hasNotch = DeviceInfo.hasNotch();
-  const store = useStore();
-  const allMessages = store.getState().data.adventureStepMessages;
   const { adventureId } = route.params;
-  const adventure = useSelector(
+  const adventureContent = useSelector(
     ({ data }: { data: TDataState }) =>
-      data.myAdventures?.byId[adventureId] || {},
-  );
-  const steps = useSelector(
-    ({ data }: { data: TDataState }) => data.adventureSteps[adventureId],
+      data.myAdventures?.byId[adventureId]?.item?.content || {},
     shallowEqual,
-  ) || { byId: {}, allIds: [] };
-  const [isPortrait, setIsPortrait] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const isGroup = adventure.kind === 'multiple';
+  );
+  const adventureName = useSelector(
+    ({ data }: { data: TDataState }) =>
+      data.myAdventures?.byId[adventureId]?.name || '',
+    shallowEqual,
+  );
+
+  const adventureItemId = useSelector(
+    ({ data }: { data: TDataState }) =>
+      data.myAdventures?.byId[adventureId]?.item?.id || '',
+    shallowEqual,
+  );
 
   const getPendingAdventure = async () => {
-    setIsLoading(true);
     await dispatch(getMyAdventure(adventureId)).then(
       data => {
         // Received Adventure from the server.
-        setIsLoading(false);
-        getSteps();
+        // getSteps();
       },
       error => {
         // Can't Find Adventure.
-        // eslint-disable-next-line no-console
+        // eslint-disable-next-line no-consolegetSteps
         console.log('🛑 Can not Find Adventure.', adventureId);
         navigation.reset({
           index: 0,
@@ -82,46 +80,13 @@ function AdventureActive({
     );
   };
 
-  /* useEffect(() => {
-    // If adventure wasn't accepted by a friend yet and not started.
-    if (Object.keys(adventure).length === 0 ) {
-      getPendingAdventure();
-    }
-    // -- ☝️call to import pending adventure info from the server.
-  },[]); */
-
-  const getSteps = async () => {
-    await dispatch(getAdventureSteps(adventureId));
-  };
-
   useEffect(() => {
-    if (Object.keys(adventure).length > 0) {
-      getSteps();
-    } else {
+    if (!adventureName) {
       getPendingAdventure();
     }
     // -- ☝️call to update steps from the server.
     // Without it new Adventures won't show any steps.
-  }, [adventure?.id]);
-
-  // Prefetch data for the next active step and the steps with new messages.
-  useEffect(() => {
-    for (const [key, step] of Object.entries(steps?.byId)) {
-      preFetchStep(step);
-    }
-  }, [steps?.allIds.length]);
-
-  const preFetchStep = async (step: any) => {
-    const existingMessages = allMessages[step?.id] || [];
-    if (
-      step?.unread_messages > 0 ||
-      (step?.status === 'active' && existingMessages.length > 0)
-    ) {
-      await dispatch(
-        getAdventureStepMessages(adventure.conversation.id, step.id),
-      );
-    }
-  };
+  }, [adventureName]);
 
   // Events firing when user leaves the screen or comes back.
   useFocusEffect(
@@ -137,20 +102,36 @@ function AdventureActive({
         }),
       );
 
-      return () => {
+      return (): void => {
         // Actions to run when the screen unfocused:
       };
     }, []),
   );
 
+  const sceletonLayout = useMemo(
+    () => [
+      {
+        key: 'videoBlock',
+        width: '100%',
+        height: window.width / 1.7,
+        borderRadius: 0,
+      },
+    ],
+    [window.width],
+  );
+
   return (
-    <Flex value={1}>
-      {isPortrait && hasNotch ? (
+    <Flex
+      value={1}
+      style={{
+        backgroundColor: theme.colors.primary,
+      }}
+    >
+      {hasNotch ? (
         <View
           style={{
             height: Platform.OS === 'ios' ? insets.top : 0,
-            backgroundColor:
-              isPortrait && insets.top > 0 ? '#000' : 'transparent',
+            backgroundColor: insets.top > 0 ? '#000' : 'transparent',
           }}
         >
           <StatusBar
@@ -162,40 +143,51 @@ function AdventureActive({
           />
         </View>
       ) : null}
+
       <ScrollView
-        scrollEnabled={isPortrait ? true : false}
+        scrollEnabled={true}
         bounces
-        style={[
-          isPortrait ? st.bgBlue : st.bgDeepBlack,
-          { paddingBottom: isPortrait ? insets.bottom : 0 },
-        ]}
+        style={{
+          backgroundColor: theme.colors.primary,
+          paddingBottom: insets.bottom,
+        }}
       >
         {/* <Flex value={1} direction="row" align="center" justify="center" style={{padding:5}}>
           <Text style={[st.fs18,{ color:'white'}]}>
             {isGroup? adventure.journey_invite.name : adventure.name}
           </Text>
         </Flex> */}
-        {isLoading && (
-          <ActivityIndicator
-            size="large"
-            color="rgba(255,255,255,.5)"
-            style={{
-              paddingTop: 50,
-            }}
-          />
-        )}
-
-        {!isLoading && Object.keys(adventure).length > 0 && (
+        <SkeletonContent
+          containerStyle={styles.listOfSteps}
+          isLoading={!adventureItemId}
+          boneColor={theme.colors.deepBlack}
+          highlightColor={theme.colors.black}
+          // animationType={'pulse'}
+          animationDirection={'diagonalTopRight'}
+          duration={2000}
+          layout={sceletonLayout}
+        />
+        {/* This View stays outside of the screen on top
+              and covers blue area with solid black on pull. */}
+         {!!adventureItemId && (
+            <View
+              style={{
+                position: 'absolute',
+                backgroundColor: 'black',
+                left: 0,
+                right: 0,
+                top: -300,
+                height: 300,
+              }}
+            />)}
+        {!!adventureItemId && (
           <Video
-            onOrientationChange={(orientation: string): void => {
-              // setIsPortrait(orientation === 'portrait' ? true : false);
-            }}
-            item={adventure?.item?.content}
+            item={adventureContent}
             lockOrientation={true}
             onPlay={(): void => {
               dispatch(
                 interactionVideoPlay({
-                  videoId: adventure?.item?.id,
+                  videoId: adventureItemId,
                   context: 'journey',
                 }),
               );
@@ -211,7 +203,7 @@ function AdventureActive({
                   color: 'white',
                 }}
               >
-                {adventure.name}
+                {adventureName}
               </Text>
               <Flex
                 style={{
@@ -238,26 +230,7 @@ function AdventureActive({
             </Flex>
           </Video>
         )}
-
-        {!isLoading && isPortrait && Object.keys(adventure).length > 0 && (
-          <FlatList
-            data={steps.allIds}
-            renderItem={({ item }): React.ReactElement =>
-              item && (
-                <AdventureStepCard
-                  // {...props}
-                  // step={steps.byId[stepId].item}
-                  stepId={item}
-                  adventureId={adventureId}
-                  // steps={currentSteps}
-                  // adventure={adventure} //! !!
-                />
-              )
-            }
-            style={[styles.ListOfSteps]}
-            // removeClippedSubviews={true} // vc-1022
-          />
-        )}
+        <AdventureStepsList adventureId={adventureId} />
         <Flex value={1} style={{ paddingBottom: insets.bottom }} />
       </ScrollView>
     </Flex>

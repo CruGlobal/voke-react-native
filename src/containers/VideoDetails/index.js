@@ -19,6 +19,7 @@ import {
   toggleFavoriteVideo,
   sendVideoInvitation,
 } from '../../actions/requests';
+import styles from './styles';
 
 function VideoDetails(props) {
   const { t } = useTranslation('videos');
@@ -26,7 +27,6 @@ function VideoDetails(props) {
   const insets = useSafeArea();
   const navigation = useNavigation();
   const [isPortrait, setIsPortrait] = useState(true);
-  const [pauseNow, setPauseNow] = useState(false);
   const { item } = props.route.params;
   const [isFavorited, setIsFavorited] = useState(item['favorite?']);
 
@@ -36,7 +36,6 @@ function VideoDetails(props) {
   }
 
   function handleShare() {
-    setPauseNow(true);
     navigation.navigate('AdventureName', {
       item,
       withGroup: false,
@@ -90,7 +89,6 @@ function VideoDetails(props) {
                 }),
               );
             }}
-            pauseNow={pauseNow}
           />
           {isPortrait && (
             <Flex
@@ -103,15 +101,8 @@ function VideoDetails(props) {
               ]}
             >
               <Button
-                style={[
-                  st.w(50),
-                  st.h(50),
-                  st.br1,
-                  st.ph0,
-                  st.aic,
-                  st.jcc,
-                  isFavorited ? st.bgBlue : st.bgLightGrey3,
-                ]}
+                 style={
+                  isFavorited ? styles.buttonLikeActive : styles.buttonLikeInactive}
                 onPress={handleFavorite}
               >
                 <VokeIcon

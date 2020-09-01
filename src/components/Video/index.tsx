@@ -29,6 +29,7 @@ import Touchable from '../Touchable';
 import VokeIcon from '../VokeIcon';
 import Text from '../Text';
 import SLIDER_THUMB from '../../assets/sliderThumb.png';
+import styles from './styles';
 
 function convertTime(time): string {
   const roundedTime = Math.round(time);
@@ -63,7 +64,6 @@ function Video({
   onCancel,
   hideInsets,
   autoPlay = false,
-  pauseNow = false,
   fullscreen = false,
   fullscreenOrientation = 'all',
   lockOrientation = false,
@@ -144,14 +144,14 @@ function Video({
   useMount(() => {
     Orientation.unlockAllOrientations();
     const initial = Orientation.getInitialOrientation();
-    onOrientationChange(getLandscapeOrPortrait(initial));
+    onOrientationChange(getLandscapeOrPortrait(initial)); // TODO: Add delay here.
     // Check if the system autolock is enabled or not (android only).
     // TODO: NOT WOKRING PROPERLY IN IOS.
     /* Orientation.getAutoRotateState( systemRotationLock =>
       setRotationLock(systemRotationLock),
     ); */
     // Orientation.addOrientationListener(handleOrientationChange);
-    Orientation.addDeviceOrientationListener(handleOrientationChange);
+    Orientation.addOrientationListener(handleOrientationChange);
 
     if (lockOrientation) {
       lockToPortrait();
@@ -221,12 +221,6 @@ function Video({
   function togglePlayState() {
     handleVideoStateChange(isPlaying ? 'paused' : 'play');
   }
-
-  useEffect(() => {
-    if (pauseNow) {
-      handleVideoStateChange('paused');
-    }
-  }, [pauseNow]);
 
   function handleSliderChange(value: number) {
     if (youtubeVideo.current) {
@@ -442,12 +436,7 @@ function Video({
                   <VokeIcon
                     name={isPlaying ? 'pause' : 'play-circle'}
                     size={50}
-                    style={{
-                      marginTop: 25,
-                      color: isPlaying
-                        ? st.colors.transparent
-                        : 'rgba(255,255,255,0.6)',
-                    }}
+                    style={isPlaying ? styles.iconPlay : styles.iconPause}
                   />
                 )}
               </Touchable>
@@ -473,7 +462,7 @@ function Video({
                   <VokeIcon
                     name={isPlaying ? 'pause' : 'play-full'}
                     size={20}
-                    style={{ color: theme.colors.white }}
+                    style={styles.icon}
                   />
                 </Touchable>
               </Flex>

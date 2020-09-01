@@ -1,21 +1,24 @@
 import React from 'react';
+
 // import moment from 'moment';
-import { RootState } from '../../reducers';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
+
+import { RootState } from '../../reducers';
 import { TAdventureStepSingle } from '../../types';
-import styles from './styles';
 import Text from '../Text';
 import Button from '../Button';
 import st from '../../st';
-import VokeIcon from '../../components/VokeIcon';
+import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
 import {
   getStepsByAdventureId,
   getAdventureById,
   getCurrentUserId,
 } from '../../utils/get';
+
+import styles from './styles';
 
 type NextActionProps = {
   stepId: string;
@@ -30,12 +33,17 @@ const AdventureStepNextAction = ({
   const { t } = useTranslation('journey');
   const userId = getCurrentUserId();
   const adventure = getAdventureById(adventureId);
-  const steps = useSelector(({ data }: RootState) => data.adventureSteps[adventureId].byId);
-  const stepsIds = useSelector(({ data }: RootState) => data.adventureSteps[adventureId].allIds);
+  const steps = useSelector(
+    ({ data }: RootState) => data.adventureSteps[adventureId]?.byId,
+  );
+  const stepsIds = useSelector(
+    ({ data }: RootState) => data.adventureSteps[adventureId]?.allIds,
+  );
   const step = steps[stepId];
   if (!step) return null;
-  const isComplete = step.status === 'completed';
-  const isWaiting = step.status === 'active' && step['completed_by_messenger?'];
+  const isComplete = step?.status === 'completed';
+  const isWaiting =
+    step?.status === 'active' && step['completed_by_messenger?'];
 
   // Too early to show something.
   // Current user didn't touch this step and no one commented.
@@ -43,7 +51,7 @@ const AdventureStepNextAction = ({
     return null;
   }
 
-  // If this is the last step and it's complete, don't show this.
+  // If this is the last step and it's complete.
   if ((stepsIds[stepsIds.length - 1] || {}) === step.id) {
     // return null;
     /* TODO: Return this COMPLETE message; */
@@ -60,58 +68,68 @@ const AdventureStepNextAction = ({
           {t('finishedJourney')}
         </Text>
         <Button
-          onPress={ () =>
+          onPress={() =>
             navigation.navigate('AdventureName', {
               item: {
-                id: adventure.organization_journey_id
+                id: adventure.organization_journey_id,
               },
               withGroup: false,
-            })}
-            style={[
-              st.pd4,
-              st.br1,
-              st.bgWhite,
-              st.mb3,
-              st.w(st.fullWidth - 50),
-            {shadowColor: 'rgba(0, 0, 0, 0.5)',
-            shadowOpacity: 0.5,
-            elevation: 2,
-            shadowRadius: 3 ,
-            shadowOffset : { width: 1, height: 5}}] }
+            })
+          }
+          style={[
+            st.pd4,
+            st.br1,
+            st.bgWhite,
+            st.mb3,
+            st.w(st.fullWidth - 50),
+            {
+              shadowColor: 'rgba(0, 0, 0, 0.5)',
+              shadowOpacity: 0.5,
+              elevation: 2,
+              shadowRadius: 3,
+              shadowOffset: { width: 1, height: 5 },
+            },
+          ]}
         >
           <Flex direction="row" align="center" justify="center">
             <VokeIcon
-                name='couple'
-                size={26}
-                style={[st.darkBlue, {paddingRight:10}]} />
+              name="couple"
+              size={26}
+              style={styles.iconAction}
+            />
             <Text style={[st.darkBlue, st.fs20]}>{t('withFriend')}</Text>
           </Flex>
         </Button>
         <Button
-          onPress={ () =>
+          onPress={() =>
             navigation.navigate('AdventureName', {
               item: {
-                id: adventure.organization_journey_id
+                id: adventure.organization_journey_id,
               },
               withGroup: true,
-            })}
-            style={[
-              st.pd4,
-              st.br1,
-              st.bgWhite,
-              st.mb3,
-              st.w(st.fullWidth - 50),
-            {shadowColor: 'rgba(0, 0, 0, 0.5)',
-            shadowOpacity: 0.5,
-            elevation: 2,
-            shadowRadius: 3 ,
-            shadowOffset : { width: 1, height: 5}}] }
+            })
+          }
+          style={[
+            st.pd4,
+            st.br1,
+            st.bgWhite,
+            st.mb3,
+            st.w(st.fullWidth - 50),
+            {
+              shadowColor: 'rgba(0, 0, 0, 0.5)',
+              shadowOpacity: 0.5,
+              elevation: 2,
+              shadowRadius: 3,
+              shadowOffset: { width: 1, height: 5 },
+            },
+          ]}
         >
-           <Flex direction="row" align="center" justify="center">
+          <Flex direction="row" align="center" justify="center">
             <VokeIcon
-                name='group'
-                size={32}
-                style={[st.darkBlue, {paddingRight:10}]} />
+              name="group"
+              size={32}
+              style={styles.iconAction}
+            />
             <Text style={[st.darkBlue, st.fs20]}>{t('withGroup')}</Text>
           </Flex>
         </Button>
@@ -120,14 +138,13 @@ const AdventureStepNextAction = ({
   }
 
   let text = t('nextVideoReady');
-  let buttonActive = true;
   if (isWaiting) {
     const isSolo = adventure && adventure.kind !== 'duo';
     if (isSolo) {
       return null;
     }
     const otherUser = adventure.conversation.messengers.find(
-      i => i.id !== userId && i.first_name !== 'VokeBot'
+      i => i.id !== userId && i.first_name !== 'VokeBot',
     );
     // TODO: Pass through invite name
     // if (journey.conversation.messengers.length === 2 && inviteName) {
@@ -141,32 +158,28 @@ const AdventureStepNextAction = ({
       userName = inviteName;
     }
 
-    text =  t('waitingForAnswer', {name: userName});
-    buttonActive = false;
+    text = t('waitingForAnswer', { name: userName });
   }
 
   // this.props.scrollToEnd();
 
   return (
-    <Flex style={styles.NextActionContainer}>
+    <Flex style={styles.nextActionContainer}>
       <Button
         onPress={(): void => {
           // Get the index of the route to see if we can go back.
-          let index = navigation.dangerouslyGetState().index;
+          const { index } = navigation.dangerouslyGetState();
           if (index > 0) {
-            navigation.goBack()
+            navigation.goBack();
           } else {
             navigation.navigate('AdventureActive', {
               adventureId: adventure.id,
             });
           }
         }}
-        style={[
-          styles.NextActionButton,
-          buttonActive ? styles.ButtonActive : null,
-        ]}
+        style={styles.nextActionButton}
       >
-        <Text style={styles.NextActionButtonLabel}>{text}</Text>
+        <Text style={styles.nextActionButtonLabel}>{text}</Text>
       </Button>
     </Flex>
   );

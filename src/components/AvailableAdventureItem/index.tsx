@@ -14,6 +14,8 @@ import Button from '../Button';
 import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
 
+import styles from './styles';
+
 function AvailableAdventureItem({
   item = {
     image: { medium: '' },
@@ -36,6 +38,7 @@ function AvailableAdventureItem({
       },
     ),
   );
+  const thumbUri = item?.image?.medium;
 
   useEffect(() => {
     setShouldInviteFriend(
@@ -63,10 +66,7 @@ function AvailableAdventureItem({
         justify="center"
         style={[st.shadow, st.h(200), st.br5, st.ph4, st.mh4, st.mv6]}
       >
-        <Image
-          source={{ uri: item.image.medium }}
-          style={[st.absfill, st.br5]}
-        />
+        <Image uri={thumbUri} style={styles.thumb} />
         <View
           style={[
             st.absfill,
@@ -99,11 +99,7 @@ function AvailableAdventureItem({
               >
                 {t('started').toUpperCase()}
               </Text>
-              <VokeIcon
-                name="play-full"
-                size={16}
-                style={{ color: theme.colors.white }}
-              />
+              <VokeIcon name="play-full" size={16} style={styles.icon} />
             </Flex>
           ) : (
             <Text style={[st.fs14, st.bold, st.white]}>
@@ -146,11 +142,9 @@ function AvailableAdventureItem({
               <VokeIcon
                 name="shareArrow"
                 type="image"
-                style={[st.mr5, st.white, { height: 20, width: 20, marginBottom: 2 }]}
+                style={styles.shareIcon}
               />
-              <Text style={[st.white, { lineHeight: 20 }]}>
-                {t('inviteFriend')}
-              </Text>
+              <Text style={styles.shareLabel}>{t('inviteFriend')}</Text>
             </Button>
           </Flex>
         ) : (
@@ -176,10 +170,8 @@ function AvailableAdventureItem({
           ]}
         >
           <Flex direction="row">
-            <VokeIcon name="copy" style={[st.white,{ height: 20, width: 20 }]} />
-            <Text
-              style={[st.bold, st.white, { letterSpacing: 2, fontSize: 10 }]}
-            >
+            <VokeIcon name="copy" style={styles.partsIcon} />
+            <Text style={styles.partsText}>
               {item.total_steps}-{t('partSeries').toUpperCase()}
             </Text>
           </Flex>
@@ -211,7 +203,7 @@ function AvailableAdventureItem({
                 <VokeIcon
                   type="image"
                   name="to-chat"
-                  style={{ width: 50, height: 50, color: theme.colors.white }}
+                  style={styles.inviteIcon}
                 />
               </Button>
             )}
