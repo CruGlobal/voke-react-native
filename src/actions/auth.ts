@@ -141,18 +141,16 @@ export function requestPremissions(askPermission = true) {
 export function logoutAction() {
   console.log('🚶‍♂️🚪 logoutAction \n\n');
   return async (dispatch, getState) => {
-    const deviceId = getState().device?.id;
+    const deviceId = getState().auth.device?.id;
+    const authToken = getState().auth?.authToken;
     try {
-      // const devices = await dispatch(getDevices());
-      // if (devices && isArray(devices.devices)) {
       if (deviceId) {
-        // const deviceIds = devices.devices.map(d => d.id);
-        if (deviceIds.length > 0) {
+        if (deviceId.length > 0) {
           dispatch(
             revokeAuthToken({
               // eslint-disable-next-line @typescript-eslint/camelcase
               device_ids: [deviceId],
-              token: null,
+              token: authToken ? authToken : null,
             }),
           );
         }
