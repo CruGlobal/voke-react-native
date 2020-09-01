@@ -462,7 +462,7 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
                           });
                         }
                       }}
-                      kind={currentStep.kind}
+                      kind={currentStep?.kind}
                       adventure={adventure}
                       step={currentStep}
                       defaultValue={myMainAnswer.content}

@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
   mainQuestionText: {
     color: theme.colors.white,
     fontSize: theme.fontSizes.xl,
+    lineHeight: theme.fontSizes.xl * 1.3,
     textAlign: 'center',
   },
 });
