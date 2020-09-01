@@ -20,6 +20,8 @@ import {
   SafeAreaView,
   ScrollView,
   Keyboard,
+  findNodeHandle,
+  UIManager,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import DeviceInfo from 'react-native-device-info';
@@ -489,9 +491,13 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
                             item={item}
                             adventure={adventure}
                             step={currentStep}
-                            onFocus={() => {
+                            onFocus={(event, posY) => {
                               if (Platform.OS === 'ios' && scrollRef?.current) {
-                                scrollRef.current.scrollToEnd();
+                                scrollRef.current.scrollTo({
+                                  x: 0,
+                                  y: posY - 40,
+                                  animated: true,
+                                });
                               }
                             }}
                           />

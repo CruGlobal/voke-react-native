@@ -23,6 +23,7 @@ type MessageProps = {
   adventure: TAdventureSingle;
   previous: TMessage;
   next: TMessage;
+  onFocus?: any;
 };
 
 function AdventureStepMessage({
@@ -145,8 +146,8 @@ function AdventureStepMessage({
             step={step}
             internalMessage={message}
             defaultValue={selectedAnswer}
-            onFocus={event => {
-              onFocus(event);
+            onFocus={( event ) => {
+              onFocus(event, answerPosY);
             }}
           />
         </Flex>
