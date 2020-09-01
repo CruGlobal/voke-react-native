@@ -150,8 +150,12 @@ function Video({
     /* Orientation.getAutoRotateState( systemRotationLock =>
       setRotationLock(systemRotationLock),
     ); */
-    // Orientation.addOrientationListener(handleOrientationChange);
-    Orientation.addOrientationListener(handleOrientationChange);
+    if (Platform.OS === 'android' && Platform.Version < 23 ) {
+      // Only Device Orientation Listener works on older Android models.
+      Orientation.addDeviceOrientationListener(handleOrientationChange);
+    } else {
+      Orientation.addOrientationListener(handleOrientationChange);
+    }
 
     if (lockOrientation) {
       lockToPortrait();

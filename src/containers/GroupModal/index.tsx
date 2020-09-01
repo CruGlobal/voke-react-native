@@ -54,9 +54,9 @@ function GroupModal(props) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Flex style={[st.mb4]}>
-        <Flex align="center" justify="center">
-          <Flex style={styles.title}>
-            <Text style={[st.white, st.fs16, st.tac]}>
+        <Flex align="center" justify="center" style={styles.title}>
+          <Flex >
+            <Text style={[st.white, st.fs16, st.tac, {marginBottom: theme.spacing.s}]}>
               {t('modal:welcomeTo')}
               {adventure.journey_invite.name || adventure.name || ''}!
             </Text>
