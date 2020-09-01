@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/camelcase */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from "react-i18next";
@@ -17,6 +17,7 @@ import styles from './styles';
 import { useSelector, useDispatch } from 'react-redux';
 import useInterval from '../../utils/useInterval';
 import { resendAdventureInvitation, deleteAdventureInvitation, getAdventuresInvitations, getAvailableAdventures } from '../../actions/requests';
+import theme from '../../theme';
 
 const THUMBNAIL_WIDTH = 140;
 
@@ -53,20 +54,25 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
 
   const inviteItem = useSelector(({ data }) => data.adventureInvitations.byId[inviteID]);
 
-  if( ! inviteItem?.code ) {
-    return <></>;
-  }
-
   const [isExpired, setIsExpired] = useState(false);
   const [time, setTime] = useState('');
   const [timer, setTimer] = useState(60000); // 1 minute timer step
   const { organization_journey, name, code } = inviteItem;
   const orgJourney = organization_journey || {};
-  const orgJourneyImage = (orgJourney.image || {}).small || undefined;
+  const orgJourneyImage = (orgJourney?.image)?.small;
   const isGroup = inviteItem.kind === 'multiple';
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { t } = useTranslation(['adventuresTab', 'adventuresList']);
+
+  const thumbnail = useMemo(
+    () => (orgJourneyImage || ''),
+    [orgJourneyImage],
+  );
+
+   if( ! code ) {
+    return <></>;
+  }
 
   useEffect(() => {
     updateExpire();
@@ -143,8 +149,8 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
         >
           <Flex>
             <Image
-              source={{ uri: orgJourneyImage }}
-              style={[st.f1, st.w(THUMBNAIL_WIDTH), st.brbl6, st.brtl6]}
+              uri={thumbnail}
+              style={styles.thumbnail}
             />
           </Flex>
           <Flex
@@ -202,7 +208,7 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
                 }}
                 style={[st.br2, st.borderTransparent, st.bw1, st.pd(7)]}
               >
-                <VokeIcon name="close" style={[st.white, st.fs6]} />
+                <VokeIcon name="close" style={styles.iconDelete} />
               </Touchable>
             </Flex>)
             : null}

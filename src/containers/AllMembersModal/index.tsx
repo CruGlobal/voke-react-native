@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSafeArea } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeArea } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,11 +12,14 @@ import StatusBar from '../../components/StatusBar';
 import st from '../../st';
 import theme from '../../theme';
 import Button from '../../components/Button';
+
 // import { MONTHLY_PRICE } from '../../constants';
 
 import Touchable from '../../components/Touchable';
 import VokeIcon from '../../components/VokeIcon';
 import DEFAULT_AVATAR from '../../assets/defaultAvatar.png';
+
+import styles from './styles';
 
 function AllMembersModal(props) {
   const { t } = useTranslation();
@@ -44,11 +47,9 @@ function AllMembersModal(props) {
   };
 
   return (
-    <>
+    <SafeAreaView style={styles.container}>
       <StatusBar />
-      <ScrollView
-        style={[st.f1, st.w100, st.h100, st.bgBlue, { paddingTop: insets.top}]}
-      >
+      <ScrollView>
         <Flex direction="row" align="center">
           <Flex value={1}>
             <Touchable
@@ -104,7 +105,11 @@ function AllMembersModal(props) {
             </Flex>
           </Flex>
         </Flex>
-        <Flex align="center" justify="center" style={{paddingBottom: theme.spacing.xl}}>
+        <Flex
+          align="center"
+          justify="center"
+          style={{ paddingBottom: theme.spacing.xl }}
+        >
           <Flex direction="row" wrap="wrap" align="end" justify="center">
             {messengers.map((messenger, index) => (
               <Flex
@@ -151,7 +156,15 @@ function AllMembersModal(props) {
                     ]}
                   />
                 )}
-                <Text style={[st.fs3, st.white, st.tac, { marginTop: 3 }]}>
+                <Text
+                  style={{
+                    fontSize: theme.fontSizes.l,
+                    paddingTop: 3,
+                    color: theme.colors.white,
+                    textAlign:'center',
+                  }}
+                  numberOfLines={1}
+                >
                   {messenger.first_name}
                 </Text>
               </Flex>
@@ -159,7 +172,7 @@ function AllMembersModal(props) {
           </Flex>
         </Flex>
       </ScrollView>
-    </>
+    </SafeAreaView>
   );
 }
 

@@ -56,7 +56,7 @@ const ui: { [key: string]: any } = {
         font-family: ${theme.fonts.regular};
         text-align:center;
       `,
-        wm: css`
+      wm: css`
         /* color: ${theme.colors.lightGrey}; */
         font-size: ${theme.fontSizes.l + 'px'};
         font-family: ${theme.fonts.semiBold};

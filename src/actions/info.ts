@@ -24,12 +24,16 @@ export function toastAction(text: string, length?: 'long' | 'short' | null) {
   };
 }
 
-export function setCurrentScreen({ screen, data = null }) {
+type setCurrentScreenProps = {
+  screen: string;
+  data: object;
+}
+export function setCurrentScreen({ screen, data }: setCurrentScreenProps) {
   return async (dispatch: Dispatch, getState: any) => {
     dispatch({
       type: REDUX_ACTIONS.SET_SCREEN,
       screen: screen,
-      data: data,
+      data: data ? data : null,
       description: 'Set current screen: ' + screen + '. Called from setCurrentScreen()'
     });
   };

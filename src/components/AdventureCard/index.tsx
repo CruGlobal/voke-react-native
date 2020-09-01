@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { View, Alert, Dimensions } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -30,7 +30,8 @@ function AdventureCard({ adventureId }) {
 
   const { conversation } = adventureItem;
   const { progress } = adventureItem;
-  const thumbnail = adventureItem.item.content.thumbnails.large;
+  const adventureImage = adventureItem?.item?.content?.thumbnails?.large;
+  const thumbnail = useMemo(() => adventureImage || '', [adventureImage]);
   const [unreadCount, setUnreadCount] = useState(
     conversation.unread_messages || 0,
   );
@@ -46,8 +47,15 @@ function AdventureCard({ adventureId }) {
   const isSolo = messengers.length === 2;
   const isGroup = adventureItem.kind === 'multiple';
   const myUser = messengers.find(i => i.id === me.id) || {};
+  const myAvatar = useMemo(() => myUser?.avatar?.small, [
+    myUser?.avatar?.small,
+  ]);
   const otherUser =
     messengers.find(i => i.id !== me.id && i.first_name !== 'VokeBot') || {};
+
+  const otherUserAvatar = useMemo(() => otherUser?.avatar?.small, [
+    otherUser?.avatar?.small,
+  ]);
 
   const usersExceptVokeAndMe = messengers.filter(
     i => i.id !== me.id && i.first_name !== 'VokeBot',
@@ -58,7 +66,7 @@ function AdventureCard({ adventureId }) {
   const maxNumberOfAvatars = windowDimensions.width < 400 ? 3 : 4;
   if (totalGroupUsers > maxNumberOfAvatars) {
     subGroup = usersExceptVokeAndMe.slice(0, maxNumberOfAvatars - 1);
-    numberMore = totalGroupUsers - maxNumberOfAvatars;
+    numberMore = totalGroupUsers - subGroup.length;
   }
   let groupName;
   if (isGroup) {
@@ -66,11 +74,6 @@ function AdventureCard({ adventureId }) {
   }
 
   const { name } = adventureItem;
-  const inviteCode = adventureItem?.journey_invite?.code || '';
-
-  if (adventureItem.code) {
-    // return <InviteItem item={adventureItem} />;
-  }
 
   if (!adventureItem.id) {
     return <></>;
@@ -105,8 +108,8 @@ function AdventureCard({ adventureId }) {
   return (
     <Flex style={styles.wrapper}>
       <Touchable
-        highlight={false}
-        activeOpacity={0.8}
+        // highlight={false}
+        // activeOpacity={0.8}
         onPress={(): void =>
           navigation.navigate('AdventureActive', {
             adventureId: adventureItem.id,
@@ -120,7 +123,7 @@ function AdventureCard({ adventureId }) {
           justify="center"
         >
           <Flex>
-            <Image source={{ uri: thumbnail }} style={styles.thumbnail} />
+            <Image uri={thumbnail} style={styles.thumbnail} />
           </Flex>
           <Flex
             value={1}
@@ -160,26 +163,7 @@ function AdventureCard({ adventureId }) {
               style={styles.avatars}
             >
               {/* AVATARS */}
-              {!isGroup ? (
-                <Flex value={1} direction="row" align="center">
-                  <View>
-                    <Image
-                      source={{
-                        uri: (myUser.avatar || {}).small || undefined,
-                      }}
-                      style={styles.avatar}
-                    />
-                  </View>
-                  {!isSolo ? (
-                    <Image
-                      source={{
-                        uri: (otherUser.avatar || {}).small || undefined,
-                      }}
-                      style={[styles.avatar, styles.avatarSolo]}
-                    />
-                  ) : null}
-                </Flex>
-              ) : (
+              { isGroup ? (
                 <Touchable
                   isAndroidOpacity={true}
                   onPress={(): void =>
@@ -194,30 +178,12 @@ function AdventureCard({ adventureId }) {
                     align="center"
                     style={{ paddingBottom: 0 }}
                   >
-                    <Image
-                      source={{
-                        uri: (myUser.avatar || {}).small || undefined,
-                      }}
-                      style={[
-                        st.circle(36),
-                        {
-                          borderWidth: 2,
-                          borderColor: st.colors.white,
-                          marginLeft: -3,
-                        },
-                      ]}
-                    />
+                    <Image uri={myAvatar} style={styles.avatar} />
+
                     {subGroup.map((i, index) => (
                       <Image
-                        source={{ uri: (i.avatar || {}).small || undefined }}
-                        style={[
-                          st.circle(36),
-                          {
-                            borderWidth: 2,
-                            borderColor: st.colors.white,
-                            marginLeft: -14,
-                          },
-                        ]}
+                        uri={i?.avatar?.small}
+                        style={styles.avatarInGroup}
                       />
                     ))}
                     {numberMore ? (
@@ -252,6 +218,15 @@ function AdventureCard({ adventureId }) {
                     )}
                   </Flex>
                 </Touchable>
+              ) : (
+                <Flex value={1} direction="row" align="center">
+                  <View>
+                    <Image uri={myAvatar} style={styles.avatar} />
+                  </View>
+                  {!isSolo ? (
+                    <Image uri={otherUserAvatar} style={styles.avatarSolo} />
+                  ) : null}
+                </Flex>
               )}
               {/* UNREAD COUNTER */}
               {hasUnread ? (
@@ -275,7 +250,7 @@ function AdventureCard({ adventureId }) {
                 >
                   <VokeIcon
                     name="speech-bubble-full"
-                    style={[st.white, { marginTop: -1, marginRight: 6 }]}
+                    style={styles.iconUnread}
                     size={14}
                   />
                   <Text style={[st.white, { fontWeight: 'bold' }]}>
@@ -312,8 +287,6 @@ function AdventureCard({ adventureId }) {
                 ) : (
                   <Text style={styles.duotag}>{t('duo')}</Text>
                 )}
-
-                {/* {inviteCode ? <Text style={styles.InviteCode}>{inviteCode}</Text>:<></>} */}
               </Flex>
             </Flex>
           </Flex>

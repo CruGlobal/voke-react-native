@@ -5,7 +5,6 @@ import { StyleProp, ImageStyle } from 'react-native';
 import { vokeImages } from '../../utils/iconMap';
 import icoMoonConfig from '../../utils/selection.json';
 import Image from '../Image';
-import st from '../../st';
 
 const CustomIcon = createIconSetFromIcoMoon(
   icoMoonConfig,
@@ -36,4 +35,4 @@ const VokeIcon = ({ name, type, style, ...rest }: VokeIconProps) => {
   }
 };
 
-export default VokeIcon;
+export default React.memo(VokeIcon);

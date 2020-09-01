@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -8,11 +8,8 @@ import Image from '../Image';
 import Touchable from '../Touchable';
 import Flex from '../Flex';
 import Text from '../Text';
-import Button from '../Button';
 import VokeIcon from '../VokeIcon';
 import st from '../../st';
-import theme from '../../theme';
-import { TAdventureSingle, TStep } from '../../types';
 import { getCurrentUserId } from '../../utils/get';
 
 import styles from './styles';
@@ -27,36 +24,36 @@ type StepProps = {
 type AdventureStepCardProps = {
   stepId: string;
   adventureId: string;
-  // step?: TStep;
-  steps?: StepProps[];
-  adventure?: TAdventureSingle;
 };
 
 // Renders Cards on this screen https://d.pr/i/WsCCf2
 function AdventureStepCard({
   stepId,
   adventureId,
-}: // step,
-// steps,
-// adventure,
-AdventureStepCardProps): React.ReactElement {
+}: AdventureStepCardProps): React.ReactElement {
   const { t } = useTranslation('journey');
   const navigation = useNavigation();
   const userId = getCurrentUserId();
   const adventure = useSelector(
-    ({ data }: RootState) => data.myAdventures.byId[adventureId],
+    ({ data }: RootState) => data.myAdventures?.byId[adventureId] || {},
   );
   const step = useSelector(
-    ({ data }: RootState) => data.adventureSteps[adventureId].byId[stepId],
+    ({ data }: RootState) =>
+      data.adventureSteps[adventureId]?.byId[stepId] || {},
   );
-  const [isActive, setIsActive] = useState(step.status === 'active');
-  const [isCompleted, setIsCompleted] = useState(step.status === 'completed');
+
+  const [isActive, setIsActive] = useState(step?.status === 'active');
+  const [isCompleted, setIsCompleted] = useState(step?.status === 'completed');
   const [isWaiting, setIsWaiting] = useState(
     isActive && step['completed_by_messenger?'],
   );
   const [isLocked, setIsLocked] = useState(!isCompleted && !isActive);
   const messengers = (adventure?.conversation || {}).messengers || [];
-  const thumbnail = (((step.item || {}).content || {}).thumbnails || {}).small;
+  const thumbnail = useMemo(
+    () => (step?.item?.content?.thumbnails?.medium || ''),
+    [stepId],
+  );
+  // TODO: adventure can be undefined.
   const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'multiple';
 
   const inviteName = adventure?.journey_invite?.name;
@@ -80,16 +77,10 @@ AdventureStepCardProps): React.ReactElement {
     setIsCompleted(step.status === 'completed');
     setIsWaiting(step.status === 'active' && step['completed_by_messenger?']);
     setIsLocked(step.status !== 'completed' && step.status !== 'active');
-    // },[]);
   }, [step]);
-  // }, [steps, step]);
-
-  // if (messengers.length === 2 && inviteName) {
-  //   otherUser = { first_name: inviteName };
-  // }
 
   return (
-    <Flex style={styles.StepWrapper}>
+    <Flex style={styles.stepWrapper}>
       <Touchable
         highlight={false}
         disabled={isLocked}
@@ -100,7 +91,7 @@ AdventureStepCardProps): React.ReactElement {
             adventureId: adventure.id,
           })
         }
-        style={[styles.StepCard]}
+        style={styles.stepCard}
       >
         <Flex
           style={[
@@ -112,41 +103,33 @@ AdventureStepCardProps): React.ReactElement {
           justify="start"
           // direction="row"
         >
-          <Flex direction="row" style={[st.minh(110)]}>
-            <Flex style={[styles.Thumbnail]}>
+          <Flex direction="row" style={styles.cardContent}>
+            <Flex style={styles.thumbContainer}>
               <Image
-                source={{ uri: thumbnail }}
-                style={[st.w(140), st.f1]}
+                // source={thumbnail}
+                uri={thumbnail}
+                style={styles.thumb}
                 resizeMode="cover"
               />
-              <Flex style={[st.absfill]} align="center" justify="center">
-                <VokeIcon
-                  name={isLocked ? 'lock' : 'play-full'}
-                  size={30}
-                  style={[
-                    st.op90,
-                    st.w(30),
-                    st.h(30),
-                    {
-                      color: theme.colors.white,
-                    },
-                  ]}
-                />
-              </Flex>
+              <VokeIcon
+                name={isLocked ? 'lock' : 'play-full'}
+                size={30}
+                style={styles.thumbIcon}
+              />
             </Flex>
             <Flex
               value={1}
               direction="column"
               self="start"
-              style={[styles.Content]}
+              style={styles.content}
             >
               <Text
                 numberOfLines={2}
-                style={[st.fs4, isActive ? st.darkBlue : st.white]}
+                style={isActive ? styles.titleActive : styles.titleInactive}
               >
                 {step.name}
               </Text>
-              <Text style={[st.fs5, isActive ? st.darkBlue : st.white]}>
+              <Text style={isActive ? styles.partActive : styles.partInactive}>
                 {t('part')} {step.position}
               </Text>
               {/* {isActive || isCompleted ? ( */}
@@ -174,7 +157,7 @@ AdventureStepCardProps): React.ReactElement {
                 >
                   <VokeIcon
                     name="speech-bubble-full"
-                    style={[st.white, { marginTop: -1, marginRight: 6 }]}
+                    style={styles.iconUnread}
                     size={14}
                   />
                   <Text style={[st.white, { fontWeight: 'bold' }]}>
@@ -202,14 +185,10 @@ AdventureStepCardProps): React.ReactElement {
                 ) : null}
               </Flex> */}
             </Flex>
-            <Flex
-              style={[
-                st.absbr,
-                st.isAndroid ? st.bottom(-23) : st.bottom(-28),
-                st.mh5,
-              ]}
-            >
-              <Text style={[isWaiting ? st.orange : st.blue, st.fs(72)]}>
+            <Flex style={styles.stepNumberContainer}>
+              <Text
+                style={[isWaiting ? st.orange : st.blue, styles.stepNumber]}
+              >
                 {step.position}
               </Text>
             </Flex>
@@ -263,7 +242,11 @@ AdventureStepCardProps): React.ReactElement {
             st.br2,
           ]}
         >
-          <VokeIcon name="checkmark-outline" size={16} style={[st.white]} />
+          <VokeIcon
+            name="checkmark-outline"
+            size={16}
+            style={styles.iconCompleted}
+          />
         </Flex>
       ) : null}
     </Flex>

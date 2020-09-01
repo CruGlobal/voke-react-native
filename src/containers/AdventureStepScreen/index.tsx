@@ -5,6 +5,7 @@ import React, {
   useRef,
   useCallback,
   ReactElement,
+  useMemo,
 } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
@@ -51,6 +52,8 @@ import Video from '../../components/Video';
 import Image from '../../components/Image';
 import VokeIcon from '../../components/VokeIcon';
 
+import styles from './styles';
+
 type ModalProps = {
   route: {
     name: string;
@@ -77,26 +80,35 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
   const [prevContentOffset, setPrevContentOffset] = useState(100);
   const [hasClickedPlay, setHasClickedPlay] = useState(false);
   const [answerPosY, setAnswerPosY] = useState(0);
+  const [skipKeyboardColapse, setSkipKeyboardColapse] = useState(false);
+  const [skipInitialScroll, setSkipInitialScroll] = useState(true);
   const { stepId, adventureId } = route.params;
   const adventure =
-    useSelector(({ data }: RootState) => data.myAdventures.byId[adventureId]) ||
-    {};
-  const conversationId = adventure.conversation?.id;
+    useSelector(
+      ({ data }: RootState) => data?.myAdventures?.byId[adventureId],
+    ) || {};
+  const conversationId = adventure?.conversation?.id;
   const currentStep = useSelector(
-    ({ data }: RootState) => data.adventureSteps[adventureId].byId[stepId],
+    ({ data }: RootState) => data.adventureSteps[adventureId]?.byId[stepId],
   );
   const currentUser = useSelector(({ auth }: RootState) => auth.user) || {};
+  const currentUserAvatar = useMemo(() => currentUser?.avatar?.small, [
+    currentUser?.avatar?.small,
+  ]);
   const currentMessages = useSelector(
     ({ data }: RootState) => data.adventureStepMessages[currentStep?.id] || [],
   );
-  const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'multiple';
+
+  const isSolo = adventure?.kind !== 'duo' && adventure?.kind !== 'multiple';
   // Find a reply to the main question (if already answered).
   const myMainAnswer = {
     id: null,
     content: '',
   };
 
-  if (!['multi', 'binary'].includes(currentStep.kind)) {
+  const scrollDelayTimeout = useRef();
+
+  if (!['multi', 'binary'].includes(currentStep?.kind)) {
     // Find the first message of the current author from the start.
     const mainAnswer =
       currentMessages.slice().find(m => m?.messenger_id === currentUser.id) ||
@@ -181,11 +193,33 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
     }
   };
 
+  const maybeScrollToBottom = (): void => {
+    const newMessage = currentMessages[currentMessages.length - 1];
+    // Scroll if question already answered and video isn't playing...
+    if (currentStep['completed_by_messenger?'] && !isVideoPlaying) {
+      // ... and there are unread or new messages.
+      if (
+        currentStep.unread_messages ||
+        (newMessage?.messenger_id === currentUser.id && !skipInitialScroll)
+      ) {
+        scrollDelayTimeout.current = setTimeout(() => {
+          // Scroll to the end when we added new message,
+          // but only when video isn't playing,
+          // and current user answered the main question.
+          scrollRef?.current?.scrollToEnd();
+        }, 100);
+      }
+    }
+
+    setSkipInitialScroll(false);
+  };
+
   const getMessages = async () => {
     await dispatch(
       getAdventureStepMessages(adventure.conversation.id, currentStep.id),
     );
     setIsLoading(false);
+    maybeScrollToBottom();
     // Also update the current step (solves a bug with stuck blurred messages).
     dispatch(getAdventureSteps(adventure.id));
   };
@@ -197,25 +231,15 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
   }, []);
 
   useEffect(() => {
-    const latestMessage = currentMessages[currentMessages.length - 1];
-
-    if (
-      currentStep['completed_by_messenger?'] &&
-      !isVideoPlaying
-      // && latestMessage?.messenger_id !== currentUser.id
-    ) {
-      // Scroll to the end when we added new message,
-      // but only when video isn't playing,
-      // and current user answered the main question.
-      scrollRef?.current?.scrollToEnd();
-    }
+    setSkipKeyboardColapse(true);
+    maybeScrollToBottom();
 
     // Once a new message from another participant received mark it as read,
     // but only if messages unblured/unlocked.
     if (
       currentMessages.length &&
-      currentStep['completed_by_messenger?'] &&
-      latestMessage?.messenger_id !== currentUser.id
+      currentStep['completed_by_messenger?']
+      // && newMessage?.messenger_id !== currentUser.id
     ) {
       // If the last message from someone else, mark it as read.
       markAsRead();
@@ -276,6 +300,7 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
         <View
           style={{
             height: Platform.OS === 'ios' ? insets.top : 0,
+            backgroundColor: insets.top > 0 ? '#000' : 'transparent',
           }}
         >
           <StatusBar
@@ -316,13 +341,18 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
           overScrollMode={'always'}
           // scrollEventThrottle={16} // Don't activate. Works bad on Android.
           onScroll={e => {
-            const scrollDiff = Math.abs( e.nativeEvent.contentOffset.y - prevContentOffset );
+            const scrollDiff = Math.abs(
+              e.nativeEvent.contentOffset.y - prevContentOffset,
+            );
             // Close keyboard if scrolling toward the very top of the screen.
-            if (
-              isKeyboardVisible &&
-              scrollDiff > 50
-            ) {
+            if (isKeyboardVisible && scrollDiff > 50) {
+              // But don't close keyboard if user just sent a message.
+              // Probably he wants to send another one.
+              if (!skipKeyboardColapse) {
                 Keyboard.dismiss();
+              } else {
+                setSkipKeyboardColapse(false);
+              }
             }
             setPrevContentOffset(e.nativeEvent.contentOffset.y);
           }}
@@ -356,7 +386,7 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
               onOrientationChange={(orientation: string): void => {
                 setIsPortrait(orientation === 'portrait' ? true : false);
               }}
-              item={currentStep.item.content}
+              item={currentStep?.item?.content}
               onPlay={(): void => {
                 setIsVideoPlaying(true);
                 dispatch(
@@ -377,7 +407,7 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
             {isPortrait && (
               <>
                 {/* Special Bot message at the top */}
-                {currentStep.status_message ? (
+                {currentStep?.status_message ? (
                   <Flex
                     align="center"
                     style={[st.bgDarkBlue, st.ph1, st.pv4, st.ovh]}
@@ -388,14 +418,7 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
                     <VokeIcon
                       type="image"
                       name="vokebot"
-                      style={[
-                        st.abs,
-                        st.left(-25),
-                        st.bottom(-20),
-                        st.h(70),
-                        st.w(70),
-                        st.white,
-                      ]}
+                      style={styles.vokebot}
                     />
                   </Flex>
                 ) : null}
@@ -403,8 +426,9 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
                 {/* First card with question */}
                 <Flex
                   direction="column"
-                  self="center"
-                  style={[st.w80, st.mt2]}
+                  // self="center"
+                  style={styles.mainQuestionCard}
+                  // style={[st.w80, st.mt2]}
                   onLayout={({ nativeEvent }) => {
                     // Calculate vertical offset to be usef on answer field focus.
                     const layout = nativeEvent?.layout;
@@ -413,46 +437,38 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
                     }
                   }}
                 >
-                  <Flex
-                    direction="column"
-                    style={[st.bgOrange, st.brtl5, st.brtr5, st.pd1]}
-                    align="center"
-                    justify="center"
-                  >
-                    <Text style={[st.tac, st.white, st.fs20, st.lh(24)]}>
-                      {currentStep.question}
-                    </Text>
-                  </Flex>
-                  <Image
-                    source={{ uri: currentUser.avatar.small }}
-                    style={[st.absb, st.right(-30), st.h(25), st.w(25), st.br1]}
-                  />
-                  <AdventureStepMessageInput
-                    onFocus={event => {
-                      if (hasClickedPlay) {
-                        return;
-                      } else {
-                        dispatch(
-                          toastAction(
-                            'Please watch the video first before you answer. Thanks!',
-                          ),
-                        );
-                      }
+                  <Flex direction="column" style={styles.mainQuestionContainer}>
+                    <Flex style={styles.mainQuestion}>
+                      <Text style={styles.mainQuestionText}>
+                        {currentStep?.question}
+                      </Text>
+                    </Flex>
+                    {/* <Image uri={currentUserAvatar} style={styles.avatar} /> */}
+                    <AdventureStepMessageInput
+                      onFocus={(event): void => {
+                        if (!hasClickedPlay) {
+                          dispatch(
+                            toastAction(
+                              'Please watch the video first before you answer. Thanks!',
+                            ),
+                          );
+                        }
 
-                      if (Platform.OS === 'ios') {
-                        scrollRef.current.scrollTo({
-                          x: 0,
-                          y: answerPosY,
-                          animated: true,
-                        });
-                      }
-                    }}
-                    kind={currentStep.kind}
-                    adventure={adventure}
-                    step={currentStep}
-                    defaultValue={myMainAnswer.content}
-                    isLoading={isLoading}
-                  />
+                        if (Platform.OS === 'ios' && scrollRef?.current) {
+                          scrollRef.current.scrollTo({
+                            x: 0,
+                            y: answerPosY,
+                            animated: true,
+                          });
+                        }
+                      }}
+                      kind={currentStep.kind}
+                      adventure={adventure}
+                      step={currentStep}
+                      defaultValue={myMainAnswer.content}
+                      isLoading={isLoading}
+                    />
+                  </Flex>
                 </Flex>
 
                 {isLoading && !currentMessages.length ? (
@@ -473,6 +489,11 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
                             item={item}
                             adventure={adventure}
                             step={currentStep}
+                            onFocus={() => {
+                              if (Platform.OS === 'ios' && scrollRef?.current) {
+                                scrollRef.current.scrollToEnd();
+                              }
+                            }}
                           />
                         )}
                       </>

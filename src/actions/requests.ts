@@ -464,6 +464,16 @@ export function createAdventureStepMessage(params: {
       });
     }
 
+    // Refresh all messages when answering a quiestion to multi challenge.
+    if (data.message.kind === 'answer') {
+      dispatch(
+        getAdventureStepMessages(
+          params.adventure.conversation.id,
+          params.step.id,
+        ),
+      );
+    }
+
     // CHANGE SOME DATA LOCALLY.
     if (params.kind === 'question') {
       // If this is the answer to the main question
@@ -559,16 +569,6 @@ export function createAdventureStepMessage(params: {
           },
         });
       }
-    }
-
-    // Refresh all messages when answering a quiestion to multi challenge.
-    if (data.message.kind === 'answer') {
-      dispatch(
-        getAdventureStepMessages(
-          params.adventure.conversation.id,
-          params.step.id,
-        ),
-      );
     }
 
     // TODO: Optimization - do the next aciton only if current step wasn't marked
