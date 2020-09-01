@@ -168,8 +168,8 @@ function AdventureActive({
           layout={sceletonLayout}
         />
         {/* This View stays outside of the screen on top
-              and covers blue area with solid black on pull. */}
-         {!!adventureItemId && (
+            and covers blue area with solid black on pull. */}
+        {!!adventureItemId && (
             <View
               style={{
                 position: 'absolute',
