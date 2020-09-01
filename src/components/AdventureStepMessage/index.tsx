@@ -23,6 +23,7 @@ type MessageProps = {
   adventure: TAdventureSingle;
   previous: TMessage;
   next: TMessage;
+  onFocus?: any;
 };
 
 function AdventureStepMessage({
@@ -31,7 +32,7 @@ function AdventureStepMessage({
   adventure,
   previous,
   next,
-  onFocus
+  onFocus,
 }: MessageProps): React.ReactElement | null {
   const [answerPosY, setAnswerPosY] = useState(0);
   const isAndroid = Platform.OS === 'android';
@@ -145,8 +146,8 @@ function AdventureStepMessage({
             step={step}
             internalMessage={message}
             defaultValue={selectedAnswer}
-            onFocus={event => {
-              onFocus(event);
+            onFocus={( event ) => {
+              onFocus(event, answerPosY);
             }}
           />
         </Flex>
@@ -174,7 +175,18 @@ function AdventureStepMessage({
                 <Flex direction="column">
                   {isSharedAnswer ? (
                     <Flex style={styles.messageSharedContent}>
-                      <Text style={[st.fs4, st.white]}>{message.content}</Text>
+                      <Text
+                        style={[
+                          st.fs4,
+                          {
+                            color: isBlured && isAndroid
+                              ? 'rgba(0,0,0,0)'
+                              : theme.colors.white,
+                          },
+                        ]}
+                      >
+                        {message.content}
+                      </Text>
                     </Flex>
                   ) : null}
                   <Text

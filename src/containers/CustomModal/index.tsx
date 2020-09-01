@@ -112,7 +112,7 @@ export default function CustomModal(props: any): React.ReactElement {
   );
 
   return (
-    <View /* backdropOpacity={0.9} isVisible={true} style={{margin:0}} */>
+    <View>
       {/* // HOW DUO and GROUP WORKS */}
       {(modalId === 'howDuoWorks' || modalId === 'howGroupsWork') && (
         <ScrollView bounces={false}>
