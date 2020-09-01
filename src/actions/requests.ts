@@ -395,6 +395,16 @@ export function createAdventureStepMessage(params: {
       data.message.message_reference_id = internalMessage?.id;
     }
 
+    // Refresh all messages when answering a quiestion to multi challenge.
+    if (data.message.kind === 'answer') {
+      dispatch(
+        getAdventureStepMessages(
+          params.adventure.conversation.id,
+          params.step.id,
+        ),
+      );
+    }
+
     // If new message is a simple text message:
     // don't wait response from the server before adding new message
     // to the chat array in the store.
@@ -462,16 +472,6 @@ export function createAdventureStepMessage(params: {
         description:
           'createAdventureStepMessage(): Create Adventure Step Message (B)',
       });
-    }
-
-    // Refresh all messages when answering a quiestion to multi challenge.
-    if (data.message.kind === 'answer') {
-      dispatch(
-        getAdventureStepMessages(
-          params.adventure.conversation.id,
-          params.step.id,
-        ),
-      );
     }
 
     // CHANGE SOME DATA LOCALLY.
