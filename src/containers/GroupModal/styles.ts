@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
   },
   title: {
     borderRadius:10,
-    backgroundColor: 'red',
     paddingHorizontal: theme.spacing.xl,
   },
 });

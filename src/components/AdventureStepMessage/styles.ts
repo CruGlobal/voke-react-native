@@ -31,15 +31,46 @@ const styles = StyleSheet.create({
     paddingLeft: theme.spacing.m,
     paddingRight: theme.spacing.m,
   },
+  messageContainer: {
+    paddingHorizontal: theme.spacing.l,
+    paddingBottom: theme.spacing.m,
+  },
+  messageContent: {
+    paddingHorizontal: 20,
+  },
+  messageSharedContent: {
+    padding: theme.spacing.m,
+    backgroundColor: 'rgba(0,0,0,.2)',
+  },
   userAvatar: {
     ...sharedStyles.avatar,
-
-    left:-30,
+    left: -30,
   },
   myAvatar: {
     ...sharedStyles.avatar,
+    right: -30,
+  },
+  icon: {
+    color: theme.colors.white,
+  },
+  mainQuestionCard: {
+    // paddingTop: theme.spacing.l,
+    paddingHorizontal: theme.spacing.l,
+    paddingBottom: theme.spacing.l,
+  },
+  mainQuestionContainer: {
+    paddingHorizontal: 20,
+  },
+  mainQuestion: {
+    width: '100%',
+    paddingVertical: theme.spacing.l,
+    paddingHorizontal: theme.spacing.m,
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
+    backgroundColor: theme.colors.accent,
+  },
+  messageMeta: {
 
-    right:-30,
   }
 });
 

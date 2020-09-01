@@ -114,7 +114,6 @@ function AdventureActive({
         key: 'videoBlock',
         width: '100%',
         height: window.width / 1.7,
-        // marginBottom: theme.spacing.s,
         borderRadius: 0,
       },
     ],
@@ -126,7 +125,6 @@ function AdventureActive({
       value={1}
       style={{
         backgroundColor: theme.colors.primary,
-        // justifyContent: 'center',
       }}
     >
       {hasNotch ? (
@@ -169,6 +167,19 @@ function AdventureActive({
           duration={2000}
           layout={sceletonLayout}
         />
+        {/* This View stays outside of the screen on top
+              and covers blue area with solid black on pull. */}
+         {!!adventureItemId && (
+            <View
+              style={{
+                position: 'absolute',
+                backgroundColor: 'black',
+                left: 0,
+                right: 0,
+                top: -300,
+                height: 300,
+              }}
+            />)}
         {!!adventureItemId && (
           <Video
             item={adventureContent}

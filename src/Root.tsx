@@ -1,6 +1,6 @@
 // import React, { Component } from 'react';
 import React, { Component, useState, useEffect } from 'react';
-import './wdyr'; // Why Did You Render? tool.
+// import './wdyr'; // Why Did You Render? tool.
 // import '@react-native-firebase/crashlytics';
 // import crashlytics from '@react-native-firebase/crashlytics';
 import * as Sentry from '@sentry/react-native';

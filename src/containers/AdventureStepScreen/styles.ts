@@ -18,7 +18,30 @@ const styles = StyleSheet.create({
     height: 25,
     width: 25,
     borderRadius: 50,
-  }
+  },
+
+
+  mainQuestionCard: {
+    paddingTop: theme.spacing.xl,
+    paddingHorizontal: theme.spacing.l,
+    paddingBottom: theme.spacing.l,
+  },
+  mainQuestionContainer: {
+    paddingHorizontal: 20,
+  },
+  mainQuestion: {
+    backgroundColor: theme.colors.accent,
+    paddingTop: theme.spacing.l,
+    paddingHorizontal: theme.spacing.l,
+    paddingBottom: theme.spacing.l,
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
+  },
+  mainQuestionText: {
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.xl,
+    textAlign: 'center',
+  },
 });
 
 export default styles;

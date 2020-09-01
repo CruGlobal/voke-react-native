@@ -2,6 +2,14 @@ import { StyleSheet } from 'react-native';
 
 import theme from '../../theme';
 
+const sharedStyles = {
+  title: {
+    fontSize: theme.fontSizes.l,
+    lineHeight: theme.fontSizes.xl,
+    paddingTop: theme.spacing.s,
+  },
+}
+
 const styles = StyleSheet.create({
   content: {
     paddingTop: theme.spacing.s,
@@ -37,11 +45,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   titleActive: {
-    fontSize: theme.fontSizes.l,
+    ...sharedStyles.title,
     color: theme.colors.secondary,
   },
   titleInactive: {
-    fontSize: theme.fontSizes.l,
+    ...sharedStyles.title,
     color: theme.colors.white,
   },
   partActive: {

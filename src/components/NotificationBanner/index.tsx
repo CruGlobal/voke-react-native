@@ -38,16 +38,16 @@ const NotificationBanner = (): React.ReactElement => {
 
   return (
     <>
-      <Flex direction="row" style={styles.banner} align="start">
+      <Flex direction="row" style={styles.banner}>
         <VokeIcon name="notification" style={styles.iconNotification} />
-        <Text style={styles.labelOff}>{t('off')}</Text>
+        <Text style={styles.bannerText}>{t('off')}</Text>
 
         <Button
           isAndroidOpacity
           onPress={() => toggleModal()}
           style={styles.buttonEnable}
         >
-          <Text style={styles.labelOn}>{t('turnOn')}</Text>
+          <Text style={styles.bannerButtonLabel}>{t('turnOn')}</Text>
         </Button>
       </Flex>
     </>
@@ -55,30 +55,32 @@ const NotificationBanner = (): React.ReactElement => {
 };
 
 const styles = StyleSheet.create({
-  banner: { padding: 15, backgroundColor: '#000', height: 60 },
   iconNotification: {
-    marginTop: 5,
     marginRight: 15,
-    fontSize: 22,
+    fontSize: 24,
     color: theme.colors.primary,
+  },
+  banner: {
+    padding: 15,
+    backgroundColor: '#000',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  bannerText: {
+    fontSize: 18,
+    color: theme.colors.white,
   },
   buttonEnable: {
     marginLeft: 30,
-    alignSelf: 'flex-end',
     borderColor: theme.colors.primary,
     borderWidth: 2,
     borderRadius: 32,
-    paddingRight: 15,
-    paddingLeft: 15,
+    paddingVertical: 5,
+    paddingHorizontal: 15,
   },
-  labelOff: {
-    marginTop: 2,
+  bannerButtonLabel: {
     color: theme.colors.white,
-    fontSize: 18,
-  },
-  lavelOn: {
-    color: theme.colors.white,
-    fontSize: 18,
+    fontSize: theme.fontSizes.l,
   },
 });
 

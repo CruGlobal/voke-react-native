@@ -28,9 +28,9 @@ const persistConfig = {
   key: 'root',
   version: 2,
   storage:
-        // Platform.OS === 'android' ?
-        // FilesystemStorage : // Android
-        AsyncStorage, // iOS
+    // Platform.OS === 'android' ?
+    // FilesystemStorage : // Android
+    AsyncStorage, // iOS
   blacklist: ['auth', 'data'],
   // timeout: 0,
 };
