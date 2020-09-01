@@ -344,6 +344,10 @@ export default function (state = initialState, action: any) {
       const { adventureId } = action;
       // Don't increase unread messages counter if it's our own message.
       const messageCounterAdd = action?.ownMessage ? 0 : 1;
+      if  ( !adventureId || !adventureStepId ) {
+        return state;
+      }
+
       return {
         ...state,
 

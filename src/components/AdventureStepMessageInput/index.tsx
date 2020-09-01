@@ -31,8 +31,8 @@ const AdventureStepMessageInput = ({
   const isMultiQuestion = kind === 'multi';
   const isBinaryQuestion = kind === 'binary';
   const isShareQuestion = kind === 'share';
-  const isComplete = step.status === 'completed';
-  const isLocked = step['completed_by_messenger?'];
+  const isComplete = step?.status === 'completed';
+  const isLocked = step && step['completed_by_messenger?'];
 
   const currentMessages = useSelector(
     ({ data }: RootState) => data.adventureStepMessages[step?.id] || [],

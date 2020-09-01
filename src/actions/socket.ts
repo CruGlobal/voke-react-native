@@ -161,24 +161,23 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
                     ) || {}
                   ).id;
 
-                  // if (message.kind === 'text' && adventureId !== undefined ) {
-                  // If simple text: save new message in the store
-                  // without requesting update from the server via API.
-                  // BUT only if we have conversation array ready
-                  // for that message ( adventureId !== undefined ).
-                  dispatch({
-                    type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
-                    message,
-                    adventureId,
-                    description: 'From sockets > onmessage()',
-                  });
+                  if (message.kind === 'text' && adventureId !== undefined ) {
+                    // If simple text: save new message in the store
+                    // without requesting update from the server via API.
+                    // BUT only if we have conversation array ready
+                    // for that message ( adventureId !== undefined ).
+                    dispatch({
+                      type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
+                      message,
+                      adventureId,
+                      description: 'From sockets > onmessage()',
+                    });
 
-                  if (message.kind === 'text' && message?.content) {
-                    dispatch(vibrateAction());
-                  }
-                  // }
-                  /* 
-                  else {
+                    if (message.kind === 'text' && message?.content) {
+                      dispatch(vibrateAction());
+                    }
+                  } else {
+                    dispatch(getMyAdventures('Sockets - New Message'));
                     // If not just a text: update messages in conversation
                     // via extra call to API.
                     dispatch(
@@ -187,7 +186,7 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
                         message.messenger_journey_step_id,
                       ),
                     );
-                  } */
+                  }
 
                   // TODO: optimize the next call. It can be expensive?
                   // Update adventure steps to mark the current step as completed
