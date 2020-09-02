@@ -16,7 +16,7 @@ function HeaderLeft({ hasBack = false, resetTo = '' }) {
       if (resetTo) {
         const { index, routes } = navigation.dangerouslyGetState();
 
-        if (index > 0 && routes.length && routes[routes.lenght - 2]?.name === resetTo) {
+        if (index > 0 && routes.length && routes[routes.length - 2]?.name === resetTo) {
           // .goBack is 2s. faster than .reset(), so if possible use it.
           navigation.goBack();
         } else {

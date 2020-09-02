@@ -525,20 +525,12 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
         {!isSolo && isPortrait && currentStep['completed_by_messenger?'] && (
           <View
             style={{
-              // flex:1,
               flexDirection: 'row',
-              // alignContent: 'center',
-              // justifyContent: 'center',
-              // alignSelf: 'flex-end',
               width: '100%',
               paddingBottom:
                 isKeyboardVisible && Platform.OS === 'android'
                   ? theme.spacing.s
                   : undefined,
-              // zIndex: 99,
-              // position: 'relative',
-              // padding: 0,
-              // bottom: isKeyboardVisible && Platform.OS === 'android' ? 0 : 200,
             }}
           >
             <MainMessagingInput
