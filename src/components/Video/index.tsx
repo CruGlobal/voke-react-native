@@ -119,7 +119,8 @@ function Video({
     return {
       width: currentWidth,
       height:
-        item?.type === 'youtube' ? currentWidth / 1.7 : currentWidth / 1.7,
+        !lockOrientation && screenOrientation === 'landscape' ? window.height :
+          item?.type === 'youtube' ? currentWidth / 1.7 : currentWidth / 1.7,
     };
   };
 
