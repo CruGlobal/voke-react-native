@@ -145,7 +145,7 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
         .reverse()
         .find(message => message?.messenger_id !== currentUser.id) || null;
 
-    // I some cases there is bug in API that shows unread messages even when
+    // In some cases there is bug in API that shows unread messages even when
     // there is only one person in the chat 🤪.
     if (!latestMessage) {
       latestMessage = currentMessages.slice().reverse()[0] || null;
