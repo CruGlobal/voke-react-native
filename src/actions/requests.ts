@@ -499,8 +499,11 @@ export function createAdventureStepMessage(params: {
     // to the chat array in the store.
     if (params.kind === 'standard') {
       const date = new Date().toISOString();
+      // Temporary message id.
+      const newId = Math.floor(Date.now() / 1000);
       // Create pseudo structure as we expect it from the server.
       const newMessageData = {
+        id: `${newId}`,
         position: 1,
         content: params.value,
         messenger_id: params.userId,
@@ -515,7 +518,6 @@ export function createAdventureStepMessage(params: {
         metadata: {},
         created_at: date,
       };
-
       // Save message to the store.
       dispatch({
         type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
@@ -576,7 +578,6 @@ export function createAdventureStepMessage(params: {
 
     // TODO: Optimization - do the next aciton only if current step wasn't marked
     // as completed already.
-    
 
     // Update adventure steps to mark the current step as completed
     // and unlock the next one.
