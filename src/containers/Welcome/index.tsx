@@ -84,6 +84,7 @@ const Welcome = (props: WelcomeProps) => {
                     : insets.top,
               },
             ]}
+            testID={'welcomeScreen'}
           >
             <BotTalking
               heading={t('botMessageTitle')}
@@ -135,6 +136,7 @@ const Welcome = (props: WelcomeProps) => {
                 isAndroidOpacity
                 style={styles.ButtonPrimary}
                 onPress={():void =>{navigation.navigate('AdventureCode')}}
+                testID={'ctaAdventureCode'}
               >
                 <Flex direction="row" justify="center">
                   <Text style={styles.ButtonLabelPrimary}>{t('haveCode')}</Text>
@@ -145,6 +147,7 @@ const Welcome = (props: WelcomeProps) => {
                 isAndroidOpacity
                 style={styles.ButtonWhite}
                 onPress={():void => navigation.navigate('AccountName')}
+                testID={'ctaExplore'}
               >
                 <Flex direction="row" justify="center">
                   <Text style={styles.ButtonLabelWhite}>{t('toExplore')}</Text>
@@ -188,6 +191,7 @@ const Welcome = (props: WelcomeProps) => {
                 onPress={() => {
                   navigation.navigate('AccountSignIn');
                 }}
+                testID={'ctaSignIn'}
               >
                 <Text style={styles.ButtonSignInLabel}>{t('signIn')}</Text>
               </Button>

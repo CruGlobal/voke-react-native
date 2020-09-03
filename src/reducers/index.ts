@@ -32,7 +32,14 @@ const persistConfig = {
     // FilesystemStorage : // Android
     AsyncStorage, // iOS
   blacklist: ['auth', 'data'],
+
+  // Getting error redux-persist: rehydrate for "root" called after timeout?
+  // https://github.com/rt2zz/redux-persist/issues/717#issuecomment-375011049
+  // 👇 https://github.com/rt2zz/redux-persist/issues/906
+  // keyPrefix: '',
+  // timeout: null,
   // timeout: 0,
+  // debug: true,
 };
 
 const store = combineReducers({

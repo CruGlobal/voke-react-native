@@ -195,6 +195,7 @@ function AdventureCode(): ReactElement {
                 returnKeyType="done"
                 onSubmitEditing={handleContinue}
                 keyboardType="number-pad"
+                testID={'inputAdventureCode'}
               />
             </Flex>
             <Flex style={{ minHeight: theme.spacing.l }} />
