@@ -39,7 +39,8 @@ const AdventureStepNextAction = ({
   const stepsIds = useSelector(
     ({ data }: RootState) => data.adventureSteps[adventureId]?.allIds,
   );
-  const step = steps[stepId];
+
+  const step = steps ? steps[stepId] : null;
   if (!step) return null;
   const isComplete = step?.status === 'completed';
   const isWaiting =
