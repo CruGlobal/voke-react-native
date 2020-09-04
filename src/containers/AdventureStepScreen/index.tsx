@@ -393,7 +393,7 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
                 setIsVideoPlaying(true);
                 dispatch(
                   interactionVideoPlay({
-                    videoId: adventure.id,
+                    videoId: currentStep?.item?.id,
                     context: 'journey',
                   }),
                 );
