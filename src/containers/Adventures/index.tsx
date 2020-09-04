@@ -23,13 +23,13 @@ const Adventures = (): React.ReactElement => {
         {
           key: 'my',
           title: t('myAdventures'),
-          testID: 'adventuresMy',
+          testID: 'tabAdventuresMy',
           component: AdventuresMy,
         },
         {
           key: 'find',
           title: t('findAdventures'),
-          testID: 'adventuresFind',
+          testID: 'tabAdventuresFind',
           component: AdventuresFind,
         }
       ]}

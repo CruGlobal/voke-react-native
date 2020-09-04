@@ -201,6 +201,7 @@ function AdventureCode(): ReactElement {
             <Flex style={{ minHeight: theme.spacing.l }} />
             <Button
               onPress={handleContinue}
+              testID={'ctaAdventureCodeContinue'}
               touchableStyle={[
                 st.pd4,
                 st.br1,

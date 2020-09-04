@@ -51,7 +51,7 @@ function HeaderLeft({ hasBack = false, resetTo = '' }) {
             <VokeIcon name="chevron-back-outline" style={styles.backIcon} />
           </View>
         ) : (
-          <VokeIcon name="menu" style={styles.menuIcon} />
+          <VokeIcon name="menu" style={styles.menuIcon} testID={'iconMenu'} />
         )}
       </Touchable>
     </Flex>

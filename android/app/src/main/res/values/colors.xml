@@ -9,4 +9,5 @@
     <!-- For splash screen -->
     <!-- https://github.com/crazycodeboy/react-native-splash-screen#android -->
     <color name="status_bar_color">#186078</color>
+    <color name="bootsplash_background">#44C8E8</color>
 </resources>

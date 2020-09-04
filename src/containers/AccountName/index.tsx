@@ -212,6 +212,7 @@ const AccountName = (props): React.ReactElement => {
                 value={firstName}
                 onChangeText={text => setFirstName(text)}
                 returnKeyType="next"
+                testID={'inputFirstName'}
               />
               <NameInput
                 ref={lastNameRef}
@@ -222,6 +223,7 @@ const AccountName = (props): React.ReactElement => {
                 onChangeText={text => setLastName(text)}
                 returnKeyType="done"
                 onSubmitEditing={handleContinue}
+                testID={'inputLastName'}
               />
               <Button
                 onPress={handleContinue}
@@ -243,6 +245,7 @@ const AccountName = (props): React.ReactElement => {
                   },
                 ]}
                 isLoading={isLoading}
+                testID={'ctaNameContinue'}
               >
                 <Text
                   style={[st.fs20, st.tac, { color: theme.colors.secondary }]}

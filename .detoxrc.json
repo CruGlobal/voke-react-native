@@ -5,7 +5,7 @@
     "ios": {
       "type": "ios.simulator",
       "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/Voke.app",
-      "build": "xcodebuild -workspace ios/Voke.xcworkspace -scheme Voke -configuration release -sdk iphonesimulator -derivedDataPath ios/build",
+      "build": "xcodebuild -workspace ios/Voke.xcworkspace -scheme Voke -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
       "device": {
         "type": "iPhone 8"
       }

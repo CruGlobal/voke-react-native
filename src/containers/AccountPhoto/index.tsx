@@ -200,6 +200,7 @@ function AccountPhoto(props) {
                 type="image"
                 name="camera"
                 style={[st.w(70), st.h(70), st.white]}
+                testID={'iconCamera'}
               />
             ) : (
               <>
@@ -236,6 +237,7 @@ function AccountPhoto(props) {
             },
           ]}
           isLoading={loginLoading}
+          testID={'ctaPhotoContinue'}
         >
           <Text style={[st.fs20, st.tac, { color: theme.colors.secondary }]}>
             {avatarSource ? t('next') : t('skip')}

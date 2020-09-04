@@ -33,9 +33,11 @@ Sentry.init({
 
 const Root = () => {
   const [showLoader, setShowLoader] = useState( true );
+  console.log( "🐸 showLoader:", showLoader );
   registerLogs();
 
   const onBeforeLift = () => {
+    console.log( "🐸 onBeforeLift" );
     // crashlytics().recordError(37,"Test Error");
     // crashlytics().log('App mounted. 13:17');
     // crashlytics().setAttribute('test', '1317'),
@@ -58,7 +60,7 @@ const Root = () => {
         <PersistGate
           // loading={<LoadingRedux />}
           persistor={persistor} onBeforeLift={onBeforeLift}>
-            { showLoader ? <LoadingRedux /> : <App />}
+            <App />
           <ToastManager />
         </PersistGate>
       </Provider>
