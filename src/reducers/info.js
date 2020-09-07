@@ -8,25 +8,26 @@ const initialState = {
     screen: '',
     data: {},
   },
+  videoIsPlaying: false,
   groupTutorialCount: 0,
   duoTutorialCount: 0,
-  tutorialMode: false
+  tutorialMode: false,
 };
 
-export default function(
+export default function (
   state = initialState,
   action: {
-    props: any;
-    toastProps: any;
-    permission: any;
-    notificationsRequest: any;
-    screen: any;
-    data: any;
-    groupTutorialCount: Number;
-    duoTutorialCount: Number;
-    tutorialMode:any;
+    props: any,
+    toastProps: any,
+    permission: any,
+    notificationsRequest: any,
+    screen: any,
+    data: any,
+    groupTutorialCount: Number,
+    duoTutorialCount: Number,
+    tutorialMode: any,
   },
-  ) {
+) {
   switch (action.type) {
     case REDUX_ACTIONS.SET_TOAST:
       return {
@@ -50,12 +51,12 @@ export default function(
         ...state,
         groupTutorialCount: action.groupTutorialCount,
       };
-      case REDUX_ACTIONS.TUTORIAL_COUNTDOWN_DUO:
-        return {
-          ...state,
-          duoTutorialCount: action.duoTutorialCount,
-        };
-    case REDUX_ACTIONS.SET_SCREEN: {
+    case REDUX_ACTIONS.TUTORIAL_COUNTDOWN_DUO:
+      return {
+        ...state,
+        duoTutorialCount: action.duoTutorialCount,
+      };
+    case REDUX_ACTIONS.SET_SCREEN:
       return {
         ...state,
         currentScreen: {
@@ -63,9 +64,11 @@ export default function(
           data: action.data || {},
         },
       };
-
-      // return newState;
-    }
+    case REDUX_ACTIONS.SET_VIDEO_STATE:
+      return {
+        ...state,
+        videoIsPlaying: action.state || false,
+      };
     default:
       return state;
   }
