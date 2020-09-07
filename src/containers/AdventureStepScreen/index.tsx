@@ -391,20 +391,22 @@ const AdventureStepScreen = ({ route }: ModalProps): ReactElement => {
               item={currentStep?.item?.content}
               onPlay={(): void => {
                 setIsVideoPlaying(true);
-                dispatch(
-                  interactionVideoPlay({
-                    videoId: currentStep?.item?.id,
-                    context: 'journey',
-                  }),
-                );
 
                 if (!hasClickedPlay) {
                   setHasClickedPlay(true);
+
+                  dispatch(
+                    interactionVideoPlay({
+                      videoId: currentStep?.item?.id,
+                      context: 'journey',
+                    }),
+                  );
                 }
               }}
               onStop={(): void => {
                 setIsVideoPlaying(false);
               }}
+              lockOrientation={!isVideoPlaying}
             />
             {isPortrait && (
               <>
