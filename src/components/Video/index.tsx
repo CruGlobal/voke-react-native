@@ -146,7 +146,7 @@ function Video({
   }
 
   useMount(() => {
-    Orientation.unlockAllOrientations();
+    Orientation.lockToAllOrientationsButUpsideDown();
     const initial = Orientation.getInitialOrientation();
     onOrientationChange(getLandscapeOrPortrait(initial)); // TODO: Add delay here.
     // Check if the system autolock is enabled or not (android only).
@@ -170,6 +170,14 @@ function Video({
       Orientation.lockToPortrait();
     };
   });
+
+  useEffect(() => {
+    if (lockOrientation) {
+      lockToPortrait();
+    } else {
+      Orientation.lockToAllOrientationsButUpsideDown();
+    }
+  }, [lockOrientation]);
 
   // Events firing when user leaves the screen with player or comes back.
   useFocusEffect(
@@ -210,9 +218,8 @@ function Video({
         setIsBuffering(false);
         if (!started) {
           setStarted(true);
-          // Send an interaction when the user press play.
-          onPlay();
         }
+        onPlay();
         break;
       case 'ready':
         setVideoReady(true);
