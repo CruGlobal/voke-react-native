@@ -12,11 +12,12 @@ import {
 } from 'react-native';
 import Orientation, { OrientationType } from 'react-native-orientation-locker';
 import { useFocusEffect } from '@react-navigation/native';
-import { useSafeArea } from 'react-native-safe-area-context';
+import { useDispatch } from 'react-redux';
 
 import BackButton from '../BackButton';
 import { useMount, youtube_parser, lockToPortrait } from '../../utils';
 import useInterval from '../../utils/useInterval';
+import { updateVideoIsPlayingState } from '../../actions/requests';
 import {
   VIDEO_HEIGHT,
   VIDEO_LANDSCAPE_HEIGHT,
@@ -91,6 +92,7 @@ function Video({
   const [sliderValue, setSliderValue] = useState<number>(0);
   const [currentTime, setCurrentTime] = useState<number>(0);
   const window = useWindowDimensions();
+  const dispatch = useDispatch();
 
   // const time = youtubeVideo.current.getCurrentTime();
   // const duration = youtubeVideo.current.getDuration();
@@ -105,6 +107,7 @@ function Video({
   }, refreshInterval);
 
   useEffect(() => {
+    dispatch(updateVideoIsPlayingState(isPlaying));
     if (!youtubeVideo.current) return;
     setRefreshInterval(isPlaying ? 1000 : null);
   }, [isPlaying]);

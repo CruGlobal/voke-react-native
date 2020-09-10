@@ -1088,3 +1088,12 @@ export function interactionVideoPlay(params: interactionVideoPlay) {
     return result;
   };
 }
+
+export function updateVideoIsPlayingState(newState) {
+  return async (dispatch: Dispatch, getState: any) => {
+    return dispatch({
+      type: REDUX_ACTIONS.SET_VIDEO_STATE,
+      state: newState,
+    });
+  };
+}
