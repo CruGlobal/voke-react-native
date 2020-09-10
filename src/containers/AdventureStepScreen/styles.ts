@@ -4,6 +4,11 @@ import theme from '../../theme';
 const THUMBNAIL_WIDTH = 140;
 
 const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    backgroundColor: theme.colors.primary,
+    justifyContent:'flex-start',
+  },
   vokebot: {
     position: 'absolute',
     left:-25,
@@ -19,8 +24,10 @@ const styles = StyleSheet.create({
     width: 25,
     borderRadius: 50,
   },
-
-
+  sceletonQuestion: {
+    paddingTop: theme.spacing.xl,
+    paddingHorizontal: theme.spacing.l + 20,
+  },
   mainQuestionCard: {
     paddingTop: theme.spacing.xl,
     paddingHorizontal: theme.spacing.l,

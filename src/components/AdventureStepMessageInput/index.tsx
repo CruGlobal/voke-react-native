@@ -183,7 +183,7 @@ const AdventureStepMessageInput = ({
                       st.pv5,
                       a.selected || !hasSelected
                         ? { opacity: 1 }
-                        : { opacity: 0.4 },
+                        : { opacity: 0.4 }
                     ]}
                   >
                     <Text style={[a.selected ? st.orange : st.white, st.fs18]}>
@@ -293,7 +293,7 @@ const AdventureStepMessageInput = ({
             onPress={() => {
               handleSendMessage(draft);
             }}
-            // style={}
+            style={styles.buttonSend}
           >
             <VokeIcon name="send" style={styles.iconSend} size={24} />
           </Button>

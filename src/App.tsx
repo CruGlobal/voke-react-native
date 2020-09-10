@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from "react-i18next";
 import { NavigationContainer, useRoute, useNavigationState, useFocusEffect } from '@react-navigation/native';
@@ -48,6 +48,7 @@ import Text from './components/Text';
 import Button from './components/Button'
 import { useMount } from './utils';
 import useAppState from 'react-native-appstate-hook';
+import {checkInitialNotification} from './actions/notifications';
 
 // https://reactnavigation.org/docs/stack-navigator#options
 const defaultHeaderConfig = {
@@ -191,7 +192,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
             paddingTop: insets.top,
           },
           title: '',
-          headerLeft: () => <HeaderLeft hasBack />,
+          headerLeft: () => <HeaderLeft hasBack  />,
           headerRight: undefined,
         }}
       />
@@ -682,9 +683,38 @@ const RootStackScreens = () => {
   );
 };
 
+const useInitialURL = () => {
+  const [url, setUrl] = useState(null);
+  const [processing, setProcessing] = useState(true);
+
+  useMount(() => {
+    const getUrlAsync = async () => {
+      // Get the deep link used to open the app
+      // Warning! This works only with debugger disabled!
+      const initialUrl = await Linking.getInitialURL();
+      // Alert.alert(initialUrl);
+
+      console.log( "👍👍👍👍 initialUrl:", initialUrl );
+
+      // The setTimeout is just for testing purpose
+      setTimeout(() => {
+        setUrl(initialUrl);
+        setProcessing(false);
+      }, 1000);
+    };
+
+    getUrlAsync();
+  });
+
+  return { url, processing };
+};
+
 const AppStack = createStackNavigator();
 
 const App = () => {
+  const { url: initialUrl, processing } = useInitialURL();
+  console.log( "🐸 initialUrl:", initialUrl );
+  console.log( "🐸 processing:", processing );
   // Extract store.auth.isLoggedIn value.
   const isLoggedIn = useSelector(({ auth }: any) => auth.isLoggedIn);
   const userId = useSelector(({ auth }: any) => auth.user?.id);
@@ -693,6 +723,7 @@ const App = () => {
 
   // Hide splash screen on load.
   useMount(() => {
+    checkInitialNotification();
     SplashScreen.hide();
     if(!isLoggedIn && userId) {
       dispatch(getMeAction());
@@ -710,7 +741,7 @@ const App = () => {
   }, []);
 
   const linking = {
-    prefixes: ['https://the.vokeapp.com', 'voke:://'],
+    prefixes: ['https://the.vokeapp.com', 'voke:://', 'voke://'],
     config: {
       screens: {
         // "voke:://messenger_journeys/e579effe-3b01-4054-bca7-db912fe463e6/messenger_journey_steps/227a52a4-2025-4770-b792-f51f3f3ab4c0"
@@ -749,7 +780,6 @@ const App = () => {
         routeNameRef.current = currentRouteName;
       }}
       linking={linking}
-
       // initialState={ ( isLoggedIn ? ({ index: 0, routes: [{ name: 'LoggedInApp' }] }) : ({ index: 0, routes: [{ name: 'WelcomeApp' }] }) ) }
     >
       <AppStack.Navigator
