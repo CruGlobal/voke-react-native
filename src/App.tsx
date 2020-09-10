@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from "react-i18next";
 import { NavigationContainer, useRoute, useNavigationState, useFocusEffect } from '@react-navigation/native';
@@ -297,7 +297,7 @@ const LoggedInAppContainer = () => {
     // Callback function to be executed once app go to foreground
     onForeground: async () => {
       // Get the deep link used to open the app
-      /* await Linking.getInitialURL().then(
+      /* await Linking.getdeeplink().then(
         (data) => {
         }
       ); */
@@ -683,46 +683,35 @@ const RootStackScreens = () => {
   );
 };
 
-const useInitialURL = () => {
-  const [url, setUrl] = useState(null);
-  const [processing, setProcessing] = useState(true);
-
-  useMount(() => {
-    const getUrlAsync = async () => {
-      // Get the deep link used to open the app
-      // Warning! This works only with debugger disabled!
-      const initialUrl = await Linking.getInitialURL();
-      // Alert.alert(initialUrl);
-
-      console.log( "👍👍👍👍 initialUrl:", initialUrl );
-
-      // The setTimeout is just for testing purpose
-      setTimeout(() => {
-        setUrl(initialUrl);
-        setProcessing(false);
-      }, 1000);
-    };
-
-    getUrlAsync();
-  });
-
-  return { url, processing };
-};
 
 const AppStack = createStackNavigator();
 
 const App = () => {
-  const { url: initialUrl, processing } = useInitialURL();
-  console.log( "🐸 initialUrl:", initialUrl );
-  console.log( "🐸 processing:", processing );
+
   // Extract store.auth.isLoggedIn value.
   const isLoggedIn = useSelector(({ auth }: any) => auth.isLoggedIn);
   const userId = useSelector(({ auth }: any) => auth.user?.id);
   const dispatch = useDispatch();
   const { t } = useTranslation(['common', 'profile']);
+  const [deeplink, setDeeplink] = useState(null);
+
+  const deepLinkListener = (event) => {
+    if ( event?.url ) {
+      setDeeplink(event?.url);
+    }
+  }
+
+  const getUrlAsync = async () => {
+    // Get the deep link used to open the app
+    // Warning! This works only with debugger disabled!
+    const newdeeplink = await Linking.getInitialURL();
+    // TODO: For Android issues see: https://github.com/facebook/react-native/issues/25675#
+    setDeeplink(newdeeplink);
+  };
 
   // Hide splash screen on load.
   useMount(() => {
+    getUrlAsync();
     checkInitialNotification();
     SplashScreen.hide();
     if(!isLoggedIn && userId) {
@@ -731,9 +720,16 @@ const App = () => {
   });
 
   useEffect(() => {
+    if( deeplink ) {
+      // Alert.alert('deeplink:', deeplink);
+    }
+  }, [deeplink]);
+
+  useEffect(() => {
     const state = navigationRef.current.getRootState();
     // Save the initial route name
     routeNameRef.current = getActiveRouteName(state);
+    Linking.addEventListener('url', deepLinkListener );
 
     // const unsubscribe = dynamicLinks().onLink(handleDynamicLink);
     // When the is component unmounted, remove the listener
@@ -755,9 +751,8 @@ const App = () => {
       },
     },
     getStateFromPath: (path, options) => {
-    // Return a state object here
-    // You can also reuse the default logic by importing `getStateFromPath` from `@react-navigation/native`
-      console.log( "🐙 getStateFromPath:", {path}, {options}  );
+      // Return a state object here
+      // You can also reuse the default logic by importing `getStateFromPath` from `@react-navigation/native`
     },
 
     // Here Chat is the name of the screen that handles the URL /feed, and Profile handles the URL /user.
@@ -779,7 +774,7 @@ const App = () => {
         // Save the current route name for later comparision
         routeNameRef.current = currentRouteName;
       }}
-      linking={linking}
+      // linking={linking} - not working.
       // initialState={ ( isLoggedIn ? ({ index: 0, routes: [{ name: 'LoggedInApp' }] }) : ({ index: 0, routes: [{ name: 'WelcomeApp' }] }) ) }
     >
       <AppStack.Navigator
