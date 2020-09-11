@@ -32,18 +32,15 @@ Sentry.init({
 }); */
 
 const Root = () => {
-  const [showLoader, setShowLoader] = useState( true );
-  console.log( "🐸 showLoader:", showLoader );
+  const [showLoader, setShowLoader] = useState(true);
   registerLogs();
 
   const onBeforeLift = () => {
-    console.log( "🐸 onBeforeLift" );
     // crashlytics().recordError(37,"Test Error");
     // crashlytics().log('App mounted. 13:17');
     // crashlytics().setAttribute('test', '1317'),
     // crashlytics().sendUnsentReports();
     // crashlytics().recordError(new Error('Something Else!'));
-    // console.log( "🐸 crashlytics:", crashlytics() );
     // console.log( crashlytics().recordError(new Error('I did a woopsie')) );
     // Add any actions here to run before the loading gate lifts...
     // Delay for at least one second to reduce loading gate flashing.

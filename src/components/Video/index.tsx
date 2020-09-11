@@ -301,7 +301,6 @@ function Video({
           }}
           onError={(e): void => {
             setIsPlaying(false);
-            console.log('🐸 YouTube player error:', e);
           }}
           onPlaybackQualityChange={(q): void => console.log(q)}
           onEnd={(): void => {
@@ -335,8 +334,7 @@ function Video({
               setSliderValue(e.currentTime);
             }
           }}
-          onEnd={e => {
-            console.log('🐸 onEnd:', e);
+            onEnd={e => {
             if (sliderValue >= 1) {
               handleVideoStateChange('paused');
               setSliderValue(0);
