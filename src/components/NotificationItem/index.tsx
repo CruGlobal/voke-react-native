@@ -8,10 +8,10 @@ import moment from 'moment';
 import { momentUtc } from '../../utils';
 import DateComponent from '../DateComponent';
 import VokeIcon from '../VokeIcon';
-import { VIDEO_HEIGHT } from '../../constants';
 import { useNavigation } from '@react-navigation/native';
 import theme from '../../theme';
 import { useTranslation } from 'react-i18next';
+import { useWindowDimensions } from 'react-native';
 
 function renderText(item) {
   const notification = item;
@@ -39,6 +39,8 @@ function renderText(item) {
 }
 
 function renderVideoImage(message, onSelectVideo) {
+  const window = useWindowDimensions();
+  const VIDEO_HEIGHT = ((window.width - 20) * 1) / 2;
   const thumbnail =
     ((((message || {}).item || {}).media || {}).thumbnails || {}).large ||
     undefined;

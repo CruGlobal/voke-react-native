@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationActions, CommonActions,  useNavigation } from '@react-navigation/native';
 import * as RootNavigation from '../../RootNavigation';
-import { View, Alert } from 'react-native';
+import { View } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import Flex from '../Flex';

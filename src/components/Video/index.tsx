@@ -8,7 +8,7 @@ import {
   useWindowDimensions,
   ImageBackground,
   ActivityIndicator,
-  Platform,
+  Platform
 } from 'react-native';
 import Orientation, { OrientationType } from 'react-native-orientation-locker';
 import { useFocusEffect } from '@react-navigation/native';
@@ -18,11 +18,6 @@ import BackButton from '../BackButton';
 import { useMount, youtube_parser, lockToPortrait } from '../../utils';
 import useInterval from '../../utils/useInterval';
 import { updateVideoIsPlayingState } from '../../actions/requests';
-import {
-  VIDEO_HEIGHT,
-  VIDEO_LANDSCAPE_HEIGHT,
-  VIDEO_LANDSCAPE_WIDTH,
-} from '../../constants';
 import st from '../../st';
 import theme from '../../theme';
 import Flex from '../Flex';
@@ -146,9 +141,20 @@ function Video({
   }
 
   useMount(() => {
-    Orientation.lockToAllOrientationsButUpsideDown();
-    const initial = Orientation.getInitialOrientation();
-    onOrientationChange(getLandscapeOrPortrait(initial)); // TODO: Add delay here.
+
+    if (lockOrientation) {
+      lockToPortrait();
+    }
+
+    if (autoPlay && !lockOrientation) {
+      Orientation.lockToAllOrientationsButUpsideDown();
+      const initial = Orientation.getInitialOrientation();
+      onOrientationChange(getLandscapeOrPortrait(initial)); // TODO: Add delay here.
+    } else {
+      lockToPortrait();
+      onOrientationChange('portrait');
+    }
+
     // Check if the system autolock is enabled or not (android only).
     // TODO: NOT WOKRING PROPERLY IN IOS.
     /* Orientation.getAutoRotateState( systemRotationLock =>
@@ -161,9 +167,6 @@ function Video({
       Orientation.addOrientationListener(handleOrientationChange);
     }
 
-    if (lockOrientation) {
-      lockToPortrait();
-    }
 
     return function cleanup() {
       Orientation.removeOrientationListener(handleOrientationChange);
@@ -378,14 +381,6 @@ function Video({
         ]}
         self="stretch"
       >
-        {onCancel ? (
-          <BackButton
-            onPress={onCancel}
-            size={18}
-            isClose={true}
-            style={{ zIndex: 99 }}
-          />
-        ) : null}
         {/* Custom overlay to be used instead of play/pause button. */}
         {children ? (
           <Touchable
@@ -514,6 +509,14 @@ function Video({
             </Flex>
           </>
         )}
+        {onCancel ? (
+          <BackButton
+            onPress={onCancel}
+            size={18}
+            isClose={true}
+            style={{ zIndex: 99 }}
+          />
+        ) : null}
       </Flex>
     </View>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ImageBackground } from 'react-native';
+import { View, ImageBackground, useWindowDimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -13,11 +13,11 @@ import Text from '../Text';
 import Touchable from '../Touchable';
 import VokeIcon from '../VokeIcon';
 
-const THUMBNAIL_HEIGHT = ((st.fullWidth - 20) * 1) / 2;
-
 function formatDuration(seconds) {
   if (!seconds) return '00:00';
   // Hours, minutes and seconds
+  // ~~ removes anything to the right of the decimal
+  // https://stackoverflow.com/a/5971668/655381
   const hrs = ~~(seconds / 3600);
   const mins = ~~((seconds % 3600) / 60);
   const secs = seconds % 60;
@@ -42,6 +42,8 @@ function VideoItem({ id = null, category = 'allVideos' }) {
   if (Object.keys(video).length === 0) return <></>;
   const thumbnail = ((video.media || {}).thumbnails || {}).large || undefined;
   const description = (video.description || '').replace(/^\s+|\s+$/g, '');
+  const window = useWindowDimensions();
+  const THUMBNAIL_HEIGHT = ((window.width - 20) * 1) / 2;
 
   function handleShare() {
     navigation.navigate('AdventureName', {
@@ -70,7 +72,7 @@ function VideoItem({ id = null, category = 'allVideos' }) {
             st.aic,
             st.jcc,
             st.h(THUMBNAIL_HEIGHT),
-            st.w(st.fullWidth - 20),
+            st.w(window.width - 20),
             st.bgBlack,
           ]}
         >

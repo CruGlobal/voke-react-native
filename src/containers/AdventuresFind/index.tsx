@@ -34,7 +34,7 @@ const AdventuresFind = (): React.ReactElement => {
           <AvailableAdventureItem {...props} />
         )}
         data={adventures}
-        style={[st.w(st.fullWidth)]}
+        style={{ width: '100%' }}
       />
       {/* Extra spacing for bottom navigation tabs */}
       <View style={{height:120}}></View>
