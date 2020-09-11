@@ -77,6 +77,8 @@ const AccountProfile = (props: ProfileModalProps) => {
           alignContent: 'stretch',
           justifyContent: 'flex-end',
         }}
+
+        testID={'screenProfile'}
       >
         <Flex
           value={1}
@@ -154,6 +156,7 @@ const AccountProfile = (props: ProfileModalProps) => {
                     textAlign: 'center',
                     paddingTop: 20,
                   }}
+                  testID={'textFullName'}
                 >
                   {me.firstName + ( me.lastName ? ' ' + me.lastName : '' ) }
                 </Text>
@@ -474,6 +477,7 @@ const AccountProfile = (props: ProfileModalProps) => {
                     },
                   ])
                 }
+                testID={'ctaDeleteAccount'}
               >
                 <Text style={styles.ButtonActionLabel}>
                   {t('deleteAccount')}

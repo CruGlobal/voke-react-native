@@ -51,13 +51,13 @@ function HeaderLeft({ hasBack = false, resetTo = '' }) {
 
   return (
     <Flex value={1} justify="center">
-      <Touchable style={styles.touchable} onPress={goBack}>
+      <Touchable style={styles.touchable} onPress={goBack} testID={'ctaGoBack'}>
         {hasBack ? (
           <View style={styles.backIconContainer}>
             <VokeIcon name="chevron-back-outline" style={styles.backIcon} />
           </View>
         ) : (
-          <VokeIcon name="menu" style={styles.menuIcon} />
+          <VokeIcon name="menu" style={styles.menuIcon} testID={'iconMenu'} />
         )}
       </Touchable>
     </Flex>

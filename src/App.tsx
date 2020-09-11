@@ -9,7 +9,6 @@ import { Alert, Linking } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useSafeArea } from 'react-native-safe-area-context';
-import SplashScreen from 'react-native-splash-screen';
 import Welcome from './containers/Welcome';
 import Menu from './containers/Menu';
 import MenuHelp from './containers/MenuHelp';
@@ -48,6 +47,7 @@ import Text from './components/Text';
 import Button from './components/Button'
 import { useMount } from './utils';
 import useAppState from 'react-native-appstate-hook';
+import RNBootSplash from "react-native-bootsplash";
 import {checkInitialNotification} from './actions/notifications';
 
 // https://reactnavigation.org/docs/stack-navigator#options
@@ -713,7 +713,7 @@ const App = () => {
   useMount(() => {
     getUrlAsync();
     checkInitialNotification();
-    SplashScreen.hide();
+    RNBootSplash.hide({ duration: 250 }); // Hide splash screen.
     if(!isLoggedIn && userId) {
       dispatch(getMeAction());
     }

@@ -40,8 +40,8 @@ const TouchableIOS = forwardRef(
           ref={ref}
           accessibilityTraits="button"
           underlayColor="rgba(150, 150, 150, 0.5)"
-          {...rest}
           onPress={clickDisabled ? () => {} : handlePress}
+          {...rest}
         />
       );
     }
@@ -50,8 +50,8 @@ const TouchableIOS = forwardRef(
         ref={ref}
         accessibilityTraits="button"
         activeOpacity={0.6}
-        {...rest}
         onPress={clickDisabled ? () => {} : handlePress}
+        {...rest}
       />
     );
   },

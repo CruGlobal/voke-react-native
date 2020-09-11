@@ -174,6 +174,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
                   ? formik.errors.email
                   : null
               }
+              testID={'inputEmail'}
             />
             {/* INPUT FIELD: PASSWORD */}
             <TextField
