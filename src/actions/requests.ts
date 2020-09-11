@@ -730,7 +730,7 @@ export function establishCableDevice(pushDeviceId?: string) {
     const currentDeviceData = {
       // id: currentDeviceId,
       version: 1,
-      local_id: deviceInfoModule.getDeviceId(),
+      local_id: deviceInfoModule.getUniqueId(),
       local_version: deviceInfoModule.getVersion(),
       family: deviceInfoModule.getBrand(),
       name: deviceInfoModule.getModel(),
