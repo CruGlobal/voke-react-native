@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from "react-i18next";
 import { NavigationContainer, useRoute, useNavigationState, useFocusEffect } from '@react-navigation/native';
@@ -48,6 +48,7 @@ import Button from './components/Button'
 import { useMount } from './utils';
 import useAppState from 'react-native-appstate-hook';
 import RNBootSplash from "react-native-bootsplash";
+import {checkInitialNotification} from './actions/notifications';
 
 // https://reactnavigation.org/docs/stack-navigator#options
 const defaultHeaderConfig = {
@@ -191,7 +192,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
             paddingTop: insets.top,
           },
           title: '',
-          headerLeft: () => <HeaderLeft hasBack />,
+          headerLeft: () => <HeaderLeft hasBack  />,
           headerRight: undefined,
         }}
       />
@@ -296,7 +297,7 @@ const LoggedInAppContainer = () => {
     // Callback function to be executed once app go to foreground
     onForeground: async () => {
       // Get the deep link used to open the app
-      /* await Linking.getInitialURL().then(
+      /* await Linking.getdeeplink().then(
         (data) => {
         }
       ); */
@@ -682,16 +683,36 @@ const RootStackScreens = () => {
   );
 };
 
+
 const AppStack = createStackNavigator();
 
 const App = () => {
+
   // Extract store.auth.isLoggedIn value.
   const isLoggedIn = useSelector(({ auth }: any) => auth.isLoggedIn);
   const userId = useSelector(({ auth }: any) => auth.user?.id);
   const dispatch = useDispatch();
   const { t } = useTranslation(['common', 'profile']);
+  const [deeplink, setDeeplink] = useState(null);
+
+  const deepLinkListener = (event) => {
+    if ( event?.url ) {
+      setDeeplink(event?.url);
+    }
+  }
+
+  const getUrlAsync = async () => {
+    // Get the deep link used to open the app
+    // Warning! This works only with debugger disabled!
+    const newdeeplink = await Linking.getInitialURL();
+    // TODO: For Android issues see: https://github.com/facebook/react-native/issues/25675#
+    setDeeplink(newdeeplink);
+  };
+
   // Hide splash screen on load.
   useMount(() => {
+    getUrlAsync();
+    checkInitialNotification();
     RNBootSplash.hide({ duration: 250 }); // Hide splash screen.
     if(!isLoggedIn && userId) {
       dispatch(getMeAction());
@@ -699,9 +720,16 @@ const App = () => {
   });
 
   useEffect(() => {
+    if( deeplink ) {
+      // Alert.alert('deeplink:', deeplink);
+    }
+  }, [deeplink]);
+
+  useEffect(() => {
     const state = navigationRef.current.getRootState();
     // Save the initial route name
     routeNameRef.current = getActiveRouteName(state);
+    Linking.addEventListener('url', deepLinkListener );
 
     // const unsubscribe = dynamicLinks().onLink(handleDynamicLink);
     // When the is component unmounted, remove the listener
@@ -709,7 +737,7 @@ const App = () => {
   }, []);
 
   const linking = {
-    prefixes: ['https://the.vokeapp.com', 'voke:://'],
+    prefixes: ['https://the.vokeapp.com', 'voke:://', 'voke://'],
     config: {
       screens: {
         // "voke:://messenger_journeys/e579effe-3b01-4054-bca7-db912fe463e6/messenger_journey_steps/227a52a4-2025-4770-b792-f51f3f3ab4c0"
@@ -723,9 +751,8 @@ const App = () => {
       },
     },
     getStateFromPath: (path, options) => {
-    // Return a state object here
-    // You can also reuse the default logic by importing `getStateFromPath` from `@react-navigation/native`
-      console.log( "🐙 getStateFromPath:", {path}, {options}  );
+      // Return a state object here
+      // You can also reuse the default logic by importing `getStateFromPath` from `@react-navigation/native`
     },
 
     // Here Chat is the name of the screen that handles the URL /feed, and Profile handles the URL /user.
@@ -747,8 +774,7 @@ const App = () => {
         // Save the current route name for later comparision
         routeNameRef.current = currentRouteName;
       }}
-      linking={linking}
-
+      // linking={linking} - not working.
       // initialState={ ( isLoggedIn ? ({ index: 0, routes: [{ name: 'LoggedInApp' }] }) : ({ index: 0, routes: [{ name: 'WelcomeApp' }] }) ) }
     >
       <AppStack.Navigator

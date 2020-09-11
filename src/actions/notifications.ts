@@ -89,7 +89,6 @@ function gotPushToken(newPushToken: any) {
 
 function handleNotifications(state: string, notification: { data?: any }) {
   return async (dispatch: Dispatch, getState: any) => {
-    // TODO: We don't use any of these as all happening in WebSockets.
     const { data } = notification;
 
     // Get the namespace and link differently for ios and android
@@ -117,8 +116,6 @@ function handleNotifications(state: string, notification: { data?: any }) {
       ) {
         const adventureId = getJID(link);
         const stepId = getSID(link);
-        // TODO: add push previous Steps screen https://reactnavigation.org/docs/navigating-without-navigation-prop/
-        // TODO: what happen if can't find route?
 
         try {
           RootNavigation.navigate('AdventureStepScreen', {
@@ -134,13 +131,28 @@ function handleNotifications(state: string, notification: { data?: any }) {
       } else if (link.includes('messenger_journeys')) {
         const adventureId = getOnlyJID(link);
 
-        RootNavigation.navigate('AdventureActive', {
-          adventureId,
-        });
+        try {
+          RootNavigation.navigate('AdventureActive', {
+            adventureId,
+          });
+        } catch (error) {
+          RootNavigation.reset({
+            index: 0,
+            routes: [{ name: 'LoggedInApp' }],
+          });
+        }
       }
     }
   };
 }
+
+export const checkInitialNotification = async () => {
+  const initialNotification = await PushNotificationIOS.getInitialNotification();
+  const data = initialNotification?.getData();
+  if (data) {
+    handleNotifications('open', { data });
+  }
+};
 
 function establishDevice(): Promise<void> {
   return async (dispatch: Dispatch, getState: any) => {
@@ -272,6 +284,7 @@ export function permissionsAndNotifications(askPermission = false) {
         // 1. Register Apple/Google device on server
         // 2. Create a WebSocket cable.
         DeviceInfo.isEmulator().then(isEmulator => {
+          // if (isEmulator && false) { -- use when testing push notifications in Emulator.
           if (isEmulator) {
             // Notifications won't work in simulator.
             return dispatch(establishCableDevice());

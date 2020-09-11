@@ -12,11 +12,12 @@ import {
 } from 'react-native';
 import Orientation, { OrientationType } from 'react-native-orientation-locker';
 import { useFocusEffect } from '@react-navigation/native';
-import { useSafeArea } from 'react-native-safe-area-context';
+import { useDispatch } from 'react-redux';
 
 import BackButton from '../BackButton';
 import { useMount, youtube_parser, lockToPortrait } from '../../utils';
 import useInterval from '../../utils/useInterval';
+import { updateVideoIsPlayingState } from '../../actions/requests';
 import {
   VIDEO_HEIGHT,
   VIDEO_LANDSCAPE_HEIGHT,
@@ -91,6 +92,7 @@ function Video({
   const [sliderValue, setSliderValue] = useState<number>(0);
   const [currentTime, setCurrentTime] = useState<number>(0);
   const window = useWindowDimensions();
+  const dispatch = useDispatch();
 
   // const time = youtubeVideo.current.getCurrentTime();
   // const duration = youtubeVideo.current.getDuration();
@@ -105,6 +107,7 @@ function Video({
   }, refreshInterval);
 
   useEffect(() => {
+    dispatch(updateVideoIsPlayingState(isPlaying));
     if (!youtubeVideo.current) return;
     setRefreshInterval(isPlaying ? 1000 : null);
   }, [isPlaying]);
@@ -143,7 +146,7 @@ function Video({
   }
 
   useMount(() => {
-    Orientation.unlockAllOrientations();
+    Orientation.lockToAllOrientationsButUpsideDown();
     const initial = Orientation.getInitialOrientation();
     onOrientationChange(getLandscapeOrPortrait(initial)); // TODO: Add delay here.
     // Check if the system autolock is enabled or not (android only).
@@ -167,6 +170,14 @@ function Video({
       Orientation.lockToPortrait();
     };
   });
+
+  useEffect(() => {
+    if (lockOrientation) {
+      lockToPortrait();
+    } else {
+      Orientation.lockToAllOrientationsButUpsideDown();
+    }
+  }, [lockOrientation]);
 
   // Events firing when user leaves the screen with player or comes back.
   useFocusEffect(
@@ -207,9 +218,8 @@ function Video({
         setIsBuffering(false);
         if (!started) {
           setStarted(true);
-          // Send an interaction when the user press play.
-          onPlay();
         }
+        onPlay();
         break;
       case 'ready':
         setVideoReady(true);
