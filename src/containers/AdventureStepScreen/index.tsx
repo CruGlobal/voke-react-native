@@ -48,13 +48,13 @@ const AdventureStepScreen = ({
   // To be used in redirectIfNeeded closure.
   const adventureIdRef = useRef(adventure?.id);
   const currentStepIdRef = useRef(currentStep?.id);
-  const { routes } = navigation.dangerouslyGetState();
 
   useEffect(() => {
     adventureIdRef.current = adventure?.id;
     currentStepIdRef.current = currentStep?.id;
     if (adventure?.id && currentStep?.id) {
       setIsLoading(false);
+      const { routes } = navigation.dangerouslyGetState();
 
       // Save current screen and it's parammeters in store.
       dispatch(
@@ -78,6 +78,7 @@ const AdventureStepScreen = ({
         with updated route.
       */
       if (routes[routes.length - 1]?.name !== 'AdventureActive') {
+
         const newRoutes = [
           ...routes.slice(0, -1),
           {
@@ -141,7 +142,6 @@ const AdventureStepScreen = ({
   // Wait for 5 seconds. If no content loaded, redirect to the main screen.
   useEffect(() => {
     const timer = setTimeout(() => {
-      console.log('5 secconds passed. Redirect now.');
       redirectIfNeeded();
     }, 5000);
     return () => clearTimeout(timer);

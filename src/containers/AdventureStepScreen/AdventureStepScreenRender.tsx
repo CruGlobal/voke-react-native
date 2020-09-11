@@ -1,36 +1,18 @@
 /* eslint-disable camelcase */
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useCallback,
-  ReactElement,
-  useMemo,
-} from 'react';
+import React, { useState, useEffect, useRef, ReactElement } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useFocusEffect } from '@react-navigation/native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {
   KeyboardAvoidingView,
   View,
   StatusBar,
-  ActivityIndicator,
   Dimensions,
   Platform,
-  SafeAreaView,
   ScrollView,
   Keyboard,
-  findNodeHandle,
-  UIManager,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import DeviceInfo from 'react-native-device-info';
 import useKeyboard from '@rnhooks/keyboard';
-// import {
-// 	useHeaderHeight
-// } from '@react-navigation/stack';
-
-import { TextInput } from 'react-native-gesture-handler';
 
 import { REDUX_ACTIONS } from '../../constants';
 import { RootState } from '../../reducers';
@@ -40,7 +22,7 @@ import {
   interactionVideoPlay,
   getAdventureSteps,
 } from '../../actions/requests';
-import { setCurrentScreen, toastAction } from '../../actions/info';
+import { toastAction } from '../../actions/info';
 import AdventureStepMessageInput from '../../components/AdventureStepMessageInput';
 import AdventureStepNextAction from '../../components/AdventureStepNextAction';
 import AdventureStepMessage from '../../components/AdventureStepMessage';
@@ -51,7 +33,6 @@ import Text from '../../components/Text';
 import st from '../../st';
 import theme from '../../theme';
 import Video from '../../components/Video';
-import Image from '../../components/Image';
 import VokeIcon from '../../components/VokeIcon';
 
 import styles from './styles';
@@ -73,8 +54,7 @@ const AdventureStepScreenRender = ({
   currentStep,
 }: ComponentProps): ReactElement => {
   const currentMessages = useSelector(
-    ({ data }: RootState) =>
-      data.adventureStepMessages[currentStep?.id] || [],
+    ({ data }: RootState) => data.adventureStepMessages[currentStep?.id] || [],
   );
   const scrollRef = useRef<ScrollView>();
   const dispatch = useDispatch();
@@ -217,7 +197,7 @@ const AdventureStepScreenRender = ({
     setSkipInitialScroll(false);
   };
 
-   const getMessages = async () => {
+  const getMessages = async () => {
     await dispatch(
       getAdventureStepMessages(adventure.conversation.id, currentStep.id),
     );
@@ -230,11 +210,7 @@ const AdventureStepScreenRender = ({
   useEffect(() => {
     setIsLoading(true);
     getMessages();
-
-    return () => {
-
-    }
-  }, [])
+  }, []);
 
   useEffect(() => {
     setSkipKeyboardColapse(true);
@@ -373,6 +349,7 @@ const AdventureStepScreenRender = ({
                 onStop={(): void => {
                   setIsVideoPlaying(false);
                 }}
+                lockOrientation={!isVideoPlaying}
               />
               {isPortrait && (
                 <>
@@ -441,7 +418,7 @@ const AdventureStepScreenRender = ({
                   </Flex>
 
                   {
-                  /* !currentMessages.length ? (
+                    /* !currentMessages.length ? (
                     <ActivityIndicator
                       size="large"
                       color="rgba(255,255,255,.5)"
@@ -476,7 +453,7 @@ const AdventureStepScreenRender = ({
                         </>
                       );
                     })
-                  // )
+                    // )
                   }
                   <AdventureStepNextAction
                     adventureId={adventure.id}

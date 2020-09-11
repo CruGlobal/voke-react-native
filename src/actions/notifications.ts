@@ -284,7 +284,7 @@ export function permissionsAndNotifications(askPermission = false) {
         // 1. Register Apple/Google device on server
         // 2. Create a WebSocket cable.
         DeviceInfo.isEmulator().then(isEmulator => {
-          // if (isEmulator && false) { -- use when testing push notifications in Emulator.
+          // if (isEmulator && false) { // -- use when testing push notifications in Emulator.
           if (isEmulator) {
             // Notifications won't work in simulator.
             return dispatch(establishCableDevice());
