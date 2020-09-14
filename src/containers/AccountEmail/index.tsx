@@ -179,6 +179,7 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
                 keyboardType="email-address"
                 returnKeyType="next"
                 autoFocus={true}
+                testID={"inputEmail"}
               />
               {/* INPUT FIELD: CONFIRM NEW EMAIL */}
               <TextField
@@ -195,6 +196,7 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
                 keyboardType="email-address"
                 returnKeyType="next"
                 onSubmitEditing={(): void => passwordRef?.current?.focus()}
+                testID={"inputEmailConfirm"}
               />
               {/* INPUT FIELD: PASSWORD */}
               <TextField
@@ -209,6 +211,7 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
                 autoCompleteType="password"
                 returnKeyType="send"
                 onSubmitEditing={(): Promise<void> => save()}
+                testID={"inputPassword"}
               />
             </Flex>
 
