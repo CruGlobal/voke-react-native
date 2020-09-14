@@ -65,6 +65,14 @@ describe('Welcome > Have an Adventure Code', () => {
     await expect(element(by.id('textFullName'))).toHaveText(firstName + ' ' + lastName);
   });
 
+  it('should be able to register with Email', async () => {
+    await element(by.id('ctaSignUpEmail')).tap();
+    await element(by.id('inputEmail')).replaceText('automatedtest@vokeapptest.com');
+    await element(by.id('inputPassword')).replaceText('12345678');
+    await element(by.id('ctaSignUp')).tap();
+    await expect(element(by.id('textEmail'))).toHaveText('automatedtest@vokeapptest.com');
+  });
+
   it('should be able to Delete Account', async () => {
     await element(by.id('ctaDeleteAccount')).tap();
     await element(by.text('Delete')).tap();

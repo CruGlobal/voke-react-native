@@ -10,6 +10,7 @@
     "start": "react-native start",
     "start clean": "react-native start --reset-cache",
     "test": "jest",
+    "detox:build:ios": "detox build --configuration ios",
     "detox:test:android": "detox test --configuration android.emu.debug",
     "detox:test:ios": "detox test --configuration ios",
     "detox:test:reuse": "detox test  --reuse --configuration ios",
