@@ -6,6 +6,7 @@ import {
   useRoute,
   useNavigationState,
   useFocusEffect,
+  StackActions,
 } from '@react-navigation/native';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import { Alert, Linking, YellowBox } from 'react-native';
@@ -153,39 +154,6 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
         }}
       />
       <AdventureStack.Screen
-        name="AdventureName"
-        component={AdventureName}
-        options={{
-          title: '',
-          headerLeft: () => <HeaderLeft hasBack />,
-        }}
-      />
-      <AdventureStack.Screen
-        name="AdventureShareCode"
-        component={AdventureShareCode}
-        options={{
-          ...transparentHeaderConfig,
-          headerStyle: {
-            ...transparentHeaderConfig.headerStyle,
-            paddingTop: insets.top,
-          },
-          title: '',
-          headerLeft: () => <></>,
-          headerRight: () => (
-            <Touchable
-              onPress={() => {
-                navigation.reset({
-                  index: 0,
-                  routes: [{ name: 'Adventures' }],
-                });
-              }}
-            >
-              <Text style={[st.white, st.mr4, st.fs16]}>{t('done')}</Text>
-            </Touchable>
-          ),
-        }}
-      />
-      <AdventureStack.Screen
         name="AdventureActive"
         component={AdventureActive}
         // Fixed header with back button.
@@ -193,7 +161,6 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
           ...transparentHeaderConfig,
           headerStyle: {
             ...transparentHeaderConfig.headerStyle,
-            // paddingTop: insets.top,
           },
           title: '',
           headerLeft: () => <HeaderLeft hasBack resetTo="Adventures" />,
@@ -824,6 +791,7 @@ const App = () => {
                     });
                   }
                 }}
+                testID={'ctaHeaderClose'}
               >
                 <Text
                   style={[
@@ -850,6 +818,42 @@ const App = () => {
               fontWeight: 'normal',
             },
             title: '',
+          })}
+        />
+        <AppStack.Screen
+          name="AdventureName"
+          component={AdventureName}
+          options={({ navigation }) => ({
+            ...transparentHeaderConfig,
+            headerStyle: {
+              ...transparentHeaderConfig.headerStyle,
+            },
+            cardStyle: { backgroundColor: theme.colors.primary },
+            title: '',
+            headerLeft: () => <HeaderLeft hasBack />,
+          })}
+        />
+        <AppStack.Screen
+          name="AdventureShareCode"
+          component={AdventureShareCode}
+          options={({ navigation }) => ({
+            ...transparentHeaderConfig,
+            headerStyle: {
+              ...transparentHeaderConfig.headerStyle,
+            },
+            cardStyle: { backgroundColor: theme.colors.primary },
+            title: '',
+            headerLeft: () => <></>,
+            headerRight: () => (
+              <Touchable
+                onPress={() => {
+                  navigation.dispatch(StackActions.popToTop());
+                }}
+                testID={'ctaHeaderDone'}
+              >
+                <Text style={[st.white, st.mr4, st.fs16]}>{t('done')}</Text>
+              </Touchable>
+            ),
           })}
         />
       </AppStack.Navigator>

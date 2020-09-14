@@ -192,6 +192,7 @@ const AccountCreate: React.FC = (): React.ReactElement => {
               autoCompleteType="email"
               keyboardType="email-address"
               returnKeyType="next"
+              testID={"inputEmail"}
             />
             {/* INPUT FIELD: PASSWORD */}
             <TextField
@@ -206,6 +207,7 @@ const AccountCreate: React.FC = (): React.ReactElement => {
               autoCompleteType="password"
               returnKeyType="send"
               onSubmitEditing={(): Promise<void> => register()}
+              testID={"inputPassword"}
             />
             {/* SECTION: CALL TO ACTION BUTTON */}
             {/* BUTTON: SIGN UP */}
@@ -228,6 +230,7 @@ const AccountCreate: React.FC = (): React.ReactElement => {
               ]}
               onPress={(): Promise<void> => register()}
               isLoading={isLoading}
+              testID={"ctaSignUp"}
             >
               <Text
                 style={[st.fs20, st.tac, { color: theme.colors.secondary }]}

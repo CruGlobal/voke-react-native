@@ -138,6 +138,7 @@ function AvailableAdventureItem({
                 st.jcc,
                 st.fdr,
               ]}
+              testID={'ctaShareInviteFriend'}
             >
               <VokeIcon
                 name="shareArrow"
@@ -199,6 +200,7 @@ function AvailableAdventureItem({
                 }
                 activeOpacity={0.6}
                 touchableStyle={[{ marginTop: -20 }, st.ml5]}
+                testID={'ctaShareIcon'}
               >
                 <VokeIcon
                   type="image"

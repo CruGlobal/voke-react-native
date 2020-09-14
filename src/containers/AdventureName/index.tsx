@@ -171,6 +171,7 @@ function AdventureName(props: any): ReactElement {
                   value={name}
                   onChangeText={(text: string): void => setName(text)}
                   returnKeyType="done"
+                  testID={'inputFriendsName'}
                 />
                 <Touchable onPress={() => setShowHelp(!showHelp)}>
                   <Text style={[st.offBlue, st.fs14, st.pt3, st.tac, st.ph1]}>
@@ -214,6 +215,7 @@ function AdventureName(props: any): ReactElement {
                   },
                 ]}
                 isLoading={isLoading}
+                testID={'ctaContinue'}
               >
                 <Text
                   style={[st.fs20, st.tac, { color: theme.colors.secondary }]}

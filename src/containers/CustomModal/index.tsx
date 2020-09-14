@@ -598,6 +598,7 @@ export default function CustomModal(props: any): React.ReactElement {
               // toggleModal();
               return dispatch(requestPremissions());
             }}
+            testID={'ctaAllowNotifications'}
           >
             <Text
               style={{
