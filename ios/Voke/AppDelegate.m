@@ -12,12 +12,13 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
-#import "RNSplashScreen.h" // Voke: Splash Screen
 #import "Orientation.h" // Voke: Needed to handle orientation changes
 #import <RNCPushNotificationIOS.h> // Voke: Needed for push notifications
 #import <UserNotifications/UserNotifications.h> // Voke: Needed for push notifications
 #import <React/RCTLinkingManager.h> //Voke: Deeplinking
 
+// https://github.com/zoontek/react-native-bootsplash#ios-1
+#import "RNBootSplash.h"
 
  @implementation AppDelegate
 
@@ -36,6 +37,9 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
 
+  // https://github.com/zoontek/react-native-bootsplash#ios-1
+  [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView];
+
   // VOKE: Define UNUserNotificationCenter
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
   center.delegate = self;
@@ -49,9 +53,6 @@
   // VOKE: Facebook SDK
   [[FBSDKApplicationDelegate sharedInstance] application:application
     didFinishLaunchingWithOptions:launchOptions];
-
-  // VOKE: Splash Screen
-  [RNSplashScreen show];
 
   return YES;
 }

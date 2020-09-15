@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Alert, Dimensions } from 'react-native';
+import { View, Dimensions } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import lodash from 'lodash';
@@ -138,6 +138,7 @@ function AvailableAdventureItem({
                 st.jcc,
                 st.fdr,
               ]}
+              testID={'ctaShareInviteFriend'}
             >
               <VokeIcon
                 name="shareArrow"
@@ -199,6 +200,7 @@ function AvailableAdventureItem({
                 }
                 activeOpacity={0.6}
                 touchableStyle={[{ marginTop: -20 }, st.ml5]}
+                testID={'ctaShareIcon'}
               >
                 <VokeIcon
                   type="image"

@@ -77,6 +77,8 @@ const AccountProfile = (props: ProfileModalProps) => {
           alignContent: 'stretch',
           justifyContent: 'flex-end',
         }}
+
+        testID={'screenProfile'}
       >
         <Flex
           value={1}
@@ -154,6 +156,7 @@ const AccountProfile = (props: ProfileModalProps) => {
                     textAlign: 'center',
                     paddingTop: 20,
                   }}
+                  testID={'textFullName'}
                 >
                   {me.firstName + ( me.lastName ? ' ' + me.lastName : '' ) }
                 </Text>
@@ -264,6 +267,7 @@ const AccountProfile = (props: ProfileModalProps) => {
                           fontSize: theme.fontSizes.l,
                         }}
                         numberOfLines={2}
+                        testID={"textEmail"}
                       >
                         {me.email}
                       </Text>
@@ -400,6 +404,7 @@ const AccountProfile = (props: ProfileModalProps) => {
                     isAndroidOpacity={true}
                     style={[styles.ButtonSignUp]}
                     onPress={() => navigation.navigate('SignUp')}
+                    testID={"ctaSignUpEmail"}
                   >
                     <Flex
                       // value={1}
@@ -423,6 +428,7 @@ const AccountProfile = (props: ProfileModalProps) => {
                     isAndroidOpacity={true}
                     style={[styles.ButtonSignUp]}
                     onPress={(): Promise<void> => fbLogin()}
+                    testID={"ctaSignUpFacebook"}
                   >
                     <Flex
                       // value={1}
@@ -474,6 +480,7 @@ const AccountProfile = (props: ProfileModalProps) => {
                     },
                   ])
                 }
+                testID={'ctaDeleteAccount'}
               >
                 <Text style={styles.ButtonActionLabel}>
                   {t('deleteAccount')}

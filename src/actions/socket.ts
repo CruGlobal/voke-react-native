@@ -130,13 +130,16 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
                 const currentScreen = getState().info?.currentScreen?.screen;
                 const adventureStepId = getState().info?.currentScreen?.data
                   ?.adventureStepId;
+                const { videoIsPlaying } = getState().info;
                 let showToast = true;
 
                 // Don't show toasts for new messages
-                // in the current chat/conversation.
+                // in the current chat/conversation,
+                // or when any video is playing.
                 if (
-                  currentScreen === 'AdventureStepScreen' &&
-                  adventureStepId === message.messenger_journey_step_id
+                  videoIsPlaying ||
+                  (currentScreen === 'AdventureStepScreen' &&
+                    adventureStepId === message.messenger_journey_step_id)
                 ) {
                   showToast = false;
                 }
@@ -161,7 +164,7 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
                     ) || {}
                   ).id;
 
-                  if (message.kind === 'text' && adventureId !== undefined ) {
+                  if (message.kind === 'text' && adventureId !== undefined) {
                     // If simple text: save new message in the store
                     // without requesting update from the server via API.
                     // BUT only if we have conversation array ready

@@ -1,10 +1,11 @@
 package org.cru.voke;
 
-// https://github.com/crazycodeboy/react-native-splash-screen/issues/418
+// https://github.com/zoontek/react-native-bootsplash#android-1
 import android.os.Bundle;
 
 import com.facebook.react.ReactActivity;
-import org.devio.rn.splashscreen.SplashScreen; // Voke: Splash Screen
+// https://github.com/zoontek/react-native-bootsplash#android-1
+import com.zoontek.rnbootsplash.RNBootSplash;
 
 // Voke: RN Orientation Locker
 // https://github.com/wonday/react-native-orientation-locker#android
@@ -16,8 +17,9 @@ public class MainActivity extends ReactActivity {
   // Voke: Splash Screen
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-      SplashScreen.show(this);  // here
       super.onCreate(savedInstanceState);
+      // https://github.com/zoontek/react-native-bootsplash#android-1
+      RNBootSplash.init(R.drawable.bootsplash, MainActivity.this);
   }
 
   // Voke: Needed for orientation changes

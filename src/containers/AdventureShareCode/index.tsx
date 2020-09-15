@@ -157,6 +157,7 @@ function AdventureShareCode(props) {
               {t('share')}
             </Text>
           </Button>
+          <Flex style={{ minHeight: theme.spacing.xl }} />
         </Flex>
       )}
       {!isVideoInvite && (
@@ -225,13 +226,14 @@ function AdventureShareCode(props) {
               width: '100%',
             }}
             onPress={handleShare}
+            testID={'ctaShareLink'}
           >
             <Text style={[st.fs18, st.tac, { color: theme.colors.secondary }]}>
               {t('shareLink')}
             </Text>
           </Button>
           <Flex style={{ minHeight: theme.spacing.xl }} />
-          <Text style={[st.fs22, st.white]}>
+          <Text style={[st.fs22, st.white]} testID={'textAdventureCode'}>
             {t('adventureCode:adventureCode')}:{' '}
             <Text
               style={{

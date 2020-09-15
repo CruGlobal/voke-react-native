@@ -8,20 +8,16 @@ import {
   useWindowDimensions,
   ImageBackground,
   ActivityIndicator,
-  Platform,
+  Platform
 } from 'react-native';
 import Orientation, { OrientationType } from 'react-native-orientation-locker';
 import { useFocusEffect } from '@react-navigation/native';
-import { useSafeArea } from 'react-native-safe-area-context';
+import { useDispatch } from 'react-redux';
 
 import BackButton from '../BackButton';
 import { useMount, youtube_parser, lockToPortrait } from '../../utils';
 import useInterval from '../../utils/useInterval';
-import {
-  VIDEO_HEIGHT,
-  VIDEO_LANDSCAPE_HEIGHT,
-  VIDEO_LANDSCAPE_WIDTH,
-} from '../../constants';
+import { updateVideoIsPlayingState } from '../../actions/requests';
 import st from '../../st';
 import theme from '../../theme';
 import Flex from '../Flex';
@@ -91,6 +87,7 @@ function Video({
   const [sliderValue, setSliderValue] = useState<number>(0);
   const [currentTime, setCurrentTime] = useState<number>(0);
   const window = useWindowDimensions();
+  const dispatch = useDispatch();
 
   // const time = youtubeVideo.current.getCurrentTime();
   // const duration = youtubeVideo.current.getDuration();
@@ -105,6 +102,7 @@ function Video({
   }, refreshInterval);
 
   useEffect(() => {
+    dispatch(updateVideoIsPlayingState(isPlaying));
     if (!youtubeVideo.current) return;
     setRefreshInterval(isPlaying ? 1000 : null);
   }, [isPlaying]);
@@ -143,9 +141,20 @@ function Video({
   }
 
   useMount(() => {
-    Orientation.unlockAllOrientations();
-    const initial = Orientation.getInitialOrientation();
-    onOrientationChange(getLandscapeOrPortrait(initial)); // TODO: Add delay here.
+
+    if (lockOrientation) {
+      lockToPortrait();
+    }
+
+    if (autoPlay && !lockOrientation) {
+      Orientation.lockToAllOrientationsButUpsideDown();
+      const initial = Orientation.getInitialOrientation();
+      onOrientationChange(getLandscapeOrPortrait(initial)); // TODO: Add delay here.
+    } else {
+      lockToPortrait();
+      onOrientationChange('portrait');
+    }
+
     // Check if the system autolock is enabled or not (android only).
     // TODO: NOT WOKRING PROPERLY IN IOS.
     /* Orientation.getAutoRotateState( systemRotationLock =>
@@ -158,15 +167,20 @@ function Video({
       Orientation.addOrientationListener(handleOrientationChange);
     }
 
-    if (lockOrientation) {
-      lockToPortrait();
-    }
 
     return function cleanup() {
       Orientation.removeOrientationListener(handleOrientationChange);
       Orientation.lockToPortrait();
     };
   });
+
+  useEffect(() => {
+    if (lockOrientation) {
+      lockToPortrait();
+    } else {
+      Orientation.lockToAllOrientationsButUpsideDown();
+    }
+  }, [lockOrientation]);
 
   // Events firing when user leaves the screen with player or comes back.
   useFocusEffect(
@@ -207,9 +221,8 @@ function Video({
         setIsBuffering(false);
         if (!started) {
           setStarted(true);
-          // Send an interaction when the user press play.
-          onPlay();
         }
+        onPlay();
         break;
       case 'ready':
         setVideoReady(true);
@@ -291,7 +304,6 @@ function Video({
           }}
           onError={(e): void => {
             setIsPlaying(false);
-            console.log('🐸 YouTube player error:', e);
           }}
           onPlaybackQualityChange={(q): void => console.log(q)}
           onEnd={(): void => {
@@ -325,8 +337,7 @@ function Video({
               setSliderValue(e.currentTime);
             }
           }}
-          onEnd={e => {
-            console.log('🐸 onEnd:', e);
+            onEnd={e => {
             if (sliderValue >= 1) {
               handleVideoStateChange('paused');
               setSliderValue(0);
@@ -370,14 +381,6 @@ function Video({
         ]}
         self="stretch"
       >
-        {onCancel ? (
-          <BackButton
-            onPress={onCancel}
-            size={18}
-            isClose={true}
-            style={{ zIndex: 99 }}
-          />
-        ) : null}
         {/* Custom overlay to be used instead of play/pause button. */}
         {children ? (
           <Touchable
@@ -506,6 +509,14 @@ function Video({
             </Flex>
           </>
         )}
+        {onCancel ? (
+          <BackButton
+            onPress={onCancel}
+            size={18}
+            isClose={true}
+            style={{ zIndex: 99 }}
+          />
+        ) : null}
       </Flex>
     </View>
   );

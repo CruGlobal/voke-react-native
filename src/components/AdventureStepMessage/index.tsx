@@ -218,11 +218,11 @@ function AdventureStepMessage({
                       {isAndroid && (
                         <ReactNativeImage
                           source={bluredText}
-                          resizeMode={'cover'}
+                          resizeMode={'repeat'}
                           resizeMethod={'resize'}
                           style={{
-                            width: 300,
-                            height: 140,
+                            width: 310,
+                            height: 600,
                             position: 'absolute',
                             left: 5,
                             top: 6,

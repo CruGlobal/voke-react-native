@@ -32,7 +32,7 @@ Sentry.init({
 }); */
 
 const Root = () => {
-  const [showLoader, setShowLoader] = useState( true );
+  const [showLoader, setShowLoader] = useState(true);
   registerLogs();
 
   const onBeforeLift = () => {
@@ -41,7 +41,6 @@ const Root = () => {
     // crashlytics().setAttribute('test', '1317'),
     // crashlytics().sendUnsentReports();
     // crashlytics().recordError(new Error('Something Else!'));
-    // console.log( "🐸 crashlytics:", crashlytics() );
     // console.log( crashlytics().recordError(new Error('I did a woopsie')) );
     // Add any actions here to run before the loading gate lifts...
     // Delay for at least one second to reduce loading gate flashing.
@@ -58,7 +57,7 @@ const Root = () => {
         <PersistGate
           // loading={<LoadingRedux />}
           persistor={persistor} onBeforeLift={onBeforeLift}>
-            { showLoader ? <LoadingRedux /> : <App />}
+            <App />
           <ToastManager />
         </PersistGate>
       </Provider>

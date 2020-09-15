@@ -174,6 +174,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
                   ? formik.errors.email
                   : null
               }
+              testID={'inputEmail'}
             />
             {/* INPUT FIELD: PASSWORD */}
             <TextField
@@ -196,6 +197,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
                   ? formik.errors.password
                   : null
               }
+              testID={"inputPassword"}
             />
             <Flex
               style={{
@@ -221,6 +223,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
                 },
               ]}
               isLoading={isLoading}
+              testID={'ctaSignInNow'}
             >
               <Text
                 style={[st.fs20, st.tac, { color: theme.colors.secondary }]}

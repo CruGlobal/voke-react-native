@@ -1,15 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useTranslation } from "react-i18next";
-import { NavigationContainer, useRoute, useNavigationState, useFocusEffect } from '@react-navigation/native';
-import { startupAction, sleepAction, wakeupAction, getMeAction } from './actions/auth';
-import { routeNameRef, navigationRef } from './RootNavigation';
+import { useTranslation } from 'react-i18next';
+import {
+  NavigationContainer,
+  useRoute,
+  useNavigationState,
+  useFocusEffect,
+  StackActions,
+} from '@react-navigation/native';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
-import { Alert, Linking } from 'react-native';
+import { Alert, Linking, YellowBox } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useSafeArea } from 'react-native-safe-area-context';
-import SplashScreen from 'react-native-splash-screen';
+import useAppState from 'react-native-appstate-hook';
+import RNBootSplash from 'react-native-bootsplash';
+
+import {
+  startupAction,
+  sleepAction,
+  wakeupAction,
+  getMeAction,
+} from './actions/auth';
+import { routeNameRef, navigationRef } from './RootNavigation';
 import Welcome from './containers/Welcome';
 import Menu from './containers/Menu';
 import MenuHelp from './containers/MenuHelp';
@@ -45,9 +58,9 @@ import Touchable from './components/Touchable';
 import Flex from './components/Flex';
 import SignOut from './components/SignOut';
 import Text from './components/Text';
-import Button from './components/Button'
+import Button from './components/Button';
 import { useMount } from './utils';
-import useAppState from 'react-native-appstate-hook';
+import { checkInitialNotification } from './actions/notifications';
 
 // https://reactnavigation.org/docs/stack-navigator#options
 const defaultHeaderConfig = {
@@ -61,7 +74,7 @@ const defaultHeaderConfig = {
     fontSize: 16,
     fontWeight: 'normal',
   },
-  headerLeft: () => <HeaderLeft />
+  headerLeft: () => <HeaderLeft />,
 };
 
 // https://reactnavigation.org/docs/stack-navigator#options
@@ -96,14 +109,23 @@ const AdventureStack = createStackNavigator();
 
 const AdventureStackScreens = ({ navigation, route }: any) => {
   const insets = useSafeArea();
-  const { t } = useTranslation('title' );
+  const { t } = useTranslation('title');
 
-  // Make top bar visible dynamically.
-  navigation.setOptions({
-    tabBarVisible: route?.state && route?.state?.type === 'stack' ?
-      !(route?.state?.routes.length > 1) :
-      null,
-  });
+
+  // Alert.alert('Rountes No:', JSON.stringify(route?.state?.routes));
+
+  useEffect(() => {
+    if (route?.state?.routes.length && route?.state?.type) {
+      // Make tapbar visible dynamically.
+      navigation.setOptions({
+        tabBarVisible:
+          route?.state && route?.state?.type === 'stack'
+            ? !(route?.state?.routes.length > 1)
+            : null,
+      });
+    }
+  }, [route?.state?.routes.length])
+
   return (
     <AdventureStack.Navigator
       screenOptions={{
@@ -132,51 +154,16 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
         }}
       />
       <AdventureStack.Screen
-        name="AdventureName"
-        component={AdventureName}
-        options={{
-          title: '',
-          headerLeft: () => <HeaderLeft hasBack />,
-        }}
-      />
-      <AdventureStack.Screen
-        name="AdventureShareCode"
-        component={AdventureShareCode}
-        options={{
-          ...transparentHeaderConfig,
-          headerStyle: {
-            ...transparentHeaderConfig.headerStyle,
-            paddingTop: insets.top,
-          },
-          title: '',
-          headerLeft: () => <></>,
-          headerRight: () => (
-            <Touchable
-              onPress={
-                () => {
-                  navigation.reset({
-                    index: 0,
-                    routes: [{ name: 'Adventures' }],
-                  })
-                }}>
-              <Text style={[st.white, st.mr4, st.fs16]}>{t('done')}</Text>
-            </Touchable>
-          ),
-        }}
-      />
-      <AdventureStack.Screen
         name="AdventureActive"
         component={AdventureActive}
-
         // Fixed header with back button.
         options={{
           ...transparentHeaderConfig,
           headerStyle: {
             ...transparentHeaderConfig.headerStyle,
-            // paddingTop: insets.top,
           },
           title: '',
-          headerLeft: () => <HeaderLeft hasBack resetTo='Adventures' />,
+          headerLeft: () => <HeaderLeft hasBack resetTo="Adventures" />,
           headerRight: undefined,
         }}
       />
@@ -214,7 +201,6 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
   );
 };
 
-
 const VideoStack = createStackNavigator();
 function VideoStackScreens({ navigation, route }: any) {
   const { t } = useTranslation('title');
@@ -235,7 +221,6 @@ function VideoStackScreens({ navigation, route }: any) {
       <VideoStack.Screen
         name="VideoDetails"
         component={VideoDetails}
-
         // Fixed header with back button.
         options={{
           ...transparentHeaderConfig,
@@ -283,20 +268,18 @@ const LoggedInAppContainer = () => {
   const Tabs = createBottomTabNavigator();
   const route = useRoute();
   const state = useNavigationState(state => state);
-  const routeName = (state.routeNames[state.index]);
-  const { t } = useTranslation('title' );
-
-
+  const routeName = state.routeNames[state.index];
+  const { t } = useTranslation('title');
 
   // Handle iOS & Android appState changes.
   const { appState } = useAppState({
     // Callback function to be executed once appState is changed to
     // active, inactive, or background
-    onChange: (newAppState) => console.warn('App state changed to ', newAppState),
+    onChange: newAppState => console.warn('App state changed to ', newAppState),
     // Callback function to be executed once app go to foreground
     onForeground: async () => {
       // Get the deep link used to open the app
-      /* await Linking.getInitialURL().then(
+      /* await Linking.getdeeplink().then(
         (data) => {
         }
       ); */
@@ -307,14 +290,14 @@ const LoggedInAppContainer = () => {
     onBackground: () => {
       console.warn('App went to background');
       dispatch(sleepAction());
-    }
+    },
   });
 
   useEffect(() => {
     // Check notifications permission and setup sockets.
     dispatch(startupAction()).then(
       success => LOG(' 🧛‍♂️ startupAction > SUCCESS'),
-      error => WARN(' 🧚‍♂️ startupAction > ERROR', error)
+      error => WARN(' 🧚‍♂️ startupAction > ERROR', error),
     );
   }, []);
 
@@ -365,72 +348,69 @@ const RootStackScreens = () => {
   const { t } = useTranslation('title');
 
   return (
-    <RootStack.Navigator
-      mode="card"
-      screenOptions={defaultHeaderConfig}
-    >
+    <RootStack.Navigator mode="card" screenOptions={defaultHeaderConfig}>
       {isLoggedIn && firstName.length ? (
-          <RootStack.Screen
-            name="LoggedInApp"
-            component={LoggedInAppContainer}
-            options={{
-              headerShown: false,
-            }}
-          />
-        ) : (
-          <RootStack.Screen
-            name="Welcome"
-            component={Welcome}
-            options={{
-              title: '',
-              headerShown: false,
-            }}
-          />
-        )}
-        {/* <AppStack.Screen name="WelcomeApp" component={WelcomeAppContainer} /> */}
-        {/* <AppStack.Screen name="Welcome" component={Welcome} /> */}
-        {/* Don't hide these Welcome screens under !isLoggedIn
+        <RootStack.Screen
+          name="LoggedInApp"
+          component={LoggedInAppContainer}
+          options={{
+            headerShown: false,
+          }}
+        />
+      ) : (
+        <RootStack.Screen
+          name="Welcome"
+          component={Welcome}
+          options={{
+            title: '',
+            headerShown: false,
+          }}
+        />
+      )}
+      {/* <AppStack.Screen name="WelcomeApp" component={WelcomeAppContainer} /> */}
+      {/* <AppStack.Screen name="Welcome" component={Welcome} /> */}
+      {/* Don't hide these Welcome screens under !isLoggedIn
             as we need to access these when editing name and image
             for already logged in users.   */}
-        <RootStack.Screen
-          name="AccountName"
-          component={AccountName}
-          options={{
-            ...transparentHeaderConfig,
-            headerStyle: {
-              ...transparentHeaderConfig.headerStyle,
-              paddingTop: insets.top, // TODO: Check if it really works here?
-            },
-            title: '',
-            // headerShown: true,
-            headerLeft: () => <HeaderLeft hasBack />,
-          }}
-        />
-        <RootStack.Screen
-          name="AdventureCode"
-          component={AdventureCode}
-          options={{
-            ...transparentHeaderConfig,
-            headerStyle: {
-              ...transparentHeaderConfig.headerStyle,
-              paddingTop: insets.top, // TODO: Check if it really works here?
-            },
-            title: '',
-            // headerShown: true,
-            headerLeft: () => <HeaderLeft hasBack />,
-          }}
-        />
-        <RootStack.Screen
-          name="AccountPhoto"
-          component={AccountPhoto}
-          options={({ navigation }) => ({
-            ...transparentHeaderConfig,
-            headerStyle: {
-              ...transparentHeaderConfig.headerStyle,
-              paddingTop: insets.top, // TODO: Check if it really works here?
-            },
-            headerRight: () => (
-              <>
+      <RootStack.Screen
+        name="AccountName"
+        component={AccountName}
+        options={{
+          ...transparentHeaderConfig,
+          headerStyle: {
+            ...transparentHeaderConfig.headerStyle,
+            paddingTop: insets.top, // TODO: Check if it really works here?
+          },
+          title: '',
+          // headerShown: true,
+          headerLeft: () => <HeaderLeft hasBack />,
+        }}
+      />
+      <RootStack.Screen
+        name="AdventureCode"
+        component={AdventureCode}
+        options={{
+          ...transparentHeaderConfig,
+          headerStyle: {
+            ...transparentHeaderConfig.headerStyle,
+            paddingTop: insets.top, // TODO: Check if it really works here?
+          },
+          title: '',
+          // headerShown: true,
+          headerLeft: () => <HeaderLeft hasBack />,
+        }}
+      />
+      <RootStack.Screen
+        name="AccountPhoto"
+        component={AccountPhoto}
+        options={({ navigation }) => ({
+          ...transparentHeaderConfig,
+          headerStyle: {
+            ...transparentHeaderConfig.headerStyle,
+            paddingTop: insets.top, // TODO: Check if it really works here?
+          },
+          headerRight: () => (
+            <>
               {/* <Touchable
                 // style={[st.p5, st.pl4, st.mb3]}
                 onPress={ () => {
@@ -444,240 +424,240 @@ const RootStackScreens = () => {
               >
                 <Text style={[st.white, st.fs16, st.pr5]}>Skip</Text>
               </Touchable> */}
-              </>
-            ),
-            headerLeft: () => <HeaderLeft hasBack />,
-            title: '',
-            // headerShown: true,
-          })}
-        />
-        <RootStack.Screen
-          name="Menu"
-          component={Menu}
-          options={({ navigation }) => ({
-            headerShown: true,
-            headerRight: () => (
-              <Touchable
-                onPress={
-                  () => {
-                    // Get the index of the route to see if we can go back.
-                    let index = navigation.dangerouslyGetState().index;
-                    if (index > 0) {
-                      navigation.goBack()
-                    } else {
-                      navigation.reset({
-                        index: 0,
-                        routes: [{ name: 'LoggedInApp' }],
-                      })
-                    }
-                  }}>
-                <Text style={[st.white, st.mr4, st.fs16]}>{t('done')}</Text>
-              </Touchable>
-            ),
-            headerLeft: () => {},
-            cardStyle: { backgroundColor: theme.colors.transparent },
-            headerStyle: {
-              backgroundColor: theme.colors.primary,
-              elevation: 0,
-              shadowOpacity: 0,
-            },
-            headerTitleStyle: {
-              color: theme.colors.white,
-              fontSize: 18,
-              fontWeight: 'normal',
-            },
-            title: t('settings'),
-          })}
-        />
-        <RootStack.Screen
-          name="AccountCreate"
-          component={AccountCreate}
-          options={{
-            ...altHeaderConfig,
-            title: t('createAccount'),
-            headerShown: true,
-            /* headerStyle: {
+            </>
+          ),
+          headerLeft: () => <HeaderLeft hasBack />,
+          title: '',
+          // headerShown: true,
+        })}
+      />
+      <RootStack.Screen
+        name="Menu"
+        component={Menu}
+        options={({ navigation }) => ({
+          headerShown: true,
+          headerRight: () => (
+            <Touchable
+              onPress={() => {
+                // Get the index of the route to see if we can go back.
+                const { index } = navigation.dangerouslyGetState();
+                if (index > 0) {
+                  navigation.goBack();
+                } else {
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'LoggedInApp' }],
+                  });
+                }
+              }}
+            >
+              <Text style={[st.white, st.mr4, st.fs16]}>{t('done')}</Text>
+            </Touchable>
+          ),
+          headerLeft: () => {},
+          cardStyle: { backgroundColor: theme.colors.transparent },
+          headerStyle: {
+            backgroundColor: theme.colors.primary,
+            elevation: 0,
+            shadowOpacity: 0,
+          },
+          headerTitleStyle: {
+            color: theme.colors.white,
+            fontSize: 18,
+            fontWeight: 'normal',
+          },
+          title: t('settings'),
+        })}
+      />
+      <RootStack.Screen
+        name="AccountCreate"
+        component={AccountCreate}
+        options={{
+          ...altHeaderConfig,
+          title: t('createAccount'),
+          headerShown: true,
+          /* headerStyle: {
               backgroundColor: theme.colors.primary,
               paddingTop: insets.top // TODO: Check if it really works here?
             }, */
-          }}
-        />
-        <RootStack.Screen
-          name="AccountSignIn"
-          component={AccountSignIn}
-          options={{
-            ...transparentHeaderConfig,
-            headerStyle: {
-              ...transparentHeaderConfig.headerStyle,
-              paddingTop: insets.top, // TODO: Check if it really works here?
-            },
-            title: t('signIn'),
-            // headerShown: true,
-            headerLeft: () => <HeaderLeft hasBack />,
-          }}
-        />
-        <RootStack.Screen
-          name="ForgotPassword"
-          component={AccountForgotPassword}
-          options={{
-            ...defaultHeaderConfig,
-            title: 'Get New Password',
-            headerShown: true,
-            headerStyle: {
-              backgroundColor: theme.colors.primary,
-              elevation: 0,
-              shadowOpacity: 0,
-              paddingTop: insets.top, // TODO: Check if it really works here?
-            },
-            headerTitleStyle: {
-              color: theme.colors.white,
-              fontSize: 18,
-              fontWeight: 'normal',
-            },
-            headerLeft: () => <HeaderLeft hasBack />,
-          }}
-        />
-        <RootStack.Screen
-          name="AccountProfile"
-          component={AccountProfile}
-          options={({ navigation }) => ({
-            headerShown: true,
-            headerLeft: () => <HeaderLeft hasBack resetTo='Menu' />,
-            headerRight: () => <SignOut />,
-            cardStyle: { backgroundColor: theme.colors.transparent },
-            headerStyle: {
-              backgroundColor: theme.colors.primary,
-              elevation: 0,
-              shadowOpacity: 0,
-            },
-            headerTitleStyle: {
-              color: theme.colors.white,
-              fontSize: 18,
-              fontWeight: 'normal',
-            },
-            title: t('title:profile'),
-          })}
-        />
-        <RootStack.Screen
-          name="SignUp"
-          component={AccountCreate}
-          options={({ navigation }) => ({
-            headerShown: true,
-            headerLeft: () => <HeaderLeft hasBack />,
-            cardStyle: { backgroundColor: theme.colors.transparent },
-            headerStyle: {
-              backgroundColor: theme.colors.primary,
-              elevation: 0,
-              shadowOpacity: 0,
-            },
-            headerTitleStyle: {
-              color: theme.colors.white,
-              fontSize: 18,
-              fontWeight: 'normal',
-            },
-            title: t('signUp'),
-          })}
-        />
-        <RootStack.Screen
-          name="AccountEmail"
-          component={AccountEmail}
-          options={({ navigation }) => ({
-            headerShown: true,
-            headerLeft: () => <HeaderLeft hasBack />,
-            cardStyle: { backgroundColor: theme.colors.transparent },
-            headerStyle: {
-              backgroundColor: theme.colors.primary,
-              elevation: 0,
-              shadowOpacity: 0,
-            },
-            headerTitleStyle: {
-              color: theme.colors.white,
-              fontSize: 18,
-              fontWeight: 'normal',
-            },
-            title: t('profile:changeEmail'),
-          })}
-        />
-        <RootStack.Screen
-          name="AccountPass"
-          component={AccountPass}
-          options={({ navigation }) => ({
-            headerShown: true,
-            headerLeft: () => <HeaderLeft hasBack />,
-            cardStyle: { backgroundColor: theme.colors.transparent },
-            headerStyle: {
-              backgroundColor: theme.colors.primary,
-              elevation: 0,
-              shadowOpacity: 0,
-            },
-            headerTitleStyle: {
-              color: theme.colors.white,
-              fontSize: 18,
-              fontWeight: 'normal',
-            },
-            title: t('profile:changePassword'),
-          })}
-        />
-        <RootStack.Screen
-          name="Help"
-          component={MenuHelp}
-          options={({ navigation }) => ({
-            headerShown: true,
-            headerLeft: () => <HeaderLeft hasBack />,
-            cardStyle: { backgroundColor: theme.colors.transparent },
-            headerStyle: {
-              backgroundColor: theme.colors.primary,
-              elevation: 0,
-              shadowOpacity: 0,
-            },
-            headerTitleStyle: {
-              color: theme.colors.white,
-              fontSize: 18,
-              fontWeight: 'normal',
-            },
-            title: t('title:helpCenter'),
-          })}
-        />
-        <RootStack.Screen
-          name="About"
-          component={MenuAbout}
-          options={({ navigation }) => ({
-            headerShown: true,
-            headerLeft: () => <HeaderLeft hasBack />,
-            cardStyle: { backgroundColor: theme.colors.transparent },
-            headerStyle: {
-              backgroundColor: theme.colors.primary,
-              elevation: 0,
-              shadowOpacity: 0,
-            },
-            headerTitleStyle: {
-              color: theme.colors.white,
-              fontSize: 18,
-              fontWeight: 'normal',
-            },
-            title: t('title:about'),
-          })}
-        />
-        <RootStack.Screen
-          name="Acknowledgements"
-          component={MenuAcknowledgements}
-          options={({ navigation }) => ({
-            headerShown: true,
-            headerLeft: () => <HeaderLeft hasBack />,
-            cardStyle: { backgroundColor: theme.colors.transparent },
-            headerStyle: {
-              backgroundColor: theme.colors.primary,
-              elevation: 0,
-              shadowOpacity: 0,
-            },
-            headerTitleStyle: {
-              color: theme.colors.white,
-              fontSize: 18,
-              fontWeight: 'normal',
-            },
-            title: t('title:acknowledgements'),
-          })}
-        />
+        }}
+      />
+      <RootStack.Screen
+        name="AccountSignIn"
+        component={AccountSignIn}
+        options={{
+          ...transparentHeaderConfig,
+          headerStyle: {
+            ...transparentHeaderConfig.headerStyle,
+            paddingTop: insets.top, // TODO: Check if it really works here?
+          },
+          title: t('signIn'),
+          // headerShown: true,
+          headerLeft: () => <HeaderLeft hasBack />,
+        }}
+      />
+      <RootStack.Screen
+        name="ForgotPassword"
+        component={AccountForgotPassword}
+        options={{
+          ...defaultHeaderConfig,
+          title: 'Get New Password',
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: theme.colors.primary,
+            elevation: 0,
+            shadowOpacity: 0,
+            paddingTop: insets.top, // TODO: Check if it really works here?
+          },
+          headerTitleStyle: {
+            color: theme.colors.white,
+            fontSize: 18,
+            fontWeight: 'normal',
+          },
+          headerLeft: () => <HeaderLeft hasBack />,
+        }}
+      />
+      <RootStack.Screen
+        name="AccountProfile"
+        component={AccountProfile}
+        options={({ navigation }) => ({
+          headerShown: true,
+          headerLeft: () => <HeaderLeft hasBack resetTo="Menu" />,
+          headerRight: () => <SignOut />,
+          cardStyle: { backgroundColor: theme.colors.transparent },
+          headerStyle: {
+            backgroundColor: theme.colors.primary,
+            elevation: 0,
+            shadowOpacity: 0,
+          },
+          headerTitleStyle: {
+            color: theme.colors.white,
+            fontSize: 18,
+            fontWeight: 'normal',
+          },
+          title: t('title:profile'),
+        })}
+      />
+      <RootStack.Screen
+        name="SignUp"
+        component={AccountCreate}
+        options={({ navigation }) => ({
+          headerShown: true,
+          headerLeft: () => <HeaderLeft hasBack />,
+          cardStyle: { backgroundColor: theme.colors.transparent },
+          headerStyle: {
+            backgroundColor: theme.colors.primary,
+            elevation: 0,
+            shadowOpacity: 0,
+          },
+          headerTitleStyle: {
+            color: theme.colors.white,
+            fontSize: 18,
+            fontWeight: 'normal',
+          },
+          title: t('signUp'),
+        })}
+      />
+      <RootStack.Screen
+        name="AccountEmail"
+        component={AccountEmail}
+        options={({ navigation }) => ({
+          headerShown: true,
+          headerLeft: () => <HeaderLeft hasBack />,
+          cardStyle: { backgroundColor: theme.colors.transparent },
+          headerStyle: {
+            backgroundColor: theme.colors.primary,
+            elevation: 0,
+            shadowOpacity: 0,
+          },
+          headerTitleStyle: {
+            color: theme.colors.white,
+            fontSize: 18,
+            fontWeight: 'normal',
+          },
+          title: t('profile:changeEmail'),
+        })}
+      />
+      <RootStack.Screen
+        name="AccountPass"
+        component={AccountPass}
+        options={({ navigation }) => ({
+          headerShown: true,
+          headerLeft: () => <HeaderLeft hasBack />,
+          cardStyle: { backgroundColor: theme.colors.transparent },
+          headerStyle: {
+            backgroundColor: theme.colors.primary,
+            elevation: 0,
+            shadowOpacity: 0,
+          },
+          headerTitleStyle: {
+            color: theme.colors.white,
+            fontSize: 18,
+            fontWeight: 'normal',
+          },
+          title: t('profile:changePassword'),
+        })}
+      />
+      <RootStack.Screen
+        name="Help"
+        component={MenuHelp}
+        options={({ navigation }) => ({
+          headerShown: true,
+          headerLeft: () => <HeaderLeft hasBack />,
+          cardStyle: { backgroundColor: theme.colors.transparent },
+          headerStyle: {
+            backgroundColor: theme.colors.primary,
+            elevation: 0,
+            shadowOpacity: 0,
+          },
+          headerTitleStyle: {
+            color: theme.colors.white,
+            fontSize: 18,
+            fontWeight: 'normal',
+          },
+          title: t('title:helpCenter'),
+        })}
+      />
+      <RootStack.Screen
+        name="About"
+        component={MenuAbout}
+        options={({ navigation }) => ({
+          headerShown: true,
+          headerLeft: () => <HeaderLeft hasBack />,
+          cardStyle: { backgroundColor: theme.colors.transparent },
+          headerStyle: {
+            backgroundColor: theme.colors.primary,
+            elevation: 0,
+            shadowOpacity: 0,
+          },
+          headerTitleStyle: {
+            color: theme.colors.white,
+            fontSize: 18,
+            fontWeight: 'normal',
+          },
+          title: t('title:about'),
+        })}
+      />
+      <RootStack.Screen
+        name="Acknowledgements"
+        component={MenuAcknowledgements}
+        options={({ navigation }) => ({
+          headerShown: true,
+          headerLeft: () => <HeaderLeft hasBack />,
+          cardStyle: { backgroundColor: theme.colors.transparent },
+          headerStyle: {
+            backgroundColor: theme.colors.primary,
+            elevation: 0,
+            shadowOpacity: 0,
+          },
+          headerTitleStyle: {
+            color: theme.colors.white,
+            fontSize: 18,
+            fontWeight: 'normal',
+          },
+          title: t('title:acknowledgements'),
+        })}
+      />
     </RootStack.Navigator>
   );
 };
@@ -690,19 +670,43 @@ const App = () => {
   const userId = useSelector(({ auth }: any) => auth.user?.id);
   const dispatch = useDispatch();
   const { t } = useTranslation(['common', 'profile']);
+  const [deeplink, setDeeplink] = useState(null);
+
+  const deepLinkListener = event => {
+    if (event?.url) {
+      setDeeplink(event?.url);
+    }
+  };
+
+  const getUrlAsync = async () => {
+    // Get the deep link used to open the app
+    // Warning! This works only with debugger disabled!
+    const newdeeplink = await Linking.getInitialURL();
+    // TODO: For Android issues see: https://github.com/facebook/react-native/issues/25675#
+    setDeeplink(newdeeplink);
+  };
 
   // Hide splash screen on load.
   useMount(() => {
-    SplashScreen.hide();
-    if(!isLoggedIn && userId) {
+    getUrlAsync();
+    checkInitialNotification();
+    RNBootSplash.hide({ duration: 250 }); // Hide splash screen.
+    if (!isLoggedIn && userId) {
       dispatch(getMeAction());
     }
   });
 
   useEffect(() => {
+    if (deeplink) {
+      // Alert.alert('deeplink:', deeplink);
+    }
+  }, [deeplink]);
+
+  useEffect(() => {
     const state = navigationRef.current.getRootState();
     // Save the initial route name
     routeNameRef.current = getActiveRouteName(state);
+    Linking.addEventListener('url', deepLinkListener);
 
     // const unsubscribe = dynamicLinks().onLink(handleDynamicLink);
     // When the is component unmounted, remove the listener
@@ -710,12 +714,13 @@ const App = () => {
   }, []);
 
   const linking = {
-    prefixes: ['https://the.vokeapp.com', 'voke:://'],
+    prefixes: ['https://the.vokeapp.com', 'voke:://', 'voke://'],
     config: {
       screens: {
         // "voke:://messenger_journeys/e579effe-3b01-4054-bca7-db912fe463e6/messenger_journey_steps/227a52a4-2025-4770-b792-f51f3f3ab4c0"
         AdventureStepScreen: {
-          path: 'messenger_journeys/:adventureId/messenger_journey_steps/:stepId',
+          path:
+            'messenger_journeys/:adventureId/messenger_journey_steps/:stepId',
           parse: {
             // adventureId: (adventureId) => adventureId,
           },
@@ -724,9 +729,8 @@ const App = () => {
       },
     },
     getStateFromPath: (path, options) => {
-    // Return a state object here
-    // You can also reuse the default logic by importing `getStateFromPath` from `@react-navigation/native`
-      console.log( "🐙 getStateFromPath:", {path}, {options}  );
+      // Return a state object here
+      // You can also reuse the default logic by importing `getStateFromPath` from `@react-navigation/native`
     },
 
     // Here Chat is the name of the screen that handles the URL /feed, and Profile handles the URL /user.
@@ -748,8 +752,7 @@ const App = () => {
         // Save the current route name for later comparision
         routeNameRef.current = currentRouteName;
       }}
-      linking={linking}
-
+      // linking={linking} - not working.
       // initialState={ ( isLoggedIn ? ({ index: 0, routes: [{ name: 'LoggedInApp' }] }) : ({ index: 0, routes: [{ name: 'WelcomeApp' }] }) ) }
     >
       <AppStack.Navigator
@@ -761,13 +764,13 @@ const App = () => {
         mode="modal"
       >
         <AppStack.Screen
-            name="Root"
-            component={RootStackScreens}
-            options={{
-              headerShown: false,
-            }}
+          name="Root"
+          component={RootStackScreens}
+          options={{
+            headerShown: false,
+          }}
         />
-       <AppStack.Screen
+        <AppStack.Screen
           name="CustomModal"
           component={CustomModal}
           // options={{ headerShown: false }}
@@ -776,25 +779,34 @@ const App = () => {
             headerLeft: false,
             headerRight: () => (
               <Touchable
-                onPress={
-                  () => {
-                    // Get the index of the route to see if we can go back.
-                    let index = navigation.dangerouslyGetState().index;
-                    if (index > 0) {
-                      navigation.goBack()
-                    } else {
-                      navigation.reset({
-                        index: 0,
-                        routes: [{ name: 'LoggedInApp' }],
-                      })
-                    }
-                  }}>
-                <Text style={[st.white, st.fs18, {
-                  paddingHorizontal:theme.spacing.l,
-                }]}>{t('close')}</Text>
+                onPress={() => {
+                  // Get the index of the route to see if we can go back.
+                  const { index } = navigation.dangerouslyGetState();
+                  if (index > 0) {
+                    navigation.goBack();
+                  } else {
+                    navigation.reset({
+                      index: 0,
+                      routes: [{ name: 'LoggedInApp' }],
+                    });
+                  }
+                }}
+                testID={'ctaHeaderClose'}
+              >
+                <Text
+                  style={[
+                    st.white,
+                    st.fs18,
+                    {
+                      paddingHorizontal: theme.spacing.l,
+                    },
+                  ]}
+                >
+                  {t('close')}
+                </Text>
               </Touchable>
             ),
-            cardStyle: { backgroundColor: 'rgba(0,0,0,.9)'},
+            cardStyle: { backgroundColor: 'rgba(0,0,0,.9)' },
             headerStyle: {
               backgroundColor: theme.colors.transparent,
               elevation: 0,
@@ -806,6 +818,42 @@ const App = () => {
               fontWeight: 'normal',
             },
             title: '',
+          })}
+        />
+        <AppStack.Screen
+          name="AdventureName"
+          component={AdventureName}
+          options={({ navigation }) => ({
+            ...transparentHeaderConfig,
+            headerStyle: {
+              ...transparentHeaderConfig.headerStyle,
+            },
+            cardStyle: { backgroundColor: theme.colors.primary },
+            title: '',
+            headerLeft: () => <HeaderLeft hasBack />,
+          })}
+        />
+        <AppStack.Screen
+          name="AdventureShareCode"
+          component={AdventureShareCode}
+          options={({ navigation }) => ({
+            ...transparentHeaderConfig,
+            headerStyle: {
+              ...transparentHeaderConfig.headerStyle,
+            },
+            cardStyle: { backgroundColor: theme.colors.primary },
+            title: '',
+            headerLeft: () => <></>,
+            headerRight: () => (
+              <Touchable
+                onPress={() => {
+                  navigation.dispatch(StackActions.popToTop());
+                }}
+                testID={'ctaHeaderDone'}
+              >
+                <Text style={[st.white, st.mr4, st.fs16]}>{t('done')}</Text>
+              </Touchable>
+            ),
           })}
         />
       </AppStack.Navigator>

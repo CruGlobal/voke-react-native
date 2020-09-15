@@ -12,6 +12,10 @@ const stylesShared = {
 }
 
 const styles = StyleSheet.create({
+  buttonSend: {
+    padding: 20,
+    right: -15,
+  },
   iconSend: {
     color: theme.colors.secondaryAlt,
   },

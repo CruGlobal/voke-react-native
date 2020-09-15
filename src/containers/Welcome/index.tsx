@@ -59,6 +59,8 @@ const Welcome = (props: WelcomeProps) => {
           alignContent: 'stretch',
           justifyContent: 'flex-end',
         }}
+
+        testID={'welcomeScreen'}
       >
         <ImageBackground
           source={Background}
@@ -104,7 +106,7 @@ const Welcome = (props: WelcomeProps) => {
             >
               {helpMode ? (
                 <Flex>
-                  <Text style={styles.HelpSectionHeading}>{t('haveCode')}</Text>
+                  <Text style={styles.HelpSectionHeading} testID={'textHaveCode'}>{t('haveCode')}</Text>
                   <Text
                     style={[
                       styles.TextSmall,
@@ -122,19 +124,20 @@ const Welcome = (props: WelcomeProps) => {
               ) : null}
             </Flex>
             {/* Information Icon */}
-            <TouchableOpacity onPress={toggleTrueFalse}>
+            <Button onPress={toggleTrueFalse} testID={'ctaCodeInfo'}>
               <VokeIcon
                 name="help-circle"
                 size={30}
                 style={{ textAlign: 'right', marginRight: 20, color: theme.colors.white }}
               />
-            </TouchableOpacity>
+            </Button>
             <Flex style={{ paddingHorizontal: theme.spacing.l }}>
               {/* BUTTON: CALL TO ACTION */}
               <Button
                 isAndroidOpacity
                 style={styles.ButtonPrimary}
                 onPress={():void =>{navigation.navigate('AdventureCode')}}
+                testID={'ctaAdventureCode'}
               >
                 <Flex direction="row" justify="center">
                   <Text style={styles.ButtonLabelPrimary}>{t('haveCode')}</Text>
@@ -145,6 +148,7 @@ const Welcome = (props: WelcomeProps) => {
                 isAndroidOpacity
                 style={styles.ButtonWhite}
                 onPress={():void => navigation.navigate('AccountName')}
+                testID={'ctaExplore'}
               >
                 <Flex direction="row" justify="center">
                   <Text style={styles.ButtonLabelWhite}>{t('toExplore')}</Text>
@@ -188,6 +192,7 @@ const Welcome = (props: WelcomeProps) => {
                 onPress={() => {
                   navigation.navigate('AccountSignIn');
                 }}
+                testID={'ctaSignIn'}
               >
                 <Text style={styles.ButtonSignInLabel}>{t('signIn')}</Text>
               </Button>
