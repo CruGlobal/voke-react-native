@@ -761,7 +761,7 @@ const App = () => {
             // headerShown: false
           }
         }
-        mode="modal"
+        // mode="modal"
       >
         <AppStack.Screen
           name="Root"
