@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, ScrollView, StatusBar } from 'react-native';
@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { RootState } from '../../reducers';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
+import CustomModal from '../CustomModal';
 import st from '../../st';
 import Button from '../../components/Button';
 import Video from '../../components/Video';
@@ -15,6 +16,7 @@ import VokeIcon from '../../components/VokeIcon';
 import theme from '../../theme';
 import { startAdventure, interactionVideoPlay } from '../../actions/requests';
 import { REDUX_ACTIONS } from '../../constants';
+
 import styles from './styles';
 
 function ActionButton(props) {
@@ -101,6 +103,10 @@ function AdventureAvailable(props) {
       setIsLoading(false);
     }
   }
+
+  const [modalId, setModalId] = useState(null);
+  // const [modalAction, setModalAction] = useState(null);
+  const modalAction = useRef();
 
   return (
     <Flex value={1} style={[st.bgWhite]}>
@@ -199,15 +205,22 @@ function AdventureAvailable(props) {
                       });
                     } else {
                       updateCountDown(false);
-                      navigation.navigate('CustomModal', {
+                      /* openModal(
                         modalId: 'howDuoWorks',
                         primaryAction: () => {
                           navigation.navigate('AdventureName', {
                             item,
                             withGroup: false,
                           });
-                        },
-                      });
+                        });*/
+                      /* navigation.navigate('CustomModal', {
+                            modalId: 'howDuoWorks',
+                            primaryAction: () => {
+                              navigation.navigate('AdventureName', {
+                                item,
+                                withGroup: false,
+                          });
+                        }, */
                     }
                   }}
                 />
@@ -215,14 +228,22 @@ function AdventureAvailable(props) {
                   text={t('goWithGroup')}
                   icon="group"
                   onPress={() => {
-                    if (groupTutorialCount > 2) {
+                    if (groupTutorialCount > 222) {
                       navigation.navigate('AdventureName', {
                         item,
                         withGroup: true,
                       });
                     } else {
+                      console.log('🐸 onPress');
                       updateCountDown(true);
-                      navigation.navigate('CustomModal', {
+                      setModalId('howGroupsWork');
+                      modalAction.current = () => {
+                        navigation.navigate('AdventureName', {
+                          item,
+                          withGroup: true,
+                        });
+                      };
+                      /* navigation.navigate('CustomModal', {
                         modalId: 'howGroupsWork',
                         primaryAction: () => {
                           navigation.navigate('AdventureName', {
@@ -230,7 +251,7 @@ function AdventureAvailable(props) {
                             withGroup: true,
                           });
                         },
-                      });
+                      });*/
                     }
                   }}
                 />
@@ -246,6 +267,9 @@ function AdventureAvailable(props) {
           </Flex>
         </ScrollView>
       )}
+      <CustomModal modalId={modalId} primaryAction={modalAction.current} onClose={
+        ()=>setModalId(null)
+      } />
     </Flex>
   );
 }

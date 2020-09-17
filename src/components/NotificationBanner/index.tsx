@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
-import { Alert, StyleSheet } from 'react-native';
-import Modal from 'react-native-modal';
+import { StyleSheet } from 'react-native';
 
 import { RootState } from '../../reducers';
-import st from '../../st';
 import Flex from '../Flex';
 import Text from '../Text';
 import Button from '../Button';

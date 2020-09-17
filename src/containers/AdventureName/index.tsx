@@ -69,12 +69,10 @@ function AdventureName(props: any): ReactElement {
     validationSchema: NameValidationSchema,
     onSubmit: async values => {
       Keyboard.dismiss();
-      setModalOpen(true);
-      return;
       // Before sending a group name to the server
       // we need to check if user isn't a guest user.
       if (!email) {
-        console.log('Need to register');
+        setModalOpen(true);
       } else {
         try {
           setIsLoading(true);
@@ -281,12 +279,9 @@ function AdventureName(props: any): ReactElement {
                   }
                 ]}
                 // theme={'White'}
-                // If there are any Adventures or Invites:
-                // Show My Adventures tab first.
-                // Otherwise redirect user to Find Adventures.
+                // Need to have a second tab open.
                 selectedIndex={1}
               />
-              {/* <AccountSignIn /> */}
             </Modalize>
           </SafeAreaView>
         </DismissKeyboardView>

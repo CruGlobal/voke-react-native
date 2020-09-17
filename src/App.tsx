@@ -770,7 +770,7 @@ const App = () => {
             headerShown: false,
           }}
         />
-        <AppStack.Screen
+        {/* <AppStack.Screen
           name="CustomModal"
           component={CustomModal}
           // options={{ headerShown: false }}
@@ -819,7 +819,7 @@ const App = () => {
             },
             title: '',
           })}
-        />
+        /> */}
         <AppStack.Screen
           name="AdventureName"
           component={AdventureName}
