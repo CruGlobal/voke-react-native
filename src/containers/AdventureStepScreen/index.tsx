@@ -77,8 +77,7 @@ const AdventureStepScreen = ({
         If not we insert this screen into the history by doing silent reset
         with updated route.
       */
-      if (routes[routes.length - 1]?.name !== 'AdventureActive') {
-
+      if (routes[routes.length - 2]?.name !== 'AdventureActive') {
         const newRoutes = [
           ...routes.slice(0, -1),
           {
