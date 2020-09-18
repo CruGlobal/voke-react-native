@@ -100,12 +100,12 @@ function handleNotifications(state: string, notification: { data?: any }) {
         namespace = data.data.namespace;
         link = data.data.link;
       }
-    } else if (data) {
-      if (data.link) {
-        link = data.link;
+    } else if (notification) {
+      if (notification?.link) {
+        link = notification.link;
       }
-      if (data.namespace) {
-        namespace = data.namespace;
+      if (notification?.namespace) {
+        namespace = notification.namespace;
       }
     }
 
@@ -182,8 +182,8 @@ function establishDevice(): Promise<void> {
       // Android only configs
       configs = {
         ...configs,
-        onNotification(state: string, notification: { data: any }) {
-          dispatch(handleNotifications(state, notification));
+        onNotification(notification: { data: any }) {
+          dispatch(handleNotifications('open', notification));
         },
       };
     } else {
