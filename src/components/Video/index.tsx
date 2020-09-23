@@ -360,7 +360,7 @@ function Video({
               setSliderValue(e.currentTime);
             }
           }}
-            onEnd={e => {
+          onEnd={e => {
             if (sliderValue >= 1) {
               handleVideoStateChange('paused');
               setSliderValue(0);
@@ -376,14 +376,18 @@ function Video({
             position: 'absolute',
             top:
               screenOrientation === 'portrait' || lockOrientation
-                ? getPlayerDimensions().width / -9
-                : 0,
+                ? getPlayerDimensions().width / -10 // Small video (Portrait)
+                : getPlayerDimensions().width / -20, // Fullscreen video.
             bottom:
               screenOrientation === 'portrait' || lockOrientation
-                ? getPlayerDimensions().width / -9
-                : 0,
-            left: 0,
-            right: 0,
+                ? getPlayerDimensions().width / -10 // Small video (Portrait)
+                : getPlayerDimensions().width / -20, // Fullscreen video.
+            left: screenOrientation === 'portrait' || lockOrientation
+                ? 0 // Small video (Portrait)
+                : getPlayerDimensions().width / -20, // Fullscreen video.
+            right: screenOrientation === 'portrait' || lockOrientation
+                ? 0 // Small video (Portrait)
+                : getPlayerDimensions().width / -20, // Fullscreen video.
           }}
           // fullscreen={false} // Platforms: iOS - Controls whether the player enters fullscreen on play.
           fullscreenOrientation={fullscreenOrientation} // Platforms: iOS - all / landscape / portrait
