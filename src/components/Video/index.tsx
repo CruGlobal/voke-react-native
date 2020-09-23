@@ -60,8 +60,7 @@ function Video({
   onCancel,
   hideInsets,
   autoPlay = false,
-  fullscreen = false,
-  fullscreenOrientation = 'all',
+  // fullscreenOrientation = 'all',
   lockOrientation = false,
   children, // Used to create custom overlay/play button. Ex: "Watch Trailer".
   containerStyles = {},
@@ -73,6 +72,7 @@ function Video({
   }
   let youtubeVideo = useRef<RefYouTube>(null);
   let arclightVideo = useRef<RefArcLight>(null);
+  let lockOrientationRef = useRef<boolean>(lockOrientation);
 
   // System lock (android only).
   // const [rotationLock, setRotationLock] = useState(false);
@@ -83,6 +83,8 @@ function Video({
   const [videoReady, setVideoReady] = useState<boolean>(false);
   const [started, setStarted] = useState<boolean>(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [fullscreen, setFullscreen] = useState(false);
+  const [fullscreenOrientation, setFullscreenOrientation] = useState('landscape');
   const [refreshInterval, setRefreshInterval] = useState<number | null>(null);
   const [sliderValue, setSliderValue] = useState<number>(0);
   const [currentTime, setCurrentTime] = useState<number>(0);
@@ -125,6 +127,7 @@ function Video({
   function getLandscapeOrPortrait(orientation: string) {
     let newOrientation = screenOrientation;
     if (
+      lockOrientationRef.current ||
       orientation === 'PORTRAIT' ||
       orientation === 'PORTRAIT-UPSIDEDOWN' // ot supported on iOS
     ) {
@@ -141,13 +144,16 @@ function Video({
   }
 
   useMount(() => {
-
     if (lockOrientation) {
       lockToPortrait();
     }
 
     if (autoPlay && !lockOrientation) {
-      Orientation.lockToAllOrientationsButUpsideDown();
+      if (Platform.OS === 'ios') {
+        Orientation.lockToAllOrientationsButUpsideDown(); // iOS only
+      } else {
+        Orientation.unlockAllOrientations();
+      }
       const initial = Orientation.getInitialOrientation();
       onOrientationChange(getLandscapeOrPortrait(initial)); // TODO: Add delay here.
     } else {
@@ -155,18 +161,13 @@ function Video({
       onOrientationChange('portrait');
     }
 
-    // Check if the system autolock is enabled or not (android only).
-    // TODO: NOT WOKRING PROPERLY IN IOS.
-    /* Orientation.getAutoRotateState( systemRotationLock =>
-      setRotationLock(systemRotationLock),
-    ); */
-    if (Platform.OS === 'android' && Platform.Version < 23 ) {
+    /* if (Platform.OS === 'android' && Platform.Version < 26 ) { */
+    if (Platform.OS === 'android') {
       // Only Device Orientation Listener works on older Android models.
       Orientation.addDeviceOrientationListener(handleOrientationChange);
     } else {
       Orientation.addOrientationListener(handleOrientationChange);
     }
-
 
     return function cleanup() {
       Orientation.removeOrientationListener(handleOrientationChange);
@@ -175,12 +176,30 @@ function Video({
   });
 
   useEffect(() => {
+    lockOrientationRef.current = lockOrientation;
     if (lockOrientation) {
       lockToPortrait();
+      handleOrientationChange('PORTRAIT'); // Need for Android.
     } else {
-      Orientation.lockToAllOrientationsButUpsideDown();
+      if (Platform.OS === 'ios') {
+        Orientation.lockToAllOrientationsButUpsideDown(); // iOS only
+      } else {
+        Orientation.unlockAllOrientations();
+      }
+
+      Orientation.getOrientation((orientation)=> {
+        onOrientationChange(getLandscapeOrPortrait(orientation)); 
+      });
     }
   }, [lockOrientation]);
+
+  useEffect(() => {
+    if (screenOrientation==='portrait') {
+      setFullscreen(true);
+    } else {
+      setFullscreen(false);
+    }
+  }, [screenOrientation]);
 
   // Events firing when user leaves the screen with player or comes back.
   useFocusEffect(
@@ -199,7 +218,11 @@ function Video({
   );
 
   const handleOrientationChange = (orientation: OrientationType): void => {
-    onOrientationChange(getLandscapeOrPortrait(orientation));
+    if (!lockOrientationRef.current) {
+      onOrientationChange(getLandscapeOrPortrait(orientation));
+    } else {
+      onOrientationChange(getLandscapeOrPortrait('PORTRAIT'));
+    }
   };
 
   function handleVideoStateChange(event: string) {
@@ -337,34 +360,37 @@ function Video({
               setSliderValue(e.currentTime);
             }
           }}
-            onEnd={e => {
+          onEnd={e => {
             if (sliderValue >= 1) {
               handleVideoStateChange('paused');
               setSliderValue(0);
             }
           }}
-          onBuffer={e => {}} // Callback when remote video is buffering
-          onError={e => {}}
+          onError={e => {console.log( "🆘 onError e:", e );}}
           playInBackground={false}
           playWhenInactive={false}
           ignoreSilentSwitch="ignore"
-          resizeMode="cover"
+          // resizeMode="cover"
           repeat={true}
           style={{
             position: 'absolute',
             top:
               screenOrientation === 'portrait' || lockOrientation
-                ? getPlayerDimensions().width / -9
-                : 0,
+                ? getPlayerDimensions().width / -10 // Small video (Portrait)
+                : getPlayerDimensions().width / -20, // Fullscreen video.
             bottom:
               screenOrientation === 'portrait' || lockOrientation
-                ? getPlayerDimensions().width / -9
-                : 0,
-            left: 0,
-            right: 0,
+                ? getPlayerDimensions().width / -10 // Small video (Portrait)
+                : getPlayerDimensions().width / -20, // Fullscreen video.
+            left: screenOrientation === 'portrait' || lockOrientation
+                ? 0 // Small video (Portrait)
+                : getPlayerDimensions().width / -20, // Fullscreen video.
+            right: screenOrientation === 'portrait' || lockOrientation
+                ? 0 // Small video (Portrait)
+                : getPlayerDimensions().width / -20, // Fullscreen video.
           }}
-          fullscreen={fullscreen}
-          fullscreenOrientation={fullscreenOrientation}
+          // fullscreen={false} // Platforms: iOS - Controls whether the player enters fullscreen on play.
+          fullscreenOrientation={fullscreenOrientation} // Platforms: iOS - all / landscape / portrait
         />
       )}
       <Flex
