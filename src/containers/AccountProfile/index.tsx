@@ -338,38 +338,7 @@ const AccountProfile = (props: ProfileModalProps) => {
             ) : (
               <></>
             )}
-            {/* <Button
-              isAndroidOpacity={true}
-              style={[styles.ButtonAction, {
-                marginTop: 40,
-                marginBottom: 40
-              }]}
-              onPress={
-                () => dispatch(logoutAction()).then(() => {
-                  // Navigate back to the very first screen.
-                  // 🤦🏻‍♂️Give React 10ms to render WelcomeApp component.
-                  setTimeout(() => {
-                    navigation.reset({
-                      index: 1,
-                      routes: [{ name: 'Welcome' }],
-                    });
-                  }, 10);
-                })
-              }
-            >
-              <Flex
-                // value={1}
-                direction="row"
-                align="center"
-                justify="center"
-
-              >
-                <Text style={styles.ButtonActionLabel}>Sign out</Text>
-              </Flex>
-            </Button> */}
-
             {/* SECTION: CALL TO ACTION BUTTON */}
-
             <Flex
               direction="column"
               style={[styles.SectionAction]}

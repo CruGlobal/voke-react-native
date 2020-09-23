@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
+import { Modalize } from 'react-native-modalize';
+import { Portal } from 'react-native-portalize';
 
+import ModalNotifications from '../../components/ModalNotifications';
 import { RootState } from '../../reducers';
 import Flex from '../Flex';
 import Text from '../Text';
@@ -14,8 +17,8 @@ import theme from '../../theme';
 const NotificationBanner = (): React.ReactElement => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const modalizeRef = useRef<Modalize>(null);
   const { t } = useTranslation('notifications');
-  const [modalOpen, setModalOpen] = useState(false);
   const me = useSelector(({ auth }: RootState) => auth.user);
   // Current premissions status stroed in
   // store.info.pushNotificationPermission
@@ -27,13 +30,6 @@ const NotificationBanner = (): React.ReactElement => {
     return <></>;
   }
 
-  const toggleModal = () => {
-    navigation.navigate('CustomModal', {
-      modalId: 'notifications',
-      primaryAction: () => {},
-    });
-  };
-
   return (
     <>
       <Flex direction="row" style={styles.banner}>
@@ -42,12 +38,38 @@ const NotificationBanner = (): React.ReactElement => {
 
         <Button
           isAndroidOpacity
-          onPress={() => toggleModal()}
+          onPress={() => modalizeRef.current?.open()}
           style={styles.buttonEnable}
         >
           <Text style={styles.bannerButtonLabel}>{t('turnOn')}</Text>
         </Button>
       </Flex>
+      <Portal>
+        <Modalize
+          ref={modalizeRef}
+          modalTopOffset={0}
+          withHandle={false}
+          openAnimationConfig={{
+            timing: { duration: 300 },
+          }}
+          withOverlay={false}
+          modalStyle={{
+            backgroundColor: 'rgba(0,0,0,.85)',
+            minHeight: '100%',
+          }}
+          FooterComponent={null}
+        >
+          <ModalNotifications
+            closeAction={(): void => {
+              modalizeRef.current?.close();
+              /* navigation.navigate('AdventureName', {
+                item,
+                withGroup: true,
+              }); */
+            }}
+          />
+        </Modalize>
+      </Portal>
     </>
   );
 };

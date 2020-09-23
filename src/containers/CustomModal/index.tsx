@@ -9,9 +9,7 @@ import { Modalize } from 'react-native-modalize';
 import { RootState } from '../../reducers';
 import st from '../../st';
 import Flex from '../../components/Flex';
-// import Text from '../Text';
 import Button from '../../components/Button';
-import VokeIcon from '../../components/VokeIcon';
 import theme from '../../theme';
 import BotTalking from '../../components/BotTalking';
 import { requestPremissions } from '../../actions/auth';
@@ -206,7 +204,6 @@ export default function CustomModal(props: any): React.ReactElement {
                     paddingHorizontal: 25,
                     paddingVertical: 8,
                     color: 'white',
-                    // marginTop:10
                   }}
                 >
                   {modalId === 'howDuoWorks'
@@ -460,19 +457,6 @@ export default function CustomModal(props: any): React.ReactElement {
               </Flex>
               <View style={{ minHeight: theme.spacing.xl }} />
               <Flex align="center" justify="center">
-                {/* <Text style={{
-                    fontSize: 24,
-                    paddingHorizontal: 25,
-                    paddingVertical: 8,
-                    color: 'white',
-                    // marginTop:10
-                }}>{
-                  modalId === 'howDuoWorks' ?
-                  t('howDuoWorksTitle') :
-                  t('howGroupsWorkTitle')
-                }</Text> */}
-                {/* <View style={{minHeight:theme.spacing.l}} /> */}
-
                 <>
                   {/* GROUP */}
                   <Flex
@@ -574,7 +558,8 @@ export default function CustomModal(props: any): React.ReactElement {
                       st.w(st.fullWidth - 120),
                     ]}
                     onPress={() => {
-                      props.navigation.popToTop(); // Reset all modal of modal stacks. (this is available since 1.0.0 I think).
+                      onClose();
+                      // props.navigation.popToTop(); // Reset all modal of modal stacks. (this is available since 1.0.0 I think).
                       // props.navigation.goBack(null) // Then close modal itself to display the main app screen nav.
                     }}
                   >
@@ -583,22 +568,6 @@ export default function CustomModal(props: any): React.ReactElement {
                     </Flex>
                   </Button>
                   <View style={{ minHeight: theme.spacing.xxl }} />
-                  {/* <Button
-                    isAndroidOpacity={true}
-                    style={[
-                      st.pd4,
-                      st.mb1,
-                      st.br6,
-                      st.w(st.fullWidth - 120),
-                      st.bw1,
-                      {borderColor: "white"}
-                    ]}
-                    onPress={() => toggleModal()}
-                    >
-                    <Flex direction="row" align="center" justify="center">
-                      <Text style={[st.white, st.fs20]}>{t('cancel')}</Text>
-                    </Flex>
-                  </Button> */}
                 </Flex>
               </Flex>
             </Flex>
@@ -659,7 +628,12 @@ export default function CustomModal(props: any): React.ReactElement {
                   marginTop: 10,
                 },
               ]}
-              onPress={() => props.navigation.popToTop()}
+              onPress={
+                () => {
+                  onClose();
+                  // props.navigation.popToTop()
+                }
+              }
             >
               <Text
                 style={{
