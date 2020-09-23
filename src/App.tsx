@@ -111,9 +111,6 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
   const insets = useSafeArea();
   const { t } = useTranslation('title');
 
-
-  // Alert.alert('Rountes No:', JSON.stringify(route?.state?.routes));
-
   useEffect(() => {
     if (route?.state?.routes.length && route?.state?.type) {
       // Make tapbar visible dynamically.
