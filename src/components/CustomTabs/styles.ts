@@ -1,16 +1,48 @@
-import { css } from '@emotion/native';
-import theme from '../../theme';
-import ui from '../../ui';
+import { StyleSheet } from 'react-native';
 
-const styles: { [key: string]: any } = {
-  ...ui,
-  TabBarTitle: css`
-    color: ${theme.colors.secondary};
-    font-size: ${`${theme.fontSizes.l}px`};
-    font-family: ${theme.fonts.regular};
-    padding-top: ${`${theme.spacing.s}px`};
-    padding-bottom: ${`${theme.spacing.s}px`};
-  `,
-};
+import theme from '../../theme';
+
+const styles = StyleSheet.create({
+  tabBar: {
+    backgroundColor: theme.colors.primary,
+  },
+  tabBarWhite: {
+    backgroundColor: theme.colors.white,
+  },
+  tabBarTitle: {
+    color: theme.colors.secondary,
+    fontSize: theme.fontSizes.l,
+    fontFamily: theme.fonts.regular,
+    paddingTop: theme.spacing.s,
+    paddingBottom: theme.spacing.s,
+  },
+  tabBarTitleActive: {
+    color: theme.colors.black,
+    fontSize: theme.fontSizes.l,
+    fontFamily: theme.fonts.regular,
+    paddingTop: theme.spacing.s,
+    paddingBottom: theme.spacing.s,
+  },
+  tabBarTitleWhite: {
+    color: theme.colors.grey,
+    fontSize: theme.fontSizes.l,
+    fontFamily: theme.fonts.regular,
+    paddingTop: theme.spacing.s,
+    paddingBottom: theme.spacing.s,
+  },
+  tabBarTitleWhiteActive: {
+    color: theme.colors.secondary,
+    fontSize: theme.fontSizes.l,
+    fontFamily: theme.fonts.regular,
+    paddingTop: theme.spacing.s,
+    paddingBottom: theme.spacing.s,
+  },
+  indicatorStyle: {
+    backgroundColor: theme.colors.secondary,
+  },
+  indicatorStyleWhite: {
+    backgroundColor: theme.colors.secondary,
+  },
+});
 
 export default styles;

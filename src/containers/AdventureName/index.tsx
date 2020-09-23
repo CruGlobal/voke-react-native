@@ -1,22 +1,29 @@
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/camelcase */
-import React, { useState, ReactElement } from 'react';
+import React, { useState, ReactElement, useRef, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
+import { Modalize } from 'react-native-modalize';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../reducers';
 import { useTranslation } from 'react-i18next';
+import { useFormik } from 'formik';
+import CustomTabs from '../../components/CustomTabs';
+import AccountSignIn from '../AccountSignIn';
+import * as Yup from 'yup';
 import useKeyboard from '@rnhooks/keyboard';
 import {
   KeyboardAvoidingView,
   Alert,
   ScrollView,
   Platform,
+  Keyboard,
 } from 'react-native';
 
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
-import NameInput from '../../components/NameInput';
+import TextField from '../../components/TextField';
 import st from '../../st';
 import Button from '../../components/Button';
 import theme from '../../theme';
@@ -26,6 +33,8 @@ import {
   sendAdventureInvitation,
   sendVideoInvitation,
 } from '../../actions/requests';
+import AccountCreate from '../AccountCreate';
+import styles from './styles';
 
 function AdventureName(props: any): ReactElement {
   const { t } = useTranslation('share');
@@ -33,9 +42,15 @@ function AdventureName(props: any): ReactElement {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
-  const [name, setName] = useState('');
-
+  const [modalOpen, setModalOpen] = useState(false);
   const { item, withGroup, isVideoInvite = false } = props.route.params;
+  const email = useSelector(({ auth }: any) => auth?.user?.email);
+
+  const modalizeRef = useRef<Modalize>(null);
+
+  const onOpen = () => {
+    modalizeRef.current?.open();
+  };
 
   const [isKeyboardVisible] = useKeyboard({
     useWillShow: Platform.OS === 'android' ? false : true,
@@ -43,66 +58,74 @@ function AdventureName(props: any): ReactElement {
     // Not availabe on Android https://reactnative.dev/docs/keyboard#addlistener
   });
 
-  const isValidName = (): boolean => name.length > 0;
+  const NameValidationSchema = Yup.object().shape({
+    name: Yup.string().required(t('required')),
+  });
 
-  const handleContinue = async (): Promise<void> => {
-    if (isValidName() && !isLoading) {
-      try {
-        setIsLoading(true);
-        let result;
-        if (isVideoInvite) {
-          // TODO: check this scenario.
-          result = await dispatch(
-            sendVideoInvitation({
-              name,
-              item_id: `${item.id}`,
-            }),
-          );
-        } else {
-          result = await dispatch(
-            sendAdventureInvitation({
-              organization_journey_id: item.id,
-              name,
-              kind: withGroup ? 'multiple' : 'duo',
-            }),
-          );
-        }
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+    },
+    validationSchema: NameValidationSchema,
+    onSubmit: async values => {
+      Keyboard.dismiss();
+      setModalOpen(true);
+      return;
+      // Before sending a group name to the server
+      // we need to check if user isn't a guest user.
+      if (!email) {
+        console.log('Need to register');
+      } else {
+        try {
+          setIsLoading(true);
+          let result;
+          if (isVideoInvite) {
+            // TODO: check this scenario.
+            result = await dispatch(
+              sendVideoInvitation({
+                name: values.name,
+                item_id: `${item.id}`,
+              }),
+            );
+          } else {
+            result = await dispatch(
+              sendAdventureInvitation({
+                organization_journey_id: item.id,
+                name: values.name,
+                kind: withGroup ? 'multiple' : 'duo',
+              }),
+            );
+          }
 
-        if (result?.id) {
-          navigation.navigate('AdventureShareCode', {
-            invitation: result,
-            withGroup,
-            isVideoInvite,
-          });
-        } else {
-          Alert.alert('Failed to create a valid invite.', 'Please try again.');
+          if (result?.id) {
+            navigation.navigate('AdventureShareCode', {
+              invitation: result,
+              withGroup,
+              isVideoInvite,
+            });
+          } else {
+            Alert.alert('Failed to create a valid invite.', 'Please try again.');
+          }
+        } catch (e) {
+          if (e?.message === 'Network request failed') {
+            Alert.alert(e?.message, t('checkInternet'));
+          } else if (e?.message) {
+            Alert.alert(e?.message);
+          } else {
+            console.error(e);
+          }
         }
-
-        /* SUCCESS RESULT EXAMPLE
-        {
-          id: "78b4bf04-6630-46af-8e9f-7cc70e05b5bb"
-          messenger_journey_id: "52ca64d4-2a53-4e41-a755-5002e3b29900"
-          code: "386621"
-          name: "Sdsdfsdfdf"
-          kind: "duo"
-          status: "waiting"
-          ...
-        } */
-      } catch (e) {
-        if (e?.message === 'Network request failed') {
-          Alert.alert(e?.message, t('checkInternet'));
-        } else if (e?.message) {
-          Alert.alert(e?.message);
-        } else {
-          console.error(e);
-        }
-      } finally {
-        setIsLoading(false);
       }
+    },
+  });
+
+  useEffect(() => {
+    if (modalOpen) {
+      modalizeRef.current?.open();
     } else {
-      Alert.alert(t('needNameTitle'), t('needNameMessage'));
+      modalizeRef.current?.close();
     }
-  };
+  }, [modalOpen]);
 
   return (
     <KeyboardAvoidingView
@@ -112,6 +135,7 @@ function AdventureName(props: any): ReactElement {
         flex: 1,
         height: '100%',
       }}
+      enabled={!modalOpen}
     >
       <ScrollView
         keyboardShouldPersistTaps="handled"
@@ -159,18 +183,24 @@ function AdventureName(props: any): ReactElement {
                 />
               </Flex>
               <Flex direction="column" align="center" style={[st.ph1, st.w100]}>
-                <NameInput
+                <TextField
                   blurOnSubmit={false}
                   label={
                     withGroup ? t('groupName') : t('placeholder:firstName')
                   }
-                  onSubmitEditing={handleContinue}
                   placeholder={
                     withGroup ? t('groupName') : t('placeholder:friendsName')
                   }
-                  value={name}
-                  onChangeText={(text: string): void => setName(text)}
+                  value={formik.values.name}
                   returnKeyType="done"
+                  onBlur={formik.handleBlur('name')}
+                  onChangeText={formik.handleChange('name')}
+                  onSubmitEditing={formik.handleSubmit}
+                  error={
+                    formik.touched.name && formik.errors.name
+                      ? formik.errors.name
+                      : null
+                  }
                   testID={'inputFriendsName'}
                 />
                 <Touchable onPress={() => setShowHelp(!showHelp)}>
@@ -198,24 +228,20 @@ function AdventureName(props: any): ReactElement {
               }}
             >
               <Button
-                onPress={handleContinue}
-                touchableStyle={[
-                  st.pd4,
-                  st.br1,
-                  // st.w(st.fullWidth - 70),
-                  {
-                    backgroundColor: theme.colors.white,
-                    // marginTop: isKeyboardVisible ? 0 : 85,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)',
-                    shadowOpacity: 0.5,
-                    elevation: 4,
-                    shadowRadius: 5,
-                    shadowOffset: { width: 1, height: 8 },
-                    width: '100%',
-                  },
-                ]}
+                onPress={formik.handleSubmit}
                 isLoading={isLoading}
                 testID={'ctaContinue'}
+                touchableStyle={{
+                  padding: theme.spacing.m,
+                  backgroundColor: theme.colors.white,
+                  borderRadius: theme.radius.xxl,
+                  shadowColor: 'rgba(0, 0, 0, 0.5)',
+                  shadowOpacity: 0.5,
+                  elevation: 4,
+                  shadowRadius: 5,
+                  shadowOffset: { width: 1, height: 8 },
+                  width: '100%',
+                }}
               >
                 <Text
                   style={[st.fs20, st.tac, { color: theme.colors.secondary }]}
@@ -226,6 +252,42 @@ function AdventureName(props: any): ReactElement {
               {/* Safety spacing. */}
               {/* <Flex style={{ minHeight: theme.spacing.xxl }} /> */}
             </Flex>
+            <Modalize
+              ref={modalizeRef}
+              modalTopOffset={140}
+              handlePosition={'inside'}
+              openAnimationConfig={{
+                timing: { duration: 300 }
+              }}
+              onClose={() => setModalOpen(false)}
+              modalStyle={{
+                backgroundColor: theme.colors.primary
+              }}
+            >
+              <Text style={styles.modalTitle}>{t('modal:accountRequired')}</Text>
+              <CustomTabs
+                tabs={[
+                  {
+                    key: 'signup',
+                    title: t('signUp'),
+                    component: AccountCreate,
+                    testID: 'tabModalSignUp',
+                  },
+                  {
+                    key: 'login',
+                    title: t('login'),
+                    component: AccountSignIn,
+                    testID: 'tabModalLogin',
+                  }
+                ]}
+                // theme={'White'}
+                // If there are any Adventures or Invites:
+                // Show My Adventures tab first.
+                // Otherwise redirect user to Find Adventures.
+                selectedIndex={1}
+              />
+              {/* <AccountSignIn /> */}
+            </Modalize>
           </SafeAreaView>
         </DismissKeyboardView>
       </ScrollView>

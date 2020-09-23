@@ -84,6 +84,7 @@
         "shareApp": "Share this app",
         "language": "Language",
         "loadMore": "Load More",
+        "login": "Login",
         "me": "Me",
         "more": "More",
         "next": "Next",
@@ -114,6 +115,7 @@
         "shortPassword": "Your password must be at least 8 characters",
         "signIn": "Sign In",
         "signInFb": "Sign In with Facebook",
+        "signInApple": "Sign In with Apple",
         "signOut": "Sign Out",
         "signOutOfAccount": "Sign Out of my account",
         "signUp": "Sign Up",
@@ -269,7 +271,8 @@
         "howSharingWorksLinkAccess": "Anyone with the link has access to the code to join your Adventure.",
         "howDuoWorksTitle": "How Duo Works",
         "howGroupsWorkTitle": "How Groups Work",
-        "welcomeTo": "Welcome to "
+        "welcomeTo": "Welcome to ",
+        "accountRequired": "Sign Up or Login to Start a Group",
     },
     "notifications": {
         "off": "Notifications turned off."

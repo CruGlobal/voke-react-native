@@ -22,11 +22,9 @@ import { userLogin, facebookLogin } from '../../actions/auth';
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
 import VokeIcon from '../../components/VokeIcon';
 import TextField from '../../components/TextField';
-import Triangle from '../../components/Triangle';
 import Button from '../../components/Button';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
-import CONSTANTS from '../../constants';
 import st from '../../st';
 import theme from '../../theme';
 
@@ -120,7 +118,7 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       style={{
         backgroundColor: styles.colors.primary,
-        paddingTop: headerHeight,
+        // paddingTop: headerHeight,
         flex: 1,
       }}
     >
