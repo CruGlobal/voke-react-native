@@ -6,7 +6,10 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Share, ScrollView, Dimensions } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/stack';
+import { Modalize } from 'react-native-modalize';
+import { Portal } from 'react-native-portalize';
 
+import ModalNotifications from '../../components/ModalNotifications';
 import { RootState } from '../../reducers';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
@@ -19,6 +22,7 @@ import Touchable from '../../components/Touchable';
 import { toastAction } from '../../actions/info';
 
 function AdventureShareCode(props) {
+  const modalizeRef = useRef<Modalize>(null);
   const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -30,6 +34,7 @@ function AdventureShareCode(props) {
   const { invitation, withGroup, isVideoInvite } = props.route.params;
   const headerHeight = useHeaderHeight();
   const windowDimensions = Dimensions.get('window');
+  const [modalId, setModalId] = useState(null);
   let popupTimeout = null;
 
   const handleShare = () => {
@@ -62,7 +67,7 @@ function AdventureShareCode(props) {
     if (!askedNotifications.current) {
       askedNotifications.current = true;
       if (pushNotificationPermission !== 'granted') {
-        navigation.navigate('CustomModal', { modalId: 'notifications' });
+        modalizeRef.current?.open();
       }
     }
   };
@@ -250,10 +255,7 @@ function AdventureShareCode(props) {
           <Touchable
             onPress={() => {
               const navState = navigation.dangerouslyGetState();
-              navigation.navigate('CustomModal', {
-                modalId: 'howSharingWorks',
-                primaryAction: () => {},
-              });
+              setModalId('howSharingWorks');
             }}
           >
             <Text
@@ -271,6 +273,32 @@ function AdventureShareCode(props) {
         </Flex>
       )}
       <Flex style={{ minHeight: insets.bottom + theme.spacing.xxl }} />
+      <Portal>
+        <Modalize
+          ref={modalizeRef}
+          modalTopOffset={0}
+          withHandle={false}
+          openAnimationConfig={{
+            timing: { duration: 300 },
+          }}
+          withOverlay={false}
+          modalStyle={{
+            backgroundColor: 'rgba(0,0,0,.85)',
+            minHeight: '100%',
+          }}
+          FooterComponent={null}
+        >
+          <ModalNotifications
+            closeAction={(): void => {
+              modalizeRef.current?.close();
+              /* navigation.navigate('AdventureName', {
+                item,
+                withGroup: true,
+              }); */
+            }}
+          />
+        </Modalize>
+      </Portal>
     </ScrollView>
   );
 }

@@ -3,16 +3,36 @@ import { StyleSheet } from 'react-native';
 import theme from '../../theme';
 
 const styles = StyleSheet.create({
+  modalTitleArea: {
+    paddingBottom: theme.spacing.s,
+    flexDirection: 'row',
+  },
+  modalTitleAction: {
+    alignSelf: 'center',
+    flex: 1,
+    flexGrow: 1,
+  },
   modalTitle: {
-    color: theme.colors.secondary,
-    fontSize: theme.fontSizes.xl,
+    alignSelf: 'center',
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.l,
     fontFamily: theme.fonts.semiBold,
-    lineHeight: theme.fontSizes.xl * 1.3,
+    // lineHeight: theme.fontSizes.xl * 1.3,
     textAlign: 'center',
-    paddingTop: theme.spacing.xl,
-    paddingBottom: theme.spacing.m,
-    borderBottomWidth: 1,
-    borderBottomColor: 'red',
+  },
+  buttonTitleCancel: {
+    paddingVertical: theme.spacing.l,
+    paddingHorizontal: theme.spacing.l,
+  },
+  buttonLabelTitleCancel: {
+    fontSize: theme.fontSizes.m,
+    color: theme.colors.white,
+  },
+  modalIntro: {
+    textAlign: 'center',
+    fontSize: theme.fontSizes.l,
+    color: theme.colors.secondary,
+    paddingHorizontal: theme.spacing.xl,
   },
 });
 

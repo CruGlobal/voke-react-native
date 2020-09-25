@@ -9,12 +9,13 @@ import {
   StackActions,
 } from '@react-navigation/native';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
-import { Alert, Linking, YellowBox } from 'react-native';
+import { Linking, YellowBox } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useSafeArea } from 'react-native-safe-area-context';
 import useAppState from 'react-native-appstate-hook';
 import RNBootSplash from 'react-native-bootsplash';
+import { Host } from 'react-native-portalize';
 
 import {
   startupAction,
@@ -49,16 +50,13 @@ import Notifications from './containers/Notifications';
 import AccountName from './containers/AccountName';
 import AccountPhoto from './containers/AccountPhoto';
 import GroupModal from './containers/GroupModal';
-import CustomModal from './containers/CustomModal';
 import TabBar from './components/TabBar';
 import theme from './theme';
 import st from './st';
 import HeaderLeft from './components/HeaderLeft';
 import Touchable from './components/Touchable';
-import Flex from './components/Flex';
 import SignOut from './components/SignOut';
 import Text from './components/Text';
-import Button from './components/Button';
 import { useMount } from './utils';
 import { checkInitialNotification } from './actions/notifications';
 
@@ -121,7 +119,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
             : null,
       });
     }
-  }, [route?.state?.routes.length])
+  }, [route?.state?.routes.length]);
 
   return (
     <AdventureStack.Navigator
@@ -470,13 +468,14 @@ const RootStackScreens = () => {
         name="AccountCreate"
         component={AccountCreate}
         options={{
-          ...altHeaderConfig,
+          ...transparentHeaderConfig,
+          headerStyle: {
+            ...transparentHeaderConfig.headerStyle,
+            paddingTop: insets.top,
+          },
           title: t('createAccount'),
-          headerShown: true,
-          /* headerStyle: {
-              backgroundColor: theme.colors.primary,
-              paddingTop: insets.top // TODO: Check if it really works here?
-            }, */
+          // headerShown: true,
+          headerLeft: () => <HeaderLeft hasBack />,
         }}
       />
       <RootStack.Screen
@@ -486,7 +485,7 @@ const RootStackScreens = () => {
           ...transparentHeaderConfig,
           headerStyle: {
             ...transparentHeaderConfig.headerStyle,
-            paddingTop: insets.top, // TODO: Check if it really works here?
+            paddingTop: insets.top,
           },
           title: t('signIn'),
           // headerShown: true,
@@ -752,108 +751,60 @@ const App = () => {
       // linking={linking} - not working.
       // initialState={ ( isLoggedIn ? ({ index: 0, routes: [{ name: 'LoggedInApp' }] }) : ({ index: 0, routes: [{ name: 'WelcomeApp' }] }) ) }
     >
-      <AppStack.Navigator
-        screenOptions={
-          {
-            // headerShown: false
+      <Host>
+        <AppStack.Navigator
+          screenOptions={
+            {
+              // headerShown: false
+            }
           }
-        }
-        // mode="modal"
-      >
-        <AppStack.Screen
-          name="Root"
-          component={RootStackScreens}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <AppStack.Screen
-          name="CustomModal"
-          component={CustomModal}
-          // options={{ headerShown: false }}
-          options={({ navigation }) => ({
-            headerShown: true,
-            headerLeft: false,
-            headerRight: () => (
-              <Touchable
-                onPress={() => {
-                  // Get the index of the route to see if we can go back.
-                  const { index } = navigation.dangerouslyGetState();
-                  if (index > 0) {
-                    navigation.goBack();
-                  } else {
-                    navigation.reset({
-                      index: 0,
-                      routes: [{ name: 'LoggedInApp' }],
-                    });
-                  }
-                }}
-                testID={'ctaHeaderClose'}
-              >
-                <Text
-                  style={[
-                    st.white,
-                    st.fs18,
-                    {
-                      paddingHorizontal: theme.spacing.l,
-                    },
-                  ]}
+          // mode="modal"
+        >
+          <AppStack.Screen
+            name="Root"
+            component={RootStackScreens}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <AppStack.Screen
+            name="AdventureName"
+            component={AdventureName}
+            options={({ navigation }) => ({
+              ...transparentHeaderConfig,
+              headerStyle: {
+                ...transparentHeaderConfig.headerStyle,
+              },
+              cardStyle: { backgroundColor: theme.colors.primary },
+              title: '',
+              headerLeft: () => <HeaderLeft hasBack />,
+            })}
+          />
+          <AppStack.Screen
+            name="AdventureShareCode"
+            component={AdventureShareCode}
+            options={({ navigation }) => ({
+              ...transparentHeaderConfig,
+              headerStyle: {
+                ...transparentHeaderConfig.headerStyle,
+              },
+              cardStyle: { backgroundColor: theme.colors.primary },
+              title: '',
+              headerLeft: () => <></>,
+              headerRight: () => (
+                <Touchable
+                  onPress={() => {
+                    navigation.dispatch(StackActions.popToTop());
+                  }}
+                  testID={'ctaHeaderDone'}
                 >
-                  {t('close')}
-                </Text>
-              </Touchable>
-            ),
-            cardStyle: { backgroundColor: 'rgba(0,0,0,.9)' },
-            headerStyle: {
-              backgroundColor: theme.colors.transparent,
-              elevation: 0,
-              shadowOpacity: 0,
-            },
-            headerTitleStyle: {
-              color: theme.colors.white,
-              fontSize: 18,
-              fontWeight: 'normal',
-            },
-            title: '',
-          })}
-        />
-        <AppStack.Screen
-          name="AdventureName"
-          component={AdventureName}
-          options={({ navigation }) => ({
-            ...transparentHeaderConfig,
-            headerStyle: {
-              ...transparentHeaderConfig.headerStyle,
-            },
-            cardStyle: { backgroundColor: theme.colors.primary },
-            title: '',
-            headerLeft: () => <HeaderLeft hasBack />,
-          })}
-        />
-        <AppStack.Screen
-          name="AdventureShareCode"
-          component={AdventureShareCode}
-          options={({ navigation }) => ({
-            ...transparentHeaderConfig,
-            headerStyle: {
-              ...transparentHeaderConfig.headerStyle,
-            },
-            cardStyle: { backgroundColor: theme.colors.primary },
-            title: '',
-            headerLeft: () => <></>,
-            headerRight: () => (
-              <Touchable
-                onPress={() => {
-                  navigation.dispatch(StackActions.popToTop());
-                }}
-                testID={'ctaHeaderDone'}
-              >
-                <Text style={[st.white, st.mr4, st.fs16]}>{t('done')}</Text>
-              </Touchable>
-            ),
-          })}
-        />
-      </AppStack.Navigator>
+                  <Text style={[st.white, st.mr4, st.fs16]}>{t('done')}</Text>
+                </Touchable>
+              ),
+            })}
+          />
+        </AppStack.Navigator>
+      </Host>
     </NavigationContainer>
   );
 };

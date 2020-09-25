@@ -1,77 +1,114 @@
-// import { ReactText } from 'react';
-import { css } from '@emotion/native';
-import theme from '../../theme';
-import ui from '../../ui';
+import { StyleSheet } from 'react-native';
 
-const styles: { [key: string]: any } = {
-  ...ui,
-  MainContainer: [
-    ui.container.default,
-    css`
-      height:100%;
-      background-color: ${theme.colors.primary};
-    `,
-  ],
-  PrimaryContent: css`
-    width: 100%;
-    padding-left: ${`${theme.spacing.xl}px`};
-    padding-right: ${`${theme.spacing.xl}px`};
-  `,
-  Divider: css`
-    width: 100%;
-    background-color: ${theme.colors.primary};
-  `,
-  SectionAction: css`
-    width: 100%;
-    background-color: ${theme.colors.primary};
-    padding-left: ${`${theme.spacing.xl}px`};
-    padding-right: ${`${theme.spacing.xl}px`};
-    padding-bottom: ${`${theme.spacing.m}px`};
-  `,
-  ButtonStart: [
-    ui.button.size.l,
-    ui.button.style.solid,
-    css`
-      margin-top: ${`${theme.spacing.m}px`};
-      margin-left: ${`${theme.spacing.l}px`};
-      margin-right: ${`${theme.spacing.l}px`};
-      margin-bottom: ${`${theme.spacing.l}px`};
-    `,
-  ],
-  ButtonStartLabel: [
-    ui.buttonText.size.l,
-    ui.buttonText.style.solid,
-  ],
-  Link: css`
-    text-align: center;
-    text-decoration-line: underline;
-    color: ${theme.colors.white};
-    margin-top:20px;
-  `,
-  SectionNotice: css`
-    padding-left: ${`${theme.spacing.xl}px`};
-    padding-right: ${`${theme.spacing.xl}px`};
-    padding-bottom: ${`${theme.spacing.l}px`};
-  `,
-  TextMedium: css`
-    color: ${theme.colors.white};
-    font-size: 16px;
-    font-family: ${theme.fonts.regular};
-    text-align: center;
-  `,
-  SectionFB: css`
-    padding-top: ${`${theme.spacing.l}px`};
-    padding-bottom: ${`${theme.spacing.l}px`};
-    width: 100%;
-  `,
-  ButtonFBSignIn: [
-		ui.button.size.outlinel,
-		ui.button.style.outline,
-	],
-	ButtonFBSignInLabel: [
-		ui.buttonText.size.m,
-		ui.buttonText.style.outline
-	],
-};
+import theme from '../../theme';
+
+const sharedStyles = {
+  ButtonSignIn: {
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    borderRadius: theme.radius.xxl,
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: theme.colors.white,
+    width: '80%',
+    minWidth: 170,
+    alignSelf:'center',
+  },
+  ButtonSignInLabel: {
+    fontSize: theme.fontSizes.l,
+    fontFamily: theme.fonts.regular,
+    textAlign:'center',
+    color: theme.colors.white,
+  },
+  ButtonSignInIcon: {
+    color: theme.colors.white,
+    marginRight: theme.spacing.l,
+  },
+}
+
+const styles = StyleSheet.create({
+  ...sharedStyles,
+
+  buttonSignInPrimary: {
+    ...sharedStyles.ButtonSignIn,
+    backgroundColor: theme.colors.white,
+  },
+  buttonSignInLabelPrimary: {
+    ...sharedStyles.ButtonSignInLabel,
+    fontFamily: theme.fonts.semiBold,
+    color: theme.colors.secondary,
+  },
+  buttonSignInIconPrimary: {
+    ...sharedStyles.ButtonSignInIcon,
+    color: theme.colors.secondary,
+  },
+
+  signInOptions: {
+    paddingHorizontal: theme.spacing.xl,
+  },
+
+
+  mainContainer: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: theme.colors.primary,
+    width: '100%',
+    height: '100%',
+    backgroundColor: theme.colors.primary,
+  },
+  primaryContent: {
+    alignItems: 'center', // Horizontal.
+    justifyContent: 'center', // Vertical.
+    flexGrow: 1,
+    width: '100%',
+    // paddingLeft: theme.spacing.xl,
+    // paddingRight: theme.spacing.xl,
+  },
+  divider: {
+    width: '100%',
+    backgroundColor: theme.colors.primary,
+  },
+  sectionAction: {
+    width: '100%',
+    backgroundColor: theme.colors.primary,
+    paddingLeft: theme.spacing.xl,
+    paddingRight: theme.spacing.xl,
+    paddingBottom: theme.spacing.m,
+  },
+  buttonStart: {
+    paddingVertical: 20,
+    paddingHorizontal: theme.spacing.s,
+    borderRadius: theme.radius.xxl,
+    backgroundColor: theme.colors.white,
+    marginTop: theme.spacing.m,
+    marginLeft: theme.spacing.l,
+    marginRight: theme.spacing.l,
+    marginBottom: theme.spacing.l,
+  },
+  buttonStartLabel: {
+    fontSize: theme.fontSizes.xl,
+    lineHeight: theme.fontSizes.xl * 1.35,
+    fontFamily: theme.fonts.regular,
+    textAlign: 'center',
+    color: theme.colors.secondary,
+  },
+  link: {
+    textAlign: 'center',
+    textDecorationLine: 'underline',
+    color: theme.colors.white,
+    marginTop: 20,
+  },
+  sectionNotice: {
+    paddingLeft: theme.spacing.xl,
+    paddingRight: theme.spacing.xl,
+    paddingBottom: theme.spacing.l,
+  },
+  textMedium: {
+    color: theme.colors.secondary,
+    fontSize: 16,
+    fontFamily: theme.fonts.regular,
+    textAlign: 'center',
+  },
+});
 
 export default styles;
