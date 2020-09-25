@@ -198,7 +198,7 @@ function AdventureAvailable(props): React.ReactElement {
                   text={t('goWithFriend')}
                   icon="couple"
                   onPress={() => {
-                    if (duoTutorialCount > 3333333332) {
+                    if (duoTutorialCount > 2) {
                       navigation.navigate('AdventureName', {
                         item,
                         withGroup: false,
@@ -214,7 +214,7 @@ function AdventureAvailable(props): React.ReactElement {
                   text={t('goWithGroup')}
                   icon="group"
                   onPress={() => {
-                    if (groupTutorialCount > 33333333332) {
+                    if (groupTutorialCount > 2) {
                       navigation.navigate('AdventureName', {
                         item,
                         withGroup: true,

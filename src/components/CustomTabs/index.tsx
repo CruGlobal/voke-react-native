@@ -18,7 +18,7 @@ type TabsProps = {
  * Custom Tabs
  * @param tabs array of objects {key, title, testID, component}
  */
-const CustomTabs = ({ tabs, selectedIndex = 0, theme }: TabsProps): React.ReactElement => {
+const CustomTabs = ({ tabs, selectedIndex = 0, theme, ...rest }: TabsProps): React.ReactElement => {
   const [index, setIndex] = useState(selectedIndex);
   const [routes] = useState(tabs);
   const scenes: { [key: string]: React.ComponentType } = {};
@@ -44,6 +44,7 @@ const CustomTabs = ({ tabs, selectedIndex = 0, theme }: TabsProps): React.ReactE
       onIndexChange={setIndex}
       renderTabBar={(props): React.ReactElement => <TabBarStyled {...props} theme={theme} />}
       // initialLayout={{ width: st.fullWidth }}
+      {...rest}
     />
   );
 };

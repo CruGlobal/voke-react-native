@@ -119,7 +119,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
             : null,
       });
     }
-  }, [route?.state?.routes.length])
+  }, [route?.state?.routes.length]);
 
   return (
     <AdventureStack.Navigator
@@ -468,13 +468,14 @@ const RootStackScreens = () => {
         name="AccountCreate"
         component={AccountCreate}
         options={{
-          ...altHeaderConfig,
+          ...transparentHeaderConfig,
+          headerStyle: {
+            ...transparentHeaderConfig.headerStyle,
+            paddingTop: insets.top,
+          },
           title: t('createAccount'),
-          headerShown: true,
-          /* headerStyle: {
-              backgroundColor: theme.colors.primary,
-              paddingTop: insets.top // TODO: Check if it really works here?
-            }, */
+          // headerShown: true,
+          headerLeft: () => <HeaderLeft hasBack />,
         }}
       />
       <RootStack.Screen
@@ -484,7 +485,7 @@ const RootStackScreens = () => {
           ...transparentHeaderConfig,
           headerStyle: {
             ...transparentHeaderConfig.headerStyle,
-            paddingTop: insets.top, // TODO: Check if it really works here?
+            paddingTop: insets.top,
           },
           title: t('signIn'),
           // headerShown: true,
@@ -751,58 +752,58 @@ const App = () => {
       // initialState={ ( isLoggedIn ? ({ index: 0, routes: [{ name: 'LoggedInApp' }] }) : ({ index: 0, routes: [{ name: 'WelcomeApp' }] }) ) }
     >
       <Host>
-      <AppStack.Navigator
-        screenOptions={
-          {
-            // headerShown: false
+        <AppStack.Navigator
+          screenOptions={
+            {
+              // headerShown: false
+            }
           }
-        }
-        // mode="modal"
-      >
-        <AppStack.Screen
-          name="Root"
-          component={RootStackScreens}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <AppStack.Screen
-          name="AdventureName"
-          component={AdventureName}
-          options={({ navigation }) => ({
-            ...transparentHeaderConfig,
-            headerStyle: {
-              ...transparentHeaderConfig.headerStyle,
-            },
-            cardStyle: { backgroundColor: theme.colors.primary },
-            title: '',
-            headerLeft: () => <HeaderLeft hasBack />,
-          })}
-        />
-        <AppStack.Screen
-          name="AdventureShareCode"
-          component={AdventureShareCode}
-          options={({ navigation }) => ({
-            ...transparentHeaderConfig,
-            headerStyle: {
-              ...transparentHeaderConfig.headerStyle,
-            },
-            cardStyle: { backgroundColor: theme.colors.primary },
-            title: '',
-            headerLeft: () => <></>,
-            headerRight: () => (
-              <Touchable
-                onPress={() => {
-                  navigation.dispatch(StackActions.popToTop());
-                }}
-                testID={'ctaHeaderDone'}
-              >
-                <Text style={[st.white, st.mr4, st.fs16]}>{t('done')}</Text>
-              </Touchable>
-            ),
-          })}
-        />
-      </AppStack.Navigator>
+          // mode="modal"
+        >
+          <AppStack.Screen
+            name="Root"
+            component={RootStackScreens}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <AppStack.Screen
+            name="AdventureName"
+            component={AdventureName}
+            options={({ navigation }) => ({
+              ...transparentHeaderConfig,
+              headerStyle: {
+                ...transparentHeaderConfig.headerStyle,
+              },
+              cardStyle: { backgroundColor: theme.colors.primary },
+              title: '',
+              headerLeft: () => <HeaderLeft hasBack />,
+            })}
+          />
+          <AppStack.Screen
+            name="AdventureShareCode"
+            component={AdventureShareCode}
+            options={({ navigation }) => ({
+              ...transparentHeaderConfig,
+              headerStyle: {
+                ...transparentHeaderConfig.headerStyle,
+              },
+              cardStyle: { backgroundColor: theme.colors.primary },
+              title: '',
+              headerLeft: () => <></>,
+              headerRight: () => (
+                <Touchable
+                  onPress={() => {
+                    navigation.dispatch(StackActions.popToTop());
+                  }}
+                  testID={'ctaHeaderDone'}
+                >
+                  <Text style={[st.white, st.mr4, st.fs16]}>{t('done')}</Text>
+                </Touchable>
+              ),
+            })}
+          />
+        </AppStack.Navigator>
       </Host>
     </NavigationContainer>
   );

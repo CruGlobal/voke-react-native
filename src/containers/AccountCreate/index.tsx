@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { getTimeZone, getCountry, getLocales } from 'react-native-localize';
 import { useNavigation } from '@react-navigation/native';
-import { useSafeArea } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeArea } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHeaderHeight } from '@react-navigation/stack';
 import { useTranslation } from 'react-i18next';
@@ -37,7 +37,17 @@ import VokeIcon from '../../components/VokeIcon';
 
 import styles from './styles';
 
-const AccountCreate: React.FC = (): React.ReactElement => {
+type Props = {
+  layout: string;
+  parentScroll: object;
+  scrollTo: number;
+};
+
+const AccountCreate = ({
+  layout,
+  parentScroll,
+  scrollTo,
+}: Props): React.ReactElement => {
   const { t } = useTranslation('signUp');
   const insets = useSafeArea();
   const navigation = useNavigation();
@@ -126,12 +136,13 @@ const AccountCreate: React.FC = (): React.ReactElement => {
         backgroundColor: styles.colors.primary,
         flex: 1,
         height: '100%',
+        paddingTop: layout !== 'embed' ? headerHeight : 0,
       }}
     >
       <ScrollView
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
-          // flex: 1, // Will break scrolling on Android
+          flex: 1, // Will break scrolling on Android
           // height:'100%', // Will break scrolling on Android
           flexDirection: 'column',
           // alignContent: 'stretch',
@@ -143,27 +154,43 @@ const AccountCreate: React.FC = (): React.ReactElement => {
             flex: 1,
           }}
         >
-          {/* <StatusBar /> <- TODO: Not sure why we need it here? */}
-          <Flex
-            // direction="row"
-            // align="end"
-            // justify="end"
+          <SafeAreaView
+            // Disable safe are for embed views (login form inside a modal).
+            edges={ layout === 'embed' ? ['right','left'] : ['top', 'right', 'bottom', 'left']}
             style={{
-              // flexShrink: 0,
-              display: isKeyboardVisible ? 'none' : 'flex',
-              // paddingTop: height > 800 ? theme.spacing.xl : 0,
-              height: 240,
-            }}
+            flex: 1,
+          }}
           >
-            <BotTalking
-              heading={t('profile:saveProgress')}
-              style={{
-                opacity: isKeyboardVisible ? 0 : 1,
-              }}
-            >
-              {t('login:enterValid')}
-            </BotTalking>
-          </Flex>
+          {/* <StatusBar /> <- TODO: Not sure why we need it here? */}
+          {layout !== 'embed' ? (
+            <>
+              <Flex
+                // direction="row"
+                // align="end"
+                // justify="end"
+                style={{
+                  // flexShrink: 0,
+                  display: isKeyboardVisible ? 'none' : 'flex',
+                  // paddingTop: height > 800 ? theme.spacing.xl : 0,
+                  height: 240,
+                }}
+              >
+                <BotTalking
+                  heading={t('profile:saveProgress')}
+                  style={{
+                    opacity: isKeyboardVisible ? 0 : 1,
+                  }}
+                >
+                  {t('login:enterValid')}
+                </BotTalking>
+              </Flex>
+              {isKeyboardVisible && (
+                <Flex style={{ minHeight: theme.spacing.xxl }} />
+              )}
+            </>
+          ) : (
+            <Flex style={{ minHeight: theme.spacing.xl }} />
+          )}
           {/* Makes possible to hide keyboard when tapping outside. */}
           {/* <KeyboardAvoidingView
               behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // TODO: Verify!
@@ -175,7 +202,7 @@ const AccountCreate: React.FC = (): React.ReactElement => {
             align="center"
             justify="center"
             style={{
-              paddingTop: isKeyboardVisible ? theme.spacing.m : 0,
+              // paddingTop: isKeyboardVisible ? theme.spacing.m : 0,
               paddingHorizontal: theme.spacing.xl,
             }}
           >
@@ -192,7 +219,22 @@ const AccountCreate: React.FC = (): React.ReactElement => {
               autoCompleteType="email"
               keyboardType="email-address"
               returnKeyType="next"
-              testID={"inputEmail"}
+              testID={'inputEmail'}
+              onFocus={() => {
+                if (
+                  Platform.OS === 'ios' &&
+                  parentScroll?.current &&
+                  scrollTo
+                ) {
+                  // Android do that all for us automatically.
+                  // Need timeout for Keyboard to appear and scroll become available
+                  setTimeout(() => {
+                    parentScroll.current
+                      ?.getScrollResponder()
+                      .scrollTo({ x: 0, y: scrollTo, animated: true });
+                  }, 400);
+                }
+              }}
             />
             {/* INPUT FIELD: PASSWORD */}
             <TextField
@@ -207,7 +249,7 @@ const AccountCreate: React.FC = (): React.ReactElement => {
               autoCompleteType="password"
               returnKeyType="send"
               onSubmitEditing={(): Promise<void> => register()}
-              testID={"inputPassword"}
+              testID={'inputPassword'}
             />
             {/* SECTION: CALL TO ACTION BUTTON */}
             {/* BUTTON: SIGN UP */}
@@ -230,7 +272,7 @@ const AccountCreate: React.FC = (): React.ReactElement => {
               ]}
               onPress={(): Promise<void> => register()}
               isLoading={isLoading}
-              testID={"ctaSignUp"}
+              testID={'ctaSignUp'}
             >
               <Text
                 style={[st.fs20, st.tac, { color: theme.colors.secondary }]}
@@ -283,6 +325,7 @@ const AccountCreate: React.FC = (): React.ReactElement => {
                 paddingBottom: insets.bottom,
               }}
             /> */}
+          </SafeAreaView>
         </DismissKeyboardView>
       </ScrollView>
     </KeyboardAvoidingView>
