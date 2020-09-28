@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { TabView, SceneMap } from 'react-native-tab-view';
 import TabBarStyled from './TabBarStyled';
 import { useMount, lockToPortrait } from '../../utils';
+import { indexOf } from 'lodash';
 
 type TabsProps = {
   tabs: {
@@ -21,7 +22,7 @@ type TabsProps = {
 const CustomTabs = ({ tabs, selectedIndex = 0, theme, ...rest }: TabsProps): React.ReactElement => {
   const [index, setIndex] = useState(selectedIndex);
   const [routes] = useState(tabs);
-  const scenes: { [key: string]: React.ComponentType } = {};
+  const scenes = useRef({});
 
   useEffect(() => {
     setIndex(selectedIndex);
@@ -31,11 +32,26 @@ const CustomTabs = ({ tabs, selectedIndex = 0, theme, ...rest }: TabsProps): Rea
     lockToPortrait();
   });
 
-  tabs.forEach(tab => {
-    scenes[tab.key] = tab.component;
-  });
 
-  const renderScene = SceneMap(scenes);
+  useEffect(() => {
+    tabs.forEach(tab => {
+      scenes.current[tab.key] = {
+        component: tab.component,
+        params: tab.params||{},
+      };
+    });
+  }, [tabs.length])
+
+  const renderScene = ({ route, jumpTo }) => {
+    if( !Object.keys( scenes.current).length ) {
+      return <></>
+    }
+
+    return React.createElement(
+      scenes.current[route.key].component,
+      scenes.current[route.key]?.params
+    );
+  };
 
   return (
     <TabView
