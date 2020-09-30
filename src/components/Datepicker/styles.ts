@@ -25,10 +25,20 @@ const styles = StyleSheet.create({
     paddingRight: 30, // to ensure the text is never behind the icon
   },
   buttonLabel: {
-            color: theme.colors.white,
-            fontSize: 24,
-            textAlign: 'center',
-          },
+    color: theme.colors.white,
+    fontSize: 24,
+    textAlign: 'center',
+  },
+  descriptionContainer: {
+    width: '100%',
+    minHeight: theme.spacing.xl,
+  },
+  descriptionText: {
+    color: theme.colors.secondary,
+    paddingTop: 10,
+    fontSize: theme.fontSizes.s,
+    alignSelf: 'center',
+  },
 });
 
 export default styles;

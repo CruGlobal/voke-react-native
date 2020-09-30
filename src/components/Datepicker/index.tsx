@@ -3,7 +3,6 @@ import { Text, View } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 
-import theme from '../../theme';
 import Button from '../Button';
 
 import styles from './styles';
@@ -14,7 +13,7 @@ type Props = {
   format?: string;
   label?: string;
   description?: string;
-  minuteInterval?: number;
+  minuteInterval?: 1 | 2 | 3 | 4 | 5 | 6 | 10 | 12 | 15 | 20 | 30 | undefined;
   onChange?: (text: string) => void;
   [x: string]: any; // ..rest
 };
@@ -42,7 +41,7 @@ function Datepicker({
     setDatePickerVisibility(false);
   };
 
-  const handleConfirm = (newDate: string): void => {
+  const handleConfirm = (newDate: Date): void => {
     setDate(moment(newDate).format(format));
     hideDatePicker();
   };
@@ -70,22 +69,8 @@ function Datepicker({
         headerTextIOS={label}
         {...rest}
       />
-      <View
-        style={{
-          width: '100%',
-          minHeight: theme.spacing.xl,
-        }}
-      >
-        <Text
-          style={{
-            color: theme.colors.secondary,
-            paddingTop: 10,
-            fontSize: theme.fontSizes.s,
-            alignSelf: 'center',
-          }}
-        >
-          {description}
-        </Text>
+      <View style={styles.descriptionContainer}>
+        <Text style={styles.descriptionText}>{description}</Text>
       </View>
     </>
   );
