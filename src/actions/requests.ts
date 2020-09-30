@@ -1,15 +1,17 @@
-import request from './utils';
-import ROUTES from './routes';
-import { REDUX_ACTIONS } from '../constants';
 import { ThunkDispatch } from 'redux-thunk';
-import { DataKeys } from '../reducers/data';
 import deviceInfoModule from 'react-native-device-info';
 import { Platform } from 'react-native';
+import { debounce } from 'lodash';
+
+import { REDUX_ACTIONS } from '../constants';
+import { DataKeys } from '../reducers/data';
 import st from '../st';
 import { isEqualObject, exists } from '../utils';
 import { AuthDataKeys } from '../reducers/auth';
+
 import { setAppIconBadgeNumber } from './notifications';
-import { debounce } from 'lodash';
+import ROUTES from './routes';
+import request from './utils';
 
 type Dispatch = ThunkDispatch<any, any, any>;
 
@@ -20,14 +22,14 @@ export function setUser(userData: any) {
 
     // Access token is missing from some of the server replies. Recreate it.
     if (!exists(userData?.access_token?.access_token)) {
-      const auth = getState().auth;
+      const { auth } = getState();
 
       newUserData = {
         ...newUserData,
         access_token: {
           access_token: auth.authToken,
         },
-      }
+      };
     }
 
     // Update unread broadcast notifications counter.
@@ -40,6 +42,30 @@ export function setUser(userData: any) {
       type: REDUX_ACTIONS.SET_USER,
       user: newUserData,
     });
+  };
+}
+
+export function getNotificationsTabUnreads() {
+  return async dispatch => {
+    // Fetch user data from the server.
+    return dispatch(request({ ...ROUTES.GET_ME })).then(
+      userData => {
+        // eslint-disable-next-line no-console
+        const newNotificationsCounter = userData?.pending_notifications || 0;
+        // Update unread broadcast notifications counter.
+        dispatch({
+          type: REDUX_ACTIONS.UPDATE_NOTIFICATION_UNREAD_BADGE,
+          count: newNotificationsCounter,
+        });
+
+        return newNotificationsCounter;
+      },
+      error => {
+        // eslint-disable-next-line no-console
+        console.log('👤 getNotificationsTabUnreads > Fetch error', error);
+        throw error;
+      },
+    );
   };
 }
 
@@ -62,7 +88,10 @@ export function setAuthData(key: AuthDataKeys, data: any) {
 export function getAvailableAdventures() {
   return async (dispatch: Dispatch, getState: any) => {
     const results: any = await dispatch(
-      request({ ...ROUTES.GET_AVAILABLE_ADVENTURES, description: 'Get Available Adventures' }),
+      request({
+        ...ROUTES.GET_AVAILABLE_ADVENTURES,
+        description: 'Get Available Adventures',
+      }),
     );
     const adventures = results.organization_journeys;
     dispatch(setData('availableAdventures', adventures));
@@ -73,10 +102,13 @@ export function getAvailableAdventures() {
 /**
  * Get active adventures.
  */
-export function getMyAdventures( comment = '' ) {
+export function getMyAdventures(comment = '') {
   return async (dispatch: Dispatch, getState: any) => {
     await dispatch(
-      request({ ...ROUTES.GET_MY_ADVENTURES, description: 'Get My Adventures. Called from ' + comment }),
+      request({
+        ...ROUTES.GET_MY_ADVENTURES,
+        description: 'Get My Adventures. Called from ' + comment,
+      }),
     ).then(
       data => {
         const myAdventures = data.journeys;
@@ -109,7 +141,7 @@ export function getMyAdventure(adventureId: any) {
       request({
         ...ROUTES.GET_MY_ADVENTURE,
         pathParams: { adventureId },
-        description: 'Get My Adventure'
+        description: 'Get My Adventure',
       }),
     ).then(
       data => {
@@ -118,7 +150,7 @@ export function getMyAdventure(adventureId: any) {
         dispatch({
           type: REDUX_ACTIONS.UPDATE_ADVENTURE,
           data: data,
-          description: 'Update single adventure In Store'
+          description: 'Update single adventure In Store',
         });
 
         return data;
@@ -135,13 +167,16 @@ export function getMyAdventure(adventureId: any) {
 export function getAdventuresInvitations() {
   return async (dispatch: Dispatch, getState: any) => {
     const results: any = await dispatch(
-      request({ ...ROUTES.GET_ADVENTURE_INVITATIONS, description: 'Get Adventures Invitations' }),
+      request({
+        ...ROUTES.GET_ADVENTURE_INVITATIONS,
+        description: 'Get Adventures Invitations',
+      }),
     );
     const adventureInvitations = results.journey_invites;
     dispatch({
       type: REDUX_ACTIONS.UPDATE_INVITATIONS,
       data: adventureInvitations,
-      description: 'Update Invitations In Store'
+      description: 'Update Invitations In Store',
     });
     return results;
   };
@@ -153,7 +188,7 @@ export function acceptAdventureInvitation(adventureCode: string) {
       request({
         ...ROUTES.ACCEPT_ADVENTURE_INVITATION,
         data: { code: adventureCode },
-        description: 'Accept Adventure Invitation'
+        description: 'Accept Adventure Invitation',
       }),
     );
     await dispatch(getMyAdventures('Accept Adventure Invitation'));
@@ -166,7 +201,7 @@ export function updateTotalUnreadCounter() {
   return async (dispatch: Dispatch, getState: any) => {
     const myAdventures = getState().data.myAdventures.byId;
     let unreadTotal = 0;
-    for (let [key, value] of Object.entries(myAdventures)) {
+    for (const [key, value] of Object.entries(myAdventures)) {
       unreadTotal += value.conversation.unread_messages;
     }
     // Update app icon counter.
@@ -175,41 +210,41 @@ export function updateTotalUnreadCounter() {
     return dispatch({
       type: REDUX_ACTIONS.UPDATE_UNREAD_TOTAL,
       data: unreadTotal,
-      description: 'Update Unread Total Counter'
+      description: 'Update Unread Total Counter',
     });
   };
 }
 
-
 // We are calling for updated adventure steps after each message,
 // that can be expensive so we have to debounce this action.
 const getAdventureStepsDebounced = debounce(
-    async (dispatch, adventureId) => {
-      const results: any = await dispatch(
-        request({
-          ...ROUTES.GET_ADVENTURE_STEPS,
-          pathParams: { adventureId },
-          description: 'Get Adventure Steps'
-        }),
-      );
-      const adventureSteps = results.steps;
-      dispatch({
-        type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEPS,
-        result: { adventureId, adventureSteps },
-        description: 'Get Adventure Steps'
-      });
+  async (dispatch, adventureId) => {
+    const results: any = await dispatch(
+      request({
+        ...ROUTES.GET_ADVENTURE_STEPS,
+        pathParams: { adventureId },
+        description: 'Get Adventure Steps',
+      }),
+    );
+    const adventureSteps = results.steps;
+    dispatch({
+      type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEPS,
+      result: { adventureId, adventureSteps },
+      description: 'Get Adventure Steps',
+    });
 
-      dispatch(getMyAdventure(adventureId));
-      dispatch(updateTotalUnreadCounter());
+    dispatch(getMyAdventure(adventureId));
+    dispatch(updateTotalUnreadCounter());
 
-      return results;
-    }
-  , 2000, { 'leading': true, 'trailing': true }
+    return results;
+  },
+  2000,
+  { leading: true, trailing: true },
 );
 
 export function getAdventureSteps(adventureId: any) {
   return async (dispatch: Dispatch, getState: any) => {
-    return await getAdventureStepsDebounced(dispatch, adventureId)
+    return await getAdventureStepsDebounced(dispatch, adventureId);
   };
 }
 
@@ -219,23 +254,26 @@ export function getAdventureStepMessages(
 ) {
   return async (dispatch: Dispatch, getState: any) => {
     try {
-
       const results: any = await dispatch(
         request({
           ...ROUTES.GET_ADVENTURE_STEP_MESSAGES,
           pathParams: { adventureConversationId },
-          params: adventureStepId ? { messenger_journey_step_id: adventureStepId } : null,
-          description: 'Get Adventure Step Messages for conversation id: ' + adventureConversationId
+          params: adventureStepId
+            ? { messenger_journey_step_id: adventureStepId }
+            : null,
+          description:
+            'Get Adventure Step Messages for conversation id: ' +
+            adventureConversationId,
         }),
       );
       const adventureStepMessages = results.messages;
       dispatch({
         type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEP_MESSAGES,
-        messages:adventureStepMessages,
+        messages: adventureStepMessages,
       });
       return results;
     } catch (error) {
-      console.log( "getAdventureStepMessages error:", error );
+      console.log('getAdventureStepMessages error:', error);
     }
   };
 }
@@ -246,8 +284,9 @@ export function startAdventure(data: any) {
       request({
         ...ROUTES.START_ADVENTURE,
         data,
-        description: 'Start Adventure'
-      }));
+        description: 'Start Adventure',
+      }),
+    );
 
     dispatch({
       type: REDUX_ACTIONS.START_ADVENTURE,
@@ -260,7 +299,11 @@ export function startAdventure(data: any) {
 export function sendAdventureInvitation(data: any) {
   return async (dispatch: Dispatch, getState: any) => {
     const result = await dispatch(
-      request({ ...ROUTES.SEND_ADVENTURE_INVITATION, data, description: 'Send Adventure Invitation' }),
+      request({
+        ...ROUTES.SEND_ADVENTURE_INVITATION,
+        data,
+        description: 'Send Adventure Invitation',
+      }),
     );
     dispatch({
       type: REDUX_ACTIONS.SEND_ADVENTURE_INVITATION,
@@ -276,7 +319,7 @@ export function resendAdventureInvitation(inviteId: string) {
       request({
         ...ROUTES.RESEND_ADVENTURE_INVITATION,
         pathParams: { inviteId },
-      })
+      }),
     );
 
     dispatch({
@@ -293,7 +336,7 @@ export function deleteAdventureInvitation(inviteId: string) {
       request({
         ...ROUTES.DELETE_ADVENTURE_INVITATION,
         pathParams: { inviteId },
-      })
+      }),
     );
     return result;
   };
@@ -305,12 +348,11 @@ export function deleteAdventure(adventureId: string) {
       request({
         ...ROUTES.DELETE_ADVENTURE,
         pathParams: { adventureId },
-      })
+      }),
     );
     return result;
   };
 }
-
 
 // Create new message in Adventure chat.
 export function createAdventureStepMessage(params: {
@@ -323,7 +365,7 @@ export function createAdventureStepMessage(params: {
 }) {
   return async (dispatch: Dispatch, getState: any) => {
     const { internalMessage, value, kind, adventure, step } = params;
-    let data: any = {
+    const data: any = {
       message: {},
     };
     if (params.kind === 'question' || params.kind === 'standard') {
@@ -348,19 +390,22 @@ export function createAdventureStepMessage(params: {
     // Need to provide parent question ID when answering a secondary/internal question.
     if (params.internalMessage) {
       // If internal message then step ID is different.
-      data.message.messenger_journey_step_id = internalMessage?.metadata?.messenger_journey_step_id;
+      data.message.messenger_journey_step_id =
+        internalMessage?.metadata?.messenger_journey_step_id;
       data.message.message_reference_id = internalMessage?.id;
     }
+    // params.kind = question - is the main question box
+    // params.kind = standard - is a regular chat message
 
     // CHANGE SOME DATA LOCALLY.
-    if (params.kind === 'question') {
+    if (params.kind === 'question' && params?.step?.kind !== 'multi') {
       // If this is the answer to the main question
       // update the adventure step status as completed
       // and unlock the next step (status:active).
       let shouldUpdateNext = false;
       let currentStepFieldsToUpdate = {};
       let nextStepFieldsToUpdate = {};
-      const userId = params.userId;
+      const { userId } = params;
       const adventureSteps = getState().data.adventureSteps[
         params.adventure.id
       ];
@@ -385,20 +430,19 @@ export function createAdventureStepMessage(params: {
       }
 
       // If duo adventure.
-      if (
-        params.adventure.kind === 'duo'
-      ) {
+      if (params.adventure.kind === 'duo') {
         const otherUser =
           params.adventure.conversation.messengers.find(
-            i => i.id !== userId && i.first_name !== 'VokeBot'
+            i => i.id !== userId && i.first_name !== 'VokeBot',
           ) || {};
         let otherUserReplied = false;
-        if ( otherUser?.id ) {
-          const currentStepMessages = getState().data.adventureStepMessages[
-            params.step.metadata.messenger_journey_step_id
-          ] || {};
-          for (let [key, message] of Object.entries(currentStepMessages)) {
-            if ( message.messenger_id === otherUser.id ) {
+        if (otherUser?.id) {
+          const currentStepMessages =
+            getState().data.adventureStepMessages[
+              params.step.metadata.messenger_journey_step_id
+            ] || {};
+          for (const [key, message] of Object.entries(currentStepMessages)) {
+            if (message.messenger_id === otherUser.id) {
               otherUserReplied = true;
               break;
             }
@@ -407,16 +451,16 @@ export function createAdventureStepMessage(params: {
         currentStepFieldsToUpdate = {
           'completed_by_messenger?': true,
         };
-        if ( otherUserReplied ) {
+        if (otherUserReplied) {
           // In Duo Adventures we are waiting for a friend to answer.
-          currentStepFieldsToUpdate['status'] = 'completed';
+          currentStepFieldsToUpdate.status = 'completed';
           if (shouldUpdateNext) {
             nextStepFieldsToUpdate = { status: 'active' };
           }
         }
       }
       // If group adventure.
-      if ( params.adventure.kind === 'multiple' ) {
+      if (params.adventure.kind === 'multiple') {
         currentStepFieldsToUpdate = {
           'completed_by_messenger?': true,
           status: 'completed', // In groups we don't wait others.
@@ -449,34 +493,92 @@ export function createAdventureStepMessage(params: {
         });
       }
     }
-    // SEND MESSAGE TO THE SERVER.
-    const result = await dispatch(
-      request({
-        ...ROUTES.CREATE_ADVENTURE_STEP_MESSAGE,
-        pathParams: {
-          adventureConversationId: params.adventure.conversation.id,
-        },
-        data,
-        description: 'Create Adventure Step Message'
-      }),
-    );
 
-    // SAVE RESPONSE FROM THE SERVER TO THE STORE.
-    dispatch({
-      type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
-      message: result,
-      adventureId: params.adventure.id,
-      description: 'createAdventureStepMessage(): Create Adventure Step Message'
-    });
+    // If new message is a simple text message:
+    // don't wait response from the server before adding new message
+    // to the chat array in the store.
+    if (params.kind === 'standard') {
+      const date = new Date().toISOString();
+      // Temporary message id.
+      const newId = Math.floor(Date.now() / 1000);
+      // Create pseudo structure as we expect it from the server.
+      const newMessageData = {
+        id: `${newId}`,
+        position: 1,
+        content: params.value,
+        messenger_id: params.userId,
+        conversation_id: params.adventure.conversation.id,
+        messenger_journey_step_id: params.step.id,
+        grouping_journey_step_id: params.step.id,
+        kind: 'text',
+        direct_message: false,
+        item: null,
+        reactions: [],
+        'adventure_message?': true,
+        metadata: {},
+        created_at: date,
+      };
+      // Save message to the store.
+      dispatch({
+        type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
+        message: newMessageData,
+        adventureId: params.adventure.id,
+        ownMessage: true,
+        description:
+          'createAdventureStepMessage(): Create Adventure Step Message (A)',
+      });
+
+      // Send message to the server in a non-async manner.
+      dispatch(
+        request({
+          ...ROUTES.CREATE_ADVENTURE_STEP_MESSAGE,
+          pathParams: {
+            adventureConversationId: params.adventure.conversation.id,
+          },
+          data,
+          description: 'Create Adventure Step Message',
+        }),
+      );
+    } else {
+      // If not a plain text message: go a slow route -
+      // send message to the server in async manner and only then updatie the store.
+      // SEND MESSAGE TO THE SERVER.
+      const result = await dispatch(
+        request({
+          ...ROUTES.CREATE_ADVENTURE_STEP_MESSAGE,
+          pathParams: {
+            adventureConversationId: params.adventure.conversation.id,
+          },
+          data,
+          description: 'Create Adventure Step Message',
+        }),
+      );
+
+
+      // SAVE RESPONSE FROM THE SERVER TO THE STORE.
+      dispatch({
+        type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
+        message: result,
+        adventureId: params.adventure.id,
+        ownMessage: true,
+        description:
+          'createAdventureStepMessage(): Create Adventure Step Message (B)',
+      });
+    }
 
     // Refresh all messages when answering a quiestion to multi challenge.
-    if ( data.message.kind === 'answer' ) {
+    if (data.message.kind === 'answer') {
       dispatch(
         getAdventureStepMessages(
           params.adventure.conversation.id,
-          params.step.id
-        ));
+          params.step.id,
+        ),
+      );
     }
+
+    // TODO: Optimization - do the next aciton only if current step wasn't marked
+    // as completed already.
+
     // Update adventure steps to mark the current step as completed
     // and unlock the next one.
     dispatch(getAdventureSteps(params.adventure.id));
@@ -492,7 +594,7 @@ export function getVideos(params: any = {}) {
       request({
         ...ROUTES.GET_VIDEOS,
         params: { ...params },
-        description: 'Get Videos'
+        description: 'Get Videos',
       }),
     );
     dispatch({
@@ -510,7 +612,7 @@ export function getVideoTags() {
     results = await dispatch(
       request({
         ...ROUTES.GET_VIDEO_TAGS,
-        description: 'Get Video Tags'
+        description: 'Get Video Tags',
       }),
     );
 
@@ -527,7 +629,7 @@ export function destroyDevice(deviceId: string) {
       request({
         ...ROUTES.DESTROY_DEVICE,
         pathParams: { deviceId },
-        description: 'Destroy Device'
+        description: 'Destroy Device',
       }),
     );
 
@@ -544,7 +646,7 @@ export function updateDevice(newDeviceData: any) {
         ...ROUTES.UPDATE_DEVICE,
         pathParams: { deviceId },
         data: newDeviceData,
-        description: 'Update device data on our server'
+        description: 'Update device data on our server',
       }),
     );
     // dispatch(setAuthData('device', results));
@@ -552,7 +654,8 @@ export function updateDevice(newDeviceData: any) {
     dispatch({
       type: REDUX_ACTIONS.SET_DEVICE,
       device: returnedDevice,
-      description: 'Calling from updateDevice. Save returned from the server device data.'
+      description:
+        'Calling from updateDevice. Save returned from the server device data.',
     });
 
     return returnedDevice;
@@ -564,34 +667,34 @@ export function getDevices() {
     const results = await dispatch(
       request({
         ...ROUTES.GET_DEVICES,
-        description: 'Get Devices'
+        description: 'Get Devices',
       }),
     );
     return results;
   };
 }
 
-
 // Register new device on the server for receiving push notifications.
 // https://docs.vokeapp.com/#me-devices-create-device
 export function createDevice(newDeviceData: any) {
   return async (dispatch: Dispatch, getState: any) => {
-
     // Fetch user data from the server.
-    return dispatch(request({
+    return dispatch(
+      request({
         ...ROUTES.CREATE_DEVICE,
         data: newDeviceData,
-        description: 'Create Device'
-      })).then(
+        description: 'Create Device',
+      }),
+    ).then(
       returnedDeviceData => {
         // eslint-disable-next-line no-console
-       // Update info in store.auth.device if it's a cable device not apple/adnriod.
-       if(returnedDeviceData.kind === 'cable'){
-        dispatch({
-          type: REDUX_ACTIONS.SET_DEVICE,
-          device: returnedDeviceData,
-        });
-       }
+        // Update info in store.auth.device if it's a cable device not apple/adnriod.
+        if (returnedDeviceData.kind === 'cable') {
+          dispatch({
+            type: REDUX_ACTIONS.SET_DEVICE,
+            device: returnedDeviceData,
+          });
+        }
         return returnedDeviceData;
       },
       error => {
@@ -609,7 +712,7 @@ export function revokeAuthToken(data: any) {
       request({
         ...ROUTES.REVOKE_TOKEN,
         data,
-        description: 'Revoke Auth Token'
+        description: 'Revoke Auth Token',
       }),
     );
     return results;
@@ -627,7 +730,7 @@ export function establishCableDevice(pushDeviceId?: string) {
     const currentDeviceData = {
       // id: currentDeviceId,
       version: 1,
-      local_id: deviceInfoModule.getDeviceId(),
+      local_id: deviceInfoModule.getUniqueId(),
       local_version: deviceInfoModule.getVersion(),
       family: deviceInfoModule.getBrand(),
       name: deviceInfoModule.getModel(),
@@ -710,12 +813,15 @@ export function getNotifications(params: any = {}) {
   return async (dispatch: Dispatch, getState: any) => {
     const notificationId = getState().auth.user.vokebotConversationId;
     if (!notificationId) return;
+    // Request new value for Notifications Unreads counter.
+    dispatch(getNotificationsTabUnreads());
+
     const results: any = await dispatch(
       request({
         ...ROUTES.GET_NOTIFICATIONS,
         pathParams: { notificationId },
         params: { ...params },
-        description: 'Get Notifications'
+        description: 'Get Notifications',
       }),
     );
     dispatch({
@@ -727,9 +833,9 @@ export function getNotifications(params: any = {}) {
 }
 
 type markReadNotification = {
-  conversationId: string,
-  notificationId: string,
-}
+  conversationId: string;
+  notificationId: string;
+};
 
 export function markReadNotification(params: markReadNotification) {
   return async (dispatch: Dispatch, getState: any) => {
@@ -737,17 +843,12 @@ export function markReadNotification(params: markReadNotification) {
     const deviceId = getState().auth.device.id;
 
     // See: https://docs.vokeapp.com/#me-conversations-messages-interactions
-    let data: any = {
+    const data: any = {
       interaction: {
-        action: "read", // Message read.
+        action: 'read', // Message read.
         device_id: deviceId,
-      }
+      },
     };
-
-    dispatch({
-      type: REDUX_ACTIONS.UPDATE_NOTIFICATION_UNREAD_BADGE,
-      count: 0,
-    });
 
     // SEND INTERACTION DATA TO THE SERVER.
     const result = await dispatch(
@@ -761,10 +862,16 @@ export function markReadNotification(params: markReadNotification) {
       }),
     );
 
+    if (!result?.errors) {
+      dispatch({
+        type: REDUX_ACTIONS.UPDATE_NOTIFICATION_UNREAD_BADGE,
+        count: 0,
+      });
+    }
+
     return result;
   };
 }
-
 
 export function sendVideoInvitation(params: any = {}) {
   return async (dispatch: Dispatch, getState: any) => {
@@ -779,7 +886,7 @@ export function sendVideoInvitation(params: any = {}) {
       request({
         ...ROUTES.SEND_VIDEO_INVITATION,
         data: createData,
-        description: 'Send Video Invitation'
+        description: 'Send Video Invitation',
       }),
     );
 
@@ -800,7 +907,7 @@ export function toggleFavoriteVideo(shouldFavorite: boolean, video: any) {
         request({
           ...ROUTES.FAVORITE_VIDEO,
           pathParams: { videoId: video.id },
-          description: 'Toggle Favorite Video: Add'
+          description: 'Toggle Favorite Video: Add',
         }),
       );
     } else {
@@ -808,7 +915,7 @@ export function toggleFavoriteVideo(shouldFavorite: boolean, video: any) {
         request({
           ...ROUTES.UNFAVORITE_VIDEO,
           pathParams: { videoId: video.id },
-          description: 'Toggle Favorite Video: Remove'
+          description: 'Toggle Favorite Video: Remove',
         }),
       );
     }
@@ -866,42 +973,45 @@ export function updateAdventureUnreads(adventureId) {
     const adventureSteps = getState().data.adventureSteps[adventureId].byId;
     let advUnreadCount = 0;
 
-    for (let [key, step] of Object.entries(adventureSteps)) {
-      const stepUnreadCnt =  step.unread_messages;
-      if ( stepUnreadCnt > 0 ) {
+    for (const [key, step] of Object.entries(adventureSteps)) {
+      const stepUnreadCnt = step.unread_messages;
+      if (stepUnreadCnt > 0) {
         advUnreadCount = advUnreadCount + stepUnreadCnt;
       }
     }
     // Then call debounced update on the server.
-    return dispatch({ type: REDUX_ACTIONS.UPDATE_ADVENTURE_UNREADS, adventureId, advUnreadCount });
+    return dispatch({
+      type: REDUX_ACTIONS.UPDATE_ADVENTURE_UNREADS,
+      adventureId,
+      advUnreadCount,
+    });
   };
 }
 
 type markMessageAsRead = {
-  conversationId: string,
-  messageId: string,
-  adventureId: string,
-  stepId: string,
-}
+  conversationId: string;
+  messageId: string;
+  adventureId: string;
+  stepId: string;
+};
 
 export function markMessageAsRead(params: markMessageAsRead) {
   return async (dispatch: Dispatch, getState: any) => {
-    const {adventureId, stepId } = params;
+    const { adventureId, stepId, conversationId, messageId } = params;
 
     // Mark message as read in the store for immediate feedback.
     dispatch({ type: REDUX_ACTIONS.MARK_READ, adventureId, stepId });
     dispatch(updateAdventureUnreads(adventureId));
     dispatch(updateTotalUnreadCounter()); // Update App Counter.
 
-    const { conversationId, messageId } = params;
     const deviceId = getState().auth.device.id;
 
     // See: https://docs.vokeapp.com/#me-conversations-messages-interactions
-    let data: any = {
+    const data: any = {
       interaction: {
-        action: "read", // Message read.
+        action: 'read', // Message read.
         device_id: deviceId,
-      }
+      },
     };
 
     // SEND INTERACTION DATA TO THE SERVER.
@@ -913,7 +1023,7 @@ export function markMessageAsRead(params: markMessageAsRead) {
           messageId,
         },
         data,
-        description: 'Mark message as read on the server.' +  messageId
+        description: 'Mark message as read on the server.' + messageId,
       }),
     );
 
@@ -922,20 +1032,20 @@ export function markMessageAsRead(params: markMessageAsRead) {
 }
 
 // Send an interaction when the user press play.
-export function interactionVideoPlay({adventureId, stepId}) {
+export function interactionAdventureVideoPlay({ adventureId, stepId }) {
   return async (dispatch: Dispatch, getState: any) => {
     const deviceId = getState().auth.device.id;
     // See: https://docs.vokeapp.com/#me-journeys-steps-interactions-create-interaction
-    let data: any = {
+    const data: any = {
       interaction: {
-        action: "started", // Message read.
+        action: 'started', // Message read.
         device_id: deviceId,
-      }
+      },
     };
     // SEND INTERACTION DATA TO THE SERVER.
     const result = await dispatch(
       request({
-        ...ROUTES.CREATE_INTERACTION_PLAY,
+        ...ROUTES.CREATE_INTERACTION_PLAY_ADVENTURE_VIDEO,
         pathParams: {
           adventureId,
           stepId,
@@ -947,3 +1057,43 @@ export function interactionVideoPlay({adventureId, stepId}) {
   };
 }
 
+type interactionVideoPlay = {
+  videoId: string;
+  context: 'resource' | 'journey' | 'step' | 'notifications';
+  // Where the interaction is comming from?
+};
+
+// Send an interaction when the user press play.
+// https://docs.vokeapp.com/#items-interactions-create-item-interaction
+export function interactionVideoPlay(params: interactionVideoPlay) {
+  return async (dispatch: Dispatch, getState: any) => {
+    const deviceId = getState().auth.device.id;
+    const data: any = {
+      interaction: {
+        action: 'started', // Message read.
+        device_id: deviceId,
+        context: params.context,
+      },
+    };
+    // SEND INTERACTION DATA TO THE SERVER.
+    const result = await dispatch(
+      request({
+        ...ROUTES.CREATE_INTERACTION_PLAY_VIDEO,
+        pathParams: {
+          videoId: params.videoId,
+        },
+        data,
+      }),
+    );
+    return result;
+  };
+}
+
+export function updateVideoIsPlayingState(newState) {
+  return async (dispatch: Dispatch, getState: any) => {
+    return dispatch({
+      type: REDUX_ACTIONS.SET_VIDEO_STATE,
+      state: newState,
+    });
+  };
+}

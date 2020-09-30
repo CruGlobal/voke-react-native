@@ -5,10 +5,10 @@ import ui from '../../ui';
 const styles: { [key: string]: any } = {
   ...ui,
   BotContainer: css`
-    width: 90%;
-    margin: auto;
+    padding-right: ${`${theme.spacing.l}px`};
+    padding-left: ${`${theme.spacing.l}px`};
     margin-top: ${`${theme.spacing.m}px`};
-    /* padding-bottom-off: ${`${theme.spacing.m}px`}; */
+    width: 100%;
   `,
   BotMessage: css`
     width: 100%;
@@ -24,11 +24,11 @@ const styles: { [key: string]: any } = {
     text-align: center;
   `,
   BotHeading_overlay: css`
-  color: ${theme.colors.secondaryAlt};
-  font-size: ${`${theme.fontSizes.xl}px`};
-  font-family: ${theme.fonts.semiBold};
-  text-align: center;
-`,
+    color: ${theme.colors.secondaryAlt};
+    font-size: ${`${theme.fontSizes.xl}px`};
+    font-family: ${theme.fonts.semiBold};
+    text-align: center;
+  `,
   BotText: css`
     color: ${theme.colors.white};
     font-size: ${`${theme.fontSizes.xl}px`};
@@ -37,12 +37,14 @@ const styles: { [key: string]: any } = {
   `,
   BotImage: css`
     margin-left: -70px;
-    margin-top:-15px;
+    margin-top:-25px;
+    margin-bottom:-25px;
   `,
   BotMessageTail: css`
     margin-left: 40px;
     margin-top: -10px;
     transform: rotate(-90deg);
+    z-index: -1;
   `,
   BotMessage_reverse: css`
   width: 100%;

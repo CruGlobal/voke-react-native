@@ -14,7 +14,7 @@ const ui: { [key: string]: any } = {
         border-radius: ${theme.radius.s + 'px'};
       `,
       l: css`
-        padding: 20px 16px;
+        padding: 20px ${theme.spacing.s + 'px'};
         border-radius: ${theme.radius.xxl + 'px'};
       `,
       outlinel: css`
@@ -56,7 +56,7 @@ const ui: { [key: string]: any } = {
         font-family: ${theme.fonts.regular};
         text-align:center;
       `,
-        wm: css`
+      wm: css`
         /* color: ${theme.colors.lightGrey}; */
         font-size: ${theme.fontSizes.l + 'px'};
         font-family: ${theme.fonts.semiBold};

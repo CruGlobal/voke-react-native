@@ -1,67 +1,114 @@
-import { css } from '@emotion/native';
+import { StyleSheet } from 'react-native';
+
 import theme from '../../theme';
-import ui from '../../ui';
+const THUMBNAIL_WIDTH = 140;
 
-const styles: { [key: string]: any } = {
-  ...ui,
-  Wrapper: css`
-    padding-bottom: ${`${theme.spacing.s}px`};
-  `,
-  Card: css`
-    border-radius:  ${`${theme.radius.s}px`};
-    background-color: ${theme.colors.white};
-  `,
-  Content: css`
-    padding-top: ${`${theme.spacing.m}px`};
-    padding-bottom: ${`${theme.spacing.s}px`};
-    padding-left: ${`${theme.spacing.m}px`};
-    width: 100%;
-  `,
-  Title: css`
-    width: 100%;
-    padding-right: ${`${theme.spacing.s}px`};
-    padding-bottom: ${`${theme.spacing.s}px`};
-    /* background-color: red; */
+const styles = StyleSheet.create({
+  wrapper: {
+    paddingBottom: theme.spacing.s,
+  },
+  card: {
+    borderRadius: theme.radius.s,
+    backgroundColor: theme.colors.white,
+  },
+  thumbnail: {
+    flex: 1,
+    marginLeft: 5, // TODO: replace with our units.
+    marginTop: 6,
+    marginBottom: 6,
+    width: THUMBNAIL_WIDTH,
+    borderRadius: theme.radius.s,
+    backgroundColor: theme.colors.white,
+  },
+  content: {
+    paddingTop: theme.spacing.m,
+    paddingBottom: theme.spacing.s,
+    paddingLeft: theme.spacing.m,
+    width: '100%',
+  },
+  title: {
+    width: '100%',
+    paddingRight: theme.spacing.s,
+    paddingBottom: theme.spacing.s,
+    color: theme.colors.darkGrey,
+    fontSize: theme.fontSizes.l,
+    fontFamily: theme.fonts.regular,
+    lineHeight: theme.fontSizes.xl * 1.25,
+    textAlign: 'left',
+  },
+  iconDeleteWrapper: {
+    position: 'absolute',
+    right: 2,
+    top: 4,
+  },
+  iconUnread: {
+    color: theme.colors.white,
+    marginTop: -1,
+    marginRight: 6,
+  },
+  iconDeleteIcon: {
+    color: '#DADADA',
+  },
+  participants: {
+    color: theme.colors.secondary,
+    fontSize: theme.fontSizes.m,
+  },
+  avatars: {
+    width: '100%',
+    paddingBottom: 10,
+  },
+  avatar: {
+    width: 36,
+    height: 36,
+    borderRadius: 99,
+    borderWidth: 2,
+    borderColor: '#fff',
+    marginLeft: -3,
+  },
+  avatarInGroup: {
+    // avatar
+    width: 36,
+    height: 36,
+    borderRadius: 99,
+    borderWidth: 2,
+    borderColor: '#fff',
 
-    color: ${theme.colors.darkGrey};
-    font-size: ${`${theme.fontSizes.l}px`};
-    font-family: ${theme.fonts.regular};
-    line-height: ${theme.fontSizes.xl * 1.25 + 'px'};
-    /* font-weight: 400; */
-    text-align: left;
-  `,
-  Participants: css`
-   color: ${theme.colors.secondary};
-   font-size: ${`${theme.fontSizes.m}px`};
-  `,
-  SoloTag: css`
-    color: ${theme.colors.white};
-    font-size: ${`${theme.fontSizes.s}px`};
-    padding: ${`${theme.spacing.xxs}px ${theme.spacing.s}px`};
-    background-color:${theme.colors.secondaryAlt};
-    margin-bottom: -5%;
-    margin-right:10px;
-  `,
-  DuoTag: css`
-    color: ${theme.colors.white};
-    font-size: ${`${theme.fontSizes.s}px`};
-    padding: ${`${theme.spacing.xxs}px ${theme.spacing.s}px`};
-    background-color:${theme.colors.secondary};
-    margin-bottom: -5%;
-    margin-right:10px;
-  `,
-  GroupTag: css`
-  color: ${theme.colors.white};
-  font-size: ${`${theme.fontSizes.s}px`};
-  padding: ${`${theme.spacing.xxs}px ${theme.spacing.s}px`};
-  background-color: #EC5569 ;
-  margin-bottom: -5%;
-  margin-right:10px;
-`,
-  Progress: css`
-    padding-top: ${`${theme.spacing.m}px`};
-  `,
+    marginLeft: -14,
+  },
+  avatarSolo: {
+    // avatar
+    width: 36,
+    height: 36,
+    borderRadius: 99,
+    borderWidth: 2,
+    borderColor: '#fff',
 
-};
+    marginLeft: -12,
+  },
+  solotag: {
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.s,
+    padding: theme.spacing.xxs,
+    backgroundColor: theme.colors.secondaryAlt,
+    marginBottom: '-5%',
+    marginRight: 10,
+  },
+  duotag: {
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.s,
+    padding: theme.spacing.xxs,
+    backgroundColor: theme.colors.secondary,
+    marginBottom: '-5%',
+    marginRight: 10,
+  },
+  grouptag: {
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.s,
+    padding: theme.spacing.xxs,
+    backgroundColor: '#EC5569',
+    marginBottom: '-5%',
+    marginRight: 10,
+  },
+});
 
 export default styles;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   Image as ReactNativeImage,
   Animated,
@@ -7,48 +7,53 @@ import {
   ImagePropsBase,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import st from '../../st';
 
-const AnimatedFastImage = Animated.createAnimatedComponent(FastImage);
+// const AnimatedFastImage = Animated.createAnimatedComponent(FastImage);
 
 interface ImageProps extends ImagePropsBase {
-  source: any;
+  source?: object;
+  uri?: string;
   style?: StyleProp<ImageStyle>;
 }
-function Image({ source, style, ...rest }: ImageProps) {
+function Image({ source, uri, style, ...rest }: ImageProps) {
   // thumbnailAnimated = new Animated.Value(0);
 
-  const imageAnimated = new Animated.Value(0);
+  /* const imageAnimated = new Animated.Value(0);
 
   function onImageLoad() {
     Animated.timing(imageAnimated, {
       toValue: 1,
       duration: 150,
     }).start();
+  } */
+  let src = source;
+  if (uri) {
+    src = { uri: uri };
   }
 
-  const isRemoteImage = source && source.uri && source.uri.startsWith('http');
-  const isSourceNull = source && source.uri && source.uri === null;
+  const isRemoteImage = src?.uri && src.uri.startsWith('http');
+  const isSourceNull = !src?.uri;
 
   return (
     <>
       {!isRemoteImage || isSourceNull ? (
-        <ReactNativeImage {...rest} source={source} style={style} />
+        <ReactNativeImage {...rest} source={src} style={style} />
       ) : (
         // Only use FastImage for remote images
         // https://github.com/DylanVann/react-native-fast-image
         // TODO: Delete this repo. Too many bugs!
-        <AnimatedFastImage
+        <FastImage
+          style={style}
+          source={src}
           {...rest}
-          source={source}
-          style={[{
+          /* style={[{
             // opacity: imageAnimated
-          }, style]}
-          onLoad={onImageLoad}
+          }, style]} */
+          // onLoad={onImageLoad}
         />
       )}
     </>
   );
 }
 
-export default Image;
+export default React.memo(Image);

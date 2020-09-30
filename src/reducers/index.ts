@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { createMigrate, persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
 import FilesystemStorage from 'redux-persist-filesystem-storage';
+import { Platform } from 'react-native';
 import auth from './auth';
 import data from './data';
 import info from './info';
@@ -26,15 +27,26 @@ import info from './info';
 const persistConfig = {
   key: 'root',
   version: 2,
-  storage: AsyncStorage, // Android
-  blacklist: ['auth'],
+  storage:
+    // Platform.OS === 'android' ?
+    // FilesystemStorage : // Android
+    AsyncStorage, // iOS
+  blacklist: ['auth', 'data'],
+
+  // Getting error redux-persist: rehydrate for "root" called after timeout?
+  // https://github.com/rt2zz/redux-persist/issues/717#issuecomment-375011049
+  // 👇 https://github.com/rt2zz/redux-persist/issues/906
+  // keyPrefix: '',
+  // timeout: null,
+  // timeout: 0,
+  // debug: true,
 };
 
 const store = combineReducers({
   auth: persistReducer({
     key: 'auth',
     version: 3,
-    storage: AsyncStorage, // Android
+    storage: AsyncStorage,
     // migrate: createMigrate(migrations, { debug: true }),
   }, auth),
   data,

@@ -141,7 +141,8 @@ jobs:
 
     install:
     - npm install
-    - (cd android && bundler install)
+    - npx jetify
+    - (cd android && bundle update --bundler && bundler install)
 
     script:
     - (cd android && fastlane android cru_build_app)
@@ -181,8 +182,8 @@ jobs:
 
     install:
     - npm install
-    - bundle update --bundler
-    - (cd android && bundler install)
+    - npx jetify
+    - (cd android && bundle update --bundler && bundler install)
 
     script:
     - (cd android && fastlane android beta)

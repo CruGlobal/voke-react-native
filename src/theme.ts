@@ -9,8 +9,17 @@ const theme: {
   colors: {
     [key: string]: string
   },
+  spacing: {
+    [key: string]: number
+  },
+  fontSizes: {
+    [key: string]: number
+  },
+  radius: {
+    [key: string]: number
+  },
   [key: string]: {[key: string]: string | number}
-  } = {
+} = {
   colors: {
     primary: '#44c8e8', // Blue
     secondary: '#186078', // Dark Blue
@@ -24,7 +33,7 @@ const theme: {
     offBlue: '#3295ad',
     orange: '#FF9900',
     lightOrange: 'rgba(255,153,0, 0.7)',
-    red: '#ee2f2f',
+    red: '#ff0000',
     white: '#fff',
     yellow: '#ffbb42',
     green: '#5abc86',
@@ -64,8 +73,10 @@ const theme: {
     l: 22,
     xl: 44,
     xxl: 88,
+    xxxl: 110,
   },
   radius: {
+    xxs: 3,
     xs: 5,
     s: 7,
     m: 10,
@@ -79,4 +90,4 @@ const theme: {
   }, */
 };
 
-export default theme
+export default theme;

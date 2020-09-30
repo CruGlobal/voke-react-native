@@ -1,10 +1,10 @@
 import React from 'react';
 import { createIconSetFromIcoMoon } from 'react-native-vector-icons';
 import { StyleProp, ImageStyle } from 'react-native';
+
 import { vokeImages } from '../../utils/iconMap';
 import icoMoonConfig from '../../utils/selection.json';
 import Image from '../Image';
-import st from '../../st';
 
 const CustomIcon = createIconSetFromIcoMoon(
   icoMoonConfig,
@@ -17,7 +17,7 @@ type VokeIconProps = {
   type?: string;
   style: StyleProp<ImageStyle>;
   [x: string]: any; // ..rest
-}
+};
 
 const VokeIcon = ({ name, type, style, ...rest }: VokeIconProps) => {
   if (type === 'image' && !vokeImages[name]) return null;
@@ -31,14 +31,8 @@ const VokeIcon = ({ name, type, style, ...rest }: VokeIconProps) => {
       />
     );
   } else {
-    return (
-      <CustomIcon
-        name={name}
-        style={[{ color: st.colors.white }, style]}
-        {...rest}
-      />
-    );
+    return <CustomIcon name={name} style={style} {...rest} />;
   }
-}
+};
 
-export default VokeIcon;
+export default React.memo(VokeIcon);

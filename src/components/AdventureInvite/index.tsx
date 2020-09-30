@@ -1,10 +1,11 @@
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/camelcase */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from "react-i18next";
 import moment from 'moment';
+
 import Image from '../Image';
 import st from '../../st';
 import Touchable from '../Touchable';
@@ -12,27 +13,28 @@ import Text from '../Text';
 import Button from '../Button';
 import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
-import { momentUtc } from '../../utils';
 import styles from './styles';
 import { useSelector, useDispatch } from 'react-redux';
 import useInterval from '../../utils/useInterval';
 import { resendAdventureInvitation, deleteAdventureInvitation, getAdventuresInvitations, getAvailableAdventures } from '../../actions/requests';
+import theme from '../../theme';
 
 const THUMBNAIL_WIDTH = 140;
 
 function getExpiredTime(date: string) {
-  const diff = momentUtc(date).diff(moment());
+  const nowMoment = moment();
+  const expireMoment = moment.utc(date);
+  const diff = moment(expireMoment).diff(nowMoment);
   const diffDuration = moment.duration(diff);
   const days = diffDuration.days();
   const hours = diffDuration.hours();
   const minutes = diffDuration.minutes();
-  // const seconds = diffDuration.seconds();
 
   // TODO: Translate it.
   const str = `${days > 0 ? `${days} day${days !== 1 ? 's' : ''} ` : ''}${
     hours > 0 ? `${hours} hr${hours !== 1 ? 's' : ''} ` : ''
   }${minutes >= 0 ? `${minutes} min ` : ''}`;
-  return { str, isTimeExpired: diff < 0 };
+  return { str, isTimeExpired: (diff < 0) };
 }
 
 type InviteItemProps = {
@@ -57,11 +59,20 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
   const [timer, setTimer] = useState(60000); // 1 minute timer step
   const { organization_journey, name, code } = inviteItem;
   const orgJourney = organization_journey || {};
-  const orgJourneyImage = (orgJourney.image || {}).small || undefined;
+  const orgJourneyImage = (orgJourney?.image)?.small;
   const isGroup = inviteItem.kind === 'multiple';
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { t } = useTranslation(['adventuresTab', 'adventuresList']);
+
+  const thumbnail = useMemo(
+    () => (orgJourneyImage || ''),
+    [orgJourneyImage],
+  );
+
+   if( ! code ) {
+    return <></>;
+  }
 
   useEffect(() => {
     updateExpire();
@@ -138,8 +149,8 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
         >
           <Flex>
             <Image
-              source={{ uri: orgJourneyImage }}
-              style={[st.f1, st.w(THUMBNAIL_WIDTH), st.brbl6, st.brtl6]}
+              uri={thumbnail}
+              style={styles.thumbnail}
             />
           </Flex>
           <Flex
@@ -197,7 +208,7 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
                 }}
                 style={[st.br2, st.borderTransparent, st.bw1, st.pd(7)]}
               >
-                <VokeIcon name="close" style={[st.white, st.fs6]} />
+                <VokeIcon name="close" style={styles.iconDelete} />
               </Touchable>
             </Flex>)
             : null}

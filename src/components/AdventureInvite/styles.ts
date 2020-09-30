@@ -1,47 +1,56 @@
-import { css } from '@emotion/native';
+import { StyleSheet } from 'react-native';
 import theme from '../../theme';
-import ui from '../../ui';
+const THUMBNAIL_WIDTH = 140;
+const styles = StyleSheet.create({
+  InviteWrapper: {
+    paddingTop: theme.spacing.s,
+    paddingBottom: theme.spacing.s,
+  },
+  InviteBlock: {
+    borderRadius:  theme.radius.m,
+    backgroundColor: theme.colors.secondary,
+    minHeight: 100,
+  },
+  InviteBlockContent: {
+    paddingTop: theme.spacing.s,
+    paddingBottom: theme.spacing.s,
+    paddingLeft: theme.spacing.m,
+    paddingRight: theme.spacing.m,
+    minHeight: 90,
+  },
+  CodeBlock: {
+    // ui.button.size.m:
+    paddingVertical: 4,
+    paddingHorizontal: 14,
+    borderRadius: theme.radius.s,
 
-const styles: { [key: string]: any } = {
-  ...ui,
-  InviteWrapper: css`
-    padding-top: ${`${theme.spacing.s}px`};
-    padding-bottom: ${`${theme.spacing.s}px`};
-  `,
-  InviteBlock: css`
-    border-radius:  ${`${theme.radius.m}px`};
-    background-color: ${theme.colors.secondary};
-    min-height: 100;
-  `,
-  InviteBlockContent: css`
-    padding-top: ${theme.spacing.s + 'px'};
-    padding-bottom: ${theme.spacing.s + 'px'};
-    padding-left: ${theme.spacing.m + 'px'};
-    padding-right: ${theme.spacing.m + 'px'};
-    min-height: 90;
-  `,
-  CodeBlock: [
-    ui.button.size.m,
-    css`
-      padding-left: 0;
-    `,
-  ],
-  Code: [
-    css`
-      font-size: ${theme.fontSizes.m + 'px'};
-      color: ${theme.colors.white};
-    `,
-  ],
-  ButtonReset: [
-    ui.button.size.m,
-    ui.button.style.solid,
-    css`
-      border-radius: ${theme.radius.xl + 'px'};
-      background-color: ${theme.colors.accent};
-    `,
-  ],
-  ButtonResetLabel: [ui.buttonText.size.s],
-
-};
+    paddingLeft: 0,
+  },
+  Code:{
+    fontSize: theme.fontSizes.m,
+    color: theme.colors.white,
+  },
+  ButtonReset: {
+    // ui.button.size.m:
+    paddingVertical: 4,
+    paddingHorizontal: 14,
+    borderRadius: theme.radius.xl,
+    backgroundColor: theme.colors.accent,
+  },
+  ButtonResetLabel: {
+    // ui.buttonText.size.s
+  },
+  thumbnail: {
+    flex: 1,
+    width: THUMBNAIL_WIDTH,
+    // borderRadius: theme.radius.s,
+    borderTopLeftRadius: theme.radius.s,
+    borderBottomLeftRadius: theme.radius.s,
+  },
+  iconDelete: {
+    color: theme.colors.white,
+    fontSize: 12,
+  }
+});
 
 export default styles;

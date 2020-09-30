@@ -5,7 +5,12 @@ import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from 'react-redux';
 import { useMount, lockToPortrait } from '../../utils';
-import { ActivityIndicator, ScrollView, FlatList, View } from 'react-native';
+import {
+  useWindowDimensions,
+  ScrollView,
+  FlatList,
+  View
+} from 'react-native';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import StatusBar from '../../components/StatusBar';
@@ -33,11 +38,12 @@ function VideoList() {
   const [videos, setVideos] = useState( allVideos || [] );
 
   const [updatedPagination, setUpdatedPagination] = useState(videoPagination);
-  const THUMBNAIL_HEIGHT = ((st.fullWidth - 20) * 1) / 2;
   const [isLoading, setIsLoading] = useState(false);
-  const ITEM_HEIGHT = THUMBNAIL_HEIGHT + 100 + 20;
   const [filterId, setFilterId] = useState('allVideos');
   const dispatch = useDispatch();
+  const window = useWindowDimensions();
+  const THUMBNAIL_HEIGHT = ((window.width - 20) * 1) / 2;
+  const ITEM_HEIGHT = THUMBNAIL_HEIGHT + 100 + 20;
   function handleRefresh() {
     loadVideos();
   }
@@ -238,6 +244,7 @@ function VideoList() {
                     <VokeIcon
                       name={item.id === 'favorite' ? 'heart' : 'search'}
                       size={22}
+                      style={{color: theme.colors.white}}
                     />
                   ) : (
                     <Text style={[st.white, st.fs18]}>{item.title}</Text>

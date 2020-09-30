@@ -1,29 +1,34 @@
-import { css } from '@emotion/native';
-import theme from '../../theme';
-import ui from '../../ui';
+import { StyleSheet } from 'react-native';
 
-const styles: { [key: string]: any } = {
-  ...theme,
-  NextActionContainer: css`
-    padding-top: ${`${theme.spacing.m}px`};
-    padding-bottom: ${`${theme.spacing.m}px`};
-    padding-left: ${`${theme.spacing.xl}px`};
-    padding-right: ${`${theme.spacing.xl}px`};
-  `,
-  NextActionButton: [
-    ui.button.size.l,
-    ui.button.style.solid,
-    css`
-      background-color: transparent
-    `,
-  ],
-  ButtonActive: [
-    css`
-    `,
-  ],
-  NextActionButtonLabel: [ui.buttonText.size.wm, 
-    css`
-  text-transform: uppercase`],
-};
+import theme from '../../theme';
+
+const styles = StyleSheet.create({
+  nextActionContainer: {
+    paddingTop: theme.spacing.m,
+    paddingBottom: theme.spacing.m,
+    paddingLeft: theme.spacing.xl,
+    paddingRight: theme.spacing.xl,
+  },
+
+  nextActionButton: {
+    paddingVertical: 20,
+    paddingHorizontal: theme.spacing.s,
+    borderRadius: theme.radius.xxl,
+    backgroundColor: 'transparent',
+  },
+
+  nextActionButtonLabel: {
+    fontSize: theme.fontSizes.l,
+    fontFamily: theme.fonts.semiBold,
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    color: theme.colors.white,
+  },
+
+  iconAction: {
+    color: theme.colors.secondary,
+    paddingRight: 10,
+  },
+});
 
 export default styles;

@@ -12,11 +12,13 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
-#import "RNSplashScreen.h" // Voke: Splash Screen
 #import "Orientation.h" // Voke: Needed to handle orientation changes
 #import <RNCPushNotificationIOS.h> // Voke: Needed for push notifications
 #import <UserNotifications/UserNotifications.h> // Voke: Needed for push notifications
+#import <React/RCTLinkingManager.h> //Voke: Deeplinking
 
+// https://github.com/zoontek/react-native-bootsplash#ios-1
+#import "RNBootSplash.h"
 
  @implementation AppDelegate
 
@@ -35,21 +37,22 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
 
+  // https://github.com/zoontek/react-native-bootsplash#ios-1
+  [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView];
+
   // VOKE: Define UNUserNotificationCenter
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
   center.delegate = self;
 
   // VOKE: Configure Firebase - https://rnfirebase.io/#validate-ios-credentials
-  if ([FIRApp defaultApp] == nil) {
+  // if ([FIRApp defaultApp] == nil) {
     [FIRApp configure];
-  }
+    // [Fabric with:@[CrashlyticsKit]];
+  // }
 
   // VOKE: Facebook SDK
   [[FBSDKApplicationDelegate sharedInstance] application:application
     didFinishLaunchingWithOptions:launchOptions];
-
-  // VOKE: Splash Screen
-  [RNSplashScreen show];
 
   return YES;
 }
@@ -65,17 +68,27 @@
 
 // Voke: Facebook SDK
 
-- (BOOL)application:(UIApplication *)application 
-            openURL:(NSURL *)url 
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
 
-  BOOL handled = [[FBSDKApplicationDelegate sharedInstance] application:application
+  // Deeplink from Facebook
+  BOOL handleFBSDK = [[FBSDKApplicationDelegate sharedInstance] application:application
     openURL:url
     sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
     annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
   ];
-  // Add any custom logic here.
-  return handled;
+  // Deeplink for React Native
+  BOOL handleRCT = [RCTLinkingManager application:application
+    openURL:url
+    options:options
+  ];
+
+  // Firebase?
+  // BOOL handleFirebase = [[RNFBDynamicLinksAppDelegateInterceptor sharedInstance] application:application openURL:url options:options];
+
+
+  return handleFBSDK || handleRCT;
 }
 
 // Voke: Needed for handling orientation changes
@@ -125,8 +138,16 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 //Called when a notification is delivered to a foreground app.
 -(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler
 {
-  NSLog(@"🦖🦖🦖🦖🦖🦖🦖 willPresentNotification 🦖🦖🦖🦖🦖🦖🦖🦖");
   completionHandler(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge);
+}
+
+// React Native Universal Links.
+- (BOOL)application:(UIApplication *)application continueUserActivity:(nonnull NSUserActivity *)userActivity
+ restorationHandler:(nonnull void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler
+{
+ return [RCTLinkingManager application:application
+                  continueUserActivity:userActivity
+                    restorationHandler:restorationHandler];
 }
 
 

@@ -3,10 +3,13 @@
     <color name="colorPrimary">@color/app_main_color</color>
     <color name="colorPrimaryDark">@color/statusbar_color</color>
     <color name="colorAccent">@color/app_main_color</color>
+    <color name="notification_color">@color/voke_blue</color>
     <color name="statusbar_color">#186078</color>
     <color name="app_main_color">#186078</color>
+    <color name="voke_blue">#44c8e8</color>
     <color name="splash_screen">#44c8e8</color>
     <!-- For splash screen -->
     <!-- https://github.com/crazycodeboy/react-native-splash-screen#android -->
     <color name="status_bar_color">#186078</color>
+    <color name="bootsplash_background">#44C8E8</color>
 </resources>

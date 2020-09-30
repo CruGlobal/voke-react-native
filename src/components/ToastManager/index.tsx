@@ -51,7 +51,7 @@ const ToastManager = (): React.ReactElement => {
           <SafeAreaView style={[st.fw100]}>
             <Touchable style={[st.p4, st.bgOrange]} onPress={hideMessage}>
               <Flex align="center" justify="center">
-                <Text style={[st.white, st.fs4, st.tac]}>{toastText}</Text>
+                <Text style={[st.white, st.fs4, st.tac]} testID={'textToast'}>{toastText}</Text>
               </Flex>
             </Touchable>
           </SafeAreaView>

@@ -4,6 +4,8 @@ import {createWebSocketMiddleware} from './actions/socket';
 import createRootReducer from './reducers';
 import { persistStore, getStoredState } from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
+import FilesystemStorage from 'redux-persist-filesystem-storage';
+import { Platform } from 'react-native';
 import { REDUX_ACTIONS } from './constants';
 
 const reduxLog = store => next => action => {
@@ -26,8 +28,19 @@ const composedEnhancers = composeEnhancers(
 // Get store data from Persist Redux store V4
 const getOldData = async() => {
     try {
-      const oldStore = await AsyncStorage.getItem('reduxPersist:auth'); // Android
       let oldData = {};
+      let oldStore;
+
+      if ( Platform.OS === 'android' ) {
+        // Need to check if key exists first. Otherwise get error: File not found.
+        const allStoreKeys = await FilesystemStorage.getAllKeys();
+        if ( allStoreKeys.length && allStoreKeys.includes('reduxPersist:auth') ) {
+          oldStore = await FilesystemStorage.getItem('reduxPersist:auth');
+        }
+      } else {
+        // In iOS we don't need to verify key existence.
+        oldStore =  await AsyncStorage.getItem('reduxPersist:auth');
+      }
       if (oldStore) {
         oldData = JSON.parse(oldStore);
       }
@@ -71,9 +84,6 @@ function configureStore(initialState) {
           },
         });
       }
-      /* if ( oldStore?.token && oldStore?.user?.id && store.getState() ) {
-
-      } */
     }
     ) };
 }

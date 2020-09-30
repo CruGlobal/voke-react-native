@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput } from 'react-native';
-import Image from '../Image';
-import st from '../../st';
+import { useDispatch, useSelector } from 'react-redux';
+
 import Flex from '../Flex';
 import Button from '../Button';
 import VokeIcon from '../VokeIcon';
 import Text from '../Text';
-import { useDispatch, useSelector } from 'react-redux';
+import st from '../../st';
+import Image from '../Image';
 import { createAdventureStepMessage } from '../../actions/requests';
 import Select from '../Select';
 import { getCurrentUserId } from '../../utils/get';
+
+import styles from './styles';
 
 const AdventureStepMessageInput = ({
   kind,
@@ -22,37 +25,42 @@ const AdventureStepMessageInput = ({
 }): React.ReactElement => {
   const dispatch = useDispatch();
   const userId = getCurrentUserId();
-  const [value, setValue] = useState(defaultValue||null);
+  const [value, setValue] = useState(defaultValue || null);
+  const [draft, setDraft] = useState(null);
   const [messageSent, setMesssageSent] = useState(false);
   const isMultiQuestion = kind === 'multi';
   const isBinaryQuestion = kind === 'binary';
   const isShareQuestion = kind === 'share';
-  const isComplete = step.status === 'completed';
-  const isLocked = step['completed_by_messenger?'];
+  const isComplete = step?.status === 'completed';
+  const isLocked = step && step['completed_by_messenger?'];
 
   const currentMessages = useSelector(
-    ({ data }: RootState) => data.adventureStepMessages[step?.id] || []
+    ({ data }: RootState) => data.adventureStepMessages[step?.id] || [],
   );
 
   // In case component rendered before default/current value fetched from the server.
   useEffect(() => {
-    setValue(defaultValue)
-  }, [defaultValue])
+    setValue(defaultValue);
+  }, [defaultValue]);
 
   useEffect(() => {
-    if(!currentMessages.length) {
+    if (!currentMessages.length) {
       setMesssageSent(false);
-    } else if( isComplete || value ) {
+    } else if (isComplete || value) {
       setMesssageSent(true);
     } else {
-      for ( let [key, msg] of Object.entries(currentMessages) ) {
-        if( msg.messenger_id === userId && !msg?.metadata?.question && msg?.kind!=='answer' ) {
+      for (const [key, msg] of Object.entries(currentMessages)) {
+        if (
+          msg.messenger_id === userId &&
+          !msg?.metadata?.question &&
+          msg?.kind !== 'answer'
+        ) {
           setMesssageSent(true);
           break;
         }
       }
     }
-  }, [currentMessages.length])
+  }, [currentMessages.length]);
 
   // When SEND message button clicked.
   const handleSendMessage = (newValue: any): void => {
@@ -66,8 +74,8 @@ const AdventureStepMessageInput = ({
         value: newValue,
         internalMessage: internalMessage ? internalMessage : null,
         kind,
-        userId
-      })
+        userId,
+      }),
     );
   };
 
@@ -89,32 +97,37 @@ const AdventureStepMessageInput = ({
     }
 
     return (
-      <View style={[st.ovh, {
-        backgroundColor: st.colors.white,
-        borderBottomLeftRadius: 10,
-        borderBottomRightRadius: 10,
-      }]}>
-      <Select
-        options={formattedAnswers}
-        onFocus={event => {
-              onFocus(event);
-        }}
-        // placeholder="Choose Your Answer..."
-        selectedValue={value}
-        onUpdate={t => {
-          setValue(t.value);
-          handleSendMessage(t.value);
-        }}
-        containerColor={st.colors.orange}
-        isDisabled={ isLocked  }
-      />
+      <View
+        style={[
+          st.ovh,
+          {
+            backgroundColor: st.colors.white,
+            borderBottomLeftRadius: 10,
+            borderBottomRightRadius: 10,
+          },
+        ]}
+      >
+        <Select
+          options={formattedAnswers}
+          onFocus={event => {
+            onFocus(event);
+          }}
+          // placeholder="Choose Your Answer..."
+          selectedValue={value}
+          onUpdate={t => {
+            setValue(t.value);
+            handleSendMessage(t.value);
+          }}
+          containerColor={st.colors.orange}
+          isDisabled={isLocked}
+        />
       </View>
     );
   }
 
   if (isBinaryQuestion) {
     const metadata = internalMessage.metadata || {};
-    const answers = metadata.answers;
+    const { answers } = metadata;
     const hasSelected = (answers || []).find(a => a.selected);
     return (
       <Flex direction="column" style={[st.mt4]}>
@@ -138,7 +151,8 @@ const AdventureStepMessageInput = ({
             <Flex
               direction="column"
               align="center"
-              style={[
+              style={styles.mainQuestion}
+              /* style={[
                 st.ph4,
                 st.pv4,
                 st.mt4,
@@ -148,7 +162,7 @@ const AdventureStepMessageInput = ({
                   marginLeft: -20,
                   backgroundColor: st.colors.lightOrange,
                 },
-              ]}
+              ]} */
             >
               <Text style={[[st.pv4, st.white, st.tac, st.fs20, st.lh(24)]]}>
                 {metadata.question}
@@ -169,7 +183,7 @@ const AdventureStepMessageInput = ({
                       st.pv5,
                       a.selected || !hasSelected
                         ? { opacity: 1 }
-                        : { opacity: 0.4 },
+                        : { opacity: 0.4 }
                     ]}
                   >
                     <Text style={[a.selected ? st.orange : st.white, st.fs18]}>
@@ -187,7 +201,7 @@ const AdventureStepMessageInput = ({
 
   if (isShareQuestion) {
     const metadata = internalMessage?.metadata || {};
-    const answers = metadata.answers;
+    const { answers } = metadata;
     const hasSelected = (answers || []).find(a => a.selected);
     return (
       <Flex direction="column" style={[st.w100, st.mt4]}>
@@ -202,7 +216,7 @@ const AdventureStepMessageInput = ({
               {metadata.question}
             </Text>
             <Flex direction="row" style={[st.pb4]}>
-              {answers.map((a) => (
+              {answers.map(a => (
                 <Button
                   disabled={hasSelected}
                   onPress={() => {
@@ -219,7 +233,11 @@ const AdventureStepMessageInput = ({
                       ? { opacity: 1 }
                       : { opacity: 0.4 },
                   ]}
-                ><Text style={[a.selected ? st.orange : st.white, st.fs18]}>{a.key}</Text></Button>
+                >
+                  <Text style={[a.selected ? st.orange : st.white, st.fs18]}>
+                    {a.key}
+                  </Text>
+                </Button>
               ))}
             </Flex>
           </Flex>
@@ -232,45 +250,57 @@ const AdventureStepMessageInput = ({
     <Flex
       direction="row"
       align="center"
-      style={[st.bgWhite, st.w100, st.pl4, st.brbl5, st.brbr5]}
+      style={styles.answerContainer}
+      // style={[st.bgWhite, st.w100, st.pl4, st.brbl5, st.brbr5]}
     >
-      { isLoading ?
+      {isLoading ? (
         <View style={[st.w100]}>
-          <Text style={[st.fs4, st.pt4, st.w100, st.pb4, st.op0]}>.</Text>
-        </View> :
-        messageSent || isComplete ? (
-          value ?
-            <Text style={[st.fs4, st.pt4, st.w100, st.pb4, st.darkBlue]}>{value}</Text> :
-            <Text style={[st.fs4, st.pt4, st.w100, st.pb4, {opacity:.5}]}>Skipped</Text>
+          <Text style={styles.answerTextLoading}>.</Text>
+        </View>
+      ) : messageSent || isComplete ? (
+        value || draft ? (
+          <Text style={styles.answerText}>{value ? value : draft}</Text>
         ) : (
-          <>
-            <TextInput
-              autoCapitalize="sentences"
-              onFocus={event => {
-                onFocus(event);
-              }}
-              multiline={true}
-              placeholder={'Enter your answer'} // TODO: Translate!
-              placeholderTextColor={st.colors.grey}
-              style={[st.f1, st.fs4, st.pt4, st.pb4, st.darkBlue, {marginRight:6}]}
-              underlineColorAndroid={st.colors.transparent}
-              selectionColor={st.colors.darkBlue}
-              value={value}
-              onChangeText={t => setValue(t)}
-              keyboardAppearance="dark"
-            />
-            <Button
-              onPress={() => {
-                    handleSendMessage(value);
-                  }}
-              style={[st.p4]}>
-              <VokeIcon name="send" style={[st.offBlue]} size={24} />
-            </Button>
-          </>
+          <Text style={[st.fs4, st.pt4, st.w100, st.pb4, { opacity: 0.5 }]}>
+            Skipped
+          </Text>
         )
-      }
+      ) : (
+        <>
+          <TextInput
+            autoCapitalize="sentences"
+            onFocus={event => {
+              onFocus(event);
+            }}
+            multiline={true}
+            placeholder={'Enter your answer'} // TODO: Translate!
+            placeholderTextColor={st.colors.grey}
+            style={[
+              st.f1,
+              st.fs4,
+              st.pt4,
+              st.pb4,
+              st.darkBlue,
+              { marginRight: 6 },
+            ]}
+            underlineColorAndroid={st.colors.transparent}
+            selectionColor={st.colors.darkBlue}
+            value={value ? value : draft}
+            onChangeText={t => setDraft(t)}
+            keyboardAppearance="dark"
+          />
+          <Button
+            onPress={() => {
+              handleSendMessage(draft);
+            }}
+            style={styles.buttonSend}
+          >
+            <VokeIcon name="send" style={styles.iconSend} size={24} />
+          </Button>
+        </>
+      )}
     </Flex>
   );
-}
+};
 
 export default AdventureStepMessageInput;

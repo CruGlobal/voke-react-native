@@ -1,22 +1,25 @@
 import React, { useState } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
+import { View, ScrollView, StatusBar, Platform } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
+
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import st from '../../st';
+import theme from '../../theme';
 import Button from '../../components/Button';
 import Triangle from '../../components/Triangle';
-import { View, ScrollView, StatusBar, Platform } from 'react-native';
-import { useDispatch } from 'react-redux';
 import Video from '../../components/Video';
-import { useNavigation } from '@react-navigation/native';
-import { useTranslation } from "react-i18next";
 import VokeIcon from '../../components/VokeIcon';
 import Touchable from '../../components/Touchable';
-
 import {
+  interactionVideoPlay,
   toggleFavoriteVideo,
   sendVideoInvitation,
 } from '../../actions/requests';
+import styles from './styles';
 
 function VideoDetails(props) {
   const { t } = useTranslation('videos');
@@ -43,10 +46,13 @@ function VideoDetails(props) {
   return (
     <Flex value={1}>
       <>
-        <View style={{
-          height: isPortrait ? insets.top : 0,
-          backgroundColor: isPortrait && insets.top > 0 ? '#000' : 'transparent',
-        }}>
+        <View
+          style={{
+            height: isPortrait ? insets.top : 0,
+            backgroundColor:
+              isPortrait && insets.top > 0 ? '#000' : 'transparent',
+          }}
+        >
           <StatusBar
             animated={true}
             barStyle="light-content"
@@ -54,53 +60,60 @@ function VideoDetails(props) {
             backgroundColor="transparent" // Android. The background color of the status bar.
           />
         </View>
-        <ScrollView
-          bounces={true}
-          scrollEnabled={isPortrait? true: false}
-        >
+        <ScrollView bounces={true} scrollEnabled={isPortrait ? true : false}>
           {/* This View stays outside of the screen on top
             and covers blue area with solid black on pull. */}
           <View
             style={{
-              position:'absolute',
+              position: 'absolute',
               backgroundColor: 'black',
               left: 0,
               right: 0,
               top: -300,
               height: 300,
-              zIndex:1,
+              zIndex: 1,
             }}
-          ></View>
+          />
           {/* Video Player */}
           <Video
             onOrientationChange={(orientation: string): void => {
-              setIsPortrait( orientation === 'portrait' ? true : false);
+              setIsPortrait(orientation === 'portrait' ? true : false);
             }}
             autoPlay={true}
             item={item.media}
+            onPlay={() => {
+              dispatch(
+                interactionVideoPlay({
+                  videoId: item.id,
+                  context: 'resource',
+                }),
+              );
+            }}
           />
-          { isPortrait && (
+          {isPortrait && (
             <Flex
               direction="column"
-              style={[st.bgWhite, st.f1, st.p4, { paddingBottom: insets.bottom + 25 }]}
+              style={[
+                st.bgWhite,
+                st.f1,
+                st.p4,
+                { paddingBottom: insets.bottom + 25 },
+              ]}
             >
               <Button
-                style={[
-                  st.w(50),
-                  st.h(50),
-                  st.br1,
-                  st.ph0,
-                  st.aic,
-                  st.jcc,
-                  isFavorited ? st.bgBlue : st.bgLightGrey3,
-                ]}
+                 style={
+                  isFavorited ? styles.buttonLikeActive : styles.buttonLikeInactive}
                 onPress={handleFavorite}
               >
-                <VokeIcon name="heart" style={[st.bgTransparent]} size={20} />
+                <VokeIcon
+                  name="heart"
+                  style={[st.bgTransparent, st.white]}
+                  size={20}
+                />
               </Button>
               <Text style={[st.blue, st.fs20, st.semi]}>{item.name}</Text>
               <Text style={[st.darkGrey, st.fs14, st.mb7]}>
-                {t('shares', {total:item.shares})}
+                {t('shares', { total: item.shares })}
               </Text>
               <Text style={[st.darkGrey, st.fs14, st.mb7]}>
                 {item.description}
@@ -134,25 +147,27 @@ function VideoDetails(props) {
           )}
         </ScrollView>
         {/* Call to action button: */}
-        { isPortrait && <Touchable
-          isAndroidOpacity={true}
-          onPress={handleShare}
-          activeOpacity={0.6}
-          style={[
-            st.abs,
-            st.aic,
-            st.jcc,
-            { bottom: insets.bottom + 25, right: 25 },
-          ]}
-        >
-          <Flex align="center" justify="center" style={[]}>
-            <VokeIcon
-              type="image"
-              name="to-chat"
-              style={{ width: 70, height: 70 }}
-            />
-          </Flex>
-        </Touchable> }
+        {isPortrait && (
+          <Touchable
+            isAndroidOpacity={true}
+            onPress={handleShare}
+            activeOpacity={0.6}
+            style={[
+              st.abs,
+              st.aic,
+              st.jcc,
+              { bottom: insets.bottom + 25, right: 25 },
+            ]}
+          >
+            <Flex align="center" justify="center" style={[]}>
+              <VokeIcon
+                type="image"
+                name="to-chat"
+                style={{ width: 70, height: 70, color: theme.colors.white }}
+              />
+            </Flex>
+          </Touchable>
+        )}
       </>
     </Flex>
   );

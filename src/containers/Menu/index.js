@@ -20,9 +20,9 @@ import OH from '../../assets/oneHope.png';
 import YS from '../../assets/youthSpecialties.png';
 import { logoutAction } from '../../actions/auth';
 
-function SettingsRow({ title, onSelect }) {
+function SettingsRow({ title, onSelect, testID }) {
   return (
-    <Touchable onPress={onSelect}>
+    <Touchable onPress={onSelect} testID={testID}>
       <Flex
         direction="row"
         align="center"
@@ -61,6 +61,7 @@ function Menu(props) {
         <SettingsRow
           title={t('title:profile')}
           onSelect={() => navigation.navigate('AccountProfile')}
+          testID={'menuProfile'}
         />
         {!email && (
           <SettingsRow

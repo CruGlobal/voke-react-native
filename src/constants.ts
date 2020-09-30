@@ -18,6 +18,8 @@ export const REDUX_ACTIONS:{ [key: string]: string } = {
   SET_DEVICE: 'SET_DEVICE',
   OPEN_SOCKETS: 'OPEN_SOCKETS',
 
+  SET_VIDEO_STATE: 'SET_VIDEO_STATE',
+
   START_ADVENTURE: 'START_ADVENTURE',
   UPDATE_INVITATIONS: 'UPDATE_INVITATIONS',
   UPDATE_ADVENTURE: 'UPDATE_ADVENTURE',
@@ -47,8 +49,6 @@ export const REDUX_ACTIONS:{ [key: string]: string } = {
   TUTORIAL_COUNTDOWN_DUO: 'TUTORIAL_COUNTDOWN_DUO',
   TUTORIAL_COUNTDOWN_GROUP: 'TUTORIAL_COUNTDOWN_GROUP'
 };
-
-export const VIDEO_WIDTH = st.fullWidth;
 export const VIDEO_HEIGHT = st.fullWidth * (9 / 16);
 export const VIDEO_LANDSCAPE_WIDTH = st.fullHeight;
 export const VIDEO_LANDSCAPE_HEIGHT = st.fullWidth;
@@ -335,7 +335,7 @@ const CONSTANTS:{ [key: string]: {[key: string]: string | number} | any } = {
     INSTAGRAM: 'https://instagram.com/_u/vokeapp',
     VOKE: 'https://www.vokeapp.com',
     HELP: 'https://help.vokeapp.com/',
-    FAQ: 'https://www.vokeapp.com/faq',
+    FAQ: 'https://www.vokeapp.com/faq/',
     TERMS: 'https://www.vokeapp.com/terms-in-app/',
     PRIVACY: 'https://www.vokeapp.com/privacy-in-app/',
     FACEBOOK: 'https://www.facebook.com/vokeapp/',

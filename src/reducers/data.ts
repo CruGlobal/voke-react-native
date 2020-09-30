@@ -1,6 +1,7 @@
-import { REDUX_ACTIONS } from '../constants';
 import { normalize, schema } from 'normalizr';
 import lodash from 'lodash';
+
+import { REDUX_ACTIONS } from '../constants';
 import { exists } from '../utils';
 import { TDataState } from '../types';
 
@@ -17,8 +18,6 @@ export type DataKeys =
   | 'adventureStepMessages'
   | 'notifications'
   | 'adventureInvitations';
-
-
 
 const initialState: TDataState = {
   dataChangeTracker: {
@@ -44,33 +43,33 @@ const initialState: TDataState = {
   availableAdventures: [],
   myAdventures: {
     byId: {},
-    allIds: []
+    allIds: [],
   },
   adventureInvitations: {
     byId: {},
-    allIds: []
+    allIds: [],
   },
   adventureSteps: {},
   adventureStepMessages: {},
   allVideos: {
     byId: {},
-    allIds: []
+    allIds: [],
   },
   featuredVideos: {
     byId: {},
-    allIds: []
+    allIds: [],
   },
   popularVideos: {
     byId: {},
-    allIds: []
+    allIds: [],
   },
   favoriteVideos: {
     byId: {},
-    allIds: []
+    allIds: [],
   },
   searchVideos: {
     byId: {},
-    allIds: []
+    allIds: [],
   },
   videoTags: [],
   videoPagination: {
@@ -102,7 +101,7 @@ const initialState: TDataState = {
   },
 };
 
-export default function(state = initialState, action: any) {
+export default function (state = initialState, action: any) {
   switch (action.type) {
     case REDUX_ACTIONS.SET_DATA: {
       // @ts-ignore
@@ -114,7 +113,7 @@ export default function(state = initialState, action: any) {
       if (lodash.isEqual(state[action.key], action.data)) {
         return state;
       }
-/*
+      /*
       if ( exists(state.dataChangeTracker[action.key]) ) {
         return {
           ...state,
@@ -130,35 +129,34 @@ export default function(state = initialState, action: any) {
     }
 
     case REDUX_ACTIONS.START_ADVENTURE: {
-      let updatedMyAdventures: any = lodash.cloneDeep(state.myAdventures);
+      const updatedMyAdventures: any = lodash.cloneDeep(state.myAdventures);
 
-      const allIds = state.myAdventures.allIds||[];
+      const allIds = state.myAdventures.allIds || [];
       return {
         ...state,
         myAdventures: {
           ...state.myAdventures,
           byId: {
             ...state.myAdventures.byId,
-            [action.result.id]: action.result
+            [action.result.id]: action.result,
           },
           allIds: allIds.concat([action.result.id]),
-        }
+        },
       };
     }
 
     case REDUX_ACTIONS.SEND_ADVENTURE_INVITATION: {
-
-      const allIds = state.adventureInvitations.allIds||[];
+      const allIds = state.adventureInvitations.allIds || [];
 
       return {
         ...state,
         adventureInvitations: {
           byId: {
             ...state.adventureInvitations.byId,
-            [action.result.id]: action.result
+            [action.result.id]: action.result,
           },
           allIds: allIds.concat([action.result.id]),
-        }
+        },
       };
     }
 
@@ -166,9 +164,10 @@ export default function(state = initialState, action: any) {
       // See 'UPDATE_INVITATIONS NORMALIZATION EXAMPLE' at the end of this file.
       const invitationSchema = new schema.Entity('byId');
       const invitationsSchema = new schema.Array(invitationSchema);
-      const normalizedInvitations = normalize( // Result.
+      const normalizedInvitations = normalize(
+        // Result.
         action.data, // Data received.
-        invitationsSchema // Transformation schema.
+        invitationsSchema, // Transformation schema.
       );
 
       // Since we are getting all invitations at once,
@@ -178,7 +177,7 @@ export default function(state = initialState, action: any) {
         adventureInvitations: {
           byId: normalizedInvitations.entities.byId,
           allIds: normalizedInvitations.result,
-        }
+        },
       };
     }
 
@@ -186,9 +185,10 @@ export default function(state = initialState, action: any) {
       // See 'UPDATE_ADVENTURES NORMALIZATION EXAMPLE' at the end of this file.
       const adventureSchema = new schema.Entity('byId');
       const adventuresSchema = new schema.Array(adventureSchema);
-      const normalizedAdventures = normalize( // Result.
+      const normalizedAdventures = normalize(
+        // Result.
         action.data, // Data received.
-        adventuresSchema // Transformation schema.
+        adventuresSchema, // Transformation schema.
       );
 
       return {
@@ -196,7 +196,7 @@ export default function(state = initialState, action: any) {
         myAdventures: {
           byId: normalizedAdventures.entities.byId || {},
           allIds: normalizedAdventures.result,
-        }
+        },
       };
     }
 
@@ -207,16 +207,16 @@ export default function(state = initialState, action: any) {
           ...state.myAdventures,
           byId: {
             ...state.myAdventures.byId,
-            [action.data.id]: action.data
+            [action.data.id]: action.data,
           },
-        }
+        },
       };
     }
 
     case REDUX_ACTIONS.UPDATE_UNREAD_TOTAL: {
       return {
         ...state,
-        unReadBadgeCount: action.data
+        unReadBadgeCount: action.data,
       };
     }
 
@@ -255,13 +255,14 @@ export default function(state = initialState, action: any) {
 
       const stepSchema = new schema.Entity('byId');
       const stepsSchema = new schema.Array(stepSchema);
-      const normalizedSteps = normalize( // Result.
+      const normalizedSteps = normalize(
+        // Result.
         action.result.adventureSteps, // Data received.
-        stepsSchema // Transformation schema.
+        stepsSchema, // Transformation schema.
       );
 
       // Calculate new unread count for the affected adventure card.
-      const adventureId = action.result.adventureId;
+      const { adventureId } = action.result;
 
       let advUnreadCount = 0;
       action.result.adventureSteps.forEach(advStep => {
@@ -278,28 +279,28 @@ export default function(state = initialState, action: any) {
           [adventureId]: {
             byId: normalizedSteps.entities.byId,
             allIds: normalizedSteps.result,
-          }
+          },
         },
 
         // Update MyAdventures with new 'unread' value for current adventure.
         myAdventures: {
           ...state.myAdventures,
-          byId:{
+          byId: {
             ...state.myAdventures.byId,
             [adventureId]: {
               ...state.myAdventures.byId[adventureId],
-              conversation:{
+              conversation: {
                 ...state.myAdventures.byId[adventureId].conversation,
-                unread_messages: advUnreadCount
-              }
-            }
-          }
+                unread_messages: advUnreadCount,
+              },
+            },
+          },
         },
       };
     }
 
     case REDUX_ACTIONS.UPDATE_ADVENTURE_STEP: {
-      const adventureId = action.update.adventureId;
+      const { adventureId } = action.update;
       const stepId = action.update.adventureStepId;
 
       return {
@@ -316,10 +317,10 @@ export default function(state = initialState, action: any) {
               [stepId]: {
                 ...state.adventureSteps[adventureId].byId[stepId],
                 ...action.update.fieldsToUpdate,
-              }
+              },
             },
             // allIds: normalizedSteps.result,
-          }
+          },
         },
       };
     }
@@ -333,14 +334,20 @@ export default function(state = initialState, action: any) {
         ...state,
         adventureStepMessages: {
           ...state.adventureStepMessages,
-          [adventureStepId]: newMessages
-        }
+          [adventureStepId]: newMessages,
+        },
       };
     }
 
     case REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE: {
       const adventureStepId = action.message?.grouping_journey_step_id;
-      const adventureId = action.adventureId;
+      const { adventureId } = action;
+      // Don't increase unread messages counter if it's our own message.
+      const messageCounterAdd = action?.ownMessage ? 0 : 1;
+      if  ( !adventureId || !adventureStepId ) {
+        return state;
+      }
+
       return {
         ...state,
 
@@ -348,9 +355,9 @@ export default function(state = initialState, action: any) {
         adventureStepMessages: {
           ...state.adventureStepMessages,
           [adventureStepId]: [
-            ...state.adventureStepMessages[adventureStepId] || [], // Existing messages.
-            action.message // New message.
-          ]
+            ...(state.adventureStepMessages[adventureStepId] || []), // Existing messages.
+            action.message, // New message.
+          ],
         },
 
         // Update Adventure Steps with new 'unread' value for current step.
@@ -359,33 +366,37 @@ export default function(state = initialState, action: any) {
           [adventureId]: {
             ...state.adventureSteps[adventureId],
             byId: {
-              ...state.adventureSteps[adventureId]?.byId||{},
+              ...(state.adventureSteps[adventureId]?.byId || {}),
               [adventureStepId]: {
                 ...state.adventureSteps[adventureId]?.byId[adventureStepId],
-                unread_messages: state.adventureSteps[adventureId]?.byId[adventureStepId].unread_messages + 1,
-              }
+                unread_messages:
+                  state.adventureSteps[adventureId]?.byId[adventureStepId]
+                    .unread_messages + messageCounterAdd,
+              },
             },
             // allIds: normalizedSteps.result,
-          }
+          },
         },
 
         // Update MyAdventures with new 'unread' value for current adventure.
         myAdventures: {
           ...state.myAdventures,
-          byId:{
+          byId: {
             ...state.myAdventures.byId,
             [adventureId]: {
               ...state.myAdventures.byId[adventureId],
-              conversation:{
+              conversation: {
                 ...state.myAdventures.byId[adventureId].conversation,
-                unread_messages: state.myAdventures.byId[adventureId].conversation.unread_messages + 1,
-              }
-            }
-          }
+                unread_messages:
+                  state.myAdventures.byId[adventureId].conversation
+                    .unread_messages + messageCounterAdd,
+              },
+            },
+          },
         },
 
         // Update global 'unread' value for the whole app.
-        unReadBadgeCount: state.unReadBadgeCount + 1
+        unReadBadgeCount: state.unReadBadgeCount + messageCounterAdd,
       };
     }
     case REDUX_ACTIONS.UPDATE_VIDEO_PAGINATION: {
@@ -393,7 +404,7 @@ export default function(state = initialState, action: any) {
       let videoArrToUpdate = 'allVideos';
       let newVideos = {
         byId: {},
-        allIds: []
+        allIds: [],
       };
 
       if (action.result.params.featured) {
@@ -422,18 +433,23 @@ export default function(state = initialState, action: any) {
 
       const videoSchema = new schema.Entity('byId');
       const videosSchema = new schema.Array(videoSchema);
-      const normalizedVideos = normalize( // Result.
+      const normalizedVideos = normalize(
+        // Result.
         action.result.results.items, // Data received.
-        videosSchema // Transformation schema.
+        videosSchema, // Transformation schema.
       );
 
       const newItems = action.result.results.items || [];
       newVideos = {
         byId: {
           ...existingVideos.byId,
-          ...normalizedVideos.entities.byId
+          ...normalizedVideos.entities.byId,
         },
-        allIds: lodash.union([], existingVideos.allIds, normalizedVideos.result),
+        allIds: lodash.union(
+          [],
+          existingVideos.allIds,
+          normalizedVideos.result,
+        ),
       };
       return {
         ...state,
@@ -441,8 +457,7 @@ export default function(state = initialState, action: any) {
         videoPagination: {
           ...state.videoPagination,
           [videoArrToUpdate]: newPagination,
-
-        }
+        },
       };
     }
 
@@ -460,24 +475,18 @@ export default function(state = initialState, action: any) {
       newNotifications = newNotifications.concat(
         action.result.results.messages || [],
       );
-      let newMessagesCount = newNotifications.length - state.notifications.length;
-      // Don't trust this method when there were no other notifications in the store before it.
-      if ( state.notifications.length === 0 ) {
-        newMessagesCount = 0;
-      }
-      const unreadNotificationsCount = state.notificationUnreadBadge + newMessagesCount;
+
       return {
         ...state,
         notifications: newNotifications,
         notificationPagination: newNotificationPagination,
-        notificationUnreadBadge: unreadNotificationsCount,
       };
     }
 
     case REDUX_ACTIONS.UPDATE_NOTIFICATION_UNREAD_BADGE: {
       return {
         ...state,
-        notificationUnreadBadge:  action.count,
+        notificationUnreadBadge: action.count,
       };
     }
 
@@ -485,8 +494,8 @@ export default function(state = initialState, action: any) {
       // PARAMS: adventureId, conversationId, messageId
       // Set state.adventureSteps[adventureId][currentStepId].unread_messages = 0
       // state.adventureSteps[adventureId]
-      const adventureId = action.adventureId;
-      const stepId = action.stepId;
+      const { adventureId } = action;
+      const { stepId } = action;
 
       return {
         ...state,
@@ -495,14 +504,14 @@ export default function(state = initialState, action: any) {
           ...state.adventureSteps,
           [adventureId]: {
             ...state.adventureSteps[adventureId],
-            byId:{
+            byId: {
               ...state.adventureSteps[adventureId].byId,
-              [stepId]:{
+              [stepId]: {
                 ...state.adventureSteps[adventureId].byId[stepId],
-                unread_messages: 0
-              }
-            }
-          }
+                unread_messages: 0,
+              },
+            },
+          },
         },
       };
     }
@@ -510,25 +519,24 @@ export default function(state = initialState, action: any) {
       // PARAMS: adventureId, conversationId, messageId
       // Set state.adventureSteps[adventureId][currentStepId].unread_messages = 0
       // state.adventureSteps[adventureId]
-      const adventureId = action.adventureId;
-      const advUnreadCount = action.advUnreadCount;
+      const { adventureId } = action;
+      const { advUnreadCount } = action;
 
       return {
         ...state,
         // Update 'unread_messages' for particular adventure.
         myAdventures: {
           ...state.myAdventures,
-          byId:{
+          byId: {
             ...state.myAdventures.byId,
             [adventureId]: {
               ...state.myAdventures.byId[adventureId],
-              conversation:{
+              conversation: {
                 ...state.myAdventures.byId[adventureId].conversation,
-                unread_messages: advUnreadCount
-              }
-            }
-
-          }
+                unread_messages: advUnreadCount,
+              },
+            },
+          },
         },
       };
     }

@@ -1,7 +1,8 @@
 import RNFetchBlob from 'rn-fetch-blob';
-import { Alert } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import { getTimeZone, getCountry, getLocales } from 'react-native-localize';
 import AsyncStorage from '@react-native-community/async-storage';
+import FilesystemStorage from 'redux-persist-filesystem-storage';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import {
   LoginManager,
@@ -9,7 +10,10 @@ import {
   GraphRequest,
   AccessToken,
 } from 'react-native-fbsdk';
+
 import CONSTANTS, { REDUX_ACTIONS } from '../constants';
+import { isArray } from '../utils';
+
 import ROUTES from './routes';
 import request from './utils';
 import {
@@ -17,13 +21,18 @@ import {
   revokeAuthToken,
   setUser,
   getMyAdventures,
-  getAdventuresInvitations
+  getAdventuresInvitations,
+  getAdventureStepMessages,
+  getNotifications,
+  getAdventureSteps,
 } from './requests';
 
-import { isArray } from '../utils';
 import { openSocketAction, closeSocketAction } from './socket';
-import { permissionsAndNotifications, setAppIconBadgeNumber } from './notifications';
-import { getAdventureStepMessages, getNotifications, getAdventureSteps } from './requests';
+import {
+  permissionsAndNotifications,
+  setAppIconBadgeNumber,
+} from './notifications';
+
 
 export function loginAction(authToken) {
   // const authToken = authData.access_token;
@@ -46,9 +55,20 @@ export function startupAction() {
 
 // When app focussed again.
 export function wakeupAction() {
-  return async (dispatch, getState)  => {
+  return async (dispatch, getState) => {
     const currentScreen = getState().info?.currentScreen?.screen;
-    LOG( "🌝 function wakeupAction",  {currentScreen});
+    LOG('🌝 function wakeupAction', { currentScreen });
+
+    /* await Linking.getInitialURL().then(
+      (data) => {
+        if ( data ) {
+          Alert.alert(
+            'Deep Link:',
+            data?.url,
+          );
+        }
+      }
+    ); */
 
     /*
     Try to extract dynamiclink with Adventure code passed by Firebase.
@@ -62,7 +82,7 @@ export function wakeupAction() {
 
     await dispatch(permissionsAndNotifications());
     const deviceId = getState().auth.device.id; // TODO: can I move it to the top?
-    dispatch( openSocketAction(deviceId) );
+    dispatch(openSocketAction(deviceId));
 
     // Check on what screen we are and update the required info.
     // My Adventures screen: update invitations and adventures.
@@ -86,31 +106,30 @@ export function wakeupAction() {
 
     // AdventureStepScreen (chat screen)
     if (currentScreen === 'AdventureStepScreen') {
-      const { conversationId, adventureStepId, adventureId } = getState().info?.currentScreen?.data;
-      dispatch(
-        getAdventureStepMessages(
-          conversationId,
-          adventureStepId
-        )
-      );
+      const {
+        conversationId,
+        adventureStepId,
+        adventureId,
+      } = getState().info?.currentScreen?.data;
+      dispatch(getAdventureStepMessages(conversationId, adventureStepId));
       dispatch(getAdventureSteps(adventureId));
     }
 
     // Get notifications every time sockets connections reestablished.
     await dispatch(getNotifications());
-  }
+  };
 }
 
 // When app goes to background.
 export function sleepAction() {
-  LOG( "🌘 function sleepAction", );
+  LOG('🌘 function sleepAction');
   return async dispatch => {
     // No need to close/reopen WebSocket connection anymore:
     // https://github.com/facebook/react-native/issues/26731
     // Not so fast! We need to close sockets to tell the backend to send
     // new notifications via push changed instead of WS.
     dispatch(closeSocketAction());
-  }
+  };
 }
 
 export function requestPremissions(askPermission = true) {
@@ -121,20 +140,18 @@ export function requestPremissions(askPermission = true) {
 
 export function logoutAction() {
   console.log('🚶‍♂️🚪 logoutAction \n\n');
-  return async (dispatch, getState)  => {
-    const deviceId = getState().device?.id;
+  return async (dispatch, getState) => {
+    const deviceId = getState().auth.device?.id;
+    const authToken = getState().auth?.authToken;
     try {
-      // const devices = await dispatch(getDevices());
-      // if (devices && isArray(devices.devices)) {
       if (deviceId) {
-        // const deviceIds = devices.devices.map(d => d.id);
-        if (deviceIds.length > 0) {
+        if (deviceId.length > 0) {
           dispatch(
             revokeAuthToken({
               // eslint-disable-next-line @typescript-eslint/camelcase
               device_ids: [deviceId],
-              token: null,
-            })
+              token: authToken ? authToken : null,
+            }),
           );
         }
       }
@@ -142,7 +159,10 @@ export function logoutAction() {
       await dispatch({ type: REDUX_ACTIONS.LOGOUT });
       setAppIconBadgeNumber(0);
       // Clear data in the local storage if user logout.
-      // TODO: ANDROID!
+      if (Platform.OS === 'android') {
+        FilesystemStorage.clear();
+      }
+      // Both iOS and Android.
       AsyncStorage.clear();
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -174,7 +194,7 @@ export function getMeAction() {
         // eslint-disable-next-line no-console
         console.log('👤 getMe > Fetch error', error);
         throw error;
-      }
+      },
     );
   };
 }
@@ -211,7 +231,7 @@ export function facebookLoginAction(accessToken) {
         // eslint-disable-next-line no-console
         console.log('facebookLoginAction > Login error', error);
         throw error;
-      }
+      },
     );
   };
 }
@@ -241,7 +261,7 @@ export async function facebookGetUserInfo(accessToken) {
           } else {
             resolve(meResult);
           }
-        }
+        },
       );
       // Send the graph request.
       new GraphRequestManager().addRequest(infoRequest).start();
@@ -255,7 +275,7 @@ export async function facebookGetUserInfo(accessToken) {
 export async function facebookRequestPermissions() {
   // Attempt to login using the Facebook login dialog asking for permissions.
   const fbPermissionsRequest = await LoginManager.logInWithPermissions(
-    CONSTANTS.FACEBOOK_SCOPE
+    CONSTANTS.FACEBOOK_SCOPE,
   );
   if (!fbPermissionsRequest.isCancelled) {
     return true;
@@ -306,9 +326,9 @@ export function passwordResetAction(email) {
     try {
       const data = {
         me: {
-          email
-        }
-      }
+          email,
+        },
+      };
       return dispatch(request({ ...ROUTES.FORGOT_PASSWORD, data })).then(
         result => {
           // eslint-disable-next-line no-console
@@ -324,7 +344,7 @@ export function passwordResetAction(email) {
           // eslint-disable-next-line no-console
           console.log('🛑 Login error', error);
           throw error;
-        }
+        },
       );
       Alert.alert(
         'Check Your Email',
@@ -369,14 +389,13 @@ export function userLogin(username, password) {
         // eslint-disable-next-line no-console
         console.log('🛑 Login error', error);
         throw error;
-      }
+      },
     );
   };
 }
 
-
 export function createAccount(user) {
-  console.log( "Auth > createAccount\n", { user } );
+  console.log('Auth > createAccount\n', { user });
   return async (dispatch, getState) => {
     const data = {
       me: {
@@ -390,14 +409,16 @@ export function createAccount(user) {
       },
     };
 
-    return dispatch(request({
-      ...ROUTES.CREATE_ACCOUNT,
-      data,
-      description: "Request CREATE_ACCOUNT"
-      })).then(
+    return dispatch(
+      request({
+        ...ROUTES.CREATE_ACCOUNT,
+        data,
+        description: 'Request CREATE_ACCOUNT',
+      }),
+    ).then(
       userData => {
         // eslint-disable-next-line no-console
-        console.log( "👤 createAccount \n\n", userData );
+        console.log('👤 createAccount \n\n', userData);
         // Received login response do Logout/reset state.
         // logoutAction();
         // Update user data in the state with ones received.
@@ -407,23 +428,25 @@ export function createAccount(user) {
         // eslint-disable-next-line no-console
         console.log('🛑 Create account error', error);
         throw error;
-      }
+      },
     );
   };
 }
 
 export function deleteAccountAction() {
-  console.log( "Auth > deleteAccount" );
+  console.log('Auth > deleteAccount');
   return async (dispatch, getState) => {
     const data = {};
-    return dispatch(request({
-      ...ROUTES.DELETE_ACCOUNT,
-      data,
-      description: "Request DELETE_ACCOUNT"
-      })).then(
+    return dispatch(
+      request({
+        ...ROUTES.DELETE_ACCOUNT,
+        data,
+        description: 'Request DELETE_ACCOUNT',
+      }),
+    ).then(
       success => {
         // eslint-disable-next-line no-console
-        console.log( "👤 Account Deleted \n\n", success );
+        console.log('👤 Account Deleted \n\n', success);
         setAppIconBadgeNumber(0);
         // Clear data in the local storage if user logout.
         // AsyncStorage.clear(); - we do that in the parrent functions
@@ -433,7 +456,7 @@ export function deleteAccountAction() {
         // eslint-disable-next-line no-console
         console.log('🛑 Delete account error', error);
         // return;
-      }
+      },
     );
   };
 }
@@ -445,7 +468,7 @@ export function deleteAccountAction() {
  * @param {object} data - user data to update.
  */
 export function updateMe(data) {
-  console.log( "🔄 auth > updateMe()", { data } );
+  console.log('🔄 auth > updateMe()', { data });
   return async (dispatch, getState) => {
     const userId = getState().auth.user.id;
     if (!userId) return;
@@ -459,16 +482,18 @@ export function updateMe(data) {
       };
     }
 
-    return dispatch(request({ ...ROUTES.UPDATE_ME, pathParams: {userId}, data })).then(
+    return dispatch(
+      request({ ...ROUTES.UPDATE_ME, pathParams: { userId }, data }),
+    ).then(
       userData => {
-        console.log( "User update result:\n", userData );
+        console.log('User update result:\n', userData);
         // Update redux store with data received.
         return dispatch(setUser(userData));
       },
       error => {
         console.log('🛑 Error while updating the user.', error);
         throw error;
-      }
+      },
     );
   };
 }

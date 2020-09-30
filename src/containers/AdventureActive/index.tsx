@@ -1,41 +1,56 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useSafeArea } from 'react-native-safe-area-context';
-// import { StatusBar as RNStatusBar, StatusBarProps } from 'react-native';
-import { View, ScrollView, FlatList, StatusBar, ActivityIndicator } from 'react-native';
-import { useDispatch, useSelector, shallowEqual, useStore } from 'react-redux';
-import { getMyAdventure, getAdventureStepMessages, getAdventureSteps } from '../../actions/requests';
-import { setCurrentScreen } from '../../actions/info';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   getCurrentUserId,
 } from '../../utils/get';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import {
+  View,
+  ScrollView,
+  FlatList,
+  StatusBar,
+  ActivityIndicator
+  Platform,
+  useWindowDimensions,
+} from 'react-native';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import DeviceInfo from 'react-native-device-info';
 import { useFocusEffect } from '@react-navigation/native';
-import { useTranslation } from "react-i18next";
-import AdventureStepCard from '../../components/AdventureStepCard';
+import { useTranslation } from 'react-i18next';
+import SkeletonContent from 'react-native-skeleton-content-nonexpo';
+
+import { setCurrentScreen } from '../../actions/info';
+import { getMyAdventure, interactionVideoPlay, getAdventureStepMessages, getAdventureSteps } from '../../actions/requests';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import Video from '../../components/Video';
 import st from '../../st';
-import { TDataState } from '../../types'
+import { TDataState } from '../../types';
+import theme from '../../theme';
+import AdventureStepsList from '../../components/AdventureStepsList';
+
 import styles from './styles';
 import VokeIcon from '../../components/VokeIcon';
 import Touchable from '../../components/Touchable';
 
 type AdventureActiveProps = {
-  navigation: any,
+  navigation: any;
   route: {
-    name: string,
+    name: string;
     params: {
       adventureId: string;
     };
   };
 };
 
-function AdventureActive({ navigation, route }: AdventureActiveProps): React.ReactElement {
+function AdventureActive({
+  navigation,
+  route,
+}: AdventureActiveProps): React.ReactElement {
   const { t } = useTranslation('journey');
+  const window = useWindowDimensions();
   const dispatch = useDispatch();
-  const insets = useSafeArea();
-  const store = useStore()
-  const allMessages = store.getState().data.adventureStepMessages;
+  const insets = useSafeAreaInsets();
+  const hasNotch = DeviceInfo.hasNotch();
   const { adventureId } = route.params;
   const adventure = useSelector(({ data }: {data: TDataState}) =>
     data.myAdventures?.byId[adventureId] || {});
@@ -47,162 +62,204 @@ function AdventureActive({ navigation, route }: AdventureActiveProps): React.Rea
   const allMessengers = adventure.conversation.messengers || [];
   const userId = getCurrentUserId();
   const isLeader = allMessengers.find(m => m.group_leader && m.id == userId ) || false;
+  const adventureContent = useSelector(
+    ({ data }: { data: TDataState }) =>
+      data.myAdventures?.byId[adventureId]?.item?.content || {},
+    shallowEqual,
+  );
+  const adventureName = useSelector(
+    ({ data }: { data: TDataState }) =>
+      data.myAdventures?.byId[adventureId]?.name || '',
+    shallowEqual,
+  );
+
+  const adventureItemId = useSelector(
+    ({ data }: { data: TDataState }) =>
+      data.myAdventures?.byId[adventureId]?.item?.id || '',
+    shallowEqual,
+  );
 
   const getPendingAdventure = async () => {
-    setIsLoading(true);
-    await dispatch(getMyAdventure(adventureId));
-    setIsLoading(false);
-    getSteps();
+    await dispatch(getMyAdventure(adventureId)).then(
+      data => {
+        // Received Adventure from the server.
+        // getSteps();
+      },
+      error => {
+        // Can't Find Adventure.
+        // eslint-disable-next-line no-consolegetSteps
+        console.log('🛑 Can not Find Adventure.', adventureId);
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'LoggedInApp' }],
+        });
+      },
+    );
   };
 
-  /* useEffect(() => {
-    // If adventure wasn't accepted by a friend yet and not started.
-    if (Object.keys(adventure).length === 0 ) {
-      getPendingAdventure();
-    }
-    // -- ☝️call to import pending adventure info from the server.
-  },[]); */
-
-  const getSteps = async () => {
-    await dispatch(getAdventureSteps(adventureId));
-  }
-
   useEffect(() => {
-    if (Object.keys(adventure).length > 0 ) {
-      getSteps()
-    } else {
+    if (!adventureName) {
       getPendingAdventure();
     }
     // -- ☝️call to update steps from the server.
     // Without it new Adventures won't show any steps.
-  },[adventure?.id]);
-
-  // Prefetch data for the next active step and the steps with new messages.
-  useEffect(() => {
-    for (let [key, step] of Object.entries(steps?.byId)) {
-      preFetchStep(step);
-    }
-  }, [steps?.allIds.length]);
-
-  const preFetchStep = async(step: any) => {
-    const existingMessages = allMessages[step?.id] || [];
-    if (step?.unread_messages > 0 ||
-        (step?.status === 'active' && existingMessages.length > 0 ) ) {
-      await dispatch(
-        getAdventureStepMessages(adventure.conversation.id, step.id)
-      );
-    }
-  }
+  }, [adventureName]);
 
   // Events firing when user leaves the screen or comes back.
   useFocusEffect(
     useCallback(() => {
       // Actions to run when the screen focused:
       // Save current screen and it's parammeters in store.
-      dispatch(setCurrentScreen({
-        screen: route?.name,
-        data: {
-          adventureId,
-        },
-      }));
+      dispatch(
+        setCurrentScreen({
+          screen: route?.name,
+          data: {
+            adventureId,
+          },
+        }),
+      );
 
-      return () => {
+      return (): void => {
         // Actions to run when the screen unfocused:
       };
-    }, [])
+    }, []),
+  );
+
+  const sceletonLayout = useMemo(
+    () => [
+      {
+        key: 'videoBlock',
+        width: '100%',
+        height: window.width / 1.7,
+        borderRadius: 0,
+      },
+    ],
+    [window.width],
   );
 
   return (
-    <Flex value={1}>
-      <View style={{
-        // flex:1,
-        height: insets.top,
-        backgroundColor: isPortrait && insets.top > 0 ? '#000' : 'transparent',
-      }}>
-        <StatusBar
-          animated={true}
-          barStyle="light-content"
-          translucent={true} // Android. The app will draw under the status bar.
-          backgroundColor="transparent" // Android. The background color of the status bar.
-        />
-      </View>
+    <Flex
+      value={1}
+      style={{
+        backgroundColor: theme.colors.primary,
+      }}
+    >
+      {hasNotch ? (
+        <View
+          style={{
+            height: Platform.OS === 'ios' ? insets.top : 0,
+            backgroundColor: insets.top > 0 ? '#000' : 'transparent',
+          }}
+        >
+          <StatusBar
+            animated={false}
+            barStyle="light-content"
+            translucent={false}
+            // translucent={ isPortrait && insets.top > 0 ? false : true } // Android. The app will draw under the status bar.
+            backgroundColor="#000" // Android. The background color of the status bar.
+          />
+        </View>
+      ) : null}
+
       <ScrollView
-        scrollEnabled={isPortrait? true: false}
+        scrollEnabled={true}
         bounces
-        style={[
-        isPortrait ? st.bgBlue: st.bgDeepBlack,
-        { paddingBottom: isPortrait ? insets.bottom : 0 }]}>
+        style={{
+          backgroundColor: theme.colors.primary,
+          paddingBottom: insets.bottom,
+        }}
+      >
         {/* <Flex value={1} direction="row" align="center" justify="center" style={{padding:5}}>
           <Text style={[st.fs18,{ color:'white'}]}>
             {isGroup? adventure.journey_invite.name : adventure.name}
           </Text>
         </Flex> */}
-        {isLoading &&
-          <ActivityIndicator
-            size="large"
-            color="rgba(255,255,255,.5)"
-            style={{
-              paddingTop: 50
-            }}
-          />}
-
-        { ( !isLoading && Object.keys(adventure).length > 0 ) && (
-            <Video
-              onOrientationChange={(orientation: string): void => {
-                setIsPortrait( orientation === 'portrait' ? true : false);
+        <SkeletonContent
+          containerStyle={styles.listOfSteps}
+          isLoading={!adventureItemId}
+          boneColor={theme.colors.deepBlack}
+          highlightColor={theme.colors.black}
+          // animationType={'pulse'}
+          animationDirection={'diagonalTopRight'}
+          duration={2000}
+          layout={sceletonLayout}
+        />
+        {/* This View stays outside of the screen on top
+            and covers blue area with solid black on pull. */}
+        {!!adventureItemId && (
+            <View
+              style={{
+                position: 'absolute',
+                backgroundColor: 'black',
+                left: 0,
+                right: 0,
+                top: -300,
+                height: 300,
               }}
-              item={adventure?.item?.content}
-            >
-              <Flex direction="column" align="center">
-                {/* Call to action overlay to be rendered over the video. */}
+            />)}
+        {!!adventureItemId && (
+          <Video
+            item={adventureContent}
+            lockOrientation={true}
+            onPlay={(): void => {
+              dispatch(
+                interactionVideoPlay({
+                  videoId: adventureItemId,
+                  context: 'journey',
+                }),
+              );
+            }}
+          >
+            <Flex direction="column" align="center">
+              {/* Call to action overlay to be rendered over the video. */}
+              <Text
+                style={{
+                  fontSize: 24,
+                  paddingHorizontal: 25,
+                  paddingVertical: 4,
+                  color: 'white',
+                }}
+              >
+                {adventureName}
+              </Text>
+              <Flex
+                style={{
+                  borderRadius: 20,
+                  backgroundColor: 'rgba(0,0,0,0.8)',
+                  // minWidth: '50%',
+                  alignSelf: 'center',
+                  marginBottom: 10,
+                }}
+              >
                 <Text
                   style={{
-                    fontSize: 24,
-                    paddingHorizontal: 25,
-                    paddingVertical: 4,
+                    fontSize: 16,
+                    paddingHorizontal: 24,
+                    paddingTop: 8,
+                    paddingBottom: 10,
+                    textAlign: 'center',
                     color: 'white',
                   }}
                 >
-                  {adventure.name}
+                  {t('watchTrailer')}
                 </Text>
-                <Flex
-                  style={{
-                    borderRadius: 20,
-                    backgroundColor: 'rgba(0,0,0,0.8)',
-                    // minWidth: '50%',
-                    alignSelf: 'center',
-                    marginBottom: 10,
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      paddingHorizontal: 24,
-                      paddingTop: 8,
-                      paddingBottom: 10,
-                      textAlign: 'center',
-                      color: 'white',
-                    }}
-                  >
-                    {t('watchTrailer')}
-                  </Text>
-                </Flex>
               </Flex>
           </Video>
         )}
 
-        {isGroup && isLeader? (<Touchable onPress={ () =>
-            navigation.navigate('AdventureManage', {
-              adventureId: adventure.id
+        {isGroup && isLeader? (
+          <Touchable
+            onPress={ () =>
+              navigation.navigate('AdventureManage', {
+                adventureId: adventure.id
             })}>
-              <Flex direction="row" justify="end" style={{marginTop:10, marginRight:10}}>
-                <Text style={{fontSize: 18, marginRight:5, color: 'white', textDecorationLine: 'underline'}}>Manage Group</Text>
-                <VokeIcon name="stats-chart-1" size={24}/>
-              </Flex>
-            </Touchable>):null}
+            <Flex direction="row" justify="end" style={{marginTop:10, marginRight:10}}>
+              <Text style={{fontSize: 18, marginRight:5, color: 'white', textDecorationLine: 'underline'}}>Manage Group</Text>
+              <VokeIcon name="stats-chart-1" size={24}/>
+            </Flex>
+          </Touchable>):null}
 
-            { ( !isLoading && isPortrait && Object.keys(adventure).length > 0 ) && (
-          
+        {( !isLoading && isPortrait && Object.keys(adventure).length > 0 ) && (
           <FlatList
             data={steps.allIds}
             renderItem={({item}): React.ReactElement => (
@@ -219,7 +276,9 @@ function AdventureActive({ navigation, route }: AdventureActiveProps): React.Rea
             // removeClippedSubviews={true} // vc-1022
           />
         )}
-        <Flex value={1} style={{ paddingBottom: insets.bottom }}></Flex>
+        <Flex value={1} style={{ paddingBottom: insets.bottom }} />
+        <AdventureStepsList adventureId={adventureId} />
+        <Flex value={1} style={{ paddingBottom: insets.bottom }} />
       </ScrollView>
     </Flex>
   );

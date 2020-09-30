@@ -1,85 +1,107 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../reducers';
-import { useDispatch } from 'react-redux';
-import { useTranslation } from "react-i18next";
+import React, { useRef, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
-import { Alert } from 'react-native';
-import Modal from 'react-native-modal';
-import st from '../../st';
+import { StyleSheet } from 'react-native';
+import { Modalize } from 'react-native-modalize';
+import { Portal } from 'react-native-portalize';
+
+import ModalNotifications from '../../components/ModalNotifications';
+import { RootState } from '../../reducers';
 import Flex from '../Flex';
 import Text from '../Text';
 import Button from '../Button';
 import VokeIcon from '../VokeIcon';
 import theme from '../../theme';
-import BotTalking from '../BotTalking';
-import { requestPremissions } from '../../actions/auth';
-import { REDUX_ACTIONS } from '../../constants';
 
 const NotificationBanner = (): React.ReactElement => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { t } = useTranslation('notifications' );
-  const [modalOpen, setModalOpen] = useState(false);
+  const modalizeRef = useRef<Modalize>(null);
+  const { t } = useTranslation('notifications');
   const me = useSelector(({ auth }: RootState) => auth.user);
   // Current premissions status stroed in
   // store.info.pushNotificationPermission
-  const { pushNotificationPermission } = useSelector(({ info }: RootState) => info);
+  const { pushNotificationPermission } = useSelector(
+    ({ info }: RootState) => info,
+  );
   // Ignore component if permissions already granted.
-  if ( pushNotificationPermission === 'granted') {
+  if (pushNotificationPermission === 'granted') {
     return <></>;
   }
 
-
-  const toggleModal = () => {
-    navigation.navigate('CustomModal', {
-      modalId: 'notifications',
-      primaryAction: () => {},
-    });
-  }
-
-
   return (
     <>
-      <Flex
-        direction="row"
-        style={{ padding: 15, backgroundColor: '#000', height: 60 }}
-        align="start"
-      >
-        <VokeIcon
-          name="notification"
-          style={[
-            st.mt6,
-            st.mr4,
-            { fontSize: 22, color: theme.colors.primary },
-          ]}
-        />
-        <Text style={[st.mt7, { color: theme.colors.white, fontSize: 18 }]}>
-          {t('off')}
-        </Text>
+      <Flex direction="row" style={styles.banner}>
+        <VokeIcon name="notification" style={styles.iconNotification} />
+        <Text style={styles.bannerText}>{t('off')}</Text>
 
         <Button
           isAndroidOpacity
-          onPress={() => toggleModal()}
-          style={[
-            st.ml2,
-            {
-              alignSelf: 'flex-end',
-              borderColor: theme.colors.primary,
-              borderWidth: 2,
-              borderRadius: 32,
-              paddingRight: 15,
-              paddingLeft: 15,
-            },
-          ]}
+          onPress={() => modalizeRef.current?.open()}
+          style={styles.buttonEnable}
         >
-          <Text style={{ color: theme.colors.white, fontSize: 18 }}>
-            {t('turnOn')}
-          </Text>
+          <Text style={styles.bannerButtonLabel}>{t('turnOn')}</Text>
         </Button>
       </Flex>
+      <Portal>
+        <Modalize
+          ref={modalizeRef}
+          modalTopOffset={0}
+          withHandle={false}
+          openAnimationConfig={{
+            timing: { duration: 300 },
+          }}
+          withOverlay={false}
+          modalStyle={{
+            backgroundColor: 'rgba(0,0,0,.85)',
+            minHeight: '100%',
+          }}
+          FooterComponent={null}
+        >
+          <ModalNotifications
+            closeAction={(): void => {
+              modalizeRef.current?.close();
+              /* navigation.navigate('AdventureName', {
+                item,
+                withGroup: true,
+              }); */
+            }}
+          />
+        </Modalize>
+      </Portal>
     </>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  iconNotification: {
+    marginRight: 15,
+    fontSize: 24,
+    color: theme.colors.primary,
+  },
+  banner: {
+    padding: 15,
+    backgroundColor: '#000',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  bannerText: {
+    fontSize: 18,
+    color: theme.colors.white,
+  },
+  buttonEnable: {
+    marginLeft: 30,
+    borderColor: theme.colors.primary,
+    borderWidth: 2,
+    borderRadius: 32,
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+  },
+  bannerButtonLabel: {
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.l,
+  },
+});
 
 export default NotificationBanner;
