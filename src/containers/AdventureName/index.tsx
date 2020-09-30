@@ -5,11 +5,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Modalize } from 'react-native-modalize';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../reducers';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-import CustomTabs from '../../components/CustomTabs';
-import AccountSignIn from '../AccountSignIn';
 import * as Yup from 'yup';
 import useKeyboard from '@rnhooks/keyboard';
 import {
@@ -18,8 +15,12 @@ import {
   ScrollView,
   Platform,
   Keyboard,
+  View,
 } from 'react-native';
 
+import AccountSignIn from '../AccountSignIn';
+import CustomTabs from '../../components/CustomTabs';
+import { RootState } from '../../reducers';
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
@@ -34,6 +35,7 @@ import {
   sendVideoInvitation,
 } from '../../actions/requests';
 import AccountCreate from '../AccountCreate';
+
 import styles from './styles';
 
 function AdventureName(props: any): ReactElement {
@@ -43,10 +45,14 @@ function AdventureName(props: any): ReactElement {
   const [isLoading, setIsLoading] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalHeight, setModalHeight] = useState(0);
   const { item, withGroup, isVideoInvite = false } = props.route.params;
   const email = useSelector(({ auth }: any) => auth?.user?.email);
 
   const modalizeRef = useRef<Modalize>(null);
+  const contentRef = useRef(null);
+  const tabsHeightRef = useRef(null);
+  const [tabsHeight, setTabsHeight] = useState(0);
 
   const onOpen = () => {
     modalizeRef.current?.open();
@@ -69,12 +75,10 @@ function AdventureName(props: any): ReactElement {
     validationSchema: NameValidationSchema,
     onSubmit: async values => {
       Keyboard.dismiss();
-      setModalOpen(true);
-      return;
       // Before sending a group name to the server
       // we need to check if user isn't a guest user.
       if (!email) {
-        console.log('Need to register');
+        setModalOpen(true);
       } else {
         try {
           setIsLoading(true);
@@ -177,16 +181,20 @@ function AdventureName(props: any): ReactElement {
           }}
         >
           <SafeAreaView
-            edges={['left', 'right', 'bottom']}
+            // edges={['left', 'right', 'bottom']}
             style={{
               height: '100%',
               flexDirection: 'column',
               flex: 1,
               alignContent: 'stretch',
               justifyContent: 'center',
+              // backgroundColor: 'blue',
             }}
           >
-            <Flex direction="column" self="stretch">
+            <Flex value={1} direction="column" justify="center">
+              {isKeyboardVisible && (
+                <View style={{ minHeight: theme.spacing.xl }} />
+              )}
               <Flex
                 align="center"
                 justify="center"
@@ -238,80 +246,147 @@ function AdventureName(props: any): ReactElement {
                   </Text>
                 </Touchable>
               </Flex>
-            </Flex>
-            {/* <Flex direction="row" justify="center" style={[st.w100, st.mt1]} /> */}
-            <Flex
-              // value={1}
-              align="center"
-              justify="center"
-              style={{
-                paddingHorizontal: theme.spacing.xl,
-                paddingTop: isKeyboardVisible
-                  ? theme.spacing.l
-                  : theme.spacing.xl,
-                paddingBottom: theme.spacing.xl,
-              }}
-            >
-              <Button
-                onPress={formik.handleSubmit}
-                isLoading={isLoading}
-                testID={'ctaContinue'}
-                touchableStyle={{
-                  padding: theme.spacing.m,
-                  backgroundColor: theme.colors.white,
-                  borderRadius: theme.radius.xxl,
-                  shadowColor: 'rgba(0, 0, 0, 0.5)',
-                  shadowOpacity: 0.5,
-                  elevation: 4,
-                  shadowRadius: 5,
-                  shadowOffset: { width: 1, height: 8 },
-                  width: '100%',
+              <Flex
+                // value={1}
+                align="center"
+                justify="center"
+                style={{
+                  paddingHorizontal: theme.spacing.xl,
+                  paddingTop: isKeyboardVisible
+                    ? theme.spacing.l
+                    : theme.spacing.xl,
+                  // paddingBottom: theme.spacing.xl,
                 }}
               >
-                <Text
-                  style={[st.fs20, st.tac, { color: theme.colors.secondary }]}
+                <Button
+                  onPress={formik.handleSubmit}
+                  isLoading={isLoading}
+                  testID={'ctaContinue'}
+                  touchableStyle={{
+                    padding: theme.spacing.m,
+                    backgroundColor: theme.colors.white,
+                    borderRadius: theme.radius.xxl,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+                    shadowOpacity: 0.5,
+                    elevation: 4,
+                    shadowRadius: 5,
+                    shadowOffset: { width: 1, height: 8 },
+                    width: '100%',
+                  }}
                 >
-                  {t('continue')}
-                </Text>
-              </Button>
-              {/* Safety spacing. */}
-              {/* <Flex style={{ minHeight: theme.spacing.xxl }} /> */}
+                  <Text
+                    style={[st.fs20, st.tac, { color: theme.colors.secondary }]}
+                  >
+                    {t('continue')}
+                  </Text>
+                </Button>
+                {/* Safety spacing. */}
+                {/* <Flex style={{ minHeight: theme.spacing.xxl }} /> */}
+              </Flex>
             </Flex>
+            {/* <Flex direction="row" justify="center" style={[st.w100, st.mt1]} /> */}
             <Modalize
               ref={modalizeRef}
-              modalTopOffset={140}
+              contentRef={ref => {
+                if (ref) {
+                  contentRef.current = ref;
+                }
+              }}
+              modalTopOffset={100}
               handlePosition={'inside'}
               openAnimationConfig={{
-                timing: { duration: 300 }
+                timing: { duration: 300 },
               }}
               onClose={() => setModalOpen(false)}
               modalStyle={{
-                backgroundColor: theme.colors.primary
+                backgroundColor: theme.colors.primary,
+              }}
+              onLayout={e => {
+                setModalHeight(e.layout.height);
               }}
             >
-              <Text style={styles.modalTitle}>{t('modal:accountRequired')}</Text>
-              <CustomTabs
-                tabs={[
-                  {
-                    key: 'signup',
-                    title: t('signUp'),
-                    component: AccountCreate,
-                    testID: 'tabModalSignUp',
-                  },
-                  {
-                    key: 'login',
-                    title: t('login'),
-                    component: AccountSignIn,
-                    testID: 'tabModalLogin',
-                  }
-                ]}
-                // theme={'White'}
-                // If there are any Adventures or Invites:
-                // Show My Adventures tab first.
-                // Otherwise redirect user to Find Adventures.
-                selectedIndex={1}
-              />
-              {/* <AccountSignIn /> */}
+              <View
+                style={{
+                  minHeight: modalHeight,
+                }}
+              >
+                <View
+                  onLayout={({ nativeEvent }) => {
+                    // Calculate of the tabs in pixels.
+                    const layout = nativeEvent?.layout;
+                    if (layout && layout?.height) {
+                      setTabsHeight(layout.height);
+                    }
+                  }}
+                >
+                  <View style={styles.modalTitleArea}>
+                    <View style={styles.modalTitleAction}>
+                      <Touchable
+                        onPress={() => {
+                          modalizeRef.current?.close();
+                        }}
+                        style={styles.buttonTitleCancel}
+                      >
+                        <Text style={styles.buttonLabelTitleCancel}>
+                          {t('cancel')}
+                        </Text>
+                      </Touchable>
+                    </View>
+                    <Text style={styles.modalTitle}>
+                      {t('modal:accountRequiredTitle')}
+                    </Text>
+                    <View style={styles.modalTitleAction}>
+                      <Text>.</Text>
+                    </View>
+                  </View>
+                  <Text style={styles.modalIntro}>
+                    {t('modal:accountRequiredIntro')}
+                  </Text>
+                </View>
+                {/* Kill unwanted rerenders by waiting for tabsHeight & contentRef*/}
+                {!!tabsHeight && contentRef.current && (
+                  <CustomTabs
+                    style={{
+                      flexGrow: 1,
+                    }}
+                    tabs={[
+                      {
+                        key: 'signup',
+                        title: t('signUp'),
+                        component: AccountCreate,
+                        testID: 'tabModalSignUp',
+                        params: {
+                          layout: 'embed',
+                          parentScroll: contentRef,
+                          scrollTo: tabsHeight,
+                          onComplete: () => {
+                            modalizeRef.current?.close();
+                            formik.handleSubmit();
+                          },
+                        },
+                      },
+                      {
+                        key: 'login',
+                        title: t('signIn'),
+                        component: AccountSignIn,
+                        testID: 'tabModalLogin',
+                        params: {
+                          layout: 'embed',
+                          parentScroll: contentRef,
+                          scrollTo: tabsHeight,
+                          onComplete: () => {
+                            modalizeRef.current?.close();
+                            formik.handleSubmit();
+                          },
+                        },
+                      },
+                    ]}
+                    // theme={'White'}
+                    // Need to have a second tab open.
+                    selectedIndex={1}
+                  />
+                )}
+              </View>
             </Modalize>
           </SafeAreaView>
         </DismissKeyboardView>

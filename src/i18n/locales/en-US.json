@@ -116,8 +116,9 @@
         "shareLink": "Share Link",
         "shortPassword": "Your password must be at least 8 characters",
         "signIn": "Sign In",
-        "signInFb": "Sign In with Facebook",
-        "signInApple": "Sign In with Apple",
+        "signInFb": "Sign in with Facebook",
+        "signInApple": "Sign in with Apple",
+        "signInEmail": "Sign in with Email",
         "signOut": "Sign Out",
         "signOutOfAccount": "Sign Out of my account",
         "signUp": "Sign Up",
@@ -284,7 +285,8 @@
         "howDuoWorksTitle": "How Duo Works",
         "howGroupsWorkTitle": "How Groups Work",
         "welcomeTo": "Welcome to ",
-        "accountRequired": "Sign Up or Login to Start a Group",
+        "accountRequiredTitle": "Sign Up or Sign In ",
+        "accountRequiredIntro": "Group owners need protected accounts to manage members.",
     },
     "notifications": {
         "off": "Notifications turned off."
