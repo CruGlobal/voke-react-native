@@ -34,12 +34,14 @@ type Props = {
   layout: string;
   parentScroll: object;
   scrollTo: number;
+  onComplete: any;
 };
 
 const AccountSignIn: React.FC = ({
   layout,
   parentScroll,
-  scrollTo
+  scrollTo,
+  onComplete = false,
 }: Props): React.ReactElement => {
   const scrollRef = useRef<ScrollView>();
   const insets = useSafeArea();
@@ -48,6 +50,7 @@ const AccountSignIn: React.FC = ({
   const headerHeight = useHeaderHeight();
 
   const [formIsVisible, setFormIsVisible] = useState(false);
+
   const [email, setEmail] = useState('');
   const [emailValid, setEmailValid] = useState(false);
   const [password, setPassword] = useState('');
@@ -89,7 +92,11 @@ const AccountSignIn: React.FC = ({
     try {
       await dispatch(userLogin(formik.values.email, formik.values.password));
       setIsLoading(false);
-      navigation.navigate('LoggedInApp');
+      if (onComplete) {
+        onComplete();
+      } else {
+        navigation.navigate('LoggedInApp');
+      }
     } catch (e) {
       // eslint-disable-next-line no-console
       console.log('🛑 Error on login \n', { e });
@@ -157,6 +164,7 @@ const AccountSignIn: React.FC = ({
                     style={styles.buttonSignInPrimary}
                     onPress={(): void => {
                       setFormIsVisible(true);
+                      emailRef?.current?.focus();
                       setTimeout(() => {
                         emailRef?.current?.focus();
                       }, 400);
@@ -195,7 +203,7 @@ const AccountSignIn: React.FC = ({
                         // Android do that all for us automatically.
                         // Need timeout for Keyboard to appear and scroll become available
                         setTimeout(() => {
-                          parentScroll.current
+                          parentScroll?.current
                             ?.getScrollResponder()
                             .scrollTo({x: 0, y: scrollTo, animated: true});
                         }, 400);

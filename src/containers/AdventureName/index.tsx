@@ -38,35 +38,6 @@ import AccountCreate from '../AccountCreate';
 
 import styles from './styles';
 
-const contentRef = { current: null };
-const tabsHeightRef = { current: null };
-
-const AccountCreateEmbed = () => {
-  return (
-    <AccountCreate
-      layout="embed"
-      parentScroll={contentRef}
-      scrollTo={tabsHeightRef?.current}
-    />
-  );
-  // Signal to the 'AccountCreate' component,
-  // that it won't be rendered as a screen
-  // but embeded inside a tab.
-};
-
-const AccountSignInEmbed = () => {
-  return (
-    <AccountSignIn
-      layout="embed"
-      parentScroll={contentRef}
-      scrollTo={tabsHeightRef?.current}
-    />
-  );
-  // Signal to the 'AccountSignIn' component,
-  // that it won't be rendered as a screen
-  // but embeded inside a tab.
-};
-
 function AdventureName(props: any): ReactElement {
   const { t } = useTranslation('share');
   const navigation = useNavigation();
@@ -79,6 +50,9 @@ function AdventureName(props: any): ReactElement {
   const email = useSelector(({ auth }: any) => auth?.user?.email);
 
   const modalizeRef = useRef<Modalize>(null);
+  const contentRef = useRef(null);
+  const tabsHeightRef = useRef(null);
+  const [tabsHeight, setTabsHeight] = useState(0);
 
   const onOpen = () => {
     modalizeRef.current?.open();
@@ -319,7 +293,7 @@ function AdventureName(props: any): ReactElement {
                     // Calculate of the tabs in pixels.
                     const layout = nativeEvent?.layout;
                     if (layout && layout?.height) {
-                      tabsHeightRef.current = layout.height;
+                      setTabsHeight(layout.height);
                     }
                   }}
                 >
@@ -347,28 +321,49 @@ function AdventureName(props: any): ReactElement {
                     {t('modal:accountRequiredIntro')}
                   </Text>
                 </View>
-                <CustomTabs
-                  style={{
-                    flexGrow: 1,
-                  }}
-                  tabs={[
-                    {
-                      key: 'signup',
-                      title: t('signUp'),
-                      component: AccountCreateEmbed,
-                      testID: 'tabModalSignUp',
-                    },
-                    {
-                      key: 'login',
-                      title: t('signIn'),
-                      component: AccountSignInEmbed,
-                      testID: 'tabModalLogin',
-                    },
-                  ]}
-                  // theme={'White'}
-                  // Need to have a second tab open.
-                  selectedIndex={1}
-                />
+                {/* Kill unwanted rerenders by waiting for tabsHeight & contentRef*/}
+                {!!tabsHeight && contentRef.current && (
+                  <CustomTabs
+                    style={{
+                      flexGrow: 1,
+                    }}
+                    tabs={[
+                      {
+                        key: 'signup',
+                        title: t('signUp'),
+                        component: AccountCreate,
+                        testID: 'tabModalSignUp',
+                        params: {
+                          layout: 'embed',
+                          parentScroll: contentRef,
+                          scrollTo: tabsHeight,
+                          onComplete: () => {
+                            modalizeRef.current?.close();
+                            formik.handleSubmit();
+                          },
+                        },
+                      },
+                      {
+                        key: 'login',
+                        title: t('signIn'),
+                        component: AccountSignIn,
+                        testID: 'tabModalLogin',
+                        params: {
+                          layout: 'embed',
+                          parentScroll: contentRef,
+                          scrollTo: tabsHeight,
+                          onComplete: () => {
+                            modalizeRef.current?.close();
+                            formik.handleSubmit();
+                          },
+                        },
+                      },
+                    ]}
+                    // theme={'White'}
+                    // Need to have a second tab open.
+                    selectedIndex={1}
+                  />
+                )}
               </View>
             </Modalize>
           </SafeAreaView>
