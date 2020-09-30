@@ -3,8 +3,7 @@ import { SafeAreaView, useSafeArea } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { ScrollView } from 'react-native';
-
+import { ScrollView, Alert } from 'react-native';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import Image from '../../components/Image';
@@ -18,6 +17,7 @@ import Button from '../../components/Button';
 import Touchable from '../../components/Touchable';
 import VokeIcon from '../../components/VokeIcon';
 import DEFAULT_AVATAR from '../../assets/defaultAvatar.png';
+import { createIconSetFromFontello } from 'react-native-vector-icons';
 
 import styles from './styles';
 
@@ -35,6 +35,7 @@ function AllMembersModal(props) {
     i => i.first_name !== 'VokeBot',
     // i => i.first_name !== 'VokeBot' && (i || {}).id !== (me || {}).id,
   );
+  const isLeaderView = messengers.find(i => i.id == me.id && i.group_leader) || false
   const smallCircle = st.fullWidth / 2 - 90;
   const smallBox = st.fullWidth / 2 - 50;
   const leaderBox = st.fullWidth / 2 - 30;
@@ -57,9 +58,8 @@ function AllMembersModal(props) {
               onPress={() => navigation.goBack()}
             >
               <VokeIcon
-                type="image"
-                name="leftArrow"
-                style={[st.h(22), st.w(22), st.white]}
+                name="chevron-back-outline"
+                size={18}
               />
             </Touchable>
           </Flex>
@@ -127,6 +127,15 @@ function AllMembersModal(props) {
                   },
                 ]}
               >
+                { isLeaderView && !messenger.group_leader?
+                  <Touchable style={{ position:'absolute', right:-15, top:-10}}
+                  //TODO: Hook up Remove
+                    onPress={()=> Alert.alert("Remove Pressed")}> 
+                    <VokeIcon name="close-circle" size={34} />
+                  </Touchable>
+                  :null
+                }
+
                 {!messenger.avatar ? (
                   <Flex align="center" justify="center" style={[st.pt3]}>
                     <Image

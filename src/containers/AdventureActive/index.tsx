@@ -1,9 +1,14 @@
-import React, { useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import {
+  getCurrentUserId,
+} from '../../utils/get';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   View,
   ScrollView,
+  FlatList,
   StatusBar,
+  ActivityIndicator
   Platform,
   useWindowDimensions,
 } from 'react-native';
@@ -14,7 +19,7 @@ import { useTranslation } from 'react-i18next';
 import SkeletonContent from 'react-native-skeleton-content-nonexpo';
 
 import { setCurrentScreen } from '../../actions/info';
-import { getMyAdventure, interactionVideoPlay } from '../../actions/requests';
+import { getMyAdventure, interactionVideoPlay, getAdventureStepMessages, getAdventureSteps } from '../../actions/requests';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import Video from '../../components/Video';
@@ -24,6 +29,8 @@ import theme from '../../theme';
 import AdventureStepsList from '../../components/AdventureStepsList';
 
 import styles from './styles';
+import VokeIcon from '../../components/VokeIcon';
+import Touchable from '../../components/Touchable';
 
 type AdventureActiveProps = {
   navigation: any;
@@ -45,6 +52,16 @@ function AdventureActive({
   const insets = useSafeAreaInsets();
   const hasNotch = DeviceInfo.hasNotch();
   const { adventureId } = route.params;
+  const adventure = useSelector(({ data }: {data: TDataState}) =>
+    data.myAdventures?.byId[adventureId] || {});
+  const steps = useSelector(({ data }: {data: TDataState}) =>
+    data.adventureSteps[adventureId], shallowEqual)  || {byId:{}, allIds: []};
+  const [isPortrait, setIsPortrait] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const isGroup = adventure.kind === 'multiple';
+  const allMessengers = adventure.conversation.messengers || [];
+  const userId = getCurrentUserId();
+  const isLeader = allMessengers.find(m => m.group_leader && m.id == userId ) || false;
   const adventureContent = useSelector(
     ({ data }: { data: TDataState }) =>
       data.myAdventures?.byId[adventureId]?.item?.content || {},
@@ -227,9 +244,39 @@ function AdventureActive({
                   {t('watchTrailer')}
                 </Text>
               </Flex>
-            </Flex>
           </Video>
         )}
+
+        {isGroup && isLeader? (
+          <Touchable
+            onPress={ () =>
+              navigation.navigate('AdventureManage', {
+                adventureId: adventure.id
+            })}>
+            <Flex direction="row" justify="end" style={{marginTop:10, marginRight:10}}>
+              <Text style={{fontSize: 18, marginRight:5, color: 'white', textDecorationLine: 'underline'}}>Manage Group</Text>
+              <VokeIcon name="stats-chart-1" size={24}/>
+            </Flex>
+          </Touchable>):null}
+
+        {( !isLoading && isPortrait && Object.keys(adventure).length > 0 ) && (
+          <FlatList
+            data={steps.allIds}
+            renderItem={({item}): React.ReactElement => (
+              item && <AdventureStepCard
+                // {...props}
+                // step={steps.byId[stepId].item}
+                stepId = {item}
+                adventureId={adventureId}
+                // steps={currentSteps}
+                // adventure={adventure} //! !!
+              />
+            )}
+            style={[styles.ListOfSteps]}
+            // removeClippedSubviews={true} // vc-1022
+          />
+        )}
+        <Flex value={1} style={{ paddingBottom: insets.bottom }} />
         <AdventureStepsList adventureId={adventureId} />
         <Flex value={1} style={{ paddingBottom: insets.bottom }} />
       </ScrollView>
