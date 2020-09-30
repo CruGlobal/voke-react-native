@@ -42,6 +42,8 @@ import AdventureName from './containers/AdventureName';
 import AdventureShareCode from './containers/AdventureShareCode';
 import AdventureActive from './containers/AdventureActive';
 import AdventureStepScreen from './containers/AdventureStepScreen';
+import GroupReleaseType from './containers/GroupReleaseType';
+import GroupReleaseDate from './containers/GroupReleaseDate';
 import VideosSearch from './containers/VideosSearch';
 import AllMembersModal from './containers/AllMembersModal';
 import AdventureCode from './containers/AdventureCode';
@@ -758,7 +760,6 @@ const App = () => {
               // headerShown: false
             }
           }
-          // mode="modal"
         >
           <AppStack.Screen
             name="Root"
@@ -780,6 +781,32 @@ const App = () => {
               headerLeft: () => <HeaderLeft hasBack />,
             })}
           />
+          <AppStack.Screen
+          name="GroupReleaseType"
+          component={GroupReleaseType}
+          options={({ navigation }) => ({
+            ...transparentHeaderConfig,
+            headerStyle: {
+              ...transparentHeaderConfig.headerStyle,
+            },
+            cardStyle: { backgroundColor: theme.colors.primary },
+            title: '',
+            headerLeft: () => <HeaderLeft hasBack />,
+          })}
+        />
+        <AppStack.Screen
+          name="GroupReleaseDate"
+          component={GroupReleaseDate}
+          options={({ navigation }) => ({
+            ...transparentHeaderConfig,
+            headerStyle: {
+              ...transparentHeaderConfig.headerStyle,
+            },
+            cardStyle: { backgroundColor: theme.colors.primary },
+            title: '',
+            headerLeft: () => <HeaderLeft hasBack />,
+          })}
+        />
           <AppStack.Screen
             name="AdventureShareCode"
             component={AdventureShareCode}

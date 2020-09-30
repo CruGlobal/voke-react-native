@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React, { useState, ReactElement, useRef, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Modalize } from 'react-native-modalize';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -83,35 +83,44 @@ function AdventureName(props: any): ReactElement {
         try {
           setIsLoading(true);
           let result;
-          if (isVideoInvite) {
-            // TODO: check this scenario.
-            result = await dispatch(
-              sendVideoInvitation({
-                name: values.name,
-                item_id: `${item.id}`,
-              }),
-            );
-          } else {
-            result = await dispatch(
-              sendAdventureInvitation({
-                organization_journey_id: item.id,
-                name: values.name,
-                kind: withGroup ? 'multiple' : 'duo',
-              }),
-            );
-          }
-
-          if (result?.id) {
-            navigation.navigate('AdventureShareCode', {
-              invitation: result,
-              withGroup,
-              isVideoInvite,
+          if (withGroup) {
+            // GROUP Adventure
+            navigation.navigate('GroupReleaseType', {
+              groupName: values.name,
+              itemId: `${item.id}`,
             });
           } else {
-            Alert.alert(
-              'Failed to create a valid invite.',
-              'Please try again.',
-            );
+            // DUO or SOLO  Adventure
+            if (isVideoInvite) {
+              // TODO: check this scenario.
+              result = await dispatch(
+                sendVideoInvitation({
+                  name: values.name,
+                  item_id: `${item.id}`,
+                }),
+              );
+            } else {
+              result = await dispatch(
+                sendAdventureInvitation({
+                  organization_journey_id: item.id,
+                  name: values.name,
+                  kind: withGroup ? 'multiple' : 'duo',
+                }),
+              );
+            }
+
+            if (result?.id) {
+              navigation.navigate('AdventureShareCode', {
+                invitation: result,
+                withGroup,
+                isVideoInvite,
+              });
+            } else {
+              Alert.alert(
+                'Failed to create a valid invite.',
+                'Please try again.',
+              );
+            }
           }
         } catch (e) {
           if (e?.message === 'Network request failed') {
@@ -133,6 +142,19 @@ function AdventureName(props: any): ReactElement {
       modalizeRef.current?.close();
     }
   }, [modalOpen]);
+
+  useFocusEffect(
+    // eslint-disable-next-line arrow-body-style
+    React.useCallback(() => {
+      // When the screen is focused:
+      // - Do something here.
+      setIsLoading(false);
+      return (): void => {
+        // When the screen is unfocused:
+        // - Pause video.
+      };
+    }, []),
+  );
 
   return (
     <KeyboardAvoidingView
