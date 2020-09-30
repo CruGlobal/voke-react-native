@@ -126,9 +126,6 @@ const GroupReleaseDate = (props): React.ReactElement => {
               // and it should be on UTC
             }),
           );
-
-          console.log( "🐸 result:", result );
-
           setIsLoading(false);
 
           if (result?.id) {
