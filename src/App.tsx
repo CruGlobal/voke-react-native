@@ -41,6 +41,8 @@ import AdventureName from './containers/AdventureName';
 import AdventureShareCode from './containers/AdventureShareCode';
 import AdventureActive from './containers/AdventureActive';
 import AdventureStepScreen from './containers/AdventureStepScreen';
+import GroupReleaseType from './containers/GroupReleaseType';
+import GroupReleaseDate from './containers/GroupReleaseDate';
 import VideosSearch from './containers/VideosSearch';
 import AllMembersModal from './containers/AllMembersModal';
 import AdventureCode from './containers/AdventureCode';
@@ -121,7 +123,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
             : null,
       });
     }
-  }, [route?.state?.routes.length])
+  }, [route?.state?.routes.length]);
 
   return (
     <AdventureStack.Navigator
@@ -757,8 +759,8 @@ const App = () => {
           {
             // headerShown: false
           }
+          // mode="modal"
         }
-        // mode="modal"
       >
         <AppStack.Screen
           name="Root"
@@ -767,40 +769,64 @@ const App = () => {
             headerShown: false,
           }}
         />
-        <AppStack.Screen
-          name="CustomModal"
-          component={CustomModal}
-          // options={{ headerShown: false }}
+        {/* <AppStack.Screen
+          name="AdventureName"
+          component={AdventureName}
           options={({ navigation }) => ({
-            headerShown: true,
-            headerLeft: false,
+            ...transparentHeaderConfig,
+            headerStyle: {
+              ...transparentHeaderConfig.headerStyle,
+            },
+            cardStyle: { backgroundColor: theme.colors.primary },
+            title: '',
+            headerLeft: () => <HeaderLeft hasBack />,
+          })}
+        /> */}
+        <AppStack.Screen
+          name="GroupReleaseType"
+          component={GroupReleaseType}
+          options={({ navigation }) => ({
+            ...transparentHeaderConfig,
+            headerStyle: {
+              ...transparentHeaderConfig.headerStyle,
+            },
+            cardStyle: { backgroundColor: theme.colors.primary },
+            title: '',
+            headerLeft: () => <HeaderLeft hasBack />,
+          })}
+        />
+        <AppStack.Screen
+          name="GroupReleaseDate"
+          component={GroupReleaseDate}
+          options={({ navigation }) => ({
+            ...transparentHeaderConfig,
+            headerStyle: {
+              ...transparentHeaderConfig.headerStyle,
+            },
+            cardStyle: { backgroundColor: theme.colors.primary },
+            title: '',
+            headerLeft: () => <HeaderLeft hasBack />,
+          })}
+        />
+        {/* <AppStack.Screen
+          name="AdventureShareCode"
+          component={AdventureShareCode}
+          options={({ navigation }) => ({
+            ...transparentHeaderConfig,
+            headerStyle: {
+              ...transparentHeaderConfig.headerStyle,
+            },
+            cardStyle: { backgroundColor: theme.colors.primary },
+            title: '',
+            headerLeft: () => <></>,
             headerRight: () => (
               <Touchable
                 onPress={() => {
-                  // Get the index of the route to see if we can go back.
-                  const { index } = navigation.dangerouslyGetState();
-                  if (index > 0) {
-                    navigation.goBack();
-                  } else {
-                    navigation.reset({
-                      index: 0,
-                      routes: [{ name: 'LoggedInApp' }],
-                    });
-                  }
+                  navigation.dispatch(StackActions.popToTop());
                 }}
-                testID={'ctaHeaderClose'}
+                testID={'ctaHeaderDone'}
               >
-                <Text
-                  style={[
-                    st.white,
-                    st.fs18,
-                    {
-                      paddingHorizontal: theme.spacing.l,
-                    },
-                  ]}
-                >
-                  {t('close')}
-                </Text>
+                <Text>{t('close')}</Text>
               </Touchable>
             ),
             cardStyle: { backgroundColor: 'rgba(0,0,0,.9)' },
@@ -816,7 +842,7 @@ const App = () => {
             },
             title: '',
           })}
-        />
+        /> */}
         <AppStack.Screen
           name="AdventureName"
           component={AdventureName}
