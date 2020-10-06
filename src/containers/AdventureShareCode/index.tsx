@@ -22,6 +22,7 @@ import Touchable from '../../components/Touchable';
 import { toastAction } from '../../actions/info';
 
 function AdventureShareCode(props) {
+  const { invitation, withGroup, isVideoInvite } = props.route.params;
   const modalizeRef = useRef<Modalize>(null);
   const insets = useSafeArea();
   const navigation = useNavigation();
@@ -31,7 +32,6 @@ function AdventureShareCode(props) {
     ({ info }: RootState) => info,
   );
   const askedNotifications = useRef(false);
-  const { invitation, withGroup, isVideoInvite } = props.route.params;
   const headerHeight = useHeaderHeight();
   const windowDimensions = Dimensions.get('window');
   const [modalId, setModalId] = useState(null);

@@ -113,6 +113,10 @@ const ROUTES = {
     method: 'delete',
     url: `me/journeys/{adventureId}`,
   },
+  UPDATE_ADVENTURE: {
+    method: 'put',
+    url: `me/journeys/{adventureId}`,
+  },
   GET_ADVENTURE_INVITATIONS: { method: 'get', url: `me/journey_invites` },
   SEND_ADVENTURE_INVITATION: { method: 'post', url: `me/journey_invites` },
   RESEND_ADVENTURE_INVITATION: {

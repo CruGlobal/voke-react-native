@@ -7,7 +7,6 @@ import { Modalize } from 'react-native-modalize';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-import VokeIcon from '../../components/VokeIcon';
 import * as Yup from 'yup';
 import useKeyboard from '@rnhooks/keyboard';
 import Carousel from 'react-native-snap-carousel';
@@ -21,10 +20,7 @@ import {
   Dimensions,
 } from 'react-native';
 
-import AccountSignIn from '../AccountSignIn';
-import CustomTabs from '../../components/CustomTabs';
-import { RootState } from '../../reducers';
-import DismissKeyboardView from '../../components/DismissKeyboardHOC';
+import VokeIcon from '../../components/VokeIcon';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import TextField from '../../components/TextField';
@@ -42,6 +38,14 @@ import AccountCreate from '../AccountCreate';
 import styles from './styles';
 
 function GroupReleaseType(props: any): ReactElement {
+  const {
+    groupName,
+    itemId,
+    releaseSchedule,
+    releaseDate,
+    editing = false,
+    adventureId,
+  } = props.route.params;
   const { t } = useTranslation('share');
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -49,7 +53,6 @@ function GroupReleaseType(props: any): ReactElement {
   const [showHelp, setShowHelp] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalHeight, setModalHeight] = useState(0);
-  const { groupName, itemId } = props.route.params;
   const { width, height } = Dimensions.get('window');
   // const email = useSelector(({ auth }: any) => auth?.user?.email);
 
@@ -121,13 +124,16 @@ function GroupReleaseType(props: any): ReactElement {
     },
   });
 
-  const cardAction = (type) =>{
+  const cardAction = type => {
     navigation.navigate('GroupReleaseDate', {
       groupName: groupName,
       itemId: itemId,
       releaseSchedule: type,
+      editing: editing,
+      releaseDate: releaseDate,
+      adventureId: adventureId,
     });
-  }
+  };
 
   const renderItem = ({ item, index }) => {
     return (
@@ -146,21 +152,25 @@ function GroupReleaseType(props: any): ReactElement {
         <VokeIcon
           name={item.icon}
           style={{
-            color:theme.colors.primary
+            color: theme.colors.primary,
           }}
           size={50}
         />
         <Text style={{ fontSize: theme.fontSizes.xxl }}>{item.title}</Text>
         <Text>{item.description}</Text>
-        <Text style={{
-          color: theme.colors.orange,
-          // position: 'absolute',
-           top: -theme.spacing.s,
-        }}>{index === 0 ? t('recommended') : ''}</Text>
+        <Text
+          style={{
+            color: theme.colors.orange,
+            // position: 'absolute',
+            top: -theme.spacing.s,
+          }}
+        >
+          {index === 0 ? t('recommended') : ''}
+        </Text>
         <Button
           onPress={item.buttonAction}
           // isLoading={isLoading}
-          testID={'ctaContinue'+index}
+          testID={'ctaContinue' + index}
           touchableStyle={{
             padding: theme.spacing.s,
             backgroundColor: theme.colors.secondary,
@@ -173,16 +183,35 @@ function GroupReleaseType(props: any): ReactElement {
             width: '60%',
           }}
         >
-          <Text style={{ 
-            fontSize: theme.fontSizes.l,
-            lineHeight: theme.fontSizes.l*1.5,
-            textAlign:'center', color: theme.colors.white,
-            }}>
+          <Text
+            style={{
+              fontSize: theme.fontSizes.l,
+              lineHeight: theme.fontSizes.l * 1.5,
+              textAlign: 'center',
+              color: theme.colors.white,
+            }}
+          >
             {t('select')}
           </Text>
         </Button>
       </View>
     );
+  };
+
+  const initalItem = currentSchedule => {
+    switch (currentSchedule) {
+      case 'daily':
+        return 1;
+        break;
+      case 'weekly':
+        return 0;
+        break;
+      case 'manual':
+        return 2;
+      default:
+        return 0;
+        break;
+    }
   };
 
   return (
@@ -240,6 +269,7 @@ function GroupReleaseType(props: any): ReactElement {
             <View style={{ minHeight: theme.spacing.xl }} />
             <Flex direction="column" justify="center">
               <Carousel
+                firstItem={initalItem(releaseSchedule)}
                 containerCustomStyle={
                   {
                     // backgroundColor: 'rgba(0,0,0,.3)'
@@ -252,14 +282,14 @@ function GroupReleaseType(props: any): ReactElement {
                     title: 'Weekly Releases',
                     description: 'Automatically release videos once a week.',
                     buttonLabel: 'Select',
-                    buttonAction: ()=>cardAction('weekly'),
+                    buttonAction: () => cardAction('weekly'),
                   },
                   {
                     icon: 'date',
                     title: 'Daily Releases',
                     description: 'Automatically release videos every day.',
                     buttonLabel: 'Select',
-                    buttonAction: ()=>cardAction('daily'),
+                    buttonAction: () => cardAction('daily'),
                   },
                   {
                     icon: 'cog',
@@ -267,15 +297,11 @@ function GroupReleaseType(props: any): ReactElement {
                     description:
                       'Release videos manually, whenever you’re ready.',
                     buttonLabel: 'Select',
-                    buttonAction: ()=>cardAction('manual'),
+                    buttonAction: () => cardAction('manual'),
                   },
                 ]}
                 renderItem={renderItem}
                 sliderWidth={width}
-                // sliderHeight={width}
-                //  - theme.spacing.xl*2
-                // itemWidth={width-width/4}
-                // itemHeight={400}
                 itemWidth={width - 80}
                 layout={'default'}
                 removeClippedSubviews={false}

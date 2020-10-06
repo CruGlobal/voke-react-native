@@ -1097,3 +1097,27 @@ export function updateVideoIsPlayingState(newState) {
     });
   };
 }
+
+export function updateAdventure(newAdventureData: any) {
+  return async (dispatch: Dispatch, getState: any) => {
+    const adventureId =newAdventureData.id;
+    // let results: any;
+    const data = await dispatch(
+      request({
+        ...ROUTES.UPDATE_ADVENTURE,
+        pathParams: { adventureId },
+        data: newAdventureData,
+        description: 'Update adventure release date on the server',
+      }),
+    );
+
+    // Update data in the store.
+    dispatch({
+      type: REDUX_ACTIONS.UPDATE_ADVENTURE,
+      data: data,
+      description: 'Calling from updateAdventure.',
+    });
+
+    return data;
+  };
+}

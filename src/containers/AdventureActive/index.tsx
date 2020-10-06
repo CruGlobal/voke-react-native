@@ -8,7 +8,7 @@ import {
   ScrollView,
   FlatList,
   StatusBar,
-  ActivityIndicator
+  ActivityIndicator,
   Platform,
   useWindowDimensions,
 } from 'react-native';
@@ -17,7 +17,7 @@ import DeviceInfo from 'react-native-device-info';
 import { useFocusEffect } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import SkeletonContent from 'react-native-skeleton-content-nonexpo';
-
+import AdventureStepCard from '../../components/AdventureStepCard';
 import { setCurrentScreen } from '../../actions/info';
 import { getMyAdventure, interactionVideoPlay, getAdventureStepMessages, getAdventureSteps } from '../../actions/requests';
 import Flex from '../../components/Flex';
@@ -59,7 +59,7 @@ function AdventureActive({
   const [isPortrait, setIsPortrait] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const isGroup = adventure.kind === 'multiple';
-  const allMessengers = adventure.conversation.messengers || [];
+  const allMessengers = adventure?.conversation?.messengers || [];
   const userId = getCurrentUserId();
   const isLeader = allMessengers.find(m => m.group_leader && m.id == userId ) || false;
   const adventureContent = useSelector(
@@ -244,39 +244,22 @@ function AdventureActive({
                   {t('watchTrailer')}
                 </Text>
               </Flex>
+            </Flex>
           </Video>
         )}
 
         {isGroup && isLeader? (
+          <View style={styles.ctaManageContainer}>
           <Touchable
             onPress={ () =>
               navigation.navigate('AdventureManage', {
                 adventureId: adventure.id
-            })}>
-            <Flex direction="row" justify="end" style={{marginTop:10, marginRight:10}}>
-              <Text style={{fontSize: 18, marginRight:5, color: 'white', textDecorationLine: 'underline'}}>Manage Group</Text>
-              <VokeIcon name="stats-chart-1" size={24}/>
-            </Flex>
-          </Touchable>):null}
-
-        {( !isLoading && isPortrait && Object.keys(adventure).length > 0 ) && (
-          <FlatList
-            data={steps.allIds}
-            renderItem={({item}): React.ReactElement => (
-              item && <AdventureStepCard
-                // {...props}
-                // step={steps.byId[stepId].item}
-                stepId = {item}
-                adventureId={adventureId}
-                // steps={currentSteps}
-                // adventure={adventure} //! !!
-              />
-            )}
-            style={[styles.ListOfSteps]}
-            // removeClippedSubviews={true} // vc-1022
-          />
-        )}
-        <Flex value={1} style={{ paddingBottom: insets.bottom }} />
+            })}
+            style={styles.ctaManage}
+          >
+              <VokeIcon name="stats-chart-1" size={28} style={styles.ctaManageIcon} />
+              <Text style={styles.ctaManageLabel}>{t('manageGroup:leaderZone')}</Text>
+          </Touchable></View>):null}
         <AdventureStepsList adventureId={adventureId} />
         <Flex value={1} style={{ paddingBottom: insets.bottom }} />
       </ScrollView>

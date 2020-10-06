@@ -23,22 +23,29 @@ import Button from '../../components/Button';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import { toastAction } from '../../actions/info';
-import { sendAdventureInvitation } from '../../actions/requests';
+import { sendAdventureInvitation, updateAdventure } from '../../actions/requests';
 
 import styles from './styles';
 
 const GroupReleaseDate = (props): React.ReactElement => {
+  const { groupName, itemId, releaseSchedule, editing, releaseDate, adventureId } = props?.route?.params;
   const { t } = useTranslation('share');
-  const { groupName, itemId, releaseSchedule } = props?.route?.params;
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
+
+  console.log( "🦐 moment(releaseDate).format('dddd'):", moment(releaseDate).format('dddd') );
+
   // Hooks:
-  const [weekday, setWeekday] = useState(moment().format('dddd'));
-  const [time, setTime] = useState(
-    moment().add(1, 'hours').minute(0).format('h:mm A'),
+  const [weekday, setWeekday] = useState(
+    editing ? moment(releaseDate).format('dddd') :
+    moment().format('dddd')
   );
-  const [date, setDate] = useState();
+  const [time, setTime] = useState(
+    editing ? moment(releaseDate).format('h:mm A') :
+    moment().add(1, 'hours').minute(0).format('h:mm A')
+  );
+  const [date, setDate] = useState(releaseDate);
   const [gatingPeriod, setGatingPeriod] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -70,7 +77,11 @@ const GroupReleaseDate = (props): React.ReactElement => {
     // - if date in the past diff > 0
     if (diff > 0) {
       // Set the next week new date is already in the past.
-      newDate = newDate.add(1, 'weeks');
+      if(releaseSchedule === 'weekly') {
+        newDate = newDate.add(1, 'weeks');
+      } else {
+        newDate = newDate.add(1, 'days');
+      }
     }
     setDate(newDate);
   }, [weekday, time]);
@@ -80,33 +91,42 @@ const GroupReleaseDate = (props): React.ReactElement => {
 
     try {
       setIsLoading(true);
-
-      const result = await dispatch(
-        sendAdventureInvitation({
-          // eslint-disable-next-line camelcase
-          organization_journey_id: itemId,
-          name: groupName,
-          kind: 'multiple',
-          // eslint-disable-next-line camelcase
-          gating_period: gatingPeriod,
-          // Total of days between every step (default 0)
-          // - if you want it to be daily it should be: 1;
-          // - if you want it to be weekly it should be: 7
-          // eslint-disable-next-line camelcase
-          gating_start_at: moment(date).utc().format(),
-          // defines when the journey should start,
-          // and all of the operations are going to be over this period;
-          // you have to send a datetime on this field
-          // and it should be on UTC
-        }),
-      );
+      let result;
+      if(editing) {
+        result = await dispatch(
+          updateAdventure({
+            id: adventureId,
+            gating_period: gatingPeriod,
+            gating_start_at: moment(date).utc().format(),
+          })
+        );
+      } else {
+        result = await dispatch(
+          // TODO NOT CREATE EDIT ADVENTURE!
+          sendAdventureInvitation({
+            // eslint-disable-next-line camelcase
+            organization_journey_id: itemId,
+            name: groupName,
+            kind: 'multiple',
+            // eslint-disable-next-line camelcase
+            gating_period: gatingPeriod,
+            // Total of days between every step (default 0)
+            // - if you want it to be daily it should be: 1;
+            // - if you want it to be weekly it should be: 7
+            // eslint-disable-next-line camelcase
+            gating_start_at: moment(date).utc().format(),
+            // defines when the journey should start,
+            // and all of the operations are going to be over this period;
+            // you have to send a datetime on this field
+            // and it should be on UTC
+          }),
+        );
+      }
       setIsLoading(false);
 
       if (result?.id) {
-        navigation.navigate('AdventureShareCode', {
-          invitation: result,
-          withGroup: true,
-          isVideoInvite: false,
+        navigation.navigate('AdventureManage', {
+          adventureId: result?.id,
         });
       } else {
         Alert.alert('Failed to create a valid invite.', 'Please try again.');

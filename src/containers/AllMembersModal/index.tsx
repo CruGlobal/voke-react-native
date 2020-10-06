@@ -30,7 +30,7 @@ function AllMembersModal(props) {
   const [isLoading, setIsLoading] = useState(false);
   const { adventure, isJoined } = props.route.params;
   const adventureId = props.route.params.adventure.messenger_journey_id;
-  const allMessengers = adventure.conversation.messengers || [];
+  const allMessengers = adventure?.conversation?.messengers || [];
   const messengers = allMessengers.filter(
     i => i.first_name !== 'VokeBot',
     // i => i.first_name !== 'VokeBot' && (i || {}).id !== (me || {}).id,
