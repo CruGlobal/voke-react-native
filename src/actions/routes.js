@@ -180,6 +180,14 @@ const ROUTES = {
     method: 'post',
     url: `me/journeys/{adventureId}/reports`,
   },
+  DELETE_COMPLAIN: {
+    method: 'delete',
+    url: `me/journeys/{adventureId}/reports/{reportId}`,
+  },
+  APPROVE_COMPLAIN: {
+    method: 'patch',
+    url: `me/journeys/{adventureId}/reports/{reportId}/approve`,
+  },
   GET_COMPLAINS: {
     method: 'get',
     url: `me/journeys/{adventureId}/reports`,

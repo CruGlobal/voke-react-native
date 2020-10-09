@@ -7,7 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 
-import {createComplain} from '../../actions/requests';
+import { createComplain } from '../../actions/requests';
 import Text from '../Text';
 import VokeIcon from '../VokeIcon';
 import { RootState } from '../../reducers';
@@ -35,18 +35,19 @@ const Complain = () => {
     };
   }, [complain?.messageId]);
 
+  useEffect(() => {
+    clearComplain();
+  }, []);
+
   const clearComplain = () => {
     dispatch({ type: REDUX_ACTIONS.CLEAR_COMPLAIN });
-  }
+    setComplainSubmited(false);
+  };
 
   const closeModal = (): void => {
     clearComplain();
     modalizeRef.current?.close();
   };
-
-  useEffect(() => {
-    // clearComplain();
-  }, [])
 
   const sendComplain = async (reason: string): void => {
     const result = await dispatch(
@@ -56,7 +57,7 @@ const Complain = () => {
         comment: reason,
       }),
     );
-    clearComplain();
+    // clearComplain();
     if (result) {
       setComplainSubmited(true);
     }

@@ -27,7 +27,14 @@ const sharredStyles = {
     lineHeight: theme.fontSizes.l * 1.5,
     textAlign: 'center',
     color: theme.colors.secondary,
-  }
+  },
+  complainActions: {
+    flexDirection: 'row',
+    paddingHorizontal: theme.spacing.l,
+    justifyContent: 'space-around',
+    width: '100%',
+    paddingVertical: theme.spacing.xs,
+  },
 };
 
 const styles = StyleSheet.create({
@@ -266,12 +273,12 @@ const styles = StyleSheet.create({
     paddingBottom: theme.spacing.m,
   },
   complainActions: {
-    flexDirection: 'row',
-    paddingHorizontal: theme.spacing.l,
-    justifyContent: 'space-around',
-    width: '100%',
-    paddingVertical: theme.spacing.xs,
+    ...sharredStyles.complainActions
   },
+ /*  complainActionsInactive: {
+    ...sharredStyles.complainActions,
+    opacity:.5,
+  }, */
   complainActionBlock: {
     ...sharredStyles.smallButton,
   },
@@ -285,6 +292,10 @@ const styles = StyleSheet.create({
   complainActionAllowLabel: {
     ...sharredStyles.smallButtonLabel,
     color: theme.colors.green,
+  },
+  complainActionIcon: {
+    color: theme.colors.primary,
+    paddingBottom: theme.spacing.s,
   },
 
   /* modalTitleArea: {

@@ -1138,6 +1138,32 @@ export function createComplain({ messageId, adventureId, comment }) {
   };
 }
 
+export function ignoreComplain({ reportId, adventureId }) {
+  return async (dispatch: Dispatch, getState: any) => {
+    const data = await dispatch(
+      request({
+        ...ROUTES.DELETE_COMPLAIN,
+        pathParams: { adventureId, reportId },
+        description: 'Ignore/Delete complain on the server',
+      }),
+    );
+    return data;
+  };
+}
+
+export function approveComplain({ reportId, adventureId }) {
+  return async (dispatch: Dispatch, getState: any) => {
+    const data = await dispatch(
+      request({
+        ...ROUTES.APPROVE_COMPLAIN,
+        pathParams: { adventureId, reportId },
+        description: 'Approve complain on the server',
+      }),
+    );
+    return data;
+  };
+}
+
 export function getComplains({ adventureId }) {
   return async (dispatch: Dispatch, getState: any) => {
     const data = await dispatch(

@@ -18,9 +18,9 @@ import DateComponent from '../DateComponent';
 import AdventureStepMessageInput from '../AdventureStepMessageInput';
 import { getCurrentUserId } from '../../utils/get';
 import { TAdventureSingle, TAdventureStepSingle, TMessage } from '../../types';
+import Touchable from '../Touchable';
 
 import styles from './styles';
-import Touchable from '../Touchable';
 
 type MessageProps = {
   item: TMessage;
@@ -287,46 +287,50 @@ function AdventureStepMessage({
                 format="MMM D @ h:mm A"
               />
               {/* <Text style={styles.messageMetaActions}>・</Text> */}
-              <Menu
-                ref={reportMenuRef}
-                // onHidden={()=>{}}
-                button={
-                  <Text
-                    style={styles.messageMetaActions}
-                    onPress={reportMenuRef?.current?.show}
+              {
+                // Prevent reporting it's own messages 🤪.
+                // Remove this condition if more actions added later.
+                message.messenger_id !== userId && (
+                  <Menu
+                    ref={reportMenuRef}
+                    // onHidden={()=>{}}
+                    button={
+                      <Text
+                        style={styles.messageMetaActions}
+                        onPress={reportMenuRef?.current?.show}
+                      >
+                        {t('more')}
+                      </Text>
+                    }
                   >
-                    {t('more')}
-                  </Text>
-                }
-              >
-                <Touchable
-                  onPress={() => {
-                    dispatch(
-                      setComplain({
-                        messageId: message.id,
-                        adventureId: adventure.id,
-                      }),
-                    );
-                    reportMenuRef?.current?.hide();
-                  }}
-                  style={styles.actionReport}
-                >
-                  <VokeIcon
-                    name="warning"
-                    size={20}
-                    style={styles.actionReportIcon}
-                  />
-                  <Text style={styles.actionReportLabel}>
-                    {' '}
-                    {t('conversations:report')}
-                  </Text>
-                </Touchable>
-                {/* 
-                <MenuDivider />
-                <MenuItem onPress={reportMenuRef?.current?.hideMenu}>
-                  Menu item 4
-                </MenuItem> */}
-              </Menu>
+                    <Touchable
+                      onPress={(): void => {
+                        // Prevent reporting it's own messages 🤪.
+                        if (message.messenger_id !== userId) {
+                          dispatch(
+                            setComplain({
+                              messageId: message.id,
+                              adventureId: adventure.id,
+                            }),
+                          );
+                        }
+                        reportMenuRef?.current?.hide();
+                      }}
+                      style={styles.actionReport}
+                    >
+                      <VokeIcon
+                        name="warning"
+                        size={20}
+                        style={styles.actionReportIcon}
+                      />
+                      <Text style={styles.actionReportLabel}>
+                        {' '}
+                        {t('conversations:report')}
+                      </Text>
+                    </Touchable>
+                  </Menu>
+                )
+              }
             </Flex>
           </Flex>
         </Flex>
