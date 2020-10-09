@@ -2,6 +2,34 @@ import { StyleSheet } from 'react-native';
 
 import theme from '../../theme';
 
+const sharredStyles = {
+  avatarCommon: {
+    width: 42,
+    height: 42,
+    borderRadius: 99,
+    borderWidth: 2,
+    borderColor: '#fff',
+  },
+  smallButton: {
+    paddingVertical: theme.spacing.xs,
+    paddingHorizontal: theme.spacing.l,
+    backgroundColor: theme.colors.white,
+    borderRadius: theme.radius.xxl,
+    shadowColor: 'rgba(0, 0, 0, 0.5)',
+    shadowOpacity: 0.5,
+    elevation: 4,
+    shadowRadius: 5,
+    shadowOffset: { width: 1, height: 8 },
+    // width: '60%',
+  },
+  smallButtonLabel: {
+    fontSize: theme.fontSizes.l,
+    lineHeight: theme.fontSizes.l * 1.5,
+    textAlign: 'center',
+    color: theme.colors.secondary,
+  }
+};
+
 const styles = StyleSheet.create({
   screen: {
     backgroundColor: theme.colors.primary,
@@ -45,6 +73,9 @@ const styles = StyleSheet.create({
   sectionTitle: {
     color: theme.colors.white,
     fontSize: theme.fontSizes.l,
+    paddingTop: theme.spacing.m,
+    // paddingHorizontal: theme.spacing.l,
+    // paddingHorizontal: theme.spacing.l,
   },
   manageMembers: {
     color: theme.colors.secondary,
@@ -94,8 +125,8 @@ const styles = StyleSheet.create({
   membersAddButtonAltIconBlock: {
     backgroundColor: theme.colors.white,
     borderRadius: theme.radius.xxl,
-    width:42,
-    height:42,
+    width: 42,
+    height: 42,
     justifyContent: 'center',
   },
   membersAddButtonAltIcon: {
@@ -116,13 +147,9 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   avatar: {
-    width: 42,
-    height: 42,
-    borderRadius: 99,
-    borderWidth: 2,
-    borderColor: '#fff',
+    ...sharredStyles.avatarCommon,
     marginLeft: -3,
-    zIndex:1,
+    zIndex: 1,
   },
   avatarInGroup: {
     // avatar
@@ -140,7 +167,12 @@ const styles = StyleSheet.create({
   },
   complains: {
     paddingVertical: theme.spacing.l,
+    // paddingHorizontal: theme.spacing.l,
+  },
+  complainsTitle: {
     paddingHorizontal: theme.spacing.l,
+    /* paddingTop: theme.spacing.l, */
+    paddingBottom: theme.spacing.l,
   },
   complainsBlock: {
     minHeight: 140,
@@ -161,9 +193,100 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.m,
     color: theme.colors.secondary,
   },
+  complain: {
+    backgroundColor: theme.colors.white,
+    borderRadius: theme.radius.l,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    overflow: 'hidden',
+  },
+  reportedMessage: {
+    width: '100%',
+    paddingHorizontal: theme.spacing.l,
+    paddingVertical: theme.spacing.m,
+  },
+  reportedUser: {
+    flexDirection: 'row',
+    width: '100%',
+    alignItems: 'center',
+    paddingBottom: theme.spacing.m,
+  },
+  reportedUserAvatar: {
+    ...sharredStyles.avatarCommon,
+    width: 36,
+    height: 36,
+  },
+  reportedUserName: {
+    paddingLeft: theme.spacing.s,
+    fontSize: theme.fontSizes.l,
+    fontFamily: theme.fonts.semiBold,
+    color: theme.colors.secondary,
+  },
+  reportedMessageContent: {
+    minHeight: 60,
+    justifyContent: 'center',
+  },
+  reportedMessageText: {
+    fontSize: theme.fontSizes.l,
+    color: theme.colors.secondary,
+    textAlign: 'center',
+    paddingBottom: theme.spacing.m,
+  },
   reportedMessageSecondary: {
-    backgroundColor:'blue',
-  }
+    backgroundColor: theme.colors.secondary,
+    // flexDirection: 'row',
+    width: '100%',
+    alignItems: 'center',
+    paddingVertical: theme.spacing.m,
+    paddingHorizontal: theme.spacing.m,
+  },
+  reporter: {
+    flexDirection: 'row',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    opacity:.75,
+  },
+  reporterAvatar: {
+    ...sharredStyles.avatarCommon,
+    width: 28,
+    height: 28,
+    borderWidth: 1.25,
+  },
+  reporterName: {
+    paddingHorizontal: theme.spacing.s,
+    fontSize: theme.fontSizes.xs,
+    color: theme.colors.white,
+  },
+  reportedComment: {
+    fontSize: theme.fontSizes.l,
+    color: theme.colors.white,
+    paddingTop: theme.spacing.s,
+    paddingBottom: theme.spacing.m,
+  },
+  complainActions: {
+    flexDirection: 'row',
+    paddingHorizontal: theme.spacing.l,
+    justifyContent: 'space-around',
+    width: '100%',
+    paddingVertical: theme.spacing.xs,
+  },
+  complainActionBlock: {
+    ...sharredStyles.smallButton,
+  },
+  complainActionAllow: {
+    ...sharredStyles.smallButton,
+  },
+  complainActionBlockLabel: {
+    ...sharredStyles.smallButtonLabel,
+    color: theme.colors.red,
+  },
+  complainActionAllowLabel: {
+    ...sharredStyles.smallButtonLabel,
+    color: theme.colors.green,
+  },
+
   /* modalTitleArea: {
     paddingBottom: theme.spacing.s,
     flexDirection: 'row',
