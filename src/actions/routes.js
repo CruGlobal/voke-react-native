@@ -175,6 +175,22 @@ const ROUTES = {
   GET_OLD_CONVERSATIONS: {
     method: 'post',
     url: `me/export_data_requests`,
+  },
+  CREATE_COMPLAIN: {
+    method: 'post',
+    url: `me/journeys/{adventureId}/reports`,
+  },
+  DELETE_COMPLAIN: {
+    method: 'delete',
+    url: `me/journeys/{adventureId}/reports/{reportId}`,
+  },
+  APPROVE_COMPLAIN: {
+    method: 'patch',
+    url: `me/journeys/{adventureId}/reports/{reportId}/approve`,
+  },
+  GET_COMPLAINS: {
+    method: 'get',
+    url: `me/journeys/{adventureId}/reports`,
   }
 };
 

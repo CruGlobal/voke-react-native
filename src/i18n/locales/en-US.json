@@ -240,7 +240,8 @@
         "nullText": "I will let you know when your friends are watching the videos you shared.",
         "questionBlock": "Would you also like to block and report this person?",
         "thisPerson": "this person",
-        "why": "Please describe why you are reporting this person"
+        "why": "Please describe why you are reporting this person",
+        "report": "Report"
     },
     "imagePicker": {
         "new": "New Picture",
@@ -316,7 +317,17 @@
         "toEdit": "To edit, select the item you would like to edit."
     },
     "reportModal": {
-        "title": "Please describe why you are reporting this person"
+        "modalTitle":" Report a User",
+        "title": "Please describe why you are reporting this person",
+        "introText":"Help us understand. What is going on with this message?",
+        "bullying":"Bullying, teasing or verbal abuse",
+        "inappropriate":"Inappropriate content",
+        "spam":"Spam or fraud",
+        "submited": "Your report was submitted to the group leader to take action.",
+        "reportingFooter":"Reporting a user can result in them being banned from using this app.",
+        "learnMore":"Learn more",
+        "aboutReporting":"about reporting and community violations."
+
     },
     "settings": {
         "acknowledgements": "Acknowledgements",
@@ -438,7 +449,10 @@
         "seeAllMembers":"See all members",
         "noReportedMessages":"No Reported Messages",
         "deleteGroup":"Delete Group",
-        "leaderZone":"Leader Zone"
+        "leaderZone":"Leader Zone",
+        "reportedBy":"Reported by:",
+        "block":"Block",
+        "allow":"Allow"
     },
     "share": {
         "previewLinkReady": "{{name}}\u2019s invite is ready! The link below shares the Adventure trailer for {{name}} to watch and decide on joining you.",

@@ -122,7 +122,7 @@ function AdventureManage({
             }
           />
         </Flex>
-        <ReportedMessages />
+        <ReportedMessages adventureId={adventureId} />
 
         <View style={styles.footer}>
           <Touchable>

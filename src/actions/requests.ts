@@ -554,7 +554,6 @@ export function createAdventureStepMessage(params: {
         }),
       );
 
-
       // SAVE RESPONSE FROM THE SERVER TO THE STORE.
       dispatch({
         type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
@@ -1100,7 +1099,7 @@ export function updateVideoIsPlayingState(newState) {
 
 export function updateAdventure(newAdventureData: any) {
   return async (dispatch: Dispatch, getState: any) => {
-    const adventureId =newAdventureData.id;
+    const adventureId = newAdventureData.id;
     // let results: any;
     const data = await dispatch(
       request({
@@ -1118,6 +1117,62 @@ export function updateAdventure(newAdventureData: any) {
       description: 'Calling from updateAdventure.',
     });
 
+    return data;
+  };
+}
+
+export function createComplain({ messageId, adventureId, comment }) {
+  return async (dispatch: Dispatch, getState: any) => {
+    const data = await dispatch(
+      request({
+        ...ROUTES.CREATE_COMPLAIN,
+        pathParams: { adventureId },
+        data: {
+          message_id: messageId,
+          comment: comment,
+        },
+        description: 'Create complain on the server',
+      }),
+    );
+    return data;
+  };
+}
+
+export function ignoreComplain({ reportId, adventureId }) {
+  return async (dispatch: Dispatch, getState: any) => {
+    const data = await dispatch(
+      request({
+        ...ROUTES.DELETE_COMPLAIN,
+        pathParams: { adventureId, reportId },
+        description: 'Ignore/Delete complain on the server',
+      }),
+    );
+    return data;
+  };
+}
+
+export function approveComplain({ reportId, adventureId }) {
+  return async (dispatch: Dispatch, getState: any) => {
+    const data = await dispatch(
+      request({
+        ...ROUTES.APPROVE_COMPLAIN,
+        pathParams: { adventureId, reportId },
+        description: 'Approve complain on the server',
+      }),
+    );
+    return data;
+  };
+}
+
+export function getComplains({ adventureId }) {
+  return async (dispatch: Dispatch, getState: any) => {
+    const data = await dispatch(
+      request({
+        ...ROUTES.GET_COMPLAINS,
+        pathParams: { adventureId },
+        description: 'Get complains from the server for adventureId: ' + adventureId,
+      }),
+    );
     return data;
   };
 }

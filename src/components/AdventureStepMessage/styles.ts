@@ -9,8 +9,8 @@ const sharedStyles = {
     height: 25,
     width: 25,
     borderRadius: 50,
-  }
-}
+  },
+};
 
 const styles = StyleSheet.create({
   listLoading: {
@@ -42,6 +42,14 @@ const styles = StyleSheet.create({
     padding: theme.spacing.m,
     backgroundColor: 'rgba(0,0,0,.2)',
   },
+  messageAuthor: {
+    color: theme.colors.white,
+    paddingTop: theme.spacing.s,
+    paddingHorizontal: theme.spacing.m,
+    marginBottom: -theme.spacing.s,
+    fontFamily: theme.fonts.semiBold,
+    opacity: 0.75,
+  },
   userAvatar: {
     ...sharedStyles.avatar,
     left: -30,
@@ -70,8 +78,30 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.accent,
   },
   messageMeta: {
-
-  }
+    paddingTop: theme.spacing.xs,
+  },
+  messageMetaActions: {
+    color: theme.colors.white,
+    paddingLeft: theme.spacing.m,
+    fontSize: theme.fontSizes.xs,
+  },
+  actionReport: {
+    justifyContent: 'flex-start',
+    alignSelf: 'center',
+    paddingVertical: 10,
+    paddingLeft: 10,
+    paddingRight: 14,
+    flexDirection: 'row',
+    width: '100%',
+  },
+  actionReportIcon: {
+    color: theme.colors.red,
+    fontSize: theme.fontSizes.xl,
+  },
+  actionReportLabel: {
+    color: theme.colors.red,
+    fontSize: theme.fontSizes.m,
+  },
 });
 
 export default styles;

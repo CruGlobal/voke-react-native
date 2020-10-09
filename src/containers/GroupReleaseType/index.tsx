@@ -169,7 +169,6 @@ function GroupReleaseType(props: any): ReactElement {
         </Text>
         <Button
           onPress={item.buttonAction}
-          // isLoading={isLoading}
           testID={'ctaContinue' + index}
           touchableStyle={{
             padding: theme.spacing.s,

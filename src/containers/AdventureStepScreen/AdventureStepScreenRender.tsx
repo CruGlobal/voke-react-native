@@ -23,6 +23,7 @@ import {
   getAdventureSteps,
 } from '../../actions/requests';
 import { toastAction } from '../../actions/info';
+import Complain from '../../components/Complain';
 import AdventureStepMessageInput from '../../components/AdventureStepMessageInput';
 import AdventureStepNextAction from '../../components/AdventureStepNextAction';
 import AdventureStepMessage from '../../components/AdventureStepMessage';
@@ -493,6 +494,7 @@ const AdventureStepScreenRender = ({
             />
           </View>
         )}
+        <Complain />
       </KeyboardAvoidingView>
     </View>
   );

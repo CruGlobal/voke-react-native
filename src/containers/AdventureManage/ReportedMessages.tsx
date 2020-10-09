@@ -1,155 +1,185 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Dimensions } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 import Carousel from 'react-native-snap-carousel';
 
+import {
+  getComplains,
+  ignoreComplain,
+  approveComplain,
+} from '../../actions/requests';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
-import Touchable from '../../components/Touchable';
 import Button from '../../components/Button';
-import VokeIcon from '../../components/VokeIcon';
 import Image from '../../components/Image';
+import VokeIcon from '../../components/VokeIcon';
 
+// import SingleReport from './SingleReport';
 import styles from './styles';
-import theme from '../../theme';
-
-const Message = ({ item, index }) => {
-  // const { t } = useTranslation('manageGroup');
-  // const { width, height } = Dimensions.get('window');
-  const t = (text) => {
-    return text;
-  }
-  const width = 200
-  return (
-    <View
-      style={{
-        backgroundColor: 'floralwhite',
-        borderRadius: theme.radius.l,
-        height: width * 0.8,
-        // width: 100,
-        paddingHorizontal: theme.spacing.l,
-        paddingVertical: theme.spacing.xl,
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}
-    >
-      <Text>Jesica Davis</Text>
-      <Text>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</Text>
-      <View style={styles.reportedMessageSecondary}>
-        <Text>Reported by: Ben Franklin</Text>
-        <Text>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</Text>
-        <Button
-          onPress={item.buttonAction}
-          // isLoading={isLoading}
-          testID={'ctaContinue' + index}
-          touchableStyle={{
-            padding: theme.spacing.s,
-            backgroundColor: theme.colors.secondary,
-            borderRadius: theme.radius.xxl,
-            shadowColor: 'rgba(0, 0, 0, 0.5)',
-            shadowOpacity: 0.5,
-            elevation: 4,
-            shadowRadius: 5,
-            shadowOffset: { width: 1, height: 8 },
-            width: '60%',
-          }}
-        >
-          <Text
-            style={{
-              fontSize: theme.fontSizes.l,
-              lineHeight: theme.fontSizes.l * 1.5,
-              textAlign: 'center',
-              color: theme.colors.white,
-            }}
-          >
-            {t('block')}
-          </Text>
-        </Button>
-        <Button
-          onPress={item.buttonAction}
-          // isLoading={isLoading}
-          testID={'ctaContinue' + index}
-          touchableStyle={{
-            padding: theme.spacing.s,
-            backgroundColor: theme.colors.secondary,
-            borderRadius: theme.radius.xxl,
-            shadowColor: 'rgba(0, 0, 0, 0.5)',
-            shadowOpacity: 0.5,
-            elevation: 4,
-            shadowRadius: 5,
-            shadowOffset: { width: 1, height: 8 },
-            width: '60%',
-          }}
-        >
-          <Text
-            style={{
-              fontSize: theme.fontSizes.l,
-              lineHeight: theme.fontSizes.l * 1.5,
-              textAlign: 'center',
-              color: theme.colors.white,
-            }}
-          >
-            {t('allow')}
-          </Text>
-        </Button>
-      </View>
-    </View>
-  );
-};
 
 const ReportedMessages = ({ adventureId }) => {
   const { t } = useTranslation('manageGroup');
   const { width, height } = Dimensions.get('window');
+  const dispatch = useDispatch();
+  const [complains, setComplains] = useState([]);
+
+  const getAdventureComplains = async adventureId => {
+    const complains = await dispatch(
+      getComplains({ adventureId: adventureId }),
+    );
+    if (complains?.reports.length) {
+      setComplains(complains?.reports);
+    }
+  };
+
+  useEffect(() => {
+    if (adventureId) {
+      getAdventureComplains(adventureId);
+    }
+  }, []);
+
+  const complainActionAllow = async ({ adventureId, reportId }) => {
+    const result = await dispatch(
+      ignoreComplain({
+        adventureId: adventureId,
+        reportId: reportId,
+      }),
+    );
+
+    if (result?.status === 'denied') {
+      const modifiedComplains = [...complains];
+      complains.forEach((complain, index) => {
+        if (complain.id === reportId) {
+          modifiedComplains[index].status = 'denied';
+        }
+      });
+      setComplains(modifiedComplains);
+    }
+  };
+
+  const complainActionBlock = async ({ adventureId, reportId }) => {
+    const result = await dispatch(
+      approveComplain({
+        adventureId: adventureId,
+        reportId: reportId,
+      }),
+    );
+
+    if (result?.status === 'pending') {
+      const modifiedComplains = [...complains];
+      complains.forEach((complain, index) => {
+        if (complain.id === reportId) {
+          modifiedComplains[index].status = 'approved';
+        }
+      });
+      setComplains(modifiedComplains);
+    }
+  };
+
+  const SingleReport = ({ item, index }) => {
+    return (
+      <View style={styles.complain}>
+        <View style={styles.reportedMessage}>
+          <View style={styles.reportedUser}>
+            <Image
+              uri={item.reported.avatar.small}
+              style={styles.reportedUserAvatar}
+            />
+            <Text style={styles.reportedUserName}>
+              {item.reported.first_name} {item.reported.last_name}
+            </Text>
+          </View>
+          <View style={styles.reportedMessageContent}>
+            <Text style={styles.reportedMessageText}>
+              {item.message_content}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.reportedMessageSecondary}>
+          <View style={styles.reporter}>
+            <Text style={styles.reporterName}>{t('reportedBy')}</Text>
+            <Image
+              uri={item.reporter.avatar.small}
+              style={styles.reporterAvatar}
+            />
+            <Text style={styles.reporterName}>
+              {item.reporter.first_name} {item.reporter.last_name}
+            </Text>
+          </View>
+          <Text style={styles.reportedComment}>{item.comment}</Text>
+          <View style={styles.complainActions}>
+            {item.status === 'pending' ? (
+              <>
+                <Button
+                  onPress={() =>
+                    complainActionBlock({
+                      adventureId: adventureId,
+                      reportId: item.id,
+                    })
+                  }
+                  testID={'ctaContinue' + index}
+                  touchableStyle={styles.complainActionBlock}
+                  disabled={item.status !== 'pending' ? true : false}
+                >
+                  <Text style={styles.complainActionBlockLabel}>
+                    {t('block')}
+                  </Text>
+                </Button>
+                <Button
+                  onPress={() =>
+                    complainActionAllow({
+                      adventureId: adventureId,
+                      reportId: item.id,
+                    })
+                  }
+                  testID={'ctaContinue' + index}
+                  touchableStyle={styles.complainActionAllow}
+                  disabled={item.status !== 'pending' ? true : false}
+                >
+                  <Text style={styles.complainActionAllowLabel}>
+                    {t('allow')}
+                  </Text>
+                </Button>
+              </>
+            ) : (
+              <VokeIcon
+                name={'check_circle'}
+                style={styles.complainActionIcon}
+                size={26}
+              />
+            )}
+          </View>
+        </View>
+      </View>
+    );
+  };
 
   return (
     <View style={styles.complains}>
-      <Text style={styles.sectionTitle}>{t('reportedMessages')}</Text>
-      <Flex
-        direction="column"
-        align="center"
-        justify="center"
-        style={styles.complainsBlock}
-      >
-        <Text style={styles.complainsEmpty}>{t('noReportedMessages')}</Text>
-      </Flex>
-      <Carousel
-        firstItem={0}
-        containerCustomStyle={
-          {
-            // backgroundColor: 'rgba(0,0,0,.3)'
-          }
-        }
-        // ref={(c) => { this._carousel = c; }}
-        data={[
-          {
-            icon: 'month',
-            title: 'Weekly Releases',
-            description: 'Automatically release videos once a week.',
-            buttonLabel: 'Select',
-            buttonAction: () => cardAction('weekly'),
-          },
-          {
-            icon: 'date',
-            title: 'Daily Releases',
-            description: 'Automatically release videos every day.',
-            buttonLabel: 'Select',
-            buttonAction: () => cardAction('daily'),
-          },
-          {
-            icon: 'cog',
-            title: 'Manual Releases',
-            description: 'Release videos manually, whenever you’re ready.',
-            buttonLabel: 'Select',
-            buttonAction: () => cardAction('manual'),
-          },
-        ]}
-        renderItem={Message}
-        sliderWidth={width}
-        itemWidth={width - 80}
-        layout={'default'}
-        removeClippedSubviews={false}
-        // onSnapToItem={(index) => this.setState({ slider1ActiveSlide: index }) }
-      />
+      <View style={styles.complainsTitle}>
+        <Text style={styles.sectionTitle}>{t('reportedMessages')}</Text>
+      </View>
+      {!complains.length ? (
+        <Flex
+          direction="column"
+          align="center"
+          justify="center"
+          style={styles.complainsBlock}
+        >
+          <Text style={styles.complainsEmpty}>{t('noReportedMessages')}</Text>
+        </Flex>
+      ) : (
+        <Carousel
+          firstItem={0}
+          data={complains}
+          renderItem={SingleReport}
+          sliderWidth={width}
+          itemWidth={width - 80}
+          layout={'default'}
+          removeClippedSubviews={false}
+        />
+      )}
     </View>
   );
 };
