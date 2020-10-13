@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
-    // backgroundColor: theme.colors.accent,
   },
 
   answerContainer: {

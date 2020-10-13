@@ -42,7 +42,6 @@ const AccountPass: React.FC = (): React.ReactElement => {
   const newPasswordRef = useRef<TextInput>(null);
   const confirmNewPasswordRef = useRef<TextInput>(null);
   const [topMargin, setTopMargin] = useState(0);
-  const headerHeight = useHeaderHeight();
   const [isKeyboardVisible] = useKeyboard({
     useWillShow: true,
     useWillHide: true,

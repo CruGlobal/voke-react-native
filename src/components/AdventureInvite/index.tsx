@@ -16,26 +16,13 @@ import Flex from '../Flex';
 import styles from './styles';
 import { useSelector, useDispatch } from 'react-redux';
 import useInterval from '../../utils/useInterval';
+import {getExpiredTime} from '../../utils/get';
 import { resendAdventureInvitation, deleteAdventureInvitation, getAdventuresInvitations, getAvailableAdventures } from '../../actions/requests';
 import theme from '../../theme';
 
 const THUMBNAIL_WIDTH = 140;
 
-function getExpiredTime(date: string) {
-  const nowMoment = moment();
-  const expireMoment = moment.utc(date);
-  const diff = moment(expireMoment).diff(nowMoment);
-  const diffDuration = moment.duration(diff);
-  const days = diffDuration.days();
-  const hours = diffDuration.hours();
-  const minutes = diffDuration.minutes();
 
-  // TODO: Translate it.
-  const str = `${days > 0 ? `${days} day${days !== 1 ? 's' : ''} ` : ''}${
-    hours > 0 ? `${hours} hr${hours !== 1 ? 's' : ''} ` : ''
-  }${minutes >= 0 ? `${minutes} min ` : ''}`;
-  return { str, isTimeExpired: (diff < 0) };
-}
 
 type InviteItemProps = {
   inviteID: string;

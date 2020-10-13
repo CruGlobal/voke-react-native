@@ -13,9 +13,11 @@ import st from '../../st';
 import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
 import {
-  getStepsByAdventureId,
   getAdventureById,
   getCurrentUserId,
+  getNextReleaseDate,
+  getDiffToDate,
+  getTimeToDate,
 } from '../../utils/get';
 
 import styles from './styles';
@@ -45,6 +47,15 @@ const AdventureStepNextAction = ({
   const isComplete = step?.status === 'completed';
   const isWaiting =
     step?.status === 'active' && step['completed_by_messenger?'];
+  const isGroup = adventure.kind === 'multiple';
+
+  const scheduledRelease = !!adventure.gating_period;
+  const nextReleaseDate = getNextReleaseDate({
+    startDate: adventure.gating_start_at,
+    releasePeriod: adventure.gating_period,
+  });
+
+  const nextReleaseIn = getDiffToDate(nextReleaseDate);
 
   // Too early to show something.
   // Current user didn't touch this step and no one commented.
@@ -93,11 +104,7 @@ const AdventureStepNextAction = ({
           ]}
         >
           <Flex direction="row" align="center" justify="center">
-            <VokeIcon
-              name="couple"
-              size={26}
-              style={styles.iconAction}
-            />
+            <VokeIcon name="couple" size={26} style={styles.iconAction} />
             <Text style={[st.darkBlue, st.fs20]}>{t('withFriend')}</Text>
           </Flex>
         </Button>
@@ -126,11 +133,7 @@ const AdventureStepNextAction = ({
           ]}
         >
           <Flex direction="row" align="center" justify="center">
-            <VokeIcon
-              name="group"
-              size={32}
-              style={styles.iconAction}
-            />
+            <VokeIcon name="group" size={32} style={styles.iconAction} />
             <Text style={[st.darkBlue, st.fs20]}>{t('withGroup')}</Text>
           </Flex>
         </Button>
@@ -162,7 +165,9 @@ const AdventureStepNextAction = ({
     text = t('waitingForAnswer', { name: userName });
   }
 
-  // this.props.scrollToEnd();
+  if (isGroup && scheduledRelease) {
+    text = t('share:nextVideoRelease') + "\n " + nextReleaseIn;
+  }
 
   return (
     <Flex style={styles.nextActionContainer}>

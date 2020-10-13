@@ -1,15 +1,23 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef,
+} from 'react';
 import { useSafeArea, SafeAreaView } from 'react-native-safe-area-context';
 import { View, ScrollView, FlatList } from 'react-native';
 import { useDispatch, useSelector, shallowEqual, useStore } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 
+import { getMyAdventure, getAdventureSummary } from '../../actions/requests';
 import AdventureStepReportCard from '../../components/AdventureStepReportCard';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import { TDataState } from '../../types';
 import Touchable from '../../components/Touchable';
+import HeaderSpacer from '../../components/HeaderSpacer';
 
 import ManageMembers from './ManageMembers';
 import ReportedMessages from './ReportedMessages';
@@ -29,20 +37,34 @@ function AdventureManage({
   navigation,
   route,
 }: AdventureManageProps): React.ReactElement {
+  const activeStepRef = useRef(0);
   const { t } = useTranslation('manageGroup');
   const insets = useSafeArea();
+  const dispatch = useDispatch();
   const store = useStore();
   const me = useSelector(({ auth }) => auth.user);
   const allMessages = store.getState().data.adventureStepMessages;
   const { adventureId } = route.params;
+
   const adventure = useSelector(
     ({ data }: { data: TDataState }) =>
       data.myAdventures?.byId[adventureId] || {},
   );
-  const steps = useSelector(
-    ({ data }: { data: TDataState }) => data.adventureSteps[adventureId],
-    shallowEqual,
-  ) || { byId: [], allIds: [] };
+
+  const [steps, setSteps] = useState([]);
+
+  const updateSteps = async () => {
+    const result = await dispatch(getAdventureSummary(adventureId));
+    if (result?.steps.length) {
+      setSteps(result?.steps);
+    }
+  };
+
+  useEffect(() => {
+    if (adventureId) {
+      updateSteps();
+    }
+  }, [adventureId]);
 
   const messengers = adventure?.conversation?.messengers || [];
 
@@ -59,16 +81,29 @@ function AdventureManage({
   };
   const gatingStart = adventure?.gating_start_at;
   const inviteCode = adventure?.journey_invite?.code;
-  const inviteId = adventure?.journey_invite?.id;
-  const inviteItem = useSelector(
-    ({ data }) => data.adventureInvitations.byId[inviteId],
-  );
+
+  // Request steps from server if nothing stored locally.
+  /* useEffect(() => {
+    if (!steps.allIds.length) {
+      dispatch(getAdventureSteps(adventureId));
+    }
+  }, [steps.allIds]); */
+
+  useEffect(() => {
+    // Set title dynamically.
+    navigation.setOptions({
+      title: adventure?.journey_invite?.name || '',
+    });
+    // Pull latest udpates for this adventure from the server
+    // on the first render.
+    dispatch(getMyAdventure(adventureId));
+  }, []);
 
   return (
     <ScrollView style={styles.screen}>
       <SafeAreaView>
+        <HeaderSpacer />
         <Flex style={styles.header} align="center" justify="center">
-          <Text style={styles.title}>{adventure?.journey_invite?.name}</Text>
           <Text style={styles.invite}>
             {t('inviteCode')}:{' '}
             <Text style={styles.inviteCode}>{inviteCode}</Text>
@@ -79,10 +114,11 @@ function AdventureManage({
             {t('share:contentUnlockSchedule') +
               ' ' +
               (gatingPeriod
-                ? t(gatingPeriod === 7 ? 'share:everyWeek' : 'share:everyDayAt')
-                : t('share:manually')) +
-              ' '}
-            {gatingPeriod && (
+                ? t(
+                    gatingPeriod === 7 ? 'share:everyWeek' : 'share:everyDayAt',
+                  ) + ' '
+                : '')}
+            {
               <Text
                 onPress={() =>
                   navigation.navigate('GroupReleaseType', {
@@ -96,14 +132,16 @@ function AdventureManage({
                 }
                 style={styles.manageMembers}
               >
-                {moment(gatingStart).format(
-                  gatingPeriod === 7 ? 'dddd, LT' : 'LT',
-                )}
+                {gatingPeriod === 0
+                  ? t('share:manually')
+                  : moment(gatingStart).format(
+                      gatingPeriod === 7 ? 'dddd, LT' : 'LT',
+                    )}
               </Text>
-            )}
+            }
           </Text>
         </View>
-        <ManageMembers messengers={messengers} me={me} />
+        <ManageMembers messengers={messengers} me={me} adventure={adventure} />
         <Flex
           direction="column"
           justify="between"
@@ -111,12 +149,13 @@ function AdventureManage({
         >
           <Text style={styles.sectionTitle}>{t('journeyStatus')}</Text>
           <FlatList
-            data={steps.allIds}
+            data={steps}
             renderItem={({ item }): React.ReactElement =>
               item && (
                 <AdventureStepReportCard
-                  stepId={item}
+                  step={item}
                   adventureId={adventureId}
+                  activeStepRef={activeStepRef}
                 />
               )
             }

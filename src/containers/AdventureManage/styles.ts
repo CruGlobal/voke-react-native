@@ -9,6 +9,7 @@ const sharredStyles = {
     borderRadius: 99,
     borderWidth: 2,
     borderColor: '#fff',
+    backgroundColor: theme.colors.primary,
   },
   smallButton: {
     paddingVertical: theme.spacing.xs,
@@ -42,7 +43,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.primary,
   },
   header: {
-    paddingTop: theme.spacing.xs,
   },
   title: {
     fontSize: theme.fontSizes.xxl,
@@ -132,8 +132,8 @@ const styles = StyleSheet.create({
   membersAddButtonAltIconBlock: {
     backgroundColor: theme.colors.white,
     borderRadius: theme.radius.xxl,
-    width: 42,
-    height: 42,
+    width: 40,
+    height: 40,
     justifyContent: 'center',
   },
   membersAddButtonAltIcon: {
@@ -148,6 +148,7 @@ const styles = StyleSheet.create({
   },
   memberAvatars: {
     alignItems: 'flex-end',
+    flexDirection: 'row-reverse',
   },
   avatars: {
     width: '100%',
@@ -159,14 +160,22 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   avatarInGroup: {
-    // avatar
-    width: 42,
-    height: 42,
-    borderRadius: 99,
-    borderWidth: 2,
-    borderColor: '#fff',
-
+    ...sharredStyles.avatarCommon,
     marginLeft: -10,
+  },
+  pseudoAvatar: {
+    ...sharredStyles.avatarCommon,
+    marginLeft: -10,
+    zIndex: -1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: theme.colors.primary,
+  },
+  pseudoAvatarNum: {
+    fontSize: theme.fontSizes.l,
+    fontFamily: theme.fonts.semiBold,
+    lineHeight: theme.fontSizes.l * 1.3,
+    color: theme.colors.white,
   },
   stepsContainer: {
     paddingTop: theme.spacing.l,
@@ -253,7 +262,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    opacity:.75,
+    opacity: 0.75,
   },
   reporterAvatar: {
     ...sharredStyles.avatarCommon,
@@ -273,9 +282,9 @@ const styles = StyleSheet.create({
     paddingBottom: theme.spacing.m,
   },
   complainActions: {
-    ...sharredStyles.complainActions
+    ...sharredStyles.complainActions,
   },
- /*  complainActionsInactive: {
+  /*  complainActionsInactive: {
     ...sharredStyles.complainActions,
     opacity:.5,
   }, */

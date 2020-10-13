@@ -11,7 +11,6 @@ import {
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigation } from '@react-navigation/native';
-import { useHeaderHeight } from '@react-navigation/stack';
 import { SafeAreaView, useSafeArea } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -47,7 +46,6 @@ const AccountSignIn: React.FC = ({
   const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const headerHeight = useHeaderHeight();
 
   const [formIsVisible, setFormIsVisible] = useState(false);
 

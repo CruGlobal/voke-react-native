@@ -1,6 +1,9 @@
 import React, { useMemo } from 'react';
-import { View } from 'react-native';
+import { Alert, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { useNavigation } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
+import Communications from 'react-native-communications';
 
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
@@ -8,27 +11,88 @@ import Touchable from '../../components/Touchable';
 import Button from '../../components/Button';
 import VokeIcon from '../../components/VokeIcon';
 import Image from '../../components/Image';
+import { resendAdventureInvitation } from '../../actions/requests';
+import { getExpiredTime } from '../../utils/get';
 
 import styles from './styles';
 
-const ManageMembers = ({ messengers, me }) => {
+const ManageMembers = ({ messengers, me, adventure }) => {
   const { t } = useTranslation('manageGroup');
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
   const myUser = messengers.find(i => i.id === me.id) || {};
   const myAvatar = useMemo(() => myUser?.avatar?.small, [
     myUser?.avatar?.small,
   ]);
-  const otherUsers =
-    messengers.filter(i => i.id !== me.id && i.first_name !== 'VokeBot') || {};
-  const usersExceptVokeAndMe = messengers.filter(
-    i => i.id !== me.id && i.first_name !== 'VokeBot',
+  const inviteId = adventure?.journey_invite?.id;
+  const inviteItem = useSelector(
+    ({ data }) => data.adventureInvitations.byId[inviteId],
   );
-  const totalGroupUsers = usersExceptVokeAndMe.length;
-  let subGroup = usersExceptVokeAndMe;
+
+  const otherUsers =
+    messengers.filter(i => i.id !== me.id && i.first_name !== 'VokeBot') || [];
+
+  const totalGroupUsers = otherUsers.length;
+  let subGroup = otherUsers;
   let numberMore = 0;
   if (totalGroupUsers > 7) {
-    subGroup = usersExceptVokeAndMe.slice(0, 6);
+    subGroup = otherUsers.slice(0, 6);
     numberMore = totalGroupUsers - 7;
   }
+
+  const addMembers = async (inviteItem): void => {
+    try {
+      /* Before we show a screen with invite code,
+      check if it's expired.
+      Renew invite on the server if it is expired.
+      Otherwise go ahead and show a screen with a share code. */
+      const { isTimeExpired } = getExpiredTime(inviteItem.expires_at);
+      let readyToShare = true;
+      if (isTimeExpired) {
+        readyToShare = false;
+        const result = await dispatch(resendAdventureInvitation(inviteItem.id));
+        if (!result.error) {
+          readyToShare = true;
+        } else {
+          throw false;
+        }
+      }
+
+      if (readyToShare) {
+        navigation.navigate('AdventureShareCode', {
+          invitation: inviteItem,
+          withGroup: true,
+          isVideoInvite: false,
+        });
+      }
+    } catch (error) {
+      Alert.alert(
+        'Failed to send a new invite',
+        'Please, check your internet connection and try again.',
+        [
+          {
+            text: t('settings:email'),
+            onPress: () => {
+              Communications.email(
+                ['support@vokeapp.com'], // TO
+                null, // CC
+                null, // BCC
+                'Voke App Error: Failed to send a new invite', // SUBJECT
+                `I'm getting 'Failed to send a new invite' error when inviting more members into my group.
+                My account email is: ...
+                Group invite code is: ... `, // BODY
+              );
+            },
+          },
+          {
+            text: t('ok'),
+            onPress: () => {},
+          },
+        ],
+      );
+    }
+  };
+
   return (
     <View style={styles.members}>
       <Flex
@@ -59,11 +123,7 @@ const ManageMembers = ({ messengers, me }) => {
         <View style={styles.membersList}>
           <Button
             onPress={(): void => {
-              navigation.navigate('AdventureShareCode', {
-                invitation: inviteItem,
-                withGroup: true,
-                isVideoInvite: false,
-              });
+              addMembers(inviteItem);
             }}
             style={styles.membersAddButtonAlt}
           >
@@ -82,46 +142,24 @@ const ManageMembers = ({ messengers, me }) => {
             isAndroidOpacity={true}
             onPress={(): void =>
               navigation.navigate('AllMembersModal', {
-                adventure: adventureItem,
+                adventure: adventure,
                 isJoined: true,
               })
             }
           >
-            <Flex direction="row" align="center" style={styles.memberAvatars}>
-              <Image uri={myAvatar} style={styles.avatar} />
-              {subGroup.map((i, index) => (
-                <Image uri={i?.avatar?.small} style={styles.avatarInGroup} />
-              ))}
+            <Flex align="center" style={styles.memberAvatars}>
+              {/* Rendered backwards to make a stack look natural */}
               {numberMore ? (
-                <View
-                  style={[
-                    st.circle(36),
-                    st.bgBlue,
-                    {
-                      borderWidth: 2,
-                      borderColor: st.colors.white,
-                      marginLeft: -14,
-                    },
-                  ]}
-                >
-                  <Flex self="stretch" align="center" justify="center">
-                    <Text
-                      style={[
-                        st.white,
-                        {
-                          fontSize: 16,
-                          height: '100%',
-                          lineHeight: 29,
-                        },
-                      ]}
-                    >
-                      +{numberMore}
-                    </Text>
-                  </Flex>
+                <View style={styles.pseudoAvatar}>
+                  <Text style={styles.pseudoAvatarNum}>+{numberMore}</Text>
                 </View>
               ) : (
                 <></>
               )}
+              {subGroup.map((i, index) => (
+                <Image uri={i?.avatar?.small} style={styles.avatarInGroup} />
+              ))}
+              <Image uri={myAvatar} style={styles.avatar} />
             </Flex>
           </Touchable>
         </View>
@@ -130,11 +168,7 @@ const ManageMembers = ({ messengers, me }) => {
           <Text style={styles.membersAddText}>{t('noMembersYet')}</Text>
           <Button
             onPress={(): void => {
-              navigation.navigate('AdventureShareCode', {
-                invitation: inviteItem,
-                withGroup: true,
-                isVideoInvite: false,
-              });
+              addMembers(inviteItem);
             }}
             style={styles.membersAddButton}
           >

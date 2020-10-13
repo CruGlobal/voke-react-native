@@ -87,6 +87,10 @@ const ROUTES = {
     method: 'get',
     url: `me/journeys/{adventureId}/steps`,
   },
+  GET_ADVENTURE_SUMMARY: {
+    method: 'get',
+    url: `me/journeys/{adventureId}/summary`,
+  },
   GET_ADVENTURE_STEP_MESSAGES: {
     method: 'get',
     url: `me/conversations/{adventureConversationId}/messages`,
@@ -191,7 +195,11 @@ const ROUTES = {
   GET_COMPLAINS: {
     method: 'get',
     url: `me/journeys/{adventureId}/reports`,
-  }
+  },
+  DELETE_MEMBER: {
+    method: 'post',
+    url: `messengers/{messengerId}/block`,
+  },
 };
 
 export default ROUTES;

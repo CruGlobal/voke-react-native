@@ -44,6 +44,7 @@
         "and": "and",
         "add": "Add",
         "all": "All",
+        "at": "at",
         "allowContacts": "Allow Contacts",
         "allowNotifications": "Allow Notifications",
         "confirm": "Confirm",
@@ -249,7 +250,7 @@
         "selectOrNew": "Would you like to select a photo or take a new picture?",
         "where": "Where is your photo?",
         "camera": "Take Photo...",
-        "gallery": "Choose from Library...",
+        "gallery": "Choose from Library..."
     },
     "kickstarters": {
         "description": "Add one of these kickstarters to your chat.",
@@ -287,7 +288,7 @@
         "howGroupsWorkTitle": "How Groups Work",
         "welcomeTo": "Welcome to ",
         "accountRequiredTitle": "Sign Up or Sign In ",
-        "accountRequiredIntro": "Group owners need protected accounts to manage members.",
+        "accountRequiredIntro": "Group owners need protected accounts to manage members."
     },
     "notifications": {
         "off": "Notifications turned off."
@@ -452,7 +453,8 @@
         "leaderZone":"Leader Zone",
         "reportedBy":"Reported by:",
         "block":"Block",
-        "allow":"Allow"
+        "allow":"Allow",
+        "releaseNow":"Release Now!"
     },
     "share": {
         "previewLinkReady": "{{name}}\u2019s invite is ready! The link below shares the Adventure trailer for {{name}} to watch and decide on joining you.",
@@ -476,12 +478,14 @@
         "releaseDay": "Release Day",
         "releaseTime": "Release Time",
         "videoUnlockSchedule": "Videos will be unlocked every",
-        "contentUnlockSchedule": "Content released every",
-        "everyWeek": "week on",
-        "everyDay": "day at selected time",
-        "everyDayAt": "day at",
+        "contentUnlockSchedule": "Content released",
+        "everyWeek": "every week on",
+        "everyDay": "every day at selected time",
+        "everyDayAt": "every day at",
         "manually": "manually",
         "firstRelease": "First release",
+        "nextRelease": "Next release",
+        "nextVideoRelease": "Next video will be released",
         "checkTitle": "Check out",
         "checkMessage": "Check out this awesome app called Voke. Let's go deeper with God and others!",
         "checkOut": "Check this out on Voke!",

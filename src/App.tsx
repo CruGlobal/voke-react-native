@@ -202,7 +202,16 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
       <AdventureStack.Screen
         name="AllMembersModal"
         component={AllMembersModal}
-        options={{ headerShown: false }}
+        options={{
+          ...transparentHeaderConfig,
+          headerStyle: {
+            ...transparentHeaderConfig.headerStyle,
+            paddingTop: insets.top,
+          },
+          title: '',
+          headerLeft: () => <HeaderLeft hasBack />,
+          headerRight: undefined,
+        }}
       />
       <AdventureStack.Screen
         name="AccountPhoto"

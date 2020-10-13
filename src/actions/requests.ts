@@ -1176,3 +1176,45 @@ export function getComplains({ adventureId }) {
     return data;
   };
 }
+
+export function getAdventureSummary(
+  adventureId: string,
+) {
+  return async (dispatch: Dispatch, getState: any) => {
+    try {
+      const results: any = await dispatch(
+        request({
+          ...ROUTES.GET_ADVENTURE_SUMMARY,
+          pathParams: { adventureId },
+          description:
+            'Get Adventure Members by step for adventure id: ' +
+            adventureId,
+        }),
+      );
+      return results;
+    } catch (error) {
+      console.log('getAdventureStepMessages error:', error);
+    }
+  };
+}
+
+export function deleteMember(
+  messengerId: string,
+) {
+  return async (dispatch: Dispatch, getState: any) => {
+    try {
+      const results: any = await dispatch(
+        request({
+          ...ROUTES.DELETE_MEMBER,
+          pathParams: { messengerId },
+          description:
+            'Delete member with messengerId: ' +
+            messengerId,
+        }),
+      );
+      return results;
+    } catch (error) {
+      console.log('deleteMember error:', error);
+    }
+  };
+}

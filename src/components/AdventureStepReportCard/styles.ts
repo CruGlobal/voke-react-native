@@ -23,6 +23,10 @@ const styles = StyleSheet.create({
     ...stylesShared.card,
     backgroundColor: theme.colors.secondaryAlt,
   },
+  cardNext: {
+    ...stylesShared.card,
+    backgroundColor: theme.colors.white,
+  },
   cardContent: {
     flex: 1,
   },
@@ -44,6 +48,17 @@ const styles = StyleSheet.create({
   actionLocked: {
     color: theme.colors.white,
   },
+  actionReleaseNow: {
+    borderRadius: theme.radius.s,
+    backgroundColor: theme.colors.secondary,
+    paddingVertical: theme.spacing.s,
+    paddingHorizontal: theme.spacing.m,
+  },
+  actionReleaseNowLabel: {
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.m,
+    fontFamily: theme.fonts.semiBold,
+  },
   stepMembers: {
     // paddingVertical: theme.spacing.l,
     // paddingHorizontal: theme.spacing.l,
@@ -63,18 +78,25 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.spacing.l,
   },
   stepMemberItem: {
+    flexDirection: 'row',
     backgroundColor: theme.colors.lightGrey,
     paddingVertical: theme.spacing.m,
     paddingHorizontal: theme.spacing.l,
+    marginBottom: 1,
+    alignItems: 'center',
   },
   stepMemberItemText: {
     color: theme.colors.secondary,
     fontSize: theme.fontSizes.l,
+    paddingLeft: theme.spacing.s,
+  },
+  avatar: {
+    width: 36,
+    height: 36,
+    borderRadius: 99,
+    borderWidth: 2,
+    borderColor: theme.colors.white,
   }
-  /* buttonSend: {
-    padding: 20,
-    right: -15,
-  }, */
 });
 
 export default styles;

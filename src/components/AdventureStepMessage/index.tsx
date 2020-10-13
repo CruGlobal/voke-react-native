@@ -61,6 +61,12 @@ function AdventureStepMessage({
   };
 
   const isMyMessage = message.messenger_id === userId;
+  const adminUser =
+    adventure.conversation.messengers.find(i => i.group_leader);
+
+
+  const isAdminMessage = message.messenger_id === adminUser?.id;
+  const isAdmin = userId === adminUser?.id;
   // const myFirstMessage = reversed.find(m => m.messenger_id === me.id);
   if (isMyMessage && adventure.kind === 'solo') return null;
   const isSharedAnswer = message.metadata.vokebot_action === 'share_answers';
@@ -84,6 +90,9 @@ function AdventureStepMessage({
   let selectedAnswer = (
     ((message.metadata || {}).answers || []).find(i => i.selected) || {}
   ).value;
+
+  const showMessageReporting =
+    message.messenger_id !== userId && !isAdminMessage && !isBlured && !isAdmin;
 
   // If current message is a question box and next message is answer,
   // render next message here (https://d.pr/i/YHrv4N).
@@ -162,6 +171,7 @@ function AdventureStepMessage({
       </Flex>
     );
   }
+
   // REGULAR MESSAGE: TEXT
   return (
     <>
@@ -290,7 +300,7 @@ function AdventureStepMessage({
               {
                 // Prevent reporting it's own messages 🤪.
                 // Remove this condition if more actions added later.
-                message.messenger_id !== userId && (
+                showMessageReporting && (
                   <Menu
                     ref={reportMenuRef}
                     // onHidden={()=>{}}
@@ -306,7 +316,7 @@ function AdventureStepMessage({
                     <Touchable
                       onPress={(): void => {
                         // Prevent reporting it's own messages 🤪.
-                        if (message.messenger_id !== userId) {
+                        if (showMessageReporting) {
                           dispatch(
                             setComplain({
                               messageId: message.id,
