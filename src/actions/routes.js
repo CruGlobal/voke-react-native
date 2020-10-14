@@ -197,8 +197,8 @@ const ROUTES = {
     url: `me/journeys/{adventureId}/reports`,
   },
   DELETE_MEMBER: {
-    method: 'post',
-    url: `messengers/{messengerId}/block`,
+    method: 'patch',
+    url: `me/conversations/{conversationId}/messengers/{messengerId}/block`,
   },
 };
 

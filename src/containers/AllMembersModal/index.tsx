@@ -3,7 +3,7 @@ import { SafeAreaView, useSafeArea } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { ScrollView, Alert, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
@@ -16,22 +16,22 @@ import Button from '../../components/Button';
 import Touchable from '../../components/Touchable';
 import VokeIcon from '../../components/VokeIcon';
 import DEFAULT_AVATAR from '../../assets/defaultAvatar.png';
+import { deleteMember, getMyAdventure } from '../../actions/requests';
 
 import styles from './styles';
 
 function AllMembersModal(props) {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const me = useSelector(({ auth }) => auth.user);
   const { adventure, isJoined } = props.route.params;
   const adventureId = props.route.params.adventure.messenger_journey_id;
   const allMessengers = adventure?.conversation?.messengers || [];
-  const messengers = allMessengers.filter(
-    i => i.first_name !== 'VokeBot',
-    // i => i.first_name !== 'VokeBot' && (i || {}).id !== (me || {}).id,
-  );
-  const isLeaderView =
-    messengers.find(i => i.id == me.id && i.group_leader) || false;
+
+  const [messengers, setMessengers] = useState([]);
+  const [isLeaderView, setIsLeaderView] = useState(false);
+
   const smallCircle = st.fullWidth / 2 - 90;
 
   const handleJoinGroup = (): void => {
@@ -42,11 +42,42 @@ function AllMembersModal(props) {
   };
 
   useEffect(() => {
+    setMessengers(allMessengers.filter(i => i.first_name !== 'VokeBot'));
+  }, [allMessengers.length]);
+
+  useEffect(() => {
+    setIsLeaderView(
+      messengers.find(i => i.id == me.id && i.group_leader) || false,
+    );
+  }, [messengers.length]);
+
+  useEffect(() => {
     // Set title dynamically.
     navigation.setOptions({
       title: adventure.journey_invite.name || adventure.name || '',
     });
   }, []);
+
+  const onDeleteMember = async ({ adventure, messenger }) => {
+    const result = await dispatch(
+      deleteMember({
+        conversationId: adventure.conversation.id,
+        messengerId: messenger.id,
+      }),
+    );
+
+    if (result['blocked?']) {
+      // Remove element instantly
+      // without waiting for an adventure update from the server.
+      messengers.splice(
+        messengers.findIndex(i => i.id == messenger.id),
+        1,
+      );
+      setMessengers(messengers => messengers.splice(0, messengers.length));
+      // Update current adventure to reflect changes.
+      dispatch(getMyAdventure(adventure.id));
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -89,18 +120,16 @@ function AllMembersModal(props) {
             </Flex>
           </Flex>
         </Flex>
-        <Flex
-          align="center"
-          justify="center"
-          style={styles.members}
-        >
+        <Flex align="center" justify="center" style={styles.members}>
           <Flex direction="row" wrap="wrap" justify="center">
             {messengers.map((messenger, index) => (
-              <View style={
-                    messenger.group_leader
-                      ? styles.adminOuter
-                      : styles.memberOuter
-                  }>
+              <View
+                style={
+                  messenger.group_leader
+                    ? styles.adminOuter
+                    : styles.memberOuter
+                }
+              >
                 <Flex
                   key={messenger.id}
                   direction="column"
@@ -125,8 +154,7 @@ function AllMembersModal(props) {
                       style={styles.iconDeleteBlock}
                       //TODO: Hook up Remove
                       onPress={() => {
-                        // deleteMember
-                        Alert.alert('Remove Pressed')
+                        onDeleteMember({ adventure, messenger });
                       }}
                     >
                       <VokeIcon

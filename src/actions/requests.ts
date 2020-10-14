@@ -1170,16 +1170,15 @@ export function getComplains({ adventureId }) {
       request({
         ...ROUTES.GET_COMPLAINS,
         pathParams: { adventureId },
-        description: 'Get complains from the server for adventureId: ' + adventureId,
+        description:
+          'Get complains from the server for adventureId: ' + adventureId,
       }),
     );
     return data;
   };
 }
 
-export function getAdventureSummary(
-  adventureId: string,
-) {
+export function getAdventureSummary(adventureId: string) {
   return async (dispatch: Dispatch, getState: any) => {
     try {
       const results: any = await dispatch(
@@ -1187,8 +1186,7 @@ export function getAdventureSummary(
           ...ROUTES.GET_ADVENTURE_SUMMARY,
           pathParams: { adventureId },
           description:
-            'Get Adventure Members by step for adventure id: ' +
-            adventureId,
+            'Get Adventure Members by step for adventure id: ' + adventureId,
         }),
       );
       return results;
@@ -1198,18 +1196,18 @@ export function getAdventureSummary(
   };
 }
 
-export function deleteMember(
-  messengerId: string,
-) {
+export function deleteMember({conversationId, messengerId}) {
   return async (dispatch: Dispatch, getState: any) => {
     try {
       const results: any = await dispatch(
         request({
           ...ROUTES.DELETE_MEMBER,
-          pathParams: { messengerId },
-          description:
-            'Delete member with messengerId: ' +
+          // url: `me/conversations/{conversationId}/messengers/{messengerId}/block`,
+          pathParams: {
+            conversationId,
             messengerId,
+          },
+          description: 'Delete member with messengerId: ' + messengerId,
         }),
       );
       return results;
