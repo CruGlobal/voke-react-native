@@ -29,6 +29,7 @@ import Text from '../../components/Text';
 import BotTalking from '../../components/BotTalking';
 import st from '../../st';
 import theme from '../../theme';
+import Screen from '../../components/Screen';
 
 import styles from './styles';
 
@@ -131,139 +132,75 @@ const AccountName = (props): React.ReactElement => {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      style={{
-        backgroundColor: styles.colors.primary,
-        paddingTop: windowDimensions.height > 600 ? headerHeight : insets.top,
-        flex: 1,
-        height: '100%',
-      }}
-    >
-      {/* <StatusBar /> <- TODO: Not sure why we need it here? */}
-      {/* Makes possible to hide keyboard when tapping outside. */}
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          // flex: 1,
-          minHeight: '100%',
-          flexDirection: 'column',
-          alignContent: 'stretch',
-          justifyContent: 'flex-end',
+    <Screen>
+      <BotTalking
+        heading={t('introTitle')}
+        style={{
+          opacity: isKeyboardVisible ? 0 : 1,
+          display: isKeyboardVisible ? 'none' : 'flex',
+          paddingTop: windowDimensions.height > 800 ? theme.spacing.xxl : 0,
+          paddingBottom: windowDimensions.height > 600 ? theme.spacing.xxl : 0,
         }}
       >
-        <DismissKeyboardView
-          style={{
-            flex: 1,
-          }}
+        {t('introMessage')}
+      </BotTalking>
+
+      <Flex
+        value={1}
+        direction="column"
+        align="center"
+        self="stretch"
+        style={{
+          justifyContent: isKeyboardVisible ? 'center' : 'flex-start',
+        }}
+      >
+        <NameInput
+          blurOnSubmit={false}
+          label={t('tryItNow:firstName')}
+          onSubmitEditing={() => lastNameRef.current.focus()}
+          placeholder={t('tryItNow:firstNamePlaceholder')}
+          value={firstName}
+          onChangeText={text => setFirstName(text)}
+          returnKeyType="next"
+          testID={'inputFirstName'}
+        />
+        <NameInput
+          ref={lastNameRef}
+          blurOnSubmit
+          label={t('tryItNow:lastName')}
+          placeholder={t('tryItNow:lastNamePlaceholder')}
+          value={lastName}
+          onChangeText={text => setLastName(text)}
+          returnKeyType="done"
+          onSubmitEditing={handleContinue}
+          testID={'inputLastName'}
+        />
+        <OldButton
+          onPress={handleContinue}
+          touchableStyle={[
+            st.pd4,
+            st.br1,
+            st.w(st.fullWidth - 70),
+            {
+              backgroundColor: theme.colors.white,
+              textAlign: 'center',
+              marginTop: isKeyboardVisible ? theme.spacing.l : theme.spacing.xl,
+              shadowColor: 'rgba(0, 0, 0, 0.5)',
+              shadowOpacity: 0.5,
+              elevation: 4,
+              shadowRadius: 5,
+              shadowOffset: { width: 1, height: 8 },
+            },
+          ]}
+          isLoading={isLoading}
+          testID={'ctaNameContinue'}
         >
-          <Flex
-            style={[
-              styles.MainContainer,
-              {
-                alignItems: 'center', // Horizontal.
-                justifyContent: 'flex-end', // Vertical.
-                flexGrow: 1,
-                minHeight: '100%',
-              },
-            ]}
-          >
-            <Flex
-              direction="row"
-              align="start"
-              justify="between"
-              style={{
-                display: isKeyboardVisible ? 'none' : 'flex',
-                paddingTop:
-                  windowDimensions.height > 800 ? theme.spacing.xxl : 0,
-                paddingBottom:
-                  windowDimensions.height > 600 ? theme.spacing.xxl : 0,
-                // Don't set height for bot messages!
-                // It should be flexible for every screen.
-              }}
-            >
-              <BotTalking
-                heading={t('introTitle')}
-                style={{
-                  opacity: isKeyboardVisible ? 0 : 1,
-                }}
-              >
-                {t('introMessage')}
-              </BotTalking>
-            </Flex>
-            <Flex
-              value={1}
-              direction="column"
-              align="center"
-              self="stretch"
-              style={{
-                width: '100%',
-                paddingHorizontal: theme.spacing.xl,
-                justifyContent: isKeyboardVisible
-                  ? 'flex-start'
-                  : 'flex-start',
-              }}
-            >
-              <NameInput
-                blurOnSubmit={false}
-                label={t('tryItNow:firstName')}
-                onSubmitEditing={() => lastNameRef.current.focus()}
-                placeholder={t('tryItNow:firstNamePlaceholder')}
-                value={firstName}
-                onChangeText={text => setFirstName(text)}
-                returnKeyType="next"
-                testID={'inputFirstName'}
-              />
-              <NameInput
-                ref={lastNameRef}
-                blurOnSubmit
-                label={t('tryItNow:lastName')}
-                placeholder={t('tryItNow:lastNamePlaceholder')}
-                value={lastName}
-                onChangeText={text => setLastName(text)}
-                returnKeyType="done"
-                onSubmitEditing={handleContinue}
-                testID={'inputLastName'}
-              />
-              <OldButton
-                onPress={handleContinue}
-                touchableStyle={[
-                  st.pd4,
-                  st.br1,
-                  st.w(st.fullWidth - 70),
-                  {
-                    backgroundColor: theme.colors.white,
-                    textAlign: 'center',
-                    marginTop: isKeyboardVisible
-                      ? theme.spacing.l
-                      : theme.spacing.xl,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)',
-                    shadowOpacity: 0.5,
-                    elevation: 4,
-                    shadowRadius: 5,
-                    shadowOffset: { width: 1, height: 8 },
-                  },
-                ]}
-                isLoading={isLoading}
-                testID={'ctaNameContinue'}
-              >
-                <Text
-                  style={[st.fs20, st.tac, { color: theme.colors.secondary }]}
-                >
-                  {t('next')}
-                </Text>
-              </OldButton>
-              {/* Safety spacing. */}
-              <Flex
-                style={{
-                  minHeight: theme.spacing.xl + insets.bottom,
-                }}
-              />
-            </Flex>
-          </Flex>
-        </DismissKeyboardView>
-      </ScrollView>
-    </KeyboardAvoidingView>
+          <Text style={[st.fs20, st.tac, { color: theme.colors.secondary }]}>
+            {t('next')}
+          </Text>
+        </OldButton>
+      </Flex>
+    </Screen>
   );
 };
 

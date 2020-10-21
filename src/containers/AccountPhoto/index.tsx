@@ -18,6 +18,7 @@ import Triangle from '../../components/Triangle';
 import VokeIcon from '../../components/VokeIcon';
 import Touchable from '../../components/Touchable';
 import BotTalking from '../../components/BotTalking';
+import Screen from '../../components/Screen';
 
 function AccountPhoto(props) {
   const { t } = useTranslation('tryItNow');
@@ -151,35 +152,14 @@ function AccountPhoto(props) {
   };
 
   return (
-    <ScrollView
-      keyboardShouldPersistTaps="handled"
-      contentContainerStyle={{
-        // flex: 1, // Will break scrolling on Android
-        // height:'100%', // Will break scrolling on Android
-        backgroundColor: theme.colors.primary,
-        minHeight: '100%',
-        paddingTop: insets.top,
-      }}
-    >
-      <Flex
-        direction="column"
-        align="center"
-        justify="center"
-        style={[st.w100, st.h100]}
-      >
-        <Flex
-          direction="row"
-          align="start"
-          justify="between"
-          style={{
+    <Screen>
+     
+          <BotTalking heading={t('addPhotoTitle')} style={{
             paddingBottom:
               windowDimensions.height > 600 ? theme.spacing.xxl : 0,
             // Don't set height for bot messages!
             // It should be flexible for every screen.
-          }}
-        >
-          <BotTalking heading={t('addPhotoTitle')}>{t('addPhoto')}</BotTalking>
-        </Flex>
+          }}>{t('addPhoto')}</BotTalking>
         <Flex />
         <Touchable onPress={handleSelectImage}>
           <Flex
@@ -190,6 +170,8 @@ function AccountPhoto(props) {
               st.w(st.fullWidth / 1.8),
               st.h(st.fullWidth / 1.8),
               {
+                alignSelf: 'center',
+                
                 borderRadius: st.fullWidth / 1.8,
                 backgroundColor: theme.colors.secondaryAlt,
               },
@@ -243,10 +225,7 @@ function AccountPhoto(props) {
             {avatarSource ? t('next') : t('skip')}
           </Text>
         </OldButton>
-        {/* Safety spacing. */}
-        <Flex style={{ height: insets.bottom }} />
-      </Flex>
-    </ScrollView>
+    </Screen>
   );
 }
 

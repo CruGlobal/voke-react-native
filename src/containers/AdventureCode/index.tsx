@@ -118,7 +118,6 @@ function AdventureCode(): ReactElement {
     <Screen testID={'adventureCodeScreen'}>
       <View
         style={{
-          alignSelf: 'stretch',
           marginTop:
             Platform.OS === 'ios' &&
             isKeyboardVisible &&

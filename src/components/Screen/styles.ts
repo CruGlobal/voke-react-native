@@ -5,9 +5,10 @@ import theme from '../../theme';
 const sharredStyles = {
   safeAreaView: {
     height: '100%',
+    // Responsive horizontal paddings for screen content area.
+    // If changing any value here, update horizontal offset for <Carousel> elems.
     paddingHorizontal:
       theme.window.width < 375 ? theme.spacing.l : theme.spacing.xl,
-    // Responsive horizontal paddings for screen content area.
   },
 };
 
@@ -20,7 +21,6 @@ const styles = StyleSheet.create({
   scrollView: {
     minHeight: '100%',
     alignItems: 'center',
-
     // Extra vertical spacing for tablets.
     paddingVertical: theme.window.width > 700 ? theme.spacing.xl : 0,
   },

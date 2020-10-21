@@ -12,10 +12,41 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import DismissKeyboardView from '../DismissKeyboardHOC';
 
 import styles from './styles';
+
+const InnerContent = ({
+  layout,
+  children,
+}: // ...rest
+Props): React.ReactElement => {
+  const [isKeyboardVisible] = useKeyboard();
+  return (
+    <>
+      {layout === 'embed' ? (
+        <View style={styles.safeAreaViewWithKeyboard}>{children}</View>
+      ) : (
+        <SafeAreaView
+          style={
+            isKeyboardVisible
+              ? styles.safeAreaViewWithKeyboard
+              : styles.safeAreaView
+          }
+          // Disable safe are for embed views (login form inside a modal).
+          edges={['top', 'right', 'bottom', 'left']}
+        >
+          {children}
+        </SafeAreaView>
+      )}
+    </>
+  );
+};
+
 type Props = {
   children?: React.ReactNode;
   testID?: string;
   background?: string;
+  noKeyboard?: boolean;
+  layout?: 'embed' | null;
+  bounces?: boolean;
   // [x: string]: any; // ..rest
 };
 
@@ -23,12 +54,16 @@ const Screen = ({
   children,
   testID,
   background,
-  // ...rest
-}: Props): React.ReactElement => {
+  noKeyboard,
+  layout,
+  bounces = true,
+}: // ...rest
+Props): React.ReactElement => {
   // https://github.com/react-native-hooks/keyboard#configuration
   const [isKeyboardVisible] = useKeyboard();
   return (
     <KeyboardAvoidingView
+      enabled={!noKeyboard}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       style={
         background
@@ -41,18 +76,18 @@ const Screen = ({
       <ScrollView
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={styles.scrollView}
+        scrollEnabled={layout !== 'embed'}
+        bounces={bounces}
       >
-        <DismissKeyboardView style={styles.dismissKeyboard}>
-          <SafeAreaView
-            style={
-              isKeyboardVisible
-                ? styles.safeAreaViewWithKeyboard
-                : styles.safeAreaView
-            }
-          >
-            {children}
-          </SafeAreaView>
-        </DismissKeyboardView>
+        {noKeyboard ? (
+          <View style={styles.dismissKeyboard}>
+            <InnerContent layout={layout}>{children}</InnerContent>
+          </View>
+        ) : (
+          <DismissKeyboardView style={styles.dismissKeyboard}>
+            <InnerContent layout={layout}>{children}</InnerContent>
+          </DismissKeyboardView>
+        )}
       </ScrollView>
     </KeyboardAvoidingView>
   );

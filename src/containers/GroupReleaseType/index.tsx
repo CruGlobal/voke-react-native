@@ -36,6 +36,7 @@ import {
 import AccountCreate from '../AccountCreate';
 
 import styles from './styles';
+import Screen from '../../components/Screen';
 
 function GroupReleaseType(props: any): ReactElement {
   const {
@@ -214,104 +215,72 @@ function GroupReleaseType(props: any): ReactElement {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      style={{
-        backgroundColor: theme.colors.primary,
-        flex: 1,
-        height: '100%',
-      }}
-      enabled={!modalOpen}
-    >
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          minHeight: '100%',
-          flexDirection: 'column',
-          alignContent: 'stretch',
-          justifyContent: 'center',
-        }}
-      >
-        <SafeAreaView
-          // edges={['left', 'right', 'bottom']}
+    <Screen testID="groupReleaseType" noKeyboard>
+      <Flex value={1} direction="column" justify="center">
+        {isKeyboardVisible && <View style={{ minHeight: theme.spacing.xl }} />}
+        <Flex
+          // align="center"
+          justify="center"
           style={{
-            height: '100%',
-            flexDirection: 'column',
-            flex: 1,
-            alignContent: 'stretch',
-            justifyContent: 'center',
-            // backgroundColor: 'blue',
+            display: isKeyboardVisible ? 'none' : 'flex',
+            // paddingBottom: theme.spacing.xl,
+            // paddingTop: height > 800 ? theme.spacing.xl : 0,
+            // minHeight: 200,
+            paddingBottom: theme.spacing.xl,
           }}
         >
-          <Flex value={1} direction="column" justify="center">
-            {isKeyboardVisible && (
-              <View style={{ minHeight: theme.spacing.xl }} />
-            )}
-            <Flex
-              align="center"
-              justify="center"
-              style={{
-                display: isKeyboardVisible ? 'none' : 'flex',
-                // paddingBottom: theme.spacing.xl,
-                // paddingTop: height > 800 ? theme.spacing.xl : 0,
-                // minHeight: 200,
-                paddingBottom: theme.spacing.xl,
-              }}
-            >
-              <BotTalking
-                heading={t('groupReleaseSchedule')}
-                style={{
-                  opacity: isKeyboardVisible ? 0 : 1,
-                }}
-              />
-            </Flex>
-            <View style={{ minHeight: theme.spacing.xl }} />
-            <Flex direction="column" justify="center">
-              <Carousel
-                firstItem={initalItem(releaseSchedule)}
-                containerCustomStyle={
-                  {
-                    // backgroundColor: 'rgba(0,0,0,.3)'
-                  }
-                }
-                // ref={(c) => { this._carousel = c; }}
-                data={[
-                  {
-                    icon: 'month',
-                    title: 'Weekly Releases',
-                    description: 'Automatically release videos once a week.',
-                    buttonLabel: 'Select',
-                    buttonAction: () => cardAction('weekly'),
-                  },
-                  {
-                    icon: 'date',
-                    title: 'Daily Releases',
-                    description: 'Automatically release videos every day.',
-                    buttonLabel: 'Select',
-                    buttonAction: () => cardAction('daily'),
-                  },
-                  {
-                    icon: 'cog',
-                    title: 'Manual Releases',
-                    description:
-                      'Release videos manually, whenever you’re ready.',
-                    buttonLabel: 'Select',
-                    buttonAction: () => cardAction('manual'),
-                  },
-                ]}
-                renderItem={renderItem}
-                sliderWidth={width}
-                itemWidth={width - 80}
-                layout={'default'}
-                removeClippedSubviews={false}
-                // onSnapToItem={(index) => this.setState({ slider1ActiveSlide: index }) }
-              />
-            </Flex>
-            <View style={{ minHeight: theme.spacing.xxl }} />
-          </Flex>
-        </SafeAreaView>
-      </ScrollView>
-    </KeyboardAvoidingView>
+          <BotTalking
+            heading={t('groupReleaseSchedule')}
+            style={{
+              opacity: isKeyboardVisible ? 0 : 1,
+            }}
+          />
+        </Flex>
+        <View style={{ minHeight: theme.spacing.xxl }} />
+        <Flex direction="column" justify="center">
+          <Carousel
+            firstItem={initalItem(releaseSchedule)}
+            containerCustomStyle={
+              {
+                marginHorizontal:
+                theme.window.width < 375 ? -theme.spacing.l : -theme.spacing.xl,
+              }
+            }
+            // ref={(c) => { this._carousel = c; }}
+            data={[
+              {
+                icon: 'month',
+                title: 'Weekly Releases',
+                description: 'Automatically release videos once a week.',
+                buttonLabel: 'Select',
+                buttonAction: () => cardAction('weekly'),
+              },
+              {
+                icon: 'date',
+                title: 'Daily Releases',
+                description: 'Automatically release videos every day.',
+                buttonLabel: 'Select',
+                buttonAction: () => cardAction('daily'),
+              },
+              {
+                icon: 'cog',
+                title: 'Manual Releases',
+                description: 'Release videos manually, whenever you’re ready.',
+                buttonLabel: 'Select',
+                buttonAction: () => cardAction('manual'),
+              },
+            ]}
+            renderItem={renderItem}
+            sliderWidth={width}
+            itemWidth={width - 80}
+            layout={'default'}
+            removeClippedSubviews={false}
+            // onSnapToItem={(index) => this.setState({ slider1ActiveSlide: index }) }
+          />
+        </Flex>
+        <View style={{ minHeight: theme.spacing.xxl }} />
+      </Flex>
+    </Screen>
   );
 }
 

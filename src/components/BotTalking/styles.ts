@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
     // paddingHorizontal: theme.spacing.l,
     marginTop: theme.spacing.m,
     alignSelf: theme.window.width > 500 ? 'center' : 'auto',
-    // backgroundColor: theme.colors.red,
   },
   BotInner: {
     // for Tablets:

@@ -12,6 +12,7 @@ import OldButton from '../OldButton';
 import BotTalking from '../BotTalking';
 
 import styles from './styles';
+import Screen from '../Screen';
 
 // Renders Cards on this screen https://d.pr/i/WsCCf2
 function ModalNotifications({ closeAction }): React.ReactElement {
@@ -33,39 +34,38 @@ function ModalNotifications({ closeAction }): React.ReactElement {
   }, [pushNotificationPermission]);
 
   return (
-    <ScrollView bounces={false}>
-      <SafeAreaView>
-        <Flex style={styles.container} direction="column" align="center">
-          <View style={{ minHeight: theme.spacing.xl }} />
-          <BotTalking type="reverse">
-            {t('overlays:playUkulele', { name: me.firstName })}
-          </BotTalking>
-          <OldButton
-            isAndroidOpacity
-            style={styles.buttonAccept}
-            onPress={() => {
-              closeAction();
-              return dispatch(requestPremissions());
-            }}
-            testID={'ctaAllowNotifications'}
-          >
-            <Text style={styles.buttonAcceptLabel}>
-              {t('allowNotifications')}
-            </Text>
-          </OldButton>
+    <Screen testID="modalNotifications" background="transparent">
+      {/* ScrollView bounces={false} */}
+      <Flex style={styles.container} direction="column" align="center">
+        <View style={{ minHeight: theme.spacing.xl }} />
+        <BotTalking type="reverse">
+          {t('overlays:playUkulele', { name: me.firstName })}
+        </BotTalking>
+        <OldButton
+          isAndroidOpacity
+          style={styles.buttonAccept}
+          onPress={() => {
+            closeAction();
+            return dispatch(requestPremissions());
+          }}
+          testID={'ctaAllowNotifications'}
+        >
+          <Text style={styles.buttonAcceptLabel}>
+            {t('allowNotifications')}
+          </Text>
+        </OldButton>
 
-          <OldButton
-            isAndroidOpacity
-            style={styles.buttonCancel}
-            onPress={() => {
-              closeAction();
-            }}
-          >
-            <Text style={styles.buttonCancelLabel}>{t('noThanks')}</Text>
-          </OldButton>
-        </Flex>
-      </SafeAreaView>
-    </ScrollView>
+        <OldButton
+          isAndroidOpacity
+          style={styles.buttonCancel}
+          onPress={() => {
+            closeAction();
+          }}
+        >
+          <Text style={styles.buttonCancelLabel}>{t('noThanks')}</Text>
+        </OldButton>
+      </Flex>
+    </Screen>
   );
 }
 

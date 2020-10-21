@@ -134,7 +134,7 @@ const AccountSignIn: React.FC = ({
   };
 
   return (
-    <Screen testID={'accountSignInScreen'}>
+    <Screen layout={layout} noKeyboard={layout === 'embed'} testID={'accountSignInScreen'}>
       {/* SECTION: SIGN IN OPTIONS */}
       <Flex style={styles.signInOptions}>
         {layout !== 'embed' && (
@@ -147,6 +147,9 @@ const AccountSignIn: React.FC = ({
               // Vertically align form on different screens sizes.
             }}
           />
+        )}
+        {layout === 'embed' && (
+          <Flex style={{ minHeight: theme.spacing.xl }} />
         )}
         {!formIsVisible && (
           <>
