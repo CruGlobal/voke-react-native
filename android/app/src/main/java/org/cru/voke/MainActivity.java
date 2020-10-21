@@ -22,7 +22,9 @@ public class MainActivity extends ReactActivity {
   // Voke: Splash Screen
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
+      // https://github.com/software-mansion/react-native-screens#android
+      super.onCreate(null);
+      // super.onCreate(savedInstanceState);
       // https://github.com/zoontek/react-native-bootsplash#android-1
       RNBootSplash.init(R.drawable.bootsplash, MainActivity.this);
   }

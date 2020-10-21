@@ -16,6 +16,8 @@ import { useSafeArea } from 'react-native-safe-area-context';
 import useAppState from 'react-native-appstate-hook';
 import RNBootSplash from 'react-native-bootsplash';
 import { Host } from 'react-native-portalize';
+import { enableScreens } from 'react-native-screens';
+import { createNativeStackNavigator } from 'react-native-screens/native-stack';
 
 import {
   startupAction,
@@ -63,6 +65,8 @@ import Text from './components/Text';
 import { useMount } from './utils';
 import { checkInitialNotification } from './actions/notifications';
 
+enableScreens();
+
 // https://reactnavigation.org/docs/stack-navigator#options
 const defaultHeaderConfig = {
   headerStyle: {
@@ -72,9 +76,13 @@ const defaultHeaderConfig = {
   },
   headerTitleStyle: {
     color: theme.colors.secondary,
-    fontSize: 16,
-    fontWeight: 'normal',
+    fontFamily: theme.fonts.regular,
+    // fontSize: 16,
+    fontSize: theme.fontSizes.l,
   },
+  // headerHideBackButton: true, // Android only.
+  headerHideShadow: true,
+  headerBackTitle: ' ', // Title string used by the back button on iOS. Defaults to the previous scene's headerTitle.
   headerLeft: () => <HeaderLeft />,
 };
 
@@ -82,18 +90,20 @@ const defaultHeaderConfig = {
 const altHeaderConfig = {
   headerStyle: {
     backgroundColor: theme.colors.primary,
-    elevation: 0,
-    shadowOpacity: 0,
+    // elevation: 0,
+    // shadowOpacity: 0,
     // paddingTop: insets.top // TODO: Check if it really works here?
   },
   headerTitleStyle: {
     color: theme.colors.white,
-    fontSize: 18,
-    fontWeight: 'normal',
+    // fontSize: 18,
+    fontSize: theme.fontSizes.l,
+    fontFamily: theme.fonts.regular,
   },
   headerTitleAlign: 'center',
   headerTintColor: theme.colors.white,
   headerBackTitle: ' ',
+  headerHideShadow: true,
   // headerLeft: () => <HeaderLeft hasBack={true} />,
 };
 
@@ -103,10 +113,14 @@ const transparentHeaderConfig = {
     ...altHeaderConfig.headerStyle,
     backgroundColor: 'transparent',
   },
-  headerTransparent: true,
+  // headerTransparent: true,
+  headerTranslucent: true,
+  titleColor: 'transparent',
+  // headerTopInsetEnabled: true, //Android only! A Boolean to that lets you opt out of insetting the header. You may want to * set this to false if you use an opaque status bar. Defaults to true. Insets are always applied on iOS because the header cannot be opaque.
+  // headerShown: false,
 };
 
-const AdventureStack = createStackNavigator();
+const AdventureStack = createNativeStackNavigator();
 
 const AdventureStackScreens = ({ navigation, route }: any) => {
   const insets = useSafeArea();
@@ -222,7 +236,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
   );
 };
 
-const VideoStack = createStackNavigator();
+const VideoStack = createNativeStackNavigator();
 function VideoStackScreens({ navigation, route }: any) {
   const { t } = useTranslation('title');
   const insets = useSafeArea();
@@ -265,7 +279,7 @@ function VideoStackScreens({ navigation, route }: any) {
   );
 }
 
-const NotificationStack = createStackNavigator();
+const NotificationStack = createNativeStackNavigator();
 const NotificationStackScreens = () => {
   const { t } = useTranslation('title');
   return (
@@ -361,7 +375,7 @@ const getActiveRouteName = state => {
   return route.name;
 };
 
-const RootStack = createStackNavigator();
+const RootStack = createNativeStackNavigator();
 const RootStackScreens = () => {
   const isLoggedIn = useSelector(({ auth }: any) => auth.isLoggedIn);
   const firstName = useSelector(({ auth }: any) => auth.user.firstName);
@@ -684,7 +698,7 @@ const RootStackScreens = () => {
   );
 };
 
-const AppStack = createStackNavigator();
+const AppStack = createNativeStackNavigator();
 
 const App = () => {
   // Extract store.auth.isLoggedIn value.
