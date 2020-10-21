@@ -26,7 +26,7 @@ import { userLogin, updateMe } from '../../actions/auth';
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
 import TextField from '../../components/TextField';
 import { useMount, lockToPortrait } from '../../utils';
-import Button from '../../components/Button';
+import OldButton from '../../components/OldButton';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import st from '../../st';
@@ -262,7 +262,7 @@ const AccountCreate = ({
               />
               {/* SECTION: CALL TO ACTION BUTTON */}
               {/* BUTTON: SIGN UP */}
-              <Button
+              <OldButton
                 isAndroidOpacity
                 style={[
                   st.pd4,
@@ -288,7 +288,7 @@ const AccountCreate = ({
                 >
                   {t('signUp')}
                 </Text>
-              </Button>
+              </OldButton>
               {/* TEXT: NOTICE */}
               <Flex
                 direction="column"

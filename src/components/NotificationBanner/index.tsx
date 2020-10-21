@@ -10,7 +10,7 @@ import ModalNotifications from '../../components/ModalNotifications';
 import { RootState } from '../../reducers';
 import Flex from '../Flex';
 import Text from '../Text';
-import Button from '../Button';
+import OldButton from '../OldButton';
 import VokeIcon from '../VokeIcon';
 import theme from '../../theme';
 
@@ -36,13 +36,13 @@ const NotificationBanner = (): React.ReactElement => {
         <VokeIcon name="notification" style={styles.iconNotification} />
         <Text style={styles.bannerText}>{t('off')}</Text>
 
-        <Button
+        <OldButton
           isAndroidOpacity
           onPress={() => modalizeRef.current?.open()}
           style={styles.buttonEnable}
         >
           <Text style={styles.bannerButtonLabel}>{t('turnOn')}</Text>
-        </Button>
+        </OldButton>
       </Flex>
       <Portal>
         <Modalize

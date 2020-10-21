@@ -8,7 +8,7 @@ import Flex from '../Flex';
 import Text from '../Text';
 import st from '../../st';
 import theme from '../../theme';
-import Button from '../Button';
+import OldButton from '../OldButton';
 import BotTalking from '../BotTalking';
 import ChatExample from '../../assets/ChatExample.png';
 import VideoExample from '../../assets/VideoExample.png';
@@ -38,7 +38,7 @@ function ModalHowGroupsWork({ primaryAction }): React.ReactElement {
             {t('howGroupsWorkBotBody')}
           </BotTalking>
           <Flex value={1} style={{ marginTop: -15 }}>
-            <Button
+            <OldButton
               isAndroidOpacity={true}
               style={styles.buttonAction}
               onPress={primaryAction}
@@ -46,7 +46,7 @@ function ModalHowGroupsWork({ primaryAction }): React.ReactElement {
               <Flex direction="row" align="center" justify="center">
                 <Text style={styles.buttonActionLabel}>{t('getStarted')}</Text>
               </Flex>
-            </Button>
+            </OldButton>
           </Flex>
           <View style={{ minHeight: theme.spacing.xl }} />
           <Flex align="center" justify="center">
@@ -95,7 +95,7 @@ function ModalHowGroupsWork({ primaryAction }): React.ReactElement {
             <Text style={styles.startText}>{t('howGroupsWorkStart')}</Text>
             <View style={{ minHeight: theme.spacing.l }} />
             <Flex>
-              <Button
+              <OldButton
                 isAndroidOpacity={true}
                 style={styles.buttonAction}
                 onPress={primaryAction}
@@ -105,7 +105,7 @@ function ModalHowGroupsWork({ primaryAction }): React.ReactElement {
                     {t('getStarted')}
                   </Text>
                 </Flex>
-              </Button>
+              </OldButton>
               <View style={{ minHeight: theme.spacing.xxl }} />
             </Flex>
           </Flex>

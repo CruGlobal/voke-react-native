@@ -14,7 +14,7 @@ import Text from '../../components/Text';
 import Touchable from '../../components/Touchable';
 import TextField from '../../components/TextField';
 import StatusBar from '../../components/StatusBar';
-import Button from '../../components/Button';
+import OldButton from '../../components/OldButton';
 import Triangle from '../../components/Triangle';
 import CONSTANTS from '../../constants';
 import {
@@ -369,7 +369,7 @@ const AccountProfile = (props: ProfileModalProps) => {
                     }}
                   />
                   {/* BUTTON:SIGN UP WITH EMAIL */}
-                  <Button
+                  <OldButton
                     isAndroidOpacity={true}
                     style={[styles.ButtonSignUp]}
                     onPress={() => navigation.navigate('SignUp')}
@@ -386,14 +386,14 @@ const AccountProfile = (props: ProfileModalProps) => {
                         {t('signUpEmail')}
                       </Text>
                     </Flex>
-                  </Button>
+                  </OldButton>
                   <Flex
                     style={{
                       height: styles.spacing.m,
                     }}
                   />
                   {/* BUTTON:SIGN UP WITH FACBOOK */}
-                  <Button
+                  <OldButton
                     isAndroidOpacity={true}
                     style={[styles.ButtonSignUp]}
                     onPress={(): Promise<void> => fbLogin()}
@@ -405,12 +405,12 @@ const AccountProfile = (props: ProfileModalProps) => {
                       align="center"
                       justify="center"
                     >
-                      <VokeIcon name="logo-facebook" size={22} style={[st.mr5, st.white]} />
+                      <VokeIcon name="facebook" size={22} style={[st.mr5, st.white]} />
                       <Text style={styles.ButtonSignUpLabel}>
                         {t('signUpFb')}
                       </Text>
                     </Flex>
-                  </Button>
+                  </OldButton>
                   <Flex
                     style={{
                       height: styles.spacing.m,
@@ -419,7 +419,7 @@ const AccountProfile = (props: ProfileModalProps) => {
                 </>
               )}
 
-              <Button
+              <OldButton
                 isAndroidOpacity={true}
                 style={[styles.ButtonActionTextOnly]}
                 onPress={() =>
@@ -454,7 +454,7 @@ const AccountProfile = (props: ProfileModalProps) => {
                 <Text style={styles.ButtonActionLabel}>
                   {t('deleteAccount')}
                 </Text>
-              </Button>
+              </OldButton>
               <Flex
                 style={{
                   height: styles.spacing.xl,

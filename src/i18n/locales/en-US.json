@@ -258,7 +258,7 @@
     },
     "login": {
         "enterValid": "Please enter a valid email and password",
-        "existingAccount": "Successful login to an existing account from this screen will merge any guest account progress and conversations to your existing account.",
+        "existingAccount": "Successful login to\u00A0an\u00A0existing account from this screen will merge any guest account progress and conversations to\u00A0your existing\u00A0account.",
         "invalid": "Invalid email\/password",
         "login": "Login"
     },
@@ -497,6 +497,7 @@
         "noNeed": "- (they don't need to have Voke)",
         "who": "Who do you want to share",
         "with": "with?",
+        "leaderWillRelease": "Your leader will release the next video",
         "howSharingWorks": "Tell me how sharing works"
     }
 }

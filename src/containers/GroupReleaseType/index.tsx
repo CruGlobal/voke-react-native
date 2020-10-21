@@ -25,7 +25,7 @@ import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import TextField from '../../components/TextField';
 import st from '../../st';
-import Button from '../../components/Button';
+import OldButton from '../../components/OldButton';
 import theme from '../../theme';
 import BotTalking from '../../components/BotTalking';
 import Touchable from '../../components/Touchable';
@@ -167,7 +167,7 @@ function GroupReleaseType(props: any): ReactElement {
         >
           {index === 0 ? t('recommended') : ''}
         </Text>
-        <Button
+        <OldButton
           onPress={item.buttonAction}
           testID={'ctaContinue' + index}
           touchableStyle={{
@@ -192,7 +192,7 @@ function GroupReleaseType(props: any): ReactElement {
           >
             {t('select')}
           </Text>
-        </Button>
+        </OldButton>
       </View>
     );
   };

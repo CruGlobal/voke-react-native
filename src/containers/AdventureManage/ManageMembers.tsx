@@ -8,7 +8,7 @@ import Communications from 'react-native-communications';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import Touchable from '../../components/Touchable';
-import Button from '../../components/Button';
+import OldButton from '../../components/OldButton';
 import VokeIcon from '../../components/VokeIcon';
 import Image from '../../components/Image';
 import { resendAdventureInvitation } from '../../actions/requests';
@@ -24,10 +24,12 @@ const ManageMembers = ({ messengers, me, adventure }) => {
   const myAvatar = useMemo(() => myUser?.avatar?.small, [
     myUser?.avatar?.small,
   ]);
-  const inviteId = adventure?.journey_invite?.id;
-  const inviteItem = useSelector(
-    ({ data }) => data.adventureInvitations.byId[inviteId],
-  );
+
+  const inviteItem = adventure?.journey_invite;
+  // Move preview_journey_url from parent into the inviteItem data structure.
+  if ( !inviteItem?.preview_journey_url && adventure?.preview_journey_url ) {
+    inviteItem.preview_journey_url = adventure?.preview_journey_url
+  }
 
   const otherUsers =
     messengers.filter(i => i.id !== me.id && i.first_name !== 'VokeBot') || [];
@@ -46,25 +48,25 @@ const ManageMembers = ({ messengers, me, adventure }) => {
       check if it's expired.
       Renew invite on the server if it is expired.
       Otherwise go ahead and show a screen with a share code. */
-      const { isTimeExpired } = getExpiredTime(inviteItem.expires_at);
-      let readyToShare = true;
-      if (isTimeExpired) {
-        readyToShare = false;
-        const result = await dispatch(resendAdventureInvitation(inviteItem.id));
-        if (!result.error) {
+      // const { isTimeExpired } = getExpiredTime(inviteItem.expires_at);
+      // let readyToShare = true;
+      // if (isTimeExpired) {
+        // readyToShare = false;
+        // const result = await dispatch(resendAdventureInvitation(inviteItem.id));
+        /* if (!result.error) {
           readyToShare = true;
         } else {
           throw false;
-        }
-      }
+        } */
+      // }
 
-      if (readyToShare) {
+      // if (readyToShare) {
         navigation.navigate('AdventureShareCode', {
           invitation: inviteItem,
           withGroup: true,
           isVideoInvite: false,
         });
-      }
+      // }
     } catch (error) {
       Alert.alert(
         'Failed to send a new invite',
@@ -121,7 +123,7 @@ const ManageMembers = ({ messengers, me, adventure }) => {
       </Flex>
       {otherUsers.length ? (
         <View style={styles.membersList}>
-          <Button
+          <OldButton
             onPress={(): void => {
               addMembers(inviteItem);
             }}
@@ -137,7 +139,7 @@ const ManageMembers = ({ messengers, me, adventure }) => {
             <Text style={styles.membersAddButtonAltLabel}>
               {t('addMembers')}
             </Text>
-          </Button>
+          </OldButton>
           <Touchable
             isAndroidOpacity={true}
             onPress={(): void =>
@@ -166,14 +168,14 @@ const ManageMembers = ({ messengers, me, adventure }) => {
       ) : (
         <View style={styles.membersAdd}>
           <Text style={styles.membersAddText}>{t('noMembersYet')}</Text>
-          <Button
+          <OldButton
             onPress={(): void => {
               addMembers(inviteItem);
             }}
             style={styles.membersAddButton}
           >
             <Text style={styles.membersAddButtonLabel}>{t('addMembers')}</Text>
-          </Button>
+          </OldButton>
         </View>
       )}
     </View>

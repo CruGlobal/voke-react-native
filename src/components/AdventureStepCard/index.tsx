@@ -81,13 +81,35 @@ function AdventureStepCard({
     invitedUserName = inviteName;
   }
 
-  const nextReleaseDate = getNextReleaseDate({
-    startDate: adventure.gating_start_at,
-    releasePeriod: adventure.gating_period,
-  });
+  const nextReleaseDate = adventure.gating_period
+    ? getNextReleaseDate({
+        startDate: adventure.gating_start_at,
+        releasePeriod: adventure.gating_period,
+      })
+    : null;
 
-  const nextReleaseIn = getDiffToDate(nextReleaseDate);
-  const nextReleaseTime = getTimeToDate(nextReleaseDate);
+
+  const nextReleaseIn = nextReleaseDate ? getDiffToDate(nextReleaseDate) : null;
+  const nextReleaseTime = nextReleaseDate
+    ? getTimeToDate(nextReleaseDate)
+    : null;
+
+  const printNextReleaseDate = ({
+    nextReleaseDate,
+    nextReleaseIn,
+    nextReleaseTime,
+  }): string => {
+    let result = '';
+    if (nextReleaseDate) {
+      result = `${t('share:nextRelease')} ${nextReleaseIn} ${t(
+        'at',
+      )} ${nextReleaseTime}`;
+    } else {
+      result = t('share:leaderWillRelease');
+    }
+
+    return result;
+  };
 
   // Monitor any changes in steps and step parammeters of the component
   // to update the card elements accordingly.
@@ -130,17 +152,15 @@ function AdventureStepCard({
           {isGroup && isLocked && isActive && (
             <Flex
               align="center"
-              style={[st.bgOrange, st.w100, st.pd6, st.brtl5, st.brtr5]}
+              style={styles.nextReleaseBlock}
             >
               {
-                <Text style={[st.fs4]}>
-                  {t('share:nextRelease') +
-                    ' ' +
-                    nextReleaseIn +
-                    ' ' +
-                    t('at') +
-                    ' ' +
-                    nextReleaseTime}
+                <Text style={styles.nextReleaseText}>
+                  {printNextReleaseDate({
+                    nextReleaseDate,
+                    nextReleaseIn,
+                    nextReleaseTime,
+                  })}
                 </Text>
               }
             </Flex>
@@ -249,30 +269,6 @@ function AdventureStepCard({
           ) : null}
         </Flex>
       </Touchable>
-      {/* {isLocked ? null : (
-      <Flex
-        style={[
-          st.absbr,
-          st.isAndroid ? st.bottom(10) : st.bottom(15),
-          st.right(15),
-          st.mh5,
-        ]}
-      >
-        <Button
-          type="transparent"
-          isAndroidOpacity
-          onPress={(): void => {}}
-          activeOpacity={0.6}
-          touchableStyle={[st.abs, st.right(15), st.top(-35), st.mh5]}
-        >
-          <VokeIcon
-            type="image"
-            name="to-chat"
-            style={{ width: 50, height: 50 }}
-          />
-        </Button>
-      </Flex>
-    )} */}
       {isCompleted ? (
         <Flex
           style={[

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, Dimensions, ScrollView } from 'react-native';
 import { Modalize } from 'react-native-modalize';
+import { BlurView } from '@react-native-community/blur';
 import { Portal } from 'react-native-portalize';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,7 +14,7 @@ import VokeIcon from '../VokeIcon';
 import { RootState } from '../../reducers';
 import { REDUX_ACTIONS } from '../../constants';
 import theme from '../../theme';
-import Button from '../Button';
+import OldButton from '../OldButton';
 
 import styles from './styles';
 
@@ -24,6 +25,7 @@ const Complain = () => {
   const complain = useSelector(({ info }: RootState) => info.complain);
   const [complainSubmited, setComplainSubmited] = useState(false);
   const dispatch = useDispatch();
+  const isAndroid = Platform.OS === 'android';
   useEffect(() => {
     if (complain?.messageId) {
       modalizeRef.current?.open();
@@ -67,7 +69,7 @@ const Complain = () => {
     <Portal>
       <Modalize
         ref={modalizeRef}
-        modalTopOffset={height / 4}
+        modalTopOffset={height > 600 ? height / 6 : 0}
         handlePosition={'inside'}
         openAnimationConfig={{
           timing: { duration: 300 },
@@ -79,90 +81,98 @@ const Complain = () => {
         modalStyle={styles.modalStyle}
         childrenStyle={styles.childrenStyle}
         adjustToContentHeight={true}
+        disableScrollIfPossible={height > 600 ? true : false}
         FooterComponent={
-          <SafeAreaView edges={['bottom']}>
+          <SafeAreaView edges={['bottom']} style={styles.modalActions}>
             {!complainSubmited ? (
-              <Button
+              <OldButton
                 onPress={() => closeModal()}
                 touchableStyle={styles.actionButton}
                 testID={'ctaComplainClose'}
               >
                 <Text style={styles.actionButtonLabel}>{t('cancel')}</Text>
-              </Button>
+              </OldButton>
             ) : (
-              <Button
+              <OldButton
                 onPress={() => closeModal()}
                 touchableStyle={styles.actionButton}
                 testID={'ctaComplainDone'}
               >
                 <Text style={styles.actionButtonLabel}>{t('done')}</Text>
-              </Button>
+              </OldButton>
             )}
           </SafeAreaView>
         }
       >
+          <BlurView
+            // overlayColor="red"
+            reducedTransparencyFallbackColor="rgba(255,255,255,.8)"
+            blurType="xlight"
+            blurAmount={isAndroid? 0 :7}
+            style={styles.modalBlur}
+          />
         <View style={styles.modalContent}>
-          <View style={styles.modalHeader}>
-            <Text numberOfLines={2} style={styles.modalTitle}>
-              {t('modalTitle')}
-            </Text>
-          </View>
-          {!complainSubmited ? (
-            <>
-              <Text style={styles.causeTitle}>{t('introText')}</Text>
-              <ScrollView style={styles.causeOptions}>
-                <Button
-                  onPress={() => {
-                    sendComplain(t('bullying'));
-                  }}
-                  touchableStyle={styles.causeOption}
-                  testID={'ctaBullying'}
-                >
-                  <Text style={styles.causeOptionLabel}>{t('bullying')}</Text>
-                </Button>
-                <Button
-                  onPress={() => {
-                    sendComplain(t('spam'));
-                  }}
-                  touchableStyle={styles.causeOption}
-                  testID={'ctaSpam'}
-                >
-                  <Text style={styles.causeOptionLabel}>{t('spam')}</Text>
-                </Button>
-                <Button
-                  onPress={() => {
-                    sendComplain(t('inappropriate'));
-                  }}
-                  touchableStyle={styles.causeOption}
-                  testID={'ctaInappropriate'}
-                >
-                  <Text style={styles.causeOptionLabel}>
-                    {t('inappropriate')}
-                  </Text>
-                </Button>
+            <View style={styles.modalHeader}>
+              <Text numberOfLines={2} style={styles.modalTitle}>
+                {t('modalTitle')}
+              </Text>
+            </View>
+            {!complainSubmited ? (
+              <>
+                <Text style={styles.causeTitle}>{t('introText')}</Text>
+                <ScrollView style={styles.causeOptions}>
+                  <OldButton
+                    onPress={() => {
+                      sendComplain(t('bullying'));
+                    }}
+                    touchableStyle={styles.causeOption}
+                    testID={'ctaBullying'}
+                  >
+                    <Text style={styles.causeOptionLabel}>{t('bullying')}</Text>
+                  </OldButton>
+                  <OldButton
+                    onPress={() => {
+                      sendComplain(t('spam'));
+                    }}
+                    touchableStyle={styles.causeOption}
+                    testID={'ctaSpam'}
+                  >
+                    <Text style={styles.causeOptionLabel}>{t('spam')}</Text>
+                  </OldButton>
+                  <OldButton
+                    onPress={() => {
+                      sendComplain(t('inappropriate'));
+                    }}
+                    touchableStyle={styles.causeOption}
+                    testID={'ctaInappropriate'}
+                  >
+                    <Text style={styles.causeOptionLabel}>
+                      {t('inappropriate')}
+                    </Text>
+                  </OldButton>
+                </ScrollView>
+              </>
+            ) : (
+              <ScrollView style={styles.complainConfirmation}>
+                <VokeIcon
+                  name="check_circle"
+                  style={styles.complainConfirmationIcon}
+                  size={40}
+                />
+                <Text style={styles.complainConfirmationText}>
+                  {t('submited')}
+                </Text>
               </ScrollView>
-            </>
-          ) : (
-            <ScrollView style={styles.complainConfirmation}>
-              <VokeIcon
-                name="check_circle"
-                style={styles.complainConfirmationIcon}
-                size={40}
-              />
-              <Text style={styles.complainConfirmationText}>
-                {t('submited')}
+            )}
+            <View style={styles.modalFooter}>
+              <Text style={styles.modalFooterText}>
+                {t('reportingFooter')}{' '}
+                <Text style={styles.modalFooterHighlight} onPress={() => {}}>
+                  <Text style={styles.modalFooterLink}>{t('learnMore')}</Text>{' '}
+                  {t('aboutReporting')}
+                </Text>
               </Text>
-            </ScrollView>
-          )}
-          <View style={styles.modalFooter}>
-            <Text style={styles.modalFooterText}>
-              {t('reportingFooter')}{' '}
-              <Text style={styles.modalFooterHighlight} onPress={() => {}}>
-                <Text style={styles.modalFooterLink}>{t('learnMore')}</Text>{' '}
-                {t('aboutReporting')}
-              </Text>
-            </Text>
-          </View>
+            </View>
         </View>
       </Modalize>
     </Portal>

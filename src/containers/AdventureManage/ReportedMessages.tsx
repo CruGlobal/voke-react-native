@@ -11,7 +11,7 @@ import {
 } from '../../actions/requests';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
-import Button from '../../components/Button';
+import OldButton from '../../components/OldButton';
 import Image from '../../components/Image';
 import VokeIcon from '../../components/VokeIcon';
 
@@ -66,11 +66,13 @@ const ReportedMessages = ({ adventureId }) => {
       }),
     );
 
-    if (result?.status === 'pending') {
+    console.log( "🎯 result:", result );
+
+    if (result?.status === 'accepted') {
       const modifiedComplains = [...complains];
       complains.forEach((complain, index) => {
         if (complain.id === reportId) {
-          modifiedComplains[index].status = 'approved';
+          modifiedComplains[index].status = 'accepted';
         }
       });
       setComplains(modifiedComplains);
@@ -111,7 +113,7 @@ const ReportedMessages = ({ adventureId }) => {
           <View style={styles.complainActions}>
             {item.status === 'pending' ? (
               <>
-                <Button
+                <OldButton
                   onPress={() =>
                     complainActionBlock({
                       adventureId: adventureId,
@@ -125,8 +127,8 @@ const ReportedMessages = ({ adventureId }) => {
                   <Text style={styles.complainActionBlockLabel}>
                     {t('block')}
                   </Text>
-                </Button>
-                <Button
+                </OldButton>
+                <OldButton
                   onPress={() =>
                     complainActionAllow({
                       adventureId: adventureId,
@@ -140,7 +142,7 @@ const ReportedMessages = ({ adventureId }) => {
                   <Text style={styles.complainActionAllowLabel}>
                     {t('allow')}
                   </Text>
-                </Button>
+                </OldButton>
               </>
             ) : (
               <VokeIcon

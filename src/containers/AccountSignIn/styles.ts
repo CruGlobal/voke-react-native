@@ -10,8 +10,9 @@ const sharedStyles = {
     borderStyle: 'solid',
     borderWidth: 1,
     borderColor: theme.colors.white,
-    width: '80%',
-    minWidth: 170,
+    flex:1,
+    // width: '80%',
+    // minWidth: 170,
     alignSelf:'center',
   },
   ButtonSignInLabel: {
@@ -44,7 +45,6 @@ const styles = StyleSheet.create({
   },
 
   signInOptions: {
-    paddingHorizontal: theme.spacing.xl,
   },
 
 
@@ -99,8 +99,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   sectionNotice: {
-    paddingLeft: theme.spacing.xl,
-    paddingRight: theme.spacing.xl,
+    paddingHorizontal: theme.spacing.l,
     paddingBottom: theme.spacing.l,
   },
   textMedium: {

@@ -241,11 +241,6 @@ function AdventureCard({ adventureId }) {
                     st.p6,
                     st.pl5,
                     st.pr5,
-                    {
-                      // position: "absolute",
-                      // right: -2,
-                      // top: 0,
-                    },
                   ]}
                 >
                   <VokeIcon

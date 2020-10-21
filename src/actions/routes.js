@@ -72,6 +72,7 @@ const ROUTES = {
       imageUpload: true,
     },
   }, */
+
   // https://docs.vokeapp.com/#me-get-me
   GET_ME: {
     method: 'get',
@@ -83,6 +84,7 @@ const ROUTES = {
     url: `me/journeys`
   },
   GET_MY_ADVENTURE: { method: 'get', url: `me/journeys/{adventureId}` },
+  UNLOCK_NEXT_ADVENTURE_STEP: { method: 'get', url: `me/journeys/{adventureId}/unlock` },
   GET_ADVENTURE_STEPS: {
     method: 'get',
     url: `me/journeys/{adventureId}/steps`,

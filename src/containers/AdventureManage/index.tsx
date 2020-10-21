@@ -11,7 +11,7 @@ import { useDispatch, useSelector, shallowEqual, useStore } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 
-import { getMyAdventure, getAdventureSummary } from '../../actions/requests';
+import { getMyAdventure, getAdventureSummary, getAdventureSteps } from '../../actions/requests';
 import AdventureStepReportCard from '../../components/AdventureStepReportCard';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
@@ -51,43 +51,70 @@ function AdventureManage({
       data.myAdventures?.byId[adventureId] || {},
   );
 
-  const [steps, setSteps] = useState([]);
+  const stepsListIds =
+    useSelector(
+      ({ data }: { data: TDataState }) =>
+        data.adventureSteps[adventureId]?.allIds,
+    ) || {};
 
-  const updateSteps = async () => {
-    const result = await dispatch(getAdventureSummary(adventureId));
-    if (result?.steps.length) {
-      setSteps(result?.steps);
-    }
-  };
+  console.log('🙊 adventure:', adventure);
+  console.log( "⛑ stepsListIds:", stepsListIds );
+
 
   useEffect(() => {
-    if (adventureId) {
-      updateSteps();
+    if (adventureId && !stepsListIds.length) {
+      dispatch(getAdventureSteps(adventureId));
     }
-  }, [adventureId]);
+    // -- ☝️call to update steps from the server.
+    // Without it new Adventures won't show any steps.
+  }, [adventureId, stepsListIds.length, dispatch]);
+
+  // const [steps, setSteps] = useState([]);
+
+  // const updateSteps = async () => {
+  //   const result = await dispatch(getAdventureSteps(adventureId));
+  //   console.log('🐸 result?.steps:', result?.steps);
+  //   if (result?.steps.length) {
+  //     // Pseudo-step for graduated users.
+  //     result?.steps.push({
+  //       id: 'graduated',
+  //       active_messengers: [],
+  //     });
+  //     setSteps(result?.steps);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (adventureId) {
+  //     updateSteps();
+  //   }
+  // }, [adventureId]);
 
   const messengers = adventure?.conversation?.messengers || [];
 
   const gatingStartAt = adventure?.gating_start_at;
   const gatingPeriod = adventure?.gating_period;
+
   const gatingType = gatingPeriod => {
     if (gatingPeriod === 7) {
       return 'weekly';
     } else if (gatingPeriod === 1) {
       return 'daily';
-    } else {
+    } else if (gatingPeriod === 0) {
       return 'manual';
     }
+
+    return '';
   };
   const gatingStart = adventure?.gating_start_at;
   const inviteCode = adventure?.journey_invite?.code;
 
   // Request steps from server if nothing stored locally.
-  /* useEffect(() => {
-    if (!steps.allIds.length) {
-      dispatch(getAdventureSteps(adventureId));
-    }
-  }, [steps.allIds]); */
+  // useEffect(() => {
+  //   if (!steps.allIds.length) {
+  //     dispatch(getAdventureSteps(adventureId));
+  //   }
+  // }, [steps.allIds]);
 
   useEffect(() => {
     // Set title dynamically.
@@ -99,6 +126,8 @@ function AdventureManage({
     dispatch(getMyAdventure(adventureId));
   }, []);
 
+  console.log( "😁 stepsListIds:", stepsListIds );
+
   return (
     <ScrollView style={styles.screen}>
       <SafeAreaView>
@@ -109,38 +138,42 @@ function AdventureManage({
             <Text style={styles.inviteCode}>{inviteCode}</Text>
           </Text>
         </Flex>
-        <View style={styles.releaseSchedule}>
-          <Text style={styles.releaseScheduleText}>
-            {t('share:contentUnlockSchedule') +
-              ' ' +
-              (gatingPeriod
-                ? t(
-                    gatingPeriod === 7 ? 'share:everyWeek' : 'share:everyDayAt',
-                  ) + ' '
-                : '')}
-            {
-              <Text
-                onPress={() =>
-                  navigation.navigate('GroupReleaseType', {
-                    groupName: adventure?.journey_invite?.name,
-                    itemId: adventure.organization_journey_id,
-                    releaseSchedule: gatingType(gatingPeriod),
-                    releaseDate: gatingStartAt,
-                    editing: true,
-                    adventureId: adventure?.id,
-                  })
-                }
-                style={styles.manageMembers}
-              >
-                {gatingPeriod === 0
-                  ? t('share:manually')
-                  : moment(gatingStart).format(
-                      gatingPeriod === 7 ? 'dddd, LT' : 'LT',
-                    )}
-              </Text>
-            }
-          </Text>
-        </View>
+        {gatingPeriod !== null && (
+          <View style={styles.releaseSchedule}>
+            <Text style={styles.releaseScheduleText}>
+              {t('share:contentUnlockSchedule') +
+                ' ' +
+                (gatingPeriod
+                  ? t(
+                      gatingPeriod === 7
+                        ? 'share:everyWeek'
+                        : 'share:everyDayAt',
+                    ) + ' '
+                  : '')}
+              {
+                <Text
+                  onPress={() =>
+                    navigation.navigate('GroupReleaseType', {
+                      groupName: adventure?.journey_invite?.name,
+                      itemId: adventure.organization_journey_id,
+                      releaseSchedule: gatingType(gatingPeriod),
+                      releaseDate: gatingStartAt,
+                      editing: true,
+                      adventureId: adventure?.id,
+                    })
+                  }
+                  style={styles.manageMembers}
+                >
+                  {gatingPeriod === 0
+                    ? t('share:manually')
+                    : moment(gatingStart).format(
+                        gatingPeriod === 7 ? 'dddd, LT' : 'LT',
+                      )}
+                </Text>
+              }
+            </Text>
+          </View>
+        )}
         <ManageMembers messengers={messengers} me={me} adventure={adventure} />
         <Flex
           direction="column"
@@ -149,20 +182,27 @@ function AdventureManage({
         >
           <Text style={styles.sectionTitle}>{t('journeyStatus')}</Text>
           <FlatList
-            data={steps}
+            data={stepsListIds}
             renderItem={({ item }): React.ReactElement =>
-              item && (
+              { console.log( "🐸 item:", item );
+                return item && (
                 <AdventureStepReportCard
-                  step={item}
+                  stepId={item}
                   adventureId={adventureId}
                   activeStepRef={activeStepRef}
                 />
               )
+              }
             }
+
           />
+          <AdventureStepReportCard
+                  stepId='graduated'
+                  adventureId={adventureId}
+                  activeStepRef={activeStepRef}
+                />
         </Flex>
         <ReportedMessages adventureId={adventureId} />
-
         <View style={styles.footer}>
           <Touchable>
             <Text style={styles.groupDelete}>{t('deleteGroup')}</Text>
@@ -171,7 +211,6 @@ function AdventureManage({
             Started on: {new Date(adventure.created_at).toDateString()}
           </Text>
         </View>
-
         <Flex value={1} style={{ paddingBottom: insets.bottom }} />
       </SafeAreaView>
     </ScrollView>

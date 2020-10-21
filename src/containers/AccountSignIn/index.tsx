@@ -7,6 +7,7 @@ import {
   TextInput,
   View,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -21,13 +22,16 @@ import { userLogin, facebookLogin } from '../../actions/auth';
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
 import VokeIcon from '../../components/VokeIcon';
 import TextField from '../../components/TextField';
-import Button from '../../components/Button';
+import OldButton from '../../components/OldButton';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import st from '../../st';
 import theme from '../../theme';
+import Screen from '../../components/Screen';
 
 import styles from './styles';
+import Button from '../../components/Button';
+import Spacer from '../../components/Spacer';
 
 type Props = {
   layout: string;
@@ -56,6 +60,7 @@ const AccountSignIn: React.FC = ({
   const { t } = useTranslation('common');
   const passwordRef = useRef<TextInput>(null);
   const emailRef = useRef<TextInput>(null);
+  const windowDimensions = useWindowDimensions();
 
   // https://github.com/react-native-hooks/keyboard#configuration
   const [isKeyboardVisible] = useKeyboard();
@@ -129,230 +134,201 @@ const AccountSignIn: React.FC = ({
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      style={{
-        backgroundColor: theme.colors.primary,
-        flex: 1,
-      }}
-    >
-      <ScrollView
-        ref={scroll => {
-          if (!scrollRef?.current && scroll) {
-            scrollRef.current = scroll;
-          }
-        }}
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          justifyContent: 'space-evenly',
-          minHeight: isKeyboardVisible ? 'auto' : '100%',
+    <Screen testID={'accountSignInScreen'}>
+      {/* SECTION: SIGN IN OPTIONS */}
+      <Flex style={styles.signInOptions}>
+        {layout !== 'embed' && (
+          <View
+            style={{
+              minHeight:
+                isKeyboardVisible && windowDimensions.height < 812
+                  ? theme.spacing.xl
+                  : theme.spacing.xxxl,
+              // Vertically align form on different screens sizes.
+            }}
+          />
+        )}
+        {!formIsVisible && (
+          <>
+            <Button
+              onPress={(): void => {
+                setFormIsVisible(true);
+                emailRef?.current?.focus();
+                setTimeout(() => {
+                  emailRef?.current?.focus();
+                }, 400);
+              }}
+              testID={'ctaAdventureCode'}
+              size="l"
+              color="empty"
+              icon="mail"
+            >
+              {t('signInEmail')}
+            </Button>
+          </>
+        )}
+        {formIsVisible && (
+          <Flex style={[styles.primaryContent]}>
+            {/* <View style={{ minHeight: theme.spacing.xxl }} /> */}
+            {/* INPUT FIELD: EMAIL */}
+            <TextField
+              // blurOnSubmit={false}
+              ref={emailRef}
+              label={t('placeholder:email')}
+              onSubmitEditing={(): void => passwordRef?.current?.focus()}
+              placeholder={t('placeholder:email')}
+              // value={email}
+              value={formik.values.email}
+              // onChangeText={checkEmail}
+              onChangeText={formik.handleChange('email')}
+              onBlur={formik.handleBlur('email')}
+              onFocus={() => {
+                if (
+                  Platform.OS === 'ios' &&
+                  parentScroll?.current &&
+                  scrollTo
+                ) {
+                  // Android do that all for us automatically.
+                  // Need timeout for Keyboard to appear and scroll become available
+                  setTimeout(() => {
+                    parentScroll?.current
+                      ?.getScrollResponder()
+                      .scrollTo({ x: 0, y: scrollTo, animated: true });
+                  }, 400);
+                }
+              }}
+              autoCapitalize="none"
+              textContentType="username"
+              autoCompleteType="email"
+              keyboardType="email-address"
+              returnKeyType="next"
+              error={
+                formik.touched.email && formik.errors.email
+                  ? formik.errors.email
+                  : null
+              }
+              testID={'inputEmail'}
+            />
+            {/* INPUT FIELD: PASSWORD */}
+            <TextField
+              ref={passwordRef}
+              // blurOnSubmit={true}
+              label={t('placeholder:password')}
+              placeholder={t('placeholder:password')}
+              // value={password}
+              value={formik.values.password}
+              // onChangeText={(text: string): void => setPassword(text)}
+              onChangeText={formik.handleChange('password')}
+              onBlur={formik.handleBlur('password')}
+              secureTextEntry
+              textContentType="password"
+              autoCompleteType="password"
+              returnKeyType="send"
+              onSubmitEditing={formik.handleSubmit}
+              error={
+                formik.touched.password && formik.errors.password
+                  ? formik.errors.password
+                  : null
+              }
+              testID={'inputPassword'}
+            />
+            <Flex
+              style={{
+                minHeight: theme.spacing.xl,
+              }}
+            />
+            {/* BUTTON: SIGN IN */}
+            <OldButton
+              onPress={formik.handleSubmit}
+              // onPress={(): Promise<void> => login()}
+              touchableStyle={[
+                st.pd4,
+                st.br1,
+                st.w(st.fullWidth - 70),
+                {
+                  backgroundColor: theme.colors.white,
+                  textAlign: 'center',
+                  shadowColor: 'rgba(0, 0, 0, 0.5)',
+                  shadowOpacity: 0.5,
+                  elevation: 4,
+                  shadowRadius: 5,
+                  shadowOffset: { width: 1, height: 8 },
+                },
+              ]}
+              isLoading={isLoading}
+              testID={'ctaSignInNow'}
+            >
+              <Text
+                style={[st.fs20, st.tac, { color: theme.colors.secondary }]}
+              >
+                {t('signIn')}
+              </Text>
+            </OldButton>
+            {/* TEXT: FORGOT PASSWORD */}
+            <Text
+              style={styles.link}
+              onPress={(): void => navigation.navigate('ForgotPassword')}
+            >
+              {t('forgotPassword')}
+            </Text>
+            <Flex style={{ minHeight: theme.spacing.xxl }} />
+          </Flex>
+        )}
+        <View style={{ minHeight: theme.spacing.m }} />
+        {Platform.OS === 'ios' && (
+          <>
+            <Button
+              onPress={(): Promise<void> => fbLogin()}
+              testID={'ctaAdventureCode'}
+              size="l"
+              styling="outline"
+              color="empty"
+              icon="apple"
+            >
+              {t('signInApple')}
+            </Button>
+            <Spacer />
+          </>
+        )}
+        <Button
+          onPress={(): Promise<void> => fbLogin()}
+          testID={'ctaAdventureCode'}
+          size="l"
+          styling="outline"
+          color="empty"
+          icon="facebook"
+        >
+          {t('signInFb')}
+        </Button>
+        <Spacer />
+      </Flex>
+      <View style={{ minHeight: theme.spacing.xl }} />
+      {/* TEXT: NOTICE */}
+      {/* TODO: hide this notice if it's on the welcome stage (no progress) */}
+      <Flex direction="column" justify="start" style={styles.sectionNotice}>
+        <Text style={styles.textMedium}>{t('login:existingAccount')}</Text>
+      </Flex>
+      {/* <View style={{ minHeight: theme.spacing.xl }} /> */}
+      <View
+        style={{
+          justifyContent: 'center', // Vertical.
         }}
       >
-        <DismissKeyboardView>
-          <SafeAreaView>
-            {/* SECTION: SIGN IN OPTIONS */}
-            <Flex style={styles.signInOptions}>
-              {layout !== 'embed' && (
-                <View style={{ minHeight: theme.spacing.xxxl }} />
-              )}
-              {!formIsVisible && (
-                <>
-                  <Button
-                    isAndroidOpacity
-                    style={styles.buttonSignInPrimary}
-                    onPress={(): void => {
-                      setFormIsVisible(true);
-                      emailRef?.current?.focus();
-                      setTimeout(() => {
-                        emailRef?.current?.focus();
-                      }, 400);
-                    }}
-                  >
-                    <Flex direction="row" align="center" justify="center">
-                      <VokeIcon
-                        name="mail"
-                        size={22}
-                        style={styles.buttonSignInIconPrimary}
-                      />
-                      <Text style={styles.buttonSignInLabelPrimary}>
-                        {t('signInEmail')}
-                      </Text>
-                    </Flex>
-                  </Button>
-                </>
-              )}
-              {formIsVisible && (
-                <Flex style={[styles.primaryContent]}>
-                  {/* <View style={{ minHeight: theme.spacing.xxl }} /> */}
-                  {/* INPUT FIELD: EMAIL */}
-                  <TextField
-                    // blurOnSubmit={false}
-                    ref={emailRef}
-                    label={t('placeholder:email')}
-                    onSubmitEditing={(): void => passwordRef?.current?.focus()}
-                    placeholder={t('placeholder:email')}
-                    // value={email}
-                    value={formik.values.email}
-                    // onChangeText={checkEmail}
-                    onChangeText={formik.handleChange('email')}
-                    onBlur={formik.handleBlur('email')}
-                    onFocus={() => {
-                      if (Platform.OS === 'ios' && parentScroll?.current && scrollTo) {
-                        // Android do that all for us automatically.
-                        // Need timeout for Keyboard to appear and scroll become available
-                        setTimeout(() => {
-                          parentScroll?.current
-                            ?.getScrollResponder()
-                            .scrollTo({x: 0, y: scrollTo, animated: true});
-                        }, 400);
-                      }
-                    }}
-                    autoCapitalize="none"
-                    textContentType="username"
-                    autoCompleteType="email"
-                    keyboardType="email-address"
-                    returnKeyType="next"
-                    error={
-                      formik.touched.email && formik.errors.email
-                        ? formik.errors.email
-                        : null
-                    }
-                    testID={'inputEmail'}
-                  />
-                  {/* INPUT FIELD: PASSWORD */}
-                  <TextField
-                    ref={passwordRef}
-                    // blurOnSubmit={true}
-                    label={t('placeholder:password')}
-                    placeholder={t('placeholder:password')}
-                    // value={password}
-                    value={formik.values.password}
-                    // onChangeText={(text: string): void => setPassword(text)}
-                    onChangeText={formik.handleChange('password')}
-                    onBlur={formik.handleBlur('password')}
-                    secureTextEntry
-                    textContentType="password"
-                    autoCompleteType="password"
-                    returnKeyType="send"
-                    onSubmitEditing={formik.handleSubmit}
-                    error={
-                      formik.touched.password && formik.errors.password
-                        ? formik.errors.password
-                        : null
-                    }
-                    testID={'inputPassword'}
-                  />
-                  <Flex
-                    style={{
-                      minHeight: theme.spacing.xl,
-                    }}
-                  />
-                  {/* BUTTON: SIGN IN */}
-                  <Button
-                    onPress={formik.handleSubmit}
-                    // onPress={(): Promise<void> => login()}
-                    touchableStyle={[
-                      st.pd4,
-                      st.br1,
-                      st.w(st.fullWidth - 70),
-                      {
-                        backgroundColor: theme.colors.white,
-                        textAlign: 'center',
-                        shadowColor: 'rgba(0, 0, 0, 0.5)',
-                        shadowOpacity: 0.5,
-                        elevation: 4,
-                        shadowRadius: 5,
-                        shadowOffset: { width: 1, height: 8 },
-                      },
-                    ]}
-                    isLoading={isLoading}
-                    testID={'ctaSignInNow'}
-                  >
-                    <Text
-                      style={[
-                        st.fs20,
-                        st.tac,
-                        { color: theme.colors.secondary },
-                      ]}
-                    >
-                      {t('signIn')}
-                    </Text>
-                  </Button>
-                  {/* TEXT: FORGOT PASSWORD */}
-                  <Text
-                    style={styles.link}
-                    onPress={(): void => navigation.navigate('ForgotPassword')}
-                  >
-                    {t('forgotPassword')}
-                  </Text>
-                  <Flex style={{ minHeight: theme.spacing.xxl }} />
-                </Flex>
-              )}
-              <View style={{ minHeight: theme.spacing.m }} />
-              <Button
-                isAndroidOpacity
-                style={styles.ButtonSignIn}
-                onPress={(): Promise<void> => fbLogin()}
-              >
-                <Flex direction="row" align="center" justify="center">
-                  <VokeIcon name="apple" size={22} style={[st.mr5, st.white]} />
-                  <Text style={styles.ButtonSignInLabel}>
-                    {t('signInApple')}
-                  </Text>
-                </Flex>
-              </Button>
-              <View style={{ minHeight: theme.spacing.m }} />
-              <Button
-                isAndroidOpacity
-                style={styles.ButtonSignIn}
-                onPress={(): Promise<void> => fbLogin()}
-              >
-                <Flex direction="row" align="center" justify="center">
-                  <VokeIcon
-                    name="logo-facebook"
-                    size={22}
-                    style={[st.mr5, st.white]}
-                  />
-                  <Text style={styles.ButtonSignInLabel}>{t('signInFb')}</Text>
-                </Flex>
-              </Button>
-            </Flex>
-            <View style={{ minHeight: theme.spacing.xl }} />
-            {/* TEXT: NOTICE */}
-            {/* TODO: hide this notice if it's on the welcome stage (no progress) */}
-            <Flex
-              direction="column"
-              justify="start"
-              style={styles.sectionNotice}
-            >
-              <Text style={styles.textMedium}>
-                {t('login:existingAccount')}
-              </Text>
-            </Flex>
-            {/* <View style={{ minHeight: theme.spacing.xl }} /> */}
-            <View
-              style={{
-                justifyContent: 'center', // Vertical.
-              }}
-            >
-              {/* <Flex
+        {/* <Flex
                   style={{
                     minHeight: 20,
                   }}
                 /> */}
-              {/* Safe area at the bottom for phone with exotic notches */}
-              {/* <Flex
+        {/* Safe area at the bottom for phone with exotic notches */}
+        {/* <Flex
                   style={{
                     minHeight: isKeyboardVisible
                       ? 0
                       : theme.spacing.xl + insets.bottom,
                   }}
                 /> */}
-            </View>
-          </SafeAreaView>
-        </DismissKeyboardView>
-      </ScrollView>
-    </KeyboardAvoidingView>
+      </View>
+    </Screen>
   );
 };
 

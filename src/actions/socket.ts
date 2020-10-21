@@ -224,6 +224,13 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
                   // dispatch(getMyJourneys());
                   // dispatch(getMyJourneySteps((message.journey || {}).id));
                 }
+              } else if (notification.category === 'UNLOCK_STEP_CATEGORY') {
+                // Next Adventure step unlocked from the server.
+                const journeyId = (message.journey || {}).id;
+                if (journeyId) {
+                  // dispatch(getMyJourneys());
+                  dispatch(getAdventureSteps(journeyId));
+                }
               } else if (
                 notification.category === 'CREATE_INTERACTION_CATEGORY'
                 // Ofthen used with 'message ✅read' status.

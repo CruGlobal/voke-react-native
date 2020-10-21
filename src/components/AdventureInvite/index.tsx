@@ -10,7 +10,7 @@ import Image from '../Image';
 import st from '../../st';
 import Touchable from '../Touchable';
 import Text from '../Text';
-import Button from '../Button';
+import OldButton from '../OldButton';
 import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
 import styles from './styles';
@@ -171,11 +171,11 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
                     {t('adventuresList:expiresIn', {time})}
                   </Text>
                 ) : (
-                  <Button
+                  <OldButton
                     onPress={()=>resendInvite(inviteID)}
                     style={styles.ButtonReset}
                     buttonTextStyle={[st.fs6]}
-                  ><Text style={styles.ButtonResetLabel}>{t('resend')}</Text></Button>
+                  ><Text style={styles.ButtonResetLabel}>{t('resend')}</Text></OldButton>
                 )}
               </Flex>
             </Flex>

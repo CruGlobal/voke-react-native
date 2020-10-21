@@ -26,7 +26,7 @@ import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import TextField from '../../components/TextField';
 import st from '../../st';
-import Button from '../../components/Button';
+import OldButton from '../../components/OldButton';
 import theme from '../../theme';
 import BotTalking from '../../components/BotTalking';
 import Touchable from '../../components/Touchable';
@@ -258,7 +258,7 @@ function AdventureName(props: any): ReactElement {
                   // paddingBottom: theme.spacing.xl,
                 }}
               >
-                <Button
+                <OldButton
                   onPress={formik.handleSubmit}
                   isLoading={isLoading}
                   testID={'ctaContinue'}
@@ -279,7 +279,7 @@ function AdventureName(props: any): ReactElement {
                   >
                     {t('continue')}
                   </Text>
-                </Button>
+                </OldButton>
                 {/* Safety spacing. */}
                 {/* <Flex style={{ minHeight: theme.spacing.xxl }} /> */}
               </Flex>

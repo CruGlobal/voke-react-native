@@ -1196,6 +1196,24 @@ export function getAdventureSummary(adventureId: string) {
   };
 }
 
+export function unlockNextAdventureStep(adventureId: string) {
+  return async (dispatch: Dispatch, getState: any) => {
+    try {
+      const results: any = await dispatch(
+        request({
+          ...ROUTES.UNLOCK_NEXT_ADVENTURE_STEP,
+          pathParams: { adventureId },
+          description:
+            'Unlock next Adventure step. Adventure id: ' + adventureId,
+        }),
+      );
+      return results;
+    } catch (error) {
+      console.log('getAdventureStepMessages error:', error);
+    }
+  };
+}
+
 export function deleteMember({conversationId, messengerId}) {
   return async (dispatch: Dispatch, getState: any) => {
     try {

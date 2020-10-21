@@ -3,7 +3,7 @@ import { View, TextInput } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Flex from '../Flex';
-import Button from '../Button';
+import OldButton from '../OldButton';
 import VokeIcon from '../VokeIcon';
 import Text from '../Text';
 import st from '../../st';
@@ -169,7 +169,7 @@ const AdventureStepMessageInput = ({
               </Text>
               <Flex direction="row">
                 {answers.map((a, index) => (
-                  <Button
+                  <OldButton
                     disabled={hasSelected}
                     onPress={() => {
                       setValue(a.value);
@@ -189,7 +189,7 @@ const AdventureStepMessageInput = ({
                     <Text style={[a.selected ? st.orange : st.white, st.fs18]}>
                       {a.key}
                     </Text>
-                  </Button>
+                  </OldButton>
                 ))}
               </Flex>
             </Flex>
@@ -217,7 +217,7 @@ const AdventureStepMessageInput = ({
             </Text>
             <Flex direction="row" style={[st.pb4]}>
               {answers.map(a => (
-                <Button
+                <OldButton
                   disabled={hasSelected}
                   onPress={() => {
                     setValue(a.value);
@@ -237,7 +237,7 @@ const AdventureStepMessageInput = ({
                   <Text style={[a.selected ? st.orange : st.white, st.fs18]}>
                     {a.key}
                   </Text>
-                </Button>
+                </OldButton>
               ))}
             </Flex>
           </Flex>
@@ -289,14 +289,14 @@ const AdventureStepMessageInput = ({
             onChangeText={t => setDraft(t)}
             keyboardAppearance="dark"
           />
-          <Button
+          <OldButton
             onPress={() => {
               handleSendMessage(draft);
             }}
             style={styles.buttonSend}
           >
             <VokeIcon name="send" style={styles.iconSend} size={24} />
-          </Button>
+          </OldButton>
         </>
       )}
     </Flex>

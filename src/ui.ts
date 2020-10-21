@@ -1,6 +1,7 @@
 /* Global Styles */
 import styled, { css } from '@emotion/native';
 import { Platform, Dimensions } from 'react-native';
+
 import theme from './theme';
 
 // const { width, height } = Dimensions.get('window');
@@ -13,19 +14,20 @@ const ui: { [key: string]: any } = {
         padding: 4px 14px;
         border-radius: ${theme.radius.s + 'px'};
       `,
-      l: css`
-        padding: 20px ${theme.spacing.s + 'px'};
-        border-radius: ${theme.radius.xxl + 'px'};
-      `,
+      l: {
+        paddingVertical: 20,
+        paddingHorizontal: theme.spacing.s,
+        borderRadius: theme.radius.xxl,
+      },
       outlinel: css`
         padding: 16px 16px;
         border-radius: ${theme.radius.m + 'px'};
       `,
     },
     style: {
-      primary: css`
-        background-color: ${theme.colors.primary};
-      `,
+      primary: {
+        backgroundColor: theme.colors.primary,
+      },
       solid: css`
         background-color: ${theme.colors.white};
       `,
@@ -42,13 +44,12 @@ const ui: { [key: string]: any } = {
         font-family: ${theme.fonts.regular};
         text-align:center;
       `,
-      l: css`
-        /* color: ${theme.colors.white}; */
-        font-size: ${theme.fontSizes.xl + 'px'};
-        line-height: ${theme.fontSizes.xl * 1.35 + 'px'};
-        font-family: ${theme.fonts.regular};
-        text-align:center;
-      `,
+      l: {
+        fontSize: theme.fontSizes.xl,
+        lineHeight: theme.fontSizes.xl * 1.35,
+        fontFamily: theme.fonts.regular,
+        textAlign: 'center',
+      },
       wl: css`
         /* color: ${theme.colors.secondary}; */
         font-size: ${theme.fontSizes.xl + 'px'};
@@ -82,7 +83,7 @@ const ui: { [key: string]: any } = {
       background-color: ${theme.colors.primary};
       width: 100%;
     `,
-  }
+  },
 };
 
-export default ui
+export default ui;

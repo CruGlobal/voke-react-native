@@ -7,7 +7,7 @@ const stylesShared = {
     paddingHorizontal: theme.spacing.m,
     paddingVertical: theme.spacing.s,
     borderRadius: theme.radius.m,
-    // marginBottom: theme.spacing.s,
+    justifyContent: 'center',
   },
 };
 
@@ -27,11 +27,20 @@ const styles = StyleSheet.create({
     ...stylesShared.card,
     backgroundColor: theme.colors.white,
   },
+  cardGraduated: {
+    ...stylesShared.card,
+    minHeight: 60,
+    backgroundColor: theme.colors.accent,
+  },
   cardContent: {
     flex: 1,
   },
   cardTitle: {
     color: theme.colors.secondary,
+    fontSize: theme.fontSizes.m,
+  },
+  cardGraduatedTitle: {
+    color: theme.colors.white,
     fontSize: theme.fontSizes.m,
   },
   cardSubTitle: {
@@ -43,6 +52,10 @@ const styles = StyleSheet.create({
   },
   actionText: {
     color: theme.colors.secondary,
+    textDecorationLine: 'underline',
+  },
+  actionGraduatedText: {
+    color: theme.colors.white,
     textDecorationLine: 'underline',
   },
   actionLocked: {

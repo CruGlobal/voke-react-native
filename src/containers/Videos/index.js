@@ -21,7 +21,7 @@ import theme from '../../theme';
 
 import { getVideos } from '../../actions/requests';
 import VideoItem from '../../components/VideoItem';
-import Button from '../../components/Button';
+import OldButton from '../../components/OldButton';
 import { toastAction } from '../../actions/info';
 
 function VideoList() {
@@ -213,7 +213,7 @@ function VideoList() {
               // data={['allVideos','featuredVideos','popularVideos' ]}
               // keyExtractor={item => item.id}
               renderItem={({ item, index, separators }) => (
-                <Button
+                <OldButton
                   key={item.id}
                   onPress={() => {
                     if (filterId === item.id && item.title === 'Search') {
@@ -249,7 +249,7 @@ function VideoList() {
                   ) : (
                     <Text style={[st.white, st.fs18]}>{item.title}</Text>
                   )}
-                </Button>
+                </OldButton>
               )}
             />
             {videos.length === 0 ? (

@@ -23,7 +23,7 @@ import { RootState } from '../../reducers';
 import { createAccount, updateMe } from '../../actions/auth';
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
 import NameInput from '../../components/NameInput';
-import Button from '../../components/Button';
+import OldButton from '../../components/OldButton';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import BotTalking from '../../components/BotTalking';
@@ -225,7 +225,7 @@ const AccountName = (props): React.ReactElement => {
                 onSubmitEditing={handleContinue}
                 testID={'inputLastName'}
               />
-              <Button
+              <OldButton
                 onPress={handleContinue}
                 touchableStyle={[
                   st.pd4,
@@ -252,7 +252,7 @@ const AccountName = (props): React.ReactElement => {
                 >
                   {t('next')}
                 </Text>
-              </Button>
+              </OldButton>
               {/* Safety spacing. */}
               <Flex
                 style={{

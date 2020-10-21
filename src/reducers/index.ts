@@ -31,7 +31,8 @@ const persistConfig = {
     // Platform.OS === 'android' ?
     // FilesystemStorage : // Android
     AsyncStorage, // iOS
-  blacklist: ['auth', 'data'],
+  blacklist: ['auth'],
+  // blacklist: ['auth', 'data'],
 
   // Getting error redux-persist: rehydrate for "root" called after timeout?
   // https://github.com/rt2zz/redux-persist/issues/717#issuecomment-375011049

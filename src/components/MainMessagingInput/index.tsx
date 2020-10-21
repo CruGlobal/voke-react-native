@@ -7,7 +7,7 @@ import useKeyboard from '@rnhooks/keyboard';
 import st from '../../st';
 import theme from '../../theme';
 import Flex from '../Flex';
-import Button from '../Button';
+import OldButton from '../OldButton';
 import VokeIcon from '../VokeIcon';
 import { createAdventureStepMessage } from '../../actions/requests';
 import { getCurrentUserId } from '../../utils/get';
@@ -68,9 +68,9 @@ function MainMessagingInput({ adventure, step, onFocus, ...rest }) {
         onFocus={onFocus}
         {...rest}
       />
-      <Button style={styles.sendButton} onPress={handleSendMessage}>
+      <OldButton style={styles.sendButton} onPress={handleSendMessage}>
         <VokeIcon name="send" style={styles.sendButtonIcon} size={22} />
-      </Button>
+      </OldButton>
     </View>
   );
 }

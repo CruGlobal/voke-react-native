@@ -19,7 +19,7 @@ import Touchable from '../../components/Touchable';
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
 import Dropdown from '../../components/Dropdown';
 import Datepicker from '../../components/Datepicker';
-import Button from '../../components/Button';
+import OldButton from '../../components/OldButton';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import { toastAction } from '../../actions/info';
@@ -239,14 +239,14 @@ const GroupReleaseDate = (props): React.ReactElement => {
                   </Text>
                 </>
               )}
-              <Button
+              <OldButton
                 onPress={handleContinue}
                 touchableStyle={styles.button}
                 isLoading={isLoading}
                 testID={'ctaNameContinue'}
               >
                 <Text style={styles.buttonLabel}>{t('continue')}</Text>
-              </Button>
+              </OldButton>
             </View>
           </Flex>
         </DismissKeyboardView>

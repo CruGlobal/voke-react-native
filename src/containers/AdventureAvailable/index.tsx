@@ -11,7 +11,7 @@ import { RootState } from '../../reducers';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import st from '../../st';
-import Button from '../../components/Button';
+import OldButton from '../../components/OldButton';
 import Video from '../../components/Video';
 import VokeIcon from '../../components/VokeIcon';
 import ModalHowDuoWorks from '../../components/ModalHowDuoWorks';
@@ -24,7 +24,7 @@ import styles from './styles';
 
 function ActionButton(props) {
   return (
-    <Button
+    <OldButton
       isAndroidOpacity={true}
       style={[
         st.pd4,
@@ -50,7 +50,7 @@ function ActionButton(props) {
         />
         <Text style={[st.white, st.fs20]}>{props.text}</Text>
       </Flex>
-    </Button>
+    </OldButton>
   );
 }
 

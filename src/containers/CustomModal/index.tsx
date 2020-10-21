@@ -9,7 +9,7 @@ import { Modalize } from 'react-native-modalize';
 import { RootState } from '../../reducers';
 import st from '../../st';
 import Flex from '../../components/Flex';
-import Button from '../../components/Button';
+import OldButton from '../../components/OldButton';
 import theme from '../../theme';
 import BotTalking from '../../components/BotTalking';
 import { requestPremissions } from '../../actions/auth';
@@ -164,7 +164,7 @@ export default function CustomModal(props: any): React.ReactElement {
                   : t('howGroupsWorkBotBody')}
               </BotTalking>
               <Flex value={1} style={{ marginTop: -15 }}>
-                <Button
+                <OldButton
                   isAndroidOpacity={true}
                   style={[
                     st.pd4,
@@ -178,8 +178,8 @@ export default function CustomModal(props: any): React.ReactElement {
                   <Flex direction="row" align="center" justify="center">
                     <Text style={[st.white, st.fs20]}>{t('getStarted')}</Text>
                   </Flex>
-                </Button>
-                {/* <Button
+                </OldButton>
+                {/* <OldButton
                   isAndroidOpacity={true}
                   style={[
                     st.pd4,
@@ -194,7 +194,7 @@ export default function CustomModal(props: any): React.ReactElement {
                   <Flex direction="row" align="center" justify="center">
                     <Text style={[st.white, st.fs20]}>{t('cancel')}</Text>
                   </Flex>
-                </Button> */}
+                </OldButton> */}
               </Flex>
               <View style={{ minHeight: theme.spacing.xl }} />
               <Flex align="center" justify="center">
@@ -370,7 +370,7 @@ export default function CustomModal(props: any): React.ReactElement {
                 </Text>
                 <View style={{ minHeight: theme.spacing.l }} />
                 <Flex>
-                  <Button
+                  <OldButton
                     isAndroidOpacity={true}
                     style={[
                       st.pd4,
@@ -384,9 +384,9 @@ export default function CustomModal(props: any): React.ReactElement {
                     <Flex direction="row" align="center" justify="center">
                       <Text style={[st.white, st.fs20]}>{t('getStarted')}</Text>
                     </Flex>
-                  </Button>
+                  </OldButton>
                   <View style={{ minHeight: theme.spacing.xxl }} />
-                  {/* <Button
+                  {/* <OldButton
                     isAndroidOpacity={true}
                     style={[
                       st.pd4,
@@ -401,7 +401,7 @@ export default function CustomModal(props: any): React.ReactElement {
                     <Flex direction="row" align="center" justify="center">
                       <Text style={[st.white, st.fs20]}>{t('cancel')}</Text>
                     </Flex>
-                  </Button> */}
+                  </OldButton> */}
                 </Flex>
               </Flex>
             </Flex>
@@ -423,7 +423,7 @@ export default function CustomModal(props: any): React.ReactElement {
                 {t('howSharingWorksBotBody')}
               </BotTalking>
               <Flex value={1} style={{ marginTop: -15 }}>
-                {/* <Button
+                {/* <OldButton
                   isAndroidOpacity={true}
                   style={[
                     st.pd4,
@@ -437,8 +437,8 @@ export default function CustomModal(props: any): React.ReactElement {
                   <Flex direction="row" align="center" justify="center">
                     <Text style={[st.white, st.fs20]}>{t('getStarted')}</Text>
                   </Flex>
-                </Button> */}
-                {/* <Button
+                </OldButton> */}
+                {/* <OldButton
                   isAndroidOpacity={true}
                   style={[
                     st.pd4,
@@ -453,7 +453,7 @@ export default function CustomModal(props: any): React.ReactElement {
                   <Flex direction="row" align="center" justify="center">
                     <Text style={[st.white, st.fs20]}>{t('cancel')}</Text>
                   </Flex>
-                </Button> */}
+                </OldButton> */}
               </Flex>
               <View style={{ minHeight: theme.spacing.xl }} />
               <Flex align="center" justify="center">
@@ -548,7 +548,7 @@ export default function CustomModal(props: any): React.ReactElement {
                   t('howGroupsWorkStart')}</Text> */}
                 <View style={{ minHeight: theme.spacing.xxl }} />
                 <Flex>
-                  <Button
+                  <OldButton
                     isAndroidOpacity={true}
                     style={[
                       st.pd4,
@@ -566,7 +566,7 @@ export default function CustomModal(props: any): React.ReactElement {
                     <Flex direction="row" align="center" justify="center">
                       <Text style={[st.white, st.fs20]}>{t('gotIt')}</Text>
                     </Flex>
-                  </Button>
+                  </OldButton>
                   <View style={{ minHeight: theme.spacing.xxl }} />
                 </Flex>
               </Flex>
@@ -582,7 +582,7 @@ export default function CustomModal(props: any): React.ReactElement {
             <BotTalking type="reverse">
               {t('overlays:playUkulele', { name: me.firstName })}
             </BotTalking>
-            <Button
+            <OldButton
               isAndroidOpacity
               style={[
                 {
@@ -610,9 +610,9 @@ export default function CustomModal(props: any): React.ReactElement {
               >
                 {t('allowNotifications')}
               </Text>
-            </Button>
+            </OldButton>
 
-            <Button
+            <OldButton
               isAndroidOpacity
               style={[
                 {
@@ -644,7 +644,7 @@ export default function CustomModal(props: any): React.ReactElement {
               >
                 {t('noThanks')}
               </Text>
-            </Button>
+            </OldButton>
           </Flex>
         )}
       </View>

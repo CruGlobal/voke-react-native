@@ -13,7 +13,7 @@ import theme from '../../theme';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import Image from '../../components/Image';
-import Button from '../../components/Button';
+import OldButton from '../../components/OldButton';
 import Triangle from '../../components/Triangle';
 import VokeIcon from '../../components/VokeIcon';
 import Touchable from '../../components/Touchable';
@@ -216,7 +216,7 @@ function AccountPhoto(props) {
             )}
           </Flex>
         </Touchable>
-        <Button
+        <OldButton
           onPress={handleContinue}
           touchableStyle={[
             st.pd4,
@@ -242,7 +242,7 @@ function AccountPhoto(props) {
           <Text style={[st.fs20, st.tac, { color: theme.colors.secondary }]}>
             {avatarSource ? t('next') : t('skip')}
           </Text>
-        </Button>
+        </OldButton>
         {/* Safety spacing. */}
         <Flex style={{ height: insets.bottom }} />
       </Flex>

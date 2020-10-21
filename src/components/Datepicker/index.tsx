@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 
-import Button from '../Button';
+import OldButton from '../OldButton';
 
 import styles from './styles';
 
@@ -53,13 +53,13 @@ function Datepicker({
   return (
     <>
       <Text style={styles.label}>{label}</Text>
-      <Button
+      <OldButton
         onPress={showDatePicker}
         touchableStyle={styles.button}
         testID={'ctaDatePicker'}
       >
         <Text style={styles.buttonLabel}>{date}</Text>
-      </Button>
+      </OldButton>
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode={mode}

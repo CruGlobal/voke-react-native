@@ -19,7 +19,7 @@ import DismissKeyboardView from '../../components/DismissKeyboardHOC';
 import VokeIcon from '../../components/VokeIcon';
 import TextField from '../../components/TextField';
 import Triangle from '../../components/Triangle';
-import Button from '../../components/Button';
+import OldButton from '../../components/OldButton';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import st from '../../st';
@@ -187,7 +187,7 @@ const AccountPass: React.FC = (): React.ReactElement => {
               style={styles.SectionAction}
             >
               {/* BUTTON: SIGN IN */}
-              <Button
+              <OldButton
                 isAndroidOpacity
                 touchableStyle={[
                   st.pd4,
@@ -208,7 +208,7 @@ const AccountPass: React.FC = (): React.ReactElement => {
                 isLoading={isLoading}
               >
                 <Text style={styles.ButtonStartLabel}>{t('save')}</Text>
-              </Button>
+              </OldButton>
             </Flex>
             {/* Safe area at the bottom for phone with exotic notches */}
             <Flex style={{ height: isKeyboardVisible ? 0 : insets.bottom }} />

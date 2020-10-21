@@ -7,13 +7,8 @@ import {
   ViewStyle,
   TextStyle,
 } from 'react-native';
-
-import { capitalize } from '../../utils';
 import Touchable from '../Touchable';
 import st from '../../st';
-import VokeIcon from '../VokeIcon';
-
-import styles from './styles';
 
 type ButtonProps = {
   onPress?: Function;
@@ -23,51 +18,33 @@ type ButtonProps = {
   buttonTextStyle?: StyleProp<TextStyle>; // StyleSheet?
   style?: StyleProp<ViewStyle>; // StyleSheet?
   touchableStyle?: StyleProp<ViewStyle>;
-  // isAndroidOpacity?: boolean;
+  isAndroidOpacity?: boolean;
   activeOpacity?: number;
-  styling?: 'solid' | 'outline';
-  color?: 'primary' | 'secondary' | 'empty';
-  size?: 's' | 'm' | 'l';
-  icon?: 'mail' | 'apple' | 'facebook';
   type?: string;
   text?: string;
-  testID?: string;
   [x: string]: any;
 };
 /**
  * Our custom button component.
  */
-const Button = ({
+const OldButton = ({
   onPress,
   children,
   disabled,
   isLoading,
   style,
   touchableStyle,
-  styling = 'solid',
-  color = 'primary',
-  size = 'm',
-  icon,
-  testID,
   ...rest
 }: ButtonProps) => {
   const [clickDisabled, setClickDisabled] = useState(false);
   let clickDisableTimeout = null;
-  const stylesOuter =
-    styles[
-      'outer' + capitalize(styling) + capitalize(color) + capitalize(size)
-    ];
-  const stylesText =
-    styles['text' + capitalize(styling) + capitalize(color) + capitalize(size)];
 
-  const stylesIcon =
-    styles['icon' + capitalize(styling) + capitalize(color) + capitalize(size)];
 
   useEffect(() => {
     return () => {
       clearTimeout(clickDisableTimeout);
-    };
-  }, []);
+    }
+  }, [])
 
   function handlePress() {
     setClickDisabled(true);
@@ -95,26 +72,19 @@ const Button = ({
   return (
     <Touchable
       {...rest}
-      style={stylesOuter}
+      style={touchableStyle}
       disabled={isDisabled}
       onPress={isDisabled ? () => {} : () => handlePress()}
-      testID={testID}
     >
       <View
-        /* style={[
+        style={[
           disabled || isLoading ? [ st.bw0, st.aic] : [],
           style,
-        ]} */
-        style={styles.inner}
+        ]}
       >
-        <VokeIcon
-          name={icon}
-          // size={22}
-          style={stylesIcon}
-        />
-        <Text style={stylesText}>{content}</Text>
+        {content}
       </View>
     </Touchable>
   );
 };
-export default Button;
+export default OldButton;

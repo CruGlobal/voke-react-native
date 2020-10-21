@@ -12,7 +12,7 @@ import StatusBar from '../../components/StatusBar';
 import HeaderSpacer from '../../components/HeaderSpacer';
 import st from '../../st';
 import theme from '../../theme';
-import Button from '../../components/Button';
+import OldButton from '../../components/OldButton';
 import Touchable from '../../components/Touchable';
 import VokeIcon from '../../components/VokeIcon';
 import DEFAULT_AVATAR from '../../assets/defaultAvatar.png';
@@ -99,7 +99,7 @@ function AllMembersModal(props) {
                   </Flex>
                 </>
               ) : (
-                <Button
+                <OldButton
                   onPress={handleJoinGroup}
                   style={[
                     st.bgOrange,
@@ -115,7 +115,7 @@ function AllMembersModal(props) {
                   <Flex direction="row" align="center">
                     <Text style={[st.white, st.fs16]}>{t('joinGroup')}</Text>
                   </Flex>
-                </Button>
+                </OldButton>
               )}
             </Flex>
           </Flex>

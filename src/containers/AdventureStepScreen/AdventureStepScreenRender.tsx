@@ -91,6 +91,8 @@ const AdventureStepScreenRender = ({
 
   const scrollDelayTimeout = useRef();
 
+  console.log( "👺 currentMessages:", currentMessages );
+
   if (!['multi', 'binary'].includes(currentStep?.kind)) {
     // Find the first message of the current author from the start.
     const mainAnswer =

@@ -8,8 +8,12 @@ const styles = StyleSheet.create({
     marginHorizontal: theme.spacing.s,
   },
   childrenStyle: {
-    backgroundColor: theme.colors.white,
+    // backgroundColor: 'rgba(255,255,255,.3)',
     borderRadius: theme.radius.l,
+    overflow: 'hidden',
+  },
+  modalBlur: {
+    ...StyleSheet.absoluteFill,
   },
   modalContent: {
     minHeight: '100%',
@@ -21,6 +25,9 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.semiBold,
     paddingBottom: theme.spacing.m,
     paddingVertical: theme.spacing.l,
+  },
+  modalActions: {
+    paddingBottom: theme.spacing.s,
   },
   actionButton: {
     backgroundColor: theme.colors.white,

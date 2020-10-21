@@ -8,7 +8,7 @@ import { requestPremissions } from '../../actions/auth';
 import Flex from '../Flex';
 import Text from '../Text';
 import theme from '../../theme';
-import Button from '../Button';
+import OldButton from '../OldButton';
 import BotTalking from '../BotTalking';
 
 import styles from './styles';
@@ -40,7 +40,7 @@ function ModalNotifications({ closeAction }): React.ReactElement {
           <BotTalking type="reverse">
             {t('overlays:playUkulele', { name: me.firstName })}
           </BotTalking>
-          <Button
+          <OldButton
             isAndroidOpacity
             style={styles.buttonAccept}
             onPress={() => {
@@ -52,9 +52,9 @@ function ModalNotifications({ closeAction }): React.ReactElement {
             <Text style={styles.buttonAcceptLabel}>
               {t('allowNotifications')}
             </Text>
-          </Button>
+          </OldButton>
 
-          <Button
+          <OldButton
             isAndroidOpacity
             style={styles.buttonCancel}
             onPress={() => {
@@ -62,7 +62,7 @@ function ModalNotifications({ closeAction }): React.ReactElement {
             }}
           >
             <Text style={styles.buttonCancelLabel}>{t('noThanks')}</Text>
-          </Button>
+          </OldButton>
         </Flex>
       </SafeAreaView>
     </ScrollView>

@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { RootState } from '../../reducers';
 import { TAdventureStepSingle } from '../../types';
 import Text from '../Text';
-import Button from '../Button';
+import OldButton from '../OldButton';
 import st from '../../st';
 import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
@@ -44,18 +44,42 @@ const AdventureStepNextAction = ({
 
   const step = steps ? steps[stepId] : null;
   if (!step) return null;
+  const nextStep = steps ? steps[stepsIds[stepsIds.findIndex((el)=> el === stepId) + 1]] : null;
+  const nextStepLocked = nextStep?.locked;
   const isComplete = step?.status === 'completed';
   const isWaiting =
     step?.status === 'active' && step['completed_by_messenger?'];
   const isGroup = adventure.kind === 'multiple';
 
-  const scheduledRelease = !!adventure.gating_period;
-  const nextReleaseDate = getNextReleaseDate({
-    startDate: adventure.gating_start_at,
-    releasePeriod: adventure.gating_period,
-  });
+  const scheduledRelease = !(adventure?.gating_period === null && adventure?.gating_start_at === null);
+  const nextReleaseDate = adventure.gating_period
+    ? getNextReleaseDate({
+        startDate: adventure.gating_start_at,
+        releasePeriod: adventure.gating_period,
+      })
+    : null;
 
-  const nextReleaseIn = getDiffToDate(nextReleaseDate);
+  const nextReleaseIn = nextReleaseDate ? getDiffToDate(nextReleaseDate) : null;
+  const nextReleaseTime = nextReleaseDate
+    ? getTimeToDate(nextReleaseDate)
+    : null;
+
+  const printNextReleaseDate = ({
+    nextReleaseDate,
+    nextReleaseIn,
+    nextReleaseTime,
+  }) => {
+    let result = '';
+    if (nextReleaseDate) {
+      result = `${t('share:nextRelease')} ${nextReleaseIn} ${t(
+        'at',
+      )} ${nextReleaseTime}`;
+    } else {
+      result = t('share:leaderWillRelease');
+    }
+
+    return result;
+  };
 
   // Too early to show something.
   // Current user didn't touch this step and no one commented.
@@ -79,7 +103,7 @@ const AdventureStepNextAction = ({
         <Text style={[st.aic, st.fs2, st.mb4, st.ph1, st.tac, st.white]}>
           {t('finishedJourney')}
         </Text>
-        <Button
+        <OldButton
           onPress={() =>
             navigation.navigate('AdventureName', {
               item: {
@@ -107,8 +131,8 @@ const AdventureStepNextAction = ({
             <VokeIcon name="couple" size={26} style={styles.iconAction} />
             <Text style={[st.darkBlue, st.fs20]}>{t('withFriend')}</Text>
           </Flex>
-        </Button>
-        <Button
+        </OldButton>
+        <OldButton
           onPress={() =>
             navigation.navigate('AdventureName', {
               item: {
@@ -136,7 +160,7 @@ const AdventureStepNextAction = ({
             <VokeIcon name="group" size={32} style={styles.iconAction} />
             <Text style={[st.darkBlue, st.fs20]}>{t('withGroup')}</Text>
           </Flex>
-        </Button>
+        </OldButton>
       </Flex>
     );
   }
@@ -165,13 +189,18 @@ const AdventureStepNextAction = ({
     text = t('waitingForAnswer', { name: userName });
   }
 
-  if (isGroup && scheduledRelease) {
-    text = t('share:nextVideoRelease') + "\n " + nextReleaseIn;
+  if (isGroup && scheduledRelease && nextStepLocked) {
+    // text = t('share:nextVideoRelease') + "\n " + nextReleaseIn;
+    text = printNextReleaseDate({
+      nextReleaseDate,
+      nextReleaseIn,
+      nextReleaseTime,
+    });
   }
 
   return (
     <Flex style={styles.nextActionContainer}>
-      <Button
+      <OldButton
         onPress={(): void => {
           // Get the index of the route to see if we can go back.
           const { index } = navigation.dangerouslyGetState();
@@ -186,7 +215,7 @@ const AdventureStepNextAction = ({
         style={styles.nextActionButton}
       >
         <Text style={styles.nextActionButtonLabel}>{text}</Text>
-      </Button>
+      </OldButton>
     </Flex>
   );
 };

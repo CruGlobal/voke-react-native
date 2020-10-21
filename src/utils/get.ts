@@ -1,6 +1,7 @@
 // Tiny get utility functions.
 import { useSelector } from 'react-redux';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
+
 import { RootState } from '../reducers';
 import {
   TAdventureSingle,
@@ -10,7 +11,9 @@ import {
 
 // Get Single Adventure by Id.
 export function getAdventureById(adventureId: string): TAdventureSingle {
-  const adventures = useSelector(({ data }: RootState) => data.myAdventures.byId);
+  const adventures = useSelector(
+    ({ data }: RootState) => data.myAdventures.byId,
+  );
   const adventure = adventures[adventureId];
   return adventure;
 }
@@ -25,12 +28,21 @@ export function getCurrentUser(): string {
   return user;
 }
 
-
-export function getNextReleaseDate({startDate, releasePeriod}): string {
-  return moment(startDate).add(
-    releasePeriod,
-    'days',
-  );
+export function getNextReleaseDate({ startDate, releasePeriod }): Moment {
+  const diff = moment(startDate).diff(moment());
+  const diffDurationDays = moment.duration(diff).days();
+  let daysStartToNext = releasePeriod;
+  // If release date happened a few days ago,
+  // calculate how many times it was already released,
+  // and then add releasePeriod value to find the date of the next release.
+  if (diffDurationDays < 0) {
+    const timesReleased = Math.abs(
+      Math.round(diffDurationDays / releasePeriod),
+    );
+    const lastReleaseDaysAgo = timesReleased * releasePeriod + diffDurationDays;
+    daysStartToNext = lastReleaseDaysAgo + releasePeriod;
+  }
+  return moment(startDate).add(daysStartToNext, 'days');
 }
 
 export function getDiffToDate(date): string {
@@ -54,5 +66,5 @@ export function getExpiredTime(date: string) {
   const str = `${days > 0 ? `${days} day${days !== 1 ? 's' : ''} ` : ''}${
     hours > 0 ? `${hours} hr${hours !== 1 ? 's' : ''} ` : ''
   }${minutes >= 0 ? `${minutes} min ` : ''}`;
-  return { str, isTimeExpired: (diff < 0) };
+  return { str, isTimeExpired: diff < 0 };
 }

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Dimensions, FlatList, View } from 'react-native';
@@ -12,15 +11,17 @@ import { RootState } from '../../reducers';
 import Touchable from '../Touchable';
 import Flex from '../Flex';
 import Text from '../Text';
-import { TAdventureSingle, TStep } from '../../types';
-import { getCurrentUserId } from '../../utils/get';
 import VokeIcon from '../VokeIcon';
 import theme from '../../theme';
-import Button from '../Button';
-import { getAdventureSummary } from '../../actions/requests';
+import OldButton from '../OldButton';
+import {
+  getMyAdventure,
+  getAdventureSteps,
+  unlockNextAdventureStep,
+} from '../../actions/requests';
+import Image from '../Image';
 
 import styles from './styles';
-import Image from '../Image';
 
 type StepReportProps = {
   status: string;
@@ -38,7 +39,7 @@ type Props = {
 };
 
 function AdventureStepReportCard({
-  step,
+  stepId,
   adventureId,
   activeStepRef,
 }: // step,
@@ -54,23 +55,66 @@ Props): React.ReactElement {
   const adventure = useSelector(
     ({ data }: RootState) => data.myAdventures.byId[adventureId],
   );
-  const stepInfo = useSelector(
-    ({ data }: RootState) => data.adventureSteps[adventureId].byId[step.id],
+  const step = useSelector(
+    ({ data }: RootState) =>
+      data.adventureSteps[adventureId]?.byId[stepId] || {},
   );
+  console.log('🦀 adventure:', adventure, adventure?.progress?.total);
+  console.log('🦒 step:', step);
+ /*  const step = useSelector(
+    ({ data }: RootState) =>
+      data.adventureSteps[adventureId].byId[step.id] || {},
+  ); */
+
+  if (stepId === 'graduated') {
+    step.id = 'graduated';
+    step.name = 'Graduated Users';
+    step.active_messengers = [];
+  }
+
+  // console.log('🦕 step:', step);
 
   useEffect(() => {
-    setIsManual(!adventure.gating_period);
+    setIsManual(!adventure?.gating_period);
   }, [adventure?.gating_period]);
+
+  const updateNextStep = () => {
+    // if (isManual && step.status === 'inactive') {
+    if (isManual && step?.locked) {
+      if (!activeStepRef.current) {
+        activeStepRef.current = step.position;
+      }
+
+      if (activeStepRef.current === step.position) {
+        setIsNext(true);
+      }
+
+      if (activeStepRef.current > step.position && isNext) {
+        setIsNext(false);
+      }
+    }
+  };
 
   // Monitor any changes in steps and step parammeters of the component
   // to update the card elements accordingly.
   // For example we need to update unread count on the card when state changed.
   useEffect(() => {
-    if (isManual && stepInfo.status === 'inactive' && !activeStepRef.current) {
-      activeStepRef.current = stepInfo.position;
-      setIsNext(true);
-    }
+    updateNextStep();
   }, [isManual]);
+
+  useEffect(() => {
+    updateNextStep();
+  }, [activeStepRef.current]);
+
+  const unlockNextStep = async adventureId => {
+    const results = await dispatch(unlockNextAdventureStep(adventureId));
+    // TODO: when we have results refetch adventure to have UI updated.
+    setTimeout(() => {
+      activeStepRef.current = activeStepRef.current + 1;
+      dispatch(getAdventureSteps(adventureId));
+      dispatch(getMyAdventure(adventureId));
+    }, 1000);
+  };
 
   return (
     <View style={styles.container}>
@@ -80,10 +124,13 @@ Props): React.ReactElement {
         onPress={(): void => {}}
         style={
           styles[
-            stepInfo.locked || (stepInfo.status === 'inactive' && !isNext)
+            // step.locked || (step.status === 'inactive' && !isNext)
+            step.locked
               ? 'cardLocked'
               : isNext
               ? 'cardNext'
+              : step.id === 'graduated'
+              ? 'cardGraduated'
               : 'card'
           ]
         }
@@ -91,25 +138,42 @@ Props): React.ReactElement {
         <Flex align="center" justify="start">
           <Flex value={1} direction="row" self="start">
             <View style={styles.cardContent}>
-              <Text numberOfLines={2} style={styles.cardTitle}>
-                {stepInfo.name}
+              <Text
+                numberOfLines={2}
+                style={
+                  step.id === 'graduated'
+                    ? styles.cardGraduatedTitle
+                    : styles.cardTitle
+                }
+              >
+                {step.name}
               </Text>
-              <Text style={styles.cardSubTitle}>
-                {t('part')} {stepInfo.position}
-              </Text>
+              {!!step.position && (
+                <Text style={styles.cardSubTitle}>
+                  {t('part')} {step.position}
+                </Text>
+              )}
             </View>
             <View style={styles.action}>
               {isNext ? (
-                <Button onPress={() => {}} style={styles.actionReleaseNow}>
+                <OldButton
+                  onPress={() => unlockNextStep(adventure.id)}
+                  style={styles.actionReleaseNow}
+                >
                   <Text style={styles.actionReleaseNowLabel}>
                     {t('releaseNow')}
                   </Text>
-                </Button>
-              ) : stepInfo.locked || stepInfo.status === 'inactive' ? (
+                </OldButton>
+              ) : // ) : step.locked || step.status === 'inactive' ? (
+              step.locked ? (
                 <VokeIcon name={'lock'} size={20} style={styles.actionLocked} />
               ) : (
                 <Text
-                  style={styles.actionText}
+                  style={
+                    step.id === 'graduated'
+                      ? styles.actionGraduatedText
+                      : styles.actionText
+                  }
                   onPress={() => modalizeRef.current?.open()}
                 >
                   {t('seeAllMembers') +
@@ -139,11 +203,13 @@ Props): React.ReactElement {
             <View style={styles.stepMembers}>
               <View style={styles.stepMembersHeader}>
                 <Text numberOfLines={2} style={styles.modalTitle}>
-                  {stepInfo.name}
+                  {step.name}
                 </Text>
-                <Text style={styles.modalSubTitle}>
-                  {t('part')} {stepInfo.position}
-                </Text>
+                {!!step.position && (
+                  <Text style={styles.modalSubTitle}>
+                    {t('part')} {step.position}
+                  </Text>
+                )}
               </View>
               <ScrollView
                 style={{

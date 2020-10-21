@@ -16,7 +16,7 @@ import Text from '../../components/Text';
 import StatusBar from '../../components/StatusBar';
 import st from '../../st';
 import theme from '../../theme';
-import Button from '../../components/Button';
+import OldButton from '../../components/OldButton';
 import BotTalking from '../../components/BotTalking';
 import Touchable from '../../components/Touchable';
 import { toastAction } from '../../actions/info';
@@ -138,7 +138,7 @@ function AdventureShareCode(props) {
               </Text>
             </Flex>
           </Touchable>
-          <Button
+          <OldButton
             isAndroidOpacity
             style={[
               st.pd4,
@@ -161,7 +161,7 @@ function AdventureShareCode(props) {
             <Text style={[st.fs20, st.tac, { color: theme.colors.secondary }]}>
               {t('share')}
             </Text>
-          </Button>
+          </OldButton>
           <Flex style={{ minHeight: theme.spacing.xl }} />
         </Flex>
       )}
@@ -208,7 +208,7 @@ function AdventureShareCode(props) {
             </Flex>
           </Touchable>
           <Flex style={{ minHeight: theme.spacing.l }} />
-          <Button
+          <OldButton
             isAndroidOpacity
             style={[
               st.pd4,
@@ -236,7 +236,7 @@ function AdventureShareCode(props) {
             <Text style={[st.fs18, st.tac, { color: theme.colors.secondary }]}>
               {t('shareLink')}
             </Text>
-          </Button>
+          </OldButton>
           <Flex style={{ minHeight: theme.spacing.xl }} />
           <Text style={[st.fs22, st.white]} testID={'textAdventureCode'}>
             {t('adventureCode:adventureCode')}:{' '}
