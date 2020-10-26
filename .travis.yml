@@ -70,7 +70,7 @@ jobs:
     gemfile: ios/Gemfile
     xcode_workspace: ios/Voke.xcworkspace
     os: osx
-    osx_image: xcode12.0.1
+    osx_image: xcode12
 
     install:
     - npm install
@@ -101,7 +101,7 @@ jobs:
     gemfile: ios/Gemfile
     xcode_workspace: ios/Voke.xcworkspace
     os: osx
-    osx_image: xcode12.0.1
+    osx_image: xcode12
 
     install:
     - npm install
