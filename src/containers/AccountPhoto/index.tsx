@@ -13,11 +13,12 @@ import theme from '../../theme';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import Image from '../../components/Image';
-import Button from '../../components/Button';
+import OldButton from '../../components/OldButton';
 import Triangle from '../../components/Triangle';
 import VokeIcon from '../../components/VokeIcon';
 import Touchable from '../../components/Touchable';
 import BotTalking from '../../components/BotTalking';
+import Screen from '../../components/Screen';
 
 function AccountPhoto(props) {
   const { t } = useTranslation('tryItNow');
@@ -151,35 +152,14 @@ function AccountPhoto(props) {
   };
 
   return (
-    <ScrollView
-      keyboardShouldPersistTaps="handled"
-      contentContainerStyle={{
-        // flex: 1, // Will break scrolling on Android
-        // height:'100%', // Will break scrolling on Android
-        backgroundColor: theme.colors.primary,
-        minHeight: '100%',
-        paddingTop: insets.top,
-      }}
-    >
-      <Flex
-        direction="column"
-        align="center"
-        justify="center"
-        style={[st.w100, st.h100]}
-      >
-        <Flex
-          direction="row"
-          align="start"
-          justify="between"
-          style={{
+    <Screen>
+     
+          <BotTalking heading={t('addPhotoTitle')} style={{
             paddingBottom:
               windowDimensions.height > 600 ? theme.spacing.xxl : 0,
             // Don't set height for bot messages!
             // It should be flexible for every screen.
-          }}
-        >
-          <BotTalking heading={t('addPhotoTitle')}>{t('addPhoto')}</BotTalking>
-        </Flex>
+          }}>{t('addPhoto')}</BotTalking>
         <Flex />
         <Touchable onPress={handleSelectImage}>
           <Flex
@@ -190,6 +170,8 @@ function AccountPhoto(props) {
               st.w(st.fullWidth / 1.8),
               st.h(st.fullWidth / 1.8),
               {
+                alignSelf: 'center',
+                
                 borderRadius: st.fullWidth / 1.8,
                 backgroundColor: theme.colors.secondaryAlt,
               },
@@ -216,7 +198,7 @@ function AccountPhoto(props) {
             )}
           </Flex>
         </Touchable>
-        <Button
+        <OldButton
           onPress={handleContinue}
           touchableStyle={[
             st.pd4,
@@ -242,11 +224,8 @@ function AccountPhoto(props) {
           <Text style={[st.fs20, st.tac, { color: theme.colors.secondary }]}>
             {avatarSource ? t('next') : t('skip')}
           </Text>
-        </Button>
-        {/* Safety spacing. */}
-        <Flex style={{ height: insets.bottom }} />
-      </Flex>
-    </ScrollView>
+        </OldButton>
+    </Screen>
   );
 }
 

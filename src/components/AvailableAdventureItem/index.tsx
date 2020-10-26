@@ -10,7 +10,7 @@ import st from '../../st';
 import theme from '../../theme';
 import Touchable from '../Touchable';
 import Text from '../Text';
-import Button from '../Button';
+import OldButton from '../OldButton';
 import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
 
@@ -106,7 +106,7 @@ function AvailableAdventureItem({
               {t('adventure').toUpperCase()}
             </Text>
           )}
-          <Text style={[st.fs24, st.white]}>{item.name}</Text>
+          <Text style={[st.fs24, st.white]} testID={'adventureTitle'}>{item.name}</Text>
           <Text
             style={[st.fs(24), st.white, st.light, st.tac]}
             numberOfLines={2}
@@ -117,7 +117,7 @@ function AvailableAdventureItem({
 
         {shouldInviteFriend ? (
           <Flex value={1} justify="end">
-            <Button
+            <OldButton
               onPress={() =>
                 navigation.navigate('AdventureName', {
                   item: {
@@ -146,7 +146,7 @@ function AvailableAdventureItem({
                 style={styles.shareIcon}
               />
               <Text style={styles.shareLabel}>{t('inviteFriend')}</Text>
-            </Button>
+            </OldButton>
           </Flex>
         ) : (
           <Flex value={1} />
@@ -187,7 +187,7 @@ function AvailableAdventureItem({
               </Text>
             )}
             {shouldInviteFriend ? null : (
-              <Button
+              <OldButton
                 type="transparent"
                 isAndroidOpacity
                 onPress={() =>
@@ -207,7 +207,7 @@ function AvailableAdventureItem({
                   name="to-chat"
                   style={styles.inviteIcon}
                 />
-              </Button>
+              </OldButton>
             )}
           </Flex>
         </Flex>

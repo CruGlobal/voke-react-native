@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Button from '../../components/Button';
+import OldButton from '../OldButton';
 
 import theme from '../../theme';
 import Flex from '../Flex';
@@ -23,14 +23,14 @@ function CollapsibleInfo({
       style={styles.container}
     >
       {/* Information Icon */}
-      <Button onPress={() => setIsOpen(!isOpen)} testID={'ctaInfoBlockToggle'} style={styles.ctaInfoBlockToggle}>
+      <OldButton onPress={() => setIsOpen(!isOpen)} testID={'ctaInfoBlockToggle'} style={styles.ctaInfoBlockToggle}>
         <Text style={styles.ctaInfoBlockToggleText} testID={'textHaveCode'}>{toggleText}</Text>
         <VokeIcon
           name="help-circle"
           size={30}
           style={{ marginLeft: theme.spacing.s, color: theme.colors.white }}
         />
-      </Button>
+      </OldButton>
       {/* Content */}
       {isOpen ? (
         <Flex>

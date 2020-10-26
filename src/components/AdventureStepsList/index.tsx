@@ -10,7 +10,7 @@ import Image from '../Image';
 import Touchable from '../Touchable';
 import Flex from '../Flex';
 import Text from '../Text';
-import Button from '../Button';
+import OldButton from '../OldButton';
 import VokeIcon from '../VokeIcon';
 import st from '../../st';
 import theme from '../../theme';

@@ -9,7 +9,7 @@ import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import st from '../../st';
 import theme from '../../theme';
-import Button from '../../components/Button';
+import OldButton from '../../components/OldButton';
 import Triangle from '../../components/Triangle';
 import Video from '../../components/Video';
 import VokeIcon from '../../components/VokeIcon';
@@ -100,7 +100,7 @@ function VideoDetails(props) {
                 { paddingBottom: insets.bottom + 25 },
               ]}
             >
-              <Button
+              <OldButton
                  style={
                   isFavorited ? styles.buttonLikeActive : styles.buttonLikeInactive}
                 onPress={handleFavorite}
@@ -110,7 +110,7 @@ function VideoDetails(props) {
                   style={[st.bgTransparent, st.white]}
                   size={20}
                 />
-              </Button>
+              </OldButton>
               <Text style={[st.blue, st.fs20, st.semi]}>{item.name}</Text>
               <Text style={[st.darkGrey, st.fs14, st.mb7]}>
                 {t('shares', { total: item.shares })}

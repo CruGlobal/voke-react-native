@@ -21,7 +21,7 @@ import DismissKeyboardView from '../../components/DismissKeyboardHOC';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import TextField from '../../components/TextField';
-import Button from '../../components/Button';
+import OldButton from '../../components/OldButton';
 import styles from './styles';
 import theme from '../../theme';
 import CONSTANTS from '../../constants';
@@ -120,7 +120,7 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
           style={styles.SectionAction}
         >
           {/* BUTTON: RESET PASSWORD */}
-          <Button
+          <OldButton
             isAndroidOpacity
             touchableStyle={[st.pd4, st.br1, st.w(st.fullWidth - 70),{backgroundColor: theme.colors.white, textAlign:"center",shadowColor: 'rgba(0, 0, 0, 0.5)',
             shadowOpacity: 0.5,
@@ -130,7 +130,7 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
             onPress={handleSubmit}
           >
             <Text style={styles.ButtonStartLabel}>{t('forgotPassword:resetPassword')}</Text>
-          </Button>
+          </OldButton>
         </Flex>
       </KeyboardAvoidingView>
       {!isKeyboardVisible && <>
@@ -146,13 +146,13 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
         <View>
           <Text style={styles.SignInText}>Need some help?</Text>
         </View>
-        <Button
+        <OldButton
           isAndroidOpacity
           style={[styles.ButtonSignIn, { marginLeft: 20 }]}
           onPress={() => navigation.navigate('Help')}
         >
           <Text style={styles.ButtonSignInLabel}>Support</Text>
-        </Button>
+        </OldButton>
       </Flex>
       {/* Safe area at the bottom for phone with exotic notches */}
       <Flex

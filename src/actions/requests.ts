@@ -554,7 +554,6 @@ export function createAdventureStepMessage(params: {
         }),
       );
 
-
       // SAVE RESPONSE FROM THE SERVER TO THE STORE.
       dispatch({
         type: REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE,
@@ -1095,5 +1094,143 @@ export function updateVideoIsPlayingState(newState) {
       type: REDUX_ACTIONS.SET_VIDEO_STATE,
       state: newState,
     });
+  };
+}
+
+export function updateAdventure(newAdventureData: any) {
+  return async (dispatch: Dispatch, getState: any) => {
+    const adventureId = newAdventureData.id;
+    // let results: any;
+    const data = await dispatch(
+      request({
+        ...ROUTES.UPDATE_ADVENTURE,
+        pathParams: { adventureId },
+        data: newAdventureData,
+        description: 'Update adventure release date on the server',
+      }),
+    );
+
+    // Update data in the store.
+    dispatch({
+      type: REDUX_ACTIONS.UPDATE_ADVENTURE,
+      data: data,
+      description: 'Calling from updateAdventure.',
+    });
+
+    return data;
+  };
+}
+
+export function createComplain({ messageId, adventureId, comment }) {
+  return async (dispatch: Dispatch, getState: any) => {
+    const data = await dispatch(
+      request({
+        ...ROUTES.CREATE_COMPLAIN,
+        pathParams: { adventureId },
+        data: {
+          message_id: messageId,
+          comment: comment,
+        },
+        description: 'Create complain on the server',
+      }),
+    );
+    return data;
+  };
+}
+
+export function ignoreComplain({ reportId, adventureId }) {
+  return async (dispatch: Dispatch, getState: any) => {
+    const data = await dispatch(
+      request({
+        ...ROUTES.DELETE_COMPLAIN,
+        pathParams: { adventureId, reportId },
+        description: 'Ignore/Delete complain on the server',
+      }),
+    );
+    return data;
+  };
+}
+
+export function approveComplain({ reportId, adventureId }) {
+  return async (dispatch: Dispatch, getState: any) => {
+    const data = await dispatch(
+      request({
+        ...ROUTES.APPROVE_COMPLAIN,
+        pathParams: { adventureId, reportId },
+        description: 'Approve complain on the server',
+      }),
+    );
+    return data;
+  };
+}
+
+export function getComplains({ adventureId }) {
+  return async (dispatch: Dispatch, getState: any) => {
+    const data = await dispatch(
+      request({
+        ...ROUTES.GET_COMPLAINS,
+        pathParams: { adventureId },
+        description:
+          'Get complains from the server for adventureId: ' + adventureId,
+      }),
+    );
+    return data;
+  };
+}
+
+export function getAdventureSummary(adventureId: string) {
+  return async (dispatch: Dispatch, getState: any) => {
+    try {
+      const results: any = await dispatch(
+        request({
+          ...ROUTES.GET_ADVENTURE_SUMMARY,
+          pathParams: { adventureId },
+          description:
+            'Get Adventure Members by step for adventure id: ' + adventureId,
+        }),
+      );
+      return results;
+    } catch (error) {
+      console.log('getAdventureStepMessages error:', error);
+    }
+  };
+}
+
+export function unlockNextAdventureStep(adventureId: string) {
+  return async (dispatch: Dispatch, getState: any) => {
+    try {
+      const results: any = await dispatch(
+        request({
+          ...ROUTES.UNLOCK_NEXT_ADVENTURE_STEP,
+          pathParams: { adventureId },
+          description:
+            'Unlock next Adventure step. Adventure id: ' + adventureId,
+        }),
+      );
+      return results;
+    } catch (error) {
+      console.log('getAdventureStepMessages error:', error);
+    }
+  };
+}
+
+export function deleteMember({conversationId, messengerId}) {
+  return async (dispatch: Dispatch, getState: any) => {
+    try {
+      const results: any = await dispatch(
+        request({
+          ...ROUTES.DELETE_MEMBER,
+          // url: `me/conversations/{conversationId}/messengers/{messengerId}/block`,
+          pathParams: {
+            conversationId,
+            messengerId,
+          },
+          description: 'Delete member with messengerId: ' + messengerId,
+        }),
+      );
+      return results;
+    } catch (error) {
+      console.log('deleteMember error:', error);
+    }
   };
 }

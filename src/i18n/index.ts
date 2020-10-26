@@ -9,6 +9,8 @@ import { findBestAvailableLanguage } from 'react-native-localize';
 import oneSkyTranslations from './locales/translations.json';
 import en_US from './locales/en-US.json';
 
+// Tip: use \u00A0 instead of npsp for i18n in translation strings.
+
 const deviceLanguage =
           Platform.OS === 'ios'
             ? NativeModules.SettingsManager.settings.AppleLocale ||

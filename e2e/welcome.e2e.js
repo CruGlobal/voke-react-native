@@ -19,6 +19,7 @@ describe('Welcome Screen', () => {
 
   it('should be able to go to Sign In', async () => {
     await element(by.id('ctaSignIn')).tap();
+    await element(by.id('ctaSignInEmail')).tap();
     await expect(element(by.id('inputEmail'))).toBeVisible();
   });
 

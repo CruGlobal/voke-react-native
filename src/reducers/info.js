@@ -4,6 +4,7 @@ const initialState = {
   pushNotificationPermission: '',
   notificationsRequest: false,
   toastProps: {},
+  complain: {},
   currentScreen: {
     screen: '',
     data: {},
@@ -19,6 +20,7 @@ export default function (
   action: {
     props: any,
     toastProps: any,
+    complain: any,
     permission: any,
     notificationsRequest: any,
     screen: any,
@@ -38,6 +40,16 @@ export default function (
       return {
         ...state,
         toastProps: {},
+      };
+    case REDUX_ACTIONS.SET_COMPLAIN:
+      return {
+        ...state,
+        complain: action.props || {},
+      };
+    case REDUX_ACTIONS.CLEAR_COMPLAIN:
+      return {
+        ...state,
+        complain: {},
       };
     case REDUX_ACTIONS.PUSH_PERMISSION:
       return {

@@ -1,15 +1,35 @@
-import { css } from '@emotion/native';
-import theme from '../../theme';
-import ui from '../../ui';
+import { StyleSheet } from 'react-native';
 
-const styles: { [key: string]: any } = {
-  ...ui,
-  ListOfSteps: css`
-    padding-top: ${`${theme.spacing.l}px`};
-    padding-bottom: ${`${theme.spacing.l}px`};
-    padding-left:${theme.spacing.m + 'px'};
-		padding-right:${theme.spacing.m + 'px'};
-  `,
-};
+import theme from '../../theme';
+
+const styles = StyleSheet.create({
+  ctaManageContainer: {
+    paddingTop: theme.spacing.l,
+    paddingHorizontal: theme.spacing.m,
+  },
+  ctaManage: {
+    backgroundColor: theme.colors.secondary,
+    borderRadius: theme.radius.s,
+    paddingHorizontal: theme.spacing.m,
+    paddingVertical: theme.spacing.m,
+    // justifyContent: 'flex-end',
+    alignContent: 'center',
+    flexDirection: 'row',
+  },
+  ctaManageLabel: {
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.xl,
+    lineHeight: theme.fontSizes.xl*1.4,
+    paddingLeft: theme.spacing.m,
+  },
+  ctaManageIcon: {
+    color: theme.colors.white,
+  },
+  ListOfSteps: {
+    paddingHorizontal: theme.spacing.m,
+    paddingVertical: theme.spacing.l,
+  },
+});
 
 export default styles;
+

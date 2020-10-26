@@ -1,25 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, ScrollView, StatusBar } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
+import { Modalize } from 'react-native-modalize';
+import { Portal } from 'react-native-portalize';
 
 import { RootState } from '../../reducers';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import st from '../../st';
-import Button from '../../components/Button';
+import OldButton from '../../components/OldButton';
 import Video from '../../components/Video';
 import VokeIcon from '../../components/VokeIcon';
+import ModalHowDuoWorks from '../../components/ModalHowDuoWorks';
+import ModalHowGroupsWork from '../../components/ModalHowGroupsWork';
 import theme from '../../theme';
 import { startAdventure, interactionVideoPlay } from '../../actions/requests';
 import { REDUX_ACTIONS } from '../../constants';
+
 import styles from './styles';
 
 function ActionButton(props) {
   return (
-    <Button
+    <OldButton
       isAndroidOpacity={true}
       style={[
         st.pd4,
@@ -36,6 +41,7 @@ function ActionButton(props) {
         },
       ]}
       onPress={() => props.onPress()}
+      testID={props?.testID}
     >
       <Flex direction="row" align="center" justify="center">
         <VokeIcon
@@ -45,11 +51,12 @@ function ActionButton(props) {
         />
         <Text style={[st.white, st.fs20]}>{props.text}</Text>
       </Flex>
-    </Button>
+    </OldButton>
   );
 }
 
-function AdventureAvailable(props) {
+function AdventureAvailable(props): React.ReactElement {
+  const modalizeRef = useRef<Modalize>(null);
   const { t } = useTranslation('journey');
   const dispatch = useDispatch();
   const insets = useSafeArea();
@@ -58,12 +65,12 @@ function AdventureAvailable(props) {
   const { item, alreadyStartedByMe } = props.route.params;
   const [isLoading, setIsLoading] = useState(false);
   const [soloStarted, setSoloStarted] = useState(alreadyStartedByMe);
-  const [withGroup, setWithGroup] = useState(0);
+  const [withGroup, setWithGroup] = useState(false);
   const { duoTutorialCount, groupTutorialCount } = useSelector(
     ({ info }: RootState) => info,
   );
 
-  const updateCountDown = withGroup => {
+  const updateCountDown = () => {
     if (withGroup) {
       const countdown = groupTutorialCount + 1;
       dispatch({
@@ -190,53 +197,42 @@ function AdventureAvailable(props) {
               <Flex value={1} align="center">
                 <ActionButton
                   text={t('goWithFriend')}
+                  testID="ctaGoWithFriend"
                   icon="couple"
                   onPress={() => {
-                    if (duoTutorialCount > 2) {
+                    if (duoTutorialCount > 1) {
                       navigation.navigate('AdventureName', {
                         item,
                         withGroup: false,
                       });
                     } else {
-                      updateCountDown(false);
-                      navigation.navigate('CustomModal', {
-                        modalId: 'howDuoWorks',
-                        primaryAction: () => {
-                          navigation.navigate('AdventureName', {
-                            item,
-                            withGroup: false,
-                          });
-                        },
-                      });
+                      setWithGroup(false);
+                      modalizeRef.current?.open();
+                      updateCountDown();
                     }
                   }}
                 />
                 <ActionButton
                   text={t('goWithGroup')}
+                  testID="ctaGoWithGroup"
                   icon="group"
                   onPress={() => {
-                    if (groupTutorialCount > 2) {
+                    if (groupTutorialCount > 1) {
                       navigation.navigate('AdventureName', {
                         item,
                         withGroup: true,
                       });
                     } else {
-                      updateCountDown(true);
-                      navigation.navigate('CustomModal', {
-                        modalId: 'howGroupsWork',
-                        primaryAction: () => {
-                          navigation.navigate('AdventureName', {
-                            item,
-                            withGroup: true,
-                          });
-                        },
-                      });
+                      setWithGroup(true);
+                      modalizeRef.current?.open();
+                      updateCountDown();
                     }
                   }}
                 />
                 {soloStarted ? null : (
                   <ActionButton
                     text={t('goByMyself')}
+                    testID="ctaGoByMyself"
                     icon="person"
                     onPress={startByMyself}
                   />
@@ -246,6 +242,44 @@ function AdventureAvailable(props) {
           </Flex>
         </ScrollView>
       )}
+      <Portal>
+        <Modalize
+          ref={modalizeRef}
+          modalTopOffset={0}
+          withHandle={false}
+          openAnimationConfig={{
+            timing: { duration: 300 },
+          }}
+          withOverlay={false}
+          modalStyle={{
+            backgroundColor: 'rgba(0,0,0,.85)',
+            minHeight: '100%',
+          }}
+          FooterComponent={null}
+        >
+          {withGroup ? (
+            <ModalHowGroupsWork
+              primaryAction={(): void => {
+                modalizeRef.current?.close();
+                navigation.navigate('AdventureName', {
+                  item,
+                  withGroup: true,
+                });
+              }}
+            />
+          ) : (
+            <ModalHowDuoWorks
+              primaryAction={(): void => {
+                modalizeRef.current?.close();
+                navigation.navigate('AdventureName', {
+                  item,
+                  withGroup: false,
+                });
+              }}
+            />
+          )}
+        </Modalize>
+      </Portal>
     </Flex>
   );
 }

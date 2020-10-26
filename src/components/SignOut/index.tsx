@@ -8,7 +8,7 @@ import {
   TextStyle,
 } from 'react-native';
 import Flex from '../Flex';
-import Button from '../Button';
+import OldButton from '../OldButton';
 import Touchable from '../Touchable';
 import { useDispatch,useSelector } from 'react-redux';
 import theme from '../../theme';
@@ -65,7 +65,7 @@ const SignOut = ({
   }
 
   return (
-    <>{!!email && (<Button
+    <>{!!email && (<OldButton
       isAndroidOpacity={true}
       onPress={
         () => dispatch(logoutAction()).then(() => {
@@ -99,7 +99,7 @@ const SignOut = ({
           }}
         >{t('signOut')}</Text>
       </Flex>
-    </Button>)}</>
+    </OldButton>)}</>
   );
 };
 export default SignOut;
