@@ -106,7 +106,7 @@ function AvailableAdventureItem({
               {t('adventure').toUpperCase()}
             </Text>
           )}
-          <Text style={[st.fs24, st.white]}>{item.name}</Text>
+          <Text style={[st.fs24, st.white]} testID={'adventureTitle'}>{item.name}</Text>
           <Text
             style={[st.fs(24), st.white, st.light, st.tac]}
             numberOfLines={2}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationActions, CommonActions,  useNavigation } from '@react-navigation/native';
 import * as RootNavigation from '../../RootNavigation';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import Flex from '../Flex';
@@ -10,7 +10,7 @@ import Touchable from '../Touchable';
 
 import styles from './styles';
 
-function HeaderLeft({ hasBack = false, resetTo = '' }) {
+function HeaderLeft({ hasBack = false, resetTo = '', testID }) {
   const navigation = useNavigation();
   const adventureId = useSelector(
     ({ info }: any) => info?.currentScreen?.data?.adventureId,
@@ -50,8 +50,8 @@ function HeaderLeft({ hasBack = false, resetTo = '' }) {
   };
 
   return (
-    <Flex value={1} justify="center">
-      <Touchable style={styles.touchable} onPress={goBack} testID={'ctaGoBack'}>
+    <Flex value={1} justify="center" testID={testID}>
+      <Touchable style={styles.touchable} onPress={goBack} testID="ctaGoBack">
         {hasBack ? (
           <View style={styles.backIconContainer}>
             <VokeIcon name="chevron-back-outline" style={styles.backIcon} />

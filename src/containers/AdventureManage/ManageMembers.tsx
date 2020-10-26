@@ -128,6 +128,7 @@ const ManageMembers = ({ messengers, me, adventure }) => {
               addMembers(inviteItem);
             }}
             style={styles.membersAddButtonAlt}
+            testID="ctaAddMembers"
           >
             <View style={styles.membersAddButtonAltIconBlock}>
               <VokeIcon
@@ -173,6 +174,7 @@ const ManageMembers = ({ messengers, me, adventure }) => {
               addMembers(inviteItem);
             }}
             style={styles.membersAddButton}
+            testID="ctaAddMembersEmpty"
           >
             <Text style={styles.membersAddButtonLabel}>{t('addMembers')}</Text>
           </OldButton>

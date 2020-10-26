@@ -61,6 +61,7 @@ function ModalNotifications({ closeAction }): React.ReactElement {
           onPress={() => {
             closeAction();
           }}
+          testID={'ctaNoNotifications'}
         >
           <Text style={styles.buttonCancelLabel}>{t('noThanks')}</Text>
         </OldButton>

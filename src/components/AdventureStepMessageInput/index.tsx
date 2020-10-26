@@ -13,6 +13,7 @@ import Select from '../Select';
 import { getCurrentUserId } from '../../utils/get';
 
 import styles from './styles';
+import { useTranslation } from 'react-i18next';
 
 const AdventureStepMessageInput = ({
   kind,
@@ -23,6 +24,7 @@ const AdventureStepMessageInput = ({
   onFocus,
   isLoading,
 }): React.ReactElement => {
+  const { t } = useTranslation('journey');
   const dispatch = useDispatch();
   const userId = getCurrentUserId();
   const [value, setValue] = useState(defaultValue || null);
@@ -273,7 +275,7 @@ const AdventureStepMessageInput = ({
               onFocus(event);
             }}
             multiline={true}
-            placeholder={'Enter your answer'} // TODO: Translate!
+            placeholder={t('enterAnswer')}
             placeholderTextColor={st.colors.grey}
             style={[
               st.f1,
@@ -288,12 +290,14 @@ const AdventureStepMessageInput = ({
             value={value ? value : draft}
             onChangeText={t => setDraft(t)}
             keyboardAppearance="dark"
+            testID="inputEnterAnswer"
           />
           <OldButton
             onPress={() => {
               handleSendMessage(draft);
             }}
             style={styles.buttonSend}
+            testID="ctaSendAnswer"
           >
             <VokeIcon name="send" style={styles.iconSend} size={24} />
           </OldButton>

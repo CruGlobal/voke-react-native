@@ -100,7 +100,7 @@ const AdventureStepNextAction = ({
         align="center"
         style={[st.bgBlue, st.ph5, st.pt2]}
       >
-        <Text style={[st.aic, st.fs2, st.mb4, st.ph1, st.tac, st.white]}>
+        <Text style={[st.aic, st.fs2, st.mb4, st.ph1, st.tac, st.white]} testID="finishedAdventure">
           {t('finishedJourney')}
         </Text>
         <OldButton
@@ -213,8 +213,9 @@ const AdventureStepNextAction = ({
           }
         }}
         style={styles.nextActionButton}
+        testID="ctaNextAction"
       >
-        <Text style={styles.nextActionButtonLabel}>{text}</Text>
+        <Text style={styles.nextActionButtonLabel} testID="ctaNextActionText">{text}</Text>
       </OldButton>
     </Flex>
   );

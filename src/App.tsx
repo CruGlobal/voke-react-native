@@ -148,7 +148,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
             paddingTop: insets.top,
           },
           title: '',
-          headerLeft: () => <HeaderLeft hasBack />,
+          headerLeft: () => <HeaderLeft hasBack testID="AdventureAvailable" />,
         }}
       />
       <AdventureStack.Screen
@@ -161,7 +161,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
             ...transparentHeaderConfig.headerStyle,
           },
           title: '',
-          headerLeft: () => <HeaderLeft hasBack resetTo="Adventures" />,
+          headerLeft: () => <HeaderLeft hasBack resetTo="Adventures" testID="AdventureActive" />,
           headerRight: undefined,
         }}
       />
@@ -176,7 +176,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
             paddingTop: insets.top,
           },
           title: '',
-          headerLeft: () => <HeaderLeft hasBack />
+          headerLeft: () => <HeaderLeft hasBack testID="AdventureManage" />
         }}
       />
       <AdventureStack.Screen
@@ -190,7 +190,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
             paddingTop: insets.top,
           },
           title: '',
-          headerLeft: () => <HeaderLeft hasBack />,
+          headerLeft: () => <HeaderLeft hasBack testID="AdventureStepScreen" />,
           headerRight: undefined,
         }}
       />
@@ -209,7 +209,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
             paddingTop: insets.top,
           },
           title: '',
-          headerLeft: () => <HeaderLeft hasBack />,
+          headerLeft: () => <HeaderLeft hasBack testID="AllMembersModal" />,
           headerRight: undefined,
         }}
       />
@@ -250,7 +250,7 @@ function VideoStackScreens({ navigation, route }: any) {
             paddingTop: insets.top, // TODO: Check if it really works here?
           },
           title: '',
-          headerLeft: () => <HeaderLeft hasBack />,
+          headerLeft: () => <HeaderLeft hasBack testID="VideoDetails" />,
         }}
       />
       <VideoStack.Screen
@@ -404,7 +404,7 @@ const RootStackScreens = () => {
           },
           title: '',
           // headerShown: true,
-          headerLeft: () => <HeaderLeft hasBack />,
+          headerLeft: () => <HeaderLeft hasBack testID="AccountName" />,
         }}
       />
       <RootStack.Screen
@@ -418,7 +418,7 @@ const RootStackScreens = () => {
           },
           title: '',
           // headerShown: true,
-          headerLeft: () => <HeaderLeft hasBack />,
+          headerLeft: () => <HeaderLeft hasBack testID="AdventureCode" />,
         }}
       />
       <RootStack.Screen
@@ -447,7 +447,7 @@ const RootStackScreens = () => {
               </Touchable> */}
             </>
           ),
-          headerLeft: () => <HeaderLeft hasBack />,
+          headerLeft: () => <HeaderLeft hasBack testID="AccountPhoto" />,
           title: '',
           // headerShown: true,
         })}
@@ -501,7 +501,7 @@ const RootStackScreens = () => {
           },
           title: t('createAccount'),
           // headerShown: true,
-          headerLeft: () => <HeaderLeft hasBack />,
+          headerLeft: () => <HeaderLeft hasBack testID="AccountCreate" />,
         }}
       />
       <RootStack.Screen
@@ -515,7 +515,7 @@ const RootStackScreens = () => {
           },
           title: t('signIn'),
           // headerShown: true,
-          headerLeft: () => <HeaderLeft hasBack />,
+          headerLeft: () => <HeaderLeft hasBack testID="AccountSignIn" />,
         }}
       />
       <RootStack.Screen
@@ -536,7 +536,7 @@ const RootStackScreens = () => {
             fontSize: 18,
             fontWeight: 'normal',
           },
-          headerLeft: () => <HeaderLeft hasBack />,
+          headerLeft: () => <HeaderLeft hasBack testID="ForgotPassword" />,
         }}
       />
       <RootStack.Screen
@@ -544,7 +544,7 @@ const RootStackScreens = () => {
         component={AccountProfile}
         options={({ navigation }) => ({
           headerShown: true,
-          headerLeft: () => <HeaderLeft hasBack resetTo="Menu" />,
+          headerLeft: () => <HeaderLeft hasBack resetTo="Menu" testID="AccountProfile" />,
           headerRight: () => <SignOut />,
           cardStyle: { backgroundColor: theme.colors.transparent },
           headerStyle: {
@@ -565,7 +565,7 @@ const RootStackScreens = () => {
         component={AccountCreate}
         options={({ navigation }) => ({
           headerShown: true,
-          headerLeft: () => <HeaderLeft hasBack />,
+          headerLeft: () => <HeaderLeft hasBack testID="SignUp" />,
           cardStyle: { backgroundColor: theme.colors.transparent },
           headerStyle: {
             backgroundColor: theme.colors.primary,
@@ -585,7 +585,7 @@ const RootStackScreens = () => {
         component={AccountEmail}
         options={({ navigation }) => ({
           headerShown: true,
-          headerLeft: () => <HeaderLeft hasBack />,
+          headerLeft: () => <HeaderLeft hasBack testID="AccountEmail" />,
           cardStyle: { backgroundColor: theme.colors.transparent },
           headerStyle: {
             backgroundColor: theme.colors.primary,
@@ -605,7 +605,7 @@ const RootStackScreens = () => {
         component={AccountPass}
         options={({ navigation }) => ({
           headerShown: true,
-          headerLeft: () => <HeaderLeft hasBack />,
+          headerLeft: () => <HeaderLeft hasBack testID="AccountPass" />,
           cardStyle: { backgroundColor: theme.colors.transparent },
           headerStyle: {
             backgroundColor: theme.colors.primary,
@@ -625,7 +625,7 @@ const RootStackScreens = () => {
         component={MenuHelp}
         options={({ navigation }) => ({
           headerShown: true,
-          headerLeft: () => <HeaderLeft hasBack />,
+          headerLeft: () => <HeaderLeft hasBack testID="Help" />,
           cardStyle: { backgroundColor: theme.colors.transparent },
           headerStyle: {
             backgroundColor: theme.colors.primary,
@@ -645,7 +645,7 @@ const RootStackScreens = () => {
         component={MenuAbout}
         options={({ navigation }) => ({
           headerShown: true,
-          headerLeft: () => <HeaderLeft hasBack />,
+          headerLeft: () => <HeaderLeft hasBack testID="About" />,
           cardStyle: { backgroundColor: theme.colors.transparent },
           headerStyle: {
             backgroundColor: theme.colors.primary,
@@ -665,7 +665,7 @@ const RootStackScreens = () => {
         component={MenuAcknowledgements}
         options={({ navigation }) => ({
           headerShown: true,
-          headerLeft: () => <HeaderLeft hasBack />,
+          headerLeft: () => <HeaderLeft hasBack testID="Acknowledgements" />,
           cardStyle: { backgroundColor: theme.colors.transparent },
           headerStyle: {
             backgroundColor: theme.colors.primary,
@@ -802,7 +802,7 @@ const App = () => {
               },
               cardStyle: { backgroundColor: theme.colors.primary },
               title: '',
-              headerLeft: () => <HeaderLeft hasBack />,
+              headerLeft: () => <HeaderLeft hasBack testID="AdventureName" />,
             })}
           />
           <AppStack.Screen
@@ -815,7 +815,7 @@ const App = () => {
             },
             cardStyle: { backgroundColor: theme.colors.primary },
             title: '',
-            headerLeft: () => <HeaderLeft hasBack />,
+            headerLeft: () => <HeaderLeft hasBack testID="GroupReleaseType" />,
           })}
         />
         <AppStack.Screen
@@ -828,7 +828,7 @@ const App = () => {
             },
             cardStyle: { backgroundColor: theme.colors.primary },
             title: '',
-            headerLeft: () => <HeaderLeft hasBack />,
+            headerLeft: () => <HeaderLeft hasBack testID="GroupReleaseDate" />,
           })}
         />
           <AppStack.Screen

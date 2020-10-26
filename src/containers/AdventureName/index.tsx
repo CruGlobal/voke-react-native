@@ -193,7 +193,7 @@ function AdventureName(props: any): ReactElement {
               ? formik.errors.name
               : null
           }
-          testID={'inputFriendsName'}
+          testID={'inputName'}
         />
         <Touchable onPress={() => setShowHelp(!showHelp)}>
           <Text style={[st.offBlue, st.fs14, st.pt3, st.tac, st.ph1]}>
@@ -247,7 +247,6 @@ function AdventureName(props: any): ReactElement {
           backgroundColor: theme.colors.primary,
         }}
         onLayout={e => {
-          console.log( "🦀 onLayout:", e.layout.height );
           setModalHeight(e.layout.height);
         }}
       >

@@ -107,11 +107,11 @@ const Button = ({
         ]} */
         style={styles.inner}
       >
-        <VokeIcon
+        { icon && <VokeIcon
           name={icon}
           // size={22}
           style={stylesIcon}
-        />
+        /> }
         <Text style={stylesText}>{content}</Text>
       </View>
     </Touchable>

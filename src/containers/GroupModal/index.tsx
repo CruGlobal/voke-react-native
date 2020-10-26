@@ -38,7 +38,6 @@ function GroupModal(props) {
             });
     return <></>;
   }
-  console.log( "🐸 adventure:", adventure );
   const allMessengers = adventure?.conversation?.messengers;
   const messengers = allMessengers.filter(
     i => i.first_name !== 'VokeBot' && (i || {}).id !== (me || {}).id,

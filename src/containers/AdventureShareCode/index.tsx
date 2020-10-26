@@ -229,7 +229,7 @@ function AdventureShareCode(props) {
               </Text>
             </OldButton>
             <Flex style={{ minHeight: theme.spacing.xl }} />
-            <Text style={[st.fs22, st.white]} testID={'textAdventureCode'}>
+            <Text style={[st.fs22, st.white]}  testID={'invitationCode'}>
               {t('adventureCode:adventureCode')}:{' '}
               <Text
                 style={{
@@ -274,7 +274,9 @@ function AdventureShareCode(props) {
           withOverlay={false}
           modalStyle={{
             backgroundColor: 'rgba(0,0,0,.85)',
-            minHeight: '100%',
+            minHeight: '105%',
+            borderRadius: 0,
+            marginTop:'-5%',
           }}
           FooterComponent={null}
         >

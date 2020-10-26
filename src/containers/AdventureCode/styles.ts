@@ -8,7 +8,6 @@ const sharredStyles = {
     height: '100%',
     maxWidth: 440,
     alignSelf: 'center',
-    backgroundColor: theme.colors.red,
     paddingHorizontal: theme.spacing.xl,
   },
 };

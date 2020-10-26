@@ -68,6 +68,21 @@ const styles = StyleSheet.create({
     color: theme.colors.white,
   },
   // -------------------------
+  outerSolidSecondaryL: {
+    ...sharedStyles.buttonLarge,
+    backgroundColor: theme.colors.secondary,
+  },
+  textSolidSecondaryL: {
+    ...sharedStyles.buttonText,
+    ...sharedStyles.buttonTextLarge,
+    color: theme.colors.white,
+  },
+  iconSolidSecondaryL: {
+    ...sharedStyles.buttonIcon,
+    ...sharedStyles.buttonTextLarge,
+    color: theme.colors.white,
+  },
+  // -------------------------
   outerSolidEmptyL: {
     ...sharedStyles.buttonLarge,
     backgroundColor: theme.colors.white,

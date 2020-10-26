@@ -13,8 +13,10 @@ import { createAdventureStepMessage } from '../../actions/requests';
 import { getCurrentUserId } from '../../utils/get';
 
 import styles from './styles';
+import { useTranslation } from 'react-i18next';
 
 function MainMessagingInput({ adventure, step, onFocus, ...rest }) {
+  const { t } = useTranslation('journey');
   const [text, setText] = useState('');
   const [inputHeight, setInputHeight] = useState(0);
   const dispatch = useDispatch();
@@ -52,7 +54,7 @@ function MainMessagingInput({ adventure, step, onFocus, ...rest }) {
         // returnKeyType="send"
         // blurOnSubmit={true}
         // onSubmitEditing={handleSendMessage}
-        placeholder={'Chat about your answers'} // TODO: Translate it.
+        placeholder={t('chatHere')} // TODO: Translate it.
         onChangeText={t => setText(t)}
         value={text}
         placeholderTextColor={theme.colors.secondary}
@@ -66,6 +68,7 @@ function MainMessagingInput({ adventure, step, onFocus, ...rest }) {
         multiline={true}
         keyboardAppearance="dark"
         onFocus={onFocus}
+        testID="inputMainChatInput"
         {...rest}
       />
       <OldButton style={styles.sendButton} onPress={handleSendMessage}>

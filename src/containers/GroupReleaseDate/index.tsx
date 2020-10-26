@@ -243,7 +243,7 @@ const GroupReleaseDate = (props): React.ReactElement => {
                 onPress={handleContinue}
                 touchableStyle={styles.button}
                 isLoading={isLoading}
-                testID={'ctaNameContinue'}
+                testID={'ctaReleaseManualContinue'}
               >
                 <Text style={styles.buttonLabel}>{t('continue')}</Text>
               </OldButton>

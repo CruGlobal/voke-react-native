@@ -307,6 +307,77 @@ const styles = StyleSheet.create({
     paddingBottom: theme.spacing.s,
   },
 
+
+  modalStyle: {
+    backgroundColor: 'transparent',
+    marginHorizontal: theme.spacing.s,
+  },
+  childrenStyle: {
+    // backgroundColor: 'rgba(255,255,255,.3)',
+    borderRadius: theme.radius.l,
+    overflow: 'hidden',
+  },
+  modalContent: {
+    minHeight: '100%',
+    paddingTop: theme.spacing.m,
+    paddingHorizontal: theme.spacing.l,
+  },
+  modalActions: {
+    paddingBottom: theme.spacing.s,
+  },
+  actionButton: {
+    backgroundColor: theme.colors.white,
+    marginTop: theme.spacing.s,
+    borderRadius: theme.radius.l,
+    paddingVertical: theme.spacing.m,
+    paddingHorizontal: theme.spacing.m,
+    width: '100%',
+    alignItems: 'center',
+  },
+  actionButtonLabel: {
+    color: theme.colors.secondary,
+    fontSize: theme.fontSizes.xl,
+  },
+  modalBlurAndroid: {
+    ...StyleSheet.absoluteFill,
+    backgroundColor: theme.colors.white,
+  },
+  modalBlur: {
+    ...StyleSheet.absoluteFill,
+  },
+  modalTitle: {
+    textAlign: 'center',
+    color: theme.colors.secondary,
+    fontSize: theme.fontSizes.xl,
+    fontFamily: theme.fonts.semiBold,
+    paddingBottom: theme.spacing.m,
+    paddingVertical: theme.spacing.l,
+  },
+  modalText: {
+    color: theme.colors.secondary,
+    fontSize: theme.fontSizes.l,
+    textAlign: 'center',
+  },
+  confirmationIcon: {
+    color: theme.colors.green,
+    alignSelf: 'center',
+    paddingTop: theme.spacing.xl,
+    paddingBottom: theme.spacing.l,
+  },
+  confirmationTitle: {
+    textAlign: 'center',
+    color: theme.colors.secondary,
+    fontSize: theme.fontSizes.xl,
+    lineHeight: theme.fontSizes.xl * 1.4,
+    paddingHorizontal: theme.spacing.xl,
+    paddingBottom: theme.spacing.l,
+  },
+  confirmationText: {
+    color: theme.colors.secondary,
+    fontSize: theme.fontSizes.l,
+    textAlign: 'center',
+  },
+
   /* modalTitleArea: {
     paddingBottom: theme.spacing.s,
     flexDirection: 'row',

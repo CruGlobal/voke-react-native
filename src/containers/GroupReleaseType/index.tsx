@@ -34,9 +34,9 @@ import {
   sendVideoInvitation,
 } from '../../actions/requests';
 import AccountCreate from '../AccountCreate';
+import Screen from '../../components/Screen';
 
 import styles from './styles';
-import Screen from '../../components/Screen';
 
 function GroupReleaseType(props: any): ReactElement {
   const {
@@ -149,6 +149,7 @@ function GroupReleaseType(props: any): ReactElement {
           alignItems: 'center',
           justifyContent: 'space-between',
         }}
+        testID={'releaseOption-' + (index + 1)}
       >
         <VokeIcon
           name={item.icon}
@@ -170,7 +171,7 @@ function GroupReleaseType(props: any): ReactElement {
         </Text>
         <OldButton
           onPress={item.buttonAction}
-          testID={'ctaContinue' + index}
+          testID={'ctaContinueOption-' + (index+1)}
           touchableStyle={{
             padding: theme.spacing.s,
             backgroundColor: theme.colors.secondary,
@@ -240,12 +241,10 @@ function GroupReleaseType(props: any): ReactElement {
         <Flex direction="column" justify="center">
           <Carousel
             firstItem={initalItem(releaseSchedule)}
-            containerCustomStyle={
-              {
-                marginHorizontal:
+            containerCustomStyle={{
+              marginHorizontal:
                 theme.window.width < 375 ? -theme.spacing.l : -theme.spacing.xl,
-              }
-            }
+            }}
             // ref={(c) => { this._carousel = c; }}
             data={[
               {

@@ -272,6 +272,8 @@
         "howDuoWorksBotBody": "Learn more about it works, or get started right away.",
         "howGroupsWorkBotBody": "Learn more about how they work below, or get started right away.",
         "howSharingWorksBotBody": "Here\u2019s how Invite sharing works.",
+        "howItWorksReleaseType": "Choose how you’d like to go through content with your group.",
+        "howItWorksAddMembers": "Add up to 20 members to your Group from your Leader Zone",
         "howItWorksWatch": "Watch each episode, answer the question, and unlock your friends\u2019 answers.",
         "howDuoWorksChat": "Then chat with your friend about the video and their answers.",
         "howGroupsWorkChat": "Then chat with your friends about the video and their answers.",
@@ -409,6 +411,8 @@
         "waitingForFriend": "Waiting for {{name}} to join..."
     },
     "journey": {
+        "enterAnswer": "Enter your answer",
+        "chatHere":"Chat about your answers",
         "byMyself": "By Myself",
         "finishedJourney": "Congrats! You finished the Adventure. Now start it with someone else!",
         "nextVideoReady": "Next Video is Ready",
@@ -439,9 +443,13 @@
         "welcomeToAdventures": "Welcome {{name}}! This is where you will find all of your Adventures with your friends."
     },
     "manageGroup": {
+        "reportModalTitle": "Before you Proceed!",
+        "reportModalText": "Blocking a user will lock them out of the Voke application. They will no longer be able to use Voke. This cannot be undone.",
         "noMembers": "No Members Yet",
         "members": "Member",
         "members_plural": "Members",
+        "memberBlockedTitle": "{{name}} has been blocked",
+        "memberBlockedText": "Please, reach out to {{name}} and let them know the action you took.",
         "manageMembers": "Manage Members",
         "addMembers": "Add Members",
         "noMembersYet": "It’s just you right now, share the group link to invite members.",

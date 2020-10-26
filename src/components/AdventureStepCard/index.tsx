@@ -139,6 +139,7 @@ function AdventureStepCard({
           })
         }
         style={styles.stepCard}
+        testID={ !!step?.position ? 'stepPart-'+step.position : ''}
       >
         <Flex
           style={[
@@ -177,6 +178,7 @@ function AdventureStepCard({
                 name={isLocked ? 'lock' : 'play-full'}
                 size={30}
                 style={styles.thumbIcon}
+                testID={isLocked ? 'stepLocked' : 'stepAvailable'}
               />
             </Flex>
             <Flex

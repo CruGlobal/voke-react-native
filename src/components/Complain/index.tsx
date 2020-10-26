@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, Dimensions, ScrollView } from 'react-native';
+import { View, Dimensions, ScrollView, Platform, Linking } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 import { BlurView } from '@react-native-community/blur';
 import { Portal } from 'react-native-portalize';
@@ -12,7 +12,7 @@ import { createComplain } from '../../actions/requests';
 import Text from '../Text';
 import VokeIcon from '../VokeIcon';
 import { RootState } from '../../reducers';
-import { REDUX_ACTIONS } from '../../constants';
+import CONSTANTS, { REDUX_ACTIONS } from '../../constants';
 import theme from '../../theme';
 import OldButton from '../OldButton';
 
@@ -104,75 +104,80 @@ const Complain = () => {
           </SafeAreaView>
         }
       >
+        {isAndroid ? (
+          <View style={styles.modalBlurAndroid} />
+        ) : (
           <BlurView
-            // overlayColor="red"
-            reducedTransparencyFallbackColor="rgba(255,255,255,.8)"
             blurType="xlight"
-            blurAmount={isAndroid? 0 :7}
             style={styles.modalBlur}
           />
+        )}
         <View style={styles.modalContent}>
-            <View style={styles.modalHeader}>
-              <Text numberOfLines={2} style={styles.modalTitle}>
-                {t('modalTitle')}
-              </Text>
-            </View>
-            {!complainSubmited ? (
-              <>
-                <Text style={styles.causeTitle}>{t('introText')}</Text>
-                <ScrollView style={styles.causeOptions}>
-                  <OldButton
-                    onPress={() => {
-                      sendComplain(t('bullying'));
-                    }}
-                    touchableStyle={styles.causeOption}
-                    testID={'ctaBullying'}
-                  >
-                    <Text style={styles.causeOptionLabel}>{t('bullying')}</Text>
-                  </OldButton>
-                  <OldButton
-                    onPress={() => {
-                      sendComplain(t('spam'));
-                    }}
-                    touchableStyle={styles.causeOption}
-                    testID={'ctaSpam'}
-                  >
-                    <Text style={styles.causeOptionLabel}>{t('spam')}</Text>
-                  </OldButton>
-                  <OldButton
-                    onPress={() => {
-                      sendComplain(t('inappropriate'));
-                    }}
-                    touchableStyle={styles.causeOption}
-                    testID={'ctaInappropriate'}
-                  >
-                    <Text style={styles.causeOptionLabel}>
-                      {t('inappropriate')}
-                    </Text>
-                  </OldButton>
-                </ScrollView>
-              </>
-            ) : (
-              <ScrollView style={styles.complainConfirmation}>
-                <VokeIcon
-                  name="check_circle"
-                  style={styles.complainConfirmationIcon}
-                  size={40}
-                />
-                <Text style={styles.complainConfirmationText}>
-                  {t('submited')}
-                </Text>
+          <View style={styles.modalHeader}>
+            <Text numberOfLines={2} style={styles.modalTitle}>
+              {t('modalTitle')}
+            </Text>
+          </View>
+          {!complainSubmited ? (
+            <>
+              <Text style={styles.causeTitle}>{t('introText')}</Text>
+              <ScrollView style={styles.causeOptions}>
+                <OldButton
+                  onPress={() => {
+                    sendComplain(t('bullying'));
+                  }}
+                  touchableStyle={styles.causeOption}
+                  testID={'ctaBullying'}
+                >
+                  <Text style={styles.causeOptionLabel}>{t('bullying')}</Text>
+                </OldButton>
+                <OldButton
+                  onPress={() => {
+                    sendComplain(t('spam'));
+                  }}
+                  touchableStyle={styles.causeOption}
+                  testID={'ctaSpam'}
+                >
+                  <Text style={styles.causeOptionLabel}>{t('spam')}</Text>
+                </OldButton>
+                <OldButton
+                  onPress={() => {
+                    sendComplain(t('inappropriate'));
+                  }}
+                  touchableStyle={styles.causeOption}
+                  testID={'ctaInappropriate'}
+                >
+                  <Text style={styles.causeOptionLabel}>
+                    {t('inappropriate')}
+                  </Text>
+                </OldButton>
               </ScrollView>
-            )}
-            <View style={styles.modalFooter}>
-              <Text style={styles.modalFooterText}>
-                {t('reportingFooter')}{' '}
-                <Text style={styles.modalFooterHighlight} onPress={() => {}}>
-                  <Text style={styles.modalFooterLink}>{t('learnMore')}</Text>{' '}
-                  {t('aboutReporting')}
-                </Text>
+            </>
+          ) : (
+            <ScrollView style={styles.complainConfirmation}>
+              <VokeIcon
+                name="check_circle"
+                style={styles.complainConfirmationIcon}
+                size={40}
+              />
+              <Text style={styles.complainConfirmationText}>
+                {t('submited')}
               </Text>
-            </View>
+            </ScrollView>
+          )}
+          <View style={styles.modalFooter}>
+            <Text style={styles.modalFooterText}>
+              {t('reportingFooter')}
+              {' '}
+              <Text
+                style={styles.modalFooterHighlight}
+                onPress={(): void => Linking.openURL(CONSTANTS.WEB_URLS.TERMS)}
+              >
+                <Text style={styles.modalFooterLink}>{t('learnMore')}</Text>{' '}
+                {t('aboutReporting')}
+              </Text>
+            </Text>
+          </View>
         </View>
       </Modalize>
     </Portal>

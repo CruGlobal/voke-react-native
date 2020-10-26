@@ -185,8 +185,6 @@ const AccountCreate = ({
           testID={'inputEmail'}
           onFocus={() => {
             if (Platform.OS === 'ios' && parentScroll?.current && scrollTo) {
-              console.log( "🐸 parentScroll.current:", parentScroll.current?.getScrollResponder());
-              console.log( "🐸 scrollTo:", scrollTo );
               // Android do that all for us automatically.
               // Need timeout for Keyboard to appear and scroll become available
               setTimeout(() => {

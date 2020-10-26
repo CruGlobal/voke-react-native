@@ -60,7 +60,7 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
       }
 
       const { authToken } = getState().auth;
-      const deviceId = getState().auth.device.id;
+      const deviceId = getState().auth.device.id || action?.device?.id;
 
       if (deviceId && authToken) {
         try {

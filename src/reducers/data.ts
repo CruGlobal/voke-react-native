@@ -155,7 +155,7 @@ export default function (state = initialState, action: any) {
             ...state.adventureInvitations.byId,
             [action.result.id]: action.result,
           },
-          allIds: allIds.concat([action.result.id]),
+          allIds: [action.result.id].concat(allIds),
         },
       };
     }

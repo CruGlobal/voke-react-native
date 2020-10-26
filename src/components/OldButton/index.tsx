@@ -34,6 +34,7 @@ const OldButton = ({
   isLoading,
   style,
   touchableStyle,
+  testID,
   ...rest
 }: ButtonProps) => {
   const [clickDisabled, setClickDisabled] = useState(false);
@@ -75,6 +76,7 @@ const OldButton = ({
       style={touchableStyle}
       disabled={isDisabled}
       onPress={isDisabled ? () => {} : () => handlePress()}
+      testID={testID}
     >
       <View
         style={[

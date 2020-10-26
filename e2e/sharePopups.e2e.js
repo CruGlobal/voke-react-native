@@ -1,47 +1,44 @@
+const { signin, signout } = require('./shortcuts');
 /* eslint-disable no-undef */
-describe('Share Popups', () => {
-  const email = 'autotest@vokeapptest.com';
-  const pass = '12345678';
+describe('Sharing Adventure', () => {
   const friendName = 'Guguza';
+  let inviteCode = '';
 
   beforeAll(async () => {
     await device.reloadReactNative();
   });
 
-  it('should be able to go to Sign In', async () => {
-    await element(by.id('ctaSignIn')).tap();
-    await element(by.id('inputEmail')).replaceText(email);
-    await element(by.id('inputPassword')).replaceText(pass);
-    await element(by.id('ctaSignInNow')).tap();
-    await expect(element(by.id('tabAdventuresMy'))).toBeVisible();
-  });
+  signin();
 
-  it('should be able to go to Share Adventure from list', async () => {
+  it('can Share Adventure from list of Adventures', async () => {
     await element(by.id('tabAdventuresFind')).tap();
     await element(by.id('ctaShareIcon')).atIndex(0).tap();
-    await element(by.id('inputFriendsName')).replaceText(friendName);
+    await element(by.id('inputName')).replaceText(friendName);
     await element(by.id('ctaContinue')).tap();
-    await expect(element(by.id('ctaAllowNotifications'))).toBeVisible();
-    await element(by.id('ctaHeaderClose')).tap();
+    await element(by.id('ctaNoNotifications')).tap();
+    // https://github.com/wix/Detox/blob/DetoxNext/docs/APIRef.ActionsOnElement.md#getAttributes--ios-only
+    const attributes = await element(by.id('invitationCode')).getAttributes();
+    const inviteCodeTemp = attributes.text.split(': ');
+    inviteCode = inviteCodeTemp[1];
     await expect(element(by.id('ctaShareLink'))).toBeVisible();
   });
 
-  it('should be able to Close Share Modal', async () => {
+  it('can Close Adventures Share Modal', async () => {
     await element(by.id('ctaHeaderDone')).tap();
     await expect(element(by.id('tabAdventuresMy'))).toBeVisible();
   });
 
-  it('should be able to see new created Invite', async () => {
+  it('can see new created Invite', async () => {
     await element(by.id('tabAdventuresMy')).tap();
-    await expect(element(by.text(`Waiting for ${friendName} to join...`))).toBeVisible();
+    await expect(element(by.id(inviteCode))).toBeVisible();
   });
 
-  it('should be able to go to Sign Out', async () => {
-    // Menu > Profile > Logout
-    await element(by.id('iconMenu')).tap();
-    await element(by.id('menuProfile')).tap();
-    await expect(element(by.id('textEmail'))).toHaveText(email);
-    await element(by.id('ctaSignOut')).tap();
-    await expect(element(by.id('welcomeScreen'))).toBeVisible();
+  it('should display Invite as not expired', async () => {
+    await element(by.id('tabAdventuresMy')).tap();
+    await expect(
+      element(by.id('expiresIn').withAncestor(by.id(inviteCode))),
+    ).toBeVisible();
   });
+
+  signout();
 });

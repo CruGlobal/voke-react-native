@@ -471,6 +471,7 @@ function Video({
                     name={isPlaying ? 'pause' : 'play-circle'}
                     size={50}
                     style={isPlaying ? styles.iconPlay : styles.iconPause}
+                    testID="ctaPlayerPlay"
                   />
                 )}
               </Touchable>

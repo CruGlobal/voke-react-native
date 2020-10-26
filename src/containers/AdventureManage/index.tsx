@@ -11,7 +11,11 @@ import { useDispatch, useSelector, shallowEqual, useStore } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 
-import { getMyAdventure, getAdventureSummary, getAdventureSteps } from '../../actions/requests';
+import {
+  getMyAdventure,
+  getAdventureSummary,
+  getAdventureSteps,
+} from '../../actions/requests';
 import AdventureStepReportCard from '../../components/AdventureStepReportCard';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
@@ -51,6 +55,8 @@ function AdventureManage({
       data.myAdventures?.byId[adventureId] || {},
   );
 
+  console.log('🐸 adventure:', adventure);
+
   const stepsListIds =
     useSelector(
       ({ data }: { data: TDataState }) =>
@@ -58,8 +64,7 @@ function AdventureManage({
     ) || {};
 
   console.log('🙊 adventure:', adventure);
-  console.log( "⛑ stepsListIds:", stepsListIds );
-
+  console.log('⛑ stepsListIds:', stepsListIds);
 
   useEffect(() => {
     if (adventureId && !stepsListIds.length) {
@@ -73,7 +78,6 @@ function AdventureManage({
 
   // const updateSteps = async () => {
   //   const result = await dispatch(getAdventureSteps(adventureId));
-  //   console.log('🐸 result?.steps:', result?.steps);
   //   if (result?.steps.length) {
   //     // Pseudo-step for graduated users.
   //     result?.steps.push({
@@ -126,14 +130,12 @@ function AdventureManage({
     dispatch(getMyAdventure(adventureId));
   }, []);
 
-  console.log( "😁 stepsListIds:", stepsListIds );
-
   return (
     <ScrollView style={styles.screen}>
       <SafeAreaView>
         <HeaderSpacer />
         <Flex style={styles.header} align="center" justify="center">
-          <Text style={styles.invite}>
+          <Text style={styles.invite} testID="inviteCodeHeader">
             {t('inviteCode')}:{' '}
             <Text style={styles.inviteCode}>{inviteCode}</Text>
           </Text>
@@ -183,24 +185,23 @@ function AdventureManage({
           <Text style={styles.sectionTitle}>{t('journeyStatus')}</Text>
           <FlatList
             data={stepsListIds}
-            renderItem={({ item }): React.ReactElement =>
-              { console.log( "🐸 item:", item );
-                return item && (
-                <AdventureStepReportCard
-                  stepId={item}
-                  adventureId={adventureId}
-                  activeStepRef={activeStepRef}
-                />
-              )
-              }
-            }
-
+            renderItem={({ item }): React.ReactElement => {
+              return (
+                item && (
+                  <AdventureStepReportCard
+                    stepId={item}
+                    adventureId={adventureId}
+                    activeStepRef={activeStepRef}
+                  />
+                )
+              );
+            }}
           />
           <AdventureStepReportCard
-                  stepId='graduated'
-                  adventureId={adventureId}
-                  activeStepRef={activeStepRef}
-                />
+            stepId="graduated"
+            adventureId={adventureId}
+            activeStepRef={activeStepRef}
+          />
         </Flex>
         <ReportedMessages adventureId={adventureId} />
         <View style={styles.footer}>

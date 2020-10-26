@@ -82,7 +82,10 @@ const styles = StyleSheet.create({
   },
   messageMetaActions: {
     color: theme.colors.white,
-    paddingLeft: theme.spacing.m,
+    padding: theme.spacing.l,
+    marginLeft: -theme.spacing.s,
+    marginTop: -theme.spacing.l,
+    marginBottom: -theme.spacing.l,
     fontSize: theme.fontSizes.xs,
   },
   actionReport: {

@@ -55,7 +55,9 @@ const NotificationBanner = (): React.ReactElement => {
           withOverlay={false}
           modalStyle={{
             backgroundColor: 'rgba(0,0,0,.85)',
-            minHeight: '100%',
+            minHeight: '105%',
+            borderRadius: 0,
+            marginTop:'-5%',
           }}
           FooterComponent={null}
         >

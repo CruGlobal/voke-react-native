@@ -59,17 +59,18 @@ Props): React.ReactElement {
     ({ data }: RootState) =>
       data.adventureSteps[adventureId]?.byId[stepId] || {},
   );
-  console.log('🦀 adventure:', adventure, adventure?.progress?.total);
-  console.log('🦒 step:', step);
- /*  const step = useSelector(
+  /*  const step = useSelector(
     ({ data }: RootState) =>
       data.adventureSteps[adventureId].byId[step.id] || {},
   ); */
 
-  if (stepId === 'graduated') {
+  if (stepId === 'graduated' && adventure?.id) {
+    const allUsers = adventure?.conversation?.messengers;
+    const garduatedUsers = allUsers.filter(user => user.completed);
     step.id = 'graduated';
     step.name = 'Graduated Users';
-    step.active_messengers = [];
+    step.active_messengers = garduatedUsers;
+    step.position = '99'; // position required for testID!
   }
 
   // console.log('🦕 step:', step);
@@ -108,136 +109,153 @@ Props): React.ReactElement {
 
   const unlockNextStep = async adventureId => {
     const results = await dispatch(unlockNextAdventureStep(adventureId));
+    console.log( "🐷 results:", results );
+    if (results?.id) {
     // TODO: when we have results refetch adventure to have UI updated.
-    setTimeout(() => {
       activeStepRef.current = activeStepRef.current + 1;
-      dispatch(getAdventureSteps(adventureId));
-      dispatch(getMyAdventure(adventureId));
-    }, 1000);
+      step.locked = false;
+      setIsNext(false);
+    // setTimeout(() => {
+      // Don't do that. We are getting WebSocket with unlock action.
+      // dispatch(getAdventureSteps(adventureId));
+      // dispatch(getMyAdventure(adventureId));
+    // }, 1000);
+    }
   };
 
-  return (
-    <View style={styles.container}>
-      <Touchable
-        highlight={false}
-        activeOpacity={0.8}
-        onPress={(): void => {}}
-        style={
-          styles[
-            // step.locked || (step.status === 'inactive' && !isNext)
-            step.locked
-              ? 'cardLocked'
-              : isNext
-              ? 'cardNext'
-              : step.id === 'graduated'
-              ? 'cardGraduated'
-              : 'card'
-          ]
-        }
-      >
-        <Flex align="center" justify="start">
-          <Flex value={1} direction="row" self="start">
-            <View style={styles.cardContent}>
-              <Text
-                numberOfLines={2}
-                style={
-                  step.id === 'graduated'
-                    ? styles.cardGraduatedTitle
-                    : styles.cardTitle
-                }
-              >
-                {step.name}
-              </Text>
-              {!!step.position && (
-                <Text style={styles.cardSubTitle}>
-                  {t('part')} {step.position}
-                </Text>
-              )}
-            </View>
-            <View style={styles.action}>
-              {isNext ? (
-                <OldButton
-                  onPress={() => unlockNextStep(adventure.id)}
-                  style={styles.actionReleaseNow}
-                >
-                  <Text style={styles.actionReleaseNowLabel}>
-                    {t('releaseNow')}
-                  </Text>
-                </OldButton>
-              ) : // ) : step.locked || step.status === 'inactive' ? (
-              step.locked ? (
-                <VokeIcon name={'lock'} size={20} style={styles.actionLocked} />
-              ) : (
+  console.log( "🐸 step?.position:", step, step?.position );
+
+  if ( !adventure?.id || stepId === 'graduated' && !step.active_messengers.length) {
+    return <></>;
+  } else {
+    return (
+      <View style={styles.container}>
+        <View
+          style={
+            styles[
+              // step.locked || (step.status === 'inactive' && !isNext)
+              step.locked
+                ? 'cardLocked'
+                : isNext
+                ? 'cardNext'
+                : step.id === 'graduated'
+                ? 'cardGraduated'
+                : 'card'
+            ]
+          }
+          testID={ !!step?.position ? 'stepPart-'+step.position : ''}
+        >
+          <Flex align="center" justify="start">
+            <Flex value={1} direction="row" self="start">
+              <View style={styles.cardContent}>
                 <Text
+                  numberOfLines={2}
                   style={
                     step.id === 'graduated'
-                      ? styles.actionGraduatedText
-                      : styles.actionText
+                      ? styles.cardGraduatedTitle
+                      : styles.cardTitle
                   }
-                  onPress={() => modalizeRef.current?.open()}
                 >
-                  {t('seeAllMembers') +
-                    ' (' +
-                    step.active_messengers.length +
-                    ')'}
-                </Text>
-              )}
-            </View>
-          </Flex>
-        </Flex>
-      </Touchable>
-      <Portal>
-        <Modalize
-          ref={modalizeRef}
-          modalTopOffset={height / 2}
-          handlePosition={'inside'}
-          openAnimationConfig={{
-            timing: { duration: 300 },
-          }}
-          onClose={() => {}}
-          modalStyle={{
-            backgroundColor: theme.colors.white,
-          }}
-        >
-          <SafeAreaView edges={['bottom']}>
-            <View style={styles.stepMembers}>
-              <View style={styles.stepMembersHeader}>
-                <Text numberOfLines={2} style={styles.modalTitle}>
                   {step.name}
                 </Text>
-                {!!step.position && (
-                  <Text style={styles.modalSubTitle}>
+                {!!step.position && stepId !== 'graduated' && (
+                  <Text style={styles.cardSubTitle}>
                     {t('part')} {step.position}
                   </Text>
                 )}
               </View>
-              <ScrollView
-                style={{
-                  height: '100%',
-                }}
-              >
-                <FlatList
-                  data={step.active_messengers}
-                  renderItem={({ item }): React.ReactElement => (
-                    <View style={styles.stepMemberItem}>
-                      <Image
-                        resizeMode="contain"
-                        source={{ uri: item.avatar.medium }}
-                        style={styles.avatar}
-                      />
-                      <Text style={styles.stepMemberItemText}>
-                        {item.first_name} {item.last_name}
-                      </Text>
-                    </View>
+              <View style={styles.action}>
+                {isNext ? (
+                  <OldButton
+                    onPress={() => unlockNextStep(adventure.id)}
+                    style={styles.actionReleaseNow}
+                    testID="ctaReleaseNow"
+                  >
+                    <Text style={styles.actionReleaseNowLabel}>
+                      {t('releaseNow')}
+                    </Text>
+                  </OldButton>
+                ) : // ) : step.locked || step.status === 'inactive' ? (
+                step.locked ? (
+                  <VokeIcon
+                    name={'lock'}
+                    size={20}
+                    style={styles.actionLocked}
+                    testID={ !!step?.position ? 'lockedPart-'+step.position : ''}
+                  />
+                ) : (
+                  <Text
+                    style={
+                      step.id === 'graduated'
+                        ? styles.actionGraduatedText
+                        : styles.actionText
+                    }
+                    onPress={() => modalizeRef.current?.open()}
+                    testID={ !!step?.position ? 'allMembersPart-'+step.position : ''}
+                  >
+                    {t('seeAllMembers') +
+                      ' (' +
+                      step.active_messengers.length +
+                      ')'}
+                  </Text>
+                )}
+              </View>
+            </Flex>
+          </Flex>
+        </View>
+        <Portal>
+          <Modalize
+            ref={modalizeRef}
+            modalTopOffset={height / 2}
+            handlePosition={'inside'}
+            openAnimationConfig={{
+              timing: { duration: 300 },
+            }}
+            onClose={() => {}}
+            modalStyle={{
+              backgroundColor: theme.colors.white,
+            }}
+          >
+            <SafeAreaView edges={['bottom']}>
+              <View style={styles.stepMembers}>
+                <View style={styles.stepMembersHeader}>
+                  <Text numberOfLines={2} style={styles.modalTitle}>
+                    {step.name}
+                  </Text>
+                  {!!step.position && stepId !== 'graduated' && (
+                    <Text style={styles.modalSubTitle}>
+                      {t('part')} {step.position}
+                    </Text>
                   )}
-                />
-              </ScrollView>
-            </View>
-          </SafeAreaView>
-        </Modalize>
-      </Portal>
-    </View>
-  );
+                </View>
+                <ScrollView
+                  style={{
+                    height: '100%',
+                  }}
+                >
+                  <FlatList
+                    data={step.active_messengers}
+                    renderItem={({ item }): React.ReactElement => (
+                      <View style={styles.stepMemberItem}>
+                        <Image
+                          resizeMode="contain"
+                          source={{ uri: item.avatar.medium }}
+                          style={styles.avatar}
+                        />
+                        <Text style={styles.stepMemberItemText}>
+                          {item.first_name} {item.last_name}
+                        </Text>
+                      </View>
+                    )}
+                  />
+                </ScrollView>
+              </View>
+            </SafeAreaView>
+          </Modalize>
+        </Portal>
+      </View>
+    );
+  }
 }
 
 export default AdventureStepReportCard;

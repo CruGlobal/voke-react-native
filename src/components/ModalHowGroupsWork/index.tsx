@@ -14,10 +14,9 @@ import ChatExample from '../../assets/ChatExample.png';
 import VideoExample from '../../assets/VideoExample.png';
 import InviteCodeExample from '../../assets/InviteCodeExample2.png';
 import GroupWelcomeExample from '../../assets/GroupWelcomeExample.png';
-import ModalSharingCode from '../../assets/ModalSharingCode.png';
-import ModalSharingLink from '../../assets/ModalSharingLink.png';
-import ModalSharingNotification from '../../assets/ModalSharingNotification.png';
-import ModalSharingPersonalize from '../../assets/ModalSharingPersonalize.png';
+import howItWorksAddMembers from '../../assets/howItWorksAddMembers.png';
+import howItWorksReleaseType from '../../assets/howItWorksReleaseType.png';
+import Screen from '../Screen';
 
 import styles from './styles';
 
@@ -26,92 +25,145 @@ function ModalHowGroupsWork({ primaryAction }): React.ReactElement {
   const { t } = useTranslation('modal');
 
   return (
-    <ScrollView bounces={false}>
-      <SafeAreaView>
-        <Flex
-          style={styles.container}
-          direction="column"
-          align="center"
+    <Screen background={'transparent'} testID="groupTutorial">
+      {/* <Flex style={styles.container} direction="column" align="center"> */}
+      <View style={{ minHeight: theme.spacing.xl }} />
+      <BotTalking type="overlay" heading={t('howGroupsWorkBotTitle')}>
+        {t('howGroupsWorkBotBody')}
+      </BotTalking>
+      <Flex value={1} style={{ marginTop: -15 }} align="center">
+        <OldButton
+          isAndroidOpacity={true}
+          style={styles.buttonAction}
+          onPress={primaryAction}
+          testID="ctaGetStartedGroup"
         >
-          <View style={{ minHeight: theme.spacing.xl }} />
-          <BotTalking type="overlay" heading={t('howGroupsWorkBotTitle')}>
-            {t('howGroupsWorkBotBody')}
-          </BotTalking>
-          <Flex value={1} style={{ marginTop: -15 }}>
-            <OldButton
-              isAndroidOpacity={true}
-              style={styles.buttonAction}
-              onPress={primaryAction}
-            >
-              <Flex direction="row" align="center" justify="center">
-                <Text style={styles.buttonActionLabel}>{t('getStarted')}</Text>
-              </Flex>
-            </OldButton>
+          <Flex direction="row" align="center" justify="center">
+            <Text style={styles.buttonActionLabel}>{t('getStarted')}</Text>
           </Flex>
-          <View style={{ minHeight: theme.spacing.xl }} />
-          <Flex align="center" justify="center">
-            <Text style={styles.stepsTitle}>{t('howGroupsWorkTitle')}</Text>
-            <View style={{ minHeight: theme.spacing.l }} />
-            <>
-              {/* GROUP */}
-              <Flex
-                direction="row"
-                align="center"
-                justify="center"
-                style={{ marginTop: theme.spacing.l }}
-              >
-                <Image width={130} source={VideoExample} />
-                <Text style={styles.stepText}>{t('howItWorksWatch')}</Text>
-              </Flex>
-              <Flex
-                direction="row"
-                align="center"
-                justify="center"
-                style={{ marginTop: theme.spacing.l }}
-              >
-                <Text style={styles.stepText}>{t('howGroupsWorkChat')}</Text>
-                <Image width={130} source={ChatExample} />
-              </Flex>
-              <Flex
-                direction="row"
-                align="center"
-                justify="center"
-                style={{ marginTop: theme.spacing.l }}
-              >
-                <Image width={130} source={GroupWelcomeExample} />
-                <Text style={styles.stepText}>{t('howGroupsWorkLimit')}</Text>
-              </Flex>
-              <Flex
-                direction="row"
-                align="center"
-                justify="center"
-                style={{ marginTop: theme.spacing.l }}
-              >
-                <Text style={styles.stepText}>{t('howGroupsWorkShare')}</Text>
-                <Image width={130} source={InviteCodeExample} />
-              </Flex>
-            </>
-            <View style={{ minHeight: theme.spacing.l }} />
-            <Text style={styles.startText}>{t('howGroupsWorkStart')}</Text>
-            <View style={{ minHeight: theme.spacing.l }} />
-            <Flex>
-              <OldButton
-                isAndroidOpacity={true}
-                style={styles.buttonAction}
-                onPress={primaryAction}
-              >
-                <Flex direction="row" align="center" justify="center">
-                  <Text style={styles.buttonActionLabel}>
-                    {t('getStarted')}
-                  </Text>
-                </Flex>
-              </OldButton>
-              <View style={{ minHeight: theme.spacing.xxl }} />
-            </Flex>
+        </OldButton>
+      </Flex>
+      <View style={{ minHeight: theme.spacing.xl }} />
+      <Flex align="center">
+        <Text style={styles.stepsTitle}>{t('howGroupsWorkTitle')}</Text>
+      </Flex>
+      <View style={{ minHeight: theme.spacing.l }} />
+      <>
+        {/* ========================================================== */}
+        <Flex
+          direction="row"
+          align="center"
+          style={{ marginTop: theme.spacing.l }}
+        >
+          <Flex align="start" style={{...styles.stepImage, paddingRight: theme.spacing.l}}>
+            <Image
+              width={130}
+              source={howItWorksReleaseType}
+              style={styles.deviceImage}
+            />
+          </Flex>
+          <Text style={styles.stepText}>{t('howItWorksReleaseType')}</Text>
+        </Flex>
+        <Flex
+          direction="row"
+          align="center"
+          style={{
+            marginTop: theme.spacing.l,
+          }}
+        >
+          <Text style={styles.stepText}>{t('howItWorksAddMembers')}</Text>
+          <Flex align="end" style={{...styles.stepImage, paddingLeft: theme.spacing.l}}>
+            <Image
+              width={130}
+              source={howItWorksAddMembers}
+              style={styles.deviceImage}
+            />
           </Flex>
         </Flex>
-      </SafeAreaView>
-    </ScrollView>
+        <Flex
+          direction="row"
+          align="center"
+          style={{
+            marginTop: theme.spacing.l,
+          }}
+        >
+          <Flex align="start" style={{...styles.stepImage, paddingRight: theme.spacing.l}}>
+            <Image
+              width={130}
+              source={VideoExample}
+              style={styles.deviceImage}
+            />
+          </Flex>
+          <Text style={styles.stepText}>{t('howItWorksWatch')}</Text>
+        </Flex>
+        <Flex
+          direction="row"
+          align="center"
+          style={{
+            marginTop: theme.spacing.l,
+          }}
+        >
+          <Text style={styles.stepText}>{t('howGroupsWorkChat')}</Text>
+          <Flex align="end" style={{...styles.stepImage, paddingLeft: theme.spacing.l}}>
+            <Image
+              width={130}
+              source={ChatExample}
+              style={styles.deviceImage}
+            />
+          </Flex>
+        </Flex>
+        <Flex
+          direction="row"
+          align="center"
+          style={{
+            marginTop: theme.spacing.l,
+          }}
+        >
+          <Flex align="start" style={{...styles.stepImage, paddingRight: theme.spacing.l}}>
+            <Image
+              width={130}
+              source={GroupWelcomeExample}
+              style={styles.deviceImage}
+            />
+          </Flex>
+          <Text style={styles.stepText}>{t('howGroupsWorkLimit')}</Text>
+        </Flex>
+        <Flex
+          direction="row"
+          align="center"
+          style={{
+            marginTop: theme.spacing.l,
+          }}
+        >
+          <Text style={styles.stepText}>{t('howGroupsWorkShare')}</Text>
+          <Flex align="end" style={{...styles.stepImage, paddingLeft: theme.spacing.l}}>
+            <Image
+              width={130}
+              source={InviteCodeExample}
+              style={styles.deviceImage}
+            />
+          </Flex>
+        </Flex>
+      </>
+      <View style={{ minHeight: theme.spacing.l }} />
+      <Text style={styles.startText}>{t('howGroupsWorkStart')}</Text>
+      <View style={{ minHeight: theme.spacing.l }} />
+
+      <Flex align="center">
+        <OldButton
+          isAndroidOpacity={true}
+          style={styles.buttonAction}
+          onPress={primaryAction}
+          testID="ctaGetStartedGroupBottom"
+        >
+          <Flex direction="row" align="center" justify="center">
+            <Text style={styles.buttonActionLabel}>{t('getStarted')}</Text>
+          </Flex>
+        </OldButton>
+        <View style={{ minHeight: theme.spacing.xxl }} />
+      </Flex>
+      {/* </Flex> */}
+    </Screen>
   );
 }
 

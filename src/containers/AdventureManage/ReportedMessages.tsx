@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, Dimensions } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import Carousel from 'react-native-snap-carousel';
+import { Modalize } from 'react-native-modalize';
+import { Portal } from 'react-native-portalize';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { BlurView } from '@react-native-community/blur';
 
 import {
   getComplains,
@@ -14,8 +18,12 @@ import Text from '../../components/Text';
 import OldButton from '../../components/OldButton';
 import Image from '../../components/Image';
 import VokeIcon from '../../components/VokeIcon';
+import Spacer from '../../components/Spacer';
 
 // import SingleReport from './SingleReport';
+import theme from '../../theme';
+import Button from '../../components/Button';
+
 import styles from './styles';
 
 const ReportedMessages = ({ adventureId }) => {
@@ -23,6 +31,9 @@ const ReportedMessages = ({ adventureId }) => {
   const { width, height } = Dimensions.get('window');
   const dispatch = useDispatch();
   const [complains, setComplains] = useState([]);
+  const [currentReport, setCurrentReport] = useState({});
+  const modalizeRef = useRef<Modalize>(null);
+  const isAndroid = Platform.OS === 'android';
 
   const getAdventureComplains = async adventureId => {
     const complains = await dispatch(
@@ -66,8 +77,6 @@ const ReportedMessages = ({ adventureId }) => {
       }),
     );
 
-    console.log( "🎯 result:", result );
-
     if (result?.status === 'accepted') {
       const modifiedComplains = [...complains];
       complains.forEach((complain, index) => {
@@ -77,6 +86,11 @@ const ReportedMessages = ({ adventureId }) => {
       });
       setComplains(modifiedComplains);
     }
+  };
+
+  const closeModal = (): void => {
+    setCurrentReport({});
+    modalizeRef.current?.close();
   };
 
   const SingleReport = ({ item, index }) => {
@@ -114,12 +128,10 @@ const ReportedMessages = ({ adventureId }) => {
             {item.status === 'pending' ? (
               <>
                 <OldButton
-                  onPress={() =>
-                    complainActionBlock({
-                      adventureId: adventureId,
-                      reportId: item.id,
-                    })
-                  }
+                  onPress={() => {
+                    modalizeRef.current?.open();
+                    setCurrentReport(item);
+                  }}
                   testID={'ctaContinue' + index}
                   touchableStyle={styles.complainActionBlock}
                   disabled={item.status !== 'pending' ? true : false}
@@ -182,6 +194,101 @@ const ReportedMessages = ({ adventureId }) => {
           removeClippedSubviews={false}
         />
       )}
+      <Portal>
+        <Modalize
+          ref={modalizeRef}
+          modalTopOffset={height > 600 ? height / 6 : 0}
+          handlePosition={'inside'}
+          openAnimationConfig={{
+            timing: { duration: 300 },
+          }}
+          onClose={() => {
+            // clearComplain();
+          }}
+          rootStyle={styles.rootStyle}
+          modalStyle={styles.modalStyle}
+          childrenStyle={styles.childrenStyle}
+          adjustToContentHeight={true}
+          disableScrollIfPossible={height > 600 ? true : false}
+          FooterComponent={
+            <SafeAreaView edges={['bottom']} style={styles.modalActions}>
+              {currentReport?.status === 'pending' ? (
+                <OldButton
+                  onPress={() => closeModal()}
+                  touchableStyle={styles.actionButton}
+                  // testID={'ctaComplainClose'}
+                >
+                  <Text style={styles.actionButtonLabel}>{t('cancel')}</Text>
+                </OldButton>
+              ) : (
+                <OldButton
+                  onPress={() => closeModal()}
+                  touchableStyle={styles.actionButton}
+                  // testID={'ctaComplainDone'}
+                >
+                  <Text style={styles.actionButtonLabel}>{t('done')}</Text>
+                </OldButton>
+              )}
+            </SafeAreaView>
+          }
+        >
+          <SafeAreaView edges={['bottom']}>
+            {isAndroid ? (
+              <View style={styles.modalBlurAndroid} />
+            ) : (
+              <BlurView blurType="xlight" style={styles.modalBlur} />
+            )}
+            <View style={styles.modalContent}>
+              {currentReport?.status === 'accepted' ? (
+                <>
+                  <VokeIcon
+                    name="check_circle"
+                    style={styles.confirmationIcon}
+                    size={50}
+                  />
+                  <Text style={styles.confirmationTitle}>
+                    {t('memberBlockedTitle', {
+                      name: currentReport?.reported?.first_name || '',
+                    })}
+                  </Text>
+                  <Text style={styles.confirmationText}>
+                    {t('memberBlockedText', {
+                      name: currentReport?.reported?.first_name || '',
+                    })}
+                  </Text>
+                </>
+              ) : (
+                <>
+                  <Text style={styles.modalTitle}>{t('reportModalTitle')}</Text>
+                  <Text style={styles.modalText}>{t('reportModalText')}</Text>
+                  <Spacer size="l" />
+                  <Button
+                    onPress={
+                      () => {
+                        complainActionBlock({
+                          adventureId: adventureId,
+                          reportId: currentReport?.id,
+                        });
+                      }
+                      // modalizeRef.current?.close();
+                    }
+                    // onPress={() => modalizeRef.current?.open()}
+                    // testID={'ctaContinue' + index}
+                    touchableStyle={styles.complainActionBlock}
+                    disabled={
+                      currentReport?.status !== 'pending' ? true : false
+                    }
+                    size="l"
+                    color="secondary"
+                  >
+                    {t('block')}
+                  </Button>
+                </>
+              )}
+            </View>
+          </SafeAreaView>
+        </Modalize>
+      </Portal>
     </View>
   );
 };

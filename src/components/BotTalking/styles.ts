@@ -2,6 +2,34 @@ import { StyleSheet } from 'react-native';
 
 import theme from '../../theme';
 
+const sharedStyles = {
+  message: {
+    width: '100%',
+    backgroundColor: theme.colors.secondary,
+    paddingVertical: theme.spacing.m,
+    paddingHorizontal: theme.spacing.m,
+    borderRadius: theme.radius.m,
+    paddingBottom: 12,
+  },
+
+  heading: {
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.xl,
+    fontFamily: theme.fonts.semiBold,
+    textAlign: 'center',
+    paddingBottom: theme.spacing.s,
+  },
+  text: {
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.l,
+    fontFamily: theme.fonts.regular,
+    textAlign: 'center',
+    // Extra spacing for body text.
+    paddingHorizontal: theme.spacing.s,
+    paddingBottom: theme.spacing.s,
+  },
+}
+
 const styles = StyleSheet.create({
   BotContainer: {
     // paddingHorizontal: theme.spacing.l,
@@ -12,37 +40,37 @@ const styles = StyleSheet.create({
     // for Tablets:
     maxWidth: 440,
   },
-  BotMessage: {
-    width: '100%',
-    backgroundColor: theme.colors.secondary,
-    paddingVertical: theme.spacing.m,
-    paddingHorizontal: theme.spacing.m,
-    borderRadius: theme.radius.m,
-    paddingBottom: 12,
-  },
 
-  BotHeading: {
-    color: theme.colors.white,
-    fontSize: theme.fontSizes.xl,
-    fontFamily: theme.fonts.semiBold,
-    textAlign: 'center',
-    paddingBottom: theme.spacing.s,
+
+  BotMessage: {
+    ...sharedStyles.message,
   },
-  BotHeading_overlay: {
-    color: theme.colors.secondaryAlt,
-    fontSize: theme.fontSizes.xl,
-    fontFamily: theme.fonts.semiBold,
-    textAlign: 'center',
+  BotHeading: {
+    ...sharedStyles.heading,
   },
   BotText: {
-    color: theme.colors.white,
-    fontSize: theme.fontSizes.l,
-    fontFamily: theme.fonts.regular,
-    textAlign: 'center',
-    // Extra spacing for body text.
-    paddingHorizontal: theme.spacing.s,
-    paddingBottom: theme.spacing.s,
+    ...sharedStyles.text,
   },
+
+
+
+  BotOverlayMessage: {
+    ...sharedStyles.message,
+    backgroundColor: theme.colors.white,
+  },
+  BotOverlayHeading: {
+    ...sharedStyles.heading,
+    color: theme.colors.secondaryAlt,
+  },
+  BotOverlayText: {
+    ...sharedStyles.text,
+    color: theme.colors.secondary,
+  },
+
+
+
+
+
   BotCharacter: {
     alignSelf: 'flex-start', // For tablets.
   },
@@ -64,22 +92,18 @@ const styles = StyleSheet.create({
     borderRadius: theme.radius.m,
   },
   BotText_reverse: {
-    color: theme.colors.secondaryAlt,
-    fontSize: theme.fontSizes.xl,
-    fontFamily: theme.fonts.regular,
+    color: theme.colors.secondary,
+    fontSize: theme.fontSizes.l,
+    lineHeight: theme.fontSizes.l * 1.4,
     textAlign: 'center',
   },
   BotImage_reverse: {
-    marginLeft: -30,
+    marginLeft: -50,
+    marginTop: -25,
+    marginBottom: -25,
+    zIndex: -1,
   },
-  BotMessage_overlay: {
-    width: '90%',
-    backgroundColor: theme.colors.white,
-    padding: theme.spacing.s,
-    borderRadius: theme.radius.m,
-    margin: 'auto',
-    marginTop: 40,
-  },
+
   BotImage_overlay: {
     marginLeft: -85,
     marginTop: -25,

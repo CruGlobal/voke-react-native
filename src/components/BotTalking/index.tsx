@@ -45,20 +45,17 @@ const BotTalking = ({
         style={styles.BotMessageTail}
       />
       <Image
-        width={110}
+        width={100}
         style={styles.BotImage_reverse}
         source={vokeImages.VokeBot_Ukelele}
       />
     </Flex>
   ) : type === 'overlay' ? (
     <Flex style={[styles.BotContainer, style]}>
-      <Flex style={styles.BotMessage_overlay}>
-        {heading ? (
-          <Text style={styles.BotHeading_overlay}>{heading}</Text>
-        ) : null}
-        {children ? (
-          <Text style={styles.BotText_reverse}>{children}</Text>
-        ) : null}
+      <View style={styles.BotInner}>
+      <Flex style={styles.BotOverlayMessage}>
+        {heading ? <Text style={styles.BotOverlayHeading}>{heading}</Text> : null}
+        {children ? <Text style={styles.BotOverlayText}>{children}</Text> : null}
       </Flex>
       <Triangle
         width={20}
@@ -73,6 +70,7 @@ const BotTalking = ({
         style={styles.BotImage_overlay}
         source={vokeImages.vokebot}
       />
+      </View>
     </Flex>
   ) : (
     <Flex style={[styles.BotContainer, style]}>

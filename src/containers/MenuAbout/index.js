@@ -14,7 +14,7 @@ import Touchable from '../../components/Touchable';
 
 import CONSTANTS from '../../constants';
 
-import CRU from '../../assets/cru.jpg';
+import CRU from '../../assets/cru.png';
 import SU from '../../assets/scriptureUnion.png';
 import JF from '../../assets/jesusFilm.png';
 import IAS from '../../assets/iAmSecond.png';

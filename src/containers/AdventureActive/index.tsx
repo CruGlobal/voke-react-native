@@ -264,6 +264,7 @@ function AdventureActive({
                 })
               }
               style={styles.ctaManage}
+              testID="ctaLeaderZone"
             >
               <VokeIcon
                 name="stats-chart-1"

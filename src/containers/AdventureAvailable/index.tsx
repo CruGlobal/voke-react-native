@@ -41,6 +41,7 @@ function ActionButton(props) {
         },
       ]}
       onPress={() => props.onPress()}
+      testID={props?.testID}
     >
       <Flex direction="row" align="center" justify="center">
         <VokeIcon
@@ -196,9 +197,10 @@ function AdventureAvailable(props): React.ReactElement {
               <Flex value={1} align="center">
                 <ActionButton
                   text={t('goWithFriend')}
+                  testID="ctaGoWithFriend"
                   icon="couple"
                   onPress={() => {
-                    if (duoTutorialCount > 2) {
+                    if (duoTutorialCount > 1) {
                       navigation.navigate('AdventureName', {
                         item,
                         withGroup: false,
@@ -212,9 +214,10 @@ function AdventureAvailable(props): React.ReactElement {
                 />
                 <ActionButton
                   text={t('goWithGroup')}
+                  testID="ctaGoWithGroup"
                   icon="group"
                   onPress={() => {
-                    if (groupTutorialCount > 2) {
+                    if (groupTutorialCount > 1) {
                       navigation.navigate('AdventureName', {
                         item,
                         withGroup: true,
@@ -229,6 +232,7 @@ function AdventureAvailable(props): React.ReactElement {
                 {soloStarted ? null : (
                   <ActionButton
                     text={t('goByMyself')}
+                    testID="ctaGoByMyself"
                     icon="person"
                     onPress={startByMyself}
                   />

@@ -14,6 +14,11 @@ const styles = StyleSheet.create({
   },
   modalBlur: {
     ...StyleSheet.absoluteFill,
+    // backgroundColor: 'rgba(255,255,255,.3)',
+  },
+  modalBlurAndroid: {
+    ...StyleSheet.absoluteFill,
+    backgroundColor: theme.colors.white,
   },
   modalContent: {
     minHeight: '100%',
@@ -54,14 +59,14 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     borderTopWidth: 1,
-    borderTopColor: theme.colors.lightGrey,
+    borderTopColor: 'rgba(100,100,100,.2)',
     borderStyle: 'solid',
   },
   causeOption: {
     paddingVertical: theme.spacing.m,
     paddingHorizontal: theme.spacing.l,
     borderBottomWidth: 1,
-    borderBottomColor: theme.colors.lightGrey,
+    borderBottomColor: 'rgba(100,100,100,.2)',
     borderStyle: 'solid',
   },
   causeOptionLabel: {
@@ -91,10 +96,10 @@ const styles = StyleSheet.create({
   },
   modalFooterText: {
     textAlign: 'center',
-    color: theme.colors.grey,
+    color: theme.colors.darkGrey,
   },
   modalFooterHighlight: {
-    color: theme.colors.secondary,
+    color: theme.colors.darkGrey,
   },
   modalFooterLink: {
     color: theme.colors.accent,

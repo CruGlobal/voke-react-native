@@ -161,7 +161,7 @@ const AccountSignIn: React.FC = ({
                   emailRef?.current?.focus();
                 }, 400);
               }}
-              testID={'ctaAdventureCode'}
+              testID={'ctaSignInEmail'}
               size="l"
               color="empty"
               icon="mail"
