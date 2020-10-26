@@ -72,6 +72,7 @@ const ROUTES = {
       imageUpload: true,
     },
   }, */
+
   // https://docs.vokeapp.com/#me-get-me
   GET_ME: {
     method: 'get',
@@ -83,9 +84,14 @@ const ROUTES = {
     url: `me/journeys`
   },
   GET_MY_ADVENTURE: { method: 'get', url: `me/journeys/{adventureId}` },
+  UNLOCK_NEXT_ADVENTURE_STEP: { method: 'get', url: `me/journeys/{adventureId}/unlock` },
   GET_ADVENTURE_STEPS: {
     method: 'get',
     url: `me/journeys/{adventureId}/steps`,
+  },
+  GET_ADVENTURE_SUMMARY: {
+    method: 'get',
+    url: `me/journeys/{adventureId}/summary`,
   },
   GET_ADVENTURE_STEP_MESSAGES: {
     method: 'get',
@@ -111,6 +117,10 @@ const ROUTES = {
   // https://docs.vokeapp.com/#me-journeys-cancels-a-messenger-journey
   DELETE_ADVENTURE: {
     method: 'delete',
+    url: `me/journeys/{adventureId}`,
+  },
+  UPDATE_ADVENTURE: {
+    method: 'put',
     url: `me/journeys/{adventureId}`,
   },
   GET_ADVENTURE_INVITATIONS: { method: 'get', url: `me/journey_invites` },
@@ -171,7 +181,27 @@ const ROUTES = {
   GET_OLD_CONVERSATIONS: {
     method: 'post',
     url: `me/export_data_requests`,
-  }
+  },
+  CREATE_COMPLAIN: {
+    method: 'post',
+    url: `me/journeys/{adventureId}/reports`,
+  },
+  DELETE_COMPLAIN: {
+    method: 'delete',
+    url: `me/journeys/{adventureId}/reports/{reportId}`,
+  },
+  APPROVE_COMPLAIN: {
+    method: 'patch',
+    url: `me/journeys/{adventureId}/reports/{reportId}/approve`,
+  },
+  GET_COMPLAINS: {
+    method: 'get',
+    url: `me/journeys/{adventureId}/reports`,
+  },
+  DELETE_MEMBER: {
+    method: 'patch',
+    url: `me/conversations/{conversationId}/messengers/{messengerId}/block`,
+  },
 };
 
 export default ROUTES;

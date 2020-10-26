@@ -10,7 +10,7 @@ import Text from '../../components/Text';
 import Image from '../../components/Image';
 import theme from '../../theme';
 import Triangle from '../../components/Triangle';
-import Button from '../../components/Button';
+import OldButton from '../../components/OldButton';
 import Touchable from '../../components/Touchable';
 import VokeIcon from '../../components/VokeIcon';
 import st from '../../st';
@@ -24,9 +24,20 @@ function GroupModal(props) {
   const me = useSelector(({ auth }) => auth.user);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const adventureId = props.route.params.adventure.messenger_journey_id;
+  const adventureId = props.route.params.adventureId;
+  // We update local adventures when accepting invite.
+  // If no adventures in the local store at this point - we have a problem.
   const myAdventures = useSelector(({ data }) => data.myAdventures.byId);
   const adventure = myAdventures[adventureId];
+  if ( !adventure ) {
+    console.log('will redirect');
+    // Backup plan: Redirect to My Adventures screen.
+    navigation.reset({
+              index: 0,
+              routes: [{ name: 'LoggedInApp' }],
+            });
+    return <></>;
+  }
   const allMessengers = adventure?.conversation?.messengers;
   const messengers = allMessengers.filter(
     i => i.first_name !== 'VokeBot' && (i || {}).id !== (me || {}).id,
@@ -223,7 +234,7 @@ function GroupModal(props) {
       </Flex>
       {hasMoreMembers ? (
         <Flex align="center" self="stretch">
-          <Button
+          <OldButton
             onPress={() =>
               navigation.navigate('AllMembersModal', {
                 adventure,
@@ -244,7 +255,7 @@ function GroupModal(props) {
             <Flex direction="row" align="center">
               <Text style={[st.white, st.fs16]}>{t('allMembers')}</Text>
             </Flex>
-          </Button>
+          </OldButton>
         </Flex>
       ) : null}
     </ScrollView>

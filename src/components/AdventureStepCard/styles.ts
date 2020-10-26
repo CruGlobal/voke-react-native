@@ -76,6 +76,16 @@ const styles = StyleSheet.create({
     color: theme.colors.white,
     marginTop: -1,
     marginRight: 6,
+  },
+  nextReleaseBlock: {
+    backgroundColor: theme.colors.accent,
+    width: '100%',
+    paddingVertical: theme.spacing.xs,
+  },
+  nextReleaseText: {
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.l,
+    lineHeight: theme.fontSizes.l*1.35,
   }
 });
 

@@ -4,7 +4,7 @@ import Image from '../Image';
 import st from '../../st';
 import Touchable from '../Touchable';
 import Text from '../Text';
-import Button from '../Button';
+import OldButton from '../OldButton';
 import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
 import { useSelector, useDispatch } from 'react-redux';

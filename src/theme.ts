@@ -2,10 +2,13 @@
 import styled, { css } from '@emotion/native';
 import { Platform, Dimensions } from 'react-native';
 
-// const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 
 const theme: {
+  window: {
+    [key: string]: number
+  },
   colors: {
     [key: string]: string
   },
@@ -20,6 +23,10 @@ const theme: {
   },
   [key: string]: {[key: string]: string | number}
 } = {
+  window: {
+    width: width,
+    height: height,
+  },
   colors: {
     primary: '#44c8e8', // Blue
     secondary: '#186078', // Dark Blue

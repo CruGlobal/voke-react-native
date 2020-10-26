@@ -44,6 +44,7 @@
         "and": "and",
         "add": "Add",
         "all": "All",
+        "at": "at",
         "allowContacts": "Allow Contacts",
         "allowNotifications": "Allow Notifications",
         "confirm": "Confirm",
@@ -84,6 +85,7 @@
         "shareApp": "Share this app",
         "language": "Language",
         "loadMore": "Load More",
+        "login": "Login",
         "me": "Me",
         "more": "More",
         "next": "Next",
@@ -103,6 +105,8 @@
         "privacy": "Privacy Policy",
         "resend": "Resend",
         "required": "Required",
+        "recommended": "Recommended",
+        "select": "Select",
         "save": "Save",
         "searchContacts": "Search Contacts",
         "send": "Send",
@@ -113,7 +117,9 @@
         "shareLink": "Share Link",
         "shortPassword": "Your password must be at least 8 characters",
         "signIn": "Sign In",
-        "signInFb": "Sign In with Facebook",
+        "signInFb": "Sign in with Facebook",
+        "signInApple": "Sign in with Apple",
+        "signInEmail": "Sign in with Email",
         "signOut": "Sign Out",
         "signOutOfAccount": "Sign Out of my account",
         "signUp": "Sign Up",
@@ -139,7 +145,14 @@
         "writeReview": "Write a Review",
         "joinGroup": "Join the Group",
         "allMembers": "See all members",
-        "you": "You"
+        "you": "You",
+        "monday": "Monday",
+        "tuesday": "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday": "Thursday",
+        "friday": "Friday",
+        "saturday": "Saturday",
+        "sunday": "Sunday"
     },
     "name": {
         "introTitle": "Hello!",
@@ -165,21 +178,24 @@
     },
     "title": {
         "about": "About Voke",
-        "oldConversations": "Get my old conversations",
         "acknowledgements": "Acknowledgements",
         "adventures": "Adventures",
         "explore": "Explore",
-        "notifications": "Notifications",
         "channels": "Channels",
         "chats": "Chats",
         "createAccount": "Create Account",
         "createProfile": "Create Profile",
         "findAdventures": "Find Adventures",
+        "groupWeekly": "Weekly Group Setup",
+        "groupDaily": "Daily Group Setup",
+        "groupManual": "Manual Group Setup",
         "help": "Get Help",
         "helpCenter": "Help Center",
         "kickstarters": "Kickstarters",
         "myAdventures": "My Adventures",
+        "notifications": "Notifications",
         "number": "Mobile Number",
+        "oldConversations": "Get my old conversations",
         "profile": "Profile",
         "selectAFriend": "Select a Friend",
         "selectCountry": "Select Country",
@@ -225,7 +241,8 @@
         "nullText": "I will let you know when your friends are watching the videos you shared.",
         "questionBlock": "Would you also like to block and report this person?",
         "thisPerson": "this person",
-        "why": "Please describe why you are reporting this person"
+        "why": "Please describe why you are reporting this person",
+        "report": "Report"
     },
     "imagePicker": {
         "new": "New Picture",
@@ -233,7 +250,7 @@
         "selectOrNew": "Would you like to select a photo or take a new picture?",
         "where": "Where is your photo?",
         "camera": "Take Photo...",
-        "gallery": "Choose from Library...",
+        "gallery": "Choose from Library..."
     },
     "kickstarters": {
         "description": "Add one of these kickstarters to your chat.",
@@ -241,7 +258,7 @@
     },
     "login": {
         "enterValid": "Please enter a valid email and password",
-        "existingAccount": "Successful login to an existing account from this screen will merge any guest account progress and conversations to your existing account.",
+        "existingAccount": "Successful login to\u00A0an\u00A0existing account from this screen will merge any guest account progress and conversations to\u00A0your existing\u00A0account.",
         "invalid": "Invalid email\/password",
         "login": "Login"
     },
@@ -255,6 +272,8 @@
         "howDuoWorksBotBody": "Learn more about it works, or get started right away.",
         "howGroupsWorkBotBody": "Learn more about how they work below, or get started right away.",
         "howSharingWorksBotBody": "Here\u2019s how Invite sharing works.",
+        "howItWorksReleaseType": "Choose how you’d like to go through content with your group.",
+        "howItWorksAddMembers": "Add up to 20 members to your Group from your Leader Zone",
         "howItWorksWatch": "Watch each episode, answer the question, and unlock your friends\u2019 answers.",
         "howDuoWorksChat": "Then chat with your friend about the video and their answers.",
         "howGroupsWorkChat": "Then chat with your friends about the video and their answers.",
@@ -269,7 +288,9 @@
         "howSharingWorksLinkAccess": "Anyone with the link has access to the code to join your Adventure.",
         "howDuoWorksTitle": "How Duo Works",
         "howGroupsWorkTitle": "How Groups Work",
-        "welcomeTo": "Welcome to "
+        "welcomeTo": "Welcome to ",
+        "accountRequiredTitle": "Sign Up or Sign In ",
+        "accountRequiredIntro": "Group owners need protected accounts to manage members."
     },
     "notifications": {
         "off": "Notifications turned off."
@@ -299,7 +320,17 @@
         "toEdit": "To edit, select the item you would like to edit."
     },
     "reportModal": {
-        "title": "Please describe why you are reporting this person"
+        "modalTitle":" Report a User",
+        "title": "Please describe why you are reporting this person",
+        "introText":"Help us understand. What is going on with this message?",
+        "bullying":"Bullying, teasing or verbal abuse",
+        "inappropriate":"Inappropriate content",
+        "spam":"Spam or fraud",
+        "submited": "Your report was submitted to the group leader to take action.",
+        "reportingFooter":"Reporting a user can result in them being banned from using this app.",
+        "learnMore":"Learn more",
+        "aboutReporting":"about reporting and community violations."
+
     },
     "settings": {
         "acknowledgements": "Acknowledgements",
@@ -380,6 +411,8 @@
         "waitingForFriend": "Waiting for {{name}} to join..."
     },
     "journey": {
+        "enterAnswer": "Enter your answer",
+        "chatHere":"Chat about your answers",
         "byMyself": "By Myself",
         "finishedJourney": "Congrats! You finished the Adventure. Now start it with someone else!",
         "nextVideoReady": "Next Video is Ready",
@@ -409,6 +442,28 @@
         "haveCode": "I Have an Adventure Code",
         "welcomeToAdventures": "Welcome {{name}}! This is where you will find all of your Adventures with your friends."
     },
+    "manageGroup": {
+        "reportModalTitle": "Before you Proceed!",
+        "reportModalText": "Blocking a user will lock them out of the Voke application. They will no longer be able to use Voke. This cannot be undone.",
+        "noMembers": "No Members Yet",
+        "members": "Member",
+        "members_plural": "Members",
+        "memberBlockedTitle": "{{name}} has been blocked",
+        "memberBlockedText": "Please, reach out to {{name}} and let them know the action you took.",
+        "manageMembers": "Manage Members",
+        "addMembers": "Add Members",
+        "noMembersYet": "It’s just you right now, share the group link to invite members.",
+        "reportedMessages": "Reported Messages",
+        "journeyStatus": "Member Journey Status",
+        "seeAllMembers":"See all members",
+        "noReportedMessages":"No Reported Messages",
+        "deleteGroup":"Delete Group",
+        "leaderZone":"Leader Zone",
+        "reportedBy":"Reported by:",
+        "block":"Block",
+        "allow":"Allow",
+        "releaseNow":"Release Now!"
+    },
     "share": {
         "previewLinkReady": "{{name}}\u2019s invite is ready! The link below shares the Adventure trailer for {{name}} to watch and decide on joining you.",
         "codeReady": "{{name}}\u2019s invite code is ready! Hit Share and choose how you\u2019d like to send this invite code with {{name}}.",
@@ -425,6 +480,20 @@
         "needNameMessage": "We need a name so you can manage your Adventures",
         "nameYourGroup": "Let\u2019s name your Group!",
         "groupName": "Group Name",
+        "groupReleaseSchedule": "Select how you’d like to go through videos with your group.",
+        "groupReleaseManual": "You get to release content from \nthe Leader Zone",
+        "groupReleaseManualReady":"Whenever you’re ready, release new videos with the push of a button.",
+        "releaseDay": "Release Day",
+        "releaseTime": "Release Time",
+        "videoUnlockSchedule": "Videos will be unlocked every",
+        "contentUnlockSchedule": "Content released",
+        "everyWeek": "every week on",
+        "everyDay": "every day at selected time",
+        "everyDayAt": "every day at",
+        "manually": "manually",
+        "firstRelease": "First release",
+        "nextRelease": "Next release",
+        "nextVideoRelease": "Next video will be released",
         "checkTitle": "Check out",
         "checkMessage": "Check out this awesome app called Voke. Let's go deeper with God and others!",
         "checkOut": "Check this out on Voke!",
@@ -436,6 +505,7 @@
         "noNeed": "- (they don't need to have Voke)",
         "who": "Who do you want to share",
         "with": "with?",
+        "leaderWillRelease": "Your leader will release the next video",
         "howSharingWorks": "Tell me how sharing works"
     }
 }

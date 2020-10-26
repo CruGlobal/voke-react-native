@@ -2,7 +2,11 @@
 import React, { useMemo, useState, useRef } from 'react';
 import { Image as ReactNativeImage, Platform, View } from 'react-native';
 import { BlurView } from '@react-native-community/blur';
+import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 
+import { setComplain } from '../../actions/info';
 import Image from '../Image';
 import theme from '../../theme';
 import st from '../../st';
@@ -14,6 +18,7 @@ import DateComponent from '../DateComponent';
 import AdventureStepMessageInput from '../AdventureStepMessageInput';
 import { getCurrentUserId } from '../../utils/get';
 import { TAdventureSingle, TAdventureStepSingle, TMessage } from '../../types';
+import Touchable from '../Touchable';
 
 import styles from './styles';
 
@@ -34,6 +39,9 @@ function AdventureStepMessage({
   next,
   onFocus,
 }: MessageProps): React.ReactElement | null {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const reportMenuRef = useRef();
   const [answerPosY, setAnswerPosY] = useState(0);
   const isAndroid = Platform.OS === 'android';
   const userId = getCurrentUserId();
@@ -53,6 +61,12 @@ function AdventureStepMessage({
   };
 
   const isMyMessage = message.messenger_id === userId;
+  const adminUser =
+    adventure.conversation.messengers.find(i => i.group_leader);
+
+
+  const isAdminMessage = message.messenger_id === adminUser?.id;
+  const isAdmin = userId === adminUser?.id;
   // const myFirstMessage = reversed.find(m => m.messenger_id === me.id);
   if (isMyMessage && adventure.kind === 'solo') return null;
   const isSharedAnswer = message.metadata.vokebot_action === 'share_answers';
@@ -76,6 +90,9 @@ function AdventureStepMessage({
   let selectedAnswer = (
     ((message.metadata || {}).answers || []).find(i => i.selected) || {}
   ).value;
+
+  const showMessageReporting =
+    message.messenger_id !== userId && !isAdminMessage && !isBlured && !isAdmin;
 
   // If current message is a question box and next message is answer,
   // render next message here (https://d.pr/i/YHrv4N).
@@ -146,7 +163,7 @@ function AdventureStepMessage({
             step={step}
             internalMessage={message}
             defaultValue={selectedAnswer}
-            onFocus={( event ) => {
+            onFocus={event => {
               onFocus(event, answerPosY);
             }}
           />
@@ -154,6 +171,7 @@ function AdventureStepMessage({
       </Flex>
     );
   }
+
   // REGULAR MESSAGE: TEXT
   return (
     <>
@@ -164,7 +182,9 @@ function AdventureStepMessage({
               {isMyMessage ? <Flex style={[st.f1]} /> : null}
               <Flex
                 style={{
-                  width: isSharedAnswer ? '100%' : 'auto',
+                  width: '100%',
+                  // width: isSharedAnswer ? '100%' : 'auto',
+                  // minWidth: 170,
                   backgroundColor: isMyMessage
                     ? theme.colors.white
                     : theme.colors.secondary,
@@ -173,15 +193,22 @@ function AdventureStepMessage({
                 }}
               >
                 <Flex direction="column">
+                  {isMyMessage ? null : (
+                    <Text style={styles.messageAuthor}>
+                      {messenger.first_name ? messenger.first_name + ' ' : ''}
+                      {messenger.last_name ? messenger.last_name + ' ' : ''}
+                    </Text>
+                  )}
                   {isSharedAnswer ? (
                     <Flex style={styles.messageSharedContent}>
                       <Text
                         style={[
                           st.fs4,
                           {
-                            color: isBlured && isAndroid
-                              ? 'rgba(0,0,0,0)'
-                              : theme.colors.white,
+                            color:
+                              isBlured && isAndroid
+                                ? 'rgba(0,0,0,0)'
+                                : theme.colors.white,
                           },
                         ]}
                       >
@@ -260,18 +287,60 @@ function AdventureStepMessage({
               justify={isMyMessage ? 'end' : 'start'}
               style={styles.messageMeta}
             >
-              {isMyMessage ? null : (
-                <Text style={[st.white]}>
-                  {messenger.first_name ? messenger.first_name + ' ' : ''}
-                  {messenger.last_name ? messenger.last_name + ' ' : ''}
-                  {`• `}
-                </Text>
-              )}
               <DateComponent
-                style={[st.fs6, st.white, isMyMessage ? st.tar : null]}
+                style={[
+                  st.white,
+                  isMyMessage ? st.tar : null,
+                  { fontSize: theme.fontSizes.xs },
+                ]}
                 date={message.created_at}
                 format="MMM D @ h:mm A"
               />
+              {/* <Text style={styles.messageMetaActions}>・</Text> */}
+              {
+                // Prevent reporting it's own messages 🤪.
+                // Remove this condition if more actions added later.
+                showMessageReporting && (
+                  <Menu
+                    ref={reportMenuRef}
+                    // onHidden={()=>{}}
+                    button={
+                      <Text
+                        style={styles.messageMetaActions}
+                        onPress={reportMenuRef?.current?.show}
+                      >
+                        {t('more')}
+                      </Text>
+                    }
+                  >
+                    <Touchable
+                      onPress={(): void => {
+                        // Prevent reporting it's own messages 🤪.
+                        if (showMessageReporting) {
+                          dispatch(
+                            setComplain({
+                              messageId: message.id,
+                              adventureId: adventure.id,
+                            }),
+                          );
+                        }
+                        reportMenuRef?.current?.hide();
+                      }}
+                      style={styles.actionReport}
+                    >
+                      <VokeIcon
+                        name="warning"
+                        size={20}
+                        style={styles.actionReportIcon}
+                      />
+                      <Text style={styles.actionReportLabel}>
+                        {' '}
+                        {t('conversations:report')}
+                      </Text>
+                    </Touchable>
+                  </Menu>
+                )
+              }
             </Flex>
           </Flex>
         </Flex>

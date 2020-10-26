@@ -1,78 +1,113 @@
-import { css } from '@emotion/native';
+import { StyleSheet } from 'react-native';
+
 import theme from '../../theme';
-import ui from '../../ui';
 
-const styles: { [key: string]: any } = {
-  ...ui,
-  BotContainer: css`
-    padding-right: ${`${theme.spacing.l}px`};
-    padding-left: ${`${theme.spacing.l}px`};
-    margin-top: ${`${theme.spacing.m}px`};
-    width: 100%;
-  `,
-  BotMessage: css`
-    width: 100%;
-    background-color: ${theme.colors.secondary};
-    padding: ${`${theme.spacing.s}px`};
-    border-radius:  ${`${theme.radius.m}px`};
-    padding-bottom: 12px;
-  `,
-  BotHeading: css`
-    color: ${theme.colors.white};
-    font-size: ${`${theme.fontSizes.xl}px`};
-    font-family: ${theme.fonts.semiBold};
-    text-align: center;
-  `,
-  BotHeading_overlay: css`
-    color: ${theme.colors.secondaryAlt};
-    font-size: ${`${theme.fontSizes.xl}px`};
-    font-family: ${theme.fonts.semiBold};
-    text-align: center;
-  `,
-  BotText: css`
-    color: ${theme.colors.white};
-    font-size: ${`${theme.fontSizes.xl}px`};
-    font-family: ${theme.fonts.regular};
-    text-align: center;
-  `,
-  BotImage: css`
-    margin-left: -70px;
-    margin-top:-25px;
-    margin-bottom:-25px;
-  `,
-  BotMessageTail: css`
-    margin-left: 40px;
-    margin-top: -10px;
-    transform: rotate(-90deg);
-  `,
-  BotMessage_reverse: css`
-  width: 100%;
-  background-color: ${theme.colors.white};
-  padding: ${`${theme.spacing.l}px`};
-  border-radius:  ${`${theme.radius.m}px`};
-`,
-BotText_reverse: css`
-    color: ${theme.colors.secondaryAlt};
-    font-size: ${`${theme.fontSizes.xl}px`};
-    font-family: ${theme.fonts.regular};
-    text-align: center;
-  `,
-  BotImage_reverse: css`
-    margin-left: -30px;
-  `, 
-  BotMessage_overlay: css`
-  width: 90%;
-  background-color: ${theme.colors.white};
-  padding: ${`${theme.spacing.s}px`};
-  border-radius:  ${`${theme.radius.m}px`};
-  margin:auto;
-  margin-top:40px;
-`,
-BotImage_overlay: css`
-margin-left: -85px;
-margin-top:-25px;
-`,
+const sharedStyles = {
+  message: {
+    width: '100%',
+    backgroundColor: theme.colors.secondary,
+    paddingVertical: theme.spacing.m,
+    paddingHorizontal: theme.spacing.m,
+    borderRadius: theme.radius.m,
+    paddingBottom: 12,
+  },
 
-};
+  heading: {
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.xl,
+    fontFamily: theme.fonts.semiBold,
+    textAlign: 'center',
+    paddingBottom: theme.spacing.s,
+  },
+  text: {
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.l,
+    fontFamily: theme.fonts.regular,
+    textAlign: 'center',
+    // Extra spacing for body text.
+    paddingHorizontal: theme.spacing.s,
+    paddingBottom: theme.spacing.s,
+  },
+}
+
+const styles = StyleSheet.create({
+  BotContainer: {
+    // paddingHorizontal: theme.spacing.l,
+    marginTop: theme.spacing.m,
+    alignSelf: theme.window.width > 500 ? 'center' : 'auto',
+  },
+  BotInner: {
+    // for Tablets:
+    maxWidth: 440,
+  },
+
+
+  BotMessage: {
+    ...sharedStyles.message,
+  },
+  BotHeading: {
+    ...sharedStyles.heading,
+  },
+  BotText: {
+    ...sharedStyles.text,
+  },
+
+
+
+  BotOverlayMessage: {
+    ...sharedStyles.message,
+    backgroundColor: theme.colors.white,
+  },
+  BotOverlayHeading: {
+    ...sharedStyles.heading,
+    color: theme.colors.secondaryAlt,
+  },
+  BotOverlayText: {
+    ...sharedStyles.text,
+    color: theme.colors.secondary,
+  },
+
+
+
+
+
+  BotCharacter: {
+    alignSelf: 'flex-start', // For tablets.
+  },
+  BotImage: {
+    marginLeft: -70,
+    marginTop: -25,
+    marginBottom: -25,
+  },
+  BotMessageTail: {
+    marginLeft: 40,
+    marginTop: -10,
+    transform: [{ rotate: '-90deg' }],
+    zIndex: -1,
+  },
+  BotMessage_reverse: {
+    width: '100%',
+    backgroundColor: theme.colors.white,
+    padding: theme.spacing.l,
+    borderRadius: theme.radius.m,
+  },
+  BotText_reverse: {
+    color: theme.colors.secondary,
+    fontSize: theme.fontSizes.l,
+    lineHeight: theme.fontSizes.l * 1.4,
+    textAlign: 'center',
+  },
+  BotImage_reverse: {
+    marginLeft: -50,
+    marginTop: -25,
+    marginBottom: -25,
+    zIndex: -1,
+  },
+
+  BotImage_overlay: {
+    marginLeft: -85,
+    marginTop: -25,
+  },
+});
 
 export default styles;

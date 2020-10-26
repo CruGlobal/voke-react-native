@@ -1,5 +1,4 @@
-import React, { useState, useEffect, ReactElement } from 'react';
-import { useSafeArea } from 'react-native-safe-area-context';
+import React, { useState, ReactElement } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -8,6 +7,7 @@ import {
   View,
   Dimensions,
   ScrollView,
+  Platform,
 } from 'react-native';
 import useKeyboard from '@rnhooks/keyboard';
 
@@ -17,16 +17,17 @@ import Text from '../../components/Text';
 import TextField from '../../components/TextField';
 import BotTalking from '../../components/BotTalking';
 import st from '../../st';
-import Button from '../../components/Button';
+import OldButton from '../../components/OldButton';
 import { toastAction } from '../../actions/info';
 import theme from '../../theme';
 import { createAccount, updateMe } from '../../actions/auth';
 import { acceptAdventureInvitation } from '../../actions/requests';
-import DismissKeyboardView from '../../components/DismissKeyboardHOC';
+import Screen from '../../components/Screen';
+
+import styles from './styles';
 
 function AdventureCode(): ReactElement {
   const { t } = useTranslation('haveCode');
-  const insets = useSafeArea();
   const windowDimensions = Dimensions.get('window');
   const navigation = useNavigation();
   const isLoggedIn = useSelector(({ auth }: RootState) => auth.isLoggedIn);
@@ -37,26 +38,7 @@ function AdventureCode(): ReactElement {
   const dispatch = useDispatch();
   // https://github.com/react-native-hooks/keyboard#configuration
   const [isKeyboardVisible] = useKeyboard();
-
-  /*  useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener(
-      'keyboardWillShow',
-      () => {
-        setKeyboardVisible(true);
-      },
-    );
-    const keyboardDidHideListener = Keyboard.addListener(
-      'keyboardWillHide',
-      () => {
-        setKeyboardVisible(false);
-      },
-    );
-
-    return () => {
-      keyboardDidHideListener.remove();
-      keyboardDidShowListener.remove();
-    };
-  }, []); */
+  // const Screen = useScreenContainer();
 
   async function handleContinue() {
     if (adventureCode.length > 3) {
@@ -87,7 +69,7 @@ function AdventureCode(): ReactElement {
           return;
         }
 
-        const newAdventure = await dispatch(
+        const acceptedAdventureInvite = await dispatch(
           acceptAdventureInvitation(adventureCode),
         );
 
@@ -97,18 +79,25 @@ function AdventureCode(): ReactElement {
           navigation.navigate('AccountName');
         } else {
           // Otherwise, invitation accepted from within an app.
-          const isGroup = newAdventure.kind === 'multiple';
+          const isGroup = acceptedAdventureInvite.kind === 'multiple';
           // After entering invite code redirect the user
           // to the group modal or Adventure steps screen.
           if (isGroup) {
-            navigation.navigate('GroupModal', {
-              adventure: newAdventure || {},
-            });
+            if (acceptedAdventureInvite?.messenger_journey_id) {
+              navigation.navigate('GroupModal', {
+                adventureId: acceptedAdventureInvite.messenger_journey_id,
+              });
+            } else {
+              console.log(
+                '🛑 Error getting adventure id from accepted invite',
+                acceptedAdventureInvite,
+              );
+            }
           } else {
-            if (newAdventure?.messenger_journey_id) {
+            if (acceptedAdventureInvite?.messenger_journey_id) {
               // Go straight into Adventure.
               navigation.navigate('AdventureActive', {
-                adventureId: newAdventure?.messenger_journey_id,
+                adventureId: acceptedAdventureInvite?.messenger_journey_id,
               });
             }
           }
@@ -126,112 +115,90 @@ function AdventureCode(): ReactElement {
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      style={{
-        backgroundColor: theme.colors.primary,
-        paddingTop: insets.top,
-        flex: 1,
-        height: '100%',
-      }}
-    >
-      {/* <StatusBar /> <- TODO: Not sure why we need it here? */}
-      {/* Makes possible to hide keyboard when tapping outside. */}
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          // flex: 1,
-          minHeight: '100%',
-          flexDirection: 'column',
-          alignContent: 'stretch',
-          justifyContent: 'center',
+    <Screen testID={'adventureCodeScreen'}>
+      <View
+        style={{
+          marginTop:
+            Platform.OS === 'ios' &&
+            isKeyboardVisible &&
+            windowDimensions.height < 700
+              ? -40
+              : 0,
+          // Vertically align form on smaller iPhone screens.
+          display:
+            isKeyboardVisible && windowDimensions.height < 600
+              ? 'none'
+              : 'flex',
         }}
       >
-        <DismissKeyboardView
+        <BotTalking
+          heading={t('botMessageTitle')}
           style={{
-            flex: 1,
+            marginTop:
+              isKeyboardVisible && windowDimensions.height < 700 ? 45 : 85,
+            opacity: isKeyboardVisible && windowDimensions.width < 340 ? 0 : 1,
           }}
         >
-          {/* <Flex direction="column" justify="center" align="center" style={[st.w100, st.h100]}> */}
-          <View
-            style={{
-              alignItems: 'center',
-              height: '100%',
-            }}
-          >
-            <View
-              style={{
-                display: isKeyboardVisible && windowDimensions.width < 340 ? 'none' : 'flex',
-              }}
-            >
-              <BotTalking
-                heading={t('botMessageTitle')}
-                style={{
-                  marginTop: isKeyboardVisible && windowDimensions.height < 700 ? 45 : 85,
-                  opacity: isKeyboardVisible && windowDimensions.width < 340 ? 0 : 1,
-                }}
-              >
-                {t('botMessageContent')}
-              </BotTalking>
-            </View>
-            <Flex style={{marginTop: isKeyboardVisible ? theme.spacing.xl : theme.spacing.xxl}} />
-            <Flex
-              direction="column"
-              align="center"
-              style={[
-                st.w100,
-                {
-                  paddingHorizontal: theme.spacing.xl,
-                  justifyContent: 'center',
-                },
-              ]}
-            >
-              <TextField
-                // blurOnSubmit
-                label={t('adventureCode:adventureCode')}
-                placeholder="000000"
-                value={adventureCode}
-                onChangeText={text => setAdventureCode(text)}
-                returnKeyType="done"
-                onSubmitEditing={handleContinue}
-                keyboardType="number-pad"
-                testID={'inputAdventureCode'}
-              />
-            </Flex>
-            <Flex style={{ minHeight: theme.spacing.l }} />
-            <Button
-              onPress={handleContinue}
-              testID={'ctaAdventureCodeContinue'}
-              touchableStyle={[
-                st.pd4,
-                st.br1,
-                isKeyboardVisible ? null : st.mb3,
-                st.w(st.fullWidth - 70),
-                {
-                  backgroundColor: theme.colors.white,
-                  textAlign: 'center',
-                  // marginTop: isKeyboardVisible ? 0 : 85,
-                  shadowColor: 'rgba(0, 0, 0, 0.5)',
-                  shadowOpacity: 0.5,
-                  elevation: 4,
-                  shadowRadius: 5,
-                  shadowOffset: { width: 1, height: 8 },
-                },
-              ]}
-              isLoading={isLoading}
-            >
-              <Text
-                style={[st.fs20, st.tac, { color: theme.colors.secondary }]}
-              >
-                {t('continue')}
-              </Text>
-            </Button>
-            {/* Safety spacing. */}
-            <Flex style={{ minHeight: insets.bottom }} />
-          </View>
-        </DismissKeyboardView>
-      </ScrollView>
-    </KeyboardAvoidingView>
+          {t('botMessageContent')}
+        </BotTalking>
+      </View>
+      <Flex
+        style={{
+          minHeight: theme.spacing.xl,
+        }}
+      />
+      <Flex
+        direction="column"
+        style={{
+          // justifyContent: 'center',
+          alignSelf: 'stretch', // horizontal
+        }}
+      >
+        <TextField
+          // blurOnSubmit
+          label={t('adventureCode:adventureCode')}
+          placeholder="000000"
+          value={adventureCode}
+          onChangeText={text => setAdventureCode(text)}
+          returnKeyType="done"
+          onSubmitEditing={handleContinue}
+          keyboardType="number-pad"
+          testID={'inputAdventureCode'}
+        />
+      </Flex>
+      <Flex style={{ minHeight: theme.spacing.l }} />
+      <OldButton
+        onPress={handleContinue}
+        testID={'ctaAdventureCodeContinue'}
+        touchableStyle={[
+          st.pd4,
+          st.br1,
+          isKeyboardVisible ? null : st.mb3,
+          // st.w(st.fullWidth - 70),
+          {
+            backgroundColor: theme.colors.white,
+            textAlign: 'center',
+            // marginTop: isKeyboardVisible ? 0 : 85,
+            shadowColor: 'rgba(0, 0, 0, 0.5)',
+            shadowOpacity: 0.5,
+            elevation: 4,
+            shadowRadius: 5,
+            shadowOffset: { width: 1, height: 8 },
+            alignSelf: 'stretch',
+          },
+        ]}
+        isLoading={isLoading}
+      >
+        <Text style={[st.fs20, st.tac, { color: theme.colors.secondary }]}>
+          {t('continue')}
+        </Text>
+      </OldButton>
+      <Flex
+        style={{
+          minHeight: isKeyboardVisible ? theme.spacing.xxl : theme.spacing.xxl,
+        }}
+      />
+    </Screen>
   );
 }
 

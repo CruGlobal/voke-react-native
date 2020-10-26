@@ -11,20 +11,21 @@ import moment from 'moment';
 import { useEffect, useRef } from 'react';
 import { Keyboard } from 'react-native';
 import Orientation from 'react-native-orientation-locker';
+
 import CONSTANTS from '../constants';
 
 export { difference, memoize, orderBy, range, debounce, throttle, xor, uniqBy };
 
 export function youtube_parser(url) {
-  var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
-  var match = url.match(regExp);
+  const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+  const match = url.match(regExp);
   return match && match[7].length === 11 ? match[7] : false;
 }
 
 export const isEqualObject = (a, b) => {
   // Create arrays of property names
-  var aProps = Object.getOwnPropertyNames(a);
-  var bProps = Object.getOwnPropertyNames(b);
+  const aProps = Object.getOwnPropertyNames(a);
+  const bProps = Object.getOwnPropertyNames(b);
 
   // If number of properties is different,
   // objects are not equivalent
@@ -32,8 +33,8 @@ export const isEqualObject = (a, b) => {
     return false;
   }
 
-  for (var i = 0; i < aProps.length; i++) {
-    var propName = aProps[i];
+  for (let i = 0; i < aProps.length; i++) {
+    const propName = aProps[i];
 
     // If values of same property are not equal,
     // objects are not equivalent
@@ -46,6 +47,18 @@ export const isEqualObject = (a, b) => {
   // are considered equivalent
   return true;
 };
+
+export const toCamelCase = str =>
+  str
+    .replace(/(?:^\w|[A-Z]|\b\w)/g, (ltr, idx) =>
+      idx === 0 ? ltr.toLowerCase() : ltr.toUpperCase(),
+    )
+    .replace(/\s+/g, '');
+
+
+export const  capitalize = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 export const isFunction = fn => typeof fn === 'function';
 export const isArray = arr => Array.isArray(arr);
@@ -133,9 +146,7 @@ export function formatSelect(arr) {
   return (arr || []).map(a => ({ label: a, value: a }));
 }
 export function generateId() {
-  return `${Date.now()}_${Math.random()
-    .toString(36)
-    .substr(2, 9)}`;
+  return `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 }
 
 export function plural(valOrArr, customEnding) {
@@ -151,8 +162,8 @@ export function ellipsisUtil(str, len) {
 }
 
 /**
- * React lifecycle hook that calls a function after the component is mounted. 
- * @param {*} cb 
+ * React lifecycle hook that calls a function after the component is mounted.
+ * @param {*} cb
  */
 export function useMount(cb) {
   useEffect(cb, []);
@@ -176,7 +187,7 @@ export function useInterval(callback, delay) {
       savedCallback.current();
     }
     if (delay !== null && delay !== -1) {
-      let id = setInterval(tick, delay);
+      const id = setInterval(tick, delay);
       return () => clearInterval(id);
     }
   }, [delay]);
@@ -208,7 +219,6 @@ export function lockToPortrait() {
   Orientation.lockToPortrait();
 }
 
-
 export function registerLogs() {
   const ENABLE_LOGS = true;
   const ENABLE_WARN = false;
@@ -224,7 +234,7 @@ export function registerLogs() {
     return args;
   }
 
-  global.LOG = function() {
+  global.LOG = function () {
     if (__DEV__) {
       const args = getArgs(arguments);
       if (ENABLE_LOGS) {
@@ -233,7 +243,7 @@ export function registerLogs() {
     }
   };
 
-  global.WARN = function() {
+  global.WARN = function () {
     if (__DEV__) {
       const args = getArgs(arguments, true);
       if (ENABLE_WARN) {

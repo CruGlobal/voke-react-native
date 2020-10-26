@@ -2,8 +2,7 @@
 import React, { Component, useState, useEffect } from 'react';
 // import './wdyr'; // Why Did You Render? tool.
 // import '@react-native-firebase/crashlytics';
-// import crashlytics from '@react-native-firebase/crashlytics';
-import * as Sentry from '@sentry/react-native';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
@@ -21,15 +20,6 @@ const { store, persistor } = configureStore();
 // While waiting for fix here: https://github.com/archriss/react-native-snap-carousel/issues/672
 YellowBox.ignoreWarnings(['FlatList:', '']);
 YellowBox.ignoreWarnings(['Require cycle:', 'Warning: componentWill']);
-
-Sentry.init({
-  dsn: 'https://401fa3e64ad84da38e311892898dd0ba@o430868.ingest.sentry.io/5380383',
-  release: Platform.OS + ' ' + Platform.Version,
-});
-
-/* Sentry.configureScope(function(scope) {
-  scope.setExtra("character.name", "Mighty Fighter");
-}); */
 
 const Root = () => {
   const [showLoader, setShowLoader] = useState(true);

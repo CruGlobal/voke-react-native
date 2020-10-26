@@ -1,74 +1,83 @@
-import { ReactText } from 'react';
-import { css, ReactNativeStyle } from '@emotion/native';
+import { StyleSheet } from 'react-native';
+
 import theme from '../../theme';
 import ui from '../../ui';
 
-const styles: { [key: string]: any } = {
-  ...ui,
-  ButtonPrimary: [
-    ui.button.size.l,
-    ui.button.style.primary,
-    css`
-      margin-top: ${`${theme.spacing.m}px`};
-      margin-bottom: ${`${theme.spacing.s}px`};
-    `,
-  ],
-  ButtonWhite: [
-    ui.button.size.l,
-    ui.button.style.solid,
-    css`
-      margin-top: ${`${theme.spacing.m}px`};
-      margin-bottom: ${`${theme.spacing.s}px`};
-    `,
-  ],
-  ButtonLabelPrimary: [ui.buttonText.size.l, 
-    css`
-    padding-left:${`${theme.spacing.m}px`};
-    padding-right:${`${theme.spacing.m}px`};
-  `],
-  ButtonLabelWhite: [ui.buttonText.size.wl,    
-    css`
-    padding-left:${`${theme.spacing.m}px`};
-    padding-right:${`${theme.spacing.m}px`};
-  `],
-  ButtonSignIn: [ui.button.size.m, ui.button.style.outline],
-  ButtonSignInLabel: [
-    ui.buttonText.size.m,
-    ui.buttonText.style.outline
-  ],
-  SignInText: css`
-    color: ${theme.colors.white};
-    font-size: ${`${theme.fontSizes.l}px`};
-    font-family: ${theme.fonts.regular};
-  `,
-  TextSmall: css`
-    color: ${theme.colors.white};
-    font-size: ${`${theme.fontSizes.xs}px`};
-    font-family: ${theme.fonts.regular};
-    text-align:center;
-  `,
-  Link: css`
-    text-decoration-line: underline;
-    color: ${theme.colors.white};
-  `,
-  SectionSignIn: css`
-    background-color: transparent;
-    padding-top: ${`${theme.spacing.m}px`};
-    padding-bottom: ${`${theme.spacing.l}px`};
-    border-top-width: 1px;
-    border-top-color: rgba(0, 0, 0, 0.2);
-  `,
-  HelpSection: css`
-    padding-left: ${`${theme.spacing.xl}px`};
-    padding-right: ${`${theme.spacing.xl}px`};
-    margin-bottom:-30px;
-  `,
-  HelpSectionHeading:css`
-    color: ${theme.colors.white};
-    font-size: ${`${theme.fontSizes.s}px`};
-    font-family: ${theme.fonts.semiBold};
-    text-align:center;
-  `,
+const sharredStyles = {
 };
+
+const styles = StyleSheet.create({
+  SectionOnboarding: {
+    // Responsive margin to fit everything on small devices.
+    // paddingHorizontal: theme.window.width > 700 ? theme.spacing.l : 0,
+    // paddingVertical: theme.window.width > 700 ? theme.spacing.xl : 0,
+  },
+  mainActions: {
+    // For tablets:
+    justifyContent: 'center',
+    // flexDirection: theme.window.width > 500 ? 'row' : 'column',
+    paddingVertical: theme.spacing.m,
+    paddingBottom: theme.window.height > 760 ? theme.spacing.l : theme.spacing.s,
+  },
+  ButtonSignIn: { ...ui.button.size.m, ...ui.button.style.outline },
+  ButtonSignInLabel: {
+    ...ui.buttonText.size.m,
+    ...ui.buttonText.style.outline,
+  },
+  SignInText: {
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.l,
+    fontFamily: theme.fonts.regular,
+  },
+  TextSmall: {
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.xs,
+    fontFamily: theme.fonts.regular,
+    textAlign: 'center',
+  },
+  Link: {
+    textDecorationLine: 'underline',
+    color: theme.colors.white,
+  },
+  SectionSignIn: {
+    backgroundColor: 'transparent',
+    paddingTop: theme.spacing.m,
+    paddingBottom: theme.spacing.l,
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(0, 0, 0, 0.2)',
+  },
+  HelpSection: {
+    // marginBottom: -10,
+    // minHeight: 30,
+    // flex:1,
+    // maxWidth: theme.window.width > 500 ? '50%' : '100%',
+  },
+  HelpSectionInner: {
+    paddingLeft: theme.spacing.xl,
+    paddingRight: theme.spacing.xl,
+    paddingBottom: theme.spacing.l,
+    maxWidth: 440,
+    alignSelf: 'center',
+  },
+  HelpSectionHeading: {
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.s,
+    fontFamily: theme.fonts.semiBold,
+    textAlign: 'center',
+  },
+  helpSectionButton: {
+    padding: theme.spacing.l,
+    position: 'absolute',
+    bottom: -theme.spacing.l,
+    // For tablets.
+    right: 0,
+    // right: theme.window.width > 500 ? 'auto' : 0,
+    // left: theme.window.width > 500 ? theme.spacing.xl : 'auto',
+  },
+  helpSectionIcon: {
+    textAlign: 'right',
+    color: theme.colors.white,
+  },
+});
 
 export default styles;

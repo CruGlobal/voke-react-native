@@ -14,7 +14,7 @@ import Text from '../../components/Text';
 import Touchable from '../../components/Touchable';
 import TextField from '../../components/TextField';
 import StatusBar from '../../components/StatusBar';
-import Button from '../../components/Button';
+import OldButton from '../../components/OldButton';
 import Triangle from '../../components/Triangle';
 import CONSTANTS from '../../constants';
 import {
@@ -338,38 +338,7 @@ const AccountProfile = (props: ProfileModalProps) => {
             ) : (
               <></>
             )}
-            {/* <Button
-              isAndroidOpacity={true}
-              style={[styles.ButtonAction, {
-                marginTop: 40,
-                marginBottom: 40
-              }]}
-              onPress={
-                () => dispatch(logoutAction()).then(() => {
-                  // Navigate back to the very first screen.
-                  // 🤦🏻‍♂️Give React 10ms to render WelcomeApp component.
-                  setTimeout(() => {
-                    navigation.reset({
-                      index: 1,
-                      routes: [{ name: 'Welcome' }],
-                    });
-                  }, 10);
-                })
-              }
-            >
-              <Flex
-                // value={1}
-                direction="row"
-                align="center"
-                justify="center"
-
-              >
-                <Text style={styles.ButtonActionLabel}>Sign out</Text>
-              </Flex>
-            </Button> */}
-
             {/* SECTION: CALL TO ACTION BUTTON */}
-
             <Flex
               direction="column"
               style={[styles.SectionAction]}
@@ -400,7 +369,7 @@ const AccountProfile = (props: ProfileModalProps) => {
                     }}
                   />
                   {/* BUTTON:SIGN UP WITH EMAIL */}
-                  <Button
+                  <OldButton
                     isAndroidOpacity={true}
                     style={[styles.ButtonSignUp]}
                     onPress={() => navigation.navigate('SignUp')}
@@ -417,14 +386,14 @@ const AccountProfile = (props: ProfileModalProps) => {
                         {t('signUpEmail')}
                       </Text>
                     </Flex>
-                  </Button>
+                  </OldButton>
                   <Flex
                     style={{
                       height: styles.spacing.m,
                     }}
                   />
                   {/* BUTTON:SIGN UP WITH FACBOOK */}
-                  <Button
+                  <OldButton
                     isAndroidOpacity={true}
                     style={[styles.ButtonSignUp]}
                     onPress={(): Promise<void> => fbLogin()}
@@ -436,12 +405,12 @@ const AccountProfile = (props: ProfileModalProps) => {
                       align="center"
                       justify="center"
                     >
-                      <VokeIcon name="logo-facebook" size={22} style={[st.mr5, st.white]} />
+                      <VokeIcon name="facebook" size={22} style={[st.mr5, st.white]} />
                       <Text style={styles.ButtonSignUpLabel}>
                         {t('signUpFb')}
                       </Text>
                     </Flex>
-                  </Button>
+                  </OldButton>
                   <Flex
                     style={{
                       height: styles.spacing.m,
@@ -450,7 +419,7 @@ const AccountProfile = (props: ProfileModalProps) => {
                 </>
               )}
 
-              <Button
+              <OldButton
                 isAndroidOpacity={true}
                 style={[styles.ButtonActionTextOnly]}
                 onPress={() =>
@@ -485,7 +454,7 @@ const AccountProfile = (props: ProfileModalProps) => {
                 <Text style={styles.ButtonActionLabel}>
                   {t('deleteAccount')}
                 </Text>
-              </Button>
+              </OldButton>
               <Flex
                 style={{
                   height: styles.spacing.xl,

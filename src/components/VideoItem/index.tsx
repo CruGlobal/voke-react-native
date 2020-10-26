@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import Image from '../Image';
 import st from '../../st';
 import theme from '../../theme';
-import Button from '../Button';
+import OldButton from '../OldButton';
 import Flex from '../Flex';
 import Text from '../Text';
 import Touchable from '../Touchable';
@@ -113,7 +113,7 @@ function VideoItem({ id = null, category = 'allVideos' }) {
           justify="start"
           style={[st.h(100), st.p5, st.w100]}
         >
-          <Button
+          <OldButton
             type="transparent"
             isAndroidOpacity
             onPress={handleShare}
@@ -130,7 +130,7 @@ function VideoItem({ id = null, category = 'allVideos' }) {
                 color: theme.colors.white,
               }}
             />
-          </Button>
+          </OldButton>
           <Text numberOfLines={1} style={[st.blue, st.fs20]}>
             {video.name}
           </Text>

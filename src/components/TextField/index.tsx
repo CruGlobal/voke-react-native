@@ -2,8 +2,6 @@ import React, { forwardRef, useState } from 'react';
 import { TextInput, TextInputProps, View } from 'react-native';
 import Text from '../Text';
 import Flex from '../Flex';
-import VokeIcon from '../VokeIcon';
-import Triangle from '../Triangle';
 import theme from '../../theme';
 import st from '../../st'; // TODO: use new styles here.
 
@@ -15,7 +13,7 @@ interface CustomProps extends TextInputProps {
 
 const TextField = forwardRef(
   // TODO: try to find an appropriate type for ref: any?
-  ({ label, ...restProps }: CustomProps, ref: any) => {
+  ({ label, placeholder, value, ...restProps }: CustomProps, ref: any) => {
 
   const [focused, setFocused] = useState(false);
 
@@ -29,7 +27,7 @@ const TextField = forwardRef(
         fontSize: theme.fontSizes.l,
         color: theme.colors.secondary,
         minHeight: 26,
-      }]}>{label}</Text>
+      }]}>{(focused || value) ? label : ''}</Text>
       <TextInput
         ref={ref}
         style={[
@@ -43,7 +41,7 @@ const TextField = forwardRef(
             marginBottom: 0,
             height: 50,
             color: theme.colors.white,
-            fontSize: restProps.value.length < 20 ? theme.fontSizes.xxl : theme.fontSizes.xl,
+            fontSize: value.length < 20 ? theme.fontSizes.xxl : theme.fontSizes.xl,
           },
           // st.bbOffBlue,
           // st.bbw1,
@@ -66,6 +64,8 @@ const TextField = forwardRef(
         onEndEditing={()=>{
           setFocused(false);
         }}
+        placeholder={focused ? '' : placeholder}
+        value={value}
         {...restProps}
       />
       <View

@@ -3,39 +3,30 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 import moment from 'moment';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Image from '../Image';
 import st from '../../st';
 import Touchable from '../Touchable';
 import Text from '../Text';
-import Button from '../Button';
+import OldButton from '../OldButton';
 import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
-import styles from './styles';
-import { useSelector, useDispatch } from 'react-redux';
 import useInterval from '../../utils/useInterval';
-import { resendAdventureInvitation, deleteAdventureInvitation, getAdventuresInvitations, getAvailableAdventures } from '../../actions/requests';
+import { getExpiredTime } from '../../utils/get';
+import {
+  resendAdventureInvitation,
+  deleteAdventureInvitation,
+  getAdventuresInvitations,
+  getAvailableAdventures,
+} from '../../actions/requests';
 import theme from '../../theme';
 
+import styles from './styles';
+
 const THUMBNAIL_WIDTH = 140;
-
-function getExpiredTime(date: string) {
-  const nowMoment = moment();
-  const expireMoment = moment.utc(date);
-  const diff = moment(expireMoment).diff(nowMoment);
-  const diffDuration = moment.duration(diff);
-  const days = diffDuration.days();
-  const hours = diffDuration.hours();
-  const minutes = diffDuration.minutes();
-
-  // TODO: Translate it.
-  const str = `${days > 0 ? `${days} day${days !== 1 ? 's' : ''} ` : ''}${
-    hours > 0 ? `${hours} hr${hours !== 1 ? 's' : ''} ` : ''
-  }${minutes >= 0 ? `${minutes} min ` : ''}`;
-  return { str, isTimeExpired: (diff < 0) };
-}
 
 type InviteItemProps = {
   inviteID: string;
@@ -52,25 +43,24 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
   //   ...item,
   // };
 
-  const inviteItem = useSelector(({ data }) => data.adventureInvitations.byId[inviteID]);
+  const inviteItem = useSelector(
+    ({ data }) => data.adventureInvitations.byId[inviteID],
+  );
 
   const [isExpired, setIsExpired] = useState(false);
   const [time, setTime] = useState('');
   const [timer, setTimer] = useState(60000); // 1 minute timer step
   const { organization_journey, name, code } = inviteItem;
   const orgJourney = organization_journey || {};
-  const orgJourneyImage = (orgJourney?.image)?.small;
+  const orgJourneyImage = orgJourney?.image?.small;
   const isGroup = inviteItem.kind === 'multiple';
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { t } = useTranslation(['adventuresTab', 'adventuresList']);
 
-  const thumbnail = useMemo(
-    () => (orgJourneyImage || ''),
-    [orgJourneyImage],
-  );
+  const thumbnail = useMemo(() => orgJourneyImage || '', [orgJourneyImage]);
 
-   if( ! code ) {
+  if (!code) {
     return <></>;
   }
 
@@ -82,7 +72,7 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
     const { str, isTimeExpired } = getExpiredTime(inviteItem.expires_at);
     setIsExpired(isTimeExpired);
     setTime(str);
-  }
+  };
 
   // Create a live expiration countdown timer.
   // Function will fire by itself after required time passes..
@@ -94,8 +84,7 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
     }
   }, timer);
 
-
-  const resendInvite = async (inviteID) => {
+  const resendInvite = async inviteID => {
     try {
       await dispatch(resendAdventureInvitation(inviteID));
     } finally {
@@ -107,28 +96,27 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
     }
   };
 
-
   const deleteInvite = inviteID => {
     // dispatch(
-      Alert.alert(
-        t('areYouSureDelete', {name: inviteItem?.name || ''}),
-        t('deleteCannotBeUndone'),
-        [
-          {
-            text: t('cancel'),
-            onPress: () => {},
-            style: "cancel"
+    Alert.alert(
+      t('areYouSureDelete', { name: inviteItem?.name || '' }),
+      t('deleteCannotBeUndone'),
+      [
+        {
+          text: t('cancel'),
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {
+          text: t('delete'),
+          onPress: async () => {
+            await dispatch(deleteAdventureInvitation(inviteID));
+            await dispatch(getAdventuresInvitations());
+            // await dispatch(getAvailableAdventures());
           },
-          {
-            text: t('delete'),
-            onPress: async () => {
-              await dispatch(deleteAdventureInvitation(inviteID));
-              await dispatch(getAdventuresInvitations());
-              // await dispatch(getAvailableAdventures());
-            },
-          }
-        ]
-      )
+        },
+      ],
+    );
     // );
   };
 
@@ -140,6 +128,7 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
             adventureId: inviteItem.messenger_journey_id,
           });
         }}
+        testID={code}
       >
         <Flex
           style={[styles.InviteBlock]}
@@ -148,10 +137,7 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
           // justify="start"
         >
           <Flex>
-            <Image
-              uri={thumbnail}
-              style={styles.thumbnail}
-            />
+            <Image uri={thumbnail} style={styles.thumbnail} />
           </Flex>
           <Flex
             value={1}
@@ -161,34 +147,48 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
             style={[styles.InviteBlockContent]}
           >
             <Text numberOfLines={2} style={[st.white, st.fs4]}>
-            {
-              isExpired ?
-                t('adventuresList:codeExpired', {name}) :
-                  isGroup ?
-                    `${name}: \n` + t('adventuresList:waitingForGroup') :
-                    t('adventuresList:waitingForFriend', {name})
-            }
+              {isExpired
+                ? t('adventuresList:codeExpired', { name })
+                : isGroup
+                ? `${name}: \n` + t('adventuresList:waitingForGroup')
+                : t('adventuresList:waitingForFriend', { name })}
             </Text>
             <Flex value={1} direction="column" align="left" justify="between">
-              <Flex value={1} direction="row" align="center" style={styles.CodeBlock}>
+              <Flex
+                value={1}
+                direction="row"
+                align="center"
+                style={styles.CodeBlock}
+              >
                 <Text numberOfLines={1} style={styles.Code}>
+                  {' '}
                   {t('adventuresList:code')}
                 </Text>
-                <Text selectable style={[st.white, st.bold]}>
-                  {' ' + code}
+                <Text
+                  selectable
+                  style={[st.white, st.bold]}
+                  testID={'inviteCode'}
+                >
+                  {code}
                 </Text>
               </Flex>
-              <Flex style={{width: '100%'}}>
+              <Flex style={{ width: '100%' }}>
                 {!isExpired && !isGroup ? (
-                  <Text numberOfLines={1} style={[st.white, st.fs6]}>
-                    {t('adventuresList:expiresIn', {time})}
+                  <Text
+                    numberOfLines={1}
+                    style={[st.white, st.fs6]}
+                    testID="expiresIn"
+                  >
+                    {t('adventuresList:expiresIn', { time })}
                   </Text>
                 ) : (
-                  <Button
-                    onPress={()=>resendInvite(inviteID)}
+                  <OldButton
+                    onPress={() => resendInvite(inviteID)}
                     style={styles.ButtonReset}
                     buttonTextStyle={[st.fs6]}
-                  ><Text style={styles.ButtonResetLabel}>{t('resend')}</Text></Button>
+                  >
+                    <Text style={styles.ButtonResetLabel}>{t('resend')}</Text>
+                  </OldButton>
                 )}
               </Flex>
             </Flex>
@@ -201,17 +201,18 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
                 position: 'absolute',
                 top: 4,
                 right: 4,
-              }}>
+              }}
+            >
               <Touchable
                 onPress={(): void => {
-                  deleteInvite(inviteID)
+                  deleteInvite(inviteID);
                 }}
                 style={[st.br2, st.borderTransparent, st.bw1, st.pd(7)]}
               >
                 <VokeIcon name="close" style={styles.iconDelete} />
               </Touchable>
-            </Flex>)
-            : null}
+            </Flex>
+          ) : null}
         </Flex>
       </Touchable>
     </Flex>

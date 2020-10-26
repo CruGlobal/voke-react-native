@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import moment from 'moment';
 
 import { RootState } from '../../reducers';
 import Image from '../Image';
@@ -10,7 +11,12 @@ import Flex from '../Flex';
 import Text from '../Text';
 import VokeIcon from '../VokeIcon';
 import st from '../../st';
-import { getCurrentUserId } from '../../utils/get';
+import {
+  getCurrentUserId,
+  getNextReleaseDate,
+  getDiffToDate,
+  getTimeToDate,
+} from '../../utils/get';
 
 import styles from './styles';
 
@@ -47,14 +53,16 @@ function AdventureStepCard({
   const [isWaiting, setIsWaiting] = useState(
     isActive && step['completed_by_messenger?'],
   );
-  const [isLocked, setIsLocked] = useState(!isCompleted && !isActive);
+  // const [isLocked, setIsLocked] = useState(!isCompleted && !isActive);
+  const [isLocked, setIsLocked] = useState(true);
   const messengers = (adventure?.conversation || {}).messengers || [];
   const thumbnail = useMemo(
-    () => (step?.item?.content?.thumbnails?.medium || ''),
+    () => step?.item?.content?.thumbnails?.medium || '',
     [stepId],
   );
   // TODO: adventure can be undefined.
   const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'multiple';
+  const isGroup = adventure.kind === 'multiple';
 
   const inviteName = adventure?.journey_invite?.name;
   let invitedUserName = '';
@@ -63,11 +71,45 @@ function AdventureStepCard({
     i => i.id !== userId && i.first_name !== 'VokeBot',
   );
 
+  const allMessengers = adventure?.conversation?.messengers || [];
+  const isLeader =
+    allMessengers.find(m => m.group_leader && m.id == userId) || false;
+
   if (otherUser && otherUser.first_name) {
     invitedUserName = otherUser.first_name;
   } else if (inviteName) {
     invitedUserName = inviteName;
   }
+
+  const nextReleaseDate = adventure.gating_period
+    ? getNextReleaseDate({
+        startDate: adventure.gating_start_at,
+        releasePeriod: adventure.gating_period,
+      })
+    : null;
+
+
+  const nextReleaseIn = nextReleaseDate ? getDiffToDate(nextReleaseDate) : null;
+  const nextReleaseTime = nextReleaseDate
+    ? getTimeToDate(nextReleaseDate)
+    : null;
+
+  const printNextReleaseDate = ({
+    nextReleaseDate,
+    nextReleaseIn,
+    nextReleaseTime,
+  }): string => {
+    let result = '';
+    if (nextReleaseDate) {
+      result = `${t('share:nextRelease')} ${nextReleaseIn} ${t(
+        'at',
+      )} ${nextReleaseTime}`;
+    } else {
+      result = t('share:leaderWillRelease');
+    }
+
+    return result;
+  };
 
   // Monitor any changes in steps and step parammeters of the component
   // to update the card elements accordingly.
@@ -76,14 +118,19 @@ function AdventureStepCard({
     setIsActive(step.status === 'active');
     setIsCompleted(step.status === 'completed');
     setIsWaiting(step.status === 'active' && step['completed_by_messenger?']);
-    setIsLocked(step.status !== 'completed' && step.status !== 'active');
+
+    if (isGroup) {
+      setIsLocked(step.locked);
+    } else {
+      setIsLocked(step.status !== 'completed' && step.status !== 'active');
+    }
   }, [step]);
 
   return (
     <Flex style={styles.stepWrapper}>
       <Touchable
         highlight={false}
-        disabled={isLocked}
+        disabled={isLocked && !isLeader}
         activeOpacity={0.8}
         onPress={(): void =>
           navigation.navigate('AdventureStepScreen', {
@@ -92,17 +139,33 @@ function AdventureStepCard({
           })
         }
         style={styles.stepCard}
+        testID={ !!step?.position ? 'stepPart-'+step.position : ''}
       >
         <Flex
           style={[
             isActive ? st.bgWhite : st.bgOffBlue,
-            isLocked ? st.op50 : null,
+            !isActive && isLocked ? st.op50 : null,
             st.br5,
           ]}
           align="center"
           justify="start"
-          // direction="row"
         >
+          {isGroup && isLocked && isActive && (
+            <Flex
+              align="center"
+              style={styles.nextReleaseBlock}
+            >
+              {
+                <Text style={styles.nextReleaseText}>
+                  {printNextReleaseDate({
+                    nextReleaseDate,
+                    nextReleaseIn,
+                    nextReleaseTime,
+                  })}
+                </Text>
+              }
+            </Flex>
+          )}
           <Flex direction="row" style={styles.cardContent}>
             <Flex style={styles.thumbContainer}>
               <Image
@@ -115,6 +178,7 @@ function AdventureStepCard({
                 name={isLocked ? 'lock' : 'play-full'}
                 size={30}
                 style={styles.thumbIcon}
+                testID={isLocked ? 'stepLocked' : 'stepAvailable'}
               />
             </Flex>
             <Flex
@@ -207,30 +271,6 @@ function AdventureStepCard({
           ) : null}
         </Flex>
       </Touchable>
-      {/* {isLocked ? null : (
-      <Flex
-        style={[
-          st.absbr,
-          st.isAndroid ? st.bottom(10) : st.bottom(15),
-          st.right(15),
-          st.mh5,
-        ]}
-      >
-        <Button
-          type="transparent"
-          isAndroidOpacity
-          onPress={(): void => {}}
-          activeOpacity={0.6}
-          touchableStyle={[st.abs, st.right(15), st.top(-35), st.mh5]}
-        >
-          <VokeIcon
-            type="image"
-            name="to-chat"
-            style={{ width: 50, height: 50 }}
-          />
-        </Button>
-      </Flex>
-    )} */}
       {isCompleted ? (
         <Flex
           style={[

@@ -7,12 +7,12 @@ import {
   TextInput,
   View,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigation } from '@react-navigation/native';
-import { useHeaderHeight } from '@react-navigation/stack';
-import { useSafeArea } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeArea } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import useKeyboard from '@rnhooks/keyboard';
@@ -22,21 +22,36 @@ import { userLogin, facebookLogin } from '../../actions/auth';
 import DismissKeyboardView from '../../components/DismissKeyboardHOC';
 import VokeIcon from '../../components/VokeIcon';
 import TextField from '../../components/TextField';
-import Triangle from '../../components/Triangle';
-import Button from '../../components/Button';
+import OldButton from '../../components/OldButton';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
-import CONSTANTS from '../../constants';
 import st from '../../st';
 import theme from '../../theme';
+import Screen from '../../components/Screen';
 
 import styles from './styles';
+import Button from '../../components/Button';
+import Spacer from '../../components/Spacer';
 
-const AccountSignIn: React.FC = (): React.ReactElement => {
+type Props = {
+  layout: string;
+  parentScroll: object;
+  scrollTo: number;
+  onComplete: any;
+};
+
+const AccountSignIn: React.FC = ({
+  layout,
+  parentScroll,
+  scrollTo,
+  onComplete = false,
+}: Props): React.ReactElement => {
+  const scrollRef = useRef<ScrollView>();
   const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const headerHeight = useHeaderHeight();
+
+  const [formIsVisible, setFormIsVisible] = useState(false);
 
   const [email, setEmail] = useState('');
   const [emailValid, setEmailValid] = useState(false);
@@ -44,6 +59,8 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation('common');
   const passwordRef = useRef<TextInput>(null);
+  const emailRef = useRef<TextInput>(null);
+  const windowDimensions = useWindowDimensions();
 
   // https://github.com/react-native-hooks/keyboard#configuration
   const [isKeyboardVisible] = useKeyboard();
@@ -78,15 +95,16 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
     try {
       await dispatch(userLogin(formik.values.email, formik.values.password));
       setIsLoading(false);
-      navigation.navigate('LoggedInApp');
+      if (onComplete) {
+        onComplete();
+      } else {
+        navigation.navigate('LoggedInApp');
+      }
     } catch (e) {
       // eslint-disable-next-line no-console
       console.log('🛑 Error on login \n', { e });
-      if ( e?.message === 'Network request failed' ) {
-        Alert.alert(
-          e?.message,
-          t('checkInternet')
-        );
+      if (e?.message === 'Network request failed') {
+        Alert.alert(e?.message, t('checkInternet'));
       } else {
         Alert.alert(
           t('login:invalid'),
@@ -116,46 +134,49 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      style={{
-        backgroundColor: styles.colors.primary,
-        paddingTop: headerHeight,
-        flex: 1,
-      }}
-    >
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          flexDirection: 'column',
-          alignContent: 'stretch',
-          justifyContent: 'space-evenly',
-          minHeight: isKeyboardVisible ? 'auto' : '100%',
-        }}
-      >
-        <DismissKeyboardView
-          style={{
-            flex: 1,
-          }}
-        >
-          <Flex
-            style={[
-              styles.PrimaryContent,
-              {
-                alignItems: 'center', // Horizontal.
-                justifyContent: 'center', // Vertical.
-                flexGrow: 1,
-              },
-            ]}
-          >
-            <Flex
-              style={{
-                minHeight: 40,
+    <Screen layout={layout} noKeyboard={layout === 'embed'} testID={'accountSignInScreen'}>
+      {/* SECTION: SIGN IN OPTIONS */}
+      <Flex style={styles.signInOptions}>
+        {layout !== 'embed' && (
+          <View
+            style={{
+              minHeight:
+                isKeyboardVisible && windowDimensions.height < 812
+                  ? theme.spacing.xl
+                  : theme.spacing.xxxl,
+              // Vertically align form on different screens sizes.
+            }}
+          />
+        )}
+        {layout === 'embed' && (
+          <Flex style={{ minHeight: theme.spacing.xl }} />
+        )}
+        {!formIsVisible && (
+          <>
+            <Button
+              onPress={(): void => {
+                setFormIsVisible(true);
+                emailRef?.current?.focus();
+                setTimeout(() => {
+                  emailRef?.current?.focus();
+                }, 400);
               }}
-            />
+              testID={'ctaSignInEmail'}
+              size="l"
+              color="empty"
+              icon="mail"
+            >
+              {t('signInEmail')}
+            </Button>
+          </>
+        )}
+        {formIsVisible && (
+          <Flex style={[styles.primaryContent]}>
+            {/* <View style={{ minHeight: theme.spacing.xxl }} /> */}
             {/* INPUT FIELD: EMAIL */}
             <TextField
               // blurOnSubmit={false}
+              ref={emailRef}
               label={t('placeholder:email')}
               onSubmitEditing={(): void => passwordRef?.current?.focus()}
               placeholder={t('placeholder:email')}
@@ -164,6 +185,21 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
               // onChangeText={checkEmail}
               onChangeText={formik.handleChange('email')}
               onBlur={formik.handleBlur('email')}
+              onFocus={() => {
+                if (
+                  Platform.OS === 'ios' &&
+                  parentScroll?.current &&
+                  scrollTo
+                ) {
+                  // Android do that all for us automatically.
+                  // Need timeout for Keyboard to appear and scroll become available
+                  setTimeout(() => {
+                    parentScroll?.current
+                      ?.getScrollResponder()
+                      .scrollTo({ x: 0, y: scrollTo, animated: true });
+                  }, 400);
+                }
+              }}
               autoCapitalize="none"
               textContentType="username"
               autoCompleteType="email"
@@ -197,15 +233,15 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
                   ? formik.errors.password
                   : null
               }
-              testID={"inputPassword"}
+              testID={'inputPassword'}
             />
             <Flex
               style={{
-                minHeight: 40,
+                minHeight: theme.spacing.xl,
               }}
             />
             {/* BUTTON: SIGN IN */}
-            <Button
+            <OldButton
               onPress={formik.handleSubmit}
               // onPress={(): Promise<void> => login()}
               touchableStyle={[
@@ -230,72 +266,72 @@ const AccountSignIn: React.FC = (): React.ReactElement => {
               >
                 {t('signIn')}
               </Text>
-            </Button>
+            </OldButton>
             {/* TEXT: FORGOT PASSWORD */}
             <Text
-              style={styles.Link}
+              style={styles.link}
               onPress={(): void => navigation.navigate('ForgotPassword')}
             >
               {t('forgotPassword')}
             </Text>
-            <Flex
-              style={{
-                minHeight: 20,
-              }}
-            />
+            <Flex style={{ minHeight: theme.spacing.xxl }} />
           </Flex>
-          <View
-            style={{
-              justifyContent: 'center', // Vertical.
-            }}
-          >
-            <Flex
-              style={{
-                minHeight: 20,
-              }}
-            />
-            {/* TEXT: NOTICE */}
-            {/* TODO: hide this notice if it's on the welcome stage (no progress) */}
-            <Flex
-              direction="column"
-              justify="start"
-              style={styles.SectionNotice}
+        )}
+        <View style={{ minHeight: theme.spacing.m }} />
+        {Platform.OS === 'ios' && 'disabled' === true && (
+          <>
+            <Button
+              onPress={(): Promise<void> => fbLogin()}
+              testID={'ctaAdventureCode'}
+              size="l"
+              styling="outline"
+              color="empty"
+              icon="apple"
             >
-              <Text style={styles.TextMedium}>
-                {t('login:existingAccount')}
-              </Text>
-            </Flex>
-            {/* SECTION: FACEBOOK SIGN IN */}
-            <Flex
-              align="center"
-              // justify="center"
-              style={styles.SectionFB}
-            >
-              <Button
-                isAndroidOpacity
-                style={styles.ButtonFBSignIn}
-                onPress={(): Promise<void> => fbLogin()}
-              >
-                <Flex direction="row" align="center" justify="center">
-                  <VokeIcon name="logo-facebook" size={22} style={[st.mr5, st.white]} />
-                  <Text style={styles.ButtonFBSignInLabel}>
-                    {t('signInFb')}
-                  </Text>
-                </Flex>
-              </Button>
-              {/* Safe area at the bottom for phone with exotic notches */}
-              <Flex
-                style={{
-                  minHeight: isKeyboardVisible
-                    ? 0
-                    : theme.spacing.xl + insets.bottom,
-                }}
-              />
-            </Flex>
-          </View>
-        </DismissKeyboardView>
-      </ScrollView>
-    </KeyboardAvoidingView>
+              {t('signInApple')}
+            </Button>
+            <Spacer />
+          </>
+        )}
+        <Button
+          onPress={(): Promise<void> => fbLogin()}
+          testID={'ctaAdventureCode'}
+          size="l"
+          styling="outline"
+          color="empty"
+          icon="facebook"
+        >
+          {t('signInFb')}
+        </Button>
+        <Spacer />
+      </Flex>
+      <View style={{ minHeight: theme.spacing.xl }} />
+      {/* TEXT: NOTICE */}
+      {/* TODO: hide this notice if it's on the welcome stage (no progress) */}
+      <Flex direction="column" justify="start" style={styles.sectionNotice}>
+        <Text style={styles.textMedium}>{t('login:existingAccount')}</Text>
+      </Flex>
+      {/* <View style={{ minHeight: theme.spacing.xl }} /> */}
+      <View
+        style={{
+          justifyContent: 'center', // Vertical.
+        }}
+      >
+        {/* <Flex
+                  style={{
+                    minHeight: 20,
+                  }}
+                /> */}
+        {/* Safe area at the bottom for phone with exotic notches */}
+        {/* <Flex
+                  style={{
+                    minHeight: isKeyboardVisible
+                      ? 0
+                      : theme.spacing.xl + insets.bottom,
+                  }}
+                /> */}
+      </View>
+    </Screen>
   );
 };
 
