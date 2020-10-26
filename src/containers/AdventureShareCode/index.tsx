@@ -4,7 +4,8 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import Clipboard from '@react-native-community/clipboard';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { Share, ScrollView, Dimensions } from 'react-native';
+import { Dimensions } from 'react-native';
+import Share from 'react-native-share';
 import { useHeaderHeight } from '@react-navigation/stack';
 import { Modalize } from 'react-native-modalize';
 import { Portal } from 'react-native-portalize';
@@ -41,7 +42,7 @@ function AdventureShareCode(props) {
   let popupTimeout = null;
 
   const handleShare = () => {
-    Share.share(
+    Share.open(
       {
         message: isVideoInvite
           ? t('share:shareMessageVideo', {
@@ -54,10 +55,11 @@ function AdventureShareCode(props) {
               code: invitation?.code,
             }),
         // {t('downloadMessage')}`Download Voke and join my ${invitation.name} Adventure. Use code: ${invitation.code} ${CONSTANTS.APP_URL}`,
-      },
+      }
+      /* ,
       {
         dialogTitle: t('share'),
-      },
+      }, */
     ).catch(err => console.log('Share Error', err));
   };
 

@@ -278,7 +278,7 @@ const AccountSignIn: React.FC = ({
           </Flex>
         )}
         <View style={{ minHeight: theme.spacing.m }} />
-        {Platform.OS === 'ios' && (
+        {Platform.OS === 'ios' && 'disabled' === true && (
           <>
             <Button
               onPress={(): Promise<void> => fbLogin()}

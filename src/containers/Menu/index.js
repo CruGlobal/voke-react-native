@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
-import { ScrollView, Share, Linking, Alert } from 'react-native';
+import { ScrollView, Linking, Alert } from 'react-native';
+import Share from 'react-native-share';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from "react-i18next";
@@ -82,16 +83,17 @@ function Menu(props) {
         <SettingsRow
           title={t('shareApp')}
           onSelect={() =>
-            Share.share(
+            Share.open(
               {
                 subject: t('checkTitle'),
                 title: t('checkTitle'),
                 message: t('checkMessage'),
                 url: 'https://voke.page.link/app', // At least one of URL and message is required.
-              },
+              }
+              /* ,
               {
                 dialogTitle: 'Share',
-              },
+              }, */
             )
           }
         />
