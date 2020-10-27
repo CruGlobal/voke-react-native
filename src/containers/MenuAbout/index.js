@@ -2,7 +2,7 @@ import React from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { ScrollView, Share, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 import Communications from 'react-native-communications';
 import DeviceInfo from 'react-native-device-info';
 import { useDispatch } from 'react-redux';
@@ -44,7 +44,7 @@ function MenuAbout(props) {
 
   return (
     <Flex value={1} style={[st.bgWhite, { paddingBottom: insets.bottom }]}>
-      <ScrollView>
+      <ScrollView scrollIndicatorInsets={{ right: 1 }}>
         <SettingsRow
           title={t('settings:website')}
           onSelect={() => Linking.openURL(CONSTANTS.WEB_URLS.VOKE)}
@@ -66,8 +66,12 @@ function MenuAbout(props) {
           onSelect={() => navigation.navigate('Acknowledgements')}
         />
         <SettingsRow
-          title={t('settings:version', {build:DeviceInfo.getReadableVersion()})}
-          onSelect={() => {return}}
+          title={t('settings:version', {
+            build: DeviceInfo.getReadableVersion(),
+          })}
+          onSelect={() => {
+            return;
+          }}
         />
         <Flex
           direction="row"
@@ -75,7 +79,9 @@ function MenuAbout(props) {
           justify="center"
           style={[st.pv5, st.ph4, { marginTop: 30 }]}
         >
-          <Text style={[st.darkGrey, st.fs14, st.ls2]}>{t('ourPartners').toUpperCase()}</Text>
+          <Text style={[st.darkGrey, st.fs14, st.ls2]}>
+            {t('ourPartners').toUpperCase()}
+          </Text>
         </Flex>
         <Flex
           direction="row"
