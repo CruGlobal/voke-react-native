@@ -175,7 +175,11 @@ function AdventureAvailable(props): React.ReactElement {
         </Flex>
       </Video>
       {isPortrait && (
-        <ScrollView bounces={false} style={{ paddingBottom: insets.bottom }}>
+        <ScrollView
+          bounces={false}
+          style={{ paddingBottom: insets.bottom }}
+          scrollIndicatorInsets={{ right: 1 }}
+        >
           <Flex style={[st.pd3]}>
             <Text style={[st.fs2, st.blue]}>{item.name}</Text>
             <Text style={[st.pt5, st.charcoal]}>

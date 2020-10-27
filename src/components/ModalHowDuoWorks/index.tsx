@@ -20,7 +20,7 @@ function ModalHowDuoWorks({ primaryAction }): React.ReactElement {
   const { t } = useTranslation('modal');
 
   return (
-    <ScrollView bounces={false}>
+    <ScrollView bounces={false} scrollIndicatorInsets={{ right: 1 }}>
       <SafeAreaView>
         <Flex style={styles.container} direction="column" align="center">
           <View style={{ minHeight: theme.spacing.xl }} />

@@ -10,23 +10,17 @@ import st from '../../st';
 import theme from '../../theme';
 import OldButton from '../OldButton';
 import BotTalking from '../BotTalking';
-import ChatExample from '../../assets/ChatExample.png';
-import VideoExample from '../../assets/VideoExample.png';
-import InviteCodeExample from '../../assets/InviteCodeExample2.png';
-import GroupWelcomeExample from '../../assets/GroupWelcomeExample.png';
 import ModalSharingCode from '../../assets/ModalSharingCode.png';
 import ModalSharingLink from '../../assets/ModalSharingLink.png';
 import ModalSharingNotification from '../../assets/ModalSharingNotification.png';
 import ModalSharingPersonalize from '../../assets/ModalSharingPersonalize.png';
-
-import styles from './styles';
 
 // Renders Cards on this screen https://d.pr/i/WsCCf2
 function ModalHowSharingWorks({ closeAction }): React.ReactElement {
   const { t } = useTranslation('modal');
 
   return (
-    <ScrollView bounces={false}>
+    <ScrollView bounces={false} scrollIndicatorInsets={{ right: 1 }}>
       <Flex
         style={{ justifyContent: 'space-between', width: '100%' }}
         direction="column"

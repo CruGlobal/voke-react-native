@@ -55,16 +55,11 @@ function AdventureManage({
       data.myAdventures?.byId[adventureId] || {},
   );
 
-  console.log('🐸 adventure:', adventure);
-
   const stepsListIds =
     useSelector(
       ({ data }: { data: TDataState }) =>
         data.adventureSteps[adventureId]?.allIds,
     ) || {};
-
-  console.log('🙊 adventure:', adventure);
-  console.log('⛑ stepsListIds:', stepsListIds);
 
   useEffect(() => {
     if (adventureId && !stepsListIds.length) {
@@ -99,7 +94,7 @@ function AdventureManage({
   const gatingStartAt = adventure?.gating_start_at;
   const gatingPeriod = adventure?.gating_period;
 
-  const gatingType = gatingPeriod => {
+  const gatingType = (gatingPeriod: number) => {
     if (gatingPeriod === 7) {
       return 'weekly';
     } else if (gatingPeriod === 1) {
@@ -131,7 +126,7 @@ function AdventureManage({
   }, []);
 
   return (
-    <ScrollView style={styles.screen}>
+    <ScrollView style={styles.screen} scrollIndicatorInsets={{ right: 1 }}>
       <SafeAreaView>
         <HeaderSpacer />
         <Flex style={styles.header} align="center" justify="center">

@@ -78,6 +78,7 @@ Props): React.ReactElement => {
         contentContainerStyle={styles.scrollView}
         scrollEnabled={layout !== 'embed'}
         bounces={bounces}
+        scrollIndicatorInsets={{ right: 1 }}
       >
         {noKeyboard ? (
           <View style={styles.dismissKeyboard}>

@@ -169,6 +169,7 @@ const GroupReleaseDate = (props): React.ReactElement => {
       <ScrollView
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={styles.scrollView}
+        scrollIndicatorInsets={{ right: 1 }}
       >
         <DismissKeyboardView style={{ flex: 1 }}>
           <Flex style={styles.screen}>

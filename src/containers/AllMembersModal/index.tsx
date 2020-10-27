@@ -83,7 +83,7 @@ function AllMembersModal(props) {
     <SafeAreaView style={styles.container}>
       <StatusBar />
       <HeaderSpacer />
-      <ScrollView>
+      <ScrollView scrollIndicatorInsets={{ right: 1 }}>
         <Flex style={[st.mb4]}>
           <Flex align="center" justify="center">
             <Flex align="center" self="stretch">

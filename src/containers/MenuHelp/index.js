@@ -2,7 +2,7 @@ import React from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { ScrollView, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 import Communications from 'react-native-communications';
 import { useDispatch } from 'react-redux';
 import Flex from '../../components/Flex';
@@ -35,7 +35,7 @@ function MenuHelp(props) {
 
   return (
     <Flex value={1} style={[st.bgWhite, { paddingBottom: insets.bottom }]}>
-      <ScrollView>
+      <ScrollView scrollIndicatorInsets={{ right: 1 }}>
         <SettingsRow
           title={t('visitFAQ')}
           onSelect={() => Linking.openURL(CONSTANTS.WEB_URLS.FAQ)}
