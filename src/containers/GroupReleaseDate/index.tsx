@@ -133,11 +133,18 @@ const GroupReleaseDate = (props): React.ReactElement => {
           }),
         );
       }
+
       setIsLoading(false);
 
+      // Depending on what we are doing with the invite (update or create)
+      // we are getting the Adventure id in the different places.
       if (result?.messenger_journey_id) {
         navigation.navigate('AdventureManage', {
           adventureId: result.messenger_journey_id,
+        });
+      } else if (result?.id) {
+        navigation.navigate('AdventureManage', {
+          adventureId: result.id,
         });
       } else {
         Alert.alert('Failed to create a valid invite.', 'Please try again.');

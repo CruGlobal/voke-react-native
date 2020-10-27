@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import Image from 'react-native-scalable-image';
 
 import Flex from '../Flex';
@@ -10,10 +9,6 @@ import st from '../../st';
 import theme from '../../theme';
 import OldButton from '../OldButton';
 import BotTalking from '../BotTalking';
-import ChatExample from '../../assets/ChatExample.png';
-import VideoExample from '../../assets/VideoExample.png';
-import InviteCodeExample from '../../assets/InviteCodeExample2.png';
-import GroupWelcomeExample from '../../assets/GroupWelcomeExample.png';
 import ModalSharingCode from '../../assets/ModalSharingCode.png';
 import ModalSharingLink from '../../assets/ModalSharingLink.png';
 import ModalSharingNotification from '../../assets/ModalSharingNotification.png';
