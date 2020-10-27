@@ -192,7 +192,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
     // Add the Firebase Crashlytics SDK.
-    implementation 'com.google.firebase:firebase-crashlytics:17.2.1'
+    implementation 'com.google.firebase:firebase-crashlytics:17.2.2'
     implementation 'com.android.support:multidex:1.0.3' // https://medium.com/@jQN/react-native-multidex-error-8f9a1daf8c34
 
     if (enableHermes) {
