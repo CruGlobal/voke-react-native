@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React, { useState, useEffect, useMemo } from 'react';
 import { Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import { useSelector, useDispatch } from 'react-redux';
@@ -64,15 +64,26 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
     return <></>;
   }
 
-  useEffect(() => {
-    updateExpire();
-  }, []);
-
   const updateExpire = () => {
     const { str, isTimeExpired } = getExpiredTime(inviteItem.expires_at);
     setIsExpired(isTimeExpired);
     setTime(str);
   };
+
+  useEffect(() => {
+    updateExpire();
+  }, []);
+
+  useFocusEffect(
+    // eslint-disable-next-line arrow-body-style
+    React.useCallback(() => {
+      // When the screen is focused:
+      updateExpire();
+      return (): void => {
+        // When the screen is unfocused:
+      };
+    }, []),
+  );
 
   // Create a live expiration countdown timer.
   // Function will fire by itself after required time passes..
