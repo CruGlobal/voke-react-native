@@ -171,7 +171,7 @@ function GroupReleaseType(props: any): ReactElement {
         </Text>
         <OldButton
           onPress={item.buttonAction}
-          testID={'ctaContinueOption-' + (index+1)}
+          testID={'ctaContinueOption-' + (index + 1)}
           touchableStyle={{
             padding: theme.spacing.s,
             backgroundColor: theme.colors.secondary,

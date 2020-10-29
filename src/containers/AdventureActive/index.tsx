@@ -18,10 +18,7 @@ import SkeletonContent from 'react-native-skeleton-content-nonexpo';
 import { getCurrentUserId } from '../../utils/get';
 import AdventureStepCard from '../../components/AdventureStepCard';
 import { setCurrentScreen } from '../../actions/info';
-import {
-  getMyAdventure,
-  interactionVideoPlay,
-} from '../../actions/requests';
+import { getMyAdventure, interactionVideoPlay } from '../../actions/requests';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import Video from '../../components/Video';
