@@ -176,6 +176,7 @@ function GroupModal(props) {
                 width: '100%',
                 padding: theme.spacing.s,
               }}
+              testID="ctaJoinGroup"
             >
               <>
                 <Flex

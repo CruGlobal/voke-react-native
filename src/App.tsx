@@ -190,7 +190,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
             paddingTop: insets.top,
           },
           title: '',
-          headerLeft: () => <HeaderLeft hasBack testID="AdventureStepScreen" />,
+          headerLeft: () => <HeaderLeft hasBack testID="AdventureStepScreenHeader" />,
           headerRight: undefined,
         }}
       />

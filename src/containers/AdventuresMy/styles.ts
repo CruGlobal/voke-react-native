@@ -1,44 +1,46 @@
-import { css } from '@emotion/native';
-import theme from '../../theme';
-import ui from '../../ui';
+import { StyleSheet } from 'react-native';
 
-const styles: { [key: string]: any } = {
-  ...ui,
-  AdventuresList: css`
-    width: 100%;
-    height: 100%;
-    background-color: ${theme.colors.primary};
-    padding-top: ${`${theme.spacing.s}px`};
-    padding-left:${theme.spacing.m + 'px'};
-		padding-right:${theme.spacing.m + 'px'};
-  `,
-  AdventureActions: css`
-  margin-left:-12px;
-  `,
-  Heading: css`
-    color: ${theme.colors.secondary};
-    font-size: ${`${theme.fontSizes.m}px`};
-    font-family: ${theme.fonts.regular};
-    font-weight: 600;
-    text-transform: uppercase;
-    padding-top: ${`${theme.spacing.m}px`};
-    padding-bottom: ${`${theme.spacing.s}px`};
-    letter-spacing: .75;
-  `,
-  BotText: css`
-    color: ${theme.colors.white};
-    font-size: ${`${theme.fontSizes.xl}px`};
-    font-family: ${theme.fonts.regular};
-    text-align: center;
-  `,
-  BotImage: css`
-    margin-left: -30px;
-  `,
-  BotMessageTail: css`
-    margin-left: 30px;
-    margin-top: -10px;
-    transform: rotate(-90deg);
-  `,
-};
+import theme from '../../theme';
+
+const styles = StyleSheet.create({
+  AdventuresSreen: {
+    backgroundColor: theme.colors.primary,
+  },
+  AdventuresList: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: theme.colors.primary,
+    paddingTop: theme.spacing.s,
+    paddingLeft: theme.spacing.m,
+    paddingRight: theme.spacing.m,
+  },
+  AdventureActions: {
+    marginLeft: -12,
+  },
+  Heading: {
+    color: theme.colors.secondary,
+    fontSize: theme.fontSizes.m,
+    fontFamily: theme.fonts.regular,
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    paddingTop: theme.spacing.m,
+    paddingBottom: theme.spacing.s,
+    letterSpacing: 0.75,
+  },
+  BotText: {
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.xl,
+    fontFamily: theme.fonts.regular,
+    textAlign: 'center',
+  },
+  BotImage: {
+    marginLeft: -30,
+  },
+  BotMessageTail: {
+    marginLeft: 30,
+    marginTop: -10,
+    transform: [{ rotate: '-90deg' }],
+  },
+});
 
 export default styles;

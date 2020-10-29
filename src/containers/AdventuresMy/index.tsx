@@ -67,7 +67,7 @@ const AdventuresMy = ({ route }: AdventuresMyProps): React.ReactElement => {
   );
 
   return (
-    <>
+    <View style={styles.AdventuresScreen}>
       <NotificationBanner />
       <ScrollView
         style={styles.AdventuresList}
@@ -94,7 +94,7 @@ const AdventuresMy = ({ route }: AdventuresMyProps): React.ReactElement => {
         )}
         <View style={{ height: 120 }} />
       </ScrollView>
-    </>
+    </View>
   );
 };
 

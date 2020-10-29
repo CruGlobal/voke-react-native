@@ -15,7 +15,7 @@
     "detox:build:ios": "detox build --configuration ios",
     "detox:test:android": "detox test --configuration android.emu.debug",
     "detox:test:ios": "detox test --configuration ios",
-    "detox:test:singlefile": "detox test --configuration ios -f /e2e/adventureGroupManual.e2e.js",
+    "detox:test:singlefile": "detox test --configuration ios -f /e2e/adventureGroupDaily.e2e.js",
     "detox:test:reuse": "detox test  --reuse --configuration ios",
     "detox:test:withlogs": "detox test --loglevel verbose --configuration ios",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",

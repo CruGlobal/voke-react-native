@@ -203,6 +203,7 @@ const GroupReleaseDate = (props): React.ReactElement => {
                     onChange={(newTime: string): void => {
                       setTime(newTime);
                     }}
+                    testID="datePickerModal"
                   />
                   <Text style={styles.textResult}>
                     {t('videoUnlockSchedule') +
@@ -244,7 +245,7 @@ const GroupReleaseDate = (props): React.ReactElement => {
                 onPress={handleContinue}
                 touchableStyle={styles.button}
                 isLoading={isLoading}
-                testID={'ctaReleaseManualContinue'}
+                testID={'ctaReleaseContinue'}
               >
                 <Text style={styles.buttonLabel}>{t('continue')}</Text>
               </OldButton>

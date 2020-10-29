@@ -50,6 +50,7 @@ function AdventureManage({
   const allMessages = store.getState().data.adventureStepMessages;
   const { adventureId } = route.params;
 
+  
   const adventure = useSelector(
     ({ data }: { data: TDataState }) =>
       data.myAdventures?.byId[adventureId] || {},

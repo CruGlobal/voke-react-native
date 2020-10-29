@@ -70,6 +70,7 @@ function Menu(props) {
             onSelect={() =>
               navigation.navigate('AccountCreate', { shouldMerge: true })
             }
+            testID={'menuCreateAccount'}
           />
         )}
         {!email && (
