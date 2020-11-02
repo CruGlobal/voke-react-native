@@ -128,7 +128,7 @@ const Welcome = (props: WelcomeProps) => {
               onPress={(): void => navigation.navigate('AccountName')}
               testID={'ctaExplore'}
               size="l"
-              color="empty"
+              color="blank"
             >
               {t('toExplore')}
             </Button>

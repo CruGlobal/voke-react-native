@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import { Dimensions, Platform, View } from 'react-native';
 type Props = {
-  size?: 's' | 'm' | 'l';
+  size?: 's' | 'm' | 'l' | 'xl' | 'xxl';
   [x: string]: any;
 };
 

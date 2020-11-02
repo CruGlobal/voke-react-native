@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.primary,
   },
   primaryContent: {
-    alignItems: 'center', // Horizontal.
     justifyContent: 'center', // Vertical.
     flexGrow: 1,
     width: '100%',

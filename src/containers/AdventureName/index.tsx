@@ -51,7 +51,7 @@ function AdventureName(props: any): ReactElement {
   const email = useSelector(({ auth }: any) => auth?.user?.email);
 
   const modalizeRef = useRef<Modalize>(null);
-  const contentRef = useRef(null);
+  const contentRef = useRef<React.RefObject<ScrollView>>(null);
   const tabsHeightRef = useRef(null);
   const [tabsHeight, setTabsHeight] = useState(0);
 
