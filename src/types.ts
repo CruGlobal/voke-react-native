@@ -171,7 +171,7 @@ export type TMessage = {
   };
 };
 
-export type TDataState {
+export interface TDataState {
   dataChangeTracker: {
     notifications: number;
     myAdventures: number;
@@ -183,20 +183,35 @@ export type TDataState {
     featuredVideos: number;
     favoriteVideos: number;
   };
-  notifications: any;
+  notifications: [object];
   notificationPagination: { hasMore: boolean; page: number };
-  notificationUnreadBadge: number,
+  notificationUnreadBadge: number;
   unReadBadgeCount: number;
-  availableAdventures: any;
-  myAdventures: any;
-  adventureInvitations: { byId: any; allIds: any };
-  adventureSteps: any;
-  adventureStepMessages: any;
-  allVideos: any;
-  featuredVideos: any;
-  popularVideos: any;
-  favoriteVideos: any;
-  searchVideos: any;
-  videoTags: any;
-  videoPagination: any;
+  availableAdventures: [object];
+  myAdventures: {
+    byId: { [key: string]: TAdventureSingle } | {};
+    allIds: [string] | [];
+  };
+  adventureInvitations: {
+    byId: { [key: string]: object } | {};
+    allIds: [number] | [];
+  };
+  adventureSteps: { [key: string]: object } | {};
+  adventureStepMessages: { [key: string]: object } | {};
+  allVideos: { byId: { [key: string]: object } | {}; allIds: [number] | [] };
+  featuredVideos: {
+    byId: { [key: string]: object } | {};
+    allIds: [number] | [];
+  };
+  popularVideos: {
+    byId: { [key: string]: object } | {};
+    allIds: [number] | [];
+  };
+  favoriteVideos: {
+    byId: { [key: string]: object } | {};
+    allIds: [number] | [];
+  };
+  searchVideos: { byId: { [key: string]: object } | {}; allIds: [number] | [] };
+  videoTags: [];
+  videoPagination: { [key: string]: object } | {};
 }

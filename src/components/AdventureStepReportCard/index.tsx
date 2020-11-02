@@ -232,6 +232,7 @@ Props): React.ReactElement {
                   style={{
                     height: '100%',
                   }}
+                  scrollIndicatorInsets={{ right: 1 }}
                 >
                   <FlatList
                     data={step.active_messengers}

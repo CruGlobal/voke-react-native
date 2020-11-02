@@ -1,17 +1,18 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import {createWebSocketMiddleware} from './actions/socket';
-import createRootReducer from './reducers';
 import { persistStore, getStoredState } from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
 import FilesystemStorage from 'redux-persist-filesystem-storage';
 import { Platform } from 'react-native';
+
+import createRootReducer from './reducers';
+import { createWebSocketMiddleware } from './actions/socket';
 import { REDUX_ACTIONS } from './constants';
 
 const reduxLog = store => next => action => {
   // console.log( 'REDUX: ' + action?.description, action)
-  return next(action)
-}
+  return next(action);
+};
 
 const persistedReducer = createRootReducer();
 const enhancers = [];
@@ -26,29 +27,29 @@ const composedEnhancers = composeEnhancers(
 );
 
 // Get store data from Persist Redux store V4
-const getOldData = async() => {
-    try {
-      let oldData = {};
-      let oldStore;
+const getOldData = async () => {
+  try {
+    let oldData = {};
+    let oldStore;
 
-      if ( Platform.OS === 'android' ) {
-        // Need to check if key exists first. Otherwise get error: File not found.
-        const allStoreKeys = await FilesystemStorage.getAllKeys();
-        if ( allStoreKeys.length && allStoreKeys.includes('reduxPersist:auth') ) {
-          oldStore = await FilesystemStorage.getItem('reduxPersist:auth');
-        }
-      } else {
-        // In iOS we don't need to verify key existence.
-        oldStore =  await AsyncStorage.getItem('reduxPersist:auth');
+    if (Platform.OS === 'android') {
+      // Need to check if key exists first. Otherwise get error: File not found.
+      const allStoreKeys = await FilesystemStorage.getAllKeys();
+      if (allStoreKeys.length && allStoreKeys.includes('reduxPersist:auth')) {
+        oldStore = await FilesystemStorage.getItem('reduxPersist:auth');
       }
-      if (oldStore) {
-        oldData = JSON.parse(oldStore);
-      }
-      return oldData;
-    } catch (error) {
-      console.log( "🛑 Persist migration error:", error );
+    } else {
+      // In iOS we don't need to verify key existence.
+      oldStore = await AsyncStorage.getItem('reduxPersist:auth');
     }
-}
+    if (oldStore) {
+      oldData = JSON.parse(oldStore);
+    }
+    return oldData;
+  } catch (error) {
+    console.log('🛑 Persist migration error:', error);
+  }
+};
 
 function configureStore(initialState) {
   const store = createStore(
@@ -57,15 +58,16 @@ function configureStore(initialState) {
     composedEnhancers,
   );
 
-  return { store, persistor: persistStore(
+  return {
     store,
-    null,
-    async (fsError, fsResult) => {
+    persistor: persistStore(store, null, async (fsError, fsResult) => {
       const oldStore = await getOldData();
       const auth = store.getState()?.auth;
-      if ((!auth?.isLoggedIn || !auth?.user?.id) &&
+      if (
+        (!auth?.isLoggedIn || !auth?.user?.id) &&
         oldStore?.isLoggedIn &&
-        oldStore?.user?.id ) {
+        oldStore?.user?.id
+      ) {
         await store.dispatch({
           type: REDUX_ACTIONS.SET_USER,
           user: {
@@ -74,7 +76,7 @@ function configureStore(initialState) {
             first_name: oldStore?.user?.first_name,
             last_name: oldStore?.user?.last_name,
             access_token: {
-              access_token:  oldStore?.token,
+              access_token: oldStore?.token,
             },
             language: {
               language_code: oldStore?.user?.language?.language_code,
@@ -84,8 +86,8 @@ function configureStore(initialState) {
           },
         });
       }
-    }
-    ) };
+    }),
+  };
 }
 
 export default configureStore;

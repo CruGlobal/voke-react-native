@@ -50,7 +50,9 @@ const TouchableAndroid = forwardRef(
           activeOpacity={0.6}
           style={style}
           {...rest}
-          onPress={()=>{handlePress()}}
+          onPress={() => {
+            handlePress();
+          }}
         >
           {children}
         </TouchableOpacity>
@@ -77,7 +79,9 @@ const TouchableAndroid = forwardRef(
         ref={ref}
         accessibilityTraits="button"
         background={background}
-        onPress={()=>{handlePress()}}
+        onPress={() => {
+          handlePress();
+        }}
         {...rest}
       >
         {content}

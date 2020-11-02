@@ -171,6 +171,7 @@ function AdventureActive({
           backgroundColor: theme.colors.primary,
           paddingBottom: insets.bottom,
         }}
+        scrollIndicatorInsets={{ right: 1 }}
       >
         {/* <Flex value={1} direction="row" align="center" justify="center" style={{padding:5}}>
           <Text style={[st.fs18,{ color:'white'}]}>

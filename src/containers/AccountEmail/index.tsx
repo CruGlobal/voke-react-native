@@ -142,6 +142,7 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
           justifyContent: 'space-evenly',
           minHeight: isKeyboardVisible ? 'auto' : '100%',
         }}
+        scrollIndicatorInsets={{ right: 1 }}
       >
         <DismissKeyboardView
           style={{

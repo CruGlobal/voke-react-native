@@ -308,6 +308,7 @@ const AdventureStepScreenRender = ({
           // ☝️required to fix the bug with a need to double tap
           // on the send message icon.
           removeClippedSubviews={true}
+          scrollIndicatorInsets={{ right: 1 }}
           testID="AdventureStepScreen"
         >
           <DismissKeyboardView
