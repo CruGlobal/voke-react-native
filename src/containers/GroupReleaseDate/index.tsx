@@ -231,7 +231,7 @@ const GroupReleaseDate = (props): React.ReactElement => {
                     </Touchable>
                   )}
                   <Text style={styles.releaseDue}>
-                    {'( ' + t('firstRelease') + ' ' + moment().to(date) + ' )'}
+                    {'( ' + t('nextRelease') + ' ' + moment().to(date) + ' )'}
                   </Text>
                 </>
               )}
