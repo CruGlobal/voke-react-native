@@ -441,15 +441,23 @@ export function data(state = initialState, action: any): TDataState {
 
       const newItems = action.result.results.items || [];
       newVideos = {
-        byId: {
-          ...existingVideos.byId,
-          ...normalizedVideos.entities.byId,
-        },
-        allIds: lodash.union(
-          [],
-          existingVideos.allIds,
-          normalizedVideos.result,
-        ),
+        byId:
+          newPagination.page === 1 // Override data if it's page 1.
+            ? normalizedVideos.entities.byId
+            : {
+                // Add data it it's page 2+
+                ...existingVideos.byId,
+                ...normalizedVideos.entities.byId,
+              },
+        allIds:
+          newPagination.page === 1
+            ? normalizedVideos.result
+            : [...existingVideos.allIds, ...normalizedVideos.result],
+        /*  lodash.union(
+              [],
+              existingVideos.allIds,
+              normalizedVideos.result,
+            ), */
       };
       return {
         ...state,
