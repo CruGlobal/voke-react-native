@@ -34,113 +34,124 @@ function formatDuration(seconds) {
   return ret;
 }
 
-function VideoItem({ id = null, category = 'allVideos' }) {
-  if (!id) return <></>;
-  const navigation = useNavigation();
-  const { t } = useTranslation('videos');
-  const video = useSelector(({ data }: any) => data[category].byId[id]) || {};
-  if (Object.keys(video).length === 0) return <></>;
-  const thumbnail = ((video.media || {}).thumbnails || {}).large || undefined;
-  const description = (video.description || '').replace(/^\s+|\s+$/g, '');
-  const window = useWindowDimensions();
-  const THUMBNAIL_HEIGHT = ((window.width - 20) * 1) / 2;
+interface Props {
+  id: string;
+  category: string;
+}
 
-  function handleShare() {
-    navigation.navigate('AdventureName', {
-      item: video,
-      withGroup: false,
-      isVideoInvite: true,
-    });
-  }
-  return (
-    <Touchable
-      highlight={false}
-      activeOpacity={0.8}
-      onPress={() => navigation.navigate('VideoDetails', { item: video })}
-    >
-      <Flex
-        style={[st.bgWhite, st.mv5, st.mh5]}
-        direction="column"
-        align="start"
-        justify="center"
-        animation="slideInUp"
+const VideoItem = React.memo(
+  ({ id, category = 'allVideos' }: Props) => {
+    const navigation = useNavigation();
+    const { t } = useTranslation('videos');
+    const window = useWindowDimensions();
+    const video =
+      useSelector(({ data }: any) => data[category]?.byId[id]) || {};
+
+    if (!video?.id) return <></>;
+
+    const thumbnail = ((video.media || {}).thumbnails || {}).large || undefined;
+    const description = (video.description || '').replace(/^\s+|\s+$/g, '');
+    const THUMBNAIL_HEIGHT = ((window.width - 20) * 1) / 2;
+
+    function handleShare() {
+      navigation.navigate('AdventureName', {
+        item: video,
+        withGroup: false,
+        isVideoInvite: true,
+      });
+    }
+    return (
+      <Touchable
+        highlight={false}
+        activeOpacity={0.8}
+        onPress={() => navigation.navigate('VideoDetails', { item: video })}
       >
-        <ImageBackground
-          resizeMode="cover"
-          source={{ uri: thumbnail }}
-          style={[
-            st.aic,
-            st.jcc,
-            st.h(THUMBNAIL_HEIGHT),
-            st.w(window.width - 20),
-            st.bgBlack,
-          ]}
-        >
-          <VokeIcon
-            name="play-full"
-            size={64}
-            style={[st.bgTransparent, st.white]}
-          />
-          <Flex
-            direction="row"
-            align="center"
-            justify="center"
-            style={[
-              st.h(20),
-              st.w100,
-              st.absblr,
-              { backgroundColor: 'rgba(0,0,0,0.6)' },
-            ]}
-          >
-            <Flex value={1} align="start">
-              <Text style={[st.fs10, st.white, st.ph5]}>
-                {formatDuration(video.media.duration)}
-              </Text>
-            </Flex>
-            <Flex value={2} align="end">
-              <Text
-                numberOfLines={1}
-                style={[st.fs10, st.white, st.ph5, { paddingRight: 100 }]}
-              >
-                {t('shares', { total: video.shares })}
-              </Text>
-            </Flex>
-          </Flex>
-        </ImageBackground>
         <Flex
+          style={[st.bgWhite, st.mv5, st.mh5]}
           direction="column"
           align="start"
-          justify="start"
-          style={[st.h(100), st.p5, st.w100]}
+          justify="center"
+          animation="slideInUp"
         >
-          <OldButton
-            type="transparent"
-            isAndroidOpacity
-            onPress={handleShare}
-            activeOpacity={0.6}
-            touchableStyle={[st.abs, st.mh5, { right: 15, top: -35 }]}
+          <ImageBackground
+            resizeMode="cover"
+            source={{ uri: thumbnail }}
+            style={[
+              st.aic,
+              st.jcc,
+              st.h(THUMBNAIL_HEIGHT),
+              st.w(window.width - 20),
+              st.bgBlack,
+            ]}
           >
             <VokeIcon
-              type="image"
-              name="to-chat"
-              style={{
-                width: 50,
-                height: 50,
-                borderRadius: 25,
-                color: theme.colors.white,
-              }}
+              name="play-full"
+              size={64}
+              style={[st.bgTransparent, st.white]}
             />
-          </OldButton>
-          <Text numberOfLines={1} style={[st.blue, st.fs20]}>
-            {video.name}
-          </Text>
-          <Text numberOfLines={2} style={[st.black, st.fs16]}>
-            {description}
-          </Text>
+            <Flex
+              direction="row"
+              align="center"
+              justify="center"
+              style={[
+                st.h(20),
+                st.w100,
+                st.absblr,
+                { backgroundColor: 'rgba(0,0,0,0.6)' },
+              ]}
+            >
+              <Flex value={1} align="start">
+                <Text style={[st.fs10, st.white, st.ph5]}>
+                  {formatDuration(video.media.duration)}
+                </Text>
+              </Flex>
+              <Flex value={2} align="end">
+                <Text
+                  numberOfLines={1}
+                  style={[st.fs10, st.white, st.ph5, { paddingRight: 100 }]}
+                >
+                  {t('shares', { total: video.shares })}
+                </Text>
+              </Flex>
+            </Flex>
+          </ImageBackground>
+          <Flex
+            direction="column"
+            align="start"
+            justify="start"
+            style={[st.h(100), st.p5, st.w100]}
+          >
+            <OldButton
+              type="transparent"
+              isAndroidOpacity
+              onPress={handleShare}
+              activeOpacity={0.6}
+              touchableStyle={[st.abs, st.mh5, { right: 15, top: -35 }]}
+            >
+              <VokeIcon
+                type="image"
+                name="to-chat"
+                style={{
+                  width: 50,
+                  height: 50,
+                  borderRadius: 25,
+                  color: theme.colors.white,
+                }}
+              />
+            </OldButton>
+            <Text numberOfLines={1} style={[st.blue, st.fs20]}>
+              {video.name}
+            </Text>
+            <Text numberOfLines={2} style={[st.black, st.fs16]}>
+              {description}
+            </Text>
+          </Flex>
         </Flex>
-      </Flex>
-    </Touchable>
-  );
-}
+      </Touchable>
+    );
+  },
+  // Rerender only if id of the video changed.
+  (prevProps, nextProps) => prevProps.id === nextProps.id,
+);
 
 export default VideoItem;
