@@ -53,6 +53,9 @@ const NotificationBanner = (): React.ReactElement => {
             timing: { duration: 300 },
           }}
           withOverlay={false}
+          rootStyle={{
+            elevation: 5, // need it here to solve issue with button shadow.
+          }}
           modalStyle={{
             backgroundColor: 'rgba(0,0,0,.85)',
             minHeight: '105%',

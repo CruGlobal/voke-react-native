@@ -145,6 +145,9 @@ export default function CustomModal(props: any): React.ReactElement {
       onClose={() => {
         setModalOpen(false);
       }}
+      rootStyle={{
+        elevation: 5, // need it here to solve issue with button shadow.
+      }}
       modalStyle={{
         backgroundColor: theme.colors.primary,
       }}

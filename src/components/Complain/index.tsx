@@ -77,7 +77,9 @@ const Complain = () => {
         onClose={() => {
           clearComplain();
         }}
-        rootStyle={styles.rootStyle}
+        rootStyle={{
+          elevation: 5, // need it here to solve issue with button shadow.
+        }}
         modalStyle={styles.modalStyle}
         childrenStyle={styles.childrenStyle}
         adjustToContentHeight={true}

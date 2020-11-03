@@ -211,7 +211,10 @@ Props): React.ReactElement {
             openAnimationConfig={{
               timing: { duration: 300 },
             }}
-            onClose={() => {}}
+            onClose={() => { }}
+            rootStyle={{
+              elevation: 5, // need it here to solve issue with button shadow.
+            }}
             modalStyle={{
               backgroundColor: theme.colors.white,
             }}

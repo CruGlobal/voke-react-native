@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
 
   buttonStylingSolid: {
-    ...ui.button.style.solid,
+    // ...ui.button.style.solid,
   },
 
   buttonStylingOutline: {
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   // COLORS:
 
   buttonColorPrimary: {
-    ...ui.button.style.primary,
+    backgroundColor: theme.colors.primary,
   },
 
   buttonColorBlank: {
@@ -60,6 +60,10 @@ const styles = StyleSheet.create({
   },
 
   // TEXT COLORS:
+
+  textColorPrimary: {
+    color: theme.colors.white,
+  },
 
   textColorSecondary: {
     color: theme.colors.secondary,
@@ -82,7 +86,7 @@ const styles = StyleSheet.create({
   },
 
   textColorSolid: {
-    color: theme.colors.secondary,
+    // color: theme.colors.secondary,
   },
 
   iconColorSolid: {
@@ -101,7 +105,7 @@ const styles = StyleSheet.create({
   },
   buttonSizeL: {
     paddingVertical: theme.spacing.m,
-    paddingHorizontal: theme.spacing.l * 1.25,
+    paddingHorizontal: theme.spacing.l,
     borderRadius: theme.radius.xxl,
   },
 

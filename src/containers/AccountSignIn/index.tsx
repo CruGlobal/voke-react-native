@@ -185,7 +185,7 @@ const AccountSignIn: FunctionComponent<Props> = ({
               onBlur={formik.handleBlur('email')}
               onFocus={(): void => {
                 if (
-                  Platform.OS === 'ios' &&
+                  // Platform.OS === 'ios' &&
                   parentScroll?.current &&
                   scrollTo
                 ) {
@@ -195,7 +195,7 @@ const AccountSignIn: FunctionComponent<Props> = ({
                     if (parentScroll?.current) {
                       parentScroll?.current
                         // ?.getScrollResponder() - Is causing TypeScript error.
-                        .scrollTo({ x: 0, y: scrollTo, animated: true });
+                        .scrollTo({ x: 0, y: scrollTo + 30, animated: true });
                     }
                   }, 400);
                 }
