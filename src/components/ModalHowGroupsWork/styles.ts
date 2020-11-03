@@ -62,6 +62,8 @@ const styles = StyleSheet.create({
     elevation: 2,
     shadowRadius: 3,
     shadowOffset: { width: 1, height: 5 },
+    maxWidth: 130,
+    height: 230,
   },
 });
 

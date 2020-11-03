@@ -9,11 +9,12 @@ import st from '../../st'; // TODO: use new styles here.
 // so just extend it with our one custom property 'label'.
 interface CustomProps extends TextInputProps {
   label: string;
+  error?: string;
 }
 
 const TextField = forwardRef(
   // TODO: try to find an appropriate type for ref: any?
-  ({ label, placeholder, value, ...restProps }: CustomProps, ref: any) => {
+  ({ label, placeholder, value, error, ...restProps }: CustomProps, ref: any) => {
 
   const [focused, setFocused] = useState(false);
 
@@ -81,7 +82,7 @@ const TextField = forwardRef(
             fontSize: theme.fontSizes.s,
             alignSelf: 'center',
           }}
-        >{restProps?.error}</Text>
+        >{error}</Text>
       </View>
     </Flex>
   )}

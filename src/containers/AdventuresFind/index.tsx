@@ -11,7 +11,7 @@ import theme from '../../theme';
 
 const AdventuresFind = (): React.ReactElement => {
   const availableAdventures = useSelector(
-    ({ data }: RootState) => data.availableAdventures
+    ({ data }: RootState) => data.availableAdventures,
   );
   const [adventures, setAdventures] = useState(availableAdventures);
   const dispatch = useDispatch();
@@ -27,8 +27,8 @@ const AdventuresFind = (): React.ReactElement => {
   }, [availableAdventures]);
 
   return (
-    <ScrollView style={[st.f1, st.bgBlue]}>
-      <AdventuresActions style={[st.mr3]}/>
+    <ScrollView style={[st.f1, st.bgBlue]} scrollIndicatorInsets={{ right: 1 }}>
+      <AdventuresActions style={[st.mr3]} />
       <FlatList
         renderItem={(props): React.ReactElement => (
           <AvailableAdventureItem {...props} />
@@ -37,7 +37,7 @@ const AdventuresFind = (): React.ReactElement => {
         style={{ width: '100%' }}
       />
       {/* Extra spacing for bottom navigation tabs */}
-      <View style={{height:120}}></View>
+      <View style={{ height: 120 }}></View>
     </ScrollView>
   );
 };

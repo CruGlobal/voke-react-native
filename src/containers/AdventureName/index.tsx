@@ -51,7 +51,7 @@ function AdventureName(props: any): ReactElement {
   const email = useSelector(({ auth }: any) => auth?.user?.email);
 
   const modalizeRef = useRef<Modalize>(null);
-  const contentRef = useRef(null);
+  const contentRef = useRef<React.RefObject<ScrollView>>(null);
   const tabsHeightRef = useRef(null);
   const [tabsHeight, setTabsHeight] = useState(0);
 
@@ -219,7 +219,7 @@ function AdventureName(props: any): ReactElement {
             borderRadius: theme.radius.xxl,
             shadowColor: 'rgba(0, 0, 0, 0.5)',
             shadowOpacity: 0.5,
-            elevation: 4,
+            elevation: 3,
             shadowRadius: 5,
             shadowOffset: { width: 1, height: 8 },
             width: '100%',
@@ -243,6 +243,9 @@ function AdventureName(props: any): ReactElement {
           timing: { duration: 300 },
         }}
         onClose={() => setModalOpen(false)}
+        rootStyle={{
+          elevation: 5, // need it here to solve issue with button shadow.
+        }}
         modalStyle={{
           backgroundColor: theme.colors.primary,
         }}

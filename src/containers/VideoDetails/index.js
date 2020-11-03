@@ -60,7 +60,11 @@ function VideoDetails(props) {
             backgroundColor="transparent" // Android. The background color of the status bar.
           />
         </View>
-        <ScrollView bounces={true} scrollEnabled={isPortrait ? true : false}>
+        <ScrollView
+          bounces={true}
+          scrollEnabled={isPortrait ? true : false}
+          scrollIndicatorInsets={{ right: 1 }}
+        >
           {/* This View stays outside of the screen on top
             and covers blue area with solid black on pull. */}
           <View
@@ -100,9 +104,12 @@ function VideoDetails(props) {
                 { paddingBottom: insets.bottom + 25 },
               ]}
             >
-              <OldButton
-                 style={
-                  isFavorited ? styles.buttonLikeActive : styles.buttonLikeInactive}
+              {/* <OldButton
+                style={
+                  isFavorited
+                    ? styles.buttonLikeActive
+                    : styles.buttonLikeInactive
+                }
                 onPress={handleFavorite}
               >
                 <VokeIcon
@@ -110,7 +117,7 @@ function VideoDetails(props) {
                   style={[st.bgTransparent, st.white]}
                   size={20}
                 />
-              </OldButton>
+              </OldButton> */}
               <Text style={[st.blue, st.fs20, st.semi]}>{item.name}</Text>
               <Text style={[st.darkGrey, st.fs14, st.mb7]}>
                 {t('shares', { total: item.shares })}

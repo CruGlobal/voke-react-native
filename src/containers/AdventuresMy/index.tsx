@@ -26,8 +26,9 @@ type AdventuresMyProps = {
 const AdventuresMy = ({ route }: AdventuresMyProps): React.ReactElement => {
   const dispatch = useDispatch();
   const myAdventuresIds =
-    useSelector(({ data }: { data: TDataState }) => data.myAdventures?.allIds) ||
-    [];
+    useSelector(
+      ({ data }: { data: TDataState }) => data.myAdventures?.allIds,
+    ) || [];
   const invitationsIds =
     useSelector(
       ({ data }: { data: TDataState }) => data.adventureInvitations?.allIds,
@@ -66,9 +67,12 @@ const AdventuresMy = ({ route }: AdventuresMyProps): React.ReactElement => {
   );
 
   return (
-    <>
+    <View style={styles.AdventuresScreen}>
       <NotificationBanner />
-      <ScrollView style={styles.AdventuresList}>
+      <ScrollView
+        style={styles.AdventuresList}
+        scrollIndicatorInsets={{ right: 1 }}
+      >
         <View style={styles.AdventureActions}>
           <AdventuresActions />
         </View>
@@ -90,7 +94,7 @@ const AdventuresMy = ({ route }: AdventuresMyProps): React.ReactElement => {
         )}
         <View style={{ height: 120 }} />
       </ScrollView>
-    </>
+    </View>
   );
 };
 

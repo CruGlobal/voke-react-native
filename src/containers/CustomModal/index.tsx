@@ -31,7 +31,12 @@ export default function CustomModal(props: any): React.ReactElement {
   // const { modalId, primaryAction } = props.route.params;
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const { modalId, primaryAction, modalTopOffset = 140, onClose = ()=>{} } = props;
+  const {
+    modalId,
+    primaryAction,
+    modalTopOffset = 140,
+    onClose = () => {},
+  } = props;
   // Current user tutorial mode status stored in
   // store.info.groupTutorialCount
   const { duoTutorialCount, groupTutorialCount, tutorialMode } = useSelector(
@@ -135,17 +140,22 @@ export default function CustomModal(props: any): React.ReactElement {
       modalTopOffset={140}
       handlePosition={'inside'}
       openAnimationConfig={{
-        timing: { duration: 300 }
+        timing: { duration: 300 },
       }}
-      onClose={() => {setModalOpen(false); }}
+      onClose={() => {
+        setModalOpen(false);
+      }}
+      rootStyle={{
+        elevation: 5, // need it here to solve issue with button shadow.
+      }}
       modalStyle={{
-        backgroundColor: theme.colors.primary
+        backgroundColor: theme.colors.primary,
       }}
     >
       <View>
         {/* // HOW DUO and GROUP WORKS */}
         {(modalId === 'howDuoWorks' || modalId === 'howGroupsWork') && (
-          <ScrollView bounces={false}>
+          <ScrollView bounces={false} scrollIndicatorInsets={{ right: 1 }}>
             <Flex
               style={{ justifyContent: 'space-between', width: '100%' }}
               direction="column"
@@ -408,7 +418,7 @@ export default function CustomModal(props: any): React.ReactElement {
           </ScrollView>
         )}
         {modalId === 'howSharingWorks' && (
-          <ScrollView bounces={false}>
+          <ScrollView bounces={false} scrollIndicatorInsets={{ right: 1 }}>
             <Flex
               style={{ justifyContent: 'space-between', width: '100%' }}
               direction="column"
@@ -573,80 +583,79 @@ export default function CustomModal(props: any): React.ReactElement {
             </Flex>
           </ScrollView>
         )}
-        {modalId === 'notifications' && pushNotificationPermission !== 'granted' && (
-          <Flex
-            style={{ justifyContent: 'space-between', width: '100%' }}
-            direction="column"
-            align="center"
-          >
-            <BotTalking type="reverse">
-              {t('overlays:playUkulele', { name: me.firstName })}
-            </BotTalking>
-            <OldButton
-              isAndroidOpacity
-              style={[
-                {
-                  backgroundColor: theme.colors.primary,
-                  borderRadius: 8,
-                  paddingHorizontal: theme.spacing.m,
-                  paddingVertical: theme.spacing.m,
-                  width: 250,
-                  marginBottom: 10,
-                  marginTop: 10,
-                },
-              ]}
-              onPress={() => {
-                // toggleModal();
-                return dispatch(requestPremissions());
-              }}
-              testID={'ctaAllowNotifications'}
+        {modalId === 'notifications' &&
+          pushNotificationPermission !== 'granted' && (
+            <Flex
+              style={{ justifyContent: 'space-between', width: '100%' }}
+              direction="column"
+              align="center"
             >
-              <Text
-                style={{
-                  color: theme.colors.white,
-                  fontSize: 18,
-                  textAlign: 'center',
+              <BotTalking type="reverse">
+                {t('overlays:playUkulele', { name: me.firstName })}
+              </BotTalking>
+              <OldButton
+                isAndroidOpacity
+                style={[
+                  {
+                    backgroundColor: theme.colors.primary,
+                    borderRadius: 8,
+                    paddingHorizontal: theme.spacing.m,
+                    paddingVertical: theme.spacing.m,
+                    width: 250,
+                    marginBottom: 10,
+                    marginTop: 10,
+                  },
+                ]}
+                onPress={() => {
+                  // toggleModal();
+                  return dispatch(requestPremissions());
                 }}
+                testID={'ctaAllowNotifications'}
               >
-                {t('allowNotifications')}
-              </Text>
-            </OldButton>
+                <Text
+                  style={{
+                    color: theme.colors.white,
+                    fontSize: 18,
+                    textAlign: 'center',
+                  }}
+                >
+                  {t('allowNotifications')}
+                </Text>
+              </OldButton>
 
-            <OldButton
-              isAndroidOpacity
-              style={[
-                {
-                  alignSelf: 'flex-end',
-                  alignContent: 'center',
-                  borderColor: theme.colors.white,
-                  borderWidth: 1,
-                  borderRadius: 8,
-                  paddingHorizontal: theme.spacing.m,
-                  paddingVertical: theme.spacing.m,
-                  width: 250,
-                  marginBottom: 10,
-                  marginTop: 10,
-                },
-              ]}
-              onPress={
-                () => {
+              <OldButton
+                isAndroidOpacity
+                style={[
+                  {
+                    alignSelf: 'flex-end',
+                    alignContent: 'center',
+                    borderColor: theme.colors.white,
+                    borderWidth: 1,
+                    borderRadius: 8,
+                    paddingHorizontal: theme.spacing.m,
+                    paddingVertical: theme.spacing.m,
+                    width: 250,
+                    marginBottom: 10,
+                    marginTop: 10,
+                  },
+                ]}
+                onPress={() => {
                   onClose();
                   // props.navigation.popToTop()
-                }
-              }
-            >
-              <Text
-                style={{
-                  color: theme.colors.white,
-                  fontSize: 18,
-                  textAlign: 'center',
                 }}
               >
-                {t('noThanks')}
-              </Text>
-            </OldButton>
-          </Flex>
-        )}
+                <Text
+                  style={{
+                    color: theme.colors.white,
+                    fontSize: 18,
+                    textAlign: 'center',
+                  }}
+                >
+                  {t('noThanks')}
+                </Text>
+              </OldButton>
+            </Flex>
+          )}
       </View>
     </Modalize>
   );

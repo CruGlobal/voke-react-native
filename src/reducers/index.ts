@@ -1,10 +1,11 @@
 import { combineReducers } from 'redux';
-import { createMigrate, persistReducer } from 'redux-persist';
+import { persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
-import FilesystemStorage from 'redux-persist-filesystem-storage';
-import { Platform } from 'react-native';
+// import FilesystemStorage from 'redux-persist-filesystem-storage';
+// import { Platform } from 'react-native';
+
 import auth from './auth';
-import data from './data';
+import { data } from './data';
 import info from './info';
 
 // Migrate critical state data from old version of the store.
@@ -44,12 +45,15 @@ const persistConfig = {
 };
 
 const store = combineReducers({
-  auth: persistReducer({
-    key: 'auth',
-    version: 3,
-    storage: AsyncStorage,
-    // migrate: createMigrate(migrations, { debug: true }),
-  }, auth),
+  auth: persistReducer(
+    {
+      key: 'auth',
+      version: 3,
+      storage: AsyncStorage,
+      // migrate: createMigrate(migrations, { debug: true }),
+    },
+    auth,
+  ),
   data,
   info,
 });

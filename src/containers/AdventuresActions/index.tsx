@@ -32,6 +32,7 @@ function AdventuresActions() {
           st.mt6
         ]}
         onPress={() => navigation.navigate('AdventureCode')}
+        testID="ctaHaveCode"
       >
         <Flex direction="column" align="center" justify="center">
           <Text style={[st.white, st.fs18, {textDecorationLine:'underline'}]}>{t('adventureCodeHaveCode')}</Text>

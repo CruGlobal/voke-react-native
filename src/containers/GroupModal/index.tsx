@@ -29,13 +29,13 @@ function GroupModal(props) {
   // If no adventures in the local store at this point - we have a problem.
   const myAdventures = useSelector(({ data }) => data.myAdventures.byId);
   const adventure = myAdventures[adventureId];
-  if ( !adventure ) {
+  if (!adventure) {
     console.log('will redirect');
     // Backup plan: Redirect to My Adventures screen.
     navigation.reset({
-              index: 0,
-              routes: [{ name: 'LoggedInApp' }],
-            });
+      index: 0,
+      routes: [{ name: 'LoggedInApp' }],
+    });
     return <></>;
   }
   const allMessengers = adventure?.conversation?.messengers;
@@ -63,11 +63,21 @@ function GroupModal(props) {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      scrollIndicatorInsets={{ right: 1 }}
+    >
       <Flex style={[st.mb4]}>
         <Flex align="center" justify="center" style={styles.title}>
-          <Flex >
-            <Text style={[st.white, st.fs16, st.tac, {marginBottom: theme.spacing.s}]}>
+          <Flex>
+            <Text
+              style={[
+                st.white,
+                st.fs16,
+                st.tac,
+                { marginBottom: theme.spacing.s },
+              ]}
+            >
               {t('modal:welcomeTo')}
               {adventure.journey_invite.name || adventure.name || ''}!
             </Text>
@@ -139,7 +149,7 @@ function GroupModal(props) {
                   fontSize: theme.fontSizes.l,
                   paddingTop: 3,
                   color: theme.colors.white,
-                  textAlign:'center',
+                  textAlign: 'center',
                 }}
                 numberOfLines={1}
               >
@@ -166,6 +176,7 @@ function GroupModal(props) {
                 width: '100%',
                 padding: theme.spacing.s,
               }}
+              testID="ctaJoinGroup"
             >
               <>
                 <Flex

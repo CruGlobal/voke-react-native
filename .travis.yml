@@ -74,6 +74,7 @@ jobs:
 
     install:
     - npm install
+    - npx react-native-fix-image
     - echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
     - gem install bundler:2.1.4
     - (cd ios && bundler install)
@@ -105,6 +106,7 @@ jobs:
 
     install:
     - npm install
+    - npx react-native-fix-image
     - echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
     - gem install bundler:2.1.4
     - (cd ios && bundler install)

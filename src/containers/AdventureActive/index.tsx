@@ -18,10 +18,7 @@ import SkeletonContent from 'react-native-skeleton-content-nonexpo';
 import { getCurrentUserId } from '../../utils/get';
 import AdventureStepCard from '../../components/AdventureStepCard';
 import { setCurrentScreen } from '../../actions/info';
-import {
-  getMyAdventure,
-  interactionVideoPlay,
-} from '../../actions/requests';
+import { getMyAdventure, interactionVideoPlay } from '../../actions/requests';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import Video from '../../components/Video';
@@ -174,6 +171,7 @@ function AdventureActive({
           backgroundColor: theme.colors.primary,
           paddingBottom: insets.bottom,
         }}
+        scrollIndicatorInsets={{ right: 1 }}
       >
         {/* <Flex value={1} direction="row" align="center" justify="center" style={{padding:5}}>
           <Text style={[st.fs18,{ color:'white'}]}>

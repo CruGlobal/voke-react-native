@@ -101,7 +101,7 @@ const initialState: TDataState = {
   },
 };
 
-export default function (state = initialState, action: any) {
+export function data(state = initialState, action: any): TDataState {
   switch (action.type) {
     case REDUX_ACTIONS.SET_DATA: {
       // @ts-ignore
@@ -344,7 +344,7 @@ export default function (state = initialState, action: any) {
       const { adventureId } = action;
       // Don't increase unread messages counter if it's our own message.
       const messageCounterAdd = action?.ownMessage ? 0 : 1;
-      if  ( !adventureId || !adventureStepId ) {
+      if (!adventureId || !adventureStepId) {
         return state;
       }
 
@@ -441,15 +441,23 @@ export default function (state = initialState, action: any) {
 
       const newItems = action.result.results.items || [];
       newVideos = {
-        byId: {
-          ...existingVideos.byId,
-          ...normalizedVideos.entities.byId,
-        },
-        allIds: lodash.union(
-          [],
-          existingVideos.allIds,
-          normalizedVideos.result,
-        ),
+        byId:
+          newPagination.page === 1 // Override data if it's page 1.
+            ? normalizedVideos.entities.byId
+            : {
+                // Add data it it's page 2+
+                ...existingVideos.byId,
+                ...normalizedVideos.entities.byId,
+              },
+        allIds:
+          newPagination.page === 1
+            ? normalizedVideos.result
+            : [...existingVideos.allIds, ...normalizedVideos.result],
+        /*  lodash.union(
+              [],
+              existingVideos.allIds,
+              normalizedVideos.result,
+            ), */
       };
       return {
         ...state,

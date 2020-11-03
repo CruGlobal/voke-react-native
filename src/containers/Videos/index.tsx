@@ -2,23 +2,17 @@ import React, { useState, useRef, forwardRef, useEffect } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { useNavigation } from '@react-navigation/native';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import { useWindowDimensions, ScrollView, FlatList, View } from 'react-native';
+
 import { useMount, lockToPortrait } from '../../utils';
-import {
-  useWindowDimensions,
-  ScrollView,
-  FlatList,
-  View
-} from 'react-native';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import StatusBar from '../../components/StatusBar';
 import VokeIcon from '../../components/VokeIcon';
-
 import st from '../../st';
 import theme from '../../theme';
-
 import { getVideos } from '../../actions/requests';
 import VideoItem from '../../components/VideoItem';
 import OldButton from '../../components/OldButton';
@@ -29,13 +23,18 @@ function VideoList() {
   const { t } = useTranslation();
 
   const allVideos = useSelector(({ data }) => data.allVideos.allIds) || [];
-  const featuredVideos = useSelector(({ data }) => data.featuredVideos.allIds) || [];
-  const popularVideos = useSelector(({ data }) => data.popularVideos.allIds) || [];
-  const favoriteVideos = useSelector(({ data }) => data.favoriteVideos.allIds) || [];
-  const searchVideos = useSelector(({ data }) => data.searchVideos.allIds) || [];
+  const featuredVideos =
+    useSelector(({ data }) => data.featuredVideos.allIds) || [];
+  const popularVideos =
+    useSelector(({ data }) => data.popularVideos.allIds) || [];
+  const favoriteVideos =
+    useSelector(({ data }) => data.favoriteVideos.allIds) || [];
+  const searchVideos =
+    useSelector(({ data }) => data.searchVideos.allIds) || [];
+
   const videoPagination = useSelector(({ data }) => data.videoPagination) || [];
 
-  const [videos, setVideos] = useState( allVideos || [] );
+  const [videos, setVideos] = useState(allVideos || []);
 
   const [updatedPagination, setUpdatedPagination] = useState(videoPagination);
   const [isLoading, setIsLoading] = useState(false);
@@ -80,16 +79,16 @@ function VideoList() {
   useEffect(() => {
     switch (filterId) {
       case 'featuredVideos':
-         setVideos(featuredVideos);
+        setVideos(featuredVideos);
         break;
       case 'popularVideos':
-         setVideos(popularVideos);
+        setVideos(popularVideos);
         break;
       case 'favoriteVideos':
-         setVideos(favoriteVideos);
+        setVideos(favoriteVideos);
         break;
       case 'searchVideos':
-         setVideos(searchVideos);
+        setVideos(searchVideos);
         break;
       default:
         setVideos(allVideos);
@@ -98,6 +97,7 @@ function VideoList() {
   }, [allVideos, featuredVideos, popularVideos, favoriteVideos]);
 
   async function loadMore(resetToPageOne = false) {
+    console.log( "👺 loadMore!", {resetToPageOne}, updatedPagination );
     let page;
     const query = {};
 
@@ -107,6 +107,7 @@ function VideoList() {
     ) {
       return;
     }
+    console.log( "👺 loadMore! page:", page );
     page = updatedPagination[filterId].page + 1;
     query.page = page;
     if (resetToPageOne) {
@@ -174,14 +175,16 @@ function VideoList() {
       <FlatList
         initialNumToRender={4}
         data={videos}
-        renderItem={ props => <VideoItem key={props.item} id={props.item} category={filterId} />}
+        renderItem={props => (
+          <VideoItem key={props.item} id={props.item} category={filterId} />
+        )}
         getItemLayout={(data, index) => ({
           length: ITEM_HEIGHT,
           offset: ITEM_HEIGHT * index,
           index,
         })}
         style={[st.f1]}
-        contentContainerStyle={[st.mv5,{paddingBottom:120}]}
+        contentContainerStyle={[st.mv5, { paddingBottom: 120 }]}
         onRefresh={() => loadMore(true)}
         refreshing={isLoading}
         onEndReached={() => loadMore()}
@@ -208,8 +211,7 @@ function VideoList() {
                   title: t('popular'),
                 },
               ]}
-
-    /* 'Favorite', 'Search' */
+              /* 'Favorite', 'Search' */
               // data={['allVideos','featuredVideos','popularVideos' ]}
               // keyExtractor={item => item.id}
               renderItem={({ item, index, separators }) => (
@@ -244,7 +246,7 @@ function VideoList() {
                     <VokeIcon
                       name={item.id === 'favorite' ? 'heart' : 'search'}
                       size={22}
-                      style={{color: theme.colors.white}}
+                      style={{ color: theme.colors.white }}
                     />
                   ) : (
                     <Text style={[st.white, st.fs18]}>{item.title}</Text>
@@ -271,7 +273,7 @@ function ChannelList() {
   const dispatch = useDispatch();
   useMount(() => {});
   return (
-    <ScrollView style={[st.f1, st.bgBlue]}>
+    <ScrollView style={[st.f1, st.bgBlue]} scrollIndicatorInsets={{ right: 1 }}>
       <Text>NOTHING YET</Text>
     </ScrollView>
   );

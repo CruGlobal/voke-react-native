@@ -5,9 +5,7 @@ if (__DEV__) {
   const ReactRedux = require('react-redux');
   whyDidYouRender(React, {
     trackAllPureComponents: true,
-    trackExtraHooks: [
-      [ReactRedux, 'useSelector']
-    ]
+    trackExtraHooks: [[ReactRedux, 'useSelector']],
   });
   /* whyDidYouRender(React, {
     trackAllPureComponents: true,

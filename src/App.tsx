@@ -190,7 +190,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
             paddingTop: insets.top,
           },
           title: '',
-          headerLeft: () => <HeaderLeft hasBack testID="AdventureStepScreen" />,
+          headerLeft: () => <HeaderLeft hasBack testID="AdventureStepScreenHeader" />,
           headerRight: undefined,
         }}
       />
@@ -284,12 +284,10 @@ const NotificationStackScreens = () => {
   );
 };
 
-const LoggedInAppContainer = () => {
+const LoggedInAppContainer = ({ navigation, route }: any) => {
   const dispatch = useDispatch();
   const Tabs = createBottomTabNavigator();
-  const route = useRoute();
   const state = useNavigationState(state => state);
-  const routeName = state.routeNames[state.index];
   const { t } = useTranslation('title');
 
   // Handle iOS & Android appState changes.

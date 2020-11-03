@@ -154,6 +154,7 @@ function AdventureStepCard({
             <Flex
               align="center"
               style={styles.nextReleaseBlock}
+              testID="nextRelease"
             >
               {
                 <Text style={styles.nextReleaseText}>

@@ -30,6 +30,7 @@ function HeaderLeft({ hasBack = false, resetTo = '', testID }) {
         } else {
           navigation.reset({
             index: 0,
+            type: 'stack', // Required to make dynamic nav bar to work properly.
             routes: [{ name: resetTo }],
           });
         }
@@ -40,6 +41,7 @@ function HeaderLeft({ hasBack = false, resetTo = '', testID }) {
         } else {
           navigation.reset({
             index: 0,
+            type: 'stack', // Required to make dynamic nav bar to work properly.
             routes: [{ name: 'LoggedInApp' }],
           });
         }

@@ -77,6 +77,7 @@ const AccountProfile = (props: ProfileModalProps) => {
           alignContent: 'stretch',
           justifyContent: 'flex-end',
         }}
+        scrollIndicatorInsets={{ right: 1 }}
 
         testID={'screenProfile'}
       >

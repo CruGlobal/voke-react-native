@@ -133,11 +133,18 @@ const GroupReleaseDate = (props): React.ReactElement => {
           }),
         );
       }
+
       setIsLoading(false);
 
+      // Depending on what we are doing with the invite (update or create)
+      // we are getting the Adventure id in the different places.
       if (result?.messenger_journey_id) {
         navigation.navigate('AdventureManage', {
           adventureId: result.messenger_journey_id,
+        });
+      } else if (result?.id) {
+        navigation.navigate('AdventureManage', {
+          adventureId: result.id,
         });
       } else {
         Alert.alert('Failed to create a valid invite.', 'Please try again.');
@@ -169,6 +176,7 @@ const GroupReleaseDate = (props): React.ReactElement => {
       <ScrollView
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={styles.scrollView}
+        scrollIndicatorInsets={{ right: 1 }}
       >
         <DismissKeyboardView style={{ flex: 1 }}>
           <Flex style={styles.screen}>
@@ -202,6 +210,7 @@ const GroupReleaseDate = (props): React.ReactElement => {
                     onChange={(newTime: string): void => {
                       setTime(newTime);
                     }}
+                    testID="datePickerModal"
                   />
                   <Text style={styles.textResult}>
                     {t('videoUnlockSchedule') +
@@ -222,7 +231,7 @@ const GroupReleaseDate = (props): React.ReactElement => {
                     </Touchable>
                   )}
                   <Text style={styles.releaseDue}>
-                    {'( ' + t('firstRelease') + ' ' + moment().to(date) + ' )'}
+                    {'( ' + t('nextRelease') + ' ' + moment().to(date) + ' )'}
                   </Text>
                 </>
               )}
@@ -243,7 +252,7 @@ const GroupReleaseDate = (props): React.ReactElement => {
                 onPress={handleContinue}
                 touchableStyle={styles.button}
                 isLoading={isLoading}
-                testID={'ctaReleaseManualContinue'}
+                testID={'ctaReleaseContinue'}
               >
                 <Text style={styles.buttonLabel}>{t('continue')}</Text>
               </OldButton>

@@ -58,7 +58,7 @@ function Menu(props) {
 
   return (
     <Flex value={1} style={[st.bgWhite, { paddingBottom: insets.bottom }]}>
-      <ScrollView>
+      <ScrollView scrollIndicatorInsets={{ right: 1 }}>
         <SettingsRow
           title={t('title:profile')}
           onSelect={() => navigation.navigate('AccountProfile')}
@@ -70,6 +70,7 @@ function Menu(props) {
             onSelect={() =>
               navigation.navigate('AccountCreate', { shouldMerge: true })
             }
+            testID={'menuCreateAccount'}
           />
         )}
         {!email && (

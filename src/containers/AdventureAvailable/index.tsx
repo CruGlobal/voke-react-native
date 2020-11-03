@@ -175,7 +175,11 @@ function AdventureAvailable(props): React.ReactElement {
         </Flex>
       </Video>
       {isPortrait && (
-        <ScrollView bounces={false} style={{ paddingBottom: insets.bottom }}>
+        <ScrollView
+          bounces={false}
+          style={{ paddingBottom: insets.bottom }}
+          scrollIndicatorInsets={{ right: 1 }}
+        >
           <Flex style={[st.pd3]}>
             <Text style={[st.fs2, st.blue]}>{item.name}</Text>
             <Text style={[st.pt5, st.charcoal]}>
@@ -251,6 +255,9 @@ function AdventureAvailable(props): React.ReactElement {
             timing: { duration: 300 },
           }}
           withOverlay={false}
+          rootStyle={{
+            elevation: 5, // need it here to solve issue with button shadow.
+          }}
           modalStyle={{
             backgroundColor: 'rgba(0,0,0,.85)',
             minHeight: '100%',

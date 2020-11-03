@@ -77,7 +77,9 @@ const Complain = () => {
         onClose={() => {
           clearComplain();
         }}
-        rootStyle={styles.rootStyle}
+        rootStyle={{
+          elevation: 5, // need it here to solve issue with button shadow.
+        }}
         modalStyle={styles.modalStyle}
         childrenStyle={styles.childrenStyle}
         adjustToContentHeight={true}
@@ -107,10 +109,7 @@ const Complain = () => {
         {isAndroid ? (
           <View style={styles.modalBlurAndroid} />
         ) : (
-          <BlurView
-            blurType="xlight"
-            style={styles.modalBlur}
-          />
+          <BlurView blurType="xlight" style={styles.modalBlur} />
         )}
         <View style={styles.modalContent}>
           <View style={styles.modalHeader}>
@@ -121,7 +120,10 @@ const Complain = () => {
           {!complainSubmited ? (
             <>
               <Text style={styles.causeTitle}>{t('introText')}</Text>
-              <ScrollView style={styles.causeOptions}>
+              <ScrollView
+                style={styles.causeOptions}
+                scrollIndicatorInsets={{ right: 1 }}
+              >
                 <OldButton
                   onPress={() => {
                     sendComplain(t('bullying'));
@@ -154,7 +156,10 @@ const Complain = () => {
               </ScrollView>
             </>
           ) : (
-            <ScrollView style={styles.complainConfirmation}>
+            <ScrollView
+              style={styles.complainConfirmation}
+              scrollIndicatorInsets={{ right: 1 }}
+            >
               <VokeIcon
                 name="check_circle"
                 style={styles.complainConfirmationIcon}
@@ -167,8 +172,7 @@ const Complain = () => {
           )}
           <View style={styles.modalFooter}>
             <Text style={styles.modalFooterText}>
-              {t('reportingFooter')}
-              {' '}
+              {t('reportingFooter')}{' '}
               <Text
                 style={styles.modalFooterHighlight}
                 onPress={(): void => Linking.openURL(CONSTANTS.WEB_URLS.TERMS)}
