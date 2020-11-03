@@ -4,24 +4,24 @@ import { Platform, Dimensions } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
-
 const theme: {
   window: {
-    [key: string]: number
-  },
+    [key: string]: number;
+  };
   colors: {
-    [key: string]: string
-  },
+    [key: string]: string;
+  };
   spacing: {
-    [key: string]: number
-  },
+    [key: string]: number;
+  };
   fontSizes: {
-    [key: string]: number
-  },
+    [key: string]: number;
+  };
   radius: {
-    [key: string]: number
-  },
-  [key: string]: {[key: string]: string | number}
+    [key: string]: number;
+  };
+  fonts: { [key: string]: string | undefined };
+  [key: string]: { [key: string]: string | number };
 } = {
   window: {
     width: width,
@@ -73,7 +73,7 @@ const theme: {
     xxxxl: 50,
   },
   spacing: {
-    xxs:2,
+    xxs: 2,
     xs: 4,
     s: 8,
     m: 16,
@@ -91,7 +91,7 @@ const theme: {
     xl: 18,
     xxl: 88,
   },
- /*  dimensions: {
+  /*  dimensions: {
     fullWidth: screenWidth,
     fullHeight: screenHeight,
   }, */

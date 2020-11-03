@@ -59,6 +59,7 @@ Props): React.ReactElement {
     ({ data }: RootState) =>
       data.adventureSteps[adventureId]?.byId[stepId] || {},
   );
+
   /*  const step = useSelector(
     ({ data }: RootState) =>
       data.adventureSteps[adventureId].byId[step.id] || {},
@@ -72,8 +73,6 @@ Props): React.ReactElement {
     step.active_messengers = garduatedUsers;
     step.position = '99'; // position required for testID!
   }
-
-  // console.log('🦕 step:', step);
 
   useEffect(() => {
     setIsManual(!adventure?.gating_period);
