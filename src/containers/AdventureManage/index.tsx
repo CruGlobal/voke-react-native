@@ -201,9 +201,9 @@ function AdventureManage({
         </Flex>
         <ReportedMessages adventureId={adventureId} />
         <View style={styles.footer}>
-          <Touchable>
+          {/* <Touchable>
             <Text style={styles.groupDelete}>{t('deleteGroup')}</Text>
-          </Touchable>
+          </Touchable> */}
           <Text style={styles.startedDate}>
             Started on: {new Date(adventure.created_at).toDateString()}
           </Text>

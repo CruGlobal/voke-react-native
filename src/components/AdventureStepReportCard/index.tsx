@@ -109,23 +109,23 @@ Props): React.ReactElement {
 
   const unlockNextStep = async adventureId => {
     const results = await dispatch(unlockNextAdventureStep(adventureId));
-    console.log( "🐷 results:", results );
     if (results?.id) {
-    // TODO: when we have results refetch adventure to have UI updated.
+      // TODO: when we have results refetch adventure to have UI updated.
       activeStepRef.current = activeStepRef.current + 1;
       step.locked = false;
       setIsNext(false);
-    // setTimeout(() => {
+      // setTimeout(() => {
       // Don't do that. We are getting WebSocket with unlock action.
       // dispatch(getAdventureSteps(adventureId));
       // dispatch(getMyAdventure(adventureId));
-    // }, 1000);
+      // }, 1000);
     }
   };
 
-  console.log( "🐸 step?.position:", step, step?.position );
-
-  if ( !adventure?.id || stepId === 'graduated' && !step.active_messengers.length) {
+  if (
+    !adventure?.id ||
+    (stepId === 'graduated' && !step.active_messengers.length)
+  ) {
     return <></>;
   } else {
     return (
@@ -143,7 +143,7 @@ Props): React.ReactElement {
                 : 'card'
             ]
           }
-          testID={ !!step?.position ? 'stepPart-'+step.position : ''}
+          testID={step?.position ? 'stepPart-' + step.position : ''}
         >
           <Flex align="center" justify="start">
             <Flex value={1} direction="row" self="start">
@@ -181,7 +181,7 @@ Props): React.ReactElement {
                     name={'lock'}
                     size={20}
                     style={styles.actionLocked}
-                    testID={ !!step?.position ? 'lockedPart-'+step.position : ''}
+                    testID={step?.position ? 'lockedPart-' + step.position : ''}
                   />
                 ) : (
                   <Text
@@ -191,7 +191,9 @@ Props): React.ReactElement {
                         : styles.actionText
                     }
                     onPress={() => modalizeRef.current?.open()}
-                    testID={ !!step?.position ? 'allMembersPart-'+step.position : ''}
+                    testID={
+                      step?.position ? 'allMembersPart-' + step.position : ''
+                    }
                   >
                     {t('seeAllMembers') +
                       ' (' +

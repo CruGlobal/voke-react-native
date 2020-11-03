@@ -104,7 +104,7 @@ function VideoDetails(props) {
                 { paddingBottom: insets.bottom + 25 },
               ]}
             >
-              <OldButton
+              {/* <OldButton
                 style={
                   isFavorited
                     ? styles.buttonLikeActive
@@ -117,7 +117,7 @@ function VideoDetails(props) {
                   style={[st.bgTransparent, st.white]}
                   size={20}
                 />
-              </OldButton>
+              </OldButton> */}
               <Text style={[st.blue, st.fs20, st.semi]}>{item.name}</Text>
               <Text style={[st.darkGrey, st.fs14, st.mb7]}>
                 {t('shares', { total: item.shares })}

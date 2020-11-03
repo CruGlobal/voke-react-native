@@ -4,16 +4,15 @@ import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { useMount, lockToPortrait } from '../../utils';
 import { useWindowDimensions, ScrollView, FlatList, View } from 'react-native';
+
+import { useMount, lockToPortrait } from '../../utils';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import StatusBar from '../../components/StatusBar';
 import VokeIcon from '../../components/VokeIcon';
-
 import st from '../../st';
 import theme from '../../theme';
-
 import { getVideos } from '../../actions/requests';
 import VideoItem from '../../components/VideoItem';
 import OldButton from '../../components/OldButton';
@@ -32,6 +31,7 @@ function VideoList() {
     useSelector(({ data }) => data.favoriteVideos.allIds) || [];
   const searchVideos =
     useSelector(({ data }) => data.searchVideos.allIds) || [];
+
   const videoPagination = useSelector(({ data }) => data.videoPagination) || [];
 
   const [videos, setVideos] = useState(allVideos || []);
@@ -97,6 +97,7 @@ function VideoList() {
   }, [allVideos, featuredVideos, popularVideos, favoriteVideos]);
 
   async function loadMore(resetToPageOne = false) {
+    console.log( "👺 loadMore!", {resetToPageOne}, updatedPagination );
     let page;
     const query = {};
 
@@ -106,6 +107,7 @@ function VideoList() {
     ) {
       return;
     }
+    console.log( "👺 loadMore! page:", page );
     page = updatedPagination[filterId].page + 1;
     query.page = page;
     if (resetToPageOne) {
