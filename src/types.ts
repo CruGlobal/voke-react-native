@@ -28,7 +28,7 @@ type TImage = {
   large: string;
 };
 
-type TMessenger = {
+export type TMessenger = {
   id: string;
   first_name: string;
   last_name: string;
@@ -36,29 +36,69 @@ type TMessenger = {
   avatar: TImage;
 };
 
+export interface TUser {
+  id: string;
+  email?: string | undefined;
+  firstName?: string | undefined;
+  lastName?: string | undefined;
+  avatar?: TImage | undefined;
+}
+
 export type TStep = {
   id: string;
   name: string;
   position: number;
   status: string;
+  locked: boolean;
   item: {
     content: {
       thumbnails: TImage;
     };
   };
+  active_messengers: {
+    id: string;
+    first_name: string;
+    last_name: string;
+    avatar: TImage;
+  }[];
   // eslint-disable-next-line camelcase
   unread_messages: number;
   'completed_by_messenger?': boolean;
 };
 
+// Typing for single Adventure from availableAdventure.
+export type TAvailableAdventure = {
+  id: string;
+  name: string;
+  slogan: string;
+  description: string;
+  total_steps: number;
+  total_shares: number;
+  organization: {
+    id: string;
+    name: string;
+  };
+  language: {
+    id: string;
+    name: string;
+  };
+  item: TVideoItem;
+  image: TImage;
+  icon: TImage;
+  created_at: string;
+  updated_at: string;
+};
+
 // Typing for single Adventure from myAdventures.
 export type TAdventureSingle = {
   id: string;
-  status: 'active' | 'completed';
+  status: 'active' | 'completed' | 'canceled';
   kind: 'duo' | 'solo' | 'multiple';
   name: string;
   slogan: string;
   description: string;
+  gating_period: number;
+  gating_start_at: string;
   journey_invite: {
     id: string;
     name: string;
@@ -66,29 +106,29 @@ export type TAdventureSingle = {
   };
   conversation: {
     id: string;
-    unread_messages: number;
     messengers: TMessenger[];
-    progress: {
-      total: number;
-      completed: number;
-      pending: number;
-    };
-    organization_journey_id: string;
-    organization: {
-      id: string;
-      name: string;
-    };
-    language: {
-      id: string;
-      name: string;
-    };
-    // Video Trailer:
-    item: TVideoItem;
-    image: TImage;
-    icon: TImage;
-    created_at: string;
-    updated_at: string;
+    unread_messages: number;
   };
+  progress: {
+    total: number;
+    completed: number;
+    pending: number;
+  };
+  organization_journey_id: string;
+  organization: {
+    id: string;
+    name: string;
+  };
+  language: {
+    id: string;
+    name: string;
+  };
+  // Video Trailer:
+  item: TVideoItem;
+  image: TImage;
+  icon: TImage;
+  created_at: string;
+  updated_at: string;
 };
 
 // Typing for myAdventures.
@@ -148,7 +188,10 @@ export type TMessage = {
   metadata?: {
     created_at: string;
     step_kind: string;
-    answers: any;
+    answers: {
+      key: string;
+      value: number;
+    }[];
     question: string;
     vokebot_action: string;
     messenger_journey_step_id: string;
@@ -183,35 +226,40 @@ export interface TDataState {
     featuredVideos: number;
     favoriteVideos: number;
   };
-  notifications: [object];
+  notifications: object[];
   notificationPagination: { hasMore: boolean; page: number };
   notificationUnreadBadge: number;
   unReadBadgeCount: number;
-  availableAdventures: [object];
+  availableAdventures: TAvailableAdventure[];
   myAdventures: {
     byId: { [key: string]: TAdventureSingle } | {};
     allIds: [string] | [];
   };
   adventureInvitations: {
     byId: { [key: string]: object } | {};
-    allIds: [number] | [];
+    allIds: [string] | [];
   };
-  adventureSteps: { [key: string]: object } | {};
+  adventureSteps: {
+    [key: string]: {
+      byId: { [key: string]: object } | {};
+      allIds: [string] | [];
+    };
+  };
   adventureStepMessages: { [key: string]: object } | {};
-  allVideos: { byId: { [key: string]: object } | {}; allIds: [number] | [] };
+  allVideos: { byId: { [key: string]: object } | {}; allIds: [string] | [] };
   featuredVideos: {
     byId: { [key: string]: object } | {};
-    allIds: [number] | [];
+    allIds: [string] | [];
   };
   popularVideos: {
     byId: { [key: string]: object } | {};
-    allIds: [number] | [];
+    allIds: [string] | [];
   };
   favoriteVideos: {
     byId: { [key: string]: object } | {};
-    allIds: [number] | [];
+    allIds: [string] | [];
   };
-  searchVideos: { byId: { [key: string]: object } | {}; allIds: [number] | [] };
+  searchVideos: { byId: { [key: string]: object } | {}; allIds: [string] | [] };
   videoTags: [];
   videoPagination: { [key: string]: object } | {};
 }

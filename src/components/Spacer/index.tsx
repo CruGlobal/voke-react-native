@@ -1,5 +1,5 @@
-import React, { ReactElement, useEffect, useState } from 'react';
-import { Dimensions, Platform, View } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
 type Props = {
   size?: 's' | 'm' | 'l' | 'xl' | 'xxl';
   [x: string]: any;
@@ -7,17 +7,15 @@ type Props = {
 
 import theme from '../../theme';
 
-const Spacer = ({
-  size = 'm',
-  ...rest
-}: Props): React.ReactElement => {
+const Spacer = ({ size = 'm', ...rest }: Props): React.ReactElement => {
   return (
     <View
       style={{
-        minHeight: theme.spacing[size]
+        minHeight: theme.spacing[size],
       }}
+      {...rest}
     />
   );
-}
+};
 
 export default Spacer;

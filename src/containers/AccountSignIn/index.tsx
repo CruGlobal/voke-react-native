@@ -75,7 +75,7 @@ const AccountSignIn: FunctionComponent<Props> = ({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       await dispatch(userLogin(formik.values.email, formik.values.password));
       setIsLoading(false);
-      if (onComplete) {
+      if (layout === 'embed') {
         onComplete();
       } else {
         navigation.navigate('LoggedInApp');

@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
     paddingTop: theme.spacing.m,
     paddingBottom: theme.spacing.s,
     paddingLeft: theme.spacing.m,
+    paddingRight: theme.spacing.xs,
     width: '100%',
   },
   title: {
@@ -38,8 +39,16 @@ const styles = StyleSheet.create({
   },
   iconDeleteWrapper: {
     position: 'absolute',
-    right: 2,
-    top: 4,
+    right: 0,
+    top: 0,
+    padding: theme.spacing.s,
+  },
+  unreadBubble: {
+    borderRadius: theme.radius.xxl,
+    backgroundColor: theme.colors.accent,
+    marginRight: theme.spacing.s,
+    paddingVertical: theme.spacing.xs,
+    paddingHorizontal: theme.spacing.s,
   },
   iconUnread: {
     color: theme.colors.white,
@@ -85,10 +94,15 @@ const styles = StyleSheet.create({
 
     marginLeft: -12,
   },
+  completedLine: {
+    color: theme.colors.darkGrey,
+    fontSize: theme.fontSizes.s,
+  },
   solotag: {
     color: theme.colors.white,
     fontSize: theme.fontSizes.s,
-    padding: theme.spacing.xxs,
+    paddingVertical: theme.spacing.xxs,
+    paddingHorizontal: theme.spacing.s,
     backgroundColor: theme.colors.secondaryAlt,
     marginBottom: '-5%',
     marginRight: 10,
@@ -96,7 +110,8 @@ const styles = StyleSheet.create({
   duotag: {
     color: theme.colors.white,
     fontSize: theme.fontSizes.s,
-    padding: theme.spacing.xxs,
+    paddingVertical: theme.spacing.xxs,
+    paddingHorizontal: theme.spacing.s,
     backgroundColor: theme.colors.secondary,
     marginBottom: '-5%',
     marginRight: 10,
@@ -104,7 +119,8 @@ const styles = StyleSheet.create({
   grouptag: {
     color: theme.colors.white,
     fontSize: theme.fontSizes.s,
-    padding: theme.spacing.xxs,
+    paddingVertical: theme.spacing.xxs,
+    paddingHorizontal: theme.spacing.s,
     backgroundColor: '#EC5569',
     marginBottom: '-5%',
     marginRight: 10,

@@ -1,34 +1,46 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  useMemo,
-  useRef,
-} from 'react';
-import { useSafeArea, SafeAreaView } from 'react-native-safe-area-context';
-import { View, ScrollView, FlatList } from 'react-native';
-import { useDispatch, useSelector, shallowEqual, useStore } from 'react-redux';
+/* eslint-disable camelcase */
+import React, { useEffect, useRef } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, ScrollView, FlatList, Alert } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
+import { useFocusEffect } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
 
 import {
   getMyAdventure,
-  getAdventureSummary,
   getAdventureSteps,
+  deleteAdventure,
+  getMyAdventures,
 } from '../../actions/requests';
 import AdventureStepReportCard from '../../components/AdventureStepReportCard';
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
-import { TDataState } from '../../types';
+import { TAdventureSingle, TDataState, TUser } from '../../types';
 import Touchable from '../../components/Touchable';
 import HeaderSpacer from '../../components/HeaderSpacer';
+import { RootState } from '../../reducers';
 
 import ManageMembers from './ManageMembers';
 import ReportedMessages from './ReportedMessages';
 import styles from './styles';
 
+type RootStackParamList = {
+  AdventureMange: { adventureId: string };
+  GroupReleaseType: {
+    groupName: string;
+    itemId: string;
+    releaseSchedule: string;
+    releaseDate: string;
+    editing: boolean;
+    adventureId: string;
+  };
+  // Feed: { sort: 'latest' | 'top' } | undefined;
+};
+
 type AdventureManageProps = {
-  navigation: any;
+  navigation: StackNavigationProp<RootStackParamList, 'AdventureMange'>;
   route: {
     name: string;
     params: {
@@ -37,23 +49,35 @@ type AdventureManageProps = {
   };
 };
 
+const gatingType = (
+  gatingPeriod: number,
+): 'weekly' | 'daily' | 'manual' | '' => {
+  if (gatingPeriod === 7) {
+    return 'weekly';
+  } else if (gatingPeriod === 1) {
+    return 'daily';
+  } else if (gatingPeriod === 0) {
+    return 'manual';
+  }
+
+  return '';
+};
+
 function AdventureManage({
   navigation,
   route,
 }: AdventureManageProps): React.ReactElement {
   const activeStepRef = useRef(0);
   const { t } = useTranslation('manageGroup');
-  const insets = useSafeArea();
   const dispatch = useDispatch();
-  const store = useStore();
-  const me = useSelector(({ auth }) => auth.user);
-  const allMessages = store.getState().data.adventureStepMessages;
+  const me: TUser = useSelector(({ auth }: RootState) => auth.user);
   const { adventureId } = route.params;
 
-  
-  const adventure = useSelector(
+  const adventure: TAdventureSingle = useSelector(
     ({ data }: { data: TDataState }) =>
-      data.myAdventures?.byId[adventureId] || {},
+      data.myAdventures?.byId[
+        adventureId as keyof TDataState['myAdventures']['byId']
+      ] || {},
   );
 
   const stepsListIds =
@@ -70,42 +94,10 @@ function AdventureManage({
     // Without it new Adventures won't show any steps.
   }, [adventureId, stepsListIds.length, dispatch]);
 
-  // const [steps, setSteps] = useState([]);
-
-  // const updateSteps = async () => {
-  //   const result = await dispatch(getAdventureSteps(adventureId));
-  //   if (result?.steps.length) {
-  //     // Pseudo-step for graduated users.
-  //     result?.steps.push({
-  //       id: 'graduated',
-  //       active_messengers: [],
-  //     });
-  //     setSteps(result?.steps);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (adventureId) {
-  //     updateSteps();
-  //   }
-  // }, [adventureId]);
-
   const messengers = adventure?.conversation?.messengers || [];
 
   const gatingStartAt = adventure?.gating_start_at;
   const gatingPeriod = adventure?.gating_period;
-
-  const gatingType = (gatingPeriod: number) => {
-    if (gatingPeriod === 7) {
-      return 'weekly';
-    } else if (gatingPeriod === 1) {
-      return 'daily';
-    } else if (gatingPeriod === 0) {
-      return 'manual';
-    }
-
-    return '';
-  };
   const gatingStart = adventure?.gating_start_at;
   const inviteCode = adventure?.journey_invite?.code;
 
@@ -121,10 +113,39 @@ function AdventureManage({
     navigation.setOptions({
       title: adventure?.journey_invite?.name || '',
     });
-    // Pull latest udpates for this adventure from the server
-    // on the first render.
-    dispatch(getMyAdventure(adventureId));
-  }, []);
+  }, [adventure, navigation]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      // When the screen is focused:
+      // Pull latest udpates for this adventure from the server.
+      dispatch(getMyAdventure(adventureId));
+    }, [dispatch, adventureId]),
+  );
+
+  const onDeleteAdventure = (advId: string): void => {
+    Alert.alert(t('journey:deleteTitle'), t('journey:unsubscribeBody'), [
+      {
+        text: t('cancel'),
+        onPress: (): void => {
+          // empty return.
+        },
+        style: 'cancel',
+      },
+      {
+        text: t('delete'),
+        onPress: async (): Promise<void> => {
+          await dispatch(deleteAdventure(advId));
+          dispatch(getMyAdventures());
+          return navigation.reset({
+            index: 0,
+            type: 'stack', // Required to make dynamic nav bar to work properly.
+            routes: [{ name: 'LoggedInApp' }],
+          });
+        },
+      },
+    ]);
+  };
 
   return (
     <ScrollView style={styles.screen} scrollIndicatorInsets={{ right: 1 }}>
@@ -150,7 +171,7 @@ function AdventureManage({
                   : '')}
               {
                 <Text
-                  onPress={() =>
+                  onPress={(): void =>
                     navigation.navigate('GroupReleaseType', {
                       groupName: adventure?.journey_invite?.name,
                       itemId: adventure.organization_journey_id,
@@ -182,14 +203,14 @@ function AdventureManage({
           <FlatList
             data={stepsListIds}
             renderItem={({ item }): React.ReactElement => {
-              return (
-                item && (
-                  <AdventureStepReportCard
-                    stepId={item}
-                    adventureId={adventureId}
-                    activeStepRef={activeStepRef}
-                  />
-                )
+              return item ? (
+                <AdventureStepReportCard
+                  stepId={item}
+                  adventureId={adventureId}
+                  activeStepRef={activeStepRef}
+                />
+              ) : (
+                <></>
               );
             }}
           />
@@ -201,14 +222,13 @@ function AdventureManage({
         </Flex>
         <ReportedMessages adventureId={adventureId} />
         <View style={styles.footer}>
-          {/* <Touchable>
+          <Touchable onPress={(): void => onDeleteAdventure(adventureId)}>
             <Text style={styles.groupDelete}>{t('deleteGroup')}</Text>
-          </Touchable> */}
+          </Touchable>
           <Text style={styles.startedDate}>
             Started on: {new Date(adventure.created_at).toDateString()}
           </Text>
         </View>
-        <Flex value={1} style={{ paddingBottom: insets.bottom }} />
       </SafeAreaView>
     </ScrollView>
   );

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { REDUX_ACTIONS } from '../constants';
+import { TUser } from '../types';
 import { exists } from '../utils';
 
 export type AuthDataKeys = 'device' | 'adventureInvitations';
@@ -10,17 +11,7 @@ interface InitialStateTypes {
   deviceId?: string; // Device ID returend by server after provided with Push Notfications Tocken.
   language?: string;
   device: object; // TODO: IDeviceInformation interface here
-  user: {
-    id: string;
-    email?: string;
-    firstName?: string;
-    lastName?: string;
-    avatar?: {
-      small?: string;
-      medium?: string;
-      large?: string;
-    };
-  };
+  user: TUser;
   modalProps: object; // TODO: IModalProps interface here
   ws?: object;
 }
@@ -35,6 +26,7 @@ const initialState: InitialStateTypes = {
     id: '',
   },
   user: {
+    id: '',
     firstName: '',
     lastName: '',
   },
@@ -78,7 +70,7 @@ export default function (
         isLoggedIn: true,
         authToken: action.user.access_token.access_token,
         language: action.user.language.language_code,
-        user:{
+        user: {
           id: action.user.id,
           email: action.user.email,
           firstName: action.user.first_name,
@@ -87,7 +79,7 @@ export default function (
           vokebotConversationId: action.user.vokebot_conversation_id,
           // beliefScale: action.user.belief_scale,
 
-         /*  pendingNotifications: action.user.pending_notifications,
+          /*  pendingNotifications: action.user.pending_notifications,
           pendingConversations: action.user.pending_conversations,
           pendingAdventures: action.user.pending_adventures, */
 
@@ -96,7 +88,7 @@ export default function (
           // state: action.user.state, - don't use it.
           // initials: action.user.initials, - don't use it.
           // presentAt: action.user.present_at,
-        }
+        },
       };
     case REDUX_ACTIONS.SET_DEVICE:
       return {

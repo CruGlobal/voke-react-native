@@ -23,6 +23,19 @@ const theme: {
   fonts: { [key: string]: string | undefined };
   [key: string]: { [key: string]: string | number };
 } = {
+  shadow: {
+    ...Platform.select({
+      ios: {
+        shadowOpacity: 0.35,
+        shadowOffset: { width: 1, height: 2 },
+        shadowColor: '#1d1d26',
+        shadowRadius: 1,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
+  },
   window: {
     width: width,
     height: height,
