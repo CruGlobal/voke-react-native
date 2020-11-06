@@ -18,7 +18,7 @@ import VokeIcon from '../VokeIcon';
 import styles from './styles';
 interface StylingProps {
   styling?: 'solid' | 'outline';
-  color?: 'primary' | 'secondary' | 'blank';
+  color?: 'primary' | 'secondary' | 'accent' | 'blank';
   size?: 's' | 'm' | 'l';
   shadow?: boolean;
 }
@@ -32,7 +32,7 @@ interface ButtonProps extends StylingProps {
   style?: StyleProp<ViewStyle>; // StyleSheet?
   touchableStyle?: StyleProp<ViewStyle>;
   activeOpacity?: number;
-  icon?: 'mail' | 'apple' | 'facebook';
+  icon?: 'mail' | 'apple' | 'facebook' | 'share';
   type?: string;
   text?: string;
   testID?: string;

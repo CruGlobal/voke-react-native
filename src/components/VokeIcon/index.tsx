@@ -1,6 +1,6 @@
 import React from 'react';
 import { createIconSetFromIcoMoon } from 'react-native-vector-icons';
-import { StyleProp, ImageStyle } from 'react-native';
+import { StyleProp, ImageStyle, TextStyle } from 'react-native';
 
 import { vokeImages } from '../../utils/iconMap';
 import icoMoonConfig from '../../utils/selection.json';
@@ -15,7 +15,7 @@ const CustomIcon = createIconSetFromIcoMoon(
 type VokeIconProps = {
   name: string;
   type?: string;
-  style: StyleProp<ImageStyle>;
+  style: StyleProp<ImageStyle | TextStyle>;
   [x: string]: any; // ..rest
 };
 

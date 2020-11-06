@@ -31,21 +31,16 @@ type StepReportProps = {
 };
 
 type Props = {
-  step: any;
+  stepId: string;
   adventureId: string;
   activeStepRef?: any;
-  // steps?: StepProps[];
-  // adventure?: TAdventureSingle;
 };
 
 function AdventureStepReportCard({
   stepId,
   adventureId,
   activeStepRef,
-}: // step,
-// steps,
-// adventure,
-Props): React.ReactElement {
+}: Props): React.ReactElement {
   const dispatch = useDispatch();
   const [isNext, setIsNext] = useState(false);
   const [isManual, setIsManual] = useState(false);
@@ -212,7 +207,7 @@ Props): React.ReactElement {
             openAnimationConfig={{
               timing: { duration: 300 },
             }}
-            onClose={() => { }}
+            onClose={() => {}}
             rootStyle={{
               elevation: 5, // need it here to solve issue with button shadow.
             }}

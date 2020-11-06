@@ -1,27 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector, shallowEqual, useStore } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { FlatList, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { FlatList } from 'react-native';
 import SkeletonContent from 'react-native-skeleton-content-nonexpo';
 
 import { RootState } from '../../reducers';
-import Image from '../Image';
-import Touchable from '../Touchable';
-import Flex from '../Flex';
-import Text from '../Text';
-import OldButton from '../OldButton';
-import VokeIcon from '../VokeIcon';
-import st from '../../st';
 import theme from '../../theme';
-import { TAdventureSingle, TStep, TDataState } from '../../types';
-import { getCurrentUserId } from '../../utils/get';
-import {
-  getMyAdventure,
-  getAdventureStepMessages,
-  getAdventureSteps,
-  interactionVideoPlay,
-} from '../../actions/requests';
+import { TDataState } from '../../types';
+import { getAdventureSteps } from '../../actions/requests';
 import AdventureStepCard from '../AdventureStepCard';
 
 import styles from './styles';
@@ -78,16 +63,12 @@ function AdventureStepsList(props: AdventureStepCardProps): React.ReactElement {
   const { adventureId } = props;
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  /*  const adventure = useSelector(
-    ({ data }: { data: TDataState }) =>
-      data.myAdventures?.byId[adventureId] || {},
-  ); */
-  // const stepsStruct = { byId: {}, allIds: [] };
   const stepsListIds =
     useSelector(
-      ({ data }: { data: TDataState }) =>
-        data.adventureSteps[adventureId]?.allIds,
-    ) || {};
+      ({ data }: RootState) =>
+        data.adventureSteps[adventureId as keyof TDataState['adventureSteps']]
+          ?.allIds,
+    ) || [];
 
   useEffect(() => {
     if (adventureId && !stepsListIds.length) {
@@ -107,7 +88,7 @@ function AdventureStepsList(props: AdventureStepCardProps): React.ReactElement {
     ({ item }): React.ReactElement => (
       <AdventureStepCard key={item} stepId={item} adventureId={adventureId} />
     ),
-    [],
+    [adventureId],
   );
 
   // Prefetch data for the next active step and the steps with new messages.
@@ -128,16 +109,18 @@ function AdventureStepsList(props: AdventureStepCardProps): React.ReactElement {
 
   return (
     <>
-      {loading && (<SkeletonContent
-        containerStyle={styles.listOfSteps}
-        isLoading={loading}
-        boneColor={theme.colors.secondaryAlt}
-        highlightColor={'rgb(71, 189, 217)'}
-        animationType={'pulse'}
-        animationDirection={'diagonalTopRight'}
-        duration={2000}
-        layout={sceletonLayout}
-      />)}
+      {loading && (
+        <SkeletonContent
+          containerStyle={styles.listOfSteps}
+          isLoading={loading}
+          boneColor={theme.colors.secondaryAlt}
+          highlightColor={'rgb(71, 189, 217)'}
+          animationType={'pulse'}
+          animationDirection={'diagonalTopRight'}
+          duration={2000}
+          layout={sceletonLayout}
+        />
+      )}
       {!loading && (
         <FlatList
           data={stepsListIds}

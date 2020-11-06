@@ -1,43 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { View, ScrollView, FlatList } from 'react-native';
-import { useMount } from '../../utils';
+
 import { RootState } from '../../reducers';
 import { getAvailableAdventures } from '../../actions/requests';
 import AvailableAdventureItem from '../../components/AvailableAdventureItem';
 import AdventuresActions from '../AdventuresActions';
-import st from '../../st';
 import theme from '../../theme';
 
 const AdventuresFind = (): React.ReactElement => {
   const availableAdventures = useSelector(
     ({ data }: RootState) => data.availableAdventures,
   );
-  const [adventures, setAdventures] = useState(availableAdventures);
+
   const dispatch = useDispatch();
 
-  useMount(() => {
+  useEffect(() => {
     if (availableAdventures.length === 0) {
       dispatch(getAvailableAdventures());
     }
-  });
-
-  useEffect(() => {
-    setAdventures(availableAdventures);
-  }, [availableAdventures]);
+  }, [availableAdventures.length, dispatch]);
 
   return (
-    <ScrollView style={[st.f1, st.bgBlue]} scrollIndicatorInsets={{ right: 1 }}>
-      <AdventuresActions style={[st.mr3]} />
+    <ScrollView
+      style={{
+        flex: 1,
+        backgroundColor: theme.colors.primary,
+      }}
+      scrollIndicatorInsets={{ right: 1 }}
+    >
+      {/* Block: Have Adventure Code? */}
+      <AdventuresActions />
       <FlatList
-        renderItem={(props): React.ReactElement => (
-          <AvailableAdventureItem {...props} />
-        )}
-        data={adventures}
+        renderItem={({ item }): React.ReactElement => {
+          return item?.id ? <AvailableAdventureItem {...item} /> : <></>;
+        }}
+        data={availableAdventures}
         style={{ width: '100%' }}
       />
       {/* Extra spacing for bottom navigation tabs */}
-      <View style={{ height: 120 }}></View>
+      <View style={{ height: 120 }} />
     </ScrollView>
   );
 };

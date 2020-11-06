@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useMemo } from 'react';
+/* eslint-disable camelcase */
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import moment from 'moment';
 
 import { RootState } from '../../reducers';
 import Image from '../Image';
@@ -17,12 +17,14 @@ import {
   getDiffToDate,
   getTimeToDate,
 } from '../../utils/get';
+import { TAdventureSingle, TDataState, TStep } from '../../types';
+import theme from '../../theme';
+import Spacer from '../Spacer';
 
 import styles from './styles';
 
 type StepProps = {
   status: string;
-  // eslint-disable-next-line camelcase
   unread_messages: number;
   'completed_by_messenger?': boolean;
 };
@@ -40,12 +42,17 @@ function AdventureStepCard({
   const { t } = useTranslation('journey');
   const navigation = useNavigation();
   const userId = getCurrentUserId();
-  const adventure = useSelector(
-    ({ data }: RootState) => data.myAdventures?.byId[adventureId] || {},
-  );
-  const step = useSelector(
+  const adventure: TAdventureSingle = useSelector(
     ({ data }: RootState) =>
-      data.adventureSteps[adventureId]?.byId[stepId] || {},
+      data.myAdventures?.byId[
+        adventureId as keyof TDataState['myAdventures']['byId']
+      ] || {},
+  );
+  const step: TStep = useSelector(
+    ({ data }: RootState) =>
+      data.adventureSteps[adventureId]?.byId[
+        stepId as keyof TDataState['adventureSteps'][typeof adventureId]['byId']
+      ] || {},
   );
 
   const [isActive, setIsActive] = useState(step?.status === 'active');
@@ -56,10 +63,7 @@ function AdventureStepCard({
   // const [isLocked, setIsLocked] = useState(!isCompleted && !isActive);
   const [isLocked, setIsLocked] = useState(true);
   const messengers = (adventure?.conversation || {}).messengers || [];
-  const thumbnail = useMemo(
-    () => step?.item?.content?.thumbnails?.medium || '',
-    [stepId],
-  );
+  const thumbnail = step?.item?.content?.thumbnails?.medium || '';
   // TODO: adventure can be undefined.
   const isSolo = adventure.kind !== 'duo' && adventure.kind !== 'multiple';
   const isGroup = adventure.kind === 'multiple';
@@ -73,7 +77,7 @@ function AdventureStepCard({
 
   const allMessengers = adventure?.conversation?.messengers || [];
   const isLeader =
-    allMessengers.find(m => m.group_leader && m.id == userId) || false;
+    allMessengers.find(m => m.group_leader && m.id === userId) || false;
 
   if (otherUser && otherUser.first_name) {
     invitedUserName = otherUser.first_name;
@@ -88,22 +92,25 @@ function AdventureStepCard({
       })
     : null;
 
-
   const nextReleaseIn = nextReleaseDate ? getDiffToDate(nextReleaseDate) : null;
   const nextReleaseTime = nextReleaseDate
     ? getTimeToDate(nextReleaseDate)
     : null;
 
   const printNextReleaseDate = ({
-    nextReleaseDate,
-    nextReleaseIn,
-    nextReleaseTime,
+    releaseDate,
+    releaseIn,
+    releaseTime,
+  }: {
+    releaseDate: moment.Moment | null;
+    releaseIn: string | null;
+    releaseTime: string | null;
   }): string => {
     let result = '';
-    if (nextReleaseDate) {
-      result = `${t('share:nextRelease')} ${nextReleaseIn} ${t(
+    if (releaseDate) {
+      result = `${t('share:nextRelease')} ${releaseIn} ${t(
         'at',
-      )} ${nextReleaseTime}`;
+      )} ${releaseTime}`;
     } else {
       result = t('share:leaderWillRelease');
     }
@@ -124,13 +131,13 @@ function AdventureStepCard({
     } else {
       setIsLocked(step.status !== 'completed' && step.status !== 'active');
     }
-  }, [step]);
+  }, [isGroup, step]);
 
   return (
     <Flex style={styles.stepWrapper}>
       <Touchable
         highlight={false}
-        disabled={isLocked && !isLeader}
+        disabled={isLocked && (isSolo || !isLeader)}
         activeOpacity={0.8}
         onPress={(): void =>
           navigation.navigate('AdventureStepScreen', {
@@ -139,14 +146,15 @@ function AdventureStepCard({
           })
         }
         style={styles.stepCard}
-        testID={ !!step?.position ? 'stepPart-'+step.position : ''}
+        testID={step?.position ? 'stepPart-' + step.position : ''}
       >
         <Flex
-          style={[
-            isActive ? st.bgWhite : st.bgOffBlue,
-            !isActive && isLocked ? st.op50 : null,
-            st.br5,
-          ]}
+          style={{
+            backgroundColor: isActive
+              ? theme.colors.white
+              : theme.colors.secondaryAlt,
+            opacity: !isActive && isLocked ? 0.6 : undefined,
+          }}
           align="center"
           justify="start"
         >
@@ -159,9 +167,9 @@ function AdventureStepCard({
               {
                 <Text style={styles.nextReleaseText}>
                   {printNextReleaseDate({
-                    nextReleaseDate,
-                    nextReleaseIn,
-                    nextReleaseTime,
+                    releaseDate: nextReleaseDate,
+                    releaseIn: nextReleaseIn,
+                    releaseTime: nextReleaseTime,
                   })}
                 </Text>
               }
@@ -199,26 +207,14 @@ function AdventureStepCard({
               </Text>
               {/* {isActive || isCompleted ? ( */}
               {/* UNREAD COUNTER */}
+              <Spacer size="s" />
               {step.unread_messages && !isSolo ? (
                 <Flex
                   direction="row"
                   align="center"
                   // justify="left"
                   self="start"
-                  style={[
-                    st.br2,
-                    st.bgOrange,
-                    st.mr4,
-                    st.mt5,
-                    st.p6,
-                    st.pl5,
-                    st.pr5,
-                    {
-                      // position: "absolute",
-                      // right: -2,
-                      // top: 0,
-                    },
-                  ]}
+                  style={styles.unreadBubble}
                 >
                   <VokeIcon
                     name="speech-bubble-full"
@@ -259,12 +255,9 @@ function AdventureStepCard({
             </Flex>
           </Flex>
           {isWaiting && messengers.length > 2 ? (
-            <Flex
-              align="center"
-              style={[st.bgOrange, st.w100, st.pd6, st.brbl5, st.brbr5]}
-            >
+            <Flex align="center" style={styles.waitingBlock}>
               {
-                <Text style={[st.fs4]}>
+                <Text style={styles.waitingText}>
                   {t('waitingForAnswer', { name: invitedUserName })}
                 </Text>
               }
@@ -273,19 +266,10 @@ function AdventureStepCard({
         </Flex>
       </Touchable>
       {isCompleted ? (
-        <Flex
-          style={[
-            st.abs,
-            st.top(-8),
-            st.right(-10),
-            st.bgDarkerBlue,
-            st.pd6,
-            st.br2,
-          ]}
-        >
+        <Flex style={styles.completedBlock}>
           <VokeIcon
             name="checkmark-outline"
-            size={16}
+            size={12}
             style={styles.iconCompleted}
           />
         </Flex>

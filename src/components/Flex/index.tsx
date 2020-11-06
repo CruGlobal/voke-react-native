@@ -11,6 +11,7 @@ type FlexProps = {
   wrap?: string,
   children?: React.ReactNode,
   style?: StyleProp<ViewStyle>,
+  [key: string]: any,
 }
 // export type Ref = string | null | void;
 // const Flex = React.forwardRef<Ref, FlexProps>(( props:FlexProps, ref) => {

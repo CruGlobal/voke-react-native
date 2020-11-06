@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  FunctionComponent,
+  ReactElement,
+} from 'react';
 import { View, Alert, Dimensions } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -11,105 +17,115 @@ import Text from '../Text';
 import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
 import { deleteAdventure, getMyAdventures } from '../../actions/requests';
+import { TAdventureSingle, TDataState } from '../../types';
+import { RootState } from '../../reducers';
 
 import ProgressDots from './ProgressDots';
 import styles from './styles';
 
-const THUMBNAIL_HEIGHT = 78;
+interface Props {
+  adventureId: string;
+  adventureItem: TAdventureSingle;
+}
 
-function AdventureCard({ adventureId }) {
-  const me = useSelector(({ auth }) => auth.user);
-  const adventureItem =
-    useSelector(({ data }) => data.myAdventures.byId[adventureId]) || null;
-  if (adventureItem == null) {
-    return <></>;
-  }
+const AdventureCardRender: FunctionComponent<Props> = ({
+  adventureId,
+  adventureItem,
+}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { t } = useTranslation('journey');
+  const { name, progress, conversation } = adventureItem;
 
-  const { conversation } = adventureItem;
-  const { progress } = adventureItem;
+  const available = progress.total;
+  const { completed } = progress;
+  const totalSteps = new Array(available).fill(1);
+
   const adventureImage = adventureItem?.item?.content?.thumbnails?.large;
   const thumbnail = useMemo(() => adventureImage || '', [adventureImage]);
   const [unreadCount, setUnreadCount] = useState(
     conversation.unread_messages || 0,
   );
   const hasUnread = unreadCount > 0;
-  const available = progress.total;
-  const totalSteps = new Array(available).fill(1);
-  const { completed } = progress;
-
+  const me = useSelector(({ auth }: RootState) => auth.user);
   const windowDimensions = Dimensions.get('window');
-
   const messengers = conversation.messengers || [];
-
   const isSolo = messengers.length === 2;
   const isGroup = adventureItem.kind === 'multiple';
-  const myUser = messengers.find(i => i.id === me.id) || {};
-  const myAvatar = useMemo(() => myUser?.avatar?.small, [
-    myUser?.avatar?.small,
-  ]);
-  const otherUser =
-    messengers.find(i => i.id !== me.id && i.first_name !== 'VokeBot') || {};
-
-  const otherUserAvatar = useMemo(() => otherUser?.avatar?.small, [
-    otherUser?.avatar?.small,
-  ]);
-
+  const myAvatar = me?.avatar?.small;
   const usersExceptVokeAndMe = messengers.filter(
     i => i.id !== me.id && i.first_name !== 'VokeBot',
   );
   const totalGroupUsers = usersExceptVokeAndMe.length;
+  const maxNumberOfAvatars = windowDimensions.width < 400 ? 3 : 4;
   let subGroup = usersExceptVokeAndMe;
   let numberMore = 0;
-  const maxNumberOfAvatars = windowDimensions.width < 400 ? 3 : 4;
+  let groupName = '';
+
   if (totalGroupUsers > maxNumberOfAvatars) {
     subGroup = usersExceptVokeAndMe.slice(0, maxNumberOfAvatars - 1);
     numberMore = totalGroupUsers - subGroup.length;
   }
-  let groupName;
   if (isGroup) {
     groupName = (adventureItem.journey_invite || {}).name || '';
   }
 
-  const { name } = adventureItem;
-
-  if (!adventureItem.id) {
-    return <></>;
-  }
-
   useEffect(() => {
     setUnreadCount(conversation.unread_messages);
-    return () => {
-      // cleanup
-    };
-  }, [adventureItem]);
+  }, [conversation.unread_messages]);
 
-  const onDeleteAdventure = adventureId => {
-    // dispatch(
+  const onDeleteAdventure = (advId: string): void => {
     Alert.alert(t('unsubscribeTitle'), t('unsubscribeBody'), [
       {
         text: t('cancel'),
-        onPress: () => {},
+        onPress: (): void => {
+          // do nothing.
+        },
         style: 'cancel',
       },
       {
         text: t('delete'),
-        onPress: async () => {
-          await dispatch(deleteAdventure(adventureId));
-          await dispatch(getMyAdventures());
+        onPress: async (): Promise<void> => {
+          await dispatch(deleteAdventure(advId));
+          dispatch(getMyAdventures());
         },
       },
     ]);
-    // );
+  };
+
+  const getCardTitle = (): string => {
+    let title = '';
+    if (isSolo) {
+      // Solo:
+      title = t('yourAdventure');
+    } else if (isGroup) {
+      // Group:
+      title = groupName + ' ' + t('adventure');
+    } else {
+      // Duo:
+      title = t('adventureWith') + ' ' + usersExceptVokeAndMe[0].first_name;
+    }
+    return title;
+  };
+
+  const getAdventureType = (): 'solo' | 'group' | 'duo' => {
+    let type: 'solo' | 'group' | 'duo' | '' = '';
+    if (isSolo) {
+      // Solo:
+      type = 'solo';
+    } else if (isGroup) {
+      // Group:
+      type = 'group';
+    } else {
+      // Duo:
+      type = 'duo';
+    }
+    return type;
   };
 
   return (
     <Flex style={styles.wrapper}>
       <Touchable
-        // highlight={false}
-        // activeOpacity={0.8}
         onPress={(): void =>
           navigation.navigate('AdventureActive', {
             adventureId: adventureItem.id,
@@ -146,11 +162,7 @@ function AdventureCard({ adventureId }) {
               />
             </Touchable>
             <Text numberOfLines={2} style={styles.participants}>
-              {isSolo
-                ? t('yourAdventure')
-                : isGroup
-                ? groupName + ' ' + t('adventure')
-                : t('adventureWith') + ' ' + otherUser.first_name}
+              {getCardTitle()}
             </Text>
             <Text numberOfLines={2} style={styles.title}>
               {name}
@@ -163,85 +175,68 @@ function AdventureCard({ adventureId }) {
               style={styles.avatars}
             >
               {/* AVATARS */}
-              { isGroup ? (
-                <Touchable
-                  isAndroidOpacity={true}
-                  onPress={(): void =>
-                    navigation.navigate('AllMembersModal', {
-                      adventure: adventureItem,
-                      isJoined: true,
-                    })
-                  }
+              <Touchable
+                disabled={isSolo}
+                isAndroidOpacity={true}
+                onPress={(): void =>
+                  navigation.navigate('AllMembersModal', {
+                    adventure: adventureItem,
+                    isJoined: true,
+                  })
+                }
+              >
+                <Flex
+                  direction="row"
+                  align="center"
+                  style={{ paddingBottom: 0 }}
                 >
-                  <Flex
-                    direction="row"
-                    align="center"
-                    style={{ paddingBottom: 0 }}
-                  >
-                    <Image uri={myAvatar} style={styles.avatar} />
+                  <Image uri={myAvatar} style={styles.avatar} />
 
-                    {subGroup.map((i, index) => (
-                      <Image
-                        uri={i?.avatar?.small}
-                        style={styles.avatarInGroup}
-                      />
-                    ))}
-                    {numberMore ? (
-                      <View
-                        style={[
-                          st.circle(36),
-                          st.bgBlue,
-                          {
-                            borderWidth: 2,
-                            borderColor: st.colors.white,
-                            marginLeft: -14,
-                          },
-                        ]}
-                      >
-                        <Flex self="stretch" align="center" justify="center">
-                          <Text
-                            style={[
-                              st.white,
-                              {
-                                fontSize: 16,
-                                height: '100%',
-                                lineHeight: 29,
-                              },
-                            ]}
-                          >
-                            +{numberMore}
-                          </Text>
-                        </Flex>
-                      </View>
-                    ) : (
-                      <></>
-                    )}
-                  </Flex>
-                </Touchable>
-              ) : (
-                <Flex value={1} direction="row" align="center">
-                  <View>
-                    <Image uri={myAvatar} style={styles.avatar} />
-                  </View>
-                  {!isSolo ? (
-                    <Image uri={otherUserAvatar} style={styles.avatarSolo} />
-                  ) : null}
+                  {subGroup.map(i => (
+                    <Image
+                      uri={i?.avatar?.small}
+                      style={styles.avatarInGroup}
+                    />
+                  ))}
+                  {numberMore ? (
+                    <View
+                      style={[
+                        st.circle(36),
+                        st.bgBlue,
+                        {
+                          borderWidth: 2,
+                          borderColor: st.colors.white,
+                          marginLeft: -14,
+                        },
+                      ]}
+                    >
+                      <Flex self="stretch" align="center" justify="center">
+                        <Text
+                          style={[
+                            st.white,
+                            {
+                              fontSize: 16,
+                              height: '100%',
+                              lineHeight: 29,
+                            },
+                          ]}
+                        >
+                          +{numberMore}
+                        </Text>
+                      </Flex>
+                    </View>
+                  ) : (
+                    <></>
+                  )}
                 </Flex>
-              )}
+              </Touchable>
               {/* UNREAD COUNTER */}
               {hasUnread ? (
                 <Flex
                   direction="row"
                   align="center"
                   justify="center"
-                  style={[
-                    st.br2,
-                    st.bgOrange,
-                    st.mr4,
-                    st.p6,
-                    st.pl5,
-                    st.pr5,
-                  ]}
+                  style={styles.unreadBubble}
                 >
                   <VokeIcon
                     name="speech-bubble-full"
@@ -272,16 +267,16 @@ function AdventureCard({ adventureId }) {
                 justify="between"
                 style={{ width: '100%' }}
               >
-                <Text numberOfLines={1} style={[st.charcoal, st.fs5]}>
+                <Text numberOfLines={1} style={styles.completedLine}>
                   {completed}/{available} {t('completed').toLowerCase()}
                 </Text>
-                {isSolo ? (
-                  <Text style={styles.solotag}>{t('solo')}</Text>
-                ) : isGroup ? (
-                  <Text style={styles.grouptag}>{t('group')}</Text>
-                ) : (
-                  <Text style={styles.duotag}>{t('duo')}</Text>
-                )}
+                <Text
+                  style={
+                    styles[(getAdventureType() + 'tag') as keyof typeof styles]
+                  }
+                >
+                  {t(getAdventureType())}
+                </Text>
               </Flex>
             </Flex>
           </Flex>
@@ -289,6 +284,28 @@ function AdventureCard({ adventureId }) {
       </Touchable>
     </Flex>
   );
+};
+
+function AdventureCard({ adventureId }: { adventureId: string }): ReactElement {
+  const adventureItem: TAdventureSingle =
+    useSelector(
+      ({ data }: RootState) =>
+        data.myAdventures.byId[
+          adventureId as keyof TDataState['myAdventures']['byId']
+        ],
+    ) || {};
+  // Don't even try to render item if there is no data for it in the store.
+  if (adventureItem?.id && adventureItem?.status !== 'canceled') {
+    return (
+      <AdventureCardRender
+        adventureId={adventureId}
+        adventureItem={adventureItem}
+      />
+    );
+  } else {
+    console.log('🛑 adventureItem?.id:', adventureItem?.id);
+    return <></>;
+  }
 }
 
 export default AdventureCard;

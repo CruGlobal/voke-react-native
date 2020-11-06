@@ -350,7 +350,21 @@ export function deleteAdventure(adventureId: string) {
         pathParams: { adventureId },
       }),
     );
-    return result;
+
+    if (result?.errors) {
+      // eslint-disable-next-line no-console
+      console.log('🛑 deleteAdventure error', result?.errors);
+      throw result?.errors;
+    } else {
+      // Update adventure status in the store.
+      dispatch({
+        type: REDUX_ACTIONS.UPDATE_ADVENTURE,
+        data: result,
+        description: 'Update deleted adventure in the Store as canceled',
+      });
+
+      return result;
+    }
   };
 }
 
@@ -1214,7 +1228,7 @@ export function unlockNextAdventureStep(adventureId: string) {
   };
 }
 
-export function deleteMember({conversationId, messengerId}) {
+export function deleteMember({ conversationId, messengerId }) {
   return async (dispatch: Dispatch, getState: any) => {
     try {
       const results: any = await dispatch(
