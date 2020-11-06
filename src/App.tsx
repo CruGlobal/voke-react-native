@@ -46,6 +46,7 @@ import AdventureStepScreen from './containers/AdventureStepScreen';
 import GroupReleaseType from './containers/GroupReleaseType';
 import GroupReleaseDate from './containers/GroupReleaseDate';
 import VideosSearch from './containers/VideosSearch';
+import ModalAppUpdate from './components/ModalAppUpdate';
 import AllMembersModal from './containers/AllMembersModal';
 import AdventureCode from './containers/AdventureCode';
 import Videos from './containers/Videos';
@@ -855,6 +856,7 @@ const App = () => {
         </AppStack.Navigator>
       </Host>
     </NavigationContainer>
+          <ModalAppUpdate />
   );
 };
 

@@ -345,6 +345,8 @@ PODS:
     - React
   - react-native-slider (3.0.3):
     - React
+  - react-native-version-check (3.4.2):
+    - React
   - react-native-video (4.4.5):
     - React
     - react-native-video/Video (= 4.4.5)
@@ -510,6 +512,7 @@ DEPENDENCIES:
   - react-native-orientation-locker (from `../node_modules/react-native-orientation-locker`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
+  - react-native-version-check (from `../node_modules/react-native-version-check`)
   - react-native-video (from `../node_modules/react-native-video`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -625,6 +628,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-slider:
     :path: "../node_modules/@react-native-community/slider"
+  react-native-version-check:
+    :path: "../node_modules/react-native-version-check"
   react-native-video:
     :path: "../node_modules/react-native-video"
   react-native-webview:
@@ -744,6 +749,7 @@ SPEC CHECKSUMS:
   react-native-orientation-locker: 47aaa55d59bfc1613804dc22f159e6bb1cca5f30
   react-native-safe-area-context: 7eca954ce96d0ef464b65cf765ecc14461ca4cc2
   react-native-slider: b733e17fdd31186707146debf1f04b5d94aa1a93
+  react-native-version-check: 9f9332ff4552fb00e0bd15b097a8d302b2b8413b
   react-native-video: eee541262ada11bc7ffe8ec5508e6a877937c462
   react-native-webview: 67b9024de02e7c0af9400283b0e3ca6eec55dc26
   React-RCTActionSheet: f41ea8a811aac770e0cc6e0ad6b270c644ea8b7c
