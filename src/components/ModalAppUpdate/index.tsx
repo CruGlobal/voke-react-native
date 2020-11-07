@@ -1,39 +1,24 @@
-import React, { ReactElement, useRef } from 'react';
+import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Portal } from 'react-native-portalize';
-import VersionCheck from 'react-native-version-check';
 import { Modalize } from 'react-native-modalize';
 
 import Text from '../Text';
 import theme from '../../theme';
+import { useCheckUpdate } from '../../hooks';
 
 // import styles from './styles';
 
 function ModalAppUpdate(): ReactElement {
-  // Minor update;
-  // 1.1.X => 1.2.X
-  VersionCheck.needUpdate({
-    depth: 2,
-  }).then(res => {
-    // res.isNeeded // true
-    if (res.isNeeded) {
-      // Request Minor Update.
-    }
-  });
-
-  // Major update;
-  // 1.X.X => 2.X.X
-  VersionCheck.needUpdate({
-    depth: 1,
-  }).then(res => {
-    // res.isNeeded // true
-    if (res.isNeeded) {
-      // Request Major Update.
-    }
-  });
-
   const modalizeRef = useRef<Modalize>(null);
-  modalizeRef.current?.open();
+  const updateNeeded = useCheckUpdate();
+
+  useEffect(() => {
+    if (updateNeeded) {
+      modalizeRef.current?.open();
+    }
+  }, [updateNeeded]);
+
   return (
     <Portal>
       <Modalize
@@ -54,7 +39,13 @@ function ModalAppUpdate(): ReactElement {
         }}
       >
         <SafeAreaView edges={['bottom']}>
-          <Text>Modal requesting app update.</Text>
+          <Text>
+            {updateNeeded === 'minor'
+              ? 'MINOR'
+              : updateNeeded === 'major'
+              ? 'MAJOR'
+              : 'NOT NEEDED'}
+          </Text>
           {/* <View style={styles.stepMembers}>
             <View style={styles.stepMembersHeader}>
               <Text numberOfLines={2} style={styles.modalTitle}>
