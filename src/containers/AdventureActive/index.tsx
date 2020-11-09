@@ -54,12 +54,6 @@ function AdventureActive({
     ({ data }: { data: TDataState }) =>
       data.myAdventures?.byId[adventureId] || {},
   );
-  const steps = useSelector(
-    ({ data }: { data: TDataState }) => data.adventureSteps[adventureId],
-    shallowEqual,
-  ) || { byId: {}, allIds: [] };
-  const [isPortrait, setIsPortrait] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
   const isGroup = adventure.kind === 'multiple';
   const allMessengers = adventure?.conversation?.messengers || [];
   const userId = getCurrentUserId();

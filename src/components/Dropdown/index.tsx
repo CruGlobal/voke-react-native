@@ -39,6 +39,7 @@ function Dropdown({
         placeholder={{}}
         value={value}
         style={styles}
+        useNativeAndroidPickerStyle={false}
         Icon={(): React.ReactElement => (
           <VokeIcon name="down-arrow" style={styles.dropDownIcon} size={10} />
         )}

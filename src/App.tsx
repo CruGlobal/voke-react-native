@@ -70,6 +70,7 @@ import SignOut from './components/SignOut';
 import Text from './components/Text';
 import { useMount } from './utils';
 import { checkInitialNotification } from './actions/notifications';
+import KitchenSink from './containers/KitchenSink';
 
 // https://reactnavigation.org/docs/stack-navigator#options
 const defaultHeaderConfig = {
@@ -880,6 +881,26 @@ const App = () => {
                     <Text style={[st.white, st.mr4, st.fs16]}>{t('done')}</Text>
                   </Touchable>
                 ),
+              })}
+            />
+            <RootStack.Screen
+              name="KitchenSink"
+              component={KitchenSink}
+              options={({ navigation }) => ({
+                headerShown: true,
+                headerLeft: () => <HeaderLeft hasBack testID="KitchenSink" />,
+                cardStyle: { backgroundColor: theme.colors.transparent },
+                headerStyle: {
+                  backgroundColor: theme.colors.primary,
+                  elevation: 0,
+                  shadowOpacity: 0,
+                },
+                headerTitleStyle: {
+                  color: theme.colors.white,
+                  fontSize: 18,
+                  fontWeight: 'normal',
+                },
+                title: 'Kitchen Sink',
               })}
             />
           </AppStack.Navigator>
