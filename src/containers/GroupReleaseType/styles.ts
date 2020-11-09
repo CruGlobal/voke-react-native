@@ -34,6 +34,28 @@ const styles = StyleSheet.create({
     color: theme.colors.secondary,
     paddingHorizontal: theme.spacing.xl,
   },
+  card: {
+    backgroundColor: 'floralwhite',
+    borderRadius: theme.radius.l,
+    height: theme.window.width * 0.8,
+    // width: 100,
+    paddingHorizontal: theme.spacing.m,
+    paddingVertical: theme.spacing.xl,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  cardIcon: {
+    color: theme.colors.primary,
+  },
+  cardTitle: { fontSize: theme.fontSizes.xxl },
+  cardDescription: {
+    textAlign: 'center',
+  },
+  cardRecommended: {
+    color: theme.colors.orange,
+    // position: 'absolute',
+    top: -theme.spacing.s,
+  },
 });
 
 export default styles;

@@ -22,13 +22,16 @@ const styles = StyleSheet.create({
     paddingRight: 30, // to ensure the text is never behind the icon
   },
   inputAndroid: {
-    fontSize: 16,
+    textAlign: 'center',
+    paddingLeft: 25,
+    paddingVertical: 10,
+    height: 50,
+    minWidth: '100%',
+    color: 'white',
+    fontSize: 24,
     paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderWidth: 0.5,
-    borderColor: 'purple',
-    borderRadius: 8,
-    color: 'black',
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.secondaryAlt,
     paddingRight: 30, // to ensure the text is never behind the icon
   },
   iconContainer: {

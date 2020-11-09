@@ -102,7 +102,7 @@ function AdventureStepCard({
     releaseIn,
     releaseTime,
   }: {
-    releaseDate: moment.Moment | null;
+    releaseDate: string | null;
     releaseIn: string | null;
     releaseTime: string | null;
   }): string => {

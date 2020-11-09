@@ -61,13 +61,14 @@ function Datepicker({
         <Text style={styles.buttonLabel}>{date}</Text>
       </OldButton>
       <DateTimePickerModal
-        date={moment(date,'h:mm A').format('YYYY-MM-DD[T]HH:mm:ss.sssZ')}
+        date={moment(date,'h:mm A').toDate()}
         isVisible={isDatePickerVisible}
         mode={mode}
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
         minuteInterval={minuteInterval}
         headerTextIOS={label}
+        display="spinner"
         {...rest}
       />
       <View style={styles.descriptionContainer}>
