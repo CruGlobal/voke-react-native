@@ -1,10 +1,11 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import {
   Image as ReactNativeImage,
-  Animated,
   StyleProp,
   ImageStyle,
   ImagePropsBase,
+  ViewStyle,
+  TextStyle,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
@@ -13,7 +14,7 @@ import FastImage from 'react-native-fast-image';
 interface ImageProps extends ImagePropsBase {
   source?: object;
   uri?: string;
-  style?: StyleProp<ImageStyle>;
+  style?: StyleProp<ImageStyle | ViewStyle | TextStyle>;
 }
 function Image({ source, uri, style, ...rest }: ImageProps) {
   // thumbnailAnimated = new Animated.Value(0);

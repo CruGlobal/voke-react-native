@@ -1,42 +1,29 @@
-import React, { useState } from 'react';
-import { SafeAreaView, useSafeArea } from 'react-native-safe-area-context';
-import {
-  View,
-  Linking,
-  useWindowDimensions,
-  ImageBackground,
-  ScrollView,
-  Dimensions,
-} from 'react-native';
+import React, { ReactElement, useState } from 'react';
+import { View, Linking, ImageBackground, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
-import { useTranslation, initReactI18next } from 'react-i18next';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useTranslation } from 'react-i18next';
 
 import { useMount, lockToPortrait } from '../../utils';
-import Flex from '../../components/Flex';
-import Text from '../../components/Text';
-import StatusBar from '../../components/StatusBar';
-import Button from '../../components/Button';
-import OldButton from '../../components/OldButton';
-import BotTalking from '../../components/BotTalking';
-import VokeIcon from '../../components/VokeIcon';
 import CONSTANTS from '../../constants';
 import theme from '../../theme';
-import Background from '../../assets/vokeWelcome.png';
-import Screen from '../../components/Screen';
+import Flex from '../../components/Flex';
+import Text from '../../components/Text';
 import Spacer from '../../components/Spacer';
+import Button from '../../components/Button';
+import Screen from '../../components/Screen';
+import VokeIcon from '../../components/VokeIcon';
+import StatusBar from '../../components/StatusBar';
+import OldButton from '../../components/OldButton';
+import BotTalking from '../../components/BotTalking';
+import Background from '../../assets/vokeWelcome.png';
 
 import styles from './styles';
 
-type WelcomeProps = {
-  props: any;
-};
-const Welcome = (props: WelcomeProps) => {
+const Welcome = (): ReactElement => {
   const navigation = useNavigation();
   const [helpMode, setHelpMode] = useState(false);
-  const { t, i18n } = useTranslation('welcome');
-  const toggleTrueFalse = () => setHelpMode(!helpMode);
+  const { t } = useTranslation('welcome');
+  const toggleTrueFalse = (): void => setHelpMode(!helpMode);
   const windowDimentions = Dimensions.get('window');
 
   useMount(() => {
@@ -44,10 +31,7 @@ const Welcome = (props: WelcomeProps) => {
   });
 
   return (
-    <ImageBackground
-      source={Background}
-      style={{ width: '100%', height: '100%' }}
-    >
+    <ImageBackground source={Background} style={styles.Screen}>
       <Screen testID={'welcomeScreen'} background={'transparent'}>
         <StatusBar
           animated={true}
@@ -68,11 +52,11 @@ const Welcome = (props: WelcomeProps) => {
           </BotTalking>
           <Flex value={1} />
           {/* Help Mode Text */}
-          <View style={styles.HelpSection}>
+          <View>
             <Flex
               direction="column"
               justify="center"
-              style={styles.HelpSectionInner}
+              style={styles.HelpSection}
             >
               {helpMode ? (
                 <Flex>
@@ -82,19 +66,7 @@ const Welcome = (props: WelcomeProps) => {
                   >
                     {t('haveCode')}
                   </Text>
-                  <Text
-                    style={[
-                      styles.TextSmall,
-                      {
-                        textShadowColor: 'rgba(32, 20, 16, .8)',
-                        textShadowOffset: { width: 0, height: 1 },
-                        textShadowRadius: 2,
-                        padding: 1,
-                      },
-                    ]}
-                  >
-                    {t('haveCodeInfo')}
-                  </Text>
+                  <Text style={styles.TextHaveCode}>{t('haveCodeInfo')}</Text>
                 </Flex>
               ) : null}
             </Flex>
@@ -140,14 +112,18 @@ const Welcome = (props: WelcomeProps) => {
               {'\n'}
               <Text
                 style={styles.Link}
-                onPress={() => Linking.openURL(CONSTANTS.WEB_URLS.PRIVACY)}
+                onPress={(): Promise<void> =>
+                  Linking.openURL(CONSTANTS.WEB_URLS.PRIVACY)
+                }
               >
                 {t('privacy')}
               </Text>
               &nbsp; {t('and')} &nbsp;
               <Text
                 style={styles.Link}
-                onPress={() => Linking.openURL(CONSTANTS.WEB_URLS.TERMS)}
+                onPress={(): Promise<void> =>
+                  Linking.openURL(CONSTANTS.WEB_URLS.TERMS)
+                }
               >
                 {t('tos')}
               </Text>
@@ -155,7 +131,6 @@ const Welcome = (props: WelcomeProps) => {
           </Flex>
           {/* SECTION: SIGN IN */}
           <Flex
-            // value={1}
             direction="row"
             align="center"
             justify="center"
@@ -167,7 +142,7 @@ const Welcome = (props: WelcomeProps) => {
             <OldButton
               isAndroidOpacity
               style={[styles.ButtonSignIn, { marginLeft: 20 }]}
-              onPress={() => {
+              onPress={(): void => {
                 navigation.navigate('AccountSignIn');
               }}
               testID={'ctaSignIn'}

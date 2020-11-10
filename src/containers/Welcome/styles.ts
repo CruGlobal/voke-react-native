@@ -3,10 +3,14 @@ import { StyleSheet } from 'react-native';
 import theme from '../../theme';
 import ui from '../../ui';
 
-const sharredStyles = {
-};
+const sharredStyles = {};
 
 const styles = StyleSheet.create({
+  Screen: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: theme.colors.primary,
+  },
   SectionOnboarding: {
     // Responsive margin to fit everything on small devices.
     // paddingHorizontal: theme.window.width > 700 ? theme.spacing.l : 0,
@@ -17,7 +21,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     // flexDirection: theme.window.width > 500 ? 'row' : 'column',
     paddingVertical: theme.spacing.m,
-    paddingBottom: theme.window.height > 760 ? theme.spacing.l : theme.spacing.s,
+    paddingBottom:
+      theme.window.height > 760 ? theme.spacing.l : theme.spacing.s,
   },
   ButtonSignIn: { ...ui.button.size.m, ...ui.button.style.outline },
   ButtonSignInLabel: {
@@ -35,6 +40,16 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.regular,
     textAlign: 'center',
   },
+  TextHaveCode: {
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.xs,
+    fontFamily: theme.fonts.regular,
+    textAlign: 'center',
+    textShadowColor: 'rgba(32, 20, 16, .8)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
+    padding: 1,
+  },
   Link: {
     textDecorationLine: 'underline',
     color: theme.colors.white,
@@ -43,16 +58,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     paddingTop: theme.spacing.m,
     paddingBottom: theme.spacing.l,
-    borderTopWidth: 1,
-    borderTopColor: 'rgba(0, 0, 0, 0.2)',
   },
   HelpSection: {
-    // marginBottom: -10,
-    // minHeight: 30,
-    // flex:1,
-    // maxWidth: theme.window.width > 500 ? '50%' : '100%',
-  },
-  HelpSectionInner: {
     paddingLeft: theme.spacing.xl,
     paddingRight: theme.spacing.xl,
     paddingBottom: theme.spacing.l,

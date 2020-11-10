@@ -8,7 +8,7 @@ const sharedStyles = {
     lineHeight: theme.fontSizes.xl,
     paddingTop: theme.spacing.s,
   },
-}
+};
 
 const styles = StyleSheet.create({
   content: {
@@ -69,8 +69,25 @@ const styles = StyleSheet.create({
   stepNumber: {
     fontSize: 72,
   },
+  completedBlock: {
+    position: 'absolute',
+    top: -4,
+    right: -4,
+    width: 30,
+    height: 30,
+    backgroundColor: theme.colors.secondary,
+    padding: theme.spacing.s,
+    borderRadius: theme.radius.xxl,
+  },
   iconCompleted: {
     color: theme.colors.white,
+  },
+  unreadBubble: {
+    borderRadius: theme.radius.xxl,
+    backgroundColor: theme.colors.accent,
+    marginRight: theme.spacing.s,
+    paddingVertical: theme.spacing.xs,
+    paddingHorizontal: theme.spacing.s,
   },
   iconUnread: {
     color: theme.colors.white,
@@ -85,8 +102,18 @@ const styles = StyleSheet.create({
   nextReleaseText: {
     color: theme.colors.white,
     fontSize: theme.fontSizes.l,
-    lineHeight: theme.fontSizes.l*1.35,
-  }
+    lineHeight: theme.fontSizes.l * 1.35,
+  },
+  waitingBlock: {
+    backgroundColor: theme.colors.accent,
+    width: '100%',
+    paddingVertical: theme.spacing.xs,
+  },
+  waitingText: {
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.l,
+    lineHeight: theme.fontSizes.l * 1.35,
+  },
 });
 
 export default styles;

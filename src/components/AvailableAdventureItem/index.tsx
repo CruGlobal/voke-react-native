@@ -1,188 +1,133 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable camelcase */
+import React, { useState, useEffect, ReactElement } from 'react';
 import { View, Dimensions } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import lodash from 'lodash';
 import { useTranslation } from 'react-i18next';
 
 import Image from '../Image';
-import st from '../../st';
-import theme from '../../theme';
 import Touchable from '../Touchable';
 import Text from '../Text';
 import OldButton from '../OldButton';
 import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
+import { TAdventureSingle, TAvailableAdventure } from '../../types';
+import { RootState } from '../../reducers';
+import Button from '../Button';
 
 import styles from './styles';
 
-function AvailableAdventureItem({
-  item = {
-    image: { medium: '' },
-    total_steps: 0,
-    total_shares: 0,
-    name: '',
-    slogan: '',
-  },
-}) {
+function AvailableAdventureItem(
+  adventureData: TAvailableAdventure,
+): ReactElement {
   const { t } = useTranslation('journey');
   const windowDimensions = Dimensions.get('window');
-  const myAdventures = useSelector(({ data }) => data.myAdventures.byId);
+  const myAdventures = useSelector(
+    ({ data }: RootState) => data.myAdventures.byId,
+  );
   const navigation = useNavigation();
   const [shouldInviteFriend, setShouldInviteFriend] = useState(
     lodash.find(
       myAdventures,
       // TODO try to optimize
-      function (adv) {
-        return adv.organization_journey_id === item.id;
+      function (adv: TAdventureSingle) {
+        return adv?.organization_journey_id === adventureData.id;
       },
     ),
   );
-  const thumbUri = item?.image?.medium;
+  const thumbUri = adventureData.image?.medium;
 
   useEffect(() => {
     setShouldInviteFriend(
       lodash.find(
         myAdventures,
         // TODO try to optimize
-        function (adv) {
-          return adv.organization_journey_id === item.id;
+        function (adv: TAdventureSingle) {
+          return adv?.organization_journey_id === adventureData.id;
         },
       ),
     );
-  }, [myAdventures]);
+  }, [myAdventures, adventureData.id]);
 
   return (
     <Touchable
-      onPress={() =>
+      onPress={(): void =>
         navigation.navigate('AdventureAvailable', {
-          item,
+          item: adventureData,
           alreadyStartedByMe: shouldInviteFriend,
         })
       }
+      style={styles.wrapper}
     >
-      <Flex
-        align="center"
-        justify="center"
-        style={[st.shadow, st.h(200), st.br5, st.ph4, st.mh4, st.mv6]}
-      >
+      <Flex align="center" justify="center" style={styles.card}>
         <Image uri={thumbUri} style={styles.thumb} />
-        <View
-          style={[
-            st.absfill,
-            st.br5,
-            { backgroundColor: 'rgba(0, 0, 0, 0.35)' },
-          ]}
-        />
-        <Flex value={1} />
-        <Flex value={2} align="center" justify="center">
+        <View style={styles.backFill} />
+        <Flex value={1} align="center" justify="center">
           {shouldInviteFriend ? (
-            <Flex
-              direction="row"
-              style={[
-                st.br1,
-                st.ph6,
-                st.pl4,
-                { paddingVertical: 4, backgroundColor: 'rgba(0,0,0,0.5)' },
-                st.mb6,
-              ]}
-              align="center"
-              justify="center"
-            >
-              <Text
-                style={[
-                  st.bold,
-                  st.white,
-                  { letterSpacing: 2, fontSize: 10 },
-                  st.mr6,
-                ]}
-              >
+            <Flex direction="row" align="center" style={styles.badgeStarted}>
+              <Text style={styles.badgeStartedText}>
                 {t('started').toUpperCase()}
               </Text>
-              <VokeIcon name="play-full" size={16} style={styles.icon} />
+              <VokeIcon name="play-full" style={styles.badgeStartedIcon} />
             </Flex>
           ) : (
-            <Text style={[st.fs14, st.bold, st.white]}>
+            <Text style={styles.badgeStartedText}>
               {t('adventure').toUpperCase()}
             </Text>
           )}
-          <Text style={[st.fs24, st.white]} testID={'adventureTitle'}>{item.name}</Text>
-          <Text
+          <Text style={styles.title} testID={'adventureTitle'}>
+            {adventureData.name}
+          </Text>
+          {/* <Text
             style={[st.fs(24), st.white, st.light, st.tac]}
             numberOfLines={2}
           >
-            {item.slogan}
-          </Text>
-        </Flex>
+            {adventureData.slogan}
+          </Text> */}
 
-        {shouldInviteFriend ? (
-          <Flex value={1} justify="end">
-            <OldButton
-              onPress={() =>
-                navigation.navigate('AdventureName', {
-                  item: {
-                    id: item.id,
-                  },
-                  withGroup: false,
-                })
-              }
-              style={[
-                st.bgOrange,
-                st.mb4,
-                st.ph3,
-                st.pv6,
-                st.bw0,
-                st.br0,
-                st.br3,
-                st.aic,
-                st.jcc,
-                st.fdr,
-              ]}
-              testID={'ctaShareInviteFriend'}
-            >
-              <VokeIcon
-                name="shareArrow"
-                type="image"
-                style={styles.shareIcon}
-              />
-              <Text style={styles.shareLabel}>{t('inviteFriend')}</Text>
-            </OldButton>
-          </Flex>
-        ) : (
-          <Flex value={1} />
-        )}
+          {shouldInviteFriend ? (
+            <Flex justify="center">
+              <Button
+                onPress={(): void =>
+                  navigation.navigate('AdventureName', {
+                    item: {
+                      id: adventureData.id,
+                    },
+                    withGroup: false,
+                  })
+                }
+                color="accent"
+                icon="share"
+                testID={'ctaShareInviteFriend'}
+              >
+                {t('inviteFriend')}
+              </Button>
+            </Flex>
+          ) : (
+            <Flex style={{ minHeight: 10 }} />
+          )}
+        </Flex>
 
         <Flex
           justify="between"
-          align="start"
+          align="center"
           direction="row"
           self="stretch"
-          value={0.5}
-          style={[
-            {
-              marginLeft: -15,
-              marginRight: -15,
-              backgroundColor: 'rgba(0,0,0,0.5)',
-            },
-            st.ph4,
-            st.pt6,
-            st.brbl5,
-            st.brbr5,
-          ]}
+          // value={0.5}
+          style={styles.bottomLine}
         >
-          <Flex direction="row">
+          <Flex direction="row" align="center">
             <VokeIcon name="copy" style={styles.partsIcon} />
-            <Text style={styles.partsText}>
-              {item.total_steps}-{t('partSeries').toUpperCase()}
+            <Text style={styles.smallText}>
+              {adventureData.total_steps}-{t('partSeries').toUpperCase()}
             </Text>
           </Flex>
-          <Flex direction="row">
+          <Flex direction="row" align="center">
             {windowDimensions.width > 320 && (
-              <Text
-                style={[st.bold, st.white, { letterSpacing: 2, fontSize: 10 }]}
-              >
+              <Text style={styles.smallText}>
                 {t('videos:shares', {
-                  total: item.total_shares || 0,
+                  total: adventureData.total_shares || 0,
                 }).toUpperCase()}
               </Text>
             )}
@@ -190,16 +135,16 @@ function AvailableAdventureItem({
               <OldButton
                 type="transparent"
                 isAndroidOpacity
-                onPress={() =>
+                onPress={(): void =>
                   navigation.navigate('AdventureName', {
                     item: {
-                      id: item.id,
+                      id: adventureData.id,
                     },
                     withGroup: false,
                   })
                 }
                 activeOpacity={0.6}
-                touchableStyle={[{ marginTop: -20 }, st.ml5]}
+                touchableStyle={styles.shareIcon}
                 testID={'ctaShareIcon'}
               >
                 <VokeIcon

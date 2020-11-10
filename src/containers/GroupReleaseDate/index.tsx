@@ -77,7 +77,7 @@ const GroupReleaseDate = (props): React.ReactElement => {
       .day(weekday)
       .hour(newTimeRaw.hour())
       .minute(newTimeRaw.minute())
-      .second(12);
+      .second(0);
     const now = moment();
     const diff = now.diff(newDate);
     // - if date in the future diff < 0
@@ -220,19 +220,25 @@ const GroupReleaseDate = (props): React.ReactElement => {
                       )}
                   </Text>
                   {releaseSchedule === 'weekly' && (
-                    <Touchable
-                      onPress={(): void =>
-                        copyToClipboard(moment(date).format('LLL'))
-                      }
-                    >
-                      <Text style={styles.releaseDate}>
-                        {moment(date).format(' dddd, LT')}
+                    <>
+                      <Touchable
+                        onPress={(): void =>
+                          copyToClipboard(moment(date).format('LLL'))
+                        }
+                      >
+                        <Text style={styles.releaseDate}>
+                          {moment(date).format(' dddd, LT')}
+                        </Text>
+                      </Touchable>
+                      <Text style={styles.releaseDue}>
+                        {'( ' +
+                          t('nextRelease') +
+                          ' ' +
+                          moment().to(date) +
+                          ' )'}
                       </Text>
-                    </Touchable>
+                    </>
                   )}
-                  <Text style={styles.releaseDue}>
-                    {'( ' + t('nextRelease') + ' ' + moment().to(date) + ' )'}
-                  </Text>
                 </>
               )}
               {releaseSchedule === 'manual' && (

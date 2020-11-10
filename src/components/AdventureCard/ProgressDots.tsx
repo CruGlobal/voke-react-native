@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { View } from 'react-native';
-import Image from '../Image';
-import st from '../../st';
-import Touchable from '../Touchable';
-import Text from '../Text';
-import OldButton from '../OldButton';
-import VokeIcon from '../VokeIcon';
-import Flex from '../Flex';
-import { useSelector, useDispatch } from 'react-redux';
-import { getMyAdventure } from '../../actions/requests';
-import { useNavigation } from '@react-navigation/native';
-import styles from './styles';
 
-const ProgressDots = React.memo(function({ isFilled }) {
+import theme from '../../theme';
+
+interface Props {
+  isFilled: boolean;
+}
+
+const ProgressDots = React.memo(function ({ isFilled }: Props) {
   return (
     <View
-      style={[
-        isFilled ? st.bgBlue : [st.bgTransparent, st.bw1, st.borderCharcoal],
-        st.mr6,
-        st.circle(10),
-      ]}
+      style={{
+        backgroundColor: isFilled ? theme.colors.primary : 'transparent',
+        borderColor: isFilled ? theme.colors.primary : theme.colors.grey,
+        borderWidth: 1,
+        borderStyle: 'solid',
+        marginRight: theme.spacing.s,
+        width: 10,
+        height: 10,
+        borderRadius: theme.radius.xxl,
+      }}
     />
   );
 });

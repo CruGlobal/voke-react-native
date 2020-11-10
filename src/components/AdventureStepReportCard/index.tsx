@@ -31,21 +31,16 @@ type StepReportProps = {
 };
 
 type Props = {
-  step: any;
+  stepId: string;
   adventureId: string;
   activeStepRef?: any;
-  // steps?: StepProps[];
-  // adventure?: TAdventureSingle;
 };
 
 function AdventureStepReportCard({
   stepId,
   adventureId,
   activeStepRef,
-}: // step,
-// steps,
-// adventure,
-Props): React.ReactElement {
+}: Props): React.ReactElement {
   const dispatch = useDispatch();
   const [isNext, setIsNext] = useState(false);
   const [isManual, setIsManual] = useState(false);
@@ -59,6 +54,7 @@ Props): React.ReactElement {
     ({ data }: RootState) =>
       data.adventureSteps[adventureId]?.byId[stepId] || {},
   );
+
   /*  const step = useSelector(
     ({ data }: RootState) =>
       data.adventureSteps[adventureId].byId[step.id] || {},
@@ -72,8 +68,6 @@ Props): React.ReactElement {
     step.active_messengers = garduatedUsers;
     step.position = '99'; // position required for testID!
   }
-
-  // console.log('🦕 step:', step);
 
   useEffect(() => {
     setIsManual(!adventure?.gating_period);
@@ -213,7 +207,7 @@ Props): React.ReactElement {
             openAnimationConfig={{
               timing: { duration: 300 },
             }}
-            onClose={() => { }}
+            onClose={() => {}}
             rootStyle={{
               elevation: 5, // need it here to solve issue with button shadow.
             }}

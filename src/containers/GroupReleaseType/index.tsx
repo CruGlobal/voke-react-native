@@ -139,33 +139,18 @@ function GroupReleaseType(props: any): ReactElement {
   const renderItem = ({ item, index }) => {
     return (
       <View
-        style={{
-          backgroundColor: 'floralwhite',
-          borderRadius: theme.radius.l,
-          height: width * 0.8,
-          // width: 100,
-          paddingHorizontal: theme.spacing.l,
-          paddingVertical: theme.spacing.xl,
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
+        style={styles.card}
         testID={'releaseOption-' + (index + 1)}
       >
         <VokeIcon
           name={item.icon}
-          style={{
-            color: theme.colors.primary,
-          }}
+          style={styles.cardIcon}
           size={50}
         />
-        <Text style={{ fontSize: theme.fontSizes.xxl }}>{item.title}</Text>
-        <Text>{item.description}</Text>
+        <Text style={styles.cardTitle}>{item.title}</Text>
+        <Text style={styles.cardDescription}>{item.description}</Text>
         <Text
-          style={{
-            color: theme.colors.orange,
-            // position: 'absolute',
-            top: -theme.spacing.s,
-          }}
+          style={styles.cardRecommended}
         >
           {index === 0 ? t('recommended') : ''}
         </Text>
@@ -227,7 +212,7 @@ function GroupReleaseType(props: any): ReactElement {
             // paddingBottom: theme.spacing.xl,
             // paddingTop: height > 800 ? theme.spacing.xl : 0,
             // minHeight: 200,
-            paddingBottom: theme.spacing.xl,
+            paddingBottom: theme.spacing.l,
           }}
         >
           <BotTalking

@@ -1,8 +1,7 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Alert, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector, useDispatch } from 'react-redux';
 import Communications from 'react-native-communications';
 
 import Flex from '../../components/Flex';
@@ -11,25 +10,39 @@ import Touchable from '../../components/Touchable';
 import OldButton from '../../components/OldButton';
 import VokeIcon from '../../components/VokeIcon';
 import Image from '../../components/Image';
-import { resendAdventureInvitation } from '../../actions/requests';
-import { getExpiredTime } from '../../utils/get';
+import { TAdventureSingle, TMessenger, TUser } from '../../types';
 
 import styles from './styles';
 
-const ManageMembers = ({ messengers, me, adventure }) => {
+interface Invite {
+  id: string;
+  name: string;
+  code: string;
+}
+
+interface Props {
+  messengers: TMessenger[];
+  me: TUser;
+  adventure: TAdventureSingle;
+}
+
+const ManageMembers = ({
+  messengers,
+  me,
+  adventure,
+}: Props): React.ReactElement => {
   const { t } = useTranslation('manageGroup');
   const navigation = useNavigation();
-  const dispatch = useDispatch();
-  const myUser = messengers.find(i => i.id === me.id) || {};
-  const myAvatar = useMemo(() => myUser?.avatar?.small, [
-    myUser?.avatar?.small,
-  ]);
-
-  const inviteItem = adventure?.journey_invite;
+  const myUser: TMessenger | undefined = messengers.find(
+    (i: TMessenger) => i.id === me.id,
+  );
+  const myAvatar = myUser ? myUser?.avatar?.small : '';
+  // eslint-disable-next-line camelcase
+  const inviteItem: Invite = adventure?.journey_invite;
   // Move preview_journey_url from parent into the inviteItem data structure.
-  if ( !inviteItem?.preview_journey_url && adventure?.preview_journey_url ) {
+  /* if ( !inviteItem?.preview_journey_url && adventure?.preview_journey_url ) {
     inviteItem.preview_journey_url = adventure?.preview_journey_url
-  }
+  } */
 
   const otherUsers =
     messengers.filter(i => i.id !== me.id && i.first_name !== 'VokeBot') || [];
@@ -42,18 +55,18 @@ const ManageMembers = ({ messengers, me, adventure }) => {
     numberMore = totalGroupUsers - 7;
   }
 
-  const addMembers = async (inviteItem): void => {
+  const addMembers = async (invite: Invite): Promise<void> => {
     try {
       /* Before we show a screen with invite code,
       check if it's expired.
       Renew invite on the server if it is expired.
       Otherwise go ahead and show a screen with a share code. */
-      // const { isTimeExpired } = getExpiredTime(inviteItem.expires_at);
+      // const { isTimeExpired } = getExpiredTime(invite.expires_at);
       // let readyToShare = true;
       // if (isTimeExpired) {
-        // readyToShare = false;
-        // const result = await dispatch(resendAdventureInvitation(inviteItem.id));
-        /* if (!result.error) {
+      // readyToShare = false;
+      // const result = await dispatch(resendAdventureInvitation(invite.id));
+      /* if (!result.error) {
           readyToShare = true;
         } else {
           throw false;
@@ -61,11 +74,11 @@ const ManageMembers = ({ messengers, me, adventure }) => {
       // }
 
       // if (readyToShare) {
-        navigation.navigate('AdventureShareCode', {
-          invitation: inviteItem,
-          withGroup: true,
-          isVideoInvite: false,
-        });
+      navigation.navigate('AdventureShareCode', {
+        invitation: invite,
+        withGroup: true,
+        isVideoInvite: false,
+      });
       // }
     } catch (error) {
       Alert.alert(
@@ -74,7 +87,7 @@ const ManageMembers = ({ messengers, me, adventure }) => {
         [
           {
             text: t('settings:email'),
-            onPress: () => {
+            onPress: (): void => {
               Communications.email(
                 ['support@vokeapp.com'], // TO
                 null, // CC
@@ -88,7 +101,9 @@ const ManageMembers = ({ messengers, me, adventure }) => {
           },
           {
             text: t('ok'),
-            onPress: () => {},
+            onPress: (): void => {
+              // No action.
+            },
           },
         ],
       );
@@ -159,7 +174,7 @@ const ManageMembers = ({ messengers, me, adventure }) => {
               ) : (
                 <></>
               )}
-              {subGroup.map((i, index) => (
+              {subGroup.map(i => (
                 <Image uri={i?.avatar?.small} style={styles.avatarInGroup} />
               ))}
               <Image uri={myAvatar} style={styles.avatar} />

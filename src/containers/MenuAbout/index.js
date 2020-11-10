@@ -6,14 +6,13 @@ import { useTranslation } from 'react-i18next';
 import Communications from 'react-native-communications';
 import DeviceInfo from 'react-native-device-info';
 import { useDispatch } from 'react-redux';
+
 import Flex from '../../components/Flex';
 import st from '../../st';
 import Image from '../../components/Image';
 import Text from '../../components/Text';
 import Touchable from '../../components/Touchable';
-
 import CONSTANTS from '../../constants';
-
 import CRU from '../../assets/cru.png';
 import SU from '../../assets/scriptureUnion.png';
 import JF from '../../assets/jesusFilm.png';
@@ -73,6 +72,12 @@ function MenuAbout(props) {
             return;
           }}
         />
+        {__DEV__ && (
+          <SettingsRow
+            title={' '}
+            onSelect={() => navigation.navigate('KitchenSink')}
+          />
+        )}
         <Flex
           direction="row"
           align="center"

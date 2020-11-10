@@ -54,6 +54,10 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.white,
   },
 
+  buttonColorAccent: {
+    backgroundColor: theme.colors.accent,
+  },
+
   buttonColorOutlineBlank: {
     backgroundColor: 'transparent',
     borderColor: theme.colors.white,
@@ -75,6 +79,14 @@ const styles = StyleSheet.create({
 
   iconColorBlank: {
     color: theme.colors.secondary,
+  },
+
+  textColorAccent: {
+    color: theme.colors.white,
+  },
+
+  iconColorAccent: {
+    color: theme.colors.white,
   },
 
   textColorOutlineBlank: {
@@ -101,7 +113,7 @@ const styles = StyleSheet.create({
   buttonSizeM: {
     paddingVertical: 4,
     paddingHorizontal: 14,
-    borderRadius: theme.radius.s,
+    borderRadius: theme.radius.xxl,
   },
   buttonSizeL: {
     paddingVertical: theme.spacing.m,
@@ -122,14 +134,16 @@ const styles = StyleSheet.create({
   iconSizeS: {
     fontSize: theme.fontSizes.m,
     lineHeight: theme.fontSizes.m * 1.35,
+    marginRight: theme.spacing.xs,
   },
   textSizeM: {
     fontSize: theme.fontSizes.l,
-    lineHeight: theme.fontSizes.l * 1.35,
+    lineHeight: theme.fontSizes.l * 1.5,
   },
   iconSizeM: {
     fontSize: theme.fontSizes.l,
-    lineHeight: theme.fontSizes.l * 1.35,
+    lineHeight: theme.fontSizes.l,
+    marginRight: theme.spacing.s,
   },
   textSizeL: {
     fontSize: theme.fontSizes.xl,
@@ -138,12 +152,13 @@ const styles = StyleSheet.create({
   iconSizeL: {
     fontSize: theme.fontSizes.xl,
     lineHeight: theme.fontSizes.xl * 1.35,
+    marginRight: theme.spacing.l,
   },
 
   // -------------------------
 
   icon: {
-    marginRight: theme.spacing.l,
+    // marginRight: theme.spacing.l,
   },
 
   /* outerSolidPrimaryL: {
