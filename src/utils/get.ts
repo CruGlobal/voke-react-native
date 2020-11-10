@@ -8,6 +8,7 @@ import {
   TAdventureSteps,
   TAdventureStepSingle,
 } from '../types';
+import VersionCheck from 'react-native-version-check';
 
 // Get Single Adventure by Id.
 export function getAdventureById(adventureId: string): TAdventureSingle {
@@ -86,4 +87,12 @@ export function getExpiredTime(date: string) {
     hours > 0 ? `${hours} hr${hours !== 1 ? 's' : ''} ` : ''
   }${minutes >= 0 ? `${minutes} min ` : ''}`;
   return { str, isTimeExpired: diff < 0 };
+}
+
+export function getStoreUrl(){
+  // VersionCheck.getStoreUrl({ appID: '364709193' }).then(res => {/
+  VersionCheck.getStoreUrl().then(res => {
+    console.log( "🐸 res:", res );
+    return res;
+  });
 }

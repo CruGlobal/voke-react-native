@@ -5,6 +5,7 @@ import orderBy from 'lodash/orderBy';
 import memoize from 'lodash/memoize';
 import uniqBy from 'lodash/uniqBy';
 import xor from 'lodash/xor';
+import upperCase from 'lodash/upperCase';
 // import clone from 'lodash/clone';
 import difference from 'lodash/difference';
 import moment from 'moment';
@@ -14,7 +15,7 @@ import Orientation from 'react-native-orientation-locker';
 
 import CONSTANTS from '../constants';
 
-export { difference, memoize, orderBy, range, debounce, throttle, xor, uniqBy };
+export { difference, memoize, orderBy, range, debounce, throttle, xor, uniqBy, upperCase };
 
 export function youtube_parser(url) {
   const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
