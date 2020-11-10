@@ -51,7 +51,9 @@ export function getNextReleaseDate({ startDate, releasePeriod }): string {
     const releaseToday = moment(
       moment().format('DD MM YYYY') + ' ' + releaseTime,
       'DD MM YYYY h:mm a',
-    ).utc().format();
+    )
+      .utc()
+      .format();
 
     // Check if Today's release is in the past or in the future.
     const releaseTodayDiff = moment(releaseToday).diff(moment());
@@ -61,7 +63,7 @@ export function getNextReleaseDate({ startDate, releasePeriod }): string {
     }
   }
 
-  return moment(startDate).add(daysStartToNext, 'days').utc().format() ;
+  return moment(startDate).add(daysStartToNext, 'days').utc().format();
 }
 
 export function getDiffToDate(date: string): string {
@@ -72,18 +74,25 @@ export function getTimeToDate(date: string): string {
   return moment(date).format('h:mm a');
 }
 
-export function getExpiredTime(date: string) {
-  const nowMoment = moment();
-  const expireMoment = moment.utc(date);
-  const diff = moment(expireMoment).diff(nowMoment);
-  const diffDuration = moment.duration(diff);
-  const days = diffDuration.days();
-  const hours = diffDuration.hours();
-  const minutes = diffDuration.minutes();
+export function getExpiredTime(
+  date: string,
+): {
+  str: string;
+  isTimeExpired: boolean;
+} {
+  const diff = moment(date).diff(moment.now());
+  const isTimeExpired = diff < 0;
+  let str = '';
+  if (diff > 0) {
+    const diffDuration = moment.duration(diff);
+    const days = diffDuration.days();
+    const hours = diffDuration.hours();
+    const minutes = diffDuration.minutes();
 
-  // TODO: Translate it.
-  const str = `${days > 0 ? `${days} day${days !== 1 ? 's' : ''} ` : ''}${
-    hours > 0 ? `${hours} hr${hours !== 1 ? 's' : ''} ` : ''
-  }${minutes >= 0 ? `${minutes} min ` : ''}`;
-  return { str, isTimeExpired: diff < 0 };
+    // TODO: Translate it.
+    str = `${days > 0 ? `${days} day${days !== 1 ? 's' : ''} ` : ''}${
+      hours > 0 ? `${hours} hr${hours !== 1 ? 's' : ''} ` : ''
+    }${minutes >= 0 ? `${minutes} min ` : ''}`;
+  }
+  return { str, isTimeExpired };
 }

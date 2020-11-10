@@ -23,6 +23,8 @@ import {
   getAvailableAdventures,
 } from '../../actions/requests';
 import theme from '../../theme';
+import { RootState } from '../../reducers';
+import { TDataState, TInvitation } from '../../types';
 
 import styles from './styles';
 
@@ -43,9 +45,13 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
   //   ...item,
   // };
 
-  const inviteItem = useSelector(
-    ({ data }) => data.adventureInvitations.byId[inviteID],
-  );
+  const inviteItem: TInvitation =
+    useSelector(
+      ({ data }: RootState) =>
+        data.adventureInvitations.byId[
+          inviteID as keyof TDataState['adventureInvitations']['byId']
+        ],
+    ) || {};
 
   const [isExpired, setIsExpired] = useState(false);
   const [time, setTime] = useState('');
@@ -60,14 +66,14 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
 
   const thumbnail = useMemo(() => orgJourneyImage || '', [orgJourneyImage]);
 
-  if (!code) {
-    return <></>;
-  }
-
   const updateExpire = () => {
-    const { str, isTimeExpired } = getExpiredTime(inviteItem.expires_at);
-    setIsExpired(isTimeExpired);
-    setTime(str);
+    if (inviteItem.expires_at) {
+      const { str, isTimeExpired } = getExpiredTime(inviteItem.expires_at);
+      setIsExpired(isTimeExpired ? true : false);
+      setTime(str);
+    } else {
+      setIsExpired(false);
+    }
   };
 
   useEffect(() => {
@@ -94,6 +100,10 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
       setTimer(null);
     }
   }, timer);
+
+  if (!code) {
+    return <></>;
+  }
 
   const resendInvite = async inviteID => {
     try {
@@ -131,6 +141,18 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
     // );
   };
 
+  const showStatus = (): string => {
+    if (inviteItem.expires_at && isExpired) {
+      return t('adventuresList:codeExpired', { name });
+    } else {
+      if (isGroup) {
+        return `${name}: \n` + t('adventuresList:waitingForGroup');
+      } else {
+        return t('adventuresList:waitingForFriend', { name })
+      }
+    }
+  };
+
   return (
     <Flex style={styles.InviteWrapper}>
       <Touchable
@@ -158,11 +180,7 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
             style={[styles.InviteBlockContent]}
           >
             <Text numberOfLines={2} style={[st.white, st.fs4]}>
-              {isExpired
-                ? t('adventuresList:codeExpired', { name })
-                : isGroup
-                ? `${name}: \n` + t('adventuresList:waitingForGroup')
-                : t('adventuresList:waitingForFriend', { name })}
+              { showStatus() }
             </Text>
             <Flex value={1} direction="column" align="left" justify="between">
               <Flex
@@ -190,7 +208,7 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
                     style={[st.white, st.fs6]}
                     testID="expiresIn"
                   >
-                    {t('adventuresList:expiresIn', { time })}
+                    {time ? t('adventuresList:expiresIn', { time }) : ''}
                   </Text>
                 ) : (
                   <OldButton

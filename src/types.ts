@@ -214,6 +214,25 @@ export type TMessage = {
   };
 };
 
+export interface TInvitation {
+  id: string;
+  messenger_journey_id: string;
+  code: string;
+  name: string;
+  kind: 'duo' | 'multiple';
+  status: 'waiting' | 'canceled' | 'accepted';
+  preview_journey_url: string;
+  organization_journey: {
+    id: string;
+    name: string;
+    slogan: string;
+    image: TImage;
+  }
+  expires_at: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface TDataState {
   dataChangeTracker: {
     notifications: number;
@@ -236,7 +255,7 @@ export interface TDataState {
     allIds: [string] | [];
   };
   adventureInvitations: {
-    byId: { [key: string]: object } | {};
+    byId: { [key: string]: TInvitation } | {};
     allIds: [string] | [];
   };
   adventureSteps: {
