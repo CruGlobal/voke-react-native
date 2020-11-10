@@ -159,7 +159,7 @@ function AdventureCode(): ReactElement {
           label={t('adventureCode:adventureCode')}
           placeholder="000000"
           value={adventureCode}
-          onChangeText={text => setAdventureCode(text)}
+          onChangeText={text => setAdventureCode(text.trim())}
           returnKeyType="done"
           onSubmitEditing={handleContinue}
           keyboardType="number-pad"
