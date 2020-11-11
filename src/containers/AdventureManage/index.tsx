@@ -84,7 +84,7 @@ function AdventureManage({
     useSelector(
       ({ data }: { data: TDataState }) =>
         data.adventureSteps[adventureId]?.allIds,
-    ) || {};
+    ) || [];
 
   useEffect(() => {
     if (adventureId && !stepsListIds.length) {

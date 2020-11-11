@@ -8,19 +8,11 @@ const styles = StyleSheet.create({
     flex: 1,
     height: '100%',
   },
-  screen: {
-    width: '100%',
-    height: '100%',
-    alignItems: 'center', // Horizontal.
-    justifyContent: 'flex-end', // Vertical.
-    flexGrow: 1,
-    minHeight: '100%',
-  },
   container: {
     flex: 1,
     alignItems: 'center',
     width: '100%',
-    paddingHorizontal: theme.spacing.xl,
+    paddingVertical: theme.spacing.xl,
     justifyContent: 'center',
   },
   scrollView: {

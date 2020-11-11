@@ -37,7 +37,8 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: 'floralwhite',
     borderRadius: theme.radius.l,
-    height: theme.window.width * 0.8,
+    // height: theme.window.width * 0.8,
+    height: 300,
     // width: 100,
     paddingHorizontal: theme.spacing.m,
     paddingVertical: theme.spacing.xl,
@@ -50,6 +51,7 @@ const styles = StyleSheet.create({
   cardTitle: { fontSize: theme.fontSizes.xxl },
   cardDescription: {
     textAlign: 'center',
+    lineHeight: theme.fontSizes.m * 1.3,
   },
   cardRecommended: {
     color: theme.colors.orange,
