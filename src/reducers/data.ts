@@ -146,8 +146,6 @@ export function data(state = initialState, action: any): TDataState {
     }
 
     case REDUX_ACTIONS.SEND_ADVENTURE_INVITATION: {
-      const allIds = state.adventureInvitations.allIds || [];
-
       return {
         ...state,
         adventureInvitations: {
@@ -155,7 +153,7 @@ export function data(state = initialState, action: any): TDataState {
             ...state.adventureInvitations.byId,
             [action.result.id]: action.result,
           },
-          allIds: [action.result.id].concat(allIds),
+          allIds: [action.result.id, ...state.adventureInvitations.allIds],
         },
       };
     }

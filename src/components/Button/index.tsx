@@ -59,7 +59,6 @@ const getStyles = ({
   if (styling === 'outline' && color === 'blank') {
     applyColor = styling + capitalize(color);
   }
-  console.log( "🐸 upperCase(radius):", upperCase(radius) );
   // Need the next check to prove to TypeScript
   // that styleName is among indexes in the stylesheet.
   const stSize = `${el}Size${capitalize(size)}` as keyof typeof styles;
@@ -74,12 +73,10 @@ const getStyles = ({
     styles[stStyling],
     styles[stRadius],
   ];
-  console.log( "🐸 composedStyles:", composedStyles );
   // Conditionally add extra styles for shadows.
   if (element === 'button' && shadow) {
     composedStyles = [...composedStyles, styles.shadow];
   }
-
   return composedStyles;
 };
 /**

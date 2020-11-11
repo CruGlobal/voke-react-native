@@ -308,6 +308,8 @@ export function sendAdventureInvitation(data: any) {
     dispatch({
       type: REDUX_ACTIONS.SEND_ADVENTURE_INVITATION,
       result,
+      description:
+        'Add New Adventure Invitation from requests > sendAdventureInvitation()',
     });
     return result;
   };
