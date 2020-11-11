@@ -45,15 +45,23 @@ export function next() {
   return {};
 }
 
-export function setComplain({
-  messageId,
-  adventureId
-}) {
+export function setComplain({ messageId, adventureId }) {
   return async (dispatch: Dispatch, getState: any) => {
     dispatch({
       type: REDUX_ACTIONS.SET_COMPLAIN,
       props: { messageId, adventureId },
       description: 'Create complain',
+    });
+  };
+}
+
+export function remindToUpdate(date: string) {
+  return async (dispatch: Dispatch, getState: any) => {
+    dispatch({
+      type: REDUX_ACTIONS.SET_REMIND_TO_UPDATE,
+      remindToUpdateOn: date,
+      description: `RemindToUpdateOn value updated.
+         Called from: actions > info > remindToUpdate()`,
     });
   };
 }

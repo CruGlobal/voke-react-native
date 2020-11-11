@@ -3,36 +3,52 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Portal } from 'react-native-portalize';
 import { Modalize } from 'react-native-modalize';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { Linking, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
 import Text from '../Text';
 import theme from '../../theme';
-import { useCheckUpdate } from '../../hooks/useCheckUpdate';
+import useCheckUpdate from '../../hooks/useCheckUpdate';
 import Button from '../Button';
 import UkeBot from '../../assets/UkeBot.png';
 import Image from '../Image';
-import Spacer from '../Spacer';
+import useStoreUrl from '../../hooks/useStoreUrl';
+import { remindToUpdate } from '../../actions/info';
+import { RootState } from '../../reducers';
 
 import styles from './styles';
-import { getStoreUrl } from '../../utils/get';
 
 function ModalAppUpdate(): ReactElement {
   const { t } = useTranslation('modal');
+  const dispatch = useDispatch();
   const modalizeRef = useRef<Modalize>(null);
-  // const updateNeeded = useCheckUpdate();
-  const updateNeeded = 'major';
-  const storeUrl = getStoreUrl();
-  console.log( "🐸 storeUrl:", storeUrl );
+  const updateNeeded = useCheckUpdate();
+  // const updateNeeded = 'minor'; // - left here for testing
+  const storeUrl = useStoreUrl('1056168356');
+  const remindToUpdateOn: string = useSelector(
+    ({ info }: RootState) => info.remindToUpdateOn,
+  );
 
   useEffect(() => {
-    if (updateNeeded) {
+    const timeDiff = moment(remindToUpdateOn).diff(moment());
+    // If update needed and reminder timeout has expired.
+    if (updateNeeded && timeDiff < 0) {
+      // remindToUpdateOn
       modalizeRef.current?.open();
     }
-  }, [updateNeeded]);
+  }, [updateNeeded, remindToUpdateOn]);
 
   const onRemindMeLater = (): void => {
     // Remind me later - does not show the update message again
     // until a 5 day / 120 hour period.
+    dispatch(remindToUpdate(moment().add(5, 'days').format()));
+    modalizeRef.current?.close();
+  };
+
+  const onUpdateNow = (): void => {
+    Linking.openURL(storeUrl);
+    onRemindMeLater();
   };
 
   return (
@@ -74,12 +90,12 @@ function ModalAppUpdate(): ReactElement {
               {updateNeeded === 'minor' ? t('getLatestVoke') : t('majorUpdate')}
             </Text>
             <View style={styles.callToActionBlock}>
-              <Button size="m" radius="m">
+              <Button size="m" radius="m" onPress={onUpdateNow}>
                 {t('updateApp')}
               </Button>
             </View>
             {updateNeeded === 'minor' ? (
-              <Text onClick={onRemindMeLater} style={styles.secondaryAction}>
+              <Text onPress={onRemindMeLater} style={styles.secondaryAction}>
                 {t('remindMeLater')}
               </Text>
             ) : (

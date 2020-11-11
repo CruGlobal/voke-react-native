@@ -88,11 +88,3 @@ export function getExpiredTime(date: string) {
   }${minutes >= 0 ? `${minutes} min ` : ''}`;
   return { str, isTimeExpired: diff < 0 };
 }
-
-export function getStoreUrl(){
-  // VersionCheck.getStoreUrl({ appID: '364709193' }).then(res => {/
-  VersionCheck.getStoreUrl().then(res => {
-    console.log( "🐸 res:", res );
-    return res;
-  });
-}

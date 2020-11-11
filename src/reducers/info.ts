@@ -13,21 +13,24 @@ const initialState = {
   groupTutorialCount: 0,
   duoTutorialCount: 0,
   tutorialMode: false,
+  remindToUpdateOn: '',
 };
 
-export default function (
+export function info(
   state = initialState,
   action: {
-    props: any,
-    toastProps: any,
-    complain: any,
-    permission: any,
-    notificationsRequest: any,
-    screen: any,
-    data: any,
-    groupTutorialCount: Number,
-    duoTutorialCount: Number,
-    tutorialMode: any,
+    type: string;
+    props: any;
+    toastProps: any;
+    complain: any;
+    permission: any;
+    notificationsRequest: any;
+    screen: any;
+    data: any;
+    groupTutorialCount: number;
+    duoTutorialCount: number;
+    tutorialMode: any;
+    remindToUpdateOn: string;
   },
 ) {
   switch (action.type) {
@@ -67,6 +70,11 @@ export default function (
       return {
         ...state,
         duoTutorialCount: action.duoTutorialCount,
+      };
+    case REDUX_ACTIONS.SET_REMIND_TO_UPDATE:
+      return {
+        ...state,
+        remindToUpdateOn: action.remindToUpdateOn,
       };
     case REDUX_ACTIONS.SET_SCREEN:
       return {
