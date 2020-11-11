@@ -184,7 +184,6 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
                 style={styles.CodeBlock}
               >
                 <Text numberOfLines={1} style={styles.Code}>
-                  {' '}
                   {t('adventuresList:code')}
                 </Text>
                 <Text
