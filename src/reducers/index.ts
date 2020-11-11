@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import auth from './auth';
 import { data } from './data';
-import info from './info';
+import { info } from './info';
 
 // Migrate critical state data from old version of the store.
 /* const migrations = {

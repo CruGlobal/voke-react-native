@@ -111,14 +111,14 @@ const styles = StyleSheet.create({
   buttonSizeS: {
   },
   buttonSizeM: {
-    paddingVertical: 4,
-    paddingHorizontal: 14,
-    borderRadius: theme.radius.xxl,
+    paddingVertical: theme.spacing.s,
+    paddingHorizontal: theme.spacing.m,
+    // borderRadius: theme.radius.xxl,
   },
   buttonSizeL: {
     paddingVertical: theme.spacing.m,
     paddingHorizontal: theme.spacing.l,
-    borderRadius: theme.radius.xxl,
+    // borderRadius: theme.radius.xxl,
   },
 
   // TEXT SIZE:
@@ -137,8 +137,8 @@ const styles = StyleSheet.create({
     marginRight: theme.spacing.xs,
   },
   textSizeM: {
-    fontSize: theme.fontSizes.l,
-    lineHeight: theme.fontSizes.l * 1.5,
+    fontSize: theme.fontSizes.xl,
+    lineHeight: theme.fontSizes.xl * 1.5,
   },
   iconSizeM: {
     fontSize: theme.fontSizes.l,
@@ -153,6 +153,22 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.xl,
     lineHeight: theme.fontSizes.xl * 1.35,
     marginRight: theme.spacing.l,
+  },
+
+  // -------------------------
+  // RADIUS:
+
+  buttonRadiusS: {
+    borderRadius: theme.radius.s,
+  },
+  buttonRadiusM: {
+    borderRadius: theme.radius.m,
+  },
+  buttonRadiusL: {
+    borderRadius: theme.radius.xl,
+  },
+  buttonRadiusXXL: {
+    borderRadius: theme.radius.xxl,
   },
 
   // -------------------------
