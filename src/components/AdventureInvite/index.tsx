@@ -148,7 +148,7 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
       if (isGroup) {
         return `${name}: \n` + t('adventuresList:waitingForGroup');
       } else {
-        return t('adventuresList:waitingForFriend', { name })
+        return t('adventuresList:waitingForFriend', { name });
       }
     }
   };
@@ -180,7 +180,13 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
             style={[styles.InviteBlockContent]}
           >
             <Text numberOfLines={2} style={[st.white, st.fs4]}>
-              { showStatus() }
+              {showStatus()}
+            </Text>
+            <Text
+              style={{ backgroundColor: 'yellow', paddingHorizontal: 6 }}
+            >
+              Expires at:{' '}
+              {moment(inviteItem.expires_at).format('YYYY-MM-DD HH:mm')}
             </Text>
             <Flex value={1} direction="column" align="left" justify="between">
               <Flex

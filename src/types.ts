@@ -252,33 +252,33 @@ export interface TDataState {
   availableAdventures: TAvailableAdventure[];
   myAdventures: {
     byId: { [key: string]: TAdventureSingle } | {};
-    allIds: [string] | [];
+    allIds: (string | null)[];
   };
   adventureInvitations: {
     byId: { [key: string]: TInvitation } | {};
-    allIds: [string] | [];
+    allIds: (string | null)[];
   };
   adventureSteps: {
     [key: string]: {
       byId: { [key: string]: object } | {};
-      allIds: [string] | [];
+      allIds: (string | null)[];
     };
   };
   adventureStepMessages: { [key: string]: object } | {};
   allVideos: { byId: { [key: string]: object } | {}; allIds: [string] | [] };
   featuredVideos: {
     byId: { [key: string]: object } | {};
-    allIds: [string] | [];
+    allIds: (string | null)[];
   };
   popularVideos: {
     byId: { [key: string]: object } | {};
-    allIds: [string] | [];
+    allIds: (string | null)[];
   };
   favoriteVideos: {
     byId: { [key: string]: object } | {};
-    allIds: [string] | [];
+    allIds: (string | null)[];
   };
-  searchVideos: { byId: { [key: string]: object } | {}; allIds: [string] | [] };
+  searchVideos: { byId: { [key: string]: object } | {}; allIds: (string | null)[] };
   videoTags: [];
   videoPagination: { [key: string]: object } | {};
 }

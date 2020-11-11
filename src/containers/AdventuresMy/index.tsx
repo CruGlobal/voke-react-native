@@ -79,9 +79,9 @@ const AdventuresMy = ({ route }: AdventuresMyProps): React.ReactElement => {
         {invitationsIds.length > 0 && (
           <>
             <Text style={styles.Heading}>{t('invitations')}</Text>
-            {invitationsIds.map((inviteID: string) => (
-              <AdventureInvite inviteID={inviteID} />
-            ))}
+            {invitationsIds.map(value =>
+              value ? <AdventureInvite inviteID={value} key={value} /> : <></>,
+            )}
           </>
         )}
         {myAdventuresIds.length > 0 && (
