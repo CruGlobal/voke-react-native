@@ -40,9 +40,10 @@ const ManageMembers = ({
   // eslint-disable-next-line camelcase
   const inviteItem: Invite = adventure?.journey_invite;
   // Move preview_journey_url from parent into the inviteItem data structure.
-  /* if ( !inviteItem?.preview_journey_url && adventure?.preview_journey_url ) {
-    inviteItem.preview_journey_url = adventure?.preview_journey_url
-  } */
+  // Don't delete unless Pablo moves preview_journey_url from adventure to inviteItem.
+  if (!inviteItem?.preview_journey_url && adventure?.preview_journey_url) {
+    inviteItem.preview_journey_url = adventure?.preview_journey_url;
+  }
 
   const otherUsers =
     messengers.filter(i => i.id !== me.id && i.first_name !== 'VokeBot') || [];

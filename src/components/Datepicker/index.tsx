@@ -61,7 +61,7 @@ function Datepicker({
         <Text style={styles.buttonLabel}>{date}</Text>
       </OldButton>
       <DateTimePickerModal
-        date={moment(date,'h:mm A').toDate()}
+        date={moment(date, 'h:mm A').toDate()}
         isVisible={isDatePickerVisible}
         mode={mode}
         onConfirm={handleConfirm}

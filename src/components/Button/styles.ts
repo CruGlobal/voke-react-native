@@ -109,6 +109,8 @@ const styles = StyleSheet.create({
   // SIZES:
 
   buttonSizeS: {
+    paddingVertical: theme.spacing.xs,
+    paddingHorizontal: theme.spacing.m,
   },
   buttonSizeM: {
     paddingVertical: theme.spacing.s,
@@ -130,11 +132,13 @@ const styles = StyleSheet.create({
   textSizeS: {
     fontSize: theme.fontSizes.m,
     lineHeight: theme.fontSizes.m * 1.35,
+    // backgroundColor: theme.colors.red,
   },
   iconSizeS: {
-    fontSize: theme.fontSizes.m,
+    fontSize: theme.fontSizes.l,
     lineHeight: theme.fontSizes.m * 1.35,
     marginRight: theme.spacing.xs,
+    // backgroundColor: theme.colors.black,
   },
   textSizeM: {
     fontSize: theme.fontSizes.xl,

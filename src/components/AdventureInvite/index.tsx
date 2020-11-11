@@ -80,16 +80,10 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
     updateExpire();
   }, []);
 
-  useFocusEffect(
-    // eslint-disable-next-line arrow-body-style
-    React.useCallback(() => {
-      // When the screen is focused:
-      updateExpire();
-      return (): void => {
-        // When the screen is unfocused:
-      };
-    }, []),
-  );
+
+  useEffect(() => {
+    updateExpire();
+  }, [inviteItem.expires_at]);
 
   // Create a live expiration countdown timer.
   // Function will fire by itself after required time passes..
@@ -181,12 +175,6 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
           >
             <Text numberOfLines={2} style={[st.white, st.fs4]}>
               {showStatus()}
-            </Text>
-            <Text
-              style={{ backgroundColor: 'yellow', paddingHorizontal: 6 }}
-            >
-              Expires at:{' '}
-              {moment(inviteItem.expires_at).format('YYYY-MM-DD HH:mm')}
             </Text>
             <Flex value={1} direction="column" align="left" justify="between">
               <Flex

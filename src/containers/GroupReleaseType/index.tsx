@@ -87,13 +87,13 @@ function GroupReleaseType(props: any): ReactElement {
             result = await dispatch(
               sendVideoInvitation({
                 name: values.name,
-                item_id: `${item.id}`,
+                item_id: `${itemId}`,
               }),
             );
           } else {
             result = await dispatch(
               sendAdventureInvitation({
-                organization_journey_id: item.id,
+                organization_journey_id: itemId,
                 name: values.name,
                 kind: withGroup ? 'multiple' : 'duo',
               }),
@@ -103,8 +103,8 @@ function GroupReleaseType(props: any): ReactElement {
           if (result?.id) {
             navigation.navigate('AdventureShareCode', {
               invitation: result,
-              withGroup,
-              isVideoInvite,
+              withGroup: true,
+              isVideoInvite: false,
             });
           } else {
             Alert.alert(

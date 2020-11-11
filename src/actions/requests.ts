@@ -325,8 +325,10 @@ export function resendAdventureInvitation(inviteId: string) {
     );
 
     dispatch({
-      type: REDUX_ACTIONS.RESEND_ADVENTURE_INVITATION,
+      type: REDUX_ACTIONS.UPDATE_ADVENTURE_INVITATION,
       result,
+      description:
+        'Update Adventure Invitation from requests > resendAdventureInvitation()',
     });
     return result;
   };
