@@ -27,6 +27,7 @@ import {
   sendAdventureInvitation,
   updateAdventure,
 } from '../../actions/requests';
+import Screen from '../../components/Screen';
 
 import styles from './styles';
 
@@ -167,106 +168,85 @@ const GroupReleaseDate = (props): React.ReactElement => {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      style={styles.wrapper}
-    >
-      {/* <StatusBar /> <- TODO: Not sure why we need it here? */}
-      {/* Makes possible to hide keyboard when tapping outside. */}
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={styles.scrollView}
-        scrollIndicatorInsets={{ right: 1 }}
-      >
-        <DismissKeyboardView style={{ flex: 1 }}>
-          <Flex style={styles.screen}>
-            <View style={styles.container}>
-              {releaseSchedule === 'weekly' && (
-                <Dropdown
-                  label={t('releaseDay')}
-                  items={[
-                    { label: t('monday'), value: 'Monday' },
-                    { label: t('tuesday'), value: 'Tuesday' },
-                    { label: t('wednesday'), value: 'Wednesday' },
-                    { label: t('thursday'), value: 'Thursday' },
-                    { label: t('friday'), value: 'Friday' },
-                    { label: t('saturday'), value: 'Saturday' },
-                    { label: t('sunday'), value: 'Sunday' },
-                  ]}
-                  onChange={(newDay: string): void => {
-                    setWeekday(newDay);
-                  }}
-                  initialValue={weekday}
-                />
-              )}
-              {releaseSchedule !== 'manual' && (
-                <>
-                  <Datepicker
-                    label={t('releaseTime')}
-                    format={'h:mm A'}
-                    initialDate={time}
-                    mode="time"
-                    minuteInterval={5}
-                    onChange={(newTime: string): void => {
-                      setTime(newTime);
-                    }}
-                    testID="datePickerModal"
-                  />
-                  <Text style={styles.textResult}>
-                    {t('videoUnlockSchedule') +
-                      ' ' +
-                      t(
-                        releaseSchedule === 'weekly' ? 'everyWeek' : 'everyDay',
-                      )}
+    <Screen>
+      <View style={styles.container}>
+        {releaseSchedule === 'weekly' && (
+          <Dropdown
+            label={t('releaseDay')}
+            items={[
+              { label: t('monday'), value: 'Monday' },
+              { label: t('tuesday'), value: 'Tuesday' },
+              { label: t('wednesday'), value: 'Wednesday' },
+              { label: t('thursday'), value: 'Thursday' },
+              { label: t('friday'), value: 'Friday' },
+              { label: t('saturday'), value: 'Saturday' },
+              { label: t('sunday'), value: 'Sunday' },
+            ]}
+            onChange={(newDay: string): void => {
+              setWeekday(newDay);
+            }}
+            initialValue={weekday}
+          />
+        )}
+        {releaseSchedule !== 'manual' && (
+          <>
+            <Datepicker
+              label={t('releaseTime')}
+              format={'h:mm A'}
+              initialDate={time}
+              mode="time"
+              minuteInterval={5}
+              onChange={(newTime: string): void => {
+                setTime(newTime);
+              }}
+              testID="datePickerModal"
+            />
+            <Text style={styles.textResult}>
+              {t('videoUnlockSchedule') +
+                ' ' +
+                t(releaseSchedule === 'weekly' ? 'everyWeek' : 'everyDay')}
+            </Text>
+            {releaseSchedule === 'weekly' && (
+              <>
+                <Touchable
+                  onPress={(): void =>
+                    copyToClipboard(moment(date).format('LLL'))
+                  }
+                >
+                  <Text style={styles.releaseDate}>
+                    {moment(date).format(' dddd, LT')}
                   </Text>
-                  {releaseSchedule === 'weekly' && (
-                    <>
-                      <Touchable
-                        onPress={(): void =>
-                          copyToClipboard(moment(date).format('LLL'))
-                        }
-                      >
-                        <Text style={styles.releaseDate}>
-                          {moment(date).format(' dddd, LT')}
-                        </Text>
-                      </Touchable>
-                      <Text style={styles.releaseDue}>
-                        {'( ' +
-                          t('nextRelease') +
-                          ' ' +
-                          moment().to(date) +
-                          ' )'}
-                      </Text>
-                    </>
-                  )}
-                </>
-              )}
-              {releaseSchedule === 'manual' && (
-                <>
-                  <Text style={styles.manual}>{t('groupReleaseManual')}</Text>
-                  <Image
-                    width={280}
-                    source={manualReleaseExample}
-                    style={styles.manualPicture}
-                  />
-                  <Text style={styles.manualSecondary}>
-                    {t('groupReleaseManualReady')}
-                  </Text>
-                </>
-              )}
-              <OldButton
-                onPress={handleContinue}
-                touchableStyle={styles.button}
-                isLoading={isLoading}
-                testID={'ctaReleaseContinue'}
-              >
-                <Text style={styles.buttonLabel}>{t('continue')}</Text>
-              </OldButton>
-            </View>
-          </Flex>
-        </DismissKeyboardView>
-      </ScrollView>
-    </KeyboardAvoidingView>
+                </Touchable>
+                <Text style={styles.releaseDue}>
+                  {'( ' + t('nextRelease') + ' ' + moment().to(date) + ' )'}
+                </Text>
+              </>
+            )}
+          </>
+        )}
+        {releaseSchedule === 'manual' && (
+          <>
+            <Text style={styles.manual}>{t('groupReleaseManual')}</Text>
+            <Image
+              width={280}
+              source={manualReleaseExample}
+              style={styles.manualPicture}
+            />
+            <Text style={styles.manualSecondary}>
+              {t('groupReleaseManualReady')}
+            </Text>
+          </>
+        )}
+        <OldButton
+          onPress={handleContinue}
+          touchableStyle={styles.button}
+          isLoading={isLoading}
+          testID={'ctaReleaseContinue'}
+        >
+          <Text style={styles.buttonLabel}>{t('continue')}</Text>
+        </OldButton>
+      </View>
+    </Screen>
   );
 };
 

@@ -153,78 +153,81 @@ function AccountPhoto(props) {
 
   return (
     <Screen>
-     
-          <BotTalking heading={t('addPhotoTitle')} style={{
-            paddingBottom:
-              windowDimensions.height > 600 ? theme.spacing.xxl : 0,
-            // Don't set height for bot messages!
-            // It should be flexible for every screen.
-          }}>{t('addPhoto')}</BotTalking>
-        <Flex />
-        <Touchable onPress={handleSelectImage}>
-          <Flex
-            direction="column"
-            align="center"
-            justify="center"
-            style={[
-              st.w(st.fullWidth / 1.8),
-              st.h(st.fullWidth / 1.8),
-              {
-                alignSelf: 'center',
-                
-                borderRadius: st.fullWidth / 1.8,
-                backgroundColor: theme.colors.secondaryAlt,
-              },
-            ]}
-          >
-            {!avatarSource ? (
-              <VokeIcon
-                type="image"
-                name="camera"
-                style={[st.w(70), st.h(70), st.white]}
-                testID={'iconCamera'}
-              />
-            ) : (
-              <>
-                <Image
-                  source={avatarSource}
-                  style={[
-                    st.w(st.fullWidth / 1.8),
-                    st.h(st.fullWidth / 1.8),
-                    { borderRadius: st.fullWidth / 1.8 },
-                  ]}
-                />
-              </>
-            )}
-          </Flex>
-        </Touchable>
-        <OldButton
-          onPress={handleContinue}
-          touchableStyle={[
-            st.pd4,
-            st.br1,
-            st.w(st.fullWidth - 70),
+      <BotTalking
+        heading={t('addPhotoTitle')}
+        style={{
+          paddingBottom: windowDimensions.height > 600 ? theme.spacing.xxl : 0,
+          // Don't set height for bot messages!
+          // It should be flexible for every screen.
+        }}
+      >
+        {t('addPhoto')}
+      </BotTalking>
+      <Flex />
+      <Touchable onPress={handleSelectImage}>
+        <Flex
+          direction="column"
+          align="center"
+          justify="center"
+          style={[
+            st.w(st.fullWidth / 1.8),
+            st.h(st.fullWidth / 1.8),
             {
-              marginTop:
-                windowDimensions.height > 800
-                  ? theme.spacing.xxl
-                  : theme.spacing.xl,
-              backgroundColor: theme.colors.white,
-              textAlign: 'center',
-              shadowColor: 'rgba(0, 0, 0, 0.5)',
-              shadowOpacity: 0.5,
-              elevation: 4,
-              shadowRadius: 5,
-              shadowOffset: { width: 1, height: 8 },
+              alignSelf: 'center',
+
+              borderRadius: st.fullWidth / 1.8,
+              backgroundColor: theme.colors.secondaryAlt,
             },
           ]}
-          isLoading={loginLoading}
-          testID={'ctaPhotoContinue'}
         >
-          <Text style={[st.fs20, st.tac, { color: theme.colors.secondary }]}>
-            {avatarSource ? t('next') : t('skip')}
-          </Text>
-        </OldButton>
+          {!avatarSource ? (
+            <VokeIcon
+              type="image"
+              name="camera"
+              style={[st.w(70), st.h(70), st.white]}
+              testID={'iconCamera'}
+            />
+          ) : (
+            <>
+              <Image
+                source={avatarSource}
+                style={[
+                  st.w(st.fullWidth / 1.8),
+                  st.h(st.fullWidth / 1.8),
+                  { borderRadius: st.fullWidth / 1.8 },
+                ]}
+              />
+            </>
+          )}
+        </Flex>
+      </Touchable>
+      <OldButton
+        onPress={handleContinue}
+        touchableStyle={[
+          st.pd4,
+          st.br1,
+          {
+            marginTop:
+              windowDimensions.height > 800
+                ? theme.spacing.xxl
+                : theme.spacing.xl,
+            backgroundColor: theme.colors.white,
+            textAlign: 'center',
+            shadowColor: 'rgba(0, 0, 0, 0.5)',
+            shadowOpacity: 0.5,
+            elevation: 4,
+            shadowRadius: 5,
+            shadowOffset: { width: 1, height: 8 },
+            width:'100%',
+          },
+        ]}
+        isLoading={loginLoading}
+        testID={'ctaPhotoContinue'}
+      >
+        <Text style={[st.fs20, st.tac, { color: theme.colors.secondary }]}>
+          {avatarSource ? t('next') : t('skip')}
+        </Text>
+      </OldButton>
     </Screen>
   );
 }
