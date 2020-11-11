@@ -57,6 +57,15 @@ const KitchenSink = props => {
     <Screen>
       <Text>Kitchen Sknk</Text>
       <View>
+          <Button size="l" >Button size L</Button>
+          <Spacer />
+          <Button size="l" radius="l" >Button size L, radius L</Button>
+          <Spacer />
+          <Button size="l" radius="m" >Button size L, radius M</Button>
+          <Spacer />
+          <Button size="l" radius="s" >Button size L, radius S</Button>
+      </View>
+      <View>
         <View>
           <Button onPress={showDatepicker}>Show date picker!</Button>
         </View>

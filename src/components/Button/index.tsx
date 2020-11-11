@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { useDebouncedCallback } from 'use-debounce';
 
-import { capitalize } from '../../utils';
+import { capitalize, upperCase } from '../../utils';
 import Touchable from '../Touchable';
 import VokeIcon from '../VokeIcon';
 
@@ -20,6 +20,7 @@ interface StylingProps {
   styling?: 'solid' | 'outline';
   color?: 'primary' | 'secondary' | 'accent' | 'blank';
   size?: 's' | 'm' | 'l';
+  radius?: 's' | 'm' | 'l' | 'xxl';
   shadow?: boolean;
 }
 
@@ -50,28 +51,31 @@ const getStyles = ({
   color,
   styling,
   shadow,
+  radius,
 }: GetStylesProps): (ViewStyle | ImageStyle)[] => {
-  // Need the next check to prove to TypeScript
-  // that styleName is among indexes in the stylesheet.
-  const styleNameSize = `${element}Size${capitalize(
-    size,
-  )}` as keyof typeof styles;
-  let composedStyles = [styles[element], styles[styleNameSize]];
-
+  const el = element;
+  // Conditional Color Customization.
   let applyColor: string = color || '';
   if (styling === 'outline' && color === 'blank') {
     applyColor = styling + capitalize(color);
   }
-  const styleNameColor = `${element}Color${capitalize(
-    applyColor,
-  )}` as keyof typeof styles;
-  composedStyles = [...composedStyles, styles[styleNameColor]];
-
-  const styleNameStyling = `${element}Styling${capitalize(
-    styling,
-  )}` as keyof typeof styles;
-  composedStyles = [...composedStyles, styles[styleNameStyling]];
-
+  console.log( "🐸 upperCase(radius):", upperCase(radius) );
+  // Need the next check to prove to TypeScript
+  // that styleName is among indexes in the stylesheet.
+  const stSize = `${el}Size${capitalize(size)}` as keyof typeof styles;
+  const stStyling = `${el}Styling${capitalize(styling)}` as keyof typeof styles;
+  const stColor = `${el}Color${capitalize(applyColor)}` as keyof typeof styles;
+  const stRadius = `${el}Radius${upperCase(radius)}` as keyof typeof styles;
+  // Put all styles together.
+  let composedStyles = [
+    styles[element],
+    styles[stSize],
+    styles[stColor],
+    styles[stStyling],
+    styles[stRadius],
+  ];
+  console.log( "🐸 composedStyles:", composedStyles );
+  // Conditionally add extra styles for shadows.
   if (element === 'button' && shadow) {
     composedStyles = [...composedStyles, styles.shadow];
   }
@@ -91,12 +95,20 @@ const Button: FunctionComponent<ButtonProps> = ({
   styling = 'solid',
   color = 'primary',
   size = 'm',
+  radius = 'xxl',
   icon,
   testID,
   shadow = false,
   ...rest
 }) => {
-  const stylesOuter = getStyles({ element: 'button', styling, color, size, shadow });
+  const stylesOuter = getStyles({
+    element: 'button',
+    styling,
+    color,
+    size,
+    shadow,
+    radius,
+  });
   const stylesText = getStyles({ element: 'text', styling, color, size });
   const stylesIcon = getStyles({ element: 'icon', styling, color, size });
 

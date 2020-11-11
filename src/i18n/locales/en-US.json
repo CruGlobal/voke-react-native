@@ -263,10 +263,10 @@
         "login": "Login"
     },
     "modal": {
+        "accountRequiredTitle": "Sign Up or Sign In ",
+        "accountRequiredIntro": "Group owners need protected accounts to manage members.",
         "description": "Voke uses your contacts to make sharing quick and easy.",
-        "moreDescription": "1. By finding friends in your contacts you can share with.\n2. To be encouraged when your friends are using Voke.",
-        "moreTitle": "Voke helps you start deeper conversations in two ways",
-        "title": "User Address Book?",
+        "getLatestVoke" : "We\u2019ve made Voke even better!\nGet the latest Voke updates.",
         "howDuoWorksBotTitle": "Welcome to Duo Adventures!",
         "howGroupsWorkBotTitle": "Welcome to Groups!",
         "howDuoWorksBotBody": "Learn more about it works, or get started right away.",
@@ -288,9 +288,15 @@
         "howSharingWorksLinkAccess": "Anyone with the link has access to the code to join your Adventure.",
         "howDuoWorksTitle": "How Duo Works",
         "howGroupsWorkTitle": "How Groups Work",
-        "welcomeTo": "Welcome to ",
-        "accountRequiredTitle": "Sign Up or Sign In ",
-        "accountRequiredIntro": "Group owners need protected accounts to manage members."
+        "moreDescription": "1. By finding friends in your contacts you can share with.\n2. To be encouraged when your friends are using Voke.",
+        "moreTitle": "Voke helps you start deeper conversations in two ways",
+        "majorUpdate" : "Major Update!\nNew features you can’t miss out on! ",
+        "newImproved": "New and Improved",
+        "remindMeLater": "Remind Me Later",
+        "title": "User Address Book?",
+        "updateApp": "Update App",
+        "updateToKeepUsing": "Please update your app to the\u00A0newest version to\u00A0continue using Voke",
+        "welcomeTo": "Welcome to "
     },
     "notifications": {
         "off": "Notifications turned off."

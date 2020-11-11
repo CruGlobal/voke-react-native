@@ -23,6 +23,13 @@ import {
 
 type Dispatch = ThunkDispatch<any, any, any>;
 
+// Declaring ws as typed property of the global object.
+interface CustomGlobal extends NodeJS.Global {
+  ws: WebSocket;
+}
+
+declare const global: CustomGlobal;
+
 // Push notification Android error
 // https://github.com/zo0r/react-native-push-notification/issues/495
 

@@ -8,6 +8,7 @@ import {
   TAdventureSteps,
   TAdventureStepSingle,
 } from '../types';
+import VersionCheck from 'react-native-version-check';
 
 // Get Single Adventure by Id.
 export function getAdventureById(adventureId: string): TAdventureSingle {
