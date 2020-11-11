@@ -127,7 +127,7 @@ export default function CustomModal(props: any): React.ReactElement {
     // eslint-disable-next-line arrow-body-style
     React.useCallback(() => {
       // When the screen is focused:
-      checkNotificationsPopupVisibility();
+      checkNotificationsPopupVisibility(); // TODO: Verify how closure affects it?
       return (): void => {
         // When the screen is unfocused:
       };

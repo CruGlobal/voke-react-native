@@ -97,6 +97,7 @@ function AvailableAdventureItem(
                     withGroup: false,
                   })
                 }
+                size="s"
                 color="accent"
                 icon="share"
                 testID={'ctaShareInviteFriend'}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
-import { ScrollView, Share, Linking, View } from 'react-native';
+import { ScrollView, Share, Linking, View, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import Communications from 'react-native-communications';
@@ -23,6 +23,7 @@ import YS from '../../assets/youthSpecialties.png';
 import Screen from '../../components/Screen';
 import Button from '../../components/Button';
 import Datepicker from '../../components/Datepicker';
+import Spacer from '../../components/Spacer';
 
 const KitchenSink = props => {
   const { t } = useTranslation();
@@ -56,7 +57,7 @@ const KitchenSink = props => {
   return (
     <Screen>
       <Text>Kitchen Sknk</Text>
-      <View>
+      <View style={{ backgroundColor: 'white', padding:20, }}>
           <Button size="l" >Button size L</Button>
           <Spacer />
           <Button size="l" radius="l" >Button size L, radius L</Button>

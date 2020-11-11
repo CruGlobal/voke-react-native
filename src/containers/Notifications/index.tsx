@@ -69,7 +69,7 @@ function Notifications(props) {
   useFocusEffect(
     // eslint-disable-next-line arrow-body-style
     React.useCallback(() => {
-      markNotificationsAsRead();
+      markNotificationsAsRead(); // TODO: Verify how closure affects it?
       return (): void => {
         // When the screen is unfocused:
       };

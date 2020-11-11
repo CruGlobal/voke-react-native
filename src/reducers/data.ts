@@ -158,6 +158,19 @@ export function data(state = initialState, action: any): TDataState {
       };
     }
 
+    case REDUX_ACTIONS.UPDATE_ADVENTURE_INVITATION: {
+      return {
+        ...state,
+        adventureInvitations: {
+          byId: {
+            ...state.adventureInvitations.byId,
+            [action.result.id]: action.result,
+          },
+          allIds: state.adventureInvitations.allIds,
+        },
+      };
+    }
+
     case REDUX_ACTIONS.UPDATE_INVITATIONS: {
       // See 'UPDATE_INVITATIONS NORMALIZATION EXAMPLE' at the end of this file.
       const invitationSchema = new schema.Entity('byId');
