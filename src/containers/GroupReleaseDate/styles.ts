@@ -21,6 +21,12 @@ const styles = StyleSheet.create({
     alignContent: 'stretch',
     justifyContent: 'flex-end',
   },
+  introText: {
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.l,
+    fontFamily: theme.fonts.semiBold,
+    textAlign: 'center',
+  },
   textResult: {
     textAlign: 'center',
     color: theme.colors.secondary,

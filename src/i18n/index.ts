@@ -6,16 +6,17 @@ import i18n, {
 import { NativeModules, Platform } from 'react-native';
 import { initReactI18next, reactI18nextModule } from 'react-i18next';
 import { findBestAvailableLanguage } from 'react-native-localize';
+
 import oneSkyTranslations from './locales/translations.json';
 import en_US from './locales/en-US.json';
 
 // Tip: use \u00A0 instead of npsp for i18n in translation strings.
 
 const deviceLanguage =
-          Platform.OS === 'ios'
-            ? NativeModules.SettingsManager.settings.AppleLocale ||
-              NativeModules.SettingsManager.settings.AppleLanguages[0] // iOS 13
-            : NativeModules.I18nManager.localeIdentifier;
+  Platform.OS === 'ios'
+    ? NativeModules.SettingsManager.settings.AppleLocale ||
+      NativeModules.SettingsManager.settings.AppleLanguages[0] // iOS 13
+    : NativeModules.I18nManager.localeIdentifier;
 // import * as moment from 'moment';
 // Pull in all the moment locales
 // import 'moment/min/locales.min';
@@ -34,9 +35,7 @@ const deviceLanguage =
 // };
 
 // Flatten OneSky translations to remove extra `translations` key
-const mapOneSkyToResourceLanguages = (
-  oneSkyTranslations: OneSkyTranslations,
-) =>
+const mapOneSkyToResourceLanguages = (oneSkyTranslations: OneSkyTranslations) =>
   Object.entries(oneSkyTranslations).reduce(
     (resources, [localeTag, oneskyTranslation]) => ({
       ...resources,
@@ -44,7 +43,6 @@ const mapOneSkyToResourceLanguages = (
     }),
     {},
   );
-
 
 const resourceLanguages = {
   // Use downloaded translations if available but use en-US from source to make development easier
@@ -88,8 +86,9 @@ const aliasedResourceLanguages: Resource = aliasLanguages(
 const languageDetector: LanguageDetectorModule = {
   type: 'languageDetector',
   detect: () => {
-    return (findBestAvailableLanguage(Object.keys(aliasedResourceLanguages)) || {})
-      .languageTag;
+    return (
+      findBestAvailableLanguage(Object.keys(aliasedResourceLanguages)) || {}
+    ).languageTag;
   },
   init: () => {},
   cacheUserLanguage: () => {},
@@ -105,7 +104,7 @@ export default i18n
   .init({
     // lng: 'es',
     // whitelist: ['en', 'es', 'fr', 'pt' ],
-    fallbackLng:  ['en', 'es', 'fr', 'pt' ],
+    fallbackLng: ['en', 'es', 'fr', 'pt'],
     // debug: true,
     // Use downloaded translations if available but use en-US from source to make development easier
     resources: aliasedResourceLanguages,
