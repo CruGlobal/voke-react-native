@@ -28,7 +28,7 @@ type TImage = {
   large: string;
 };
 
-export type TMessenger = {
+export interface TMessenger {
   id: string;
   first_name: string;
   last_name: string;
