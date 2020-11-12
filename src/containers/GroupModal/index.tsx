@@ -24,7 +24,7 @@ function GroupModal(props) {
   const me = useSelector(({ auth }) => auth.user);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const adventureId = props.route.params.adventureId;
+  const { adventureId } = props.route.params;
   // We update local adventures when accepting invite.
   // If no adventures in the local store at this point - we have a problem.
   const myAdventures = useSelector(({ data }) => data.myAdventures.byId);
@@ -248,7 +248,7 @@ function GroupModal(props) {
           <OldButton
             onPress={() =>
               navigation.navigate('AllMembersModal', {
-                adventure,
+                adventureId: adventure.id,
                 isJoined: false,
               })
             }

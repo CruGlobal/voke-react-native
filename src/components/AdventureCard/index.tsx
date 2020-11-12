@@ -180,7 +180,7 @@ const AdventureCardRender: FunctionComponent<Props> = ({
                 isAndroidOpacity={true}
                 onPress={(): void =>
                   navigation.navigate('AllMembersModal', {
-                    adventure: adventureItem,
+                    adventureId: adventureItem.id,
                     isJoined: true,
                   })
                 }
