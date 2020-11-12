@@ -48,7 +48,7 @@ export type TStep = {
   id: string;
   name: string;
   position: number;
-  status: string;
+  status: 'locked' | 'inactive' | 'active' | 'completed';
   locked: boolean;
   item: {
     content: {
@@ -227,7 +227,7 @@ export interface TInvitation {
     name: string;
     slogan: string;
     image: TImage;
-  }
+  };
   expires_at: string;
   created_at: string;
   updated_at: string;
@@ -278,7 +278,10 @@ export interface TDataState {
     byId: { [key: string]: object } | {};
     allIds: (string | null)[];
   };
-  searchVideos: { byId: { [key: string]: object } | {}; allIds: (string | null)[] };
+  searchVideos: {
+    byId: { [key: string]: object } | {};
+    allIds: (string | null)[];
+  };
   videoTags: [];
   videoPagination: { [key: string]: object } | {};
 }

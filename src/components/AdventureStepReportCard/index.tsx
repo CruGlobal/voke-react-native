@@ -75,7 +75,7 @@ function AdventureStepReportCard({
 
   const updateNextStep = () => {
     // if (isManual && step.status === 'inactive') {
-    if (isManual && step?.locked) {
+    if (step?.locked) {
       if (!activeStepRef.current) {
         activeStepRef.current = step.position;
       }

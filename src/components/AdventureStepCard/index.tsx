@@ -32,14 +32,17 @@ type StepProps = {
 type AdventureStepCardProps = {
   stepId: string;
   adventureId: string;
+  nextStepRef: any;
 };
 
 // Renders Cards on this screen https://d.pr/i/WsCCf2
 function AdventureStepCard({
   stepId,
   adventureId,
+  nextStepRef,
 }: AdventureStepCardProps): React.ReactElement {
   const { t } = useTranslation('journey');
+
   const navigation = useNavigation();
   const userId = getCurrentUserId();
   const adventure: TAdventureSingle = useSelector(
@@ -62,6 +65,7 @@ function AdventureStepCard({
   );
   // const [isLocked, setIsLocked] = useState(!isCompleted && !isActive);
   const [isLocked, setIsLocked] = useState(true);
+  const [isNext, setIsNext] = useState(false);
   const messengers = (adventure?.conversation || {}).messengers || [];
   const thumbnail = step?.item?.content?.thumbnails?.medium || '';
   // TODO: adventure can be undefined.
@@ -131,7 +135,18 @@ function AdventureStepCard({
     } else {
       setIsLocked(step.status !== 'completed' && step.status !== 'active');
     }
-  }, [isGroup, step]);
+
+    if (isGroup) {
+      if (step?.locked && !nextStepRef.current) {
+        setIsNext(true);
+        nextStepRef.current = step.position;
+      } else if (step?.locked && nextStepRef.current === step.position) {
+        setIsNext(true);
+      } else {
+        setIsNext(false);
+      }
+    }
+  }, [isGroup, nextStepRef, step]);
 
   return (
     <Flex style={styles.stepWrapper}>
@@ -153,12 +168,13 @@ function AdventureStepCard({
             backgroundColor: isActive
               ? theme.colors.white
               : theme.colors.secondaryAlt,
-            opacity: !isActive && isLocked ? 0.6 : undefined,
+            opacity: !isActive && isLocked && !isNext ? 0.6 : undefined,
           }}
           align="center"
           justify="start"
         >
-          {isGroup && isLocked && isActive && (
+          {/* {isGroup && isLocked && isActive && ( */}
+          {isGroup && isLocked && isNext && (
             <Flex
               align="center"
               style={styles.nextReleaseBlock}
