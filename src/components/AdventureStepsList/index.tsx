@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FlatList } from 'react-native';
 import SkeletonContent from 'react-native-skeleton-content-nonexpo';
@@ -69,6 +69,7 @@ function AdventureStepsList(props: AdventureStepCardProps): React.ReactElement {
         data.adventureSteps[adventureId as keyof TDataState['adventureSteps']]
           ?.allIds,
     ) || [];
+  const nextStep = useRef(0);
 
   useEffect(() => {
     if (adventureId && !stepsListIds.length) {
@@ -86,7 +87,12 @@ function AdventureStepsList(props: AdventureStepCardProps): React.ReactElement {
 
   const renderStep = useCallback(
     ({ item }): React.ReactElement => (
-      <AdventureStepCard key={item} stepId={item} adventureId={adventureId} />
+      <AdventureStepCard
+        key={item}
+        stepId={item}
+        adventureId={adventureId}
+        nextStepRef={nextStep}
+      />
     ),
     [adventureId],
   );
