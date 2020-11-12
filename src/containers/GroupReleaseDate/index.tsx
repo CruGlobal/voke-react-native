@@ -28,6 +28,7 @@ import {
   updateAdventure,
 } from '../../actions/requests';
 import Screen from '../../components/Screen';
+import Spacer from '../../components/Spacer';
 
 import styles from './styles';
 
@@ -170,6 +171,15 @@ const GroupReleaseDate = (props): React.ReactElement => {
   return (
     <Screen>
       <View style={styles.container}>
+        {releaseSchedule !== 'manual' && (
+          <>
+            <Text style={styles.introText}>{t('firstEpisodeReleased')}</Text>
+            <Text style={styles.introText}>
+              {t(releaseSchedule === 'weekly' ? 'chooseDate' : 'chooseTime')}
+            </Text>
+            <Spacer size="xl" />
+          </>
+        )}
         {releaseSchedule === 'weekly' && (
           <Dropdown
             label={t('releaseDay')}

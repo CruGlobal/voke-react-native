@@ -50,6 +50,10 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.primary,
   },
 
+  buttonColorSecondary: {
+    backgroundColor: theme.colors.secondary,
+  },
+
   buttonColorBlank: {
     backgroundColor: theme.colors.white,
   },
@@ -70,6 +74,28 @@ const styles = StyleSheet.create({
   },
 
   textColorSecondary: {
+    color: theme.colors.white,
+  },
+
+  iconColorSecondary: {
+    color: theme.colors.white,
+  },
+
+  textColorTransparent: {
+    color: theme.colors.primary,
+    fontFamily: theme.fonts.semiBold,
+  },
+
+  iconColorTransparent: {
+    color: theme.colors.primary,
+  },
+
+  textColorTransparentSecondary: {
+    color: theme.colors.secondary,
+    fontFamily: theme.fonts.semiBold,
+  },
+
+  iconColorTransparentSecondary: {
     color: theme.colors.secondary,
   },
 

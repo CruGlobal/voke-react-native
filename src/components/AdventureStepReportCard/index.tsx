@@ -8,17 +8,12 @@ import { Portal } from 'react-native-portalize';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { RootState } from '../../reducers';
-import Touchable from '../Touchable';
 import Flex from '../Flex';
 import Text from '../Text';
 import VokeIcon from '../VokeIcon';
 import theme from '../../theme';
 import OldButton from '../OldButton';
-import {
-  getMyAdventure,
-  getAdventureSteps,
-  unlockNextAdventureStep,
-} from '../../actions/requests';
+import { unlockNextAdventureStep } from '../../actions/requests';
 import Image from '../Image';
 
 import styles from './styles';
@@ -75,7 +70,7 @@ function AdventureStepReportCard({
 
   const updateNextStep = () => {
     // if (isManual && step.status === 'inactive') {
-    if (isManual && step?.locked) {
+    if (step?.locked) {
       if (!activeStepRef.current) {
         activeStepRef.current = step.position;
       }
@@ -184,15 +179,21 @@ function AdventureStepReportCard({
                         ? styles.actionGraduatedText
                         : styles.actionText
                     }
-                    onPress={() => modalizeRef.current?.open()}
+                    onPress={() => {
+                      step.active_messengers.length > 0
+                        ? modalizeRef.current?.open()
+                        : false;
+                    }}
                     testID={
                       step?.position ? 'allMembersPart-' + step.position : ''
                     }
                   >
-                    {t('seeAllMembers') +
-                      ' (' +
-                      step.active_messengers.length +
-                      ')'}
+                    {step.active_messengers.length > 0
+                      ? t('seeAllMembers') +
+                        ' (' +
+                        step.active_messengers.length +
+                        ')'
+                      : ' '}
                   </Text>
                 )}
               </View>

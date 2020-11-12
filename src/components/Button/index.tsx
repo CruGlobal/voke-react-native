@@ -18,7 +18,7 @@ import VokeIcon from '../VokeIcon';
 import styles from './styles';
 interface StylingProps {
   styling?: 'solid' | 'outline';
-  color?: 'primary' | 'secondary' | 'accent' | 'blank';
+  color?: 'primary' | 'secondary' | 'accent' | 'blank' | 'transparent' | 'transparentSecondary';
   size?: 's' | 'm' | 'l';
   radius?: 's' | 'm' | 'l' | 'xxl';
   shadow?: boolean;

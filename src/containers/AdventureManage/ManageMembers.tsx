@@ -129,7 +129,7 @@ const ManageMembers = ({
           isAndroidOpacity={true}
           onPress={(): void =>
             navigation.navigate('AllMembersModal', {
-              adventure: adventure,
+              adventureId: adventure.id,
               isJoined: true,
             })
           }
@@ -161,7 +161,7 @@ const ManageMembers = ({
             isAndroidOpacity={true}
             onPress={(): void =>
               navigation.navigate('AllMembersModal', {
-                adventure: adventure,
+                adventureId: adventure.id,
                 isJoined: true,
               })
             }

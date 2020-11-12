@@ -1,9 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { SafeAreaView, useSafeArea } from 'react-native-safe-area-context';
+/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/camelcase */
+import React, { useEffect, useRef, useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { ScrollView, View } from 'react-native';
+import { Dimensions, ScrollView, View } from 'react-native';
+import { BlurView } from '@react-native-community/blur';
+import { Modalize } from 'react-native-modalize';
+import { Portal } from 'react-native-portalize';
 
 import Flex from '../../components/Flex';
 import Text from '../../components/Text';
@@ -12,11 +17,15 @@ import StatusBar from '../../components/StatusBar';
 import HeaderSpacer from '../../components/HeaderSpacer';
 import st from '../../st';
 import theme from '../../theme';
+import Button from '../../components/Button';
 import OldButton from '../../components/OldButton';
 import Touchable from '../../components/Touchable';
 import VokeIcon from '../../components/VokeIcon';
 import DEFAULT_AVATAR from '../../assets/defaultAvatar.png';
 import { deleteMember, getMyAdventure } from '../../actions/requests';
+import Spacer from '../../components/Spacer';
+import { isAndroid } from '../../constants';
+import { TAdventureSingle, TDataState, TMessenger } from '../../types';
 
 import styles from './styles';
 
@@ -24,13 +33,42 @@ function AllMembersModal(props) {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const modalizeRef = useRef<Modalize>(null);
+  const { height } = Dimensions.get('window');
   const me = useSelector(({ auth }) => auth.user);
-  const { adventure, isJoined } = props.route.params;
-  const adventureId = props.route.params.adventure.messenger_journey_id;
-  const allMessengers = adventure?.conversation?.messengers || [];
+  const {
+    adventureId,
+    isJoined,
+  }: {
+    adventureId: string; // TAdventureSingle;
+    isJoined: boolean;
+  } = props.route.params;
 
-  const [messengers, setMessengers] = useState([]);
+  const adventure: TAdventureSingle = useSelector(
+    ({ data }: { data: TDataState }) =>
+      data.myAdventures?.byId[
+        adventureId as keyof TDataState['myAdventures']['byId']
+      ] || {},
+  );
+  // const adventureId = props.route.params.adventure.messenger_journey_id;
+  const allMessengers = adventure?.conversation?.messengers;
+
+  const [messengers, setMessengers] = useState<TMessenger[]>([]);
   const [isLeaderView, setIsLeaderView] = useState(false);
+  interface TDeleteUser {
+    deleted: boolean;
+    conversationId: string;
+    messengerId: string;
+    first_name: string;
+  }
+
+  const noUser = {
+    deleted: false,
+    conversationId: '',
+    messengerId: '',
+    first_name: '',
+  };
+  const [deleteUser, setDeleteUser] = useState<TDeleteUser>(noUser);
 
   const smallCircle = st.fullWidth / 2 - 90;
 
@@ -43,26 +81,52 @@ function AllMembersModal(props) {
 
   useEffect(() => {
     setMessengers(allMessengers.filter(i => i.first_name !== 'VokeBot'));
-  }, [allMessengers.length]);
+  }, [allMessengers.length, allMessengers]);
 
   useEffect(() => {
     setIsLeaderView(
-      messengers.find(i => i.id == me.id && i.group_leader) || false,
+      messengers.find(i => i.id === me.id && i.group_leader) !== undefined ||
+        false,
     );
-  }, [messengers.length]);
+  }, [messengers.length, messengers, me.id]);
 
   useEffect(() => {
     // Set title dynamically.
     navigation.setOptions({
       title: adventure.journey_invite.name || adventure.name || '',
     });
-  }, []);
+  }, [adventure.journey_invite.name, adventure.name, navigation]);
 
-  const onDeleteMember = async ({ adventure, messenger }) => {
+  const onDeleteMember = async ({
+    conversationId,
+    messenger,
+  }: {
+    conversationId: string;
+    messenger: TMessenger;
+  }): Promise<void> => {
+    modalizeRef.current?.open();
+    setDeleteUser({
+      deleted: false,
+      conversationId: conversationId,
+      messengerId: messenger.id,
+      first_name: messenger.first_name,
+    });
+  };
+
+  const onConfirmDelete = async ({
+    conversationId,
+    messengerId,
+    // eslint-disable-next-line no-shadow
+    adventureId,
+  }: {
+    conversationId: string;
+    messengerId: string;
+    adventureId: string;
+  }): Promise<void> => {
     const result = await dispatch(
       deleteMember({
-        conversationId: adventure.conversation.id,
-        messengerId: messenger.id,
+        conversationId: conversationId,
+        messengerId: messengerId,
       }),
     );
 
@@ -70,13 +134,19 @@ function AllMembersModal(props) {
       // Remove element instantly
       // without waiting for an adventure update from the server.
       messengers.splice(
-        messengers.findIndex(i => i.id == messenger.id),
+        messengers.findIndex(i => i.id === messengerId),
         1,
       );
-      setMessengers(messengers => messengers.splice(0, messengers.length));
+      setMessengers(() => messengers.splice(0, messengers.length));
       // Update current adventure to reflect changes.
-      dispatch(getMyAdventure(adventure.id));
+      dispatch(getMyAdventure(adventureId));
+      setDeleteUser(user => ({ ...user, deleted: true }));
     }
+  };
+
+  const closeModal = (): void => {
+    setDeleteUser(noUser);
+    modalizeRef.current?.close();
   };
 
   return (
@@ -138,23 +208,16 @@ function AllMembersModal(props) {
                       ? styles.adminInner
                       : styles.memberInner
                   }
-                  /* style={[
-                  messenger.group_leader ? st.bgDarkBlue : st.bgOffBlue,
-                  st.pd5,
-                  st.m5,
-                  {
-                    width: messenger.group_leader ? leaderBox : smallBox,
-                    height: messenger.group_leader ? leaderBox : smallBox,
-                    marginRight: 15,
-                  },
-                ]} */
                 >
                   {isLeaderView && !messenger.group_leader ? (
                     <Touchable
                       style={styles.iconDeleteBlock}
                       //TODO: Hook up Remove
-                      onPress={() => {
-                        onDeleteMember({ adventure, messenger });
+                      onPress={(): void => {
+                        onDeleteMember({
+                          conversationId: adventure.conversation.id,
+                          messenger,
+                        });
                       }}
                     >
                       <VokeIcon
@@ -209,6 +272,101 @@ function AllMembersModal(props) {
               </View>
             ))}
           </Flex>
+          <Portal>
+            <Modalize
+              ref={modalizeRef}
+              modalTopOffset={height > 600 ? height / 6 : 0}
+              handlePosition={'inside'}
+              openAnimationConfig={{
+                timing: { duration: 300 },
+              }}
+              onClose={(): void => {
+                // clearComplain();
+              }}
+              rootStyle={{
+                elevation: 5, // need it here to solve issue with button shadow.
+              }}
+              modalStyle={styles.modalStyle}
+              childrenStyle={styles.childrenStyle}
+              adjustToContentHeight={true}
+              disableScrollIfPossible={height > 600 ? true : false}
+            >
+              <SafeAreaView edges={['bottom']}>
+                {isAndroid ? (
+                  <View style={styles.modalBlurAndroid} />
+                ) : (
+                  <BlurView blurType="xlight" style={styles.modalBlur} />
+                )}
+                <View style={styles.modalContent}>
+                  {deleteUser?.deleted ? (
+                    <>
+                      <VokeIcon
+                        name="check_circle"
+                        style={styles.confirmationIcon}
+                        size={50}
+                      />
+                      <Text style={styles.confirmationTitle}>
+                        {t('modal:deleteUserConfrimationTitle', {
+                          name: deleteUser?.first_name || t('modal:user'),
+                        })}
+                      </Text>
+                      <Text style={styles.confirmationText}>
+                        {t('modal:deleteUserConfrimationText', {
+                          name: deleteUser?.first_name || t('modal:thisUser'),
+                        })}
+                      </Text>
+                      <Spacer size="xl" />
+                      <Button
+                        onPress={(): void => closeModal()}
+                        testID={'ctaDone'}
+                        size="m"
+                        radius="m"
+                        color="secondary"
+                      >
+                        {t('done')}
+                      </Button>
+                      <Spacer size="l" />
+                    </>
+                  ) : (
+                    <>
+                      <Text style={styles.modalTitle}>
+                        {t('modal:deleteUserSure')}
+                      </Text>
+                      <Text style={styles.modalText}>
+                        {t('modal:deleteUserWarning')}
+                      </Text>
+                      <Spacer size="l" />
+                      <Button
+                        onPress={(): void => {
+                          onConfirmDelete({
+                            conversationId: deleteUser.conversationId,
+                            messengerId: deleteUser.messengerId,
+                            adventureId: adventureId,
+                          });
+                        }}
+                        size="m"
+                        radius="m"
+                        color="secondary"
+                      >
+                        {t('modal:removeMember')}
+                      </Button>
+                      <Spacer size="m" />
+                      <Button
+                        onPress={(): void => closeModal()}
+                        disabled={deleteUser?.deleted ? true : false}
+                        size="s"
+                        radius="m"
+                        color="transparentSecondary"
+                      >
+                        {t('cancel')}
+                      </Button>
+                      <Spacer size="l" />
+                    </>
+                  )}
+                </View>
+              </SafeAreaView>
+            </Modalize>
+          </Portal>
         </Flex>
       </ScrollView>
     </SafeAreaView>
