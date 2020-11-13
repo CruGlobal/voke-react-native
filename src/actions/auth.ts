@@ -10,6 +10,7 @@ import {
   GraphRequest,
   AccessToken,
 } from 'react-native-fbsdk';
+import { appleAuth } from '@invertase/react-native-apple-authentication';
 
 import CONSTANTS, { REDUX_ACTIONS } from '../constants';
 import { isArray } from '../utils';
@@ -26,13 +27,11 @@ import {
   getNotifications,
   getAdventureSteps,
 } from './requests';
-
 import { openSocketAction, closeSocketAction } from './socket';
 import {
   permissionsAndNotifications,
   setAppIconBadgeNumber,
 } from './notifications';
-
 
 export function loginAction(authToken) {
   // const authToken = authData.access_token;
@@ -316,6 +315,93 @@ export function facebookLogin() {
     } else {
       // eslint-disable-next-line no-console
       console.log('🛑👤FB Login cancelled');
+      return false;
+    }
+  };
+}
+
+export function appleLoginAction({ identityToken, nonce }) {
+  return async (dispatch, getState) => {
+    // Important! It tells the server to merge anonymous_user_id
+    // with provided login details.
+    const userId = getState().auth.user.id;
+    const data = { assertion: identityToken };
+    if (userId) {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      data.anonymous_user_id = userId;
+    }
+
+    return dispatch(request({ ...ROUTES.FACEBOOK_LOGIN, data })).then(
+      authData => {
+        // eslint-disable-next-line no-console
+        console.log('🚪🚶‍♂️Apple loginResults:\n', authData);
+        // Received login response do Logout/reset state.
+        logoutAction();
+        // Update user data in the state with ones received.
+        dispatch(loginAction(authData.access_token));
+        // After all download user details from server.
+        return dispatch(getMeAction());
+      },
+      error => {
+        // eslint-disable-next-line no-console
+        console.log('appleLoginAction > Login error', error);
+        throw error;
+      },
+    );
+  };
+}
+
+export function appleSignIn() {
+  return async dispatch => {
+    // 1. - Performs login request
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+    });
+
+    console.log('appleAuthRequestResponse', appleAuthRequestResponse);
+
+    const {
+      user: newUser,
+      email,
+      nonce,
+      identityToken,
+      realUserStatus /* etc */,
+    } = appleAuthRequestResponse;
+
+    // 2. - Get current authentication state for user
+    // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
+    const credentialState = await appleAuth.getCredentialStateForUser(
+      appleAuthRequestResponse.user,
+    );
+
+    // use credentialState response to ensure the user is authenticated
+    if (credentialState === appleAuth.State.AUTHORIZED) {
+      if (identityToken) {
+        // e.g. sign in with Firebase Auth using `nonce` & `identityToken`
+        console.log(nonce, identityToken);
+        // 4. Login on our server using Facebook token.
+        const result = await dispatch(
+          appleLoginAction({ identityToken, nonce }),
+        );
+        return result.user.id;
+      } else {
+        // no token - failed sign-in?
+        // eslint-disable-next-line no-console
+        console.log(
+          '🛑👤Apple SignIn cancelled. Problem with identityToken:',
+          identityToken,
+        );
+        return false;
+      }
+      // user is authenticated
+    } else {
+      // failed sign -in?
+      // eslint-disable-next-line no-console
+      console.log(
+        '🛑👤Apple SignIn cancelled. appleAuth.State.AUTHORIZED returned:',
+        appleAuth.State.AUTHORIZED,
+      );
       return false;
     }
   };

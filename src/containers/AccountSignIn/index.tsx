@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { useKeyboard } from '@react-native-community/hooks';
 
 import { useMount, lockToPortrait } from '../../utils';
-import { userLogin, facebookLogin } from '../../actions/auth';
+import { userLogin, facebookLogin, appleSignIn } from '../../actions/auth';
 import TextField from '../../components/TextField';
 import OldButton from '../../components/OldButton';
 import Flex from '../../components/Flex';
@@ -117,6 +117,25 @@ const AccountSignIn: FunctionComponent<Props> = ({
       Alert.alert(
         "Can't sign in with Facebook",
         'Facebook authentication is not available at this moment',
+      );
+    } else {
+      if (layout === 'embed') {
+        return onComplete();
+      }
+
+      navigation.navigate('LoggedInApp');
+    }
+  };
+
+  const onAppleSignin = async (): Promise<void> => {
+    setIsLoading(true);
+    const userId = await dispatch(appleSignIn());
+
+    setIsLoading(false);
+    if (!userId) {
+      Alert.alert(
+        "Can't sign in using Apple service",
+        'Apple authentication is not available at this moment',
       );
     } else {
       if (layout === 'embed') {
@@ -255,10 +274,10 @@ const AccountSignIn: FunctionComponent<Props> = ({
           </Flex>
         )}
         <Spacer />
-        {/* {Platform.OS === 'ios' && (
+        {Platform.OS === 'ios' && (
           <>
             <Button
-              onPress={(): Promise<void> => fbLogin()}
+              onPress={(): Promise<void> => onAppleSignin()}
               testID={'ctaAdventureCode'}
               size="l"
               styling="outline"
@@ -269,7 +288,7 @@ const AccountSignIn: FunctionComponent<Props> = ({
             </Button>
             <Spacer />
           </>
-        )} - Apple sinin button */}
+        )}
         <Button
           onPress={(): Promise<void> => fbLogin()}
           testID={'ctaSignInFb'}
