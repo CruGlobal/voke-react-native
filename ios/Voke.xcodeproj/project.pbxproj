@@ -398,7 +398,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.cru.voke;
 				PRODUCT_NAME = Voke;
-				PROVISIONING_PROFILE_SPECIFIER = "Voke - Development";
+				PROVISIONING_PROFILE_SPECIFIER = "Voke - Dev 2020-11-16";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};

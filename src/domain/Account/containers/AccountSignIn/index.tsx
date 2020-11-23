@@ -13,7 +13,7 @@ import Text from 'components/Text';
 import Screen from 'components/Screen';
 import Button from 'components/Button';
 import Spacer from 'components/Spacer';
-import { userLogin, facebookLogin } from 'actions/auth';
+import { userLogin, facebookLogin, appleSignIn } from 'actions/auth';
 import theme from 'utils/theme';
 import { useMount, lockToPortrait } from 'utils';
 import { RootStackParamList } from 'utils/types';
@@ -122,6 +122,25 @@ const AccountSignIn: FunctionComponent<Props> = props => {
       Alert.alert(
         "Can't sign in with Facebook",
         'Facebook authentication is not available at this moment',
+      );
+    } else {
+      if (layout === 'embed') {
+        return onComplete();
+      }
+
+      navigation.navigate('LoggedInApp');
+    }
+  };
+
+  const onAppleSignin = async (): Promise<void> => {
+    setIsLoading(true);
+    const userId = await dispatch(appleSignIn());
+
+    setIsLoading(false);
+    if (!userId) {
+      Alert.alert(
+        "Can't sign in using Apple service",
+        'Apple authentication is not available at this moment',
       );
     } else {
       if (layout === 'embed') {
@@ -262,10 +281,10 @@ const AccountSignIn: FunctionComponent<Props> = props => {
           </Flex>
         )}
         <Spacer />
-        {/* {Platform.OS === 'ios' && (
+        {Platform.OS === 'ios' && (
           <>
             <Button
-              onPress={(): Promise<void> => fbLogin()}
+              onPress={(): Promise<void> => onAppleSignin()}
               testID={'ctaAdventureCode'}
               size="l"
               styling="outline"
@@ -276,7 +295,7 @@ const AccountSignIn: FunctionComponent<Props> = props => {
             </Button>
             <Spacer />
           </>
-        )} - Apple sinin button */}
+        )}
         <Button
           onPress={(): Promise<void> => fbLogin()}
           testID={'ctaSignInFb'}

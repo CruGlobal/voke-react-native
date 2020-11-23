@@ -41,6 +41,7 @@
     "@emotion/core": "^10.0.28",
     "@emotion/native": "^11.0.0-next.12",
     "@emotion/react": "^11.0.0-next.12",
+    "@invertase/react-native-apple-authentication": "^2.1.0",
     "@react-native-community/async-storage": "1.8.1",
     "@react-native-community/blur": "^3.6.0",
     "@react-native-community/clipboard": "^1.2.3",
