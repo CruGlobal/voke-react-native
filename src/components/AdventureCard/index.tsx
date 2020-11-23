@@ -11,13 +11,13 @@ import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 
 import Image from '../Image';
-import st from '../../st';
+import st from 'utils/st';
 import Touchable from '../Touchable';
 import Text from '../Text';
 import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
 import { deleteAdventure, getMyAdventures } from '../../actions/requests';
-import { TAdventureSingle, TDataState } from '../../types';
+import { TAdventureSingle, TDataState } from 'utils/types';
 import { RootState } from '../../reducers';
 
 import ProgressDots from './ProgressDots';

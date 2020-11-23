@@ -3,10 +3,10 @@ import deviceInfoModule from 'react-native-device-info';
 import { Platform } from 'react-native';
 import { debounce } from 'lodash';
 
-import { REDUX_ACTIONS } from '../constants';
+import { REDUX_ACTIONS } from 'utils/constants';
 import { DataKeys } from '../reducers/data';
-import st from '../st';
-import { isEqualObject, exists } from '../utils';
+import st from 'utils/st';
+import { isEqualObject, exists } from 'utils';
 import { AuthDataKeys } from '../reducers/auth';
 
 import { setAppIconBadgeNumber } from './notifications';

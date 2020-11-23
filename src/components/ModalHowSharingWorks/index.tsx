@@ -2,17 +2,17 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 import Image from 'react-native-scalable-image';
+import ModalSharingPersonalize from 'src/assets/ModalSharingPersonalize.png';
+import ModalSharingNotification from 'src/assets/ModalSharingNotification.png';
+import ModalSharingLink from 'src/assets/ModalSharingLink.png';
+import ModalSharingCode from 'src/assets/ModalSharingCode.png';
+import theme from 'utils/theme';
+import st from 'utils/st';
 
 import Flex from '../Flex';
 import Text from '../Text';
-import st from '../../st';
-import theme from '../../theme';
 import OldButton from '../OldButton';
 import BotTalking from '../BotTalking';
-import ModalSharingCode from '../../assets/ModalSharingCode.png';
-import ModalSharingLink from '../../assets/ModalSharingLink.png';
-import ModalSharingNotification from '../../assets/ModalSharingNotification.png';
-import ModalSharingPersonalize from '../../assets/ModalSharingPersonalize.png';
 
 // Renders Cards on this screen https://d.pr/i/WsCCf2
 function ModalHowSharingWorks({ closeAction }): React.ReactElement {

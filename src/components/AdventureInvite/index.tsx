@@ -6,25 +6,24 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import { useSelector, useDispatch } from 'react-redux';
+import theme from 'utils/theme';
+import useInterval from 'utils/useInterval';
+import { getExpiredTime } from 'utils/get';
+import st from 'utils/st';
+import { TDataState, TInvitation } from 'utils/types';
 
 import Image from '../Image';
-import st from '../../st';
 import Touchable from '../Touchable';
 import Text from '../Text';
 import OldButton from '../OldButton';
 import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
-import useInterval from '../../utils/useInterval';
-import { getExpiredTime } from '../../utils/get';
 import {
   resendAdventureInvitation,
   deleteAdventureInvitation,
   getAdventuresInvitations,
-  getAvailableAdventures,
 } from '../../actions/requests';
-import theme from '../../theme';
 import { RootState } from '../../reducers';
-import { TDataState, TInvitation } from '../../types';
 
 import styles from './styles';
 
@@ -80,7 +79,6 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
     updateExpire();
   }, []);
 
-
   useEffect(() => {
     updateExpire();
   }, [inviteItem.expires_at]);
@@ -127,7 +125,6 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
           onPress: async () => {
             await dispatch(deleteAdventureInvitation(inviteID));
             await dispatch(getAdventuresInvitations());
-            // await dispatch(getAvailableAdventures());
           },
         },
       ],

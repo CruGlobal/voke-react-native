@@ -1,4 +1,4 @@
-import CONSTANTS from '../constants';
+import CONSTANTS from 'utils/constants';
 
 const CLIENT = {
   id: CONSTANTS.CLIENT_ID,
@@ -81,10 +81,13 @@ const ROUTES = {
   GET_AVAILABLE_ADVENTURES: { method: 'get', url: `organization_journeys` },
   GET_MY_ADVENTURES: {
     method: 'get',
-    url: `me/journeys`
+    url: `me/journeys`,
   },
   GET_MY_ADVENTURE: { method: 'get', url: `me/journeys/{adventureId}` },
-  UNLOCK_NEXT_ADVENTURE_STEP: { method: 'get', url: `me/journeys/{adventureId}/unlock` },
+  UNLOCK_NEXT_ADVENTURE_STEP: {
+    method: 'get',
+    url: `me/journeys/{adventureId}/unlock`,
+  },
   GET_ADVENTURE_STEPS: {
     method: 'get',
     url: `me/journeys/{adventureId}/steps`,

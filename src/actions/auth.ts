@@ -10,9 +10,9 @@ import {
   GraphRequest,
   AccessToken,
 } from 'react-native-fbsdk';
+import CONSTANTS, { REDUX_ACTIONS } from 'utils/constants';
 
-import CONSTANTS, { REDUX_ACTIONS } from '../constants';
-import { isArray } from '../utils';
+import { isArray } from 'utils';
 
 import ROUTES from './routes';
 import request from './utils';
@@ -25,14 +25,13 @@ import {
   getAdventureStepMessages,
   getNotifications,
   getAdventureSteps,
+  getAvailableAdventures,
 } from './requests';
-
 import { openSocketAction, closeSocketAction } from './socket';
 import {
   permissionsAndNotifications,
   setAppIconBadgeNumber,
 } from './notifications';
-
 
 export function loginAction(authToken) {
   // const authToken = authData.access_token;
@@ -50,6 +49,8 @@ export function startupAction() {
     await dispatch(permissionsAndNotifications());
     // Get notifications every time sockets connections reestablished.
     await dispatch(getNotifications());
+    // Update available adventures on app start.
+    await dispatch(getAvailableAdventures());
   };
 }
 

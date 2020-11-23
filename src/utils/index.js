@@ -13,7 +13,7 @@ import { useEffect, useRef } from 'react';
 import { Keyboard } from 'react-native';
 import Orientation from 'react-native-orientation-locker';
 
-import CONSTANTS from '../constants';
+import CONSTANTS from 'utils/constants';
 
 export { difference, memoize, orderBy, range, debounce, throttle, xor, uniqBy, upperCase };
 

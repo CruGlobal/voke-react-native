@@ -10,15 +10,21 @@ import {
   GestureResponderEvent,
 } from 'react-native';
 import { useDebouncedCallback } from 'use-debounce';
+import { capitalize, upperCase } from 'utils';
 
-import { capitalize, upperCase } from '../../utils';
 import Touchable from '../Touchable';
 import VokeIcon from '../VokeIcon';
 
 import styles from './styles';
 interface StylingProps {
   styling?: 'solid' | 'outline';
-  color?: 'primary' | 'secondary' | 'accent' | 'blank' | 'transparent' | 'transparentSecondary';
+  color?:
+    | 'primary'
+    | 'secondary'
+    | 'accent'
+    | 'blank'
+    | 'transparent'
+    | 'transparentSecondary';
   size?: 's' | 'm' | 'l';
   radius?: 's' | 'm' | 'l' | 'xxl';
   shadow?: boolean;

@@ -7,9 +7,9 @@ import lodash from 'lodash';
 import { ThunkDispatch } from 'redux-thunk';
 import { checkNotifications, openSettings } from 'react-native-permissions';
 import { Vibration } from 'react-native';
+import { REDUX_ACTIONS } from 'utils/constants';
 
-import { REDUX_ACTIONS } from '../constants';
-import st from '../st';
+import st from 'utils/st';
 
 import { SOCKET_URL } from './utils';
 import { toastAction } from './info';

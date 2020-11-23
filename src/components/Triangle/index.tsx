@@ -1,16 +1,17 @@
 import React from 'react';
 import { View, StyleProp, ViewStyle } from 'react-native';
+import st from 'utils/st';
+
 import Image from '../Image';
-import st from '../../st';
 
 type TriangleProps = {
-  width: number,
-  height: number,
-  slant?: 'down' | null,
-  flip?: boolean,
-  color?: string,
-  style?: StyleProp<ViewStyle>,
-}
+  width: number;
+  height: number;
+  slant?: 'down' | null;
+  flip?: boolean;
+  color?: string;
+  style?: StyleProp<ViewStyle>;
+};
 /**
  * Outputs custom decorative divider.
  * @param {number} width - Width of the divider.
@@ -20,7 +21,14 @@ type TriangleProps = {
  * @param {string} color - Color of the divider.
  * @param {object} style - Styles object.
  */
-const Triangle = ({ width, height, slant, flip, color, style }:TriangleProps) => {
+const Triangle = ({
+  width,
+  height,
+  slant,
+  flip,
+  color,
+  style,
+}: TriangleProps) => {
   let customStyles;
 
   if (slant === 'down') {
@@ -66,6 +74,6 @@ const Triangle = ({ width, height, slant, flip, color, style }:TriangleProps) =>
       ]}
     />
   );
-}
+};
 
 export default Triangle;

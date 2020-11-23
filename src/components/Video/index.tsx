@@ -8,23 +8,25 @@ import {
   useWindowDimensions,
   ImageBackground,
   ActivityIndicator,
-  Platform
+  Platform,
 } from 'react-native';
 import Orientation, { OrientationType } from 'react-native-orientation-locker';
 import { useFocusEffect } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 
 import BackButton from '../BackButton';
-import { useMount, youtube_parser, lockToPortrait } from '../../utils';
-import useInterval from '../../utils/useInterval';
+import { useMount, youtube_parser, lockToPortrait } from 'utils';
+import useInterval from 'utils/useInterval';
 import { updateVideoIsPlayingState } from '../../actions/requests';
-import st from '../../st';
-import theme from '../../theme';
+import st from 'utils/st';
+import theme from 'utils/theme';
 import Flex from '../Flex';
 import Touchable from '../Touchable';
 import VokeIcon from '../VokeIcon';
 import Text from '../Text';
-import SLIDER_THUMB from '../../assets/sliderThumb.png';
+import SLIDER_THUMB from 'src/assets/sliderThumb.png';
+import { TStep } from 'utils/types';
+
 import styles from './styles';
 
 function convertTime(time): string {
@@ -51,8 +53,25 @@ interface RefArcLight {
   seek: (value: number) => void;
 }
 
+interface Props {
+  onOrientationChange?: (orientation: string) => void;
+  onPlay?: () => void;
+  onStop?: () => void;
+  hideBack?: boolean;
+  item: TStep['item']['content'];
+  onCancel?: () => void;
+  hideInsets?: boolean;
+  autoPlay?: boolean;
+  lockOrientation?: boolean;
+  children?: any; // Used to create custom overlay/play button. Ex: "Watch Trailer".
+  containerStyles?: any;
+  [x: string]: any;
+}
+
 function Video({
-  onOrientationChange = (orientation: string) => {},
+  onOrientationChange = (orientation: string) => {
+    //void
+  },
   onPlay = () => {},
   onStop = () => {},
   hideBack = false,
@@ -65,14 +84,14 @@ function Video({
   children, // Used to create custom overlay/play button. Ex: "Watch Trailer".
   containerStyles = {},
   ...rest
-}) {
+}: Props) {
   // Don't even bother if there is no info about video provided.
   if (!item) {
     return <></>;
   }
   let youtubeVideo = useRef<RefYouTube>(null);
   let arclightVideo = useRef<RefArcLight>(null);
-  let lockOrientationRef = useRef<boolean>(lockOrientation);
+  const lockOrientationRef = useRef<boolean>(lockOrientation);
 
   // System lock (android only).
   // const [rotationLock, setRotationLock] = useState(false);
@@ -84,7 +103,9 @@ function Video({
   const [started, setStarted] = useState<boolean>(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
-  const [fullscreenOrientation, setFullscreenOrientation] = useState('landscape');
+  const [fullscreenOrientation, setFullscreenOrientation] = useState(
+    'landscape',
+  );
   const [refreshInterval, setRefreshInterval] = useState<number | null>(null);
   const [sliderValue, setSliderValue] = useState<number>(0);
   const [currentTime, setCurrentTime] = useState<number>(0);
@@ -119,8 +140,11 @@ function Video({
     return {
       width: currentWidth,
       height:
-        !lockOrientation && screenOrientation === 'landscape' ? window.height :
-          item?.type === 'youtube' ? currentWidth / 1.7 : currentWidth / 1.7,
+        !lockOrientation && screenOrientation === 'landscape'
+          ? window.height
+          : item?.type === 'youtube'
+          ? currentWidth / 1.7
+          : currentWidth / 1.7,
     };
   };
 
@@ -187,14 +211,14 @@ function Video({
         Orientation.unlockAllOrientations();
       }
 
-      Orientation.getOrientation((orientation)=> {
-        onOrientationChange(getLandscapeOrPortrait(orientation)); 
+      Orientation.getOrientation(orientation => {
+        onOrientationChange(getLandscapeOrPortrait(orientation));
       });
     }
   }, [lockOrientation]);
 
   useEffect(() => {
-    if (screenOrientation==='portrait') {
+    if (screenOrientation === 'portrait') {
       setFullscreen(true);
     } else {
       setFullscreen(false);
@@ -366,7 +390,9 @@ function Video({
               setSliderValue(0);
             }
           }}
-          onError={e => {console.log( "🆘 onError e:", e );}}
+          onError={e => {
+            console.log('🆘 onError e:', e);
+          }}
           playInBackground={false}
           playWhenInactive={false}
           ignoreSilentSwitch="ignore"
@@ -382,10 +408,12 @@ function Video({
               screenOrientation === 'portrait' || lockOrientation
                 ? getPlayerDimensions().width / -10 // Small video (Portrait)
                 : getPlayerDimensions().width / -20, // Fullscreen video.
-            left: screenOrientation === 'portrait' || lockOrientation
+            left:
+              screenOrientation === 'portrait' || lockOrientation
                 ? 0 // Small video (Portrait)
                 : getPlayerDimensions().width / -20, // Fullscreen video.
-            right: screenOrientation === 'portrait' || lockOrientation
+            right:
+              screenOrientation === 'portrait' || lockOrientation
                 ? 0 // Small video (Portrait)
                 : getPlayerDimensions().width / -20, // Fullscreen video.
           }}

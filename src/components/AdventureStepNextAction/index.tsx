@@ -4,21 +4,20 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-
-import { RootState } from '../../reducers';
-import { TAdventureStepSingle } from '../../types';
-import Text from '../Text';
-import OldButton from '../OldButton';
-import st from '../../st';
-import VokeIcon from '../VokeIcon';
-import Flex from '../Flex';
 import {
   getAdventureById,
   getCurrentUserId,
   getNextReleaseDate,
   getDiffToDate,
   getTimeToDate,
-} from '../../utils/get';
+} from 'utils/get';
+
+import { RootState } from '../../reducers';
+import Text from '../Text';
+import OldButton from '../OldButton';
+import st from 'utils/st';
+import VokeIcon from '../VokeIcon';
+import Flex from '../Flex';
 
 import styles from './styles';
 
@@ -44,14 +43,18 @@ const AdventureStepNextAction = ({
 
   const step = steps ? steps[stepId] : null;
   if (!step) return null;
-  const nextStep = steps ? steps[stepsIds[stepsIds.findIndex((el)=> el === stepId) + 1]] : null;
+  const nextStep = steps
+    ? steps[stepsIds[stepsIds.findIndex(el => el === stepId) + 1]]
+    : null;
   const nextStepLocked = nextStep?.locked;
   const isComplete = step?.status === 'completed';
   const isWaiting =
     step?.status === 'active' && step['completed_by_messenger?'];
   const isGroup = adventure.kind === 'multiple';
 
-  const scheduledRelease = !(adventure?.gating_period === null && adventure?.gating_start_at === null);
+  const scheduledRelease = !(
+    adventure?.gating_period === null && adventure?.gating_start_at === null
+  );
   const nextReleaseDate = adventure.gating_period
     ? getNextReleaseDate({
         startDate: adventure.gating_start_at,
@@ -100,7 +103,10 @@ const AdventureStepNextAction = ({
         align="center"
         style={[st.bgBlue, st.ph5, st.pt2]}
       >
-        <Text style={[st.aic, st.fs2, st.mb4, st.ph1, st.tac, st.white]} testID="finishedAdventure">
+        <Text
+          style={[st.aic, st.fs2, st.mb4, st.ph1, st.tac, st.white]}
+          testID="finishedAdventure"
+        >
           {t('finishedJourney')}
         </Text>
         <OldButton
@@ -215,7 +221,9 @@ const AdventureStepNextAction = ({
         style={styles.nextActionButton}
         testID="ctaNextAction"
       >
-        <Text style={styles.nextActionButtonLabel} testID="ctaNextActionText">{text}</Text>
+        <Text style={styles.nextActionButtonLabel} testID="ctaNextActionText">
+          {text}
+        </Text>
       </OldButton>
     </Flex>
   );

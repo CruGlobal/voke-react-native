@@ -2,7 +2,7 @@ import React from 'react';
 import { TabBar } from 'react-native-tab-view';
 
 import Text from '../Text';
-import theme from '../../theme';
+import theme from 'utils/theme';
 
 import styles from './styles';
 

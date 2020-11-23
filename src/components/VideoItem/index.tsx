@@ -3,10 +3,10 @@ import { View, ImageBackground, useWindowDimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import st from 'utils/st';
+import theme from 'utils/theme';
 
 import Image from '../Image';
-import st from '../../st';
-import theme from '../../theme';
 import OldButton from '../OldButton';
 import Flex from '../Flex';
 import Text from '../Text';

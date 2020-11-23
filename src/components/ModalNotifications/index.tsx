@@ -7,7 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { requestPremissions } from '../../actions/auth';
 import Flex from '../Flex';
 import Text from '../Text';
-import theme from '../../theme';
+import theme from 'utils/theme';
 import OldButton from '../OldButton';
 import BotTalking from '../BotTalking';
 

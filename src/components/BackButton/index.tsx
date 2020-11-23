@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
+import theme from 'utils/theme';
+import { StyleSheet } from 'react-native';
 
 import VokeIcon from '../VokeIcon';
-import theme from '../../theme';
-import { StyleSheet } from 'react-native';
 
 function BackButton({ isClose = false, size, onPress, style }) {
   const navigation = useNavigation();

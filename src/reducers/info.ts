@@ -1,4 +1,4 @@
-import { REDUX_ACTIONS } from '../constants';
+import { REDUX_ACTIONS } from 'utils/constants';
 
 const initialState = {
   pushNotificationPermission: '',
