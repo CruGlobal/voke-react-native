@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
-
-import theme from '../../theme';
+import theme from 'utils/theme';
 
 const sharedStyles = {
   title: {

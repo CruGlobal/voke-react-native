@@ -3,15 +3,15 @@ import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Image from 'react-native-scalable-image';
+import ChatExample from 'src/assets/ChatExample.png';
+import VideoExample from 'src/assets/VideoExample.png';
+import InviteCodeExample from 'src/assets/InviteCodeExample2.png';
 
 import Flex from '../Flex';
 import Text from '../Text';
-import theme from '../../theme';
+import theme from 'utils/theme';
 import OldButton from '../OldButton';
 import BotTalking from '../BotTalking';
-import ChatExample from '../../assets/ChatExample.png';
-import VideoExample from '../../assets/VideoExample.png';
-import InviteCodeExample from '../../assets/InviteCodeExample2.png';
 
 import styles from './styles';
 

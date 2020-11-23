@@ -12,8 +12,8 @@ import { createComplain } from '../../actions/requests';
 import Text from '../Text';
 import VokeIcon from '../VokeIcon';
 import { RootState } from '../../reducers';
-import CONSTANTS, { REDUX_ACTIONS } from '../../constants';
-import theme from '../../theme';
+import CONSTANTS, { REDUX_ACTIONS } from 'utils/constants';
+import theme from 'utils/theme';
 import OldButton from '../OldButton';
 
 import styles from './styles';

@@ -5,7 +5,7 @@ type Props = {
   [x: string]: any;
 };
 
-import theme from '../../theme';
+import theme from 'utils/theme';
 
 const Spacer = ({ size = 'm', ...rest }: Props): React.ReactElement => {
   return (

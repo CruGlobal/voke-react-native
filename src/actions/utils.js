@@ -1,6 +1,6 @@
 import RNFetchBlob from 'rn-fetch-blob';
 import qs from 'qs'; // querystring parsing and stringifying
-import CONSTANTS, { REDUX_ACTIONS } from '../constants';
+import CONSTANTS, { REDUX_ACTIONS } from 'utils/constants';
 
 let baseUrl;
 let authUrl;
@@ -104,10 +104,11 @@ export default function request(options) {
         },
         [options.data],
       )
-      .then(json)
-      .then(resp => {
+        .then(json)
+        .then(resp => {
           // resp.data;
-          console.log( "RNFetchBlob > resp:" ); console.log( resp );
+          console.log('RNFetchBlob > resp:');
+          console.log(resp);
           // return resp.data;
           dispatch({
             description: options.description,
@@ -118,11 +119,11 @@ export default function request(options) {
           });
 
           return resp;
-      })
-      .catch(err => {
+        })
+        .catch(err => {
           console.log('fetch blob err', err);
           return err;
-      });
+        });
     }
 
     if (options.method !== 'get') {
@@ -146,7 +147,7 @@ export default function request(options) {
         if (!response.ok) {
           return response
             .json()
-            .then(( message ) => {
+            .then(message => {
               // Got valid JSON with error response, use it
               // throw new Error(message || response.status); << not working.
               throw message;
@@ -204,7 +205,7 @@ export default function request(options) {
 }
 
 function imageUpload(url, headers, data) {
-  console.log( "🖼 imageUpload\n", {url, headers, data} );
+  console.log('🖼 imageUpload\n', { url, headers, data });
   RNFetchBlob.fetch(
     'PUT',
     url,
@@ -214,16 +215,17 @@ function imageUpload(url, headers, data) {
     },
     [data],
   )
-  
-  .then(response => {
-    console.log("⤵️ imageUpload response \n", response);
-    let status = response.info().status;
 
-    console.log( "status:" ); console.log( status );
+    .then(response => {
+      console.log('⤵️ imageUpload response \n', response);
+      const { status } = response.info();
 
-    if(status === 200) {
-    // if (!response.ok) {
-      /* 
+      console.log('status:');
+      console.log(status);
+
+      if (status === 200) {
+        // if (!response.ok) {
+        /* 
       return response
         .json();
         .then(({ message }) => {
@@ -234,7 +236,6 @@ function imageUpload(url, headers, data) {
           // Couldn't parse the JSON
           throw e;
         }); */
-
         /* return response.blob().then(({ message }) => {
           console.log( "message:" ); console.log( message );
           // Got valid JSON with error response, use it
@@ -244,58 +245,53 @@ function imageUpload(url, headers, data) {
           // Couldn't parse the JSON
           throw e;
         });; */
-    }
-     /* return response.blob(); */
-    /* if (options.blob) {
+      }
+      /* return response.blob(); */
+      /* if (options.blob) {
       return response.blob();
     } */
-     return response.blob();
-    // let json = response.json();
-    // return json;
-    // Successful response, parse the JSON and return the data
-   /*  dispatch({
+      return response.blob();
+      // let json = response.json();
+      // return json;
+      // Successful response, parse the JSON and return the data
+      /*  dispatch({
         description: options.description,
         type: REDUX_ACTIONS.REQUEST_SUCCESS,
         url: url,
         method: 'PUT',
         result: json,
     }); */
-
-
-  })
-  .catch(e => {
-    console.log('imageUpload fetch error', e);
-   /*  dispatch({
+    })
+    .catch(e => {
+      console.log('imageUpload fetch error', e);
+      /*  dispatch({
       type: REDUX_ACTIONS.REQUEST_FAIL,
       url: url,
       method: 'PUT',
       error: e,
     }); */
-    // if (options.url !== ROUTES.LOGOUT.url) {
-    //   const unauthMessages = [
-    //     'Missing active access token',
-    //     'Unable to validate token',
-    //     'Sorry, that token is no longer valid',
-    //     'Valid token is missing user',
-    //   ];
-    //   if (e && unauthMessages.includes(e.message)) {
-    //     console.log('unable to validate token. User needs to login again.');
-    //     if ([ROUTES.LOGIN.url, ROUTES.LOGIN_WITH_TOKEN.url].includes(options.url)) {
-    //       // Trying to login, but got an error message, just show the toast
-    //       toast.error({ message: e.message });
-    //     } else {
-    //       dispatch(showModal({ type: 'UserUnauth' }));
-    //     }
-    //   }
-    // }
+      // if (options.url !== ROUTES.LOGOUT.url) {
+      //   const unauthMessages = [
+      //     'Missing active access token',
+      //     'Unable to validate token',
+      //     'Sorry, that token is no longer valid',
+      //     'Valid token is missing user',
+      //   ];
+      //   if (e && unauthMessages.includes(e.message)) {
+      //     console.log('unable to validate token. User needs to login again.');
+      //     if ([ROUTES.LOGIN.url, ROUTES.LOGIN_WITH_TOKEN.url].includes(options.url)) {
+      //       // Trying to login, but got an error message, just show the toast
+      //       toast.error({ message: e.message });
+      //     } else {
+      //       dispatch(showModal({ type: 'UserUnauth' }));
+      //     }
+      //   }
+      // }
 
-    // Couldn't parse the JSON
-    throw e;
-  });
+      // Couldn't parse the JSON
+      throw e;
+    });
 
-  
-  
-  
   /* 
   .then((res) => {
     let status = res.info().status;
@@ -321,7 +317,6 @@ function imageUpload(url, headers, data) {
     console.log( "errorMessage:" ); console.log( errorMessage );
     console.log( "statusCode:" ); console.log( statusCode );
   }) */
-
 }
 
 export function json(response) {

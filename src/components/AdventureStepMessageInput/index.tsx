@@ -1,19 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { getCurrentUserId } from 'utils/get';
+import st from 'utils/st';
+import { TAdventureSingle, TStep } from 'utils/types';
 
 import Flex from '../Flex';
 import OldButton from '../OldButton';
 import VokeIcon from '../VokeIcon';
 import Text from '../Text';
-import st from '../../st';
 import Image from '../Image';
 import { createAdventureStepMessage } from '../../actions/requests';
 import Select from '../Select';
-import { getCurrentUserId } from '../../utils/get';
 
 import styles from './styles';
-import { useTranslation } from 'react-i18next';
+
+interface Props {
+  kind: TStep['kind'];
+  adventure: TAdventureSingle;
+  step: TStep;
+  internalMessage?: boolean;
+  defaultValue: string;
+  onFocus: () => void;
+  isLoading: boolean;
+}
 
 const AdventureStepMessageInput = ({
   kind,
@@ -23,7 +34,7 @@ const AdventureStepMessageInput = ({
   defaultValue,
   onFocus,
   isLoading,
-}): React.ReactElement => {
+}: Props): React.ReactElement => {
   const { t } = useTranslation('journey');
   const dispatch = useDispatch();
   const userId = getCurrentUserId();
@@ -185,7 +196,7 @@ const AdventureStepMessageInput = ({
                       st.pv5,
                       a.selected || !hasSelected
                         ? { opacity: 1 }
-                        : { opacity: 0.4 }
+                        : { opacity: 0.4 },
                     ]}
                   >
                     <Text style={[a.selected ? st.orange : st.white, st.fs18]}>

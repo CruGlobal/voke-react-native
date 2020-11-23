@@ -4,17 +4,18 @@ import { Image, View } from 'react-native';
 // import Image from 'react-native-scalable-image';
 // import Image from '../../components/Image';
 
+import ChatExample from 'src/assets/ChatExample.png';
+import VideoExample from 'src/assets/VideoExample.png';
+import InviteCodeExample from 'src/assets/InviteCodeExample2.png';
+import GroupWelcomeExample from 'src/assets/GroupWelcomeExample.png';
+import howItWorksAddMembers from 'src/assets/howItWorksAddMembers.png';
+import howItWorksReleaseType from 'src/assets/howItWorksReleaseType.png';
+
 import Flex from '../Flex';
 import Text from '../Text';
-import theme from '../../theme';
+import theme from 'utils/theme';
 import OldButton from '../OldButton';
 import BotTalking from '../BotTalking';
-import ChatExample from '../../assets/ChatExample.png';
-import VideoExample from '../../assets/VideoExample.png';
-import InviteCodeExample from '../../assets/InviteCodeExample2.png';
-import GroupWelcomeExample from '../../assets/GroupWelcomeExample.png';
-import howItWorksAddMembers from '../../assets/howItWorksAddMembers.png';
-import howItWorksReleaseType from '../../assets/howItWorksReleaseType.png';
 import Screen from '../Screen';
 
 import styles from './styles';

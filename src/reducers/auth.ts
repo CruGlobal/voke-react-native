@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { REDUX_ACTIONS } from '../constants';
-import { TUser } from '../types';
-import { exists } from '../utils';
+import { REDUX_ACTIONS } from 'utils/constants';
+import { TUser } from 'utils/types';
+import { exists } from 'utils';
 
 export type AuthDataKeys = 'device' | 'adventureInvitations';
 interface InitialStateTypes {

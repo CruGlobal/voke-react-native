@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
-
-import theme from '../../theme';
+import theme from 'utils/theme';
 
 const sharedStyles = {
   avatar: {
@@ -36,7 +35,7 @@ const styles = StyleSheet.create({
     paddingBottom: theme.spacing.m,
   },
   messageContent: {
-    paddingHorizontal: 20,
+    paddingHorizontal: theme.spacing.l,
   },
   messageSharedContent: {
     padding: theme.spacing.m,
@@ -44,9 +43,9 @@ const styles = StyleSheet.create({
   },
   messageAuthor: {
     color: theme.colors.white,
-    paddingTop: theme.spacing.s,
-    paddingHorizontal: theme.spacing.m,
-    marginBottom: -theme.spacing.s,
+    paddingTop: theme.spacing.m,
+    paddingHorizontal: theme.spacing.l,
+    marginBottom: -theme.spacing.m,
     fontFamily: theme.fonts.semiBold,
     opacity: 0.75,
   },

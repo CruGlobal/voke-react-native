@@ -1,13 +1,13 @@
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
+import st from 'utils/st';
+import theme from 'utils/theme';
 
 import Flex from '../Flex';
 import Touchable from '../Touchable';
 import VokeIcon from '../VokeIcon';
 import Text from '../Text';
-import st from '../../st';
-import theme from '../../theme';
 
 import styles from './styles';
 
@@ -57,10 +57,7 @@ function tabElement(index, label, isFocused) {
 function TabBar({ state, descriptors, navigation }) {
   return (
     <>
-      <SafeAreaView
-        edges={['right', 'bottom', 'left']}
-        style={styles.wrapper}
-      >
+      <SafeAreaView edges={['right', 'bottom', 'left']} style={styles.wrapper}>
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
           const label =

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Picker, View } from 'react-native';
+import SCROLL_WHEEL_BUTTON from 'src/assets/scrollWheelButton.png';
+import SCROLL_WHEEL_LINE from 'src/assets/scrollWheelLine.png';
+import st from 'utils/st';
 
 import Image from '../Image';
 import Touchable from '../Touchable';
-import st from '../../st';
-import SCROLL_WHEEL_BUTTON from '../../assets/scrollWheelButton.png';
-import SCROLL_WHEEL_LINE from '../../assets/scrollWheelLine.png';
 
 function ScrollWheel({ items, onSelect, ...rest }) {
   const [pickerItems, setPickerItems] = useState(items);

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { RootState } from '../../reducers';
-import useInterval from '../../utils/useInterval';
+import useInterval from 'utils/useInterval';
+import { REDUX_ACTIONS } from 'utils/constants';
+import st from 'utils/st';
 
-import st from '../../st';
-import { REDUX_ACTIONS } from '../../constants';
+import { RootState } from '../../reducers';
 import Flex from '../Flex';
 import Touchable from '../Touchable';
 import Text from '../Text';
@@ -16,7 +16,7 @@ const ToastManager = (): React.ReactElement => {
   // New in-app notifications to display as toasts are stored in:
   // - store.info.toastProps.
   const { text, timeout } = useSelector(
-    ({ info }: RootState) => info.toastProps
+    ({ info }: RootState) => info.toastProps,
   );
 
   const [toastText, setToastText] = useState('');
@@ -51,7 +51,9 @@ const ToastManager = (): React.ReactElement => {
           <SafeAreaView style={[st.fw100]}>
             <Touchable style={[st.p4, st.bgOrange]} onPress={hideMessage}>
               <Flex align="center" justify="center">
-                <Text style={[st.white, st.fs4, st.tac]} testID={'textToast'}>{toastText}</Text>
+                <Text style={[st.white, st.fs4, st.tac]} testID={'textToast'}>
+                  {toastText}
+                </Text>
               </Flex>
             </Touchable>
           </SafeAreaView>

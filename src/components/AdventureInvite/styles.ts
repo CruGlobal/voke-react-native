@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import theme from '../../theme';
+import theme from 'utils/theme';
 const THUMBNAIL_WIDTH = 140;
 const styles = StyleSheet.create({
   InviteWrapper: {
@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     paddingBottom: theme.spacing.s,
   },
   InviteBlock: {
-    borderRadius:  theme.radius.m,
+    borderRadius: theme.radius.m,
     backgroundColor: theme.colors.secondary,
     minHeight: 100,
   },
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 
     paddingLeft: 0,
   },
-  Code:{
+  Code: {
     fontSize: theme.fontSizes.m,
     color: theme.colors.white,
   },
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   iconDelete: {
     color: theme.colors.white,
     fontSize: 12,
-  }
+  },
 });
 
 export default styles;

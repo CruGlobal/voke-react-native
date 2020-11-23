@@ -11,7 +11,7 @@ import { RootState } from '../../reducers';
 import Flex from '../Flex';
 import Text from '../Text';
 import VokeIcon from '../VokeIcon';
-import theme from '../../theme';
+import theme from 'utils/theme';
 import OldButton from '../OldButton';
 import { unlockNextAdventureStep } from '../../actions/requests';
 import Image from '../Image';

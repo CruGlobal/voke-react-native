@@ -21,7 +21,11 @@
     "detox:test:singlefile": "detox test --configuration ios -f /e2e/adventureGroupDaily.e2e.js",
     "detox:test:reuse": "detox test  --reuse --configuration ios",
     "detox:test:withlogs": "detox test --loglevel verbose --configuration ios",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
+    "prettier": "prettier ./src --ext .js,.jsx,.ts,.tsx",
+    "format": "npm run prettier -- --write",
+    "check-format": "npm run prettier -- --list-different",
+    "validate": "npm run check-format && npm run lint",
     "pi": "cd ios/ && pod install",
     "open:ios": "open ios/Voke.xcworkspace/",
     "open": "npm run open:ios",
@@ -122,6 +126,8 @@
     "@babel/node": "^7.10.5",
     "@babel/runtime": "7.9.0",
     "@react-native-community/eslint-config": "1.0.0",
+    "@testing-library/jest-native": "^3.4.3",
+    "@testing-library/react-native": "^7.1.0",
     "@types/detox": "^16.4.1",
     "@types/jasmine": "^3.6.0",
     "@types/jest": "^24.0.24",
@@ -132,6 +138,7 @@
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
     "babel-jest": "^24.9.0",
+    "babel-plugin-module-resolver": "^4.0.0",
     "detox": "^17.10.3",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.2.0",
@@ -155,6 +162,9 @@
   },
   "jest": {
     "preset": "react-native",
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-native/extend-expect"
+    ],
     "moduleFileExtensions": [
       "ts",
       "tsx",

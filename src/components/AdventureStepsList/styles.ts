@@ -1,10 +1,9 @@
 import { StyleSheet } from 'react-native';
-
-import theme from '../../theme';
+import theme from 'utils/theme';
 
 const styles = StyleSheet.create({
   icon: {
-    color: theme.colors.white
+    color: theme.colors.white,
   },
   listOfSteps: {
     paddingTop: theme.spacing.l,
@@ -12,7 +11,6 @@ const styles = StyleSheet.create({
     paddingLeft: theme.spacing.m,
     paddingRight: theme.spacing.m,
   },
-
 });
 
 export default styles;

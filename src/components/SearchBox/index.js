@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import Icon from '../Icon';
-import st from '../../st';
+import st from 'utils/st';
 import { TextInput } from 'react-native-gesture-handler';
+
+import Icon from '../Icon';
 
 function SearchBox({ source, style, badge, onPress, ...rest }) {
   const [searchText, setSearchText] = useState('');

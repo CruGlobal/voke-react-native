@@ -1,11 +1,11 @@
 import React from 'react';
 import Image from 'react-native-scalable-image';
 
-import { vokeImages } from '../../utils/iconMap';
+import { vokeImages } from 'utils/iconMap';
 import Flex from '../Flex';
 import Text from '../Text';
 import Triangle from '../Triangle';
-import theme from '../../theme';
+import theme from 'utils/theme';
 
 import styles from './styles';
 import { View } from 'react-native';

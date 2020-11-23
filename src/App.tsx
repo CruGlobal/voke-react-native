@@ -14,15 +14,28 @@ import {
   useNavigationState,
   useFocusEffect,
   StackActions,
+  RouteProp,
 } from '@react-navigation/native';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import { Linking, YellowBox } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  StackNavigationProp,
+} from '@react-navigation/stack';
 import { SafeAreaView, useSafeArea } from 'react-native-safe-area-context';
 import useAppState from 'react-native-appstate-hook';
 import RNBootSplash from 'react-native-bootsplash';
 import { Host } from 'react-native-portalize';
+import theme from 'utils/theme';
+import st from 'utils/st';
+import {
+  AdventureStackParamList,
+  AppStackParamList,
+  NotificationStackParamList,
+  RootStackParamList,
+  VideoStackParamList,
+} from 'utils/types';
 
 import {
   startupAction,
@@ -31,46 +44,44 @@ import {
   getMeAction,
 } from './actions/auth';
 import { routeNameRef, navigationRef } from './RootNavigation';
-import Welcome from './containers/Welcome';
-import Menu from './containers/Menu';
-import MenuHelp from './containers/MenuHelp';
-import MenuAbout from './containers/MenuAbout';
-import MenuAcknowledgements from './containers/MenuAcknowledgements';
-import AccountSignIn from './containers/AccountSignIn';
-import AccountPass from './containers/AccountPass';
-import AccountEmail from './containers/AccountEmail';
-import AccountProfile from './containers/AccountProfile';
-import AccountCreate from './containers/AccountCreate';
-import AccountForgotPassword from './containers/AccountForgotPassword';
-import Adventures from './containers/Adventures';
-import AdventureAvailable from './containers/AdventureAvailable';
-import VideoDetails from './containers/VideoDetails';
-import AdventureName from './containers/AdventureName';
-import AdventureShareCode from './containers/AdventureShareCode';
-import AdventureActive from './containers/AdventureActive';
-import AdventureManage from './containers/AdventureManage';
-import AdventureStepScreen from './containers/AdventureStepScreen';
-import GroupReleaseType from './containers/GroupReleaseType';
-import GroupReleaseDate from './containers/GroupReleaseDate';
-import VideosSearch from './containers/VideosSearch';
+import Welcome from './domain/Account/containers/Welcome';
+import Menu from './domain/Menu/Menu';
+import MenuHelp from './domain/Menu/Help';
+import MenuAbout from './domain/Menu/About';
+import MenuAcknowledgements from './domain/Menu/Acknowledgements';
+import AccountSignIn from './domain/Account/containers/AccountSignIn';
+import AccountPass from './domain/Account/containers/AccountPass';
+import AccountEmail from './domain/Account/containers/AccountEmail';
+import AccountProfile from './domain/Account/containers/AccountProfile';
+import AccountCreate from './domain/Account/containers/AccountCreate';
+import AccountForgotPassword from './domain/Account/containers/AccountForgotPassword';
+import Adventures from './domain/Adventures/AdventuresTab';
+import AdventureAvailable from './domain/Adventure/Available';
+import VideoDetails from './domain/Explore/containers/VideoDetails';
+import AdventureName from './domain/Adventure/Name';
+import AdventureShareCode from './domain/Adventure/Share';
+import AdventureActive from './domain/Adventure/Active';
+import AdventureManage from './domain/Adventure/Manage';
+import AdventureStepScreen from './domain/Adventure/StepScreen';
+import GroupReleaseType from './domain/Adventure/GroupReleaseType';
+import GroupReleaseDate from './domain/Adventure/ReleaseDate';
+import VideosSearch from './domain/Explore/containers/VideosSearch';
 import ModalAppUpdate from './components/ModalAppUpdate';
-import AllMembersModal from './containers/AllMembersModal';
-import AdventureCode from './containers/AdventureCode';
-import Videos from './containers/Videos';
-import Notifications from './containers/Notifications';
-import AccountName from './containers/AccountName';
-import AccountPhoto from './containers/AccountPhoto';
-import GroupModal from './containers/GroupModal';
+import AllMembersModal from './domain/Adventure/MembersModal';
+import AdventureCode from './domain/Adventure/Code';
+import Videos from './domain/Explore/containers/Videos';
+import Notifications from './domain/Notifications/containers/Notifications';
+import AccountName from './domain/Account/containers/AccountName';
+import AccountPhoto from './domain/Account/containers/AccountPhoto';
+import GroupModal from './domain/Adventure/GroupModal';
 import TabBar from './components/TabBar';
-import theme from './theme';
-import st from './st';
 import HeaderLeft from './components/HeaderLeft';
 import Touchable from './components/Touchable';
 import SignOut from './components/SignOut';
 import Text from './components/Text';
 import { useMount } from './utils';
 import { checkInitialNotification } from './actions/notifications';
-import KitchenSink from './containers/KitchenSink';
+import KitchenSink from './domain/Common/KitchenSink';
 
 // https://reactnavigation.org/docs/stack-navigator#options
 const defaultHeaderConfig = {
@@ -115,7 +126,7 @@ const transparentHeaderConfig = {
   headerTransparent: true,
 };
 
-const AdventureStack = createStackNavigator();
+const AdventureStack = createStackNavigator<AdventureStackParamList>();
 
 const AdventureStackScreens = ({ navigation, route }: any) => {
   const insets = useSafeArea();
@@ -226,16 +237,16 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
           headerRight: undefined,
         }}
       />
-      <AdventureStack.Screen
+      {/* <AdventureStack.Screen
         name="AccountPhoto"
         component={AccountPhoto}
         options={{ headerShown: false }}
-      />
+      /> */}
     </AdventureStack.Navigator>
   );
 };
 
-const VideoStack = createStackNavigator();
+const VideoStack = createStackNavigator<VideoStackParamList>();
 function VideoStackScreens({ navigation, route }: any) {
   const { t } = useTranslation('title');
   const insets = useSafeArea();
@@ -278,7 +289,7 @@ function VideoStackScreens({ navigation, route }: any) {
   );
 }
 
-const NotificationStack = createStackNavigator();
+const NotificationStack = createStackNavigator<NotificationStackParamList>();
 const NotificationStackScreens = () => {
   const { t } = useTranslation('title');
   return (
@@ -297,7 +308,7 @@ const NotificationStackScreens = () => {
   );
 };
 
-const LoggedInAppContainer = ({ navigation, route }: any) => {
+const LoggedInAppContainer = () => {
   const dispatch = useDispatch();
   const Tabs = createBottomTabNavigator();
   const state = useNavigationState(state => state);
@@ -372,7 +383,7 @@ const getActiveRouteName = state => {
   return route.name;
 };
 
-const RootStack = createStackNavigator();
+const RootStack = createStackNavigator<RootStackParamList>();
 const RootStackScreens = React.memo(
   () => {
     const isLoggedIn = useSelector(({ auth }: any) => auth.isLoggedIn);
@@ -575,7 +586,8 @@ const RootStackScreens = React.memo(
               title: t('title:profile'),
             })}
           />
-          <RootStack.Screen
+          {/* RELEASE Check this case! */}
+          {/* <RootStack.Screen
             name="SignUp"
             component={AccountCreate}
             options={({ navigation }) => ({
@@ -594,7 +606,7 @@ const RootStackScreens = React.memo(
               },
               title: t('signUp'),
             })}
-          />
+          /> */}
           <RootStack.Screen
             name="AccountEmail"
             component={AccountEmail}
@@ -708,7 +720,7 @@ const RootStackScreens = React.memo(
   },
 );
 
-const AppStack = createStackNavigator();
+const AppStack = createStackNavigator<AppStackParamList>();
 
 const App = () => {
   // Extract store.auth.isLoggedIn value.
