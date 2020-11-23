@@ -8,7 +8,7 @@ buildscript {
         compileSdkVersion = 29
         targetSdkVersion = 29
         // https://github.com/wix/Detox/blob/master/docs/Introduction.Android.md#4-add-kotlin
-        kotlinVersion = '1.4.10' // needed for Detox
+        kotlinVersion = '1.4.20' // needed for Detox
     }
     repositories {
         google()
