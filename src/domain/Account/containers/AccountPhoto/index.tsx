@@ -195,9 +195,8 @@ function AccountPhoto(props: Props) {
         >
           {!avatarSource ? (
             <VokeIcon
-              type="image"
               name="camera"
-              style={[st.w(70), st.h(70), st.white]}
+              style={{ fontSize: 70, color: theme.colors.white }}
               testID={'iconCamera'}
             />
           ) : (

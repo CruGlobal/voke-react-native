@@ -11,9 +11,8 @@ import {
   markReadNotification,
   interactionVideoPlay,
 } from 'actions/requests';
-import { useMount, lockToPortrait } from 'utils';
-
 import st from 'utils/st';
+import { useMount, lockToPortrait } from 'utils';
 
 function Notifications() {
   const dispatch = useDispatch();

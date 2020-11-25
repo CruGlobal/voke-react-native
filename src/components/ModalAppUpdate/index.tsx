@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Linking, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import UkeBot from 'src/assets/UkeBot.png';
+import { bots } from 'assets';
 import theme from 'utils/theme';
 
 import Text from '../Text';
@@ -80,7 +80,7 @@ function ModalAppUpdate(): ReactElement {
             <Text style={styles.modalTitle}>{t('newImproved')}</Text>
             <Image
               resizeMode="contain"
-              source={UkeBot}
+              source={bots.uke}
               style={{
                 height: 106,
                 width: 106,

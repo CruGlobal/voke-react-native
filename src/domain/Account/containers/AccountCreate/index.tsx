@@ -31,11 +31,10 @@ import VokeIcon from 'components/VokeIcon';
 import Screen from 'components/Screen';
 import theme from 'utils/theme';
 import { userLogin, updateMe } from 'actions/auth';
-import { RootStackParamList } from 'utils/types';;
+import { RootStackParamList } from 'utils/types';
 import CONSTANTS from 'utils/constants';
-import { useMount, lockToPortrait } from 'utils';
-
 import st from 'utils/st';
+import { useMount, lockToPortrait } from 'utils';
 
 import styles from './styles';
 

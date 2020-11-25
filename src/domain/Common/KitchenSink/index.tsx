@@ -1,36 +1,13 @@
 import React, { useState } from 'react';
-import { useSafeArea } from 'react-native-safe-area-context';
-import { ScrollView, Share, Linking, View, Platform } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { useTranslation } from 'react-i18next';
-import Communications from 'react-native-communications';
-import DeviceInfo from 'react-native-device-info';
-import { useDispatch } from 'react-redux';
+import { View, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import Flex from 'components/Flex';
-import Image from 'components/Image';
 import Text from 'components/Text';
-import Touchable from 'components/Touchable';
 import Screen from 'components/Screen';
 import Button from 'components/Button';
 import Datepicker from 'components/Datepicker';
 import Spacer from 'components/Spacer';
-import YS from 'src/assets/youthSpecialties.png';
-import OH from 'src/assets/oneHope.png';
-import IAS from 'src/assets/iAmSecond.png';
-import JF from 'src/assets/jesusFilm.png';
-import SU from 'src/assets/scriptureUnion.png';
-import CRU from 'src/assets/cru.png';
-import CONSTANTS from 'utils/constants';
-
-import st from 'utils/st';
 
 const KitchenSink = props => {
-  const { t } = useTranslation();
-  const insets = useSafeArea();
-  const navigation = useNavigation();
-  const dispatch = useDispatch();
-
   const [date, setDate] = useState(new Date(1598051730000));
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);

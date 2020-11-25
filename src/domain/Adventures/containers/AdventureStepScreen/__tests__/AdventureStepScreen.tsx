@@ -3,7 +3,7 @@ import { render, fireEvent } from '@testing-library/react-native';
 
 // import { openMainMenu } from 'utils/common';
 // import { GET_CURRENT_USER_AVATAR } from '../queries';
-import AdventureStepScreen from '../../AdventureStepScreen';
+import AdventureStepScreen from '../AdventureStepScreen';
 // import { renderWithContext } from '../testUtils';
 
 // jest.mock('utils/common');

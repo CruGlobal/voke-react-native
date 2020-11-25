@@ -8,10 +8,8 @@ import { ThunkDispatch } from 'redux-thunk';
 import { checkNotifications, openSettings } from 'react-native-permissions';
 import { Vibration } from 'react-native';
 import { REDUX_ACTIONS } from 'utils/constants';
+import { SOCKET_URL } from 'actions/utils';
 
-import st from 'utils/st';
-
-import { SOCKET_URL } from './utils';
 import { toastAction } from './info';
 import {
   getAdventureStepMessages,

@@ -21,9 +21,9 @@ import Flex from 'components/Flex';
 import Text from 'components/Text';
 import { updateMe } from 'actions/auth';
 import theme from 'utils/theme';
-import { useMount, lockToPortrait } from 'utils';
 import CONSTANTS from 'utils/constants';
 import st from 'utils/st';
+import { useMount, lockToPortrait } from 'utils';
 
 import styles from './styles';
 

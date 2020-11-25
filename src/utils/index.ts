@@ -13,11 +13,19 @@ import { useEffect, useRef } from 'react';
 import { Keyboard } from 'react-native';
 import Orientation from 'react-native-orientation-locker';
 
-import CONSTANTS from 'utils/constants';
+export {
+  difference,
+  memoize,
+  orderBy,
+  range,
+  debounce,
+  throttle,
+  xor,
+  uniqBy,
+  upperCase,
+};
 
-export { difference, memoize, orderBy, range, debounce, throttle, xor, uniqBy, upperCase };
-
-export function youtube_parser(url) {
+export function youtubeParser(url) {
   const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
   const match = url.match(regExp);
   return match && match[7].length === 11 ? match[7] : false;
@@ -56,10 +64,9 @@ export const toCamelCase = str =>
     )
     .replace(/\s+/g, '');
 
-
-export const  capitalize = (string) => {
+export const capitalize = string => {
   return string.charAt(0).toUpperCase() + string.slice(1);
-}
+};
 
 export const isFunction = fn => typeof fn === 'function';
 export const isArray = arr => Array.isArray(arr);

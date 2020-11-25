@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { TabView, SceneMap } from 'react-native-tab-view';
+import { TabView } from 'react-native-tab-view';
 import { useMount, lockToPortrait } from 'utils';
-import { indexOf } from 'lodash';
 
 import TabBarStyled from './TabBarStyled';
 

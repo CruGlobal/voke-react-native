@@ -42,15 +42,16 @@ import {
   TMessage,
   TStep,
 } from 'utils/types';
-
-import { toastAction } from '../../../actions/info';
 import {
   getAdventureStepMessages,
   markMessageAsRead,
   interactionVideoPlay,
   getAdventureSteps,
-} from '../../../actions/requests';
-import useWhyDidYouUpdate from '../../../hooks/useWhyDidYouUpdate';
+} from 'actions/requests';
+import useWhyDidYouUpdate from 'hooks/useWhyDidYouUpdate';
+import { toastAction } from 'actions/info';
+import { bots } from 'assets';
+import Image from 'components/Image';
 
 import styles from './styles';
 
@@ -353,12 +354,13 @@ const AdventureStepScreenRender = ({
     userId,
   ]);
 
-  useWhyDidYouUpdate('🧚‍♀️', {
-    completedByMessenger,
-    currentMessages,
-    unread_messages: currentStep.unread_messages,
-    userId,
-  });
+  /* useWhyDidYouUpdate('🧚‍♀️', {
+    adventureId,
+    conversationId,
+    currentStep,
+    dispatch,
+    isSolo,
+  }); */
 
   return (
     <View
@@ -480,11 +482,7 @@ const AdventureStepScreenRender = ({
                       <Text style={styles.botIntroBannerText}>
                         {currentStep.status_message}
                       </Text>
-                      <VokeIcon
-                        type="image"
-                        name="vokebot"
-                        style={styles.vokebot}
-                      />
+                      <Image source={bots.bot} style={styles.vokebot} />
                     </Flex>
                   ) : null}
 

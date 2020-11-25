@@ -15,9 +15,9 @@ import Button from 'components/Button';
 import Spacer from 'components/Spacer';
 import { userLogin, facebookLogin, appleSignIn } from 'actions/auth';
 import theme from 'utils/theme';
-import { useMount, lockToPortrait } from 'utils';
 import { RootStackParamList } from 'utils/types';
 import { RootState } from 'reducers';
+import { useMount, lockToPortrait } from 'utils';
 
 import styles from './styles';
 

@@ -8,12 +8,7 @@ import { useTranslation } from 'react-i18next';
 import Image from 'components/Image';
 import Text from 'components/Text';
 import Touchable from 'components/Touchable';
-import YS from 'src/assets/youthSpecialties.png';
-import OH from 'src/assets/oneHope.png';
-import IAS from 'src/assets/iAmSecond.png';
-import JF from 'src/assets/jesusFilm.png';
-import SU from 'src/assets/scriptureUnion.png';
-import CRU from 'src/assets/cru.png';
+import { logos } from 'assets';
 import Flex from 'components/Flex';
 import CONSTANTS from 'utils/constants';
 import st from 'utils/st';
@@ -176,32 +171,32 @@ function Menu() {
           style={[st.ph5]}
         >
           <Image
-            source={SU}
+            source={logos.scriptureUnion}
             style={[st.w(st.fullWidth / 3), st.h(st.fullWidth / 3)]}
             resizeMode="contain"
           />
           <Image
-            source={JF}
+            source={logos.jesusFilm}
             style={[st.w(st.fullWidth / 3), st.h(st.fullWidth / 3)]}
             resizeMode="contain"
           />
           <Image
-            source={OH}
+            source={logos.oneHope}
             style={[st.w(st.fullWidth / 3), st.h(st.fullWidth / 3)]}
             resizeMode="contain"
           />
           <Image
-            source={YS}
+            source={logos.youthSpecialties}
             style={[st.w(st.fullWidth / 3), st.h(st.fullWidth / 3)]}
             resizeMode="contain"
           />
           <Image
-            source={IAS}
+            source={logos.iAmSecond}
             style={[st.w(st.fullWidth / 3), st.h(st.fullWidth / 3)]}
             resizeMode="contain"
           />
           <Image
-            source={CRU}
+            source={logos.cru}
             style={[st.w(st.fullWidth / 3), st.h(st.fullWidth / 3)]}
             resizeMode="contain"
           />

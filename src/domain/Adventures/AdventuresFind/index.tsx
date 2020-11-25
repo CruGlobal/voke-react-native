@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { View, ScrollView, FlatList, RefreshControl } from 'react-native';
 import AvailableAdventureItem from 'components/AvailableAdventureItem';
 import theme from 'utils/theme';
-
 import { RootState } from 'reducers';
+
 import { getAvailableAdventures } from '../../../actions/requests';
 import AdventuresActions from '../../Adventure/components/AdventuresActions';
 

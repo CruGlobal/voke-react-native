@@ -1,6 +1,6 @@
 import st from 'utils/st';
 
-export const REDUX_ACTIONS:{ [key: string]: string } = {
+export const REDUX_ACTIONS: { [key: string]: string } = {
   REQUEST_FETCH: 'REQUEST_FETCH',
   REQUEST_FAIL: 'REQUEST_FAIL',
   REQUEST_SUCCESS: 'REQUEST_SUCCESS',
@@ -53,13 +53,13 @@ export const REDUX_ACTIONS:{ [key: string]: string } = {
   UPDATE_NOTIFICATION_UNREAD_BADGE: 'UPDATE_NOTIFICATION_UNREAD_BADGE',
   TUTORIAL_COUNTDOWN_DUO: 'TUTORIAL_COUNTDOWN_DUO',
   TUTORIAL_COUNTDOWN_GROUP: 'TUTORIAL_COUNTDOWN_GROUP',
-  SET_REMIND_TO_UPDATE: 'SET_REMIND_TO_UPDATE'
+  SET_REMIND_TO_UPDATE: 'SET_REMIND_TO_UPDATE',
 };
 export const VIDEO_HEIGHT = st.fullWidth * (9 / 16);
 export const VIDEO_LANDSCAPE_WIDTH = st.fullHeight;
 export const VIDEO_LANDSCAPE_HEIGHT = st.fullWidth;
 
-export const isAndroid = st.isAndroid;
+export const { isAndroid } = st;
 
 const IS_STAGING = false;
 
@@ -81,7 +81,7 @@ const ANDROID_APP_ID = 'org.cru.voke';
 const APP_URL = 'https://voke.page.link/app';
 
 export const ANALYTICS_CONTEXT_CHANGED = 'app/ANALYTICS_CONTEXT_CHANGED';
-export const ANALYTICS:{ [key: string]: string } = {
+export const ANALYTICS: { [key: string]: string } = {
   MCID: 'cru.mcid',
   SCREENNAME: 'cru.screenname',
   SITE_SECTION: 'cru.sitesection',
@@ -306,7 +306,7 @@ export const ACTIONS = {
   },
 };
 
-const CONSTANTS:{ [key: string]: {[key: string]: string | number} | any } = {
+const CONSTANTS: { [key: string]: { [key: string]: string | number } | any } = {
   IS_STAGING,
   EMAIL_REGEX: new RegExp(/^\w+([.+-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/),
   GA_TRACKER: 'UA-39188989-7', // Google Analytics

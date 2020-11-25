@@ -290,7 +290,6 @@ function AdventureName(props: any): ReactElement {
                   title: t('signUp'),
                   component: AccountCreate,
                   testID: 'tabModalSignUp',
-                  // RELEASE: Test if still works!
                   params: {
                     route: {
                       params: {
@@ -310,7 +309,6 @@ function AdventureName(props: any): ReactElement {
                   title: t('signIn'),
                   component: AccountSignIn,
                   testID: 'tabModalLogin',
-                  // RELEASE: Test if still works!
                   params: {
                     route: {
                       params: {

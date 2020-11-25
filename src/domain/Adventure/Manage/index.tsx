@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { View, ScrollView, FlatList, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -82,7 +82,7 @@ type Props = {
 };
 
 function AdventureManage({ navigation, route }: Props): React.ReactElement {
-  const activeStepRef = useRef(0);
+  const [currentStep, setCurrentStep] = useState(0);
   const { t } = useTranslation('manageGroup');
   const dispatch = useDispatch();
   const me: TUser = useSelector(({ auth }: RootState) => auth.user);
@@ -222,7 +222,8 @@ function AdventureManage({ navigation, route }: Props): React.ReactElement {
                 <AdventureStepReportCard
                   stepId={item}
                   adventureId={adventureId}
-                  activeStepRef={activeStepRef}
+                  currentStep={currentStep}
+                  setCurrentStep={setCurrentStep}
                 />
               ) : (
                 <></>
@@ -232,7 +233,8 @@ function AdventureManage({ navigation, route }: Props): React.ReactElement {
           <AdventureStepReportCard
             stepId="graduated"
             adventureId={adventureId}
-            activeStepRef={activeStepRef}
+            currentStep={currentStep}
+            setCurrentStep={setCurrentStep}
           />
         </Flex>
         <ReportedMessages adventureId={adventureId} />

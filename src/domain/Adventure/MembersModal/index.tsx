@@ -20,9 +20,6 @@ import OldButton from 'components/OldButton';
 import Touchable from 'components/Touchable';
 import VokeIcon from 'components/VokeIcon';
 import Spacer from 'components/Spacer';
-import DEFAULT_AVATAR from 'src/assets/defaultAvatar.png';
-
-import { deleteMember, getMyAdventure } from '../../../actions/requests';
 import theme from 'utils/theme';
 import st from 'utils/st';
 import { isAndroid } from 'utils/constants';
@@ -32,6 +29,8 @@ import {
   TDataState,
   TMessenger,
 } from 'utils/types';
+
+import { deleteMember, getMyAdventure } from '../../../actions/requests';
 
 import styles from './styles';
 

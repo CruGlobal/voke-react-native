@@ -18,11 +18,11 @@ import Flex from 'components/Flex';
 import Text from 'components/Text';
 import TextField from 'components/TextField';
 import OldButton from 'components/OldButton';
-import { useMount, lockToPortrait } from 'utils';
 import { passwordResetAction } from 'actions/auth';
 import theme from 'utils/theme';
 import CONSTANTS from 'utils/constants';
 import st from 'utils/st';
+import { useMount, lockToPortrait } from 'utils';
 
 import styles from './styles';
 

@@ -12,11 +12,10 @@ import {
 } from 'react-native-fbsdk';
 import CONSTANTS, { REDUX_ACTIONS } from 'utils/constants';
 import { appleAuth } from '@invertase/react-native-apple-authentication';
+import request from 'actions/utils';
 
 import ROUTES from './routes';
-import request from './utils';
 import {
-  getDevices,
   revokeAuthToken,
   setUser,
   getMyAdventures,

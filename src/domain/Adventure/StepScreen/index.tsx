@@ -12,17 +12,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import SkeletonContent from 'react-native-skeleton-content-nonexpo';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-
 import theme from 'utils/theme';
 import { RootState } from 'reducers';
-import { getMyAdventures, getAdventureSteps } from '../../../actions/requests';
-import { setCurrentScreen } from '../../../actions/info';
 import {
   AdventureStackParamList,
   TAdventureSingle,
   TDataState,
   TStep,
 } from 'utils/types';
+
+import { getMyAdventures, getAdventureSteps } from '../../../actions/requests';
+import { setCurrentScreen } from '../../../actions/info';
 
 import AdventureStepScreenRender from './AdventureStepScreenRender';
 import styles from './styles';
