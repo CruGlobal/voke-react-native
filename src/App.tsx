@@ -36,6 +36,7 @@ import {
   RootStackParamList,
   VideoStackParamList,
 } from 'utils/types';
+import { useMount } from 'utils';
 
 import {
   startupAction,
@@ -65,7 +66,6 @@ import AdventureManage from './domain/Adventure/Manage';
 import AdventureStepScreen from './domain/Adventure/StepScreen';
 import GroupReleaseType from './domain/Adventure/GroupReleaseType';
 import GroupReleaseDate from './domain/Adventure/ReleaseDate';
-import VideosSearch from './domain/Explore/containers/VideosSearch';
 import ModalAppUpdate from './components/ModalAppUpdate';
 import AllMembersModal from './domain/Adventure/MembersModal';
 import AdventureCode from './domain/Adventure/Code';
@@ -79,7 +79,6 @@ import HeaderLeft from './components/HeaderLeft';
 import Touchable from './components/Touchable';
 import SignOut from './components/SignOut';
 import Text from './components/Text';
-import { useMount } from './utils';
 import { checkInitialNotification } from './actions/notifications';
 import KitchenSink from './domain/Common/KitchenSink';
 
@@ -275,14 +274,6 @@ function VideoStackScreens({ navigation, route }: any) {
           },
           title: '',
           headerLeft: () => <HeaderLeft hasBack testID="VideoDetails" />,
-        }}
-      />
-      <VideoStack.Screen
-        name="VideosSearch"
-        component={VideosSearch}
-        options={{
-          headerShown: false,
-          cardStyle: { backgroundColor: theme.colors.transparent },
         }}
       />
     </VideoStack.Navigator>

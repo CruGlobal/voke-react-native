@@ -6,8 +6,7 @@ import { BlurView } from '@react-native-community/blur';
 import Menu from 'react-native-material-menu';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import DEFAULT_AVATAR from 'src/assets/defaultAvatar.png';
-import bluredText from 'src/assets/bluredText.png';
+import { avatars, ui } from 'assets';
 import theme from 'utils/theme';
 import { getCurrentUserId } from 'utils/get';
 import st from 'utils/st';
@@ -64,9 +63,9 @@ function AdventureStepMessage({
     first_name: '',
     last_name: '',
     avatar: {
-      small: DEFAULT_AVATAR,
-      medium: DEFAULT_AVATAR,
-      large: DEFAULT_AVATAR,
+      small: avatars.default,
+      medium: avatars.default,
+      large: avatars.default,
     },
     status: 'blocked',
   };
@@ -237,7 +236,7 @@ function AdventureStepMessage({
                     <>
                       {isAndroid && (
                         <ReactNativeImage
-                          source={bluredText}
+                          source={ui.bluredText}
                           resizeMode={'repeat'}
                           resizeMethod={'resize'}
                           style={{

@@ -1,14 +1,15 @@
 import React from 'react';
 import Image from 'react-native-scalable-image';
+import theme from 'utils/theme';
+import { View } from 'react-native';
+import { bots } from 'assets';
 
-import { vokeImages } from 'utils/iconMap';
 import Flex from '../Flex';
 import Text from '../Text';
 import Triangle from '../Triangle';
-import theme from 'utils/theme';
 
 import styles from './styles';
-import { View } from 'react-native';
+
 // import { Image } from 'react-native';
 
 interface IBotTalking {
@@ -29,11 +30,11 @@ const BotTalking = ({
   heading,
   style,
 }: IBotTalking): React.ReactElement =>
-  type === 'reverse' ? (
+  type === 'uke' ? (
     <Flex style={[styles.BotContainer, style]}>
       {children ? (
-        <Flex style={styles.BotMessage_reverse}>
-          <Text style={styles.BotText_reverse}>{children}</Text>
+        <Flex style={styles.BotMessage_uke}>
+          <Text style={styles.BotText_uke}>{children}</Text>
         </Flex>
       ) : null}
       <Triangle
@@ -44,32 +45,28 @@ const BotTalking = ({
         color={theme.colors.white}
         style={styles.BotMessageTail}
       />
-      <Image
-        width={100}
-        style={styles.BotImage_reverse}
-        source={vokeImages.VokeBot_Ukelele}
-      />
+      <Image width={164} style={styles.BotImage_uke} source={bots.uke} />
     </Flex>
   ) : type === 'overlay' ? (
     <Flex style={[styles.BotContainer, style]}>
       <View style={styles.BotInner}>
-      <Flex style={styles.BotOverlayMessage}>
-        {heading ? <Text style={styles.BotOverlayHeading}>{heading}</Text> : null}
-        {children ? <Text style={styles.BotOverlayText}>{children}</Text> : null}
-      </Flex>
-      <Triangle
-        width={20}
-        height={20}
-        flip
-        slant="down"
-        color={theme.colors.white}
-        style={styles.BotMessageTail}
-      />
-      <Image
-        width={150}
-        style={styles.BotImage_overlay}
-        source={vokeImages.vokebot}
-      />
+        <Flex style={styles.BotOverlayMessage}>
+          {heading ? (
+            <Text style={styles.BotOverlayHeading}>{heading}</Text>
+          ) : null}
+          {children ? (
+            <Text style={styles.BotOverlayText}>{children}</Text>
+          ) : null}
+        </Flex>
+        <Triangle
+          width={20}
+          height={20}
+          flip
+          slant="down"
+          color={theme.colors.white}
+          style={styles.BotMessageTail}
+        />
+        <Image width={150} style={styles.BotImage_overlay} source={bots.bot} />
       </View>
     </Flex>
   ) : (
@@ -96,7 +93,7 @@ const BotTalking = ({
               marginTop: -15,
               marginBottom: -105,
             }}
-            source={vokeImages.vokebot}
+            source={bots.bot}
           />
         </View>
       </View>

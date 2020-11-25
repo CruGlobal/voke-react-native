@@ -3,13 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Image from 'react-native-scalable-image';
-import ChatExample from 'src/assets/ChatExample.png';
-import VideoExample from 'src/assets/VideoExample.png';
-import InviteCodeExample from 'src/assets/InviteCodeExample2.png';
+import { tutorials } from 'assets';
+import theme from 'utils/theme';
 
 import Flex from '../Flex';
 import Text from '../Text';
-import theme from 'utils/theme';
 import OldButton from '../OldButton';
 import BotTalking from '../BotTalking';
 
@@ -50,7 +48,7 @@ function ModalHowDuoWorks({ primaryAction }): React.ReactElement {
                 justify="center"
                 style={{ marginTop: theme.spacing.l }}
               >
-                <Image width={130} source={VideoExample} />
+                <Image width={130} source={tutorials.video} />
                 <Text style={styles.stepText}>{t('howItWorksWatch')}</Text>
               </Flex>
               <Flex
@@ -60,7 +58,7 @@ function ModalHowDuoWorks({ primaryAction }): React.ReactElement {
                 style={{ marginTop: theme.spacing.l }}
               >
                 <Text style={styles.stepText}>{t('howDuoWorksChat')}</Text>
-                <Image width={130} source={ChatExample} />
+                <Image width={130} source={tutorials.chat} />
               </Flex>
               <Flex
                 direction="row"
@@ -68,7 +66,7 @@ function ModalHowDuoWorks({ primaryAction }): React.ReactElement {
                 justify="center"
                 style={{ marginTop: theme.spacing.l }}
               >
-                <Image width={130} source={InviteCodeExample} />
+                <Image width={130} source={tutorials.invite} />
                 <Text style={styles.stepText}>{t('howDuoWorksShare')}</Text>
               </Flex>
             </>

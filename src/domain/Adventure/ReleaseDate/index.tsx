@@ -1,12 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React, { useState, useEffect } from 'react';
-import {
-  Platform,
-  Alert,
-  KeyboardAvoidingView,
-  ScrollView,
-  View,
-} from 'react-native';
+import { Alert, View } from 'react-native';
 import Clipboard from '@react-native-community/clipboard';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
@@ -14,15 +8,13 @@ import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import Image from 'react-native-scalable-image';
 import Touchable from 'components/Touchable';
-import DismissKeyboardView from 'components/DismissKeyboardHOC';
 import Dropdown from 'components/Dropdown';
 import Datepicker from 'components/Datepicker';
 import OldButton from 'components/OldButton';
-import Flex from 'components/Flex';
 import Text from 'components/Text';
 import Screen from 'components/Screen';
 import Spacer from 'components/Spacer';
-import manualReleaseExample from 'src/assets/manualReleaseExample.png';
+import { tutorials } from 'assets';
 
 import { toastAction } from '../../../actions/info';
 import {
@@ -239,7 +231,7 @@ const GroupReleaseDate = (props): React.ReactElement => {
             <Text style={styles.manual}>{t('groupReleaseManual')}</Text>
             <Image
               width={280}
-              source={manualReleaseExample}
+              source={tutorials.manualRelease}
               style={styles.manualPicture}
             />
             <Text style={styles.manualSecondary}>

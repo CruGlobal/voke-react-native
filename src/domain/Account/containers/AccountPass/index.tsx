@@ -21,10 +21,9 @@ import OldButton from 'components/OldButton';
 import Flex from 'components/Flex';
 import Text from 'components/Text';
 import { updateMe } from 'actions/auth';
-import { useMount, lockToPortrait } from 'utils';
 import theme from 'utils/theme';
-
 import st from 'utils/st';
+import { useMount, lockToPortrait } from 'utils';
 
 import styles from './styles';
 

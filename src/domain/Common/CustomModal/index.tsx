@@ -8,14 +8,7 @@ import { Modalize } from 'react-native-modalize';
 import Flex from 'components/Flex';
 import OldButton from 'components/OldButton';
 import BotTalking from 'components/BotTalking';
-import ChatExample from 'src/assets/ChatExample.png';
-import VideoExample from 'src/assets/VideoExample.png';
-import InviteCodeExample from 'src/assets/InviteCodeExample2.png';
-import GroupWelcomeExample from 'src/assets/GroupWelcomeExample.png';
-import ModalSharingCode from 'src/assets/ModalSharingCode.png';
-import ModalSharingLink from 'src/assets/ModalSharingLink.png';
-import ModalSharingNotification from 'src/assets/ModalSharingNotification.png';
-import ModalSharingPersonalize from 'src/assets/ModalSharingPersonalize.png';
+import { tutorials } from 'assets';
 import theme from 'utils/theme';
 import { REDUX_ACTIONS } from 'utils/constants';
 import st from 'utils/st';
@@ -231,7 +224,7 @@ export default function CustomModal(props: any): React.ReactElement {
                       justify="center"
                       style={{ marginVertical: 10, marginHorizontal: 20 }}
                     >
-                      <Image width={130} source={VideoExample} />
+                      <Image width={130} source={tutorials.video} />
                       <Text
                         style={{
                           fontSize: 18,
@@ -261,7 +254,7 @@ export default function CustomModal(props: any): React.ReactElement {
                       >
                         {t('howDuoWorksChat')}
                       </Text>
-                      <Image width={130} source={ChatExample} />
+                      <Image width={130} source={tutorials.chat} />
                     </Flex>
                     <Flex
                       direction="row"
@@ -269,7 +262,7 @@ export default function CustomModal(props: any): React.ReactElement {
                       justify="center"
                       style={{ marginTop: 20 }}
                     >
-                      <Image width={130} source={InviteCodeExample} />
+                      <Image width={130} source={tutorials.invite} />
                       <Text
                         style={{
                           fontSize: 18,
@@ -292,7 +285,7 @@ export default function CustomModal(props: any): React.ReactElement {
                       justify="center"
                       style={{ marginVertical: 10, marginHorizontal: 20 }}
                     >
-                      <Image width={130} source={VideoExample} />
+                      <Image width={130} source={tutorials.video} />
                       <Text
                         style={{
                           fontSize: 18,
@@ -322,7 +315,7 @@ export default function CustomModal(props: any): React.ReactElement {
                       >
                         {t('howGroupsWorkChat')}
                       </Text>
-                      <Image width={130} source={ChatExample} />
+                      <Image width={130} source={tutorials.chat} />
                     </Flex>
                     <Flex
                       direction="row"
@@ -330,7 +323,7 @@ export default function CustomModal(props: any): React.ReactElement {
                       justify="center"
                       style={{ marginTop: 20 }}
                     >
-                      <Image width={130} source={GroupWelcomeExample} />
+                      <Image width={130} source={tutorials.group} />
                       <Text
                         style={{
                           fontSize: 18,
@@ -360,7 +353,7 @@ export default function CustomModal(props: any): React.ReactElement {
                       >
                         {t('howGroupsWorkShare')}
                       </Text>
-                      <Image width={130} source={InviteCodeExample} />
+                      <Image width={130} source={tutorials.invite} />
                     </Flex>
                   </>
                 )}
@@ -475,7 +468,7 @@ export default function CustomModal(props: any): React.ReactElement {
                     justify="center"
                     style={{ marginVertical: 10, marginHorizontal: 20 }}
                   >
-                    <Image width={130} source={ModalSharingLink} />
+                    <Image width={130} source={tutorials.link} />
                     <Text
                       style={{
                         fontSize: 18,
@@ -505,7 +498,7 @@ export default function CustomModal(props: any): React.ReactElement {
                     >
                       {t('howSharingWorksPersonalize')}
                     </Text>
-                    <Image width={130} source={ModalSharingPersonalize} />
+                    <Image width={130} source={tutorials.personalize} />
                   </Flex>
                   <Flex
                     direction="row"
@@ -513,7 +506,7 @@ export default function CustomModal(props: any): React.ReactElement {
                     justify="center"
                     style={{ marginTop: 20 }}
                   >
-                    <Image width={130} source={ModalSharingNotification} />
+                    <Image width={130} source={tutorials.notification} />
                     <Text
                       style={{
                         fontSize: 18,
@@ -543,7 +536,7 @@ export default function CustomModal(props: any): React.ReactElement {
                     >
                       {t('howSharingWorksLinkAccess')}
                     </Text>
-                    <Image width={130} source={ModalSharingCode} />
+                    <Image width={130} source={tutorials.code} />
                   </Flex>
                 </>
                 {/* <View style={{minHeight:theme.spacing.l}} /> */}
@@ -590,7 +583,7 @@ export default function CustomModal(props: any): React.ReactElement {
               direction="column"
               align="center"
             >
-              <BotTalking type="reverse">
+              <BotTalking type="uke">
                 {t('overlays:playUkulele', { name: me.firstName })}
               </BotTalking>
               <OldButton

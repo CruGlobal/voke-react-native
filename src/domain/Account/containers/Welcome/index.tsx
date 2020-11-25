@@ -2,8 +2,6 @@ import React, { ReactElement, useState } from 'react';
 import { View, Linking, ImageBackground, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-
-// import Background from 'assets/vokeWelcome.png';
 import Flex from 'components/Flex';
 import Text from 'components/Text';
 import Spacer from 'components/Spacer';
@@ -15,8 +13,8 @@ import OldButton from 'components/OldButton';
 import BotTalking from 'components/BotTalking';
 import theme from 'utils/theme';
 import CONSTANTS from 'utils/constants';
+import { backgrounds } from 'assets';
 import { useMount, lockToPortrait } from 'utils';
-import Background from 'assets/vokeWelcome.png';
 
 import styles from './styles';
 
@@ -32,7 +30,7 @@ const Welcome = (): ReactElement => {
   });
 
   return (
-    <ImageBackground source={Background} style={styles.Screen}>
+    <ImageBackground source={backgrounds.welcome} style={styles.Screen}>
       <Screen testID={'welcomeScreen'} background={'transparent'}>
         <StatusBar
           animated={true}

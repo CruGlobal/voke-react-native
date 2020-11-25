@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next';
 import { Modalize } from 'react-native-modalize';
 import { Portal } from 'react-native-portalize';
 import { StackNavigationProp } from '@react-navigation/stack';
-
 import { RootState } from 'reducers';
 import Flex from 'components/Flex';
 import Text from 'components/Text';
@@ -18,12 +17,13 @@ import VokeIcon from 'components/VokeIcon';
 import ModalHowDuoWorks from 'components/ModalHowDuoWorks';
 import ModalHowGroupsWork from 'components/ModalHowGroupsWork';
 import theme from 'utils/theme';
+import { REDUX_ACTIONS } from 'utils/constants';
+import { AdventureStackParamList } from 'utils/types';
+
 import {
   startAdventure,
   interactionVideoPlay,
 } from '../../../actions/requests';
-import { REDUX_ACTIONS } from 'utils/constants';
-import { AdventureStackParamList } from 'utils/types';
 
 import styles from './styles';
 
@@ -196,9 +196,12 @@ function AdventureAvailable(props: Props): React.ReactElement {
           bounces={false}
           style={{ paddingBottom: insets.bottom }}
           scrollIndicatorInsets={{ right: 1 }}
+          testID="scrollAdventureAvailable"
         >
           <Flex style={[st.pd3]}>
-            <Text style={[st.fs2, st.blue]}>{item.name}</Text>
+            <Text style={[st.fs2, st.blue]} testID="adventureName">
+              {item.name}
+            </Text>
             <Text style={[st.pt5, st.charcoal]}>
               {item.total_steps}-{t('partSeries').toLowerCase()}
             </Text>

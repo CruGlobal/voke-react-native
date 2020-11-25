@@ -43,11 +43,6 @@ export type VideoStackParamList = {
   VideoDetails: {
     item: TVideoItem;
   };
-  VideosSearch:
-    | {
-        onSelect: () => {};
-      }
-    | undefined;
 };
 
 export type NotificationStackParamList = {

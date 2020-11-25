@@ -126,14 +126,23 @@ const VideoItem = React.memo(
               isAndroidOpacity
               onPress={handleShare}
               activeOpacity={0.6}
-              touchableStyle={[st.abs, st.mh5, { right: 15, top: -35 }]}
+              touchableStyle={{
+                position: 'absolute',
+                justifyContent: 'center',
+                alignItems: 'center',
+                top: -35,
+                right: 15,
+                backgroundColor: theme.colors.primary,
+                width: 50,
+                height: 50,
+                borderRadius: theme.radius.xxl,
+                ...theme.shadow,
+              }}
             >
               <VokeIcon
-                type="image"
-                name="to-chat"
+                name="share"
                 style={{
-                  width: 50,
-                  height: 50,
+                  fontSize: 30,
                   borderRadius: 25,
                   color: theme.colors.white,
                 }}

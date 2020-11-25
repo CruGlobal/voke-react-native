@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 // import MultiSelect from 'react-native-multiple-select';
-import { isArray } from 'utils';
 import { View, Text, TouchableOpacity } from 'react-native';
 import st from 'utils/st';
 

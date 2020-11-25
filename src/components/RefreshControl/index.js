@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { RefreshControl as RNRefreshControl } from 'react-native';
-import ANIMATION from 'src/assets/VokeBotAnimation.gif';
+import { bots } from 'assets';
 import st from 'utils/st';
 
 import Image from '../Image';
@@ -41,7 +41,7 @@ function RefreshControl(props) {
       {showImage ? (
         <Image
           resizeMode="contain"
-          source={ANIMATION}
+          source={bots.animated}
           style={[st.h(50), st.abs, st.asc, { top: 5 }]}
         />
       ) : null}

@@ -1,7 +1,6 @@
 // Tiny get utility functions.
 import { useSelector } from 'react-redux';
-import moment, { Moment } from 'moment';
-import VersionCheck from 'react-native-version-check';
+import moment from 'moment';
 import { RootState } from 'reducers';
 import { TAdventureSingle } from 'utils/types';
 

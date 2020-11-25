@@ -4,16 +4,11 @@ import { Image, View } from 'react-native';
 // import Image from 'react-native-scalable-image';
 // import Image from '../../components/Image';
 
-import ChatExample from 'src/assets/ChatExample.png';
-import VideoExample from 'src/assets/VideoExample.png';
-import InviteCodeExample from 'src/assets/InviteCodeExample2.png';
-import GroupWelcomeExample from 'src/assets/GroupWelcomeExample.png';
-import howItWorksAddMembers from 'src/assets/howItWorksAddMembers.png';
-import howItWorksReleaseType from 'src/assets/howItWorksReleaseType.png';
+import { tutorials } from 'assets';
+import theme from 'utils/theme';
 
 import Flex from '../Flex';
 import Text from '../Text';
-import theme from 'utils/theme';
 import OldButton from '../OldButton';
 import BotTalking from '../BotTalking';
 import Screen from '../Screen';
@@ -63,7 +58,7 @@ function ModalHowGroupsWork({ primaryAction }: Props): React.ReactElement {
         >
           <Image
             width={130}
-            source={howItWorksReleaseType}
+            source={tutorials.releaseType}
             style={styles.deviceImage}
           />
         </Flex>
@@ -83,7 +78,7 @@ function ModalHowGroupsWork({ primaryAction }: Props): React.ReactElement {
         >
           <Image
             width={130}
-            source={howItWorksAddMembers}
+            source={tutorials.addMembers}
             style={styles.deviceImage}
           />
         </Flex>
@@ -99,7 +94,11 @@ function ModalHowGroupsWork({ primaryAction }: Props): React.ReactElement {
           align="start"
           style={{ ...styles.stepImage, paddingRight: theme.spacing.l }}
         >
-          <Image width={130} source={VideoExample} style={styles.deviceImage} />
+          <Image
+            width={130}
+            source={tutorials.video}
+            style={styles.deviceImage}
+          />
         </Flex>
         <Text style={styles.stepText}>{t('howItWorksWatch')}</Text>
       </Flex>
@@ -115,7 +114,11 @@ function ModalHowGroupsWork({ primaryAction }: Props): React.ReactElement {
           align="end"
           style={{ ...styles.stepImage, paddingLeft: theme.spacing.l }}
         >
-          <Image width={130} source={ChatExample} style={styles.deviceImage} />
+          <Image
+            width={130}
+            source={tutorials.chat}
+            style={styles.deviceImage}
+          />
         </Flex>
       </Flex>
       <Flex
@@ -131,7 +134,7 @@ function ModalHowGroupsWork({ primaryAction }: Props): React.ReactElement {
         >
           <Image
             width={130}
-            source={GroupWelcomeExample}
+            source={tutorials.group}
             style={styles.deviceImage}
           />
         </Flex>
@@ -151,7 +154,7 @@ function ModalHowGroupsWork({ primaryAction }: Props): React.ReactElement {
         >
           <Image
             width={130}
-            source={InviteCodeExample}
+            source={tutorials.invite}
             style={styles.deviceImage}
           />
         </Flex>

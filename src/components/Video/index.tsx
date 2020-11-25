@@ -13,19 +13,19 @@ import {
 import Orientation, { OrientationType } from 'react-native-orientation-locker';
 import { useFocusEffect } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
-
-import BackButton from '../BackButton';
-import { useMount, youtube_parser, lockToPortrait } from 'utils';
+import { useMount, youtubeParser, lockToPortrait } from 'utils';
 import useInterval from 'utils/useInterval';
-import { updateVideoIsPlayingState } from '../../actions/requests';
 import st from 'utils/st';
 import theme from 'utils/theme';
+import { ui } from 'assets';
+import { TStep } from 'utils/types';
+
+import BackButton from '../BackButton';
+import { updateVideoIsPlayingState } from '../../actions/requests';
 import Flex from '../Flex';
 import Touchable from '../Touchable';
 import VokeIcon from '../VokeIcon';
 import Text from '../Text';
-import SLIDER_THUMB from 'src/assets/sliderThumb.png';
-import { TStep } from 'utils/types';
 
 import styles from './styles';
 
@@ -339,7 +339,7 @@ function Video({
       {item?.type === 'youtube' ? (
         <YoutubePlayer
           ref={youtubeVideo}
-          videoId={youtube_parser(item?.url)}
+          videoId={youtubeParser(item?.url)}
           width={getPlayerDimensions().width}
           height={getPlayerDimensions().height}
           play={isPlaying}
@@ -552,7 +552,7 @@ function Video({
                     Platform.OS === 'android' ? theme.colors.primary : undefined
                   }
                   thumbImage={
-                    Platform.OS === 'android' ? undefined : SLIDER_THUMB
+                    Platform.OS === 'android' ? undefined : ui.videoSlider
                   }
                 />
               </Flex>

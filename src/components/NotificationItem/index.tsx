@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useWindowDimensions } from 'react-native';
 import st from 'utils/st';
 import { momentUtc } from 'utils';
+import { bots } from 'assets';
 
 import Image from '../Image';
 import Flex from '../Flex';
@@ -93,7 +94,7 @@ function renderVideoAndText(message, onSelectVideo, handleShare) {
 }
 
 function renderShareVideo(handleShare) {
-  const SIZE = 55;
+  const SIZE = 30;
   return (
     <Touchable
       isAndroidOpacity={true}
@@ -102,17 +103,19 @@ function renderShareVideo(handleShare) {
       style={{
         position: 'absolute',
         right: SIZE * -0.5,
-        width: SIZE * 1.25,
-        height: SIZE * 1.25,
+        width: SIZE * 1.5,
+        height: SIZE * 1.5,
+        borderRadius: SIZE,
+        backgroundColor: theme.colors.primary,
+        alignItems: 'center',
+        justifyContent: 'center',
+        ...theme.shadow,
       }}
     >
       <VokeIcon
-        name="to-chat"
-        type="image"
+        name="share"
         style={{
-          width: SIZE,
-          height: SIZE,
-          borderRadius: SIZE / 2,
+          fontSize: SIZE,
           color: theme.colors.white,
         }}
       />
@@ -173,17 +176,12 @@ function NotificationItem({ item, onSelectVideo }) {
         <Flex self="end" align="center" style={{}}>
           <Flex value={1} />
           <Flex style={{ paddingRight: 10 }}>
-            <VokeIcon
-              name="vokebot_avatar"
-              type="image"
-              style={[
-                {
-                  // position: 'absolute',
-                },
-                st.w(30),
-                st.h(30),
-                st.white,
-              ]}
+            <Image
+              source={bots.avatar}
+              style={{
+                width: 36,
+                height: 36,
+              }}
             />
           </Flex>
           <Flex

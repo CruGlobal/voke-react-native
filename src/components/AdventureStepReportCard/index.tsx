@@ -6,12 +6,12 @@ import { Dimensions, FlatList, View } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 import { Portal } from 'react-native-portalize';
 import { ScrollView } from 'react-native-gesture-handler';
+import theme from 'utils/theme';
 
 import { RootState } from '../../reducers';
 import Flex from '../Flex';
 import Text from '../Text';
 import VokeIcon from '../VokeIcon';
-import theme from 'utils/theme';
 import OldButton from '../OldButton';
 import { unlockNextAdventureStep } from '../../actions/requests';
 import Image from '../Image';
@@ -28,13 +28,15 @@ type StepReportProps = {
 type Props = {
   stepId: string;
   adventureId: string;
-  activeStepRef?: any;
+  currentStep: number;
+  setCurrentStep: (newVal: number) => void;
 };
 
 function AdventureStepReportCard({
   stepId,
   adventureId,
-  activeStepRef,
+  currentStep,
+  setCurrentStep,
 }: Props): React.ReactElement {
   const dispatch = useDispatch();
   const [isNext, setIsNext] = useState(false);
@@ -48,6 +50,11 @@ function AdventureStepReportCard({
   const step = useSelector(
     ({ data }: RootState) =>
       data.adventureSteps[adventureId]?.byId[stepId] || {},
+  );
+
+  const stepLocked = useSelector(
+    ({ data }: RootState) =>
+      data.adventureSteps[adventureId]?.byId[stepId]?.locked || false,
   );
 
   /*  const step = useSelector(
@@ -70,18 +77,19 @@ function AdventureStepReportCard({
 
   const updateNextStep = () => {
     // if (isManual && step.status === 'inactive') {
-    if (step?.locked) {
-      if (!activeStepRef.current) {
-        activeStepRef.current = step.position;
+    const position = parseInt(step.position, 10);
+    if (!stepLocked && position !== 99) {
+      if (currentStep > 0 && currentStep < position) {
+        setCurrentStep(() => position);
+      } else if (currentStep === 0 && position === 1) {
+        setCurrentStep(() => position);
       }
+    }
 
-      if (activeStepRef.current === step.position) {
-        setIsNext(true);
-      }
-
-      if (activeStepRef.current > step.position && isNext) {
-        setIsNext(false);
-      }
+    if (currentStep + 1 === position) {
+      setIsNext(true);
+    } else if (isNext) {
+      setIsNext(false);
     }
   };
 
@@ -90,17 +98,13 @@ function AdventureStepReportCard({
   // For example we need to update unread count on the card when state changed.
   useEffect(() => {
     updateNextStep();
-  }, [isManual]);
-
-  useEffect(() => {
-    updateNextStep();
-  }, [activeStepRef.current]);
+  }, [currentStep, stepLocked, isManual]);
 
   const unlockNextStep = async adventureId => {
     const results = await dispatch(unlockNextAdventureStep(adventureId));
     if (results?.id) {
       // TODO: when we have results refetch adventure to have UI updated.
-      activeStepRef.current = activeStepRef.current + 1;
+      setCurrentStep(curVal => curVal + 1);
       step.locked = false;
       setIsNext(false);
       // setTimeout(() => {
@@ -109,6 +113,22 @@ function AdventureStepReportCard({
       // dispatch(getMyAdventure(adventureId));
       // }, 1000);
     }
+  };
+
+  const stepStyle = (): string => {
+    let styleClass = '';
+    if (step.id === 'graduated') {
+      styleClass = 'cardGraduated';
+    } else if (step.locked) {
+      if (isNext) {
+        styleClass = 'cardNext';
+      } else {
+        styleClass = 'cardLocked';
+      }
+    } else {
+      styleClass = 'card';
+    }
+    return styleClass;
   };
 
   if (
@@ -123,16 +143,15 @@ function AdventureStepReportCard({
           style={
             styles[
               // step.locked || (step.status === 'inactive' && !isNext)
-              step.locked
-                ? 'cardLocked'
-                : isNext
-                ? 'cardNext'
-                : step.id === 'graduated'
-                ? 'cardGraduated'
-                : 'card'
+              stepStyle()
             ]
           }
           testID={step?.position ? 'stepPart-' + step.position : ''}
+          testID={
+            step.locked
+              ? 'lockedStepPart-' + step.position
+              : 'availableStepPart-' + step.position
+          }
         >
           <Flex align="center" justify="start">
             <Flex value={1} direction="row" self="start">

@@ -17,8 +17,7 @@ import {
   toggleFavoriteVideo,
   sendVideoInvitation,
 } from 'actions/requests';
-import { AdventureStackParamList, VideoStackParamList } from 'utils/types';;
-
+import { AdventureStackParamList, VideoStackParamList } from 'utils/types';
 import theme from 'utils/theme';
 import st from 'utils/st';
 
@@ -174,20 +173,23 @@ function VideoDetails(props: Props) {
             isAndroidOpacity={true}
             onPress={handleShare}
             activeOpacity={0.6}
-            style={[
-              st.abs,
-              st.aic,
-              st.jcc,
-              { bottom: insets.bottom + 25, right: 25 },
-            ]}
+            style={{
+              position: 'absolute',
+              justifyContent: 'center',
+              alignItems: 'center',
+              bottom: insets.bottom + 25,
+              right: 25,
+              backgroundColor: theme.colors.primary,
+              width: 66,
+              height: 66,
+              borderRadius: theme.radius.xxl,
+              ...theme.shadow,
+            }}
           >
-            <Flex align="center" justify="center" style={[]}>
-              <VokeIcon
-                type="image"
-                name="to-chat"
-                style={{ width: 70, height: 70, color: theme.colors.white }}
-              />
-            </Flex>
+            <VokeIcon
+              name="share"
+              style={{ fontSize: 36, color: theme.colors.white }}
+            />
           </Touchable>
         )}
       </>

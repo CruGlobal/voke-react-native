@@ -17,9 +17,9 @@ import BotTalking from 'components/BotTalking';
 import OldButton from 'components/OldButton';
 import Screen from 'components/Screen';
 import theme from 'utils/theme';
-
 import { RootState } from 'reducers';
 import st from 'utils/st';
+
 import { toastAction } from '../../../actions/info';
 import { createAccount, updateMe } from '../../../actions/auth';
 import { acceptAdventureInvitation } from '../../../actions/requests';

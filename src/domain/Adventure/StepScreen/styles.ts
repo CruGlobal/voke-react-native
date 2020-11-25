@@ -37,14 +37,15 @@ const styles = StyleSheet.create({
   botIntroBannerText: {
     fontSize: theme.fontSizes.l,
     color: theme.colors.white,
-    paddingHorizontal: theme.spacing.m,
+    paddingHorizontal: theme.spacing.l,
+    textAlign: 'center',
   },
   vokebot: {
     position: 'absolute',
     left: -25,
     bottom: -20,
-    width: 70,
-    height: 70,
+    width: 76,
+    height: 76,
     color: theme.colors.white,
   },
 

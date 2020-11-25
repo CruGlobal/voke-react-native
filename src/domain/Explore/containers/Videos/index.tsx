@@ -14,9 +14,8 @@ import OldButton from 'components/OldButton';
 import { getVideos } from 'actions/requests';
 import { toastAction } from 'actions/info';
 import theme from 'utils/theme';
-import { useMount, lockToPortrait } from 'utils';
-
 import st from 'utils/st';
+import { useMount, lockToPortrait } from 'utils';
 
 function VideoList() {
   const navigation = useNavigation();
@@ -132,14 +131,6 @@ function VideoList() {
   }
 
   useEffect(() => {
-    /* if (filter === 'Search') {
-      navigation.navigate('VideosSearch', {
-        onSelect: async tagId => {
-          await dispatch(getVideos({ tag_id: tagId }));
-          setVideos(searchVideos);
-        },
-      });
-    } */
     if (filterId === 'allVideos') {
       // setFilterId('allVideos');
       if (allVideos.length === 0) {
@@ -218,16 +209,7 @@ function VideoList() {
                 <OldButton
                   key={item.id}
                   onPress={() => {
-                    if (filterId === item.id && item.title === 'Search') {
-                      navigation.navigate('VideosSearch', {
-                        onSelect: async tagId => {
-                          await dispatch(getVideos({ tag_id: tagId }));
-                          // setVideos(searchVideos);
-                        },
-                      });
-                    } else {
-                      setFilterId(item.id);
-                    }
+                    setFilterId(item.id);
                   }}
                   style={[
                     st.pv7,

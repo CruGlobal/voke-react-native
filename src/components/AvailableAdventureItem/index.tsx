@@ -148,11 +148,7 @@ function AvailableAdventureItem(
                 touchableStyle={styles.shareIcon}
                 testID={'ctaShareIcon'}
               >
-                <VokeIcon
-                  type="image"
-                  name="to-chat"
-                  style={styles.inviteIcon}
-                />
+                <VokeIcon name="share" style={styles.inviteIcon} />
               </OldButton>
             )}
           </Flex>

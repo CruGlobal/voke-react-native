@@ -3,18 +3,16 @@ import React, { Component, useState, useEffect } from 'react';
 // import './wdyr'; // Why Did You Render? tool.
 // import '@react-native-firebase/crashlytics';
 import crashlytics from '@react-native-firebase/crashlytics';
-
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { YellowBox, Platform } from 'react-native';
-import LoadingRedux from './components/LoadingRedux';
+import { YellowBox } from 'react-native';
+import { registerLogs } from 'utils';
+
 import configureStore from './store';
 import App from './App';
 import ToastManager from './components/ToastManager';
-import { registerLogs } from './utils';
 import './i18n';
-// import ModalHandler from './containers/ModalHandler';
 
 const { store, persistor } = configureStore();
 // While waiting for fix here: https://github.com/archriss/react-native-snap-carousel/issues/672
@@ -37,17 +35,19 @@ const Root = () => {
     setTimeout(() => {
       setShowLoader(false);
     }, 1000);
-  }
+  };
 
-  return(
+  return (
     <SafeAreaProvider>
       <Provider store={store}>
         {/* Delay the rendering of UI until the persisted state
             has been retrieved and saved to redux */}
         <PersistGate
           // loading={<LoadingRedux />}
-          persistor={persistor} onBeforeLift={onBeforeLift}>
-            <App />
+          persistor={persistor}
+          onBeforeLift={onBeforeLift}
+        >
+          <App />
           <ToastManager />
         </PersistGate>
       </Provider>
