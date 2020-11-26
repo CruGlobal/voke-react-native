@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Dimensions, FlatList, View } from 'react-native';
+import { Alert, Dimensions, FlatList, View } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 import { Portal } from 'react-native-portalize';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -107,12 +107,25 @@ function AdventureStepReportCard({
       setCurrentStep(curVal => curVal + 1);
       step.locked = false;
       setIsNext(false);
-      // setTimeout(() => {
-      // Don't do that. We are getting WebSocket with unlock action.
-      // dispatch(getAdventureSteps(adventureId));
-      // dispatch(getMyAdventure(adventureId));
-      // }, 1000);
     }
+  };
+
+  const onUnlockNextStep = (advId: string): void => {
+    Alert.alert(t('releaseNowModalTitle'), t('releaseNowModalText'), [
+      {
+        text: t('release'),
+        onPress: (): Promise<void> => {
+          return unlockNextStep(advId);
+        },
+      },
+      {
+        text: t('cancel'),
+        onPress: (): void => {
+          return;
+        },
+        style: 'cancel',
+      },
+    ]);
   };
 
   const stepStyle = (): string => {
@@ -175,7 +188,7 @@ function AdventureStepReportCard({
               <View style={styles.action}>
                 {isNext ? (
                   <OldButton
-                    onPress={() => unlockNextStep(adventure.id)}
+                    onPress={() => onUnlockNextStep(adventure.id)}
                     style={styles.actionReleaseNow}
                     testID="ctaReleaseNow"
                   >
