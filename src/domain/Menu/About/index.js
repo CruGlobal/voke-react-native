@@ -67,6 +67,12 @@ function MenuAbout(props) {
         />
         {__DEV__ && (
           <SettingsRow
+            title={'StoryBook'}
+            onSelect={() => navigation.navigate('StoryBook')}
+          />
+        )}
+        {__DEV__ && (
+          <SettingsRow
             title={' '}
             onSelect={() => navigation.navigate('KitchenSink')}
           />

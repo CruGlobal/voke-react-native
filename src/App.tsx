@@ -81,6 +81,7 @@ import SignOut from './components/SignOut';
 import Text from './components/Text';
 import { checkInitialNotification } from './actions/notifications';
 import KitchenSink from './domain/Common/KitchenSink';
+import StoryBook from './domain/Common/StoryBook';
 
 // https://reactnavigation.org/docs/stack-navigator#options
 const defaultHeaderConfig = {
@@ -904,6 +905,20 @@ const App = () => {
                   fontWeight: 'normal',
                 },
                 title: 'Kitchen Sink',
+              })}
+            />
+            <RootStack.Screen
+              name="StoryBook"
+              component={StoryBook}
+              options={({ navigation }) => ({
+                headerShown: true,
+                cardStyle: { backgroundColor: theme.colors.transparent },
+                headerStyle: {
+                  backgroundColor: theme.colors.white,
+                  elevation: 0,
+                  shadowOpacity: 0,
+                },
+                title: '',
               })}
             />
           </AppStack.Navigator>

@@ -20,10 +20,10 @@ YellowBox.ignoreWarnings(['FlatList:', '']);
 YellowBox.ignoreWarnings(['Require cycle:', 'Warning: componentWill']);
 
 const Root = () => {
-  const [showLoader, setShowLoader] = useState(true);
+  // const [showLoader, setShowLoader] = useState(true);
   registerLogs();
 
-  const onBeforeLift = () => {
+  /* const onBeforeLift = (): void => {
     // crashlytics().recordError(37,"Test Error");
     // crashlytics().log('App mounted. 13:17');
     // crashlytics().setAttribute('test', '1317'),
@@ -35,7 +35,7 @@ const Root = () => {
     setTimeout(() => {
       setShowLoader(false);
     }, 1000);
-  };
+  }; */
 
   return (
     <SafeAreaProvider>
@@ -45,7 +45,7 @@ const Root = () => {
         <PersistGate
           // loading={<LoadingRedux />}
           persistor={persistor}
-          onBeforeLift={onBeforeLift}
+          // onBeforeLift={onBeforeLift}
         >
           <App />
           <ToastManager />
