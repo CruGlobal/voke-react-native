@@ -383,12 +383,46 @@ export function appleSignIn() {
     );
 
     const {
-      user,
-      email,
-      nonce,
-      identityToken,
+      /**
+       * An opaque user ID associated with the AppleID used for the sign in. This identifier will be
+       * stable across the 'developer team', it can later be used as an input to
+       * @{AppleAuthRequest} to request user contact information.
+       *
+       * The identifier will remain stable as long as the user is connected with the requesting client.
+       * The value may change upon user disconnecting from the identity provider.
+       */
+      user, // Permanent user_id
       fullName,
-      realUserStatus /* etc */,
+      email,
+      /**
+       * Nonce that was passed to the identity provider. If none was passed to the request, one will
+       * have automatically been created and available to be read from this property, unless `nonceEnabled`
+       * is false.
+       * NOTE: This value will be SHA256 hashed before sending to Apple.
+       */
+      nonce,
+      /**
+       * A JSON Web Token (JWT) used to communicate information about the identity of the user in a
+       * secure way to the app.
+       *
+       * The ID token contains the following information signed by Apple's identity service:
+       *  - Issuer Identifier
+       *  - Subject Identifier
+       *  - Audience
+       *  - Expiry Time
+       *  - Issuance Time
+       */
+      identityToken,
+      realUserStatus,
+      /**
+       * A short-lived, one-time valid token that can provides proof of authorization to the server
+       * component of your app.
+       *
+       * The authorization code is bound to the specific transaction using the state attribute passed
+       * in the authorization request. The server component of your app can validate the code using
+       * the Apple identity service endpoint.
+       */
+      authorizationCode,
     } = appleAuthRequestResponse;
 
     // 2. - Get current authentication state for user
