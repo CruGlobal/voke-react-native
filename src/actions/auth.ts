@@ -320,18 +320,36 @@ export function facebookLogin() {
   };
 }
 
-export function appleLoginAction({ identityToken, nonce }) {
+export function appleLoginAction({
+  email,
+  firstName,
+  lastName,
+  identityToken,
+}) {
   return async (dispatch, getState) => {
     // Important! It tells the server to merge anonymous_user_id
     // with provided login details.
     const userId = getState().auth.user.id;
-    const data = { assertion: identityToken };
+    const data = {
+      assertion: identityToken,
+      provider: 'apple',
+      user_data: {
+        email: email,
+        first_name: firstName,
+        last_name: lastName,
+        picture: {
+          data: {
+            url: null,
+          },
+        },
+      },
+    };
     if (userId) {
       // eslint-disable-next-line @typescript-eslint/camelcase
       data.anonymous_user_id = userId;
     }
 
-    return dispatch(request({ ...ROUTES.FACEBOOK_LOGIN, data })).then(
+    return dispatch(request({ ...ROUTES.APPLE_SIGNIN, data })).then(
       authData => {
         // eslint-disable-next-line no-console
         console.log('🚪🚶‍♂️Apple loginResults:\n', authData);
@@ -359,13 +377,17 @@ export function appleSignIn() {
       requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
     });
 
-    console.log('appleAuthRequestResponse', appleAuthRequestResponse);
+    console.log(
+      '😡😡😡😡😡😡😡😡😡 appleAuthRequestResponse',
+      appleAuthRequestResponse,
+    );
 
     const {
-      user: newUser,
+      user,
       email,
       nonce,
       identityToken,
+      fullName,
       realUserStatus /* etc */,
     } = appleAuthRequestResponse;
 
@@ -377,12 +399,18 @@ export function appleSignIn() {
 
     // use credentialState response to ensure the user is authenticated
     if (credentialState === appleAuth.State.AUTHORIZED) {
+      console.log('🐸 credentialState:', credentialState);
       if (identityToken) {
         // e.g. sign in with Firebase Auth using `nonce` & `identityToken`
-        console.log(nonce, identityToken);
+        // console.log(nonce, identityToken);
         // 4. Login on our server using Facebook token.
         const result = await dispatch(
-          appleLoginAction({ identityToken, nonce }),
+          appleLoginAction({
+            email,
+            firstName: fullName?.givenName,
+            lastName: fullName?.familyName,
+            identityToken,
+          }),
         );
         return result.user.id;
       } else {
