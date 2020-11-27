@@ -391,6 +391,7 @@ export function appleSignIn() {
        * The identifier will remain stable as long as the user is connected with the requesting client.
        * The value may change upon user disconnecting from the identity provider.
        */
+      // @apple says: Use the user identifier instead of an email address to identify the user.
       user, // Permanent user_id
       fullName,
       email,
@@ -412,6 +413,7 @@ export function appleSignIn() {
        *  - Expiry Time
        *  - Issuance Time
        */
+      // https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_rest_api/authenticating_users_with_sign_in_with_apple
       identityToken,
       realUserStatus,
       /**
