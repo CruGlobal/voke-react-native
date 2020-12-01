@@ -880,9 +880,7 @@ const App = () => {
                       onPress={(): void => {
                         route.params?.onClose
                           ? route?.params?.onClose()
-                          : (): void => {
-                              navigation.dispatch(StackActions.popToTop());
-                            };
+                          : navigation.dispatch(StackActions.popToTop());
                       }}
                       testID={'ctaHeaderDone'}
                     >
