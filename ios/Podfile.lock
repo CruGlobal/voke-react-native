@@ -340,7 +340,7 @@ PODS:
   - react-native-image-picker (2.3.3):
     - React
   - react-native-orientation-locker (1.2.0):
-    - React
+    - React-Core
   - react-native-safe-area-context (3.1.3):
     - React
   - react-native-slider (3.0.3):
@@ -751,7 +751,7 @@ SPEC CHECKSUMS:
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
   react-native-fbsdk: c35d42169e64aaf66f01713c1e18d0674f7f6519
   react-native-image-picker: 3d3f85baabca60a00b75fb8facc1376db7bbdafa
-  react-native-orientation-locker: 47aaa55d59bfc1613804dc22f159e6bb1cca5f30
+  react-native-orientation-locker: a4a6574b179629698f0facebcc2e8551378a127d
   react-native-safe-area-context: b0bdaac4c56a861b06aaf1569efd1121c6a2427e
   react-native-slider: e99fc201cefe81270fc9d81714a7a0f5e566b168
   react-native-version-check: d8b8900e6ce03ae1568cb22ef9451f2508188883
