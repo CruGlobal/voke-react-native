@@ -878,7 +878,7 @@ const App = () => {
                   return (
                     <Touchable
                       onPress={(): void => {
-                        route.params?.onClose
+                        route?.params?.onClose
                           ? route?.params?.onClose()
                           : navigation.dispatch(StackActions.popToTop());
                       }}
