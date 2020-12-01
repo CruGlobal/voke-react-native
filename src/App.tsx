@@ -110,7 +110,7 @@ const altHeaderConfig = {
     fontSize: 18,
     fontWeight: 'normal',
   },
-  headerTitleAlign: 'center',
+  headerTitleAlign: 'center' as const,
   headerTintColor: theme.colors.white,
   headerBackTitle: ' ',
   // headerLeft: () => <HeaderLeft hasBack={true} />,
@@ -866,24 +866,32 @@ const App = () => {
             <AppStack.Screen
               name="AdventureShareCode"
               component={AdventureShareCode}
-              options={({ navigation }) => ({
+              options={({ route, navigation }) => ({
                 ...transparentHeaderConfig,
                 headerStyle: {
                   ...transparentHeaderConfig.headerStyle,
                 },
                 cardStyle: { backgroundColor: theme.colors.primary },
                 title: '',
-                headerLeft: () => <></>,
-                headerRight: () => (
-                  <Touchable
-                    onPress={() => {
-                      navigation.dispatch(StackActions.popToTop());
-                    }}
-                    testID={'ctaHeaderDone'}
-                  >
-                    <Text style={[st.white, st.mr4, st.fs16]}>{t('done')}</Text>
-                  </Touchable>
-                ),
+                headerLeft: (): ReactElement => <></>,
+                headerRight: (): ReactElement => {
+                  return (
+                    <Touchable
+                      onPress={(): void => {
+                        route.params?.onClose
+                          ? route?.params?.onClose()
+                          : (): void => {
+                              navigation.dispatch(StackActions.popToTop());
+                            };
+                      }}
+                      testID={'ctaHeaderDone'}
+                    >
+                      <Text style={[st.white, st.mr4, st.fs16]}>
+                        {t('done')}
+                      </Text>
+                    </Touchable>
+                  );
+                },
               })}
             />
             <RootStack.Screen

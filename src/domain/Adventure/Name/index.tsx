@@ -3,8 +3,8 @@
 import AccountSignIn from 'domain/Account/containers/AccountSignIn';
 import AccountCreate from 'domain/Account/containers/AccountCreate';
 
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import React, { useState, ReactElement, useRef, useEffect } from 'react';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Modalize } from 'react-native-modalize';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -102,6 +102,12 @@ function AdventureName(props: any): ReactElement {
                 invitation: result,
                 withGroup,
                 isVideoInvite,
+                onClose: () => {
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Root' }],
+                  });
+                },
               });
             } else {
               Alert.alert(
