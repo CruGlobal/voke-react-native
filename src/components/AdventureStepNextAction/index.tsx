@@ -11,11 +11,11 @@ import {
   getDiffToDate,
   getTimeToDate,
 } from 'utils/get';
+import st from 'utils/st';
 
 import { RootState } from '../../reducers';
 import Text from '../Text';
 import OldButton from '../OldButton';
-import st from 'utils/st';
 import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
 
@@ -76,7 +76,7 @@ const AdventureStepNextAction = ({
     if (nextReleaseDate) {
       result = `${t('share:nextRelease')} ${nextReleaseIn} ${t(
         'at',
-      )} ${nextReleaseTime}`;
+      )}\u00A0${nextReleaseTime}`;
     } else {
       result = t('share:leaderWillRelease');
     }

@@ -518,11 +518,11 @@
         "errorCreating": "Sorry, there was an error creating the conversation. Please try again.",
         "friend": "friend",
         "friendCheckOut": "Hi {{name}}, check out this video {{url}}",
-        "linkReady": "Your link is ready! Hit share and choose how you want to send it.",
+        "linkReady": "Your link is ready! Hit share and choose how you want to\u00A0send\u00A0it.",
         "noNeed": "- (they don't need to have Voke)",
         "who": "Who do you want to share",
         "with": "with?",
-        "leaderWillRelease": "Your leader will release the next video",
+        "leaderWillRelease": "Your leader will release the\u00A0next\u00A0video",
         "howSharingWorks": "Tell me how sharing works"
     }
 }
