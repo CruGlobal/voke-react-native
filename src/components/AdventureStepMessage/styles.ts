@@ -38,7 +38,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.spacing.l,
   },
   messageSharedContent: {
-    padding: theme.spacing.m,
+    marginTop: theme.spacing.l,
+    padding: theme.spacing.l,
     backgroundColor: 'rgba(0,0,0,.2)',
   },
   messageAuthor: {
