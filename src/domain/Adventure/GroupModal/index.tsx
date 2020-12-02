@@ -43,7 +43,6 @@ function GroupModal(props: Props) {
   const myAdventures = useSelector(({ data }) => data.myAdventures.byId);
   const adventure = myAdventures[adventureId];
   if (!adventure) {
-    console.log('will redirect');
     // Backup plan: Redirect to My Adventures screen.
     navigation.reset({
       index: 0,
