@@ -240,11 +240,13 @@ function AdventureStepMessage({
                           resizeMode={'repeat'}
                           resizeMethod={'resize'}
                           style={{
-                            width: 310,
-                            height: 600,
+                            width: '92%',
+                            height: 800,
                             position: 'absolute',
-                            left: 5,
-                            top: 6,
+                            left: '4%',
+                            top: 10,
+                            // Background needed to cover name of the messenger.
+                            backgroundColor: theme.colors.secondary,
                           }}
                         />
                       )}
