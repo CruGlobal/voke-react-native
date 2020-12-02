@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { View, ScrollView, FlatList, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -123,12 +123,41 @@ function AdventureManage({ navigation, route }: Props): React.ReactElement {
   //   }
   // }, [steps.allIds]);
 
+  const replacePrevScreen = useCallback((): void => {
+    const { routes } = navigation.dangerouslyGetState();
+    /*
+      When openning current screen from new group creation,
+      we replace history, so users "go back" > AdventureActive > Adventures.
+    */
+    if (routes[routes.length - 2]?.name !== 'AdventureActive') {
+      // Replace history and set again to the current screen.
+      return navigation.reset({
+        routes: [
+          { name: 'Adventures' },
+          {
+            name: 'AdventureActive',
+            params: {
+              adventureId: adventureId,
+            },
+          },
+          routes[routes.length - 1], // The current screen.
+        ],
+        index: 2,
+      });
+    }
+  }, [adventureId, navigation]);
+
   useEffect(() => {
     // Set title dynamically.
     navigation.setOptions({
       title: adventure?.journey_invite?.name || '',
     });
   }, [adventure, navigation]);
+
+  useEffect(() => {
+    // Check the navigator history.
+    replacePrevScreen();
+  }, [replacePrevScreen]);
 
   useFocusEffect(
     React.useCallback(() => {

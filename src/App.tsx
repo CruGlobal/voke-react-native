@@ -37,6 +37,7 @@ import {
   VideoStackParamList,
 } from 'utils/types';
 import { useMount } from 'utils';
+import NavBackButton from 'components/NavBackButton';
 
 import {
   startupAction,
@@ -94,7 +95,7 @@ const defaultHeaderConfig = {
     fontSize: 16,
     fontWeight: 'normal',
   },
-  headerLeft: () => <HeaderLeft />,
+  headerLeft: () => <HeaderLeft resetTo="Menu" />,
 };
 
 // https://reactnavigation.org/docs/stack-navigator#options
@@ -110,10 +111,10 @@ const altHeaderConfig = {
     fontSize: 18,
     fontWeight: 'normal',
   },
-  headerTitleAlign: 'center',
+  headerTitleAlign: 'center' as const,
   headerTintColor: theme.colors.white,
   headerBackTitle: ' ',
-  // headerLeft: () => <HeaderLeft hasBack={true} />,
+  // headerLeft: () => <HeaderLeft={true} />,
 };
 
 const transparentHeaderConfig = {
@@ -167,7 +168,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
             paddingTop: insets.top,
           },
           title: '',
-          headerLeft: () => <HeaderLeft hasBack testID="AdventureAvailable" />,
+          headerLeft: () => <HeaderLeft testID="AdventureAvailable" />,
         }}
       />
       <AdventureStack.Screen
@@ -180,8 +181,8 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
             ...transparentHeaderConfig.headerStyle,
           },
           title: '',
-          headerLeft: () => (
-            <HeaderLeft hasBack resetTo="Adventures" testID="AdventureActive" />
+          headerLeft: (): ReactElement => (
+            <HeaderLeft resetTo="Adventures" testID="AdventureActive" />
           ),
           headerRight: undefined,
         }}
@@ -190,15 +191,17 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
         name="AdventureManage"
         component={AdventureManage}
         // Fixed header with back button.
-        options={{
+        options={({ route, navigation }) => ({
           ...transparentHeaderConfig,
           headerStyle: {
             ...transparentHeaderConfig.headerStyle,
             paddingTop: insets.top,
           },
           title: '',
-          headerLeft: () => <HeaderLeft hasBack testID="AdventureManage" />,
-        }}
+          headerLeft: (): ReactElement => (
+            <HeaderLeft testID="AdventureManage" />
+          ),
+        })}
       />
       <AdventureStack.Screen
         name="AdventureStepScreen"
@@ -211,9 +214,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
             paddingTop: insets.top,
           },
           title: '',
-          headerLeft: () => (
-            <HeaderLeft hasBack testID="AdventureStepScreenHeader" />
-          ),
+          headerLeft: () => <HeaderLeft testID="AdventureStepScreenHeader" />,
           headerRight: undefined,
         }}
       />
@@ -232,7 +233,7 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
             paddingTop: insets.top,
           },
           title: '',
-          headerLeft: () => <HeaderLeft hasBack testID="AllMembersModal" />,
+          headerLeft: () => <HeaderLeft testID="AllMembersModal" />,
           headerRight: undefined,
         }}
       />
@@ -273,7 +274,7 @@ function VideoStackScreens({ navigation, route }: any) {
             paddingTop: insets.top, // TODO: Check if it really works here?
           },
           title: '',
-          headerLeft: () => <HeaderLeft hasBack testID="VideoDetails" />,
+          headerLeft: () => <HeaderLeft testID="VideoDetails" />,
         }}
       />
     </VideoStack.Navigator>
@@ -419,7 +420,7 @@ const RootStackScreens = React.memo(
               },
               title: '',
               // headerShown: true,
-              headerLeft: () => <HeaderLeft hasBack testID="AccountName" />,
+              headerLeft: () => <HeaderLeft testID="AccountName" />,
             }}
           />
           <RootStack.Screen
@@ -433,7 +434,7 @@ const RootStackScreens = React.memo(
               },
               title: '',
               // headerShown: true,
-              headerLeft: () => <HeaderLeft hasBack testID="AdventureCode" />,
+              headerLeft: () => <HeaderLeft testID="AdventureCode" />,
             }}
           />
           <RootStack.Screen
@@ -462,7 +463,7 @@ const RootStackScreens = React.memo(
               </Touchable> */}
                 </>
               ),
-              headerLeft: () => <HeaderLeft hasBack testID="AccountPhoto" />,
+              headerLeft: () => <HeaderLeft testID="AccountPhoto" />,
               title: '',
               // headerShown: true,
             })}
@@ -471,6 +472,7 @@ const RootStackScreens = React.memo(
             name="Menu"
             component={Menu}
             options={({ navigation }) => ({
+              animationTypeForReplace: 'pop', // Changes direction of animation.
               headerShown: true,
               headerRight: () => (
                 <Touchable
@@ -516,7 +518,7 @@ const RootStackScreens = React.memo(
               },
               title: t('createAccount'),
               // headerShown: true,
-              headerLeft: () => <HeaderLeft hasBack testID="AccountCreate" />,
+              headerLeft: () => <HeaderLeft testID="AccountCreate" />,
             }}
           />
           <RootStack.Screen
@@ -530,7 +532,7 @@ const RootStackScreens = React.memo(
               },
               title: t('signIn'),
               // headerShown: true,
-              headerLeft: () => <HeaderLeft hasBack testID="AccountSignIn" />,
+              headerLeft: () => <HeaderLeft testID="AccountSignIn" />,
             }}
           />
           <RootStack.Screen
@@ -551,7 +553,7 @@ const RootStackScreens = React.memo(
                 fontSize: 18,
                 fontWeight: 'normal',
               },
-              headerLeft: () => <HeaderLeft hasBack testID="ForgotPassword" />,
+              headerLeft: () => <HeaderLeft testID="ForgotPassword" />,
             }}
           />
           <RootStack.Screen
@@ -559,9 +561,7 @@ const RootStackScreens = React.memo(
             component={AccountProfile}
             options={({ navigation }) => ({
               headerShown: true,
-              headerLeft: () => (
-                <HeaderLeft hasBack resetTo="Menu" testID="AccountProfile" />
-              ),
+              headerLeft: () => <HeaderLeft testID="AccountProfile" />,
               headerRight: () => <SignOut />,
               cardStyle: { backgroundColor: theme.colors.transparent },
               headerStyle: {
@@ -583,7 +583,7 @@ const RootStackScreens = React.memo(
             component={AccountCreate}
             options={({ navigation }) => ({
               headerShown: true,
-              headerLeft: () => <HeaderLeft hasBack testID="SignUp" />,
+              headerLeft: () => <HeaderLeft testID="SignUp" />,
               cardStyle: { backgroundColor: theme.colors.transparent },
               headerStyle: {
                 backgroundColor: theme.colors.primary,
@@ -603,7 +603,7 @@ const RootStackScreens = React.memo(
             component={AccountEmail}
             options={({ navigation }) => ({
               headerShown: true,
-              headerLeft: () => <HeaderLeft hasBack testID="AccountEmail" />,
+              headerLeft: () => <HeaderLeft testID="AccountEmail" />,
               cardStyle: { backgroundColor: theme.colors.transparent },
               headerStyle: {
                 backgroundColor: theme.colors.primary,
@@ -623,7 +623,7 @@ const RootStackScreens = React.memo(
             component={AccountPass}
             options={({ navigation }) => ({
               headerShown: true,
-              headerLeft: () => <HeaderLeft hasBack testID="AccountPass" />,
+              headerLeft: () => <HeaderLeft testID="AccountPass" />,
               cardStyle: { backgroundColor: theme.colors.transparent },
               headerStyle: {
                 backgroundColor: theme.colors.primary,
@@ -643,7 +643,7 @@ const RootStackScreens = React.memo(
             component={MenuHelp}
             options={({ navigation }) => ({
               headerShown: true,
-              headerLeft: () => <HeaderLeft hasBack testID="Help" />,
+              headerLeft: () => <HeaderLeft testID="Help" />,
               cardStyle: { backgroundColor: theme.colors.transparent },
               headerStyle: {
                 backgroundColor: theme.colors.primary,
@@ -663,7 +663,7 @@ const RootStackScreens = React.memo(
             component={MenuAbout}
             options={({ navigation }) => ({
               headerShown: true,
-              headerLeft: () => <HeaderLeft hasBack testID="About" />,
+              headerLeft: () => <HeaderLeft testID="About" />,
               cardStyle: { backgroundColor: theme.colors.transparent },
               headerStyle: {
                 backgroundColor: theme.colors.primary,
@@ -683,9 +683,7 @@ const RootStackScreens = React.memo(
             component={MenuAcknowledgements}
             options={({ navigation }) => ({
               headerShown: true,
-              headerLeft: () => (
-                <HeaderLeft hasBack testID="Acknowledgements" />
-              ),
+              headerLeft: () => <HeaderLeft testID="Acknowledgements" />,
               cardStyle: { backgroundColor: theme.colors.transparent },
               headerStyle: {
                 backgroundColor: theme.colors.primary,
@@ -830,7 +828,7 @@ const App = () => {
                 },
                 cardStyle: { backgroundColor: theme.colors.primary },
                 title: '',
-                headerLeft: () => <HeaderLeft hasBack testID="AdventureName" />,
+                headerLeft: () => <HeaderLeft testID="AdventureName" />,
               })}
             />
             <AppStack.Screen
@@ -843,9 +841,7 @@ const App = () => {
                 },
                 cardStyle: { backgroundColor: theme.colors.primary },
                 title: '',
-                headerLeft: () => (
-                  <HeaderLeft hasBack testID="GroupReleaseType" />
-                ),
+                headerLeft: () => <HeaderLeft testID="GroupReleaseType" />,
               })}
             />
             <AppStack.Screen
@@ -858,9 +854,7 @@ const App = () => {
                 },
                 cardStyle: { backgroundColor: theme.colors.primary },
                 title: '',
-                headerLeft: () => (
-                  <HeaderLeft hasBack testID="GroupReleaseDate" />
-                ),
+                headerLeft: () => <HeaderLeft testID="GroupReleaseDate" />,
               })}
             />
             <AppStack.Screen
@@ -891,7 +885,7 @@ const App = () => {
               component={KitchenSink}
               options={({ navigation }) => ({
                 headerShown: true,
-                headerLeft: () => <HeaderLeft hasBack testID="KitchenSink" />,
+                headerLeft: () => <HeaderLeft testID="KitchenSink" />,
                 cardStyle: { backgroundColor: theme.colors.transparent },
                 headerStyle: {
                   backgroundColor: theme.colors.primary,
