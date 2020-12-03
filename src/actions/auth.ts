@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/camelcase */
 import RNFetchBlob from 'rn-fetch-blob';
 import { Alert, Platform } from 'react-native';
 import { getTimeZone, getCountry, getLocales } from 'react-native-localize';
@@ -31,10 +33,80 @@ import {
   setAppIconBadgeNumber,
 } from './notifications';
 
+/**
+ * Update user's data on the server
+ * and then download it back to refresh a local store.
+ *
+ * @param {object} data - user data to update.
+ */
+export function updateMe(data) {
+  console.log('🔄 auth > updateMe()', { data });
+  return async (dispatch, getState) => {
+    const userId = getState().auth.user.id;
+    if (!userId) return;
+    // Additional transformations if updating with new avatar.
+    if (data.avatar) {
+      data = {
+        name: 'me[avatar]',
+        filename: data.avatar.fileName,
+        type: 'image/jpeg',
+        data: RNFetchBlob.wrap(data.avatar.uri.uri.replace('file://', '')),
+      };
+    }
+
+    return dispatch(
+      request({ ...ROUTES.UPDATE_ME, pathParams: { userId }, data }),
+    ).then(
+      userData => {
+        console.log('User update result:\n', userData);
+        // Update redux store with data received.
+        return dispatch(setUser(userData));
+      },
+      error => {
+        console.log('🛑 Error while updating the user.', error);
+        throw error;
+      },
+    );
+  };
+}
+
 export function loginAction(authToken) {
   // const authToken = authData.access_token;
   return async dispatch => {
     await dispatch({ type: REDUX_ACTIONS.LOGIN, authToken });
+  };
+}
+
+// Check current system language against the one already stored.
+// Update it on the server if different.
+export function checkCurrentLanguage() {
+  return async (dispatch, getState): void => {
+    const languageStored = getState().auth.language;
+    const languageCurrent = (
+      getLocales()[0]?.languageCode || 'EN'
+    ).toUpperCase();
+
+    if (languageStored !== languageCurrent) {
+      const { user } = getState().auth;
+      const userData = {
+        me: {
+          ...user,
+          timezone_name: getTimeZone(),
+          country_code: getCountry(),
+          language: {
+            language_code: languageCurrent,
+          },
+        },
+      };
+
+      try {
+        // Update Existing Account.
+        await dispatch(updateMe(userData));
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.log('🛑 Error updating the user details \n', e);
+      }
+    }
   };
 }
 
@@ -49,6 +121,8 @@ export function startupAction() {
     await dispatch(getNotifications());
     // Update available adventures on app start.
     await dispatch(getAvailableAdventures());
+    // Check if the system language changed.
+    dispatch(checkCurrentLanguage());
   };
 }
 
@@ -542,43 +616,6 @@ export function deleteAccountAction() {
         // eslint-disable-next-line no-console
         console.log('🛑 Delete account error', error);
         // return;
-      },
-    );
-  };
-}
-
-/**
- * Update user's data on the server
- * and then download it back to refresh a local store.
- *
- * @param {object} data - user data to update.
- */
-export function updateMe(data) {
-  console.log('🔄 auth > updateMe()', { data });
-  return async (dispatch, getState) => {
-    const userId = getState().auth.user.id;
-    if (!userId) return;
-    // Additional transformations if updating with new avatar.
-    if (data.avatar) {
-      data = {
-        name: 'me[avatar]',
-        filename: data.avatar.fileName,
-        type: 'image/jpeg',
-        data: RNFetchBlob.wrap(data.avatar.uri.uri.replace('file://', '')),
-      };
-    }
-
-    return dispatch(
-      request({ ...ROUTES.UPDATE_ME, pathParams: { userId }, data }),
-    ).then(
-      userData => {
-        console.log('User update result:\n', userData);
-        // Update redux store with data received.
-        return dispatch(setUser(userData));
-      },
-      error => {
-        console.log('🛑 Error while updating the user.', error);
-        throw error;
       },
     );
   };
