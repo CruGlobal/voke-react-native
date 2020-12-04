@@ -325,23 +325,19 @@ export function appleLoginAction({
   firstName,
   lastName,
   identityToken,
+  appleUser,
 }) {
   return async (dispatch, getState) => {
     // Important! It tells the server to merge anonymous_user_id
     // with provided login details.
     const userId = getState().auth.user.id;
     const data = {
-      assertion: identityToken,
-      provider: 'apple',
+      assertion: appleUser,
       user_data: {
+        token: identityToken,
         email: email,
         first_name: firstName,
         last_name: lastName,
-        picture: {
-          data: {
-            url: null,
-          },
-        },
       },
     };
     if (userId) {
@@ -435,7 +431,6 @@ export function appleSignIn() {
 
     // use credentialState response to ensure the user is authenticated
     if (credentialState === appleAuth.State.AUTHORIZED) {
-      console.log('🐸 credentialState:', credentialState);
       if (identityToken) {
         // e.g. sign in with Firebase Auth using `nonce` & `identityToken`
         // console.log(nonce, identityToken);
@@ -446,6 +441,7 @@ export function appleSignIn() {
             firstName: fullName?.givenName,
             lastName: fullName?.familyName,
             identityToken,
+            appleUser: user,
           }),
         );
         return result.user.id;

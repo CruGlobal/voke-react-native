@@ -36,11 +36,12 @@ const ROUTES = {
     url: 'oauth/token',
     anonymous: true, // x-access-token = userToken
     isAuth: true, // Request to be made on auth subdomain.
-    /* customData: {
+    customData: {
       client: CLIENT,
       grant_type: 'assertion',
-      scope: 'messenger',
-    }, */
+      provider: 'apple',
+      scope: 'public',
+    },
     // showApiLoading: true, //NOT USED: Used to show a loading overlay on the login page with Facebook login
   },
   // https://docs.vokeapp.com/#me-create-me
