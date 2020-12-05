@@ -326,39 +326,44 @@ export function appleLoginAction({
   lastName,
   identityToken,
   appleUser,
+}: {
+  email: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  identityToken: string;
+  appleUser: string;
 }) {
   return async (dispatch, getState) => {
-    // Important! It tells the server to merge anonymous_user_id
-    // with provided login details.
-    const userId = getState().auth.user.id;
     const data = {
       assertion: appleUser,
+      // eslint-disable-next-line @typescript-eslint/camelcase, camelcase
       user_data: {
         token: identityToken,
         email: email,
+        // eslint-disable-next-line @typescript-eslint/camelcase, camelcase
         first_name: firstName,
+        // eslint-disable-next-line @typescript-eslint/camelcase, camelcase
         last_name: lastName,
       },
+      // eslint-disable-next-line @typescript-eslint/camelcase, camelcase
+      anonymous_user_id: '',
     };
+    // It tells the server to merge anonymous_user_id with provided logins.
+    const userId: string = getState().auth.user.id || '';
     if (userId) {
-      // eslint-disable-next-line @typescript-eslint/camelcase
+      // eslint-disable-next-line @typescript-eslint/camelcase, camelcase
       data.anonymous_user_id = userId;
     }
 
     return dispatch(request({ ...ROUTES.APPLE_SIGNIN, data })).then(
       authData => {
-        // eslint-disable-next-line no-console
-        console.log('🚪🚶‍♂️Apple loginResults:\n', authData);
-        // Received login response do Logout/reset state.
-        logoutAction();
-        // Update user data in the state with ones received.
-        dispatch(loginAction(authData.access_token));
-        // After all download user details from server.
-        return dispatch(getMeAction());
+        LOG('🔑 Apple APPLE_SIGNIN results:\n', authData);
+        logoutAction(); // Received login response reset local state (logout).
+        dispatch(loginAction(authData.access_token)); // Add user data to state.
+        return dispatch(getMeAction()); // Download user details from the server
       },
       error => {
-        // eslint-disable-next-line no-console
-        console.log('appleLoginAction > Login error', error);
+        LOG('🛑 appleLoginAction > Login error', error);
         throw error;
       },
     );
@@ -424,8 +429,8 @@ export function appleSignIn() {
       const result = await dispatch(
         appleLoginAction({
           email,
-          firstName: fullName?.givenName,
-          lastName: fullName?.familyName,
+          firstName: fullName?.givenName || null,
+          lastName: fullName?.familyName || null,
           identityToken,
           appleUser: user,
         }),
@@ -435,8 +440,8 @@ export function appleSignIn() {
     } else {
       // Apple signin failed.
       LOG(
-        '🛑 Apple SignIn cancelled. appleAuth.State.AUTHORIZED returned:',
-        appleAuth.State.AUTHORIZED,
+        '🛑 Apple SignIn cancelled. Returned (credentialState, identityToken):',
+        credentialState,
         identityToken,
       );
       return false;
