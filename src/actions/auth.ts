@@ -373,94 +373,71 @@ export function appleSignIn() {
       requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
     });
 
-    console.log(
-      '😡😡😡😡😡😡😡😡😡 appleAuthRequestResponse',
-      appleAuthRequestResponse,
-    );
-
     const {
       /**
-       * An opaque user ID associated with the AppleID used for the sign in. This identifier will be
-       * stable across the 'developer team', it can later be used as an input to
-       * @{AppleAuthRequest} to request user contact information.
+       * https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_rest_api/authenticating_users_with_sign_in_with_apple
        *
-       * The identifier will remain stable as long as the user is connected with the requesting client.
-       * The value may change upon user disconnecting from the identity provider.
-       */
-      // @apple says: Use the user identifier instead of an email address to identify the user.
-      user, // Permanent user_id
-      fullName,
-      email,
-      /**
-       * Nonce that was passed to the identity provider. If none was passed to the request, one will
-       * have automatically been created and available to be read from this property, unless `nonceEnabled`
-       * is false.
-       * NOTE: This value will be SHA256 hashed before sending to Apple.
-       */
-      nonce,
-      /**
-       * A JSON Web Token (JWT) used to communicate information about the identity of the user in a
-       * secure way to the app.
+       * An opaque user ID associated with the AppleID used for the sign in.
+       * This identifier will be stable across the 'developer team',
+       * it can later be used as an input to @{AppleAuthRequest}
+       * to request user contact information.
        *
-       * The ID token contains the following information signed by Apple's identity service:
+       * The identifier will remain stable as long as the user is connected
+       * with the requesting client. The value may change upon user
+       * disconnecting from the identity provider.
+       *
+       * Use it instead of an email address to identify the user in your app.
+       */
+      user,
+      /**
+       * A JSON Web Token (JWT) used to communicate information about
+       * the identity of the user in a secure way to the app.
+       *
+       * The ID token contains the following information signed
+       * by Apple's identity service:
        *  - Issuer Identifier
        *  - Subject Identifier
        *  - Audience
        *  - Expiry Time
        *  - Issuance Time
        */
-      // https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_rest_api/authenticating_users_with_sign_in_with_apple
       identityToken,
-      realUserStatus,
-      /**
-       * A short-lived, one-time valid token that can provides proof of authorization to the server
-       * component of your app.
-       *
-       * The authorization code is bound to the specific transaction using the state attribute passed
-       * in the authorization request. The server component of your app can validate the code using
-       * the Apple identity service endpoint.
-       */
-      authorizationCode,
+      fullName,
+      email,
+      // nonce,
+      // realUserStatus,
+      // authorizationCode,
     } = appleAuthRequestResponse;
 
-    // 2. - Get current authentication state for user
-    // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
+    /**
+     * 2. - Get current authentication state for user
+     * (to ensure the user is authenticated)
+     * /!\ This method must be tested on a real device.
+     * On the iOS simulator it always throws an error.
+     */
     const credentialState = await appleAuth.getCredentialStateForUser(
       appleAuthRequestResponse.user,
     );
 
-    // use credentialState response to ensure the user is authenticated
-    if (credentialState === appleAuth.State.AUTHORIZED) {
-      if (identityToken) {
-        // e.g. sign in with Firebase Auth using `nonce` & `identityToken`
-        // console.log(nonce, identityToken);
-        // 4. Login on our server using Facebook token.
-        const result = await dispatch(
-          appleLoginAction({
-            email,
-            firstName: fullName?.givenName,
-            lastName: fullName?.familyName,
-            identityToken,
-            appleUser: user,
-          }),
-        );
-        return result.user.id;
-      } else {
-        // no token - failed sign-in?
-        // eslint-disable-next-line no-console
-        console.log(
-          '🛑👤Apple SignIn cancelled. Problem with identityToken:',
+    // 3. - Login on the server using Apple identity token.
+    if (credentialState === appleAuth.State.AUTHORIZED && identityToken) {
+      const result = await dispatch(
+        appleLoginAction({
+          email,
+          firstName: fullName?.givenName,
+          lastName: fullName?.familyName,
           identityToken,
-        );
-        return false;
-      }
-      // user is authenticated
+          appleUser: user,
+        }),
+      );
+      // User is authenticated.
+      return result.user.id;
     } else {
-      // failed sign -in?
-      // eslint-disable-next-line no-console
-      console.log(
-        '🛑👤Apple SignIn cancelled. appleAuth.State.AUTHORIZED returned:',
+      // Apple signin failed.
+      LOG(
+        '🛑 Apple SignIn cancelled. appleAuth.State.AUTHORIZED returned:',
         appleAuth.State.AUTHORIZED,
+        identityToken,
       );
       return false;
     }
