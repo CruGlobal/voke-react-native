@@ -125,10 +125,10 @@ function AdventureManage({ navigation, route }: Props): React.ReactElement {
 
   const replacePrevScreen = useCallback((): void => {
     const { routes } = navigation.dangerouslyGetState();
-    /*
-      When openning current screen from new group creation,
-      we replace history, so users "go back" > AdventureActive > Adventures.
-    */
+    /**
+     * When openning current screen from new group creation,
+     * we replace history, so users "go back" > AdventureActive > Adventures.
+     */
     if (routes[routes.length - 2]?.name !== 'AdventureActive') {
       // Replace history and set again to the current screen.
       return navigation.reset({

@@ -13,18 +13,11 @@ const HeaderLeft = ({ resetTo, testID }: HeaderLeftProps): ReactElement => {
   const goBack = (): void => {
     const { index, routes } = navigation.dangerouslyGetState();
     if (resetTo) {
-      console.log('🐸 routes:', routes);
-      console.log(
-        '🐸 routes[routes.length - 2]?.name:',
-        routes[routes.length - 2]?.name,
-      );
-      console.log('🐸 resetTo:', resetTo);
       if (
         index > 0 &&
         routes.length &&
         routes[routes.length - 2]?.name === resetTo
       ) {
-        console.log('🐸 navigation.goBack!');
         // .goBack is 2s. faster than .reset(), so if possible use it.
         navigation.goBack();
       } else {
