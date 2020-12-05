@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-/* eslint-disable @typescript-eslint/camelcase */
 import RNFetchBlob from 'rn-fetch-blob';
 import { Alert, Platform } from 'react-native';
 import { getTimeZone, getCountry, getLocales } from 'react-native-localize';
@@ -58,7 +56,6 @@ export function updateMe(data) {
       request({ ...ROUTES.UPDATE_ME, pathParams: { userId }, data }),
     ).then(
       userData => {
-        console.log('User update result:\n', userData);
         // Update redux store with data received.
         return dispatch(setUser(userData));
       },
@@ -91,9 +88,12 @@ export function checkCurrentLanguage() {
       const userData = {
         me: {
           ...user,
+          /* eslint-disable @typescript-eslint/camelcase, camelcase */
           timezone_name: getTimeZone(),
+          /* eslint-disable @typescript-eslint/camelcase, camelcase */
           country_code: getCountry(),
           language: {
+            /* eslint-disable @typescript-eslint/camelcase, camelcase */
             language_code: languageCurrent,
           },
         },
