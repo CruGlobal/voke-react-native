@@ -40,7 +40,7 @@ const ROUTES = {
       client: CLIENT,
       grant_type: 'assertion',
       provider: 'apple',
-      scope: 'public',
+      scope: 'messenger',
     },
     // showApiLoading: true, //NOT USED: Used to show a loading overlay on the login page with Facebook login
   },
