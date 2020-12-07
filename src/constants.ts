@@ -342,6 +342,8 @@ const CONSTANTS:{ [key: string]: {[key: string]: string | number} | any } = {
     VOKE: 'https://www.vokeapp.com',
     HELP: 'https://help.vokeapp.com/',
     FAQ: 'https://www.vokeapp.com/faq/',
+    HELP_RESET_APPLEID:
+      'https://help.vokeapp.com/search?collectionId=&query=reset+apple+id',
     TERMS: 'https://www.vokeapp.com/terms-in-app/',
     PRIVACY: 'https://www.vokeapp.com/privacy-in-app/',
     FACEBOOK: 'https://www.facebook.com/vokeapp/',

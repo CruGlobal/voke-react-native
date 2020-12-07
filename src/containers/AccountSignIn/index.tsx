@@ -6,6 +6,7 @@ import {
   TextInput,
   View,
   ScrollView,
+  Linking,
 } from 'react-native';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -25,6 +26,7 @@ import theme from '../../theme';
 import Screen from '../../components/Screen';
 import Button from '../../components/Button';
 import Spacer from '../../components/Spacer';
+import CONSTANTS from '../../constants';
 import { RootState } from '../../reducers';
 
 import styles from './styles';
@@ -129,14 +131,34 @@ const AccountSignIn: FunctionComponent<Props> = ({
 
   const onAppleSignin = async (): Promise<void> => {
     setIsLoading(true);
-    const userId = await dispatch(appleSignIn());
+    const user = await dispatch(appleSignIn());
 
     setIsLoading(false);
-    if (!userId) {
+    if (!user?.id) {
       Alert.alert(
         "Can't sign in using Apple service",
         'Apple authentication is not available at this moment',
       );
+    } else if (!user?.first_name) {
+      // If user.id is set but user.first_name = null in the server response
+      // it means user had Apple Signin before but then deleted his account.
+      // In this case we need to show him a way to start using Apple Signin
+      // from scratch. An old Apple token isn't associated with any data
+      // on the server and we don't know user's name, so it can't be used
+      // without goind through registration UI again.
+      Alert.alert(t('appleSignInDeletedTile'), t('appleSignInDeletedBody'), [
+        {
+          text: t('cancel'),
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {
+          text: t('getHelp'),
+          onPress: async (): Promise<void> => {
+            return Linking.openURL(CONSTANTS.WEB_URLS.HELP_RESET_APPLEID);
+          },
+        },
+      ]);
     } else {
       if (layout === 'embed') {
         return onComplete();
