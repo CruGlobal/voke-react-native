@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
-import { ScrollView, Linking } from 'react-native';
+import { ScrollView, Linking, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import DeviceInfo from 'react-native-device-info';
-import { useDispatch } from 'react-redux';
 import Flex from 'components/Flex';
 import Image from 'components/Image';
 import Text from 'components/Text';
@@ -13,7 +12,15 @@ import { logos } from 'assets';
 import CONSTANTS from 'utils/constants';
 import st from 'utils/st';
 
-function SettingsRow({ title, onSelect }) {
+function SettingsRow({
+  title,
+  onSelect,
+}: {
+  title: string;
+  onSelect: (): void => {
+    // void
+  };
+}) {
   return (
     <Touchable onPress={onSelect}>
       <Flex
@@ -29,10 +36,23 @@ function SettingsRow({ title, onSelect }) {
 }
 
 function MenuAbout(props) {
+  const [hiddenModeCnt, setHiddenModeCnt] = useState(0);
   const { t } = useTranslation();
   const insets = useSafeArea();
   const navigation = useNavigation();
-  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (__DEV__) {
+      setHiddenModeCnt(10);
+    }
+  }, []);
+
+  const countTaps = (): void => {
+    if (hiddenModeCnt < 10) {
+      setHiddenModeCnt(curr => curr + 1);
+    }
+    console.log(hiddenModeCnt);
+  };
 
   return (
     <Flex value={1} style={[st.bgWhite, { paddingBottom: insets.bottom }]}>
@@ -61,19 +81,19 @@ function MenuAbout(props) {
           title={t('settings:version', {
             build: DeviceInfo.getReadableVersion(),
           })}
-          onSelect={() => {
-            return;
+          onSelect={(): void => {
+            // Void.
           }}
         />
-        {__DEV__ && (
+        {hiddenModeCnt >= 10 && (
           <SettingsRow
             title={'StoryBook'}
             onSelect={() => navigation.navigate('StoryBook')}
           />
         )}
-        {__DEV__ && (
+        {hiddenModeCnt >= 10 && (
           <SettingsRow
-            title={' '}
+            title={'Kitchen Sink'}
             onSelect={() => navigation.navigate('KitchenSink')}
           />
         )}
@@ -125,6 +145,14 @@ function MenuAbout(props) {
             resizeMode="contain"
           />
         </Flex>
+        <View
+          style={{
+            width: 180,
+            height: 60,
+            alignSelf: 'flex-end',
+          }}
+          onTouchEnd={countTaps}
+        />
       </ScrollView>
     </Flex>
   );

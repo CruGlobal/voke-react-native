@@ -888,6 +888,20 @@ const App = () => {
               })}
             />
             <RootStack.Screen
+              name="StoryBook"
+              component={StoryBook}
+              options={({ navigation }) => ({
+                headerShown: true,
+                cardStyle: { backgroundColor: theme.colors.transparent },
+                headerStyle: {
+                  backgroundColor: theme.colors.white,
+                  elevation: 0,
+                  shadowOpacity: 0,
+                },
+                title: '',
+              })}
+            />
+            <RootStack.Screen
               name="KitchenSink"
               component={KitchenSink}
               options={({ navigation }) => ({
@@ -905,20 +919,6 @@ const App = () => {
                   fontWeight: 'normal',
                 },
                 title: 'Kitchen Sink',
-              })}
-            />
-            <RootStack.Screen
-              name="StoryBook"
-              component={StoryBook}
-              options={({ navigation }) => ({
-                headerShown: true,
-                cardStyle: { backgroundColor: theme.colors.transparent },
-                headerStyle: {
-                  backgroundColor: theme.colors.white,
-                  elevation: 0,
-                  shadowOpacity: 0,
-                },
-                title: '',
               })}
             />
           </AppStack.Navigator>
