@@ -476,7 +476,10 @@
         "reportedBy":"Reported by:",
         "block":"Block",
         "allow":"Allow",
-        "releaseNow":"Release Now!"
+        "releaseNow":"Release Now!",
+        "releaseNowModalTitle":"Release Now",
+        "releaseNowModalText":"This Video will be released now to\u00A0all\u00A0members.",
+        "release":"Release"
     },
     "share": {
         "previewLinkReady": "{{name}}\u2019s invite is ready! The link below shares the Adventure trailer for {{name}} to watch and decide on joining you.",

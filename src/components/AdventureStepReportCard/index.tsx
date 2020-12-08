@@ -1,20 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Dimensions, FlatList, View } from 'react-native';
+import { Alert, Dimensions, FlatList, View } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 import { Portal } from 'react-native-portalize';
 import { ScrollView } from 'react-native-gesture-handler';
 import theme from 'utils/theme';
-
-import { RootState } from '../../reducers';
-import Flex from '../Flex';
-import Text from '../Text';
-import VokeIcon from '../VokeIcon';
-import OldButton from '../OldButton';
-import { unlockNextAdventureStep } from '../../actions/requests';
-import Image from '../Image';
+import { TAdventureSingle, TError } from 'src/utils/types';
+import Communications from 'react-native-communications';
+import { RootState, useDispatchTs } from 'reducers';
+import Flex from 'components/Flex';
+import Text from 'components/Text';
+import VokeIcon from 'components/VokeIcon';
+import OldButton from 'components/OldButton';
+import { unlockNextAdventureStep } from 'actions/requests';
+import Image from 'components/Image';
 
 import styles from './styles';
 
@@ -29,7 +30,11 @@ type Props = {
   stepId: string;
   adventureId: string;
   currentStep: number;
-  setCurrentStep: (newVal: number) => void;
+  setCurrentStep: (
+    newVal: React.SetStateAction<number>,
+  ) => {
+    //void
+  };
 };
 
 function AdventureStepReportCard({
@@ -38,7 +43,7 @@ function AdventureStepReportCard({
   currentStep,
   setCurrentStep,
 }: Props): React.ReactElement {
-  const dispatch = useDispatch();
+  const dispatch = useDispatchTs();
   const [isNext, setIsNext] = useState(false);
   const [isManual, setIsManual] = useState(false);
   const modalizeRef = useRef<Modalize>(null);
@@ -100,19 +105,65 @@ function AdventureStepReportCard({
     updateNextStep();
   }, [currentStep, stepLocked, isManual]);
 
-  const unlockNextStep = async adventureId => {
-    const results = await dispatch(unlockNextAdventureStep(adventureId));
-    if (results?.id) {
+  const unlockNextStep = async (advId: string): Promise<void> => {
+    const result = await dispatch(unlockNextAdventureStep(advId));
+    // https://www.typescriptlang.org/docs/handbook/advanced-types.html
+    const positiveResult = result as TAdventureSingle;
+    const negativeResult = result as TError;
+    if (positiveResult.id) {
       // TODO: when we have results refetch adventure to have UI updated.
-      setCurrentStep(curVal => curVal + 1);
+      setCurrentStep((curVal: number) => curVal + 1);
+      // Unlock (UI) the step we just released and initiate
+      // recalculation of the next step.
       step.locked = false;
       setIsNext(false);
-      // setTimeout(() => {
-      // Don't do that. We are getting WebSocket with unlock action.
-      // dispatch(getAdventureSteps(adventureId));
-      // dispatch(getMyAdventure(adventureId));
-      // }, 1000);
+    } else {
+      // TODO: Extract this email report into a separate universal module.
+      Alert.alert(
+        'Failed to unlock the next step',
+        'Please, check your internet connection and try again.',
+        [
+          {
+            text: t('settings:email'),
+            onPress: (): void => {
+              Communications.email(
+                ['support@vokeapp.com'], // TO
+                null, // CC
+                null, // BCC
+                'Voke App Error: Failed to unlock the next step', // SUBJECT
+                `I'm getting 'Failed to unlock the next step' error when clicking 'Release Now' button in my Adventure Leader Zone.
+                 My adventure ID is: ${advId}
+                 API Error: ${negativeResult.error}`, // BODY
+              );
+            },
+          },
+          {
+            text: t('ok'),
+            onPress: (): void => {
+              // No action.
+            },
+          },
+        ],
+      );
     }
+  };
+
+  const onUnlockNextStep = (advId: string): void => {
+    Alert.alert(t('releaseNowModalTitle'), t('releaseNowModalText'), [
+      {
+        text: t('release'),
+        onPress: (): Promise<void> => {
+          return unlockNextStep(advId);
+        },
+      },
+      {
+        text: t('cancel'),
+        onPress: (): void => {
+          return;
+        },
+        style: 'cancel',
+      },
+    ]);
   };
 
   const stepStyle = (): string => {
@@ -138,7 +189,10 @@ function AdventureStepReportCard({
     return <></>;
   } else {
     return (
-      <View style={styles.container}>
+      <View
+        style={styles.container}
+        testID={step?.position ? 'stepPart-' + step.position : ''}
+      >
         <View
           style={
             styles[
@@ -146,7 +200,6 @@ function AdventureStepReportCard({
               stepStyle()
             ]
           }
-          testID={step?.position ? 'stepPart-' + step.position : ''}
           testID={
             step.locked
               ? 'lockedStepPart-' + step.position
@@ -175,7 +228,7 @@ function AdventureStepReportCard({
               <View style={styles.action}>
                 {isNext ? (
                   <OldButton
-                    onPress={() => unlockNextStep(adventure.id)}
+                    onPress={() => onUnlockNextStep(adventure.id)}
                     style={styles.actionReleaseNow}
                     testID="ctaReleaseNow"
                   >
@@ -227,7 +280,6 @@ function AdventureStepReportCard({
             openAnimationConfig={{
               timing: { duration: 300 },
             }}
-            onClose={() => {}}
             rootStyle={{
               elevation: 5, // need it here to solve issue with button shadow.
             }}

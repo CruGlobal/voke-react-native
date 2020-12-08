@@ -1,8 +1,11 @@
-import { combineReducers } from 'redux';
+import { Action, AnyAction, combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
 // import FilesystemStorage from 'redux-persist-filesystem-storage';
 // import { Platform } from 'react-native';
+
+import { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 import auth from './auth';
 import { data } from './data';
@@ -61,4 +64,22 @@ const store = combineReducers({
 const rootReducer = () => persistReducer(persistConfig, store);
 
 export type RootState = ReturnType<typeof store>;
+
+// Extra typing for redux-thunk:
+// https://github.com/reduxjs/redux-thunk/issues/231#issuecomment-528028398
+
+export type AsyncAction<ReturnType = void> = ThunkAction<
+  Promise<ReturnType>,
+  RootState,
+  undefined,
+  AnyAction
+>;
+export type DispatchAction<T extends AnyAction = Action> = ThunkDispatch<
+  RootState,
+  undefined,
+  T
+>;
+export const useSelectorTs: TypedUseSelectorHook<RootState> = useSelector;
+export const useDispatchTs: () => DispatchAction = useDispatch;
+
 export default rootReducer;
