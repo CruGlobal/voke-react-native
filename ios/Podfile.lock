@@ -750,13 +750,13 @@ SPEC CHECKSUMS:
   React-jsinspector: 512e560d0e985d0e8c479a54a4e5c147a9c83493
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
   react-native-fbsdk: c35d42169e64aaf66f01713c1e18d0674f7f6519
-  react-native-image-picker: a6c3d644751a388b0fc8b56822ff7cbd398a3008
+  react-native-image-picker: 3d3f85baabca60a00b75fb8facc1376db7bbdafa
   react-native-orientation-locker: a4a6574b179629698f0facebcc2e8551378a127d
-  react-native-safe-area-context: 7eca954ce96d0ef464b65cf765ecc14461ca4cc2
-  react-native-slider: b733e17fdd31186707146debf1f04b5d94aa1a93
-  react-native-version-check: 9f9332ff4552fb00e0bd15b097a8d302b2b8413b
-  react-native-video: aa527b0acb37f94c4491e70df0274cb26979405d
-  react-native-webview: 67b9024de02e7c0af9400283b0e3ca6eec55dc26
+  react-native-safe-area-context: b0bdaac4c56a861b06aaf1569efd1121c6a2427e
+  react-native-slider: e99fc201cefe81270fc9d81714a7a0f5e566b168
+  react-native-version-check: d8b8900e6ce03ae1568cb22ef9451f2508188883
+  react-native-video: eee541262ada11bc7ffe8ec5508e6a877937c462
+  react-native-webview: 6edf4d6f71b9161fc3e96083726a538ee395304d
   React-RCTActionSheet: f41ea8a811aac770e0cc6e0ad6b270c644ea8b7c
   React-RCTAnimation: 49ab98b1c1ff4445148b72a3d61554138565bad0
   React-RCTBlob: a332773f0ebc413a0ce85942a55b064471587a71

@@ -21,7 +21,7 @@ import { RootState } from 'reducers';
 import st from 'utils/st';
 
 import { toastAction } from '../../../actions/info';
-import { createAccount, updateMe } from '../../../actions/auth';
+import { createAccount } from '../../../actions/auth';
 import { acceptAdventureInvitation } from '../../../actions/requests';
 
 import styles from './styles';
