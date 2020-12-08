@@ -33,6 +33,8 @@
     },
     "common": {
         "yourAdventure": "Your Adventure",
+        "appleSignInDeletedTile": "We can't find your account!",
+        "appleSignInDeletedBody": "There is no account matching your Apple ID. Follow our Help Guide to resolve this issue.",
         "adventure": "Adventure",
         "adventureWith": "Adventure with",
         "oldConversationsCreateAccount": "You need to create an account before requesting your conversations.",
@@ -74,6 +76,7 @@
         "friend": "Friend",
         "getStarted": "Get Started",
         "giveAccess": "Give Access",
+        "getHelp": "Get Help",
         "gotIt": "Got it!",
         "great": "Great!",
         "haveAccount": "Already have an account?",
