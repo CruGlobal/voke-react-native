@@ -6,6 +6,7 @@ import { Image, View } from 'react-native';
 
 import { tutorials } from 'assets';
 import theme from 'utils/theme';
+import Touchable from 'components/Touchable';
 
 import Flex from '../Flex';
 import Text from '../Text';
@@ -17,15 +18,17 @@ import styles from './styles';
 
 type Props = {
   primaryAction?: () => void;
+  onClose?: () => void;
 };
 
-function ModalHowGroupsWork({ primaryAction }: Props): React.ReactElement {
+function ModalHowGroupsWork({
+  primaryAction,
+  onClose,
+}: Props): React.ReactElement {
   const { t } = useTranslation('modal');
 
   return (
     <Screen background={'transparent'} testID="groupTutorial">
-      {/* <Flex style={styles.container} direction="column" align="center"> */}
-      <View style={{ minHeight: theme.spacing.xl }} />
       <BotTalking type="overlay" heading={t('howGroupsWorkBotTitle')}>
         {t('howGroupsWorkBotBody')}
       </BotTalking>
