@@ -891,7 +891,7 @@ const App = () => {
             <AppStack.Screen
               name="AdventureShareCode"
               component={AdventureShareCode}
-              options={({ navigation }) => ({
+              options={({ route, navigation }) => ({
                 ...transparentHeaderConfig,
                 headerStyle: {
                   ...transparentHeaderConfig.headerStyle,
@@ -899,16 +899,22 @@ const App = () => {
                 cardStyle: { backgroundColor: theme.colors.primary },
                 title: '',
                 headerLeft: (): ReactElement => <></>,
-                headerRight: () => (
-                  <Touchable
-                    onPress={() => {
-                      navigation.dispatch(StackActions.popToTop());
-                    }}
-                    testID={'ctaHeaderDone'}
-                  >
-                    <Text style={[st.white, st.mr4, st.fs16]}>{t('done')}</Text>
-                  </Touchable>
-                ),
+                headerRight: (): ReactElement => {
+                  return (
+                    <Touchable
+                      onPress={(): void => {
+                        route?.params?.onClose
+                          ? route?.params?.onClose()
+                          : navigation.dispatch(StackActions.popToTop());
+                      }}
+                      testID={'ctaHeaderDone'}
+                    >
+                      <Text style={[st.white, st.mr4, st.fs16]}>
+                        {t('done')}
+                      </Text>
+                    </Touchable>
+                  );
+                },
               })}
             />
             <RootStack.Screen

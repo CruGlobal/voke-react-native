@@ -87,7 +87,12 @@ export type AppStackParamList = {
   AdventureName: undefined;
   GroupReleaseType: undefined;
   GroupReleaseDate: undefined;
-  AdventureShareCode: undefined;
+  AdventureShareCode: {
+    invitation: TInvitation;
+    withGroup: boolean;
+    isVideoInvite: boolean;
+    onClose?: () => void; // When "Done" button clicked.
+  };
   KitchenSink: undefined;
 };
 
