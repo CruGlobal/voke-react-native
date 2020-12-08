@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { useSafeArea } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeArea } from 'react-native-safe-area-context';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, ScrollView, StatusBar } from 'react-native';
 import { useNavigation, RouteProp } from '@react-navigation/native';
@@ -19,6 +19,7 @@ import ModalHowGroupsWork from 'components/ModalHowGroupsWork';
 import theme from 'utils/theme';
 import { REDUX_ACTIONS } from 'utils/constants';
 import { AdventureStackParamList } from 'utils/types';
+import Touchable from 'components/Touchable';
 
 import {
   startAdventure,
@@ -283,6 +284,16 @@ function AdventureAvailable(props: Props): React.ReactElement {
             minHeight: '100%',
           }}
           FooterComponent={null}
+          HeaderComponent={
+            <SafeAreaView style={styles.modalTitleAction} edges={['top']}>
+              <Touchable
+                onPress={(): void => modalizeRef.current?.close()}
+                style={styles.buttonTitleCancel}
+              >
+                <Text style={styles.buttonLabelTitleCancel}>{t('cancel')}</Text>
+              </Touchable>
+            </SafeAreaView>
+          }
         >
           {withGroup ? (
             <ModalHowGroupsWork
@@ -292,6 +303,9 @@ function AdventureAvailable(props: Props): React.ReactElement {
                   item,
                   withGroup: true,
                 });
+              }}
+              onClose={(): void => {
+                modalizeRef.current?.close();
               }}
             />
           ) : (

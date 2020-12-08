@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-
 import theme from 'utils/theme';
 
 const styles = StyleSheet.create({
@@ -15,9 +14,10 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.regular,
     paddingTop: theme.spacing.s,
     paddingBottom: theme.spacing.s,
+    opacity: 0.9,
   },
   tabBarTitleActive: {
-    color: theme.colors.black,
+    color: theme.colors.secondary,
     fontSize: theme.fontSizes.l,
     fontFamily: theme.fonts.regular,
     paddingTop: theme.spacing.s,
@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
   },
   indicatorStyle: {
     backgroundColor: theme.colors.secondary,
+    height: 3,
   },
   indicatorStyleWhite: {
     backgroundColor: theme.colors.secondary,

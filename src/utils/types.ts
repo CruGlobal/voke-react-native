@@ -381,3 +381,8 @@ export interface TDataState {
   videoTags: [];
   videoPagination: { [key: string]: object } | {};
 }
+
+// Error object we often get back from the Voke API.
+export type TError = {
+  error: string;
+};

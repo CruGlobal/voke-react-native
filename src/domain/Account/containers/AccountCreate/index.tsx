@@ -58,12 +58,8 @@ type Props = {
 };
 
 const AccountCreate = (props: Props): React.ReactElement => {
-  const {
-    layout,
-    parentScroll,
-    scrollTo,
-    onComplete = false,
-  } = props.route.params;
+  const { layout, parentScroll, scrollTo, onComplete = false } =
+    props.route.params || {};
   const { t } = useTranslation('signUp');
   const insets = useSafeArea();
   const navigation = useNavigation();

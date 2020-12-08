@@ -68,7 +68,7 @@ export function getDiffToDate(date: string): string {
 }
 
 export function getTimeToDate(date: string): string {
-  return moment(date).format('h:mm a');
+  return moment(date).format('h:mm[\u00A0]a');
 }
 
 export function getExpiredTime(

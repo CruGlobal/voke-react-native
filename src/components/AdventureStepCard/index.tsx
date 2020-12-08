@@ -114,7 +114,7 @@ function AdventureStepCard({
     if (releaseDate) {
       result = `${t('share:nextRelease')} ${releaseIn} ${t(
         'at',
-      )} ${releaseTime}`;
+      )}\u00A0${releaseTime}`;
     } else {
       result = t('share:leaderWillRelease');
     }
