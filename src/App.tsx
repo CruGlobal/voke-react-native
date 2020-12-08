@@ -391,7 +391,7 @@ const RootStackScreens = React.memo(
     return (
       <>
         <RootStack.Navigator mode="card" screenOptions={defaultHeaderConfig}>
-          {isLoggedIn && firstName.length ? (
+          {isLoggedIn && firstName?.length ? (
             <RootStack.Screen
               name="LoggedInApp"
               component={LoggedInAppContainer}

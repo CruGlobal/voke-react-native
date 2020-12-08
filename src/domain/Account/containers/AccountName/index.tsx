@@ -100,7 +100,7 @@ const AccountName = (props: Props): React.ReactElement => {
   };
 
   const handleContinue = async () => {
-    if (!firstName || firstName.length < 1) {
+    if (!firstName || firstName?.length < 1) {
       return Alert.alert(t('needNameTitle'), t('needNameMessage'));
     }
     if (

@@ -510,7 +510,7 @@ export function appleSignIn() {
         }),
       );
       // User is authenticated.
-      return result.user.id;
+      return result.user;
     } else {
       // Apple signin failed.
       LOG(
