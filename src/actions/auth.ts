@@ -394,31 +394,50 @@ export function facebookLogin() {
   };
 }
 
-export function appleLoginAction({ identityToken, nonce }) {
+export function appleLoginAction({
+  email,
+  firstName,
+  lastName,
+  identityToken,
+  appleUser,
+}: {
+  email: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  identityToken: string;
+  appleUser: string;
+}) {
   return async (dispatch, getState) => {
-    // Important! It tells the server to merge anonymous_user_id
-    // with provided login details.
-    const userId = getState().auth.user.id;
-    const data = { assertion: identityToken };
+    const data = {
+      assertion: appleUser,
+      // eslint-disable-next-line @typescript-eslint/camelcase, camelcase
+      user_data: {
+        token: identityToken,
+        email: email,
+        // eslint-disable-next-line @typescript-eslint/camelcase, camelcase
+        first_name: firstName,
+        // eslint-disable-next-line @typescript-eslint/camelcase, camelcase
+        last_name: lastName,
+      },
+      // eslint-disable-next-line @typescript-eslint/camelcase, camelcase
+      anonymous_user_id: '',
+    };
+    // It tells the server to merge anonymous_user_id with provided logins.
+    const userId: string = getState().auth.user.id || '';
     if (userId) {
-      // eslint-disable-next-line @typescript-eslint/camelcase
+      // eslint-disable-next-line @typescript-eslint/camelcase, camelcase
       data.anonymous_user_id = userId;
     }
 
-    return dispatch(request({ ...ROUTES.FACEBOOK_LOGIN, data })).then(
+    return dispatch(request({ ...ROUTES.APPLE_SIGNIN, data })).then(
       authData => {
-        // eslint-disable-next-line no-console
-        console.log('🚪🚶‍♂️Apple loginResults:\n', authData);
-        // Received login response do Logout/reset state.
-        logoutAction();
-        // Update user data in the state with ones received.
-        dispatch(loginAction(authData.access_token));
-        // After all download user details from server.
-        return dispatch(getMeAction());
+        LOG('🔑 Apple APPLE_SIGNIN results:\n', authData);
+        logoutAction(); // Received login response reset local state (logout).
+        dispatch(loginAction(authData.access_token)); // Add user data to state.
+        return dispatch(getMeAction()); // Download user details from the server
       },
       error => {
-        // eslint-disable-next-line no-console
-        console.log('appleLoginAction > Login error', error);
+        LOG('🛑 appleLoginAction > Login error', error);
         throw error;
       },
     );
@@ -433,48 +452,71 @@ export function appleSignIn() {
       requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
     });
 
-    console.log('appleAuthRequestResponse', appleAuthRequestResponse);
-
     const {
-      user: newUser,
-      email,
-      nonce,
+      /**
+       * https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_rest_api/authenticating_users_with_sign_in_with_apple
+       *
+       * An opaque user ID associated with the AppleID used for the sign in.
+       * This identifier will be stable across the 'developer team',
+       * it can later be used as an input to @{AppleAuthRequest}
+       * to request user contact information.
+       *
+       * The identifier will remain stable as long as the user is connected
+       * with the requesting client. The value may change upon user
+       * disconnecting from the identity provider.
+       *
+       * Use it instead of an email address to identify the user in your app.
+       */
+      user,
+      /**
+       * A JSON Web Token (JWT) used to communicate information about
+       * the identity of the user in a secure way to the app.
+       *
+       * The ID token contains the following information signed
+       * by Apple's identity service:
+       *  - Issuer Identifier
+       *  - Subject Identifier
+       *  - Audience
+       *  - Expiry Time
+       *  - Issuance Time
+       */
       identityToken,
-      realUserStatus /* etc */,
+      fullName,
+      email,
+      // nonce,
+      // realUserStatus,
+      // authorizationCode,
     } = appleAuthRequestResponse;
 
-    // 2. - Get current authentication state for user
-    // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
+    /**
+     * 2. - Get current authentication state for user
+     * (to ensure the user is authenticated)
+     * /!\ This method must be tested on a real device.
+     * On the iOS simulator it always throws an error.
+     */
     const credentialState = await appleAuth.getCredentialStateForUser(
       appleAuthRequestResponse.user,
     );
 
-    // use credentialState response to ensure the user is authenticated
-    if (credentialState === appleAuth.State.AUTHORIZED) {
-      if (identityToken) {
-        // e.g. sign in with Firebase Auth using `nonce` & `identityToken`
-        console.log(nonce, identityToken);
-        // 4. Login on our server using Facebook token.
-        const result = await dispatch(
-          appleLoginAction({ identityToken, nonce }),
-        );
-        return result.user.id;
-      } else {
-        // no token - failed sign-in?
-        // eslint-disable-next-line no-console
-        console.log(
-          '🛑👤Apple SignIn cancelled. Problem with identityToken:',
+    // 3. - Login on the server using Apple identity token.
+    if (credentialState === appleAuth.State.AUTHORIZED && identityToken) {
+      const result = await dispatch(
+        appleLoginAction({
+          email,
+          firstName: fullName?.givenName || null,
+          lastName: fullName?.familyName || null,
           identityToken,
-        );
-        return false;
-      }
-      // user is authenticated
+          appleUser: user,
+        }),
+      );
+      // User is authenticated.
+      return result.user.id;
     } else {
-      // failed sign -in?
-      // eslint-disable-next-line no-console
-      console.log(
-        '🛑👤Apple SignIn cancelled. appleAuth.State.AUTHORIZED returned:',
-        appleAuth.State.AUTHORIZED,
+      // Apple signin failed.
+      LOG(
+        '🛑 Apple SignIn cancelled. Returned (credentialState, identityToken):',
+        credentialState,
+        identityToken,
       );
       return false;
     }

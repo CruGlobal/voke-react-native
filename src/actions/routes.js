@@ -31,6 +31,20 @@ const ROUTES = {
     },
     // showApiLoading: true, //NOT USED: Used to show a loading overlay on the login page with Facebook login
   },
+  APPLE_SIGNIN: {
+    method: 'post',
+    url: 'oauth/token',
+    anonymous: true, // x-access-token = userToken
+    isAuth: true, // Request to be made on auth subdomain.
+    customData: {
+      client: CLIENT,
+      // eslint-disable-next-line @typescript-eslint/camelcase, camelcase
+      grant_type: 'assertion',
+      provider: 'apple',
+      scope: 'messenger',
+    },
+    // showApiLoading: true, //NOT USED: Used to show a loading overlay on the login page with Facebook login
+  },
   // https://docs.vokeapp.com/#me-create-me
   CREATE_ACCOUNT: {
     method: 'post',
