@@ -14,15 +14,30 @@ import {
   useNavigationState,
   useFocusEffect,
   StackActions,
+  RouteProp,
 } from '@react-navigation/native';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import { Linking, YellowBox } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  StackNavigationProp,
+} from '@react-navigation/stack';
 import { SafeAreaView, useSafeArea } from 'react-native-safe-area-context';
 import useAppState from 'react-native-appstate-hook';
 import RNBootSplash from 'react-native-bootsplash';
 import { Host } from 'react-native-portalize';
+import theme from 'utils/theme';
+import st from 'utils/st';
+import {
+  AdventureStackParamList,
+  AppStackParamList,
+  NotificationStackParamList,
+  RootStackParamList,
+  VideoStackParamList,
+} from 'utils/types';
+import { useMount } from 'utils';
+import NavBackButton from 'components/NavBackButton';
 
 import {
   startupAction,
@@ -31,46 +46,42 @@ import {
   getMeAction,
 } from './actions/auth';
 import { routeNameRef, navigationRef } from './RootNavigation';
-import Welcome from './containers/Welcome';
-import Menu from './containers/Menu';
-import MenuHelp from './containers/MenuHelp';
-import MenuAbout from './containers/MenuAbout';
-import MenuAcknowledgements from './containers/MenuAcknowledgements';
-import AccountSignIn from './containers/AccountSignIn';
-import AccountPass from './containers/AccountPass';
-import AccountEmail from './containers/AccountEmail';
-import AccountProfile from './containers/AccountProfile';
-import AccountCreate from './containers/AccountCreate';
-import AccountForgotPassword from './containers/AccountForgotPassword';
-import Adventures from './containers/Adventures';
-import AdventureAvailable from './containers/AdventureAvailable';
-import VideoDetails from './containers/VideoDetails';
-import AdventureName from './containers/AdventureName';
-import AdventureShareCode from './containers/AdventureShareCode';
-import AdventureActive from './containers/AdventureActive';
-import AdventureManage from './containers/AdventureManage';
-import AdventureStepScreen from './containers/AdventureStepScreen';
-import GroupReleaseType from './containers/GroupReleaseType';
-import GroupReleaseDate from './containers/GroupReleaseDate';
-import VideosSearch from './containers/VideosSearch';
+import Welcome from './domain/Account/containers/Welcome';
+import Menu from './domain/Menu/Menu';
+import MenuHelp from './domain/Menu/Help';
+import MenuAbout from './domain/Menu/About';
+import MenuAcknowledgements from './domain/Menu/Acknowledgements';
+import AccountSignIn from './domain/Account/containers/AccountSignIn';
+import AccountPass from './domain/Account/containers/AccountPass';
+import AccountEmail from './domain/Account/containers/AccountEmail';
+import AccountProfile from './domain/Account/containers/AccountProfile';
+import AccountCreate from './domain/Account/containers/AccountCreate';
+import AccountForgotPassword from './domain/Account/containers/AccountForgotPassword';
+import Adventures from './domain/Adventures/AdventuresTab';
+import AdventureAvailable from './domain/Adventure/Available';
+import VideoDetails from './domain/Explore/containers/VideoDetails';
+import AdventureName from './domain/Adventure/Name';
+import AdventureShareCode from './domain/Adventure/Share';
+import AdventureActive from './domain/Adventure/Active';
+import AdventureManage from './domain/Adventure/Manage';
+import AdventureStepScreen from './domain/Adventure/StepScreen';
+import GroupReleaseType from './domain/Adventure/GroupReleaseType';
+import GroupReleaseDate from './domain/Adventure/ReleaseDate';
 import ModalAppUpdate from './components/ModalAppUpdate';
-import AllMembersModal from './containers/AllMembersModal';
-import AdventureCode from './containers/AdventureCode';
-import Videos from './containers/Videos';
-import Notifications from './containers/Notifications';
-import AccountName from './containers/AccountName';
-import AccountPhoto from './containers/AccountPhoto';
-import GroupModal from './containers/GroupModal';
+import AllMembersModal from './domain/Adventure/MembersModal';
+import AdventureCode from './domain/Adventure/Code';
+import Videos from './domain/Explore/containers/Videos';
+import Notifications from './domain/Notifications/containers/Notifications';
+import AccountName from './domain/Account/containers/AccountName';
+import AccountPhoto from './domain/Account/containers/AccountPhoto';
+import GroupModal from './domain/Adventure/GroupModal';
 import TabBar from './components/TabBar';
-import theme from './theme';
-import st from './st';
 import HeaderLeft from './components/HeaderLeft';
 import Touchable from './components/Touchable';
 import SignOut from './components/SignOut';
 import Text from './components/Text';
-import { useMount } from './utils';
 import { checkInitialNotification } from './actions/notifications';
-import KitchenSink from './containers/KitchenSink';
+import KitchenSink from './domain/Common/KitchenSink';
 
 // https://reactnavigation.org/docs/stack-navigator#options
 const defaultHeaderConfig = {
@@ -84,7 +95,7 @@ const defaultHeaderConfig = {
     fontSize: 16,
     fontWeight: 'normal',
   },
-  headerLeft: () => <HeaderLeft />,
+  headerLeft: (): ReactElement => <HeaderLeft resetTo="Menu" />,
 };
 
 // https://reactnavigation.org/docs/stack-navigator#options
@@ -100,10 +111,9 @@ const altHeaderConfig = {
     fontSize: 18,
     fontWeight: 'normal',
   },
-  headerTitleAlign: 'center',
+  headerTitleAlign: 'center' as const,
   headerTintColor: theme.colors.white,
   headerBackTitle: ' ',
-  // headerLeft: () => <HeaderLeft hasBack={true} />,
 };
 
 const transparentHeaderConfig = {
@@ -115,7 +125,7 @@ const transparentHeaderConfig = {
   headerTransparent: true,
 };
 
-const AdventureStack = createStackNavigator();
+const AdventureStack = createStackNavigator<AdventureStackParamList>();
 
 const AdventureStackScreens = ({ navigation, route }: any) => {
   const insets = useSafeArea();
@@ -157,7 +167,9 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
             paddingTop: insets.top,
           },
           title: '',
-          headerLeft: () => <HeaderLeft hasBack testID="AdventureAvailable" />,
+          headerLeft: (): ReactElement => (
+            <HeaderLeft testID="AdventureAvailable" />
+          ),
         }}
       />
       <AdventureStack.Screen
@@ -170,8 +182,8 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
             ...transparentHeaderConfig.headerStyle,
           },
           title: '',
-          headerLeft: () => (
-            <HeaderLeft hasBack resetTo="Adventures" testID="AdventureActive" />
+          headerLeft: (): ReactElement => (
+            <HeaderLeft resetTo="Adventures" testID="AdventureActive" />
           ),
           headerRight: undefined,
         }}
@@ -180,15 +192,17 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
         name="AdventureManage"
         component={AdventureManage}
         // Fixed header with back button.
-        options={{
+        options={({ route, navigation }) => ({
           ...transparentHeaderConfig,
           headerStyle: {
             ...transparentHeaderConfig.headerStyle,
             paddingTop: insets.top,
           },
           title: '',
-          headerLeft: () => <HeaderLeft hasBack testID="AdventureManage" />,
-        }}
+          headerLeft: (): ReactElement => (
+            <HeaderLeft testID="AdventureManage" />
+          ),
+        })}
       />
       <AdventureStack.Screen
         name="AdventureStepScreen"
@@ -201,8 +215,8 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
             paddingTop: insets.top,
           },
           title: '',
-          headerLeft: () => (
-            <HeaderLeft hasBack testID="AdventureStepScreenHeader" />
+          headerLeft: (): ReactElement => (
+            <HeaderLeft testID="AdventureStepScreenHeader" />
           ),
           headerRight: undefined,
         }}
@@ -222,20 +236,22 @@ const AdventureStackScreens = ({ navigation, route }: any) => {
             paddingTop: insets.top,
           },
           title: '',
-          headerLeft: () => <HeaderLeft hasBack testID="AllMembersModal" />,
+          headerLeft: (): ReactElement => (
+            <HeaderLeft testID="AllMembersModal" />
+          ),
           headerRight: undefined,
         }}
       />
-      <AdventureStack.Screen
+      {/* <AdventureStack.Screen
         name="AccountPhoto"
         component={AccountPhoto}
         options={{ headerShown: false }}
-      />
+      /> */}
     </AdventureStack.Navigator>
   );
 };
 
-const VideoStack = createStackNavigator();
+const VideoStack = createStackNavigator<VideoStackParamList>();
 function VideoStackScreens({ navigation, route }: any) {
   const { t } = useTranslation('title');
   const insets = useSafeArea();
@@ -263,22 +279,14 @@ function VideoStackScreens({ navigation, route }: any) {
             paddingTop: insets.top, // TODO: Check if it really works here?
           },
           title: '',
-          headerLeft: () => <HeaderLeft hasBack testID="VideoDetails" />,
-        }}
-      />
-      <VideoStack.Screen
-        name="VideosSearch"
-        component={VideosSearch}
-        options={{
-          headerShown: false,
-          cardStyle: { backgroundColor: theme.colors.transparent },
+          headerLeft: (): ReactElement => <HeaderLeft testID="VideoDetails" />,
         }}
       />
     </VideoStack.Navigator>
   );
 }
 
-const NotificationStack = createStackNavigator();
+const NotificationStack = createStackNavigator<NotificationStackParamList>();
 const NotificationStackScreens = () => {
   const { t } = useTranslation('title');
   return (
@@ -297,7 +305,7 @@ const NotificationStackScreens = () => {
   );
 };
 
-const LoggedInAppContainer = ({ navigation, route }: any) => {
+const LoggedInAppContainer = () => {
   const dispatch = useDispatch();
   const Tabs = createBottomTabNavigator();
   const state = useNavigationState(state => state);
@@ -372,7 +380,7 @@ const getActiveRouteName = state => {
   return route.name;
 };
 
-const RootStack = createStackNavigator();
+const RootStack = createStackNavigator<RootStackParamList>();
 const RootStackScreens = React.memo(
   () => {
     const isLoggedIn = useSelector(({ auth }: any) => auth.isLoggedIn);
@@ -383,7 +391,7 @@ const RootStackScreens = React.memo(
     return (
       <>
         <RootStack.Navigator mode="card" screenOptions={defaultHeaderConfig}>
-          {isLoggedIn && firstName.length ? (
+          {isLoggedIn && firstName?.length ? (
             <RootStack.Screen
               name="LoggedInApp"
               component={LoggedInAppContainer}
@@ -417,7 +425,9 @@ const RootStackScreens = React.memo(
               },
               title: '',
               // headerShown: true,
-              headerLeft: () => <HeaderLeft hasBack testID="AccountName" />,
+              headerLeft: (): ReactElement => (
+                <HeaderLeft testID="AccountName" />
+              ),
             }}
           />
           <RootStack.Screen
@@ -431,7 +441,9 @@ const RootStackScreens = React.memo(
               },
               title: '',
               // headerShown: true,
-              headerLeft: () => <HeaderLeft hasBack testID="AdventureCode" />,
+              headerLeft: (): ReactElement => (
+                <HeaderLeft testID="AdventureCode" />
+              ),
             }}
           />
           <RootStack.Screen
@@ -460,7 +472,9 @@ const RootStackScreens = React.memo(
               </Touchable> */}
                 </>
               ),
-              headerLeft: () => <HeaderLeft hasBack testID="AccountPhoto" />,
+              headerLeft: (): ReactElement => (
+                <HeaderLeft testID="AccountPhoto" />
+              ),
               title: '',
               // headerShown: true,
             })}
@@ -469,6 +483,7 @@ const RootStackScreens = React.memo(
             name="Menu"
             component={Menu}
             options={({ navigation }) => ({
+              animationTypeForReplace: 'pop', // Changes direction of animation.
               headerShown: true,
               headerRight: () => (
                 <Touchable
@@ -488,7 +503,7 @@ const RootStackScreens = React.memo(
                   <Text style={[st.white, st.mr4, st.fs16]}>{t('done')}</Text>
                 </Touchable>
               ),
-              headerLeft: () => {},
+              headerLeft: (): ReactElement => {},
               cardStyle: { backgroundColor: theme.colors.transparent },
               headerStyle: {
                 backgroundColor: theme.colors.primary,
@@ -514,7 +529,9 @@ const RootStackScreens = React.memo(
               },
               title: t('createAccount'),
               // headerShown: true,
-              headerLeft: () => <HeaderLeft hasBack testID="AccountCreate" />,
+              headerLeft: (): ReactElement => (
+                <HeaderLeft testID="AccountCreate" />
+              ),
             }}
           />
           <RootStack.Screen
@@ -528,7 +545,9 @@ const RootStackScreens = React.memo(
               },
               title: t('signIn'),
               // headerShown: true,
-              headerLeft: () => <HeaderLeft hasBack testID="AccountSignIn" />,
+              headerLeft: (): ReactElement => (
+                <HeaderLeft testID="AccountSignIn" />
+              ),
             }}
           />
           <RootStack.Screen
@@ -549,7 +568,9 @@ const RootStackScreens = React.memo(
                 fontSize: 18,
                 fontWeight: 'normal',
               },
-              headerLeft: () => <HeaderLeft hasBack testID="ForgotPassword" />,
+              headerLeft: (): ReactElement => (
+                <HeaderLeft testID="ForgotPassword" />
+              ),
             }}
           />
           <RootStack.Screen
@@ -557,8 +578,8 @@ const RootStackScreens = React.memo(
             component={AccountProfile}
             options={({ navigation }) => ({
               headerShown: true,
-              headerLeft: () => (
-                <HeaderLeft hasBack resetTo="Menu" testID="AccountProfile" />
+              headerLeft: (): ReactElement => (
+                <HeaderLeft testID="AccountProfile" />
               ),
               headerRight: () => <SignOut />,
               cardStyle: { backgroundColor: theme.colors.transparent },
@@ -575,12 +596,13 @@ const RootStackScreens = React.memo(
               title: t('title:profile'),
             })}
           />
-          <RootStack.Screen
+          {/* RELEASE Check this case! */}
+          {/* <RootStack.Screen
             name="SignUp"
             component={AccountCreate}
             options={({ navigation }) => ({
               headerShown: true,
-              headerLeft: () => <HeaderLeft hasBack testID="SignUp" />,
+              headerLeft: ():ReactElement => <HeaderLeft testID="SignUp" />,
               cardStyle: { backgroundColor: theme.colors.transparent },
               headerStyle: {
                 backgroundColor: theme.colors.primary,
@@ -594,13 +616,15 @@ const RootStackScreens = React.memo(
               },
               title: t('signUp'),
             })}
-          />
+          /> */}
           <RootStack.Screen
             name="AccountEmail"
             component={AccountEmail}
             options={({ navigation }) => ({
               headerShown: true,
-              headerLeft: () => <HeaderLeft hasBack testID="AccountEmail" />,
+              headerLeft: (): ReactElement => (
+                <HeaderLeft testID="AccountEmail" />
+              ),
               cardStyle: { backgroundColor: theme.colors.transparent },
               headerStyle: {
                 backgroundColor: theme.colors.primary,
@@ -620,7 +644,9 @@ const RootStackScreens = React.memo(
             component={AccountPass}
             options={({ navigation }) => ({
               headerShown: true,
-              headerLeft: () => <HeaderLeft hasBack testID="AccountPass" />,
+              headerLeft: (): ReactElement => (
+                <HeaderLeft testID="AccountPass" />
+              ),
               cardStyle: { backgroundColor: theme.colors.transparent },
               headerStyle: {
                 backgroundColor: theme.colors.primary,
@@ -640,7 +666,7 @@ const RootStackScreens = React.memo(
             component={MenuHelp}
             options={({ navigation }) => ({
               headerShown: true,
-              headerLeft: () => <HeaderLeft hasBack testID="Help" />,
+              headerLeft: (): ReactElement => <HeaderLeft testID="Help" />,
               cardStyle: { backgroundColor: theme.colors.transparent },
               headerStyle: {
                 backgroundColor: theme.colors.primary,
@@ -660,7 +686,7 @@ const RootStackScreens = React.memo(
             component={MenuAbout}
             options={({ navigation }) => ({
               headerShown: true,
-              headerLeft: () => <HeaderLeft hasBack testID="About" />,
+              headerLeft: (): ReactElement => <HeaderLeft testID="About" />,
               cardStyle: { backgroundColor: theme.colors.transparent },
               headerStyle: {
                 backgroundColor: theme.colors.primary,
@@ -680,8 +706,8 @@ const RootStackScreens = React.memo(
             component={MenuAcknowledgements}
             options={({ navigation }) => ({
               headerShown: true,
-              headerLeft: () => (
-                <HeaderLeft hasBack testID="Acknowledgements" />
+              headerLeft: (): ReactElement => (
+                <HeaderLeft testID="Acknowledgements" />
               ),
               cardStyle: { backgroundColor: theme.colors.transparent },
               headerStyle: {
@@ -708,7 +734,7 @@ const RootStackScreens = React.memo(
   },
 );
 
-const AppStack = createStackNavigator();
+const AppStack = createStackNavigator<AppStackParamList>();
 
 const App = () => {
   // Extract store.auth.isLoggedIn value.
@@ -827,7 +853,9 @@ const App = () => {
                 },
                 cardStyle: { backgroundColor: theme.colors.primary },
                 title: '',
-                headerLeft: () => <HeaderLeft hasBack testID="AdventureName" />,
+                headerLeft: (): ReactElement => (
+                  <HeaderLeft testID="AdventureName" />
+                ),
               })}
             />
             <AppStack.Screen
@@ -840,8 +868,8 @@ const App = () => {
                 },
                 cardStyle: { backgroundColor: theme.colors.primary },
                 title: '',
-                headerLeft: () => (
-                  <HeaderLeft hasBack testID="GroupReleaseType" />
+                headerLeft: (): ReactElement => (
+                  <HeaderLeft testID="GroupReleaseType" />
                 ),
               })}
             />
@@ -855,32 +883,38 @@ const App = () => {
                 },
                 cardStyle: { backgroundColor: theme.colors.primary },
                 title: '',
-                headerLeft: () => (
-                  <HeaderLeft hasBack testID="GroupReleaseDate" />
+                headerLeft: (): ReactElement => (
+                  <HeaderLeft testID="GroupReleaseDate" />
                 ),
               })}
             />
             <AppStack.Screen
               name="AdventureShareCode"
               component={AdventureShareCode}
-              options={({ navigation }) => ({
+              options={({ route, navigation }) => ({
                 ...transparentHeaderConfig,
                 headerStyle: {
                   ...transparentHeaderConfig.headerStyle,
                 },
                 cardStyle: { backgroundColor: theme.colors.primary },
                 title: '',
-                headerLeft: () => <></>,
-                headerRight: () => (
-                  <Touchable
-                    onPress={() => {
-                      navigation.dispatch(StackActions.popToTop());
-                    }}
-                    testID={'ctaHeaderDone'}
-                  >
-                    <Text style={[st.white, st.mr4, st.fs16]}>{t('done')}</Text>
-                  </Touchable>
-                ),
+                headerLeft: (): ReactElement => <></>,
+                headerRight: (): ReactElement => {
+                  return (
+                    <Touchable
+                      onPress={(): void => {
+                        route?.params?.onClose
+                          ? route?.params?.onClose()
+                          : navigation.dispatch(StackActions.popToTop());
+                      }}
+                      testID={'ctaHeaderDone'}
+                    >
+                      <Text style={[st.white, st.mr4, st.fs16]}>
+                        {t('done')}
+                      </Text>
+                    </Touchable>
+                  );
+                },
               })}
             />
             <RootStack.Screen
@@ -888,7 +922,9 @@ const App = () => {
               component={KitchenSink}
               options={({ navigation }) => ({
                 headerShown: true,
-                headerLeft: () => <HeaderLeft hasBack testID="KitchenSink" />,
+                headerLeft: (): ReactElement => (
+                  <HeaderLeft testID="KitchenSink" />
+                ),
                 cardStyle: { backgroundColor: theme.colors.transparent },
                 headerStyle: {
                   backgroundColor: theme.colors.primary,

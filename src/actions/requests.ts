@@ -2,16 +2,18 @@ import { ThunkDispatch } from 'redux-thunk';
 import deviceInfoModule from 'react-native-device-info';
 import { Platform } from 'react-native';
 import { debounce } from 'lodash';
+import { REDUX_ACTIONS } from 'utils/constants';
+import st from 'utils/st';
+import request from 'actions/utils';
+import { isEqualObject, exists } from 'utils';
+import { TAdventureSingle, TError } from 'src/utils/types';
+import { AsyncAction } from 'src/reducers';
 
-import { REDUX_ACTIONS } from '../constants';
 import { DataKeys } from '../reducers/data';
-import st from '../st';
-import { isEqualObject, exists } from '../utils';
 import { AuthDataKeys } from '../reducers/auth';
 
 import { setAppIconBadgeNumber } from './notifications';
 import ROUTES from './routes';
-import request from './utils';
 
 type Dispatch = ThunkDispatch<any, any, any>;
 
@@ -1214,10 +1216,12 @@ export function getAdventureSummary(adventureId: string) {
   };
 }
 
-export function unlockNextAdventureStep(adventureId: string) {
-  return async (dispatch: Dispatch, getState: any) => {
+export function unlockNextAdventureStep(
+  adventureId: string,
+): AsyncAction<TAdventureSingle | TError> {
+  return async dispatch => {
     try {
-      const results: any = await dispatch(
+      const results: Promise<TAdventureSingle | TError> = await dispatch(
         request({
           ...ROUTES.UNLOCK_NEXT_ADVENTURE_STEP,
           pathParams: { adventureId },
@@ -1227,7 +1231,7 @@ export function unlockNextAdventureStep(adventureId: string) {
       );
       return results;
     } catch (error) {
-      console.log('getAdventureStepMessages error:', error);
+      return error;
     }
   };
 }

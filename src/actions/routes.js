@@ -1,4 +1,4 @@
-import CONSTANTS from '../constants';
+import CONSTANTS from 'utils/constants';
 
 const CLIENT = {
   id: CONSTANTS.CLIENT_ID,
@@ -27,6 +27,20 @@ const ROUTES = {
     customData: {
       client: CLIENT,
       grant_type: 'assertion',
+      scope: 'messenger',
+    },
+    // showApiLoading: true, //NOT USED: Used to show a loading overlay on the login page with Facebook login
+  },
+  APPLE_SIGNIN: {
+    method: 'post',
+    url: 'oauth/token',
+    anonymous: true, // x-access-token = userToken
+    isAuth: true, // Request to be made on auth subdomain.
+    customData: {
+      client: CLIENT,
+      // eslint-disable-next-line @typescript-eslint/camelcase, camelcase
+      grant_type: 'assertion',
+      provider: 'apple',
       scope: 'messenger',
     },
     // showApiLoading: true, //NOT USED: Used to show a loading overlay on the login page with Facebook login
@@ -81,10 +95,13 @@ const ROUTES = {
   GET_AVAILABLE_ADVENTURES: { method: 'get', url: `organization_journeys` },
   GET_MY_ADVENTURES: {
     method: 'get',
-    url: `me/journeys`
+    url: `me/journeys`,
   },
   GET_MY_ADVENTURE: { method: 'get', url: `me/journeys/{adventureId}` },
-  UNLOCK_NEXT_ADVENTURE_STEP: { method: 'get', url: `me/journeys/{adventureId}/unlock` },
+  UNLOCK_NEXT_ADVENTURE_STEP: {
+    method: 'get',
+    url: `me/journeys/{adventureId}/unlock`,
+  },
   GET_ADVENTURE_STEPS: {
     method: 'get',
     url: `me/journeys/{adventureId}/steps`,

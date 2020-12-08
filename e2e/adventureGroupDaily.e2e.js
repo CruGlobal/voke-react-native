@@ -1,6 +1,6 @@
 const moment = require('moment');
 
-const { signin, signout, waitForToast } = require('./shortcuts');
+const { signin, signout, goBackFrom } = require('./shortcuts');
 
 /* eslint-disable no-undef */
 describe('Group Adventure With Daily Release', () => {
@@ -21,6 +21,7 @@ describe('Group Adventure With Daily Release', () => {
 
   beforeAll(async () => {
     await device.reloadReactNative();
+    jest.setTimeout(400000);
   });
 
   signin();
@@ -28,6 +29,10 @@ describe('Group Adventure With Daily Release', () => {
   it('can create a Group with daily release mode', async () => {
     await element(by.id('tabAdventuresFind')).tap();
     await element(by.id('adventureTitle')).atIndex(1).tap();
+    await waitFor(element(by.id('ctaGoWithGroup')))
+      .toBeVisible()
+      .whileElement(by.id('scrollAdventureAvailable'))
+      .scroll(200, 'down');
     await element(by.id('ctaGoWithGroup')).tap();
     await element(by.id('ctaGetStartedGroup')).tap();
     await element(by.id('inputName')).replaceText(groupName + randomId);
@@ -51,27 +56,23 @@ describe('Group Adventure With Daily Release', () => {
     await expect(element(by.id('inviteCodeHeader'))).toBeVisible();
   });
 
-  it('should see only first step unlocked', async () => {
-    await expect(
-      element(by.id('stepAvailable').withAncestor(by.id('stepPart-1'))),
-    ).toBeVisible();
-    await expect(
-      element(by.id('stepLocked').withAncestor(by.id('stepPart-2'))),
-    ).toBeVisible();
-    await expect(
-      element(by.id('stepLocked').withAncestor(by.id('stepPart-3'))),
-    ).toBeVisible();
+  it('should see first step unlocked', async () => {
+    await expect(element(by.id('availableStepPart-1'))).toBeVisible();
+  });
+  it('should see other steps locked', async () => {
+    await expect(element(by.id('lockedStepPart-2'))).toBeVisible();
+    await expect(element(by.id('lockedStepPart-3'))).toBeVisible();
   });
 
   it('should see second step unlocked after 5 mins max', async () => {
-    await waitFor(
-      element(by.id('stepAvailable').withAncestor(by.id('stepPart-2'))),
-    )
+    await device.disableSynchronization();
+    await waitFor(element(by.id('availableStepPart-2')))
       .toBeVisible()
       .withTimeout(300000);
     await expect(
       element(by.id('stepLocked').withAncestor(by.id('stepPart-3'))),
     ).toBeVisible();
+    await device.enableSynchronization();
   });
 
   it('should copy new invite code', async () => {
@@ -106,7 +107,9 @@ describe('Group Adventure With Daily Release', () => {
   it('should be able to leave a message for step 1', async () => {
     await element(by.id('stepPart-1')).tap();
     await element(by.id('inputEnterAnswer')).tap();
-    await element(by.id('inputEnterAnswer')).replaceText('Test answer for step 1 from the leader 😀');
+    await element(by.id('inputEnterAnswer')).replaceText(
+      'Test answer for step 1 from the leader 😀',
+    );
     await element(by.id('ctaSendAnswer')).tap();
     await expect(element(by.id('inputMainChatInput'))).toBeVisible();
     await goBackFrom('AdventureStepScreenHeader');
@@ -114,7 +117,9 @@ describe('Group Adventure With Daily Release', () => {
 
   it('should be able to leave a message for step 2', async () => {
     await element(by.id('stepPart-2')).tap();
-    await element(by.id('inputEnterAnswer')).replaceText('Test answer for step 2 from the leader 🥶');
+    await element(by.id('inputEnterAnswer')).replaceText(
+      'Test answer for step 2 from the leader 🥶',
+    );
     await element(by.id('ctaSendAnswer')).tap();
     await goBackFrom('AdventureStepScreenHeader');
 
@@ -156,7 +161,9 @@ describe('Group Adventure With Daily Release', () => {
 
     await element(by.id('stepPart-1')).tap();
     await element(by.id('inputEnterAnswer')).tap();
-    await element(by.id('inputEnterAnswer')).replaceText('Test answer for step 1 from the second user 😨');
+    await element(by.id('inputEnterAnswer')).replaceText(
+      'Test answer for step 1 from the second user 😨',
+    );
     await element(by.id('ctaSendAnswer')).tap();
     await expect(element(by.id('inputMainChatInput'))).toBeVisible();
     await goBackFrom('AdventureStepScreenHeader');
@@ -175,7 +182,9 @@ describe('Group Adventure With Daily Release', () => {
 
     await element(by.id('stepPart-2')).tap();
     await element(by.id('inputEnterAnswer')).tap();
-    await element(by.id('inputEnterAnswer')).replaceText('Test answer for step 2 from the second user 🤢');
+    await element(by.id('inputEnterAnswer')).replaceText(
+      'Test answer for step 2 from the second user 🤢',
+    );
     await element(by.id('ctaSendAnswer')).tap();
     await expect(element(by.id('inputMainChatInput'))).toBeVisible();
     await goBackFrom('AdventureStepScreenHeader');
@@ -234,13 +243,13 @@ describe('Group Adventure With Daily Release', () => {
 
     await element(by.id('stepPart-1')).tap();
     await element(by.id('inputEnterAnswer')).tap();
-    await element(by.id('inputEnterAnswer')).replaceText('Test answer for step 1 from the third user 🤯');
+    await element(by.id('inputEnterAnswer')).replaceText(
+      'Test answer for step 1 from the third user 🤯',
+    );
     await element(by.id('ctaSendAnswer')).tap();
     await expect(element(by.id('inputMainChatInput'))).toBeVisible();
     await goBackFrom('AdventureStepScreenHeader');
   });
 
   // 835974
-
-
 });

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import OldButton from '../OldButton';
 
-import theme from '../../theme';
+import theme from 'utils/theme';
 import Flex from '../Flex';
 import VokeIcon from '../VokeIcon';
 import Text from '../Text';

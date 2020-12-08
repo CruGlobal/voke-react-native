@@ -3,6 +3,15 @@ import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import {
+  getCurrentUserId,
+  getNextReleaseDate,
+  getDiffToDate,
+  getTimeToDate,
+} from 'utils/get';
+import theme from 'utils/theme';
+import st from 'utils/st';
+import { TAdventureSingle, TDataState, TStep } from 'utils/types';
 
 import { RootState } from '../../reducers';
 import Image from '../Image';
@@ -10,15 +19,6 @@ import Touchable from '../Touchable';
 import Flex from '../Flex';
 import Text from '../Text';
 import VokeIcon from '../VokeIcon';
-import st from '../../st';
-import {
-  getCurrentUserId,
-  getNextReleaseDate,
-  getDiffToDate,
-  getTimeToDate,
-} from '../../utils/get';
-import { TAdventureSingle, TDataState, TStep } from '../../types';
-import theme from '../../theme';
 import Spacer from '../Spacer';
 
 import styles from './styles';
@@ -114,7 +114,7 @@ function AdventureStepCard({
     if (releaseDate) {
       result = `${t('share:nextRelease')} ${releaseIn} ${t(
         'at',
-      )} ${releaseTime}`;
+      )}\u00A0${releaseTime}`;
     } else {
       result = t('share:leaderWillRelease');
     }

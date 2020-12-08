@@ -33,6 +33,8 @@
     },
     "common": {
         "yourAdventure": "Your Adventure",
+        "appleSignInDeletedTile": "We can't find your account!",
+        "appleSignInDeletedBody": "There is no account matching your Apple ID. Follow our Help Guide to resolve this issue.",
         "adventure": "Adventure",
         "adventureWith": "Adventure with",
         "oldConversationsCreateAccount": "You need to create an account before requesting your conversations.",
@@ -74,6 +76,7 @@
         "friend": "Friend",
         "getStarted": "Get Started",
         "giveAccess": "Give Access",
+        "getHelp": "Get Help",
         "gotIt": "Got it!",
         "great": "Great!",
         "haveAccount": "Already have an account?",
@@ -476,7 +479,10 @@
         "reportedBy":"Reported by:",
         "block":"Block",
         "allow":"Allow",
-        "releaseNow":"Release Now!"
+        "releaseNow":"Release Now!",
+        "releaseNowModalTitle":"Release Now",
+        "releaseNowModalText":"This Video will be released now to\u00A0all\u00A0members.",
+        "release":"Release"
     },
     "share": {
         "previewLinkReady": "{{name}}\u2019s invite is ready! The link below shares the Adventure trailer for {{name}} to watch and decide on joining you.",
@@ -518,11 +524,11 @@
         "errorCreating": "Sorry, there was an error creating the conversation. Please try again.",
         "friend": "friend",
         "friendCheckOut": "Hi {{name}}, check out this video {{url}}",
-        "linkReady": "Your link is ready! Hit share and choose how you want to send it.",
+        "linkReady": "Your link is ready! Hit share and choose how you want to\u00A0send\u00A0it.",
         "noNeed": "- (they don't need to have Voke)",
         "who": "Who do you want to share",
         "with": "with?",
-        "leaderWillRelease": "Your leader will release the next video",
+        "leaderWillRelease": "Your leader will release the\u00A0next\u00A0video",
         "howSharingWorks": "Tell me how sharing works"
     }
 }

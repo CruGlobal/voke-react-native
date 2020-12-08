@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import lodash from 'lodash';
 import { useTranslation } from 'react-i18next';
+import { TAdventureSingle, TAvailableAdventure } from 'utils/types';
 
 import Image from '../Image';
 import Touchable from '../Touchable';
@@ -12,7 +13,6 @@ import Text from '../Text';
 import OldButton from '../OldButton';
 import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
-import { TAdventureSingle, TAvailableAdventure } from '../../types';
 import { RootState } from '../../reducers';
 import Button from '../Button';
 
@@ -148,11 +148,7 @@ function AvailableAdventureItem(
                 touchableStyle={styles.shareIcon}
                 testID={'ctaShareIcon'}
               >
-                <VokeIcon
-                  type="image"
-                  name="to-chat"
-                  style={styles.inviteIcon}
-                />
+                <VokeIcon name="share" style={styles.inviteIcon} />
               </OldButton>
             )}
           </Flex>

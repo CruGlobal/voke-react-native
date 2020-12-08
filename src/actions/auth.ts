@@ -10,14 +10,12 @@ import {
   GraphRequest,
   AccessToken,
 } from 'react-native-fbsdk';
-
-import CONSTANTS, { REDUX_ACTIONS } from '../constants';
-import { isArray } from '../utils';
+import CONSTANTS, { REDUX_ACTIONS } from 'utils/constants';
+import { appleAuth } from '@invertase/react-native-apple-authentication';
+import request from 'actions/utils';
 
 import ROUTES from './routes';
-import request from './utils';
 import {
-  getDevices,
   revokeAuthToken,
   setUser,
   getMyAdventures,
@@ -25,19 +23,90 @@ import {
   getAdventureStepMessages,
   getNotifications,
   getAdventureSteps,
+  getAvailableAdventures,
 } from './requests';
-
 import { openSocketAction, closeSocketAction } from './socket';
 import {
   permissionsAndNotifications,
   setAppIconBadgeNumber,
 } from './notifications';
 
+/**
+ * Update user's data on the server
+ * and then download it back to refresh a local store.
+ *
+ * @param {object} data - user data to update.
+ */
+export function updateMe(data) {
+  console.log('🔄 auth > updateMe()', { data });
+  return async (dispatch, getState) => {
+    const userId = getState().auth.user.id;
+    if (!userId) return;
+    // Additional transformations if updating with new avatar.
+    if (data.avatar) {
+      data = {
+        name: 'me[avatar]',
+        filename: data.avatar.fileName,
+        type: 'image/jpeg',
+        data: RNFetchBlob.wrap(data.avatar.uri.uri.replace('file://', '')),
+      };
+    }
+
+    return dispatch(
+      request({ ...ROUTES.UPDATE_ME, pathParams: { userId }, data }),
+    ).then(
+      userData => {
+        // Update redux store with data received.
+        return dispatch(setUser(userData));
+      },
+      error => {
+        console.log('🛑 Error while updating the user.', error);
+        throw error;
+      },
+    );
+  };
+}
 
 export function loginAction(authToken) {
   // const authToken = authData.access_token;
   return async dispatch => {
     await dispatch({ type: REDUX_ACTIONS.LOGIN, authToken });
+  };
+}
+
+// Check current system language against the one already stored.
+// Update it on the server if different.
+export function checkCurrentLanguage() {
+  return async (dispatch, getState): void => {
+    const languageStored = getState().auth.language;
+    const languageCurrent = (
+      getLocales()[0]?.languageCode || 'EN'
+    ).toUpperCase();
+
+    if (languageStored !== languageCurrent) {
+      const { user } = getState().auth;
+      const userData = {
+        me: {
+          ...user,
+          /* eslint-disable @typescript-eslint/camelcase, camelcase */
+          timezone_name: getTimeZone(),
+          /* eslint-disable @typescript-eslint/camelcase, camelcase */
+          country_code: getCountry(),
+          language: {
+            /* eslint-disable @typescript-eslint/camelcase, camelcase */
+            language_code: languageCurrent,
+          },
+        },
+      };
+
+      try {
+        // Update Existing Account.
+        await dispatch(updateMe(userData));
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.log('🛑 Error updating the user details \n', e);
+      }
+    }
   };
 }
 
@@ -50,6 +119,10 @@ export function startupAction() {
     await dispatch(permissionsAndNotifications());
     // Get notifications every time sockets connections reestablished.
     await dispatch(getNotifications());
+    // Update available adventures on app start.
+    await dispatch(getAvailableAdventures());
+    // Check if the system language changed.
+    dispatch(checkCurrentLanguage());
   };
 }
 
@@ -321,6 +394,135 @@ export function facebookLogin() {
   };
 }
 
+export function appleLoginAction({
+  email,
+  firstName,
+  lastName,
+  identityToken,
+  appleUser,
+}: {
+  email: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  identityToken: string;
+  appleUser: string;
+}) {
+  return async (dispatch, getState) => {
+    const data = {
+      assertion: appleUser,
+      // eslint-disable-next-line @typescript-eslint/camelcase, camelcase
+      user_data: {
+        token: identityToken,
+        email: email,
+        // eslint-disable-next-line @typescript-eslint/camelcase, camelcase
+        first_name: firstName,
+        // eslint-disable-next-line @typescript-eslint/camelcase, camelcase
+        last_name: lastName,
+      },
+      // eslint-disable-next-line @typescript-eslint/camelcase, camelcase
+      anonymous_user_id: '',
+    };
+    // It tells the server to merge anonymous_user_id with provided logins.
+    const userId: string = getState().auth.user.id || '';
+    if (userId) {
+      // eslint-disable-next-line @typescript-eslint/camelcase, camelcase
+      data.anonymous_user_id = userId;
+    }
+
+    return dispatch(request({ ...ROUTES.APPLE_SIGNIN, data })).then(
+      authData => {
+        LOG('🔑 Apple APPLE_SIGNIN results:\n', authData);
+        logoutAction(); // Received login response reset local state (logout).
+        dispatch(loginAction(authData.access_token)); // Add user data to state.
+        return dispatch(getMeAction()); // Download user details from the server
+      },
+      error => {
+        LOG('🛑 appleLoginAction > Login error', error);
+        throw error;
+      },
+    );
+  };
+}
+
+export function appleSignIn() {
+  return async dispatch => {
+    // 1. - Performs login request
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+    });
+
+    const {
+      /**
+       * https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_rest_api/authenticating_users_with_sign_in_with_apple
+       *
+       * An opaque user ID associated with the AppleID used for the sign in.
+       * This identifier will be stable across the 'developer team',
+       * it can later be used as an input to @{AppleAuthRequest}
+       * to request user contact information.
+       *
+       * The identifier will remain stable as long as the user is connected
+       * with the requesting client. The value may change upon user
+       * disconnecting from the identity provider.
+       *
+       * Use it instead of an email address to identify the user in your app.
+       */
+      user,
+      /**
+       * A JSON Web Token (JWT) used to communicate information about
+       * the identity of the user in a secure way to the app.
+       *
+       * The ID token contains the following information signed
+       * by Apple's identity service:
+       *  - Issuer Identifier
+       *  - Subject Identifier
+       *  - Audience
+       *  - Expiry Time
+       *  - Issuance Time
+       */
+      identityToken,
+      fullName,
+      email,
+      // nonce,
+      // realUserStatus,
+      // authorizationCode,
+    } = appleAuthRequestResponse;
+
+    /**
+     * 2. - Get current authentication state for user
+     * (to ensure the user is authenticated)
+     * /!\ This method must be tested on a real device.
+     * On the iOS simulator it always throws an error.
+     */
+    const credentialState = await appleAuth.getCredentialStateForUser(
+      appleAuthRequestResponse.user,
+    );
+
+    // 3. - Login on the server using Apple identity token.
+    if (credentialState === appleAuth.State.AUTHORIZED && identityToken) {
+      const result = await dispatch(
+        appleLoginAction({
+          email,
+          firstName: fullName?.givenName || null,
+          lastName: fullName?.familyName || null,
+          identityToken,
+          appleUser: user,
+        }),
+      );
+      // User is authenticated.
+      return result.user;
+    } else {
+      // Apple signin failed.
+      LOG(
+        '🛑 Apple SignIn cancelled. Returned (credentialState, identityToken):',
+        credentialState,
+        identityToken,
+      );
+      return false;
+    }
+  };
+}
+
 export function passwordResetAction(email) {
   return async (dispatch, getState) => {
     try {
@@ -456,43 +658,6 @@ export function deleteAccountAction() {
         // eslint-disable-next-line no-console
         console.log('🛑 Delete account error', error);
         // return;
-      },
-    );
-  };
-}
-
-/**
- * Update user's data on the server
- * and then download it back to refresh a local store.
- *
- * @param {object} data - user data to update.
- */
-export function updateMe(data) {
-  console.log('🔄 auth > updateMe()', { data });
-  return async (dispatch, getState) => {
-    const userId = getState().auth.user.id;
-    if (!userId) return;
-    // Additional transformations if updating with new avatar.
-    if (data.avatar) {
-      data = {
-        name: 'me[avatar]',
-        filename: data.avatar.fileName,
-        type: 'image/jpeg',
-        data: RNFetchBlob.wrap(data.avatar.uri.uri.replace('file://', '')),
-      };
-    }
-
-    return dispatch(
-      request({ ...ROUTES.UPDATE_ME, pathParams: { userId }, data }),
-    ).then(
-      userData => {
-        console.log('User update result:\n', userData);
-        // Update redux store with data received.
-        return dispatch(setUser(userData));
-      },
-      error => {
-        console.log('🛑 Error while updating the user.', error);
-        throw error;
       },
     );
   };

@@ -390,7 +390,7 @@
 				INFOPLIST_FILE = Voke/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 5.6.5;
+				MARKETING_VERSION = 5.6.6;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -398,7 +398,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.cru.voke;
 				PRODUCT_NAME = Voke;
-				PROVISIONING_PROFILE_SPECIFIER = "Voke - Development";
+				PROVISIONING_PROFILE_SPECIFIER = "Voke - Dev 2020-11-16";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -417,7 +417,7 @@
 				INFOPLIST_FILE = Voke/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 5.6.5;
+				MARKETING_VERSION = 5.6.6;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

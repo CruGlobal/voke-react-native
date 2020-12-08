@@ -2,10 +2,10 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FlatList } from 'react-native';
 import SkeletonContent from 'react-native-skeleton-content-nonexpo';
+import theme from 'utils/theme';
+import { TDataState } from 'utils/types';
 
 import { RootState } from '../../reducers';
-import theme from '../../theme';
-import { TDataState } from '../../types';
 import { getAdventureSteps } from '../../actions/requests';
 import AdventureStepCard from '../AdventureStepCard';
 

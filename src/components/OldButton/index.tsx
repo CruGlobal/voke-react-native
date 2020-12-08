@@ -7,8 +7,9 @@ import {
   ViewStyle,
   TextStyle,
 } from 'react-native';
+import st from 'utils/st';
+
 import Touchable from '../Touchable';
-import st from '../../st';
 
 type ButtonProps = {
   onPress?: Function;
@@ -40,12 +41,11 @@ const OldButton = ({
   const [clickDisabled, setClickDisabled] = useState(false);
   let clickDisableTimeout = null;
 
-
   useEffect(() => {
     return () => {
       clearTimeout(clickDisableTimeout);
-    }
-  }, [])
+    };
+  }, []);
 
   function handlePress() {
     setClickDisabled(true);
@@ -78,12 +78,7 @@ const OldButton = ({
       onPress={isDisabled ? () => {} : () => handlePress()}
       testID={testID}
     >
-      <View
-        style={[
-          disabled || isLoading ? [ st.bw0, st.aic] : [],
-          style,
-        ]}
-      >
+      <View style={[disabled || isLoading ? [st.bw0, st.aic] : [], style]}>
         {content}
       </View>
     </Touchable>

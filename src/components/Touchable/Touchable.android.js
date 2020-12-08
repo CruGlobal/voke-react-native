@@ -1,5 +1,5 @@
 import React, { useState, forwardRef } from 'react';
-import { useMount } from '../../utils';
+import { useMount } from 'utils';
 import {
   TouchableOpacity,
   TouchableNativeFeedback,
@@ -25,7 +25,7 @@ const TouchableAndroid = forwardRef(
     const [clickDisabled, setClickDisabled] = useState(false);
     let clickDisableTimeout;
 
-    useMount(() => () => clearTimeout(clickDisableTimeout));
+    useMount(() => clearTimeout(clickDisableTimeout));
 
     function handlePress(...args) {
       /* if (clickDisabled) {

@@ -6,12 +6,12 @@ import { useTranslation } from 'react-i18next';
 import { Linking, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import { bots } from 'assets';
+import theme from 'utils/theme';
 
 import Text from '../Text';
-import theme from '../../theme';
 import useCheckUpdate from '../../hooks/useCheckUpdate';
 import Button from '../Button';
-import UkeBot from '../../assets/UkeBot.png';
 import Image from '../Image';
 import useStoreUrl from '../../hooks/useStoreUrl';
 import { remindToUpdate } from '../../actions/info';
@@ -80,7 +80,7 @@ function ModalAppUpdate(): ReactElement {
             <Text style={styles.modalTitle}>{t('newImproved')}</Text>
             <Image
               resizeMode="contain"
-              source={UkeBot}
+              source={bots.uke}
               style={{
                 height: 106,
                 width: 106,

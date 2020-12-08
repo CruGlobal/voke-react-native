@@ -9,7 +9,7 @@ class CustomDetoxEnvironment extends DetoxCircusEnvironment {
     super(config);
 
     // Can be safely removed, if you are content with the default value (=300000ms)
-    this.initTimeout = 60000;
+    this.initTimeout = 400000; // 5 mins max.
 
     // This takes care of generating status logs on a per-spec basis. By default, Jest only reports at file-level.
     // This is strictly optional.
