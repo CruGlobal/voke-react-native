@@ -1,7 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-
-import theme from '../../theme';
+import theme from 'utils/theme';
 
 interface Props {
   isFilled: boolean;

@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
-
-import theme from '../../theme';
+import theme from 'utils/theme';
 
 const stylesShared = {
   card: {
@@ -17,7 +16,7 @@ const styles = StyleSheet.create({
   },
   card: {
     ...stylesShared.card,
-    backgroundColor: theme.colors.lightGrey,
+    backgroundColor: theme.colors.white,
   },
   cardLocked: {
     ...stylesShared.card,
@@ -25,7 +24,7 @@ const styles = StyleSheet.create({
   },
   cardNext: {
     ...stylesShared.card,
-    backgroundColor: theme.colors.white,
+    backgroundColor: 'rgba(255,255,255,0.75)',
   },
   cardGraduated: {
     ...stylesShared.card,
@@ -109,7 +108,7 @@ const styles = StyleSheet.create({
     borderRadius: 99,
     borderWidth: 2,
     borderColor: theme.colors.white,
-  }
+  },
 });
 
 export default styles;

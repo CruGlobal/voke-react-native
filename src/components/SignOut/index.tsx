@@ -7,14 +7,15 @@ import {
   ViewStyle,
   TextStyle,
 } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import theme from 'utils/theme';
+import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
+
 import Flex from '../Flex';
 import OldButton from '../OldButton';
 import Touchable from '../Touchable';
-import { useDispatch,useSelector } from 'react-redux';
-import theme from '../../theme';
 import { logoutAction } from '../../actions/auth';
-import { useNavigation } from '@react-navigation/native';
-import { useTranslation } from 'react-i18next';
 
 type SignOutProps = {
   onPress?: Function;
@@ -51,8 +52,8 @@ const SignOut = ({
   useEffect(
     () =>
       (cleanUp = () => {
-      clearTimeout(clickDisableTimeout);
-    }),
+        clearTimeout(clickDisableTimeout);
+      }),
     [],
   );
 
@@ -65,41 +66,49 @@ const SignOut = ({
   }
 
   return (
-    <>{!!email && (<OldButton
-      isAndroidOpacity={true}
-      onPress={
-        () => dispatch(logoutAction()).then(() => {
-          // Navigate back to the very first screen.
-          // 🤦🏻‍♂️Give React 10ms to render WelcomeApp component.
-          setTimeout(() => {
-            navigation.reset({
-              index: 1,
-              routes: [{ name: 'Welcome' }],
-            });
-          }, 10);
-        })
-      }
-      style={{
-        /* padding: theme.spacing.m, */
-      }}
-      testID={"ctaSignOut"}
-    >
-      <Flex
-        // value={1}
-        direction="row"
-        align="center"
-        justify="center"
-      >
-        <Text
-          style={{
-            padding: theme.spacing.m,
-            color:  theme.colors.white,
-            fontSize:  theme.fontSizes.l,
-            paddingTop: 12
-          }}
-        >{t('signOut')}</Text>
-      </Flex>
-    </OldButton>)}</>
+    <>
+      {!!email && (
+        <OldButton
+          isAndroidOpacity={true}
+          onPress={() =>
+            dispatch(logoutAction()).then(() => {
+              // Navigate back to the very first screen.
+              // 🤦🏻‍♂️Give React 10ms to render WelcomeApp component.
+              setTimeout(() => {
+                navigation.reset({
+                  index: 1,
+                  routes: [{ name: 'Welcome' }],
+                });
+              }, 10);
+            })
+          }
+          style={
+            {
+              /* padding: theme.spacing.m, */
+            }
+          }
+          testID={'ctaSignOut'}
+        >
+          <Flex
+            // value={1}
+            direction="row"
+            align="center"
+            justify="center"
+          >
+            <Text
+              style={{
+                padding: theme.spacing.m,
+                color: theme.colors.white,
+                fontSize: theme.fontSizes.l,
+                paddingTop: 12,
+              }}
+            >
+              {t('signOut')}
+            </Text>
+          </Flex>
+        </OldButton>
+      )}
+    </>
   );
 };
 export default SignOut;

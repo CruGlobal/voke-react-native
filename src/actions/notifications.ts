@@ -6,10 +6,10 @@ import DeviceInfo from 'react-native-device-info';
 
 import { ThunkDispatch } from 'redux-thunk';
 import { checkNotifications, openSettings } from 'react-native-permissions';
+import { REDUX_ACTIONS } from 'utils/constants';
 
 import * as RootNavigation from '../RootNavigation';
-import { REDUX_ACTIONS } from '../constants';
-import st from '../st';
+import st from 'utils/st';
 
 import { establishPushDevice, establishCableDevice } from './requests';
 

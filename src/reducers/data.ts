@@ -1,9 +1,8 @@
 import { normalize, schema } from 'normalizr';
 import lodash from 'lodash';
-
-import { REDUX_ACTIONS } from '../constants';
-import { exists } from '../utils';
-import { TDataState } from '../types';
+import { REDUX_ACTIONS } from 'utils/constants';
+import { TDataState } from 'utils/types';
+import { exists } from 'utils';
 
 export type DataKeys =
   | 'availableAdventures'

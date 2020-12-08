@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
-
-import theme from '../../theme';
+import theme from 'utils/theme';
 
 const sharedStyles = {
   message: {
@@ -26,9 +25,9 @@ const sharedStyles = {
     textAlign: 'center',
     // Extra spacing for body text.
     paddingHorizontal: theme.spacing.s,
-    paddingBottom: theme.spacing.s,
+    paddingBottom: theme.spacing.m,
   },
-}
+};
 
 const styles = StyleSheet.create({
   BotContainer: {
@@ -41,7 +40,6 @@ const styles = StyleSheet.create({
     maxWidth: 440,
   },
 
-
   BotMessage: {
     ...sharedStyles.message,
   },
@@ -51,8 +49,6 @@ const styles = StyleSheet.create({
   BotText: {
     ...sharedStyles.text,
   },
-
-
 
   BotOverlayMessage: {
     ...sharedStyles.message,
@@ -66,10 +62,6 @@ const styles = StyleSheet.create({
     ...sharedStyles.text,
     color: theme.colors.secondary,
   },
-
-
-
-
 
   BotCharacter: {
     alignSelf: 'flex-start', // For tablets.
@@ -85,22 +77,22 @@ const styles = StyleSheet.create({
     transform: [{ rotate: '-90deg' }],
     zIndex: -1,
   },
-  BotMessage_reverse: {
+  BotMessage_uke: {
     width: '100%',
     backgroundColor: theme.colors.white,
     padding: theme.spacing.l,
     borderRadius: theme.radius.m,
   },
-  BotText_reverse: {
+  BotText_uke: {
     color: theme.colors.secondary,
     fontSize: theme.fontSizes.l,
     lineHeight: theme.fontSizes.l * 1.4,
     textAlign: 'center',
   },
-  BotImage_reverse: {
-    marginLeft: -50,
-    marginTop: -25,
-    marginBottom: -25,
+  BotImage_uke: {
+    marginLeft: -90,
+    marginTop: -30,
+    marginBottom: -30,
     zIndex: -1,
   },
 

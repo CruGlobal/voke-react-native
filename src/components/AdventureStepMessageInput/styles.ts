@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
-
-import theme from '../../theme';
+import theme from 'utils/theme';
 
 const stylesShared = {
   answerText: {
@@ -8,8 +7,8 @@ const stylesShared = {
     paddingVertical: theme.spacing.m,
     fontSize: theme.fontSizes.l,
     color: theme.colors.secondary,
-  }
-}
+  },
+};
 
 const styles = StyleSheet.create({
   buttonSend: {
@@ -40,7 +39,7 @@ const styles = StyleSheet.create({
   answerTextLoading: {
     ...stylesShared.answerText,
     opacity: 0,
-  }
+  },
 });
 
 export default styles;

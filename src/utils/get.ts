@@ -1,14 +1,8 @@
 // Tiny get utility functions.
 import { useSelector } from 'react-redux';
-import moment, { Moment } from 'moment';
-
-import { RootState } from '../reducers';
-import {
-  TAdventureSingle,
-  TAdventureSteps,
-  TAdventureStepSingle,
-} from '../types';
-import VersionCheck from 'react-native-version-check';
+import moment from 'moment';
+import { RootState } from 'reducers';
+import { TAdventureSingle } from 'utils/types';
 
 // Get Single Adventure by Id.
 export function getAdventureById(adventureId: string): TAdventureSingle {
@@ -40,12 +34,13 @@ export function getNextReleaseDate({ startDate, releasePeriod }): string {
     const timesReleased = Math.abs(
       Math.round(diffDurationDays / releasePeriod),
     );
-    const lastReleaseDaysAgo = timesReleased * releasePeriod + diffDurationDays;
-    daysStartToNext = lastReleaseDaysAgo + releasePeriod;
+    // const lastReleaseDaysAgo = timesReleased * releasePeriod + diffDurationDays;
+    // daysStartToNext = lastReleaseDaysAgo + releasePeriod;
+    daysStartToNext = timesReleased * releasePeriod + releasePeriod;
   }
   // If daily release and released today and next release is today.
   // Set daysStartToNext to zero.
-  if (releasePeriod === 1) {
+  if (releasePeriod === 1 && diffDurationDays === 0) {
     // Extract Release Time Only.
     const releaseTime = moment(startDate).format('h:mm A');
     // Add Release Time to Today's date.
@@ -58,6 +53,7 @@ export function getNextReleaseDate({ startDate, releasePeriod }): string {
 
     // Check if Today's release is in the past or in the future.
     const releaseTodayDiff = moment(releaseToday).diff(moment());
+
     if (releaseTodayDiff > 0) {
       // If Toda's release didn't happed yet, son't add extra days.
       daysStartToNext = 0;
@@ -72,7 +68,7 @@ export function getDiffToDate(date: string): string {
 }
 
 export function getTimeToDate(date: string): string {
-  return moment(date).format('h:mm a');
+  return moment(date).format('h:mm[\u00A0]a');
 }
 
 export function getExpiredTime(

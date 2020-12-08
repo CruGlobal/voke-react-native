@@ -12,7 +12,7 @@ import Flex from '../Flex';
 import Text from '../Text';
 import OldButton from '../OldButton';
 import VokeIcon from '../VokeIcon';
-import theme from '../../theme';
+import theme from 'utils/theme';
 
 const NotificationBanner = (): React.ReactElement => {
   const navigation = useNavigation();

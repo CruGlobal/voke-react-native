@@ -1,17 +1,19 @@
 import React from 'react';
+import moment from 'moment';
+import { useNavigation } from '@react-navigation/native';
+import theme from 'utils/theme';
+import { useTranslation } from 'react-i18next';
+import { useWindowDimensions } from 'react-native';
+import st from 'utils/st';
+import { momentUtc } from 'utils';
+import { bots } from 'assets';
+
 import Image from '../Image';
-import st from '../../st';
 import Flex from '../Flex';
 import Text from '../Text';
 import Touchable from '../Touchable';
-import moment from 'moment';
-import { momentUtc } from '../../utils';
 import DateComponent from '../DateComponent';
 import VokeIcon from '../VokeIcon';
-import { useNavigation } from '@react-navigation/native';
-import theme from '../../theme';
-import { useTranslation } from 'react-i18next';
-import { useWindowDimensions } from 'react-native';
 
 function renderText(item) {
   const notification = item;
@@ -19,19 +21,12 @@ function renderText(item) {
   if (!notification || !notification.content) return null;
   return (
     <Flex
-      style={[
-        st.ph4, st.pv5, st.br5, st.ml0, st.bgWhite]}
+      style={[st.ph4, st.pv5, st.br5, st.ml0, st.bgWhite]}
       direction="row"
       align="center"
       justify="start"
     >
-      <Text
-        selectable={true}
-        style={[
-          st.fs16,
-          st.lh(22)
-        ]}
-      >
+      <Text selectable={true} style={[st.fs16, st.lh(22)]}>
         {notification.content}
       </Text>
     </Flex>
@@ -50,23 +45,26 @@ function renderVideoImage(message, onSelectVideo) {
       activeOpacity={0.7}
       onPress={() => onSelectVideo(message)}
       style={{
-          width: '100%',
-          marginBottom: 20,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
+        width: '100%',
+        marginBottom: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
     >
       <Image
         resizeMode="cover"
         source={{ uri: thumbnail }}
-        style={[{width: '100%'}, st.h(VIDEO_HEIGHT), st.br5]}
+        style={[{ width: '100%' }, st.h(VIDEO_HEIGHT), st.br5]}
       />
       <VokeIcon
         name="play-full"
         size={40}
-        style={[{
-          color: 'rgba(255,255,255,0.75)'
-        }, st.abs]}
+        style={[
+          {
+            color: 'rgba(255,255,255,0.75)',
+          },
+          st.abs,
+        ]}
       />
     </Touchable>
   );
@@ -76,8 +74,13 @@ function renderVideoAndText(message, onSelectVideo, handleShare) {
   if (!message || !message.content) return null;
 
   return (
-    <Flex direction="column" style={{width: '100%'}}>
-      <Flex direction="row" align="center" justify="start" style={{width: '100%'}}>
+    <Flex direction="column" style={{ width: '100%' }}>
+      <Flex
+        direction="row"
+        align="center"
+        justify="start"
+        style={{ width: '100%' }}
+      >
         {renderVideoImage(message, onSelectVideo)}
         {renderShareVideo(handleShare)}
       </Flex>
@@ -91,7 +94,7 @@ function renderVideoAndText(message, onSelectVideo, handleShare) {
 }
 
 function renderShareVideo(handleShare) {
-  const SIZE = 55;
+  const SIZE = 30;
   return (
     <Touchable
       isAndroidOpacity={true}
@@ -100,17 +103,19 @@ function renderShareVideo(handleShare) {
       style={{
         position: 'absolute',
         right: SIZE * -0.5,
-        width: SIZE * 1.25,
-        height: SIZE * 1.25,
+        width: SIZE * 1.5,
+        height: SIZE * 1.5,
+        borderRadius: SIZE,
+        backgroundColor: theme.colors.primary,
+        alignItems: 'center',
+        justifyContent: 'center',
+        ...theme.shadow,
       }}
     >
       <VokeIcon
-        name="to-chat"
-        type="image"
+        name="share"
         style={{
-          width: SIZE,
-          height: SIZE,
-          borderRadius: SIZE / 2,
+          fontSize: SIZE,
           color: theme.colors.white,
         }}
       />
@@ -143,12 +148,8 @@ function NotificationItem({ item, onSelectVideo }) {
   const isVideoAndText =
     message.item && message.content && message.kind !== 'question';
   const time = message.created_at;
-  const momentTime = momentUtc(time)
-    .local()
-    .format('LL');
-  const momentNow = moment()
-    .local()
-    .format('LL');
+  const momentTime = momentUtc(time).local().format('LL');
+  const momentNow = moment().local().format('LL');
   const separatorTime = momentTime === momentNow ? t('today') : momentTime;
   if (message.kind === 'answer') return null;
   let content;
@@ -161,30 +162,26 @@ function NotificationItem({ item, onSelectVideo }) {
   }
 
   return (
-    <Flex direction="column" style={{ }} align={'start'}>
+    <Flex direction="column" style={{}} align={'start'}>
       <Flex align="center" justify="center" style={[st.asc, st.pv5]}>
         <Text style={[st.fs12, st.white]}>{separatorTime}</Text>
       </Flex>
       <Flex
         direction="row"
         style={{
-          width:'100%',
-          paddingHorizontal: theme.spacing.m
-        }}>
-        <Flex self="end" align='center' style={{}}>
-          <Flex value={1}></Flex>
-          <Flex style={{paddingRight: 10,}}>
-            <VokeIcon
-              name="vokebot_avatar"
-              type="image"
-              style={[
-                {
-                  // position: 'absolute',
-                },
-                st.w(30),
-                st.h(30),
-                st.white
-              ]}
+          width: '100%',
+          paddingHorizontal: theme.spacing.m,
+        }}
+      >
+        <Flex self="end" align="center" style={{}}>
+          <Flex value={1} />
+          <Flex style={{ paddingRight: 10 }}>
+            <Image
+              source={bots.avatar}
+              style={{
+                width: 36,
+                height: 36,
+              }}
             />
           </Flex>
           <Flex
@@ -211,16 +208,14 @@ function NotificationItem({ item, onSelectVideo }) {
                   paddingRight: 6,
                 },
                 st.fs12,
-                st.white
+                st.white,
               ]}
               date={message.created_at}
               format="h:mm A"
             />
           </Flex>
         </Flex>
-        <Flex value={1}>
-          {content}
-        </Flex>
+        <Flex value={1}>{content}</Flex>
       </Flex>
     </Flex>
   );

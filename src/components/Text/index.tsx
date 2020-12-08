@@ -1,10 +1,18 @@
 import React, { forwardRef } from 'react';
 import { Text as RNText, StyleProp, TextStyle } from 'react-native';
-import st from '../../st';
+import st from 'utils/st';
 
 const Text = forwardRef(
   (
-    { children, style, ...rest }: { children: React.ReactNode; style: StyleProp<TextStyle>; [x:string]: any },
+    {
+      children,
+      style,
+      ...rest
+    }: {
+      children: React.ReactNode;
+      style: StyleProp<TextStyle>;
+      [x: string]: any;
+    },
     ref: React.Ref<RNText>,
   ) => {
     return (

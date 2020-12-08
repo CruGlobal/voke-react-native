@@ -3,16 +3,16 @@ import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import theme from 'utils/theme';
 
 import { requestPremissions } from '../../actions/auth';
 import Flex from '../Flex';
 import Text from '../Text';
-import theme from '../../theme';
 import OldButton from '../OldButton';
 import BotTalking from '../BotTalking';
+import Screen from '../Screen';
 
 import styles from './styles';
-import Screen from '../Screen';
 
 // Renders Cards on this screen https://d.pr/i/WsCCf2
 function ModalNotifications({ closeAction }): React.ReactElement {
@@ -38,7 +38,7 @@ function ModalNotifications({ closeAction }): React.ReactElement {
       {/* ScrollView bounces={false} */}
       <Flex style={styles.container} direction="column" align="center">
         <View style={{ minHeight: theme.spacing.xl }} />
-        <BotTalking type="reverse">
+        <BotTalking type="uke">
           {t('overlays:playUkulele', { name: me.firstName })}
         </BotTalking>
         <OldButton

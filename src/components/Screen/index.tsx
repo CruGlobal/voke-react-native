@@ -74,6 +74,7 @@ Props): React.ReactElement => {
     >
       {/* Makes possible to hide keyboard when tapping outside. */}
       <ScrollView
+        // Makes elements inside responsive on the first tap.
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={styles.scrollView}
         scrollEnabled={layout !== 'embed'}

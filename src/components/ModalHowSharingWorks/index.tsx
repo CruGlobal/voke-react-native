@@ -2,70 +2,29 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 import Image from 'react-native-scalable-image';
+import { tutorials } from 'assets';
+import theme from 'utils/theme';
+import st from 'utils/st';
+import Screen from 'components/Screen';
 
 import Flex from '../Flex';
 import Text from '../Text';
-import st from '../../st';
-import theme from '../../theme';
 import OldButton from '../OldButton';
 import BotTalking from '../BotTalking';
-import ModalSharingCode from '../../assets/ModalSharingCode.png';
-import ModalSharingLink from '../../assets/ModalSharingLink.png';
-import ModalSharingNotification from '../../assets/ModalSharingNotification.png';
-import ModalSharingPersonalize from '../../assets/ModalSharingPersonalize.png';
 
 // Renders Cards on this screen https://d.pr/i/WsCCf2
 function ModalHowSharingWorks({ closeAction }): React.ReactElement {
   const { t } = useTranslation('modal');
 
   return (
-    <ScrollView bounces={false} scrollIndicatorInsets={{ right: 1 }}>
+    <Screen background={'transparent'} testID="sharingTutorial">
+      <View style={{ minHeight: theme.spacing.xl }} />
       <Flex
         style={{ justifyContent: 'space-between', width: '100%' }}
         direction="column"
         align="center"
       >
-        <BotTalking
-          type="overlay"
-          /* heading={
-                  t('howSharingWorks')
-                } */
-        >
-          {t('howSharingWorksBotBody')}
-        </BotTalking>
-        <Flex value={1} style={{ marginTop: -15 }}>
-          {/* <OldButton
-                  isAndroidOpacity={true}
-                  style={[
-                    st.pd4,
-                    st.bgBlue,
-                    st.mb4,
-                    st.br6,
-                    st.w(st.fullWidth - 120),
-                  ]}
-                  onPress={() => primaryAction()}
-                >
-                  <Flex direction="row" align="center" justify="center">
-                    <Text style={[st.white, st.fs20]}>{t('getStarted')}</Text>
-                  </Flex>
-                </OldButton> */}
-          {/* <OldButton
-                  isAndroidOpacity={true}
-                  style={[
-                    st.pd4,
-                    st.mb3,
-                    st.br6,
-                    st.w(st.fullWidth - 120),
-                    st.bw1,
-                    {borderColor: "white"}
-                  ]}
-                  onPress={() => toggleModal()}
-                >
-                  <Flex direction="row" align="center" justify="center">
-                    <Text style={[st.white, st.fs20]}>{t('cancel')}</Text>
-                  </Flex>
-                </OldButton> */}
-        </Flex>
+        <BotTalking type="overlay">{t('howSharingWorksBotBody')}</BotTalking>
         <View style={{ minHeight: theme.spacing.xl }} />
         <Flex align="center" justify="center">
           <>
@@ -76,7 +35,7 @@ function ModalHowSharingWorks({ closeAction }): React.ReactElement {
               justify="center"
               style={{ marginVertical: 10, marginHorizontal: 20 }}
             >
-              <Image width={130} source={ModalSharingLink} />
+              <Image width={130} source={tutorials.link} />
               <Text
                 style={{
                   fontSize: 18,
@@ -106,7 +65,7 @@ function ModalHowSharingWorks({ closeAction }): React.ReactElement {
               >
                 {t('howSharingWorksPersonalize')}
               </Text>
-              <Image width={130} source={ModalSharingPersonalize} />
+              <Image width={130} source={tutorials.personalize} />
             </Flex>
             <Flex
               direction="row"
@@ -114,7 +73,7 @@ function ModalHowSharingWorks({ closeAction }): React.ReactElement {
               justify="center"
               style={{ marginTop: 20 }}
             >
-              <Image width={130} source={ModalSharingNotification} />
+              <Image width={130} source={tutorials.notification} />
               <Text
                 style={{
                   fontSize: 18,
@@ -144,7 +103,7 @@ function ModalHowSharingWorks({ closeAction }): React.ReactElement {
               >
                 {t('howSharingWorksLinkAccess')}
               </Text>
-              <Image width={130} source={ModalSharingCode} />
+              <Image width={130} source={tutorials.code} />
             </Flex>
           </>
           {/* <View style={{minHeight:theme.spacing.l}} /> */}
@@ -182,7 +141,7 @@ function ModalHowSharingWorks({ closeAction }): React.ReactElement {
           </Flex>
         </Flex>
       </Flex>
-    </ScrollView>
+    </Screen>
   );
 }
 

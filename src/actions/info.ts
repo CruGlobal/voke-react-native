@@ -1,6 +1,5 @@
 import { ThunkDispatch } from 'redux-thunk';
-
-import { REDUX_ACTIONS } from '../constants';
+import { REDUX_ACTIONS } from 'utils/constants';
 
 type Dispatch = ThunkDispatch<any, any, any>;
 

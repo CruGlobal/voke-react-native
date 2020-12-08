@@ -3,17 +3,17 @@ import { TextInput, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { SafeAreaView, useSafeArea } from 'react-native-safe-area-context';
 import useKeyboard from '@rnhooks/keyboard';
+import { useTranslation } from 'react-i18next';
+import st from 'utils/st';
+import theme from 'utils/theme';
+import { getCurrentUserId } from 'utils/get';
 
-import st from '../../st';
-import theme from '../../theme';
 import Flex from '../Flex';
 import OldButton from '../OldButton';
 import VokeIcon from '../VokeIcon';
 import { createAdventureStepMessage } from '../../actions/requests';
-import { getCurrentUserId } from '../../utils/get';
 
 import styles from './styles';
-import { useTranslation } from 'react-i18next';
 
 function MainMessagingInput({ adventure, step, onFocus, ...rest }) {
   const { t } = useTranslation('journey');

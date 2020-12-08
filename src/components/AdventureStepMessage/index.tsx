@@ -1,34 +1,35 @@
+/* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/camelcase */
-import React, { useMemo, useState, useRef } from 'react';
+import React, { useState, useRef, RefObject } from 'react';
 import { Image as ReactNativeImage, Platform, View } from 'react-native';
 import { BlurView } from '@react-native-community/blur';
-import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
+import Menu from 'react-native-material-menu';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+import { avatars, ui } from 'assets';
+import theme from 'utils/theme';
+import { getCurrentUserId } from 'utils/get';
+import st from 'utils/st';
+import { TAdventureSingle, TStep, TMessage, TMessenger } from 'utils/types';
 
 import { setComplain } from '../../actions/info';
 import Image from '../Image';
-import theme from '../../theme';
-import st from '../../st';
 import Text from '../Text';
 import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
-import bluredText from '../../assets/bluredText.png';
 import DateComponent from '../DateComponent';
 import AdventureStepMessageInput from '../AdventureStepMessageInput';
-import { getCurrentUserId } from '../../utils/get';
-import { TAdventureSingle, TAdventureStepSingle, TMessage } from '../../types';
 import Touchable from '../Touchable';
 
 import styles from './styles';
 
 type MessageProps = {
   item: TMessage;
-  step: TAdventureStepSingle;
+  step: TStep;
   adventure: TAdventureSingle;
-  previous: TMessage;
-  next: TMessage;
-  onFocus?: any;
+  previous: TMessage | null;
+  next: TMessage | null;
+  onFocus?: (event: unknown, answerPosY: number) => void;
 };
 
 function AdventureStepMessage({
@@ -41,65 +42,56 @@ function AdventureStepMessage({
 }: MessageProps): React.ReactElement | null {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const reportMenuRef = useRef();
+  const reportMenuRef: RefObject<Menu> = useRef(null);
   const [answerPosY, setAnswerPosY] = useState(0);
   const isAndroid = Platform.OS === 'android';
   const userId = getCurrentUserId();
-  const message = {
-    content: '',
-    conversation: {},
-    progress: {},
-    item: { content: { thumbnails: { small: '' } } },
-    messenger_id: '', // id of the user who left the message.
-    metadata: {
-      vokebot_action: '',
-      messenger_answer: '',
-      step_kind: '',
-      answers: [],
-    },
-    ...item,
-  };
 
-  const isMyMessage = message.messenger_id === userId;
-  const adminUser =
-    adventure.conversation.messengers.find(i => i.group_leader);
+  const isMyMessage = item?.messenger_id === userId;
+  const adminUser = adventure.conversation.messengers.find(i => i.group_leader);
 
-
-  const isAdminMessage = message.messenger_id === adminUser?.id;
+  const isAdminMessage = item?.messenger_id === adminUser?.id;
   const isAdmin = userId === adminUser?.id;
   // const myFirstMessage = reversed.find(m => m.messenger_id === me.id);
   if (isMyMessage && adventure.kind === 'solo') return null;
-  const isSharedAnswer = message.metadata.vokebot_action === 'share_answers';
+  const isSharedAnswer = item?.metadata?.vokebot_action === 'share_answers';
   // User who left the message.
-  const messenger =
-    adventure.conversation.messengers.find(
-      i => i.id === message.messenger_id,
-    ) || {};
+  const messenger: TMessenger = adventure.conversation.messengers.find(
+    i => i.id === item?.messenger_id,
+  ) || {
+    id: item?.messenger_id || '',
+    first_name: '',
+    last_name: '',
+    avatar: {
+      small: avatars.default,
+      medium: avatars.default,
+      large: avatars.default,
+    },
+    status: 'blocked',
+  };
 
-  const messengerAvatar = useMemo(() => messenger?.avatar?.small, [
-    messenger?.avatar?.small,
-  ]);
+  const messengerAvatar = messenger?.avatar?.small;
 
   // Blur other answers until step completed.
   const isBlured =
     !isMyMessage && // If this is not my message.
     step.status !== 'completed' && // If current step not yet completed.
-    !message.metadata.messenger_journey_step_id; // If I didn't left the message.
+    !item?.metadata?.messenger_journey_step_id; // If I didn't left the message.
 
-  const msgKind = message.metadata.step_kind;
+  const msgKind = item?.metadata?.step_kind;
   let selectedAnswer = (
-    ((message.metadata || {}).answers || []).find(i => i.selected) || {}
+    ((item?.metadata || {}).answers || []).find(i => i?.selected) || {}
   ).value;
 
   const showMessageReporting =
-    message.messenger_id !== userId && !isAdminMessage && !isBlured && !isAdmin;
+    item?.messenger_id !== userId && !isAdminMessage && !isBlured && !isAdmin;
 
   // If current message is a question box and next message is answer,
   // render next message here (https://d.pr/i/YHrv4N).
   if (
     msgKind === 'question' &&
     !selectedAnswer &&
-    message?.metadata?.vokebot_action === 'journey_step' &&
+    item?.metadata?.vokebot_action === 'journey_step' &&
     next?.content &&
     next?.direct_message
   ) {
@@ -113,9 +105,9 @@ function AdventureStepMessage({
     (previous?.metadata?.step_kind === 'question' ||
       // ... or if the previous message is a share message box
       // with the current message shared.
-      previous?.metadata?.messenger_answer === message?.content) &&
-    message?.content &&
-    message?.direct_message
+      previous?.metadata?.messenger_answer === item?.content) &&
+    item?.content &&
+    item?.direct_message
   ) {
     return null;
   }
@@ -123,7 +115,7 @@ function AdventureStepMessage({
   // SPECIAL MESSAGE: QUESTION / MULTI / BINARY / SHARE
   if (['binary', 'multi', 'question', 'share'].includes(msgKind)) {
     return (
-      <Flex
+      <View
         style={styles.mainQuestionCard}
         onLayout={({ nativeEvent }) => {
           // Calculate vertical offset to be usef on answer field focus.
@@ -148,7 +140,7 @@ function AdventureStepMessage({
               justify="center"
             >
               <Text style={[st.tac, st.white, st.fs(20), st.lh(24)]}>
-                {(message.metadata || {}).question || null}
+                {(item?.metadata || {}).question || null}
               </Text>
             </Flex>
           ) : null}
@@ -161,21 +153,21 @@ function AdventureStepMessage({
             kind={msgKind}
             adventure={adventure}
             step={step}
-            internalMessage={message}
+            internalMessage={item}
             defaultValue={selectedAnswer}
             onFocus={event => {
               onFocus(event, answerPosY);
             }}
           />
         </Flex>
-      </Flex>
+      </View>
     );
   }
 
   // REGULAR MESSAGE: TEXT
   return (
     <>
-      {!message.content && isMyMessage ? null : (
+      {!item?.content && isMyMessage ? null : (
         <Flex align="between" style={styles.messageContainer}>
           <Flex direction="column" style={styles.messageContent}>
             <Flex direction="row">
@@ -212,7 +204,7 @@ function AdventureStepMessage({
                           },
                         ]}
                       >
-                        {message.content}
+                        {item?.content}
                       </Text>
                     </Flex>
                   ) : null}
@@ -224,16 +216,16 @@ function AdventureStepMessage({
                           : isMyMessage
                           ? '#44c8e8'
                           : '#fff',
-                      opacity: message.content ? 1 : 0.5,
-                      paddingHorizontal: theme.spacing.m,
-                      paddingVertical: theme.spacing.s,
+                      opacity: item?.content ? 1 : 0.5,
+                      paddingHorizontal: theme.spacing.l,
+                      paddingVertical: theme.spacing.l,
                       fontSize: theme.fontSizes.l,
                     }}
                   >
                     {isSharedAnswer
-                      ? message.metadata.messenger_answer
-                      : message.content
-                      ? message.content
+                      ? item?.metadata?.messenger_answer
+                      : item?.content
+                      ? item?.content
                       : 'Skipped'}
                   </Text>
                 </Flex>
@@ -244,15 +236,17 @@ function AdventureStepMessage({
                     <>
                       {isAndroid && (
                         <ReactNativeImage
-                          source={bluredText}
+                          source={ui.bluredText}
                           resizeMode={'repeat'}
                           resizeMethod={'resize'}
                           style={{
-                            width: 310,
-                            height: 600,
+                            width: '92%',
+                            height: 800,
                             position: 'absolute',
-                            left: 5,
-                            top: 6,
+                            left: '4%',
+                            top: 10,
+                            // Background needed to cover name of the messenger.
+                            backgroundColor: theme.colors.secondary,
                           }}
                         />
                       )}
@@ -293,7 +287,7 @@ function AdventureStepMessage({
                   isMyMessage ? st.tar : null,
                   { fontSize: theme.fontSizes.xs },
                 ]}
-                date={message.created_at}
+                date={item?.created_at}
                 format="MMM D @ h:mm A"
               />
               {/* <Text style={styles.messageMetaActions}>・</Text> */}
@@ -307,7 +301,7 @@ function AdventureStepMessage({
                     button={
                       <Text
                         style={styles.messageMetaActions}
-                        onPress={reportMenuRef?.current?.show}
+                        onPress={reportMenuRef.current?.show}
                       >
                         {t('more')}
                       </Text>
@@ -319,12 +313,12 @@ function AdventureStepMessage({
                         if (showMessageReporting) {
                           dispatch(
                             setComplain({
-                              messageId: message.id,
+                              messageId: item?.id,
                               adventureId: adventure.id,
                             }),
                           );
                         }
-                        reportMenuRef?.current?.hide();
+                        reportMenuRef.current?.hide();
                       }}
                       style={styles.actionReport}
                     >

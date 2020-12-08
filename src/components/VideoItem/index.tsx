@@ -3,10 +3,10 @@ import { View, ImageBackground, useWindowDimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import st from 'utils/st';
+import theme from 'utils/theme';
 
 import Image from '../Image';
-import st from '../../st';
-import theme from '../../theme';
 import OldButton from '../OldButton';
 import Flex from '../Flex';
 import Text from '../Text';
@@ -126,14 +126,23 @@ const VideoItem = React.memo(
               isAndroidOpacity
               onPress={handleShare}
               activeOpacity={0.6}
-              touchableStyle={[st.abs, st.mh5, { right: 15, top: -35 }]}
+              touchableStyle={{
+                position: 'absolute',
+                justifyContent: 'center',
+                alignItems: 'center',
+                top: -35,
+                right: 15,
+                backgroundColor: theme.colors.primary,
+                width: 50,
+                height: 50,
+                borderRadius: theme.radius.xxl,
+                ...theme.shadow,
+              }}
             >
               <VokeIcon
-                type="image"
-                name="to-chat"
+                name="share"
                 style={{
-                  width: 50,
-                  height: 50,
+                  fontSize: 30,
                   borderRadius: 25,
                   color: theme.colors.white,
                 }}

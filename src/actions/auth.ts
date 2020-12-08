@@ -10,15 +10,12 @@ import {
   GraphRequest,
   AccessToken,
 } from 'react-native-fbsdk';
+import CONSTANTS, { REDUX_ACTIONS } from 'utils/constants';
 import { appleAuth } from '@invertase/react-native-apple-authentication';
-
-import CONSTANTS, { REDUX_ACTIONS } from '../constants';
-import { isArray } from '../utils';
+import request from 'actions/utils';
 
 import ROUTES from './routes';
-import request from './utils';
 import {
-  getDevices,
   revokeAuthToken,
   setUser,
   getMyAdventures,
@@ -26,6 +23,7 @@ import {
   getAdventureStepMessages,
   getNotifications,
   getAdventureSteps,
+  getAvailableAdventures,
 } from './requests';
 import { openSocketAction, closeSocketAction } from './socket';
 import {
@@ -33,10 +31,82 @@ import {
   setAppIconBadgeNumber,
 } from './notifications';
 
+/**
+ * Update user's data on the server
+ * and then download it back to refresh a local store.
+ *
+ * @param {object} data - user data to update.
+ */
+export function updateMe(data) {
+  console.log('🔄 auth > updateMe()', { data });
+  return async (dispatch, getState) => {
+    const userId = getState().auth.user.id;
+    if (!userId) return;
+    // Additional transformations if updating with new avatar.
+    if (data.avatar) {
+      data = {
+        name: 'me[avatar]',
+        filename: data.avatar.fileName,
+        type: 'image/jpeg',
+        data: RNFetchBlob.wrap(data.avatar.uri.uri.replace('file://', '')),
+      };
+    }
+
+    return dispatch(
+      request({ ...ROUTES.UPDATE_ME, pathParams: { userId }, data }),
+    ).then(
+      userData => {
+        // Update redux store with data received.
+        return dispatch(setUser(userData));
+      },
+      error => {
+        console.log('🛑 Error while updating the user.', error);
+        throw error;
+      },
+    );
+  };
+}
+
 export function loginAction(authToken) {
   // const authToken = authData.access_token;
   return async dispatch => {
     await dispatch({ type: REDUX_ACTIONS.LOGIN, authToken });
+  };
+}
+
+// Check current system language against the one already stored.
+// Update it on the server if different.
+export function checkCurrentLanguage() {
+  return async (dispatch, getState): void => {
+    const languageStored = getState().auth.language;
+    const languageCurrent = (
+      getLocales()[0]?.languageCode || 'EN'
+    ).toUpperCase();
+
+    if (languageStored !== languageCurrent) {
+      const { user } = getState().auth;
+      const userData = {
+        me: {
+          ...user,
+          /* eslint-disable @typescript-eslint/camelcase, camelcase */
+          timezone_name: getTimeZone(),
+          /* eslint-disable @typescript-eslint/camelcase, camelcase */
+          country_code: getCountry(),
+          language: {
+            /* eslint-disable @typescript-eslint/camelcase, camelcase */
+            language_code: languageCurrent,
+          },
+        },
+      };
+
+      try {
+        // Update Existing Account.
+        await dispatch(updateMe(userData));
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.log('🛑 Error updating the user details \n', e);
+      }
+    }
   };
 }
 
@@ -49,6 +119,10 @@ export function startupAction() {
     await dispatch(permissionsAndNotifications());
     // Get notifications every time sockets connections reestablished.
     await dispatch(getNotifications());
+    // Update available adventures on app start.
+    await dispatch(getAvailableAdventures());
+    // Check if the system language changed.
+    dispatch(checkCurrentLanguage());
   };
 }
 
@@ -584,43 +658,6 @@ export function deleteAccountAction() {
         // eslint-disable-next-line no-console
         console.log('🛑 Delete account error', error);
         // return;
-      },
-    );
-  };
-}
-
-/**
- * Update user's data on the server
- * and then download it back to refresh a local store.
- *
- * @param {object} data - user data to update.
- */
-export function updateMe(data) {
-  console.log('🔄 auth > updateMe()', { data });
-  return async (dispatch, getState) => {
-    const userId = getState().auth.user.id;
-    if (!userId) return;
-    // Additional transformations if updating with new avatar.
-    if (data.avatar) {
-      data = {
-        name: 'me[avatar]',
-        filename: data.avatar.fileName,
-        type: 'image/jpeg',
-        data: RNFetchBlob.wrap(data.avatar.uri.uri.replace('file://', '')),
-      };
-    }
-
-    return dispatch(
-      request({ ...ROUTES.UPDATE_ME, pathParams: { userId }, data }),
-    ).then(
-      userData => {
-        console.log('User update result:\n', userData);
-        // Update redux store with data received.
-        return dispatch(setUser(userData));
-      },
-      error => {
-        console.log('🛑 Error while updating the user.', error);
-        throw error;
       },
     );
   };

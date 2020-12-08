@@ -1,7 +1,6 @@
 import { StyleSheet } from 'react-native';
-
-import theme from '../../theme';
-import ui from '../../ui';
+import theme from 'utils/theme';
+import ui from 'utils/ui';
 
 const sharedStyles = {
   buttonText: {

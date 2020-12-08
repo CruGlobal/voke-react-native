@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { RefreshControl as RNRefreshControl } from 'react-native';
+import { bots } from 'assets';
+import st from 'utils/st';
+
 import Image from '../Image';
-import st from '../../st';
-import ANIMATION from '../../assets/VokeBotAnimation.gif';
 
 function RefreshControl(props) {
   const [showImage, setShowImage] = useState(false);
-  let timeout = null;
+  const timeout = null;
 
   useEffect(() => {
     if (props.refreshing) {
@@ -40,7 +41,7 @@ function RefreshControl(props) {
       {showImage ? (
         <Image
           resizeMode="contain"
-          source={ANIMATION}
+          source={bots.animated}
           style={[st.h(50), st.abs, st.asc, { top: 5 }]}
         />
       ) : null}
