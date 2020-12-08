@@ -25,6 +25,7 @@ import theme from 'utils/theme';
 import { RootStackParamList } from 'utils/types';
 import { RootState } from 'reducers';
 import { useMount, lockToPortrait } from 'utils';
+import CONSTANTS from 'utils/constants';
 
 import styles from './styles';
 
