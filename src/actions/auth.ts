@@ -438,7 +438,7 @@ export function appleLoginAction({
       },
       error => {
         LOG('🛑 appleLoginAction > Login error', error);
-        throw error;
+        return error;
       },
     );
   };
@@ -509,8 +509,13 @@ export function appleSignIn() {
           appleUser: user,
         }),
       );
-      // User is authenticated.
-      return result.user;
+      if (result?.user) {
+        // User is authenticated.
+        return result.user;
+      } else {
+        // Error.
+        return result;
+      }
     } else {
       // Apple signin failed.
       LOG(
