@@ -61,7 +61,7 @@ function AvailableAdventureItem(
       style={styles.wrapper}
     >
       <Flex align="center" justify="center" style={styles.card}>
-        <Image uri={thumbUri} style={styles.thumb} />
+        <Image source={{ uri: thumbUri }} style={styles.thumb} />
         <View style={styles.backFill} />
         <Flex value={1} align="center" justify="center">
           {shouldInviteFriend ? (

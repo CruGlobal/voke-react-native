@@ -139,7 +139,7 @@ const AdventureCardRender: FunctionComponent<Props> = ({
           justify="center"
         >
           <Flex>
-            <Image uri={thumbnail} style={styles.thumbnail} />
+            <Image source={{ uri: thumbnail }} style={styles.thumbnail} />
           </Flex>
           <Flex
             value={1}
@@ -190,11 +190,11 @@ const AdventureCardRender: FunctionComponent<Props> = ({
                   align="center"
                   style={{ paddingBottom: 0 }}
                 >
-                  <Image uri={myAvatar} style={styles.avatar} />
+                  <Image source={{ uri: myAvatar }} style={styles.avatar} />
 
                   {subGroup.map(i => (
                     <Image
-                      uri={i?.avatar?.small}
+                      source={{ uri: i?.avatar?.small }}
                       style={styles.avatarInGroup}
                     />
                   ))}

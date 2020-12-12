@@ -195,7 +195,7 @@ function AdventureStepCard({
             <Flex style={styles.thumbContainer}>
               <Image
                 // source={thumbnail}
-                uri={thumbnail}
+                source={{ uri: thumbnail }}
                 style={styles.thumb}
                 resizeMode="cover"
               />

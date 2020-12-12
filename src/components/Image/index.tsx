@@ -6,17 +6,18 @@ import {
   ImagePropsBase,
   ViewStyle,
   TextStyle,
+  ImageSourcePropType,
+  ImageURISource,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 // const AnimatedFastImage = Animated.createAnimatedComponent(FastImage);
 
 interface ImageProps extends ImagePropsBase {
-  source?: object;
-  uri?: string;
+  source: ImageSourcePropType;
   style?: StyleProp<ImageStyle | ViewStyle | TextStyle>;
 }
-function Image({ source, uri, style, ...rest }: ImageProps) {
+function Image({ source, style, ...rest }: ImageProps) {
   // thumbnailAnimated = new Animated.Value(0);
 
   /* const imageAnimated = new Animated.Value(0);
@@ -27,25 +28,25 @@ function Image({ source, uri, style, ...rest }: ImageProps) {
       duration: 150,
     }).start();
   } */
-  let src = source;
-  if (uri) {
-    src = { uri: uri };
-  }
 
-  const isRemoteImage = src?.uri && src.uri.startsWith('http');
-  const isSourceNull = !src?.uri;
+  // Cherry-pick type variation.
+  // https://www.typescriptlang.org/docs/handbook/advanced-types.html
+  const sourceObj = source as ImageURISource;
+
+  // Be aware: uri can be number (local image id)!
+  const isRemoteImage = sourceObj?.uri && sourceObj.uri.startsWith('http');
 
   return (
     <>
-      {!isRemoteImage || isSourceNull ? (
-        <ReactNativeImage {...rest} source={src} style={style} />
+      {!isRemoteImage ? (
+        <ReactNativeImage {...rest} source={source} style={style} />
       ) : (
         // Only use FastImage for remote images
         // https://github.com/DylanVann/react-native-fast-image
         // TODO: Delete this repo. Too many bugs!
         <FastImage
           style={style}
-          source={src}
+          source={source}
           {...rest}
           /* style={[{
             // opacity: imageAnimated

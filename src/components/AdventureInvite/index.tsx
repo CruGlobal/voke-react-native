@@ -161,7 +161,7 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
           // justify="start"
         >
           <Flex>
-            <Image uri={thumbnail} style={styles.thumbnail} />
+            <Image source={{ uri: thumbnail }} style={styles.thumbnail} />
           </Flex>
           <Flex
             value={1}
