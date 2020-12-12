@@ -57,10 +57,10 @@ const Select = ({
               size={18}
               style={{
                 color:
-                  selectedValue === item.value
+                  selectedValue === item.label
                     ? st.colors.orange
                     : st.colors.grey,
-                opacity: selectedValue === item.value ? 1 : 0,
+                opacity: selectedValue === item.label ? 1 : 0,
               }}
             />
           </Flex>
@@ -74,7 +74,7 @@ const Select = ({
             <Text
               style={{
                 color:
-                  selectedValue === item.value
+                  selectedValue === item.label
                     ? st.colors.orange
                     : st.colors.darkBlue,
                 fontSize: 16,
