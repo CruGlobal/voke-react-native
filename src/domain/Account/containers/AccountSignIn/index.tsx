@@ -146,9 +146,14 @@ const AccountSignIn: FunctionComponent<Props> = props => {
 
     setIsLoading(false);
     if (!user?.id) {
+      const errorMessage = user?.error
+        ? `\n(${user?.error.substring(0, 30)})` // Limit error message length.
+        : '';
+
       Alert.alert(
-        "Can't sign in using Apple service",
-        'Apple authentication is not available at this moment',
+        `Can't sign\u00A0in using Apple\u00A0ID`,
+        'Apple authentication is\u00A0not\u00A0available at\u00A0this\u00A0moment.' +
+          errorMessage,
       );
     } else if (!user?.first_name) {
       // If user.id is set but user.first_name = null in the server response
