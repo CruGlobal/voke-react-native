@@ -59,7 +59,7 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
       if (
         global.ws &&
         global.ws.send &&
-        global.ws.readyState === WEBSOCKET_STATES.OPEN
+        global.ws?.readyState === WEBSOCKET_STATES.OPEN
       ) {
         return;
       }
@@ -81,7 +81,7 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
               if (
                 global.ws &&
                 global.ws.send &&
-                global.ws.readyState === WEBSOCKET_STATES.OPEN
+                global.ws?.readyState === WEBSOCKET_STATES.OPEN
               ) {
                 try {
                   global.ws.send(
@@ -104,7 +104,7 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
               } else {
                 console.log(
                   '🛑 websocket state not open, cannot send: Websocket readyState',
-                  global.ws.readyState,
+                  global?.ws?.readyState,
                 );
               }
             };
@@ -154,7 +154,8 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
                 }
               }
 
-              if (notification.category === 'CREATE_MESSAGE_CATEGORY') {
+              if (notification?.category === 'CREATE_MESSAGE_CATEGORY' ||
+                notification?.category === 'CREATE_JOURNEY_STEP_MESSAGE_MESSAGE_CATEGORY') {
                 // When new message posted by another user.
                 if (message && message['adventure_message?']) {
                   // If updated message in one of the Adventures.
@@ -248,9 +249,9 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
               console.log('🛑 socket error\n', error.message);
               // throw error;
               // Try to restart:
-              /* dispatch({
+              dispatch({
                 type: REDUX_ACTIONS.STARTUP,
-              }); */
+              });
             };
 
             global.ws.onclose = error => {
@@ -278,7 +279,7 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
         if (
           !global.ws ||
           !global.ws.send ||
-          global.ws.readyState !== WEBSOCKET_STATES.OPEN
+          global.ws?.readyState !== WEBSOCKET_STATES.OPEN
         ) {
           // If can't open connection then reinstall websockets connection.
           dispatch({
