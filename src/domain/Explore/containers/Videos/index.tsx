@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useWindowDimensions, ScrollView, FlatList, View } from 'react-native';
 import Flex from 'components/Flex';
+import analytics from '@react-native-firebase/analytics';
 import Text from 'components/Text';
 import StatusBar from 'components/StatusBar';
 import VokeIcon from 'components/VokeIcon';
@@ -96,7 +97,6 @@ function VideoList() {
   }, [allVideos, featuredVideos, popularVideos, favoriteVideos]);
 
   async function loadMore(resetToPageOne = false) {
-    console.log('👺 loadMore!', { resetToPageOne }, updatedPagination);
     let page;
     const query = {};
 
@@ -106,7 +106,6 @@ function VideoList() {
     ) {
       return;
     }
-    console.log('👺 loadMore! page:', page);
     page = updatedPagination[filterId].page + 1;
     query.page = page;
     if (resetToPageOne) {
@@ -161,6 +160,15 @@ function VideoList() {
     } */
   }, [filterId]);
 
+  const registerAnalyticsEvent = (newSelection: string) => {
+    // Google Analytics: Record screen change.
+    // https://rnfirebase.io/analytics/screen-tracking#react-navigation
+    analytics().logScreenView({
+      screen_name: newSelection,
+      screen_class: 'VideoList',
+    });
+  }
+
   return (
     <View style={[st.f1, st.bgBlue]}>
       <FlatList
@@ -209,6 +217,7 @@ function VideoList() {
                 <OldButton
                   key={item.id}
                   onPress={() => {
+                    registerAnalyticsEvent(item.title)
                     setFilterId(item.id);
                   }}
                   style={[
@@ -231,8 +240,8 @@ function VideoList() {
                       style={{ color: theme.colors.white }}
                     />
                   ) : (
-                    <Text style={[st.white, st.fs18]}>{item.title}</Text>
-                  )}
+                      <Text style={[st.white, st.fs18]}>{item.title}</Text>
+                    )}
                 </OldButton>
               )}
             />
@@ -245,7 +254,7 @@ function VideoList() {
             ) : null}
           </>
         )}
-        // removeClippedSubviews // vc-1022
+      // removeClippedSubviews // vc-1022
       />
     </View>
   );
@@ -253,7 +262,7 @@ function VideoList() {
 
 function ChannelList() {
   const dispatch = useDispatch();
-  useMount(() => {});
+  useMount(() => { });
   return (
     <ScrollView style={[st.f1, st.bgBlue]} scrollIndicatorInsets={{ right: 1 }}>
       <Text>NOTHING YET</Text>

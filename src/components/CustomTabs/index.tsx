@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { TabView } from 'react-native-tab-view';
 import { useMount, lockToPortrait } from 'utils';
+import analytics from '@react-native-firebase/analytics';
 
 import TabBarStyled from './TabBarStyled';
 
@@ -45,6 +46,16 @@ const CustomTabs = ({
       };
     });
   }, [tabs.length]);
+
+  // On active tab index change - report event to analytics.
+  useEffect(() => {
+    // Google Analytics: Record screen change.
+    // https://rnfirebase.io/analytics/screen-tracking#react-navigation
+    analytics().logScreenView({
+      screen_name: tabs[index]?.title,
+      screen_class: 'CustomTabs',
+    });
+  }, [index]);
 
   const renderScene = ({ route, jumpTo }) => {
     if (!Object.keys(scenes.current).length) {
