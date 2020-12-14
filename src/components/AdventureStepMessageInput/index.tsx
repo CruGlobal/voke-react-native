@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { getCurrentUserId } from 'utils/get';
 import st from 'utils/st';
-import { TAdventureSingle, TStep } from 'utils/types';
+import { TAdventureSingle, TMessage, TStep } from 'utils/types';
 
 import Flex from '../Flex';
 import OldButton from '../OldButton';
@@ -20,7 +20,7 @@ interface Props {
   kind: TStep['kind'];
   adventure: TAdventureSingle;
   step: TStep;
-  internalMessage?: boolean;
+  internalMessage?: TMessage;
   defaultValue: string;
   onFocus: () => void;
   isLoading: boolean;
@@ -128,7 +128,7 @@ const AdventureStepMessageInput = ({
           // placeholder="Choose Your Answer..."
           selectedValue={value}
           onUpdate={t => {
-            setValue(t.value);
+            setValue(t.label);
             handleSendMessage(t.value);
           }}
           containerColor={st.colors.orange}

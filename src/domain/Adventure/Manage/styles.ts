@@ -316,7 +316,7 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     minHeight: '100%',
-    paddingTop: theme.spacing.m,
+    paddingVertical: theme.spacing.m,
     paddingHorizontal: theme.spacing.l,
   },
   modalActions: {

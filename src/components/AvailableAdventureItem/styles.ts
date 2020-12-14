@@ -49,12 +49,6 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   }, */
 
-  shareIcon: {
-    marginTop: -theme.spacing.l,
-    marginRight: -theme.spacing.s,
-    marginLeft: theme.spacing.xs,
-  },
-
   bottomLine: {
     backgroundColor: 'rgba(0,0,0,0.5)',
     paddingHorizontal: theme.spacing.m,

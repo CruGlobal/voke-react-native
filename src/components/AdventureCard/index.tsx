@@ -9,6 +9,7 @@ import { View, Alert, Dimensions } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
+import analytics from '@react-native-firebase/analytics';
 
 import Image from '../Image';
 import st from 'utils/st';
@@ -126,10 +127,25 @@ const AdventureCardRender: FunctionComponent<Props> = ({
   return (
     <Flex style={styles.wrapper}>
       <Touchable
-        onPress={(): void =>
+        onPress={(): void => {
+          // Google Analytics: Record content selection.
+          // https://rnfirebase.io/reference/analytics#logSelectItem
+          analytics().logSelectItem({
+            content_type: 'Adventure Active',
+            item_list_id: 'Adventures',
+            item_list_name: 'My Adventures',
+            items: [{
+              item_variant: adventureItem.kind,
+              item_name: adventureItem.name,
+              item_category: 'Adventure Active',
+              item_category2: adventureItem?.language?.name,
+            }]
+          });
+
           navigation.navigate('AdventureActive', {
             adventureId: adventureItem.id,
-          })
+          });
+        }
         }
       >
         <Flex
@@ -139,7 +155,7 @@ const AdventureCardRender: FunctionComponent<Props> = ({
           justify="center"
         >
           <Flex>
-            <Image uri={thumbnail} style={styles.thumbnail} />
+            <Image source={{ uri: thumbnail }} style={styles.thumbnail} />
           </Flex>
           <Flex
             value={1}
@@ -190,11 +206,11 @@ const AdventureCardRender: FunctionComponent<Props> = ({
                   align="center"
                   style={{ paddingBottom: 0 }}
                 >
-                  <Image uri={myAvatar} style={styles.avatar} />
+                  <Image source={{ uri: myAvatar }} style={styles.avatar} />
 
                   {subGroup.map(i => (
                     <Image
-                      uri={i?.avatar?.small}
+                      source={{ uri: i?.avatar?.small }}
                       style={styles.avatarInGroup}
                     />
                   ))}

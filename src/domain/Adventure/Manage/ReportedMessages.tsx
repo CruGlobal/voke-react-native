@@ -99,7 +99,7 @@ const ReportedMessages = ({ adventureId }) => {
         <View style={styles.reportedMessage}>
           <View style={styles.reportedUser}>
             <Image
-              uri={item.reported.avatar.small}
+              source={{ uri: item.reported.avatar.small }}
               style={styles.reportedUserAvatar}
             />
             <Text style={styles.reportedUserName}>
@@ -116,7 +116,7 @@ const ReportedMessages = ({ adventureId }) => {
           <View style={styles.reporter}>
             <Text style={styles.reporterName}>{t('reportedBy')}</Text>
             <Image
-              uri={item.reporter.avatar.small}
+              source={{ uri: item.reporter.avatar.small }}
               style={styles.reporterAvatar}
             />
             <Text style={styles.reporterName}>

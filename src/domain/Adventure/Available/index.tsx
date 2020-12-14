@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { SafeAreaView, useSafeArea } from 'react-native-safe-area-context';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, ScrollView, StatusBar } from 'react-native';
@@ -20,6 +20,7 @@ import theme from 'utils/theme';
 import { REDUX_ACTIONS } from 'utils/constants';
 import { AdventureStackParamList } from 'utils/types';
 import Touchable from 'components/Touchable';
+import analytics from '@react-native-firebase/analytics';
 
 import {
   startAdventure,
@@ -87,6 +88,21 @@ function AdventureAvailable(props: Props): React.ReactElement {
   const { duoTutorialCount, groupTutorialCount } = useSelector(
     ({ info }: RootState) => info,
   );
+
+  useEffect(() => {
+    // Google Analytics: Record content selection.
+    // https://rnfirebase.io/reference/analytics#logSelectItem
+    analytics().logSelectItem({
+      content_type: 'Adventure Available',
+      item_list_id: 'Adventures',
+      item_list_name: 'Find Adventures',
+      items: [{
+        item_name: item.name,
+        item_category: 'Adventure Available',
+        item_category2: item?.language?.name,
+      }]
+    });
+  }, []);
 
   const updateCountDown = () => {
     if (withGroup) {

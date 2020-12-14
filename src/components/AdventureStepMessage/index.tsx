@@ -63,15 +63,14 @@ function AdventureStepMessage({
     first_name: '',
     last_name: '',
     avatar: {
-      small: avatars.default,
-      medium: avatars.default,
-      large: avatars.default,
+      small: '',
+      medium: '',
+      large: '',
     },
     status: 'blocked',
   };
 
-  const messengerAvatar = messenger?.avatar?.small;
-
+  const messengerAvatar = messenger?.avatar?.small || avatars.default;
   // Blur other answers until step completed.
   const isBlured =
     !isMyMessage && // If this is not my message.
@@ -81,7 +80,7 @@ function AdventureStepMessage({
   const msgKind = item?.metadata?.step_kind;
   let selectedAnswer = (
     ((item?.metadata || {}).answers || []).find(i => i?.selected) || {}
-  ).value;
+  ).key || '';
 
   const showMessageReporting =
     item?.messenger_id !== userId && !isAdminMessage && !isBlured && !isAdmin;
@@ -185,7 +184,7 @@ function AdventureStepMessage({
                 }}
               >
                 <Flex direction="column">
-                  {isMyMessage ? null : (
+                  {isMyMessage || !messenger.first_name ? null : (
                     <Text style={styles.messageAuthor}>
                       {messenger.first_name ? messenger.first_name + ' ' : ''}
                       {messenger.last_name ? messenger.last_name + ' ' : ''}
@@ -270,7 +269,12 @@ function AdventureStepMessage({
               </Flex>
               {/* User Avatar */}
               <Image
-                uri={messengerAvatar}
+                source={
+                  messenger?.avatar?.small ?
+                    { uri: messenger?.avatar?.small } :
+                    avatars.default
+
+                }
                 style={isMyMessage ? styles.myAvatar : styles.userAvatar}
               />
             </Flex>

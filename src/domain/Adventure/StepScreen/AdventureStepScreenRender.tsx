@@ -240,12 +240,12 @@ const AdventureStepScreenRender = ({
     const mainAnswer: TMessage | undefined = currentMessages
       .slice()
       .find(m => m?.messenger_id === currentUser.id);
-    // .reverse()
     if (mainAnswer) {
       myMainAnswer.id = mainAnswer.id;
       myMainAnswer.content = mainAnswer.content;
     }
   } else {
+    // If multichoise.
     let mainAnswer: TAnswer | undefined;
     if (currentStep?.metadata?.answers?.length) {
       mainAnswer = currentStep?.metadata?.answers.find(
@@ -254,7 +254,7 @@ const AdventureStepScreenRender = ({
     }
     if (mainAnswer) {
       // RELEASE Check this case!
-      myMainAnswer.id = mainAnswer.key || '';
+      myMainAnswer.id = mainAnswer.value || '';
       myMainAnswer.content = mainAnswer.key || '';
     }
   }
@@ -533,15 +533,6 @@ const AdventureStepScreenRender = ({
                   </View>
 
                   {
-                    /* !currentMessages.length ? (
-                    <ActivityIndicator
-                      size="large"
-                      color="rgba(255,255,255,.5)"
-                      style={{
-                        paddingTop: 50,
-                      }}
-                    />
-                  ) : ( */
                     currentMessages.map((item, index) => {
                       return (
                         <>
@@ -578,7 +569,6 @@ const AdventureStepScreenRender = ({
                         </>
                       );
                     })
-                    // )
                   }
                   <AdventureStepNextAction
                     adventureId={adventureId}

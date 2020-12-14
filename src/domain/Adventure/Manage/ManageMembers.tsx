@@ -176,9 +176,9 @@ const ManageMembers = ({
                 <></>
               )}
               {subGroup.map(i => (
-                <Image uri={i?.avatar?.small} style={styles.avatarInGroup} />
+                <Image source={{ uri: i?.avatar?.small }} style={styles.avatarInGroup} />
               ))}
-              <Image uri={myAvatar} style={styles.avatar} />
+              <Image source={{ uri: myAvatar }} style={styles.avatar} />
             </Flex>
           </Touchable>
         </View>

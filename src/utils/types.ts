@@ -198,7 +198,7 @@ export type TAdventureSteps = TStep[];
 
 export type TAnswer = {
   key?: string;
-  value: number;
+  value: string;
   selected?: boolean;
 };
 

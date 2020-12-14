@@ -4,5 +4,10 @@
 		"prettier",
     "prettier/react",
     "prettier/@typescript-eslint",
-	]
+	],
+	"globals": {
+    "LOG": true,
+    "WARN": true,
+    __DEV__: true,
+  },
 }

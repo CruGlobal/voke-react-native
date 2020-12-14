@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import Clipboard from '@react-native-community/clipboard';
+import analytics from '@react-native-firebase/analytics';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dimensions } from 'react-native';
@@ -60,7 +61,15 @@ function AdventureShareCode(props) {
       {
         dialogTitle: t('share'),
       }, */
-    ).catch(err => console.log('Share Error', err));
+    ).then((res) => {
+      // Google Analytics: Record share action.
+      // https://rnfirebase.io/reference/analytics#logShare
+      analytics().logShare({
+        content_type: isVideoInvite ? 'Video' : 'Adventure',
+        item_id: invitation.organization_journey.name,
+        method: res?.app || '', //ex: "com.apple.UIKit.activity.CopyToPasteboard"
+      });
+    }).catch(err => console.log('Share Error', err));
   };
 
   const copyToClipboard = value => {

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
+import analytics from '@react-native-firebase/analytics';
 import { View, ScrollView, StatusBar, Platform } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { RouteProp, useNavigation } from '@react-navigation/native';
@@ -56,6 +57,23 @@ function VideoDetails(props: Props) {
       isVideoInvite: true,
     });
   }
+
+  useEffect(() => {
+    // Google Analytics: Record content selection.
+    // https://rnfirebase.io/reference/analytics#logSelectItem
+    analytics().logSelectItem({
+      content_type: 'Video',
+      item_list_id: 'Explore',
+      item_list_name: 'Videos',
+      items: [{
+        item_id: item.id,
+        item_name: item.name,
+        item_category: item.content_type,
+        item_category2: item.language.name,
+      }]
+    });
+  }, []);
+
 
   return (
     <Flex value={1}>

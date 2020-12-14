@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
   userAvatar: {
     ...sharedStyles.avatar,
     left: -30,
+    backgroundColor: theme.colors.secondaryAlt,
   },
   myAvatar: {
     ...sharedStyles.avatar,

@@ -16,6 +16,7 @@ import {
   StackActions,
   RouteProp,
 } from '@react-navigation/native';
+import analytics from '@react-native-firebase/analytics';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import { Linking, YellowBox } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -808,20 +809,46 @@ const App = () => {
     // Here Chat is the name of the screen that handles the URL /feed, and Profile handles the URL /user.
   };
 
+
+  // Make screen names meaningfull for Analytic reports.
+  const analyticsRenameRoute = (routeName: string) => {
+
+    let newName = '';
+
+    switch (routeName) {
+      case 'AdventureName':
+        newName = 'Share - Friend Name'
+        break;
+
+      case 'AdventureShareCode':
+        newName = 'Share - Code'
+        break;
+
+      default:
+        newName = routeName;
+        break;
+    }
+
+    return newName;
+
+  }
+
   return (
     <>
       <NavigationContainer
         ref={navigationRef}
-        onStateChange={state => {
+        onStateChange={async (state) => {
           const previousRouteName = routeNameRef.current;
           const currentRouteName = getActiveRouteName(state);
 
-          /* if (previousRouteName !== currentRouteName) {
-          // The line below uses the @react-native-firebase/analytics tracker
-          // Change this line to use another Mobile analytics SDK
-          analytics().setCurrentScreen(currentRouteName, currentRouteName);
-        } */
-
+          if (previousRouteName !== currentRouteName) {
+            // Google Analytics: Record screen change.
+            // https://rnfirebase.io/analytics/screen-tracking#react-navigation
+            analytics().logScreenView({
+              screen_name: analyticsRenameRoute(currentRouteName),
+              screen_class: 'NavigationContainer',
+            });
+          }
           // Save the current route name for later comparision
           routeNameRef.current = currentRouteName;
         }}
