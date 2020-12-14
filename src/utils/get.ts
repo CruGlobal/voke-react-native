@@ -40,7 +40,8 @@ export function getNextReleaseDate({ startDate, releasePeriod }): string {
   }
   // If daily release and released today and next release is today.
   // Set daysStartToNext to zero.
-  if (releasePeriod === 1 && diffDurationDays === 0) {
+  if (releasePeriod === 1 && diffDurationDays === 0 ||
+    releasePeriod === 7 && diffDurationDays === 0) {
     // Extract Release Time Only.
     const releaseTime = moment(startDate).format('h:mm A');
     // Add Release Time to Today's date.
