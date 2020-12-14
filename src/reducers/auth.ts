@@ -3,9 +3,10 @@ import { REDUX_ACTIONS } from 'utils/constants';
 import { TUser } from 'utils/types';
 import { exists } from 'utils';
 
-export type AuthDataKeys = 'device' | 'adventureInvitations';
+export type AuthDataKeys = 'device' | 'authType' | 'adventureInvitations';
 interface InitialStateTypes {
   isLoggedIn: boolean;
+  authType: 'email' | 'apple' | 'facebook' | undefined;
   authToken?: string;
   pushToken?: string; // Push Notifications token receved from apple/google.
   deviceId?: string; // Device ID returend by server after provided with Push Notfications Tocken.
@@ -18,6 +19,7 @@ interface InitialStateTypes {
 
 const initialState: InitialStateTypes = {
   isLoggedIn: false,
+  authType: undefined,
   authToken: '',
   pushToken: '',
   pushDeviceId: '',
@@ -52,7 +54,7 @@ export default function (
   switch (action.type) {
     case REDUX_ACTIONS.SET_AUTH_DATA:
       // @ts-ignore
-      if (!exists(state[action.key]) || !action.data) {
+      if (!action.key || !action.data) {
         return state;
       }
       return { ...state, [action.key]: action.data };

@@ -24,6 +24,7 @@ import {
   getNotifications,
   getAdventureSteps,
   getAvailableAdventures,
+  setAuthData,
 } from './requests';
 import { openSocketAction, closeSocketAction } from './socket';
 import {
@@ -384,6 +385,7 @@ export function facebookLogin() {
         await facebookGetUserInfo(accessToken);
         // 4. Login on our server using Facebook token.
         const result = await dispatch(facebookLoginAction(accessToken));
+        dispatch(setAuthData('authType', 'facebook'));
         return result.user.id;
       }
     } else {
@@ -511,6 +513,7 @@ export function appleSignIn() {
       );
       if (result?.user) {
         // User is authenticated.
+        dispatch(setAuthData('authType', 'apple'));
         return result.user;
       } else {
         // Error.
@@ -589,6 +592,7 @@ export function userLogin(username, password) {
         logoutAction();
         // Update user data in the state with ones received.
         dispatch(loginAction(authData.access_token));
+        dispatch(setAuthData('authType', 'email'));
         // After all download user details from server.
         return dispatch(getMeAction());
       },

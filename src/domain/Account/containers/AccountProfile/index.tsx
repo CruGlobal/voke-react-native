@@ -15,6 +15,7 @@ import OldButton from 'components/OldButton';
 import Triangle from 'components/Triangle';
 import VokeIcon from 'components/VokeIcon';
 import { logoutAction, deleteAccountAction, facebookLogin } from 'actions/auth';
+import { appleAuth } from '@invertase/react-native-apple-authentication';
 import CONSTANTS from 'utils/constants';
 import theme from 'utils/theme';
 
@@ -29,6 +30,7 @@ const AccountProfile = () => {
   const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const authType = useSelector(({ auth }) => auth?.authType);
   const me = useSelector(({ auth }) => auth.user);
   const windowDimensions = Dimensions.get('window');
 
@@ -231,82 +233,83 @@ const AccountProfile = () => {
                   </Flex>
                 </Flex>
                 <View style={{ minHeight: theme.spacing.xs }} />
-                <Flex direction="row" align="start" justify="start">
-                  <Flex
-                    style={{
-                      width: 80,
-                    }}
-                  >
-                    <Text
+                { authType === 'apple' ? null : <>
+                  <Flex direction="row" align="start" justify="start">
+                    <Flex
                       style={{
-                        color: '#fff',
-                        fontSize: theme.fontSizes.l,
+                        width: 80,
                       }}
-                    >
-                      {t('placeholder:email')}
-                    </Text>
-                  </Flex>
-                  <Flex
-                    value={1}
-                    style={{
-                      paddingLeft: theme.spacing.m,
-                    }}
-                  >
-                    <Touchable
-                      onPress={() => navigation.navigate('AccountEmail')}
                     >
                       <Text
                         style={{
-                          // width:'100%',
                           color: '#fff',
                           fontSize: theme.fontSizes.l,
                         }}
-                        numberOfLines={2}
-                        testID={'textEmail'}
                       >
-                        {me.email}
+                        {t('placeholder:email')}
                       </Text>
-                    </Touchable>
-                  </Flex>
-                </Flex>
-                <View style={{ minHeight: theme.spacing.xs }} />
-                <Flex direction="row" align="start" justify="start">
-                  <Flex
-                    style={{
-                      width: 80,
-                    }}
-                  >
-                    <Text
+                    </Flex>
+                    <Flex
+                      value={1}
                       style={{
-                        color: '#fff',
-                        fontSize: theme.fontSizes.l,
+                        paddingLeft: theme.spacing.m,
                       }}
                     >
-                      {t('placeholder:password')}
-                    </Text>
+                      <Touchable
+                        onPress={() => navigation.navigate('AccountEmail')}
+                      >
+                        <Text
+                          style={{
+                            // width:'100%',
+                            color: '#fff',
+                            fontSize: theme.fontSizes.l,
+                          }}
+                          numberOfLines={2}
+                          testID={'textEmail'}
+                        >
+                          {me.email}
+                        </Text>
+                      </Touchable>
+                    </Flex>
                   </Flex>
-                  <Flex
-                    value={1}
-                    style={{
-                      paddingLeft: theme.spacing.m,
-                    }}
-                  >
-                    <Touchable
-                      onPress={() => navigation.navigate('AccountPass')}
+                  <View style={{ minHeight: theme.spacing.xs }} />
+                  <Flex direction="row" align="start" justify="start">
+                    <Flex
+                      style={{
+                        width: 80,
+                      }}
                     >
                       <Text
                         style={{
                           color: '#fff',
-                          fontSize: theme.fontSizes.xl,
+                          fontSize: theme.fontSizes.l,
                         }}
-                        numberOfLines={2}
                       >
-                        ********
+                        {t('placeholder:password')}
                       </Text>
-                    </Touchable>
+                    </Flex>
+                    <Flex
+                      value={1}
+                      style={{
+                        paddingLeft: theme.spacing.m,
+                      }}
+                    >
+                      <Touchable
+                        onPress={() => navigation.navigate('AccountPass')}
+                      >
+                        <Text
+                          style={{
+                            color: '#fff',
+                            fontSize: theme.fontSizes.xl,
+                          }}
+                          numberOfLines={2}
+                        >
+                          ********
+                      </Text>
+                      </Touchable>
+                    </Flex>
                   </Flex>
-                </Flex>
-                <View style={{ minHeight: theme.spacing.m }} />
+                  <View style={{ minHeight: theme.spacing.m }} />
 
                 <Flex
                   direction="row"
@@ -332,7 +335,8 @@ const AccountProfile = () => {
                   >
                     {t('profile:toEdit')}
                   </Text>
-                </Flex>
+                  </Flex>
+                </>}
               </Flex>
             ) : (
               <></>
