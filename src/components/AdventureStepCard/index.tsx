@@ -12,6 +12,7 @@ import {
 import theme from 'utils/theme';
 import st from 'utils/st';
 import { TAdventureSingle, TDataState, TStep } from 'utils/types';
+import analytics from '@react-native-firebase/analytics';
 
 import { RootState } from '../../reducers';
 import Image from '../Image';
@@ -154,11 +155,27 @@ function AdventureStepCard({
         highlight={false}
         disabled={isLocked && (isSolo || !isLeader)}
         activeOpacity={0.8}
-        onPress={(): void =>
+        onPress={(): void => {
+          // Google Analytics: Record content selection.
+          // https://rnfirebase.io/reference/analytics#logSelectItem
+          analytics().logSelectItem({
+            content_type: 'Adventure Step',
+            item_list_id: adventure.organization_journey_id,
+            item_list_name: adventure.name,
+            items: [{
+              item_variant: 'Step - ' + step.position,
+              item_name: step.name,
+              item_category: 'Adventure',
+              item_category2: adventure.kind,
+              item_category3: adventure?.language?.name,
+            }]
+          });
+
           navigation.navigate('AdventureStepScreen', {
             stepId: step.id,
             adventureId: adventure.id,
-          })
+          });
+        }
         }
         style={styles.stepCard}
         testID={step?.position ? 'stepPart-' + step.position : ''}

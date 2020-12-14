@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Alert } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import analytics from '@react-native-firebase/analytics';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import { useSelector, useDispatch } from 'react-redux';
@@ -148,6 +149,21 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
     <Flex style={styles.InviteWrapper}>
       <Touchable
         onPress={async (): Promise<void> => {
+          // Google Analytics: Record content selection.
+          // https://rnfirebase.io/reference/analytics#logSelectItem
+          analytics().logSelectItem({
+            content_type: 'Invite',
+            item_list_id: 'Adventures',
+            item_list_name: 'My Adventures',
+            items: [{
+              item_id: '0145292b-bef9-47ed-b14e-25f367c7246a',
+              item_name: inviteItem.organization_journey.name,
+              item_category: 'Invite',
+              item_category2: inviteItem.kind,
+              item_category3: inviteItem.status,
+            }]
+          });
+
           navigation.navigate('AdventureActive', {
             adventureId: inviteItem.messenger_journey_id,
           });
