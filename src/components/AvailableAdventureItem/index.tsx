@@ -17,6 +17,7 @@ import { RootState } from '../../reducers';
 import Button from '../Button';
 
 import styles from './styles';
+import theme from 'utils/theme';
 
 function AvailableAdventureItem(
   adventureData: TAvailableAdventure,
@@ -134,9 +135,10 @@ function AvailableAdventureItem(
             )}
             {shouldInviteFriend ? null : (
               <OldButton
-                type="transparent"
-                isAndroidOpacity
-                onPress={(): void =>
+                testID={'ctaShareIcon'}
+              type="transparent"
+              isAndroidOpacity
+              onPress={(): void =>
                   navigation.navigate('AdventureName', {
                     item: {
                       id: adventureData.id,
@@ -144,12 +146,29 @@ function AvailableAdventureItem(
                     withGroup: false,
                   })
                 }
-                activeOpacity={0.6}
-                touchableStyle={styles.shareIcon}
-                testID={'ctaShareIcon'}
-              >
-                <VokeIcon name="share" style={styles.inviteIcon} />
-              </OldButton>
+              activeOpacity={0.6}
+                touchableStyle={{
+                  top: -15,
+                  marginLeft: 10,
+                  backgroundColor: theme.colors.primary,
+                  width: 50,
+                  height: 50,
+                  borderRadius: theme.radius.xxl,
+                  ...theme.shadow,
+                  // Inner Icon Alignment:
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+            >
+                <VokeIcon
+                  name="share"
+                  style={{
+                    fontSize: 30,
+                    borderRadius: 25,
+                    color: theme.colors.white,
+                  }}
+                />
+            </OldButton>
             )}
           </Flex>
         </Flex>
