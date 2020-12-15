@@ -199,7 +199,7 @@ export default function request(options) {
         // }
 
         // Couldn't parse the JSON
-        throw e;
+        return e;
       });
   };
 }

@@ -91,7 +91,7 @@ function GroupModal(props: Props) {
               ]}
             >
               {t('modal:welcomeTo')}
-              {adventure.journey_invite.name || adventure.name || ''}!
+              {adventure.journey_invite?.name || adventure.name || ''}!
             </Text>
           </Flex>
           <Flex

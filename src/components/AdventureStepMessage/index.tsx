@@ -78,12 +78,16 @@ function AdventureStepMessage({
     !item?.metadata?.messenger_journey_step_id; // If I didn't left the message.
 
   const msgKind = item?.metadata?.step_kind;
-  let selectedAnswer = (
-    ((item?.metadata || {}).answers || []).find(i => i?.selected) || {}
-  ).key || '';
+  let selectedAnswer =
+    (((item?.metadata || {}).answers || []).find(i => i?.selected) || {}).key ||
+    '';
 
   const showMessageReporting =
-    item?.messenger_id !== userId && !isAdminMessage && !isBlured && !isAdmin;
+    item?.messenger_id !== userId && // Can't report themselves.
+    !isAdminMessage && // Can't report admin.
+    !isBlured && // Can't report blured messages.
+    !isAdmin && // Admin can't report anyone.
+    adventure.kind !== 'duo'; // Can't report in Duo adventure.
 
   // If current message is a question box and next message is answer,
   // render next message here (https://d.pr/i/YHrv4N).
@@ -270,10 +274,9 @@ function AdventureStepMessage({
               {/* User Avatar */}
               <Image
                 source={
-                  messenger?.avatar?.small ?
-                    { uri: messenger?.avatar?.small } :
-                    avatars.default
-
+                  messenger?.avatar?.small
+                    ? { uri: messenger?.avatar?.small }
+                    : avatars.default
                 }
                 style={isMyMessage ? styles.myAvatar : styles.userAvatar}
               />
@@ -301,7 +304,6 @@ function AdventureStepMessage({
                 showMessageReporting && (
                   <Menu
                     ref={reportMenuRef}
-                    // onHidden={()=>{}}
                     button={
                       <Text
                         style={styles.messageMetaActions}

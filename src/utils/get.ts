@@ -25,23 +25,33 @@ export function getCurrentUser(): string {
 
 export function getNextReleaseDate({ startDate, releasePeriod }): string {
   const diff = moment(startDate).diff(moment());
+  // diff > 0 - startDate is in the future
+  // diff < 0 - startDate is in the past
   const diffDurationDays = moment.duration(diff).days();
+
   let daysStartToNext = releasePeriod;
   // If release date happened a few days ago,
   // calculate how many times it was already released,
   // and then add releasePeriod value to find the date of the next release.
-  if (diffDurationDays < 0) {
-    const timesReleased = Math.abs(
-      Math.round(diffDurationDays / releasePeriod),
-    );
+  if (diff < 0) {
+    let timesReleased = Math.abs(diffDurationDays / releasePeriod);
+    if (timesReleased > 1) {
+      timesReleased = Math.floor(diffDurationDays / releasePeriod);
+    } else {
+      timesReleased = 1;
+    }
+
     // const lastReleaseDaysAgo = timesReleased * releasePeriod + diffDurationDays;
     // daysStartToNext = lastReleaseDaysAgo + releasePeriod;
-    daysStartToNext = timesReleased * releasePeriod + releasePeriod;
+    // daysStartToNext = timesReleased * releasePeriod + releasePeriod;
+    daysStartToNext = timesReleased * releasePeriod;
   }
   // If daily release and released today and next release is today.
   // Set daysStartToNext to zero.
-  if (releasePeriod === 1 && diffDurationDays === 0 ||
-    releasePeriod === 7 && diffDurationDays === 0) {
+  /* if (
+    (releasePeriod === 1 && diffDurationDays === 0) ||
+    (releasePeriod === 7 && diffDurationDays === 0)
+  ) {
     // Extract Release Time Only.
     const releaseTime = moment(startDate).format('h:mm A');
     // Add Release Time to Today's date.
@@ -55,10 +65,17 @@ export function getNextReleaseDate({ startDate, releasePeriod }): string {
     // Check if Today's release is in the past or in the future.
     const releaseTodayDiff = moment(releaseToday).diff(moment());
 
+    const releaseInFuture = moment(startDate).diff(moment());
+
     if (releaseTodayDiff > 0) {
-      // If Toda's release didn't happed yet, son't add extra days.
+      // If Today's release didn't happed yet, don't add extra days.
       daysStartToNext = 0;
     }
+  } */
+
+  // First release is in the future
+  if (diff > 0) {
+    daysStartToNext = 0;
   }
 
   return moment(startDate).add(daysStartToNext, 'days').utc().format();
@@ -69,7 +86,7 @@ export function getDiffToDate(date: string): string {
 }
 
 export function getTimeToDate(date: string): string {
-  return moment(date).format('h:mm[\u00A0]a');
+  return moment(date).format('ddd, MMM Do, h:mm[\u00A0]a');
 }
 
 export function getExpiredTime(

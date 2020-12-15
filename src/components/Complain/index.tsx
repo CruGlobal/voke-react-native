@@ -7,13 +7,14 @@ import { Portal } from 'react-native-portalize';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
+import CONSTANTS, { REDUX_ACTIONS } from 'utils/constants';
+import theme from 'utils/theme';
+import Touchable from 'components/Touchable';
 
 import { createComplain } from '../../actions/requests';
 import Text from '../Text';
 import VokeIcon from '../VokeIcon';
 import { RootState } from '../../reducers';
-import CONSTANTS, { REDUX_ACTIONS } from 'utils/constants';
-import theme from 'utils/theme';
 import OldButton from '../OldButton';
 
 import styles from './styles';
@@ -24,6 +25,7 @@ const Complain = () => {
   const { width, height } = Dimensions.get('window');
   const complain = useSelector(({ info }: RootState) => info.complain);
   const [complainSubmited, setComplainSubmited] = useState(false);
+  const [isBusy, setIsBusy] = useState(false);
   const dispatch = useDispatch();
   const isAndroid = Platform.OS === 'android';
   useEffect(() => {
@@ -52,6 +54,7 @@ const Complain = () => {
   };
 
   const sendComplain = async (reason: string): void => {
+    setIsBusy(true);
     const result = await dispatch(
       createComplain({
         messageId: complain?.messageId,
@@ -59,8 +62,13 @@ const Complain = () => {
         comment: reason,
       }),
     );
-    // clearComplain();
-    if (result) {
+
+    if (result?.error) {
+      LOG('🛑 sendComplain > unexpecrted return', result);
+      setIsBusy(false);
+      closeModal();
+    } else {
+      setIsBusy(false);
       setComplainSubmited(true);
     }
   };
@@ -124,35 +132,44 @@ const Complain = () => {
                 style={styles.causeOptions}
                 scrollIndicatorInsets={{ right: 1 }}
               >
-                <OldButton
+                <Touchable
+                  highlight={false}
+                  activeOpacity={0.8}
                   onPress={() => {
-                    sendComplain(t('bullying'));
+                    isBusy ? null : sendComplain(t('bullying'));
                   }}
-                  touchableStyle={styles.causeOption}
+                  style={styles.causeOption}
                   testID={'ctaBullying'}
+                  disabled={isBusy}
                 >
                   <Text style={styles.causeOptionLabel}>{t('bullying')}</Text>
-                </OldButton>
-                <OldButton
+                </Touchable>
+                <Touchable
+                  highlight={false}
+                  activeOpacity={0.8}
                   onPress={() => {
-                    sendComplain(t('spam'));
+                    isBusy ? null : sendComplain(t('spam'));
                   }}
-                  touchableStyle={styles.causeOption}
+                  style={styles.causeOption}
                   testID={'ctaSpam'}
+                  disabled={isBusy}
                 >
                   <Text style={styles.causeOptionLabel}>{t('spam')}</Text>
-                </OldButton>
-                <OldButton
+                </Touchable>
+                <Touchable
+                  highlight={false}
+                  activeOpacity={0.8}
                   onPress={() => {
-                    sendComplain(t('inappropriate'));
+                    isBusy ? null : sendComplain(t('inappropriate'));
                   }}
-                  touchableStyle={styles.causeOption}
+                  style={styles.causeOption}
                   testID={'ctaInappropriate'}
+                  disabled={isBusy}
                 >
                   <Text style={styles.causeOptionLabel}>
                     {t('inappropriate')}
                   </Text>
-                </OldButton>
+                </Touchable>
               </ScrollView>
             </>
           ) : (

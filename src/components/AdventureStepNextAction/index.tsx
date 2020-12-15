@@ -74,9 +74,7 @@ const AdventureStepNextAction = ({
   }) => {
     let result = '';
     if (nextReleaseDate) {
-      result = `${t('share:nextRelease')} ${nextReleaseIn} ${t(
-        'at',
-      )}\u00A0${nextReleaseTime}`;
+      result = `${t('share:nextRelease')}: ${nextReleaseTime}`;
     } else {
       result = t('share:leaderWillRelease');
     }
@@ -184,7 +182,7 @@ const AdventureStepNextAction = ({
     // if (journey.conversation.messengers.length === 2 && inviteName) {
     //   otherUser = { first_name: inviteName };
     // }
-    const inviteName = adventure.journey_invite.name;
+    const inviteName = adventure.journey_invite?.name || '';
     let userName = '';
     if (otherUser && otherUser.first_name) {
       userName = otherUser.first_name;

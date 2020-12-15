@@ -113,9 +113,7 @@ function AdventureStepCard({
   }): string => {
     let result = '';
     if (releaseDate) {
-      result = `${t('share:nextRelease')} ${releaseIn} ${t(
-        'at',
-      )}\u00A0${releaseTime}`;
+      result = `${t('share:nextRelease')}: ${releaseTime}`;
     } else {
       result = t('share:leaderWillRelease');
     }
@@ -162,21 +160,22 @@ function AdventureStepCard({
             content_type: 'Adventure Step',
             item_list_id: adventure.organization_journey_id,
             item_list_name: adventure.name,
-            items: [{
-              item_variant: 'Step - ' + step.position,
-              item_name: step.name,
-              item_category: 'Adventure',
-              item_category2: adventure.kind,
-              item_category3: adventure?.language?.name,
-            }]
+            items: [
+              {
+                item_variant: 'Step - ' + step.position,
+                item_name: step.name,
+                item_category: 'Adventure',
+                item_category2: adventure.kind,
+                item_category3: adventure?.language?.name,
+              },
+            ],
           });
 
           navigation.navigate('AdventureStepScreen', {
             stepId: step.id,
             adventureId: adventure.id,
           });
-        }
-        }
+        }}
         style={styles.stepCard}
         testID={step?.position ? 'stepPart-' + step.position : ''}
       >
