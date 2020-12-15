@@ -63,12 +63,13 @@ const Complain = () => {
       }),
     );
 
-    if (result?.status) {
-      setIsBusy(false);
-      setComplainSubmited(true);
-    } else {
+    if (result?.error) {
       LOG('🛑 sendComplain > unexpecrted return', result);
       setIsBusy(false);
+      closeModal();
+    } else {
+      setIsBusy(false);
+      setComplainSubmited(true);
     }
   };
 
