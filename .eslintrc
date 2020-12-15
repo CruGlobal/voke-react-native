@@ -10,4 +10,11 @@
     "WARN": true,
     __DEV__: true,
   },
+  "rules": {
+    camelcase: ["error", {
+      allow: [
+        "message_id",
+      ]
+    }],
+  },
 }
