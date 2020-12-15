@@ -1,5 +1,4 @@
-import { StyleSheet } from 'react-native';
-
+import { StyleSheet, Platform } from 'react-native';
 import theme from 'utils/theme';
 
 const sharedStyles = {
@@ -71,13 +70,25 @@ const styles = StyleSheet.create({
   },
   completedBlock: {
     position: 'absolute',
-    top: -4,
-    right: -4,
     width: 30,
     height: 30,
     backgroundColor: theme.colors.secondary,
     padding: theme.spacing.s,
     borderRadius: theme.radius.xxl,
+    ...Platform.select({
+      ios: {
+        top: -4,
+        right: -4,
+      },
+      android: {
+        top: 0,
+        right: 0,
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: theme.radius.m,
+        borderBottomRightRadius: 0,
+        borderBottomLeftRadius: theme.radius.l,
+      },
+    }),
   },
   iconCompleted: {
     color: theme.colors.white,
