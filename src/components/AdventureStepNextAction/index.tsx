@@ -184,7 +184,7 @@ const AdventureStepNextAction = ({
     // if (journey.conversation.messengers.length === 2 && inviteName) {
     //   otherUser = { first_name: inviteName };
     // }
-    const inviteName = adventure.journey_invite.name;
+    const inviteName = adventure.journey_invite?.name || '';
     let userName = '';
     if (otherUser && otherUser.first_name) {
       userName = otherUser.first_name;

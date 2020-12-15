@@ -33,6 +33,7 @@
     },
     "common": {
         "yourAdventure": "Your Adventure",
+        "archivedAdventure": "Archived Adventure",
         "appleSignInDeletedTile": "We can't find your account!",
         "appleSignInDeletedBody": "There is no account matching your Apple ID. Follow our Help Guide to resolve this issue.",
         "adventure": "Adventure",

@@ -67,6 +67,7 @@ function AllMembersModal(props: Props) {
         adventureId as keyof TDataState['myAdventures']['byId']
       ] || {},
   );
+
   // const adventureId = props.route.params.adventure.messenger_journey_id;
   const allMessengers = adventure?.conversation?.messengers;
 
@@ -110,9 +111,9 @@ function AllMembersModal(props: Props) {
   useEffect(() => {
     // Set title dynamically.
     navigation.setOptions({
-      title: adventure.journey_invite.name || adventure.name || '',
+      title: adventure.journey_invite?.name || adventure?.name || '',
     });
-  }, [adventure.journey_invite.name, adventure.name, navigation]);
+  }, [adventure.journey_invite?.name, adventure?.name, navigation]);
 
   const onDeleteMember = async ({
     conversationId,
@@ -176,14 +177,16 @@ function AllMembersModal(props: Props) {
             <Flex align="center" self="stretch">
               {isJoined ? (
                 <>
-                  <Flex align="center" justify="center">
-                    <Text style={styles.invite}>
-                      {t('inviteCode')}:{' '}
-                      <Text style={styles.inviteCode}>
-                        {adventure.journey_invite.code}
+                  {adventure.journey_invite?.code ? (
+                    <Flex align="center" justify="center">
+                      <Text style={styles.invite}>
+                        {t('inviteCode')}:{' '}
+                        <Text style={styles.inviteCode}>
+                          {adventure.journey_invite.code}
+                        </Text>
                       </Text>
-                    </Text>
-                  </Flex>
+                    </Flex>
+                  ) : null}
                 </>
               ) : (
                 <OldButton

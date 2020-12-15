@@ -10,15 +10,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import analytics from '@react-native-firebase/analytics';
+import st from 'utils/st';
+import { TAdventureSingle, TDataState } from 'utils/types';
 
 import Image from '../Image';
-import st from 'utils/st';
 import Touchable from '../Touchable';
 import Text from '../Text';
 import VokeIcon from '../VokeIcon';
 import Flex from '../Flex';
 import { deleteAdventure, getMyAdventures } from '../../actions/requests';
-import { TAdventureSingle, TDataState } from 'utils/types';
 import { RootState } from '../../reducers';
 
 import ProgressDots from './ProgressDots';
@@ -101,7 +101,9 @@ const AdventureCardRender: FunctionComponent<Props> = ({
       title = t('yourAdventure');
     } else if (isGroup) {
       // Group:
-      title = groupName + ' ' + t('adventure');
+      title = groupName
+        ? groupName + ' ' + t('adventure')
+        : t('archivedAdventure');
     } else {
       // Duo:
       title = t('adventureWith') + ' ' + usersExceptVokeAndMe[0].first_name;
@@ -134,19 +136,20 @@ const AdventureCardRender: FunctionComponent<Props> = ({
             content_type: 'Adventure Active',
             item_list_id: 'Adventures',
             item_list_name: 'My Adventures',
-            items: [{
-              item_variant: adventureItem.kind,
-              item_name: adventureItem.name,
-              item_category: 'Adventure Active',
-              item_category2: adventureItem?.language?.name,
-            }]
+            items: [
+              {
+                item_variant: adventureItem.kind,
+                item_name: adventureItem.name,
+                item_category: 'Adventure Active',
+                item_category2: adventureItem?.language?.name,
+              },
+            ],
           });
 
           navigation.navigate('AdventureActive', {
             adventureId: adventureItem.id,
           });
-        }
-        }
+        }}
       >
         <Flex
           style={styles.card}
