@@ -1141,7 +1141,15 @@ export function updateAdventure(newAdventureData: any) {
   };
 }
 
-export function createComplain({ messageId, adventureId, comment }) {
+export function createComplain({
+  messageId,
+  adventureId,
+  comment,
+}: {
+  messageId: string;
+  adventureId: string;
+  comment: string;
+}) {
   return async (dispatch: Dispatch, getState: any) => {
     const data = await dispatch(
       request({
