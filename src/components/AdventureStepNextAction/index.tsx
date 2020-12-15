@@ -74,9 +74,7 @@ const AdventureStepNextAction = ({
   }) => {
     let result = '';
     if (nextReleaseDate) {
-      result = `${t('share:nextRelease')} ${nextReleaseIn} ${t(
-        'at',
-      )}\u00A0${nextReleaseTime}`;
+      result = `${t('share:nextRelease')}: ${nextReleaseTime}`;
     } else {
       result = t('share:leaderWillRelease');
     }

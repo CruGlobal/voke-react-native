@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-
 import theme from 'utils/theme';
 
 const styles = StyleSheet.create({
@@ -21,7 +20,7 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.l,
     fontFamily: theme.fonts.semiBold,
     textAlign: 'center',
-    textTransform: 'uppercase',
+    // textTransform: 'uppercase',
     color: theme.colors.white,
   },
 
