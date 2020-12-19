@@ -1,10 +1,5 @@
 import React, { useState, useRef, RefObject } from 'react';
-import {
-  Image as ReactNativeImage,
-  Platform,
-  StyleSheet,
-  View,
-} from 'react-native';
+import { Image as ReactNativeImage, Platform, StyleSheet } from 'react-native';
 import { BlurView } from '@react-native-community/blur';
 import Menu from 'react-native-material-menu';
 import { useTranslation } from 'react-i18next';
