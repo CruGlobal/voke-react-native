@@ -14,7 +14,6 @@ import theme from 'utils/theme';
 import { getCurrentUserId } from 'utils/get';
 import st from 'utils/st';
 import { TAdventureSingle, TStep, TMessage, TMessenger } from 'utils/types';
-import { number } from 'yup';
 import { toastAction } from 'actions/info';
 
 import { setComplain } from '../../actions/info';
