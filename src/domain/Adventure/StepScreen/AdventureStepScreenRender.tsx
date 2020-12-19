@@ -48,7 +48,6 @@ import {
   interactionVideoPlay,
   getAdventureSteps,
 } from 'actions/requests';
-import useWhyDidYouUpdate from 'hooks/useWhyDidYouUpdate';
 import { toastAction } from 'actions/info';
 import { bots } from 'assets';
 import Image from 'components/Image';
