@@ -34,7 +34,8 @@
     "ios:beta": "bundle exec fastlane ios beta",
     "android:beta": "bundle exec fastlane android beta",
     "onesky:upload": "babel-node ./bin/oneskyUpload.js",
-    "onesky:download": "babel-node ./bin/oneskyDownload.js"
+    "onesky:download": "babel-node ./bin/oneskyDownload.js",
+    "precommit": "lint-staged"
   },
   "dependencies": {
     "@brainly/onesky-utils": "^1.4.1",
@@ -148,6 +149,7 @@
     "jest": "^26.4.2",
     "jest-circus": "^26.4.2",
     "jetifier": "^1.6.6",
+    "lint-staged": "^10.5.3",
     "metro-react-native-babel-preset": "^0.58.0",
     "react-native-clean-project": "^3.4.0",
     "react-test-renderer": "16.11.0",
