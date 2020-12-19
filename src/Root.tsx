@@ -2,12 +2,13 @@
 import React, { Component, useState, useEffect } from 'react';
 // import './wdyr'; // Why Did You Render? tool.
 // import '@react-native-firebase/crashlytics';
-import crashlytics from '@react-native-firebase/crashlytics';
+// import crashlytics from '@react-native-firebase/crashlytics';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { YellowBox } from 'react-native';
 import { registerLogs } from 'utils';
+// import firebase from '@react-native-firebase/app';
 
 import configureStore from './store';
 import App from './App';
@@ -24,12 +25,38 @@ const Root = () => {
   registerLogs();
 
   const onBeforeLift = () => {
-    // crashlytics().recordError(37,"Test Error");
-    // crashlytics().log('App mounted. 13:17');
-    // crashlytics().setAttribute('test', '1317'),
-    // crashlytics().sendUnsentReports();
-    // crashlytics().recordError(new Error('Something Else!'));
-    // console.log( crashlytics().recordError(new Error('I did a woopsie')) );
+    // const defaultAppCrashlytics = firebase.crashlytics();
+    // console.log('🐸 onBeforeLift:', defaultAppCrashlytics);
+
+    /* defaultAppCrashlytics.checkForUnsentReports().then(
+      data => {
+        console.log('🐸 checkForUnsentReports:', data);
+      },
+      error => {
+        console.log('🛑 Error while updating the user.', error);
+        throw error;
+      },
+    );
+
+    defaultAppCrashlytics.didCrashOnPreviousExecution().then(
+      data => {
+        console.log('🐸 didCrashOnPreviousExecution:', data);
+      },
+      error => {
+        console.log('🛑 Error while updating the user.', error);
+        throw error;
+      },
+    ); */
+
+    /* defaultAppCrashlytics.recordError(37, 'Test Error');
+    defaultAppCrashlytics.log('App mounted. 13:17');
+    defaultAppCrashlytics.setAttribute('test', '1317');
+    defaultAppCrashlytics.sendUnsentReports();
+    defaultAppCrashlytics.recordError(new Error('Something Else!'));
+    console.log(
+      defaultAppCrashlytics.recordError(new Error('I did a woopsie')),
+    ); */
+    // defaultAppCrashlytics.crash();
     // Add any actions here to run before the loading gate lifts...
     // Delay for at least one second to reduce loading gate flashing.
     setTimeout(() => {
@@ -45,7 +72,7 @@ const Root = () => {
         <PersistGate
           // loading={<LoadingRedux />}
           persistor={persistor}
-          onBeforeLift={onBeforeLift}
+          // onBeforeLift={onBeforeLift}
         >
           <App />
           <ToastManager />

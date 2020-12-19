@@ -1,13 +1,9 @@
-/* eslint-disable camelcase */
-/* eslint-disable @typescript-eslint/camelcase */
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Alert } from 'react-native';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import analytics from '@react-native-firebase/analytics';
 import { useTranslation } from 'react-i18next';
-import moment from 'moment';
 import { useSelector, useDispatch } from 'react-redux';
-import theme from 'utils/theme';
 import useInterval from 'utils/useInterval';
 import { getExpiredTime } from 'utils/get';
 import st from 'utils/st';
@@ -27,8 +23,6 @@ import {
 import { RootState } from '../../reducers';
 
 import styles from './styles';
-
-const THUMBNAIL_WIDTH = 140;
 
 type InviteItemProps = {
   inviteID: string;
@@ -66,7 +60,7 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
 
   const thumbnail = useMemo(() => orgJourneyImage || '', [orgJourneyImage]);
 
-  const updateExpire = () => {
+  const updateExpire = useCallback(() => {
     if (inviteItem.expires_at) {
       const { str, isTimeExpired } = getExpiredTime(inviteItem.expires_at);
       setIsExpired(isTimeExpired ? true : false);
@@ -74,15 +68,11 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
     } else {
       setIsExpired(false);
     }
-  };
-
-  useEffect(() => {
-    updateExpire();
-  }, []);
-
-  useEffect(() => {
-    updateExpire();
   }, [inviteItem.expires_at]);
+
+  useEffect(() => {
+    updateExpire();
+  }, [inviteItem.expires_at, updateExpire]);
 
   // Create a live expiration countdown timer.
   // Function will fire by itself after required time passes..
@@ -90,7 +80,7 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
     updateExpire();
     // Clear the interval when it is expired
     if (isExpired) {
-      setTimer(null);
+      setTimer(0);
     }
   }, timer);
 
@@ -98,9 +88,9 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
     return <></>;
   }
 
-  const resendInvite = async inviteID => {
+  const resendInvite = async (invID: string) => {
     try {
-      await dispatch(resendAdventureInvitation(inviteID));
+      await dispatch(resendAdventureInvitation(invID));
     } finally {
       navigation.navigate('AdventureShareCode', {
         invitation: inviteItem,
@@ -110,7 +100,7 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
     }
   };
 
-  const deleteInvite = inviteID => {
+  const deleteInvite = (invID: string) => {
     // dispatch(
     Alert.alert(
       t('areYouSureDelete', { name: inviteItem?.name || '' }),
@@ -118,13 +108,15 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
       [
         {
           text: t('cancel'),
-          onPress: () => {},
+          onPress: () => {
+            // void
+          },
           style: 'cancel',
         },
         {
           text: t('delete'),
           onPress: async () => {
-            await dispatch(deleteAdventureInvitation(inviteID));
+            await dispatch(deleteAdventureInvitation(invID));
             await dispatch(getAdventuresInvitations());
           },
         },
@@ -155,13 +147,15 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
             content_type: 'Invite',
             item_list_id: 'Adventures',
             item_list_name: 'My Adventures',
-            items: [{
-              item_id: '0145292b-bef9-47ed-b14e-25f367c7246a',
-              item_name: inviteItem.organization_journey.name,
-              item_category: 'Invite',
-              item_category2: inviteItem.kind,
-              item_category3: inviteItem.status,
-            }]
+            items: [
+              {
+                item_id: '0145292b-bef9-47ed-b14e-25f367c7246a',
+                item_name: inviteItem.organization_journey.name,
+                item_category: 'Invite',
+                item_category2: inviteItem.kind,
+                item_category3: inviteItem.status,
+              },
+            ],
           });
 
           navigation.navigate('AdventureActive', {
@@ -232,17 +226,13 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
             <Flex
               align="center"
               justify="center"
-              style={{
-                position: 'absolute',
-                top: 4,
-                right: 4,
-              }}
+              style={styles.iconDeleteContainer}
             >
               <Touchable
                 onPress={(): void => {
                   deleteInvite(inviteID);
                 }}
-                style={[st.br2, st.borderTransparent, st.bw1, st.pd(7)]}
+                style={styles.iconDeleteTouch}
               >
                 <VokeIcon name="close" style={styles.iconDelete} />
               </Touchable>

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
@@ -6,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import {
   getCurrentUserId,
   getNextReleaseDate,
-  getDiffToDate,
+  // getDiffToDate,
   getTimeToDate,
 } from 'utils/get';
 import theme from 'utils/theme';
@@ -33,7 +32,7 @@ type StepProps = {
 type AdventureStepCardProps = {
   stepId: string;
   adventureId: string;
-  nextStepRef: any;
+  nextStepRef: React.MutableRefObject<number>;
 };
 
 // Renders Cards on this screen https://d.pr/i/WsCCf2
@@ -97,27 +96,26 @@ function AdventureStepCard({
       })
     : null;
 
-  const nextReleaseIn = nextReleaseDate ? getDiffToDate(nextReleaseDate) : null;
+  // const nextReleaseIn = nextReleaseDate ? getDiffToDate(nextReleaseDate) : null;
   const nextReleaseTime = nextReleaseDate
     ? getTimeToDate(nextReleaseDate)
     : null;
 
+  type printNextReleaseDateProps = {
+    releaseDate: string | null;
+    releaseTime: string | null;
+  };
+
   const printNextReleaseDate = ({
     releaseDate,
-    releaseIn,
     releaseTime,
-  }: {
-    releaseDate: string | null;
-    releaseIn: string | null;
-    releaseTime: string | null;
-  }): string => {
+  }: printNextReleaseDateProps): string => {
     let result = '';
     if (releaseDate) {
       result = `${t('share:nextRelease')}: ${releaseTime}`;
     } else {
       result = t('share:leaderWillRelease');
     }
-
     return result;
   };
 
@@ -200,7 +198,6 @@ function AdventureStepCard({
                 <Text style={styles.nextReleaseText}>
                   {printNextReleaseDate({
                     releaseDate: nextReleaseDate,
-                    releaseIn: nextReleaseIn,
                     releaseTime: nextReleaseTime,
                   })}
                 </Text>

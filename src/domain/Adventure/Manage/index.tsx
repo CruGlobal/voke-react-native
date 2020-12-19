@@ -162,7 +162,7 @@ function AdventureManage({ navigation, route }: Props): React.ReactElement {
   useFocusEffect(
     React.useCallback(() => {
       // When the screen is focused:
-      // Pull latest udpates for this adventure from the server.
+      // Pull latest updates for this adventure from the server.
       dispatch(getMyAdventure(adventureId));
     }, [dispatch, adventureId]),
   );

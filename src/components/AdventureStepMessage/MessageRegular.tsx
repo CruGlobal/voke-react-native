@@ -14,8 +14,6 @@ import theme from 'utils/theme';
 import { getCurrentUserId } from 'utils/get';
 import st from 'utils/st';
 import { TAdventureSingle, TStep, TMessage, TMessenger } from 'utils/types';
-import { number } from 'yup';
-import { toastAction } from 'actions/info';
 
 import { setComplain } from '../../actions/info';
 import Image from '../Image';
@@ -27,151 +25,72 @@ import AdventureStepMessageInput from '../AdventureStepMessageInput';
 import Touchable from '../Touchable';
 
 import styles from './styles';
-import MessageSpecial from './MessageSpecial';
 
-type MessageProps = {
-  isMainAnswer?: boolean;
-  hasClickedPlay?: boolean;
-  item: TMessage;
+type Props = {
+  message: TMessage;
   step: TStep;
   adventure: TAdventureSingle;
   previous: TMessage | null;
   next: TMessage | null;
-  onFocus: (event: unknown, answerPosY: number) => void;
+
+  kind: TMessage['metadata']['step_kind']; // 'question' | 'regular' | 'binary' | 'multi' | 'share' | 'text',
+  setAnswerPosY: (answerPosY: number) => void;
+  selectedAnswer: string;
+  inputField: React.ReactElement;
 };
 
-function AdventureStepMessage({
-  isMainAnswer,
-  item,
+function MessageSpecial({
+  message,
   step,
   adventure,
   previous,
   next,
-  onFocus,
-  hasClickedPlay,
-}: MessageProps): React.ReactElement | null {
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const reportMenuRef: RefObject<Menu> = useRef(null);
-  const [answerPosY, setAnswerPosY] = useState(0);
-  const isAndroid = Platform.OS === 'android';
-  const userId = getCurrentUserId();
 
-  const isMyMessage = item?.messenger_id === userId;
-  const adminUser = adventure.conversation.messengers.find(i => i.group_leader);
-
-  const isAdminMessage = item?.messenger_id === adminUser?.id;
-  const isAdmin = userId === adminUser?.id;
-  // const myFirstMessage = reversed.find(m => m.messenger_id === me.id);
-  // if (isMyMessage && adventure.kind === 'solo') return null;
-  const isSharedAnswer = item?.metadata?.vokebot_action === 'share_answers';
-  // User who left the message.
-  const messenger: TMessenger = adventure.conversation.messengers.find(
-    i => i.id === item?.messenger_id,
-  ) || {
-    id: item?.messenger_id || '',
-    first_name: '',
-    last_name: '',
-    avatar: {
-      small: '',
-      medium: '',
-      large: '',
-    },
-    status: 'blocked',
-  };
-
-  // const messengerAvatar = messenger?.avatar?.small || avatars.default;
-  // Blur other answers until step completed.
-  const isBlured =
-    !isMyMessage && // If this is not my message.
-    step.status !== 'completed' && // If current step not yet completed.
-    !item?.metadata?.messenger_journey_step_id; // If I didn't left the message.
-
-  const msgKind = item?.metadata?.step_kind || 'regular';
-  let selectedAnswer =
-    (((item?.metadata || {}).answers || []).find(i => i?.selected) || {}).key ||
-    '';
-
-  const showMessageReporting =
-    item?.messenger_id !== userId && // Can't report themselves.
-    !isAdminMessage && // Can't report admin.
-    !isBlured && // Can't report blured messages.
-    !isAdmin && // Admin can't report anyone.
-    adventure.kind !== 'duo'; // Can't report in Duo adventure.
-
-  // If current message is a question box and next message is answer,
-  // render next message here (https://d.pr/i/YHrv4N).
-  if (
-    msgKind === 'question' &&
-    !selectedAnswer &&
-    item?.metadata?.vokebot_action === 'journey_step' &&
-    next?.content &&
-    next?.direct_message
-  ) {
-    selectedAnswer = next?.content;
-  }
-
-  // Do not output answer to the previous question box
-  // as it was already rendered above.
-  if (
-    // If the previous message is a question box type.
-    (previous?.metadata?.step_kind === 'question' ||
-      // ... or if the previous message is a share message box
-      // with the current message shared.
-      previous?.metadata?.messenger_answer === item?.content) &&
-    item?.content &&
-    item?.direct_message
-  ) {
-    return null;
-  }
-
-  console.log('🐸 adventure:', adventure);
-  console.log('🐸 step:', step);
-  console.log('🐸 item:', item);
-
+  kind,
+  setAnswerPosY,
+  selectedAnswer,
+  inputField,
+}: Props): React.ReactElement {
   // SPECIAL MESSAGE: QUESTION / MULTI / BINARY / SHARE
-  if (
-    ['binary', 'multi', 'question', 'share'].includes(msgKind) ||
-    isMainAnswer
-  ) {
-    return (
-      <MessageSpecial
-        message={item}
-        // step={step}
-        // adventure={adventure}
-        kind={isMainAnswer ? 'question' : msgKind}
-        setAnswerPosY={(posY: number) => {
-          setAnswerPosY(posY);
-        }}
-        // selectedAnswer={isMainAnswer ? item.content : selectedAnswer}
-        inputField={
-          <AdventureStepMessageInput
-            kind={isMainAnswer ? step?.kind : msgKind}
-            adventure={adventure}
-            step={step}
-            internalMessage={isMainAnswer ? null : item}
-            defaultValue={isMainAnswer ? item.content : selectedAnswer}
-            onFocus={event => {
-              if (isMainAnswer && !hasClickedPlay) {
-                dispatch(
-                  toastAction(
-                    'Please watch the video first before you answer. Thanks!', //TODO: Translate it!
-                  ),
-                );
-              }
-              onFocus(event, answerPosY);
-            }}
-          />
+  return (
+    <View
+      style={styles.mainQuestionCard}
+      onLayout={({ nativeEvent }) => {
+        // Calculate vertical offset to be used on answer field focus.
+        const layout = nativeEvent?.layout;
+        if (layout && layout?.y && layout?.height) {
+          setAnswerPosY(layout.y);
         }
-      />
-    );
-  }
+      }}
+    >
+      <Flex direction="column" style={styles.mainQuestionContainer}>
+        {kind === 'multi' || kind === 'question' ? (
+          /* MESSAGE QUESTION AREA: */
+          <Flex
+            direction="column"
+            style={styles.mainQuestion}
+            align="center"
+            justify="center"
+          >
+            <Text style={[st.tac, st.white, st.fs(20), st.lh(24)]}>
+              {(message?.metadata || {}).question || null}
+            </Text>
+          </Flex>
+        ) : null}
+        {/* <Image
+            source={{ uri: (messenger.avatar || {}).small }}
+            style={[st.absb, st.right(-30), st.h(25), st.w(25), st.br1]}
+          /> */}
+        {/* MESSAGE INPUT FIELD: */}
+        {inputField}
+      </Flex>
+    </View>
+  );
 
   // REGULAR MESSAGE: TEXT
   return (
     <>
-      {/* {!item?.content && isMyMessage ? null : ( */}
-      {!item?.content ? null : (
+      {!item?.content && isMyMessage ? null : (
         <Flex align="between" style={styles.messageContainer}>
           <Flex direction="column" style={styles.messageContent}>
             <Flex direction="row">
@@ -218,8 +137,8 @@ function AdventureStepMessage({
                         isBlured && isAndroid
                           ? 'rgba(0,0,0,0)'
                           : isMyMessage
-                          ? '#44c8e8'
-                          : '#fff',
+                            ? '#44c8e8'
+                            : '#fff',
                       opacity: item?.content ? 1 : 0.5,
                       paddingHorizontal: theme.spacing.l,
                       paddingVertical: theme.spacing.l,
@@ -229,8 +148,8 @@ function AdventureStepMessage({
                     {isSharedAnswer
                       ? item?.metadata?.messenger_answer
                       : item?.content
-                      ? item?.content
-                      : 'Skipped'}
+                        ? item?.content
+                        : 'Skipped'}
                   </Text>
                 </Flex>
                 {!isMyMessage ? <Flex style={[st.f1]} /> : null}
@@ -350,4 +269,4 @@ function AdventureStepMessage({
   );
 }
 
-export default AdventureStepMessage;
+export default MessageSpecial;

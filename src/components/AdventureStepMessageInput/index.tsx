@@ -22,8 +22,8 @@ interface Props {
   step: TStep;
   internalMessage?: TMessage;
   defaultValue: string;
-  onFocus: () => void;
-  isLoading: boolean;
+  onFocus: (event: any) => void;
+  isLoading?: boolean;
 }
 
 const AdventureStepMessageInput = ({
@@ -166,16 +166,16 @@ const AdventureStepMessageInput = ({
               align="center"
               style={styles.mainQuestion}
               /* style={[
-                st.ph4,
-                st.pv4,
-                st.mt4,
-                st.w100,
-                {
-                  marginRight: -20,
-                  marginLeft: -20,
-                  backgroundColor: st.colors.lightOrange,
-                },
-              ]} */
+              st.ph4,
+              st.pv4,
+              st.mt4,
+              st.w100,
+              {
+                marginRight: -20,
+                marginLeft: -20,
+                backgroundColor: st.colors.lightOrange,
+              },
+            ]} */
             >
               <Text style={[[st.pv4, st.white, st.tac, st.fs20, st.lh(24)]]}>
                 {metadata.question}

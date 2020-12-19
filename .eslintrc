@@ -13,7 +13,26 @@
   "rules": {
     camelcase: ["error", {
       allow: [
+        "created_at",
+        "direct_message",
         "message_id",
+        "messenger_answer",
+        "messenger_id",
+        "messenger_journey_step_id",
+        "content_type",
+        "item_list_id",
+        "item_list_name",
+        "item_variant",
+        "item_name",
+        "item_id",
+        "item_category",
+        "step_kind",
+        "organization_journey",
+        "unread_messages",
+        "journey_invite",
+        "vokebot_action",
+        "first_name",
+        "last_name",
       ]
     }],
   },

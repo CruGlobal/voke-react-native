@@ -1,6 +1,4 @@
 import React from 'react';
-
-// import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';

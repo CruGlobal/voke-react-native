@@ -229,21 +229,23 @@ const AdventureStepScreenRender = ({
   }, [messengers]);
 
   // Find a reply to the main question (if already answered).
-  const myMainAnswer: TMessage = {
+  let myMainAnswer: TMessage = {
     id: '',
     content: '',
     created_at: '',
+    metadata: {},
   };
 
   if (!['multi', 'binary'].includes(currentStep?.kind)) {
+    // If simple question step.
     // Find the first message of the current author from the start.
     const mainAnswer: TMessage | undefined = currentMessages
       .slice()
       .find(m => m?.messenger_id === currentUser.id);
     if (mainAnswer) {
-      myMainAnswer.id = mainAnswer.id;
-      myMainAnswer.content = mainAnswer.content;
+      myMainAnswer = mainAnswer;
     }
+    myMainAnswer.metadata.question = currentStep.question;
   } else {
     // If multichoise.
     let mainAnswer: TAnswer | undefined;
@@ -361,6 +363,8 @@ const AdventureStepScreenRender = ({
     dispatch,
     isSolo,
   }); */
+
+  console.log('🐸 currentMessages:', currentMessages);
 
   return (
     <View
@@ -532,44 +536,59 @@ const AdventureStepScreenRender = ({
                     </Flex>
                   </View>
 
-                  {
-                    currentMessages.map((item, index) => {
-                      return (
-                        <>
-                          {!item || myMainAnswer?.id === item?.id ? null : (
-                            <AdventureStepMessage
-                              key={item.id}
-                              adventure={adventure}
-                              step={currentStep}
-                              item={item}
-                              next={
-                                currentMessages[index + 1]
-                                  ? currentMessages[index + 1]
-                                  : null
+                  <AdventureStepMessage
+                    adventure={adventure}
+                    step={currentStep}
+                    item={myMainAnswer}
+                    next={null}
+                    previous={null}
+                    isMainAnswer={true}
+                    hasClickedPlay={hasClickedPlay}
+                    onFocus={(event, posY): void => {
+                      if (Platform.OS === 'ios' && scrollRef?.current) {
+                        scrollRef.current.scrollTo({
+                          x: 0,
+                          y: posY - 40,
+                          animated: true,
+                        });
+                      }
+                    }}
+                  />
+
+                  {currentMessages.map((item, index) => {
+                    return (
+                      <>
+                        {/* {!item || myMainAnswer?.id === item?.id ? null : ( */}
+                        {!item ? null : (
+                          <AdventureStepMessage
+                            key={item.id}
+                            adventure={adventure}
+                            step={currentStep}
+                            item={item}
+                            next={
+                              currentMessages[index + 1]
+                                ? currentMessages[index + 1]
+                                : null
+                            }
+                            previous={
+                              currentMessages[index - 1]
+                                ? currentMessages[index - 1]
+                                : null
+                            }
+                            onFocus={(event, posY): void => {
+                              if (Platform.OS === 'ios' && scrollRef?.current) {
+                                scrollRef.current.scrollTo({
+                                  x: 0,
+                                  y: posY - 40,
+                                  animated: true,
+                                });
                               }
-                              previous={
-                                currentMessages[index - 1]
-                                  ? currentMessages[index - 1]
-                                  : null
-                              }
-                              onFocus={(event, posY): void => {
-                                if (
-                                  Platform.OS === 'ios' &&
-                                  scrollRef?.current
-                                ) {
-                                  scrollRef.current.scrollTo({
-                                    x: 0,
-                                    y: posY - 40,
-                                    animated: true,
-                                  });
-                                }
-                              }}
-                            />
-                          )}
-                        </>
-                      );
-                    })
-                  }
+                            }}
+                          />
+                        )}
+                      </>
+                    );
+                  })}
                   <AdventureStepNextAction
                     adventureId={adventureId}
                     stepId={currentStep.id}

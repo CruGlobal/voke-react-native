@@ -47,6 +47,20 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: theme.radius.s,
     borderBottomLeftRadius: theme.radius.s,
   },
+  iconDeleteContainer: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    width: 40,
+    height: 50,
+    zIndex: 99,
+  },
+  iconDeleteTouch: {
+    borderRadius: theme.radius.l,
+    borderColor: 'transparent',
+    borderWidth: 1,
+    paddingBottom: theme.spacing.s,
+  },
   iconDelete: {
     color: theme.colors.white,
     fontSize: 12,

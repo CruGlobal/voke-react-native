@@ -246,7 +246,7 @@ export function registerLogs() {
     if (__DEV__) {
       const args = getArgs(arguments);
       if (ENABLE_LOGS) {
-        console.log.apply(console, args);
+        console.log.bind(console, args);
       }
     }
   };
@@ -255,7 +255,7 @@ export function registerLogs() {
     if (__DEV__) {
       const args = getArgs(arguments, true);
       if (ENABLE_WARN) {
-        console.warn.apply(console, args);
+        console.warn.bind(console, args);
       }
     }
   };

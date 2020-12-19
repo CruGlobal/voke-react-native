@@ -3,7 +3,7 @@ import { render, fireEvent } from '@testing-library/react-native';
 
 // import { openMainMenu } from 'utils/common';
 // import { GET_CURRENT_USER_AVATAR } from '../queries';
-import AdventureStepScreen from '..';
+import MessageSpecial from '..';
 // import { renderWithContext } from '../testUtils';
 
 // jest.mock('utils/common');
@@ -13,11 +13,14 @@ beforeEach(() => {
 });
 
 /* it('renders correctly', () => {
-	const renderResult = render(React.cloneElement(<AdventureStepScreen />, { navigation }), {
-		wrapper,
-	});
+  const renderResult = render(
+    React.cloneElement(<AdventureStepScreen />, { navigation }),
+    {
+      wrapper,
+    },
+  );
 
-	expect(renderResult.toJSON()).toMatchSnapshot()
+  expect(renderResult.toJSON()).toMatchSnapshot();
 
   renderWithContext(<AdventureStepScreen />).snapshot();
   expect(useQuery).toHaveBeenCalledWith(GET_CURRENT_USER_AVATAR, {
@@ -29,4 +32,5 @@ beforeEach(() => {
   const { getByTestId } = renderWithContext(<AdventureStepScreen />);
   await fireEvent.press(getByTestId('menuButton'));
   expect(openMainMenu).toHaveBeenCalled();
-}); */
+});
+ */

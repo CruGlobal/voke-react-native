@@ -154,8 +154,11 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
                 }
               }
 
-              if (notification?.category === 'CREATE_MESSAGE_CATEGORY' ||
-                notification?.category === 'CREATE_JOURNEY_STEP_MESSAGE_MESSAGE_CATEGORY') {
+              if (
+                notification?.category === 'CREATE_MESSAGE_CATEGORY' ||
+                notification?.category ===
+                'CREATE_JOURNEY_STEP_MESSAGE_MESSAGE_CATEGORY'
+              ) {
                 // When new message posted by another user.
                 if (message && message['adventure_message?']) {
                   // If updated message in one of the Adventures.
@@ -248,18 +251,20 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
               // an error occurred
               console.log('🛑 socket error\n', error.message);
               // throw error;
-              // Try to restart:
-              setTimeout(
-                () => dispatch({
-                  type: REDUX_ACTIONS.STARTUP,
-                }),
-                5000,
-              );
+              global.ws.close();
             };
 
             global.ws.onclose = error => {
               // connection closed
-              console.log('🛑 socket closed\n', error.code, error.reason);
+              console.log('🛑 socket closed\n', error);
+              // Try to restart:
+              setTimeout(
+                () =>
+                  dispatch({
+                    type: REDUX_ACTIONS.STARTUP,
+                  }),
+                10000,
+              );
             };
           } else {
             console.log('🛑 WebSocket Error');
@@ -270,10 +275,11 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
           console.log('🛑 socketErr:\n', socketErr);
           // Try to restart:
           setTimeout(
-            () => dispatch({
-              type: REDUX_ACTIONS.STARTUP,
-            }),
-            5000,
+            () =>
+              dispatch({
+                type: REDUX_ACTIONS.STARTUP,
+              }),
+            10000,
           );
         }
       }

@@ -283,10 +283,11 @@ export type TMessage = {
   direct_message?: boolean;
   'adventure_message?'?: boolean;
   selected?: boolean; // Selected option in multichoise option.
-  metadata?: {
+  metadata: {
     created_at: string;
-    step_kind: string;
+    step_kind: 'question' | 'regular' | 'binary' | 'multi' | 'share' | 'text';
     answers?: TAnswer[];
+    messenger_answer?: string;
     question: string;
     vokebot_action: string;
     messenger_journey_step_id: string;

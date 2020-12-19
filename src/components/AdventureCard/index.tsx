@@ -107,6 +107,8 @@ const AdventureCardRender: FunctionComponent<Props> = ({
     } else {
       // Duo:
       title = t('adventureWith') + ' ' + usersExceptVokeAndMe[0].first_name;
+      // TODO: in case user joins via Welcome screen first_name will be empty.
+      // Need to find why that happens.
     }
     return title;
   };

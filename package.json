@@ -144,6 +144,7 @@
     "eslint": "^7.15.0",
     "eslint-config-prettier": "^7.0.0",
     "eslint-config-react-native-wcandillon": "^3.3.4",
+    "husky": "^4.3.6",
     "jest": "^26.4.2",
     "jest-circus": "^26.4.2",
     "jetifier": "^1.6.6",
