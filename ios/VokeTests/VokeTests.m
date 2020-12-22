@@ -7,11 +7,11 @@
 #define TIMEOUT_SECONDS 600
 #define TEXT_TO_LOOK_FOR @"Welcome to React"
 
-@interface VokeRN64Tests : XCTestCase
+@interface VokeTests : XCTestCase
 
 @end
 
-@implementation VokeRN64Tests
+@implementation VokeTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL(^)(UIView *view))test
 {
