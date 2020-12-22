@@ -337,6 +337,8 @@ PODS:
     - React-cxxreact (= 0.64.0-rc.2)
     - React-jsi (= 0.64.0-rc.2)
     - React-perflogger (= 0.64.0-rc.2)
+  - RNBootSplash (3.1.2):
+    - React-Core
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -394,6 +396,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - RNBootSplash (from `../node_modules/react-native-bootsplash`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -471,6 +474,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNBootSplash:
+    :path: "../node_modules/react-native-bootsplash"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -516,6 +521,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: 93c2f243bebd392a4fad35f55e3d79dd096a4f92
   React-runtimeexecutor: 15492c8842d72b14765986b5bfbaaf5468210f13
   ReactCommon: c8ae344df0376e043f2899a5badb60709d24821e
+  RNBootSplash: a9544ba7f1a68b561e61e9efc68e2b3eec05dcef
   Yoga: 17d4f4db4e2efbaa7c3bc316ce4f762d02c4023d
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
