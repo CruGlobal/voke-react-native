@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* VokeRN64Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* VokeRN64Tests.m */; };
+		00E356F31AD99517003FC87E /* VokeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* VokeTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		8BC79632145BA6DD82F23D94 /* libPods-VokeRN64-VokeRN64Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E95C1AE3B503471176C572CE /* libPods-VokeRN64-VokeRN64Tests.a */; };
-		C8D3AEDEECE24DBCBB4BF9FE /* libPods-VokeRN64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7426FCD764CDB6A634BCAEE2 /* libPods-VokeRN64.a */; };
+		8BC79632145BA6DD82F23D94 /* libPods-Voke-VokeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E95C1AE3B503471176C572CE /* libPods-Voke-VokeTests.a */; };
+		C8D3AEDEECE24DBCBB4BF9FE /* libPods-Voke.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7426FCD764CDB6A634BCAEE2 /* libPods-Voke.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -22,27 +22,27 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = VokeRN64;
+			remoteInfo = Voke;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		00E356EE1AD99517003FC87E /* VokeRN64Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VokeRN64Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* VokeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VokeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* VokeRN64Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VokeRN64Tests.m; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* VokeRN64.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VokeRN64.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = VokeRN64/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = VokeRN64/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = VokeRN64/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = VokeRN64/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = VokeRN64/main.m; sourceTree = "<group>"; };
-		28AAFD8CAD3A9CEEAE0010DC /* Pods-VokeRN64-VokeRN64Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VokeRN64-VokeRN64Tests.release.xcconfig"; path = "Target Support Files/Pods-VokeRN64-VokeRN64Tests/Pods-VokeRN64-VokeRN64Tests.release.xcconfig"; sourceTree = "<group>"; };
-		29A57D5E42B70D3A89967732 /* Pods-VokeRN64.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VokeRN64.debug.xcconfig"; path = "Target Support Files/Pods-VokeRN64/Pods-VokeRN64.debug.xcconfig"; sourceTree = "<group>"; };
-		5649A428A4F12BD9F9A0E9E4 /* Pods-VokeRN64-VokeRN64Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VokeRN64-VokeRN64Tests.debug.xcconfig"; path = "Target Support Files/Pods-VokeRN64-VokeRN64Tests/Pods-VokeRN64-VokeRN64Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		5785C75AE1A64D9C5BFD49CB /* Pods-VokeRN64.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VokeRN64.release.xcconfig"; path = "Target Support Files/Pods-VokeRN64/Pods-VokeRN64.release.xcconfig"; sourceTree = "<group>"; };
-		7426FCD764CDB6A634BCAEE2 /* libPods-VokeRN64.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-VokeRN64.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = VokeRN64/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		E95C1AE3B503471176C572CE /* libPods-VokeRN64-VokeRN64Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-VokeRN64-VokeRN64Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356F21AD99517003FC87E /* VokeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VokeTests.m; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* Voke.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Voke.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Voke/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Voke/AppDelegate.m; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Voke/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Voke/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Voke/main.m; sourceTree = "<group>"; };
+		28AAFD8CAD3A9CEEAE0010DC /* Pods-Voke-VokeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Voke-VokeTests.release.xcconfig"; path = "Target Support Files/Pods-Voke-VokeTests/Pods-Voke-VokeTests.release.xcconfig"; sourceTree = "<group>"; };
+		29A57D5E42B70D3A89967732 /* Pods-Voke.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Voke.debug.xcconfig"; path = "Target Support Files/Pods-Voke/Pods-Voke.debug.xcconfig"; sourceTree = "<group>"; };
+		5649A428A4F12BD9F9A0E9E4 /* Pods-Voke-VokeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Voke-VokeTests.debug.xcconfig"; path = "Target Support Files/Pods-Voke-VokeTests/Pods-Voke-VokeTests.debug.xcconfig"; sourceTree = "<group>"; };
+		5785C75AE1A64D9C5BFD49CB /* Pods-Voke.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Voke.release.xcconfig"; path = "Target Support Files/Pods-Voke/Pods-Voke.release.xcconfig"; sourceTree = "<group>"; };
+		7426FCD764CDB6A634BCAEE2 /* libPods-Voke.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Voke.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Voke/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		E95C1AE3B503471176C572CE /* libPods-Voke-VokeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Voke-VokeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -51,7 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8BC79632145BA6DD82F23D94 /* libPods-VokeRN64-VokeRN64Tests.a in Frameworks */,
+				8BC79632145BA6DD82F23D94 /* libPods-Voke-VokeTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,20 +59,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8D3AEDEECE24DBCBB4BF9FE /* libPods-VokeRN64.a in Frameworks */,
+				C8D3AEDEECE24DBCBB4BF9FE /* libPods-Voke.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* VokeRN64Tests */ = {
+		00E356EF1AD99517003FC87E /* VokeTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* VokeRN64Tests.m */,
+				00E356F21AD99517003FC87E /* VokeTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = VokeRN64Tests;
+			path = VokeTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -83,7 +83,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* VokeRN64 */ = {
+		13B07FAE1A68108700A75B9A /* Voke */ = {
 			isa = PBXGroup;
 			children = (
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -93,15 +93,15 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = VokeRN64;
+			name = Voke;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				7426FCD764CDB6A634BCAEE2 /* libPods-VokeRN64.a */,
-				E95C1AE3B503471176C572CE /* libPods-VokeRN64-VokeRN64Tests.a */,
+				7426FCD764CDB6A634BCAEE2 /* libPods-Voke.a */,
+				E95C1AE3B503471176C572CE /* libPods-Voke-VokeTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -109,10 +109,10 @@
 		31717EADF1D33B48702FF0C3 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				29A57D5E42B70D3A89967732 /* Pods-VokeRN64.debug.xcconfig */,
-				5785C75AE1A64D9C5BFD49CB /* Pods-VokeRN64.release.xcconfig */,
-				5649A428A4F12BD9F9A0E9E4 /* Pods-VokeRN64-VokeRN64Tests.debug.xcconfig */,
-				28AAFD8CAD3A9CEEAE0010DC /* Pods-VokeRN64-VokeRN64Tests.release.xcconfig */,
+				29A57D5E42B70D3A89967732 /* Pods-Voke.debug.xcconfig */,
+				5785C75AE1A64D9C5BFD49CB /* Pods-Voke.release.xcconfig */,
+				5649A428A4F12BD9F9A0E9E4 /* Pods-Voke-VokeTests.debug.xcconfig */,
+				28AAFD8CAD3A9CEEAE0010DC /* Pods-Voke-VokeTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -127,9 +127,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				13B07FAE1A68108700A75B9A /* VokeRN64 */,
+				13B07FAE1A68108700A75B9A /* Voke */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* VokeRN64Tests */,
+				00E356EF1AD99517003FC87E /* VokeTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				31717EADF1D33B48702FF0C3 /* Pods */,
@@ -142,8 +142,8 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* VokeRN64.app */,
-				00E356EE1AD99517003FC87E /* VokeRN64Tests.xctest */,
+				13B07F961A680F5B00A75B9A /* Voke.app */,
+				00E356EE1AD99517003FC87E /* VokeTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -151,9 +151,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* VokeRN64Tests */ = {
+		00E356ED1AD99517003FC87E /* VokeTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "VokeRN64Tests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "VokeTests" */;
 			buildPhases = (
 				44B17CE62547EDC93B49F30E /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
@@ -167,14 +167,14 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = VokeRN64Tests;
-			productName = VokeRN64Tests;
-			productReference = 00E356EE1AD99517003FC87E /* VokeRN64Tests.xctest */;
+			name = VokeTests;
+			productName = VokeTests;
+			productReference = 00E356EE1AD99517003FC87E /* VokeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* VokeRN64 */ = {
+		13B07F861A680F5B00A75B9A /* Voke */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "VokeRN64" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Voke" */;
 			buildPhases = (
 				6F59B97001C046D6F338079F /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
@@ -189,9 +189,9 @@
 			);
 			dependencies = (
 			);
-			name = VokeRN64;
-			productName = VokeRN64;
-			productReference = 13B07F961A680F5B00A75B9A /* VokeRN64.app */;
+			name = Voke;
+			productName = Voke;
+			productReference = 13B07F961A680F5B00A75B9A /* Voke.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -211,7 +211,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "VokeRN64" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Voke" */;
 			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -224,8 +224,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* VokeRN64 */,
-				00E356ED1AD99517003FC87E /* VokeRN64Tests */,
+				13B07F861A680F5B00A75B9A /* Voke */,
+				00E356ED1AD99517003FC87E /* VokeTests */,
 			);
 		};
 /* End PBXProject section */
@@ -270,15 +270,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VokeRN64-VokeRN64Tests/Pods-VokeRN64-VokeRN64Tests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Voke-VokeTests/Pods-Voke-VokeTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VokeRN64-VokeRN64Tests/Pods-VokeRN64-VokeRN64Tests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Voke-VokeTests/Pods-Voke-VokeTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VokeRN64-VokeRN64Tests/Pods-VokeRN64-VokeRN64Tests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Voke-VokeTests/Pods-Voke-VokeTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		32F6EFE3AA794903EB08F6AD /* [CP] Copy Pods Resources */ = {
@@ -287,15 +287,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VokeRN64-VokeRN64Tests/Pods-VokeRN64-VokeRN64Tests-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Voke-VokeTests/Pods-Voke-VokeTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VokeRN64-VokeRN64Tests/Pods-VokeRN64-VokeRN64Tests-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Voke-VokeTests/Pods-Voke-VokeTests-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VokeRN64-VokeRN64Tests/Pods-VokeRN64-VokeRN64Tests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Voke-VokeTests/Pods-Voke-VokeTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		44B17CE62547EDC93B49F30E /* [CP] Check Pods Manifest.lock */ = {
@@ -313,7 +313,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-VokeRN64-VokeRN64Tests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Voke-VokeTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -335,7 +335,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-VokeRN64-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Voke-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -348,15 +348,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VokeRN64/Pods-VokeRN64-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Voke/Pods-Voke-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VokeRN64/Pods-VokeRN64-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Voke/Pods-Voke-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VokeRN64/Pods-VokeRN64-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Voke/Pods-Voke-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		EC8B6F98DCFD44105EBA9857 /* [CP] Copy Pods Resources */ = {
@@ -365,15 +365,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VokeRN64/Pods-VokeRN64-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Voke/Pods-Voke-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VokeRN64/Pods-VokeRN64-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Voke/Pods-Voke-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VokeRN64/Pods-VokeRN64-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Voke/Pods-Voke-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -402,7 +402,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* VokeRN64Tests.m in Sources */,
+				00E356F31AD99517003FC87E /* VokeTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,7 +420,7 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* VokeRN64 */;
+			target = 13B07F861A680F5B00A75B9A /* Voke */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -428,14 +428,18 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5649A428A4F12BD9F9A0E9E4 /* Pods-VokeRN64-VokeRN64Tests.debug.xcconfig */;
+			baseConfigurationReference = 5649A428A4F12BD9F9A0E9E4 /* Pods-Voke-VokeTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = Voke/Voke.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = DQ48D9BF2V;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = VokeRN64Tests/Info.plist;
+				INFOPLIST_FILE = VokeTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -447,19 +451,23 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.cru.voke;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VokeRN64.app/VokeRN64";
+				PROVISIONING_PROFILE_SPECIFIER = "Voke - Dev 2020-11-16";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Voke.app/Voke";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 28AAFD8CAD3A9CEEAE0010DC /* Pods-VokeRN64-VokeRN64Tests.release.xcconfig */;
+			baseConfigurationReference = 28AAFD8CAD3A9CEEAE0010DC /* Pods-Voke-VokeTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = VokeRN64Tests/Info.plist;
+				DEVELOPMENT_TEAM = B56NF5443N;
+				INFOPLIST_FILE = VokeTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -471,33 +479,40 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.cru.voke;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VokeRN64.app/VokeRN64";
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore org.cru.voke";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Voke.app/Voke";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 29A57D5E42B70D3A89967732 /* Pods-VokeRN64.debug.xcconfig */;
+			baseConfigurationReference = 29A57D5E42B70D3A89967732 /* Pods-Voke.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = B56NF5443N;
+				CODE_SIGN_ENTITLEMENTS = Voke/Voke.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1066;
+				DEVELOPMENT_TEAM = DQ48D9BF2V;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = VokeRN64/Info.plist;
+				INFOPLIST_FILE = Voke/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 5.6.6;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = VokeRN64;
+				PRODUCT_BUNDLE_IDENTIFIER = org.cru.voke;
+				PRODUCT_NAME = Voke;
+				PROVISIONING_PROFILE_SPECIFIER = "Voke - Dev 2020-11-16";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -506,13 +521,15 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5785C75AE1A64D9C5BFD49CB /* Pods-VokeRN64.release.xcconfig */;
+			baseConfigurationReference = 5785C75AE1A64D9C5BFD49CB /* Pods-Voke.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = B56NF5443N;
-				INFOPLIST_FILE = VokeRN64/Info.plist;
+				INFOPLIST_FILE = Voke/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -522,8 +539,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = VokeRN64;
+				PRODUCT_BUNDLE_IDENTIFIER = org.vlad.test;
+				PRODUCT_NAME = Voke;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -655,7 +673,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "VokeRN64Tests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "VokeTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -664,7 +682,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "VokeRN64" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Voke" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -673,7 +691,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "VokeRN64" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Voke" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
