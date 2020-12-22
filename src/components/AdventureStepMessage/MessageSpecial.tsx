@@ -11,16 +11,18 @@ import styles from './styles';
 type Props = {
   message: TMessage;
   kind: TMessage['metadata']['step_kind']; // 'question' | 'regular' | 'binary' | 'multi' | 'share' | 'text',
-  setAnswerPosY: (answerPosY: number) => void;
-  inputField: React.ReactElement;
+  setAnswerPosY?: (answerPosY: number) => void;
+  inputField?: React.ReactElement | null;
 };
 
 // Special message: QUESTION / MULTI / BINARY / SHARE
 function MessageSpecial({
   message,
   kind,
-  setAnswerPosY,
-  inputField,
+  setAnswerPosY = () => {
+    //void
+  },
+  inputField = null,
 }: Props): React.ReactElement {
   return (
     <View
@@ -32,6 +34,7 @@ function MessageSpecial({
           setAnswerPosY(layout.y);
         }
       }}
+      testID="MessageSpecial"
     >
       <Flex direction="column" style={styles.mainQuestionContainer}>
         {kind === 'multi' || kind === 'question' ? (
@@ -42,7 +45,10 @@ function MessageSpecial({
             align="center"
             justify="center"
           >
-            <Text style={[st.tac, st.white, st.fs(20), st.lh(24)]}>
+            <Text
+              style={[st.tac, st.white, st.fs(20), st.lh(24)]}
+              testID="MessageContent"
+            >
               {(message?.metadata || {}).question || null}
             </Text>
           </Flex>

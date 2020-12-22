@@ -74,6 +74,8 @@ function AdventureStepMessage({
     status: 'blocked',
   };
 
+  console.log('🐸 item:', item);
+
   // const messengerAvatar = messenger?.avatar?.small || avatars.default;
   // Blur other answers until step completed.
   const isBlured =

@@ -62,6 +62,7 @@ function MessageSpecial({
           setAnswerPosY(layout.y);
         }
       }}
+      testID="MessageRegular"
     >
       <Flex direction="column" style={styles.mainQuestionContainer}>
         {kind === 'multi' || kind === 'question' ? (
@@ -137,8 +138,8 @@ function MessageSpecial({
                         isBlured && isAndroid
                           ? 'rgba(0,0,0,0)'
                           : isMyMessage
-                            ? '#44c8e8'
-                            : '#fff',
+                          ? '#44c8e8'
+                          : '#fff',
                       opacity: item?.content ? 1 : 0.5,
                       paddingHorizontal: theme.spacing.l,
                       paddingVertical: theme.spacing.l,
@@ -148,8 +149,8 @@ function MessageSpecial({
                     {isSharedAnswer
                       ? item?.metadata?.messenger_answer
                       : item?.content
-                        ? item?.content
-                        : 'Skipped'}
+                      ? item?.content
+                      : 'Skipped'}
                   </Text>
                 </Flex>
                 {!isMyMessage ? <Flex style={[st.f1]} /> : null}

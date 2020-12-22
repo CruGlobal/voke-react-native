@@ -23,9 +23,10 @@
     "detox:test:withlogs": "detox test --loglevel verbose --configuration ios",
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
     "prettier": "prettier ./src --ext .js,.jsx,.ts,.tsx",
-    "format": "npm run prettier -- --write",
-    "check-format": "npm run prettier -- --list-different",
-    "validate": "npm run prettier && npm run lint",
+    "format": "npm run prettier --write",
+    "check-format": "npm run prettier --list-different",
+    "check-types": "npx tsc",
+    "validate": "npm-run-all --parallel check-types lint check-format",
     "pi": "cd ios/ && pod install",
     "open:ios": "open ios/Voke.xcworkspace/",
     "open": "npm run open:ios",
@@ -34,8 +35,7 @@
     "ios:beta": "bundle exec fastlane ios beta",
     "android:beta": "bundle exec fastlane android beta",
     "onesky:upload": "babel-node ./bin/oneskyUpload.js",
-    "onesky:download": "babel-node ./bin/oneskyDownload.js",
-    "precommit": "lint-staged"
+    "onesky:download": "babel-node ./bin/oneskyDownload.js"
   },
   "dependencies": {
     "@brainly/onesky-utils": "^1.4.1",
@@ -133,11 +133,11 @@
     "@testing-library/jest-native": "^3.4.3",
     "@testing-library/react-native": "^7.1.0",
     "@types/detox": "^16.4.1",
-    "@types/jasmine": "^3.6.0",
-    "@types/jest": "^24.0.24",
-    "@types/react-native": "0.62.1",
+    "@types/jest": "^24.9.1",
+    "@types/react": "^17.0.0",
+    "@types/react-native": "^0.62.1",
     "@types/react-redux": "7.1.7",
-    "@types/react-test-renderer": "16.9.1",
+    "@types/react-test-renderer": "^16.9.1",
     "@types/redux": "3.6.0",
     "babel-jest": "^24.9.0",
     "babel-plugin-module-resolver": "^4.0.0",
@@ -151,28 +151,29 @@
     "jetifier": "^1.6.6",
     "lint-staged": "^10.5.3",
     "metro-react-native-babel-preset": "^0.58.0",
+    "npm-run-all": "^4.1.5",
     "react-native-clean-project": "^3.4.0",
-    "react-test-renderer": "16.11.0",
+    "react-test-renderer": "^16.11.0",
     "ts-jest": "^26.4.2",
     "typescript": "^4.0.5"
-  },
-  "jest": {
-    "preset": "react-native",
-    "setupFilesAfterEnv": [
-      "@testing-library/jest-native/extend-expect"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ]
   },
   "rnpm": {
     "assets": [
       "assets/fonts"
     ]
+  },
+  "lint-staged": {
+    "*.+(js|jsx|ts|tsx)": [
+      "eslint"
+    ],
+    "**/*.+(js|jsx|json|ts|tsx)": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run check-types && lint-staged"
+    }
   }
 }

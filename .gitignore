@@ -79,3 +79,6 @@ android/app/src/main/res/values/com_crashlytics_export_strings.xml
 
 # Bundle artifact
 *.jsbundle
+
+# Jest
+.jest/

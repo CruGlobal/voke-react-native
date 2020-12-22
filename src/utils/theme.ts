@@ -19,7 +19,7 @@ const theme: {
   radius: {
     [key: string]: number;
   };
-  fonts: { [key: string]: string | undefined };
+  fonts: { [key: string]: string };
   [key: string]: { [key: string]: string | number };
 } = {
   shadow: {

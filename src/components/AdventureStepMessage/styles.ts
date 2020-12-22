@@ -3,7 +3,7 @@ import theme from 'utils/theme';
 
 const sharedStyles = {
   avatar: {
-    position: 'absolute',
+    position: 'absolute' as const,
     bottom: 0,
     height: 25,
     width: 25,
