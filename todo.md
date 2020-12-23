@@ -1,0 +1,1 @@
+TODO: check if can drop @react-native-community/clipboard for @react-native-community/hooks
