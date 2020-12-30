@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Alert, Dimensions, FlatList, View } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 import { Portal } from 'react-native-portalize';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native';
 import theme from 'utils/theme';
 import { TAdventureSingle, TError } from 'src/utils/types';
 import Communications from 'react-native-communications';
