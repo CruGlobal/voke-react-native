@@ -6,7 +6,7 @@
 
 // Voke: ===============================================================
 #import <Firebase.h> // Voke: https://rnfirebase.io/#validate-ios-credentials
-#import <FBSDKCoreKit/FBSDKCoreKit.h> // Voke: FB login
+//#import <FBSDKCoreKit/FBSDKCoreKit.h> // Voke: FB login
 #import "Orientation.h" // Voke: Needed to handle orientation changes
 #import <RNCPushNotificationIOS.h> // Voke: Needed for push notifications
 #import <UserNotifications/UserNotifications.h> // Voke: Needed for push notifications
@@ -74,8 +74,8 @@ static void InitializeFlipper(UIApplication *application) {
   // }
 
   // VOKE: Facebook Login SDK
-  [[FBSDKApplicationDelegate sharedInstance] application:application
-    didFinishLaunchingWithOptions:launchOptions];
+//  [[FBSDKApplicationDelegate sharedInstance] application:application
+//    didFinishLaunchingWithOptions:launchOptions];
 
   return YES;
 }
@@ -95,11 +95,11 @@ static void InitializeFlipper(UIApplication *application) {
             openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
   // Voke: Deeplink from Facebook
-  BOOL handleFBSDK = [[FBSDKApplicationDelegate sharedInstance] application:application
-    openURL:url
-    sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
-    annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
-  ];
+//  BOOL handleFBSDK = [[FBSDKApplicationDelegate sharedInstance] application:application
+//    openURL:url
+//    sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
+//    annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
+//  ];
   // Voke: Deeplink for React Native
   BOOL handleRCT = [RCTLinkingManager application:application
     openURL:url
@@ -107,7 +107,8 @@ static void InitializeFlipper(UIApplication *application) {
   ];
   // Voke: Deeplink for Firebase?
   // BOOL handleFirebase = [[RNFBDynamicLinksAppDelegateInterceptor sharedInstance] application:application openURL:url options:options];
-  return handleFBSDK || handleRCT;
+//  return handleFBSDK || handleRCT;
+  return handleRCT;
 }
 // Voke: Needed for handling orientation changes
 // https://github.com/wonday/react-native-orientation-locker
