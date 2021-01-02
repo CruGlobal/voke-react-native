@@ -51,7 +51,7 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
-    // Voke:
+    // Voke (Orientation change):
     // https://github.com/wonday/react-native-orientation-locker/pull/140/files#diff-04c6e90faac2675aa89e2176d2eec7d8R30
     registerActivityLifecycleCallbacks(OrientationActivityLifecycle.getInstance());
   }
