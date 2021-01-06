@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import useKeyboard from '@rnhooks/keyboard';
+import { useKeyboard } from '@react-native-community/hooks';
 import { Alert, ScrollView, Platform, Keyboard, View } from 'react-native';
 import CustomTabs from 'components/CustomTabs';
 import Flex from 'components/Flex';
@@ -46,11 +46,7 @@ function AdventureName(props: any): ReactElement {
     modalizeRef.current?.open();
   };
 
-  const [isKeyboardVisible] = useKeyboard({
-    useWillShow: Platform.OS === 'android' ? false : true,
-    useWillHide: Platform.OS === 'android' ? false : true,
-    // Not availabe on Android https://reactnative.dev/docs/keyboard#addlistener
-  });
+  const keyboard = useKeyboard();
 
   const NameValidationSchema = Yup.object().shape({
     name: Yup.string().required(t('required')),
@@ -152,21 +148,21 @@ function AdventureName(props: any): ReactElement {
 
   return (
     <Screen noKeyboard={modalOpen} bounces={false}>
-      {/* <View style={{ minHeight: isKeyboardVisible ? theme.spacing.xl : 0 }} /> */}
+      {/* <View style={{ minHeight: keyboard.keyboardShown ? theme.spacing.xl : 0 }} /> */}
       <Flex
         value={1}
         direction="column"
         align="center"
         self="stretch"
         style={{
-          justifyContent: isKeyboardVisible ? 'center' : 'center',
+          justifyContent: keyboard.keyboardShown ? 'center' : 'center',
         }}
       >
         <BotTalking
           heading={withGroup ? t('nameYourGroup') : t('whatIsFriendsName')}
           style={{
-            opacity: isKeyboardVisible ? 0 : 1,
-            display: isKeyboardVisible ? 'none' : 'flex',
+            opacity: keyboard.keyboardShown ? 0 : 1,
+            display: keyboard.keyboardShown ? 'none' : 'flex',
             paddingBottom: theme.spacing.xxl,
           }}
         />
@@ -199,7 +195,7 @@ function AdventureName(props: any): ReactElement {
         </Touchable>
         <Flex
           style={{
-            minHeight: isKeyboardVisible ? theme.spacing.l : theme.spacing.xl,
+            minHeight: keyboard.keyboardShown ? theme.spacing.l : theme.spacing.xl,
           }}
         />
         <OldButton

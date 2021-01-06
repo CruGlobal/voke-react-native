@@ -25,7 +25,7 @@ import {
   StackNavigationProp,
 } from '@react-navigation/stack';
 import { SafeAreaView, useSafeArea } from 'react-native-safe-area-context';
-import useAppState from 'react-native-appstate-hook';
+import { useAppState } from '@react-native-community/hooks'
 import RNBootSplash from 'react-native-bootsplash';
 import { Host } from 'react-native-portalize';
 import theme from 'utils/theme';
@@ -312,27 +312,27 @@ const LoggedInAppContainer = () => {
   const state = useNavigationState(state => state);
   const { t } = useTranslation('title');
 
-  // Handle iOS & Android appState changes.
-  const { appState } = useAppState({
-    // Callback function to be executed once appState is changed to
-    // active, inactive, or background
-    onChange: newAppState => console.warn('App state changed to ', newAppState),
-    // Callback function to be executed once app go to foreground
-    onForeground: async () => {
-      // Get the deep link used to open the app
-      /* await Linking.getdeeplink().then(
-        (data) => {
-        }
-      ); */
+  const currentAppState = useAppState();
 
-      dispatch(wakeupAction());
-    },
-    // Callback function to be executed once app go to background
-    onBackground: () => {
-      console.warn('App went to background');
-      dispatch(sleepAction());
-    },
-  });
+  useEffect(() => {
+    // AppState will change between one of 'active', 'background',
+    // or(iOS) 'inactive' when the app is closed or put into the background.
+
+    console.warn('App state changed to ', currentAppState);
+    switch (currentAppState) {
+      case 'active':
+        // Callback function to be executed once app go to foreground
+        dispatch(wakeupAction());
+        break;
+      case 'background':
+        // Callback function to be executed once app go to background
+        dispatch(wakeupAction());
+        dispatch(sleepAction());
+        break;
+      default:
+        break;
+    }
+  }, [currentAppState]);
 
   useEffect(() => {
     // Check notifications permission and setup sockets.

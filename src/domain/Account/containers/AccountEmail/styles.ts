@@ -1,5 +1,4 @@
 // import { ReactText } from 'react';
-import { css } from '@emotion/native';
 import theme from 'utils/theme';
 import ui from 'utils/ui';
 
@@ -7,77 +6,76 @@ const styles: { [key: string]: any } = {
   ...ui,
   MainContainer: [
     ui.container.default,
-    css`
-      flex: 1;
-      background-color: ${theme.colors.primary};
-    `,
+    {
+      flex: 1,
+      backgroundColor: theme.colors.primary,
+    },
   ],
-  PrimaryContent: css`
-    width: 100%;
-    background-color: ${theme.colors.primary};
-    padding-left: ${`${theme.spacing.xl}px`};
-    padding-right: ${`${theme.spacing.xl}px`};
-  `,
-  Divider: css`
-    width: 100%;
-    background-color: ${theme.colors.primary};
-  `,
-  SectionAction: css`
-    width: 100%;
-    background-color: ${theme.colors.primary};
-    padding-left: ${`${theme.spacing.xl}px`};
-    padding-right: ${`${theme.spacing.xl}px`};
-    padding-bottom: ${`${theme.spacing.l}px`};
-  `,
+  PrimaryContent: {
+    width: '100%',
+    backgroundColor: theme.colors.primary,
+    paddingLeft: theme.spacing.xl,
+    paddingRight: theme.spacing.xl,
+  },
+  Divider: {
+    width: '100%',
+    backgroundColor: theme.colors.primary,
+  },
+  SectionAction: {
+    width: '100%',
+    backgroundColor: theme.colors.primary,
+    paddingLeft: theme.spacing.xl,
+    paddingRight: theme.spacing.xl,
+    paddingBottom: theme.spacing.l,
+  },
   ButtonStart: [
     ui.button.size.l,
     ui.button.style.solid,
-    css`
-      margin-top: ${`${theme.spacing.m}px`};
-      margin-left: ${`${theme.spacing.l}px`};
-      margin-right: ${`${theme.spacing.l}px`};
-      margin-bottom: ${`${theme.spacing.l}px`};
-      shadowcolor: 'rgba(0, 0, 0, 0.5)';
-      shadowopacity: 0.5;
-      elevation: 4;
-      shadowradius: 5;
-      shadowoffset: 1px 8px;
-    `,
+    {
+      marginTop: theme.spacing.m,
+      marginLeft: theme.spacing.l,
+      marginRight: theme.spacing.l,
+      marginBottom: theme.spacing.l,
+      shadowcolor: 'rgba(0, 0, 0, 0.5)',
+      shadowopacity: 0.5,
+      elevation: 4,
+      shadowradius: 5,
+      shadowoffset: { width: 1, height: 8 },
+    },
   ],
   ButtonStartLabel: [ui.buttonText.size.l, ui.buttonText.style.solid],
-  Link: css`
-    text-align: center;
-    text-decoration-line: underline;
-    color: ${theme.colors.white};
-  `,
-  SectionNotice: css`
-    padding-left: ${`${theme.spacing.xl}px`};
-    padding-right: ${`${theme.spacing.xl}px`};
-    padding-bottom: ${`${theme.spacing.l}px`};
-  `,
-  TextSmall: css`
-    color: ${theme.colors.white};
-    font-size: 12px;
-    font-family: ${theme.fonts.regular};
-    text-align: center;
-    margin-top: -${`${theme.spacing.l}px`};
-  `,
-  SectionFB: css`
-    background-color: ${theme.colors.secondary};
-    padding-top: ${`${theme.spacing.l}px`};
-    padding-bottom: ${`${theme.spacing.l}px`};
-    border-top-width: 1px;
-    border-top-color: rgba(0, 0, 0, 0.2);
-    width: 100%;
-  `,
+  Link: {
+    textAlign: 'center',
+    textDecorationLine: 'underline',
+    color: theme.colors.white,
+  },
+  SectionNotice: {
+    paddingLeft: theme.spacing.xl,
+    paddingRight: theme.spacing.xl,
+    paddingBottom: theme.spacing.l,
+  },
+  TextSmall: {
+    color: theme.colors.white,
+    fontSize: 12,
+    fontFamily: theme.fonts.regular,
+    textAlign: 'center',
+    marginTop: -theme.spacing.l,
+  },
+  SectionFB: {
+    backgroundColor: theme.colors.secondary,
+    paddingTop: theme.spacing.l,
+    paddingBottom: theme.spacing.l,
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(0, 0, 0, 0.2)',
+    width: '100%',
+  },
   ButtonFBSignIn: [ui.button.size.m, ui.button.style.outline],
-  ButtonFBSignInIcon: [
-    css`
-      width: 22px;
-      height: 22px;
-      margin-right: ${`${theme.spacing.l}px`};
-    `,
-  ],
+  ButtonFBSignInIcon:
+  {
+    width: 22,
+    height: 22,
+    marginRight: theme.spacing.l,
+  },
   ButtonFBSignInLabel: [ui.buttonText.size.m, ui.buttonText.style.outline],
 };
 

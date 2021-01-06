@@ -11,7 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import useKeyboard from '@rnhooks/keyboard';
+import { useKeyboard } from '@react-native-community/hooks';
 import DismissKeyboardView from 'components/DismissKeyboardHOC';
 import VokeIcon from 'components/VokeIcon';
 import TextField from 'components/TextField';
@@ -51,18 +51,15 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
   const emailConfirmRef = useRef<TextInput>(null);
   const passwordRef = useRef<TextInput>(null);
 
-  const [isKeyboardVisible] = useKeyboard({
-    useWillShow: true,
-    useWillHide: true,
-  });
+  const keyboard = useKeyboard();
 
   useEffect(() => {
-    if (isKeyboardVisible) {
+    if (keyboard.keyboardShown) {
       setTopMargin(-50);
     } else {
       setTopMargin(0);
     }
-  }, [isKeyboardVisible]);
+  }, [keyboard.keyboardShown]);
 
   useMount(() => {
     lockToPortrait();
@@ -139,7 +136,7 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
           flexDirection: 'column',
           alignContent: 'stretch',
           justifyContent: 'space-evenly',
-          minHeight: isKeyboardVisible ? 'auto' : '100%',
+          minHeight: keyboard.keyboardShown ? 'auto' : '100%',
         }}
         scrollIndicatorInsets={{ right: 1 }}
       >
@@ -233,7 +230,7 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
                     backgroundColor: theme.colors.white,
                     textAlign: 'center',
                     shadowColor: 'rgba(0, 0, 0, 0.5)',
-                    // marginTop: isKeyboardVisible ? -120 : 0,
+                    // marginTop: keyboard.keyboardShown ? -120 : 0,
                     shadowOpacity: 0.5,
                     elevation: 4,
                     shadowRadius: 5,
@@ -247,7 +244,7 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
               </OldButton>
             </Flex>
             {/* Safe area at the bottom for phone with exotic notches */}
-            <Flex style={{ height: isKeyboardVisible ? 0 : insets.bottom }} />
+            <Flex style={{ height: keyboard.keyboardShown ? 0 : insets.bottom }} />
           </Flex>
         </DismissKeyboardView>
       </ScrollView>

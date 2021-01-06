@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TextInput, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { SafeAreaView, useSafeArea } from 'react-native-safe-area-context';
-import useKeyboard from '@rnhooks/keyboard';
+import { useKeyboard } from '@react-native-community/hooks';
 import { useTranslation } from 'react-i18next';
 import st from 'utils/st';
 import theme from 'utils/theme';
@@ -22,9 +22,9 @@ function MainMessagingInput({ adventure, step, onFocus, ...rest }) {
   const dispatch = useDispatch();
   const userId = getCurrentUserId();
   const insets = useSafeArea();
-  const [isKeyboardVisible] = useKeyboard();
+  const keyboard = useKeyboard()
   const dynPadding = insets.bottom ? insets.bottom : theme.spacing.m;
-  const bottomPadding = isKeyboardVisible ? theme.spacing.m : dynPadding;
+  const bottomPadding = keyboard.keyboardShown ? theme.spacing.m : dynPadding;
   const handleSendMessage = () => {
     // Keyboard.dismiss();
     // Don't send empty messages.

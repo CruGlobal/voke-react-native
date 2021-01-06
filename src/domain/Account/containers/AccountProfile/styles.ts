@@ -1,23 +1,22 @@
 import { ReactText } from 'react';
-import { css, ReactNativeStyle } from '@emotion/native';
 import theme from 'utils/theme';
 import ui from 'utils/ui';
 
 const styles: { [key: string]: any } = {
   ...theme,
-  SectionAction: css`
-    padding-left: ${theme.spacing.xl + 'px'};
-    padding-right: ${theme.spacing.xl + 'px'};
-  `,
+  SectionAction: {
+    paddingLeft: theme.spacing.xl,
+    paddingRight: theme.spacing.xl,
+  },
   ButtonStart: [
     ui.button.size.l,
     ui.button.style.solid,
-    css`
-      margin-top: ${theme.spacing.m + 'px'};
-      margin-left: ${theme.spacing.l + 'px'};
-      margin-right: ${theme.spacing.l + 'px'};
-      margin-bottom: ${theme.spacing.l + 'px'};
-    `,
+    {
+      marginTop: theme.spacing.m,
+      marginLeft: theme.spacing.l,
+      marginRight: theme.spacing.l,
+      marginBottom: theme.spacing.l,
+    },
   ],
   ButtonStartLabel: [ui.buttonText.size.l],
   ButtonSignUp: [ui.button.size.outlinel, ui.button.style.outline],
@@ -25,39 +24,39 @@ const styles: { [key: string]: any } = {
   ButtonAction: [ui.button.size.m, ui.button.style.outline],
   ButtonActionLabel: [
     ui.buttonText.size.m,
-    css`
-      margin-top: ${theme.spacing.l + 'px'};
-      text-decoration-line: underline;
-    `,
+    {
+      marginTop: theme.spacing.l,
+      textDecorationLine: 'underline',
+    },
   ],
   ButtonActionTextOnly: [
-    { marginTop: 10 },
-    css`
-      text-align: center;
-      text-decoration-line: underline;
-      color: ${theme.colors.white};
-    `,
+    {
+      marginTop: 10,
+      textAlign: 'center',
+      textDecorationLine: 'underline',
+      color: theme.colors.white,
+    },
   ],
 
-  SignInText: css`
-    color: ${theme.colors.white};
-    font-size: ${theme.fontSizes.m + 'px'};
-    font-family: ${theme.fonts.regular};
-  `,
-  TextSmall: css`
-    color: ${theme.colors.white};
-    font-size: 12px;
-    font-family: ${theme.fonts.regular};
-  `,
-  Link: css`
-    text-decoration-line: underline;
-    color: ${theme.colors.white};
-  `,
-  SectionSignIn: css`
-    background-color: ${theme.colors.primary};
-    padding-top: ${theme.spacing.m + 'px'};
-    padding-bottom: ${theme.spacing.xl + 'px'};
-  `,
+  SignInText: {
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.m,
+    fontFamily: theme.fonts.regular,
+  },
+  TextSmall: {
+    color: theme.colors.white,
+    fontSize: 12,
+    fontFamily: theme.fonts.regular,
+  },
+  Link: {
+    textDecorationLine: 'underline',
+    color: theme.colors.white,
+  },
+  SectionSignIn: {
+    backgroundColor: theme.colors.primary,
+    paddingTop: theme.spacing.m,
+    paddingBottom: theme.spacing.xl,
+  },
 };
 
 export default styles;

@@ -4,13 +4,9 @@ TODO: Not sure about NSAllowsArbitraryLoads key https://d.pr/i/NYPclV . It was t
 
 TODO: finish @react-navigation/stack integration
 
-TODO: get rid of @rnhooks/keyboard calls
-
 TODO: migrate all forms to Formik
 
 TODO: get rid of 'qs' library
-
-TODO: get rid of 'react-native-appstate-hook' module for comunity hooks
 
 TODO: get rid of 'react-native-device-info' module
 
@@ -23,6 +19,8 @@ TODO: still need react-native-picker-select ?
 TODO: still need react-native-scalable-image ?
 
 TODO: get rid of rn-fetch-blob https://github.com/joltup/rn-fetch-blob/issues/666 
+TODO: delete ts-jest
+TODO: get rid of Titilium Bold font
 
 Android:
 - https://rnfirebase.io/#2-android-setup

@@ -16,7 +16,7 @@ import { RouteProp, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp, useHeaderHeight } from '@react-navigation/stack';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useSelector, useDispatch } from 'react-redux';
-import useKeyboard from '@rnhooks/keyboard';
+import { useKeyboard } from '@react-native-community/hooks';
 import { useTranslation } from 'react-i18next';
 import DismissKeyboardView from 'components/DismissKeyboardHOC';
 import NameInput from 'components/NameInput';
@@ -67,11 +67,7 @@ const AccountName = (props: Props): React.ReactElement => {
   const lastNameRef = useRef(null);
   const [topMargin, setTopMargin] = useState(0);
   // https://github.com/react-native-hooks/keyboard#configuration
-  const [isKeyboardVisible] = useKeyboard({
-    useWillShow: Platform.OS === 'android' ? false : true,
-    useWillHide: Platform.OS === 'android' ? false : true,
-    // Not availabe on Android https://reactnative.dev/docs/keyboard#addlistener
-  });
+  const keyboard = useKeyboard();
   const windowDimensions = Dimensions.get('window');
   // const refBotBlock = useRef();
   const refBotBlock = useRef<TransitioningView>(null);
@@ -83,13 +79,13 @@ const AccountName = (props: Props): React.ReactElement => {
   );
 
   useEffect(() => {
-    if (isKeyboardVisible) {
+    if (keyboard.keyboardShown) {
       setTopMargin(-300);
     } else {
       setTopMargin(theme.spacing.l);
     }
     refBotBlock?.current?.animateNextTransition();
-  }, [isKeyboardVisible]);
+  }, [keyboard.keyboardShown]);
 
   const nextScreen = (screenName = 'AccountPhoto') => {
     if (onComplete) {
@@ -148,8 +144,8 @@ const AccountName = (props: Props): React.ReactElement => {
       <BotTalking
         heading={t('introTitle')}
         style={{
-          opacity: isKeyboardVisible ? 0 : 1,
-          display: isKeyboardVisible ? 'none' : 'flex',
+          opacity: keyboard.keyboardShown ? 0 : 1,
+          display: keyboard.keyboardShown ? 'none' : 'flex',
           paddingTop: windowDimensions.height > 800 ? theme.spacing.xxl : 0,
           paddingBottom: windowDimensions.height > 600 ? theme.spacing.xxl : 0,
         }}
@@ -163,7 +159,7 @@ const AccountName = (props: Props): React.ReactElement => {
         align="center"
         self="stretch"
         style={{
-          justifyContent: isKeyboardVisible ? 'center' : 'flex-start',
+          justifyContent: keyboard.keyboardShown ? 'center' : 'flex-start',
         }}
       >
         <NameInput
@@ -196,7 +192,7 @@ const AccountName = (props: Props): React.ReactElement => {
             {
               backgroundColor: theme.colors.white,
               textAlign: 'center',
-              marginTop: isKeyboardVisible ? theme.spacing.l : theme.spacing.xl,
+              marginTop: keyboard.keyboardShown ? theme.spacing.l : theme.spacing.xl,
               shadowColor: 'rgba(0, 0, 0, 0.5)',
               shadowOpacity: 0.5,
               elevation: 4,

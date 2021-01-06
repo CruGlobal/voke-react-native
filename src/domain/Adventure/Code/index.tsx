@@ -9,7 +9,7 @@ import {
   ScrollView,
   Platform,
 } from 'react-native';
-import useKeyboard from '@rnhooks/keyboard';
+import { useKeyboard } from '@react-native-community/hooks';
 import Flex from 'components/Flex';
 import Text from 'components/Text';
 import TextField from 'components/TextField';
@@ -37,7 +37,7 @@ function AdventureCode(): ReactElement {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   // https://github.com/react-native-hooks/keyboard#configuration
-  const [isKeyboardVisible] = useKeyboard();
+  const keyboard = useKeyboard();
   // const Screen = useScreenContainer();
 
   async function handleContinue() {
@@ -120,13 +120,13 @@ function AdventureCode(): ReactElement {
         style={{
           marginTop:
             Platform.OS === 'ios' &&
-            isKeyboardVisible &&
+              keyboard.keyboardShown &&
             windowDimensions.height < 700
               ? -40
               : 0,
           // Vertically align form on smaller iPhone screens.
           display:
-            isKeyboardVisible && windowDimensions.height < 600
+            keyboard.keyboardShown && windowDimensions.height < 600
               ? 'none'
               : 'flex',
         }}
@@ -135,8 +135,8 @@ function AdventureCode(): ReactElement {
           heading={t('botMessageTitle')}
           style={{
             marginTop:
-              isKeyboardVisible && windowDimensions.height < 700 ? 45 : 85,
-            opacity: isKeyboardVisible && windowDimensions.width < 340 ? 0 : 1,
+              keyboard.keyboardShown && windowDimensions.height < 700 ? 45 : 85,
+            opacity: keyboard.keyboardShown && windowDimensions.width < 340 ? 0 : 1,
           }}
         >
           {t('botMessageContent')}
@@ -173,12 +173,12 @@ function AdventureCode(): ReactElement {
         touchableStyle={[
           st.pd4,
           st.br1,
-          isKeyboardVisible ? null : st.mb3,
+          keyboard.keyboardShown ? null : st.mb3,
           // st.w(st.fullWidth - 70),
           {
             backgroundColor: theme.colors.white,
             textAlign: 'center',
-            // marginTop: isKeyboardVisible ? 0 : 85,
+            // marginTop: keyboard.keyboardShown ? 0 : 85,
             shadowColor: 'rgba(0, 0, 0, 0.5)',
             shadowOpacity: 0.5,
             elevation: 4,
@@ -195,7 +195,7 @@ function AdventureCode(): ReactElement {
       </OldButton>
       <Flex
         style={{
-          minHeight: isKeyboardVisible ? theme.spacing.xxl : theme.spacing.xxl,
+          minHeight: keyboard.keyboardShown ? theme.spacing.xxl : theme.spacing.xxl,
         }}
       />
     </Screen>

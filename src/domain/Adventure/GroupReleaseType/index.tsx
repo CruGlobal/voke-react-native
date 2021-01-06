@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import useKeyboard from '@rnhooks/keyboard';
+import { useKeyboard } from '@react-native-community/hooks';
 import Carousel from 'react-native-snap-carousel';
 import { Alert, Platform, Keyboard, View, Dimensions } from 'react-native';
 import VokeIcon from 'components/VokeIcon';
@@ -43,11 +43,7 @@ function GroupReleaseType(props: any): ReactElement {
   const { width, height } = Dimensions.get('window');
   // const email = useSelector(({ auth }: any) => auth?.user?.email);
 
-  const [isKeyboardVisible] = useKeyboard({
-    useWillShow: Platform.OS === 'android' ? false : true,
-    useWillHide: Platform.OS === 'android' ? false : true,
-    // Not availabe on Android https://reactnative.dev/docs/keyboard#addlistener
-  });
+  const keyboard = useKeyboard();
 
   const NameValidationSchema = Yup.object().shape({
     name: Yup.string().required(t('required')),
@@ -180,12 +176,12 @@ function GroupReleaseType(props: any): ReactElement {
   return (
     <Screen testID="groupReleaseType" noKeyboard>
       <Flex value={1} direction="column" justify="center">
-        {isKeyboardVisible && <View style={{ minHeight: theme.spacing.xl }} />}
+        {keyboard.keyboardShown && <View style={{ minHeight: theme.spacing.xl }} />}
         <Flex
           // align="center"
           justify="center"
           style={{
-            display: isKeyboardVisible ? 'none' : 'flex',
+            display: keyboard.keyboardShown ? 'none' : 'flex',
             // paddingBottom: theme.spacing.xl,
             // paddingTop: height > 800 ? theme.spacing.xl : 0,
             // minHeight: 200,
@@ -195,7 +191,7 @@ function GroupReleaseType(props: any): ReactElement {
           <BotTalking
             heading={t('groupReleaseSchedule')}
             style={{
-              opacity: isKeyboardVisible ? 0 : 1,
+              opacity: keyboard.keyboardShown ? 0 : 1,
             }}
           />
         </Flex>

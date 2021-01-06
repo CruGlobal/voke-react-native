@@ -11,13 +11,17 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		20FCB50782C7403C903D6317 /* TitilliumWeb-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77E88D6A087D46399CBD8EE7 /* TitilliumWeb-Regular.ttf */; };
+		2B3F9EE2E8C240729BFB5F5A /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 157C36D180E248F4AF400FF3 /* icomoon.ttf */; };
 		48E3891342857A0FCE5A68AB /* libPods-Voke.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FAAAB91471CCC5C4CB26363 /* libPods-Voke.a */; };
 		5511C0CD25938C8B00296FD8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5511C0CC25938C8B00296FD8 /* GoogleService-Info.plist */; };
 		5511C0CE25938C8B00296FD8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5511C0CC25938C8B00296FD8 /* GoogleService-Info.plist */; };
 		5566A1E3259BD7FE001BD42F /* FBSDKFix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5566A1E2259BD7FE001BD42F /* FBSDKFix.swift */; };
 		5566A1E4259BD7FE001BD42F /* FBSDKFix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5566A1E2259BD7FE001BD42F /* FBSDKFix.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		C31AA7FAC0AF4051A4F4C277 /* TitilliumWeb-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1029390F75BD4DC8AA3B1B8F /* TitilliumWeb-Bold.ttf */; };
 		CD48FFB5CC8F0F6A058179FD /* libPods-Voke-VokeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A6882AB775A5DCCA4DAE5CE /* libPods-Voke-VokeTests.a */; };
+		D31ADF379EE04964A8D2E66B /* TitilliumWeb-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CC30F96C24CE4A229FB3AD71 /* TitilliumWeb-SemiBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,12 +38,14 @@
 		00E356EE1AD99517003FC87E /* VokeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VokeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* VokeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VokeTests.m; sourceTree = "<group>"; };
+		1029390F75BD4DC8AA3B1B8F /* TitilliumWeb-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "TitilliumWeb-Bold.ttf"; path = "../assets/fonts/TitilliumWeb-Bold.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Voke.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Voke.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Voke/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Voke/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Voke/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Voke/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Voke/main.m; sourceTree = "<group>"; };
+		157C36D180E248F4AF400FF3 /* icomoon.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = icomoon.ttf; path = ../assets/fonts/icomoon.ttf; sourceTree = "<group>"; };
 		28AAFD8CAD3A9CEEAE0010DC /* Pods-Voke-VokeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Voke-VokeTests.release.xcconfig"; path = "Target Support Files/Pods-Voke-VokeTests/Pods-Voke-VokeTests.release.xcconfig"; sourceTree = "<group>"; };
 		29A57D5E42B70D3A89967732 /* Pods-Voke.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Voke.debug.xcconfig"; path = "Target Support Files/Pods-Voke/Pods-Voke.debug.xcconfig"; sourceTree = "<group>"; };
 		3A6882AB775A5DCCA4DAE5CE /* libPods-Voke-VokeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Voke-VokeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -48,7 +54,9 @@
 		5566A1E2259BD7FE001BD42F /* FBSDKFix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBSDKFix.swift; sourceTree = "<group>"; };
 		5649A428A4F12BD9F9A0E9E4 /* Pods-Voke-VokeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Voke-VokeTests.debug.xcconfig"; path = "Target Support Files/Pods-Voke-VokeTests/Pods-Voke-VokeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5785C75AE1A64D9C5BFD49CB /* Pods-Voke.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Voke.release.xcconfig"; path = "Target Support Files/Pods-Voke/Pods-Voke.release.xcconfig"; sourceTree = "<group>"; };
+		77E88D6A087D46399CBD8EE7 /* TitilliumWeb-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "TitilliumWeb-Regular.ttf"; path = "../assets/fonts/TitilliumWeb-Regular.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Voke/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		CC30F96C24CE4A229FB3AD71 /* TitilliumWeb-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "TitilliumWeb-SemiBold.ttf"; path = "../assets/fonts/TitilliumWeb-SemiBold.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -87,6 +95,17 @@
 				00E356F11AD99517003FC87E /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1218A53589AC413687FB7A43 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				157C36D180E248F4AF400FF3 /* icomoon.ttf */,
+				1029390F75BD4DC8AA3B1B8F /* TitilliumWeb-Bold.ttf */,
+				77E88D6A087D46399CBD8EE7 /* TitilliumWeb-Regular.ttf */,
+				CC30F96C24CE4A229FB3AD71 /* TitilliumWeb-SemiBold.ttf */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		13B07FAE1A68108700A75B9A /* Voke */ = {
@@ -141,6 +160,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				31717EADF1D33B48702FF0C3 /* Pods */,
+				1218A53589AC413687FB7A43 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -255,6 +275,10 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				5511C0CD25938C8B00296FD8 /* GoogleService-Info.plist in Resources */,
+				2B3F9EE2E8C240729BFB5F5A /* icomoon.ttf in Resources */,
+				C31AA7FAC0AF4051A4F4C277 /* TitilliumWeb-Bold.ttf in Resources */,
+				20FCB50782C7403C903D6317 /* TitilliumWeb-Regular.ttf in Resources */,
+				D31ADF379EE04964A8D2E66B /* TitilliumWeb-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1609631877193" clover="3.2.0">
+  <project timestamp="1609631877193" name="All files">
+    <metrics statements="185" coveredstatements="0" conditionals="52" coveredconditionals="0" methods="88" coveredmethods="0" elements="325" coveredelements="0" complexity="0" loc="185" ncloc="185" packages="1" files="6" classes="6"/>
+    <file name="App.tsx" path="/Users/lumberman/GitHub/CruVokeRN/src/App.tsx">
+      <metrics statements="138" coveredstatements="0" conditionals="33" coveredconditionals="0" methods="74" coveredmethods="0"/>
+      <line num="88" count="0" type="stmt"/>
+      <line num="99" count="0" type="stmt"/>
+      <line num="103" count="0" type="stmt"/>
+      <line num="120" count="0" type="stmt"/>
+      <line num="129" count="0" type="stmt"/>
+      <line num="131" count="0" type="stmt"/>
+      <line num="132" count="0" type="stmt"/>
+      <line num="133" count="0" type="stmt"/>
+      <line num="135" count="0" type="stmt"/>
+      <line num="136" count="0" type="cond" truecount="0" falsecount="4"/>
+      <line num="138" count="0" type="stmt"/>
+      <line num="147" count="0" type="stmt"/>
+      <line num="172" count="0" type="stmt"/>
+      <line num="187" count="0" type="stmt"/>
+      <line num="196" count="0" type="stmt"/>
+      <line num="204" count="0" type="stmt"/>
+      <line num="220" count="0" type="stmt"/>
+      <line num="241" count="0" type="stmt"/>
+      <line num="255" count="0" type="stmt"/>
+      <line num="257" count="0" type="stmt"/>
+      <line num="258" count="0" type="stmt"/>
+      <line num="260" count="0" type="stmt"/>
+      <line num="263" count="0" type="stmt"/>
+      <line num="283" count="0" type="stmt"/>
+      <line num="290" count="0" type="stmt"/>
+      <line num="291" count="0" type="stmt"/>
+      <line num="292" count="0" type="stmt"/>
+      <line num="293" count="0" type="stmt"/>
+      <line num="309" count="0" type="stmt"/>
+      <line num="310" count="0" type="stmt"/>
+      <line num="311" count="0" type="stmt"/>
+      <line num="312" count="0" type="stmt"/>
+      <line num="313" count="0" type="stmt"/>
+      <line num="316" count="0" type="stmt"/>
+      <line num="319" count="0" type="stmt"/>
+      <line num="328" count="0" type="stmt"/>
+      <line num="332" count="0" type="stmt"/>
+      <line num="333" count="0" type="stmt"/>
+      <line num="337" count="0" type="stmt"/>
+      <line num="339" count="0" type="stmt"/>
+      <line num="340" count="0" type="stmt"/>
+      <line num="341" count="0" type="stmt"/>
+      <line num="345" count="0" type="stmt"/>
+      <line num="346" count="0" type="stmt"/>
+      <line num="373" count="0" type="stmt"/>
+      <line num="374" count="0" type="stmt"/>
+      <line num="376" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="378" count="0" type="stmt"/>
+      <line num="381" count="0" type="stmt"/>
+      <line num="384" count="0" type="stmt"/>
+      <line num="385" count="0" type="stmt"/>
+      <line num="387" count="0" type="stmt"/>
+      <line num="388" count="0" type="stmt"/>
+      <line num="389" count="0" type="stmt"/>
+      <line num="390" count="0" type="stmt"/>
+      <line num="392" count="0" type="stmt"/>
+      <line num="430" count="0" type="stmt"/>
+      <line num="446" count="0" type="stmt"/>
+      <line num="453" count="0" type="stmt"/>
+      <line num="460" count="0" type="stmt"/>
+      <line num="477" count="0" type="stmt"/>
+      <line num="486" count="0" type="stmt"/>
+      <line num="490" count="0" type="stmt"/>
+      <line num="493" count="0" type="stmt"/>
+      <line num="494" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="495" count="0" type="stmt"/>
+      <line num="497" count="0" type="stmt"/>
+      <line num="534" count="0" type="stmt"/>
+      <line num="550" count="0" type="stmt"/>
+      <line num="573" count="0" type="stmt"/>
+      <line num="580" count="0" type="stmt"/>
+      <line num="583" count="0" type="stmt"/>
+      <line num="585" count="0" type="stmt"/>
+      <line num="624" count="0" type="stmt"/>
+      <line num="627" count="0" type="stmt"/>
+      <line num="646" count="0" type="stmt"/>
+      <line num="649" count="0" type="stmt"/>
+      <line num="668" count="0" type="stmt"/>
+      <line num="670" count="0" type="stmt"/>
+      <line num="688" count="0" type="stmt"/>
+      <line num="690" count="0" type="stmt"/>
+      <line num="708" count="0" type="stmt"/>
+      <line num="711" count="0" type="stmt"/>
+      <line num="734" count="0" type="stmt"/>
+      <line num="738" count="0" type="stmt"/>
+      <line num="740" count="0" type="stmt"/>
+      <line num="742" count="0" type="stmt"/>
+      <line num="743" count="0" type="stmt"/>
+      <line num="744" count="0" type="stmt"/>
+      <line num="745" count="0" type="stmt"/>
+      <line num="746" count="0" type="stmt"/>
+      <line num="748" count="0" type="stmt"/>
+      <line num="749" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="750" count="0" type="stmt"/>
+      <line num="754" count="0" type="stmt"/>
+      <line num="757" count="0" type="stmt"/>
+      <line num="759" count="0" type="stmt"/>
+      <line num="763" count="0" type="stmt"/>
+      <line num="764" count="0" type="stmt"/>
+      <line num="765" count="0" type="stmt"/>
+      <line num="766" count="0" type="stmt"/>
+      <line num="767" count="0" type="cond" truecount="0" falsecount="4"/>
+      <line num="768" count="0" type="stmt"/>
+      <line num="772" count="0" type="stmt"/>
+      <line num="773" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="778" count="0" type="stmt"/>
+      <line num="779" count="0" type="stmt"/>
+      <line num="781" count="0" type="stmt"/>
+      <line num="782" count="0" type="stmt"/>
+      <line num="789" count="0" type="stmt"/>
+      <line num="814" count="0" type="stmt"/>
+      <line num="816" count="0" type="stmt"/>
+      <line num="818" count="0" type="cond" truecount="0" falsecount="3"/>
+      <line num="820" count="0" type="stmt"/>
+      <line num="821" count="0" type="stmt"/>
+      <line num="824" count="0" type="stmt"/>
+      <line num="825" count="0" type="stmt"/>
+      <line num="828" count="0" type="stmt"/>
+      <line num="829" count="0" type="stmt"/>
+      <line num="832" count="0" type="stmt"/>
+      <line num="836" count="0" type="stmt"/>
+      <line num="841" count="0" type="stmt"/>
+      <line num="842" count="0" type="stmt"/>
+      <line num="844" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="847" count="0" type="stmt"/>
+      <line num="853" count="0" type="stmt"/>
+      <line num="876" count="0" type="stmt"/>
+      <line num="884" count="0" type="stmt"/>
+      <line num="891" count="0" type="stmt"/>
+      <line num="899" count="0" type="stmt"/>
+      <line num="906" count="0" type="stmt"/>
+      <line num="914" count="0" type="stmt"/>
+      <line num="921" count="0" type="stmt"/>
+      <line num="928" count="0" type="stmt"/>
+      <line num="930" count="0" type="stmt"/>
+      <line num="933" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="950" count="0" type="stmt"/>
+      <line num="953" count="0" type="stmt"/>
+    </file>
+    <file name="Root.tsx" path="/Users/lumberman/GitHub/CruVokeRN/src/Root.tsx">
+      <metrics statements="10" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
+      <line num="17" count="0" type="stmt"/>
+      <line num="19" count="0" type="stmt"/>
+      <line num="20" count="0" type="stmt"/>
+      <line num="22" count="0" type="stmt"/>
+      <line num="23" count="0" type="stmt"/>
+      <line num="24" count="0" type="stmt"/>
+      <line num="26" count="0" type="stmt"/>
+      <line num="35" count="0" type="stmt"/>
+      <line num="36" count="0" type="stmt"/>
+      <line num="40" count="0" type="stmt"/>
+    </file>
+    <file name="RootNavigation.ts" path="/Users/lumberman/GitHub/CruVokeRN/src/RootNavigation.ts">
+      <metrics statements="8" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="0"/>
+      <line num="7" count="0" type="stmt"/>
+      <line num="8" count="0" type="stmt"/>
+      <line num="11" count="0" type="stmt"/>
+      <line num="15" count="0" type="stmt"/>
+      <line num="19" count="0" type="stmt"/>
+      <line num="22" count="0" type="stmt"/>
+      <line num="23" count="0" type="stmt"/>
+      <line num="29" count="0" type="stmt"/>
+    </file>
+    <file name="index.d.ts" path="/Users/lumberman/GitHub/CruVokeRN/src/index.d.ts">
+      <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+    </file>
+    <file name="store.ts" path="/Users/lumberman/GitHub/CruVokeRN/src/store.ts">
+      <metrics statements="25" coveredstatements="0" conditionals="17" coveredconditionals="0" methods="6" coveredmethods="0"/>
+      <line num="12" count="0" type="stmt"/>
+      <line num="14" count="0" type="stmt"/>
+      <line num="17" count="0" type="stmt"/>
+      <line num="18" count="0" type="stmt"/>
+      <line num="19" count="0" type="stmt"/>
+      <line num="21" count="0" type="cond" truecount="0" falsecount="3"/>
+      <line num="24" count="0" type="stmt"/>
+      <line num="30" count="0" type="stmt"/>
+      <line num="31" count="0" type="stmt"/>
+      <line num="32" count="0" type="stmt"/>
+      <line num="35" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="37" count="0" type="stmt"/>
+      <line num="38" count="0" type="cond" truecount="0" falsecount="4"/>
+      <line num="39" count="0" type="stmt"/>
+      <line num="43" count="0" type="stmt"/>
+      <line num="45" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="46" count="0" type="stmt"/>
+      <line num="48" count="0" type="stmt"/>
+      <line num="50" count="0" type="stmt"/>
+      <line num="55" count="0" type="stmt"/>
+      <line num="61" count="0" type="stmt"/>
+      <line num="64" count="0" type="stmt"/>
+      <line num="65" count="0" type="stmt"/>
+      <line num="66" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="71" count="0" type="stmt"/>
+    </file>
+    <file name="wdyr.js" path="/Users/lumberman/GitHub/CruVokeRN/src/wdyr.js">
+      <metrics statements="4" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <line num="3" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="4" count="0" type="stmt"/>
+      <line num="5" count="0" type="stmt"/>
+      <line num="6" count="0" type="stmt"/>
+    </file>
+  </project>
+</coverage>
