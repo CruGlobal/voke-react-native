@@ -195,7 +195,16 @@ function AdventureStepMessage({
                     </Text>
                   )}
                   {isSharedAnswer ? (
-                    <Flex style={styles.messageSharedContent}>
+                    <Flex
+                      style={[
+                        styles.messageSharedContent,
+                        {
+                          backgroundColor: isBlured
+                            ? 'transparent'
+                            : 'rgba(0,0,0,.2)',
+                        },
+                      ]}
+                    >
                       <Text
                         style={[
                           st.fs4,
