@@ -14,6 +14,12 @@ interface InitialStateTypes {
   device: object; // TODO: IDeviceInformation interface here
   user: TUser;
   modalProps: object; // TODO: IModalProps interface here
+  userBlocked: {
+    isBlocked: boolean;
+    reportedMessage: string;
+    blockReason: string;
+    groupName: string;
+  };
   ws?: object;
 }
 
@@ -33,6 +39,12 @@ const initialState: InitialStateTypes = {
     lastName: '',
   },
   modalProps: {},
+  userBlocked: {
+    isBlocked: false,
+    reportedMessage: '',
+    blockReason: '',
+    groupName: '',
+  },
   ws: undefined,
 };
 
@@ -123,6 +135,16 @@ export default function (
       return state;
     case REDUX_ACTIONS.LOGOUT:
       return initialState;
+    case REDUX_ACTIONS.BLOCK:
+      return {
+        ...state,
+        userBlocked: {
+          isBlocked: true,
+          reportedMessage: action.reportedMessage,
+          blockReason: action.blockReason,
+          groupName: action.groupName,
+        },
+      };
     default:
       return state;
   }

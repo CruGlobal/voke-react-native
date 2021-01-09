@@ -9,6 +9,7 @@ export const avatars = {
 export const bots = {
 	bot: require("./bots/Bot.png"),
 	uke: require("./bots/UkeBot.png"),
+	sad: require("./bots/SadBot.png"),
 	animated: require("./bots/AnimatedBot.gif"),
 	avatar: require("./bots/AvatarBot.png"),
 };

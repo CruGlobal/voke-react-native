@@ -154,7 +154,7 @@ export default function request(options) {
             })
             .catch(e => {
               // Couldn't parse the JSON
-              throw e;
+              throw { ...e, ...{ status: response.status } };
             });
         }
         if (options.blob) {
@@ -199,7 +199,7 @@ export default function request(options) {
         // }
 
         // Couldn't parse the JSON
-        return e;
+        throw e;
       });
   };
 }

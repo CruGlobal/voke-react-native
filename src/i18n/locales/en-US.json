@@ -307,7 +307,11 @@
         "user": "User",
         "updateApp": "Update App",
         "updateToKeepUsing": "Please update your app to the\u00A0newest version to\u00A0continue using Voke",
-        "welcomeTo": "Welcome to "
+        "welcomeTo": "Welcome to ",
+        "removedFromVokeTitle": "OH No! You’ve been removed from Voke.",
+        "removedFromVokeBody": "Your activity in the app violated your agreement to our Acceptable Use policy published in our",
+        "removedFromVokeWhatWrong": "Here’s where you went wrong:",
+        "removedFromVokeContactLeader": "Contact {{groupName}} Group leader for more information."
     },
     "notifications": {
         "off": "Notifications turned off."

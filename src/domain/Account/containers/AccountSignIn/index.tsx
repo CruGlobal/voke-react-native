@@ -94,11 +94,20 @@ const AccountSignIn: FunctionComponent<Props> = props => {
         navigation.navigate('LoggedInApp');
       }
     } catch (e) {
+      // 403 - user blocked
+      // 401 - password is wrong
       console.log('🛑 Error on login \n', { e });
       if (e?.message === 'Network request failed') {
         Alert.alert(e?.message, t('checkInternet'));
-      } else {
+      } else if (e?.error === 'invalid_grant') {
         Alert.alert(t('login:invalid'), t('login:enterValid'));
+      } else if (e?.status === 403) {
+        Alert.alert(
+          t('modal:removedFromVokeTitle'),
+          t('modal:removedFromVokeBody') + ' ' + t('tos') + '.',
+        );
+      } else if (e?.error_description) {
+        Alert.alert(error_description);
       }
 
       setIsLoading(false);

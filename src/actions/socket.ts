@@ -241,6 +241,19 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
                 notification.category === 'CREATE_INTERACTION_CATEGORY'
                 // Ofthen used with 'message ✅read' status.
               ) {
+              } else if (
+                notification.category === 'BLOCK_JOURNEY_CATEGORY'
+                // If user blocked from Voke.
+              ) {
+                dispatch(
+                  userBlockedAction({
+                    // RELEASE: replace with actual data.
+                    reportedMessage:
+                      'I hate it when you post James. You never make any sense.',
+                    blockReason: 'Bullying, teasing or verbal abuse.',
+                    adventureId: 'c5feb386-b4e7-42fe-aa0c-1cfd6add252d', //message.id,
+                  }),
+                );
               }
             };
 

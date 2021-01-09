@@ -13,6 +13,7 @@ import {
 import CONSTANTS, { REDUX_ACTIONS } from 'utils/constants';
 import { appleAuth } from '@invertase/react-native-apple-authentication';
 import request from 'actions/utils';
+import { TAdventureSingle, TDataState } from 'utils/types';
 
 import ROUTES from './routes';
 import {
@@ -72,6 +73,26 @@ export function loginAction(authToken) {
   // const authToken = authData.access_token;
   return async dispatch => {
     await dispatch({ type: REDUX_ACTIONS.LOGIN, authToken });
+  };
+}
+
+export function userBlockedAction({
+  reportedMessage,
+  blockReason,
+  adventureId,
+}) {
+  return async (dispatch, getState) => {
+    const adventureItem: TAdventureSingle =
+      getState().data.myAdventures.byId[
+      adventureId as keyof TDataState['myAdventures']['byId']
+      ] || {};
+    const groupName = (adventureItem.journey_invite || {}).name || '';
+    await dispatch({
+      type: REDUX_ACTIONS.BLOCK,
+      reportedMessage,
+      blockReason,
+      groupName,
+    });
   };
 }
 

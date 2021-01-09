@@ -57,6 +57,7 @@ import AccountPass from './domain/Account/containers/AccountPass';
 import AccountEmail from './domain/Account/containers/AccountEmail';
 import AccountProfile from './domain/Account/containers/AccountProfile';
 import AccountCreate from './domain/Account/containers/AccountCreate';
+import AccountBlocked from './domain/Account/containers/AccountBlocked';
 import AccountForgotPassword from './domain/Account/containers/AccountForgotPassword';
 import Adventures from './domain/Adventures/AdventuresTab';
 import AdventureAvailable from './domain/Adventure/Available';
@@ -385,6 +386,9 @@ const RootStack = createStackNavigator<RootStackParamList>();
 const RootStackScreens = React.memo(
   () => {
     const isLoggedIn = useSelector(({ auth }: any) => auth.isLoggedIn);
+    const isBlocked = useSelector(
+      ({ auth }: any) => auth.userBlocked.isBlocked,
+    );
     const firstName = useSelector(({ auth }: any) => auth.user.firstName);
     const insets = useSafeArea();
     const { t } = useTranslation('title');
@@ -395,7 +399,7 @@ const RootStackScreens = React.memo(
           {isLoggedIn && firstName?.length ? (
             <RootStack.Screen
               name="LoggedInApp"
-              component={LoggedInAppContainer}
+              component={isBlocked ? AccountBlocked : LoggedInAppContainer}
               options={{
                 headerShown: false,
               }}
