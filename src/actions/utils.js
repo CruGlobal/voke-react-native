@@ -2,27 +2,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import qs from 'qs'; // querystring parsing and stringifying
 import CONSTANTS, { REDUX_ACTIONS } from 'utils/constants';
 
-let baseUrl;
-let authUrl;
-
-const API_VERSION = 'v1';
-
-let domain = '';
-if (!CONSTANTS.IS_STAGING) {
-  setTimeout(() => console.log('🛑 POINTING TO PROD'), 1);
-  domain = '';
-} else {
-  setTimeout(() => console.log('🟢 POINTING TO STAGING'), 1);
-  domain = '-stage';
-}
-
-baseUrl = `https://api${domain}.vokeapp.com/api/messenger/${API_VERSION}`;
-authUrl = `https://auth${domain}.vokeapp.com`;
-
-export const BASE_URL = baseUrl;
-export const API_BASE_URL = BASE_URL + '/';
-export const AUTH_URL = authUrl + '/';
-export const SOCKET_URL = `wss://api${domain}.vokeapp.com/`;
+console.log(`POINTING TO ${CONSTANTS.ENV}`);
 
 const DEFAULT_HEADERS = {
   Accept: 'application/json',
@@ -36,7 +16,7 @@ function replaceUrlParam(url, pathParams) {
     // eslint-disable-next-line no-unused-vars
     for (const [key, value] of Object.entries(pathParams)) {
       // Match the route/{routeId}
-      let param = (tempUrl.match(/\{[A-Za-z0-9]*\}/) || [])[0];
+      let [param] = tempUrl.match(/\{[A-Za-z0-9]*\}/) || [];
       // console.log('param, value', param, value);
       // Remove the brackets from the matching result
       if (param) {
@@ -73,11 +53,10 @@ export default function request(options) {
   return async (dispatch, getState) => {
     let finalUrl = replaceUrlParam(options.url, options.pathParams);
     const params = qs.stringify(buildParams(options, getState));
-    // finalUrl = `${API_BASE_URL}${finalUrl}?${params}`;
     if (options.isAuth) {
-      finalUrl = `${AUTH_URL}${finalUrl}?${params}`;
+      finalUrl = `${CONSTANTS.AUTH_URL}${finalUrl}?${params}`;
     } else {
-      finalUrl = `${API_BASE_URL}${finalUrl}?${params}`;
+      finalUrl = `${CONSTANTS.API_URL}${finalUrl}?${params}`;
     }
 
     const newObj = {
@@ -225,7 +204,7 @@ function imageUpload(url, headers, data) {
 
       if (status === 200) {
         // if (!response.ok) {
-        /* 
+        /*
       return response
         .json();
         .then(({ message }) => {
@@ -292,7 +271,7 @@ function imageUpload(url, headers, data) {
       throw e;
     });
 
-  /* 
+  /*
   .then((res) => {
     let status = res.info().status;
 

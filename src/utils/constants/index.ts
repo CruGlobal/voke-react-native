@@ -1,12 +1,34 @@
 import st from 'utils/st';
 
-export const REDUX_ACTIONS: { [key: string]: string } = {
+import development from './development';
+import local from './local';
+import production from './production';
+import staging from './staging';
+
+type ENVIRONMENT =
+  | 'development'
+  | 'local'
+  | 'production'
+  | 'staging'
+  | undefined;
+
+const configEnv = (process.env.NODE_ENV as ENVIRONMENT) || 'development';
+
+const envs = {
+  development: development,
+  local: local,
+  production: production,
+  staging: staging,
+};
+
+const currentEnv = envs[configEnv];
+
+export const REDUX_ACTIONS = {
   REQUEST_FETCH: 'REQUEST_FETCH',
   REQUEST_FAIL: 'REQUEST_FAIL',
   REQUEST_SUCCESS: 'REQUEST_SUCCESS',
   LOADING_STATUS: 'LOADING_STATUS',
   INIT_LOADING_STATUS: 'INIT_LOADING_STATUS',
-
   STARTUP: 'STARTUP',
   LOGIN: 'LOGIN',
   LOGOUT: 'LOGOUT',
@@ -14,12 +36,9 @@ export const REDUX_ACTIONS: { [key: string]: string } = {
   SHOW_MODAL: 'SHOW_MODAL',
   HIDE_MODAL: 'HIDE_MODAL',
   SET_DATA: 'SET_DATA',
-
   SET_DEVICE: 'SET_DEVICE',
   OPEN_SOCKETS: 'OPEN_SOCKETS',
-
   SET_VIDEO_STATE: 'SET_VIDEO_STATE',
-
   START_ADVENTURE: 'START_ADVENTURE',
   UPDATE_INVITATIONS: 'UPDATE_INVITATIONS',
   UPDATE_ADVENTURE: 'UPDATE_ADVENTURE',
@@ -36,11 +55,9 @@ export const REDUX_ACTIONS: { [key: string]: string } = {
   UPDATE_VIDEO_PAGINATION: 'UPDATE_VIDEO_PAGINATION',
   MARK_READ: 'MARK_READ',
   UPDATE_UNREAD_TOTAL: 'UPDATE_UNREAD_TOTAL',
-
   CREATE_COMPLAIN: 'CREATE_COMPLAIN',
   SET_COMPLAIN: 'SET_COMPLAIN',
   CLEAR_COMPLAIN: 'CLEAR_COMPLAIN',
-
   RESET: 'RESET',
   CLEAR_TOAST: 'CLEAR_TOAST',
   SET_TOAST: 'SET_TOAST',
@@ -58,30 +75,9 @@ export const REDUX_ACTIONS: { [key: string]: string } = {
 export const VIDEO_HEIGHT = st.fullWidth * (9 / 16);
 export const VIDEO_LANDSCAPE_WIDTH = st.fullHeight;
 export const VIDEO_LANDSCAPE_HEIGHT = st.fullWidth;
-
 export const { isAndroid } = st;
-
-const IS_STAGING = false;
-
-const SALT_HASH_STAGING = 'nRgwCUrxKyWDytQDdfYpaJGrEjNQVUYHoDvHhtfgFvauvPrwIm';
-const SALT_HASH_PROD = 'sKgbotdipkiaPVmtViOPhJJidXPXthowELRKwGNwhOMHnIclxj';
-
-const CLIENT_ID_STAGING =
-  'db6274e05ca47b4eee31b25525eae8a02a1b7e1f0c09f653352782fb8cefcaf4';
-const CLIENT_ID_PROD =
-  'a236be0f30998033b32664440e10a606775a77631609155870ddd9565eebdf14';
-
-const CLIENT_SECRET_STAGING =
-  'e0c2d30d486fa2254284d978d148036213ec41998b2aa6bcb9986b8833547a21';
-const CLIENT_SECRET_PROD =
-  '1254b13a5bd7e61346c28f7e59fe0b1caa87e4b75284dbbe1970dc4fd60b36f4';
-
-const IOS_APP_ID = 'id1056168356';
-const ANDROID_APP_ID = 'org.cru.voke';
-const APP_URL = 'https://voke.page.link/app';
-
 export const ANALYTICS_CONTEXT_CHANGED = 'app/ANALYTICS_CONTEXT_CHANGED';
-export const ANALYTICS: { [key: string]: string } = {
+export const ANALYTICS = {
   MCID: 'cru.mcid',
   SCREENNAME: 'cru.screenname',
   SITE_SECTION: 'cru.sitesection',
@@ -306,37 +302,21 @@ export const ACTIONS = {
   },
 };
 
-const CONSTANTS: { [key: string]: { [key: string]: string | number } | any } = {
-  IS_STAGING,
+const CONSTANTS = {
+  ENV: configEnv,
   EMAIL_REGEX: new RegExp(/^\w+([.+-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/),
   GA_TRACKER: 'UA-39188989-7', // Google Analytics
-  // APPSEE_KEY: 'f12ec0fba0e24c6e80fa2f8fcbf1eb04',
-
   FACEBOOK_VERSION: 'v2.8',
   FACEBOOK_FIELDS: 'name,email,picture,about,cover,first_name,last_name',
-  FACEBOOK_SCOPE: ['public_profile', 'email'], // FB data we want access to.
-  // FACEBOOK_FIELDS: 'name,picture,about,cover,first_name,last_name',
-  // FACEBOOK_SCOPE: ['public_profile'],
-
-  PAGE_SIZE: 25, // This is the default page size from the API
+  FACEBOOK_SCOPE: ['public_profile', 'email'],
+  PAGE_SIZE: 25,
   CONVERSATIONS_PAGE_SIZE: 12,
-
   CONTACT_CHUNKS: 500, // How many contacts to send up per upload request
   REFRESH_CONTACTS_TIME: 30 * 24 * 60 * 60 * 1000, // 5 days
-  // // REFRESH_CONTACTS_TIME: 30 * 60 * 1000, // 30 minutes
-
   GCM_SENDER_ID: '360680446899',
-  IOS_STORE_LINK: `itms://itunes.apple.com/us/app/apple-store/${IOS_APP_ID}`,
-  ANDROID_STORE_LINK: `market://details?id=${ANDROID_APP_ID}`,
-  APP_URL,
-
-  CLIENT_ID: IS_STAGING ? CLIENT_ID_STAGING : CLIENT_ID_PROD,
-  CLIENT_SECRET: IS_STAGING ? CLIENT_SECRET_STAGING : CLIENT_SECRET_PROD,
-  SALT_HASH: IS_STAGING ? SALT_HASH_STAGING : SALT_HASH_PROD,
-
-  // API_KEY: '69f02db1aff5035578e9',
-  // FB_ID: '443564615845137',
-
+  IOS_STORE_LINK: `itms://itunes.apple.com/us/app/apple-store/id1056168356`,
+  ANDROID_STORE_LINK: `market://details?id=org.cru.voke`,
+  APP_URL: 'https://voke.page.link/app',
   WEB_URLS: {
     INSTAGRAM: 'https://instagram.com/_u/vokeapp',
     VOKE: 'https://www.vokeapp.com',
@@ -388,6 +368,7 @@ const CONSTANTS: { [key: string]: { [key: string]: string | number } | any } = {
     FIREBASE: 'https://firebase.google.com/',
     REACT_NATIVE_FIREBASE: 'https://rnfirebase.io/',
   },
+  ...currentEnv,
 };
 
 export default CONSTANTS;
