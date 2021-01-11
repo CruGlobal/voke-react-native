@@ -14,6 +14,8 @@ import CONSTANTS, { REDUX_ACTIONS } from 'utils/constants';
 import { appleAuth } from '@invertase/react-native-apple-authentication';
 import request from 'actions/utils';
 import { TAdventureSingle, TDataState } from 'utils/types';
+import { ThunkDispatch } from 'redux-thunk';
+import { Action } from 'redux';
 
 import ROUTES from './routes';
 import {
@@ -32,6 +34,8 @@ import {
   permissionsAndNotifications,
   setAppIconBadgeNumber,
 } from './notifications';
+
+type Dispatch = ThunkDispatch<TDataState, void, Action>;
 
 /**
  * Update user's data on the server
@@ -76,22 +80,10 @@ export function loginAction(authToken) {
   };
 }
 
-export function userBlockedAction({
-  reportedMessage,
-  blockReason,
-  adventureId,
-}) {
-  return async (dispatch, getState) => {
-    const adventureItem: TAdventureSingle =
-      getState().data.myAdventures.byId[
-      adventureId as keyof TDataState['myAdventures']['byId']
-      ] || {};
-    const groupName = (adventureItem.journey_invite || {}).name || '';
+export function userBlockedAction() {
+  return async (dispatch: Dispatch) => {
     await dispatch({
       type: REDUX_ACTIONS.BLOCK,
-      reportedMessage,
-      blockReason,
-      groupName,
     });
   };
 }

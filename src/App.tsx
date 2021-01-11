@@ -813,19 +813,17 @@ const App = () => {
     // Here Chat is the name of the screen that handles the URL /feed, and Profile handles the URL /user.
   };
 
-
   // Make screen names meaningfull for Analytic reports.
   const analyticsRenameRoute = (routeName: string) => {
-
     let newName = '';
 
     switch (routeName) {
       case 'AdventureName':
-        newName = 'Share - Friend Name'
+        newName = 'Share - Friend Name';
         break;
 
       case 'AdventureShareCode':
-        newName = 'Share - Code'
+        newName = 'Share - Code';
         break;
 
       default:
@@ -834,14 +832,13 @@ const App = () => {
     }
 
     return newName;
-
-  }
+  };
 
   return (
     <>
       <NavigationContainer
         ref={navigationRef}
-        onStateChange={async (state) => {
+        onStateChange={async state => {
           const previousRouteName = routeNameRef.current;
           const currentRouteName = getActiveRouteName(state);
 

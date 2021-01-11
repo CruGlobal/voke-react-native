@@ -311,7 +311,7 @@
         "removedFromVokeTitle": "OH No! You’ve been removed from Voke.",
         "removedFromVokeBody": "Your activity in the app violated your agreement to our Acceptable Use policy published in our",
         "removedFromVokeWhatWrong": "Here’s where you went wrong:",
-        "removedFromVokeContactLeader": "Contact {{groupName}} Group leader for more information."
+        "removedFromVokeContactLeader": "Contact your group leader for more information."
     },
     "notifications": {
         "off": "Notifications turned off."

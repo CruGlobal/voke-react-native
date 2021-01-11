@@ -20,7 +20,12 @@ import Text from 'components/Text';
 import Screen from 'components/Screen';
 import Button from 'components/Button';
 import Spacer from 'components/Spacer';
-import { userLogin, facebookLogin, appleSignIn } from 'actions/auth';
+import {
+  userLogin,
+  facebookLogin,
+  appleSignIn,
+  userBlockedAction,
+} from 'actions/auth';
 import theme from 'utils/theme';
 import { RootStackParamList } from 'utils/types';
 import { RootState } from 'reducers';
@@ -102,10 +107,7 @@ const AccountSignIn: FunctionComponent<Props> = props => {
       } else if (e?.error === 'invalid_grant') {
         Alert.alert(t('login:invalid'), t('login:enterValid'));
       } else if (e?.status === 403) {
-        Alert.alert(
-          t('modal:removedFromVokeTitle'),
-          t('modal:removedFromVokeBody') + ' ' + t('tos') + '.',
-        );
+        dispatch(userBlockedAction());
       } else if (e?.error_description) {
         Alert.alert(error_description);
       }

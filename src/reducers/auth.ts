@@ -16,9 +16,6 @@ interface InitialStateTypes {
   modalProps: object; // TODO: IModalProps interface here
   userBlocked: {
     isBlocked: boolean;
-    reportedMessage: string;
-    blockReason: string;
-    groupName: string;
   };
   ws?: object;
 }
@@ -41,9 +38,6 @@ const initialState: InitialStateTypes = {
   modalProps: {},
   userBlocked: {
     isBlocked: false,
-    reportedMessage: '',
-    blockReason: '',
-    groupName: '',
   },
   ws: undefined,
 };
@@ -140,9 +134,6 @@ export default function (
         ...state,
         userBlocked: {
           isBlocked: true,
-          reportedMessage: action.reportedMessage,
-          blockReason: action.blockReason,
-          groupName: action.groupName,
         },
       };
     default:
