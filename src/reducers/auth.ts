@@ -14,6 +14,9 @@ interface InitialStateTypes {
   device: object; // TODO: IDeviceInformation interface here
   user: TUser;
   modalProps: object; // TODO: IModalProps interface here
+  userBlocked: {
+    isBlocked: boolean;
+  };
   ws?: object;
 }
 
@@ -33,6 +36,9 @@ const initialState: InitialStateTypes = {
     lastName: '',
   },
   modalProps: {},
+  userBlocked: {
+    isBlocked: false,
+  },
   ws: undefined,
 };
 
@@ -123,6 +129,13 @@ export default function (
       return state;
     case REDUX_ACTIONS.LOGOUT:
       return initialState;
+    case REDUX_ACTIONS.BLOCK:
+      return {
+        ...state,
+        userBlocked: {
+          isBlocked: true,
+        },
+      };
     default:
       return state;
   }

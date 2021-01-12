@@ -57,6 +57,7 @@ import AccountPass from './domain/Account/containers/AccountPass';
 import AccountEmail from './domain/Account/containers/AccountEmail';
 import AccountProfile from './domain/Account/containers/AccountProfile';
 import AccountCreate from './domain/Account/containers/AccountCreate';
+import AccountBlocked from './domain/Account/containers/AccountBlocked';
 import AccountForgotPassword from './domain/Account/containers/AccountForgotPassword';
 import Adventures from './domain/Adventures/AdventuresTab';
 import AdventureAvailable from './domain/Adventure/Available';
@@ -385,6 +386,9 @@ const RootStack = createStackNavigator<RootStackParamList>();
 const RootStackScreens = React.memo(
   () => {
     const isLoggedIn = useSelector(({ auth }: any) => auth.isLoggedIn);
+    const isBlocked = useSelector(
+      ({ auth }: any) => auth.userBlocked.isBlocked,
+    );
     const firstName = useSelector(({ auth }: any) => auth.user.firstName);
     const insets = useSafeArea();
     const { t } = useTranslation('title');
@@ -395,7 +399,7 @@ const RootStackScreens = React.memo(
           {isLoggedIn && firstName?.length ? (
             <RootStack.Screen
               name="LoggedInApp"
-              component={LoggedInAppContainer}
+              component={isBlocked ? AccountBlocked : LoggedInAppContainer}
               options={{
                 headerShown: false,
               }}
@@ -809,19 +813,17 @@ const App = () => {
     // Here Chat is the name of the screen that handles the URL /feed, and Profile handles the URL /user.
   };
 
-
   // Make screen names meaningfull for Analytic reports.
   const analyticsRenameRoute = (routeName: string) => {
-
     let newName = '';
 
     switch (routeName) {
       case 'AdventureName':
-        newName = 'Share - Friend Name'
+        newName = 'Share - Friend Name';
         break;
 
       case 'AdventureShareCode':
-        newName = 'Share - Code'
+        newName = 'Share - Code';
         break;
 
       default:
@@ -830,14 +832,13 @@ const App = () => {
     }
 
     return newName;
-
-  }
+  };
 
   return (
     <>
       <NavigationContainer
         ref={navigationRef}
-        onStateChange={async (state) => {
+        onStateChange={async state => {
           const previousRouteName = routeNameRef.current;
           const currentRouteName = getActiveRouteName(state);
 

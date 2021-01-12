@@ -9,6 +9,7 @@ import { checkNotifications, openSettings } from 'react-native-permissions';
 import { Vibration } from 'react-native';
 import { REDUX_ACTIONS } from 'utils/constants';
 import { SOCKET_URL } from 'actions/utils';
+import { userBlockedAction } from 'actions/auth';
 
 import { toastAction } from './info';
 import {
@@ -154,8 +155,11 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
                 }
               }
 
-              if (notification?.category === 'CREATE_MESSAGE_CATEGORY' ||
-                notification?.category === 'CREATE_JOURNEY_STEP_MESSAGE_MESSAGE_CATEGORY') {
+              if (
+                notification?.category === 'CREATE_MESSAGE_CATEGORY' ||
+                notification?.category ===
+                'CREATE_JOURNEY_STEP_MESSAGE_MESSAGE_CATEGORY'
+              ) {
                 // When new message posted by another user.
                 if (message && message['adventure_message?']) {
                   // If updated message in one of the Adventures.
@@ -241,6 +245,11 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
                 notification.category === 'CREATE_INTERACTION_CATEGORY'
                 // Ofthen used with 'message ✅read' status.
               ) {
+              } else if (
+                notification.category === 'BLOCK_JOURNEY_CATEGORY'
+                // If user blocked from Voke.
+              ) {
+                dispatch(userBlockedAction());
               }
             };
 
@@ -250,9 +259,10 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
               // throw error;
               // Try to restart:
               setTimeout(
-                () => dispatch({
-                  type: REDUX_ACTIONS.STARTUP,
-                }),
+                () =>
+                  dispatch({
+                    type: REDUX_ACTIONS.STARTUP,
+                  }),
                 5000,
               );
             };
@@ -270,9 +280,10 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
           console.log('🛑 socketErr:\n', socketErr);
           // Try to restart:
           setTimeout(
-            () => dispatch({
-              type: REDUX_ACTIONS.STARTUP,
-            }),
+            () =>
+              dispatch({
+                type: REDUX_ACTIONS.STARTUP,
+              }),
             5000,
           );
         }

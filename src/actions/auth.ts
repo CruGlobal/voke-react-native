@@ -13,6 +13,9 @@ import {
 import CONSTANTS, { REDUX_ACTIONS } from 'utils/constants';
 import { appleAuth } from '@invertase/react-native-apple-authentication';
 import request from 'actions/utils';
+import { TAdventureSingle, TDataState } from 'utils/types';
+import { ThunkDispatch } from 'redux-thunk';
+import { Action } from 'redux';
 
 import ROUTES from './routes';
 import {
@@ -31,6 +34,8 @@ import {
   permissionsAndNotifications,
   setAppIconBadgeNumber,
 } from './notifications';
+
+type Dispatch = ThunkDispatch<TDataState, void, Action>;
 
 /**
  * Update user's data on the server
@@ -72,6 +77,14 @@ export function loginAction(authToken) {
   // const authToken = authData.access_token;
   return async dispatch => {
     await dispatch({ type: REDUX_ACTIONS.LOGIN, authToken });
+  };
+}
+
+export function userBlockedAction() {
+  return async (dispatch: Dispatch) => {
+    await dispatch({
+      type: REDUX_ACTIONS.BLOCK,
+    });
   };
 }
 
