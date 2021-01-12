@@ -111,6 +111,19 @@ function AdventureManage({ navigation, route }: Props): React.ReactElement {
 
   const messengers = adventure?.conversation?.messengers || [];
 
+  // Exist screen if user is not a group admin.
+  useEffect(() => {
+    messengers.some(user => {
+      if (user.id === me.id) {
+        if (!user.group_leader) {
+          navigation.navigate('AdventureActive', { adventureId });
+        }
+        return true; // Exit early.
+      }
+    });
+    me.id;
+  }, [adventureId, me, messengers, navigation]);
+
   const gatingStartAt = adventure?.gating_start_at;
   const gatingPeriod = adventure?.gating_period;
   const gatingStart = adventure?.gating_start_at;

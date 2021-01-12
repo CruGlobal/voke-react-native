@@ -32,6 +32,36 @@ export const NAMESPACES = {
   ADVENTURE: 'platform:organization:adventure:challenge',
 };
 
+// Extract predefined list of param from the link provided.
+const getLinkParams = (link: string) => {
+  const components = link.split('/');
+  // Object with possible keys.
+  const params = {
+    messenger_journeys: '',
+    messenger_journey_steps: '',
+    messenger_journey_reports: '',
+    conversations: '',
+    messages: '',
+  };
+  let currParm: keyof typeof params | '' = '';
+  // Extract components of the link provided.
+  components.forEach(str => {
+    if (str in params) {
+      currParm = str as typeof currParm;
+    } else if (currParm && str !== '') {
+      params[currParm] = str;
+    }
+  });
+  // Remove keys with empty values.
+  const result = Object.entries(params).reduce(
+    (a: Record<string, unknown>, [k, v]) =>
+      v == null || v === '' ? a : ((a[k] = v), a),
+    {},
+  );
+
+  return result;
+};
+
 const getCID = l =>
   l.substring(l.indexOf('conversations/') + 14, l.indexOf('/messages'));
 
@@ -110,36 +140,46 @@ function handleNotifications(state: string, notification: { data?: any }) {
     }
 
     if (state === 'open' && namespace && link) {
-      if (
-        link.includes('messenger_journeys') &&
-        link.includes('messenger_journey_steps')
-      ) {
-        const adventureId = getJID(link);
-        const stepId = getSID(link);
-
-        try {
-          RootNavigation.navigate('AdventureStepScreen', {
-            stepId,
-            adventureId,
-          });
-        } catch (error) {
-          RootNavigation.reset({
-            index: 0,
-            routes: [{ name: 'LoggedInApp' }],
-          });
-        }
-      } else if (link.includes('messenger_journeys')) {
-        const adventureId = getOnlyJID(link);
-
-        try {
-          RootNavigation.navigate('AdventureActive', {
-            adventureId,
-          });
-        } catch (error) {
-          RootNavigation.reset({
-            index: 0,
-            routes: [{ name: 'LoggedInApp' }],
-          });
+      const linkParams = getLinkParams(link);
+      if ('messenger_journeys' in linkParams) {
+        const adventureId = linkParams.messenger_journeys;
+        if ('messenger_journey_steps' in linkParams) {
+          const stepId = linkParams.messenger_journey_steps;
+          try {
+            RootNavigation.navigate('AdventureStepScreen', {
+              stepId,
+              adventureId,
+            });
+          } catch (error) {
+            RootNavigation.reset({
+              index: 0,
+              routes: [{ name: 'LoggedInApp' }],
+            });
+          }
+        } else if ('messenger_journey_reports' in linkParams) {
+          // TODO: maybe use reportID to scroll the screen to this report?
+          // const reportId = linkParams.messenger_journey_reports;
+          try {
+            RootNavigation.navigate('AdventureManage', {
+              adventureId,
+            });
+          } catch (error) {
+            RootNavigation.reset({
+              index: 0,
+              routes: [{ name: 'LoggedInApp' }],
+            });
+          }
+        } else {
+          try {
+            RootNavigation.navigate('AdventureActive', {
+              adventureId,
+            });
+          } catch (error) {
+            RootNavigation.reset({
+              index: 0,
+              routes: [{ name: 'LoggedInApp' }],
+            });
+          }
         }
       }
     }
