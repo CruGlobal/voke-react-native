@@ -2,9 +2,13 @@
 // see: https://reactnavigation.org/docs/navigating-without-navigation-prop/
 
 import * as React from 'react';
-import { StackActions, CommonActions } from '@react-navigation/native';
+import {
+  StackActions,
+  CommonActions,
+  NavigationContainerRef,
+} from '@react-navigation/native';
 
-export const navigationRef = React.createRef();
+export const navigationRef: React.RefObject<NavigationContainerRef> = React.createRef();
 export const routeNameRef = React.createRef();
 
 export function navigate(name, params) {
