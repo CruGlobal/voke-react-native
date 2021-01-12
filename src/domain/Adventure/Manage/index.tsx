@@ -121,7 +121,6 @@ function AdventureManage({ navigation, route }: Props): React.ReactElement {
         return true; // Exit early.
       }
     });
-    me.id;
   }, [adventureId, me, messengers, navigation]);
 
   const gatingStartAt = adventure?.gating_start_at;
