@@ -40,7 +40,6 @@ const styles = StyleSheet.create({
   messageSharedContent: {
     marginTop: theme.spacing.l,
     padding: theme.spacing.l,
-    backgroundColor: 'rgba(0,0,0,.2)',
   },
   messageAuthor: {
     color: theme.colors.white,

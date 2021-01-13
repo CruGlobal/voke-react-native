@@ -9,7 +9,7 @@ buildscript {
         targetSdkVersion = 29
         ndkVersion = "20.1.5948944"
         // https://github.com/wix/Detox/blob/master/docs/Introduction.Android.md#4-add-kotlin
-        kotlinVersion = '1.4.21' // needed for Detox
+        kotlinVersion = '1.4.21-2' // needed for Detox
     }
     repositories {
         google()

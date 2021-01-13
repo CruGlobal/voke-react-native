@@ -20,7 +20,12 @@ import Text from 'components/Text';
 import Screen from 'components/Screen';
 import Button from 'components/Button';
 import Spacer from 'components/Spacer';
-import { userLogin, facebookLogin, appleSignIn } from 'actions/auth';
+import {
+  userLogin,
+  facebookLogin,
+  appleSignIn,
+  userBlockedAction,
+} from 'actions/auth';
 import theme from 'utils/theme';
 import { RootStackParamList } from 'utils/types';
 import { RootState } from 'reducers';
@@ -94,11 +99,17 @@ const AccountSignIn: FunctionComponent<Props> = props => {
         navigation.navigate('LoggedInApp');
       }
     } catch (e) {
+      // 403 - user blocked
+      // 401 - password is wrong
       console.log('🛑 Error on login \n', { e });
       if (e?.message === 'Network request failed') {
         Alert.alert(e?.message, t('checkInternet'));
-      } else {
+      } else if (e?.error === 'invalid_grant') {
         Alert.alert(t('login:invalid'), t('login:enterValid'));
+      } else if (e?.status === 403) {
+        dispatch(userBlockedAction());
+      } else if (e?.error_description) {
+        Alert.alert(error_description);
       }
 
       setIsLoading(false);
@@ -153,7 +164,7 @@ const AccountSignIn: FunctionComponent<Props> = props => {
       Alert.alert(
         `Can't sign\u00A0in using Apple\u00A0ID`,
         'Apple authentication is\u00A0not\u00A0available at\u00A0this\u00A0moment.' +
-          errorMessage,
+        errorMessage,
       );
     } else if (!user?.first_name) {
       // If user.id is set but user.first_name = null in the server response
@@ -165,7 +176,7 @@ const AccountSignIn: FunctionComponent<Props> = props => {
       Alert.alert(t('appleSignInDeletedTile'), t('appleSignInDeletedBody'), [
         {
           text: t('cancel'),
-          onPress: () => {},
+          onPress: () => { },
           style: 'cancel',
         },
         {
