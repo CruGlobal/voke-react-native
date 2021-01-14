@@ -1,5 +1,7 @@
 PODS:
   - boost-for-react-native (1.63.0)
+  - BVLinearGradient (2.5.6):
+    - React
   - CocoaAsyncSocket (7.6.5)
   - CocoaLibEvent (1.0.0)
   - DoubleConversion (1.1.6)
@@ -190,6 +192,12 @@ PODS:
   - OpenSSL-Universal (1.0.2.20):
     - OpenSSL-Universal/Static (= 1.0.2.20)
   - OpenSSL-Universal/Static (1.0.2.20)
+  - Permission-Camera (3.0.0):
+    - RNPermissions
+  - Permission-Notifications (3.0.0):
+    - RNPermissions
+  - Permission-PhotoLibrary (3.0.0):
+    - RNPermissions
   - PromisesObjC (1.2.12)
   - Protobuf (3.14.0)
   - RCT-Folly (2020.01.13.00):
@@ -401,8 +409,8 @@ PODS:
   - react-native-fbsdk/Share (3.0.0):
     - FBSDKShareKit (~> 8.1)
     - React
-  - react-native-image-picker (3.1.3):
-    - React-Core
+  - react-native-image-picker (3.1.2):
+    - React
   - react-native-orientation-locker (1.2.0):
     - React-Core
   - react-native-safe-area-context (3.1.9):
@@ -418,8 +426,8 @@ PODS:
     - react-native-video/Video (= 4.4.5)
   - react-native-video/Video (4.4.5):
     - React
-  - react-native-webview (10.7.0):
-    - React
+  - react-native-webview (10.10.2):
+    - React-Core
   - React-perflogger (0.64.0-rc.2)
   - React-RCTActionSheet (0.64.0-rc.2):
     - React-Core/RCTActionSheetHeaders (= 0.64.0-rc.2)
@@ -498,31 +506,31 @@ PODS:
     - React
   - RNCPushNotificationIOS (1.8.0):
     - React-Core
-  - RNDateTimePicker (3.0.9):
+  - RNDateTimePicker (3.0.8):
     - React-Core
-  - RNDeviceInfo (7.4.0):
+  - RNDeviceInfo (7.3.1):
     - React-Core
   - RNFastImage (8.3.4):
     - React-Core
     - SDWebImage (~> 5.8)
     - SDWebImageWebPCoder (~> 0.6.1)
-  - RNFBAnalytics (10.4.1):
+  - RNFBAnalytics (10.3.1):
     - Firebase/Analytics (~> 7.3.0)
     - React-Core
     - RNFBApp
-  - RNFBApp (10.4.0):
+  - RNFBApp (10.3.0):
     - Firebase/CoreOnly (~> 7.3.0)
     - React-Core
-  - RNFBCrashlytics (10.4.1):
+  - RNFBCrashlytics (10.3.1):
     - Firebase/Crashlytics (~> 7.3.0)
     - React-Core
     - RNFBApp
-  - RNFBDynamicLinks (10.4.1):
+  - RNFBDynamicLinks (10.3.1):
     - Firebase/DynamicLinks (~> 7.3.0)
     - GoogleUtilities/AppDelegateSwizzler
     - React-Core
     - RNFBApp
-  - RNFBPerf (10.4.1):
+  - RNFBPerf (10.3.1):
     - Firebase/Performance (~> 7.3.0)
     - React-Core
     - RNFBApp
@@ -545,7 +553,7 @@ PODS:
     - React-Core
   - RNScreens (2.16.1):
     - React-Core
-  - RNShare (4.1.2):
+  - RNShare (4.1.1):
     - React-Core
   - SDWebImage (5.10.2):
     - SDWebImage/Core (= 5.10.2)
@@ -559,6 +567,7 @@ PODS:
     - Yoga (~> 1.14)
 
 DEPENDENCIES:
+  - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/Libraries/FBReactNativeSpec`)
@@ -582,6 +591,9 @@ DEPENDENCIES:
   - FlipperKit/FlipperKitUserDefaultsPlugin (~> 0.54.0)
   - FlipperKit/SKIOSNetworkPlugin (~> 0.54.0)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera`)
+  - Permission-Notifications (from `../node_modules/react-native-permissions/ios/Notifications`)
+  - Permission-PhotoLibrary (from `../node_modules/react-native-permissions/ios/PhotoLibrary`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -682,6 +694,8 @@ SPEC REPOS:
     - YogaKit
 
 EXTERNAL SOURCES:
+  BVLinearGradient:
+    :path: "../node_modules/react-native-linear-gradient"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   FBLazyVector:
@@ -690,6 +704,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/FBReactNativeSpec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  Permission-Camera:
+    :path: "../node_modules/react-native-permissions/ios/Camera"
+  Permission-Notifications:
+    :path: "../node_modules/react-native-permissions/ios/Notifications"
+  Permission-PhotoLibrary:
+    :path: "../node_modules/react-native-permissions/ios/PhotoLibrary"
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTRequired:
@@ -805,6 +825,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
+  BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   CocoaLibEvent: 2fab71b8bd46dd33ddb959f7928ec5909f838e3f
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
@@ -839,6 +860,9 @@ SPEC CHECKSUMS:
   libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
   nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53
   OpenSSL-Universal: ff34003318d5e1163e9529b08470708e389ffcdd
+  Permission-Camera: 119b01de97a5b3edb637999e38476b68143b9d17
+  Permission-Notifications: 5c69bf2f6c1e30345af4f25e2981dc1c8dafbc22
+  Permission-PhotoLibrary: cb9cdc1e3744e26ab404297a8e289d50c8ee27e8
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   Protobuf: 0cde852566359049847168e51bd1c690e0f70056
   RCT-Folly: ec7a233ccc97cc556cf7237f0db1ff65b986f27c
@@ -854,14 +878,14 @@ SPEC CHECKSUMS:
   React-jsinspector: 611432ab882ba76844598bc5e16bdf10e63816a8
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
   react-native-fbsdk: 8e92c7a334fd8d9c2b5d8b8fcd7ae2c314161099
-  react-native-image-picker: f2df0ccab4331c9b7ccda573ada7e54a6487f45f
+  react-native-image-picker: a2b7ee36dabe1e511dab6fb79918633a4fd3d7ce
   react-native-orientation-locker: a4a6574b179629698f0facebcc2e8551378a127d
-  react-native-safe-area-context: 86612d2c9a9e94e288319262d10b5f93f0b395f5
+  react-native-safe-area-context: b6e0e284002381d2ff29fa4fff42b4d8282e3c94
   react-native-slider: e99fc201cefe81270fc9d81714a7a0f5e566b168
-  react-native-startup-time: 3d1804b54fe78b2445236beff0c470744dbc697a
+  react-native-startup-time: 740451fcbc7e3c8f67b036365387401ab917de1c
   react-native-version-check: d8b8900e6ce03ae1568cb22ef9451f2508188883
   react-native-video: eee541262ada11bc7ffe8ec5508e6a877937c462
-  react-native-webview: 6edf4d6f71b9161fc3e96083726a538ee395304d
+  react-native-webview: 0aa2cde4ee7e3e1c5fffdf64dbce9c709aa18155
   React-perflogger: bca76d7279e5fb9863de266154026e0d5bd79f86
   React-RCTActionSheet: 685edbce7c0ea41c467539899a8c2eea4dc8fde9
   React-RCTAnimation: 325fad5fe7d13823c46753bb76db756737a4df8c
@@ -876,32 +900,32 @@ SPEC CHECKSUMS:
   ReactCommon: c8ae344df0376e043f2899a5badb60709d24821e
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
   RNAppleAuthentication: 46cbc67739bae83ca229497f9b0038f3f5431443
-  RNBootSplash: 8bb01ddbcb6c65f7271f15a5c6e61397166503a5
-  RNCAsyncStorage: bc2f81cc1df90c267ce9ed30bb2dbc93b945a8ee
-  RNCClipboard: 5e299c6df8e0c98f3d7416b86ae563d3a9f768a3
-  RNCMaskedView: f5c7d14d6847b7b44853f7acb6284c1da30a3459
-  RNCPushNotificationIOS: 5b1cf9ad2aaa107ecb92d5d2d7005ba521b2b97a
-  RNDateTimePicker: 986d4794006e5caaebd089a724f54d35631a8dd4
-  RNDeviceInfo: febcb25b09201a312c66c36ecc1f155c5a43eecc
+  RNBootSplash: a9544ba7f1a68b561e61e9efc68e2b3eec05dcef
+  RNCAsyncStorage: 05bae7ecfab1cbd5441993f1ca098f7c3b3f8d0e
+  RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
+  RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
+  RNCPushNotificationIOS: 61a7c72bd1ebad3568025957d001e0f0e7b32191
+  RNDateTimePicker: 8eba76de1afd556bc00c874f4d0c0616e30e32f1
+  RNDeviceInfo: 6ecb1d1c87d20e4c62354be0348de23362824dcd
   RNFastImage: d4870d58f5936111c56218dbd7fcfc18e65b58ff
-  RNFBAnalytics: a274c45ca741e12d1bdb3e0b8465dffc06a8d1b8
-  RNFBApp: a9af8372c9c2b2135ffa78817fd2d8baf3ee632e
-  RNFBCrashlytics: efbfde4a44d26eb518248844fe38d3b96352e0d7
-  RNFBDynamicLinks: 3a0f1cfedf3e857fa71848d608b4442f6df810da
-  RNFBPerf: 06f70eee3ece40dd9f5b5bab7fc40aa3e0bfcce0
+  RNFBAnalytics: 2fb60eedb8cead61797417cc7c33f087ce78e6c3
+  RNFBApp: d5bc110403b55ba26ac441716259bd514d559cc5
+  RNFBCrashlytics: 35964e0e2eaa37ea79cb43d43e76f7575358b68d
+  RNFBDynamicLinks: 1516a852ab41a939ebe71abf1172e7c71592bfce
+  RNFBPerf: b0ec900816322d7574f4d87e192b59d2edfc482e
   RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
   RNImageCropPicker: 9e0bf18cf4184a846fed55747c8e622208b39947
-  RNLocalize: dcf0fdb332b37b0d24178e876a7ce4dbbc9c838d
-  RNPermissions: 350964d19150b183796a88180fb7ec62a1e41422
+  RNLocalize: 41026b7c14878f1a1b381bc79f668f1fbf841adb
+  RNPermissions: 99dd8d4a30ff13509b949ca63cd1f69edc461775
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
   RNScreens: 45c457af3d2ee9e08fc01e70da87e653d46b1198
-  RNShare: d22507fa5e80c72f236b5622556cf831de5b1e93
+  RNShare: 26cad4c6f7e0229cc6f7e143444928f36c0ee3d1
   SDWebImage: b969dcfc02c40a5da71eac0b03b8f1a0c794a86f
   SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
   Yoga: 17d4f4db4e2efbaa7c3bc316ce4f762d02c4023d
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: b81c449a341b429399651bce28dd518026ca3d3d
+PODFILE CHECKSUM: 4e428a59b682b824c5d785408f4e1423a0cfc654
 
 COCOAPODS: 1.10.0
