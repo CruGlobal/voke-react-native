@@ -1,6 +1,7 @@
 import RNFetchBlob from 'rn-fetch-blob';
 import qs from 'qs'; // querystring parsing and stringifying
 import CONSTANTS, { REDUX_ACTIONS } from 'utils/constants';
+import { userBlockedAction } from 'actions/auth';
 
 let baseUrl;
 let authUrl;
@@ -180,6 +181,12 @@ export default function request(options) {
           method: newObj.method,
           error: e,
         });
+
+        // If user blocked server will return 403,
+        // meaning we should to mark the current user as blocked in the store.
+        if (e.status === 403) {
+          dispatch(userBlockedAction());
+        }
         // if (options.url !== ROUTES.LOGOUT.url) {
         //   const unauthMessages = [
         //     'Missing active access token',
