@@ -253,7 +253,6 @@ const AdventureStepScreenRender = ({
       );
     }
     if (mainAnswer) {
-      // RELEASE Check this case!
       myMainAnswer.id = mainAnswer.value || '';
       myMainAnswer.content = mainAnswer.key || '';
     }

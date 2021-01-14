@@ -330,9 +330,7 @@ function AdventureName(props: any): ReactElement {
                   },
                 },
               ]}
-              // theme={'White'}
-              // Need to have a second tab open.
-              selectedIndex={1}
+              selectedIndex={0}
             />
           )}
         </View>
