@@ -195,7 +195,9 @@ function AdventureName(props: any): ReactElement {
         </Touchable>
         <Flex
           style={{
-            minHeight: keyboard.keyboardShown ? theme.spacing.l : theme.spacing.xl,
+            minHeight: keyboard.keyboardShown
+              ? theme.spacing.l
+              : theme.spacing.xl,
           }}
         />
         <OldButton
@@ -326,9 +328,7 @@ function AdventureName(props: any): ReactElement {
                   },
                 },
               ]}
-              // theme={'White'}
-              // Need to have a second tab open.
-              selectedIndex={1}
+              selectedIndex={0}
             />
           )}
         </View>
