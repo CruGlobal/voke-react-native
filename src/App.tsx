@@ -127,167 +127,6 @@ const transparentHeaderConfig = {
   headerTransparent: true,
 };
 
-const AdventureStack = createStackNavigator<AdventureStackParamList>();
-
-const AdventureStackScreens = ({ navigation, route }: any) => {
-  const insets = useSafeArea();
-  const { t } = useTranslation('title');
-
-  useEffect(() => {
-    if (route?.state?.routes.length && route?.state?.type) {
-      // Make tapbar visible dynamically.
-      navigation.setOptions({
-        tabBarVisible:
-          route?.state && route?.state?.type === 'stack'
-            ? !(route?.state?.routes.length > 1)
-            : null,
-      });
-    }
-  }, [route?.state?.routes.length]);
-
-  return (
-    <AdventureStack.Navigator
-      screenOptions={{
-        ...defaultHeaderConfig,
-      }}
-    >
-      <AdventureStack.Screen
-        name="Adventures"
-        component={Adventures}
-        options={{
-          title: t('adventures'),
-        }}
-      />
-      <AdventureStack.Screen
-        name="AdventureAvailable"
-        component={AdventureAvailable}
-        // Fixed header with back button.
-        options={{
-          ...transparentHeaderConfig,
-          headerStyle: {
-            ...transparentHeaderConfig.headerStyle,
-            paddingTop: insets.top,
-          },
-          title: '',
-          headerLeft: (): ReactElement => (
-            <HeaderLeft testID="AdventureAvailable" />
-          ),
-        }}
-      />
-      <AdventureStack.Screen
-        name="AdventureActive"
-        component={AdventureActive}
-        // Fixed header with back button.
-        options={{
-          ...transparentHeaderConfig,
-          headerStyle: {
-            ...transparentHeaderConfig.headerStyle,
-          },
-          title: '',
-          headerLeft: (): ReactElement => (
-            <HeaderLeft resetTo="Adventures" testID="AdventureActive" />
-          ),
-          headerRight: undefined,
-        }}
-      />
-      <AdventureStack.Screen
-        name="AdventureManage"
-        component={AdventureManage}
-        // Fixed header with back button.
-        options={({ route, navigation }) => ({
-          ...transparentHeaderConfig,
-          headerStyle: {
-            ...transparentHeaderConfig.headerStyle,
-            paddingTop: insets.top,
-          },
-          title: '',
-          headerLeft: (): ReactElement => (
-            <HeaderLeft testID="AdventureManage" />
-          ),
-        })}
-      />
-      <AdventureStack.Screen
-        name="AdventureStepScreen"
-        component={AdventureStepScreen}
-        // Fixed header with back button.
-        options={{
-          ...transparentHeaderConfig,
-          headerStyle: {
-            ...transparentHeaderConfig.headerStyle,
-            paddingTop: insets.top,
-          },
-          title: '',
-          headerLeft: (): ReactElement => (
-            <HeaderLeft testID="AdventureStepScreenHeader" />
-          ),
-          headerRight: undefined,
-        }}
-      />
-      <AdventureStack.Screen
-        name="GroupModal"
-        component={GroupModal}
-        options={{ headerShown: false }}
-      />
-      <AdventureStack.Screen
-        name="AllMembersModal"
-        component={AllMembersModal}
-        options={{
-          ...transparentHeaderConfig,
-          headerStyle: {
-            ...transparentHeaderConfig.headerStyle,
-            paddingTop: insets.top,
-          },
-          title: '',
-          headerLeft: (): ReactElement => (
-            <HeaderLeft testID="AllMembersModal" />
-          ),
-          headerRight: undefined,
-        }}
-      />
-      {/* <AdventureStack.Screen
-        name="AccountPhoto"
-        component={AccountPhoto}
-        options={{ headerShown: false }}
-      /> */}
-    </AdventureStack.Navigator>
-  );
-};
-
-const VideoStack = createStackNavigator<VideoStackParamList>();
-function VideoStackScreens({ navigation, route }: any) {
-  const { t } = useTranslation('title');
-  const insets = useSafeArea();
-  // TODO: extract into utility function.
-  navigation.setOptions({
-    tabBarVisible: route.state ? !(route.state.index > 0) : null,
-  });
-  return (
-    <VideoStack.Navigator screenOptions={defaultHeaderConfig}>
-      <VideoStack.Screen
-        name="Explore"
-        component={Videos}
-        options={{
-          title: t('explore'),
-        }}
-      />
-      <VideoStack.Screen
-        name="VideoDetails"
-        component={VideoDetails}
-        // Fixed header with back button.
-        options={{
-          ...transparentHeaderConfig,
-          headerStyle: {
-            ...transparentHeaderConfig.headerStyle,
-            paddingTop: insets.top, // TODO: Check if it really works here?
-          },
-          title: '',
-          headerLeft: (): ReactElement => <HeaderLeft testID="VideoDetails" />,
-        }}
-      />
-    </VideoStack.Navigator>
-  );
-}
-
 const NotificationStack = createStackNavigator<NotificationStackParamList>();
 const NotificationStackScreens = () => {
   const { t } = useTranslation('title');
@@ -307,33 +146,31 @@ const NotificationStackScreens = () => {
   );
 };
 
-const LoggedInAppContainer = () => {
+const LoggedInAppContainer = (navigation, route) => {
   const dispatch = useDispatch();
   const Tabs = createBottomTabNavigator();
-  const state = useNavigationState(state => state);
   const { t } = useTranslation('title');
+  const currentAppState = useAppState();
 
-  // Handle iOS & Android appState changes.
-  const { appState } = useAppState({
-    // Callback function to be executed once appState is changed to
-    // active, inactive, or background
-    onChange: newAppState => console.warn('App state changed to ', newAppState),
-    // Callback function to be executed once app go to foreground
-    onForeground: async () => {
-      // Get the deep link used to open the app
-      /* await Linking.getdeeplink().then(
-        (data) => {
-        }
-      ); */
+  useEffect(() => {
+    // AppState will change between one of 'active', 'background',
+    // or(iOS) 'inactive' when the app is closed or put into the background.
 
-      dispatch(wakeupAction());
-    },
-    // Callback function to be executed once app go to background
-    onBackground: () => {
-      console.warn('App went to background');
-      dispatch(sleepAction());
-    },
-  });
+    console.warn('App state changed to ', currentAppState);
+    switch (currentAppState) {
+      case 'active':
+        // Callback function to be executed once app go to foreground
+        dispatch(wakeupAction());
+        break;
+      case 'background':
+        // Callback function to be executed once app go to background
+        dispatch(wakeupAction());
+        dispatch(sleepAction());
+        break;
+      default:
+        break;
+    }
+  }, [currentAppState]);
 
   useEffect(() => {
     // Check notifications permission and setup sockets.
@@ -347,14 +184,14 @@ const LoggedInAppContainer = () => {
     <Tabs.Navigator tabBar={props => <TabBar {...props} />}>
       <Tabs.Screen
         name="Adventures"
-        component={AdventureStackScreens}
+        component={Adventures}
         options={{
           title: t('adventures'),
         }}
       />
       <Tabs.Screen
         name="Explore"
-        component={VideoStackScreens}
+        component={Videos}
         options={{
           title: t('explore'),
         }}
@@ -728,6 +565,113 @@ const RootStackScreens = React.memo(
               title: t('title:acknowledgements'),
             })}
           />
+
+          <RootStack.Screen
+            name="VideoDetails"
+            component={VideoDetails}
+            // Fixed header with back button.
+            options={{
+              ...transparentHeaderConfig,
+              headerStyle: {
+                ...transparentHeaderConfig.headerStyle,
+                paddingTop: insets.top, // TODO: Check if it really works here?
+              },
+              title: '',
+              headerLeft: (): ReactElement => <HeaderLeft testID="VideoDetails" />,
+            }}
+          />
+          <RootStack.Screen
+            name="AdventureAvailable"
+            component={AdventureAvailable}
+            // Fixed header with back button.
+            options={{
+              ...transparentHeaderConfig,
+              headerStyle: {
+                ...transparentHeaderConfig.headerStyle,
+                paddingTop: insets.top,
+              },
+              title: '',
+              headerLeft: (): ReactElement => (
+                <HeaderLeft testID="AdventureAvailable" />
+              ),
+            }}
+          />
+          <RootStack.Screen
+            name="AdventureActive"
+            component={AdventureActive}
+            // Fixed header with back button.
+            options={{
+              ...transparentHeaderConfig,
+              headerStyle: {
+                ...transparentHeaderConfig.headerStyle,
+              },
+              title: '',
+              headerLeft: (): ReactElement => (
+                <HeaderLeft resetTo="LoggedInApp" testID="AdventureActive" />
+              ),
+              headerRight: undefined,
+            }}
+          />
+          <RootStack.Screen
+            name="AdventureManage"
+            component={AdventureManage}
+            // Fixed header with back button.
+            options={({ route, navigation }) => ({
+              ...transparentHeaderConfig,
+              headerStyle: {
+                ...transparentHeaderConfig.headerStyle,
+                paddingTop: insets.top,
+              },
+              title: '',
+              headerLeft: (): ReactElement => (
+                <HeaderLeft resetTo="AdventureActive" testID="AdventureManage" />
+              ),
+
+              /* navigation.navigate('AdventureActive', {
+                adventureId: adventureItem.id,
+              }); */
+            })}
+          />
+          <RootStack.Screen
+            name="AdventureStepScreen"
+            component={AdventureStepScreen}
+            // Fixed header with back button.
+            options={{
+              ...transparentHeaderConfig,
+              headerStyle: {
+                ...transparentHeaderConfig.headerStyle,
+                paddingTop: insets.top,
+              },
+              title: '',
+              headerLeft: (): ReactElement => (
+                <HeaderLeft testID="AdventureStepScreenHeader" />
+              ),
+              headerRight: undefined,
+            }}
+          />
+          <RootStack.Screen
+            name="GroupModal"
+            component={GroupModal}
+            options={{ headerShown: false }}
+          />
+          <RootStack.Screen
+            name="AllMembersModal"
+            component={AllMembersModal}
+            options={{
+              ...transparentHeaderConfig,
+              headerStyle: {
+                ...transparentHeaderConfig.headerStyle,
+                paddingTop: insets.top,
+              },
+              title: '',
+              headerLeft: (): ReactElement => (
+                <HeaderLeft testID="AllMembersModal" />
+              ),
+              headerRight: undefined,
+            }}
+          />
+
+
         </RootStack.Navigator>
       </>
     );
