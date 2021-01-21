@@ -19,5 +19,6 @@
         "messenger_journey_steps",
       ]
     }],
+    "import/extensions": ["ignorePackages"]
   },
 }
